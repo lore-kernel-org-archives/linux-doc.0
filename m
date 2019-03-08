@@ -5,77 +5,62 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8AB747D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Mar 2019 03:10:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1D2977D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Mar 2019 03:10:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726277AbfCHDKJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 7 Mar 2019 22:10:09 -0500
-Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:34917 "EHLO
-        out30-57.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726261AbfCHDKJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Mar 2019 22:10:09 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R921e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04389;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0TMDl6u8_1552014604;
-Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TMDl6u8_1552014604)
+        id S1726520AbfCHDKP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 7 Mar 2019 22:10:15 -0500
+Received: from out30-56.freemail.mail.aliyun.com ([115.124.30.56]:40821 "EHLO
+        out30-56.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726261AbfCHDKO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Mar 2019 22:10:14 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04397;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0TMDpecA_1552014610;
+Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TMDpecA_1552014610)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Fri, 08 Mar 2019 11:10:04 +0800
+          Fri, 08 Mar 2019 11:10:10 +0800
 From:   Alex Shi <alex.shi@linux.alibaba.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         harryxiyou@gmail.com, corbet@lwn.net
 Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
+        TripleX Chung <xxx.phy@gmail.com>,
         Li Zefan <lizefan@huawei.com>,
         Shawn Guo <shawn.guo@linaro.org>,
-        Fengguang Wu <fengguang.wu@intel.com>,
-        Coly Li <colyli@suse.de>,
-        Federico Vaga <federico.vaga@vaga.pv.it>
-Subject: [PATCH v3 01/31] docs/zh_CN: add disclaimer file
-Date:   Fri,  8 Mar 2019 11:08:48 +0800
-Message-Id: <20190308030918.22337-2-alex.shi@linux.alibaba.com>
+        Fengguang Wu <fengguang.wu@intel.com>, Coly Li <colyli@suse.de>
+Subject: [PATCH v3 07/31] docs/zh_CN: rename SubmittingPatches for html links
+Date:   Fri,  8 Mar 2019 11:08:54 +0800
+Message-Id: <20190308030918.22337-8-alex.shi@linux.alibaba.com>
 X-Mailer: git-send-email 2.19.1.856.g8858448bb
 In-Reply-To: <20190308030918.22337-1-alex.shi@linux.alibaba.com>
 References: <20190308030918.22337-1-alex.shi@linux.alibaba.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This a disclaimer file which will be included in Chinese files
-as header. To reduce the same common contents copy.
+renamed:    Documentation/translations/zh_CN/process/SubmittingPatches
+ -> Documentation/translations/zh_CN/process/submitting-patches.rst
 
-Part of contents quoted from Federico Vaga's file:
-    Documentation/translations/it_IT/disclaimer-ita.rst.
-Thanks a lot!
+For htmldoc links. And will change the doc format to rst.
 
 Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
 Cc: Harry Wei <harryxiyou@gmail.com>
 Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: TripleX Chung <xxx.phy@gmail.com>
 Cc: Li Zefan <lizefan@huawei.com>
 Cc: Shawn Guo <shawn.guo@linaro.org>
 Cc: Fengguang Wu <fengguang.wu@intel.com>
 Cc: Coly Li <colyli@suse.de>
-Cc: Federico Vaga <federico.vaga@vaga.pv.it>
 ---
- Documentation/translations/zh_CN/disclaimer-zh_CN.rst | 9 +++++++++
- 1 file changed, 9 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/disclaimer-zh_CN.rst
+ .../zh_CN/process/{SubmittingPatches => submitting-patches.rst}   | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename Documentation/translations/zh_CN/process/{SubmittingPatches => submitting-patches.rst} (100%)
 
-diff --git a/Documentation/translations/zh_CN/disclaimer-zh_CN.rst b/Documentation/translations/zh_CN/disclaimer-zh_CN.rst
-new file mode 100644
-index 000000000000..5934369b2606
---- /dev/null
-+++ b/Documentation/translations/zh_CN/disclaimer-zh_CN.rst
-@@ -0,0 +1,9 @@
-+:orphan:
-+
-+.. warning::
-+     此文件的目的是为让中文读者更容易阅读和理解，而不是作为一个分支。 因此，如果
-+     您对此文件有任何意见或更新，请先尝试更新原始英文文件。
-+
-+.. note::
-+     如果您发现本文档与原始文件有任何不同或者有翻译问题，请联系该文件的维护者，
-+     或者请求时奎亮的帮助：<alex.shi@linux.alibaba.com>。
+diff --git a/Documentation/translations/zh_CN/process/SubmittingPatches b/Documentation/translations/zh_CN/process/submitting-patches.rst
+similarity index 100%
+rename from Documentation/translations/zh_CN/process/SubmittingPatches
+rename to Documentation/translations/zh_CN/process/submitting-patches.rst
 -- 
 2.19.1.856.g8858448bb
 
