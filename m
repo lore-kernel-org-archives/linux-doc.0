@@ -1,164 +1,106 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4C7B47D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Mar 2019 18:44:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 298F77D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Mar 2019 20:16:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726911AbfCHSnT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 8 Mar 2019 13:43:19 -0500
-Received: from mail-pf1-f202.google.com ([209.85.210.202]:43643 "EHLO
-        mail-pf1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726275AbfCHSnT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Mar 2019 13:43:19 -0500
-Received: by mail-pf1-f202.google.com with SMTP id 19so23012031pfo.10
-        for <linux-doc@vger.kernel.org>; Fri, 08 Mar 2019 10:43:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=ACm0jVzCyuutlk8CKHsubOzb2TygYzufZCwbrPfQ1JQ=;
-        b=J0E6l8PLxa5AD+SoFiGGjQrXKPVXQ7Cx91Pa0ZqDnL4UDnfiPF53kuY9n0IrxtSJiM
-         EIMnT7i9kQ+MVedAntcAllJrZpI4iOUum/s1tw+sRsvJ4hwpOnCAsLrq1Bjgn5EAsHn6
-         63AjOaYrP0ccldyFwZsJ0TY2SmZpeFs1HC280O5/5PUWcwrYCg0URIhkoBBt3tD121nY
-         gjebWK2xb+jE87wqcSqDIS3q9gc5xe2SgWxrcUBr2POsuqcgVIgQ4zLSHPNt3Ba/++Iu
-         08MHlYhpV7pNvDPrwT9m2ejAUuXL5nsURLT6CZT97fJchmrfMW81badeAl+Zd4jnRhF6
-         1OMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=ACm0jVzCyuutlk8CKHsubOzb2TygYzufZCwbrPfQ1JQ=;
-        b=M573f1MYfFl+f+CaClJ8i4bST4JZHNE76riXJVjRVvo9zR+/OVajFLyhDwHkBycygr
-         X2fc2bT4u81X4ZehwvjpAjH6suSwGilLD/5GfEP+C+tJpIj+U6QHVJeGRy25g4tUd8rR
-         2+7GhLAzwcF7xiLc3Z1TaPXa6HuLtJffyyFNP+KuNUDffIhZcRSZxU7uTFw3gFTim9tp
-         +OHbQ/j82gGfpr5Em7C8gQ/kKL17mHiPvq1rU2kcoRr9bkR4xNL7x7RL2fUIBT76L38e
-         SwU/gKMLRMBoFvRi01oCzRjSM8rCDkNCpSb5LIPNAC+pYgOYfg8xXGvrObccaD7hlU83
-         72EA==
-X-Gm-Message-State: APjAAAVZLTOPLDi2AoTKWwh8b6zf7B0YwtkGvESkpJQM3UFBqVhvpWMJ
-        /+mqycUghk3Bejlly7+lJg8uWdiCSNs=
-X-Google-Smtp-Source: APXvYqy9OwpfshRBnwEzf4DRMpDWh9yi53/pJqTjDnVCsZY46HDQRmUGVPGKcekhVOLLENr+XNITRbfI8MY=
-X-Received: by 2002:a17:902:8f92:: with SMTP id z18mr6275215plo.17.1552070597966;
- Fri, 08 Mar 2019 10:43:17 -0800 (PST)
-Date:   Fri,  8 Mar 2019 10:43:04 -0800
-Message-Id: <20190308184311.144521-1-surenb@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.21.0.360.g471c308f928-goog
-Subject: [PATCH v5 0/7] psi: pressure stall monitors v5
-From:   Suren Baghdasaryan <surenb@google.com>
-To:     gregkh@linuxfoundation.org
-Cc:     tj@kernel.org, lizefan@huawei.com, hannes@cmpxchg.org,
-        axboe@kernel.dk, dennis@kernel.org, dennisszhou@gmail.com,
-        mingo@redhat.com, peterz@infradead.org, akpm@linux-foundation.org,
-        corbet@lwn.net, cgroups@vger.kernel.org, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-team@android.com, Suren Baghdasaryan <surenb@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726776AbfCHUQ2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 8 Mar 2019 15:16:28 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:48883 "EHLO
+        out2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726688AbfCHUQ2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Mar 2019 15:16:28 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id 6E5E922071;
+        Fri,  8 Mar 2019 15:16:27 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Fri, 08 Mar 2019 15:16:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=date
+        :from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=IgaFJl8jU8bx2cIG/FetGchU65g
+        iNPkQd+oj5kfyY4c=; b=Pb+5sFbn5+SrnU3LI9KJM8XGZlusjXzUkCHjgjKV15c
+        M/4F+CQrMdnKQYoW8YyoGs9ycXXRAqrnbERyNSL3RJHp+fnhT/ba8HJL2DHuLcpw
+        evB+34d1sc+XTyZL4pbksfgjykXHWQF7Id4shXT8vDW6NAtJNcxPk6wRUOCV+zKe
+        3BGI0YPqyPeUpj9yKO8QpDouSMxCYKOScnSe9s0eMD+RfT37sfF+csg0O3jsVh9D
+        eF5niqaI5YsAqjRPsRIMxiJk+dRBvMXQ1zeywrSHKURw6620iYzNHoQNcCEhLAOk
+        mg7k2SDeuMphYrpcA+WDsv/uZWkhP+YYLAMLtz7pDXg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=IgaFJl
+        8jU8bx2cIG/FetGchU65giNPkQd+oj5kfyY4c=; b=WE6t/rAfZv38qdO4goL20n
+        pqQRiwebphe2Q9kUesqLA8gVxs8+cWG4QqBHJlvNXjVMtOqpDJFB1pvsUz8MyHaY
+        C4YtWg1Sdtm0Ptif+Bq0f4Gl/qbcsQSo1njH7y63sP7WVvBXS7NiL6S1DSzfIQgf
+        8MdVqnIxxB2M2nAfwBvBVwo7xPyp0Q/yTWtUSzRFSYk7c0L8JoeXj5AVkrWGhubk
+        Nd6gfw1xWG0ZJLc2MkeKlPXeirifsAy3cq81NNErOyUK9EQiDjeGPgWNC26r7WY5
+        Vzi1o6b5NZ/hpdz0NiH0UJG0Wt/ZqG2LU1zd9Eg0U+5aS8Xxyxr4pCjahFKV401w
+        ==
+X-ME-Sender: <xms:ms2CXHp872vsFjfiJeL0IrOV_MH3UnJ1w6e4ynA0fIn-G4W4CgWlCw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedutddrgedtgddufeeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    gfrhhlucfvnfffucdludehmdenucfjughrpeffhffvuffkfhggtggujgfofgesthdtredt
+    ofervdenucfhrhhomhepfdfvohgsihhnucevrdcujfgrrhguihhnghdfuceomhgvsehtoh
+    gsihhnrdgttgeqnecuffhomhgrihhnpehsphhhihhngidqughotgdrohhrghenucfkphep
+    uddvgedrudeiledrudelrddukedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmvgesth
+    hosghinhdrtggtnecuvehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:ms2CXKAko7B6zy2PbUgea6Q2R8UwXriBix_MZ-1MUunNg507msaEkw>
+    <xmx:ms2CXOedFe2AXMIuuKp5Uin0nX34QHsVKATDlf1_MlGrOVYTungjZQ>
+    <xmx:ms2CXPfO5FhxWwi7RJ2JGF-TR1DDkZYzFxDPgu-dnwHOLdR7QSyC7A>
+    <xmx:m82CXGGbrxzhAfK32wQdT7aNFw_JBWUHNWS4p-xpB7mCgR0rW_Q3vw>
+Received: from localhost (124-169-19-180.dyn.iinet.net.au [124.169.19.180])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 2C94310312;
+        Fri,  8 Mar 2019 15:16:25 -0500 (EST)
+Date:   Sat, 9 Mar 2019 07:16:06 +1100
+From:   "Tobin C. Harding" <me@tobin.cc>
+To:     Markus Heiser <markus.heiser@darmarit.de>
+Cc:     "Tobin C. Harding" <tobin@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/9] docs: Fix various build warnings/errors
+Message-ID: <20190308201606.GE25102@eros.localdomain>
+References: <20190307211153.28400-1-tobin@kernel.org>
+ <2b5f55e5-79d6-2538-5054-b34e4b93e721@darmarit.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2b5f55e5-79d6-2538-5054-b34e4b93e721@darmarit.de>
+X-Mailer: Mutt 1.11.3 (2019-02-01)
+User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is respin of:
-  https://lwn.net/ml/linux-kernel/20190206023446.177362-1-surenb%40google.com/
+On Fri, Mar 08, 2019 at 09:40:03AM +0100, Markus Heiser wrote:
+> 
+> Am 07.03.19 um 22:11 schrieb Tobin C. Harding:
+> > Hi,
+> > 
+> > I had a few hours to spare so I thought I'd clear some Sphinx build
+> > warnings/errors.  There isn't anything too controversial here.  The only
+> > interesting thing I hit was in patch 7 (docs: Remove unknown 'hint'
+> > directive), I couldn't work out if this was a serious directive, a joke,
+> > or a typo.
+> 
+> Hi Tobin,
+> 
+> the problem was a missing empty line (see my comment on this patch).
+> 
+> The reST primer from sphinx-doc is always a good reference for the daily work
+> 
+>   http://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#directives
 
-Android is adopting psi to detect and remedy memory pressure that
-results in stuttering and decreased responsiveness on mobile devices.
+Thanks Marcus, that's actually how I came to the conclusion that they
+should by asterisks.
 
-Psi gives us the stall information, but because we're dealing with
-latencies in the millisecond range, periodically reading the pressure
-files to detect stalls in a timely fashion is not feasible. Psi also
-doesn't aggregate its averages at a high-enough frequency right now.
+	http://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#lists-and-quote-like-blocks
 
-This patch series extends the psi interface such that users can
-configure sensitive latency thresholds and use poll() and friends to
-be notified when these are breached.
+Anyways, as usual LKML sorted me out :)
 
-As high-frequency aggregation is costly, it implements an aggregation
-method that is optimized for fast, short-interval averaging, and makes
-the aggregation frequency adaptive, such that high-frequency updates
-only happen while monitored stall events are actively occurring.
-
-With these patches applied, Android can monitor for, and ward off,
-mounting memory shortages before they cause problems for the user.
-For example, using memory stall monitors in userspace low memory
-killer daemon (lmkd) we can detect mounting pressure and kill less
-important processes before device becomes visibly sluggish. In our
-memory stress testing psi memory monitors produce roughly 10x less
-false positives compared to vmpressure signals. Having ability to
-specify multiple triggers for the same psi metric allows other parts
-of Android framework to monitor memory state of the device and act
-accordingly.
-
-The new interface is straight-forward. The user opens one of the
-pressure files for writing and writes a trigger description into the
-file descriptor that defines the stall state - some or full, and the
-maximum stall time over a given window of time. E.g.:
-
-        /* Signal when stall time exceeds 100ms of a 1s window */
-        char trigger[] = "full 100000 1000000"
-        fd = open("/proc/pressure/memory")
-        write(fd, trigger, sizeof(trigger))
-        while (poll() >= 0) {
-                ...
-        };
-        close(fd);
-
-When the monitored stall state is entered, psi adapts its aggregation
-frequency according to what the configured time window requires in
-order to emit event signals in a timely fashion. Once the stalling
-subsides, aggregation reverts back to normal.
-
-The trigger is associated with the open file descriptor. To stop
-monitoring, the user only needs to close the file descriptor and the
-trigger is discarded.
-
-Patches 1-6 prepare the psi code for polling support. Patch 7 implements
-the adaptive polling logic, the pressure growth detection optimized for
-short intervals, and hooks up write() and poll() on the pressure files.
-
-The patches were developed in collaboration with Johannes Weiner.
-
-The patches are based on 5.0-rc8 (Merge tag 'drm-next-2019-03-06').
-
-Suren Baghdasaryan (7):
-  psi: introduce state_mask to represent stalled psi states
-  psi: make psi_enable static
-  psi: rename psi fields in preparation for psi trigger addition
-  psi: split update_stats into parts
-  psi: track changed states
-  refactor header includes to allow kthread.h inclusion in psi_types.h
-  psi: introduce psi monitor
-
- Documentation/accounting/psi.txt | 107 ++++++
- include/linux/kthread.h          |   3 +-
- include/linux/psi.h              |   8 +
- include/linux/psi_types.h        | 105 +++++-
- include/linux/sched.h            |   1 -
- kernel/cgroup/cgroup.c           |  71 +++-
- kernel/kthread.c                 |   1 +
- kernel/sched/psi.c               | 613 ++++++++++++++++++++++++++++---
- 8 files changed, 833 insertions(+), 76 deletions(-)
-
-Changes in v5:
-- Fixed sparse: error: incompatible types in comparison expression, as per
- Andrew
-- Changed psi_enable to static, as per Andrew
-- Refactored headers to be able to include kthread.h into psi_types.h
-without creating a circular inclusion, as per Johannes
-- Split psi monitor from aggregator, used RT worker for psi monitoring to
-prevent it being starved by other RT threads and memory pressure events
-being delayed or lost, as per Minchan and Android Performance Team
-- Fixed blockable memory allocation under rcu_read_lock inside
-psi_trigger_poll by using refcounting, as per Eva Huang and Minchan
-- Misc cleanup and improvements, as per Johannes
-
-Notes:
-0001-psi-introduce-state_mask-to-represent-stalled-psi-st.patch is unchanged
-from the previous version and provided for completeness.
-
--- 
-2.21.0.360.g471c308f928-goog
-
+thanks,
+Tobin.
