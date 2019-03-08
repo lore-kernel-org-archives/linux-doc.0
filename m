@@ -1,75 +1,104 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 276827D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Mar 2019 12:17:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EDA6E7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Mar 2019 13:13:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726296AbfCHMRu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 8 Mar 2019 07:17:50 -0500
-Received: from mga14.intel.com ([192.55.52.115]:2244 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726286AbfCHMRu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 8 Mar 2019 07:17:50 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Mar 2019 04:17:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.58,455,1544515200"; 
-   d="scan'208";a="153221075"
-Received: from kumarjai-mobl.ger.corp.intel.com (HELO localhost) ([10.252.42.2])
-  by fmsmga001.fm.intel.com with ESMTP; 08 Mar 2019 04:17:48 -0800
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Markus Heiser <markus.heiser@darmarit.de>,
-        "Tobin C. Harding" <me@tobin.cc>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: undefined label
-In-Reply-To: <f0891518-ae90-904b-1001-477c122f1abb@darmarit.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20190307091734.GB9152@eros.localdomain> <c24a75bf-5bd5-aca8-7764-e05a03495e01@darmarit.de> <20190307203041.GC21937@eros.localdomain> <f0891518-ae90-904b-1001-477c122f1abb@darmarit.de>
-Date:   Fri, 08 Mar 2019 14:17:47 +0200
-Message-ID: <878sxp7e6s.fsf@intel.com>
+        id S1726456AbfCHNNc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 8 Mar 2019 08:13:32 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:34018 "EHLO
+        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726442AbfCHNNc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Mar 2019 08:13:32 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+        by aserp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x28D9M0S160822;
+        Fri, 8 Mar 2019 13:13:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : in-reply-to :
+ references : mime-version : content-type : content-transfer-encoding :
+ subject : to : cc : from : message-id; s=corp-2018-07-02;
+ bh=npJnvaYT2qdKSTTBzBogJE1+Y2rupvL9oDYt8WKIoP0=;
+ b=cThMKfor3ZG+KXTj97JkbA//8PPuZA22Qy4LwfjI2cZe95RvDRVO2vDX+a9CXA6avRA6
+ koe8ZHxxzfCigDJjdzd+BvhtUO5jADuHgG2Fo/k/3aS1YEXm6pkhR5dldTTzJp/dZ/ln
+ j1LddA2h+5hG+n2N1yxiE+uKvn45Z8O03kUroa6dmuv9rLiZTFwSOrTzGtNUfExW+6OO
+ +G0bhaQ1iT6aIMA6MnKqJIJcRyfHk/VhqScmYd/an5sdJ4YuoTA566SEE8pseyTjX9uQ
+ lte2twgCKOKdty5tsgSm65oMxRdQc2wr6BczO4rZtq02hjsuZouhD0c/virPSdgtQ5PK AA== 
+Received: from aserv0022.oracle.com (aserv0022.oracle.com [141.146.126.234])
+        by aserp2130.oracle.com with ESMTP id 2qyfberehs-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 08 Mar 2019 13:13:08 +0000
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserv0022.oracle.com (8.14.4/8.14.4) with ESMTP id x28DD2gQ031354
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 8 Mar 2019 13:13:02 GMT
+Received: from abhmp0013.oracle.com (abhmp0013.oracle.com [141.146.116.19])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x28DD1sX026926;
+        Fri, 8 Mar 2019 13:13:01 GMT
+Received: from [IPv6:2607:fb90:2973:efa2:d397:64ff:27ad:406d] (/172.56.23.181)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Fri, 08 Mar 2019 05:13:00 -0800
+Date:   Fri, 08 Mar 2019 08:12:57 -0500
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20190308114310.25041-1-jgross@suse.com>
+References: <20190308114310.25041-1-jgross@suse.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] doc: add boot protocol 2.13 description to Documentation/x86/boot.txt
+To:     Juergen Gross <jgross@suse.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+CC:     x86@kernel.org, corbet@lwn.net, hpa@zytor.com, bp@alien8.de,
+        mingo@redhat.com, tglx@linutronix.de, mfleming@suse.com,
+        ross.philipson@oracle.com, daniel.kiper@oracle.com
+From:   Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+Message-ID: <D3212816-1FE7-44B3-9CF6-299EF830BC0A@oracle.com>
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9188 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1903080094
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 08 Mar 2019, Markus Heiser <markus.heiser@darmarit.de> wrote:
-> Hi Tobin,
->
-> Am 07.03.19 um 21:30 schrieb Tobin C. Harding:
->> On Thu, Mar 07, 2019 at 10:58:07AM +0100, Markus Heiser wrote:
-> [...]
->>> If there is any interest in, I can implement a RFC for this.
->> 
->> Cool!  I think this would be super useful, I for one like using
->> SPHINXDIRS when developing docs incrementally so removing false warnings
->> would be nice.  I doubt I'm the only one to be baffled about Sphinx
->> references.  I'd be happy to review and test your RFC if you CC me.
->
-> Intersphinx has also drawbacks. E.g.:
->
->  >> To close such cross-books links we can use intersphinx [1] and map to e.g.
->  >>
->  >>    intersphinx_mapping = {
->  >>        'kernel': ('https://www.kernel.org/doc/html/latest/', None)}
->
-> This requires online access while building the output.  Anyway, as soon as
-> I have some time to spare I will send a RFC with more explanation about
-> (you will receive it in CC).
-
-Please remember to call out the online access in the patch series. Such
-a requirement is going to draw a lot of opposition.
-
-BR,
-Jani.
 
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+On March 8, 2019 6:43:10 AM EST, Juergen Gross <jgross@suse=2Ecom> wrote:
+>Documentation/x86/boot=2Etxt is missing protocol 2=2E13 description=2E
+>
+>Signed-off-by: Juergen Gross <jgross@suse=2Ecom>
+
+You forgot Reported-by: Ross Philipson =2E=2E=2E
+
+And pls feel free to add Reviewed-by from me as well=2E
+>---
+> Documentation/x86/boot=2Etxt | 4 ++++
+> 1 file changed, 4 insertions(+)
+>
+>diff --git a/Documentation/x86/boot=2Etxt b/Documentation/x86/boot=2Etxt
+>index f4c2a97bfdbd=2E=2E223e484a1304 100644
+>--- a/Documentation/x86/boot=2Etxt
+>+++ b/Documentation/x86/boot=2Etxt
+>@@ -61,6 +61,10 @@ Protocol 2=2E12:	(Kernel 3=2E8) Added the xloadflags
+>field and extension fields
+> 		to struct boot_params for loading bzImage and ramdisk
+> 		above 4G in 64bit=2E
+>=20
+>+Protocol 2=2E13:	(Kernel 3=2E14) Support 32- and 64-bit flags being set =
+in
+>+		xloadflags to support booting a 64-bit kernel from 32-bit
+>+		EFI
+>+
+> **** MEMORY LAYOUT
+>=20
+> The traditional memory map for the kernel loader, used for Image or
+
+--=20
+Sent from my Android device with K-9 Mail=2E Please excuse my brevity=2E
