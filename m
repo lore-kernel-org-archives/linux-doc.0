@@ -1,115 +1,96 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.0 required=5.0 tests=DATE_IN_PAST_03_06,
+	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DD77D7D099
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Mar 2019 16:35:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 874F57D917
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  8 Mar 2019 17:05:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726249AbfCHQfU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 8 Mar 2019 11:35:20 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:39658 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726279AbfCHQfT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Mar 2019 11:35:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=4k71DbwlIHBNxWymdKtNVX4Eq1pYJjd8+cEjnlvypWc=; b=DETkbkPyY/XPe6Bf9mrON0aaG
-        3d5LZOxqwAXUtgdU/N3kdh8IM8jcxXHLBE0lizXM11V7DTikDW55MXPV0OyYwuwxHrsW3PfUaJDoQ
-        BYQlhg66MJ8x58+YBz8OM2O6cE3Unjb1oEY4bj6NZuhoylZMrlyc2kinpd+ODz0R4kSMlWTxmia1B
-        Ku/TB/ZupXqPBGUF+Rj6O6FXKySii/zKKxCMe5qhlXrQEAlCNojrIqUsR0SecA9PmMd74KxyNM2jO
-        x88UqgCZMyRr8GQpzM/gFY5uMLmIyzIO2ZlTOHfGfizQXWeTgs0rFb5qzCzXtHOteK8SdlDBPLa85
-        FCdFSZ32g==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1h2ISs-0006n7-94; Fri, 08 Mar 2019 16:35:18 +0000
-Subject: Re: [PATCH 7/9] docs: Remove unknown 'hint' directive
-To:     Markus Heiser <markus.heiser@darmarit.de>,
-        "Tobin C. Harding" <tobin@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190307211153.28400-1-tobin@kernel.org>
- <20190307211153.28400-8-tobin@kernel.org>
- <77efd92e-f882-bb32-e58c-6836e4307744@infradead.org>
- <2e8c4224-181e-e107-51b9-86d2f1d41309@darmarit.de>
- <4b41199e-6b4c-d78d-9f3e-044d2ee599b5@infradead.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <8ca3ea67-c4aa-dc06-fb21-0c5c58a09669@infradead.org>
-Date:   Fri, 8 Mar 2019 08:35:17 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
+        id S1726860AbfCHRE6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 8 Mar 2019 12:04:58 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47638 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726286AbfCHRE6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 8 Mar 2019 12:04:58 -0500
+Received: from localhost (5356596B.cm-6-7b.dynamic.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 285E8205F4;
+        Fri,  8 Mar 2019 17:04:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1552064697;
+        bh=wWxR9hRaEHAVMKJhNe3opZ01U3EQ5LfT2qwcS5LBxZA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=dsIFXEPsKBgBYHpWOJ+dmybmjRZnIqzuEluYQnl3BgXlmUwXrYzY/h4jMihKH9Wmq
+         RX2xmsyEa+7CBuCXxeSksWzNUUHhSkyuUFfK7BR/0qALmpJZEjU7a/SlHlV6MBpvUh
+         WuzqdgupmDahhSe1icgn1kUT2KwBTjCxPbqvQ+O4=
+Date:   Fri, 8 Mar 2019 15:02:51 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        atish patra <atishp04@gmail.com>,
+        Daniel Colascione <dancol@google.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Karim Yaghmour <karim.yaghmour@opersys.com>,
+        Kees Cook <keescook@chromium.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-trace-devel@vger.kernel.org,
+        Manoj Rao <linux@manojrajarao.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Qais Yousef <qais.yousef@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
+Subject: Re: [PATCH v4 1/2] Provide in-kernel headers for making it easy to
+ extend the kernel
+Message-ID: <20190308140251.GC25768@kroah.com>
+References: <20190301160856.129678-1-joel@joelfernandes.org>
+ <CAMuHMdU77UyUs-LvRx-NN_k0Y7MZXQkBdgL2i83veCkvdzeeqA@mail.gmail.com>
+ <20190307150343.GB258852@google.com>
+ <CAMuHMdW_7BTZREsnz7uMTToCZ4HDOZboMJH8k8UZica2pB=Jew@mail.gmail.com>
+ <CAEXW_YQUcA+bnav20tAFQPXYE=epMie4X85diudKs_s-TJ7dsw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <4b41199e-6b4c-d78d-9f3e-044d2ee599b5@infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAEXW_YQUcA+bnav20tAFQPXYE=epMie4X85diudKs_s-TJ7dsw@mail.gmail.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/8/19 8:04 AM, Randy Dunlap wrote:
-> On 3/8/19 12:27 AM, Markus Heiser wrote:
->>
->> Am 08.03.19 um 04:51 schrieb Randy Dunlap:
->>> On 3/7/19 1:11 PM, Tobin C. Harding wrote:
->>>> Current RST file contains an unknown directive causing Sphinx to emit
->>>>
->>>>     ERROR: Unexpected indentation.
->>>>
->>>> Use normal language construct instead.
->>>>
->>>> Signed-off-by: Tobin C. Harding <tobin@kernel.org>
->>>
->>> This is a good idea.  My previous patch eliminated the warning but the
->>> ..hint is not presented very well in the generated output.  :)
->>>
->>> Thanks.
->>>
->>>> ---
->>>>   Documentation/driver-api/dmaengine/dmatest.rst | 4 ++--
->>>>   1 file changed, 2 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/Documentation/driver-api/dmaengine/dmatest.rst b/Documentation/driver-api/dmaengine/dmatest.rst
->>>> index 8d81f1a7169b..25eecd2769b0 100644
->>>> --- a/Documentation/driver-api/dmaengine/dmatest.rst
->>>> +++ b/Documentation/driver-api/dmaengine/dmatest.rst
->>>> @@ -59,8 +59,8 @@ parameter, that specific channel is requested using the dmaengine and a thread
->>>>   is created with the existing parameters. This thread is set as pending
->>>>   and will be executed once run is set to 1. Any parameters set after the thread
->>>>   is created are not applied.
->>
->>
->> Here a blank line is missed. Thats while '.. hint:' directive is not detected
->> well.  Without the blank line the '.. hint:` string is a part of the section
->> above.
+On Fri, Mar 08, 2019 at 05:42:32AM -0800, Joel Fernandes wrote:
+> HI Geert,
 > 
-> I added a blank line and the ..hint still is not handled in any special
-> manner.  That's why I prefer Tobin's patch.
-
-Nak.  :(
-I had looked at the wrong output file.
-With my "blank line patch" applied, the ..hint directive does work,
-so only the blank line is needed, as Markus said.
-
-
->>>> -.. hint::
->>>> -  available channel list could be extracted by running the following command::
->>>> +
->>>> +Hint: available channel list could be extracted by running the following command::
->>>>         % ls -1 /sys/class/dma/
->>
->>   -- Markus --
->>
+> On Fri, Mar 8, 2019, 3:53 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > It is just so much easier to use tar + xz at build time, and leave the
+> > > decompression task to the user. After decompression, the files will live on
+> > > the disk and the page-cache mechanism will free memory when/if the files fall
+> > > off the LRUs.
+> >
+> > I'm also considering how generic and extensible the solution is.
+> > What if people need other build artifacts in the future (e.g. signing key to
+> > load signed modules)?
 > 
-> 
+> That sounds like it could be useful. I don't see any reason off the
+> top why that would not be possible to add to the list of archived
+> files in the future. The patch allows populating the list of files
+> from Kbuild using ikh_file_list variable.
 
+Um, no, you don't want the signing key in the kernel itself, as that
+totally defeats the purpose of the signing key :)
 
--- 
-~Randy
+greg k-h
