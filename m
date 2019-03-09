@@ -1,113 +1,79 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EAE2B7D099
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  9 Mar 2019 07:16:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2D9C37D099
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  9 Mar 2019 09:21:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726502AbfCIHQw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 9 Mar 2019 02:16:52 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39968 "EHLO mail.kernel.org"
+        id S1725791AbfCIJU7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 9 Mar 2019 04:20:59 -0500
+Received: from smtp3.goneo.de ([85.220.129.37]:38282 "EHLO smtp3.goneo.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725987AbfCIHQw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 9 Mar 2019 02:16:52 -0500
-Received: from localhost (5356596B.cm-6-7b.dynamic.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EBA402081B;
-        Sat,  9 Mar 2019 07:16:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1552115810;
-        bh=3a7gG3pp+mG5ONImlfhwqWkzQUgWi52EWnoy5AxrD7Y=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oovrxlzhPlEjwhbXu791o5H50eG3jEMsQjABDd9udX4QO498ML9W5vjcEQeiq9xRx
-         hA+qEewiB5AUrnr0wJuOMZJ+70j9L4qNMzvRoM3TiWJ/a8wXQ7SFRA4EpAt9ZD3onT
-         zjFEABMTDBpq6XdCmzfvvQCr54sgr9JQPlP3+Avs=
-Date:   Sat, 9 Mar 2019 08:16:48 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Joel Fernandes <joel@joelfernandes.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        atish patra <atishp04@gmail.com>,
-        Daniel Colascione <dancol@google.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Karim Yaghmour <karim.yaghmour@opersys.com>,
-        Kees Cook <keescook@chromium.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-trace-devel@vger.kernel.org,
-        Manoj Rao <linux@manojrajarao.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
-Subject: Re: [PATCH v4 1/2] Provide in-kernel headers for making it easy to
- extend the kernel
-Message-ID: <20190309071648.GE3882@kroah.com>
-References: <20190301160856.129678-1-joel@joelfernandes.org>
- <CAMuHMdU77UyUs-LvRx-NN_k0Y7MZXQkBdgL2i83veCkvdzeeqA@mail.gmail.com>
- <20190307150343.GB258852@google.com>
- <CAMuHMdW_7BTZREsnz7uMTToCZ4HDOZboMJH8k8UZica2pB=Jew@mail.gmail.com>
- <CAEXW_YQUcA+bnav20tAFQPXYE=epMie4X85diudKs_s-TJ7dsw@mail.gmail.com>
- <20190308140251.GC25768@kroah.com>
- <CAMuHMdUmnrJtu8bBeUgtiU6y_TLHM27z1WxpPia4dXMpApeijw@mail.gmail.com>
+        id S1725794AbfCIJU7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 9 Mar 2019 04:20:59 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by smtp3.goneo.de (Postfix) with ESMTP id 3D77423F951;
+        Sat,  9 Mar 2019 10:20:56 +0100 (CET)
+X-Virus-Scanned: by goneo
+Received: from smtp3.goneo.de ([127.0.0.1])
+        by localhost (smtp3.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id ZUU9OYypqxr9; Sat,  9 Mar 2019 10:20:55 +0100 (CET)
+Received: from [192.168.1.127] (dyndsl-091-096-117-035.ewe-ip-backbone.de [91.96.117.35])
+        by smtp3.goneo.de (Postfix) with ESMTPSA id 781B823F006;
+        Sat,  9 Mar 2019 10:20:54 +0100 (CET)
+Subject: Re: [PATCH 0/9] docs: Fix various build warnings/errors
+To:     "Tobin C. Harding" <me@tobin.cc>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190307211153.28400-1-tobin@kernel.org>
+ <2b5f55e5-79d6-2538-5054-b34e4b93e721@darmarit.de>
+ <20190308201606.GE25102@eros.localdomain>
+From:   Markus Heiser <markus.heiser@darmarit.de>
+Message-ID: <32131841-4da9-c1ba-60fc-5f16adecc9c9@darmarit.de>
+Date:   Sat, 9 Mar 2019 10:20:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUmnrJtu8bBeUgtiU6y_TLHM27z1WxpPia4dXMpApeijw@mail.gmail.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
+In-Reply-To: <20190308201606.GE25102@eros.localdomain>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: de-DE
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 08, 2019 at 06:59:23PM +0100, Geert Uytterhoeven wrote:
-> Hi Greg,
+
+Am 08.03.19 um 21:16 schrieb Tobin C. Harding:
+>> Hi Tobin,
+>>
+>> the problem was a missing empty line (see my comment on this patch).
+>>
+>> The reST primer from sphinx-doc is always a good reference for the daily work
+>>
+>>    http://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#directives
+> Thanks Marcus, that's actually how I came to the conclusion that they
+> should by asterisks.
 > 
-> On Fri, Mar 8, 2019 at 6:05 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> > On Fri, Mar 08, 2019 at 05:42:32AM -0800, Joel Fernandes wrote:
-> > > On Fri, Mar 8, 2019, 3:53 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > > It is just so much easier to use tar + xz at build time, and leave the
-> > > > > decompression task to the user. After decompression, the files will live on
-> > > > > the disk and the page-cache mechanism will free memory when/if the files fall
-> > > > > off the LRUs.
-> > > >
-> > > > I'm also considering how generic and extensible the solution is.
-> > > > What if people need other build artifacts in the future (e.g. signing key to
-> > > > load signed modules)?
-> > >
-> > > That sounds like it could be useful. I don't see any reason off the
-> > > top why that would not be possible to add to the list of archived
-> > > files in the future. The patch allows populating the list of files
-> > > from Kbuild using ikh_file_list variable.
-> >
-> > Um, no, you don't want the signing key in the kernel itself, as that
-> > totally defeats the purpose of the signing key :)
+> 	http://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#lists-and-quote-like-blocks
 > 
-> In a loadable module?
-> He who has the module, can build and sign more modules.
+> Anyways, as usual LKML sorted me out :)
 
-Again, that's pretty foolish.
+Its only a 'primer', a reduced introduction.  But it gives also some "(ref)"s
+to the docutils origin where the refernce of reST is located.
 
-Signing keys should be kept secure, or better yet, just deleted entirely
-after creating and signing with them.  That's what I do for my kernels
-and I'm pretty sure that some distros also do this.  That way there's no
-chance that someone else can sign a module and have it loaded without
-detection, which is what signing is supposed to prevent from happening.
+E.g. the first "(ref)" of the chapter "Lists and Quote-like blocks" (you linked
+above) points to the bullet list reference at:
 
-thanks,
+   http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#bullet-lists
 
-greg k-h
+"""A text block which begins with a "*", "+", "-", "•", "‣", or "⁃", followed by 
+whitespace, is a bullet list item"""
+
+
+-- Markus --
+
+
