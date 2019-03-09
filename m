@@ -1,169 +1,56 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ABAE37D099
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  9 Mar 2019 19:26:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CFF987D91B
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  9 Mar 2019 19:56:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726358AbfCIT0x (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 9 Mar 2019 14:26:53 -0500
-Received: from mail-ua1-f67.google.com ([209.85.222.67]:41716 "EHLO
-        mail-ua1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726313AbfCIT0w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 Mar 2019 14:26:52 -0500
-Received: by mail-ua1-f67.google.com with SMTP id j7so299008uak.8;
-        Sat, 09 Mar 2019 11:26:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AAqB6aPEulBxFa6L4PnE5pJMgPtYdJeULQPU7Hg+bCE=;
-        b=IarylnUPsCvRU+8D6QxRdiXVNQJUWGoq2cX9bIG79UooFVl7rHcQ2DIBbHMyu2EUDs
-         vQiGm/UeZJpeo4ItQwxEXZViSFAVHuqGrd5b9d9QS+lgIQ7FjD9lGf0Lr0H9AAiZmWi9
-         dd7NK+IiGLu+Jad8mkWl1I/Icg9LclMHAAnP9iCpMglePSdIHDNrH4Ui/X8PGLEjhyKp
-         kwyHd2ZADGhp5DQqW7h3vOyUGrUlcWmBc+9keBejiPVDX2HBykqji3/Z1cViyVNpgcMF
-         /PBv1fxX908avv1jDfQ5DDtQirwJDeAiIVX48QwA92ARQE5QfUYQGvDVRwqGTCK6MlrX
-         Cl2g==
-X-Gm-Message-State: APjAAAW0AVBjkj7Cmxz6MhrTPZN78YZXwfmqcmOqU3ndySiaW7AtFFWk
-        p9GTS1CJv2/BQhNkfS5gXaKQ33TyhJoZ7hF+UlA=
-X-Google-Smtp-Source: APXvYqwU/Ucwx+j8RglXLCLe/TmaoXH0K2Ul79JfEk6r2JqwW0sM4n/T2J0RWur3a6W/8tu1kLKRzl/CFHS+5uErXwE=
-X-Received: by 2002:a9f:2f0b:: with SMTP id x11mr12348794uaj.78.1552159611142;
- Sat, 09 Mar 2019 11:26:51 -0800 (PST)
-MIME-Version: 1.0
-References: <20190301160856.129678-1-joel@joelfernandes.org>
- <CAMuHMdU77UyUs-LvRx-NN_k0Y7MZXQkBdgL2i83veCkvdzeeqA@mail.gmail.com>
- <20190307150343.GB258852@google.com> <CAMuHMdW_7BTZREsnz7uMTToCZ4HDOZboMJH8k8UZica2pB=Jew@mail.gmail.com>
- <CAEXW_YQUcA+bnav20tAFQPXYE=epMie4X85diudKs_s-TJ7dsw@mail.gmail.com>
- <20190308140251.GC25768@kroah.com> <CAMuHMdUmnrJtu8bBeUgtiU6y_TLHM27z1WxpPia4dXMpApeijw@mail.gmail.com>
- <20190309071648.GE3882@kroah.com> <CAMuHMdUT+UGt9p2QhOXzAtCUmqy-a8YN-ceDa-0qANJE53pWBA@mail.gmail.com>
- <20190309121141.GA30173@kroah.com> <b7296377-9e0c-aed7-61f0-93d24d1ceddd@opersys.com>
-In-Reply-To: <b7296377-9e0c-aed7-61f0-93d24d1ceddd@opersys.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Sat, 9 Mar 2019 20:26:39 +0100
-Message-ID: <CAMuHMdV8+XTyGf1ZJ+gMf=zQpzqh3-+b7wgi+gAmXQ6HpUAw3A@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] Provide in-kernel headers for making it easy to
- extend the kernel
-To:     Karim Yaghmour <karim.yaghmour@opersys.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        atish patra <atishp04@gmail.com>,
-        Daniel Colascione <dancol@google.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-trace-devel@vger.kernel.org,
-        Manoj Rao <linux@manojrajarao.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726761AbfCITzV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 9 Mar 2019 14:55:21 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56648 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726753AbfCITzU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 9 Mar 2019 14:55:20 -0500
+Subject: Re: [GIT PULL] Documentation for 5.1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1552161320;
+        bh=al15/8SuNusjjtwDcL512VzDE5MiFCwyFZhXVi9FnP8=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=E+hSBNx8yJvoNXF0hvec4fs04j09JPV6zoeze97Kva8dhrn6/XohtEfdY/hw5OwM7
+         3txSEffZuunh4JBXakpBk0kPVT4/pSMYJtdZE0N7zynsKKKOwGIAYvC9sUPLZxHPzH
+         Kun6WCADMQJidrsIGnzYcXh4Ge7gO5e7APdNvf/s=
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20190307151820.1fdd73b7@lwn.net>
+References: <20190307151820.1fdd73b7@lwn.net>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20190307151820.1fdd73b7@lwn.net>
+X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-5.1
+X-PR-Tracked-Commit-Id: 4064174becc09a5a2385a27c8a6fd40888b0e13c
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 1a29e857507046e413ca7a4a7c9cd32fed9ea255
+Message-Id: <155216132031.23333.12855437492532761373.pr-tracker-bot@kernel.org>
+Date:   Sat, 09 Mar 2019 19:55:20 +0000
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Karim,
+The pull request you sent on Thu, 7 Mar 2019 15:18:20 -0700:
 
-Thanks for the explanation!
+> git://git.lwn.net/linux.git tags/docs-5.1
 
-On Sat, Mar 9, 2019 at 5:52 PM Karim Yaghmour
-<karim.yaghmour@opersys.com> wrote:
-> On 3/9/19 7:11 AM, Greg KH wrote:
-> > There is no licensing issue, see my follow-up comment about that.
-> >
-> > It's all in ease-of-use here.  You want to build a trace function
-> > against a running kernel, and now you have the header files for that
-> > specific kernel right there in the kernel itself to build against.  It
-> > doesn't get easier than that.
->
-> Agreed.
->
-> It seems that opinions in this thread are split along two conceptions of
-> a "Linux system". On one side there's that of the conventional "Linux
-> distro" where the entity generating the distro has full control over the
-> entire process and the parts thereof. On the other side there's the
-> world that has evolved out of the multi-party ecosystem that Android
-> fostered. In the later, there isn't a single party that controls all
-> aspects of the "distro". Instead, there are a multitude of parties
-> contributing to creating a fully-functional Linux-based system.
->
-> In the latter ecosystem, the kernel and the filesystems (*plural*) used
-> with it do not necessarily come from the same place, are maintained by
-> the same parties or even required to be in lock-step. For all I know,
-> the filesystem images are coming from one party and the kernel is at one
-> point from one party and at another point can be substituted, possibly
-> for testing purposes, without userspace images ever changing. No
-> licensing issues at all involved, either with regards to the headers or
-> the distribution of the kernel itself, which, in as far as I've seen
-> when speaking of known industry players (those that matter here), are
-> always ultimately available in source from somewhere.
->
-> Instead the issue is that I want to be able to give user-space access to
-> the headers that were used to build the kernel that they're running
-> over, regardless of where this kernel came from. And since I have to
-> assume that those two parts (kernel vs. user-space) are coming from
-> separate parties and can be arbitrarily replaced, there needs to be some
-> form of "contract" between them. The kernel's ABI already provides quite
-> a bit of that and, as Joel pointed out, Google can enforce a few more
-> things, such as default kernel configs, to "make things work". But one
-> option that doesn't exist in the world Android evolves in is to somehow
-> ensure that the filesystem images somehow have kernel-specific
-> tool-required artifacts for every possible kernel they may run against.
-> That's just not possible.
->
-> That's especially true in the case of modern-day Android where the final
-> system is made of at least half a dozen filesystem images with each
-> image possibly coming from a different party. The /vendor partition
-> (with the hardware enablement), for example, could be coming from the
-> device vendor while the /system partition (with the Android framework),
-> for example, could be coming straight from Google in the form of
-> "Generic System Image" -- an image meant to run as-is on any
-> Treble-compliant system. /system might have the tools for eBPF, but
-> /vendor might have modules, while still the "boot" partition might have
-> the kernel. There's no reason I can't replace the boot partition
-> *without* changing /vendor. And there's no reason I can't replace
-> /vendor *without* replacing the boot partition. And all other
-> combinations with all other images.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/1a29e857507046e413ca7a4a7c9cd32fed9ea255
 
-So how does this work, with kernel images and kernel modules supplied
-by separate parties, not "bound" by the same kernel headers/API, as they
-can be replaced separately?
-
-> That, in my view, is a big part of the problem Joel's patch solves: in a
-> system whose functionality requires multiple *independent* parties to
-> work together, I can still get the necessary kernel headers for
-> user-space tools to properly operate regardless of which part of the
-> system id being substituted or replaced.
-
-Isn't the need for kernel headers for user-space tools something different,
-as this is limited to the uapi versions, which are less (almost not) subject
-to change, compared to the kernel headers needed for compiling kernel
-modules?
-
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
+Thank you!
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
