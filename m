@@ -1,93 +1,80 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B599D7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Mar 2019 10:50:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D47417D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Mar 2019 13:05:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727008AbfCKKuf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 11 Mar 2019 06:50:35 -0400
-Received: from mail.eatwithus.eu ([176.107.131.6]:36324 "EHLO eatwithus.eu"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726074AbfCKKuf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 11 Mar 2019 06:50:35 -0400
-X-Greylist: delayed 600 seconds by postgrey-1.27 at vger.kernel.org; Mon, 11 Mar 2019 06:50:33 EDT
-Received: by eatwithus.eu (Postfix, from userid 1001)
-        id 72B4A88C54; Mon, 11 Mar 2019 11:25:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=eatwithus.eu; s=mail;
-        t=1552300667; bh=fWzcQlmv8qxvQK5z8oFv+qOuAGHkK6e9htUuyy6OIPw=;
-        h=Date:From:To:Subject:From;
-        b=QcnAOIQVYTWwbtJM0Fqtzo28ICgRWWMIeeYPHooefP/+vqFtYWZwvfSJsR5UGEdaW
-         zVrBMRVHvsYejJtrbI4Ho6K2chH9eKyuPnlwNP3jRzkMaBhtqaYAMdsUX5wgBder1Y
-         kLRZK5D0/5JAT+JDEbbp8YiNilq3DT81I87FivIw=
-Received: by mail.eatwithus.eu for <linux-doc@vger.kernel.org>; Mon, 11 Mar 2019 10:25:10 GMT
-Message-ID: <20190311112231-0.1.6.7ab.0.bhq8mjoqkc@eatwithus.eu>
-Date:   Mon, 11 Mar 2019 10:25:10 GMT
-From:   "Martin Adamov" <martin.adamov@eatwithus.eu>
-To:     <linux-doc@vger.kernel.org>
-Subject: =?UTF-8?Q?=D0=9C=D0=BE=D1=82=D0=B8=D0=B2=D0=B8=D1=80=D0=B0=D0=BD_=D0=BF=D0=B5=D1=80=D1=81=D0=BE=D0=BD=D0=B0=D0=BB?=
-X-Mailer: mail.eatwithus.eu
+        id S1726872AbfCKNFv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Mar 2019 09:05:51 -0400
+Received: from Galois.linutronix.de ([146.0.238.70]:38346 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725943AbfCKNFv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Mar 2019 09:05:51 -0400
+Received: from [5.158.153.52] (helo=nanos.tec.linutronix.de)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1h3KcE-0004Il-E3; Mon, 11 Mar 2019 14:05:14 +0100
+Date:   Mon, 11 Mar 2019 14:05:07 +0100 (CET)
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     Pavel Machek <pavel@ucw.cz>
+cc:     corbet@lwn.net, LKML <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>, x86@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Jiri Kosina <jkosina@suse.cz>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Salvatore Bonaccorso <carnil@debian.org>,
+        linux-doc@vger.kernel.org
+Subject: Re: [patch] Fix up l1ft documentation was Re: Taking a break - time
+ to look back
+In-Reply-To: <20190311102109.GA14118@amd>
+Message-ID: <alpine.DEB.2.21.1903111403330.1691@nanos.tec.linutronix.de>
+References: <alpine.DEB.2.21.1812200022580.1651@nanos.tec.linutronix.de> <20190102235152.GA24163@amd> <20190311102109.GA14118@amd>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-=D0=97=D0=B4=D1=80=D0=B0=D0=B2=D0=B5=D0=B9=D1=82=D0=B5,
-=20
-=D0=92=D0=B0=D1=83=D1=87=D0=B5=D1=80=D0=B8=D1=82=D0=B5 =D0=B7=D0=B0 =D1=85=
-=D1=80=D0=B0=D0=BD=D0=B0 =D1=81=D0=B5 =D0=BD=D0=B0=D1=80=D0=B5=D0=B6=D0=B4=
-=D0=B0=D1=82 =D1=81=D1=80=D0=B5=D0=B4 =D0=BB=D1=8E=D0=B1=D0=B8=D0=BC=D0=B8=
-=D1=82=D0=B5 =D1=81=D0=BE=D1=86=D0=B8=D0=B0=D0=BB=D0=BD=D0=B8 =D0=BF=D1=80=
-=D0=B8=D0=B4=D0=BE=D0=B1=D0=B8=D0=B2=D0=BA=D0=B8 =D0=BD=D0=B0 =D1=80=D0=B0=
-=D0=B1=D0=BE=D1=82=D0=B5=D1=89=D0=B8=D1=82=D0=B5 =D1=85=D0=BE=D1=80=D0=B0=
- =D0=B8 =D1=81=D1=80=D0=B5=D0=B4 =D0=BD=D0=B0=D0=B9-=D0=BF=D1=80=D0=B5=D0=
-=B4=D0=BF=D0=BE=D1=87=D0=B8=D1=82=D0=B0=D0=BD=D0=B8=D1=82=D0=B5 =D0=BD=D0=
-=B0=D1=87=D0=B8=D0=BD=D0=B8 =D0=B7=D0=B0 =D1=81=D1=82=D0=B8=D0=BC=D1=83=D0=
-=BB=D0=B8=D1=80=D0=B0=D0=BD=D0=B5 =D0=BE=D1=82 =D1=80=D0=B0=D0=B1=D0=BE=D1=
-=82=D0=BE=D0=B4=D0=B0=D1=82=D0=B5=D0=BB=D0=B8=D1=82=D0=B5. =D0=A2=D0=B5 =D0=
-=BF=D0=BE=D0=B4=D0=BE=D0=B1=D1=80=D1=8F=D0=B2=D0=B0=D1=82 =D0=B5=D1=84=D0=
-=B5=D0=BA=D1=82=D0=B8=D0=B2=D0=BD=D0=BE=D1=81=D1=82=D1=82=D0=B0 =D0=B8 =D0=
-=BF=D1=80=D0=BE=D0=B8=D0=B7=D0=B2=D0=BE=D0=B4=D0=B8=D1=82=D0=B5=D0=BB=D0=BD=
-=D0=BE=D1=81=D1=82=D1=82=D0=B0 =D0=BD=D0=B0 =D0=92=D0=B0=D1=88=D0=B8=D1=82=
-=D0=B5 =D1=81=D0=BB=D1=83=D0=B6=D0=B8=D1=82=D0=B5=D0=BB=D0=B8.
-=20
-=D0=91=D0=BB=D0=B0=D0=B3=D0=BE=D0=B4=D0=B0=D1=80=D0=B5=D0=BD=D0=B8=D0=B5 =
-=D0=BD=D0=B0 =D0=B2=D0=B0=D1=83=D1=87=D0=B5=D1=80=D0=B8=D1=82=D0=B5 =D0=B7=
-=D0=B0 =D1=85=D1=80=D0=B0=D0=BD=D0=B0 =D1=80=D0=B5=D0=B0=D0=BB=D0=B8=D0=B7=
-=D0=B8=D1=80=D0=B0=D1=82=D0=B5 =D1=81=D0=BF=D0=B5=D1=81=D1=82=D1=8F=D0=B2=
-=D0=B0=D0=BD=D0=B8=D1=8F =E2=80=93 =D1=81=D1=82=D0=BE=D0=B9=D0=BD=D0=BE=D1=
-=81=D1=82=D1=82=D0=B0 =D0=BD=D0=B0 =D0=B2=D0=B0=D1=83=D1=87=D0=B5=D1=80=D0=
-=B8=D1=82=D0=B5 =D0=BD=D0=B5 =D1=81=D0=B5 =D0=BE=D0=B1=D0=BB=D0=B0=D0=B3=D0=
-=B0 =D1=81 =D0=B4=D0=B0=D0=BD=D1=8A=D1=86=D0=B8 =D0=B8 =D0=BE=D1=81=D0=B8=
-=D0=B3=D1=83=D1=80=D0=BE=D0=B2=D0=BA=D0=B8 =D0=B4=D0=BE 60=D0=BB=D0=B2 =D0=
-=BC=D0=B5=D1=81=D0=B5=D1=87=D0=BD=D0=BE =D0=B7=D0=B0 =D0=B2=D1=81=D0=B5=D0=
-=BA=D0=B8 =D1=80=D0=B0=D0=B1=D0=BE=D1=82=D0=BD=D0=B8=D0=BA, =D0=B0 =D0=B2=
- =D1=81=D1=8A=D1=89=D0=BE=D1=82=D0=BE =D0=B2=D1=80=D0=B5=D0=BC=D0=B5 =D0=BC=
-=D0=BE=D1=82=D0=B8=D0=B2=D0=B0=D1=86=D0=B8=D1=8F=D1=82=D0=B0 =D0=B8 =D0=BF=
-=D0=BE=D0=BA=D1=83=D0=BF=D0=B0=D1=82=D0=B5=D0=BB=D0=BD=D0=B0=D1=82=D0=B0 =
-=D1=81=D0=BF=D0=BE=D1=81=D0=BE=D0=B1=D0=BD=D0=BE=D1=81=D1=82 =D0=BD=D0=B0=
- =D1=81=D0=BB=D1=83=D0=B6=D0=B8=D1=82=D0=B5=D0=BB=D0=B8=D1=82=D0=B5 =D0=BD=
-=D0=B0=D1=80=D0=B0=D1=81=D1=82=D0=B2=D0=B0.
-=20
-=D0=90=D0=BA=D0=BE =D0=BF=D1=80=D0=BE=D1=8F=D0=B2=D1=8F=D0=B2=D0=B0=D1=82=
-=D0=B5 =D0=B8=D0=BD=D1=82=D0=B5=D1=80=D0=B5=D1=81 =D0=BA=D1=8A=D0=BC =D0=B2=
-=D1=8A=D0=B7=D0=BC=D0=BE=D0=B6=D0=BD=D0=BE=D1=81=D1=82=D0=B8=D1=82=D0=B5 =
-=D0=B7=D0=B0 =D0=B2=D1=8A=D0=B2=D0=B5=D0=B6=D0=B4=D0=B0=D0=BD=D0=B5 =D0=BD=
-=D0=B0 =D0=B2=D0=B0=D1=83=D1=87=D0=B5=D1=80=D0=B8 =D0=B7=D0=B0 =D1=85=D1=80=
-=D0=B0=D0=BD=D0=B0 =D0=B2=D1=8A=D0=B2 =D0=92=D0=B0=D1=88=D0=B0=D1=82=D0=B0=
- =D1=84=D0=B8=D1=80=D0=BC=D0=B0 =D0=B8 =D0=B6=D0=B5=D0=BB=D0=B0=D0=B5=D1=82=
-=D0=B5 =D0=BF=D0=BE-=D0=BF=D0=BE=D0=B4=D1=80=D0=BE=D0=B1=D0=BD=D0=B0 =D0=B8=
-=D0=BD=D1=84=D0=BE=D1=80=D0=BC=D0=B0=D1=86=D0=B8=D1=8F, =D0=B8=D0=B7=D0=BF=
-=D1=80=D0=B0=D1=82=D0=B5=D1=82=D0=B5 =D0=BC=D0=B8 =D1=81=D1=8A=D0=BE=D0=B1=
-=D1=89=D0=B5=D0=BD=D0=B8=D0=B5.
+On Mon, 11 Mar 2019, Pavel Machek wrote:
+> On Thu 2019-01-03 00:51:52, Pavel Machek wrote:
+> > Hi!
+> > 
+> > > The next round of speculation-related issues including the scary L1TF
+> > > hardware bug was a way more "pleasant" experience to work on. While for
+> > > obvious reasons the mitigation development happened behind closed doors in
+> > > a smaller group of people, we were at least able to collaborate in a way
+> > > which is somehow close to what we are used to.
+> > 
+> > Ok, I guess L1TF was a lot of fun, and there was not time for a good
+> > documentation.
+> > 
+> > There's admin guide that is written as an advertisment, and
+
+What's advertisement there?
+
+> > unfortunately is slightly "inaccurate" at places (to the point of
+> > lying).
+
+Huch? Care to tell what's a lie instead of making bold statements?
+
+Thanks,
+
+	tglx
 
 
-=D0=9C=D0=B0=D1=80=D1=82=D0=B8=D0=BD =D0=90=D0=B4=D0=B0=D0=BC=D0=BE=D0=B2
-=D0=BC=D0=B5=D0=BD=D0=B8=D0=B4=D0=B6=D1=8A=D1=80
-www.eatwithus.eu
