@@ -5,47 +5,36 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7D27E7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Mar 2019 14:38:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4E4D27D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Mar 2019 14:51:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727469AbfCKOi0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 11 Mar 2019 10:38:26 -0400
-Received: from ms.lwn.net ([45.79.88.28]:55682 "EHLO ms.lwn.net"
+        id S1727424AbfCKOvF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Mar 2019 10:51:05 -0400
+Received: from ms.lwn.net ([45.79.88.28]:55768 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726605AbfCKOi0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 11 Mar 2019 10:38:26 -0400
+        id S1727195AbfCKOvF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 11 Mar 2019 10:51:05 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 90AB82D9;
-        Mon, 11 Mar 2019 14:38:24 +0000 (UTC)
-Date:   Mon, 11 Mar 2019 08:38:23 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id D50E42D9;
+        Mon, 11 Mar 2019 14:51:04 +0000 (UTC)
+Date:   Mon, 11 Mar 2019 08:51:03 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>, x86@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Jiri Kosina <jkosina@suse.cz>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Salvatore Bonaccorso <carnil@debian.org>,
-        linux-doc@vger.kernel.org
-Subject: Re: [patch] Fix up l1ft documentation was Re: Taking a break - time
- to look back
-Message-ID: <20190311083823.193c3a8b@lwn.net>
-In-Reply-To: <20190311102109.GA14118@amd>
-References: <alpine.DEB.2.21.1812200022580.1651@nanos.tec.linutronix.de>
-        <20190102235152.GA24163@amd>
-        <20190311102109.GA14118@amd>
+To:     Alex Shi <alex.shi@linux.alibaba.com>
+Cc:     Weiwei Jia <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Coly Li <colyli@suse.de>,
+        Fengguang Wu <fengguang.wu@intel.com>,
+        Li Zefan <lizefan@huawei.com>,
+        Shawn Guo <shawn.guo@linaro.org>, Li Yang <leoyang.li@nxp.com>
+Subject: Re: [PATCH v3 00/31] clean up and reorg Chinese kernel docs
+Message-ID: <20190311085103.566ebac0@lwn.net>
+In-Reply-To: <fb2090f4-5b80-c3f3-5cfa-1115dcd0e1ec@linux.alibaba.com>
+References: <20190308030918.22337-1-alex.shi@linux.alibaba.com>
+        <13549ad2-6a3e-5bc3-9e47-3e20fd720fd8@linux.alibaba.com>
+        <CAD+1EGP01hsT_h+XDiyFqon9k4J0rvyYVwdbOQo7qXOmAOmL+g@mail.gmail.com>
+        <fb2090f4-5b80-c3f3-5cfa-1115dcd0e1ec@linux.alibaba.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -55,14 +44,14 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 11 Mar 2019 11:21:10 +0100
-Pavel Machek <pavel@ucw.cz> wrote:
+On Mon, 11 Mar 2019 14:31:08 +0800
+Alex Shi <alex.shi@linux.alibaba.com> wrote:
 
-> Ping? Jonathan, can you pick this up?
+> What's the normal process of the Chinese kernel doc pick up? Will you
+> send a pull request to Corbet? or Corbet pick it them with your comment?
 
-I would really like to get an ack from the people who have been deep into
-this first.  If you can get that, and preferably resubmit with a less
-condescending changelog, I can pick it up.
+Please repost the series with acks and comments applied - preferably after
+the close of the merge window - and I'll apply them then.
 
 Thanks,
 
