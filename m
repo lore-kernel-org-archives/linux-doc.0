@@ -1,98 +1,144 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EB14D7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Mar 2019 03:35:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D19197D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Mar 2019 08:03:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727089AbfCKDfP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 10 Mar 2019 23:35:15 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:49904 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726758AbfCKDfP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 Mar 2019 23:35:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=G0UV+6QfJ8G1Ev3WxxjVfXJfM2E9oz/BceVfJ2Bztyo=; b=keehgDIXv/bay5VQbyo0DH6Re
-        2gqSiuaS2ZbNPKNHOxy0S1dq+CWO9BM3Ql7jCzgOBtErhQCOA9Gm10zg/Y1LnlFjThTEZWv4QVFi8
-        aF+JoczA/30GAvPwvcnKxV9tszxAlRaZcm+mxtZME6NfxOMb86Tsgc3Pw0v+5l4NbWx/QQqrZz0/g
-        k4JMO/7+HSF0lsOuWhTNNGPvUSh/PEojYjLfmnxtGcmiWI1pikJzLS/MxWNJrAg1hsw7QLJF4Hxs9
-        wlkEJuDeaa8WausdaIubXdg70olEF1nBeCF5t0K2awJTXNm5Mptztkaf2WTuLdeomTvAQ5eHHtovk
-        AmbcvY3Xw==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1h3BiY-00069z-Np; Mon, 11 Mar 2019 03:35:10 +0000
-Date:   Sun, 10 Mar 2019 20:35:10 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Waiman Long <longman@redhat.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Takashi Iwai <tiwai@suse.de>, Davidlohr Bueso <dbueso@suse.de>,
-        Manfred Spraul <manfred@colorfullife.com>
-Subject: Re: [PATCH-next] ipc: Fix race condition in ipc_idr_alloc()
-Message-ID: <20190311033510.GB19508@bombadil.infradead.org>
-References: <20190311012536.21747-1-longman@redhat.com>
+        id S1726077AbfCKIDS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Mar 2019 04:03:18 -0400
+Received: from mail-ua1-f65.google.com ([209.85.222.65]:35503 "EHLO
+        mail-ua1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725869AbfCKIDR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Mar 2019 04:03:17 -0400
+Received: by mail-ua1-f65.google.com with SMTP id f88so1208133uaf.2;
+        Mon, 11 Mar 2019 01:03:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=d6fNWk8OeLylMGSr/QhDqtEO909ML1200u00RLEvDQg=;
+        b=dGJ1GuPvyaUf/KXRaBqaHkCG4XzQJ9ryh1TMq84b1p36CyGHSM5D/zF6lNXx0myoO0
+         cZ8jqaAJx1mX7o19nJJwfqeRtGJGPc9Yr9tqwqNwXKvNlIWPj3dGvnNyNyz3tFrRI/Pm
+         QsMIDjCJmhJhm1HVBfuhTwjwTsAypvuTpbYXU0kbfUQcSZWeKhJOrq39Jevq2iRhznbD
+         rQKV7mrPhhX4Lu9ZTOi35EyxhJWnp5QdCLg/0xOmV8li023XxhZmY/z61tyVYYVChs4O
+         tj/tM82JpJtp+4UPrhdz76mYK2WMkBDnts5ODcxtr1y3BNPnLfZi+ZXkSGbV9C7MojH9
+         eSug==
+X-Gm-Message-State: APjAAAUo/sDEbq4DUvW71291M4bLbjfZyj2keI+ltFttwhf5pFJn52BG
+        wAQEn/p4p1yQey3+z+5gvwQxA6qB908ngJ12jzU=
+X-Google-Smtp-Source: APXvYqymnFJLYtNM4TZgNy/XAYJpok8piQkqvaozL02DJJP4x/2cpgLT/kq4Wahp84dwf73icG+1eVSu5WnntTWHzk8=
+X-Received: by 2002:ab0:7191:: with SMTP id l17mr14739251uao.28.1552291396132;
+ Mon, 11 Mar 2019 01:03:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190311012536.21747-1-longman@redhat.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+References: <20190301160856.129678-1-joel@joelfernandes.org>
+ <CAMuHMdU77UyUs-LvRx-NN_k0Y7MZXQkBdgL2i83veCkvdzeeqA@mail.gmail.com>
+ <20190307150343.GB258852@google.com> <CAMuHMdW_7BTZREsnz7uMTToCZ4HDOZboMJH8k8UZica2pB=Jew@mail.gmail.com>
+ <CAEXW_YQUcA+bnav20tAFQPXYE=epMie4X85diudKs_s-TJ7dsw@mail.gmail.com>
+ <20190308140251.GC25768@kroah.com> <CAMuHMdUmnrJtu8bBeUgtiU6y_TLHM27z1WxpPia4dXMpApeijw@mail.gmail.com>
+ <20190309071648.GE3882@kroah.com> <CAMuHMdUT+UGt9p2QhOXzAtCUmqy-a8YN-ceDa-0qANJE53pWBA@mail.gmail.com>
+ <20190309121141.GA30173@kroah.com> <b7296377-9e0c-aed7-61f0-93d24d1ceddd@opersys.com>
+ <CAMuHMdV8+XTyGf1ZJ+gMf=zQpzqh3-+b7wgi+gAmXQ6HpUAw3A@mail.gmail.com> <3e84e1ef-e266-e983-5874-6c26ac7f38b8@opersys.com>
+In-Reply-To: <3e84e1ef-e266-e983-5874-6c26ac7f38b8@opersys.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 11 Mar 2019 09:03:04 +0100
+Message-ID: <CAMuHMdVw=b_oS70F1LhXV0b9fn_p6OuCo2RDUQC=49PdJVW7xA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] Provide in-kernel headers for making it easy to
+ extend the kernel
+To:     Karim Yaghmour <karim.yaghmour@opersys.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        atish patra <atishp04@gmail.com>,
+        Daniel Colascione <dancol@google.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-trace-devel@vger.kernel.org,
+        Manoj Rao <linux@manojrajarao.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Qais Yousef <qais.yousef@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Mar 10, 2019 at 09:25:36PM -0400, Waiman Long wrote:
-> @@ -221,15 +221,34 @@ static inline int ipc_idr_alloc(struct ipc_ids *ids, struct kern_ipc_perm *new)
->  	 */
->  
->  	if (next_id < 0) { /* !CHECKPOINT_RESTORE or next_id is unset */
-> +		/*
-> +		 * It is possible that another thread of the same
-> +		 * kern_ipc_perm may have called ipc_obtain_object_check()
-> +		 * concurrently with a recently deleted IPC id (idx|seq).
-> +		 * If idr_alloc() happens to allocate this deleted idx value,
-> +		 * the other thread may incorrectly get a handle to the new
-> +		 * IPC id.
-> +		 *
-> +		 * To prevent this race condition from happening, we will
-> +		 * always store a new sequence number into the kern_ipc_perm
-> +		 * object before calling idr_alloc(). If we find out that we
-> +		 * don't need to change seq, we write back the right value.
-> +		 */
-> +		new->seq = ids->seq + 1;
-> +		if (new->seq > IPCID_SEQ_MAX)
-> +			new->seq = 0;
-> +
->  		if (ipc_mni_extended)
->  			idx = idr_alloc_cyclic(&ids->ipcs_idr, new, 0, ipc_mni,
->  						GFP_NOWAIT);
->  		else
->  			idx = idr_alloc(&ids->ipcs_idr, new, 0, 0, GFP_NOWAIT);
->  
-> -		if ((idx <= ids->last_idx) && (++ids->seq > IPCID_SEQ_MAX))
-> -			ids->seq = 0;
-> -		new->seq = ids->seq;
-> +		/* Make ids->seq and new->seq stay in sync */
-> +		if (idx <= ids->last_idx)
-> +			ids->seq = new->seq;
-> +		else
-> +			new->seq = ids->seq;
+Hi Karim,
 
-This can't possibly be right.  It's no better to occasionally find the
-wrong ID than to find an uninitialised ID.
+On Sat, Mar 9, 2019 at 10:44 PM Karim Yaghmour
+<karim.yaghmour@opersys.com> wrote:
+> On 3/9/19 2:26 PM, Geert Uytterhoeven wrote:
+> > So how does this work, with kernel images and kernel modules supplied
+> > by separate parties, not "bound" by the same kernel headers/API, as they
+> > can be replaced separately?
+>
+> The thing with Android is that there isn't a "one size fits all". Google
+> provides guidance, policies and at least one example implementation
+> through the Pixel lines.
+>
+> Each vendor however is allowed a great degree of latitude with regards
+> to what they decide to do. Personally, if I was advising a team working
+> on an Android device where Joel's patch was available as part of their
+> kernel I would just recommend that they build it in -- i.e. not as a
+> module. Hence, there would be no module chasing game.
 
-The normal pattern for solving this kind of problem is to idr_alloc()
-a NULL pointer, initialise new->seq, then call idr_replace() to turn
-that NULL pointer into the actual pointer you want.
+OK, that makes sense, if kernel and modules are separate.
+So kernel size increase due to including the headers does matter.
+
+> With regards to Google's guidelines for manufacturers, though, Google
+> states that CONFIG_MODVERSIONS needs to be enabled, see here:
+> https://source.android.com/devices/architecture/kernel/modular-kernels
+> FWIW, that doesn't mean that modules are actually used. Devices don't
+> necessarily have to be using modules.
+
+Personally, I had mixed experiences with CONFIG_MODVERSIONS.
+But that was a looong time ago, before Android.
+Things may have improved.
+
+> > Isn't the need for kernel headers for user-space tools something different,
+> > as this is limited to the uapi versions, which are less (almost not) subject
+> > to change, compared to the kernel headers needed for compiling kernel
+> > modules?
+>
+> Sorry, I should've been clearer. I'm including eBPF/BCC into the
+> "user-space tools" here. That was in fact my prime motivation in
+> encouraging Joel at the last LPC to look at this. I've been integrating
+> the teaching of eBPF into my AOSP debugging and performance analysis
+> class (see CC courseware here:
+> http://www.opersys.com/training/android-debug-and-performance), and it
+> was pretty messy trying to show people how to benefit from such tools
+> under Android. Joel's present set of patches would obviate this problem.
+
+OK.
+
+Now about the actual solution: what is your opinion on embedding e.g.
+a squashfs image in the kernel instead, which would be a more generic
+solution, not adding more ABI to /proc?
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
