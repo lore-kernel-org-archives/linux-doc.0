@@ -1,147 +1,98 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NORMAL_HTTP_TO_IP,RCVD_IN_DNSWL_HI,
-	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D19007D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Mar 2019 02:12:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EB14D7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Mar 2019 03:35:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727165AbfCKCM5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 10 Mar 2019 22:12:57 -0400
-Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:38869 "EHLO
-        out30-131.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727072AbfCKCM5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 Mar 2019 22:12:57 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R251e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04391;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0TMRKbkC_1552270369;
-Received: from Alexs-MacBook-Pro.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TMRKbkC_1552270369)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Mon, 11 Mar 2019 10:12:50 +0800
-Subject: Re: [PATCH v3 00/31] clean up and reorg Chinese kernel docs
-To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        harryxiyou@gmail.com, corbet@lwn.net, Coly Li <colyli@suse.de>,
-        Fengguang Wu <fengguang.wu@intel.com>,
-        Li Zefan <lizefan@huawei.com>,
-        Shawn Guo <shawn.guo@linaro.org>, Li Yang <leoyang.li@nxp.com>
-References: <20190308030918.22337-1-alex.shi@linux.alibaba.com>
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-Message-ID: <13549ad2-6a3e-5bc3-9e47-3e20fd720fd8@linux.alibaba.com>
-Date:   Mon, 11 Mar 2019 10:12:49 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
- Gecko/20100101 Thunderbird/60.5.0
+        id S1727089AbfCKDfP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 10 Mar 2019 23:35:15 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:49904 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726758AbfCKDfP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 Mar 2019 23:35:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=G0UV+6QfJ8G1Ev3WxxjVfXJfM2E9oz/BceVfJ2Bztyo=; b=keehgDIXv/bay5VQbyo0DH6Re
+        2gqSiuaS2ZbNPKNHOxy0S1dq+CWO9BM3Ql7jCzgOBtErhQCOA9Gm10zg/Y1LnlFjThTEZWv4QVFi8
+        aF+JoczA/30GAvPwvcnKxV9tszxAlRaZcm+mxtZME6NfxOMb86Tsgc3Pw0v+5l4NbWx/QQqrZz0/g
+        k4JMO/7+HSF0lsOuWhTNNGPvUSh/PEojYjLfmnxtGcmiWI1pikJzLS/MxWNJrAg1hsw7QLJF4Hxs9
+        wlkEJuDeaa8WausdaIubXdg70olEF1nBeCF5t0K2awJTXNm5Mptztkaf2WTuLdeomTvAQ5eHHtovk
+        AmbcvY3Xw==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1h3BiY-00069z-Np; Mon, 11 Mar 2019 03:35:10 +0000
+Date:   Sun, 10 Mar 2019 20:35:10 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Takashi Iwai <tiwai@suse.de>, Davidlohr Bueso <dbueso@suse.de>,
+        Manfred Spraul <manfred@colorfullife.com>
+Subject: Re: [PATCH-next] ipc: Fix race condition in ipc_idr_alloc()
+Message-ID: <20190311033510.GB19508@bombadil.infradead.org>
+References: <20190311012536.21747-1-longman@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190308030918.22337-1-alex.shi@linux.alibaba.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190311012536.21747-1-longman@redhat.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-CC more active Chinese peoples.
+On Sun, Mar 10, 2019 at 09:25:36PM -0400, Waiman Long wrote:
+> @@ -221,15 +221,34 @@ static inline int ipc_idr_alloc(struct ipc_ids *ids, struct kern_ipc_perm *new)
+>  	 */
+>  
+>  	if (next_id < 0) { /* !CHECKPOINT_RESTORE or next_id is unset */
+> +		/*
+> +		 * It is possible that another thread of the same
+> +		 * kern_ipc_perm may have called ipc_obtain_object_check()
+> +		 * concurrently with a recently deleted IPC id (idx|seq).
+> +		 * If idr_alloc() happens to allocate this deleted idx value,
+> +		 * the other thread may incorrectly get a handle to the new
+> +		 * IPC id.
+> +		 *
+> +		 * To prevent this race condition from happening, we will
+> +		 * always store a new sequence number into the kern_ipc_perm
+> +		 * object before calling idr_alloc(). If we find out that we
+> +		 * don't need to change seq, we write back the right value.
+> +		 */
+> +		new->seq = ids->seq + 1;
+> +		if (new->seq > IPCID_SEQ_MAX)
+> +			new->seq = 0;
+> +
+>  		if (ipc_mni_extended)
+>  			idx = idr_alloc_cyclic(&ids->ipcs_idr, new, 0, ipc_mni,
+>  						GFP_NOWAIT);
+>  		else
+>  			idx = idr_alloc(&ids->ipcs_idr, new, 0, 0, GFP_NOWAIT);
+>  
+> -		if ((idx <= ids->last_idx) && (++ids->seq > IPCID_SEQ_MAX))
+> -			ids->seq = 0;
+> -		new->seq = ids->seq;
+> +		/* Make ids->seq and new->seq stay in sync */
+> +		if (idx <= ids->last_idx)
+> +			ids->seq = new->seq;
+> +		else
+> +			new->seq = ids->seq;
 
-Hi Harry,
+This can't possibly be right.  It's no better to occasionally find the
+wrong ID than to find an uninitialised ID.
 
-Could you please give some comments as the patch series is updated to v3 and I can't see any problem of this series?
-
-There could do more on the processing docs translation, but as the first step, we want comments from Chinese doc maintainer.
-
-Thanks
-Alex
- 
-On 2019/3/8 11:08 上午, Alex Shi wrote:
-> Hi All,
->
-> The following patches change existing Chinese kernel docs to rst format
-> and reorg them to make them alive in 'make htmldocs'.
->
-> you can view the generated htmldocs from:
-> 	http://176.122.172.82/translations/zh_CN/index.html 
->
-> Or make and review docs on your self box:
->
-> 	make htmldocs SPHINXDIRS=translations/zh_CN 
-> 	lynx Documentation/output/translations/zh_CN/index.html
->
-> Any comments are appreciated!
->
-> V3 changes:
-> 1, fix a zh_CN/index.rst display issue
-> 2, update .mailmap for zh_CN transolators'r email address
->
-> V2 changes:
-> 1, change the disclaimer file to Chinese version,
-> 2, replace the obsolete translator's email address in related files.
-> 3, fix couple of format issues in couple files
->
-> Cheers!
-> Alex
->
->
-> Alex Shi (31):
->   docs/zh_CN: add disclaimer file
->   docs/zh_CN: move process related docs into process dir
->   docs/zh_CN: change Chinese index to know process dir
->   docs/zh_CN: add index file into process dir
->   docs/zh_CN: rename HOWTO into process directory
->   docs/zh_CN: howto format changes
->   docs/zh_CN: rename SubmittingPatches for html links
->   docs/zh_CN: format the submitting-patches doc to rst
->   docs/zh_CN: rename stable_kernel_rules doc
->   docs/zh_CN: rst format change for stable-kernel-rules
->   docs/zh_CN: rename email-clients.txt as email-clients.rst
->   docs/zh_CN: do rst format for email-clients.rst
->   docs/zh_CN: rename volatile-consider-harmful doc
->   docs/zh_CN: volatile doc format changes
->   docs/zh_CN: rename SubmittingDrivers
->   docs/zh_CN: format submitting drivers as rst
->   docs/zh_CN: rename magic-numbers as rst doc
->   docs/zh_CN: format the magic-number doc as rst
->   docs/zh_CN: rename stable_api_nonsense.txt as stable-api-nonsense.rst
->   docs/zh_CN: format stable-api-nonsense
->   docs/zh_CN: update Li Yang's email address
->   mailmap: update Li Yang's email address
->   docs/zh_CN: update Zhang Wei's email address
->   mailmap: update email address for Triplex
->   docs/zh_CN: update TripleX chung's email address
->   docs/zh_CN: fix rst format errors in howto.rst
->   docs/zh_CN: fix indent issue in stable-api-nonsense file
->   docs/zh_CN: fix indent issue in submitting-drivers
->   docs/zh_CN: fix rst format issue in submitting-patch
->   docs/zh_CN: remove zh-kernel.org in MAINTAINERS
->   mailmap: update my obsolete email address
->
->  .mailmap                                      |   6 +
->  .../translations/zh_CN/disclaimer-zh_CN.rst   |   9 ++
->  Documentation/translations/zh_CN/index.rst    |  17 +-
->  .../translations/zh_CN/magic-number.txt       | 153 ------------------
->  .../translations/zh_CN/oops-tracing.txt       |   2 +-
->  .../zh_CN/{ => process}/coding-style.rst      |   0
->  .../email-clients.rst}                        |  53 +++---
->  .../zh_CN/{HOWTO => process/howto.rst}        |  69 +++++---
->  .../translations/zh_CN/process/index.rst      |  53 ++++++
->  .../zh_CN/process/magic-number.rst            | 151 +++++++++++++++++
->  .../stable-api-nonsense.rst}                  |  67 ++++----
->  .../stable-kernel-rules.rst}                  |  32 ++--
->  .../submitting-drivers.rst}                   |  34 ++--
->  .../submitting-patches.rst}                   |  60 ++++---
->  .../volatile-considered-harmful.rst}          |  35 ++--
->  Documentation/translations/zh_CN/sparse.txt   |   6 +-
->  MAINTAINERS                                   |   1 -
->  17 files changed, 408 insertions(+), 340 deletions(-)
->  create mode 100644 Documentation/translations/zh_CN/disclaimer-zh_CN.rst
->  delete mode 100644 Documentation/translations/zh_CN/magic-number.txt
->  rename Documentation/translations/zh_CN/{ => process}/coding-style.rst (100%)
->  rename Documentation/translations/zh_CN/{email-clients.txt => process/email-clients.rst} (82%)
->  rename Documentation/translations/zh_CN/{HOWTO => process/howto.rst} (95%)
->  create mode 100644 Documentation/translations/zh_CN/process/index.rst
->  create mode 100644 Documentation/translations/zh_CN/process/magic-number.rst
->  rename Documentation/translations/zh_CN/{stable_api_nonsense.txt => process/stable-api-nonsense.rst} (80%)
->  rename Documentation/translations/zh_CN/{stable_kernel_rules.txt => process/stable-kernel-rules.rst} (76%)
->  rename Documentation/translations/zh_CN/{SubmittingDrivers => process/submitting-drivers.rst} (86%)
->  rename Documentation/translations/zh_CN/{SubmittingPatches => process/submitting-patches.rst} (92%)
->  rename Documentation/translations/zh_CN/{volatile-considered-harmful.txt => process/volatile-considered-harmful.rst} (81%)
->
-
+The normal pattern for solving this kind of problem is to idr_alloc()
+a NULL pointer, initialise new->seq, then call idr_replace() to turn
+that NULL pointer into the actual pointer you want.
