@@ -1,179 +1,93 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 75F837D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Mar 2019 10:21:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B599D7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Mar 2019 10:50:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727099AbfCKKVP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 11 Mar 2019 06:21:15 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:52411 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726826AbfCKKVO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Mar 2019 06:21:14 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id E8841806EF; Mon, 11 Mar 2019 11:21:03 +0100 (CET)
-Date:   Mon, 11 Mar 2019 11:21:10 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Thomas Gleixner <tglx@linutronix.de>, corbet@lwn.net
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>, x86@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Jiri Kosina <jkosina@suse.cz>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Salvatore Bonaccorso <carnil@debian.org>,
-        linux-doc@vger.kernel.org
-Subject: Re: [patch] Fix up l1ft documentation was Re: Taking a break - time
- to look back
-Message-ID: <20190311102109.GA14118@amd>
-References: <alpine.DEB.2.21.1812200022580.1651@nanos.tec.linutronix.de>
- <20190102235152.GA24163@amd>
+        id S1727008AbfCKKuf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Mar 2019 06:50:35 -0400
+Received: from mail.eatwithus.eu ([176.107.131.6]:36324 "EHLO eatwithus.eu"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726074AbfCKKuf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 11 Mar 2019 06:50:35 -0400
+X-Greylist: delayed 600 seconds by postgrey-1.27 at vger.kernel.org; Mon, 11 Mar 2019 06:50:33 EDT
+Received: by eatwithus.eu (Postfix, from userid 1001)
+        id 72B4A88C54; Mon, 11 Mar 2019 11:25:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=eatwithus.eu; s=mail;
+        t=1552300667; bh=fWzcQlmv8qxvQK5z8oFv+qOuAGHkK6e9htUuyy6OIPw=;
+        h=Date:From:To:Subject:From;
+        b=QcnAOIQVYTWwbtJM0Fqtzo28ICgRWWMIeeYPHooefP/+vqFtYWZwvfSJsR5UGEdaW
+         zVrBMRVHvsYejJtrbI4Ho6K2chH9eKyuPnlwNP3jRzkMaBhtqaYAMdsUX5wgBder1Y
+         kLRZK5D0/5JAT+JDEbbp8YiNilq3DT81I87FivIw=
+Received: by mail.eatwithus.eu for <linux-doc@vger.kernel.org>; Mon, 11 Mar 2019 10:25:10 GMT
+Message-ID: <20190311112231-0.1.6.7ab.0.bhq8mjoqkc@eatwithus.eu>
+Date:   Mon, 11 Mar 2019 10:25:10 GMT
+From:   "Martin Adamov" <martin.adamov@eatwithus.eu>
+To:     <linux-doc@vger.kernel.org>
+Subject: =?UTF-8?Q?=D0=9C=D0=BE=D1=82=D0=B8=D0=B2=D0=B8=D1=80=D0=B0=D0=BD_=D0=BF=D0=B5=D1=80=D1=81=D0=BE=D0=BD=D0=B0=D0=BB?=
+X-Mailer: mail.eatwithus.eu
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="yrj/dFKFPuw6o+aM"
-Content-Disposition: inline
-In-Reply-To: <20190102235152.GA24163@amd>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
---yrj/dFKFPuw6o+aM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Ping? Jonathan, can you pick this up?
-
-								Pavel
-
-On Thu 2019-01-03 00:51:52, Pavel Machek wrote:
-> Hi!
->=20
-> > The next round of speculation-related issues including the scary L1TF
-> > hardware bug was a way more "pleasant" experience to work on. While for
-> > obvious reasons the mitigation development happened behind closed doors=
- in
-> > a smaller group of people, we were at least able to collaborate in a way
-> > which is somehow close to what we are used to.
->=20
-> Ok, I guess L1TF was a lot of fun, and there was not time for a good
-> documentation.
->=20
-> There's admin guide that is written as an advertisment, and
-> unfortunately is slightly "inaccurate" at places (to the point of
-> lying).
->=20
-> Plus, I believe it should go to x86/ directory, as this is really
-> Intel issue, and not anything ARM (or RISC-V) people need to
-> know. (But we already have some urls in printk messages that may need
-> fixing up..?)
->=20
-> Signed-off-by: Pavel Machek <pavel@ucw.cz>
->=20
-> diff --git a/Documentation/admin-guide/l1tf.rst b/Documentation/admin-gui=
-de/l1tf.rst
-> index b85dd80..05c5422 100644
-> --- a/Documentation/admin-guide/l1tf.rst
-> +++ b/Documentation/admin-guide/l1tf.rst
-> @@ -1,10 +1,11 @@
->  L1TF - L1 Terminal Fault
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =20
-> -L1 Terminal Fault is a hardware vulnerability which allows unprivileged
-> -speculative access to data which is available in the Level 1 Data Cache
-> -when the page table entry controlling the virtual address, which is used
-> -for the access, has the Present bit cleared or other reserved bits set.
-> +L1 Terminal Fault is a hardware vulnerability on most recent Intel x86
-> +CPUs which allows unprivileged speculative access to data which is
-> +available in the Level 1 Data Cache when the page table entry
-> +controlling the virtual address, which is used for the access, has the
-> +Present bit cleared or other reserved bits set.
-> =20
->  Affected processors
->  -------------------
-> @@ -76,12 +77,14 @@ Attack scenarios
->     deterministic and more practical.
-> =20
->     The Linux kernel contains a mitigation for this attack vector, PTE
-> -   inversion, which is permanently enabled and has no performance
-> -   impact. The kernel ensures that the address bits of PTEs, which are n=
-ot
-> -   marked present, never point to cacheable physical memory space.
-> +   inversion, which is permanently enabled and has no measurable
-> +   performance impact in most configurations. The kernel ensures that
-> +   the address bits of PTEs, which are not marked present, never point
-> +   to cacheable physical memory space. On x86-32, this physical memory
-> +   needs to be limited to 2GiB to make mitigation effective.
-> =20
-> -   A system with an up to date kernel is protected against attacks from
-> -   malicious user space applications.
-> +   Mitigation is present in kernels v4.19 and newer, and in
-> +   recent -stable kernels.
-> =20
->  2. Malicious guest in a virtual machine
->  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> @@ -405,6 +408,9 @@ time with the option "l1tf=3D". The valid arguments f=
-or this option are:
-> =20
->    off		Disables hypervisor mitigations and doesn't emit any
->  		warnings.
-> +		It also drops the swap size and available RAM limit restrictions
-> +		on both hypervisor and bare metal.
-> +
->    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
-> =20
->  The default is 'flush'. For details about L1D flushing see :ref:`l1d_flu=
-sh`.
-> @@ -576,7 +582,8 @@ Default mitigations
->    The kernel default mitigations for vulnerable processors are:
-> =20
->    - PTE inversion to protect against malicious user space. This is done
-> -    unconditionally and cannot be controlled.
-> +    unconditionally and cannot be controlled. The swap storage is limited
-> +    to ~16TB.
-> =20
->    - L1D conditional flushing on VMENTER when EPT is enabled for
->      a guest.
->=20
->=20
->=20
->=20
+=D0=97=D0=B4=D1=80=D0=B0=D0=B2=D0=B5=D0=B9=D1=82=D0=B5,
+=20
+=D0=92=D0=B0=D1=83=D1=87=D0=B5=D1=80=D0=B8=D1=82=D0=B5 =D0=B7=D0=B0 =D1=85=
+=D1=80=D0=B0=D0=BD=D0=B0 =D1=81=D0=B5 =D0=BD=D0=B0=D1=80=D0=B5=D0=B6=D0=B4=
+=D0=B0=D1=82 =D1=81=D1=80=D0=B5=D0=B4 =D0=BB=D1=8E=D0=B1=D0=B8=D0=BC=D0=B8=
+=D1=82=D0=B5 =D1=81=D0=BE=D1=86=D0=B8=D0=B0=D0=BB=D0=BD=D0=B8 =D0=BF=D1=80=
+=D0=B8=D0=B4=D0=BE=D0=B1=D0=B8=D0=B2=D0=BA=D0=B8 =D0=BD=D0=B0 =D1=80=D0=B0=
+=D0=B1=D0=BE=D1=82=D0=B5=D1=89=D0=B8=D1=82=D0=B5 =D1=85=D0=BE=D1=80=D0=B0=
+ =D0=B8 =D1=81=D1=80=D0=B5=D0=B4 =D0=BD=D0=B0=D0=B9-=D0=BF=D1=80=D0=B5=D0=
+=B4=D0=BF=D0=BE=D1=87=D0=B8=D1=82=D0=B0=D0=BD=D0=B8=D1=82=D0=B5 =D0=BD=D0=
+=B0=D1=87=D0=B8=D0=BD=D0=B8 =D0=B7=D0=B0 =D1=81=D1=82=D0=B8=D0=BC=D1=83=D0=
+=BB=D0=B8=D1=80=D0=B0=D0=BD=D0=B5 =D0=BE=D1=82 =D1=80=D0=B0=D0=B1=D0=BE=D1=
+=82=D0=BE=D0=B4=D0=B0=D1=82=D0=B5=D0=BB=D0=B8=D1=82=D0=B5. =D0=A2=D0=B5 =D0=
+=BF=D0=BE=D0=B4=D0=BE=D0=B1=D1=80=D1=8F=D0=B2=D0=B0=D1=82 =D0=B5=D1=84=D0=
+=B5=D0=BA=D1=82=D0=B8=D0=B2=D0=BD=D0=BE=D1=81=D1=82=D1=82=D0=B0 =D0=B8 =D0=
+=BF=D1=80=D0=BE=D0=B8=D0=B7=D0=B2=D0=BE=D0=B4=D0=B8=D1=82=D0=B5=D0=BB=D0=BD=
+=D0=BE=D1=81=D1=82=D1=82=D0=B0 =D0=BD=D0=B0 =D0=92=D0=B0=D1=88=D0=B8=D1=82=
+=D0=B5 =D1=81=D0=BB=D1=83=D0=B6=D0=B8=D1=82=D0=B5=D0=BB=D0=B8.
+=20
+=D0=91=D0=BB=D0=B0=D0=B3=D0=BE=D0=B4=D0=B0=D1=80=D0=B5=D0=BD=D0=B8=D0=B5 =
+=D0=BD=D0=B0 =D0=B2=D0=B0=D1=83=D1=87=D0=B5=D1=80=D0=B8=D1=82=D0=B5 =D0=B7=
+=D0=B0 =D1=85=D1=80=D0=B0=D0=BD=D0=B0 =D1=80=D0=B5=D0=B0=D0=BB=D0=B8=D0=B7=
+=D0=B8=D1=80=D0=B0=D1=82=D0=B5 =D1=81=D0=BF=D0=B5=D1=81=D1=82=D1=8F=D0=B2=
+=D0=B0=D0=BD=D0=B8=D1=8F =E2=80=93 =D1=81=D1=82=D0=BE=D0=B9=D0=BD=D0=BE=D1=
+=81=D1=82=D1=82=D0=B0 =D0=BD=D0=B0 =D0=B2=D0=B0=D1=83=D1=87=D0=B5=D1=80=D0=
+=B8=D1=82=D0=B5 =D0=BD=D0=B5 =D1=81=D0=B5 =D0=BE=D0=B1=D0=BB=D0=B0=D0=B3=D0=
+=B0 =D1=81 =D0=B4=D0=B0=D0=BD=D1=8A=D1=86=D0=B8 =D0=B8 =D0=BE=D1=81=D0=B8=
+=D0=B3=D1=83=D1=80=D0=BE=D0=B2=D0=BA=D0=B8 =D0=B4=D0=BE 60=D0=BB=D0=B2 =D0=
+=BC=D0=B5=D1=81=D0=B5=D1=87=D0=BD=D0=BE =D0=B7=D0=B0 =D0=B2=D1=81=D0=B5=D0=
+=BA=D0=B8 =D1=80=D0=B0=D0=B1=D0=BE=D1=82=D0=BD=D0=B8=D0=BA, =D0=B0 =D0=B2=
+ =D1=81=D1=8A=D1=89=D0=BE=D1=82=D0=BE =D0=B2=D1=80=D0=B5=D0=BC=D0=B5 =D0=BC=
+=D0=BE=D1=82=D0=B8=D0=B2=D0=B0=D1=86=D0=B8=D1=8F=D1=82=D0=B0 =D0=B8 =D0=BF=
+=D0=BE=D0=BA=D1=83=D0=BF=D0=B0=D1=82=D0=B5=D0=BB=D0=BD=D0=B0=D1=82=D0=B0 =
+=D1=81=D0=BF=D0=BE=D1=81=D0=BE=D0=B1=D0=BD=D0=BE=D1=81=D1=82 =D0=BD=D0=B0=
+ =D1=81=D0=BB=D1=83=D0=B6=D0=B8=D1=82=D0=B5=D0=BB=D0=B8=D1=82=D0=B5 =D0=BD=
+=D0=B0=D1=80=D0=B0=D1=81=D1=82=D0=B2=D0=B0.
+=20
+=D0=90=D0=BA=D0=BE =D0=BF=D1=80=D0=BE=D1=8F=D0=B2=D1=8F=D0=B2=D0=B0=D1=82=
+=D0=B5 =D0=B8=D0=BD=D1=82=D0=B5=D1=80=D0=B5=D1=81 =D0=BA=D1=8A=D0=BC =D0=B2=
+=D1=8A=D0=B7=D0=BC=D0=BE=D0=B6=D0=BD=D0=BE=D1=81=D1=82=D0=B8=D1=82=D0=B5 =
+=D0=B7=D0=B0 =D0=B2=D1=8A=D0=B2=D0=B5=D0=B6=D0=B4=D0=B0=D0=BD=D0=B5 =D0=BD=
+=D0=B0 =D0=B2=D0=B0=D1=83=D1=87=D0=B5=D1=80=D0=B8 =D0=B7=D0=B0 =D1=85=D1=80=
+=D0=B0=D0=BD=D0=B0 =D0=B2=D1=8A=D0=B2 =D0=92=D0=B0=D1=88=D0=B0=D1=82=D0=B0=
+ =D1=84=D0=B8=D1=80=D0=BC=D0=B0 =D0=B8 =D0=B6=D0=B5=D0=BB=D0=B0=D0=B5=D1=82=
+=D0=B5 =D0=BF=D0=BE-=D0=BF=D0=BE=D0=B4=D1=80=D0=BE=D0=B1=D0=BD=D0=B0 =D0=B8=
+=D0=BD=D1=84=D0=BE=D1=80=D0=BC=D0=B0=D1=86=D0=B8=D1=8F, =D0=B8=D0=B7=D0=BF=
+=D1=80=D0=B0=D1=82=D0=B5=D1=82=D0=B5 =D0=BC=D0=B8 =D1=81=D1=8A=D0=BE=D0=B1=
+=D1=89=D0=B5=D0=BD=D0=B8=D0=B5.
 
 
-
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---yrj/dFKFPuw6o+aM
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAlyGNpUACgkQMOfwapXb+vKiDgCgtX6pZRkVG8IoNFM6ogIeUHpV
-rosAnRmq2iQ9hio1Nmiz3Lffu+AFi072
-=3m6h
------END PGP SIGNATURE-----
-
---yrj/dFKFPuw6o+aM--
+=D0=9C=D0=B0=D1=80=D1=82=D0=B8=D0=BD =D0=90=D0=B4=D0=B0=D0=BC=D0=BE=D0=B2
+=D0=BC=D0=B5=D0=BD=D0=B8=D0=B4=D0=B6=D1=8A=D1=80
+www.eatwithus.eu
