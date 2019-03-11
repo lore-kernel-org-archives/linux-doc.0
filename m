@@ -1,211 +1,113 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8569C7D099
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 10 Mar 2019 12:47:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9D0607D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Mar 2019 01:26:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725828AbfCJMrQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 10 Mar 2019 08:47:16 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:50698 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726070AbfCJMrQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 10 Mar 2019 08:47:16 -0400
-Received: by mail-wm1-f67.google.com with SMTP id x7so1768425wmj.0
-        for <linux-doc@vger.kernel.org>; Sun, 10 Mar 2019 05:47:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=colorfullife-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=hw3h5Tc1oMss2Vxz5sBoGj4c62f4Jidpji5KAl6heTw=;
-        b=pjAH8NZEblZvqXqMQ09JdmT99EPf57uKtGNbnuasyIHEyIm7eH0pvC+V7uw9kwX8I0
-         Kd9MZlfGvK1vdKSocJSWn/1OnGe0dDNTvXFLkGNDi87N2toCYNRw2W/iQAnMTpVXf55l
-         PBsGW1jJkIq+xRemX+6YX5jzOzj5yiKtzFaUq/R02Ggxry1TEJFye3/wmSZF5Rm0XC7t
-         C3sYmVB5aCWu7Zka5j1V/yli4mAcqASj/Y3j9+hFZTesLORYLg5qqPVVsUK+tz2qZ/1i
-         UrIgZoVs9sKsw+0DoTNmIBZGd6ts1xjxwJJOTS5/pNHrjFX/+RyN65U2vO+SMmZ2iKV1
-         HQVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=hw3h5Tc1oMss2Vxz5sBoGj4c62f4Jidpji5KAl6heTw=;
-        b=GTKEXEc42E/yT2v77PNkIz7eAXJQVarksqvuBZGloTmL0sHnefa/PVDvA0Ca/mNHu7
-         jw5MDBKZpnelkHcvuFUHDafH93SilYlBCNMEf+R2uI72PCYQTVPKEWpS20h36PdKH80N
-         ABY5VS5t/BDf5NZe45uu+Ct7jItKDDEcb7Yx7pDmBgVBCOfMoDFrwFFO0NRLVZfC2u2l
-         tuALZLoX995eRLHktoxk5Fh05ENRabzM61bZPqHJms/T+Jmr2YAkG0xEhngUNtpSna3D
-         DViToncUqBKhcVGufLFh3MMOSfP59xedjsqt4vm1dorXJLX0NzWuwGgpxtB91Mmj4I/X
-         B7rg==
-X-Gm-Message-State: APjAAAWt1Xvic9+/rRD79rSjUdOcB4cE27F+ixZGNi9be1DxJqGMpomp
-        wAZh3yJJMi1LgK5apGQ13Cjm+w==
-X-Google-Smtp-Source: APXvYqzmMAbG6w6C0WrpcwHr2eY7o6SmzGOmr0Iuo39wYwpFb1nFXGST3yLxSvAFNuaHalU2Iasm+Q==
-X-Received: by 2002:a1c:6684:: with SMTP id a126mr13674168wmc.47.1552222033911;
-        Sun, 10 Mar 2019 05:47:13 -0700 (PDT)
-Received: from linux.fritz.box (p200300D993E5320070FBF3E9437DCDE3.dip0.t-ipconnect.de. [2003:d9:93e5:3200:70fb:f3e9:437d:cde3])
-        by smtp.googlemail.com with ESMTPSA id r70sm8677616wme.46.2019.03.10.05.47.12
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Sun, 10 Mar 2019 05:47:12 -0700 (PDT)
-Subject: Re: [PATCH v11 2/3] ipc: Conserve sequence numbers in ipcmni_extend
- mode
-To:     Waiman Long <longman@redhat.com>,
-        Matthew Wilcox <willy@infradead.org>
-Cc:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        id S1726901AbfCKB0B (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 10 Mar 2019 21:26:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60170 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726895AbfCKB0A (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 10 Mar 2019 21:26:00 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 009A6309179A;
+        Mon, 11 Mar 2019 01:26:00 +0000 (UTC)
+Received: from llong.com (ovpn-120-78.rdu2.redhat.com [10.10.120.78])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3829F5D70E;
+        Mon, 11 Mar 2019 01:25:53 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
         Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Takashi Iwai <tiwai@suse.de>, Davidlohr Bueso <dbueso@suse.de>
-References: <1541794292-19425-1-git-send-email-longman@redhat.com>
- <1541794292-19425-3-git-send-email-longman@redhat.com>
- <20181110074125.GB21824@bombadil.infradead.org>
- <c589992a-0c7e-ecf2-9544-3c82dfb96f9f@colorfullife.com>
- <0dd6a66b-4c7f-5224-bcf9-646b3a012a10@redhat.com>
-From:   Manfred Spraul <manfred@colorfullife.com>
-Message-ID: <25499e14-1731-07a3-c4ec-3a064f6368ee@colorfullife.com>
-Date:   Sun, 10 Mar 2019 13:47:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.1
-MIME-Version: 1.0
-In-Reply-To: <0dd6a66b-4c7f-5224-bcf9-646b3a012a10@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Takashi Iwai <tiwai@suse.de>, Davidlohr Bueso <dbueso@suse.de>,
+        Manfred Spraul <manfred@colorfullife.com>,
+        Waiman Long <longman@redhat.com>
+Subject: [PATCH-next] ipc: Fix race condition in ipc_idr_alloc()
+Date:   Sun, 10 Mar 2019 21:25:36 -0400
+Message-Id: <20190311012536.21747-1-longman@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.41]); Mon, 11 Mar 2019 01:26:00 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/27/19 9:30 PM, Waiman Long wrote:
-> On 11/20/2018 02:41 PM, Manfred Spraul wrote:
->>  From 6bbade73d21884258a995698f21ad3128df8e98a Mon Sep 17 00:00:00 2001
->> From: Manfred Spraul<manfred@colorfullife.com>
->> Date: Sat, 29 Sep 2018 15:43:28 +0200
->> Subject: [PATCH 2/2] ipc/util.c: use idr_alloc_cyclic() for ipc allocations
->>
->> A bit related to the patch that increases IPC_MNI, and
->> partially based on the mail fromwilly@infradead.org:
->>
->> (User space) id reuse create the risk of data corruption:
->>
->> Process A: calls ipc function
->> Process A: sleeps just at the beginning of the syscall
->> Process B: Frees the ipc object (i.e.: calls ...ctl(IPC_RMID)
->> Process B: Creates a new ipc object (i.e.: calls ...get())
->> 	<If new object and old object have the same id>
->> Process A: is woken up, and accesses the new object
->>
->> To reduce the probability that the new and the old object have the
->> same id, the current implementation adds a sequence number to the
->> index of the object in the idr tree.
->>
->> To further reduce the probability for a reuse, perform a cyclic
->> allocation, and increase the sequence number only when there is
->> a wrap-around. Unfortunately, idr_alloc_cyclic cannot be used,
->> because the sequence number must be increased when a wrap-around
->> occurs.
->>
->> The patch cycles over at least RADIX_TREE_MAP_SIZE, i.e.
->> if there is only a small number of objects, the accesses
->> continue to be direct.
->>
->> Signed-off-by: Manfred Spraul<manfred@colorfullife.com>
->> ---
->>   ipc/util.c | 48 ++++++++++++++++++++++++++++++++++++++++++++----
->>   1 file changed, 44 insertions(+), 4 deletions(-)
->>
->> diff --git a/ipc/util.c b/ipc/util.c
->> index 07ae117ccdc0..fa7b8fa7a14c 100644
->> --- a/ipc/util.c
->> +++ b/ipc/util.c
->> @@ -216,10 +216,49 @@ static inline int ipc_idr_alloc(struct ipc_ids *ids, struct kern_ipc_perm *new)
->>   	 */
->>   
->>   	if (next_id < 0) { /* !CHECKPOINT_RESTORE or next_id is unset */
->> -		new->seq = ids->seq++;
->> -		if (ids->seq > IPCID_SEQ_MAX)
->> -			ids->seq = 0;
->> -		idx = idr_alloc(&ids->ipcs_idr, new, 0, 0, GFP_NOWAIT);
->> +		int idx_max;
->> +
->> +		/*
->> +		 * If a user space visible id is reused, then this creates a
->> +		 * risk for data corruption. To reduce the probability that
->> +		 * a number is reused, three approaches are used:
->> +		 * 1) the idr index is allocated cyclically.
->> +		 * 2) the use space id is build by concatenating the
->> +		 *    internal idr index with a sequence number.
->> +		 * 3) The sequence number is only increased when the index
->> +		 *    wraps around.
->> +		 * Note that this code cannot use idr_alloc_cyclic:
->> +		 * new->seq must be set before the entry is inserted in the
->> +		 * idr.
->
-> I don't think that is true. The IDR code just need to associate a 
-> pointer to the given ID. It is not going to access anything inside. So 
-> we don't need to set the seq number first before calling idr_alloc().
->
-We must, sorry - there is even a CVE associate to that bug:
+In ipc_idr_alloc(), the sequence number of the kern_ipc_perm object was
+also set before calling idr_alloc(). That gets changed recently in order
+to conserve the sequence number space. That can lead to a possible race
+condition where another thread of the same kern_ipc_perm may have called
+ipc_obtain_object_check() concurrently with a recently deleted IPC id.
+If idr_alloc() function happens to allocate the deleted index value,
+that thread will incorrectly get a handle to the new IPC id.
 
-CVE-2015-7613, 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b9a532277938798b53178d5a66af6e2915cb27cf
+However, we don't know if we should increment seq before the index value
+is allocated and compared with the previously allocated index value. To
+solve this dilemma, we will always put a new sequence number into the
+kern_ipc_perm object before calling idr_alloc(). If it happens that the
+sequence number don't need to be changed, we write back the right value
+afterward. This will ensure that a concurrent ipc_obtain_object_check()
+will not incorrectly match a deleted IPC id to to a new one.
 
-The problem is not the IDR code, the problem is that 
-ipc_obtain_object_check() calls ipc_checkid(), and ipc_checkid() 
-accesses ipcp->seq.
+Reported-by: Manfred Spraul <manfred@colorfullife.com>
+Signed-off-by: Waiman Long <longman@redhat.com>
+---
+ ipc/util.c | 25 ++++++++++++++++++++++---
+ 1 file changed, 22 insertions(+), 3 deletions(-)
 
-And since the ipc_checkid() is called before acquiring any locks, 
-everything must be fully initialized before idr_alloc().
-
->> +		 */
->> +		idx_max = ids->in_use*2;
->> +		if (idx_max < RADIX_TREE_MAP_SIZE)
->> +			idx_max = RADIX_TREE_MAP_SIZE;
->> +		if (idx_max > ipc_mni)
->> +			idx_max = ipc_mni;
->> +
->> +		if (ids->ipcs_idr.idr_next <= idx_max) {
->> +			new->seq = ids->seq;
->> +			idx = idr_alloc(&ids->ipcs_idr, new,
->> +						ids->ipcs_idr.idr_next,
->> +						idx_max, GFP_NOWAIT);
->> +		}
->> +
->> +		if ((idx == -ENOSPC) && (ids->ipcs_idr.idr_next > 0)) {
->> +			/*
->> +			 * A wrap around occurred.
->> +			 * Increase ids->seq, update new->seq
->> +			 */
->> +			ids->seq++;
->> +			if (ids->seq > IPCID_SEQ_MAX)
->> +				ids->seq = 0;
->> +			new->seq = ids->seq;
->> +
->> +			idx = idr_alloc(&ids->ipcs_idr, new, 0, idx_max,
->> +						GFP_NOWAIT);
->> +		}
->> +		if (idx >= 0)
->> +			ids->ipcs_idr.idr_next = idx+1;
->
-> This code has dependence on the internal implementation of the IDR 
-> code. So if the IDR code is changed and the one who does it forgets to 
-> update the IPC code, we may have a problem. Using idr_alloc_cyclic() 
-> for all will likely increase memory footprint which can be a problem 
-> on IoT devices that have little memory. That is the main reason why I 
-> opted to use idr_alloc_cyclic() only when in ipcmni_extend mode which 
-> I am sure won't be activated on systems with little memory.
->
-I know.
-
-But IoT devices with little memory will compile out sysv (as it is done 
-by Android).
-
-
---
-
-     Manfred
+diff --git a/ipc/util.c b/ipc/util.c
+index 78e14acb51a7..6cb4129a2649 100644
+--- a/ipc/util.c
++++ b/ipc/util.c
+@@ -221,15 +221,34 @@ static inline int ipc_idr_alloc(struct ipc_ids *ids, struct kern_ipc_perm *new)
+ 	 */
+ 
+ 	if (next_id < 0) { /* !CHECKPOINT_RESTORE or next_id is unset */
++		/*
++		 * It is possible that another thread of the same
++		 * kern_ipc_perm may have called ipc_obtain_object_check()
++		 * concurrently with a recently deleted IPC id (idx|seq).
++		 * If idr_alloc() happens to allocate this deleted idx value,
++		 * the other thread may incorrectly get a handle to the new
++		 * IPC id.
++		 *
++		 * To prevent this race condition from happening, we will
++		 * always store a new sequence number into the kern_ipc_perm
++		 * object before calling idr_alloc(). If we find out that we
++		 * don't need to change seq, we write back the right value.
++		 */
++		new->seq = ids->seq + 1;
++		if (new->seq > IPCID_SEQ_MAX)
++			new->seq = 0;
++
+ 		if (ipc_mni_extended)
+ 			idx = idr_alloc_cyclic(&ids->ipcs_idr, new, 0, ipc_mni,
+ 						GFP_NOWAIT);
+ 		else
+ 			idx = idr_alloc(&ids->ipcs_idr, new, 0, 0, GFP_NOWAIT);
+ 
+-		if ((idx <= ids->last_idx) && (++ids->seq > IPCID_SEQ_MAX))
+-			ids->seq = 0;
+-		new->seq = ids->seq;
++		/* Make ids->seq and new->seq stay in sync */
++		if (idx <= ids->last_idx)
++			ids->seq = new->seq;
++		else
++			new->seq = ids->seq;
+ 		ids->last_idx = idx;
+ 	} else {
+ 		new->seq = ipcid_to_seqx(next_id);
+-- 
+2.18.1
 
