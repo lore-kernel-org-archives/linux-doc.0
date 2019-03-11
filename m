@@ -1,131 +1,90 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 645C77D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Mar 2019 21:02:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 772567D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Mar 2019 21:37:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727008AbfCKVCH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 11 Mar 2019 17:02:07 -0400
-Received: from mx.kolabnow.com ([95.128.36.41]:64456 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727660AbfCKVCG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 11 Mar 2019 17:02:06 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id 1F5F415AD;
-        Mon, 11 Mar 2019 22:02:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        message-id:references:in-reply-to:subject:subject:from:from:date
-        :date:content-transfer-encoding:content-type:content-type
-        :mime-version:received:received:received; s=dkim20160331; t=
-        1552338122; x=1554152523; bh=wZH+HhYZTwDHQBWhCTZTYdEZVt3BJUqk52M
-        COIJmg8c=; b=GyrCG0Om3eh59I0r+uzfzYFExxkW/NCd0zy867zDnxJ+TawFgvn
-        63ZCAI/D42uL8y8nDn4K4gMXElqmXlY6xwQaoVXtbOog/uiaIWrFCQILFt3oFj7m
-        rh/6GFDgZV9DTwmItzm2uvrTZl+1lPs7iKFel823pbrlpLsguRFFCgnjTt4urvQn
-        GosT3/RkYNkBSuMSfmgp2NmLMwrZ3e4sirHjfh1m2zezKM67HVVYES011CqMETZw
-        IwMQYg3K6lJhHlXmnprQhNW5ZBU2Zg2pKJoDom7Och0GvyFfwjZ/wXO+QWpjE4sI
-        gJoZX/bNfRnlFEEKTV5e8BT0mFzCiikM9PrbwGR2534lHcEMl6tS9/noxV5fBHPA
-        yqXN0Qm20LKgNeOHI09E1H8di9dERRi70H3mueVlFkD5G81sH5GgszAzrVOHtNga
-        o9rRZCyj8txs3slerMbzeOKnDLYcfF81mMrae6xj+sqWv5h8W7d1YNvn9KKLs3ft
-        MN2R0qRgyPL7lkYRIpmhm9hmpPff1xn0iXrGPc4GuXWWqs1yM8U3ysk20mR+seTy
-        C5KV2imsOcfnORlqJOYyQQXcQofl9zxYxliLpoyMPiylnjArvKlkUtMyParFyMTV
-        OrX0/fv968QPjeJfgdxpb2yJQldx8EGDf9gPxCHU+zMhFssERj9qG12s=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id B05SuR3O0VPC; Mon, 11 Mar 2019 22:02:02 +0100 (CET)
-Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
-        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id B896815AC;
-        Mon, 11 Mar 2019 22:02:02 +0100 (CET)
-Received: from int-subm003.mykolab.com (unknown [10.9.37.3])
-        by int-mx003.mykolab.com (Postfix) with ESMTPS id 6EA801916;
-        Mon, 11 Mar 2019 22:02:02 +0100 (CET)
+        id S1727904AbfCKVhE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Mar 2019 17:37:04 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:36322 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727898AbfCKVhD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Mar 2019 17:37:03 -0400
+Received: by mail-qt1-f195.google.com with SMTP id b3so334032qtj.3;
+        Mon, 11 Mar 2019 14:37:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OE2aYycL7Gv4WG0PwdCG8G+PdgNWJSiiyLW27YU//Vg=;
+        b=ZugH7MC7vzMyqKGojaCQmD7AKXX8mWHoo+KOgWWfIDOxpq4TsMWKm3ffGKV7jX3prM
+         KZHg5DKRuHOAoC3BqN164ulZLf6tvYne+MUSwhHqQWJDr2Aow24xZtmSC5oWAXV4h6+L
+         WxGEllJhFIah4OhptkzKgx9tT8+x2K1r7QZfod3VPTS2bGioAG4CGDN81t/3T9PNbd4N
+         WKFGzTQYbALoZw9NhErSsYSKyE0S0Mxcrqo7pUwupXwl7HgHmtiFlcDCy/bRsAVJkIX1
+         +017YzUurvkGbzd99thIr767VhcQUfjyWCmUzyoVS5Rx/W6x91LE+dAdDJdkl/As9x8l
+         esdw==
+X-Gm-Message-State: APjAAAVh3WyEw75JyWNMHGNXKKwqadCK2GjwtPqpOgZlHGN6jS5AWcyp
+        Jl12xLlcV1H5Qab8ug62VSzdidOlk+R5iyREElw=
+X-Google-Smtp-Source: APXvYqyQ2w+0tVp9ObKx7GziegLU2CjhMw+WODkxrU5qE4r6kEba8X6k8H1cAJnWbDdyK/UW1QQd5pLKhcA/mnPZvqY=
+X-Received: by 2002:ac8:1b7a:: with SMTP id p55mr14190887qtk.319.1552340222778;
+ Mon, 11 Mar 2019 14:37:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Date:   Mon, 11 Mar 2019 22:02:01 +0100
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Alex Shi <alex.shi@linux.alibaba.com>
-Cc:     linux-doc@vger.kernel.org, lkml <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, harryxiyou@gmail.com,
-        Li Zefan <lizefan@huawei.com>,
-        Shawn Guo <shawn.guo@linaro.org>,
-        Fengguang Wu <fengguang.wu@intel.com>
-Subject: Re: [RFC PATCH] doc: translation disclaimer
-In-Reply-To: <8aad62be-e088-c5e1-e2df-a270c62ce1a1@linux.alibaba.com>
-References: <20190305220611.13136-1-federico.vaga@vaga.pv.it>
- <02cb673f-eaf0-f78a-49f3-e95340748694@linux.alibaba.com>
- <1683884.6qb0gnyTyR@pcbe13614>
- <8aad62be-e088-c5e1-e2df-a270c62ce1a1@linux.alibaba.com>
-Message-ID: <833e824cd99f7ed282dfe175ae59876d@vaga.pv.it>
-X-Sender: federico.vaga@vaga.pv.it
+References: <20181215212304.19390-1-natechancellor@gmail.com>
+ <CAK8P3a05QL855mx21R-Pr6c2WjhSoopdFk9z4HvKoeM19A5aSQ@mail.gmail.com> <CAKv+Gu8nWO_GCPF1e6viGTSi5c-C+HoXqFNU=9yboC47E-kAFg@mail.gmail.com>
+In-Reply-To: <CAKv+Gu8nWO_GCPF1e6viGTSi5c-C+HoXqFNU=9yboC47E-kAFg@mail.gmail.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Mon, 11 Mar 2019 22:36:45 +0100
+Message-ID: <CAK8P3a3NjTCgFd2dQ9KbHP8DpXf6s-ULfeU6acAYC4SDi+2qvw@mail.gmail.com>
+Subject: Re: [PATCH] ARM: Ensure that NEON code always compiles with Clang
+To:     Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Cc:     Nathan Chancellor <natechancellor@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Nicolas Pitre <nicolas.pitre@linaro.org>,
+        Tri Vo <trong@android.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2019-03-07 05:03, Alex Shi wrote:
-> On 2019/3/6 11:17 下午, Federico Vaga wrote:
-> 
->> As I wrote in the commit message, this is just a  example to show
->> the
->> structure and share the main message.
->> 
->> What I wrote is just a 10 minutes sketch, to share an idea. This is
->> **not**
->> the text that I'm proposing; what I'm proposing here are the
->> structure and the
->> concepts/ideas/messages. The final patch will be written
->> appropriately, but
->> before doing it I would like to collect the messages that we want to
->> put in
->> it; I listed above what I think is necessary to say.
-> 
-> Got it. yes, it's a good idea, and we'd better figure out the more
-> elegant, precise and legally words. :)
+On Mon, Mar 11, 2019 at 5:49 PM Ard Biesheuvel
+<ard.biesheuvel@linaro.org> wrote:
+>
+> On Mon, 11 Mar 2019 at 17:22, Arnd Bergmann <arnd@arndb.de> wrote:
+> >
+> > On Sat, Dec 15, 2018 at 10:24 PM Nathan Chancellor
+> > <natechancellor@gmail.com> wrote:
+> > >  endif
+> > > diff --git a/arch/arm/lib/xor-neon.c b/arch/arm/lib/xor-neon.c
+> > > index a6741a895189..4600b62d845f 100644
+> > > --- a/arch/arm/lib/xor-neon.c
+> > > +++ b/arch/arm/lib/xor-neon.c
+> > > @@ -14,7 +14,7 @@
+> > >  MODULE_LICENSE("GPL");
+> > >
+> > >  #ifndef __ARM_NEON__
+> > > -#error You should compile this file with '-mfloat-abi=softfp -mfpu=neon'
+> > > +#error You should compile this file with '-march=armv7-a -mfloat-abi=softfp -mfpu=neon'
+> > >  #endif
+> > >
+> >
+> > I see this patch has made it in now, but I also see two other problems with the
+> > same file that prevent it from working right with clang:
+> >
+> > - it triggers #warning This code requires at least version 4.6 of GCC
+>
+> What is currently the oldest GCC we support for ARM?
 
-I wouldn't go that far with the legal jargon. There is nothing legal 
-about
-this, only that who read a translation must be aware of its limitations.
+Linux overall requires gcc-4.6, so we could just as well drop this
+check, good point.
 
-
->> +
->> +Translations
->> +------------
->> +
->> 
->> .. toctree::
->> :maxdepth: 1
->> 
->> diff --git a/Documentation/translations/it_IT/disclaimer-ita.rst
->> b/Documentation/translations/it_IT/disclaimer-ita.rst index
->> d68e52de6a5d..aacc1a0346db 100644
->> --- a/Documentation/translations/it_IT/disclaimer-ita.rst
->> +++ b/Documentation/translations/it_IT/disclaimer-ita.rst
->> @@ -1,13 +1,6 @@
->> 
->> :orphan:
->> 
->> why the orphan here? does that mean no maintainer for it_IT
->> currently?
-> 
-> It is a Sphinx tag to avoid warnings at build time. Instead of
-> re-writing
-> exactly the same text in all files, this one is included at the top of
-> all
-> translated documents. But, since it is not a real document this is not
-> 
-> included in any TOC and sphinx complains; that's why we need the
-> orphan tag
-> 
-> http://www.sphinx-doc.org/en/master/usage/restructuredtext/field-lists.html#metadata
-> 
->  Thanks a lot for the explanations! :)
-
--- 
-Federico Vaga
-http://www.federicovaga.it/
+       Arnd
