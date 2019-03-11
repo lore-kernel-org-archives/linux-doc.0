@@ -1,196 +1,131 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A5CAB7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Mar 2019 20:52:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 645C77D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Mar 2019 21:02:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728026AbfCKUwR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 11 Mar 2019 16:52:17 -0400
-Received: from outils.crapouillou.net ([89.234.176.41]:41044 "EHLO
-        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727773AbfCKUwR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Mar 2019 16:52:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1552337532; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=nAYOZELSccEKSBPbHE4V3eEftTDyZTpp36j9E5JQ3jI=;
-        b=BIgVMtnVwd5QwyHK2BtEEqhHNhzUqIiC3AUNz1AtaynR4D4EB2BYCCYptV+o2QS2axcMKY
-        3QsrTXpCpkg0IHSmykB+vYveWPQ9Cl5kdAlJV56fa3M6ra/krK/2UUNyZbi9FvBd2W6fvr
-        UQnJQ9itGGSGP218qAYHOIyJgAKteZc=
-Date:   Mon, 11 Mar 2019 17:52:07 -0300
-From:   Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v10 04/27] clocksource: Add a new timer-ingenic driver
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Uwe =?iso-8859-1?q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Mathieu Malaterre <malat@debian.org>, od@zcrc.me,
-        linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-clk@vger.kernel.org
-Message-Id: <1552337527.24876.0@crapouillou.net>
-In-Reply-To: <20190308102225.GC22655@ulmo>
-References: <20190302233413.14813-1-paul@crapouillou.net>
-        <20190302233413.14813-5-paul@crapouillou.net> <20190304122250.GC9040@ulmo>
-        <1551723186.4932.0@crapouillou.net> <20190308102225.GC22655@ulmo>
+        id S1727008AbfCKVCH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Mar 2019 17:02:07 -0400
+Received: from mx.kolabnow.com ([95.128.36.41]:64456 "EHLO mx.kolabnow.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727660AbfCKVCG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 11 Mar 2019 17:02:06 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id 1F5F415AD;
+        Mon, 11 Mar 2019 22:02:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        message-id:references:in-reply-to:subject:subject:from:from:date
+        :date:content-transfer-encoding:content-type:content-type
+        :mime-version:received:received:received; s=dkim20160331; t=
+        1552338122; x=1554152523; bh=wZH+HhYZTwDHQBWhCTZTYdEZVt3BJUqk52M
+        COIJmg8c=; b=GyrCG0Om3eh59I0r+uzfzYFExxkW/NCd0zy867zDnxJ+TawFgvn
+        63ZCAI/D42uL8y8nDn4K4gMXElqmXlY6xwQaoVXtbOog/uiaIWrFCQILFt3oFj7m
+        rh/6GFDgZV9DTwmItzm2uvrTZl+1lPs7iKFel823pbrlpLsguRFFCgnjTt4urvQn
+        GosT3/RkYNkBSuMSfmgp2NmLMwrZ3e4sirHjfh1m2zezKM67HVVYES011CqMETZw
+        IwMQYg3K6lJhHlXmnprQhNW5ZBU2Zg2pKJoDom7Och0GvyFfwjZ/wXO+QWpjE4sI
+        gJoZX/bNfRnlFEEKTV5e8BT0mFzCiikM9PrbwGR2534lHcEMl6tS9/noxV5fBHPA
+        yqXN0Qm20LKgNeOHI09E1H8di9dERRi70H3mueVlFkD5G81sH5GgszAzrVOHtNga
+        o9rRZCyj8txs3slerMbzeOKnDLYcfF81mMrae6xj+sqWv5h8W7d1YNvn9KKLs3ft
+        MN2R0qRgyPL7lkYRIpmhm9hmpPff1xn0iXrGPc4GuXWWqs1yM8U3ysk20mR+seTy
+        C5KV2imsOcfnORlqJOYyQQXcQofl9zxYxliLpoyMPiylnjArvKlkUtMyParFyMTV
+        OrX0/fv968QPjeJfgdxpb2yJQldx8EGDf9gPxCHU+zMhFssERj9qG12s=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id B05SuR3O0VPC; Mon, 11 Mar 2019 22:02:02 +0100 (CET)
+Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id B896815AC;
+        Mon, 11 Mar 2019 22:02:02 +0100 (CET)
+Received: from int-subm003.mykolab.com (unknown [10.9.37.3])
+        by int-mx003.mykolab.com (Postfix) with ESMTPS id 6EA801916;
+        Mon, 11 Mar 2019 22:02:02 +0100 (CET)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Date:   Mon, 11 Mar 2019 22:02:01 +0100
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Alex Shi <alex.shi@linux.alibaba.com>
+Cc:     linux-doc@vger.kernel.org, lkml <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, harryxiyou@gmail.com,
+        Li Zefan <lizefan@huawei.com>,
+        Shawn Guo <shawn.guo@linaro.org>,
+        Fengguang Wu <fengguang.wu@intel.com>
+Subject: Re: [RFC PATCH] doc: translation disclaimer
+In-Reply-To: <8aad62be-e088-c5e1-e2df-a270c62ce1a1@linux.alibaba.com>
+References: <20190305220611.13136-1-federico.vaga@vaga.pv.it>
+ <02cb673f-eaf0-f78a-49f3-e95340748694@linux.alibaba.com>
+ <1683884.6qb0gnyTyR@pcbe13614>
+ <8aad62be-e088-c5e1-e2df-a270c62ce1a1@linux.alibaba.com>
+Message-ID: <833e824cd99f7ed282dfe175ae59876d@vaga.pv.it>
+X-Sender: federico.vaga@vaga.pv.it
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Thierry,
+On 2019-03-07 05:03, Alex Shi wrote:
+> On 2019/3/6 11:17 下午, Federico Vaga wrote:
+> 
+>> As I wrote in the commit message, this is just a  example to show
+>> the
+>> structure and share the main message.
+>> 
+>> What I wrote is just a 10 minutes sketch, to share an idea. This is
+>> **not**
+>> the text that I'm proposing; what I'm proposing here are the
+>> structure and the
+>> concepts/ideas/messages. The final patch will be written
+>> appropriately, but
+>> before doing it I would like to collect the messages that we want to
+>> put in
+>> it; I listed above what I think is necessary to say.
+> 
+> Got it. yes, it's a good idea, and we'd better figure out the more
+> elegant, precise and legally words. :)
 
-Le ven. 8 mars 2019 =E0 7:22, Thierry Reding <thierry.reding@gmail.com>=20
-a =E9crit :
-> On Mon, Mar 04, 2019 at 07:13:05PM +0100, Paul Cercueil wrote:
->>  Hi Thierry,
->>=20
->>  On Mon, Mar 4, 2019 at 1:22 PM, Thierry Reding=20
->> <thierry.reding@gmail.com>
->>  wrote:
->>  > On Sat, Mar 02, 2019 at 08:33:50PM -0300, Paul Cercueil wrote:
->>  > [...]
->>  > >  diff --git a/drivers/clocksource/ingenic-timer.c
->>  > > b/drivers/clocksource/ingenic-timer.c
-> [...]
->>  > >  +static u64 notrace ingenic_tcu_timer_read(void)
->>  > >  +{
->>  > >  +	unsigned int channel =3D ingenic_tcu->cs_channel;
->>  > >  +	u16 count;
->>  > >  +
->>  > >  +	count =3D readw(ingenic_tcu_base + TCU_REG_TCNTc(channel));
->>  >
->>  > Can't yo do this via the regmap?
->>=20
->>  I could, but for the sched_clock to be precise the function must=20
->> return
->>  as fast as possible. That's the rationale behind the use of readw()=20
->> here.
->>=20
->>  That's also the reason why ingenic_tcu_base is global and exported,=20
->> so
->>  that the OS Timer driver can use it as well.
->=20
-> Is the path through the regmap really significantly slower than the
-> direct register access? Anyway, if you need the global anyway, might=20
-> as
-> well use it.
+I wouldn't go that far with the legal jargon. There is nothing legal 
+about
+this, only that who read a translation must be aware of its limitations.
 
-About 10% slower.
 
-> [...]
->>  > >  +	// Register the sched_clock at the very end as there's no=20
->> way to
->>  > > undo it
->>  > >  +	rate =3D clk_get_rate(tcu->cs_clk);
->>  > >  +	sched_clock_register(ingenic_tcu_timer_read, 16, rate);
->>  >
->>  > Oh wow... so you managed to nicely encapsulate everything and now=20
->> this
->>  > seems to be the only reason why you need to rely on global=20
->> variables.
->>  >
->>  > That's unfortunate. I suppose we could go and add a void *data=20
->> parameter
->>  > to sched_clock_register() and pass that to the read() function.=20
->> That way
->>  > you could make this completely independent of global variables,=20
->> but
->>  > there are 73 callers of sched_clock_register() and they are=20
->> spread all
->>  > over the place, so sounds a bit daunting to me.
->>=20
->>  Yes, that's the main reason behind the use of a global variables.
->>  Is there a way we could introduce another callback, e.g.=20
->> .read_value(),
->>  that would receive a void *param? Then the current .read() callback
->>  can be deprecated and the 73 callers can be migrated later.
->=20
-> Yeah, I suppose that would be possible. I'll defer to Daniel and=20
-> Thomas
-> on this. They may not consider this important enough.
->=20
->>  > >  +
->>  > >  +	return 0;
->>  > >  +
->>  > >  +err_tcu_clocksource_cleanup:
->>  > >  +	ingenic_tcu_clocksource_cleanup(tcu);
->>  > >  +err_tcu_clk_cleanup:
->>  > >  +	ingenic_tcu_clk_cleanup(tcu, np);
->>  > >  +err_tcu_intc_cleanup:
->>  > >  +	ingenic_tcu_intc_cleanup(tcu);
->>  > >  +err_clk_disable:
->>  > >  +	clk_disable_unprepare(tcu->clk);
->>  > >  +err_clk_put:
->>  > >  +	clk_put(tcu->clk);
->>  > >  +err_free_regmap:
->>  > >  +	regmap_exit(tcu->map);
->>  > >  +err_iounmap:
->>  > >  +	iounmap(base);
->>  > >  +	release_mem_region(res.start, resource_size(&res));
->>  > >  +err_free_ingenic_tcu:
->>  > >  +	kfree(tcu);
->>  > >  +	return ret;
->>  > >  +}
->>  > >  +
->>  > >  +TIMER_OF_DECLARE(jz4740_tcu_intc,  "ingenic,jz4740-tcu",
->>  > > ingenic_tcu_init);
->>  > >  +TIMER_OF_DECLARE(jz4725b_tcu_intc, "ingenic,jz4725b-tcu",
->>  > > ingenic_tcu_init);
->>  > >  +TIMER_OF_DECLARE(jz4770_tcu_intc,  "ingenic,jz4770-tcu",
->>  > > ingenic_tcu_init);
->>  > >  +
->>  > >  +
->>  > >  +static int __init ingenic_tcu_probe(struct platform_device=20
->> *pdev)
->>  > >  +{
->>  > >  +	platform_set_drvdata(pdev, ingenic_tcu);
->>  >
->>  > Then there's also this. Oh well... nevermind then.
->>=20
->>  The content of ingenic_tcu_platform_init() could be moved inside
->>  ingenic_tcu_init(). But can we get a hold of the struct device=20
->> before the
->>  probe function is called? That would allow to set the drvdata and=20
->> regmap
->>  without relying on global state.
->=20
-> I'm not sure if the driver core is ready at this point. It's likely it
-> isn't, otherwise there'd be no need for TIMER_OF_DECLARE(), really. I
-> also vaguely recall looking into this a few years ago because of some
-> similar work I was but I eventually gave up because I couldn't find a
-> way that would allow both the code to execute early enough and still
-> use the regular driver model.
->=20
-> Platform device become available at arch_initcall_sync (3s), while the
-> TIMER_OF_DECLARE code runs way earlier than any of the initcalls, so I
-> don't think there's a way to do it. Unless perhaps if the timers can
-> be initialized later. I'm not sure if that's possible, and might not=20
-> be
-> worth it just for the sake of being pedantic.
->=20
-> Thierry
+>> +
+>> +Translations
+>> +------------
+>> +
+>> 
+>> .. toctree::
+>> :maxdepth: 1
+>> 
+>> diff --git a/Documentation/translations/it_IT/disclaimer-ita.rst
+>> b/Documentation/translations/it_IT/disclaimer-ita.rst index
+>> d68e52de6a5d..aacc1a0346db 100644
+>> --- a/Documentation/translations/it_IT/disclaimer-ita.rst
+>> +++ b/Documentation/translations/it_IT/disclaimer-ita.rst
+>> @@ -1,13 +1,6 @@
+>> 
+>> :orphan:
+>> 
+>> why the orphan here? does that mean no maintainer for it_IT
+>> currently?
+> 
+> It is a Sphinx tag to avoid warnings at build time. Instead of
+> re-writing
+> exactly the same text in all files, this one is included at the top of
+> all
+> translated documents. But, since it is not a real document this is not
+> 
+> included in any TOC and sphinx complains; that's why we need the
+> orphan tag
+> 
+> http://www.sphinx-doc.org/en/master/usage/restructuredtext/field-lists.html#metadata
+> 
+>  Thanks a lot for the explanations! :)
 
-I think for the time being I can't really go around using the global=20
-variables.
-Hopefully that's something that can be fixed in the future.
-
--Paul
-=
-
+-- 
+Federico Vaga
+http://www.federicovaga.it/
