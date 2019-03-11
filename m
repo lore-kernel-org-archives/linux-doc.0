@@ -5,140 +5,123 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D19197D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Mar 2019 08:03:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DB3277D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Mar 2019 09:04:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726077AbfCKIDS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 11 Mar 2019 04:03:18 -0400
-Received: from mail-ua1-f65.google.com ([209.85.222.65]:35503 "EHLO
-        mail-ua1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725869AbfCKIDR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Mar 2019 04:03:17 -0400
-Received: by mail-ua1-f65.google.com with SMTP id f88so1208133uaf.2;
-        Mon, 11 Mar 2019 01:03:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=d6fNWk8OeLylMGSr/QhDqtEO909ML1200u00RLEvDQg=;
-        b=dGJ1GuPvyaUf/KXRaBqaHkCG4XzQJ9ryh1TMq84b1p36CyGHSM5D/zF6lNXx0myoO0
-         cZ8jqaAJx1mX7o19nJJwfqeRtGJGPc9Yr9tqwqNwXKvNlIWPj3dGvnNyNyz3tFrRI/Pm
-         QsMIDjCJmhJhm1HVBfuhTwjwTsAypvuTpbYXU0kbfUQcSZWeKhJOrq39Jevq2iRhznbD
-         rQKV7mrPhhX4Lu9ZTOi35EyxhJWnp5QdCLg/0xOmV8li023XxhZmY/z61tyVYYVChs4O
-         tj/tM82JpJtp+4UPrhdz76mYK2WMkBDnts5ODcxtr1y3BNPnLfZi+ZXkSGbV9C7MojH9
-         eSug==
-X-Gm-Message-State: APjAAAUo/sDEbq4DUvW71291M4bLbjfZyj2keI+ltFttwhf5pFJn52BG
-        wAQEn/p4p1yQey3+z+5gvwQxA6qB908ngJ12jzU=
-X-Google-Smtp-Source: APXvYqymnFJLYtNM4TZgNy/XAYJpok8piQkqvaozL02DJJP4x/2cpgLT/kq4Wahp84dwf73icG+1eVSu5WnntTWHzk8=
-X-Received: by 2002:ab0:7191:: with SMTP id l17mr14739251uao.28.1552291396132;
- Mon, 11 Mar 2019 01:03:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190301160856.129678-1-joel@joelfernandes.org>
- <CAMuHMdU77UyUs-LvRx-NN_k0Y7MZXQkBdgL2i83veCkvdzeeqA@mail.gmail.com>
- <20190307150343.GB258852@google.com> <CAMuHMdW_7BTZREsnz7uMTToCZ4HDOZboMJH8k8UZica2pB=Jew@mail.gmail.com>
- <CAEXW_YQUcA+bnav20tAFQPXYE=epMie4X85diudKs_s-TJ7dsw@mail.gmail.com>
- <20190308140251.GC25768@kroah.com> <CAMuHMdUmnrJtu8bBeUgtiU6y_TLHM27z1WxpPia4dXMpApeijw@mail.gmail.com>
- <20190309071648.GE3882@kroah.com> <CAMuHMdUT+UGt9p2QhOXzAtCUmqy-a8YN-ceDa-0qANJE53pWBA@mail.gmail.com>
- <20190309121141.GA30173@kroah.com> <b7296377-9e0c-aed7-61f0-93d24d1ceddd@opersys.com>
- <CAMuHMdV8+XTyGf1ZJ+gMf=zQpzqh3-+b7wgi+gAmXQ6HpUAw3A@mail.gmail.com> <3e84e1ef-e266-e983-5874-6c26ac7f38b8@opersys.com>
-In-Reply-To: <3e84e1ef-e266-e983-5874-6c26ac7f38b8@opersys.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 11 Mar 2019 09:03:04 +0100
-Message-ID: <CAMuHMdVw=b_oS70F1LhXV0b9fn_p6OuCo2RDUQC=49PdJVW7xA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] Provide in-kernel headers for making it easy to
- extend the kernel
-To:     Karim Yaghmour <karim.yaghmour@opersys.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        LKML <linux-kernel@vger.kernel.org>,
+        id S1726939AbfCKJEU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Mar 2019 05:04:20 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40444 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725839AbfCKJEU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 11 Mar 2019 05:04:20 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id C5602E6A81;
+        Mon, 11 Mar 2019 09:04:19 +0000 (UTC)
+Received: from dhcp-128-65.nay.redhat.com (ovpn-12-113.pek2.redhat.com [10.72.12.113])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E5845DA62;
+        Mon, 11 Mar 2019 09:04:06 +0000 (UTC)
+Date:   Mon, 11 Mar 2019 17:04:02 +0800
+From:   Dave Young <dyoung@redhat.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, devel@linuxdriverproject.org,
+        linux-fsdevel@vger.kernel.org, linux-pm@vger.kernel.org,
+        xen-devel@lists.xenproject.org,
+        kexec-ml <kexec@lists.infradead.org>, pv-drivers@vmware.com,
         Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        atish patra <atishp04@gmail.com>,
-        Daniel Colascione <dancol@google.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-trace-devel@vger.kernel.org,
-        Manoj Rao <linux@manojrajarao.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
-Content-Type: text/plain; charset="UTF-8"
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Baoquan He <bhe@redhat.com>, Omar Sandoval <osandov@fb.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@suse.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Lianbo Jiang <lijiang@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Kazuhito Hagio <k-hagio@ab.jp.nec.com>
+Subject: Re: [PATCH v2 3/8] kexec: export PG_offline to VMCOREINFO
+Message-ID: <20190311090402.GA12071@dhcp-128-65.nay.redhat.com>
+References: <20181122100627.5189-1-david@redhat.com>
+ <20181122100627.5189-4-david@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181122100627.5189-4-david@redhat.com>
+User-Agent: Mutt/1.9.5 (2018-04-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.38]); Mon, 11 Mar 2019 09:04:20 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Karim,
+Hi David,
+On 11/22/18 at 11:06am, David Hildenbrand wrote:
+> Right now, pages inflated as part of a balloon driver will be dumped
+> by dump tools like makedumpfile. While XEN is able to check in the
+> crash kernel whether a certain pfn is actuall backed by memory in the
+> hypervisor (see xen_oldmem_pfn_is_ram) and optimize this case, dumps of
+> other balloon inflated memory will essentially result in zero pages getting
+> allocated by the hypervisor and the dump getting filled with this data.
+> 
+> The allocation and reading of zero pages can directly be avoided if a
+> dumping tool could know which pages only contain stale information not to
+> be dumped.
+> 
+> We now have PG_offline which can be (and already is by virtio-balloon)
+> used for marking pages as logically offline. Follow up patches will
+> make use of this flag also in other balloon implementations.
+> 
+> Let's export PG_offline via PAGE_OFFLINE_MAPCOUNT_VALUE, so
+> makedumpfile can directly skip pages that are logically offline and the
+> content therefore stale. (we export is as a macro to match how it is
+> done for PG_buddy. This way it is clearer that this is not actually a flag
+> but only a very specific mapcount value to represent page types).
+> 
+> Please note that this is also helpful for a problem we were seeing under
+> Hyper-V: Dumping logically offline memory (pages kept fake offline while
+> onlining a section via online_page_callback) would under some condicions
+> result in a kernel panic when dumping them.
+> 
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Dave Young <dyoung@redhat.com>
+> Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+> Cc: Baoquan He <bhe@redhat.com>
+> Cc: Omar Sandoval <osandov@fb.com>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Matthew Wilcox <willy@infradead.org>
+> Cc: Michal Hocko <mhocko@suse.com>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Lianbo Jiang <lijiang@redhat.com>
+> Cc: Borislav Petkov <bp@alien8.de>
+> Cc: Kazuhito Hagio <k-hagio@ab.jp.nec.com>
+> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+> Acked-by: Dave Young <dyoung@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  kernel/crash_core.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+> index 933cb3e45b98..093c9f917ed0 100644
+> --- a/kernel/crash_core.c
+> +++ b/kernel/crash_core.c
+> @@ -464,6 +464,8 @@ static int __init crash_save_vmcoreinfo_init(void)
+>  	VMCOREINFO_NUMBER(PAGE_BUDDY_MAPCOUNT_VALUE);
+>  #ifdef CONFIG_HUGETLB_PAGE
+>  	VMCOREINFO_NUMBER(HUGETLB_PAGE_DTOR);
+> +#define PAGE_OFFLINE_MAPCOUNT_VALUE	(~PG_offline)
+> +	VMCOREINFO_NUMBER(PAGE_OFFLINE_MAPCOUNT_VALUE);
+>  #endif
+>  
+>  	arch_crash_save_vmcoreinfo();
 
-On Sat, Mar 9, 2019 at 10:44 PM Karim Yaghmour
-<karim.yaghmour@opersys.com> wrote:
-> On 3/9/19 2:26 PM, Geert Uytterhoeven wrote:
-> > So how does this work, with kernel images and kernel modules supplied
-> > by separate parties, not "bound" by the same kernel headers/API, as they
-> > can be replaced separately?
->
-> The thing with Android is that there isn't a "one size fits all". Google
-> provides guidance, policies and at least one example implementation
-> through the Pixel lines.
->
-> Each vendor however is allowed a great degree of latitude with regards
-> to what they decide to do. Personally, if I was advising a team working
-> on an Android device where Joel's patch was available as part of their
-> kernel I would just recommend that they build it in -- i.e. not as a
-> module. Hence, there would be no module chasing game.
+The patch has been merged, would you mind to send a documentation patch
+for the vmcoreinfo, which is added recently in Documentation/kdump/vmcoreinfo.txt
 
-OK, that makes sense, if kernel and modules are separate.
-So kernel size increase due to including the headers does matter.
+A brief description about how this vmcoreinfo field is used is good to
+have.
 
-> With regards to Google's guidelines for manufacturers, though, Google
-> states that CONFIG_MODVERSIONS needs to be enabled, see here:
-> https://source.android.com/devices/architecture/kernel/modular-kernels
-> FWIW, that doesn't mean that modules are actually used. Devices don't
-> necessarily have to be using modules.
-
-Personally, I had mixed experiences with CONFIG_MODVERSIONS.
-But that was a looong time ago, before Android.
-Things may have improved.
-
-> > Isn't the need for kernel headers for user-space tools something different,
-> > as this is limited to the uapi versions, which are less (almost not) subject
-> > to change, compared to the kernel headers needed for compiling kernel
-> > modules?
->
-> Sorry, I should've been clearer. I'm including eBPF/BCC into the
-> "user-space tools" here. That was in fact my prime motivation in
-> encouraging Joel at the last LPC to look at this. I've been integrating
-> the teaching of eBPF into my AOSP debugging and performance analysis
-> class (see CC courseware here:
-> http://www.opersys.com/training/android-debug-and-performance), and it
-> was pretty messy trying to show people how to benefit from such tools
-> under Android. Joel's present set of patches would obviate this problem.
-
-OK.
-
-Now about the actual solution: what is your opinion on embedding e.g.
-a squashfs image in the kernel instead, which would be a more generic
-solution, not adding more ABI to /proc?
-
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks
+Dave
