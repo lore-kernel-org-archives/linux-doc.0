@@ -5,86 +5,177 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 772567D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Mar 2019 21:37:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 055DB7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 11 Mar 2019 22:31:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727904AbfCKVhE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 11 Mar 2019 17:37:04 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:36322 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727898AbfCKVhD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Mar 2019 17:37:03 -0400
-Received: by mail-qt1-f195.google.com with SMTP id b3so334032qtj.3;
-        Mon, 11 Mar 2019 14:37:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OE2aYycL7Gv4WG0PwdCG8G+PdgNWJSiiyLW27YU//Vg=;
-        b=ZugH7MC7vzMyqKGojaCQmD7AKXX8mWHoo+KOgWWfIDOxpq4TsMWKm3ffGKV7jX3prM
-         KZHg5DKRuHOAoC3BqN164ulZLf6tvYne+MUSwhHqQWJDr2Aow24xZtmSC5oWAXV4h6+L
-         WxGEllJhFIah4OhptkzKgx9tT8+x2K1r7QZfod3VPTS2bGioAG4CGDN81t/3T9PNbd4N
-         WKFGzTQYbALoZw9NhErSsYSKyE0S0Mxcrqo7pUwupXwl7HgHmtiFlcDCy/bRsAVJkIX1
-         +017YzUurvkGbzd99thIr767VhcQUfjyWCmUzyoVS5Rx/W6x91LE+dAdDJdkl/As9x8l
-         esdw==
-X-Gm-Message-State: APjAAAVh3WyEw75JyWNMHGNXKKwqadCK2GjwtPqpOgZlHGN6jS5AWcyp
-        Jl12xLlcV1H5Qab8ug62VSzdidOlk+R5iyREElw=
-X-Google-Smtp-Source: APXvYqyQ2w+0tVp9ObKx7GziegLU2CjhMw+WODkxrU5qE4r6kEba8X6k8H1cAJnWbDdyK/UW1QQd5pLKhcA/mnPZvqY=
-X-Received: by 2002:ac8:1b7a:: with SMTP id p55mr14190887qtk.319.1552340222778;
- Mon, 11 Mar 2019 14:37:02 -0700 (PDT)
+        id S1725890AbfCKWbc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Mar 2019 18:31:32 -0400
+Received: from Galois.linutronix.de ([146.0.238.70]:41013 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725865AbfCKWbc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Mar 2019 18:31:32 -0400
+Received: from p5492e2fc.dip0.t-ipconnect.de ([84.146.226.252] helo=nanos)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1h3TRt-0001K5-8L; Mon, 11 Mar 2019 23:31:09 +0100
+Date:   Mon, 11 Mar 2019 23:31:08 +0100 (CET)
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     Pavel Machek <pavel@ucw.cz>
+cc:     corbet@lwn.net, LKML <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>, x86@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Jiri Kosina <jkosina@suse.cz>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Salvatore Bonaccorso <carnil@debian.org>,
+        linux-doc@vger.kernel.org
+Subject: Re: [patch] Fix up l1ft documentation was Re: Taking a break - time
+ to look back
+In-Reply-To: <20190311131341.GA28223@amd>
+Message-ID: <alpine.DEB.2.21.1903112211180.1651@nanos.tec.linutronix.de>
+References: <alpine.DEB.2.21.1812200022580.1651@nanos.tec.linutronix.de> <20190102235152.GA24163@amd> <20190311102109.GA14118@amd> <alpine.DEB.2.21.1903111403330.1691@nanos.tec.linutronix.de> <20190311131341.GA28223@amd>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-References: <20181215212304.19390-1-natechancellor@gmail.com>
- <CAK8P3a05QL855mx21R-Pr6c2WjhSoopdFk9z4HvKoeM19A5aSQ@mail.gmail.com> <CAKv+Gu8nWO_GCPF1e6viGTSi5c-C+HoXqFNU=9yboC47E-kAFg@mail.gmail.com>
-In-Reply-To: <CAKv+Gu8nWO_GCPF1e6viGTSi5c-C+HoXqFNU=9yboC47E-kAFg@mail.gmail.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Mon, 11 Mar 2019 22:36:45 +0100
-Message-ID: <CAK8P3a3NjTCgFd2dQ9KbHP8DpXf6s-ULfeU6acAYC4SDi+2qvw@mail.gmail.com>
-Subject: Re: [PATCH] ARM: Ensure that NEON code always compiles with Clang
-To:     Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Cc:     Nathan Chancellor <natechancellor@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Nicolas Pitre <nicolas.pitre@linaro.org>,
-        Tri Vo <trong@android.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 11, 2019 at 5:49 PM Ard Biesheuvel
-<ard.biesheuvel@linaro.org> wrote:
->
-> On Mon, 11 Mar 2019 at 17:22, Arnd Bergmann <arnd@arndb.de> wrote:
-> >
-> > On Sat, Dec 15, 2018 at 10:24 PM Nathan Chancellor
-> > <natechancellor@gmail.com> wrote:
-> > >  endif
-> > > diff --git a/arch/arm/lib/xor-neon.c b/arch/arm/lib/xor-neon.c
-> > > index a6741a895189..4600b62d845f 100644
-> > > --- a/arch/arm/lib/xor-neon.c
-> > > +++ b/arch/arm/lib/xor-neon.c
-> > > @@ -14,7 +14,7 @@
-> > >  MODULE_LICENSE("GPL");
-> > >
-> > >  #ifndef __ARM_NEON__
-> > > -#error You should compile this file with '-mfloat-abi=softfp -mfpu=neon'
-> > > +#error You should compile this file with '-march=armv7-a -mfloat-abi=softfp -mfpu=neon'
-> > >  #endif
-> > >
-> >
-> > I see this patch has made it in now, but I also see two other problems with the
-> > same file that prevent it from working right with clang:
-> >
-> > - it triggers #warning This code requires at least version 4.6 of GCC
->
-> What is currently the oldest GCC we support for ARM?
+Pavel,
 
-Linux overall requires gcc-4.6, so we could just as well drop this
-check, good point.
+On Mon, 11 Mar 2019, Pavel Machek wrote:
+> On Mon 2019-03-11 14:05:07, Thomas Gleixner wrote:
+> > Huch? Care to tell what's a lie instead of making bold statements?
+> 
+> Take a care to look at the patch I submitted?
+> 
+> Lie:
+> 
+> # A system with an up to date kernel is protected against attacks from
+> # malicious user space applications.
+> 
+> 3GB system running 32bit kernel is not protected. Same is true for for
+> really big 64bit systems.
 
-       Arnd
+I agree that this statement is incorrect.
+
+Calling this a lie is a completly unjustified personal attack on those who
+spent quite a lot of time on writing up documentation in the first
+place. It's suggesting that this document was written with malicious intent
+and the purpose of deceiving someone. Care to explain why you are assuming
+this to be the case?
+
+> If I do what dmesg suggests, this becomes untrue:
+> 
+> # The Linux kernel contains a mitigation for this attack vector, PTE
+> # inversion, which is permanently enabled and has no performance
+> # impact.
+> 
+> Limiting memory to 2GB _is_ going to have severe perfomance impact.
+
+Sure. That still does not justify the "changelog" you provided.
+
+> commit 9664b4dabdb132433a6843aefe05814953f1342f
+> Author: Pavel <pavel@ucw.cz>
+> Date:   Thu Jan 3 00:48:40 2019 +0100
+> 
+>     Ok, I guess L1TF was a lot of fun, and there was not time for a good
+>     documentation.
+
+It's interesting that quite some people were actually happy about that
+document. Sorry, that we weren't able to live up to your high standards.
+
+>     There's admin guide that is written as an advertisment, and
+
+What is the advertisement part again?
+
+>     unfortunately is slightly "inaccurate" at places (to the point of
+>     lying).
+>     
+>     Plus, I believe it should go to x86/ directory, as this is really
+>     Intel issue, and not anything ARM (or RISC-V) people need to know.
+
+It's a document targeted at system administrators and it definitely should
+not be burried somewhere in Documentation/x86. As there are more documents
+being worked on for the other issues, I have a patch ready which moves that
+stuff into a separate hardware vulnerabilites folder in the admin-guide.
+
+FWIW, to the best of my knowledge the documentation about writing
+changelogs is neither incorrect nor is it optional to adhere to it.
+
+> @@ -1,10 +1,11 @@
+>  L1TF - L1 Terminal Fault
+>  ========================
+>  
+> -L1 Terminal Fault is a hardware vulnerability which allows unprivileged
+> -speculative access to data which is available in the Level 1 Data Cache
+> -when the page table entry controlling the virtual address, which is used
+> -for the access, has the Present bit cleared or other reserved bits set.
+> +L1 Terminal Fault is a hardware vulnerability on most recent Intel x86
+
+The 'Affected processors' section right below this is very clear about this
+being an Intel only issue (for now). So what exactly is the point of this
+change?
+
+> +CPUs which allows unprivileged speculative access to data which is
+> +available in the Level 1 Data Cache when the page table entry
+> +controlling the virtual address, which is used for the access, has the
+> +Present bit cleared or other reserved bits set.
+>  
+>  Affected processors
+>  -------------------
+> @@ -76,12 +77,14 @@ Attack scenarios
+>     deterministic and more practical.
+>  
+>     The Linux kernel contains a mitigation for this attack vector, PTE
+> -   inversion, which is permanently enabled and has no performance
+> -   impact. The kernel ensures that the address bits of PTEs, which are not
+> -   marked present, never point to cacheable physical memory space.
+> -
+> -   A system with an up to date kernel is protected against attacks from
+> -   malicious user space applications.
+> +   inversion, which is permanently enabled and has no measurable
+> +   performance impact in most configurations. The kernel ensures that
+> +   the address bits of PTEs, which are not marked present, never point
+> +   to cacheable physical memory space. On x86-32, this physical memory
+
+On x86-32? That's incorrect, because there are a lot of x86-32 systems
+which are not affected. Also it has nothing to do with the bit-width of the
+hardware. A 32bit kernel booted on a 64bit capable CPU has the same issue.
+For further correctness, this needs to mention that !PAE enabled kernels
+cannot do PTE inversion at all.
+
+> +   needs to be limited to 2GiB to make mitigation effective.
+
+The 2G limitation is not a general limitation. The limitation depends on
+the number of physical address bits supported by the cache (not the number
+of physical addresss bits exposed as pins) and is definitely not hardcoded
+to 2G. Just because your machine emits the 2G number does not make it
+universally correct. On a system with 36bit physical address space the
+limit is 32G and on some CPUs that's actually wrong as well, see:
+override_cache_bits().
+
+Quoting yourself:
+
+> 3GB system running 32bit kernel is not protected. Same is true for for
+> really big 64bit systems.
+
+Where is the explanation for the 'really big 64bit systems' issue for
+correctness sake?
+
+Thanks,
+
+	tglx
