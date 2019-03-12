@@ -2,141 +2,79 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NORMAL_HTTP_TO_IP,RCVD_IN_DNSWL_HI,
-	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9DA457D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Mar 2019 04:06:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4056F7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Mar 2019 07:57:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725824AbfCLEGt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 12 Mar 2019 00:06:49 -0400
-Received: from out30-56.freemail.mail.aliyun.com ([115.124.30.56]:53387 "EHLO
-        out30-56.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725811AbfCLEGt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Mar 2019 00:06:49 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R341e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04397;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0TMWNB9D_1552363605;
-Received: from Alexs-MacBook-Pro.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TMWNB9D_1552363605)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Tue, 12 Mar 2019 12:06:46 +0800
-Subject: Re: [PATCH v4 00/31] clean up and reorg Chinese kernel docs
-To:     corbet@lwn.net, harryxiyou@gmail.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190312032501.62056-1-alex.shi@linux.alibaba.com>
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-Message-ID: <4e9fbf0d-cf9a-63a3-4e94-902b1ae5a6cf@linux.alibaba.com>
-Date:   Tue, 12 Mar 2019 12:06:45 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
- Gecko/20100101 Thunderbird/60.5.0
+        id S1727348AbfCLH5d (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 12 Mar 2019 03:57:33 -0400
+Received: from mga05.intel.com ([192.55.52.43]:15017 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726582AbfCLH5d (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 12 Mar 2019 03:57:33 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Mar 2019 00:57:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.58,470,1544515200"; 
+   d="scan'208";a="154205965"
+Received: from hkrasnod-mobl.ger.corp.intel.com (HELO localhost) ([10.252.62.84])
+  by fmsmga001.fm.intel.com with ESMTP; 12 Mar 2019 00:57:31 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Markus Heiser <markus.heiser@darmarit.de>,
+        "Tobin C. Harding" <me@tobin.cc>, linux-doc@vger.kernel.org
+Subject: Re: undefined label
+In-Reply-To: <20190311113015.166262c9@lwn.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20190307091734.GB9152@eros.localdomain> <c24a75bf-5bd5-aca8-7764-e05a03495e01@darmarit.de> <20190307203041.GC21937@eros.localdomain> <f0891518-ae90-904b-1001-477c122f1abb@darmarit.de> <878sxp7e6s.fsf@intel.com> <20190311113015.166262c9@lwn.net>
+Date:   Tue, 12 Mar 2019 09:57:30 +0200
+Message-ID: <874l88frth.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20190312032501.62056-1-alex.shi@linux.alibaba.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Corbet,
+On Mon, 11 Mar 2019, Jonathan Corbet <corbet@lwn.net> wrote:
+> On Fri, 08 Mar 2019 14:17:47 +0200
+> Jani Nikula <jani.nikula@linux.intel.com> wrote:
+>
+>> >  >> To close such cross-books links we can use intersphinx [1] and map to e.g.
+>> >  >>
+>> >  >>    intersphinx_mapping = {
+>> >  >>        'kernel': ('https://www.kernel.org/doc/html/latest/', None)}  
+>> >
+>> > This requires online access while building the output.  Anyway, as soon as
+>> > I have some time to spare I will send a RFC with more explanation about
+>> > (you will receive it in CC).  
+>> 
+>> Please remember to call out the online access in the patch series. Such
+>> a requirement is going to draw a lot of opposition.
+>
+> Indeed, I think that would a difficult requirement to add.  It may well be
+> better, in the end, to simply document this "feature" and live with it.
 
-This series is ok for pick up.
+Apparently it's also possible to have a local intersphinx mapping file
+which could be committed to git [1]. That obviously needs to be manually
+updated occasionally, which is a bit tedious.
 
-Thanks!
-Alex
+IIUC intersphinx also means that if a cross-reference target is not
+present in the documentation being built, it'll use the canonical URL in
+the intersphinx_mapping. So your locally built documentation for a
+sub-book might contain links to kernel.org. I'm not sure whether that's
+better or worse than broken links.
 
-On 2019/3/12 11:24 上午, Alex Shi wrote:
-> Hi All,
->
-> The following patches change existing Chinese kernel docs to rst format
-> and reorg them to make them alive in 'make htmldocs'.
->
-> you can view the generated htmldocs from:
-> 	http://176.122.172.82/translations/zh_CN/index.html 
->
-> Or make and review docs on your self box:
->
-> 	make htmldocs SPHINXDIRS=translations/zh_CN 
-> 	lynx Documentation/output/translations/zh_CN/index.html
->
-> Any comments are appreciated!
->
-> V4 changes:
-> 1, Add Harry's signed-off as his ack.
->
-> V3 changes:
-> 1, fix a zh_CN/index.rst display issue
-> 2, update .mailmap for zh_CN transolators'r email address
->
-> V2 changes:
-> 1, change the disclaimer file to Chinese version,
-> 2, replace the obsolete translator's email address in related files.
-> 3, fix couple of format issues in couple files
->
-> Cheers!
-> Alex
->
-> Alex Shi (31):
->   docs/zh_CN: add disclaimer file
->   docs/zh_CN: move process related docs into process dir
->   docs/zh_CN: change Chinese index to know process dir
->   docs/zh_CN: add index file into process dir
->   docs/zh_CN: rename HOWTO into process directory
->   docs/zh_CN: howto format changes
->   docs/zh_CN: rename SubmittingPatches for html links
->   docs/zh_CN: format the submitting-patches doc to rst
->   docs/zh_CN: rename stable_kernel_rules doc
->   docs/zh_CN: rst format change for stable-kernel-rules
->   docs/zh_CN: rename email-clients.txt as email-clients.rst
->   docs/zh_CN: do rst format for email-clients.rst
->   docs/zh_CN: rename volatile-consider-harmful doc
->   docs/zh_CN: volatile doc format changes
->   docs/zh_CN: rename SubmittingDrivers
->   docs/zh_CN: format submitting drivers as rst
->   docs/zh_CN: rename magic-numbers as rst doc
->   docs/zh_CN: format the magic-number doc as rst
->   docs/zh_CN: rename stable_api_nonsense.txt as stable-api-nonsense.rst
->   docs/zh_CN: format stable-api-nonsense
->   docs/zh_CN: update Li Yang's email address
->   mailmap: update Li Yang's email address
->   docs/zh_CN: update Zhang Wei's email address
->   mailmap: update email address for Triplex
->   docs/zh_CN: update TripleX chung's email address
->   docs/zh_CN: fix rst format errors in howto.rst
->   docs/zh_CN: fix indent issue in stable-api-nonsense file
->   docs/zh_CN: fix indent issue in submitting-drivers
->   docs/zh_CN: remove zh-kernel.org in MAINTAINERS
->   mailmap: update my obsolete email address
->   docs/zh_CN: fix rst format issue in submitting-patch
->
->  .mailmap                                      |   6 +
->  .../translations/zh_CN/disclaimer-zh_CN.rst   |   9 ++
->  Documentation/translations/zh_CN/index.rst    |  17 +-
->  .../translations/zh_CN/magic-number.txt       | 153 ------------------
->  .../translations/zh_CN/oops-tracing.txt       |   2 +-
->  .../zh_CN/{ => process}/coding-style.rst      |   0
->  .../email-clients.rst}                        |  53 +++---
->  .../zh_CN/{HOWTO => process/howto.rst}        |  69 +++++---
->  .../translations/zh_CN/process/index.rst      |  53 ++++++
->  .../zh_CN/process/magic-number.rst            | 151 +++++++++++++++++
->  .../stable-api-nonsense.rst}                  |  67 ++++----
->  .../stable-kernel-rules.rst}                  |  32 ++--
->  .../submitting-drivers.rst}                   |  34 ++--
->  .../submitting-patches.rst}                   |  58 +++----
->  .../volatile-considered-harmful.rst}          |  35 ++--
->  Documentation/translations/zh_CN/sparse.txt   |   6 +-
->  MAINTAINERS                                   |   1 -
->  17 files changed, 407 insertions(+), 339 deletions(-)
->  create mode 100644 Documentation/translations/zh_CN/disclaimer-zh_CN.rst
->  delete mode 100644 Documentation/translations/zh_CN/magic-number.txt
->  rename Documentation/translations/zh_CN/{ => process}/coding-style.rst (100%)
->  rename Documentation/translations/zh_CN/{email-clients.txt => process/email-clients.rst} (82%)
->  rename Documentation/translations/zh_CN/{HOWTO => process/howto.rst} (95%)
->  create mode 100644 Documentation/translations/zh_CN/process/index.rst
->  create mode 100644 Documentation/translations/zh_CN/process/magic-number.rst
->  rename Documentation/translations/zh_CN/{stable_api_nonsense.txt => process/stable-api-nonsense.rst} (80%)
->  rename Documentation/translations/zh_CN/{stable_kernel_rules.txt => process/stable-kernel-rules.rst} (76%)
->  rename Documentation/translations/zh_CN/{SubmittingDrivers => process/submitting-drivers.rst} (86%)
->  rename Documentation/translations/zh_CN/{SubmittingPatches => process/submitting-patches.rst} (92%)
->  rename Documentation/translations/zh_CN/{volatile-considered-harmful.txt => process/volatile-considered-harmful.rst} (81%)
->
+BR,
+Jani.
 
+
+[1] https://www.sphinx-doc.org/en/master/usage/extensions/intersphinx.html#confval-intersphinx_mapping
+
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
