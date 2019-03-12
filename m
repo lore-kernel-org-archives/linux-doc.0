@@ -2,30 +2,30 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8D20B7D04D
+	by archive.lwn.net (Postfix) with ESMTP id A3CBC7D08A
 	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Mar 2019 03:03:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727165AbfCLDCq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1726657AbfCLDCq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Mon, 11 Mar 2019 23:02:46 -0400
-Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:40646 "EHLO
-        out30-45.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726167AbfCLDCp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Mar 2019 23:02:45 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04391;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0TMW6jD9_1552359731;
-Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TMW6jD9_1552359731)
+Received: from out30-42.freemail.mail.aliyun.com ([115.124.30.42]:35767 "EHLO
+        out30-42.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727056AbfCLDCU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Mar 2019 23:02:20 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04391;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0TMWLtWR_1552359735;
+Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TMWLtWR_1552359735)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Tue, 12 Mar 2019 11:02:11 +0800
+          Tue, 12 Mar 2019 11:02:16 +0800
 From:   Alex Shi <alex.shi@linux.alibaba.com>
 To:     corbet@lwn.net, harryxiyou@gmail.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
-        Zhang Wei <wezhang@outlook.com>, Li Yang <leoyang.li@nxp.com>
-Subject: [PATCH v4 23/31] docs/zh_CN: update Zhang Wei's email address
-Date:   Tue, 12 Mar 2019 11:01:21 +0800
-Message-Id: <20190312030129.47511-24-alex.shi@linux.alibaba.com>
+        Li Yang <leoyang.li@nxp.com>, TripleX Chung <xxx.phy@gmail.com>
+Subject: [PATCH v4 29/31] docs/zh_CN: fix rst format issue in submitting-patch
+Date:   Tue, 12 Mar 2019 11:01:27 +0800
+Message-Id: <20190312030129.47511-30-alex.shi@linux.alibaba.com>
 X-Mailer: git-send-email 2.19.1.856.g8858448bb
 In-Reply-To: <20190312030129.47511-1-alex.shi@linux.alibaba.com>
 References: <20190312030129.47511-1-alex.shi@linux.alibaba.com>
@@ -37,28 +37,96 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-to replace the obsolete email address with new one.
+Tame 'make htmldocs' to avoid indent and code section
+error complains.
 
 Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
-Cc: Zhang Wei <wezhang@outlook.com>
+Cc: Harry Wei <harryxiyou@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: Li Yang <leoyang.li@nxp.com>
+Cc: TripleX Chung <xxx.phy@gmail.com>
 ---
- Documentation/translations/zh_CN/process/submitting-drivers.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../zh_CN/process/submitting-patches.rst      | 24 +++++++++++--------
+ 1 file changed, 14 insertions(+), 10 deletions(-)
 
-diff --git a/Documentation/translations/zh_CN/process/submitting-drivers.rst b/Documentation/translations/zh_CN/process/submitting-drivers.rst
-index fade72515b04..43c0e4530362 100644
---- a/Documentation/translations/zh_CN/process/submitting-drivers.rst
-+++ b/Documentation/translations/zh_CN/process/submitting-drivers.rst
-@@ -13,7 +13,7 @@
-         中文版翻译者： 李阳  Li Yang <leoyang.li@nxp.com>
-         中文版校译者： 陈琦 Maggie Chen <chenqi@beyondsoft.com>
-                        王聪 Wang Cong <xiyou.wangcong@gmail.com>
--                       张巍 Zhang Wei <Wei.Zhang@freescale.com>
-+                       张巍 Zhang Wei <wezhang@outlook.com>
+diff --git a/Documentation/translations/zh_CN/process/submitting-patches.rst b/Documentation/translations/zh_CN/process/submitting-patches.rst
+index 47cdca62cfa2..54fe00d0afc1 100644
+--- a/Documentation/translations/zh_CN/process/submitting-patches.rst
++++ b/Documentation/translations/zh_CN/process/submitting-patches.rst
+@@ -39,7 +39,7 @@ Documentation/process/submitting-drivers.rst 。
+ 参数生成。而且，请使用 '-p' 参数，那样会显示每个改动所在的C函数，使得
+ 产生的补丁容易读得多。补丁应该基于内核源代码树的根目录，而不是里边的任
+ 何子目录。
+-为一个单独的文件创建补丁，一般来说这样做就够了：
++为一个单独的文件创建补丁，一般来说这样做就够了::
  
- 如何向 Linux 内核提交驱动程序
- =============================
+         SRCTREE= linux-2.6
+         MYFILE=  drivers/net/mydriver.c
+@@ -51,7 +51,7 @@ Documentation/process/submitting-drivers.rst 。
+         diff -up $SRCTREE/$MYFILE{.orig,} > /tmp/patch
+ 
+ 为多个文件创建补丁，你可以解开一个没有修改过的内核源代码树，然后和你自
+-己的代码树之间做 diff 。例如：
++己的代码树之间做 diff 。例如::
+ 
+         MYSRC= /devel/linux-2.6
+ 
+@@ -141,6 +141,7 @@ MAINTAINERS 文件里的）发送一个手册页（man-pages）补丁，或者
+ 对于小的补丁，你也许会CC到 Adrian Bunk 管理的搜集琐碎补丁的邮件列表
+ (Trivial Patch Monkey)trivial@kernel.org，那里专门收集琐碎的补丁。下面这样
+ 的补丁会被看作“琐碎的”补丁：
++
+   文档的拼写修正。
+   修正会影响到 grep(1) 的拼写。
+   警告信息修正(频繁的打印无用的警告是不好的。)
+@@ -239,10 +240,12 @@ Linus 和 linux-kernel 邮件列表的 e-mail 流量都很高，一个通常的
+ 建议在发送出去的补丁上加一个 “sign-off” 的过程。
+ 
+ "sign-off" 是在补丁的注释的最后的简单的一行文字，认证你编写了它或者其他
+-人有权力将它作为开放源代码的补丁传递。规则很简单：如果你能认证如下信息
+-：
+-      开发者来源证书 1.1
+-      对于本项目的贡献，我认证如下信息：
++人有权力将它作为开放源代码的补丁传递。规则很简单：如果你能认证如下信息:
++
++开发者来源证书 1.1
++^^^^^^^^^^^^^^^^^^
++对于本项目的贡献，我认证如下信息：
++
+       （a）这些贡献是完全或者部分的由我创建，我有权利以文件中指出
+        的开放源代码许可证提交它；或者
+       （b）这些贡献基于以前的工作，据我所知，这些以前的工作受恰当的开放
+@@ -338,7 +341,7 @@ Nuff 说过，如果你的代码和这个偏离太多，那么它有可能会被
+ 在头文件里，有条件地定义 "static inline" 函数，或者宏，在代码里用这些东
+ 西。让编译器把那些"空操作"优化掉。
+ 
+-一个简单的例子，不好的代码：
++一个简单的例子，不好的代码::
+ 
+     dev = alloc_etherdev (sizeof(struct funky_private));
+     if (!dev)
+@@ -349,12 +352,14 @@ Nuff 说过，如果你的代码和这个偏离太多，那么它有可能会被
+ 
+ 清理后的例子:
+ 
+-(头文件里)
++(头文件里)::
++
+     #ifndef CONFIG_NET_FUNKINESS
+     static inline void init_funky_net (struct net_device *d) {}
+     #endif
+ 
+-(代码文件里)
++(代码文件里)::
++
+     dev = alloc_etherdev (sizeof(struct funky_private));
+     if (!dev)
+         return -ENODEV;
+@@ -399,4 +404,3 @@ Kernel Documentation/process/coding-style.rst:
+ 
+ Linus Torvalds's mail on the canonical patch format:
+   <http://lkml.org/lkml/2005/4/7/183>
+---
 -- 
 2.19.1.856.g8858448bb
 
