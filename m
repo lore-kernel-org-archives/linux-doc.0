@@ -5,61 +5,63 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CC7A97D08A
+	by archive.lwn.net (Postfix) with ESMTP id B787E7D04D
 	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Mar 2019 03:26:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727165AbfCLDZw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1727168AbfCLDZw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Mon, 11 Mar 2019 23:25:52 -0400
-Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:47527 "EHLO
-        out30-133.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727127AbfCLDZv (ORCPT
+Received: from out30-42.freemail.mail.aliyun.com ([115.124.30.42]:53633 "EHLO
+        out30-42.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727101AbfCLDZv (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Mar 2019 23:25:51 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04397;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0TMWPggx_1552361148;
-Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TMWPggx_1552361148)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04396;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0TMWLxjC_1552361143;
+Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TMWLxjC_1552361143)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Tue, 12 Mar 2019 11:25:48 +0800
+          Tue, 12 Mar 2019 11:25:44 +0800
 From:   Alex Shi <alex.shi@linux.alibaba.com>
 To:     corbet@lwn.net, harryxiyou@gmail.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Li Yang <leoyang.li@nxp.com>
-Subject: [PATCH v4 30/31] mailmap: update my obsolete email address
-Date:   Tue, 12 Mar 2019 11:24:59 +0800
-Message-Id: <20190312032501.62056-31-alex.shi@linux.alibaba.com>
+        TripleX Chung <xxx.phy@gmail.com>
+Subject: [PATCH v4 24/31] mailmap: update email address for Triplex
+Date:   Tue, 12 Mar 2019 11:24:53 +0800
+Message-Id: <20190312032501.62056-25-alex.shi@linux.alibaba.com>
 X-Mailer: git-send-email 2.19.1.856.g8858448bb
 In-Reply-To: <20190312032501.62056-1-alex.shi@linux.alibaba.com>
 References: <20190312032501.62056-1-alex.shi@linux.alibaba.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I am not working for Intel or Linaro, so udpate the email address.
+triplex@zh-kernel.org and zhongyu@18mail.cn is absolete email address
+for TripleX Chung <xxx.phy@gmail.com>
 
 Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Li Yang <leoyang.li@nxp.com>
+Cc: TripleX Chung <xxx.phy@gmail.com>
 Signed-off-by: Weiwei Jia <harryxiyou@gmail.com>
 ---
  .mailmap | 2 ++
  1 file changed, 2 insertions(+)
 
 diff --git a/.mailmap b/.mailmap
-index 90c375799510..deacfcbbc72d 100644
+index ca07112c8532..90c375799510 100644
 --- a/.mailmap
 +++ b/.mailmap
-@@ -16,6 +16,8 @@ Alan Cox <alan@lxorguk.ukuu.org.uk>
- Alan Cox <root@hraefn.swansea.linux.org.uk>
- Aleksey Gorelov <aleksey_gorelov@phoenix.com>
- Aleksandar Markovic <aleksandar.markovic@mips.com> <aleksandar.markovic@imgtec.com>
-+Alex Shi <alex.shi@linux.alibaba.com> <alex.shi@intel.com>
-+Alex Shi <alex.shi@linux.alibaba.com> <alex.shi@linaro.org>
- Al Viro <viro@ftp.linux.org.uk>
- Al Viro <viro@zenIV.linux.org.uk>
- Andi Shyti <andi@etezian.org> <andi.shyti@samsung.com>
+@@ -206,6 +206,8 @@ Tejun Heo <htejun@gmail.com>
+ Thomas Graf <tgraf@suug.ch>
+ Thomas Pedersen <twp@codeaurora.org>
+ Tony Luck <tony.luck@intel.com>
++TripleX Chung <xxx.phy@gmail.com> <zhongyu@18mail.cn>
++TripleX Chung <xxx.phy@gmail.com> <triplex@zh-kernel.org>
+ Tsuneo Yoshioka <Tsuneo.Yoshioka@f-secure.com>
+ Uwe Kleine-König <ukleinek@informatik.uni-freiburg.de>
+ Uwe Kleine-König <ukl@pengutronix.de>
 -- 
 2.19.1.856.g8858448bb
 
