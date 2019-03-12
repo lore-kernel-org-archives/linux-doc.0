@@ -1,140 +1,81 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 61D9A7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Mar 2019 01:45:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DC8E17D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Mar 2019 03:01:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726616AbfCLBpc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 11 Mar 2019 21:45:32 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:34030 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725932AbfCLBpb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Mar 2019 21:45:31 -0400
-Received: by mail-pf1-f195.google.com with SMTP id u9so615011pfn.1;
-        Mon, 11 Mar 2019 18:45:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=TfkFOI9Syjr0HfQxSUDH8FDRCp9ri4E/0CE66t2/jTs=;
-        b=eiuA49yf4iOB/MdhyItJu1hP8sM7PPoPi67M77GHGuIAUWisGp7zWOusep9INVq8Wv
-         OxuVW+OIAbCdb+YTQ2KdYmtpemFmDFolx0bA3N2dpKYFRiw872+gUG+GkjAOXwS8aLeC
-         FWIeFKkD60zsYB8AQ7j7ZGDfAtCMudu0811IWYgdZtHDhYO2EgFneG4xnm8aIrSOLEXF
-         GU8c6zE2falkoT9+YliqDuyhw9HTpX22Jb/MkmZ2RoIz9kCnYAefV8DFX9gwe0xrw4Zd
-         Vvknz/FXORMZwi2S1VE0NEagn8/UXBTYVMWI6Y/Bt/ofMG/h+Ix9CVgBNUDty8Erdgdp
-         jt/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=TfkFOI9Syjr0HfQxSUDH8FDRCp9ri4E/0CE66t2/jTs=;
-        b=Xhgz/rsiaZXZa4MdgVzW8oL0KSOP2+g51gPfbGfDpJ1kCW3MLH3tnasdroCW0nvnVs
-         kEtQcFvBaNDPITOC+YmAbtd4OwPcsYuZnBltJiq8lihaH2RmbEaH9IUfCaV1vRMutV0/
-         D0vuenJGF4Rqr+VYBL1M/XCnTHCbhVJlQYVWeR64BNvKB8RCfX5AE2zo1e5kjnYbzmeE
-         r4nBhakPWHCqi5fq9vZkt4akSdxzONSWIWvjNur849klO2be4bPkkyTxBTy5unSH9gX9
-         Roc5+9zAJbgkGQBW6U78Uiv9gYmvvUlyYhExbKfYE3MXZzbV2H0M3A3Li5qNrMjDcgzE
-         H48g==
-X-Gm-Message-State: APjAAAXGjF+Y5J6A84O+U65G1xurxLzdo+CNmcQHC6T68d62YpnX8w4F
-        4nnBEL38vTcMRr2QTiiMOmc=
-X-Google-Smtp-Source: APXvYqyutmyDjMr9Ok7C144/shMQ+f27dT4fHaKnSIbCHQS0MHn5iPDcPtOKWOKxnEcNQE984TA7Kg==
-X-Received: by 2002:a17:902:9a01:: with SMTP id v1mr31774767plp.34.1552355130187;
-        Mon, 11 Mar 2019 18:45:30 -0700 (PDT)
-Received: from ast-mbp ([2620:10d:c090:200::2:263e])
-        by smtp.gmail.com with ESMTPSA id b65sm15496395pfm.127.2019.03.11.18.45.28
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 11 Mar 2019 18:45:29 -0700 (PDT)
-Date:   Mon, 11 Mar 2019 18:45:24 -0700
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Joel Fernandes <joel@joelfernandes.org>,
-        Daniel Colascione <dancol@google.com>,
-        Karim Yaghmour <karim.yaghmour@opersys.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        atish patra <atishp04@gmail.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-trace-devel@vger.kernel.org,
-        Manoj Rao <linux@manojrajarao.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
-Subject: Re: [PATCH v4 1/2] Provide in-kernel headers for making it easy to
- extend the kernel
-Message-ID: <20190312014522.jfxg3pdav2piuaqs@ast-mbp>
-References: <20190309071648.GE3882@kroah.com>
- <CAMuHMdUT+UGt9p2QhOXzAtCUmqy-a8YN-ceDa-0qANJE53pWBA@mail.gmail.com>
- <20190309121141.GA30173@kroah.com>
- <b7296377-9e0c-aed7-61f0-93d24d1ceddd@opersys.com>
- <CAMuHMdV8+XTyGf1ZJ+gMf=zQpzqh3-+b7wgi+gAmXQ6HpUAw3A@mail.gmail.com>
- <3e84e1ef-e266-e983-5874-6c26ac7f38b8@opersys.com>
- <20190311193612.4f09bf11@oasis.local.home>
- <CAKOZuetHG0O-CiO6h5tD7aht_MT70ebwWMMSPkRUHdiM3wVq0Q@mail.gmail.com>
- <20190312003912.GA170478@google.com>
- <20190311212823.60684182@oasis.local.home>
+        id S1726534AbfCLDB6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Mar 2019 23:01:58 -0400
+Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:50217 "EHLO
+        out30-133.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726406AbfCLDB6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Mar 2019 23:01:58 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R681e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04397;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0TMWLtS1_1552359714;
+Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TMWLtS1_1552359714)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Tue, 12 Mar 2019 11:01:54 +0800
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+To:     corbet@lwn.net, harryxiyou@gmail.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
+        Li Zefan <lizefan@huawei.com>,
+        Shawn Guo <shawn.guo@linaro.org>,
+        Fengguang Wu <fengguang.wu@intel.com>,
+        Coly Li <colyli@suse.de>,
+        Federico Vaga <federico.vaga@vaga.pv.it>
+Subject: [PATCH v4 01/31] docs/zh_CN: add disclaimer file
+Date:   Tue, 12 Mar 2019 11:00:59 +0800
+Message-Id: <20190312030129.47511-2-alex.shi@linux.alibaba.com>
+X-Mailer: git-send-email 2.19.1.856.g8858448bb
+In-Reply-To: <20190312030129.47511-1-alex.shi@linux.alibaba.com>
+References: <20190312030129.47511-1-alex.shi@linux.alibaba.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190311212823.60684182@oasis.local.home>
-User-Agent: NeoMutt/20180223
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 11, 2019 at 09:28:23PM -0400, Steven Rostedt wrote:
-> On Mon, 11 Mar 2019 20:39:12 -0400
-> Joel Fernandes <joel@joelfernandes.org> wrote:
-> 
-> > I think even though the kernel-headers can't have information about all data
-> > structures, they do already contain a lot of data structure definitions we
-> > need already. And anything needed can/should arguably be moved to include/ if
-> > they are really needed for kernel extension by something "external" to the
-> > kernel such as kernel modules or eBPF, right?
-> 
-> That's not my worry. I would like to be able to easily walk data
-> structures from within the kernel, without having to do a lot of work
-> in userspace to get that information. The kprobe_events could then be
-> passed type casts or such to access data fields of arguments to
-> functions and such.
-> 
-> > 
-> > In any case, such a solution such as what Steve suggested, still cannot do
-> > what we can with headers - such as build kernel modules on the fly using the
-> > C-compiler without any auto-generation of C code from any debug artifiacts.
-> > Think systemtap working with the module-backend without any need for
-> > linux-headers package on the file system. So such a solution would still be a
-> > bit orthogonal in scope to what this proposed solution can solve IMO.
-> > 
-> 
-> With the information I would like to have, it would be trivial to read
-> the data to create the header files needed for modules.
+This a disclaimer file which will be included in Chinese files
+as header. To reduce the same common contents copy.
 
-what you're asking for we already have. It's called BTF.
-pahole takes vmlinux dwarf and convert it into ~1Mbyte of BTF that includes
-all kernel types.
-With gzip it can be compressed further if necessary.
-We also have a prototype to generate all_vmlinux_types.h from BTF.
-But it's not a substitute for kernel headers.
-We've had a long discussion during last LPC regarding this:
-http://vger.kernel.org/lpc-bpf2018.html#session-2
-tldr: many tracing use cases will be solved with BTF, but kernel headers
-are here to stay.
+Part of contents quoted from Federico Vaga's file:
+    Documentation/translations/it_IT/disclaimer-ita.rst.
+Thanks a lot!
+
+Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
+Cc: Harry Wei <harryxiyou@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Li Zefan <lizefan@huawei.com>
+Cc: Shawn Guo <shawn.guo@linaro.org>
+Cc: Fengguang Wu <fengguang.wu@intel.com>
+Cc: Coly Li <colyli@suse.de>
+Cc: Federico Vaga <federico.vaga@vaga.pv.it>
+---
+ Documentation/translations/zh_CN/disclaimer-zh_CN.rst | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/disclaimer-zh_CN.rst
+
+diff --git a/Documentation/translations/zh_CN/disclaimer-zh_CN.rst b/Documentation/translations/zh_CN/disclaimer-zh_CN.rst
+new file mode 100644
+index 000000000000..5934369b2606
+--- /dev/null
++++ b/Documentation/translations/zh_CN/disclaimer-zh_CN.rst
+@@ -0,0 +1,9 @@
++:orphan:
++
++.. warning::
++     此文件的目的是为让中文读者更容易阅读和理解，而不是作为一个分支。 因此，如果
++     您对此文件有任何意见或更新，请先尝试更新原始英文文件。
++
++.. note::
++     如果您发现本文档与原始文件有任何不同或者有翻译问题，请联系该文件的维护者，
++     或者请求时奎亮的帮助：<alex.shi@linux.alibaba.com>。
+-- 
+2.19.1.856.g8858448bb
 
