@@ -2,33 +2,30 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9B9A27D926
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Mar 2019 03:26:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0E3A97D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Mar 2019 03:27:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726966AbfCLD03 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 11 Mar 2019 23:26:29 -0400
-Received: from out30-43.freemail.mail.aliyun.com ([115.124.30.43]:35097 "EHLO
-        out30-43.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726923AbfCLD02 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Mar 2019 23:26:28 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04428;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0TMWPgfe_1552361140;
-Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TMWPgfe_1552361140)
+        id S1727112AbfCLDZr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 11 Mar 2019 23:25:47 -0400
+Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:44613 "EHLO
+        out30-45.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727092AbfCLDZq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Mar 2019 23:25:46 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e07488;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0TMWPgg5_1552361143;
+Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TMWPgg5_1552361143)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Tue, 12 Mar 2019 11:25:40 +0800
+          Tue, 12 Mar 2019 11:25:43 +0800
 From:   Alex Shi <alex.shi@linux.alibaba.com>
 To:     corbet@lwn.net, harryxiyou@gmail.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
-        TripleX Chung <xxx.phy@gmail.com>,
-        Li Zefan <lizefan@huawei.com>,
-        Shawn Guo <shawn.guo@linaro.org>,
-        Fengguang Wu <fengguang.wu@intel.com>, Coly Li <colyli@suse.de>
-Subject: [PATCH v4 20/31] docs/zh_CN: format stable-api-nonsense
-Date:   Tue, 12 Mar 2019 11:24:49 +0800
-Message-Id: <20190312032501.62056-21-alex.shi@linux.alibaba.com>
+        Zhang Wei <wezhang@outlook.com>, Li Yang <leoyang.li@nxp.com>
+Subject: [PATCH v4 23/31] docs/zh_CN: update Zhang Wei's email address
+Date:   Tue, 12 Mar 2019 11:24:52 +0800
+Message-Id: <20190312032501.62056-24-alex.shi@linux.alibaba.com>
 X-Mailer: git-send-email 2.19.1.856.g8858448bb
 In-Reply-To: <20190312032501.62056-1-alex.shi@linux.alibaba.com>
 References: <20190312032501.62056-1-alex.shi@linux.alibaba.com>
@@ -40,83 +37,29 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-to make it follow rst format and readble in html etc doc making.
+to replace the obsolete email address with new one.
 
 Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
-Cc: Harry Wei <harryxiyou@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: TripleX Chung <xxx.phy@gmail.com>
-Cc: Li Zefan <lizefan@huawei.com>
-Cc: Shawn Guo <shawn.guo@linaro.org>
-Cc: Fengguang Wu <fengguang.wu@intel.com>
-Cc: Coly Li <colyli@suse.de>
+Cc: Zhang Wei <wezhang@outlook.com>
+Cc: Li Yang <leoyang.li@nxp.com>
 Signed-off-by: Weiwei Jia <harryxiyou@gmail.com>
 ---
- .../zh_CN/process/stable-api-nonsense.rst     | 34 ++++++++-----------
- 1 file changed, 15 insertions(+), 19 deletions(-)
+ Documentation/translations/zh_CN/process/submitting-drivers.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/translations/zh_CN/process/stable-api-nonsense.rst b/Documentation/translations/zh_CN/process/stable-api-nonsense.rst
-index a2b27fab382c..e97bcf5c44ce 100644
---- a/Documentation/translations/zh_CN/process/stable-api-nonsense.rst
-+++ b/Documentation/translations/zh_CN/process/stable-api-nonsense.rst
-@@ -1,26 +1,21 @@
--Chinese translated version of Documentation/process/stable-api-nonsense.rst
-+.. _cn_stable_api_nonsense:
+diff --git a/Documentation/translations/zh_CN/process/submitting-drivers.rst b/Documentation/translations/zh_CN/process/submitting-drivers.rst
+index fade72515b04..43c0e4530362 100644
+--- a/Documentation/translations/zh_CN/process/submitting-drivers.rst
++++ b/Documentation/translations/zh_CN/process/submitting-drivers.rst
+@@ -13,7 +13,7 @@
+         中文版翻译者： 李阳  Li Yang <leoyang.li@nxp.com>
+         中文版校译者： 陈琦 Maggie Chen <chenqi@beyondsoft.com>
+                        王聪 Wang Cong <xiyou.wangcong@gmail.com>
+-                       张巍 Zhang Wei <Wei.Zhang@freescale.com>
++                       张巍 Zhang Wei <wezhang@outlook.com>
  
--If you have any comment or update to the content, please contact the
--original document maintainer directly.  However, if you have problem
--communicating in English you can also ask the Chinese maintainer for help.
--Contact the Chinese maintainer, if this translation is outdated or there
--is problem with translation.
-+.. include:: ../disclaimer-zh_CN.rst
- 
--Maintainer: Greg Kroah-Hartman <greg@kroah.com>
--Chinese maintainer: TripleX Chung <zhongyu@18mail.cn>
-----------------------------------------------------------------------
--Documentation/process/stable-api-nonsense.rst 的中文翻译
-+:Original: :ref:`Documentation/process/stable-api-nonsense.rst
-+           <stable_api_nonsense>`
- 
- 如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
- 交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
--译存在问题，请联系中文版维护者。
-+译存在问题，请联系中文版维护者::
- 
--英文版维护者： Greg Kroah-Hartman <greg@kroah.com>
--中文版维护者： 钟宇  TripleX Chung <zhongyu@18mail.cn>
--中文版翻译者： 钟宇  TripleX Chung <zhongyu@18mail.cn>
--中文版校译者： 李阳  Li Yang <leoli@freescale.com>
--以下为正文
-----------------------------------------------------------------------
-+        英文版维护者： Greg Kroah-Hartman <greg@kroah.com>
-+        中文版维护者： 钟宇  TripleX Chung <zhongyu@18mail.cn>
-+        中文版翻译者： 钟宇  TripleX Chung <zhongyu@18mail.cn>
-+        中文版校译者： 李阳  Li Yang <leoli@freescale.com>
-+
-+Linux 内核驱动接口
-+==================
- 
- 写作本文档的目的，是为了解释为什么Linux既没有二进制内核接口，也没有稳定
- 的内核接口。这里所说的内核接口，是指内核里的接口，而不是内核和用户空间
-@@ -124,7 +119,7 @@ Linux能成为强壮，稳定，成熟的操作系统，这也是你最开始选
- 
- 
- 要做什么
---------
-+--------
- 
- 如果你写了一个Linux内核驱动，但是它还不在Linux源代码树里，作为一个开发
- 者，你应该怎么做？为每个发布的每个版本提供一个二进制驱动，那简直是一个
-@@ -150,7 +145,8 @@ Linux能成为强壮，稳定，成熟的操作系统，这也是你最开始选
- 同体系结构的处理器上支持这些设备。这个经过考验的开发模式，必然是错不了
- 的 :)
- 
---------------
-+感谢
-+----
- 感谢 Randy Dunlap, Andrew Morton, David Brownell, Hanna Linder,
- Robert Love, and Nishanth Aravamudan 对于本文档早期版本的评审和建议。
- 
+ 如何向 Linux 内核提交驱动程序
+ =============================
 -- 
 2.19.1.856.g8858448bb
 
