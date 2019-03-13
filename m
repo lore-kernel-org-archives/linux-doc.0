@@ -2,62 +2,117 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 622787D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Mar 2019 13:55:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 33D4B7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Mar 2019 15:51:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726755AbfCMNz1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 13 Mar 2019 09:55:27 -0400
-Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:40424 "EHLO
-        out30-133.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726579AbfCMNz0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Mar 2019 09:55:26 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04428;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0TMdUTbU_1552485027;
-Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TMdUTbU_1552485027)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 13 Mar 2019 21:50:27 +0800
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-To:     corbet@lwn.net, harryxiyou@gmail.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
-        Li Zefan <lizefan@huawei.com>,
-        Shawn Guo <shawn.guo@linaro.org>,
-        Fengguang Wu <fengguang.wu@intel.com>, Coly Li <colyli@suse.de>
-Subject: [PATCH v5 17/31] docs/zh_CN: rename magic-numbers as rst doc
-Date:   Wed, 13 Mar 2019 21:49:47 +0800
-Message-Id: <20190313135001.260905-18-alex.shi@linux.alibaba.com>
-X-Mailer: git-send-email 2.19.1.856.g8858448bb
-In-Reply-To: <20190313135001.260905-1-alex.shi@linux.alibaba.com>
-References: <20190313135001.260905-1-alex.shi@linux.alibaba.com>
+        id S1726284AbfCMPvT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 13 Mar 2019 11:51:19 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:18511 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725856AbfCMPvT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Mar 2019 11:51:19 -0400
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+        by mx08-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x2DFk4QD027588;
+        Wed, 13 Mar 2019 16:51:02 +0100
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx08-00178001.pphosted.com with ESMTP id 2r71mb959h-1
+        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
+        Wed, 13 Mar 2019 16:51:02 +0100
+Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id DA69738;
+        Wed, 13 Mar 2019 15:51:00 +0000 (GMT)
+Received: from Webmail-eu.st.com (Safex1hubcas23.st.com [10.75.90.46])
+        by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id A3DF853F0;
+        Wed, 13 Mar 2019 15:51:00 +0000 (GMT)
+Received: from SAFEX1HUBCAS22.st.com (10.75.90.93) by SAFEX1HUBCAS23.st.com
+ (10.75.90.46) with Microsoft SMTP Server (TLS) id 14.3.435.0; Wed, 13 Mar
+ 2019 16:51:00 +0100
+Received: from localhost (10.201.23.25) by Webmail-ga.st.com (10.75.90.48)
+ with Microsoft SMTP Server (TLS) id 14.3.361.1; Wed, 13 Mar 2019 16:51:00
+ +0100
+From:   Fabien Dessenne <fabien.dessenne@st.com>
+To:     Ohad Ben-Cohen <ohad@wizery.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        <linux-remoteproc@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>
+CC:     Fabien Dessenne <fabien.dessenne@st.com>,
+        Benjamin Gaignard <benjamin.gaignard@st.com>
+Subject: [PATCH 0/6] hwspinlock: allow sharing of hwspinlocks
+Date:   Wed, 13 Mar 2019 16:50:31 +0100
+Message-ID: <1552492237-28810-1-git-send-email-fabien.dessenne@st.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.201.23.25]
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-03-13_09:,,
+ signatures=0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-to Make it available in html etc doc making
+The current implementation does not allow two different devices to use
+a common hwspinlock. This patch set proposes to have, as an option, some
+hwspinlocks shared between several users.
 
-Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
-Cc: Harry Wei <harryxiyou@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Jia Wei Wei <harryxiyou@gmail.com>
-Cc: Li Zefan <lizefan@huawei.com>
-Cc: Shawn Guo <shawn.guo@linaro.org>
-Cc: Fengguang Wu <fengguang.wu@intel.com>
-Cc: Coly Li <colyli@suse.de>
-Signed-off-by: Weiwei Jia <harryxiyou@gmail.com>
----
- .../zh_CN/process/{magic-number.txt => magic-number.rst}          | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- rename Documentation/translations/zh_CN/process/{magic-number.txt => magic-number.rst} (100%)
+Below is an example that explain the need for this:
+	exti: interrupt-controller@5000d000 {
+		compatible = "st,stm32mp1-exti", "syscon";
+		interrupt-controller;
+		#interrupt-cells = <2>;
+		reg = <0x5000d000 0x400>;
+		hwlocks = <&hsem 1>;
+	};
+The two drivers (stm32mp1-exti and syscon) refer to the same hwlock.
+With the current hwspinlock implementation, only the first driver succeeds
+in requesting (hwspin_lock_request_specific) the hwlock. The second request
+fails.
 
-diff --git a/Documentation/translations/zh_CN/process/magic-number.txt b/Documentation/translations/zh_CN/process/magic-number.rst
-similarity index 100%
-rename from Documentation/translations/zh_CN/process/magic-number.txt
-rename to Documentation/translations/zh_CN/process/magic-number.rst
+
+The proposed approach does not modify the API, but extends the DT 'hwlocks'
+property with a second optional parameter (the first one identifies an
+hwlock) that specifies whether an hwlock is requested for exclusive usage
+(current behavior) or can be shared between several users.
+Examples:
+	hwlocks = <&hsem 8>;	Ref to hwlock #8 for exclusive usage
+	hwlocks = <&hsem 8 0>;	Ref to hwlock #8 for exclusive (0) usage
+	hwlocks = <&hsem 8 1>;	Ref to hwlock #8 for shared (1) usage
+
+As a constraint, the #hwlock-cells value must be 1 or 2.
+In the current implementation, this can have theorically any value but:
+- all of the exisiting drivers use the same value : 1.
+- the framework supports only one value : 1 (see implementation of
+  of_hwspin_lock_simple_xlate())
+Hence, it shall not be a problem to restrict this value to 1 or 2 since
+it won't break any driver.
+
+Fabien Dessenne (6):
+  dt-bindings: hwlock: add support of shared locks
+  hwspinlock: allow sharing of hwspinlocks
+  dt-bindings: hwlock: update STM32 #hwlock-cells value
+  ARM: dts: stm32: Add hwspinlock node for stm32mp157 SoC
+  ARM: dts: stm32: Add hwlock for irqchip on stm32mp157
+  ARM: dts: stm32: hwlocks for GPIO for stm32mp157
+
+ .../devicetree/bindings/hwlock/hwlock.txt          | 27 +++++--
+ .../bindings/hwlock/st,stm32-hwspinlock.txt        |  6 +-
+ Documentation/hwspinlock.txt                       | 10 ++-
+ arch/arm/boot/dts/stm32mp157-pinctrl.dtsi          |  2 +
+ arch/arm/boot/dts/stm32mp157c.dtsi                 | 10 +++
+ drivers/hwspinlock/hwspinlock_core.c               | 82 +++++++++++++++++-----
+ drivers/hwspinlock/hwspinlock_internal.h           |  2 +
+ 7 files changed, 108 insertions(+), 31 deletions(-)
+
 -- 
-2.19.1.856.g8858448bb
+2.7.4
 
