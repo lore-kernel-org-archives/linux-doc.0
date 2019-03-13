@@ -2,98 +2,61 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 263277D08A
+	by archive.lwn.net (Postfix) with ESMTP id 667A47D919
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Mar 2019 13:51:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726865AbfCMNup (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 13 Mar 2019 09:50:45 -0400
-Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:34938 "EHLO
-        out30-54.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726656AbfCMNuo (ORCPT
+        id S1727130AbfCMNvD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 13 Mar 2019 09:51:03 -0400
+Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130]:34698 "EHLO
+        out30-130.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726847AbfCMNuo (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Mar 2019 09:50:44 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R771e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e01424;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0TMdPcMd_1552485033;
-Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TMdPcMd_1552485033)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04396;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0TMd8Cs6_1552485023;
+Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TMd8Cs6_1552485023)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 13 Mar 2019 21:50:34 +0800
+          Wed, 13 Mar 2019 21:50:23 +0800
 From:   Alex Shi <alex.shi@linux.alibaba.com>
 To:     corbet@lwn.net, harryxiyou@gmail.com, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
-        TripleX Chung <xxx.phy@gmail.com>, Li Yang <leoyang.li@nxp.com>
-Subject: [PATCH v5 25/31] docs/zh_CN: update TripleX chung's email address
-Date:   Wed, 13 Mar 2019 21:49:55 +0800
-Message-Id: <20190313135001.260905-26-alex.shi@linux.alibaba.com>
+        Li Zefan <lizefan@huawei.com>,
+        Shawn Guo <shawn.guo@linaro.org>,
+        Fengguang Wu <fengguang.wu@intel.com>, Coly Li <colyli@suse.de>
+Subject: [PATCH v5 11/31] docs/zh_CN: rename email-clients.txt as email-clients.rst
+Date:   Wed, 13 Mar 2019 21:49:41 +0800
+Message-Id: <20190313135001.260905-12-alex.shi@linux.alibaba.com>
 X-Mailer: git-send-email 2.19.1.856.g8858448bb
 In-Reply-To: <20190313135001.260905-1-alex.shi@linux.alibaba.com>
 References: <20190313135001.260905-1-alex.shi@linux.alibaba.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update the obslete email address to active one in Chineses docs.
+Make it available for html etc docs.
 
 Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
-Cc: TripleX Chung <xxx.phy@gmail.com>
-Cc: Li Yang <leoyang.li@nxp.com>
+Cc: Harry Wei <harryxiyou@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Li Zefan <lizefan@huawei.com>
+Cc: Shawn Guo <shawn.guo@linaro.org>
+Cc: Fengguang Wu <fengguang.wu@intel.com>
+Cc: Coly Li <colyli@suse.de>
 Signed-off-by: Weiwei Jia <harryxiyou@gmail.com>
 ---
- .../translations/zh_CN/process/stable-api-nonsense.rst        | 4 ++--
- .../translations/zh_CN/process/stable-kernel-rules.rst        | 4 ++--
- .../translations/zh_CN/process/submitting-patches.rst         | 4 ++--
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ .../zh_CN/process/{email-clients.txt => email-clients.rst}        | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename Documentation/translations/zh_CN/process/{email-clients.txt => email-clients.rst} (100%)
 
-diff --git a/Documentation/translations/zh_CN/process/stable-api-nonsense.rst b/Documentation/translations/zh_CN/process/stable-api-nonsense.rst
-index f11829429000..42d974e6dc35 100644
---- a/Documentation/translations/zh_CN/process/stable-api-nonsense.rst
-+++ b/Documentation/translations/zh_CN/process/stable-api-nonsense.rst
-@@ -10,8 +10,8 @@
- 译存在问题，请联系中文版维护者::
- 
-         英文版维护者： Greg Kroah-Hartman <greg@kroah.com>
--        中文版维护者： 钟宇  TripleX Chung <zhongyu@18mail.cn>
--        中文版翻译者： 钟宇  TripleX Chung <zhongyu@18mail.cn>
-+        中文版维护者： 钟宇  TripleX Chung <xxx.phy@gmail.com>
-+        中文版翻译者： 钟宇  TripleX Chung <xxx.phy@gmail.com>
-         中文版校译者： 李阳  Li Yang <leoyang.li@nxp.com>
- 
- Linux 内核驱动接口
-diff --git a/Documentation/translations/zh_CN/process/stable-kernel-rules.rst b/Documentation/translations/zh_CN/process/stable-kernel-rules.rst
-index 3d5a10dfc1ae..fb048c42ae48 100644
---- a/Documentation/translations/zh_CN/process/stable-kernel-rules.rst
-+++ b/Documentation/translations/zh_CN/process/stable-kernel-rules.rst
-@@ -8,8 +8,8 @@
- 交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
- 译存在问题，请联系中文版维护者::
- 
--        中文版维护者： 钟宇  TripleX Chung <triplex@zh-kernel.org>
--        中文版翻译者： 钟宇  TripleX Chung <triplex@zh-kernel.org>
-+        中文版维护者： 钟宇  TripleX Chung <xxx.phy@gmail.com>
-+        中文版翻译者： 钟宇  TripleX Chung <xxx.phy@gmail.com>
-         中文版校译者：
-             - 李阳  Li Yang <leoyang.li@nxp.com>
-             - Kangkai Yin <e12051@motorola.com>
-diff --git a/Documentation/translations/zh_CN/process/submitting-patches.rst b/Documentation/translations/zh_CN/process/submitting-patches.rst
-index 54d2d45e27df..47cdca62cfa2 100644
---- a/Documentation/translations/zh_CN/process/submitting-patches.rst
-+++ b/Documentation/translations/zh_CN/process/submitting-patches.rst
-@@ -8,8 +8,8 @@
- 交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
- 译存在问题，请联系中文版维护者::
- 
--        中文版维护者： 钟宇 TripleX Chung <triplex@zh-kernel.org>
--        中文版翻译者： 钟宇 TripleX Chung <triplex@zh-kernel.org>
-+        中文版维护者： 钟宇 TripleX Chung <xxx.phy@gmail.com>
-+        中文版翻译者： 钟宇 TripleX Chung <xxx.phy@gmail.com>
-         中文版校译者： 李阳 Li Yang <leoyang.li@nxp.com>
-                        王聪 Wang Cong <xiyou.wangcong@gmail.com>
- 
+diff --git a/Documentation/translations/zh_CN/process/email-clients.txt b/Documentation/translations/zh_CN/process/email-clients.rst
+similarity index 100%
+rename from Documentation/translations/zh_CN/process/email-clients.txt
+rename to Documentation/translations/zh_CN/process/email-clients.rst
 -- 
 2.19.1.856.g8858448bb
 
