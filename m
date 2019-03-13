@@ -6,51 +6,50 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1CCE47D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Mar 2019 17:13:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 64E497D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Mar 2019 18:44:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725907AbfCMRNO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 13 Mar 2019 13:13:14 -0400
-Received: from mail-ua1-f68.google.com ([209.85.222.68]:46161 "EHLO
-        mail-ua1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725876AbfCMRNO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Mar 2019 13:13:14 -0400
-Received: by mail-ua1-f68.google.com with SMTP id j8so908901uae.13;
-        Wed, 13 Mar 2019 10:13:13 -0700 (PDT)
+        id S1726790AbfCMSoE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 13 Mar 2019 14:44:04 -0400
+Received: from mail-yw1-f67.google.com ([209.85.161.67]:44397 "EHLO
+        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726328AbfCMSoD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Mar 2019 14:44:03 -0400
+Received: by mail-yw1-f67.google.com with SMTP id c4so2300166ywa.11;
+        Wed, 13 Mar 2019 11:44:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc:content-transfer-encoding;
-        bh=kXy7pWVvSBPkLBkLdnnEGMC/jLVwqYZKCq6h+IqR2zk=;
-        b=aM7/xXHJP71A6Vz9iTzIqrqz354zb56ykSBJy5E/W+iViyZGB6Zi+I34B7X85s7/VO
-         sxAipeLBD9pS7OPiN0cqzAe9Aw94Tfyoet0h9i33ZuHQNozSJ+X6wpGEK45wxKRVznWl
-         Ta7JwHxribKeenUJlv+QnU7NtGtFOiCdinnD1FLuHjaQfMV5DHaTmieq1oo2cGrz5rIn
-         B3omrvxmC3pFBo/W5CJOwX2n5QQ2s/jHzK57KfIR+xiOtdPTxb0VTtQmE/VHqvs7dP1o
-         VCEy+rx6w3gWrPf+Qx4iVqhzZxZSIC8taUstWKUwQQyNDiUIxT9IYwC1SAU2NNyC9Ecx
-         0Mcw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=wDPJou7n9eZnEuTgCRLwIxyZrDEA7Ho02uV936w8vzk=;
+        b=ihRxuCLGzrbIm9Z40N0Z+8L2vnZs4vy2ZFywOoqrsgGeRb2/FL2M/TeR5YXmRmvPcB
+         8/MKtXoCT78LjA4Dwo1z4X6M6WRLGYLIpVEKGLHUCspzQ4zDQKDjMpWpEOUH+YaLd+r3
+         uMOSKzcFExdrrR+rx8ACfRFS3a31+NGaPjK1UWYjiQSDewgnnpWQ1m+Cd7K4GtTZH18M
+         XTj6MmABt26YICAqcO37SS4RDSe7JA/zEsuMLZ0p7WNmgdmMKdXHoEA/kDP0+YH0LjkC
+         hv1PUedFoJdY/DIfyHhQiO9VG4kRGw15lz0SA8nd0zulk+BACXCUB/1E0IIPsMXEz1Al
+         r61Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc:content-transfer-encoding;
-        bh=kXy7pWVvSBPkLBkLdnnEGMC/jLVwqYZKCq6h+IqR2zk=;
-        b=DO7Wk/Pa6gd6rR+kAU4QCABitlye36uNVXApnkC4w6XjCZAQ/CPpsUDnO/h6XvWUyV
-         WpyccTb3tw4wWqTKh4flIVYKjGKrDyXkMsM+n1BpwWrc8ZuDeL5bGWDkrOIZ/vKaESgI
-         nz2c062ylZgiPPXlVlqWz1/bVg4a7lWIdsL/DYdwwiyw0hjxE4DdE2dAQpWzsbKoMSS4
-         iy5pMONXThcMUSsxeQjR+VEasJZ5RKE5Ps/XW7t4hmtJNSMCyazzGo6lfVq2YJwTO/hS
-         LXY5NSZz1IZGYm0JJZbHiysXNJ6k08VDLn92ZHTFVQNSHE/kyEiGlmVwU1RDyHAvOZEU
-         /xGg==
-X-Gm-Message-State: APjAAAUmJQiuwFZ0R+MrT/GCvFpqyHXpsdZSKuke3gM0kU36WEtA5h7Q
-        bRsAQH5VsBx8qugqfKJLXvhYe9ZOwmmXANxDH+w=
-X-Google-Smtp-Source: APXvYqwQ64VLenDpW1P6APnmxR8QAQer9q+5x4VKQW2KZtlN/LqU134hGq/tX2pXqxxHVd8+NN9MGeGa0wPcYHNhyek=
-X-Received: by 2002:a9f:2606:: with SMTP id 6mr1332399uag.137.1552497192398;
- Wed, 13 Mar 2019 10:13:12 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=wDPJou7n9eZnEuTgCRLwIxyZrDEA7Ho02uV936w8vzk=;
+        b=eCEKR1Y6mNPcE4xBbxNQoDshERv5t/nxJ7Zi2JBReeTnZ3PI6P7WnYy/lAUS8we1bR
+         7BMsi6sOlNKAp9Zh2PtUZ63azWpoj53y1QuW8DesG8PxgkX+7sAp6XG2VHqTaQ8/NOXj
+         apAYkkhzf3sBlg+mXERBzsRTx6EH28WMDtdmMYp+LI3m4KhF6RSkuMqTPHemzZOyghZx
+         MnWM62JkPj1i6nthJL3rj3PsmcNsTP8ajsq6MMZIuPsS36LlgLEZbjUnwau/+Vix5ckH
+         5ESdHnnvc3u6FgY+mwDqG0B1FBoGl7n+pZXk6igHSuFFdWKeNgpmNHqEqcuIrZP3HBZ5
+         IM+g==
+X-Gm-Message-State: APjAAAVLu5F3OTxBaZ9c1orIam7cPS4UKWky/Q8V/hBPGIDE7rbu5OoD
+        H8kUpQZAxDrFqGm4L2lM6143LWdMQqAVJBzrwJ8=
+X-Google-Smtp-Source: APXvYqyQo8b624L/EgRU1oENPaATr0c1bQvMX+62e7G/lUib+oPngg6Y4xsozObbUCzRcgQhbOoMjEw917AeG5aiEGo=
+X-Received: by 2002:a0d:fc05:: with SMTP id m5mr35874617ywf.404.1552502642216;
+ Wed, 13 Mar 2019 11:44:02 -0700 (PDT)
 MIME-Version: 1.0
 References: <1552418820-18102-1-git-send-email-jaya@cs.utexas.edu>
 In-Reply-To: <1552418820-18102-1-git-send-email-jaya@cs.utexas.edu>
-Reply-To: fdmanana@gmail.com
-From:   Filipe Manana <fdmanana@gmail.com>
-Date:   Wed, 13 Mar 2019 17:13:01 +0000
-Message-ID: <CAL3q7H5MVg5wrAkX16XzZ3P7Z2qYQNq53LvJq5ie5wQMZRVdRA@mail.gmail.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Wed, 13 Mar 2019 20:43:51 +0200
+Message-ID: <CAOQ4uxgw2VOzVtyKQmnPrxqPbFWRV0DNzqaywxgQQXCNsB+tKw@mail.gmail.com>
 Subject: Re: [PATCH v2] Documenting the crash-recovery guarantees of Linux
  file systems
 To:     Jayashree <jaya@cs.utexas.edu>
@@ -58,9 +57,9 @@ Cc:     fstests <fstests@vger.kernel.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         linux-doc@vger.kernel.org,
         Vijaychidambaram Velayudhan Pillai <vijay@cs.utexas.edu>,
-        Amir Goldstein <amir73il@gmail.com>,
         Theodore Tso <tytso@mit.edu>, chao@kernel.org,
         Dave Chinner <david@fromorbit.com>,
+        Filipe Manana <fdmanana@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -69,7 +68,7 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 12, 2019 at 7:27 PM Jayashree <jaya@cs.utexas.edu> wrote:
+On Tue, Mar 12, 2019 at 9:27 PM Jayashree <jaya@cs.utexas.edu> wrote:
 >
 > In this file, we document the crash-recovery guarantees
 > provided by four Linux file systems - xfs, ext4, F2FS and btrfs. We also
@@ -77,19 +76,24 @@ On Tue, Mar 12, 2019 at 7:27 PM Jayashree <jaya@cs.utexas.edu> wrote:
 > (SOMC), which is provided by xfs. It is not clear to us if other file sys=
 tems
 > provide SOMC.
+
+I think your document already claims that f2fs is SOMC, so better
+update commit message.
+
+FWIW, it is clear that ext4 also provides SOMC, because
+all metadata is journalled on a single linear transaction journal.
+Compared to xfs, an fsync on any dirty object is likely to flush
+even more metadata.
+
+It'd be a pitty to merge this document without Ted's ACK
+on the SOMC claim for ext4.
+
+Thanks,
+Amir.
+
 >
 > Signed-off-by: Jayashree Mohan <jaya@cs.utexas.edu>
 > Reviewed-by: Amir Goldstein <amir73il@gmail.com>
-
-Mostly for the Btrfs part:
-
-Reviewed-by: Filipe Manana <fdmanana@suse.com>
-
-Nit: you can have lines up to 80 characters, many of them are
-significantly and unnecessarily smaller than that.
-
-Thanks for writing this document.
-
 > ---
 >
 > We would be happy to modify the document if file-system
@@ -326,10 +330,3 @@ de
 > --
 > 2.7.4
 >
-
-
---=20
-Filipe David Manana,
-
-=E2=80=9CWhether you think you can, or you think you can't =E2=80=94 you're=
- right.=E2=80=9D
