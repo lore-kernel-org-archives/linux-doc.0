@@ -1,96 +1,136 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 89C4D7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 12 Mar 2019 22:52:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CC2BD7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Mar 2019 01:19:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726485AbfCLWwm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 12 Mar 2019 18:52:42 -0400
-Received: from mail-pf1-f182.google.com ([209.85.210.182]:37710 "EHLO
-        mail-pf1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726284AbfCLWwl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Mar 2019 18:52:41 -0400
-Received: by mail-pf1-f182.google.com with SMTP id s22so2894778pfh.4;
-        Tue, 12 Mar 2019 15:52:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=+zjiX7dOtnqO9UeNMZu2JA3zDMs2qfAVu5ZR9QhVnv0=;
-        b=CwpRD2WBh6ImOBttJmjaQ6xd65jEySj+i9SscKgjn2/Ecz8/s7lNJqgP1EFf8Y8Y8i
-         1au4+GqVMtpg9zRNyWQJ0Rwpg/+6HV8u/U48fZgx8D3v2VJTJplAyHKcbjfZxLIVtCtv
-         MNcudi/dlzPIfr/dNR37TArT9Aul6XngNUbL8VYJSbMJE8Yn3FZultQjEgLXLAIHEheX
-         Xj/tN8aohi6bPl8ax05HhxLZFXYXF6OLZtJFh1ojRb6uK+4KtSnES1ERY/V3lCvtZoGI
-         dWRZjWxG0dTTjqeSOW9eWDYHmtp8YDTzkxGzHAx4+PGHPuYAQ+fuRww2uH6amqmDCS6T
-         HVBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=+zjiX7dOtnqO9UeNMZu2JA3zDMs2qfAVu5ZR9QhVnv0=;
-        b=dMNdbp8yXgN2jZgRc+g9xhm6h+5Hz9peG9dc5EUqWUkArMH5wOkE6x+DecoO7PERS9
-         nuWdKCbPYLknjDLEX2z7J+nN9cvd+bgJP02TJT6WFmuOXMlpH/EREcBJxXQIqUvxRZ5o
-         DE48iuL2GJ1nHCTOB4413XM9b0xOG/Ed0XCqu9kowserZS2XqAUr1pboudfNUVelQB0r
-         jv9wq1jt1fd+Q4Ss8aCqqDrAqMGzubgDihMxErwhMXqjjklKqslk6J6R6ODF1jETW1pD
-         6AyyTqOcSLU/wV+/vgAtSB3TXXFnwVA8HQTKqvfR7NLJMuKZyVPu7Xm+GD6JIC4Av5gW
-         QnVQ==
-X-Gm-Message-State: APjAAAWcMnTsTaz57iTF4yh3Deo9pni3nqDpQzIAhitXmZ+5k/7D/jcH
-        HcTKWedypsbbbagSvYmaeSI=
-X-Google-Smtp-Source: APXvYqwElSqzB4gY7GckAYy0OVzp4EHhTGx2s6uK48eapKEdHYk0dNxiS3hOqbHk2ABjmw8QOXhDvA==
-X-Received: by 2002:a17:902:6942:: with SMTP id k2mr41828274plt.136.1552431160955;
-        Tue, 12 Mar 2019 15:52:40 -0700 (PDT)
-Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
-        by smtp.gmail.com with ESMTPSA id i72sm27345363pfj.147.2019.03.12.15.52.40
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 12 Mar 2019 15:52:40 -0700 (PDT)
-Date:   Tue, 12 Mar 2019 15:52:36 -0700
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     jdelvare@suse.com, linux-hwmon@vger.kernel.org,
-        linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] hwmon: (ina3221) Add averaging mode support
-Message-ID: <20190312225235.GA29097@Asurada-Nvidia.nvidia.com>
-References: <20190312220431.26710-1-nicoleotsuka@gmail.com>
- <20190312223759.GA31590@roeck-us.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190312223759.GA31590@roeck-us.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        id S1726426AbfCMBSx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 12 Mar 2019 21:18:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33996 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725917AbfCMBSx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 12 Mar 2019 21:18:53 -0400
+Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id F11BD2171F;
+        Wed, 13 Mar 2019 01:18:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1552439931;
+        bh=RgwH5rsy0vHUZudERZYU4v2QMra3BIv3Y4JztssEOfI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=2FUb4f4eniif1ed390uE14DJr2XNeFbFI6ozTKH6nUU2Okzjs4mKdxuxVM2Hlc8DY
+         cn6dnyAn05FsLCL2LwlZDgSPBnssJe05KU05Z5tCIGPGTSowoI3pWW96NwOPI43dLE
+         MpkhFhAQJWDVW7jRv29shlEtDY7RyqAN/uiGmCrc=
+Date:   Wed, 13 Mar 2019 10:18:43 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Joel Fernandes <joelaf@google.com>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Daniel Colascione <dancol@google.com>,
+        Karim Yaghmour <karim.yaghmour@opersys.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        atish patra <atishp04@gmail.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-trace-devel@vger.kernel.org,
+        Manoj Rao <linux@manojrajarao.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Qais Yousef <qais.yousef@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
+Subject: Re: [PATCH v4 1/2] Provide in-kernel headers for making it easy to
+ extend the kernel
+Message-Id: <20190313101843.800dd8d6a9babb635580ebdc@kernel.org>
+In-Reply-To: <CAJWu+oqsD_wHGWfzj6POFowiY2qcu04auVzkA6Lu9R+LR4gkrQ@mail.gmail.com>
+References: <20190308140251.GC25768@kroah.com>
+        <CAMuHMdUmnrJtu8bBeUgtiU6y_TLHM27z1WxpPia4dXMpApeijw@mail.gmail.com>
+        <20190309071648.GE3882@kroah.com>
+        <CAMuHMdUT+UGt9p2QhOXzAtCUmqy-a8YN-ceDa-0qANJE53pWBA@mail.gmail.com>
+        <20190309121141.GA30173@kroah.com>
+        <b7296377-9e0c-aed7-61f0-93d24d1ceddd@opersys.com>
+        <CAMuHMdV8+XTyGf1ZJ+gMf=zQpzqh3-+b7wgi+gAmXQ6HpUAw3A@mail.gmail.com>
+        <3e84e1ef-e266-e983-5874-6c26ac7f38b8@opersys.com>
+        <20190311193612.4f09bf11@oasis.local.home>
+        <CAKOZuetHG0O-CiO6h5tD7aht_MT70ebwWMMSPkRUHdiM3wVq0Q@mail.gmail.com>
+        <20190312003912.GA170478@google.com>
+        <20190311212823.60684182@oasis.local.home>
+        <CAJWu+oqsD_wHGWfzj6POFowiY2qcu04auVzkA6Lu9R+LR4gkrQ@mail.gmail.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 12, 2019 at 03:37:59PM -0700, Guenter Roeck wrote:
-> > +average                 Averaging mode. Supports the list of number of samples:
-> > +                          1, 4, 16, 64, 128, 256, 512, 1024
-> 
-> This is the number of samples, so I think "samples" would be a better
-> attribute name. This would also avoid confusion with other _average
-> attributes.
-> 
-> I'll need to check with other chips if this is the best approach and
-> name for the attribute, especially to see if it should be chip-wide
-> or per sensor.
+On Mon, 11 Mar 2019 18:38:49 -0700
+Joel Fernandes <joelaf@google.com> wrote:
 
-Will wait for that then. Another thing is that the conversion times
-are also configurable. And I plan to use the update_interval in the
-ABI once this average is added. This means that average value will
-be changed via this 'average' node (or other name), and conversion
-times will be changed via the 'update_interval' node by following
-the formula: update_interval = channels * (vbus_ct + vsh_ct) * avg
-
-> > +	for (i = 0; i < ARRAY_SIZE(ina3221_avg); i++)
-> > +		if (ina3221_avg[i] == avg)
-> > +			break;
+> On Mon, Mar 11, 2019 at 6:28 PM Steven Rostedt <rostedt@goodmis.org> wrote:
+> >
+> > On Mon, 11 Mar 2019 20:39:12 -0400
+> > Joel Fernandes <joel@joelfernandes.org> wrote:
+> >
+> > > I think even though the kernel-headers can't have information about all data
+> > > structures, they do already contain a lot of data structure definitions we
+> > > need already. And anything needed can/should arguably be moved to include/ if
+> > > they are really needed for kernel extension by something "external" to the
+> > > kernel such as kernel modules or eBPF, right?
+> >
+> > That's not my worry. I would like to be able to easily walk data
+> > structures from within the kernel, without having to do a lot of work
+> > in userspace to get that information. The kprobe_events could then be
+> > passed type casts or such to access data fields of arguments to
+> > functions and such.
 > 
-> Please use find_closest().
+> Ok.
+> 
+> > > In any case, such a solution such as what Steve suggested, still cannot do
+> > > what we can with headers - such as build kernel modules on the fly using the
+> > > C-compiler without any auto-generation of C code from any debug artifiacts.
+> > > Think systemtap working with the module-backend without any need for
+> > > linux-headers package on the file system. So such a solution would still be a
+> > > bit orthogonal in scope to what this proposed solution can solve IMO.
+> > >
+> >
+> > With the information I would like to have, it would be trivial to read
+> > the data to create the header files needed for modules.
+> 
+> But there are macros and other #define things too. We lose all of them
+> and can't recreate them from just DWARF (AFAIK). Including
+> include/generated/autoconf.h which #defines the CONFIG options. For
+> that we either need headers, or full kernel's sources with build
+> artifacts.
 
-OK. Thanks
+What kind of macros would you concern?
+
+> I do see a use case for the debug info you are talking about as you
+> mentioned for the kprobe_events argument list types, and I already
+> thought about it. But it does not seem to work for all the use cases I
+> am referring to here.
+
+But the eBPF is based on kprobe-events. What kind of usage would you
+expected? (with macros??)
+
+Thank you,
+
+-- 
+Masami Hiramatsu <mhiramat@kernel.org>
