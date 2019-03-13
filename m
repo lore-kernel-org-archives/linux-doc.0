@@ -1,60 +1,135 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 053647D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Mar 2019 03:56:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 611A07D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Mar 2019 04:09:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726513AbfCMD4Y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 12 Mar 2019 23:56:24 -0400
-Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130]:55469 "EHLO
-        out30-130.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726426AbfCMD4X (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Mar 2019 23:56:23 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04446;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0TMb0JCt_1552449380;
-Received: from Alexs-MacBook-Pro.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TMb0JCt_1552449380)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 13 Mar 2019 11:56:21 +0800
-Subject: Re: [PATCH v4 00/31] clean up and reorg Chinese kernel docs
+        id S1726326AbfCMEJ5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 13 Mar 2019 00:09:57 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:56731 "EHLO
+        wout2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725884AbfCMEJ4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Mar 2019 00:09:56 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.west.internal (Postfix) with ESMTP id 1D28038D9;
+        Wed, 13 Mar 2019 00:09:55 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Wed, 13 Mar 2019 00:09:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=CcuNGGoS05STV+ubM
+        wGB5nTWGo43u9oskHnErglPjYM=; b=ysJ2B9Q2A9ZFOTWy3UOh115YSZ7FHGwH7
+        biOid/sG4IgnTQtc0Mr3gQ6Jnxdo4iRpdwlGPLmPuPNfXqx0IWphxfAl+JpGz4EL
+        bq/CBJPpTVAyqU/G35avoFRNDn5S65V4D9elnS1U561MPQuT3AEsLz3miQH8SUL4
+        HzUT4LmlHsft9Ge/ni23zQ9++/cLUA9+sreft75bRO92m48QxfHX7l66VZVQhkqt
+        NijzG+QuwtzX4J0IlqGUJ04pNBsqyT/3dFH/1/okqLckNjRh4DOqFkdWnU5vxzil
+        y5GFkMzL1Ka9l/6ydxSL3dpRGfuvVmh54YNyri8obUkS0JpNG1P1A==
+X-ME-Sender: <xms:kYKIXIiovwRIj_8KMzg3gYLbEzWqznMxkcYI8mUPk78AF_7DbvfSgw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedutddrgeelgdeijecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepfdfvohgsihhnucev
+    rdcujfgrrhguihhnghdfuceothhosghinheskhgvrhhnvghlrdhorhhgqeenucfkphepud
+    dvgedrudeiledrvdefrddukeegnecurfgrrhgrmhepmhgrihhlfhhrohhmpehtohgsihhn
+    sehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedt
+X-ME-Proxy: <xmx:kYKIXK050Pflm3tVHEMLjqTtoGoAQAK6Jo5VgmE5OL8iiJ3MLeRy-A>
+    <xmx:kYKIXO7nns5T-Y_yw1R70JboKTfKbtsmQFCtfosh0_xX3UNzoJCG4g>
+    <xmx:kYKIXEq-1Y_a7KNsS1pMjLzLQATlqaI0A4FaPNr0UAKmaSD5UKjX8Q>
+    <xmx:koKIXAZeq8HnWLSQEa8HeqefDZTXjHndBScgxpPMTrt8Ff0UaE2oyQ>
+Received: from eros.localdomain (124-169-23-184.dyn.iinet.net.au [124.169.23.184])
+        by mail.messagingengine.com (Postfix) with ESMTPA id B32D7E408B;
+        Wed, 13 Mar 2019 00:09:51 -0400 (EDT)
+From:   "Tobin C. Harding" <tobin@kernel.org>
 To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     harryxiyou@gmail.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190312032501.62056-1-alex.shi@linux.alibaba.com>
- <4e9fbf0d-cf9a-63a3-4e94-902b1ae5a6cf@linux.alibaba.com>
- <20190312075823.31240738@lwn.net>
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-Message-ID: <e644f08d-cae9-1ee9-7b27-36a5440bda20@linux.alibaba.com>
-Date:   Wed, 13 Mar 2019 11:56:20 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
- Gecko/20100101 Thunderbird/60.5.0
+Cc:     "Tobin C. Harding" <tobin@kernel.org>, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 00/13] Convert vfs.txt to vfs.rst
+Date:   Wed, 13 Mar 2019 15:09:06 +1100
+Message-Id: <20190313040919.6937-1-tobin@kernel.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20190312075823.31240738@lwn.net>
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi,
+
+This set converts the VFS overview documentation to RST format.  I think
+I'm slowly getting better at structuring these conversions to ease
+review, if you disagree or you notice any way to further improve please
+say so.
+
+Patch set introduces no new warnings/errors to the html docs build
+
+      $ make htmldocs 2> ../docs-pre-vfs.stderr	
+
+Apply patch set
+
+      $ make cleandocs
+      $ make htmldocs 2> ../docs-post-vfs.stderr
+      $ diff ../docs-pre-vfs.stderr ../docs-post-vfs.stderr
 
 
-On 2019/3/12 9:58 下午, Jonathan Corbet wrote:
-> On Tue, 12 Mar 2019 12:06:45 +0800
-> Alex Shi <alex.shi@linux.alibaba.com> wrote:
->
->> This series is ok for pick up.
-> I'll get to it after the merge window, thanks.
->
-> One request: if you have to update and resend a patch set for any reason,
-> please update the version number.  I'll get the right "v4" set this time,
-> but one shouldn't count on that.
+Patch 1-4 - Whitespace fixes.
+Patch 5 - Adds the document title adornments (above and below)
+Patch 6 - Adds a SPDX license identifier
+Patch 7 - Fixes some custom indentation at the top of the file that will
+    	  cause Sphinx to warn when we switch to .rst
+Patch 8 - Converts custom list format to use RST formatted lists, this
+          is in preparation for switching to .rst 
+Patch 9 - Adds '.. code-block:: c' and fixes indentation of code
+	  blocks.  We rename the file to .rst in this patch (introducing
+	  some new warnings).
+Patch 10 - Adds back ticks to all the list items.  This is in
+	   preparation for fixing the indentation in the next patch.
+	   This was found to help when reading both plain text and HTML.
+Patch 11 - Cleans up the lists, indentation and missing periods.  This
+	   was kept separate to assist review.  This patch is benign,
+	   the less meticulous reviewer could safely skip over this one
+	   quickly (this was the intention of separating these changes).
+Patch 12 - Fixes a few minor grammar mistakes I notice while reading the
+	   file, I'm taking bonus points for actually reading every word
+	   of the file and not just trying to haphazardly do the
+	   conversion like I have previously done :)
+Patch 13 - Fixes two remaining Sphinx warnings.
 
-You're right. Thanks for point out! :)
+If/when this goes in perhaps I, or someone else, will update the content
+to document a newer kernel version.
 
-Cheers!
-Alex
+
+thanks,
+Tobin.
+
+
+Tobin C. Harding (13):
+  docs: filesystems: vfs: Remove space before tab
+  docs: filesystems: vfs: Use uniform space after period.
+  docs: filesystems: vfs: Use 72 character column width
+  docs: filesystems: vfs: Use uniform spacing around headings
+  docs: filesystems: vfs: Use correct initial heading
+  docs: filesystems: vfs: Use SPDX identifier
+  docs: filesystems: vfs: Fix pre-amble indentation
+  docs: filesystems: vfs: Use list character for lists
+  docs: filesystems: vfs: Add code-block and txt->RST
+  docs: filesystems: vfs: Use ticks for listed items
+  docs: filesystems: vfs: Clean up lists
+  docs: filesystems: vfs: Do minor grammar fixes
+  docs: filesystems: vfs: Use backticks to guard star
+
+ Documentation/filesystems/index.rst |    1 +
+ Documentation/filesystems/vfs.rst   | 1279 +++++++++++++++++++++++++++
+ Documentation/filesystems/vfs.txt   | 1261 --------------------------
+ 3 files changed, 1280 insertions(+), 1261 deletions(-)
+ create mode 100644 Documentation/filesystems/vfs.rst
+ delete mode 100644 Documentation/filesystems/vfs.txt
+
+-- 
+2.21.0
 
