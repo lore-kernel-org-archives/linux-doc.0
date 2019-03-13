@@ -1,136 +1,60 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CC2BD7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Mar 2019 01:19:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 053647D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Mar 2019 03:56:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726426AbfCMBSx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 12 Mar 2019 21:18:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33996 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725917AbfCMBSx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 12 Mar 2019 21:18:53 -0400
-Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F11BD2171F;
-        Wed, 13 Mar 2019 01:18:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1552439931;
-        bh=RgwH5rsy0vHUZudERZYU4v2QMra3BIv3Y4JztssEOfI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=2FUb4f4eniif1ed390uE14DJr2XNeFbFI6ozTKH6nUU2Okzjs4mKdxuxVM2Hlc8DY
-         cn6dnyAn05FsLCL2LwlZDgSPBnssJe05KU05Z5tCIGPGTSowoI3pWW96NwOPI43dLE
-         MpkhFhAQJWDVW7jRv29shlEtDY7RyqAN/uiGmCrc=
-Date:   Wed, 13 Mar 2019 10:18:43 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Joel Fernandes <joelaf@google.com>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Daniel Colascione <dancol@google.com>,
-        Karim Yaghmour <karim.yaghmour@opersys.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        atish patra <atishp04@gmail.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-trace-devel@vger.kernel.org,
-        Manoj Rao <linux@manojrajarao.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
-Subject: Re: [PATCH v4 1/2] Provide in-kernel headers for making it easy to
- extend the kernel
-Message-Id: <20190313101843.800dd8d6a9babb635580ebdc@kernel.org>
-In-Reply-To: <CAJWu+oqsD_wHGWfzj6POFowiY2qcu04auVzkA6Lu9R+LR4gkrQ@mail.gmail.com>
-References: <20190308140251.GC25768@kroah.com>
-        <CAMuHMdUmnrJtu8bBeUgtiU6y_TLHM27z1WxpPia4dXMpApeijw@mail.gmail.com>
-        <20190309071648.GE3882@kroah.com>
-        <CAMuHMdUT+UGt9p2QhOXzAtCUmqy-a8YN-ceDa-0qANJE53pWBA@mail.gmail.com>
-        <20190309121141.GA30173@kroah.com>
-        <b7296377-9e0c-aed7-61f0-93d24d1ceddd@opersys.com>
-        <CAMuHMdV8+XTyGf1ZJ+gMf=zQpzqh3-+b7wgi+gAmXQ6HpUAw3A@mail.gmail.com>
-        <3e84e1ef-e266-e983-5874-6c26ac7f38b8@opersys.com>
-        <20190311193612.4f09bf11@oasis.local.home>
-        <CAKOZuetHG0O-CiO6h5tD7aht_MT70ebwWMMSPkRUHdiM3wVq0Q@mail.gmail.com>
-        <20190312003912.GA170478@google.com>
-        <20190311212823.60684182@oasis.local.home>
-        <CAJWu+oqsD_wHGWfzj6POFowiY2qcu04auVzkA6Lu9R+LR4gkrQ@mail.gmail.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1726513AbfCMD4Y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 12 Mar 2019 23:56:24 -0400
+Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130]:55469 "EHLO
+        out30-130.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726426AbfCMD4X (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Mar 2019 23:56:23 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04446;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0TMb0JCt_1552449380;
+Received: from Alexs-MacBook-Pro.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TMb0JCt_1552449380)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Wed, 13 Mar 2019 11:56:21 +0800
+Subject: Re: [PATCH v4 00/31] clean up and reorg Chinese kernel docs
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     harryxiyou@gmail.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190312032501.62056-1-alex.shi@linux.alibaba.com>
+ <4e9fbf0d-cf9a-63a3-4e94-902b1ae5a6cf@linux.alibaba.com>
+ <20190312075823.31240738@lwn.net>
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+Message-ID: <e644f08d-cae9-1ee9-7b27-36a5440bda20@linux.alibaba.com>
+Date:   Wed, 13 Mar 2019 11:56:20 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+ Gecko/20100101 Thunderbird/60.5.0
+MIME-Version: 1.0
+In-Reply-To: <20190312075823.31240738@lwn.net>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 11 Mar 2019 18:38:49 -0700
-Joel Fernandes <joelaf@google.com> wrote:
 
-> On Mon, Mar 11, 2019 at 6:28 PM Steven Rostedt <rostedt@goodmis.org> wrote:
-> >
-> > On Mon, 11 Mar 2019 20:39:12 -0400
-> > Joel Fernandes <joel@joelfernandes.org> wrote:
-> >
-> > > I think even though the kernel-headers can't have information about all data
-> > > structures, they do already contain a lot of data structure definitions we
-> > > need already. And anything needed can/should arguably be moved to include/ if
-> > > they are really needed for kernel extension by something "external" to the
-> > > kernel such as kernel modules or eBPF, right?
-> >
-> > That's not my worry. I would like to be able to easily walk data
-> > structures from within the kernel, without having to do a lot of work
-> > in userspace to get that information. The kprobe_events could then be
-> > passed type casts or such to access data fields of arguments to
-> > functions and such.
-> 
-> Ok.
-> 
-> > > In any case, such a solution such as what Steve suggested, still cannot do
-> > > what we can with headers - such as build kernel modules on the fly using the
-> > > C-compiler without any auto-generation of C code from any debug artifiacts.
-> > > Think systemtap working with the module-backend without any need for
-> > > linux-headers package on the file system. So such a solution would still be a
-> > > bit orthogonal in scope to what this proposed solution can solve IMO.
-> > >
-> >
-> > With the information I would like to have, it would be trivial to read
-> > the data to create the header files needed for modules.
-> 
-> But there are macros and other #define things too. We lose all of them
-> and can't recreate them from just DWARF (AFAIK). Including
-> include/generated/autoconf.h which #defines the CONFIG options. For
-> that we either need headers, or full kernel's sources with build
-> artifacts.
 
-What kind of macros would you concern?
+On 2019/3/12 9:58 下午, Jonathan Corbet wrote:
+> On Tue, 12 Mar 2019 12:06:45 +0800
+> Alex Shi <alex.shi@linux.alibaba.com> wrote:
+>
+>> This series is ok for pick up.
+> I'll get to it after the merge window, thanks.
+>
+> One request: if you have to update and resend a patch set for any reason,
+> please update the version number.  I'll get the right "v4" set this time,
+> but one shouldn't count on that.
 
-> I do see a use case for the debug info you are talking about as you
-> mentioned for the kprobe_events argument list types, and I already
-> thought about it. But it does not seem to work for all the use cases I
-> am referring to here.
+You're right. Thanks for point out! :)
 
-But the eBPF is based on kprobe-events. What kind of usage would you
-expected? (with macros??)
+Cheers!
+Alex
 
-Thank you,
-
--- 
-Masami Hiramatsu <mhiramat@kernel.org>
