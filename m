@@ -1,323 +1,335 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A3E547D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Mar 2019 15:52:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1CCE47D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 13 Mar 2019 17:13:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726749AbfCMPv4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 13 Mar 2019 11:51:56 -0400
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:47039 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725868AbfCMPvU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Mar 2019 11:51:20 -0400
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx08-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x2DFp5fs012433;
-        Wed, 13 Mar 2019 16:51:05 +0100
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx08-00178001.pphosted.com with ESMTP id 2r458mjyf5-1
-        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Wed, 13 Mar 2019 16:51:05 +0100
-Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 6B0A53A;
-        Wed, 13 Mar 2019 15:51:04 +0000 (GMT)
-Received: from Webmail-eu.st.com (Safex1hubcas24.st.com [10.75.90.94])
-        by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 4061253EF;
-        Wed, 13 Mar 2019 15:51:04 +0000 (GMT)
-Received: from SAFEX1HUBCAS22.st.com (10.75.90.93) by Safex1hubcas24.st.com
- (10.75.90.94) with Microsoft SMTP Server (TLS) id 14.3.435.0; Wed, 13 Mar
- 2019 16:51:04 +0100
-Received: from localhost (10.201.23.25) by Webmail-ga.st.com (10.75.90.48)
- with Microsoft SMTP Server (TLS) id 14.3.361.1; Wed, 13 Mar 2019 16:51:03
- +0100
-From:   Fabien Dessenne <fabien.dessenne@st.com>
-To:     Ohad Ben-Cohen <ohad@wizery.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        <linux-remoteproc@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>
-CC:     Fabien Dessenne <fabien.dessenne@st.com>,
-        Benjamin Gaignard <benjamin.gaignard@st.com>
-Subject: [PATCH 2/6] hwspinlock: allow sharing of hwspinlocks
-Date:   Wed, 13 Mar 2019 16:50:33 +0100
-Message-ID: <1552492237-28810-3-git-send-email-fabien.dessenne@st.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1552492237-28810-1-git-send-email-fabien.dessenne@st.com>
-References: <1552492237-28810-1-git-send-email-fabien.dessenne@st.com>
+        id S1725907AbfCMRNO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 13 Mar 2019 13:13:14 -0400
+Received: from mail-ua1-f68.google.com ([209.85.222.68]:46161 "EHLO
+        mail-ua1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725876AbfCMRNO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Mar 2019 13:13:14 -0400
+Received: by mail-ua1-f68.google.com with SMTP id j8so908901uae.13;
+        Wed, 13 Mar 2019 10:13:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc:content-transfer-encoding;
+        bh=kXy7pWVvSBPkLBkLdnnEGMC/jLVwqYZKCq6h+IqR2zk=;
+        b=aM7/xXHJP71A6Vz9iTzIqrqz354zb56ykSBJy5E/W+iViyZGB6Zi+I34B7X85s7/VO
+         sxAipeLBD9pS7OPiN0cqzAe9Aw94Tfyoet0h9i33ZuHQNozSJ+X6wpGEK45wxKRVznWl
+         Ta7JwHxribKeenUJlv+QnU7NtGtFOiCdinnD1FLuHjaQfMV5DHaTmieq1oo2cGrz5rIn
+         B3omrvxmC3pFBo/W5CJOwX2n5QQ2s/jHzK57KfIR+xiOtdPTxb0VTtQmE/VHqvs7dP1o
+         VCEy+rx6w3gWrPf+Qx4iVqhzZxZSIC8taUstWKUwQQyNDiUIxT9IYwC1SAU2NNyC9Ecx
+         0Mcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc:content-transfer-encoding;
+        bh=kXy7pWVvSBPkLBkLdnnEGMC/jLVwqYZKCq6h+IqR2zk=;
+        b=DO7Wk/Pa6gd6rR+kAU4QCABitlye36uNVXApnkC4w6XjCZAQ/CPpsUDnO/h6XvWUyV
+         WpyccTb3tw4wWqTKh4flIVYKjGKrDyXkMsM+n1BpwWrc8ZuDeL5bGWDkrOIZ/vKaESgI
+         nz2c062ylZgiPPXlVlqWz1/bVg4a7lWIdsL/DYdwwiyw0hjxE4DdE2dAQpWzsbKoMSS4
+         iy5pMONXThcMUSsxeQjR+VEasJZ5RKE5Ps/XW7t4hmtJNSMCyazzGo6lfVq2YJwTO/hS
+         LXY5NSZz1IZGYm0JJZbHiysXNJ6k08VDLn92ZHTFVQNSHE/kyEiGlmVwU1RDyHAvOZEU
+         /xGg==
+X-Gm-Message-State: APjAAAUmJQiuwFZ0R+MrT/GCvFpqyHXpsdZSKuke3gM0kU36WEtA5h7Q
+        bRsAQH5VsBx8qugqfKJLXvhYe9ZOwmmXANxDH+w=
+X-Google-Smtp-Source: APXvYqwQ64VLenDpW1P6APnmxR8QAQer9q+5x4VKQW2KZtlN/LqU134hGq/tX2pXqxxHVd8+NN9MGeGa0wPcYHNhyek=
+X-Received: by 2002:a9f:2606:: with SMTP id 6mr1332399uag.137.1552497192398;
+ Wed, 13 Mar 2019 10:13:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.201.23.25]
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-03-13_09:,,
- signatures=0
+References: <1552418820-18102-1-git-send-email-jaya@cs.utexas.edu>
+In-Reply-To: <1552418820-18102-1-git-send-email-jaya@cs.utexas.edu>
+Reply-To: fdmanana@gmail.com
+From:   Filipe Manana <fdmanana@gmail.com>
+Date:   Wed, 13 Mar 2019 17:13:01 +0000
+Message-ID: <CAL3q7H5MVg5wrAkX16XzZ3P7Z2qYQNq53LvJq5ie5wQMZRVdRA@mail.gmail.com>
+Subject: Re: [PATCH v2] Documenting the crash-recovery guarantees of Linux
+ file systems
+To:     Jayashree <jaya@cs.utexas.edu>
+Cc:     fstests <fstests@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        Vijaychidambaram Velayudhan Pillai <vijay@cs.utexas.edu>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Theodore Tso <tytso@mit.edu>, chao@kernel.org,
+        Dave Chinner <david@fromorbit.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The current implementation does not allow different devices to use a
-common hwspinlock. Offer the possibility to use the same hwspinlock by
-several users.
-If a device registers to the framework with #hwlock-cells = 2, then
-the second parameter of the 'hwlocks' DeviceTree property defines
-whether an hwlock is requested for an exclusive or a shared usage.
-If a device registers with #hwlock-cells = 1, then all the hwlocks are
-for an exclusive usage.
+On Tue, Mar 12, 2019 at 7:27 PM Jayashree <jaya@cs.utexas.edu> wrote:
+>
+> In this file, we document the crash-recovery guarantees
+> provided by four Linux file systems - xfs, ext4, F2FS and btrfs. We also
+> present Dave Chinner's proposal of Strictly-Ordered Metadata Consistency
+> (SOMC), which is provided by xfs. It is not clear to us if other file sys=
+tems
+> provide SOMC.
+>
+> Signed-off-by: Jayashree Mohan <jaya@cs.utexas.edu>
+> Reviewed-by: Amir Goldstein <amir73il@gmail.com>
 
-Signed-off-by: Fabien Dessenne <fabien.dessenne@st.com>
----
- Documentation/hwspinlock.txt             | 10 ++--
- drivers/hwspinlock/hwspinlock_core.c     | 82 +++++++++++++++++++++++++-------
- drivers/hwspinlock/hwspinlock_internal.h |  2 +
- 3 files changed, 73 insertions(+), 21 deletions(-)
+Mostly for the Btrfs part:
 
-diff --git a/Documentation/hwspinlock.txt b/Documentation/hwspinlock.txt
-index ed640a2..e6ce2dd 100644
---- a/Documentation/hwspinlock.txt
-+++ b/Documentation/hwspinlock.txt
-@@ -54,9 +54,11 @@ Should be called from a process context (might sleep).
-   struct hwspinlock *hwspin_lock_request_specific(unsigned int id);
- 
- Assign a specific hwspinlock id and return its address, or NULL
--if that hwspinlock is already in use. Usually board code will
--be calling this function in order to reserve specific hwspinlock
--ids for predefined purposes.
-+if that hwspinlock is already in use and not shared. If that specific
-+hwspinlock is declared as shared, it can be requested and used by
-+several users.
-+Usually board code will be calling this function in order to reserve
-+specific hwspinlock ids for predefined purposes.
- 
- Should be called from a process context (might sleep).
- 
-@@ -368,11 +370,13 @@ of which represents a single hardware lock::
- 	* struct hwspinlock - this struct represents a single hwspinlock instance
- 	* @bank: the hwspinlock_device structure which owns this lock
- 	* @lock: initialized and used by hwspinlock core
-+	* @refcount: number of users (when shared)
- 	* @priv: private data, owned by the underlying platform-specific hwspinlock drv
- 	*/
- 	struct hwspinlock {
- 		struct hwspinlock_device *bank;
- 		spinlock_t lock;
-+		unsigned int refcount;
- 		void *priv;
- 	};
- 
-diff --git a/drivers/hwspinlock/hwspinlock_core.c b/drivers/hwspinlock/hwspinlock_core.c
-index 2bad40d..53afdeb 100644
---- a/drivers/hwspinlock/hwspinlock_core.c
-+++ b/drivers/hwspinlock/hwspinlock_core.c
-@@ -25,6 +25,8 @@
- 
- /* radix tree tags */
- #define HWSPINLOCK_UNUSED	(0) /* tags an hwspinlock as unused */
-+#define HWSPINLOCK_EXCLUSIVE	(1) /* tags an hwspinlock as exclusive */
-+#define HWSPINLOCK_SHARED	(2) /* tags an hwspinlock as shared */
- 
- /*
-  * A radix tree is used to maintain the available hwspinlock instances.
-@@ -291,7 +293,7 @@ EXPORT_SYMBOL_GPL(__hwspin_unlock);
-  * @hwlock_spec: hwlock specifier as found in the device tree
-  *
-  * This is a simple translation function, suitable for hwspinlock platform
-- * drivers that only has a lock specifier length of 1.
-+ * drivers that only has a lock specifier length of 1 or 2.
-  *
-  * Returns a relative index of the lock within a specified bank on success,
-  * or -EINVAL on invalid specifier cell count.
-@@ -299,7 +301,8 @@ EXPORT_SYMBOL_GPL(__hwspin_unlock);
- static inline int
- of_hwspin_lock_simple_xlate(const struct of_phandle_args *hwlock_spec)
- {
--	if (WARN_ON(hwlock_spec->args_count != 1))
-+	if (WARN_ON(hwlock_spec->args_count != 1 &&
-+		    hwlock_spec->args_count != 2))
- 		return -EINVAL;
- 
- 	return hwlock_spec->args[0];
-@@ -322,11 +325,12 @@ of_hwspin_lock_simple_xlate(const struct of_phandle_args *hwlock_spec)
- int of_hwspin_lock_get_id(struct device_node *np, int index)
- {
- 	struct of_phandle_args args;
--	struct hwspinlock *hwlock;
-+	struct hwspinlock *hwlock, *tmp;
- 	struct radix_tree_iter iter;
- 	void **slot;
- 	int id;
- 	int ret;
-+	unsigned int tag;
- 
- 	ret = of_parse_phandle_with_args(np, "hwlocks", "#hwlock-cells", index,
- 					 &args);
-@@ -361,6 +365,37 @@ int of_hwspin_lock_get_id(struct device_node *np, int index)
- 	}
- 	id += hwlock->bank->base_id;
- 
-+	/* Set the EXCLUSIVE / SHARED tag */
-+	if (args.args_count == 2 && args.args[1]) {
-+		/* Tag SHARED unless already tagged EXCLUSIVE */
-+		if (radix_tree_tag_get(&hwspinlock_tree, id,
-+				       HWSPINLOCK_EXCLUSIVE)) {
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+		tag = HWSPINLOCK_SHARED;
-+	} else {
-+		/* Tag EXCLUSIVE unless already tagged SHARED */
-+		if (radix_tree_tag_get(&hwspinlock_tree, id,
-+				       HWSPINLOCK_SHARED)) {
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+		tag = HWSPINLOCK_EXCLUSIVE;
-+	}
-+
-+	/* mark this hwspinlock */
-+	hwlock = radix_tree_lookup(&hwspinlock_tree, id);
-+	if (!hwlock) {
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	tmp = radix_tree_tag_set(&hwspinlock_tree, id, tag);
-+
-+	/* self-sanity check which should never fail */
-+	WARN_ON(tmp != hwlock);
-+
- out:
- 	of_node_put(args.np);
- 	return ret ? ret : id;
-@@ -483,6 +518,7 @@ int hwspin_lock_register(struct hwspinlock_device *bank, struct device *dev,
- 
- 		spin_lock_init(&hwlock->lock);
- 		hwlock->bank = bank;
-+		hwlock->refcount = 0;
- 
- 		ret = hwspin_lock_register_single(hwlock, base_id + i);
- 		if (ret)
-@@ -625,7 +661,7 @@ static int __hwspin_lock_request(struct hwspinlock *hwlock)
- {
- 	struct device *dev = hwlock->bank->dev;
- 	struct hwspinlock *tmp;
--	int ret;
-+	int ret, id;
- 
- 	/* prevent underlying implementation from being removed */
- 	if (!try_module_get(dev->driver->owner)) {
-@@ -642,13 +678,18 @@ static int __hwspin_lock_request(struct hwspinlock *hwlock)
- 		return ret;
- 	}
- 
-+	/* update shareable refcount */
-+	id = hwlock_to_id(hwlock);
-+	if (radix_tree_tag_get(&hwspinlock_tree, id, HWSPINLOCK_SHARED) &&
-+	    hwlock->refcount++)
-+		goto out;
-+
- 	/* mark hwspinlock as used, should not fail */
--	tmp = radix_tree_tag_clear(&hwspinlock_tree, hwlock_to_id(hwlock),
--							HWSPINLOCK_UNUSED);
-+	tmp = radix_tree_tag_clear(&hwspinlock_tree, id, HWSPINLOCK_UNUSED);
- 
- 	/* self-sanity check that should never fail */
- 	WARN_ON(tmp != hwlock);
--
-+out:
- 	return ret;
- }
- 
-@@ -742,9 +783,9 @@ struct hwspinlock *hwspin_lock_request_specific(unsigned int id)
- 	/* sanity check (this shouldn't happen) */
- 	WARN_ON(hwlock_to_id(hwlock) != id);
- 
--	/* make sure this hwspinlock is unused */
--	ret = radix_tree_tag_get(&hwspinlock_tree, id, HWSPINLOCK_UNUSED);
--	if (ret == 0) {
-+	/* make sure this hwspinlock is unused or shareable */
-+	if (!radix_tree_tag_get(&hwspinlock_tree, id, HWSPINLOCK_SHARED) &&
-+	    !radix_tree_tag_get(&hwspinlock_tree, id, HWSPINLOCK_UNUSED)) {
- 		pr_warn("hwspinlock %u is already in use\n", id);
- 		hwlock = NULL;
- 		goto out;
-@@ -777,7 +818,7 @@ int hwspin_lock_free(struct hwspinlock *hwlock)
- {
- 	struct device *dev;
- 	struct hwspinlock *tmp;
--	int ret;
-+	int ret, id;
- 
- 	if (!hwlock) {
- 		pr_err("invalid hwlock\n");
-@@ -788,30 +829,35 @@ int hwspin_lock_free(struct hwspinlock *hwlock)
- 	mutex_lock(&hwspinlock_tree_lock);
- 
- 	/* make sure the hwspinlock is used */
--	ret = radix_tree_tag_get(&hwspinlock_tree, hwlock_to_id(hwlock),
--							HWSPINLOCK_UNUSED);
-+	id = hwlock_to_id(hwlock);
-+	ret = radix_tree_tag_get(&hwspinlock_tree, id, HWSPINLOCK_UNUSED);
- 	if (ret == 1) {
- 		dev_err(dev, "%s: hwlock is already free\n", __func__);
- 		dump_stack();
- 		ret = -EINVAL;
--		goto out;
-+		goto unlock;
- 	}
- 
- 	/* notify the underlying device that power is not needed */
- 	ret = pm_runtime_put(dev);
- 	if (ret < 0)
--		goto out;
-+		goto unlock;
-+
-+	/* update shareable refcount */
-+	if (radix_tree_tag_get(&hwspinlock_tree, id, HWSPINLOCK_SHARED) &&
-+	    --hwlock->refcount)
-+		goto put;
- 
- 	/* mark this hwspinlock as available */
--	tmp = radix_tree_tag_set(&hwspinlock_tree, hwlock_to_id(hwlock),
--							HWSPINLOCK_UNUSED);
-+	tmp = radix_tree_tag_set(&hwspinlock_tree, id, HWSPINLOCK_UNUSED);
- 
- 	/* sanity check (this shouldn't happen) */
- 	WARN_ON(tmp != hwlock);
- 
-+put:
- 	module_put(dev->driver->owner);
- 
--out:
-+unlock:
- 	mutex_unlock(&hwspinlock_tree_lock);
- 	return ret;
- }
-diff --git a/drivers/hwspinlock/hwspinlock_internal.h b/drivers/hwspinlock/hwspinlock_internal.h
-index 9eb6bd0..c808e11 100644
---- a/drivers/hwspinlock/hwspinlock_internal.h
-+++ b/drivers/hwspinlock/hwspinlock_internal.h
-@@ -35,11 +35,13 @@ struct hwspinlock_ops {
-  * struct hwspinlock - this struct represents a single hwspinlock instance
-  * @bank: the hwspinlock_device structure which owns this lock
-  * @lock: initialized and used by hwspinlock core
-+ * @refcount: number of users (when shared)
-  * @priv: private data, owned by the underlying platform-specific hwspinlock drv
-  */
- struct hwspinlock {
- 	struct hwspinlock_device *bank;
- 	spinlock_t lock;
-+	unsigned int refcount;
- 	void *priv;
- };
- 
--- 
-2.7.4
+Reviewed-by: Filipe Manana <fdmanana@suse.com>
 
+Nit: you can have lines up to 80 characters, many of them are
+significantly and unnecessarily smaller than that.
+
+Thanks for writing this document.
+
+> ---
+>
+> We would be happy to modify the document if file-system
+> developers claim that their system provides (or aims to provide) SOMC.
+>
+> Changes since v1:
+>   * Addressed few nits identified in the review
+>   * Added the fsync guarantees for F2FS and its SOMC compliance
+> ---
+>  .../filesystems/crash-recovery-guarantees.txt      | 193 +++++++++++++++=
+++++++
+>  1 file changed, 193 insertions(+)
+>  create mode 100644 Documentation/filesystems/crash-recovery-guarantees.t=
+xt
+>
+> diff --git a/Documentation/filesystems/crash-recovery-guarantees.txt b/Do=
+cumentation/filesystems/crash-recovery-guarantees.txt
+> new file mode 100644
+> index 0000000..be84964
+> --- /dev/null
+> +++ b/Documentation/filesystems/crash-recovery-guarantees.txt
+> @@ -0,0 +1,193 @@
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +File System Crash-Recovery Guarantees
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Linux file systems provide certain guarantees to user-space
+> +applications about what happens to their data if the system crashes
+> +(due to power loss or kernel panic). These are termed crash-recovery
+> +guarantees.
+> +
+> +Crash-recovery guarantees only pertain to data or metadata that has
+> +been explicitly persisted to storage with fsync(), fdatasync(), or
+> +sync() system calls. By default, write(), mkdir(), and other
+> +file-system related system calls only affect the in-memory state of
+> +the file system.
+> +
+> +The crash-recovery guarantees provided by most Linux file systems are
+> +significantly stronger than what is required by POSIX. POSIX is vague,
+> +even allowing fsync() to do nothing (Mac OSX takes advantage of
+> +this). However, the guarantees provided by file systems are not
+> +documented, and vary between file systems. This document seeks to
+> +describe the current crash-recovery guarantees provided by major Linux
+> +file systems.
+> +
+> +What does the fsync() operation guarantee?
+> +----------------------------------------------------
+> +fsync() operation is meant to force the physical write of data
+> +corresponding to a file from the buffer cache, along with the file
+> +metadata. Note that the guarantees mentioned for each file system below
+> +are in addition to the ones provided by POSIX.
+> +
+> +POSIX
+> +-----
+> +fsync(file) : Flushes the data and metadata associated with the
+> +file. However, if the directory entry for the file has not been
+> +previously persisted, or has been modified, it is not guaranteed to be
+> +persisted by the fsync of the file [1]. What this means is, if a file
+> +is newly created, you will have to fsync(parent directory) in addition
+> +to fsync(file) in order to ensure that the file's directory entry has
+> +safely reached the disk.
+> +
+> +fsync(dir) : Flushes directory data and directory entries. However if
+> +you created a new file within the directory and wrote data to the
+> +file, then the file data is not guaranteed to be persisted, unless an
+> +explicit fsync() is issued on the file.
+> +
+> +ext4
+> +-----
+> +fsync(file) : Ensures that a newly created file's directory entry is
+> +persisted (no need to explicitly persist the parent directory). However,
+> +if you create multiple names of the file (hard links), then their direct=
+ory
+> +entries are not guaranteed to persist unless each one of the parent
+> +directory entries are persisted [2].
+> +
+> +fsync(dir) : All file names within the persisted directory will exist,
+> +but does not guarantee file data.
+> +
+> +xfs
+> +----
+> +fsync(file) : Ensures that a newly created file's directory entry is
+> +persisted. Additionally, all the previous dependent modifications to
+> +this file are also persisted. If any file shares an object
+> +modification dependency with the fsync-ed file, then that file's
+> +directory entry is also persisted.
+> +
+> +fsync(dir) : All file names within the persisted directory will exist,
+> +but does not guarantee file data. As with files, fsync(dir) also persist=
+s
+> +previous dependent metadata operations.
+> +
+> +btrfs
+> +------
+> +fsync(file) : Ensures that a newly created file's directory entry
+> +is persisted, along with the directory entries of all its hard links.
+> +You do not need to explicitly fsync individual hard links to the file.
+> +
+> +fsync(dir) : All the file names within the directory will persist. All t=
+he
+> +rename and unlink operations within the directory are persisted. Due
+> +to the design choices made by btrfs, fsync of a directory could lead
+> +to an iterative fsync on sub-directories, thereby requiring a full
+> +file system commit. So btrfs does not advocate fsync of directories
+> +[2].
+> +
+> +F2FS
+> +----
+> +fsync(file) or fsync(dir) : In the default mode (fsync-mode=3Dposix),
+> +F2FS only guarantees POSIX behaviour. However, it provides xfs-like
+> +guarantees if mounted with fsync-mode=3Dstrict option.
+> +
+> +fsync(symlink)
+> +-------------
+> +A symlink inode cannot be directly opened for IO, which means there is
+> +no such thing as fsync of a symlink [3]. You could be tricked by the
+> +fact that open and fsync of a symlink succeeds without returning a
+> +error, but what happens in reality is as follows.
+> +
+> +Suppose we have a symlink =E2=80=9Cfoo=E2=80=9D, which points to the fil=
+e =E2=80=9CA/bar=E2=80=9D
+> +
+> +fd =3D open(=E2=80=9Cfoo=E2=80=9D, O_CREAT | O_RDWR)
+> +fsync(fd)
+> +
+> +Both the above operations succeed, but if you crash after fsync, the
+> +symlink could be still missing.
+> +
+> +When you try to open the symlink =E2=80=9Cfoo=E2=80=9D, you are actually=
+ trying to
+> +open the file that the symlink resolves to, which in this case is
+> +=E2=80=9CA/bar=E2=80=9D. When you fsync the inode returned by the open s=
+ystem call, you
+> +are actually persisting the file =E2=80=9CA/bar=E2=80=9D and not the sym=
+link. Note
+> +that if the file =E2=80=9CA/bar=E2=80=9D does not exist and you try the =
+open the
+> +symlink =E2=80=9Cfoo=E2=80=9D without the O_CREAT flag, then file open w=
+ill fail. To
+> +obtain the file descriptor associated with the symlink inode, you
+> +could open the symlink using =E2=80=9CO_PATH | O_NOFOLLOW=E2=80=9D flags=
+. However, the
+> +file descriptor obtained this way can be only used to indicate a
+> +location in the file-system tree and to perform operations that act
+> +purely at the file descriptor level. Operations like read(), write(),
+> +fsync() etc cannot be performed on such file descriptors.
+> +
+> +Bottomline : You cannot fsync() a symlink.
+> +
+> +fsync(special files)
+> +--------------------
+> +Special files in Linux include block and character device files
+> +(created using mknod), FIFO (created using mkfifo) etc. Just like the
+> +behavior of fsync on symlinks described above, these special files do
+> +not have an fsync function defined. Similar to symlinks, you
+> +cannot fsync a special file [4].
+> +
+> +
+> +Strictly Ordered Metadata Consistency
+> +-------------------------------------
+> +With each file system providing varying levels of persistence
+> +guarantees, a consensus in this regard, will benefit application
+> +developers to work with certain fixed assumptions about file system
+> +guarantees. Dave Chinner proposed a unified model called the
+> +Strictly Ordered Metadata Consistency (SOMC) [5].
+> +
+> +Under this scheme, the file system guarantees to persist all previous
+> +dependent modifications to the object upon fsync().  If you fsync() an
+> +inode, it will persist all the changes required to reference the inode
+> +and its data. SOMC can be defined as follows [6]:
+> +
+> +If op1 precedes op2 in program order (in-memory execution order), and
+> +op1 and op2 share a dependency, then op2 must not be observed by a
+> +user after recovery without also observing op1.
+> +
+> +Unfortunately, SOMC's definition depends upon whether two operations
+> +share a dependency, which could be file-system specific. It might
+> +require a developer to understand file-system internals to know if
+> +SOMC would order one operation before another. It is worth noting
+> +that a file system can be crash-consistent (according to POSIX),
+> +without providing SOMC [7].
+> +
+> +As an example, consider the following test case from xfstest
+> +generic/342 [8]
+> +-------
+> +touch A/foo
+> +echo =E2=80=9Chello=E2=80=9D >  A/foo
+> +sync
+> +
+> +mv A/foo A/bar
+> +echo =E2=80=9Cworld=E2=80=9D > A/foo
+> +fsync A/foo
+> +CRASH
+> +
+> +What would you expect on recovery, if the file system crashed after
+> +the final fsync returned successfully?
+> +
+> +Non-SOMC file systems will not persist the file
+> +A/bar because it was not explicitly fsync-ed. But this means, you will
+> +find only the file A/foo with data =E2=80=9Cworld=E2=80=9D after crash, =
+thereby losing
+> +the previously persisted file with data =E2=80=9Chello=E2=80=9D. You wil=
+l need to
+> +explicitly fsync the directory A to ensure the rename operation is
+> +safely persisted on disk.
+> +
+> +Under SOMC, to correctly reference the new inode via A/foo,
+> +the previous rename operation must persist as well. Therefore,
+> +fsync() of A/foo will persist the renamed file A/bar as well.
+> +On recovery you will find both A/bar (with data =E2=80=9Chello=E2=80=9D)
+> +and A/foo (with data =E2=80=9Cworld=E2=80=9D).
+> +
+> +It is noteworthy that xfs, ext4, F2FS (when mounted with fsync_mode=3Dst=
+rict)
+> +and btrfs provide SOMC-like behaviour in this particular example.
+> +However, in writing, only XFS claims to provide SOMC. F2FS aims to provi=
+de
+> +SOMC when mounted with fsync_mode=3Dstrict. It is not clear if ext4 and
+> +btrfs provide strictly ordered metadata consistency.
+> +
+> +--------------------------------------------------------
+> +[1] http://man7.org/linux/man-pages/man2/fdatasync.2.html
+> +[2] https://www.spinics.net/lists/linux-btrfs/msg77340.html
+> +[3] https://www.spinics.net/lists/fstests/msg09370.html
+> +[4] https://bugzilla.kernel.org/show_bug.cgi?id=3D202485
+> +[5] https://marc.info/?l=3Dfstests&m=3D155010885626284&w=3D2
+> +[6] https://marc.info/?l=3Dfstests&m=3D155011123126916&w=3D2
+> +[7] https://www.spinics.net/lists/fstests/msg09379.html
+> +[8] https://patchwork.kernel.org/patch/10132305/
+> +
+> --
+> 2.7.4
+>
+
+
+--=20
+Filipe David Manana,
+
+=E2=80=9CWhether you think you can, or you think you can't =E2=80=94 you're=
+ right.=E2=80=9D
