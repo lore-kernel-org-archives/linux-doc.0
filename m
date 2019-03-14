@@ -1,99 +1,163 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2C9EE7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Mar 2019 11:49:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9BB4C7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 14 Mar 2019 12:27:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727091AbfCNLtU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 14 Mar 2019 07:49:20 -0400
-Received: from mail-eopbgr150113.outbound.protection.outlook.com ([40.107.15.113]:33550
-        "EHLO EUR01-DB5-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727047AbfCNLtU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 14 Mar 2019 07:49:20 -0400
+        id S1726967AbfCNM1w (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 14 Mar 2019 08:27:52 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:33853 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726776AbfCNM1v (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Mar 2019 08:27:51 -0400
+Received: by mail-qt1-f193.google.com with SMTP id k2so5777815qtm.1
+        for <linux-doc@vger.kernel.org>; Thu, 14 Mar 2019 05:27:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mylifeunisaac.onmicrosoft.com; s=selector1-mylife-unisa-ac-za;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=smeVB/fDGL92N8D8r4+jH9RIgB+dhE2YpVEY5g76Mo4=;
- b=gHl0YmQEF0n8eTekbYoElE0kMe6fI7WgK6YJ1VDj2M7XGUT5eJsOtdGL/YPrvK01/QPhZhM4ng3FOaFCCltL62xox58IXtLWs5nVEPKakv4iMmzPSyIpBcuKgq3t8DE9yp/9nR2ZV3/+4xapOp74bgrxXh+G9PrHkWzbe5ZrREk=
-Received: from DB6PR01MB3893.eurprd01.prod.exchangelabs.com (10.168.23.20) by
- DB6PR01MB3958.eurprd01.prod.exchangelabs.com (10.168.19.159) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1709.13; Thu, 14 Mar 2019 11:49:15 +0000
-Received: from DB6PR01MB3893.eurprd01.prod.exchangelabs.com
- ([fe80::3022:37b9:45ea:4e65]) by DB6PR01MB3893.eurprd01.prod.exchangelabs.com
- ([fe80::3022:37b9:45ea:4e65%2]) with mapi id 15.20.1686.021; Thu, 14 Mar 2019
- 11:49:15 +0000
-From:   Nomvuyo Ndamase <61873209@mylife.unisa.ac.za>
-To:     Nomvuyo Ndamase <61873209@mylife.unisa.ac.za>
-Subject: Darlehensangebot
-Thread-Topic: Darlehensangebot
-Thread-Index: AQHU2lvyrX0O2COl9k6EWymuPoNHBw==
-Date:   Thu, 14 Mar 2019 11:49:14 +0000
-Message-ID: <DB6PR01MB3893BE867027D6079112AB60BF4B0@DB6PR01MB3893.eurprd01.prod.exchangelabs.com>
-Reply-To: "larryloanhome@inbox.lv" <larryloanhome@inbox.lv>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: DB6PR02CA0031.eurprd02.prod.outlook.com
- (2603:10a6:6:15::44) To DB6PR01MB3893.eurprd01.prod.exchangelabs.com
- (2603:10a6:6:50::20)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=61873209@mylife.unisa.ac.za; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [105.112.99.124]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 30d5bfac-a77f-4d6f-25f4-08d6a87314e4
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(5600127)(711020)(4605104)(2017052603328)(7167020)(7153060)(7193020);SRVR:DB6PR01MB3958;
-x-ms-traffictypediagnostic: DB6PR01MB3958:
-x-microsoft-antispam-prvs: <DB6PR01MB3958235C7107E01B34ECC929BF4B0@DB6PR01MB3958.eurprd01.prod.exchangelabs.com>
-x-forefront-prvs: 09760A0505
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(396003)(366004)(136003)(39860400002)(376002)(346002)(199004)(189003)(6506007)(3480700005)(2906002)(97736004)(33656002)(6862004)(6200100001)(305945005)(5660300002)(81156014)(8936002)(6116002)(6436002)(52536014)(25786009)(3846002)(81166006)(105586002)(316002)(8796002)(786003)(106356001)(8676002)(221733001)(7736002)(99286004)(5003540100003)(476003)(86362001)(62860400002)(66806009)(74482002)(55016002)(52116002)(7116003)(7696005)(66066001)(14454004)(74316002)(68736007)(486006)(66574012)(9686003)(4744005)(186003)(55236004)(102836004)(386003)(14444005)(7416002)(256004)(325944009)(478600001)(43066004)(26005)(53936002)(71190400001)(71200400001)(75400400001)(81782002)(81742002);DIR:OUT;SFP:1102;SCL:1;SRVR:DB6PR01MB3958;H:DB6PR01MB3893.eurprd01.prod.exchangelabs.com;FPR:;SPF:None;LANG:de;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: mylife.unisa.ac.za does not
- designate permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 5M6sJ1udTs8T2Yl3PaJFSQNcVBRhSWQay5gQNftM+E3LKuLOyaLY1MURXlsCM7FawxMgDx+UVBHSS/QZxGTVBSBDqJ9Fai5yRd31KsYsdHoxpLCK10vU/zjIc7FOQtA4teC8yOtZal9tYXCK+unKnIKyPVP9blxcB3H2oJ8sqHu9LNHAbx2eYr/UDR9vTLnCrmgNGOccX8mrDSVU6VKT7+LMt2+50gog7v5hrkzw9WA5pRlTv7ep7nE/pT25IFTez4Y0dFqGvp119zt37JhAiL4SmAIyrZptBiyozzrck4S1fA1n1EUPkJSN2IJPZG4iJCPbg33i0Gy5JM/iHSZV22KrslIy4loJgoA7PrXqzi9yRLDlSRysWRaOzG79ceL0LlNtBjYuhr5lqwsWQCHCGZuitsT6Njaxzfc5ikXCGzsulHT2fHnJHa64vKgUy1DmRxvfvG+Qmn9Y3sx/zKnSiQ==
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <A8ECBFB8393F454A93DDF5B115FE4F60@eurprd01.prod.exchangelabs.com>
-Content-Transfer-Encoding: quoted-printable
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=6flR/SZ3bVyvGpeBMlCe2ZUtI2LHYS6gvOXI4e6BfpI=;
+        b=kQh7eu4cXQZsGXIDCyZUWIYrnP4SyHjyEFvqeDX9qwPtnZcuVZwGG+PjPGwiNcoOW4
+         K6ThH9dTXFVHXQ8v4C8+VL2bakspMZATm2KkwyVhMgEQB5zCyrrNAkrL1M2cYBGHrKzN
+         f+mj5cuB3C4v+kP1Bu40/h0NQwqAOdgzZb3J4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=6flR/SZ3bVyvGpeBMlCe2ZUtI2LHYS6gvOXI4e6BfpI=;
+        b=A8cUMAurlOpBasDnPaITTa+KcmG9Kq8tJER+1FlZxVN0JrDD26GH/0eUPnj5wlUFz7
+         FSX85HdkdWtd+4ahyk8W80UWda3MMJ9Qvj5BuqVJQSZjpynBMfVF0wUecDmOEHPRh1Gg
+         uJXT4JRcGfKabXaxJyqX0L6FVC5HZodkehUu6Ov6Pwg4pUllH8ntZw04WalCqcffzieB
+         2KqfUjkBD2vSZOhXJfKG+6aLg6p5ZJUbo7HxVLPnv91ZmWnJw77drY2Ye23XB9dLAiGj
+         olzo9rQ0Yrg+90TL43EBOoxFZwycSxAdI0DawJSZ0f59tDJgu3BSk3+VtC+erLbGBAYs
+         LeXQ==
+X-Gm-Message-State: APjAAAVJnFNr+4SXFr1GlifJH1yKFSCTiw6Cr2AHA/KFY/vUgRSu8iln
+        P72pIj4J8QIcpqYwZhAIwu499H4dzyE=
+X-Google-Smtp-Source: APXvYqy2IZqfZEb8pYZbKHCl44Uhexadk5h0/fwVSteoQa1v1VP2dysxz0REKQPzCiHRqC15nDXZfg==
+X-Received: by 2002:ac8:2bc1:: with SMTP id n1mr37856804qtn.176.1552566470361;
+        Thu, 14 Mar 2019 05:27:50 -0700 (PDT)
+Received: from localhost ([2620:0:1004:1100:cca9:fccc:8667:9bdc])
+        by smtp.gmail.com with ESMTPSA id k33sm8837364qte.8.2019.03.14.05.27.48
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 14 Mar 2019 05:27:48 -0700 (PDT)
+Date:   Thu, 14 Mar 2019 08:27:48 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     Masami Hiramatsu <mhiramat@kernel.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Daniel Colascione <dancol@google.com>,
+        Karim Yaghmour <karim.yaghmour@opersys.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        atish patra <atishp04@gmail.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-trace-devel@vger.kernel.org,
+        Manoj Rao <linux@manojrajarao.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Qais Yousef <qais.yousef@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
+Subject: Re: [PATCH v4 1/2] Provide in-kernel headers for making it easy to
+ extend the kernel
+Message-ID: <20190314122748.GA101545@google.com>
+References: <20190309121141.GA30173@kroah.com>
+ <b7296377-9e0c-aed7-61f0-93d24d1ceddd@opersys.com>
+ <CAMuHMdV8+XTyGf1ZJ+gMf=zQpzqh3-+b7wgi+gAmXQ6HpUAw3A@mail.gmail.com>
+ <3e84e1ef-e266-e983-5874-6c26ac7f38b8@opersys.com>
+ <20190311193612.4f09bf11@oasis.local.home>
+ <CAKOZuetHG0O-CiO6h5tD7aht_MT70ebwWMMSPkRUHdiM3wVq0Q@mail.gmail.com>
+ <20190312003912.GA170478@google.com>
+ <20190311212823.60684182@oasis.local.home>
+ <CAJWu+oqsD_wHGWfzj6POFowiY2qcu04auVzkA6Lu9R+LR4gkrQ@mail.gmail.com>
+ <20190313101843.800dd8d6a9babb635580ebdc@kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: mylife.unisa.ac.za
-X-MS-Exchange-CrossTenant-Network-Message-Id: 30d5bfac-a77f-4d6f-25f4-08d6a87314e4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Mar 2019 11:49:14.6376
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: ca9a8b8c-3ea3-4799-a43e-5510398e7a3b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR01MB3958
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190313101843.800dd8d6a9babb635580ebdc@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hallo,
+Hi Masami,
+Sorry for late reply as I was traveling.
 
-Befinden Sie sich in finanziellen Schwierigkeiten? Ben=F6tigen Sie einen Kr=
-edit, um Ihre Schulden zu begleichen? Sind Sie ein Gesch=E4ftsmann oder ein=
-e Frau, die Ihr Gesch=E4ft erweitern m=F6chten? Kredite aller Art anbieten =
-Kontaktieren Sie uns heute f=FCr ein Darlehen per E-Mail: larryloanhome@yah=
-oo.com
+On Wed, Mar 13, 2019 at 10:18:43AM +0900, Masami Hiramatsu wrote:
+> On Mon, 11 Mar 2019 18:38:49 -0700
+> Joel Fernandes <joelaf@google.com> wrote:
+> 
+> > On Mon, Mar 11, 2019 at 6:28 PM Steven Rostedt <rostedt@goodmis.org> wrote:
+> > >
+> > > On Mon, 11 Mar 2019 20:39:12 -0400
+> > > Joel Fernandes <joel@joelfernandes.org> wrote:
+> > >
+> > > > I think even though the kernel-headers can't have information about all data
+> > > > structures, they do already contain a lot of data structure definitions we
+> > > > need already. And anything needed can/should arguably be moved to include/ if
+> > > > they are really needed for kernel extension by something "external" to the
+> > > > kernel such as kernel modules or eBPF, right?
+> > >
+> > > That's not my worry. I would like to be able to easily walk data
+> > > structures from within the kernel, without having to do a lot of work
+> > > in userspace to get that information. The kprobe_events could then be
+> > > passed type casts or such to access data fields of arguments to
+> > > functions and such.
+> > 
+> > Ok.
+> > 
+> > > > In any case, such a solution such as what Steve suggested, still cannot do
+> > > > what we can with headers - such as build kernel modules on the fly using the
+> > > > C-compiler without any auto-generation of C code from any debug artifiacts.
+> > > > Think systemtap working with the module-backend without any need for
+> > > > linux-headers package on the file system. So such a solution would still be a
+> > > > bit orthogonal in scope to what this proposed solution can solve IMO.
+> > > >
+> > >
+> > > With the information I would like to have, it would be trivial to read
+> > > the data to create the header files needed for modules.
+> > 
+> > But there are macros and other #define things too. We lose all of them
+> > and can't recreate them from just DWARF (AFAIK). Including
+> > include/generated/autoconf.h which #defines the CONFIG options. For
+> > that we either need headers, or full kernel's sources with build
+> > artifacts.
+> 
+> What kind of macros would you concern?
+> 
+> > I do see a use case for the debug info you are talking about as you
+> > mentioned for the kprobe_events argument list types, and I already
+> > thought about it. But it does not seem to work for all the use cases I
+> > am referring to here.
+> 
+> But the eBPF is based on kprobe-events. What kind of usage would you
+> expected? (with macros??)
 
-Darlehensanwendung
+eBPF C programs are compiled with kernel headers. They can execute inline
+functions or refer to macros in the kernel headers. They are similar to
+kernel modules where you build a C program that then later is executed in
+kernel context. It goes through the whole compiler pipeline. This is slightly
+different usage from pure kprobe-events.  Also eBPF kprobe programs need
+LINUX_VERSION_CODE (or similarly named) macro which it provides to the bpf(2)
+syscall when loading kprobe programs. This is because eBPF implementation in
+the kernel checks if the eBPF programs that use kprobes are being loaded
+against the right kernel.
 
-Name des Bewerbers:
-Land:
-Besetzung:
-Geschlecht:
-Der Grund f=FCr den Kredit:
-Alter:
-Telefonnummer:
-Erforderliche Menge:
-Dauer der Ausleihe
-Monatliche Miete:
+thanks,
 
-Mr. LARRY
+- Joel
+
