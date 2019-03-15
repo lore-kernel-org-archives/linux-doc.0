@@ -1,58 +1,58 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 353ED7DBEB
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Mar 2019 19:54:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DCEC17D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Mar 2019 20:03:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725990AbfCOTxu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 15 Mar 2019 15:53:50 -0400
-Received: from mail-oi1-f202.google.com ([209.85.167.202]:41584 "EHLO
-        mail-oi1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727452AbfCOTwK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Mar 2019 15:52:10 -0400
-Received: by mail-oi1-f202.google.com with SMTP id p131so4458763oif.8
-        for <linux-doc@vger.kernel.org>; Fri, 15 Mar 2019 12:52:09 -0700 (PDT)
+        id S1726071AbfCOUDf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 15 Mar 2019 16:03:35 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:41701 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725990AbfCOUDf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Mar 2019 16:03:35 -0400
+Received: by mail-pg1-f195.google.com with SMTP id k11so7168679pgb.8;
+        Fri, 15 Mar 2019 13:03:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=o99IPl+uG2EzV+A51yAxAJoGFkhXN8vGRgmKAMdYgSA=;
-        b=qeml8KMlP7rmAvIxGUwmqXR6s58tv3WFmWASkki2NWsIADrbc1k8lfVc0+MTWbLpzs
-         TVLOcfO6bk+g3/mT4x135nyZgaRh/a1cI0EJSPVigzGsRAp8PAEjxUHPFZAzqhmXZx4l
-         8Q3KL5oxK5OHSh9sOaBJzftYgvN7gNgSHSwrNoWatq8tKEtYq3SVrekzbwazA+QWLKeH
-         U6r1Zznc3OnEUZ0dR61U5DX56ScUlBeamodtGHalBVARU3JboxCMy3bCQIt/yf/PIiTQ
-         7ti2uUkzpKUEL7B+2/dvfA9GvioOMJDdEfC7KsiAuJ+0KTfpgnd+IOQxpTKu3Bl4+qOo
-         qSqQ==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=9AzJNPZrWzBDD4w+YR6o8R1NuHkXmo1ETr66/JW7xLw=;
+        b=mUxATW68etjE5v8S6J9Jd+3aIJP3RDifB7SRhiyyAe3JOb88DPKvLOvqxA5fJjklUa
+         0R51CHmyEhXiPvKBm8RTOmSqu9McUlBgo9ESFJeeOk3DFae8iSGVwwpnWkHL5T8LIehE
+         H6aDiOVLZhFjZTl6Lyoxfp6D/MXHg0AlvvGtbOaILc1P4UMi+CnbvjCE9w2Bbb+mndVh
+         HoRoU1W1TqYpdyrIt+3CSbdzFHrAwEv4kdI659SaRSqJ3zauITFYhoUxKS+o+Pa/IK6C
+         O3HS9Q7uE1MPZhMMaTgS0hvmb0iSDSU6rlzoljfH1oI8gX1kjokIbEHdfL8Wq/7KSEZ6
+         ejYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=o99IPl+uG2EzV+A51yAxAJoGFkhXN8vGRgmKAMdYgSA=;
-        b=Lguic08iEqU7vx73CSDNGcg0uvtUis7sfhBkK5c6hTvzdzcABGO0Sv23ZLy90g7rCL
-         oLrct/zeZR6TFQc6G0ylRL5dIPklA7RMxdWaqdAtdVcbAAGOSYiFe8PqViTnYmBfIQvJ
-         prgWvu3FH47lPMdpnMLFNbAT13hZcqEQbFX8rnRWwkutvjtGHCT7953zrQhkp48pq3H9
-         ElfQrMeRD9KujL2GAuaTlbVtJRanm+l9bCEC+Ef/w1IkniTtPCIx6ZY4an/VWEMXjsix
-         QrkYeY1JUEhrS9mvvCl3p4gLCVxzHBF+SdUVesd7TmSy/nFbcMwfUElC+V280zdzoSV2
-         vCnQ==
-X-Gm-Message-State: APjAAAVlNUsW5PLodZizJixQ+zAaRx8YWTEPzw0+syxOxXKJneNaAZXE
-        xEpBt9oQKeY2iX4dlmGV99XZ1JPdXtv9Jvso
-X-Google-Smtp-Source: APXvYqxLoKEgsAEPjIF9NsjndQ5gVGqmokYLJoZMnp0FGqwROodj4iKJAPngQ8EF97Yh5xKIjIbFflxcHuXMaJlJ
-X-Received: by 2002:aca:2409:: with SMTP id n9mr3111631oic.19.1552679529309;
- Fri, 15 Mar 2019 12:52:09 -0700 (PDT)
-Date:   Fri, 15 Mar 2019 20:51:32 +0100
-In-Reply-To: <cover.1552679409.git.andreyknvl@google.com>
-Message-Id: <56d3373c1c5007d776fcd5de4523f4b9da341fb6.1552679409.git.andreyknvl@google.com>
-Mime-Version: 1.0
-References: <cover.1552679409.git.andreyknvl@google.com>
-X-Mailer: git-send-email 2.21.0.360.g471c308f928-goog
-Subject: [PATCH v11 08/14] net, arm64: untag user pointers in tcp_zerocopy_receive
-From:   Andrey Konovalov <andreyknvl@google.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=9AzJNPZrWzBDD4w+YR6o8R1NuHkXmo1ETr66/JW7xLw=;
+        b=j6UodrotZECnNb7Cs4zveubsmCEGRX3Cs6HcPyyb6Y6JFklMYcFeLbvDHu51cquh/j
+         dNLhJMIy2MYLgGHSLcA5WP5Hx4oZAdSiVDTvTzv7KIQlld2i/w6+bSNf3A+ityj4bnX7
+         zSQQHiMp8th0LSOCx/XvVH3n7GUbxySDQ7Kce13U00qwn6mJEnqkqhJGjiCu20R8NUdy
+         Mn0B8aYxp84sgHdb5kpbrZGdMMZV8NXu90Z2FrhWouThUb0zQTtBJfQ5YOCr9TlJH7pL
+         vN1wvUqtY57gkSq5Z2cvr9JaUE8IL+TM6SdoojTKwHcbpDUa3Xpu2P4uU1IvBHC5JrNr
+         qQUA==
+X-Gm-Message-State: APjAAAVebYhvFcPdjK6g7LUakaMUH3T3bM978bRw/45M6STI7gLdn1LC
+        BMyhNmdYiTHJ0zZyrBR+Pts=
+X-Google-Smtp-Source: APXvYqz6d+NKyVLh5z3E5aaETq9ca7nFOcUBQOKqRBUqKTHpgoiu//RDThDx4hpT4mlqDLJyMQbN0g==
+X-Received: by 2002:a63:780e:: with SMTP id t14mr5285862pgc.276.1552680213678;
+        Fri, 15 Mar 2019 13:03:33 -0700 (PDT)
+Received: from ?IPv6:2620:15c:2c1:200:55c7:81e6:c7d8:94b? ([2620:15c:2c1:200:55c7:81e6:c7d8:94b])
+        by smtp.gmail.com with ESMTPSA id p34sm4428128pgb.18.2019.03.15.13.03.31
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 15 Mar 2019 13:03:32 -0700 (PDT)
+Subject: Re: [PATCH v11 08/14] net, arm64: untag user pointers in
+ tcp_zerocopy_receive
+To:     Andrey Konovalov <andreyknvl@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
         Mark Rutland <mark.rutland@arm.com>,
         Robin Murphy <robin.murphy@arm.com>,
@@ -87,41 +87,56 @@ Cc:     Dmitry Vyukov <dvyukov@google.com>,
         Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
         Dave Martin <Dave.Martin@arm.com>,
         Kevin Brodsky <kevin.brodsky@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+References: <cover.1552679409.git.andreyknvl@google.com>
+ <56d3373c1c5007d776fcd5de4523f4b9da341fb6.1552679409.git.andreyknvl@google.com>
+From:   Eric Dumazet <eric.dumazet@gmail.com>
+Message-ID: <04c5b2de-7fde-7625-9d42-228160879ea0@gmail.com>
+Date:   Fri, 15 Mar 2019 13:03:30 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <56d3373c1c5007d776fcd5de4523f4b9da341fb6.1552679409.git.andreyknvl@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch is a part of a series that extends arm64 kernel ABI to allow to
-pass tagged user pointers (with the top byte set to something else other
-than 0x00) as syscall arguments.
 
-tcp_zerocopy_receive() uses provided user pointers for vma lookups, which
-can only by done with untagged pointers.
 
-Untag user pointers in this function.
+On 03/15/2019 12:51 PM, Andrey Konovalov wrote:
+> This patch is a part of a series that extends arm64 kernel ABI to allow to
+> pass tagged user pointers (with the top byte set to something else other
+> than 0x00) as syscall arguments.
+> 
+> tcp_zerocopy_receive() uses provided user pointers for vma lookups, which
+> can only by done with untagged pointers.
+> 
+> Untag user pointers in this function.
+> 
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> ---
+>  net/ipv4/tcp.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
+> index 6baa6dc1b13b..89db3b4fc753 100644
+> --- a/net/ipv4/tcp.c
+> +++ b/net/ipv4/tcp.c
+> @@ -1758,6 +1758,8 @@ static int tcp_zerocopy_receive(struct sock *sk,
+>  	int inq;
+>  	int ret;
+>  
+> +	address = untagged_addr(address);
+> +
+>  	if (address & (PAGE_SIZE - 1) || address != zc->address)
 
-Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
----
- net/ipv4/tcp.c | 2 ++
- 1 file changed, 2 insertions(+)
+The second test will fail, if the top bits are changed in address but not in zc->address
 
-diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
-index 6baa6dc1b13b..89db3b4fc753 100644
---- a/net/ipv4/tcp.c
-+++ b/net/ipv4/tcp.c
-@@ -1758,6 +1758,8 @@ static int tcp_zerocopy_receive(struct sock *sk,
- 	int inq;
- 	int ret;
- 
-+	address = untagged_addr(address);
-+
- 	if (address & (PAGE_SIZE - 1) || address != zc->address)
- 		return -EINVAL;
- 
--- 
-2.21.0.360.g471c308f928-goog
+>  		return -EINVAL;
+>  
+> 
 
