@@ -6,51 +6,51 @@ X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B40117D8A4
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Mar 2019 19:52:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 320FC7D91A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Mar 2019 19:52:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727420AbfCOTwF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 15 Mar 2019 15:52:05 -0400
-Received: from mail-yw1-f73.google.com ([209.85.161.73]:45376 "EHLO
-        mail-yw1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726694AbfCOTwD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Mar 2019 15:52:03 -0400
-Received: by mail-yw1-f73.google.com with SMTP id g140so11440300ywb.12
-        for <linux-doc@vger.kernel.org>; Fri, 15 Mar 2019 12:52:03 -0700 (PDT)
+        id S1727528AbfCOTwV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 15 Mar 2019 15:52:21 -0400
+Received: from mail-qt1-f201.google.com ([209.85.160.201]:55359 "EHLO
+        mail-qt1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727506AbfCOTwT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Mar 2019 15:52:19 -0400
+Received: by mail-qt1-f201.google.com with SMTP id h51so1938839qte.22
+        for <linux-doc@vger.kernel.org>; Fri, 15 Mar 2019 12:52:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=z/lbJIk5a8zt10jywFDNy5ZdetbtZxhqc2S4ejPNJ3g=;
-        b=vzUF5/hV3N6LymY3D+bJBpSatNRK6fXpwnZa/1KVNOg7xeGxEXTPkbw+wbEOfgpNDR
-         np5G4rL7T1cd+Sz5iJ0RCOtU4P6bLZVS0l14Aq6zvISFR6mzBUWQWKFDoL13DmN3dbM+
-         SpIGClyUMZd9169+i8j5m3A6jrJ+Hyb10rwBPEQoaeyLAtm17DlPNuWH2RVG7xX1Y6TF
-         9LKSfozE1SWXebNzzat2ugJn18cSW7bw5YZG+7kazfWFB4UEOKlKg3watEf4bHP24M7o
-         9DP2o8Vqy0brwdDfGOvD+zN5V6FQV40T4Y8K+j9OS7OnApB4pexBW7Q518EArWyVitEY
-         H6yw==
+        bh=REP9LhKq3azFcE3epBwHjl0z4e4u8qSodB2K6JOUUqY=;
+        b=FNIVGISAdAEFbreSsDDijAXV7iz7bJ+nqAbnQIHGv5JyzeZ7lcBCJx59d3veVulKlh
+         7jE3udTRD8ZB4FsTnM9RGbtkCH/mbxzWvFL0H4sXjQx4qi2m5t5ro7oy5rhM45nSVVBP
+         5ClTpMIvyiu2q1I0rCYKPmV2nRUW01xZpnfJIxUQMHQ44ykxwcrzRx307eckpZorbuN3
+         6VEq4E+w7Q2yQVpjsHzE5SdEEFgZlQL/gXacFSIer7uFwLUhfH2E6+fmsaTjr28zvsU3
+         LxduxWE/YJsel6dur8r7Ne5zecAEIXKRCQ6ztsVh51aCO/ECwJBztr37RmWaHcFGyfRo
+         FPEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=z/lbJIk5a8zt10jywFDNy5ZdetbtZxhqc2S4ejPNJ3g=;
-        b=eyOjrsphEEQQ+N2qj6/4zxq8+JRU4DD9KlGDm+/jqRaKuj4hgKrCNy0SiyBkg07LCa
-         3R5Izgmmu7CM8/DNAkiXNnrzvMdvntRWLyHVWFJqeTB0rDrWmlTm2FX5syxg2BpjCOod
-         brLH/yWVZiBEUby3IfkL3h8RXMuXdMfKMQXsnyzuuAvs/P4NN4XwHdAzqBqhxJ1TuBLm
-         z5TaPl9IFPm8Y8Ov+qjrv710dMhESXqUnsBHrTAQM73i7Zle1qtBlF2d4+w2Ot5+FfWI
-         b8vZZVPcYOAzm8o+gvFTm0UvbN6rg5gNUPc3pgVfclZQ/mhlg3zXwLu1uBtrcKoP4b1x
-         Ce1A==
-X-Gm-Message-State: APjAAAUxgj8tnT5oWMKgbDN/B1FTuvM3NfdgnFJAoPvwO2luW17bqPAp
-        mU0/Sv8UFL/kgRTwvFmZziTASUitS9gD1zpB
-X-Google-Smtp-Source: APXvYqzi5LEkko6ByM4uqeA/ILUmpPQs4A8NqtI2/DdkNKEbP39lGUp9icnx2HlBixyjeGCue9FZGuIPU0jeuK+1
-X-Received: by 2002:a81:8a46:: with SMTP id a67mr2389102ywg.26.1552679522975;
- Fri, 15 Mar 2019 12:52:02 -0700 (PDT)
-Date:   Fri, 15 Mar 2019 20:51:30 +0100
+        bh=REP9LhKq3azFcE3epBwHjl0z4e4u8qSodB2K6JOUUqY=;
+        b=XiKeUnnVzpFRi2Hta7jy2VBtrt5RV9aW2qe7JkJO7RW1Q1qPs2FUiUiWay+u1p8QJZ
+         pxzXrTTgd1DzyFfMBCwEnatE/nbPNPeXuCQ18KnEC79cWgJ6Ec0cWuiLqjLZKO1PMOOA
+         iMyJyZG38zZXbo2Ya2XGM1O7upjwZSlhLcEAs6VrOnPjOzrDnQXkSLiC8mRGBZEEVQfq
+         78WRGyAuYRJclUVS3guEJ+HidZnyhfZb4brL4psWzid0pWDOqUDsm87p0YbjnHnygaOT
+         XMvqd/sqGoy9x6bGUZ+Z21Qt8HJEEnJpM5nIpS68AwxUbBeLn8MHWY+UFhf34Vlgex+c
+         je5w==
+X-Gm-Message-State: APjAAAVxUl4rPnS40I4U7J/aE80SmsRT1Ndf5ATdI33hobGuVWaylu6K
+        6Po37R1Kz02ImoFoeNywmIW5mpsPBd8ZwVLp
+X-Google-Smtp-Source: APXvYqwJcWbE90DsufpIchU1RWZDjZYiH/OdYEaqepbyMZK8dYdaYAIDqIiN21SA2dhnlvcWp5RKO708a/U1e0LV
+X-Received: by 2002:ac8:2d7c:: with SMTP id o57mr3149114qta.39.1552679538830;
+ Fri, 15 Mar 2019 12:52:18 -0700 (PDT)
+Date:   Fri, 15 Mar 2019 20:51:35 +0100
 In-Reply-To: <cover.1552679409.git.andreyknvl@google.com>
-Message-Id: <e12d6b5008f63b530d25ad73b2e3491939005c22.1552679409.git.andreyknvl@google.com>
+Message-Id: <a5fff68a32941ebce02dbe48f554a76a9c7a36ce.1552679409.git.andreyknvl@google.com>
 Mime-Version: 1.0
 References: <cover.1552679409.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.21.0.360.g471c308f928-goog
-Subject: [PATCH v11 06/14] fs, arm64: untag user pointers in copy_mount_options
+Subject: [PATCH v11 11/14] uprobes, arm64: untag user pointers in find_active_uprobe
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -99,32 +99,30 @@ This patch is a part of a series that extends arm64 kernel ABI to allow to
 pass tagged user pointers (with the top byte set to something else other
 than 0x00) as syscall arguments.
 
-In copy_mount_options a user address is being subtracted from TASK_SIZE.
-If the address is lower than TASK_SIZE, the size is calculated to not
-allow the exact_copy_from_user() call to cross TASK_SIZE boundary.
-However if the address is tagged, then the size will be calculated
-incorrectly.
+find_active_uprobe() uses provided user pointer (obtained via
+instruction_pointer(regs)) for vma lookups, which can only by done with
+untagged pointers.
 
-Untag the address before subtracting.
+Untag the user pointer in this function.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- fs/namespace.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ kernel/events/uprobes.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/fs/namespace.c b/fs/namespace.c
-index c9cab307fa77..c27e5713bf04 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -2825,7 +2825,7 @@ void *copy_mount_options(const void __user * data)
- 	 * the remainder of the page.
- 	 */
- 	/* copy_from_user cannot cross TASK_SIZE ! */
--	size = TASK_SIZE - (unsigned long)data;
-+	size = TASK_SIZE - (unsigned long)untagged_addr(data);
- 	if (size > PAGE_SIZE)
- 		size = PAGE_SIZE;
+diff --git a/kernel/events/uprobes.c b/kernel/events/uprobes.c
+index c5cde87329c7..d3a2716a813a 100644
+--- a/kernel/events/uprobes.c
++++ b/kernel/events/uprobes.c
+@@ -1992,6 +1992,8 @@ static struct uprobe *find_active_uprobe(unsigned long bp_vaddr, int *is_swbp)
+ 	struct uprobe *uprobe = NULL;
+ 	struct vm_area_struct *vma;
  
++	bp_vaddr = untagged_addr(bp_vaddr);
++
+ 	down_read(&mm->mmap_sem);
+ 	vma = find_vma(mm, bp_vaddr);
+ 	if (vma && vma->vm_start <= bp_vaddr) {
 -- 
 2.21.0.360.g471c308f928-goog
 
