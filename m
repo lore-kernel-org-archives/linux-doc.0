@@ -1,191 +1,64 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 46BD77D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Mar 2019 03:45:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4386E7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Mar 2019 05:50:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727017AbfCODpD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 14 Mar 2019 23:45:03 -0400
-Received: from mail-yw1-f68.google.com ([209.85.161.68]:46239 "EHLO
-        mail-yw1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726910AbfCODpD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Mar 2019 23:45:03 -0400
-Received: by mail-yw1-f68.google.com with SMTP id v127so5917748ywe.13;
-        Thu, 14 Mar 2019 20:45:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=KH9hDuj4RI6kb489nt23ZONutiyd18udo+8OnSA5c3M=;
-        b=XmcZIltchIfvRy6in2FLTulto6xRSoJ4fxi/a46RKGour7uAMcCELcCmjNw/m/hVka
-         oXsfmGlK6KrDvvlaqV2azjRlMhuH7qzbFqPPrTPAOicQLSKTo7K1mMP4xhVesstgJGgQ
-         7S+mtySMU9y5wTuVlwTHJpQFeLaJstd6kFtayzV1H+BeMzscXf6gDL7X7JF/rTWZWi2c
-         fAvt+FuUwleV6q7CltNHW1Colj38Eg+Uj3QelzzdQAuG9BS555ZM3KPbszvGsiif4vSO
-         V7eowBUBPsS6sl05j70RJRdvv+/pXJtbPgYnUbcRJaZLeBlSI1wbf3IjpBFGtLSNYW4U
-         9BaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KH9hDuj4RI6kb489nt23ZONutiyd18udo+8OnSA5c3M=;
-        b=MQxh54IfJLpxDPuwRkdwt/O6paZcNat77NeJnw7d1gBE1N5SonF6rE6pK1MgTe6Pkl
-         5hvE4VnwV/7iB4VgSInsoxAqcPD5S7CXjo3xJF8Mx3GuYi/j8kEtgMiSHmMnRtvEoOI/
-         6cHYJwR1qu13I0MplYQh/9b5CvP1OZJaGENrk5y+sxagNhQd6VEyGh8EHMDnMwR3GDs7
-         9zS78uTuzALP3nNLTk1NrLc6NoPC0LVw8/IA60e2ujpn7UTVlpk2OZ9wvHs/H2mjfF1S
-         xHRTt8L6JtaQoPl/68zJNUujDUjcYil0kuRIjCoAm0xjIAzIJ3oWkDANsI+lOvGLpdbf
-         /X7Q==
-X-Gm-Message-State: APjAAAWEpE1GkQLbNboeFfTNHouxdNqMOltZGSRmwuEk3iB9GkdlaQ5z
-        TQoHsOuHthndY2tg3TSh/8Vd+D+rl0FmRlFebh4=
-X-Google-Smtp-Source: APXvYqzC9gQ/ivXA5pz2sECTxHvhVqTDqkCe1vnd0yO5hEuTyp7C4NY1gNVZRk2Wyush9DFmrnEdIsc6h/VsLQU4avs=
-X-Received: by 2002:a25:c087:: with SMTP id c129mr1312773ybf.320.1552621502057;
- Thu, 14 Mar 2019 20:45:02 -0700 (PDT)
-MIME-Version: 1.0
-References: <1552418820-18102-1-git-send-email-jaya@cs.utexas.edu>
- <20190314011925.GG23020@dastard> <CAOQ4uxjNDKjjzzcowy6oFZ=V7hWCkCbSyOQggE2XJirr4JHAyA@mail.gmail.com>
- <20190315030313.GP26298@dastard>
-In-Reply-To: <20190315030313.GP26298@dastard>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Fri, 15 Mar 2019 05:44:49 +0200
-Message-ID: <CAOQ4uxhyeBhk3DaHO8_oyfWbByidGaSrXJyh7uQE1YMaWTxR5A@mail.gmail.com>
-Subject: Re: [PATCH v2] Documenting the crash-recovery guarantees of Linux
- file systems
-To:     Dave Chinner <david@fromorbit.com>
-Cc:     Jayashree <jaya@cs.utexas.edu>, fstests <fstests@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        Vijaychidambaram Velayudhan Pillai <vijay@cs.utexas.edu>,
-        Theodore Tso <tytso@mit.edu>, chao@kernel.org,
-        Filipe Manana <fdmanana@gmail.com>,
+        id S1728203AbfCOFuK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 15 Mar 2019 01:50:10 -0400
+Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:35990 "EHLO
+        out30-45.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727151AbfCOFuK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Mar 2019 01:50:10 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R261e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04392;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0TMlFV7q_1552628996;
+Received: from Alexs-MacBook-Pro.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TMlFV7q_1552628996)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Fri, 15 Mar 2019 13:49:56 +0800
+Subject: Re: [PATCH] doc: add translation disclaimer
+To:     Federico Vaga <federico.vaga@vaga.pv.it>,
         Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190314204516.10890-1-federico.vaga@vaga.pv.it>
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+Message-ID: <15f416d6-79a5-604b-109b-b4f788933cda@linux.alibaba.com>
+Date:   Fri, 15 Mar 2019 13:49:55 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+ Gecko/20100101 Thunderbird/60.5.1
+MIME-Version: 1.0
+In-Reply-To: <20190314204516.10890-1-federico.vaga@vaga.pv.it>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 15, 2019 at 5:03 AM Dave Chinner <david@fromorbit.com> wrote:
->
-> On Thu, Mar 14, 2019 at 09:19:03AM +0200, Amir Goldstein wrote:
-> > On Thu, Mar 14, 2019 at 3:19 AM Dave Chinner <david@fromorbit.com> wrote:
-> > > On Tue, Mar 12, 2019 at 02:27:00PM -0500, Jayashree wrote:
-> > > > +Strictly Ordered Metadata Consistency
-> > > > +-------------------------------------
-> > > > +With each file system providing varying levels of persistence
-> > > > +guarantees, a consensus in this regard, will benefit application
-> > > > +developers to work with certain fixed assumptions about file system
-> > > > +guarantees. Dave Chinner proposed a unified model called the
-> > > > +Strictly Ordered Metadata Consistency (SOMC) [5].
-> > > > +
-> > > > +Under this scheme, the file system guarantees to persist all previous
-> > > > +dependent modifications to the object upon fsync().  If you fsync() an
-> > > > +inode, it will persist all the changes required to reference the inode
-> > > > +and its data. SOMC can be defined as follows [6]:
-> > > > +
-> > > > +If op1 precedes op2 in program order (in-memory execution order), and
-> > > > +op1 and op2 share a dependency, then op2 must not be observed by a
-> > > > +user after recovery without also observing op1.
-> > > > +
-> > > > +Unfortunately, SOMC's definition depends upon whether two operations
-> > > > +share a dependency, which could be file-system specific. It might
-> > > > +require a developer to understand file-system internals to know if
-> > > > +SOMC would order one operation before another.
-> > >
-> > > That's largely an internal implementation detail, and users should
-> > > not have to care about the internal implementation because the
-> > > fundamental dependencies are all defined by the directory heirarchy
-> > > relationships that users can see and manipulate.
-> > >
-> > > i.e. fs internal dependencies only increase the size of the graph
-> > > that is persisted, but it will never be reduced to less than what
-> > > the user can observe in the directory heirarchy.
-> > >
-> > > So this can be further refined:
-> > >
-> > >         If op1 precedes op2 in program order (in-memory execution
-> > >         order), and op1 and op2 share a user visible reference, then
-> > >         op2 must not be observed by a user after recovery without
-> > >         also observing op1.
-> > >
-> > > e.g. in the case of the parent directory - the parent has a link
-> > > count. Hence every create, unlink, rename, hard link, symlink, etc
-> > > operation in a directory modifies a user visible link count
-> > > reference.  Hence fsync of one of those children will persist the
-> > > directory link count, and then all of the other preceeding
-> > > transactions that modified the link count also need to be persisted.
-> > >
-> >
-> > One thing that bothers me is that the definition of SOMC (as well as
-> > your refined definition) doesn't mention fsync at all, but all the examples
-> > only discuss use cases with fsync.
->
-> You can't discuss operational ordering without a point in time to
-> use as a reference for that ordering.  SOMC behaviour is preserved
-> at any point the filesystem checkpoints itself, and the only thing
-> that changes is the scope of that checkpoint. fsync is just a
-> convenient, widely understood, minimum dependecy reference point
-> that people can reason from. All the interesting ordering problems
-> come from minimum dependecy reference point (i.e. fsync()), not from
-> background filesystem-wide checkpoints.
->
 
-Yes, I was referring to rename as a commonly used operation used
-by application as "metadata barrier".
 
-> > I personally find SOMC guaranty *much* more powerful in the absence
-> > of fsync. I have an application that creates sparse files, sets xattrs, mtime
-> > and moves them into place. The observed requirement is that after crash
-> > those files either exist with correct mtime, xattr or not exist.
-
-I wasn't clear:
-1. "sparse" meaning no data at all only hole.
-2. "exist" meaning found at rename destination
-Naturally, its applications responsibility to cleanup temp files that were
-not moved into rename destination.
-
+On 2019/3/15 4:45 上午, Federico Vaga wrote:
+> Add the translation disclaimer in English as reference
+> for other languages.  Translations must include this disclaimer
+> in their language so that readers are properly informed.
 >
-> SOMC does not provide the guarantees you seek in the absence of a
-> known data synchronisation point:
+> This very same patch updates the Italian translation accordingly.
 >
->         a) a background metadata checkpoint can land anywhere in
->         that series of operations and hence recovery will land in an
->         intermediate state.
-
-Yes, that results in temp files that would be cleaned up on recovery.
-
+> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+> ---
+>  Documentation/translations/index.rst          | 42 ++++++++++++++
+>  .../translations/it_IT/disclaimer-ita.rst     | 13 +----
+>  Documentation/translations/it_IT/index.rst    | 57 +++++++++++++------
+>  3 files changed, 85 insertions(+), 27 deletions(-)
 >
->         b) there is data that needs writing, and SOMC provides no
->         ordering guarantees for data. So after recovery file could
->         exist with correct mtime and xattrs, but have no (or
->         partial) data.
->
+> diff --git a/Documentation/translations/index.rst b/Documentation/translations/index.rst
+> index 7f77c52d33aa..d7a38fd28b50 100644
+> --- a/Documentation/translations/index.rst
+> +++ b/Documentation/translations/index.rst
+This part looks good for me. I don't understand Italian. :)
 
-There is no data in my use case, only metadata, that is why
-SOMC without fsync is an option.
-
-> > To my understanding, SOMC provides a guaranty that the application does
-> > not need to do any fsync at all,
->
-> Absolutely not true. If the application has atomic creation
-> requirements that need multiple syscalls to set up, it must
-> implement them itself and use fsync to synchronise data and metadata
-> before the "atomic create" operation that makes it visible to the
-> application.
->
-> SOMC only guarantees what /metadata/ you see at a fileystem
-> synchronisation point; it does not provide ACID semantics to a
-> random set of system calls into the filesystem.
->
-
-So I re-state my claim above after having explained the use case.
-IMO, SOMC guaranties is an important feature even in the absence
-of any fsync, because of the ability to use some metadata operation
-(e.g. rename, link) as metadata barriers.
-I am wrong about this?
-
-Thanks,
-Amir.
+Cheers
+Alex
