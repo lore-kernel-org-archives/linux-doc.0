@@ -1,113 +1,101 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 07E1D7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Mar 2019 10:55:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8A6CB7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Mar 2019 13:14:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728975AbfCOKzV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 15 Mar 2019 06:55:21 -0400
-Received: from mx.kolabnow.com ([95.128.36.42]:61962 "EHLO mx.kolabnow.com"
+        id S1729019AbfCONOR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 15 Mar 2019 09:14:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47594 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728948AbfCOKzV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 15 Mar 2019 06:55:21 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id 99DEE674;
-        Fri, 15 Mar 2019 11:55:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-type:content-type:content-transfer-encoding:mime-version
-        :references:in-reply-to:message-id:date:date:subject:subject
-        :from:from:received:received:received; s=dkim20160331; t=
-        1552647318; x=1554461719; bh=K+crdeGwd5RFwjcAOPNQQfDlbxXH8LOLCDr
-        byvQZR/Q=; b=vp1c/pDjRwc2dxHO6iB+qp0CkBD/9IM+qa1A5FuK62pfgnOMkQO
-        kNJc1Ote/H7XIQdRcsaGOL26YwsmdHCbUowYmQQU++OfwZsMgo59blBEGjKeq1m4
-        q426rX1YusV9WSfo97lPbAR2FONWlcH4slKnphBxLxaBmv8sVfeVKdz+9+SlmruI
-        gllBLpR/JcrSwFRQrA5D/czt+jM6uYtU63S1wRzdZsSx+V35vSeMHbhqDgtAQFZO
-        lvWb09wjHLlpRH78gWo0JntsKOUhLnSvhy2KFe+txbU4oZHLwbcJX51dueoVvOcO
-        a2B6xKa1P+9Iy0bxtJKxc9DYo3LIpOvRaKPt+ZBrD3R/+UyT6yHdquHTk70Iv7gz
-        ci148APurVSqbmS9cOGbAdzt6QXpbN0/Np7YSxpuip3GMAR7w9uxBPeQjraq/HWs
-        hObsG7e43L7VDkOhTT3XvVbBExwjYtdhgT3gfX4mIQww5HVgck3VcPJhn3SXaj37
-        vbco8VElI/hpNfOM/oTdQmf9kCzrNyCE12ourgbPOlRxjGu2gwSj26JQmdZ4V2xu
-        LhUtM9aPKSN3rK8p1DZAp15fzXeTroHJRyKLDeQzFLZNMAHzVZ1MYEisgHeKYxiA
-        15v8vPpWV6oEJ9kZPFyYhjpJ3e1uFeNYmhxBTaVSJjrVML0cecEY+ILQ=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id JQwBAiDE8Zhl; Fri, 15 Mar 2019 11:55:18 +0100 (CET)
-Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id 7ED97517;
-        Fri, 15 Mar 2019 11:55:18 +0100 (CET)
-Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
-        by int-mx001.mykolab.com (Postfix) with ESMTPS id 5627C216;
-        Fri, 15 Mar 2019 11:55:18 +0100 (CET)
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] doc: add translation disclaimer
-Date:   Fri, 15 Mar 2019 11:55:17 +0100
-Message-ID: <2230052.up2SEFjotJ@pcbe13614>
-In-Reply-To: <78830124-9f65-354c-ed16-3f73f5ebe0b3@rasmusvillemoes.dk>
-References: <20190314204516.10890-1-federico.vaga@vaga.pv.it> <78830124-9f65-354c-ed16-3f73f5ebe0b3@rasmusvillemoes.dk>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+        id S1726875AbfCONOQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 15 Mar 2019 09:14:16 -0400
+Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D1DD021871;
+        Fri, 15 Mar 2019 13:14:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1552655656;
+        bh=IEpUyL36q8/726NLraqLaGuCSWvp+z1d0IVNkmrGaZc=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=JD/Y36s/ANTZMHwjoVQs98Vc/TdnjKZpxOrd3o8Q5CWbWoEO2OrnHTYQNWf61qD70
+         QGkzLqvrc9wQunN+3VCCesWkBmuthUsgfLPj2uR4SvrSk38oQPGArH4KmmwgVYePyi
+         bk3S668CcIIgN1QzQLPPn/u+ZkKOY+u2e2b3YWAU=
+Date:   Fri, 15 Mar 2019 22:14:07 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Daniel Colascione <dancol@google.com>,
+        Karim Yaghmour <karim.yaghmour@opersys.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        atish patra <atishp04@gmail.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-trace-devel@vger.kernel.org,
+        Manoj Rao <linux@manojrajarao.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Qais Yousef <qais.yousef@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
+Subject: Re: [PATCH v4 1/2] Provide in-kernel headers for making it easy to
+ extend the kernel
+Message-Id: <20190315221407.790154f634fc5fc084d7bf15@kernel.org>
+In-Reply-To: <20190314122748.GA101545@google.com>
+References: <20190309121141.GA30173@kroah.com>
+        <b7296377-9e0c-aed7-61f0-93d24d1ceddd@opersys.com>
+        <CAMuHMdV8+XTyGf1ZJ+gMf=zQpzqh3-+b7wgi+gAmXQ6HpUAw3A@mail.gmail.com>
+        <3e84e1ef-e266-e983-5874-6c26ac7f38b8@opersys.com>
+        <20190311193612.4f09bf11@oasis.local.home>
+        <CAKOZuetHG0O-CiO6h5tD7aht_MT70ebwWMMSPkRUHdiM3wVq0Q@mail.gmail.com>
+        <20190312003912.GA170478@google.com>
+        <20190311212823.60684182@oasis.local.home>
+        <CAJWu+oqsD_wHGWfzj6POFowiY2qcu04auVzkA6Lu9R+LR4gkrQ@mail.gmail.com>
+        <20190313101843.800dd8d6a9babb635580ebdc@kernel.org>
+        <20190314122748.GA101545@google.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Friday, March 15, 2019 11:00:57 AM CET Rasmus Villemoes wrote:
-> On 14/03/2019 21.45, Federico Vaga wrote:
-> > diff --git a/Documentation/translations/index.rst
-> > b/Documentation/translations/index.rst index 7f77c52d33aa..d7a38fd28b50
-> > 100644
-> > --- a/Documentation/translations/index.rst
-> > +++ b/Documentation/translations/index.rst
-> > @@ -4,6 +4,48 @@
-> > 
-> >  Translations
-> >  ============
-> > 
-> > +.. _translations_disclaimer:
-> > +
-> > +Disclaimer
-> > +----------
-> > +
-> > +Translation's purpose is to ease reading and understating in languages
-> > other
-> understanding, hopefully :)
+On Thu, 14 Mar 2019 08:27:48 -0400
+Joel Fernandes <joel@joelfernandes.org> wrote:
 
-ops, yes :D
-
+> > But the eBPF is based on kprobe-events. What kind of usage would you
+> > expected? (with macros??)
 > 
-> > +If you need to communicate with the Linux community but you do not feel
-> > +comfortable to write in English, you can ask to the translation's
-> > +maintainers for help.
-> > +
-> 
-> s/to write/writing/, s/ask to/ask/
+> eBPF C programs are compiled with kernel headers. They can execute inline
+> functions or refer to macros in the kernel headers. They are similar to
+> kernel modules where you build a C program that then later is executed in
+> kernel context. It goes through the whole compiler pipeline. This is slightly
+> different usage from pure kprobe-events.  Also eBPF kprobe programs need
+> LINUX_VERSION_CODE (or similarly named) macro which it provides to the bpf(2)
+> syscall when loading kprobe programs. This is because eBPF implementation in
+> the kernel checks if the eBPF programs that use kprobes are being loaded
+> against the right kernel.
 
-ack
- 
-> > +Translations
-> > +------------
-> > +
-> 
-> Do you really mean to add that heading a second time? I know it's on
-> another level, but it seems a bit odd.
+Ah, I got it. It's similar to SystemTap. :)
 
-You are right
-
-> 
-> Rasmus
-
+Thank you,
 
 -- 
-Federico Vaga
-http://www.federicovaga.it/
-
-
+Masami Hiramatsu <mhiramat@kernel.org>
