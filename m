@@ -6,51 +6,51 @@ X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8702A7D099
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Mar 2019 19:51:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B40117D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Mar 2019 19:52:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727250AbfCOTv5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 15 Mar 2019 15:51:57 -0400
-Received: from mail-qt1-f202.google.com ([209.85.160.202]:42891 "EHLO
-        mail-qt1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727295AbfCOTvy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Mar 2019 15:51:54 -0400
-Received: by mail-qt1-f202.google.com with SMTP id n10so2019764qtk.9
-        for <linux-doc@vger.kernel.org>; Fri, 15 Mar 2019 12:51:53 -0700 (PDT)
+        id S1727420AbfCOTwF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 15 Mar 2019 15:52:05 -0400
+Received: from mail-yw1-f73.google.com ([209.85.161.73]:45376 "EHLO
+        mail-yw1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726694AbfCOTwD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Mar 2019 15:52:03 -0400
+Received: by mail-yw1-f73.google.com with SMTP id g140so11440300ywb.12
+        for <linux-doc@vger.kernel.org>; Fri, 15 Mar 2019 12:52:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=yc2TKKK3uyNjx4k/SCg2YsIAkDocczWLqEwyHrZeSHg=;
-        b=HPKtN+AcCirGFFQHEZAu/mCbNrjYIKj90qShdg/IiFhxen49J0Qdpnr1pcKG7a6Z8e
-         JeJ2qVhpKVo0e4MFSlZbzLIR2woDetJaTNND5bdihZ/qbAWcocsa2cvfjheYeB4rsRtq
-         VupfRDNmC+dOLdGj40kTGJqU/K4oyQ4V3HkdkM9xosZcLU7jdIpJBpWnC76XUdwc2cRx
-         PrBSQsPpZWMh+HxdTYEIi4nHU5c8m+m6PJBso4DlJCsFDkKaGHF5sF+vigRkHjI5UG0U
-         RhfFgSuDuzmav8L6Qcw6zbyS+BybgMK3vA4F1h2a+P/7Y7SKXtGu14CbY9cr1/NstkUy
-         Z8Lw==
+        bh=z/lbJIk5a8zt10jywFDNy5ZdetbtZxhqc2S4ejPNJ3g=;
+        b=vzUF5/hV3N6LymY3D+bJBpSatNRK6fXpwnZa/1KVNOg7xeGxEXTPkbw+wbEOfgpNDR
+         np5G4rL7T1cd+Sz5iJ0RCOtU4P6bLZVS0l14Aq6zvISFR6mzBUWQWKFDoL13DmN3dbM+
+         SpIGClyUMZd9169+i8j5m3A6jrJ+Hyb10rwBPEQoaeyLAtm17DlPNuWH2RVG7xX1Y6TF
+         9LKSfozE1SWXebNzzat2ugJn18cSW7bw5YZG+7kazfWFB4UEOKlKg3watEf4bHP24M7o
+         9DP2o8Vqy0brwdDfGOvD+zN5V6FQV40T4Y8K+j9OS7OnApB4pexBW7Q518EArWyVitEY
+         H6yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=yc2TKKK3uyNjx4k/SCg2YsIAkDocczWLqEwyHrZeSHg=;
-        b=phFMDAxtyH7puo3hS6BfLEaNV9uhd86UD33umzH8rs6Hb/rcVuaJmfSdaGvjR3IKqQ
-         4yYesmdB5wudLavA1iJddUIRROmg+0bhl6i1LKsfEhfaOczGqazyx34VCCelLRHQUEJK
-         aYA4E4iA+PyUbCRRL7kt+4qOlJAu+6vsKceDYiirhatMAPvwN74hqhhywFFCxuUvv7ki
-         1QTFLRYsGaz4dlml/XrycJ0l7wfC5R6J2DN0jwuA8BXz+Llw5yObWxHvPlVtOdqgn3f+
-         QeocgncCLaEqGvjoNeQffnwVwc7tjsN4gG3MmWs5mMQb45qAKixK86nlPHUcr7qmOVck
-         /AaA==
-X-Gm-Message-State: APjAAAWk23g3dvGSOK8VV705lGmASeYGCS/xnOJXf9x7ELUkutsWnz7i
-        RcMy4cLPhViE28SookFSXhrmP+akKsVPylH8
-X-Google-Smtp-Source: APXvYqxQt9HPpRfECab7LUPrHAbJSVnQOqRrkiVNkyIaCkT/+WBTjFpEfz28zU++TxipH2bwdLb5/hvYcjvCwg1k
-X-Received: by 2002:ac8:28c9:: with SMTP id j9mr3165248qtj.21.1552679513588;
- Fri, 15 Mar 2019 12:51:53 -0700 (PDT)
-Date:   Fri, 15 Mar 2019 20:51:27 +0100
+        bh=z/lbJIk5a8zt10jywFDNy5ZdetbtZxhqc2S4ejPNJ3g=;
+        b=eyOjrsphEEQQ+N2qj6/4zxq8+JRU4DD9KlGDm+/jqRaKuj4hgKrCNy0SiyBkg07LCa
+         3R5Izgmmu7CM8/DNAkiXNnrzvMdvntRWLyHVWFJqeTB0rDrWmlTm2FX5syxg2BpjCOod
+         brLH/yWVZiBEUby3IfkL3h8RXMuXdMfKMQXsnyzuuAvs/P4NN4XwHdAzqBqhxJ1TuBLm
+         z5TaPl9IFPm8Y8Ov+qjrv710dMhESXqUnsBHrTAQM73i7Zle1qtBlF2d4+w2Ot5+FfWI
+         b8vZZVPcYOAzm8o+gvFTm0UvbN6rg5gNUPc3pgVfclZQ/mhlg3zXwLu1uBtrcKoP4b1x
+         Ce1A==
+X-Gm-Message-State: APjAAAUxgj8tnT5oWMKgbDN/B1FTuvM3NfdgnFJAoPvwO2luW17bqPAp
+        mU0/Sv8UFL/kgRTwvFmZziTASUitS9gD1zpB
+X-Google-Smtp-Source: APXvYqzi5LEkko6ByM4uqeA/ILUmpPQs4A8NqtI2/DdkNKEbP39lGUp9icnx2HlBixyjeGCue9FZGuIPU0jeuK+1
+X-Received: by 2002:a81:8a46:: with SMTP id a67mr2389102ywg.26.1552679522975;
+ Fri, 15 Mar 2019 12:52:02 -0700 (PDT)
+Date:   Fri, 15 Mar 2019 20:51:30 +0100
 In-Reply-To: <cover.1552679409.git.andreyknvl@google.com>
-Message-Id: <f7fa36ec55ed4b45f61d841f9b726772a04cc0a5.1552679409.git.andreyknvl@google.com>
+Message-Id: <e12d6b5008f63b530d25ad73b2e3491939005c22.1552679409.git.andreyknvl@google.com>
 Mime-Version: 1.0
 References: <cover.1552679409.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.21.0.360.g471c308f928-goog
-Subject: [PATCH v11 03/14] lib, arm64: untag user pointers in strn*_user
+Subject: [PATCH v11 06/14] fs, arm64: untag user pointers in copy_mount_options
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -99,63 +99,32 @@ This patch is a part of a series that extends arm64 kernel ABI to allow to
 pass tagged user pointers (with the top byte set to something else other
 than 0x00) as syscall arguments.
 
-strncpy_from_user and strnlen_user accept user addresses as arguments, and
-do not go through the same path as copy_from_user and others, so here we
-need to handle the case of tagged user addresses separately.
+In copy_mount_options a user address is being subtracted from TASK_SIZE.
+If the address is lower than TASK_SIZE, the size is calculated to not
+allow the exact_copy_from_user() call to cross TASK_SIZE boundary.
+However if the address is tagged, then the size will be calculated
+incorrectly.
 
-Untag user pointers passed to these functions.
-
-Note, that this patch only temporarily untags the pointers to perform
-validity checks, but then uses them as is to perform user memory accesses.
+Untag the address before subtracting.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- lib/strncpy_from_user.c | 3 ++-
- lib/strnlen_user.c      | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ fs/namespace.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/lib/strncpy_from_user.c b/lib/strncpy_from_user.c
-index 58eacd41526c..6209bb9507c7 100644
---- a/lib/strncpy_from_user.c
-+++ b/lib/strncpy_from_user.c
-@@ -6,6 +6,7 @@
- #include <linux/uaccess.h>
- #include <linux/kernel.h>
- #include <linux/errno.h>
-+#include <linux/mm.h>
+diff --git a/fs/namespace.c b/fs/namespace.c
+index c9cab307fa77..c27e5713bf04 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -2825,7 +2825,7 @@ void *copy_mount_options(const void __user * data)
+ 	 * the remainder of the page.
+ 	 */
+ 	/* copy_from_user cannot cross TASK_SIZE ! */
+-	size = TASK_SIZE - (unsigned long)data;
++	size = TASK_SIZE - (unsigned long)untagged_addr(data);
+ 	if (size > PAGE_SIZE)
+ 		size = PAGE_SIZE;
  
- #include <asm/byteorder.h>
- #include <asm/word-at-a-time.h>
-@@ -107,7 +108,7 @@ long strncpy_from_user(char *dst, const char __user *src, long count)
- 		return 0;
- 
- 	max_addr = user_addr_max();
--	src_addr = (unsigned long)src;
-+	src_addr = (unsigned long)untagged_addr(src);
- 	if (likely(src_addr < max_addr)) {
- 		unsigned long max = max_addr - src_addr;
- 		long retval;
-diff --git a/lib/strnlen_user.c b/lib/strnlen_user.c
-index 1c1a1b0e38a5..8ca3d2ac32ec 100644
---- a/lib/strnlen_user.c
-+++ b/lib/strnlen_user.c
-@@ -2,6 +2,7 @@
- #include <linux/kernel.h>
- #include <linux/export.h>
- #include <linux/uaccess.h>
-+#include <linux/mm.h>
- 
- #include <asm/word-at-a-time.h>
- 
-@@ -109,7 +110,7 @@ long strnlen_user(const char __user *str, long count)
- 		return 0;
- 
- 	max_addr = user_addr_max();
--	src_addr = (unsigned long)str;
-+	src_addr = (unsigned long)untagged_addr(str);
- 	if (likely(src_addr < max_addr)) {
- 		unsigned long max = max_addr - src_addr;
- 		long retval;
 -- 
 2.21.0.360.g471c308f928-goog
 
