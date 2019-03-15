@@ -6,51 +6,51 @@ X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4A3E87D919
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Mar 2019 19:53:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7A4EC7D91A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Mar 2019 19:53:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727305AbfCOTxL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 15 Mar 2019 15:53:11 -0400
-Received: from mail-it1-f202.google.com ([209.85.166.202]:35803 "EHLO
-        mail-it1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727479AbfCOTwN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Mar 2019 15:52:13 -0400
-Received: by mail-it1-f202.google.com with SMTP id o68so2064264itb.0
-        for <linux-doc@vger.kernel.org>; Fri, 15 Mar 2019 12:52:13 -0700 (PDT)
+        id S1727160AbfCOTwB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 15 Mar 2019 15:52:01 -0400
+Received: from mail-io1-f74.google.com ([209.85.166.74]:35928 "EHLO
+        mail-io1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727375AbfCOTwA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Mar 2019 15:52:00 -0400
+Received: by mail-io1-f74.google.com with SMTP id a7so5062401ioq.3
+        for <linux-doc@vger.kernel.org>; Fri, 15 Mar 2019 12:52:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=qCZblj86ukutCUgaNEezPPnSo6jFx7c0S/27D3+g5SQ=;
-        b=RV+qphgRwIM0BlYxCZg0JlfEjDx5G2b5L8ZyFpBg6xhggSYfsl1Fqr2nkYw/1uo2gs
-         3X2mnJn0InykZb95Oc3LklEnd5abQO0mxyfCWv4ktefYvvvkA3igSCrt3kfSvFnDcJd2
-         yiTPCyZxoNT8Y3VZrTwxne1jWphT3yMFgfIrreIXZfWc85uza+QqmGRI+KRoFp3SruIJ
-         AoO+ZWZNEwD/TFL+4c5NovYe7UTZj9KfYqP4IK256g8ihlekEEHLF6pJB9120lvwCNGI
-         YKyN4okwCGSEeBvRd5Hm2UUrZHroN4fPZmCKFLzy7try938Sv18vPjuWwinYuq9JIjNh
-         YyTA==
+        bh=5MhKE+xTLHyfvL7IaHp0v3M/t60vex2+i9OGVnQRymk=;
+        b=b/k7mB6t8bkl6WhPUgGfnIbuQpfATsU20Yd9KlI8YbMaGUFttdQxCzkvduKa8IOy8C
+         +aL+zDQpxDKN5neB5pmosuIHBI0Zw/VkKPjT+OCI05YKof+0rexjDomInULUZSZZwZe4
+         sKO4ip/dnicDW0EiUs3RF19JdO3smNNUCHBqnEYyMQcB4Zi3SAnphW12wObXWLr30yaC
+         Cg1FmVpaxC5JzsE7dKMZHXXd8+AOb4omgJILGhPI4h92LrbGtWJe5eIqPcfmyYH0djku
+         js0qEZrW0JA+T0+gbA+Ly5yXzixdwcg0y/4Mb6pAB6p7EjV2RE2SUw8xVQAbEf7JiHti
+         SGaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=qCZblj86ukutCUgaNEezPPnSo6jFx7c0S/27D3+g5SQ=;
-        b=exmON2dCv6T2lSL7uyoasUMKrZlqaWqP4rpaPpu6nLswoMn2Ek48pWozMXXsND+dHn
-         8XykgnVKt5GgZvD6XQ/4LQ5hhaiAi+7lXLFPqqtv9htbpbzQcqOFSen9YkrTaHMR/8MP
-         dmvSz2mPaiF54iBJMkkQzvr63AQHgDE+vbEgHjl+Nx5som2LGTYaBR65HG2IENCj9wUL
-         1/M3xTNi2CTWhmAxeHzCgamC1FZOq9gOsHvMsTsmKv29n8wjFz87PxwnbspHCYPqCf7B
-         uGezKJfNnODzvzEUBQUnUj3DSG5OhI8/+9tQemkp4zfqLIKldNmjQ5X/KW6nHES0YsEs
-         v+DA==
-X-Gm-Message-State: APjAAAV9Wb+i0U2Ud8nLYeJsgiPjMGfjdbYd0z0BYYJgh929yKN85cTj
-        9glx2IDcyNtqnDk0+6kuCY7GE5g+h+7nsTRk
-X-Google-Smtp-Source: APXvYqzF9kP75AZrtaf7n0FWkgnfxl6FIrePx6iNETztWTIe/Q/kL5cqZ/6EOdqOX8uD9nyrlgZxURKjMjdTQ+yZ
-X-Received: by 2002:a24:508e:: with SMTP id m136mr2945070itb.34.1552679532548;
- Fri, 15 Mar 2019 12:52:12 -0700 (PDT)
-Date:   Fri, 15 Mar 2019 20:51:33 +0100
+        bh=5MhKE+xTLHyfvL7IaHp0v3M/t60vex2+i9OGVnQRymk=;
+        b=ftZT4GkaKREvFqyDTqEcCqBDZpI5BdBSZ0GmUbQsGxsfkHFPB9Zu9JjdJZv+JJe0rh
+         6pGlyEb2JUGzg1NHpvKBXXzyN7rx7cx5Au0SWn3OwLCBGJbF0VHlb1oUS26dXh63W/fk
+         +5hPQjvxyoBgiQ8G5TIZHnfGTjn5X3PBariS8vPIbRy0zH7znu5MC5Y6UWPdqnuwnTRc
+         +irF3j3nZ3TzGNe95wUKCLpN0KIaxShkBev78L9xe9GcIFZwBweNdUO2Ql8B67I2P+Nr
+         2bxQrLe7MOKj3FGfWCjLORYvsLQxyS6DA0E/0c/Rouq0XC7DLT/GX1zws/CjmhtCediY
+         +B/Q==
+X-Gm-Message-State: APjAAAVMlJ6dVFaeHPk/vMEBnbIrXhOmXQqB+FW0i4wue2u7QXmkyolY
+        MDI/uSEJR9yrTy+m1Xg3dtFxIHQQkt0aoTTS
+X-Google-Smtp-Source: APXvYqzz8vOD7Qv22AiUEzZPFjEW8sEguH+wb4/ai4clU9WhQEQBq5QCuyJA5WS9vCTzYh7rDvAW6xfNjGINS7Ci
+X-Received: by 2002:a24:4503:: with SMTP id y3mr2805802ita.32.1552679519819;
+ Fri, 15 Mar 2019 12:51:59 -0700 (PDT)
+Date:   Fri, 15 Mar 2019 20:51:29 +0100
 In-Reply-To: <cover.1552679409.git.andreyknvl@google.com>
-Message-Id: <c4d65de9867cb3349af6800242da0de751260c6c.1552679409.git.andreyknvl@google.com>
+Message-Id: <f46caf7bea6bdbb7e50f2abedc83df13d075735c.1552679409.git.andreyknvl@google.com>
 Mime-Version: 1.0
 References: <cover.1552679409.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.21.0.360.g471c308f928-goog
-Subject: [PATCH v11 09/14] kernel, arm64: untag user pointers in prctl_set_mm*
+Subject: [PATCH v11 05/14] mm, arm64: untag user pointers in mm/gup.c
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -99,48 +99,40 @@ This patch is a part of a series that extends arm64 kernel ABI to allow to
 pass tagged user pointers (with the top byte set to something else other
 than 0x00) as syscall arguments.
 
-prctl_set_mm() and prctl_set_mm_map() use provided user pointers for vma
-lookups, which can only by done with untagged pointers.
+mm/gup.c provides a kernel interface that accepts user addresses and
+manipulates user pages directly (for example get_user_pages, that is used
+by the futex syscall). Since a user can provided tagged addresses, we need
+to handle this case.
 
-Untag user pointers in these functions.
+Add untagging to gup.c functions that use user addresses for vma lookups.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- kernel/sys.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ mm/gup.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/kernel/sys.c b/kernel/sys.c
-index 12df0e5434b8..8e56d87cc6db 100644
---- a/kernel/sys.c
-+++ b/kernel/sys.c
-@@ -1993,6 +1993,18 @@ static int prctl_set_mm_map(int opt, const void __user *addr, unsigned long data
- 	if (copy_from_user(&prctl_map, addr, sizeof(prctl_map)))
- 		return -EFAULT;
+diff --git a/mm/gup.c b/mm/gup.c
+index f84e22685aaa..3192741e0b3a 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -686,6 +686,8 @@ static long __get_user_pages(struct task_struct *tsk, struct mm_struct *mm,
+ 	if (!nr_pages)
+ 		return 0;
  
-+	prctl_map->start_code	= untagged_addr(prctl_map.start_code);
-+	prctl_map->end_code	= untagged_addr(prctl_map.end_code);
-+	prctl_map->start_data	= untagged_addr(prctl_map.start_data);
-+	prctl_map->end_data	= untagged_addr(prctl_map.end_data);
-+	prctl_map->start_brk	= untagged_addr(prctl_map.start_brk);
-+	prctl_map->brk		= untagged_addr(prctl_map.brk);
-+	prctl_map->start_stack	= untagged_addr(prctl_map.start_stack);
-+	prctl_map->arg_start	= untagged_addr(prctl_map.arg_start);
-+	prctl_map->arg_end	= untagged_addr(prctl_map.arg_end);
-+	prctl_map->env_start	= untagged_addr(prctl_map.env_start);
-+	prctl_map->env_end	= untagged_addr(prctl_map.env_end);
++	start = untagged_addr(start);
 +
- 	error = validate_prctl_map(&prctl_map);
- 	if (error)
- 		return error;
-@@ -2106,6 +2118,8 @@ static int prctl_set_mm(int opt, unsigned long addr,
- 			      opt != PR_SET_MM_MAP_SIZE)))
- 		return -EINVAL;
+ 	VM_BUG_ON(!!pages != !!(gup_flags & FOLL_GET));
  
-+	addr = untagged_addr(addr);
+ 	/*
+@@ -848,6 +850,8 @@ int fixup_user_fault(struct task_struct *tsk, struct mm_struct *mm,
+ 	struct vm_area_struct *vma;
+ 	vm_fault_t ret, major = 0;
+ 
++	address = untagged_addr(address);
 +
- #ifdef CONFIG_CHECKPOINT_RESTORE
- 	if (opt == PR_SET_MM_MAP || opt == PR_SET_MM_MAP_SIZE)
- 		return prctl_set_mm_map(opt, (const void __user *)addr, arg4);
+ 	if (unlocked)
+ 		fault_flags |= FAULT_FLAG_ALLOW_RETRY;
+ 
 -- 
 2.21.0.360.g471c308f928-goog
 
