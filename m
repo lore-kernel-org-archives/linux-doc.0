@@ -3,54 +3,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 320FC7D91A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Mar 2019 19:52:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0B6A47D099
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 15 Mar 2019 19:52:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727528AbfCOTwV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 15 Mar 2019 15:52:21 -0400
-Received: from mail-qt1-f201.google.com ([209.85.160.201]:55359 "EHLO
-        mail-qt1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727506AbfCOTwT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Mar 2019 15:52:19 -0400
-Received: by mail-qt1-f201.google.com with SMTP id h51so1938839qte.22
-        for <linux-doc@vger.kernel.org>; Fri, 15 Mar 2019 12:52:19 -0700 (PDT)
+        id S1727526AbfCOTw0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 15 Mar 2019 15:52:26 -0400
+Received: from mail-yw1-f73.google.com ([209.85.161.73]:38683 "EHLO
+        mail-yw1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727548AbfCOTwX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Mar 2019 15:52:23 -0400
+Received: by mail-yw1-f73.google.com with SMTP id v85so13095672ywc.5
+        for <linux-doc@vger.kernel.org>; Fri, 15 Mar 2019 12:52:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=REP9LhKq3azFcE3epBwHjl0z4e4u8qSodB2K6JOUUqY=;
-        b=FNIVGISAdAEFbreSsDDijAXV7iz7bJ+nqAbnQIHGv5JyzeZ7lcBCJx59d3veVulKlh
-         7jE3udTRD8ZB4FsTnM9RGbtkCH/mbxzWvFL0H4sXjQx4qi2m5t5ro7oy5rhM45nSVVBP
-         5ClTpMIvyiu2q1I0rCYKPmV2nRUW01xZpnfJIxUQMHQ44ykxwcrzRx307eckpZorbuN3
-         6VEq4E+w7Q2yQVpjsHzE5SdEEFgZlQL/gXacFSIer7uFwLUhfH2E6+fmsaTjr28zvsU3
-         LxduxWE/YJsel6dur8r7Ne5zecAEIXKRCQ6ztsVh51aCO/ECwJBztr37RmWaHcFGyfRo
-         FPEA==
+        bh=UI7aEl8s0mFedqqMgOc8iwA/qQRORzYcgfY9MOX1Q3Q=;
+        b=vfItA5WBR9mxsOR5v/mXd6WRiw4qlJltvNcK03CJ3M5tD9oVwrnLXYPI73iFuFVvAy
+         bStP8xOii4yXjBbLTiAyKSB+txWVCS5HbLg7oCB6RFMjQ5I07jr4SiImmyWLTfMKN0Vo
+         z36zX4CJInXJMuVWsluFJtX4mg9tVYzK2laFJNn9axSKJXusl77n+y3QdI2KYR44uRZK
+         TdwpdeFyx3tJBo/3IPC6BPg3PY4+1i133Q8TRIUuSaS8J+5QIn7rjJkfF42EQR9AUQXB
+         a+dyvkdV6VlmT38t3+1yugNVaOElo8rNqqI8UQ90j7irslaNCh2z5PcCU9Uzw8Cc9GWC
+         No2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=REP9LhKq3azFcE3epBwHjl0z4e4u8qSodB2K6JOUUqY=;
-        b=XiKeUnnVzpFRi2Hta7jy2VBtrt5RV9aW2qe7JkJO7RW1Q1qPs2FUiUiWay+u1p8QJZ
-         pxzXrTTgd1DzyFfMBCwEnatE/nbPNPeXuCQ18KnEC79cWgJ6Ec0cWuiLqjLZKO1PMOOA
-         iMyJyZG38zZXbo2Ya2XGM1O7upjwZSlhLcEAs6VrOnPjOzrDnQXkSLiC8mRGBZEEVQfq
-         78WRGyAuYRJclUVS3guEJ+HidZnyhfZb4brL4psWzid0pWDOqUDsm87p0YbjnHnygaOT
-         XMvqd/sqGoy9x6bGUZ+Z21Qt8HJEEnJpM5nIpS68AwxUbBeLn8MHWY+UFhf34Vlgex+c
-         je5w==
-X-Gm-Message-State: APjAAAVxUl4rPnS40I4U7J/aE80SmsRT1Ndf5ATdI33hobGuVWaylu6K
-        6Po37R1Kz02ImoFoeNywmIW5mpsPBd8ZwVLp
-X-Google-Smtp-Source: APXvYqwJcWbE90DsufpIchU1RWZDjZYiH/OdYEaqepbyMZK8dYdaYAIDqIiN21SA2dhnlvcWp5RKO708a/U1e0LV
-X-Received: by 2002:ac8:2d7c:: with SMTP id o57mr3149114qta.39.1552679538830;
- Fri, 15 Mar 2019 12:52:18 -0700 (PDT)
-Date:   Fri, 15 Mar 2019 20:51:35 +0100
+        bh=UI7aEl8s0mFedqqMgOc8iwA/qQRORzYcgfY9MOX1Q3Q=;
+        b=cEz58C7wGinoa03N0OTjIvaCMkF6k8zC9bHcxJ6vx58HKawVC849YQmauxTl8mPeQf
+         kk8WZ4bFik7uQYPYGPupgGVU9o9APFoG+zGFflNMgdrIFiFVvRIJ/pjFORQtTv7MkqGu
+         CcWAFZuhebzvSuOLCxafhuXv7zweSeqz/v0ib0hMbDPC7kkCQFVyqvYFTdYUu8INOASp
+         8LK1GfFcTXZ6UaHTotOP3tfbZ9JvyvGHrwhg0Pt80YKPBTUKXj8YxHfYfpd/yEwQCCRp
+         +MYqvVBPQz5onybj6njj9Ou6cMmJAAOkHsmPONpG9wh6mzVwsHoK9M17coCVs63vE9jg
+         e3Sw==
+X-Gm-Message-State: APjAAAXFHTjt1+jl4JsVNzymgU062Xy2m66+kEWv07khJd6Ag0MsHa3C
+        qxuFxELbOJ452OHW+Ve1zYig2/hHKa6lNyxo
+X-Google-Smtp-Source: APXvYqxeRzK18KUJ10+PDA+W93JZa2qDw/GudrGBEMPcLUXJuZN92dXCZ+z04uJTKknTff4jbLvWVF1Z13ZfBUn3
+X-Received: by 2002:a5b:44e:: with SMTP id s14mr2709444ybp.100.1552679541907;
+ Fri, 15 Mar 2019 12:52:21 -0700 (PDT)
+Date:   Fri, 15 Mar 2019 20:51:36 +0100
 In-Reply-To: <cover.1552679409.git.andreyknvl@google.com>
-Message-Id: <a5fff68a32941ebce02dbe48f554a76a9c7a36ce.1552679409.git.andreyknvl@google.com>
+Message-Id: <0e1bd7fbde338061ea54234b3b1bd5ab6102381e.1552679409.git.andreyknvl@google.com>
 Mime-Version: 1.0
 References: <cover.1552679409.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.21.0.360.g471c308f928-goog
-Subject: [PATCH v11 11/14] uprobes, arm64: untag user pointers in find_active_uprobe
+Subject: [PATCH v11 12/14] bpf, arm64: untag user pointers in stack_map_get_build_id_offset
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -99,30 +99,95 @@ This patch is a part of a series that extends arm64 kernel ABI to allow to
 pass tagged user pointers (with the top byte set to something else other
 than 0x00) as syscall arguments.
 
-find_active_uprobe() uses provided user pointer (obtained via
-instruction_pointer(regs)) for vma lookups, which can only by done with
-untagged pointers.
+stack_map_get_build_id_offset() uses provided user pointers for vma
+lookups, which can only by done with untagged pointers.
 
-Untag the user pointer in this function.
+Untag the user pointer in this function for doing the lookup and
+calculating the offset, but save as is into the bpf_stack_build_id
+struct.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- kernel/events/uprobes.c | 2 ++
- 1 file changed, 2 insertions(+)
+ kernel/bpf/stackmap.c |  6 ++++--
+ p                     | 45 -------------------------------------------
+ 2 files changed, 4 insertions(+), 47 deletions(-)
+ delete mode 100644 p
 
-diff --git a/kernel/events/uprobes.c b/kernel/events/uprobes.c
-index c5cde87329c7..d3a2716a813a 100644
---- a/kernel/events/uprobes.c
-+++ b/kernel/events/uprobes.c
-@@ -1992,6 +1992,8 @@ static struct uprobe *find_active_uprobe(unsigned long bp_vaddr, int *is_swbp)
- 	struct uprobe *uprobe = NULL;
- 	struct vm_area_struct *vma;
+diff --git a/kernel/bpf/stackmap.c b/kernel/bpf/stackmap.c
+index 950ab2f28922..bb89341d3faf 100644
+--- a/kernel/bpf/stackmap.c
++++ b/kernel/bpf/stackmap.c
+@@ -320,7 +320,9 @@ static void stack_map_get_build_id_offset(struct bpf_stack_build_id *id_offs,
+ 	}
  
-+	bp_vaddr = untagged_addr(bp_vaddr);
+ 	for (i = 0; i < trace_nr; i++) {
+-		vma = find_vma(current->mm, ips[i]);
++		u64 untagged_ip = untagged_addr(ips[i]);
 +
- 	down_read(&mm->mmap_sem);
- 	vma = find_vma(mm, bp_vaddr);
- 	if (vma && vma->vm_start <= bp_vaddr) {
++		vma = find_vma(current->mm, untagged_ip);
+ 		if (!vma || stack_map_get_build_id(vma, id_offs[i].build_id)) {
+ 			/* per entry fall back to ips */
+ 			id_offs[i].status = BPF_STACK_BUILD_ID_IP;
+@@ -328,7 +330,7 @@ static void stack_map_get_build_id_offset(struct bpf_stack_build_id *id_offs,
+ 			memset(id_offs[i].build_id, 0, BPF_BUILD_ID_SIZE);
+ 			continue;
+ 		}
+-		id_offs[i].offset = (vma->vm_pgoff << PAGE_SHIFT) + ips[i]
++		id_offs[i].offset = (vma->vm_pgoff << PAGE_SHIFT) + untagged_ip
+ 			- vma->vm_start;
+ 		id_offs[i].status = BPF_STACK_BUILD_ID_VALID;
+ 	}
+diff --git a/p b/p
+deleted file mode 100644
+index 9d6fa5386e55..000000000000
+--- a/p
++++ /dev/null
+@@ -1,45 +0,0 @@
+-commit 1fa6fadf644859e8a6a8ecce258444b49be8c7ee
+-Author: Andrey Konovalov <andreyknvl@google.com>
+-Date:   Mon Mar 4 17:20:32 2019 +0100
+-
+-    kasan: fix coccinelle warnings in kasan_p*_table
+-    
+-    kasan_p4d_table, kasan_pmd_table and kasan_pud_table are declared as
+-    returning bool, but return 0 instead of false, which produces a coccinelle
+-    warning. Fix it.
+-    
+-    Fixes: 0207df4fa1a8 ("kernel/memremap, kasan: make ZONE_DEVICE with work with KASAN")
+-    Reported-by: kbuild test robot <lkp@intel.com>
+-    Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+-
+-diff --git a/mm/kasan/init.c b/mm/kasan/init.c
+-index 45a1b5e38e1e..fcaa1ca03175 100644
+---- a/mm/kasan/init.c
+-+++ b/mm/kasan/init.c
+-@@ -42,7 +42,7 @@ static inline bool kasan_p4d_table(pgd_t pgd)
+- #else
+- static inline bool kasan_p4d_table(pgd_t pgd)
+- {
+--	return 0;
+-+	return false;
+- }
+- #endif
+- #if CONFIG_PGTABLE_LEVELS > 3
+-@@ -54,7 +54,7 @@ static inline bool kasan_pud_table(p4d_t p4d)
+- #else
+- static inline bool kasan_pud_table(p4d_t p4d)
+- {
+--	return 0;
+-+	return false;
+- }
+- #endif
+- #if CONFIG_PGTABLE_LEVELS > 2
+-@@ -66,7 +66,7 @@ static inline bool kasan_pmd_table(pud_t pud)
+- #else
+- static inline bool kasan_pmd_table(pud_t pud)
+- {
+--	return 0;
+-+	return false;
+- }
+- #endif
+- pte_t kasan_early_shadow_pte[PTRS_PER_PTE] __page_aligned_bss;
 -- 
 2.21.0.360.g471c308f928-goog
 
