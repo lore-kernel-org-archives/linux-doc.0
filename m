@@ -1,298 +1,206 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0401C7D099
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 17 Mar 2019 18:27:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5BD937D099
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 17 Mar 2019 22:17:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726493AbfCQS1z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 17 Mar 2019 14:27:55 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:37303 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726333AbfCQS1z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Mar 2019 14:27:55 -0400
-Received: by mail-wm1-f68.google.com with SMTP id v14so1985209wmf.2
-        for <linux-doc@vger.kernel.org>; Sun, 17 Mar 2019 11:27:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=colorfullife-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language;
-        bh=KQXbIgwURYXqhCAoG41rtpxoVVDT42+Z8WntBJzAedQ=;
-        b=BAR3XUVCXcwcF/ypzhlqYdYqT2hDtP5mmEF63hcf4AZb3zWj8TA7N04JzVt8PZ6ZcJ
-         pYQJPkOS4ecR75F4PgpAvblSMdxo+ZQwSgDoRHnEY6cSjasNfLTY/7MX+wOfX3Iz5ezo
-         TK4DaJ6HI6Q19HL2juZ2f0OrjfKoLQ2+XqHkwqScnlJ+jJQoTt+bpms0sESScRlsmI9k
-         MOjfVbVC9kojIm7gMWLaZb38/67LuzrzTPl4ugwTlIIbZ9n9UUnBOO0raadvQzPsUTJH
-         sLV/DGnFHEbhSPB821CxeVoai4uvLBAuFXMZPP7khRN5gFCWdwKN6uELsti3CIwjxHiJ
-         +G1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language;
-        bh=KQXbIgwURYXqhCAoG41rtpxoVVDT42+Z8WntBJzAedQ=;
-        b=PYjK8508MZJXFG13F/2usAwY1YmOC4sDDblQj5Ey5n/yTyumCbwqFgr4AaZ0HtYX7M
-         Q2gbVRrIgHa0crkPt0F3AT4Y6swsJ5inC2p5oDnrGg5AFEYFwOmUX+WBncbfNNvoIX+d
-         WfrdzpjopGNezWcb8agyBKpgAQUy026bIpm54ySpwGnMk9SrVA1eJ5SwPGX+1h/T446F
-         grNH8/ix5G0iZnzgnemtT5g0gH8sbr5KDft8bf1DZtsFbwY2+X2/UKfcOXGMvsXZ6Wgj
-         NmwyZ/8h9q7sLTEI92ET0ioFPvUDP0i5Yab1maeWpS7RJAFB9aO1kTP5PeD7kfbN/6OO
-         /f7g==
-X-Gm-Message-State: APjAAAXr081Q+UPMET2NsHlDThvkVjBvhzayq2V2ugTD34FlLcAA2Rh8
-        /iESWM6LBHkygDaH+5WMJwzn7Q==
-X-Google-Smtp-Source: APXvYqy1pp+6pkwXDGWhObjYiHStvXvyJZOMeGqqtCzT2oXnBdGmPhLIzAK5W2SGPouM47fFcfVE3A==
-X-Received: by 2002:a7b:cb54:: with SMTP id v20mr8974811wmj.0.1552847272984;
-        Sun, 17 Mar 2019 11:27:52 -0700 (PDT)
-Received: from linux.fritz.box (p200300D993C7CF006FC1A9295AF99078.dip0.t-ipconnect.de. [2003:d9:93c7:cf00:6fc1:a929:5af9:9078])
-        by smtp.googlemail.com with ESMTPSA id r10sm7374739wmh.21.2019.03.17.11.27.49
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Sun, 17 Mar 2019 11:27:50 -0700 (PDT)
-Subject: Re: [PATCH v12 3/3] ipc: Do cyclic id allocation with ipcmni_extend
- mode
-To:     Waiman Long <longman@redhat.com>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        id S1726831AbfCQWRA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 17 Mar 2019 18:17:00 -0400
+Received: from ipmail07.adl2.internode.on.net ([150.101.137.131]:38372 "EHLO
+        ipmail07.adl2.internode.on.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726438AbfCQWQ7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Mar 2019 18:16:59 -0400
+Received: from ppp59-167-129-252.static.internode.on.net (HELO dastard) ([59.167.129.252])
+  by ipmail07.adl2.internode.on.net with ESMTP; 18 Mar 2019 08:46:54 +1030
+Received: from dave by dastard with local (Exim 4.80)
+        (envelope-from <david@fromorbit.com>)
+        id 1h5e5M-0000TD-K7; Mon, 18 Mar 2019 09:16:52 +1100
+Date:   Mon, 18 Mar 2019 09:16:52 +1100
+From:   Dave Chinner <david@fromorbit.com>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Jayashree <jaya@cs.utexas.edu>, fstests <fstests@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        Vijaychidambaram Velayudhan Pillai <vijay@cs.utexas.edu>,
+        Theodore Tso <tytso@mit.edu>, chao@kernel.org,
+        Filipe Manana <fdmanana@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Takashi Iwai <tiwai@suse.de>, Davidlohr Bueso <dbueso@suse.de>
-References: <1551379645-819-1-git-send-email-longman@redhat.com>
- <1551379645-819-4-git-send-email-longman@redhat.com>
-From:   Manfred Spraul <manfred@colorfullife.com>
-Message-ID: <e780cb59-ef1b-5f56-1e92-394dff5d4e32@colorfullife.com>
-Date:   Sun, 17 Mar 2019 19:27:49 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.1
+Subject: Re: [PATCH v2] Documenting the crash-recovery guarantees of Linux
+ file systems
+Message-ID: <20190317221652.GQ26298@dastard>
+References: <1552418820-18102-1-git-send-email-jaya@cs.utexas.edu>
+ <20190314011925.GG23020@dastard>
+ <CAOQ4uxjNDKjjzzcowy6oFZ=V7hWCkCbSyOQggE2XJirr4JHAyA@mail.gmail.com>
+ <20190315030313.GP26298@dastard>
+ <CAOQ4uxhyeBhk3DaHO8_oyfWbByidGaSrXJyh7uQE1YMaWTxR5A@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1551379645-819-4-git-send-email-longman@redhat.com>
-Content-Type: multipart/mixed;
- boundary="------------A4C6461DF8A7175F73D8A162"
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOQ4uxhyeBhk3DaHO8_oyfWbByidGaSrXJyh7uQE1YMaWTxR5A@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------A4C6461DF8A7175F73D8A162
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On Fri, Mar 15, 2019 at 05:44:49AM +0200, Amir Goldstein wrote:
+> On Fri, Mar 15, 2019 at 5:03 AM Dave Chinner <david@fromorbit.com> wrote:
+> >
+> > On Thu, Mar 14, 2019 at 09:19:03AM +0200, Amir Goldstein wrote:
+> > > On Thu, Mar 14, 2019 at 3:19 AM Dave Chinner <david@fromorbit.com> wrote:
+> > > > On Tue, Mar 12, 2019 at 02:27:00PM -0500, Jayashree wrote:
+> > > > > +Strictly Ordered Metadata Consistency
+> > > > > +-------------------------------------
+> > > > > +With each file system providing varying levels of persistence
+> > > > > +guarantees, a consensus in this regard, will benefit application
+> > > > > +developers to work with certain fixed assumptions about file system
+> > > > > +guarantees. Dave Chinner proposed a unified model called the
+> > > > > +Strictly Ordered Metadata Consistency (SOMC) [5].
+> > > > > +
+> > > > > +Under this scheme, the file system guarantees to persist all previous
+> > > > > +dependent modifications to the object upon fsync().  If you fsync() an
+> > > > > +inode, it will persist all the changes required to reference the inode
+> > > > > +and its data. SOMC can be defined as follows [6]:
+> > > > > +
+> > > > > +If op1 precedes op2 in program order (in-memory execution order), and
+> > > > > +op1 and op2 share a dependency, then op2 must not be observed by a
+> > > > > +user after recovery without also observing op1.
+> > > > > +
+> > > > > +Unfortunately, SOMC's definition depends upon whether two operations
+> > > > > +share a dependency, which could be file-system specific. It might
+> > > > > +require a developer to understand file-system internals to know if
+> > > > > +SOMC would order one operation before another.
+> > > >
+> > > > That's largely an internal implementation detail, and users should
+> > > > not have to care about the internal implementation because the
+> > > > fundamental dependencies are all defined by the directory heirarchy
+> > > > relationships that users can see and manipulate.
+> > > >
+> > > > i.e. fs internal dependencies only increase the size of the graph
+> > > > that is persisted, but it will never be reduced to less than what
+> > > > the user can observe in the directory heirarchy.
+> > > >
+> > > > So this can be further refined:
+> > > >
+> > > >         If op1 precedes op2 in program order (in-memory execution
+> > > >         order), and op1 and op2 share a user visible reference, then
+> > > >         op2 must not be observed by a user after recovery without
+> > > >         also observing op1.
+> > > >
+> > > > e.g. in the case of the parent directory - the parent has a link
+> > > > count. Hence every create, unlink, rename, hard link, symlink, etc
+> > > > operation in a directory modifies a user visible link count
+> > > > reference.  Hence fsync of one of those children will persist the
+> > > > directory link count, and then all of the other preceeding
+> > > > transactions that modified the link count also need to be persisted.
+> > > >
+> > >
+> > > One thing that bothers me is that the definition of SOMC (as well as
+> > > your refined definition) doesn't mention fsync at all, but all the examples
+> > > only discuss use cases with fsync.
+> >
+> > You can't discuss operational ordering without a point in time to
+> > use as a reference for that ordering.  SOMC behaviour is preserved
+> > at any point the filesystem checkpoints itself, and the only thing
+> > that changes is the scope of that checkpoint. fsync is just a
+> > convenient, widely understood, minimum dependecy reference point
+> > that people can reason from. All the interesting ordering problems
+> > come from minimum dependecy reference point (i.e. fsync()), not from
+> > background filesystem-wide checkpoints.
+> >
+> 
+> Yes, I was referring to rename as a commonly used operation used
+> by application as "metadata barrier".
 
-Hi Waiman,
+What is a "metadata barrier" and what are it's semantics supposed to
+be?
 
-On 2/28/19 7:47 PM, Waiman Long wrote:
-> For ipcmni_extend mode, the sequence number space is only 7 bits. So
-> the chance of id reuse is relatively high compared with the non-extended
-> mode.
->
-> To alleviate this id reuse problem, the id allocation will be done
-> cyclically to cycle through all the 24-bit id space before wrapping
-> around when in ipcmni_extend mode. This may cause the use of more memory
-> in term of the number of xa_nodes allocated as well as potentially more
-> cachelines used as the xa_nodes may be spread more sparsely in this case.
->
-> There is probably a slight memory and performance cost in doing cyclic
-> id allocation. For applications that really need more than 32k unique IPC
-> identifiers, this is a small price to pay to avoid the id reuse problem.
+> > > I personally find SOMC guaranty *much* more powerful in the absence
+> > > of fsync. I have an application that creates sparse files, sets xattrs, mtime
+> > > and moves them into place. The observed requirement is that after crash
+> > > those files either exist with correct mtime, xattr or not exist.
+> 
+> I wasn't clear:
+> 1. "sparse" meaning no data at all only hole.
 
-Have you measured it?
+That's not sparse, that is an empty file or "contains no data".
+"Sparse" means the file has "sparse data" - the data in the file is
+separated by holes. A file that is just a single hole does not
+contain "sparse data", it contains no data at all.
 
-I have observed -3% for semop() for a 4 level radix tree compared to a 
-1-level radix tree, and I'm a bit reluctant to accept that.
-Especially as the percentage will increase if the syscall overhead goes 
-down again (-> less spectre impact).
+IOWs, if you mean "file has no data in it", then say that as it is a
+clear and unambiguous statement of what the file contains.
 
-[...]
+> 2. "exist" meaning found at rename destination
+> Naturally, its applications responsibility to cleanup temp files that were
+> not moved into rename destination.
+> 
+> >
+> > SOMC does not provide the guarantees you seek in the absence of a
+> > known data synchronisation point:
+> >
+> >         a) a background metadata checkpoint can land anywhere in
+> >         that series of operations and hence recovery will land in an
+> >         intermediate state.
+> 
+> Yes, that results in temp files that would be cleaned up on recovery.
 
-> --- a/ipc/util.c
-> +++ b/ipc/util.c
-> @@ -221,7 +221,12 @@ static inline int ipc_idr_alloc(struct ipc_ids *ids, struct kern_ipc_perm *new)
->   	 */
->   
->   	if (next_id < 0) { /* !CHECKPOINT_RESTORE or next_id is unset */
-> -		idx = idr_alloc(&ids->ipcs_idr, new, 0, 0, GFP_NOWAIT);
-> +		if (ipc_mni_extended)
-> +			idx = idr_alloc_cyclic(&ids->ipcs_idr, new, 0, ipc_mni,
-> +						GFP_NOWAIT);
-> +		else
-> +			idx = idr_alloc(&ids->ipcs_idr, new, 0, 0, GFP_NOWAIT);
-> +
->   		if ((idx <= ids->last_idx) && (++ids->seq > IPCID_SEQ_MAX))
->   			ids->seq = 0;
+Ambiguous. "recovery" is something filesystems do to bring the
+filesystem into a consistent state after a crash. If you are talking
+about applicaiton level behaviour, then you need to make that
+explicit.
 
-I don't like it that there are two different codepaths.
-
-Attached is a different proposal:
-
-Always use cyclic allocation, with some logic to minimize the additional 
-radix tree levels.
-
-What do you think?
-
---
-
-     Manfred
+i.e. I can /assume/ you are talking about application level recovery
+from your previous statement, but that assumption is obviously wrong
+if the application is using O_TMPFILE and linkat rather than rename,
+in which case it will be fileystem level recovery that is doing the
+cleanup. Ambiguous, yes?
 
 
---------------A4C6461DF8A7175F73D8A162
-Content-Type: text/x-patch;
- name="0002-ipc-Do-cyclic-id-allocation-for-the-ipc-objects.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename*0="0002-ipc-Do-cyclic-id-allocation-for-the-ipc-objects.patch"
+> >         b) there is data that needs writing, and SOMC provides no
+> >         ordering guarantees for data. So after recovery file could
+> >         exist with correct mtime and xattrs, but have no (or
+> >         partial) data.
+> >
+> 
+> There is no data in my use case, only metadata, that is why
+> SOMC without fsync is an option.
 
-From 491ea87cc3022e50c02caae009f9aeba2b6ddcb4 Mon Sep 17 00:00:00 2001
-From: Manfred Spraul <manfred@colorfullife.com>
-Date: Sun, 17 Mar 2019 06:29:00 +0100
-Subject: [PATCH 2/2] ipc: Do cyclic id allocation for the ipc objects.
+Perhaps, but I am not clear on exactly what you are proposing
+because I don't know what the hell a "metadata barrier" is, what it
+does or what it implies for filesystem integrity operations...
 
-For ipcmni_extend mode, the sequence number space is only 7 bits. So
-the chance of id reuse is relatively high compared with the non-extended
-mode.
+> > > To my understanding, SOMC provides a guaranty that the application does
+> > > not need to do any fsync at all,
+> >
+> > Absolutely not true. If the application has atomic creation
+> > requirements that need multiple syscalls to set up, it must
+> > implement them itself and use fsync to synchronise data and metadata
+> > before the "atomic create" operation that makes it visible to the
+> > application.
+> >
+> > SOMC only guarantees what /metadata/ you see at a fileystem
+> > synchronisation point; it does not provide ACID semantics to a
+> > random set of system calls into the filesystem.
+> >
+> 
+> So I re-state my claim above after having explained the use case.
 
-To alleviate this id reuse problem, this patch enables cyclic allocation
-for the index to the radix tree (idx).
-The disadvantage is that this can cause a slight slow-down of the fast
-path, as the radix tree could be higher than necessary.
+With words that I can only guess the meaning of.
 
-To limit the radix tree height, I have chosen the following limits:
-- 1) The cycling is done over in_use*1.5.
-- 2) At least, the cycling is done over
-   "normal" ipcnmi mode: RADIX_TREE_MAP_SIZE elements
-   "ipcmni_extended": 4096 elements
+Amir, if you are asking a complex question as to whether something
+conforms to a specification, then please slow down and take the time
+to define all the terms, the initial state, the observable behaviour
+that you expect to see, etc in clear, unambiguous and well defined
+terms.  Otherwise the question cannot be answered....
 
-Result:
-- for normal mode:
-	No change for <= 42 active ipc elements. With more than 42
-	active ipc elements, a 2nd level would be added to the radix
-	tree.
-	Without cyclic allocation, a 2nd level would be added only with
-	more than 63 active elements.
+Cheers,
 
-- for extended mode:
-	Cycling creates always at least a 2-level radix tree.
-	With more than 2730 active objects, a 3rd level would be
-	added, instead of > 4095 active objects until the 3rd level
-	is added without cyclic allocation.
-
-For a 2-level radix tree compared to a 1-level radix tree, I have
-observed < 1% performance impact. I consider this as a good
-compromise.
-
-Notes:
-1) Normal "x=semget();y=semget();" is unaffected: Then the idx
-  is e.g. a and a+1, regardless of idr_alloc() or idr_alloc_cyclic()
-  is used.
-
-2) The -1% happens in a microbenchmark after this situation:
-	x=semget();
-	for(i=0;i<4000;i++) {t=semget();semctl(t,0,IPC_RMID);}
-	y=semget();
-	Now perform semget calls on x and y that do not sleep.
-
-3) The worst-case reuse cycle time is unfortunately unaffected:
-   If you have 2^24-1 ipc objects allocated, and get/remove the last
-   possible element in a loop, then the id is reused after 128
-   get/remove pairs.
-
-Performance check:
-A microbenchmark that performes no-op semop() randomly on two IDs,
-with only these two IDs allocated.
-The IDs were set using /proc/sys/kernel/sem_next_id.
-The test was run 5 times, averages are shown.
-
-1 & 2: Base (6.22 seconds for 10.000.000 semops)
-1 & 40: -0.2%
-1 & 3348: - 0.8%
-1 & 27348: - 1.6%
-1 & 15777204: - 3.2%
-
-Or: ~12.6 cpu cycles per additional radix tree level.
-The cpu is an Intel I3-5010U. ~1300 cpu cycles/syscall is slower
-than what I remember (spectre impact?).
-
-Signed-off-by: Manfred Spraul <manfred@colorfullife.com>
----
- ipc/ipc_sysctl.c |  2 ++
- ipc/util.c       | 10 +++++++++-
- ipc/util.h       |  3 +++
- 3 files changed, 14 insertions(+), 1 deletion(-)
-
-diff --git a/ipc/ipc_sysctl.c b/ipc/ipc_sysctl.c
-index 73b7782eccf4..bfaae457810c 100644
---- a/ipc/ipc_sysctl.c
-+++ b/ipc/ipc_sysctl.c
-@@ -122,6 +122,7 @@ static int one = 1;
- static int int_max = INT_MAX;
- int ipc_mni = IPCMNI;
- int ipc_mni_shift = IPCMNI_SHIFT;
-+int ipc_min_cycle = RADIX_TREE_MAP_SIZE;
- 
- static struct ctl_table ipc_kern_table[] = {
- 	{
-@@ -252,6 +253,7 @@ static int __init ipc_mni_extend(char *str)
- {
- 	ipc_mni = IPCMNI_EXTEND;
- 	ipc_mni_shift = IPCMNI_EXTEND_SHIFT;
-+	ipc_min_cycle = IPCMNI_EXTEND_MIN_CYCLE;
- 	pr_info("IPCMNI extended to %d.\n", ipc_mni);
- 	return 0;
- }
-diff --git a/ipc/util.c b/ipc/util.c
-index 6e0fe3410423..90764b67af51 100644
---- a/ipc/util.c
-+++ b/ipc/util.c
-@@ -221,9 +221,17 @@ static inline int ipc_idr_alloc(struct ipc_ids *ids, struct kern_ipc_perm *new)
- 	 */
- 
- 	if (next_id < 0) { /* !CHECKPOINT_RESTORE or next_id is unset */
-+		int max_idx;
-+
-+		max_idx = ids->in_use*3/2;
-+		if (max_idx > ipc_mni)
-+			max_idx = ipc_mni;
-+		if (max_idx < ipc_min_cycle)
-+			max_idx = ipc_min_cycle;
- 
- 		/* allocate the idx, with a NULL struct kern_ipc_perm */
--		idx = idr_alloc(&ids->ipcs_idr, NULL, 0, 0, GFP_NOWAIT);
-+		idx = idr_alloc_cyclic(&ids->ipcs_idr, NULL, 0, max_idx,
-+					GFP_NOWAIT);
- 
- 		if (idx >= 0) {
- 			/*
-diff --git a/ipc/util.h b/ipc/util.h
-index 8c834ed39012..ef4e86bb2db8 100644
---- a/ipc/util.h
-+++ b/ipc/util.h
-@@ -27,12 +27,14 @@
-  */
- #define IPCMNI_SHIFT		15
- #define IPCMNI_EXTEND_SHIFT	24
-+#define IPCMNI_EXTEND_MIN_CYCLE	(2 << 12)
- #define IPCMNI			(1 << IPCMNI_SHIFT)
- #define IPCMNI_EXTEND		(1 << IPCMNI_EXTEND_SHIFT)
- 
- #ifdef CONFIG_SYSVIPC_SYSCTL
- extern int ipc_mni;
- extern int ipc_mni_shift;
-+extern int ipc_min_cycle;
- 
- #define ipcmni_seq_shift()	ipc_mni_shift
- #define IPCMNI_IDX_MASK		((1 << ipc_mni_shift) - 1)
-@@ -40,6 +42,7 @@ extern int ipc_mni_shift;
- #else /* CONFIG_SYSVIPC_SYSCTL */
- 
- #define ipc_mni			IPCMNI
-+#define ipc_min_cycle		RADIX_TREE_MAP_SIZE
- #define ipcmni_seq_shift()	IPCMNI_SHIFT
- #define IPCMNI_IDX_MASK		((1 << IPCMNI_SHIFT) - 1)
- #endif /* CONFIG_SYSVIPC_SYSCTL */
+Dave.
 -- 
-2.17.2
-
-
---------------A4C6461DF8A7175F73D8A162--
+Dave Chinner
+david@fromorbit.com
