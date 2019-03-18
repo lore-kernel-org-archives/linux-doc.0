@@ -3,54 +3,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4483A7DBD4
+	by archive.lwn.net (Postfix) with ESMTP id D9AAA7DE70
 	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 17:19:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728039AbfCRRS1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Mar 2019 13:18:27 -0400
-Received: from mail-yw1-f73.google.com ([209.85.161.73]:47300 "EHLO
-        mail-yw1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728038AbfCRRS1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Mar 2019 13:18:27 -0400
-Received: by mail-yw1-f73.google.com with SMTP id c188so23479129ywf.14
-        for <linux-doc@vger.kernel.org>; Mon, 18 Mar 2019 10:18:26 -0700 (PDT)
+        id S1728074AbfCRRSd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Mar 2019 13:18:33 -0400
+Received: from mail-yw1-f74.google.com ([209.85.161.74]:38954 "EHLO
+        mail-yw1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728062AbfCRRSa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Mar 2019 13:18:30 -0400
+Received: by mail-yw1-f74.google.com with SMTP id p1so1198319ywm.6
+        for <linux-doc@vger.kernel.org>; Mon, 18 Mar 2019 10:18:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=hfuKek+o8vy+53O51p2MPtj2JUyumu3LZdujtPFxXko=;
-        b=OVRG0jDx+a4bA2Xe0x2W0QLSaeWfLl/IABe0xhS3IFP8diCvylSVwKQWoIigEjNHVc
-         yxjFs3rDXFN+YQZXXdBXqzoVuEhq+g8HP9vfnj/K/jnMV093FMqmv6YIj0itG5FlZbO1
-         ke03j95r0/PkzmDHuCN3H9fGFOQlTbWpbvmuT2QemWXQk/lZDOT0fPG1qeBd7bYvwCAL
-         AE3Z9++g1iD+M29C/0LdG7U5gglyxyekWqwWKO87UeLRgDFAy26KL+NKf1x9Z+3nMGJh
-         HWwxBBm2ki5StK4NVq41umliE7Ge0hSfeTd7JwuOJHWr+3LKBGyWEd26Ba9MwuaG3MTr
-         +/EQ==
+        bh=SY+rnApq6/oVhWiUcTCOnBf6TcIl5V0rPtZOMhbp5Gs=;
+        b=oy4XANA3tbe0/ZzrN3csQScarn1wlppfqaNsYi+hu9yuogoof3toGpiFXztOXvuSIL
+         sBMFi0kVcDXhngeXsQ7F8TmpGE5J+YQspuv0IpgE54s+w7Cg2pGhzbc2pvAhwbRlgRSf
+         xxwSPdpD5FpRcK2p/HjiDpbPI1EyCU7DiI66uatDv7wNJCkN8c1ymIFnrzCAUJy1zI9w
+         EBzcRuRAINzPha2QHRdT3Y/yumtuj6+oKyiMBKvPeEcFGxcVQSEWK2xmW+D8MpHwLMzD
+         P1fusntFSsCEjlr/dNu9pSGP243BnVEPFZOFUAmm90Toh6sJXriJra44fSRj/3Svjc/P
+         //6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=hfuKek+o8vy+53O51p2MPtj2JUyumu3LZdujtPFxXko=;
-        b=rT2R7Azh2J5LGi365TUrKt2PBxmukWRPqSZTEGlmpe3Pu65JhaQP4VWmkKnuPGixPE
-         Okeq4RGAPd9OmC8qSjpmkAOP6Shxg1R9MyMuQ59wxKOqGQWHfFYZVc913h4OGD8ktZPD
-         u0SBlYCcrDdgsZjv0NDkdRa5ii0zNICIqMWOIc/NABm8NnazpLNgWrJ11NvbEeUPWLLj
-         ZX0aY7NAg+fEkJu+wXfExmxbCfadNzbqK6i8iokzea8Q7LVU9X7r6Lw77+dqBni6lyoB
-         KFxTT9pHlL9K71ofG0hlZYdx0tPa1xugI+uV3W8nfWOjfKctkZndU7R9paCbags8+Q5y
-         j0iQ==
-X-Gm-Message-State: APjAAAWHtaN6lxa6dFiSLkrAJitsZObTqvkyF6fWcp3d1PfPtXVRtmMo
-        RpxCPfbafpYaF39c0iZC/mMAUy0tMGXu4czW
-X-Google-Smtp-Source: APXvYqyE9Hf1UP7XaN3S1ukCc+WMyyJkC7y8Hk/2DK6LClASlL+h1czCzSFlt0sWM+JMT6cpK2e3Il7FKfoAeEtz
-X-Received: by 2002:a25:e648:: with SMTP id d69mr9320791ybh.95.1552929506037;
- Mon, 18 Mar 2019 10:18:26 -0700 (PDT)
-Date:   Mon, 18 Mar 2019 18:17:44 +0100
+        bh=SY+rnApq6/oVhWiUcTCOnBf6TcIl5V0rPtZOMhbp5Gs=;
+        b=ktVpTrUrNBaC/lEJ/4/kzyxQRq7J95KzhqrGX2SIWHHuIj81Wm/mCwujHIJ9EfXl+g
+         QbQiw9powI/H4CWn+aU34T4ysc7G1VD6qTauTJkWV9FzFlozsCaX5gDG1qW3hxafUEUM
+         WrKM8bqoxLZ5mLaaNXp+MLavGilkt7mbiLr6FupUPCYyC9kQN5WsoksRsKniKmbJkvY3
+         XdgBlP4+khu35haiGqpuSBAC8ODSUjsZmqAYa9THj9txvVnHRKh/T9JowRROye3C9u5z
+         YCDv+Kx+hT6Ey7EL0pM5mCAWotw17ZKSW6OoERREWTyfdOENTmR4hJH7wj6AiqNZ85N+
+         9AZg==
+X-Gm-Message-State: APjAAAXfOC6NmA8HLsS8R17ifZ4XjhltzZoMtrEvv3SCm392n5atE3SJ
+        9Hxm6tz2WWNU+cCxi9YdEvUskEEnUeu+wfTe
+X-Google-Smtp-Source: APXvYqzr9z29O2HnZauXqiNwIgfSTj1CVWyp96d9Efuk7E9e9YiyE5NAQn/RDJZ9P2HjA7rm0gHQWomDM7zPkQh8
+X-Received: by 2002:a81:6184:: with SMTP id v126mr9643066ywb.17.1552929509203;
+ Mon, 18 Mar 2019 10:18:29 -0700 (PDT)
+Date:   Mon, 18 Mar 2019 18:17:45 +0100
 In-Reply-To: <cover.1552929301.git.andreyknvl@google.com>
-Message-Id: <7883ff7cbe2e8075c3a0f450eade08587f49f3bc.1552929301.git.andreyknvl@google.com>
+Message-Id: <0b4d5fb8364a30a51868b6691fff503878d3d82b.1552929301.git.andreyknvl@google.com>
 Mime-Version: 1.0
 References: <cover.1552929301.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.21.0.225.g810b269d1ac-goog
-Subject: [PATCH v12 12/13] bpf, arm64: untag user pointers in stack_map_get_build_id_offset
+Subject: [PATCH v12 13/13] selftests, arm64: add a selftest for passing tagged
+ pointers to kernel
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -99,42 +100,91 @@ This patch is a part of a series that extends arm64 kernel ABI to allow to
 pass tagged user pointers (with the top byte set to something else other
 than 0x00) as syscall arguments.
 
-stack_map_get_build_id_offset() uses provided user pointers for vma
-lookups, which can only by done with untagged pointers.
-
-Untag the user pointer in this function for doing the lookup and
-calculating the offset, but save as is into the bpf_stack_build_id
-struct.
+This patch adds a simple test, that calls the uname syscall with a
+tagged user pointer as an argument. Without the kernel accepting tagged
+user pointers the test fails with EFAULT.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- kernel/bpf/stackmap.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ tools/testing/selftests/arm64/.gitignore      |  1 +
+ tools/testing/selftests/arm64/Makefile        | 11 ++++++++++
+ .../testing/selftests/arm64/run_tags_test.sh  | 12 +++++++++++
+ tools/testing/selftests/arm64/tags_test.c     | 21 +++++++++++++++++++
+ 4 files changed, 45 insertions(+)
+ create mode 100644 tools/testing/selftests/arm64/.gitignore
+ create mode 100644 tools/testing/selftests/arm64/Makefile
+ create mode 100755 tools/testing/selftests/arm64/run_tags_test.sh
+ create mode 100644 tools/testing/selftests/arm64/tags_test.c
 
-diff --git a/kernel/bpf/stackmap.c b/kernel/bpf/stackmap.c
-index 950ab2f28922..bb89341d3faf 100644
---- a/kernel/bpf/stackmap.c
-+++ b/kernel/bpf/stackmap.c
-@@ -320,7 +320,9 @@ static void stack_map_get_build_id_offset(struct bpf_stack_build_id *id_offs,
- 	}
- 
- 	for (i = 0; i < trace_nr; i++) {
--		vma = find_vma(current->mm, ips[i]);
-+		u64 untagged_ip = untagged_addr(ips[i]);
+diff --git a/tools/testing/selftests/arm64/.gitignore b/tools/testing/selftests/arm64/.gitignore
+new file mode 100644
+index 000000000000..e8fae8d61ed6
+--- /dev/null
++++ b/tools/testing/selftests/arm64/.gitignore
+@@ -0,0 +1 @@
++tags_test
+diff --git a/tools/testing/selftests/arm64/Makefile b/tools/testing/selftests/arm64/Makefile
+new file mode 100644
+index 000000000000..a61b2e743e99
+--- /dev/null
++++ b/tools/testing/selftests/arm64/Makefile
+@@ -0,0 +1,11 @@
++# SPDX-License-Identifier: GPL-2.0
 +
-+		vma = find_vma(current->mm, untagged_ip);
- 		if (!vma || stack_map_get_build_id(vma, id_offs[i].build_id)) {
- 			/* per entry fall back to ips */
- 			id_offs[i].status = BPF_STACK_BUILD_ID_IP;
-@@ -328,7 +330,7 @@ static void stack_map_get_build_id_offset(struct bpf_stack_build_id *id_offs,
- 			memset(id_offs[i].build_id, 0, BPF_BUILD_ID_SIZE);
- 			continue;
- 		}
--		id_offs[i].offset = (vma->vm_pgoff << PAGE_SHIFT) + ips[i]
-+		id_offs[i].offset = (vma->vm_pgoff << PAGE_SHIFT) + untagged_ip
- 			- vma->vm_start;
- 		id_offs[i].status = BPF_STACK_BUILD_ID_VALID;
- 	}
++# ARCH can be overridden by the user for cross compiling
++ARCH ?= $(shell uname -m 2>/dev/null || echo not)
++
++ifneq (,$(filter $(ARCH),aarch64 arm64))
++TEST_GEN_PROGS := tags_test
++TEST_PROGS := run_tags_test.sh
++endif
++
++include ../lib.mk
+diff --git a/tools/testing/selftests/arm64/run_tags_test.sh b/tools/testing/selftests/arm64/run_tags_test.sh
+new file mode 100755
+index 000000000000..745f11379930
+--- /dev/null
++++ b/tools/testing/selftests/arm64/run_tags_test.sh
+@@ -0,0 +1,12 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++
++echo "--------------------"
++echo "running tags test"
++echo "--------------------"
++./tags_test
++if [ $? -ne 0 ]; then
++	echo "[FAIL]"
++else
++	echo "[PASS]"
++fi
+diff --git a/tools/testing/selftests/arm64/tags_test.c b/tools/testing/selftests/arm64/tags_test.c
+new file mode 100644
+index 000000000000..2bd1830a7ebe
+--- /dev/null
++++ b/tools/testing/selftests/arm64/tags_test.c
+@@ -0,0 +1,21 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#include <stdio.h>
++#include <stdlib.h>
++#include <unistd.h>
++#include <stdint.h>
++#include <sys/utsname.h>
++
++#define SHIFT_TAG(tag)		((uint64_t)(tag) << 56)
++#define SET_TAG(ptr, tag)	(((uint64_t)(ptr) & ~SHIFT_TAG(0xff)) | \
++					SHIFT_TAG(tag))
++
++int main(void)
++{
++	struct utsname *ptr = (struct utsname *)malloc(sizeof(*ptr));
++	void *tagged_ptr = (void *)SET_TAG(ptr, 0x42);
++	int err = uname(tagged_ptr);
++
++	free(ptr);
++	return err;
++}
 -- 
 2.21.0.225.g810b269d1ac-goog
 
