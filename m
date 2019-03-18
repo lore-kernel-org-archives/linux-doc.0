@@ -5,143 +5,47 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AFA6A7D982
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 16:36:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E3A6C7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 16:51:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727844AbfCRQgT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Mar 2019 12:36:19 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:37392 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726806AbfCRQgS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 18 Mar 2019 12:36:18 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 623681A25;
-        Mon, 18 Mar 2019 09:36:18 -0700 (PDT)
-Received: from e119884-lin.cambridge.arm.com (e119884-lin.cambridge.arm.com [10.1.196.72])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3D9E83F614;
-        Mon, 18 Mar 2019 09:36:12 -0700 (PDT)
-From:   Vincenzo Frascino <vincenzo.frascino@arm.com>
-To:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Branislav Rankov <Branislav.Rankov@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Dave Martin <Dave.Martin@arm.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Graeme Barnes <Graeme.Barnes@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-        Will Deacon <will.deacon@arm.com>
-Subject: [PATCH v2 4/4] arm64: elf: Advertise relaxed ABI
-Date:   Mon, 18 Mar 2019 16:35:33 +0000
-Message-Id: <20190318163533.26838-5-vincenzo.frascino@arm.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190318163533.26838-1-vincenzo.frascino@arm.com>
-References: <cover.1552679409.git.andreyknvl@google.com>
- <20190318163533.26838-1-vincenzo.frascino@arm.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1726910AbfCRQvF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Mar 2019 12:51:05 -0400
+Received: from shards.monkeyblade.net ([23.128.96.9]:36030 "EHLO
+        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726860AbfCRQvF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Mar 2019 12:51:05 -0400
+Received: from localhost (unknown [IPv6:2601:601:9f80:35cd::3d5])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id 4EF1514012124;
+        Mon, 18 Mar 2019 09:51:04 -0700 (PDT)
+Date:   Mon, 18 Mar 2019 09:51:03 -0700 (PDT)
+Message-Id: <20190318.095103.984218884596301682.davem@davemloft.net>
+To:     tklauser@distanz.ch
+Cc:     corbet@lwn.net, willemb@google.com, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] doc: fix link to MSG_ZEROCOPY patchset
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <1552907338-1784-1-git-send-email-tklauser@distanz.ch>
+References: <1552907338-1784-1-git-send-email-tklauser@distanz.ch>
+X-Mailer: Mew version 6.8 on Emacs 26.1
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Mon, 18 Mar 2019 09:51:04 -0700 (PDT)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On arm64 the TCR_EL1.TBI0 bit has been always enabled hence
-the userspace (EL0) is allowed to set a non-zero value in the top
-byte but the resulting pointers are not allowed at the user-kernel
-syscall ABI boundary.
+From: Tobias Klauser <tklauser@distanz.ch>
+Date: Mon, 18 Mar 2019 12:08:58 +0100
 
-Set ARM64_AT_FLAGS_SYSCALL_TBI (bit[0]) in the AT_FLAGS to advertise
-the relaxation of the ABI to the userspace.
+> Use https and link to the patch directly.
+> 
+> Signed-off-by: Tobias Klauser <tklauser@distanz.ch>
 
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will.deacon@arm.com>
-CC: Andrey Konovalov <andreyknvl@google.com>
-Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
----
- arch/arm64/include/asm/atflags.h      | 7 +++++++
- arch/arm64/include/asm/elf.h          | 5 +++++
- arch/arm64/include/uapi/asm/atflags.h | 8 ++++++++
- 3 files changed, 20 insertions(+)
- create mode 100644 arch/arm64/include/asm/atflags.h
- create mode 100644 arch/arm64/include/uapi/asm/atflags.h
+Since this fixes the documentation, I'll apply this to 'net'.
 
-diff --git a/arch/arm64/include/asm/atflags.h b/arch/arm64/include/asm/atflags.h
-new file mode 100644
-index 000000000000..b20093d61bf2
---- /dev/null
-+++ b/arch/arm64/include/asm/atflags.h
-@@ -0,0 +1,7 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef __ASM_ATFLAGS_H
-+#define __ASM_ATFLAGS_H
-+
-+#include <uapi/asm/atflags.h>
-+
-+#endif
-diff --git a/arch/arm64/include/asm/elf.h b/arch/arm64/include/asm/elf.h
-index 6adc1a90e7e6..73d5184a4dd9 100644
---- a/arch/arm64/include/asm/elf.h
-+++ b/arch/arm64/include/asm/elf.h
-@@ -16,6 +16,7 @@
- #ifndef __ASM_ELF_H
- #define __ASM_ELF_H
- 
-+#include <asm/atflags.h>
- #include <asm/hwcap.h>
- 
- /*
-@@ -167,6 +168,10 @@ do {									\
- 		NEW_AUX_ENT(AT_IGNORE, 0);				\
- } while (0)
- 
-+/* Platform specific AT_FLAGS */
-+#define ELF_AT_FLAGS			ARM64_AT_FLAGS_SYSCALL_TBI
-+#define COMPAT_ELF_AT_FLAGS		0
-+
- #define ARCH_HAS_SETUP_ADDITIONAL_PAGES
- struct linux_binprm;
- extern int arch_setup_additional_pages(struct linux_binprm *bprm,
-diff --git a/arch/arm64/include/uapi/asm/atflags.h b/arch/arm64/include/uapi/asm/atflags.h
-new file mode 100644
-index 000000000000..1cf25692ffd6
---- /dev/null
-+++ b/arch/arm64/include/uapi/asm/atflags.h
-@@ -0,0 +1,8 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef __UAPI_ASM_ATFLAGS_H
-+#define __UAPI_ASM_ATFLAGS_H
-+
-+/* Platform specific AT_FLAGS */
-+#define ARM64_AT_FLAGS_SYSCALL_TBI	(1 << 0)
-+
-+#endif
--- 
-2.21.0
-
+Thanks.
