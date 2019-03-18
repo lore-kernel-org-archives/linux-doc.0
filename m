@@ -5,32 +5,32 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5D8BF7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 23:16:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 798F67D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 23:16:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727235AbfCRXPd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Mar 2019 19:15:33 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:37381 "EHLO
+        id S1727541AbfCRXPc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Mar 2019 19:15:32 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:55973 "EHLO
         out2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727545AbfCRXPd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Mar 2019 19:15:33 -0400
+        by vger.kernel.org with ESMTP id S1727235AbfCRXPb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Mar 2019 19:15:31 -0400
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.nyi.internal (Postfix) with ESMTP id D2FEC20F6F;
-        Mon, 18 Mar 2019 19:15:31 -0400 (EDT)
+        by mailout.nyi.internal (Postfix) with ESMTP id AFB0420336;
+        Mon, 18 Mar 2019 19:15:28 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Mon, 18 Mar 2019 19:15:31 -0400
+  by compute3.internal (MEProxy); Mon, 18 Mar 2019 19:15:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:date:from
         :in-reply-to:message-id:mime-version:references:subject:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; bh=ZDtsh7/RlQFuqxa53UJ32sKjTau19bO+C3vrwfjd2Sg=; b=Gkxbn3r/
-        Ii5ZtTMLmbztzaDXNULkgBGMSgC0TDO5r+g0h8O6sIi5nWrv0LFGaYlUrWw2bdk/
-        k2p1eI6o3AwP1p60sJWA9fVuqzUzO1yoCeejQ/rhzoZU52HCRjoOj5A9qeVSTEfJ
-        Sn5HsUFZzoy2nkYd0IB+iy4S+bsXTVbj0z/JVA+mv/xkPLTfGzyqgdmaC1oH3Quw
-        3LAJVb+BzCzux6a1QiPdQWKXLFURk5Yd8/nKuB2fZz88glJTMtKc9KVerEKEt0u8
-        iGfeBzeR3kTbqQjV2xAQOXQ1QBnmK+7/1Caw7+rLn1nOuN12a4FkSCtndIfzKCox
-        o/B16BvK8RuQYA==
-X-ME-Sender: <xms:kyaQXA8n-cBQ_ZiHvqAOzf5JnSmgVeK6_RxqPnkZcaOqPcpqIZrzww>
+        fm2; bh=orANEqMzXIgVGZXxePffekYMyPICqeToBFW7oY8WfmU=; b=kqByyh6C
+        8KafHhx3K+glYXqz0qLUSRwhMmDbHY+TkfFKh1TB2O838KhCGxB4/gyNP+jKFizC
+        R73GWF3pen68tJtA0GHZ0CZI8Cl/61ip+EHQW6yZY1zJih38pmMSJEJeek+3/gnQ
+        ZFvYPMiwBp1Vn6+5R1Z5G2SPdfBbKSI+xPHEpgwtx0z2nVOoSQGmRTvUI1cUQAmM
+        YIBbU5fZP+rtlPPp6KwfPAs5Ql/pOzfZ8Cc5B8WaadqTxsBUzof40P80uEBS5DdT
+        VKcZI8rJbYMI18LklPi/jgcATAOSkrtg+4a/xWFAks4E/gCjwnQXU+qiExyqjvji
+        khPgxBj4e8Yqeg==
+X-ME-Sender: <xms:kCaQXHSwZRwiQ98e_t_8k7L-A5ml26PdZ5k6K1mSFDqgRwbCdsO7zw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedutddriedvgddtfecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -38,22 +38,22 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedutddriedvgddtfecutefuodetggdote
     ucevrdcujfgrrhguihhnghdfuceothhosghinheskhgvrhhnvghlrdhorhhgqeenucfkph
     epuddvgedrudeiledrudegledrgedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehtohgs
     ihhnsehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpeef
-X-ME-Proxy: <xmx:kyaQXBhYwRE7ig1gVZiTjvbq-EhNVcdlI01MKkC74mEAHABuQAiS8g>
-    <xmx:kyaQXMVaAd7zziLvqDRbFSDOEfq5Vri4wL2AFtRF-eQZ2TfWVeghrQ>
-    <xmx:kyaQXHEZSTMz2FsAtpgyZsXgNWlSxS8pORX8oHg4jyYiGI_QLPuEUw>
-    <xmx:kyaQXBp1zm8NSQnE5RHOtBBNU1nGh6oNolj_U3qVei5-DzYJoT-eLQ>
+X-ME-Proxy: <xmx:kCaQXKqWMNQ8QDO5ZILt9_iFPtapg8kBKfixEYn3IkWwxpYFgo5eMg>
+    <xmx:kCaQXBZ5Qi8ZTATsdUTHZZXfpMOyvXDxDLL-KaIonumvnsiyTA17dQ>
+    <xmx:kCaQXEpTqvsytrZsrYYfxipMHfbtPsw9hrHdUEwYSWIkY5ZHz6F4uw>
+    <xmx:kCaQXIB29Epx74W2uuXnNE0kd7u84WolUgGuW85ojNR_N5dgJQIPSg>
 Received: from eros.localdomain (124-169-149-40.dyn.iinet.net.au [124.169.149.40])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 3DF1510317;
-        Mon, 18 Mar 2019 19:15:28 -0400 (EDT)
+        by mail.messagingengine.com (Postfix) with ESMTPA id DBBBC10288;
+        Mon, 18 Mar 2019 19:15:25 -0400 (EDT)
 From:   "Tobin C. Harding" <tobin@kernel.org>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     "Tobin C. Harding" <tobin@kernel.org>,
         Randy Dunlap <rdunlap@infradead.org>,
         linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 05/13] docs: filesystems: vfs: Use correct initial heading
-Date:   Tue, 19 Mar 2019 10:14:29 +1100
-Message-Id: <20190318231437.1666-6-tobin@kernel.org>
+Subject: [PATCH v2 04/13] docs: filesystems: vfs: Use uniform spacing around headings
+Date:   Tue, 19 Mar 2019 10:14:28 +1100
+Message-Id: <20190318231437.1666-5-tobin@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190318231437.1666-1-tobin@kernel.org>
 References: <20190318231437.1666-1-tobin@kernel.org>
@@ -64,29 +64,83 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Kernel RST has a preferred heading adornment scheme.  Currently all the
-heading adornments follow this scheme except the document heading.
+Currently spacing before and after headings is non-uniform.  Use two
+blank lines before a heading and one after the heading.
 
-Use correct heading adornment for initial heading.
+Use uniform spacing around headings.
 
 Tested-by: Randy Dunlap <rdunlap@infradead.org>
 Signed-off-by: Tobin C. Harding <tobin@kernel.org>
 ---
- Documentation/filesystems/vfs.txt | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ Documentation/filesystems/vfs.txt | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/Documentation/filesystems/vfs.txt b/Documentation/filesystems/vfs.txt
-index ed12d28bda62..790feccca5f4 100644
+index 14839bc84d38..ed12d28bda62 100644
 --- a/Documentation/filesystems/vfs.txt
 +++ b/Documentation/filesystems/vfs.txt
-@@ -1,5 +1,6 @@
--
--	      Overview of the Linux Virtual File System
-+=========================================
-+Overview of the Linux Virtual File System
-+=========================================
+@@ -321,6 +321,7 @@ Whoever sets up the inode is responsible for filling in the "i_op"
+ field.  This is a pointer to a "struct inode_operations" which describes
+ the methods that can be performed on individual inodes.
  
- 	Original author: Richard Gooch <rgooch@atnf.csiro.au>
++
+ struct xattr_handlers
+ ---------------------
+ 
+@@ -507,6 +508,7 @@ otherwise noted.
+   tmpfile: called in the end of O_TMPFILE open().  Optional, equivalent to
+ 	atomically creating, opening and unlinking a file in given directory.
+ 
++
+ The Address Space Object
+ ========================
+ 
+@@ -580,8 +582,10 @@ and the constraints under which it is being done.  It is also used to
+ return information back to the caller about the result of a writepage or
+ writepages request.
+ 
++
+ Handling errors during writeback
+ --------------------------------
++
+ Most applications that do buffered I/O will periodically call a file
+ synchronization call (fsync, fdatasync, msync or sync_file_range) to
+ ensure that data written has made it to the backing store.  When there
+@@ -612,6 +616,7 @@ file->fsync operation, they should call file_check_and_advance_wb_err to
+ ensure that the struct file's error cursor has advanced to the correct
+ point in the stream of errors emitted by the backing device(s).
+ 
++
+ struct address_space_operations
+ -------------------------------
+ 
+@@ -1203,9 +1208,11 @@ manipulate dentries:
+ 	and the dentry is returned.  The caller must use dput()
+ 	to free the dentry when it finishes using it.
+ 
++
+ Mount Options
+ =============
+ 
++
+ Parsing options
+ ---------------
+ 
+@@ -1220,6 +1227,7 @@ The <linux/parser.h> header defines an API that helps parse these
+ options.  There are plenty of examples on how to use it in existing
+ filesystems.
+ 
++
+ Showing options
+ ---------------
+ 
+@@ -1241,6 +1249,7 @@ The underlying reason for the above rules is to make sure, that a mount
+ can be accurately replicated (e.g. umounting and mounting again) based
+ on the information found in /proc/mounts.
+ 
++
+ Resources
+ =========
  
 -- 
 2.21.0
