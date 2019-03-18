@@ -2,30 +2,28 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CEC517D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 18:53:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5D5977D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 18:57:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726946AbfCRSxO convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Mar 2019 14:53:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36128 "EHLO mx1.redhat.com"
+        id S1726860AbfCRS5u (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Mar 2019 14:57:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34340 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726677AbfCRSxO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 18 Mar 2019 14:53:14 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        id S1726839AbfCRS5u (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 18 Mar 2019 14:57:50 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 44C2CC1306F1;
-        Mon, 18 Mar 2019 18:53:13 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id E793537E72;
+        Mon, 18 Mar 2019 18:57:49 +0000 (UTC)
 Received: from llong.remote.csb (dhcp-17-19.bos.redhat.com [10.18.17.19])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id CDDD6620DF;
-        Mon, 18 Mar 2019 18:53:11 +0000 (UTC)
-Subject: Re: [PATCH v12 3/3] ipc: Do cyclic id allocation with ipcmni_extend
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 29DC419C67;
+        Mon, 18 Mar 2019 18:57:48 +0000 (UTC)
+Subject: Re: [PATCH v12 2/3] ipc: Conserve sequence numbers in ipcmni_extend
  mode
-From:   Waiman Long <longman@redhat.com>
 To:     Manfred Spraul <manfred@colorfullife.com>,
         "Luis R. Rodriguez" <mcgrof@kernel.org>,
         Kees Cook <keescook@chromium.org>,
@@ -35,11 +33,12 @@ Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-doc@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
         Matthew Wilcox <willy@infradead.org>,
         "Eric W. Biederman" <ebiederm@xmission.com>,
-        Takashi Iwai <tiwai@suse.de>, Davidlohr Bueso <dbueso@suse.de>
+        Takashi Iwai <tiwai@suse.de>, Davidlohr Bueso <dbueso@suse.de>,
+        1vier1@web.de
 References: <1551379645-819-1-git-send-email-longman@redhat.com>
- <1551379645-819-4-git-send-email-longman@redhat.com>
- <e780cb59-ef1b-5f56-1e92-394dff5d4e32@colorfullife.com>
- <eaee3fad-937b-9776-5ff4-874475acc162@redhat.com>
+ <1551379645-819-3-git-send-email-longman@redhat.com>
+ <398a8bcb-7568-0a5b-c6cb-77420de445b9@colorfullife.com>
+From:   Waiman Long <longman@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=longman@redhat.com; prefer-encrypt=mutual; keydata=
  xsFNBFgsZGsBEAC3l/RVYISY3M0SznCZOv8aWc/bsAgif1H8h0WPDrHnwt1jfFTB26EzhRea
@@ -85,57 +84,50 @@ Autocrypt: addr=longman@redhat.com; prefer-encrypt=mutual; keydata=
  wGA5uquIgb8p3/ENgYpDPrsZ72CxVC2NEJjJwwnRBStjJOGQX4lV1uhN1XsZjBbRHdKF2W9g
  weim8xU=
 Organization: Red Hat
-Message-ID: <35482058-12e3-b528-fc97-50c7f011dd15@redhat.com>
-Date:   Mon, 18 Mar 2019 14:53:11 -0400
+Message-ID: <c66181f7-e19e-0764-9de7-6bcefaef398a@redhat.com>
+Date:   Mon, 18 Mar 2019 14:57:47 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <eaee3fad-937b-9776-5ff4-874475acc162@redhat.com>
+In-Reply-To: <398a8bcb-7568-0a5b-c6cb-77420de445b9@colorfullife.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.31]); Mon, 18 Mar 2019 18:53:13 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.29]); Mon, 18 Mar 2019 18:57:50 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03/18/2019 02:37 PM, Waiman Long wrote:
-> On 03/17/2019 02:27 PM, Manfred Spraul wrote:
->> Hi Waiman,
->>
->> On 2/28/19 7:47 PM, Waiman Long wrote:
->>> For ipcmni_extend mode, the sequence number space is only 7 bits. So
->>> the chance of id reuse is relatively high compared with the non-extended
->>> mode.
->>>
->>> To alleviate this id reuse problem, the id allocation will be done
->>> cyclically to cycle through all the 24-bit id space before wrapping
->>> around when in ipcmni_extend mode. This may cause the use of more memory
->>> in term of the number of xa_nodes allocated as well as potentially more
->>> cachelines used as the xa_nodes may be spread more sparsely in this
->>> case.
->>>
->>> There is probably a slight memory and performance cost in doing cyclic
->>> id allocation. For applications that really need more than 32k unique
->>> IPC
->>> identifiers, this is a small price to pay to avoid the id reuse problem.
->> Have you measured it?
->>
->> I have observed -3% for semop() for a 4 level radix tree compared to a
->> 1-level radix tree, and I'm a bit reluctant to accept that.
->> Especially as the percentage will increase if the syscall overhead
->> goes down again (-> less spectre impact).
->>
-> It is both Spectre (retpoline) and Meltdown (PTI). PTI is not needed in
-> AMD CPU and so you may see a bit higher slowdown.
+On 03/16/2019 02:52 PM, Manfred Spraul wrote:
+> Hi,
+>
+> On 2/28/19 7:47 PM, Waiman Long wrote:
+>> @@ -216,10 +221,11 @@ static inline int ipc_idr_alloc(struct ipc_ids
+>> *ids, struct kern_ipc_perm *new)
+>>        */
+>>         if (next_id < 0) { /* !CHECKPOINT_RESTORE or next_id is unset */
+>> -        new->seq = ids->seq++;
+>> -        if (ids->seq > IPCID_SEQ_MAX)
+>> -            ids->seq = 0;
+>>           idx = idr_alloc(&ids->ipcs_idr, new, 0, 0, GFP_NOWAIT);
+>> +        if ((idx <= ids->last_idx) && (++ids->seq > IPCID_SEQ_MAX))
+>> +            ids->seq = 0;
+>
+> I'm always impressed by such lines:
+>
+> Everything in just two lines, use "++a", etc.
+>
+> But: How did you test it?
+>
+> idr_alloc() can fail, the code doesn't handle that :-(
+>
+>
 
-The use of idr_replace() in your previous patch may also slow the code
-path a bit to reduce the performance difference that you saw. This is
-actually my main concern with using idr_replace() as suggested by
-Matthew, but I am OK to use it if people think absolute correctness is
-more important.
+You are right. I should have checked for the error case.
+
+Thanks for spotting that.
 
 Cheers,
 Longman
