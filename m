@@ -1,126 +1,216 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3D7347D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 16:09:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 546957D919
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 16:35:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727336AbfCRQI7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Mar 2019 12:08:59 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:38829 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726812AbfCRQI7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Mar 2019 12:08:59 -0400
-Received: by mail-pg1-f196.google.com with SMTP id v1so6998084pgi.5
-        for <linux-doc@vger.kernel.org>; Mon, 18 Mar 2019 09:08:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4jnBV7KXAwRH/SBiWunplsgAO5XC9ZDTjIPOKm8iM+g=;
-        b=oxnKC1TgVy0AfRUFzdhntQ4TnaWjo/dHSXwb/USSzN9iByb1J8qb9RNkXwR6mHS+mw
-         U0ldrfn6mRkKtGFn2Svuia32YqyzgHr8lgGpA8Ip0euwMX1zgcj9IEez46oWi1IBddSU
-         gwBvQTSUaqVbn9YXiSr6jTBOA8Xv5UO8CN9pXByf2+OfL6o1mjVRgyqe5P+Xg2G+PiCf
-         NrrQ0yX3K59cnkolhi014Qa1wO07CtueVQk+/0EtrVmsp+hp6aDS9QuNbVuDWXjtk1vJ
-         lpuGAyImKDa6JNaKflwTKUzEOC9JqWe+LJv/B30MBc7OlHCI7rVxIEK1sErhlvMqw4PK
-         B6tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4jnBV7KXAwRH/SBiWunplsgAO5XC9ZDTjIPOKm8iM+g=;
-        b=eetRyntMU08BU3US1XP9tglpgvJRpfavlyMhnQnfZvlPxYRF/g+Esy6J1zBvonW0Sx
-         kaTS+xBHyelJvUV91Cln96f0mkK2JPPehCu2p32mFtN2hSWN7sxuVoD9c0vjoIRJ7Ibb
-         FWobzwEnMqnAG5Ep4GO6nnIGTU5kMBgrj7Sg3Q1CQHXu0AuFdbwDvUL4+3O4JuZA9MPX
-         0n+XmjymRNLG66oBOZKQXi94n/jmgFB1KQa9NJFjSGJotnkmQ++Nn3H5i4XrNlBWeovK
-         v298l3sDTYqu4FeesrRZgQWzrBCeCiCjl3wlbKdBngO8j8r6Wy3/BvBUiIeACnnyYTK7
-         GxuA==
-X-Gm-Message-State: APjAAAXTlCIKiuccXq7oYSiJadwEZyh1nc4R7KeZXG5vkaa+JLTqZxw0
-        /ox7mAMoxa5012G+a0KsDnEySJQmIIjWQqszCHYiCA==
-X-Google-Smtp-Source: APXvYqz4X+86iXGnn3Nho9z6FaNxwbl9pQbIbD8Gz0QIEPwnGUaSMpR4psZ3WXMcGuMVMNFbcG/Runz5qQVKQSjPXF0=
-X-Received: by 2002:a62:4299:: with SMTP id h25mr19703730pfd.165.1552925338999;
- Mon, 18 Mar 2019 09:08:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1552679409.git.andreyknvl@google.com> <56d3373c1c5007d776fcd5de4523f4b9da341fb6.1552679409.git.andreyknvl@google.com>
- <04c5b2de-7fde-7625-9d42-228160879ea0@gmail.com> <CAAeHK+xXLypBpF1EE73KuzQAo0E6Y=apS46wo+swo2AB6cy3YA@mail.gmail.com>
- <CAAeHK+yxcG=KBjG0A5BicBA7Zwu6LR6t=g5b-9EAPXA8_Dfm2g@mail.gmail.com> <CANn89iJfjhNcDS_eHg-OUiGui-hyRL5iWQuu_U+BW_N9iSNbeA@mail.gmail.com>
-In-Reply-To: <CANn89iJfjhNcDS_eHg-OUiGui-hyRL5iWQuu_U+BW_N9iSNbeA@mail.gmail.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Mon, 18 Mar 2019 17:08:48 +0100
-Message-ID: <CAAeHK+w+koPnKP2=3yQsj5wCVY-c6+NLBnkKWQP8Q6M6pzO4dA@mail.gmail.com>
-Subject: Re: [PATCH v11 08/14] net, arm64: untag user pointers in tcp_zerocopy_receive
-To:     Eric Dumazet <edumazet@google.com>
-Cc:     Eric Dumazet <eric.dumazet@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        "David S. Miller" <davem@davemloft.net>,
+        id S1727586AbfCRQfy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Mar 2019 12:35:54 -0400
+Received: from foss.arm.com ([217.140.101.70]:37222 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726808AbfCRQfx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 18 Mar 2019 12:35:53 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AB48D1650;
+        Mon, 18 Mar 2019 09:35:52 -0700 (PDT)
+Received: from e119884-lin.cambridge.arm.com (e119884-lin.cambridge.arm.com [10.1.196.72])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 85D5F3F614;
+        Mon, 18 Mar 2019 09:35:46 -0700 (PDT)
+From:   Vincenzo Frascino <vincenzo.frascino@arm.com>
+To:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-arch@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
         Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Branislav Rankov <Branislav.Rankov@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
         Dave Martin <Dave.Martin@arm.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Graeme Barnes <Graeme.Barnes@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
         Kevin Brodsky <kevin.brodsky@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+        Will Deacon <will.deacon@arm.com>
+Subject: [PATCH v2 0/4] arm64 relaxed ABI
+Date:   Mon, 18 Mar 2019 16:35:29 +0000
+Message-Id: <20190318163533.26838-1-vincenzo.frascino@arm.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <cover.1552679409.git.andreyknvl@google.com>
+References: <cover.1552679409.git.andreyknvl@google.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 18, 2019 at 3:45 PM Eric Dumazet <edumazet@google.com> wrote:
->
-> On Mon, Mar 18, 2019 at 6:17 AM Andrey Konovalov <andreyknvl@google.com> wrote:
-> >
->
-> > Looking at the code, what's the point of this address != zc->address
-> > check? Should I just remove it?
->
-> No you must not remove it.
->
-> The test detects if a u64 ->unsigned long  conversion might have truncated bits.
->
-> Quite surprisingly some people still use 32bit kernels.
->
-> The ABI is 64bit only, because we did not want to have yet another compat layer.
->
-> struct tcp_zerocopy_receive {
->     __u64 address; /* in: address of mapping */
->     __u32 length; /* in/out: number of bytes to map/mapped */
->     __u32 recv_skip_hint; /* out: amount of bytes to skip */
-> };
+On arm64 the TCR_EL1.TBI0 bit has been always enabled in the Linux
+kernel hence the userspace (EL0) is allowed to set a non-zero value
+in the top byte but the resulting pointers are not allowed at the
+user-kernel syscall ABI boundary.
 
-Ah, got it, thanks! I'll add a comment here then, otherwise this looks
-confusing.
+This patchset proposes a relaxation of the ABI and a mechanism to
+advertise it to the userspace via an AT_FLAGS.
+
+The rationale behind the choice of AT_FLAGS is that the Unix System V
+ABI defines AT_FLAGS as "flags", leaving some degree of freedom in
+interpretation.
+There are two previous attempts of using AT_FLAGS in the Linux Kernel
+for different reasons: the first was more generic and was used to expose
+the support for the GNU STACK NX feature [1] and the second was done for
+the MIPS architecture and was used to expose the support of "MIPS ABI
+Extension for IEEE Std 754 Non-Compliant Interlinking" [2].
+Both the changes are currently _not_ merged in mainline.
+The only architecture that reserves some of the bits in AT_FLAGS is
+currently MIPS, which introduced the concept of platform specific ABI
+(psABI) reserving the top-byte [3].
+
+When ARM64_AT_FLAGS_SYSCALL_TBI is set the kernel is advertising
+to the userspace that a relaxed ABI is supported hence this type
+of pointers are now allowed to be passed to the syscalls when they are
+in memory ranges obtained by anonymous mmap() or brk().
+
+The userspace _must_ verify that the flag is set before passing tagged
+pointers to the syscalls allowed by this relaxation.
+
+More in general, exposing the ARM64_AT_FLAGS_SYSCALL_TBI flag and mandating
+to the software to check that the feature is present, before using the
+associated functionality, it provides a degree of control on the decision
+of disabling such a feature in future without consequently breaking the
+userspace.
+
+The change required a modification of the elf common code, because in Linux
+the AT_FLAGS are currently set to zero by default by the kernel.
+
+The newly added flag has been verified on arm64 using the code below.
+#include <stdio.h>
+#include <stdbool.h>
+#include <sys/auxv.h>
+
+#define ARM64_AT_FLAGS_SYSCALL_TBI     (1 << 0)
+
+bool arm64_syscall_tbi_is_present(void)
+{
+        unsigned long at_flags = getauxval(AT_FLAGS);
+        if (at_flags & ARM64_AT_FLAGS_SYSCALL_TBI)
+                return true;
+
+        return false;
+}
+
+void main()
+{
+        if (arm64_syscall_tbi_is_present())
+                printf("ARM64_AT_FLAGS_SYSCALL_TBI is present\n");
+}
+
+This patchset should be merged together with [4].
+
+[1] https://patchwork.ozlabs.org/patch/579578/
+[2] https://lore.kernel.org/patchwork/cover/618280/
+[3] ftp://www.linux-mips.org/pub/linux/mips/doc/ABI/psABI_mips3.0.pdf
+[4] https://patchwork.kernel.org/cover/10674351/
+
+ABI References:
+---------------
+Sco SysV ABI: http://www.sco.com/developers/gabi/2003-12-17/contents.html
+PowerPC AUXV: http://openpowerfoundation.org/wp-content/uploads/resources/leabi/content/dbdoclet.50655242_98651.html
+AMD64 ABI: https://www.cs.tufts.edu/comp/40-2012f/readings/amd64-abi.pdf
+x86 ABI: https://www.uclibc.org/docs/psABI-i386.pdf
+MIPS ABI: ftp://www.linux-mips.org/pub/linux/mips/doc/ABI/psABI_mips3.0.pdf
+ARM ABI: http://infocenter.arm.com/help/topic/com.arm.doc.ihi0044f/IHI0044F_aaelf.pdf
+SPARC ABI: http://math-atlas.sourceforge.net/devel/assembly/abi_sysV_sparc.pdf
+
+CC: Alexander Viro <viro@zeniv.linux.org.uk>
+Cc: Alexei Starovoitov <ast@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Andrey Konovalov <andreyknvl@google.com>
+Cc: Arnaldo Carvalho de Melo <acme@kernel.org>
+Cc: Branislav Rankov <Branislav.Rankov@arm.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Chintan Pandya <cpandya@codeaurora.org>
+Cc: Daniel Borkmann <daniel@iogearbox.net>
+Cc: Dave Martin <Dave.Martin@arm.com>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Evgeniy Stepanov <eugenis@google.com>
+Cc: Graeme Barnes <Graeme.Barnes@arm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Ingo Molnar <mingo@kernel.org>
+Cc: Jacob Bramley <Jacob.Bramley@arm.com>
+Cc: Kate Stewart <kstewart@linuxfoundation.org>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Kevin Brodsky <kevin.brodsky@arm.com>
+Cc: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: Kostya Serebryany <kcc@google.com>
+Cc: Lee Smith <Lee.Smith@arm.com>
+Cc: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>
+Cc: Shuah Khan <shuah@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+Cc: Will Deacon <will.deacon@arm.com>
+Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+
+Changes:
+--------
+v2:
+  - Rebased on 5.1-rc1
+  - Addressed review comments
+  - Modified tagged-pointers.txt to be compliant with the
+    new ABI relaxation
+
+Vincenzo Frascino (4):
+  elf: Make AT_FLAGS arch configurable
+  arm64: Define Documentation/arm64/elf_at_flags.txt
+  arm64: Relax Documentation/arm64/tagged-pointers.txt
+  arm64: elf: Advertise relaxed ABI
+
+ Documentation/arm64/elf_at_flags.txt    | 133 ++++++++++++++++++++++++
+ Documentation/arm64/tagged-pointers.txt |  23 ++--
+ arch/arm64/include/asm/atflags.h        |   7 ++
+ arch/arm64/include/asm/elf.h            |   5 +
+ arch/arm64/include/uapi/asm/atflags.h   |   8 ++
+ fs/binfmt_elf.c                         |   6 +-
+ fs/binfmt_elf_fdpic.c                   |   6 +-
+ fs/compat_binfmt_elf.c                  |   5 +
+ 8 files changed, 184 insertions(+), 9 deletions(-)
+ create mode 100644 Documentation/arm64/elf_at_flags.txt
+ create mode 100644 arch/arm64/include/asm/atflags.h
+ create mode 100644 arch/arm64/include/uapi/asm/atflags.h
+
+-- 
+2.21.0
+
