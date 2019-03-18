@@ -5,66 +5,164 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 50DD77D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 18:10:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 993C87D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 18:37:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726927AbfCRSKe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Mar 2019 14:10:34 -0400
-Received: from 15.mo6.mail-out.ovh.net ([188.165.39.161]:51425 "EHLO
-        15.mo6.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726623AbfCRSKe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Mar 2019 14:10:34 -0400
-X-Greylist: delayed 1801 seconds by postgrey-1.27 at vger.kernel.org; Mon, 18 Mar 2019 14:10:33 EDT
-Received: from player718.ha.ovh.net (unknown [10.109.159.222])
-        by mo6.mail-out.ovh.net (Postfix) with ESMTP id E4C8F1B7DB8
-        for <linux-doc@vger.kernel.org>; Mon, 18 Mar 2019 18:34:29 +0100 (CET)
-Received: from jwilk.net (ip-5-172-255-60.free.aero2.net.pl [5.172.255.60])
-        (Authenticated sender: jwilk@jwilk.net)
-        by player718.ha.ovh.net (Postfix) with ESMTPSA id 7921D3B97E77;
-        Mon, 18 Mar 2019 17:34:25 +0000 (UTC)
-From:   Jakub Wilk <jwilk@jwilk.net>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>
-Subject: [PATCH] Documentation: fix core_pattern max length
-Date:   Mon, 18 Mar 2019 18:34:21 +0100
-Message-Id: <20190318173421.502-1-jwilk@jwilk.net>
-X-Mailer: git-send-email 2.20.1
+        id S1727116AbfCRShm convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Mar 2019 14:37:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55630 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726806AbfCRShl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 18 Mar 2019 14:37:41 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id A89788B947;
+        Mon, 18 Mar 2019 18:37:41 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-19.bos.redhat.com [10.18.17.19])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 5686860C7F;
+        Mon, 18 Mar 2019 18:37:40 +0000 (UTC)
+Subject: Re: [PATCH v12 3/3] ipc: Do cyclic id allocation with ipcmni_extend
+ mode
+To:     Manfred Spraul <manfred@colorfullife.com>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Takashi Iwai <tiwai@suse.de>, Davidlohr Bueso <dbueso@suse.de>
+References: <1551379645-819-1-git-send-email-longman@redhat.com>
+ <1551379645-819-4-git-send-email-longman@redhat.com>
+ <e780cb59-ef1b-5f56-1e92-394dff5d4e32@colorfullife.com>
+From:   Waiman Long <longman@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=longman@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ weim8xU=
+Organization: Red Hat
+Message-ID: <eaee3fad-937b-9776-5ff4-874475acc162@redhat.com>
+Date:   Mon, 18 Mar 2019 14:37:39 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 15466768496930248581
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedutddriedugddutdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+In-Reply-To: <e780cb59-ef1b-5f56-1e92-394dff5d4e32@colorfullife.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.27]); Mon, 18 Mar 2019 18:37:41 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The buffer size for core_pattern is 128, but one character is used for
-terminating null byte, so the actual limit is 127:
+On 03/17/2019 02:27 PM, Manfred Spraul wrote:
+> Hi Waiman,
+>
+> On 2/28/19 7:47 PM, Waiman Long wrote:
+>> For ipcmni_extend mode, the sequence number space is only 7 bits. So
+>> the chance of id reuse is relatively high compared with the non-extended
+>> mode.
+>>
+>> To alleviate this id reuse problem, the id allocation will be done
+>> cyclically to cycle through all the 24-bit id space before wrapping
+>> around when in ipcmni_extend mode. This may cause the use of more memory
+>> in term of the number of xa_nodes allocated as well as potentially more
+>> cachelines used as the xa_nodes may be spread more sparsely in this
+>> case.
+>>
+>> There is probably a slight memory and performance cost in doing cyclic
+>> id allocation. For applications that really need more than 32k unique
+>> IPC
+>> identifiers, this is a small price to pay to avoid the id reuse problem.
+>
+> Have you measured it?
+>
+> I have observed -3% for semop() for a 4 level radix tree compared to a
+> 1-level radix tree, and I'm a bit reluctant to accept that.
+> Especially as the percentage will increase if the syscall overhead
+> goes down again (-> less spectre impact).
+>
 
-    # printf '%0999d' > /proc/sys/kernel/core_pattern
-    # tr -d '\n' < /proc/sys/kernel/core_pattern | wc -c
-    127
+It is both Spectre (retpoline) and Meltdown (PTI). PTI is not needed in
+AMD CPU and so you may see a bit higher slowdown.
 
-Signed-off-by: Jakub Wilk <jwilk@jwilk.net>
----
- Documentation/sysctl/kernel.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> [...]
+>
+>> --- a/ipc/util.c
+>> +++ b/ipc/util.c
+>> @@ -221,7 +221,12 @@ static inline int ipc_idr_alloc(struct ipc_ids
+>> *ids, struct kern_ipc_perm *new)
+>>        */
+>>         if (next_id < 0) { /* !CHECKPOINT_RESTORE or next_id is unset */
+>> -        idx = idr_alloc(&ids->ipcs_idr, new, 0, 0, GFP_NOWAIT);
+>> +        if (ipc_mni_extended)
+>> +            idx = idr_alloc_cyclic(&ids->ipcs_idr, new, 0, ipc_mni,
+>> +                        GFP_NOWAIT);
+>> +        else
+>> +            idx = idr_alloc(&ids->ipcs_idr, new, 0, 0, GFP_NOWAIT);
+>> +
+>>           if ((idx <= ids->last_idx) && (++ids->seq > IPCID_SEQ_MAX))
+>>               ids->seq = 0;
+>
+> I don't like it that there are two different codepaths.
+>
+> Attached is a different proposal:
+>
+> Always use cyclic allocation, with some logic to minimize the
+> additional radix tree levels.
+>
+> What do you think?
 
-diff --git a/Documentation/sysctl/kernel.txt b/Documentation/sysctl/kernel.txt
-index aa058aa7bf28..f0c86fbb3b48 100644
---- a/Documentation/sysctl/kernel.txt
-+++ b/Documentation/sysctl/kernel.txt
-@@ -196,7 +196,7 @@ CAP_LAST_CAP from the kernel.
- core_pattern:
- 
- core_pattern is used to specify a core dumpfile pattern name.
--. max length 128 characters; default value is "core"
-+. max length 127 characters; default value is "core"
- . core_pattern is used as a pattern template for the output filename;
-   certain string patterns (beginning with '%') are substituted with
-   their actual values.
--- 
-2.20.1
+Your proposed patch look good. I saw that you use the max_idx to limit
+radix tree nesting level which mitigate my concern of using more memory
+and slower performance. I do have some minor comments about the patch in
+a later email.
+
+-Longman
+
 
