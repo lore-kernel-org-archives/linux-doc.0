@@ -5,23 +5,23 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5D5977D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 18:57:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E04117D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 19:00:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726860AbfCRS5u (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Mar 2019 14:57:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34340 "EHLO mx1.redhat.com"
+        id S1726837AbfCRTAQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Mar 2019 15:00:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58232 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726839AbfCRS5u (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 18 Mar 2019 14:57:50 -0400
+        id S1726832AbfCRTAQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 18 Mar 2019 15:00:16 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id E793537E72;
-        Mon, 18 Mar 2019 18:57:49 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id 20C7A30821FF;
+        Mon, 18 Mar 2019 19:00:15 +0000 (UTC)
 Received: from llong.remote.csb (dhcp-17-19.bos.redhat.com [10.18.17.19])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 29DC419C67;
-        Mon, 18 Mar 2019 18:57:48 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 15DAE19C67;
+        Mon, 18 Mar 2019 19:00:13 +0000 (UTC)
 Subject: Re: [PATCH v12 2/3] ipc: Conserve sequence numbers in ipcmni_extend
  mode
 To:     Manfred Spraul <manfred@colorfullife.com>,
@@ -84,50 +84,177 @@ Autocrypt: addr=longman@redhat.com; prefer-encrypt=mutual; keydata=
  wGA5uquIgb8p3/ENgYpDPrsZ72CxVC2NEJjJwwnRBStjJOGQX4lV1uhN1XsZjBbRHdKF2W9g
  weim8xU=
 Organization: Red Hat
-Message-ID: <c66181f7-e19e-0764-9de7-6bcefaef398a@redhat.com>
-Date:   Mon, 18 Mar 2019 14:57:47 -0400
+Message-ID: <7dfac353-da52-8a11-d145-7704c777daeb@redhat.com>
+Date:   Mon, 18 Mar 2019 15:00:12 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.9.1
 MIME-Version: 1.0
 In-Reply-To: <398a8bcb-7568-0a5b-c6cb-77420de445b9@colorfullife.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.29]); Mon, 18 Mar 2019 18:57:50 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.47]); Mon, 18 Mar 2019 19:00:15 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 03/16/2019 02:52 PM, Manfred Spraul wrote:
-> Hi,
+> From edee319b2d5c96af14b8b8899e5dde324861e4e4 Mon Sep 17 00:00:00 2001
+> From: Manfred Spraul <manfred@colorfullife.com>
+> Date: Sat, 16 Mar 2019 10:18:53 +0100
+> Subject: [PATCH] ipc: Conserve sequence numbers in ipcmni_extend mode
 >
-> On 2/28/19 7:47 PM, Waiman Long wrote:
->> @@ -216,10 +221,11 @@ static inline int ipc_idr_alloc(struct ipc_ids
->> *ids, struct kern_ipc_perm *new)
->>        */
->>         if (next_id < 0) { /* !CHECKPOINT_RESTORE or next_id is unset */
->> -        new->seq = ids->seq++;
->> -        if (ids->seq > IPCID_SEQ_MAX)
->> -            ids->seq = 0;
->>           idx = idr_alloc(&ids->ipcs_idr, new, 0, 0, GFP_NOWAIT);
->> +        if ((idx <= ids->last_idx) && (++ids->seq > IPCID_SEQ_MAX))
->> +            ids->seq = 0;
+> Rewrite, based on the patch from Waiman Long:
 >
-> I'm always impressed by such lines:
+> The mixing in of a sequence number into the IPC IDs is probably to
+> avoid ID reuse in userspace as much as possible. With ipcmni_extend
+> mode, the number of usable sequence numbers is greatly reduced leading
+> to higher chance of ID reuse.
 >
-> Everything in just two lines, use "++a", etc.
+> To address this issue, we need to conserve the sequence number space
+> as much as possible. Right now, the sequence number is incremented for
+> every new ID created. In reality, we only need to increment the sequence
+> number when new allocated ID is not greater than the last one allocated.
+> It is in such case that the new ID may collide with an existing one.
+> This is being done irrespective of the ipcmni mode.
 >
-> But: How did you test it?
+> In order to avoid any races, the index is first allocated and
+> then the pointer is replaced.
 >
-> idr_alloc() can fail, the code doesn't handle that :-(
+> Changes compared to the initial patch:
+> - Handle failures from idr_alloc().
+> - Avoid that concurrent operations can see the wrong
+>   sequence number.
+> (This is achieved by using idr_replace()).
+> - IPCMNI_SEQ_SHIFT is not a constant, thus renamed to
+> 	ipcmni_seq_shift().
+> - IPCMNI_SEQ_MAX is not a constant, thus renamed to
+> 	ipcmni_seq_max().
 >
+> Suggested-by: Matthew Wilcox <willy@infradead.org>
+> Original-patch-from: Waiman Long <longman@redhat.com>
+> Signed-off-by: Manfred Spraul <manfred@colorfullife.com>
+> ---
+>  include/linux/ipc_namespace.h |  1 +
+>  ipc/util.c                    | 35 ++++++++++++++++++++++++++++++-----
+>  ipc/util.h                    |  8 ++++----
+>  3 files changed, 35 insertions(+), 9 deletions(-)
 >
+> diff --git a/include/linux/ipc_namespace.h b/include/linux/ipc_namespace.h
+> index 6ab8c1bada3f..c309f43bde45 100644
+> --- a/include/linux/ipc_namespace.h
+> +++ b/include/linux/ipc_namespace.h
+> @@ -19,6 +19,7 @@ struct ipc_ids {
+>  	struct rw_semaphore rwsem;
+>  	struct idr ipcs_idr;
+>  	int max_idx;
+> +	int last_idx;	/* For wrap around detection */
+>  #ifdef CONFIG_CHECKPOINT_RESTORE
+>  	int next_id;
+>  #endif
+> diff --git a/ipc/util.c b/ipc/util.c
+> index 07ae117ccdc0..6e0fe3410423 100644
+> --- a/ipc/util.c
+> +++ b/ipc/util.c
+> @@ -120,6 +120,7 @@ void ipc_init_ids(struct ipc_ids *ids)
+>  	rhashtable_init(&ids->key_ht, &ipc_kht_params);
+>  	idr_init(&ids->ipcs_idr);
+>  	ids->max_idx = -1;
+> +	ids->last_idx = -1;
+>  #ifdef CONFIG_CHECKPOINT_RESTORE
+>  	ids->next_id = -1;
+>  #endif
+> @@ -193,6 +194,10 @@ static struct kern_ipc_perm *ipc_findkey(struct ipc_ids *ids, key_t key)
+>   *
+>   * The caller must own kern_ipc_perm.lock.of the new object.
+>   * On error, the function returns a (negative) error code.
+> + *
+> + * To conserve sequence number space, especially with extended ipc_mni,
+> + * the sequence number is incremented only when the returned ID is less than
+> + * the last one.
+>   */
+>  static inline int ipc_idr_alloc(struct ipc_ids *ids, struct kern_ipc_perm *new)
+>  {
+> @@ -216,17 +221,37 @@ static inline int ipc_idr_alloc(struct ipc_ids *ids, struct kern_ipc_perm *new)
+>  	 */
+>  
+>  	if (next_id < 0) { /* !CHECKPOINT_RESTORE or next_id is unset */
+> -		new->seq = ids->seq++;
+> -		if (ids->seq > IPCID_SEQ_MAX)
+> -			ids->seq = 0;
+> -		idx = idr_alloc(&ids->ipcs_idr, new, 0, 0, GFP_NOWAIT);
+> +
+> +		/* allocate the idx, with a NULL struct kern_ipc_perm */
+> +		idx = idr_alloc(&ids->ipcs_idr, NULL, 0, 0, GFP_NOWAIT);
+> +
+> +		if (idx >= 0) {
+> +			/*
+> +			 * idx got allocated successfully.
+> +			 * Now calculate the sequence number and set the
+> +			 * pointer for real.
+> +			 */
+> +			if (idx <= ids->last_idx) {
+> +				ids->seq++;
+> +				if (ids->seq >= ipcid_seq_max())
+> +					ids->seq = 0;
+> +			}
+> +			ids->last_idx = idx;
+> +
+> +			new->seq = ids->seq;
+> +			/* no need for smp_wmb(), this is done
+> +			 * inside idr_replace, as part of
+> +			 * rcu_assign_pointer
+> +			 */
+> +			idr_replace(&ids->ipcs_idr, new, idx);
+> +		}
+>  	} else {
+>  		new->seq = ipcid_to_seqx(next_id);
+>  		idx = idr_alloc(&ids->ipcs_idr, new, ipcid_to_idx(next_id),
+>  				0, GFP_NOWAIT);
+>  	}
+>  	if (idx >= 0)
+> -		new->id = (new->seq << IPCMNI_SEQ_SHIFT) + idx;
+> +		new->id = (new->seq << ipcmni_seq_shift()) + idx;
+>  	return idx;
+>  }
+>  
+> diff --git a/ipc/util.h b/ipc/util.h
+> index 9746886757de..8c834ed39012 100644
+> --- a/ipc/util.h
+> +++ b/ipc/util.h
+> @@ -34,13 +34,13 @@
+>  extern int ipc_mni;
+>  extern int ipc_mni_shift;
+>  
+> -#define IPCMNI_SEQ_SHIFT	ipc_mni_shift
+> +#define ipcmni_seq_shift()	ipc_mni_shift
+>  #define IPCMNI_IDX_MASK		((1 << ipc_mni_shift) - 1)
+>  
+>  #else /* CONFIG_SYSVIPC_SYSCTL */
+>  
+>  #define ipc_mni			IPCMNI
+> -#define IPCMNI_SEQ_SHIFT	IPCMNI_SHIFT
+> +#define ipcmni_seq_shift()	IPCMNI_SHIFT
+>  #define IPCMNI_IDX_MASK		((1 << IPCMNI_SHIFT) - 1)
+>  #endif /* CONFIG_SYSVIPC_SYSCTL */
+>  
+> @@ -123,8 +123,8 @@ struct pid_namespace *ipc_seq_pid_ns(struct seq_file *);
+>  #define IPC_SHM_IDS	2
+>  
+>  #define ipcid_to_idx(id)  ((id) & IPCMNI_IDX_MASK)
+> -#define ipcid_to_seqx(id) ((id) >> IPCMNI_SEQ_SHIFT)
+> -#define IPCID_SEQ_MAX	  (INT_MAX >> IPCMNI_SEQ_SHIFT)
+> +#define ipcid_to_seqx(id) ((id) >> ipcmni_seq_shift())
+> +#define ipcid_seq_max()	  (INT_MAX >> ipcmni_seq_shift())
+>  
+>  /* must be called with ids->rwsem acquired for writing */
+>  int ipc_addid(struct ipc_ids *, struct kern_ipc_perm *, int);
 
-You are right. I should have checked for the error case.
+Acked-by: Waiman Long <longman@redhat.com>
 
-Thanks for spotting that.
+I am fine with this patch replacing mine.
 
 Cheers,
 Longman
