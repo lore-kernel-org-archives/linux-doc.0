@@ -1,132 +1,142 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AC8917D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 21:11:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B34747D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 23:15:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727218AbfCRVLu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Mar 2019 17:11:50 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:34014 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726891AbfCRVLu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Mar 2019 17:11:50 -0400
-Received: by mail-qt1-f195.google.com with SMTP id k2so19788466qtm.1
-        for <linux-doc@vger.kernel.org>; Mon, 18 Mar 2019 14:11:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=opersys-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=1ILkhe+5q0I/7urwS/c27Sb5MLAkf2cAYnZZe/oHvpY=;
-        b=HgRNpAAXOValLWiEzXBr2h4DoilkHB94eMqRxjGOwSrmQkmV4w39e5zzlIUmouFBc/
-         UOycXHf/qOD2bJ4WS3lnnMWdDOfjGceesEpS0qb4JxW/5lSFxZLVsfXHKScGoha2qY2U
-         2QE3i2lluRirfFpqkcXfhDePjlFfyESm1H0KzLGs6KJLQX9PJMya4ME2KwwMLh8F5cUT
-         liZWsyMET3CXrWX21liCCet+zljQiLp0JOANWvok0r9hf3BSDZsL9tNLq3ZXS/AMP2/P
-         NC3KO9nL8bPj413LNfG6idarNgcES+CN4vaiHFe5E84rW4JCrIJkW6fCuUKQhRQGb3AG
-         5Hcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=1ILkhe+5q0I/7urwS/c27Sb5MLAkf2cAYnZZe/oHvpY=;
-        b=ZWYuG1Lg3W5j/Wc7pUJzbMJ+Lg+jj1hZzOT2dLIyqpwROE6iqHRHuA56lVb97IkaIT
-         zXhUuaSZnRHdKCagXoAkR8pVLCvQ/9tH9QtDzw7gS4jlda4E/lMrwFfj21Ne68pIQXom
-         9FzcLKMQilXbFpmLfW/RI2m91k2WPmXe0J1RtQ8oZgmXN5gRNEIzdn0TaquEEaoDlC0Q
-         8BgqySXCXehyJ1bbhl1VsGMClBKTYpCFDY3V6d255ofrSASlEQPVoqZOSnAAnY+4gjjo
-         vnbOpjcB8B3inrNpl885IE5i/uV134nBcI0yiT6E3ZasSvoRG6fWt5RYIkEKs8YIzBQg
-         DFZQ==
-X-Gm-Message-State: APjAAAWQtPPZUKbX38X1h/WHfEGfl8lCsIo0sC3AcQDt7XUd8fQ88T0e
-        64CH4I9BU3vzWi5LwF2R3yh15A==
-X-Google-Smtp-Source: APXvYqz1wQxoKXBlvbvNpLHP3GqpTeS3Bpn7XQy4uiM6ZW5SFnrgwJqRFGfCa/s4e2IxXieOgKMBfQ==
-X-Received: by 2002:a0c:ad93:: with SMTP id w19mr14737015qvc.25.1552943508863;
-        Mon, 18 Mar 2019 14:11:48 -0700 (PDT)
-Received: from [192.168.202.103] (modemcable170.15-70-69.static.videotron.ca. [69.70.15.170])
-        by smtp.googlemail.com with ESMTPSA id t35sm3333553qtc.10.2019.03.18.14.11.46
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 18 Mar 2019 14:11:47 -0700 (PDT)
-Subject: Re: [PATCH v4 1/2] Provide in-kernel headers for making it easy to
- extend the kernel
-To:     Alan Cox <gnomes@lxorguk.ukuu.org.uk>,
-        Greg KH <gregkh@linuxfoundation.org>
-Cc:     Joel Fernandes <joel@joelfernandes.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>, atishp04@gmail.com,
-        dancol@google.com, Dan Williams <dan.j.williams@intel.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org,
-        Manoj Rao <linux@manojrajarao.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>, qais.yousef@arm.com,
+        id S1726438AbfCRXPS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Mar 2019 19:15:18 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:49109 "EHLO
+        out2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726303AbfCRXPS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Mar 2019 19:15:18 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.nyi.internal (Postfix) with ESMTP id 4723522B1A;
+        Mon, 18 Mar 2019 19:15:17 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Mon, 18 Mar 2019 19:15:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=ZqGykYVH77djLZne5
+        01caV0WFSaOMDiHjm0OWGztsTI=; b=k5cIjSmcJJmizGgRPpbxCqmDEmWSjNnrG
+        FIvGrDIZR6Kabx+IyvYo6muZGyyGCNrsoma0H8o4+S40m9w1pYgUzuEcNP/tVC3L
+        rqf9feIMeDHS1qbt9NPtpqqgjl1WoeyuwNxxMwTohTDLH5WyBiumWpTf50gjDRzu
+        qRI3kxg/oZj2pN1a2GSGjP1RWAXOc1BzU1gnhMr6DwXo0wOp6GPgAEr6FJm7ZRCq
+        27yV7icg/iA3QTbEMN93THL/y5yiw12kFKGO1PqIxD8sFbumA8RCeLxZ3syf0mQq
+        WaJBqHdJ4hpxgRhjXbcvHLCZ5yw3hNfPF+nPE+YiyautPYifo/O0Q==
+X-ME-Sender: <xms:giaQXL7TJx83zgdsFg0IE5g2JzqQGtmvP9bRRArEVtK8Z0_U1lNy9A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedutddriedvgddtfecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepfdfvohgsihhnucev
+    rdcujfgrrhguihhnghdfuceothhosghinheskhgvrhhnvghlrdhorhhgqeenucfkphepud
+    dvgedrudeiledrudegledrgedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehtohgsihhn
+    sehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedt
+X-ME-Proxy: <xmx:giaQXMbiMVq9FxLc4HIXkuRwa0W05KJqPKh_IAznx2qV76kCSMi0gQ>
+    <xmx:giaQXIcpNOOhIhoNSca32RUJ2bOQ82Jp4fGjwxr4FcHsAebLI62LnQ>
+    <xmx:giaQXJ7NgCusYRX777KSnKXxSln0T56fHQvuFDqTUzzkE5gUqfM-eQ>
+    <xmx:hSaQXGwU-8fYiYpWc2Gqhtb62mN9p0Mwsu8KwlSpvQo7WNTNNMj9Kg>
+Received: from eros.localdomain (124-169-149-40.dyn.iinet.net.au [124.169.149.40])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 0D31110315;
+        Mon, 18 Mar 2019 19:15:11 -0400 (EDT)
+From:   "Tobin C. Harding" <tobin@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     "Tobin C. Harding" <tobin@kernel.org>,
         Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Shuah Khan <shuah@kernel.org>, yhs@fb.com
-References: <20190301160856.129678-1-joel@joelfernandes.org>
- <CAMuHMdU77UyUs-LvRx-NN_k0Y7MZXQkBdgL2i83veCkvdzeeqA@mail.gmail.com>
- <20190307150343.GB258852@google.com> <20190307152303.GA9819@kroah.com>
- <20190318185742.109dee5c@alans-desktop>
-From:   Karim Yaghmour <karim.yaghmour@opersys.com>
-Message-ID: <989e8a5c-28a6-856b-5a69-8d84189bcad5@opersys.com>
-Date:   Mon, 18 Mar 2019 17:11:45 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 00/13] Convert vfs.txt to vfs.rst
+Date:   Tue, 19 Mar 2019 10:14:24 +1100
+Message-Id: <20190318231437.1666-1-tobin@kernel.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20190318185742.109dee5c@alans-desktop>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Jon,
 
-Hi Alan,
+v2 Re-based and tagged for your merging pleasure!
 
-On 3/18/19 2:57 PM, Alan Cox wrote:
->> I think the compressed tarball is much simpler/easier overall.  If
->> someone really wants the filesystem, they just uncompress it into a
->> tmpfs mount.  It's much less moving kernel code to worry about.
-> 
-> There is an even simpler approach. The people who want this for whatever
-> strange reason are Android folks. Android lives on flash, so all they have
-> to do is put the headers in a flash file system that is updated with the
-> kernel and mount it wherever they like. Simple matter of a bit of
-> devicetree no ?
+This set converts the VFS overview documentation to RST format.
 
-The Android use-case scenario might indeed have been the one to best 
-crystallize the requirement, but that doesn't mean that all use-cases of 
-eBPF wouldn't benefit from this -- which in fact they would, see 
-instructions here for example on the need for kernel headers:
-https://github.com/iovisor/bcc/blob/master/INSTALL.md
+Patch set introduces no new warnings/errors to the html docs build
 
-Just a quick $PREFERRED_SEARCH_ENGINE search returns interesting 
-exchanges such as this one taken from a discussion thread on LWN 
-covering an introduction to eBPF:
-https://lwn.net/Articles/741348/
-Effectively this person had to be hand-held in understanding that they 
-needed a good set of kernel headers to make the tool work. Their comment 
-after being shown that this was needed was:
-"It looks like the headers package you need on Ubuntu is 
-linux-headers-$(uname -r), which contains the entire kernel source tree, 
-and is specific to the running kernel."
+      $ make htmldocs 2> ../docs-pre-vfs.stderr	
 
-Surely having Joel's patch in the kernel would obviate the issue for all 
-Linux kernel users, not just Android.
+	Apply patch set  ...
 
-Cheers,
+      $ make cleandocs
+      $ make htmldocs 2> ../docs-post-vfs.stderr
+      $ diff ../docs-pre-vfs.stderr ../docs-post-vfs.stderr
+
+
+Patch 1-4 - Whitespace fixes.
+Patch 5 - Adds the document title adornments (above and below)
+Patch 6 - Adds a SPDX license identifier
+Patch 7 - Fixes some custom indentation at the top of the file that will
+    	  cause Sphinx to warn when we switch to .rst
+Patch 8 - Converts custom list format to use RST formatted lists, this
+          is in preparation for switching to .rst 
+Patch 9 - Adds '.. code-block:: c' and fixes indentation of code
+	  blocks.  We rename the file to .rst in this patch (introducing
+	  some new warnings).
+Patch 10 - Adds back ticks to all the list items.  This is in
+	   preparation for fixing the indentation in the next patch.
+	   This was found to help when reading both plain text and HTML.
+Patch 11 - Cleans up the lists, indentation and missing periods.  This
+	   was kept separate to assist review.  This patch is benign,
+	   the less meticulous reviewer could safely skip over this one
+	   quickly (this was the intention of separating these changes).
+Patch 12 - Fixes a few minor grammar mistakes I notice while reading the
+	   file, I'm taking bonus points for actually reading every word
+	   of the file and not just trying to haphazardly do the
+	   conversion like I have previously done :)
+Patch 13 - Fixes two remaining Sphinx warnings.
+
+If/when this goes in perhaps I, or someone else, will update the content
+to document a newer kernel version.
+
+
+thanks,
+Tobin.
+
+
+Changes since v1:
+
+ - Re-base onto commit 9834857754ff ("doc:it_IT: translations for documents in process/")
+ - Add 'Tested-by:' tag for Randy (thanks!)
+
+
+Tobin C. Harding (13):
+  docs: filesystems: vfs: Remove space before tab
+  docs: filesystems: vfs: Use uniform space after period.
+  docs: filesystems: vfs: Use 72 character column width
+  docs: filesystems: vfs: Use uniform spacing around headings
+  docs: filesystems: vfs: Use correct initial heading
+  docs: filesystems: vfs: Use SPDX identifier
+  docs: filesystems: vfs: Fix pre-amble indentation
+  docs: filesystems: vfs: Use list character for lists
+  docs: filesystems: vfs: Add code-block and txt->RST
+  docs: filesystems: vfs: Use ticks for listed items
+  docs: filesystems: vfs: Clean up lists
+  docs: filesystems: vfs: Do minor grammar fixes
+  docs: filesystems: vfs: Use backticks to guard star
+
+ Documentation/filesystems/index.rst |    1 +
+ Documentation/filesystems/vfs.rst   | 1283 +++++++++++++++++++++++++++
+ Documentation/filesystems/vfs.txt   | 1264 --------------------------
+ 3 files changed, 1284 insertions(+), 1264 deletions(-)
+ create mode 100644 Documentation/filesystems/vfs.rst
+ delete mode 100644 Documentation/filesystems/vfs.txt
 
 -- 
-Karim Yaghmour
-CEO - Opersys inc. / www.opersys.com
-http://twitter.com/karimyaghmour
+2.21.0
+
