@@ -1,28 +1,60 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DBF117D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 13:28:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 042977D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 14:45:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726740AbfCRN07 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Mar 2019 09:26:59 -0400
-Received: from foss.arm.com ([217.140.101.70]:34318 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725973AbfCRN06 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 18 Mar 2019 09:26:58 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A984FEBD;
-        Mon, 18 Mar 2019 06:26:57 -0700 (PDT)
-Received: from [10.1.199.35] (e107154-lin.cambridge.arm.com [10.1.199.35])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4DF053F71A;
-        Mon, 18 Mar 2019 06:26:51 -0700 (PDT)
-Subject: Re: [PATCH v11 13/14] arm64: update
- Documentation/arm64/tagged-pointers.txt
-To:     Andrey Konovalov <andreyknvl@google.com>,
+        id S1727722AbfCROpF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Mar 2019 10:45:05 -0400
+Received: from mail-yw1-f66.google.com ([209.85.161.66]:43948 "EHLO
+        mail-yw1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727515AbfCROpF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Mar 2019 10:45:05 -0400
+Received: by mail-yw1-f66.google.com with SMTP id j66so13076762ywc.10
+        for <linux-doc@vger.kernel.org>; Mon, 18 Mar 2019 07:45:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/+Gencg0JswbAigLpd/T2ItS1NnphPhR+c6rD3BwH/4=;
+        b=eUd7YMW/iwbeqVYkUaaw/cUWk71SOkrkn+hXu01mjWUDyol7Y3918h8Me2N/Lmwg82
+         BACBnVwkosRYGgNkB+MEv3CCkEWOrHu3xf7N5dwYHmmMELnYsQNqsOaeyK88/Ckff/ef
+         kh+B6RhAXAgdrluebHSVHeJbDqxICihTurm6Izpbs8uJk/KpMx9fOP+CQm89PWz1so10
+         k5Hy+rI3GiWNLVnAFbpLH1eywVv8873JwRYu/a9tdS5LPAoqYign21IdkWCo14GRLZpi
+         +1s6lB6RpgPoZI0uN8BuvtNMRbB8sYv/Hh/TeFFlme7Oddb+rSFYGGHMaF7cYJURP6Fs
+         tbhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/+Gencg0JswbAigLpd/T2ItS1NnphPhR+c6rD3BwH/4=;
+        b=UnNJHGlurbyU56sjH7joaVeCXXL5dUA72IiEiOLVw4ZiHt6Enpyte8QxuGIY23W6Gk
+         jD8ioGu6q4l9DNd3KHVX8sDhfhb9QJ7EGAbHPBQeK/Nrhv8eNLypufysw7HqMb+8lKsO
+         qX0ny4rGKE81ThZ+3Pi98ihvVG7CqSsHf8MUQ5W20vuBrmzwfOt5CEJ40UFI8VDsk8Au
+         kqAga8n1VDqWCzodfWkGlHb3ef29ma7yFdRqjOwmewSDjJe5oL5r9iUvRO01jJVtCFBF
+         U+TYsJrfHrT0ECE+qLr+SGvWQJIw6FCt+EnrsnoFHlia9Fj570CGrAG9hB3oAZUI344r
+         5+NQ==
+X-Gm-Message-State: APjAAAUOWxK6VrhP1Yb0gcy11ITBftLB19bFFOg1KkCCkD+ObOYP/JLY
+        UjPgn5j1hPPNI9lgaj022Shfz5yrEdSJ/vMKCzy6NQ==
+X-Google-Smtp-Source: APXvYqy/LrBuUxgMYxjRei67FuMQP0H17hpJ7z4CK4VwoXLf7Je3qt70qo9gwTM2VSIhDx1PncSnTBxTzploGurMk0s=
+X-Received: by 2002:a81:2843:: with SMTP id o64mr13821364ywo.441.1552920303807;
+ Mon, 18 Mar 2019 07:45:03 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1552679409.git.andreyknvl@google.com> <56d3373c1c5007d776fcd5de4523f4b9da341fb6.1552679409.git.andreyknvl@google.com>
+ <04c5b2de-7fde-7625-9d42-228160879ea0@gmail.com> <CAAeHK+xXLypBpF1EE73KuzQAo0E6Y=apS46wo+swo2AB6cy3YA@mail.gmail.com>
+ <CAAeHK+yxcG=KBjG0A5BicBA7Zwu6LR6t=g5b-9EAPXA8_Dfm2g@mail.gmail.com>
+In-Reply-To: <CAAeHK+yxcG=KBjG0A5BicBA7Zwu6LR6t=g5b-9EAPXA8_Dfm2g@mail.gmail.com>
+From:   Eric Dumazet <edumazet@google.com>
+Date:   Mon, 18 Mar 2019 07:44:52 -0700
+Message-ID: <CANn89iJfjhNcDS_eHg-OUiGui-hyRL5iWQuu_U+BW_N9iSNbeA@mail.gmail.com>
+Subject: Re: [PATCH v11 08/14] net, arm64: untag user pointers in tcp_zerocopy_receive
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Eric Dumazet <eric.dumazet@gmail.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -35,7 +67,6 @@ To:     Andrey Konovalov <andreyknvl@google.com>,
         "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
         Shuah Khan <shuah@kernel.org>,
         Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Eric Dumazet <edumazet@google.com>,
         "David S. Miller" <davem@davemloft.net>,
         Alexei Starovoitov <ast@kernel.org>,
         Daniel Borkmann <daniel@iogearbox.net>,
@@ -43,11 +74,15 @@ To:     Andrey Konovalov <andreyknvl@google.com>,
         Ingo Molnar <mingo@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
         Arnaldo Carvalho de Melo <acme@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Dmitry Vyukov <dvyukov@google.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
         Kostya Serebryany <kcc@google.com>,
         Evgeniy Stepanov <eugenis@google.com>,
         Lee Smith <Lee.Smith@arm.com>,
@@ -57,79 +92,30 @@ Cc:     Dmitry Vyukov <dvyukov@google.com>,
         Chintan Pandya <cpandya@codeaurora.org>,
         Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
         Dave Martin <Dave.Martin@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
         Szabolcs Nagy <Szabolcs.Nagy@arm.com>
-References: <cover.1552679409.git.andreyknvl@google.com>
- <bf0abceeaf32e6b9cdbc9dde45cc5966b5747ec4.1552679409.git.andreyknvl@google.com>
-From:   Kevin Brodsky <kevin.brodsky@arm.com>
-Message-ID: <81bc3110-b638-4545-1270-26baec3d59e7@arm.com>
-Date:   Mon, 18 Mar 2019 13:26:48 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
-MIME-Version: 1.0
-In-Reply-To: <bf0abceeaf32e6b9cdbc9dde45cc5966b5747ec4.1552679409.git.andreyknvl@google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 15/03/2019 19:51, Andrey Konovalov wrote:
-> This patch is a part of a series that extends arm64 kernel ABI to allow to
-> pass tagged user pointers (with the top byte set to something else other
-> than 0x00) as syscall arguments.
+On Mon, Mar 18, 2019 at 6:17 AM Andrey Konovalov <andreyknvl@google.com> wrote:
 >
-> Document the ABI changes in Documentation/arm64/tagged-pointers.txt.
->
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> ---
->   Documentation/arm64/tagged-pointers.txt | 18 ++++++++----------
->   1 file changed, 8 insertions(+), 10 deletions(-)
->
-> diff --git a/Documentation/arm64/tagged-pointers.txt b/Documentation/arm64/tagged-pointers.txt
-> index a25a99e82bb1..07fdddeacad0 100644
-> --- a/Documentation/arm64/tagged-pointers.txt
-> +++ b/Documentation/arm64/tagged-pointers.txt
-> @@ -17,13 +17,15 @@ this byte for application use.
->   Passing tagged addresses to the kernel
->   --------------------------------------
->   
-> -All interpretation of userspace memory addresses by the kernel assumes
-> -an address tag of 0x00.
-> +The kernel supports tags in pointer arguments (including pointers in
-> +structures) of syscalls, however such pointers must point to memory ranges
-> +obtained by anonymous mmap() or brk().
->   
-> -This includes, but is not limited to, addresses found in:
-> +The kernel supports tags in user fault addresses. However the fault_address
-> +field in the sigcontext struct will contain an untagged address.
->   
-> - - pointer arguments to system calls, including pointers in structures
-> -   passed to system calls,
-> +All other interpretations of userspace memory addresses by the kernel
-> +assume an address tag of 0x00, in particular:
->   
->    - the stack pointer (sp), e.g. when interpreting it to deliver a
->      signal,
-> @@ -33,11 +35,7 @@ This includes, but is not limited to, addresses found in:
->   
->   Using non-zero address tags in any of these locations may result in an
->   error code being returned, a (fatal) signal being raised, or other modes
-> -of failure.
-> -
-> -For these reasons, passing non-zero address tags to the kernel via
-> -system calls is forbidden, and using a non-zero address tag for sp is
-> -strongly discouraged.
-> +of failure. Using a non-zero address tag for sp is strongly discouraged.
 
-I don't understand why we should keep such a limitation. For MTE, tagging SP is 
-something we are definitely considering. This does bother userspace software in some 
-rare cases, but I'm not sure in what way it bothers the kernel.
+> Looking at the code, what's the point of this address != zc->address
+> check? Should I just remove it?
 
-Kevin
+No you must not remove it.
 
->   
->   Programs maintaining a frame pointer and frame records that use non-zero
->   address tags may suffer impaired or inaccurate debug and profiling
+The test detects if a u64 ->unsigned long  conversion might have truncated bits.
 
+Quite surprisingly some people still use 32bit kernels.
+
+The ABI is 64bit only, because we did not want to have yet another compat layer.
+
+struct tcp_zerocopy_receive {
+    __u64 address; /* in: address of mapping */
+    __u32 length; /* in/out: number of bytes to map/mapped */
+    __u32 recv_skip_hint; /* out: amount of bytes to skip */
+};
