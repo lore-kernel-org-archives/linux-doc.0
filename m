@@ -1,154 +1,118 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8C0077D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 02:48:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 156F27D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 03:34:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727682AbfCRCsV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 17 Mar 2019 22:48:21 -0400
-Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:39444 "EHLO
-        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727201AbfCRCsV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Mar 2019 22:48:21 -0400
-Received: from callcc.thunk.org ([66.31.38.53])
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x2I2m7tC004530
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sun, 17 Mar 2019 22:48:07 -0400
-Received: by callcc.thunk.org (Postfix, from userid 15806)
-        id 18D6C420AA8; Sun, 17 Mar 2019 22:48:07 -0400 (EDT)
-Date:   Sun, 17 Mar 2019 22:48:07 -0400
-From:   "Theodore Ts'o" <tytso@mit.edu>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     Dave Chinner <david@fromorbit.com>, Jayashree <jaya@cs.utexas.edu>,
-        fstests <fstests@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        Vijaychidambaram Velayudhan Pillai <vijay@cs.utexas.edu>,
-        chao@kernel.org, Filipe Manana <fdmanana@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v2] Documenting the crash-recovery guarantees of Linux
- file systems
-Message-ID: <20190318024806.GE23356@mit.edu>
-References: <1552418820-18102-1-git-send-email-jaya@cs.utexas.edu>
- <20190314011925.GG23020@dastard>
- <CAOQ4uxjNDKjjzzcowy6oFZ=V7hWCkCbSyOQggE2XJirr4JHAyA@mail.gmail.com>
+        id S1727807AbfCRDe4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 17 Mar 2019 23:34:56 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:47025 "EHLO
+        out2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726828AbfCRDe4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Mar 2019 23:34:56 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id AD74E21F0A;
+        Sun, 17 Mar 2019 23:34:55 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Sun, 17 Mar 2019 23:34:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=date
+        :from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=hI9nacIh4+ikVwoTJa91cBLhdkZ
+        GR9SIE248o1LFToU=; b=UW/rFXoOd/5BbBJVU6zfxQaFsTXkpvA+MpxSScA8qP3
+        Eih+c4eE7vnBhsb2dqZ13WsD1rth1NSXJzXEifrHf8lwVy5R4cf0awgGTUszOQo4
+        zh/xtsc5rNI+13f/avbw8GaoxuCY6RDjuK2b3uXX7QNagO1mUaZ6FBcn00m3uIIp
+        lBaX6/0/AnwRSRy1Kw3p+BTyG+hmIsS1fijXJfoQLS0N550w70THcUJEh9xxdhWR
+        OoJBJq20M/p330ciq++MpITTdmAehsSYvHFRsWYfLZOVqGMas2vvH32YH/d/QEyA
+        Bfe6GmjYeMM/r91MkghEdEN5scvZrNXN+ixf//sfW8A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=hI9nac
+        Ih4+ikVwoTJa91cBLhdkZGR9SIE248o1LFToU=; b=11OkRF/D0zKvFE7vRvMuiB
+        0ai/MJo/MseB6XlYPeCUJDTp4Ho6wPb3UquHbggEVC/se4trdaH4wtmPgIqfG6K6
+        zamvQy0pA0xQCjQ17ALdvea8GwWdAh3Ew+hNnZZHldwhs4VOQC435STj5/BIcHbF
+        2NNuJgXTGK349GanVHA+IrQ/Cb5tZdNcpIdfmfl1IaQGHZyQNdbabMsbMW61/+gb
+        3D/CjHl+01F62IxD7BW/0SxcXV65BmpHgqxsNdQrNoW3jsutxNOBTTiwkEbuwaU9
+        eAwEs3my3hblSV6H57eW8pTb9+NwqwGF3Of8dEzTElXoEEWkstTY3OVB04s5HK1w
+        ==
+X-ME-Sender: <xms:3xGPXOUkm_nsCcb2snkmtvgBInzrsJIc_ZJFdMtSpFvFx1kFysmUkg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedutddriedtgdeiudcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenfg
+    hrlhcuvffnffculdduhedmnecujfgurhepfffhvffukfhfgggtuggjofgfsehttdertdfo
+    redvnecuhfhrohhmpedfvfhosghinhcuvedrucfjrghrughinhhgfdcuoehmvgesthhosg
+    hinhdrtggtqeenucfkphepuddukedrvdduuddrudelledruddvieenucfrrghrrghmpehm
+    rghilhhfrhhomhepmhgvsehtohgsihhnrdgttgenucevlhhushhtvghrufhiiigvpedt
+X-ME-Proxy: <xmx:3xGPXJBwExd4evTDKdd26kghov25SnbCQcIX4bvNXxbtwYiaIWB4Dw>
+    <xmx:3xGPXFLY3QuS1Uy_yQ9m7jnMs0nlrWuHZ_xaBqjmlBifaweMTpZfdQ>
+    <xmx:3xGPXKKM3Tx0C-AZg5CGlNmJurvmugpczxCSZwsGbuaCqDp18sC8iQ>
+    <xmx:3xGPXN05NLa63RAk1jopcRE0pdHkhj888akSWiluGA5_kt_-rSsWjA>
+Received: from localhost (ppp118-211-199-126.bras1.syd2.internode.on.net [118.211.199.126])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 94173100E5;
+        Sun, 17 Mar 2019 23:34:54 -0400 (EDT)
+Date:   Mon, 18 Mar 2019 14:34:30 +1100
+From:   "Tobin C. Harding" <me@tobin.cc>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     "Tobin C. Harding" <tobin@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/13] Convert vfs.txt to vfs.rst
+Message-ID: <20190318033430.GA27728@eros.localdomain>
+References: <20190313040919.6937-1-tobin@kernel.org>
+ <821449c9-e1f7-caa1-ff18-0cc1cc625596@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAOQ4uxjNDKjjzzcowy6oFZ=V7hWCkCbSyOQggE2XJirr4JHAyA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <821449c9-e1f7-caa1-ff18-0cc1cc625596@infradead.org>
+X-Mailer: Mutt 1.11.3 (2019-02-01)
+User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 14, 2019 at 09:19:03AM +0200, Amir Goldstein wrote:
-> > > +ext4
-> > > +-----
-> > > +fsync(file) : Ensures that a newly created file's directory entry is
-> > > +persisted (no need to explicitly persist the parent directory). However,
-> > > +if you create multiple names of the file (hard links), then their directory
-> > > +entries are not guaranteed to persist unless each one of the parent
-> > > +directory entries are persisted [2].
-> >
-> > So you use a specific example to indicate an exception where ext4
-> > needs an explicit parent directory fsync (i.e. hard links to a
-> > single file across multiple directories). That implies ext4 POSIX
-> > SIO compliance is questionable, and it is definitely not SOMC
-> > compliant. Further, it implies that transactional change atomicity
-> > requirements are also violated. i.e. the inode is journalled with a
-> > link count equivalent to all links existing, but not all the dirents
-> > that point to the inode are persisted at the same time.
-> >
-> > So from this example, ext4 is not SOMC compliant.
+On Sun, Mar 17, 2019 at 06:46:40PM -0700, Randy Dunlap wrote:
+> On 3/12/19 9:09 PM, Tobin C. Harding wrote:
+> > Hi,
+> > 
+> > This set converts the VFS overview documentation to RST format.  I think
+> > I'm slowly getting better at structuring these conversions to ease
+> > review, if you disagree or you notice any way to further improve please
+> > say so.
 > 
-> I question the claim made by the document about ext4
-> behavior.
-> I believe Ted's words [2] may have been misinterpreted.
-> Ted, can you comment?
+> Hi Tobin,
+> 
+> What does this patch set apply to?  Maybe Jon's git tree?
 
-We need to be really careful about claims and specifications.
-Consider the following sequence of events (error checking ignored;
-assume that it's there).
+I did this on top of Jon's tree before rc-1 came out (so during the
+merge window last week).  I can rebase and fire off another version if
+its easier for you Jon.
 
-       unlink("foo");  // make sure the file "foo" doesn't exist
-       unlink("bar");  // make sure the file "bar" doesn't exist
-       fd = open("foo", O_CREAT|O_WRONLY);
-       write(fd, "foo bar data", 12);
-       fsync(fd);
-       // if we crash here, the file "foo" will exist, and you will be able
-       // to read 12 bytes, and it will be present
-       link("foo", "bar");
-       fdatasync(fd);
-       // if we crash here, there is no guarantee that the hard link "bar"
-       // will be persisted
+> I applied it to 5.1-rc1 with some forceful (minor) editing and ran
+> 'make htmldocs' successfully, so
+> 
+> Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
-I believe this is perfectly compliant with _POSIX_SYNCHRONIZED_IO.
+Thanks Randy.
 
-If the last fsyncdata(fd) is replaced with fsync(fd), the link(2) will
-touch the ctime, so in order only to persist the ctime change, as a
-side effect we will also update the directory entry so the existence
-of "bar" will be persisted.
+> although there is at least one new field in struct file_operations: iopoll.
 
-The bottom line, though, is I remain *very* skeptical about people who
-want to document and then tie the hands of file system developers
-about guarantees that go beyond Posix unless we have a very careful
-discussion about what benefit this will provide application
-developers, at least in general.  If application developers start
-depending on behaviors beyond POSIX, it limits the ability of file
-system developers to innovate in order to improve performance.
+I purposely kept the conversion separate from the update.  Most of this
+file explicitly states the kernel version each struct documented is for
+(and at least two of them are 2.6.22).
 
-There may be cases where it's worth it, and there may be cases where
-it's pretty clear that the laws of physics such that certain things
-that go beyond POSIX will always be true.  But before we encourage
-application developers to go beyond POSIX, we really should have this
-conversation first.
+One reason for the separation is that this set should be reviewable by
+'docs' folk without having to be too closely looked at by anyone from
+filesystems but the update will most likely benefit from at least a
+cursory look over by someone from filesystems.
 
-For example, ext4 implements a guarantee that goes beyond POSIX, in
-that if you create a file, say, "foo.new", and then you rename that
-file such that it replaces an existing file, say "foo", then after the
-rename system call, we will initiate asynchronous writeback on
-"foo.new".  This is free if the application programmer has alrady
-called fsync on "foo.new".  However, for an sloppy application which
-doesn't bother to call fsync(2), for which Darrick informs me includes
-"rpm", it saves you from lost files if you immediately reboot.
+I have started the update to v5.20 but its slow going because I don't
+know the VFS.  I'm learning as I go, I should have something together
+soon.
 
-I do this, because there are tons of sloppy application programmers,
-and so they outnumber file system developers.  However, this is not
-documented behavior, nor is it guaranteed by POSIX!  I'm told by
-Darrick that XFS doesn't do this, and he believes the XFS developers
-would refuse to add such hacks, because it accomodates incompetent
-userspace programmers.
-
-Perhaps the right answer is to yell at the application programmers who
-make these mistakes.  After all, the fact that ext4 accomodates
-incompetence could be argued is leading to decreased application
-quality and decreased portability.  But at least back in the O_PONIES
-era, I looked at multiple text editors supplied by both GNOME and KDE,
-and I discovered to my horror they were writing files in an extremely
-unsafe manner.  (Some of them also were simply opening an existing
-file with O_TRUNC, and then rewriting the text file's data, and NOT
-bother calling fsync afterwards; so ext4 also has a hack so for files
-opened with O_TRUNC where an existing file is truncated, on the close,
-we will initiate writeback.  I chose this as being relatively low
-overhead, because no competently implemented text editor should be
-saving files in this way....)
-
-Whether or not ext4 should accomodate application programmers by going
-on POSIX, I believe very strongly that it should *not* be documented,
-since it just encourages the bad application programming practice.
-It's there just as a backstop, and in fact, it's done as an
-asynchronous writeback, not as a data integrity writeback.  So it is
-*not* something people should be relying on.
-
-So before we document behavior that goes beyond POSIX, we should think
-*very* carefully if this is something that we want to be encouraging
-application programmers to rely on this sort of thing.
-
-					- Ted
+thanks,
+Tobin.
