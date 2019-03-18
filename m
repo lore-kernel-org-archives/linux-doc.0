@@ -1,109 +1,132 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4282E7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 19:11:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AC8917D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 21:11:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726780AbfCRTLi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Mar 2019 15:11:38 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:35964 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726889AbfCRTLh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Mar 2019 15:11:37 -0400
-Received: by mail-oi1-f193.google.com with SMTP id t206so14006552oib.3
-        for <linux-doc@vger.kernel.org>; Mon, 18 Mar 2019 12:11:36 -0700 (PDT)
+        id S1727218AbfCRVLu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Mar 2019 17:11:50 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:34014 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726891AbfCRVLu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Mar 2019 17:11:50 -0400
+Received: by mail-qt1-f195.google.com with SMTP id k2so19788466qtm.1
+        for <linux-doc@vger.kernel.org>; Mon, 18 Mar 2019 14:11:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JoDVYGN3p0uUP69FKJYNO6I1tI51AT9N5qPr8sxvnZE=;
-        b=mIgE4GybGcQbN4cBEJLSUN2zTD9SvJz1Nw5WHwNPHkIm4rGvF5/NYm/hlC4zOmykdg
-         jAbKZus00QVw6XUA4pC3pr6fPPhJxgJDOw885lw5InVIKANXDtXzcqOiX5TuX0BFJmdt
-         MCCApZGl6pwCdxIsqDZZeVHfSM8ztihxFm67lpsZcwbxlUPo9lXg1lLFk515wusrS+UA
-         qQZHH/+YEEfkp8VgQLLDTZWGMOSvZ/LyhANFdL4a93AvOAr465xDi/DaStgRUT+Pia6K
-         e1CrJDI1jBTmE7/PcA/ty55DXW1pc3s7Hx2zd4CNySdk0Ro4dgw8u3RtLhXz3QC0NWV/
-         /viA==
+        d=opersys-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=1ILkhe+5q0I/7urwS/c27Sb5MLAkf2cAYnZZe/oHvpY=;
+        b=HgRNpAAXOValLWiEzXBr2h4DoilkHB94eMqRxjGOwSrmQkmV4w39e5zzlIUmouFBc/
+         UOycXHf/qOD2bJ4WS3lnnMWdDOfjGceesEpS0qb4JxW/5lSFxZLVsfXHKScGoha2qY2U
+         2QE3i2lluRirfFpqkcXfhDePjlFfyESm1H0KzLGs6KJLQX9PJMya4ME2KwwMLh8F5cUT
+         liZWsyMET3CXrWX21liCCet+zljQiLp0JOANWvok0r9hf3BSDZsL9tNLq3ZXS/AMP2/P
+         NC3KO9nL8bPj413LNfG6idarNgcES+CN4vaiHFe5E84rW4JCrIJkW6fCuUKQhRQGb3AG
+         5Hcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JoDVYGN3p0uUP69FKJYNO6I1tI51AT9N5qPr8sxvnZE=;
-        b=fUr5D6m4bnjqd5JtpA1/VXSI0uJwNp5rMT6GldrHPgdtNlz2MBGAqsbcItK7unK0S7
-         wxPlsdNJepiMLFa+oJI7EftvzUpOaa9UrQlW8hkSiz91srCXVaJ1NXkVM8mq6xO0u4tu
-         5EBsqjgBaDZPCLUDywH9oxvE76/mh59jFnNFhVuKGu3AEG45Y8uVFooOLZOmBw8FJjyq
-         HSxiCAAsmmwRUlcyA4dqe1xAAn4a87tKXw9XoNY6rRRbiiov0GkfTDx9/WQA4N5IP1RS
-         GyZo/gYJ6aRamoGtIJLUCNFVHU+youAQiu8N4opw0hER6OtvKu7Fd8MEuxVi5LpKEV1h
-         o7Xg==
-X-Gm-Message-State: APjAAAXzPkp7ZQXxbZwgCRc6fzIgnp3s5v36lYf3j5jxQDuGiDOzQ+XN
-        qNRtoEMdYb0VTj1SmZzf/EEPLiOK4vzFJQzq8BVA4g==
-X-Google-Smtp-Source: APXvYqzQrXRHbrQwpdgk21uyj6j1k03CtWNZaAR1n6hnsnFk48dNYyTcfBIh4gu2LRtvNea4jButnGBFv6R/TisWq0U=
-X-Received: by 2002:aca:550c:: with SMTP id j12mr313915oib.52.1552936295646;
- Mon, 18 Mar 2019 12:11:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190301160856.129678-1-joel@joelfernandes.org>
- <CAMuHMdU77UyUs-LvRx-NN_k0Y7MZXQkBdgL2i83veCkvdzeeqA@mail.gmail.com>
- <20190307150343.GB258852@google.com> <20190307152303.GA9819@kroah.com> <20190318185742.109dee5c@alans-desktop>
-In-Reply-To: <20190318185742.109dee5c@alans-desktop>
-From:   Daniel Colascione <dancol@google.com>
-Date:   Mon, 18 Mar 2019 12:11:23 -0700
-Message-ID: <CAKOZueu1ArNH3W4MfgTmWM39gvaKcYUsYUVGpQm5pZLUi-eGNA@mail.gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=1ILkhe+5q0I/7urwS/c27Sb5MLAkf2cAYnZZe/oHvpY=;
+        b=ZWYuG1Lg3W5j/Wc7pUJzbMJ+Lg+jj1hZzOT2dLIyqpwROE6iqHRHuA56lVb97IkaIT
+         zXhUuaSZnRHdKCagXoAkR8pVLCvQ/9tH9QtDzw7gS4jlda4E/lMrwFfj21Ne68pIQXom
+         9FzcLKMQilXbFpmLfW/RI2m91k2WPmXe0J1RtQ8oZgmXN5gRNEIzdn0TaquEEaoDlC0Q
+         8BgqySXCXehyJ1bbhl1VsGMClBKTYpCFDY3V6d255ofrSASlEQPVoqZOSnAAnY+4gjjo
+         vnbOpjcB8B3inrNpl885IE5i/uV134nBcI0yiT6E3ZasSvoRG6fWt5RYIkEKs8YIzBQg
+         DFZQ==
+X-Gm-Message-State: APjAAAWQtPPZUKbX38X1h/WHfEGfl8lCsIo0sC3AcQDt7XUd8fQ88T0e
+        64CH4I9BU3vzWi5LwF2R3yh15A==
+X-Google-Smtp-Source: APXvYqz1wQxoKXBlvbvNpLHP3GqpTeS3Bpn7XQy4uiM6ZW5SFnrgwJqRFGfCa/s4e2IxXieOgKMBfQ==
+X-Received: by 2002:a0c:ad93:: with SMTP id w19mr14737015qvc.25.1552943508863;
+        Mon, 18 Mar 2019 14:11:48 -0700 (PDT)
+Received: from [192.168.202.103] (modemcable170.15-70-69.static.videotron.ca. [69.70.15.170])
+        by smtp.googlemail.com with ESMTPSA id t35sm3333553qtc.10.2019.03.18.14.11.46
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 18 Mar 2019 14:11:47 -0700 (PDT)
 Subject: Re: [PATCH v4 1/2] Provide in-kernel headers for making it easy to
  extend the kernel
-To:     Alan Cox <gnomes@lxorguk.ukuu.org.uk>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
+To:     Alan Cox <gnomes@lxorguk.ukuu.org.uk>,
+        Greg KH <gregkh@linuxfoundation.org>
+Cc:     Joel Fernandes <joel@joelfernandes.org>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        atish patra <atishp04@gmail.com>,
-        Dan Williams <dan.j.williams@intel.com>,
+        Alexei Starovoitov <ast@kernel.org>, atishp04@gmail.com,
+        dancol@google.com, Dan Williams <dan.j.williams@intel.com>,
         Dietmar Eggemann <dietmar.eggemann@arm.com>,
         Guenter Roeck <groeck@chromium.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Karim Yaghmour <karim.yaghmour@opersys.com>,
         Kees Cook <keescook@chromium.org>,
         Android Kernel Team <kernel-team@android.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        =?UTF-8?Q?open_list=3AKERNEL_SELFTEST_FRAMEWORK_=3Clinux=2Dkselftest=40vger=2Eke?=
-         =?UTF-8?Q?rnel=2Eorg=3E=2C_linux=2Dtrace=2Ddevel=40vger=2Ekernel=2Eorg=2C_Manoj_Rao_=3Clin?=
-         =?UTF-8?Q?ux=40manojrajarao=2Ecom=3E=2C_Masahiro_Yamada_=3Cyamada=2Emasahiro=40socio?=
-         =?UTF-8?Q?next=2Ecom=3E=2C_Masami_Hiramatsu_=3Cmhiramat=40kernel=2Eorg=3E=2C_qais=2Eyous?=
-         =?UTF-8?Q?ef=40arm=2Ecom=2C_Randy_Dunlap_=3Crdunlap=40infradead=2Eorg=3E=2C_Steven_Ros?=
-         =?UTF-8?Q?tedt_=3Crostedt=40goodmis=2Eorg=3E=2C_Shuah_Khan_=3Cshuah=40kernel=2Eorg=3E=2C?= 
-        <yhs@fb.com>
-Content-Type: text/plain; charset="UTF-8"
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org,
+        Manoj Rao <linux@manojrajarao.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>, qais.yousef@arm.com,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Shuah Khan <shuah@kernel.org>, yhs@fb.com
+References: <20190301160856.129678-1-joel@joelfernandes.org>
+ <CAMuHMdU77UyUs-LvRx-NN_k0Y7MZXQkBdgL2i83veCkvdzeeqA@mail.gmail.com>
+ <20190307150343.GB258852@google.com> <20190307152303.GA9819@kroah.com>
+ <20190318185742.109dee5c@alans-desktop>
+From:   Karim Yaghmour <karim.yaghmour@opersys.com>
+Message-ID: <989e8a5c-28a6-856b-5a69-8d84189bcad5@opersys.com>
+Date:   Mon, 18 Mar 2019 17:11:45 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.1
+MIME-Version: 1.0
+In-Reply-To: <20190318185742.109dee5c@alans-desktop>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 18, 2019 at 11:58 AM Alan Cox <gnomes@lxorguk.ukuu.org.uk> wrote:
->
-> > I think the compressed tarball is much simpler/easier overall.  If
-> > someone really wants the filesystem, they just uncompress it into a
-> > tmpfs mount.  It's much less moving kernel code to worry about.
->
+
+Hi Alan,
+
+On 3/18/19 2:57 PM, Alan Cox wrote:
+>> I think the compressed tarball is much simpler/easier overall.  If
+>> someone really wants the filesystem, they just uncompress it into a
+>> tmpfs mount.  It's much less moving kernel code to worry about.
+> 
 > There is an even simpler approach. The people who want this for whatever
 > strange reason are Android folks. Android lives on flash, so all they have
 > to do is put the headers in a flash file system that is updated with the
 > kernel and mount it wherever they like. Simple matter of a bit of
 > devicetree no ?
 
-Did you read the rest of the thread? We talked a lot about the
-problems with filesystem-based approaches. It's not just "Android
-folks" who want BPF-based tools to Just Work, and it's not "strange"
-to want that --- what's strange is this reflexive opposition to a
-pragmatic feature (one that nobody has to use) that will make a lot of
-system analysis cases Just Work. There's nothing wrong with having the
-kernel describe itself, and there's no reason to push tons of
-error-prone metadata tracking to userspace when the kernel can just
-talk about itself in a guaranteed-correct manner. Every argument
-against this work is also an argument against /proc/config.gz.
-Completely unsurprisingly, /proc/config.gz is in practice super
-useful.
+The Android use-case scenario might indeed have been the one to best 
+crystallize the requirement, but that doesn't mean that all use-cases of 
+eBPF wouldn't benefit from this -- which in fact they would, see 
+instructions here for example on the need for kernel headers:
+https://github.com/iovisor/bcc/blob/master/INSTALL.md
+
+Just a quick $PREFERRED_SEARCH_ENGINE search returns interesting 
+exchanges such as this one taken from a discussion thread on LWN 
+covering an introduction to eBPF:
+https://lwn.net/Articles/741348/
+Effectively this person had to be hand-held in understanding that they 
+needed a good set of kernel headers to make the tool work. Their comment 
+after being shown that this was needed was:
+"It looks like the headers package you need on Ubuntu is 
+linux-headers-$(uname -r), which contains the entire kernel source tree, 
+and is specific to the running kernel."
+
+Surely having Joel's patch in the kernel would obviate the issue for all 
+Linux kernel users, not just Android.
+
+Cheers,
+
+-- 
+Karim Yaghmour
+CEO - Opersys inc. / www.opersys.com
+http://twitter.com/karimyaghmour
