@@ -1,141 +1,65 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 411BF7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 01:46:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E0A3F7D099
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 02:37:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727426AbfCRBqo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 17 Mar 2019 21:46:44 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:51706 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727132AbfCRBqo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Mar 2019 21:46:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=02cVkekljglMdv9XutCx6KGjpwnrK1lV4p5gvuApm1s=; b=u4mgO0BMYzCruRkMt0W48unwMC
-        /L/qoukS8Ygujs5qMIWiyUKDL5iRpPnaJo41eEzL9JuC2FdJFtGxItdzSogh2II8kMD/n3chEbfJN
-        JHAd8migCduhhRWV5bVlswWAT83h2d743hvng+Tsbk2ECGVfA2F8/LjsCCSXB/lSQbgUQIgXc7GpY
-        9AibQmfE6vqIYXwmbiyIrsUTN5ZGWvq1nxJmRaB/h/KOd9cjaiY9jBD04TwVtG36xt6rzONBlh3kh
-        xa4Y7bq5sYt1JPms+rOSKhypB/w/1EoHKT7/oXxEHeQQiogtgPPOJnMOVZxac78UunpYJY1b8B6j7
-        zK6iKZEA==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=dragon.dunlab)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1h5hMQ-0006D3-MF; Mon, 18 Mar 2019 01:46:43 +0000
-Subject: Re: [PATCH 00/13] Convert vfs.txt to vfs.rst
-To:     "Tobin C. Harding" <tobin@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190313040919.6937-1-tobin@kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <821449c9-e1f7-caa1-ff18-0cc1cc625596@infradead.org>
-Date:   Sun, 17 Mar 2019 18:46:40 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
-MIME-Version: 1.0
-In-Reply-To: <20190313040919.6937-1-tobin@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+        id S1727276AbfCRCh3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 17 Mar 2019 22:37:29 -0400
+Received: from shards.monkeyblade.net ([23.128.96.9]:56674 "EHLO
+        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727201AbfCRCh3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Mar 2019 22:37:29 -0400
+Received: from localhost (unknown [IPv6:2601:601:9f80:35cd::3d5])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id B20AB133FBEEB;
+        Sun, 17 Mar 2019 19:37:28 -0700 (PDT)
+Date:   Sun, 17 Mar 2019 19:37:24 -0700 (PDT)
+Message-Id: <20190317.193724.1251273991165737411.davem@davemloft.net>
+To:     rdunlap@infradead.org
+Cc:     netdev@vger.kernel.org, yupeng0921@gmail.com,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] networking: fix snmp_counter.rst Doc. Warnings
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <d5d2f833-0a08-6b02-1754-6262b5102369@infradead.org>
+References: <d5d2f833-0a08-6b02-1754-6262b5102369@infradead.org>
+X-Mailer: Mew version 6.8 on Emacs 26.1
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Sun, 17 Mar 2019 19:37:28 -0700 (PDT)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/12/19 9:09 PM, Tobin C. Harding wrote:
-> Hi,
-> 
-> This set converts the VFS overview documentation to RST format.  I think
-> I'm slowly getting better at structuring these conversions to ease
-> review, if you disagree or you notice any way to further improve please
-> say so.
+From: Randy Dunlap <rdunlap@infradead.org>
+Date: Sun, 17 Mar 2019 17:17:45 -0700
 
-Hi Tobin,
+> From: Randy Dunlap <rdunlap@infradead.org>
+> 
+> Fix documentation markup warnings in snmp_counter.rst:
+> 
+> Documentation/networking/snmp_counter.rst:416: WARNING: Title underline too short.
+> Documentation/networking/snmp_counter.rst:684: WARNING: Bullet list ends without a blank line; unexpected unindent.
+> Documentation/networking/snmp_counter.rst:693: WARNING: Title underline too short.
+> Documentation/networking/snmp_counter.rst:707: WARNING: Bullet list ends without a blank line; unexpected unindent.
+> Documentation/networking/snmp_counter.rst:712: WARNING: Bullet list ends without a blank line; unexpected unindent.
+> Documentation/networking/snmp_counter.rst:722: WARNING: Title underline too short.
+> Documentation/networking/snmp_counter.rst:733: WARNING: Bullet list ends without a blank line; unexpected unindent.
+> Documentation/networking/snmp_counter.rst:736: WARNING: Bullet list ends without a blank line; unexpected unindent.
+> Documentation/networking/snmp_counter.rst:739: WARNING: Bullet list ends without a blank line; unexpected unindent.
+> 
+> Fixes: 80cc49507ba48 ("net: Add part of TCP counts explanations in snmp_counters.rst")
+> Fixes: 8e2ea53a83dfb ("add snmp counters document")
+> Fixes: a6c7c7aac2de6 ("net: add document for several snmp counters")
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 
-What does this patch set apply to?  Maybe Jon's git tree?
-
-I applied it to 5.1-rc1 with some forceful (minor) editing and ran
-'make htmldocs' successfully, so
-
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
-although there is at least one new field in struct file_operations: iopoll.
-
-cheers.
-
-> Patch set introduces no new warnings/errors to the html docs build
-> 
->       $ make htmldocs 2> ../docs-pre-vfs.stderr	
-> 
-> Apply patch set
-> 
->       $ make cleandocs
->       $ make htmldocs 2> ../docs-post-vfs.stderr
->       $ diff ../docs-pre-vfs.stderr ../docs-post-vfs.stderr
-> 
-> 
-> Patch 1-4 - Whitespace fixes.
-> Patch 5 - Adds the document title adornments (above and below)
-> Patch 6 - Adds a SPDX license identifier
-> Patch 7 - Fixes some custom indentation at the top of the file that will
->     	  cause Sphinx to warn when we switch to .rst
-> Patch 8 - Converts custom list format to use RST formatted lists, this
->           is in preparation for switching to .rst 
-> Patch 9 - Adds '.. code-block:: c' and fixes indentation of code
-> 	  blocks.  We rename the file to .rst in this patch (introducing
-> 	  some new warnings).
-> Patch 10 - Adds back ticks to all the list items.  This is in
-> 	   preparation for fixing the indentation in the next patch.
-> 	   This was found to help when reading both plain text and HTML.
-> Patch 11 - Cleans up the lists, indentation and missing periods.  This
-> 	   was kept separate to assist review.  This patch is benign,
-> 	   the less meticulous reviewer could safely skip over this one
-> 	   quickly (this was the intention of separating these changes).
-> Patch 12 - Fixes a few minor grammar mistakes I notice while reading the
-> 	   file, I'm taking bonus points for actually reading every word
-> 	   of the file and not just trying to haphazardly do the
-> 	   conversion like I have previously done :)
-> Patch 13 - Fixes two remaining Sphinx warnings.
-> 
-> If/when this goes in perhaps I, or someone else, will update the content
-> to document a newer kernel version.
-> 
-> 
-> thanks,
-> Tobin.
-> 
-> 
-> Tobin C. Harding (13):
->   docs: filesystems: vfs: Remove space before tab
->   docs: filesystems: vfs: Use uniform space after period.
->   docs: filesystems: vfs: Use 72 character column width
->   docs: filesystems: vfs: Use uniform spacing around headings
->   docs: filesystems: vfs: Use correct initial heading
->   docs: filesystems: vfs: Use SPDX identifier
->   docs: filesystems: vfs: Fix pre-amble indentation
->   docs: filesystems: vfs: Use list character for lists
->   docs: filesystems: vfs: Add code-block and txt->RST
->   docs: filesystems: vfs: Use ticks for listed items
->   docs: filesystems: vfs: Clean up lists
->   docs: filesystems: vfs: Do minor grammar fixes
->   docs: filesystems: vfs: Use backticks to guard star
-> 
->  Documentation/filesystems/index.rst |    1 +
->  Documentation/filesystems/vfs.rst   | 1279 +++++++++++++++++++++++++++
->  Documentation/filesystems/vfs.txt   | 1261 --------------------------
->  3 files changed, 1280 insertions(+), 1261 deletions(-)
->  create mode 100644 Documentation/filesystems/vfs.rst
->  delete mode 100644 Documentation/filesystems/vfs.txt
-> 
-
-
--- 
-~Randy
+Applied, thanks Randy.
