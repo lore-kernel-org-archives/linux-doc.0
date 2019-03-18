@@ -6,52 +6,51 @@ X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D9AAA7DE70
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 17:19:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A3A837E283
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 17:19:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728074AbfCRRSd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Mar 2019 13:18:33 -0400
-Received: from mail-yw1-f74.google.com ([209.85.161.74]:38954 "EHLO
-        mail-yw1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728062AbfCRRSa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Mar 2019 13:18:30 -0400
-Received: by mail-yw1-f74.google.com with SMTP id p1so1198319ywm.6
-        for <linux-doc@vger.kernel.org>; Mon, 18 Mar 2019 10:18:29 -0700 (PDT)
+        id S1728097AbfCRRTC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Mar 2019 13:19:02 -0400
+Received: from mail-qt1-f201.google.com ([209.85.160.201]:37833 "EHLO
+        mail-qt1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727969AbfCRRSS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Mar 2019 13:18:18 -0400
+Received: by mail-qt1-f201.google.com with SMTP id f89so1445648qtb.4
+        for <linux-doc@vger.kernel.org>; Mon, 18 Mar 2019 10:18:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=SY+rnApq6/oVhWiUcTCOnBf6TcIl5V0rPtZOMhbp5Gs=;
-        b=oy4XANA3tbe0/ZzrN3csQScarn1wlppfqaNsYi+hu9yuogoof3toGpiFXztOXvuSIL
-         sBMFi0kVcDXhngeXsQ7F8TmpGE5J+YQspuv0IpgE54s+w7Cg2pGhzbc2pvAhwbRlgRSf
-         xxwSPdpD5FpRcK2p/HjiDpbPI1EyCU7DiI66uatDv7wNJCkN8c1ymIFnrzCAUJy1zI9w
-         EBzcRuRAINzPha2QHRdT3Y/yumtuj6+oKyiMBKvPeEcFGxcVQSEWK2xmW+D8MpHwLMzD
-         P1fusntFSsCEjlr/dNu9pSGP243BnVEPFZOFUAmm90Toh6sJXriJra44fSRj/3Svjc/P
-         //6g==
+        bh=MbZWy7wAoKF2UH6KYiAHojRGCKZALRbT18PDS+70hHM=;
+        b=dTJdgx9rsdhWwnH1vj3NCjwrEhJg/K0jCXzsmKz7jGqUZPjqwUKpFn+JEqgSqgARw9
+         GrzD9yyxUHnRskQDw06ApmJmm4CviNLtYfaeZvHjLd+qEW/xvKmpZ5tctndli+aq+QJ+
+         mN64ZM999i8sOV7xSisbUkRr7FtVDWyYxMIQoLM+kZd6b4bIMr962tyM0XVMA+4Q18Qd
+         lVla1m0kLDsWhi4cKBVmQI6ReqbQA7JBzC8qCDo47JiKKxjfiE4rs0YovHR0owNKBMBX
+         ZJCYPGfxLUSYTCbfgcVQ0olftrEme4tvTFhAZs+XoCLg9KByJFWUuoPw+gnbDN8qzSKS
+         I9pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=SY+rnApq6/oVhWiUcTCOnBf6TcIl5V0rPtZOMhbp5Gs=;
-        b=ktVpTrUrNBaC/lEJ/4/kzyxQRq7J95KzhqrGX2SIWHHuIj81Wm/mCwujHIJ9EfXl+g
-         QbQiw9powI/H4CWn+aU34T4ysc7G1VD6qTauTJkWV9FzFlozsCaX5gDG1qW3hxafUEUM
-         WrKM8bqoxLZ5mLaaNXp+MLavGilkt7mbiLr6FupUPCYyC9kQN5WsoksRsKniKmbJkvY3
-         XdgBlP4+khu35haiGqpuSBAC8ODSUjsZmqAYa9THj9txvVnHRKh/T9JowRROye3C9u5z
-         YCDv+Kx+hT6Ey7EL0pM5mCAWotw17ZKSW6OoERREWTyfdOENTmR4hJH7wj6AiqNZ85N+
-         9AZg==
-X-Gm-Message-State: APjAAAXfOC6NmA8HLsS8R17ifZ4XjhltzZoMtrEvv3SCm392n5atE3SJ
-        9Hxm6tz2WWNU+cCxi9YdEvUskEEnUeu+wfTe
-X-Google-Smtp-Source: APXvYqzr9z29O2HnZauXqiNwIgfSTj1CVWyp96d9Efuk7E9e9YiyE5NAQn/RDJZ9P2HjA7rm0gHQWomDM7zPkQh8
-X-Received: by 2002:a81:6184:: with SMTP id v126mr9643066ywb.17.1552929509203;
- Mon, 18 Mar 2019 10:18:29 -0700 (PDT)
-Date:   Mon, 18 Mar 2019 18:17:45 +0100
+        bh=MbZWy7wAoKF2UH6KYiAHojRGCKZALRbT18PDS+70hHM=;
+        b=Up+CJr1fauaA6yZ47WrlLlhLciiIbZapMCPDTEJB31bzBDF7t5C7onFi1fhUEDOXqL
+         KVrcv4KynBhfb4XgRrM+fxdKgyWikBk2PJP7S1nvkFX+JjOaF/DH8z51IcBun4TaCP0O
+         ml51fecISlGiy6Fv2zxQPmCakRvAk08Jjl12gDIVGHoBDl9Oqk85MBqe/I8UtIN9O31u
+         kcQokeCbnj08Kop1eh7ZsTUu6PD7Ltsf0LgsmcNAgnbt/H+RQ3/WTCjQiosf7SBgkU5x
+         D06YY649TLNovW4vkLhW0AIcHyZztNrvH1kfHh0b7575GZJAgqG88T9NqQjyJZ36wWo/
+         lbQg==
+X-Gm-Message-State: APjAAAUbeHOywhzIEo7jqRhWoYWdunWw8EH+y+oxBHPH9E2Ezg39v5Xd
+        hfvaoG5XLVI3DKHv1bvbr8fdwHDAjW6dbhyx
+X-Google-Smtp-Source: APXvYqyzI2O9PCu/G52HAhDudo47fXjMCsiQUjfmsAvF2tFQ9HZJ/l6jqHwwYscpkKbnsmeTP6mnJBPbZYdiBoYi
+X-Received: by 2002:ac8:821:: with SMTP id u30mr9205117qth.12.1552929496933;
+ Mon, 18 Mar 2019 10:18:16 -0700 (PDT)
+Date:   Mon, 18 Mar 2019 18:17:41 +0100
 In-Reply-To: <cover.1552929301.git.andreyknvl@google.com>
-Message-Id: <0b4d5fb8364a30a51868b6691fff503878d3d82b.1552929301.git.andreyknvl@google.com>
+Message-Id: <82bc7a289c6b9162c64a25b1e6f60f0318db779b.1552929301.git.andreyknvl@google.com>
 Mime-Version: 1.0
 References: <cover.1552929301.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.21.0.225.g810b269d1ac-goog
-Subject: [PATCH v12 13/13] selftests, arm64: add a selftest for passing tagged
- pointers to kernel
+Subject: [PATCH v12 09/13] kernel, arm64: untag user pointers in prctl_set_mm*
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -100,91 +99,131 @@ This patch is a part of a series that extends arm64 kernel ABI to allow to
 pass tagged user pointers (with the top byte set to something else other
 than 0x00) as syscall arguments.
 
-This patch adds a simple test, that calls the uname syscall with a
-tagged user pointer as an argument. Without the kernel accepting tagged
-user pointers the test fails with EFAULT.
+prctl_set_mm() and prctl_set_mm_map() use provided user pointers for vma
+lookups and do some pointer comparisons to perform validation, which can
+only by done with untagged pointers.
+
+Untag user pointers in these functions for vma lookup and validity checks.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- tools/testing/selftests/arm64/.gitignore      |  1 +
- tools/testing/selftests/arm64/Makefile        | 11 ++++++++++
- .../testing/selftests/arm64/run_tags_test.sh  | 12 +++++++++++
- tools/testing/selftests/arm64/tags_test.c     | 21 +++++++++++++++++++
- 4 files changed, 45 insertions(+)
- create mode 100644 tools/testing/selftests/arm64/.gitignore
- create mode 100644 tools/testing/selftests/arm64/Makefile
- create mode 100755 tools/testing/selftests/arm64/run_tags_test.sh
- create mode 100644 tools/testing/selftests/arm64/tags_test.c
+ kernel/sys.c | 44 ++++++++++++++++++++++++++++++--------------
+ 1 file changed, 30 insertions(+), 14 deletions(-)
 
-diff --git a/tools/testing/selftests/arm64/.gitignore b/tools/testing/selftests/arm64/.gitignore
-new file mode 100644
-index 000000000000..e8fae8d61ed6
---- /dev/null
-+++ b/tools/testing/selftests/arm64/.gitignore
-@@ -0,0 +1 @@
-+tags_test
-diff --git a/tools/testing/selftests/arm64/Makefile b/tools/testing/selftests/arm64/Makefile
-new file mode 100644
-index 000000000000..a61b2e743e99
---- /dev/null
-+++ b/tools/testing/selftests/arm64/Makefile
-@@ -0,0 +1,11 @@
-+# SPDX-License-Identifier: GPL-2.0
+diff --git a/kernel/sys.c b/kernel/sys.c
+index 12df0e5434b8..fe26ccf3c9e6 100644
+--- a/kernel/sys.c
++++ b/kernel/sys.c
+@@ -1885,11 +1885,12 @@ static int prctl_set_mm_exe_file(struct mm_struct *mm, unsigned int fd)
+  * WARNING: we don't require any capability here so be very careful
+  * in what is allowed for modification from userspace.
+  */
+-static int validate_prctl_map(struct prctl_mm_map *prctl_map)
++static int validate_prctl_map(struct prctl_mm_map *tagged_prctl_map)
+ {
+ 	unsigned long mmap_max_addr = TASK_SIZE;
+ 	struct mm_struct *mm = current->mm;
+ 	int error = -EINVAL, i;
++	struct prctl_mm_map prctl_map;
+ 
+ 	static const unsigned char offsets[] = {
+ 		offsetof(struct prctl_mm_map, start_code),
+@@ -1905,12 +1906,25 @@ static int validate_prctl_map(struct prctl_mm_map *prctl_map)
+ 		offsetof(struct prctl_mm_map, env_end),
+ 	};
+ 
++	memcpy(&prctl_map, tagged_prctl_map, sizeof(prctl_map));
++	prctl_map.start_code	= untagged_addr(prctl_map.start_code);
++	prctl_map.end_code	= untagged_addr(prctl_map.end_code);
++	prctl_map.start_data	= untagged_addr(prctl_map.start_data);
++	prctl_map.end_data	= untagged_addr(prctl_map.end_data);
++	prctl_map.start_brk	= untagged_addr(prctl_map.start_brk);
++	prctl_map.brk		= untagged_addr(prctl_map.brk);
++	prctl_map.start_stack	= untagged_addr(prctl_map.start_stack);
++	prctl_map.arg_start	= untagged_addr(prctl_map.arg_start);
++	prctl_map.arg_end	= untagged_addr(prctl_map.arg_end);
++	prctl_map.env_start	= untagged_addr(prctl_map.env_start);
++	prctl_map.env_end	= untagged_addr(prctl_map.env_end);
 +
-+# ARCH can be overridden by the user for cross compiling
-+ARCH ?= $(shell uname -m 2>/dev/null || echo not)
-+
-+ifneq (,$(filter $(ARCH),aarch64 arm64))
-+TEST_GEN_PROGS := tags_test
-+TEST_PROGS := run_tags_test.sh
-+endif
-+
-+include ../lib.mk
-diff --git a/tools/testing/selftests/arm64/run_tags_test.sh b/tools/testing/selftests/arm64/run_tags_test.sh
-new file mode 100755
-index 000000000000..745f11379930
---- /dev/null
-+++ b/tools/testing/selftests/arm64/run_tags_test.sh
-@@ -0,0 +1,12 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+
-+echo "--------------------"
-+echo "running tags test"
-+echo "--------------------"
-+./tags_test
-+if [ $? -ne 0 ]; then
-+	echo "[FAIL]"
-+else
-+	echo "[PASS]"
-+fi
-diff --git a/tools/testing/selftests/arm64/tags_test.c b/tools/testing/selftests/arm64/tags_test.c
-new file mode 100644
-index 000000000000..2bd1830a7ebe
---- /dev/null
-+++ b/tools/testing/selftests/arm64/tags_test.c
-@@ -0,0 +1,21 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <unistd.h>
-+#include <stdint.h>
-+#include <sys/utsname.h>
-+
-+#define SHIFT_TAG(tag)		((uint64_t)(tag) << 56)
-+#define SET_TAG(ptr, tag)	(((uint64_t)(ptr) & ~SHIFT_TAG(0xff)) | \
-+					SHIFT_TAG(tag))
-+
-+int main(void)
-+{
-+	struct utsname *ptr = (struct utsname *)malloc(sizeof(*ptr));
-+	void *tagged_ptr = (void *)SET_TAG(ptr, 0x42);
-+	int err = uname(tagged_ptr);
-+
-+	free(ptr);
-+	return err;
-+}
+ 	/*
+ 	 * Make sure the members are not somewhere outside
+ 	 * of allowed address space.
+ 	 */
+ 	for (i = 0; i < ARRAY_SIZE(offsets); i++) {
+-		u64 val = *(u64 *)((char *)prctl_map + offsets[i]);
++		u64 val = *(u64 *)((char *)&prctl_map + offsets[i]);
+ 
+ 		if ((unsigned long)val >= mmap_max_addr ||
+ 		    (unsigned long)val < mmap_min_addr)
+@@ -1921,8 +1935,8 @@ static int validate_prctl_map(struct prctl_mm_map *prctl_map)
+ 	 * Make sure the pairs are ordered.
+ 	 */
+ #define __prctl_check_order(__m1, __op, __m2)				\
+-	((unsigned long)prctl_map->__m1 __op				\
+-	 (unsigned long)prctl_map->__m2) ? 0 : -EINVAL
++	((unsigned long)prctl_map.__m1 __op				\
++	 (unsigned long)prctl_map.__m2) ? 0 : -EINVAL
+ 	error  = __prctl_check_order(start_code, <, end_code);
+ 	error |= __prctl_check_order(start_data, <, end_data);
+ 	error |= __prctl_check_order(start_brk, <=, brk);
+@@ -1937,23 +1951,24 @@ static int validate_prctl_map(struct prctl_mm_map *prctl_map)
+ 	/*
+ 	 * @brk should be after @end_data in traditional maps.
+ 	 */
+-	if (prctl_map->start_brk <= prctl_map->end_data ||
+-	    prctl_map->brk <= prctl_map->end_data)
++	if (prctl_map.start_brk <= prctl_map.end_data ||
++	    prctl_map.brk <= prctl_map.end_data)
+ 		goto out;
+ 
+ 	/*
+ 	 * Neither we should allow to override limits if they set.
+ 	 */
+-	if (check_data_rlimit(rlimit(RLIMIT_DATA), prctl_map->brk,
+-			      prctl_map->start_brk, prctl_map->end_data,
+-			      prctl_map->start_data))
++	if (check_data_rlimit(rlimit(RLIMIT_DATA), prctl_map.brk,
++			      prctl_map.start_brk, prctl_map.end_data,
++			      prctl_map.start_data))
+ 			goto out;
+ 
+ 	/*
+ 	 * Someone is trying to cheat the auxv vector.
+ 	 */
+-	if (prctl_map->auxv_size) {
+-		if (!prctl_map->auxv || prctl_map->auxv_size > sizeof(mm->saved_auxv))
++	if (prctl_map.auxv_size) {
++		if (!prctl_map.auxv || prctl_map.auxv_size >
++						sizeof(mm->saved_auxv))
+ 			goto out;
+ 	}
+ 
+@@ -1962,7 +1977,7 @@ static int validate_prctl_map(struct prctl_mm_map *prctl_map)
+ 	 * change /proc/pid/exe link: only local sys admin should
+ 	 * be allowed to.
+ 	 */
+-	if (prctl_map->exe_fd != (u32)-1) {
++	if (prctl_map.exe_fd != (u32)-1) {
+ 		if (!ns_capable(current_user_ns(), CAP_SYS_ADMIN))
+ 			goto out;
+ 	}
+@@ -2120,13 +2135,14 @@ static int prctl_set_mm(int opt, unsigned long addr,
+ 	if (opt == PR_SET_MM_AUXV)
+ 		return prctl_set_auxv(mm, addr, arg4);
+ 
+-	if (addr >= TASK_SIZE || addr < mmap_min_addr)
++	if (untagged_addr(addr) >= TASK_SIZE ||
++			untagged_addr(addr) < mmap_min_addr)
+ 		return -EINVAL;
+ 
+ 	error = -EINVAL;
+ 
+ 	down_write(&mm->mmap_sem);
+-	vma = find_vma(mm, addr);
++	vma = find_vma(mm, untagged_addr(addr));
+ 
+ 	prctl_map.start_code	= mm->start_code;
+ 	prctl_map.end_code	= mm->end_code;
 -- 
 2.21.0.225.g810b269d1ac-goog
 
