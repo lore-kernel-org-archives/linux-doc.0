@@ -3,54 +3,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1A49B7D9ED
+	by archive.lwn.net (Postfix) with ESMTP id 4483A7DBD4
 	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 17:19:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727604AbfCRRSZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Mar 2019 13:18:25 -0400
-Received: from mail-qk1-f201.google.com ([209.85.222.201]:56590 "EHLO
-        mail-qk1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728006AbfCRRSY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Mar 2019 13:18:24 -0400
-Received: by mail-qk1-f201.google.com with SMTP id s87so11188581qks.23
-        for <linux-doc@vger.kernel.org>; Mon, 18 Mar 2019 10:18:23 -0700 (PDT)
+        id S1728039AbfCRRS1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Mar 2019 13:18:27 -0400
+Received: from mail-yw1-f73.google.com ([209.85.161.73]:47300 "EHLO
+        mail-yw1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728038AbfCRRS1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Mar 2019 13:18:27 -0400
+Received: by mail-yw1-f73.google.com with SMTP id c188so23479129ywf.14
+        for <linux-doc@vger.kernel.org>; Mon, 18 Mar 2019 10:18:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=y0pmDLbK+7BSAh5x56WEIsXOyLAwrKLQOAsadcipF54=;
-        b=n6mK8qGBi8yC21LmjABra3FF+XTvfgLYZr9bPF1sHZ9sen0usXtJo9r8UWpIWYoDEs
-         YEss5ttEDAL6lIbgFyj4X628k4cUup4CCMJ0VLQ4ftrPTG+rRMptHjumdErdUDl9ISYY
-         rB+TuyC09kttxpZuExC8/+TH8Y8tVKRukuxPYVczcjDCqo+QtLbM9TmxH0fH4rTQxur3
-         7pLUDwD0Z21jyoNe+FO+hi4d+W5N8IZjBamLALgbuY36eoX0Noj2JHkXsAIpP352R88b
-         ntHc4rkT8wXoHbCbhE2dgY+nunbgZmc/Jf/sc4zQqGibHR6/JS9I5KqLldKTT6WFAxiu
-         sHnA==
+        bh=hfuKek+o8vy+53O51p2MPtj2JUyumu3LZdujtPFxXko=;
+        b=OVRG0jDx+a4bA2Xe0x2W0QLSaeWfLl/IABe0xhS3IFP8diCvylSVwKQWoIigEjNHVc
+         yxjFs3rDXFN+YQZXXdBXqzoVuEhq+g8HP9vfnj/K/jnMV093FMqmv6YIj0itG5FlZbO1
+         ke03j95r0/PkzmDHuCN3H9fGFOQlTbWpbvmuT2QemWXQk/lZDOT0fPG1qeBd7bYvwCAL
+         AE3Z9++g1iD+M29C/0LdG7U5gglyxyekWqwWKO87UeLRgDFAy26KL+NKf1x9Z+3nMGJh
+         HWwxBBm2ki5StK4NVq41umliE7Ge0hSfeTd7JwuOJHWr+3LKBGyWEd26Ba9MwuaG3MTr
+         +/EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=y0pmDLbK+7BSAh5x56WEIsXOyLAwrKLQOAsadcipF54=;
-        b=TKSAMZMka4+kbegJh/EbcOQJ//vkXfQcZkSk1EDlLpPsn4Jud8VtOW+w38eCIHJJLp
-         zWmRIQ1J14UVpty6JwEU/wGhk+6rSa7Z/3arqBoIZi1jGt+7YlY11HhmrTpIsBDxXQC+
-         M8tUd12ph0XBExTruhFeiYKm79AbFN/G2yTyV/Kmx1t1hdlEvf+xIJYk9Ky3OItVZgNO
-         ZV8o+IOXdBTH3mT+0TTAmW5V/oR/ojbM9U563cXY0q6J0HI4GIUpNpTj5k/wm/8/u8Tn
-         rlN+pXVewLS8ulK04NegPD3uYcN0irocuvcAg+59P/Xyw4cfAmsFNOcqULDMMuc2EMVr
-         1vdA==
-X-Gm-Message-State: APjAAAXdFCIjB3Ul1BzJtzQVd5+cCd2NEEkE0A7/DMpPS99KHIgwVA56
-        Bp+ufbixurU/nYVuT7UDRB6ixCG0rVz/RNXu
-X-Google-Smtp-Source: APXvYqycOMQXhB7LunCtJ2mSN8JG36V+ND4YFbv89PhbTN2edqY1ONzRmnxPOCaXOMvcqg83reHV4EVl11OVLG5G
-X-Received: by 2002:ac8:2e7a:: with SMTP id s55mr10982902qta.34.1552929502878;
- Mon, 18 Mar 2019 10:18:22 -0700 (PDT)
-Date:   Mon, 18 Mar 2019 18:17:43 +0100
+        bh=hfuKek+o8vy+53O51p2MPtj2JUyumu3LZdujtPFxXko=;
+        b=rT2R7Azh2J5LGi365TUrKt2PBxmukWRPqSZTEGlmpe3Pu65JhaQP4VWmkKnuPGixPE
+         Okeq4RGAPd9OmC8qSjpmkAOP6Shxg1R9MyMuQ59wxKOqGQWHfFYZVc913h4OGD8ktZPD
+         u0SBlYCcrDdgsZjv0NDkdRa5ii0zNICIqMWOIc/NABm8NnazpLNgWrJ11NvbEeUPWLLj
+         ZX0aY7NAg+fEkJu+wXfExmxbCfadNzbqK6i8iokzea8Q7LVU9X7r6Lw77+dqBni6lyoB
+         KFxTT9pHlL9K71ofG0hlZYdx0tPa1xugI+uV3W8nfWOjfKctkZndU7R9paCbags8+Q5y
+         j0iQ==
+X-Gm-Message-State: APjAAAWHtaN6lxa6dFiSLkrAJitsZObTqvkyF6fWcp3d1PfPtXVRtmMo
+        RpxCPfbafpYaF39c0iZC/mMAUy0tMGXu4czW
+X-Google-Smtp-Source: APXvYqyE9Hf1UP7XaN3S1ukCc+WMyyJkC7y8Hk/2DK6LClASlL+h1czCzSFlt0sWM+JMT6cpK2e3Il7FKfoAeEtz
+X-Received: by 2002:a25:e648:: with SMTP id d69mr9320791ybh.95.1552929506037;
+ Mon, 18 Mar 2019 10:18:26 -0700 (PDT)
+Date:   Mon, 18 Mar 2019 18:17:44 +0100
 In-Reply-To: <cover.1552929301.git.andreyknvl@google.com>
-Message-Id: <b24adf53a968b50ba84630f86136ee1251e12a9d.1552929301.git.andreyknvl@google.com>
+Message-Id: <7883ff7cbe2e8075c3a0f450eade08587f49f3bc.1552929301.git.andreyknvl@google.com>
 Mime-Version: 1.0
 References: <cover.1552929301.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.21.0.225.g810b269d1ac-goog
-Subject: [PATCH v12 11/13] uprobes, arm64: untag user pointers in find_active_uprobe
+Subject: [PATCH v12 12/13] bpf, arm64: untag user pointers in stack_map_get_build_id_offset
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will.deacon@arm.com>,
@@ -99,30 +99,42 @@ This patch is a part of a series that extends arm64 kernel ABI to allow to
 pass tagged user pointers (with the top byte set to something else other
 than 0x00) as syscall arguments.
 
-find_active_uprobe() uses provided user pointer (obtained via
-instruction_pointer(regs)) for vma lookups, which can only by done with
-untagged pointers.
+stack_map_get_build_id_offset() uses provided user pointers for vma
+lookups, which can only by done with untagged pointers.
 
-Untag the user pointer in this function.
+Untag the user pointer in this function for doing the lookup and
+calculating the offset, but save as is into the bpf_stack_build_id
+struct.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- kernel/events/uprobes.c | 2 ++
- 1 file changed, 2 insertions(+)
+ kernel/bpf/stackmap.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/kernel/events/uprobes.c b/kernel/events/uprobes.c
-index c5cde87329c7..d3a2716a813a 100644
---- a/kernel/events/uprobes.c
-+++ b/kernel/events/uprobes.c
-@@ -1992,6 +1992,8 @@ static struct uprobe *find_active_uprobe(unsigned long bp_vaddr, int *is_swbp)
- 	struct uprobe *uprobe = NULL;
- 	struct vm_area_struct *vma;
+diff --git a/kernel/bpf/stackmap.c b/kernel/bpf/stackmap.c
+index 950ab2f28922..bb89341d3faf 100644
+--- a/kernel/bpf/stackmap.c
++++ b/kernel/bpf/stackmap.c
+@@ -320,7 +320,9 @@ static void stack_map_get_build_id_offset(struct bpf_stack_build_id *id_offs,
+ 	}
  
-+	bp_vaddr = untagged_addr(bp_vaddr);
+ 	for (i = 0; i < trace_nr; i++) {
+-		vma = find_vma(current->mm, ips[i]);
++		u64 untagged_ip = untagged_addr(ips[i]);
 +
- 	down_read(&mm->mmap_sem);
- 	vma = find_vma(mm, bp_vaddr);
- 	if (vma && vma->vm_start <= bp_vaddr) {
++		vma = find_vma(current->mm, untagged_ip);
+ 		if (!vma || stack_map_get_build_id(vma, id_offs[i].build_id)) {
+ 			/* per entry fall back to ips */
+ 			id_offs[i].status = BPF_STACK_BUILD_ID_IP;
+@@ -328,7 +330,7 @@ static void stack_map_get_build_id_offset(struct bpf_stack_build_id *id_offs,
+ 			memset(id_offs[i].build_id, 0, BPF_BUILD_ID_SIZE);
+ 			continue;
+ 		}
+-		id_offs[i].offset = (vma->vm_pgoff << PAGE_SHIFT) + ips[i]
++		id_offs[i].offset = (vma->vm_pgoff << PAGE_SHIFT) + untagged_ip
+ 			- vma->vm_start;
+ 		id_offs[i].status = BPF_STACK_BUILD_ID_VALID;
+ 	}
 -- 
 2.21.0.225.g810b269d1ac-goog
 
