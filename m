@@ -5,41 +5,43 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3B69F7D099
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 00:17:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 411BF7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 01:46:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727566AbfCRARu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 17 Mar 2019 20:17:50 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:51540 "EHLO
+        id S1727426AbfCRBqo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 17 Mar 2019 21:46:44 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:51706 "EHLO
         merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726735AbfCRARu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Mar 2019 20:17:50 -0400
+        with ESMTP id S1727132AbfCRBqo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Mar 2019 21:46:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=ibrFeGCGNaPSQVIEn8BUSxkvDL6oxW1aG9/8TPJfK/Y=; b=uC1FTWoot0UFj+XjemtLZ5pdf+
-        cw8wKUrDgvMjpUyxydEPx5S+9YUlSH8mCwuQ1dLSFThnbwsogxubdpFRmZBkoeVSifn+Yzi7yfy/e
-        zBLCZUxW58bBynbVoyUtlEYYOI9p+b+U7BhmVvX8mPCQyAzcJ6dwHT6aoZhUQNe0h5yc38ouRRfEb
-        EsGxFKKDQr7wltSH4cjQUA/g/E05PSuv1/ko9H8yKVcKnFzM0nuJt6QC10j+VpSnn1NnL8NaaMLYR
-        9KMyGFYSUGXeumAlnWS6N1FoAo7AWvM+Mhh5JtX4tZAq91quGDxorayELZv/ecJECvz6mq9iCHUpW
-        rf9/eyDQ==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=02cVkekljglMdv9XutCx6KGjpwnrK1lV4p5gvuApm1s=; b=u4mgO0BMYzCruRkMt0W48unwMC
+        /L/qoukS8Ygujs5qMIWiyUKDL5iRpPnaJo41eEzL9JuC2FdJFtGxItdzSogh2II8kMD/n3chEbfJN
+        JHAd8migCduhhRWV5bVlswWAT83h2d743hvng+Tsbk2ECGVfA2F8/LjsCCSXB/lSQbgUQIgXc7GpY
+        9AibQmfE6vqIYXwmbiyIrsUTN5ZGWvq1nxJmRaB/h/KOd9cjaiY9jBD04TwVtG36xt6rzONBlh3kh
+        xa4Y7bq5sYt1JPms+rOSKhypB/w/1EoHKT7/oXxEHeQQiogtgPPOJnMOVZxac78UunpYJY1b8B6j7
+        zK6iKZEA==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=dragon.dunlab)
         by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1h5fyO-00061g-0d; Mon, 18 Mar 2019 00:17:48 +0000
-To:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        David Miller <davem@davemloft.net>
-Cc:     yupeng <yupeng0921@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+        id 1h5hMQ-0006D3-MF; Mon, 18 Mar 2019 01:46:43 +0000
+Subject: Re: [PATCH 00/13] Convert vfs.txt to vfs.rst
+To:     "Tobin C. Harding" <tobin@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190313040919.6937-1-tobin@kernel.org>
 From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] networking: fix snmp_counter.rst Doc. Warnings
-Message-ID: <d5d2f833-0a08-6b02-1754-6262b5102369@infradead.org>
-Date:   Sun, 17 Mar 2019 17:17:45 -0700
+Message-ID: <821449c9-e1f7-caa1-ff18-0cc1cc625596@infradead.org>
+Date:   Sun, 17 Mar 2019 18:46:40 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.5.1
 MIME-Version: 1.0
+In-Reply-To: <20190313040919.6937-1-tobin@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -48,96 +50,92 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+On 3/12/19 9:09 PM, Tobin C. Harding wrote:
+> Hi,
+> 
+> This set converts the VFS overview documentation to RST format.  I think
+> I'm slowly getting better at structuring these conversions to ease
+> review, if you disagree or you notice any way to further improve please
+> say so.
 
-Fix documentation markup warnings in snmp_counter.rst:
+Hi Tobin,
 
-Documentation/networking/snmp_counter.rst:416: WARNING: Title underline too short.
-Documentation/networking/snmp_counter.rst:684: WARNING: Bullet list ends without a blank line; unexpected unindent.
-Documentation/networking/snmp_counter.rst:693: WARNING: Title underline too short.
-Documentation/networking/snmp_counter.rst:707: WARNING: Bullet list ends without a blank line; unexpected unindent.
-Documentation/networking/snmp_counter.rst:712: WARNING: Bullet list ends without a blank line; unexpected unindent.
-Documentation/networking/snmp_counter.rst:722: WARNING: Title underline too short.
-Documentation/networking/snmp_counter.rst:733: WARNING: Bullet list ends without a blank line; unexpected unindent.
-Documentation/networking/snmp_counter.rst:736: WARNING: Bullet list ends without a blank line; unexpected unindent.
-Documentation/networking/snmp_counter.rst:739: WARNING: Bullet list ends without a blank line; unexpected unindent.
+What does this patch set apply to?  Maybe Jon's git tree?
 
-Fixes: 80cc49507ba48 ("net: Add part of TCP counts explanations in snmp_counters.rst")
-Fixes: 8e2ea53a83dfb ("add snmp counters document")
-Fixes: a6c7c7aac2de6 ("net: add document for several snmp counters")
+I applied it to 5.1-rc1 with some forceful (minor) editing and ran
+'make htmldocs' successfully, so
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: yupeng <yupeng0921@gmail.com>
----
- Documentation/networking/snmp_counter.rst |   12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
---- lnx-51-rc1.orig/Documentation/networking/snmp_counter.rst
-+++ lnx-51-rc1/Documentation/networking/snmp_counter.rst
-@@ -413,7 +413,7 @@ algorithm.
- .. _F-RTO: https://tools.ietf.org/html/rfc5682
- 
- TCP Fast Path
--============
-+=============
- When kernel receives a TCP packet, it has two paths to handler the
- packet, one is fast path, another is slow path. The comment in kernel
- code provides a good explanation of them, I pasted them below::
-@@ -681,6 +681,7 @@ The TCP stack receives an out of order d
- DSACK to the sender.
- 
- * TcpExtTCPDSACKRecv
-+
- The TCP stack receives a DSACK, which indicates an acknowledged
- duplicate packet is received.
- 
-@@ -690,7 +691,7 @@ The TCP stack receives a DSACK, which in
- duplicate packet is received.
- 
- invalid SACK and DSACK
--====================
-+======================
- When a SACK (or DSACK) block is invalid, a corresponding counter would
- be updated. The validation method is base on the start/end sequence
- number of the SACK block. For more details, please refer the comment
-@@ -704,11 +705,13 @@ explaination:
- .. _Add counters for discarded SACK blocks: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=18f02545a9a16c9a89778b91a162ad16d510bb32
- 
- * TcpExtTCPSACKDiscard
-+
- This counter indicates how many SACK blocks are invalid. If the invalid
- SACK block is caused by ACK recording, the TCP stack will only ignore
- it and won't update this counter.
- 
- * TcpExtTCPDSACKIgnoredOld and TcpExtTCPDSACKIgnoredNoUndo
-+
- When a DSACK block is invalid, one of these two counters would be
- updated. Which counter will be updated depends on the undo_marker flag
- of the TCP socket. If the undo_marker is not set, the TCP stack isn't
-@@ -719,7 +722,7 @@ will be updated. If the undo_marker is s
- will be updated. As implied in its name, it might be an old packet.
- 
- SACK shift
--=========
-+==========
- The linux networking stack stores data in sk_buff struct (skb for
- short). If a SACK block acrosses multiple skb, the TCP stack will try
- to re-arrange data in these skb. E.g. if a SACK block acknowledges seq
-@@ -730,12 +733,15 @@ seq 14 to 20. All data in skb2 will be m
- discard, this operation is 'merge'.
- 
- * TcpExtTCPSackShifted
-+
- A skb is shifted
- 
- * TcpExtTCPSackMerged
-+
- A skb is merged
- 
- * TcpExtTCPSackShiftFallback
-+
- A skb should be shifted or merged, but the TCP stack doesn't do it for
- some reasons.
- 
+although there is at least one new field in struct file_operations: iopoll.
+
+cheers.
+
+> Patch set introduces no new warnings/errors to the html docs build
+> 
+>       $ make htmldocs 2> ../docs-pre-vfs.stderr	
+> 
+> Apply patch set
+> 
+>       $ make cleandocs
+>       $ make htmldocs 2> ../docs-post-vfs.stderr
+>       $ diff ../docs-pre-vfs.stderr ../docs-post-vfs.stderr
+> 
+> 
+> Patch 1-4 - Whitespace fixes.
+> Patch 5 - Adds the document title adornments (above and below)
+> Patch 6 - Adds a SPDX license identifier
+> Patch 7 - Fixes some custom indentation at the top of the file that will
+>     	  cause Sphinx to warn when we switch to .rst
+> Patch 8 - Converts custom list format to use RST formatted lists, this
+>           is in preparation for switching to .rst 
+> Patch 9 - Adds '.. code-block:: c' and fixes indentation of code
+> 	  blocks.  We rename the file to .rst in this patch (introducing
+> 	  some new warnings).
+> Patch 10 - Adds back ticks to all the list items.  This is in
+> 	   preparation for fixing the indentation in the next patch.
+> 	   This was found to help when reading both plain text and HTML.
+> Patch 11 - Cleans up the lists, indentation and missing periods.  This
+> 	   was kept separate to assist review.  This patch is benign,
+> 	   the less meticulous reviewer could safely skip over this one
+> 	   quickly (this was the intention of separating these changes).
+> Patch 12 - Fixes a few minor grammar mistakes I notice while reading the
+> 	   file, I'm taking bonus points for actually reading every word
+> 	   of the file and not just trying to haphazardly do the
+> 	   conversion like I have previously done :)
+> Patch 13 - Fixes two remaining Sphinx warnings.
+> 
+> If/when this goes in perhaps I, or someone else, will update the content
+> to document a newer kernel version.
+> 
+> 
+> thanks,
+> Tobin.
+> 
+> 
+> Tobin C. Harding (13):
+>   docs: filesystems: vfs: Remove space before tab
+>   docs: filesystems: vfs: Use uniform space after period.
+>   docs: filesystems: vfs: Use 72 character column width
+>   docs: filesystems: vfs: Use uniform spacing around headings
+>   docs: filesystems: vfs: Use correct initial heading
+>   docs: filesystems: vfs: Use SPDX identifier
+>   docs: filesystems: vfs: Fix pre-amble indentation
+>   docs: filesystems: vfs: Use list character for lists
+>   docs: filesystems: vfs: Add code-block and txt->RST
+>   docs: filesystems: vfs: Use ticks for listed items
+>   docs: filesystems: vfs: Clean up lists
+>   docs: filesystems: vfs: Do minor grammar fixes
+>   docs: filesystems: vfs: Use backticks to guard star
+> 
+>  Documentation/filesystems/index.rst |    1 +
+>  Documentation/filesystems/vfs.rst   | 1279 +++++++++++++++++++++++++++
+>  Documentation/filesystems/vfs.txt   | 1261 --------------------------
+>  3 files changed, 1280 insertions(+), 1261 deletions(-)
+>  create mode 100644 Documentation/filesystems/vfs.rst
+>  delete mode 100644 Documentation/filesystems/vfs.txt
+> 
 
 
+-- 
+~Randy
