@@ -5,32 +5,29 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7AD3B7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 17:50:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 82D227D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 18 Mar 2019 18:00:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726720AbfCRRuf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 18 Mar 2019 13:50:35 -0400
-Received: from ms.lwn.net ([45.79.88.28]:51010 "EHLO ms.lwn.net"
+        id S1726788AbfCRSAw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 18 Mar 2019 14:00:52 -0400
+Received: from ms.lwn.net ([45.79.88.28]:51066 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726626AbfCRRue (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 18 Mar 2019 13:50:34 -0400
+        id S1726720AbfCRSAw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 18 Mar 2019 14:00:52 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id DAB3560C;
-        Mon, 18 Mar 2019 17:50:33 +0000 (UTC)
-Date:   Mon, 18 Mar 2019 11:50:32 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 9C6AC2B4;
+        Mon, 18 Mar 2019 18:00:51 +0000 (UTC)
+Date:   Mon, 18 Mar 2019 12:00:50 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Juergen Gross <jgross@suse.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        x86@kernel.org, hpa@zytor.com, bp@alien8.de, mingo@redhat.com,
-        tglx@linutronix.de, konrad.wilk@oracle.com, mfleming@suse.com,
-        ross.philipson@oracle.com, daniel.kiper@oracle.com
-Subject: Re: [PATCH] doc: add boot protocol 2.13 description to
- Documentation/x86/boot.txt
-Message-ID: <20190318115032.349d92c2@lwn.net>
-In-Reply-To: <20190308114310.25041-1-jgross@suse.com>
-References: <20190308114310.25041-1-jgross@suse.com>
+To:     Jakub Wilk <jwilk@jwilk.net>
+Cc:     linux-doc@vger.kernel.org, Kees Cook <keescook@chromium.org>
+Subject: Re: [PATCH 2/2] Documentation: seccomp: unify list indentation
+Message-ID: <20190318120050.1f572a5b@lwn.net>
+In-Reply-To: <20190304203152.8236-2-jwilk@jwilk.net>
+References: <20190304203152.8236-1-jwilk@jwilk.net>
+        <20190304203152.8236-2-jwilk@jwilk.net>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -40,30 +37,14 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri,  8 Mar 2019 12:43:10 +0100
-Juergen Gross <jgross@suse.com> wrote:
+On Mon,  4 Mar 2019 21:31:52 +0100
+Jakub Wilk <jwilk@jwilk.net> wrote:
 
-> Documentation/x86/boot.txt is missing protocol 2.13 description.
+> Use tabs to indent SECCOMP_RET_USER_NOTIF definition, for consistency
+> with other items in this list.
 > 
-> Signed-off-by: Juergen Gross <jgross@suse.com>
-> ---
->  Documentation/x86/boot.txt | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/Documentation/x86/boot.txt b/Documentation/x86/boot.txt
-> index f4c2a97bfdbd..223e484a1304 100644
-> --- a/Documentation/x86/boot.txt
-> +++ b/Documentation/x86/boot.txt
-> @@ -61,6 +61,10 @@ Protocol 2.12:	(Kernel 3.8) Added the xloadflags field and extension fields
->  		to struct boot_params for loading bzImage and ramdisk
->  		above 4G in 64bit.
->  
-> +Protocol 2.13:	(Kernel 3.14) Support 32- and 64-bit flags being set in
-> +		xloadflags to support booting a 64-bit kernel from 32-bit
-> +		EFI
-> +
->  **** MEMORY LAYOUT
+> Signed-off-by: Jakub Wilk <jwilk@jwilk.net>
 
-Applied (with vast numbers of Reviewed-by tags), thanks.
+Both patches applied, thanks.
 
 jon
