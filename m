@@ -1,398 +1,94 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AF0E27D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Mar 2019 07:35:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 76E8B7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Mar 2019 08:03:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726036AbfCSHfe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Mar 2019 03:35:34 -0400
-Received: from mail-yw1-f67.google.com ([209.85.161.67]:39129 "EHLO
-        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725934AbfCSHfd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Mar 2019 03:35:33 -0400
-Received: by mail-yw1-f67.google.com with SMTP id z191so15077913ywa.6;
-        Tue, 19 Mar 2019 00:35:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=X5pjLcyCPfq0e+jQOmnTNCHD86YWlP558/vG2VFq/d8=;
-        b=lM/3qhQPS9ixwiEBMcTAwd79K4NFFwrd/cp1B9pp43wDtJfU8VKi2IfNXWRaNCNN3m
-         crVYtB6Whd2s2q0t10QRDkbZ73MQ3ae48jxRaWNb2grN4vwEkB+ogH8OqlviMP9a0Qum
-         5ISox1JjB0XaXE2qajiJYMqKmjhG97g0kbFsd+NIxpi9h63LgKhfwmpI/uozYuNoJLdp
-         dTOW1ETPG3cw00s/wxLJb9hinxzxqu4maYq23qP9PFtcWCEQmwrtgvm1ju43I1M9rii+
-         MfQlccYG6TvfJ4Z+V0yNEyEQw+iJepm50xD7skF5Hli5zfkeBRedkn50/7WmS4oyDmBs
-         a6Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=X5pjLcyCPfq0e+jQOmnTNCHD86YWlP558/vG2VFq/d8=;
-        b=AjRWUUTlcCiAb8yy2ZSdPk4vO/gMe4MXY/SG7t4xTtQq1E9eRPn2P0YtbQL6aVqg3D
-         0tTPs+7m9A4bPXuBPWDdDfSG6yEM6GVq0jV/d9B8MvlTdPFoIvkzZsNSU/ZNlN5PFlmS
-         Tdth6QTmh61FpEjvndGCSHPin45Y5oXl5EWJFAOjev+C5uZHEyW6qq0N+ZpVhGsiSrQY
-         bIIRd0KcEhNGS2xgweM5MntGaOWTyGW2h7BiaGsh05uq2vz77UfijE7Dc81cIem/CxvF
-         M9g8n60oJajiyDn/7nw/Al389p8tj200wco0/kNwpDoiEOBh2vr42+uK+ka/1jj0crZf
-         3crw==
-X-Gm-Message-State: APjAAAXoW/X7IhVBee4RPufxu5MMetCUG207jZnHZQvO1idDOFQkoVcf
-        QL/31NLrOLJ/eoZlhzHixvQlj3Vfjo1MlQ5yFGc=
-X-Google-Smtp-Source: APXvYqzBGt0T9NeDfv6pHLdNiVSMq0ErZ0JJ4gYShuznOehhEWdB28uWOyLsQB5jM3FHiuhWoSxNh/B2gVL4AVKgFG4=
-X-Received: by 2002:a25:5046:: with SMTP id e67mr748145ybb.397.1552980931855;
- Tue, 19 Mar 2019 00:35:31 -0700 (PDT)
+        id S1727371AbfCSID6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Mar 2019 04:03:58 -0400
+Received: from mx.kolabnow.com ([95.128.36.42]:56640 "EHLO mx.kolabnow.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726020AbfCSID5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 19 Mar 2019 04:03:57 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id 5B8811777;
+        Tue, 19 Mar 2019 09:03:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-type:content-type:content-transfer-encoding:mime-version
+        :references:in-reply-to:message-id:date:date:subject:subject
+        :from:from:received:received:received; s=dkim20160331; t=
+        1552982634; x=1554797035; bh=C0kgbeYzb5O49IVYGePSDb6/Gaxsox0RhH5
+        LjlZcmgE=; b=2MsdGFq9dUE3R/qZT0BPM92s8yyXmic6VBVpTChuHl5V7mW4r5M
+        bSfuJW9lqfc9XyJAFQgjMpWeVRXP9U932Qd4BH+s8LEiGwLTPS6h9jttWTVw05Ic
+        ZuWokcs4WtbhL2q8wkx39uJlRcI+9Q8wJXTZ+xbr6n9vnBj4V+toIXNY1hYaEGV3
+        f9KJZBGLsVv23Bz9x7tip31o12Su8sjfT6Xx3ORk1N8ptFB+98Ya9RmWKNlA/WJe
+        bIwAi6yXMLcvabdIODJlBTqUylOpt2TPXQTyVN0Jpi2RNpNmVIqcJNG1LFERbzqR
+        PIHH7OJpN5oMPVczAV5L28eZr+S3IgqhVvA4brAfM6UxDmp1i6bKjTfu1cUOivgs
+        K22L/BEp93AuV6AvYzCbt1UefjzumzhAqo2MfozW6qkdUIt9uNWdApZTFNX0eRGy
+        lgvUi7HIvz0jgMC8gwdID1S4CDGSBcwmQWcNY7HA2wH2Kp/C9JPTjk5eN45gXxDs
+        sXI1A6dpV8zmgdOcl5RUDe1Ce3aUAUyEvWweZ5aDImBzW1AXl1ShFT/WNukjfbgS
+        6L+RtRRWhcvsaJueqUfIlqIe9pfQUFg8JVOz+4vNcXwUr3nps7SA5rzR7Dyi4XsI
+        sHQ2tzMK9A/XjyeYX9kYwxVpyFk16aZThILe0R5VVvLPm6uIFSQBu3tc=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id pcUpff5qMI8c; Tue, 19 Mar 2019 09:03:54 +0100 (CET)
+Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id D58261776;
+        Tue, 19 Mar 2019 09:03:54 +0100 (CET)
+Received: from ext-subm001.mykolab.com (unknown [10.9.6.1])
+        by int-mx002.mykolab.com (Postfix) with ESMTPS id B39E72757;
+        Tue, 19 Mar 2019 09:03:54 +0100 (CET)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Alex Shi <alex.shi@linux.alibaba.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] doc: add translation disclaimer
+Date:   Tue, 19 Mar 2019 09:03:53 +0100
+Message-ID: <14381941.zoZXB8H0OD@pcbe13614>
+In-Reply-To: <20190318113534.43fb94f3@lwn.net>
+References: <20190314204516.10890-1-federico.vaga@vaga.pv.it> <20190318113534.43fb94f3@lwn.net>
 MIME-Version: 1.0
-References: <1552418820-18102-1-git-send-email-jaya@cs.utexas.edu>
- <20190314011925.GG23020@dastard> <CAOQ4uxjNDKjjzzcowy6oFZ=V7hWCkCbSyOQggE2XJirr4JHAyA@mail.gmail.com>
- <20190315030313.GP26298@dastard> <CAOQ4uxhyeBhk3DaHO8_oyfWbByidGaSrXJyh7uQE1YMaWTxR5A@mail.gmail.com>
- <20190317221652.GQ26298@dastard> <CAOQ4uxgwa9CeyLXJ022VW8dac3h_fGUi9BtF_apMv0T1UjJ3iw@mail.gmail.com>
- <20190319031312.GW26298@dastard>
-In-Reply-To: <20190319031312.GW26298@dastard>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Tue, 19 Mar 2019 09:35:19 +0200
-Message-ID: <CAOQ4uxjyrYO8bmY04-AE9t3kQ=0B-m1A8yLRXtsyevrxCfyLxg@mail.gmail.com>
-Subject: Re: [PATCH v2] Documenting the crash-recovery guarantees of Linux
- file systems
-To:     Dave Chinner <david@fromorbit.com>
-Cc:     Jayashree <jaya@cs.utexas.edu>, fstests <fstests@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-doc@vger.kernel.org,
-        Vijaychidambaram Velayudhan Pillai <vijay@cs.utexas.edu>,
-        Theodore Tso <tytso@mit.edu>, chao@kernel.org,
-        Filipe Manana <fdmanana@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josef Bacik <josef@toxicpanda.com>,
-        Anna Schumaker <Anna.Schumaker@netapp.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 19, 2019 at 5:13 AM Dave Chinner <david@fromorbit.com> wrote:
->
-> On Mon, Mar 18, 2019 at 09:13:58AM +0200, Amir Goldstein wrote:
-> > On Mon, Mar 18, 2019 at 12:16 AM Dave Chinner <david@fromorbit.com> wrote:
-> > > On Fri, Mar 15, 2019 at 05:44:49AM +0200, Amir Goldstein wrote:
-> > > > On Fri, Mar 15, 2019 at 5:03 AM Dave Chinner <david@fromorbit.com> wrote:
-> > > > > On Thu, Mar 14, 2019 at 09:19:03AM +0200, Amir Goldstein wrote:
-> > > > > > On Thu, Mar 14, 2019 at 3:19 AM Dave Chinner <david@fromorbit.com> wrote:
-> > > > > > > On Tue, Mar 12, 2019 at 02:27:00PM -0500, Jayashree wrote:
-> > > > > > > > +Strictly Ordered Metadata Consistency
-> > > > > > > > +-------------------------------------
-> > > > > > > > +With each file system providing varying levels of persistence
-> > > > > > > > +guarantees, a consensus in this regard, will benefit application
-> > > > > > > > +developers to work with certain fixed assumptions about file system
-> > > > > > > > +guarantees. Dave Chinner proposed a unified model called the
-> > > > > > > > +Strictly Ordered Metadata Consistency (SOMC) [5].
-> > > > > > > > +
-> > > > > > > > +Under this scheme, the file system guarantees to persist all previous
-> > > > > > > > +dependent modifications to the object upon fsync().  If you fsync() an
-> > > > > > > > +inode, it will persist all the changes required to reference the inode
-> > > > > > > > +and its data. SOMC can be defined as follows [6]:
-> > > > > > > > +
-> > > > > > > > +If op1 precedes op2 in program order (in-memory execution order), and
-> > > > > > > > +op1 and op2 share a dependency, then op2 must not be observed by a
-> > > > > > > > +user after recovery without also observing op1.
-> > > > > > > > +
-> > > > > > > > +Unfortunately, SOMC's definition depends upon whether two operations
-> > > > > > > > +share a dependency, which could be file-system specific. It might
-> > > > > > > > +require a developer to understand file-system internals to know if
-> > > > > > > > +SOMC would order one operation before another.
-> > > > > > >
-> > > > > > > That's largely an internal implementation detail, and users should
-> > > > > > > not have to care about the internal implementation because the
-> > > > > > > fundamental dependencies are all defined by the directory heirarchy
-> > > > > > > relationships that users can see and manipulate.
-> > > > > > >
-> > > > > > > i.e. fs internal dependencies only increase the size of the graph
-> > > > > > > that is persisted, but it will never be reduced to less than what
-> > > > > > > the user can observe in the directory heirarchy.
-> > > > > > >
-> > > > > > > So this can be further refined:
-> > > > > > >
-> > > > > > >         If op1 precedes op2 in program order (in-memory execution
-> > > > > > >         order), and op1 and op2 share a user visible reference, then
-> > > > > > >         op2 must not be observed by a user after recovery without
-> > > > > > >         also observing op1.
-> > > > > > >
-> > > > > > > e.g. in the case of the parent directory - the parent has a link
-> > > > > > > count. Hence every create, unlink, rename, hard link, symlink, etc
-> > > > > > > operation in a directory modifies a user visible link count
-> > > > > > > reference.  Hence fsync of one of those children will persist the
-> > > > > > > directory link count, and then all of the other preceeding
-> > > > > > > transactions that modified the link count also need to be persisted.
-> > > > > > >
-> > > > > >
-> > > > > > One thing that bothers me is that the definition of SOMC (as well as
-> > > > > > your refined definition) doesn't mention fsync at all, but all the examples
-> > > > > > only discuss use cases with fsync.
-> > > > >
-> > > > > You can't discuss operational ordering without a point in time to
-> > > > > use as a reference for that ordering.  SOMC behaviour is preserved
-> > > > > at any point the filesystem checkpoints itself, and the only thing
-> > > > > that changes is the scope of that checkpoint. fsync is just a
-> > > > > convenient, widely understood, minimum dependecy reference point
-> > > > > that people can reason from. All the interesting ordering problems
-> > > > > come from minimum dependecy reference point (i.e. fsync()), not from
-> > > > > background filesystem-wide checkpoints.
-> > > > >
-> > > >
-> > > > Yes, I was referring to rename as a commonly used operation used
-> > > > by application as "metadata barrier".
-> > >
-> > > What is a "metadata barrier" and what are it's semantics supposed to
-> > > be?
-> > >
-> >
-> > In this context I mean that effects of metadata operations before the
-> > barrier (e.g. setxattr, truncate) must be observed after crash if the effects
-> > of barrier operation (e.g. file was renamed) are observed after crash.
->
-> Ok, so you've just arbitrarily denoted a specific rename operation
-> to be a "recovery barrier" for your application?
->
-> In terms of SOMC, there is no operation that is an implied
-> "barrier". There are explicitly ordered checkpoints via data
-> integrity operations (i.e. sync, fsync, etc), but between those
-> points it's just dependency based ordering...
->
-> IOWs, if there is no direct relationship between two objects in
-> depnendency grpah, then then rename of one or the other does not
-> create a "metadata ordering barrier" between those two objects. They
-> are still independent, and so rename isn't a barrier in the true
-> sense (i.e. that it is an ordering synchronisation point).
->
-> At best rename can define a point in a dependency graph where an
-> independent dependency branch is merged atomically into the main
-> graph. This is still a powerful tool, and likely exactly what you
-> are wanting to know if it will work or not....
+On Monday, March 18, 2019 6:35:34 PM CET Jonathan Corbet wrote:
+> On Thu, 14 Mar 2019 21:45:16 +0100
+> 
+> Federico Vaga <federico.vaga@vaga.pv.it> wrote:
+> > Add the translation disclaimer in English as reference
+> > for other languages.  Translations must include this disclaimer
+> > in their language so that readers are properly informed.
+> > 
+> > This very same patch updates the Italian translation accordingly.
+> > 
+> > Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+> 
+> Honestly, it all feels a little too legalistic to me; have people been
+> worried about the translations in this regard?
+> 
+> Oh well, I went ahead and applied it.  I do think that it might make sense
+> to move the TOC *above* the disclaimer, though, since that's what readers
+> are really going to be interested in.
 
-Absolutely. The application only cares about atomicity of creating
-a certain file/dir with specific size/xattrs with a certain name.
+No, problem I can do it and send a new version
 
->
-> > > > > > To my understanding, SOMC provides a guaranty that the application does
-> > > > > > not need to do any fsync at all,
-> > > > >
-> > > > > Absolutely not true. If the application has atomic creation
-> > > > > requirements that need multiple syscalls to set up, it must
-> > > > > implement them itself and use fsync to synchronise data and metadata
-> > > > > before the "atomic create" operation that makes it visible to the
-> > > > > application.
-> > > > >
-> > > > > SOMC only guarantees what /metadata/ you see at a fileystem
-> > > > > synchronisation point; it does not provide ACID semantics to a
-> > > > > random set of system calls into the filesystem.
-> > > > >
-> > > >
-> > > > So I re-state my claim above after having explained the use case.
-> > >
-> > > With words that I can only guess the meaning of.
-> > >
-> > > Amir, if you are asking a complex question as to whether something
-> > > conforms to a specification, then please slow down and take the time
-> > > to define all the terms, the initial state, the observable behaviour
-> > > that you expect to see, etc in clear, unambiguous and well defined
-> > > terms.  Otherwise the question cannot be answered....
-> > >
-> >
-> > Sure. TBH, I didn't even dare to ask the complex question yet,
-> > because it was hard for me to define all terms. I sketched the
-> > use case with the example of create+setxattr+truncate+rename
-> > because I figured it is rather easy to understand.
-> >
-> > The more complex question has do to with explicit "data dependency"
-> > operation. At the moment, I will not explain what that means in details,
-> > but I am sure you can figure it out.
-> > With fdatasync+rename, fdatasync created a dependency between
-> > data and metadata of the file, so with SOMC, if file is observed after
-> > crash in rename destination, it also contains the data changes before
-> > fdatasync. But fdatasync gives a stringer guaranty than what
-> > my application actually needs, because in many cases it will cause
-> > journal flush. What it really needs is filemap_write_and_wait().
-> > Metadata doesn't need to be flushed as rename takes care of
-> > metadata ordering guaranties.
->
-> Ok, so what you are actually asking is whether SOMC provides a
-> guarantee that data writes that have completed before the rename
-> will be present on disk if the rename is present on disk? i.e.:
->
-> create+setxattr+write()+fdatawait()+rename
->
-> is atomic on a SOMC filesystem without a data integrity operation
-> being performed?
->
-> I don't think we've defined how data vs metadata ordering
-> persistence works in the SOMC model at all. We've really only been
-> discussing the metadata ordering and so I haven't really thought
-> all the different cases through.
->
-> OK, let's try to define how it works through examples.  Let's start
-> with the simple one: non-AIO O_DIRECT writes, because they send the
-> data straight to the device. i.e.
->
-> create
-> setxattr
-> write
->   Extent Allocation
->                   ----> device -+
->                                         data volatile
->                   <-- complete -+
-> write completion
-> rename                                  metadata volatile
->
-> At this point, we may have no direct dependency between the
-> write completion and the rename operation. Normally we would do
-> (O_DSYNC case)
->
-> write completion
->     device cache flush
->                   ----> device -+
->                   <-- complete -+       data persisted
->     journal FUA write
->                   ----> device -+
->                   <-- complete -+       file metadata persisted
->
-> and so we are guaranteed to have the data on disk before the rename
-> is started (i.e. POSIX compliance). Hence regardless of whether the
-> rename exists or not, we'll have the data on disk.
->
-> However, if we require a data completion rule similar to the IO
-> completion to device flush rule we have in the kernel:
->
->         If data is to be ordered against a specific metadata
->         operation, then the dependent data must be issued and
->         completed before executing the ordering metadata operation.
->         The application is responsibile for ensuring the necessary
->         data has been flushed to storage and signalled complete, but
->         it does not need to ensure it is persistent.
->
->         When the ordering metadata operation is to be made
->         persistent, the filesystem must ensure the dependent data is
->         persistent before starting the ordered metadata persistence
->         operation. It must also ensure that any data dependent
->         metadata is captured and persisted in the pending ordered
->         metadata persistence operation so all the metadata required
->         to access the dependent data is persisted correctly.
->
-> Then we create the conditions where it is possible for data to be
-> ordered amongst the metadata with the same ordering guarantees
-> as the metadata. The above O_DIRECT example ends up as:
->
-> create
-> setxattr
-> write
->   Extent Allocation                     metadata volatile
->                   ----> device -+
->                                         data volatile
->                   <-- complete -+
-> write completion
-> rename                                  metadata volatile
-> .....
-> <journal flush>
->     device cache flush
->                   ----> device -+
->                   <-- complete -+       data persisted
->     journal FUA write
->                   ----> device -+
->                   <-- complete -+       metadata persisted
-> <flush completion>
->
->
-> With AIO based O_DIRECT, then we cannot issue the ordering rename
-> until after the AIO completion has been delivered to the
-> application. Once that has been delivered, then it is the same case
-> as non AIO O_DIRECT.
->
-> BUffered IO is a bit harder, because we need flush-and-wait
-> primitives that don't provide data integrity guarantees. SO, after
-> soundly smacking down the user of sync_file_range() this morning
-> because it's not a data integrity operation and it has massive
-> gaping holes in it's behaviour, it may actually be useful here in a
-> very limited scope.
->
-> That is, sync_file_range() is only safe to use for this specific
-> sort of ordered data integrity algorithm when flushing the entire
-> file.(*)
->
-> create
-> setxattr
-> write                                   metadata volatile
->   delayed allocation                    data volatile
-> ....
-> sync_file_range(fd, 0, 0, SYNC_FILE_RANGE_WAIT_BEFORE |
->                 SYNC_FILE_RANGE_WRITE | SYNC_FILE_RANGE_WAIT_AFTER);
->   Extent Allocation                     metadata volatile
->                   ----> device -+
->                                         data volatile
->                   <-- complete -+
-> ....
-> rename                                  metadata volatile
->
-> And so at this point, we only need a device cache flush to
-> make the data persistent and a journal flush to make the rename
-> persistent. And so it ends up the same case as non-AIO O_DIRECT.
->
+> 
+> Thanks,
+> 
+> jon
 
-Funny, I once told that story and one Dave Chinner told me
-"Nice story, but wrong.":
-https://patchwork.kernel.org/patch/10576303/#22190719
 
-You pointed to the minor detail that sync_file_range() uses
-WB_SYNC_NONE.
-So yes, I agree, it is a nice story and we need to make it right,
-by having an API (perhaps SYNC_FILE_RANGE_ALL).
-When you pointed out my mistake, I switched the application to
-use the FIEMAP_FLAG_SYNC API as a hack.
+-- 
+Federico Vaga
+http://www.federicovaga.it/
 
-> So, yeah, I think this model will work to order completed data
-> writes against future metadata operations such that this is
-> observed:
->
->         If a metadata operation is performed after dependent data
->         has been flushed and signalled complete to userspace, then
->         if that metadata operation is present after recovery the
->         dependent data will also be present.
->
-> The good news here is what I described above is exactly what XFS
-> implements with it's journal flushes - it uses REQ_PREFLUSH |
-> REQ_FUA for journal writes, and so it follows the rules I outlined
-> above.  A quick grep shows that ext4/jbd2, f2fs and gfs2 also use
-> the same flags for journal and/or critical ordering IO. I can't tell
-> whether btrfs follows these rules or not.
->
-> > As far as I can tell, there is no "official" API to do what I need
-> > and there is certainly no documentation about this expected behavior.
->
-> Oh, userspace controlled data flushing is exactly what
-> sync_file_range() was intended for back when it was implemented back
-> in 2.6.17.
->
-> Unfortunately, the implementation was completely botched because it
-> was written from a top down "clean the page cache" perspective, not
-> a bottom up filesystem data integrity mechanism and by the time we
-> realised just how awful it was there were applications dependent on
-> it's existing behaviour....
->
 
-Thanks a lot, Dave, for taking the time to fill in the gaps in my sketchy
-requirement and for the detailed answer.
-
-Besides tests and documentation what could be useful is a portable
-user space library that just does the right thing for every filesystem.
-For example, safe_rename(), could be properly documented and is
-all the application developer should really care about. The default
-implementation just does fdatasync() before rename and from here
-things can only improve based on underlying filesystem and available
-kernel APIs.
-
-I am not volunteering to write that library, but I'd be happy to write
-write the patch/tests/man page for SYNC_FILE_RANGE_ALL API
-or whatever we want to call it, if we can agree that it is needed.
-
-Thanks!
-Amir.
