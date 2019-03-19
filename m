@@ -6,51 +6,51 @@ X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 58CA67D8A4
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Mar 2019 23:57:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8EFCE7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Mar 2019 23:57:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727146AbfCSX5C (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Mar 2019 19:57:02 -0400
-Received: from mail-qk1-f201.google.com ([209.85.222.201]:50083 "EHLO
-        mail-qk1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727483AbfCSX4l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Mar 2019 19:56:41 -0400
-Received: by mail-qk1-f201.google.com with SMTP id 23so19215520qkl.16
-        for <linux-doc@vger.kernel.org>; Tue, 19 Mar 2019 16:56:40 -0700 (PDT)
+        id S1727434AbfCSX5J (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Mar 2019 19:57:09 -0400
+Received: from mail-pg1-f201.google.com ([209.85.215.201]:45148 "EHLO
+        mail-pg1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727436AbfCSX4g (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Mar 2019 19:56:36 -0400
+Received: by mail-pg1-f201.google.com with SMTP id f1so724847pgv.12
+        for <linux-doc@vger.kernel.org>; Tue, 19 Mar 2019 16:56:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=/1f+k74gk1272nyZAYvhUzZCD+eEvuFJDJVbOJgy+wk=;
-        b=Q8ffQgdK/wkTC+TdacBpBr7s7ZA+ibEdwudd2fRpPvrcaC/Z4LqJTNqtLCyv8fay3Q
-         chiHW354Gbcen71ue0RFArhXaTYhUvFlgw847q/e4JvbmuxVF1URZSS4uI5/2AOq95Tg
-         EUZGBIm5ffQd2Ig8HQTcV4Ga4AwlViHgtFeDDiCPhfHDPO06IXDNPK9KlA6EzFdtzCZw
-         XIpSvnBo/nnTQIl706MCfwLeDFb6UkMXt7TLQ9AlMLikpSRMRfuJ/IfBREdiXgcI3pzN
-         Tqwh1wtk3Mfv6veI944tZm831+Y/Nmg0Yiy3lc4aslJlMD8H+RAAp6Z3buACiQNjY+Pi
-         ZHIg==
+        bh=OBXkes655anl10ghu56F3PCl5wd5CeGj94L2IaEvAok=;
+        b=ViufV3H9RpAeDfEYRca09ZHiuCDEEE7bKNCDMcMtKBrJC14eRqNfcqNHHYQOq+na9V
+         6H7JdNNGddCsCaecqnHRDT4qvYX1DB8C6plteEXU+zIk9R8baXzQOsoHfLMW7UYoIrJa
+         xnxyu8o4Ns4Hw4KIqkgi04u/ojN0sGrpDJ53t1VKOu9ympyYotAVuoZWBitaFUIMdMav
+         Nyhu/nbgRgdMV1SO9zoqliqG4Z3hvkfNYsgnd1suNAvHG589L2XGHM6fZx/n65Up7Ijh
+         Cxbjtaq3cvyaQyocIsPIbFFUuY28iDEH1CwonE07NSVXVpttNoqUiLr31kJH9b2CyWhZ
+         7Azw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=/1f+k74gk1272nyZAYvhUzZCD+eEvuFJDJVbOJgy+wk=;
-        b=VqxU1MLszvw+14oOqxYa5qRZR/QDo4uNd6BWWfTDj4WYHT3kYpRTXPbYUEEXosb/mk
-         HIKLYOeqCDt4CLbAEHrFfiXYeYjjhcA5ALRec30f9hB4Xw3XNySWQSpRUf3/FxLKSHX1
-         7RL8PXg6NlLHW2VRxz/Zz0t/oQ9OzgzSnhGe+PZU0gG3/pzIzQC8GqwL8Wxi5Olr+SQP
-         5SlATMKlm+4D+e47013fFqsB5Nuh7WAbzYNBkQ/NeHa3z+583IUFpwnltO3UgcpvPkZg
-         U8HSZHRRWcPVGO7Ffy/SM13eE8md2uaj1lec8wW8BxJGWPtlpS/OKrNCRNkmKKsv1H97
-         yFiA==
-X-Gm-Message-State: APjAAAU2hx1necp5I7k5meCzJ39wQdu0d76VKNoBCOvnwGbH1eXo0KCR
-        29bi6IPrRcLRN0cKc4sPwkerlXhX09c=
-X-Google-Smtp-Source: APXvYqw+3rmGmXN+0NOE9KYUNNYevZu09CHWRK5dGTsF91CDis8OUSyXsZ9D4hzjIdVioTkn+fpmgfJUK48=
-X-Received: by 2002:ac8:1410:: with SMTP id k16mr13547779qtj.58.1553039800238;
- Tue, 19 Mar 2019 16:56:40 -0700 (PDT)
-Date:   Tue, 19 Mar 2019 16:56:17 -0700
+        bh=OBXkes655anl10ghu56F3PCl5wd5CeGj94L2IaEvAok=;
+        b=KwLz8zCcLFDlOAgfOOzO/yDJU5uHWKXRtZGJKRBQTxx+uPqlzFMBNLBhofjsa2smLB
+         bVllhB4AfHS9fDkHtL6k0hqUD3t9FxlBNbrUuOaEbDSNEpaIgmuOcF8XGipCqWfAl/IC
+         FtJ6kTd1cs/xWPewBSfF2OEnElLN28thYf+rCDsJfIgzU4pb2YZKlIj9mmpBcs69C0la
+         GetIS5VM+W+RJd/7ZLJXu4YUxEot93Lr4mWz/WX0pNg1fUUNyeHlWqiHd2coVXHsrfjq
+         hiSOJXbIgr3mJIdUfVXlBwih5exDbxQKahyR4NMgEbdGLxs3YLB7fZCQpdEizqGoyCyb
+         G1qQ==
+X-Gm-Message-State: APjAAAUlIsWFKqIA5IjsvNC1h3gHrS2+6B251ifgutHZTcYmiZ2fL7vP
+        EGcUQJuPEHwt2MeRcsZtLnoql2nmaQE=
+X-Google-Smtp-Source: APXvYqyuwpOXbhD+fWfIrgCA7neQKWQsukpEJktLS0Mziza+SL39C80NgdVKpxLsF1KcKTsjtymvde1TM/8=
+X-Received: by 2002:a65:6495:: with SMTP id e21mr8268337pgv.58.1553039794697;
+ Tue, 19 Mar 2019 16:56:34 -0700 (PDT)
+Date:   Tue, 19 Mar 2019 16:56:15 -0700
 In-Reply-To: <20190319235619.260832-1-surenb@google.com>
-Message-Id: <20190319235619.260832-6-surenb@google.com>
+Message-Id: <20190319235619.260832-4-surenb@google.com>
 Mime-Version: 1.0
 References: <20190319235619.260832-1-surenb@google.com>
 X-Mailer: git-send-email 2.21.0.225.g810b269d1ac-goog
-Subject: [PATCH v6 5/7] psi: track changed states
+Subject: [PATCH v6 3/7] psi: rename psi fields in preparation for psi trigger addition
 From:   Suren Baghdasaryan <surenb@google.com>
 To:     gregkh@linuxfoundation.org
 Cc:     tj@kernel.org, lizefan@huawei.com, hannes@cmpxchg.org,
@@ -65,109 +65,173 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Introduce changed_states parameter into collect_percpu_times to track
-the states changed since the last update.
+Renaming psi_group structure member fields used for calculating psi totals
+and averages for clear distinction between them and trigger-related fields
+that will be added next.
 
 Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 ---
- kernel/sched/psi.c | 24 ++++++++++++++++++------
- 1 file changed, 18 insertions(+), 6 deletions(-)
+ include/linux/psi_types.h | 14 ++++++-------
+ kernel/sched/psi.c        | 41 ++++++++++++++++++++-------------------
+ 2 files changed, 28 insertions(+), 27 deletions(-)
 
+diff --git a/include/linux/psi_types.h b/include/linux/psi_types.h
+index 762c6bb16f3c..4d1c1f67be18 100644
+--- a/include/linux/psi_types.h
++++ b/include/linux/psi_types.h
+@@ -69,17 +69,17 @@ struct psi_group_cpu {
+ };
+ 
+ struct psi_group {
+-	/* Protects data updated during an aggregation */
+-	struct mutex stat_lock;
++	/* Protects data used by the aggregator */
++	struct mutex avgs_lock;
+ 
+ 	/* Per-cpu task state & time tracking */
+ 	struct psi_group_cpu __percpu *pcpu;
+ 
+-	/* Periodic aggregation state */
+-	u64 total_prev[NR_PSI_STATES - 1];
+-	u64 last_update;
+-	u64 next_update;
+-	struct delayed_work clock_work;
++	/* Running pressure averages */
++	u64 avg_total[NR_PSI_STATES - 1];
++	u64 avg_last_update;
++	u64 avg_next_update;
++	struct delayed_work avgs_work;
+ 
+ 	/* Total stall times and sampled pressure averages */
+ 	u64 total[NR_PSI_STATES - 1];
 diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
-index ace5ed97b186..1b99eeffaa25 100644
+index 281702de9772..4fb4d9913bc8 100644
 --- a/kernel/sched/psi.c
 +++ b/kernel/sched/psi.c
-@@ -210,7 +210,8 @@ static bool test_state(unsigned int *tasks, enum psi_states state)
- 	}
- }
+@@ -165,7 +165,7 @@ static struct psi_group psi_system = {
+ 	.pcpu = &system_group_pcpu,
+ };
  
--static void get_recent_times(struct psi_group *group, int cpu, u32 *times)
-+static void get_recent_times(struct psi_group *group, int cpu, u32 *times,
-+			     u32 *pchanged_states)
+-static void psi_update_work(struct work_struct *work);
++static void psi_avgs_work(struct work_struct *work);
+ 
+ static void group_init(struct psi_group *group)
  {
- 	struct psi_group_cpu *groupc = per_cpu_ptr(group->pcpu, cpu);
- 	u64 now, state_start;
-@@ -218,6 +219,8 @@ static void get_recent_times(struct psi_group *group, int cpu, u32 *times)
- 	unsigned int seq;
- 	u32 state_mask;
+@@ -173,9 +173,9 @@ static void group_init(struct psi_group *group)
  
-+	*pchanged_states = 0;
-+
- 	/* Snapshot a coherent view of the CPU state */
- 	do {
- 		seq = read_seqcount_begin(&groupc->seq);
-@@ -246,6 +249,8 @@ static void get_recent_times(struct psi_group *group, int cpu, u32 *times)
- 		groupc->times_prev[s] = times[s];
- 
- 		times[s] = delta;
-+		if (delta)
-+			*pchanged_states |= (1 << s);
- 	}
+ 	for_each_possible_cpu(cpu)
+ 		seqcount_init(&per_cpu_ptr(group->pcpu, cpu)->seq);
+-	group->next_update = sched_clock() + psi_period;
+-	INIT_DELAYED_WORK(&group->clock_work, psi_update_work);
+-	mutex_init(&group->stat_lock);
++	group->avg_next_update = sched_clock() + psi_period;
++	INIT_DELAYED_WORK(&group->avgs_work, psi_avgs_work);
++	mutex_init(&group->avgs_lock);
  }
  
-@@ -269,10 +274,11 @@ static void calc_avgs(unsigned long avg[3], int missed_periods,
- 	avg[2] = calc_load(avg[2], EXP_300s, pct);
- }
- 
--static bool collect_percpu_times(struct psi_group *group)
-+static void collect_percpu_times(struct psi_group *group, u32 *pchanged_states)
- {
- 	u64 deltas[NR_PSI_STATES - 1] = { 0, };
- 	unsigned long nonidle_total = 0;
-+	u32 changed_states = 0;
+ void __init psi_init(void)
+@@ -278,7 +278,7 @@ static bool update_stats(struct psi_group *group)
  	int cpu;
  	int s;
  
-@@ -287,8 +293,11 @@ static bool collect_percpu_times(struct psi_group *group)
- 	for_each_possible_cpu(cpu) {
- 		u32 times[NR_PSI_STATES];
- 		u32 nonidle;
-+		u32 cpu_changed_states;
+-	mutex_lock(&group->stat_lock);
++	mutex_lock(&group->avgs_lock);
  
--		get_recent_times(group, cpu, times);
-+		get_recent_times(group, cpu, times,
-+				&cpu_changed_states);
-+		changed_states |= cpu_changed_states;
+ 	/*
+ 	 * Collect the per-cpu time buckets and average them into a
+@@ -319,7 +319,7 @@ static bool update_stats(struct psi_group *group)
  
- 		nonidle = nsecs_to_jiffies(times[PSI_NONIDLE]);
- 		nonidle_total += nonidle;
-@@ -313,7 +322,8 @@ static bool collect_percpu_times(struct psi_group *group)
- 	for (s = 0; s < NR_PSI_STATES - 1; s++)
- 		group->total[s] += div_u64(deltas[s], max(nonidle_total, 1UL));
+ 	/* avgX= */
+ 	now = sched_clock();
+-	expires = group->next_update;
++	expires = group->avg_next_update;
+ 	if (now < expires)
+ 		goto out;
+ 	if (now - expires >= psi_period)
+@@ -332,14 +332,14 @@ static bool update_stats(struct psi_group *group)
+ 	 * But the deltas we sample out of the per-cpu buckets above
+ 	 * are based on the actual time elapsing between clock ticks.
+ 	 */
+-	group->next_update = expires + ((1 + missed_periods) * psi_period);
+-	period = now - (group->last_update + (missed_periods * psi_period));
+-	group->last_update = now;
++	group->avg_next_update = expires + ((1 + missed_periods) * psi_period);
++	period = now - (group->avg_last_update + (missed_periods * psi_period));
++	group->avg_last_update = now;
  
--	return nonidle_total;
-+	if (pchanged_states)
-+		*pchanged_states = changed_states;
+ 	for (s = 0; s < NR_PSI_STATES - 1; s++) {
+ 		u32 sample;
+ 
+-		sample = group->total[s] - group->total_prev[s];
++		sample = group->total[s] - group->avg_total[s];
+ 		/*
+ 		 * Due to the lockless sampling of the time buckets,
+ 		 * recorded time deltas can slip into the next period,
+@@ -359,22 +359,22 @@ static bool update_stats(struct psi_group *group)
+ 		 */
+ 		if (sample > period)
+ 			sample = period;
+-		group->total_prev[s] += sample;
++		group->avg_total[s] += sample;
+ 		calc_avgs(group->avg[s], missed_periods, sample, period);
+ 	}
+ out:
+-	mutex_unlock(&group->stat_lock);
++	mutex_unlock(&group->avgs_lock);
+ 	return nonidle_total;
  }
  
- static u64 update_averages(struct psi_group *group, u64 now)
-@@ -373,6 +383,7 @@ static void psi_avgs_work(struct work_struct *work)
+-static void psi_update_work(struct work_struct *work)
++static void psi_avgs_work(struct work_struct *work)
  {
  	struct delayed_work *dwork;
  	struct psi_group *group;
-+	u32 changed_states;
  	bool nonidle;
- 	u64 now;
  
-@@ -383,7 +394,8 @@ static void psi_avgs_work(struct work_struct *work)
+ 	dwork = to_delayed_work(work);
+-	group = container_of(dwork, struct psi_group, clock_work);
++	group = container_of(dwork, struct psi_group, avgs_work);
  
- 	now = sched_clock();
- 
--	nonidle = collect_percpu_times(group);
-+	collect_percpu_times(group, &changed_states);
-+	nonidle = changed_states & (1 << PSI_NONIDLE);
  	/*
  	 * If there is task activity, periodically fold the per-cpu
- 	 * times and feed samples into the running averages. If things
-@@ -719,7 +731,7 @@ int psi_show(struct seq_file *m, struct psi_group *group, enum psi_res res)
- 	/* Update averages before reporting them */
- 	mutex_lock(&group->avgs_lock);
- 	now = sched_clock();
--	collect_percpu_times(group);
-+	collect_percpu_times(group, NULL);
- 	if (now >= group->avg_next_update)
- 		group->avg_next_update = update_averages(group, now);
- 	mutex_unlock(&group->avgs_lock);
+@@ -391,8 +391,9 @@ static void psi_update_work(struct work_struct *work)
+ 		u64 now;
+ 
+ 		now = sched_clock();
+-		if (group->next_update > now)
+-			delay = nsecs_to_jiffies(group->next_update - now) + 1;
++		if (group->avg_next_update > now)
++			delay = nsecs_to_jiffies(
++					group->avg_next_update - now) + 1;
+ 		schedule_delayed_work(dwork, delay);
+ 	}
+ }
+@@ -546,13 +547,13 @@ void psi_task_change(struct task_struct *task, int clear, int set)
+ 	 */
+ 	if (unlikely((clear & TSK_RUNNING) &&
+ 		     (task->flags & PF_WQ_WORKER) &&
+-		     wq_worker_last_func(task) == psi_update_work))
++		     wq_worker_last_func(task) == psi_avgs_work))
+ 		wake_clock = false;
+ 
+ 	while ((group = iterate_groups(task, &iter))) {
+ 		psi_group_change(group, cpu, clear, set);
+-		if (wake_clock && !delayed_work_pending(&group->clock_work))
+-			schedule_delayed_work(&group->clock_work, PSI_FREQ);
++		if (wake_clock && !delayed_work_pending(&group->avgs_work))
++			schedule_delayed_work(&group->avgs_work, PSI_FREQ);
+ 	}
+ }
+ 
+@@ -649,7 +650,7 @@ void psi_cgroup_free(struct cgroup *cgroup)
+ 	if (static_branch_likely(&psi_disabled))
+ 		return;
+ 
+-	cancel_delayed_work_sync(&cgroup->psi.clock_work);
++	cancel_delayed_work_sync(&cgroup->psi.avgs_work);
+ 	free_percpu(cgroup->psi.pcpu);
+ }
+ 
 -- 
 2.21.0.225.g810b269d1ac-goog
 
