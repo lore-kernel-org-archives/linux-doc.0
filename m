@@ -1,58 +1,489 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7B6B17D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Mar 2019 10:09:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 129117D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Mar 2019 10:28:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725934AbfCSKJt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Mar 2019 06:09:49 -0400
-Received: from outbound-smtp02.blacknight.com ([81.17.249.8]:35235 "EHLO
-        outbound-smtp02.blacknight.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725862AbfCSKJt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Mar 2019 06:09:49 -0400
-X-Greylist: delayed 336 seconds by postgrey-1.27 at vger.kernel.org; Tue, 19 Mar 2019 06:09:48 EDT
-Received: from mail.blacknight.com (pemlinmail04.blacknight.ie [81.17.254.17])
-        by outbound-smtp02.blacknight.com (Postfix) with ESMTPS id 58B3F98AC8
-        for <linux-doc@vger.kernel.org>; Tue, 19 Mar 2019 10:04:11 +0000 (UTC)
-Received: (qmail 4595 invoked from network); 19 Mar 2019 10:04:11 -0000
-Received: from unknown (HELO techsingularity.net) (mgorman@techsingularity.net@[213.151.95.130])
-  by 81.17.254.9 with ESMTPSA (DHE-RSA-AES256-SHA encrypted, authenticated); 19 Mar 2019 10:04:11 -0000
-Date:   Tue, 19 Mar 2019 10:04:10 +0000
-From:   Mel Gorman <mgorman@techsingularity.net>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Linux MM <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
+        id S1726703AbfCSK2T (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Mar 2019 06:28:19 -0400
+Received: from mail-eopbgr680077.outbound.protection.outlook.com ([40.107.68.77]:13226
+        "EHLO NAM04-BN3-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725862AbfCSK2T (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 19 Mar 2019 06:28:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BfVah3SwFtuHAAegO8SCszVUVi81I3xy5fHcZhoji9Y=;
+ b=HuLCLU8J/4a1VN72sDo1FVpLZXXPMHW3exOK1KmLUlbJmQ+UlCYCfT4JOjiXm+E6laMt3ymyIgBjPQ9xnNxW9uQDvjFrsKqCQYHSvgBOWu2jKTZlpoMYeR7zR1fv2i22ZXVLegO8Q181EVfJrYQLcdLQMB/z9S/4VVFJ54YT+/k=
+Received: from DM5PR02MB2187.namprd02.prod.outlook.com (10.168.173.137) by
+ DM5PR02MB2187.namprd02.prod.outlook.com (10.168.173.137) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1709.14; Tue, 19 Mar 2019 10:28:12 +0000
+Received: from DM5PR02MB2187.namprd02.prod.outlook.com
+ ([fe80::2d7f:9bf0:24c2:5c57]) by DM5PR02MB2187.namprd02.prod.outlook.com
+ ([fe80::2d7f:9bf0:24c2:5c57%6]) with mapi id 15.20.1709.015; Tue, 19 Mar 2019
+ 10:28:12 +0000
+From:   Appana Durga Kedareswara Rao <appanad@xilinx.com>
+To:     Alan Tull <atull@kernel.org>, Moritz Fischer <mdf@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Dinh Nguyen <dinguyen@kernel.org>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-fpga@vger.kernel.org" <linux-fpga@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH] list.h: fix list_is_first() kernel-doc
-Message-ID: <20190319100410.gtscz4no3dfsbjng@techsingularity.net>
-References: <ddce8b80-9a8a-d52d-3546-87b2211c089a@infradead.org>
+        Alan Tull <atull@opensource.altera.com>,
+        Matthew Gerlach <matthew.gerlach@linux.intel.com>
+Subject: RE: [PATCH 2/2] fpga: add FPGA manager debugfs
+Thread-Topic: [PATCH 2/2] fpga: add FPGA manager debugfs
+Thread-Index: AQHUNOS5awrxgisErE6UaAEcY42nI6YUEw0w
+Date:   Tue, 19 Mar 2019 10:28:12 +0000
+Message-ID: <DM5PR02MB21872F4FF3749AFBD38B0075DC400@DM5PR02MB2187.namprd02.prod.outlook.com>
+References: <20180815220958.3606-1-atull@kernel.org>
+ <20180815220958.3606-2-atull@kernel.org>
+In-Reply-To: <20180815220958.3606-2-atull@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=appanad@xilinx.com; 
+x-originating-ip: [149.199.50.133]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5113ec47-fa1f-484a-ed94-08d6ac55972f
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600127)(711020)(4605104)(4618075)(2017052603328)(7153060)(7193020);SRVR:DM5PR02MB2187;
+x-ms-traffictypediagnostic: DM5PR02MB2187:
+x-microsoft-antispam-prvs: <DM5PR02MB2187E95A12522B9DF4F1697CDC400@DM5PR02MB2187.namprd02.prod.outlook.com>
+x-forefront-prvs: 0981815F2F
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(376002)(396003)(366004)(346002)(39860400002)(136003)(13464003)(199004)(189003)(97736004)(6436002)(478600001)(446003)(25786009)(3846002)(102836004)(229853002)(2906002)(26005)(53546011)(186003)(6506007)(6116002)(33656002)(53936002)(99286004)(256004)(76176011)(6246003)(9686003)(14444005)(14454004)(476003)(7696005)(71200400001)(55016002)(486006)(71190400001)(11346002)(316002)(4326008)(110136005)(74316002)(81156014)(5660300002)(7416002)(68736007)(7736002)(106356001)(105586002)(86362001)(8936002)(305945005)(30864003)(52536014)(8676002)(66066001)(81166006)(54906003);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR02MB2187;H:DM5PR02MB2187.namprd02.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: xilinx.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: QvXvjbbtCt+zYUNoq6hNk9jHvnba6kh6vC88ISS2IYsk4wKiWNFZ7vXC2HPkBsGLBMc/qRTC9Q+y8Ql4bCgpbF/oTVpbRlAeuDlkViJTTaft+KfPB7BA5nvR+v7U3JxVql3+iRNERfLLEOTeMT54zwlB9cWJIaLM8rfe1KrJHlxIFjVPNVyaCU+z3fu6NyJluwSmCHlxVz0psnNuklF06X7caaNKQjAMsOrx9tM2DKOxc0ITRxD86ymlRo4S1AJNZ7KdZBRjdw8PYjbfNW8BYEE0277+yV6iHycLBuXYwGZ886FzQIFy9GU0nwfkkKuxAIUxRBGOqWauPM86w+kJrvWoG3ASm2QjP+tZsjZ1hxL6vf2moEi6/xFkNG63Bouz3Y7DqfEGGsiUJDfaBkX+wlo/ny6IX6R+f4oxPE3Tmgw=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
-In-Reply-To: <ddce8b80-9a8a-d52d-3546-87b2211c089a@infradead.org>
-User-Agent: NeoMutt/20170912 (1.9.0)
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5113ec47-fa1f-484a-ed94-08d6ac55972f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Mar 2019 10:28:12.7161
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR02MB2187
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Mar 17, 2019 at 05:16:26PM -0700, Randy Dunlap wrote:
-> From: Randy Dunlap <rdunlap@infradead.org>
-> 
-> Fix typo of kernel-doc parameter notation (there should be
-> no space between '@' and the parameter name).
-> 
-> Also fixes bogus kernel-doc notation output formatting.
-> 
-> Fixes: 70b44595eafe9 ("mm, compaction: use free lists to quickly locate a migration source")
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Mel Gorman <mgorman@techsingularity.net>
+FYI...
 
-Thanks
+Regards,
+Kedar.
 
-Acked-by: Mel Gorman <mgorman@techsingularity.net>
+> -----Original Message-----
+> From: Alan Tull <atull@kernel.org>
+> Sent: Thursday, August 16, 2018 3:40 AM
+> To: Moritz Fischer <mdf@kernel.org>; Jonathan Corbet <corbet@lwn.net>;
+> Randy Dunlap <rdunlap@infradead.org>; Dinh Nguyen
+> <dinguyen@kernel.org>
+> Cc: Appana Durga Kedareswara Rao <appanad@xilinx.com>; linux-
+> kernel@vger.kernel.org; linux-fpga@vger.kernel.org; linux-
+> doc@vger.kernel.org; Alan Tull <atull@kernel.org>; Alan Tull
+> <atull@opensource.altera.com>; Matthew Gerlach
+> <matthew.gerlach@linux.intel.com>
+> Subject: [PATCH 2/2] fpga: add FPGA manager debugfs
+>=20
+> From: Alan Tull <atull@opensource.altera.com>
+>=20
+> Implement DebugFS for the FPGA Manager Framework for debugging and
+> developmental use.
+>=20
+> Enabled by CONFIG_FPGA_MGR_DEBUG_FS
+>=20
+> Each FPGA gets its own directory such as
+>  <debugfs>/fpga_manager/fpga0 and three files:
+>=20
+>  * [RW] flags          =3D flags as defined in fpga-mgr.h
+>  * [RW] firmware_name  =3D write/read back name of FPGA image
+>                          firmware file to program
+>  * [WO] image          =3D write-only file for directly writing
+>                          fpga image w/o firmware layer
+>  * [RW] config_complete_timeout_us =3D maximum for the FPGA to
+>                          go to the operating state after
+> 			 programming
+>=20
+> The debugfs is implemented in a separate fpga_mgr_debugfs.c file, but the
+> FPGA manager core is still built as one module.  Note the name change fro=
+m
+> fpga-mgr.ko to fpga_mgr.ko.
+>=20
+> Signed-off-by: Alan Tull <atull@kernel.org>
+> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> ---
+>  drivers/fpga/Kconfig            |   7 ++
+>  drivers/fpga/Makefile           |   4 +-
+>  drivers/fpga/fpga-mgr-debugfs.c | 221
+> ++++++++++++++++++++++++++++++++++++++++
+>  drivers/fpga/fpga-mgr-debugfs.h |  22 ++++
+>  drivers/fpga/fpga-mgr.c         |   8 ++
+>  include/linux/fpga/fpga-mgr.h   |   3 +
+>  6 files changed, 264 insertions(+), 1 deletion(-)  create mode 100644
+> drivers/fpga/fpga-mgr-debugfs.c  create mode 100644 drivers/fpga/fpga-mgr=
+-
+> debugfs.h
+>=20
+> diff --git a/drivers/fpga/Kconfig b/drivers/fpga/Kconfig index 1ebcef4..6=
+00924d
+> 100644
+> --- a/drivers/fpga/Kconfig
+> +++ b/drivers/fpga/Kconfig
+> @@ -9,6 +9,13 @@ menuconfig FPGA
+>  	  kernel.  The FPGA framework adds a FPGA manager class and FPGA
+>  	  manager drivers.
+>=20
+> +config FPGA_MGR_DEBUG_FS
+> +       bool "FPGA Manager DebugFS"
+> +       depends on FPGA && DEBUG_FS
+> +       help
+> +         Say Y here if you want to expose a DebugFS interface for the
+> +	 FPGA Manager Framework.
+> +
+>  if FPGA
+>=20
+>  config FPGA_MGR_SOCFPGA
+> diff --git a/drivers/fpga/Makefile b/drivers/fpga/Makefile index
+> 7a2d73b..62910cc 100644
+> --- a/drivers/fpga/Makefile
+> +++ b/drivers/fpga/Makefile
+> @@ -4,7 +4,9 @@
+>  #
+>=20
+>  # Core FPGA Manager Framework
+> -obj-$(CONFIG_FPGA)			+=3D fpga-mgr.o
+> +obj-$(CONFIG_FPGA)			+=3D fpga_mgr.o
+> +fpga_mgr-y				:=3D fpga-mgr.o
+> +fpga_mgr-$(CONFIG_FPGA_MGR_DEBUG_FS)	+=3D fpga-mgr-debugfs.o
+>=20
+>  # FPGA Manager Drivers
+>  obj-$(CONFIG_FPGA_MGR_ALTERA_CVP)	+=3D altera-cvp.o
+> diff --git a/drivers/fpga/fpga-mgr-debugfs.c b/drivers/fpga/fpga-mgr-debu=
+gfs.c
+> new file mode 100644 index 0000000..f2fdf58
+> --- /dev/null
+> +++ b/drivers/fpga/fpga-mgr-debugfs.c
+> @@ -0,0 +1,221 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * FPGA Manager DebugFS
+> + *
+> + *  Copyright (C) 2016-2018 Intel Corporation.  All rights reserved.
+> + */
+> +#include <linux/debugfs.h>
+> +#include <linux/fpga/fpga-mgr.h>
+> +#include <linux/slab.h>
+> +#include <linux/uaccess.h>
+> +
+> +static struct dentry *fpga_mgr_debugfs_root;
+> +
+> +struct fpga_mgr_debugfs {
+> +	struct dentry *debugfs_dir;
+> +	struct fpga_image_info *info;
+> +};
+> +
+> +static ssize_t fpga_mgr_firmware_write_file(struct file *file,
+> +					    const char __user *user_buf,
+> +					    size_t count, loff_t *ppos)
+> +{
+> +	struct fpga_manager *mgr =3D file->private_data;
+> +	struct fpga_mgr_debugfs *debugfs =3D mgr->debugfs;
+> +	struct device *dev =3D &mgr->dev;
+> +	char *buf;
+> +	int ret;
+> +
+> +	ret =3D fpga_mgr_lock(mgr);
+> +	if (ret) {
+> +		dev_err(dev, "FPGA manager is busy\n");
+> +		return -EBUSY;
+> +	}
+> +
+> +	buf =3D devm_kzalloc(dev, count, GFP_KERNEL);
+> +	if (!buf) {
+> +		fpga_mgr_unlock(mgr);
+> +		return -ENOMEM;
+> +	}
+> +
+> +	if (copy_from_user(buf, user_buf, count)) {
+> +		fpga_mgr_unlock(mgr);
+> +		devm_kfree(dev, buf);
+> +		return -EFAULT;
+> +	}
+> +
+> +	buf[count] =3D 0;
+> +	if (buf[count - 1] =3D=3D '\n')
+> +		buf[count - 1] =3D 0;
+> +
+> +	/* Release previous firmware name (if any). Save current one. */
+> +	if (debugfs->info->firmware_name)
+> +		devm_kfree(dev, debugfs->info->firmware_name);
+> +	debugfs->info->firmware_name =3D buf;
+> +
+> +	ret =3D fpga_mgr_load(mgr, debugfs->info);
+> +	if (ret)
+> +		dev_err(dev, "fpga_mgr_load returned with value %d\n", ret);
+> +
+> +	fpga_mgr_unlock(mgr);
+> +
+> +	return count;
+> +}
+> +
+> +static ssize_t fpga_mgr_firmware_read_file(struct file *file,
+> +					   char __user *user_buf,
+> +					   size_t count, loff_t *ppos)
+> +{
+> +	struct fpga_manager *mgr =3D file->private_data;
+> +	struct fpga_mgr_debugfs *debugfs =3D mgr->debugfs;
+> +	char *buf;
+> +	int ret;
+> +
+> +	if (!debugfs->info->firmware_name)
+> +		return 0;
+> +
+> +	buf =3D kzalloc(PAGE_SIZE, GFP_KERNEL);
+> +	if (!buf)
+> +		return -ENOMEM;
+> +
+> +	ret =3D snprintf(buf, PAGE_SIZE, "%s\n", debugfs->info-
+> >firmware_name);
+> +	if (ret < 0) {
+> +		kfree(buf);
+> +		return ret;
+> +	}
+> +
+> +	ret =3D simple_read_from_buffer(user_buf, count, ppos, buf, ret);
+> +	kfree(buf);
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct file_operations fpga_mgr_firmware_fops =3D {
+> +	.open =3D simple_open,
+> +	.read =3D fpga_mgr_firmware_read_file,
+> +	.write =3D fpga_mgr_firmware_write_file,
+> +	.llseek =3D default_llseek,
+> +};
+> +
+> +static ssize_t fpga_mgr_image_write_file(struct file *file,
+> +					 const char __user *user_buf,
+> +					 size_t count, loff_t *ppos)
+> +{
+> +	struct fpga_manager *mgr =3D file->private_data;
+> +	struct fpga_mgr_debugfs *debugfs =3D mgr->debugfs;
+> +	struct device *dev =3D &mgr->dev;
+> +	char *buf;
+> +	int ret;
+> +
+> +	dev_info(dev, "writing %zu bytes to %s\n", count, mgr->name);
+> +
+> +	ret =3D fpga_mgr_lock(mgr);
+> +	if (ret) {
+> +		dev_err(dev, "FPGA manager is busy\n");
+> +		return -EBUSY;
+> +	}
+> +
+> +	buf =3D kzalloc(count, GFP_KERNEL);
+> +	if (!buf) {
+> +		fpga_mgr_unlock(mgr);
+> +		return -ENOMEM;
+> +	}
+> +
+> +	if (copy_from_user(buf, user_buf, count)) {
+> +		fpga_mgr_unlock(mgr);
+> +		kfree(buf);
+> +		return -EFAULT;
+> +	}
+> +
+> +	/* If firmware interface was previously used, forget it. */
+> +	if (debugfs->info->firmware_name)
+> +		devm_kfree(dev, debugfs->info->firmware_name);
+> +	debugfs->info->firmware_name =3D NULL;
+> +
+> +	debugfs->info->buf =3D buf;
+> +	debugfs->info->count =3D count;
+> +
+> +	ret =3D fpga_mgr_load(mgr, debugfs->info);
+> +	if (ret)
+> +		dev_err(dev, "fpga_mgr_load returned with value %d\n", ret);
+> +
+> +	fpga_mgr_unlock(mgr);
+> +
+> +	debugfs->info->buf =3D NULL;
+> +	debugfs->info->count =3D 0;
+> +
+> +	kfree(buf);
+> +
+> +	return count;
+> +}
+> +
+> +static const struct file_operations fpga_mgr_image_fops =3D {
+> +	.open =3D simple_open,
+> +	.write =3D fpga_mgr_image_write_file,
+> +	.llseek =3D default_llseek,
+> +};
+> +
+> +void fpga_mgr_debugfs_add(struct fpga_manager *mgr) {
+> +	struct device *dev =3D &mgr->dev;
+> +	struct fpga_mgr_debugfs *debugfs;
+> +	struct fpga_image_info *info;
+> +
+> +	if (!fpga_mgr_debugfs_root)
+> +		return;
+> +
+> +	debugfs =3D kzalloc(sizeof(*debugfs), GFP_KERNEL);
+> +	if (!debugfs)
+> +		return;
+> +
+> +	info =3D fpga_image_info_alloc(dev);
+> +	if (!info) {
+> +		kfree(debugfs);
+> +		return;
+> +	}
+> +	debugfs->info =3D info;
+> +
+> +	debugfs->debugfs_dir =3D debugfs_create_dir(dev_name(dev),
+> +						  fpga_mgr_debugfs_root);
+> +
+> +	debugfs_create_file("firmware_name", 0600, debugfs->debugfs_dir,
+> mgr,
+> +			    &fpga_mgr_firmware_fops);
+> +
+> +	debugfs_create_file("image", 0200, debugfs->debugfs_dir, mgr,
+> +			    &fpga_mgr_image_fops);
+> +
+> +	debugfs_create_u32("flags", 0600, debugfs->debugfs_dir, &info-
+> >flags);
+> +
+> +	debugfs_create_u32("config_complete_timeout_us", 0600,
+> +			   debugfs->debugfs_dir,
+> +			   &info->config_complete_timeout_us);
+> +
+> +	mgr->debugfs =3D debugfs;
+> +}
+> +
+> +void fpga_mgr_debugfs_remove(struct fpga_manager *mgr) {
+> +	struct fpga_mgr_debugfs *debugfs =3D mgr->debugfs;
+> +
+> +	if (!fpga_mgr_debugfs_root)
+> +		return;
+> +
+> +	debugfs_remove_recursive(debugfs->debugfs_dir);
+> +
+> +	/* this function also frees debugfs->info->firmware_name */
+> +	fpga_image_info_free(debugfs->info);
+> +
+> +	kfree(debugfs);
+> +}
+> +
+> +void fpga_mgr_debugfs_init(void)
+> +{
+> +	fpga_mgr_debugfs_root =3D debugfs_create_dir("fpga_manager", NULL);
+> +	if (!fpga_mgr_debugfs_root)
+> +		pr_warn("fpga_mgr: Failed to create debugfs root\n"); }
+> +
+> +void fpga_mgr_debugfs_uninit(void)
+> +{
+> +	debugfs_remove_recursive(fpga_mgr_debugfs_root);
+> +}
+> diff --git a/drivers/fpga/fpga-mgr-debugfs.h b/drivers/fpga/fpga-mgr-debu=
+gfs.h
+> new file mode 100644 index 0000000..17cd3eb
+> --- /dev/null
+> +++ b/drivers/fpga/fpga-mgr-debugfs.h
+> @@ -0,0 +1,22 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#ifndef _LINUX_FPGA_MGR_DEBUGFS_H
+> +#define _LINUX_FPGA_MGR_DEBUGFS_H
+> +
+> +#if IS_ENABLED(CONFIG_FPGA_MGR_DEBUG_FS)
+> +
+> +void fpga_mgr_debugfs_add(struct fpga_manager *mgr); void
+> +fpga_mgr_debugfs_remove(struct fpga_manager *mgr); void
+> +fpga_mgr_debugfs_init(void); void fpga_mgr_debugfs_uninit(void);
+> +
+> +#else
+> +
+> +void fpga_mgr_debugfs_add(struct fpga_manager *mgr) {} void
+> +fpga_mgr_debugfs_remove(struct fpga_manager *mgr) {} void
+> +fpga_mgr_debugfs_init(void) {} void fpga_mgr_debugfs_uninit(void) {}
+> +
+> +#endif /* CONFIG_FPGA_MGR_DEBUG_FS */
+> +
+> +#endif /*_LINUX_FPGA_MGR_DEBUGFS_H */
+> diff --git a/drivers/fpga/fpga-mgr.c b/drivers/fpga/fpga-mgr.c index
+> c8684bc..66eb6f6 100644
+> --- a/drivers/fpga/fpga-mgr.c
+> +++ b/drivers/fpga/fpga-mgr.c
+> @@ -17,6 +17,7 @@
+>  #include <linux/slab.h>
+>  #include <linux/scatterlist.h>
+>  #include <linux/highmem.h>
+> +#include "fpga-mgr-debugfs.h"
+>=20
+>  static DEFINE_IDA(fpga_mgr_ida);
+>  static struct class *fpga_mgr_class;
+> @@ -698,6 +699,8 @@ int fpga_mgr_register(struct fpga_manager *mgr)
+>  	if (ret)
+>  		goto error_device;
+>=20
+> +	fpga_mgr_debugfs_add(mgr);
+> +
+>  	dev_info(&mgr->dev, "%s registered\n", mgr->name);
+>=20
+>  	return 0;
+> @@ -722,6 +725,8 @@ void fpga_mgr_unregister(struct fpga_manager *mgr)  {
+>  	dev_info(&mgr->dev, "%s %s\n", __func__, mgr->name);
+>=20
+> +	fpga_mgr_debugfs_remove(mgr);
+> +
+>  	/*
+>  	 * If the low level driver provides a method for putting fpga into
+>  	 * a desired state upon unregister, do it.
+> @@ -748,11 +753,14 @@ static int __init fpga_mgr_class_init(void)
+>  	fpga_mgr_class->dev_groups =3D fpga_mgr_groups;
+>  	fpga_mgr_class->dev_release =3D fpga_mgr_dev_release;
+>=20
+> +	fpga_mgr_debugfs_init();
+> +
+>  	return 0;
+>  }
+>=20
+>  static void __exit fpga_mgr_class_exit(void)  {
+> +	fpga_mgr_debugfs_uninit();
+>  	class_destroy(fpga_mgr_class);
+>  	ida_destroy(&fpga_mgr_ida);
+>  }
+> diff --git a/include/linux/fpga/fpga-mgr.h b/include/linux/fpga/fpga-mgr.=
+h
+> index 777c502..e8f2159 100644
+> --- a/include/linux/fpga/fpga-mgr.h
+> +++ b/include/linux/fpga/fpga-mgr.h
+> @@ -170,6 +170,9 @@ struct fpga_manager {
+>  	struct fpga_compat_id *compat_id;
+>  	const struct fpga_manager_ops *mops;
+>  	void *priv;
+> +#if IS_ENABLED(CONFIG_FPGA_MGR_DEBUG_FS)
+> +	void *debugfs;
+> +#endif
+>  };
+>=20
+>  #define to_fpga_manager(d) container_of(d, struct fpga_manager, dev)
+> --
+> 2.7.4
+
