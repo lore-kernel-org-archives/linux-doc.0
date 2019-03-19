@@ -2,101 +2,104 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D33F17D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Mar 2019 15:01:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 61BE17D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Mar 2019 15:17:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727236AbfCSPB1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Mar 2019 11:01:27 -0400
-Received: from mga09.intel.com ([134.134.136.24]:12389 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727196AbfCSPB1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 19 Mar 2019 11:01:27 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Mar 2019 08:01:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.58,498,1544515200"; 
-   d="scan'208";a="156366722"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.172])
-  by fmsmga001.fm.intel.com with ESMTP; 19 Mar 2019 08:01:15 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     "Tobin C. Harding" <me@tobin.cc>, linux-doc@vger.kernel.org
-Subject: Re: Documenting struct function pointers (methods)
-In-Reply-To: <20190319022514.GA3622@eros.localdomain>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20190319022514.GA3622@eros.localdomain>
-Date:   Tue, 19 Mar 2019 17:02:57 +0200
-Message-ID: <87lg1agb4u.fsf@intel.com>
+        id S1727472AbfCSPRe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Mar 2019 11:17:34 -0400
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:40499 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726703AbfCSPRe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Mar 2019 11:17:34 -0400
+Received: from callcc.thunk.org (guestnat-104-133-0-99.corp.google.com [104.133.0.99] (may be forged))
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x2JFHAEM010711
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 19 Mar 2019 11:17:11 -0400
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id ED39E420AA8; Tue, 19 Mar 2019 11:17:09 -0400 (EDT)
+Date:   Tue, 19 Mar 2019 11:17:09 -0400
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     Vijay Chidambaram <vijay@cs.utexas.edu>
+Cc:     Amir Goldstein <amir73il@gmail.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Jayashree <jaya@cs.utexas.edu>,
+        fstests <fstests@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, chao@kernel.org,
+        Filipe Manana <fdmanana@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josef Bacik <josef@toxicpanda.com>,
+        Anna Schumaker <Anna.Schumaker@netapp.com>
+Subject: Re: [PATCH v2] Documenting the crash-recovery guarantees of Linux
+ file systems
+Message-ID: <20190319151709.GB23187@mit.edu>
+References: <1552418820-18102-1-git-send-email-jaya@cs.utexas.edu>
+ <20190314011925.GG23020@dastard>
+ <CAOQ4uxjNDKjjzzcowy6oFZ=V7hWCkCbSyOQggE2XJirr4JHAyA@mail.gmail.com>
+ <20190315030313.GP26298@dastard>
+ <CAOQ4uxhyeBhk3DaHO8_oyfWbByidGaSrXJyh7uQE1YMaWTxR5A@mail.gmail.com>
+ <20190317221652.GQ26298@dastard>
+ <CAOQ4uxgwa9CeyLXJ022VW8dac3h_fGUi9BtF_apMv0T1UjJ3iw@mail.gmail.com>
+ <CAHWVdUVFu1s2UCLn2vO1p559pGmio8X4RXK8VSVkSiTQQEcz3A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHWVdUVFu1s2UCLn2vO1p559pGmio8X4RXK8VSVkSiTQQEcz3A@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 19 Mar 2019, "Tobin C. Harding" <me@tobin.cc> wrote:
-> Hi,
->
-> Is documenting 'methods' i.e. function pointers in structs like 'struct
-> file_operations' something that we do anywhere?  Is this handled by RST?
-> Is it something that has been discussed already?
->
-> I'm in the process of trying to grok the dcache and update the docs.
-> For each function pointer I'm reading various implementations and trying
-> to work out what the method is supposed to do.  Surely this is a good
-> candidate for improving kernel documentation in order to help devs come
-> up to speed more quickly?
->
-> An example from include/linux/fs.h (adding docstring comments to struct
-> file_system_type).  This is _not_ handled correctly by Sphinx, is there
-> a way to do this?  Or are hard-core hackers going to scream that this is
-> too much documentation :)
+On Mon, Mar 18, 2019 at 09:37:28PM -0500, Vijay Chidambaram wrote:
+> For new folks on the thread, I'm Vijay Chidambaram, prof at UT Austin
+> and Jayashree's advisor. We recently developed CrashMonkey, a tool for
+> finding crash-consistency bugs in file systems. As part of the
+> research effort, we had a lot of conversations with file-system
+> developers to understand the guarantees provided by different file
+> systems. This patch was inspired by the thought that we should quickly
+> document what we know about the data integrity guarantees of different
+> file systems. We did not expect to spur debate!
+> 
+> Thanks Dave, Amir, and Ted for the discussion. We will incorporate
+> these comments into the next patch. If it is better to wait until a
+> consensus is reached after the LSF meeting, we'd be happy to do so.
 
-We use a lot of function pointer members like that the drm subsystem,
-and we'd also like to document them similar to functions. Alas, this is
-not so much about RST or Sphinx as it is about scripts/kernel-doc that
-parses the documentation comments into RST. Would be nice to have this
-fixed, but it's not for the faint of heart.
+Something to consider is that certain side effects of what fsync(2) or
+fdatasync(2) might drag into the jbd2 transaction might change if we
+were to implement (for example) something like Daejun Park and Dongkun
+Shin's "iJournaling: Fine-grained journaling for improving the latency
+of fsync system call" published in Usenix, ATC 2017:
 
-BR,
-Jani.
+   https://www.usenix.org/system/files/conference/atc17/atc17-park.pdf
 
+That's an example of how if we document synchronization that goes
+beyond POSIX, it might change in the future.  So if it gets
+documented, applications might start becoming unreliable on FreeBSD,
+MacOS, etc.  And maybe as Linux developers we won't care about that;
+since it increases Linux lock-in.  Win!  (If you think like Steve
+Ballmer, anyway.  :-)
 
->
->
-> /**
->  * struct file_system_type
->  * @name: Name of the filesystem type, such as "ext2", "iso9660",
->  *        "msdos" and so on.
->  * @fs_flags: Various flags (i.e. FS_REQUIRES_DEV, FS_NO_DCACHE, etc.).
->  * ...
->  */
-> struct file_system_type {
->        [snip]
-> 	const struct fs_parameter_description *parameters;
-> 	/**
-> 	 * @mount: The method to call when a new instance of this
-> 	 *         filesystem should be mounted.
-> 	 *
-> 	 * The mount() method has the following arguments:
-> 	 * @fs_type: Describes the filesystem, partly initialized by the
-> 	 *           specific filesystem code.
-> 	 * @flags: Mount flags.
-> 	 * @dev_name: The device name we are mounting.
-> 	 * @data: Arbitrary mount options, usually comes as an ASCII
-> 	 *        string (see "Mount Options" section).
-> 	 */
-> 	struct dentry *(*mount) (struct file_system_type *fs_type, int flags,
-> 				 const char *dev_name, void *data);
-> 	void (*kill_sb) (struct super_block *);
->
->
-> thanks,
-> Tobin.
+But then if we were to implement something like incremental journaling
+for fsync, and applications were to start assuming that it would also
+work, application authors might complain that we had broken their
+application So they might call the new feature a *BUG* which broke
+backwards compatibility, and then demand that we either withdraw the
+new feature, or complicate our testing matrix by adding Yet Another
+Mount Option.  (That's especially true since iJournaling is a
+performance improvement that doesn't require an on-disk format change.
+So this is the sort of thing that we might want to enable by default
+eventually, even if initially it's only enabled via a mount option
+while we are stablizing the new feature.)
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+So my concerns are not a theoretical, abstract concern, but something
+which is very real.  Implementing something like what Park and Shin
+has proposed is something that is very much that we are thinking
+about.
+
+    	     		       	       	    - Ted
