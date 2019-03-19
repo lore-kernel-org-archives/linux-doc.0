@@ -3,50 +3,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C41A67D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Mar 2019 23:56:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 882307D917
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Mar 2019 23:56:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727146AbfCSX42 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Mar 2019 19:56:28 -0400
-Received: from mail-pf1-f201.google.com ([209.85.210.201]:49635 "EHLO
-        mail-pf1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727068AbfCSX42 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Mar 2019 19:56:28 -0400
-Received: by mail-pf1-f201.google.com with SMTP id y2so559463pfl.16
-        for <linux-doc@vger.kernel.org>; Tue, 19 Mar 2019 16:56:27 -0700 (PDT)
+        id S1727432AbfCSX4e (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Mar 2019 19:56:34 -0400
+Received: from mail-qk1-f201.google.com ([209.85.222.201]:36224 "EHLO
+        mail-qk1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727418AbfCSX4d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Mar 2019 19:56:33 -0400
+Received: by mail-qk1-f201.google.com with SMTP id y64so11579942qka.3
+        for <linux-doc@vger.kernel.org>; Tue, 19 Mar 2019 16:56:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=kx1U4HzcGCDUD7FXkKAwi3uQa2G8CItUW21Wgf4ughs=;
-        b=TWam6T+qQmrNZ7BniGuFoFdA0Bom65bX9YYOcvGrtw+jSpwzeqDyGdcmm0fjhAgkD+
-         5BAR3ZlcHWxbchcmC0Or5zypwA+ur2abK3ZEa+RtFtFWaCHmQ8xiRDw/CrQEBu4wZnuc
-         FGpXzWPyLYYxrKlUTQZnEK7A3OfpkBwWp/U5QEB1flxIyHjq0ZcxXy5EOZj6P4NwAPMv
-         hw5VrtC2hptHTLyyO/3W0bZpBIko9kaDlaIeHMT+4URsSZRzhdtzsf1dwIULDqHiVqLZ
-         4Ypbj7cH7GT7qOb/s+OZUS/VWIhK1IGe/EXblQTIkr1zZKwZHpKUPpEvs+D/fV8Cqzdd
-         ucmw==
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=Hcsw4jWN1hMUQas5fk8qH4/pHraV7uLJWBMnp4emY1w=;
+        b=kkRScrd31+enlreI5z0oUEdvclr3JCffoxWlBxgdfvsiHG+l1qdm7rpPzTM74AffEB
+         LfPQCYRFRkk5MVQ3Sswlo00GL73nAMZLv5CUblp9iwglJ0iHORdkEQbjcmg+RAyhtDSK
+         O9SwD0WRSCDe+dqmFFjegvme5136ckLAkDUHKL6mVSMZP0sNbLYuvx8Ezdf706E/KfDY
+         9fBeMjXuR3YFS9h86rSzKNERDrjqmseba0FXjHr885Gzr4DFfIZy5quXrHuTBM0lthvA
+         9RXHgsNWSfaXr1nwN76MY2akaLAzeMLaPr9LrKq+sgEJNGwUCyr6TQwEqhNFsTdPpUau
+         OdXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=kx1U4HzcGCDUD7FXkKAwi3uQa2G8CItUW21Wgf4ughs=;
-        b=EwWssz+8x69eP0GU9DZp/01cCN48si9BltVMRLzKjE8wmjKBBpFP13XHHZW6ehKiqt
-         9FXhtj0PQ/WUOZC2TXgKud1ZPePRJPNVjV15iTpMJxJYYdBvRlQs9X2jwMHXNVnwM47W
-         YTU+Ar7yPdlupgzsLoBkwFurJ5Ldr4bokOE0ammtDX4GPdEFlnJDMVg1dPsFSgccPZEa
-         SCtO6R5Vq4BRnVCR89TeyP9I2FLq0CZWekIAI24kNwAruNAoEtHyLxO50lo3qB7At1Q6
-         aIBscz7hnhCzrJS294fiLWmKZBxF7j4l5csgVUbnWdwgrf3xLRtk8oCFXUY4Zb/ORjww
-         izbA==
-X-Gm-Message-State: APjAAAXE+Z9k+ozKRoR2eQ9XNVv3bvsgk1eE6zSV5vCEX4DUtjKQgA6q
-        TkJSj14xsmpPXfBYvd2I3G2zuQBXKig=
-X-Google-Smtp-Source: APXvYqz/sHzZ+g6QFo17d//l//tblh/zsc+22QsrPhUP5kHVqLG5xyt/2VwRmx08JzSCz52Pk3ado9Ya3y4=
-X-Received: by 2002:a63:db08:: with SMTP id e8mr8323996pgg.46.1553039787302;
- Tue, 19 Mar 2019 16:56:27 -0700 (PDT)
-Date:   Tue, 19 Mar 2019 16:56:12 -0700
-Message-Id: <20190319235619.260832-1-surenb@google.com>
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=Hcsw4jWN1hMUQas5fk8qH4/pHraV7uLJWBMnp4emY1w=;
+        b=Kb0DTBDEql+wSeyDMpNgVG+Sq5JDagCn0A2HpDwBZRn7pvaHnQ6BUeW5J243rFf3Ce
+         SpAkjHHxdCJw2rn0D0wDRuURKptB73Ge9IMon0HRWqJvt8vHJXuDJoTG44c+aGgLYtTQ
+         ri/xHg8MCKsz5zabLWaGsqwLTW03S5gu7hEJijGUnPcp7LC/9/CkWzgHo9eqXmvg5Fz9
+         36Z0ezs1N0yp4ZJ6eSF8TmtZ6hdBHYWg49F9fq20Ic13TT7HwX1OiPhjoRTOqGNwXHVR
+         fb0DPXCzAh2xGmYRl4TGrmsYZnhpf7A8WaoNaheO4htcQQDmIHvheg//L+5ClB4uSK8b
+         oOxQ==
+X-Gm-Message-State: APjAAAXLwgg9AcBUsrLKPzMtLV82u74/PGSKrdp7KTiVFMzNeFhWyzqx
+        reAgsdV5b97J/DGlwV07gNxeWV/6TaY=
+X-Google-Smtp-Source: APXvYqwR1TAk3oGEqI2JtJ8ECEcet2nolarI6UbO1myJOnWcfePT76GDZJa39xicW9tBqtTiou2qy4qktOo=
+X-Received: by 2002:ac8:2e7a:: with SMTP id s55mr13937762qta.34.1553039792366;
+ Tue, 19 Mar 2019 16:56:32 -0700 (PDT)
+Date:   Tue, 19 Mar 2019 16:56:14 -0700
+In-Reply-To: <20190319235619.260832-1-surenb@google.com>
+Message-Id: <20190319235619.260832-3-surenb@google.com>
 Mime-Version: 1.0
+References: <20190319235619.260832-1-surenb@google.com>
 X-Mailer: git-send-email 2.21.0.225.g810b269d1ac-goog
-Subject: [PATCH v6 0/7] psi: pressure stall monitors v6
+Subject: [PATCH v6 2/7] psi: make psi_enable static
 From:   Suren Baghdasaryan <surenb@google.com>
 To:     gregkh@linuxfoundation.org
 Cc:     tj@kernel.org, lizefan@huawei.com, hannes@cmpxchg.org,
@@ -61,94 +65,30 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is respin of:
-  https://lwn.net/ml/linux-kernel/20190308184311.144521-1-surenb%40google.com/
+psi_enable is not used outside of psi.c, make it static.
 
-Android is adopting psi to detect and remedy memory pressure that
-results in stuttering and decreased responsiveness on mobile devices.
+Suggested-by: Andrew Morton <akpm@linux-foundation.org>
+Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+---
+ kernel/sched/psi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Psi gives us the stall information, but because we're dealing with
-latencies in the millisecond range, periodically reading the pressure
-files to detect stalls in a timely fashion is not feasible. Psi also
-doesn't aggregate its averages at a high-enough frequency right now.
-
-This patch series extends the psi interface such that users can
-configure sensitive latency thresholds and use poll() and friends to
-be notified when these are breached.
-
-As high-frequency aggregation is costly, it implements an aggregation
-method that is optimized for fast, short-interval averaging, and makes
-the aggregation frequency adaptive, such that high-frequency updates
-only happen while monitored stall events are actively occurring.
-
-With these patches applied, Android can monitor for, and ward off,
-mounting memory shortages before they cause problems for the user.
-For example, using memory stall monitors in userspace low memory
-killer daemon (lmkd) we can detect mounting pressure and kill less
-important processes before device becomes visibly sluggish. In our
-memory stress testing psi memory monitors produce roughly 10x less
-false positives compared to vmpressure signals. Having ability to
-specify multiple triggers for the same psi metric allows other parts
-of Android framework to monitor memory state of the device and act
-accordingly.
-
-The new interface is straight-forward. The user opens one of the
-pressure files for writing and writes a trigger description into the
-file descriptor that defines the stall state - some or full, and the
-maximum stall time over a given window of time. E.g.:
-
-        /* Signal when stall time exceeds 100ms of a 1s window */
-        char trigger[] = "full 100000 1000000"
-        fd = open("/proc/pressure/memory")
-        write(fd, trigger, sizeof(trigger))
-        while (poll() >= 0) {
-                ...
-        };
-        close(fd);
-
-When the monitored stall state is entered, psi adapts its aggregation
-frequency according to what the configured time window requires in
-order to emit event signals in a timely fashion. Once the stalling
-subsides, aggregation reverts back to normal.
-
-The trigger is associated with the open file descriptor. To stop
-monitoring, the user only needs to close the file descriptor and the
-trigger is discarded.
-
-Patches 1-6 prepare the psi code for polling support. Patch 7 implements
-the adaptive polling logic, the pressure growth detection optimized for
-short intervals, and hooks up write() and poll() on the pressure files.
-
-The patches were developed in collaboration with Johannes Weiner.
-
-The patches are based on 5.1-rc1
-
-Suren Baghdasaryan (7):
-  psi: introduce state_mask to represent stalled psi states
-  psi: make psi_enable static
-  psi: rename psi fields in preparation for psi trigger addition
-  psi: split update_stats into parts
-  psi: track changed states
-  refactor header includes to allow kthread.h inclusion in psi_types.h
-  psi: introduce psi monitor
-
- Documentation/accounting/psi.txt | 107 ++++++
- drivers/spi/spi-rockchip.c       |   1 +
- include/linux/kthread.h          |   3 +-
- include/linux/psi.h              |   8 +
- include/linux/psi_types.h        | 105 +++++-
- include/linux/sched.h            |   1 -
- kernel/cgroup/cgroup.c           |  71 +++-
- kernel/kthread.c                 |   1 +
- kernel/sched/psi.c               | 615 ++++++++++++++++++++++++++++---
- 9 files changed, 836 insertions(+), 76 deletions(-)
-
-Changes in v6:
-- Fixed psi averaging regression introduced in 4/7 and caused by lack of
-checking for avg_next_update before calling update_averages in psi_show
-- Fixed missing header include in spi-rockchip.c causing kbuild test bot's
-warning in 6/7
-
+diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
+index 22c1505ad290..281702de9772 100644
+--- a/kernel/sched/psi.c
++++ b/kernel/sched/psi.c
+@@ -140,9 +140,9 @@ static int psi_bug __read_mostly;
+ DEFINE_STATIC_KEY_FALSE(psi_disabled);
+ 
+ #ifdef CONFIG_PSI_DEFAULT_DISABLED
+-bool psi_enable;
++static bool psi_enable;
+ #else
+-bool psi_enable = true;
++static bool psi_enable = true;
+ #endif
+ static int __init setup_psi(char *str)
+ {
 -- 
 2.21.0.225.g810b269d1ac-goog
 
