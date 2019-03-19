@@ -6,52 +6,51 @@ X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6C1287D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Mar 2019 23:56:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 58CA67D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Mar 2019 23:57:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727557AbfCSX4p (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Mar 2019 19:56:45 -0400
-Received: from mail-qt1-f201.google.com ([209.85.160.201]:52452 "EHLO
-        mail-qt1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727547AbfCSX4o (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Mar 2019 19:56:44 -0400
-Received: by mail-qt1-f201.google.com with SMTP id d24so599439qtj.19
-        for <linux-doc@vger.kernel.org>; Tue, 19 Mar 2019 16:56:43 -0700 (PDT)
+        id S1727146AbfCSX5C (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Mar 2019 19:57:02 -0400
+Received: from mail-qk1-f201.google.com ([209.85.222.201]:50083 "EHLO
+        mail-qk1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727483AbfCSX4l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Mar 2019 19:56:41 -0400
+Received: by mail-qk1-f201.google.com with SMTP id 23so19215520qkl.16
+        for <linux-doc@vger.kernel.org>; Tue, 19 Mar 2019 16:56:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=CF4+E5UIa39xAKg6YCWVn7zIouVA3+WI4DKW8uAVCQw=;
-        b=JEDIRq0NpHszfqFfgtVD61U2sHtyH+5HwG104koBNiR1CVnOdbZIQ4T7vm1xgqB50H
-         thW4tUOnS/p6aXoascAN+Dz6Gdx60R0hL2NJtBGym4V5OdgxsWlooDMVXhqauD5dvIf0
-         9+CLQTjHPP5q5QCRpzsZTUK0lbWDcn9aM5ow9098GJcCbaDlHtZLL8xqoZoW3weRMuVU
-         Kgiw2eXJz/3tDBSIvexT6rGnLTcBKSeiNpmE4SWVOOBbgwyWNVKTStkLtZKteam1R6sI
-         KT563q/OieuZG9lPrc1cm2wdB93lDHzC3hFQkJ9EXZhD7gqcLNh6exFuVacN12aIAOqa
-         yjEQ==
+        bh=/1f+k74gk1272nyZAYvhUzZCD+eEvuFJDJVbOJgy+wk=;
+        b=Q8ffQgdK/wkTC+TdacBpBr7s7ZA+ibEdwudd2fRpPvrcaC/Z4LqJTNqtLCyv8fay3Q
+         chiHW354Gbcen71ue0RFArhXaTYhUvFlgw847q/e4JvbmuxVF1URZSS4uI5/2AOq95Tg
+         EUZGBIm5ffQd2Ig8HQTcV4Ga4AwlViHgtFeDDiCPhfHDPO06IXDNPK9KlA6EzFdtzCZw
+         XIpSvnBo/nnTQIl706MCfwLeDFb6UkMXt7TLQ9AlMLikpSRMRfuJ/IfBREdiXgcI3pzN
+         Tqwh1wtk3Mfv6veI944tZm831+Y/Nmg0Yiy3lc4aslJlMD8H+RAAp6Z3buACiQNjY+Pi
+         ZHIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=CF4+E5UIa39xAKg6YCWVn7zIouVA3+WI4DKW8uAVCQw=;
-        b=qRLNrsTvxQ+TSfKeSANmpL4fSphUz8mEnS6e5ip5lzXM9IkCRuaCoPFLm80nrl20bU
-         2XpJN/lF6jHZViV2ViqiQpFCPrSGammmUbZGlv3TdMNss9RnBfz7gbvivhL6MaXM3UCM
-         cTu4WNlNDhRNcfka6u6PAiUJPC0FM4QwgSEhC7yrrJ7OQovnmVozGCaUWXSdV3yco57D
-         9qDuto68MLa7S0/QD0E2cIQjLfvDMs6Ruh7m/s3lHkZVMyJP/Bd5NIRfULq9YkGaLGoK
-         1nl/fLrf4SJcIcr98n58brfwE+xb5DOE48z7sWxRbHL61JQ/bsEspPfcUlyNrGqIABcq
-         G94w==
-X-Gm-Message-State: APjAAAWrm0qY2mv9zHBjUx+ZxIUp3V+Nug/TQs+9X2L5I2X7KvcRMF4c
-        EgfrjsLtX8veGlAd9reF+pVcLsdt9Hg=
-X-Google-Smtp-Source: APXvYqwuz5jKuNXMD5ZfZA8ooeSpOd7bbNe9/PlToDa4czqg8Eac9fU4fj1gxy1+OtwlgZ9K0uuqCz4n/Cc=
-X-Received: by 2002:ac8:277d:: with SMTP id h58mr4998590qth.31.1553039802970;
- Tue, 19 Mar 2019 16:56:42 -0700 (PDT)
-Date:   Tue, 19 Mar 2019 16:56:18 -0700
+        bh=/1f+k74gk1272nyZAYvhUzZCD+eEvuFJDJVbOJgy+wk=;
+        b=VqxU1MLszvw+14oOqxYa5qRZR/QDo4uNd6BWWfTDj4WYHT3kYpRTXPbYUEEXosb/mk
+         HIKLYOeqCDt4CLbAEHrFfiXYeYjjhcA5ALRec30f9hB4Xw3XNySWQSpRUf3/FxLKSHX1
+         7RL8PXg6NlLHW2VRxz/Zz0t/oQ9OzgzSnhGe+PZU0gG3/pzIzQC8GqwL8Wxi5Olr+SQP
+         5SlATMKlm+4D+e47013fFqsB5Nuh7WAbzYNBkQ/NeHa3z+583IUFpwnltO3UgcpvPkZg
+         U8HSZHRRWcPVGO7Ffy/SM13eE8md2uaj1lec8wW8BxJGWPtlpS/OKrNCRNkmKKsv1H97
+         yFiA==
+X-Gm-Message-State: APjAAAU2hx1necp5I7k5meCzJ39wQdu0d76VKNoBCOvnwGbH1eXo0KCR
+        29bi6IPrRcLRN0cKc4sPwkerlXhX09c=
+X-Google-Smtp-Source: APXvYqw+3rmGmXN+0NOE9KYUNNYevZu09CHWRK5dGTsF91CDis8OUSyXsZ9D4hzjIdVioTkn+fpmgfJUK48=
+X-Received: by 2002:ac8:1410:: with SMTP id k16mr13547779qtj.58.1553039800238;
+ Tue, 19 Mar 2019 16:56:40 -0700 (PDT)
+Date:   Tue, 19 Mar 2019 16:56:17 -0700
 In-Reply-To: <20190319235619.260832-1-surenb@google.com>
-Message-Id: <20190319235619.260832-7-surenb@google.com>
+Message-Id: <20190319235619.260832-6-surenb@google.com>
 Mime-Version: 1.0
 References: <20190319235619.260832-1-surenb@google.com>
 X-Mailer: git-send-email 2.21.0.225.g810b269d1ac-goog
-Subject: [PATCH v6 6/7] refactor header includes to allow kthread.h inclusion
- in psi_types.h
+Subject: [PATCH v6 5/7] psi: track changed states
 From:   Suren Baghdasaryan <surenb@google.com>
 To:     gregkh@linuxfoundation.org
 Cc:     tj@kernel.org, lizefan@huawei.com, hannes@cmpxchg.org,
@@ -66,77 +65,109 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-kthread.h can't be included in psi_types.h because it creates a circular
-inclusion with kthread.h eventually including psi_types.h and complaining
-on kthread structures not being defined because they are defined further
-in the kthread.h. Resolve this by removing psi_types.h inclusion from the
-headers included from kthread.h.
+Introduce changed_states parameter into collect_percpu_times to track
+the states changed since the last update.
 
 Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 ---
- drivers/spi/spi-rockchip.c | 1 +
- include/linux/kthread.h    | 3 ++-
- include/linux/sched.h      | 1 -
- kernel/kthread.c           | 1 +
- 4 files changed, 4 insertions(+), 2 deletions(-)
+ kernel/sched/psi.c | 24 ++++++++++++++++++------
+ 1 file changed, 18 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/spi/spi-rockchip.c b/drivers/spi/spi-rockchip.c
-index 3912526ead66..cdb613d38062 100644
---- a/drivers/spi/spi-rockchip.c
-+++ b/drivers/spi/spi-rockchip.c
-@@ -15,6 +15,7 @@
+diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
+index ace5ed97b186..1b99eeffaa25 100644
+--- a/kernel/sched/psi.c
++++ b/kernel/sched/psi.c
+@@ -210,7 +210,8 @@ static bool test_state(unsigned int *tasks, enum psi_states state)
+ 	}
+ }
  
- #include <linux/clk.h>
- #include <linux/dmaengine.h>
-+#include <linux/interrupt.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/pinctrl/consumer.h>
-diff --git a/include/linux/kthread.h b/include/linux/kthread.h
-index 2c89e60bc752..0f9da966934e 100644
---- a/include/linux/kthread.h
-+++ b/include/linux/kthread.h
-@@ -4,7 +4,6 @@
- /* Simple interface for creating and stopping kernel threads without mess. */
- #include <linux/err.h>
- #include <linux/sched.h>
--#include <linux/cgroup.h>
+-static void get_recent_times(struct psi_group *group, int cpu, u32 *times)
++static void get_recent_times(struct psi_group *group, int cpu, u32 *times,
++			     u32 *pchanged_states)
+ {
+ 	struct psi_group_cpu *groupc = per_cpu_ptr(group->pcpu, cpu);
+ 	u64 now, state_start;
+@@ -218,6 +219,8 @@ static void get_recent_times(struct psi_group *group, int cpu, u32 *times)
+ 	unsigned int seq;
+ 	u32 state_mask;
  
- __printf(4, 5)
- struct task_struct *kthread_create_on_node(int (*threadfn)(void *data),
-@@ -198,6 +197,8 @@ bool kthread_cancel_delayed_work_sync(struct kthread_delayed_work *work);
- 
- void kthread_destroy_worker(struct kthread_worker *worker);
- 
-+struct cgroup_subsys_state;
++	*pchanged_states = 0;
 +
- #ifdef CONFIG_BLK_CGROUP
- void kthread_associate_blkcg(struct cgroup_subsys_state *css);
- struct cgroup_subsys_state *kthread_blkcg(void);
-diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 1549584a1538..20b9f03399a7 100644
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -26,7 +26,6 @@
- #include <linux/latencytop.h>
- #include <linux/sched/prio.h>
- #include <linux/signal_types.h>
--#include <linux/psi_types.h>
- #include <linux/mm_types_task.h>
- #include <linux/task_io_accounting.h>
- #include <linux/rseq.h>
-diff --git a/kernel/kthread.c b/kernel/kthread.c
-index 5942eeafb9ac..be4e8795561a 100644
---- a/kernel/kthread.c
-+++ b/kernel/kthread.c
-@@ -11,6 +11,7 @@
- #include <linux/kthread.h>
- #include <linux/completion.h>
- #include <linux/err.h>
-+#include <linux/cgroup.h>
- #include <linux/cpuset.h>
- #include <linux/unistd.h>
- #include <linux/file.h>
+ 	/* Snapshot a coherent view of the CPU state */
+ 	do {
+ 		seq = read_seqcount_begin(&groupc->seq);
+@@ -246,6 +249,8 @@ static void get_recent_times(struct psi_group *group, int cpu, u32 *times)
+ 		groupc->times_prev[s] = times[s];
+ 
+ 		times[s] = delta;
++		if (delta)
++			*pchanged_states |= (1 << s);
+ 	}
+ }
+ 
+@@ -269,10 +274,11 @@ static void calc_avgs(unsigned long avg[3], int missed_periods,
+ 	avg[2] = calc_load(avg[2], EXP_300s, pct);
+ }
+ 
+-static bool collect_percpu_times(struct psi_group *group)
++static void collect_percpu_times(struct psi_group *group, u32 *pchanged_states)
+ {
+ 	u64 deltas[NR_PSI_STATES - 1] = { 0, };
+ 	unsigned long nonidle_total = 0;
++	u32 changed_states = 0;
+ 	int cpu;
+ 	int s;
+ 
+@@ -287,8 +293,11 @@ static bool collect_percpu_times(struct psi_group *group)
+ 	for_each_possible_cpu(cpu) {
+ 		u32 times[NR_PSI_STATES];
+ 		u32 nonidle;
++		u32 cpu_changed_states;
+ 
+-		get_recent_times(group, cpu, times);
++		get_recent_times(group, cpu, times,
++				&cpu_changed_states);
++		changed_states |= cpu_changed_states;
+ 
+ 		nonidle = nsecs_to_jiffies(times[PSI_NONIDLE]);
+ 		nonidle_total += nonidle;
+@@ -313,7 +322,8 @@ static bool collect_percpu_times(struct psi_group *group)
+ 	for (s = 0; s < NR_PSI_STATES - 1; s++)
+ 		group->total[s] += div_u64(deltas[s], max(nonidle_total, 1UL));
+ 
+-	return nonidle_total;
++	if (pchanged_states)
++		*pchanged_states = changed_states;
+ }
+ 
+ static u64 update_averages(struct psi_group *group, u64 now)
+@@ -373,6 +383,7 @@ static void psi_avgs_work(struct work_struct *work)
+ {
+ 	struct delayed_work *dwork;
+ 	struct psi_group *group;
++	u32 changed_states;
+ 	bool nonidle;
+ 	u64 now;
+ 
+@@ -383,7 +394,8 @@ static void psi_avgs_work(struct work_struct *work)
+ 
+ 	now = sched_clock();
+ 
+-	nonidle = collect_percpu_times(group);
++	collect_percpu_times(group, &changed_states);
++	nonidle = changed_states & (1 << PSI_NONIDLE);
+ 	/*
+ 	 * If there is task activity, periodically fold the per-cpu
+ 	 * times and feed samples into the running averages. If things
+@@ -719,7 +731,7 @@ int psi_show(struct seq_file *m, struct psi_group *group, enum psi_res res)
+ 	/* Update averages before reporting them */
+ 	mutex_lock(&group->avgs_lock);
+ 	now = sched_clock();
+-	collect_percpu_times(group);
++	collect_percpu_times(group, NULL);
+ 	if (now >= group->avg_next_update)
+ 		group->avg_next_update = update_averages(group, now);
+ 	mutex_unlock(&group->avgs_lock);
 -- 
 2.21.0.225.g810b269d1ac-goog
 
