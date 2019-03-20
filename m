@@ -1,58 +1,38 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A60187D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Mar 2019 00:07:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 523B97D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Mar 2019 00:15:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726912AbfCTAHD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Mar 2019 20:07:03 -0400
-Received: from mail-it1-f195.google.com ([209.85.166.195]:35252 "EHLO
-        mail-it1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727270AbfCTAHC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Mar 2019 20:07:02 -0400
-Received: by mail-it1-f195.google.com with SMTP id w15so5786234itc.0
-        for <linux-doc@vger.kernel.org>; Tue, 19 Mar 2019 17:07:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=eXp5qzoLPE5k4y/K+1OpvTbOH6oNQxSHAXnNXH0YvjQ=;
-        b=Bur//thXopzVgwZJB7yIAIDhmYXnRCW6LthfE+610t5jV9d54r7SkeAhSSh8y7m5Zi
-         /VYoJUghb4zWk2ojIaQffbFmDWXT5+bSZxdnlF7xlaiuqSmcuXM7hfN8cGLJdRvmIci9
-         9clf/LGQ2TUf6AkWFIeRNei5APFL9r/bwC/QYUd3l50LdBZS9ZToLA6jD3+rtGvnqm4t
-         Hvbd1dGMzUi904201WtqeTnm2oO2HTyGosAFtQKafrUe5JlbyCWgfcLxhCjEOItETDoJ
-         fLwgwJu4UfNt1ZvkV5b94Nt2z/ESi1u4CI5ogvLA6g7WQlp0a6cLY4DS2b4oiX68xyV5
-         nG+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eXp5qzoLPE5k4y/K+1OpvTbOH6oNQxSHAXnNXH0YvjQ=;
-        b=dcMkNwFuSYNgjKY9nrcRp9DorFYCFB2czbR43SQ6wlKDOirlbHquIqDN7Yky3TnNsX
-         +khfIag3iNPki4q6OIY+uSVKHqWnx1yONRO8PttxFtEquJUbhtAc+e0wyNgmpjU7EA3p
-         XwMEG6IZC9RLst0owjWtgB80ho28F/c84l2uGMOpN7+oau2fqyLUEagUbKanXlYd3RiH
-         3Csddq/06ZsJ8EIoAy0M1bYffEHBEhrnAX/Ub+NP6Val0jm1ZDZyeJ+nsdnLyeTiIbq1
-         ji/8XazCUzIOKS5duRbh7naY5sfY3u3JhlsQ8wjDgs5y286axutt+QBBuSz4OMXOuC1Y
-         cgIw==
-X-Gm-Message-State: APjAAAVdJ/BuSXTk+D5qMhNDz1OMrI39KXj981+DU7U84UFwKmgsoWHO
-        C7ylpCacPhzkgmntI96/ovoAKLJ0IxH6r4tBAf95pw==
-X-Google-Smtp-Source: APXvYqxACcBTRJSVb4DHcEzY2QbcyAKr+kyAJ4K2La3j+RkpHtiIIgkTpuc49OGxv/1+jAeKgj6GGDSbgMHi8Zacago=
-X-Received: by 2002:a24:3c53:: with SMTP id m80mr3376403ita.102.1553040421935;
- Tue, 19 Mar 2019 17:07:01 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190319235619.260832-1-surenb@google.com> <20190319235619.260832-2-surenb@google.com>
- <20190320110249.652ec153@canb.auug.org.au>
-In-Reply-To: <20190320110249.652ec153@canb.auug.org.au>
-From:   Suren Baghdasaryan <surenb@google.com>
-Date:   Tue, 19 Mar 2019 17:06:50 -0700
-Message-ID: <CAJuCfpFEqv+x2GnSeU_JLQ3ahvfgNVPYyoRAxkDHcvVw-4r=jg@mail.gmail.com>
-Subject: Re: [PATCH v6 1/7] psi: introduce state_mask to represent stalled psi states
-To:     Stephen Rothwell <sfr@canb.auug.org.au>
+        id S1727413AbfCTAPV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Mar 2019 20:15:21 -0400
+Received: from ozlabs.org ([203.11.71.1]:32779 "EHLO ozlabs.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726998AbfCTAPV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 19 Mar 2019 20:15:21 -0400
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 44P9RT2k7Zz9sNG;
+        Wed, 20 Mar 2019 11:15:17 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+        s=201702; t=1553040918;
+        bh=le9TbhZDItapW6nvIxpJwzRAc81dmNc+5o3O5xGMAeE=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=NI2m1mTBHRjd7kgvfU1Br2PoLv8Ehp+2MGlCsVwXmPjd5wA1zZQqrnU4elSdYnmkc
+         k/lZk48rLLwdnHlwItgXPwtxPc2e6YOcUnPjTjxscrlvV0mKkOvyWfH4Ow+0J6NfCi
+         /RKcysO0HJu//7TBh27y6+i+r/vFoX5Wk5jdaUYxLiDG+S+qGhFF7CfjLhLOshUY+9
+         0LJ9vDMQ78+7pDVOZ1Toyp8q9GhSooPLER84bIOQ3+Vo73PqPLye/lfp17qkCsYLVE
+         xIAEhmqRpv3GvcxLW79/WZ2wbqdSNYobOG4ykedB+68kvQyoHqt4fua8NUgTofeclz
+         gpdAJwcvOzPYg==
+Date:   Wed, 20 Mar 2019 11:15:16 +1100
+From:   Stephen Rothwell <sfr@canb.auug.org.au>
+To:     Suren Baghdasaryan <surenb@google.com>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Tejun Heo <tj@kernel.org>, lizefan@huawei.com,
         Johannes Weiner <hannes@cmpxchg.org>, axboe@kernel.dk,
@@ -64,55 +44,59 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-mm <linux-mm@kvack.org>, linux-doc@vger.kernel.org,
         LKML <linux-kernel@vger.kernel.org>,
         kernel-team <kernel-team@android.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v6 1/7] psi: introduce state_mask to represent stalled
+ psi states
+Message-ID: <20190320111516.6e151efe@canb.auug.org.au>
+In-Reply-To: <CAJuCfpFEqv+x2GnSeU_JLQ3ahvfgNVPYyoRAxkDHcvVw-4r=jg@mail.gmail.com>
+References: <20190319235619.260832-1-surenb@google.com>
+        <20190319235619.260832-2-surenb@google.com>
+        <20190320110249.652ec153@canb.auug.org.au>
+        <CAJuCfpFEqv+x2GnSeU_JLQ3ahvfgNVPYyoRAxkDHcvVw-4r=jg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/lana8mbTZC3vblqYeUy4oci"; protocol="application/pgp-signature"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 19, 2019 at 5:02 PM Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+--Sig_/lana8mbTZC3vblqYeUy4oci
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+Hi Suren,
+
+On Tue, 19 Mar 2019 17:06:50 -0700 Suren Baghdasaryan <surenb@google.com> w=
+rote:
 >
-> Hi Suren,
+> Sorry about that. This particular patch has not changed since then,
+> that's why I kept all the lines there. Please let me know if I should
+> remove it and re-post the patchset.
 
-Hi Stephen,
+As long as anyone who is going to apply this patch is aware, there is
+no need to repost just for that.  In the future, if you are modifying a
+patch that you are resubmitting, you should start from the original
+patch (not the version that someone else has applied to their git tree
+or quilt series).
 
-> On Tue, 19 Mar 2019 16:56:13 -0700 Suren Baghdasaryan <surenb@google.com> wrote:
-> >
-> > The psi monitoring patches will need to determine the same states as
-> > record_times().  To avoid calculating them twice, maintain a state mask
-> > that can be consulted cheaply.  Do this in a separate patch to keep the
-> > churn in the main feature patch at a minimum.
-> >
-> > This adds 4-byte state_mask member into psi_group_cpu struct which results
-> > in its first cacheline-aligned part becoming 52 bytes long.  Add explicit
-> > values to enumeration element counters that affect psi_group_cpu struct
-> > size.
-> >
-> > Link: http://lkml.kernel.org/r/20190124211518.244221-4-surenb@google.com
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > Acked-by: Johannes Weiner <hannes@cmpxchg.org>
-> > Cc: Dennis Zhou <dennis@kernel.org>
-> > Cc: Ingo Molnar <mingo@redhat.com>
-> > Cc: Jens Axboe <axboe@kernel.dk>
-> > Cc: Li Zefan <lizefan@huawei.com>
-> > Cc: Peter Zijlstra <peterz@infradead.org>
-> > Cc: Tejun Heo <tj@kernel.org>
-> > Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-> > Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
->
-> This last SOB line should not be here ... it is only there on the
-> original patch because I import Andrew's quilt series into linux-next.
+--=20
+Cheers,
+Stephen Rothwell
 
-Sorry about that. This particular patch has not changed since then,
-that's why I kept all the lines there. Please let me know if I should
-remove it and re-post the patchset.
-Thanks,
-Suren.
+--Sig_/lana8mbTZC3vblqYeUy4oci
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-> --
-> Cheers,
-> Stephen Rothwell
->
-> --
-> You received this message because you are subscribed to the Google Groups "kernel-team" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to kernel-team+unsubscribe@android.com.
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAlyRhhQACgkQAVBC80lX
+0GxMQAf9HtDOa/glS11zisJgskGjpJIb4d1mRQfZl2A7I1rgPBRgfZIcx8xWTjXG
+DTqMbVKmA6JEmwiQw979yPRrTcxMJexn6Tshyb5B65rFgIVUqEbQWKShlGTDoVvU
+LQKmkhqW6m6KdTWZiF9LreQyt8HkyUYP250OTr9hREuDhZBAXs422BBw5/Xpf1nR
+NlloZtEs3ofcZ79cN9ltoeYu9cF7iR1KAuRbXRJxztsnu7Jm4R5OB+m6tKRugy8t
+XNfvMvdwnPrD2Shfnl++ft8MCBj2UCL/ryoeHl8mz2zI/StnZAr07YoQIIeXL1au
+bDs6utAh2+KlWgI/Ihrlc2M8DYPmJA==
+=ftsv
+-----END PGP SIGNATURE-----
+
+--Sig_/lana8mbTZC3vblqYeUy4oci--
