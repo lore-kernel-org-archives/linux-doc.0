@@ -1,93 +1,88 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 00F9F7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Mar 2019 13:09:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5B4E07D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Mar 2019 15:12:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726939AbfCTNJI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 20 Mar 2019 09:09:08 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:48010 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726506AbfCTNJI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Mar 2019 09:09:08 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x2KD8dPT163086;
-        Wed, 20 Mar 2019 13:08:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=content-type :
- mime-version : subject : from : in-reply-to : date : cc :
- content-transfer-encoding : message-id : references : to;
- s=corp-2018-07-02; bh=JSDYeuShhyDCH3/IuB6WC/bUZLns4NrINdoZHf0IE2o=;
- b=NoAQCMKe1JkYPK9+nU7u+HbxJkkB6fTwuoUH63LKXpOsfU3yMew4RZyZIr9jJcOc/8Ln
- ETgLhUuV4M1PJyesClN9VIt5QUD18yxPcWfkyw2BhgPYt9Hsbb6GNY6kbLNK7zGuLCTA
- cQWpn7M/4M76ycNR1MeCtiI9Vj6D+voBfU8sTxBDwwImckKXXOqaAZofW7E0uVJHf0eT
- 9Ne6pN9/eCL5o1ixalen61+4IuBEfz8F4pXr6Vgrf4HxGfvrwqhcDT6BM5ofQqjaGwQl
- 78iXo73IDP/TYd4PWdRv9k6Mz09Xh9++p2J5JLrV7NbLLgISX0ibzCBXVrryY3fEyGb4 rw== 
-Received: from userv0022.oracle.com (userv0022.oracle.com [156.151.31.74])
-        by userp2120.oracle.com with ESMTP id 2r8ssrjgfe-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 20 Mar 2019 13:08:54 +0000
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by userv0022.oracle.com (8.14.4/8.14.4) with ESMTP id x2KD8q2a007698
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 20 Mar 2019 13:08:53 GMT
-Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x2KD8qtd027902;
-        Wed, 20 Mar 2019 13:08:52 GMT
-Received: from [192.168.0.110] (/73.243.10.6)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 20 Mar 2019 06:08:52 -0700
-Content-Type: text/plain;
-        charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.8\))
-Subject: Re: [PATCH] list.h: fix list_is_first() kernel-doc
-From:   William Kucharski <william.kucharski@oracle.com>
-In-Reply-To: <ddce8b80-9a8a-d52d-3546-87b2211c089a@infradead.org>
-Date:   Wed, 20 Mar 2019 07:08:51 -0600
-Cc:     Linux MM <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mel Gorman <mgorman@techsingularity.net>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <6B02177E-55BC-47F2-8374-FBCAC25134C5@oracle.com>
-References: <ddce8b80-9a8a-d52d-3546-87b2211c089a@infradead.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-X-Mailer: Apple Mail (2.3445.104.8)
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9200 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=2 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=961 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1903200102
+        id S1726939AbfCTPMF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 20 Mar 2019 11:12:05 -0400
+Received: from mga04.intel.com ([192.55.52.120]:59405 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726688AbfCTPME (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 20 Mar 2019 11:12:04 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Mar 2019 08:12:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,249,1549958400"; 
+   d="scan'208";a="154096388"
+Received: from sjchrist-coffee.jf.intel.com ([10.54.74.181])
+  by fmsmga004.fm.intel.com with ESMTP; 20 Mar 2019 08:12:04 -0700
+From:   Sean Christopherson <sean.j.christopherson@intel.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Joe Perches <joe@perches.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Niklas Cassel <niklas.cassel@linaro.org>
+Subject: [PATCH] docs: Explicitly state ordering requirements for Co-developed-by
+Date:   Wed, 20 Mar 2019 08:11:40 -0700
+Message-Id: <20190320151140.32432-1-sean.j.christopherson@intel.com>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Per Thomas' yet-to-be-merged "tip tree handbook"[1], Co-developed-by and
+Signed-off-by must be paired together, i.e. the co-authors' SOB mustn't
+be scattered willy-nilly, and the author's SOB must be the first SOB
+*after* the last Co-developed-by/Signed-off-by pair.  Provide an example
+to eliminate any ambiguity.
 
+[1] http://lkml.kernel.org/r/20181107171149.165693799@linutronix.de
 
-> On Mar 17, 2019, at 6:16 PM, Randy Dunlap <rdunlap@infradead.org> =
-wrote:
->=20
-> From: Randy Dunlap <rdunlap@infradead.org>
->=20
-> Fix typo of kernel-doc parameter notation (there should be
-> no space between '@' and the parameter name).
->=20
-> Also fixes bogus kernel-doc notation output formatting.
->=20
-> Fixes: 70b44595eafe9 ("mm, compaction: use free lists to quickly =
-locate a migration source")
->=20
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Mel Gorman <mgorman@techsingularity.net>
-> ---
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org>
+Cc: Jonathan Cameron <jic23@kernel.org>
+Cc: Joe Perches <joe@perches.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Niklas Cassel <niklas.cassel@linaro.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
+---
+ Documentation/process/submitting-patches.rst | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-Nice little cleanup.
-
-Reviewed-by: William Kucharski <william.kucharski@oracle.com>
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index be7d1829c3af..f4b5c4850601 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -547,8 +547,13 @@ have been included in the discussion.
+ 
+ A Co-developed-by: states that the patch was also created by another developer
+ along with the original author.  This is useful at times when multiple people
+-work on a single patch.  Note, this person also needs to have a Signed-off-by:
+-line in the patch as well.
++work on a single patch.  Note, Co-developed-by: must be accompanied by a
++Signed-off-by: of the co-author(s).  All Co-developed-by:/Signed-off-by: pairs
++must precede the Signed-off-by: of the original author.
++
++	Co-developed-by: Random Co-Author <random@coauthor.example.org>
++	Signed-off-by: Random Co-Author <random@coauthor.example.org>
++	Signed-off-by: Original Author <original@author.example.org>
+ 
+ 
+ 13) Using Reported-by:, Tested-by:, Reviewed-by:, Suggested-by: and Fixes:
+-- 
+2.21.0
 
