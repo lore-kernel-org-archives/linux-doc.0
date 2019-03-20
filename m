@@ -3,51 +3,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0E0C77D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Mar 2019 21:01:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 318C67D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Mar 2019 21:04:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727637AbfCTVBS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 20 Mar 2019 17:01:18 -0400
-Received: from mail-yw1-f65.google.com ([209.85.161.65]:36818 "EHLO
-        mail-yw1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727635AbfCTVBS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Mar 2019 17:01:18 -0400
-Received: by mail-yw1-f65.google.com with SMTP id 189so3181947ywi.3
-        for <linux-doc@vger.kernel.org>; Wed, 20 Mar 2019 14:01:18 -0700 (PDT)
+        id S1727504AbfCTVEG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 20 Mar 2019 17:04:06 -0400
+Received: from mail-yw1-f67.google.com ([209.85.161.67]:41952 "EHLO
+        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727383AbfCTVEG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Mar 2019 17:04:06 -0400
+Received: by mail-yw1-f67.google.com with SMTP id q128so3161840ywg.8
+        for <linux-doc@vger.kernel.org>; Wed, 20 Mar 2019 14:04:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=cmpxchg-org.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=Ac3c8BuwXRGufN3K90gjwkHmlf5WusrlHW6NBm1q4lU=;
-        b=JEjXZibp3H4f5ucHf9/nYNdp/ytl0tGHWy0AKX8AmsOYBRlU8V7e7ASVsOt5LncbG1
-         gCS3JBKOn47BLQ8g8YjIgv5iVaKorzkc91V8QDkcVsYe9/uFey0bvFZJ40zD0zOsl8II
-         nHTxk66AWJwMWj4oEKBm1cbfvp6BYEg7JuMVewxzaYlEdBuWcOECG93P/lHKqFr/4AtI
-         Ay0134rkQc9XtvkOKQ5mUy2sa9+TvRSVaXpfbxTCCpsuq4KZKEtKZF+CElW2vAYDxjNZ
-         iH6/4zmve2aF6+bRlPsYN4X24H06xqEBtv9npU1i8LLPi3xQMpqTA2LPRN+hWfZwilZn
-         FBVg==
+        bh=c7mFoY9c1LOx2DLi8HmPtRRejYVacIC2KISLRsK7znE=;
+        b=iNfJLn1VEvAICGg6+J8aTGo2WHwUAblrU8TC4P4d/YRBZXKDhFuHuWPyZ+0OcodA2R
+         g7V3avx9WoHGDQcWiV6r3LM0LpMba9yJ3IUAj0x5QC+zKlzOmO4kgXtaoS+5XNfH35f6
+         y3Q95eLIBZnLlHIgU2hmV3Z3aaaWgB2xG+sNBTD2NsA89KSRqyVkPML3RtWfJhtmFNdq
+         uyW97pDsEiNY89ljQeenu9r/FX9qo6fKteLpOe4Ty8207DbRYrXxQ18O75u7haf4V8Sk
+         XGHF1f5dd/S4jj+izKUS5beIisOqtB2HANTsNRLdkYtB97haZMPGFXeQ0p9W+YOT5XOm
+         1Frw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Ac3c8BuwXRGufN3K90gjwkHmlf5WusrlHW6NBm1q4lU=;
-        b=IaFOj2SAoBi35Y7OJdgr+udvn6Nx+L3oNGkRwTz5iTeiaVUm17caPxNiowTVf1o1TO
-         Hg59mso9/A8bhn4HuckUZUpuqv4hC2YR3c/MC93jppI3ysmjRU4hsVvhT9LagIKwPCw7
-         pzdBFdqLMjVnX9C+jESMKPtLtYtk+H/QzdfAFOxI9WurARzP8HVpUpsagHZRx5G4wD1T
-         UlI0gacfm4KqpLJuLTVKW7+e919LBKt7zYFxY2c0FMltG0iGCz6f8qBjFobnk1mfbymz
-         wxZjy0V/ZuZBv+SuC5t2KvN9Dn5Kl4wd12Xqgy2WI7KQYz/tm6OLlA9Xu/vQpqyxJM3v
-         yj7g==
-X-Gm-Message-State: APjAAAULDXkvQ8iuBeEqh+YbPkF2flHkkzkXkTEtFpYPR68iUhryqwAr
-        15oQxgEQNs9UhhpfuR/IvPVtdg==
-X-Google-Smtp-Source: APXvYqwtzykOHbzXPKJJWcXH+CWrw+RxKVwf2qkPOM6F/W9FMVFsz+4hKQS1ImujNybU7Y3XRpcA9g==
-X-Received: by 2002:a81:430a:: with SMTP id q10mr156204ywa.508.1553115677811;
-        Wed, 20 Mar 2019 14:01:17 -0700 (PDT)
+        bh=c7mFoY9c1LOx2DLi8HmPtRRejYVacIC2KISLRsK7znE=;
+        b=nGLsvm3SoOuj+1z+xKnXlrdIvuyJZcGmJktq7SlyEpusBCboVk94QxQ9Qj0X0h5Luy
+         NR7YQaq8YuIAKx6cll8fDYjbO3MWX/t+cQvVGXeRabm2rwtgdLr6NplbvsJUiOg6ClwS
+         bYXvyZeA9Rw+NszrGgFnIINCp3x0Ar1w8AbAl8uzF42XeQ4gAtwN5XwG7dNVFOSjTONp
+         f9FowAK/2kMO0ZPBzU948c5x0adXBin9GEfBEyMK2tIyweWOzKWnt6PySgWHFLH51gSn
+         3OlIN7A7bSKz+SdU0I4Bb8XMay8pUFTJ4lx8bo0s2HSPNO2tagWWVfPBGXeX3hhDf3YV
+         kZIw==
+X-Gm-Message-State: APjAAAW6lVLoyKPewyAlrNbShkhnHPBdfHeyAcGtJGPQiB4SMEMbDDvo
+        dpVrUFK4SL9+0ua5t2Vv4N5p4A==
+X-Google-Smtp-Source: APXvYqyTEHhGxdOJ0WUla4LiMKIGI1B1SD0+iCGoWa94KCfF7DznKo6uv1EmkH63I8BFjx4vQCSD9w==
+X-Received: by 2002:a25:d601:: with SMTP id n1mr28266ybg.342.1553115845368;
+        Wed, 20 Mar 2019 14:04:05 -0700 (PDT)
 Received: from localhost ([2620:10d:c091:200::2:b52c])
-        by smtp.gmail.com with ESMTPSA id 207sm1091449yws.38.2019.03.20.14.01.16
+        by smtp.gmail.com with ESMTPSA id 79sm1444881ywr.110.2019.03.20.14.04.04
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 20 Mar 2019 14:01:17 -0700 (PDT)
-Date:   Wed, 20 Mar 2019 17:01:15 -0400
+        Wed, 20 Mar 2019 14:04:04 -0700 (PDT)
+Date:   Wed, 20 Mar 2019 17:04:03 -0400
 From:   Johannes Weiner <hannes@cmpxchg.org>
 To:     Suren Baghdasaryan <surenb@google.com>
 Cc:     gregkh@linuxfoundation.org, tj@kernel.org, lizefan@huawei.com,
@@ -56,27 +56,40 @@ Cc:     gregkh@linuxfoundation.org, tj@kernel.org, lizefan@huawei.com,
         corbet@lwn.net, cgroups@vger.kernel.org, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         kernel-team@android.com
-Subject: Re: [PATCH v6 5/7] psi: track changed states
-Message-ID: <20190320210115.GD19382@cmpxchg.org>
+Subject: Re: [PATCH v6 6/7] refactor header includes to allow kthread.h
+ inclusion in psi_types.h
+Message-ID: <20190320210403.GE19382@cmpxchg.org>
 References: <20190319235619.260832-1-surenb@google.com>
- <20190319235619.260832-6-surenb@google.com>
+ <20190319235619.260832-7-surenb@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190319235619.260832-6-surenb@google.com>
+In-Reply-To: <20190319235619.260832-7-surenb@google.com>
 User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 19, 2019 at 04:56:17PM -0700, Suren Baghdasaryan wrote:
-> Introduce changed_states parameter into collect_percpu_times to track
-> the states changed since the last update.
+On Tue, Mar 19, 2019 at 04:56:18PM -0700, Suren Baghdasaryan wrote:
+> kthread.h can't be included in psi_types.h because it creates a circular
+> inclusion with kthread.h eventually including psi_types.h and complaining
+> on kthread structures not being defined because they are defined further
+> in the kthread.h. Resolve this by removing psi_types.h inclusion from the
+> headers included from kthread.h.
 > 
 > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 
-Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+> @@ -26,7 +26,6 @@
+>  #include <linux/latencytop.h>
+>  #include <linux/sched/prio.h>
+>  #include <linux/signal_types.h>
+> -#include <linux/psi_types.h>
+>  #include <linux/mm_types_task.h>
+>  #include <linux/task_io_accounting.h>
+>  #include <linux/rseq.h>
 
-This will be needed to detect whether polled states activated in the
-monitor patch.
+Ah yes, earlier versions of the psi patches had a psi_task struct or
+something embedded in task_struct. It's all just simple C types now.
+
+Acked-by: Johannes Weiner <hannes@cmpxchg.org>
