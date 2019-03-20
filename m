@@ -1,228 +1,110 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 795847D8A4
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 19 Mar 2019 23:57:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D46347D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Mar 2019 00:02:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727390AbfCSX4c (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 19 Mar 2019 19:56:32 -0400
-Received: from mail-it1-f201.google.com ([209.85.166.201]:38627 "EHLO
-        mail-it1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727384AbfCSX4b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Mar 2019 19:56:31 -0400
-Received: by mail-it1-f201.google.com with SMTP id r136so595152ith.3
-        for <linux-doc@vger.kernel.org>; Tue, 19 Mar 2019 16:56:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=BhrmowS2eMjbffJ9OB92bQfOOAToNjJ94P17cQjPdo8=;
-        b=s39qkpCiLoow4b9/kgH0brUOsB6xmuRjJsD/eb1HqzNYh9jtmiyICnlIREYYOCKL88
-         kXqqEiT1p592C2CJ41x570vo4IJQ+qIpXP1mS4NZTtgimX1bxdcuhLtuhXWjoT7rB8Dn
-         cCHD7VVysNVpuZas/uyx34+spsa3iuS9UElEGU+wOJpvGuxLM1+50lBJdu72gwMh/7wj
-         CCzhl3Pdf2CzqMNOj5pObXsCmj1nUNiS+EioFVGTxI0M1+2nuPhekgCPfSV6zecvX9yc
-         rPXVPjJj0/fg2QH1UnaNfhmCPCuO7XIQEvbgcqFXz50DTetnIuZxNs6cQ/pmXD0+ZpAY
-         nC8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=BhrmowS2eMjbffJ9OB92bQfOOAToNjJ94P17cQjPdo8=;
-        b=EkAkCMMCCjS6NBDYeHyROEdVRp7WBLDb/+BLljqpRSGVNVs3O5TFZKLq+1gj6EKvn8
-         0oRzM980hYYLJHEJOMpgKa4pT5tD0r25AEPQkoOQXaNJSVE6n2I/wsxm4UTCV0YSTsRg
-         9Co9Viw7OLK3BIUPYiRwBatfI/X6kFhA84kJ9HG8GmCCfLvYko7Q2LAn6qc9NvLIva4Q
-         8WkRshCugeBnZ1yFYpEJMVsrZE5UDp2ap1UNBjjfC/A8gyB6SXHKOQbeq1+Vh3PefHWo
-         ReGBkM6BdmeUE9nAzR4ByAfr9Zb7Q/OOtrEUYatbz2hFPGYxo/LrxFbl7aEwo/5Idt4w
-         6m2Q==
-X-Gm-Message-State: APjAAAVuKwOmkBKAT9gJ+Qo/wWZmJo2Sgdj/0kwoyNP65emt7sCb4DAo
-        WVEqIEI2xy5ojcdmXLU+fvQNaitkcs0=
-X-Google-Smtp-Source: APXvYqwLqcno9l8VDu4DML9YRADDsLxnjwNMeFZHijkxLWCWDs6v5BpwRuxZ0pdSzUMSpS6IEHp6v20vj2U=
-X-Received: by 2002:a24:6545:: with SMTP id u66mr3145504itb.36.1553039789710;
- Tue, 19 Mar 2019 16:56:29 -0700 (PDT)
-Date:   Tue, 19 Mar 2019 16:56:13 -0700
-In-Reply-To: <20190319235619.260832-1-surenb@google.com>
-Message-Id: <20190319235619.260832-2-surenb@google.com>
-Mime-Version: 1.0
+        id S1726908AbfCTAC5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 19 Mar 2019 20:02:57 -0400
+Received: from ozlabs.org ([203.11.71.1]:42361 "EHLO ozlabs.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726801AbfCTAC5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 19 Mar 2019 20:02:57 -0400
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 44P9956DWbz9sNH;
+        Wed, 20 Mar 2019 11:02:49 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+        s=201702; t=1553040173;
+        bh=jehP9+YT/rAivcVGOfJHVCT+k92Lsz+iBSFzJvUFN/Q=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=JLB0DUS0XtDVE1T2hGU9fOTTCcPEXNuudOsbOY2P9sBGeACPjFJRvurNz1hv4BTSL
+         Uj82m2Jd+FuuKJMmj+QHXF1gWDmATsDVYcAtzs+qR0XwLQ7PLGXIaxqNn1NGnLhGtU
+         SWFMStDnDHgKbyDYvxMsk4xN9fvPXeGjjhHh/2qb6EX9OAlunS/yB0Gj0yKZNiS7eB
+         Ji6GENiI1GQiY99aHr8fMba7nmuJJS69cm3KIQr06PwOXRP3jgZXXu/iizdctQzwjW
+         CfvEvUzSKGAY8LL3tviwU3qjkIRgkE3bl942ktLdOx4jUYd1r5auLSOEIDwr1nWqfA
+         yXNHtkm/V8GwA==
+Date:   Wed, 20 Mar 2019 11:02:49 +1100
+From:   Stephen Rothwell <sfr@canb.auug.org.au>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     gregkh@linuxfoundation.org, tj@kernel.org, lizefan@huawei.com,
+        hannes@cmpxchg.org, axboe@kernel.dk, dennis@kernel.org,
+        dennisszhou@gmail.com, mingo@redhat.com, peterz@infradead.org,
+        akpm@linux-foundation.org, corbet@lwn.net, cgroups@vger.kernel.org,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-team@android.com
+Subject: Re: [PATCH v6 1/7] psi: introduce state_mask to represent stalled
+ psi states
+Message-ID: <20190320110249.652ec153@canb.auug.org.au>
+In-Reply-To: <20190319235619.260832-2-surenb@google.com>
 References: <20190319235619.260832-1-surenb@google.com>
-X-Mailer: git-send-email 2.21.0.225.g810b269d1ac-goog
-Subject: [PATCH v6 1/7] psi: introduce state_mask to represent stalled psi states
-From:   Suren Baghdasaryan <surenb@google.com>
-To:     gregkh@linuxfoundation.org
-Cc:     tj@kernel.org, lizefan@huawei.com, hannes@cmpxchg.org,
-        axboe@kernel.dk, dennis@kernel.org, dennisszhou@gmail.com,
-        mingo@redhat.com, peterz@infradead.org, akpm@linux-foundation.org,
-        corbet@lwn.net, cgroups@vger.kernel.org, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-team@android.com, Suren Baghdasaryan <surenb@google.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Content-Type: text/plain; charset="UTF-8"
+        <20190319235619.260832-2-surenb@google.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/gcf3x9pNF4bWcL9pBwUmVyY"; protocol="application/pgp-signature"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The psi monitoring patches will need to determine the same states as
-record_times().  To avoid calculating them twice, maintain a state mask
-that can be consulted cheaply.  Do this in a separate patch to keep the
-churn in the main feature patch at a minimum.
+--Sig_/gcf3x9pNF4bWcL9pBwUmVyY
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-This adds 4-byte state_mask member into psi_group_cpu struct which results
-in its first cacheline-aligned part becoming 52 bytes long.  Add explicit
-values to enumeration element counters that affect psi_group_cpu struct
-size.
+Hi Suren,
 
-Link: http://lkml.kernel.org/r/20190124211518.244221-4-surenb@google.com
-Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-Acked-by: Johannes Weiner <hannes@cmpxchg.org>
-Cc: Dennis Zhou <dennis@kernel.org>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Jens Axboe <axboe@kernel.dk>
-Cc: Li Zefan <lizefan@huawei.com>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Tejun Heo <tj@kernel.org>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
----
- include/linux/psi_types.h |  9 ++++++---
- kernel/sched/psi.c        | 29 +++++++++++++++++++----------
- 2 files changed, 25 insertions(+), 13 deletions(-)
+On Tue, 19 Mar 2019 16:56:13 -0700 Suren Baghdasaryan <surenb@google.com> w=
+rote:
+>
+> The psi monitoring patches will need to determine the same states as
+> record_times().  To avoid calculating them twice, maintain a state mask
+> that can be consulted cheaply.  Do this in a separate patch to keep the
+> churn in the main feature patch at a minimum.
+>=20
+> This adds 4-byte state_mask member into psi_group_cpu struct which results
+> in its first cacheline-aligned part becoming 52 bytes long.  Add explicit
+> values to enumeration element counters that affect psi_group_cpu struct
+> size.
+>=20
+> Link: http://lkml.kernel.org/r/20190124211518.244221-4-surenb@google.com
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+> Cc: Dennis Zhou <dennis@kernel.org>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Jens Axboe <axboe@kernel.dk>
+> Cc: Li Zefan <lizefan@huawei.com>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Tejun Heo <tj@kernel.org>
+> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
 
-diff --git a/include/linux/psi_types.h b/include/linux/psi_types.h
-index 2cf422db5d18..762c6bb16f3c 100644
---- a/include/linux/psi_types.h
-+++ b/include/linux/psi_types.h
-@@ -11,7 +11,7 @@ enum psi_task_count {
- 	NR_IOWAIT,
- 	NR_MEMSTALL,
- 	NR_RUNNING,
--	NR_PSI_TASK_COUNTS,
-+	NR_PSI_TASK_COUNTS = 3,
- };
- 
- /* Task state bitmasks */
-@@ -24,7 +24,7 @@ enum psi_res {
- 	PSI_IO,
- 	PSI_MEM,
- 	PSI_CPU,
--	NR_PSI_RESOURCES,
-+	NR_PSI_RESOURCES = 3,
- };
- 
- /*
-@@ -41,7 +41,7 @@ enum psi_states {
- 	PSI_CPU_SOME,
- 	/* Only per-CPU, to weigh the CPU in the global average: */
- 	PSI_NONIDLE,
--	NR_PSI_STATES,
-+	NR_PSI_STATES = 6,
- };
- 
- struct psi_group_cpu {
-@@ -53,6 +53,9 @@ struct psi_group_cpu {
- 	/* States of the tasks belonging to this group */
- 	unsigned int tasks[NR_PSI_TASK_COUNTS];
- 
-+	/* Aggregate pressure state derived from the tasks */
-+	u32 state_mask;
-+
- 	/* Period time sampling buckets for each state of interest (ns) */
- 	u32 times[NR_PSI_STATES];
- 
-diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
-index 0e97ca9306ef..22c1505ad290 100644
---- a/kernel/sched/psi.c
-+++ b/kernel/sched/psi.c
-@@ -213,17 +213,17 @@ static bool test_state(unsigned int *tasks, enum psi_states state)
- static void get_recent_times(struct psi_group *group, int cpu, u32 *times)
- {
- 	struct psi_group_cpu *groupc = per_cpu_ptr(group->pcpu, cpu);
--	unsigned int tasks[NR_PSI_TASK_COUNTS];
- 	u64 now, state_start;
-+	enum psi_states s;
- 	unsigned int seq;
--	int s;
-+	u32 state_mask;
- 
- 	/* Snapshot a coherent view of the CPU state */
- 	do {
- 		seq = read_seqcount_begin(&groupc->seq);
- 		now = cpu_clock(cpu);
- 		memcpy(times, groupc->times, sizeof(groupc->times));
--		memcpy(tasks, groupc->tasks, sizeof(groupc->tasks));
-+		state_mask = groupc->state_mask;
- 		state_start = groupc->state_start;
- 	} while (read_seqcount_retry(&groupc->seq, seq));
- 
-@@ -239,7 +239,7 @@ static void get_recent_times(struct psi_group *group, int cpu, u32 *times)
- 		 * (u32) and our reported pressure close to what's
- 		 * actually happening.
- 		 */
--		if (test_state(tasks, s))
-+		if (state_mask & (1 << s))
- 			times[s] += now - state_start;
- 
- 		delta = times[s] - groupc->times_prev[s];
-@@ -407,15 +407,15 @@ static void record_times(struct psi_group_cpu *groupc, int cpu,
- 	delta = now - groupc->state_start;
- 	groupc->state_start = now;
- 
--	if (test_state(groupc->tasks, PSI_IO_SOME)) {
-+	if (groupc->state_mask & (1 << PSI_IO_SOME)) {
- 		groupc->times[PSI_IO_SOME] += delta;
--		if (test_state(groupc->tasks, PSI_IO_FULL))
-+		if (groupc->state_mask & (1 << PSI_IO_FULL))
- 			groupc->times[PSI_IO_FULL] += delta;
- 	}
- 
--	if (test_state(groupc->tasks, PSI_MEM_SOME)) {
-+	if (groupc->state_mask & (1 << PSI_MEM_SOME)) {
- 		groupc->times[PSI_MEM_SOME] += delta;
--		if (test_state(groupc->tasks, PSI_MEM_FULL))
-+		if (groupc->state_mask & (1 << PSI_MEM_FULL))
- 			groupc->times[PSI_MEM_FULL] += delta;
- 		else if (memstall_tick) {
- 			u32 sample;
-@@ -436,10 +436,10 @@ static void record_times(struct psi_group_cpu *groupc, int cpu,
- 		}
- 	}
- 
--	if (test_state(groupc->tasks, PSI_CPU_SOME))
-+	if (groupc->state_mask & (1 << PSI_CPU_SOME))
- 		groupc->times[PSI_CPU_SOME] += delta;
- 
--	if (test_state(groupc->tasks, PSI_NONIDLE))
-+	if (groupc->state_mask & (1 << PSI_NONIDLE))
- 		groupc->times[PSI_NONIDLE] += delta;
- }
- 
-@@ -448,6 +448,8 @@ static void psi_group_change(struct psi_group *group, int cpu,
- {
- 	struct psi_group_cpu *groupc;
- 	unsigned int t, m;
-+	enum psi_states s;
-+	u32 state_mask = 0;
- 
- 	groupc = per_cpu_ptr(group->pcpu, cpu);
- 
-@@ -480,6 +482,13 @@ static void psi_group_change(struct psi_group *group, int cpu,
- 		if (set & (1 << t))
- 			groupc->tasks[t]++;
- 
-+	/* Calculate state mask representing active states */
-+	for (s = 0; s < NR_PSI_STATES; s++) {
-+		if (test_state(groupc->tasks, s))
-+			state_mask |= (1 << s);
-+	}
-+	groupc->state_mask = state_mask;
-+
- 	write_seqcount_end(&groupc->seq);
- }
- 
--- 
-2.21.0.225.g810b269d1ac-goog
+This last SOB line should not be here ... it is only there on the
+original patch because I import Andrew's quilt series into linux-next.
 
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/gcf3x9pNF4bWcL9pBwUmVyY
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAlyRgykACgkQAVBC80lX
+0GzGdwgAkeERrC49NHtT6/Phx/CoT0fGnk18tNUFLom+rq3rOBQK2wx1PjucbibK
+vXCE9EjVXmM1DNhVakECzW140fJtlo/sepGVTJhmSOUsMbOF1OI5PrAvszpgSjSU
+5UF7ikasO20gSNsechnFvkJo4NA5zx/se85Mr62VKU8UgfAUcY3DQwATE6EJiQOY
+vuaHEsGdYYpgctzrz9buJn2eXKSqatWwteCeyQj2UDsfXz63CCJxlQrO4p96B//c
+wjfoSNMnOa25s418YxLiRmLA/9Upk9CMWPzQ7J6v3/TVGUNLvjZPRd1qBUE2za6g
+xvo9LR9TcLA3X/p682Ykd4lk+ccBZA==
+=KZbq
+-----END PGP SIGNATURE-----
+
+--Sig_/gcf3x9pNF4bWcL9pBwUmVyY--
