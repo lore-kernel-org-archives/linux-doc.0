@@ -1,120 +1,93 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 96FAA7D918
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Mar 2019 11:25:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 00F9F7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Mar 2019 13:09:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727878AbfCTLZ5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 20 Mar 2019 07:25:57 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:38328 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727154AbfCTLZ4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 20 Mar 2019 07:25:56 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C199A1650;
-        Wed, 20 Mar 2019 04:25:55 -0700 (PDT)
-Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.78])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7C08D3F575;
-        Wed, 20 Mar 2019 04:25:49 -0700 (PDT)
-Date:   Wed, 20 Mar 2019 11:25:46 +0000
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Andrey Konovalov <andreyknvl@google.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Eric Dumazet <edumazet@google.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>, khalid.aziz@oracle.com
-Subject: Re: [PATCH v12 00/13] arm64: untag user pointers passed to the kernel
-Message-ID: <20190320112545.GB25040@arrakis.emea.arm.com>
-References: <cover.1552929301.git.andreyknvl@google.com>
- <20190319113212.ca1d56301112454dfb5a39ba@linux-foundation.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190319113212.ca1d56301112454dfb5a39ba@linux-foundation.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1726939AbfCTNJI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 20 Mar 2019 09:09:08 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:48010 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726506AbfCTNJI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Mar 2019 09:09:08 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x2KD8dPT163086;
+        Wed, 20 Mar 2019 13:08:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=content-type :
+ mime-version : subject : from : in-reply-to : date : cc :
+ content-transfer-encoding : message-id : references : to;
+ s=corp-2018-07-02; bh=JSDYeuShhyDCH3/IuB6WC/bUZLns4NrINdoZHf0IE2o=;
+ b=NoAQCMKe1JkYPK9+nU7u+HbxJkkB6fTwuoUH63LKXpOsfU3yMew4RZyZIr9jJcOc/8Ln
+ ETgLhUuV4M1PJyesClN9VIt5QUD18yxPcWfkyw2BhgPYt9Hsbb6GNY6kbLNK7zGuLCTA
+ cQWpn7M/4M76ycNR1MeCtiI9Vj6D+voBfU8sTxBDwwImckKXXOqaAZofW7E0uVJHf0eT
+ 9Ne6pN9/eCL5o1ixalen61+4IuBEfz8F4pXr6Vgrf4HxGfvrwqhcDT6BM5ofQqjaGwQl
+ 78iXo73IDP/TYd4PWdRv9k6Mz09Xh9++p2J5JLrV7NbLLgISX0ibzCBXVrryY3fEyGb4 rw== 
+Received: from userv0022.oracle.com (userv0022.oracle.com [156.151.31.74])
+        by userp2120.oracle.com with ESMTP id 2r8ssrjgfe-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 20 Mar 2019 13:08:54 +0000
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by userv0022.oracle.com (8.14.4/8.14.4) with ESMTP id x2KD8q2a007698
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 20 Mar 2019 13:08:53 GMT
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x2KD8qtd027902;
+        Wed, 20 Mar 2019 13:08:52 GMT
+Received: from [192.168.0.110] (/73.243.10.6)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 20 Mar 2019 06:08:52 -0700
+Content-Type: text/plain;
+        charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.8\))
+Subject: Re: [PATCH] list.h: fix list_is_first() kernel-doc
+From:   William Kucharski <william.kucharski@oracle.com>
+In-Reply-To: <ddce8b80-9a8a-d52d-3546-87b2211c089a@infradead.org>
+Date:   Wed, 20 Mar 2019 07:08:51 -0600
+Cc:     Linux MM <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mel Gorman <mgorman@techsingularity.net>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <6B02177E-55BC-47F2-8374-FBCAC25134C5@oracle.com>
+References: <ddce8b80-9a8a-d52d-3546-87b2211c089a@infradead.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+X-Mailer: Apple Mail (2.3445.104.8)
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9200 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=2 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=961 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1903200102
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 19, 2019 at 11:32:12AM -0700, Andrew Morton wrote:
-> On Mon, 18 Mar 2019 18:17:32 +0100 Andrey Konovalov <andreyknvl@google.com> wrote:
-> > === Notes
-> > 
-> > This patchset is meant to be merged together with "arm64 relaxed ABI" [3].
-> 
-> What does this mean, precisely?  That neither series is useful without
-> the other?  That either patchset will break things without the other?
 
-This series does the work of relaxing the ABI w.r.t. pointer syscall
-arguments for arm64 (while preserving backwards compatibility, we can't
-break this). Vincenzo's patches [1] document the ABI relaxation and
-introduce an AT_FLAG bit by which user space can check for the presence
-of such support. So I'd say [1] goes on top of this series.
 
-Once we agreed on the ABI definition, they should be posted as a single
-series.
+> On Mar 17, 2019, at 6:16 PM, Randy Dunlap <rdunlap@infradead.org> =
+wrote:
+>=20
+> From: Randy Dunlap <rdunlap@infradead.org>
+>=20
+> Fix typo of kernel-doc parameter notation (there should be
+> no space between '@' and the parameter name).
+>=20
+> Also fixes bogus kernel-doc notation output formatting.
+>=20
+> Fixes: 70b44595eafe9 ("mm, compaction: use free lists to quickly =
+locate a migration source")
+>=20
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Mel Gorman <mgorman@techsingularity.net>
+> ---
 
-> Only a small fraction of these patches carry evidence of having been
-> reviewed.  Fixable?
+Nice little cleanup.
 
-That's fixable, though the discussions go back to last summer mostly at
-a higher level: are we sure these are the only places that need
-patching? The outcome of such discussions was a document clarifying
-which pointers user can tag and pass to the kernel based on the origins
-of the memory range (e.g. anonymous mmap()).
+Reviewed-by: William Kucharski <william.kucharski@oracle.com>
 
-I'd very much like to get input from the SPARC ADI guys on these series
-(cc'ing Khalid). While currently for arm64 that's just a software
-feature (the hardware one, MTE - memory tagging extensions, is coming
-later), the ADI has similar requirements regarding the user ABI. AFAICT
-from the SPARC example code, the user is not allowed to pass a tagged
-pointers (non-zero top byte) into the kernel. Feedback from the Google
-hwasan guys is that such approach is not practical for a generic
-deployment of this feature (e.g. automatic tagging of heap allocations).
-
-> Which maintainer tree would be appropriate for carrying these patches?
-
-Given that the arm64 changes are fairly minimal, the -mm tree works for
-me (once I reviewed/acked the patches and, ideally, get the SPARC people
-onboard with such approach).
-
-[1] https://lkml.org/lkml/2019/3/18/819
-
--- 
-Catalin
