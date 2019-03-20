@@ -3,47 +3,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 704BF7D099
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Mar 2019 16:32:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C43EB7D099
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Mar 2019 16:32:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727117AbfCTQbz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 20 Mar 2019 12:31:55 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:40833 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727654AbfCTQbw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Mar 2019 12:31:52 -0400
-Received: by mail-qt1-f193.google.com with SMTP id x12so3238919qts.7
-        for <linux-doc@vger.kernel.org>; Wed, 20 Mar 2019 09:31:51 -0700 (PDT)
+        id S1727660AbfCTQbv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 20 Mar 2019 12:31:51 -0400
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:43284 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726846AbfCTQbv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Mar 2019 12:31:51 -0400
+Received: by mail-qk1-f193.google.com with SMTP id c20so9740181qkc.10
+        for <linux-doc@vger.kernel.org>; Wed, 20 Mar 2019 09:31:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=joelfernandes.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=wbEx3hMagtlG7gtXzbw55L8OpDPeq7CK2cOpXhk6DvE=;
-        b=YWEQk0i3DNve9X7odkA0YaqSFB+S7FYiv8C2wDlK/DFq6VaqBKPXsMVfzU++p0s+TD
-         2QipDN2VY1q2PndUDXCpYdcP39GOrAaX5JTzhOnZAGh1GL7HPSv19zZjt0i3ePp92tE5
-         KFJNorfx2+MYSutVG731h2Zw6MKmQKtmum02Q=
+        bh=wdHEx/0MGPZcjYnM850Y8pJ0YyzAWC/cB9GIf0oOCMw=;
+        b=hOBm3d0x8T/H3tshM3uHJssYTOR++ZKkN7smGwghLiy0m2+rzwHXOpmu4RHjEBM232
+         G/DKOQ8E2xdCIdE+3++r5nSQ7HY0uq2fYSOdIusBxRRktrTmtO1MzmUybXDq5ZaGmSjL
+         Jz+Acl0jWDkncIV0+oXYi+9CPj0LxGV6IWJwE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=wbEx3hMagtlG7gtXzbw55L8OpDPeq7CK2cOpXhk6DvE=;
-        b=PgeRzDUXR3Fk7Tt6yuMQWZ22cj5H7GH3B+abC8zdqvtux6X5LAgm9MJ6m9eMDmvZiL
-         lJAWDrgeRUW9WnZQ3QpZLQRdmd3g3KhfkgZqtDlWbkxamZ7t5jj3io89QAUNEKP2Dkcp
-         58GiPvxtypEs3RlIw1z8WDHhuRvs42a7Q7vDd3yrtBPxJ85gtrgZdAOk6LHKftv9kmc4
-         UULA11966m1IlmjXVqBxkJPkiXQDngBUM278FDQMcpIEBeRbAzawB2Zji8149YPSDSEb
-         AWuimE/Us1GIedW4aq68Z9BNUPzRusR7i8yXcybdTIk2s7Dbo7XMm3qMRd09/0OzcWtN
-         38gg==
-X-Gm-Message-State: APjAAAVm9eyxWzRbnuXTSh7rdfG2UEmlyOZIg8Uyrgz5socJfSlSbZGC
-        oNgUylHGGHtYw6rROp6JDUMKyA==
-X-Google-Smtp-Source: APXvYqwUF3xe/DWcZKtonrv9q/U0k5qLbP3U0nAhFQKHu/SfL9W8qYNP1+vPEf/zpj0obFGYk+wJ4g==
-X-Received: by 2002:a0c:8b63:: with SMTP id d35mr7274369qvc.148.1553099510901;
-        Wed, 20 Mar 2019 09:31:50 -0700 (PDT)
+        bh=wdHEx/0MGPZcjYnM850Y8pJ0YyzAWC/cB9GIf0oOCMw=;
+        b=r+bP7HHo/2hzGflxQ6aGwH+pkT/9gLzlNAwtDR9BqOxXUGqiL4GPfNJrkjGbRbyOC2
+         bourg2KeU5E33NW561nd8zI9aqxf+pQZc/V+ZXTjK1JEMv4Um2QjX93FKcc9iL90ff1E
+         0EsaQKQdL6NMAZa67/xup1fWOZ3OtXz1lOuTSpWPogRl9ZFJqWOngdMr1KFdLkbT+p9b
+         dogVTSmqhBTLf388xU+p02x0M2lbSc6YYd7xKgFnoaBdYzSv6kqCeXZ85epzlsJ1A6md
+         ajCf01A8a+FwKbEAe5lcNFJpFMWoeqyQoqdFtLoKGHrKj6QVxRxFu1gf0Yc+/P5lJIYf
+         5YPw==
+X-Gm-Message-State: APjAAAXxLzVNcOoPGl90wBMyvbRzrHkl8gK/0n43KIkBXKijoW8A13tp
+        tw5Vrh+grZqr1nmP1WOPRgep1Q==
+X-Google-Smtp-Source: APXvYqzFdGH3wJA2D37ApIyVmy0Bntun4Q3zYfSUQ0I20LrS0RuWkPRwSFOXtD4jRU3Hb8yJL1IF1A==
+X-Received: by 2002:a37:c9d9:: with SMTP id m86mr7066418qkl.174.1553099509560;
+        Wed, 20 Mar 2019 09:31:49 -0700 (PDT)
 Received: from joelaf.cam.corp.google.com ([2620:0:1004:1100:cca9:fccc:8667:9bdc])
-        by smtp.gmail.com with ESMTPSA id h10sm2289721qta.3.2019.03.20.09.31.49
+        by smtp.gmail.com with ESMTPSA id h10sm2289721qta.3.2019.03.20.09.31.47
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 20 Mar 2019 09:31:50 -0700 (PDT)
+        Wed, 20 Mar 2019 09:31:48 -0700 (PDT)
 From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
@@ -60,9 +60,9 @@ Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
         mhiramat@kernel.org, qais.yousef@arm.com, rdunlap@infradead.org,
         rostedt@goodmis.org, Shuah Khan <shuah@kernel.org>, yhs@fb.com
-Subject: [PATCH v5 3/3] init/config: Do not select BUILD_BIN2C for IKCONFIG
-Date:   Wed, 20 Mar 2019 12:31:16 -0400
-Message-Id: <20190320163116.39275-3-joel@joelfernandes.org>
+Subject: [PATCH v5 2/3] Add selftests for module build using in-kernel headers
+Date:   Wed, 20 Mar 2019 12:31:15 -0400
+Message-Id: <20190320163116.39275-2-joel@joelfernandes.org>
 X-Mailer: git-send-email 2.21.0.225.g810b269d1ac-goog
 In-Reply-To: <20190320163116.39275-1-joel@joelfernandes.org>
 References: <20190320163116.39275-1-joel@joelfernandes.org>
@@ -73,27 +73,116 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since commit 13610aa908dc ("kernel/configs: use .incbin directive to
-embed config_data.gz"), IKCONFIG no longer uses BUILD_BIN2C so prevent
-it from being selected in Kconfig.
+This test tries to build a module successfully using the in-kernel
+headers found in /proc/kheaders.tar.xz.
+
+Verified pass and fail scenarios by running:
+make -C tools/testing/selftests TARGETS=kheaders run_tests
 
 Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 ---
- init/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
+ tools/testing/selftests/Makefile              |  1 +
+ tools/testing/selftests/kheaders/Makefile     |  5 +++++
+ tools/testing/selftests/kheaders/config       |  1 +
+ .../kheaders/run_kheaders_modbuild.sh         | 18 +++++++++++++++++
+ .../selftests/kheaders/testmod/Makefile       |  3 +++
+ .../testing/selftests/kheaders/testmod/test.c | 20 +++++++++++++++++++
+ 6 files changed, 48 insertions(+)
+ create mode 100644 tools/testing/selftests/kheaders/Makefile
+ create mode 100644 tools/testing/selftests/kheaders/config
+ create mode 100755 tools/testing/selftests/kheaders/run_kheaders_modbuild.sh
+ create mode 100644 tools/testing/selftests/kheaders/testmod/Makefile
+ create mode 100644 tools/testing/selftests/kheaders/testmod/test.c
 
-diff --git a/init/Kconfig b/init/Kconfig
-index ea75bfbf7dfa..ffcb2f90543f 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -562,7 +562,6 @@ config BUILD_BIN2C
- 
- config IKCONFIG
- 	tristate "Kernel .config support"
--	select BUILD_BIN2C
- 	---help---
- 	  This option enables the complete Linux kernel ".config" file
- 	  contents to be saved in the kernel. It provides documentation
+diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
+index 971fc8428117..2446cfeae1c5 100644
+--- a/tools/testing/selftests/Makefile
++++ b/tools/testing/selftests/Makefile
+@@ -20,6 +20,7 @@ TARGETS += intel_pstate
+ TARGETS += ipc
+ TARGETS += ir
+ TARGETS += kcmp
++TARGETS += kheaders
+ TARGETS += kvm
+ TARGETS += lib
+ TARGETS += livepatch
+diff --git a/tools/testing/selftests/kheaders/Makefile b/tools/testing/selftests/kheaders/Makefile
+new file mode 100644
+index 000000000000..51035ab0732b
+--- /dev/null
++++ b/tools/testing/selftests/kheaders/Makefile
+@@ -0,0 +1,5 @@
++# SPDX-License-Identifier: GPL-2.0
++
++TEST_PROGS := run_kheaders_modbuild.sh
++
++include ../lib.mk
+diff --git a/tools/testing/selftests/kheaders/config b/tools/testing/selftests/kheaders/config
+new file mode 100644
+index 000000000000..5221f9fb5e79
+--- /dev/null
++++ b/tools/testing/selftests/kheaders/config
+@@ -0,0 +1 @@
++CONFIG_IKHEADERS_PROC=y
+diff --git a/tools/testing/selftests/kheaders/run_kheaders_modbuild.sh b/tools/testing/selftests/kheaders/run_kheaders_modbuild.sh
+new file mode 100755
+index 000000000000..f001568e08b0
+--- /dev/null
++++ b/tools/testing/selftests/kheaders/run_kheaders_modbuild.sh
+@@ -0,0 +1,18 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++
++HEADERS_XZ=/proc/kheaders.tar.xz
++TMP_DIR_HEADERS=$(mktemp -d)
++TMP_DIR_MODULE=$(mktemp -d)
++SPATH="$(dirname "$(readlink -f "$0")")"
++
++tar -xvf $HEADERS_XZ -C $TMP_DIR_HEADERS > /dev/null
++
++cp -r $SPATH/testmod $TMP_DIR_MODULE/
++
++pushd $TMP_DIR_MODULE/testmod > /dev/null
++make -C $TMP_DIR_HEADERS M=$(pwd) modules
++popd > /dev/null
++
++rm -rf $TMP_DIR_HEADERS
++rm -rf $TMP_DIR_MODULE
+diff --git a/tools/testing/selftests/kheaders/testmod/Makefile b/tools/testing/selftests/kheaders/testmod/Makefile
+new file mode 100644
+index 000000000000..7083e28706e8
+--- /dev/null
++++ b/tools/testing/selftests/kheaders/testmod/Makefile
+@@ -0,0 +1,3 @@
++# SPDX-License-Identifier: GPL-2.0
++
++obj-m += test.o
+diff --git a/tools/testing/selftests/kheaders/testmod/test.c b/tools/testing/selftests/kheaders/testmod/test.c
+new file mode 100644
+index 000000000000..6eb0b8492ffa
+--- /dev/null
++++ b/tools/testing/selftests/kheaders/testmod/test.c
+@@ -0,0 +1,20 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#include <linux/module.h>
++#include <linux/kernel.h>
++#include <linux/init.h>
++
++static int __init hello_init(void)
++{
++	printk(KERN_INFO "Hello, world\n");
++	return 0;
++}
++
++static void __exit hello_exit(void)
++{
++	printk(KERN_INFO "Goodbye, world\n");
++}
++
++module_init(hello_init);
++module_exit(hello_exit);
++MODULE_LICENSE("GPL v2");
 -- 
 2.21.0.225.g810b269d1ac-goog
 
