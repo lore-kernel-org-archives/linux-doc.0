@@ -1,95 +1,79 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B8F757D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Mar 2019 19:42:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B768C7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Mar 2019 20:55:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725988AbfCTTmY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 20 Mar 2019 15:42:24 -0400
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:36716 "EHLO
-        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726823AbfCTTmV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Mar 2019 15:42:21 -0400
-Received: by mail-qk1-f196.google.com with SMTP id k130so14916655qke.3
-        for <linux-doc@vger.kernel.org>; Wed, 20 Mar 2019 12:42:20 -0700 (PDT)
+        id S1727122AbfCTUzU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 20 Mar 2019 16:55:20 -0400
+Received: from mail-yw1-f67.google.com ([209.85.161.67]:34616 "EHLO
+        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726497AbfCTUzU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Mar 2019 16:55:20 -0400
+Received: by mail-yw1-f67.google.com with SMTP id x129so3181109ywc.1
+        for <linux-doc@vger.kernel.org>; Wed, 20 Mar 2019 13:55:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
+        d=cmpxchg-org.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=VbrnenGSNs7Bb+kAyHYWxxdHjU+QoptUXg7QX+PaZ/Y=;
-        b=HXQgE8zfQxOptIu1OfFHgkh1M4Y85bpzO+ebVd4rPpXL49zCno2cViFhK0erMuRplB
-         bceo3+yUwbJNYNi49nF27k4owhMHCyk+Ozc9aAnPDIr+8dvvikp+w6dkudHZ7QibukjG
-         of1vSuPT4BErfsZIRPRxCHT+QKbxBxYZQ7KQI=
+        bh=QQYLVXkrs82mdvyVr+o8qJgCSfJ2t/bxI7yFaYhe2ug=;
+        b=UlM3Ag0sHjKm6b60Xzruo36+UDlJMrcULXCsz153tfTpIzb5RNHWobPLHgqI/mhWmy
+         nAzG2b60WzKXMmT44qvypKs/MRK3dAvTvsH7FaGR2TvLZdw4/xJW8HsjT5RsKvT2l114
+         IxT/BWtMIDwxGR3Rmfw37IsijmQCBbzByTYNMnfL5Pqrmqbt0ycHo6hbZZnw/ciMk73x
+         cPcXJLfScHgpDqcmjbfZuTV1rp0MyTLNKhI28W8pS3bGyOp6RhItnuEcuUJOy2Kdykwv
+         PxWIWOxISeF3vhf5selrKImaCqn1ve35lBZip8IjabpLC+gzrspIs30WY8hjdR6M7M8X
+         2FsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=VbrnenGSNs7Bb+kAyHYWxxdHjU+QoptUXg7QX+PaZ/Y=;
-        b=mbDCLeBKRSKZGPgOlZl0RzKckwdwXq2ZYJUWrbtuiEcKhVoAgQ0NLEDzjlQ6vhBDQa
-         LF+jRuFaeks5rm4GI2cyxnFE9mYbhRZ2+AU1eDkEtr8KlVNZreTNZyqHxQSHBBt7Y35R
-         sBIzRbXxUqiDCIT57zBRRvpvfB0Z4+orCivmkDMd2gfzQwahy3a/b36BGyQtsJ/CgYIf
-         H8I4a6YWGddyxgYvR/Vd2j/zoHTRpMMkFcuxsZ8vHi5ueH+A8zhMQEEzOwODbnMozGhO
-         1/Ckp1AKHWiJB0woeU+ETXOeJAZJ+477h0ASvnosruLyLaW6QrDzCxugQIjgqhAh79vz
-         JsvA==
-X-Gm-Message-State: APjAAAVBR3Q1/e9Ul+AbujZvwNLmVZ4XFP1ms2ysKkPdaXplJigkiFbb
-        dvuunMdlcFHUZ3ckJvFIvQT1uA==
-X-Google-Smtp-Source: APXvYqwcB37vMB2GCE52Uua6m/iA9pSMhkqnSfm0d418ctJ/k3gXQolJrEwPE58AnsbdheKSey46zw==
-X-Received: by 2002:a37:6510:: with SMTP id z16mr7531586qkb.341.1553110939836;
-        Wed, 20 Mar 2019 12:42:19 -0700 (PDT)
-Received: from localhost ([2620:0:1004:1100:cca9:fccc:8667:9bdc])
-        by smtp.gmail.com with ESMTPSA id r64sm1481783qkc.27.2019.03.20.12.42.18
+        bh=QQYLVXkrs82mdvyVr+o8qJgCSfJ2t/bxI7yFaYhe2ug=;
+        b=gX/3VDB2Icy2bth57ne5SmnpUm7kbwSXUlmTTrkKU7UJqj+YVp+fBk2eEplrv2xQIm
+         wZGjA0sfkBC2fSUeis1P+b3jd0fCC3B+ZH+z+hj/Chr0w6HEJa+kLsP1pxfUmhg8XtXf
+         5gPg6ZfeY017d0CNAnq2UXopIXZnpri8OVXV7bMsUXlrkAxIjbGZJEaArebcOQoUKq8j
+         uU5YBTI4Sc3ZZyM3F7p6E5Cx8iUS6Nu+zozw0R4P02XUBdQ9Qk2bkjbdYxYJd1Cu0Y3c
+         ajdD7CShROsacm/MHsyMMgDPc2eB9h4WI31cmpRq36JQMvh+P8AjaoH/Fgr1GGlXe71D
+         L+pw==
+X-Gm-Message-State: APjAAAWChhuSiHhOfkCTLhOFwwc0ZhK5KWo/LoXRChz0oTmTT3bfKzC8
+        U9Z/4Apn3VKNG8+KjssncwvMXA==
+X-Google-Smtp-Source: APXvYqyIbRSYuOZ+T6cPUs3nMP69qxZ/A1CkgW2QQVmoCqQ+qIU4OgICrzlh/aj/ZsVwMkaKM+QPbw==
+X-Received: by 2002:a81:2c85:: with SMTP id s127mr107964yws.255.1553115319248;
+        Wed, 20 Mar 2019 13:55:19 -0700 (PDT)
+Received: from localhost ([2620:10d:c091:200::2:b52c])
+        by smtp.gmail.com with ESMTPSA id j15sm1001794ywa.7.2019.03.20.13.55.18
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 20 Mar 2019 12:42:18 -0700 (PDT)
-Date:   Wed, 20 Mar 2019 15:42:18 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, qais.yousef@arm.com,
-        dietmar.eggemann@arm.com, linux@manojrajarao.com, ast@kernel.org,
-        atishp04@gmail.com, dancol@google.com,
-        Dan Williams <dan.j.williams@intel.com>,
-        gregkh@linuxfoundation.org, Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>, karim.yaghmour@opersys.com,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        mhiramat@kernel.org, rdunlap@infradead.org, rostedt@goodmis.org,
-        Shuah Khan <shuah@kernel.org>, yhs@fb.com
-Subject: Re: [PATCH v5 1/3] Provide in-kernel headers to make extending
- kernel easier
-Message-ID: <20190320194218.GA80310@google.com>
-References: <20190320163116.39275-1-joel@joelfernandes.org>
- <20190320113111.d68a7c71c2c163bbc7d5f6aa@linux-foundation.org>
+        Wed, 20 Mar 2019 13:55:18 -0700 (PDT)
+Date:   Wed, 20 Mar 2019 16:55:17 -0400
+From:   Johannes Weiner <hannes@cmpxchg.org>
+To:     Suren Baghdasaryan <surenb@google.com>
+Cc:     gregkh@linuxfoundation.org, tj@kernel.org, lizefan@huawei.com,
+        axboe@kernel.dk, dennis@kernel.org, dennisszhou@gmail.com,
+        mingo@redhat.com, peterz@infradead.org, akpm@linux-foundation.org,
+        corbet@lwn.net, cgroups@vger.kernel.org, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-team@android.com
+Subject: Re: [PATCH v6 2/7] psi: make psi_enable static
+Message-ID: <20190320205517.GA19382@cmpxchg.org>
+References: <20190319235619.260832-1-surenb@google.com>
+ <20190319235619.260832-3-surenb@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190320113111.d68a7c71c2c163bbc7d5f6aa@linux-foundation.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190319235619.260832-3-surenb@google.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 20, 2019 at 11:31:11AM -0700, Andrew Morton wrote:
-> On Wed, 20 Mar 2019 12:31:14 -0400 "Joel Fernandes (Google)" <joel@joelfernandes.org> wrote:
+On Tue, Mar 19, 2019 at 04:56:14PM -0700, Suren Baghdasaryan wrote:
+> psi_enable is not used outside of psi.c, make it static.
 > 
-> > Introduce in-kernel headers and other artifacts which are made available
-> > as an archive through proc (/proc/kheaders.tar.xz file).
-> 
-> Lazyass here hasn't been following the recent review discussion and is
-> going to try cheating.  Are there significant outstanding concerns now,
-> or are we good to go?
+> Suggested-by: Andrew Morton <akpm@linux-foundation.org>
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 
-Looks to me like it is pretty solid. v4->v5 was just cosmetic changes,
-rebasing etc. Unless Masahiro has any other concerns, it could be a
-linux-next candidate. I tested it quite heavily, but would be nice to get
-some linux-next testing as well.
-
-thanks,
-
- - Joel
-
+Acked-by: Johannes Weiner <hannes@cmpxchg.org>
