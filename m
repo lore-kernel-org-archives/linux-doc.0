@@ -5,168 +5,107 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E96BE7D099
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Mar 2019 13:34:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 60C867D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Mar 2019 14:26:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727829AbfCUNes convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 21 Mar 2019 09:34:48 -0400
-Received: from mga05.intel.com ([192.55.52.43]:55495 "EHLO mga05.intel.com"
+        id S1727829AbfCUO0Y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 21 Mar 2019 10:26:24 -0400
+Received: from mga03.intel.com ([134.134.136.65]:30664 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728296AbfCUNes (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 21 Mar 2019 09:34:48 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
+        id S1725985AbfCUO0X (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 21 Mar 2019 10:26:23 -0400
+X-Amp-Result: UNSCANNABLE
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Mar 2019 06:34:48 -0700
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Mar 2019 07:26:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,252,1549958400"; 
-   d="scan'208";a="157046882"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.172])
-  by fmsmga001.fm.intel.com with ESMTP; 21 Mar 2019 06:34:46 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Tom Levy <tomlevy93@gmail.com>, Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org,
-        Trivial Patch Monkey <trivial@kernel.org>,
-        Tom Levy <tomlevy93@gmail.com>
-Subject: Re: [PATCH] docs: remove spaces from shell variable assignment
-In-Reply-To: <20190321013756.13028-1-tomlevy93@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20190321013756.13028-1-tomlevy93@gmail.com>
-Date:   Thu, 21 Mar 2019 15:36:30 +0200
-Message-ID: <87imwce4dd.fsf@intel.com>
+X-IronPort-AV: E=Sophos;i="5.60,253,1549958400"; 
+   d="scan'208";a="128931688"
+Received: from sjchrist-coffee.jf.intel.com (HELO linux.intel.com) ([10.54.74.181])
+  by orsmga006.jf.intel.com with ESMTP; 21 Mar 2019 07:26:23 -0700
+Date:   Thu, 21 Mar 2019 07:26:23 -0700
+From:   Sean Christopherson <sean.j.christopherson@intel.com>
+To:     Jani Nikula <jani.nikula@linux.intel.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Joe Perches <joe@perches.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Niklas Cassel <niklas.cassel@linaro.org>
+Subject: Re: [PATCH] docs: Explicitly state ordering requirements for
+ Co-developed-by
+Message-ID: <20190321142622.GA6519@linux.intel.com>
+References: <20190320151140.32432-1-sean.j.christopherson@intel.com>
+ <87lg18e4nx.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87lg18e4nx.fsf@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 21 Mar 2019, Tom Levy <tomlevy93@gmail.com> wrote:
-> The instructions for generating patches are given as shell commands
-> with variables as placeholders. They use the syntax "SRCTREE= linux",
-> which is wrong for the Bourne shell family (it runs the command
-> "linux" with the variable "SRCTREE" set to the empty string).
->
-> Remove the spaces to avoid confusion. This breaks the pretty alignment
-> but helps new contributors who try to run the commands as written.
+On Thu, Mar 21, 2019 at 03:30:10PM +0200, Jani Nikula wrote:
+> On Wed, 20 Mar 2019, Sean Christopherson <sean.j.christopherson@intel.com> wrote:
+> > Per Thomas' yet-to-be-merged "tip tree handbook"[1], Co-developed-by and
+> > Signed-off-by must be paired together, i.e. the co-authors' SOB mustn't
+> > be scattered willy-nilly, and the author's SOB must be the first SOB
+> > *after* the last Co-developed-by/Signed-off-by pair.  Provide an example
+> > to eliminate any ambiguity.
+> >
+> > [1] http://lkml.kernel.org/r/20181107171149.165693799@linutronix.de
+> >
+> > Cc: Thomas Gleixner <tglx@linutronix.de>
+> > Cc: Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org>
+> > Cc: Jonathan Cameron <jic23@kernel.org>
+> > Cc: Joe Perches <joe@perches.com>
+> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Cc: Niklas Cassel <niklas.cassel@linaro.org>
+> > Cc: Jonathan Corbet <corbet@lwn.net>
+> > Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
+> > ---
+> >  Documentation/process/submitting-patches.rst | 9 +++++++--
+> >  1 file changed, 7 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> > index be7d1829c3af..f4b5c4850601 100644
+> > --- a/Documentation/process/submitting-patches.rst
+> > +++ b/Documentation/process/submitting-patches.rst
+> > @@ -547,8 +547,13 @@ have been included in the discussion.
+> >  
+> >  A Co-developed-by: states that the patch was also created by another developer
+> >  along with the original author.  This is useful at times when multiple people
+> > -work on a single patch.  Note, this person also needs to have a Signed-off-by:
+> > -line in the patch as well.
+> > +work on a single patch.  Note, Co-developed-by: must be accompanied by a
+> > +Signed-off-by: of the co-author(s).  All Co-developed-by:/Signed-off-by: pairs
+> > +must precede the Signed-off-by: of the original author.
+> > +
+> > +	Co-developed-by: Random Co-Author <random@coauthor.example.org>
+> > +	Signed-off-by: Random Co-Author <random@coauthor.example.org>
+> > +	Signed-off-by: Original Author <original@author.example.org>
+> 
+> Seems to me this suggests Original Author is involved in the patch from
+> start to finish, and then gives Random Co-Author credit as well.
+> 
+> IME it's more common for the Original Author to write a patch, and
+> Random Co-Author to take over, finishing the job. Chronologically in
+> this case I'd put the sign-offs the other way round.
 
-The change looks fine.
+Hmm, and my experience is exclusively limited to contributing code to
+someone else's patches.  Rather than dictate exact ordering, what about
+deferring to standard sign-off procedure?
 
-Note that new contributors should *never* follow this section anyway. In
-fact, I think *nobody* should follow this section...
+E.g.:
 
-BR,
-Jani.
-
-
->
-> Signed-off-by: Tom Levy <tomlevy93@gmail.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> ---
->  Documentation/process/submitting-patches.rst                    | 6 +++---
->  Documentation/translations/it_IT/process/submitting-patches.rst | 6 +++---
->  Documentation/translations/ja_JP/SubmittingPatches              | 6 +++---
->  Documentation/translations/zh_CN/SubmittingPatches              | 6 +++---
->  4 files changed, 12 insertions(+), 12 deletions(-)
->
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index be7d1829c3af..33098adc5381 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -60,8 +60,8 @@ not in any lower subdirectory.
->  
->  To create a patch for a single file, it is often sufficient to do::
->  
-> -	SRCTREE= linux
-> -	MYFILE=  drivers/net/mydriver.c
-> +	SRCTREE=linux
-> +	MYFILE=drivers/net/mydriver.c
->  
->  	cd $SRCTREE
->  	cp $MYFILE $MYFILE.orig
-> @@ -73,7 +73,7 @@ To create a patch for multiple files, you should unpack a "vanilla",
->  or unmodified kernel source tree, and generate a ``diff`` against your
->  own source tree.  For example::
->  
-> -	MYSRC= /devel/linux
-> +	MYSRC=/devel/linux
->  
->  	tar xvfz linux-3.19.tar.gz
->  	mv linux-3.19 linux-3.19-vanilla
-> diff --git a/Documentation/translations/it_IT/process/submitting-patches.rst b/Documentation/translations/it_IT/process/submitting-patches.rst
-> index 2ab9c1401aa1..713fba075b9d 100644
-> --- a/Documentation/translations/it_IT/process/submitting-patches.rst
-> +++ b/Documentation/translations/it_IT/process/submitting-patches.rst
-> @@ -67,8 +67,8 @@ sulla radice dei sorgenti del kernel, e non sulle sue sottocartelle.
->  
->  Per creare una patch per un singolo file, spesso è sufficiente fare::
->  
-> -	SRCTREE= linux
-> -	MYFILE=  drivers/net/mydriver.c
-> +	SRCTREE=linux
-> +	MYFILE=drivers/net/mydriver.c
->  
->  	cd $SRCTREE
->  	cp $MYFILE $MYFILE.orig
-> @@ -80,7 +80,7 @@ Per creare una patch per molteplici file, dovreste spacchettare i sorgenti
->  "vergini", o comunque non modificati, e fare un ``diff`` coi vostri.
->  Per esempio::
->  
-> -	MYSRC= /devel/linux
-> +	MYSRC=/devel/linux
->  
->  	tar xvfz linux-3.19.tar.gz
->  	mv linux-3.19 linux-3.19-vanilla
-> diff --git a/Documentation/translations/ja_JP/SubmittingPatches b/Documentation/translations/ja_JP/SubmittingPatches
-> index 02139656463e..ad979c3c06a6 100644
-> --- a/Documentation/translations/ja_JP/SubmittingPatches
-> +++ b/Documentation/translations/ja_JP/SubmittingPatches
-> @@ -58,8 +58,8 @@ Linux カーネルに対する全ての変更は diff(1) コマンドによる
->  1個のファイルについてのパッチを作成するためには、ほとんどの場合、
->  以下の作業を行えば十分です。
->  
-> -	SRCTREE= linux-2.6
-> -	MYFILE=  drivers/net/mydriver.c
-> +	SRCTREE=linux-2.6
-> +	MYFILE=drivers/net/mydriver.c
->  
->  	cd $SRCTREE
->  	cp $MYFILE $MYFILE.orig
-> @@ -71,7 +71,7 @@ Linux カーネルに対する全ての変更は diff(1) コマンドによる
->  なわち変更を加えてない Linux カーネルを展開し、自分の Linux カーネル
->  ソースとの差分を生成しないといけません。例えば、
->  
-> -	MYSRC= /devel/linux-2.6
-> +	MYSRC=/devel/linux-2.6
->  
->  	tar xvfz linux-2.6.12.tar.gz
->  	mv linux-2.6.12 linux-2.6.12-vanilla
-> diff --git a/Documentation/translations/zh_CN/SubmittingPatches b/Documentation/translations/zh_CN/SubmittingPatches
-> index e9098da8f1a4..04d9a1f89b58 100644
-> --- a/Documentation/translations/zh_CN/SubmittingPatches
-> +++ b/Documentation/translations/zh_CN/SubmittingPatches
-> @@ -51,8 +51,8 @@ Documentation/process/submitting-drivers.rst 。
->  何子目录。
->  为一个单独的文件创建补丁，一般来说这样做就够了：
->  
-> -        SRCTREE= linux-2.6
-> -        MYFILE=  drivers/net/mydriver.c
-> +        SRCTREE=linux-2.6
-> +        MYFILE=drivers/net/mydriver.c
->  
->          cd $SRCTREE
->          cp $MYFILE $MYFILE.orig
-> @@ -63,7 +63,7 @@ Documentation/process/submitting-drivers.rst 。
->  为多个文件创建补丁，你可以解开一个没有修改过的内核源代码树，然后和你自
->  己的代码树之间做 diff 。例如：
->  
-> -        MYSRC= /devel/linux-2.6
-> +        MYSRC=/devel/linux-2.6
->  
->          tar xvfz linux-2.6.12.tar.gz
->          mv linux-2.6.12 linux-2.6.12-vanilla
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+  A Co-developed-by: states that the patch was also created by another developer
+  along with the original author.  This is useful at times when multiple people
+  work on a single patch.  Co-developed-by: must be immediately followed by a
+  Signed-off-by: of the co-author(s).  As per standard sign-off procedure, the
+  ordering of Co-developed-by:/Signed-off-by: pairs should reflect the patch's
+  handling insofar as possible.  Notably, the last Signed-off-by: must always be
+  that of the developer submitting the patch, regardless of whether they are the
+  original author or a co-author.
