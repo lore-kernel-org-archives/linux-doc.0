@@ -1,113 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 91BF67D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Mar 2019 23:06:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1E5B17D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Mar 2019 23:36:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727363AbfCUXGJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 21 Mar 2019 19:06:09 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:35702 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726695AbfCUXGI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 21 Mar 2019 19:06:08 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 337F3EBD;
-        Thu, 21 Mar 2019 16:06:08 -0700 (PDT)
-Received: from beelzebub.austin.arm.com (mammon-tx2.austin.arm.com [10.118.29.246])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7115E3F614;
-        Thu, 21 Mar 2019 16:06:07 -0700 (PDT)
-From:   Jeremy Linton <jeremy.linton@arm.com>
-To:     linux-arm-kernel@lists.infradead.org
-Cc:     catalin.marinas@arm.com, will.deacon@arm.com, marc.zyngier@arm.com,
-        suzuki.poulose@arm.com, Dave.Martin@arm.com,
-        shankerd@codeaurora.org, julien.thierry@arm.com,
-        mlangsdo@redhat.com, stefan.wahren@i2e.com, Andre.Przywara@arm.com,
-        linux-kernel@vger.kernel.org,
-        Jeremy Linton <jeremy.linton@arm.com>,
-        Andre Przywara <andre.przywara@arm.com>,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH v6 01/10] arm64: Provide a command line to disable spectre_v2 mitigation
-Date:   Thu, 21 Mar 2019 18:05:48 -0500
-Message-Id: <20190321230557.45107-2-jeremy.linton@arm.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190321230557.45107-1-jeremy.linton@arm.com>
-References: <20190321230557.45107-1-jeremy.linton@arm.com>
+        id S1726980AbfCUXgg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 21 Mar 2019 19:36:36 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:51367 "EHLO
+        out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726555AbfCUXgg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Mar 2019 19:36:36 -0400
+X-Greylist: delayed 399 seconds by postgrey-1.27 at vger.kernel.org; Thu, 21 Mar 2019 19:36:35 EDT
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id 65367247E5;
+        Thu, 21 Mar 2019 19:29:55 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Thu, 21 Mar 2019 19:29:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=date
+        :from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=ImA9Z06R/50k8H3at+XhqlWnLjA
+        GXJst6Gjj/b/gR1o=; b=ysgKI+EADcTfFJ467W1qq/1zARCrXYTw2UVuY+zsGBm
+        3doT5dd8RuXrT13ufHt1V5DZAgsMMQaridkGE40WxjqchflEyRIDcgajqFzCo05a
+        YJb3UHA6DGn7861V5AiZ3BSVWOrsgunpOTNLEzVhBurN08xK/HyDDkPR5L641CG0
+        TX8TzqMD3DBHxNSb73MXFBrCzbnkaSulCTNJPMXrLjksgVokbCntRUb4GKwmaysZ
+        aQ4BbWNqNhj2VipjO+5LjBAWfzIrAvxY9iQE6wcNnG+81tsvSWNBAeb78XOB1KIO
+        CD/c0u5FBDaZW/lCDB81N3T6BLmnNqzMmf0IxonVJkQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=ImA9Z0
+        6R/50k8H3at+XhqlWnLjAGXJst6Gjj/b/gR1o=; b=6pOTW+j0DlDfNapjvf9C/7
+        OwiPss6J7BrBVescn/iRQII4WQTgyJEyJCfkYEvRB6eZZKAT/GdySp80DxcZMeWb
+        mtPCGQnjTyKNOa9c3oNqLd6AQSG3lA7G2k3QFuvBbsO17Y6+SQgvTWpg5DrCRs/X
+        xQntVzeIywsq9ILg9t26RYKzME2e/76+KadxX/jLvIB4vhoXIiVrSyNGBDlo1UWD
+        sKnK9HWCfR7SyLhQGFwUBbjr544e5WuIubjlqIDSmamvR6ZGHdWu1tOuSdFUP290
+        qI3qfeIkpJFsRnfakiOhm/vHZxlIDLwoQ/f3r17tLxdXzm9b5vZl0QQYnSN0FhZw
+        ==
+X-ME-Sender: <xms:cR6UXCeml4LTLJ-YcVPDA44DgM0XaSNzCm3pkB-lRrCpi3aHXyEZQg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedutddrjedtgddutdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenfg
+    hrlhcuvffnffculdduhedmnecujfgurhepfffhvffukfhfgggtuggjofgfsehttdertdfo
+    redvnecuhfhrohhmpedfvfhosghinhcuvedrucfjrghrughinhhgfdcuoehmvgesthhosg
+    hinhdrtggtqeenucfkphepuddvgedrudejuddrfedurdduhedunecurfgrrhgrmhepmhgr
+    ihhlfhhrohhmpehmvgesthhosghinhdrtggtnecuvehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:cR6UXIEIiiDEckKnSPtbc6OYZ4G7eTv8swrdfQHWsCiaV94uv30ezA>
+    <xmx:cR6UXMWVMQXQfXRwx5kpx-39I61JAWe_foCgV1C36dVSsso4HyzZrQ>
+    <xmx:cR6UXIwVEHk6v78eEee7Zm2r6jQZZX9OTSR-QTfNzBSdH11bUQir4w>
+    <xmx:cx6UXM13f7YIHlwsjiX-KJ38tecQuKCyq8xCiRUXphkO7foh4GsPZw>
+Received: from localhost (124-171-31-151.dyn.iinet.net.au [124.171.31.151])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 2E384E4807;
+        Thu, 21 Mar 2019 19:29:52 -0400 (EDT)
+Date:   Fri, 22 Mar 2019 10:29:25 +1100
+From:   "Tobin C. Harding" <me@tobin.cc>
+To:     Joe Perches <joe@perches.com>
+Cc:     Sean Christopherson <sean.j.christopherson@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Niklas Cassel <niklas.cassel@linaro.org>
+Subject: Re: [PATCH v2] docs: Clarify the usage and sign-off requirements for
+ Co-developed-by
+Message-ID: <20190321232925.GA17705@eros.localdomain>
+References: <20190321184316.8525-1-sean.j.christopherson@intel.com>
+ <20190321192341.GG6519@linux.intel.com>
+ <0cc879a63943b57b62caddce6866b83a14b42c14.camel@perches.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0cc879a63943b57b62caddce6866b83a14b42c14.camel@perches.com>
+X-Mailer: Mutt 1.11.4 (2019-03-13)
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are various reasons, including bencmarking, to disable spectrev2
-mitigation on a machine. Provide a command-line to do so.
+On Thu, Mar 21, 2019 at 03:47:26PM -0700, Joe Perches wrote:
+> On Thu, 2019-03-21 at 12:23 -0700, Sean Christopherson wrote:
+> > On Thu, Mar 21, 2019 at 11:43:16AM -0700, Sean Christopherson wrote:
+> > > The documentation for Co-developed-by is a bit light on details, e.g. it
+> > > doesn't explicitly state that:
+> > > 
+> > >   - Multiple Co-developed-by tags are perfectly acceptable
+> > >   - Co-developed-by and Signed-off-by must be paired together
+> > >   - SOB ordering should still follow standard sign-off procedure
+> 
+> While I still think co-developed-by: is unnecessary and
+> almost none of the existing uses of this have this
+> sequence of "Co-developed-by: <name/email>" followed directly
+> by "Signed-off-by: <same name/email>", here's a possible
+> checkpatch addition for it.
 
-Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
-Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/admin-guide/kernel-parameters.txt |  8 ++++----
- arch/arm64/kernel/cpu_errata.c                  | 13 +++++++++++++
- 2 files changed, 17 insertions(+), 4 deletions(-)
+Tested-by: Tobin C. Harding <tobin@kernel.org>
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 2b8ee90bb644..d153bb15c8c7 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2873,10 +2873,10 @@
- 			check bypass). With this option data leaks are possible
- 			in the system.
- 
--	nospectre_v2	[X86,PPC_FSL_BOOK3E] Disable all mitigations for the Spectre variant 2
--			(indirect branch prediction) vulnerability. System may
--			allow data leaks with this option, which is equivalent
--			to spectre_v2=off.
-+	nospectre_v2	[X86,PPC_FSL_BOOK3E,ARM64] Disable all mitigations for
-+			the Spectre variant 2 (indirect branch prediction)
-+			vulnerability. System may allow data leaks with this
-+			option.
- 
- 	nospec_store_bypass_disable
- 			[HW] Disable all mitigations for the Speculative Store Bypass vulnerability
-diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
-index 9950bb0cbd52..d2b2c69d31bb 100644
---- a/arch/arm64/kernel/cpu_errata.c
-+++ b/arch/arm64/kernel/cpu_errata.c
-@@ -220,6 +220,14 @@ static void qcom_link_stack_sanitization(void)
- 		     : "=&r" (tmp));
- }
- 
-+static bool __nospectre_v2;
-+static int __init parse_nospectre_v2(char *str)
-+{
-+	__nospectre_v2 = true;
-+	return 0;
-+}
-+early_param("nospectre_v2", parse_nospectre_v2);
-+
- static void
- enable_smccc_arch_workaround_1(const struct arm64_cpu_capabilities *entry)
- {
-@@ -231,6 +239,11 @@ enable_smccc_arch_workaround_1(const struct arm64_cpu_capabilities *entry)
- 	if (!entry->matches(entry, SCOPE_LOCAL_CPU))
- 		return;
- 
-+	if (__nospectre_v2) {
-+		pr_info_once("spectrev2 mitigation disabled by command line option\n");
-+		return;
-+	}
-+
- 	if (psci_ops.smccc_version == SMCCC_VERSION_1_0)
- 		return;
- 
--- 
-2.20.1
+Catches missing SOB of co-developer.
 
+Hope this helps,
+Tobin.
