@@ -1,152 +1,154 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	FORGED_GMAIL_RCVD,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 196487D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 20 Mar 2019 21:31:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5E9757D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Mar 2019 01:56:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727381AbfCTVbb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 20 Mar 2019 17:31:31 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:37387 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727084AbfCTVbb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Mar 2019 17:31:31 -0400
-Received: by mail-wm1-f66.google.com with SMTP id v14so683586wmf.2
-        for <linux-doc@vger.kernel.org>; Wed, 20 Mar 2019 14:31:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Mtxf5pT39Z4BnbnxgSq7NjbZwWFw7wbcGxGIAo3gGpo=;
-        b=Hv4/2pZsdQ9/lGuJMcAKTBbQlWwDQ4TvIeFoDsoLQIB6cL0tn9YFVRTeTGV0aNPZRs
-         em/Z1u9GSr5gRRyRmrsDlSeY0E8oZY1DsID5yn6eZIjVsk4h41LdTzVfBUgO0ZI0cIcw
-         PNhEopdU2FTDIagAghKH0MOFUuhN/aieSmyX5XgHzHKPHu++ohJBVMqP2XCfDpdyFo6u
-         80oKeAaPwt8YMzbU42eO+EFrGm3VBZhzgXrykubyvWYOF0rZUbfEHlYrKfBSPs6bk/Gr
-         JO08NcPXd9RncZkdZ7kruffxULpbBADb/VmNMMrcWch6vZExIUlhuAfRX+GrFd0if46j
-         0kZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Mtxf5pT39Z4BnbnxgSq7NjbZwWFw7wbcGxGIAo3gGpo=;
-        b=IG8PkCSHE5AD4OV+uuv6C3PT4EQ8IXp0JtsubKcZTi35DDvhvspQXnvcfTZYjhXDHC
-         lysO6GDRXz3wOC9hYbAO1vEWafQRx3EilhEEITgajW15mSozJNm9WLCu9E1e4r4b8KVJ
-         ctC4EVq3MMtgrwi1YEF7E12ryJF8mCY8PFkVkSoEX6267oGcoRc+QJjRToYrPzqBnqH+
-         6xfNN0dX/nAd7eqSuY1ebC0XqkSdz/8zfauPD7WK9+wXvBCAYw9YBApg3BLTTtl/e5E2
-         jvWuFw93M94qYBTLSWcqivuI2VpS3ZcN9lCtIZJk+7m/2RbS/eG0N41CeUiHHKzOWr8j
-         pTlQ==
-X-Gm-Message-State: APjAAAW6btme+cweiMQJUO9TBvKJMC7uv1K0PC3tn/vCO4xfcI5BBUEe
-        cL8FUPhnLvvV7CYTVTvjZZJm9rO810oNRC9R4U07
-X-Google-Smtp-Source: APXvYqxQQW3kNihij1Gl9oxwdtbghk+q6zd/Q77QU9ixq+Z8/jzPiFPM/zm5LcbxvJATXFOnH0T3XPepzBtNyvZpLQ4=
-X-Received: by 2002:a7b:c3d7:: with SMTP id t23mr259183wmj.62.1553117489398;
- Wed, 20 Mar 2019 14:31:29 -0700 (PDT)
+        id S1727551AbfCUB46 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 20 Mar 2019 21:56:58 -0400
+Received: from clyde.resnet.cms.waikato.ac.nz ([130.217.221.53]:33268 "EHLO
+        clyde.resnet.cms.waikato.ac.nz" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726914AbfCUB45 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Mar 2019 21:56:57 -0400
+X-Greylist: delayed 1103 seconds by postgrey-1.27 at vger.kernel.org; Wed, 20 Mar 2019 21:56:57 EDT
+Received: from tom by clyde.resnet.cms.waikato.ac.nz with local (Exim 4.89)
+        (envelope-from <tom@clyde.resnet.cms.waikato.ac.nz>)
+        id 1h6mfA-0003PL-8A; Thu, 21 Mar 2019 14:38:32 +1300
+From:   Tom Levy <tomlevy93@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org,
+        Trivial Patch Monkey <trivial@kernel.org>,
+        Tom Levy <tomlevy93@gmail.com>
+Subject: [PATCH] docs: remove spaces from shell variable assignment
+Date:   Thu, 21 Mar 2019 14:37:56 +1300
+Message-Id: <20190321013756.13028-1-tomlevy93@gmail.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-References: <20190320161320.59291-1-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20190320161320.59291-1-andriy.shevchenko@linux.intel.com>
-From:   Bjorn Helgaas <bhelgaas@google.com>
-Date:   Wed, 20 Mar 2019 16:31:17 -0500
-Message-ID: <CAErSpo4v5qxza6Uyo8ZJ1kWWY2eBMxn5JQNQk2kAeZ2PZ2a+Yw@mail.gmail.com>
-Subject: Re: [PATCH v1] dma-mapping: Fix filename references
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        linux-doc@vger.kernel.org, Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 20, 2019 at 11:13 AM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> After the commit cf65a0f6f6ff
->
->   ("dma-mapping: move all DMA mapping code to kernel/dma")
->
-> some of the files are referring to outdated information, i.e. old file names
-> of DMA mapping sources.
->
-> Fix it here.
->
-> Cc: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+The instructions for generating patches are given as shell commands
+with variables as placeholders. They use the syntax "SRCTREE= linux",
+which is wrong for the Bourne shell family (it runs the command
+"linux" with the variable "SRCTREE" set to the empty string).
 
-> +++ b/arch/ia64/kernel/setup.c
-> @@ -256,7 +256,7 @@ __initcall(register_memory);
->   * This function checks if the reserved crashkernel is allowed on the specific
->   * IA64 machine flavour. Machines without an IO TLB use swiotlb and require
->   * some memory below 4 GB (i.e. in 32 bit area), see the implementation of
-> - * lib/swiotlb.c. The hpzx1 architecture has an IO TLB but cannot use that
-> + * kernel/dma/swiotlb.c. The hpzx1 architecture has an IO TLB but cannot use that
->   * in kdump case. See the comment in sba_init() in sba_iommu.c.
+Remove the spaces to avoid confusion. This breaks the pretty alignment
+but helps new contributors who try to run the commands as written.
 
-Is the point here that just that if you lack an IOTLB and want devices
-to be able to reach system memory above 4GB, you need a bounce buffer
-below 4GB?  If so, maybe we could just say *that* instead of a
-nebulous reference to "the implementation of */swiotlb.c", which
-doesn't tell you what part of the implementation is relevant.
+Signed-off-by: Tom Levy <tomlevy93@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+---
+ Documentation/process/submitting-patches.rst                    | 6 +++---
+ Documentation/translations/it_IT/process/submitting-patches.rst | 6 +++---
+ Documentation/translations/ja_JP/SubmittingPatches              | 6 +++---
+ Documentation/translations/zh_CN/SubmittingPatches              | 6 +++---
+ 4 files changed, 12 insertions(+), 12 deletions(-)
 
-> diff --git a/arch/x86/kernel/pci-swiotlb.c b/arch/x86/kernel/pci-swiotlb.c
-> index 5f5302028a9a..7b6dd54018fa 100644
-> --- a/arch/x86/kernel/pci-swiotlb.c
-> +++ b/arch/x86/kernel/pci-swiotlb.c
-> @@ -1,5 +1,5 @@
->  // SPDX-License-Identifier: GPL-2.0
-> -/* Glue code to lib/swiotlb.c */
-> +/* Glue code to kernel/dma/swiotlb.c */
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index be7d1829c3af..33098adc5381 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -60,8 +60,8 @@ not in any lower subdirectory.
+ 
+ To create a patch for a single file, it is often sufficient to do::
+ 
+-	SRCTREE= linux
+-	MYFILE=  drivers/net/mydriver.c
++	SRCTREE=linux
++	MYFILE=drivers/net/mydriver.c
+ 
+ 	cd $SRCTREE
+ 	cp $MYFILE $MYFILE.orig
+@@ -73,7 +73,7 @@ To create a patch for multiple files, you should unpack a "vanilla",
+ or unmodified kernel source tree, and generate a ``diff`` against your
+ own source tree.  For example::
+ 
+-	MYSRC= /devel/linux
++	MYSRC=/devel/linux
+ 
+ 	tar xvfz linux-3.19.tar.gz
+ 	mv linux-3.19 linux-3.19-vanilla
+diff --git a/Documentation/translations/it_IT/process/submitting-patches.rst b/Documentation/translations/it_IT/process/submitting-patches.rst
+index 2ab9c1401aa1..713fba075b9d 100644
+--- a/Documentation/translations/it_IT/process/submitting-patches.rst
++++ b/Documentation/translations/it_IT/process/submitting-patches.rst
+@@ -67,8 +67,8 @@ sulla radice dei sorgenti del kernel, e non sulle sue sottocartelle.
+ 
+ Per creare una patch per un singolo file, spesso è sufficiente fare::
+ 
+-	SRCTREE= linux
+-	MYFILE=  drivers/net/mydriver.c
++	SRCTREE=linux
++	MYFILE=drivers/net/mydriver.c
+ 
+ 	cd $SRCTREE
+ 	cp $MYFILE $MYFILE.orig
+@@ -80,7 +80,7 @@ Per creare una patch per molteplici file, dovreste spacchettare i sorgenti
+ "vergini", o comunque non modificati, e fare un ``diff`` coi vostri.
+ Per esempio::
+ 
+-	MYSRC= /devel/linux
++	MYSRC=/devel/linux
+ 
+ 	tar xvfz linux-3.19.tar.gz
+ 	mv linux-3.19 linux-3.19-vanilla
+diff --git a/Documentation/translations/ja_JP/SubmittingPatches b/Documentation/translations/ja_JP/SubmittingPatches
+index 02139656463e..ad979c3c06a6 100644
+--- a/Documentation/translations/ja_JP/SubmittingPatches
++++ b/Documentation/translations/ja_JP/SubmittingPatches
+@@ -58,8 +58,8 @@ Linux カーネルに対する全ての変更は diff(1) コマンドによる
+ 1個のファイルについてのパッチを作成するためには、ほとんどの場合、
+ 以下の作業を行えば十分です。
+ 
+-	SRCTREE= linux-2.6
+-	MYFILE=  drivers/net/mydriver.c
++	SRCTREE=linux-2.6
++	MYFILE=drivers/net/mydriver.c
+ 
+ 	cd $SRCTREE
+ 	cp $MYFILE $MYFILE.orig
+@@ -71,7 +71,7 @@ Linux カーネルに対する全ての変更は diff(1) コマンドによる
+ なわち変更を加えてない Linux カーネルを展開し、自分の Linux カーネル
+ ソースとの差分を生成しないといけません。例えば、
+ 
+-	MYSRC= /devel/linux-2.6
++	MYSRC=/devel/linux-2.6
+ 
+ 	tar xvfz linux-2.6.12.tar.gz
+ 	mv linux-2.6.12 linux-2.6.12-vanilla
+diff --git a/Documentation/translations/zh_CN/SubmittingPatches b/Documentation/translations/zh_CN/SubmittingPatches
+index e9098da8f1a4..04d9a1f89b58 100644
+--- a/Documentation/translations/zh_CN/SubmittingPatches
++++ b/Documentation/translations/zh_CN/SubmittingPatches
+@@ -51,8 +51,8 @@ Documentation/process/submitting-drivers.rst 。
+ 何子目录。
+ 为一个单独的文件创建补丁，一般来说这样做就够了：
+ 
+-        SRCTREE= linux-2.6
+-        MYFILE=  drivers/net/mydriver.c
++        SRCTREE=linux-2.6
++        MYFILE=drivers/net/mydriver.c
+ 
+         cd $SRCTREE
+         cp $MYFILE $MYFILE.orig
+@@ -63,7 +63,7 @@ Documentation/process/submitting-drivers.rst 。
+ 为多个文件创建补丁，你可以解开一个没有修改过的内核源代码树，然后和你自
+ 己的代码树之间做 diff 。例如：
+ 
+-        MYSRC= /devel/linux-2.6
++        MYSRC=/devel/linux-2.6
+ 
+         tar xvfz linux-2.6.12.tar.gz
+         mv linux-2.6.12 linux-2.6.12-vanilla
+-- 
+2.11.0
 
-I personally don't think there's much value in this line and I'd
-remove it entirely.
-
->  #include <linux/pci.h>
->  #include <linux/cache.h>
-> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
-> index fa57de34776d..1e610ce5992c 100644
-> --- a/arch/x86/kernel/setup.c
-> +++ b/arch/x86/kernel/setup.c
-> @@ -474,7 +474,7 @@ static int __init reserve_crashkernel_low(void)
->         ret = parse_crashkernel_low(boot_command_line, total_low_mem, &low_size, &base);
->         if (ret) {
->                 /*
-> -                * two parts from lib/swiotlb.c:
-> +                * two parts from kernel/dma/swiotlb.c:
->                  * -swiotlb size: user-specified with swiotlb= or default.
->                  *
->                  * -swiotlb overflow buffer: now hardcoded to 32k. We round it
-
-Is there any chance this could be updated to refer to some variable or
-function names that grep/ctags/cscope/etc could find?  If we had that,
-I think the filename reference would be superfluous.
-
-> diff --git a/arch/x86/pci/sta2x11-fixup.c b/arch/x86/pci/sta2x11-fixup.c
-> index 3cdafea55ab6..1d7f606c59d9 100644
-> --- a/arch/x86/pci/sta2x11-fixup.c
-> +++ b/arch/x86/pci/sta2x11-fixup.c
-> @@ -1,6 +1,6 @@
->  /*
->   * arch/x86/pci/sta2x11-fixup.c
-> - * glue code for lib/swiotlb.c and DMA translation between STA2x11
-> + * glue code for kernel/dma/swiotlb.c and DMA translation between STA2x11
-
-I think both of these lines (the "arch/x86/pci/sta2x11-fixup.c" one
-and the "glue code" one) are superfluous.
-
-There's also a superfluous empty line at the end of the GPL license
-text, but I guess that should be removed by replacing the whole thing
-with an SPDX line.
-
->   * AMBA memory mapping and the X86 memory mapping
->   *
->   * ST Microelectronics ConneXt (STA2X11/STA2X10)
-> --
-> 2.20.1
->
