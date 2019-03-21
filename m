@@ -5,136 +5,88 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2959E7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Mar 2019 20:01:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id ACCDA7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Mar 2019 22:47:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728093AbfCUUBG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 21 Mar 2019 16:01:06 -0400
-Received: from mga01.intel.com ([192.55.52.88]:8744 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727881AbfCUUBG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 21 Mar 2019 16:01:06 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Mar 2019 13:01:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,254,1549958400"; 
-   d="scan'208";a="284728816"
-Received: from sjchrist-coffee.jf.intel.com ([10.54.74.181])
-  by orsmga004.jf.intel.com with ESMTP; 21 Mar 2019 13:01:05 -0700
-From:   Sean Christopherson <sean.j.christopherson@intel.com>
-To:     Jonathan Corbet <corbet@lwn.net>
+        id S1726557AbfCUWre (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 21 Mar 2019 18:47:34 -0400
+Received: from smtprelay0022.hostedemail.com ([216.40.44.22]:51090 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725999AbfCUWre (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Mar 2019 18:47:34 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay06.hostedemail.com (Postfix) with ESMTP id 51BB818224D82;
+        Thu, 21 Mar 2019 22:47:32 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: alarm81_414a022265a5b
+X-Filterd-Recvd-Size: 2733
+Received: from XPS-9350.home (unknown [47.151.153.53])
+        (Authenticated sender: joe@perches.com)
+        by omf01.hostedemail.com (Postfix) with ESMTPA;
+        Thu, 21 Mar 2019 22:47:28 +0000 (UTC)
+Message-ID: <0cc879a63943b57b62caddce6866b83a14b42c14.camel@perches.com>
+Subject: Re: [PATCH v2] docs: Clarify the usage and sign-off requirements
+ for Co-developed-by
+From:   Joe Perches <joe@perches.com>
+To:     Sean Christopherson <sean.j.christopherson@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Thomas Gleixner <tglx@linutronix.de>,
         Jani Nikula <jani.nikula@linux.intel.com>,
         Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org>,
         Jonathan Cameron <jic23@kernel.org>,
-        Joe Perches <joe@perches.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Niklas Cassel <niklas.cassel@linaro.org>
-Subject: [PATCH v3] docs: Clarify the usage and sign-off requirements for Co-developed-by
-Date:   Thu, 21 Mar 2019 13:01:03 -0700
-Message-Id: <20190321200103.9333-1-sean.j.christopherson@intel.com>
-X-Mailer: git-send-email 2.21.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date:   Thu, 21 Mar 2019 15:47:26 -0700
+In-Reply-To: <20190321192341.GG6519@linux.intel.com>
+References: <20190321184316.8525-1-sean.j.christopherson@intel.com>
+         <20190321192341.GG6519@linux.intel.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.30.1-1build1 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The documentation for Co-developed-by is a bit light on details, e.g. it
-doesn't explicitly state that:
+On Thu, 2019-03-21 at 12:23 -0700, Sean Christopherson wrote:
+> On Thu, Mar 21, 2019 at 11:43:16AM -0700, Sean Christopherson wrote:
+> > The documentation for Co-developed-by is a bit light on details, e.g. it
+> > doesn't explicitly state that:
+> > 
+> >   - Multiple Co-developed-by tags are perfectly acceptable
+> >   - Co-developed-by and Signed-off-by must be paired together
+> >   - SOB ordering should still follow standard sign-off procedure
 
-  - Multiple Co-developed-by tags are perfectly acceptable
-  - Co-developed-by and Signed-off-by must be paired together
-  - SOB ordering should still follow standard sign-off procedure
+While I still think co-developed-by: is unnecessary and
+almost none of the existing uses of this have this
+sequence of "Co-developed-by: <name/email>" followed directly
+by "Signed-off-by: <same name/email>", here's a possible
+checkpatch addition for it.
 
-Lack of explicit direciton has resulted in developers taking a variety
-of approaches, often lacking any intent whatsoever, e.g. scattering SOBs
-willy-nilly, collecting them all at the end or the beginning, etc...
-
-Tweak the wording to make it clear that multiple co-authors are allowed,
-and document the expectation that standard sign-off procedures are to
-be followed.  Provide examples to (hopefully) eliminate any ambiguity.
-
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org>
-Cc: Jonathan Cameron <jic23@kernel.org>
-Cc: Joe Perches <joe@perches.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Niklas Cassel <niklas.cassel@linaro.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 ---
+ scripts/checkpatch.pl | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-v1: https://lkml.kernel.org/r/20190320151140.32432-1-sean.j.christopherson@intel.com
-v2: https://lkml.kernel.org/r/20190321184316.8525-1-sean.j.christopherson@intel.com
-    Rewrite the blurb to state standard sign-off procedure should be
-    followed as opposed to dictating the original author's SOB be last.
-v3: Update a similar blurb in Documentation/process/5.Posting.rst
-
- Documentation/process/5.Posting.rst          |  8 +++----
- Documentation/process/submitting-patches.rst | 24 +++++++++++++++++---
- 2 files changed, 25 insertions(+), 7 deletions(-)
-
-diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
-index 4213e580f273..c8cac58f0f93 100644
---- a/Documentation/process/5.Posting.rst
-+++ b/Documentation/process/5.Posting.rst
-@@ -216,10 +216,10 @@ The tags in common use are:
-    which can be found in :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
-    Code without a proper signoff cannot be merged into the mainline.
- 
-- - Co-developed-by: states that the patch was also created by another developer
--   along with the original author.  This is useful at times when multiple
--   people work on a single patch.  Note, this person also needs to have a
--   Signed-off-by: line in the patch as well.
-+ - Co-developed-by: states that the patch was co-created by other developer(s)
-+   along with the original author.  Every Co-developed-by: must be accompanied
-+   by a Signed-off-by: of the co-author.  Details and examples can be found in
-+   :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`.
- 
-  - Acked-by: indicates an agreement by another developer (often a
-    maintainer of the relevant code) that the patch is appropriate for
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index be7d1829c3af..a7a9da68a384 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -545,10 +545,28 @@ person it names - but it should indicate that this person was copied on the
- patch.  This tag documents that potentially interested parties
- have been included in the discussion.
- 
--A Co-developed-by: states that the patch was also created by another developer
-+A Co-developed-by: states that the patch was co-created by other developer(s)
- along with the original author.  This is useful at times when multiple people
--work on a single patch.  Note, this person also needs to have a Signed-off-by:
--line in the patch as well.
-+work on a single patch.  Every Co-developed-by: must be immediately followed by
-+a Signed-off-by: of the co-author.  Standard sign-off procedure applies, i.e.
-+the ordering of Co-developed-by:/Signed-off-by: pairs should reflect the
-+chronological history of the patch insofar as possible.  Notably, the last
-+Signed-off-by: must always be that of the developer submitting the patch,
-+regardless of whether they are the original author or a co-author.
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index d0001fd1112d..e938fd56cc20 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -2687,6 +2687,15 @@ sub process {
+ 			} else {
+ 				$signatures{$sig_nospace} = 1;
+ 			}
 +
-+Example of a patch with multiple co-authors, submitted by the original author::
-+
-+	Co-developed-by: First Co-Author <first@coauthor.example.org>
-+	Signed-off-by: First Co-Author <first@coauthor.example.org>
-+	Co-developed-by: Second Co-Author <second@coauthor.example.org>
-+	Signed-off-by: Second Co-Author <second@coauthor.example.org>
-+	Signed-off-by: Original Author <original@author.example.org>
-+
-+Example of a patch submitted by a co-author::
-+
-+	Signed-off-by: Original Author <original@author.example.org>
-+	Co-developed-by: Submitting Co-Author <sub@coauthor.example.org>
-+	Signed-off-by: Submitting Co-Author <sub@coauthor.example.org>
++# Check Co-developed-by: suceeded by Signed-off-by: with same name and email
++			if ($sign_off =~ /^signed-off-by:$/i &&
++			    $linenr > 1 &&
++			    $rawlines[$linenr - 2] =~ /^\s*co-developed-by:\s*(.*)/i &&
++			    $1 ne $email) {
++				WARN("BAD_SIGN_OFF",
++				     "Co-developed-by: should be suceeded by Signed-off-by: with same name/email\n" . "$here\n" . $rawlines[$linenr - 2] . "\n" . $rawline);
++			}
+ 		}
  
- 
- 13) Using Reported-by:, Tested-by:, Reviewed-by:, Suggested-by: and Fixes:
--- 
-2.21.0
+ # Check email subject for common tools that don't need to be mentioned
 
