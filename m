@@ -1,180 +1,113 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B021F7D8A4
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Mar 2019 22:53:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 91BF67D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Mar 2019 23:06:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727519AbfCUWxi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 21 Mar 2019 18:53:38 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:43806 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725953AbfCUWxh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Mar 2019 18:53:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-        :Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From
-        :Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=AyCBwPbpM5mZLjGJI2JihnqcjJj7rmgeIxLbnmVYgXQ=; b=dfqJALfCXIwms+p3RVZbiVrpcC
-        kfv81fyh60h9t6nB26O7crLPEG4KoscROX48qPWUJmpnBzalzL3fPC2lcTkRZ5U8HnT8ZQDtmgemP
-        CS7oybZd4qr/1HjwL9opq+wk73NLr1Wob8xrtVzLMU++0osbazVlEyayHqsfZN1osVG6lGG6FvaKa
-        +Hr2bwNLXJNCqouTjLknCJQBC8SUa8qDgk1Ele+v1oHCVAOs2PgMZ4z5po0ntOhF7K7mWCQT2z3aD
-        VQjdnCCsNdaGXVZn1g3LmCioR56m4q5uNgiShXXx3s5XLsrsd+hxAv/LaPLk2gc/EwAoJbcEt0DtL
-        DpkrF/Mw==;
-Received: from [199.255.44.128] (helo=localhost)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1h76Z3-00008j-1j; Thu, 21 Mar 2019 22:53:33 +0000
-From:   Christoph Hellwig <hch@lst.de>
-To:     Russell King <linux@armlinux.org.uk>, x86@kernel.org,
-        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Cc:     linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-        iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 7/7] x86: remove the x86_dma_fallback_dev hack
-Date:   Thu, 21 Mar 2019 15:52:35 -0700
-Message-Id: <20190321225235.30648-8-hch@lst.de>
+        id S1727363AbfCUXGJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 21 Mar 2019 19:06:09 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:35702 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726695AbfCUXGI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 21 Mar 2019 19:06:08 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 337F3EBD;
+        Thu, 21 Mar 2019 16:06:08 -0700 (PDT)
+Received: from beelzebub.austin.arm.com (mammon-tx2.austin.arm.com [10.118.29.246])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7115E3F614;
+        Thu, 21 Mar 2019 16:06:07 -0700 (PDT)
+From:   Jeremy Linton <jeremy.linton@arm.com>
+To:     linux-arm-kernel@lists.infradead.org
+Cc:     catalin.marinas@arm.com, will.deacon@arm.com, marc.zyngier@arm.com,
+        suzuki.poulose@arm.com, Dave.Martin@arm.com,
+        shankerd@codeaurora.org, julien.thierry@arm.com,
+        mlangsdo@redhat.com, stefan.wahren@i2e.com, Andre.Przywara@arm.com,
+        linux-kernel@vger.kernel.org,
+        Jeremy Linton <jeremy.linton@arm.com>,
+        Andre Przywara <andre.przywara@arm.com>,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH v6 01/10] arm64: Provide a command line to disable spectre_v2 mitigation
+Date:   Thu, 21 Mar 2019 18:05:48 -0500
+Message-Id: <20190321230557.45107-2-jeremy.linton@arm.com>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190321225235.30648-1-hch@lst.de>
-References: <20190321225235.30648-1-hch@lst.de>
+In-Reply-To: <20190321230557.45107-1-jeremy.linton@arm.com>
+References: <20190321230557.45107-1-jeremy.linton@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Now that we removed support for the NULL device argument in the DMA API,
-there is no need to cater for that in the x86 code.
+There are various reasons, including bencmarking, to disable spectrev2
+mitigation on a machine. Provide a command-line to do so.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
+Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
 ---
- arch/x86/include/asm/dma-mapping.h | 10 ----------
- arch/x86/kernel/amd_gart_64.c      |  6 ------
- arch/x86/kernel/pci-dma.c          | 20 --------------------
- kernel/dma/mapping.c               |  7 -------
- 4 files changed, 43 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt |  8 ++++----
+ arch/arm64/kernel/cpu_errata.c                  | 13 +++++++++++++
+ 2 files changed, 17 insertions(+), 4 deletions(-)
 
-diff --git a/arch/x86/include/asm/dma-mapping.h b/arch/x86/include/asm/dma-mapping.h
-index ce4d176b3d13..6b15a24930e0 100644
---- a/arch/x86/include/asm/dma-mapping.h
-+++ b/arch/x86/include/asm/dma-mapping.h
-@@ -13,14 +13,7 @@
- #include <asm/swiotlb.h>
- #include <linux/dma-contiguous.h>
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 2b8ee90bb644..d153bb15c8c7 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2873,10 +2873,10 @@
+ 			check bypass). With this option data leaks are possible
+ 			in the system.
  
--#ifdef CONFIG_ISA
--# define ISA_DMA_BIT_MASK DMA_BIT_MASK(24)
--#else
--# define ISA_DMA_BIT_MASK DMA_BIT_MASK(32)
--#endif
--
- extern int iommu_merge;
--extern struct device x86_dma_fallback_dev;
- extern int panic_on_overflow;
+-	nospectre_v2	[X86,PPC_FSL_BOOK3E] Disable all mitigations for the Spectre variant 2
+-			(indirect branch prediction) vulnerability. System may
+-			allow data leaks with this option, which is equivalent
+-			to spectre_v2=off.
++	nospectre_v2	[X86,PPC_FSL_BOOK3E,ARM64] Disable all mitigations for
++			the Spectre variant 2 (indirect branch prediction)
++			vulnerability. System may allow data leaks with this
++			option.
  
- extern const struct dma_map_ops *dma_ops;
-@@ -30,7 +23,4 @@ static inline const struct dma_map_ops *get_arch_dma_ops(struct bus_type *bus)
- 	return dma_ops;
+ 	nospec_store_bypass_disable
+ 			[HW] Disable all mitigations for the Speculative Store Bypass vulnerability
+diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
+index 9950bb0cbd52..d2b2c69d31bb 100644
+--- a/arch/arm64/kernel/cpu_errata.c
++++ b/arch/arm64/kernel/cpu_errata.c
+@@ -220,6 +220,14 @@ static void qcom_link_stack_sanitization(void)
+ 		     : "=&r" (tmp));
  }
  
--bool arch_dma_alloc_attrs(struct device **dev);
--#define arch_dma_alloc_attrs arch_dma_alloc_attrs
--
- #endif
-diff --git a/arch/x86/kernel/amd_gart_64.c b/arch/x86/kernel/amd_gart_64.c
-index 2c0aa34af69c..bf7f13ea3c64 100644
---- a/arch/x86/kernel/amd_gart_64.c
-+++ b/arch/x86/kernel/amd_gart_64.c
-@@ -233,9 +233,6 @@ static dma_addr_t gart_map_page(struct device *dev, struct page *page,
- 	unsigned long bus;
- 	phys_addr_t paddr = page_to_phys(page) + offset;
- 
--	if (!dev)
--		dev = &x86_dma_fallback_dev;
--
- 	if (!need_iommu(dev, paddr, size))
- 		return paddr;
- 
-@@ -392,9 +389,6 @@ static int gart_map_sg(struct device *dev, struct scatterlist *sg, int nents,
- 	if (nents == 0)
- 		return 0;
- 
--	if (!dev)
--		dev = &x86_dma_fallback_dev;
--
- 	out		= 0;
- 	start		= 0;
- 	start_sg	= sg;
-diff --git a/arch/x86/kernel/pci-dma.c b/arch/x86/kernel/pci-dma.c
-index d460998ae828..dcd272dbd0a9 100644
---- a/arch/x86/kernel/pci-dma.c
-+++ b/arch/x86/kernel/pci-dma.c
-@@ -51,14 +51,6 @@ int iommu_pass_through __read_mostly;
- 
- extern struct iommu_table_entry __iommu_table[], __iommu_table_end[];
- 
--/* Dummy device used for NULL arguments (normally ISA). */
--struct device x86_dma_fallback_dev = {
--	.init_name = "fallback device",
--	.coherent_dma_mask = ISA_DMA_BIT_MASK,
--	.dma_mask = &x86_dma_fallback_dev.coherent_dma_mask,
--};
--EXPORT_SYMBOL(x86_dma_fallback_dev);
--
- void __init pci_iommu_alloc(void)
++static bool __nospectre_v2;
++static int __init parse_nospectre_v2(char *str)
++{
++	__nospectre_v2 = true;
++	return 0;
++}
++early_param("nospectre_v2", parse_nospectre_v2);
++
+ static void
+ enable_smccc_arch_workaround_1(const struct arm64_cpu_capabilities *entry)
  {
- 	struct iommu_table_entry *p;
-@@ -77,18 +69,6 @@ void __init pci_iommu_alloc(void)
- 	}
- }
+@@ -231,6 +239,11 @@ enable_smccc_arch_workaround_1(const struct arm64_cpu_capabilities *entry)
+ 	if (!entry->matches(entry, SCOPE_LOCAL_CPU))
+ 		return;
  
--bool arch_dma_alloc_attrs(struct device **dev)
--{
--	if (!*dev)
--		*dev = &x86_dma_fallback_dev;
--
--	if (!is_device_dma_capable(*dev))
--		return false;
--	return true;
--
--}
--EXPORT_SYMBOL(arch_dma_alloc_attrs);
--
- /*
-  * See <Documentation/x86/x86_64/boot-options.txt> for the iommu kernel
-  * parameter documentation.
-diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-index c000906348c9..685a53f2a793 100644
---- a/kernel/dma/mapping.c
-+++ b/kernel/dma/mapping.c
-@@ -238,10 +238,6 @@ u64 dma_get_required_mask(struct device *dev)
- }
- EXPORT_SYMBOL_GPL(dma_get_required_mask);
++	if (__nospectre_v2) {
++		pr_info_once("spectrev2 mitigation disabled by command line option\n");
++		return;
++	}
++
+ 	if (psci_ops.smccc_version == SMCCC_VERSION_1_0)
+ 		return;
  
--#ifndef arch_dma_alloc_attrs
--#define arch_dma_alloc_attrs(dev)	(true)
--#endif
--
- void *dma_alloc_attrs(struct device *dev, size_t size, dma_addr_t *dma_handle,
- 		gfp_t flag, unsigned long attrs)
- {
-@@ -256,9 +252,6 @@ void *dma_alloc_attrs(struct device *dev, size_t size, dma_addr_t *dma_handle,
- 	/* let the implementation decide on the zone to allocate from: */
- 	flag &= ~(__GFP_DMA | __GFP_DMA32 | __GFP_HIGHMEM);
- 
--	if (!arch_dma_alloc_attrs(&dev))
--		return NULL;
--
- 	if (dma_is_direct(ops))
- 		cpu_addr = dma_direct_alloc(dev, size, dma_handle, flag, attrs);
- 	else if (ops->alloc)
 -- 
 2.20.1
 
