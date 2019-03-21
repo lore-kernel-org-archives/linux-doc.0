@@ -1,75 +1,60 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-3.1 required=5.0 tests=DEAR_FRIEND,
+	FREEMAIL_REPLYTO_END_DIGIT,HEADER_FROM_DIFFERENT_DOMAINS,
+	HK_NAME_MR_MRS,LOTS_OF_MONEY,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 39A5E7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Mar 2019 14:59:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 303467D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 21 Mar 2019 16:24:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728064AbfCUO7E (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 21 Mar 2019 10:59:04 -0400
-Received: from mga14.intel.com ([192.55.52.115]:2400 "EHLO mga14.intel.com"
+        id S1727198AbfCUQYE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 21 Mar 2019 12:24:04 -0400
+Received: from smtp1.ono.com ([62.42.230.162]:58877 "EHLO smtp1.ono.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727857AbfCUO7E (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 21 Mar 2019 10:59:04 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Mar 2019 07:59:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,253,1549958400"; 
-   d="scan'208";a="157068148"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.172])
-  by fmsmga001.fm.intel.com with ESMTP; 21 Mar 2019 07:59:01 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Sean Christopherson <sean.j.christopherson@intel.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Joe Perches <joe@perches.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Niklas Cassel <niklas.cassel@linaro.org>
-Subject: Re: [PATCH] docs: Explicitly state ordering requirements for Co-developed-by
-In-Reply-To: <alpine.DEB.2.21.1903211537340.1784@nanos.tec.linutronix.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20190320151140.32432-1-sean.j.christopherson@intel.com> <87lg18e4nx.fsf@intel.com> <20190321142622.GA6519@linux.intel.com> <alpine.DEB.2.21.1903211537340.1784@nanos.tec.linutronix.de>
-Date:   Thu, 21 Mar 2019 17:00:45 +0200
-Message-ID: <87ftrge0gy.fsf@intel.com>
+        id S1726787AbfCUQYE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 21 Mar 2019 12:24:04 -0400
+X-Junkmail-Premium-Raw: score=35/50,refid=2.7.2:2019.3.21.153916:17:35.434,ip=62.42.230.133,rules=__HAS_MSGID,
+ __SANE_MSGID, MSGID_JMAIL_DEFAULT, INVALID_MSGID_NO_FQDN, __HAS_FROM,
+ FROM_NAME_PHRASE, __HAS_REPLYTO, __FRAUD_WEBMAIL_REPLYTO,
+ __PHISH_SPEAR_SUBJ_ALERT, __MIME_VERSION, __CT, __CT_TEXT_PLAIN, __CTE,
+ MISSING_HEADERS, __ANY_URI, __FRAUD_BODY_WEBMAIL, __URI_NO_WWW,
+ __FRAUD_INTRO, __STOCK_PHRASE_7, __FRAUD_MONEY_BIG_COIN_DIG, __OEM_PRICE,
+ __FRAUD_MONEY_CURRENCY_DOLLAR, __NO_HTML_TAG_RAW, BODYTEXTP_SIZE_400_LESS,
+ BODYTEXTP_SIZE_3000_LESS, BODY_SIZE_300_399, __MIME_TEXT_P1,
+ __MIME_TEXT_ONLY, __URI_NS, HTML_00_01, HTML_00_10, __FRAUD_MONEY_CURRENCY,
+ __FRAUD_MONEY_BIG_COIN, __FRAUD_MONEY_VALUE, __PHISH_SPEAR_GREETING,
+ __FRAUD_MONEY, FRAUD_X3, BODY_SIZE_5000_LESS, __FRAUD_WEBMAIL,
+ WEBMAIL_REPLYTO_NOT_FROM, FRAUD_WEBMAIL_R_NOT_F, __MIME_TEXT_P,
+ FRAUD_LITTLE_BODY, __PHISH_SPEAR_STRUCTURE_1, BODY_SIZE_1000_LESS,
+ BODY_SIZE_2000_LESS, __PHISH_SPEAR_STRUCTURE_2, REPLYTO_FROM_DIFF_ADDY,
+ NO_URI_HTTPS, BODY_SIZE_7000_LESS, TO_MALFORMED
+Received: from resprs03 (62.42.230.133) by smtp1.ono.com (9.0.019.09-1)
+        id 5C12554F05252E96; Thu, 21 Mar 2019 17:24:00 +0100
+Received: from (192.230.106.73) by webmailcpr03n.ono.com;  Thu, 21 Mar 2019 17:23:59 +0100
+Message-ID: <19323138.552361553185439442.JavaMail.defaultUser@defaultHost>
+Date:   Thu, 21 Mar 2019 17:23:59 +0100 (CET)
+From:   Mrs Alice Johnson <z900431@ono.com>
+Reply-To: mrsalicejohnson4@gmail.com
+Subject: Dear Friend,
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain;charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 21 Mar 2019, Thomas Gleixner <tglx@linutronix.de> wrote:
-> On Thu, 21 Mar 2019, Sean Christopherson wrote:
->> On Thu, Mar 21, 2019 at 03:30:10PM +0200, Jani Nikula wrote:
->> Hmm, and my experience is exclusively limited to contributing code to
->> someone else's patches.  Rather than dictate exact ordering, what about
->> deferring to standard sign-off procedure?
->> 
->> E.g.:
->> 
->>   A Co-developed-by: states that the patch was also created by another developer
->>   along with the original author.  This is useful at times when multiple people
->>   work on a single patch.  Co-developed-by: must be immediately followed by a
->>   Signed-off-by: of the co-author(s).  As per standard sign-off procedure, the
->>   ordering of Co-developed-by:/Signed-off-by: pairs should reflect the patch's
->>   handling insofar as possible.  Notably, the last Signed-off-by: must always be
->>   that of the developer submitting the patch, regardless of whether they are the
->>   original author or a co-author.
->
-> Yes, that makes sense.
+Dear Friend,
 
-Agreed.
+I am Mrs Alice Johnson.am sending you this brief letter to solicit your
+partnership to transfer $23.5 million US Dollars.I shall send you more
+information and procedures when I receive positive response from you.
+please send me a message in my Email box (mrsalicejohnson4@gmail.com)
+as i wait to hear from you.
 
-BR,
-Jani.
+Best regard
+Mrs Alice Johnson
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
