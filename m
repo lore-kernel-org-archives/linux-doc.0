@@ -1,145 +1,58 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-4.7 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_SIGNED,DKIM_VALID,FORGED_GMAIL_RCVD,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EA4BE7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 23 Mar 2019 02:11:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 51E307D04D
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 23 Mar 2019 10:09:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727530AbfCWCLd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 22 Mar 2019 22:11:33 -0400
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:39073 "EHLO
-        wout1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727363AbfCWCLd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Mar 2019 22:11:33 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.west.internal (Postfix) with ESMTP id C05FF35D2;
-        Fri, 22 Mar 2019 22:01:29 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Fri, 22 Mar 2019 22:01:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=date
-        :from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=vQcshrf2Tv44CFwHKAd0s5/+CM5
-        J+hkjPgjTlgQ0wLs=; b=Lv6DAAodz4kP7LtZuwROSKHaPCelsle6B6jkfT+HIRC
-        93BXuHzavW3i6g3Dk8K6tDxDzcE2UKgn/y8xmAH9lBHS9RqdoFiREvtz9lw6s+AK
-        lGtlkUdCmKUqRDwDHDjvAcKqJ6yNe20NCwXEpp985+VwPPIEl+1Lv7bTcaeS0V1f
-        TvCzcv1uGVz0PZ0JsOYTRVlCiEkXa0wzLv97UiXJhCPeeL8oIPdcsBIF+tALgj0M
-        5phXpMk6r2PCGUGRXf/T8UJ0nrignEP+luPM0FGbHjWYz+3OjZ1ZGHkuzyxfNBeY
-        WOYDXR9AtNgEx+OzH4yge/4VRvdgfUgTmyZuiCV52IQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=vQcshr
-        f2Tv44CFwHKAd0s5/+CM5J+hkjPgjTlgQ0wLs=; b=GxZpwwAoeK0q4hjNkwyK1T
-        uco0C4WELQXKM8rUVrmuLdclAc93xEJHWvQrdM7pSs6oXdV/5U/J5ubqRTbc8Uvl
-        QBfevv+/nu/NKTpAAxI+eIDveqKyTYWycEHHxgVgFGVT0+xIA+lfjYAdeKJu6jAe
-        Yz9Dg1CXbCTZYQOyKa37ss1Y7HfF/+3QY96Bt0h0ORfOvjdzthirW+xQnX2pJooL
-        tKkU/Khk4AsxmXzcA1qaFyfdzjanjQjrpPimYBSPT4j4JttwGSav6i+6PWEK+5kS
-        avOsisqMZPP9/TgaUaR39/tnWBqrp4HnA68nZ7Gg7dzyEZtjBc/mnZOXXxbZyGrg
-        ==
-X-ME-Sender: <xms:eZOVXJrSW-1LMmNcf6MPRiabjWOXQT6kjQ9z_FxgtVh28Ue4DjDTwg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedutddrjedvgdeflecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenfg
-    hrlhcuvffnffculdeimdenucfjughrpeffhffvuffkfhggtggujgfofgesthdtredtofer
-    vdenucfhrhhomhepfdfvohgsihhnucevrdcujfgrrhguihhnghdfuceomhgvsehtohgsih
-    hnrdgttgeqnecukfhppeduvdegrddujedurdefuddrudehudenucfrrghrrghmpehmrghi
-    lhhfrhhomhepmhgvsehtohgsihhnrdgttgenucevlhhushhtvghrufhiiigvpedu
-X-ME-Proxy: <xmx:eZOVXA1Px3H7sM2oCQOYCrHxiH_juFPG9S5_CV7eb4z1cvtw35M1Rg>
-    <xmx:eZOVXJneSMijiMc9z-fITr-JZ6BTNzFCFhgDSrs_fjbnXWV1EIvcHw>
-    <xmx:eZOVXEZ8LkCq1rk7hwYi9M6TG047wWLh744N7w-dH8SmkWZlEC0TXQ>
-    <xmx:eZOVXF5wIMkFri4zEjWBOhCOYOuqD9ovuqW1DVrIM_i9qEJMQq_1dw>
-Received: from localhost (124-171-31-151.dyn.iinet.net.au [124.171.31.151])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 40EEE100E5;
-        Fri, 22 Mar 2019 22:01:28 -0400 (EDT)
-Date:   Sat, 23 Mar 2019 13:01:03 +1100
-From:   "Tobin C. Harding" <me@tobin.cc>
-To:     Sean Christopherson <sean.j.christopherson@intel.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Andy Whitcroft <apw@canonical.com>,
-        Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Niklas Cassel <niklas.cassel@linaro.org>
-Subject: Re: [PATCH v5 2/2] checkpatch: Warn on improper usage of
- Co-developed-by
-Message-ID: <20190323020103.GB17709@eros.localdomain>
-References: <20190322211137.18241-1-sean.j.christopherson@intel.com>
- <20190322211137.18241-3-sean.j.christopherson@intel.com>
+        id S1727103AbfCWKJz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 23 Mar 2019 06:09:55 -0400
+Received: from sonic305-1.consmr.mail.bf2.yahoo.com ([74.6.133.40]:35474 "EHLO
+        sonic305-1.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726085AbfCWKJy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Mar 2019 06:09:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1553335793; bh=yGtSPoZ+plA+4G7dBrNsfe9398JFtXYFL/4Uac0g7aQ=; h=Date:From:Reply-To:Subject:References:From:Subject; b=c1l3QnKy8QJnZScd0dE66JkbhzhbxNX9NahHBOdv0VHIe+BQYOHVq93grWRe53ko+d2oW+16anCgd0LVwnowYRlGqfOWyAK2RQ5TMJWc9PINZl/riDnos8/eEGV1Quvtj4sOCSnjZbhB7ZFUNIgslE8b46I4aYK1y7WVsX5UPes61jCOodihDKnZp6aFq0B6VCEpDLE4PKDoGnlqNJ4Z7KWHbr6p6nQlISh5m4JatYOJFEZ27t9NWTD3VU0xE48v/sYK9OakLaP/UAZmGdtZEbkvol4qA5e0CYbhYqCpzFed0zfySV4G8i9/QqTrbAIEhd+sIpABmtbKj2Vnn7beAQ==
+X-YMail-OSG: K__JC0AVM1nOWxXE_Q.1W6d9vQQdebHOkWqT9wE.SOugKTxLu2L5KPlKmTrF4e4
+ ULAnQitqhADuZNWnQq121hKAZJfKY1V8hPRknIUxtZhA76GYzkuc49ncYkKDhOwi7c6YY2J5Vyny
+ 3u3d_OesUp4VwtBOQKZyNIy.d85CVGhUovejCublD7PEQOpRF00EJXo7qRNdLaGDdng2kG9oes1e
+ 2_.gpX0QgQoz_5SQUGnGLTE16wZWM_7XkWFc3hdUOlDgYBgzLAOPtya1RpV3.bpvog4c1airtQwW
+ cYbmyxgYMqWRWMoc.N2D2XJ2xTo3z9R_qD.47ow6AHZmn2jQXNlMMrGbQsssq3TcgRSFYVkp7DGA
+ mXfuhy3yOsXcj8vh1tMhsjt6F.LwgpbLhHgj4P_T1xpWpPwOHTYUQxisFsXSRFMYpsBH9kPipd0J
+ wGHfY2ncUCQx7_38tz0hBfTHnVsmSfIXbrm_WIsvMBnB1yV_hjCwwjAlx_gNYhcuBC4M1EI433Oo
+ QUVye9V2G_sOfvO8ddImDCB33FKNwOmoo5.asUzhqPNiJbo4GTM2ChxlMDmwoM_35s5hJqdep5tg
+ Gj3Ykp6Y7cIiuTewKCIjqJj4OwNFqU6JEbC.N_vjHsotsn1LiMJ_4Df1jmh5HzR6ZSVbBitN.UBw
+ k29ncXW.AIUxi.CON4G965kAacrhwGV7n0MefNG_pOwkWA2KORwzXrgSizDTAOWg7n06Dgq5XrnH
+ _CQydc2jmEf7.nCEHFAPC9rloxiWj9bN4diu30OCy69mRYc3wDulIA2BhNITPtlNuWac3Fyznnea
+ IYf7_C84mqqFMqWMTt0esSD9Kv7y6pnhcHo2WGYmC21esqRJvvpLg4Xny7OM.6lBsjvF2w5gh4eu
+ ._9FI8pe27Tyy05aaDgeX2afDe5wOIKX4fq70JQfRkmp1uDvv8c_jZd.TzUL1MzfgN7svBlU8nVv
+ DMa07gWgTo13MWBlgHn9FYk8EZhDjUxibSQKCheEBxGWvFz.oe3iRzW2NptKOFMXz_WEBmWXBeL4
+ QSKo2cJGj5mJN9B._ljo4YhrSd4gqjVgTb1Hjy66Z2hCXqJmzqUnfI5y99JIuKAx5.ZJ65Okd
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic305.consmr.mail.bf2.yahoo.com with HTTP; Sat, 23 Mar 2019 10:09:53 +0000
+Date:   Sat, 23 Mar 2019 10:09:48 +0000 (UTC)
+From:   Sgt Clara B Herbert <sgtclaraherbert@gmail.com>
+Reply-To: Sgt Clara B Herbert <sgtclaraherbert@gmail.com>
+Message-ID: <1775064503.9744627.1553335788957@mail.yahoo.com>
+Subject: Hi
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190322211137.18241-3-sean.j.christopherson@intel.com>
-X-Mailer: Mutt 1.11.4 (2019-03-13)
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+References: <1775064503.9744627.1553335788957.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.13212 YahooMailBasic Mozilla/5.0 (Windows NT 6.1; rv:57.0) Gecko/20100101 Firefox/57.0
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 22, 2019 at 02:11:37PM -0700, Sean Christopherson wrote:
-> The purpose of Co-developed-by: is to give attribution to authors who
-> aren't already attributed by the From: tag, i.e. who aren't the nominal
-> patch author.  Because Co-developed-by: is essentially a variation of
-> From:, it must be accompanied by a Signed-off-by: of the associated
-> co-author.  To ease the burden of determining whether or not co-authors
-> have signed off, Co-developed-by and Signed-off-by: must be explicitly
-> paired, i.e. on consecutive lines for a given co-author.
-> 
-> Suggested-by: Joe Perches <joe@perches.com>
-> Cc: Tobin C. Harding <me@tobin.cc>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org>
-> Cc: Jonathan Cameron <jic23@kernel.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Niklas Cassel <niklas.cassel@linaro.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
-> ---
->  scripts/checkpatch.pl | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
-> 
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index 5b756278df13..bbe71f017f6d 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -2687,6 +2687,24 @@ sub process {
->  			} else {
->  				$signatures{$sig_nospace} = 1;
->  			}
-> +
-> +# Check Co-developed-by: immediately followed by Signed-off-by: with same name and email
-> +			if ($sign_off =~ /^co-developed-by:$/i) {
-> +				if ($email eq $author) {
-> +					WARN("BAD_SIGN_OFF",
-> +					      "Co-developed-by: should not be used to attribute nominal patch author '$author'\n" . "$here\n" . $rawline);
-> +				}
-> +				if (!defined $lines[$linenr]) {
-> +					WARN("BAD_SIGN_OFF",
-> +                                             "Co-developed-by: must be immediately followed by Signed-off-by:\n" . "$here\n" . $rawline);
-> +				} elsif ($rawlines[$linenr] !~ /^\s*signed-off-by:\s*(.*)/i) {
-> +					WARN("BAD_SIGN_OFF",
-> +					     "Co-developed-by: must be immediately followed by Signed-off-by:\n" . "$here\n" . $rawline . "\n" .$rawlines[$linenr]);
-> +				} elsif ($1 ne $email) {
-> +					WARN("BAD_SIGN_OFF",
-> +					     "Co-developed-by and Signed-off-by: name/email do not match \n" . "$here\n" . $rawline . "\n" .$rawlines[$linenr]);
-> +				}
-> +			}
->  		}
->  
->  # Check email subject for common tools that don't need to be mentioned
-> -- 
-> 2.21.0
-> 
 
 
-Works as advertised!
+Greetings to you,
 
-thanks,
-Tobin.
+My name is Sgt Clara. America i am here to search for a business partner or friend who will help me to invest my fund in his company/country,Please reply me through my email:
+
+Thanks
+Sgt Clara
