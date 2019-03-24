@@ -1,116 +1,153 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BC0FA7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 23 Mar 2019 17:54:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id ED4D37D04D
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 24 Mar 2019 20:41:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727754AbfCWRyl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 23 Mar 2019 13:54:41 -0400
-Received: from mx.kolabnow.com ([95.128.36.42]:8056 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727746AbfCWRyl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 23 Mar 2019 13:54:41 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id F02DAA5B;
-        Sat, 23 Mar 2019 18:54:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-transfer-encoding:mime-version:message-id:date:date
-        :subject:subject:from:from:received:received:received; s=
-        dkim20160331; t=1553363678; x=1555178079; bh=o3++y+tTQiX39ZZ2qcc
-        8DjFV/pK55ojg6NkZGXUEucQ=; b=j6oQTzADai1BIjoVJaVLFRoB2wqEQ6kbhK9
-        WzTKnCI1/4+MJ2xhcn81GW9o+G6jtkzqUpNY+vVb1O9IDN8EW+X4Qm0G/p36T9CK
-        YpckbDmiVdc+KKWEgC3x9GAhwWZlXVGYBBm7zQ25QksejfI7ICbHrDkZ+rmlZb3d
-        Yq1EStIPymxe2byS1EXCQzBCaYVeOeqyRy10JepIXvT1NIQf5e2SVJM6fwcm+4AL
-        CkxmDMRFzVdIfqawS+W6+Rm9/fvago6HO7hgNuPfWaeVgE3pBOqp+r0xdY7D7F+v
-        TqpB5jOofbTMEW9wv+Mqwvza+YJ9+tqpFfgazYsFkMNleLo/SlnPhByjCvC+Ay6A
-        X6+WDH5M7Oxy3PCt4oIHR/pBDoSjQ9UKwilmT+pvgRtzKJSSkkpnbxlbl7L1BFYp
-        VXKx4qI6xwigbwwSI93oBiJnxJA5IXZf4yT3fjbJgHmb5ZgHcwz4DhTDNZdCZg9d
-        vpaIyiviLECc8zOgRYNTfx8wuqBA6bF2qGRQ6GSU7hV7gHodWuMuoZoT4nUX4zAr
-        lkqkoDZ+mZRYwGxbwgZn3p60ry23fWAy3NvvsyG+I0JS5LwaPnE8V2bwPQUsRPUG
-        4NDtH5NHGeRh+nbLciclO3XMwUGbvQboOAD0Txj19XRE3VGklBEZ5dtnKZ4ZeSXI
-        ypDz9qVA=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 4PpCY4FOacoP; Sat, 23 Mar 2019 18:54:38 +0100 (CET)
-Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id C911A690;
-        Sat, 23 Mar 2019 18:54:38 +0100 (CET)
-Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
-        by int-mx002.mykolab.com (Postfix) with ESMTPS id 9C51F2585;
-        Sat, 23 Mar 2019 18:54:38 +0100 (CET)
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] doc: minor fixes to translation's disclaimer
-Date:   Sat, 23 Mar 2019 18:54:16 +0100
-Message-Id: <20190323175416.6348-1-federico.vaga@vaga.pv.it>
+        id S1726751AbfCXUlq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 24 Mar 2019 16:41:46 -0400
+Received: from Galois.linutronix.de ([146.0.238.70]:44290 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726317AbfCXUlq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Mar 2019 16:41:46 -0400
+Received: from p5492e2fc.dip0.t-ipconnect.de ([84.146.226.252] helo=nanos)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1h89vl-0006EP-Ji; Sun, 24 Mar 2019 21:41:21 +0100
+Date:   Sun, 24 Mar 2019 21:41:20 +0100 (CET)
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     Pavel Machek <pavel@ucw.cz>
+cc:     corbet@lwn.net, LKML <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>, x86@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Jiri Kosina <jkosina@suse.cz>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Salvatore Bonaccorso <carnil@debian.org>,
+        linux-doc@vger.kernel.org
+Subject: Re: [patch] Fix up l1ft documentation was Re: Taking a break - time
+ to look back
+In-Reply-To: <20190312115757.GA29955@amd>
+Message-ID: <alpine.DEB.2.21.1903120633000.1985@nanos.tec.linutronix.de>
+References: <alpine.DEB.2.21.1812200022580.1651@nanos.tec.linutronix.de> <20190102235152.GA24163@amd> <20190311102109.GA14118@amd> <alpine.DEB.2.21.1903111403330.1691@nanos.tec.linutronix.de> <20190311131341.GA28223@amd> <alpine.DEB.2.21.1903112211180.1651@nanos.tec.linutronix.de>
+ <20190312115757.GA29955@amd>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-- move TOC on top because that's the most interesting part
-- a couple of minor fixes
+Pavel,
 
-Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
----
- Documentation/translations/index.rst | 26 ++++++++++++--------------
- 1 file changed, 12 insertions(+), 14 deletions(-)
+On Tue, 12 Mar 2019, Pavel Machek wrote:
+> On Mon 2019-03-11 23:31:08, Thomas Gleixner wrote:
+> > Calling this a lie is a completly unjustified personal attack on those who
+> 
+> So how should it be called? I initally used less strong words, only to
+> get "Care to tell what's a lie instead of making bold statements?"
+> back. Also look at the timing of the thread.
 
-diff --git a/Documentation/translations/index.rst b/Documentation/translations/index.rst
-index d7a38fd28b50..e446e5ed00a6 100644
---- a/Documentation/translations/index.rst
-+++ b/Documentation/translations/index.rst
-@@ -4,12 +4,21 @@
- Translations
- ============
- 
-+.. toctree::
-+   :maxdepth: 1
-+
-+   zh_CN/index
-+   it_IT/index
-+   ko_KR/index
-+   ja_JP/index
-+
-+
- .. _translations_disclaimer:
- 
- Disclaimer
- ----------
- 
--Translation's purpose is to ease reading and understating in languages other
-+Translation's purpose is to ease reading and understanding in languages other
- than English. Its aim is to help people who do not understand English or have
- doubts about its interpretation. Additionally, some people prefer to read
- documentation in their native language, but please bear in mind that the
-@@ -40,16 +49,5 @@ translations, you may find slight differences that carry the same message but
- in a different form.
- 
- If you need to communicate with the Linux community but you do not feel
--comfortable to write in English, you can ask to the translation's
--maintainers for help.
--
--Translations
--------------
--
--.. toctree::
--   :maxdepth: 1
--
--   zh_CN/index
--   it_IT/index
--   ko_KR/index
--   ja_JP/index
-+comfortable writing in English, you can ask the translation's maintainers
-+for help.
--- 
-2.20.1
+You called it a lie from the very beginning or what do you think made me
+tell you that? Here is what you said:
 
+> There's admin guide that is written as an advertisment, and
+> unfortunately is slightly "inaccurate" at places (to the point of
+> lying).
+
+Nice try.
+
+> > >     Ok, I guess L1TF was a lot of fun, and there was not time for a good
+> > >     documentation.
+> > 
+> > It's interesting that quite some people were actually happy about that
+> > document. Sorry, that we weren't able to live up to your high
+> > standards.
+> 
+> Ok, now can we have that document updated to meet the standards?
+
+What is 'the standards'? Your's or is there a general agreement?
+
+> > > -L1 Terminal Fault is a hardware vulnerability which allows unprivileged
+> > > -speculative access to data which is available in the Level 1 Data Cache
+> > > -when the page table entry controlling the virtual address, which is used
+> > > -for the access, has the Present bit cleared or other reserved bits set.
+> > > +L1 Terminal Fault is a hardware vulnerability on most recent Intel x86
+> > 
+> > The 'Affected processors' section right below this is very clear about this
+> > being an Intel only issue (for now). So what exactly is the point of this
+> > change?
+> 
+> Making it very clear from the begining this is x86-only issue. Yes,
+> you can kind-of figure it out from the next section... except for
+> Intel StrongArm.
+
+It's pretty clear, but yes admittedly we forgot to mention that Intel
+StrongARM is not affected. That's truly important because its widely
+deployed in the cloud space and elsewhere.
+
+> Next sentence speaks about "present bit" of "page table entry". That
+> may be confusing for people familiar with other architectures, which
+> may not have such bit. We should mention this is x86 before using
+> x86-specific terminology.
+
+X86 terminology? Care to check how pte_present() is implemented across the
+architectures? Most of them use the PRESENT bit naming convention, just a
+few use VALID. That's truly confusing and truly x86 specific.
+
+> > > 3GB system running 32bit kernel is not protected. Same is true for for
+> > > really big 64bit systems.
+> > 
+> > Where is the explanation for the 'really big 64bit systems' issue for
+> > correctness sake?
+> 
+> I don't know the detailed limits for each system; what about this?
+
+It's not about detailed limits for particular systems. It's about the way
+the limit is determined on certain class of systems. And that can be
+deduced from the code.
+
+If you want to provide more accurate documentation then you better come up
+with something which is helpful instead of completely useless blurb like
+the below:
+
+> -   malicious user space applications.
+> +   inversion, which has no measurable performance impact in most
+> +   configurations. The kernel ensures that the address bits of PTEs,
+> +   which are not marked present, never point to cacheable physical
+> +   memory space. For mitigation to be effective, physical memory needs
+> +   to be limited in some configurations.
+
+How is the admin going to figure that out? What kind of systems might be
+affected by this?
+
+> +   Mitigation is present in kernels v4.19 and newer, and in
+> +   recent -stable kernels. PAE needs to be enabled for mitigation to
+> +   work.
+
+No. The mitigation is available when the kernel provides it. Numbers are
+irrelevant because that documentation has to be applicable for stable
+kernels as well. And what is a recent -stable kernel?
+
+Also the PAE part needs to go to a completely different section.
+
+Thanks,
+
+	tglx
