@@ -5,62 +5,60 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 882BA7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Mar 2019 16:35:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BEF267D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Mar 2019 16:40:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729125AbfCYQfL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 25 Mar 2019 12:35:11 -0400
-Received: from ms.lwn.net ([45.79.88.28]:43192 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725795AbfCYQfL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 25 Mar 2019 12:35:11 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 557D69AC;
-        Mon, 25 Mar 2019 16:35:10 +0000 (UTC)
-Date:   Mon, 25 Mar 2019 10:35:09 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Joel Stanley <joel@jms.id.au>
-Cc:     Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: rtc: Correct location of rtctest.c
-Message-ID: <20190325103509.50f7fb29@lwn.net>
-In-Reply-To: <20190325103322.2578-1-joel@jms.id.au>
-References: <20190325103322.2578-1-joel@jms.id.au>
-Organization: LWN.net
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+        id S1728991AbfCYQkh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 25 Mar 2019 12:40:37 -0400
+Received: from smtprelay0052.hostedemail.com ([216.40.44.52]:34794 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725747AbfCYQkh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Mar 2019 12:40:37 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay03.hostedemail.com (Postfix) with ESMTP id 11201837F24D;
+        Mon, 25 Mar 2019 16:40:36 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: beef22_4f023205ee2d
+X-Filterd-Recvd-Size: 1686
+Received: from XPS-9350.home (unknown [47.151.153.53])
+        (Authenticated sender: joe@perches.com)
+        by omf17.hostedemail.com (Postfix) with ESMTPA;
+        Mon, 25 Mar 2019 16:40:33 +0000 (UTC)
+Message-ID: <65a633806b819c3067972853a9f1c2b6029e0ce5.camel@perches.com>
+Subject: Re: [PATCH v5 1/2] docs: Clarify the usage and sign-off
+ requirements for Co-developed-by
+From:   Joe Perches <joe@perches.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <sean.j.christopherson@intel.com>
+Cc:     Andy Whitcroft <apw@canonical.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, "Tobin C . Harding" <me@tobin.cc>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Niklas Cassel <niklas.cassel@linaro.org>
+Date:   Mon, 25 Mar 2019 09:40:32 -0700
+In-Reply-To: <20190325103114.2df3b91d@lwn.net>
+References: <20190322211137.18241-1-sean.j.christopherson@intel.com>
+         <20190322211137.18241-2-sean.j.christopherson@intel.com>
+         <20190325103114.2df3b91d@lwn.net>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.30.1-1build1 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 25 Mar 2019 21:03:22 +1030
-Joel Stanley <joel@jms.id.au> wrote:
+On Mon, 2019-03-25 at 10:31 -0600, Jonathan Corbet wrote:
+> On Fri, 22 Mar 2019 14:11:36 -0700 Sean Christopherson <sean.j.christopherson@intel.com> wrote:
+> > The documentation for Co-developed-by is a bit light on details,
+[]
+> I've applied this.  Joe, do you want to handle the checkpatch.pl patch, or
+> would you prefer I take that one too?
 
-> The useful little rtctest program moved location a while back.
-> 
-> Fixes: a12ab9e125f1 ("selftests: move RTC tests to rtc subfolder")
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-> ---
->  Documentation/rtc.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/rtc.txt b/Documentation/rtc.txt
-> index a129acf38537..688c95b11919 100644
-> --- a/Documentation/rtc.txt
-> +++ b/Documentation/rtc.txt
-> @@ -136,5 +136,5 @@ a high functionality RTC is integrated into the SOC.  That system might read
->  the system clock from the discrete RTC, but use the integrated one for all
->  other tasks, because of its greater functionality.
->  
-> -Check out tools/testing/selftests/timers/rtctest.c for an example usage of the
-> +Check out tools/testing/selftests/rtc/rtctest.c for an example usage of the
->  ioctl interface.
+You taking it is fine with me.
 
-Applied, thanks.
 
-jon
