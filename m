@@ -1,92 +1,88 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.9 required=5.0 tests=ADVANCE_FEE_5_NEW_FRM_MNY,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,HK_SCAM_N2,LOTS_OF_MONEY,
-	MAILING_LIST_MULTI,MILLION_USD,MONEY_FORM,RCVD_IN_DNSWL_HI,
-	T_MONEY_PERCENT autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D74317D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Mar 2019 10:08:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8E07C7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Mar 2019 10:33:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730589AbfCYKIg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 25 Mar 2019 06:08:36 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:45283 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730250AbfCYKIg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Mar 2019 06:08:36 -0400
-Received: by mail-ot1-f66.google.com with SMTP id e5so7439127otk.12
-        for <linux-doc@vger.kernel.org>; Mon, 25 Mar 2019 03:08:35 -0700 (PDT)
+        id S1730491AbfCYKdb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 25 Mar 2019 06:33:31 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:45781 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729634AbfCYKda (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Mar 2019 06:33:30 -0400
+Received: by mail-pf1-f195.google.com with SMTP id e24so5247275pfi.12;
+        Mon, 25 Mar 2019 03:33:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=2eSxdPHenQ4gvVXvkCfrljoRNPfK8+50lrKzqv4Q6Yo=;
-        b=sVVsw6FnnxYn85BEDlc+fq/Q+2g8/AMoaTXsvk15E4WkAYu77k4ZRYq0f6WDC3Vm5W
-         CcO7sHJKa2wgXFE5D/PmfTpRD2UBPlzT0lJBBq8XYtPcQuRMiFzhThICmkovIQVboX9Z
-         X1RGnFnO0hP24PKJb0fcfbOauIpFilMLDv/gKTDB11JUPRAOJDDX1Vi2DBzYrBhWVeXO
-         b060OBBOlJcqek1cGpv9ipqZDmxJvKM+sQpWp0PUtC7EeYKwiBcEcYeDxl8ue7HsCzAP
-         3uIfAeuK0ey+73YvPl4nlvHYNPxP8Kzc1jo9wtn7QNrhHBBuVoH8CbS/mZIM+pDeaBZF
-         DgMQ==
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Olh6FGvB5iAKqIVmq/9M4GY/Pmghh0Ho/NAjNxudRBo=;
+        b=erwGFrez9dfEhb0ta3Ew24ImORva5+K59kcX93MK6NYBZyALHhvCTbUpopea1H6dj4
+         w6lMfpVVAmSJ4tUrjD6Bp4jceYF8BOi4tNGKuvCG1JuD2Atpn/a1hu2bAUueFcHNuaq2
+         HcqRYiNwV//JrT1mSCCWnClIpjx0Qy/cN7aZGdoxH1Am2xP2FoemNSnfy5UQwgCF8qu3
+         yqoJiHViVxCPxXvmaz+bkyEKafXyhrcRo77fJpYQVRMsQQtQG4OzLX9jcLy1K8zumnUB
+         AtB91f4zGKt7rB7QxZaMTTqztDQQU6OJLsfsfYyzF2ys9NYIRZGmYCnJnJBdaTf7hm8i
+         aN0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=2eSxdPHenQ4gvVXvkCfrljoRNPfK8+50lrKzqv4Q6Yo=;
-        b=gspQx9vFGu4mBdZCv7cFjr4L7XSX7qG/IERwOep7LfPVscWmwjEQ8lNRrzGhE7w6UR
-         34yakUqxA0M03COJuSpyNM0NySc47sfMdJWf5r/f503cvqPVia7HiSNC4gbBa0BT2ywu
-         hQEAMLYX0/vWtX/aFx5v6nCDa9d00wu4ni0xQ6uI++Bn7RIiJUiYe9oBT4zDkKgOBYvB
-         ryaXIyJ3K8xAL42o8237CnLzCr6danB04hlABqAzfvijFenmg/n7YBzxVW8y1mUEJ7SQ
-         qs61o8+g7XHkdsrAEBFk2FU0/YwCPnKse1wiovGvIsmK2+GXonYcaHD0J+pl3Cd20NPG
-         WHHw==
-X-Gm-Message-State: APjAAAUlPDuRjJW1aZHaT8wZabcMTIoq1wpiypyYAIqy4EQI8W5Z7iVF
-        eIaCNhueOQEe47CvMYj1RHW1D4gu9f2KWcNbIOw=
-X-Google-Smtp-Source: APXvYqxbfRCkV0WYJSjMlWxiUnzC+KfYNN8WhsvKsuVjdXLU7k0DAXLqer6Smh7VMsIoF8v0wEvOcOeTtZL8wi4hGUM=
-X-Received: by 2002:a9d:784a:: with SMTP id c10mr15137852otm.337.1553508515528;
- Mon, 25 Mar 2019 03:08:35 -0700 (PDT)
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=Olh6FGvB5iAKqIVmq/9M4GY/Pmghh0Ho/NAjNxudRBo=;
+        b=rG+DZ/Pv20cLE4D1mxon4esWF7OXRE0xZaYQXeJkQZEOm4gDZTLV005q8PiPD3+5/D
+         4MFKUw8pqxiqP4a6XLblvtLO4lo+80mKANBYo581PHrvGg97nsoA2ous1GaLSo1TGf86
+         jRdVTFcPQrnheHnHmaPuN1QobaMNOY4qJSYDBOyHJQh+psmbH7biCjla00dbn5uZxF8b
+         l8bF6adlzh8q2JuGkKPHsfV+8JBjJ7xjdGILWaCacj0W+rNUiDAe+Y1Ea0BcFxtkZLdJ
+         bI21KelT7fS9TrIa7/2IlvoD75Qhf73jbi8YD2u9md3V2PAJyK/Vf8BBJnvXVHTAaemC
+         EiGg==
+X-Gm-Message-State: APjAAAVfoeALt/Y2GjBXyf9Ii8ZoTVWXFWtOkoNk//O0JG1lQav6Er4K
+        l7SCfexUbrdFn6/yPN0PAbmo8l8W
+X-Google-Smtp-Source: APXvYqxdq6I9Or7EqCqWlAPuDB/aj6ePj5PruJ87dyN1mrLqAYEfVPje5mbPccdZWB8DGfQsTZLRjA==
+X-Received: by 2002:a17:902:70cc:: with SMTP id l12mr5963347plt.10.1553510010099;
+        Mon, 25 Mar 2019 03:33:30 -0700 (PDT)
+Received: from voyager.jms.id.au ([45.124.203.18])
+        by smtp.gmail.com with ESMTPSA id 1sm19221470pfi.99.2019.03.25.03.33.26
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 25 Mar 2019 03:33:29 -0700 (PDT)
+Received: by voyager.jms.id.au (sSMTP sendmail emulation); Mon, 25 Mar 2019 21:03:22 +1030
+From:   Joel Stanley <joel@jms.id.au>
+To:     Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: rtc: Correct location of rtctest.c
+Date:   Mon, 25 Mar 2019 21:03:22 +1030
+Message-Id: <20190325103322.2578-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Received: by 2002:ac9:38dd:0:0:0:0:0 with HTTP; Mon, 25 Mar 2019 03:08:35
- -0700 (PDT)
-Reply-To: overchambers@gmail.com
-From:   "Barr.Augusto Daniel" <paciocci.issi@gmail.com>
-Date:   Mon, 25 Mar 2019 11:08:35 +0100
-Message-ID: <CAMtvupYtb7Ta2P+_0QOkeeR8Of_RAe_96Y6oO3xxfeYNTNvBgg@mail.gmail.com>
-Subject: Attention Dear,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+The useful little rtctest program moved location a while back.
+
+Fixes: a12ab9e125f1 ("selftests: move RTC tests to rtc subfolder")
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+---
+ Documentation/rtc.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/rtc.txt b/Documentation/rtc.txt
+index a129acf38537..688c95b11919 100644
+--- a/Documentation/rtc.txt
++++ b/Documentation/rtc.txt
+@@ -136,5 +136,5 @@ a high functionality RTC is integrated into the SOC.  That system might read
+ the system clock from the discrete RTC, but use the integrated one for all
+ other tasks, because of its greater functionality.
+ 
+-Check out tools/testing/selftests/timers/rtctest.c for an example usage of the
++Check out tools/testing/selftests/rtc/rtctest.c for an example usage of the
+ ioctl interface.
 -- 
-Attention Dear,
+2.20.1
 
-I am personal representative to my late client, a national of your
-country, and the CEO of his own Construction Company here in Benin
-Republic West Africa. On the 27th of May 2015, my client, His wife and
-their only daughter were involved in a car accident Along express-high
-way, Unfortunately, they all lost their lives.
-
-Before his death the Ministry of public works and Transport Benin
-(MTPT) owed him the sum of Ten Million Eight Hundred Thousand United
-States Dollar Only) US$10.800.000 Only, for a contract he executed for
-the Ministry before his death.
-
-After these several unsuccessful attempts, I decided I want to present
-you as the next of kin for the inheritance fund transfer to your
-account for onward sharing between the both of us 50% to you and 50%
-for me. I guarantee that this will be executed under a legitimate
-arrangement that will protect you from any breach of the law. to
-enable me give you more details.Please kindly reply through my private
-email box for more information, overchambers@gmail.com
-
-Your Full Name and Address,
-Your Age : Occupation and Position,
-Your Private Email : Address
-Your Telephone and Mobile for Communication Purpose
-
-I await your reply via my private email: overchambers@gmail.com
-
-Best Regards.
-Augusto Daniel Esq.
