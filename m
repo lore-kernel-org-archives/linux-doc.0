@@ -1,61 +1,94 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BC25D7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Mar 2019 16:45:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3B64F7DCEA
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Mar 2019 22:01:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729283AbfCYQph (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 25 Mar 2019 12:45:37 -0400
-Received: from ms.lwn.net ([45.79.88.28]:43266 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726024AbfCYQph (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 25 Mar 2019 12:45:37 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 24F2E9B1;
-        Mon, 25 Mar 2019 16:45:36 +0000 (UTC)
-Date:   Mon, 25 Mar 2019 10:45:35 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Joe Perches <joe@perches.com>
-Cc:     Sean Christopherson <sean.j.christopherson@intel.com>,
-        Andy Whitcroft <apw@canonical.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, "Tobin C . Harding" <me@tobin.cc>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Niklas Cassel <niklas.cassel@linaro.org>
-Subject: Re: [PATCH v5 1/2] docs: Clarify the usage and sign-off
- requirements for Co-developed-by
-Message-ID: <20190325104535.5d98c4ed@lwn.net>
-In-Reply-To: <65a633806b819c3067972853a9f1c2b6029e0ce5.camel@perches.com>
-References: <20190322211137.18241-1-sean.j.christopherson@intel.com>
-        <20190322211137.18241-2-sean.j.christopherson@intel.com>
-        <20190325103114.2df3b91d@lwn.net>
-        <65a633806b819c3067972853a9f1c2b6029e0ce5.camel@perches.com>
-Organization: LWN.net
+        id S1730501AbfCYWAN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 25 Mar 2019 18:00:13 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:60377 "EHLO
+        out3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729693AbfCYWAL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Mar 2019 18:00:11 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id 18E2D25AF7;
+        Mon, 25 Mar 2019 18:00:10 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Mon, 25 Mar 2019 18:00:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=date
+        :from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=U6QhMlb/WNmihfV9JJAwe1/emPv
+        8GDBLCIX6hdWzMYY=; b=r1rvW6wjkctDOgkEXCCzoY40SCD00L5TOZ+Yh3oRpoc
+        Blx97VYxBwLRXmCBSdYz7WtFYM8PcPl9Ozd82zBAfMW3tgW9cDq+iwZLi6VvFiNP
+        P55pNT3Wlzvnv5PB9WpyOykBDkOADDTMIPVdH/dsvaR0ns/HIVmuxygPGMer8ceS
+        2XLjkTzeWAiqgswpDH1l9DqRpQbQpB16ynE+mbiuVU//pPeyiDtkLxjAVcISjLwR
+        T6gbfdpZ5ppFY3BHrbi5po58GfGv4eCCgrlX+O9RbF9BEWWjvUtp/r8StsPS5jPA
+        RxC9SFnIphSmRqGOpBlM6dXVJR83egPnUUfqclfLmxw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=U6QhMl
+        b/WNmihfV9JJAwe1/emPv8GDBLCIX6hdWzMYY=; b=GHFFkGDGhD+LX/8MXJmjts
+        PMlGXrGsozhXdJS2/JgR9oNhh69oBQX6833mKK9uG7ltLFf1p0fhYJvkRukEn/MJ
+        MWjTLF+hBxPEsO6pkqV+kQA8CBdpavuZFAjUmNMV0cwx49ku5mqhyRI5bAkGIMsw
+        ant+5WLJOY3Y058Y3Uil1O9s3C5WXNTsXos0VGvB8beM2ngTgQZsoGF/pYUALVRj
+        rtBN4QXe4LxFwoLVRy1Ze/Xls8UXX5hVP2aKsiq+larrcIB7T817twrRUG3r8lsT
+        UwC22ZHFtYxsl424pro1dUVsY6sER9peK/g6xKhKRVLo5uHuSS+2aBEbTyMIpZYQ
+        ==
+X-ME-Sender: <xms:aU-ZXIpOBkGKW74VYGs-7FwZIg8RRqrbS6lkxMTDTbrzK28mY0Kwsg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedutddrjeekgdduheejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    gfrhhlucfvnfffucdludehmdenucfjughrpeffhffvuffkfhggtggujgfofgesthdtredt
+    ofervdenucfhrhhomhepfdfvohgsihhnucevrdcujfgrrhguihhnghdfuceomhgvsehtoh
+    gsihhnrdgttgeqnecukfhppeduvdegrddugeelrdduvddtrddutddunecurfgrrhgrmhep
+    mhgrihhlfhhrohhmpehmvgesthhosghinhdrtggtnecuvehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:aU-ZXMVM0xaKdms0qgXA7L-sHpRTnbBBWQhXiGR2JdqpWsgFR50Hbg>
+    <xmx:aU-ZXFSVG5mld8dcXaJTcFMUcDTrhNGx-_XcKvKiwxlKcJMxtpWj4w>
+    <xmx:aU-ZXITvyLUvRGPvuXkjoawbDTZE4jO79ZI_ZB1PorbXQ12UP9dJtA>
+    <xmx:ak-ZXP9BbwSPuUSuEyACpXRuUt4-mnI6U_GzaKJWSfkG0fMh2KtMpA>
+Received: from localhost (124-149-120-101.dyn.iinet.net.au [124.149.120.101])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 7A4E710397;
+        Mon, 25 Mar 2019 18:00:07 -0400 (EDT)
+Date:   Tue, 26 Mar 2019 08:59:38 +1100
+From:   "Tobin C. Harding" <me@tobin.cc>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     "Tobin C. Harding" <tobin@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/9] docs: Fix various build warnings/errors
+Message-ID: <20190325215938.GA19088@eros.localdomain>
+References: <20190307211153.28400-1-tobin@kernel.org>
+ <20190325103333.700c2772@lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190325103333.700c2772@lwn.net>
+X-Mailer: Mutt 1.11.4 (2019-03-13)
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 25 Mar 2019 09:40:32 -0700
-Joe Perches <joe@perches.com> wrote:
-
-> > I've applied this.  Joe, do you want to handle the checkpatch.pl patch, or
-> > would you prefer I take that one too?  
+On Mon, Mar 25, 2019 at 10:33:33AM -0600, Jonathan Corbet wrote:
+> On Fri,  8 Mar 2019 08:11:44 +1100
+> "Tobin C. Harding" <tobin@kernel.org> wrote:
 > 
-> You taking it is fine with me.
+> > I had a few hours to spare so I thought I'd clear some Sphinx build
+> > warnings/errors.
 > 
-OK, I've now done that, thanks.
+> So there were comments on various parts of this series; were you planning
+> to respin it with those taken into account?  Certainly we're all in favor
+> of fewer warnings!
 
-jon
+Oh I thought this was dead.  I was under the impression that because I'd
+worked off the wrong tree Randy had fixed all these already.
+
+I'll go back and check if any of these fixes are useful still.
+
+Thanks,
+Tobin.
