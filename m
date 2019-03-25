@@ -1,88 +1,68 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-3.2 required=5.0 tests=DEAR_FRIEND,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,LOTS_OF_MONEY,MAILING_LIST_MULTI,
+	MONEY_BARRISTER,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8E07C7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Mar 2019 10:33:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5A0DA7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Mar 2019 12:49:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730491AbfCYKdb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 25 Mar 2019 06:33:31 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:45781 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729634AbfCYKda (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Mar 2019 06:33:30 -0400
-Received: by mail-pf1-f195.google.com with SMTP id e24so5247275pfi.12;
-        Mon, 25 Mar 2019 03:33:30 -0700 (PDT)
+        id S1731126AbfCYMte (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 25 Mar 2019 08:49:34 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:40023 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731088AbfCYMtd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Mar 2019 08:49:33 -0400
+Received: by mail-oi1-f195.google.com with SMTP id 3so6805064oir.7
+        for <linux-doc@vger.kernel.org>; Mon, 25 Mar 2019 05:49:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Olh6FGvB5iAKqIVmq/9M4GY/Pmghh0Ho/NAjNxudRBo=;
-        b=erwGFrez9dfEhb0ta3Ew24ImORva5+K59kcX93MK6NYBZyALHhvCTbUpopea1H6dj4
-         w6lMfpVVAmSJ4tUrjD6Bp4jceYF8BOi4tNGKuvCG1JuD2Atpn/a1hu2bAUueFcHNuaq2
-         HcqRYiNwV//JrT1mSCCWnClIpjx0Qy/cN7aZGdoxH1Am2xP2FoemNSnfy5UQwgCF8qu3
-         yqoJiHViVxCPxXvmaz+bkyEKafXyhrcRo77fJpYQVRMsQQtQG4OzLX9jcLy1K8zumnUB
-         AtB91f4zGKt7rB7QxZaMTTqztDQQU6OJLsfsfYyzF2ys9NYIRZGmYCnJnJBdaTf7hm8i
-         aN0g==
+        h=mime-version:from:date:message-id:subject:to;
+        bh=TmeDf2rzr7mXtRzBq2xoQx9xJfWXVjzRrVJuzQuvbdU=;
+        b=dfXfH+x5ZO34baCOJQCz98ppenGj8IZQFBq8lClYowEnN2Ql7xHJGdiL9A2f5Y45yv
+         C3OKVqLpVQrztGKd31o1uV0bFJVtgHbQ8OJ8IXZ429l+MK2Copa/vpGbAqfj07D7i1zL
+         JNHhlY1CmK0fZQcuU/H75d1UpENuHVID1hEQspAnn3X7wgqGAs4mB+2eUdcnHUM/omdD
+         16CZtDmj90Q5o+wtW5bv1qEel/v1LBgzfyZAOSnnR7qtF7JXzM7cN1SoftaPdDIn3SL9
+         vc1+pN7ukrEvek/FKK6Y2CjYlgOWZdqL8FCaQxR84yRne2WoT2m2ljqiXUscd8/BAZbk
+         5tEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :mime-version:content-transfer-encoding;
-        bh=Olh6FGvB5iAKqIVmq/9M4GY/Pmghh0Ho/NAjNxudRBo=;
-        b=rG+DZ/Pv20cLE4D1mxon4esWF7OXRE0xZaYQXeJkQZEOm4gDZTLV005q8PiPD3+5/D
-         4MFKUw8pqxiqP4a6XLblvtLO4lo+80mKANBYo581PHrvGg97nsoA2ous1GaLSo1TGf86
-         jRdVTFcPQrnheHnHmaPuN1QobaMNOY4qJSYDBOyHJQh+psmbH7biCjla00dbn5uZxF8b
-         l8bF6adlzh8q2JuGkKPHsfV+8JBjJ7xjdGILWaCacj0W+rNUiDAe+Y1Ea0BcFxtkZLdJ
-         bI21KelT7fS9TrIa7/2IlvoD75Qhf73jbi8YD2u9md3V2PAJyK/Vf8BBJnvXVHTAaemC
-         EiGg==
-X-Gm-Message-State: APjAAAVfoeALt/Y2GjBXyf9Ii8ZoTVWXFWtOkoNk//O0JG1lQav6Er4K
-        l7SCfexUbrdFn6/yPN0PAbmo8l8W
-X-Google-Smtp-Source: APXvYqxdq6I9Or7EqCqWlAPuDB/aj6ePj5PruJ87dyN1mrLqAYEfVPje5mbPccdZWB8DGfQsTZLRjA==
-X-Received: by 2002:a17:902:70cc:: with SMTP id l12mr5963347plt.10.1553510010099;
-        Mon, 25 Mar 2019 03:33:30 -0700 (PDT)
-Received: from voyager.jms.id.au ([45.124.203.18])
-        by smtp.gmail.com with ESMTPSA id 1sm19221470pfi.99.2019.03.25.03.33.26
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 25 Mar 2019 03:33:29 -0700 (PDT)
-Received: by voyager.jms.id.au (sSMTP sendmail emulation); Mon, 25 Mar 2019 21:03:22 +1030
-From:   Joel Stanley <joel@jms.id.au>
-To:     Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: rtc: Correct location of rtctest.c
-Date:   Mon, 25 Mar 2019 21:03:22 +1030
-Message-Id: <20190325103322.2578-1-joel@jms.id.au>
-X-Mailer: git-send-email 2.20.1
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=TmeDf2rzr7mXtRzBq2xoQx9xJfWXVjzRrVJuzQuvbdU=;
+        b=Jeazt7tgy5huqVhLQO2Sg7MW9G9kP1gK3pv3yLtDNOHkXb51q76Pu+IdWznOxuKiRp
+         1CxJx9ZTS8XlMkEk082J1+9UUxGMZNe9L+WuB5AyOAKdEnES96GZ5W96US3Y9TBKMcmt
+         b3DjzP5NACGb26Z3bBmtzQBB7M2Aux461PQ5Sh7WYMba2RznMSXNKKQ5U3Gd5pbnJ1hD
+         aSaapN5IAAP0FgpqRmRLSfcN8BBaLi3psc51h5RiXf8HEjZrxfhBdEgZuPV860UEFvEm
+         gV1wuJAZGD6MnH4b7bwQRsNi5in1C1C9eZZICgD8x0PKVZw+awHGvpIPntKqFMcuyYrz
+         U/kQ==
+X-Gm-Message-State: APjAAAVwzSIeh8tkPj+9hZxyere2d9pumzwLRuQAPJo+HknPtwMn3FCP
+        jJYQCCjqOSmFsjxRt1Mu28d0yQX6mNcxepdAC24=
+X-Google-Smtp-Source: APXvYqygn1ji7ZlLlKvFNhaNEkYfAwArUeyqWigmIIuT2UmRyIZcy75Vka9CU1QOKz8GL4Ut0buvM4JVSw56rjHyH9Y=
+X-Received: by 2002:aca:47c2:: with SMTP id u185mr4259457oia.8.1553518173171;
+ Mon, 25 Mar 2019 05:49:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a4a:dd0f:0:0:0:0:0 with HTTP; Mon, 25 Mar 2019 05:49:32
+ -0700 (PDT)
+From:   john albert <johnalbert242@gmail.com>
+Date:   Mon, 25 Mar 2019 12:49:32 +0000
+Message-ID: <CAPsjL-BvO9dAj9-SQ+bRH1Pm-Wgs7GjbDgr2uDuLjVmw1cHs8g@mail.gmail.com>
+Subject: From Albert
+To:     johnalbert242 <johnalbert242@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The useful little rtctest program moved location a while back.
-
-Fixes: a12ab9e125f1 ("selftests: move RTC tests to rtc subfolder")
-Signed-off-by: Joel Stanley <joel@jms.id.au>
----
- Documentation/rtc.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/rtc.txt b/Documentation/rtc.txt
-index a129acf38537..688c95b11919 100644
---- a/Documentation/rtc.txt
-+++ b/Documentation/rtc.txt
-@@ -136,5 +136,5 @@ a high functionality RTC is integrated into the SOC.  That system might read
- the system clock from the discrete RTC, but use the integrated one for all
- other tasks, because of its greater functionality.
- 
--Check out tools/testing/selftests/timers/rtctest.c for an example usage of the
-+Check out tools/testing/selftests/rtc/rtctest.c for an example usage of the
- ioctl interface.
--- 
-2.20.1
-
+Dear Friend,
+I am a lawyer by profession here in my country Togo in west Africa one
+of my client from your country who used to work with shell development
+company here in republic of Togo. My client, his wife and their only
+daughter were involved in auto crash here in my country.I decided to
+contact you so that the $10.5M Dollars he left behind in a bank here
+will be transferred to your bank account immediately.
+Best regards.
+Barrister Albert John
