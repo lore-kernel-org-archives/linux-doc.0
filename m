@@ -5,51 +5,49 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2EC7F7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Mar 2019 13:56:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C1A427D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Mar 2019 15:51:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726166AbfCYN4C (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 25 Mar 2019 09:56:02 -0400
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:49031 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726010AbfCYN4C (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Mar 2019 09:56:02 -0400
-X-Originating-IP: 109.213.38.144
-Received: from localhost (alyon-652-1-47-144.w109-213.abo.wanadoo.fr [109.213.38.144])
-        (Authenticated sender: alexandre.belloni@bootlin.com)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id D839940003;
-        Mon, 25 Mar 2019 13:55:59 +0000 (UTC)
-Date:   Mon, 25 Mar 2019 14:55:58 +0100
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     Joel Stanley <joel@jms.id.au>
-Cc:     Alessandro Zummo <a.zummo@towertech.it>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: rtc: Correct location of rtctest.c
-Message-ID: <20190325135558.GL30105@piout.net>
-References: <20190325103322.2578-1-joel@jms.id.au>
+        id S1729534AbfCYPve (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 25 Mar 2019 11:51:34 -0400
+Received: from ms.lwn.net ([45.79.88.28]:42986 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729106AbfCYPvd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 25 Mar 2019 11:51:33 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 733C89AC;
+        Mon, 25 Mar 2019 15:51:33 +0000 (UTC)
+Date:   Mon, 25 Mar 2019 09:51:32 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Jakub Wilk <jwilk@jwilk.net>
+Cc:     linux-doc@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>
+Subject: Re: [PATCH] Documentation: fix core_pattern max length
+Message-ID: <20190325095132.2cdbbdbc@lwn.net>
+In-Reply-To: <20190318173421.502-1-jwilk@jwilk.net>
+References: <20190318173421.502-1-jwilk@jwilk.net>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190325103322.2578-1-joel@jms.id.au>
-User-Agent: Mutt/1.11.3 (2019-02-01)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 25/03/2019 21:03:22+1030, Joel Stanley wrote:
-> The useful little rtctest program moved location a while back.
+On Mon, 18 Mar 2019 18:34:21 +0100
+Jakub Wilk <jwilk@jwilk.net> wrote:
+
+> The buffer size for core_pattern is 128, but one character is used for
+> terminating null byte, so the actual limit is 127:
 > 
-> Fixes: a12ab9e125f1 ("selftests: move RTC tests to rtc subfolder")
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-> ---
->  Documentation/rtc.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>     # printf '%0999d' > /proc/sys/kernel/core_pattern
+>     # tr -d '\n' < /proc/sys/kernel/core_pattern | wc -c
+>     127
 > 
+> Signed-off-by: Jakub Wilk <jwilk@jwilk.net>
+
 Applied, thanks.
 
--- 
-Alexandre Belloni, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+jon
