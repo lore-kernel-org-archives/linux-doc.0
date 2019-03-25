@@ -5,28 +5,38 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 879187D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Mar 2019 15:59:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 12CD47D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Mar 2019 16:31:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726203AbfCYP7O (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 25 Mar 2019 11:59:14 -0400
-Received: from ms.lwn.net ([45.79.88.28]:43026 "EHLO ms.lwn.net"
+        id S1726182AbfCYQbQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 25 Mar 2019 12:31:16 -0400
+Received: from ms.lwn.net ([45.79.88.28]:43140 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725788AbfCYP7O (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 25 Mar 2019 11:59:14 -0400
+        id S1725788AbfCYQbQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 25 Mar 2019 12:31:16 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 3919D9AC;
-        Mon, 25 Mar 2019 15:59:14 +0000 (UTC)
-Date:   Mon, 25 Mar 2019 09:59:13 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 2934B9B1;
+        Mon, 25 Mar 2019 16:31:15 +0000 (UTC)
+Date:   Mon, 25 Mar 2019 10:31:14 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Federico Vaga <federico.vaga@vaga.pv.it>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] doc: minor fixes to translation's disclaimer
-Message-ID: <20190325095913.52e1d9e6@lwn.net>
-In-Reply-To: <20190323175416.6348-1-federico.vaga@vaga.pv.it>
-References: <20190323175416.6348-1-federico.vaga@vaga.pv.it>
+To:     Sean Christopherson <sean.j.christopherson@intel.com>
+Cc:     Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Tobin C . Harding" <me@tobin.cc>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Niklas Cassel <niklas.cassel@linaro.org>
+Subject: Re: [PATCH v5 1/2] docs: Clarify the usage and sign-off
+ requirements for Co-developed-by
+Message-ID: <20190325103114.2df3b91d@lwn.net>
+In-Reply-To: <20190322211137.18241-2-sean.j.christopherson@intel.com>
+References: <20190322211137.18241-1-sean.j.christopherson@intel.com>
+        <20190322211137.18241-2-sean.j.christopherson@intel.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -36,14 +46,35 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 23 Mar 2019 18:54:16 +0100
-Federico Vaga <federico.vaga@vaga.pv.it> wrote:
+On Fri, 22 Mar 2019 14:11:36 -0700
+Sean Christopherson <sean.j.christopherson@intel.com> wrote:
 
-> - move TOC on top because that's the most interesting part
-> - a couple of minor fixes
+> The documentation for Co-developed-by is a bit light on details, e.g. it
+> doesn't explicitly state that:
 > 
-> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+>   - Multiple Co-developed-by tags are perfectly acceptable
+>   - Co-developed-by and Signed-off-by must be paired together
+>   - SOB ordering should still follow standard sign-off procedure
+> 
+> Lack of explicit direction has resulted in developers taking a variety
+> of approaches, often lacking any intent whatsoever, e.g. scattering SOBs
+> willy-nilly, collecting them all at the end or the beginning, etc...
+> Tweak the wording to make it clear that multiple co-authors are allowed,
+> and document the expectation that standard sign-off procedures are to
+> be followed.
+> 
+> The use of "original author" has also led to confusion as many patches
+> don't have just one "original" author, e.g. when multiple developers
+> are involved from the genesis of the patch.  Remove all usage of
+> "original" and instead call out that Co-developed-by is simply a way to
+> provide attribution in addition to the From tag, i.e. neither tag is
+> intended to imply anything with regard to who did what.
+> 
+> Provide examples to (hopefully) eliminate any ambiguity.
 
-Applied, thanks.
+I've applied this.  Joe, do you want to handle the checkpatch.pl patch, or
+would you prefer I take that one too?
+
+Thanks,
 
 jon
