@@ -1,97 +1,42 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	FREEMAIL_REPLYTO_END_DIGIT,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 51C907D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Mar 2019 06:27:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8BF187D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Mar 2019 11:07:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732984AbfC0G1V (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 27 Mar 2019 02:27:21 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:38523 "EHLO
-        out3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1732949AbfC0G1V (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Mar 2019 02:27:21 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id 612AD22616;
-        Wed, 27 Mar 2019 02:27:20 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Wed, 27 Mar 2019 02:27:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=date
-        :from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=CbvWzpi+9CjGLTTGIZgcHtbiK3b
-        6cUV2KwJocRoXwgw=; b=wKry3Si5PVeZeQmyGff463AXTFg4gtfNCj2YJPU+Wjr
-        B+QL/RKVieD9v3CpvK8BLnlmwl2zXKXj+xfM8r0+bDPReg7/iLLEfkvOUSftHI76
-        grvCjjyajP0Rx41sgnTnmYmUm9n1K1V4mo0B9xelRcZTUg8KvfZ+6qqjJChVGW/B
-        2nuGivKAEBg8sFC5hoQu9EdVP/Mry22n0dSv9ysj4O5oQWlravmtePpVQglhPqNt
-        cKVMYizDnSJiqDsiXCOV2FQ0gENylZmMYlCpOq+PpiX+1meXQwrsOZSkmJy6IeyC
-        1aG+jB4PrGCUfaoXYvUDgHci4t8ig581Or6bGQcOv2Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=CbvWzp
-        i+9CjGLTTGIZgcHtbiK3b6cUV2KwJocRoXwgw=; b=GJPRaMxMn53GCZkldRbGZI
-        quL6b+iMOvWcRTz+cQN1vbqcWCkCdPeMEiyid5A+37PGhRgAQJ4MRmj5IMAF+kxG
-        J/bGvdtYeekkhoDJF73DbCTqdKEH11WG7Tr4hY8KilIA6HA9s/E9DcjoUrR+3zdm
-        j/+kuWe0ez1U9xBUzxAmy76oKMgqs6NcfsNXOjEb54MDj/Z8aqEUCQ0zwBCKn0J/
-        lIESaMSbXsg8g8/fHc+TkOjT0dGpLN3jhNeBX3bTUaau+HdVt0hVlBHjwLOOYqU+
-        dwnCTi5WhuV07UREp4FKxTouQJU5zPeoBhEfYKV5r4Au9HbFY5hJ4PmTvMranwwg
-        ==
-X-ME-Sender: <xms:xxebXBSF-XEZV7vuSctM1YzkPaJDkk27SiawG0XnG_n3y1jo0ZGRaA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedutddrkedugdelgecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenfg
-    hrlhcuvffnffculdeftddmnecujfgurhepfffhvffukfhfgggtuggjofgfsehttdertdfo
-    redvnecuhfhrohhmpedfvfhosghinhcuvedrucfjrghrughinhhgfdcuoehmvgesthhosg
-    hinhdrtggtqeenucfkphepuddvgedrudeiledrudefledrudelvdenucfrrghrrghmpehm
-    rghilhhfrhhomhepmhgvsehtohgsihhnrdgttgenucevlhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:xxebXKVf1YjGkX7TBNE2og9RaxNGUP_7Lsy0Q20XlKhQD2dfsHpYiw>
-    <xmx:xxebXK6Yl5ZYHGbfc31-AkMfE-g1UmKfl84yuWvqjmLHYr22dbyhDw>
-    <xmx:xxebXIzlkqkxDHKkPft36nSz-DQm-F5jFtNGlwFzjyE7cLz9e8LgSQ>
-    <xmx:yBebXP2_XyJ7bKkqGEXGMOPx2sUT6Wt_xLi0GpsNzGPAZSWIjl1Heg>
-Received: from localhost (124-169-139-192.dyn.iinet.net.au [124.169.139.192])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 01717E49DC;
-        Wed, 27 Mar 2019 02:27:18 -0400 (EDT)
-Date:   Wed, 27 Mar 2019 17:26:52 +1100
-From:   "Tobin C. Harding" <me@tobin.cc>
-To:     Joe Perches <joe@perches.com>
-Cc:     "Tobin C. Harding" <tobin@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab@s-opensource.com>,
-        Neil Brown <neilb@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 00/24] Convert vfs.txt to vfs.rst
-Message-ID: <20190327062652.GA26545@eros.localdomain>
-References: <20190327051717.23225-1-tobin@kernel.org>
- <ba0732a4dda60e263049f3deec08d90d8bde5064.camel@perches.com>
+        id S1731920AbfC0LHT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 27 Mar 2019 07:07:19 -0400
+Received: from stars.com.ua ([207.154.231.91]:37870 "EHLO stars.com.ua"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729489AbfC0LHT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 27 Mar 2019 07:07:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=stars.com.ua; s=mail;
+        h=Message-Id:Reply-To:Date:From:To:Subject:Content-Description:Content-Transfer-Encoding:MIME-Version:Content-Type; bh=xJ/q87XpJDscFH1mE87Gm2CnWYeeDpd4Rk2ahTADTB4=;
+        b=LXoWunn95cXzjRwoR4aHSWrnQnMHEz/vRd4Vbd61d11tjDJwgdzY4YZukZcHUot3+h4CxjGR+zbA2J0VGOHBQnFzjAf21LS3j7CsDV9GxR4kusHObiQTgxzVQLoPlVnaFknONaLFuDojknQuF6Lj3IF7+mOmQdMlcFf1lTae2wU=;
+Received: from [162.255.84.112]
+        by stars.com.ua with esmtpa (Exim 4.82)
+        (envelope-from <svetlana@stars.com.ua>)
+        id 1h8JSp-0004dl-Ce; Mon, 25 Mar 2019 06:52:07 +0000
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ba0732a4dda60e263049f3deec08d90d8bde5064.camel@perches.com>
-X-Mailer: Mutt 1.11.4 (2019-03-13)
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: PRIVATE...
+To:     Recipients <svetlana@stars.com.ua>
+From:   svetlana@stars.com.ua
+Date:   Mon, 25 Mar 2019 06:51:58 +0000
+Reply-To: mrmichealwuu17@yahoo.com.hk
+Message-Id: <E1h8JSp-0004dl-Ce@stars.com.ua>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 26, 2019 at 10:24:37PM -0700, Joe Perches wrote:
-> On Wed, 2019-03-27 at 16:16 +1100, Tobin C. Harding wrote:
-> > Hi Al,
-> > 
-> > This series converts the VFS file Documentation/filesystems/vfs.txt to
-> > reStructuredText format.
-> 
-> Perhaps add a MAINTAINERS entry too.
-
-Checkpatch suggested that to me, I didn't think it was polite to put
-Al's name on it without him first seeing it :)  I can certainly add it
-to MAINTAINERS for the next version if you want me to Al.
-
-thanks,
-Tobin.
+I have a business Proposal that will be of benefit to the both of us.Kindly=
+ contact me on mrmichealwuu17@yahoo.com.hk should this be of interest to yo=
+u.
