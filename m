@@ -1,94 +1,128 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3B64F7DCEA
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 25 Mar 2019 22:01:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 080ED7D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 26 Mar 2019 14:39:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730501AbfCYWAN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 25 Mar 2019 18:00:13 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:60377 "EHLO
-        out3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729693AbfCYWAL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Mar 2019 18:00:11 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id 18E2D25AF7;
-        Mon, 25 Mar 2019 18:00:10 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Mon, 25 Mar 2019 18:00:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=date
-        :from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=U6QhMlb/WNmihfV9JJAwe1/emPv
-        8GDBLCIX6hdWzMYY=; b=r1rvW6wjkctDOgkEXCCzoY40SCD00L5TOZ+Yh3oRpoc
-        Blx97VYxBwLRXmCBSdYz7WtFYM8PcPl9Ozd82zBAfMW3tgW9cDq+iwZLi6VvFiNP
-        P55pNT3Wlzvnv5PB9WpyOykBDkOADDTMIPVdH/dsvaR0ns/HIVmuxygPGMer8ceS
-        2XLjkTzeWAiqgswpDH1l9DqRpQbQpB16ynE+mbiuVU//pPeyiDtkLxjAVcISjLwR
-        T6gbfdpZ5ppFY3BHrbi5po58GfGv4eCCgrlX+O9RbF9BEWWjvUtp/r8StsPS5jPA
-        RxC9SFnIphSmRqGOpBlM6dXVJR83egPnUUfqclfLmxw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=U6QhMl
-        b/WNmihfV9JJAwe1/emPv8GDBLCIX6hdWzMYY=; b=GHFFkGDGhD+LX/8MXJmjts
-        PMlGXrGsozhXdJS2/JgR9oNhh69oBQX6833mKK9uG7ltLFf1p0fhYJvkRukEn/MJ
-        MWjTLF+hBxPEsO6pkqV+kQA8CBdpavuZFAjUmNMV0cwx49ku5mqhyRI5bAkGIMsw
-        ant+5WLJOY3Y058Y3Uil1O9s3C5WXNTsXos0VGvB8beM2ngTgQZsoGF/pYUALVRj
-        rtBN4QXe4LxFwoLVRy1Ze/Xls8UXX5hVP2aKsiq+larrcIB7T817twrRUG3r8lsT
-        UwC22ZHFtYxsl424pro1dUVsY6sER9peK/g6xKhKRVLo5uHuSS+2aBEbTyMIpZYQ
-        ==
-X-ME-Sender: <xms:aU-ZXIpOBkGKW74VYGs-7FwZIg8RRqrbS6lkxMTDTbrzK28mY0Kwsg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedutddrjeekgdduheejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    gfrhhlucfvnfffucdludehmdenucfjughrpeffhffvuffkfhggtggujgfofgesthdtredt
-    ofervdenucfhrhhomhepfdfvohgsihhnucevrdcujfgrrhguihhnghdfuceomhgvsehtoh
-    gsihhnrdgttgeqnecukfhppeduvdegrddugeelrdduvddtrddutddunecurfgrrhgrmhep
-    mhgrihhlfhhrohhmpehmvgesthhosghinhdrtggtnecuvehluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:aU-ZXMVM0xaKdms0qgXA7L-sHpRTnbBBWQhXiGR2JdqpWsgFR50Hbg>
-    <xmx:aU-ZXFSVG5mld8dcXaJTcFMUcDTrhNGx-_XcKvKiwxlKcJMxtpWj4w>
-    <xmx:aU-ZXITvyLUvRGPvuXkjoawbDTZE4jO79ZI_ZB1PorbXQ12UP9dJtA>
-    <xmx:ak-ZXP9BbwSPuUSuEyACpXRuUt4-mnI6U_GzaKJWSfkG0fMh2KtMpA>
-Received: from localhost (124-149-120-101.dyn.iinet.net.au [124.149.120.101])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 7A4E710397;
-        Mon, 25 Mar 2019 18:00:07 -0400 (EDT)
-Date:   Tue, 26 Mar 2019 08:59:38 +1100
-From:   "Tobin C. Harding" <me@tobin.cc>
+        id S1731491AbfCZOi1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 26 Mar 2019 10:38:27 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:51864 "EHLO mail.ispras.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726278AbfCZOi1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 26 Mar 2019 10:38:27 -0400
+Received: from edu174238.fhi-fokus.de (edu174238.fhi-fokus.de [194.95.174.238])
+        by mail.ispras.ru (Postfix) with ESMTPSA id 58D0E5400A7;
+        Tue, 26 Mar 2019 17:38:22 +0300 (MSK)
+Subject: Re: [PATCH v2 00/11] LSM documentation update
+Cc:     Casey Schaufler <casey@schaufler-ca.com>,
+        Kees Cook <keescook@chromium.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Eric Paris <eparis@parisplace.org>,
+        John Johansen <john.johansen@canonical.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Paul Moore <paul@paul-moore.com>,
+        Kentaro Takeda <takedakn@nttdata.co.jp>,
+        linux-security-module@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <cover.1551213058.git.efremov@ispras.ru>
 To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     "Tobin C. Harding" <tobin@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/9] docs: Fix various build warnings/errors
-Message-ID: <20190325215938.GA19088@eros.localdomain>
-References: <20190307211153.28400-1-tobin@kernel.org>
- <20190325103333.700c2772@lwn.net>
+From:   Denis Efremov <efremov@ispras.ru>
+Openpgp: preference=signencrypt
+Autocrypt: addr=efremov@ispras.ru; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <f89f1335-a76a-b364-d426-b0fe3423ad0a@ispras.ru>
+Date:   Tue, 26 Mar 2019 15:38:21 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+ Gecko/20100101 Thunderbird/60.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190325103333.700c2772@lwn.net>
-X-Mailer: Mutt 1.11.4 (2019-03-13)
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <cover.1551213058.git.efremov@ispras.ru>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: ru
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 25, 2019 at 10:33:33AM -0600, Jonathan Corbet wrote:
-> On Fri,  8 Mar 2019 08:11:44 +1100
-> "Tobin C. Harding" <tobin@kernel.org> wrote:
-> 
-> > I had a few hours to spare so I thought I'd clear some Sphinx build
-> > warnings/errors.
-> 
-> So there were comments on various parts of this series; were you planning
-> to respin it with those taken into account?  Certainly we're all in favor
-> of fewer warnings!
+Is there something more I could do so that these changes are accepted?
+At least this patchset fixes the documentation format for better html
+generation.
 
-Oh I thought this was dead.  I was under the impression that because I'd
-worked off the wrong tree Randy had fixed all these already.
+Denis
 
-I'll go back and check if any of these fixes are useful still.
-
-Thanks,
-Tobin.
+26.02.2019 21:49, Denis Efremov пишет:
+> Recent "New LSM Hooks" discussion has led me to the
+> thought that it might be a good idea to slightly
+> update the current documentation. The patchset adds
+> nothing new to the documentation, only fixes the old
+> description of hooks to reflect their current state.
+>
+> V2 adds the clarification on arguments for some hooks.
+> The format of the documentation is also slightly updated
+> for better html. However, there are still 10 hooks without
+> documentation at all. I think that this should be fixed
+> separatedly.
+>
+> Denis Efremov (11):
+>   LSM: fix documentation for sb_copy_data hook
+>   LSM: fix documentation for the syslog hook
+>   LSM: fix documentation for the socket_post_create hook
+>   LSM: fix documentation for the task_setscheduler hook
+>   LSM: fix documentation for the socket_getpeersec_dgram hook
+>   LSM: fix documentation for the path_chmod hook
+>   LSM: fix documentation for the audit_* hooks
+>   LSM: fix documentation for the msg_queue_* hooks
+>   LSM: fix documentation for the sem_* hooks
+>   LSM: fix documentation for the shm_* hooks
+>   LSM: lsm_hooks.h: fix documentation format
+>
+>  include/linux/lsm_hooks.h | 170 ++++++++++++++++++--------------------
+>  1 file changed, 81 insertions(+), 89 deletions(-)
+>
