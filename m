@@ -1,88 +1,60 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-3.2 required=5.0 tests=FREEMAIL_REPLYTO_END_DIGIT,
+	HEADER_FROM_DIFFERENT_DOMAINS,HK_NAME_MR_MRS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,RCVD_IN_SBL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 601E67D982
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Mar 2019 23:19:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B6B687D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Mar 2019 00:11:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728116AbfC0XQv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 27 Mar 2019 19:16:51 -0400
-Received: from outils.crapouillou.net ([89.234.176.41]:58242 "EHLO
-        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727419AbfC0XQv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Mar 2019 19:16:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1553728605; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:content-type:
-         content-transfer-encoding:in-reply-to:references;
-        bh=7BJ4f6f4KSXZ2UB72pVKzoiNiNiDKzYQfLyTLCI0a94=;
-        b=ntZt3ItW3sK8UFQ2SOk3B6wUW4M7nlEaO++UJP0lYPkntRN9pP00q0WaEnsoEo6949ptY+
-        H1VDZ5Dg7cV4PUVwychNTTtCFkyyo5KAs0pXWoDKCf5AJ5vSeMwxZeza1PC+AkZoWK5GdK
-        DPU8iZVrATScTrdsYW5pgd4yJNUIg/8=
-From:   Paul Cercueil <paul@crapouillou.net>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     Mathieu Malaterre <malat@debian.org>, od@zcrc.me,
-        linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-clk@vger.kernel.org
-Subject: [PATCH v11 00/27] Ingenic JZ47xx TCU pachset v11
-Date:   Thu, 28 Mar 2019 00:16:04 +0100
-Message-Id: <20190327231631.15708-1-paul@crapouillou.net>
+        id S1730978AbfC1ALs convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 27 Mar 2019 20:11:48 -0400
+Received: from 06d01.mspz3.gob.ec ([186.46.60.180]:50224 "EHLO
+        06d01.mspz3.gob.ec" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730802AbfC1ALs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Mar 2019 20:11:48 -0400
+X-Greylist: delayed 68136 seconds by postgrey-1.27 at vger.kernel.org; Wed, 27 Mar 2019 20:11:46 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by 06d01.mspz3.gob.ec (Postfix) with ESMTP id C1DFD2A8808D;
+        Tue, 26 Mar 2019 17:42:54 -0500 (ECT)
+Received: from 06d01.mspz3.gob.ec ([127.0.0.1])
+        by localhost (06d01.mspz3.gob.ec [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id bbTY9rHEuT6p; Tue, 26 Mar 2019 17:42:54 -0500 (ECT)
+Received: from localhost (localhost [127.0.0.1])
+        by 06d01.mspz3.gob.ec (Postfix) with ESMTP id 90DEF2A86B75;
+        Tue, 26 Mar 2019 17:33:52 -0500 (ECT)
+X-Virus-Scanned: amavisd-new at 06d01.mspz3.gob.ec
+Received: from 06d01.mspz3.gob.ec ([127.0.0.1])
+        by localhost (06d01.mspz3.gob.ec [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id vBNHhPUwbOrw; Tue, 26 Mar 2019 17:33:52 -0500 (ECT)
+Received: from [192.168.8.102] (unknown [154.120.83.179])
+        by 06d01.mspz3.gob.ec (Postfix) with ESMTPSA id C9D302A86F80;
+        Tue, 26 Mar 2019 17:31:31 -0500 (ECT)
+Content-Type: text/plain; charset="iso-8859-1"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: Re:Hello
+To:     Recipients <ps.cachachuyug@06d01.mspz3.gob.ec>
+From:   Mr Wong <ps.cachachuyug@06d01.mspz3.gob.ec>
+Date:   Tue, 26 Mar 2019 15:15:31 -0700
+Reply-To: wongchen1122@gmail.com
+X-Antivirus: Avast (VPS 190326-6, 26-03-2019), Outbound message
+X-Antivirus-Status: Clean
+Message-Id: <20190326223131.C9D302A86F80@06d01.mspz3.gob.ec>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+Hello this is Mr Wong again from hongkong,Can we send the Swift as discuss best regards.
 
-This is the v11 of my patchset that adds support to the Timer/Counter
-Unit (TCU) present in the JZ47xx SoCs from Ingenic.
+Mr Wong Cheng
 
-Changes from v10:
-
-[03/27]: Fix info about default value of ingenic,pwm-channels-mask
-
-[04/27]: - Change prototype of exported function
-           ingenic_tcu_pwm_can_use_chn(), use a struct device * as first
-	   argument.
-	 - Read clocksource using the regmap instead of bypassing it.
-	   Bypassing the regmap makes sense only for the sched_clock where
-	   the read operation must be as fast as possible.
-	 - Fix incorrect format in pr_crit() macro
-
-[05/27]: Use regmap inside the clocksource read functions. Keep bypassing the
-         regmap inside the sched_clock read functions.
-
-[12/27]: Add note about abrupt shutdown
-
-[13/27]: - Use pwm_set_chip_data() to hold the clock pointers
-         - Remove unused variable 'jz' in jz4740_pwm_request()
-
-[14/27]: - Use proper block-comment style.
-         - Modify commit message to fit the new algorithm used.
-
-[15/27]: Use new version of ingenic_tcu_pwm_can_use_chn()
-
-The other patches have not been modified since v10.
-
-If this patchset passes review, I'd like it to be merged in the MIPS
-tree.
-
-Thanks,
--Paul
+---
+This email has been checked for viruses by Avast antivirus software.
+https://www.avast.com/antivirus
 
