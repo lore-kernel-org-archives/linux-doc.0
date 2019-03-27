@@ -3,40 +3,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7A0FF7D926
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Mar 2019 18:51:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 14D617D919
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Mar 2019 19:03:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390539AbfC0SSk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 27 Mar 2019 14:18:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35710 "EHLO mail.kernel.org"
+        id S2389183AbfC0SNg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 27 Mar 2019 14:13:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56284 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390560AbfC0SSk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 27 Mar 2019 14:18:40 -0400
+        id S2389429AbfC0SNf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 27 Mar 2019 14:13:35 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3B88220449;
-        Wed, 27 Mar 2019 18:18:38 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 81D3A21741;
+        Wed, 27 Mar 2019 18:13:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1553710718;
-        bh=O9Fjj1r+Xr0uL4RUZPncSFsYxOidW0mmo03NLgVkGWs=;
+        s=default; t=1553710414;
+        bh=9foi206G+tyuuhB8g9JugR+nv//DuJh7gTBh4m/0VW0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=QP8bsDWu2pIUMMqW0vSXpUGHTg2TDvLVJO7S6GPVlOjBxZf6GGWO93k86bFC5DfOK
-         OtHPJ+hJC0xuE08wRFviZ92hbOEIVMGyd3pc+dIQXRZDGW6qWZb3IqWoCePKIaCvzS
-         jGKJD4mCILRpbZLU7h9EiCXzdko4N4KLBpgUI4So=
+        b=q/3tHokFBamUL0S06/aItEsShsN8ItPVbyyVvnrBZkkjw+rm4slN0UEQt6Bv6ftRI
+         7RW4sAxgBJoHx5FeAfNI8dGz1Ybe9GZlh9jdKsU8b/XkpDwypNsohn2GP5J+jfNmBv
+         2ttbSKxZIeeDqRfaWYIvP78VNMjYLUawUM4mvsME=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Nathan Chancellor <natechancellor@gmail.com>,
         Russell King <rmk+kernel@armlinux.org.uk>,
         Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 071/123] ARM: 8833/1: Ensure that NEON code always compiles with Clang
-Date:   Wed, 27 Mar 2019 14:15:35 -0400
-Message-Id: <20190327181628.15899-71-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 107/192] ARM: 8833/1: Ensure that NEON code always compiles with Clang
+Date:   Wed, 27 Mar 2019 14:08:59 -0400
+Message-Id: <20190327181025.13507-107-sashal@kernel.org>
 X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20190327181628.15899-1-sashal@kernel.org>
-References: <20190327181628.15899-1-sashal@kernel.org>
+In-Reply-To: <20190327181025.13507-1-sashal@kernel.org>
+References: <20190327181025.13507-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -123,7 +123,7 @@ index 525452726d31..b9e060c5b61e 100644
    into the unit containing the NEON code from a compilation unit which is *not*
    built with the GCC flag '-mfpu=neon' set.
 diff --git a/arch/arm/lib/Makefile b/arch/arm/lib/Makefile
-index 4cb0b9624d8f..4cf026f3f00d 100644
+index ad25fd1872c7..0bff0176db2c 100644
 --- a/arch/arm/lib/Makefile
 +++ b/arch/arm/lib/Makefile
 @@ -39,7 +39,7 @@ $(obj)/csumpartialcopy.o:	$(obj)/csumpartialcopygeneric.S
@@ -149,7 +149,7 @@ index 2c40aeab3eaa..c691b901092f 100644
  
  /*
 diff --git a/lib/raid6/Makefile b/lib/raid6/Makefile
-index ad523be0313b..e0f3b38d6dcb 100644
+index 7ed43eaa02ef..5e0d55c54100 100644
 --- a/lib/raid6/Makefile
 +++ b/lib/raid6/Makefile
 @@ -40,7 +40,7 @@ endif
