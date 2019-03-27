@@ -2,49 +2,49 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7C9897D923
+	by archive.lwn.net (Postfix) with ESMTP id D04C97D982
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Mar 2019 05:20:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733272AbfC0FTp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 27 Mar 2019 01:19:45 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:56779 "EHLO
+        id S1731754AbfC0FTw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 27 Mar 2019 01:19:52 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:35491 "EHLO
         out3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1733150AbfC0FTo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Mar 2019 01:19:44 -0400
+        by vger.kernel.org with ESMTP id S1733302AbfC0FTv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Mar 2019 01:19:51 -0400
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.nyi.internal (Postfix) with ESMTP id 4D533220BA;
-        Wed, 27 Mar 2019 01:19:43 -0400 (EDT)
+        by mailout.nyi.internal (Postfix) with ESMTP id DA27F22148;
+        Wed, 27 Mar 2019 01:19:50 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Wed, 27 Mar 2019 01:19:43 -0400
+  by compute3.internal (MEProxy); Wed, 27 Mar 2019 01:19:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:date:from
         :in-reply-to:message-id:mime-version:references:subject:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; bh=jYYRim4LqDH/+ILdkjCwxlVTyWbzdeoyGlOuao86dMc=; b=Sot6Tacz
-        QSWvgIHrLEHZ7eP8+ywsBgOsU0V8wsFqUtVJcuBeM/Wns2QVAaq8ae8JqtIS7Ljs
-        KcfaDTp/VzKsXs78Ab9V2xp4M11gSPlgfXivwrG2NRMq0rbHL3TpRjn+YlbgY5Sv
-        h10Fk0EhVfqQT5SXeUxk33ctjwGGippXXx/WFVI3f8Hr4ycMXhOnECEhmjwj09LI
-        EJCGGkFI1FsX8pB5vbdMcAgw2BmDaOM5UsioZZxysuKfZoqZvfttQHzRsT8F6LU5
-        LAX2RAFHTGJQw2uByk2P23/06gtn6JedLkv8NxG4gk0bCFThsu2RrDfG2aSG5rR3
-        x8HhCmETfelsiA==
-X-ME-Sender: <xms:7webXNfpry1-zBBJgg_DRs39TmSpWIwi9NVL-fYSBqDZYB_in3A0CQ>
+        fm2; bh=2mjDV76CgLZ1V8hWykdYzfL69yXn1pc7PVUZOH6s5ug=; b=f5ncpj2b
+        FA6DT1d+2VdiCqk2v6ePwwMrnmixsbDehNe7Wdj+G5j7ZIO22diYzfT1iikVrbay
+        jdFcw+0OtkKhyxSiCYY7IJ5343ypOE7GIABX2MCufqax5SqvPsrxpm49mpAeME+9
+        l9F57R1k+Dmx6MrYAffbfKk+QRkUX9AMtHwujyDzy+BjGgt3e7quBmlp/yKVBRks
+        QI1PJn1fant5nIZQgLkcDwWurXaN1iBcDFDp/KVDAHgIuL2h6Q/9e4KP16yZ8SYb
+        wgJlUDozX2Gi0jhWRNj3AK28gL5CuRk84+lj73u8eAL2V6bY6Eg0WutX9cDBtkEc
+        5z1tmSDSihr+QQ==
+X-ME-Sender: <xms:9gebXEhxvQ83TKgKYGqIAhYF0CgtVONgCh0AbFU-OXiOCEhJMhbvgw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedutddrkedugdektdcutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepfdfvohgsihhn
     ucevrdcujfgrrhguihhnghdfuceothhosghinheskhgvrhhnvghlrdhorhhgqeenucfkph
     epuddvgedrudeiledrudefledrudelvdenucfrrghrrghmpehmrghilhhfrhhomhepthho
-    sghinheskhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgepudek
-X-ME-Proxy: <xmx:7webXEyy_-Cmpl5lmXuIbKaiFYfyRr0Hgu6PKh7p-cy6YYDduI8-8Q>
-    <xmx:7webXB8VrKr7Fd_y6rJfy4RuyD3aFlUL0VbMSGpUNr5438_uUwrBMQ>
-    <xmx:7webXFoZNKDRcCta8yfS_LguN5pknOFG4I0kDqtO_erTcTOat8JYzQ>
-    <xmx:7webXEKjTnS_D2AFzUYxNS12WQlMai_lfGnqCQXJrJrHhfXwu0DEtw>
+    sghinheskhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgepudel
+X-ME-Proxy: <xmx:9gebXCT1ztRBITMlJTdE0XJJalsWAj0mmaih0SxzzodwUUp0kw_4PQ>
+    <xmx:9gebXNxXIJov4hpRFDMGXnPZQp7IW5CxDvjNpc6roenpjROtQ9pFcw>
+    <xmx:9gebXNcGzqkUyzImFX59vhpp5T6EEmjmmZPuEnxR1suG6F6NwMtiuQ>
+    <xmx:9gebXE0njIDfZoWaK_XP2b4CKxDg-ZRTfbPuup5j4CF2HaHc4_nhRw>
 Received: from eros.localdomain (124-169-139-192.dyn.iinet.net.au [124.169.139.192])
-        by mail.messagingengine.com (Postfix) with ESMTPA id CC199E415C;
-        Wed, 27 Mar 2019 01:19:39 -0400 (EDT)
+        by mail.messagingengine.com (Postfix) with ESMTPA id 70632E4210;
+        Wed, 27 Mar 2019 01:19:47 -0400 (EDT)
 From:   "Tobin C. Harding" <tobin@kernel.org>
 To:     Al Viro <viro@zeniv.linux.org.uk>
 Cc:     "Tobin C. Harding" <tobin@kernel.org>,
@@ -54,9 +54,9 @@ Cc:     "Tobin C. Harding" <tobin@kernel.org>,
         Randy Dunlap <rdunlap@infradead.org>,
         linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 19/24] docs: filesystems: vfs: Use correct initial heading
-Date:   Wed, 27 Mar 2019 16:17:12 +1100
-Message-Id: <20190327051717.23225-20-tobin@kernel.org>
+Subject: [PATCH v3 21/24] docs: filesystems: vfs: Fix pre-amble indentation
+Date:   Wed, 27 Mar 2019 16:17:14 +1100
+Message-Id: <20190327051717.23225-22-tobin@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190327051717.23225-1-tobin@kernel.org>
 References: <20190327051717.23225-1-tobin@kernel.org>
@@ -67,30 +67,37 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Kernel RST has a preferred heading adornment scheme.  Currently all the
-heading adornments follow this scheme except the document heading.
-
-Use correct heading adornment for initial heading.
+Currently file pre-amble contains custom indentation.  RST is not going
+to like this, lets left-align the text.  Put the copyright notices in a
+list in preparation for converting document to RST.
 
 Tested-by: Randy Dunlap <rdunlap@infradead.org>
 Signed-off-by: Tobin C. Harding <tobin@kernel.org>
 ---
- Documentation/filesystems/vfs.txt | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ Documentation/filesystems/vfs.txt | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/Documentation/filesystems/vfs.txt b/Documentation/filesystems/vfs.txt
-index b452b3fc5edc..0bc45c3a33db 100644
+index dcc1f66932e7..e5c877e817c3 100644
 --- a/Documentation/filesystems/vfs.txt
 +++ b/Documentation/filesystems/vfs.txt
-@@ -1,5 +1,6 @@
--
--	      Overview of the Linux Virtual File System
-+=========================================
-+Overview of the Linux Virtual File System
-+=========================================
+@@ -4,12 +4,12 @@
+ Overview of the Linux Virtual File System
+ =========================================
  
- 	Original author: Richard Gooch <rgooch@atnf.csiro.au>
+-	Original author: Richard Gooch <rgooch@atnf.csiro.au>
++Original author: Richard Gooch <rgooch@atnf.csiro.au>
  
+-		  Last updated on June 24, 2007.
++Last updated on June 24, 2007.
+ 
+-  Copyright (C) 1999 Richard Gooch
+-  Copyright (C) 2005 Pekka Enberg
++- Copyright (C) 1999 Richard Gooch
++- Copyright (C) 2005 Pekka Enberg
+ 
+ 
+ Introduction
 -- 
 2.21.0
 
