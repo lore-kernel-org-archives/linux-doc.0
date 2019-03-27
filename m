@@ -1,144 +1,154 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8C4E37D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Mar 2019 20:22:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 44C627D912
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Mar 2019 22:29:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726173AbfC0UWk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 27 Mar 2019 16:22:40 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48618 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725841AbfC0UW1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Mar 2019 16:22:27 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x2RK93bd143533
-        for <linux-doc@vger.kernel.org>; Wed, 27 Mar 2019 16:22:26 -0400
-Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2rge4an8vx-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 27 Mar 2019 16:22:25 -0400
-Received: from localhost
-        by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Wed, 27 Mar 2019 20:22:25 -0000
-Received: from b01cxnp23034.gho.pok.ibm.com (9.57.198.29)
-        by e17.ny.us.ibm.com (146.89.104.204) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 27 Mar 2019 20:22:18 -0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x2RKMHDv18415854
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 27 Mar 2019 20:22:17 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9D018B2064;
-        Wed, 27 Mar 2019 20:22:17 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 7A340B2066;
-        Wed, 27 Mar 2019 20:22:17 +0000 (GMT)
-Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.188])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Wed, 27 Mar 2019 20:22:17 +0000 (GMT)
-Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id 8D75616C0EAC; Wed, 27 Mar 2019 13:22:17 -0700 (PDT)
-Date:   Wed, 27 Mar 2019 13:22:17 -0700
-From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     rcu@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mingo@kernel.org, jiangshanlai@gmail.com, dipankar@in.ibm.com,
-        akpm@linux-foundation.org, mathieu.desnoyers@efficios.com,
-        josh@joshtriplett.org, tglx@linutronix.de, peterz@infradead.org,
-        rostedt@goodmis.org, dhowells@redhat.com, edumazet@google.com,
-        fweisbec@gmail.com, oleg@redhat.com, joel@joelfernandes.org,
-        "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
-        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH tip/core/rcu 1/2] doc/kprobes: Update obsolete RCU update
- functions
-Reply-To: paulmck@linux.ibm.com
-References: <20190326230011.GA16275@linux.ibm.com>
- <20190326230050.16840-1-paulmck@linux.ibm.com>
- <20190327122112.1993060d4b8500125adf9c2d@kernel.org>
+        id S1728225AbfC0W2x (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 27 Mar 2019 18:28:53 -0400
+Received: from mx.kolabnow.com ([95.128.36.42]:50644 "EHLO mx.kolabnow.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725948AbfC0W2x (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 27 Mar 2019 18:28:53 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id 7D7E4411C0;
+        Wed, 27 Mar 2019 23:28:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-transfer-encoding:content-type:content-type:mime-version
+        :message-id:date:date:subject:subject:from:from:received
+        :received:received; s=dkim20160331; t=1553725724; x=1555540125;
+         bh=HXL+W52amwaK7XklPsPOZAepydCSlzNghj7COcMWlTQ=; b=F8USnXZj1xI2
+        nIB4wiGQlL4CjrReKeLcltG+0FrVd9OzWSOQtUwiJ0mR3/yeV6K2/tdJUADZN6/S
+        7RuzyrSlxvb5BXf2oDv8aYoJw3tZCBHqEKCelIyaF7YHZMzwH/QF79EeLw/17e+B
+        YOhjZANBHKPKVIfboGRPkgZ5yPXUb7PEvVPxIuFDlnRMdPH6Ly8R3zbp3sjH6HG8
+        YPqMYVR9OGNvsjDl4Sxse5L6OrPO8MOPyxZwwX94mkc/yL9fwPzgye0EW7encRij
+        XQz1Qjxu/S6dENNA2ShzX1NfiOmdPKhT6AokzSzmUhsrSzC5LSmBDY3vZg1Cd7GA
+        cB534wKBJ6d+JOR0HNDmC41Uwm2DCAakEr6MYsG3s+ebFPZ/0ZfDjntFOgFdUHrg
+        nboUr2SjiY7NwjBycEp1+gCHYCuZk8P5b1tGD7Y6HrmFTF+x/a0VT/XbOf3/akGv
+        YRIGRzCf/TdL0gBTK8PhyJjRIek5vcxWjWwh+uBA/5HFk6jJ9RT6oOsDr4GijJAj
+        cfM7RF1JKH0g9X8tQNUa6El1pow4T4LVI10F+q1YslzEguxzjfzf4pj0Nfv+nJ9C
+        SHZRS2sQbAjS7Sn69p8oQbb4mGOPtLlH5ly/+NAEqgxIpTpL8Vz+VROrzrzZBD0b
+        WpkpSK7cNfQjh7ST/YYjh422FYNC7Pw=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id SEOF3OhgXSXm; Wed, 27 Mar 2019 23:28:44 +0100 (CET)
+Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id C57FD411BD;
+        Wed, 27 Mar 2019 23:28:44 +0100 (CET)
+Received: from ext-subm002.mykolab.com (unknown [10.9.6.2])
+        by int-mx003.mykolab.com (Postfix) with ESMTPS id 9FA79190F;
+        Wed, 27 Mar 2019 23:28:44 +0100 (CET)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] doc:it: alignement clarification about sign-off and Co-developed-by
+Date:   Wed, 27 Mar 2019 23:28:35 +0100
+Message-Id: <20190327222835.27497-1-federico.vaga@vaga.pv.it>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190327122112.1993060d4b8500125adf9c2d@kernel.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-x-cbid: 19032720-0040-0000-0000-000004D82AB6
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00010825; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000282; SDB=6.01180554; UDB=6.00606765; IPR=6.00961271;
- MB=3.00026184; MTD=3.00000008; XFM=3.00000015; UTC=2019-03-27 20:22:24
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19032720-0041-0000-0000-000008E34CB3
-Message-Id: <20190327202217.GH4102@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-03-27_13:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1903270140
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 27, 2019 at 12:21:12PM +0900, Masami Hiramatsu wrote:
-> On Tue, 26 Mar 2019 16:00:49 -0700
-> "Paul E. McKenney" <paulmck@linux.ibm.com> wrote:
-> 
-> > The RCU flavors have been consolidated, so this commit replaces mentions
-> > of the now-obsolete synchronize_sched() function with synchronize_rcu().
-> 
-> Thank you for updating!
-> 
-> Acked-by: Masami Hiramatsu <mhiramat@kernel.org>
+Align Italian documentation after the following patch to the main documents
 
-Applied, thank you!
+commit 24a2bb90741b docs: Clarify the usage and sign-off requirements for Co-developed-by
 
-							Thanx, Paul
+Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+---
+ .../translations/it_IT/process/5.Posting.rst  | 10 +++--
+ .../it_IT/process/submitting-patches.rst      | 41 ++++++++++++++++---
+ 2 files changed, 42 insertions(+), 9 deletions(-)
 
-> > Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
-> > Cc: "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>
-> > Cc: Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>
-> > Cc: "David S. Miller" <davem@davemloft.net>
-> > Cc: Masami Hiramatsu <mhiramat@kernel.org>
-> > Cc: Jonathan Corbet <corbet@lwn.net>
-> > Cc: <linux-doc@vger.kernel.org>
-> > ---
-> >  Documentation/kprobes.txt | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/Documentation/kprobes.txt b/Documentation/kprobes.txt
-> > index 10f4499e677c..ee60e519438a 100644
-> > --- a/Documentation/kprobes.txt
-> > +++ b/Documentation/kprobes.txt
-> > @@ -243,10 +243,10 @@ Optimization
-> >  ^^^^^^^^^^^^
-> >  
-> >  The Kprobe-optimizer doesn't insert the jump instruction immediately;
-> > -rather, it calls synchronize_sched() for safety first, because it's
-> > +rather, it calls synchronize_rcu() for safety first, because it's
-> >  possible for a CPU to be interrupted in the middle of executing the
-> > -optimized region [3]_.  As you know, synchronize_sched() can ensure
-> > -that all interruptions that were active when synchronize_sched()
-> > +optimized region [3]_.  As you know, synchronize_rcu() can ensure
-> > +that all interruptions that were active when synchronize_rcu()
-> >  was called are done, but only if CONFIG_PREEMPT=n.  So, this version
-> >  of kprobe optimization supports only kernels with CONFIG_PREEMPT=n [4]_.
-> >  
-> > -- 
-> > 2.17.1
-> > 
-> 
-> 
-> -- 
-> Masami Hiramatsu <mhiramat@kernel.org>
-> 
+diff --git a/Documentation/translations/it_IT/process/5.Posting.rst b/Documentation/translations/it_IT/process/5.Posting.rst
+index b979266aa884..1476d51eb5e5 100644
+--- a/Documentation/translations/it_IT/process/5.Posting.rst
++++ b/Documentation/translations/it_IT/process/5.Posting.rst
+@@ -233,10 +233,12 @@ Le etichette in uso più comuni sono:
+    :ref:`Documentation/translations/it_IT/process/submitting-patches.rst <it_submittingpatches>`.
+    Codice che non presenta una firma appropriata non potrà essere integrato.
+ 
+- - Co-developed-by: indica che la patch è stata sviluppata anche da un altro
+-   sviluppatore assieme all'autore originale.  Questo è utile quando più
+-   persone lavorano sulla stessa patch.  Da notare che questa persona deve
+-   avere anche una riga "Signed-off-by:" nella patch.
++ - Co-developed-by: indica che la patch è stata cosviluppata da diversi
++   sviluppatori; viene usato per assegnare più autori (in aggiunta a quello
++   associato all'etichetta From:) quando più persone lavorano ad una patch.
++   Ogni Co-developed-by: dev'essere seguito immediatamente da un Signed-off-by:
++   del corrispondente coautore.  Maggiori dettagli ed esempi sono disponibili
++   in :ref:`Documentation/translations/it_IT/process/submitting-patches.rst <it_submittingpatches>`.
+ 
+  - Acked-by: indica il consenso di un altro sviluppatore (spesso il manutentore
+    del codice in oggetto) all'integrazione della patch nel kernel.
+diff --git a/Documentation/translations/it_IT/process/submitting-patches.rst b/Documentation/translations/it_IT/process/submitting-patches.rst
+index 713fba075b9d..7d7ea92c5c5a 100644
+--- a/Documentation/translations/it_IT/process/submitting-patches.rst
++++ b/Documentation/translations/it_IT/process/submitting-patches.rst
+@@ -567,11 +567,42 @@ alcunché - ma dovrebbe indicare che la persona ha ricevuto una copia della
+ patch.  Questa etichetta documenta che terzi potenzialmente interessati sono
+ stati inclusi nella discussione.
+ 
+-L'etichetta Co-developed-by: indica che la patch è stata scritta dall'autore in
+-collaborazione con un altro sviluppatore.  Qualche volta questo è utile quando
+-più persone lavorano sulla stessa patch.  Notate, questa persona deve avere
+-nella patch anche una riga Signed-off-by:.
++Co-developed-by: indica che la patch è stata cosviluppata da diversi
++sviluppatori; viene usato per assegnare più autori (in aggiunta a quello
++associato all'etichetta From:) quando più persone lavorano ad una patch.  Dato
++che Co-developed-by: implica la paternità della patch, ogni Co-developed-by:
++dev'essere seguito immediatamente dal Signed-off-by: del corrispondente
++coautore. Qui si applica la procedura di base per sign-off, in pratica
++l'ordine delle etichette Signed-off-by: dovrebbe riflettere il più possibile
++l'ordine cronologico della storia della patch, indipendentemente dal fatto che
++la paternità venga assegnata via From: o Co-developed-by:. Da notare che
++l'ultimo Signed-off-by: dev'essere quello di colui che ha sottomesso la patch.
+ 
++Notate anche che l'etichetta From: è opzionale quando l'autore in From: è
++anche la persona (e indirizzo email) indicato nel From: dell'intestazione
++dell'email.
++
++Esempio di una patch sottomessa dall'autore in From:::
++
++	<changelog>
++
++	Co-developed-by: First Co-Author <first@coauthor.example.org>
++	Signed-off-by: First Co-Author <first@coauthor.example.org>
++	Co-developed-by: Second Co-Author <second@coauthor.example.org>
++	Signed-off-by: Second Co-Author <second@coauthor.example.org>
++	Signed-off-by: From Author <from@author.example.org>
++
++Esempio di una patch sottomessa dall'autore Co-developed-by:::
++
++	From: From Author <from@author.example.org>
++
++	<changelog>
++
++	Co-developed-by: Random Co-Author <random@coauthor.example.org>
++	Signed-off-by: Random Co-Author <random@coauthor.example.org>
++	Signed-off-by: From Author <from@author.example.org>
++	Co-developed-by: Submitting Co-Author <sub@coauthor.example.org>
++	Signed-off-by: Submitting Co-Author <sub@coauthor.example.org>
+ 
+ 13) Utilizzare Reported-by:, Tested-by:, Reviewed-by:, Suggested-by: e Fixes:
+ -----------------------------------------------------------------------------
+@@ -719,7 +750,7 @@ Un paio di esempi di oggetti::
+ La riga ``from`` dev'essere la prima nel corpo del messaggio ed è nel
+ formato:
+ 
+-        From: Original Author <author@example.com>
++        From: Patch Author <author@example.com>
+ 
+ La riga ``from`` indica chi verrà accreditato nel changelog permanente come
+ l'autore della patch.  Se la riga ``from`` è mancante, allora per determinare
+-- 
+2.20.1
 
