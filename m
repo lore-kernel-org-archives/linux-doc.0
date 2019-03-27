@@ -3,40 +3,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A30357D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Mar 2019 18:42:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7A0FF7D926
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Mar 2019 18:51:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403823AbfC0SWJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 27 Mar 2019 14:22:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40168 "EHLO mail.kernel.org"
+        id S2390539AbfC0SSk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 27 Mar 2019 14:18:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35710 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2403811AbfC0SWI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 27 Mar 2019 14:22:08 -0400
+        id S2390560AbfC0SSk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 27 Mar 2019 14:18:40 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 59C9420449;
-        Wed, 27 Mar 2019 18:22:07 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3B88220449;
+        Wed, 27 Mar 2019 18:18:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1553710928;
-        bh=92yBxjLmuh/HkrdmI+xC+OA+RV60COqu1/W5/9LCIzw=;
+        s=default; t=1553710718;
+        bh=O9Fjj1r+Xr0uL4RUZPncSFsYxOidW0mmo03NLgVkGWs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ukes0Cm8AWR55Od6CGOcIROqwiSWrV2pz7MLPX0sOzmlf7Pp6jokcO2bbAGc532wt
-         1ExOzj5CoUA6flEXXq0xhqUXh/kDBPY1U/bBZUvw/8ABgA2fe6VpcyUgX1tQ04L536
-         1jDySd64mLWdhrWT1NI3NsDv19DQfBv3NGmCXEhc=
+        b=QP8bsDWu2pIUMMqW0vSXpUGHTg2TDvLVJO7S6GPVlOjBxZf6GGWO93k86bFC5DfOK
+         OtHPJ+hJC0xuE08wRFviZ92hbOEIVMGyd3pc+dIQXRZDGW6qWZb3IqWoCePKIaCvzS
+         jGKJD4mCILRpbZLU7h9EiCXzdko4N4KLBpgUI4So=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Nathan Chancellor <natechancellor@gmail.com>,
         Russell King <rmk+kernel@armlinux.org.uk>,
         Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 49/87] ARM: 8833/1: Ensure that NEON code always compiles with Clang
-Date:   Wed, 27 Mar 2019 14:20:02 -0400
-Message-Id: <20190327182040.17444-49-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 071/123] ARM: 8833/1: Ensure that NEON code always compiles with Clang
+Date:   Wed, 27 Mar 2019 14:15:35 -0400
+Message-Id: <20190327181628.15899-71-sashal@kernel.org>
 X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20190327182040.17444-1-sashal@kernel.org>
-References: <20190327182040.17444-1-sashal@kernel.org>
+In-Reply-To: <20190327181628.15899-1-sashal@kernel.org>
+References: <20190327181628.15899-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -123,10 +123,10 @@ index 525452726d31..b9e060c5b61e 100644
    into the unit containing the NEON code from a compilation unit which is *not*
    built with the GCC flag '-mfpu=neon' set.
 diff --git a/arch/arm/lib/Makefile b/arch/arm/lib/Makefile
-index 27f4d96258a2..b3ecffb76c3f 100644
+index 4cb0b9624d8f..4cf026f3f00d 100644
 --- a/arch/arm/lib/Makefile
 +++ b/arch/arm/lib/Makefile
-@@ -38,7 +38,7 @@ $(obj)/csumpartialcopy.o:	$(obj)/csumpartialcopygeneric.S
+@@ -39,7 +39,7 @@ $(obj)/csumpartialcopy.o:	$(obj)/csumpartialcopygeneric.S
  $(obj)/csumpartialcopyuser.o:	$(obj)/csumpartialcopygeneric.S
  
  ifeq ($(CONFIG_KERNEL_MODE_NEON),y)
@@ -149,18 +149,18 @@ index 2c40aeab3eaa..c691b901092f 100644
  
  /*
 diff --git a/lib/raid6/Makefile b/lib/raid6/Makefile
-index 3057011f5599..10ca69475611 100644
+index ad523be0313b..e0f3b38d6dcb 100644
 --- a/lib/raid6/Makefile
 +++ b/lib/raid6/Makefile
-@@ -24,7 +24,7 @@ endif
+@@ -40,7 +40,7 @@ endif
  ifeq ($(CONFIG_KERNEL_MODE_NEON),y)
  NEON_FLAGS := -ffreestanding
  ifeq ($(ARCH),arm)
 -NEON_FLAGS += -mfloat-abi=softfp -mfpu=neon
 +NEON_FLAGS += -march=armv7-a -mfloat-abi=softfp -mfpu=neon
  endif
+ CFLAGS_recov_neon_inner.o += $(NEON_FLAGS)
  ifeq ($(ARCH),arm64)
- CFLAGS_REMOVE_neon1.o += -mgeneral-regs-only
 -- 
 2.19.1
 
