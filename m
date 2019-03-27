@@ -5,46 +5,46 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 02E8C7D981
+	by archive.lwn.net (Postfix) with ESMTP id 4FD127DBD4
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Mar 2019 05:20:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733161AbfC0FTY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 27 Mar 2019 01:19:24 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:48127 "EHLO
+        id S1733202AbfC0FTc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 27 Mar 2019 01:19:32 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:49073 "EHLO
         out3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1733150AbfC0FTX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Mar 2019 01:19:23 -0400
+        by vger.kernel.org with ESMTP id S1733150AbfC0FTc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Mar 2019 01:19:32 -0400
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.nyi.internal (Postfix) with ESMTP id AF80821F37;
-        Wed, 27 Mar 2019 01:19:21 -0400 (EDT)
+        by mailout.nyi.internal (Postfix) with ESMTP id 6C42622098;
+        Wed, 27 Mar 2019 01:19:30 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Wed, 27 Mar 2019 01:19:21 -0400
+  by compute3.internal (MEProxy); Wed, 27 Mar 2019 01:19:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:date:from
         :in-reply-to:message-id:mime-version:references:subject:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; bh=O3IkRZrdZNfUvoMQYcfGBizE/yp9wp3yrnKIkiYXnFc=; b=6kAvjWDv
-        IjUCgcWDGoL8/hfnNaeH9hKK+Dx4HWJmst7mPH4n48pbHbwPsYW92Md96+XnLKio
-        k24GmuvMpySQ3Fc0I9tnXlSiMDU8IWKUCxikCJoM4WWBtLU0EUsH51rGdEYMTuGz
-        k6QcHN4aQegkRyvnOZFE6Y4TYf81pWMcX2r16r8aqBCVbbtv95yJ0RpKt2AuXNbE
-        wPfJudw/dmKp5j8OLoOKwxytH1iPPAz3xbr8mSXU2ehy8KYhXj+vBJ5VRpeFH78b
-        ij0eRlVumwPBfYRQL9GQhxk5j/vuRaE0Q4WrFzjoJwcLXbWndTEWOawnDPZClq/J
-        fhEqoyVLCREUBw==
-X-ME-Sender: <xms:2QebXLKuq9FSrxAbEffDhUNd5ZLZuY1juk9zNm2tcQeFm1WVxmVLqA>
+        fm2; bh=UUSUTQbUh+cU8KW0mCsEhh9OaMQiU6BLKXfd36Fk4MQ=; b=qIa8qJpM
+        WdjBDB35AXfrovKotMwh0PkqUTlamdRAGuo5H7vMSUZ/CtGsA8egLimHc/U50BKc
+        LEMjdDAzrKPl8LI9VEP/rqtT4zBtBDXVDT9tt/FrB7gdcggh0W+xhoptxBmkafgg
+        M7st5jR8SvmQF4kojXe5m2GyBLCeUs2Le3+F8Z/EgQ0hT3AnnkQI81HLOVQ0Y1K2
+        Ue+X0avd2o0TyPqq4r1Bfpcx8EmCIi9PVqniUiOVKjDty/desQRnbYR+vxYgvSDp
+        aXHAQgBGJXoXRgqgfmSsSdRB0sRizbkAff9nLUyeYA8RBTj4G3ZZAGrovdfUgYSg
+        2Xp18LQej4IqAw==
+X-ME-Sender: <xms:4gebXOXTvfB28FTvIVU3o-JeBFxHu82DB16A1ax6oGh6pnxmsnEpPQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedutddrkedugdektdcutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepfdfvohgsihhn
     ucevrdcujfgrrhguihhnghdfuceothhosghinheskhgvrhhnvghlrdhorhhgqeenucfkph
     epuddvgedrudeiledrudefledrudelvdenucfrrghrrghmpehmrghilhhfrhhomhepthho
-    sghinheskhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgepudef
-X-ME-Proxy: <xmx:2QebXKS2mDGHMjQ9rhu2TbEP2Ty0IFfRCx-KTrOONGvTNUJN5pGz4A>
-    <xmx:2QebXKHC-nus7DLD1YX3cEIOMNNlkhZKyyPmg2AeFtpTH7qDQmIiqg>
-    <xmx:2QebXPV0oGFvyNkZdGD8L_jygEOoT3UjRG_ektYAW8cey1VdhNcrbg>
-    <xmx:2QebXGfCW7Uq3XxgNXzd3FBl65DDxWnkUlr1eIkzrb306tCT2_OaGw>
+    sghinheskhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgepudeh
+X-ME-Proxy: <xmx:4gebXEHZvzVjidV-29874piuy3CMwy7mXNZyQ_lBJEwMgGBC_Fcj9g>
+    <xmx:4gebXGoTfxiwMALvEJ49-nm_sqavpcUXQiFz7c8VlS0SfepX3EKlQA>
+    <xmx:4gebXM7Kwdmtj9-WGrC7hmrlk3iO6bkhhLM3_7mKJXUXo_gPtF3-Kw>
+    <xmx:4gebXNw9lZ5eXi1BrbmkfSw7waR9oF4uUCuHq7Jg4EJmRd3emoiqjg>
 Received: from eros.localdomain (124-169-139-192.dyn.iinet.net.au [124.169.139.192])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 2191CE415C;
-        Wed, 27 Mar 2019 01:19:17 -0400 (EDT)
+        by mail.messagingengine.com (Postfix) with ESMTPA id 978C8E4210;
+        Wed, 27 Mar 2019 01:19:26 -0400 (EDT)
 From:   "Tobin C. Harding" <tobin@kernel.org>
 To:     Al Viro <viro@zeniv.linux.org.uk>
 Cc:     "Tobin C. Harding" <tobin@kernel.org>,
@@ -54,9 +54,9 @@ Cc:     "Tobin C. Harding" <tobin@kernel.org>,
         Randy Dunlap <rdunlap@infradead.org>,
         linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 14/24] dcache: Clean up function docstring members
-Date:   Wed, 27 Mar 2019 16:17:07 +1100
-Message-Id: <20190327051717.23225-15-tobin@kernel.org>
+Subject: [PATCH v3 16/24] docs: filesystems: vfs: Use uniform space after period.
+Date:   Wed, 27 Mar 2019 16:17:09 +1100
+Message-Id: <20190327051717.23225-17-tobin@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190327051717.23225-1-tobin@kernel.org>
 References: <20190327051717.23225-1-tobin@kernel.org>
@@ -67,305 +67,697 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We just cleaned up the function docstrings, we omitted while doing that
-clean up the member descriptions.  This was done to ease the cognitive
-load required for review.  Seeing what has changed in a line with an
-added period can be taxing on the patch reader, if we do all these
-changes as a separate patch its easier to review.
+Currently sometimes document has a single space after a period and
+sometimes it has double.  Whichever we use it should be uniform.
 
-Clean up function docstring member descriptions:n
- - Capitalise the initial character.
- - Add period (full stop) to end of string.
- - iff required flesh out the description.
+Use double space after period, be uniform.
 
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 Signed-off-by: Tobin C. Harding <tobin@kernel.org>
 ---
- fs/dcache.c | 90 ++++++++++++++++++++++++++---------------------------
- 1 file changed, 45 insertions(+), 45 deletions(-)
+ Documentation/filesystems/vfs.txt | 246 +++++++++++++++---------------
+ 1 file changed, 123 insertions(+), 123 deletions(-)
 
-diff --git a/fs/dcache.c b/fs/dcache.c
-index 7acf94290b66..4ed26a7e0ec8 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -814,7 +814,7 @@ static inline bool fast_dput(struct dentry *dentry)
+diff --git a/Documentation/filesystems/vfs.txt b/Documentation/filesystems/vfs.txt
+index 75b47768c806..62a6ad52b191 100644
+--- a/Documentation/filesystems/vfs.txt
++++ b/Documentation/filesystems/vfs.txt
+@@ -16,12 +16,12 @@ Introduction
  
- /**
-  * dput() - Release a dentry.
-- * @dentry: dentry to release
-+ * @dentry: The dentry to release.
-  *
-  * Release a dentry. This will drop the usage count and if appropriate
-  * call the dentry unlink method as well as removing it from the queues and
-@@ -910,7 +910,7 @@ static struct dentry * __d_find_any_alias(struct inode *inode)
+ The Virtual File System (also known as the Virtual Filesystem Switch)
+ is the software layer in the kernel that provides the filesystem
+-interface to userspace programs. It also provides an abstraction
++interface to userspace programs.  It also provides an abstraction
+ within the kernel which allows different filesystem implementations to
+ coexist.
  
- /**
-  * d_find_any_alias() - Find any alias for a given inode.
-- * @inode: inode to find an alias for
-+ * @inode: The inode to find an alias for.
-  *
-  * If any aliases exist for the given inode, take and return a
-  * reference for one of them.
-@@ -949,7 +949,7 @@ static struct dentry *__d_find_alias(struct inode *inode)
+ VFS system calls open(2), stat(2), read(2), write(2), chmod(2) and so
+-on are called from a process context. Filesystem locking is described
++on are called from a process context.  Filesystem locking is described
+ in the document Documentation/filesystems/Locking.
  
- /**
-  * d_find_alias() - Grab a hashed alias of inode.
-- * @inode: inode in question
-+ * @inode: The inode in question.
-  *
-  * If inode has a hashed alias, or is a directory and has any alias,
-  * acquire the reference to alias.  Notice that if inode is a directory
-@@ -1156,7 +1156,7 @@ static enum lru_status dentry_lru_isolate(struct list_head *item,
  
- /**
-  * prune_dcache_sb() - Shrink the dcache.
-- * @sb: superblock
-+ * @sb: The superblock to shrink.
-  * @sc: shrink control, passed to list_lru_shrink_walk()
-  *
-  * Attempt to shrink the superblock dcache LRU by @sc->nr_to_scan entries. This
-@@ -1372,7 +1372,7 @@ static enum d_walk_ret path_check_mount(void *data, struct dentry *dentry)
+@@ -29,37 +29,37 @@ Directory Entry Cache (dcache)
+ ------------------------------
  
- /**
-  * path_has_submounts() - Check current namespace for mounts over a dentry.
-- * @parent: path to check.
-+ * @parent: The path to check.
-  *
-  * Return: True if the parent or its subdirectories contain
-  *         a mount point in the current namespace.
-@@ -1481,7 +1481,7 @@ static enum d_walk_ret select_collect(void *_data, struct dentry *dentry)
+ The VFS implements the open(2), stat(2), chmod(2), and similar system
+-calls. The pathname argument that is passed to them is used by the VFS
++calls.  The pathname argument that is passed to them is used by the VFS
+ to search through the directory entry cache (also known as the dentry
+-cache or dcache). This provides a very fast look-up mechanism to
+-translate a pathname (filename) into a specific dentry. Dentries live
++cache or dcache).  This provides a very fast look-up mechanism to
++translate a pathname (filename) into a specific dentry.  Dentries live
+ in RAM and are never saved to disc: they exist only for performance.
  
- /**
-  * shrink_dcache_parent() - Prune dcache.
-- * @parent: parent of entries to prune
-+ * @parent: The parent of entries to prune.
-  *
-  * Prune the dcache to remove unused children of the parent dentry.
-  */
-@@ -1576,7 +1576,7 @@ static enum d_walk_ret find_submount(void *_data, struct dentry *dentry)
+-The dentry cache is meant to be a view into your entire filespace. As
++The dentry cache is meant to be a view into your entire filespace.  As
+ most computers cannot fit all dentries in the RAM at the same time,
+-some bits of the cache are missing. In order to resolve your pathname
++some bits of the cache are missing.  In order to resolve your pathname
+ into a dentry, the VFS may have to resort to creating dentries along
+-the way, and then loading the inode. This is done by looking up the
++the way, and then loading the inode.  This is done by looking up the
+ inode.
  
- /**
-  * d_invalidate() - Detach submounts, prune dcache, and drop.
-- * @dentry: dentry to invalidate (aka detach, prune and drop)
-+ * @dentry: The dentry to invalidate (aka detach, prune and drop).
-  */
- void d_invalidate(struct dentry *dentry)
- {
-@@ -1611,8 +1611,8 @@ EXPORT_SYMBOL(d_invalidate);
  
- /**
-  * __d_alloc() - Allocate a dcache entry.
-- * @sb: filesystem it will belong to
-- * @name: qstr of the name
-+ * @sb: The filesystem it will belong to.
-+ * @name: The qstr of the name.
-  *
-  * @name is copied and may be reused after this call.
-  *
-@@ -1695,8 +1695,8 @@ struct dentry *__d_alloc(struct super_block *sb, const struct qstr *name)
+ The Inode Object
+ ----------------
  
- /**
-  * d_alloc() - Allocate a dcache entry.
-- * @parent: parent of entry to allocate
-- * @name: qstr of the name
-+ * @parent: The parent of entry to allocate.
-+ * @name: The qstr of the name.
-  *
-  * Allocates a dentry and adds it to @parent.  See __d_alloc() for full
-  * explanation of behaviour.
-@@ -1743,8 +1743,8 @@ struct dentry *d_alloc_cursor(struct dentry * parent)
+-An individual dentry usually has a pointer to an inode. Inodes are
++An individual dentry usually has a pointer to an inode.  Inodes are
+ filesystem objects such as regular files, directories, FIFOs and other
+ beasts.  They live either on the disc (for block device filesystems)
+-or in the memory (for pseudo filesystems). Inodes that live on the
++or in the memory (for pseudo filesystems).  Inodes that live on the
+ disc are copied into the memory when required and changes to the inode
+-are written back to disc. A single inode can be pointed to by multiple
++are written back to disc.  A single inode can be pointed to by multiple
+ dentries (hard links, for example, do this).
  
- /**
-  * d_alloc_pseudo() - Allocate a dentry (for lookup-less filesystems).
-- * @sb: the superblock
-- * @name: qstr of the name
-+ * @sb: The superblock.
-+ * @name: The qstr of the name.
-  *
-  * For a filesystem that just pins its dentries in memory and never
-  * performs lookups at all, return an unhashed IS_ROOT dentry.
-@@ -1872,8 +1872,8 @@ static void __d_instantiate(struct dentry *dentry, struct inode *inode)
+ To look up an inode requires that the VFS calls the lookup() method of
+-the parent directory inode. This method is installed by the specific
+-filesystem implementation that the inode lives in. Once the VFS has
++the parent directory inode.  This method is installed by the specific
++filesystem implementation that the inode lives in.  Once the VFS has
+ the required dentry (and hence the inode), we can do all those boring
+ things like open(2) the file, or stat(2) it to peek at the inode
+-data. The stat(2) operation is fairly simple: once the VFS has the
++data.  The stat(2) operation is fairly simple: once the VFS has the
+ dentry, it peeks at the inode data and passes some of it back to
+ userspace.
  
- /**
-  * d_instantiate() - Fill in inode information for a dentry.
-- * @entry: dentry to complete
-- * @inode: inode to attach to this dentry
-+ * @entry: The dentry to complete.
-+ * @inode: The inode to attach to this dentry.
-  *
-  * This turns negative dentries into productive full members
-  * of society.
-@@ -2012,7 +2012,7 @@ static struct dentry *__d_obtain_alias(struct inode *inode, bool disconnected)
+@@ -69,17 +69,17 @@ The File Object
  
- /**
-  * d_obtain_alias() - Find or allocate a DISCONNECTED dentry.
-- * @inode: inode to allocate the dentry for
-+ * @inode: The inode to allocate the dentry for.
-  *
-  * Obtain a dentry for an inode resulting from NFS filehandle conversion or
-  * similar open by handle operations.  The returned dentry may be anonymous,
-@@ -2036,7 +2036,7 @@ EXPORT_SYMBOL(d_obtain_alias);
+ Opening a file requires another operation: allocation of a file
+ structure (this is the kernel-side implementation of file
+-descriptors). The freshly allocated file structure is initialized with
++descriptors).  The freshly allocated file structure is initialized with
+ a pointer to the dentry and a set of file operation member functions.
+-These are taken from the inode data. The open() file method is then
+-called so the specific filesystem implementation can do its work. You
+-can see that this is another switch performed by the VFS. The file
++These are taken from the inode data.  The open() file method is then
++called so the specific filesystem implementation can do its work.  You
++can see that this is another switch performed by the VFS.  The file
+ structure is placed into the file descriptor table for the process.
  
- /**
-  * d_obtain_root() - Find or allocate a dentry for a given inode.
-- * @inode: inode to allocate the dentry for
-+ * @inode: The inode to allocate the dentry for.
-  *
-  * Obtain an IS_ROOT dentry for the root of a filesystem.
-  *
-@@ -2057,9 +2057,9 @@ EXPORT_SYMBOL(d_obtain_root);
+ Reading, writing and closing files (and other assorted VFS operations)
+ is done by using the userspace file descriptor to grab the appropriate
+ file structure, and then calling the required file structure method to
+-do whatever is required. For as long as the file is open, it keeps the
++do whatever is required.  For as long as the file is open, it keeps the
+ dentry in use, which in turn means that the VFS inode is still in use.
  
- /**
-  * d_add_ci() - Lookup or allocate new dentry with case-exact name.
-- * @inode:  the inode case-insensitive lookup has found
-- * @dentry: the negative dentry that was passed to the parent's lookup func
-- * @name:   the case-exact name to be associated with the returned dentry
-+ * @inode: The inode case-insensitive lookup has found.
-+ * @dentry: The negative dentry that was passed to the parent's lookup func.
-+ * @name: The case-exact name to be associated with the returned dentry.
-  *
-  * This is to avoid filling the dcache with case-insensitive names to the
-  * same inode, only the actual correct case is stored in the dcache for
-@@ -2125,9 +2125,9 @@ static inline bool d_same_name(const struct dentry *dentry,
  
- /**
-  * __d_lookup_rcu() - Search for a dentry (racy, store-free).
-- * @parent: parent dentry
-- * @name: qstr of name we wish to find
-- * @seqp: returns d_seq value at the point where the dentry was found
-+ * @parent: The parent dentry.
-+ * @name: The qstr of name we wish to find.
-+ * @seqp: Returns d_seq value at the point where the dentry was found.
-  *
-  * __d_lookup_rcu is the dcache lookup function for rcu-walk name
-  * resolution (store-free path walking) design described in
-@@ -2241,8 +2241,8 @@ struct dentry *__d_lookup_rcu(const struct dentry *parent,
+@@ -94,7 +94,7 @@ functions:
+    extern int register_filesystem(struct file_system_type *);
+    extern int unregister_filesystem(struct file_system_type *);
  
- /**
-  * d_lookup() - Search for a dentry.
-- * @parent: parent dentry
-- * @name: qstr of name we wish to find
-+ * @parent: The parent dentry.
-+ * @name: The qstr of name we wish to find.
-  *
-  * d_lookup() searches the children of the parent dentry for the name in
-  * question. If the dentry is found its reference count is incremented and the
-@@ -2268,8 +2268,8 @@ EXPORT_SYMBOL(d_lookup);
+-The passed struct file_system_type describes your filesystem. When a
++The passed struct file_system_type describes your filesystem.  When a
+ request is made to mount a filesystem onto a directory in your namespace,
+ the VFS will call the appropriate mount() method for the specific
+ filesystem.  New vfsmount referring to the tree returned by ->mount()
+@@ -108,7 +108,7 @@ file /proc/filesystems.
+ struct file_system_type
+ -----------------------
  
- /**
-  * __d_lookup() - Search for a dentry (racy).
-- * @parent: parent dentry
-- * @name: qstr of name we wish to find
-+ * @parent: The parent dentry.
-+ * @name: The qstr of name we wish to find.
-  *
-  * __d_lookup() is like d_lookup(), however it may (rarely) return a
-  * false-negative result due to unrelated rename activity.
-@@ -2340,8 +2340,8 @@ struct dentry *__d_lookup(const struct dentry *parent, const struct qstr *name)
+-This describes the filesystem. As of kernel 2.6.39, the following
++This describes the filesystem.  As of kernel 2.6.39, the following
+ members are defined:
  
- /**
-  * d_hash_and_lookup() - Hash the qstr then search for a dentry.
-- * @dir: Directory to search in
-- * @name: qstr of name we wish to find
-+ * @dir: Directory to search in.
-+ * @name: The qstr of name we wish to find.
-  *
-  * Return: The dentry if found, %NULL on lookup failure, ERR_PTR(-error)
-  *         on bad name.
-@@ -2378,7 +2378,7 @@ EXPORT_SYMBOL(d_hash_and_lookup);
+ struct file_system_type {
+@@ -170,12 +170,12 @@ point of view is a reference to dentry at the root of (sub)tree to
+ be attached; creation of new superblock is a common side effect.
  
- /**
-  * d_delete() - Delete a dentry.
-- * @dentry: The dentry to delete
-+ * @dentry: The dentry to delete.
-  *
-  * Turn the dentry into a negative dentry if possible, otherwise
-  * remove it from the hash queues so it can be deleted later.
-@@ -2416,7 +2416,7 @@ static void __d_rehash(struct dentry *entry)
+ The most interesting member of the superblock structure that the
+-mount() method fills in is the "s_op" field. This is a pointer to
++mount() method fills in is the "s_op" field.  This is a pointer to
+ a "struct super_operations" which describes the next level of the
+ filesystem implementation.
  
- /**
-  * d_rehash() - Add an entry back to the hash.
-- * @entry: dentry to add to the hash
-+ * @entry: The dentry to add to the hash.
-  *
-  * Adds a dentry to the hash according to its name.
-  */
-@@ -2613,8 +2613,8 @@ static inline void __d_add(struct dentry *dentry, struct inode *inode)
+ Usually, a filesystem uses one of the generic mount() implementations
+-and provides a fill_super() callback instead. The generic variants are:
++and provides a fill_super() callback instead.  The generic variants are:
  
- /**
-  * d_add() - Add dentry to hash queues.
-- * @entry: dentry to add
-- * @inode: The inode to attach to this dentry
-+ * @entry: The dentry to add.
-+ * @inode: The inode to attach to this dentry.
-  *
-  * This adds the entry to the hash queues and initializes @inode.
-  * The entry was actually filled in earlier during d_alloc().
-@@ -2632,8 +2632,8 @@ EXPORT_SYMBOL(d_add);
+   mount_bdev: mount a filesystem residing on a block device
  
- /**
-  * d_exact_alias() - Find and hash an exact unhashed alias.
-- * @entry: dentry to add
-- * @inode: The inode to go with this dentry
-+ * @entry: The dentry to add.
-+ * @inode: The inode to go with this dentry.
-  *
-  * Context: Parent directory should be locked.
-  * Return: If an unhashed dentry with the same name/parent and desired
-@@ -2831,8 +2831,8 @@ static void __d_move(struct dentry *dentry, struct dentry *target,
+@@ -186,7 +186,7 @@ and provides a fill_super() callback instead. The generic variants are:
  
- /**
-  * d_move() - Move a dentry.
-- * @dentry: entry to move
-- * @target: new dentry
-+ * @dentry: The dentry to move.
-+ * @target: The new dentry.
-  *
-  * Update the dcache to reflect the move of a file name. Negative
-  * dcache entries should not be moved in this way.
-@@ -2851,8 +2851,8 @@ EXPORT_SYMBOL(d_move);
+ A fill_super() callback implementation has the following arguments:
  
- /**
-  * d_exchange() - Exchange two dentries.
-- * @dentry1: first dentry
-- * @dentry2: second dentry
-+ * @dentry1: The first dentry.
-+ * @dentry2: The second dentry.
-  */
- void d_exchange(struct dentry *dentry1, struct dentry *dentry2)
- {
-@@ -2870,8 +2870,8 @@ void d_exchange(struct dentry *dentry1, struct dentry *dentry2)
+-  struct super_block *sb: the superblock structure. The callback
++  struct super_block *sb: the superblock structure.  The callback
+ 	must initialize this properly.
  
- /**
-  * d_ancestor() - Search for an ancestor.
-- * @p1: ancestor dentry
-- * @p2: child dentry
-+ * @p1: The ancestor dentry.
-+ * @p2: The child dentry.
-  *
-  * Return: The ancestor dentry of p2 which is a child of p1, if p1 is
-  *         an ancestor of p2, else %NULL.
-@@ -2927,8 +2927,8 @@ static int __d_unalias(struct inode *inode,
+   void *data: arbitrary mount options, usually comes as an ASCII
+@@ -205,7 +205,7 @@ struct super_operations
+ -----------------------
  
- /**
-  * d_splice_alias() - Splice a disconnected dentry into the tree if one exists.
-- * @inode:  the inode which may have a disconnected dentry
-- * @dentry: a negative dentry which we want to point to the inode.
-+ * @inode: The inode which may have a disconnected dentry.
-+ * @dentry: A negative dentry which we want to point to the inode.
-  *
-  * If inode is a directory and has an IS_ROOT alias, then d_move() that in
-  * place of the given dentry and return it, else simply d_add() the inode
-@@ -3007,8 +3007,8 @@ EXPORT_SYMBOL(d_splice_alias);
+ This describes how the VFS can manipulate the superblock of your
+-filesystem. As of kernel 2.6.22, the following members are defined:
++filesystem.  As of kernel 2.6.22, the following members are defined:
  
- /**
-  * is_subdir - is new dentry a subdirectory of old_dentry
-- * @new_dentry: new dentry
-- * @old_dentry: old dentry
-+ * @new_dentry: The new dentry.
-+ * @old_dentry: The old dentry.
-  *
-  * Return: True if new_dentry is a subdirectory of the parent (at any
-  *         depth).  False otherwise.
+ struct super_operations {
+         struct inode *(*alloc_inode)(struct super_block *sb);
+@@ -233,7 +233,7 @@ struct super_operations {
+ };
+ 
+ All methods are called without any locks being held, unless otherwise
+-noted. This means that most methods can block safely. All methods are
++noted.  This means that most methods can block safely.  All methods are
+ only called from a process context (i.e. not from an interrupt handler
+ or bottom half).
+ 
+@@ -270,11 +270,11 @@ or bottom half).
+   delete_inode: called when the VFS wants to delete an inode
+ 
+   put_super: called when the VFS wishes to free the superblock
+-	(i.e. unmount). This is called with the superblock lock held
++	(i.e. unmount).  This is called with the superblock lock held
+ 
+   sync_fs: called when VFS is writing out all dirty data associated with
+-	a superblock. The second parameter indicates whether the method
+-	should wait until the write out has been completed. Optional.
++	a superblock.  The second parameter indicates whether the method
++	should wait until the write out has been completed.  Optional.
+ 
+   freeze_fs: called when VFS is locking a filesystem and
+ 	forcing it into a consistent state.  This method is currently
+@@ -285,10 +285,10 @@ or bottom half).
+ 
+   statfs: called when the VFS needs to get filesystem statistics.
+ 
+-  remount_fs: called when the filesystem is remounted. This is called
++  remount_fs: called when the filesystem is remounted.  This is called
+ 	with the kernel lock held
+ 
+-  clear_inode: called then the VFS clears the inode. Optional
++  clear_inode: called then the VFS clears the inode.  Optional
+ 
+   umount_begin: called when the VFS is unmounting a filesystem.
+ 
+@@ -309,17 +309,17 @@ or bottom half).
+ 	implement ->nr_cached_objects for it to be called correctly.
+ 
+ 	We can't do anything with any errors that the filesystem might
+-	encountered, hence the void return type. This will never be called if
++	encountered, hence the void return type.  This will never be called if
+ 	the VM is trying to reclaim under GFP_NOFS conditions, hence this
+ 	method does not need to handle that situation itself.
+ 
+ 	Implementations must include conditional reschedule calls inside any
+-	scanning loop that is done. This allows the VFS to determine
++	scanning loop that is done.  This allows the VFS to determine
+ 	appropriate scan batch sizes without having to worry about whether
+ 	implementations will cause holdoff problems due to large scan batch
+ 	sizes.
+ 
+-Whoever sets up the inode is responsible for filling in the "i_op" field. This
++Whoever sets up the inode is responsible for filling in the "i_op" field.  This
+ is a pointer to a "struct inode_operations" which describes the methods that
+ can be performed on individual inodes.
+ 
+@@ -363,7 +363,7 @@ struct inode_operations
+ -----------------------
+ 
+ This describes how the VFS can manipulate an inode in your
+-filesystem. As of kernel 2.6.22, the following members are defined:
++filesystem.  As of kernel 2.6.22, the following members are defined:
+ 
+ struct inode_operations {
+ 	int (*create) (struct inode *,struct dentry *, umode_t, bool);
+@@ -393,19 +393,19 @@ struct inode_operations {
+ Again, all methods are called without any locks being held, unless
+ otherwise noted.
+ 
+-  create: called by the open(2) and creat(2) system calls. Only
+-	required if you want to support regular files. The dentry you
++  create: called by the open(2) and creat(2) system calls.  Only
++	required if you want to support regular files.  The dentry you
+ 	get should not have an inode (i.e. it should be a negative
+-	dentry). Here you will probably call d_instantiate() with the
++	dentry).  Here you will probably call d_instantiate() with the
+ 	dentry and the newly created inode
+ 
+   lookup: called when the VFS needs to look up an inode in a parent
+-	directory. The name to look for is found in the dentry. This
++	directory.  The name to look for is found in the dentry.  This
+ 	method must call d_add() to insert the found inode into the
+-	dentry. The "i_count" field in the inode structure should be
+-	incremented. If the named inode does not exist a NULL inode
++	dentry.  The "i_count" field in the inode structure should be
++	incremented.  If the named inode does not exist a NULL inode
+ 	should be inserted into the dentry (this is called a negative
+-	dentry). Returning an error code from this routine must only
++	dentry).  Returning an error code from this routine must only
+ 	be done on a real error, otherwise creating inodes with system
+ 	calls like create(2), mknod(2), mkdir(2) and so on will fail.
+ 	If you wish to overload the dentry methods then you should
+@@ -413,27 +413,27 @@ otherwise noted.
+ 	to a struct "dentry_operations".
+ 	This method is called with the directory inode semaphore held
+ 
+-  link: called by the link(2) system call. Only required if you want
+-	to support hard links. You will probably need to call
++  link: called by the link(2) system call.  Only required if you want
++	to support hard links.  You will probably need to call
+ 	d_instantiate() just as you would in the create() method
+ 
+-  unlink: called by the unlink(2) system call. Only required if you
++  unlink: called by the unlink(2) system call.  Only required if you
+ 	want to support deleting inodes
+ 
+-  symlink: called by the symlink(2) system call. Only required if you
+-	want to support symlinks. You will probably need to call
++  symlink: called by the symlink(2) system call.  Only required if you
++	want to support symlinks.  You will probably need to call
+ 	d_instantiate() just as you would in the create() method
+ 
+-  mkdir: called by the mkdir(2) system call. Only required if you want
+-	to support creating subdirectories. You will probably need to
++  mkdir: called by the mkdir(2) system call.  Only required if you want
++	to support creating subdirectories.  You will probably need to
+ 	call d_instantiate() just as you would in the create() method
+ 
+-  rmdir: called by the rmdir(2) system call. Only required if you want
++  rmdir: called by the rmdir(2) system call.  Only required if you want
+ 	to support deleting subdirectories
+ 
+   mknod: called by the mknod(2) system call to create a device (char,
+-	block) inode or a named pipe (FIFO) or socket. Only required
+-	if you want to support creating these types of inodes. You
++	block) inode or a named pipe (FIFO) or socket.  Only required
++	if you want to support creating these types of inodes.  You
+ 	will probably need to call d_instantiate() just as you would
+ 	in the create() method
+ 
+@@ -474,21 +474,21 @@ otherwise noted.
+   permission: called by the VFS to check for access rights on a POSIX-like
+ 	filesystem.
+ 
+-	May be called in rcu-walk mode (mask & MAY_NOT_BLOCK). If in rcu-walk
+-	mode, the filesystem must check the permission without blocking or
++	May be called in rcu-walk mode (mask & MAY_NOT_BLOCK).  If in rcu-walk
++        mode, the filesystem must check the permission without blocking or
+ 	storing to the inode.
+ 
+ 	If a situation is encountered that rcu-walk cannot handle, return
+ 	-ECHILD and it will be called again in ref-walk mode.
+ 
+-  setattr: called by the VFS to set attributes for a file. This method
++  setattr: called by the VFS to set attributes for a file.  This method
+ 	is called by chmod(2) and related system calls.
+ 
+-  getattr: called by the VFS to get attributes of a file. This method
++  getattr: called by the VFS to get attributes of a file.  This method
+ 	is called by stat(2) and related system calls.
+ 
+   listxattr: called by the VFS to list all extended attributes for a
+-	given file. This method is called by the listxattr(2) system call.
++	given file.  This method is called by the listxattr(2) system call.
+ 
+   update_time: called by the VFS to update a specific time or the i_version of
+ 	an inode.  If this is not defined the VFS will update the inode itself
+@@ -526,7 +526,7 @@ The first can be used independently to the others.  The VM can try to
+ either write dirty pages in order to clean them, or release clean
+ pages in order to reuse them.  To do this it can call the ->writepage
+ method on dirty pages, and ->releasepage on clean pages with
+-PagePrivate set. Clean pages without PagePrivate and with no external
++PagePrivate set.  Clean pages without PagePrivate and with no external
+ references will be released without notice being given to the
+ address_space.
+ 
+@@ -534,7 +534,7 @@ To achieve this functionality, pages need to be placed on an LRU with
+ lru_cache_add and mark_page_active needs to be called whenever the
+ page is used.
+ 
+-Pages are normally kept in a radix tree index by ->index. This tree
++Pages are normally kept in a radix tree index by ->index.  This tree
+ maintains information about the PG_Dirty and PG_Writeback status of
+ each page, so that pages with either of these flags can be found
+ quickly.
+@@ -620,7 +620,7 @@ struct address_space_operations
+ -------------------------------
+ 
+ This describes how the VFS can manipulate mapping of a file to page cache in
+-your filesystem. The following members are defined:
++your filesystem.  The following members are defined:
+ 
+ struct address_space_operations {
+ 	int (*writepage)(struct page *page, struct writeback_control *wbc);
+@@ -700,7 +700,7 @@ struct address_space_operations {
+         PAGECACHE_TAG_DIRTY tag in the radix tree.
+ 
+   readpages: called by the VM to read pages associated with the address_space
+-	object. This is essentially just a vector version of
++	object.  This is essentially just a vector version of
+ 	readpage.  Instead of just one page, several pages are
+ 	requested.
+ 	readpages is only used for read-ahead, so read errors are
+@@ -708,7 +708,7 @@ struct address_space_operations {
+ 
+   write_begin:
+ 	Called by the generic buffered write code to ask the filesystem to
+-	prepare to write len bytes at the given offset in the file. The
++	prepare to write len bytes at the given offset in the file.  The
+ 	address_space should check that the write will be able to complete,
+ 	by allocating space if necessary and doing any other internal
+ 	housekeeping.  If the write will update parts of any basic-blocks on
+@@ -731,7 +731,7 @@ struct address_space_operations {
+ 	which case write_end is not called.
+ 
+   write_end: After a successful write_begin, and data copy, write_end must
+-        be called. len is the original len passed to write_begin, and copied
++        be called.  len is the original len passed to write_begin, and copied
+         is the amount that was able to be copied.
+ 
+         The filesystem must take care of unlocking the page and releasing it
+@@ -741,7 +741,7 @@ struct address_space_operations {
+         that were able to be copied into pagecache.
+ 
+   bmap: called by the VFS to map a logical block offset within object to
+-	physical block number. This method is used by the FIBMAP
++	physical block number.  This method is used by the FIBMAP
+ 	ioctl and for working with swap-files.  To be able to swap to
+ 	a file, the file must have a stable mapping to a block
+ 	device.  The swap system does not go through the filesystem
+@@ -753,7 +753,7 @@ struct address_space_operations {
+ 	from the address space.  This generally corresponds to either a
+ 	truncation, punch hole  or a complete invalidation of the address
+ 	space (in the latter case 'offset' will always be 0 and 'length'
+-	will be PAGE_SIZE). Any private data associated with the page
++	will be PAGE_SIZE).  Any private data associated with the page
+ 	should be updated to reflect this truncation.  If offset is 0 and
+ 	length is PAGE_SIZE, then the private data should be released,
+ 	because the page must be able to be completely discarded.  This may
+@@ -763,7 +763,7 @@ struct address_space_operations {
+   releasepage: releasepage is called on PagePrivate pages to indicate
+         that the page should be freed if possible.  ->releasepage
+         should remove any private data from the page and clear the
+-        PagePrivate flag. If releasepage() fails for some reason, it must
++        PagePrivate flag.  If releasepage() fails for some reason, it must
+ 	indicate failure with a 0 return value.
+ 	releasepage() is used in two distinct though related cases.  The
+ 	first is when the VM finds a clean page with no active users and
+@@ -783,7 +783,7 @@ struct address_space_operations {
+ 
+   freepage: freepage is called once the page is no longer visible in
+         the page cache in order to allow the cleanup of any private
+-	data. Since it may be called by the memory reclaimer, it
++	data.  Since it may be called by the memory reclaimer, it
+ 	should not assume that the original address_space mapping still
+ 	exists, and it should not block.
+ 
+@@ -805,32 +805,32 @@ struct address_space_operations {
+ 
+   putback_page: Called by the VM when isolated page's migration fails.
+ 
+-  launder_page: Called before freeing a page - it writes back the dirty page. To
++  launder_page: Called before freeing a page - it writes back the dirty page.  To
+ 	prevent redirtying the page, it is kept locked during the whole
+ 	operation.
+ 
+   is_partially_uptodate: Called by the VM when reading a file through the
+-	pagecache when the underlying blocksize != pagesize. If the required
++	pagecache when the underlying blocksize != pagesize.  If the required
+ 	block is up to date then the read can complete without needing the IO
+ 	to bring the whole page up to date.
+ 
+   is_dirty_writeback: Called by the VM when attempting to reclaim a page.
+ 	The VM uses dirty and writeback information to determine if it needs
+-	to stall to allow flushers a chance to complete some IO. Ordinarily
++	to stall to allow flushers a chance to complete some IO.  Ordinarily
+ 	it can use PageDirty and PageWriteback but some filesystems have
+ 	more complex state (unstable pages in NFS prevent reclaim) or
+-	do not set those flags due to locking problems. This callback
++	do not set those flags due to locking problems.  This callback
+ 	allows a filesystem to indicate to the VM if a page should be
+ 	treated as dirty or writeback for the purposes of stalling.
+ 
+   error_remove_page: normally set to generic_error_remove_page if truncation
+-	is ok for this address space. Used for memory failure handling.
++	is ok for this address space.  Used for memory failure handling.
+ 	Setting this implies you deal with pages going away under you,
+ 	unless you have them locked or reference counts increased.
+ 
+   swap_activate: Called when swapon is used on a file to allocate
+ 	space if necessary and pin the block lookup information in
+-	memory. A return value of zero indicates success,
++	memory.  A return value of zero indicates success,
+ 	in which case this file can be used to back swapspace.
+ 
+   swap_deactivate: Called during swapoff on files where swap_activate
+@@ -840,14 +840,14 @@ struct address_space_operations {
+ The File Object
+ ===============
+ 
+-A file object represents a file opened by a process. This is also known
++A file object represents a file opened by a process.  This is also known
+ as an "open file description" in POSIX parlance.
+ 
+ 
+ struct file_operations
+ ----------------------
+ 
+-This describes how the VFS can manipulate an open file. As of kernel
++This describes how the VFS can manipulate an open file.  As of kernel
+ 4.18, the following members are defined:
+ 
+ struct file_operations {
+@@ -909,7 +909,7 @@ otherwise noted.
+ 
+   poll: called by the VFS when a process wants to check if there is
+ 	activity on this file and (optionally) go to sleep until there
+-	is activity. Called by the select(2) and poll(2) system calls
++	is activity.  Called by the select(2) and poll(2) system calls
+ 
+   unlocked_ioctl: called by the ioctl(2) system call.
+ 
+@@ -918,13 +918,13 @@ otherwise noted.
+ 
+   mmap: called by the mmap(2) system call
+ 
+-  open: called by the VFS when an inode should be opened. When the VFS
+-	opens a file, it creates a new "struct file". It then calls the
+-	open method for the newly allocated file structure. You might
++  open: called by the VFS when an inode should be opened.  When the VFS
++	opens a file, it creates a new "struct file".  It then calls the
++	open method for the newly allocated file structure.  You might
+ 	think that the open method really belongs in
+-	"struct inode_operations", and you may be right. I think it's
++	"struct inode_operations", and you may be right.  I think it's
+ 	done the way it is because it makes filesystems simpler to
+-	implement. The open() method is a good place to initialize the
++	implement.  The open() method is a good place to initialize the
+ 	"private_data" member in the file structure if you want to point
+ 	to a device structure
+ 
+@@ -932,7 +932,7 @@ otherwise noted.
+ 
+   release: called when the last reference to an open file is closed
+ 
+-  fsync: called by the fsync(2) system call. Also see the section above
++  fsync: called by the fsync(2) system call.  Also see the section above
+ 	 entitled "Handling errors during writeback".
+ 
+   fasync: called by the fcntl(2) system call when asynchronous
+@@ -947,13 +947,13 @@ otherwise noted.
+ 
+   flock: called by the flock(2) system call
+ 
+-  splice_write: called by the VFS to splice data from a pipe to a file. This
++  splice_write: called by the VFS to splice data from a pipe to a file.  This
+ 		method is used by the splice(2) system call
+ 
+-  splice_read: called by the VFS to splice data from file to a pipe. This
++  splice_read: called by the VFS to splice data from file to a pipe.  This
+ 	       method is used by the splice(2) system call
+ 
+-  setlease: called by the VFS to set or release a file lock lease. setlease
++  setlease: called by the VFS to set or release a file lock lease.  setlease
+ 	    implementations should call generic_setlease to record or remove
+ 	    the lease in the inode after setting it.
+ 
+@@ -977,12 +977,12 @@ otherwise noted.
+   fadvise: possibly called by the fadvise64() system call.
+ 
+ Note that the file operations are implemented by the specific
+-filesystem in which the inode resides. When opening a device node
++filesystem in which the inode resides.  When opening a device node
+ (character or block special) most filesystems will call special
+ support routines in the VFS which will locate the required device
+-driver information. These support routines replace the filesystem file
++driver information.  These support routines replace the filesystem file
+ operations with those for the device driver, and then proceed to call
+-the new open() method for the file. This is how opening a device file
++the new open() method for the file.  This is how opening a device file
+ in the filesystem eventually ends up calling the device driver open()
+ method.
+ 
+@@ -995,10 +995,10 @@ struct dentry_operations
+ ------------------------
+ 
+ This describes how a filesystem can overload the standard dentry
+-operations. Dentries and the dcache are the domain of the VFS and the
+-individual filesystem implementations. Device drivers have no business
+-here. These methods may be set to NULL, as they are either optional or
+-the VFS uses a default. As of kernel 2.6.22, the following members are
++operations.  Dentries and the dcache are the domain of the VFS and the
++individual filesystem implementations.  Device drivers have no business
++here.  These methods may be set to NULL, as they are either optional or
++the VFS uses a default.  As of kernel 2.6.22, the following members are
+ defined:
+ 
+ struct dentry_operations {
+@@ -1017,10 +1017,10 @@ struct dentry_operations {
+ 	struct dentry *(*d_real)(struct dentry *, const struct inode *);
+ };
+ 
+-  d_revalidate: called when the VFS needs to revalidate a dentry. This
++  d_revalidate: called when the VFS needs to revalidate a dentry.  This
+ 	is called whenever a name look-up finds a dentry in the
+-	dcache. Most local filesystems leave this as NULL, because all their
+-	dentries in the dcache are valid. Network filesystems are different
++	dcache.  Most local filesystems leave this as NULL, because all their
++	dentries in the dcache are valid.  Network filesystems are different
+ 	since things can change on the server without the client necessarily
+ 	being aware of it.
+ 
+@@ -1038,11 +1038,11 @@ struct dentry_operations {
+ 
+  d_weak_revalidate: called when the VFS needs to revalidate a "jumped" dentry.
+ 	This is called when a path-walk ends at dentry that was not acquired by
+-	doing a lookup in the parent directory. This includes "/", "." and "..",
++	doing a lookup in the parent directory.  This includes "/", "." and "..",
+ 	as well as procfs-style symlinks and mountpoint traversal.
+ 
+ 	In this case, we are less concerned with whether the dentry is still
+-	fully correct, but rather that the inode is still valid. As with
++	fully correct, but rather that the inode is still valid.  As with
+ 	d_revalidate, most local filesystems will set this to NULL since their
+ 	dcache entries are always valid.
+ 
+@@ -1050,17 +1050,17 @@ struct dentry_operations {
+ 
+ 	d_weak_revalidate is only called after leaving rcu-walk mode.
+ 
+-  d_hash: called when the VFS adds a dentry to the hash table. The first
++  d_hash: called when the VFS adds a dentry to the hash table.  The first
+ 	dentry passed to d_hash is the parent directory that the name is
+ 	to be hashed into.
+ 
+ 	Same locking and synchronisation rules as d_compare regarding
+ 	what is safe to dereference etc.
+ 
+-  d_compare: called to compare a dentry name with a given name. The first
++  d_compare: called to compare a dentry name with a given name.  The first
+ 	dentry is the parent of the dentry to be compared, the second is
+-	the child dentry. len and name string are properties of the dentry
+-	to be compared. qstr is the name to compare it with.
++	the child dentry.  len and name string are properties of the dentry
++	to be compared.  qstr is the name to compare it with.
+ 
+ 	Must be constant and idempotent, and should not take locks if
+ 	possible, and should not or store into the dentry.
+@@ -1075,9 +1075,9 @@ struct dentry_operations {
+ 	"rcu-walk", ie. without any locks or references on things.
+ 
+   d_delete: called when the last reference to a dentry is dropped and the
+-	dcache is deciding whether or not to cache it. Return 1 to delete
+-	immediately, or 0 to cache the dentry. Default is NULL which means to
+-	always cache a reachable dentry. d_delete must be constant and
++	dcache is deciding whether or not to cache it.  Return 1 to delete
++	immediately, or 0 to cache the dentry.  Default is NULL which means to
++	always cache a reachable dentry.  d_delete must be constant and
+ 	idempotent.
+ 
+   d_init: called when a dentry is allocated
+@@ -1085,19 +1085,19 @@ struct dentry_operations {
+   d_release: called when a dentry is really deallocated
+ 
+   d_iput: called when a dentry loses its inode (just prior to its
+-	being deallocated). The default when this is NULL is that the
+-	VFS calls iput(). If you define this method, you must call
++	being deallocated).  The default when this is NULL is that the
++	VFS calls iput().  If you define this method, you must call
+ 	iput() yourself
+ 
+   d_dname: called when the pathname of a dentry should be generated.
+ 	Useful for some pseudo filesystems (sockfs, pipefs, ...) to delay
+-	pathname generation. (Instead of doing it when dentry is created,
+-	it's done only when the path is needed.). Real filesystems probably
++	pathname generation.  (Instead of doing it when dentry is created,
++	it's done only when the path is needed.).  Real filesystems probably
+ 	dont want to use it, because their dentries are present in global
+-	dcache hash, so their hash should be an invariant. As no lock is
++	dcache hash, so their hash should be an invariant.  As no lock is
+ 	held, d_dname() should not try to modify the dentry itself, unless
+-	appropriate SMP safety is used. CAUTION : d_path() logic is quite
+-	tricky. The correct way to return for example "Hello" is to put it
++	appropriate SMP safety is used.  CAUTION : d_path() logic is quite
++	tricky.  The correct way to return for example "Hello" is to put it
+ 	at the end of the buffer, and returns a pointer to the first char.
+ 	dynamic_dname() helper function is provided to take care of this.
+ 
+@@ -1159,7 +1159,7 @@ struct dentry_operations {
+ 	With NULL inode the topmost real underlying dentry is returned.
+ 
+ Each dentry has a pointer to its parent dentry, as well as a hash list
+-of child dentries. Child dentries are basically like files in a
++of child dentries.  Child dentries are basically like files in a
+ directory.
+ 
+ 
+@@ -1172,36 +1172,36 @@ manipulate dentries:
+   dget: open a new handle for an existing dentry (this just increments
+ 	the usage count)
+ 
+-  dput: close a handle for a dentry (decrements the usage count). If
++  dput: close a handle for a dentry (decrements the usage count).  If
+ 	the usage count drops to 0, and the dentry is still in its
+ 	parent's hash, the "d_delete" method is called to check whether
+-	it should be cached. If it should not be cached, or if the dentry
+-	is not hashed, it is deleted. Otherwise cached dentries are put
++	it should be cached.  If it should not be cached, or if the dentry
++	is not hashed, it is deleted.  Otherwise cached dentries are put
+ 	into an LRU list to be reclaimed on memory shortage.
+ 
+-  d_drop: this unhashes a dentry from its parents hash list. A
++  d_drop: this unhashes a dentry from its parents hash list.  A
+ 	subsequent call to dput() will deallocate the dentry if its
+ 	usage count drops to 0
+ 
+-  d_delete: delete a dentry. If there are no other open references to
++  d_delete: delete a dentry.  If there are no other open references to
+ 	the dentry then the dentry is turned into a negative dentry
+-	(the d_iput() method is called). If there are other
++	(the d_iput() method is called).  If there are other
+ 	references, then d_drop() is called instead
+ 
+   d_add: add a dentry to its parents hash list and then calls
+ 	d_instantiate()
+ 
+   d_instantiate: add a dentry to the alias hash list for the inode and
+-	updates the "d_inode" member. The "i_count" member in the
+-	inode structure should be set/incremented. If the inode
++	updates the "d_inode" member.  The "i_count" member in the
++	inode structure should be set/incremented.  If the inode
+ 	pointer is NULL, the dentry is called a "negative
+-	dentry". This function is commonly called when an inode is
++	dentry".  This function is commonly called when an inode is
+ 	created for an existing negative dentry
+ 
+   d_lookup: look up a dentry given its parent and path name component
+ 	It looks up the child of that given name from the dcache
+-	hash table. If it is found, the reference count is incremented
+-	and the dentry is returned. The caller must use dput()
++	hash table.  If it is found, the reference count is incremented
++	and the dentry is returned.  The caller must use dput()
+ 	to free the dentry when it finishes using it.
+ 
+ Mount Options
 -- 
 2.21.0
 
