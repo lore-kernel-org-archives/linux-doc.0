@@ -5,26 +5,26 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 60F8D7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Mar 2019 13:02:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7866C7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Mar 2019 13:02:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728216AbfC0NCT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 27 Mar 2019 09:02:19 -0400
-Received: from out4436.biz.mail.alibaba.com ([47.88.44.36]:1830 "EHLO
-        out4436.biz.mail.alibaba.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725829AbfC0NCT (ORCPT
+        id S1729259AbfC0NCU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 27 Mar 2019 09:02:20 -0400
+Received: from out4437.biz.mail.alibaba.com ([47.88.44.37]:25529 "EHLO
+        out4437.biz.mail.alibaba.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728184AbfC0NCT (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Mar 2019 09:02:19 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R211e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04452;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0TNmcUmY_1553691736;
-Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TNmcUmY_1553691736)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R401e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04397;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0TNmt4Xu_1553691737;
+Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TNmt4Xu_1553691737)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 27 Mar 2019 21:02:16 +0800
+          Wed, 27 Mar 2019 21:02:17 +0800
 From:   Alex Shi <alex.shi@linux.alibaba.com>
 To:     alex.shi@linux.alibaba.com, harryxiyou@gmail.com, corbet@lwn.net,
         leoyang.li@nxp.com, linux-doc@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org
-Subject: [PATCH 01/42] docs/zh_CN: translate development-process into Chinese
-Date:   Wed, 27 Mar 2019 21:01:07 +0800
-Message-Id: <20190327130148.3258-2-alex.shi@linux.alibaba.com>
+Subject: [PATCH 02/42] docs/zh_CN: add disclaimer and translator info in development-process
+Date:   Wed, 27 Mar 2019 21:01:08 +0800
+Message-Id: <20190327130148.3258-3-alex.shi@linux.alibaba.com>
 X-Mailer: git-send-email 2.19.1.856.g8858448bb
 In-Reply-To: <20190327130148.3258-1-alex.shi@linux.alibaba.com>
 References: <20190327130148.3258-1-alex.shi@linux.alibaba.com>
@@ -36,7 +36,7 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Start development process translation.
+Add disclaimer and translator info into development process doc
 
 Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
 Cc: Harry Wei <harryxiyou@gmail.com>
@@ -44,37 +44,22 @@ Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
 ---
- .../zh_CN/process/development-process.rst     | 21 +++++++++++++++++++
- 1 file changed, 21 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/process/development-process.rst
+ .../translations/zh_CN/process/development-process.rst       | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/Documentation/translations/zh_CN/process/development-process.rst b/Documentation/translations/zh_CN/process/development-process.rst
-new file mode 100644
-index 000000000000..500ca5056f60
---- /dev/null
+index 500ca5056f60..30cffe66c075 100644
+--- a/Documentation/translations/zh_CN/process/development-process.rst
 +++ b/Documentation/translations/zh_CN/process/development-process.rst
-@@ -0,0 +1,21 @@
-+.. _cn_development_process_main:
+@@ -1,3 +1,8 @@
++.. include:: ../disclaimer-zh_CN.rst
 +
-+内核开发过程指南
-+================
++:Original: :ref:`Documentation/process/development-process.rst <development_process_main>`
++:Translator: Alex Shi <alex.shi@linux.alibaba.com>
 +
-+内容:
-+
-+.. toctree::
-+   :numbered:
-+   :maxdepth: 2
-+
-+   1.Intro
-+   2.Process
-+   3.Early-stage
-+   4.Coding
-+   5.Posting
-+   6.Followthrough
-+   7.AdvancedTopics
-+   8.Conclusion
-+
-+本文档的目的是帮助开发人员（及其经理）以最小的挫折感与开发社区合作。它试图记录这个社区如何以一种不熟悉Linux内核开发（或者实际上是自由软件开发）的人可以访问的方式工作。虽然这里有一些技术资料，但这是一个面向过程的讨论，不需要深入了解内核编程就可以理解。
+ .. _cn_development_process_main:
+ 
+ 内核开发过程指南
 -- 
 2.19.1.856.g8858448bb
 
