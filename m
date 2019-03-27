@@ -5,38 +5,38 @@ X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 14D617D919
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Mar 2019 19:03:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5E40C7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Mar 2019 19:21:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389183AbfC0SNg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 27 Mar 2019 14:13:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56284 "EHLO mail.kernel.org"
+        id S2387479AbfC0SGx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 27 Mar 2019 14:06:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48646 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389429AbfC0SNf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 27 Mar 2019 14:13:35 -0400
+        id S2387438AbfC0SGw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 27 Mar 2019 14:06:52 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 81D3A21741;
-        Wed, 27 Mar 2019 18:13:33 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 30C3E21738;
+        Wed, 27 Mar 2019 18:06:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1553710414;
-        bh=9foi206G+tyuuhB8g9JugR+nv//DuJh7gTBh4m/0VW0=;
+        s=default; t=1553710010;
+        bh=m+TZHy1Cw48MI6gtIUEncOsWXcR9p79EoXWkU72wJ4I=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=q/3tHokFBamUL0S06/aItEsShsN8ItPVbyyVvnrBZkkjw+rm4slN0UEQt6Bv6ftRI
-         7RW4sAxgBJoHx5FeAfNI8dGz1Ybe9GZlh9jdKsU8b/XkpDwypNsohn2GP5J+jfNmBv
-         2ttbSKxZIeeDqRfaWYIvP78VNMjYLUawUM4mvsME=
+        b=dcFeFn8n3zNPRxqvMcDclCaPyBoBE+KVzwhIuMSNm5c35vd9K9dqL38DFcZdepe2J
+         cCvkEo31dWuGfy8ZVKP3+gnbuu9ZMukYRJ3Dx6Na6bi8mZwq249XzpLYWWIljafbC4
+         Vbd7n7UrFNRPoiIBXlzuhv3/yAWpP7zvCD80uGew=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Nathan Chancellor <natechancellor@gmail.com>,
         Russell King <rmk+kernel@armlinux.org.uk>,
         Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 107/192] ARM: 8833/1: Ensure that NEON code always compiles with Clang
-Date:   Wed, 27 Mar 2019 14:08:59 -0400
-Message-Id: <20190327181025.13507-107-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.0 154/262] ARM: 8833/1: Ensure that NEON code always compiles with Clang
+Date:   Wed, 27 Mar 2019 14:00:09 -0400
+Message-Id: <20190327180158.10245-154-sashal@kernel.org>
 X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20190327181025.13507-1-sashal@kernel.org>
-References: <20190327181025.13507-1-sashal@kernel.org>
+In-Reply-To: <20190327180158.10245-1-sashal@kernel.org>
+References: <20190327180158.10245-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -149,10 +149,10 @@ index 2c40aeab3eaa..c691b901092f 100644
  
  /*
 diff --git a/lib/raid6/Makefile b/lib/raid6/Makefile
-index 7ed43eaa02ef..5e0d55c54100 100644
+index 4e90d443d1b0..e723eacf7868 100644
 --- a/lib/raid6/Makefile
 +++ b/lib/raid6/Makefile
-@@ -40,7 +40,7 @@ endif
+@@ -39,7 +39,7 @@ endif
  ifeq ($(CONFIG_KERNEL_MODE_NEON),y)
  NEON_FLAGS := -ffreestanding
  ifeq ($(ARCH),arm)
