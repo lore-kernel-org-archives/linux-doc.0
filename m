@@ -5,26 +5,28 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A3E877E288
+	by archive.lwn.net (Postfix) with ESMTP id EB9FA7E29D
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Mar 2019 13:05:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730692AbfC0NEc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 27 Mar 2019 09:04:32 -0400
-Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:50698 "EHLO
-        out30-57.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729901AbfC0NCg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Mar 2019 09:02:36 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e07488;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0TNmcUoa_1553691744;
-Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TNmcUoa_1553691744)
+        id S1729901AbfC0NEs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 27 Mar 2019 09:04:48 -0400
+Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:60453 "EHLO
+        out30-131.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730145AbfC0NCf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Mar 2019 09:02:35 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04396;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0TNmcUpz_1553691750;
+Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TNmcUpz_1553691750)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 27 Mar 2019 21:02:25 +0800
+          Wed, 27 Mar 2019 21:02:30 +0800
 From:   Alex Shi <alex.shi@linux.alibaba.com>
 To:     alex.shi@linux.alibaba.com, harryxiyou@gmail.com, corbet@lwn.net,
         leoyang.li@nxp.com, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org
-Subject: [PATCH 20/42] docs/zh_CN: add license-rules Chinese translation
-Date:   Wed, 27 Mar 2019 21:01:26 +0800
-Message-Id: <20190327130148.3258-21-alex.shi@linux.alibaba.com>
+Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
+        SeongJae Park <sj38.park@gmail.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 33/42] docs/zh_CN: fix link issue in howto.rst
+Date:   Wed, 27 Mar 2019 21:01:39 +0800
+Message-Id: <20190327130148.3258-34-alex.shi@linux.alibaba.com>
 X-Mailer: git-send-email 2.19.1.856.g8858448bb
 In-Reply-To: <20190327130148.3258-1-alex.shi@linux.alibaba.com>
 References: <20190327130148.3258-1-alex.shi@linux.alibaba.com>
@@ -36,389 +38,153 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is the first version of license-rules Chinese translation
+Now we could follow links in created html files.
 
 Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
 Cc: Harry Wei <harryxiyou@gmail.com>
 Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Federico Vaga <federico.vaga@vaga.pv.it>
+Cc: SeongJae Park <sj38.park@gmail.com>
 Cc: linux-doc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
 ---
- .../zh_CN/process/license-rules.rst           | 365 ++++++++++++++++++
- 1 file changed, 365 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/process/license-rules.rst
+ .../translations/zh_CN/process/howto.rst      | 48 ++++++++++---------
+ 1 file changed, 25 insertions(+), 23 deletions(-)
 
-diff --git a/Documentation/translations/zh_CN/process/license-rules.rst b/Documentation/translations/zh_CN/process/license-rules.rst
-new file mode 100644
-index 000000000000..f70c8a238c3d
---- /dev/null
-+++ b/Documentation/translations/zh_CN/process/license-rules.rst
-@@ -0,0 +1,365 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. _kernel_licensing:
-+
-+Linux内核许可规则
-+=================
-+
-+Linux内核根据LICENSES/preferred/GPL-2.0中提供的GNU通用公共许可证版本2
-+（GPL-2.0）的条款提供，并在LICENSES/exceptions/Linux-syscall-note中显式
-+描述了例外的系统调用，如COPYING文件中所述。
-+
-+此文档文件提供了如何对每个源文件进行注释以使其许可证清晰明确的说明。
-+它不会取代内核的许可证。
-+
-+内核源代码作为一个整体适用于COPYING文件中描述的许可证，但是单个源文件可以
-+具有不同的与GPL-20兼容的许可证::
-+
-+    GPL-1.0+ : GNU通用公共许可证v1.0或更高版本
-+    GPL-2.0+ : GNU通用公共许可证v2.0或更高版本
-+    LGPL-2.0 : 仅限GNU库通用公共许可证v2
-+    LGPL-2.0+: GNU 库通用公共许可证v2或更高版本
-+    LGPL-2.1 : 仅限GNU宽通用公共许可证v2.1
-+    LGPL-2.1+: GNU宽通用公共许可证v2.1或更高版本
-+
-+除此之外，个人文件可以在双重许可下提供，例如一个兼容的GPL变体，或者BSD，
-+MIT等许可。
-+
-+用户空间API（UAPI）头文件描述了用户空间程序与内核的接口，这是一种特殊情况。
-+根据内核COPYING文件中的注释，syscall接口是一个明确的边界，它不会将GPL要求
-+扩展到任何使用它与内核通信的软件。由于UAPI头文件必须包含在创建在Linux内核
-+上运行的可执行文件的任何源文件中，因此此例外必须记录在特别的许可证表述中。
-+
-+表达源文件许可证的常用方法是将匹配的样板文本添加到文件的顶部注释中。由于
-+格式，拼写错误等，这些“样板”很难通过那些在上下文中使用的验证许可证合规性
-+的工具。
-+
-+样板文本的替代方法是在每个源文件中使用软件包数据交换（SPDX）许可证标识符。
-+SPDX许可证标识符是机器可解析的，并且是用于提供文件内容的许可证的精确缩写。
-+SPDX许可证标识符由Linux 基金会的SPDX 工作组管理，并得到了整个行业，工具
-+供应商和法律团队的合作伙伴的一致同意。有关详细信息，请参阅
-+https://spdx.org/
-+
-+Linux内核需要所有源文件中的精确SPDX标识符。内核中使用的有效标识符在
-+`许可标识符`_ 一节中进行了解释，并且已可以在
-+https://spdx.org/licenses/ 上的官方SPDX许可证列表中检索，并附带许可证
-+文本。
-+
-+许可标识符语法
-+--------------
-+
-+1.安置:
-+
-+   内核文件中的SPDX许可证标识符应添加到可包含注释的文件中的第一行。对于大多
-+   数文件，这是第一行，除了那些在第一行中需要'#!PATH_TO_INTERPRETER'的脚本。
-+   对于这些脚本，SPDX标识符进入第二行。
-+
-+|
-+
-+2. 风格:
-+
-+   SPDX许可证标识符以注释的形式添加。注释样式取决于文件类型::
-+
-+      C source:	// SPDX-License-Identifier: <SPDX License Expression>
-+      C header:	/* SPDX-License-Identifier: <SPDX License Expression> */
-+      ASM:	/* SPDX-License-Identifier: <SPDX License Expression> */
-+      scripts:	# SPDX-License-Identifier: <SPDX License Expression>
-+      .rst:	.. SPDX-License-Identifier: <SPDX License Expression>
-+      .dts{i}:	// SPDX-License-Identifier: <SPDX License Expression>
-+
-+   如果特定工具无法处理标准注释样式，则应使用工具接受的相应注释机制。这是在
-+   C 头文件中使用“/\*\*/”样式注释的原因。过去在使用生成的.lds文件中观察到
-+   构建被破坏，其中'ld'无法解析C++注释。现在已经解决了这个问题，但仍然有较
-+   旧的汇编程序工具无法处理C++样式的注释。
-+
-+|
-+
-+3. 句法:
-+
-+   <SPDX许可证表达式>是SPDX许可证列表中的SPDX短格式许可证标识符，或者在许可
-+   证例外适用时由“WITH”分隔的两个SPDX短格式许可证标识符的组合。当应用多个许
-+   可证时，表达式由分隔子表达式的关键字“AND”，“OR”组成，并由“（”，“）”包围。
-+
-+   带有“或更高”选项的[L]GPL等许可证的许可证标识符通过使用“+”来表示“或更高”
-+   选项来构建。::
-+
-+      // SPDX-License-Identifier: GPL-2.0+
-+      // SPDX-License-Identifier: LGPL-2.1+
-+
-+   当需要修正的许可证时，应使用WITH。 例如，linux内核UAPI文件使用表达式::
-+
-+      // SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note
-+      // SPDX-License-Identifier: GPL-2.0+ WITH Linux-syscall-note
-+
-+   其它在内核中使用WITH例外的事例如下::
-+
-+      // SPDX-License-Identifier: GPL-2.0 WITH mif-exception
-+      // SPDX-License-Identifier: GPL-2.0+ WITH GCC-exception-2.0
-+
-+   例外只能与特定的许可证标识符一起使用。有效的许可证标识符列在异常文本文件
-+   的标记中。有关详细信息，请参阅“许可证标识符”_一章中的“例外”
-+
-+   如果文件是双重许可且只选择一个许可证，则应使用OR。例如，一些dtsi文件在双
-+   许可下可用::
-+
-+      // SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
-+
-+   内核中双许可文件中许可表达式的示例::
-+
-+      // SPDX-License-Identifier: GPL-2.0 OR MIT
-+      // SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
-+      // SPDX-License-Identifier: GPL-2.0 OR Apache-2.0
-+      // SPDX-License-Identifier: GPL-2.0 OR MPL-1.1
-+      // SPDX-License-Identifier: (GPL-2.0 WITH Linux-syscall-note) OR MIT
-+      // SPDX-License-Identifier: GPL-1.0+ OR BSD-3-Clause OR OpenSSL
-+
-+   如果文件具有多个许可证，其条款全部适用于使用该文件，则应使用AND。例如，
-+   如果代码是从另一个项目继承的，并且已经授予了将其放入内核的权限，但原始
-+   许可条款需要保持有效::
-+
-+      // SPDX-License-Identifier: (GPL-2.0 WITH Linux-syscall-note) AND MIT
-+
-+   另一个需要遵守两套许可条款的例子是::
-+
-+      // SPDX-License-Identifier: GPL-1.0+ AND LGPL-2.1+
-+
-+许可标识符
-+----------
-+
-+当前使用的许可证以及添加到内核的代码许可证可以分解为：
-+
-+1. _`优先许可`:
-+
-+   应尽可能使用这些许可证，因为它们已知完全兼容并广泛使用。这些许可证在内核
-+   目录::
-+
-+      LICENSES/preferred/
-+
-+   此目录中的文件包含完整的许可证文本和`元标记`_。文件名与SPDX许可证标识
-+   符相同，后者应用于源文件中的许可证。
-+
-+   例如::
-+
-+      LICENSES/preferred/GPL-2.0
-+
-+   包含GPLv2许可证文本和所需的元标签::
-+
-+      LICENSES/preferred/MIT
-+
-+   包含MIT许可证文本和所需的元标记
-+
-+   _`元标记`:
-+
-+   许可证文件中必须包含以下元标记：
-+
-+   - Valid-License-Identifier:
-+
-+     一行或多行, 声明那些许可标识符在项目内有效, 以引用此特定许可的文本。通
-+     常这是一个有效的标识符，但是例如对于带有'或更高'选项的许可证，两个标识
-+     符都有效。
-+
-+   - SPDX-URL:
-+
-+     SPDX页面的URL，其中包含与许可证相关的其他信息.
-+
-+   - Usage-Guidance:
-+
-+     使用建议的自由格式文本。该文本必须包含SPDX许可证标识符的正确示例，因为
-+     它们应根据`许可标识符语法`_ 指南放入源文件中。
-+
-+   - License-Text:
-+
-+     此标记之后的所有文本都被视为原始许可文本
-+
-+   文件格式示例::
-+
-+      Valid-License-Identifier: GPL-2.0
-+      Valid-License-Identifier: GPL-2.0+
-+      SPDX-URL: https://spdx.org/licenses/GPL-2.0.html
-+      Usage-Guide:
-+        To use this license in source code, put one of the following SPDX
-+	tag/value pairs into a comment according to the placement
-+	guidelines in the licensing rules documentation.
-+	For 'GNU General Public License (GPL) version 2 only' use:
-+	  SPDX-License-Identifier: GPL-2.0
-+	For 'GNU General Public License (GPL) version 2 or any later version' use:
-+	  SPDX-License-Identifier: GPL-2.0+
-+      License-Text:
-+        Full license text
-+
-+   ::
-+
-+      SPDX-License-Identifier: MIT
-+      SPDX-URL: https://spdx.org/licenses/MIT.html
-+      Usage-Guide:
-+	To use this license in source code, put the following SPDX
-+	tag/value pair into a comment according to the placement
-+	guidelines in the licensing rules documentation.
-+	  SPDX-License-Identifier: MIT
-+      License-Text:
-+        Full license text
-+
-+|
-+
-+2. 不推荐的许可证:
-+
-+   这些许可证只应用于现有代码或从其他项目导入代码。这些许可证在内核目录::
-+
-+      LICENSES/other/
-+
-+   此目录中的文件包含完整的许可证文本和`元标记`_。文件名与SPDX许可证标识
-+   符相同，后者应用于源文件中的许可证。
-+
-+   例如::
-+
-+      LICENSES/other/ISC
-+
-+   包含国际系统联合许可文本和所需的元标签::
-+
-+      LICENSES/other/ZLib
-+
-+   包含ZLIB许可文本和所需的元标签.
-+
-+   元标签:
-+
-+   “其他”许可证的元标签要求与`优先许可`_的要求相同。
-+
-+   文件格式示例::
-+
-+      Valid-License-Identifier: ISC
-+      SPDX-URL: https://spdx.org/licenses/ISC.html
-+      Usage-Guide:
-+        Usage of this license in the kernel for new code is discouraged
-+	and it should solely be used for importing code from an already
-+	existing project.
-+        To use this license in source code, put the following SPDX
-+	tag/value pair into a comment according to the placement
-+	guidelines in the licensing rules documentation.
-+	  SPDX-License-Identifier: ISC
-+      License-Text:
-+        Full license text
-+
-+|
-+
-+3. _`例外`:
-+
-+   某些许可证可以修改，并允许原始许可证不具有的某些例外权利。这些例外在
-+   内核目录::
-+
-+      LICENSES/exceptions/
-+
-+   此目录中的文件包含完整的例外文本和所需的`例外元标记`_.
-+
-+   例如::
-+
-+      LICENSES/exceptions/Linux-syscall-note
-+
-+   包含Linux内核的COPYING文件中记录的Linux系统调用例外，该文件用于UAPI
-+   头文件。例如::
-+
-+      LICENSES/exceptions/GCC-exception-2.0
-+
-+   包含GCC'链接例外'，它允许独立于其许可证的任何二进制文件与标记有此例外的
-+   文件的编译版本链接。这是从GPL不兼容源代码创建可运行的可执行文件所必需的。
-+
-+   _`例外元标记`:
-+
-+   以下元标记必须在例外文件中可用：
-+
-+   - SPDX-Exception-Identifier:
-+
-+     一个可与SPDX许可证标识符一起使用的例外标识符。
-+
-+   - SPDX-URL:
-+
-+     SPDX页面的URL，其中包含与例外相关的其他信息。
-+
-+   - SPDX-Licenses:
-+
-+     以逗号分隔的例外可用的SPDX许可证标识符列表。
-+
-+   - Usage-Guidance:
-+
-+     使用建议的自由格式文本。必须在文本后面加上SPDX许可证标识符的正确示例，
-+     因为它们应根据`License identifier syntax`_指南放入源文件中。
-+
-+   - Exception-Text:
-+
-+     此标记之后的所有文本都被视为原始异常文本
-+
-+   文件格式示例::
-+
-+      SPDX-Exception-Identifier: Linux-syscall-note
-+      SPDX-URL: https://spdx.org/licenses/Linux-syscall-note.html
-+      SPDX-Licenses: GPL-2.0, GPL-2.0+, GPL-1.0+, LGPL-2.0, LGPL-2.0+, LGPL-2.1, LGPL-2.1+
-+      Usage-Guidance:
-+        This exception is used together with one of the above SPDX-Licenses
-+	to mark user-space API (uapi) header files so they can be included
-+	into non GPL compliant user-space application code.
-+        To use this exception add it with the keyword WITH to one of the
-+	identifiers in the SPDX-Licenses tag:
-+	  SPDX-License-Identifier: <SPDX-License> WITH Linux-syscall-note
-+      Exception-Text:
-+        Full exception text
-+
-+   ::
-+
-+      SPDX-Exception-Identifier: GCC-exception-2.0
-+      SPDX-URL: https://spdx.org/licenses/GCC-exception-2.0.html
-+      SPDX-Licenses: GPL-2.0, GPL-2.0+
-+      Usage-Guidance:
-+        The "GCC Runtime Library exception 2.0" is used together with one
-+	of the above SPDX-Licenses for code imported from the GCC runtime
-+	library.
-+        To use this exception add it with the keyword WITH to one of the
-+	identifiers in the SPDX-Licenses tag:
-+	  SPDX-License-Identifier: <SPDX-License> WITH GCC-exception-2.0
-+      Exception-Text:
-+        Full exception text
-+
-+
-+所有SPDX许可证标识符和例外都必须在LICENSES子目录中具有相应的文件。这是允许
-+工具验证（例如checkpatch.pl）以及准备好从源读取和提取许可证所必需的, 这是
-+各种FOSS组织推荐的，例如 `FSFE REUSE initiative <https://reuse.software/>`_.
-+
-+_`模块许可`
-+-----------------
-+
-+   可加载内核模块还需要MODULE_LICENSE（）标记。此标记既不替代正确的源代码
-+   许可证信息（SPDX-License-Identifier），也不以任何方式表示或确定提供模块
-+   源代码的确切许可证。
-+
-+   此标记的唯一目的是提供足够的信息，该模块是否是自由软件或者是内核模块加
-+   载器和用户空间工具的专有模块。
-+
-+   MODULE_LICENSE（）的有效许可证字符串是:
-+
-+    ============================= =============================================
-+    "GPL"			  模块是根据GPL版本2许可的。这并不表示仅限于
-+                                  GPL-2.0或GPL-2.0或更高版本之间的任何区别。
-+                                  最正确许可证信息只能通过相应源文件中的许可证
-+                                  信息来确定
-+
-+    "GPL v2"			  和"GPL"相同，它的存在是因为历史原因。
-+
-+    "GPL and additional rights"   表示模块源在GPL v2变体和MIT许可下双重许可的
-+                                  历史变体。请不要在新代码中使用。
-+
-+    "Dual MIT/GPL"		  表达该模块在GPL v2变体或MIT许可证选择下双重
-+                                  许可的正确方式。
-+
-+    "Dual BSD/GPL"		  该模块根据GPL v2变体或BSD许可证选择进行双重
-+                                  许可。 BSD许可证的确切变体只能通过相应源文件
-+                                  中的许可证信息来确定。
-+
-+    "Dual MPL/GPL"		  该模块根据GPL v2变体或Mozilla Public License
-+                                  （MPL）选项进行双重许可。 MPL许可证的确切变体
-+                                  只能通过相应的源文件中的许可证信息来确定。
-+
-+    "Proprietary"		  该模块属于专有许可。此字符串仅用于专有的第三
-+                                  方模块，不能用于在内核树中具有源代码的模块。
-+                                  以这种方式标记的模块在加载时会使用'P'标记污
-+                                  染内核，并且内核模块加载器拒绝将这些模块链接
-+                                  到使用EXPORT_SYMBOL_GPL（）导出的符号。
-+    ============================= =============================================
-+
+diff --git a/Documentation/translations/zh_CN/process/howto.rst b/Documentation/translations/zh_CN/process/howto.rst
+index 6ab167812325..246f76a97eaf 100644
+--- a/Documentation/translations/zh_CN/process/howto.rst
++++ b/Documentation/translations/zh_CN/process/howto.rst
+@@ -81,20 +81,21 @@ Linux内核代码中包含有大量的文档。这些文档对于学习如何与
+ 的维护者解释这些变化。
+ 
+ 以下是内核代码中需要阅读的文档：
+-  README
++  :ref:`Documentation/admin-guide/README.rst <readme>`
+     文件简要介绍了Linux内核的背景，并且描述了如何配置和编译内核。内核的
+     新用户应该从这里开始。
+ 
+-  Documentation/process/changes.rst
++
++  :ref:`Documentation/process/changes.rst <changes>`
+     文件给出了用来编译和使用内核所需要的最小软件包列表。
+ 
+-  Documentation/process/coding-style.rst
++  :ref:`Documentation/process/coding-style.rst <codingstyle>`
+     描述Linux内核的代码风格和理由。所有新代码需要遵守这篇文档中定义的规
+     范。大多数维护者只会接收符合规定的补丁，很多人也只会帮忙检查符合风格
+     的代码。
+ 
+-  Documentation/process/submitting-patches.rst
+-  Documentation/process/submitting-drivers.rst
++  :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
++  :ref:`Documentation/process/submitting-drivers.rst <submittingdrivers>`
+ 
+     这两份文档明确描述如何创建和发送补丁，其中包括（但不仅限于)：
+        - 邮件内容
+@@ -113,7 +114,7 @@ Linux内核代码中包含有大量的文档。这些文档对于学习如何与
+ 
+         http://linux.yyz.us/patch-format.html
+ 
+-  Documentation/process/stable-api-nonsense.rst
++  :ref:`Documentation/process/stable-api-nonsense.rst <stable_api_nonsense>`
+     论证内核为什么特意不包括稳定的内核内部API，也就是说不包括像这样的特
+     性：
+ 
+@@ -124,29 +125,29 @@ Linux内核代码中包含有大量的文档。这些文档对于学习如何与
+     这篇文档对于理解Linux的开发哲学至关重要。对于将开发平台从其他操作系
+     统转移到Linux的人来说也很重要。
+ 
+-  Documentation/admin-guide/security-bugs.rst
++  :ref:`Documentation/admin-guide/security-bugs.rst <securitybugs>`
+     如果你认为自己发现了Linux内核的安全性问题，请根据这篇文档中的步骤来
+     提醒其他内核开发者并帮助解决这个问题。
+ 
+-  Documentation/process/management-style.rst
++  :ref:`Documentation/process/management-style.rst <managementstyle>`
+     描述内核维护者的工作方法及其共有特点。这对于刚刚接触内核开发（或者对
+     它感到好奇）的人来说很重要，因为它解释了很多对于内核维护者独特行为的
+     普遍误解与迷惑。
+ 
+-  Documentation/process/stable-kernel-rules.rst
++  :ref:`Documentation/process/stable-kernel-rules.rst <stable_kernel_rules>`
+     解释了稳定版内核发布的规则，以及如何将改动放入这些版本的步骤。
+ 
+-  Documentation/process/kernel-docs.rst
++  :ref:`Documentation/process/kernel-docs.rst <kernel_docs>`
+     有助于内核开发的外部文档列表。如果你在内核自带的文档中没有找到你想找
+     的内容，可以查看这些文档。
+ 
+-  Documentation/process/applying-patches.rst
++  :ref:`Documentation/process/applying-patches.rst <applying_patches>`
+     关于补丁是什么以及如何将它打在不同内核开发分支上的好介绍
+ 
+ 内核还拥有大量从代码自动生成的文档。它包含内核内部API的全面介绍以及如何
+ 妥善处理加锁的规则。生成的文档会放在 Documentation/DocBook/目录下。在内
+ 核源码的主目录中使用以下不同命令将会分别生成PDF、Postscript、HTML和手册
+-页等不同格式的文档：
++页等不同格式的文档::
+ 
+     make pdfdocs
+     make htmldocs
+@@ -212,8 +213,8 @@ kernel.org网站的pub/linux/kernel/v2.6/目录下找到它。它的开发遵循
+   - 每当一个新版本的内核被发布，为期两周的集成窗口将被打开。在这段时间里
+     维护者可以向Linus提交大段的修改，通常这些修改已经被放到-mm内核中几个
+     星期了。提交大量修改的首选方式是使用git工具（内核的代码版本管理工具
+-    ，更多的信息可以在http://git-scm.com/获取），不过使用普通补丁也是可以
+-    的。
++    ，更多的信息可以在 http://git-scm.com/ 获取），不过使用普通补丁也是
++    可以的。
+   - 两个星期以后-rc1版本内核发布。之后只有不包含可能影响整个内核稳定性的
+     新功能的补丁才可能被接受。请注意一个全新的驱动程序（或者文件系统）有
+     可能在-rc1后被接受是因为这样的修改完全独立，不会影响其他的代码，所以
+@@ -243,8 +244,8 @@ kernel.org网站的pub/linux/kernel/v2.6/目录下找到它。它的开发遵循
+ 2.6.x.y版本由“稳定版”小组（邮件地址<stable@vger.kernel.org>）维护，一般隔周发
+ 布新版本。
+ 
+-内核源码中的Documentation/process/stable-kernel-rules.rst文件具体描述了可被稳定
+-版内核接受的修改类型以及发布的流程。
++内核源码中的 :ref:`Documentation/process/stable-kernel-rules.rst <stable_kernel_rules>`
++文件具体描述了可被稳定版内核接受的修改类型以及发布的流程。
+ 
+ 
+ 2.6.x -mm补丁集
+@@ -316,7 +317,7 @@ linux-kernel邮件列表中提供反馈，告诉大家你遇到了问题还是
+     - x86-64, 部分i386, Andi Kleen <ak@suse.de>
+ 	ftp.firstfloor.org:/pub/ak/x86_64/quilt/
+ 
+-  其他内核源码树可以在http://git.kernel.org的列表中和MAINTAINERS文件里
++  其他内核源码树可以在 http://git.kernel.org 的列表中和MAINTAINERS文件里
+   找到。
+ 
+ 报告bug
+@@ -339,7 +340,7 @@ bugzilla.kernel.org是Linux内核开发者们用来跟踪内核Bug的网站。
+ 者感受到你的存在。修改bug是赢得其他开发者赞誉的最好办法，因为并不是很多
+ 人都喜欢浪费时间去修改别人报告的bug。
+ 
+-要尝试修改已知的bug，请访问http://bugzilla.kernel.org网址。如果你想获得
++要尝试修改已知的bug，请访问 http://bugzilla.kernel.org 网址。如果你想获得
+ 最新bug的通知，可以订阅bugme-new邮件列表（只有新的bug报告会被寄到这里）
+ 或者订阅bugme-janitor邮件列表（所有bugzilla的变动都会被寄到这里）。
+ 
+@@ -384,11 +385,12 @@ MAINTAINERS文件中可以找到不同话题对应的邮件列表。
+ 这几行。将你的评论加在被引用的段落之间而不要放在邮件的顶部。
+ 
+ 如果你在邮件中附带补丁，请确认它们是可以直接阅读的纯文本（如
+-Documentation/process/submitting-patches.rst文档中所述）。内核开发者们不希望遇到附件
+-或者被压缩了的补丁。只有这样才能保证他们可以直接评论你的每行代码。请确保
+-你使用的邮件发送程序不会修改空格和制表符。一个防范性的测试方法是先将邮件
+-发送给自己，然后自己尝试是否可以顺利地打上收到的补丁。如果测试不成功，请
+-调整或者更换你的邮件发送程序直到它正确工作为止。
++:ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
++文档中所述）。内核开发者们不希望遇到附件或者被压缩了的补丁。只有这样才能
++保证他们可以直接评论你的每行代码。请确保你使用的邮件发送程序不会修改空格
++和制表符。一个防范性的测试方法是先将邮件发送给自己，然后自己尝试是否可以
++顺利地打上收到的补丁。如果测试不成功，请调整或者更换你的邮件发送程序直到
++它正确工作为止。
+ 
+ 总而言之，请尊重其他的邮件列表订阅者。
+ 
 -- 
 2.19.1.856.g8858448bb
 
