@@ -5,26 +5,26 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7866C7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Mar 2019 13:02:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3D4C87D099
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Mar 2019 13:02:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729259AbfC0NCU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 27 Mar 2019 09:02:20 -0400
-Received: from out4437.biz.mail.alibaba.com ([47.88.44.37]:25529 "EHLO
-        out4437.biz.mail.alibaba.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728184AbfC0NCT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Mar 2019 09:02:19 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R401e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04397;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0TNmt4Xu_1553691737;
-Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TNmt4Xu_1553691737)
+        id S1730032AbfC0NC3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 27 Mar 2019 09:02:29 -0400
+Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:46852 "EHLO
+        out30-54.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725829AbfC0NC2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Mar 2019 09:02:28 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04452;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0TNmt4ZR_1553691744;
+Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TNmt4ZR_1553691744)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 27 Mar 2019 21:02:17 +0800
+          Wed, 27 Mar 2019 21:02:24 +0800
 From:   Alex Shi <alex.shi@linux.alibaba.com>
 To:     alex.shi@linux.alibaba.com, harryxiyou@gmail.com, corbet@lwn.net,
         leoyang.li@nxp.com, linux-doc@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org
-Subject: [PATCH 02/42] docs/zh_CN: add disclaimer and translator info in development-process
-Date:   Wed, 27 Mar 2019 21:01:08 +0800
-Message-Id: <20190327130148.3258-3-alex.shi@linux.alibaba.com>
+Subject: [PATCH 19/42] docs/zh_CN: add disclaimer and translator info in 8.Conclusion
+Date:   Wed, 27 Mar 2019 21:01:25 +0800
+Message-Id: <20190327130148.3258-20-alex.shi@linux.alibaba.com>
 X-Mailer: git-send-email 2.19.1.856.g8858448bb
 In-Reply-To: <20190327130148.3258-1-alex.shi@linux.alibaba.com>
 References: <20190327130148.3258-1-alex.shi@linux.alibaba.com>
@@ -36,7 +36,7 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add disclaimer and translator info into development process doc
+Give people a link to send comments.
 
 Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
 Cc: Harry Wei <harryxiyou@gmail.com>
@@ -44,22 +44,22 @@ Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
 ---
- .../translations/zh_CN/process/development-process.rst       | 5 +++++
+ Documentation/translations/zh_CN/process/8.Conclusion.rst | 5 +++++
  1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/translations/zh_CN/process/development-process.rst b/Documentation/translations/zh_CN/process/development-process.rst
-index 500ca5056f60..30cffe66c075 100644
---- a/Documentation/translations/zh_CN/process/development-process.rst
-+++ b/Documentation/translations/zh_CN/process/development-process.rst
+diff --git a/Documentation/translations/zh_CN/process/8.Conclusion.rst b/Documentation/translations/zh_CN/process/8.Conclusion.rst
+index 9f8791c5784f..32b4e617a451 100644
+--- a/Documentation/translations/zh_CN/process/8.Conclusion.rst
++++ b/Documentation/translations/zh_CN/process/8.Conclusion.rst
 @@ -1,3 +1,8 @@
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: :ref:`Documentation/process/development-process.rst <development_process_main>`
++:Original: :ref:`Documentation/process/8.Conclusion.rst <development_conclusion>`
 +:Translator: Alex Shi <alex.shi@linux.alibaba.com>
 +
- .. _cn_development_process_main:
+ .. _cn_development_conclusion:
  
- 内核开发过程指南
+ 更多信息
 -- 
 2.19.1.856.g8858448bb
 
