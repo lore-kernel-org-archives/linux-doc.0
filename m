@@ -5,23 +5,23 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9C7277D912
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Mar 2019 23:18:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3C6F67D922
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 27 Mar 2019 23:18:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732659AbfC0XRq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 27 Mar 2019 19:17:46 -0400
-Received: from outils.crapouillou.net ([89.234.176.41]:59176 "EHLO
+        id S1733036AbfC0XR6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 27 Mar 2019 19:17:58 -0400
+Received: from outils.crapouillou.net ([89.234.176.41]:59396 "EHLO
         crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732572AbfC0XRo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Mar 2019 19:17:44 -0400
+        with ESMTP id S1732979AbfC0XR6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Mar 2019 19:17:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1553728661; h=from:from:sender:reply-to:subject:subject:date:date:
+        s=mail; t=1553728675; h=from:from:sender:reply-to:subject:subject:date:date:
          message-id:message-id:to:to:cc:cc:mime-version:content-type:
          content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=LaBZgQfRycafkqZkxA0KQOxGTobHePRrAgEM3XkEjFQ=;
-        b=jgoZsvocN306f74/spp3hXET5Vp2umbTJKJaHkj2+YNuDEsJrLS5dXWKdGi/eT7ciF8ip3
-        wQQ/JhAzpQ98zPdv6tXwqu7TaheVyvUJz1KGDUYeziiW/MbZiFUrtRbr3v2rNhallNg2vT
-        AmRgxCzdj9uOUQYEP+diU6AhTRB95io=
+        bh=JbtPoYzT85iVihfhiK6KVCiEkJhZBN9XvYChQW69SQ4=;
+        b=wxLli0JwheSJZ4gtfzkawG+F3FX7DzYOCEY1n5RP+/Q/WcIUe4qvNnK3zPdGEzUaymVdtX
+        9C1PPG8gsRznrTqU2pwKX6HGJbiGPN0GA9FxALeZzu+HoY/tX3kb3zR7hildd4P7fGH3S8
+        /s9Our9dohtdhQXkclOoSLyCH/t2gB4=
 From:   Paul Cercueil <paul@crapouillou.net>
 To:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -40,9 +40,9 @@ Cc:     Mathieu Malaterre <malat@debian.org>, od@zcrc.me,
         linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
         linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-clk@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH v11 17/27] pwm: jz4740: Remove unused devicetree compatible strings
-Date:   Thu, 28 Mar 2019 00:16:21 +0100
-Message-Id: <20190327231631.15708-18-paul@crapouillou.net>
+Subject: [PATCH v11 21/27] MIPS: qi_lb60: Move PWM devices to devicetree
+Date:   Thu, 28 Mar 2019 00:16:25 +0100
+Message-Id: <20190327231631.15708-22-paul@crapouillou.net>
 In-Reply-To: <20190327231631.15708-1-paul@crapouillou.net>
 References: <20190327231631.15708-1-paul@crapouillou.net>
 Sender: linux-doc-owner@vger.kernel.org
@@ -50,32 +50,107 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Right now none of the Ingenic-based boards probe this driver from
-devicetree. This driver defined three compatible strings for the exact
-same behaviour. Before these strings are used, we can remove two of
-them.
+Probe the few drivers using PWMs from devicetree, now that we have a
+devicetree node for the PWM driver.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-Acked-by: Thierry Reding <thierry.reding@gmail.com>
 Tested-by: Mathieu Malaterre <malat@debian.org>
 Tested-by: Artur Rojek <contact@artur-rojek.eu>
 ---
- drivers/pwm/pwm-jz4740.c | 2 --
- 1 file changed, 2 deletions(-)
+ arch/mips/boot/dts/ingenic/qi_lb60.dts | 14 ++++++++++++++
+ arch/mips/jz4740/board-qi_lb60.c       | 19 -------------------
+ 2 files changed, 14 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/pwm/pwm-jz4740.c b/drivers/pwm/pwm-jz4740.c
-index c874a387c1d9..47d891bd22c7 100644
---- a/drivers/pwm/pwm-jz4740.c
-+++ b/drivers/pwm/pwm-jz4740.c
-@@ -233,8 +233,6 @@ static int jz4740_pwm_remove(struct platform_device *pdev)
- #ifdef CONFIG_OF
- static const struct of_device_id jz4740_pwm_dt_ids[] = {
- 	{ .compatible = "ingenic,jz4740-pwm", },
--	{ .compatible = "ingenic,jz4770-pwm", },
--	{ .compatible = "ingenic,jz4780-pwm", },
- 	{},
+diff --git a/arch/mips/boot/dts/ingenic/qi_lb60.dts b/arch/mips/boot/dts/ingenic/qi_lb60.dts
+index 76aaf8982554..85529a142409 100644
+--- a/arch/mips/boot/dts/ingenic/qi_lb60.dts
++++ b/arch/mips/boot/dts/ingenic/qi_lb60.dts
+@@ -9,6 +9,14 @@
+ 	chosen {
+ 		stdout-path = &uart0;
+ 	};
++
++	beeper {
++		compatible = "pwm-beeper";
++		pwms = <&pwm 4 0 0>;
++
++		pinctrl-names = "default";
++		pinctrl-0 = <&pins_pwm4>;
++	};
  };
- MODULE_DEVICE_TABLE(of, jz4740_pwm_dt_ids);
+ 
+ &ext {
+@@ -30,4 +38,10 @@
+ 		groups = "uart0-data";
+ 		bias-disable;
+ 	};
++
++	pins_pwm4: pwm4 {
++		function = "pwm4";
++		groups = "pwm4";
++		bias-disable;
++	};
+ };
+diff --git a/arch/mips/jz4740/board-qi_lb60.c b/arch/mips/jz4740/board-qi_lb60.c
+index 6718efb400f4..02b9c131a051 100644
+--- a/arch/mips/jz4740/board-qi_lb60.c
++++ b/arch/mips/jz4740/board-qi_lb60.c
+@@ -27,7 +27,6 @@
+ #include <linux/power_supply.h>
+ #include <linux/power/jz4740-battery.h>
+ #include <linux/power/gpio-charger.h>
+-#include <linux/pwm.h>
+ 
+ #include <linux/platform_data/jz4740/jz4740_nand.h>
+ 
+@@ -395,17 +394,6 @@ static struct gpiod_lookup_table qi_lb60_mmc_gpio_table = {
+ 	},
+ };
+ 
+-/* beeper */
+-static struct pwm_lookup qi_lb60_pwm_lookup[] = {
+-	PWM_LOOKUP("jz4740-pwm", 4, "pwm-beeper", NULL, 0,
+-		   PWM_POLARITY_NORMAL),
+-};
+-
+-static struct platform_device qi_lb60_pwm_beeper = {
+-	.name = "pwm-beeper",
+-	.id = -1,
+-};
+-
+ /* charger */
+ static char *qi_lb60_batteries[] = {
+ 	"battery",
+@@ -454,10 +442,8 @@ static struct platform_device *jz_platform_devices[] __initdata = {
+ 	&jz4740_i2s_device,
+ 	&jz4740_codec_device,
+ 	&jz4740_adc_device,
+-	&jz4740_pwm_device,
+ 	&jz4740_dma_device,
+ 	&qi_lb60_gpio_keys,
+-	&qi_lb60_pwm_beeper,
+ 	&qi_lb60_charger_device,
+ 	&qi_lb60_audio_device,
+ };
+@@ -486,10 +472,6 @@ static struct pinctrl_map pin_map[] __initdata = {
+ 			"10010000.jz4740-pinctrl", "PD0", pin_cfg_bias_disable),
+ 	PIN_MAP_CONFIGS_PIN_DEFAULT("jz4740-mmc.0",
+ 			"10010000.jz4740-pinctrl", "PD2", pin_cfg_bias_disable),
+-
+-	/* PWM pin configuration */
+-	PIN_MAP_MUX_GROUP_DEFAULT("jz4740-pwm",
+-			"10010000.jz4740-pinctrl", "pwm4", "pwm4"),
+ };
+ 
+ 
+@@ -508,7 +490,6 @@ static int __init qi_lb60_init_platform_devices(void)
+ 	spi_register_board_info(qi_lb60_spi_board_info,
+ 				ARRAY_SIZE(qi_lb60_spi_board_info));
+ 
+-	pwm_add_table(qi_lb60_pwm_lookup, ARRAY_SIZE(qi_lb60_pwm_lookup));
+ 	pinctrl_register_mappings(pin_map, ARRAY_SIZE(pin_map));
+ 
+ 	return platform_add_devices(jz_platform_devices,
 -- 
 2.11.0
 
