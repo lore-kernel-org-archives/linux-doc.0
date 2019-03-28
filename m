@@ -3,60 +3,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NORMAL_HTTP_TO_IP,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B0A127D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Mar 2019 16:27:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EDEE87D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Mar 2019 16:28:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726322AbfC1Q1l (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Mar 2019 12:27:41 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:34106 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725816AbfC1Q1l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Mar 2019 12:27:41 -0400
-Received: by mail-pf1-f196.google.com with SMTP id b3so10220864pfd.1;
-        Thu, 28 Mar 2019 09:27:40 -0700 (PDT)
+        id S1727439AbfC1Q2A (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Mar 2019 12:28:00 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:40076 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727434AbfC1Q2A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Mar 2019 12:28:00 -0400
+Received: by mail-pg1-f194.google.com with SMTP id u9so11841273pgo.7;
+        Thu, 28 Mar 2019 09:27:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Hys5XWK16NK0DvPqdVaviTNRazNN4qav5JwIyqF0Kvc=;
-        b=QJjCI+QRN7+XUegfOLzBjfTOd1zorDKsdVwhEbv89vMSjVGEHXPVbbyPjxrmbjvz+s
-         AhdSGNE5pU6FjsSc816cxLd3iQDZUN8fl2TOnNk0SL5T90obAHWoYgC5DV3Rar59z9UN
-         5ULOtMf9wEsvKA90p+54rxdf/PeofZPYoITLPWwbo93DSjwZZ4AS2IJnOI87slYVIyJd
-         Ibd8yxznMGNw0a7oKwn3Uv7FD+L7054X1/+38tw1Cc9JL/TGJa7b2mpArh0C7sKDHuNN
-         oaQT8IP7P4q+20yxryA31YiEtZfb30OSDF/ezuEuAWCPmBa2I60znVHH/WSXBXXz6ZvW
-         ad+w==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=g0KDyQcEZBgZgiPnLs21YbYcjbmUQL/BNKKG2lVW9Tk=;
+        b=iqJGeNoKKPFQR0o+fDoj/0LxrLCwYlS/T3gpbBhgAFLH0Gh1hZYQR3OX2a0L7QNDiX
+         DA3Cu3/0otvDD32k1AcJ9bmaAZA0/JxkipzubGKfHo8f4Ml7xTfSlAcgoNHU1FWynLqP
+         Um6UtmO7NM3xeljbLDlBNDv0IG7VHTzdeTnqi7umfpM/iBp5FPLI3j5XzXGDWESQLeaB
+         HccR03dwOAKKM04650GWRazDudn/sBlkaq6UyfKCISKBb/jsEXgBtbW/+WXlmijN6r7L
+         LicgfmElTGKcUgi33Ve2HeF+giaRScIV0c5DccvIX0W5RNfZ3Z7MkagPQZet4Bha3fg6
+         xLGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Hys5XWK16NK0DvPqdVaviTNRazNN4qav5JwIyqF0Kvc=;
-        b=KRvBlyHnyI174Vgrl7vaBLM9kGUCYpCpJ5AOR0Srhh3AGaHZ08eWivOcfl7qfjrLZv
-         iPMMzVbLEb9f6aAR4samHnm+WrRlxEgjB5PLk+dxp7rpOepiktsoeHVGWxn6VQ+sNq3J
-         0H/JCbeB3wNEJKmv53oOwwcPH63mwyuq3lsvfYfdZ7k3nJxGHheIetCrSWIBC3vO6pjT
-         lNWTsC9gAHm7KZdHOZ1d5+zuUTFM0Q2X5xAYpHTqJzfL7LFzqngNQm0au/seIbnnjhys
-         kurg7W3J04v3aKWXlZvKKJDxSnovtHFOWN6031JLlUhBs5uMEyEHJA4XwtfTCoJiFKCw
-         IpEg==
-X-Gm-Message-State: APjAAAUnLNs7A5JCSCSryUx3YOqpCKMr0s6Iet//V7xA4CNlzfjbtxVv
-        6eSxO4MahozgslHL/x4wz8U=
-X-Google-Smtp-Source: APXvYqxVyHLK27bv9iE6QyX/8oHHQx7cQiZJlHllIx6DQqQaK7EUorqGB6nWkvPhsYIpVougLMExYw==
-X-Received: by 2002:a63:6883:: with SMTP id d125mr41160905pgc.324.1553790460136;
-        Thu, 28 Mar 2019 09:27:40 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=g0KDyQcEZBgZgiPnLs21YbYcjbmUQL/BNKKG2lVW9Tk=;
+        b=ov3gOcD0ei6hko4Ilo6gqSY0il273FIjAB/3TkX9f60BJg4pQa4iEd52DHcRSq0M6q
+         frtKeUOkOlZFJTRrOmTVL8XQWkOQgXeuGg0rz//lWxcU1w/fKbqz3OJwD2k/xpnq5F4X
+         6bVCj9Fc/ZaEe5IsHHVNaygIRxaQFHg5k43BOwyzLuLxK3nCORAg/McLgHo4hrdVMXzM
+         3KdlFDDj7eyeM2n5pYem3PjyOBKeqo+RVYgGj/Y3T4wqEyRfXVd1ca+vEYC5QKj1JyeL
+         UzOSFYPvj+NfWbhiw0skH8HAEZFdRjeZ5pRswN1j0jE6c8nsicZFKrbsSySgGKeoZAyJ
+         sbmA==
+X-Gm-Message-State: APjAAAXX+fCJIOfCXyONi3bcIILI8JvNwZbrIXWtucLqNICo8wsyuRJj
+        uBQpmZ93eQ+rpJgUvexRyWA=
+X-Google-Smtp-Source: APXvYqxeamaAg69aW8GM0uPTXn7oWASaJc+Yg4b9eNS23IA2jHAmnM6xJ6m6XTQ8IjWCT4krp0qR1Q==
+X-Received: by 2002:a63:2a09:: with SMTP id q9mr41134111pgq.397.1553790479131;
+        Thu, 28 Mar 2019 09:27:59 -0700 (PDT)
 Received: from localhost.localdomain ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id y12sm42748885pgq.64.2019.03.28.09.27.35
+        by smtp.gmail.com with ESMTPSA id y12sm42748885pgq.64.2019.03.28.09.27.55
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 28 Mar 2019 09:27:39 -0700 (PDT)
+        Thu, 28 Mar 2019 09:27:58 -0700 (PDT)
 From:   Changbin Du <changbin.du@gmail.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     rjw@rjwysocki.net, lenb@kernel.org, linux-acpi@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH 00/23] Include linux ACPI docs into Sphinx TOC tree
-Date:   Fri, 29 Mar 2019 00:26:58 +0800
-Message-Id: <20190328162721.26138-1-changbin.du@gmail.com>
+Subject: [PATCH 01/23] Documentation: add Linux ACPI to Sphinx TOC tree
+Date:   Fri, 29 Mar 2019 00:26:59 +0800
+Message-Id: <20190328162721.26138-2-changbin.du@gmail.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190328162721.26138-1-changbin.du@gmail.com>
+References: <20190328162721.26138-1-changbin.du@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -64,104 +66,39 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Corbet and All,
-The kernel now uses Sphinx to generate intelligent and beautiful documentation
-from reStructuredText files. I converted most of the Linux ACPI docs to rst
-format in this serias.
+Add a index.rst for trace subsystem. More docs will be added later.
 
-For you to preview, please visit below url:
-http://104.238.181.70:8080/kernel-doc/acpi/index.html
-
-Thank you!
-
-Changbin Du (23):
-  Documentation: add Linux ACPI to Sphinx TOC tree
-  acpi doc: convert acpi/namespace.txt to rst format
-  acpi doc: convert acpi/enumeration.txt to rst format
-  acpi doc: convert acpi/osi.txt to rst format
-  acpi doc: convert acpi/linuxized-acpica.txt to rst format
-  acpi doc: convert acpi/scan_handlers.txt to rst format
-  acpi doc: convert acpi/DSD-properties-rules.txt to rst format
-  acpi doc: convert acpi/gpio-properties.txt to rst format
-  acpi doc: convert acpi/method-customizing.txt to rst format
-  acpi doc: convert acpi/initrd_table_override.txt to rst format
-  acpi doc: convert acpi/dsdt-override.txt to rst format
-  acpi doc: convert acpi/i2c-muxes.txt to rst format
-  acpi doc: convert acpi/acpi-lid.txt to rst format
-  acpi doc: convert acpi/dsd/graph.txt to rst format
-  acpi doc: convert acpi/debug.txt to rst format
-  acpi doc: convert acpi/method-tracing.txt to rst format
-  acpi doc: convert acpi/aml-debugger.txt to rst format
-  acpi doc: convert acpi/apei/output_format.txt to rst format
-  acpi doc: convert acpi/apei/einj.txt to rst format
-  acpi doc: convert acpi/cppc_sysfs.txt to rst format
-  acpi doc: convert acpi/lpit.txt to rst format
-  acpi doc: convert acpi/ssdt-overlays.txt to rst format
-  acpi doc: convert acpi/video_extension.txt to rst format
-
- ...ies-rules.txt => DSD-properties-rules.rst} |  19 +-
- .../acpi/{acpi-lid.txt => acpi-lid.rst}       |  47 ++-
- Documentation/acpi/aml-debugger.rst           |  74 +++++
- Documentation/acpi/aml-debugger.txt           |  66 ----
- .../acpi/apei/{einj.txt => einj.rst}          |  96 +++---
- Documentation/acpi/apei/output_format.rst     | 148 +++++++++
- Documentation/acpi/apei/output_format.txt     | 147 ---------
- .../acpi/{cppc_sysfs.txt => cppc_sysfs.rst}   |  69 ++--
- Documentation/acpi/{debug.txt => debug.rst}   |  31 +-
- ...eferences.txt => data-node-references.rst} |  27 +-
- .../acpi/dsd/{graph.txt => graph.rst}         | 155 ++++-----
- .../{dsdt-override.txt => dsdt-override.rst}  |   6 +-
- .../acpi/{enumeration.txt => enumeration.rst} | 133 ++++----
- ...pio-properties.txt => gpio-properties.rst} |  76 +++--
- Documentation/acpi/i2c-muxes.rst              |  59 ++++
- Documentation/acpi/i2c-muxes.txt              |  58 ----
- Documentation/acpi/index.rst                  |  30 ++
- Documentation/acpi/initrd_table_override.rst  | 118 +++++++
- Documentation/acpi/initrd_table_override.txt  | 111 -------
- ...uxized-acpica.txt => linuxized-acpica.rst} | 114 ++++---
- Documentation/acpi/{lpit.txt => lpit.rst}     |  16 +-
- Documentation/acpi/method-customizing.rst     |  80 +++++
- Documentation/acpi/method-customizing.txt     |  73 -----
- Documentation/acpi/method-tracing.rst         | 224 +++++++++++++
- Documentation/acpi/method-tracing.txt         | 192 -----------
- .../acpi/{namespace.txt => namespace.rst}     | 309 +++++++++---------
- Documentation/acpi/{osi.txt => osi.rst}       |  13 +-
- .../{scan_handlers.txt => scan_handlers.rst}  |  23 +-
- .../{ssdt-overlays.txt => ssdt-overlays.rst}  | 166 +++++-----
- ...ideo_extension.txt => video_extension.rst} |  61 ++--
- Documentation/index.rst                       |   1 +
- 31 files changed, 1463 insertions(+), 1279 deletions(-)
- rename Documentation/acpi/{DSD-properties-rules.txt => DSD-properties-rules.rst} (89%)
- rename Documentation/acpi/{acpi-lid.txt => acpi-lid.rst} (78%)
- create mode 100644 Documentation/acpi/aml-debugger.rst
- delete mode 100644 Documentation/acpi/aml-debugger.txt
- rename Documentation/acpi/apei/{einj.txt => einj.rst} (68%)
- create mode 100644 Documentation/acpi/apei/output_format.rst
- delete mode 100644 Documentation/acpi/apei/output_format.txt
- rename Documentation/acpi/{cppc_sysfs.txt => cppc_sysfs.rst} (51%)
- rename Documentation/acpi/{debug.txt => debug.rst} (91%)
- rename Documentation/acpi/dsd/{data-node-references.txt => data-node-references.rst} (80%)
- rename Documentation/acpi/dsd/{graph.txt => graph.rst} (56%)
- rename Documentation/acpi/{dsdt-override.txt => dsdt-override.rst} (63%)
- rename Documentation/acpi/{enumeration.txt => enumeration.rst} (87%)
- rename Documentation/acpi/{gpio-properties.txt => gpio-properties.rst} (82%)
- create mode 100644 Documentation/acpi/i2c-muxes.rst
- delete mode 100644 Documentation/acpi/i2c-muxes.txt
+Signed-off-by: Changbin Du <changbin.du@gmail.com>
+---
+ Documentation/acpi/index.rst | 6 ++++++
+ Documentation/index.rst      | 1 +
+ 2 files changed, 7 insertions(+)
  create mode 100644 Documentation/acpi/index.rst
- create mode 100644 Documentation/acpi/initrd_table_override.rst
- delete mode 100644 Documentation/acpi/initrd_table_override.txt
- rename Documentation/acpi/{linuxized-acpica.txt => linuxized-acpica.rst} (78%)
- rename Documentation/acpi/{lpit.txt => lpit.rst} (70%)
- create mode 100644 Documentation/acpi/method-customizing.rst
- delete mode 100644 Documentation/acpi/method-customizing.txt
- create mode 100644 Documentation/acpi/method-tracing.rst
- delete mode 100644 Documentation/acpi/method-tracing.txt
- rename Documentation/acpi/{namespace.txt => namespace.rst} (54%)
- rename Documentation/acpi/{osi.txt => osi.rst} (97%)
- rename Documentation/acpi/{scan_handlers.txt => scan_handlers.rst} (91%)
- rename Documentation/acpi/{ssdt-overlays.txt => ssdt-overlays.rst} (50%)
- rename Documentation/acpi/{video_extension.txt => video_extension.rst} (80%)
 
+diff --git a/Documentation/acpi/index.rst b/Documentation/acpi/index.rst
+new file mode 100644
+index 000000000000..1e7df5253750
+--- /dev/null
++++ b/Documentation/acpi/index.rst
+@@ -0,0 +1,6 @@
++=======================================================
++Linux ACPI (Advanced Configuration and Power Interface) 
++=======================================================
++
++.. toctree::
++   :maxdepth: 2
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index 80a421cb935e..e3aa28275894 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -90,6 +90,7 @@ needed).
+    filesystems/index
+    vm/index
+    bpf/index
++   acpi/index
+    misc-devices/index
+ 
+ Architecture-specific documentation
 -- 
 2.20.1
 
