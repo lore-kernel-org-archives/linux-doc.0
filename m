@@ -5,62 +5,61 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 84CD07D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Mar 2019 16:35:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1268C7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Mar 2019 16:39:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726332AbfC1Qey (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Mar 2019 12:34:54 -0400
-Received: from smtprelay0232.hostedemail.com ([216.40.44.232]:37408 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726029AbfC1Qey (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Mar 2019 12:34:54 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay04.hostedemail.com (Postfix) with ESMTP id 29068180AA51A;
-        Thu, 28 Mar 2019 16:34:53 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: birth84_81c6b7977a304
-X-Filterd-Recvd-Size: 1655
-Received: from XPS-9350.home (unknown [47.151.153.53])
-        (Authenticated sender: joe@perches.com)
-        by omf01.hostedemail.com (Postfix) with ESMTPA;
-        Thu, 28 Mar 2019 16:34:51 +0000 (UTC)
-Message-ID: <158b68a902139066f53d308cc5a428774445a05b.camel@perches.com>
-Subject: Re: [PATCH 00/23] Include linux ACPI docs into Sphinx TOC tree
-From:   Joe Perches <joe@perches.com>
-To:     Changbin Du <changbin.du@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>
+        id S1726171AbfC1QjE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Mar 2019 12:39:04 -0400
+Received: from ms.lwn.net ([45.79.88.28]:43802 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725849AbfC1QjE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 28 Mar 2019 12:39:04 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 5DDCE9AC;
+        Thu, 28 Mar 2019 16:39:03 +0000 (UTC)
+Date:   Thu, 28 Mar 2019 10:39:02 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Changbin Du <changbin.du@gmail.com>
 Cc:     rjw@rjwysocki.net, lenb@kernel.org, linux-acpi@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Date:   Thu, 28 Mar 2019 09:34:50 -0700
+Subject: Re: [PATCH 00/23] Include linux ACPI docs into Sphinx TOC tree
+Message-ID: <20190328103902.1084337d@lwn.net>
 In-Reply-To: <20190328162721.26138-1-changbin.du@gmail.com>
 References: <20190328162721.26138-1-changbin.du@gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.30.1-1build1 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Organization: LWN.net
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2019-03-29 at 00:26 +0800, Changbin Du wrote:
-> Hi Corbet and All,
+On Fri, 29 Mar 2019 00:26:58 +0800
+Changbin Du <changbin.du@gmail.com> wrote:
+
 > The kernel now uses Sphinx to generate intelligent and beautiful documentation
 > from reStructuredText files. I converted most of the Linux ACPI docs to rst
 > format in this serias.
-[]
->  ...pio-properties.txt => gpio-properties.rst} |  76 +++--
 
-Please also update this MAINTAINERS entry
+Thanks for doing this.  I've only looked quickly at this point, so I just
+have a couple of high-level comments.
 
-MAINTAINERS-GPIO ACPI SUPPORT
-MAINTAINERS-M:  Mika Westerberg <mika.westerberg@linux.intel.com>
-MAINTAINERS-M:  Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-MAINTAINERS-L:  linux-gpio@vger.kernel.org
-MAINTAINERS-L:  linux-acpi@vger.kernel.org
-MAINTAINERS-S:  Maintained
-MAINTAINERS:F:  Documentation/acpi/gpio-properties.txt
-MAINTAINERS-F:  drivers/gpio/gpiolib-acpi.c
-MAINTAINERS-
+ - If at all possible, I would really rather this not be placed in the
+   top-level of the document tree.  Things are far too cluttered there
+   already; I would prefer to take stuff out instead.
 
+   That said, I'm not at this point sure of where I think it should go.
+   We may want to consider splitting it up; some of it appears to be
+   suitable for the driver API manual, while some of it might be best in
+   the admin guide.  And some probably doesn't fit either.  I'll try to
+   ponder on this a bit more.
 
+ - It would be a good idea to add SPDX tags to the files while you're
+   working through them.
+
+Thanks,
+
+jon
