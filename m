@@ -1,85 +1,77 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 41C6D7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Mar 2019 01:29:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 164E57D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Mar 2019 15:25:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727246AbfC1B34 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 27 Mar 2019 21:29:56 -0400
-Received: from smtprelay0104.hostedemail.com ([216.40.44.104]:51732 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725601AbfC1B34 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Mar 2019 21:29:56 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay01.hostedemail.com (Postfix) with ESMTP id 77386100E86C3;
-        Thu, 28 Mar 2019 01:29:54 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: beef67_56067dcc0ef43
-X-Filterd-Recvd-Size: 2107
-Received: from XPS-9350.home (unknown [47.151.153.53])
-        (Authenticated sender: joe@perches.com)
-        by omf10.hostedemail.com (Postfix) with ESMTPA;
-        Thu, 28 Mar 2019 01:29:51 +0000 (UTC)
-Message-ID: <fc86715bcd4a6cc7a4765e5b2975842fc0df57ad.camel@perches.com>
-Subject: Re: [PATCH v11 06/27] MAINTAINERS: Add myself as maintainer for
- Ingenic TCU drivers
-From:   Joe Perches <joe@perches.com>
-To:     Paul Cercueil <paul@crapouillou.net>,
-        Rob Herring <robh+dt@kernel.org>,
+        id S1727089AbfC1PY4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Mar 2019 11:24:56 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:38716 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726171AbfC1PY4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Mar 2019 11:24:56 -0400
+Received: by mail-ot1-f66.google.com with SMTP id e80so18707362ote.5;
+        Thu, 28 Mar 2019 08:24:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=OLEhsTdMmsextCr1NiMhv2YTxc8ypZaLDrCx27/q2RM=;
+        b=Amf5rDhVLKVK9EK3DyLRC+KrpQqsM1fZbecMf8FChCuul7m2bmOWFMylIhZj4goca8
+         6iV3ZtlS3uHukf37gSi5rdCSLopAL+kuiCqiw704EQigrKxsX5eNuPcYDNLkOkqib0+/
+         MWfRlAliLQRQAI1/nKICi3Ecq3Z/K64UGnQ/QPMECwGMp6dPGeqONlzpxuwYWJkssm0C
+         SOn2jiJ8AcOjvczF6ZCD+x1M8KQ1Kl0j/fyWjNa8Y5PdyTb7JAw1cFticeUx0pofWxRK
+         qBBql7wW+FxPOUD7Gow8VVio8aGNowGl474bQjgtbNvLIjH17Y5isOU56lqkP5H6+KoB
+         9WQQ==
+X-Gm-Message-State: APjAAAVN2g8n4GFk9H5w1M/yRU60n/MBV0g5hs33WWMn8nE+HMlyiTok
+        1UKVNbJZKCJ9OhZxS++emQ==
+X-Google-Smtp-Source: APXvYqxAYnRWtrxe+CFeXICX28G+N1pD+0v9fHP/jZkXFAjUNeFs8KuQujCrbTL8gkSP6Aqo5Vrz/A==
+X-Received: by 2002:a05:6830:11d0:: with SMTP id v16mr9894598otq.159.1553786695142;
+        Thu, 28 Mar 2019 08:24:55 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id c145sm5797576oig.0.2019.03.28.08.24.54
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 28 Mar 2019 08:24:54 -0700 (PDT)
+Date:   Thu, 28 Mar 2019 10:24:53 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Fabien Dessenne <fabien.dessenne@st.com>
+Cc:     Ohad Ben-Cohen <ohad@wizery.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     Mathieu Malaterre <malat@debian.org>, od@zcrc.me,
-        linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-clk@vger.kernel.org
-Date:   Wed, 27 Mar 2019 18:29:49 -0700
-In-Reply-To: <20190327231631.15708-7-paul@crapouillou.net>
-References: <20190327231631.15708-1-paul@crapouillou.net>
-         <20190327231631.15708-7-paul@crapouillou.net>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.30.1-1build1 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        Fabien Dessenne <fabien.dessenne@st.com>,
+        Benjamin Gaignard <benjamin.gaignard@st.com>
+Subject: Re: [PATCH 1/6] dt-bindings: hwlock: add support of shared locks
+Message-ID: <20190328152453.GA31716@bogus>
+References: <1552492237-28810-1-git-send-email-fabien.dessenne@st.com>
+ <1552492237-28810-2-git-send-email-fabien.dessenne@st.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1552492237-28810-2-git-send-email-fabien.dessenne@st.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2019-03-28 at 00:16 +0100, Paul Cercueil wrote:
-> diff --git a/MAINTAINERS b/MAINTAINERS
-[]
-> @@ -7665,6 +7665,15 @@ L:	linux-mtd@lists.infradead.org
->  S:	Maintained
->  F:	drivers/mtd/nand/raw/jz4780_*
->  
-> +INGENIC TCU driver
+On Wed, 13 Mar 2019 16:50:32 +0100, Fabien Dessenne wrote:
+> Use #hwlock-cells value to define whether the locks can be shared
+> by several users.
+> 
+> Signed-off-by: Fabien Dessenne <fabien.dessenne@st.com>
+> ---
+>  .../devicetree/bindings/hwlock/hwlock.txt          | 27 ++++++++++++++++------
+>  1 file changed, 20 insertions(+), 7 deletions(-)
+> 
 
-trivia:
-
-Generally the section header is all upper case and not mixed case
-$ git grep -i DRIVER -- MAINTAINERS | \
-  grep -v 'drivers/' | grep -v 'MAINTAINERS:[A-Z]:' | \
-  grep -P -i -o 'drivers?' | \
-  sort | uniq -c | sort -rn
-    980 DRIVER
-    181 DRIVERS
-     19 driver
-     12 Driver
-      8 drivers
-      3 Drivers
-
-
+Reviewed-by: Rob Herring <robh@kernel.org>
