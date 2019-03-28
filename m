@@ -1,76 +1,167 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NORMAL_HTTP_TO_IP,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7917B7D922
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Mar 2019 15:26:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B0A127D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Mar 2019 16:27:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726367AbfC1P0X (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Mar 2019 11:26:23 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:33376 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725816AbfC1P0X (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Mar 2019 11:26:23 -0400
-Received: by mail-oi1-f195.google.com with SMTP id e5so4491276oii.0;
-        Thu, 28 Mar 2019 08:26:22 -0700 (PDT)
+        id S1726322AbfC1Q1l (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Mar 2019 12:27:41 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:34106 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725816AbfC1Q1l (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Mar 2019 12:27:41 -0400
+Received: by mail-pf1-f196.google.com with SMTP id b3so10220864pfd.1;
+        Thu, 28 Mar 2019 09:27:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Hys5XWK16NK0DvPqdVaviTNRazNN4qav5JwIyqF0Kvc=;
+        b=QJjCI+QRN7+XUegfOLzBjfTOd1zorDKsdVwhEbv89vMSjVGEHXPVbbyPjxrmbjvz+s
+         AhdSGNE5pU6FjsSc816cxLd3iQDZUN8fl2TOnNk0SL5T90obAHWoYgC5DV3Rar59z9UN
+         5ULOtMf9wEsvKA90p+54rxdf/PeofZPYoITLPWwbo93DSjwZZ4AS2IJnOI87slYVIyJd
+         Ibd8yxznMGNw0a7oKwn3Uv7FD+L7054X1/+38tw1Cc9JL/TGJa7b2mpArh0C7sKDHuNN
+         oaQT8IP7P4q+20yxryA31YiEtZfb30OSDF/ezuEuAWCPmBa2I60znVHH/WSXBXXz6ZvW
+         ad+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=P4iI5WXlMDM3+XrE7fOsF1r063RsIWJpQtQhD554+gM=;
-        b=U3DJuRyWMPHhXblOJIk+DsZOmHveGGr3m6XWed5e7os6jD9XIBYU1+3leyqXtUVqyN
-         u/eUy3RtHXIGmCOe94SP8UTPgVNzxUnJMqyNAVYkEi/IQKR/VGejl+9AeZhHPtA6uBB3
-         9+OZ5ygPm7Worc66U7bl12ijIoqPsW+HA2eKeNVH9yliNreiYBQq0GT8GoGKeq6M7dXc
-         quuP2yWk4k92WQR+v6R3m0lx3a0VyBBBhJQwvOL6oJwn51xchu8BrObw15mgVdYTwyCL
-         eKfdeABQmmFwRpCsNed+9CStBu98uHeYmJQ1G8f42YcLeKvy23ciXNORs4FM91+NiM6C
-         FGOg==
-X-Gm-Message-State: APjAAAUsmcOqJYbcwhXEWsJKj8DrXPaoOpzOoL7SkuVYx43PHW7Ob9LH
-        4+xxFDLa9dqClNHNCxeoLDJPiUw=
-X-Google-Smtp-Source: APXvYqxunEFyZV0gb6pIjteYxv6fDPQ22Yi0ku6pjidTNyXNR9wQdgx9hKliEz5jHJ1vNQnWnxVgxQ==
-X-Received: by 2002:aca:5904:: with SMTP id n4mr398279oib.122.1553786782371;
-        Thu, 28 Mar 2019 08:26:22 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id a34sm2978767otc.46.2019.03.28.08.26.21
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 28 Mar 2019 08:26:21 -0700 (PDT)
-Date:   Thu, 28 Mar 2019 10:26:21 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Fabien Dessenne <fabien.dessenne@st.com>
-Cc:     Ohad Ben-Cohen <ohad@wizery.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        Fabien Dessenne <fabien.dessenne@st.com>,
-        Benjamin Gaignard <benjamin.gaignard@st.com>
-Subject: Re: [PATCH 3/6] dt-bindings: hwlock: update STM32 #hwlock-cells value
-Message-ID: <20190328152621.GA1398@bogus>
-References: <1552492237-28810-1-git-send-email-fabien.dessenne@st.com>
- <1552492237-28810-4-git-send-email-fabien.dessenne@st.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Hys5XWK16NK0DvPqdVaviTNRazNN4qav5JwIyqF0Kvc=;
+        b=KRvBlyHnyI174Vgrl7vaBLM9kGUCYpCpJ5AOR0Srhh3AGaHZ08eWivOcfl7qfjrLZv
+         iPMMzVbLEb9f6aAR4samHnm+WrRlxEgjB5PLk+dxp7rpOepiktsoeHVGWxn6VQ+sNq3J
+         0H/JCbeB3wNEJKmv53oOwwcPH63mwyuq3lsvfYfdZ7k3nJxGHheIetCrSWIBC3vO6pjT
+         lNWTsC9gAHm7KZdHOZ1d5+zuUTFM0Q2X5xAYpHTqJzfL7LFzqngNQm0au/seIbnnjhys
+         kurg7W3J04v3aKWXlZvKKJDxSnovtHFOWN6031JLlUhBs5uMEyEHJA4XwtfTCoJiFKCw
+         IpEg==
+X-Gm-Message-State: APjAAAUnLNs7A5JCSCSryUx3YOqpCKMr0s6Iet//V7xA4CNlzfjbtxVv
+        6eSxO4MahozgslHL/x4wz8U=
+X-Google-Smtp-Source: APXvYqxVyHLK27bv9iE6QyX/8oHHQx7cQiZJlHllIx6DQqQaK7EUorqGB6nWkvPhsYIpVougLMExYw==
+X-Received: by 2002:a63:6883:: with SMTP id d125mr41160905pgc.324.1553790460136;
+        Thu, 28 Mar 2019 09:27:40 -0700 (PDT)
+Received: from localhost.localdomain ([104.238.181.70])
+        by smtp.gmail.com with ESMTPSA id y12sm42748885pgq.64.2019.03.28.09.27.35
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 28 Mar 2019 09:27:39 -0700 (PDT)
+From:   Changbin Du <changbin.du@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     rjw@rjwysocki.net, lenb@kernel.org, linux-acpi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Changbin Du <changbin.du@gmail.com>
+Subject: [PATCH 00/23] Include linux ACPI docs into Sphinx TOC tree
+Date:   Fri, 29 Mar 2019 00:26:58 +0800
+Message-Id: <20190328162721.26138-1-changbin.du@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1552492237-28810-4-git-send-email-fabien.dessenne@st.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 13 Mar 2019 16:50:34 +0100, Fabien Dessenne wrote:
-> Use a value of 2, so users can share hwlocks.
-> 
-> Signed-off-by: Fabien Dessenne <fabien.dessenne@st.com>
-> ---
->  Documentation/devicetree/bindings/hwlock/st,stm32-hwspinlock.txt | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
+Hi Corbet and All,
+The kernel now uses Sphinx to generate intelligent and beautiful documentation
+from reStructuredText files. I converted most of the Linux ACPI docs to rst
+format in this serias.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+For you to preview, please visit below url:
+http://104.238.181.70:8080/kernel-doc/acpi/index.html
+
+Thank you!
+
+Changbin Du (23):
+  Documentation: add Linux ACPI to Sphinx TOC tree
+  acpi doc: convert acpi/namespace.txt to rst format
+  acpi doc: convert acpi/enumeration.txt to rst format
+  acpi doc: convert acpi/osi.txt to rst format
+  acpi doc: convert acpi/linuxized-acpica.txt to rst format
+  acpi doc: convert acpi/scan_handlers.txt to rst format
+  acpi doc: convert acpi/DSD-properties-rules.txt to rst format
+  acpi doc: convert acpi/gpio-properties.txt to rst format
+  acpi doc: convert acpi/method-customizing.txt to rst format
+  acpi doc: convert acpi/initrd_table_override.txt to rst format
+  acpi doc: convert acpi/dsdt-override.txt to rst format
+  acpi doc: convert acpi/i2c-muxes.txt to rst format
+  acpi doc: convert acpi/acpi-lid.txt to rst format
+  acpi doc: convert acpi/dsd/graph.txt to rst format
+  acpi doc: convert acpi/debug.txt to rst format
+  acpi doc: convert acpi/method-tracing.txt to rst format
+  acpi doc: convert acpi/aml-debugger.txt to rst format
+  acpi doc: convert acpi/apei/output_format.txt to rst format
+  acpi doc: convert acpi/apei/einj.txt to rst format
+  acpi doc: convert acpi/cppc_sysfs.txt to rst format
+  acpi doc: convert acpi/lpit.txt to rst format
+  acpi doc: convert acpi/ssdt-overlays.txt to rst format
+  acpi doc: convert acpi/video_extension.txt to rst format
+
+ ...ies-rules.txt => DSD-properties-rules.rst} |  19 +-
+ .../acpi/{acpi-lid.txt => acpi-lid.rst}       |  47 ++-
+ Documentation/acpi/aml-debugger.rst           |  74 +++++
+ Documentation/acpi/aml-debugger.txt           |  66 ----
+ .../acpi/apei/{einj.txt => einj.rst}          |  96 +++---
+ Documentation/acpi/apei/output_format.rst     | 148 +++++++++
+ Documentation/acpi/apei/output_format.txt     | 147 ---------
+ .../acpi/{cppc_sysfs.txt => cppc_sysfs.rst}   |  69 ++--
+ Documentation/acpi/{debug.txt => debug.rst}   |  31 +-
+ ...eferences.txt => data-node-references.rst} |  27 +-
+ .../acpi/dsd/{graph.txt => graph.rst}         | 155 ++++-----
+ .../{dsdt-override.txt => dsdt-override.rst}  |   6 +-
+ .../acpi/{enumeration.txt => enumeration.rst} | 133 ++++----
+ ...pio-properties.txt => gpio-properties.rst} |  76 +++--
+ Documentation/acpi/i2c-muxes.rst              |  59 ++++
+ Documentation/acpi/i2c-muxes.txt              |  58 ----
+ Documentation/acpi/index.rst                  |  30 ++
+ Documentation/acpi/initrd_table_override.rst  | 118 +++++++
+ Documentation/acpi/initrd_table_override.txt  | 111 -------
+ ...uxized-acpica.txt => linuxized-acpica.rst} | 114 ++++---
+ Documentation/acpi/{lpit.txt => lpit.rst}     |  16 +-
+ Documentation/acpi/method-customizing.rst     |  80 +++++
+ Documentation/acpi/method-customizing.txt     |  73 -----
+ Documentation/acpi/method-tracing.rst         | 224 +++++++++++++
+ Documentation/acpi/method-tracing.txt         | 192 -----------
+ .../acpi/{namespace.txt => namespace.rst}     | 309 +++++++++---------
+ Documentation/acpi/{osi.txt => osi.rst}       |  13 +-
+ .../{scan_handlers.txt => scan_handlers.rst}  |  23 +-
+ .../{ssdt-overlays.txt => ssdt-overlays.rst}  | 166 +++++-----
+ ...ideo_extension.txt => video_extension.rst} |  61 ++--
+ Documentation/index.rst                       |   1 +
+ 31 files changed, 1463 insertions(+), 1279 deletions(-)
+ rename Documentation/acpi/{DSD-properties-rules.txt => DSD-properties-rules.rst} (89%)
+ rename Documentation/acpi/{acpi-lid.txt => acpi-lid.rst} (78%)
+ create mode 100644 Documentation/acpi/aml-debugger.rst
+ delete mode 100644 Documentation/acpi/aml-debugger.txt
+ rename Documentation/acpi/apei/{einj.txt => einj.rst} (68%)
+ create mode 100644 Documentation/acpi/apei/output_format.rst
+ delete mode 100644 Documentation/acpi/apei/output_format.txt
+ rename Documentation/acpi/{cppc_sysfs.txt => cppc_sysfs.rst} (51%)
+ rename Documentation/acpi/{debug.txt => debug.rst} (91%)
+ rename Documentation/acpi/dsd/{data-node-references.txt => data-node-references.rst} (80%)
+ rename Documentation/acpi/dsd/{graph.txt => graph.rst} (56%)
+ rename Documentation/acpi/{dsdt-override.txt => dsdt-override.rst} (63%)
+ rename Documentation/acpi/{enumeration.txt => enumeration.rst} (87%)
+ rename Documentation/acpi/{gpio-properties.txt => gpio-properties.rst} (82%)
+ create mode 100644 Documentation/acpi/i2c-muxes.rst
+ delete mode 100644 Documentation/acpi/i2c-muxes.txt
+ create mode 100644 Documentation/acpi/index.rst
+ create mode 100644 Documentation/acpi/initrd_table_override.rst
+ delete mode 100644 Documentation/acpi/initrd_table_override.txt
+ rename Documentation/acpi/{linuxized-acpica.txt => linuxized-acpica.rst} (78%)
+ rename Documentation/acpi/{lpit.txt => lpit.rst} (70%)
+ create mode 100644 Documentation/acpi/method-customizing.rst
+ delete mode 100644 Documentation/acpi/method-customizing.txt
+ create mode 100644 Documentation/acpi/method-tracing.rst
+ delete mode 100644 Documentation/acpi/method-tracing.txt
+ rename Documentation/acpi/{namespace.txt => namespace.rst} (54%)
+ rename Documentation/acpi/{osi.txt => osi.rst} (97%)
+ rename Documentation/acpi/{scan_handlers.txt => scan_handlers.rst} (91%)
+ rename Documentation/acpi/{ssdt-overlays.txt => ssdt-overlays.rst} (50%)
+ rename Documentation/acpi/{video_extension.txt => video_extension.rst} (80%)
+
+-- 
+2.20.1
+
