@@ -6,56 +6,56 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9D21B7D91B
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Mar 2019 16:29:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3E36D7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Mar 2019 16:30:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726414AbfC1Q3k (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Mar 2019 12:29:40 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:40204 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725816AbfC1Q3j (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Mar 2019 12:29:39 -0400
-Received: by mail-pl1-f193.google.com with SMTP id b11so5191134plr.7;
-        Thu, 28 Mar 2019 09:29:38 -0700 (PDT)
+        id S1727932AbfC1Q36 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Mar 2019 12:29:58 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:33667 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726275AbfC1Q36 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Mar 2019 12:29:58 -0400
+Received: by mail-pg1-f196.google.com with SMTP id b12so11887277pgk.0;
+        Thu, 28 Mar 2019 09:29:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=a9AcgvuKPtKHshILZIGH+fAov1CFMoBA9bHKdlQRvsA=;
-        b=MnFCLF00fR8+JgQiueZsEhFKEPU0BLDD7GMu6FBWGhRa3lrYFHxL99GgbuEVgNulSO
-         DJZ/o0axFGhPPdRGVSSWoFBf/Ye9tBt9nN6Ixy3HLAxu/GiutVmXossTvNDF2gAfYRkU
-         LRGMNgylozuVhPUX1R57X7+Ou9ruBo66CsrPRVgcWIEg25jfNKf75/wlMh+5UUQJxiiz
-         wQ5x3GE0p7KT8RsoiK9kfbmb9QtD/5erzpjg+9vNgucrwmzD5b/IGUxh/wmiX1N1Az/C
-         Jp99CnTykDWVO0oUH7fuQzTFlPiSkL1/zkA0XaKiqDgyM+r4y2/Fo6AcYXxjzLidheAw
-         lt1Q==
+        bh=LslbaMQBc3sJd5zVyQUZb0watNq+cg5vHqlwEZBt+rQ=;
+        b=Te6SIWjokfV1QNZgVeqhdJTdkySId8pHYxtCfsc5TJMyHLuK9lNE8cfnlZqsH614oA
+         6+BawDgcISa9ve18+cz2CiB0yfv8UsHvlbXv1pDojdwSBcgnfJnDcGMaU3fm+zAzi7ca
+         pWzmvfZslvkfw8F0T8OEUDAfd1LakeN0ERBmn6TCp/Yvx4XP61cpObbBgn4NdJQ6nPfp
+         UWTsP7tdjvL/BG5OthOcfD9nEntwhLHfpVXvfHp8vrdkpnDptx0oPgELccSMFJtvgmOp
+         41GSlnsUD8wiFBs72xj4RGAYpqrpXI5TwDKNCDZPInj+3SzxSn1jQlM37pCa/WG3K39R
+         2M4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=a9AcgvuKPtKHshILZIGH+fAov1CFMoBA9bHKdlQRvsA=;
-        b=J4RSZmMQJ8LGlXBEj3QS1E+PWoTRyQRUsMwFPK3G1yYTS8ALLU77e1EE6tE/4E3bUF
-         GcxDiufHvmwoYW5TocsRhQzu7a35D5DyIOnjTAoKcebjdbjj182YPB++0Q2B5sDz2zRx
-         gy0XaAoCkrgS/4FjJCgDo3zIo4ERIBQeaZ4IaOEDtRMDfxiKY8eQRl3aPjtgmvwmi3QB
-         g5gb389ZOgV/dDv30AIvMg1wZOqk44tvneT6HhMKeijJ++Vj6QPSEoZIAzPAcQS4IXF4
-         z8vemU6hVi6ySfwxBFxm+Q+hlkG0MParZplor8Y25Enh0ZcJvcwtAcoiaIeslQ3xVdAS
-         dPTw==
-X-Gm-Message-State: APjAAAUmE3XJMr7iHDVu1/xn4BJtmkOOjqPYkLCmaBU4dWfum61pmJ3B
-        3TFL7ppGa0y7+A4Q1l59TuRcsQIj4pE=
-X-Google-Smtp-Source: APXvYqwKkUeRH4ptfUv7ztiVC6j+yAwO/uWNPDdtddrbEHVkOe30fATq3/MIVNRUhcnvsYNQg+MOFg==
-X-Received: by 2002:a17:902:234b:: with SMTP id n11mr2871939plg.89.1553790578438;
-        Thu, 28 Mar 2019 09:29:38 -0700 (PDT)
+        bh=LslbaMQBc3sJd5zVyQUZb0watNq+cg5vHqlwEZBt+rQ=;
+        b=HrarxVZ1mZXp0MY1ajKgLFR5MNH6FyGus2KdvHUzbMrwlGVyI8RtmNJRVs7pwkJyp3
+         YYzB5JPYLlMNI62YWMQFllEBHLCg02B73nJ0p/uBq5dorN2ErIsLx0f99hPFE3Xf3drA
+         IL+FJYileVukzTbBNx9OhHb2/hBOhfC5t8XO4Amyi63BfiOgZ6oSX/jSrB2bIkoOo8OD
+         Wyru/za3L3IWuByqA3cvZWwvZok85oxod9TVsJZdiERRnXZzkIiFxm2D3ou5MXymCcKA
+         B0AjvLgcW9QnIwMitXSx5zmO47SOdmpmh3hzsqyvdxXiaRbnuFregsuli/ZNlpGEFJQ+
+         SvhA==
+X-Gm-Message-State: APjAAAV7Yx5YenS9YOHS3kLMnMJWU9nJm18vVNetwtn0//soZSI1yYQ9
+        7mAUVI64cdUZRjN8T/gtCotHiPndtAY=
+X-Google-Smtp-Source: APXvYqxWfHXFjyMwJh5aEhETbMjaNqGZKWdai5rxovak5GVCN0kOzIWgQC1f/Ap9TzVaI0JZlodc2A==
+X-Received: by 2002:a62:574d:: with SMTP id l74mr43259447pfb.9.1553790597249;
+        Thu, 28 Mar 2019 09:29:57 -0700 (PDT)
 Received: from localhost.localdomain ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id y12sm42748885pgq.64.2019.03.28.09.29.33
+        by smtp.gmail.com with ESMTPSA id y12sm42748885pgq.64.2019.03.28.09.29.53
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 28 Mar 2019 09:29:37 -0700 (PDT)
+        Thu, 28 Mar 2019 09:29:56 -0700 (PDT)
 From:   Changbin Du <changbin.du@gmail.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     rjw@rjwysocki.net, lenb@kernel.org, linux-acpi@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH 13/23] acpi doc: convert acpi/acpi-lid.txt to rst format
-Date:   Fri, 29 Mar 2019 00:27:11 +0800
-Message-Id: <20190328162721.26138-14-changbin.du@gmail.com>
+Subject: [PATCH 17/23] acpi doc: convert acpi/aml-debugger.txt to rst format
+Date:   Fri, 29 Mar 2019 00:27:15 +0800
+Message-Id: <20190328162721.26138-18-changbin.du@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190328162721.26138-1-changbin.du@gmail.com>
 References: <20190328162721.26138-1-changbin.du@gmail.com>
@@ -71,147 +71,174 @@ add it to Sphinx TOC tree. No essential content change.
 
 Signed-off-by: Changbin Du <changbin.du@gmail.com>
 ---
- .../acpi/{acpi-lid.txt => acpi-lid.rst}       | 47 ++++++++++++-------
- Documentation/acpi/index.rst                  |  1 +
- 2 files changed, 32 insertions(+), 16 deletions(-)
- rename Documentation/acpi/{acpi-lid.txt => acpi-lid.rst} (78%)
+ Documentation/acpi/aml-debugger.rst | 74 +++++++++++++++++++++++++++++
+ Documentation/acpi/aml-debugger.txt | 66 -------------------------
+ Documentation/acpi/index.rst        |  1 +
+ 3 files changed, 75 insertions(+), 66 deletions(-)
+ create mode 100644 Documentation/acpi/aml-debugger.rst
+ delete mode 100644 Documentation/acpi/aml-debugger.txt
 
-diff --git a/Documentation/acpi/acpi-lid.txt b/Documentation/acpi/acpi-lid.rst
-similarity index 78%
-rename from Documentation/acpi/acpi-lid.txt
-rename to Documentation/acpi/acpi-lid.rst
-index effe7af3a5af..2f597ada7a68 100644
---- a/Documentation/acpi/acpi-lid.txt
-+++ b/Documentation/acpi/acpi-lid.rst
-@@ -1,25 +1,28 @@
--Special Usage Model of the ACPI Control Method Lid Device
+diff --git a/Documentation/acpi/aml-debugger.rst b/Documentation/acpi/aml-debugger.rst
+new file mode 100644
+index 000000000000..dc9b75530dc3
+--- /dev/null
++++ b/Documentation/acpi/aml-debugger.rst
+@@ -0,0 +1,74 @@
 +.. include:: <isonum.txt>
- 
++
++================
++The AML Debugger
++================
++
++:Copyright: |copy| 2016, Intel Corporation
++:Author: Lv Zheng <lv.zheng@intel.com>
++
++
++This document describes the usage of the AML debugger embedded in the Linux
++kernel.
++
++1. Build the debugger
++=====================
++
++The following kernel configuration items are required to enable the AML
++debugger interface from the Linux kernel::
++
++   CONFIG_ACPI_DEBUGGER=y
++   CONFIG_ACPI_DEBUGGER_USER=m
++
++The userspace utilities can be built from the kernel source tree using
++the following commands::
++
++   $ cd tools
++   $ make acpi
++
++The resultant userspace tool binary is then located at::
++
++   tools/power/acpi/acpidbg
++
++It can be installed to system directories by running "make install" (as a
++sufficiently privileged user).
++
++2. Start the userspace debugger interface
++=========================================
++
++After booting the kernel with the debugger built-in, the debugger can be
++started by using the following commands::
++
++   # mount -t debugfs none /sys/kernel/debug
++   # modprobe acpi_dbg
++   # tools/power/acpi/acpidbg
++
++That spawns the interactive AML debugger environment where you can execute
++debugger commands.
++
++The commands are documented in the "ACPICA Overview and Programmer Reference"
++that can be downloaded from
++
++https://acpica.org/documentation
++
++The detailed debugger commands reference is located in Chapter 12 "ACPICA
++Debugger Reference".  The "help" command can be used for a quick reference.
++
++3. Stop the userspace debugger interface
++========================================
++
++The interactive debugger interface can be closed by pressing Ctrl+C or using
++the "quit" or "exit" commands.  When finished, unload the module with::
++
++   # rmmod acpi_dbg
++
++The module unloading may fail if there is an acpidbg instance running.
++
++4. Run the debugger in a script
++===============================
++
++It may be useful to run the AML debugger in a test script. "acpidbg" supports
++this in a special "batch" mode.  For example, the following command outputs
++the entire ACPI namespace::
++
++   # acpidbg -b "namespace"
+diff --git a/Documentation/acpi/aml-debugger.txt b/Documentation/acpi/aml-debugger.txt
+deleted file mode 100644
+index 75ebeb64ab29..000000000000
+--- a/Documentation/acpi/aml-debugger.txt
++++ /dev/null
+@@ -1,66 +0,0 @@
+-The AML Debugger
+-
 -Copyright (C) 2016, Intel Corporation
 -Author: Lv Zheng <lv.zheng@intel.com>
-+=========================================================
-+Special Usage Model of the ACPI Control Method Lid Device
-+=========================================================
- 
-+:Copyright: |copy| 2016, Intel Corporation
- 
--Abstract:
-+:Author: Lv Zheng <lv.zheng@intel.com>
- 
--Platforms containing lids convey lid state (open/close) to OSPMs using a
--control method lid device. To implement this, the AML tables issue
--Notify(lid_device, 0x80) to notify the OSPMs whenever the lid state has
--changed. The _LID control method for the lid device must be implemented to
--report the "current" state of the lid as either "opened" or "closed".
-+:Abstract: Platforms containing lids convey lid state (open/close) to OSPMs
-+  using a control method lid device. To implement this, the AML tables issue
-+  Notify(lid_device, 0x80) to notify the OSPMs whenever the lid state has
-+  changed. The _LID control method for the lid device must be implemented to
-+  report the "current" state of the lid as either "opened" or "closed".
- 
--For most platforms, both the _LID method and the lid notifications are
--reliable. However, there are exceptions. In order to work with these
--exceptional buggy platforms, special restrictions and expections should be
--taken into account. This document describes the restrictions and the
--expections of the Linux ACPI lid device driver.
-+  For most platforms, both the _LID method and the lid notifications are
-+  reliable. However, there are exceptions. In order to work with these
-+  exceptional buggy platforms, special restrictions and expections should be
-+  taken into account. This document describes the restrictions and the
-+  expections of the Linux ACPI lid device driver.
- 
- 
- 1. Restrictions of the returning value of the _LID control method
-+=================================================================
- 
- The _LID control method is described to return the "current" lid state.
- However the word of "current" has ambiguity, some buggy AML tables return
-@@ -31,6 +34,7 @@ with cached value, the initial returning value is likely not reliable.
- There are platforms always retun "closed" as initial lid state.
- 
- 2. Restrictions of the lid state change notifications
-+=====================================================
- 
- There are buggy AML tables never notifying when the lid device state is
- changed to "opened". Thus the "opened" notification is not guaranteed. But
-@@ -40,17 +44,21 @@ trigger some system power saving operations on Windows. Since it is fully
- tested, it is reliable from all AML tables.
- 
- 3. Expections for the userspace users of the ACPI lid device driver
-+===================================================================
- 
- The ACPI button driver exports the lid state to the userspace via the
--following file:
-+following file::
-+
-   /proc/acpi/button/lid/LID0/state
-+
- This file actually calls the _LID control method described above. And given
- the previous explanation, it is not reliable enough on some platforms. So
- it is advised for the userspace program to not to solely rely on this file
- to determine the actual lid state.
- 
- The ACPI button driver emits the following input event to the userspace:
--  SW_LID
-+  * SW_LID
-+
- The ACPI lid device driver is implemented to try to deliver the platform
- triggered events to the userspace. However, given the fact that the buggy
- firmware cannot make sure "opened"/"closed" events are paired, the ACPI
-@@ -59,20 +67,25 @@ button driver uses the following 3 modes in order not to trigger issues.
- If the userspace hasn't been prepared to ignore the unreliable "opened"
- events and the unreliable initial state notification, Linux users can use
- the following kernel parameters to handle the possible issues:
-+
- A. button.lid_init_state=method:
-    When this option is specified, the ACPI button driver reports the
-    initial lid state using the returning value of the _LID control method
-    and whether the "opened"/"closed" events are paired fully relies on the
-    firmware implementation.
-+
-    This option can be used to fix some platforms where the returning value
-    of the _LID control method is reliable but the initial lid state
-    notification is missing.
-+
-    This option is the default behavior during the period the userspace
-    isn't ready to handle the buggy AML tables.
-+
- B. button.lid_init_state=open:
-    When this option is specified, the ACPI button driver always reports the
-    initial lid state as "opened" and whether the "opened"/"closed" events
-    are paired fully relies on the firmware implementation.
-+
-    This may fix some platforms where the returning value of the _LID
-    control method is not reliable and the initial lid state notification is
-    missing.
-@@ -80,6 +93,7 @@ B. button.lid_init_state=open:
- If the userspace has been prepared to ignore the unreliable "opened" events
- and the unreliable initial state notification, Linux users should always
- use the following kernel parameter:
-+
- C. button.lid_init_state=ignore:
-    When this option is specified, the ACPI button driver never reports the
-    initial lid state and there is a compensation mechanism implemented to
-@@ -89,6 +103,7 @@ C. button.lid_init_state=ignore:
-    notifications can be delivered to the userspace when the lid is actually
-    opens given that some AML tables do not send "opened" notifications
-    reliably.
-+
-    In this mode, if everything is correctly implemented by the platform
-    firmware, the old userspace programs should still work. Otherwise, the
-    new userspace programs are required to work with the ACPI button driver.
+-
+-
+-This document describes the usage of the AML debugger embedded in the Linux
+-kernel.
+-
+-1. Build the debugger
+-
+-   The following kernel configuration items are required to enable the AML
+-   debugger interface from the Linux kernel:
+-
+-   CONFIG_ACPI_DEBUGGER=y
+-   CONFIG_ACPI_DEBUGGER_USER=m
+-
+-   The userspace utilities can be built from the kernel source tree using
+-   the following commands:
+-
+-   $ cd tools
+-   $ make acpi
+-
+-   The resultant userspace tool binary is then located at:
+-
+-     tools/power/acpi/acpidbg
+-
+-   It can be installed to system directories by running "make install" (as a
+-   sufficiently privileged user).
+-
+-2. Start the userspace debugger interface
+-
+-   After booting the kernel with the debugger built-in, the debugger can be
+-   started by using the following commands:
+-
+-   # mount -t debugfs none /sys/kernel/debug
+-   # modprobe acpi_dbg
+-   # tools/power/acpi/acpidbg
+-
+-   That spawns the interactive AML debugger environment where you can execute
+-   debugger commands.
+-
+-   The commands are documented in the "ACPICA Overview and Programmer Reference"
+-   that can be downloaded from
+-
+-   https://acpica.org/documentation
+-
+-   The detailed debugger commands reference is located in Chapter 12 "ACPICA
+-   Debugger Reference".  The "help" command can be used for a quick reference.
+-
+-3. Stop the userspace debugger interface
+-
+-   The interactive debugger interface can be closed by pressing Ctrl+C or using
+-   the "quit" or "exit" commands.  When finished, unload the module with:
+-
+-   # rmmod acpi_dbg
+-
+-   The module unloading may fail if there is an acpidbg instance running.
+-
+-4. Run the debugger in a script
+-
+-   It may be useful to run the AML debugger in a test script. "acpidbg" supports
+-   this in a special "batch" mode.  For example, the following command outputs
+-   the entire ACPI namespace:
+-
+-   # acpidbg -b "namespace"
 diff --git a/Documentation/acpi/index.rst b/Documentation/acpi/index.rst
-index 9bf84570c91b..a5251782e781 100644
+index 48964586ef75..241723643468 100644
 --- a/Documentation/acpi/index.rst
 +++ b/Documentation/acpi/index.rst
-@@ -12,6 +12,7 @@ Linux ACPI (Advanced Configuration and Power Interface)
-    DSD-properties-rules
-    gpio-properties
-    i2c-muxes
-+   acpi-lid
-    scan_handlers
-    method-customizing
-    initrd_table_override
+@@ -21,3 +21,4 @@ Linux ACPI (Advanced Configuration and Power Interface)
+    dsdt-override
+    debug
+    method-tracing
++   aml-debugger
 -- 
 2.20.1
 
