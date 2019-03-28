@@ -4,38 +4,38 @@ X-Spam-Level:
 X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 164E57D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Mar 2019 15:25:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id ED9407D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Mar 2019 15:26:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727089AbfC1PY4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Mar 2019 11:24:56 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:38716 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726171AbfC1PY4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Mar 2019 11:24:56 -0400
-Received: by mail-ot1-f66.google.com with SMTP id e80so18707362ote.5;
-        Thu, 28 Mar 2019 08:24:55 -0700 (PDT)
+        id S1727106AbfC1P0P (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Mar 2019 11:26:15 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:41077 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725816AbfC1P0O (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Mar 2019 11:26:14 -0400
+Received: by mail-ot1-f65.google.com with SMTP id 64so18674136otb.8;
+        Thu, 28 Mar 2019 08:26:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=OLEhsTdMmsextCr1NiMhv2YTxc8ypZaLDrCx27/q2RM=;
-        b=Amf5rDhVLKVK9EK3DyLRC+KrpQqsM1fZbecMf8FChCuul7m2bmOWFMylIhZj4goca8
-         6iV3ZtlS3uHukf37gSi5rdCSLopAL+kuiCqiw704EQigrKxsX5eNuPcYDNLkOkqib0+/
-         MWfRlAliLQRQAI1/nKICi3Ecq3Z/K64UGnQ/QPMECwGMp6dPGeqONlzpxuwYWJkssm0C
-         SOn2jiJ8AcOjvczF6ZCD+x1M8KQ1Kl0j/fyWjNa8Y5PdyTb7JAw1cFticeUx0pofWxRK
-         qBBql7wW+FxPOUD7Gow8VVio8aGNowGl474bQjgtbNvLIjH17Y5isOU56lqkP5H6+KoB
-         9WQQ==
-X-Gm-Message-State: APjAAAVN2g8n4GFk9H5w1M/yRU60n/MBV0g5hs33WWMn8nE+HMlyiTok
-        1UKVNbJZKCJ9OhZxS++emQ==
-X-Google-Smtp-Source: APXvYqxAYnRWtrxe+CFeXICX28G+N1pD+0v9fHP/jZkXFAjUNeFs8KuQujCrbTL8gkSP6Aqo5Vrz/A==
-X-Received: by 2002:a05:6830:11d0:: with SMTP id v16mr9894598otq.159.1553786695142;
-        Thu, 28 Mar 2019 08:24:55 -0700 (PDT)
+        bh=eoa9rk2+5Eom845SpcSwTOojF0mqyj+sqPnptts2DbU=;
+        b=nzqFN/LhYFhUtDkYEUw1JTvS8+1TX/8DvrptKx/jZ9ae3aEoqUAB5Agv6MRreLiV3P
+         gOiyirzfzlXkIIQMdLLyIO+ztsL4dvWdJKXJ2nrRy8Vvs8VVcyw7bLouTB1SB3N3Hry0
+         OBe4tEiCKaib4oKWW0vcKsdhrVRGk/3kFb9grZbcVo5HWAOwSaxcOrUU1O9kF8yZHXaE
+         xERNVSq9obZp0cAx9j6ibDczHpg+RsPXDbzYOEGmAjCmM7qbBECZPpd7vH7nhUUhfsED
+         bu+nbp5P+fsAg+bpbGwc9SaSOAfbGRfQZh9A3E2XBkQE9Fr+P7LiapJQxmGPNQ5N16ph
+         RA4w==
+X-Gm-Message-State: APjAAAVy0ON2dXgI/mUTjGMJnX974+1V7L3yjwq+FrRCtpZAi7+0GXzl
+        UUuTzI2CMIOttiV4KNEqHw==
+X-Google-Smtp-Source: APXvYqwgZ359wDtVagDy1HX1traJ1VhAmpotzI4REfWC+Xblr7ISqN9wcqPEZNp59kOvtYr3DPBBuw==
+X-Received: by 2002:a9d:6347:: with SMTP id y7mr6507283otk.34.1553786773543;
+        Thu, 28 Mar 2019 08:26:13 -0700 (PDT)
 Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id c145sm5797576oig.0.2019.03.28.08.24.54
+        by smtp.gmail.com with ESMTPSA id q19sm10148341ota.28.2019.03.28.08.26.12
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 28 Mar 2019 08:24:54 -0700 (PDT)
-Date:   Thu, 28 Mar 2019 10:24:53 -0500
+        Thu, 28 Mar 2019 08:26:12 -0700 (PDT)
+Date:   Thu, 28 Mar 2019 10:26:12 -0500
 From:   Rob Herring <robh@kernel.org>
 To:     Fabien Dessenne <fabien.dessenne@st.com>
 Cc:     Ohad Ben-Cohen <ohad@wizery.com>,
@@ -48,30 +48,53 @@ Cc:     Ohad Ben-Cohen <ohad@wizery.com>,
         linux-kernel@vger.kernel.org,
         linux-stm32@st-md-mailman.stormreply.com,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        Fabien Dessenne <fabien.dessenne@st.com>,
         Benjamin Gaignard <benjamin.gaignard@st.com>
-Subject: Re: [PATCH 1/6] dt-bindings: hwlock: add support of shared locks
-Message-ID: <20190328152453.GA31716@bogus>
+Subject: Re: [PATCH 4/6] ARM: dts: stm32: Add hwspinlock node for stm32mp157
+ SoC
+Message-ID: <20190328152612.GA464@bogus>
 References: <1552492237-28810-1-git-send-email-fabien.dessenne@st.com>
- <1552492237-28810-2-git-send-email-fabien.dessenne@st.com>
+ <1552492237-28810-5-git-send-email-fabien.dessenne@st.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1552492237-28810-2-git-send-email-fabien.dessenne@st.com>
+In-Reply-To: <1552492237-28810-5-git-send-email-fabien.dessenne@st.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 13 Mar 2019 16:50:32 +0100, Fabien Dessenne wrote:
-> Use #hwlock-cells value to define whether the locks can be shared
-> by several users.
+On Wed, Mar 13, 2019 at 04:50:35PM +0100, Fabien Dessenne wrote:
+> Declare hwspinlock device for stm32mp157 SoC
 > 
 > Signed-off-by: Fabien Dessenne <fabien.dessenne@st.com>
 > ---
->  .../devicetree/bindings/hwlock/hwlock.txt          | 27 ++++++++++++++++------
->  1 file changed, 20 insertions(+), 7 deletions(-)
+>  arch/arm/boot/dts/stm32mp157c.dtsi | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 > 
+> diff --git a/arch/arm/boot/dts/stm32mp157c.dtsi b/arch/arm/boot/dts/stm32mp157c.dtsi
+> index 105e21f..18baaea 100644
+> --- a/arch/arm/boot/dts/stm32mp157c.dtsi
+> +++ b/arch/arm/boot/dts/stm32mp157c.dtsi
+> @@ -886,6 +886,15 @@
+>  			status = "disabled";
+>  		};
+>  
+> +		hsem: hwspinlock@4c000000 {
+> +			compatible = "st,stm32-hwspinlock";
+> +			#hwlock-cells = <2>;
+> +			reg = <0x4c000000 0x400>;
+> +			clocks = <&rcc HSEM>;
+> +			clock-names = "hsem";
+> +			status = "okay";
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+okay is the default, so you can remove it.
+
+> +		};
+> +
+>  		ipcc: mailbox@4c001000 {
+>  			compatible = "st,stm32mp1-ipcc";
+>  			#mbox-cells = <1>;
+> -- 
+> 2.7.4
+> 
