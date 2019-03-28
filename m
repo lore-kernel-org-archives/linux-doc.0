@@ -6,56 +6,56 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2D6867D91B
+	by archive.lwn.net (Postfix) with ESMTP id 427FF7D922
 	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Mar 2019 16:30:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727917AbfC1Q3y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Mar 2019 12:29:54 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:42120 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726275AbfC1Q3y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Mar 2019 12:29:54 -0400
-Received: by mail-pl1-f196.google.com with SMTP id cv12so5213901plb.9;
-        Thu, 28 Mar 2019 09:29:53 -0700 (PDT)
+        id S1727586AbfC1QaO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Mar 2019 12:30:14 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:45136 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727565AbfC1QaN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Mar 2019 12:30:13 -0400
+Received: by mail-pg1-f194.google.com with SMTP id y3so11841319pgk.12;
+        Thu, 28 Mar 2019 09:30:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=TgiHW6sZjESZHY3/1FQNS9NWd9qLpnbJAfZL5jUguto=;
-        b=jyiIaJdc5mOcnVusiCoIhIGwemqV1sqDkivYUuZbjkCvHKZNCCDMGQOSiEd+llDGL2
-         I4jCsIWHqFefzSK+OziXRc0VleV7ruorQoUizZj4WvqsN5lIpClcJPdSE1Lyis0Gokic
-         kS+xXrKppvji/IToWZJOy6GR8neIAuPsYWbq8v7EUI8sgkeXKi5ACxyjg9k7R80WdhSK
-         3LYP+vv/awbySJTg2VJg7L24Tj4EEVQpMgzeqA9kiJml7/W+kZh/ay9YK503xZ7owFP/
-         yaUNmezlkMs65CyJ08moUI9NKRDsYdoux2SbYzfbcMRPTiCouOipUFBHAJBTZ5VB73TD
-         AV7A==
+        bh=CFZdYyIHhQ00FS4s+O0taLbzNPyzTG7Y3/SaqUe4LOg=;
+        b=Gqo+vYhRyAoZ8ibwcJ0QfuhV+qixgo7vOAzh6bcoQdkinVC+GPaij/MCwSFWPCKIbq
+         j46VAVtUgrRANndEt4IC62nnWDUlyw6VFkNdRz3MlQI6CBPP457bqJjDrAtd1bULf2yX
+         E9jJHQESsGTCj7hwWu3mqxgHyHkJ4jW3TwFvEcMc3JIucS+rbWCFpt51X4z47Hkt05ig
+         nfU2bN4xy+GQFwUC2HmepY/OQG5U4eW1ggskpIwCN+xCCF77j+SE9mEk1r7fBX7+l7wc
+         hJr/Z00mdVEitqD0xlBbwXbS1j5m3yOxc0KJr1kSHGwUtf0rqVy/+dy/XSQ034k3AN2W
+         6sew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=TgiHW6sZjESZHY3/1FQNS9NWd9qLpnbJAfZL5jUguto=;
-        b=gYyhfIYqgpp4Kc5nwM2e/ACv/2ripA0qQe2LgO6K/edUOp83SJEcbtZJS0x9skgF4q
-         0q62W4FtRWYeYMdj5STT7Xg86TJt8R43zkAKL9L1xY2ePdx6Q3rOKGBeW+YqJ9e0jfbW
-         r5XTUp7XGrk+4PyTLyPynggruBprR/mqLfuQP8AfvusVoy7LYj1BYdl5V56yJwb/1tbe
-         AYlXb5wDyYulWDZboswJyGZp7W2c3Sej6L6L8gtUUSehlQypVpryjN74lEc9ggNVrHCY
-         bNH1t3DA33yBgGMZS2XTORlsOueKiw5AolO5zhKOOudJH7o1Nk/2vgFx4XbMyLjS7nCS
-         u+zw==
-X-Gm-Message-State: APjAAAW/XqnQlYPxykFY6jiaKsjMlZIp2YNJpJov92m3580q0VUPeqLn
-        FROs3dI7iFut02iTM0zjfgE=
-X-Google-Smtp-Source: APXvYqwGZOyBfNlV6/gu97e4PRTRKRmp2gGQusSlDgBVfuBZrsEwxCHZ7Obwgs+AP8iq89Y5TJnH/w==
-X-Received: by 2002:a17:902:d705:: with SMTP id w5mr43568776ply.243.1553790592926;
-        Thu, 28 Mar 2019 09:29:52 -0700 (PDT)
+        bh=CFZdYyIHhQ00FS4s+O0taLbzNPyzTG7Y3/SaqUe4LOg=;
+        b=BXy6MKTBozCHBUKGzfUSL0LZUA54BQRcMy7kcJyKU25mpf3acfYaON0hv0NSsjASt9
+         bZ+dX7nXRHTZn7/InxwNtwWxDWphOtjbqT5aGUXbF2FqC224BatxmHJu4fQq4d3XS4yH
+         qP3F1CXN/UpWed4ws7BHxuYQp9eTX81WbI9FSav05mitEGpmFaT9e3cwu+oZyN8TubcC
+         5KXo7esDN+C7hqNQGJBYWc1dY/y4yghb4Mswd+jjQcLBY372cdQ4pjWl4mAqEBUrQevW
+         EOiPfMMljzmAWxcvTjMH7/IMkvgETfAb+s9W0qavBiDEz988lF2Czz3Xvk4iOjrv0q1e
+         sBPg==
+X-Gm-Message-State: APjAAAU9I5XqNBy32US5z1nSotAn3RUFktiAiRpEfVoKclpgZZSzUip9
+        Bf2SXIcYQMYe/2LnIbJj3TU=
+X-Google-Smtp-Source: APXvYqwmhPP4Th/ouoogYOvam8y6mslT3kM0skhaxLtY7AAhLbIzTgpIF/3FFlky01RN7NLfI3IlHw==
+X-Received: by 2002:a63:1ce:: with SMTP id 197mr40835490pgb.47.1553790612754;
+        Thu, 28 Mar 2019 09:30:12 -0700 (PDT)
 Received: from localhost.localdomain ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id y12sm42748885pgq.64.2019.03.28.09.29.48
+        by smtp.gmail.com with ESMTPSA id y12sm42748885pgq.64.2019.03.28.09.30.08
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 28 Mar 2019 09:29:52 -0700 (PDT)
+        Thu, 28 Mar 2019 09:30:11 -0700 (PDT)
 From:   Changbin Du <changbin.du@gmail.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     rjw@rjwysocki.net, lenb@kernel.org, linux-acpi@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH 16/23] acpi doc: convert acpi/method-tracing.txt to rst format
-Date:   Fri, 29 Mar 2019 00:27:14 +0800
-Message-Id: <20190328162721.26138-17-changbin.du@gmail.com>
+Subject: [PATCH 20/23] acpi doc: convert acpi/cppc_sysfs.txt to rst format
+Date:   Fri, 29 Mar 2019 00:27:18 +0800
+Message-Id: <20190328162721.26138-21-changbin.du@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190328162721.26138-1-changbin.du@gmail.com>
 References: <20190328162721.26138-1-changbin.du@gmail.com>
@@ -71,450 +71,125 @@ add it to Sphinx TOC tree. No essential content change.
 
 Signed-off-by: Changbin Du <changbin.du@gmail.com>
 ---
- Documentation/acpi/index.rst          |   1 +
- Documentation/acpi/method-tracing.rst | 224 ++++++++++++++++++++++++++
- Documentation/acpi/method-tracing.txt | 192 ----------------------
- 3 files changed, 225 insertions(+), 192 deletions(-)
- create mode 100644 Documentation/acpi/method-tracing.rst
- delete mode 100644 Documentation/acpi/method-tracing.txt
+ .../acpi/{cppc_sysfs.txt => cppc_sysfs.rst}   | 69 ++++++++++---------
+ Documentation/acpi/index.rst                  |  1 +
+ 2 files changed, 38 insertions(+), 32 deletions(-)
+ rename Documentation/acpi/{cppc_sysfs.txt => cppc_sysfs.rst} (51%)
 
+diff --git a/Documentation/acpi/cppc_sysfs.txt b/Documentation/acpi/cppc_sysfs.rst
+similarity index 51%
+rename from Documentation/acpi/cppc_sysfs.txt
+rename to Documentation/acpi/cppc_sysfs.rst
+index f20fb445135d..e8a13d6e7a6c 100644
+--- a/Documentation/acpi/cppc_sysfs.txt
++++ b/Documentation/acpi/cppc_sysfs.rst
+@@ -1,5 +1,9 @@
++==================================================
++Collaborative Processor Performance Control (CPPC)
++==================================================
+ 
+-	Collaborative Processor Performance Control (CPPC)
++CPPC
++====
+ 
+ CPPC defined in the ACPI spec describes a mechanism for the OS to manage the
+ performance of a logical processor on a contigious and abstract performance
+@@ -10,31 +14,28 @@ For more details on CPPC please refer to the ACPI specification at:
+ 
+ http://uefi.org/specifications
+ 
+-Some of the CPPC registers are exposed via sysfs under:
++Some of the CPPC registers are exposed via sysfs under::
+ 
+-/sys/devices/system/cpu/cpuX/acpi_cppc/
++  /sys/devices/system/cpu/cpuX/acpi_cppc/
+ 
+-for each cpu X
++for each cpu X::
+ 
+---------------------------------------------------------------------------------
+-
+-$ ls -lR  /sys/devices/system/cpu/cpu0/acpi_cppc/
+-/sys/devices/system/cpu/cpu0/acpi_cppc/:
+-total 0
+--r--r--r-- 1 root root 65536 Mar  5 19:38 feedback_ctrs
+--r--r--r-- 1 root root 65536 Mar  5 19:38 highest_perf
+--r--r--r-- 1 root root 65536 Mar  5 19:38 lowest_freq
+--r--r--r-- 1 root root 65536 Mar  5 19:38 lowest_nonlinear_perf
+--r--r--r-- 1 root root 65536 Mar  5 19:38 lowest_perf
+--r--r--r-- 1 root root 65536 Mar  5 19:38 nominal_freq
+--r--r--r-- 1 root root 65536 Mar  5 19:38 nominal_perf
+--r--r--r-- 1 root root 65536 Mar  5 19:38 reference_perf
+--r--r--r-- 1 root root 65536 Mar  5 19:38 wraparound_time
+-
+---------------------------------------------------------------------------------
++  $ ls -lR  /sys/devices/system/cpu/cpu0/acpi_cppc/
++  /sys/devices/system/cpu/cpu0/acpi_cppc/:
++  total 0
++  -r--r--r-- 1 root root 65536 Mar  5 19:38 feedback_ctrs
++  -r--r--r-- 1 root root 65536 Mar  5 19:38 highest_perf
++  -r--r--r-- 1 root root 65536 Mar  5 19:38 lowest_freq
++  -r--r--r-- 1 root root 65536 Mar  5 19:38 lowest_nonlinear_perf
++  -r--r--r-- 1 root root 65536 Mar  5 19:38 lowest_perf
++  -r--r--r-- 1 root root 65536 Mar  5 19:38 nominal_freq
++  -r--r--r-- 1 root root 65536 Mar  5 19:38 nominal_perf
++  -r--r--r-- 1 root root 65536 Mar  5 19:38 reference_perf
++  -r--r--r-- 1 root root 65536 Mar  5 19:38 wraparound_time
+ 
+ * highest_perf : Highest performance of this processor (abstract scale).
+-* nominal_perf : Highest sustained performance of this processor (abstract scale).
++* nominal_perf : Highest sustained performance of this processor
++  (abstract scale).
+ * lowest_nonlinear_perf : Lowest performance of this processor with nonlinear
+   power savings (abstract scale).
+ * lowest_perf : Lowest performance of this processor (abstract scale).
+@@ -48,22 +49,26 @@ total 0
+ * feedback_ctrs : Includes both Reference and delivered performance counter.
+   Reference counter ticks up proportional to processor's reference performance.
+   Delivered counter ticks up proportional to processor's delivered performance.
+-* wraparound_time: Minimum time for the feedback counters to wraparound (seconds).
++* wraparound_time: Minimum time for the feedback counters to wraparound
++  (seconds).
+ * reference_perf : Performance level at which reference performance counter
+   accumulates (abstract scale).
+ 
+---------------------------------------------------------------------------------
+ 
+-		Computing Average Delivered Performance
++Computing Average Delivered Performance
++=======================================
++
++Below describes the steps to compute the average performance delivered by
++taking two different snapshots of feedback counters at time T1 and T2.
++
++  T1: Read feedback_ctrs as fbc_t1
++      Wait or run some workload
+ 
+-Below describes the steps to compute the average performance delivered by taking
+-two different snapshots of feedback counters at time T1 and T2.
++  T2: Read feedback_ctrs as fbc_t2
+ 
+-T1: Read feedback_ctrs as fbc_t1
+-    Wait or run some workload
+-T2: Read feedback_ctrs as fbc_t2
++::
+ 
+-delivered_counter_delta = fbc_t2[del] - fbc_t1[del]
+-reference_counter_delta = fbc_t2[ref] - fbc_t1[ref]
++  delivered_counter_delta = fbc_t2[del] - fbc_t1[del]
++  reference_counter_delta = fbc_t2[ref] - fbc_t1[ref]
+ 
+-delivered_perf = (refernce_perf x delivered_counter_delta) / reference_counter_delta
++  delivered_perf = (refernce_perf x delivered_counter_delta) / reference_counter_delta
 diff --git a/Documentation/acpi/index.rst b/Documentation/acpi/index.rst
-index 3bd1d9996ffc..48964586ef75 100644
+index 431edc664135..f59e6ddb0f99 100644
 --- a/Documentation/acpi/index.rst
 +++ b/Documentation/acpi/index.rst
-@@ -20,3 +20,4 @@ Linux ACPI (Advanced Configuration and Power Interface)
-    initrd_table_override
-    dsdt-override
-    debug
-+   method-tracing
-diff --git a/Documentation/acpi/method-tracing.rst b/Documentation/acpi/method-tracing.rst
-new file mode 100644
-index 000000000000..5edb22391c87
---- /dev/null
-+++ b/Documentation/acpi/method-tracing.rst
-@@ -0,0 +1,224 @@
-+.. include:: <isonum.txt>
-+
-+=====================
-+ACPICA Trace Facility
-+=====================
-+
-+:Copyright: |copy| 2015, Intel Corporation
-+:Author: Lv Zheng <lv.zheng@intel.com>
-+
-+
-+:Abstract: This document describes the functions and the interfaces of the
-+  method tracing facility.
-+
-+1. Functionalities and usage examples
-+=====================================
-+
-+ACPICA provides method tracing capability. And two functions are
-+currently implemented using this capability.
-+
-+Log reducer
-+--------------
-+
-+ACPICA subsystem provides debugging outputs when CONFIG_ACPI_DEBUG is
-+enabled. The debugging messages which are deployed via
-+ACPI_DEBUG_PRINT() macro can be reduced at 2 levels - per-component
-+level (known as debug layer, configured via
-+/sys/module/acpi/parameters/debug_layer) and per-type level (known as
-+debug level, configured via /sys/module/acpi/parameters/debug_level).
-+
-+But when the particular layer/level is applied to the control method
-+evaluations, the quantity of the debugging outputs may still be too
-+large to be put into the kernel log buffer. The idea thus is worked out
-+to only enable the particular debug layer/level (normally more detailed)
-+logs when the control method evaluation is started, and disable the
-+detailed logging when the control method evaluation is stopped.
-+
-+The following command examples illustrate the usage of the "log reducer"
-+functionality:
-+
-+a. Filter out the debug layer/level matched logs when control methods
-+   are being evaluated::
-+
-+      # cd /sys/module/acpi/parameters
-+      # echo "0xXXXXXXXX" > trace_debug_layer
-+      # echo "0xYYYYYYYY" > trace_debug_level
-+      # echo "enable" > trace_state
-+
-+b. Filter out the debug layer/level matched logs when the specified
-+   control method is being evaluated::
-+
-+      # cd /sys/module/acpi/parameters
-+      # echo "0xXXXXXXXX" > trace_debug_layer
-+      # echo "0xYYYYYYYY" > trace_debug_level
-+      # echo "\PPPP.AAAA.TTTT.HHHH" > trace_method_name
-+      # echo "method" > /sys/module/acpi/parameters/trace_state
-+
-+c. Filter out the debug layer/level matched logs when the specified
-+   control method is being evaluated for the first time::
-+
-+      # cd /sys/module/acpi/parameters
-+      # echo "0xXXXXXXXX" > trace_debug_layer
-+      # echo "0xYYYYYYYY" > trace_debug_level
-+      # echo "\PPPP.AAAA.TTTT.HHHH" > trace_method_name
-+      # echo "method-once" > /sys/module/acpi/parameters/trace_state
-+
-+Where:
-+   0xXXXXXXXX/0xYYYYYYYY
-+     Refer to Documentation/acpi/debug.txt for possible debug layer/level
-+     masking values.
-+   \PPPP.AAAA.TTTT.HHHH
-+     Full path of a control method that can be found in the ACPI namespace.
-+     It needn't be an entry of a control method evaluation.
-+
-+AML tracer
-+-------------
-+
-+There are special log entries added by the method tracing facility at
-+the "trace points" the AML interpreter starts/stops to execute a control
-+method, or an AML opcode. Note that the format of the log entries are
-+subject to change::
-+
-+   [    0.186427]   exdebug-0398 ex_trace_point        : Method Begin [0xf58394d8:\_SB.PCI0.LPCB.ECOK] execution.
-+   [    0.186630]   exdebug-0398 ex_trace_point        : Opcode Begin [0xf5905c88:If] execution.
-+   [    0.186820]   exdebug-0398 ex_trace_point        : Opcode Begin [0xf5905cc0:LEqual] execution.
-+   [    0.187010]   exdebug-0398 ex_trace_point        : Opcode Begin [0xf5905a20:-NamePath-] execution.
-+   [    0.187214]   exdebug-0398 ex_trace_point        : Opcode End [0xf5905a20:-NamePath-] execution.
-+   [    0.187407]   exdebug-0398 ex_trace_point        : Opcode Begin [0xf5905f60:One] execution.
-+   [    0.187594]   exdebug-0398 ex_trace_point        : Opcode End [0xf5905f60:One] execution.
-+   [    0.187789]   exdebug-0398 ex_trace_point        : Opcode End [0xf5905cc0:LEqual] execution.
-+   [    0.187980]   exdebug-0398 ex_trace_point        : Opcode Begin [0xf5905cc0:Return] execution.
-+   [    0.188146]   exdebug-0398 ex_trace_point        : Opcode Begin [0xf5905f60:One] execution.
-+   [    0.188334]   exdebug-0398 ex_trace_point        : Opcode End [0xf5905f60:One] execution.
-+   [    0.188524]   exdebug-0398 ex_trace_point        : Opcode End [0xf5905cc0:Return] execution.
-+   [    0.188712]   exdebug-0398 ex_trace_point        : Opcode End [0xf5905c88:If] execution.
-+   [    0.188903]   exdebug-0398 ex_trace_point        : Method End [0xf58394d8:\_SB.PCI0.LPCB.ECOK] execution.
-+
-+Developers can utilize these special log entries to track the AML
-+interpretion, thus can aid issue debugging and performance tuning. Note
-+that, as the "AML tracer" logs are implemented via ACPI_DEBUG_PRINT()
-+macro, CONFIG_ACPI_DEBUG is also required to be enabled for enabling
-+"AML tracer" logs.
-+
-+The following command examples illustrate the usage of the "AML tracer"
-+functionality:
-+
-+a. Filter out the method start/stop "AML tracer" logs when control
-+   methods are being evaluated::
-+
-+      # cd /sys/module/acpi/parameters
-+      # echo "0x80" > trace_debug_layer
-+      # echo "0x10" > trace_debug_level
-+      # echo "enable" > trace_state
-+
-+b. Filter out the method start/stop "AML tracer" when the specified
-+   control method is being evaluated::
-+
-+      # cd /sys/module/acpi/parameters
-+      # echo "0x80" > trace_debug_layer
-+      # echo "0x10" > trace_debug_level
-+      # echo "\PPPP.AAAA.TTTT.HHHH" > trace_method_name
-+      # echo "method" > trace_state
-+
-+c. Filter out the method start/stop "AML tracer" logs when the specified
-+   control method is being evaluated for the first time::
-+
-+      # cd /sys/module/acpi/parameters
-+      # echo "0x80" > trace_debug_layer
-+      # echo "0x10" > trace_debug_level
-+      # echo "\PPPP.AAAA.TTTT.HHHH" > trace_method_name
-+      # echo "method-once" > trace_state
-+
-+d. Filter out the method/opcode start/stop "AML tracer" when the
-+   specified control method is being evaluated::
-+
-+      # cd /sys/module/acpi/parameters
-+      # echo "0x80" > trace_debug_layer
-+      # echo "0x10" > trace_debug_level
-+      # echo "\PPPP.AAAA.TTTT.HHHH" > trace_method_name
-+      # echo "opcode" > trace_state
-+
-+e. Filter out the method/opcode start/stop "AML tracer" when the
-+   specified control method is being evaluated for the first time::
-+
-+      # cd /sys/module/acpi/parameters
-+      # echo "0x80" > trace_debug_layer
-+      # echo "0x10" > trace_debug_level
-+      # echo "\PPPP.AAAA.TTTT.HHHH" > trace_method_name
-+      # echo "opcode-opcode" > trace_state
-+
-+Note that all above method tracing facility related module parameters can
-+be used as the boot parameters, for example::
-+
-+   acpi.trace_debug_layer=0x80 acpi.trace_debug_level=0x10 \
-+   acpi.trace_method_name=\_SB.LID0._LID acpi.trace_state=opcode-once
-+
-+2. Interface descriptions
-+=========================
-+
-+All method tracing functions can be configured via ACPI module
-+parameters that are accessible at /sys/module/acpi/parameters/:
-+
-+trace_method_name
-+The full path of the AML method that the user wants to trace.
-+Note that the full path shouldn't contain the trailing "_"s in its
-+name segments but may contain "\" to form an absolute path.
-+
-+trace_debug_layer
-+The temporary debug_layer used when the tracing feature is enabled.
-+Using ACPI_EXECUTER (0x80) by default, which is the debug_layer
-+used to match all "AML tracer" logs.
-+
-+trace_debug_level
-+The temporary debug_level used when the tracing feature is enabled.
-+Using ACPI_LV_TRACE_POINT (0x10) by default, which is the
-+debug_level used to match all "AML tracer" logs.
-+
-+trace_state
-+The status of the tracing feature.
-+Users can enable/disable this debug tracing feature by executing
-+the following command::
-+
-+   # echo string > /sys/module/acpi/parameters/trace_state
-+
-+Where "string" should be one of the following:
-+
-+"disable"
-+      Disable the method tracing feature.
-+"enable"
-+      Enable the method tracing feature.
-+      ACPICA debugging messages matching
-+      "trace_debug_layer/trace_debug_level" during any method
-+      execution will be logged.
-+"method"
-+      Enable the method tracing feature.
-+      ACPICA debugging messages matching
-+      "trace_debug_layer/trace_debug_level" during method execution
-+      of "trace_method_name" will be logged.
-+"method-once"
-+      Enable the method tracing feature.
-+      ACPICA debugging messages matching
-+      "trace_debug_layer/trace_debug_level" during method execution
-+      of "trace_method_name" will be logged only once.
-+"opcode"
-+      Enable the method tracing feature.
-+      ACPICA debugging messages matching
-+      "trace_debug_layer/trace_debug_level" during method/opcode
-+      execution of "trace_method_name" will be logged.
-+"opcode-once"
-+      Enable the method tracing feature.
-+      ACPICA debugging messages matching
-+      "trace_debug_layer/trace_debug_level" during method/opcode
-+      execution of "trace_method_name" will be logged only once.
-+
-+Note that, the difference between the "enable" and other feature
-+enabling options are:
-+
-+1. When "enable" is specified, since
-+   "trace_debug_layer/trace_debug_level" shall apply to all control
-+   method evaluations, after configuring "trace_state" to "enable",
-+   "trace_method_name" will be reset to NULL.
-+2. When "method/opcode" is specified, if
-+   "trace_method_name" is NULL when "trace_state" is configured to
-+   these options, the "trace_debug_layer/trace_debug_level" will
-+   apply to all control method evaluations.
-diff --git a/Documentation/acpi/method-tracing.txt b/Documentation/acpi/method-tracing.txt
-deleted file mode 100644
-index 0aba14c8f459..000000000000
---- a/Documentation/acpi/method-tracing.txt
-+++ /dev/null
-@@ -1,192 +0,0 @@
--ACPICA Trace Facility
--
--Copyright (C) 2015, Intel Corporation
--Author: Lv Zheng <lv.zheng@intel.com>
--
--
--Abstract:
--
--This document describes the functions and the interfaces of the method
--tracing facility.
--
--1. Functionalities and usage examples:
--
--   ACPICA provides method tracing capability. And two functions are
--   currently implemented using this capability.
--
--   A. Log reducer
--   ACPICA subsystem provides debugging outputs when CONFIG_ACPI_DEBUG is
--   enabled. The debugging messages which are deployed via
--   ACPI_DEBUG_PRINT() macro can be reduced at 2 levels - per-component
--   level (known as debug layer, configured via
--   /sys/module/acpi/parameters/debug_layer) and per-type level (known as
--   debug level, configured via /sys/module/acpi/parameters/debug_level).
--
--   But when the particular layer/level is applied to the control method
--   evaluations, the quantity of the debugging outputs may still be too
--   large to be put into the kernel log buffer. The idea thus is worked out
--   to only enable the particular debug layer/level (normally more detailed)
--   logs when the control method evaluation is started, and disable the
--   detailed logging when the control method evaluation is stopped.
--
--   The following command examples illustrate the usage of the "log reducer"
--   functionality:
--   a. Filter out the debug layer/level matched logs when control methods
--      are being evaluated:
--      # cd /sys/module/acpi/parameters
--      # echo "0xXXXXXXXX" > trace_debug_layer
--      # echo "0xYYYYYYYY" > trace_debug_level
--      # echo "enable" > trace_state
--   b. Filter out the debug layer/level matched logs when the specified
--      control method is being evaluated:
--      # cd /sys/module/acpi/parameters
--      # echo "0xXXXXXXXX" > trace_debug_layer
--      # echo "0xYYYYYYYY" > trace_debug_level
--      # echo "\PPPP.AAAA.TTTT.HHHH" > trace_method_name
--      # echo "method" > /sys/module/acpi/parameters/trace_state
--   c. Filter out the debug layer/level matched logs when the specified
--      control method is being evaluated for the first time:
--      # cd /sys/module/acpi/parameters
--      # echo "0xXXXXXXXX" > trace_debug_layer
--      # echo "0xYYYYYYYY" > trace_debug_level
--      # echo "\PPPP.AAAA.TTTT.HHHH" > trace_method_name
--      # echo "method-once" > /sys/module/acpi/parameters/trace_state
--   Where:
--      0xXXXXXXXX/0xYYYYYYYY: Refer to Documentation/acpi/debug.txt for
--			     possible debug layer/level masking values.
--      \PPPP.AAAA.TTTT.HHHH: Full path of a control method that can be found
--			    in the ACPI namespace. It needn't be an entry
--			    of a control method evaluation.
--
--   B. AML tracer
--
--   There are special log entries added by the method tracing facility at
--   the "trace points" the AML interpreter starts/stops to execute a control
--   method, or an AML opcode. Note that the format of the log entries are
--   subject to change:
--     [    0.186427]   exdebug-0398 ex_trace_point        : Method Begin [0xf58394d8:\_SB.PCI0.LPCB.ECOK] execution.
--     [    0.186630]   exdebug-0398 ex_trace_point        : Opcode Begin [0xf5905c88:If] execution.
--     [    0.186820]   exdebug-0398 ex_trace_point        : Opcode Begin [0xf5905cc0:LEqual] execution.
--     [    0.187010]   exdebug-0398 ex_trace_point        : Opcode Begin [0xf5905a20:-NamePath-] execution.
--     [    0.187214]   exdebug-0398 ex_trace_point        : Opcode End [0xf5905a20:-NamePath-] execution.
--     [    0.187407]   exdebug-0398 ex_trace_point        : Opcode Begin [0xf5905f60:One] execution.
--     [    0.187594]   exdebug-0398 ex_trace_point        : Opcode End [0xf5905f60:One] execution.
--     [    0.187789]   exdebug-0398 ex_trace_point        : Opcode End [0xf5905cc0:LEqual] execution.
--     [    0.187980]   exdebug-0398 ex_trace_point        : Opcode Begin [0xf5905cc0:Return] execution.
--     [    0.188146]   exdebug-0398 ex_trace_point        : Opcode Begin [0xf5905f60:One] execution.
--     [    0.188334]   exdebug-0398 ex_trace_point        : Opcode End [0xf5905f60:One] execution.
--     [    0.188524]   exdebug-0398 ex_trace_point        : Opcode End [0xf5905cc0:Return] execution.
--     [    0.188712]   exdebug-0398 ex_trace_point        : Opcode End [0xf5905c88:If] execution.
--     [    0.188903]   exdebug-0398 ex_trace_point        : Method End [0xf58394d8:\_SB.PCI0.LPCB.ECOK] execution.
--
--   Developers can utilize these special log entries to track the AML
--   interpretion, thus can aid issue debugging and performance tuning. Note
--   that, as the "AML tracer" logs are implemented via ACPI_DEBUG_PRINT()
--   macro, CONFIG_ACPI_DEBUG is also required to be enabled for enabling
--   "AML tracer" logs.
--
--   The following command examples illustrate the usage of the "AML tracer"
--   functionality:
--   a. Filter out the method start/stop "AML tracer" logs when control
--      methods are being evaluated:
--      # cd /sys/module/acpi/parameters
--      # echo "0x80" > trace_debug_layer
--      # echo "0x10" > trace_debug_level
--      # echo "enable" > trace_state
--   b. Filter out the method start/stop "AML tracer" when the specified
--      control method is being evaluated:
--      # cd /sys/module/acpi/parameters
--      # echo "0x80" > trace_debug_layer
--      # echo "0x10" > trace_debug_level
--      # echo "\PPPP.AAAA.TTTT.HHHH" > trace_method_name
--      # echo "method" > trace_state
--   c. Filter out the method start/stop "AML tracer" logs when the specified
--      control method is being evaluated for the first time:
--      # cd /sys/module/acpi/parameters
--      # echo "0x80" > trace_debug_layer
--      # echo "0x10" > trace_debug_level
--      # echo "\PPPP.AAAA.TTTT.HHHH" > trace_method_name
--      # echo "method-once" > trace_state
--   d. Filter out the method/opcode start/stop "AML tracer" when the
--      specified control method is being evaluated:
--      # cd /sys/module/acpi/parameters
--      # echo "0x80" > trace_debug_layer
--      # echo "0x10" > trace_debug_level
--      # echo "\PPPP.AAAA.TTTT.HHHH" > trace_method_name
--      # echo "opcode" > trace_state
--   e. Filter out the method/opcode start/stop "AML tracer" when the
--      specified control method is being evaluated for the first time:
--      # cd /sys/module/acpi/parameters
--      # echo "0x80" > trace_debug_layer
--      # echo "0x10" > trace_debug_level
--      # echo "\PPPP.AAAA.TTTT.HHHH" > trace_method_name
--      # echo "opcode-opcode" > trace_state
--
--  Note that all above method tracing facility related module parameters can
--  be used as the boot parameters, for example:
--      acpi.trace_debug_layer=0x80 acpi.trace_debug_level=0x10 \
--      acpi.trace_method_name=\_SB.LID0._LID acpi.trace_state=opcode-once
--
--2. Interface descriptions:
--
--   All method tracing functions can be configured via ACPI module
--   parameters that are accessible at /sys/module/acpi/parameters/:
--
--   trace_method_name
--	The full path of the AML method that the user wants to trace.
--	Note that the full path shouldn't contain the trailing "_"s in its
--	name segments but may contain "\" to form an absolute path.
--
--   trace_debug_layer
--	The temporary debug_layer used when the tracing feature is enabled.
--	Using ACPI_EXECUTER (0x80) by default, which is the debug_layer
--	used to match all "AML tracer" logs.
--
--   trace_debug_level
--	The temporary debug_level used when the tracing feature is enabled.
--	Using ACPI_LV_TRACE_POINT (0x10) by default, which is the
--	debug_level used to match all "AML tracer" logs.
--
--   trace_state
--	The status of the tracing feature.
--	Users can enable/disable this debug tracing feature by executing
--	the following command:
--	    # echo string > /sys/module/acpi/parameters/trace_state
--	Where "string" should be one of the following:
--	"disable"
--	    Disable the method tracing feature.
--	"enable"
--	    Enable the method tracing feature.
--	    ACPICA debugging messages matching
--	    "trace_debug_layer/trace_debug_level" during any method
--	    execution will be logged.
--	"method"
--	    Enable the method tracing feature.
--	    ACPICA debugging messages matching
--	    "trace_debug_layer/trace_debug_level" during method execution
--	    of "trace_method_name" will be logged.
--	"method-once"
--	    Enable the method tracing feature.
--	    ACPICA debugging messages matching
--	    "trace_debug_layer/trace_debug_level" during method execution
--	    of "trace_method_name" will be logged only once.
--	"opcode"
--	    Enable the method tracing feature.
--	    ACPICA debugging messages matching
--	    "trace_debug_layer/trace_debug_level" during method/opcode
--	    execution of "trace_method_name" will be logged.
--	"opcode-once"
--	    Enable the method tracing feature.
--	    ACPICA debugging messages matching
--	    "trace_debug_layer/trace_debug_level" during method/opcode
--	    execution of "trace_method_name" will be logged only once.
--	Note that, the difference between the "enable" and other feature
--        enabling options are:
--	1. When "enable" is specified, since
--	   "trace_debug_layer/trace_debug_level" shall apply to all control
--	   method evaluations, after configuring "trace_state" to "enable",
--	   "trace_method_name" will be reset to NULL.
--	2. When "method/opcode" is specified, if
--	   "trace_method_name" is NULL when "trace_state" is configured to
--	   these options, the "trace_debug_layer/trace_debug_level" will
--	   apply to all control method evaluations.
+@@ -24,3 +24,4 @@ Linux ACPI (Advanced Configuration and Power Interface)
+    aml-debugger
+    apei/output_format
+    apei/einj
++   cppc_sysfs
 -- 
 2.20.1
 
