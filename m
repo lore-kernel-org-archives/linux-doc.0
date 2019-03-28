@@ -4,62 +4,63 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 999AD7D981
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Mar 2019 16:30:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8FA577D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Mar 2019 16:30:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727393AbfC1Qa3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Mar 2019 12:30:29 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:37002 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726879AbfC1Qa3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Mar 2019 12:30:29 -0400
-Received: by mail-pg1-f194.google.com with SMTP id q206so11854808pgq.4;
-        Thu, 28 Mar 2019 09:30:28 -0700 (PDT)
+        id S1726891AbfC1Q3O (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Mar 2019 12:29:14 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:38070 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726190AbfC1Q3N (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Mar 2019 12:29:13 -0400
+Received: by mail-pg1-f193.google.com with SMTP id j26so9852278pgl.5;
+        Thu, 28 Mar 2019 09:29:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=02dp9uDmolhd9EB0XQ83sM4tTRkAtvyNrL2ap8FgGY0=;
-        b=DeAxcd74G4zHnc4i03E9s5fhTtgPz+zfrQ1ilYWZk/bVDaggtf8JVI7LqpaAsrS6nC
-         uWpo9Wpu5u9QsowsYc6q316JBRNKM7QU4S/KaNv/1zLqiU2psJUzDFYVKsuywTFbT2qn
-         bPSJHFHNW3V7/gFmKGSzBExA7WcIHGAjyNIg3N3Chj+6CgEXSRr8MXlPfIy0tL8FVes5
-         eaWiAnFnSSjTEkWzmDYj1fFvYPyBPSURXhOYFKNjcSeIFxBe4HQHohsnGflbqmWWriBQ
-         a0wKWLFBwN2aqgTm64QLBf5se/+nQJ7tgwQV8lVpQCRrZ+ZCayDrTIIdCxmQpx0rh6o1
-         2jpg==
+        bh=D8YB6Omcp6x6Q2UyREeDiT50iiiUMuUAilTYNuoA/jw=;
+        b=BICOiWPEWdAiXWqzctIn/C4VWcBOX7BaRl6NRvqLmoQYldyKDIu9cM9lhPS4UFWNNv
+         HCxi4soY33xofINwABygm6ZiHRWS9JJl4fSwFyvp0NyxgCZmPHgQydo25ENaMX8kuO7J
+         EndG3Zxg+VVL9ck3WQU7lsq1P5fP1d2lBxvM+tD0wblLxD7NAyv6Cs9rfNcCCXp10jeS
+         x22J5hdOsOHI5JYXmOP4vgus1Q2bYNgzIy4ZcPGYBg+8bAtA4zFoMkF63WEnxA8+lwc1
+         TsBQYzo9PAzK91WrerN9h3tOPLvP132cT9CC2LPRGP1zK7M4rrRGzsQFi0MlrnhpUcqq
+         Je+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=02dp9uDmolhd9EB0XQ83sM4tTRkAtvyNrL2ap8FgGY0=;
-        b=MrIujA+/pb0vYPQICPv6wB3KXgRHDlKnu7T88nOfKk7TqnrCBP/TVROnKLCLFBWyf8
-         vOQtY52CmdXLgnLlAbrg95jeYEM3kOIUy9ie7I15HWDEApNwswVgl8A7mhRo9obBGt9w
-         ELXxIOcsVmg8rTWJEq3moaI+LZD+Xc/num8mYW5FaLqsGN3ICl1o7MXVHkasHa5rFwKc
-         /Sg1N2gOxKbPyS4LxpfJWzZn/SQCuau1OlOgKuk41oNG7crkGyiAk3Me2cVozrB8yHDJ
-         3Y7S7pE3UoOeYVtzWJ7iYZSUS9AXbdBADEGzreTdDqkE90On9xpopeftKqbEgfynuxXi
-         tnuQ==
-X-Gm-Message-State: APjAAAUv6nn+1ZinzJHivZdSCJINIjRGFTWiCgFELDFC2FRzonus0HD5
-        VUisVnW4PZ1MEU3rQ9d67h4KCQF/QFM=
-X-Google-Smtp-Source: APXvYqwr6Gl7DKHLpREQkkZBG3uDOnOtC8OAe5HEV/UMgMLj0GglQ6j1rPCauHqqF/Ms1I/i1bAZ7g==
-X-Received: by 2002:a62:4e86:: with SMTP id c128mr18976029pfb.39.1553790628279;
-        Thu, 28 Mar 2019 09:30:28 -0700 (PDT)
+        bh=D8YB6Omcp6x6Q2UyREeDiT50iiiUMuUAilTYNuoA/jw=;
+        b=kukM8DvgZwJndoNk3DToemxijIIzm95tVFP7uM3Cl1wyI5cZ5n0JZh02BKRr+uLTeG
+         3FSSfCY1ZLmyPx5Qb8+/cvqgYGZlViuA1anjCti116yBJLLnhsU2C0dUpK0UhDCYnXXY
+         4QQHv6IAXJ5AZom3gyou8tB9/YRiRxfTYIBSs70ZA+uBhcvPpEkokYqi3oItGMFAUEqC
+         JQFY68h9isZL0cbJ4LgNMpl4ExZuLE8384vl9wYPoxSIIDsMdAxKoAOE1xM/jwavcn6v
+         9LaiN6YbgsREac9x3BZ2DmzRN63GIcmdnphMjJHJUuMe+lzy4v6RPbnJFY0sJzxA0TJ6
+         b3Rg==
+X-Gm-Message-State: APjAAAXaIx0K65zoMBG52vUSKONlXRkStEX45C6nhpGe/jJPJbup4yiM
+        wMIHoq4hMaO/7VHctZ8GxuWmkJXesrc=
+X-Google-Smtp-Source: APXvYqyePJ+r/jt8zG2XTB8zk+Sgs9m79zFjKDLDC5xzOQOd9zcpO1PZDqiquH/AiFZSdjqsyF+cbA==
+X-Received: by 2002:a65:4844:: with SMTP id i4mr39871144pgs.347.1553790552477;
+        Thu, 28 Mar 2019 09:29:12 -0700 (PDT)
 Received: from localhost.localdomain ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id y12sm42748885pgq.64.2019.03.28.09.30.23
+        by smtp.gmail.com with ESMTPSA id y12sm42748885pgq.64.2019.03.28.09.29.07
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 28 Mar 2019 09:30:27 -0700 (PDT)
+        Thu, 28 Mar 2019 09:29:11 -0700 (PDT)
 From:   Changbin Du <changbin.du@gmail.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     rjw@rjwysocki.net, lenb@kernel.org, linux-acpi@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH 23/23] acpi doc: convert acpi/video_extension.txt to rst format
-Date:   Fri, 29 Mar 2019 00:27:21 +0800
-Message-Id: <20190328162721.26138-24-changbin.du@gmail.com>
+Subject: [PATCH 08/23] acpi doc: convert acpi/gpio-properties.txt to rst format
+Date:   Fri, 29 Mar 2019 00:27:06 +0800
+Message-Id: <20190328162721.26138-9-changbin.du@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190328162721.26138-1-changbin.du@gmail.com>
 References: <20190328162721.26138-1-changbin.du@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
@@ -71,139 +72,201 @@ add it to Sphinx TOC tree. No essential content change.
 
 Signed-off-by: Changbin Du <changbin.du@gmail.com>
 ---
+ ...pio-properties.txt => gpio-properties.rst} | 76 ++++++++++---------
  Documentation/acpi/index.rst                  |  1 +
- ...ideo_extension.txt => video_extension.rst} | 61 ++++++++++---------
- 2 files changed, 34 insertions(+), 28 deletions(-)
- rename Documentation/acpi/{video_extension.txt => video_extension.rst} (80%)
+ 2 files changed, 43 insertions(+), 34 deletions(-)
+ rename Documentation/acpi/{gpio-properties.txt => gpio-properties.rst} (82%)
 
+diff --git a/Documentation/acpi/gpio-properties.txt b/Documentation/acpi/gpio-properties.rst
+similarity index 82%
+rename from Documentation/acpi/gpio-properties.txt
+rename to Documentation/acpi/gpio-properties.rst
+index 88c65cb5bf0a..8a5246b7fa4a 100644
+--- a/Documentation/acpi/gpio-properties.txt
++++ b/Documentation/acpi/gpio-properties.rst
+@@ -1,5 +1,6 @@
++======================================
+ _DSD Device Properties Related to GPIO
+---------------------------------------
++======================================
+ 
+ With the release of ACPI 5.1, the _DSD configuration object finally
+ allows names to be given to GPIOs (and other things as well) returned
+@@ -8,7 +9,7 @@ the corresponding GPIO, which is pretty error prone (it depends on
+ the _CRS output ordering, for example).
+ 
+ With _DSD we can now query GPIOs using a name instead of an integer
+-index, like the ASL example below shows:
++index, like the ASL example below shows::
+ 
+   // Bluetooth device with reset and shutdown GPIOs
+   Device (BTH)
+@@ -34,15 +35,19 @@ index, like the ASL example below shows:
+       })
+   }
+ 
+-The format of the supported GPIO property is:
++The format of the supported GPIO property is::
+ 
+   Package () { "name", Package () { ref, index, pin, active_low }}
+ 
+-  ref - The device that has _CRS containing GpioIo()/GpioInt() resources,
+-        typically this is the device itself (BTH in our case).
+-  index - Index of the GpioIo()/GpioInt() resource in _CRS starting from zero.
+-  pin - Pin in the GpioIo()/GpioInt() resource. Typically this is zero.
+-  active_low - If 1 the GPIO is marked as active_low.
++ref
++  The device that has _CRS containing GpioIo()/GpioInt() resources,
++  typically this is the device itself (BTH in our case).
++index
++  Index of the GpioIo()/GpioInt() resource in _CRS starting from zero.
++pin
++  Pin in the GpioIo()/GpioInt() resource. Typically this is zero.
++active_low
++  If 1 the GPIO is marked as active_low.
+ 
+ Since ACPI GpioIo() resource does not have a field saying whether it is
+ active low or high, the "active_low" argument can be used here.  Setting
+@@ -55,7 +60,7 @@ It is possible to leave holes in the array of GPIOs. This is useful in
+ cases like with SPI host controllers where some chip selects may be
+ implemented as GPIOs and some as native signals. For example a SPI host
+ controller can have chip selects 0 and 2 implemented as GPIOs and 1 as
+-native:
++native::
+ 
+   Package () {
+       "cs-gpios",
+@@ -67,7 +72,7 @@ native:
+   }
+ 
+ Other supported properties
+---------------------------
++==========================
+ 
+ Following Device Tree compatible device properties are also supported by
+ _DSD device properties for GPIO controllers:
+@@ -78,7 +83,7 @@ _DSD device properties for GPIO controllers:
+ - input
+ - line-name
+ 
+-Example:
++Example::
+ 
+   Name (_DSD, Package () {
+       // _DSD Hierarchical Properties Extension UUID
+@@ -100,7 +105,7 @@ Example:
+ 
+ - gpio-line-names
+ 
+-Example:
++Example::
+ 
+   Package () {
+       "gpio-line-names",
+@@ -114,7 +119,7 @@ See Documentation/devicetree/bindings/gpio/gpio.txt for more information
+ about these properties.
+ 
+ ACPI GPIO Mappings Provided by Drivers
+---------------------------------------
++======================================
+ 
+ There are systems in which the ACPI tables do not contain _DSD but provide _CRS
+ with GpioIo()/GpioInt() resources and device drivers still need to work with
+@@ -139,16 +144,16 @@ line in that resource starting from zero, and the active-low flag for that line,
+ respectively, in analogy with the _DSD GPIO property format specified above.
+ 
+ For the example Bluetooth device discussed previously the data structures in
+-question would look like this:
++question would look like this::
+ 
+-static const struct acpi_gpio_params reset_gpio = { 1, 1, false };
+-static const struct acpi_gpio_params shutdown_gpio = { 0, 0, false };
++  static const struct acpi_gpio_params reset_gpio = { 1, 1, false };
++  static const struct acpi_gpio_params shutdown_gpio = { 0, 0, false };
+ 
+-static const struct acpi_gpio_mapping bluetooth_acpi_gpios[] = {
+-  { "reset-gpios", &reset_gpio, 1 },
+-  { "shutdown-gpios", &shutdown_gpio, 1 },
+-  { },
+-};
++  static const struct acpi_gpio_mapping bluetooth_acpi_gpios[] = {
++    { "reset-gpios", &reset_gpio, 1 },
++    { "shutdown-gpios", &shutdown_gpio, 1 },
++    { },
++  };
+ 
+ Next, the mapping table needs to be passed as the second argument to
+ acpi_dev_add_driver_gpios() that will register it with the ACPI device object
+@@ -158,12 +163,12 @@ calling acpi_dev_remove_driver_gpios() on the ACPI device object where that
+ table was previously registered.
+ 
+ Using the _CRS fallback
+------------------------
++=======================
+ 
+ If a device does not have _DSD or the driver does not create ACPI GPIO
+ mapping, the Linux GPIO framework refuses to return any GPIOs. This is
+ because the driver does not know what it actually gets. For example if we
+-have a device like below:
++have a device like below::
+ 
+   Device (BTH)
+   {
+@@ -177,7 +182,7 @@ have a device like below:
+       })
+   }
+ 
+-The driver might expect to get the right GPIO when it does:
++The driver might expect to get the right GPIO when it does:：
+ 
+   desc = gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+ 
+@@ -193,22 +198,25 @@ the ACPI GPIO mapping tables are hardly linked to ACPI ID and certain
+ objects, as listed in the above chapter, of the device in question.
+ 
+ Getting GPIO descriptor
+------------------------
++=======================
+ 
+-There are two main approaches to get GPIO resource from ACPI:
+-	desc = gpiod_get(dev, connection_id, flags);
+-	desc = gpiod_get_index(dev, connection_id, index, flags);
++There are two main approaches to get GPIO resource from ACPI::
++
++  desc = gpiod_get(dev, connection_id, flags);
++  desc = gpiod_get_index(dev, connection_id, index, flags);
+ 
+ We may consider two different cases here, i.e. when connection ID is
+ provided and otherwise.
+ 
+-Case 1:
+-	desc = gpiod_get(dev, "non-null-connection-id", flags);
+-	desc = gpiod_get_index(dev, "non-null-connection-id", index, flags);
++Case 1::
++
++  desc = gpiod_get(dev, "non-null-connection-id", flags);
++  desc = gpiod_get_index(dev, "non-null-connection-id", index, flags);
++
++Case 2::
+ 
+-Case 2:
+-	desc = gpiod_get(dev, NULL, flags);
+-	desc = gpiod_get_index(dev, NULL, index, flags);
++  desc = gpiod_get(dev, NULL, flags);
++  desc = gpiod_get_index(dev, NULL, index, flags);
+ 
+ Case 1 assumes that corresponding ACPI device description must have
+ defined device properties and will prevent to getting any GPIO resources
 diff --git a/Documentation/acpi/index.rst b/Documentation/acpi/index.rst
-index 7909199e16ff..1b96562d5c5b 100644
+index 376e12a65f3f..def0bf8d3283 100644
 --- a/Documentation/acpi/index.rst
 +++ b/Documentation/acpi/index.rst
-@@ -27,3 +27,4 @@ Linux ACPI (Advanced Configuration and Power Interface)
-    cppc_sysfs
-    lpit
-    ssdt-overlays
-+   video_extension
-diff --git a/Documentation/acpi/video_extension.txt b/Documentation/acpi/video_extension.rst
-similarity index 80%
-rename from Documentation/acpi/video_extension.txt
-rename to Documentation/acpi/video_extension.rst
-index 79bf6a4921be..842c72aad2ae 100644
---- a/Documentation/acpi/video_extension.txt
-+++ b/Documentation/acpi/video_extension.rst
-@@ -1,5 +1,6 @@
-+=====================
- ACPI video extensions
--~~~~~~~~~~~~~~~~~~~~~
-+=====================
- 
- This driver implement the ACPI Extensions For Display Adapters for
- integrated graphics devices on motherboard, as specified in ACPI 2.0
-@@ -8,9 +9,10 @@ defining the video POST device, retrieving EDID information or to
- setup a video output, etc.  Note that this is an ref. implementation
- only.  It may or may not work for your integrated video device.
- 
--The ACPI video driver does 3 things regarding backlight control:
-+The ACPI video driver does 3 things regarding backlight control.
- 
--1 Export a sysfs interface for user space to control backlight level
-+1. Export a sysfs interface for user space to control backlight level
-+=====================================================================
- 
- If the ACPI table has a video device, and acpi_backlight=vendor kernel
- command line is not present, the driver will register a backlight device
-@@ -32,26 +34,26 @@ type: firmware
- 
- Note that ACPI video backlight driver will always use index for
- brightness, actual_brightness and max_brightness. So if we have
--the following _BCL package:
-+the following _BCL package::
- 
--Method (_BCL, 0, NotSerialized)
--{
--	Return (Package (0x0C)
-+	Method (_BCL, 0, NotSerialized)
- 	{
--		0x64,
--		0x32,
--		0x0A,
--		0x14,
--		0x1E,
--		0x28,
--		0x32,
--		0x3C,
--		0x46,
--		0x50,
--		0x5A,
--		0x64
--	})
--}
-+		Return (Package (0x0C)
-+		{
-+			0x64,
-+			0x32,
-+			0x0A,
-+			0x14,
-+			0x1E,
-+			0x28,
-+			0x32,
-+			0x3C,
-+			0x46,
-+			0x50,
-+			0x5A,
-+			0x64
-+		})
-+	}
- 
- The first two levels are for when laptop are on AC or on battery and are
- not used by Linux currently. The remaining 10 levels are supported levels
-@@ -62,13 +64,15 @@ as a "brightness level" indicator. Thus from the user space perspective
- the range of available brightness levels is from 0 to 9 (max_brightness)
- inclusive.
- 
--2 Notify user space about hotkey event
-+2. Notify user space about hotkey event
-+=======================================
- 
- There are generally two cases for hotkey event reporting:
-+
- i) For some laptops, when user presses the hotkey, a scancode will be
-    generated and sent to user space through the input device created by
-    the keyboard driver as a key type input event, with proper remap, the
--   following key code will appear to user space:
-+   following key code will appear to user space::
- 
- 	EV_KEY, KEY_BRIGHTNESSUP
- 	EV_KEY, KEY_BRIGHTNESSDOWN
-@@ -82,7 +86,7 @@ ii) For some laptops, the press of the hotkey will not generate the
-     about the event. The event value is defined in the ACPI spec. ACPI
-     video driver will generate an key type input event according to the
-     notify value it received and send the event to user space through the
--    input device it created:
-+    input device it created::
- 
- 	event		keycode
- 	0x86		KEY_BRIGHTNESSUP
-@@ -94,13 +98,14 @@ so this would lead to the same effect as case i) now.
- Once user space tool receives this event, it can modify the backlight
- level through the sysfs interface.
- 
--3 Change backlight level in the kernel
-+3. Change backlight level in the kernel
-+=======================================
- 
- This works for machines covered by case ii) in Section 2. Once the driver
- received a notification, it will set the backlight level accordingly. This does
- not affect the sending of event to user space, they are always sent to user
- space regardless of whether or not the video module controls the backlight level
- directly. This behaviour can be controlled through the brightness_switch_enabled
--module parameter as documented in admin-guide/kernel-parameters.rst. It is recommended to
--disable this behaviour once a GUI environment starts up and wants to have full
--control of the backlight level.
-+module parameter as documented in admin-guide/kernel-parameters.rst. It is
-+recommended to disable this behaviour once a GUI environment starts up and
-+wants to have full control of the backlight level.
+@@ -10,4 +10,5 @@ Linux ACPI (Advanced Configuration and Power Interface)
+    enumeration
+    osi
+    DSD-properties-rules
++   gpio-properties
+    scan_handlers
 -- 
 2.20.1
 
