@@ -1,72 +1,99 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6816E7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 28 Mar 2019 19:10:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 295387D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 29 Mar 2019 00:09:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725994AbfC1TKH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Mar 2019 15:10:07 -0400
-Received: from terminus.zytor.com ([198.137.202.136]:55887 "EHLO
-        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725852AbfC1TKH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 28 Mar 2019 15:10:07 -0400
-Received: from carbon-x1.hos.anvin.org ([IPv6:2601:646:8680:2bb1:1b64:2c6c:6ec3:aa41])
-        (authenticated bits=0)
-        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id x2SIFwYJ3433405
-        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-        Thu, 28 Mar 2019 11:15:59 -0700
-Subject: Re: [PATCH 0/1] [RFC] Secure Launch boot protocol
-To:     Ross Philipson <ross.philipson@oracle.com>,
+        id S1728483AbfC2AI7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Mar 2019 20:08:59 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:33157 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727658AbfC2AI7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Mar 2019 20:08:59 -0400
+Received: by mail-pf1-f193.google.com with SMTP id i19so157252pfd.0;
+        Thu, 28 Mar 2019 17:08:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=Db6/otPwdertTCJYFGI8hRJ1SF1pSt8tFFwNr9TFPDo=;
+        b=aFRGI1VSrymKZFo23apuoNaINo9HaGxLpHbt0iQen2m4ivOlPYBh7xzRu97hp2hCm4
+         9FISYX/1y/nLLAkGJ1ISQkGJt57gUzXujz2UvqLOuTFoCbFtAP+bYPDtI0xxRQHjS/3x
+         fN/NBidEZma66cuMq8SYktsOXqwevVDcEbdcy1VZXzSL7k3D1MagNPicOmanKd58nk34
+         ZfMIl5qOBcECQ9/CjeIkbdZlJRoRRReLMG7SEcEqjfdMcUnbRxmc2UVZ6PNZxRwltPfv
+         sJl1y2vwrcPk59hw0sxxDpsOPze4LpiCQv9+Mk+n2f40Pll6ilk0kG+GeM0PgWxRjyoT
+         DJYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Db6/otPwdertTCJYFGI8hRJ1SF1pSt8tFFwNr9TFPDo=;
+        b=arcdGW7iCr+HBlY61LJwaJlBXFgSdh5CAD5tFYG/TxHfDlnHQeLaqD5AQdX1vsKi5X
+         MnPMT68ee/nGbutfxJ6MRNu4PO2NYNGlcx79Whew+9dbWUT6qsGpo4DPBe/P4Qgf7iMn
+         5m0b8doeqsQVP9O1Z2K8+Cjh2HI5XW5KE3sXLdAYCo6UADA2SxqobcTizl6r7AZ2zKnI
+         ubohkd94OadHXDw6Ryt8lhUmXors7YJX2gtTUmWpNkRgSYfaOMcqEC1IvTdJqcA4d2lf
+         nxUMXma7iTeqO3IAf7l8MpJ5h6nwVoUouPamPS1qQmUUAxPorhnWJblkLJe4twCJ93Ee
+         66Uw==
+X-Gm-Message-State: APjAAAX3VuGjrCKOKY/dplrA+CYSaYKgHlyL1jDsFJnfb/KRXT0XJwsF
+        DKKwQ1bjYs33Y88xIIuxhsU=
+X-Google-Smtp-Source: APXvYqyi45jo6uqcO/YnGwQHtpsz/DCrbFuhDnhvON+RIPljfRg9FGXViXO9xWCs+Q6sKGTQHe3erQ==
+X-Received: by 2002:a63:360e:: with SMTP id d14mr29605831pga.188.1553818138875;
+        Thu, 28 Mar 2019 17:08:58 -0700 (PDT)
+Received: from mail.google.com ([104.238.181.70])
+        by smtp.gmail.com with ESMTPSA id k26sm371714pfo.111.2019.03.28.17.08.54
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 28 Mar 2019 17:08:58 -0700 (PDT)
+Date:   Fri, 29 Mar 2019 08:08:50 +0800
+From:   Changbin Du <changbin.du@gmail.com>
+To:     Joe Perches <joe@perches.com>
+Cc:     Changbin Du <changbin.du@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, rjw@rjwysocki.net,
+        lenb@kernel.org, linux-acpi@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     x86@kernel.org, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        corbet@lwn.net, konrad.wilk@oracle.com, kanth.ghatraju@oracle.com,
-        daniel.kiper@oracle.com, boris.ostrovsky@oracle.com,
-        dpsmith@apertussolutions.com
-References: <20190311150423.15979-1-ross.philipson@oracle.com>
-From:   "H. Peter Anvin" <hpa@zytor.com>
-Message-ID: <54a6bc26-584f-322a-2089-be96472e2d4f@zytor.com>
-Date:   Thu, 28 Mar 2019 11:15:53 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.0
+Subject: Re: [PATCH 00/23] Include linux ACPI docs into Sphinx TOC tree
+Message-ID: <20190329000849.mwwktjbllqzwytcz@mail.google.com>
+References: <20190328162721.26138-1-changbin.du@gmail.com>
+ <158b68a902139066f53d308cc5a428774445a05b.camel@perches.com>
 MIME-Version: 1.0
-In-Reply-To: <20190311150423.15979-1-ross.philipson@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <158b68a902139066f53d308cc5a428774445a05b.camel@perches.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-So, per our conversation today, lets create a new, readonly, data structure
-pointed to by a single field in setup_header, in order to preserve what little
-space we have left in that structure (a whopping 24 bytes...)
+On Thu, Mar 28, 2019 at 09:34:50AM -0700, Joe Perches wrote:
+> On Fri, 2019-03-29 at 00:26 +0800, Changbin Du wrote:
+> > Hi Corbet and All,
+> > The kernel now uses Sphinx to generate intelligent and beautiful documentation
+> > from reStructuredText files. I converted most of the Linux ACPI docs to rst
+> > format in this serias.
+> []
+> >  ...pio-properties.txt => gpio-properties.rst} |  76 +++--
+> 
+> Please also update this MAINTAINERS entry
+>
+sure.
 
-The new data structure will have a header consisting of a magic number and a
-length field; if we want to be really paranoid we could add a checksum/crc.
+> MAINTAINERS-GPIO ACPI SUPPORT
+> MAINTAINERS-M:  Mika Westerberg <mika.westerberg@linux.intel.com>
+> MAINTAINERS-M:  Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> MAINTAINERS-L:  linux-gpio@vger.kernel.org
+> MAINTAINERS-L:  linux-acpi@vger.kernel.org
+> MAINTAINERS-S:  Maintained
+> MAINTAINERS:F:  Documentation/acpi/gpio-properties.txt
+> MAINTAINERS-F:  drivers/gpio/gpiolib-acpi.c
+> MAINTAINERS-
+> 
+> 
 
-The existence of this new readonly structure will be announced by bumping the
-boot protocol to 2.15.
-
-The presence of your new boot launch capability (trenchboot) will be indicated
-by a new bit in xloadflags.
-
-I thought hard about this, and I have come to the conclusion that the new
-structure is better off in the .rodata section of the compressed kernel rather
-than in the setup area, for the following reasons, some of which are
-theoretical and unlikely to apply anywhere in the near future, but don't
-actually hurt to address right off the bat:
-
-a. The future size of the structure would not be artificially constrained by
-   the 32K hard limit on the setup area;
-b. It is one less level of indirection in the build tools;
-c. It adds a possibly unnecessary dependency on the setup area, which could
-   possibly be awkward for some boot loaders (unlikely, but...);
-d. It would allow this new structure to also carry information that might be
-   useful to the decompressor for whatever reason.
-
-	-hpa
+-- 
+Cheers,
+Changbin Du
