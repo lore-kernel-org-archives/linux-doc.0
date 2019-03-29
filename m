@@ -1,64 +1,62 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NORMAL_HTTP_TO_IP,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7F6707D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 29 Mar 2019 14:06:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0901D7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 29 Mar 2019 16:04:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728720AbfC2OGE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 29 Mar 2019 10:06:04 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:43250 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728683AbfC2OGD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Mar 2019 10:06:03 -0400
-Received: by mail-pf1-f195.google.com with SMTP id c8so1112107pfd.10
-        for <linux-doc@vger.kernel.org>; Fri, 29 Mar 2019 07:06:03 -0700 (PDT)
+        id S1728961AbfC2QEc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 29 Mar 2019 12:04:32 -0400
+Received: from mail-pl1-f175.google.com ([209.85.214.175]:39586 "EHLO
+        mail-pl1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728902AbfC2QEc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Mar 2019 12:04:32 -0400
+Received: by mail-pl1-f175.google.com with SMTP id b65so1241512plb.6;
+        Fri, 29 Mar 2019 09:04:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
+        d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=FapvRZyYiTZFWw/6Cc7PifpPyHkEerUXRp6Ch6YJf0A=;
-        b=tF7VCVvcWTY29ojQUUysyh/P0Pgj4R/Zotjh4Q1WjuimdiGBtpx1TJ3gVaBeoLEYCY
-         snyfunBcuZcYbOakoS02/9E/VpDV3bLqlW0lnWCacW76Q2auhlX534a2JAG9JQZf1Jt4
-         mDwdLGhp8cOC5ln3kKwubQUUDNtDecD8LByd8=
+        bh=8YXILdX77K+hi8/lhchzWWbH8Caqo/qny7amt4lpsvc=;
+        b=EKlQ92t0JKnkgzqpEqFa41XpEo9xdR0N7ugHGst23y5ZUXvhFVvTD555RJsjMTYH86
+         vq0NLKNPhTNzEhbovSdYS+EpBUKd2GJoNBA5e3w1IHkJh2xPHJTD8RtP6nnLEi3saxNp
+         v+rjfMW7oDYjZTjr7hKV7ZYnY760sRjBbl7/XtwamB7uvbCJjAZEUCieRJ2QqzqXQ+E+
+         DCsoSjms1EDd8WOMc6yKCojpuWX7ykbQUcVHmSIcdAIQP/bb9odka85Y1+Xjg2EAWJYz
+         RtzGUgG0R5POfqDfOI5CPoYuTfROKCVE8ExOMwA1RlaE/m2hrR6Snt9bCFfjg7IXN6NE
+         6UEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=FapvRZyYiTZFWw/6Cc7PifpPyHkEerUXRp6Ch6YJf0A=;
-        b=KMjhkbyIRFnbvDq4cyP2zdMh3d+kRswbUI0GCJR2+2hahBJqlyF2CIIpeSG8EbLhzh
-         GCm54go7NQa45LwxQyKgzBrtu7xDjHWX34Trcm4l0aN53ZwsqdxPi9G3FQTueZpIFf/V
-         +9TS14t4TgzSmgf5MpWZqRZO0I5AuXhCwg2luhcJxkaifswsuy2ytyJyFsCOXURmmDLI
-         crW52kHsSMU/pgS+fbXxWNjszt9fVJZy2qTO1IzUOxv2BMppxJ2OwBj+lW7rvML+8Stt
-         9SZGt4+6YeCxj0D5/GNm6T+9WTTxAUbuubz+lSQiNfmbIk7q4cfzWqCmikDdvOcbKJ9F
-         XTHg==
-X-Gm-Message-State: APjAAAWXacEBNcWvTfHmELMIg8P60Vde7fX7Fd0MKwxu8akXMwTJ/rCY
-        xCyuF3x45Y9TNd4MTLp9WQuRTA==
-X-Google-Smtp-Source: APXvYqzfoifDNvO+AAJ31IC+65JGwHTduv8nIYZJs+T39N4diMjz3GScgCgQIpc49zYbNE0Vq9aQmQ==
-X-Received: by 2002:a63:5405:: with SMTP id i5mr41461290pgb.212.1553868362899;
-        Fri, 29 Mar 2019 07:06:02 -0700 (PDT)
-Received: from joelaf.cam.corp.google.com ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id i64sm3178896pfb.112.2019.03.29.07.06.00
+        bh=8YXILdX77K+hi8/lhchzWWbH8Caqo/qny7amt4lpsvc=;
+        b=CSabLdL8AwxAxL/GafguGZfGtdqwcR+0IqDG4PvB93t5FgCHr43GMAB6GD+axaOpU6
+         SFoAPr00ntFdDIMpLbFngZY/SiUDO3V0y/snTPMB3l3Aj6V9oFH0itIf4J+qiK/d3Jhp
+         0GwIEumG7q4OIseT0BMQqvlulGQ66DsRDbPz8BLsLJqpwy+ag6f9eKbbtLQA4IfqEvgv
+         PjZcUJP5v/GBi8m3nkp2neEAKn0VU7K8LpJScWbINE0UuAB2/uW0XBrtgg5R0fJ8xxYo
+         Hecyyujgy5e/gN2n/Z7PK9okG4yi168qvfrdLMe3mOYsdqqmBSr3au+TmnbU0abGyNsK
+         63iw==
+X-Gm-Message-State: APjAAAXm/sAWaKEK8SyW2YNlkMvKDW5pZTR/H3NGLIiK2uvTooJxWUmJ
+        BfTRHk/tRZJYhXYGZ2Dz8Zs=
+X-Google-Smtp-Source: APXvYqx37GfhxEkyhIeP5fh23cYnGBpHniEKB2i5hPlTvb+ItcVWWlgD6KNQYYZRJ5ul/aoGJXhugw==
+X-Received: by 2002:a17:902:2b81:: with SMTP id l1mr3237349plb.289.1553875471318;
+        Fri, 29 Mar 2019 09:04:31 -0700 (PDT)
+Received: from localhost.localdomain ([104.238.181.70])
+        by smtp.gmail.com with ESMTPSA id i1sm9484285pgc.63.2019.03.29.09.04.27
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 29 Mar 2019 07:06:01 -0700 (PDT)
-From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        oleg@redhat.com, jannh@google.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: [PATCH v2] doc/rcuref: Document real world examples in kernel
-Date:   Fri, 29 Mar 2019 10:05:55 -0400
-Message-Id: <20190329140555.118463-1-joel@joelfernandes.org>
-X-Mailer: git-send-email 2.21.0.392.gf8f6787159e-goog
+        Fri, 29 Mar 2019 09:04:30 -0700 (PDT)
+From:   Changbin Du <changbin.du@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Changbin Du <changbin.du@gmail.com>
+Subject: [PATCH 00/12] Include linux PCI docs into Sphinx TOC tree
+Date:   Sat, 30 Mar 2019 00:04:01 +0800
+Message-Id: <20190329160413.4293-1-changbin.du@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -66,79 +64,62 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document similar real world examples in the kernel corresponding to the
-second and third code snippets. Also correct an issue in
-release_referenced() in the code snippet example.
+Hi Corbet,
+I also did the conversion for PCI documentation. Please check, Thanks!
 
-Cc: oleg@redhat.com
-Cc: jannh@google.com
-Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+The kernel now uses Sphinx to generate intelligent and beautiful documentation
+from reStructuredText files. I converted most of the Linux PCI docs to rst
+format in this serias.
 
-v1->v2:
- - minor fixups, label code listings.
+For you to preview, please visit below url:
+http://104.238.181.70:8080/kernel-doc/PCI/index.html
 
- Documentation/RCU/rcuref.txt | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+Thank you!
 
-diff --git a/Documentation/RCU/rcuref.txt b/Documentation/RCU/rcuref.txt
-index 613033ff2b9b..a49d525ce975 100644
---- a/Documentation/RCU/rcuref.txt
-+++ b/Documentation/RCU/rcuref.txt
-@@ -12,6 +12,7 @@ please read on.
- Reference counting on elements of lists which are protected by traditional
- reader/writer spinlocks or semaphores are straightforward:
- 
-+CODE LISTING A:
- 1.				2.
- add()				search_and_reference()
- {				{
-@@ -28,7 +29,8 @@ add()				search_and_reference()
- release_referenced()			delete()
- {					{
-     ...					    write_lock(&list_lock);
--    atomic_dec(&el->rc, relfunc)	    ...
-+    if(atomic_dec_and_test(&el->rc))	    ...
-+	kfree(el);
-     ...					    remove_element
- }					    write_unlock(&list_lock);
-  					    ...
-@@ -44,6 +46,7 @@ search_and_reference() could potentially hold reference to an element which
- has already been deleted from the list/array.  Use atomic_inc_not_zero()
- in this scenario as follows:
- 
-+CODE LISTING B:
- 1.					2.
- add()					search_and_reference()
- {					{
-@@ -79,6 +82,7 @@ search_and_reference() code path.  In such cases, the
- atomic_dec_and_test() may be moved from delete() to el_free()
- as follows:
- 
-+CODE LISTING C:
- 1.					2.
- add()					search_and_reference()
- {					{
-@@ -114,6 +118,13 @@ element can therefore safely be freed.  This in turn guarantees that if
- any reader finds the element, that reader may safely acquire a reference
- without checking the value of the reference counter.
- 
-+As can be seen, a clear advantage of the pattern in listing C is, if there are
-+several calls to search_and_reference() in parallel to the delete(), then all
-+of those will succeed in obtaining a reference to the object if the object
-+could be found in the list before it was deleted in delete(), unlike the
-+pattern in listing B which would fail to acquire references in such a situation
-+even though the object is still in memory.
-+
- In cases where delete() can sleep, synchronize_rcu() can be called from
- delete(), so that el_free() can be subsumed into delete as follows:
- 
-@@ -130,3 +141,7 @@ delete()
-     	kfree(el);
-     ...
- }
-+
-+As additional examples in the kernel, the pattern in listing C is used by
-+reference counting of struct pid, while the pattern in listing B is used by
-+struct posix_acl.
+Changbin Du (12):
+  Documentation: add Linux PCI to Sphinx TOC tree
+  pci doc: convert PCI/pci.txt to rst format
+  pci doc: convert PCI/PCIEBUS-HOWTO.txt to rst format
+  pci doc: convert PCI/pci-iov-howto.txt to rst format
+  pci doc: convert PCI/MSI-HOWTO.txt to rst format
+  pci doc: convert PCI/acpi-info.txt to rst format
+  pci doc: convert PCI/pci-error-recovery.txt to rst format
+  pci doc: convert PCI/pcieaer-howto.txt to rst format
+  pci doc: convert PCI/endpoint/pci-endpoint.txt to rst format
+  pci doc: convert PCI/endpoint/pci-endpoint-cfs.txt to rst format
+  pci doc: convert PCI/endpoint/pci-test-function.txt to rst format
+  pci doc: convert PCI/endpoint/pci-test-howto.txt to rst format
+
+ .../PCI/{MSI-HOWTO.txt => MSI-HOWTO.rst}      |  56 +++--
+ .../{PCIEBUS-HOWTO.txt => PCIEBUS-HOWTO.rst}  | 112 +++++----
+ .../PCI/{acpi-info.txt => acpi-info.rst}      |  11 +-
+ Documentation/PCI/endpoint/index.rst          |  13 ++
+ ...-endpoint-cfs.txt => pci-endpoint-cfs.rst} |  99 ++++----
+ .../{pci-endpoint.txt => pci-endpoint.rst}    |  74 +++---
+ ...est-function.txt => pci-test-function.rst} |  32 +--
+ ...{pci-test-howto.txt => pci-test-howto.rst} |  51 ++--
+ Documentation/PCI/index.rst                   |  17 ++
+ ...or-recovery.txt => pci-error-recovery.rst} | 180 ++++++++-------
+ .../{pci-iov-howto.txt => pci-iov-howto.rst}  | 144 +++++++-----
+ Documentation/PCI/{pci.txt => pci.rst}        | 218 +++++++++---------
+ .../{pcieaer-howto.txt => pcieaer-howto.rst}  |  67 ++++--
+ Documentation/index.rst                       |   1 +
+ MAINTAINERS                                   |   2 +-
+ 15 files changed, 641 insertions(+), 436 deletions(-)
+ rename Documentation/PCI/{MSI-HOWTO.txt => MSI-HOWTO.rst} (89%)
+ rename Documentation/PCI/{PCIEBUS-HOWTO.txt => PCIEBUS-HOWTO.rst} (75%)
+ rename Documentation/PCI/{acpi-info.txt => acpi-info.rst} (97%)
+ create mode 100644 Documentation/PCI/endpoint/index.rst
+ rename Documentation/PCI/endpoint/{pci-endpoint-cfs.txt => pci-endpoint-cfs.rst} (64%)
+ rename Documentation/PCI/endpoint/{pci-endpoint.txt => pci-endpoint.rst} (86%)
+ rename Documentation/PCI/endpoint/{pci-test-function.txt => pci-test-function.rst} (84%)
+ rename Documentation/PCI/endpoint/{pci-test-howto.txt => pci-test-howto.rst} (83%)
+ create mode 100644 Documentation/PCI/index.rst
+ rename Documentation/PCI/{pci-error-recovery.txt => pci-error-recovery.rst} (80%)
+ rename Documentation/PCI/{pci-iov-howto.txt => pci-iov-howto.rst} (65%)
+ rename Documentation/PCI/{pci.txt => pci.rst} (80%)
+ rename Documentation/PCI/{pcieaer-howto.txt => pcieaer-howto.rst} (83%)
+
 -- 
-2.21.0.392.gf8f6787159e-goog
+2.20.1
+
