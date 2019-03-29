@@ -4,58 +4,58 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D5CB27D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 29 Mar 2019 00:12:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DC8077D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 29 Mar 2019 00:13:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728795AbfC2AMm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 28 Mar 2019 20:12:42 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:33528 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728684AbfC2AMl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Mar 2019 20:12:41 -0400
-Received: by mail-pl1-f195.google.com with SMTP id bg8so141155plb.0;
-        Thu, 28 Mar 2019 17:12:41 -0700 (PDT)
+        id S1728649AbfC2ANZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 28 Mar 2019 20:13:25 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:40048 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728548AbfC2ANZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Mar 2019 20:13:25 -0400
+Received: by mail-pg1-f196.google.com with SMTP id u9so294695pgo.7;
+        Thu, 28 Mar 2019 17:13:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Onrx8SsvrVUlrW6RCR3riY1EmoSENYz7JjjA3u0DU7Y=;
-        b=YaV+ra9Y6QoEdEWe4ROMZHzArL8Dv6SXdG43XutrumayBT8htFNH703GdtaPTGpz0u
-         XWjIpBrjiXvDMh5fnFA6JrVd6Y92VLwnZ70mJGfzpMBij6I9EL55LVQbMXxRJ8l+mrhv
-         DSZTrcgMHIb47EifgyiDzEDSerkF9D7b/1oU6dWgA/6TVnzZ5/RNam8TgSS63k0wOV1r
-         k5tRXxdbZ1Uas4WlQMMGSMNYaQLu1d9pdxcvVC0wjNBlfxUw7N2YLhmIfSFGgIIkieRm
-         eUI0zb2UiMZL42QXoR7OI1x9phDTVh+GhIaJ3TPS0jIp44bMYQ0/iWDXR3c1XocXdqnJ
-         KX4w==
+        bh=Mq8v8dZP1qNBWq/BZtYrY35GeFDcWgn8IoOZx1Wiy7g=;
+        b=fL24z7bFZd7PkqvDwyLaJceYQVooNoiIgz05qrBmJjIAll/c0JE0SAE9kHUsFnrc8c
+         r4gpvcCuf+KG4qnWXRPfOiE/lk/nlSYnounBYcUeXL0/2qBbzUg5rYL4Kw7H0a+YtcYc
+         Pwn/m3hz98Dq1KHtYqRqIw6UTs8cTeTBUxGqy0gS/6xuGCIcrU/48IgHnMLBFGiEAEdF
+         1QK33oM8r7RR9hm07kSHBSvuzI6VBUtqBihzcWm3Ri6QwK9zIHANgnLDcnrhJM/7o/4/
+         R6ImonIxB5XeiuF5LfjqRta/BqR7bZIBR9mTazCN5iInzWImSx5QrrS/sGZNOhm2Ded6
+         MFeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Onrx8SsvrVUlrW6RCR3riY1EmoSENYz7JjjA3u0DU7Y=;
-        b=HisnXhzq/p5hngHkwpi79z5RtGgVkNzv0ji1iZaFBK/5HSHCJFgd0BeUeHpq6Zv+ho
-         DANSSEnsAwauwQrqy9AeR63S4yrMEqrCgpYMSQV+A1TF4yUlxAmNx7q0hUTD0JizEuWx
-         JiEzxnX3QHyMjGcl8pXl09PtpJMwdLiV8j5VSe87M6/Ls9BEyMRfEK0viZTKEnd9d20Z
-         wiLn+Q7wv9WdQOR4/EEBXB8iLstcGydTRKtoEx2zC21zFIAtwTjTeO2O6NAbCto35HWC
-         M8oEnoASoMoHgHkVLd7uT5OFbdfMnuqvJAxr0Y6fe7yqSML6vhOxmsTwJDN7dg2nBkk/
-         VQjA==
-X-Gm-Message-State: APjAAAUC5TiskY1bTdq6jtLZ+10tMN94ChyMbJ0dE2+YRKv4+h4T2WE/
-        JEQz58jk8RcKgXMx7oiS5thw9cSBn6U=
-X-Google-Smtp-Source: APXvYqyZH6QMjdlUvOB9Fj5jZfyh6NtCXbz3T7ef4bHIpFK5QtUcUqDoIRGqTDe+Nb1ZmZ5WJY3A1A==
-X-Received: by 2002:a17:902:b788:: with SMTP id e8mr35523690pls.339.1553818360933;
-        Thu, 28 Mar 2019 17:12:40 -0700 (PDT)
+        bh=Mq8v8dZP1qNBWq/BZtYrY35GeFDcWgn8IoOZx1Wiy7g=;
+        b=aJyGwVoqU2MM3fL8Q2B47PRpXoji88YE3uEZeeNF6sQTbDemDs+sm2JNpKP0Rl1Nec
+         ArXPXFZd2vlyy2eK8R9TIQnoB+d58zFLmYA8LICfnCsArRRxjXYzTDUzULs0MBoOTRWy
+         /77On2YdsE4GnWtmi2dPAB4N2YGx+6Rz6I1XurNOeNZ+p1a5mmAIH+lOS4tS15j/Domb
+         aZlxdl1OU+OkY+l05JYhFIYsRvYb+BVou0UFLcvOMgqmeHcwYSI+1DVPe7KKJBVI3d9h
+         3H5NnpNTHWjVcB2fTmfeRSa5fpf8ky1wu3gQ/e4UQPmX2qICAi8k9/0wmCcqR13VB5/O
+         yUUg==
+X-Gm-Message-State: APjAAAUID91qVZ8ggoQqiLk1/lsgZEi2LA1cufeCQArfIE28cLoxsx+x
+        Y0eXOw6QlOE2P81AC70uT2I=
+X-Google-Smtp-Source: APXvYqwBA2DnYGK75pWCG9tSoxEAK5mWHAn6XxrqB2NYES11rcilM+9ZS63660HNvpkjefo3AjqZbg==
+X-Received: by 2002:a65:4806:: with SMTP id h6mr42804386pgs.408.1553818404168;
+        Thu, 28 Mar 2019 17:13:24 -0700 (PDT)
 Received: from localhost.localdomain ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id f125sm432488pfc.91.2019.03.28.17.12.36
+        by smtp.gmail.com with ESMTPSA id f125sm432488pfc.91.2019.03.28.17.13.19
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 28 Mar 2019 17:12:39 -0700 (PDT)
+        Thu, 28 Mar 2019 17:13:23 -0700 (PDT)
 From:   Changbin Du <changbin.du@gmail.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     rjw@rjwysocki.net, lenb@kernel.org, linux-acpi@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH v2 07/24] acpi doc: convert acpi/DSD-properties-rules.txt to rst format
-Date:   Fri, 29 Mar 2019 08:11:18 +0800
-Message-Id: <20190329001135.15847-8-changbin.du@gmail.com>
+Subject: [PATCH v2 16/24] acpi doc: convert acpi/debug.txt to rst format
+Date:   Fri, 29 Mar 2019 08:11:27 +0800
+Message-Id: <20190329001135.15847-17-changbin.du@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190329001135.15847-1-changbin.du@gmail.com>
 References: <20190329001135.15847-1-changbin.du@gmail.com>
@@ -71,88 +71,128 @@ add it to Sphinx TOC tree. No essential content change.
 
 Signed-off-by: Changbin Du <changbin.du@gmail.com>
 ---
- ...ies-rules.txt => DSD-properties-rules.rst} | 21 +++++++++++--------
- Documentation/acpi/index.rst                  |  1 +
- 2 files changed, 13 insertions(+), 9 deletions(-)
- rename Documentation/acpi/{DSD-properties-rules.txt => DSD-properties-rules.rst} (88%)
+ Documentation/acpi/{debug.txt => debug.rst} | 31 +++++++++++----------
+ Documentation/acpi/index.rst                |  1 +
+ 2 files changed, 18 insertions(+), 14 deletions(-)
+ rename Documentation/acpi/{debug.txt => debug.rst} (91%)
 
-diff --git a/Documentation/acpi/DSD-properties-rules.txt b/Documentation/acpi/DSD-properties-rules.rst
-similarity index 88%
-rename from Documentation/acpi/DSD-properties-rules.txt
-rename to Documentation/acpi/DSD-properties-rules.rst
-index 3e4862bdad98..4306f29b6103 100644
---- a/Documentation/acpi/DSD-properties-rules.txt
-+++ b/Documentation/acpi/DSD-properties-rules.rst
-@@ -1,8 +1,11 @@
+diff --git a/Documentation/acpi/debug.txt b/Documentation/acpi/debug.rst
+similarity index 91%
+rename from Documentation/acpi/debug.txt
+rename to Documentation/acpi/debug.rst
+index 65bf47c46b6d..1a152dd1d765 100644
+--- a/Documentation/acpi/debug.txt
++++ b/Documentation/acpi/debug.rst
+@@ -1,18 +1,21 @@
+-			ACPI Debug Output
 +.. SPDX-License-Identifier: GPL-2.0
-+
-+==================================
- _DSD Device Properties Usage Rules
------------------------------------
-+==================================
  
- Properties, Property Sets and Property Subsets
------------------------------------------------
-+==============================================
++=================
++ACPI Debug Output
++=================
  
- The _DSD (Device Specific Data) configuration object, introduced in ACPI 5.1,
- allows any type of device configuration data to be provided via the ACPI
-@@ -18,7 +21,7 @@ specific type) associated with it.
+ The ACPI CA, the Linux ACPI core, and some ACPI drivers can generate debug
+ output.  This document describes how to use this facility.
  
- In the ACPI _DSD context it is an element of the sub-package following the
- generic Device Properties UUID in the _DSD return package as specified in the
--Device Properties UUID definition document [1].
-+Device Properties UUID definition document [1]_.
+ Compile-time configuration
+---------------------------
++==========================
  
- It also may be regarded as the definition of a key and the associated data type
- that can be returned by _DSD in the Device Properties UUID sub-package for a
-@@ -33,14 +36,14 @@ Property subsets are nested collections of properties.  Each of them is
- associated with an additional key (name) allowing the subset to be referred
- to as a whole (and to be treated as a separate entity).  The canonical
- representation of property subsets is via the mechanism specified in the
--Hierarchical Properties Extension UUID definition document [2].
-+Hierarchical Properties Extension UUID definition document [2]_.
+ ACPI debug output is globally enabled by CONFIG_ACPI_DEBUG.  If this config
+ option is turned off, the debug messages are not even built into the
+ kernel.
  
- Property sets may be hierarchical.  That is, a property set may contain
- multiple property subsets that each may contain property subsets of its
- own and so on.
+ Boot- and run-time configuration
+---------------------------------
++================================
  
- General Validity Rule for Property Sets
-----------------------------------------
-+=======================================
+ When CONFIG_ACPI_DEBUG=y, you can select the component and level of messages
+ you're interested in.  At boot-time, use the acpi.debug_layer and
+@@ -21,7 +24,7 @@ debug_layer and debug_level files in /sys/module/acpi/parameters/ to control
+ the debug messages.
  
- Valid property sets must follow the guidance given by the Device Properties UUID
- definition document [1].
-@@ -73,7 +76,7 @@ suitable for the ACPI environment and consequently they cannot belong to a valid
- property set.
+ debug_layer (component)
+------------------------
++=======================
  
- Property Sets and Device Tree Bindings
----------------------------------------
-+======================================
+ The "debug_layer" is a mask that selects components of interest, e.g., a
+ specific driver or part of the ACPI interpreter.  To build the debug_layer
+@@ -33,7 +36,7 @@ to /sys/module/acpi/parameters/debug_layer.
  
- It often is useful to make _DSD return property sets that follow Device Tree
- bindings.
-@@ -91,7 +94,7 @@ expected to automatically work in the ACPI environment regardless of their
- contents.
+ The possible components are defined in include/acpi/acoutput.h and
+ include/acpi/acpi_drivers.h.  Reading /sys/module/acpi/parameters/debug_layer
+-shows the supported mask values, currently these:
++shows the supported mask values, currently these::
  
- References
------------
-+==========
+     ACPI_UTILITIES                  0x00000001
+     ACPI_HARDWARE                   0x00000002
+@@ -65,7 +68,7 @@ shows the supported mask values, currently these:
+     ACPI_PROCESSOR_COMPONENT        0x20000000
  
--[1] http://www.uefi.org/sites/default/files/resources/_DSD-device-properties-UUID.pdf
--[2] http://www.uefi.org/sites/default/files/resources/_DSD-hierarchical-data-extension-UUID-v1.1.pdf
-+.. [1] http://www.uefi.org/sites/default/files/resources/_DSD-device-properties-UUID.pdf
-+.. [2] http://www.uefi.org/sites/default/files/resources/_DSD-hierarchical-data-extension-UUID-v1.1.pdf
+ debug_level
+------------
++===========
+ 
+ The "debug_level" is a mask that selects different types of messages, e.g.,
+ those related to initialization, method execution, informational messages, etc.
+@@ -81,7 +84,7 @@ to /sys/module/acpi/parameters/debug_level.
+ 
+ The possible levels are defined in include/acpi/acoutput.h.  Reading
+ /sys/module/acpi/parameters/debug_level shows the supported mask values,
+-currently these:
++currently these::
+ 
+     ACPI_LV_INIT                    0x00000001
+     ACPI_LV_DEBUG_OBJECT            0x00000002
+@@ -113,9 +116,9 @@ currently these:
+     ACPI_LV_EVENTS                  0x80000000
+ 
+ Examples
+---------
++========
+ 
+-For example, drivers/acpi/bus.c contains this:
++For example, drivers/acpi/bus.c contains this::
+ 
+     #define _COMPONENT              ACPI_BUS_COMPONENT
+     ...
+@@ -127,22 +130,22 @@ statement uses ACPI_DB_INFO, which is macro based on the ACPI_LV_INFO
+ definition.)
+ 
+ Enable all AML "Debug" output (stores to the Debug object while interpreting
+-AML) during boot:
++AML) during boot::
+ 
+     acpi.debug_layer=0xffffffff acpi.debug_level=0x2
+ 
+-Enable PCI and PCI interrupt routing debug messages:
++Enable PCI and PCI interrupt routing debug messages::
+ 
+     acpi.debug_layer=0x400000 acpi.debug_level=0x4
+ 
+-Enable all ACPI hardware-related messages:
++Enable all ACPI hardware-related messages::
+ 
+     acpi.debug_layer=0x2 acpi.debug_level=0xffffffff
+ 
+-Enable all ACPI_DB_INFO messages after boot:
++Enable all ACPI_DB_INFO messages after boot::
+ 
+     # echo 0x4 > /sys/module/acpi/parameters/debug_level
+ 
+-Show all valid component values:
++Show all valid component values::
+ 
+     # cat /sys/module/acpi/parameters/debug_layer
 diff --git a/Documentation/acpi/index.rst b/Documentation/acpi/index.rst
-index 741fcae251b4..d10170942e13 100644
+index b680fb13f445..ee0000a396e4 100644
 --- a/Documentation/acpi/index.rst
 +++ b/Documentation/acpi/index.rst
-@@ -11,4 +11,5 @@ Linux ACPI (Advanced Configuration and Power Interface)
-    namespace
-    enumeration
-    osi
-+   DSD-properties-rules
-    scan_handlers
+@@ -21,3 +21,4 @@ Linux ACPI (Advanced Configuration and Power Interface)
+    method-customizing
+    initrd_table_override
+    dsdt-override
++   debug
 -- 
 2.20.1
 
