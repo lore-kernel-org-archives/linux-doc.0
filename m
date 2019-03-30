@@ -1,197 +1,116 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 399597D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 29 Mar 2019 20:50:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6FA6F7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 30 Mar 2019 04:00:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730285AbfC2Uty (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 29 Mar 2019 16:49:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60956 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730275AbfC2Uty (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 29 Mar 2019 16:49:54 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 2A18D72663;
-        Fri, 29 Mar 2019 20:49:53 +0000 (UTC)
-Received: from llong.com (dhcp-17-19.bos.redhat.com [10.18.17.19])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 7F1CE1B47B;
-        Fri, 29 Mar 2019 20:49:51 +0000 (UTC)
-From:   Waiman Long <longman@redhat.com>
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Takashi Iwai <tiwai@suse.de>, Davidlohr Bueso <dbueso@suse.de>,
-        Manfred Spraul <manfred@colorfullife.com>,
-        Waiman Long <longman@redhat.com>
-Subject: [RESEND PATCH 3/3] ipc: Do cyclic id allocation for the ipc object.
-Date:   Fri, 29 Mar 2019 16:49:30 -0400
-Message-Id: <20190329204930.21620-3-longman@redhat.com>
-In-Reply-To: <20190329204930.21620-1-longman@redhat.com>
-References: <20190329204930.21620-1-longman@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.39]); Fri, 29 Mar 2019 20:49:53 +0000 (UTC)
+        id S1725767AbfC3EAO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 30 Mar 2019 00:00:14 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:59544 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725320AbfC3EAO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Mar 2019 00:00:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=b0PRcjySJV9g1FLkDfsLDA2NdAo7Q/GRjEeeMMiAxdw=; b=A7Y7hpNSQV+NhTG6k2jDAjRyR
+        QI/WlkpramYnv9xxxWujcOrHeNNZVn+plyD8iMlTR2BSjxcwAihl5igBz67Hqdk4BMKirbMxmu0D+
+        zSahQyvorrTWTJ185ccoYkbChs4UIEhm+6gyOmk0iWdMO7et/XNLs3QgN2t3ZsB5Sfxge6I8kdJAn
+        wK6GDjqHm89eGmyJ9TWZ2579qJ6FPMd7p71k8MTNWX6mOzMcOQQka7a2Mv4jbq3Y1LURxXnV5PNyZ
+        QOR+/SG63aa0j8nboZyi1JEX5wu3FfnV8tDaC7x01JmENRBKCBgaHwKa7dsRdXMGAqLZTarjMmRyr
+        osWeVJ/Sw==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hA5A9-0007Sf-KP; Sat, 30 Mar 2019 04:00:09 +0000
+Date:   Fri, 29 Mar 2019 21:00:09 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Changbin Du <changbin.du@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 05/12] pci doc: convert PCI/MSI-HOWTO.txt to rst format
+Message-ID: <20190330040009.GY10344@bombadil.infradead.org>
+References: <20190329160413.4293-1-changbin.du@gmail.com>
+ <20190329160413.4293-6-changbin.du@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190329160413.4293-6-changbin.du@gmail.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Manfred Spraul <manfred@colorfullife.com>
+On Sat, Mar 30, 2019 at 12:04:06AM +0800, Changbin Du wrote:
+> @@ -1,13 +1,18 @@
+> -		The MSI Driver Guide HOWTO
+> -	Tom L Nguyen tom.l.nguyen@intel.com
+> -			10/03/2003
+> -	Revised Feb 12, 2004 by Martine Silbermann
+> -		email: Martine.Silbermann@hp.com
+> -	Revised Jun 25, 2004 by Tom L Nguyen
+> -	Revised Jul  9, 2008 by Matthew Wilcox <willy@linux.intel.com>
+> -		Copyright 2003, 2008 Intel Corporation
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. include:: <isonum.txt>
+> +
+> +==========================
+> +The MSI Driver Guide HOWTO
+> +==========================
+> +
+> +:Authors: - Tom L Nguyen <tom.l.nguyen@intel.com> 10/03/2003
+> +          - Revised Feb 12, 2004 by Martine Silbermann <Martine.Silbermann@hp.com>
+> +	  - Revised Jun 25, 2004 by Tom L Nguyen
+> +	  - Revised Jul  9, 2008 by Matthew Wilcox <willy@linux.intel.com>
+> +	    Copyright 2003, 2008 Intel Corporation
 
-For ipcmni_extend mode, the sequence number space is only 7 bits. So
-the chance of id reuse is relatively high compared with the non-extended
-mode.
+The copyright line doesn't work quite the way it should in the rendered HTML.
 
-To alleviate this id reuse problem, this patch enables cyclic allocation
-for the index to the radix tree (idx).
-The disadvantage is that this can cause a slight slow-down of the fast
-path, as the radix tree could be higher than necessary.
+It seems to me it should be:
 
-To limit the radix tree height, I have chosen the following limits:
-- 1) The cycling is done over in_use*1.5.
-- 2) At least, the cycling is done over
-   "normal" ipcnmi mode: RADIX_TREE_MAP_SIZE elements
-   "ipcmni_extended": 4096 elements
+:Copyright: 2003, 2008 Intel Corporation
 
-Result:
-- for normal mode:
-	No change for <= 42 active ipc elements. With more than 42
-	active ipc elements, a 2nd level would be added to the radix
-	tree.
-	Without cyclic allocation, a 2nd level would be added only with
-	more than 63 active elements.
+Tom has used an ambiguous date format; given it appeared in the tree
+in December 2003, I suspect he's used middle-endian format.  It doesn't
+really seem relevant to have the dates here any more, so we could skip
+including them.  Also, none of these email addresses work, so perhaps
+just drop those too.
 
-- for extended mode:
-	Cycling creates always at least a 2-level radix tree.
-	With more than 2730 active objects, a 3rd level would be
-	added, instead of > 4095 active objects until the 3rd level
-	is added without cyclic allocation.
+:Authors: Tom L Nguyen; Martine Silbermann; Matthew Wilcox
 
-For a 2-level radix tree compared to a 1-level radix tree, I have
-observed < 1% performance impact.
+>  1. About this guide
+> +===================
 
-Notes:
-1) Normal "x=semget();y=semget();" is unaffected: Then the idx
-  is e.g. a and a+1, regardless if idr_alloc() or idr_alloc_cyclic()
-  is used.
+Should we drop the numbering of sections as part of this conversion?
+I'd be inclined to.
 
-2) The -1% happens in a microbenchmark after this situation:
-	x=semget();
-	for(i=0;i<4000;i++) {t=semget();semctl(t,0,IPC_RMID);}
-	y=semget();
-	Now perform semget calls on x and y that do not sleep.
+>  4.2 Using MSI
+> +-------------
+>  
+>  Most of the hard work is done for the driver in the PCI layer.  The driver
+>  simply has to request that the PCI layer set up the MSI capability for this
+>  device.
+>  
+>  To automatically use MSI or MSI-X interrupt vectors, use the following
+> -function:
+> +function::
+>  
+>    int pci_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
+>  		unsigned int max_vecs, unsigned int flags);
 
-3) The worst-case reuse cycle time is unfortunately unaffected:
-   If you have 2^24-1 ipc objects allocated, and get/remove the last
-   possible element in a loop, then the id is reused after 128
-   get/remove pairs.
+This should really be turned into kernel-doc and moved to pci.h, but
+that seems like an awfully large amount of work to ask you to do when
+you're already doing so much to improve the situation.
 
-Performance check:
-A microbenchmark that performes no-op semop() randomly on two IDs,
-with only these two IDs allocated.
-The IDs were set using /proc/sys/kernel/sem_next_id.
-The test was run 5 times, averages are shown.
-
-1 & 2: Base (6.22 seconds for 10.000.000 semops)
-1 & 40: -0.2%
-1 & 3348: - 0.8%
-1 & 27348: - 1.6%
-1 & 15777204: - 3.2%
-
-Or: ~12.6 cpu cycles per additional radix tree level.
-The cpu is an Intel I3-5010U. ~1300 cpu cycles/syscall is slower
-than what I remember (spectre impact?).
-
-V2 of the patch:
-- use "min" and "max"
-- use RADIX_TREE_MAP_SIZE * RADIX_TREE_MAP_SIZE instead of
-	(2<<12).
-
-Signed-off-by: Manfred Spraul <manfred@colorfullife.com>
-Acked-by: Waiman Long <longman@redhat.com>
----
- ipc/ipc_sysctl.c | 2 ++
- ipc/util.c       | 7 ++++++-
- ipc/util.h       | 3 +++
- 3 files changed, 11 insertions(+), 1 deletion(-)
-
-diff --git a/ipc/ipc_sysctl.c b/ipc/ipc_sysctl.c
-index 73b7782eccf4..bfaae457810c 100644
---- a/ipc/ipc_sysctl.c
-+++ b/ipc/ipc_sysctl.c
-@@ -122,6 +122,7 @@ static int one = 1;
- static int int_max = INT_MAX;
- int ipc_mni = IPCMNI;
- int ipc_mni_shift = IPCMNI_SHIFT;
-+int ipc_min_cycle = RADIX_TREE_MAP_SIZE;
- 
- static struct ctl_table ipc_kern_table[] = {
- 	{
-@@ -252,6 +253,7 @@ static int __init ipc_mni_extend(char *str)
- {
- 	ipc_mni = IPCMNI_EXTEND;
- 	ipc_mni_shift = IPCMNI_EXTEND_SHIFT;
-+	ipc_min_cycle = IPCMNI_EXTEND_MIN_CYCLE;
- 	pr_info("IPCMNI extended to %d.\n", ipc_mni);
- 	return 0;
- }
-diff --git a/ipc/util.c b/ipc/util.c
-index 6e0fe3410423..1a492afb1d8b 100644
---- a/ipc/util.c
-+++ b/ipc/util.c
-@@ -221,9 +221,14 @@ static inline int ipc_idr_alloc(struct ipc_ids *ids, struct kern_ipc_perm *new)
- 	 */
- 
- 	if (next_id < 0) { /* !CHECKPOINT_RESTORE or next_id is unset */
-+		int max_idx;
-+
-+		max_idx = max(ids->in_use*3/2, ipc_min_cycle);
-+		max_idx = min(max_idx, ipc_mni);
- 
- 		/* allocate the idx, with a NULL struct kern_ipc_perm */
--		idx = idr_alloc(&ids->ipcs_idr, NULL, 0, 0, GFP_NOWAIT);
-+		idx = idr_alloc_cyclic(&ids->ipcs_idr, NULL, 0, max_idx,
-+					GFP_NOWAIT);
- 
- 		if (idx >= 0) {
- 			/*
-diff --git a/ipc/util.h b/ipc/util.h
-index 8c834ed39012..d316399f0c32 100644
---- a/ipc/util.h
-+++ b/ipc/util.h
-@@ -27,12 +27,14 @@
-  */
- #define IPCMNI_SHIFT		15
- #define IPCMNI_EXTEND_SHIFT	24
-+#define IPCMNI_EXTEND_MIN_CYCLE	(RADIX_TREE_MAP_SIZE * RADIX_TREE_MAP_SIZE)
- #define IPCMNI			(1 << IPCMNI_SHIFT)
- #define IPCMNI_EXTEND		(1 << IPCMNI_EXTEND_SHIFT)
- 
- #ifdef CONFIG_SYSVIPC_SYSCTL
- extern int ipc_mni;
- extern int ipc_mni_shift;
-+extern int ipc_min_cycle;
- 
- #define ipcmni_seq_shift()	ipc_mni_shift
- #define IPCMNI_IDX_MASK		((1 << ipc_mni_shift) - 1)
-@@ -40,6 +42,7 @@ extern int ipc_mni_shift;
- #else /* CONFIG_SYSVIPC_SYSCTL */
- 
- #define ipc_mni			IPCMNI
-+#define ipc_min_cycle		RADIX_TREE_MAP_SIZE
- #define ipcmni_seq_shift()	IPCMNI_SHIFT
- #define IPCMNI_IDX_MASK		((1 << IPCMNI_SHIFT) - 1)
- #endif /* CONFIG_SYSVIPC_SYSCTL */
--- 
-2.18.1
-
+This is also a really bad document.  It has three audiences; people
+configuring their kernel, people writing device drivers and people trying
+to debug why their kernel doesn't work.  Again, that's not on you to
+fix, but it's pretty frustrating to see so much good information so
+badly organised.
