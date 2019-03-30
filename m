@@ -2,43 +2,42 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	NORMAL_HTTP_TO_IP,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E68767D04D
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 30 Mar 2019 09:41:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D955B7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 30 Mar 2019 09:52:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730414AbfC3Jl4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 30 Mar 2019 05:41:56 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:37500 "EHLO
+        id S1730537AbfC3JwC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 30 Mar 2019 05:52:02 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:41225 "EHLO
         mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730352AbfC3Jl4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Mar 2019 05:41:56 -0400
-Received: by mail-ot1-f66.google.com with SMTP id c16so4373695otn.4;
-        Sat, 30 Mar 2019 02:41:55 -0700 (PDT)
+        with ESMTP id S1730384AbfC3JwC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Mar 2019 05:52:02 -0400
+Received: by mail-ot1-f66.google.com with SMTP id 64so4274732otb.8;
+        Sat, 30 Mar 2019 02:52:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=LkKZk6pDoy1mn0WceG9/G9zcgWPupGUKZwVGsPw1M6s=;
-        b=l448sWENozxn8mx6VlTbPY1GrH4X7cXB4BbPwpbH+mDF0YpiCHvoDAYGTvemNWsb+a
-         orbm8ekBufcYoXgn5ZQANpFHsAOQU5tLmGlZIuB5fnuIe8+DfCcNTPn8vcFQXotffouH
-         45HoxM0hmxPt61XKAT34+m7mgYab+8Mi7D31Mk3KoFJ+AlHaQun4RsL05uuMHEHcHLsx
-         9004oYKcFmvVIA50U0tZ3FWVmVXS0190UuEyYV2XL3KVVz7I+SKA/aLFTsG3m0jP0o4l
-         +TyuE+ITtilLEu0FDhjRkRVQgdH2+ki7+g2EuQZwnphEGVR+JbSdfUQfL93ZSVQO9zVg
-         olgw==
-X-Gm-Message-State: APjAAAVVht5GfHRCq9Y7QhQetzq/PYPLcJneQZfrG4dGPUNHQ2yz6rxM
-        LxfIPUmZ5z3uZ8Wk6gBWlcVHxkwWAADJ+KnsinI=
-X-Google-Smtp-Source: APXvYqxUVZoWkXNoOwzteEdgC/6rx+NiDVELHzdqLL62SCTHd146Mv3b4t/8s2STZI46hj0PS+aj5mqgTXLczkNripY=
-X-Received: by 2002:a9d:738c:: with SMTP id j12mr35958556otk.119.1553938915592;
- Sat, 30 Mar 2019 02:41:55 -0700 (PDT)
+        bh=1fLAfCJZ4QHKKG92hhSU0p1/0Zr1BKU3DdRY30fp6io=;
+        b=f5dfdDAqfjchIgOnEw7/WqXuKrf/OdEl9HLyNMLlepq/0/RfN+fX/d5csHvTdOnhzV
+         ipVMaI2Cu7j4lmVkC7iDrFJq5V6Bskael389deAPZMGqcOn6MnME6c+xfFlvImB6yZM+
+         RSPOqP1qCvv2/2mWWzYZwvY0IyWokhIGWXYLXFoOQdCjEgmudVnYp31XqRaqEqoGmTmA
+         8Nk55qbZ7osZHKBIFsvYnSrOv0oR2sFUxrhdWebxMicEx8aeM0y7EjaOGrNzrpshvO9i
+         VL5156MjS4ypUzHjWvpeevtGPNBvppldSM0S6qFvkzRSZY/U8WKw6xJcnUfxTjAizEOp
+         d+sg==
+X-Gm-Message-State: APjAAAUP89GEjUaX8F+l4hn2clldZtFbykqpctq7lT6pX+92D1GMsoTP
+        3ZcckFJABniIf7MmLSFLIbJ6TQ2u8tvPjCRpWcE=
+X-Google-Smtp-Source: APXvYqzO7u0xqEu0Azh++fVbXO7beF7FImkAq/G2mXSyY9/IOnLs5KmOxEFfIztZlj2Y/pmyn8AMjApnBAe/TImymE0=
+X-Received: by 2002:a05:6830:1592:: with SMTP id i18mr9921992otr.244.1553939521407;
+ Sat, 30 Mar 2019 02:52:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190329001135.15847-1-changbin.du@gmail.com>
-In-Reply-To: <20190329001135.15847-1-changbin.du@gmail.com>
+References: <20190329001135.15847-1-changbin.du@gmail.com> <20190329001135.15847-2-changbin.du@gmail.com>
+In-Reply-To: <20190329001135.15847-2-changbin.du@gmail.com>
 From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Sat, 30 Mar 2019 10:41:44 +0100
-Message-ID: <CAJZ5v0gKX9E+U_9eKfTr7pWGH=jxMLz_Jr850-6BcbG3xBz5qg@mail.gmail.com>
-Subject: Re: [PATCH v2 00/24] Include linux ACPI docs into Sphinx TOC tree
+Date:   Sat, 30 Mar 2019 10:51:50 +0100
+Message-ID: <CAJZ5v0h=tpzWJrt02ET28EG9hn6eSusLV68FZCV8nnXHDBxHEQ@mail.gmail.com>
+Subject: Re: [PATCH v2 01/24] Documentation: add Linux ACPI to Sphinx TOC tree
 To:     Changbin Du <changbin.du@gmail.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         "Rafael J. Wysocki" <rjw@rjwysocki.net>,
@@ -52,22 +51,46 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 29, 2019 at 1:11 AM Changbin Du <changbin.du@gmail.com> wrote:
+On Fri, Mar 29, 2019 at 1:12 AM Changbin Du <changbin.du@gmail.com> wrote:
 >
-> Hi Corbet and All,
-> The kernel now uses Sphinx to generate intelligent and beautiful documentation
-> from reStructuredText files. I converted most of the Linux ACPI docs to rst
-> format in this serias.
+> Add a index.rst for trace subsystem. More docs will be added later.
+>
+> Signed-off-by: Changbin Du <changbin.du@gmail.com>
+> ---
+>  Documentation/acpi/index.rst | 8 ++++++++
+>  Documentation/index.rst      | 1 +
+>  2 files changed, 9 insertions(+)
+>  create mode 100644 Documentation/acpi/index.rst
+>
+> diff --git a/Documentation/acpi/index.rst b/Documentation/acpi/index.rst
+> new file mode 100644
+> index 000000000000..7241ceb1673c
+> --- /dev/null
+> +++ b/Documentation/acpi/index.rst
+> @@ -0,0 +1,8 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=======================================================
+> +Linux ACPI (Advanced Configuration and Power Interface)
 
-First, I appreciated the effort, thanks for your work!
+"Linux ACPI Support", please.
 
-> For you to preview, please visit below url:
-> http://104.238.181.70:8080/kernel-doc/acpi/index.html
-
-So currently all of this appears under Kernel API documentation, but
-the majority of it is not about kernel API.
-
-At least some of it could go under admin-guide IMO.
-
-Thanks,
-Rafael
+> +=======================================================
+> +
+> +.. toctree::
+> +   :maxdepth: 2
+> diff --git a/Documentation/index.rst b/Documentation/index.rst
+> index 80a421cb935e..e3aa28275894 100644
+> --- a/Documentation/index.rst
+> +++ b/Documentation/index.rst
+> @@ -90,6 +90,7 @@ needed).
+>     filesystems/index
+>     vm/index
+>     bpf/index
+> +   acpi/index
+>     misc-devices/index
+>
+>  Architecture-specific documentation
+> --
+> 2.20.1
+>
