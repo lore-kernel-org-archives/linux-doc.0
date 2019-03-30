@@ -1,96 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D955B7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 30 Mar 2019 09:52:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CFACD7D099
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 30 Mar 2019 13:46:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730537AbfC3JwC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 30 Mar 2019 05:52:02 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:41225 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730384AbfC3JwC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Mar 2019 05:52:02 -0400
-Received: by mail-ot1-f66.google.com with SMTP id 64so4274732otb.8;
-        Sat, 30 Mar 2019 02:52:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1fLAfCJZ4QHKKG92hhSU0p1/0Zr1BKU3DdRY30fp6io=;
-        b=f5dfdDAqfjchIgOnEw7/WqXuKrf/OdEl9HLyNMLlepq/0/RfN+fX/d5csHvTdOnhzV
-         ipVMaI2Cu7j4lmVkC7iDrFJq5V6Bskael389deAPZMGqcOn6MnME6c+xfFlvImB6yZM+
-         RSPOqP1qCvv2/2mWWzYZwvY0IyWokhIGWXYLXFoOQdCjEgmudVnYp31XqRaqEqoGmTmA
-         8Nk55qbZ7osZHKBIFsvYnSrOv0oR2sFUxrhdWebxMicEx8aeM0y7EjaOGrNzrpshvO9i
-         VL5156MjS4ypUzHjWvpeevtGPNBvppldSM0S6qFvkzRSZY/U8WKw6xJcnUfxTjAizEOp
-         d+sg==
-X-Gm-Message-State: APjAAAUP89GEjUaX8F+l4hn2clldZtFbykqpctq7lT6pX+92D1GMsoTP
-        3ZcckFJABniIf7MmLSFLIbJ6TQ2u8tvPjCRpWcE=
-X-Google-Smtp-Source: APXvYqzO7u0xqEu0Azh++fVbXO7beF7FImkAq/G2mXSyY9/IOnLs5KmOxEFfIztZlj2Y/pmyn8AMjApnBAe/TImymE0=
-X-Received: by 2002:a05:6830:1592:: with SMTP id i18mr9921992otr.244.1553939521407;
- Sat, 30 Mar 2019 02:52:01 -0700 (PDT)
+        id S1730840AbfC3NqE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 30 Mar 2019 09:46:04 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:58784 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730839AbfC3NqE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Mar 2019 09:46:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=ymGHAe8Xb+yjWOhZHRIj9ejbnXMe6pMmo0/tWfE5DPI=; b=foMBxMvVYX7b90DNeiET/+RuP
+        xeBp1yySYd8YL6X5c8IGeqx7oA8qbxaAWLc6StnwE9meiu/WZG2+ixj2hoRDGolVeu+CqGQhFTxLB
+        b+5GAdQ7WYanWJgtkDyN9AD2NhnQ+bvBW4EL6cVUorZz5KVAR+4m3exF0XqITTYr7TRdlmMoE2yhH
+        yMHwcKvT1gC2f5LvX2OZ6NnsZPIV/MZCJC28DurOnoEBinBOsaoSWBBkwCBx3aHdnM4nucVlpu4Us
+        0ua5akGXBQ53g3+euT0IBe7/5KeUNowZCeDnam20PeJNo9G/4Ap319TiMM2kFRonf6W1pOfUOokZT
+        oLoRLo89g==;
+Received: from [179.95.36.211] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hAEJ9-0003vS-OT; Sat, 30 Mar 2019 13:46:03 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hAEJ6-0007P6-QP; Sat, 30 Mar 2019 10:46:00 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 1/2] docs: Makefile: use latexmk if available
+Date:   Sat, 30 Mar 2019 10:45:58 -0300
+Message-Id: <bfcc25db0c687797697d4ad71703ff8449072fad.1553953553.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190329001135.15847-1-changbin.du@gmail.com> <20190329001135.15847-2-changbin.du@gmail.com>
-In-Reply-To: <20190329001135.15847-2-changbin.du@gmail.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Sat, 30 Mar 2019 10:51:50 +0100
-Message-ID: <CAJZ5v0h=tpzWJrt02ET28EG9hn6eSusLV68FZCV8nnXHDBxHEQ@mail.gmail.com>
-Subject: Re: [PATCH v2 01/24] Documentation: add Linux ACPI to Sphinx TOC tree
-To:     Changbin Du <changbin.du@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 29, 2019 at 1:12 AM Changbin Du <changbin.du@gmail.com> wrote:
->
-> Add a index.rst for trace subsystem. More docs will be added later.
->
-> Signed-off-by: Changbin Du <changbin.du@gmail.com>
-> ---
->  Documentation/acpi/index.rst | 8 ++++++++
->  Documentation/index.rst      | 1 +
->  2 files changed, 9 insertions(+)
->  create mode 100644 Documentation/acpi/index.rst
->
-> diff --git a/Documentation/acpi/index.rst b/Documentation/acpi/index.rst
-> new file mode 100644
-> index 000000000000..7241ceb1673c
-> --- /dev/null
-> +++ b/Documentation/acpi/index.rst
-> @@ -0,0 +1,8 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=======================================================
-> +Linux ACPI (Advanced Configuration and Power Interface)
+In the past, Sphinx was generating a LaTex Makefile that would
+run xelatex 3 times. Running it multiple times is needed in order
+to make the indexes right.
 
-"Linux ACPI Support", please.
+However, newer versions of it runs it just once, as it expects
+the machine to use the "latexmk" build, with automatically
+detects the need for rebuilds.
 
-> +=======================================================
-> +
-> +.. toctree::
-> +   :maxdepth: 2
-> diff --git a/Documentation/index.rst b/Documentation/index.rst
-> index 80a421cb935e..e3aa28275894 100644
-> --- a/Documentation/index.rst
-> +++ b/Documentation/index.rst
-> @@ -90,6 +90,7 @@ needed).
->     filesystems/index
->     vm/index
->     bpf/index
-> +   acpi/index
->     misc-devices/index
->
->  Architecture-specific documentation
-> --
-> 2.20.1
->
+So, add a logic at the Makefile in order to detect if latexmk
+is installed. If so, it will call it.
+
+As an additional bonus, the output of latexmk is a little bit
+better, making easier to identify build problems.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ Documentation/Makefile | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 9786957c6a35..e889e7cb8511 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -28,8 +28,13 @@ ifeq ($(HAVE_SPHINX),0)
+ 
+ else # HAVE_SPHINX
+ 
+-# User-friendly check for pdflatex
++# User-friendly check for pdflatex and latexmk
+ HAVE_PDFLATEX := $(shell if which $(PDFLATEX) >/dev/null 2>&1; then echo 1; else echo 0; fi)
++HAVE_LATEXMK := $(shell if which latexmk >/dev/null 2>&1; then echo 1; else echo 0; fi)
++
++ifeq ($(HAVE_LATEXMK),1)
++	PDFLATEX := latexmk -$(PDFLATEX)
++endif #HAVE_LATEXMK
+ 
+ # Internal variables.
+ PAPEROPT_a4     = -D latex_paper_size=a4
+@@ -82,7 +87,7 @@ pdfdocs:
+ else # HAVE_PDFLATEX
+ 
+ pdfdocs: latexdocs
+-	$(foreach var,$(SPHINXDIRS), $(MAKE) PDFLATEX=$(PDFLATEX) LATEXOPTS="$(LATEXOPTS)" -C $(BUILDDIR)/$(var)/latex || exit;)
++	$(foreach var,$(SPHINXDIRS), $(MAKE) PDFLATEX="$(PDFLATEX)" LATEXOPTS="$(LATEXOPTS)" -C $(BUILDDIR)/$(var)/latex || exit;)
+ 
+ endif # HAVE_PDFLATEX
+ 
+-- 
+2.20.1
+
