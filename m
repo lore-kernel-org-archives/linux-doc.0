@@ -1,79 +1,80 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2A08F7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 30 Mar 2019 13:46:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7C8E67D04D
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 30 Mar 2019 17:25:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730857AbfC3NqE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 30 Mar 2019 09:46:04 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:58786 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730832AbfC3NqE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Mar 2019 09:46:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=WhTYYcLYB0qKAESlP/uiHPBljgf2X5519zWL0dGBM+k=; b=UxFCxcwaUC3N8dqcdz7b/RzRN1
-        pywQ4Td53QQTVlNrzkGpDx1tASqDReJzphm/DtXX2XCu9X1yEUMiJH8rpNwC5sexmfwxgsjjyRoi2
-        84vJVSPoErLyR5Ptq6Zq1rXrfAstFF9DD6miQXn5JcAQ+LATcBqYSSjpWzQwAzgWia4u1XTXcOx/k
-        5eMtYOTHdyW9NzjtXgwf4b9M0l4JGFFt0cGMEijrw0oGpEp6SNgOeT7KEVd9ZShUVgOZjHp7na6Vo
-        Vk0Tx90KzBqrT7nqJ3IAtmxDimmE7iRd0F8Yhe0Hcf1l7DNZ+VU/mS9jPWlSMh4L5smqBLucQPhGb
-        FW67yxhA==;
-Received: from [179.95.36.211] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hAEJ9-0003vT-Ny; Sat, 30 Mar 2019 13:46:03 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hAEJ6-0007P9-RR; Sat, 30 Mar 2019 10:46:00 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 2/2] docs: scripts/sphinx-pre-install: suggest latexmk for building pdf
-Date:   Sat, 30 Mar 2019 10:45:59 -0300
-Message-Id: <71c5daeccf3f874f766c2c0995bcae3991f86eb1.1553953553.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <bfcc25db0c687797697d4ad71703ff8449072fad.1553953553.git.mchehab+samsung@kernel.org>
-References: <bfcc25db0c687797697d4ad71703ff8449072fad.1553953553.git.mchehab+samsung@kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1730721AbfC3RZH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 30 Mar 2019 13:25:07 -0400
+Received: from smtprelay0047.hostedemail.com ([216.40.44.47]:43643 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1730669AbfC3RZH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Mar 2019 13:25:07 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay05.hostedemail.com (Postfix) with ESMTP id 70824180D539E;
+        Sat, 30 Mar 2019 17:25:05 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: flesh37_66851c21bce11
+X-Filterd-Recvd-Size: 2134
+Received: from XPS-9350.home (unknown [47.151.153.53])
+        (Authenticated sender: joe@perches.com)
+        by omf18.hostedemail.com (Postfix) with ESMTPA;
+        Sat, 30 Mar 2019 17:25:04 +0000 (UTC)
+Message-ID: <5d7229de06286b4ec06daee3411e39e9b638d66c.camel@perches.com>
+Subject: [PATCH] coding-style.rst: Generic alloc functions do not need OOM
+ logging
+From:   Joe Perches <joe@perches.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Nick Crews <ncrews@chromium.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-doc <linux-doc@vger.kernel.org>
+Date:   Sat, 30 Mar 2019 10:25:03 -0700
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.30.1-1build1 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The usage of latexmk improves the PDF output, as it re-run
-xelatex when it detects the need, in order to properly generate
-indexes and cross-references.
+Generic allocation functions already emit a dump_stack()
+so additional error logging isn't useful.
 
-As this is not a mandatory requirement, only suggest its
-addition.
+Document it as such and add a reference to the allocation
+API.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Signed-off-by: Joe Perches <joe@perches.com>
 ---
- scripts/sphinx-pre-install | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/process/coding-style.rst | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index 067459760a7b..f6a5c0bae31e 100755
---- a/scripts/sphinx-pre-install
-+++ b/scripts/sphinx-pre-install
-@@ -532,6 +532,7 @@ sub check_needs()
- 	check_program("dot", 1);
- 	check_program("convert", 1);
- 	check_program("rsvg-convert", 1) if ($pdf);
-+	check_program("latexmk", 1) if ($pdf);
+diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+index 8ea913e99fa1..fa864a51e6ea 100644
+--- a/Documentation/process/coding-style.rst
++++ b/Documentation/process/coding-style.rst
+@@ -843,7 +843,8 @@ used.
+ The kernel provides the following general purpose memory allocators:
+ kmalloc(), kzalloc(), kmalloc_array(), kcalloc(), vmalloc(), and
+ vzalloc().  Please refer to the API documentation for further information
+-about them.
++about them.  :ref:`Documentation/core-api/memory-allocation.rst
++<memory_allocation>`
  
- 	check_distros();
+ The preferred form for passing a size of a struct is the following:
  
--- 
-2.20.1
+@@ -874,6 +875,9 @@ The preferred form for allocating a zeroed array is the following:
+ Both forms check for overflow on the allocation size n * sizeof(...),
+ and return NULL if that occurred.
+ 
++These generic allocation functions all emit a stack dump on failure when used
++without __GFP_NOWARN so there is no use in emitting an additional failure
++message when NULL is returned.
+ 
+ 15) The inline disease
+ ----------------------
 
