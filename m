@@ -4,123 +4,163 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 074E07D04D
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 31 Mar 2019 22:15:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7644B7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 31 Mar 2019 22:34:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731364AbfCaWPC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 31 Mar 2019 18:15:02 -0400
-Received: from mout.gmx.net ([212.227.17.22]:47657 "EHLO mout.gmx.net"
+        id S1731470AbfCaWer (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 31 Mar 2019 18:34:47 -0400
+Received: from mout.gmx.net ([212.227.17.20]:47471 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731326AbfCaWPC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 31 Mar 2019 18:15:02 -0400
+        id S1731172AbfCaWer (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 31 Mar 2019 18:34:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1554070496;
-        bh=HHvs9uqx8QYaZFKoKrmmeCrfLmR1vDbZqrxg6Mjlo24=;
+        s=badeba3b8450; t=1554071670;
+        bh=AOZTrA/Ra1bCUHk9C5awQmJrazYS0r5o29tb8AngkvQ=;
         h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=c2kIbGdS1/gQsfzSFOIto+cAk+YTWCHGEbh4e6UyKbnVRi7MZGloOErvKTDzO4Enj
-         20SjVUyCumV9LlOAsq1Fqok86wyzgeee5poq/Y54CGwYifHKNg6lMDDtEz6MLD3ZHT
-         ByubWUpLGpEuNgIdDXbJvdrmLwhLcAMaKuZKPS0I=
+        b=PaXDlKlyeLww7YJ6fouk2QhWOp+KQwRYnEZAp+ZbC7G4c+DF27pzBxlUvwRSZzE2K
+         hh0F0Vsv85L0SUYUlZ7WG9m7eb8ygrbFcEsJYqWOlIh42614mV40lzUbmUAiIPtYpI
+         B0zQpZXGyHZS3zFieOU69IcgcEu9WQKve2V4CQNY=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([109.90.232.48]) by mail.gmx.com (mrgmx102
- [212.227.17.168]) with ESMTPSA (Nemesis) id 0Mb31L-1hUqoV15Lf-00KiXQ; Mon, 01
- Apr 2019 00:14:56 +0200
+Received: from longitude ([109.90.232.48]) by mail.gmx.com (mrgmx103
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 0M6B6s-1h0NBM2lbu-00y8Dv; Mon, 01
+ Apr 2019 00:34:30 +0200
 From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
 To:     linux-doc@vger.kernel.org
 Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Martin Kepplinger <martink@posteo.de>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Vinod Koul <vkoul@kernel.org>,
+        Sanyog Kale <sanyog.r.kale@intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, alsa-devel@alsa-project.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: kernel-docs: Move vfs.txt under "Docs at the Linux Kernel tree"
-Date:   Mon,  1 Apr 2019 00:14:37 +0200
-Message-Id: <20190331221439.22892-1-j.neuschaefer@gmx.net>
+Subject: [PATCH] Documentation: soundwire: Ensure that code is inside the code blocks
+Date:   Mon,  1 Apr 2019 00:34:22 +0200
+Message-Id: <20190331223423.29855-1-j.neuschaefer@gmx.net>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:O7KTsPp0xlclYLPwAx6k/3FXWHdDBaLXdvujS7atYdGU4twfpWM
- MquGgtNEo6lSTUCV0ZeNoyuRTtXb735cNwdo09XDiJPFcdliy+JvHZesFzgwqu4Zge2tJ9W
- 0L0yGfNdDpCkLBf2C6bJaCyO7Rp5z9c7RbvJOofo+eKXe3IT4jkObQM7ytGS5bzZbzLcI9S
- wzIQroQmwf1scp5e1mWrw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:G6eYhcGZFLY=:PFRJacDhlpjBsVdbWk6L/f
- 7zRapPTdVWTuzCbJ4k97vvRrN6jYOLpC+ehaNi3H7QvkunGBcLb8esbyaWG1+d+qNVVF9Dx4S
- kxQK/Y+2P74m+2GccrGZtDVukX7UvBtXkfZmNucb9vdxIxuY4M9YOSkSWQ/jKDm0Qj2xUhZwz
- pqk1trvhOBptVA5xDdBcfH8/aQTAcl9zfOniBCnVQcZ/xIQtczIXhqUPeaV9MkmIWWdndr+7l
- Kb0sYw9aW2hMJDw/5E0CmcDsyXeJIWXRIP541MQkaXd9sI6brSkTCQT1QWzuFUm76IS3ORm73
- Rr9g04dEEwExd9jyWbWGUUc2HtmiZP9jJ9lrE5eoKgBi9u/YaYhm9pcUHyFspMhurYXC6oO0e
- i/P6mizw5VvWVA6gjSxGW12hmLajY2cp7sReVp8EHsmM0Pn6c/Dm0K6RI1owyJNTlWjGprqnw
- nOuCBWwxFKLZqZel2fRHl0nGxwksPSL1XdvvUbaPsnubbtvb5TDvvWkbmy/W6+7WT68JfIiR1
- Jcq8oKj2tHR39mi2Isbn11K/oUdg90Scn0D6ltczqP3VrRAw1kU4O7DwZqvj+7WxRSDlDMZLE
- OnfbTEXGrU2671wGx7s6JzgHSJhNWgbgd+qbg7DiCd1L4d/yTJ9FFoxhgEmkwk1Xfu/l1YGmt
- gZflE1ygia4FEkE6f0t46vFIAGcfTgELJ3dL3gbXLRHrx2ecM/vgcqzh20/IG/RaMw85McZmL
- MHVdCzML+jYKEelx2cdnrlrjETjfYLS7/D/2Czrtcq/Pl3xfJ0R+y3IasHh+C9kGZwYoDp6Iv
- KF2gZCJD5dD4KeSa+iuCWCEMp9sT/V0n0aeYx6y9vJxIHLszEw1NpdMwBRx2QzwYJ36kEW7fQ
- 3Ezgi3ySudOKg35IIw9R7cVjPLHSO6T5AReO+bMxACo0hajqJLLrJ1WUOlowNrx4tTNeM5Kw2
- m8R3fnHPpUQ==
+X-Provags-ID: V03:K1:AveavH69cVp1MMTdK81kxQBsjNX1ivILo0rksVwpODdcZeL+vOh
+ 0sX0n0XNpur9NK8JOqDTWbtQdK3/tlB2fzJd5jwWs1kZA3PmBDICYNtj5/v5M63Y0e0lGyV
+ +oR9dKaetOHUSpn27LzklaJsP9cZdhjBXxo8/8Mtw4frZVypGvnaQ1ww/E/mlCAJDel173h
+ paBRAFKuo0PAtnO2TNzzw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ML9JIszmFd0=:MP7NUANoU0o94iYSueA1CY
+ JQMtAZ0ekovN7jg0FdV1AvKve10mLbBcl1cZrw8x/2nilixJc3yhmo5ctFCfZYULRjSTet6h4
+ 0gBlfsfiVKPE+nRVCd5u7QkhGVojck6wID4jE34I3lKio5cB3WF3zrtPMhdHk8rK9TLyzCsup
+ hAUNa/PG7zSAalYxMDwmNLdR+WcaJ7W4/QhpUwP89RduYGEn7+sEM84pssGfzTj4rkSZVN5L0
+ 4g/i81/abGmBsnVx98rA6jwTP2gawGv823jzqf6CQjzcWpUPkLljPQeVXb+VvFNOQcmH3VBrT
+ D2EPJLvl2MyzuLoCLglOfPOA/E6Lxbkb7k+j9ar2nms7PynIUwd99DDTQGN5Nr7w0dqe1Zrqt
+ BQknvLjtf4+tqWQ47GKfiUUQi5+yZwVRfxSfX2KSDlZlmDYXp1UB6bKo2q6EMw2giPsoPHRUf
+ T7wM5OC2TFX9AeVRWlPp2nRClRHcewtdTHjh61lGOqA4I39+g1E/U2HYn37K+jbuqKV0ShsTE
+ iuEaABIKo0Mgw/ePaSAuE/eWrAT1I3iOvq7Y09+1bzE9ZV4iy65TA1k8CI5sWH4jYCiROD4ol
+ l3IbvIZ/Ua484ZmP+tjmmRW+2slk9+8YOVNq8G24dcn2YQB4aoEunh9eG6kuo+O2yG7ighMIe
+ I0sTeokS7c6A3BwijXGQY2b+NFzFAeN+jKnP5VxvjM7Me6dCXB8n0KPVQ9PmhrjwCyrQ7f42v
+ 6UrYZI7CQUnyKN0NCKs7VFpsBgx6m/+i9SJxrbLqYeWQrm/zujm4Ie1GPYT1Q73nE0v1lO1Vg
+ Om0/GUpxN/o7gaklebQkccKiuxsDrx/jyD0tR1z1fE0RsLBdY/F/mwNM4a6NeJN7HGNxr/eDP
+ RmL13GWGBGdehilHjV4EO4QEagaqA/Xm2A1+i0rGYlz9xKpNxoV+rjPEE8N03/LSiRxyWOe43
+ rgj28bL3Ulw==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It's unnecessary to point to an external mirror of the Documentation
-directory. Also, drop the date field, because in-kernel documentation is
-continually updated.
+The way the document is written now, Sphinx renders empty code blocks
+followed by the lines that should be inside them.
 
+Unindent the code-block directives to fix this.
+
+Fixes: 502c00d9c315 ("Documentation: soundwire: fix stream.rst markup warn=
+ings")
 Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
 =2D--
+ Documentation/driver-api/soundwire/stream.rst | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-Alternatively, we might drop this entry of the list entirely, because
-Documentation/ is already covered.
-=2D--
- Documentation/process/kernel-docs.rst | 23 +++++++++++------------
- 1 file changed, 11 insertions(+), 12 deletions(-)
+diff --git a/Documentation/driver-api/soundwire/stream.rst b/Documentation=
+/driver-api/soundwire/stream.rst
+index 26a6064503fd..5351bd2f34a8 100644
+=2D-- a/Documentation/driver-api/soundwire/stream.rst
++++ b/Documentation/driver-api/soundwire/stream.rst
+@@ -201,7 +201,7 @@ Bus implements below API for allocate a stream which n=
+eeds to be called once
+ per stream. From ASoC DPCM framework, this stream state maybe linked to
+ .startup() operation.
 
-diff --git a/Documentation/process/kernel-docs.rst b/Documentation/process=
-/kernel-docs.rst
-index ab12dddc773e..92488e59943d 100644
-=2D-- a/Documentation/process/kernel-docs.rst
-+++ b/Documentation/process/kernel-docs.rst
-@@ -52,6 +52,17 @@ The Sphinx books should be built with ``make {htmldocs =
-| pdfdocs | epubdocs}``.
-         (including this document itself) have been moved there, and might
-         be more up to date than the web version.
+-  .. code-block:: c
++.. code-block:: c
 
-+    * Title: **Overview of the Virtual File System**
-+
-+      :Author: Richard Gooch.
-+      :Location: Documentation/filesystems/vfs.txt
-+      :Keywords: VFS, File System, mounting filesystems, opening files,
-+        dentries, dcache.
-+      :Description: Brief introduction to the Linux Virtual File System.
-+        What is it, how it works, operations taken when opening a file or
-+        mounting a file system and description of important data
-+        structures explaining the purpose of each of their entries.
-+
- On-line docs
- ------------
+   int sdw_alloc_stream(char * stream_name);
 
-@@ -95,18 +106,6 @@ On-line docs
-         [...]. This paper examines some common problems for
-         submitting larger changes and some strategies to avoid problems.
+@@ -228,7 +228,7 @@ the respective Master(s) and Slave(s) associated with =
+stream. These APIs can
+ only be invoked once by respective Master(s) and Slave(s). From ASoC DPCM
+ framework, this stream state is linked to .hw_params() operation.
 
--    * Title: **Overview of the Virtual File System**
--
--      :Author: Richard Gooch.
--      :URL: http://www.mjmwired.net/kernel/Documentation/filesystems/vfs.=
-txt
--      :Date: 2007
--      :Keywords: VFS, File System, mounting filesystems, opening files,
--        dentries, dcache.
--      :Description: Brief introduction to the Linux Virtual File System.
--        What is it, how it works, operations taken when opening a file or
--        mounting a file system and description of important data
--        structures explaining the purpose of each of their entries.
--
-     * Title: **Linux Device Drivers, Third Edition**
+-  .. code-block:: c
++.. code-block:: c
 
-       :Author: Jonathan Corbet, Alessandro Rubini, Greg Kroah-Hartman
+   int sdw_stream_add_master(struct sdw_bus * bus,
+ 		struct sdw_stream_config * stream_config,
+@@ -274,7 +274,7 @@ Bus implements below API for PREPARE state which needs=
+ to be called once per
+ stream. From ASoC DPCM framework, this stream state is linked to
+ .prepare() operation.
+
+-  .. code-block:: c
++.. code-block:: c
+
+   int sdw_prepare_stream(struct sdw_stream_runtime * stream);
+
+@@ -304,7 +304,7 @@ Bus implements below API for ENABLE state which needs =
+to be called once per
+ stream. From ASoC DPCM framework, this stream state is linked to
+ .trigger() start operation.
+
+-  .. code-block:: c
++.. code-block:: c
+
+   int sdw_enable_stream(struct sdw_stream_runtime * stream);
+
+@@ -332,7 +332,7 @@ Bus implements below API for DISABLED state which need=
+s to be called once
+ per stream. From ASoC DPCM framework, this stream state is linked to
+ .trigger() stop operation.
+
+-  .. code-block:: c
++.. code-block:: c
+
+   int sdw_disable_stream(struct sdw_stream_runtime * stream);
+
+@@ -357,7 +357,7 @@ Bus implements below API for DEPREPARED state which ne=
+eds to be called once
+ per stream. From ASoC DPCM framework, this stream state is linked to
+ .trigger() stop operation.
+
+-  .. code-block:: c
++.. code-block:: c
+
+   int sdw_deprepare_stream(struct sdw_stream_runtime * stream);
+
+@@ -382,7 +382,7 @@ Bus implements below APIs for RELEASE state which need=
+s to be called by
+ all the Master(s) and Slave(s) associated with stream. From ASoC DPCM
+ framework, this stream state is linked to .hw_free() operation.
+
+-  .. code-block:: c
++.. code-block:: c
+
+   int sdw_stream_remove_master(struct sdw_bus * bus,
+ 		struct sdw_stream_runtime * stream);
+@@ -395,7 +395,7 @@ stream assigned as part of ALLOCATED state.
+
+ In .shutdown() the data structure maintaining stream state are freed up.
+
+-  .. code-block:: c
++.. code-block:: c
+
+   void sdw_release_stream(struct sdw_stream_runtime * stream);
+
 =2D-
 2.20.1
 
