@@ -1,58 +1,125 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=FREEMAIL_REPLYTO_END_DIGIT,
-	HEADER_FROM_DIFFERENT_DOMAINS,HK_NAME_MR_MRS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 85B787D8A4
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 30 Mar 2019 22:16:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 177177D08A
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 31 Mar 2019 05:13:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730947AbfC3WQb convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 30 Mar 2019 18:16:31 -0400
-Received: from 06d01.mspz3.gob.ec ([186.46.60.180]:59206 "EHLO
-        06d01.mspz3.gob.ec" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730666AbfC3WQb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Mar 2019 18:16:31 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by 06d01.mspz3.gob.ec (Postfix) with ESMTP id F34EE2B67B17;
-        Sat, 30 Mar 2019 13:32:25 -0500 (ECT)
-Received: from 06d01.mspz3.gob.ec ([127.0.0.1])
-        by localhost (06d01.mspz3.gob.ec [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id vdyQZmtytJIq; Sat, 30 Mar 2019 13:32:25 -0500 (ECT)
-Received: from localhost (localhost [127.0.0.1])
-        by 06d01.mspz3.gob.ec (Postfix) with ESMTP id 8A0872B66EA5;
-        Sat, 30 Mar 2019 11:49:55 -0500 (ECT)
-X-Virus-Scanned: amavisd-new at 06d01.mspz3.gob.ec
-Received: from 06d01.mspz3.gob.ec ([127.0.0.1])
-        by localhost (06d01.mspz3.gob.ec [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id YnSK_DlV7nMF; Sat, 30 Mar 2019 11:49:55 -0500 (ECT)
-Received: from [192.168.8.104] (unknown [154.120.104.210])
-        by 06d01.mspz3.gob.ec (Postfix) with ESMTPSA id 7E8522B615DF;
-        Sat, 30 Mar 2019 11:42:00 -0500 (ECT)
-Content-Type: text/plain; charset="iso-8859-1"
+        id S1725773AbfCaFND (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 31 Mar 2019 01:13:03 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:35622 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725710AbfCaFND (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 31 Mar 2019 01:13:03 -0400
+Received: by mail-pf1-f196.google.com with SMTP id t21so2938842pfe.2;
+        Sat, 30 Mar 2019 22:13:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=0PYqYNJCRo47buFqpEFm5jSGLOOSre7sIa2ON3PXgE8=;
+        b=Nqk3WRq0ezPyTpDtpiWvysU7mal4pr36rLw1JnjX1ypBa3vkkG3zLQnWhUpwY7qJaP
+         iZeFz4BiHY6cAJJUMZ0VgFJHSJ/iKpWNH+8tRgD46CSSCqpNpDdHvGxWjzY8SerZjo4V
+         rLqM6BtgTe0Xabm6wplUj/dz7ssCJqJ7UPN50Lhc35a0z2oCpBpJQFWzKJ8vXrNsr/5N
+         uPsDOKA11ALxDXczuY8UB8D1bWD+qpnQlXE9tD1W6fex3F9v7Iyqf3LHUcwxvhIdqaXP
+         DIaqEgQDwc5QstusEIgzsf8Ma1iDzodo/D+UbTgZbBdbLv+BNrAaHTWfAIHqXkEoAhHB
+         whJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=0PYqYNJCRo47buFqpEFm5jSGLOOSre7sIa2ON3PXgE8=;
+        b=fo4ekuj0PxxAo7Mm/sT37w12yNg+QSnqt9KNVtf1fk30JQK0Wv2gmfEvdA5Dg+DtlM
+         od2i2uLynOGvVbixFEpBnZtTj7vtWVgaURLMqNA4IGGYu63AYP6BIt8Wnb6nLthbwRBy
+         8lM1nBc01HDWNHOiTrJ8kCL8cTiQcVGnrcpzm27Bh893D5PLyUkEpq3eYyS6oJ5T7bNG
+         WQdqXHWwRBWP/LQh3M59+Kjrb+JrPu52iVNFvWpGe0Lu0ylipW+upuV8O6QrJZ+UnQ/N
+         3zsiCge/cKLCXrmM7GdgK3lok/FeDLdQG0WySF/9FS7tfhoIO78O1SOHkZTAPwAowgob
+         vq6g==
+X-Gm-Message-State: APjAAAVBERYbdv4834Rz/Py5ZhFjiymPsJ1dp8ZA16NpRR60eDaeARUP
+        1SvQE0hlgLqOhajVUSwoKjwR4v2cQm0=
+X-Google-Smtp-Source: APXvYqwX/22NqGNoCQ0/bSrH0pbcBdfRRUUXnfm/3RPZP7YgMJSjQXcHT6X/z15jd2R/u3dR/uVhhA==
+X-Received: by 2002:aa7:884b:: with SMTP id k11mr20835616pfo.49.1554009182739;
+        Sat, 30 Mar 2019 22:13:02 -0700 (PDT)
+Received: from mail.google.com ([104.238.181.70])
+        by smtp.gmail.com with ESMTPSA id l5sm14021398pfi.97.2019.03.30.22.13.01
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sat, 30 Mar 2019 22:13:01 -0700 (PDT)
+Date:   Sun, 31 Mar 2019 05:13:00 +0000
+From:   Changbin Du <changbin.du@gmail.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Changbin Du <changbin.du@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2 01/24] Documentation: add Linux ACPI to Sphinx TOC tree
+Message-ID: <20190331051258.7f4una2eh7eeyctb@mail.google.com>
+References: <20190329001135.15847-1-changbin.du@gmail.com>
+ <20190329001135.15847-2-changbin.du@gmail.com>
+ <CAJZ5v0h=tpzWJrt02ET28EG9hn6eSusLV68FZCV8nnXHDBxHEQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: Re:Hello
-To:     Recipients <ps.cachachuyug@06d01.mspz3.gob.ec>
-From:   Mr Wong <ps.cachachuyug@06d01.mspz3.gob.ec>
-Date:   Sat, 30 Mar 2019 09:26:03 -0700
-Reply-To: wongcheng1122@gmail.com
-X-Antivirus: Avast (VPS 190329-4, 29-03-2019), Outbound message
-X-Antivirus-Status: Clean
-Message-Id: <20190330164201.7E8522B615DF@06d01.mspz3.gob.ec>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJZ5v0h=tpzWJrt02ET28EG9hn6eSusLV68FZCV8nnXHDBxHEQ@mail.gmail.com>
+User-Agent: NeoMutt/20180716-508-7c9a6d
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello this is Mr Wong again from hongkong,Can we send the Swift as discuss best regards.
+On Sat, Mar 30, 2019 at 10:51:50AM +0100, Rafael J. Wysocki wrote:
+> On Fri, Mar 29, 2019 at 1:12 AM Changbin Du <changbin.du@gmail.com> wrote:
+> >
+> > Add a index.rst for trace subsystem. More docs will be added later.
+> >
+> > Signed-off-by: Changbin Du <changbin.du@gmail.com>
+> > ---
+> >  Documentation/acpi/index.rst | 8 ++++++++
+> >  Documentation/index.rst      | 1 +
+> >  2 files changed, 9 insertions(+)
+> >  create mode 100644 Documentation/acpi/index.rst
+> >
+> > diff --git a/Documentation/acpi/index.rst b/Documentation/acpi/index.rst
+> > new file mode 100644
+> > index 000000000000..7241ceb1673c
+> > --- /dev/null
+> > +++ b/Documentation/acpi/index.rst
+> > @@ -0,0 +1,8 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +=======================================================
+> > +Linux ACPI (Advanced Configuration and Power Interface)
+> 
+> "Linux ACPI Support", please.
+> 
+sure.
 
-Mr Wong Cheng
+> > +=======================================================
+> > +
+> > +.. toctree::
+> > +   :maxdepth: 2
+> > diff --git a/Documentation/index.rst b/Documentation/index.rst
+> > index 80a421cb935e..e3aa28275894 100644
+> > --- a/Documentation/index.rst
+> > +++ b/Documentation/index.rst
+> > @@ -90,6 +90,7 @@ needed).
+> >     filesystems/index
+> >     vm/index
+> >     bpf/index
+> > +   acpi/index
+> >     misc-devices/index
+> >
+> >  Architecture-specific documentation
+> > --
+> > 2.20.1
+> >
 
----
-This email has been checked for viruses by Avast antivirus software.
-https://www.avast.com/antivirus
-
+-- 
+Cheers,
+Changbin Du
