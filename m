@@ -2,33 +2,32 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 513427D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  1 Apr 2019 20:43:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 686867D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  1 Apr 2019 20:58:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727020AbfDAUnS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 1 Apr 2019 16:43:18 -0400
-Received: from ms.lwn.net ([45.79.88.28]:40556 "EHLO ms.lwn.net"
+        id S1726913AbfDAU6A (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 1 Apr 2019 16:58:00 -0400
+Received: from ms.lwn.net ([45.79.88.28]:40640 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726109AbfDAUnR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 1 Apr 2019 16:43:17 -0400
+        id S1726705AbfDAU6A (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 1 Apr 2019 16:58:00 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id D1AB27DE;
-        Mon,  1 Apr 2019 20:43:16 +0000 (UTC)
-Date:   Mon, 1 Apr 2019 14:43:15 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 529D97DE;
+        Mon,  1 Apr 2019 20:58:00 +0000 (UTC)
+Date:   Mon, 1 Apr 2019 14:57:59 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] docs: Makefile: use latexmk if available
-Message-ID: <20190401144315.117f9c75@lwn.net>
-In-Reply-To: <bfcc25db0c687797697d4ad71703ff8449072fad.1553953553.git.mchehab+samsung@kernel.org>
-References: <bfcc25db0c687797697d4ad71703ff8449072fad.1553953553.git.mchehab+samsung@kernel.org>
+To:     Federico Vaga <federico.vaga@vaga.pv.it>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] doc:it: alignement clarification about sign-off and
+ Co-developed-by
+Message-ID: <20190401145759.7fdb067f@lwn.net>
+In-Reply-To: <20190327222835.27497-1-federico.vaga@vaga.pv.it>
+References: <20190327222835.27497-1-federico.vaga@vaga.pv.it>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -38,23 +37,15 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 30 Mar 2019 10:45:58 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+On Wed, 27 Mar 2019 23:28:35 +0100
+Federico Vaga <federico.vaga@vaga.pv.it> wrote:
 
-> In the past, Sphinx was generating a LaTex Makefile that would
-> run xelatex 3 times. Running it multiple times is needed in order
-> to make the indexes right.
+> Align Italian documentation after the following patch to the main documents
 > 
-> However, newer versions of it runs it just once, as it expects
-> the machine to use the "latexmk" build, with automatically
-> detects the need for rebuilds.
+> commit 24a2bb90741b docs: Clarify the usage and sign-off requirements for Co-developed-by
 > 
-> So, add a logic at the Makefile in order to detect if latexmk
-> is installed. If so, it will call it.
-> 
-> As an additional bonus, the output of latexmk is a little bit
-> better, making easier to identify build problems.
+> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
 
-Seems to work.  I've applied both, thanks.
+Applied, thanks.
 
 jon
