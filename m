@@ -5,31 +5,29 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 42F267D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  1 Apr 2019 21:01:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DCDBF7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  1 Apr 2019 21:04:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727020AbfDAVBw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 1 Apr 2019 17:01:52 -0400
-Received: from ms.lwn.net ([45.79.88.28]:40668 "EHLO ms.lwn.net"
+        id S1727097AbfDAVEX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 1 Apr 2019 17:04:23 -0400
+Received: from ms.lwn.net ([45.79.88.28]:40692 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725878AbfDAVBv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 1 Apr 2019 17:01:51 -0400
+        id S1727021AbfDAVEX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 1 Apr 2019 17:04:23 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 4E3777DE;
-        Mon,  1 Apr 2019 21:01:51 +0000 (UTC)
-Date:   Mon, 1 Apr 2019 15:01:50 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id EF90C9B7;
+        Mon,  1 Apr 2019 21:04:22 +0000 (UTC)
+Date:   Mon, 1 Apr 2019 15:04:21 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Joe Perches <joe@perches.com>
-Cc:     Nick Crews <ncrews@chromium.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-doc <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH] coding-style.rst: Generic alloc functions do not need
- OOM logging
-Message-ID: <20190401150150.23d2a0f0@lwn.net>
-In-Reply-To: <5d7229de06286b4ec06daee3411e39e9b638d66c.camel@perches.com>
-References: <5d7229de06286b4ec06daee3411e39e9b638d66c.camel@perches.com>
+To:     Federico Vaga <federico.vaga@vaga.pv.it>
+Cc:     Alessia Mantegazza <amantegazza@vaga.pv.it>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] doc:it_IT: translation for maintainer-pgp-guide
+Message-ID: <20190401150421.5524ea2d@lwn.net>
+In-Reply-To: <20190330211956.3935-1-federico.vaga@vaga.pv.it>
+References: <20190330211956.3935-1-federico.vaga@vaga.pv.it>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -39,17 +37,23 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 30 Mar 2019 10:25:03 -0700
-Joe Perches <joe@perches.com> wrote:
+On Sat, 30 Mar 2019 22:19:56 +0100
+Federico Vaga <federico.vaga@vaga.pv.it> wrote:
 
-> Generic allocation functions already emit a dump_stack()
-> so additional error logging isn't useful.
+> It translates the maintainer-pgp-guide in Italian.
 > 
-> Document it as such and add a reference to the allocation
-> API.
-> 
-> Signed-off-by: Joe Perches <joe@perches.com>
+> Signed-off-by: Alessia Mantegazza <amantegazza@vaga.pv.it>
+> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
 
 Applied, thanks.
+
+I do wonder, though, given this:
+
+> +:Translator: Alessia Mantegazza <amantegazza@vaga.pv.it>
+
+Should this patch have had a From: line to get the proper name into the
+changelog?
+
+Thanks,
 
 jon
