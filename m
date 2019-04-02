@@ -1,92 +1,85 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	NORMAL_HTTP_TO_IP,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 137AA7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Apr 2019 07:05:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 707417D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Apr 2019 08:25:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726625AbfDBHFx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Apr 2019 03:05:53 -0400
-Received: from mx.kolabnow.com ([95.128.36.42]:4244 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725863AbfDBHFx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 2 Apr 2019 03:05:53 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id A42EC3150;
-        Tue,  2 Apr 2019 09:05:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-type:content-type:content-transfer-encoding:mime-version
-        :references:in-reply-to:message-id:date:date:subject:subject
-        :from:from:received:received:received; s=dkim20160331; t=
-        1554188748; x=1556003149; bh=b6eO4TwzGAy4B3rvMjp/ptDWgPhTColToc9
-        6uD6RF3M=; b=nu3TsHsVfyiCL3pf4fdRavwcCJsTDUuq/Z6kFZQPggcchDWdmH6
-        Mg9rexwx1F02KCjhtiAp6Anz+mih9XcmvRanlWYZYV/jBPj/AaEmtQidkjOgdR2W
-        h5CtVNzXmQjGKOBCPBKBpqJHwkE8TwfZe7CQWVf7mFWwlzUxf+OX3aQ7tS1tBpIb
-        anUMLHCdyONrGu8FqwKt0v1JVmdxi5uwsuDP0mT/llPWIuN7uj9l5v/yGVKDiW72
-        E6jEwOanBAWygpM2w2svURkMYtCH90N43WwLRrbveEkcCeW+ttSA0jmPDYgH9P6n
-        XKKum3kIjzP+03eqaTZyM6bapV2nlD09pmdSWueYOztCc77JflHhkobuq0COac6k
-        20A/hP0qSB7gLOLjJfioFFC287J2PDWN4RPd9MEBhuQiteCRHJCcYf0vhrc2ybrf
-        eTW3uLzK8jU1PNwbBKQL9rtNaJnbYJY8ZGxpZfF1zxdF5ViaRWkbsW2oCvmrgfd0
-        A3qAK95kmJBGzf9KQbTdigWfx9GyTnVXNvPgYwXsmJunqVdY1ZbclZSvhTistLlk
-        s4OkvqSU5FkOAMyEqZXNACc33IIpKL8iurZQ0odq8tYShEhbGk6pNiid7afuYTna
-        8wf/zfSof/SIW3xh1KCWhQjMb0uBsg26EMxJFwt4oo+/LGu+gyGqrLkk=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id w_dAtHRl7-X5; Tue,  2 Apr 2019 09:05:48 +0200 (CEST)
-Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id 35D04314F;
-        Tue,  2 Apr 2019 09:05:48 +0200 (CEST)
-Received: from ext-subm001.mykolab.com (unknown [10.9.6.1])
-        by int-mx003.mykolab.com (Postfix) with ESMTPS id 0BADDB05;
-        Tue,  2 Apr 2019 09:05:48 +0200 (CEST)
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Alessia Mantegazza <amantegazza@vaga.pv.it>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] doc:it_IT: translation for maintainer-pgp-guide
-Date:   Tue, 02 Apr 2019 09:05:46 +0200
-Message-ID: <3213581.2fMHWIHKnX@pcbe13614>
-In-Reply-To: <20190401150421.5524ea2d@lwn.net>
-References: <20190330211956.3935-1-federico.vaga@vaga.pv.it> <20190401150421.5524ea2d@lwn.net>
+        id S1729500AbfDBIZh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Apr 2019 04:25:37 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:36425 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729162AbfDBIZg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Apr 2019 04:25:36 -0400
+Received: by mail-oi1-f196.google.com with SMTP id l203so9088982oia.3;
+        Tue, 02 Apr 2019 01:25:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6H8/I1ZKoxKEsfmiH5FBekkBm0KXC4ZiPp0uzUOIAiM=;
+        b=fECQNKg7/1/IeuRnR5DyxcF/aT0QP11sTPzHtXAsiOWWJnsXH6BthF5Pgm0b4y0gBf
+         G2xC6NFNh2XFUBc4JSQSicn0Pbzbf8YOdBzzx0xVmEvR68NcVs0qlLTFgmR2VlCCj4Gq
+         /HUZ3+r4L48qI9aSSdRS0mcfXHsQ+C02AXGNGDV42mtNsdGWb7vqrSlfOKp1ExEjtEdT
+         B9tuzsWXUOF8BEDlCo4wQqTm60LsCtnOQUBGZ7qvoECZKcOE9zfRZgPt2L6IAhUWszep
+         wFpB20mFZMmfldDWDGaQUr6s9AVrAQ/4OBbdSV0+pCf0kQqzxrCowMea2nhTnWlfnGNJ
+         zUNQ==
+X-Gm-Message-State: APjAAAURuFWagfHJYHGC6fENQUePSQl+/yZQxMbXWUPlpNFWhIRy1DvL
+        /nGyJFOo/xfFWDd1TqPln/qYHpbN/nFmw/BSK4I=
+X-Google-Smtp-Source: APXvYqz5APC6QnaijFYWKC4UgE3bG1NyA7ukdGqIBUTEoiPypS/Sz/Qltv8DCZemp7JVZYCjEO/gKp/7cizfyLsLa1o=
+X-Received: by 2002:aca:6289:: with SMTP id w131mr3519121oib.84.1554193535958;
+ Tue, 02 Apr 2019 01:25:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <20190329001135.15847-1-changbin.du@gmail.com> <CAJZ5v0gKX9E+U_9eKfTr7pWGH=jxMLz_Jr850-6BcbG3xBz5qg@mail.gmail.com>
+In-Reply-To: <CAJZ5v0gKX9E+U_9eKfTr7pWGH=jxMLz_Jr850-6BcbG3xBz5qg@mail.gmail.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 2 Apr 2019 10:25:23 +0200
+Message-ID: <CAJZ5v0jbCi3Jgn5YXPCP+zgs-O7z-9_3p3XZGvm40_6RDsJqkQ@mail.gmail.com>
+Subject: Re: [PATCH v2 00/24] Include linux ACPI docs into Sphinx TOC tree
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Changbin Du <changbin.du@gmail.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Monday, April 1, 2019 11:04:21 PM CEST Jonathan Corbet wrote:
-> On Sat, 30 Mar 2019 22:19:56 +0100
-> 
-> Federico Vaga <federico.vaga@vaga.pv.it> wrote:
-> > It translates the maintainer-pgp-guide in Italian.
-> > 
-> > Signed-off-by: Alessia Mantegazza <amantegazza@vaga.pv.it>
-> > Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
-> 
-> Applied, thanks.
-> 
-> I do wonder, though, given this:
-> > +:Translator: Alessia Mantegazza <amantegazza@vaga.pv.it>
-> 
-> Should this patch have had a From: line to get the proper name into the
-> changelog?
+On Sat, Mar 30, 2019 at 10:41 AM Rafael J. Wysocki <rafael@kernel.org> wrote:
+>
+> On Fri, Mar 29, 2019 at 1:11 AM Changbin Du <changbin.du@gmail.com> wrote:
+> >
+> > Hi Corbet and All,
+> > The kernel now uses Sphinx to generate intelligent and beautiful documentation
+> > from reStructuredText files. I converted most of the Linux ACPI docs to rst
+> > format in this serias.
+>
+> First, I appreciated the effort, thanks for your work!
+>
+> > For you to preview, please visit below url:
+> > http://104.238.181.70:8080/kernel-doc/acpi/index.html
+>
+> So currently all of this appears under Kernel API documentation, but
+> the majority of it is not about kernel API.
+>
+> At least some of it could go under admin-guide IMO.
 
-True, sorry
+Jon,
 
-> 
-> Thanks,
-> 
-> jon
+There are ACPI-related documents currently in Documentation/acpi/ that
+don't clearly fall under either driver-api or admin-guide.  For
+example, some of them describe various aspects of the ACPI support
+subsystem operation and some document expectations with respect to the
+ACPI tables provided by the firmware etc.
 
+Where would you recommend to put them after converting to .rst?
 
--- 
-Federico Vaga
-http://www.federicovaga.it/
-
-
+Cheers,
+Rafael
