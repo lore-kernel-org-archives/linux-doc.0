@@ -1,78 +1,82 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F106A7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Apr 2019 19:38:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C3E5C7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Apr 2019 21:18:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726193AbfDBTia (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Apr 2019 15:38:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37398 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725991AbfDBTia (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 2 Apr 2019 15:38:30 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 56082F74C0;
-        Tue,  2 Apr 2019 19:38:29 +0000 (UTC)
-Received: from llong.com (dhcp-17-19.bos.redhat.com [10.18.17.19])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E92B57D147;
-        Tue,  2 Apr 2019 19:38:25 +0000 (UTC)
-From:   Waiman Long <longman@redhat.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        id S1726154AbfDBVSy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Apr 2019 17:18:54 -0400
+Received: from mail-yb1-f196.google.com ([209.85.219.196]:46315 "EHLO
+        mail-yb1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725822AbfDBVSy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Apr 2019 17:18:54 -0400
+Received: by mail-yb1-f196.google.com with SMTP id u15so944969ybj.13
+        for <linux-doc@vger.kernel.org>; Tue, 02 Apr 2019 14:18:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg-org.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=4fczxbybzOS+xXNu+Sbb6XyvMGrUo9head3Dw/Kumxw=;
+        b=GwcNpY4hgB0cZqJleZoLMgbMadRlRvC6VtmChihSWjY4W/kaunkihTqQmpmoS1YoLD
+         BzYo/6a1AHwtZBtDWT/SQK+fSNEgeL3YGNf0Od9S8T73xbAHpWiFPNToOqe+eqFXZcUO
+         FkZs4sfOBNpVQDSHhQrLFivW2LfCondKbnP81yo2JxZsLhYkJ5ORch690Sptj+XktHvq
+         QO04WZ/rN0xRHpmEBeFe8y3Y/8adS52oZNSseOtqri6l0SUzZNc2y0cHE2pR2Y/ngBTG
+         qOnZn4VbdBAFsIshwGOQtmwhNMpwbNeeBMH3We1PXBVwuXkTWyCNMr1lmfgpJ8xvJxEf
+         mE5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=4fczxbybzOS+xXNu+Sbb6XyvMGrUo9head3Dw/Kumxw=;
+        b=neifycqupaM2QSDTwEsOruMzq/5nnffxifUDzM0wkJLLIfy7L48COTRjBR8MYmuxlm
+         lgNS2zbBBbMbcKwhNXfHvgjKrUkvkXIxCJ06eLg44lZ0jN5RNOEGx4JLhikpndI+jhAg
+         f8Z/jc4ftG2M770x0zbYWuWNZ8H+/GxOOvES/u9lEBi+wh1huYM0JeYp+pfSOx6VdljU
+         OGytgTUyWHsNQAudtElympCcFzUUAd2ES9xP7YSveDrRkGVvb2s2m/dPJ4goYD0T9ADG
+         Ek8pb68mJNEYtIPznvSLjor1LDq4e1D+Ix8sX80OFe+ISQzZuKtuXI+uoAHHNd5hqbWg
+         rM0A==
+X-Gm-Message-State: APjAAAXWsl+T2Nz4Mr4SUzwSZroZPZ9ZccL+aXyZ5bVyHoN24IO5nXkw
+        FXIdwslsHHavqQRwY1/yOPHGsQ==
+X-Google-Smtp-Source: APXvYqz756ApciuBlxiY9nRcFafoOD5oKomuZNFIW8mTGGnd/8k3MqHMZ15UlGA9x49Ks18BmEIWMw==
+X-Received: by 2002:a25:7102:: with SMTP id m2mr20704482ybc.383.1554239907982;
+        Tue, 02 Apr 2019 14:18:27 -0700 (PDT)
+Received: from localhost ([2620:10d:c091:200::2:99bf])
+        by smtp.gmail.com with ESMTPSA id x13sm10058927ywx.63.2019.04.02.14.18.26
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 02 Apr 2019 14:18:27 -0700 (PDT)
+Date:   Tue, 2 Apr 2019 17:18:26 -0400
+From:   Johannes Weiner <hannes@cmpxchg.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
         Andrew Morton <akpm@linux-foundation.org>,
         "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Tejun Heo <tj@kernel.org>, Waiman Long <longman@redhat.com>
-Subject: [PATCH] psi: Clarify the units used in pressure files
-Date:   Tue,  2 Apr 2019 15:38:10 -0400
-Message-Id: <20190402193810.3450-1-longman@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.38]); Tue, 02 Apr 2019 19:38:30 +0000 (UTC)
+        Tejun Heo <tj@kernel.org>
+Subject: Re: [PATCH] psi: Clarify the units used in pressure files
+Message-ID: <20190402211825.GA16779@cmpxchg.org>
+References: <20190402193810.3450-1-longman@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190402193810.3450-1-longman@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The output of the PSI files show a bunch of numbers with no unit.
-The psi.txt documentation file also does not indicate what units
-are used.  One can only find out by looking at the source code. The
-units are percentage for the averages and useconds for the total.
-Make the information easier to find by documenting the units in psi.txt.
+On Tue, Apr 02, 2019 at 03:38:10PM -0400, Waiman Long wrote:
+> The output of the PSI files show a bunch of numbers with no unit.
+> The psi.txt documentation file also does not indicate what units
+> are used.  One can only find out by looking at the source code. The
+> units are percentage for the averages and useconds for the total.
+> Make the information easier to find by documenting the units in psi.txt.
+> 
+> Signed-off-by: Waiman Long <longman@redhat.com>
 
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- Documentation/accounting/psi.txt | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Acked-by: Johannes Weiner <hannes@cmpxchg.org>
 
-diff --git a/Documentation/accounting/psi.txt b/Documentation/accounting/psi.txt
-index b8ca28b60215..7e71c9c1d8e9 100644
---- a/Documentation/accounting/psi.txt
-+++ b/Documentation/accounting/psi.txt
-@@ -56,12 +56,12 @@ situation from a state where some tasks are stalled but the CPU is
- still doing productive work. As such, time spent in this subset of the
- stall state is tracked separately and exported in the "full" averages.
- 
--The ratios are tracked as recent trends over ten, sixty, and three
--hundred second windows, which gives insight into short term events as
--well as medium and long term trends. The total absolute stall time is
--tracked and exported as well, to allow detection of latency spikes
--which wouldn't necessarily make a dent in the time averages, or to
--average trends over custom time frames.
-+The ratios (in %) are tracked as recent trends over ten, sixty, and
-+three hundred second windows, which gives insight into short term events
-+as well as medium and long term trends. The total absolute stall time
-+(in us) is tracked and exported as well, to allow detection of latency
-+spikes which wouldn't necessarily make a dent in the time averages,
-+or to average trends over custom time frames.
- 
- Cgroup2 interface
- =================
--- 
-2.18.1
-
+Thanks Waiman!
