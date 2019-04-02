@@ -1,158 +1,67 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NORMAL_HTTP_TO_IP,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 11A607D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Apr 2019 15:09:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BAE2B7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Apr 2019 15:44:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730323AbfDBPJC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Apr 2019 11:09:02 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:37493 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727486AbfDBPJB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Apr 2019 11:09:01 -0400
-Received: by mail-pl1-f195.google.com with SMTP id w23so3476493ply.4;
-        Tue, 02 Apr 2019 08:09:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=4dkRspi12M80P/Gbp6NIlu04dGK84PNBtzQKplZbBxI=;
-        b=lmUDFGBS9E6Ar+P/5rvuqos+MILsfI7vVr0xLiIC0kHr1zxjqPyci4ZszZaZDPDQlQ
-         ztNTIMY+HqH0nr1Yqf0P9N5qhLE4mJSJrmnLPnHrv2hGcGrORtHhJvrNbBllJvsJ2XnK
-         VoMr+6yIm4YByzs8KwVYpd4N41PUnXMahtw6zFmnTSg0Cixl39AaALuRo0VhyWj3J6H2
-         wllf7egQ/7e/0GuZ+TDoenwCE1MVvox3f3b3rZw9nivSlbWOsLQ6/TPX16nDmaz03OYA
-         8YZrkNw084EemIqe7ACY8fZ195cx2bGt9/UPyxgcoeTfw5Q8mMnhngmHny/RW8uISZiD
-         St0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=4dkRspi12M80P/Gbp6NIlu04dGK84PNBtzQKplZbBxI=;
-        b=Ep6sIywFmRwfI1/zSpFLD2nnhMTKaSjPPnUuY8zwqz4rLEqd9FJpT9lK3rDp8rcmMH
-         S8IVrRTkNXHUsGv212Fs8lWKLtTFCCMfSTMjQfnwYshL1u8byZHP6/v3aB17mQHUNsNw
-         8H3ZvxKwPLrT6vQNL80cUyDxiPbtpGoqlNsh47S1l7PN/tZ3hUf0UktE3JQc/Yg8aOEO
-         oIFJWYq42WtlSR8YbosBxWoNvJasAoQ4pGqF2cueuytB6MBixg4zcsR3PStkW1KC91Ag
-         JKy3e80e/i4TY6Ws8I1i65xZJWZED6XI7z7q7Hw2YAUcpD/n+gf9QD/isOezXgX2Yv5v
-         jPsg==
-X-Gm-Message-State: APjAAAWU46E4KUG8n/lxVlj4QOcpOubcd2UNMsaF89RS6q4mrF81HOFn
-        etO9YnENJETl9DtSsUsG2n8xcFpNClI=
-X-Google-Smtp-Source: APXvYqxyjE/CHKID56yKKjfhnfQd7oBgDUrlRAlmf0cq96iEFvF8Z0YOEOmMvb5dUE6DqFbGEtTKxQ==
-X-Received: by 2002:a17:902:b706:: with SMTP id d6mr35142583pls.250.1554217740811;
-        Tue, 02 Apr 2019 08:09:00 -0700 (PDT)
-Received: from mail.google.com ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id m16sm32424999pfi.29.2019.04.02.08.08.57
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 02 Apr 2019 08:09:00 -0700 (PDT)
-Date:   Tue, 2 Apr 2019 23:08:54 +0800
-From:   Changbin Du <changbin.du@gmail.com>
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     Changbin Du <changbin.du@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/12] Include linux PCI docs into Sphinx TOC tree
-Message-ID: <20190402150852.juugbq7gripqbrmz@mail.google.com>
-References: <20190329160413.4293-1-changbin.du@gmail.com>
- <20190401230321.GB141706@google.com>
+        id S1729702AbfDBPoA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Apr 2019 11:44:00 -0400
+Received: from ms.lwn.net ([45.79.88.28]:46018 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726167AbfDBPoA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 2 Apr 2019 11:44:00 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 7B8D82D7;
+        Tue,  2 Apr 2019 15:43:59 +0000 (UTC)
+Date:   Tue, 2 Apr 2019 09:43:58 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?= <j.neuschaefer@gmx.net>
+Cc:     linux-doc@vger.kernel.org, Martin Kepplinger <martink@posteo.de>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: kernel-docs: Move vfs.txt under "Docs at
+ the Linux Kernel tree"
+Message-ID: <20190402094358.38c15809@lwn.net>
+In-Reply-To: <20190331221439.22892-1-j.neuschaefer@gmx.net>
+References: <20190331221439.22892-1-j.neuschaefer@gmx.net>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190401230321.GB141706@google.com>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 01, 2019 at 06:03:21PM -0500, Bjorn Helgaas wrote:
-> On Sat, Mar 30, 2019 at 12:04:01AM +0800, Changbin Du wrote:
-> > Hi Corbet,
-> 
-> Conventional address would be "Hi Jonathan", just FYI.
->
-I know this convention. I said 'Hi Corbet' because I saw the name of email
-address. Sorry if this is not the case. :)
+On Mon,  1 Apr 2019 00:14:37 +0200
+Jonathan Neuschäfer <j.neuschaefer@gmx.net> wrote:
 
-> > I also did the conversion for PCI documentation. Please check, Thanks!
-> > 
-> > The kernel now uses Sphinx to generate intelligent and beautiful documentation
-> > from reStructuredText files. I converted most of the Linux PCI docs to rst
-> > format in this serias.
-> > 
-> > For you to preview, please visit below url:
-> > http://104.238.181.70:8080/kernel-doc/PCI/index.html
-> > 
-> > Thank you!
-> > 
-> > Changbin Du (12):
-> >   Documentation: add Linux PCI to Sphinx TOC tree
-> >   pci doc: convert PCI/pci.txt to rst format
-> >   pci doc: convert PCI/PCIEBUS-HOWTO.txt to rst format
-> >   pci doc: convert PCI/pci-iov-howto.txt to rst format
-> >   pci doc: convert PCI/MSI-HOWTO.txt to rst format
-> >   pci doc: convert PCI/acpi-info.txt to rst format
-> >   pci doc: convert PCI/pci-error-recovery.txt to rst format
-> >   pci doc: convert PCI/pcieaer-howto.txt to rst format
-> >   pci doc: convert PCI/endpoint/pci-endpoint.txt to rst format
-> >   pci doc: convert PCI/endpoint/pci-endpoint-cfs.txt to rst format
-> >   pci doc: convert PCI/endpoint/pci-test-function.txt to rst format
-> >   pci doc: convert PCI/endpoint/pci-test-howto.txt to rst format
-> 
-> Thanks for doing all this work!
-> 
-> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-> 
-> There's not a real convention yet for subject lines in Documentation/,
-> but I would propose:
-> 
->   Documentation: PCI: Convert pci.txt to reST
->   Documentation: PCI: Convert endpoint/pci-endpoint.txt to reST
-> 
-> because that at least goes with some recent Documentation/PCI changes
-> and it identifies "reST" as something other than a plain English word
-> (RST or ReST would also work for me).
-> 
-I agree. I am just a little lazy to update all of them this time :)
-Thanks for your ACK!
+> It's unnecessary to point to an external mirror of the Documentation
+> directory. Also, drop the date field, because in-kernel documentation is
+> continually updated.
 
-> >  .../PCI/{MSI-HOWTO.txt => MSI-HOWTO.rst}      |  56 +++--
-> >  .../{PCIEBUS-HOWTO.txt => PCIEBUS-HOWTO.rst}  | 112 +++++----
-> >  .../PCI/{acpi-info.txt => acpi-info.rst}      |  11 +-
-> >  Documentation/PCI/endpoint/index.rst          |  13 ++
-> >  ...-endpoint-cfs.txt => pci-endpoint-cfs.rst} |  99 ++++----
-> >  .../{pci-endpoint.txt => pci-endpoint.rst}    |  74 +++---
-> >  ...est-function.txt => pci-test-function.rst} |  32 +--
-> >  ...{pci-test-howto.txt => pci-test-howto.rst} |  51 ++--
-> >  Documentation/PCI/index.rst                   |  17 ++
-> >  ...or-recovery.txt => pci-error-recovery.rst} | 180 ++++++++-------
-> >  .../{pci-iov-howto.txt => pci-iov-howto.rst}  | 144 +++++++-----
-> >  Documentation/PCI/{pci.txt => pci.rst}        | 218 +++++++++---------
-> >  .../{pcieaer-howto.txt => pcieaer-howto.rst}  |  67 ++++--
-> >  Documentation/index.rst                       |   1 +
-> >  MAINTAINERS                                   |   2 +-
-> >  15 files changed, 641 insertions(+), 436 deletions(-)
-> >  rename Documentation/PCI/{MSI-HOWTO.txt => MSI-HOWTO.rst} (89%)
-> >  rename Documentation/PCI/{PCIEBUS-HOWTO.txt => PCIEBUS-HOWTO.rst} (75%)
-> >  rename Documentation/PCI/{acpi-info.txt => acpi-info.rst} (97%)
-> >  create mode 100644 Documentation/PCI/endpoint/index.rst
-> >  rename Documentation/PCI/endpoint/{pci-endpoint-cfs.txt => pci-endpoint-cfs.rst} (64%)
-> >  rename Documentation/PCI/endpoint/{pci-endpoint.txt => pci-endpoint.rst} (86%)
-> >  rename Documentation/PCI/endpoint/{pci-test-function.txt => pci-test-function.rst} (84%)
-> >  rename Documentation/PCI/endpoint/{pci-test-howto.txt => pci-test-howto.rst} (83%)
-> >  create mode 100644 Documentation/PCI/index.rst
-> >  rename Documentation/PCI/{pci-error-recovery.txt => pci-error-recovery.rst} (80%)
-> >  rename Documentation/PCI/{pci-iov-howto.txt => pci-iov-howto.rst} (65%)
-> >  rename Documentation/PCI/{pci.txt => pci.rst} (80%)
-> >  rename Documentation/PCI/{pcieaer-howto.txt => pcieaer-howto.rst} (83%)
-> > 
-> > -- 
-> > 2.20.1
-> > 
+So I had to ponder on this one a bit...saying "continually updated" is
+pretty amusing for a document that leads off with:
 
--- 
-Cheers,
-Changbin Du
+		  Last updated on June 24, 2007.
+
+> Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+> ---
+> 
+> Alternatively, we might drop this entry of the list entirely, because
+> Documentation/ is already covered.
+
+In the end, I think this alternative option is the better one.  We don't
+want to turn kernel-docs.rst into yet another out-of-date index for the
+rest of Documentation/, and the removal of the external URL takes away the
+only bit of additional information that this entry offers.
+
+Thanks,
+
+jon
