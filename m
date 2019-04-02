@@ -1,124 +1,92 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	NORMAL_HTTP_TO_IP,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E9CBB7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  1 Apr 2019 23:03:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 137AA7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Apr 2019 07:05:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725911AbfDAXDY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 1 Apr 2019 19:03:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52140 "EHLO mail.kernel.org"
+        id S1726625AbfDBHFx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Apr 2019 03:05:53 -0400
+Received: from mx.kolabnow.com ([95.128.36.42]:4244 "EHLO mx.kolabnow.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725867AbfDAXDY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 1 Apr 2019 19:03:24 -0400
-Received: from localhost (unknown [69.71.4.100])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EDD432084B;
-        Mon,  1 Apr 2019 23:03:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1554159803;
-        bh=3Mjx1vmB6gysLzxXmw82/5HSigtoJhMJSy+dfG3Uwq0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oFsC2s0dfEhVf90//G02A9XJeoKu+bxVXOAdVHEvFmmLl5pqA5RFOFC/2ZxJ/kuzU
-         9ARCmw326KgmP0i+ggW6zqb2x4wwWJXgKp7zo/FXlRJhRU3IVi6AZ4ubaYOLKbRn30
-         0GsQ+aWKHjbaodJ7o04wAr1+LAuJHzSi5NpHgito=
-Date:   Mon, 1 Apr 2019 18:03:21 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Changbin Du <changbin.du@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-pci@vger.kernel.org,
+        id S1725863AbfDBHFx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 2 Apr 2019 03:05:53 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id A42EC3150;
+        Tue,  2 Apr 2019 09:05:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-type:content-type:content-transfer-encoding:mime-version
+        :references:in-reply-to:message-id:date:date:subject:subject
+        :from:from:received:received:received; s=dkim20160331; t=
+        1554188748; x=1556003149; bh=b6eO4TwzGAy4B3rvMjp/ptDWgPhTColToc9
+        6uD6RF3M=; b=nu3TsHsVfyiCL3pf4fdRavwcCJsTDUuq/Z6kFZQPggcchDWdmH6
+        Mg9rexwx1F02KCjhtiAp6Anz+mih9XcmvRanlWYZYV/jBPj/AaEmtQidkjOgdR2W
+        h5CtVNzXmQjGKOBCPBKBpqJHwkE8TwfZe7CQWVf7mFWwlzUxf+OX3aQ7tS1tBpIb
+        anUMLHCdyONrGu8FqwKt0v1JVmdxi5uwsuDP0mT/llPWIuN7uj9l5v/yGVKDiW72
+        E6jEwOanBAWygpM2w2svURkMYtCH90N43WwLRrbveEkcCeW+ttSA0jmPDYgH9P6n
+        XKKum3kIjzP+03eqaTZyM6bapV2nlD09pmdSWueYOztCc77JflHhkobuq0COac6k
+        20A/hP0qSB7gLOLjJfioFFC287J2PDWN4RPd9MEBhuQiteCRHJCcYf0vhrc2ybrf
+        eTW3uLzK8jU1PNwbBKQL9rtNaJnbYJY8ZGxpZfF1zxdF5ViaRWkbsW2oCvmrgfd0
+        A3qAK95kmJBGzf9KQbTdigWfx9GyTnVXNvPgYwXsmJunqVdY1ZbclZSvhTistLlk
+        s4OkvqSU5FkOAMyEqZXNACc33IIpKL8iurZQ0odq8tYShEhbGk6pNiid7afuYTna
+        8wf/zfSof/SIW3xh1KCWhQjMb0uBsg26EMxJFwt4oo+/LGu+gyGqrLkk=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id w_dAtHRl7-X5; Tue,  2 Apr 2019 09:05:48 +0200 (CEST)
+Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id 35D04314F;
+        Tue,  2 Apr 2019 09:05:48 +0200 (CEST)
+Received: from ext-subm001.mykolab.com (unknown [10.9.6.1])
+        by int-mx003.mykolab.com (Postfix) with ESMTPS id 0BADDB05;
+        Tue,  2 Apr 2019 09:05:48 +0200 (CEST)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Alessia Mantegazza <amantegazza@vaga.pv.it>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/12] Include linux PCI docs into Sphinx TOC tree
-Message-ID: <20190401230321.GB141706@google.com>
-References: <20190329160413.4293-1-changbin.du@gmail.com>
+Subject: Re: [PATCH] doc:it_IT: translation for maintainer-pgp-guide
+Date:   Tue, 02 Apr 2019 09:05:46 +0200
+Message-ID: <3213581.2fMHWIHKnX@pcbe13614>
+In-Reply-To: <20190401150421.5524ea2d@lwn.net>
+References: <20190330211956.3935-1-federico.vaga@vaga.pv.it> <20190401150421.5524ea2d@lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190329160413.4293-1-changbin.du@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Mar 30, 2019 at 12:04:01AM +0800, Changbin Du wrote:
-> Hi Corbet,
-
-Conventional address would be "Hi Jonathan", just FYI.
-
-> I also did the conversion for PCI documentation. Please check, Thanks!
+On Monday, April 1, 2019 11:04:21 PM CEST Jonathan Corbet wrote:
+> On Sat, 30 Mar 2019 22:19:56 +0100
 > 
-> The kernel now uses Sphinx to generate intelligent and beautiful documentation
-> from reStructuredText files. I converted most of the Linux PCI docs to rst
-> format in this serias.
+> Federico Vaga <federico.vaga@vaga.pv.it> wrote:
+> > It translates the maintainer-pgp-guide in Italian.
+> > 
+> > Signed-off-by: Alessia Mantegazza <amantegazza@vaga.pv.it>
+> > Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
 > 
-> For you to preview, please visit below url:
-> http://104.238.181.70:8080/kernel-doc/PCI/index.html
+> Applied, thanks.
 > 
-> Thank you!
+> I do wonder, though, given this:
+> > +:Translator: Alessia Mantegazza <amantegazza@vaga.pv.it>
 > 
-> Changbin Du (12):
->   Documentation: add Linux PCI to Sphinx TOC tree
->   pci doc: convert PCI/pci.txt to rst format
->   pci doc: convert PCI/PCIEBUS-HOWTO.txt to rst format
->   pci doc: convert PCI/pci-iov-howto.txt to rst format
->   pci doc: convert PCI/MSI-HOWTO.txt to rst format
->   pci doc: convert PCI/acpi-info.txt to rst format
->   pci doc: convert PCI/pci-error-recovery.txt to rst format
->   pci doc: convert PCI/pcieaer-howto.txt to rst format
->   pci doc: convert PCI/endpoint/pci-endpoint.txt to rst format
->   pci doc: convert PCI/endpoint/pci-endpoint-cfs.txt to rst format
->   pci doc: convert PCI/endpoint/pci-test-function.txt to rst format
->   pci doc: convert PCI/endpoint/pci-test-howto.txt to rst format
+> Should this patch have had a From: line to get the proper name into the
+> changelog?
 
-Thanks for doing all this work!
+True, sorry
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-
-There's not a real convention yet for subject lines in Documentation/,
-but I would propose:
-
-  Documentation: PCI: Convert pci.txt to reST
-  Documentation: PCI: Convert endpoint/pci-endpoint.txt to reST
-
-because that at least goes with some recent Documentation/PCI changes
-and it identifies "reST" as something other than a plain English word
-(RST or ReST would also work for me).
-
->  .../PCI/{MSI-HOWTO.txt => MSI-HOWTO.rst}      |  56 +++--
->  .../{PCIEBUS-HOWTO.txt => PCIEBUS-HOWTO.rst}  | 112 +++++----
->  .../PCI/{acpi-info.txt => acpi-info.rst}      |  11 +-
->  Documentation/PCI/endpoint/index.rst          |  13 ++
->  ...-endpoint-cfs.txt => pci-endpoint-cfs.rst} |  99 ++++----
->  .../{pci-endpoint.txt => pci-endpoint.rst}    |  74 +++---
->  ...est-function.txt => pci-test-function.rst} |  32 +--
->  ...{pci-test-howto.txt => pci-test-howto.rst} |  51 ++--
->  Documentation/PCI/index.rst                   |  17 ++
->  ...or-recovery.txt => pci-error-recovery.rst} | 180 ++++++++-------
->  .../{pci-iov-howto.txt => pci-iov-howto.rst}  | 144 +++++++-----
->  Documentation/PCI/{pci.txt => pci.rst}        | 218 +++++++++---------
->  .../{pcieaer-howto.txt => pcieaer-howto.rst}  |  67 ++++--
->  Documentation/index.rst                       |   1 +
->  MAINTAINERS                                   |   2 +-
->  15 files changed, 641 insertions(+), 436 deletions(-)
->  rename Documentation/PCI/{MSI-HOWTO.txt => MSI-HOWTO.rst} (89%)
->  rename Documentation/PCI/{PCIEBUS-HOWTO.txt => PCIEBUS-HOWTO.rst} (75%)
->  rename Documentation/PCI/{acpi-info.txt => acpi-info.rst} (97%)
->  create mode 100644 Documentation/PCI/endpoint/index.rst
->  rename Documentation/PCI/endpoint/{pci-endpoint-cfs.txt => pci-endpoint-cfs.rst} (64%)
->  rename Documentation/PCI/endpoint/{pci-endpoint.txt => pci-endpoint.rst} (86%)
->  rename Documentation/PCI/endpoint/{pci-test-function.txt => pci-test-function.rst} (84%)
->  rename Documentation/PCI/endpoint/{pci-test-howto.txt => pci-test-howto.rst} (83%)
->  create mode 100644 Documentation/PCI/index.rst
->  rename Documentation/PCI/{pci-error-recovery.txt => pci-error-recovery.rst} (80%)
->  rename Documentation/PCI/{pci-iov-howto.txt => pci-iov-howto.rst} (65%)
->  rename Documentation/PCI/{pci.txt => pci.rst} (80%)
->  rename Documentation/PCI/{pcieaer-howto.txt => pcieaer-howto.rst} (83%)
 > 
-> -- 
-> 2.20.1
+> Thanks,
 > 
+> jon
+
+
+-- 
+Federico Vaga
+http://www.federicovaga.it/
+
+
