@@ -5,61 +5,60 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 896D47D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Apr 2019 23:46:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 380797D099
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Apr 2019 23:56:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726078AbfDBXqI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Apr 2019 19:46:08 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:60329 "EHLO
+        id S1726157AbfDBX4W (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Apr 2019 19:56:22 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:39109 "EHLO
         out4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725842AbfDBXqI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Apr 2019 19:46:08 -0400
-X-Greylist: delayed 588 seconds by postgrey-1.27 at vger.kernel.org; Tue, 02 Apr 2019 19:46:07 EDT
+        by vger.kernel.org with ESMTP id S1725842AbfDBX4W (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Apr 2019 19:56:22 -0400
 Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.nyi.internal (Postfix) with ESMTP id 578EB21F2A;
-        Tue,  2 Apr 2019 19:36:19 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Tue, 02 Apr 2019 19:36:19 -0400
+        by mailout.nyi.internal (Postfix) with ESMTP id E8DDB21B96;
+        Tue,  2 Apr 2019 19:56:20 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Tue, 02 Apr 2019 19:56:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=
         message-id:subject:from:to:cc:date:in-reply-to:references
         :content-type:mime-version:content-transfer-encoding; s=fm2; bh=
-        dylNKNGwkziAkM4v8q4wkOXekFQ+UgIwjjuWTZeNBLc=; b=bm2/YaWrJCljpvtu
-        zvGUKytPjXAsckeCFPsEBI5a87XEgUqTK9J/Yd4wAlwR+PnVr8igKYJT/htecJFf
-        A1qIkJN0jLgD1c11MoZIfCh5C1Ro4hdEz6sjQzff/7stCLPIGIKo0jTe5dCr8u+v
-        1bAKSY6hp7UC7wmlkAj35+8SjZ6/pjmmMFsXxZqrNL66Ra+Hq4suaKkWP88zWl8q
-        UwUFqLK10lCxbXJU5J54HLME4I05+nUl265nvdME35ZUmZfHACp71aL4G7AuOCN4
-        xvBh/ssX7UDx83IqlRTDaI1dD43cw4bvAQ/JE4yfDP5pfoXw2wFT1Bm/gdSJXwfU
-        NqIc3Q==
+        8nWEWM5KhPgaRHWbfxIAzGL7FZB8gmuv88IYZ0HO6Dk=; b=mxHyatdq6sVsOfdf
+        TL92GXSXwbGqPXXn1weFRroTnbYpMVrXQsBb8ZiyMQ50Cev2SKx5tBxWTM14AH6E
+        RnSnAjqMUl1hmBJXl1TWeYz6Kpg8HUCwqZlAugpwXfWam6mRlCNLTSSF4RVrZOZ7
+        s/oxEz8v3xl4ph+5tlWPva1xfUDt+gv3q9qqtCRp7hnXVBJ44osC1tI9vfxUO6P5
+        qlUqbBBIVkHWxXxK28sm4voOD9egj70GQY4ClnGl8z85hw0M5ju4Dq5ct9VyJVPU
+        3SSVNS15vZWFFQU6GqCKis3lCZvOWtgTLPEEObmLhw1FTmNENcVkZxOl76MbzkMX
+        IEvEDw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:content-type
         :date:from:in-reply-to:message-id:mime-version:references
         :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; bh=dylNKNGwkziAkM4v8q4wkOXekFQ+UgIwjjuWTZeNB
-        Lc=; b=d+rXowHJ5tlWF/XEVKAFtV0xjEkeNtaY1DGYqfUYCKS2FRxJBuBE3mF2q
-        PEbOAeh/Wm3VCMeCGTiKgdFvIYTsCIymLkVMuDYrjMQQtIFJ+I/g87Ku0/1ZF3Hl
-        y6qAeZ6OIubkivrTYDuUrf7YSi+VgDK8j2NsnXoy1djnbKPrA2AALt9Itf5VEmKk
-        16fsK1daK/uXulopoEPjxqTq5F11DcAWPWZ55EN0pdveCn+5joOp6Vbdjv00uxXd
-        7gMTB41jRmAsKh31FC2fIm236z1l8Dw2uRNjlhVb+nArxpBCmbZwKoxEilfarA2U
-        IurncW6W0nynqEbxXpd05OnDFvy/Q==
-X-ME-Sender: <xms:7_GjXOnnzRj9W_1eLbtFrpuID-2Ihoh47UvNPICJdNo1pFBDeGkwNw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrtddugddvvdculddtuddrgedutddrtddtmd
+        :x-sasl-enc; s=fm2; bh=8nWEWM5KhPgaRHWbfxIAzGL7FZB8gmuv88IYZ0HO6
+        Dk=; b=jIGceqLHwz7gO/ZR9Yec4gbm4XGAGQNIGhU7/2HH5/wfNtZwT52slj6OT
+        wDtVuW/CbK5j/UxUzg8Orkuet509vKSPqHmPsnZzuJVw/07hXgxgq1L0kPpFROt9
+        E+O/WO4I6uGUskFkOMfM388dCs7BvyabxBUuyNx7bO1jNmq8y3CNFalAcQQ7hhlM
+        FcWcvaI2pwmhkpzXy0gpxVK1Vvtoh4PJ2EOh/yDGLXEytK5EKXHfYqFU4k23WLEQ
+        Ebr1pPZVNGbvNW4zuL5LpQ44HNfDX22mLtTaQyY8LRrBYIZA5NmYnXHLUu8MD984
+        9i0fdMDlpWoO9HCgXTUZlRXsBKEcQ==
+X-ME-Sender: <xms:pPajXKtquiZinWxym0P7uaqdHTZM_6mjn0rvJ7km6B9xrT5U1QcjCw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrtddugddvieculddtuddrgedutddrtddtmd
     cutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdp
     uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
     hnthhsucdlqddutddtmdenucfjughrpefkuffhvfffjghftgfoggfgsehtjeertdertdej
     necuhfhrohhmpefkrghnucfmvghnthcuoehrrghvvghnsehthhgvmhgrfidrnhgvtheqne
     cukfhppeduudekrddvtdekrdeifedrvdefvdenucfrrghrrghmpehmrghilhhfrhhomhep
     rhgrvhgvnhesthhhvghmrgifrdhnvghtnecuvehluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:7_GjXB7F0WPxEHgFKBXuTDRJOGOlxONFdtDJSyQqcyKJcwOZwntNHQ>
-    <xmx:7_GjXH_XgAzyBSAI_zhuRHsjyh8DjC0vR5RFmgH0q6ozk3IVd_V6pg>
-    <xmx:7_GjXBg4-ONbiQ4huO1OUlSKX8meXPBpCLbjGoa7sVEhzLGJEYwgVA>
-    <xmx:8_GjXCEcNWDM6g0Lz4Ghslp098l6do1tdhF2kNwVmnq5t8LXwQekHA>
+X-ME-Proxy: <xmx:pPajXNvEwKIOv3IQlB8h9mSB-j7LpJlun6x9vqBoDl5fVh08Y5laBA>
+    <xmx:pPajXC4UZMRIfE4-zWEJEvt4eM0RhzhghAWr7aiJLkiu3QY5gf7IKg>
+    <xmx:pPajXIA2BBJtOL8p8BT3NN4MvCK7jxqNjoIRtQDuahUna5R2VyYzMA>
+    <xmx:pPajXJ4KvB9diB4rYB13g5cZ68jGoMuQBllnZoR1GAQrjQaS1cuHdA>
 Received: from pluto.themaw.net (unknown [118.208.63.232])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 15F77E4805;
-        Tue,  2 Apr 2019 19:36:15 -0400 (EDT)
+        by mail.messagingengine.com (Postfix) with ESMTPA id D3E791030F;
+        Tue,  2 Apr 2019 19:56:19 -0400 (EDT)
 Received: from localhost (localhost [127.0.0.1])
-        by pluto.themaw.net (Postfix) with ESMTP id 5F37C1C004A;
-        Wed,  3 Apr 2019 07:36:11 +0800 (AWST)
-Message-ID: <c4f09fa9b3fa4ead6df10db25eb62474f664dab2.camel@themaw.net>
+        by pluto.themaw.net (Postfix) with ESMTP id 6B3441C013D;
+        Wed,  3 Apr 2019 07:56:16 +0800 (AWST)
+Message-ID: <5c5e02f8b8add4aa2fc24ba2a0880652529588af.camel@themaw.net>
 Subject: Re: [PATCH v3 00/24] Convert vfs.txt to vfs.rst
 From:   Ian Kent <raven@themaw.net>
 To:     Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>
@@ -69,7 +68,7 @@ Cc:     "Tobin C. Harding" <tobin@kernel.org>,
         Randy Dunlap <rdunlap@infradead.org>,
         linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Date:   Wed, 03 Apr 2019 07:36:11 +0800
+Date:   Wed, 03 Apr 2019 07:56:16 +0800
 In-Reply-To: <20190402190811.GM2217@ZenIV.linux.org.uk>
 References: <20190327051717.23225-1-tobin@kernel.org>
          <20190402094934.5b242dc0@lwn.net>
@@ -114,6 +113,19 @@ On Tue, 2019-04-02 at 20:08 +0100, Al Viro wrote:
 > > 
 > >         /* Block on any pending expire */
 > >         if (!(ino->flags & AUTOFS_INF_WANT_EXPIRE))
+
+Oh yes, this is saying the dentry hasn't been selected
+for expire on the first pass, there's a second pass at
+expire selection so there's a delay there and both flags
+(this one and the expiring flag) are kept throughout the
+expire operation if dentry is selected.
+
+That might be partly why an oops has never been seen but
+path walks can occur at any time so it's a bit puzzling.
+
+LOL, and Neil probably can't remember the deeper detail
+on what he did there now either.
+
 > >                 return 0;
 > >         if (rcu_walk)
 > >                 return -ECHILD;
@@ -124,10 +136,6 @@ On Tue, 2019-04-02 at 20:08 +0100, Al Viro wrote:
 > > in autofs_free_ino() RCU-delayed...  Ian, have you, by any
 > > chance, run into reports like that?  Use-after-free or
 > > oopsen in autofs_expire_wait() and friends, that is...
-
-Never seen any reports of this but that doesn't mean it shouldn't
-be fixed.
-
 > 
 > Alternatively, we could clear ->d_fsdata in autofs_d_release()
 > under ->d_lock and have all potentially lockless users of
@@ -135,13 +143,6 @@ be fixed.
 > I'd still prefer to do it as below, though.  Ian, do you have
 > any objections against the following and, if you are OK with
 > it, which tree would you prefer it to go through?
-
-I can't think of any reason to add additional locking over
-using an rcu free.
-
-Please feel free to send this via your tree as your close
-to what's being done and need to keep track of it.
-
 > 
 > autofs: fix use-after-free in lockless ->d_manage()
 > 
