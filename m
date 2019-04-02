@@ -1,134 +1,158 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DFD207D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Apr 2019 19:13:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 755037D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  2 Apr 2019 19:25:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729882AbfDBTNZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 2 Apr 2019 15:13:25 -0400
-Received: from mout.gmx.net ([212.227.17.21]:34869 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726083AbfDBTNZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 2 Apr 2019 15:13:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1554232399;
-        bh=qWoR88u3UXyVY3Dan0Jg67N4efQgr/usDeKN+ubd73A=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=RXuO6aqobTDN62iT1ajDdjEBDXymsEm+Rv08q33xm82vuGt45QFCS/FhJwV+N1QDe
-         PocrjwxDA/KMcFh/N094PetSUI69lU3G6zMwe2utj4ZklYP1IoFzbwYoCwmCVkE5vE
-         0hBiLuxHlIzB3+70187aFEnOMHUb5OYQ1k8/8pGo=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([109.90.232.48]) by mail.gmx.com (mrgmx102
- [212.227.17.168]) with ESMTPSA (Nemesis) id 0LmNHK-1gbW850KoM-00Zu3J; Tue, 02
- Apr 2019 21:13:19 +0200
-Date:   Tue, 2 Apr 2019 21:13:17 +0200
-From:   Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        linux-doc@vger.kernel.org, Martin Kepplinger <martink@posteo.de>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
+        id S1729400AbfDBTZ4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 2 Apr 2019 15:25:56 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:33773 "EHLO
+        out2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726083AbfDBTZz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Apr 2019 15:25:55 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id 178512204C;
+        Tue,  2 Apr 2019 15:25:55 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Tue, 02 Apr 2019 15:25:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=date
+        :from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=VfV6qEx4GfxVkCo7NG9vbB5klK2
+        CoGPcrGR89KYgSN8=; b=uvmgAgamqYQxUyvgTEGeOmMVBfFOxyKaVYlilZPReZe
+        OmWFEhyLNXSmBH47sqeiOF4TFeQmH0IWtHOeF4DZuzus8KoNXkI00Uyti2YfhR5b
+        z5QgKz9MVh+DGyTfh4QpasTgYo/ovq0XJU/MXSNwzOYb7e5jRq6njH7f0+v69+oq
+        2Jz+EgE1pqUSns0eMS9ZM0C+EgekxlWSdQ4NIE07l0SHmgu5qYQHltE7/qmXG/sT
+        xCABypGyj92UcO6oksXnoNMX6xCrVdHIs9LOdOGXj25ivlemqSna+M2jKurs6h6K
+        Nrrst6ze6/ivhJZCdLwE6mWw7HOAwt9fHtJViY8DiHQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=VfV6qE
+        x4GfxVkCo7NG9vbB5klK2CoGPcrGR89KYgSN8=; b=SWhPEyW2dP94KixYJL0MEp
+        a4vp25kAz3goJDtnZuGdTiUs2NCrfGNv4cRmRaFI53AeIX/VlnlHiY3ajjQ1qsYz
+        ir4HPETq/h5qUjQSiCQ6KUA5FotbSK4xmuT8Vezqf7pyPk9nNtc5/5J9icpfNypn
+        Ct/pknguD8rrmtvf39X3StsWtAoDgBl7RnSZIJGiioNl3UoKING0z2VWi/OfWFHP
+        WjMy5PEbCuvTf+4PTQHu7AUSRpDQV/RFfjKQMyqgbYvXWpoLFxU1Nw4ubP/oDOCf
+        7GDIQj4YBRIkk07IxLVqh7FAvs39ffGpmBsxLD/hEliau0nOnjJEXMe4jTMSatdQ
+        ==
+X-ME-Sender: <xms:QrejXPv1z_ynknsCzPhckazNYn49QcwkGIXdAX9gYyVOTy-C4ga-tQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrtddtgdduudeiucdltddurdeguddtrddttd
+    dmucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnegfrhhlucfvnfffucdludehmdenucfjughrpeffhffvuffk
+    fhggtggujgfofgesthdtredtofervdenucfhrhhomhepfdfvohgsihhnucevrdcujfgrrh
+    guihhnghdfuceomhgvsehtohgsihhnrdgttgeqnecukfhppeduvdegrdduieelrddvjedr
+    vddtkeenucfrrghrrghmpehmrghilhhfrhhomhepmhgvsehtohgsihhnrdgttgenucevlh
+    hushhtvghrufhiiigvpedt
+X-ME-Proxy: <xmx:QrejXKSFWlxtwMibPrwmJosGhm3DGbdsnL-wR-6ORDYjtc22diQ0Kw>
+    <xmx:QrejXBkqdRcIyMqfQi2r0ziXChhu0YJoaqFjcMiymP9RJXzOyF65kA>
+    <xmx:QrejXJmMJlzvXSVBTPSCTLdKV81xqGGMMKkdzuwaC1raGUHI5fhj2g>
+    <xmx:Q7ejXEH42KmWUcwkVuld-v4plakFly7joIC-rcsVeXjC78z7916DwQ>
+Received: from localhost (124-169-27-208.dyn.iinet.net.au [124.169.27.208])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 99E1310395;
+        Tue,  2 Apr 2019 15:25:53 -0400 (EDT)
+Date:   Wed, 3 Apr 2019 06:25:20 +1100
+From:   "Tobin C. Harding" <me@tobin.cc>
+To:     Al Viro <viro@zeniv.linux.org.uk>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "Tobin C. Harding" <tobin@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@s-opensource.com>,
+        Neil Brown <neilb@suse.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: kernel-docs: Move vfs.txt under "Docs at
- the Linux Kernel tree"
-Message-ID: <20190402191317.GG2095@latitude>
-References: <20190331221439.22892-1-j.neuschaefer@gmx.net>
- <20190402094358.38c15809@lwn.net>
+Subject: Re: [PATCH v3 00/24] Convert vfs.txt to vfs.rst
+Message-ID: <20190402192520.GA6285@eros.localdomain>
+References: <20190327051717.23225-1-tobin@kernel.org>
+ <20190402094934.5b242dc0@lwn.net>
+ <20190402164824.GK2217@ZenIV.linux.org.uk>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="FoLtEtfbNGMjfgrs"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190402094358.38c15809@lwn.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Provags-ID: V03:K1:75a/cp3rvVbazYZqV14AZHIHlRl+FRB0qBGUQyXyC7aPqcRrY6s
- QmgyFtkCwZn7LjyrG5Da0LX+Q0C75/kKOcx++/DuaOLk5Lsn6wmFIDwLpt3sUkVQGb7d5Wj
- Yb1bqhlV2I/zB6LSkvyeOsWNK9kkk3Co8aAiu/jJYqsW8DKt2F2t30J1NzFUL4Camo6nwnC
- BZHLC/zwvc6oV4hgtAZWQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:hnw4kuHEjb0=:q5WL0JeI2YFpcAoGzJRZhZ
- Pfcf+SV3D17w0XIOAHBGEC0r3MRAdpbOaSxi0i2VBluccLOIxX6d+beddlZyEqx4CDo0b/fp4
- GhrwxucLaGvfDjgK62S1XLW6YrE/PBcWYrQp4NzLsc3kNDJmIObis/Wi5wZic/xeIjLtvfu91
- 20r4Hme6zaPZkd/ICGzJrTxkDZPAAyZro9JFVe3fYLZljklM+O27WHaqG/v+1Bwhvq9LFN/dn
- 5hqI/Goj9e0j5dDURDPEixHKU9Kb+x0piCBpbk2vShgmmZXqtgW4LMPopF+SJiCF5IzZkBJai
- 6iSrQV6MFUvswGJHD3p0L8DAWeSj+ePk9fNI5gt3BEJDQTxI5DIQ8aBwmuZqgFrBollFIiQx0
- QKVhn7apmrJedO7IS7W+vZuera/XE5TG6/HGTt7j7RSfL/+QjQGGlytypt3VC++6QTB6v+hjw
- H6q8gUeFfaLopjR8WzQLwZFAPB+NR4uLRsclEbKDDdjckqw5SoOF1nKBfwOLl4fx38z7SuuF7
- az+wMemOOMsMhEOo3VLs1m2h4nUZE+isb+a8kPxFtxlQjMrBHopu9eYUvxHqrl4r9AdorF7kq
- rvKIWzQrSw5wE0jA67XK3PIKYy/buFZhSj8Y7C91y9dzn00em/qzPr5naaP2Kj4uLOJkOFYEw
- F0WjYHKb9q93ckax3Xp7Buqv9bNSp91L3tCPfzPTtebIpqZp+hhr5AvI5MuXWopcFPIK33bzU
- oxdsV6VzCQnPIWXzzI4DqgkfoYts54yotX+vZNScfr46W0tbL8r9jf5zbCKILSEPpCYGbDrOS
- e6Qhsx2Ww0bhgMnZup/et6um7NknCtC8VWIF4nT/0nhmiDQgZLMih+fv2Rt6KxgcmvdxqTtF7
- 7XrBFiUainAjgrSXz91aHz63p2o8DDh9g1BAABnABu4auOJ9y8tlzsDYj1rJX2
+In-Reply-To: <20190402164824.GK2217@ZenIV.linux.org.uk>
+X-Mailer: Mutt 1.11.4 (2019-03-13)
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Apr 02, 2019 at 05:48:24PM +0100, Al Viro wrote:
+> On Tue, Apr 02, 2019 at 09:49:34AM -0600, Jonathan Corbet wrote:
+> > On Wed, 27 Mar 2019 16:16:53 +1100
+> > "Tobin C. Harding" <tobin@kernel.org> wrote:
+> > 
+> > > Hi Al,
+> > > 
+> > > This series converts the VFS file Documentation/filesystems/vfs.txt to
+> > > reStructuredText format.  Please consider taking this series through
+> > > your tree as apposed to Jon's tree because this set makes a fair amount
+> > > of changes to VFS files (and also the VFS tree and docs tree are out of
+> > > sync right now with the recent work by Mauro and Neil).
+> > 
+> > Al, do you have any thoughts on how you want to handle this?  I was about
+> > to apply Jeff Layton's vfs.txt update, but would rather not create
+> > conflicts unnecessarily.  Let me know if you'd like me to pick this work
+> > up.
+> 
+> Frankly, I would rather see that file be eventually replaced by something
+> saner, and I'm not talking about the format.
 
---FoLtEtfbNGMjfgrs
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Are you able to extrapolate on this comment please?  Is this something
+someone new to the VFS (me) can do with a little nudge in the right
+direction or is this something that needs thorough knowledge of the VFS? 
 
-On Tue, Apr 02, 2019 at 09:43:58AM -0600, Jonathan Corbet wrote:
-> On Mon,  1 Apr 2019 00:14:37 +0200
-> Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net> wrote:
->=20
-> > It's unnecessary to point to an external mirror of the Documentation
-> > directory. Also, drop the date field, because in-kernel documentation is
-> > continually updated.
->=20
-> So I had to ponder on this one a bit...saying "continually updated" is
-> pretty amusing for a document that leads off with:
->=20
-> 		  Last updated on June 24, 2007.
+> Re Jeff's patch... 
+> 
+> +  d_prune: called prior to pruning (i.e. unhashing and killing) a hashed
+> +       dentry from the dcache.
+> 
+> is flat-out misguiding.  First of all, it *is* called for unhashed dentries,
+> TYVM.  Furthermore, "prior to" is far too vague.
 
-Ok, I should have been more explicit with what I meant and written "(in
-principle) continually update"; compared to journal articles or sections
-of a specific edition of a book, that's what files in Git are.
-
-However, looking at the Git history for vfs.txt, it has indeed been
-updated multiple times per year, and not just with typo fixes, so I
-think this line should simply be removed to avoid further confusion.
-
->=20
-> > Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
-> > ---
-> >=20
-> > Alternatively, we might drop this entry of the list entirely, because
-> > Documentation/ is already covered.
->=20
-> In the end, I think this alternative option is the better one.  We don't
-> want to turn kernel-docs.rst into yet another out-of-date index for the
-> rest of Documentation/, and the removal of the external URL takes away the
-> only bit of additional information that this entry offers.
-
-Good points, I'll do that for v2.
+This patch includes documentation for d_prune() very similar to Jeff's
+patch (taken from a comment somewhere in filesystems code IIRC).  I can
+have a go at working all the comments below into better documentation if
+that is useful (dependant on answer to question above).
 
 
-Jonathan Neusch=C3=A4fer
+thanks,
+Tobin.
 
---FoLtEtfbNGMjfgrs
-Content-Type: application/pgp-signature; name="signature.asc"
+(leaving text below for reference)
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEvHAHGBBjQPVy+qvDCDBEmo7zX9sFAlyjtEUACgkQCDBEmo7z
-X9tuDxAAhI7/Ps7vFq8GC175FVfxPhfZxKqwVIIz3QGw1eGhSrA1EdDS1W/SWElf
-WzM6T71NkvscGCAOyvvwW4hj+bGlvwpUt84wWyjl8MNFqZq+v/4wKwATMvk3O+mA
-KRpLnCy2E67hNsLMZKFIdrYnboUxkA/w/oWrKpx6fNPZrAEK0mvL2Ttl5fa6Tled
-qgjmGFS41e1KUOViXMdiW37+FGZ8w+ugIj6rcD1vkRnhkrF7Lcbijbv2rODhpm8A
-XT29Kz3Pb4r+7hpFem+J1tmICERgECcz7GKyYuq0m5SoqZthAcBzwlNJAOGzW/iH
-qqyYVL1NQvkyUecgJt/XVKu5zDAxEF691tF/oVlKAiCIFMmy4F5WuBr4fczkmR1D
-iBwNM9onP2M7lzaRFCwV+5jOMn01HDaalUstG96t8v0wfqrDzcdA+h8cQiiJMCIx
-j7OUpGxnBb+01ZH5HTImrHt/YqtQlLB7VkNT3gWx4cr3kjvi7L8ZHzKuA7JlzNGb
-XdpxForWCTFty9bUkSWiJYSXCISFB0SGeZAN0MV7jVd0oN7CkFG8ZOX1lfmGP/5X
-Ln13VCw42IEgISfwUChnPKiv3PTzPH1lE2CKAsOfbOdRYsl5+7dAOq0+mFBJxM8A
-7qb3aAT+W28DTMBqvzPts3oe7XLHTKtpxnmRHpknOkuzPUnPGv0=
-=TAgE
------END PGP SIGNATURE-----
-
---FoLtEtfbNGMjfgrs--
+> What really happens: there's a point in state diagram for dentries where
+> we commit to destroying a dentry and start taking it apart.  That transition
+> happens with ->d_lock of dentry, ->i_lock of its inode (if any) and
+> ->d_lock of the parent (again, if any) held; ->d_prune() is the last
+> chance for filesystem to see the (now doomed) dentry still intact.
+> 
+> It doesn't matter whether it's hashed or not, etc.  The locks held
+> are sufficient to stabilize pretty much everything[1] in dentry and
+> nothing is destroyed yet.  The only apparent exception is ->d_count,
+> but that's not real - we are guaranteed that there had been no other
+> counted references to dentry at the decision point and that none
+> could've been added.  So this "oh, it's not 0 now, it's gone negative
+> after lockref_mark_dead() the caller has just done" is a red herring.
+> 
+> ->d_prune() must not drop/regain any of the locks held by caller.
+> It must _not_ free anything attached to dentry - that belongs
+> later in the shutdown sequence.  If anything, I'm tempted to
+> make it take const struct dentry * as argument, just to make
+> that clear.
+> 
+> No new (counted) references can be acquired by that point;
+> lockless dcache lookup might find our dentry a match, but
+> result of such lookup is not going to be legitimized - it's
+> doomed to be thrown out as stale.
+> 
+> It really makes more sense as part of struct dentry lifecycle
+> description...  
+> 
+> [1] in theory, ->d_time might be changed by overlapping lockless
+> call of ->d_revalidate().  Up to filesystem - VFS doesn't touch
+> that field (and AFAICS only NFS uses it these days).
