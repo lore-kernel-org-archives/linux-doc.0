@@ -1,211 +1,93 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BC5CF7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Apr 2019 17:56:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D83297D917
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Apr 2019 18:26:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726656AbfDCR45 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Apr 2019 13:56:57 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:44655 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726635AbfDCR44 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Apr 2019 13:56:56 -0400
-Received: by mail-pf1-f194.google.com with SMTP id y13so8513251pfm.11
-        for <linux-doc@vger.kernel.org>; Wed, 03 Apr 2019 10:56:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=0plGmtWPxMrVsvJ147H7O6RF7OpndiONXD2KZz+fZDg=;
-        b=yNirPcDgTk9QIm/n7OXSAK0CuWqAhNunSvCnfXOvxwFd9zCoUROJ+g+A3YZUI/vVoZ
-         Tl4eQcn8B5gzAN0yzyuNWHqhQdnk1nWvKSEJDIORBxIOBFeW+2L3QEOUokG9BAwo8SQZ
-         HmZg+iWGW9wUQyrYvcTKAXJg0+h9CAYPrX8dM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=0plGmtWPxMrVsvJ147H7O6RF7OpndiONXD2KZz+fZDg=;
-        b=KCuardEEieq7RYREEaEIyo+1KFf1O/ztMbGUuAYylx3s/AqWQQJIUpp8ElkjsrcBxC
-         6FfuEVymovqSfFKKa5a8MuWtc4fLdgDDbT/uwlVBCY4/tVR6yJbNRIUqC6R6CbMWfHAQ
-         AzKi/XmjGaiUJNVX9IXn7Bj8Uc4EB/d1cAZQ6vVbsCWm5qcb9XLc4PJMgySnbvjTdI2l
-         PUvIACc4qrCab6FG2lRnHt/XKDF1/oU1AdUNiMWGLbCK9xS2nsTl+cC8pCAolM6wXjtz
-         I2tvP9Vl1Q7a3KBbsVN9wDL/QRFw6k5cnkaN1RhItZxMXdrzKhjZXwn+eJeArS5yOVQi
-         +aUA==
-X-Gm-Message-State: APjAAAXQPeSFbEKPDr83tyM7bVolWQmjaYJ6U+HiNnod0DbnoBMAB1Q/
-        imZ7pjmAPDAshBjfWhHRaxXvgw==
-X-Google-Smtp-Source: APXvYqzgMLvNYjdtx3ptZnJaa7HIcSN/xdmsOiNm34JGTFThCPJ2KSubkpPFSY3esUVTsdymKwLN7Q==
-X-Received: by 2002:a63:550d:: with SMTP id j13mr1072028pgb.18.1554314215558;
-        Wed, 03 Apr 2019 10:56:55 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id e1sm19604283pfn.187.2019.04.03.10.56.54
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 03 Apr 2019 10:56:54 -0700 (PDT)
-Date:   Wed, 3 Apr 2019 13:56:53 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Daniel Colascione <dancol@google.com>
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Networking <netdev@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        atish patra <atishp04@gmail.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Karim Yaghmour <karim.yaghmour@opersys.com>,
-        Kees Cook <keescook@chromium.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Manoj Rao <linux@manojrajarao.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v2 1/2] Provide in-kernel headers for making it easy to
- extend the kernel
-Message-ID: <20190403175653.GA60809@google.com>
-References: <20190211143600.15021-1-joel@joelfernandes.org>
- <20190215031926.ljzluy2cfxp64u6o@ast-mbp>
- <20190325134947.GA187133@google.com>
- <20190327173103.GA205980@google.com>
- <CAK7LNARcaVtgHvco-Q=E5jhOXduk=55g9AC7nFn2esFxnk9Naw@mail.gmail.com>
- <20190403172031.GA260189@google.com>
- <CAKOZueszGpij1ZLqQfNggY-7t7BV+SksApVvmWE+kuExYvv+aA@mail.gmail.com>
+        id S1726184AbfDCS05 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Apr 2019 14:26:57 -0400
+Received: from pandora.armlinux.org.uk ([78.32.30.218]:36596 "EHLO
+        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726144AbfDCS05 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Apr 2019 14:26:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=MpjqHQ2HzGxCVqYxpjy1nZP4w4gLR2IqXxY1B2OAQh0=; b=FNury48jQ7X7qLl/AFXy5qJ4S
+        owo8kh1SmkAmaYhT5SKFdEwpRym/t2rWq44jhlw7A71dCyIqKabu5jvK4IFU0Pa23SqZTGbgxnb38
+        VD6rK4DEkXhpgxtSbZbNmTTrEPT0rDpbTtgDJHQtnFgQ9EbZH57HnqYVh76K1jhlCakg6kX5+q4lL
+        O8WkJ88dfsvQvwaTfrXImGwVh5/aYLuQKUwdo/4+tuygv/fyNhnjAGKru7fYFmnhfq8hFd4IZWJdg
+        4rdWBb4DPE7IWJ/0ii5kznUqSrlkcbC0jFv0/KxbHdamqDgMFsXkFh8hCk7HbhLukWI+JXqAgaITV
+        iujYs89dA==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:51946)
+        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.90_1)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1hBkb3-0004ju-Df; Wed, 03 Apr 2019 19:26:49 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.89)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1hBkau-00055z-HH; Wed, 03 Apr 2019 19:26:40 +0100
+Date:   Wed, 3 Apr 2019 19:26:40 +0100
+From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     x86@kernel.org, Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+        iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+Subject: Re: remove NULL struct device support in the DMA API
+Message-ID: <20190403182640.2ca6w2hngjqp35mt@shell.armlinux.org.uk>
+References: <20190321225235.30648-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAKOZueszGpij1ZLqQfNggY-7t7BV+SksApVvmWE+kuExYvv+aA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190321225235.30648-1-hch@lst.de>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 03, 2019 at 10:46:01AM -0700, Daniel Colascione wrote:
-> On Wed, Apr 3, 2019 at 10:20 AM Joel Fernandes <joel@joelfernandes.org> wrote:
-> >
-> > On Wed, Apr 03, 2019 at 04:48:37PM +0900, Masahiro Yamada wrote:
-> > > On Thu, Mar 28, 2019 at 2:32 AM Joel Fernandes <joel@joelfernandes.org> wrote:
-> > > >
-> > > > On Mon, Mar 25, 2019 at 09:49:47AM -0400, Joel Fernandes wrote:
-> > > > > On Thu, Feb 14, 2019 at 07:19:29PM -0800, Alexei Starovoitov wrote:
-> > > > > > On Mon, Feb 11, 2019 at 09:35:59AM -0500, Joel Fernandes (Google) wrote:
-> > > > > > > Introduce in-kernel headers and other artifacts which are made available
-> > > > > > > as an archive through proc (/proc/kheaders.txz file). This archive makes
-> > > > > > > it possible to build kernel modules, run eBPF programs, and other
-> > > > > > > tracing programs that need to extend the kernel for tracing purposes
-> > > > > > > without any dependency on the file system having headers and build
-> > > > > > > artifacts.
-> > > > > > >
-> > > > > > > On Android and embedded systems, it is common to switch kernels but not
-> > > > > > > have kernel headers available on the file system. Raw kernel headers
-> > > > > > > also cannot be copied into the filesystem like they can be on other
-> > > > > > > distros, due to licensing and other issues. There's no linux-headers
-> > > > > > > package on Android. Further once a different kernel is booted, any
-> > > > > > > headers stored on the file system will no longer be useful. By storing
-> > > > > > > the headers as a compressed archive within the kernel, we can avoid these
-> > > > > > > issues that have been a hindrance for a long time.
-> > > > > >
-> > > > > > The set looks good to me and since the main use case is building bpf progs
-> > > > > > I can route it via bpf-next tree if there are no objections.
-> > > > > > Masahiro, could you please ack it?
-> > > > >
-> > > > > FYI, Masahiro's comments were all address by v5:
-> > > > > https://lore.kernel.org/patchwork/project/lkml/list/?series=387311
-> > > > >
-> > > > > I believe aren't more outstanding concerns. Could we consider it for v5.2?
-> > > >
-> > > > Just to highlight the problem, today I booted v5.0 on an emulated Android
-> > > > device for some testing, that didn't have a set of prebuilt headers that we
-> > > > have been packaging on well known kernels, to get around this issue. This
-> > > > caused great pain and issues with what I was doing. I know me and many others
-> > > > really want this. With this I can boot an emulated Android device with
-> > > > IKCONFIG_PROC=y and run BCC with that that. Also I want to do the BCC side of
-> > > > the development, but first want to know if we can merge this upstream.
-> > > >
-> > > > Masahiro, I believe due diligence has been done in solidifying it as posted
-> > > > in the v5.  Anything else we need to do here? Are you with the patches?
-> > >
-> > >
-> > > As you said, these updates are "cosmetic".
-> > > Nobody is worried about (or interested in) them.
-> > > Even if we miss something, they are fixable later.
-> > >
-> > > I accept embedding headers in the kernel,
-> > > but I do not like the part about external module build.
-> > >  - kernel embeds build artifacts that depend on a
-> > >    particular host-arch
-> > >  - users do not know which compiler to use
-> > > Perhaps, you may remember my concerns.
-> > > https://lore.kernel.org/patchwork/patch/1046307/#1239501
-> >
-> > Masahiro,
-> > I think we already discussed this right. The compiler issue is a user-issue -
-> > it is not a problem that has arisen because this patch. Anyone can build a
-> > kernel module today without this patch - using a compiler that is different
-> > from the running kernel. So I did not fully understand your concern. This
-> > patch does not ship a compiler in the archive. The compiler is upto the user
-> > based on user environment. They can already shoot themself in foot without
-> > this patch.
-> >
-> > Greg,
-> > Would be great to get your thoughts here as well about Masami's concern.
-> >
-> > Honestly, the "kernel module building artifacts" bit is a bonus with this
-> > patch. The main thing we are adding or that we need is really the headers
-> > (for BCC). I just thought shipping the kernel build artifacts would also be
-> > awesome because people can now build kernel modules without needing a kernel
-> > tree at all.
-> >
-> > But I also want this stuff merged so if folks are really unhappy with the
-> > module build artifacts and only want headers - then that's also fine with me
-> > and I can yank them - that would also mean though that this work cannot be a
-> > replacement for linux-headers package on distros, so that would be sad.
-> >
-> > thanks!
+On Thu, Mar 21, 2019 at 03:52:28PM -0700, Christoph Hellwig wrote:
+> We still have a few drivers which pass a NULL struct device pointer
+> to DMA API functions, which generally is a bad idea as the API
+> implementations rely on the device not only for ops selection, but
+> also the dma mask and various other attributes, and many implementations
+> have been broken for NULL device support for a while.
+
+I think I must be missing something, but...
+
+My understanding is that ISA DMA is normally limited to 24 bits of
+address - indeed, the x86 version only programs 24 bits of DMA address.
+Looking through this series, it appears that the conversions mean that
+the DMA mask for ISA becomes the full all-ones DMA mask, which would
+of course lead to memory corruption if only 24 bits of the address end
+up being programmed into the hardware.
+
+Maybe you could say why you think this series is safe in regard to ISA
+DMA?
+
 > 
-> IMHO, including the module build stuff is fine, and the stuff that
-> Masahiro mentions doesn't matter much. To be specific about the
-> concerns:
+> This series removes the few remaning users that weren't picked up in
+> the last merge window and then removes core support for this "feature".
 > 
-> >> > >  - kernel embeds build artifacts that depend on a
-> > >    particular host-arch
+> A git tree is also available at:
 > 
-> What are these artifacts? We build the kernel as a standalone system.
-> It's not as if we statically link host glibc into it or something.
-
-There are some scripts/ that are built in the host-arch ABI. These are also put
-in the archive because they are needed to build modules. So if you
-cross-compile then the archive will have scripts/ that are in the host arch,
-not the target arch. This makes it not possible to build modules on the
-target using the archive. This is not much of an issue because I already
-proved that such kernel modules can be built using a chroot in this thread:
-https://lkml.org/lkml/2019/2/28/1313
-And in the non cross-compile case, it will be immensely useful for distros..
-
-> > >  - users do not know which compiler to use
+>     git://git.infradead.org/users/hch/misc.git dma-remove-NULL-dev-support
 > 
-> Does that matter much? Do things ever break if the kernel proper is
-> built with GCC x.y.z and we build a module with GCC x.y.(z+1)? Why
-> would it? Structure layout is invariant across compiler version, or at
-> least ought to be.  And don't we have exactly the same problem with
-> any kernel headers package? I don't think it'd hurt to include the
-> output of $(CC) --version though.
+> Gitweb:
+> 
+>     http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/dma-remove-NULL-dev-support
+> 
 
-Apparently there were some issues in some posting where Greg said we don't
-support anything but modules built with the same compiler as the kernel its
-being loaded into, even if such modules do work in practice. I don't recall
-the details, I can dig up that thread if you want. My point is, whether
-that's an issue or not - it is not an issue introduced by this patch. That's
-just a module building issue which we neither solve here, nor introduce.
-
-> Like Joel, I'd like to see this change merged. It'll make life easier
-> for a lot of people.
-
-Thanks.
-
-- Joel
-
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
+According to speedtest.net: 11.9Mbps down 500kbps up
