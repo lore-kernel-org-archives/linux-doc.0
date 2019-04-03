@@ -1,66 +1,117 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4A7117D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Apr 2019 15:36:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C606E7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Apr 2019 15:39:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726548AbfDCPgG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Apr 2019 11:36:06 -0400
-Received: from verein.lst.de ([213.95.11.211]:33440 "EHLO newverein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726155AbfDCPgG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Apr 2019 11:36:06 -0400
-Received: by newverein.lst.de (Postfix, from userid 2407)
-        id A42CA68AFE; Wed,  3 Apr 2019 17:35:53 +0200 (CEST)
-Date:   Wed, 3 Apr 2019 17:35:52 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Russell King <linux@armlinux.org.uk>, x86@kernel.org,
-        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Cc:     linux-fbdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        iommu@lists.linux-foundation.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: remove NULL struct device support in the DMA API
-Message-ID: <20190403153552.GA26129@lst.de>
-References: <20190321225235.30648-1-hch@lst.de>
+        id S1726157AbfDCPj0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Apr 2019 11:39:26 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:41098 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726105AbfDCPj0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Apr 2019 11:39:26 -0400
+Received: by mail-pf1-f196.google.com with SMTP id 188so8345833pfd.8;
+        Wed, 03 Apr 2019 08:39:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=4K7W0j8rTa+YRaaAstvUDc1uzqxpUCqMhMXLcqU75Hc=;
+        b=oy1474TUswjxugfN0Bu6CcbkHenxjvmFB5/KVpITrqwm3QTufVyDd8JTu8xFYegoWr
+         QeQGs/f8FknYLjzs2NQtUvZB1BkOrP0Lfu8GmYsii9D77HRx+PmeqmHG0FO2GyjaU2Tu
+         b6oog/NOgd8OI5PmYzPi0rEeMx+muDrHJIrx8buHEH79aZlRG8CvqlLncAtbw57UtAqm
+         1TKRhutqzb2GAVXggizw3AhvuXW4QRccQ8vMlcb7EfLBzgTQ3AMEWXTWUGMnBb7geBtX
+         /YXhebJCdjVcGVShGKW6F+4C7kEePemnsxzLXzWw1BXIWUdVV8/YgMV6fbH1b7i7Rv9P
+         qMDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=4K7W0j8rTa+YRaaAstvUDc1uzqxpUCqMhMXLcqU75Hc=;
+        b=a76AM+7S5jbVbOQ/bw7WvhmShU2wbi9yOEAMDNzi0j4Wb8uR0RxiCkW4UWFZcQ3WRu
+         RuacvKCpzWlZHK//TNIRjRn4YwXXiNbt8dSvc9xqS9jscaC3aLz9ssLXXuH29okJbe3X
+         uLplB1Mef7VZEiCvf3dKLGPV7BZ2tNjiJ6P4WmI4M1I30nxDPa7RiluAHesSDTfcJhxs
+         0UqtT/pJgM3X8Uz8YXVQmSftLfGri8Q6qVJIvoaa8Q9d2bCj/gxocNehqU1gWAoUZXwc
+         PGw+Nf4SmMD9H7fSaoXAvWqz9QDcMD+aAYySL+3bsf8DpjuU7gtx5ap/QDN3hMQ/qiO2
+         0EEA==
+X-Gm-Message-State: APjAAAXZa6HgbWGuzMp7jAOPADwvBh/8dKbSREGkNmmDgJZKPLEYq7hG
+        oaj2eGHgbJAQeIjWL0y32xc=
+X-Google-Smtp-Source: APXvYqwPPcI2Q5taQ8Fbp4n8GiG8PnfWB+RprnDtY62cdNO1PArVojWfZfVbhTyAl4GDvwZKRwtz8w==
+X-Received: by 2002:aa7:80c8:: with SMTP id a8mr15488pfn.193.1554305965352;
+        Wed, 03 Apr 2019 08:39:25 -0700 (PDT)
+Received: from mail.google.com ([104.238.181.70])
+        by smtp.gmail.com with ESMTPSA id z21sm23213491pfn.139.2019.04.03.08.39.22
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 03 Apr 2019 08:39:24 -0700 (PDT)
+Date:   Wed, 3 Apr 2019 23:39:19 +0800
+From:   Changbin Du <changbin.du@gmail.com>
+To:     Bjorn Helgaas <helgaas@kernel.org>
+Cc:     Changbin Du <changbin.du@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/12] Include linux PCI docs into Sphinx TOC tree
+Message-ID: <20190403153917.4r73hhzjp6anuyhj@mail.google.com>
+References: <20190329160413.4293-1-changbin.du@gmail.com>
+ <20190401230321.GB141706@google.com>
+ <20190402150852.juugbq7gripqbrmz@mail.google.com>
+ <20190402180744.GD141706@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190321225235.30648-1-hch@lst.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20190402180744.GD141706@google.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Any comments on the remaining patches?  I'd like to give this series
-a couple weeks of soaking in linux-next before the end of the merge
-window, so reviews would be apprciated.
+On Tue, Apr 02, 2019 at 01:07:44PM -0500, Bjorn Helgaas wrote:
+> On Tue, Apr 02, 2019 at 11:08:54PM +0800, Changbin Du wrote:
+> > On Mon, Apr 01, 2019 at 06:03:21PM -0500, Bjorn Helgaas wrote:
+> > > On Sat, Mar 30, 2019 at 12:04:01AM +0800, Changbin Du wrote:
+> > > > Changbin Du (12):
+> > > >   Documentation: add Linux PCI to Sphinx TOC tree
+> > > >   pci doc: convert PCI/pci.txt to rst format
+> > > >   pci doc: convert PCI/PCIEBUS-HOWTO.txt to rst format
+> > > >   pci doc: convert PCI/pci-iov-howto.txt to rst format
+> > > >   pci doc: convert PCI/MSI-HOWTO.txt to rst format
+> > > >   pci doc: convert PCI/acpi-info.txt to rst format
+> > > >   pci doc: convert PCI/pci-error-recovery.txt to rst format
+> > > >   pci doc: convert PCI/pcieaer-howto.txt to rst format
+> > > >   pci doc: convert PCI/endpoint/pci-endpoint.txt to rst format
+> > > >   pci doc: convert PCI/endpoint/pci-endpoint-cfs.txt to rst format
+> > > >   pci doc: convert PCI/endpoint/pci-test-function.txt to rst format
+> > > >   pci doc: convert PCI/endpoint/pci-test-howto.txt to rst format
+> > > 
+> > > Thanks for doing all this work!
+> > > 
+> > > Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+> > > 
+> > > There's not a real convention yet for subject lines in Documentation/,
+> > > but I would propose:
+> > > 
+> > >   Documentation: PCI: Convert pci.txt to reST
+> > >   Documentation: PCI: Convert endpoint/pci-endpoint.txt to reST
+> > > 
+> > > because that at least goes with some recent Documentation/PCI changes
+> > > and it identifies "reST" as something other than a plain English word
+> > > (RST or ReST would also work for me).
+> > > 
+> > I agree. I am just a little lazy to update all of them this time :)
+> > Thanks for your ACK!
+> 
+> Well, I guess I'm too lazy to fix them all for you, so I personally
+> wouldn't apply these.  But maybe Jonathan will be more accommodating.
+>
+ok, I will fix this serias since they do matter.
 
-On Thu, Mar 21, 2019 at 03:52:28PM -0700, Christoph Hellwig wrote:
-> We still have a few drivers which pass a NULL struct device pointer
-> to DMA API functions, which generally is a bad idea as the API
-> implementations rely on the device not only for ops selection, but
-> also the dma mask and various other attributes, and many implementations
-> have been broken for NULL device support for a while.
-> 
-> This series removes the few remaning users that weren't picked up in
-> the last merge window and then removes core support for this "feature".
-> 
-> A git tree is also available at:
-> 
->     git://git.infradead.org/users/hch/misc.git dma-remove-NULL-dev-support
-> 
-> Gitweb:
-> 
->     http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/dma-remove-NULL-dev-support
-> _______________________________________________
-> iommu mailing list
-> iommu@lists.linux-foundation.org
-> https://lists.linuxfoundation.org/mailman/listinfo/iommu
----end quoted text---
+> Bjorn
+
+-- 
+Cheers,
+Changbin Du
