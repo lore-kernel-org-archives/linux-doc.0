@@ -1,121 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ECF627D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Apr 2019 15:42:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 535C67D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Apr 2019 15:50:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726157AbfDCPmZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Apr 2019 11:42:25 -0400
-Received: from mailout2.w1.samsung.com ([210.118.77.12]:51635 "EHLO
-        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726084AbfDCPmZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Apr 2019 11:42:25 -0400
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20190403154224euoutp02628fa647388287960b1805913106bd3e~SATP71Wtd1767417674euoutp02O
-        for <linux-doc@vger.kernel.org>; Wed,  3 Apr 2019 15:42:24 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20190403154224euoutp02628fa647388287960b1805913106bd3e~SATP71Wtd1767417674euoutp02O
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1554306144;
-        bh=V16lzcU5NxAayAoz/ELKkYUWam8HsfaVjtMLHCfE/F8=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=fqtub7A92Y2ii/5VNPTUhlFOU6v6IHaXOb2vtYjgemZ/uGnA/0eqn8mdd9D82kACK
-         7YSQV8A4dFOwBWya6ZJPNexdz4h64M64r2V47ZXcxrBzfZihUp/mXYvBL1OT9EDGvh
-         ttifpBtyGvGgcwXpsCEU/x6AZEghmDTXj+JlNreg=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-        20190403154223eucas1p2ce4842a48d76157307bb315c68b12148~SATPOxZXw1438314383eucas1p2g;
-        Wed,  3 Apr 2019 15:42:23 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-        eusmges3new.samsung.com (EUCPMTA) with SMTP id 42.67.04325.F54D4AC5; Wed,  3
-        Apr 2019 16:42:23 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-        20190403154222eucas1p1bcbe78c07a58dd7660786d0d5463f123~SATOd8luh1945919459eucas1p1t;
-        Wed,  3 Apr 2019 15:42:22 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
-        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20190403154222eusmtrp117192f510a4e9d268c7364f05732ba4d~SATOPoIN_2635626356eusmtrp1c;
-        Wed,  3 Apr 2019 15:42:22 +0000 (GMT)
-X-AuditID: cbfec7f5-b75ff700000010e5-b2-5ca4d45f7fc6
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-        eusmgms2.samsung.com (EUCPMTA) with SMTP id C5.6E.04140.E54D4AC5; Wed,  3
-        Apr 2019 16:42:22 +0100 (BST)
-Received: from [106.120.51.71] (unknown [106.120.51.71]) by
-        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20190403154221eusmtip2a9aa86516b8f6b3120f3a678654fabf3~SATNxuiO90857908579eusmtip2V;
-        Wed,  3 Apr 2019 15:42:21 +0000 (GMT)
-Subject: Re: [PATCH 4/7] pxa3xx-gcu: pass struct device to dma_mmap_coherent
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Russell King <linux@armlinux.org.uk>, x86@kernel.org,
-        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-        iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
-From:   Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Message-ID: <728de1c2-0408-9a12-ca00-87e9dd09bcfe@samsung.com>
-Date:   Wed, 3 Apr 2019 17:43:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-        Thunderbird/45.3.0
+        id S1726427AbfDCPuV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Apr 2019 11:50:21 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:45089 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726568AbfDCPuU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Apr 2019 11:50:20 -0400
+Received: by mail-pl1-f193.google.com with SMTP id bf11so8227230plb.12;
+        Wed, 03 Apr 2019 08:50:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=syOA+zPZTwlboRIIrIDQhbaPrDpvvVM2MWdFiG8P1ds=;
+        b=HHrfwUpc5CDEM3eN0X6ACB0dNBvhflchzajME6SiEe7SW/61twlnNGyFFKE4/VayED
+         F5w7v3RaONBh3/i1JRLmzKg1oDYUeQw8KzSC3ExBZG3g9Uu6dvmrHqCxEmTO3fsjteqN
+         epcIbPAtX8HEh71B6LaQXQ6P5/QvjduQtttyLFt47nLcWcldoO1F5SFP/1jWuh6deSpP
+         7gjZoJyLrNj8hen9FJJf2M1Sv6HfJKF9sFmTiY9veAgQdo6B1AwfChUU14Qb0OzShFCy
+         Ravd66phP7uqfCBf/xuy1MAo/1KlMyfkMjkhfEH6xs2puPXspKQ/oRRrhoZBFdFQF6R9
+         TaEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=syOA+zPZTwlboRIIrIDQhbaPrDpvvVM2MWdFiG8P1ds=;
+        b=CW1o/nCyJXWQShoFJUh36a+zIyawmxjPQUWuKhWgZhscHsRDgIYooRXcl5c25HCoEf
+         xbCEIZmomrTeVsksE8++v6OMa5KC9OJSxWLK6kGpjQo0d5VoSfbyUEV/sjWZ5DKFsjtE
+         0NXt/wruS1dYlF5PXd5r3HIbd79Gjn2usmhHIdshXvDoQYG/Xml8euMYtw+szIrF853j
+         pNnkLvJQRjU95j0xQt2eqPvwmvjmrOv+0IhRd8uz5w0IlrlKi1vB1SOhXudFUApaOupr
+         Rms2aBTxG2LEjfLqj1u9quZkQDUKuUqgvuIUXd2/dWDoPgSrgBRTH33HA0VPxQdZaJvU
+         R0Fg==
+X-Gm-Message-State: APjAAAW3kqx7kPUDjxXdyEhGZwrYMm5kHmbHqRdNit/uBjASwHxhtU7S
+        bJSmZSRE6jnO5lzlyPHjekE=
+X-Google-Smtp-Source: APXvYqwo8tUgEdGNNSxIijLzKETuit6MD/p/+7hQ+lWuuWjunifSck5EGAGBLG3q9UNvozkM6u+UJQ==
+X-Received: by 2002:a17:902:1002:: with SMTP id b2mr681943pla.248.1554306619835;
+        Wed, 03 Apr 2019 08:50:19 -0700 (PDT)
+Received: from localhost.localdomain ([104.238.181.70])
+        by smtp.gmail.com with ESMTPSA id b8sm18906922pgq.33.2019.04.03.08.50.16
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 03 Apr 2019 08:50:18 -0700 (PDT)
+From:   Changbin Du <changbin.du@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Bjorn Helgaas <bhelgaas@google.com>
+Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Changbin Du <changbin.du@gmail.com>
+Subject: [PATCH v2 01/12] Documentation: add Linux PCI to Sphinx TOC tree
+Date:   Wed,  3 Apr 2019 23:49:44 +0800
+Message-Id: <20190403154955.12096-2-changbin.du@gmail.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190403154955.12096-1-changbin.du@gmail.com>
+References: <20190403154955.12096-1-changbin.du@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190321225235.30648-5-hch@lst.de>
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrNKsWRmVeSWpSXmKPExsWy7djPc7rxV5bEGJx6xmFx5et7NouVq48y
-        WSzYb22x6fE1VouFbUtYLE70fWC1uLxrDpvFoal7GS0OnJ7CbPFjw2NWBy6Py9cuMnvsnHWX
-        3WPTqk42j/vdx5k8Ni+p95h8Yzmjx+6bDWwenzfJBXBEcdmkpOZklqUW6dslcGUcbV7AWrCX
-        qWLRpRcsDYwdTF2MHBwSAiYS878wdjFycQgJrGCU2NC+ngXC+cIosW/2ffYuRk4g5zOjxIQ3
-        ySA2SMOe43+hOpYzSpycupgdwnnLKNF8t5MZpEpYwEfi6rTDYLaIgJLE01dnwTqYBdYySdze
-        tJURJMEmYCUxsX0VmM0rYCex5PxsVhCbRUBFYtrhfmaQ+0QFIiT6z6hDlAhKnJz5hAXE5hQw
-        kNh38DxYOTOQfWTRHChbXmL72znMILskBM6xS7yds44R4mwXiTPdL1kgbGGJV8e3sEPYMhKn
-        J/ewQDSsY5T42/ECqns7o8Tyyf/YIKqsJQ4fv8gKYTtKPN/Qxw4JPT6JG28FITbzSUzaNp0Z
-        Iswr0dEmBFGtJrFh2QY2mF1dO1dClXhIXJvsO4FRcRaS12YheWcWkncWMDKvYhRPLS3OTU8t
-        Ns5LLdcrTswtLs1L10vOz93ECExSp/8d/7qDcd+fpEOMAhyMSjy8P1YviRFiTSwrrsw9xCjB
-        wawkwnumf0GMEG9KYmVValF+fFFpTmrxIUZpDhYlcd5qhgfRQgLpiSWp2ampBalFMFkmDk6p
-        Bsag6OqLmTUFq2QuHtz5cs8Rl4C5vu+WJqRLNP5bxPom/tNGp8O2JTZqfvd9ny65+Jlfz+cx
-        U0zbrGf90fYXe6Y6R/n5ZcpOev359P6Vyn++8q12XigT8EFTsLou9uDMJdurlhY07BBvDtTI
-        Dme4an7GZ9HtXuf4pyu+tu+ftH4SZ2bw8f+7RFcosRRnJBpqMRcVJwIAUwIHJ04DAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrIIsWRmVeSWpSXmKPExsVy+t/xe7pxV5bEGDw4LGhx5et7NouVq48y
-        WSzYb22x6fE1VouFbUtYLE70fWC1uLxrDpvFoal7GS0OnJ7CbPFjw2NWBy6Py9cuMnvsnHWX
-        3WPTqk42j/vdx5k8Ni+p95h8Yzmjx+6bDWwenzfJBXBE6dkU5ZeWpCpk5BeX2CpFG1oY6Rla
-        WugZmVjqGRqbx1oZmSrp29mkpOZklqUW6dsl6GUcbV7AWrCXqWLRpRcsDYwdTF2MnBwSAiYS
-        e47/Zexi5OIQEljKKLHh1R72LkYOoISMxPH1ZRA1whJ/rnWxQdS8ZpSY3XGcGSQhLOAjcXXa
-        YTBbREBJ4umrs4wgtpDASkaJV7eDQRqYBdYySdyf2sYKkmATsJKY2L4KrIhXwE5iyfnZYHEW
-        ARWJaYf7wQaJCkRI3HrYwQJRIyhxcuYTMJtTwEBi38HzYPXMAnoSO67/grLlJba/ncM8gVFw
-        FpKWWUjKZiEpW8DIvIpRJLW0ODc9t9hIrzgxt7g0L10vOT93EyMw+rYd+7llB2PXu+BDjAIc
-        jEo8vD9WL4kRYk0sK67MPcQowcGsJMJ7pn9BjBBvSmJlVWpRfnxRaU5q8SFGU6AnJjJLiSbn
-        AxNDXkm8oamhuYWlobmxubGZhZI473mDyighgfTEktTs1NSC1CKYPiYOTqkGRkb/RYbV4jv1
-        p37nnXP+MJOCSfE9jXjrtUfv178Qa3AtebuzzHeGZ7P5vreMWuY7tKd0J03zXHNM4EjVnCkF
-        PT7ryie8uhyY48Im8Om2i1z0z03MvUIXl3188D8pMGJRbLr6lhU/N2eEKzGbn7y0dscd62MS
-        m7/ZP6r1lnwZNyFy7wsP/tPmz5VYijMSDbWYi4oTAW+BOKvUAgAA
-X-CMS-MailID: 20190403154222eucas1p1bcbe78c07a58dd7660786d0d5463f123
-X-Msg-Generator: CA
-X-RootMTR: 20190321225324epcas4p19c9de95eddcbd41dd65d665387a74007
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20190321225324epcas4p19c9de95eddcbd41dd65d665387a74007
-References: <20190321225235.30648-1-hch@lst.de>
-        <CGME20190321225324epcas4p19c9de95eddcbd41dd65d665387a74007@epcas4p1.samsung.com>
-        <20190321225235.30648-5-hch@lst.de>
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Add a index.rst for PCI subsystem. More docs will be added later.
 
-On 03/21/2019 11:52 PM, Christoph Hellwig wrote:
-> Just like we do for all other DMA operations.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Changbin Du <changbin.du@gmail.com>
+---
+ Documentation/PCI/index.rst | 9 +++++++++
+ Documentation/index.rst     | 1 +
+ 2 files changed, 10 insertions(+)
+ create mode 100644 Documentation/PCI/index.rst
 
-Acked-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+diff --git a/Documentation/PCI/index.rst b/Documentation/PCI/index.rst
+new file mode 100644
+index 000000000000..c2f8728d11cf
+--- /dev/null
++++ b/Documentation/PCI/index.rst
+@@ -0,0 +1,9 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=======================
++Linux PCI Bus Subsystem
++=======================
++
++.. toctree::
++   :maxdepth: 2
++   :numbered:
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index e3aa28275894..35fc03526b3b 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -91,6 +91,7 @@ needed).
+    vm/index
+    bpf/index
+    acpi/index
++   PCI/index
+    misc-devices/index
+ 
+ Architecture-specific documentation
+-- 
+2.20.1
 
-Best regards,
---
-Bartlomiej Zolnierkiewicz
-Samsung R&D Institute Poland
-Samsung Electronics
