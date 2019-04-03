@@ -5,87 +5,75 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DE1407D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Apr 2019 19:36:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 11AE67D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Apr 2019 19:42:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726708AbfDCTgP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Apr 2019 15:36:15 -0400
-Received: from ms.lwn.net ([45.79.88.28]:54102 "EHLO ms.lwn.net"
+        id S1726188AbfDCTmc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Apr 2019 15:42:32 -0400
+Received: from verein.lst.de ([213.95.11.211]:35263 "EHLO newverein.lst.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726151AbfDCTgP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Apr 2019 15:36:15 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id AB7959B7;
-        Wed,  3 Apr 2019 19:36:14 +0000 (UTC)
-Date:   Wed, 3 Apr 2019 13:36:13 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Changbin Du <changbin.du@gmail.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 00/24] Include linux ACPI docs into Sphinx TOC tree
-Message-ID: <20190403133613.13f3fd75@lwn.net>
-In-Reply-To: <CAJZ5v0jbCi3Jgn5YXPCP+zgs-O7z-9_3p3XZGvm40_6RDsJqkQ@mail.gmail.com>
-References: <20190329001135.15847-1-changbin.du@gmail.com>
-        <CAJZ5v0gKX9E+U_9eKfTr7pWGH=jxMLz_Jr850-6BcbG3xBz5qg@mail.gmail.com>
-        <CAJZ5v0jbCi3Jgn5YXPCP+zgs-O7z-9_3p3XZGvm40_6RDsJqkQ@mail.gmail.com>
-Organization: LWN.net
+        id S1726064AbfDCTmc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Apr 2019 15:42:32 -0400
+Received: by newverein.lst.de (Postfix, from userid 2407)
+        id 605FD68AFE; Wed,  3 Apr 2019 21:42:20 +0200 (CEST)
+Date:   Wed, 3 Apr 2019 21:42:20 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Russell King - ARM Linux admin <linux@armlinux.org.uk>
+Cc:     Christoph Hellwig <hch@lst.de>, x86@kernel.org,
+        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+        iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+Subject: Re: remove NULL struct device support in the DMA API
+Message-ID: <20190403194220.GA30376@lst.de>
+References: <20190321225235.30648-1-hch@lst.de> <20190403182640.2ca6w2hngjqp35mt@shell.armlinux.org.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190403182640.2ca6w2hngjqp35mt@shell.armlinux.org.uk>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2 Apr 2019 10:25:23 +0200
-"Rafael J. Wysocki" <rafael@kernel.org> wrote:
-
-> There are ACPI-related documents currently in Documentation/acpi/ that
-> don't clearly fall under either driver-api or admin-guide.  For
-> example, some of them describe various aspects of the ACPI support
-> subsystem operation and some document expectations with respect to the
-> ACPI tables provided by the firmware etc.
+On Wed, Apr 03, 2019 at 07:26:40PM +0100, Russell King - ARM Linux admin wrote:
+> On Thu, Mar 21, 2019 at 03:52:28PM -0700, Christoph Hellwig wrote:
+> > We still have a few drivers which pass a NULL struct device pointer
+> > to DMA API functions, which generally is a bad idea as the API
+> > implementations rely on the device not only for ops selection, but
+> > also the dma mask and various other attributes, and many implementations
+> > have been broken for NULL device support for a while.
 > 
-> Where would you recommend to put them after converting to .rst?
+> I think I must be missing something, but...
+> 
+> My understanding is that ISA DMA is normally limited to 24 bits of
+> address
 
-OK, I've done some pondering on this.  Maybe what we need is a new
-top-level "hardware guide" book meant to hold information on how the
-hardware works and what the kernel's expectations are.  Architecture
-information could maybe go there too.  Would this make sense?
+Yes.
 
-If so, I could see a division like this:
+> - indeed, the x86 version only programs 24 bits of DMA address.
+> Looking through this series, it appears that the conversions mean that
+> the DMA mask for ISA becomes the full all-ones DMA mask, which would
+> of course lead to memory corruption if only 24 bits of the address end
+> up being programmed into the hardware.
 
-Hardware guide
-	acpi-lid
-	aml-debugger (or maybe driver api?)
-	debug (ditto)
-	DSD-properties-rules
-	gpio-properties
-	i2c-muxes
+In the generic dma mapping code no struct device has always meant a
+32-bit DMA mask - take a look at the dma_get_mask() function.
 
-Admin guide
-	cppc_sysfs
-	initrd_table_override
+> Maybe you could say why you think this series is safe in regard to ISA
+> DMA?
 
-Driver-API
-	enumeration
-	scan_handlers
+ISA DMA has always been rather painful in a myriad of ways, and the
+DMA API so far hasn't helped, given that we don't do bounce buffering
+for the 24-bit limit, but just the higher limits.  So far even if you
+do use the DMA API and pass a device ISA DMA so far always meant
+that the higher layers had to assure things are addressable, either
+by using GFP_DMA allocation in the drivers, or mid-layer hacks like
+the unchecked_isa_dma flag in SCSI and/or BLK_BOUNCE_ISA in the
+block layer.
 
-other:
-	dsdt-override: find another home for those five lines
-
-...and so on.  I've probably gotten at least one of those wrong, but that's
-the idea.
-
-Of course, then it would be nice to better integrate those documents so
-that they fit into a single coherent whole...a guy can dream...:)
-
-Thanks,
-
-jon
+This series doesn't change those facts at all.  I have some half
+started series to clean some of this up but it isn't high up on
+the priority list.
