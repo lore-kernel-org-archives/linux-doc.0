@@ -1,193 +1,150 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1BB6F7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Apr 2019 22:11:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C68C37D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Apr 2019 23:28:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726690AbfDCWKy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Apr 2019 18:10:54 -0400
-Received: from cloudserver094114.home.pl ([79.96.170.134]:49194 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726206AbfDCWKg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Apr 2019 18:10:36 -0400
-Received: from 79.184.254.219.ipv4.supernova.orange.pl (79.184.254.219) (HELO aspire.rjw.lan)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.213)
- id 69f964f146cc3a38; Thu, 4 Apr 2019 00:10:33 +0200
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Linux PM <linux-pm@vger.kernel.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linux ACPI <linux-acpi@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>
-Subject: [PATCH 2/4] Documentation: PM: Add SPDX license tags to multiple files
-Date:   Thu, 04 Apr 2019 00:04:43 +0200
-Message-ID: <30491576.jJB0AOblsF@aspire.rjw.lan>
-In-Reply-To: <4546107.fVFrecLk33@aspire.rjw.lan>
-References: <4546107.fVFrecLk33@aspire.rjw.lan>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+        id S1726193AbfDCX26 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Apr 2019 19:28:58 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:33549 "EHLO
+        out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726167AbfDCX26 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Apr 2019 19:28:58 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.nyi.internal (Postfix) with ESMTP id 39B91222BA;
+        Wed,  3 Apr 2019 19:28:57 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Wed, 03 Apr 2019 19:28:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=
+        message-id:subject:from:to:cc:date:in-reply-to:references
+        :content-type:mime-version:content-transfer-encoding; s=fm2; bh=
+        ++5CMhroEuAjazs1tO09H63zbBQ5nzJdJ5d+2RHIrNc=; b=LyiATcFVKqYDfMIb
+        snYj1Mt7Ispou1aZOmkyr1bFymLsYr6VeyKcm49DUxj84YSe/rq7xG23WiuMF6gn
+        C5bKEgLToCWroLCUG6qp78PYRzL0BGfqOwxYnLgQ712a1V4t2te9ZMXmVP5AH+IU
+        QelN435IgpRL8w7tNGcpyD/Q5B5woa0J4aS5nP4v/a3+RB74zQfYagmFcajMEraA
+        Bx0gjbGUkYZZsMB6foeTihXloPSIaZmpxGyfw0vKw2/LkZMG/+R/0Od0VSxTQTwP
+        gyrsAKhNcCS1B0ix59rpuUyQ4ObJOwXyJpcMvAQ8GR0SVHoM4wyRY/UUXmU5EEp1
+        DkVRCQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; bh=++5CMhroEuAjazs1tO09H63zbBQ5nzJdJ5d+2RHIr
+        Nc=; b=B9dIoUPRAOVsLitQsTbmXna7UnkdDQvXapQk6TvX08Q99NQQAgMJK/alF
+        bs9x0hNl0tkKHndC5VNaG+zLpn+1gyhco16EPCKeQ51EY+B3o2N9YtWBc3WvD+Io
+        TSNUT09h9ZQoxP/0ZoPcbZYKylQ9tDBbZjRdXeIw4gmJxzT1RWZRHQS+sUcHkyRt
+        d6ruTIsLvWyQq1mJ3rQqpc+cPmzTOzdgxFtMEcstRaZxC91yjs45r/3WcIWsP5/3
+        IqdRx5ORAtQrWQ1Ovwa1g9ajNrhZ7UWUjt7mj9AGtk9qBAVQCmjFb7bdW15jR2qG
+        Y9vdsPfdZt/ShS5U6/1+FoW3U1B9g==
+X-ME-Sender: <xms:uEGlXDbzki7zwxvSd2jqXaCH9jSyQv0PiT_df9mSAX8Y4Wyejb_Rjw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrtdeggddvudculddtuddrgedutddrtddtmd
+    cutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefkuffhvfffjghftgfoggfgsehtjeertdertdej
+    necuhfhrohhmpefkrghnucfmvghnthcuoehrrghvvghnsehthhgvmhgrfidrnhgvtheqne
+    cukfhppeduudekrddvtdekrdeifedrvdefvdenucfrrghrrghmpehmrghilhhfrhhomhep
+    rhgrvhgvnhesthhhvghmrgifrdhnvghtnecuvehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:uEGlXLUGjspAqIABHMI6S1Yg7-_yA7WYvkvLh_N6qu7ESIH73TRBFQ>
+    <xmx:uEGlXOue12PNRolHcIYy_miuKNbE118XhUINEZRcl2ML09oPA65JUQ>
+    <xmx:uEGlXMzmw7B3nRGQSvzfdzGDiSyPI9E1uz_BKYLvCXXc2nZ4K1Tr0A>
+    <xmx:uUGlXOjdnp-vtUSfY9olDEQ00f71nSImOm56G34HJKNgwp-62QU8HA>
+Received: from pluto.themaw.net (unknown [118.208.63.232])
+        by mail.messagingengine.com (Postfix) with ESMTPA id CD566E43A3;
+        Wed,  3 Apr 2019 19:28:55 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+        by pluto.themaw.net (Postfix) with ESMTP id 61F711C0079;
+        Thu,  4 Apr 2019 07:28:52 +0800 (AWST)
+Message-ID: <894091e9742896e4bc810458a9f71f3f59a48860.camel@themaw.net>
+Subject: Re: [PATCH v3 00/24] Convert vfs.txt to vfs.rst
+From:   Ian Kent <raven@themaw.net>
+To:     NeilBrown <neilb@suse.com>, Al Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     "Tobin C. Harding" <tobin@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@s-opensource.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Date:   Thu, 04 Apr 2019 07:28:52 +0800
+In-Reply-To: <87ftqz29i2.fsf@notabene.neil.brown.name>
+References: <20190327051717.23225-1-tobin@kernel.org>
+         <20190402094934.5b242dc0@lwn.net>
+         <20190402164824.GK2217@ZenIV.linux.org.uk>
+         <20190402175401.GL2217@ZenIV.linux.org.uk>
+         <20190402190811.GM2217@ZenIV.linux.org.uk>
+         <5c5e02f8b8add4aa2fc24ba2a0880652529588af.camel@themaw.net>
+         <87ftqz29i2.fsf@notabene.neil.brown.name>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-2.fc28) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+On Wed, 2019-04-03 at 11:55 +1100, NeilBrown wrote:
+> On Wed, Apr 03 2019, Ian Kent wrote:
+> 
+> > On Tue, 2019-04-02 at 20:08 +0100, Al Viro wrote:
+> > > On Tue, Apr 02, 2019 at 06:54:01PM +0100, Al Viro wrote:
+> > > > static void autofs_dentry_release(struct dentry *de)
+> > > > {
+> > > >         struct autofs_info *ino = autofs_dentry_ino(de);
+> > > >         struct autofs_sb_info *sbi = autofs_sbi(de->d_sb);
+> > > > 
+> > > >         pr_debug("releasing %p\n", de);
+> > > > 
+> > > >         if (!ino)
+> > > >                 return;
+> > > > ...
+> > > >         autofs_free_ino(ino);
+> > > > }
+> > > > with autofs_free_ino() being straight kfree().  Which means
+> > > > that the lockless case of autofs_d_manage() can run into
+> > > > autofs_dentry_ino(dentry) getting freed right under it.
+> > > > 
+> > > > And there we do have this reachable:
+> > > > int autofs_expire_wait(const struct path *path, int rcu_walk)
+> > > > {
+> > > >         struct dentry *dentry = path->dentry;
+> > > >         struct autofs_sb_info *sbi = autofs_sbi(dentry->d_sb);
+> > > >         struct autofs_info *ino = autofs_dentry_ino(dentry);
+> > > >         int status;
+> > > >         int state;
+> > > > 
+> > > >         /* Block on any pending expire */
+> > > >         if (!(ino->flags & AUTOFS_INF_WANT_EXPIRE))
+> > 
+> > Oh yes, this is saying the dentry hasn't been selected
+> > for expire on the first pass, there's a second pass at
+> > expire selection so there's a delay there and both flags
+> > (this one and the expiring flag) are kept throughout the
+> > expire operation if dentry is selected.
+> > 
+> > That might be partly why an oops has never been seen but
+> > path walks can occur at any time so it's a bit puzzling.
+> > 
+> > LOL, and Neil probably can't remember the deeper detail
+> > on what he did there now either.
+> 
+> It seems very likely that this was just a subtlety that I missed.
+> I doesn't help that "ino" isn't actually and inode and isn't freed like
+> an inode, but that is no excuse.
 
-Add SPDX license tags to .rst files under Documentation/driver-api/pm
-and Documentation/admin-quide/pm.
+I've become accustom to the naming so that doesn't occur to
+me, ;)
 
-Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
----
- Documentation/admin-guide/pm/cpufreq.rst       |    2 ++
- Documentation/admin-guide/pm/cpuidle.rst       |    2 ++
- Documentation/admin-guide/pm/index.rst         |    2 ++
- Documentation/admin-guide/pm/intel_pstate.rst  |    2 ++
- Documentation/admin-guide/pm/sleep-states.rst  |    2 ++
- Documentation/admin-guide/pm/strategies.rst    |    2 ++
- Documentation/admin-guide/pm/system-wide.rst   |    2 ++
- Documentation/admin-guide/pm/working-state.rst |    2 ++
- Documentation/driver-api/pm/cpuidle.rst        |    2 ++
- Documentation/driver-api/pm/devices.rst        |    2 ++
- Documentation/driver-api/pm/index.rst          |    2 ++
- Documentation/driver-api/pm/notifiers.rst      |    2 ++
- Documentation/driver-api/pm/types.rst          |    2 ++
- 13 files changed, 26 insertions(+)
+> 
+> When we add the rcu_head linkage to 'struct autofs_info', we might as
+> well remove the 'struct inode' from there - it doesn't seem to have been
+> used for years.
 
-Index: linux-pm/Documentation/admin-guide/pm/cpufreq.rst
-===================================================================
---- linux-pm.orig/Documentation/admin-guide/pm/cpufreq.rst
-+++ linux-pm/Documentation/admin-guide/pm/cpufreq.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. |struct cpufreq_policy| replace:: :c:type:`struct cpufreq_policy <cpufreq_policy>`
- .. |intel_pstate| replace:: :doc:`intel_pstate <intel_pstate>`
- 
-Index: linux-pm/Documentation/admin-guide/pm/cpuidle.rst
-===================================================================
---- linux-pm.orig/Documentation/admin-guide/pm/cpuidle.rst
-+++ linux-pm/Documentation/admin-guide/pm/cpuidle.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. |struct cpuidle_state| replace:: :c:type:`struct cpuidle_state <cpuidle_state>`
- .. |cpufreq| replace:: :doc:`CPU Performance Scaling <cpufreq>`
- 
-Index: linux-pm/Documentation/admin-guide/pm/index.rst
-===================================================================
---- linux-pm.orig/Documentation/admin-guide/pm/index.rst
-+++ linux-pm/Documentation/admin-guide/pm/index.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- ================
- Power Management
- ================
-Index: linux-pm/Documentation/admin-guide/pm/intel_pstate.rst
-===================================================================
---- linux-pm.orig/Documentation/admin-guide/pm/intel_pstate.rst
-+++ linux-pm/Documentation/admin-guide/pm/intel_pstate.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- ===============================================
- ``intel_pstate`` CPU Performance Scaling Driver
- ===============================================
-Index: linux-pm/Documentation/admin-guide/pm/sleep-states.rst
-===================================================================
---- linux-pm.orig/Documentation/admin-guide/pm/sleep-states.rst
-+++ linux-pm/Documentation/admin-guide/pm/sleep-states.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- ===================
- System Sleep States
- ===================
-Index: linux-pm/Documentation/admin-guide/pm/strategies.rst
-===================================================================
---- linux-pm.orig/Documentation/admin-guide/pm/strategies.rst
-+++ linux-pm/Documentation/admin-guide/pm/strategies.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- ===========================
- Power Management Strategies
- ===========================
-Index: linux-pm/Documentation/admin-guide/pm/system-wide.rst
-===================================================================
---- linux-pm.orig/Documentation/admin-guide/pm/system-wide.rst
-+++ linux-pm/Documentation/admin-guide/pm/system-wide.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- ============================
- System-Wide Power Management
- ============================
-Index: linux-pm/Documentation/admin-guide/pm/working-state.rst
-===================================================================
---- linux-pm.orig/Documentation/admin-guide/pm/working-state.rst
-+++ linux-pm/Documentation/admin-guide/pm/working-state.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- ==============================
- Working-State Power Management
- ==============================
-Index: linux-pm/Documentation/driver-api/pm/cpuidle.rst
-===================================================================
---- linux-pm.orig/Documentation/driver-api/pm/cpuidle.rst
-+++ linux-pm/Documentation/driver-api/pm/cpuidle.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. |struct cpuidle_governor| replace:: :c:type:`struct cpuidle_governor <cpuidle_governor>`
- .. |struct cpuidle_device| replace:: :c:type:`struct cpuidle_device <cpuidle_device>`
- .. |struct cpuidle_driver| replace:: :c:type:`struct cpuidle_driver <cpuidle_driver>`
-Index: linux-pm/Documentation/driver-api/pm/devices.rst
-===================================================================
---- linux-pm.orig/Documentation/driver-api/pm/devices.rst
-+++ linux-pm/Documentation/driver-api/pm/devices.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. |struct dev_pm_ops| replace:: :c:type:`struct dev_pm_ops <dev_pm_ops>`
- .. |struct dev_pm_domain| replace:: :c:type:`struct dev_pm_domain <dev_pm_domain>`
- .. |struct bus_type| replace:: :c:type:`struct bus_type <bus_type>`
-Index: linux-pm/Documentation/driver-api/pm/index.rst
-===================================================================
---- linux-pm.orig/Documentation/driver-api/pm/index.rst
-+++ linux-pm/Documentation/driver-api/pm/index.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- ===============================
- CPU and Device Power Management
- ===============================
-Index: linux-pm/Documentation/driver-api/pm/notifiers.rst
-===================================================================
---- linux-pm.orig/Documentation/driver-api/pm/notifiers.rst
-+++ linux-pm/Documentation/driver-api/pm/notifiers.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- =============================
- Suspend/Hibernation Notifiers
- =============================
-Index: linux-pm/Documentation/driver-api/pm/types.rst
-===================================================================
---- linux-pm.orig/Documentation/driver-api/pm/types.rst
-+++ linux-pm/Documentation/driver-api/pm/types.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- ==================================
- Device Power Management Data Types
- ==================================
+That's a good point, I've thought about doing so several
+times but haven't got around to it.
+
+Ian
 
