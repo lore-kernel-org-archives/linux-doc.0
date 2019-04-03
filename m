@@ -1,130 +1,170 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,URIBL_RHS_DOB autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 782697D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Apr 2019 16:59:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3F6B47D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Apr 2019 17:20:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726155AbfDCQ7B (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Apr 2019 12:59:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34176 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726064AbfDCQ7B (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Apr 2019 12:59:01 -0400
-Received: from localhost (173-25-63-173.client.mchsi.com [173.25.63.173])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BBA0C20663;
-        Wed,  3 Apr 2019 16:58:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1554310740;
-        bh=3g36jHGdFK5MyjOcqtR8XuXiOCEx1C8Ty2LeBYG1sBQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AOlbrkzDWcVxsFibt7o+a3B7plj9hTBSED1NZkefzoUWgGFDvFib4F7kBSSJIZORT
-         f5l1zaN2Px8aDGiu/OJmObwlNRgaj1LmVgSXDeFBYlJMUvZV6/pmzftH69NzM45TFa
-         LgV0PzXuXruSwL1ab78x2vut1QbEi7UbuCT0xyfw=
-Date:   Wed, 3 Apr 2019 11:58:58 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Changbin Du <changbin.du@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 00/12] Include linux PCI docs into Sphinx TOC tree
-Message-ID: <20190403165858.GA67241@google.com>
-References: <20190403154955.12096-1-changbin.du@gmail.com>
+        id S1726625AbfDCRUh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Apr 2019 13:20:37 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:34171 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726245AbfDCRUg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Apr 2019 13:20:36 -0400
+Received: by mail-pl1-f193.google.com with SMTP id y6so8375425plt.1
+        for <linux-doc@vger.kernel.org>; Wed, 03 Apr 2019 10:20:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=kGUNQRr8wFBx0Ky+XAPBIRxY0Q1MoBrpm+ZTJCdrmIQ=;
+        b=xyq7TKxxfKgn0NhN9pTk1kTrsUfqOIhGr7CPlSVDNJi4QXM3QaXC/hDhr9t/IqAba1
+         4iwnmoLodGB2oXs8RpnqudUjZk02Hjo03LDjFkGW4koIBGY7f/5RCEaVIH3h6tU7oJuU
+         5k/SAl6a+Bv5vLgr5hF6Ae/MrHyRcIQUpdjzc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=kGUNQRr8wFBx0Ky+XAPBIRxY0Q1MoBrpm+ZTJCdrmIQ=;
+        b=XaT+9k01DOAD3BFcyoizZUpHRVbNuAeoXYGbLb9CoD76bxyrKxsn+AV25aEGWRY52L
+         N6jXidFCyLjDqjY6Nng0lPvjBAgb4rAiE30dcWxGD3Y6D05AZ4GTaGJGJgN9zkOHenFj
+         euPVCdT1aos2JI+Na6ZKVEuoK2iYWVo0dTJofuPJLgANr/De3RoEBMazu9cGjhlqVzPV
+         btsOhPU5R3j/KQvBKV6dsBVXdnX8kZGOLJZWNALoBVzYoyXpeXee1oNPULnF5J83/gB9
+         Lyg6MS5NCwh9o/8/a/zoCn4+vlNibrL6miyO1CiFfu4ki16INk1dCfbXLlvNO+IHxLnp
+         RuVg==
+X-Gm-Message-State: APjAAAU6C/JWJ337GWHmGaTISORMtojFtHYvr0DOaHDG9pMI9dDpfsZV
+        O+Jl0YnRQYJ1sXN7seD2OlbzWA==
+X-Google-Smtp-Source: APXvYqywlgjkToE3Nveo3qz7923sPdO4veypp46Hz63EetXNYJAPsizwX8AQ824V0ZLe+dshxplq7Q==
+X-Received: by 2002:a17:902:868e:: with SMTP id g14mr1137873plo.183.1554312034310;
+        Wed, 03 Apr 2019 10:20:34 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id b7sm51077810pfj.67.2019.04.03.10.20.32
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 03 Apr 2019 10:20:33 -0700 (PDT)
+Date:   Wed, 3 Apr 2019 13:20:31 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Networking <netdev@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        atish patra <atishp04@gmail.com>,
+        Daniel Colascione <dancol@google.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Karim Yaghmour <karim.yaghmour@opersys.com>,
+        Kees Cook <keescook@chromium.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Manoj Rao <linux@manojrajarao.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v2 1/2] Provide in-kernel headers for making it easy to
+ extend the kernel
+Message-ID: <20190403172031.GA260189@google.com>
+References: <20190211143600.15021-1-joel@joelfernandes.org>
+ <20190215031926.ljzluy2cfxp64u6o@ast-mbp>
+ <20190325134947.GA187133@google.com>
+ <20190327173103.GA205980@google.com>
+ <CAK7LNARcaVtgHvco-Q=E5jhOXduk=55g9AC7nFn2esFxnk9Naw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190403154955.12096-1-changbin.du@gmail.com>
+In-Reply-To: <CAK7LNARcaVtgHvco-Q=E5jhOXduk=55g9AC7nFn2esFxnk9Naw@mail.gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 03, 2019 at 11:49:43PM +0800, Changbin Du wrote:
-> Hi all,
+On Wed, Apr 03, 2019 at 04:48:37PM +0900, Masahiro Yamada wrote:
+> On Thu, Mar 28, 2019 at 2:32 AM Joel Fernandes <joel@joelfernandes.org> wrote:
+> >
+> > On Mon, Mar 25, 2019 at 09:49:47AM -0400, Joel Fernandes wrote:
+> > > On Thu, Feb 14, 2019 at 07:19:29PM -0800, Alexei Starovoitov wrote:
+> > > > On Mon, Feb 11, 2019 at 09:35:59AM -0500, Joel Fernandes (Google) wrote:
+> > > > > Introduce in-kernel headers and other artifacts which are made available
+> > > > > as an archive through proc (/proc/kheaders.txz file). This archive makes
+> > > > > it possible to build kernel modules, run eBPF programs, and other
+> > > > > tracing programs that need to extend the kernel for tracing purposes
+> > > > > without any dependency on the file system having headers and build
+> > > > > artifacts.
+> > > > >
+> > > > > On Android and embedded systems, it is common to switch kernels but not
+> > > > > have kernel headers available on the file system. Raw kernel headers
+> > > > > also cannot be copied into the filesystem like they can be on other
+> > > > > distros, due to licensing and other issues. There's no linux-headers
+> > > > > package on Android. Further once a different kernel is booted, any
+> > > > > headers stored on the file system will no longer be useful. By storing
+> > > > > the headers as a compressed archive within the kernel, we can avoid these
+> > > > > issues that have been a hindrance for a long time.
+> > > >
+> > > > The set looks good to me and since the main use case is building bpf progs
+> > > > I can route it via bpf-next tree if there are no objections.
+> > > > Masahiro, could you please ack it?
+> > >
+> > > FYI, Masahiro's comments were all address by v5:
+> > > https://lore.kernel.org/patchwork/project/lkml/list/?series=387311
+> > >
+> > > I believe aren't more outstanding concerns. Could we consider it for v5.2?
+> >
+> > Just to highlight the problem, today I booted v5.0 on an emulated Android
+> > device for some testing, that didn't have a set of prebuilt headers that we
+> > have been packaging on well known kernels, to get around this issue. This
+> > caused great pain and issues with what I was doing. I know me and many others
+> > really want this. With this I can boot an emulated Android device with
+> > IKCONFIG_PROC=y and run BCC with that that. Also I want to do the BCC side of
+> > the development, but first want to know if we can merge this upstream.
+> >
+> > Masahiro, I believe due diligence has been done in solidifying it as posted
+> > in the v5.  Anything else we need to do here? Are you with the patches?
 > 
-> The kernel now uses Sphinx to generate intelligent and beautiful documentation
-> from reStructuredText files. I converted most of the Linux PCI docs to rst
-> format in this serias.
 > 
-> For you to preview, please visit below url:
-> http://www.bytemem.com:8080/kernel-doc/PCI/index.html
+> As you said, these updates are "cosmetic".
+> Nobody is worried about (or interested in) them.
+> Even if we miss something, they are fixable later.
 > 
-> Thank you!
+> I accept embedding headers in the kernel,
+> but I do not like the part about external module build.
+>  - kernel embeds build artifacts that depend on a
+>    particular host-arch
+>  - users do not know which compiler to use
+> Perhaps, you may remember my concerns.
+> https://lore.kernel.org/patchwork/patch/1046307/#1239501
+
+Masahiro,
+I think we already discussed this right. The compiler issue is a user-issue -
+it is not a problem that has arisen because this patch. Anyone can build a
+kernel module today without this patch - using a compiler that is different
+from the running kernel. So I did not fully understand your concern. This
+patch does not ship a compiler in the archive. The compiler is upto the user
+based on user environment. They can already shoot themself in foot without
+this patch.
+
+Greg,
+Would be great to get your thoughts here as well about Masami's concern.
+
+Honestly, the "kernel module building artifacts" bit is a bonus with this
+patch. The main thing we are adding or that we need is really the headers
+(for BCC). I just thought shipping the kernel build artifacts would also be
+awesome because people can now build kernel modules without needing a kernel
+tree at all.
+
+But I also want this stuff merged so if folks are really unhappy with the
+module build artifacts and only want headers - then that's also fine with me
+and I can yank them - that would also mean though that this work cannot be a
+replacement for linux-headers package on distros, so that would be sad.
+
+thanks!
+
+- Joel
+
 > 
-> v2: trivial style update.
-> 
-> Changbin Du (12):
->   Documentation: add Linux PCI to Sphinx TOC tree
->   Documentation: PCI: convert PCI/pci.txt to reST format
->   Documentation: PCI: convert PCI/PCIEBUS-HOWTO.txt to reST format
->   Documentation: PCI: convert PCI/pci-iov-howto.txt to reST format
->   Documentation: PCI: convert PCI/MSI-HOWTO.txt to reST format
->   Documentation: PCI: convert PCI/acpi-info.txt to reST format
->   Documentation: PCI: convert PCI/pci-error-recovery.txt to reST format
->   Documentation: PCI: convert PCI/pcieaer-howto.txt to reST format
->   Documentation: PCI: convert PCI/endpoint/pci-endpoint.txt to reST
->     format
->   Documentation: PCI: convert PCI/endpoint/pci-endpoint-cfs.txt to reST
->     format
->   Documentation: PCI: convert PCI/endpoint/pci-test-function.txt to reST
->     format
->   Documentation: PCI: convert PCI/endpoint/pci-test-howto.txt to reST
->     format
-
-Thanks for doing that!  If you have occasion to revise this for any
-other reason, I actually suggested this:
-
-  Documentation: PCI: Convert pci.txt to reST
-  Documentation: PCI: Convert endpoint/pci-endpoint.txt to reST
-
-which (a) Capitalizes the "Convert" and (b) omits the "PCI/" prefix
-because it seems redundant.
-
-By coincidence I happened across this post that talks about why I care
-about these seemingly trivial things:
-
-  https://chris.beams.io/posts/git-commit/
-
-But with or without that change, for the whole series:
-
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-
->  .../PCI/{MSI-HOWTO.txt => MSI-HOWTO.rst}      |  83 +++---
->  .../{PCIEBUS-HOWTO.txt => PCIEBUS-HOWTO.rst}  | 140 +++++----
->  .../PCI/{acpi-info.txt => acpi-info.rst}      |  11 +-
->  Documentation/PCI/endpoint/index.rst          |  13 +
->  ...-endpoint-cfs.txt => pci-endpoint-cfs.rst} |  99 ++++---
->  .../{pci-endpoint.txt => pci-endpoint.rst}    |  95 ++++---
->  ...est-function.txt => pci-test-function.rst} |  32 ++-
->  ...{pci-test-howto.txt => pci-test-howto.rst} |  81 ++++--
->  Documentation/PCI/index.rst                   |  18 ++
->  ...or-recovery.txt => pci-error-recovery.rst} | 178 ++++++------
->  .../{pci-iov-howto.txt => pci-iov-howto.rst}  | 161 ++++++-----
->  Documentation/PCI/{pci.txt => pci.rst}        | 267 +++++++++---------
->  .../{pcieaer-howto.txt => pcieaer-howto.rst}  | 110 +++++---
->  Documentation/index.rst                       |   1 +
->  MAINTAINERS                                   |   2 +-
->  15 files changed, 754 insertions(+), 537 deletions(-)
->  rename Documentation/PCI/{MSI-HOWTO.txt => MSI-HOWTO.rst} (88%)
->  rename Documentation/PCI/{PCIEBUS-HOWTO.txt => PCIEBUS-HOWTO.rst} (70%)
->  rename Documentation/PCI/{acpi-info.txt => acpi-info.rst} (97%)
->  create mode 100644 Documentation/PCI/endpoint/index.rst
->  rename Documentation/PCI/endpoint/{pci-endpoint-cfs.txt => pci-endpoint-cfs.rst} (64%)
->  rename Documentation/PCI/endpoint/{pci-endpoint.txt => pci-endpoint.rst} (82%)
->  rename Documentation/PCI/endpoint/{pci-test-function.txt => pci-test-function.rst} (84%)
->  rename Documentation/PCI/endpoint/{pci-test-howto.txt => pci-test-howto.rst} (78%)
->  create mode 100644 Documentation/PCI/index.rst
->  rename Documentation/PCI/{pci-error-recovery.txt => pci-error-recovery.rst} (80%)
->  rename Documentation/PCI/{pci-iov-howto.txt => pci-iov-howto.rst} (63%)
->  rename Documentation/PCI/{pci.txt => pci.rst} (78%)
->  rename Documentation/PCI/{pcieaer-howto.txt => pcieaer-howto.rst} (81%)
-> 
-> -- 
-> 2.20.1
-> 
+> --
+> Best Regards
+> Masahiro Yamada
