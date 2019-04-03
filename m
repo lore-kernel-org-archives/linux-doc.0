@@ -5,75 +5,78 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 11AE67D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Apr 2019 19:42:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D483D7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Apr 2019 19:47:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726188AbfDCTmc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Apr 2019 15:42:32 -0400
-Received: from verein.lst.de ([213.95.11.211]:35263 "EHLO newverein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726064AbfDCTmc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Apr 2019 15:42:32 -0400
-Received: by newverein.lst.de (Postfix, from userid 2407)
-        id 605FD68AFE; Wed,  3 Apr 2019 21:42:20 +0200 (CEST)
-Date:   Wed, 3 Apr 2019 21:42:20 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Russell King - ARM Linux admin <linux@armlinux.org.uk>
-Cc:     Christoph Hellwig <hch@lst.de>, x86@kernel.org,
-        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-        iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
-Subject: Re: remove NULL struct device support in the DMA API
-Message-ID: <20190403194220.GA30376@lst.de>
-References: <20190321225235.30648-1-hch@lst.de> <20190403182640.2ca6w2hngjqp35mt@shell.armlinux.org.uk>
+        id S1726099AbfDCTrb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Apr 2019 15:47:31 -0400
+Received: from zeniv.linux.org.uk ([195.92.253.2]:35852 "EHLO
+        ZenIV.linux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726064AbfDCTrb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Apr 2019 15:47:31 -0400
+Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92 #3 (Red Hat Linux))
+        id 1hBlqz-0007X3-3z; Wed, 03 Apr 2019 19:47:21 +0000
+Date:   Wed, 3 Apr 2019 20:47:21 +0100
+From:   Al Viro <viro@zeniv.linux.org.uk>
+To:     "Tobin C. Harding" <me@tobin.cc>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "Tobin C. Harding" <tobin@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@s-opensource.com>,
+        Neil Brown <neilb@suse.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 00/24] Convert vfs.txt to vfs.rst
+Message-ID: <20190403194720.GY2217@ZenIV.linux.org.uk>
+References: <20190327051717.23225-1-tobin@kernel.org>
+ <20190402094934.5b242dc0@lwn.net>
+ <20190402164824.GK2217@ZenIV.linux.org.uk>
+ <20190402192520.GA6285@eros.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190403182640.2ca6w2hngjqp35mt@shell.armlinux.org.uk>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20190402192520.GA6285@eros.localdomain>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 03, 2019 at 07:26:40PM +0100, Russell King - ARM Linux admin wrote:
-> On Thu, Mar 21, 2019 at 03:52:28PM -0700, Christoph Hellwig wrote:
-> > We still have a few drivers which pass a NULL struct device pointer
-> > to DMA API functions, which generally is a bad idea as the API
-> > implementations rely on the device not only for ops selection, but
-> > also the dma mask and various other attributes, and many implementations
-> > have been broken for NULL device support for a while.
+On Wed, Apr 03, 2019 at 06:25:20AM +1100, Tobin C. Harding wrote:
+> On Tue, Apr 02, 2019 at 05:48:24PM +0100, Al Viro wrote:
+> > On Tue, Apr 02, 2019 at 09:49:34AM -0600, Jonathan Corbet wrote:
+> > > On Wed, 27 Mar 2019 16:16:53 +1100
+> > > "Tobin C. Harding" <tobin@kernel.org> wrote:
+> > > 
+> > > > Hi Al,
+> > > > 
+> > > > This series converts the VFS file Documentation/filesystems/vfs.txt to
+> > > > reStructuredText format.  Please consider taking this series through
+> > > > your tree as apposed to Jon's tree because this set makes a fair amount
+> > > > of changes to VFS files (and also the VFS tree and docs tree are out of
+> > > > sync right now with the recent work by Mauro and Neil).
+> > > 
+> > > Al, do you have any thoughts on how you want to handle this?  I was about
+> > > to apply Jeff Layton's vfs.txt update, but would rather not create
+> > > conflicts unnecessarily.  Let me know if you'd like me to pick this work
+> > > up.
+> > 
+> > Frankly, I would rather see that file be eventually replaced by something
+> > saner, and I'm not talking about the format.
 > 
-> I think I must be missing something, but...
-> 
-> My understanding is that ISA DMA is normally limited to 24 bits of
-> address
+> Are you able to extrapolate on this comment please?  Is this something
+> someone new to the VFS (me) can do with a little nudge in the right
+> direction or is this something that needs thorough knowledge of the VFS? 
 
-Yes.
-
-> - indeed, the x86 version only programs 24 bits of DMA address.
-> Looking through this series, it appears that the conversions mean that
-> the DMA mask for ISA becomes the full all-ones DMA mask, which would
-> of course lead to memory corruption if only 24 bits of the address end
-> up being programmed into the hardware.
-
-In the generic dma mapping code no struct device has always meant a
-32-bit DMA mask - take a look at the dma_get_mask() function.
-
-> Maybe you could say why you think this series is safe in regard to ISA
-> DMA?
-
-ISA DMA has always been rather painful in a myriad of ways, and the
-DMA API so far hasn't helped, given that we don't do bounce buffering
-for the 24-bit limit, but just the higher limits.  So far even if you
-do use the DMA API and pass a device ISA DMA so far always meant
-that the higher layers had to assure things are addressable, either
-by using GFP_DMA allocation in the drivers, or mid-layer hacks like
-the unchecked_isa_dma flag in SCSI and/or BLK_BOUNCE_ISA in the
-block layer.
-
-This series doesn't change those facts at all.  I have some half
-started series to clean some of this up but it isn't high up on
-the priority list.
+Put it that way - IMO the best way to do it is not a list of methods with
+explanations what each does, but a bunch of per-data structure documents
+describing their life cycles.  The fundamental ones for VFS would be
+	* inode
+	* dentry
+	* super_block
+	* (vfs)mount
+	* file
+	* files_struct
+Having a list of methods is nice, but those would be better off with short
+description along with "see <document> for details, including the locking,
+etc."; said short descriptions make little sense without the background...
