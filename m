@@ -5,18 +5,19 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 544EF7D099
+	by archive.lwn.net (Postfix) with ESMTP id 8A60E7D910
 	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Apr 2019 22:10:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726545AbfDCWKg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Apr 2019 18:10:36 -0400
-Received: from cloudserver094114.home.pl ([79.96.170.134]:43844 "EHLO
+        id S1726547AbfDCWKr convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Apr 2019 18:10:47 -0400
+Received: from cloudserver094114.home.pl ([79.96.170.134]:52436 "EHLO
         cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726193AbfDCWKf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Apr 2019 18:10:35 -0400
+        with ESMTP id S1726167AbfDCWKh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Apr 2019 18:10:37 -0400
 Received: from 79.184.254.219.ipv4.supernova.orange.pl (79.184.254.219) (HELO aspire.rjw.lan)
  by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.213)
- id f95a871f96294869; Thu, 4 Apr 2019 00:10:32 +0200
+ id 1e34c89d64ffa71c; Thu, 4 Apr 2019 00:10:34 +0200
 From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
 To:     Linux PM <linux-pm@vger.kernel.org>
 Cc:     LKML <linux-kernel@vger.kernel.org>,
@@ -25,14 +26,14 @@ Cc:     LKML <linux-kernel@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
         Viresh Kumar <viresh.kumar@linaro.org>
-Subject: [PATCH 3/4] Documentation: PM: Unify copyright notices
-Date:   Thu, 04 Apr 2019 00:06:15 +0200
-Message-ID: <4546107.BrAdpSWmVg@aspire.rjw.lan>
+Subject: [PATCH 1/4] cpufreq: intel_pstate: Documentation: Add references sections
+Date:   Thu, 04 Apr 2019 00:03:30 +0200
+Message-ID: <2330972.sZBoMHM721@aspire.rjw.lan>
 In-Reply-To: <4546107.fVFrecLk33@aspire.rjw.lan>
 References: <4546107.fVFrecLk33@aspire.rjw.lan>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -40,197 +41,90 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-Unify copyright notices in the .rst files under
-Documentation/driver-api/pm and Documentation/admin-quide/pm.
+Add separate refereces sections to the cpufreq.rst and
+intel_pstate.rst documents under admin-quide/pm and list the
+references to external documentation in there.
+
+Update the ACPI specification URL while at it.
 
 Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 ---
- Documentation/admin-guide/pm/cpufreq.rst      |    6 ++++--
- Documentation/admin-guide/pm/cpuidle.rst      |    6 ++++--
- Documentation/admin-guide/pm/intel_pstate.rst |    5 +++--
- Documentation/admin-guide/pm/sleep-states.rst |    6 ++++--
- Documentation/admin-guide/pm/strategies.rst   |    6 ++++--
- Documentation/driver-api/pm/cpuidle.rst       |    5 +++--
- Documentation/driver-api/pm/devices.rst       |   10 ++++++----
- Documentation/driver-api/pm/notifiers.rst     |    6 ++++--
- 8 files changed, 32 insertions(+), 18 deletions(-)
+ Documentation/admin-guide/pm/cpufreq.rst      |   10 +++++++---
+ Documentation/admin-guide/pm/intel_pstate.rst |   25 ++++++++++++++++---------
+ 2 files changed, 23 insertions(+), 12 deletions(-)
 
-Index: linux-pm/Documentation/admin-guide/pm/cpufreq.rst
-===================================================================
---- linux-pm.orig/Documentation/admin-guide/pm/cpufreq.rst
-+++ linux-pm/Documentation/admin-guide/pm/cpufreq.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GPL-2.0
-+.. include:: <isonum.txt>
- 
- .. |struct cpufreq_policy| replace:: :c:type:`struct cpufreq_policy <cpufreq_policy>`
- .. |intel_pstate| replace:: :doc:`intel_pstate <intel_pstate>`
-@@ -7,9 +8,10 @@
- CPU Performance Scaling
- =======================
- 
--::
-+:Copyright: |copy| 2017 Intel Corporation
-+
-+:Author: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
- 
-- Copyright (c) 2017 Intel Corp., Rafael J. Wysocki <rafael.j.wysocki@intel.com>
- 
- The Concept of CPU Performance Scaling
- ======================================
-Index: linux-pm/Documentation/admin-guide/pm/cpuidle.rst
-===================================================================
---- linux-pm.orig/Documentation/admin-guide/pm/cpuidle.rst
-+++ linux-pm/Documentation/admin-guide/pm/cpuidle.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GPL-2.0
-+.. include:: <isonum.txt>
- 
- .. |struct cpuidle_state| replace:: :c:type:`struct cpuidle_state <cpuidle_state>`
- .. |cpufreq| replace:: :doc:`CPU Performance Scaling <cpufreq>`
-@@ -7,9 +8,10 @@
- CPU Idle Time Management
- ========================
- 
--::
-+:Copyright: |copy| 2018 Intel Corporation
-+
-+:Author: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
- 
-- Copyright (c) 2018 Intel Corp., Rafael J. Wysocki <rafael.j.wysocki@intel.com>
- 
- Concepts
- ========
 Index: linux-pm/Documentation/admin-guide/pm/intel_pstate.rst
 ===================================================================
 --- linux-pm.orig/Documentation/admin-guide/pm/intel_pstate.rst
 +++ linux-pm/Documentation/admin-guide/pm/intel_pstate.rst
-@@ -1,12 +1,13 @@
- .. SPDX-License-Identifier: GPL-2.0
-+.. include:: <isonum.txt>
+@@ -20,11 +20,10 @@ you have not done that yet.]
  
- ===============================================
- ``intel_pstate`` CPU Performance Scaling Driver
- ===============================================
+ For the processors supported by ``intel_pstate``, the P-state concept is broader
+ than just an operating frequency or an operating performance point (see the
+-`LinuxCon Europe 2015 presentation by Kristen Accardi <LCEU2015_>`_ for more
++LinuxCon Europe 2015 presentation by Kristen Accardi [1]_ for more
+ information about that).  For this reason, the representation of P-states used
+ by ``intel_pstate`` internally follows the hardware specification (for details
+-refer to `Intel® 64 and IA-32 Architectures Software Developer’s Manual
+-Volume 3: System Programming Guide <SDM_>`_).  However, the ``CPUFreq`` core
++refer to Intel Software Developer’s Manual [2]_).  However, the ``CPUFreq`` core
+ uses frequencies for identifying operating performance points of CPUs and
+ frequencies are involved in the user space interface exposed by it, so
+ ``intel_pstate`` maps its internal representation of P-states to frequencies too
+@@ -561,9 +560,9 @@ or to pin every task potentially sensiti
  
--::
-+:Copyright: |copy| 2017 Intel Corporation
+ On the majority of systems supported by ``intel_pstate``, the ACPI tables
+ provided by the platform firmware contain ``_PSS`` objects returning information
+-that can be used for CPU performance scaling (refer to the `ACPI specification`_
+-for details on the ``_PSS`` objects and the format of the information returned
+-by them).
++that can be used for CPU performance scaling (refer to the ACPI specification
++[3]_ for details on the ``_PSS`` objects and the format of the information
++returned by them).
  
-- Copyright (c) 2017 Intel Corp., Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-+:Author: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+ The information returned by the ACPI ``_PSS`` objects is used by the
+ ``acpi-cpufreq`` scaling driver.  On systems supported by ``intel_pstate``
+@@ -728,6 +727,14 @@ P-state is called, the ``ftrace`` filter
+            <idle>-0     [000] ..s.  2537.654843: intel_pstate_set_pstate <-intel_pstate_timer_func
  
  
- General Information
-Index: linux-pm/Documentation/admin-guide/pm/strategies.rst
-===================================================================
---- linux-pm.orig/Documentation/admin-guide/pm/strategies.rst
-+++ linux-pm/Documentation/admin-guide/pm/strategies.rst
-@@ -1,12 +1,14 @@
- .. SPDX-License-Identifier: GPL-2.0
-+.. include:: <isonum.txt>
- 
- ===========================
- Power Management Strategies
- ===========================
- 
--::
-+:Copyright: |copy| 2017 Intel Corporation
+-.. _LCEU2015: http://events.linuxfoundation.org/sites/events/files/slides/LinuxConEurope_2015.pdf
+-.. _SDM: http://www.intel.com/content/www/us/en/architecture-and-technology/64-ia-32-architectures-software-developer-system-programming-manual-325384.html
+-.. _ACPI specification: http://www.uefi.org/sites/default/files/resources/ACPI_6_1.pdf
++References
++==========
 +
-+:Author: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
- 
-- Copyright (c) 2017 Intel Corp., Rafael J. Wysocki <rafael.j.wysocki@intel.com>
- 
- The Linux kernel supports two major high-level power management strategies.
- 
-Index: linux-pm/Documentation/driver-api/pm/cpuidle.rst
-===================================================================
---- linux-pm.orig/Documentation/driver-api/pm/cpuidle.rst
-+++ linux-pm/Documentation/driver-api/pm/cpuidle.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GPL-2.0
-+.. include:: <isonum.txt>
- 
- .. |struct cpuidle_governor| replace:: :c:type:`struct cpuidle_governor <cpuidle_governor>`
- .. |struct cpuidle_device| replace:: :c:type:`struct cpuidle_device <cpuidle_device>`
-@@ -9,9 +10,9 @@
- CPU Idle Time Management
- ========================
- 
--::
-+:Copyright: |copy| 2019 Intel Corporation
- 
-- Copyright (c) 2019 Intel Corp., Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-+:Author: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
- 
- 
- CPU Idle Time Management Subsystem
-Index: linux-pm/Documentation/driver-api/pm/devices.rst
-===================================================================
---- linux-pm.orig/Documentation/driver-api/pm/devices.rst
-+++ linux-pm/Documentation/driver-api/pm/devices.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GPL-2.0
-+.. include:: <isonum.txt>
- 
- .. |struct dev_pm_ops| replace:: :c:type:`struct dev_pm_ops <dev_pm_ops>`
- .. |struct dev_pm_domain| replace:: :c:type:`struct dev_pm_domain <dev_pm_domain>`
-@@ -14,11 +15,12 @@
- Device Power Management Basics
- ==============================
- 
--::
-+:Copyright: |copy| 2010-2011 Rafael J. Wysocki <rjw@sisk.pl>, Novell Inc.
-+:Copyright: |copy| 2010 Alan Stern <stern@rowland.harvard.edu>
-+:Copyright: |copy| 2016 Intel Corporation
++.. [1] Kristen Accardi, *Balancing Power and Performance in the Linux Kernel*,
++       http://events.linuxfoundation.org/sites/events/files/slides/LinuxConEurope_2015.pdf
 +
-+:Author: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
- 
-- Copyright (c) 2010-2011 Rafael J. Wysocki <rjw@sisk.pl>, Novell Inc.
-- Copyright (c) 2010 Alan Stern <stern@rowland.harvard.edu>
-- Copyright (c) 2016 Intel Corp., Rafael J. Wysocki <rafael.j.wysocki@intel.com>
- 
- Most of the code in Linux is device drivers, so most of the Linux power
- management (PM) code is also driver-specific.  Most drivers will do very
-Index: linux-pm/Documentation/driver-api/pm/notifiers.rst
-===================================================================
---- linux-pm.orig/Documentation/driver-api/pm/notifiers.rst
-+++ linux-pm/Documentation/driver-api/pm/notifiers.rst
-@@ -1,12 +1,14 @@
- .. SPDX-License-Identifier: GPL-2.0
-+.. include:: <isonum.txt>
- 
- =============================
- Suspend/Hibernation Notifiers
- =============================
- 
--::
-+:Copyright: |copy| 2016 Intel Corporation
++.. [2] *Intel® 64 and IA-32 Architectures Software Developer’s Manual Volume 3: System Programming Guide*,
++       http://www.intel.com/content/www/us/en/architecture-and-technology/64-ia-32-architectures-software-developer-system-programming-manual-325384.html
 +
-+:Author: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
- 
-- Copyright (c) 2016 Intel Corp., Rafael J. Wysocki <rafael.j.wysocki@intel.com>
- 
- There are some operations that subsystems or drivers may want to carry out
- before hibernation/suspend or after restore/resume, but they require the system
-Index: linux-pm/Documentation/admin-guide/pm/sleep-states.rst
++.. [3] *Advanced Configuration and Power Interface Specification*,
++       https://uefi.org/sites/default/files/resources/ACPI_6_3_final_Jan30.pdf
+Index: linux-pm/Documentation/admin-guide/pm/cpufreq.rst
 ===================================================================
---- linux-pm.orig/Documentation/admin-guide/pm/sleep-states.rst
-+++ linux-pm/Documentation/admin-guide/pm/sleep-states.rst
-@@ -1,12 +1,14 @@
- .. SPDX-License-Identifier: GPL-2.0
-+.. include:: <isonum.txt>
+--- linux-pm.orig/Documentation/admin-guide/pm/cpufreq.rst
++++ linux-pm/Documentation/admin-guide/pm/cpufreq.rst
+@@ -396,8 +396,8 @@ RT or deadline scheduling classes, the g
+ the allowed maximum (that is, the ``scaling_max_freq`` policy limit).  In turn,
+ if it is invoked by the CFS scheduling class, the governor will use the
+ Per-Entity Load Tracking (PELT) metric for the root control group of the
+-given CPU as the CPU utilization estimate (see the `Per-entity load tracking`_
+-LWN.net article for a description of the PELT mechanism).  Then, the new
++given CPU as the CPU utilization estimate (see the *Per-entity load tracking*
++LWN.net article [1]_ for a description of the PELT mechanism).  Then, the new
+ CPU frequency to apply is computed in accordance with the formula
  
- ===================
- System Sleep States
- ===================
+ 	f = 1.25 * ``f_0`` * ``util`` / ``max``
+@@ -698,4 +698,8 @@ hardware feature (e.g. all Intel ones),
+ :c:macro:`CONFIG_X86_ACPI_CPUFREQ_CPB` configuration option is set.
  
--::
-+:Copyright: |copy| 2017 Intel Corporation
+ 
+-.. _Per-entity load tracking: https://lwn.net/Articles/531853/
++References
++==========
 +
-+:Author: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
- 
-- Copyright (c) 2017 Intel Corp., Rafael J. Wysocki <rafael.j.wysocki@intel.com>
- 
- Sleep states are global low-power states of the entire system in which user
- space code cannot be executed and the overall system activity is significantly
++.. [1] Jonathan Corbet, *Per-entity load tracking*,
++       https://lwn.net/Articles/531853/
 
