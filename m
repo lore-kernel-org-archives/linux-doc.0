@@ -1,128 +1,72 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8BA9C7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Apr 2019 21:00:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 938627D099
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Apr 2019 22:10:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726144AbfDCVAN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Apr 2019 17:00:13 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:45981 "EHLO
-        out4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726099AbfDCVAM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Apr 2019 17:00:12 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id 2D363222B3;
-        Wed,  3 Apr 2019 17:00:12 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Wed, 03 Apr 2019 17:00:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=date
-        :from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=qD4XgDwzxgnWbLic4KWoMXxBDp7
-        6r8NO4iI3RmqZ82M=; b=umsdsBb/m4y3vJAd4Oa1M5D6OVEYdJJO2iVjN/9fARh
-        slRWk5+std2dreG+V64qgBH34nNDl7y/NK59vqbi5Wv6CzUxXtmTK7LDS7N8zVyr
-        CBDYD3LwUMM2eZl9A6HMGqXr+IBi7xIBo8PnMekrkSlvGB2rFW+FL4bkQ5DWWcbk
-        1UXmQHkGpOb780cqSUaDt4jR1OjOsFxI7PSqCV9Er5HNNkKR7E92cjrcuJkf26T5
-        K4LRf8bUY5eOTWVkxWXLE8rrdzYr2YWR0rGamp1XK9JvGNz53gFzQXOBL0nZ+Hpb
-        8IYYhzU9FHZubcZIvabpdxnoSPJpA/aWCMwu2U8FouQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=qD4XgD
-        wzxgnWbLic4KWoMXxBDp76r8NO4iI3RmqZ82M=; b=jofimkhXhGhYL6ehwmM9Bs
-        laE+l5BuOyJNs1OnSKbN52qJby2FERk9/qxXoyZXJkK5sADzhv5qoawYg6HTtjvD
-        STPuNW7RAO7W7H8MzPs5Nayje4ijd0pN61dnrb6LgmYE5c6OSq9BOfxcSq9kVg+j
-        x+2vvi7ZULuxmK48JJr4k/RSXTh6NesLmTYmUtEbE0zsotGNvwSZoql9bMSU7pEe
-        3in+mFc1ZTJfxtG/PcA7d+xxmWj4kYerU6tuuhbSwQjcELMYx/z5henuWj0HzTgG
-        q4nEzn68iv4ZJ6tFLvd+i+tQPpcVSOJWXElLk25VZZPPCoR8p8CrmxtQGbz+3JSA
-        ==
-X-ME-Sender: <xms:2x6lXJj1Pw39wnGdweHgwUO7oziWQ65g29E4YNzA9FR5ODpPSBmrUA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrtdefgdduvdelucdltddurdeguddtrddttd
-    dmucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnegfrhhlucfvnfffucdludehmdenucfjughrpeffhffvuffk
-    fhggtggujgfofgesthdtredtofervdenucfhrhhomhepfdfvohgsihhnucevrdcujfgrrh
-    guihhnghdfuceomhgvsehtohgsihhnrdgttgeqnecukfhppeduvdegrddugeelrdduudeg
-    rdekieenucfrrghrrghmpehmrghilhhfrhhomhepmhgvsehtohgsihhnrdgttgenucevlh
-    hushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:2x6lXB0oJkLQbhgUb3EIDEc3ULCCc0y3Qyc3lEJh2TtCe-KpRYeerw>
-    <xmx:2x6lXF-_k9Ge6kCp1lHzFXze1XR6e9rf9yrf7GxHdtpKfrXk3VMy4w>
-    <xmx:2x6lXBmpP0-UiM--8pUHrkxHWAByrPQUKuhJvMQyuJERl7N0WDPpzw>
-    <xmx:3B6lXAN74ydlQJVNBJx6Yh7ZlVixUtDt0Pkv1yLYQRjrLERUPdfzkw>
-Received: from localhost (124-149-114-86.dyn.iinet.net.au [124.149.114.86])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 6037CE4BC4;
-        Wed,  3 Apr 2019 17:00:10 -0400 (EDT)
-Date:   Thu, 4 Apr 2019 07:59:38 +1100
-From:   "Tobin C. Harding" <me@tobin.cc>
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "Tobin C. Harding" <tobin@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@s-opensource.com>,
-        Neil Brown <neilb@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 00/24] Convert vfs.txt to vfs.rst
-Message-ID: <20190403205938.GA23288@eros.localdomain>
-References: <20190327051717.23225-1-tobin@kernel.org>
- <20190402094934.5b242dc0@lwn.net>
- <20190402164824.GK2217@ZenIV.linux.org.uk>
- <20190402192520.GA6285@eros.localdomain>
- <20190403194720.GY2217@ZenIV.linux.org.uk>
+        id S1726264AbfDCWKe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Apr 2019 18:10:34 -0400
+Received: from cloudserver094114.home.pl ([79.96.170.134]:41564 "EHLO
+        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726167AbfDCWKe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Apr 2019 18:10:34 -0400
+Received: from 79.184.254.219.ipv4.supernova.orange.pl (79.184.254.219) (HELO aspire.rjw.lan)
+ by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.213)
+ id 8aca4a233a5e8d07; Thu, 4 Apr 2019 00:10:32 +0200
+From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To:     Linux PM <linux-pm@vger.kernel.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Linux ACPI <linux-acpi@vger.kernel.org>,
+        Linux Documentation <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Borislav Petkov <bp@suse.de>
+Subject: [PATCH 4/4] admin-guide: pm: intel_epb: Add SPDX license tag and copyright notice
+Date:   Thu, 04 Apr 2019 00:08:18 +0200
+Message-ID: <8068055.vE1LsT4ZeF@aspire.rjw.lan>
+In-Reply-To: <4546107.fVFrecLk33@aspire.rjw.lan>
+References: <4546107.fVFrecLk33@aspire.rjw.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190403194720.GY2217@ZenIV.linux.org.uk>
-X-Mailer: Mutt 1.11.4 (2019-03-13)
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 03, 2019 at 08:47:21PM +0100, Al Viro wrote:
-> On Wed, Apr 03, 2019 at 06:25:20AM +1100, Tobin C. Harding wrote:
-> > On Tue, Apr 02, 2019 at 05:48:24PM +0100, Al Viro wrote:
-> > > On Tue, Apr 02, 2019 at 09:49:34AM -0600, Jonathan Corbet wrote:
-> > > > On Wed, 27 Mar 2019 16:16:53 +1100
-> > > > "Tobin C. Harding" <tobin@kernel.org> wrote:
-> > > > 
-> > > > > Hi Al,
-> > > > > 
-> > > > > This series converts the VFS file Documentation/filesystems/vfs.txt to
-> > > > > reStructuredText format.  Please consider taking this series through
-> > > > > your tree as apposed to Jon's tree because this set makes a fair amount
-> > > > > of changes to VFS files (and also the VFS tree and docs tree are out of
-> > > > > sync right now with the recent work by Mauro and Neil).
-> > > > 
-> > > > Al, do you have any thoughts on how you want to handle this?  I was about
-> > > > to apply Jeff Layton's vfs.txt update, but would rather not create
-> > > > conflicts unnecessarily.  Let me know if you'd like me to pick this work
-> > > > up.
-> > > 
-> > > Frankly, I would rather see that file be eventually replaced by something
-> > > saner, and I'm not talking about the format.
-> > 
-> > Are you able to extrapolate on this comment please?  Is this something
-> > someone new to the VFS (me) can do with a little nudge in the right
-> > direction or is this something that needs thorough knowledge of the VFS? 
-> 
-> Put it that way - IMO the best way to do it is not a list of methods with
-> explanations what each does, but a bunch of per-data structure documents
-> describing their life cycles.  The fundamental ones for VFS would be
-> 	* inode
-> 	* dentry
-> 	* super_block
-> 	* (vfs)mount
-> 	* file
-> 	* files_struct
-> Having a list of methods is nice, but those would be better off with short
-> description along with "see <document> for details, including the locking,
-> etc."; said short descriptions make little sense without the background...
+From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-Ok, got it.  Thanks.
+Add an SPDX license tag and a copyright notice to the intel_epb.rst
+file under Documentation/admin-quide/pm.
 
-	Tobin
+Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+---
+ Documentation/admin-guide/pm/intel_epb.rst |    8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+Index: linux-pm/Documentation/admin-guide/pm/intel_epb.rst
+===================================================================
+--- linux-pm.orig/Documentation/admin-guide/pm/intel_epb.rst
++++ linux-pm/Documentation/admin-guide/pm/intel_epb.rst
+@@ -1,7 +1,15 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: <isonum.txt>
++
+ ======================================
+ Intel Performance and Energy Bias Hint
+ ======================================
+ 
++:Copyright: |copy| 2019 Intel Corporation
++
++:Author: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
++
++
+ .. kernel-doc:: arch/x86/kernel/cpu/intel_epb.c
+    :doc: overview
+ 
+
