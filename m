@@ -2,134 +2,114 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 68CC77D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Apr 2019 12:33:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6FC207D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Apr 2019 13:59:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726157AbfDCMdm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Apr 2019 08:33:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40532 "EHLO mx1.redhat.com"
+        id S1726723AbfDCN72 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Apr 2019 09:59:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56548 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726099AbfDCMdm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Apr 2019 08:33:42 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        id S1725959AbfDCN71 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Apr 2019 09:59:27 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id B024AC067C06;
-        Wed,  3 Apr 2019 12:33:41 +0000 (UTC)
-Received: from gondolin (dhcp-192-213.str.redhat.com [10.33.192.213])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 0A1335C883;
-        Wed,  3 Apr 2019 12:33:35 +0000 (UTC)
-Date:   Wed, 3 Apr 2019 14:33:33 +0200
-From:   Cornelia Huck <cohuck@redhat.com>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Collin Walling <walling@linux.ibm.com>, pbonzini@redhat.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-s390@vger.kernel.org, schwidefsky@de.ibm.com,
-        heiko.carstens@de.ibm.com, borntraeger@de.ibm.com,
-        frankja@linux.ibm.com
-Subject: Re: [PATCH v3 1/2] s390/setup: diag318: remove bit check and
- refactor struct
-Message-ID: <20190403143333.2a3db681.cohuck@redhat.com>
-In-Reply-To: <599addd3-a4f8-d4e7-5898-dc45f52cd7a6@redhat.com>
-References: <20190402174636.15175-1-walling@linux.ibm.com>
-        <20190402174636.15175-2-walling@linux.ibm.com>
-        <599addd3-a4f8-d4e7-5898-dc45f52cd7a6@redhat.com>
-Organization: Red Hat GmbH
+        by mx1.redhat.com (Postfix) with ESMTPS id 16FA991FC0;
+        Wed,  3 Apr 2019 13:59:27 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-19.bos.redhat.com [10.18.17.19])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id DF96F60BE0;
+        Wed,  3 Apr 2019 13:59:25 +0000 (UTC)
+Subject: Re: [PATCH] psi: Clarify the units used in pressure files
+To:     Johannes Weiner <hannes@cmpxchg.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Tejun Heo <tj@kernel.org>
+References: <20190402193810.3450-1-longman@redhat.com>
+ <20190402211825.GA16779@cmpxchg.org>
+From:   Waiman Long <longman@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=longman@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ weim8xU=
+Organization: Red Hat
+Message-ID: <86482e87-c255-d4e6-9779-6cea2724dcea@redhat.com>
+Date:   Wed, 3 Apr 2019 09:59:25 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20190402211825.GA16779@cmpxchg.org>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.32]); Wed, 03 Apr 2019 12:33:41 +0000 (UTC)
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.29]); Wed, 03 Apr 2019 13:59:27 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 3 Apr 2019 14:03:21 +0200
-David Hildenbrand <david@redhat.com> wrote:
+On 04/02/2019 05:18 PM, Johannes Weiner wrote:
+> On Tue, Apr 02, 2019 at 03:38:10PM -0400, Waiman Long wrote:
+>> The output of the PSI files show a bunch of numbers with no unit.
+>> The psi.txt documentation file also does not indicate what units
+>> are used.  One can only find out by looking at the source code. The
+>> units are percentage for the averages and useconds for the total.
+>> Make the information easier to find by documenting the units in psi.txt.
+>>
+>> Signed-off-by: Waiman Long <longman@redhat.com>
+> Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+>
+> Thanks Waiman!
 
-> On 02.04.19 19:46, Collin Walling wrote:
-> > Execution of DIAGNOSE 0x318 is fenced by checking an SCLP bit
-> > for the availability of hardware support for the instruction.
-> > 
-> > In order to support this instruction for a KVM/QEMU guest, we
-> > would need to provide modifications to the SCLP Read SCP Info
-> > data, which will in turn reduce the maximum number of CPUs that
-> > may be provided to the guest. This issue introduces compatability
-> > and legacy concerns.
-> > 
-> > Let's circumvent this issue by removing the bit check and blindly
-> > executing the instruction. An exception table rule is in place to
-> > catch the case where hardware does not support this instruction.
-> > 
-> > While we're at it, let's condense the version code fields in the
-> > diag318_info struct until we can determine how it will be used.
-> > 
-> > This modifies commit 4ad78b8651aacf26b3ab6d1e784952eb70469c43
-> > 
-> > Signed-off-by: Collin Walling <walling@linux.ibm.com>
-> > ---
-> >  arch/s390/include/asm/diag.h |  6 ++----
-> >  arch/s390/kernel/setup.c     | 12 ++++++------
-> >  2 files changed, 8 insertions(+), 10 deletions(-)
-> > 
-> > diff --git a/arch/s390/include/asm/diag.h b/arch/s390/include/asm/diag.h
-> > index 19562be22b7e..215516284175 100644
-> > --- a/arch/s390/include/asm/diag.h
-> > +++ b/arch/s390/include/asm/diag.h
-> > @@ -298,10 +298,8 @@ struct diag26c_mac_resp {
-> >  union diag318_info {
-> >  	unsigned long val;
-> >  	struct {
-> > -		unsigned int cpnc : 8;
-> > -		unsigned int cpvc_linux : 24;
-> > -		unsigned char cpvc_distro[3];
-> > -		unsigned char zero;
-> > +		unsigned long cpnc : 8;
-> > +		unsigned long cpvc : 56;
+I had thought about changing the message to show the units somehow, but
+that may break existing applications that have dependency on the current
+format. So documenting them in psi.txt is the best I can think of.
 
-That part looks reasonable (we don't have a proper convention yet, have
-we?)
+Cheers,
+Longman
 
-> >  	};
-> >  };
-> >  
-> > diff --git a/arch/s390/kernel/setup.c b/arch/s390/kernel/setup.c
-> > index 2c642af526ce..fe70201f8b5d 100644
-> > --- a/arch/s390/kernel/setup.c
-> > +++ b/arch/s390/kernel/setup.c
-> > @@ -1011,15 +1011,15 @@ static void __init setup_control_program_code(void)
-> >  {
-> >  	union diag318_info diag318_info = {
-> >  		.cpnc = CPNC_LINUX,
-> > -		.cpvc_linux = 0,
-> > -		.cpvc_distro = {0},
-> > +		.cpvc = 0,
-> >  	};
-> >  
-> > -	if (!sclp.has_diag318)
-> > -		return;
-> > -
-> >  	diag_stat_inc(DIAG_STAT_X318);
-> > -	asm volatile("diag %0,0,0x318\n" : : "d" (diag318_info.val));
-> > +	asm volatile(
-> > +		"	diag	%0,0,0x318\n"
-> > +		"0:	nopr	%%r7\n"
-> > +		EX_TABLE(0b,0b)
-> > +		: : "d" (diag318_info.val));
-> >  }
-> >  
-> >  /*
-> >   
-> 
-> That smells like a nasty hack to not expose new features in QEMU and
-> deal with the issue of handling CPU limits. No, I don't like this.
-> 
-> Fix QEMU, not the kernel.
-> 
-
-I agree. The compat handling is a bit annoying, but I don't think we
-can get around it.
