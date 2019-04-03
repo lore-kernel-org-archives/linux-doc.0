@@ -5,123 +5,180 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 336777D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Apr 2019 14:01:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2C3FA7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Apr 2019 14:22:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726269AbfDCOBJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Apr 2019 10:01:09 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37408 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726193AbfDCOBJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Apr 2019 10:01:09 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id A0BB431688E3;
-        Wed,  3 Apr 2019 14:01:08 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-19.bos.redhat.com [10.18.17.19])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C1B325C8AB;
-        Wed,  3 Apr 2019 14:01:04 +0000 (UTC)
-Subject: Re: [RESEND PATCH 2/3] ipc: Conserve sequence numbers in
- ipcmni_extend mode
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Takashi Iwai <tiwai@suse.de>, Davidlohr Bueso <dbueso@suse.de>,
-        Manfred Spraul <manfred@colorfullife.com>
-References: <20190329204930.21620-1-longman@redhat.com>
- <20190329204930.21620-2-longman@redhat.com>
- <20190402142210.ba29c7dfc10d5a315a1c39dd@linux-foundation.org>
-From:   Waiman Long <longman@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=longman@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- weim8xU=
-Organization: Red Hat
-Message-ID: <cd36d33a-900e-e6a5-343c-7977040420be@redhat.com>
-Date:   Wed, 3 Apr 2019 10:01:04 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1726264AbfDCOWs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Apr 2019 10:22:48 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:60758 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726245AbfDCOWs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Apr 2019 10:22:48 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x33EHOLh044411
+        for <linux-doc@vger.kernel.org>; Wed, 3 Apr 2019 10:22:47 -0400
+Received: from e31.co.us.ibm.com (e31.co.us.ibm.com [32.97.110.149])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2rmvq96a00-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Wed, 03 Apr 2019 10:22:47 -0400
+Received: from localhost
+        by e31.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <walling@linux.ibm.com>;
+        Wed, 3 Apr 2019 15:22:46 +0100
+Received: from b03cxnp08026.gho.boulder.ibm.com (9.17.130.18)
+        by e31.co.us.ibm.com (192.168.1.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Wed, 3 Apr 2019 15:22:42 +0100
+Received: from b03ledav002.gho.boulder.ibm.com (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
+        by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x33EMdHk60031212
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 3 Apr 2019 14:22:39 GMT
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id B11FB136051;
+        Wed,  3 Apr 2019 14:22:39 +0000 (GMT)
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id DFD38136053;
+        Wed,  3 Apr 2019 14:22:38 +0000 (GMT)
+Received: from [9.56.58.47] (unknown [9.56.58.47])
+        by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
+        Wed,  3 Apr 2019 14:22:38 +0000 (GMT)
+Subject: Re: [PATCH v3 1/2] s390/setup: diag318: remove bit check and refactor
+ struct
+To:     Cornelia Huck <cohuck@redhat.com>,
+        David Hildenbrand <david@redhat.com>
+Cc:     pbonzini@redhat.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
+        schwidefsky@de.ibm.com, heiko.carstens@de.ibm.com,
+        borntraeger@de.ibm.com, frankja@linux.ibm.com
+References: <20190402174636.15175-1-walling@linux.ibm.com>
+ <20190402174636.15175-2-walling@linux.ibm.com>
+ <599addd3-a4f8-d4e7-5898-dc45f52cd7a6@redhat.com>
+ <20190403143333.2a3db681.cohuck@redhat.com>
+From:   Collin Walling <walling@linux.ibm.com>
+Date:   Wed, 3 Apr 2019 10:22:38 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
 MIME-Version: 1.0
-In-Reply-To: <20190402142210.ba29c7dfc10d5a315a1c39dd@linux-foundation.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20190403143333.2a3db681.cohuck@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.41]); Wed, 03 Apr 2019 14:01:08 +0000 (UTC)
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19040314-8235-0000-0000-00000E78E889
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00010867; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000284; SDB=6.01183759; UDB=6.00619764; IPR=6.00964510;
+ MB=3.00026276; MTD=3.00000008; XFM=3.00000015; UTC=2019-04-03 14:22:44
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19040314-8236-0000-0000-00004502BD8A
+Message-Id: <bce6e8cf-6f45-7549-8ada-ba4f77059487@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-04-03_09:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1904030097
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04/02/2019 05:22 PM, Andrew Morton wrote:
-> On Fri, 29 Mar 2019 16:49:29 -0400 Waiman Long <longman@redhat.com> wrote:
->
->> From: Manfred Spraul <manfred@colorfullife.com>
+On 4/3/19 8:33 AM, Cornelia Huck wrote:
+> On Wed, 3 Apr 2019 14:03:21 +0200
+> David Hildenbrand <david@redhat.com> wrote:
+> 
+>> On 02.04.19 19:46, Collin Walling wrote:
+>>> Execution of DIAGNOSE 0x318 is fenced by checking an SCLP bit
+>>> for the availability of hardware support for the instruction.
+>>>
+>>> In order to support this instruction for a KVM/QEMU guest, we
+>>> would need to provide modifications to the SCLP Read SCP Info
+>>> data, which will in turn reduce the maximum number of CPUs that
+>>> may be provided to the guest. This issue introduces compatability
+>>> and legacy concerns.
+>>>
+>>> Let's circumvent this issue by removing the bit check and blindly
+>>> executing the instruction. An exception table rule is in place to
+>>> catch the case where hardware does not support this instruction.
+>>>
+>>> While we're at it, let's condense the version code fields in the
+>>> diag318_info struct until we can determine how it will be used.
+>>>
+>>> This modifies commit 4ad78b8651aacf26b3ab6d1e784952eb70469c43
+>>>
+>>> Signed-off-by: Collin Walling <walling@linux.ibm.com>
+>>> ---
+>>>   arch/s390/include/asm/diag.h |  6 ++----
+>>>   arch/s390/kernel/setup.c     | 12 ++++++------
+>>>   2 files changed, 8 insertions(+), 10 deletions(-)
+>>>
+>>> diff --git a/arch/s390/include/asm/diag.h b/arch/s390/include/asm/diag.h
+>>> index 19562be22b7e..215516284175 100644
+>>> --- a/arch/s390/include/asm/diag.h
+>>> +++ b/arch/s390/include/asm/diag.h
+>>> @@ -298,10 +298,8 @@ struct diag26c_mac_resp {
+>>>   union diag318_info {
+>>>   	unsigned long val;
+>>>   	struct {
+>>> -		unsigned int cpnc : 8;
+>>> -		unsigned int cpvc_linux : 24;
+>>> -		unsigned char cpvc_distro[3];
+>>> -		unsigned char zero;
+>>> +		unsigned long cpnc : 8;
+>>> +		unsigned long cpvc : 56;
+> 
+> That part looks reasonable (we don't have a proper convention yet, have
+> we?)
+> 
+>>>   	};
+>>>   };
+>>>   
+>>> diff --git a/arch/s390/kernel/setup.c b/arch/s390/kernel/setup.c
+>>> index 2c642af526ce..fe70201f8b5d 100644
+>>> --- a/arch/s390/kernel/setup.c
+>>> +++ b/arch/s390/kernel/setup.c
+>>> @@ -1011,15 +1011,15 @@ static void __init setup_control_program_code(void)
+>>>   {
+>>>   	union diag318_info diag318_info = {
+>>>   		.cpnc = CPNC_LINUX,
+>>> -		.cpvc_linux = 0,
+>>> -		.cpvc_distro = {0},
+>>> +		.cpvc = 0,
+>>>   	};
+>>>   
+>>> -	if (!sclp.has_diag318)
+>>> -		return;
+>>> -
+>>>   	diag_stat_inc(DIAG_STAT_X318);
+>>> -	asm volatile("diag %0,0,0x318\n" : : "d" (diag318_info.val));
+>>> +	asm volatile(
+>>> +		"	diag	%0,0,0x318\n"
+>>> +		"0:	nopr	%%r7\n"
+>>> +		EX_TABLE(0b,0b)
+>>> +		: : "d" (diag318_info.val));
+>>>   }
+>>>   
+>>>   /*
+>>>    
 >>
->> Rewrite, based on the patch from Waiman Long:
+>> That smells like a nasty hack to not expose new features in QEMU and
+>> deal with the issue of handling CPU limits. No, I don't like this.
 >>
->> ...
+>> Fix QEMU, not the kernel.
 >>
->> Suggested-by: Matthew Wilcox <willy@infradead.org>
->> Original-patch-from: Waiman Long <longman@redhat.com>
->> Signed-off-by: Manfred Spraul <manfred@colorfullife.com>
->> Acked-by: Waiman Long <longman@redhat.com>
-> I added your Signed-off-by: to this.  Because you contributed and
-> because you were on the patch delivery path (either of these require a
-> SOB).
->
-> And I removed the Original-patch-from line.  The changelog already says
-> that and Original-patch-from isn't a standard changelog tag.
+> 
+> I agree. The compat handling is a bit annoying, but I don't think we
+> can get around it.
+> 
 
-Thanks for including those patches in your tree. Hopefully they can make
-5.2.
+Thanks for the feedback, everyone.
 
-Cheers,
-Longman
+The consensus here is to keep the bit check, so I'll throw that back in.
+I'll squeeze in a "clean-up" patch for the diag318_info struct in v4.
+
+I'll see that QEMU 4.1 has a max cpu limit of at most 247 (one less than
+the current max). If anyone has a suggestion on a better limit
+(Christian mentioned 240), please let me know. Otherwise we can discuss
+that value in the next version.
 
