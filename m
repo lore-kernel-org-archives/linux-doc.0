@@ -1,135 +1,164 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 52F4F7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Apr 2019 14:31:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 466787D099
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Apr 2019 16:44:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728854AbfDDOb1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 4 Apr 2019 10:31:27 -0400
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:38952 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728793AbfDDOb1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Apr 2019 10:31:27 -0400
-Received: by mail-qk1-f195.google.com with SMTP id c189so1749186qke.6
-        for <linux-doc@vger.kernel.org>; Thu, 04 Apr 2019 07:31:27 -0700 (PDT)
+        id S1729295AbfDDQos (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 4 Apr 2019 12:44:48 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:40702 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727353AbfDDQos (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Apr 2019 12:44:48 -0400
+Received: by mail-pl1-f194.google.com with SMTP id b3so1436438plr.7;
+        Thu, 04 Apr 2019 09:44:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=poorly.run; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=KLVCm6kIAoTWLgTBe6hlSrtymFpM3bNla2XomwKlVlU=;
-        b=WgCmtclKttywXWSDCWjPpURto5mfng++8tzwpsM6R2jQNxjcQl6oipQh0kao44k+w/
-         7ScqvFw86j9t8MbvdoxgzLJ+99OgVGYbvoKTu8yFp/S0WmnCp6EOORgB/Yq3PldT4F8I
-         LeHqx9xzzGvLvZV3jZ8yrcDgfikppSwtx//pm/BxAHgDbnir1EUWuzpZvCOBUNkdRnd/
-         bFEqfhAkszjZdeedNOaTlQEZor77kAEJ1ZeRSZzBoloYidCXsQi1kqYKT1SWgNk1ohdD
-         ETWKlcdMgFiS+iBHxZdNUSzIK39d8erKOOQ5t+9dvuwoIpZLjLV4DVWH3Rp3+r8H2/wl
-         A/5g==
+        d=gmail.com; s=20161025;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=Xy+ReW4WdLg6r3y8MidIxbAapRZPzkiZdvdN2N1NwHE=;
+        b=LQWIGFVO8E5mI4/pB2iT2o/XMJow15/aaRgvT4gmragYFUbh2dZaZYUQPRUxsYL4VG
+         bg8qxJ9bLM2138IvXNwujUVHpFQP1nuoB8dSQU2YvPH+KANZdslxHlIY7PEFuwn1NWKC
+         UwP4wcQZoT0vsldKl4EJh1scM/nLuVssLzHnnD3nuhdra9KXmWvmh88Fhh8C9U4OFasS
+         9Fwq1ip+ACOW93YiPXQsR/oziYYiYHpuAKWTWmmFmmrrEGu+2Tb2vwSZPfmNI/eWzA5D
+         gT2g4xqETl99tSK9TMrd/ixA7fuo82WwgemMLh7qmDJfbPJTpcQdW+wELfxwHFulGEsG
+         InqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=KLVCm6kIAoTWLgTBe6hlSrtymFpM3bNla2XomwKlVlU=;
-        b=JWEBr9X2z57DBoHiPWYQEMMXyZoR8LSri1m66iZei07qlzRvGhoEZJ8QfiWCbPrPvn
-         jCYx3LV9bY/w+rxYWY5gHtj/GuQD0MTpuvhsW5RLeACGJgPAFpmKrKank1MV3uS6KGeS
-         ct+q9B9c41f8rElfxXcw7ItJ/+PaTBTqjvR74NEDbKWH/kUhr8pzRHnQ5SkBxxtCVjBM
-         YlDwa21MzNyKfWLNbWzKCjYCCEiQkrC7blIYt1TU8Qw5tBgt5Fou6giKRe7IJzpv337j
-         TaDiFjXqTJ6Y+CHqvQ/T+9lYYplzd9eSj379dqTqXKArOpgd3UDjcGnc5FuTzvuDrhD0
-         sRiw==
-X-Gm-Message-State: APjAAAXimsHimJMN3SMYx1AMGIlrNBgBNLh4ExEUmoQnKNyDWZR6hNqA
-        funflpW8wFRw4RayVxuKVPOo2Q==
-X-Google-Smtp-Source: APXvYqy8KZuCsaAN8F+ksKVej12iWMV74pdlf9w93Ybh37/pZDk0uq7iR3Ttsin1ASj87N8UJHm0+w==
-X-Received: by 2002:a37:b4c:: with SMTP id 73mr5321954qkl.250.1554388286788;
-        Thu, 04 Apr 2019 07:31:26 -0700 (PDT)
-Received: from localhost ([2620:0:1013:11:89c6:2139:5435:371d])
-        by smtp.gmail.com with ESMTPSA id p6sm12604667qtk.70.2019.04.04.07.31.26
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 04 Apr 2019 07:31:26 -0700 (PDT)
-Date:   Thu, 4 Apr 2019 10:31:25 -0400
-From:   Sean Paul <sean@poorly.run>
-To:     Neil Armstrong <narmstrong@baylibre.com>
-Cc:     Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
-        Sean Paul <seanpaul@chromium.org>,
-        Maxime Jourdan <mjourdan@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation/gpu/meson: Remove link to meson_canvas.c
-Message-ID: <20190404143125.GB17077@art_vandelay>
-References: <20190403205652.183496-1-sean@poorly.run>
- <2afc7c09-a6e4-5191-d7e3-7a3a75451aab@baylibre.com>
- <de19dd7b-40dd-408b-a024-53036dedf7c3@baylibre.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <de19dd7b-40dd-408b-a024-53036dedf7c3@baylibre.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=Xy+ReW4WdLg6r3y8MidIxbAapRZPzkiZdvdN2N1NwHE=;
+        b=p/COCknQIKi2efB4mWTtwYSAF4a/Ft8CBrVt6N/SYk/JjqMD4xAEabYDt1VvGi/3/q
+         G+QcT+/u212kZZ5p09HzR5EkQXU9VIRrd+ek8U2Iji6Rsb0bJOGs3Z4k5XIasPXmcqVK
+         1ByNGIkjhymNSZ6K5Zr865P/xs9JLN/eiCjo3ImnMfQb35KM2jDkDpBjaixjmgJ5If4k
+         qqjORXohTiz8Gn/yKIbQ22LNli558SResUVLR3kt8kXoJTLf5Es9sGRU3GPwWrHBHNSt
+         qt1xyb5zjYGwrpOawF4iZNiP6UCP/cmEOZZJ0x3wlA9ATUE7P1rfGT8BkmGIuD8RsEnC
+         tYUg==
+X-Gm-Message-State: APjAAAXak3asYpP9eJ2bJA1VvBysoaMAVTyZWdxmnD5+JU2Uhw8M9LWy
+        iIkJXxmQnjB35K60dfUKe/c=
+X-Google-Smtp-Source: APXvYqy1o4DnqvcD19gMmNPsciMs9n+AzUt25Yw2ibm5ieYpF8E7FJWJfMRKaeTNL61yJu541XFuTg==
+X-Received: by 2002:a17:902:e110:: with SMTP id cc16mr7526914plb.147.1554396286248;
+        Thu, 04 Apr 2019 09:44:46 -0700 (PDT)
+Received: from [10.33.115.113] ([66.170.99.2])
+        by smtp.gmail.com with ESMTPSA id m3sm21957806pgp.85.2019.04.04.09.44.44
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 04 Apr 2019 09:44:45 -0700 (PDT)
+Content-Type: text/plain;
+        charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 12.2 \(3445.102.3\))
+Subject: Re: [RFC PATCH v9 00/13] Add support for eXclusive Page Frame
+ Ownership
+From:   Nadav Amit <nadav.amit@gmail.com>
+In-Reply-To: <cover.1554248001.git.khalid.aziz@oracle.com>
+Date:   Thu, 4 Apr 2019 09:44:43 -0700
+Cc:     X86 ML <x86@kernel.org>, linux-arm-kernel@lists.infradead.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        LSM List <linux-security-module@vger.kernel.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <3F95B70B-7910-4150-A9D3-05C4D0195B67@gmail.com>
+References: <cover.1554248001.git.khalid.aziz@oracle.com>
+To:     Khalid Aziz <khalid.aziz@oracle.com>
+X-Mailer: Apple Mail (2.3445.102.3)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 04, 2019 at 10:28:29AM +0200, Neil Armstrong wrote:
-> On 04/04/2019 08:56, Neil Armstrong wrote:
-> > On 03/04/2019 22:56, Sean Paul wrote:
-> >> From: Sean Paul <seanpaul@chromium.org>
-> >>
-> >> The file was removed in the below patch and is causing this error:
-> >> WARNING: kernel-doc '../scripts/kernel-doc -rst -enable-lineno -function Canvas ../drivers/gpu/drm/meson/meson_canvas.c' failed with return code
-> >>
-> >> Fixes: 2bf6b5b0e374 ("drm/meson: exclusively use the canvas provider module")
-> >> Cc: Maxime Jourdan <mjourdan@baylibre.com>
-> >> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> >> Cc: Kevin Hilman <khilman@baylibre.com>
-> >> Cc: dri-devel@lists.freedesktop.org
-> >> Cc: linux-amlogic@lists.infradead.org
-> >> Cc: linux-arm-kernel@lists.infradead.org
-> >> Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> >> ---
-> >>  Documentation/gpu/meson.rst | 6 ------
-> >>  1 file changed, 6 deletions(-)
-> >>
-> >> diff --git a/Documentation/gpu/meson.rst b/Documentation/gpu/meson.rst
-> >> index 479f6f51a13b..b9e2f9aa3bd8 100644
-> >> --- a/Documentation/gpu/meson.rst
-> >> +++ b/Documentation/gpu/meson.rst
-> >> @@ -42,12 +42,6 @@ Video Encoder
-> >>  .. kernel-doc:: drivers/gpu/drm/meson/meson_venc.c
-> >>     :doc: Video Encoder
-> >>  
-> >> -Video Canvas Management
-> >> -=======================
-> >> -
-> >> -.. kernel-doc:: drivers/gpu/drm/meson/meson_canvas.c
-> >> -   :doc: Canvas
-> >> -
-> >>  Video Clocks
-> >>  ============
-> >>  
-> >>
-> > 
-> > Acked-by: Neil Armstrong <narmstrong@baylibre.com>
-> > 
-> 
-> Applied to drm-misc-fixes
+> On Apr 3, 2019, at 10:34 AM, Khalid Aziz <khalid.aziz@oracle.com> =
+wrote:
+>=20
+> This is another update to the work Juerg, Tycho and Julian have
+> done on XPFO.
 
-Hmm, the commit referenced in the Fixes line hasn't landed in -fixes yet, it's
-in -next. So the fix has landed before the bug :(
+Interesting work, but note that it triggers a warning on my system due =
+to
+possible deadlock. It seems that the patch-set disables IRQs in
+xpfo_kunmap() and then might flush remote TLBs when a large page is =
+split.
+This is wrong, since it might lead to deadlocks.
 
-I'll ping mripard on irc and see what he wants to do about this.
 
-Sean
-
-> 
-> Neil
-
--- 
-Sean Paul, Software Engineer, Google / Chromium OS
+[  947.262208] WARNING: CPU: 6 PID: 9892 at kernel/smp.c:416 =
+smp_call_function_many+0x92/0x250
+[  947.263767] Modules linked in: sb_edac vmw_balloon crct10dif_pclmul =
+crc32_pclmul joydev ghash_clmulni_intel input_leds intel_rapl_perf =
+serio_raw mac_hid sch_fq_codel ib_iser rdma_cm iw_cm ib_cm ib_core =
+vmw_vsock_vmci_transport vsock vmw_vmci iscsi_tcp libiscsi_tcp libiscsi =
+scsi_transport_iscsi ip_tables x_tables autofs4 btrfs zstd_compress =
+raid10 raid456 async_raid6_recov async_memcpy async_pq async_xor =
+async_tx libcrc32c xor raid6_pq raid1 raid0 multipath linear hid_generic =
+usbhid hid vmwgfx drm_kms_helper syscopyarea sysfillrect sysimgblt =
+fb_sys_fops ttm drm aesni_intel psmouse aes_x86_64 crypto_simd cryptd =
+glue_helper mptspi vmxnet3 scsi_transport_spi mptscsih ahci mptbase =
+libahci i2c_piix4 pata_acpi
+[  947.274649] CPU: 6 PID: 9892 Comm: cc1 Not tainted 5.0.0+ #7
+[  947.275804] Hardware name: VMware, Inc. VMware Virtual Platform/440BX =
+Desktop Reference Platform, BIOS 6.00 07/28/2017
+[  947.277704] RIP: 0010:smp_call_function_many+0x92/0x250
+[  947.278640] Code: 3b 05 66 fc 4e 01 72 26 48 83 c4 10 5b 41 5c 41 5d =
+41 5e 41 5f 5d c3 8b 05 2b cc 7e 01 85 c0 75 bf 80 3d a8 99 4e 01 00 75 =
+b6 <0f> 0b eb b2 44 89 c7 48 c7 c2 a0 9a 61 aa 4c 89 fe 44 89 45 d0 e8
+[  947.281895] RSP: 0000:ffffafe04538f970 EFLAGS: 00010046
+[  947.282821] RAX: 0000000000000000 RBX: 0000000000000006 RCX: =
+0000000000000001
+[  947.284084] RDX: 0000000000000000 RSI: ffffffffa9078d70 RDI: =
+ffffffffaa619aa0
+[  947.285343] RBP: ffffafe04538f9a8 R08: ffff9d7040000ff0 R09: =
+0000000000000000
+[  947.286596] R10: 0000000000000000 R11: 0000000000000000 R12: =
+ffffffffa9078d70
+[  947.287855] R13: 0000000000000000 R14: 0000000000000001 R15: =
+ffffffffaa619aa0
+[  947.289118] FS:  00007f668b122ac0(0000) GS:ffff9d727fd80000(0000) =
+knlGS:0000000000000000
+[  947.290550] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  947.291569] CR2: 00007f6688389004 CR3: 0000000224496006 CR4: =
+00000000003606e0
+[  947.292861] DR0: 0000000000000000 DR1: 0000000000000000 DR2: =
+0000000000000000
+[  947.294125] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: =
+0000000000000400
+[  947.295394] Call Trace:
+[  947.295854]  ? load_new_mm_cr3+0xe0/0xe0
+[  947.296568]  on_each_cpu+0x2d/0x60
+[  947.297191]  flush_tlb_all+0x1c/0x20
+[  947.297846]  __split_large_page+0x5d9/0x640
+[  947.298604]  set_kpte+0xfe/0x260
+[  947.299824]  get_page_from_freelist+0x1633/0x1680
+[  947.301260]  ? lookup_address+0x2d/0x30
+[  947.302550]  ? set_kpte+0x1e1/0x260
+[  947.303760]  __alloc_pages_nodemask+0x13f/0x2e0
+[  947.305137]  alloc_pages_vma+0x7a/0x1c0
+[  947.306378]  wp_page_copy+0x201/0xa30
+[  947.307582]  ? generic_file_read_iter+0x96a/0xcf0
+[  947.308946]  do_wp_page+0x1cc/0x420
+[  947.310086]  __handle_mm_fault+0xc0d/0x1600
+[  947.311331]  handle_mm_fault+0xe1/0x210
+[  947.312502]  __do_page_fault+0x23a/0x4c0
+[  947.313672]  ? _cond_resched+0x19/0x30
+[  947.314795]  do_page_fault+0x2e/0xe0
+[  947.315878]  ? page_fault+0x8/0x30
+[  947.316916]  page_fault+0x1e/0x30
+[  947.317930] RIP: 0033:0x76581e
+[  947.318893] Code: eb 05 89 d8 48 8d 04 80 48 8d 34 c5 08 00 00 00 48 =
+85 ff 74 04 44 8b 67 04 e8 de 80 08 00 81 e3 ff ff ff 7f 48 89 45 00 8b =
+10 <44> 89 60 04 81 e2 00 00 00 80 09 da 89 10 c1 ea 18 83 e2 7f 88 50
+[  947.323337] RSP: 002b:00007ffde06c0e40 EFLAGS: 00010202
+[  947.324663] RAX: 00007f6688389000 RBX: 0000000000000004 RCX: =
+0000000000000001
+[  947.326317] RDX: 0000000000000000 RSI: 0000000001000001 RDI: =
+0000000000000017
+[  947.327973] RBP: 00007f66883882d8 R08: 00000000032e05f0 R09: =
+00007f668b30e6f0
+[  947.329619] R10: 0000000000000002 R11: 00000000032e05f0 R12: =
+0000000000000000
+[  947.331260] R13: 00007f6688388230 R14: 00007f6688388288 R15: =
+00007f668ac3b0a8
+[  947.332911] ---[ end trace 7d605a38c67d83ae ]---=
