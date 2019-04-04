@@ -5,51 +5,52 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8BD527D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Apr 2019 06:56:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 60EB47D099
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Apr 2019 08:28:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725904AbfDDG4u (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 4 Apr 2019 02:56:50 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:54814 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726917AbfDDG4t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Apr 2019 02:56:49 -0400
-Received: by mail-wm1-f67.google.com with SMTP id c1so1634769wml.4
-        for <linux-doc@vger.kernel.org>; Wed, 03 Apr 2019 23:56:48 -0700 (PDT)
+        id S1726790AbfDDI2d (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 4 Apr 2019 04:28:33 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:35743 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725914AbfDDI2d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Apr 2019 04:28:33 -0400
+Received: by mail-wr1-f66.google.com with SMTP id w1so2595171wrp.2
+        for <linux-doc@vger.kernel.org>; Thu, 04 Apr 2019 01:28:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:openpgp:autocrypt:organization
+        h=subject:from:to:cc:references:openpgp:autocrypt:organization
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=VhY2LHdgmgVwkAUXFdG+xBTGOiNyNbtSexdPuZrycEw=;
-        b=UAqjZcnZn4LmnJhgsrmbRN58W7NVlwwpaGiMH7nkDnd2zf61XwE9Iv6iWdoVVZN/7f
-         7ZH6eU7CNyo5VA9LnnaS3wRQEefv8eWlRIReKwqcyVXXdgD2jMeNXODxhRhs5wt4N1+s
-         p5P31eMkVZOuGxOUIp1WidovU56MJEzzpjTD0FhCwM7OMLLHFL/iFOD6vxijfIBZRVGn
-         QG3TPmV1CBOYycqp9icjXrSezKp2TGUWBiyF4AiFa6faC3cABM832JrVIgAcitLDP/sy
-         10baA9x1lSxiZmqnjVgu0jSrj3RwV4iYu1ie7sKRbqnX7GENO4a+n39vEMSSTu3g+oAf
-         6ILw==
+        bh=v/7hDVVq0c79F7CqrBEOQ+MVHIF0lrBpWK8mMVV/3ew=;
+        b=SZHu3Qz5UPw7/NFXDE0vZmCJxEsoy1LHLLw2izZNR1Q8FdtzY3tCdqfdnDQrUkt3lf
+         bNNYzwQiIzkEogO1ekREcKb/0dAaI7uuCCnBQHD0XLaP99I0HsI6PTXduJA7GjWDIeBK
+         weQr663dHCMAYatnVLBIg0wb0bLvk5zbVqaht24VCo36lMkatdTrJ7zbf79yAw3THB3m
+         CupX5f/KOuQuoDlUjFKaNgobXzfBCe04DpBPsBsYYXIJK8LO/Xfk2TmC1xl1UQ9+vD8H
+         59W62g8smaawOVnuWVDdjPDCbTtNVLvYR7Z117CMjpBqq3S+lbd0SU5Dy6bQca7MA9Nb
+         MoCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+        h=x-gm-message-state:subject:from:to:cc:references:openpgp:autocrypt
          :organization:message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=VhY2LHdgmgVwkAUXFdG+xBTGOiNyNbtSexdPuZrycEw=;
-        b=SPSWQ+/2viMkBHgrkBczJWPe8O/VXfj0v54U57GryLKLY1d+UJAcJD7TTiuts3xtTN
-         nESvObteQMAuBmGJa5TghjChpNQ35br5bVe5Bw3o8ujeblH+6xFUyC7Vs2l9xHVJhVW8
-         xMQVaQkFPcR4mU8o7d4hyen2OlcDTo1RAVVsK/98VvpGlt17X0ivoHOsfv8sZNBo5Hq3
-         IRIsz0P/3XDecrsZ46YF3lpPxPfBECbXVJ6QImeX/7G9VEN2KDIaLz5P+yYHlOMGmiOz
-         m1w4lsJSjk5ne1+F4ce/crZ/s7pAS9BjvX7OTgc07CR9Ti+H4QBZcR1dC4tEu69zNArJ
-         ySFw==
-X-Gm-Message-State: APjAAAVOAOUCik8Ir98VbZ1fEWOk3xGgBKUtk9jfyPNkP7ZPPSn30+DE
-        K7CL0YyTZVef3QWaCCD1ZzJiWQ==
-X-Google-Smtp-Source: APXvYqwJh4zHtGw+Yke/8+HAJa0rCoKAr7RYdXLcpVX2e/kpaYSEMh2Vw8uqB4rBp3JDS3FDHrfiSg==
-X-Received: by 2002:a1c:4e04:: with SMTP id g4mr2747435wmh.127.1554361007528;
-        Wed, 03 Apr 2019 23:56:47 -0700 (PDT)
+        bh=v/7hDVVq0c79F7CqrBEOQ+MVHIF0lrBpWK8mMVV/3ew=;
+        b=bdfMRXjwpvYn9Xdqf4hSJJy9DDF9BxewkXIvHnS7lfM1yPFo71ne018rmpmMM7eHZ+
+         pB6QNChSD7WkY14IrM11bXVuQmJ171gMYeLlA0PxEr5Jo4ZmSvNOziB5inLWNZU5/rcw
+         82Z4/0Lwq0n9GvgfBxubixtb0dUDB666RlnLiQfYdjHN/DppTbAuVdZtws1Xv3RKTRiS
+         5YyXR2F7SCJoq/ilDrIuJ1iQBa/hLsIPc8hCjXRIii0ZAk62cp5oURupTq/+Fm6mo+Us
+         VN2uDq5bjl5femGahgld/5DJlEb27lmJ3FL0YKcpIpNh1hD5KEVrLmdDzwr2M0tx7nPX
+         OKLA==
+X-Gm-Message-State: APjAAAWNwnNjI4DkmBPgYSCJ84FOw0ug/Wx5kivq+9Tz2js3VoUfwkb7
+        rl0t9WZQLgdAddQ2wBe4V01m7Q==
+X-Google-Smtp-Source: APXvYqwP382NZtvF/sCrqWPSEIaW5n6pW3BUbNsaEt4dyx0klW3opa0FePkhKqiPvLv5yVQ6BmatNQ==
+X-Received: by 2002:adf:f90c:: with SMTP id b12mr3044886wrr.63.1554366511223;
+        Thu, 04 Apr 2019 01:28:31 -0700 (PDT)
 Received: from [192.168.1.62] (wal59-h01-176-150-251-154.dsl.sta.abo.bbox.fr. [176.150.251.154])
-        by smtp.gmail.com with ESMTPSA id i28sm53164897wrc.32.2019.04.03.23.56.46
+        by smtp.gmail.com with ESMTPSA id m13sm20341592wmg.42.2019.04.04.01.28.29
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 03 Apr 2019 23:56:46 -0700 (PDT)
+        Thu, 04 Apr 2019 01:28:30 -0700 (PDT)
 Subject: Re: [PATCH] Documentation/gpu/meson: Remove link to meson_canvas.c
+From:   Neil Armstrong <narmstrong@baylibre.com>
 To:     Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org
 Cc:     Sean Paul <seanpaul@chromium.org>,
         Maxime Jourdan <mjourdan@baylibre.com>,
@@ -63,7 +64,7 @@ Cc:     Sean Paul <seanpaul@chromium.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
 References: <20190403205652.183496-1-sean@poorly.run>
-From:   Neil Armstrong <narmstrong@baylibre.com>
+ <2afc7c09-a6e4-5191-d7e3-7a3a75451aab@baylibre.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  mQENBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -115,12 +116,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  VsbXrP9BZ6snXyHfebPnno/te5XRqZTL9aJOytB/1iUna+1MAwBxGFPvqeEUUyT+gx1l3Acl
  ZaTUOEkgIor5losDrePdPgE=
 Organization: Baylibre
-Message-ID: <2afc7c09-a6e4-5191-d7e3-7a3a75451aab@baylibre.com>
-Date:   Thu, 4 Apr 2019 08:56:46 +0200
+Message-ID: <de19dd7b-40dd-408b-a024-53036dedf7c3@baylibre.com>
+Date:   Thu, 4 Apr 2019 10:28:29 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190403205652.183496-1-sean@poorly.run>
+In-Reply-To: <2afc7c09-a6e4-5191-d7e3-7a3a75451aab@baylibre.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -129,41 +130,47 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03/04/2019 22:56, Sean Paul wrote:
-> From: Sean Paul <seanpaul@chromium.org>
+On 04/04/2019 08:56, Neil Armstrong wrote:
+> On 03/04/2019 22:56, Sean Paul wrote:
+>> From: Sean Paul <seanpaul@chromium.org>
+>>
+>> The file was removed in the below patch and is causing this error:
+>> WARNING: kernel-doc '../scripts/kernel-doc -rst -enable-lineno -function Canvas ../drivers/gpu/drm/meson/meson_canvas.c' failed with return code
+>>
+>> Fixes: 2bf6b5b0e374 ("drm/meson: exclusively use the canvas provider module")
+>> Cc: Maxime Jourdan <mjourdan@baylibre.com>
+>> Cc: Neil Armstrong <narmstrong@baylibre.com>
+>> Cc: Kevin Hilman <khilman@baylibre.com>
+>> Cc: dri-devel@lists.freedesktop.org
+>> Cc: linux-amlogic@lists.infradead.org
+>> Cc: linux-arm-kernel@lists.infradead.org
+>> Signed-off-by: Sean Paul <seanpaul@chromium.org>
+>> ---
+>>  Documentation/gpu/meson.rst | 6 ------
+>>  1 file changed, 6 deletions(-)
+>>
+>> diff --git a/Documentation/gpu/meson.rst b/Documentation/gpu/meson.rst
+>> index 479f6f51a13b..b9e2f9aa3bd8 100644
+>> --- a/Documentation/gpu/meson.rst
+>> +++ b/Documentation/gpu/meson.rst
+>> @@ -42,12 +42,6 @@ Video Encoder
+>>  .. kernel-doc:: drivers/gpu/drm/meson/meson_venc.c
+>>     :doc: Video Encoder
+>>  
+>> -Video Canvas Management
+>> -=======================
+>> -
+>> -.. kernel-doc:: drivers/gpu/drm/meson/meson_canvas.c
+>> -   :doc: Canvas
+>> -
+>>  Video Clocks
+>>  ============
+>>  
+>>
 > 
-> The file was removed in the below patch and is causing this error:
-> WARNING: kernel-doc '../scripts/kernel-doc -rst -enable-lineno -function Canvas ../drivers/gpu/drm/meson/meson_canvas.c' failed with return code
-> 
-> Fixes: 2bf6b5b0e374 ("drm/meson: exclusively use the canvas provider module")
-> Cc: Maxime Jourdan <mjourdan@baylibre.com>
-> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Kevin Hilman <khilman@baylibre.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-amlogic@lists.infradead.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> ---
->  Documentation/gpu/meson.rst | 6 ------
->  1 file changed, 6 deletions(-)
-> 
-> diff --git a/Documentation/gpu/meson.rst b/Documentation/gpu/meson.rst
-> index 479f6f51a13b..b9e2f9aa3bd8 100644
-> --- a/Documentation/gpu/meson.rst
-> +++ b/Documentation/gpu/meson.rst
-> @@ -42,12 +42,6 @@ Video Encoder
->  .. kernel-doc:: drivers/gpu/drm/meson/meson_venc.c
->     :doc: Video Encoder
->  
-> -Video Canvas Management
-> -=======================
-> -
-> -.. kernel-doc:: drivers/gpu/drm/meson/meson_canvas.c
-> -   :doc: Canvas
-> -
->  Video Clocks
->  ============
->  
+> Acked-by: Neil Armstrong <narmstrong@baylibre.com>
 > 
 
-Acked-by: Neil Armstrong <narmstrong@baylibre.com>
+Applied to drm-misc-fixes
+
+Neil
