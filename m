@@ -1,150 +1,248 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C68C37D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  3 Apr 2019 23:28:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BD5127D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Apr 2019 03:54:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726193AbfDCX26 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 3 Apr 2019 19:28:58 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:33549 "EHLO
-        out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726167AbfDCX26 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Apr 2019 19:28:58 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.nyi.internal (Postfix) with ESMTP id 39B91222BA;
-        Wed,  3 Apr 2019 19:28:57 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Wed, 03 Apr 2019 19:28:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=
-        message-id:subject:from:to:cc:date:in-reply-to:references
-        :content-type:mime-version:content-transfer-encoding; s=fm2; bh=
-        ++5CMhroEuAjazs1tO09H63zbBQ5nzJdJ5d+2RHIrNc=; b=LyiATcFVKqYDfMIb
-        snYj1Mt7Ispou1aZOmkyr1bFymLsYr6VeyKcm49DUxj84YSe/rq7xG23WiuMF6gn
-        C5bKEgLToCWroLCUG6qp78PYRzL0BGfqOwxYnLgQ712a1V4t2te9ZMXmVP5AH+IU
-        QelN435IgpRL8w7tNGcpyD/Q5B5woa0J4aS5nP4v/a3+RB74zQfYagmFcajMEraA
-        Bx0gjbGUkYZZsMB6foeTihXloPSIaZmpxGyfw0vKw2/LkZMG/+R/0Od0VSxTQTwP
-        gyrsAKhNcCS1B0ix59rpuUyQ4ObJOwXyJpcMvAQ8GR0SVHoM4wyRY/UUXmU5EEp1
-        DkVRCQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; bh=++5CMhroEuAjazs1tO09H63zbBQ5nzJdJ5d+2RHIr
-        Nc=; b=B9dIoUPRAOVsLitQsTbmXna7UnkdDQvXapQk6TvX08Q99NQQAgMJK/alF
-        bs9x0hNl0tkKHndC5VNaG+zLpn+1gyhco16EPCKeQ51EY+B3o2N9YtWBc3WvD+Io
-        TSNUT09h9ZQoxP/0ZoPcbZYKylQ9tDBbZjRdXeIw4gmJxzT1RWZRHQS+sUcHkyRt
-        d6ruTIsLvWyQq1mJ3rQqpc+cPmzTOzdgxFtMEcstRaZxC91yjs45r/3WcIWsP5/3
-        IqdRx5ORAtQrWQ1Ovwa1g9ajNrhZ7UWUjt7mj9AGtk9qBAVQCmjFb7bdW15jR2qG
-        Y9vdsPfdZt/ShS5U6/1+FoW3U1B9g==
-X-ME-Sender: <xms:uEGlXDbzki7zwxvSd2jqXaCH9jSyQv0PiT_df9mSAX8Y4Wyejb_Rjw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrtdeggddvudculddtuddrgedutddrtddtmd
-    cutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefkuffhvfffjghftgfoggfgsehtjeertdertdej
-    necuhfhrohhmpefkrghnucfmvghnthcuoehrrghvvghnsehthhgvmhgrfidrnhgvtheqne
-    cukfhppeduudekrddvtdekrdeifedrvdefvdenucfrrghrrghmpehmrghilhhfrhhomhep
-    rhgrvhgvnhesthhhvghmrgifrdhnvghtnecuvehluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:uEGlXLUGjspAqIABHMI6S1Yg7-_yA7WYvkvLh_N6qu7ESIH73TRBFQ>
-    <xmx:uEGlXOue12PNRolHcIYy_miuKNbE118XhUINEZRcl2ML09oPA65JUQ>
-    <xmx:uEGlXMzmw7B3nRGQSvzfdzGDiSyPI9E1uz_BKYLvCXXc2nZ4K1Tr0A>
-    <xmx:uUGlXOjdnp-vtUSfY9olDEQ00f71nSImOm56G34HJKNgwp-62QU8HA>
-Received: from pluto.themaw.net (unknown [118.208.63.232])
-        by mail.messagingengine.com (Postfix) with ESMTPA id CD566E43A3;
-        Wed,  3 Apr 2019 19:28:55 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by pluto.themaw.net (Postfix) with ESMTP id 61F711C0079;
-        Thu,  4 Apr 2019 07:28:52 +0800 (AWST)
-Message-ID: <894091e9742896e4bc810458a9f71f3f59a48860.camel@themaw.net>
-Subject: Re: [PATCH v3 00/24] Convert vfs.txt to vfs.rst
-From:   Ian Kent <raven@themaw.net>
-To:     NeilBrown <neilb@suse.com>, Al Viro <viro@zeniv.linux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     "Tobin C. Harding" <tobin@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@s-opensource.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Date:   Thu, 04 Apr 2019 07:28:52 +0800
-In-Reply-To: <87ftqz29i2.fsf@notabene.neil.brown.name>
-References: <20190327051717.23225-1-tobin@kernel.org>
-         <20190402094934.5b242dc0@lwn.net>
-         <20190402164824.GK2217@ZenIV.linux.org.uk>
-         <20190402175401.GL2217@ZenIV.linux.org.uk>
-         <20190402190811.GM2217@ZenIV.linux.org.uk>
-         <5c5e02f8b8add4aa2fc24ba2a0880652529588af.camel@themaw.net>
-         <87ftqz29i2.fsf@notabene.neil.brown.name>
+        id S1728836AbfDDDyy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 3 Apr 2019 23:54:54 -0400
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:64697 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728835AbfDDDyy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Apr 2019 23:54:54 -0400
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id x343slkB013747;
+        Thu, 4 Apr 2019 12:54:48 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com x343slkB013747
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1554350088;
+        bh=9TtKvr86lCRWDzLB5qp7W/7os9kgPgCNlRNNkcKtNgg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Y1z3/UNkZseu0pgJPyikukZHuo04yt1DKn9risncLieX3N5v1P36yKeiNJ/bG2ofq
+         FXOxu+P9zwTEyR0KG+IALMyXNWebTO9qYsZU4l1UhtCu5/PNO3ApgxkW8VL2mLjkVh
+         6W4HbKeWmUP9yc4i/OWCTwfTWa5ZVj6DATxUXK2qv3rzx8d8XFaBfZm/HSesS0yhqM
+         hrYJRmEd/uwMSCfgPnmUoLHTCQsPsSkBMR5NzXeoMbCqhNCJrt3GIskNpl5O8b2SNx
+         vBsx+6XxKv0ym6ISwYA6px2GWYV0S4p7AZ/JbV7vuW0y2KFXFnK2/5apie1SFhGbaw
+         TuKDCtvDt9KWA==
+X-Nifty-SrcIP: [209.85.221.170]
+Received: by mail-vk1-f170.google.com with SMTP id o187so311082vkg.4;
+        Wed, 03 Apr 2019 20:54:48 -0700 (PDT)
+X-Gm-Message-State: APjAAAWjs9etkU0NzyZkfaf5KLSAFazcIF7RazNl9iI5TKAoZhH7X4Wd
+        SRA0YZi37TT0DsW6xUJDRHYnfv9K1pqMRubLubw=
+X-Google-Smtp-Source: APXvYqyC6n7Kg01N/nQkcMNmCnger1LJL5DyePe0wWCNfg40D+iUvThQKkIiQXjs00a5Ghecmd1U3SONWmHQnD2aIn0=
+X-Received: by 2002:a1f:1a49:: with SMTP id a70mr2517805vka.33.1554350087207;
+ Wed, 03 Apr 2019 20:54:47 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190211143600.15021-1-joel@joelfernandes.org>
+ <20190215031926.ljzluy2cfxp64u6o@ast-mbp> <20190325134947.GA187133@google.com>
+ <20190327173103.GA205980@google.com> <CAK7LNARcaVtgHvco-Q=E5jhOXduk=55g9AC7nFn2esFxnk9Naw@mail.gmail.com>
+ <20190403172031.GA260189@google.com> <CAKOZueszGpij1ZLqQfNggY-7t7BV+SksApVvmWE+kuExYvv+aA@mail.gmail.com>
+ <20190403175653.GA60809@google.com>
+In-Reply-To: <20190403175653.GA60809@google.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Thu, 4 Apr 2019 12:54:11 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATZsUgYVeAhr5PZ1u1=+RzXgo+PUq+Bpcq4r_tPNSVMpA@mail.gmail.com>
+Message-ID: <CAK7LNATZsUgYVeAhr5PZ1u1=+RzXgo+PUq+Bpcq4r_tPNSVMpA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] Provide in-kernel headers for making it easy to
+ extend the kernel
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     Daniel Colascione <dancol@google.com>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Networking <netdev@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        atish patra <atishp04@gmail.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Karim Yaghmour <karim.yaghmour@opersys.com>,
+        Kees Cook <keescook@chromium.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Manoj Rao <linux@manojrajarao.com>,
+        Randy Dunlap <rdunlap@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-2.fc28) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2019-04-03 at 11:55 +1100, NeilBrown wrote:
-> On Wed, Apr 03 2019, Ian Kent wrote:
-> 
-> > On Tue, 2019-04-02 at 20:08 +0100, Al Viro wrote:
-> > > On Tue, Apr 02, 2019 at 06:54:01PM +0100, Al Viro wrote:
-> > > > static void autofs_dentry_release(struct dentry *de)
-> > > > {
-> > > >         struct autofs_info *ino = autofs_dentry_ino(de);
-> > > >         struct autofs_sb_info *sbi = autofs_sbi(de->d_sb);
-> > > > 
-> > > >         pr_debug("releasing %p\n", de);
-> > > > 
-> > > >         if (!ino)
-> > > >                 return;
-> > > > ...
-> > > >         autofs_free_ino(ino);
-> > > > }
-> > > > with autofs_free_ino() being straight kfree().  Which means
-> > > > that the lockless case of autofs_d_manage() can run into
-> > > > autofs_dentry_ino(dentry) getting freed right under it.
-> > > > 
-> > > > And there we do have this reachable:
-> > > > int autofs_expire_wait(const struct path *path, int rcu_walk)
-> > > > {
-> > > >         struct dentry *dentry = path->dentry;
-> > > >         struct autofs_sb_info *sbi = autofs_sbi(dentry->d_sb);
-> > > >         struct autofs_info *ino = autofs_dentry_ino(dentry);
-> > > >         int status;
-> > > >         int state;
-> > > > 
-> > > >         /* Block on any pending expire */
-> > > >         if (!(ino->flags & AUTOFS_INF_WANT_EXPIRE))
-> > 
-> > Oh yes, this is saying the dentry hasn't been selected
-> > for expire on the first pass, there's a second pass at
-> > expire selection so there's a delay there and both flags
-> > (this one and the expiring flag) are kept throughout the
-> > expire operation if dentry is selected.
-> > 
-> > That might be partly why an oops has never been seen but
-> > path walks can occur at any time so it's a bit puzzling.
-> > 
-> > LOL, and Neil probably can't remember the deeper detail
-> > on what he did there now either.
-> 
-> It seems very likely that this was just a subtlety that I missed.
-> I doesn't help that "ino" isn't actually and inode and isn't freed like
-> an inode, but that is no excuse.
+On Thu, Apr 4, 2019 at 2:59 AM Joel Fernandes <joel@joelfernandes.org> wrote:
+>
+> On Wed, Apr 03, 2019 at 10:46:01AM -0700, Daniel Colascione wrote:
+> > On Wed, Apr 3, 2019 at 10:20 AM Joel Fernandes <joel@joelfernandes.org> wrote:
+> > >
+> > > On Wed, Apr 03, 2019 at 04:48:37PM +0900, Masahiro Yamada wrote:
+> > > > On Thu, Mar 28, 2019 at 2:32 AM Joel Fernandes <joel@joelfernandes.org> wrote:
+> > > > >
+> > > > > On Mon, Mar 25, 2019 at 09:49:47AM -0400, Joel Fernandes wrote:
+> > > > > > On Thu, Feb 14, 2019 at 07:19:29PM -0800, Alexei Starovoitov wrote:
+> > > > > > > On Mon, Feb 11, 2019 at 09:35:59AM -0500, Joel Fernandes (Google) wrote:
+> > > > > > > > Introduce in-kernel headers and other artifacts which are made available
+> > > > > > > > as an archive through proc (/proc/kheaders.txz file). This archive makes
+> > > > > > > > it possible to build kernel modules, run eBPF programs, and other
+> > > > > > > > tracing programs that need to extend the kernel for tracing purposes
+> > > > > > > > without any dependency on the file system having headers and build
+> > > > > > > > artifacts.
+> > > > > > > >
+> > > > > > > > On Android and embedded systems, it is common to switch kernels but not
+> > > > > > > > have kernel headers available on the file system. Raw kernel headers
+> > > > > > > > also cannot be copied into the filesystem like they can be on other
+> > > > > > > > distros, due to licensing and other issues. There's no linux-headers
+> > > > > > > > package on Android. Further once a different kernel is booted, any
+> > > > > > > > headers stored on the file system will no longer be useful. By storing
+> > > > > > > > the headers as a compressed archive within the kernel, we can avoid these
+> > > > > > > > issues that have been a hindrance for a long time.
+> > > > > > >
+> > > > > > > The set looks good to me and since the main use case is building bpf progs
+> > > > > > > I can route it via bpf-next tree if there are no objections.
+> > > > > > > Masahiro, could you please ack it?
+> > > > > >
+> > > > > > FYI, Masahiro's comments were all address by v5:
+> > > > > > https://lore.kernel.org/patchwork/project/lkml/list/?series=387311
+> > > > > >
+> > > > > > I believe aren't more outstanding concerns. Could we consider it for v5.2?
+> > > > >
+> > > > > Just to highlight the problem, today I booted v5.0 on an emulated Android
+> > > > > device for some testing, that didn't have a set of prebuilt headers that we
+> > > > > have been packaging on well known kernels, to get around this issue. This
+> > > > > caused great pain and issues with what I was doing. I know me and many others
+> > > > > really want this. With this I can boot an emulated Android device with
+> > > > > IKCONFIG_PROC=y and run BCC with that that. Also I want to do the BCC side of
+> > > > > the development, but first want to know if we can merge this upstream.
+> > > > >
+> > > > > Masahiro, I believe due diligence has been done in solidifying it as posted
+> > > > > in the v5.  Anything else we need to do here? Are you with the patches?
+> > > >
+> > > >
+> > > > As you said, these updates are "cosmetic".
+> > > > Nobody is worried about (or interested in) them.
+> > > > Even if we miss something, they are fixable later.
+> > > >
+> > > > I accept embedding headers in the kernel,
+> > > > but I do not like the part about external module build.
+> > > >  - kernel embeds build artifacts that depend on a
+> > > >    particular host-arch
+> > > >  - users do not know which compiler to use
+> > > > Perhaps, you may remember my concerns.
+> > > > https://lore.kernel.org/patchwork/patch/1046307/#1239501
+> > >
+> > > Masahiro,
+> > > I think we already discussed this right. The compiler issue is a user-issue -
+> > > it is not a problem that has arisen because this patch. Anyone can build a
+> > > kernel module today without this patch - using a compiler that is different
+> > > from the running kernel. So I did not fully understand your concern. This
+> > > patch does not ship a compiler in the archive. The compiler is upto the user
+> > > based on user environment. They can already shoot themself in foot without
+> > > this patch.
+> > >
+> > > Greg,
+> > > Would be great to get your thoughts here as well about Masami's concern.
+> > >
+> > > Honestly, the "kernel module building artifacts" bit is a bonus with this
+> > > patch. The main thing we are adding or that we need is really the headers
+> > > (for BCC).
 
-I've become accustom to the naming so that doesn't occur to
-me, ;)
 
-> 
-> When we add the rcu_head linkage to 'struct autofs_info', we might as
-> well remove the 'struct inode' from there - it doesn't seem to have been
-> used for years.
+Yeah, this part looks solid to me.
 
-That's a good point, I've thought about doing so several
-times but haven't got around to it.
 
-Ian
+> I just thought shipping the kernel build artifacts would also be
+> > > awesome because people can now build kernel modules without needing a kernel
+> > > tree at all.
+> > >
+> > > But I also want this stuff merged so if folks are really unhappy with the
+> > > module build artifacts and only want headers - then that's also fine with me
+> > > and I can yank them - that would also mean though that this work cannot be a
+> > > replacement for linux-headers package on distros, so that would be sad.
+> > >
+> > > thanks!
+> >
+> > IMHO, including the module build stuff is fine, and the stuff that
+> > Masahiro mentions doesn't matter much. To be specific about the
+> > concerns:
+> >
+> > >> > >  - kernel embeds build artifacts that depend on a
+> > > >    particular host-arch
+> >
+> > What are these artifacts? We build the kernel as a standalone system.
+> > It's not as if we statically link host glibc into it or something.
+>
+> There are some scripts/ that are built in the host-arch ABI. These are also put
+> in the archive because they are needed to build modules. So if you
+> cross-compile then the archive will have scripts/ that are in the host arch,
+> not the target arch. This makes it not possible to build modules on the
+> target using the archive. This is not much of an issue because I already
+> proved that such kernel modules can be built using a chroot in this thread:
+> https://lkml.org/lkml/2019/2/28/1313
+> And in the non cross-compile case, it will be immensely useful for distros..
 
+
+Now the kernel depends on the host-arch that built it.
+It looks somewhat weird to me.
+
+
+> > > >  - users do not know which compiler to use
+> >
+> > Does that matter much? Do things ever break if the kernel proper is
+> > built with GCC x.y.z and we build a module with GCC x.y.(z+1)? Why
+> > would it? Structure layout is invariant across compiler version, or at
+> > least ought to be.
+
+
+The difference in the minor version
+will not be a problem in practice.
+
+The difference in the major version could be a problem.
+
+Difference compilers have a different set of compiler options in general.
+
+In Kbuild Makefiles, unsupported compiler options are
+disabled by $(call cc-option,...).
+
+So, users may potentially compile external modules
+wit a slightly different set of flags without noticing that.
+
+It may still work, but some compiler flags insert stubs.
+There are some cases where compiler flags are sensitive.
+
+For example, if we miss the compiler flag that was given to vmlinux,
+slightly different code structure may cause kernel panic:
+https://bugzilla.kernel.org/show_bug.cgi?id=201891
+
+
+>  And don't we have exactly the same problem with
+> > any kernel headers package? I don't think it'd hurt to include the
+> > output of $(CC) --version though.
+>
+> Apparently there were some issues in some posting where Greg said we don't
+> support anything but modules built with the same compiler as the kernel its
+> being loaded into, even if such modules do work in practice. I don't recall
+> the details, I can dig up that thread if you want. My point is, whether
+> that's an issue or not - it is not an issue introduced by this patch. That's
+> just a module building issue which we neither solve here, nor introduce.
+
+What I can tell is, distributions provide packages of the compiler,
+kernel headers, and whatever needed to compile external modules.
+
+I feel this is a double-edged sword.
+
+
+> > Like Joel, I'd like to see this change merged. It'll make life easier
+> > for a lot of people.
+>
+> Thanks.
+>
+> - Joel
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
