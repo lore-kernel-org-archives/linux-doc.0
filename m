@@ -1,349 +1,183 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 75B1D7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Apr 2019 18:31:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EFA5D7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Apr 2019 20:11:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729641AbfDDSb4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 4 Apr 2019 14:31:56 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:44249 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729456AbfDDSbz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Apr 2019 14:31:55 -0400
-Received: by mail-ed1-f66.google.com with SMTP id d11so3137713edp.11
-        for <linux-doc@vger.kernel.org>; Thu, 04 Apr 2019 11:31:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=googlenew;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=o3JiYiaXLFttuORR/i6ScFngT48gAH5psY/aHu5CjL4=;
-        b=j5VUwoYqztFvueXbcJ82RX7aljhmhem+6tpiIenn5mp1PuhrcW77dzVEdLXS1MaV6B
-         qZcrCxmJmaQpn+ozKhundtahNSZsHSOIlC34Da9xC18BpZ5xKsT+eRLw1kIYkMpvrNoy
-         xXxEvDFMO6RxJ9vHbvqry4LInDMYPZJNmXl6BaShK2Y1N7MzZBXAM5TAeFFa0dIAhxFH
-         PqVijAFPTL4k6mD3qizfyQ2kCaTVPWFSNyOHeKp3CjKPGAhA3cdXY9hY9bo59AWexPas
-         RKHi7geMnx1l2XTliJ4l5NKZJ3N8kO05gfu0CTHx3Rs3ieOnTYD5q+08NSwj//RI/Uuq
-         B30w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=o3JiYiaXLFttuORR/i6ScFngT48gAH5psY/aHu5CjL4=;
-        b=iFH4TKw33v/ZA7xQ08ouzSyU4/HP4SknvSxkIw2Mm6QnTq6i5zStlgpSwwnHGUGKHN
-         FyJCl8Wdd0Z8z5WfMRubyP6lhkBVm4BAXAjhndmJHHRbOPNlnoybjqJaZRig95LyrRP7
-         /n+wyEP4A0xg7SW/1N9h7AgDChqHRsoe9rsZr7Jie3O+mRqfB5CwQGID9D6hlw7mwfOm
-         XkcTpHW+d64wRb72xSTb3qPduIirrHLd/unom4Uh6e6AWwzOx103X9M8YBBdZModNudJ
-         XlBIjs53QV282ta01xt9cC01QRLlmpX2p2aD9VLfyvlidZaJYQeETAGKVyvDxZee/kzg
-         Srgw==
-X-Gm-Message-State: APjAAAUkSGPdXyoJBtZo0JbuxWBTITZ4p4qjoNdul4s/dwrxdv9OBbA8
-        zz1RKqkAmIHMsvXaALkvqoBYYw==
-X-Google-Smtp-Source: APXvYqyIm0+Ye6HPXd0K4jJ8ymSKL0vMWTKhRp7FaUDgpmuW2CuUbP6/wP0qhdKX1Td9WDcY0ANMLg==
-X-Received: by 2002:a50:891d:: with SMTP id e29mr4870911ede.209.1554402712988;
-        Thu, 04 Apr 2019 11:31:52 -0700 (PDT)
-Received: from [10.83.36.153] ([217.173.96.166])
-        by smtp.gmail.com with ESMTPSA id d20sm5968322eda.82.2019.04.04.11.31.51
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Thu, 04 Apr 2019 11:31:51 -0700 (PDT)
-Subject: Re: [RFC 2/4] net/fib: Provide fib_balance_budget sysctl
-To:     Alexander Duyck <alexander.h.duyck@linux.intel.com>,
-        linux-kernel@vger.kernel.org
-Cc:     Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
-        David Ahern <dsahern@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        Ido Schimmel <idosch@mellanox.com>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-References: <20190326153026.24493-1-dima@arista.com>
- <20190326153026.24493-3-dima@arista.com>
- <46fede8e9c9da712475d3e7d956e8e2144b3bbb0.camel@linux.intel.com>
-From:   Dmitry Safonov <dima@arista.com>
-Message-ID: <0ca9d27c-5d85-de1c-8303-697cc1acf85b@arista.com>
-Date:   Thu, 4 Apr 2019 19:31:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.3
+        id S1729872AbfDDULo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 4 Apr 2019 16:11:44 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:50078 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728762AbfDDUKo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Apr 2019 16:10:44 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x34K3Qun084178
+        for <linux-doc@vger.kernel.org>; Thu, 4 Apr 2019 16:10:43 -0400
+Received: from e11.ny.us.ibm.com (e11.ny.us.ibm.com [129.33.205.201])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2rnqkvk4nb-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Thu, 04 Apr 2019 16:10:43 -0400
+Received: from localhost
+        by e11.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Thu, 4 Apr 2019 21:10:42 +0100
+Received: from b01cxnp23032.gho.pok.ibm.com (9.57.198.27)
+        by e11.ny.us.ibm.com (146.89.104.198) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Thu, 4 Apr 2019 21:10:38 +0100
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x34KAbms25231442
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 4 Apr 2019 20:10:37 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id BB885B2064;
+        Thu,  4 Apr 2019 20:10:37 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 8CE4CB205F;
+        Thu,  4 Apr 2019 20:10:37 +0000 (GMT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.188])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Thu,  4 Apr 2019 20:10:37 +0000 (GMT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id 6EDAE16C2A41; Thu,  4 Apr 2019 13:10:39 -0700 (PDT)
+Date:   Thu, 4 Apr 2019 13:10:39 -0700
+From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
+To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org, oleg@redhat.com, jannh@google.com,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH v2] doc/rcuref: Document real world examples in kernel
+Reply-To: paulmck@linux.ibm.com
+References: <20190329140555.118463-1-joel@joelfernandes.org>
 MIME-Version: 1.0
-In-Reply-To: <46fede8e9c9da712475d3e7d956e8e2144b3bbb0.camel@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190329140555.118463-1-joel@joelfernandes.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+x-cbid: 19040420-2213-0000-0000-000003718407
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00010873; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000284; SDB=6.01184350; UDB=6.00620121; IPR=6.00965103;
+ MB=3.00026298; MTD=3.00000008; XFM=3.00000015; UTC=2019-04-04 20:10:41
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19040420-2214-0000-0000-00005DE7A305
+Message-Id: <20190404201039.GL14111@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-04-04_11:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1904040127
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/1/19 7:09 PM, Alexander Duyck wrote:
-> On Tue, 2019-03-26 at 15:30 +0000, Dmitry Safonov wrote:
->> Unfortunately, MAX_WORK at this moment is broken: during
->> trie_rebalance() climbing upwards resize() is being called for each
->> tnode. Which makes the limit useless the bigger trie gets: at each level
->> there are 10 attempts to balance tnode and childs, resulting in
->> O(10^n + 10^{n-1} + ... 10^{n-k}) complexity to balance trie, where k - is
->> the level where we changed the trie originally (adding/removing
->> alias/route).
->>
->> Which results in the following price of removing one route under big
->> trie (similar for some other single routes that results in reallocating
->> tnodes by hitting the threshold limits for halve/inflate resize):
+On Fri, Mar 29, 2019 at 10:05:55AM -0400, Joel Fernandes (Google) wrote:
+> Document similar real world examples in the kernel corresponding to the
+> second and third code snippets. Also correct an issue in
+> release_referenced() in the code snippet example.
 > 
-> The info below doesn't really tell us the price. It might be useful if
-> you could just time the removal of that one route and provide that
-> information.
+> Cc: oleg@redhat.com
+> Cc: jannh@google.com
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 
-Yes, well, that was an attempt to point that MAX_WORK in the current
-state doesn't limit much complexity to balance trie.
+Good catch, thank you!
 
-So, most of the time (up to a couple of seconds) is spent on
-synchronise_rcu() (which was addressed by 4/4 and a patch from David
-Ahern in -next).
+As usual, I could not resist doing a bit of wordsmithing.  Please let me
+know if I messed anything up in the version shown below.
 
-But I thought fixing max_work is also worth attention, regardless the
-fix for synchronising rcu. And playing with the sysctl limit that is
-provided by the patch, I've found out that even with 4/4 applied one can
-tune this sysctl knob the way that results in dividing the work between
-consecutive route manipulations. So that on a 4-core switch the time
-spent to add a route in maximum was more than a second and adjusting
-work limit can bring it down to 300msec in max. Though, the total time
-spent to add the whole route table was the same.
+								Thanx, Paul
 
-I will provide more details for v2.
+------------------------------------------------------------------------
 
-> 
->> Before:
->>    Basic info: size of leaf: 40 bytes, size of tnode: 40 bytes.
->>    Main:
->>            Aver depth:     1.99
->>            Max depth:      2
->>            Leaves:         77825
->>            Prefixes:       77825
->>            Internal nodes: 77
->>              9: 1  10: 76
->>            Pointers: 78336
->>    Null ptrs: 435
->>    Total size: 7912  kB
->>    Local:
->>    [omitted]
->>
->> After:
->>    Basic info: size of leaf: 40 bytes, size of tnode: 40 bytes.
->>    Main:
->>            Aver depth:     3.00
->>            Max depth:      3
->>            Leaves:         77824
->>            Prefixes:       77824
->>            Internal nodes: 20491
->>              1: 2048  2: 18432  6: 1  11: 10
->>            Pointers: 98368
->>    Null ptrs: 54
->>    Total size: 8865  kB
->>    Local:
->>    [omitted]
->>
-> 
-> Is this before/after the patch, or just before/after the removal of the
-> one route? I assume you are are just talking about the one route since
-> the number of prefixes has dropped by 1.
+commit adcd92c0ab303b57b28a3cd097bd9ece824c14f6
+Author: Joel Fernandes (Google) <joel@joelfernandes.org>
+Date:   Fri Mar 29 10:05:55 2019 -0400
 
-Yes, just for removing one route. Should have mentioned that explicitly,
-sorry.
+    doc/rcuref: Document real world examples in kernel
+    
+    Document similar real world examples in the kernel corresponding to the
+    second and third code snippets. Also correct an issue in
+    release_referenced() in the code snippet example.
+    
+    Cc: oleg@redhat.com
+    Cc: jannh@google.com
+    Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+    [ paulmck: Do a bit of wordsmithing. ]
+    Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
 
-> 
->> Provide a sysctl to control amount of pending balancing work.
->> (by default unlimited as it was)
->>
->> Cc: linux-doc@vger.kernel.org
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Fixes: ff181ed8768f ("fib_trie: Push assignment of child to parent down
->> into inflate/halve")
->> Signed-off-by: Dmitry Safonov <dima@arista.com>
->> ---
->>  Documentation/networking/ip-sysctl.txt |  6 +++
->>  include/net/ip.h                       |  1 +
->>  net/ipv4/fib_trie.c                    | 60 +++++++++++++++-----------
->>  net/ipv4/sysctl_net_ipv4.c             |  7 +++
->>  4 files changed, 49 insertions(+), 25 deletions(-)
->>
->> diff --git a/Documentation/networking/ip-sysctl.txt b/Documentation/networking/ip-sysctl.txt
->> index acdfb5d2bcaa..fb71dacff4dd 100644
->> --- a/Documentation/networking/ip-sysctl.txt
->> +++ b/Documentation/networking/ip-sysctl.txt
->> @@ -81,6 +81,12 @@ fib_multipath_hash_policy - INTEGER
->>  	0 - Layer 3
->>  	1 - Layer 4
->>  
->> +fib_balance_budget - UNSIGNED INTEGER
->> +	Limits the number of resize attempts during balancing fib trie
->> +	on adding/removing new routes.
->> +	Possible values:
->> +	Default: UINT_MAX (0xFFFFFFFF)
->> +
-> 
-> So I am not really a fan of the use of UNSIGNED_INTEGER here. I would
-> much rather see this be a signed integer and the test be for the value
-> going negative instead of having to test in so many places if the value
-> is 0.
+diff --git a/Documentation/RCU/rcuref.txt b/Documentation/RCU/rcuref.txt
+index 613033ff2b9b..c0bab7fb57e7 100644
+--- a/Documentation/RCU/rcuref.txt
++++ b/Documentation/RCU/rcuref.txt
+@@ -12,6 +12,7 @@ please read on.
+ Reference counting on elements of lists which are protected by traditional
+ reader/writer spinlocks or semaphores are straightforward:
+ 
++CODE LISTING A:
+ 1.				2.
+ add()				search_and_reference()
+ {				{
+@@ -28,7 +29,8 @@ add()				search_and_reference()
+ release_referenced()			delete()
+ {					{
+     ...					    write_lock(&list_lock);
+-    atomic_dec(&el->rc, relfunc)	    ...
++    if(atomic_dec_and_test(&el->rc))	    ...
++	kfree(el);
+     ...					    remove_element
+ }					    write_unlock(&list_lock);
+  					    ...
+@@ -44,6 +46,7 @@ search_and_reference() could potentially hold reference to an element which
+ has already been deleted from the list/array.  Use atomic_inc_not_zero()
+ in this scenario as follows:
+ 
++CODE LISTING B:
+ 1.					2.
+ add()					search_and_reference()
+ {					{
+@@ -79,6 +82,7 @@ search_and_reference() code path.  In such cases, the
+ atomic_dec_and_test() may be moved from delete() to el_free()
+ as follows:
+ 
++CODE LISTING C:
+ 1.					2.
+ add()					search_and_reference()
+ {					{
+@@ -114,6 +118,16 @@ element can therefore safely be freed.  This in turn guarantees that if
+ any reader finds the element, that reader may safely acquire a reference
+ without checking the value of the reference counter.
+ 
++A clear advantage of the RCU-based pattern in listing C over the one
++in listing B is that any call to search_and_reference() that locates
++a given object will succeed in obtaining a reference to that object,
++even given a concurrent invocation of delete() for that same object.
++Similarly, a call to delete() is not delayed even if there are an
++arbitrarily large number of calls to search_and_reference() searching
++for the same object that delete() was invoked on.  Instead, all that is
++delayed is the eventual invocation of kfree(), which is usually not a
++problem on modern computer systems, even the small ones.
++
+ In cases where delete() can sleep, synchronize_rcu() can be called from
+ delete(), so that el_free() can be subsumed into delete as follows:
+ 
+@@ -130,3 +144,7 @@ delete()
+     	kfree(el);
+     ...
+ }
++
++As additional examples in the kernel, the pattern in listing C is used by
++reference counting of struct pid, while the pattern in listing B is used by
++struct posix_acl.
 
-Ok, sounds good to me - will change the type for v2.
-
-[..]
->> @@ -874,22 +877,25 @@ static struct key_vector *resize(struct trie *t, struct key_vector *tn)
->>  			break;
->>  		}
->>  
->> -		max_work--;
->> +		(*budget)--;
-> 
-> One thing we might explore here would be to look at pulling out the
-> check of budget at the start of the loop and instead combine the
-> decrement with the check for < 0 here so we have something like:
-> 		if (--*budget < 0)
-> 			break;
-> 
-> That way what should happen is that we will achieve maximum depth in
-> any resize and make at least one pass optimizing from the bottom up
-> instead of the top down.
-
-Yeah, sounds reasonable - will do this way and retest.
-
-> 
->> +		inflated = true;
->>  		tn = get_child(tp, cindex);
->>  	}
->>  
->>  	/* update parent in case inflate failed */
->>  	tp = node_parent(tn);
->>  
->> -	/* Return if at least one inflate is run */
->> -	if (max_work != MAX_WORK)
->> +	/* Return if at least one inflate is run:
->> +	 * microoptimization to not recalculate thresholds
->> +	 */
->> +	if (inflated)
->>  		return tp;
-> 
-> An alternative to having to add another variable would be to look at
-> switching the loop to a combination of an if and a do/while like so:
-> 	if (should_inflate(tp, tn)) {
-> 		do {
-> 			...
-> 		} while (should_inflate(tp, tn));
-> 	
-> 		/* update parent in case inflate failed */
-> 		return node_parent(tn);
-> 	}
-
-That's neat! Will drop the variable.
-
-> 		
-> 
->>  	/* Halve as long as the number of empty children in this
->>  	 * node is above threshold.
->>  	 */
->> -	while (should_halve(tp, tn) && max_work) {
->> -		tp = halve(t, tn);
->> +	while (should_halve(tp, tn) && *budget) {
->> +		tp = halve(t, tn, budget);
->>  		if (!tp) {
->>  #ifdef CONFIG_IP_FIB_TRIE_STATS
->>  			this_cpu_inc(stats->resize_node_skipped);
->> @@ -897,7 +903,7 @@ static struct key_vector *resize(struct trie *t, struct key_vector *tn)
->>  			break;
->>  		}
->>  
->> -		max_work--;
->> +		(*budget)--;
-> 
-> Same here. It might make sense to pull the budget check out of the
-> start of the loop and move it here so that it becomes a depth first
-> optimization instead of being a shallow one.
-
-Makes sense, will rework.
-
-> 
->>  		tn = get_child(tp, cindex);
->>  	}
->>  
->> @@ -1005,8 +1011,10 @@ static struct fib_alias *fib_find_alias(struct hlist_head *fah, u8 slen,
->>  
->>  static void trie_rebalance(struct trie *t, struct key_vector *tn)
->>  {
->> -	while (!IS_TRIE(tn))
->> -		tn = resize(t, tn);
->> +	unsigned int budget = fib_balance_budget;
->> +
->> +	while (budget && !IS_TRIE(tn))
->> +		tn = resize(t, tn, &budget);
-> 
-> I would not have the budget check here. At a minimum we should be
-> replacing trie nodes with leaves in the case that we are down to one
-> leaf node in the trie.
-
-Yeah, I see.
-
-> 
->>  }
->>  
->>  static int fib_insert_node(struct trie *t, struct key_vector *tp,
->> @@ -1784,6 +1792,7 @@ struct fib_table *fib_trie_unmerge(struct fib_table *oldtb)
->>  void fib_table_flush_external(struct fib_table *tb)
->>  {
->>  	struct trie *t = (struct trie *)tb->tb_data;
->> +	unsigned int budget = fib_balance_budget;
->>  	struct key_vector *pn = t->kv;
->>  	unsigned long cindex = 1;
->>  	struct hlist_node *tmp;
->> @@ -1806,7 +1815,7 @@ void fib_table_flush_external(struct fib_table *tb)
->>  				update_suffix(pn);
->>  
->>  			/* resize completed node */
->> -			pn = resize(t, pn);
->> +			pn = resize(t, pn, &budget);
->>  			cindex = get_index(pkey, pn);
->>  
->>  			continue;
-> 
-> So we would probably want a completely different budget here, or at
-> least we would want the budget to be multiplied by the leaves we are
-> removing. The problem is we aren't pulling single addresses, but are
-> literally splitting the tree into two separate tries. The same budget
-> isn't going to work for both cases.
-
-Which will multiply the work (and the time spent).
-Hmm, well, I guess we can multiply here and relax rtnl_mutex pressure if
-needed by introducing fib_lock. Does that sounds good?
-
-> 
->> @@ -1853,6 +1862,7 @@ void fib_table_flush_external(struct fib_table *tb)
->>  int fib_table_flush(struct net *net, struct fib_table *tb, bool flush_all)
->>  {
->>  	struct trie *t = (struct trie *)tb->tb_data;
->> +	unsigned int budget = fib_balance_budget;
->>  	struct key_vector *pn = t->kv;
->>  	unsigned long cindex = 1;
->>  	struct hlist_node *tmp;
->> @@ -1876,7 +1886,7 @@ int fib_table_flush(struct net *net, struct fib_table *tb, bool flush_all)
->>  				update_suffix(pn);
->>  
->>  			/* resize completed node */
->> -			pn = resize(t, pn);
->> +			pn = resize(t, pn, &budget);
->>  			cindex = get_index(pkey, pn);
->>  
->>  			continue;
-> 
-> Similar issues here, though I don't know what the typical amount of
-> change is we expect to see from a fib_table_flush call versus something
-> like the fib_table_flush_external call.
-
-Yes. Well, I was also curious if it's possible to avoid resize() call
-under (flush_all == true)?
-So, that exiting a namespace wouldn't result in rebalancing a possibly
-huge routing trie.
-
-Thanks for your notes and review,
-          Dmitry
