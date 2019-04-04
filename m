@@ -6,51 +6,51 @@ X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D12EC7D923
+	by archive.lwn.net (Postfix) with ESMTP id E957A7D926
 	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Apr 2019 22:12:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730650AbfDDWKP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 4 Apr 2019 18:10:15 -0400
-Received: from mail-yw1-f74.google.com ([209.85.161.74]:39668 "EHLO
-        mail-yw1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730603AbfDDWKP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Apr 2019 18:10:15 -0400
-Received: by mail-yw1-f74.google.com with SMTP id p1so3052343ywm.6
-        for <linux-doc@vger.kernel.org>; Thu, 04 Apr 2019 15:10:14 -0700 (PDT)
+        id S1730724AbfDDWKU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 4 Apr 2019 18:10:20 -0400
+Received: from mail-pl1-f202.google.com ([209.85.214.202]:50035 "EHLO
+        mail-pl1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730702AbfDDWKR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Apr 2019 18:10:17 -0400
+Received: by mail-pl1-f202.google.com with SMTP id q18so2647413pll.16
+        for <linux-doc@vger.kernel.org>; Thu, 04 Apr 2019 15:10:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=BEM4UtzifbgJSnp+H/LO03TsMVvEm2rHtiZn4UCFTrM=;
-        b=IxSEtuxQAqLiaPAoPb8r/CIeAsnoLy+yy9UjYRBs52kY63oYDRMkuFxV0SGnJ0FF0q
-         OtfOb8hO+5PePXZpI80iqweFCZ7AKX7YcjKk6qtY6DJ/3KlGUk/KeoXyNtvPYqHimlWU
-         gsZ3+MLSwYMT4pzk3Z83B1bO7d7JymgvhWaX9Zc6CYNYZqItxOkZBSNwKqr+ovDEHxyZ
-         Ei9xM507sGd1UzW9QBQuW3UGYi2tztY8Phd4ND7SNB8KL+RkxD1ay3rTaELDT20gJiy9
-         SX6/CKnDHjKprUdh97zpo6wocIK7f5h3QzsCKHUIIylrGHJeD8k811iKHwXObCniUs6C
-         L4yQ==
+        bh=U91xdzHZlZ3sGyz1Z20ZQCMaKP+1OzYt3YQwfxc8mqk=;
+        b=crx3AgMX10zKqVbwSopuqy+wifGFV09vQT9j23Dao28NGYIhSmvtmECrOs2bWqONh/
+         YJXQ7MRmwYjlHWRg4i7E4lKiCQh6WHQJIVRhSb4UAkuBeyfXD/BwTDd7/srp2cSoVnS/
+         pQ1U6mMjcpdxjYoBuLD5USSu8WoCdRfaGUxmuVOl7DUMmGCAKJJQc54LTgo5TiyWm7yO
+         rJn8BZ0qYXXofOhUKxArh5dw3es8T7zlO2K53jt14X1LjIOJRgJ/Kw9aIQ+JY+SbeZts
+         slfCit8O8rudAy2x+d0vOtpxXAFJEdEAYW8P23CBeeyEIcUnk9BvPqpniVbgmkYcjGi/
+         Lecw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=BEM4UtzifbgJSnp+H/LO03TsMVvEm2rHtiZn4UCFTrM=;
-        b=uOJUyS92IV+dVwp7v/nefIxNPu1LO5hAUG7CHSHm7hmVBxTaYD+klQhfSk90VaFUSc
-         gnA1U61xCOH6aYTIyEdzYevnwwxyHvjxhF30vVT1w6ZCs7UpDlucKHqkj0alZN9AsFbm
-         fvrpVsGYCJqZ958wkGaJdDfI7DC+ruibSpB8p+AyCdQgCVsjLK76clvmDWbjaBsU6zGJ
-         TE2KtTeSPDcRifDw35OeZdld556JugIm0zWp1io03FLlfKyH1vjpYSXC79zvFBBvJmJI
-         NY5kjdBoL6lFFqJV+Mc9zwP5oJJ4fQq/oDGQcTQOfcfIhd79UYlLyOmfXJjb2OZKikcS
-         BVBA==
-X-Gm-Message-State: APjAAAUc+P/eVutDjjtOxQabKfplPULfljZGL2eJ5r21mMgJ5Gnwcs8m
-        iKNLpQ30fEXKVT6WMRY6LkfW6K6BDUIB3wLLOSJSHA==
-X-Google-Smtp-Source: APXvYqwT1HcBkCE5urzWaPp1IWUBKMOZNa3Zj1lkSGHQp+Q55kiWWE2484G6LGH1j2jt9j+TT4Y6z/lulYELyLiz2vD7qg==
-X-Received: by 2002:a25:cb07:: with SMTP id b7mr780107ybg.22.1554415813676;
- Thu, 04 Apr 2019 15:10:13 -0700 (PDT)
-Date:   Thu,  4 Apr 2019 15:06:40 -0700
+        bh=U91xdzHZlZ3sGyz1Z20ZQCMaKP+1OzYt3YQwfxc8mqk=;
+        b=F7/uDs00QgSqeAeSeqDigK0dPjm+QgyAEq1AXatSm9ha+tK7svw1Uf51JDu2NdMWoH
+         n9rHabycfbNuoZZ4+yuwlAsQahG1rH9k85D1yl8JdY3ldAVm/o2PBJfbDJmiXeRQpwaM
+         OAGM7x+22TnABluyg3P8VEXkatgidlMo+dCxL3+ukO1J7hmDm7swcD/nejHZgM1rSLL5
+         f2erWdPu/vfmnQv4I1v6iwSM1F3SwfcguM/nuVX/2GEfb7KkkJ+cYxGP/mNaW8T581ZH
+         RLmAm37ikF6xbyJ36w/QNZHe2ObSjXzDHKMq+HFlW9Y6dPNzjPyzyMYuKxG/Vwa2Jn9D
+         2Cqg==
+X-Gm-Message-State: APjAAAWdxEC3Y8/mmXKA4UcjHa1dDlUICibqPCkQ1l5qQIuOBzDJ6c21
+        8EG07nW8fA5xPmZyhi83eXeDWZYEi87IBVSh22I1vg==
+X-Google-Smtp-Source: APXvYqz8CTF4sg9bsjgsJs1swq83R9aL8nwhnmvMZAMP1KTVGzMLnWjJRpZ/Fa1EOU5wyjaHSQhkfma6QnwtWDzgg/7SXA==
+X-Received: by 2002:a63:4544:: with SMTP id u4mr229417pgk.149.1554415816144;
+ Thu, 04 Apr 2019 15:10:16 -0700 (PDT)
+Date:   Thu,  4 Apr 2019 15:06:41 -0700
 In-Reply-To: <20190404220652.19765-1-brendanhiggins@google.com>
-Message-Id: <20190404220652.19765-6-brendanhiggins@google.com>
+Message-Id: <20190404220652.19765-7-brendanhiggins@google.com>
 Mime-Version: 1.0
 References: <20190404220652.19765-1-brendanhiggins@google.com>
 X-Mailer: git-send-email 2.21.0.392.gf8f6787159e-goog
-Subject: [PATCH v1 05/17] kunit: test: add the concept of expectations
+Subject: [PATCH v1 06/17] kbuild: enable building KUnit
 From:   Brendan Higgins <brendanhiggins@google.com>
 To:     corbet@lwn.net, frowand.list@gmail.com, keescook@google.com,
         kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
@@ -74,485 +74,37 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add support for expectations, which allow properties to be specified and
-then verified in tests.
+Add KUnit to root Kconfig and Makefile allowing it to actually be built.
 
 Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
 ---
- include/kunit/test.h | 419 +++++++++++++++++++++++++++++++++++++++++++
- kunit/test.c         |  34 ++++
- 2 files changed, 453 insertions(+)
+ Kconfig  | 2 ++
+ Makefile | 2 +-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/include/kunit/test.h b/include/kunit/test.h
-index 4668e8a635954..e441270561ece 100644
---- a/include/kunit/test.h
-+++ b/include/kunit/test.h
-@@ -273,4 +273,423 @@ void __printf(3, 4) kunit_printk(const char *level,
- #define kunit_err(test, fmt, ...) \
- 		kunit_printk(KERN_ERR, test, fmt, ##__VA_ARGS__)
+diff --git a/Kconfig b/Kconfig
+index 48a80beab6853..10428501edb78 100644
+--- a/Kconfig
++++ b/Kconfig
+@@ -30,3 +30,5 @@ source "crypto/Kconfig"
+ source "lib/Kconfig"
  
-+static inline struct kunit_stream *kunit_expect_start(struct kunit *test,
-+						      const char *file,
-+						      const char *line)
-+{
-+	struct kunit_stream *stream = kunit_new_stream(test);
+ source "lib/Kconfig.debug"
 +
-+	kunit_stream_add(stream, "EXPECTATION FAILED at %s:%s\n\t", file, line);
-+
-+	return stream;
-+}
-+
-+static inline void kunit_expect_end(struct kunit *test,
-+				    bool success,
-+				    struct kunit_stream *stream)
-+{
-+	if (!success)
-+		test->fail(test, stream);
-+	else
-+		kunit_stream_clear(stream);
-+}
-+
-+#define KUNIT_EXPECT_START(test) \
-+		kunit_expect_start(test, __FILE__, __stringify(__LINE__))
-+
-+#define KUNIT_EXPECT_END(test, success, stream) \
-+		kunit_expect_end(test, success, stream)
-+
-+#define KUNIT_EXPECT_MSG(test, success, message, fmt, ...) do {		       \
-+	struct kunit_stream *__stream = KUNIT_EXPECT_START(test);	       \
-+									       \
-+	kunit_stream_add(__stream, message);				       \
-+	kunit_stream_add(__stream, fmt, ##__VA_ARGS__);			       \
-+	KUNIT_EXPECT_END(test, success, __stream);			       \
-+} while (0)
-+
-+#define KUNIT_EXPECT(test, success, message) do {			       \
-+	struct kunit_stream *__stream = KUNIT_EXPECT_START(test);	       \
-+									       \
-+	kunit_stream_add(__stream, message);				       \
-+	KUNIT_EXPECT_END(test, success, __stream);			       \
-+} while (0)
-+
-+/**
-+ * KUNIT_SUCCEED() - A no-op expectation. Only exists for code clarity.
-+ * @test: The test context object.
-+ *
-+ * The opposite of KUNIT_FAIL(), it is an expectation that cannot fail. In other
-+ * words, it does nothing and only exists for code clarity. See
-+ * KUNIT_EXPECT_TRUE() for more information.
-+ */
-+#define KUNIT_SUCCEED(test) do {} while (0)
-+
-+/**
-+ * KUNIT_FAIL() - Always causes a test to fail when evaluated.
-+ * @test: The test context object.
-+ * @fmt: an informational message to be printed when the assertion is made.
-+ * @...: string format arguments.
-+ *
-+ * The opposite of KUNIT_SUCCEED(), it is an expectation that always fails. In
-+ * other words, it always results in a failed expectation, and consequently
-+ * always causes the test case to fail when evaluated. See KUNIT_EXPECT_TRUE()
-+ * for more information.
-+ */
-+#define KUNIT_FAIL(test, fmt, ...) do {					       \
-+	struct kunit_stream *__stream = KUNIT_EXPECT_START(test);	       \
-+									       \
-+	kunit_stream_add(__stream, fmt, ##__VA_ARGS__);			       \
-+	KUNIT_EXPECT_END(test, false, __stream);			       \
-+} while (0)
-+
-+/**
-+ * KUNIT_EXPECT_TRUE() - Causes a test failure when the expression is not true.
-+ * @test: The test context object.
-+ * @condition: an arbitrary boolean expression. The test fails when this does
-+ * not evaluate to true.
-+ *
-+ * This and expectations of the form `KUNIT_EXPECT_*` will cause the test case
-+ * to fail when the specified condition is not met; however, it will not prevent
-+ * the test case from continuing to run; this is otherwise known as an
-+ * *expectation failure*.
-+ */
-+#define KUNIT_EXPECT_TRUE(test, condition)				       \
-+		KUNIT_EXPECT(test, (condition),				       \
-+		       "Expected " #condition " is true, but is false.\n")
-+
-+#define KUNIT_EXPECT_TRUE_MSG(test, condition, fmt, ...)		       \
-+		KUNIT_EXPECT_MSG(test, (condition),			       \
-+				"Expected " #condition " is true, but is false.\n",\
-+				fmt, ##__VA_ARGS__)
-+
-+/**
-+ * KUNIT_EXPECT_FALSE() - Makes a test failure when the expression is not false.
-+ * @test: The test context object.
-+ * @condition: an arbitrary boolean expression. The test fails when this does
-+ * not evaluate to false.
-+ *
-+ * Sets an expectation that @condition evaluates to false. See
-+ * KUNIT_EXPECT_TRUE() for more information.
-+ */
-+#define KUNIT_EXPECT_FALSE(test, condition)				       \
-+		KUNIT_EXPECT(test, !(condition),			       \
-+		       "Expected " #condition " is false, but is true.")
-+
-+#define KUNIT_EXPECT_FALSE_MSG(test, condition, fmt, ...)		       \
-+		KUNIT_EXPECT_MSG(test, !(condition),			       \
-+				"Expected " #condition " is false, but is true.\n",\
-+				fmt, ##__VA_ARGS__)
-+
-+void kunit_expect_binary_msg(struct kunit *test,
-+			     long long left, const char *left_name,
-+			     long long right, const char *right_name,
-+			     bool compare_result,
-+			     const char *compare_name,
-+			     const char *file,
-+			     const char *line,
-+			     const char *fmt, ...);
-+
-+static inline void kunit_expect_binary(struct kunit *test,
-+				       long long left, const char *left_name,
-+				       long long right, const char *right_name,
-+				       bool compare_result,
-+				       const char *compare_name,
-+				       const char *file,
-+				       const char *line)
-+{
-+	struct kunit_stream *stream = kunit_expect_start(test, file, line);
-+
-+	kunit_stream_add(stream,
-+			 "Expected %s %s %s, but\n",
-+			 left_name, compare_name, right_name);
-+	kunit_stream_add(stream, "\t\t%s == %lld\n", left_name, left);
-+	kunit_stream_add(stream, "\t\t%s == %lld\n", right_name, right);
-+
-+	kunit_expect_end(test, compare_result, stream);
-+}
-+
-+/*
-+ * A factory macro for defining the expectations for the basic comparisons
-+ * defined for the built in types.
-+ *
-+ * Unfortunately, there is no common type that all types can be promoted to for
-+ * which all the binary operators behave the same way as for the actual types
-+ * (for example, there is no type that long long and unsigned long long can
-+ * both be cast to where the comparison result is preserved for all values). So
-+ * the best we can do is do the comparison in the original types and then coerce
-+ * everything to long long for printing; this way, the comparison behaves
-+ * correctly and the printed out value usually makes sense without
-+ * interpretation, but can always be interpretted to figure out the actual
-+ * value.
-+ */
-+#define KUNIT_EXPECT_BINARY(test, left, condition, right) do {		       \
-+	typeof(left) __left = (left);					       \
-+	typeof(right) __right = (right);				       \
-+	kunit_expect_binary(test,					       \
-+			    (long long) __left, #left,			       \
-+			    (long long) __right, #right,		       \
-+			    __left condition __right, #condition,	       \
-+			    __FILE__, __stringify(__LINE__));		       \
-+} while (0)
-+
-+#define KUNIT_EXPECT_BINARY_MSG(test, left, condition, right, fmt, ...) do {   \
-+	typeof(left) __left = (left);					       \
-+	typeof(right) __right = (right);				       \
-+	kunit_expect_binary_msg(test,					       \
-+				(long long) __left, #left,		       \
-+				(long long) __right, #right,		       \
-+				__left condition __right, #condition,	       \
-+				__FILE__, __stringify(__LINE__),	       \
-+				fmt, ##__VA_ARGS__);			       \
-+} while (0)
-+
-+/**
-+ * KUNIT_EXPECT_EQ() - Sets an expectation that @left and @right are equal.
-+ * @test: The test context object.
-+ * @left: an arbitrary expression that evaluates to a primitive C type.
-+ * @right: an arbitrary expression that evaluates to a primitive C type.
-+ *
-+ * Sets an expectation that the values that @left and @right evaluate to are
-+ * equal. This is semantically equivalent to
-+ * KUNIT_EXPECT_TRUE(@test, (@left) == (@right)). See KUNIT_EXPECT_TRUE() for
-+ * more information.
-+ */
-+#define KUNIT_EXPECT_EQ(test, left, right) \
-+		KUNIT_EXPECT_BINARY(test, left, ==, right)
-+
-+#define KUNIT_EXPECT_EQ_MSG(test, left, right, fmt, ...)		       \
-+		KUNIT_EXPECT_BINARY_MSG(test,				       \
-+					left,				       \
-+					==,				       \
-+					right,				       \
-+					fmt,				       \
-+					##__VA_ARGS__)
-+
-+/**
-+ * KUNIT_EXPECT_NE() - An expectation that @left and @right are not equal.
-+ * @test: The test context object.
-+ * @left: an arbitrary expression that evaluates to a primitive C type.
-+ * @right: an arbitrary expression that evaluates to a primitive C type.
-+ *
-+ * Sets an expectation that the values that @left and @right evaluate to are not
-+ * equal. This is semantically equivalent to
-+ * KUNIT_EXPECT_TRUE(@test, (@left) != (@right)). See KUNIT_EXPECT_TRUE() for
-+ * more information.
-+ */
-+#define KUNIT_EXPECT_NE(test, left, right) \
-+		KUNIT_EXPECT_BINARY(test, left, !=, right)
-+
-+#define KUNIT_EXPECT_NE_MSG(test, left, right, fmt, ...)		       \
-+		KUNIT_EXPECT_BINARY_MSG(test,				       \
-+					left,				       \
-+					!=,				       \
-+					right,				       \
-+					fmt,				       \
-+					##__VA_ARGS__)
-+
-+/**
-+ * KUNIT_EXPECT_LT() - An expectation that @left is less than @right.
-+ * @test: The test context object.
-+ * @left: an arbitrary expression that evaluates to a primitive C type.
-+ * @right: an arbitrary expression that evaluates to a primitive C type.
-+ *
-+ * Sets an expectation that the value that @left evaluates to is less than the
-+ * value that @right evaluates to. This is semantically equivalent to
-+ * KUNIT_EXPECT_TRUE(@test, (@left) < (@right)). See KUNIT_EXPECT_TRUE() for
-+ * more information.
-+ */
-+#define KUNIT_EXPECT_LT(test, left, right) \
-+		KUNIT_EXPECT_BINARY(test, left, <, right)
-+
-+#define KUNIT_EXPECT_LT_MSG(test, left, right, fmt, ...)		       \
-+		KUNIT_EXPECT_BINARY_MSG(test,				       \
-+					left,				       \
-+					<,				       \
-+					right,				       \
-+					fmt,				       \
-+					##__VA_ARGS__)
-+
-+/**
-+ * KUNIT_EXPECT_LE() - Expects that @left is less than or equal to @right.
-+ * @test: The test context object.
-+ * @left: an arbitrary expression that evaluates to a primitive C type.
-+ * @right: an arbitrary expression that evaluates to a primitive C type.
-+ *
-+ * Sets an expectation that the value that @left evaluates to is less than or
-+ * equal to the value that @right evaluates to. Semantically this is equivalent
-+ * to KUNIT_EXPECT_TRUE(@test, (@left) <= (@right)). See KUNIT_EXPECT_TRUE() for
-+ * more information.
-+ */
-+#define KUNIT_EXPECT_LE(test, left, right) \
-+		KUNIT_EXPECT_BINARY(test, left, <=, right)
-+
-+#define KUNIT_EXPECT_LE_MSG(test, left, right, fmt, ...)		       \
-+		KUNIT_EXPECT_BINARY_MSG(test,				       \
-+					left,				       \
-+					<=,				       \
-+					right,				       \
-+					fmt,				       \
-+					##__VA_ARGS__)
-+
-+/**
-+ * KUNIT_EXPECT_GT() - An expectation that @left is greater than @right.
-+ * @test: The test context object.
-+ * @left: an arbitrary expression that evaluates to a primitive C type.
-+ * @right: an arbitrary expression that evaluates to a primitive C type.
-+ *
-+ * Sets an expectation that the value that @left evaluates to is greater than
-+ * the value that @right evaluates to. This is semantically equivalent to
-+ * KUNIT_EXPECT_TRUE(@test, (@left) > (@right)). See KUNIT_EXPECT_TRUE() for
-+ * more information.
-+ */
-+#define KUNIT_EXPECT_GT(test, left, right) \
-+		KUNIT_EXPECT_BINARY(test, left, >, right)
-+
-+#define KUNIT_EXPECT_GT_MSG(test, left, right, fmt, ...)		       \
-+		KUNIT_EXPECT_BINARY_MSG(test,				       \
-+					left,				       \
-+					>,				       \
-+					right,				       \
-+					fmt,				       \
-+					##__VA_ARGS__)
-+
-+/**
-+ * KUNIT_EXPECT_GE() - Expects that @left is greater than or equal to @right.
-+ * @test: The test context object.
-+ * @left: an arbitrary expression that evaluates to a primitive C type.
-+ * @right: an arbitrary expression that evaluates to a primitive C type.
-+ *
-+ * Sets an expectation that the value that @left evaluates to is greater than
-+ * the value that @right evaluates to. This is semantically equivalent to
-+ * KUNIT_EXPECT_TRUE(@test, (@left) >= (@right)). See KUNIT_EXPECT_TRUE() for
-+ * more information.
-+ */
-+#define KUNIT_EXPECT_GE(test, left, right) \
-+		KUNIT_EXPECT_BINARY(test, left, >=, right)
-+
-+#define KUNIT_EXPECT_GE_MSG(test, left, right, fmt, ...)		       \
-+		KUNIT_EXPECT_BINARY_MSG(test,				       \
-+					left,				       \
-+					>=,				       \
-+					right,				       \
-+					fmt,				       \
-+					##__VA_ARGS__)
-+
-+/**
-+ * KUNIT_EXPECT_STREQ() - Expects that strings @left and @right are equal.
-+ * @test: The test context object.
-+ * @left: an arbitrary expression that evaluates to a null terminated string.
-+ * @right: an arbitrary expression that evaluates to a null terminated string.
-+ *
-+ * Sets an expectation that the values that @left and @right evaluate to are
-+ * equal. This is semantically equivalent to
-+ * KUNIT_EXPECT_TRUE(@test, !strcmp((@left), (@right))). See KUNIT_EXPECT_TRUE()
-+ * for more information.
-+ */
-+#define KUNIT_EXPECT_STREQ(test, left, right) do {			       \
-+	struct kunit_stream *__stream = KUNIT_EXPECT_START(test);	       \
-+	typeof(left) __left = (left);					       \
-+	typeof(right) __right = (right);				       \
-+									       \
-+	kunit_stream_add(__stream, "Expected " #left " == " #right ", but\n"); \
-+	kunit_stream_add(__stream, "\t\t%s == %s\n", #left, __left);	       \
-+	kunit_stream_add(__stream, "\t\t%s == %s\n", #right, __right);	       \
-+									       \
-+	KUNIT_EXPECT_END(test, !strcmp(left, right), __stream);		       \
-+} while (0)
-+
-+#define KUNIT_EXPECT_STREQ_MSG(test, left, right, fmt, ...) do {	       \
-+	struct kunit_stream *__stream = KUNIT_EXPECT_START(test);	       \
-+	typeof(left) __left = (left);					       \
-+	typeof(right) __right = (right);				       \
-+									       \
-+	kunit_stream_add(__stream, "Expected " #left " == " #right ", but\n"); \
-+	kunit_stream_add(__stream, "\t\t%s == %s\n", #left, __left);	       \
-+	kunit_stream_add(__stream, "\t\t%s == %s\n", #right, __right);	       \
-+	kunit_stream_add(__stream, fmt, ##__VA_ARGS__);			       \
-+									       \
-+	KUNIT_EXPECT_END(test, !strcmp(left, right), __stream);		       \
-+} while (0)
-+
-+/**
-+ * KUNIT_EXPECT_STRNEQ() - Expects that strings @left and @right are not equal.
-+ * @test: The test context object.
-+ * @left: an arbitrary expression that evaluates to a null terminated string.
-+ * @right: an arbitrary expression that evaluates to a null terminated string.
-+ *
-+ * Sets an expectation that the values that @left and @right evaluate to are
-+ * not equal. This is semantically equivalent to
-+ * KUNIT_EXPECT_TRUE(@test, strcmp((@left), (@right))). See KUNIT_EXPECT_TRUE()
-+ * for more information.
-+ */
-+#define KUNIT_EXPECT_STRNEQ(test, left, right) do {			       \
-+	struct kunit_stream *__stream = KUNIT_EXPECT_START(test);	       \
-+	typeof(left) __left = (left);					       \
-+	typeof(right) __right = (right);				       \
-+									       \
-+	kunit_stream_add(__stream, "Expected " #left " != " #right ", but\n"); \
-+	kunit_stream_add(__stream, "\t\t%s == %s\n", #left, __left);	       \
-+	kunit_stream_add(__stream, "\t\t%s == %s\n", #right, __right);	       \
-+									       \
-+	KUNIT_EXPECT_END(test, strcmp(left, right), __stream);		       \
-+} while (0)
-+
-+#define KUNIT_EXPECT_STRNEQ_MSG(test, left, right, fmt, ...) do {	       \
-+	struct kunit_stream *__stream = KUNIT_EXPECT_START(test);	       \
-+	typeof(left) __left = (left);					       \
-+	typeof(right) __right = (right);				       \
-+									       \
-+	kunit_stream_add(__stream, "Expected " #left " != " #right ", but\n"); \
-+	kunit_stream_add(__stream, "\t\t%s == %s\n", #left, __left);	       \
-+	kunit_stream_add(__stream, "\t\t%s == %s\n", #right, __right);	       \
-+	kunit_stream_add(__stream, fmt, ##__VA_ARGS__);			       \
-+									       \
-+	KUNIT_EXPECT_END(test, strcmp(left, right), __stream);		       \
-+} while (0)
-+
-+/**
-+ * KUNIT_EXPECT_NOT_ERR_OR_NULL() - Expects that @ptr is not null and not err.
-+ * @test: The test context object.
-+ * @ptr: an arbitrary pointer.
-+ *
-+ * Sets an expectation that the value that @ptr evaluates to is not null and not
-+ * an errno stored in a pointer. This is semantically equivalent to
-+ * KUNIT_EXPECT_TRUE(@test, !IS_ERR_OR_NULL(@ptr)). See KUNIT_EXPECT_TRUE() for
-+ * more information.
-+ */
-+#define KUNIT_EXPECT_NOT_ERR_OR_NULL(test, ptr) do {			       \
-+	struct kunit_stream *__stream = KUNIT_EXPECT_START(test);	       \
-+	typeof(ptr) __ptr = (ptr);					       \
-+									       \
-+	if (!__ptr)							       \
-+		kunit_stream_add(__stream,				       \
-+			      "Expected " #ptr " is not null, but is.");       \
-+	if (IS_ERR(__ptr))						       \
-+		kunit_stream_add(__stream,				       \
-+			      "Expected " #ptr " is not error, but is: %ld",   \
-+			      PTR_ERR(__ptr));				       \
-+									       \
-+	KUNIT_EXPECT_END(test, !IS_ERR_OR_NULL(__ptr), __stream);	       \
-+} while (0)
-+
-+#define KUNIT_EXPECT_NOT_ERR_OR_NULL_MSG(test, ptr, fmt, ...) do {	       \
-+	struct kunit_stream *__stream = KUNIT_EXPECT_START(test);	       \
-+	typeof(ptr) __ptr = (ptr);					       \
-+									       \
-+	if (!__ptr) {							       \
-+		kunit_stream_add(__stream,				       \
-+			      "Expected " #ptr " is not null, but is.");       \
-+		kunit_stream_add(__stream, fmt, ##__VA_ARGS__);		       \
-+	}								       \
-+	if (IS_ERR(__ptr)) {						       \
-+		kunit_stream_add(__stream,				       \
-+			      "Expected " #ptr " is not error, but is: %ld",   \
-+			      PTR_ERR(__ptr));				       \
-+									       \
-+		kunit_stream_add(__stream, fmt, ##__VA_ARGS__);		       \
-+	}								       \
-+	KUNIT_EXPECT_END(test, !IS_ERR_OR_NULL(__ptr), __stream);	       \
-+} while (0)
-+
- #endif /* _KUNIT_TEST_H */
-diff --git a/kunit/test.c b/kunit/test.c
-index f7575b127e2df..01e82c18b2fa6 100644
---- a/kunit/test.c
-+++ b/kunit/test.c
-@@ -269,3 +269,37 @@ void kunit_printk(const char *level,
++source "kunit/Kconfig"
+diff --git a/Makefile b/Makefile
+index c0a34064c5744..639d353f98ca9 100644
+--- a/Makefile
++++ b/Makefile
+@@ -964,7 +964,7 @@ endif
+ PHONY += prepare0
  
- 	va_end(args);
- }
-+
-+void kunit_expect_binary_msg(struct kunit *test,
-+			     long long left, const char *left_name,
-+			     long long right, const char *right_name,
-+			     bool compare_result,
-+			     const char *compare_name,
-+			     const char *file,
-+			     const char *line,
-+			     const char *fmt, ...)
-+{
-+	struct kunit_stream *stream = kunit_expect_start(test, file, line);
-+	struct va_format vaf;
-+	va_list args;
-+
-+	kunit_stream_add(stream,
-+			 "Expected %s %s %s, but\n",
-+			 left_name, compare_name, right_name);
-+	kunit_stream_add(stream, "\t\t%s == %lld\n", left_name, left);
-+	kunit_stream_add(stream, "\t\t%s == %lld", right_name, right);
-+
-+	if (fmt) {
-+		va_start(args, fmt);
-+
-+		vaf.fmt = fmt;
-+		vaf.va = &args;
-+
-+		kunit_stream_add(stream, "\n%pV", &vaf);
-+
-+		va_end(args);
-+	}
-+
-+	kunit_expect_end(test, compare_result, stream);
-+}
-+
+ ifeq ($(KBUILD_EXTMOD),)
+-core-y		+= kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/
++core-y		+= kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/ kunit/
+ 
+ vmlinux-dirs	:= $(patsubst %/,%,$(filter %/, $(init-y) $(init-m) \
+ 		     $(core-y) $(core-m) $(drivers-y) $(drivers-m) \
 -- 
 2.21.0.392.gf8f6787159e-goog
 
