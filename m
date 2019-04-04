@@ -1,183 +1,311 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EFA5D7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Apr 2019 20:11:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7A58E7D919
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Apr 2019 22:10:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729872AbfDDULo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 4 Apr 2019 16:11:44 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:50078 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728762AbfDDUKo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Apr 2019 16:10:44 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x34K3Qun084178
-        for <linux-doc@vger.kernel.org>; Thu, 4 Apr 2019 16:10:43 -0400
-Received: from e11.ny.us.ibm.com (e11.ny.us.ibm.com [129.33.205.201])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2rnqkvk4nb-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Thu, 04 Apr 2019 16:10:43 -0400
-Received: from localhost
-        by e11.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Thu, 4 Apr 2019 21:10:42 +0100
-Received: from b01cxnp23032.gho.pok.ibm.com (9.57.198.27)
-        by e11.ny.us.ibm.com (146.89.104.198) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Thu, 4 Apr 2019 21:10:38 +0100
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x34KAbms25231442
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 4 Apr 2019 20:10:37 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id BB885B2064;
-        Thu,  4 Apr 2019 20:10:37 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 8CE4CB205F;
-        Thu,  4 Apr 2019 20:10:37 +0000 (GMT)
-Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.188])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Thu,  4 Apr 2019 20:10:37 +0000 (GMT)
-Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id 6EDAE16C2A41; Thu,  4 Apr 2019 13:10:39 -0700 (PDT)
-Date:   Thu, 4 Apr 2019 13:10:39 -0700
-From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
-To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Cc:     linux-kernel@vger.kernel.org, oleg@redhat.com, jannh@google.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH v2] doc/rcuref: Document real world examples in kernel
-Reply-To: paulmck@linux.ibm.com
-References: <20190329140555.118463-1-joel@joelfernandes.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190329140555.118463-1-joel@joelfernandes.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-x-cbid: 19040420-2213-0000-0000-000003718407
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00010873; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000284; SDB=6.01184350; UDB=6.00620121; IPR=6.00965103;
- MB=3.00026298; MTD=3.00000008; XFM=3.00000015; UTC=2019-04-04 20:10:41
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19040420-2214-0000-0000-00005DE7A305
-Message-Id: <20190404201039.GL14111@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-04-04_11:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1904040127
+        id S1730509AbfDDWKK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 4 Apr 2019 18:10:10 -0400
+Received: from mail-io1-f73.google.com ([209.85.166.73]:46739 "EHLO
+        mail-io1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730559AbfDDWKK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Apr 2019 18:10:10 -0400
+Received: by mail-io1-f73.google.com with SMTP id k5so3202576ioh.13
+        for <linux-doc@vger.kernel.org>; Thu, 04 Apr 2019 15:10:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=wKxzJFaShASQUPZDqYNPu0TXHFOedzxEf0Q8Cs2Imqs=;
+        b=K/olchrBgYojss1ShLaC54ZgUit5ZbkPFpnFMC14VFQgxcm937N8YTDmS1+tWbK3C9
+         ypEcCcKHIoPEs+/5vYL5tjxIVVnBMHHbR9pRyRn5IeloR3Wxn9TZLssJnimEUJPFNOai
+         atrtI4NhRZjjmwc52hE0fQv3TNExg9DIExK8chHpbBctcKxw3Ltynkf15vlRpmH1yzXN
+         6hyeh6c0UWJyofbyppVpIYSErGUGL9aP/i0NF2i+hd5cJaH9AoDVBeA7gFA+eywhc5yq
+         i+8B6pQLFZWQx+LTHeOqD5pdQ/erjxdd7jistL/jZ5NtkhQQdVNtw86G3zKgjXevYhfb
+         IrOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=wKxzJFaShASQUPZDqYNPu0TXHFOedzxEf0Q8Cs2Imqs=;
+        b=a94r2lVH54bjoVUYpW/zseSZdRvVLW1Ifhrt1tYQ2FSy1g9rDSieD9a+pw4+ubtcup
+         LRmRbM9SNlCI29elyRdvzSZFv9Ry0S4Vd3FbcV/uSj4NraaEc54ZNEUK1cwXx+iM0d/0
+         7GlpFPPjqqp6R+lnZhgW9zUk+JO2omFaKnGjj4se8sba2TWRnHGMP1L0QcHe5lQWDRo2
+         gsyMLTEOepZHp+RtXw2rP/npdaignnnaiNIllczS8LMiMKYcqHIURj7qi5RJniNG9Lqt
+         eJlSO4XU9tkivyh9Uab2RZvwd/2u9l9xaWZmHPeSACtXBhciIgMfQFfxRXkCTkcr1PEn
+         HJPw==
+X-Gm-Message-State: APjAAAUMgPMFzkqvvhnfKdCScPUtWtM3FccWT25NQ7+8nc20cry98Dsp
+        AoW8XqGTmcZPUGrqG68R+oY01ShN+pMEbEHmjyVH1A==
+X-Google-Smtp-Source: APXvYqyipF3/vxkM9zoVIq5Upxc7QdUxom6tVA8XE2keaddA1+05TZjRpqP8VGABmqMrjJZVX184VZdehl2snAa96oep8Q==
+X-Received: by 2002:a24:64e:: with SMTP id 75mr1796712itv.6.1554415809010;
+ Thu, 04 Apr 2019 15:10:09 -0700 (PDT)
+Date:   Thu,  4 Apr 2019 15:06:38 -0700
+In-Reply-To: <20190404220652.19765-1-brendanhiggins@google.com>
+Message-Id: <20190404220652.19765-4-brendanhiggins@google.com>
+Mime-Version: 1.0
+References: <20190404220652.19765-1-brendanhiggins@google.com>
+X-Mailer: git-send-email 2.21.0.392.gf8f6787159e-goog
+Subject: [PATCH v1 03/17] kunit: test: add string_stream a std::stream like
+ string builder
+From:   Brendan Higgins <brendanhiggins@google.com>
+To:     corbet@lwn.net, frowand.list@gmail.com, keescook@google.com,
+        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
+        robh@kernel.org, shuah@kernel.org, yamada.masahiro@socionext.com
+Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com,
+        dan.j.williams@intel.com, daniel@ffwll.ch,
+        gregkh@linuxfoundation.org, jdike@addtoit.com, joel@jms.id.au,
+        julia.lawall@lip6.fr, khilman@baylibre.com, knut.omang@oracle.com,
+        mpe@ellerman.id.au, pmladek@suse.com, richard@nod.at,
+        rostedt@goodmis.org, wfg@linux.intel.com,
+        Brendan Higgins <brendanhiggins@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 29, 2019 at 10:05:55AM -0400, Joel Fernandes (Google) wrote:
-> Document similar real world examples in the kernel corresponding to the
-> second and third code snippets. Also correct an issue in
-> release_referenced() in the code snippet example.
-> 
-> Cc: oleg@redhat.com
-> Cc: jannh@google.com
-> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+A number of test features need to do pretty complicated string printing
+where it may not be possible to rely on a single preallocated string
+with parameters.
 
-Good catch, thank you!
+So provide a library for constructing the string as you go similar to
+C++'s std::string.
 
-As usual, I could not resist doing a bit of wordsmithing.  Please let me
-know if I messed anything up in the version shown below.
+Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+---
+ include/kunit/string-stream.h |  51 ++++++++++++
+ kunit/Makefile                |   3 +-
+ kunit/string-stream.c         | 144 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 197 insertions(+), 1 deletion(-)
+ create mode 100644 include/kunit/string-stream.h
+ create mode 100644 kunit/string-stream.c
 
-								Thanx, Paul
-
-------------------------------------------------------------------------
-
-commit adcd92c0ab303b57b28a3cd097bd9ece824c14f6
-Author: Joel Fernandes (Google) <joel@joelfernandes.org>
-Date:   Fri Mar 29 10:05:55 2019 -0400
-
-    doc/rcuref: Document real world examples in kernel
-    
-    Document similar real world examples in the kernel corresponding to the
-    second and third code snippets. Also correct an issue in
-    release_referenced() in the code snippet example.
-    
-    Cc: oleg@redhat.com
-    Cc: jannh@google.com
-    Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-    [ paulmck: Do a bit of wordsmithing. ]
-    Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
-
-diff --git a/Documentation/RCU/rcuref.txt b/Documentation/RCU/rcuref.txt
-index 613033ff2b9b..c0bab7fb57e7 100644
---- a/Documentation/RCU/rcuref.txt
-+++ b/Documentation/RCU/rcuref.txt
-@@ -12,6 +12,7 @@ please read on.
- Reference counting on elements of lists which are protected by traditional
- reader/writer spinlocks or semaphores are straightforward:
- 
-+CODE LISTING A:
- 1.				2.
- add()				search_and_reference()
- {				{
-@@ -28,7 +29,8 @@ add()				search_and_reference()
- release_referenced()			delete()
- {					{
-     ...					    write_lock(&list_lock);
--    atomic_dec(&el->rc, relfunc)	    ...
-+    if(atomic_dec_and_test(&el->rc))	    ...
-+	kfree(el);
-     ...					    remove_element
- }					    write_unlock(&list_lock);
-  					    ...
-@@ -44,6 +46,7 @@ search_and_reference() could potentially hold reference to an element which
- has already been deleted from the list/array.  Use atomic_inc_not_zero()
- in this scenario as follows:
- 
-+CODE LISTING B:
- 1.					2.
- add()					search_and_reference()
- {					{
-@@ -79,6 +82,7 @@ search_and_reference() code path.  In such cases, the
- atomic_dec_and_test() may be moved from delete() to el_free()
- as follows:
- 
-+CODE LISTING C:
- 1.					2.
- add()					search_and_reference()
- {					{
-@@ -114,6 +118,16 @@ element can therefore safely be freed.  This in turn guarantees that if
- any reader finds the element, that reader may safely acquire a reference
- without checking the value of the reference counter.
- 
-+A clear advantage of the RCU-based pattern in listing C over the one
-+in listing B is that any call to search_and_reference() that locates
-+a given object will succeed in obtaining a reference to that object,
-+even given a concurrent invocation of delete() for that same object.
-+Similarly, a call to delete() is not delayed even if there are an
-+arbitrarily large number of calls to search_and_reference() searching
-+for the same object that delete() was invoked on.  Instead, all that is
-+delayed is the eventual invocation of kfree(), which is usually not a
-+problem on modern computer systems, even the small ones.
+diff --git a/include/kunit/string-stream.h b/include/kunit/string-stream.h
+new file mode 100644
+index 0000000000000..567a4629406da
+--- /dev/null
++++ b/include/kunit/string-stream.h
+@@ -0,0 +1,51 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * C++ stream style string builder used in KUnit for building messages.
++ *
++ * Copyright (C) 2019, Google LLC.
++ * Author: Brendan Higgins <brendanhiggins@google.com>
++ */
 +
- In cases where delete() can sleep, synchronize_rcu() can be called from
- delete(), so that el_free() can be subsumed into delete as follows:
- 
-@@ -130,3 +144,7 @@ delete()
-     	kfree(el);
-     ...
- }
++#ifndef _KUNIT_STRING_STREAM_H
++#define _KUNIT_STRING_STREAM_H
 +
-+As additional examples in the kernel, the pattern in listing C is used by
-+reference counting of struct pid, while the pattern in listing B is used by
-+struct posix_acl.
++#include <linux/types.h>
++#include <linux/spinlock.h>
++#include <linux/kref.h>
++#include <stdarg.h>
++
++struct string_stream_fragment {
++	struct list_head node;
++	char *fragment;
++};
++
++struct string_stream {
++	size_t length;
++	struct list_head fragments;
++
++	/* length and fragments are protected by this lock */
++	spinlock_t lock;
++	struct kref refcount;
++};
++
++struct string_stream *new_string_stream(void);
++
++void destroy_string_stream(struct string_stream *stream);
++
++void string_stream_get(struct string_stream *stream);
++
++int string_stream_put(struct string_stream *stream);
++
++int string_stream_add(struct string_stream *this, const char *fmt, ...);
++
++int string_stream_vadd(struct string_stream *this,
++		       const char *fmt,
++		       va_list args);
++
++char *string_stream_get_string(struct string_stream *this);
++
++void string_stream_clear(struct string_stream *this);
++
++bool string_stream_is_empty(struct string_stream *this);
++
++#endif /* _KUNIT_STRING_STREAM_H */
+diff --git a/kunit/Makefile b/kunit/Makefile
+index 5efdc4dea2c08..275b565a0e81f 100644
+--- a/kunit/Makefile
++++ b/kunit/Makefile
+@@ -1 +1,2 @@
+-obj-$(CONFIG_KUNIT) +=			test.o
++obj-$(CONFIG_KUNIT) +=			test.o \
++					string-stream.o
+diff --git a/kunit/string-stream.c b/kunit/string-stream.c
+new file mode 100644
+index 0000000000000..7018194ecf2fa
+--- /dev/null
++++ b/kunit/string-stream.c
+@@ -0,0 +1,144 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * C++ stream style string builder used in KUnit for building messages.
++ *
++ * Copyright (C) 2019, Google LLC.
++ * Author: Brendan Higgins <brendanhiggins@google.com>
++ */
++
++#include <linux/list.h>
++#include <linux/slab.h>
++#include <kunit/string-stream.h>
++
++int string_stream_vadd(struct string_stream *this,
++		       const char *fmt,
++		       va_list args)
++{
++	struct string_stream_fragment *fragment;
++	int len;
++	va_list args_for_counting;
++	unsigned long flags;
++
++	/* Make a copy because `vsnprintf` could change it */
++	va_copy(args_for_counting, args);
++
++	/* Need space for null byte. */
++	len = vsnprintf(NULL, 0, fmt, args_for_counting) + 1;
++
++	va_end(args_for_counting);
++
++	fragment = kmalloc(sizeof(*fragment), GFP_KERNEL);
++	if (!fragment)
++		return -ENOMEM;
++
++	fragment->fragment = kmalloc(len, GFP_KERNEL);
++	if (!fragment->fragment) {
++		kfree(fragment);
++		return -ENOMEM;
++	}
++
++	len = vsnprintf(fragment->fragment, len, fmt, args);
++	spin_lock_irqsave(&this->lock, flags);
++	this->length += len;
++	list_add_tail(&fragment->node, &this->fragments);
++	spin_unlock_irqrestore(&this->lock, flags);
++	return 0;
++}
++
++int string_stream_add(struct string_stream *this, const char *fmt, ...)
++{
++	va_list args;
++	int result;
++
++	va_start(args, fmt);
++	result = string_stream_vadd(this, fmt, args);
++	va_end(args);
++	return result;
++}
++
++void string_stream_clear(struct string_stream *this)
++{
++	struct string_stream_fragment *fragment, *fragment_safe;
++	unsigned long flags;
++
++	spin_lock_irqsave(&this->lock, flags);
++	list_for_each_entry_safe(fragment,
++				 fragment_safe,
++				 &this->fragments,
++				 node) {
++		list_del(&fragment->node);
++		kfree(fragment->fragment);
++		kfree(fragment);
++	}
++	this->length = 0;
++	spin_unlock_irqrestore(&this->lock, flags);
++}
++
++char *string_stream_get_string(struct string_stream *this)
++{
++	struct string_stream_fragment *fragment;
++	size_t buf_len = this->length + 1; /* +1 for null byte. */
++	char *buf;
++	unsigned long flags;
++
++	buf = kzalloc(buf_len, GFP_KERNEL);
++	if (!buf)
++		return NULL;
++
++	spin_lock_irqsave(&this->lock, flags);
++	list_for_each_entry(fragment, &this->fragments, node)
++		strlcat(buf, fragment->fragment, buf_len);
++	spin_unlock_irqrestore(&this->lock, flags);
++
++	return buf;
++}
++
++bool string_stream_is_empty(struct string_stream *this)
++{
++	bool is_empty;
++	unsigned long flags;
++
++	spin_lock_irqsave(&this->lock, flags);
++	is_empty = list_empty(&this->fragments);
++	spin_unlock_irqrestore(&this->lock, flags);
++
++	return is_empty;
++}
++
++void destroy_string_stream(struct string_stream *stream)
++{
++	string_stream_clear(stream);
++	kfree(stream);
++}
++
++static void string_stream_destroy(struct kref *kref)
++{
++	struct string_stream *stream = container_of(kref,
++						    struct string_stream,
++						    refcount);
++	destroy_string_stream(stream);
++}
++
++struct string_stream *new_string_stream(void)
++{
++	struct string_stream *stream = kzalloc(sizeof(*stream), GFP_KERNEL);
++
++	if (!stream)
++		return NULL;
++
++	INIT_LIST_HEAD(&stream->fragments);
++	spin_lock_init(&stream->lock);
++	kref_init(&stream->refcount);
++	return stream;
++}
++
++void string_stream_get(struct string_stream *stream)
++{
++	kref_get(&stream->refcount);
++}
++
++int string_stream_put(struct string_stream *stream)
++{
++	return kref_put(&stream->refcount, &string_stream_destroy);
++}
++
+-- 
+2.21.0.392.gf8f6787159e-goog
 
