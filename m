@@ -6,51 +6,51 @@ X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5E4187DE57
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Apr 2019 22:11:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 339E27D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Apr 2019 22:12:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730100AbfDDWLg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 4 Apr 2019 18:11:36 -0400
-Received: from mail-vk1-f201.google.com ([209.85.221.201]:37663 "EHLO
-        mail-vk1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730837AbfDDWKZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Apr 2019 18:10:25 -0400
-Received: by mail-vk1-f201.google.com with SMTP id y19so1693481vky.4
-        for <linux-doc@vger.kernel.org>; Thu, 04 Apr 2019 15:10:24 -0700 (PDT)
+        id S1730454AbfDDWKH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 4 Apr 2019 18:10:07 -0400
+Received: from mail-it1-f202.google.com ([209.85.166.202]:55500 "EHLO
+        mail-it1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730479AbfDDWKG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Apr 2019 18:10:06 -0400
+Received: by mail-it1-f202.google.com with SMTP id g184so3700386ita.5
+        for <linux-doc@vger.kernel.org>; Thu, 04 Apr 2019 15:10:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=xZZA9ZO9AvyPyc8p0zQtlzF4UjcXTNGJSsk4IccYADM=;
-        b=jEhdfpNF9fIhHEFGb+2Hb1WpC2tWeQVpmsIjrKxlKtxxKK45b3nD38N6Q9BdQQ5S9N
-         iPulwAlBtlLdcEkMVo5/gHv3iPs1Lxaaez2S+/wwRxG64kcJn7YemK0zQwllCcWoeqCr
-         DeArPRbK/pb05ZveeFW5855Igl2I7HKQln5xHD3uxuyrny7k0ESwp+Uq7Ys6lfjpfbN5
-         wKsDmqjwKuo8PEJMy7SmRPXsTvVkrlEO3S/r0/I9MSey1R0/IiTcwHVTlP1qsACygkKw
-         VwxsvBkbA0VbFbR7yGfc4d7nU930uIsUtPxr7TsZFK5MxOA3mOHwFRdYiLjLlfGRVQwe
-         BM/w==
+        bh=YsRWXWuePWsSRGAGYNA1hw6cZSq6ZL5odbv0lHey/VY=;
+        b=IltlG9aqbJ+ZMVt38aVlkTW42nuFKLbAOprs9uQdClyCsCaJiXdHhbH6ynq+zeTR6c
+         h4QlKes3mkG1j4D77Z5cVFJnZmfZaOJvF1A3W5msXATEgDYQvotf4r79FdPg/g3MKx4r
+         LzaMkiZLGxDZpr7FNxaLXkrEq6SpbLND+X67rRbpdgzrC1i8rbCsQYv8AKgqJzvCa9Lp
+         UOdIlM4oEYh+8TFNAaQuiyk7MjQ7ZUDRrbCG1fLD6Y/kDDZjCnf3EaqmiEshQ2f+guh4
+         KAj3KyosK/Pr3/WM5WodM4ZjP5fhanxYtof525REPyXev2d2t5QH0jfxIFP9hUxmJ3Bz
+         6b7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=xZZA9ZO9AvyPyc8p0zQtlzF4UjcXTNGJSsk4IccYADM=;
-        b=Vl4MtPC6DfV/QE+gJV0E1p4rgVVyx5KgHxIiZsVqawdFf/1wMRs7tishUC5iCPKFUv
-         asJbVR0GdcwDmXHxTzTgJH1FrI9+fi6Sos2tczNgUI7onb19biLiTuMW9tY6y2gIy2sT
-         YJz+tEllhXXUQtv26wLUpXTHAUDnCiWUd9Gb4+vfu/dCACOIXWNA7vEyCiso88LgcV3y
-         +nVkEr1d0RUE0vh1/WutSyK5YMRDSndn/sP3gRWY8zfP7YKOYcOPoIinJr1Nv0iVIAYw
-         hH2TtOB5clOjpoxxPJ378uYxaPlS52I0EnOZV1WYgkuizVJX/chsYvjy3XT+8App9pjQ
-         FPfQ==
-X-Gm-Message-State: APjAAAXvcSUYF7v1AIqq01VRQs3MjigsLunxSxQsp10Vkk2VhEdKHKWz
-        BJFhK3tnGba3kJzY5rslKi1GJ/Kek0a+PXvRrcjnJQ==
-X-Google-Smtp-Source: APXvYqw5zqt5BfIYiqLiD+3uGQUj6vjyxtH1hOI7tiv6C1Z2ysFXMOBQPmEJXA5iKToUpOIh/OTNwicicPoPz8BM0mbDuQ==
-X-Received: by 2002:ab0:74d5:: with SMTP id f21mr1060439uaq.27.1554415823838;
- Thu, 04 Apr 2019 15:10:23 -0700 (PDT)
-Date:   Thu,  4 Apr 2019 15:06:44 -0700
+        bh=YsRWXWuePWsSRGAGYNA1hw6cZSq6ZL5odbv0lHey/VY=;
+        b=Kv8oQE80bHZNSdb+Qqs3c1PLkBQTwrG4y/p+Heq9Qu3IEAVVH2FDDlLBMRUDu4X+e4
+         pPYDIHSXg+3mjtgDPUvDDnhpRSS4/G38meby0jPLBwpRR7P0ExVLs0M+81rn7ErrtPuA
+         OGrOC4VjNbWPOi9cIbpZ7nNqSOefWsb3YsQTH5HLv/NRcIlH83qsu9HckoXrtjA2Ph47
+         OZPZbR4tasNckM0Ljry2yRavJxCRlHl1Ag2jkZrLk+pfR0alCDIBNAyW5HlmebYq5shV
+         AV9mlB+QP+drI6+ZNKJtgmITcw5uvJEeYBGJNNr8ypjnRQJOZqQJN+L3XWpRCdDj7+Vs
+         +nWA==
+X-Gm-Message-State: APjAAAXgeGnqELQyg6dq+YJtTzGX0fwRUQFUCxWVbhzHR30vXbdPhM5v
+        dQFOgqJbKEPfaY1tJ5QreT1SXmHXmEQGj5PJ3Gj14w==
+X-Google-Smtp-Source: APXvYqzl8GxMw7gu6nTwNDcC0M0LYHgqI5aOS1j1YKMDWWPdiyPRimTOYo2s4XBYJ4n5TcMjxJxIVjF8kGgbuUsvjYSP4A==
+X-Received: by 2002:a24:3d8e:: with SMTP id n136mr1859593itn.3.1554415804485;
+ Thu, 04 Apr 2019 15:10:04 -0700 (PDT)
+Date:   Thu,  4 Apr 2019 15:06:36 -0700
 In-Reply-To: <20190404220652.19765-1-brendanhiggins@google.com>
-Message-Id: <20190404220652.19765-10-brendanhiggins@google.com>
+Message-Id: <20190404220652.19765-2-brendanhiggins@google.com>
 Mime-Version: 1.0
 References: <20190404220652.19765-1-brendanhiggins@google.com>
 X-Mailer: git-send-email 2.21.0.392.gf8f6787159e-goog
-Subject: [PATCH v1 09/17] kunit: test: add tests for kunit test abort
+Subject: [PATCH v1 01/17] kunit: test: add KUnit test runner core
 From:   Brendan Higgins <brendanhiggins@google.com>
 To:     corbet@lwn.net, frowand.list@gmail.com, keescook@google.com,
         kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
@@ -74,171 +74,401 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add KUnit tests for the KUnit test abort mechanism (see preceding
-commit). Add tests both for general try catch mechanism as well as
-non-architecture specific mechanism.
+Add core facilities for defining unit tests; this provides a common way
+to define test cases, functions that execute code which is under test
+and determine whether the code under test behaves as expected; this also
+provides a way to group together related test cases in test suites (here
+we call them test_modules).
+
+Just define test cases and how to execute them for now; setting
+expectations on code will be defined later.
 
 Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
 ---
- kunit/Makefile    |   3 +-
- kunit/test-test.c | 135 ++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 137 insertions(+), 1 deletion(-)
- create mode 100644 kunit/test-test.c
+ include/kunit/test.h | 165 ++++++++++++++++++++++++++++++++++++++++++
+ kunit/Kconfig        |  16 +++++
+ kunit/Makefile       |   1 +
+ kunit/test.c         | 168 +++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 350 insertions(+)
+ create mode 100644 include/kunit/test.h
+ create mode 100644 kunit/Kconfig
+ create mode 100644 kunit/Makefile
+ create mode 100644 kunit/test.c
 
-diff --git a/kunit/Makefile b/kunit/Makefile
-index 1f7680cfa11ad..533355867abd2 100644
---- a/kunit/Makefile
-+++ b/kunit/Makefile
-@@ -3,6 +3,7 @@ obj-$(CONFIG_KUNIT) +=			test.o \
- 					kunit-stream.o \
- 					try-catch.o
- 
--obj-$(CONFIG_KUNIT_TEST) +=		string-stream-test.o
-+obj-$(CONFIG_KUNIT_TEST) +=		test-test.o \
-+					string-stream-test.o
- 
- obj-$(CONFIG_KUNIT_EXAMPLE_TEST) +=	example-test.o
-diff --git a/kunit/test-test.c b/kunit/test-test.c
+diff --git a/include/kunit/test.h b/include/kunit/test.h
 new file mode 100644
-index 0000000000000..c81ae6efb959f
+index 0000000000000..23c2ebedd6dd9
 --- /dev/null
-+++ b/kunit/test-test.c
-@@ -0,0 +1,135 @@
-+// SPDX-License-Identifier: GPL-2.0
++++ b/include/kunit/test.h
+@@ -0,0 +1,165 @@
++/* SPDX-License-Identifier: GPL-2.0 */
 +/*
-+ * KUnit test for core test infrastructure.
++ * Base unit test (KUnit) API.
 + *
 + * Copyright (C) 2019, Google LLC.
 + * Author: Brendan Higgins <brendanhiggins@google.com>
 + */
-+#include <kunit/test.h>
 +
-+struct kunit_try_catch_test_context {
-+	struct kunit_try_catch *try_catch;
-+	bool function_called;
++#ifndef _KUNIT_TEST_H
++#define _KUNIT_TEST_H
++
++#include <linux/types.h>
++#include <linux/slab.h>
++
++struct kunit;
++
++/**
++ * struct kunit_case - represents an individual test case.
++ * @run_case: the function representing the actual test case.
++ * @name: the name of the test case.
++ *
++ * A test case is a function with the signature, ``void (*)(struct kunit *)``
++ * that makes expectations (see KUNIT_EXPECT_TRUE()) about code under test. Each
++ * test case is associated with a &struct kunit_module and will be run after the
++ * module's init function and followed by the module's exit function.
++ *
++ * A test case should be static and should only be created with the KUNIT_CASE()
++ * macro; additionally, every array of test cases should be terminated with an
++ * empty test case.
++ *
++ * Example:
++ *
++ * .. code-block:: c
++ *
++ *	void add_test_basic(struct kunit *test)
++ *	{
++ *		KUNIT_EXPECT_EQ(test, 1, add(1, 0));
++ *		KUNIT_EXPECT_EQ(test, 2, add(1, 1));
++ *		KUNIT_EXPECT_EQ(test, 0, add(-1, 1));
++ *		KUNIT_EXPECT_EQ(test, INT_MAX, add(0, INT_MAX));
++ *		KUNIT_EXPECT_EQ(test, -1, add(INT_MAX, INT_MIN));
++ *	}
++ *
++ *	static struct kunit_case example_test_cases[] = {
++ *		KUNIT_CASE(add_test_basic),
++ *		{},
++ *	};
++ *
++ */
++struct kunit_case {
++	void (*run_case)(struct kunit *test);
++	const char name[256];
++
++	/* private: internal use only. */
++	bool success;
 +};
 +
-+void kunit_test_successful_try(void *data)
-+{
-+	struct kunit *test = data;
-+	struct kunit_try_catch_test_context *ctx = test->priv;
++/**
++ * KUNIT_CASE - A helper for creating a &struct kunit_case
++ * @test_name: a reference to a test case function.
++ *
++ * Takes a symbol for a function representing a test case and creates a
++ * &struct kunit_case object from it. See the documentation for
++ * &struct kunit_case for an example on how to use it.
++ */
++#define KUNIT_CASE(test_name) { .run_case = test_name, .name = #test_name }
 +
-+	ctx->function_called = true;
++/**
++ * struct kunit_module - describes a related collection of &struct kunit_case s.
++ * @name: the name of the test. Purely informational.
++ * @init: called before every test case.
++ * @exit: called after every test case.
++ * @test_cases: a null terminated array of test cases.
++ *
++ * A kunit_module is a collection of related &struct kunit_case s, such that
++ * @init is called before every test case and @exit is called after every test
++ * case, similar to the notion of a *test fixture* or a *test class* in other
++ * unit testing frameworks like JUnit or Googletest.
++ *
++ * Every &struct kunit_case must be associated with a kunit_module for KUnit to
++ * run it.
++ */
++struct kunit_module {
++	const char name[256];
++	int (*init)(struct kunit *test);
++	void (*exit)(struct kunit *test);
++	struct kunit_case *test_cases;
++};
++
++/**
++ * struct kunit - represents a running instance of a test.
++ * @priv: for user to store arbitrary data. Commonly used to pass data created
++ * in the init function (see &struct kunit_module).
++ *
++ * Used to store information about the current context under which the test is
++ * running. Most of this data is private and should only be accessed indirectly
++ * via public functions; the one exception is @priv which can be used by the
++ * test writer to store arbitrary data.
++ */
++struct kunit {
++	void *priv;
++
++	/* private: internal use only. */
++	const char *name; /* Read only after initialization! */
++	spinlock_t lock; /* Gaurds all mutable test state. */
++	bool success; /* Protected by lock. */
++	void (*vprintk)(const struct kunit *test,
++			const char *level,
++			struct va_format *vaf);
++};
++
++int kunit_init_test(struct kunit *test, const char *name);
++
++int kunit_run_tests(struct kunit_module *module);
++
++/**
++ * module_test() - used to register a &struct kunit_module with KUnit.
++ * @module: a statically allocated &struct kunit_module.
++ *
++ * Registers @module with the test framework. See &struct kunit_module for more
++ * information.
++ */
++#define module_test(module) \
++		static int module_kunit_init##module(void) \
++		{ \
++			return kunit_run_tests(&module); \
++		} \
++		late_initcall(module_kunit_init##module)
++
++void __printf(3, 4) kunit_printk(const char *level,
++				 const struct kunit *test,
++				 const char *fmt, ...);
++
++/**
++ * kunit_info() - Prints an INFO level message associated with the current test.
++ * @test: The test context object.
++ * @fmt: A printk() style format string.
++ *
++ * Prints an info level message associated with the test module being run. Takes
++ * a variable number of format parameters just like printk().
++ */
++#define kunit_info(test, fmt, ...) \
++		kunit_printk(KERN_INFO, test, fmt, ##__VA_ARGS__)
++
++/**
++ * kunit_warn() - Prints a WARN level message associated with the current test.
++ * @test: The test context object.
++ * @fmt: A printk() style format string.
++ *
++ * See kunit_info().
++ */
++#define kunit_warn(test, fmt, ...) \
++		kunit_printk(KERN_WARNING, test, fmt, ##__VA_ARGS__)
++
++/**
++ * kunit_err() - Prints an ERROR level message associated with the current test.
++ * @test: The test context object.
++ * @fmt: A printk() style format string.
++ *
++ * See kunit_info().
++ */
++#define kunit_err(test, fmt, ...) \
++		kunit_printk(KERN_ERR, test, fmt, ##__VA_ARGS__)
++
++#endif /* _KUNIT_TEST_H */
+diff --git a/kunit/Kconfig b/kunit/Kconfig
+new file mode 100644
+index 0000000000000..64480092b2c24
+--- /dev/null
++++ b/kunit/Kconfig
+@@ -0,0 +1,16 @@
++#
++# KUnit base configuration
++#
++
++menu "KUnit support"
++
++config KUNIT
++	bool "Enable support for unit tests (KUnit)"
++	help
++	  Enables support for kernel unit tests (KUnit), a lightweight unit
++	  testing and mocking framework for the Linux kernel. These tests are
++	  able to be run locally on a developer's workstation without a VM or
++	  special hardware. For more information, please see
++	  Documentation/kunit/
++
++endmenu
+diff --git a/kunit/Makefile b/kunit/Makefile
+new file mode 100644
+index 0000000000000..5efdc4dea2c08
+--- /dev/null
++++ b/kunit/Makefile
+@@ -0,0 +1 @@
++obj-$(CONFIG_KUNIT) +=			test.o
+diff --git a/kunit/test.c b/kunit/test.c
+new file mode 100644
+index 0000000000000..5bf97e2935579
+--- /dev/null
++++ b/kunit/test.c
+@@ -0,0 +1,168 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Base unit test (KUnit) API.
++ *
++ * Copyright (C) 2019, Google LLC.
++ * Author: Brendan Higgins <brendanhiggins@google.com>
++ */
++
++#include <linux/sched.h>
++#include <linux/sched/debug.h>
++#include <os.h>
++#include <kunit/test.h>
++
++static bool kunit_get_success(struct kunit *test)
++{
++	unsigned long flags;
++	bool success;
++
++	spin_lock_irqsave(&test->lock, flags);
++	success = test->success;
++	spin_unlock_irqrestore(&test->lock, flags);
++
++	return success;
 +}
 +
-+void kunit_test_no_catch(void *data)
++static void kunit_set_success(struct kunit *test, bool success)
 +{
-+	struct kunit *test = data;
++	unsigned long flags;
 +
-+	KUNIT_FAIL(test, "Catch should not be called.\n");
++	spin_lock_irqsave(&test->lock, flags);
++	test->success = success;
++	spin_unlock_irqrestore(&test->lock, flags);
 +}
 +
-+static void kunit_test_try_catch_successful_try_no_catch(struct kunit *test)
++static int kunit_vprintk_emit(const struct kunit *test,
++			      int level,
++			      const char *fmt,
++			      va_list args)
 +{
-+	struct kunit_try_catch_test_context *ctx = test->priv;
-+	struct kunit_try_catch *try_catch = ctx->try_catch;
-+
-+	kunit_try_catch_init(try_catch,
-+			     test,
-+			     kunit_test_successful_try,
-+			     kunit_test_no_catch);
-+	kunit_try_catch_run(try_catch, test);
-+
-+	KUNIT_EXPECT_TRUE(test, ctx->function_called);
++	return vprintk_emit(0, level, NULL, 0, fmt, args);
 +}
 +
-+void kunit_test_unsuccessful_try(void *data)
++static int kunit_printk_emit(const struct kunit *test,
++			     int level,
++			     const char *fmt, ...)
 +{
-+	struct kunit *test = data;
-+	struct kunit_try_catch_test_context *ctx = test->priv;
-+	struct kunit_try_catch *try_catch = ctx->try_catch;
++	va_list args;
++	int ret;
 +
-+	kunit_try_catch_throw(try_catch);
-+	KUNIT_FAIL(test, "This line should never be reached.\n");
++	va_start(args, fmt);
++	ret = kunit_vprintk_emit(test, level, fmt, args);
++	va_end(args);
++
++	return ret;
 +}
 +
-+void kunit_test_catch(void *data)
++static void kunit_vprintk(const struct kunit *test,
++			  const char *level,
++			  struct va_format *vaf)
 +{
-+	struct kunit *test = data;
-+	struct kunit_try_catch_test_context *ctx = test->priv;
-+
-+	ctx->function_called = true;
++	kunit_printk_emit(test,
++			  level[1] - '0',
++			  "kunit %s: %pV", test->name, vaf);
 +}
 +
-+static void kunit_test_try_catch_unsuccessful_try_does_catch(struct kunit *test)
++int kunit_init_test(struct kunit *test, const char *name)
 +{
-+	struct kunit_try_catch_test_context *ctx = test->priv;
-+	struct kunit_try_catch *try_catch = ctx->try_catch;
-+
-+	kunit_try_catch_init(try_catch,
-+			     test,
-+			     kunit_test_unsuccessful_try,
-+			     kunit_test_catch);
-+	kunit_try_catch_run(try_catch, test);
-+
-+	KUNIT_EXPECT_TRUE(test, ctx->function_called);
-+}
-+
-+static void kunit_test_generic_try_catch_successful_try_no_catch(
-+		struct kunit *test)
-+{
-+	struct kunit_try_catch_test_context *ctx = test->priv;
-+	struct kunit_try_catch *try_catch = ctx->try_catch;
-+
-+	try_catch->test = test;
-+	kunit_generic_try_catch_init(try_catch);
-+	try_catch->try = kunit_test_successful_try;
-+	try_catch->catch = kunit_test_no_catch;
-+
-+	kunit_try_catch_run(try_catch, test);
-+
-+	KUNIT_EXPECT_TRUE(test, ctx->function_called);
-+}
-+
-+static void kunit_test_generic_try_catch_unsuccessful_try_does_catch(
-+		struct kunit *test)
-+{
-+	struct kunit_try_catch_test_context *ctx = test->priv;
-+	struct kunit_try_catch *try_catch = ctx->try_catch;
-+
-+	try_catch->test = test;
-+	kunit_generic_try_catch_init(try_catch);
-+	try_catch->try = kunit_test_unsuccessful_try;
-+	try_catch->catch = kunit_test_catch;
-+
-+	kunit_try_catch_run(try_catch, test);
-+
-+	KUNIT_EXPECT_TRUE(test, ctx->function_called);
-+}
-+
-+static int kunit_try_catch_test_init(struct kunit *test)
-+{
-+	struct kunit_try_catch_test_context *ctx;
-+
-+	ctx = kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
-+	test->priv = ctx;
-+
-+	ctx->try_catch = kunit_kmalloc(test,
-+				       sizeof(*ctx->try_catch),
-+				       GFP_KERNEL);
++	spin_lock_init(&test->lock);
++	test->name = name;
++	test->vprintk = kunit_vprintk;
 +
 +	return 0;
 +}
 +
-+static struct kunit_case kunit_try_catch_test_cases[] = {
-+	KUNIT_CASE(kunit_test_try_catch_successful_try_no_catch),
-+	KUNIT_CASE(kunit_test_try_catch_unsuccessful_try_does_catch),
-+	KUNIT_CASE(kunit_test_generic_try_catch_successful_try_no_catch),
-+	KUNIT_CASE(kunit_test_generic_try_catch_unsuccessful_try_does_catch),
-+	{},
-+};
++/*
++ * Initializes and runs test case. Does not clean up or do post validations.
++ */
++static void kunit_run_case_internal(struct kunit *test,
++				    struct kunit_module *module,
++				    struct kunit_case *test_case)
++{
++	int ret;
 +
-+static struct kunit_module kunit_try_catch_test_module = {
-+	.name = "kunit-try-catch-test",
-+	.init = kunit_try_catch_test_init,
-+	.test_cases = kunit_try_catch_test_cases,
-+};
-+module_test(kunit_try_catch_test_module);
++	if (module->init) {
++		ret = module->init(test);
++		if (ret) {
++			kunit_err(test, "failed to initialize: %d\n", ret);
++			kunit_set_success(test, false);
++			return;
++		}
++	}
++
++	test_case->run_case(test);
++}
++
++/*
++ * Performs post validations and cleanup after a test case was run.
++ * XXX: Should ONLY BE CALLED AFTER kunit_run_case_internal!
++ */
++static void kunit_run_case_cleanup(struct kunit *test,
++				   struct kunit_module *module,
++				   struct kunit_case *test_case)
++{
++	if (module->exit)
++		module->exit(test);
++}
++
++/*
++ * Performs all logic to run a test case.
++ */
++static bool kunit_run_case(struct kunit *test,
++			   struct kunit_module *module,
++			   struct kunit_case *test_case)
++{
++	kunit_set_success(test, true);
++
++	kunit_run_case_internal(test, module, test_case);
++	kunit_run_case_cleanup(test, module, test_case);
++
++	return kunit_get_success(test);
++}
++
++int kunit_run_tests(struct kunit_module *module)
++{
++	bool all_passed = true, success;
++	struct kunit_case *test_case;
++	struct kunit test;
++	int ret;
++
++	ret = kunit_init_test(&test, module->name);
++	if (ret)
++		return ret;
++
++	for (test_case = module->test_cases; test_case->run_case; test_case++) {
++		success = kunit_run_case(&test, module, test_case);
++		if (!success)
++			all_passed = false;
++
++		kunit_info(&test,
++			  "%s %s\n",
++			  test_case->name,
++			  success ? "passed" : "failed");
++	}
++
++	if (all_passed)
++		kunit_info(&test, "all tests passed\n");
++	else
++		kunit_info(&test, "one or more tests failed\n");
++
++	return 0;
++}
++
++void kunit_printk(const char *level,
++		  const struct kunit *test,
++		  const char *fmt, ...)
++{
++	struct va_format vaf;
++	va_list args;
++
++	va_start(args, fmt);
++
++	vaf.fmt = fmt;
++	vaf.va = &args;
++
++	test->vprintk(test, level, &vaf);
++
++	va_end(args);
++}
 -- 
 2.21.0.392.gf8f6787159e-goog
 
