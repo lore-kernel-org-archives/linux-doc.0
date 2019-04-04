@@ -1,120 +1,169 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BA9B17D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Apr 2019 06:30:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8BD527D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Apr 2019 06:56:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726888AbfDDGaP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 4 Apr 2019 02:30:15 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:56585 "EHLO
-        out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725914AbfDDGaP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Apr 2019 02:30:15 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.nyi.internal (Postfix) with ESMTP id D184221D13;
-        Thu,  4 Apr 2019 02:30:13 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Thu, 04 Apr 2019 02:30:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=
-        message-id:subject:from:to:cc:date:in-reply-to:references
-        :content-type:mime-version:content-transfer-encoding; s=fm2; bh=
-        kfjYFgGufWc1zpGD9UIRLmTspSPrlbpE+zkk/TTwrE4=; b=lkM2guKlLqZXRrdP
-        udqqHdEOip3ijfNWQc1OiulB7wdF6xh0+Jq2MloFS2RYIAnIomlE8qc6HbMdk+gS
-        /p1M79k6Ih9HFt1p8TL5mXQIdKQndV9bnTy0N6u4j6N8K5XnfJEBpB+N7Gip1NOG
-        zZ3S1UUVBwLGDQFXqpnvxCbawR20/L/1bnK59cFFy4WfzWr349o2NQb7JM0k13ib
-        MHt+00uoM9KCQh8H1dKW1W5Z2TjC8ahp63s3nN46y2bizIEiLZxSy3Dk6+LynZ/Y
-        MvIvQh90nrg3vn5CbmLrwsJWQko7Cf9wpxUKHgvuGtlvKgLmzn6Lp6z9qVLbABZK
-        jRBS0w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; bh=kfjYFgGufWc1zpGD9UIRLmTspSPrlbpE+zkk/TTwr
-        E4=; b=RDzUfSnbSCF5+/4jSDF9lJQ6Kpynrjbu1GUe3J5cc7s3OMK5zCI85JE4E
-        YN1FHbNZfajtdrZYuu/D7d4KI67h+fca/dPj4AfWFTQ1Ux4+F+rP4qu1m7yvGOgA
-        /MnE6VJWmdoR66iEAQ0S/TNfQtKq+e26aIRyT+isJZHxbFDEy+YxdUo8Aven+of0
-        yy+ccpblpvoUMcjWhEiUXwXIqs9GAPTrGkbDi5U9NRVAXqSDLkMGVRRC7TfaVI5P
-        12WdS801rpLr/nKVEvS8IZEJbLHF4HbGED/sIPMbiA8Bc7zvyY3Dx9wsMy50irOd
-        Ds+gyVfR3n9JOTCW3mP93xFkSUnTw==
-X-ME-Sender: <xms:dKSlXGSvpeqXcKPQYsDoQqKBM9TKfs7-ALx_XS_C8yz502EZhrBsAw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrtdeggddutdehucdltddurdeguddtrddttd
-    dmucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepkffuhffvffgjfhgtofgggfesthejredtredt
-    jeenucfhrhhomhepkfgrnhcumfgvnhhtuceorhgrvhgvnhesthhhvghmrgifrdhnvghtqe
-    enucfkphepuddukedrvddtkedrieefrddvfedvnecurfgrrhgrmhepmhgrihhlfhhrohhm
-    pehrrghvvghnsehthhgvmhgrfidrnhgvthenucevlhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:dKSlXHkNoUDokqbVDI7tnAPJ9Oxo6IsDvBr4Potszrl9GvzVdRdh8g>
-    <xmx:dKSlXJWwv28XTWmawBpQCvVf_RxtOYl61xGDkpNCreU7WQJbVq8nAQ>
-    <xmx:dKSlXEcpnEImL7FpaxCCOGDiM12oNBlWzrWSgNtD_eSOErQzty9jWQ>
-    <xmx:daSlXA8_XaBgMKvBeYIuEZaiVMC4NKnPWL_FO2VkbW4vqtW5VkmvtA>
-Received: from pluto.themaw.net (unknown [118.208.63.232])
-        by mail.messagingengine.com (Postfix) with ESMTPA id B59DBE452B;
-        Thu,  4 Apr 2019 02:30:11 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by pluto.themaw.net (Postfix) with ESMTP id E8FDD1C0165;
-        Thu,  4 Apr 2019 14:30:07 +0800 (AWST)
-Message-ID: <152693a75ada9f5eb3242f1b15694556078d352f.camel@themaw.net>
-Subject: Re: [PATCH v3 00/24] Convert vfs.txt to vfs.rst
-From:   Ian Kent <raven@themaw.net>
-To:     Al Viro <viro@zeniv.linux.org.uk>, NeilBrown <neilb@suse.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "Tobin C. Harding" <tobin@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@s-opensource.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        id S1725904AbfDDG4u (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 4 Apr 2019 02:56:50 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:54814 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726917AbfDDG4t (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Apr 2019 02:56:49 -0400
+Received: by mail-wm1-f67.google.com with SMTP id c1so1634769wml.4
+        for <linux-doc@vger.kernel.org>; Wed, 03 Apr 2019 23:56:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:openpgp:autocrypt:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=VhY2LHdgmgVwkAUXFdG+xBTGOiNyNbtSexdPuZrycEw=;
+        b=UAqjZcnZn4LmnJhgsrmbRN58W7NVlwwpaGiMH7nkDnd2zf61XwE9Iv6iWdoVVZN/7f
+         7ZH6eU7CNyo5VA9LnnaS3wRQEefv8eWlRIReKwqcyVXXdgD2jMeNXODxhRhs5wt4N1+s
+         p5P31eMkVZOuGxOUIp1WidovU56MJEzzpjTD0FhCwM7OMLLHFL/iFOD6vxijfIBZRVGn
+         QG3TPmV1CBOYycqp9icjXrSezKp2TGUWBiyF4AiFa6faC3cABM832JrVIgAcitLDP/sy
+         10baA9x1lSxiZmqnjVgu0jSrj3RwV4iYu1ie7sKRbqnX7GENO4a+n39vEMSSTu3g+oAf
+         6ILw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+         :organization:message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=VhY2LHdgmgVwkAUXFdG+xBTGOiNyNbtSexdPuZrycEw=;
+        b=SPSWQ+/2viMkBHgrkBczJWPe8O/VXfj0v54U57GryLKLY1d+UJAcJD7TTiuts3xtTN
+         nESvObteQMAuBmGJa5TghjChpNQ35br5bVe5Bw3o8ujeblH+6xFUyC7Vs2l9xHVJhVW8
+         xMQVaQkFPcR4mU8o7d4hyen2OlcDTo1RAVVsK/98VvpGlt17X0ivoHOsfv8sZNBo5Hq3
+         IRIsz0P/3XDecrsZ46YF3lpPxPfBECbXVJ6QImeX/7G9VEN2KDIaLz5P+yYHlOMGmiOz
+         m1w4lsJSjk5ne1+F4ce/crZ/s7pAS9BjvX7OTgc07CR9Ti+H4QBZcR1dC4tEu69zNArJ
+         ySFw==
+X-Gm-Message-State: APjAAAVOAOUCik8Ir98VbZ1fEWOk3xGgBKUtk9jfyPNkP7ZPPSn30+DE
+        K7CL0YyTZVef3QWaCCD1ZzJiWQ==
+X-Google-Smtp-Source: APXvYqwJh4zHtGw+Yke/8+HAJa0rCoKAr7RYdXLcpVX2e/kpaYSEMh2Vw8uqB4rBp3JDS3FDHrfiSg==
+X-Received: by 2002:a1c:4e04:: with SMTP id g4mr2747435wmh.127.1554361007528;
+        Wed, 03 Apr 2019 23:56:47 -0700 (PDT)
+Received: from [192.168.1.62] (wal59-h01-176-150-251-154.dsl.sta.abo.bbox.fr. [176.150.251.154])
+        by smtp.gmail.com with ESMTPSA id i28sm53164897wrc.32.2019.04.03.23.56.46
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 03 Apr 2019 23:56:46 -0700 (PDT)
+Subject: Re: [PATCH] Documentation/gpu/meson: Remove link to meson_canvas.c
+To:     Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org
+Cc:     Sean Paul <seanpaul@chromium.org>,
+        Maxime Jourdan <mjourdan@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Date:   Thu, 04 Apr 2019 14:30:07 +0800
-In-Reply-To: <20190403193523.GX2217@ZenIV.linux.org.uk>
-References: <20190327051717.23225-1-tobin@kernel.org>
-         <20190402094934.5b242dc0@lwn.net>
-         <20190402164824.GK2217@ZenIV.linux.org.uk>
-         <20190402175401.GL2217@ZenIV.linux.org.uk>
-         <20190402190811.GM2217@ZenIV.linux.org.uk>
-         <5c5e02f8b8add4aa2fc24ba2a0880652529588af.camel@themaw.net>
-         <87ftqz29i2.fsf@notabene.neil.brown.name>
-         <20190403193523.GX2217@ZenIV.linux.org.uk>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-2.fc28) 
-Mime-Version: 1.0
+References: <20190403205652.183496-1-sean@poorly.run>
+From:   Neil Armstrong <narmstrong@baylibre.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
+ 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
+ ZaTUOEkgIor5losDrePdPgE=
+Organization: Baylibre
+Message-ID: <2afc7c09-a6e4-5191-d7e3-7a3a75451aab@baylibre.com>
+Date:   Thu, 4 Apr 2019 08:56:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <20190403205652.183496-1-sean@poorly.run>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2019-04-03 at 20:35 +0100, Al Viro wrote:
-> On Wed, Apr 03, 2019 at 11:55:01AM +1100, NeilBrown wrote:
+On 03/04/2019 22:56, Sean Paul wrote:
+> From: Sean Paul <seanpaul@chromium.org>
 > 
-> > It seems very likely that this was just a subtlety that I missed.
-> > I doesn't help that "ino" isn't actually and inode and isn't freed like
-> > an inode, but that is no excuse.
-> > 
-> > When we add the rcu_head linkage to 'struct autofs_info', we might as
-> > well remove the 'struct inode' from there - it doesn't seem to have been
-> > used for years.
+> The file was removed in the below patch and is causing this error:
+> WARNING: kernel-doc '../scripts/kernel-doc -rst -enable-lineno -function Canvas ../drivers/gpu/drm/meson/meson_canvas.c' failed with return code
 > 
-> Umm...  I can do that, but then we get greater potential for conflicts
-> and the whole thing might be better off in autofs tree.  Ian, up to you -
-> I can throw both into a never-rebased branch, so you could merge it
-> into your tree; the first one is -stable fodder, though...
+> Fixes: 2bf6b5b0e374 ("drm/meson: exclusively use the canvas provider module")
+> Cc: Maxime Jourdan <mjourdan@baylibre.com>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Kevin Hilman <khilman@baylibre.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-amlogic@lists.infradead.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> ---
+>  Documentation/gpu/meson.rst | 6 ------
+>  1 file changed, 6 deletions(-)
+> 
+> diff --git a/Documentation/gpu/meson.rst b/Documentation/gpu/meson.rst
+> index 479f6f51a13b..b9e2f9aa3bd8 100644
+> --- a/Documentation/gpu/meson.rst
+> +++ b/Documentation/gpu/meson.rst
+> @@ -42,12 +42,6 @@ Video Encoder
+>  .. kernel-doc:: drivers/gpu/drm/meson/meson_venc.c
+>     :doc: Video Encoder
+>  
+> -Video Canvas Management
+> -=======================
+> -
+> -.. kernel-doc:: drivers/gpu/drm/meson/meson_canvas.c
+> -   :doc: Canvas
+> -
+>  Video Clocks
+>  ============
+>  
+> 
 
-Ha, as unlikely as that usually is, given the low churn in the autofs
-code, conflicts might be a problem.
-
-I'm likely to change the autofs info flags field to unsigned as part
-of implementing a suggestion from Neil (quite some time ago now) to
-fix the AT_NO_AUTOMOUNT handling.
-
-So I'll hold onto the patch to remove the inode field, include it as
-part of that change, and forward it as low priority via Andrew.
-
-I'll send your rcu free patch back to you (with an added comment in
-the description) as a higher priority change.
-
-Ian
-
+Acked-by: Neil Armstrong <narmstrong@baylibre.com>
