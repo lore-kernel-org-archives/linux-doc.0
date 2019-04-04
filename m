@@ -6,51 +6,51 @@ X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 10D417D91B
+	by archive.lwn.net (Postfix) with ESMTP id A385C7D982
 	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Apr 2019 22:11:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730975AbfDDWKd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 4 Apr 2019 18:10:33 -0400
-Received: from mail-pg1-f201.google.com ([209.85.215.201]:49620 "EHLO
-        mail-pg1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730969AbfDDWKc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Apr 2019 18:10:32 -0400
-Received: by mail-pg1-f201.google.com with SMTP id x2so2433843pge.16
-        for <linux-doc@vger.kernel.org>; Thu, 04 Apr 2019 15:10:31 -0700 (PDT)
+        id S1731067AbfDDWLI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 4 Apr 2019 18:11:08 -0400
+Received: from mail-pl1-f201.google.com ([209.85.214.201]:47883 "EHLO
+        mail-pl1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731016AbfDDWKe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Apr 2019 18:10:34 -0400
+Received: by mail-pl1-f201.google.com with SMTP id 1so2660958ply.14
+        for <linux-doc@vger.kernel.org>; Thu, 04 Apr 2019 15:10:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=QLv58Z7GnbE5E2rc8gqV9R0ZGZCKnDp8aJM89RMiFn8=;
-        b=TbSUKSdHiTjMt21FOYO3C8upkXSONV1gTySaLC/GtIexaU8saqEPQA/31j/F+a+39Q
-         llxC/JOJPkWYn1jKQ8kc46sjIkZEcSbOFD5/7/f3ZZgOUpHrxCjQF9GyOmoVehApjJlL
-         16Mr+b9H/2Jiq3WG0DrSaxN5+gtW9hioJ6GbbGQWZ7bFD/G4LT2IDvhjvH9/zKXq1EYN
-         PkzwYJFJ05tDVtJhiR72kKYK75vV2PLzjZt6m2rBOsxPbwAsJBfFHpwTIWhoMCGUZV53
-         SRVx13INI50m4/fm1POrA/LGtF5XIQSNjzS3wovDh3C7FCX/+FeiZSM2XjaqFL7N21cc
-         iXtQ==
+        bh=oW4PDVaJxDnrY6BBc/BAHq/Hfgozzw2Xp2Gy+1ZhIC8=;
+        b=fb8e+v1Z/Vhw8iTIo0CwD5Vx1AmUlpqbB3aiVwU0233WvzFboxwLQMGvesF9ZZX5sX
+         9JkP4aYiS7YkV/Z9hCpYMVK+jg/ZOxeZi51Jwc7cNQjLdxiqRwdlZHUD4qO0/jFJi1rC
+         AF5KeZIRmUIMVJUXV+gqpCZu0z++hIeqYkYXSPMaWW+MGWB0q1yLWS0sH6QElHUZcYMz
+         sdMJwxyA6SEn+iPtpCgA/U059V0MLpHndFv0eezfjXtcoOhtXiM0qeBn64kGrh17t5hh
+         Ze71xEwtP0paAg9lzOGxi/3QYBJI8ljeo9IHsd9sbq3bfj1p/XNnCO1YjnBJaRA/13IF
+         E+fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=QLv58Z7GnbE5E2rc8gqV9R0ZGZCKnDp8aJM89RMiFn8=;
-        b=UXuKo0xY0906tAGZ3NB5MAG4ac/ysfQOSGm3qg92HcPSQG5PC/uiuiwzn9qscM72m3
-         x9oWZ1pCexhzx3ZX83uEILtrTXC5X05T+RGdR2t//40P1uTdcYpOOiITTlG9/bREkwY+
-         760zXBCAaYdOJ6YcMUzHlP5S6s8o3ImAbWbAYxxc2bLbJACPhs1ghp8klFRtE/S/U9De
-         URCPpEYXIj5rv+zqCCnx0m7NTpfScVGoDTISYzkm1Ktdi4x6YQYh7ftYRg78pSc+45yK
-         Wr/y8Yw0F4eid0W9Vz3TMQos64zcM17tUSmO7KekbvHU2z5t5L7BSEPTpvV7jD/XPAsu
-         Gi1w==
-X-Gm-Message-State: APjAAAVLnYFKJydsb9hucSFn4ZMnASlaw4Y8DCDvbBN9sR5G82VPamql
-        a2/tbjevhM5tweNyYnl0zoz4MGV+2FvFDtjcpTI7nA==
-X-Google-Smtp-Source: APXvYqyHZ+gH7b4j541rhnwGBatunxo9U+HAjBECF0SC3VXf3xOpdIRsKvYdD3RUJnoRWgSinQD0LtW+am9NvNttkN7KKg==
-X-Received: by 2002:a65:66d7:: with SMTP id c23mr205572pgw.127.1554415831130;
- Thu, 04 Apr 2019 15:10:31 -0700 (PDT)
-Date:   Thu,  4 Apr 2019 15:06:47 -0700
+        bh=oW4PDVaJxDnrY6BBc/BAHq/Hfgozzw2Xp2Gy+1ZhIC8=;
+        b=qPo9D8b7NFM4cWHGfajvVtcf2boGe8fO31pmvvRwockYyGDhFdicfhzERJkwp5RZa9
+         w0s2gWCPOBkwPJJ37rOxZ2dWmrPjWsj46VJc423s3rivNOMebbF3SePZ5ZDuJ32+l8N+
+         Npjk18/LBbMVcv0DF1KRh7CJVSRGDGxFuvDu+fE0g5Z7xmgvbvUWmMxqSh17btRpCH1n
+         FygUuu+J7n4JWYDOXC7Wt6mDEcxOtAZx4gS4xhjFAqA3vStoP9ItDJu4ZWxojiW/kjWC
+         tiTCZ7CsbRh97UCMW4jnC0WJwmgxgMtuH0dEJKjMrAtg8AtKpe1a8LT3XVHuL/3iAP/5
+         jfwA==
+X-Gm-Message-State: APjAAAXMY5fMqdnJJWt5sG7QCbMpTv20/AXorp1IEQIXJeBfapuZRiNl
+        EFUz87jtbakWf8mhjiKChZiIum3kohiP9B3cRWe62A==
+X-Google-Smtp-Source: APXvYqySlZeZhmHUzbaLxG3cwraMDL8UwYyYOhgsZAcby/Biv7RGMnF/AKvHBa7ap73rPVPaHw4JDtLbjtHNYJgqLR8yTQ==
+X-Received: by 2002:a65:46c8:: with SMTP id n8mr227144pgr.65.1554415833550;
+ Thu, 04 Apr 2019 15:10:33 -0700 (PDT)
+Date:   Thu,  4 Apr 2019 15:06:48 -0700
 In-Reply-To: <20190404220652.19765-1-brendanhiggins@google.com>
-Message-Id: <20190404220652.19765-13-brendanhiggins@google.com>
+Message-Id: <20190404220652.19765-14-brendanhiggins@google.com>
 Mime-Version: 1.0
 References: <20190404220652.19765-1-brendanhiggins@google.com>
 X-Mailer: git-send-email 2.21.0.392.gf8f6787159e-goog
-Subject: [PATCH v1 12/17] kunit: tool: add Python wrappers for running KUnit tests
+Subject: [PATCH v1 13/17] kunit: defconfig: add defconfigs for building KUnit tests
 From:   Brendan Higgins <brendanhiggins@google.com>
 To:     corbet@lwn.net, frowand.list@gmail.com, keescook@google.com,
         kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
@@ -67,7 +67,6 @@ Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
         julia.lawall@lip6.fr, khilman@baylibre.com, knut.omang@oracle.com,
         mpe@ellerman.id.au, pmladek@suse.com, richard@nod.at,
         rostedt@goodmis.org, wfg@linux.intel.com,
-        Felix Guo <felixguoxiuping@gmail.com>,
         Brendan Higgins <brendanhiggins@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
@@ -75,483 +74,110 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Felix Guo <felixguoxiuping@gmail.com>
+Add defconfig for UML and a fragment that can be used to configure other
+architectures for building KUnit tests. Add option to kunit_tool to use
+a defconfig to create the kunitconfig.
 
-The ultimate goal is to create minimal isolated test binaries; in the
-meantime we are using UML to provide the infrastructure to run tests, so
-define an abstract way to configure and run tests that allow us to
-change the context in which tests are built without affecting the user.
-This also makes pretty and dynamic error reporting, and a lot of other
-nice features easier.
-
-kunit_config.py:
-  - parse .config and Kconfig files.
-
-kunit_kernel.py: provides helper functions to:
-  - configure the kernel using kunitconfig.
-  - build the kernel with the appropriate configuration.
-  - provide function to invoke the kernel and stream the output back.
-
-Signed-off-by: Felix Guo <felixguoxiuping@gmail.com>
 Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
 ---
- tools/testing/kunit/.gitignore      |   3 +
- tools/testing/kunit/kunit.py        |  78 +++++++++++++++
- tools/testing/kunit/kunit_config.py |  66 +++++++++++++
- tools/testing/kunit/kunit_kernel.py | 148 ++++++++++++++++++++++++++++
- tools/testing/kunit/kunit_parser.py | 119 ++++++++++++++++++++++
- 5 files changed, 414 insertions(+)
- create mode 100644 tools/testing/kunit/.gitignore
- create mode 100755 tools/testing/kunit/kunit.py
- create mode 100644 tools/testing/kunit/kunit_config.py
- create mode 100644 tools/testing/kunit/kunit_kernel.py
- create mode 100644 tools/testing/kunit/kunit_parser.py
+ arch/um/configs/kunit_defconfig              |  8 ++++++++
+ tools/testing/kunit/configs/all_tests.config |  8 ++++++++
+ tools/testing/kunit/kunit.py                 | 17 +++++++++++++++--
+ tools/testing/kunit/kunit_kernel.py          |  3 ++-
+ 4 files changed, 33 insertions(+), 3 deletions(-)
+ create mode 100644 arch/um/configs/kunit_defconfig
+ create mode 100644 tools/testing/kunit/configs/all_tests.config
 
-diff --git a/tools/testing/kunit/.gitignore b/tools/testing/kunit/.gitignore
+diff --git a/arch/um/configs/kunit_defconfig b/arch/um/configs/kunit_defconfig
 new file mode 100644
-index 0000000000000..c791ff59a37a9
+index 0000000000000..bfe49689038f1
 --- /dev/null
-+++ b/tools/testing/kunit/.gitignore
-@@ -0,0 +1,3 @@
-+# Byte-compiled / optimized / DLL files
-+__pycache__/
-+*.py[cod]
-\ No newline at end of file
++++ b/arch/um/configs/kunit_defconfig
+@@ -0,0 +1,8 @@
++CONFIG_OF=y
++CONFIG_OF_UNITTEST=y
++CONFIG_OF_OVERLAY=y
++CONFIG_I2C=y
++CONFIG_I2C_MUX=y
++CONFIG_KUNIT=y
++CONFIG_KUNIT_TEST=y
++CONFIG_KUNIT_EXAMPLE_TEST=y
+diff --git a/tools/testing/kunit/configs/all_tests.config b/tools/testing/kunit/configs/all_tests.config
+new file mode 100644
+index 0000000000000..bfe49689038f1
+--- /dev/null
++++ b/tools/testing/kunit/configs/all_tests.config
+@@ -0,0 +1,8 @@
++CONFIG_OF=y
++CONFIG_OF_UNITTEST=y
++CONFIG_OF_OVERLAY=y
++CONFIG_I2C=y
++CONFIG_I2C_MUX=y
++CONFIG_KUNIT=y
++CONFIG_KUNIT_TEST=y
++CONFIG_KUNIT_EXAMPLE_TEST=y
 diff --git a/tools/testing/kunit/kunit.py b/tools/testing/kunit/kunit.py
-new file mode 100755
-index 0000000000000..7413ec7351a20
---- /dev/null
+index 7413ec7351a20..63e9fb3b60200 100755
+--- a/tools/testing/kunit/kunit.py
 +++ b/tools/testing/kunit/kunit.py
-@@ -0,0 +1,78 @@
-+#!/usr/bin/python3
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# A thin wrapper on top of the KUnit Kernel
-+#
-+# Copyright (C) 2019, Google LLC.
-+# Author: Felix Guo <felixguoxiuping@gmail.com>
-+# Author: Brendan Higgins <brendanhiggins@google.com>
-+
-+import argparse
-+import sys
-+import os
-+import time
-+
-+import kunit_config
-+import kunit_kernel
-+import kunit_parser
-+
-+parser = argparse.ArgumentParser(description='Runs KUnit tests.')
-+
-+parser.add_argument('--raw_output', help='don\'t format output from kernel',
+@@ -11,6 +11,7 @@ import argparse
+ import sys
+ import os
+ import time
++import shutil
+ 
+ import kunit_config
+ import kunit_kernel
+@@ -36,14 +37,26 @@ parser.add_argument('--build_dir',
+ 		    'directory.',
+ 		    type=str, default=None, metavar='build_dir')
+ 
+-cli_args = parser.parse_args()
++parser.add_argument('--defconfig',
++		    help='Uses a default kunitconfig.',
 +		    action='store_true')
-+
-+parser.add_argument('--timeout', help='maximum number of seconds to allow for '
-+		    'all tests to run. This does not include time taken to '
-+		    'build the tests.', type=int, default=300,
-+		    metavar='timeout')
-+
-+parser.add_argument('--jobs',
-+		    help='As in the make command, "Specifies  the number of '
-+		    'jobs (commands) to run simultaneously."',
-+		    type=int, default=8, metavar='jobs')
-+
-+parser.add_argument('--build_dir',
-+		    help='As in the make command, it specifies the build '
-+		    'directory.',
-+		    type=str, default=None, metavar='build_dir')
+ 
+-linux = kunit_kernel.LinuxSourceTree()
++def create_default_kunitconfig():
++	if not os.path.exists(kunit_kernel.KUNITCONFIG_PATH):
++		shutil.copyfile('arch/um/configs/kunit_defconfig',
++				kunit_kernel.KUNITCONFIG_PATH)
 +
 +cli_args = parser.parse_args()
+ 
+ build_dir = None
+ if cli_args.build_dir:
+ 	build_dir = cli_args.build_dir
+ 
++if cli_args.defconfig:
++	create_default_kunitconfig()
 +
 +linux = kunit_kernel.LinuxSourceTree()
 +
-+build_dir = None
-+if cli_args.build_dir:
-+	build_dir = cli_args.build_dir
-+
-+config_start = time.time()
-+success = linux.build_reconfig(build_dir)
-+config_end = time.time()
-+if not success:
-+	quit()
-+
-+kunit_parser.print_with_timestamp('Building KUnit Kernel ...')
-+
-+build_start = time.time()
-+
-+success = linux.build_um_kernel(jobs=cli_args.jobs, build_dir=build_dir)
-+build_end = time.time()
-+if not success:
-+	quit()
-+
-+kunit_parser.print_with_timestamp('Starting KUnit Kernel ...')
-+test_start = time.time()
-+
-+if cli_args.raw_output:
-+	kunit_parser.raw_output(linux.run_kernel(timeout=cli_args.timeout,
-+						 build_dir=build_dir))
-+else:
-+	kunit_parser.parse_run_tests(linux.run_kernel(timeout=cli_args.timeout,
-+						      build_dir=build_dir))
-+
-+test_end = time.time()
-+
-+kunit_parser.print_with_timestamp((
-+	"Elapsed time: %.3fs total, %.3fs configuring, %.3fs " +
-+	"building, %.3fs running.\n") % (test_end - config_start,
-+	config_end - config_start, build_end - build_start,
-+	test_end - test_start))
-diff --git a/tools/testing/kunit/kunit_config.py b/tools/testing/kunit/kunit_config.py
-new file mode 100644
-index 0000000000000..167f47d9ab8e4
---- /dev/null
-+++ b/tools/testing/kunit/kunit_config.py
-@@ -0,0 +1,66 @@
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Builds a .config from a kunitconfig.
-+#
-+# Copyright (C) 2019, Google LLC.
-+# Author: Felix Guo <felixguoxiuping@gmail.com>
-+# Author: Brendan Higgins <brendanhiggins@google.com>
-+
-+import collections
-+import re
-+
-+CONFIG_IS_NOT_SET_PATTERN = r'^# CONFIG_\w+ is not set$'
-+CONFIG_PATTERN = r'^CONFIG_\w+=\S+$'
-+
-+KconfigEntryBase = collections.namedtuple('KconfigEntry', ['raw_entry'])
-+
-+
-+class KconfigEntry(KconfigEntryBase):
-+
-+	def __str__(self) -> str:
-+		return self.raw_entry
-+
-+
-+class KconfigParseError(Exception):
-+	"""Error parsing Kconfig defconfig or .config."""
-+
-+
-+class Kconfig(object):
-+	"""Represents defconfig or .config specified using the Kconfig language."""
-+
-+	def __init__(self):
-+		self._entries = []
-+
-+	def entries(self):
-+		return set(self._entries)
-+
-+	def add_entry(self, entry: KconfigEntry) -> None:
-+		self._entries.append(entry)
-+
-+	def is_subset_of(self, other: "Kconfig") -> bool:
-+		return self.entries().issubset(other.entries())
-+
-+	def write_to_file(self, path: str) -> None:
-+		with open(path, 'w') as f:
-+			for entry in self.entries():
-+				f.write(str(entry) + '\n')
-+
-+	def parse_from_string(self, blob: str) -> None:
-+		"""Parses a string containing KconfigEntrys and populates this Kconfig."""
-+		self._entries = []
-+		is_not_set_matcher = re.compile(CONFIG_IS_NOT_SET_PATTERN)
-+		config_matcher = re.compile(CONFIG_PATTERN)
-+		for line in blob.split('\n'):
-+			line = line.strip()
-+			if not line:
-+				continue
-+			elif config_matcher.match(line) or is_not_set_matcher.match(line):
-+				self._entries.append(KconfigEntry(line))
-+			elif line[0] == '#':
-+				continue
-+			else:
-+				raise KconfigParseError('Failed to parse: ' + line)
-+
-+	def read_from_file(self, path: str) -> None:
-+		with open(path, 'r') as f:
-+			self.parse_from_string(f.read())
+ config_start = time.time()
+ success = linux.build_reconfig(build_dir)
+ config_end = time.time()
 diff --git a/tools/testing/kunit/kunit_kernel.py b/tools/testing/kunit/kunit_kernel.py
-new file mode 100644
-index 0000000000000..07c0abf2f47df
---- /dev/null
+index 07c0abf2f47df..bf38768353313 100644
+--- a/tools/testing/kunit/kunit_kernel.py
 +++ b/tools/testing/kunit/kunit_kernel.py
-@@ -0,0 +1,148 @@
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Runs UML kernel, collects output, and handles errors.
-+#
-+# Copyright (C) 2019, Google LLC.
-+# Author: Felix Guo <felixguoxiuping@gmail.com>
-+# Author: Brendan Higgins <brendanhiggins@google.com>
-+
-+
-+import logging
-+import subprocess
-+import os
-+
-+import kunit_config
-+
-+KCONFIG_PATH = '.config'
-+
-+class ConfigError(Exception):
-+	"""Represents an error trying to configure the Linux kernel."""
-+
-+
-+class BuildError(Exception):
-+	"""Represents an error trying to build the Linux kernel."""
-+
-+
-+class LinuxSourceTreeOperations(object):
-+	"""An abstraction over command line operations performed on a source tree."""
-+
-+	def make_mrproper(self):
-+		try:
-+			subprocess.check_output(['make', 'mrproper'])
-+		except OSError as e:
-+			raise ConfigError('Could not call make command: ' + e)
-+		except subprocess.CalledProcessError as e:
-+			raise ConfigError(e.output)
-+
-+	def make_olddefconfig(self, build_dir):
-+		command = ['make', 'ARCH=um', 'olddefconfig']
-+		if build_dir:
-+			command += ['O=' + build_dir]
-+		try:
-+			subprocess.check_output(command)
-+		except OSError as e:
-+			raise ConfigError('Could not call make command: ' + e)
-+		except subprocess.CalledProcessError as e:
-+			raise ConfigError(e.output)
-+
-+	def make(self, jobs, build_dir):
-+		command = ['make', 'ARCH=um', '--jobs=' + str(jobs)]
-+		if build_dir:
-+			command += ['O=' + build_dir]
-+		try:
-+			subprocess.check_output(command)
-+		except OSError as e:
-+			raise BuildError('Could not call execute make: ' + e)
-+		except subprocess.CalledProcessError as e:
-+			raise BuildError(e.output)
-+
-+	def linux_bin(self, params, timeout, build_dir):
-+		"""Runs the Linux UML binary. Must be named 'linux'."""
-+		linux_bin = './linux'
-+		if build_dir:
-+			linux_bin = os.path.join(build_dir, 'linux')
-+		process = subprocess.Popen(
-+			[linux_bin] + params,
-+			stdin=subprocess.PIPE,
-+			stdout=subprocess.PIPE,
-+			stderr=subprocess.PIPE)
-+		process.wait(timeout=timeout)
-+		return process
-+
-+
-+def get_kconfig_path(build_dir):
-+	kconfig_path = KCONFIG_PATH
-+	if build_dir:
-+		kconfig_path = os.path.join(build_dir, KCONFIG_PATH)
-+	return kconfig_path
-+
-+class LinuxSourceTree(object):
-+	"""Represents a Linux kernel source tree with KUnit tests."""
-+
-+	def __init__(self):
-+		self._kconfig = kunit_config.Kconfig()
-+		self._kconfig.read_from_file('kunitconfig')
-+		self._ops = LinuxSourceTreeOperations()
-+
-+	def clean(self):
-+		try:
-+			self._ops.make_mrproper()
-+		except ConfigError as e:
-+			logging.error(e)
-+			return False
-+		return True
-+
-+	def build_config(self, build_dir):
-+		kconfig_path = get_kconfig_path(build_dir)
-+		if build_dir and not os.path.exists(build_dir):
-+			os.mkdir(build_dir)
-+		self._kconfig.write_to_file(kconfig_path)
-+		try:
-+			self._ops.make_olddefconfig(build_dir)
-+		except ConfigError as e:
-+			logging.error(e)
-+			return False
-+		validated_kconfig = kunit_config.Kconfig()
-+		validated_kconfig.read_from_file(kconfig_path)
-+		if not self._kconfig.is_subset_of(validated_kconfig):
-+			logging.error('Provided Kconfig is not contained in validated .config!')
-+			return False
-+		return True
-+
-+	def build_reconfig(self, build_dir):
-+		"""Creates a new .config if it is not a subset of the kunitconfig."""
-+		kconfig_path = get_kconfig_path(build_dir)
-+		if os.path.exists(kconfig_path):
-+			existing_kconfig = kunit_config.Kconfig()
-+			existing_kconfig.read_from_file(kconfig_path)
-+			if not self._kconfig.is_subset_of(existing_kconfig):
-+				print('Regenerating .config ...')
-+				os.remove(kconfig_path)
-+				return self.build_config(build_dir)
-+			else:
-+				return True
-+		else:
-+			print('Generating .config ...')
-+			return self.build_config(build_dir)
-+
-+	def build_um_kernel(self, jobs, build_dir):
-+		try:
-+			self._ops.make_olddefconfig(build_dir)
-+			self._ops.make(jobs, build_dir)
-+		except (ConfigError, BuildError) as e:
-+			logging.error(e)
-+			return False
-+		used_kconfig = kunit_config.Kconfig()
-+		used_kconfig.read_from_file(get_kconfig_path(build_dir))
-+		if not self._kconfig.is_subset_of(used_kconfig):
-+			logging.error('Provided Kconfig is not contained in final config!')
-+			return False
-+		return True
-+
-+	def run_kernel(self, args=[], timeout=None, build_dir=None):
-+		args.extend(['mem=256M'])
-+		process = self._ops.linux_bin(args, timeout, build_dir)
-+		with open('test.log', 'w') as f:
-+			for line in process.stdout:
-+				f.write(line.rstrip().decode('ascii') + '\n')
-+				yield line.rstrip().decode('ascii')
-diff --git a/tools/testing/kunit/kunit_parser.py b/tools/testing/kunit/kunit_parser.py
-new file mode 100644
-index 0000000000000..6c81d4dcfabb5
---- /dev/null
-+++ b/tools/testing/kunit/kunit_parser.py
-@@ -0,0 +1,119 @@
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Parses test results from a kernel dmesg log.
-+#
-+# Copyright (C) 2019, Google LLC.
-+# Author: Felix Guo <felixguoxiuping@gmail.com>
-+# Author: Brendan Higgins <brendanhiggins@google.com>
-+
-+import re
-+from datetime import datetime
-+
-+kunit_start_re = re.compile('printk: console .* enabled')
-+kunit_end_re = re.compile('List of all partitions:')
-+
-+def isolate_kunit_output(kernel_output):
-+	started = False
-+	for line in kernel_output:
-+		if kunit_start_re.match(line):
-+			started = True
-+		elif kunit_end_re.match(line):
-+			break
-+		elif started:
-+			yield line
-+
-+def raw_output(kernel_output):
-+	for line in kernel_output:
-+		print(line)
-+
-+DIVIDER = "=" * 30
-+
-+RESET = '\033[0;0m'
-+
-+def red(text):
-+	return '\033[1;31m' + text + RESET
-+
-+def yellow(text):
-+	return '\033[1;33m' + text + RESET
-+
-+def green(text):
-+	return '\033[1;32m' + text + RESET
-+
-+def print_with_timestamp(message):
-+	print('[%s] %s' % (datetime.now().strftime('%H:%M:%S'), message))
-+
-+def print_log(log):
-+	for m in log:
-+		print_with_timestamp(m)
-+
-+def parse_run_tests(kernel_output):
-+	test_case_output = re.compile('^kunit .*?: (.*)$')
-+
-+	test_module_success = re.compile('^kunit .*: all tests passed')
-+	test_module_fail = re.compile('^kunit .*: one or more tests failed')
-+
-+	test_case_success = re.compile('^kunit (.*): (.*) passed')
-+	test_case_fail = re.compile('^kunit (.*): (.*) failed')
-+	test_case_crash = re.compile('^kunit (.*): (.*) crashed')
-+
-+	total_tests = set()
-+	failed_tests = set()
-+	crashed_tests = set()
-+
-+	def get_test_name(match):
-+		return match.group(1) + ":" + match.group(2)
-+
-+	current_case_log = []
-+	def end_one_test(match, log):
-+		log.clear()
-+		total_tests.add(get_test_name(match))
-+
-+	print_with_timestamp(DIVIDER)
-+	for line in isolate_kunit_output(kernel_output):
-+		# Ignore module output:
-+		if (test_module_success.match(line) or
-+		    test_module_fail.match(line)):
-+			print_with_timestamp(DIVIDER)
-+			continue
-+
-+		match = re.match(test_case_success, line)
-+		if match:
-+			print_with_timestamp(green("[PASSED] ") +
-+					     get_test_name(match))
-+			end_one_test(match, current_case_log)
-+			continue
-+
-+		match = re.match(test_case_fail, line)
-+		# Crashed tests will report as both failed and crashed. We only
-+		# want to show and count it once.
-+		if match and get_test_name(match) not in crashed_tests:
-+			failed_tests.add(get_test_name(match))
-+			print_with_timestamp(red("[FAILED] " +
-+						 get_test_name(match)))
-+			print_log(map(yellow, current_case_log))
-+			print_with_timestamp("")
-+			end_one_test(match, current_case_log)
-+			continue
-+
-+		match = re.match(test_case_crash, line)
-+		if match:
-+			crashed_tests.add(get_test_name(match))
-+			print_with_timestamp(yellow("[CRASH] " +
-+						    get_test_name(match)))
-+			print_log(current_case_log)
-+			print_with_timestamp("")
-+			end_one_test(match, current_case_log)
-+			continue
-+
-+		# Strip off the `kunit module-name:` prefix
-+		match = re.match(test_case_output, line)
-+		if match:
-+			current_case_log.append(match.group(1))
-+		else:
-+			current_case_log.append(line)
-+
-+	fmt = green if (len(failed_tests) + len(crashed_tests) == 0) else red
-+	print_with_timestamp(
-+		fmt("Testing complete. %d tests run. %d failed. %d crashed." %
-+		    (len(total_tests), len(failed_tests), len(crashed_tests))))
-+
+@@ -14,6 +14,7 @@ import os
+ import kunit_config
+ 
+ KCONFIG_PATH = '.config'
++KUNITCONFIG_PATH = 'kunitconfig'
+ 
+ class ConfigError(Exception):
+ 	"""Represents an error trying to configure the Linux kernel."""
+@@ -81,7 +82,7 @@ class LinuxSourceTree(object):
+ 
+ 	def __init__(self):
+ 		self._kconfig = kunit_config.Kconfig()
+-		self._kconfig.read_from_file('kunitconfig')
++		self._kconfig.read_from_file(KUNITCONFIG_PATH)
+ 		self._ops = LinuxSourceTreeOperations()
+ 
+ 	def clean(self):
 -- 
 2.21.0.392.gf8f6787159e-goog
 
