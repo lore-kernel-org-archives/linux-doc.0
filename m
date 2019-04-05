@@ -1,78 +1,74 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5D64B7D8A4
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Apr 2019 21:45:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 368ED7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Apr 2019 23:10:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726501AbfDEVo4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 5 Apr 2019 17:44:56 -0400
-Received: from mga11.intel.com ([192.55.52.93]:51871 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726204AbfDEVoz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 5 Apr 2019 17:44:55 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Apr 2019 14:44:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,313,1549958400"; 
-   d="scan'208";a="140486247"
-Received: from sjchrist-coffee.jf.intel.com ([10.54.74.181])
-  by fmsmga007.fm.intel.com with ESMTP; 05 Apr 2019 14:44:54 -0700
-From:   Sean Christopherson <sean.j.christopherson@intel.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/4] kernel-doc: Revert "scripts/kernel-doc: Processing -nofunc for functions only"
-Date:   Fri,  5 Apr 2019 14:44:50 -0700
-Message-Id: <20190405214453.18768-2-sean.j.christopherson@intel.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190405214453.18768-1-sean.j.christopherson@intel.com>
-References: <20190405214453.18768-1-sean.j.christopherson@intel.com>
+        id S1726167AbfDEXK1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 5 Apr 2019 19:10:27 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:50136 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726124AbfDEXK1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Apr 2019 19:10:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=4uPEFjI26CdrZO1+hQCYaNO97SmBbyFBxeR8pvlemBk=; b=W7wtC6fTAnbedRNUPmRjl3ZIP
+        bYIykBLVZyflrKrIkmKXzv172A3oxW6wsA12GN6E/b67dRSAkmyEvnAyPTNE03MMOQ/a/F6BxvkHO
+        yZVyEdB6X+dGhcb913IcLHnYvF9udUeeo1TLmZp9MXLoO0jmWuFlan0AxLxVN4PG6gl1NHlWo0Kq4
+        UwqOzpG/Y0aKP0Cke+X9asOjnCOyzujGImMK5amP1nBoNhJYhQ7mYHTBo3Duf2kNYDh4RhJIM9KnE
+        Y5gL8tslDU3bx67yeWoFa8sBdX5jrOUJDNVaVcGHeO6xnbF/86MyhbWbOsh3TfIel6cL6Z97A2N7m
+        E3vyg0XTQ==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hCXyc-0007th-7n; Fri, 05 Apr 2019 23:10:26 +0000
+Date:   Fri, 5 Apr 2019 16:10:26 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Sean Christopherson <sean.j.christopherson@intel.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kernel-doc: Let backtick and backslash escape percent
+ sign
+Message-ID: <20190405231024.GR22763@bombadil.infradead.org>
+References: <20190405211820.17617-1-sean.j.christopherson@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190405211820.17617-1-sean.j.christopherson@intel.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Now that Docbook has been deprecated in favor of Sphinx, the -nofunction
-option in kernel-doc is defunct, e.g. Sphinx doesn't currently support
-it.  Furthermore, "functions only" behavior was used by Docproc to avoid
-duplicating exported symbols, which is now handled by -export and
--internal.
+On Fri, Apr 05, 2019 at 02:18:20PM -0700, Sean Christopherson wrote:
+> There are a handful of instances where kernel doc comments want an
+> actual '%' in the final output, e.g. vsnprintf() wants to display "%n"
+> and "%p" to document format specifiers, and assembly functions that use
+> a custom call ABI may want to document their register usage, e.g. %eax.
+> 
+> Because kernel-doc unconditionally interprets '%' followed by a word
+> character as a constant definition, i.e. %CONST, it's impossible to get
+> an actual '%\w' when kernel-doc is used to translate comments into rst
+> format.  Treat backtick and backlash as escaping '%', the former to
+> handle '%' in a ``LITERAL``, and the latter to allow '%' when using
+> standard formatting.
+> 
+> An alternative option would be to define a fancier set of rules for
+> interpreting '%' so that explicit escaping would not be required.  For
+> example, require "%CONST" to be preceded by a recognized set of
+> characters, e.g. whitespace, opening parenthesis, etc...  But the list
+> of recognized characters is quite large even in the current code base,
+> and using '\' to escape is more common and intuitive, i.e. most people
+> will naturally try doing "\%..." to get the desired formatting, whereas
+> losing %CONST formatting because of an unrecognized character is likely
+> to cause confusion.
 
-The end goal is to enable using :nofunction: in .rst files to split
-documentation of structures into separate categories.
-
-This reverts commit 23aebb3c05f3b3fb06a68bf6b1539a05a5f8aaab.
-
-Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
----
- scripts/kernel-doc | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 3350e498b4ce..1b40b10794da 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -1026,9 +1026,10 @@ sub output_declaration {
- 	(($output_selection == OUTPUT_INCLUDE ||
- 	  $output_selection == OUTPUT_EXPORTED) &&
- 	 defined($function_table{$name})) ||
--	(($output_selection == OUTPUT_EXCLUDE ||
--	  $output_selection == OUTPUT_INTERNAL) &&
--	 !($functype eq "function" && defined($function_table{$name}))))
-+	($output_selection == OUTPUT_INTERNAL &&
-+	 !($functype eq "function" && defined($function_table{$name}))) ||
-+	($output_selection == OUTPUT_EXCLUDE &&
-+	 !defined($function_table{$name})))
-     {
- 	&$func(@_);
- 	$section_counter++;
--- 
-2.21.0
-
+Would it make sense to have %% turn into % rather than forcing quotation
+marks?
