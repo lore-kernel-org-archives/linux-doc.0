@@ -5,31 +5,33 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3C1D57D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Apr 2019 21:44:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8522C7D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Apr 2019 21:45:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726206AbfDEVoz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 5 Apr 2019 17:44:55 -0400
+        id S1726419AbfDEVpK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 5 Apr 2019 17:45:10 -0400
 Received: from mga11.intel.com ([192.55.52.93]:51871 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725973AbfDEVoz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 5 Apr 2019 17:44:55 -0400
+        id S1725973AbfDEVo4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 5 Apr 2019 17:44:56 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Apr 2019 14:44:54 -0700
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Apr 2019 14:44:55 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.60,313,1549958400"; 
-   d="scan'208";a="140486246"
+   d="scan'208";a="140486248"
 Received: from sjchrist-coffee.jf.intel.com ([10.54.74.181])
   by fmsmga007.fm.intel.com with ESMTP; 05 Apr 2019 14:44:54 -0700
 From:   Sean Christopherson <sean.j.christopherson@intel.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/4] docs: add support for :nosymbols:
-Date:   Fri,  5 Apr 2019 14:44:49 -0700
-Message-Id: <20190405214453.18768-1-sean.j.christopherson@intel.com>
+Subject: [PATCH 2/4] kernel-doc: Rename -nofunction option to -nosymbol
+Date:   Fri,  5 Apr 2019 14:44:51 -0700
+Message-Id: <20190405214453.18768-3-sean.j.christopherson@intel.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190405214453.18768-1-sean.j.christopherson@intel.com>
+References: <20190405214453.18768-1-sean.j.christopherson@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -37,35 +39,43 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Linux's kernel-doc directive for Sphinx allows .rst files to selectively
-include "functions", i.e. symbols, but does not allow .rst files to
-explicitly exclude symbols.  The actual kernel-doc script already
-supports excluding symbols, i.e. most of the plumbing is in place, but
-needs a bit of cleanup to get things working.
+...now that it applies to all symbol types.  Do the rename before
+Sphinx starts using the existing option.
 
-The intended user of this is SGX, which introduces a uapi header that
-defines structs for ioctls and for a new vDSO function.  Ideally, the
-documentation for the vDSO struct will be placed into a different
-section.
+Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
+---
+ scripts/kernel-doc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-I'm sending this as a standalone series as the SGX patch set is already
-ridiculously big[1], but I can fold these patches into the SGX series
-if that's preferred.
-
-[1] https://lkml.kernel.org/r/20190320162119.4469-1-jarkko.sakkinen@linux.intel.com
-
-
-Sean Christopherson (4):
-  kernel-doc: Revert "scripts/kernel-doc: Processing -nofunc for
-    functions only"
-  kernel-doc: Rename -nofunction option to -nosymbol
-  kernel-doc: Rename -function to -symbol
-  docs: sphinx: Add support :nosymbols: to exclude specific symbols
-
- Documentation/sphinx/kerneldoc.py |  9 +++++++--
- scripts/kernel-doc                | 19 ++++++++++---------
- 2 files changed, 17 insertions(+), 11 deletions(-)
-
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 1b40b10794da..9190110b9802 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -66,8 +66,8 @@ Output selection (mutually exclusive):
+   -function NAME	Only output documentation for the given function(s)
+ 			or DOC: section title(s). All other functions and DOC:
+ 			sections are ignored. May be specified multiple times.
+-  -nofunction NAME	Do NOT output documentation for the given function(s);
+-			only output documentation for the other functions and
++  -nosymbol NAME	Do NOT output documentation for the given symbol(s);
++			only output documentation for the other symbols and
+ 			DOC: sections. May be specified multiple times.
+ 
+ Output selection modifiers:
+@@ -409,11 +409,11 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
+ 	$output_mode = "none";
+     } elsif ($cmd eq "module") { # not needed for XML, inherits from calling document
+ 	$modulename = shift @ARGV;
+-    } elsif ($cmd eq "function") { # to only output specific functions
++    } elsif ($cmd eq "function") { # to only output specific function
+ 	$output_selection = OUTPUT_INCLUDE;
+ 	$function = shift @ARGV;
+ 	$function_table{$function} = 1;
+-    } elsif ($cmd eq "nofunction") { # output all except specific functions
++    } elsif ($cmd eq "nosymbol") { # output all except specific symbols
+ 	$output_selection = OUTPUT_EXCLUDE;
+ 	$function = shift @ARGV;
+ 	$function_table{$function} = 1;
 -- 
 2.21.0
 
