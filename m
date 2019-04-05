@@ -2,73 +2,102 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BDAD47D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Apr 2019 20:44:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EC4D67D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Apr 2019 21:18:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726271AbfDEUos (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 5 Apr 2019 16:44:48 -0400
-Received: from Galois.linutronix.de ([146.0.238.70]:49821 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725967AbfDEUos (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Apr 2019 16:44:48 -0400
-Received: from p5492e2fc.dip0.t-ipconnect.de ([84.146.226.252] helo=nanos)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tglx@linutronix.de>)
-        id 1hCVhP-0004OB-Qx; Fri, 05 Apr 2019 22:44:31 +0200
-Date:   Fri, 5 Apr 2019 22:44:31 +0200 (CEST)
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     Paul Cercueil <paul@crapouillou.net>
-cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Mathieu Malaterre <malat@debian.org>, od@zcrc.me,
-        linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-clk@vger.kernel.org
-Subject: Re: [PATCH v11 04/27] clocksource: Add a new timer-ingenic driver
-In-Reply-To: <20190327231631.15708-5-paul@crapouillou.net>
-Message-ID: <alpine.DEB.2.21.1904052241240.1802@nanos.tec.linutronix.de>
-References: <20190327231631.15708-1-paul@crapouillou.net> <20190327231631.15708-5-paul@crapouillou.net>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        id S1726218AbfDEVSX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 5 Apr 2019 17:18:23 -0400
+Received: from mga01.intel.com ([192.55.52.88]:26008 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725967AbfDEVSX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 5 Apr 2019 17:18:23 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Apr 2019 14:18:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,313,1549958400"; 
+   d="scan'208";a="148469708"
+Received: from sjchrist-coffee.jf.intel.com ([10.54.74.181])
+  by orsmga002.jf.intel.com with ESMTP; 05 Apr 2019 14:18:21 -0700
+From:   Sean Christopherson <sean.j.christopherson@intel.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] kernel-doc: Let backtick and backslash escape percent sign
+Date:   Fri,  5 Apr 2019 14:18:20 -0700
+Message-Id: <20190405211820.17617-1-sean.j.christopherson@intel.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 28 Mar 2019, Paul Cercueil wrote:
+There are a handful of instances where kernel doc comments want an
+actual '%' in the final output, e.g. vsnprintf() wants to display "%n"
+and "%p" to document format specifiers, and assembly functions that use
+a custom call ABI may want to document their register usage, e.g. %eax.
 
-> This driver handles the TCU (Timer Counter Unit) present on the Ingenic
-> JZ47xx SoCs, and provides the kernel with a system timer, and optionally
-> with a clocksource and a sched_clock.
-> 
-> It also provides clocks and interrupt handling to client drivers.
+Because kernel-doc unconditionally interprets '%' followed by a word
+character as a constant definition, i.e. %CONST, it's impossible to get
+an actual '%\w' when kernel-doc is used to translate comments into rst
+format.  Treat backtick and backlash as escaping '%', the former to
+handle '%' in a ``LITERAL``, and the latter to allow '%' when using
+standard formatting.
 
-Why on earth has a timer driver clock and interrupt chip drivers in it?
+An alternative option would be to define a fancier set of rules for
+interpreting '%' so that explicit escaping would not be required.  For
+example, require "%CONST" to be preceded by a recognized set of
+characters, e.g. whitespace, opening parenthesis, etc...  But the list
+of recognized characters is quite large even in the current code base,
+and using '\' to escape is more common and intuitive, i.e. most people
+will naturally try doing "\%..." to get the desired formatting, whereas
+losing %CONST formatting because of an unrecognized character is likely
+to cause confusion.
 
-We have different subsystems for good reasons. Please split this apart and
-add the support to the appropriate subsystems, clocksource, irqchip, clk
+Except for the aforementioned vsnprintf(), all .html output files from
+`make htmldocs` are identical before and after this change.
 
-Thanks,
+Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
+---
+ scripts/kernel-doc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-	tglx
-
-
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 3350e498b4ce..1890deb16725 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -210,7 +210,7 @@ my $anon_struct_union = 0;
  
+ # match expressions used to find embedded type information
+ my $type_constant = '\b``([^\`]+)``\b';
+-my $type_constant2 = '\%([-_\w]+)';
++my $type_constant2 = '(^|[^\`\\\])\%([-_\w]+)';
+ my $type_func = '(\w+)\(\)';
+ my $type_param = '\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
+ my $type_fp_param = '\@(\w+)\(\)';  # Special RST handling for func ptr params
+@@ -229,7 +229,7 @@ my $type_member_func = $type_member . '\(\)';
+ # these are pretty rough
+ my @highlights_man = (
+                       [$type_constant, "\$1"],
+-                      [$type_constant2, "\$1"],
++                      [$type_constant2, "\$1\$2"],
+                       [$type_func, "\\\\fB\$1\\\\fP"],
+                       [$type_enum, "\\\\fI\$1\\\\fP"],
+                       [$type_struct, "\\\\fI\$1\\\\fP"],
+@@ -244,7 +244,7 @@ my $blankline_man = "";
+ # rst-mode
+ my @highlights_rst = (
+                        [$type_constant, "``\$1``"],
+-                       [$type_constant2, "``\$1``"],
++                       [$type_constant2, "\$1``\$2``"],
+                        # Note: need to escape () to avoid func matching later
+                        [$type_member_func, "\\:c\\:type\\:`\$1\$2\$3\\\\(\\\\) <\$1>`"],
+                        [$type_member, "\\:c\\:type\\:`\$1\$2\$3 <\$1>`"],
+-- 
+2.21.0
+
