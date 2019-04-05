@@ -1,147 +1,114 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EAFA87D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Apr 2019 02:44:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B8D5B7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Apr 2019 11:43:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729667AbfDECon (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 4 Apr 2019 22:44:43 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:41649 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727212AbfDECon (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Apr 2019 22:44:43 -0400
-Received: by mail-pf1-f196.google.com with SMTP id 188so2407221pfd.8;
-        Thu, 04 Apr 2019 19:44:42 -0700 (PDT)
+        id S1728802AbfDELne (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 5 Apr 2019 07:43:34 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:44134 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726202AbfDELnd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Apr 2019 07:43:33 -0400
+Received: by mail-wr1-f68.google.com with SMTP id y7so7568222wrn.11
+        for <linux-doc@vger.kernel.org>; Fri, 05 Apr 2019 04:43:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=d24gn8MXLqPfD+VHlRDBI4mUJhGpi39oRyOuo8AC4r0=;
-        b=IW58vXoc1jtKO3LcOvipng5XvFizmAx5AmdFk7JAMzClAMP31ylNhg99PvMJZRthmq
-         KHzCshEMD/t6EMJFnPC6IkD7SFSAWXqv//gz2t0Vw2c9qkN1J5Lo2wxghUJ18JseadZr
-         rUUO/edEda5W0PZz3NHBQv0Fth6+gNWOYcVMa3ElkWSPVxK2o7h0/j9axWcriM/okDAH
-         xCeQISIZ+CHChTbmBEQZnpdosliz3Z7iXrvOtcBxgZB7foOiXcyeb2qxbMiNxHVuB/0B
-         nHAAgiJEPLYApnYWpo77hJdmvfEnby0B9ustaTGyp2OFfHNvhAZ0umeIR5VlUZ/5lePs
-         rBBA==
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=gpfxNDWzN/lDwOzvYsaszMMS2bWA067N9o6KMdno+Sg=;
+        b=VEtENkkChRlawaWLGL0UktdTMqQvT6OIdAqkP1vVlh5CM+ixrKMGoJIJd3Tai3Vzn2
+         ijrv5I/k+JzIyztt3GpNXlhq+XRFdfDNqrF3MnzZn+f1aZhMvRTZDVKQ3HQ9zuCs734W
+         4rFzXzw7jM6qc0obHbli+/rDVbeym7gpZNCxiAIboEXeV/gjvkppGczGiLX7prNr5JlD
+         mGKlhn2vzzf00B9kKfvzHivnT5yRNMkmbcfdTDPhOkjaF759XUaUArY7A32yXwcQb5Hr
+         jub2Qx5YKDUxga4/UfHhMmeV7JRTx/sEm6vGGVP2IfqjHCyKAk0QywbaGT5yd9TNZQgO
+         b60w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=d24gn8MXLqPfD+VHlRDBI4mUJhGpi39oRyOuo8AC4r0=;
-        b=Ib8F+aH8Oe7LluAJS1UYU7u7buZS85bI66mr327vONGkncR2k82zF4DrW6+iNTuAqI
-         ik/1Mtxr3annOO9W1FGahpyh1WVbWF9OXz9OHfM9OlMYiqOA1ULAn7Ygc0GAAJ0k4263
-         OIl4fRD9FD4DUoxG3e/qITOUgoxfeLyi9Veka/gnGAAb03YQHRx5DpzMzftM7PIrFHau
-         eH3qxwPRaJrq/G4tSuaGQQOYDUVDXQdnlCGQUZe3/wzsFNVxwQvI0ZsE+vIL6ahHALub
-         Y43sPfrZkGEG7t3LbIQXAojdE4cR/XmO3UfhS2v36QjQdkDs5W2zcc3A+JRv/UMhbYy/
-         46MA==
-X-Gm-Message-State: APjAAAXEd+nGdKSN0BhQkdHgq/+sIPQuttr1Ena1IHn/Cc6GgXjeHtnf
-        OMltgNzCIbOJoi0TsiyPlW0=
-X-Google-Smtp-Source: APXvYqyrEpEKj0yVaXGnUiJ/uqt48m+5yV5HQbGa9YBERL5FKVvMwQYotpCL6vR7KrjPKk2uTvggiw==
-X-Received: by 2002:aa7:9116:: with SMTP id 22mr9766718pfh.165.1554432282422;
-        Thu, 04 Apr 2019 19:44:42 -0700 (PDT)
-Received: from mail.google.com ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id c130sm33753748pfb.145.2019.04.04.19.44.38
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 04 Apr 2019 19:44:41 -0700 (PDT)
-Date:   Fri, 5 Apr 2019 10:44:35 +0800
-From:   Changbin Du <changbin.du@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Changbin Du <changbin.du@gmail.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Bjorn Helgaas <helgaas@kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 00/24] Include linux ACPI docs into Sphinx TOC tree
-Message-ID: <20190405024350.rbwbiaxjybrmqea6@mail.google.com>
-References: <20190329001135.15847-1-changbin.du@gmail.com>
- <CAJZ5v0gKX9E+U_9eKfTr7pWGH=jxMLz_Jr850-6BcbG3xBz5qg@mail.gmail.com>
- <CAJZ5v0jbCi3Jgn5YXPCP+zgs-O7z-9_3p3XZGvm40_6RDsJqkQ@mail.gmail.com>
- <20190403133613.13f3fd75@lwn.net>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=gpfxNDWzN/lDwOzvYsaszMMS2bWA067N9o6KMdno+Sg=;
+        b=WU/2s2CbwuRndPoNtFG9NHDfSWTETsAhfw07L3dcbmlnmOJfq01n+tl9vCPFolAuVO
+         4wzPxr66H+U4SffLCKrmiMiouPNTYseuxtZSuUxW5EllHO+VJ+kGqOOL1zuU/KE0g4N3
+         GS8KIqHFuxskZ9elgSegaNHHuOcZsmTbkmQ7d7zXgPxrjfCr+6CUvAw/KP+IVNQwZGqW
+         CfU/FnjxPE74TvA1KDYIeKs6mL6E0bP+LGsNqIeZY7mreaex1B69BnrQAlqJeBYrb1vt
+         RgEh581Nl5LFdK+85SNP9/R6lY/KLd0hA829e5LuVNcSFMvDXFS+Kcr7uCSiz2vvNSBJ
+         84cA==
+X-Gm-Message-State: APjAAAUXcnSMP2wCau1QDGmQCNNg6irni01fel17mEjI5uP42V0XBDZj
+        5mjZAUe2+2Z0nMdI3DeI1ZyitZzFzOH2HoYx2/EzSg==
+X-Google-Smtp-Source: APXvYqxNhn/S888Oagmx6upP9dvFkew+zCKkT/hl+Jj/FWTLJNOGsjms5kXSveGWQFKaTn6E/NMw4uXDVNDmyzFNjrM=
+X-Received: by 2002:adf:e9c1:: with SMTP id l1mr8021048wrn.270.1554464612316;
+ Fri, 05 Apr 2019 04:43:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190403133613.13f3fd75@lwn.net>
-User-Agent: NeoMutt/20180716
+References: <20190403205652.183496-1-sean@poorly.run>
+In-Reply-To: <20190403205652.183496-1-sean@poorly.run>
+From:   Maxime Jourdan <mjourdan@baylibre.com>
+Date:   Fri, 5 Apr 2019 13:43:21 +0200
+Message-ID: <CAMO6nax7zzzgAzh=F+JTSb6+KxZrOGZAX-t2G8JbyRBubDk6fw@mail.gmail.com>
+Subject: Re: [PATCH] Documentation/gpu/meson: Remove link to meson_canvas.c
+To:     Sean Paul <sean@poorly.run>
+Cc:     dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-+ Bjorn
-
-On Wed, Apr 03, 2019 at 01:36:13PM -0600, Jonathan Corbet wrote:
-> On Tue, 2 Apr 2019 10:25:23 +0200
-> "Rafael J. Wysocki" <rafael@kernel.org> wrote:
-> 
-> > There are ACPI-related documents currently in Documentation/acpi/ that
-> > don't clearly fall under either driver-api or admin-guide.  For
-> > example, some of them describe various aspects of the ACPI support
-> > subsystem operation and some document expectations with respect to the
-> > ACPI tables provided by the firmware etc.
-> > 
-> > Where would you recommend to put them after converting to .rst?
-> 
-> OK, I've done some pondering on this.  Maybe what we need is a new
-> top-level "hardware guide" book meant to hold information on how the
-> hardware works and what the kernel's expectations are.  Architecture
-> information could maybe go there too.  Would this make sense?
-> 
-> If so, I could see a division like this:
-> 
-> Hardware guide
-> 	acpi-lid
-> 	aml-debugger (or maybe driver api?)
-> 	debug (ditto)
-> 	DSD-properties-rules
-> 	gpio-properties
-> 	i2c-muxes
-> 
-> Admin guide
-> 	cppc_sysfs
-> 	initrd_table_override
-> 
-> Driver-API
-> 	enumeration
-> 	scan_handlers
-> 
-> other:
-> 	dsdt-override: find another home for those five lines
+Hi Sean,
+On Wed, Apr 3, 2019 at 10:56 PM Sean Paul <sean@poorly.run> wrote:
 >
-Then, should we create dedicated sub-directories for these new charpters and
-move documents to coresspoding one? Now we have 'admin-guide' and all admin-guid
-docs are under it, otherwise we will have reference across different folders.
-For example, the 'admin-guide/index.rst' will have:
-    ...
-    ../acpi/osi
-    ...
-Which seems not good.
-
-> ...and so on.  I've probably gotten at least one of those wrong, but that's
-> the idea.
-> 
-> Of course, then it would be nice to better integrate those documents so
-> that they fit into a single coherent whole...a guy can dream...:)
+> From: Sean Paul <seanpaul@chromium.org>
 >
-I am not an adminstrator, so I don't know how adminstrators use this kernel
-documentation. But as a kernel developer, I prefer all related documents
-integrated into one charpter. Because I probably miss some useful sections
-if the documents are distributed into several charpters. And this is usually
-how a book is written (One charpter focus on one topic and has sub-sections
-such as overview, backgroud knowledge, implemenation details..),
-but a book mostly target on hypothetical readers...
+> The file was removed in the below patch and is causing this error:
+> WARNING: kernel-doc '../scripts/kernel-doc -rst -enable-lineno -function Canvas ../drivers/gpu/drm/meson/meson_canvas.c' failed with return code
+>
+> Fixes: 2bf6b5b0e374 ("drm/meson: exclusively use the canvas provider module")
+> Cc: Maxime Jourdan <mjourdan@baylibre.com>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Kevin Hilman <khilman@baylibre.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-amlogic@lists.infradead.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> ---
+>  Documentation/gpu/meson.rst | 6 ------
+>  1 file changed, 6 deletions(-)
+>
+> diff --git a/Documentation/gpu/meson.rst b/Documentation/gpu/meson.rst
+> index 479f6f51a13b..b9e2f9aa3bd8 100644
+> --- a/Documentation/gpu/meson.rst
+> +++ b/Documentation/gpu/meson.rst
+> @@ -42,12 +42,6 @@ Video Encoder
+>  .. kernel-doc:: drivers/gpu/drm/meson/meson_venc.c
+>     :doc: Video Encoder
+>
+> -Video Canvas Management
+> -=======================
+> -
+> -.. kernel-doc:: drivers/gpu/drm/meson/meson_canvas.c
+> -   :doc: Canvas
+> -
+>  Video Clocks
+>  ============
+>
+> --
+> Sean Paul, Software Engineer, Google / Chromium OS
+>
 
-> Thanks,
-> 
-> jon
+Thanks for the patch, I missed that completely!
 
--- 
-Cheers,
-Changbin Du
+Maxime
