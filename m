@@ -5,30 +5,30 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EC4D67D8A4
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Apr 2019 21:18:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3C1D57D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Apr 2019 21:44:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726218AbfDEVSX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 5 Apr 2019 17:18:23 -0400
-Received: from mga01.intel.com ([192.55.52.88]:26008 "EHLO mga01.intel.com"
+        id S1726206AbfDEVoz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 5 Apr 2019 17:44:55 -0400
+Received: from mga11.intel.com ([192.55.52.93]:51871 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725967AbfDEVSX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 5 Apr 2019 17:18:23 -0400
+        id S1725973AbfDEVoz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 5 Apr 2019 17:44:55 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Apr 2019 14:18:21 -0700
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Apr 2019 14:44:54 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.60,313,1549958400"; 
-   d="scan'208";a="148469708"
+   d="scan'208";a="140486246"
 Received: from sjchrist-coffee.jf.intel.com ([10.54.74.181])
-  by orsmga002.jf.intel.com with ESMTP; 05 Apr 2019 14:18:21 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 05 Apr 2019 14:44:54 -0700
 From:   Sean Christopherson <sean.j.christopherson@intel.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] kernel-doc: Let backtick and backslash escape percent sign
-Date:   Fri,  5 Apr 2019 14:18:20 -0700
-Message-Id: <20190405211820.17617-1-sean.j.christopherson@intel.com>
+Subject: [PATCH 0/4] docs: add support for :nosymbols:
+Date:   Fri,  5 Apr 2019 14:44:49 -0700
+Message-Id: <20190405214453.18768-1-sean.j.christopherson@intel.com>
 X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -37,67 +37,35 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are a handful of instances where kernel doc comments want an
-actual '%' in the final output, e.g. vsnprintf() wants to display "%n"
-and "%p" to document format specifiers, and assembly functions that use
-a custom call ABI may want to document their register usage, e.g. %eax.
+Linux's kernel-doc directive for Sphinx allows .rst files to selectively
+include "functions", i.e. symbols, but does not allow .rst files to
+explicitly exclude symbols.  The actual kernel-doc script already
+supports excluding symbols, i.e. most of the plumbing is in place, but
+needs a bit of cleanup to get things working.
 
-Because kernel-doc unconditionally interprets '%' followed by a word
-character as a constant definition, i.e. %CONST, it's impossible to get
-an actual '%\w' when kernel-doc is used to translate comments into rst
-format.  Treat backtick and backlash as escaping '%', the former to
-handle '%' in a ``LITERAL``, and the latter to allow '%' when using
-standard formatting.
+The intended user of this is SGX, which introduces a uapi header that
+defines structs for ioctls and for a new vDSO function.  Ideally, the
+documentation for the vDSO struct will be placed into a different
+section.
 
-An alternative option would be to define a fancier set of rules for
-interpreting '%' so that explicit escaping would not be required.  For
-example, require "%CONST" to be preceded by a recognized set of
-characters, e.g. whitespace, opening parenthesis, etc...  But the list
-of recognized characters is quite large even in the current code base,
-and using '\' to escape is more common and intuitive, i.e. most people
-will naturally try doing "\%..." to get the desired formatting, whereas
-losing %CONST formatting because of an unrecognized character is likely
-to cause confusion.
+I'm sending this as a standalone series as the SGX patch set is already
+ridiculously big[1], but I can fold these patches into the SGX series
+if that's preferred.
 
-Except for the aforementioned vsnprintf(), all .html output files from
-`make htmldocs` are identical before and after this change.
+[1] https://lkml.kernel.org/r/20190320162119.4469-1-jarkko.sakkinen@linux.intel.com
 
-Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
----
- scripts/kernel-doc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 3350e498b4ce..1890deb16725 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -210,7 +210,7 @@ my $anon_struct_union = 0;
- 
- # match expressions used to find embedded type information
- my $type_constant = '\b``([^\`]+)``\b';
--my $type_constant2 = '\%([-_\w]+)';
-+my $type_constant2 = '(^|[^\`\\\])\%([-_\w]+)';
- my $type_func = '(\w+)\(\)';
- my $type_param = '\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
- my $type_fp_param = '\@(\w+)\(\)';  # Special RST handling for func ptr params
-@@ -229,7 +229,7 @@ my $type_member_func = $type_member . '\(\)';
- # these are pretty rough
- my @highlights_man = (
-                       [$type_constant, "\$1"],
--                      [$type_constant2, "\$1"],
-+                      [$type_constant2, "\$1\$2"],
-                       [$type_func, "\\\\fB\$1\\\\fP"],
-                       [$type_enum, "\\\\fI\$1\\\\fP"],
-                       [$type_struct, "\\\\fI\$1\\\\fP"],
-@@ -244,7 +244,7 @@ my $blankline_man = "";
- # rst-mode
- my @highlights_rst = (
-                        [$type_constant, "``\$1``"],
--                       [$type_constant2, "``\$1``"],
-+                       [$type_constant2, "\$1``\$2``"],
-                        # Note: need to escape () to avoid func matching later
-                        [$type_member_func, "\\:c\\:type\\:`\$1\$2\$3\\\\(\\\\) <\$1>`"],
-                        [$type_member, "\\:c\\:type\\:`\$1\$2\$3 <\$1>`"],
+Sean Christopherson (4):
+  kernel-doc: Revert "scripts/kernel-doc: Processing -nofunc for
+    functions only"
+  kernel-doc: Rename -nofunction option to -nosymbol
+  kernel-doc: Rename -function to -symbol
+  docs: sphinx: Add support :nosymbols: to exclude specific symbols
+
+ Documentation/sphinx/kerneldoc.py |  9 +++++++--
+ scripts/kernel-doc                | 19 ++++++++++---------
+ 2 files changed, 17 insertions(+), 11 deletions(-)
+
 -- 
 2.21.0
 
