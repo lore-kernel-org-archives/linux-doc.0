@@ -1,151 +1,147 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 67ECC7DE78
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  4 Apr 2019 22:12:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EAFA87D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  5 Apr 2019 02:44:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730036AbfDDWKE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 4 Apr 2019 18:10:04 -0400
-Received: from mail-qk1-f202.google.com ([209.85.222.202]:32887 "EHLO
-        mail-qk1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727441AbfDDWKD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Apr 2019 18:10:03 -0400
-Received: by mail-qk1-f202.google.com with SMTP id a188so3474100qkf.0
-        for <linux-doc@vger.kernel.org>; Thu, 04 Apr 2019 15:10:02 -0700 (PDT)
+        id S1729667AbfDECon (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 4 Apr 2019 22:44:43 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:41649 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727212AbfDECon (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Apr 2019 22:44:43 -0400
+Received: by mail-pf1-f196.google.com with SMTP id 188so2407221pfd.8;
+        Thu, 04 Apr 2019 19:44:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=HMuZC7YhYbbRbZR+3/mPo9a63tVIDjyvayAQ1BEezrw=;
-        b=BOYdV3QLi21QjMDlnUKvGYABbEqanEJfcJeRsukkvZphSbuvalPGxmKl1ZwesWtGNJ
-         TTJ8+3NFmHoU5SmVWtyZMkKu8Nyw/t+NSbDeEz3hnSewQabz9l0TOlahbUKG4mlWW+y7
-         E+UlRE3Dq9q0QgfZUw/dKPJIhCHc9qqFXPORwlb5KXQFkfpJrRmbLHnuf/2qz+1balrw
-         W0KW7J/Co45M5GP60Z0dSf/SmsF0HJ5koZpxV+84qyBA97hNSw7rj5R/U+3z8Hv1l8hg
-         uCfoyppCCi5h6KNouM/iEP8dlt2A3kMeawzxIGJ44E7EDJ0rNCnaqZhklLOMyyF1HyPk
-         fMUA==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=d24gn8MXLqPfD+VHlRDBI4mUJhGpi39oRyOuo8AC4r0=;
+        b=IW58vXoc1jtKO3LcOvipng5XvFizmAx5AmdFk7JAMzClAMP31ylNhg99PvMJZRthmq
+         KHzCshEMD/t6EMJFnPC6IkD7SFSAWXqv//gz2t0Vw2c9qkN1J5Lo2wxghUJ18JseadZr
+         rUUO/edEda5W0PZz3NHBQv0Fth6+gNWOYcVMa3ElkWSPVxK2o7h0/j9axWcriM/okDAH
+         xCeQISIZ+CHChTbmBEQZnpdosliz3Z7iXrvOtcBxgZB7foOiXcyeb2qxbMiNxHVuB/0B
+         nHAAgiJEPLYApnYWpo77hJdmvfEnby0B9ustaTGyp2OFfHNvhAZ0umeIR5VlUZ/5lePs
+         rBBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=HMuZC7YhYbbRbZR+3/mPo9a63tVIDjyvayAQ1BEezrw=;
-        b=sG/LPtVdCecVKHMXXypKgzlAUyNeW0OkPVuKIfiC/2ICy4+eLXgxBXkyY7IrtT+0eZ
-         U226LyGcdvRf0dzLNY+KYfsWgquBY9/gBBvkIXD5Z9bP3kks5zrfZXFDt2mCNfPUcycw
-         OWloZtEWkxJfi5lirh321RZsTPfjUNjJTpBca3hnnoTbxdr10+2REx+z017SLbIoWX0H
-         vV9Rz9mP7keecXvlKjEd+DvRPBIAsVPtfLXQzXvNsqVlK9XiGk+Qh7LBeFuk749mwLT/
-         Lz6rmc0CdTZEzAcU6z22icdKnkL1xBxmHdSTs21tgUoOyIKFD9dnU7YhZEQxbbzSDYAm
-         m3YA==
-X-Gm-Message-State: APjAAAVZ8m2oyRWljGM2OuUoJW8koUptyBpfbqIzsM48tkZhzH1GNF2/
-        vo9nXo0/CH21sGpm/zD/MXurePQraoaBSktgX0mfqQ==
-X-Google-Smtp-Source: APXvYqy2ky80xlMwOpOXMGTjrYk0Q3P0Z4woKg+c4LxenDRGrU/tuDoXYQsQZWjvMUl2LUV6LFTdSDNe8kgS8hF9kpSiLg==
-X-Received: by 2002:a0c:ea90:: with SMTP id d16mr1127285qvp.27.1554415802221;
- Thu, 04 Apr 2019 15:10:02 -0700 (PDT)
-Date:   Thu,  4 Apr 2019 15:06:35 -0700
-Message-Id: <20190404220652.19765-1-brendanhiggins@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.21.0.392.gf8f6787159e-goog
-Subject: [PATCH v1 00/17] kunit: introduce KUnit, the Linux kernel unit
- testing framework
-From:   Brendan Higgins <brendanhiggins@google.com>
-To:     corbet@lwn.net, frowand.list@gmail.com, keescook@google.com,
-        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
-        robh@kernel.org, shuah@kernel.org, yamada.masahiro@socionext.com
-Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
-        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
-        amir73il@gmail.com, dan.carpenter@oracle.com,
-        dan.j.williams@intel.com, daniel@ffwll.ch,
-        gregkh@linuxfoundation.org, jdike@addtoit.com, joel@jms.id.au,
-        julia.lawall@lip6.fr, khilman@baylibre.com, knut.omang@oracle.com,
-        mpe@ellerman.id.au, pmladek@suse.com, richard@nod.at,
-        rostedt@goodmis.org, wfg@linux.intel.com,
-        Brendan Higgins <brendanhiggins@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=d24gn8MXLqPfD+VHlRDBI4mUJhGpi39oRyOuo8AC4r0=;
+        b=Ib8F+aH8Oe7LluAJS1UYU7u7buZS85bI66mr327vONGkncR2k82zF4DrW6+iNTuAqI
+         ik/1Mtxr3annOO9W1FGahpyh1WVbWF9OXz9OHfM9OlMYiqOA1ULAn7Ygc0GAAJ0k4263
+         OIl4fRD9FD4DUoxG3e/qITOUgoxfeLyi9Veka/gnGAAb03YQHRx5DpzMzftM7PIrFHau
+         eH3qxwPRaJrq/G4tSuaGQQOYDUVDXQdnlCGQUZe3/wzsFNVxwQvI0ZsE+vIL6ahHALub
+         Y43sPfrZkGEG7t3LbIQXAojdE4cR/XmO3UfhS2v36QjQdkDs5W2zcc3A+JRv/UMhbYy/
+         46MA==
+X-Gm-Message-State: APjAAAXEd+nGdKSN0BhQkdHgq/+sIPQuttr1Ena1IHn/Cc6GgXjeHtnf
+        OMltgNzCIbOJoi0TsiyPlW0=
+X-Google-Smtp-Source: APXvYqyrEpEKj0yVaXGnUiJ/uqt48m+5yV5HQbGa9YBERL5FKVvMwQYotpCL6vR7KrjPKk2uTvggiw==
+X-Received: by 2002:aa7:9116:: with SMTP id 22mr9766718pfh.165.1554432282422;
+        Thu, 04 Apr 2019 19:44:42 -0700 (PDT)
+Received: from mail.google.com ([104.238.181.70])
+        by smtp.gmail.com with ESMTPSA id c130sm33753748pfb.145.2019.04.04.19.44.38
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 04 Apr 2019 19:44:41 -0700 (PDT)
+Date:   Fri, 5 Apr 2019 10:44:35 +0800
+From:   Changbin Du <changbin.du@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Changbin Du <changbin.du@gmail.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Bjorn Helgaas <helgaas@kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2 00/24] Include linux ACPI docs into Sphinx TOC tree
+Message-ID: <20190405024350.rbwbiaxjybrmqea6@mail.google.com>
+References: <20190329001135.15847-1-changbin.du@gmail.com>
+ <CAJZ5v0gKX9E+U_9eKfTr7pWGH=jxMLz_Jr850-6BcbG3xBz5qg@mail.gmail.com>
+ <CAJZ5v0jbCi3Jgn5YXPCP+zgs-O7z-9_3p3XZGvm40_6RDsJqkQ@mail.gmail.com>
+ <20190403133613.13f3fd75@lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190403133613.13f3fd75@lwn.net>
+User-Agent: NeoMutt/20180716
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch set proposes KUnit, a lightweight unit testing and mocking
-framework for the Linux kernel.
++ Bjorn
 
-Unlike Autotest and kselftest, KUnit is a true unit testing framework;
-it does not require installing the kernel on a test machine or in a VM
-and does not require tests to be written in userspace running on a host
-kernel. Additionally, KUnit is fast: From invocation to completion KUnit
-can run several dozen tests in under a second. Currently, the entire
-KUnit test suite for KUnit runs in under a second from the initial
-invocation (build time excluded).
+On Wed, Apr 03, 2019 at 01:36:13PM -0600, Jonathan Corbet wrote:
+> On Tue, 2 Apr 2019 10:25:23 +0200
+> "Rafael J. Wysocki" <rafael@kernel.org> wrote:
+> 
+> > There are ACPI-related documents currently in Documentation/acpi/ that
+> > don't clearly fall under either driver-api or admin-guide.  For
+> > example, some of them describe various aspects of the ACPI support
+> > subsystem operation and some document expectations with respect to the
+> > ACPI tables provided by the firmware etc.
+> > 
+> > Where would you recommend to put them after converting to .rst?
+> 
+> OK, I've done some pondering on this.  Maybe what we need is a new
+> top-level "hardware guide" book meant to hold information on how the
+> hardware works and what the kernel's expectations are.  Architecture
+> information could maybe go there too.  Would this make sense?
+> 
+> If so, I could see a division like this:
+> 
+> Hardware guide
+> 	acpi-lid
+> 	aml-debugger (or maybe driver api?)
+> 	debug (ditto)
+> 	DSD-properties-rules
+> 	gpio-properties
+> 	i2c-muxes
+> 
+> Admin guide
+> 	cppc_sysfs
+> 	initrd_table_override
+> 
+> Driver-API
+> 	enumeration
+> 	scan_handlers
+> 
+> other:
+> 	dsdt-override: find another home for those five lines
+>
+Then, should we create dedicated sub-directories for these new charpters and
+move documents to coresspoding one? Now we have 'admin-guide' and all admin-guid
+docs are under it, otherwise we will have reference across different folders.
+For example, the 'admin-guide/index.rst' will have:
+    ...
+    ../acpi/osi
+    ...
+Which seems not good.
 
-KUnit is heavily inspired by JUnit, Python's unittest.mock, and
-Googletest/Googlemock for C++. KUnit provides facilities for defining
-unit test cases, grouping related test cases into test suites, providing
-common infrastructure for running tests, mocking, spying, and much more.
+> ...and so on.  I've probably gotten at least one of those wrong, but that's
+> the idea.
+> 
+> Of course, then it would be nice to better integrate those documents so
+> that they fit into a single coherent whole...a guy can dream...:)
+>
+I am not an adminstrator, so I don't know how adminstrators use this kernel
+documentation. But as a kernel developer, I prefer all related documents
+integrated into one charpter. Because I probably miss some useful sections
+if the documents are distributed into several charpters. And this is usually
+how a book is written (One charpter focus on one topic and has sub-sections
+such as overview, backgroud knowledge, implemenation details..),
+but a book mostly target on hypothetical readers...
 
-## What's so special about unit testing?
-
-A unit test is supposed to test a single unit of code in isolation,
-hence the name. There should be no dependencies outside the control of
-the test; this means no external dependencies, which makes tests orders
-of magnitudes faster. Likewise, since there are no external dependencies,
-there are no hoops to jump through to run the tests. Additionally, this
-makes unit tests deterministic: a failing unit test always indicates a
-problem. Finally, because unit tests necessarily have finer granularity,
-they are able to test all code paths easily solving the classic problem
-of difficulty in exercising error handling code.
-
-## Is KUnit trying to replace other testing frameworks for the kernel?
-
-No. Most existing tests for the Linux kernel are end-to-end tests, which
-have their place. A well tested system has lots of unit tests, a
-reasonable number of integration tests, and some end-to-end tests. KUnit
-is just trying to address the unit test space which is currently not
-being addressed.
-
-## More information on KUnit
-
-There is a bunch of documentation near the end of this patch set that
-describes how to use KUnit and best practices for writing unit tests.
-For convenience I am hosting the compiled docs here:
-https://google.github.io/kunit-docs/third_party/kernel/docs/
-Additionally for convenience, I have applied these patches to a branch:
-https://kunit.googlesource.com/linux/+/kunit/rfc/v5.1-rc2/v1
-The repo may be cloned with:
-git clone https://kunit.googlesource.com/linux
-This patchset is on the kunit/rfc/v5.1-rc2/v1 branch.
-
-## Changes Since Last Version
-
-Last version was RFC v4. It seemed we were pretty much done with the RFC
-phase, so I started the numbering over again. Sorry if anyone finds that
-confusing.
-
- - Reduced usage of object oriented style of member functions as
-   suggested by Frank.
- - Did a bunch of heavy clean up of the kunit_abort stuff as suggested
-   by Frank and Stephen:
-   - Biggest change was to reduce the usage of direct calls of member
-     functions.
-   - Added a better explanation of what abort is for and further
-     explained the rationale for KUNIT_ASSERT_* vs. KUNIT_EXPECT_*
-   - Dropped BUG() usage
-   - Also moved try_catch interface to a new file since it seemed
-     obscured by being mixed in with the code that used it.
- - Fixed some other minor issues pointed out by Stephen.
- - Updated email address of one of the contributors.
- - Dropped DT unittest port since it seemed like there was a lot more
-   discussion to be had: it wasn't ready to leave the RFC phase.
-   Instead, I added a KUnit test written by Iurii for PROC SYSCTL that
-   was requested by Luis some time ago.
-
-For reference, RFC v4 can be found here:
-https://lkml.org/lkml/2019/2/14/1144
+> Thanks,
+> 
+> jon
 
 -- 
-2.21.0.392.gf8f6787159e-goog
-
+Cheers,
+Changbin Du
