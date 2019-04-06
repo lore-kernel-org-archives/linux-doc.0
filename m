@@ -1,85 +1,72 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-3.5 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	FORGED_GMAIL_RCVD,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_BL_SPAMCOP_NET,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ED92D7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Apr 2019 06:33:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 414627D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Apr 2019 07:55:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726240AbfDHGdk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Apr 2019 02:33:40 -0400
-Received: from Galois.linutronix.de ([146.0.238.70]:51363 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725881AbfDHGdk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Apr 2019 02:33:40 -0400
-Received: from p5492ee6e.dip0.t-ipconnect.de ([84.146.238.110] helo=nanos)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tglx@linutronix.de>)
-        id 1hDNpr-0002VI-W7; Mon, 08 Apr 2019 08:32:52 +0200
-Date:   Mon, 8 Apr 2019 08:32:50 +0200 (CEST)
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-cc:     Hanjun Guo <guohanjun@huawei.com>,
-        Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
-        John Garry <john.garry@huawei.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Sebastian Ott <sebott@linux.ibm.com>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        iommu <iommu@lists.linux-foundation.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        x86 <x86@kernel.org>, linux-ia64 <linux-ia64@vger.kernel.org>
-Subject: Re: [PATCH v4 0/6] normalize IOMMU dma mode boot options
-In-Reply-To: <5CAABD03.9000301@huawei.com>
-Message-ID: <alpine.DEB.2.21.1904080829490.1840@nanos.tec.linutronix.de>
-References: <20190407124147.13576-1-thunder.leizhen@huawei.com> <b20fd8a6-88ce-7d26-8eb0-ed9f095988a6@huawei.com> <5CAABD03.9000301@huawei.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        id S1725877AbfDHHzQ convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Apr 2019 03:55:16 -0400
+Received: from [190.15.134.162] ([190.15.134.162]:48865 "EHLO
+        ceneica.cees.edu.ec" rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725871AbfDHHzQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Apr 2019 03:55:16 -0400
+Received: from [10.10.100.4] (port=53956 helo=mail.tes.edu.ec)
+        by ceneica.cees.edu.ec with esmtp (Exim 4.91)
+        (envelope-from <infoadvocatenrafvedatraf@gmail.com>)
+        id 1hDG9z-00073y-VQ; Sun, 07 Apr 2019 17:21:07 -0500
+Received: from localhost (unknown [127.0.0.1])
+        by mail.tes.edu.ec (Postfix) with ESMTP id DC75B725B87;
+        Sun,  7 Apr 2019 03:59:49 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at localhost.localdomain
+Received: from mail.tes.edu.ec ([127.0.0.1])
+        by localhost (mail.tes.edu.ec [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id hqeMGvMDNtql; Sat,  6 Apr 2019 22:59:41 -0500 (ECT)
+Received: from DESKTOP-ODLSHB5.fritz.box (unknown [10.10.100.1])
+        by mail.tes.edu.ec (Postfix) with ESMTP id CA72071185F;
+        Fri,  5 Apr 2019 19:57:05 -0500 (ECT)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: Vidat Advocaten
+To:     Recipients <infoadvocatenrafvedatraf@gmail.com>
+From:   "Vidat Advocaten" <infoadvocatenrafvedatraf@gmail.com>
+Date:   Sat, 06 Apr 2019 03:23:42 +0200
+Reply-To: info_advocatenrafvedat@yahoo.be
+Message-Id: <20190406005705.CA72071185F@mail.tes.edu.ec>
+X-Sophos-OBS: success
+X-CTCH-PVer:  0000001
+X-CTCH-Spam:  Suspect
+X-CTCH-VOD:  Unknown
+X-CTCH-Flags:  0
+X-CTCH-RefID:  str=0001.0A020206.5CAA77D7.0032,ss=2,re=0.000,recu=0.000,reip=0.000,cl=2,cld=1,fgs=0
+X-CTCH-Score:  0.000
+X-CTCH-ScoreCust:  0.000
+X-CTCH-Rules:  
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 8 Apr 2019, Leizhen (ThunderTown) wrote:
-> > 
-> > This will break systems using boot options as now, and I think
-> > this is unacceptable. If you want to do so, just introduce iommu.dma_mode
-> > on top of those iommu boot options with dma mode boot options unchanged,
-> > and iommu.dma_mode is for all archs but compatible with them.
-> 
-> I just changed the boot options name, but keep the function no change. I added
-> all related maintainers/supporters in the "to=" list, maybe we can disuss this.
 
-Changing the name _IS_ the problem. Think about unattended updates.
+Hello,
 
-> Should I add some "obsoleted" warnings for old options and keep them for a while?
+I have a business proposal for you.
 
-No, just keep the old options around for backwards compatibilty sake. We
-just do not add new arch specific options in the future. New options need
-to use the generic iommu.dma_mode name space.
+I will give you further details if you are interested
 
-Thanks,
+I like to hear from you soon.
 
-	tglx
+Best regards,
+
+Vidat Advocaten
+
+-- 
+This email was Malware checked by SOPHOS XG. http://www.sophos.com
