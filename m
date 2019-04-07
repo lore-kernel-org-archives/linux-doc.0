@@ -1,120 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 66A327D04D
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  6 Apr 2019 10:16:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 09DAB7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  7 Apr 2019 12:48:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726353AbfDFKQl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 6 Apr 2019 06:16:41 -0400
-Received: from mout.gmx.net ([212.227.17.22]:44695 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726232AbfDFKQl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 6 Apr 2019 06:16:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1554545795;
-        bh=WMu1Dlw9XfRKfnYC3A9CbwmjJ2Zo3HlUC/L5YBzwWsw=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=XfWcDdH1OABUk7FTkRW+/G5G1OatMjhHD50gkEkrYyEKxqnZ9lqs+vKIQ1BBTnq8s
-         v5cgc1DvNGmiFFNGZRDbLs5R8XkxscnCZ/kSn/8K0w152OLKjQeqeo/QRI7SoYShz9
-         AU+pYyoQyQQVjv33OJ+TIcA5fvBkpd8tnJ8zkv/A=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([109.90.232.48]) by mail.gmx.com (mrgmx103
- [212.227.17.168]) with ESMTPSA (Nemesis) id 0MeQ43-1hYLKm2Rrj-00QA8U; Sat, 06
- Apr 2019 12:16:35 +0200
-From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     linux-doc@vger.kernel.org
-Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        id S1726368AbfDGMsJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 7 Apr 2019 08:48:09 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:5695 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726049AbfDGMsJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 7 Apr 2019 08:48:09 -0400
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id BCA5B2E388295C2AE7BA;
+        Sun,  7 Apr 2019 20:48:05 +0800 (CST)
+Received: from HGHY1l002753561.china.huawei.com (10.177.23.164) by
+ DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
+ 14.3.408.0; Sun, 7 Apr 2019 20:47:58 +0800
+From:   Zhen Lei <thunder.leizhen@huawei.com>
+To:     Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
+        John Garry <john.garry@huawei.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Joerg Roedel <joro@8bytes.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Martin Kepplinger <martink@posteo.de>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2] Documentation: kernel-docs: Remove entry for vfs.txt
-Date:   Sat,  6 Apr 2019 12:15:27 +0200
-Message-Id: <20190406101528.23500-1-j.neuschaefer@gmx.net>
-X-Mailer: git-send-email 2.20.1
+        linux-doc <linux-doc@vger.kernel.org>,
+        Sebastian Ott <sebott@linux.ibm.com>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        "Martin Schwidefsky" <schwidefsky@de.ibm.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        "Michael Ellerman" <mpe@ellerman.id.au>,
+        Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        iommu <iommu@lists.linux-foundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        x86 <x86@kernel.org>, linux-ia64 <linux-ia64@vger.kernel.org>
+CC:     Zhen Lei <thunder.leizhen@huawei.com>,
+        Hanjun Guo <guohanjun@huawei.com>
+Subject: [PATCH v4 0/6] normalize IOMMU dma mode boot options
+Date:   Sun, 7 Apr 2019 20:41:41 +0800
+Message-ID: <20190407124147.13576-1-thunder.leizhen@huawei.com>
+X-Mailer: git-send-email 2.19.2.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:3Dx3kq8FU5yy6oG9yDrxJBsIcnADxAiQIgDO97ApXILEFvTIkBf
- bk6X/b3WgXA3lDeZaA9L1XpOmz6JaOS3B+XmKagSHra6vwBEIJSONwsPFXBQ+vNiuyVp7AL
- ocRFCeG8sDJesbVYRcQW2zd3cptGVayj9FNajlYPSA18l52zEoSLMyblETZeSpEBNqYNHiX
- u3XrvxnAbSJCUHZIsqoTQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:pn9NrLoPegk=:yCBz28wc5780slHnIk8cqZ
- bsPF4B/J87WfR+NVyoY7YKSBmV2PwyKB6Chjdo4p3nWbz5JHz+rO6gHBIFHJIYOUivYdilFct
- OSyVK9v0yOzA2l1u3R8aiguWGfiCpM+gD2ECyJrf9k1X7hc9tdGp56jWao2+8rWLmF5/iNfRZ
- UByqRl+Udb2Ytp/hzXTZxGork/BT0+C5SR3MAsGys3w69kCrtjaEPUKjjr9uQfpmATVOhYpKS
- 2B0MPNwE2/uJkSGRSa20Q30x0GpmZPoJNpzFEB7NQrLxEQ4X5NPQeuLpu/NfecZG9OmK+nr8u
- g6CqwMMR2LcBsQCToqsl09Zy56H4mD3iUav+jBPuTQsCYJkKBNSn5v7mIVyRrcqeEDl+OxY31
- hZKIkk//GQr4yvyUCWEpKGNMbQ1P/SfDxsikdbrlXt4t35UYQ2PwCrAeI8DrDSVaMpj8q8CbW
- EQjK0H6GKSv8LwQEBRvRzQ9F6gwbUYtnf5VVyYXB4yNn/Xks7eP9vjE5fb5KDpq9GXQ0N1DKj
- 4bmBIL5yA978b+mkS50u3urBk1082NcJZhjpz3ldGYTOLBC2zdsXjnMVEqELGFSIUGk8bPqdM
- 8IbQNKx1iwbXiEv9ROnljNqa8r+M33Pa5GirFGYERPIVeGH1Qs2ESWqCJHCSqy+oylR8a8Ggl
- 9NtMma7PEE4XZHZ7W72G430LwNn1RzckCFO9Nny7fk93T1kPsfOYPMOcC4kWllaMoygjYA2Jn
- tJt9plH3L0E8BMWSN0hMLcIFcjOstCVt+nu7rXuZ70QVYUk55UuWFGojR8fbpW+OpkYSp5w97
- xUQhrtzaVb5netIbyJR6eWhoXbsdJohbdwGlEqnYhDDtfKGUkuQ/bksMiRKndn0Hay8wr2TND
- ZggOVVfGkK4+eDCnjAbPB9Lm7g94EjtzGZCEZvKtGSITzaPoArBGLm/obmITnQ9L+tqvTPxdL
- LgK6mO7f8Ag==
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.177.23.164]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It's unnecessary to point to an external mirror of the Documentation
-directory.
+As Robin Murphy's suggestion:
+"It's also not necessarily obvious to the user how this interacts with
+IOMMU_DEFAULT_PASSTHROUGH, so if we really do go down this route, maybe it
+would be better to refactor the whole lot into a single selection of something
+like IOMMU_DEFAULT_MODE anyway."
 
-Jonathan Corbet writes in favor of removing this entry, instead of
-moving it under "Docs at the Linux Kernel tree":
+In this version, I tried to normalize the IOMMU dma mode boot options for all
+ARCHs. When IOMMU is enabled, there are 3 dma modes: paasthrough(bypass),
+lazy(mapping but defer the IOTLB invalidation), strict. But currently each
+ARCHs defined their private boot options, different with each other. For
+example, to enable/disable "passthrough", ARM64 use iommu.passthrough=1/0,
+X86 use iommu=pt/nopt, PPC/POWERNV use iommu=nobypass.
 
-> We don't want to turn kernel-docs.rst into yet another out-of-date
-> index for the rest of Documentation/, and the removal of the external
-> URL takes away the only bit of additional information that this entry
-> offers.
 
-Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
-=2D--
+Zhen Lei (6):
+  iommu: use iommu.dma_mode to replace iommu.passthrough and
+    iommu.strict
+  iommu: keep dma mode build options consistent with cmdline options
+  iommu: add iommu_default_dma_mode_get() helper
+  s390/pci: use common boot option iommu.dma_mode
+  powernv/iommu: use common boot option iommu.dma_mode
+  x86/iommu: use common boot option iommu.dma_mode
 
-v2:
-- Follow Jonathan Corbet's suggestion of dropping this list entry
-  entirely
-- I didn't include Martin Kepplinger's R-b, because v2 is significantly
-  different from v1
+ Documentation/admin-guide/kernel-parameters.txt | 42 +++++++-------------
+ arch/ia64/include/asm/iommu.h                   |  2 -
+ arch/ia64/kernel/pci-dma.c                      |  2 -
+ arch/powerpc/platforms/powernv/pci-ioda.c       | 23 +----------
+ arch/s390/pci/pci_dma.c                         | 20 +++-------
+ arch/x86/include/asm/iommu.h                    |  1 -
+ arch/x86/kernel/pci-dma.c                       | 20 ----------
+ drivers/iommu/Kconfig                           | 36 ++++++++++++++---
+ drivers/iommu/amd_iommu.c                       | 12 +++---
+ drivers/iommu/amd_iommu_init.c                  |  4 --
+ drivers/iommu/amd_iommu_types.h                 |  6 ---
+ drivers/iommu/intel-iommu.c                     |  7 +---
+ drivers/iommu/iommu.c                           | 52 ++++++++++++++++---------
+ include/linux/iommu.h                           | 16 ++++++++
+ 14 files changed, 108 insertions(+), 135 deletions(-)
 
-v1:
-https://lore.kernel.org/lkml/20190331221439.22892-1-j.neuschaefer@gmx.net/
-=2D--
- Documentation/process/kernel-docs.rst | 12 ------------
- 1 file changed, 12 deletions(-)
+-- 
+1.8.3
 
-diff --git a/Documentation/process/kernel-docs.rst b/Documentation/process=
-/kernel-docs.rst
-index ab12dddc773e..7a45a8e36ea7 100644
-=2D-- a/Documentation/process/kernel-docs.rst
-+++ b/Documentation/process/kernel-docs.rst
-@@ -95,18 +95,6 @@ On-line docs
-         [...]. This paper examines some common problems for
-         submitting larger changes and some strategies to avoid problems.
-
--    * Title: **Overview of the Virtual File System**
--
--      :Author: Richard Gooch.
--      :URL: http://www.mjmwired.net/kernel/Documentation/filesystems/vfs.=
-txt
--      :Date: 2007
--      :Keywords: VFS, File System, mounting filesystems, opening files,
--        dentries, dcache.
--      :Description: Brief introduction to the Linux Virtual File System.
--        What is it, how it works, operations taken when opening a file or
--        mounting a file system and description of important data
--        structures explaining the purpose of each of their entries.
--
-     * Title: **Linux Device Drivers, Third Edition**
-
-       :Author: Jonathan Corbet, Alessandro Rubini, Greg Kroah-Hartman
-=2D-
-2.20.1
 
