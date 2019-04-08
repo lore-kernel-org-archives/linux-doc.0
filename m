@@ -1,230 +1,212 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 33AD57D099
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Apr 2019 18:29:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E1CC37D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Apr 2019 20:36:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729242AbfDHS3P (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Apr 2019 14:29:15 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:50268 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728741AbfDHS3O (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Apr 2019 14:29:14 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x38INkIH051740
-        for <linux-doc@vger.kernel.org>; Mon, 8 Apr 2019 14:29:13 -0400
-Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2rr9hdwfdm-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 08 Apr 2019 14:29:13 -0400
-Received: from localhost
-        by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Mon, 8 Apr 2019 19:29:12 +0100
-Received: from b01cxnp23033.gho.pok.ibm.com (9.57.198.28)
-        by e14.ny.us.ibm.com (146.89.104.201) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Mon, 8 Apr 2019 19:29:09 +0100
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x38IT81R36110428
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 8 Apr 2019 18:29:08 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E9612B2064;
-        Mon,  8 Apr 2019 18:29:07 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id BBE9FB207A;
-        Mon,  8 Apr 2019 18:29:07 +0000 (GMT)
-Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.188])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Mon,  8 Apr 2019 18:29:07 +0000 (GMT)
-Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id 0FF7316C0EB6; Mon,  8 Apr 2019 11:29:11 -0700 (PDT)
-Date:   Mon, 8 Apr 2019 11:29:11 -0700
-From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     linux-kernel@vger.kernel.org, oleg@redhat.com, jannh@google.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH v2] doc/rcuref: Document real world examples in kernel
-Reply-To: paulmck@linux.ibm.com
-References: <20190329140555.118463-1-joel@joelfernandes.org>
- <20190404201039.GL14111@linux.ibm.com>
- <20190406021705.GA6615@localhost>
- <20190408175213.GT14111@linux.ibm.com>
- <20190408180859.GA133872@google.com>
+        id S1727610AbfDHUgF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Apr 2019 16:36:05 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:43117 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726005AbfDHUgF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Apr 2019 16:36:05 -0400
+Received: by mail-pf1-f195.google.com with SMTP id c8so8286430pfd.10
+        for <linux-doc@vger.kernel.org>; Mon, 08 Apr 2019 13:36:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=4Dhl77NcnEN5KNCPanFrgHMJnUkXbLOEGdhM5en3oLM=;
+        b=YTTLU2Hr1xrIzOwkNBZrU+yNsgeqXpCHEN8nbrZvwIQ26Tyy/sDU3joxh+xHs0iAdA
+         2sL0OrisYsJC1NZ29qbnc/f9anHZJjf5E9Z+A3YH6xIUrWAbd3EsqqmPYNBm9hQLpXoX
+         A4cIlgem0iConH4T2E5Gy3Wt4Do8cInBgXe5I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=4Dhl77NcnEN5KNCPanFrgHMJnUkXbLOEGdhM5en3oLM=;
+        b=UJmaRMdt5AhP+TzQBoswp+hvJqgGH5bP/mwe1lYZW/ZHVIZ7Zf0cYIVb+6se4O0pcC
+         Km46nPBkfdkyNyGrbowRWtk6H7mxbDRfKxOXL3B8fFpka95vvTnKByI17kRZ85vLRc94
+         CWU5tBJIwp2oOWmlSvW8j8MfdcVcBwpmIL0l2Ah5ZXBVWmiQa8YSZD82raKnScyUCgQM
+         aGE0jch9znwRlbLMgXQf4bI3SRUuOmDBY4qy4AjXU4pv4GvsgwmV0FbN+l5TnatLRIBM
+         bIK/Pphxzrc8vR8qkGdldCop67S+UlckdqC6ulXgRFPGOThxKUdx5tyREMH2XP0VdBJb
+         1XvA==
+X-Gm-Message-State: APjAAAVLG76ZDo/HucPPBKpedoaOysPtoL6QuAAIUDuFCYAsTRKk/hX4
+        uBHeykDEb01bkL3iI4miUVnnZA==
+X-Google-Smtp-Source: APXvYqzn/WA75BC8fBNJ94ln/jYlUftis1ggfWVqoiupDc8wfXUnPyU/CETJ92EbuJoFtiEx2RFQTg==
+X-Received: by 2002:aa7:8252:: with SMTP id e18mr31748020pfn.105.1554755763929;
+        Mon, 08 Apr 2019 13:36:03 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id n3sm51965157pfa.99.2019.04.08.13.36.02
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 08 Apr 2019 13:36:02 -0700 (PDT)
+Date:   Mon, 8 Apr 2019 16:36:01 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     Olof Johansson <olof@lixom.net>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        qais.yousef@arm.com, dietmar.eggemann@arm.com,
+        linux@manojrajarao.com, Andrew Morton <akpm@linux-foundation.org>,
+        ast@kernel.org, atishp04@gmail.com, dancol@google.com,
+        Dan Williams <dan.j.williams@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>, karim.yaghmour@opersys.com,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        mhiramat@kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Shuah Khan <shuah@kernel.org>, yhs@fb.com
+Subject: Re: [PATCH v5 1/3] Provide in-kernel headers to make extending
+ kernel easier
+Message-ID: <20190408203601.GF133872@google.com>
+References: <20190320163116.39275-1-joel@joelfernandes.org>
+ <CAOesGMheoZda84OSz9spQ7p66wot5S_9aaqaKC=QYp+8utASXA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190408180859.GA133872@google.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-x-cbid: 19040818-0052-0000-0000-000003A937AA
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00010891; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000284; SDB=6.01186219; UDB=6.00621251; IPR=6.00966976;
- MB=3.00026346; MTD=3.00000008; XFM=3.00000015; UTC=2019-04-08 18:29:11
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19040818-0053-0000-0000-0000606D2D2A
-Message-Id: <20190408182911.GV14111@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-04-08_07:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1904080146
+In-Reply-To: <CAOesGMheoZda84OSz9spQ7p66wot5S_9aaqaKC=QYp+8utASXA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 08, 2019 at 02:08:59PM -0400, Joel Fernandes wrote:
-> On Mon, Apr 08, 2019 at 10:52:13AM -0700, Paul E. McKenney wrote:
-> > On Sat, Apr 06, 2019 at 02:17:05AM +0000, Joel Fernandes wrote:
-> > > On Thu, Apr 04, 2019 at 01:10:39PM -0700, Paul E. McKenney wrote:
-> > > > On Fri, Mar 29, 2019 at 10:05:55AM -0400, Joel Fernandes (Google) wrote:
-> > > > > Document similar real world examples in the kernel corresponding to the
-> > > > > second and third code snippets. Also correct an issue in
-> > > > > release_referenced() in the code snippet example.
-> > > > > 
-> > > > > Cc: oleg@redhat.com
-> > > > > Cc: jannh@google.com
-> > > > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > > > 
-> > > > Good catch, thank you!
-> > > > 
-> > > > As usual, I could not resist doing a bit of wordsmithing.  Please let me
-> > > > know if I messed anything up in the version shown below.
-> > > > 
-> > > > 								Thanx, Paul
-> > > > 
-> > > > ------------------------------------------------------------------------
-> > > > 
-> > > > commit adcd92c0ab303b57b28a3cd097bd9ece824c14f6
-> > > > Author: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > > > Date:   Fri Mar 29 10:05:55 2019 -0400
-> > > > 
-> > > >     doc/rcuref: Document real world examples in kernel
-> > > >     
-> > > >     Document similar real world examples in the kernel corresponding to the
-> > > >     second and third code snippets. Also correct an issue in
-> > > >     release_referenced() in the code snippet example.
-> > > >     
-> > > >     Cc: oleg@redhat.com
-> > > >     Cc: jannh@google.com
-> > > >     Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > > >     [ paulmck: Do a bit of wordsmithing. ]
-> > > >     Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
-> > > > 
-> > > > diff --git a/Documentation/RCU/rcuref.txt b/Documentation/RCU/rcuref.txt
-> > > > index 613033ff2b9b..c0bab7fb57e7 100644
-> > > > --- a/Documentation/RCU/rcuref.txt
-> > > > +++ b/Documentation/RCU/rcuref.txt
-> > > > @@ -12,6 +12,7 @@ please read on.
-> > > >  Reference counting on elements of lists which are protected by traditional
-> > > >  reader/writer spinlocks or semaphores are straightforward:
-> > > >  
-> > > > +CODE LISTING A:
-> > > >  1.				2.
-> > > >  add()				search_and_reference()
-> > > >  {				{
-> > > > @@ -28,7 +29,8 @@ add()				search_and_reference()
-> > > >  release_referenced()			delete()
-> > > >  {					{
-> > > >      ...					    write_lock(&list_lock);
-> > > > -    atomic_dec(&el->rc, relfunc)	    ...
-> > > > +    if(atomic_dec_and_test(&el->rc))	    ...
-> > > > +	kfree(el);
-> > > >      ...					    remove_element
-> > > >  }					    write_unlock(&list_lock);
-> > > >   					    ...
-> > > > @@ -44,6 +46,7 @@ search_and_reference() could potentially hold reference to an element which
-> > > >  has already been deleted from the list/array.  Use atomic_inc_not_zero()
-> > > >  in this scenario as follows:
-> > > >  
-> > > > +CODE LISTING B:
-> > > >  1.					2.
-> > > >  add()					search_and_reference()
-> > > >  {					{
-> > > > @@ -79,6 +82,7 @@ search_and_reference() code path.  In such cases, the
-> > > >  atomic_dec_and_test() may be moved from delete() to el_free()
-> > > >  as follows:
-> > > >  
-> > > > +CODE LISTING C:
-> > > >  1.					2.
-> > > >  add()					search_and_reference()
-> > > >  {					{
-> > > > @@ -114,6 +118,16 @@ element can therefore safely be freed.  This in turn guarantees that if
-> > > >  any reader finds the element, that reader may safely acquire a reference
-> > > >  without checking the value of the reference counter.
-> > > >  
-> > > > +A clear advantage of the RCU-based pattern in listing C over the one
-> > > > +in listing B is that any call to search_and_reference() that locates
-> > > > +a given object will succeed in obtaining a reference to that object,
-> > > > +even given a concurrent invocation of delete() for that same object.
-> > > 
-> > > This part sounds good to me.
-> > > 
-> > > > +Similarly, a call to delete() is not delayed even if there are an
-> > > > +arbitrarily large number of calls to search_and_reference() searching
-> > > > +for the same object that delete() was invoked on.  Instead, all that is
-> > > > +delayed is the eventual invocation of kfree(), which is usually not a
-> > > > +problem on modern computer systems, even the small ones.
-> > > > +
-> > > 
-> > > small nit:
-> > > This part is common to both listing B and C right? The delete() is never
-> > > delayed due to the search_and_reference in either case, and the kfree is what
-> > > is delayed.  My patch was highlighting the difference between the 2
-> > > listings, but this text says what is common between both listings.
-> > > 
-> > > As such I am Ok with the changes you made, and thanks for this document in
-> > > the first place.
-> > 
-> > Good point!  How about the following patch to be merged into the current
-> > patch?
-> > 
-> > 							Thanx, Paul
-> > 
-> > ------------------------------------------------------------------------
-> > 
-> > diff --git a/Documentation/RCU/rcuref.txt b/Documentation/RCU/rcuref.txt
-> > index c0bab7fb57e7..5e6429d66c24 100644
-> > --- a/Documentation/RCU/rcuref.txt
-> > +++ b/Documentation/RCU/rcuref.txt
-> > @@ -122,11 +122,12 @@ A clear advantage of the RCU-based pattern in listing C over the one
-> >  in listing B is that any call to search_and_reference() that locates
-> >  a given object will succeed in obtaining a reference to that object,
-> >  even given a concurrent invocation of delete() for that same object.
-> > -Similarly, a call to delete() is not delayed even if there are an
-> > -arbitrarily large number of calls to search_and_reference() searching
-> > -for the same object that delete() was invoked on.  Instead, all that is
-> > -delayed is the eventual invocation of kfree(), which is usually not a
-> > -problem on modern computer systems, even the small ones.
-> > +Similarly, a clear advantage of both listings B and C over listing A is
-> > +that a call to delete() is not delayed even if there are an arbitrarily
-> > +large number of calls to search_and_reference() searching for the same
-> > +object that delete() was invoked on.  Instead, all that is delayed is
-> > +the eventual invocation of kfree(), which is usually not a problem on
-> > +modern computer systems, even the small ones.
-> >  
-> >  In cases where delete() can sleep, synchronize_rcu() can be called from
-> >  delete(), so that el_free() can be subsumed into delete as follows:
+On Mon, Apr 08, 2019 at 09:29:30AM -0700, Olof Johansson wrote:
+> Hi,
 > 
-> This one looks better to me, thanks a lot!
+> On Wed, Mar 20, 2019 at 9:31 AM Joel Fernandes (Google)
+> <joel@joelfernandes.org> wrote:
+> >
+> > Introduce in-kernel headers and other artifacts which are made available
+> > as an archive through proc (/proc/kheaders.tar.xz file). This archive makes
+> > it possible to build kernel modules, run eBPF programs, and other
+> > tracing programs that need to extend the kernel for tracing purposes
+> > without any dependency on the file system having headers and build
+> > artifacts.
+> >
+> > On Android and embedded systems, it is common to switch kernels but not
+> > have kernel headers available on the file system. Further once a
+> > different kernel is booted, any headers stored on the file system will
+> > no longer be useful. By storing the headers as a compressed archive
+> > within the kernel, we can avoid these issues that have been a hindrance
+> > for a long time.
+> >
+> > The best way to use this feature is by building it in. Several users
+> > have a need for this, when they switch debug kernels, they donot want to
+> > update the filesystem or worry about it where to store the headers on
+> > it. However, the feature is also buildable as a module in case the user
+> > desires it not being part of the kernel image. This makes it possible to
+> > load and unload the headers from memory on demand. A tracing program, or
+> > a kernel module builder can load the module, do its operations, and then
+> > unload the module to save kernel memory. The total memory needed is 3.8MB.
+> >
+> > By having the archive available at a fixed location independent of
+> > filesystem dependencies and conventions, all debugging tools can
+> > directly refer to the fixed location for the archive, without concerning
+> > with where the headers on a typical filesystem which significantly
+> > simplifies tooling that needs kernel headers.
+> >
+> > The code to read the headers is based on /proc/config.gz code and uses
+> > the same technique to embed the headers.
+> >
+> > To build a module, the below steps have been tested on an x86 machine:
+> > modprobe kheaders
+> > rm -rf $HOME/headers
+> > mkdir -p $HOME/headers
+> > tar -xvf /proc/kheaders.tar.xz -C $HOME/headers >/dev/null
+> > cd my-kernel-module
+> > make -C $HOME/headers M=$(pwd) modules
+> > rmmod kheaders
+> >
+> > Additional notes:
+> > (1) external modules must be built on the same arch as the host that
+> > built vmlinux. This can be done either in a qemu emulated chroot on the
+> > target, or natively. This is due to host arch dependency of kernel
+> > scripts.
+> >
+> > (2)
+> > If module building is used, since Module.symvers is not available in the
+> > archive due to a cyclic dependency with building of the archive into the
+> > kernel or module binaries, the modules built using the archive will not
+> > contain symbol versioning (modversion). This is usually not an issue
+> > since the idea of this patch is to build a kernel module on the fly and
+> > load it into the same kernel. An appropriate warning is already printed
+> > by the kernel to alert the user of modules not having modversions when
+> > built using the archive. For building with modversions, the user can use
+> > traditional header packages. For our tracing usecases, we build modules
+> > on the fly with this so it is not a concern.
+> >
+> > (3) I have left IKHD_ST and IKHD_ED markers as is to facilitate
+> > future patches that would extract the headers from a kernel or module
+> > image.
+> >
+> > (v4 was Tested-by the following folks,
+> >  v5 only has minor changes and has passed my testing).
+> > Tested-by: qais.yousef@arm.com
+> > Tested-by: dietmar.eggemann@arm.com
+> > Tested-by: linux@manojrajarao.com
+> > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 > 
-> Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> Sorry to be late at the party with this kind of feedback, but I find
+> the whole ".tar.gz in procfs" to be an awkward solution, especially if
+> there's expected to be userspace tooling that depends on this
+> long-term.
 
-Thank you!  (Though this one gets merged into your original patch.)
+No problem, your feedback is welcome.
 
-							Thanx, Paul
+> Wouldn't it be more convenient to provide it in a standardized format
+> such that you won't have to take an additional step, and always have
+> This is that form IMO.
+
+The location of the archive is fixed/known. If you are talking of the
+location where the user decompresses it to, then they a;ready know where they
+are decompressing to.
+
+> Something like:
+> 
+>  - Pseudo-filesystem, that can just be mounted under
+> /sys/kernel/headers or something (similar to debugfs or
+> /proc/device-tree).
+
+The headers are huge if uncompressed (~30MB). Currently we use xz compression
+in the archive. It would be a huge waste to decompress everything into
+memory such as through an in-memory filesystem. And compressing on a
+per-file basis would be too slow for build time. Currently the build of the
+archive is extrememly fast.
+
+>  - Exporting something like a squashfs image instead, allowing
+> loopback mounting of it (or by providing a pseudo-/dev entry for it),
+> again allowing direct export of the contents and avoiding the
+> extracted directory from being out of sync with currently running
+> kernel.
+
+One drawback of squashfs (other than possibly the compression ratio) is that
+this would be kernel build unfriendly in comparison to tar+xz. On my machine,
+squashfs-tools needed to be installed. For users who don't have this package,
+that would break their kernel build.
+
+> Having to copy and extract the tarball is the most awkward step, IMHO.
+> I also find the waste of kernel memory for it to be an issue, but
+> given that it can be built as a module I guess that's the obvious
+> solution for those who care about memory consumption.
+
+Yes. We discussed in previous threads that for users who really want the
+archive to be completely uncompressed and in-memory, can just load the
+module, decompress into tmpfs, and unload the module. That is an extra step,
+yes.
+
+We had close to 2-3 months of discussions now with various folks up until v5.
+I am about to post v6 which is in line with Masahiro Yamada's expecations. In
+that I will be dropping module building artifacts due to his module building
+concerns and only include the headers.
+
+thanks,
+
+- Joel
 
