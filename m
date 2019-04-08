@@ -5,23 +5,23 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B578B7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Apr 2019 01:15:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F21D57D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Apr 2019 03:16:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726461AbfDHBPX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 7 Apr 2019 21:15:23 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:6701 "EHLO huawei.com"
+        id S1726575AbfDHDQe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 7 Apr 2019 23:16:34 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:36498 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726349AbfDHBPX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 7 Apr 2019 21:15:23 -0400
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 9C74596D1F36357E5063;
-        Mon,  8 Apr 2019 09:15:20 +0800 (CST)
-Received: from [127.0.0.1] (10.177.223.23) by DGGEMS413-HUB.china.huawei.com
- (10.3.19.213) with Microsoft SMTP Server id 14.3.408.0; Mon, 8 Apr 2019
- 09:15:09 +0800
+        id S1726349AbfDHDQe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 7 Apr 2019 23:16:34 -0400
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id 9665736192FA5693B86B;
+        Mon,  8 Apr 2019 11:16:31 +0800 (CST)
+Received: from [127.0.0.1] (10.177.23.164) by DGGEMS411-HUB.china.huawei.com
+ (10.3.19.211) with Microsoft SMTP Server id 14.3.408.0; Mon, 8 Apr 2019
+ 11:16:22 +0800
 Subject: Re: [PATCH v4 0/6] normalize IOMMU dma mode boot options
-To:     Zhen Lei <thunder.leizhen@huawei.com>,
+To:     Hanjun Guo <guohanjun@huawei.com>,
         Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
         John Garry <john.garry@huawei.com>,
         "Robin Murphy" <robin.murphy@arm.com>,
@@ -47,54 +47,71 @@ To:     Zhen Lei <thunder.leizhen@huawei.com>,
         linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
         x86 <x86@kernel.org>, linux-ia64 <linux-ia64@vger.kernel.org>
 References: <20190407124147.13576-1-thunder.leizhen@huawei.com>
-From:   Hanjun Guo <guohanjun@huawei.com>
-Message-ID: <b20fd8a6-88ce-7d26-8eb0-ed9f095988a6@huawei.com>
-Date:   Mon, 8 Apr 2019 09:14:42 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.5.0
+ <b20fd8a6-88ce-7d26-8eb0-ed9f095988a6@huawei.com>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <5CAABD03.9000301@huawei.com>
+Date:   Mon, 8 Apr 2019 11:16:19 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
+ Thunderbird/38.5.1
 MIME-Version: 1.0
-In-Reply-To: <20190407124147.13576-1-thunder.leizhen@huawei.com>
+In-Reply-To: <b20fd8a6-88ce-7d26-8eb0-ed9f095988a6@huawei.com>
 Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.177.223.23]
+X-Originating-IP: [10.177.23.164]
 X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Zhen,
 
-On 2019/4/7 20:41, Zhen Lei wrote:
-> As Robin Murphy's suggestion:
-> "It's also not necessarily obvious to the user how this interacts with
-> IOMMU_DEFAULT_PASSTHROUGH, so if we really do go down this route, maybe it
-> would be better to refactor the whole lot into a single selection of something
-> like IOMMU_DEFAULT_MODE anyway."
-> 
-> In this version, I tried to normalize the IOMMU dma mode boot options for all
-> ARCHs. When IOMMU is enabled, there are 3 dma modes: paasthrough(bypass),
-> lazy(mapping but defer the IOTLB invalidation), strict. But currently each
-> ARCHs defined their private boot options, different with each other. For
-> example, to enable/disable "passthrough", ARM64 use iommu.passthrough=1/0,
-> X86 use iommu=pt/nopt, PPC/POWERNV use iommu=nobypass.
-> 
-> 
-> Zhen Lei (6):
->   iommu: use iommu.dma_mode to replace iommu.passthrough and
->     iommu.strict
->   iommu: keep dma mode build options consistent with cmdline options
->   iommu: add iommu_default_dma_mode_get() helper
->   s390/pci: use common boot option iommu.dma_mode
->   powernv/iommu: use common boot option iommu.dma_mode
->   x86/iommu: use common boot option iommu.dma_mode
 
-This will break systems using boot options as now, and I think
-this is unacceptable. If you want to do so, just introduce iommu.dma_mode
-on top of those iommu boot options with dma mode boot options unchanged,
-and iommu.dma_mode is for all archs but compatible with them.
+On 2019/4/8 9:14, Hanjun Guo wrote:
+> Hi Zhen,
+> 
+> On 2019/4/7 20:41, Zhen Lei wrote:
+>> As Robin Murphy's suggestion:
+>> "It's also not necessarily obvious to the user how this interacts with
+>> IOMMU_DEFAULT_PASSTHROUGH, so if we really do go down this route, maybe it
+>> would be better to refactor the whole lot into a single selection of something
+>> like IOMMU_DEFAULT_MODE anyway."
+>>
+>> In this version, I tried to normalize the IOMMU dma mode boot options for all
+>> ARCHs. When IOMMU is enabled, there are 3 dma modes: paasthrough(bypass),
+>> lazy(mapping but defer the IOTLB invalidation), strict. But currently each
+>> ARCHs defined their private boot options, different with each other. For
+>> example, to enable/disable "passthrough", ARM64 use iommu.passthrough=1/0,
+>> X86 use iommu=pt/nopt, PPC/POWERNV use iommu=nobypass.
+>>
+>>
+>> Zhen Lei (6):
+>>   iommu: use iommu.dma_mode to replace iommu.passthrough and
+>>     iommu.strict
+>>   iommu: keep dma mode build options consistent with cmdline options
+>>   iommu: add iommu_default_dma_mode_get() helper
+>>   s390/pci: use common boot option iommu.dma_mode
+>>   powernv/iommu: use common boot option iommu.dma_mode
+>>   x86/iommu: use common boot option iommu.dma_mode
+> 
+> This will break systems using boot options as now, and I think
+> this is unacceptable. If you want to do so, just introduce iommu.dma_mode
+> on top of those iommu boot options with dma mode boot options unchanged,
+> and iommu.dma_mode is for all archs but compatible with them.
 
-Thanks
-Hanjun
+I just changed the boot options name, but keep the function no change. I added
+all related maintainers/supporters in the "to=" list, maybe we can disuss this.
+Should I add some "obsoleted" warnings for old options and keep them for a while?
+But I think this kind of thing is best done in one go.
+
+> 
+> Thanks
+> Hanjun
+> 
+> 
+> .
+> 
+
+-- 
+Thanks!
+BestRegards
 
