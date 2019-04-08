@@ -1,72 +1,65 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
-	FORGED_GMAIL_RCVD,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_BL_SPAMCOP_NET,RCVD_IN_DNSWL_HI autolearn=unavailable
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 414627D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Apr 2019 07:55:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4C3337D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Apr 2019 09:19:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725877AbfDHHzQ convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Apr 2019 03:55:16 -0400
-Received: from [190.15.134.162] ([190.15.134.162]:48865 "EHLO
-        ceneica.cees.edu.ec" rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725871AbfDHHzQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Apr 2019 03:55:16 -0400
-Received: from [10.10.100.4] (port=53956 helo=mail.tes.edu.ec)
-        by ceneica.cees.edu.ec with esmtp (Exim 4.91)
-        (envelope-from <infoadvocatenrafvedatraf@gmail.com>)
-        id 1hDG9z-00073y-VQ; Sun, 07 Apr 2019 17:21:07 -0500
-Received: from localhost (unknown [127.0.0.1])
-        by mail.tes.edu.ec (Postfix) with ESMTP id DC75B725B87;
-        Sun,  7 Apr 2019 03:59:49 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at localhost.localdomain
-Received: from mail.tes.edu.ec ([127.0.0.1])
-        by localhost (mail.tes.edu.ec [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id hqeMGvMDNtql; Sat,  6 Apr 2019 22:59:41 -0500 (ECT)
-Received: from DESKTOP-ODLSHB5.fritz.box (unknown [10.10.100.1])
-        by mail.tes.edu.ec (Postfix) with ESMTP id CA72071185F;
-        Fri,  5 Apr 2019 19:57:05 -0500 (ECT)
-Content-Type: text/plain; charset="iso-8859-1"
+        id S1726189AbfDHJTB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Apr 2019 05:19:01 -0400
+Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:59363 "EHLO
+        out30-133.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725881AbfDHJTB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Apr 2019 05:19:01 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e07487;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0TOo5DJX_1554715138;
+Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TOo5DJX_1554715138)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Mon, 08 Apr 2019 17:18:58 +0800
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] docs/zh_CN: correct a word in managment-style.
+Date:   Mon,  8 Apr 2019 17:18:27 +0800
+Message-Id: <20190408091827.124239-1-alex.shi@linux.alibaba.com>
+X-Mailer: git-send-email 2.19.1.856.g8858448bb
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: Vidat Advocaten
-To:     Recipients <infoadvocatenrafvedatraf@gmail.com>
-From:   "Vidat Advocaten" <infoadvocatenrafvedatraf@gmail.com>
-Date:   Sat, 06 Apr 2019 03:23:42 +0200
-Reply-To: info_advocatenrafvedat@yahoo.be
-Message-Id: <20190406005705.CA72071185F@mail.tes.edu.ec>
-X-Sophos-OBS: success
-X-CTCH-PVer:  0000001
-X-CTCH-Spam:  Suspect
-X-CTCH-VOD:  Unknown
-X-CTCH-Flags:  0
-X-CTCH-RefID:  str=0001.0A020206.5CAA77D7.0032,ss=2,re=0.000,recu=0.000,reip=0.000,cl=2,cld=1,fgs=0
-X-CTCH-Score:  0.000
-X-CTCH-ScoreCust:  0.000
-X-CTCH-Rules:  
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+"made up" used here means 'fictional' instead of 'consist of'.
 
-Hello,
+Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
+Cc: Harry Wei <harryxiyou@gmail.com> 
+Cc: Jonathan Corbet <corbet@lwn.net> 
+Cc: linux-doc@vger.kernel.org 
+Cc: linux-kernel@vger.kernel.org 
+---
+ Documentation/translations/zh_CN/process/management-style.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I have a business proposal for you.
-
-I will give you further details if you are interested
-
-I like to hear from you soon.
-
-Best regards,
-
-Vidat Advocaten
-
+diff --git a/Documentation/translations/zh_CN/process/management-style.rst b/Documentation/translations/zh_CN/process/management-style.rst
+index 63f9a73ff19c..a181fa56d19e 100644
+--- a/Documentation/translations/zh_CN/process/management-style.rst
++++ b/Documentation/translations/zh_CN/process/management-style.rst
+@@ -8,7 +8,7 @@
+ Linux内核管理风格
+ =================
+ 
+-这是一个简短的文档，描述了Linux内核的首选（或组成，取决于您问谁）管理风格。
++这是一个简短的文档，描述了Linux内核首选的（或胡编的，取决于您问谁）管理风格。
+ 它的目的是在某种程度上参照 :ref:`process/coding-style.rst <codingstyle>`
+ 主要是为了避免反复回答 [#cnf1]_ 相同（或类似）的问题。
+ 
 -- 
-This email was Malware checked by SOPHOS XG. http://www.sophos.com
+2.19.1.856.g8858448bb
+
