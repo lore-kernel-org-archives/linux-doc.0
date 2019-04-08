@@ -1,153 +1,130 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.2 required=5.0 tests=FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SORTED_RECIPS autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7FFEA7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Apr 2019 11:34:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 87CD67D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Apr 2019 15:11:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726446AbfDHLeH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Apr 2019 07:34:07 -0400
-Received: from mail-io1-f71.google.com ([209.85.166.71]:35828 "EHLO
-        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726068AbfDHLeG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Apr 2019 07:34:06 -0400
-Received: by mail-io1-f71.google.com with SMTP id k2so10983735ioj.2
-        for <linux-doc@vger.kernel.org>; Mon, 08 Apr 2019 04:34:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=4FHDGWhg5RwCK9ZwuEezLemDJHvTfXR6zS4859cRb7Q=;
-        b=elsllWXPe5MuRvgY/gmLRPzihZm4ar1gGr/XTjys0AfgVSAqa7DOoHfOD0m5o4y+uL
-         YHe13SN4PXNsyz1D0gNKdhxm5JDAHodyZNWTsibQSxtzVlX2wp0ru7hCShwvQ/aI6qwo
-         Ss6xWw/JShBXEr7EkmdVI/oN0oUnwHP3Ln+Y73A1xrKe1CzBykokZBm1Iw4FVBTGfEA/
-         0Wod3IM92E5y9aVe/n5RG4yymMut/ONpjAjeDBW/xvwQU84yWKzPEsDgkb6EA+G+Fq+g
-         wSYSUD7tixyU8pDTYparVHlDDkmaulPxJlBtozzDAWL5smGA680CEn60kn2n1TpGVi4u
-         J7mA==
-X-Gm-Message-State: APjAAAXifjABN8cJS4LJeNJxsb/MRNztsH6c1GxVvp/brOcKYKOZurpk
-        PARsGVQeJrq3fuBqxpRybTYZRX554k19yj1l4mUTyAdkCxSm
-X-Google-Smtp-Source: APXvYqwHh+oNvB6q2L/gE/XHd4zC81wUNc2Yz+k/AENyPS9uc1BM4P7+rmmu4E5w0ayCUKBzqMlj+z4tEy6vXT7puA9qz7xJeOl0
+        id S1727056AbfDHPLu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Apr 2019 11:11:50 -0400
+Received: from mga12.intel.com ([192.55.52.136]:46978 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726373AbfDHPLu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Apr 2019 11:11:50 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Apr 2019 08:11:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,325,1549958400"; 
+   d="scan'208";a="159264058"
+Received: from sjchrist-coffee.jf.intel.com (HELO linux.intel.com) ([10.54.74.181])
+  by fmsmga002.fm.intel.com with ESMTP; 08 Apr 2019 08:11:49 -0700
+Date:   Mon, 8 Apr 2019 08:11:49 -0700
+From:   Sean Christopherson <sean.j.christopherson@intel.com>
+To:     Jani Nikula <jani.nikula@linux.intel.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/4] kernel-doc: Rename -function to -symbol
+Message-ID: <20190408151148.GC25880@linux.intel.com>
+References: <20190405214453.18768-1-sean.j.christopherson@intel.com>
+ <20190405214453.18768-4-sean.j.christopherson@intel.com>
+ <87pnpwizju.fsf@intel.com>
 MIME-Version: 1.0
-X-Received: by 2002:a24:3d8c:: with SMTP id n134mr4374074itn.14.1554723245480;
- Mon, 08 Apr 2019 04:34:05 -0700 (PDT)
-Date:   Mon, 08 Apr 2019 04:34:05 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000c56c2305860336fd@google.com>
-Subject: general protection fault in d_alloc_pseudo
-From:   syzbot <syzbot+57dc50baaee299931092@syzkaller.appspotmail.com>
-To:     adilger@dilger.ca, amir73il@gmail.com, corbet@lwn.net,
-        darrick.wong@oracle.com, david@fromorbit.com,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, longman@redhat.com,
-        mszeredi@redhat.com, syzkaller-bugs@googlegroups.com,
-        viro@zeniv.linux.org.uk
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87pnpwizju.fsf@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+On Mon, Apr 08, 2019 at 01:03:49PM +0300, Jani Nikula wrote:
+> On Fri, 05 Apr 2019, Sean Christopherson <sean.j.christopherson@intel.com> wrote:
+> > The -function option applies to all symbol types, not just functions.
+> > Rename it and update its help text and comments to reflect reality.
+> >
+> > Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
+> > ---
+> >  Documentation/sphinx/kerneldoc.py | 4 ++--
+> >  scripts/kernel-doc                | 8 ++++----
+> >  2 files changed, 6 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
+> > index 9d0a7f08f93b..c52b6caac356 100644
+> > --- a/Documentation/sphinx/kerneldoc.py
+> > +++ b/Documentation/sphinx/kerneldoc.py
+> > @@ -73,12 +73,12 @@ class KernelDocDirective(Directive):
+> >              cmd += ['-internal']
+> >              export_file_patterns = str(self.options.get('internal')).split()
+> >          elif 'doc' in self.options:
+> > -            cmd += ['-function', str(self.options.get('doc'))]
+> > +            cmd += ['-symbol', str(self.options.get('doc'))]
+> >          elif 'functions' in self.options:
+> >              functions = self.options.get('functions').split()
+> >              if functions:
+> >                  for f in functions:
+> > -                    cmd += ['-function', f]
+> > +                    cmd += ['-symbol', f]
+> >              else:
+> >                  cmd += ['-no-doc-sections']
+> >  
+> > diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+> > index 9190110b9802..60ef90222a51 100755
+> > --- a/scripts/kernel-doc
+> > +++ b/scripts/kernel-doc
+> > @@ -63,10 +63,10 @@ Output selection (mutually exclusive):
+> >    -internal		Only output documentation for symbols that have NOT been
+> >  			exported using EXPORT_SYMBOL() or EXPORT_SYMBOL_GPL()
+> >                          in any input FILE or -export-file FILE.
+> > -  -function NAME	Only output documentation for the given function(s)
+> > -			or DOC: section title(s). All other functions and DOC:
+> > +  -symbols	NAME	Only output documentation for the given symbol(s)
+> > +			or DOC: section title(s). All other symbols and DOC:
+> >  			sections are ignored. May be specified multiple times.
+> > -  -nosymbol NAME	Do NOT output documentation for the given symbol(s);
+> > +  -nosymbol	NAME	Do NOT output documentation for the given symbol(s);
+> >  			only output documentation for the other symbols and
+> >  			DOC: sections. May be specified multiple times.
+> 
+> Please decide whether to use singular or prular, and stick to it
+> throughout.
 
-syzbot found the following crash on:
-
-HEAD commit:    ac5b84a1 Add linux-next specific files for 20190408
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=155bbd9b200000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=42a33a21877c9c95
-dashboard link: https://syzkaller.appspot.com/bug?extid=57dc50baaee299931092
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=121029c3200000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13aa44fd200000
-
-The bug was bisected to:
-
-commit 56deac897903018e2672de8b784749f948e44be1
-Author: Al Viro <viro@zeniv.linux.org.uk>
-Date:   Sat Mar 16 02:23:19 2019 +0000
-
-     dcache: sort the freeing-without-RCU-delay mess for good.
-
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1550bda7200000
-final crash:    https://syzkaller.appspot.com/x/report.txt?x=1750bda7200000
-console output: https://syzkaller.appspot.com/x/log.txt?x=1350bda7200000
-
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+57dc50baaee299931092@syzkaller.appspotmail.com
-Fixes: 56deac897903 ("dcache: sort the freeing-without-RCU-delay mess for  
-good.")
-
-kasan: CONFIG_KASAN_INLINE enabled
-kasan: GPF could be caused by NULL-ptr deref or user memory access
-general protection fault: 0000 [#1] PREEMPT SMP KASAN
-CPU: 1 PID: 7543 Comm: syz-executor982 Not tainted 5.1.0-rc3-next-20190408  
-#20
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-RIP: 0010:d_alloc_pseudo+0x33/0x70 fs/dcache.c:1752
-Code: 41 54 49 89 fc 48 83 ec 08 e8 39 d9 b7 ff 4c 89 ee 4c 89 e7 e8 1e f1  
-ff ff 48 ba 00 00 00 00 00 fc ff df 48 89 c1 48 c1 e9 03 <0f> b6 14 11 84  
-d2 74 05 80 fa 03 7e 10 81 08 00 00 00 40 48 83 c4
-RSP: 0018:ffff88808e77fd28 EFLAGS: 00010246
-RAX: 0000000000000000 RBX: 1ffff11011ceffad RCX: 0000000000000000
-RDX: dffffc0000000000 RSI: ffffffff81b8a01f RDI: 0000000000000282
-RBP: ffff88808e77fd40 R08: ffff8880913c2380 R09: ffffed1015d25bc8
-R10: ffffed1015d25bc7 R11: ffff8880ae92de3b R12: ffff88821b742cc0
-R13: ffff88808e77fd88 R14: ffff88821b6a0628 R15: ffff888095d1f0f0
-FS:  000000000195e880(0000) GS:ffff8880ae900000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00000000004b6058 CR3: 000000008dafa000 CR4: 00000000001406e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
-  alloc_file_pseudo+0xe2/0x280 fs/file_table.c:224
-  sock_alloc_file+0x4d/0x170 net/socket.c:406
-  sock_map_fd net/socket.c:429 [inline]
-  __sys_socket+0x150/0x220 net/socket.c:1495
-  __do_sys_socket net/socket.c:1500 [inline]
-  __se_sys_socket net/socket.c:1498 [inline]
-  __x64_sys_socket+0x73/0xb0 net/socket.c:1498
-  do_syscall_64+0x103/0x610 arch/x86/entry/common.c:290
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-RIP: 0033:0x4412e9
-Code: e8 ac e8 ff ff 48 83 c4 18 c3 0f 1f 80 00 00 00 00 48 89 f8 48 89 f7  
-48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff  
-ff 0f 83 0b 0a fc ff c3 66 2e 0f 1f 84 00 00 00 00
-RSP: 002b:00007ffdb62abef8 EFLAGS: 00000246 ORIG_RAX: 0000000000000029
-RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00000000004412e9
-RDX: 0000000000000073 RSI: 0000000000000002 RDI: 0000000000000002
-RBP: 00000000006cc018 R08: 0000000000000001 R09: 00000000004002c8
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000402180
-R13: 0000000000402210 R14: 0000000000000000 R15: 0000000000000000
-Modules linked in:
----[ end trace 8205b4b5db42318a ]---
-RIP: 0010:d_alloc_pseudo+0x33/0x70 fs/dcache.c:1752
-Code: 41 54 49 89 fc 48 83 ec 08 e8 39 d9 b7 ff 4c 89 ee 4c 89 e7 e8 1e f1  
-ff ff 48 ba 00 00 00 00 00 fc ff df 48 89 c1 48 c1 e9 03 <0f> b6 14 11 84  
-d2 74 05 80 fa 03 7e 10 81 08 00 00 00 40 48 83 c4
-RSP: 0018:ffff88808e77fd28 EFLAGS: 00010246
-RAX: 0000000000000000 RBX: 1ffff11011ceffad RCX: 0000000000000000
-RDX: dffffc0000000000 RSI: ffffffff81b8a01f RDI: 0000000000000282
-RBP: ffff88808e77fd40 R08: ffff8880913c2380 R09: ffffed1015d25bc8
-R10: ffffed1015d25bc7 R11: ffff8880ae92de3b R12: ffff88821b742cc0
-R13: ffff88808e77fd88 R14: ffff88821b6a0628 R15: ffff888095d1f0f0
-FS:  000000000195e880(0000) GS:ffff8880ae900000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00000000004b6058 CR3: 000000008dafa000 CR4: 00000000001406e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+"-symbols NAME" is a typo, should be "-symbol NAME".
 
 
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Any preference on keeping or removing the "(s)" in the description, e.g.
 
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
-syzbot can test patches for this bug, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+  Only output documentation for the given function(s) or DOC: section title(s).
+
+versus:
+
+  Only output documentation for the given symbol or DOC: section title.
+
+I think it makes sense to drop the "(s)" as each option can only specify a
+single symbole, i.e. the "(s)" behavior is covered by "May be specified
+multiple times."
+
+> 
+> BR,
+> Jani.
+> 
+> 
+> >  
+> > @@ -409,7 +409,7 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
+> >  	$output_mode = "none";
+> >      } elsif ($cmd eq "module") { # not needed for XML, inherits from calling document
+> >  	$modulename = shift @ARGV;
+> > -    } elsif ($cmd eq "function") { # to only output specific function
+> > +    } elsif ($cmd eq "symbol") { # to only output specific symbol
+> >  	$output_selection = OUTPUT_INCLUDE;
+> >  	$function = shift @ARGV;
+> >  	$function_table{$function} = 1;
+> 
+> -- 
+> Jani Nikula, Intel Open Source Graphics Center
