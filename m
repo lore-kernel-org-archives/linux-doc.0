@@ -2,17 +2,17 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4BE897D910
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Apr 2019 16:58:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B26307D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Apr 2019 17:00:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729221AbfDHQ6h (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1729235AbfDHQ6h (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Mon, 8 Apr 2019 12:58:37 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:58550 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:58592 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728654AbfDHQ6g (ORCPT
+        with ESMTP id S1729044AbfDHQ6g (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Apr 2019 12:58:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,26 +20,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=2Sj1gak9r1pUPmZa4YjvqHe4h1HixwMeGF5Pmb63syE=; b=H3ccAQiVbK2nadoftbPQcTI7Uj
-        Ko3HSQwpCAQzSStYfyCuBbBdU7BHAJYcQDw3oRMJt60X3cPTd4RyM7e23lP7GcB0/lO2DlXx3/0Zk
-        lHFmHbbVjmQLqA1O4PA61XInyz3SsENk75KvqFbV7iyJSOMn+KD9gxj7jFc8Ge0KmCUo1IDDGI0rD
-        OOgoZpsJAy9TLVC5HD23J6VYc9Iem2jeao3LhFpw7fmXHdFe6Rl92+NCTzuVBzHWk+P6PCkXgRnOV
-        2tMrh9DvX2ZEpB1PLhvlNJCwVl0gB8Ab61h0oSMqTq+NiBlWLiNAXXD0fWddphzBI6EhipicmGBxg
-        jpCTVQ1w==;
+        bh=T0SBZllgHqVlHqCRx9ICKVMFMCBWkpJnm5qm1nU/vMM=; b=kImPDBxVgMJduWgH58S2PNxAiK
+        ztZ8gghyYNnq4b9S3Nl+mS4NgaUpxGHkfsD/xd2Sd2j9t5PoD+d+eqyagenMHaPXTyqu5OSVFeNsY
+        Jb5FCWNqu+avS5SHsyYATuHD0hr3T/YRs0xBUuDS5GgDLyUtxohd7Cm3OXk1JLgD+3ibGEKlxT0tc
+        WdbkDzeOdL4IR/Oi+zK3RXmHvXo8r03vzJjZJTKfEoXgYbDrMQAY1Uw9M2PzEDBsSDKda5BfbpTDk
+        CkjZ5KZ3xm9KGPljlCOm63CQJ83gRvsZmVBbhaI43iB06zv28ptcjpasOzDoPBQBamRayo2H50mth
+        YEDFPzQA==;
 Received: from [179.95.33.162] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hDXbO-0005St-7h; Mon, 08 Apr 2019 16:58:34 +0000
+        id 1hDXbO-0005Sl-DB; Mon, 08 Apr 2019 16:58:34 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hDXbI-0005nH-9B; Mon, 08 Apr 2019 13:58:28 -0300
+        id 1hDXbI-0005n9-7Y; Mon, 08 Apr 2019 13:58:28 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 05/10] docs: unaligned-memory-access.txt: use a lowercase title
-Date:   Mon,  8 Apr 2019 13:58:21 -0300
-Message-Id: <879edf648733097be5233a94899eea8d1d80f7ad.1554742526.git.mchehab+samsung@kernel.org>
+Subject: [PATCH 03/10] docs: clearing-warn-once.txt: add a title for this document
+Date:   Mon,  8 Apr 2019 13:58:19 -0300
+Message-Id: <eb6ebd1482dfa60b2eeb2f90f77eab695c5e89ef.1554742526.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1554742526.git.mchehab+samsung@kernel.org>
 References: <cover.1554742526.git.mchehab+samsung@kernel.org>
@@ -50,25 +50,24 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As all other titles at the documentation, use lower case
-for its title.
+This document misses a title. Add it, in order to follow
+the documentation standard.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/unaligned-memory-access.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/clearing-warn-once.txt | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/unaligned-memory-access.txt b/Documentation/unaligned-memory-access.txt
-index 51b4ff031586..1ee82419d8aa 100644
---- a/Documentation/unaligned-memory-access.txt
-+++ b/Documentation/unaligned-memory-access.txt
-@@ -1,5 +1,5 @@
- =========================
--UNALIGNED MEMORY ACCESSES
-+Unaligned Memory Accesses
- =========================
+diff --git a/Documentation/clearing-warn-once.txt b/Documentation/clearing-warn-once.txt
+index 5b1f5d547be1..4aa938262d0e 100644
+--- a/Documentation/clearing-warn-once.txt
++++ b/Documentation/clearing-warn-once.txt
+@@ -1,3 +1,5 @@
++Clearing WARN_ONCE
++------------------
  
- :Author: Daniel Drake <dsd@gentoo.org>,
+ WARN_ONCE / WARN_ON_ONCE only print a warning once.
+ 
 -- 
 2.20.1
 
