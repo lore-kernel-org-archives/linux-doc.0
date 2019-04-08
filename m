@@ -5,85 +5,55 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A7C627D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Apr 2019 22:03:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BE8157D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Apr 2019 22:05:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726799AbfDHWDQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Apr 2019 18:03:16 -0400
-Received: from ms.lwn.net ([45.79.88.28]:38246 "EHLO ms.lwn.net"
+        id S1726401AbfDHWFf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Apr 2019 18:05:35 -0400
+Received: from ms.lwn.net ([45.79.88.28]:38274 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726693AbfDHWDQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Apr 2019 18:03:16 -0400
+        id S1726188AbfDHWFf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Apr 2019 18:05:35 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A5AC3301;
-        Mon,  8 Apr 2019 22:03:15 +0000 (UTC)
-Date:   Mon, 8 Apr 2019 16:03:14 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id B55BE301;
+        Mon,  8 Apr 2019 22:05:34 +0000 (UTC)
+Date:   Mon, 8 Apr 2019 16:05:33 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Sean Christopherson <sean.j.christopherson@intel.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kernel-doc: Let backtick and backslash escape percent
- sign
-Message-ID: <20190408160314.05bc5ecb@lwn.net>
-In-Reply-To: <20190405211820.17617-1-sean.j.christopherson@intel.com>
-References: <20190405211820.17617-1-sean.j.christopherson@intel.com>
+To:     Jonathan =?UTF-8?B?TmV1c2Now6RmZXI=?= <j.neuschaefer@gmx.net>
+Cc:     linux-doc@vger.kernel.org, Martin Kepplinger <martink@posteo.de>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation: kernel-docs: Remove entry for vfs.txt
+Message-ID: <20190408160533.709f31e3@lwn.net>
+In-Reply-To: <20190406101528.23500-1-j.neuschaefer@gmx.net>
+References: <20190406101528.23500-1-j.neuschaefer@gmx.net>
 Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri,  5 Apr 2019 14:18:20 -0700
-Sean Christopherson <sean.j.christopherson@intel.com> wrote:
+On Sat,  6 Apr 2019 12:15:27 +0200
+Jonathan Neuschäfer <j.neuschaefer@gmx.net> wrote:
 
-> There are a handful of instances where kernel doc comments want an
-> actual '%' in the final output, e.g. vsnprintf() wants to display "%n"
-> and "%p" to document format specifiers, and assembly functions that use
-> a custom call ABI may want to document their register usage, e.g. %eax.
+> It's unnecessary to point to an external mirror of the Documentation
+> directory.
 > 
-> Because kernel-doc unconditionally interprets '%' followed by a word
-> character as a constant definition, i.e. %CONST, it's impossible to get
-> an actual '%\w' when kernel-doc is used to translate comments into rst
-> format.  Treat backtick and backlash as escaping '%', the former to
-> handle '%' in a ``LITERAL``, and the latter to allow '%' when using
-> standard formatting.
+> Jonathan Corbet writes in favor of removing this entry, instead of
+> moving it under "Docs at the Linux Kernel tree":
+> 
+> > We don't want to turn kernel-docs.rst into yet another out-of-date
+> > index for the rest of Documentation/, and the removal of the external
+> > URL takes away the only bit of additional information that this entry
+> > offers.  
+> 
+> Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
 
-So I'm sympathetic toward the goal; we want this stuff to format properly.
-But I'm less convinced about this specific solution.  Starting with the
-details: 
-
-> -my $type_constant2 = '\%([-_\w]+)';
-> +my $type_constant2 = '(^|[^\`\\\])\%([-_\w]+)';
-
-This only escapes the % if it occurs *immediately* after the backtick, so
-something like ``foo %p`` will still get processed incorrectly.  Somebody
-will surely run into that at some point and waste a bunch of time trying to
-figure out what's going on.
-
-Also, believe it or not, I don't think you have enough backslashes; that
-inner expression, I believe, should be:
-
-	[^\`\\\\]
-
-Gosh Perl regexes are fun...  This highlights the danger of adding
-functionality that isn't exercised anywhere; I don't think it works here.
-
-Now to more general considerations.  Willy's suggestion of using %% instead
-makes some sense, though it may lead to pushback from the "no extra markup
-ever" contingent.  It should be more straightforward to implement
-correctly.
-
-I have to wonder if the % thing is actually buying us much, honestly.  It's
-another form of markup that kind of duplicates the Sphinx notation, and
-we've kind of agreed that most of the time, we don't want to clutter our
-text with ``explicit markup`` like that.  I'm curious what people think:
-might the best solution be to just make %const do nothing special, with the
-idea of phasing it out?
-
-Thanks,
+Applied, thanks.
 
 jon
