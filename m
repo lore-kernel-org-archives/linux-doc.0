@@ -1,209 +1,74 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C16757D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Apr 2019 16:54:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4BE897D910
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Apr 2019 16:58:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729028AbfDHQyH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Apr 2019 12:54:07 -0400
-Received: from mail-it1-f196.google.com ([209.85.166.196]:35848 "EHLO
-        mail-it1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726726AbfDHQyH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Apr 2019 12:54:07 -0400
-Received: by mail-it1-f196.google.com with SMTP id y10so217668itc.1
-        for <linux-doc@vger.kernel.org>; Mon, 08 Apr 2019 09:54:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=lixom-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=iTUAGD6lWza4tKmi+pA/GqOUIGhro2T5N3WoQ+3jgyE=;
-        b=kYBqsms4GyP2kEAhIkWfhkPdLjMOxT9glTqJSYGlAbP7WcJXOaCvc6t9QIZ6wcM/h+
-         Qu+uCoLvLKjC/sCtJxRMpHTrTYUFOrukcPgGjkY+8VfYBMIY2TgAB3otfGn4aC3yZ+oL
-         MNXXtIGNuFb6z3lEeErFuntZ/f301f5F0+xqNx0L/Sen9u9uVMNnZrs24Ievi7yZpNGb
-         Ny5RZ2sm06AkR2RhI4yg2Jp5aqBMKq0l7wNiLpFsVssB417UzE0xLdjZ9tc6TtUYsBfU
-         SLTh9Khpk6nmhGl8/y24ZvS0H2gyN3BA8/3EgJCJ/Ey8E4AhSS3LLQUbE/yEfHnn9Q2p
-         rTjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iTUAGD6lWza4tKmi+pA/GqOUIGhro2T5N3WoQ+3jgyE=;
-        b=GNJtRckGa1kL2faVQGxwaWtjZXi+Xk3Fs/IV9jnqcj0F3Pza23bvpwG+H8ECcWzy2n
-         HFqt1WLIM7U4MC6lO2Zrz5yfKcZvwJIIgPrnR9WRrfOnpIDhSKR54AgHZhFxnYmuzzF7
-         sk0zyLiniAaDxTfRBJf0y55AhW27+1h2wwiPD4ydfgmH+Rci9s9hiOXK35iGWog7n7ZY
-         QcmYPwovnpQkVy5zhDV/7+/Z2bAgxXzf3zPzQX3bfgDNw21N5Pv6rdVPfCZ+4qWp/b4b
-         w16cD2hXXuNj5jGkDYasOPHcFRxlDXoJINnsKdrI+179HwphZFKj3lTOlN+7ek7Fan4T
-         ya6w==
-X-Gm-Message-State: APjAAAVr7+UiiI2/Kgl/mgokMi0D80/qcz419C+7jUaI1jgxwfqjQRVO
-        lewtLfgfLOWNPu+ggYXvjdZ8eoc4pJwZIqFGxbPapEmCWDu5xA==
-X-Google-Smtp-Source: APXvYqwhR7r2iesmJKfaZ5pzDBLjiuEOFOIWt+OZN+p6wrtIl5MqoLcyYSMvgkRg01f0pg4JSLSopohg+83+pWqDW2U=
-X-Received: by 2002:a24:7c9:: with SMTP id f192mr2921343itf.97.1554742446016;
- Mon, 08 Apr 2019 09:54:06 -0700 (PDT)
+        id S1729221AbfDHQ6h (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Apr 2019 12:58:37 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:58550 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728654AbfDHQ6g (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Apr 2019 12:58:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=2Sj1gak9r1pUPmZa4YjvqHe4h1HixwMeGF5Pmb63syE=; b=H3ccAQiVbK2nadoftbPQcTI7Uj
+        Ko3HSQwpCAQzSStYfyCuBbBdU7BHAJYcQDw3oRMJt60X3cPTd4RyM7e23lP7GcB0/lO2DlXx3/0Zk
+        lHFmHbbVjmQLqA1O4PA61XInyz3SsENk75KvqFbV7iyJSOMn+KD9gxj7jFc8Ge0KmCUo1IDDGI0rD
+        OOgoZpsJAy9TLVC5HD23J6VYc9Iem2jeao3LhFpw7fmXHdFe6Rl92+NCTzuVBzHWk+P6PCkXgRnOV
+        2tMrh9DvX2ZEpB1PLhvlNJCwVl0gB8Ab61h0oSMqTq+NiBlWLiNAXXD0fWddphzBI6EhipicmGBxg
+        jpCTVQ1w==;
+Received: from [179.95.33.162] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hDXbO-0005St-7h; Mon, 08 Apr 2019 16:58:34 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hDXbI-0005nH-9B; Mon, 08 Apr 2019 13:58:28 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 05/10] docs: unaligned-memory-access.txt: use a lowercase title
+Date:   Mon,  8 Apr 2019 13:58:21 -0300
+Message-Id: <879edf648733097be5233a94899eea8d1d80f7ad.1554742526.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1554742526.git.mchehab+samsung@kernel.org>
+References: <cover.1554742526.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-References: <20190320163116.39275-1-joel@joelfernandes.org>
- <CAOesGMheoZda84OSz9spQ7p66wot5S_9aaqaKC=QYp+8utASXA@mail.gmail.com> <CAKOZuetS6Bg0ubxQgCBKVKeWOzuwH_C=nCRn-OPmHYJvs6sybQ@mail.gmail.com>
-In-Reply-To: <CAKOZuetS6Bg0ubxQgCBKVKeWOzuwH_C=nCRn-OPmHYJvs6sybQ@mail.gmail.com>
-From:   Olof Johansson <olof@lixom.net>
-Date:   Mon, 8 Apr 2019 09:53:54 -0700
-Message-ID: <CAOesGMi++NMi-60smmd9f+P4C1d9oQiz-hS6QWa6ViqzqJrfBA@mail.gmail.com>
-Subject: Re: [PATCH v5 1/3] Provide in-kernel headers to make extending kernel easier
-To:     Daniel Colascione <dancol@google.com>
-Cc:     Joel Fernandes <joel@joelfernandes.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Manoj Rao <linux@manojrajarao.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        atish patra <atishp04@gmail.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Karim Yaghmour <karim.yaghmour@opersys.com>,
-        Kees Cook <keescook@chromium.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-trace-devel@vger.kernel.org,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 8, 2019 at 9:37 AM Daniel Colascione <dancol@google.com> wrote:
->
-> On Mon, Apr 8, 2019 at 9:29 AM Olof Johansson <olof@lixom.net> wrote:
-> >
-> > Hi,
-> >
-> > On Wed, Mar 20, 2019 at 9:31 AM Joel Fernandes (Google)
-> > <joel@joelfernandes.org> wrote:
-> > >
-> > > Introduce in-kernel headers and other artifacts which are made available
-> > > as an archive through proc (/proc/kheaders.tar.xz file). This archive makes
-> > > it possible to build kernel modules, run eBPF programs, and other
-> > > tracing programs that need to extend the kernel for tracing purposes
-> > > without any dependency on the file system having headers and build
-> > > artifacts.
-> > >
-> > > On Android and embedded systems, it is common to switch kernels but not
-> > > have kernel headers available on the file system. Further once a
-> > > different kernel is booted, any headers stored on the file system will
-> > > no longer be useful. By storing the headers as a compressed archive
-> > > within the kernel, we can avoid these issues that have been a hindrance
-> > > for a long time.
-> > >
-> > > The best way to use this feature is by building it in. Several users
-> > > have a need for this, when they switch debug kernels, they donot want to
-> > > update the filesystem or worry about it where to store the headers on
-> > > it. However, the feature is also buildable as a module in case the user
-> > > desires it not being part of the kernel image. This makes it possible to
-> > > load and unload the headers from memory on demand. A tracing program, or
-> > > a kernel module builder can load the module, do its operations, and then
-> > > unload the module to save kernel memory. The total memory needed is 3.8MB.
-> > >
-> > > By having the archive available at a fixed location independent of
-> > > filesystem dependencies and conventions, all debugging tools can
-> > > directly refer to the fixed location for the archive, without concerning
-> > > with where the headers on a typical filesystem which significantly
-> > > simplifies tooling that needs kernel headers.
-> > >
-> > > The code to read the headers is based on /proc/config.gz code and uses
-> > > the same technique to embed the headers.
-> > >
-> > > To build a module, the below steps have been tested on an x86 machine:
-> > > modprobe kheaders
-> > > rm -rf $HOME/headers
-> > > mkdir -p $HOME/headers
-> > > tar -xvf /proc/kheaders.tar.xz -C $HOME/headers >/dev/null
-> > > cd my-kernel-module
-> > > make -C $HOME/headers M=$(pwd) modules
-> > > rmmod kheaders
-> > >
-> > > Additional notes:
-> > > (1) external modules must be built on the same arch as the host that
-> > > built vmlinux. This can be done either in a qemu emulated chroot on the
-> > > target, or natively. This is due to host arch dependency of kernel
-> > > scripts.
-> > >
-> > > (2)
-> > > If module building is used, since Module.symvers is not available in the
-> > > archive due to a cyclic dependency with building of the archive into the
-> > > kernel or module binaries, the modules built using the archive will not
-> > > contain symbol versioning (modversion). This is usually not an issue
-> > > since the idea of this patch is to build a kernel module on the fly and
-> > > load it into the same kernel. An appropriate warning is already printed
-> > > by the kernel to alert the user of modules not having modversions when
-> > > built using the archive. For building with modversions, the user can use
-> > > traditional header packages. For our tracing usecases, we build modules
-> > > on the fly with this so it is not a concern.
-> > >
-> > > (3) I have left IKHD_ST and IKHD_ED markers as is to facilitate
-> > > future patches that would extract the headers from a kernel or module
-> > > image.
-> > >
-> > > (v4 was Tested-by the following folks,
-> > >  v5 only has minor changes and has passed my testing).
-> > > Tested-by: qais.yousef@arm.com
-> > > Tested-by: dietmar.eggemann@arm.com
-> > > Tested-by: linux@manojrajarao.com
-> > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> >
-> > Sorry to be late at the party with this kind of feedback, but I find
-> > the whole ".tar.gz in procfs" to be an awkward solution, especially if
-> > there's expected to be userspace tooling that depends on this
-> > long-term.
-> > [snip]
->
-> The approaches you proposed were explored in detail on this thread and
-> other related threads.
+As all other titles at the documentation, use lower case
+for its title.
 
-Not on this thread, but maybe on others. Since they weren't linked and
-referenced, I didn't find them. Having them summarized in the patch
-description would be a great idea.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ Documentation/unaligned-memory-access.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> The tarball in proc approach is a simple,
-> pragmatic approach that allows makes a lot of scenarios Just Work
-> where they didn't before.
+diff --git a/Documentation/unaligned-memory-access.txt b/Documentation/unaligned-memory-access.txt
+index 51b4ff031586..1ee82419d8aa 100644
+--- a/Documentation/unaligned-memory-access.txt
++++ b/Documentation/unaligned-memory-access.txt
+@@ -1,5 +1,5 @@
+ =========================
+-UNALIGNED MEMORY ACCESSES
++Unaligned Memory Accesses
+ =========================
+ 
+ :Author: Daniel Drake <dsd@gentoo.org>,
+-- 
+2.20.1
 
-"My pragmatic solution, your messy hack".
-
-It's an awkward solution that will now be permanently locked in due to
-the /proc interface being an ABI.
-
-> Approaches like a new filesystem, a
-> mountable block device, a custom debuginfo format, and so on add
-> complexity without providing concrete gains in functionality.
-
-It definitely provides concrete gains in functionality, in particular
-it provides a significantly less fragile way of providing the data
-such that having it out of sync with the running kernel is a lot less
-accident-prone.
-
-> We'd
-> like to get this work into the tree sooner rather than later.
-
-That has _never_ been a good argument for picking up something that
-will need to be supported as an ABI forever.
-
-We've solved these kind of things in the past without exporting
-tarballs from the kernel. We can do it again.
-
-
-I literally didn't hear a single valid reason for why this patch
-should go in from you.
-
-
--Olof
