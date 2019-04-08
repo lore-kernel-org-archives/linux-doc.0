@@ -2,64 +2,103 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4C3337D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Apr 2019 09:19:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 518037D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Apr 2019 09:52:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726189AbfDHJTB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Apr 2019 05:19:01 -0400
-Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:59363 "EHLO
-        out30-133.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725881AbfDHJTB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Apr 2019 05:19:01 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e07487;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0TOo5DJX_1554715138;
-Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TOo5DJX_1554715138)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Mon, 08 Apr 2019 17:18:58 +0800
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/zh_CN: correct a word in managment-style.
-Date:   Mon,  8 Apr 2019 17:18:27 +0800
-Message-Id: <20190408091827.124239-1-alex.shi@linux.alibaba.com>
-X-Mailer: git-send-email 2.19.1.856.g8858448bb
+        id S1725983AbfDHJwJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Apr 2019 05:52:09 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:6707 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725933AbfDHJwJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Apr 2019 05:52:09 -0400
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 633868A0D550D054A9A4;
+        Mon,  8 Apr 2019 17:52:06 +0800 (CST)
+Received: from [127.0.0.1] (10.177.23.164) by DGGEMS405-HUB.china.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server id 14.3.408.0; Mon, 8 Apr 2019
+ 17:51:59 +0800
+Subject: Re: [PATCH v4 0/6] normalize IOMMU dma mode boot options
+To:     Thomas Gleixner <tglx@linutronix.de>
+References: <20190407124147.13576-1-thunder.leizhen@huawei.com>
+ <b20fd8a6-88ce-7d26-8eb0-ed9f095988a6@huawei.com>
+ <5CAABD03.9000301@huawei.com>
+ <alpine.DEB.2.21.1904080829490.1840@nanos.tec.linutronix.de>
+CC:     Hanjun Guo <guohanjun@huawei.com>,
+        Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
+        John Garry <john.garry@huawei.com>,
+        "Robin Murphy" <robin.murphy@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        "Joerg Roedel" <joro@8bytes.org>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        Sebastian Ott <sebott@linux.ibm.com>,
+        "Gerald Schaefer" <gerald.schaefer@de.ibm.com>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        iommu <iommu@lists.linux-foundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        x86 <x86@kernel.org>, linux-ia64 <linux-ia64@vger.kernel.org>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <5CAB19BC.2040804@huawei.com>
+Date:   Mon, 8 Apr 2019 17:51:56 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
+ Thunderbird/38.5.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+In-Reply-To: <alpine.DEB.2.21.1904080829490.1840@nanos.tec.linutronix.de>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.177.23.164]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-"made up" used here means 'fictional' instead of 'consist of'.
 
-Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
-Cc: Harry Wei <harryxiyou@gmail.com> 
-Cc: Jonathan Corbet <corbet@lwn.net> 
-Cc: linux-doc@vger.kernel.org 
-Cc: linux-kernel@vger.kernel.org 
----
- Documentation/translations/zh_CN/process/management-style.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/translations/zh_CN/process/management-style.rst b/Documentation/translations/zh_CN/process/management-style.rst
-index 63f9a73ff19c..a181fa56d19e 100644
---- a/Documentation/translations/zh_CN/process/management-style.rst
-+++ b/Documentation/translations/zh_CN/process/management-style.rst
-@@ -8,7 +8,7 @@
- Linux内核管理风格
- =================
- 
--这是一个简短的文档，描述了Linux内核的首选（或组成，取决于您问谁）管理风格。
-+这是一个简短的文档，描述了Linux内核首选的（或胡编的，取决于您问谁）管理风格。
- 它的目的是在某种程度上参照 :ref:`process/coding-style.rst <codingstyle>`
- 主要是为了避免反复回答 [#cnf1]_ 相同（或类似）的问题。
- 
+On 2019/4/8 14:32, Thomas Gleixner wrote:
+> On Mon, 8 Apr 2019, Leizhen (ThunderTown) wrote:
+>>>
+>>> This will break systems using boot options as now, and I think
+>>> this is unacceptable. If you want to do so, just introduce iommu.dma_mode
+>>> on top of those iommu boot options with dma mode boot options unchanged,
+>>> and iommu.dma_mode is for all archs but compatible with them.
+>>
+>> I just changed the boot options name, but keep the function no change. I added
+>> all related maintainers/supporters in the "to=" list, maybe we can disuss this.
+> 
+> Changing the name _IS_ the problem. Think about unattended updates.
+> 
+>> Should I add some "obsoleted" warnings for old options and keep them for a while?
+> 
+> No, just keep the old options around for backwards compatibilty sake. We
+> just do not add new arch specific options in the future. New options need
+> to use the generic iommu.dma_mode name space.
+
+OK, thanks for your advise.
+
+
+> 
+> Thanks,
+> 
+> 	tglx
+> 
+> .
+> 
+
 -- 
-2.19.1.856.g8858448bb
+Thanks!
+BestRegards
 
