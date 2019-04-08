@@ -1,130 +1,176 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 87CD67D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Apr 2019 15:11:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5FB667D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Apr 2019 16:29:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727056AbfDHPLu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Apr 2019 11:11:50 -0400
-Received: from mga12.intel.com ([192.55.52.136]:46978 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726373AbfDHPLu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Apr 2019 11:11:50 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Apr 2019 08:11:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,325,1549958400"; 
-   d="scan'208";a="159264058"
-Received: from sjchrist-coffee.jf.intel.com (HELO linux.intel.com) ([10.54.74.181])
-  by fmsmga002.fm.intel.com with ESMTP; 08 Apr 2019 08:11:49 -0700
-Date:   Mon, 8 Apr 2019 08:11:49 -0700
-From:   Sean Christopherson <sean.j.christopherson@intel.com>
-To:     Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/4] kernel-doc: Rename -function to -symbol
-Message-ID: <20190408151148.GC25880@linux.intel.com>
-References: <20190405214453.18768-1-sean.j.christopherson@intel.com>
- <20190405214453.18768-4-sean.j.christopherson@intel.com>
- <87pnpwizju.fsf@intel.com>
+        id S1727641AbfDHQ3n (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Apr 2019 12:29:43 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:41364 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727350AbfDHQ3m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Apr 2019 12:29:42 -0400
+Received: by mail-io1-f66.google.com with SMTP id v10so11561383iom.8
+        for <linux-doc@vger.kernel.org>; Mon, 08 Apr 2019 09:29:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=lixom-net.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=JxUh/OucTkUnste2gji40rqFftSK1RiXeYIa1yKo4X0=;
+        b=fC7aTanep76q8hrkn2bRA+1MhgAecBx1NVeZ6SnmWztMpRHbqNA+nhtsc7nblv4jh+
+         Mw2fSaTdhwZpUWKETeFYg9dfLnySdfPqhxrfbONVeQnUeJ8G/FwSouUko1Q8fIZmdHPd
+         N5u/8WHqgNo4iBd8igyTSXuersOErsWCKppzyUS2NlZHYkO9EuB6zlw14jvA4KUJrRLX
+         gCC3vameDfRPNYA/I/RIx9rOKb/pYTao38SyEJI+CzgbgQioo2ZyZd4+YSMQNXJvled2
+         /jv4xKMMXNqJwzcwfk0P/3IMqByVTjAWpki/dwzF7UIkKEl55XbQibrCwokRxEFqObgq
+         n6vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JxUh/OucTkUnste2gji40rqFftSK1RiXeYIa1yKo4X0=;
+        b=c3slgX7Cc9pYCTwxQvK476iiBBAwod8kixD4aJpduA3W9SYvu67R4OeNMTvx7wzqrz
+         GjjjsfE0f5Tw8WSnpwSOaciCDsGUXGMceJCt9ihry4FqXuOCSOXGJPdCD7bjMEKUoSCR
+         ha+WrXzqKmI9xer97P05vOY4IJvz/4FZnsH+g2sEad49jgg1KFd5gVXgB6HNktKN2pmN
+         HjthVKAZ470YVQDBPchkQY6Ug8a8Mo6VnDIJPGM+LXgd6yuxmhFrA4fBIx6jI1e0zzm1
+         rldi7lOk0cZirud/mZYYP5vRqF/1QvX6xRqrnLT0AUMxWfU0nMinf4qad0sRMuuul4+H
+         OUUQ==
+X-Gm-Message-State: APjAAAWUHKw3JUyKPHRrwcH+adelgL4r8vjVU+o3m9LzrzOlii4pwRzG
+        WAYd+GKho9L+ZNP258dOsnwmVRumXBh0ksRctv6OTQ==
+X-Google-Smtp-Source: APXvYqzy5BhwGp0WoQaSBw9IupUhwbj3pvLAZOUeLWitYMX06RR6ROp4zAIcW72SetiAgcOsh7kb+FUvfjaCFmt6aC8=
+X-Received: by 2002:a5d:8745:: with SMTP id k5mr840528iol.200.1554740981462;
+ Mon, 08 Apr 2019 09:29:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87pnpwizju.fsf@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+References: <20190320163116.39275-1-joel@joelfernandes.org>
+In-Reply-To: <20190320163116.39275-1-joel@joelfernandes.org>
+From:   Olof Johansson <olof@lixom.net>
+Date:   Mon, 8 Apr 2019 09:29:30 -0700
+Message-ID: <CAOesGMheoZda84OSz9spQ7p66wot5S_9aaqaKC=QYp+8utASXA@mail.gmail.com>
+Subject: Re: [PATCH v5 1/3] Provide in-kernel headers to make extending kernel easier
+To:     joel@joelfernandes.org
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        qais.yousef@arm.com, dietmar.eggemann@arm.com,
+        linux@manojrajarao.com, Andrew Morton <akpm@linux-foundation.org>,
+        ast@kernel.org, atishp04@gmail.com, dancol@google.com,
+        Dan Williams <dan.j.williams@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>, karim.yaghmour@opersys.com,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        mhiramat@kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Shuah Khan <shuah@kernel.org>, yhs@fb.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 08, 2019 at 01:03:49PM +0300, Jani Nikula wrote:
-> On Fri, 05 Apr 2019, Sean Christopherson <sean.j.christopherson@intel.com> wrote:
-> > The -function option applies to all symbol types, not just functions.
-> > Rename it and update its help text and comments to reflect reality.
-> >
-> > Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
-> > ---
-> >  Documentation/sphinx/kerneldoc.py | 4 ++--
-> >  scripts/kernel-doc                | 8 ++++----
-> >  2 files changed, 6 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
-> > index 9d0a7f08f93b..c52b6caac356 100644
-> > --- a/Documentation/sphinx/kerneldoc.py
-> > +++ b/Documentation/sphinx/kerneldoc.py
-> > @@ -73,12 +73,12 @@ class KernelDocDirective(Directive):
-> >              cmd += ['-internal']
-> >              export_file_patterns = str(self.options.get('internal')).split()
-> >          elif 'doc' in self.options:
-> > -            cmd += ['-function', str(self.options.get('doc'))]
-> > +            cmd += ['-symbol', str(self.options.get('doc'))]
-> >          elif 'functions' in self.options:
-> >              functions = self.options.get('functions').split()
-> >              if functions:
-> >                  for f in functions:
-> > -                    cmd += ['-function', f]
-> > +                    cmd += ['-symbol', f]
-> >              else:
-> >                  cmd += ['-no-doc-sections']
-> >  
-> > diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-> > index 9190110b9802..60ef90222a51 100755
-> > --- a/scripts/kernel-doc
-> > +++ b/scripts/kernel-doc
-> > @@ -63,10 +63,10 @@ Output selection (mutually exclusive):
-> >    -internal		Only output documentation for symbols that have NOT been
-> >  			exported using EXPORT_SYMBOL() or EXPORT_SYMBOL_GPL()
-> >                          in any input FILE or -export-file FILE.
-> > -  -function NAME	Only output documentation for the given function(s)
-> > -			or DOC: section title(s). All other functions and DOC:
-> > +  -symbols	NAME	Only output documentation for the given symbol(s)
-> > +			or DOC: section title(s). All other symbols and DOC:
-> >  			sections are ignored. May be specified multiple times.
-> > -  -nosymbol NAME	Do NOT output documentation for the given symbol(s);
-> > +  -nosymbol	NAME	Do NOT output documentation for the given symbol(s);
-> >  			only output documentation for the other symbols and
-> >  			DOC: sections. May be specified multiple times.
-> 
-> Please decide whether to use singular or prular, and stick to it
-> throughout.
+Hi,
 
-"-symbols NAME" is a typo, should be "-symbol NAME".
+On Wed, Mar 20, 2019 at 9:31 AM Joel Fernandes (Google)
+<joel@joelfernandes.org> wrote:
+>
+> Introduce in-kernel headers and other artifacts which are made available
+> as an archive through proc (/proc/kheaders.tar.xz file). This archive makes
+> it possible to build kernel modules, run eBPF programs, and other
+> tracing programs that need to extend the kernel for tracing purposes
+> without any dependency on the file system having headers and build
+> artifacts.
+>
+> On Android and embedded systems, it is common to switch kernels but not
+> have kernel headers available on the file system. Further once a
+> different kernel is booted, any headers stored on the file system will
+> no longer be useful. By storing the headers as a compressed archive
+> within the kernel, we can avoid these issues that have been a hindrance
+> for a long time.
+>
+> The best way to use this feature is by building it in. Several users
+> have a need for this, when they switch debug kernels, they donot want to
+> update the filesystem or worry about it where to store the headers on
+> it. However, the feature is also buildable as a module in case the user
+> desires it not being part of the kernel image. This makes it possible to
+> load and unload the headers from memory on demand. A tracing program, or
+> a kernel module builder can load the module, do its operations, and then
+> unload the module to save kernel memory. The total memory needed is 3.8MB.
+>
+> By having the archive available at a fixed location independent of
+> filesystem dependencies and conventions, all debugging tools can
+> directly refer to the fixed location for the archive, without concerning
+> with where the headers on a typical filesystem which significantly
+> simplifies tooling that needs kernel headers.
+>
+> The code to read the headers is based on /proc/config.gz code and uses
+> the same technique to embed the headers.
+>
+> To build a module, the below steps have been tested on an x86 machine:
+> modprobe kheaders
+> rm -rf $HOME/headers
+> mkdir -p $HOME/headers
+> tar -xvf /proc/kheaders.tar.xz -C $HOME/headers >/dev/null
+> cd my-kernel-module
+> make -C $HOME/headers M=$(pwd) modules
+> rmmod kheaders
+>
+> Additional notes:
+> (1) external modules must be built on the same arch as the host that
+> built vmlinux. This can be done either in a qemu emulated chroot on the
+> target, or natively. This is due to host arch dependency of kernel
+> scripts.
+>
+> (2)
+> If module building is used, since Module.symvers is not available in the
+> archive due to a cyclic dependency with building of the archive into the
+> kernel or module binaries, the modules built using the archive will not
+> contain symbol versioning (modversion). This is usually not an issue
+> since the idea of this patch is to build a kernel module on the fly and
+> load it into the same kernel. An appropriate warning is already printed
+> by the kernel to alert the user of modules not having modversions when
+> built using the archive. For building with modversions, the user can use
+> traditional header packages. For our tracing usecases, we build modules
+> on the fly with this so it is not a concern.
+>
+> (3) I have left IKHD_ST and IKHD_ED markers as is to facilitate
+> future patches that would extract the headers from a kernel or module
+> image.
+>
+> (v4 was Tested-by the following folks,
+>  v5 only has minor changes and has passed my testing).
+> Tested-by: qais.yousef@arm.com
+> Tested-by: dietmar.eggemann@arm.com
+> Tested-by: linux@manojrajarao.com
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+
+Sorry to be late at the party with this kind of feedback, but I find
+the whole ".tar.gz in procfs" to be an awkward solution, especially if
+there's expected to be userspace tooling that depends on this
+long-term.
+
+Wouldn't it be more convenient to provide it in a standardized format
+such that you won't have to take an additional step, and always have
+it in a known location?
+
+Something like:
+
+ - Pseudo-filesystem, that can just be mounted under
+/sys/kernel/headers or something (similar to debugfs or
+/proc/device-tree).
+ - Exporting something like a squashfs image instead, allowing
+loopback mounting of it (or by providing a pseudo-/dev entry for it),
+again allowing direct export of the contents and avoiding the
+extracted directory from being out of sync with currently running
+kernel.
+
+Having to copy and extract the tarball is the most awkward step, IMHO.
+I also find the waste of kernel memory for it to be an issue, but
+given that it can be built as a module I guess that's the obvious
+solution for those who care about memory consumption.
 
 
-Any preference on keeping or removing the "(s)" in the description, e.g.
-
-  Only output documentation for the given function(s) or DOC: section title(s).
-
-versus:
-
-  Only output documentation for the given symbol or DOC: section title.
-
-I think it makes sense to drop the "(s)" as each option can only specify a
-single symbole, i.e. the "(s)" behavior is covered by "May be specified
-multiple times."
-
-> 
-> BR,
-> Jani.
-> 
-> 
-> >  
-> > @@ -409,7 +409,7 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
-> >  	$output_mode = "none";
-> >      } elsif ($cmd eq "module") { # not needed for XML, inherits from calling document
-> >  	$modulename = shift @ARGV;
-> > -    } elsif ($cmd eq "function") { # to only output specific function
-> > +    } elsif ($cmd eq "symbol") { # to only output specific symbol
-> >  	$output_selection = OUTPUT_INCLUDE;
-> >  	$function = shift @ARGV;
-> >  	$function_table{$function} = 1;
-> 
-> -- 
-> Jani Nikula, Intel Open Source Graphics Center
+-Olof
