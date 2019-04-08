@@ -5,30 +5,29 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BC2337D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Apr 2019 21:45:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A7C627D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Apr 2019 22:03:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726532AbfDHVpp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Apr 2019 17:45:45 -0400
-Received: from ms.lwn.net ([45.79.88.28]:38156 "EHLO ms.lwn.net"
+        id S1726799AbfDHWDQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Apr 2019 18:03:16 -0400
+Received: from ms.lwn.net ([45.79.88.28]:38246 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726517AbfDHVpp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Apr 2019 17:45:45 -0400
+        id S1726693AbfDHWDQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Apr 2019 18:03:16 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 7CEF52CC;
-        Mon,  8 Apr 2019 21:45:44 +0000 (UTC)
-Date:   Mon, 8 Apr 2019 15:45:43 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id A5AC3301;
+        Mon,  8 Apr 2019 22:03:15 +0000 (UTC)
+Date:   Mon, 8 Apr 2019 16:03:14 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Sean Christopherson <sean.j.christopherson@intel.com>
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/4] kernel-doc: Revert "scripts/kernel-doc: Processing
- -nofunc for functions only"
-Message-ID: <20190408154543.7c0ac253@lwn.net>
-In-Reply-To: <20190405214453.18768-2-sean.j.christopherson@intel.com>
-References: <20190405214453.18768-1-sean.j.christopherson@intel.com>
-        <20190405214453.18768-2-sean.j.christopherson@intel.com>
+Subject: Re: [PATCH] kernel-doc: Let backtick and backslash escape percent
+ sign
+Message-ID: <20190408160314.05bc5ecb@lwn.net>
+In-Reply-To: <20190405211820.17617-1-sean.j.christopherson@intel.com>
+References: <20190405211820.17617-1-sean.j.christopherson@intel.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -38,29 +37,52 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri,  5 Apr 2019 14:44:50 -0700
+On Fri,  5 Apr 2019 14:18:20 -0700
 Sean Christopherson <sean.j.christopherson@intel.com> wrote:
 
-> Now that Docbook has been deprecated in favor of Sphinx, the -nofunction
-> option in kernel-doc is defunct, e.g. Sphinx doesn't currently support
-> it.  Furthermore, "functions only" behavior was used by Docproc to avoid
-> duplicating exported symbols, which is now handled by -export and
-> -internal.
+> There are a handful of instances where kernel doc comments want an
+> actual '%' in the final output, e.g. vsnprintf() wants to display "%n"
+> and "%p" to document format specifiers, and assembly functions that use
+> a custom call ABI may want to document their register usage, e.g. %eax.
 > 
-> The end goal is to enable using :nofunction: in .rst files to split
-> documentation of structures into separate categories.
-> 
-> This reverts commit 23aebb3c05f3b3fb06a68bf6b1539a05a5f8aaab.
-> 
-> Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
+> Because kernel-doc unconditionally interprets '%' followed by a word
+> character as a constant definition, i.e. %CONST, it's impossible to get
+> an actual '%\w' when kernel-doc is used to translate comments into rst
+> format.  Treat backtick and backlash as escaping '%', the former to
+> handle '%' in a ``LITERAL``, and the latter to allow '%' when using
+> standard formatting.
 
-It seems strange to express this as a revert - it's far from a clean
-revert of the original patch.  I think it's probably better to just merge
-this series into a single patch that implements the functionality you're
-after.
+So I'm sympathetic toward the goal; we want this stuff to format properly.
+But I'm less convinced about this specific solution.  Starting with the
+details: 
 
-As for the single/plural question, let's go with singular to match
---function.
+> -my $type_constant2 = '\%([-_\w]+)';
+> +my $type_constant2 = '(^|[^\`\\\])\%([-_\w]+)';
+
+This only escapes the % if it occurs *immediately* after the backtick, so
+something like ``foo %p`` will still get processed incorrectly.  Somebody
+will surely run into that at some point and waste a bunch of time trying to
+figure out what's going on.
+
+Also, believe it or not, I don't think you have enough backslashes; that
+inner expression, I believe, should be:
+
+	[^\`\\\\]
+
+Gosh Perl regexes are fun...  This highlights the danger of adding
+functionality that isn't exercised anywhere; I don't think it works here.
+
+Now to more general considerations.  Willy's suggestion of using %% instead
+makes some sense, though it may lead to pushback from the "no extra markup
+ever" contingent.  It should be more straightforward to implement
+correctly.
+
+I have to wonder if the % thing is actually buying us much, honestly.  It's
+another form of markup that kind of duplicates the Sphinx notation, and
+we've kind of agreed that most of the time, we don't want to clutter our
+text with ``explicit markup`` like that.  I'm curious what people think:
+might the best solution be to just make %const do nothing special, with the
+idea of phasing it out?
 
 Thanks,
 
