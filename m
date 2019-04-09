@@ -4,45 +4,43 @@ X-Spam-Level:
 X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4A4467D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Apr 2019 16:35:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C141C7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Apr 2019 16:43:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726471AbfDIQfa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Apr 2019 12:35:30 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:34318 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726446AbfDIQfa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Apr 2019 12:35:30 -0400
-Received: by mail-oi1-f195.google.com with SMTP id v10so14128177oib.1;
-        Tue, 09 Apr 2019 09:35:30 -0700 (PDT)
+        id S1726512AbfDIQnL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Apr 2019 12:43:11 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:33613 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726465AbfDIQnL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Apr 2019 12:43:11 -0400
+Received: by mail-ot1-f68.google.com with SMTP id j10so16210968otq.0;
+        Tue, 09 Apr 2019 09:43:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=6ZdEm+nCT8GqpIePrQVMM/gBx9GNJtS18lIPrfCPPOg=;
-        b=tO6F5pKY/PxqJR2ijua/sxRNF5weswWDhzYKFG4sVhxiPujDcicwa1sGES3Mbmlpjg
-         ZdCQxzWYY4x8ixeLC1aNqQQjIxScs+4m2uCFqhcFH7xXR8Y56FdMyBKG0em3jeEeXGg+
-         S3VbdJ1P43KqR6IYRL7mpEQDLkKSrqZyNDJaw8M1OfxmoBcbLc5t2nHkJZWgiOkZ43Fl
-         qRnPgwhWHyXEbGCVMUF0RFiIJBndrvlkZNpIzA0gTCSEN1VVVSSmvsz3mKHaj2Yq6LpR
-         c+/CohOyEsAYAhG4nhE8yvUXjpahz1bWIENIsjFsPG7nArDI/LSgZnEexMcL9eyHNEPh
-         hbag==
-X-Gm-Message-State: APjAAAV5aN2YLJQV3SgGyUahJiuRXv7Z9EOFkjxb8WGHxsfoZvtgjcQa
-        ewk5ZW38R9DTo6gndRuDfk7BXEGzbJ7bDpGVJ0PcLg==
-X-Google-Smtp-Source: APXvYqypp6hkyTgy573ENPphDlYvwABo/k7hJJjDXXMBnHEqn1tks7soNY8myyidxPs0sm1vGL/sKKRLfQT566R1Hp8=
-X-Received: by 2002:aca:5c55:: with SMTP id q82mr20408814oib.95.1554827729558;
- Tue, 09 Apr 2019 09:35:29 -0700 (PDT)
+        bh=YugM0T8nODd+4GQ5iGHz+GQ5SmQR4JkwnCYSPD0kXuQ=;
+        b=hQ83FiYR/5qC9Jy4eK7T8NdaGpeHJjS6Qlql8+qh++DBzRqYvL3PAsPNXE6yTkjUqp
+         NNwWMtE4tflJ75tPkfDaBOyV9JQl3UWQfbb9e+iiG14pjUnyanK8GSoIR5RSqgFEzPdX
+         S7TX0iPrv5BcrM8pQtcq7+DxR7c3bQ45bjMv5WwnACyGgAPiwm0D2Y2KaAKxfNt1Z+6G
+         9WhMQ0BqQ0ZskoaT+ary+1hW+1dzMjrTRW6QWDcMElChnf71E5M4VuGNZZkkwWIt8OgW
+         yaaRsvtURtDgiNSDP/+yCqcQQvT2Uk8xI/9HNAZG/Aw/p4i4rBY4fWb/h9E94S+p65rw
+         dUGQ==
+X-Gm-Message-State: APjAAAXDodP1wuH9q6jJS1A1DSmQz3Av93qoiPwaBil+B2lmalJ5gg5V
+        L2tcs9gZbwK0lJU8WtIh9mPiPF027nC13v8iyyE=
+X-Google-Smtp-Source: APXvYqxtSDEwTTbntrVIkFfs9EJ2wef1fP+IJ83V0sKQtVP6A6D/Rsta+wOR56X3RtSY0OOh7Gp36TM1I4Ea1kDQymM=
+X-Received: by 2002:a9d:4b11:: with SMTP id q17mr25143721otf.272.1554828190051;
+ Tue, 09 Apr 2019 09:43:10 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190329001135.15847-1-changbin.du@gmail.com> <CAJZ5v0gKX9E+U_9eKfTr7pWGH=jxMLz_Jr850-6BcbG3xBz5qg@mail.gmail.com>
- <CAJZ5v0jbCi3Jgn5YXPCP+zgs-O7z-9_3p3XZGvm40_6RDsJqkQ@mail.gmail.com>
- <20190403133613.13f3fd75@lwn.net> <CAHp75VdXffhc+2YcFNOr2XwauTt08Bw75ao2ia7cNvAqhJnUQQ@mail.gmail.com>
-In-Reply-To: <CAHp75VdXffhc+2YcFNOr2XwauTt08Bw75ao2ia7cNvAqhJnUQQ@mail.gmail.com>
+ <CAJZ5v0jbCi3Jgn5YXPCP+zgs-O7z-9_3p3XZGvm40_6RDsJqkQ@mail.gmail.com> <20190403133613.13f3fd75@lwn.net>
+In-Reply-To: <20190403133613.13f3fd75@lwn.net>
 From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Tue, 9 Apr 2019 18:35:18 +0200
-Message-ID: <CAJZ5v0hba3CPdTBNv0RC+rLY2EGBPHU0tbAcAYQNbc5XZZHx_A@mail.gmail.com>
+Date:   Tue, 9 Apr 2019 18:42:59 +0200
+Message-ID: <CAJZ5v0gWmmNwiNW=5XgpO6EJw6cAXpwOOePOtuGmR_JzrC+64g@mail.gmail.com>
 Subject: Re: [PATCH v2 00/24] Include linux ACPI docs into Sphinx TOC tree
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
         Changbin Du <changbin.du@gmail.com>,
         "Rafael J. Wysocki" <rjw@rjwysocki.net>,
         Len Brown <lenb@kernel.org>,
@@ -55,22 +53,71 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 3, 2019 at 10:40 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
+On Wed, Apr 3, 2019 at 9:36 PM Jonathan Corbet <corbet@lwn.net> wrote:
 >
-> On Wed, Apr 3, 2019 at 10:38 PM Jonathan Corbet <corbet@lwn.net> wrote:
-> > On Tue, 2 Apr 2019 10:25:23 +0200
+> On Tue, 2 Apr 2019 10:25:23 +0200
+> "Rafael J. Wysocki" <rafael@kernel.org> wrote:
 >
+> > There are ACPI-related documents currently in Documentation/acpi/ that
+> > don't clearly fall under either driver-api or admin-guide.  For
+> > example, some of them describe various aspects of the ACPI support
+> > subsystem operation and some document expectations with respect to the
+> > ACPI tables provided by the firmware etc.
+> >
+> > Where would you recommend to put them after converting to .rst?
 >
-> > Admin guide
-> >         cppc_sysfs
+> OK, I've done some pondering on this.  Maybe what we need is a new
+> top-level "hardware guide" book meant to hold information on how the
+> hardware works and what the kernel's expectations are.  Architecture
+> information could maybe go there too.  Would this make sense?
 >
-> >         initrd_table_override
+> If so, I could see a division like this:
 >
-> > other:
-> >         dsdt-override: find another home for those five lines
->
-> This is similar to initrd_table_override for some particular case, and
-> sounds like Admin guide, indeed.
+> Hardware guide
 
-Right, I would put this one into admin-guide.
+This is more about documenting the expectations regarding the platform
+firmware, so what about firmware-guide instead?
+
+>         acpi-lid
+>         aml-debugger (or maybe driver api?)
+>         debug (ditto)
+>         DSD-properties-rules
+>         gpio-properties
+>         i2c-muxes
+>
+> Admin guide
+>         cppc_sysfs
+>         initrd_table_override
+
+And I would add dsdt-override here.
+
+>
+> Driver-API
+>         enumeration
+>         scan_handlers
+>
+
+So what about this:
+
+- Create a new firmware-guide under Documentation and add an acpi/
+directory to it for starters.  Put the following files into it:
+
+         acpi-lid
+         aml-debugger
+         debug (ditto)
+         DSD-properties-rules
+         gpio-properties
+         i2c-muxes
+
+- Add an acpi/ subdirectory to Documentation/admin-guide and put the
+following files into it:
+
+         cppc_sysfs
+         initrd_table_override
+         dsdt-override
+
+- Add an acpi/ subdirectory to Documentation/driver-api and put the
+following files into it:
+
+         enumeration
+         scan_handlers
