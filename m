@@ -1,78 +1,91 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7D3BE7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  8 Apr 2019 22:18:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C1CE47D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Apr 2019 00:44:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726691AbfDHWSW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Apr 2019 18:18:22 -0400
-Received: from ms.lwn.net ([45.79.88.28]:38342 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726188AbfDHWSW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Apr 2019 18:18:22 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 64ADF2CC;
-        Mon,  8 Apr 2019 22:18:21 +0000 (UTC)
-Date:   Mon, 8 Apr 2019 16:18:20 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        id S1726562AbfDIAoe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Apr 2019 20:44:34 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:55707 "EHLO
+        out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726492AbfDIAoe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Apr 2019 20:44:34 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailout.nyi.internal (Postfix) with ESMTP id 5FB162260D;
+        Mon,  8 Apr 2019 20:44:33 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Mon, 08 Apr 2019 20:44:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=EY4KYpMSBgIrk8NdJ
+        wqzmJTnkTcU/i4xZeqRBrgiees=; b=gLst+XeKCCqaf3IsWeI+xbalDj6B698Az
+        OYtYRNSkL02AxiflJzZ9YMqxRaejpYxmkq677G02TsegzChcqHBCvwnRjDhlK0e7
+        mtB9JglA90X7EoaEGgcotR0d0j88W18c8UBcmuoe8of4IVWFRKy6mVB/gfyPToZr
+        6nXw1g9KI/KauWOq35xS8mprS2uXQaBNfDpkFPO00Gs5nejGgR3qZl4qWJ9U3RI6
+        A3+6/1fUGxhfSjNO0aDq5W2/5Mys58ZE9sa2S3IMaYjk8WzG+1u2hT9mIZTjX45P
+        CzMZB6R4cvvUtU6fctTR6N49P3ws5u+bKQfNo6Thoy5/LwpNWDrxw==
+X-ME-Sender: <xms:8eqrXLzyKrRWj9Y28mk8O_vTUAy10xxFU7vPi_Vn4uVmzEGVyYvFzw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrudeggdefiecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepfdfvohgsihhnucev
+    rdcujfgrrhguihhnghdfuceothhosghinheskhgvrhhnvghlrdhorhhgqeenucfkphepud
+    dvuddrgeegrddvudejrdehtdenucfrrghrrghmpehmrghilhhfrhhomhepthhosghinhes
+    khgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:8eqrXIhVi9CDehuiuk6xMzBbfctqL0pZSJqduGNH3oc6sOH4D39_jQ>
+    <xmx:8eqrXH_q1-eZsVtcijDDdZZxd2vCJXeNK5kdOvCOIPcQGedxHmg1gA>
+    <xmx:8eqrXFMOeMS2i_YZDvKvXJzePUInPF1KXx-vSxG10C2MTCcynvDgIg>
+    <xmx:8eqrXBH73oJmiaXJuW9TLcp4Kc_Jqq8NUbxYxE5CoG4bqtnmFuG8kQ>
+Received: from eros.localdomain (ppp121-44-217-50.bras1.syd2.internode.on.net [121.44.217.50])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 49FF0E4519;
+        Mon,  8 Apr 2019 20:44:31 -0400 (EDT)
+From:   "Tobin C. Harding" <tobin@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     "Tobin C. Harding" <tobin@kernel.org>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/10] Add all documentation files to an html/pdf
- produced book
-Message-ID: <20190408161820.6a12657f@lwn.net>
-In-Reply-To: <cover.1554742526.git.mchehab+samsung@kernel.org>
-References: <cover.1554742526.git.mchehab+samsung@kernel.org>
-Organization: LWN.net
+Subject: [PATCH v2 0/4] docs: Fix various build warnings/errors
+Date:   Tue,  9 Apr 2019 10:43:55 +1000
+Message-Id: <20190409004359.29668-1-tobin@kernel.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon,  8 Apr 2019 13:58:16 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+Hi Jon,
 
-> Despite having converted almost all files to ReST at the main Documentation/
-> directory, they're still not included to any book. Also, after all those years
-> after migrated to ReST as the official documentation format, there are still
-> a lot of files using plain TXT files, with random internal formatting.
-> 
-> As it will likely require a lot more years to get everything converted,
-> let's add index.rst files to Documentation/* subdirs, with a text_files.rst
-> including all plain txt files as literal includes.
-> 
-> That ensures that the html output will contain the entire Linux Kernel
-> documentation.
+Here are the first 4 patches from the v1 of this series that are still
+useful when applied to the current docs-next branch.
 
-Hmm...
+Set does a few minor clean ups, nothing too amazing here.  Patch 2
+removes three Sphinx build warnings:
 
->  251 files changed, 5262 insertions(+), 47 deletions(-)
+Patch 3 is slightly subjective, holla at me (anyone) if you don't like it
+and I'll remove it.
 
-Somebody clearly thinks I haven't been involved in enough merge conflicts
-recently :)
+thanks,
+Tobin.
 
-I understand the goal, but I have to wonder.  This feels a lot like giving
-up on the problem and just sweeping the remaining junk into a pile
-somewhere.  I feel like it would, if anything, reduce the incentive to
-deal with these leftover documents properly.  
 
-If this is *really* something we want to do, I would much rather proceed
-in smaller steps and preferably with the cooperation of the maintainers
-involved.  Imposing all of this at once just seems like a way to make it
-highly dangerous for me to show my face a conferences...
+Tobin C. Harding (4):
+  docs: Fix spelling mistake
+  docs: Add colon clearing sphinx warning
+  docs: Remove unnecessary reference link title
+  docs: Use reference to link to rst file
 
-Thoughts?
+ Documentation/admin-guide/mm/numa_memory_policy.rst | 9 ++++-----
+ Documentation/process/howto.rst                     | 2 +-
+ Documentation/vm/numa.rst                           | 4 ++--
+ include/linux/wait.h                                | 2 +-
+ 4 files changed, 8 insertions(+), 9 deletions(-)
 
-Thanks,
+-- 
+2.21.0
 
-jon
