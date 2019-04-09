@@ -1,183 +1,76 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6CFE87D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Apr 2019 16:17:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4A4467D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Apr 2019 16:35:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726460AbfDIQRL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Apr 2019 12:17:11 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:36975 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726412AbfDIQRK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Apr 2019 12:17:10 -0400
-Received: by mail-pg1-f195.google.com with SMTP id e6so9575503pgc.4;
-        Tue, 09 Apr 2019 09:17:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=vKw8Jl9tNEqGMUO467SQXKKYv88p0pyHcXsJhIjuhFk=;
-        b=IwiMC75f3+vX+tEKVTBZKhHd5TgUMvi9yKSkkfFOoIb6/LuIXeudrnlyE6gSO1wFlI
-         bCMYFKCUU4O/DbwShOO1BkjLIbHiao33xTV68qXq/NAoIVOYolZwA/AHo1pTf/gAjn5S
-         W+wYG6ASQyIbyOFZmSIbZWYgsdrUdHWHgTkSGDuvkzrr2VIvk9Gyf0JOBLOpr26lFpA7
-         tW9nMuG6x0Srnyj/rNMrHm7hWiFQ0J8LDtdPcc1F1wFAbk2DzrJYiGZnII23fS5g7NCX
-         302oKoOP1Y62Q+deyhazzqg566zWI3A6yBMksmm1AG0u2MWxFFCjIsghjlMwz2KlQGLY
-         Ukrw==
+        id S1726471AbfDIQfa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Apr 2019 12:35:30 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:34318 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726446AbfDIQfa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Apr 2019 12:35:30 -0400
+Received: by mail-oi1-f195.google.com with SMTP id v10so14128177oib.1;
+        Tue, 09 Apr 2019 09:35:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=vKw8Jl9tNEqGMUO467SQXKKYv88p0pyHcXsJhIjuhFk=;
-        b=qUO1f4O+uR2PZ2tyYqoDK6wfOGQHf+aJHywXm5wYLEIliSk/Zf84bGxzqmdWdhs5gT
-         kON6kt0bgeugz7dhYbq1p3m1ZcTfMkHiB6aKVjmjygjhdrVqgMX8G/lvWBHFC8upZmge
-         KEBFbWbA8y3d/iiJvwG8moFciliyr/tl1T+qq1VixvCmG5uGuw8jcV3tkH+7jZTyOJW1
-         Tar+f4nSB/T4TwJIXJuXOL8wWkuzvsAJhzhX19h65axQuoK+YA02lpMhCE9hlyiXLLhK
-         KbM/1zK3VunlxCdd64DyzECClok6OZqdZ5yYDexz+IEuaZ3UFjy+oxFrl+H2jiGlOHPM
-         +IvA==
-X-Gm-Message-State: APjAAAWB7gdsDfa04E4GRlCHz9aDl01PnBqezAjLLyRqmrOuRPjBAt0W
-        9Wy40pkW/EAJ2YXyvRa1/4WsHnDr
-X-Google-Smtp-Source: APXvYqyWUIMDBbEk74RxQq3YagkSKRFnJ6UnL4jnCH4JYGLxKLtPhvNpESHKN8uAyV/OJFF2eef5nw==
-X-Received: by 2002:a63:f444:: with SMTP id p4mr36475025pgk.32.1554826629948;
-        Tue, 09 Apr 2019 09:17:09 -0700 (PDT)
-Received: from mail.google.com ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id g10sm15773364pgq.54.2019.04.09.09.17.05
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 09 Apr 2019 09:17:09 -0700 (PDT)
-Date:   Wed, 10 Apr 2019 00:17:02 +0800
-From:   Changbin Du <changbin.du@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Changbin Du <changbin.du@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6ZdEm+nCT8GqpIePrQVMM/gBx9GNJtS18lIPrfCPPOg=;
+        b=tO6F5pKY/PxqJR2ijua/sxRNF5weswWDhzYKFG4sVhxiPujDcicwa1sGES3Mbmlpjg
+         ZdCQxzWYY4x8ixeLC1aNqQQjIxScs+4m2uCFqhcFH7xXR8Y56FdMyBKG0em3jeEeXGg+
+         S3VbdJ1P43KqR6IYRL7mpEQDLkKSrqZyNDJaw8M1OfxmoBcbLc5t2nHkJZWgiOkZ43Fl
+         qRnPgwhWHyXEbGCVMUF0RFiIJBndrvlkZNpIzA0gTCSEN1VVVSSmvsz3mKHaj2Yq6LpR
+         c+/CohOyEsAYAhG4nhE8yvUXjpahz1bWIENIsjFsPG7nArDI/LSgZnEexMcL9eyHNEPh
+         hbag==
+X-Gm-Message-State: APjAAAV5aN2YLJQV3SgGyUahJiuRXv7Z9EOFkjxb8WGHxsfoZvtgjcQa
+        ewk5ZW38R9DTo6gndRuDfk7BXEGzbJ7bDpGVJ0PcLg==
+X-Google-Smtp-Source: APXvYqypp6hkyTgy573ENPphDlYvwABo/k7hJJjDXXMBnHEqn1tks7soNY8myyidxPs0sm1vGL/sKKRLfQT566R1Hp8=
+X-Received: by 2002:aca:5c55:: with SMTP id q82mr20408814oib.95.1554827729558;
+ Tue, 09 Apr 2019 09:35:29 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190329001135.15847-1-changbin.du@gmail.com> <CAJZ5v0gKX9E+U_9eKfTr7pWGH=jxMLz_Jr850-6BcbG3xBz5qg@mail.gmail.com>
+ <CAJZ5v0jbCi3Jgn5YXPCP+zgs-O7z-9_3p3XZGvm40_6RDsJqkQ@mail.gmail.com>
+ <20190403133613.13f3fd75@lwn.net> <CAHp75VdXffhc+2YcFNOr2XwauTt08Bw75ao2ia7cNvAqhJnUQQ@mail.gmail.com>
+In-Reply-To: <CAHp75VdXffhc+2YcFNOr2XwauTt08Bw75ao2ia7cNvAqhJnUQQ@mail.gmail.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 9 Apr 2019 18:35:18 +0200
+Message-ID: <CAJZ5v0hba3CPdTBNv0RC+rLY2EGBPHU0tbAcAYQNbc5XZZHx_A@mail.gmail.com>
+Subject: Re: [PATCH v2 00/24] Include linux ACPI docs into Sphinx TOC tree
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
         "Rafael J. Wysocki" <rafael@kernel.org>,
+        Changbin Du <changbin.du@gmail.com>,
         "Rafael J. Wysocki" <rjw@rjwysocki.net>,
         Len Brown <lenb@kernel.org>,
-        Bjorn Helgaas <helgaas@kernel.org>,
         ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 00/24] Include linux ACPI docs into Sphinx TOC tree
-Message-ID: <20190409161700.3itslgpqlhx3up3m@mail.google.com>
-References: <20190329001135.15847-1-changbin.du@gmail.com>
- <CAJZ5v0gKX9E+U_9eKfTr7pWGH=jxMLz_Jr850-6BcbG3xBz5qg@mail.gmail.com>
- <CAJZ5v0jbCi3Jgn5YXPCP+zgs-O7z-9_3p3XZGvm40_6RDsJqkQ@mail.gmail.com>
- <20190403133613.13f3fd75@lwn.net>
- <20190405024350.rbwbiaxjybrmqea6@mail.google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190405024350.rbwbiaxjybrmqea6@mail.google.com>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 05, 2019 at 10:44:35AM +0800, Changbin Du wrote:
-> + Bjorn
-> 
-> On Wed, Apr 03, 2019 at 01:36:13PM -0600, Jonathan Corbet wrote:
+On Wed, Apr 3, 2019 at 10:40 PM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> On Wed, Apr 3, 2019 at 10:38 PM Jonathan Corbet <corbet@lwn.net> wrote:
 > > On Tue, 2 Apr 2019 10:25:23 +0200
-> > "Rafael J. Wysocki" <rafael@kernel.org> wrote:
-> > 
-> > > There are ACPI-related documents currently in Documentation/acpi/ that
-> > > don't clearly fall under either driver-api or admin-guide.  For
-> > > example, some of them describe various aspects of the ACPI support
-> > > subsystem operation and some document expectations with respect to the
-> > > ACPI tables provided by the firmware etc.
-> > > 
-> > > Where would you recommend to put them after converting to .rst?
-> > 
-> > OK, I've done some pondering on this.  Maybe what we need is a new
-> > top-level "hardware guide" book meant to hold information on how the
-> > hardware works and what the kernel's expectations are.  Architecture
-> > information could maybe go there too.  Would this make sense?
-> > 
-> > If so, I could see a division like this:
-> > 
-> > Hardware guide
-> > 	acpi-lid
-> > 	aml-debugger (or maybe driver api?)
-> > 	debug (ditto)
-> > 	DSD-properties-rules
-> > 	gpio-properties
-> > 	i2c-muxes
-> > 
+>
+>
 > > Admin guide
-> > 	cppc_sysfs
-> > 	initrd_table_override
-> > 
-> > Driver-API
-> > 	enumeration
-> > 	scan_handlers
-> > 
+> >         cppc_sysfs
+>
+> >         initrd_table_override
+>
 > > other:
-> > 	dsdt-override: find another home for those five lines
-> >
-> Then, should we create dedicated sub-directories for these new charpters and
-> move documents to coresspoding one? Now we have 'admin-guide' and all admin-guid
-> docs are under it, otherwise we will have reference across different folders.
-> For example, the 'admin-guide/index.rst' will have:
->     ...
->     ../acpi/osi
->     ...
-> Which seems not good.
+> >         dsdt-override: find another home for those five lines
 >
-Jonathan, what is your idea about the placement of doc files?
+> This is similar to initrd_table_override for some particular case, and
+> sounds like Admin guide, indeed.
 
-> > ...and so on.  I've probably gotten at least one of those wrong, but that's
-> > the idea.
-> > 
-> > Of course, then it would be nice to better integrate those documents so
-> > that they fit into a single coherent whole...a guy can dream...:)
-> >
-> I am not an adminstrator, so I don't know how adminstrators use this kernel
-> documentation. But as a kernel developer, I prefer all related documents
-> integrated into one charpter. Because I probably miss some useful sections
-> if the documents are distributed into several charpters. And this is usually
-> how a book is written (One charpter focus on one topic and has sub-sections
-> such as overview, backgroud knowledge, implemenation details..),
-> but a book mostly target on hypothetical readers...
->
-After some considerarion, I have a new idea. Since the top charpter named as
-*API* so non-API things is not suitable for this charpter. But can we just
-rename it? For example, we can rename 'Kernel API documentation' to 
-'Subsystem-specifc documentation' which is similar to 'Architecture-specific documentation'?
-
-Subsystem-specifc documentation
--------------------------------
-.. toctree::
-   :maxdepth: 2
-
-   driver-api/index
-   core-api/index
-   media/index
-   networking/index
-   input/index
-   gpu/index
-   ...
-
-Architecture-specific documentation
------------------------------------
-.. toctree::
-   :maxdepth: 2
-
-   sh/index
-   x86/index
-   ...
-
-> > Thanks,
-> > 
-> > jon
-> 
-> -- 
-> Cheers,
-> Changbin Du
-
--- 
-Cheers,
-Changbin Du
+Right, I would put this one into admin-guide.
