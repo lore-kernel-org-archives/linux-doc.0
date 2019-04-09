@@ -2,24 +2,24 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 89F367D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Apr 2019 12:54:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BBB267D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Apr 2019 12:57:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726936AbfDIMyP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Apr 2019 08:54:15 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:44306 "EHLO huawei.com"
+        id S1727136AbfDIM5Z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Apr 2019 08:57:25 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:33406 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726112AbfDIMyO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 9 Apr 2019 08:54:14 -0400
+        id S1726129AbfDIM5Z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 9 Apr 2019 08:57:25 -0400
 Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id 3EDFBC03F55BB5BE4CE8;
-        Tue,  9 Apr 2019 20:54:10 +0800 (CST)
+        by Forcepoint Email with ESMTP id 5DE5FB99BA9AAAB34D1B;
+        Tue,  9 Apr 2019 20:54:15 +0800 (CST)
 Received: from HGHY1l002753561.china.huawei.com (10.177.23.164) by
  DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
- 14.3.408.0; Tue, 9 Apr 2019 20:54:00 +0800
+ 14.3.408.0; Tue, 9 Apr 2019 20:54:07 +0800
 From:   Zhen Lei <thunder.leizhen@huawei.com>
 To:     Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
         John Garry <john.garry@huawei.com>,
@@ -48,10 +48,12 @@ To:     Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
         x86 <x86@kernel.org>, linux-ia64 <linux-ia64@vger.kernel.org>
 CC:     Zhen Lei <thunder.leizhen@huawei.com>,
         Hanjun Guo <guohanjun@huawei.com>
-Subject: [PATCH v5 0/6] add generic boot option for IOMMU dma mode
-Date:   Tue, 9 Apr 2019 20:53:02 +0800
-Message-ID: <20190409125308.18304-1-thunder.leizhen@huawei.com>
+Subject: [PATCH v5 5/6] powernv/iommu: add support for generic boot option iommu.dma_mode
+Date:   Tue, 9 Apr 2019 20:53:07 +0800
+Message-ID: <20190409125308.18304-6-thunder.leizhen@huawei.com>
 X-Mailer: git-send-email 2.19.2.windows.1
+In-Reply-To: <20190409125308.18304-1-thunder.leizhen@huawei.com>
+References: <20190409125308.18304-1-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
@@ -62,49 +64,70 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-v4 --> v5:
-As Hanjun and Thomas Gleixner's suggestion:
-1. Keep the old ARCH specific boot options no change.
-2. Keep build option CONFIG_IOMMU_DEFAULT_PASSTHROUGH no change.
+iommu=nobypass can be replaced with iommu.dma_mode=strict.
 
-v4:
-As Robin Murphy's suggestion:
-"It's also not necessarily obvious to the user how this interacts with
-IOMMU_DEFAULT_PASSTHROUGH, so if we really do go down this route, maybe it
-would be better to refactor the whole lot into a single selection of something
-like IOMMU_DEFAULT_MODE anyway."
+Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 2 +-
+ arch/powerpc/platforms/powernv/pci-ioda.c       | 5 ++---
+ drivers/iommu/Kconfig                           | 1 +
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-In this version, I tried to normalize the IOMMU dma mode boot options for all
-ARCHs. When IOMMU is enabled, there are 3 dma modes: paasthrough(bypass),
-lazy(mapping but defer the IOTLB invalidation), strict. But currently each
-ARCHs defined their private boot options, different with each other. For
-example, to enable/disable "passthrough", ARM64 use iommu.passthrough=1/0,
-X86 use iommu=pt/nopt, PPC/POWERNV use iommu=nobypass.
-
-Zhen Lei (6):
-  iommu: add generic boot option iommu.dma_mode
-  iommu: add build options corresponding to iommu.dma_mode
-  iommu: add iommu_default_dma_mode_get/set() helper
-  s390/pci: add support for generic boot option iommu.dma_mode
-  powernv/iommu: add support for generic boot option iommu.dma_mode
-  x86/iommu: add support for generic boot option iommu.dma_mode
-
- Documentation/admin-guide/kernel-parameters.txt | 19 +++++++
- arch/ia64/include/asm/iommu.h                   |  2 -
- arch/ia64/kernel/pci-dma.c                      |  2 -
- arch/powerpc/platforms/powernv/pci-ioda.c       |  5 +-
- arch/s390/pci/pci_dma.c                         | 14 ++---
- arch/x86/include/asm/iommu.h                    |  1 -
- arch/x86/kernel/pci-dma.c                       | 35 ++++++------
- drivers/iommu/Kconfig                           | 45 ++++++++++++---
- drivers/iommu/amd_iommu.c                       | 10 ++--
- drivers/iommu/amd_iommu_init.c                  |  4 +-
- drivers/iommu/amd_iommu_types.h                 |  6 --
- drivers/iommu/intel-iommu.c                     |  9 ++-
- drivers/iommu/iommu.c                           | 73 ++++++++++++++++++++-----
- include/linux/iommu.h                           | 23 ++++++++
- 14 files changed, 176 insertions(+), 72 deletions(-)
-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index ab8e3c4798c0a2a..176f96032d9d62a 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1815,7 +1815,7 @@
+ 			options(such as CONFIG_IOMMU_DEFAULT_PASSTHROUGH) to
+ 			choose which mode to be used.
+ 			Note: For historical reasons, ARM64/S390/PPC/X86 have
+-			their specific options. Currently, only ARM64/S390
++			their specific options. Currently, only ARM64/S390/PPC
+ 			support this boot option, and hope other ARCHs to use
+ 			this as generic boot option.
+ 		passthrough
+diff --git a/arch/powerpc/platforms/powernv/pci-ioda.c b/arch/powerpc/platforms/powernv/pci-ioda.c
+index 3ead4c237ed0ec9..8862885d866418f 100644
+--- a/arch/powerpc/platforms/powernv/pci-ioda.c
++++ b/arch/powerpc/platforms/powernv/pci-ioda.c
+@@ -85,7 +85,6 @@ void pe_level_printk(const struct pnv_ioda_pe *pe, const char *level,
+ 	va_end(args);
+ }
+ 
+-static bool pnv_iommu_bypass_disabled __read_mostly;
+ static bool pci_reset_phbs __read_mostly;
+ 
+ static int __init iommu_setup(char *str)
+@@ -95,7 +94,7 @@ static int __init iommu_setup(char *str)
+ 
+ 	while (*str) {
+ 		if (!strncmp(str, "nobypass", 8)) {
+-			pnv_iommu_bypass_disabled = true;
++			iommu_default_dma_mode_set(IOMMU_DMA_MODE_STRICT);
+ 			pr_info("PowerNV: IOMMU bypass window disabled.\n");
+ 			break;
+ 		}
+@@ -2456,7 +2455,7 @@ static long pnv_pci_ioda2_setup_default_config(struct pnv_ioda_pe *pe)
+ 		return rc;
+ 	}
+ 
+-	if (!pnv_iommu_bypass_disabled)
++	if (IOMMU_DMA_MODE_IS_PASSTHROUGH())
+ 		pnv_pci_ioda2_set_bypass(pe, true);
+ 
+ 	return 0;
+diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
+index b7173b106cd816a..5dca666b22e6cd5 100644
+--- a/drivers/iommu/Kconfig
++++ b/drivers/iommu/Kconfig
+@@ -77,6 +77,7 @@ config IOMMU_DEBUGFS
+ choice
+ 	prompt "IOMMU dma mode"
+ 	depends on IOMMU_API
++	default IOMMU_DEFAULT_PASSTHROUGH if (PPC_POWERNV && PCI)
+ 	default IOMMU_DEFAULT_LAZY if S390_IOMMU
+ 	default IOMMU_DEFAULT_STRICT
+ 	help
 -- 
 1.8.3
 
