@@ -1,123 +1,77 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C141C7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Apr 2019 16:43:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CED197D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Apr 2019 16:48:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726512AbfDIQnL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Apr 2019 12:43:11 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:33613 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726465AbfDIQnL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Apr 2019 12:43:11 -0400
-Received: by mail-ot1-f68.google.com with SMTP id j10so16210968otq.0;
-        Tue, 09 Apr 2019 09:43:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YugM0T8nODd+4GQ5iGHz+GQ5SmQR4JkwnCYSPD0kXuQ=;
-        b=hQ83FiYR/5qC9Jy4eK7T8NdaGpeHJjS6Qlql8+qh++DBzRqYvL3PAsPNXE6yTkjUqp
-         NNwWMtE4tflJ75tPkfDaBOyV9JQl3UWQfbb9e+iiG14pjUnyanK8GSoIR5RSqgFEzPdX
-         S7TX0iPrv5BcrM8pQtcq7+DxR7c3bQ45bjMv5WwnACyGgAPiwm0D2Y2KaAKxfNt1Z+6G
-         9WhMQ0BqQ0ZskoaT+ary+1hW+1dzMjrTRW6QWDcMElChnf71E5M4VuGNZZkkwWIt8OgW
-         yaaRsvtURtDgiNSDP/+yCqcQQvT2Uk8xI/9HNAZG/Aw/p4i4rBY4fWb/h9E94S+p65rw
-         dUGQ==
-X-Gm-Message-State: APjAAAXDodP1wuH9q6jJS1A1DSmQz3Av93qoiPwaBil+B2lmalJ5gg5V
-        L2tcs9gZbwK0lJU8WtIh9mPiPF027nC13v8iyyE=
-X-Google-Smtp-Source: APXvYqxtSDEwTTbntrVIkFfs9EJ2wef1fP+IJ83V0sKQtVP6A6D/Rsta+wOR56X3RtSY0OOh7Gp36TM1I4Ea1kDQymM=
-X-Received: by 2002:a9d:4b11:: with SMTP id q17mr25143721otf.272.1554828190051;
- Tue, 09 Apr 2019 09:43:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190329001135.15847-1-changbin.du@gmail.com> <CAJZ5v0gKX9E+U_9eKfTr7pWGH=jxMLz_Jr850-6BcbG3xBz5qg@mail.gmail.com>
- <CAJZ5v0jbCi3Jgn5YXPCP+zgs-O7z-9_3p3XZGvm40_6RDsJqkQ@mail.gmail.com> <20190403133613.13f3fd75@lwn.net>
-In-Reply-To: <20190403133613.13f3fd75@lwn.net>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Tue, 9 Apr 2019 18:42:59 +0200
-Message-ID: <CAJZ5v0gWmmNwiNW=5XgpO6EJw6cAXpwOOePOtuGmR_JzrC+64g@mail.gmail.com>
-Subject: Re: [PATCH v2 00/24] Include linux ACPI docs into Sphinx TOC tree
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Changbin Du <changbin.du@gmail.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726372AbfDIQsF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Apr 2019 12:48:05 -0400
+Received: from smtprelay0046.hostedemail.com ([216.40.44.46]:47357 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726456AbfDIQsF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Apr 2019 12:48:05 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay03.hostedemail.com (Postfix) with ESMTP id B9B2C83777ED;
+        Tue,  9 Apr 2019 16:48:03 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: toe91_461f85aaab615
+X-Filterd-Recvd-Size: 2216
+Received: from XPS-9350 (unknown [172.56.41.62])
+        (Authenticated sender: joe@perches.com)
+        by omf01.hostedemail.com (Postfix) with ESMTPA;
+        Tue,  9 Apr 2019 16:48:01 +0000 (UTC)
+Message-ID: <94a1b22362ad839b1c686f52aa4e16c171881ae6.camel@perches.com>
+Subject: Re: [PATCH 07/10] docs: Add all txt files to documentation
+From:   Joe Perches <joe@perches.com>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Date:   Tue, 09 Apr 2019 09:47:31 -0700
+In-Reply-To: <d70a2426b9ec33d22c83c18a300efd4148e636aa.1554742526.git.mchehab+samsung@kernel.org>
+References: <cover.1554742526.git.mchehab+samsung@kernel.org>
+         <d70a2426b9ec33d22c83c18a300efd4148e636aa.1554742526.git.mchehab+samsung@kernel.org>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.30.1-1build1 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 3, 2019 at 9:36 PM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> On Tue, 2 Apr 2019 10:25:23 +0200
-> "Rafael J. Wysocki" <rafael@kernel.org> wrote:
->
-> > There are ACPI-related documents currently in Documentation/acpi/ that
-> > don't clearly fall under either driver-api or admin-guide.  For
-> > example, some of them describe various aspects of the ACPI support
-> > subsystem operation and some document expectations with respect to the
-> > ACPI tables provided by the firmware etc.
-> >
-> > Where would you recommend to put them after converting to .rst?
->
-> OK, I've done some pondering on this.  Maybe what we need is a new
-> top-level "hardware guide" book meant to hold information on how the
-> hardware works and what the kernel's expectations are.  Architecture
-> information could maybe go there too.  Would this make sense?
->
-> If so, I could see a division like this:
->
-> Hardware guide
+On Mon, 2019-04-08 at 13:58 -0300, Mauro Carvalho Chehab wrote:
+> Allow generating documentation for all files
 
-This is more about documenting the expectations regarding the platform
-firmware, so what about firmware-guide instead?
+Please update the MAINTAINERS F: patterns too.
 
->         acpi-lid
->         aml-debugger (or maybe driver api?)
->         debug (ditto)
->         DSD-properties-rules
->         gpio-properties
->         i2c-muxes
->
-> Admin guide
->         cppc_sysfs
->         initrd_table_override
+$ git grep -P "Documentation/\w*\.txt" MAINTAINERS
+MAINTAINERS:F:  Documentation/dcdbas.txt
+MAINTAINERS:F:  Documentation/kobject.txt
+MAINTAINERS:F:  Documentation/hw_random.txt
+MAINTAINERS:F:  Documentation/hwspinlock.txt
+MAINTAINERS:F:  Documentation/intel_txt.txt
+MAINTAINERS:F:  Documentation/IPMI.txt
+MAINTAINERS:F:  Documentation/isa.txt
+MAINTAINERS:F:  Documentation/isapnp.txt
+MAINTAINERS:F:  Documentation/kprobes.txt
+MAINTAINERS:F:  Documentation/atomic_bitops.txt
+MAINTAINERS:F:  Documentation/atomic_t.txt
+MAINTAINERS:F:  Documentation/ldm.txt
+MAINTAINERS:F:  Documentation/padata.txt
+MAINTAINERS:F:  Documentation/switchtec.txt
+MAINTAINERS:F:  Documentation/pwm.txt
+MAINTAINERS:F:  Documentation/rtc.txt
+MAINTAINERS:F:  Documentation/remoteproc.txt
+MAINTAINERS:F:  Documentation/rpmsg.txt
+MAINTAINERS:F:  Documentation/rfkill.txt
+MAINTAINERS:F:  Documentation/svga.txt
+MAINTAINERS:F:  Documentation/sync_file.txt
+MAINTAINERS:F:  Documentation/tee.txt
+MAINTAINERS:F:  Documentation/vfio.txt
 
-And I would add dsdt-override here.
 
->
-> Driver-API
->         enumeration
->         scan_handlers
->
-
-So what about this:
-
-- Create a new firmware-guide under Documentation and add an acpi/
-directory to it for starters.  Put the following files into it:
-
-         acpi-lid
-         aml-debugger
-         debug (ditto)
-         DSD-properties-rules
-         gpio-properties
-         i2c-muxes
-
-- Add an acpi/ subdirectory to Documentation/admin-guide and put the
-following files into it:
-
-         cppc_sysfs
-         initrd_table_override
-         dsdt-override
-
-- Add an acpi/ subdirectory to Documentation/driver-api and put the
-following files into it:
-
-         enumeration
-         scan_handlers
