@@ -2,351 +2,133 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 23F9A7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Apr 2019 12:57:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CEE927D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Apr 2019 14:39:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727324AbfDIM5a (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Apr 2019 08:57:30 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:33512 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726908AbfDIM5a (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 9 Apr 2019 08:57:30 -0400
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id 502FCF91CEADC68235D3;
-        Tue,  9 Apr 2019 20:54:15 +0800 (CST)
-Received: from HGHY1l002753561.china.huawei.com (10.177.23.164) by
- DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
- 14.3.408.0; Tue, 9 Apr 2019 20:54:09 +0800
-From:   Zhen Lei <thunder.leizhen@huawei.com>
-To:     Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
-        John Garry <john.garry@huawei.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Sebastian Ott <sebott@linux.ibm.com>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        "Martin Schwidefsky" <schwidefsky@de.ibm.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        "Michael Ellerman" <mpe@ellerman.id.au>,
-        Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        iommu <iommu@lists.linux-foundation.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        x86 <x86@kernel.org>, linux-ia64 <linux-ia64@vger.kernel.org>
-CC:     Zhen Lei <thunder.leizhen@huawei.com>,
-        Hanjun Guo <guohanjun@huawei.com>
-Subject: [PATCH v5 6/6] x86/iommu: add support for generic boot option iommu.dma_mode
-Date:   Tue, 9 Apr 2019 20:53:08 +0800
-Message-ID: <20190409125308.18304-7-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.19.2.windows.1
-In-Reply-To: <20190409125308.18304-1-thunder.leizhen@huawei.com>
-References: <20190409125308.18304-1-thunder.leizhen@huawei.com>
+        id S1726582AbfDIOji (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Apr 2019 10:39:38 -0400
+Received: from mga17.intel.com ([192.55.52.151]:25920 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726035AbfDIOjh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 9 Apr 2019 10:39:37 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Apr 2019 07:39:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,329,1549958400"; 
+   d="scan'208";a="159592611"
+Received: from sjchrist-coffee.jf.intel.com (HELO linux.intel.com) ([10.54.74.181])
+  by fmsmga002.fm.intel.com with ESMTP; 09 Apr 2019 07:39:36 -0700
+Date:   Tue, 9 Apr 2019 07:39:36 -0700
+From:   Sean Christopherson <sean.j.christopherson@intel.com>
+To:     Jonathan Corbet <corbet@lwn.net>, g@linux.intel.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kernel-doc: Let backtick and backslash escape percent
+ sign
+Message-ID: <20190409143936.GB23061@linux.intel.com>
+References: <20190405211820.17617-1-sean.j.christopherson@intel.com>
+ <20190408160314.05bc5ecb@lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.177.23.164]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190408160314.05bc5ecb@lwn.net>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following equivalence or replacement relationship exists:
-iommu=pt <--> iommu.dma_mode=passthrough.
-iommu=nopt can be replaced with iommu.dma_mode=lazy.
-intel_iommu=strict <--> iommu.dma_mode=strict.
-amd_iommu=fullflush <--> iommu.dma_mode=strict.
+On Mon, Apr 08, 2019 at 04:03:14PM -0600, Jonathan Corbet wrote:
+> On Fri,  5 Apr 2019 14:18:20 -0700
+> Sean Christopherson <sean.j.christopherson@intel.com> wrote:
+> 
+> > There are a handful of instances where kernel doc comments want an
+> > actual '%' in the final output, e.g. vsnprintf() wants to display "%n"
+> > and "%p" to document format specifiers, and assembly functions that use
+> > a custom call ABI may want to document their register usage, e.g. %eax.
+> > 
+> > Because kernel-doc unconditionally interprets '%' followed by a word
+> > character as a constant definition, i.e. %CONST, it's impossible to get
+> > an actual '%\w' when kernel-doc is used to translate comments into rst
+> > format.  Treat backtick and backlash as escaping '%', the former to
+> > handle '%' in a ``LITERAL``, and the latter to allow '%' when using
+> > standard formatting.
+> 
+> So I'm sympathetic toward the goal; we want this stuff to format properly.
+> But I'm less convinced about this specific solution.  Starting with the
+> details: 
+> 
+> > -my $type_constant2 = '\%([-_\w]+)';
+> > +my $type_constant2 = '(^|[^\`\\\])\%([-_\w]+)';
+> 
+> This only escapes the % if it occurs *immediately* after the backtick, so
+> something like ``foo %p`` will still get processed incorrectly.  Somebody
+> will surely run into that at some point and waste a bunch of time trying to
+> figure out what's going on.
 
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
----
- Documentation/admin-guide/kernel-parameters.txt |  6 ++---
- arch/ia64/include/asm/iommu.h                   |  2 --
- arch/ia64/kernel/pci-dma.c                      |  2 --
- arch/x86/include/asm/iommu.h                    |  1 -
- arch/x86/kernel/pci-dma.c                       | 35 ++++++++++++-------------
- drivers/iommu/Kconfig                           |  2 +-
- drivers/iommu/amd_iommu.c                       | 10 +++----
- drivers/iommu/amd_iommu_init.c                  |  4 +--
- drivers/iommu/amd_iommu_types.h                 |  6 -----
- drivers/iommu/intel-iommu.c                     |  9 +++----
- 10 files changed, 31 insertions(+), 46 deletions(-)
+Argh, yeah.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 176f96032d9d62a..ca6edc529d6a614 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1815,9 +1815,9 @@
- 			options(such as CONFIG_IOMMU_DEFAULT_PASSTHROUGH) to
- 			choose which mode to be used.
- 			Note: For historical reasons, ARM64/S390/PPC/X86 have
--			their specific options. Currently, only ARM64/S390/PPC
--			support this boot option, and hope other ARCHs to use
--			this as generic boot option.
-+			their specific options, but strongly recommended switch
-+			to use this one, the new ARCHs should use this generic
-+			boot option.
- 		passthrough
- 			Configure DMA to bypass the IOMMU by default.
- 		lazy
-diff --git a/arch/ia64/include/asm/iommu.h b/arch/ia64/include/asm/iommu.h
-index 7429a72f3f92199..92aceef63710861 100644
---- a/arch/ia64/include/asm/iommu.h
-+++ b/arch/ia64/include/asm/iommu.h
-@@ -8,10 +8,8 @@
- extern void no_iommu_init(void);
- #ifdef	CONFIG_INTEL_IOMMU
- extern int force_iommu, no_iommu;
--extern int iommu_pass_through;
- extern int iommu_detected;
- #else
--#define iommu_pass_through	(0)
- #define no_iommu		(1)
- #define iommu_detected		(0)
- #endif
-diff --git a/arch/ia64/kernel/pci-dma.c b/arch/ia64/kernel/pci-dma.c
-index fe988c49f01ce6a..f5d49cd3fbb01a9 100644
---- a/arch/ia64/kernel/pci-dma.c
-+++ b/arch/ia64/kernel/pci-dma.c
-@@ -22,8 +22,6 @@
- int force_iommu __read_mostly;
- #endif
- 
--int iommu_pass_through;
--
- static int __init pci_iommu_init(void)
- {
- 	if (iommu_detected)
-diff --git a/arch/x86/include/asm/iommu.h b/arch/x86/include/asm/iommu.h
-index baedab8ac5385f7..b91623d521d9f0f 100644
---- a/arch/x86/include/asm/iommu.h
-+++ b/arch/x86/include/asm/iommu.h
-@@ -4,7 +4,6 @@
- 
- extern int force_iommu, no_iommu;
- extern int iommu_detected;
--extern int iommu_pass_through;
- 
- /* 10 seconds */
- #define DMAR_OPERATION_TIMEOUT ((cycles_t) tsc_khz*10*1000)
-diff --git a/arch/x86/kernel/pci-dma.c b/arch/x86/kernel/pci-dma.c
-index d460998ae828514..fc64928e47cb860 100644
---- a/arch/x86/kernel/pci-dma.c
-+++ b/arch/x86/kernel/pci-dma.c
-@@ -6,6 +6,7 @@
- #include <linux/memblock.h>
- #include <linux/gfp.h>
- #include <linux/pci.h>
-+#include <linux/iommu.h>
- 
- #include <asm/proto.h>
- #include <asm/dma.h>
-@@ -34,21 +35,6 @@
- /* Set this to 1 if there is a HW IOMMU in the system */
- int iommu_detected __read_mostly = 0;
- 
--/*
-- * This variable becomes 1 if iommu=pt is passed on the kernel command line.
-- * If this variable is 1, IOMMU implementations do no DMA translation for
-- * devices and allow every device to access to whole physical memory. This is
-- * useful if a user wants to use an IOMMU only for KVM device assignment to
-- * guests and not for driver dma translation.
-- * It is also possible to disable by default in kernel config, and enable with
-- * iommu=nopt at boot time.
-- */
--#ifdef CONFIG_IOMMU_DEFAULT_PASSTHROUGH
--int iommu_pass_through __read_mostly = 1;
--#else
--int iommu_pass_through __read_mostly;
--#endif
--
- extern struct iommu_table_entry __iommu_table[], __iommu_table_end[];
- 
- /* Dummy device used for NULL arguments (normally ISA). */
-@@ -139,10 +125,23 @@ static __init int iommu_setup(char *p)
- 		if (!strncmp(p, "soft", 4))
- 			swiotlb = 1;
- #endif
-+
-+		/*
-+		 * IOMMU implementations do no DMA translation for devices and
-+		 * allow every device to access to whole physical memory. This
-+		 * is useful if a user wants to use an IOMMU only for KVM
-+		 * device assignment to guests and not for driver dma
-+		 * translation.
-+		 */
- 		if (!strncmp(p, "pt", 2))
--			iommu_pass_through = 1;
--		if (!strncmp(p, "nopt", 4))
--			iommu_pass_through = 0;
-+			iommu_default_dma_mode_set(IOMMU_DMA_MODE_PASSTHROUGH);
-+
-+		/*
-+		 * The default dma mode is lazy on X86. And if dma mode is
-+		 * already nopt, keep it no change.
-+		 */
-+		if (!strncmp(p, "nopt", 4) && IOMMU_DMA_MODE_IS_PASSTHROUGH())
-+			iommu_default_dma_mode_set(IOMMU_DMA_MODE_LAZY);
- 
- 		gart_parse_options(p);
- 
-diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-index 5dca666b22e6cd5..ace8cb467d742f9 100644
---- a/drivers/iommu/Kconfig
-+++ b/drivers/iommu/Kconfig
-@@ -78,7 +78,7 @@ choice
- 	prompt "IOMMU dma mode"
- 	depends on IOMMU_API
- 	default IOMMU_DEFAULT_PASSTHROUGH if (PPC_POWERNV && PCI)
--	default IOMMU_DEFAULT_LAZY if S390_IOMMU
-+	default IOMMU_DEFAULT_LAZY if (AMD_IOMMU || INTEL_IOMMU || S390_IOMMU)
- 	default IOMMU_DEFAULT_STRICT
- 	help
- 	  This option allows IOMMU dma mode to be chose at build time, to
-diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
-index f7cdd2ab7f11f6c..44be42f1e887ea4 100644
---- a/drivers/iommu/amd_iommu.c
-+++ b/drivers/iommu/amd_iommu.c
-@@ -448,7 +448,7 @@ static int iommu_init_device(struct device *dev)
- 	 * invalid address), we ignore the capability for the device so
- 	 * it'll be forced to go into translation mode.
- 	 */
--	if ((iommu_pass_through || !amd_iommu_force_isolation) &&
-+	if ((IOMMU_DMA_MODE_IS_PASSTHROUGH() || !amd_iommu_force_isolation) &&
- 	    dev_is_pci(dev) && pci_iommuv2_capable(to_pci_dev(dev))) {
- 		struct amd_iommu *iommu;
- 
-@@ -2274,7 +2274,7 @@ static int amd_iommu_add_device(struct device *dev)
- 
- 	BUG_ON(!dev_data);
- 
--	if (iommu_pass_through || dev_data->iommu_v2)
-+	if (IOMMU_DMA_MODE_IS_PASSTHROUGH() || dev_data->iommu_v2)
- 		iommu_request_dm_for_dev(dev);
- 
- 	/* Domains are initialized for this device - have a look what we ended up with */
-@@ -2479,7 +2479,7 @@ static void __unmap_single(struct dma_ops_domain *dma_dom,
- 		start += PAGE_SIZE;
- 	}
- 
--	if (amd_iommu_unmap_flush) {
-+	if (IOMMU_DMA_MODE_IS_STRICT()) {
- 		domain_flush_tlb(&dma_dom->domain);
- 		domain_flush_complete(&dma_dom->domain);
- 		dma_ops_free_iova(dma_dom, dma_addr, pages);
-@@ -2853,10 +2853,10 @@ int __init amd_iommu_init_api(void)
- 
- int __init amd_iommu_init_dma_ops(void)
- {
--	swiotlb        = (iommu_pass_through || sme_me_mask) ? 1 : 0;
-+	swiotlb = (IOMMU_DMA_MODE_IS_PASSTHROUGH() || sme_me_mask) ? 1 : 0;
- 	iommu_detected = 1;
- 
--	if (amd_iommu_unmap_flush)
-+	if (IOMMU_DMA_MODE_IS_STRICT())
- 		pr_info("IO/TLB flush on unmap enabled\n");
- 	else
- 		pr_info("Lazy IO/TLB flushing enabled\n");
-diff --git a/drivers/iommu/amd_iommu_init.c b/drivers/iommu/amd_iommu_init.c
-index 1b1378619fc9ec2..eae18aae2bafd39 100644
---- a/drivers/iommu/amd_iommu_init.c
-+++ b/drivers/iommu/amd_iommu_init.c
-@@ -166,8 +166,6 @@ struct ivmd_header {
- 					   to handle */
- LIST_HEAD(amd_iommu_unity_map);		/* a list of required unity mappings
- 					   we find in ACPI */
--bool amd_iommu_unmap_flush;		/* if true, flush on every unmap */
--
- LIST_HEAD(amd_iommu_list);		/* list of all AMD IOMMUs in the
- 					   system */
- 
-@@ -2857,7 +2855,7 @@ static int __init parse_amd_iommu_options(char *str)
- {
- 	for (; *str; ++str) {
- 		if (strncmp(str, "fullflush", 9) == 0)
--			amd_iommu_unmap_flush = true;
-+			iommu_default_dma_mode_set(IOMMU_DMA_MODE_STRICT);
- 		if (strncmp(str, "off", 3) == 0)
- 			amd_iommu_disabled = true;
- 		if (strncmp(str, "force_isolation", 15) == 0)
-diff --git a/drivers/iommu/amd_iommu_types.h b/drivers/iommu/amd_iommu_types.h
-index 87965e4d964771b..724182f158523a1 100644
---- a/drivers/iommu/amd_iommu_types.h
-+++ b/drivers/iommu/amd_iommu_types.h
-@@ -743,12 +743,6 @@ struct unity_map_entry {
- /* allocation bitmap for domain ids */
- extern unsigned long *amd_iommu_pd_alloc_bitmap;
- 
--/*
-- * If true, the addresses will be flushed on unmap time, not when
-- * they are reused
-- */
--extern bool amd_iommu_unmap_flush;
--
- /* Smallest max PASID supported by any IOMMU in the system */
- extern u32 amd_iommu_max_pasid;
- 
-diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
-index 28cb713d728ceef..57203f895382831 100644
---- a/drivers/iommu/intel-iommu.c
-+++ b/drivers/iommu/intel-iommu.c
-@@ -362,7 +362,6 @@ static int domain_detach_iommu(struct dmar_domain *domain,
- 
- static int dmar_map_gfx = 1;
- static int dmar_forcedac;
--static int intel_iommu_strict;
- static int intel_iommu_superpage = 1;
- static int intel_iommu_sm;
- static int iommu_identity_mapping;
-@@ -453,7 +452,7 @@ static int __init intel_iommu_setup(char *str)
- 			dmar_forcedac = 1;
- 		} else if (!strncmp(str, "strict", 6)) {
- 			pr_info("Disable batched IOTLB flush\n");
--			intel_iommu_strict = 1;
-+			iommu_default_dma_mode_set(IOMMU_DMA_MODE_STRICT);
- 		} else if (!strncmp(str, "sp_off", 6)) {
- 			pr_info("Disable supported super page\n");
- 			intel_iommu_superpage = 0;
-@@ -3408,7 +3407,7 @@ static int __init init_dmars(void)
- 		iommu->flush.flush_iotlb(iommu, 0, 0, 0, DMA_TLB_GLOBAL_FLUSH);
- 	}
- 
--	if (iommu_pass_through)
-+	if (IOMMU_DMA_MODE_IS_PASSTHROUGH())
- 		iommu_identity_mapping |= IDENTMAP_ALL;
- 
- #ifdef CONFIG_INTEL_IOMMU_BROKEN_GFX_WA
-@@ -3749,7 +3748,7 @@ static void intel_unmap(struct device *dev, dma_addr_t dev_addr, size_t size)
- 
- 	freelist = domain_unmap(domain, start_pfn, last_pfn);
- 
--	if (intel_iommu_strict) {
-+	if (IOMMU_DMA_MODE_IS_STRICT()) {
- 		iommu_flush_iotlb_psi(iommu, domain, start_pfn,
- 				      nrpages, !freelist, 0);
- 		/* free iova */
-@@ -5460,7 +5459,7 @@ static void quirk_calpella_no_shadow_gtt(struct pci_dev *dev)
- 	} else if (dmar_map_gfx) {
- 		/* we have to ensure the gfx device is idle before we flush */
- 		pci_info(dev, "Disabling batched IOTLB flush on Ironlake\n");
--		intel_iommu_strict = 1;
-+		iommu_default_dma_mode_set(IOMMU_DMA_MODE_STRICT);
-        }
- }
- DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x0040, quirk_calpella_no_shadow_gtt);
--- 
-1.8.3
+> Also, believe it or not, I don't think you have enough backslashes; that
+> inner expression, I believe, should be:
+> 
+> 	[^\`\\\\]
+> 
+> Gosh Perl regexes are fun...  This highlights the danger of adding
+> functionality that isn't exercised anywhere; I don't think it works here.
+
+I honestly just added backslashes until it did work (for unmerged docs).
+But Perl isn't exactly my strong suit, so it's entirely possible it worked
+by sheer dumb luck.
+
+> 
+> Now to more general considerations.  Willy's suggestion of using %% instead
+> makes some sense, though it may lead to pushback from the "no extra markup
+> ever" contingent.  It should be more straightforward to implement
+> correctly.
+
+I considered %% as well.  I basically did a mental coin flip between %% and \%.
+
+> I have to wonder if the % thing is actually buying us much, honestly.  It's
+> another form of markup that kind of duplicates the Sphinx notation, and
+> we've kind of agreed that most of the time, we don't want to clutter our
+> text with ``explicit markup`` like that.  I'm curious what people think:
+> might the best solution be to just make %const do nothing special, with the
+> idea of phasing it out?
+
+Along those lines, what about adding flags into the kernel-doc directive
+to opt-out of specific markup?  That would allow removing the old markup
+on a case-by-case basis instead of having to do a tree-wide change.  And
+once we've reached critical mass the flag can be removed (in theory).
+
+E.g.
+
+.. kernel-doc:: arch/x86/kernel/cpu/sgx/driver/ioctl.c
+   :noconsts:
+   :functions: sgx_ioc_create_enclave
+               sgx_ioc_enclave_add_page
+               sgx_ioc_enclave_init
+
+.. kernel-doc:: arch/x86/include/uapi/asm/sgx.h
+   :noconsts:
+   :nosymbols: sgx_enclave_exception
 
 
+Another alternative would be to version the kernel-doc directive.  But that
+lacks the granularity of opting out of specific markup, and would probably
+lead to endless discussion on what exactly should be in "v2" or whatever,
+and inevitably a v3, v4, etc...
+
+E.g.:
+
+.. kernel-doc-v2:: arch/x86/kernel/cpu/sgx/driver/ioctl.c
+   :functions: sgx_ioc_create_enclave
+               sgx_ioc_enclave_add_page
+               sgx_ioc_enclave_init
+
+.. kernel-doc-v2:: arch/x86/include/uapi/asm/sgx.h
+   :nosymbols: sgx_enclave_exception
