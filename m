@@ -5,53 +5,56 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C1CE47D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Apr 2019 00:44:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CC04A7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Apr 2019 00:44:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726562AbfDIAoe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Apr 2019 20:44:34 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:55707 "EHLO
+        id S1726755AbfDIAoj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Apr 2019 20:44:39 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:42003 "EHLO
         out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726492AbfDIAoe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Apr 2019 20:44:34 -0400
+        by vger.kernel.org with ESMTP id S1726387AbfDIAoi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Apr 2019 20:44:38 -0400
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.nyi.internal (Postfix) with ESMTP id 5FB162260D;
-        Mon,  8 Apr 2019 20:44:33 -0400 (EDT)
+        by mailout.nyi.internal (Postfix) with ESMTP id 26C652358E;
+        Mon,  8 Apr 2019 20:44:38 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Mon, 08 Apr 2019 20:44:33 -0400
+  by compute3.internal (MEProxy); Mon, 08 Apr 2019 20:44:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=EY4KYpMSBgIrk8NdJ
-        wqzmJTnkTcU/i4xZeqRBrgiees=; b=gLst+XeKCCqaf3IsWeI+xbalDj6B698Az
-        OYtYRNSkL02AxiflJzZ9YMqxRaejpYxmkq677G02TsegzChcqHBCvwnRjDhlK0e7
-        mtB9JglA90X7EoaEGgcotR0d0j88W18c8UBcmuoe8of4IVWFRKy6mVB/gfyPToZr
-        6nXw1g9KI/KauWOq35xS8mprS2uXQaBNfDpkFPO00Gs5nejGgR3qZl4qWJ9U3RI6
-        A3+6/1fUGxhfSjNO0aDq5W2/5Mys58ZE9sa2S3IMaYjk8WzG+1u2hT9mIZTjX45P
-        CzMZB6R4cvvUtU6fctTR6N49P3ws5u+bKQfNo6Thoy5/LwpNWDrxw==
-X-ME-Sender: <xms:8eqrXLzyKrRWj9Y28mk8O_vTUAy10xxFU7vPi_Vn4uVmzEGVyYvFzw>
+        :in-reply-to:message-id:mime-version:references:subject:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm2; bh=IoSsJ4sUh4VfoBFuUrfdasLe2/8nhzRQoUZ6TSY0e4o=; b=jITBR7Cy
+        VtP8B0f9UZfYj2VoIB/Wq63pB4SiM0fPUGyy0RuTh60BmDW0yb2gJUoER8XfuOyr
+        1RL1gbycUG1vNg38HUxox5G4ryqbFitbajwhalKAMgWoYhLFzHh7cAPK9zmUX5j1
+        oRqurLy3ic6OGkbJEE22BQck/P0CUFgy2r5Swp4wqSEvDd1j/rtxWIOSMr7akUE+
+        3hbYtK3E4venWlbnfP7Dgf+zc/t0ZeZ2z4Dc/Ytx1ho6m8NlZvF6dQF6XZuhACIs
+        Dp6TieXAiaOpM4vn26DchNrPBm3PPmFDs8SKkANJRe4zRIvTAvoVoP5FEQQrWW0Y
+        sXMNeFmOy4eTPQ==
+X-ME-Sender: <xms:9uqrXAAGO9eMcBc6nxJ9FJYP0ybdfccPmABFwPd3P8433E4VRDmLJg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrudeggdefiecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepfdfvohgsihhnucev
-    rdcujfgrrhguihhnghdfuceothhosghinheskhgvrhhnvghlrdhorhhgqeenucfkphepud
-    dvuddrgeegrddvudejrdehtdenucfrrghrrghmpehmrghilhhfrhhomhepthhosghinhes
-    khgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:8eqrXIhVi9CDehuiuk6xMzBbfctqL0pZSJqduGNH3oc6sOH4D39_jQ>
-    <xmx:8eqrXH_q1-eZsVtcijDDdZZxd2vCJXeNK5kdOvCOIPcQGedxHmg1gA>
-    <xmx:8eqrXFMOeMS2i_YZDvKvXJzePUInPF1KXx-vSxG10C2MTCcynvDgIg>
-    <xmx:8eqrXBH73oJmiaXJuW9TLcp4Kc_Jqq8NUbxYxE5CoG4bqtnmFuG8kQ>
+    fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepfdfvohgsihhn
+    ucevrdcujfgrrhguihhnghdfuceothhosghinheskhgvrhhnvghlrdhorhhgqeenucfkph
+    epuddvuddrgeegrddvudejrdehtdenucfrrghrrghmpehmrghilhhfrhhomhepthhosghi
+    nheskhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:9uqrXH6Q6IQx4C5xSBtjpcmXlbjkeCt90o-jI_6Yghq1c2DfegQJQg>
+    <xmx:9uqrXGpRSaAJnPqKkvW4EJbsdFte2yxhm67hLVEpA1lYLhsj116DuA>
+    <xmx:9uqrXLbZ5q3WHD6Cj_02_nSnaRxIw12o8eeepuq-gOxu4DMIKD7Blg>
+    <xmx:9uqrXIEH90bOpXnofVpOMkOz2Eq06KGSfH5_uflDnREDWbXqKFRtig>
 Received: from eros.localdomain (ppp121-44-217-50.bras1.syd2.internode.on.net [121.44.217.50])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 49FF0E4519;
-        Mon,  8 Apr 2019 20:44:31 -0400 (EDT)
+        by mail.messagingengine.com (Postfix) with ESMTPA id 12E6EE42C9;
+        Mon,  8 Apr 2019 20:44:35 -0400 (EDT)
 From:   "Tobin C. Harding" <tobin@kernel.org>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     "Tobin C. Harding" <tobin@kernel.org>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/4] docs: Fix various build warnings/errors
-Date:   Tue,  9 Apr 2019 10:43:55 +1000
-Message-Id: <20190409004359.29668-1-tobin@kernel.org>
+Subject: [PATCH v2 2/4] docs: Add colon clearing sphinx warning
+Date:   Tue,  9 Apr 2019 10:43:57 +1000
+Message-Id: <20190409004359.29668-3-tobin@kernel.org>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190409004359.29668-1-tobin@kernel.org>
+References: <20190409004359.29668-1-tobin@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -59,33 +62,33 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jon,
+Sphinx emits various warnings all caused by a missing colon before code
+block:
 
-Here are the first 4 patches from the v1 of this series that are still
-useful when applied to the current docs-next branch.
+	WARNING: Block quote ends without a blank line; unexpected unindent.
+	ERROR: Unexpected indentation.
+	WARNING: Block quote ends without a blank line; unexpected unindent.
 
-Set does a few minor clean ups, nothing too amazing here.  Patch 2
-removes three Sphinx build warnings:
+Add the colon, clearing sphinx warnings.
 
-Patch 3 is slightly subjective, holla at me (anyone) if you don't like it
-and I'll remove it.
+Signed-off-by: Tobin C. Harding <tobin@kernel.org>
+---
+ include/linux/wait.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-thanks,
-Tobin.
-
-
-Tobin C. Harding (4):
-  docs: Fix spelling mistake
-  docs: Add colon clearing sphinx warning
-  docs: Remove unnecessary reference link title
-  docs: Use reference to link to rst file
-
- Documentation/admin-guide/mm/numa_memory_policy.rst | 9 ++++-----
- Documentation/process/howto.rst                     | 2 +-
- Documentation/vm/numa.rst                           | 4 ++--
- include/linux/wait.h                                | 2 +-
- 4 files changed, 8 insertions(+), 9 deletions(-)
-
+diff --git a/include/linux/wait.h b/include/linux/wait.h
+index 5f3efabc36f4..b6f77cf60dd7 100644
+--- a/include/linux/wait.h
++++ b/include/linux/wait.h
+@@ -101,7 +101,7 @@ init_waitqueue_func_entry(struct wait_queue_entry *wq_entry, wait_queue_func_t f
+  * lead to sporadic and non-obvious failure.
+  *
+  * Use either while holding wait_queue_head::lock or when used for wakeups
+- * with an extra smp_mb() like:
++ * with an extra smp_mb() like::
+  *
+  *      CPU0 - waker                    CPU1 - waiter
+  *
 -- 
 2.21.0
 
