@@ -2,56 +2,57 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2568B7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Apr 2019 00:44:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 473DC7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Apr 2019 00:44:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726841AbfDIAop (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 8 Apr 2019 20:44:45 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:41783 "EHLO
+        id S1726492AbfDIAoh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 8 Apr 2019 20:44:37 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:34987 "EHLO
         out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726833AbfDIAoo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Apr 2019 20:44:44 -0400
+        by vger.kernel.org with ESMTP id S1726387AbfDIAog (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Apr 2019 20:44:36 -0400
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.nyi.internal (Postfix) with ESMTP id A65312201F;
-        Mon,  8 Apr 2019 20:44:43 -0400 (EDT)
+        by mailout.nyi.internal (Postfix) with ESMTP id D511D21A09;
+        Mon,  8 Apr 2019 20:44:35 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Mon, 08 Apr 2019 20:44:43 -0400
+  by compute3.internal (MEProxy); Mon, 08 Apr 2019 20:44:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:date:from
         :in-reply-to:message-id:mime-version:references:subject:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; bh=w2fXLe4ZgTkW2x4QyojPjWlfikwMYKP+enATmuiNyAs=; b=NFfBWv3F
-        1BQRUX621YRv37Q/2dGAmI3pzFb2yPP09l6ttAjbam6cMrt0iujPX5gaZipUcKKF
-        1gzcURy86L8Jhqx/mO50dYcKUcokXHQETU+tt+Gql4rUVOrucfUPsSk9k4svARtQ
-        DjKO4E2MCrxq7QxdbSGCqkLYxR7S9d6hYUUuLYAku1hOMggcbRcE1BXmZi1XnTMy
-        61TMB+pcHtDRsZIot0AnGYf45fOSqa7e/t8NIYuWqHeK57MMDx1w2AXEE6fowwhj
-        6Wm2i0/9R9nKB/xlUFOePmJ2kA0epeiy/T7Vu0HZpeg1WzxaDc80nte6pI9cMT3g
-        i1sxyxgjjKiObA==
-X-ME-Sender: <xms:--qrXFk103e4GHxCJRJJQTpRsH-ZUgv9DfLpFdqKBQ0oNhD_uJ8SLg>
+        fm2; bh=aAsp7+oXhr+abifccVP2wCs41rIaKSXx/ZrN4pfyzWs=; b=E9JMbepf
+        d2C244YDcvrJzx73AKH7/pWEfjScLTER6aWZoyPXmO/vdLyNMhM0ltfQ5gnjzPNo
+        ddQt40/0P+VajzkICZKeiC8wp12cGXTF6QFDlutAR48MkOTDLV7BW7xYwxYk6cIW
+        Q/3kQi8PknE6dRYk6fgUidCUsvr07SbwxNfBuyDl62S8LXku/KHcPpzz16sY0P6D
+        G2JOimRtVQH6Kuu43fYg66DjOHvMMtOjaHM4rRYuC5qH7F7QjDgGRucm4Q4sKdMd
+        1CskdjGjdFSQ71UEvQs2QggN0zRByST4FMZ+iWo6QtNb8B5cyBYbeiOFNqFmtOQJ
+        oJE9t+xEdGsUOg==
+X-ME-Sender: <xms:8-qrXLTjkd90ao0iVWt7WRy5PNRAuqUCgcdlMn6RY7swh079JpEmGw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrudeggdefiecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepfdfvohgsihhn
-    ucevrdcujfgrrhguihhnghdfuceothhosghinheskhgvrhhnvghlrdhorhhgqeenucfkph
-    epuddvuddrgeegrddvudejrdehtdenucfrrghrrghmpehmrghilhhfrhhomhepthhosghi
-    nheskhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgepvd
-X-ME-Proxy: <xmx:--qrXBQgklb2Uxtja2umsZrBh5el3ZqYMGCByh2hZaEkhTTIvlLFLA>
-    <xmx:--qrXLYQXXAIbXFM8UvM2b7CMo881ZOjkeVvfJ4IFsly2oiz9TKiYg>
-    <xmx:--qrXB9x_QZVo5-WpLsXMNwBLaQhPhNR53sIYBaK2ikHCqwmja1kVg>
-    <xmx:--qrXHWPim3kcN-zss1uXaCRbd7YmiXeWaOubI-icHVO960ct9RcoQ>
+    ucevrdcujfgrrhguihhnghdfuceothhosghinheskhgvrhhnvghlrdhorhhgqeenucffoh
+    hmrghinhepshhpugigrdhorhhgnecukfhppeduvddurdeggedrvddujedrhedtnecurfgr
+    rhgrmhepmhgrihhlfhhrohhmpehtohgsihhnsehkvghrnhgvlhdrohhrghenucevlhhush
+    htvghrufhiiigvpedt
+X-ME-Proxy: <xmx:8-qrXBChxubPQvDvMaErxcsgxQhr-0EE3b61ibL7d-NvFOsDGj11ug>
+    <xmx:8-qrXL3gsdOZ0ujKrf2qyQMStGTrtjg8JcOoNXbTq31PfHFw99IgaA>
+    <xmx:8-qrXPWH4RXARSnChyXw7u8o2c1FuQxakdguIW1YC-IX7m9V3oHDsw>
+    <xmx:8-qrXB4InPUI51a8g2Fyd2UQiFwes1HDAvZwIaq2qGPA4JSZ396fpA>
 Received: from eros.localdomain (ppp121-44-217-50.bras1.syd2.internode.on.net [121.44.217.50])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 901D7E42C9;
-        Mon,  8 Apr 2019 20:44:41 -0400 (EDT)
+        by mail.messagingengine.com (Postfix) with ESMTPA id BFD84E42C9;
+        Mon,  8 Apr 2019 20:44:33 -0400 (EDT)
 From:   "Tobin C. Harding" <tobin@kernel.org>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     "Tobin C. Harding" <tobin@kernel.org>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/4] docs: Use reference to link to rst file
-Date:   Tue,  9 Apr 2019 10:43:59 +1000
-Message-Id: <20190409004359.29668-5-tobin@kernel.org>
+Subject: [PATCH v2 1/4] docs: Fix spelling mistake
+Date:   Tue,  9 Apr 2019 10:43:56 +1000
+Message-Id: <20190409004359.29668-2-tobin@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190409004359.29668-1-tobin@kernel.org>
 References: <20190409004359.29668-1-tobin@kernel.org>
@@ -62,32 +63,30 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Current document includes the path to an RST doc file.  Since this is an
-RST file we can make this a link.  Keeps the path as the link title
-since that what the original author wrote.
+Documentation contains a spelling mistake / typo.
 
-Use reference to link to rst file.
+s/descibed/described/
+
+Fix spelling mistake.
 
 Signed-off-by: Tobin C. Harding <tobin@kernel.org>
 ---
- Documentation/vm/numa.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/process/howto.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/vm/numa.rst b/Documentation/vm/numa.rst
-index 185d8a568168..5cae13e9a08b 100644
---- a/Documentation/vm/numa.rst
-+++ b/Documentation/vm/numa.rst
-@@ -109,8 +109,8 @@ System administrators and application designers can restrict a task's migration
- to improve NUMA locality using various CPU affinity command line interfaces,
- such as taskset(1) and numactl(1), and program interfaces such as
- sched_setaffinity(2).  Further, one can modify the kernel's default local
--allocation behavior using Linux NUMA memory policy.
--[see Documentation/admin-guide/mm/numa_memory_policy.rst.]
-+allocation behavior using Linux NUMA memory policy. [see
-+:ref:`Documentation/admin-guide/mm/numa_memory_policy.rst <numa_memory_policy>`].
- 
- System administrators can restrict the CPUs and nodes' memories that a non-
- privileged user can specify in the scheduling or NUMA commands and functions
+diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
+index ad2b6c852b95..6ab75c11d2c3 100644
+--- a/Documentation/process/howto.rst
++++ b/Documentation/process/howto.rst
+@@ -62,7 +62,7 @@ Legal Issues
+ The Linux kernel source code is released under the GPL.  Please see the file
+ COPYING in the main directory of the source tree. The Linux kernel licensing
+ rules and how to use `SPDX <https://spdx.org/>`_ identifiers in source code are
+-descibed in :ref:`Documentation/process/license-rules.rst <kernel_licensing>`.
++described in :ref:`Documentation/process/license-rules.rst <kernel_licensing>`.
+ If you have further questions about the license, please contact a lawyer, and do
+ not ask on the Linux kernel mailing list.  The people on the mailing lists are
+ not lawyers, and you should not rely on their statements on legal matters.
 -- 
 2.21.0
 
