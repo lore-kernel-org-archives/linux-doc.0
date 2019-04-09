@@ -1,113 +1,109 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 63CB77D912
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Apr 2019 21:44:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 62BDF7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Apr 2019 23:22:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726668AbfDIVoW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Apr 2019 17:44:22 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:38033 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726589AbfDIVoW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Apr 2019 17:44:22 -0400
-Received: by mail-oi1-f194.google.com with SMTP id a6so14925763oie.5;
-        Tue, 09 Apr 2019 14:44:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qaU7Kse6oI90K95oJ18/4wpIyqlOThlUTNk97fVKCzA=;
-        b=kjXZcW65SHDQUZMQ+kWsI02wvmKodYOchuS6qTjPkajI92/TVm5s85+pru2KeuJhje
-         utRvnEjdJGORybtxTqPO/D1gSoHvaZ++yzTotgLAk5ucpt2OgqV7LHVFE3rUYBfjYhaw
-         6ISkR7odYlZkhHEOL+L6T7pzO8XgIIikZpQC8f3UTijFkimVRECKTzoZqLD+zQw9vtp2
-         E0O5lahuUIX3mKwAxnOzu4dK1FWLLVsOI1NVTzgLUghN/CzIacSZVOTdpeoR8WsPOArP
-         ng7KRJHNlESUqR1dKqxCwqOL+DlZ56RtPcy7yCWDrnyxyxZyUJPyB6ecEZBxqP2hyL2O
-         HiMA==
-X-Gm-Message-State: APjAAAV5BCGDhD4Ojm5J97b1u1zFeJLn3s2lhBTqk/5myTvrw49cnO8D
-        JeMRGGcGrsfMl6T75/F5QEn8JmYO3YipIsS1hCAJfA==
-X-Google-Smtp-Source: APXvYqx1u6w53L/ZIk/dti33GtY2xN0WC9Zt/x1cjwpW725PWK4Cw5GyRo2oQx9SmZweaqYpOSxPpPk5u3VKYY5WNWQ=
-X-Received: by 2002:aca:8d3:: with SMTP id 202mr376887oii.76.1554846261808;
- Tue, 09 Apr 2019 14:44:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190329001135.15847-1-changbin.du@gmail.com> <CAJZ5v0gKX9E+U_9eKfTr7pWGH=jxMLz_Jr850-6BcbG3xBz5qg@mail.gmail.com>
- <CAJZ5v0jbCi3Jgn5YXPCP+zgs-O7z-9_3p3XZGvm40_6RDsJqkQ@mail.gmail.com>
- <20190403133613.13f3fd75@lwn.net> <CAJZ5v0gWmmNwiNW=5XgpO6EJw6cAXpwOOePOtuGmR_JzrC+64g@mail.gmail.com>
- <20190409152638.5b20c77f@lwn.net>
-In-Reply-To: <20190409152638.5b20c77f@lwn.net>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Tue, 9 Apr 2019 23:44:11 +0200
-Message-ID: <CAJZ5v0jgbvixMJTVPfEHMX0z-ssc9ZcMRCwS-QEyqtkFWcNh5Q@mail.gmail.com>
-Subject: Re: [PATCH v2 00/24] Include linux ACPI docs into Sphinx TOC tree
+        id S1726640AbfDIXWL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Apr 2019 19:22:11 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:46401 "EHLO
+        out3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726573AbfDIXWK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Apr 2019 19:22:10 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id 7BF0825EE9;
+        Tue,  9 Apr 2019 19:22:09 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Tue, 09 Apr 2019 19:22:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=date
+        :from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=vl/fyFA1uDMvpYRDqKzKG8y9NC6
+        DobbF4tLswqG+uik=; b=SzwSoUAICMIlFOtpJZnWvYPesegsK6TfR/bFAkRJnXJ
+        Wv/jnGgDmahg++3ZP5OmDL4S12aAGyCD7QXkY6Z2PZkdJ5FBuP5dJXqYKT2/6up3
+        gik80K/znNjSjV3tFvcSfXw/UUaTKXJ4tx4V1NuepoHLpvKGkWdzm/njT/uSsUQJ
+        Th8v/QGIQOKKMG2gSXJMOtMe/htPxcXICXi6WkDUmCpbEaTsQ2+aWGL0APuQ48A1
+        nKLXGFiEinKuTtASdZ/VeKKg+MDMw5HueY260Bgeqr2Wrh8jpDcavLA702iJIAN4
+        ln7aqgSafvkIVoj7zLRPvRlFGaDKw7QauCHxJKxRXfw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=vl/fyF
+        A1uDMvpYRDqKzKG8y9NC6DobbF4tLswqG+uik=; b=UXmB7b2QSCR3dGUb86WuTY
+        Ts6hdHXO3+jM7oIaWurEJsB4apajCOSqFXOZdgUN3FFnANDCQSHrDVM44IS5sHEJ
+        1IMCZo6cwUaokzcFuwNb7NCuhf59gRb/FAoaHKfAu3XmnZZ/MJTPYbQkw2EX7sTZ
+        aObH2rZ3f82f21hT1n4dE5BzPZUI1D6P0WMIwlNcyMMFIxjkzwmVKkZw2RrGNDF4
+        C43mWiZ8qWYUzCkH1YySys49YHE4yKlmQcxEMtvN3QuvKXHVJHnXvUBBYPnPVM/g
+        5blTzCanFDG6P9glFwZNU0mZw6VNyasOEBBGKDyF8NqI/oKOxDWmitJkM39ryubg
+        ==
+X-ME-Sender: <xms:ISmtXCk5tUyyHWD2Z_WVaMO6BSae_GVj8siC_dgNXX1HwIrvGefvrA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrudeigddvudcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenfg
+    hrlhcuvffnffculdduhedmnecujfgurhepfffhvffukfhfgggtuggjofgfsehttdertdfo
+    redvnecuhfhrohhmpedfvfhosghinhcuvedrucfjrghrughinhhgfdcuoehmvgesthhosg
+    hinhdrtggtqeenucfkphepuddvgedrudejuddrudelrdduleegnecurfgrrhgrmhepmhgr
+    ihhlfhhrohhmpehmvgesthhosghinhdrtggtnecuvehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:ISmtXNCJI9dbvIRvikySZaFCKPbBcgUw_eEEHdKwH8XO_FE5-b20Jw>
+    <xmx:ISmtXHej32xDEQrvFZSIC05_U_oiDtMq-3N4NPXp0gWmyizxOPk4aw>
+    <xmx:ISmtXLqgWsm5wsWOkzi-01vwgbN2EUqbtcfeBjBKt-q-3SMkJgZOaQ>
+    <xmx:ISmtXHXKn2rig45t3BeU5gjekiPAIzgySB7BnjMsJeDJX6HiP8METw>
+Received: from localhost (124-171-19-194.dyn.iinet.net.au [124.171.19.194])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 5AD05E407B;
+        Tue,  9 Apr 2019 19:22:08 -0400 (EDT)
+Date:   Wed, 10 Apr 2019 09:21:36 +1000
+From:   "Tobin C. Harding" <me@tobin.cc>
 To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Changbin Du <changbin.du@gmail.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Cc:     "Tobin C. Harding" <tobin@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/4] docs: Remove unnecessary reference link title
+Message-ID: <20190409232136.GA23698@eros.localdomain>
+References: <20190409004359.29668-1-tobin@kernel.org>
+ <20190409004359.29668-4-tobin@kernel.org>
+ <20190409152030.2ed66e86@lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190409152030.2ed66e86@lwn.net>
+X-Mailer: Mutt 1.11.4 (2019-03-13)
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 9, 2019 at 11:26 PM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> On Tue, 9 Apr 2019 18:42:59 +0200
-> "Rafael J. Wysocki" <rafael@kernel.org> wrote:
->
-> > > Hardware guide
-> >
-> > This is more about documenting the expectations regarding the platform
-> > firmware, so what about firmware-guide instead?
->
-> I had imagined a slightly wider focus, but this seems OK for now.  We can
-> always rename it later :)
->
-> > So what about this:
-> >
-> > - Create a new firmware-guide under Documentation and add an acpi/
-> > directory to it for starters.  Put the following files into it:
-> >
-> >          acpi-lid
-> >          aml-debugger
-> >          debug (ditto)
-> >          DSD-properties-rules
-> >          gpio-properties
-> >          i2c-muxes
-> >
-> > - Add an acpi/ subdirectory to Documentation/admin-guide and put the
-> > following files into it:
-> >
-> >          cppc_sysfs
-> >          initrd_table_override
-> >          dsdt-override
->
-> I do wonder if, rather than creating a new directory, we shouldn't just
-> make a single acpi.rst and put that information into it?
->
-> > - Add an acpi/ subdirectory to Documentation/driver-api and put the
-> > following files into it:
-> >
-> >          enumeration
-> >          scan_handlers
->
-> ...and something similar here?  I guess that would be my preference, but I
-> don't feel all that strongly about it if there's reasons to do otherwise.
+On Tue, Apr 09, 2019 at 03:20:30PM -0600, Jonathan Corbet wrote:
+> On Tue,  9 Apr 2019 10:43:58 +1000
+> "Tobin C. Harding" <tobin@kernel.org> wrote:
+> 
+> > Labels that precede a heading use the heading as the link title.
+> > Explicitly adding the link title is redundant and  makes the reference
+> > slightly less maintainable.
+> > 
+> > Remove unnecessary reference link title.
+> 
+> So I agree with the objective, but...
+> 
+> > -	As mentioned above in :ref:`VMA policies <vma_policy>` section,
+> > +	As mentioned above in :ref:`vma_policy` section,
+> 
+> ...this one generates a warning that highlights a flaw in the reasoning
+> here:
+> 
+> 	Documentation/admin-guide/mm/numa_memory_policy.rst:144: WARNING:
+> 	undefined label: vma-policy (if the link has no caption the label
+> 	must precede a section header)
+> 
+> Said label does not precede a section header, so it can't be used bare in
+> this way.
 
-The primary reason would be to retain the correspondence between the
-old and the new files.
+That's weird, I did a clean build before and after applying the set and
+diffed the stderr outputs, I wonder how I missed this.
 
-I guess they could be combined, but that would be two sort of
-different changes in one go.
+> I'll apply the other three, but this one needs some repairs :)
 
-> In general the plan seems good.
-
-OK, thanks!
-
-Cheers,
-Rafael
+thanks,
+Tobin.
