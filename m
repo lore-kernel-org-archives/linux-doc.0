@@ -6,56 +6,56 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 672887D099
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Apr 2019 15:57:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CD6517D099
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Apr 2019 15:57:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726917AbfDIP5R (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Apr 2019 11:57:17 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:34723 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726898AbfDIP5Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Apr 2019 11:57:16 -0400
-Received: by mail-pl1-f195.google.com with SMTP id y6so9657894plt.1;
-        Tue, 09 Apr 2019 08:57:15 -0700 (PDT)
+        id S1726796AbfDIP45 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Apr 2019 11:56:57 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:45991 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726446AbfDIP44 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Apr 2019 11:56:56 -0400
+Received: by mail-pg1-f195.google.com with SMTP id y3so9523450pgk.12;
+        Tue, 09 Apr 2019 08:56:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=RxPz3kqf9b1KlwYkSSSltNJ55Lu6mN3Thr3gyuYUboU=;
-        b=ZrnzZRZ2pRGTlSxnz6pWk0ASNk+JXBpvfaJplVcHXKFaiTeK0k9tW7xkQ2ZyrRZ9b4
-         m1BNgHN1M3IZAQ1LhulRf6i3GKVw/6xypMyaWNyIdsXAoogF4fP0XoyTprc3SkpaValw
-         0otEK78AHVabn+Nin6HfCH1dJYQrGr3nZOVlorC12LEQ+sgwWQM8CWqASeOOnDUSX91F
-         ORRWMpq8tq+wiayVuXlAyXqPwD4WqVvwD0ozMPU8uoqiID3GrutxzNQSWZzteEkJ34gu
-         ZQidd1nsOW/QoQ+xj6SNEFYAHpRHDZVcIuJztjEFe9oVCzdHdXuglQhdNRGXMoUa/LuE
-         20jQ==
+        bh=xbDzPgrG7sGMDqtDgEqDecIChfX7yasg95T4JIMF8ig=;
+        b=poaYvC8y90H6Ywp90NpRkMEj/1Kvus9KfcAsGKrMD2jGK0B6HREX3eDgybEBhdRJFM
+         qtwmifuAVpXUNL+BEI3rEeCp2hvmGkdWKpbWji39VGwexowAGwy8BiL0CR3DfLYi7ElD
+         HUrgwDEuxMrFC8b/+bhFf6VfZrCLVm5q02TTilbu/ozsrylbNHFuSWZ9wOeYsripY3Vt
+         9kWPHwE+fiK7qBNMxPdVVFtcX68vmb1nAK3BvAbGT2wZAtizPqBdPSog/yCnmtmYffmO
+         lx/bQ/+nsRtlN8NB/VGTFLdOK/sPY/PT7RvB1/gSOujvycPVVVvBhB/jHv+EfLOVkgkI
+         fBOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=RxPz3kqf9b1KlwYkSSSltNJ55Lu6mN3Thr3gyuYUboU=;
-        b=lrSxgcBx+raGXWoc3E0aCB7V5wlXMPcVstPjr6NphobOE7/UT50wf5LrtevqzVlceJ
-         /JbAEPlIThFH+YN5dMb5wk5p541vRQmEklMkHHkv10CMDkaQgYbRltOYBo838ECwhaH1
-         5JBWt85LWzoWVLyjrcm1u5tzes/f1lCU4EDlGvDamC6f3avxXSDvok9bGP/jxr8KpAj1
-         JR38YduSSFdKrWBxs8Y7z3zhsQYClCR5GlfU/QfLXCGVGOIRyg3xRCGBGue5UtRNFST8
-         HHMbA3yZJhPPsSmDKi3vM+yScn0WBd21aucJRfKxYugq0FsIKS6bzGbDLYlJ5pPwIHjw
-         5hmg==
-X-Gm-Message-State: APjAAAVQntwyK8NRZwPVtophSgV0973CT2lXfCIjZHDxnMEImLGVfqr5
-        WhGQ7xbdelx8NlXVgFuO9Oc=
-X-Google-Smtp-Source: APXvYqxoDhb2wqijQpifV8xgdH8ZrRO5pHYrJu1+bEm1y14GVJ2sLrAUygihSJ4jspOD4ktc24knjg==
-X-Received: by 2002:a17:902:70c6:: with SMTP id l6mr11366521plt.95.1554825435285;
-        Tue, 09 Apr 2019 08:57:15 -0700 (PDT)
+        bh=xbDzPgrG7sGMDqtDgEqDecIChfX7yasg95T4JIMF8ig=;
+        b=E9BYKJlQ4iVSlwv35RzV4dqsXcHRPqpE6fuy7U0jmhw5chtTYXUyOghxFmtAsilhXZ
+         EmSApEExKuRHB+KabvWG8JSwwgEnUCoSn7+K179VbcmXUFr8/mVBrlC23Yg2k7SKy9Bt
+         tawLxfBwhoRk1sdh6scAiMpX+zuC4uEmAbhCCuiRo6whCUK6wNanKYYIVBfszGvH6NPK
+         6F2chEx15YUb/VXBEmZKFV48G1Iz17PTBOE2gzizlCirE6mZNmfEsHnXlTy6A5Z+MDW5
+         6Gsp5+znvvnLZ6hWCTOsGuLefHLO3G4Z/WvBmJyt2uIg5fFdOPwbv8H6K+CF34gpEIJc
+         Jywg==
+X-Gm-Message-State: APjAAAXJI6lXBHmfBYaY4GFXHYCOJtIldUmXWFTu7JWUmzLjnR6prcVg
+        zbHpZy4KV1bIF308zvsBej8=
+X-Google-Smtp-Source: APXvYqyLHZ+XWyB92EqtFDRHk3ioHGyOdKtlW7F6XBfi+Vwk/b2d+Ftokg662lL1KWo1GVhbyBmUKw==
+X-Received: by 2002:a62:69c2:: with SMTP id e185mr37248078pfc.119.1554825415595;
+        Tue, 09 Apr 2019 08:56:55 -0700 (PDT)
 Received: from localhost.localdomain ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id b72sm70383560pga.86.2019.04.09.08.57.11
+        by smtp.gmail.com with ESMTPSA id b72sm70383560pga.86.2019.04.09.08.56.52
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 09 Apr 2019 08:57:14 -0700 (PDT)
+        Tue, 09 Apr 2019 08:56:54 -0700 (PDT)
 From:   Changbin Du <changbin.du@gmail.com>
 To:     Bjorn Helgaas <bhelgaas@google.com>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH v3 09/12] Documentation: PCI: convert endpoint/pci-endpoint.txt to reST
-Date:   Tue,  9 Apr 2019 23:56:23 +0800
-Message-Id: <20190409155626.6049-10-changbin.du@gmail.com>
+Subject: [PATCH v3 04/12] Documentation: PCI: convert pci-iov-howto.txt to reST
+Date:   Tue,  9 Apr 2019 23:56:18 +0800
+Message-Id: <20190409155626.6049-5-changbin.du@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190409155626.6049-1-changbin.du@gmail.com>
 References: <20190409155626.6049-1-changbin.du@gmail.com>
@@ -72,301 +72,251 @@ add it to Sphinx TOC tree. No essential content change.
 Signed-off-by: Changbin Du <changbin.du@gmail.com>
 Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 ---
- Documentation/PCI/endpoint/index.rst          | 10 ++
- .../{pci-endpoint.txt => pci-endpoint.rst}    | 95 +++++++++++--------
- Documentation/PCI/index.rst                   |  1 +
- 3 files changed, 68 insertions(+), 38 deletions(-)
- create mode 100644 Documentation/PCI/endpoint/index.rst
- rename Documentation/PCI/endpoint/{pci-endpoint.txt => pci-endpoint.rst} (82%)
+ Documentation/PCI/index.rst                   |   1 +
+ .../{pci-iov-howto.txt => pci-iov-howto.rst}  | 161 ++++++++++--------
+ 2 files changed, 94 insertions(+), 68 deletions(-)
+ rename Documentation/PCI/{pci-iov-howto.txt => pci-iov-howto.rst} (63%)
 
-diff --git a/Documentation/PCI/endpoint/index.rst b/Documentation/PCI/endpoint/index.rst
-new file mode 100644
-index 000000000000..0db4f2fcd7f0
---- /dev/null
-+++ b/Documentation/PCI/endpoint/index.rst
-@@ -0,0 +1,10 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+======================
-+PCI Endpoint Framework
-+======================
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   pci-endpoint
-diff --git a/Documentation/PCI/endpoint/pci-endpoint.txt b/Documentation/PCI/endpoint/pci-endpoint.rst
-similarity index 82%
-rename from Documentation/PCI/endpoint/pci-endpoint.txt
-rename to Documentation/PCI/endpoint/pci-endpoint.rst
-index e86a96b66a6a..6674ce5425bf 100644
---- a/Documentation/PCI/endpoint/pci-endpoint.txt
-+++ b/Documentation/PCI/endpoint/pci-endpoint.rst
-@@ -1,11 +1,17 @@
--			    PCI ENDPOINT FRAMEWORK
--		    Kishon Vijay Abraham I <kishon@ti.com>
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+======================
-+PCI Endpoint Framework
-+======================
-+
-+:Author: Kishon Vijay Abraham I <kishon@ti.com>
- 
- This document is a guide to use the PCI Endpoint Framework in order to create
- endpoint controller driver, endpoint function driver, and using configfs
- interface to bind the function driver to the controller driver.
- 
--1. Introduction
-+Introduction
-+============
- 
- Linux has a comprehensive PCI subsystem to support PCI controllers that
- operates in Root Complex mode. The subsystem has capability to scan PCI bus,
-@@ -19,24 +25,27 @@ add endpoint mode support in Linux. This will help to run Linux in an
- EP system which can have a wide variety of use cases from testing or
- validation, co-processor accelerator, etc.
- 
--2. PCI Endpoint Core
-+PCI Endpoint Core
-+=================
- 
- The PCI Endpoint Core layer comprises 3 components: the Endpoint Controller
- library, the Endpoint Function library, and the configfs layer to bind the
- endpoint function with the endpoint controller.
- 
--2.1 PCI Endpoint Controller(EPC) Library
-+PCI Endpoint Controller(EPC) Library
-+------------------------------------
- 
- The EPC library provides APIs to be used by the controller that can operate
- in endpoint mode. It also provides APIs to be used by function driver/library
- in order to implement a particular endpoint function.
- 
--2.1.1 APIs for the PCI controller Driver
-+APIs for the PCI controller Driver
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
- This section lists the APIs that the PCI Endpoint core provides to be used
- by the PCI controller driver.
- 
--*) devm_pci_epc_create()/pci_epc_create()
-+* devm_pci_epc_create()/pci_epc_create()
- 
-    The PCI controller driver should implement the following ops:
- 	 * write_header: ops to populate configuration space header
-@@ -51,110 +60,116 @@ by the PCI controller driver.
-    The PCI controller driver can then create a new EPC device by invoking
-    devm_pci_epc_create()/pci_epc_create().
- 
--*) devm_pci_epc_destroy()/pci_epc_destroy()
-+* devm_pci_epc_destroy()/pci_epc_destroy()
- 
-    The PCI controller driver can destroy the EPC device created by either
-    devm_pci_epc_create() or pci_epc_create() using devm_pci_epc_destroy() or
-    pci_epc_destroy().
- 
--*) pci_epc_linkup()
-+* pci_epc_linkup()
- 
-    In order to notify all the function devices that the EPC device to which
-    they are linked has established a link with the host, the PCI controller
-    driver should invoke pci_epc_linkup().
- 
--*) pci_epc_mem_init()
-+* pci_epc_mem_init()
- 
-    Initialize the pci_epc_mem structure used for allocating EPC addr space.
- 
--*) pci_epc_mem_exit()
-+* pci_epc_mem_exit()
- 
-    Cleanup the pci_epc_mem structure allocated during pci_epc_mem_init().
- 
--2.1.2 APIs for the PCI Endpoint Function Driver
-+
-+APIs for the PCI Endpoint Function Driver
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
- This section lists the APIs that the PCI Endpoint core provides to be used
- by the PCI endpoint function driver.
- 
--*) pci_epc_write_header()
-+* pci_epc_write_header()
- 
-    The PCI endpoint function driver should use pci_epc_write_header() to
-    write the standard configuration header to the endpoint controller.
- 
--*) pci_epc_set_bar()
-+* pci_epc_set_bar()
- 
-    The PCI endpoint function driver should use pci_epc_set_bar() to configure
-    the Base Address Register in order for the host to assign PCI addr space.
-    Register space of the function driver is usually configured
-    using this API.
- 
--*) pci_epc_clear_bar()
-+* pci_epc_clear_bar()
- 
-    The PCI endpoint function driver should use pci_epc_clear_bar() to reset
-    the BAR.
- 
--*) pci_epc_raise_irq()
-+* pci_epc_raise_irq()
- 
-    The PCI endpoint function driver should use pci_epc_raise_irq() to raise
-    Legacy Interrupt, MSI or MSI-X Interrupt.
- 
--*) pci_epc_mem_alloc_addr()
-+* pci_epc_mem_alloc_addr()
- 
-    The PCI endpoint function driver should use pci_epc_mem_alloc_addr(), to
-    allocate memory address from EPC addr space which is required to access
-    RC's buffer
- 
--*) pci_epc_mem_free_addr()
-+* pci_epc_mem_free_addr()
- 
-    The PCI endpoint function driver should use pci_epc_mem_free_addr() to
-    free the memory space allocated using pci_epc_mem_alloc_addr().
- 
--2.1.3 Other APIs
-+Other APIs
-+~~~~~~~~~~
- 
- There are other APIs provided by the EPC library. These are used for binding
- the EPF device with EPC device. pci-ep-cfs.c can be used as reference for
- using these APIs.
- 
--*) pci_epc_get()
-+* pci_epc_get()
- 
-    Get a reference to the PCI endpoint controller based on the device name of
-    the controller.
- 
--*) pci_epc_put()
-+* pci_epc_put()
- 
-    Release the reference to the PCI endpoint controller obtained using
-    pci_epc_get()
- 
--*) pci_epc_add_epf()
-+* pci_epc_add_epf()
- 
-    Add a PCI endpoint function to a PCI endpoint controller. A PCIe device
-    can have up to 8 functions according to the specification.
- 
--*) pci_epc_remove_epf()
-+* pci_epc_remove_epf()
- 
-    Remove the PCI endpoint function from PCI endpoint controller.
- 
--*) pci_epc_start()
-+* pci_epc_start()
- 
-    The PCI endpoint function driver should invoke pci_epc_start() once it
-    has configured the endpoint function and wants to start the PCI link.
- 
--*) pci_epc_stop()
-+* pci_epc_stop()
- 
-    The PCI endpoint function driver should invoke pci_epc_stop() to stop
-    the PCI LINK.
- 
--2.2 PCI Endpoint Function(EPF) Library
-+
-+PCI Endpoint Function(EPF) Library
-+----------------------------------
- 
- The EPF library provides APIs to be used by the function driver and the EPC
- library to provide endpoint mode functionality.
- 
--2.2.1 APIs for the PCI Endpoint Function Driver
-+APIs for the PCI Endpoint Function Driver
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
- This section lists the APIs that the PCI Endpoint core provides to be used
- by the PCI endpoint function driver.
- 
--*) pci_epf_register_driver()
-+* pci_epf_register_driver()
- 
-    The PCI Endpoint Function driver should implement the following ops:
- 	 * bind: ops to perform when a EPC device has been bound to EPF device
-@@ -166,50 +181,54 @@ by the PCI endpoint function driver.
-   The PCI Function driver can then register the PCI EPF driver by using
-   pci_epf_register_driver().
- 
--*) pci_epf_unregister_driver()
-+* pci_epf_unregister_driver()
- 
-   The PCI Function driver can unregister the PCI EPF driver by using
-   pci_epf_unregister_driver().
- 
--*) pci_epf_alloc_space()
-+* pci_epf_alloc_space()
- 
-   The PCI Function driver can allocate space for a particular BAR using
-   pci_epf_alloc_space().
- 
--*) pci_epf_free_space()
-+* pci_epf_free_space()
- 
-   The PCI Function driver can free the allocated space
-   (using pci_epf_alloc_space) by invoking pci_epf_free_space().
- 
--2.2.2 APIs for the PCI Endpoint Controller Library
-+APIs for the PCI Endpoint Controller Library
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
- This section lists the APIs that the PCI Endpoint core provides to be used
- by the PCI endpoint controller library.
- 
--*) pci_epf_linkup()
-+* pci_epf_linkup()
- 
-    The PCI endpoint controller library invokes pci_epf_linkup() when the
-    EPC device has established the connection to the host.
- 
--2.2.2 Other APIs
-+Other APIs
-+~~~~~~~~~~
-+
- There are other APIs provided by the EPF library. These are used to notify
- the function driver when the EPF device is bound to the EPC device.
- pci-ep-cfs.c can be used as reference for using these APIs.
- 
--*) pci_epf_create()
-+* pci_epf_create()
- 
-    Create a new PCI EPF device by passing the name of the PCI EPF device.
-    This name will be used to bind the the EPF device to a EPF driver.
- 
--*) pci_epf_destroy()
-+* pci_epf_destroy()
- 
-    Destroy the created PCI EPF device.
- 
--*) pci_epf_bind()
-+* pci_epf_bind()
- 
-    pci_epf_bind() should be invoked when the EPF device has been bound to
-    a EPC device.
- 
--*) pci_epf_unbind()
-+* pci_epf_unbind()
- 
-    pci_epf_unbind() should be invoked when the binding between EPC device
-    and EPF device is lost.
 diff --git a/Documentation/PCI/index.rst b/Documentation/PCI/index.rst
-index 86c76c22810b..c8ea2e626c20 100644
+index 452723318405..e1c19962a7f8 100644
 --- a/Documentation/PCI/index.rst
 +++ b/Documentation/PCI/index.rst
-@@ -15,3 +15,4 @@ Linux PCI Bus Subsystem
-    acpi-info
-    pci-error-recovery
-    pcieaer-howto
-+   endpoint/index
+@@ -10,3 +10,4 @@ Linux PCI Bus Subsystem
+ 
+    pci
+    PCIEBUS-HOWTO
++   pci-iov-howto
+diff --git a/Documentation/PCI/pci-iov-howto.txt b/Documentation/PCI/pci-iov-howto.rst
+similarity index 63%
+rename from Documentation/PCI/pci-iov-howto.txt
+rename to Documentation/PCI/pci-iov-howto.rst
+index d2a84151e99c..b9fd003206f1 100644
+--- a/Documentation/PCI/pci-iov-howto.txt
++++ b/Documentation/PCI/pci-iov-howto.rst
+@@ -1,14 +1,19 @@
+-		PCI Express I/O Virtualization Howto
+-		Copyright (C) 2009 Intel Corporation
+-		    Yu Zhao <yu.zhao@intel.com>
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: <isonum.txt>
+ 
+-		Update: November 2012
+-			-- sysfs-based SRIOV enable-/disable-ment
+-		Donald Dutile <ddutile@redhat.com>
++====================================
++PCI Express I/O Virtualization Howto
++====================================
+ 
+-1. Overview
++:Copyright: |copy| 2009 Intel Corporation
++:Authors: - Yu Zhao <yu.zhao@intel.com>
++          - Donald Dutile <ddutile@redhat.com>
+ 
+-1.1 What is SR-IOV
++Overview
++========
++
++What is SR-IOV
++--------------
+ 
+ Single Root I/O Virtualization (SR-IOV) is a PCI Express Extended
+ capability which makes one physical device appear as multiple virtual
+@@ -23,9 +28,11 @@ Memory Space, which is used to map its register set. VF device driver
+ operates on the register set so it can be functional and appear as a
+ real existing PCI device.
+ 
+-2. User Guide
++User Guide
++==========
+ 
+-2.1 How can I enable SR-IOV capability
++How can I enable SR-IOV capability
++----------------------------------
+ 
+ Multiple methods are available for SR-IOV enablement.
+ In the first method, the device driver (PF driver) will control the
+@@ -43,105 +50,123 @@ checks, e.g., check numvfs == 0 if enabling VFs, ensure
+ numvfs <= totalvfs.
+ The second method is the recommended method for new/future VF devices.
+ 
+-2.2 How can I use the Virtual Functions
++How can I use the Virtual Functions
++-----------------------------------
+ 
+ The VF is treated as hot-plugged PCI devices in the kernel, so they
+ should be able to work in the same way as real PCI devices. The VF
+ requires device driver that is same as a normal PCI device's.
+ 
+-3. Developer Guide
++Developer Guide
++===============
+ 
+-3.1 SR-IOV API
++SR-IOV API
++----------
+ 
+ To enable SR-IOV capability:
+-(a) For the first method, in the driver:
++
++(a) For the first method, in the driver::
++
+ 	int pci_enable_sriov(struct pci_dev *dev, int nr_virtfn);
+-	'nr_virtfn' is number of VFs to be enabled.
+-(b) For the second method, from sysfs:
++
++'nr_virtfn' is number of VFs to be enabled.
++
++(b) For the second method, from sysfs::
++
+ 	echo 'nr_virtfn' > \
+         /sys/bus/pci/devices/<DOMAIN:BUS:DEVICE.FUNCTION>/sriov_numvfs
+ 
+ To disable SR-IOV capability:
+-(a) For the first method, in the driver:
++
++(a) For the first method, in the driver::
++
+ 	void pci_disable_sriov(struct pci_dev *dev);
+-(b) For the second method, from sysfs:
++
++(b) For the second method, from sysfs::
++
+ 	echo  0 > \
+         /sys/bus/pci/devices/<DOMAIN:BUS:DEVICE.FUNCTION>/sriov_numvfs
+ 
+ To enable auto probing VFs by a compatible driver on the host, run
+ command below before enabling SR-IOV capabilities. This is the
+ default behavior.
++::
++
+ 	echo 1 > \
+         /sys/bus/pci/devices/<DOMAIN:BUS:DEVICE.FUNCTION>/sriov_drivers_autoprobe
+ 
+ To disable auto probing VFs by a compatible driver on the host, run
+ command below before enabling SR-IOV capabilities. Updating this
+ entry will not affect VFs which are already probed.
++::
++
+ 	echo  0 > \
+         /sys/bus/pci/devices/<DOMAIN:BUS:DEVICE.FUNCTION>/sriov_drivers_autoprobe
+ 
+-3.2 Usage example
++Usage example
++-------------
+ 
+ Following piece of code illustrates the usage of the SR-IOV API.
++::
+ 
+-static int dev_probe(struct pci_dev *dev, const struct pci_device_id *id)
+-{
+-	pci_enable_sriov(dev, NR_VIRTFN);
++	static int dev_probe(struct pci_dev *dev, const struct pci_device_id *id)
++	{
++		pci_enable_sriov(dev, NR_VIRTFN);
+ 
+-	...
+-
+-	return 0;
+-}
++		...
+ 
+-static void dev_remove(struct pci_dev *dev)
+-{
+-	pci_disable_sriov(dev);
++		return 0;
++	}
+ 
+-	...
+-}
++	static void dev_remove(struct pci_dev *dev)
++	{
++		pci_disable_sriov(dev);
+ 
+-static int dev_suspend(struct pci_dev *dev, pm_message_t state)
+-{
+-	...
++		...
++	}
+ 
+-	return 0;
+-}
++	static int dev_suspend(struct pci_dev *dev, pm_message_t state)
++	{
++		...
+ 
+-static int dev_resume(struct pci_dev *dev)
+-{
+-	...
++		return 0;
++	}
+ 
+-	return 0;
+-}
++	static int dev_resume(struct pci_dev *dev)
++	{
++		...
+ 
+-static void dev_shutdown(struct pci_dev *dev)
+-{
+-	...
+-}
++		return 0;
++	}
+ 
+-static int dev_sriov_configure(struct pci_dev *dev, int numvfs)
+-{
+-	if (numvfs > 0) {
+-		...
+-		pci_enable_sriov(dev, numvfs);
++	static void dev_shutdown(struct pci_dev *dev)
++	{
+ 		...
+-		return numvfs;
+ 	}
+-	if (numvfs == 0) {
+-		....
+-		pci_disable_sriov(dev);
+-		...
+-		return 0;
++
++	static int dev_sriov_configure(struct pci_dev *dev, int numvfs)
++	{
++		if (numvfs > 0) {
++			...
++			pci_enable_sriov(dev, numvfs);
++			...
++			return numvfs;
++		}
++		if (numvfs == 0) {
++			....
++			pci_disable_sriov(dev);
++			...
++			return 0;
++		}
+ 	}
+-}
+-
+-static struct pci_driver dev_driver = {
+-	.name =		"SR-IOV Physical Function driver",
+-	.id_table =	dev_id_table,
+-	.probe =	dev_probe,
+-	.remove =	dev_remove,
+-	.suspend =	dev_suspend,
+-	.resume =	dev_resume,
+-	.shutdown =	dev_shutdown,
+-	.sriov_configure = dev_sriov_configure,
+-};
++
++	static struct pci_driver dev_driver = {
++		.name =		"SR-IOV Physical Function driver",
++		.id_table =	dev_id_table,
++		.probe =	dev_probe,
++		.remove =	dev_remove,
++		.suspend =	dev_suspend,
++		.resume =	dev_resume,
++		.shutdown =	dev_shutdown,
++		.sriov_configure = dev_sriov_configure,
++	};
 -- 
 2.20.1
 
