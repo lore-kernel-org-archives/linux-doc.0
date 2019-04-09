@@ -5,29 +5,37 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 614797D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Apr 2019 21:20:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D99B67D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Apr 2019 21:26:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726527AbfDIVUc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Apr 2019 17:20:32 -0400
-Received: from ms.lwn.net ([45.79.88.28]:45672 "EHLO ms.lwn.net"
+        id S1726706AbfDIV0k (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Apr 2019 17:26:40 -0400
+Received: from ms.lwn.net ([45.79.88.28]:45678 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726487AbfDIVUb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 9 Apr 2019 17:20:31 -0400
+        id S1726705AbfDIV0k (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 9 Apr 2019 17:26:40 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 4831D2BD;
-        Tue,  9 Apr 2019 21:20:31 +0000 (UTC)
-Date:   Tue, 9 Apr 2019 15:20:30 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 88202301;
+        Tue,  9 Apr 2019 21:26:39 +0000 (UTC)
+Date:   Tue, 9 Apr 2019 15:26:38 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     "Tobin C. Harding" <tobin@kernel.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/4] docs: Remove unnecessary reference link title
-Message-ID: <20190409152030.2ed66e86@lwn.net>
-In-Reply-To: <20190409004359.29668-4-tobin@kernel.org>
-References: <20190409004359.29668-1-tobin@kernel.org>
-        <20190409004359.29668-4-tobin@kernel.org>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Changbin Du <changbin.du@gmail.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2 00/24] Include linux ACPI docs into Sphinx TOC tree
+Message-ID: <20190409152638.5b20c77f@lwn.net>
+In-Reply-To: <CAJZ5v0gWmmNwiNW=5XgpO6EJw6cAXpwOOePOtuGmR_JzrC+64g@mail.gmail.com>
+References: <20190329001135.15847-1-changbin.du@gmail.com>
+        <CAJZ5v0gKX9E+U_9eKfTr7pWGH=jxMLz_Jr850-6BcbG3xBz5qg@mail.gmail.com>
+        <CAJZ5v0jbCi3Jgn5YXPCP+zgs-O7z-9_3p3XZGvm40_6RDsJqkQ@mail.gmail.com>
+        <20190403133613.13f3fd75@lwn.net>
+        <CAJZ5v0gWmmNwiNW=5XgpO6EJw6cAXpwOOePOtuGmR_JzrC+64g@mail.gmail.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -37,31 +45,49 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue,  9 Apr 2019 10:43:58 +1000
-"Tobin C. Harding" <tobin@kernel.org> wrote:
+On Tue, 9 Apr 2019 18:42:59 +0200
+"Rafael J. Wysocki" <rafael@kernel.org> wrote:
 
-> Labels that precede a heading use the heading as the link title.
-> Explicitly adding the link title is redundant and  makes the reference
-> slightly less maintainable.
+> > Hardware guide  
 > 
-> Remove unnecessary reference link title.
+> This is more about documenting the expectations regarding the platform
+> firmware, so what about firmware-guide instead?
 
-So I agree with the objective, but...
+I had imagined a slightly wider focus, but this seems OK for now.  We can
+always rename it later :)
 
-> -	As mentioned above in :ref:`VMA policies <vma_policy>` section,
-> +	As mentioned above in :ref:`vma_policy` section,
+> So what about this:
+> 
+> - Create a new firmware-guide under Documentation and add an acpi/
+> directory to it for starters.  Put the following files into it:
+> 
+>          acpi-lid
+>          aml-debugger
+>          debug (ditto)
+>          DSD-properties-rules
+>          gpio-properties
+>          i2c-muxes
+> 
+> - Add an acpi/ subdirectory to Documentation/admin-guide and put the
+> following files into it:
+> 
+>          cppc_sysfs
+>          initrd_table_override
+>          dsdt-override
 
-...this one generates a warning that highlights a flaw in the reasoning
-here:
+I do wonder if, rather than creating a new directory, we shouldn't just
+make a single acpi.rst and put that information into it?  
 
-	Documentation/admin-guide/mm/numa_memory_policy.rst:144: WARNING:
-	undefined label: vma-policy (if the link has no caption the label
-	must precede a section header)
+> - Add an acpi/ subdirectory to Documentation/driver-api and put the
+> following files into it:
+> 
+>          enumeration
+>          scan_handlers
 
-Said label does not precede a section header, so it can't be used bare in
-this way.
+...and something similar here?  I guess that would be my preference, but I
+don't feel all that strongly about it if there's reasons to do otherwise.
 
-I'll apply the other three, but this one needs some repairs :)
+In general the plan seems good.
 
 Thanks,
 
