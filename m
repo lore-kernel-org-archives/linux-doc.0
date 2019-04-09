@@ -1,77 +1,108 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CED197D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Apr 2019 16:48:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4CE297D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Apr 2019 18:50:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726372AbfDIQsF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Apr 2019 12:48:05 -0400
-Received: from smtprelay0046.hostedemail.com ([216.40.44.46]:47357 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726456AbfDIQsF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Apr 2019 12:48:05 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay03.hostedemail.com (Postfix) with ESMTP id B9B2C83777ED;
-        Tue,  9 Apr 2019 16:48:03 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: toe91_461f85aaab615
-X-Filterd-Recvd-Size: 2216
-Received: from XPS-9350 (unknown [172.56.41.62])
-        (Authenticated sender: joe@perches.com)
-        by omf01.hostedemail.com (Postfix) with ESMTPA;
-        Tue,  9 Apr 2019 16:48:01 +0000 (UTC)
-Message-ID: <94a1b22362ad839b1c686f52aa4e16c171881ae6.camel@perches.com>
-Subject: Re: [PATCH 07/10] docs: Add all txt files to documentation
-From:   Joe Perches <joe@perches.com>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Date:   Tue, 09 Apr 2019 09:47:31 -0700
-In-Reply-To: <d70a2426b9ec33d22c83c18a300efd4148e636aa.1554742526.git.mchehab+samsung@kernel.org>
-References: <cover.1554742526.git.mchehab+samsung@kernel.org>
-         <d70a2426b9ec33d22c83c18a300efd4148e636aa.1554742526.git.mchehab+samsung@kernel.org>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.30.1-1build1 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1726785AbfDISuW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 9 Apr 2019 14:50:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57528 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726842AbfDISuT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 9 Apr 2019 14:50:19 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6114B218E2;
+        Tue,  9 Apr 2019 18:50:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1554835818;
+        bh=JCja87Ul3jcpRkuSZO7IIHnlEqxRDIUptc29tXOWjNA=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=EIAznywxh5FnrELFFj4tcLqF+f9RI3DpFbEbAtLENB/yMVLIK30/T3PLo/fu5y9Y4
+         G8rRKPmc13wsDdZFwhi/u0QjtMBAnN9WHJwQzz4IC2dfPZYQ69PtZQrdbbuRihW/GW
+         GMJcwcxoRjHKH8VZ6viev72ybRk85150xVRNrOpc=
+From:   Sasha Levin <sashal@kernel.org>
+To:     peterhuewe@gmx.de, jarkko.sakkinen@linux.intel.com, jgg@ziepe.ca
+Cc:     mark.rutland@arm.com, corbet@lwn.net, robh+dt@kernel.org,
+        arnd@arndb.de, gregkh@linuxfoundation.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linux-kernel@microsoft.com,
+        thiruan@microsoft.com, bryankel@microsoft.com,
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH v2 3/3] ftpm: add documentation for ftpm driver
+Date:   Tue,  9 Apr 2019 14:49:58 -0400
+Message-Id: <20190409184958.7476-4-sashal@kernel.org>
+X-Mailer: git-send-email 2.19.1
+In-Reply-To: <20190409184958.7476-1-sashal@kernel.org>
+References: <20190409184958.7476-1-sashal@kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2019-04-08 at 13:58 -0300, Mauro Carvalho Chehab wrote:
-> Allow generating documentation for all files
+This patch adds basic documentation to describe the new fTPM driver.
 
-Please update the MAINTAINERS F: patterns too.
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Documentation/security/tpm/index.rst        |  1 +
+ Documentation/security/tpm/tpm_ftpm_tee.rst | 31 +++++++++++++++++++++
+ 2 files changed, 32 insertions(+)
+ create mode 100644 Documentation/security/tpm/tpm_ftpm_tee.rst
 
-$ git grep -P "Documentation/\w*\.txt" MAINTAINERS
-MAINTAINERS:F:  Documentation/dcdbas.txt
-MAINTAINERS:F:  Documentation/kobject.txt
-MAINTAINERS:F:  Documentation/hw_random.txt
-MAINTAINERS:F:  Documentation/hwspinlock.txt
-MAINTAINERS:F:  Documentation/intel_txt.txt
-MAINTAINERS:F:  Documentation/IPMI.txt
-MAINTAINERS:F:  Documentation/isa.txt
-MAINTAINERS:F:  Documentation/isapnp.txt
-MAINTAINERS:F:  Documentation/kprobes.txt
-MAINTAINERS:F:  Documentation/atomic_bitops.txt
-MAINTAINERS:F:  Documentation/atomic_t.txt
-MAINTAINERS:F:  Documentation/ldm.txt
-MAINTAINERS:F:  Documentation/padata.txt
-MAINTAINERS:F:  Documentation/switchtec.txt
-MAINTAINERS:F:  Documentation/pwm.txt
-MAINTAINERS:F:  Documentation/rtc.txt
-MAINTAINERS:F:  Documentation/remoteproc.txt
-MAINTAINERS:F:  Documentation/rpmsg.txt
-MAINTAINERS:F:  Documentation/rfkill.txt
-MAINTAINERS:F:  Documentation/svga.txt
-MAINTAINERS:F:  Documentation/sync_file.txt
-MAINTAINERS:F:  Documentation/tee.txt
-MAINTAINERS:F:  Documentation/vfio.txt
-
+diff --git a/Documentation/security/tpm/index.rst b/Documentation/security/tpm/index.rst
+index af77a7bbb070..15783668644f 100644
+--- a/Documentation/security/tpm/index.rst
++++ b/Documentation/security/tpm/index.rst
+@@ -4,4 +4,5 @@ Trusted Platform Module documentation
+ 
+ .. toctree::
+ 
++   tpm_ftpm_tee
+    tpm_vtpm_proxy
+diff --git a/Documentation/security/tpm/tpm_ftpm_tee.rst b/Documentation/security/tpm/tpm_ftpm_tee.rst
+new file mode 100644
+index 000000000000..3f19b12d9c57
+--- /dev/null
++++ b/Documentation/security/tpm/tpm_ftpm_tee.rst
+@@ -0,0 +1,31 @@
++=============================================
++Firmware TPM Driver
++=============================================
++
++| Authors:
++| Thirupathaiah Annapureddy <thiruan@microsoft.com>
++| Sasha Levin <sashal@kernel.org>
++
++This document describes the firmware Trusted Platform Module (fTPM)
++device driver.
++
++Introduction
++============
++
++This driver is a shim for a firmware implemented in ARM's TrustZone
++environment. The driver allows programs to interact with the TPM in the same
++way the would interact with a hardware TPM.
++
++Design
++======
++
++The driver acts as a thin layer that passes commands to and from a TPM
++implemented in firmware. The driver itself doesn't contain much logic and is
++used more like a dumb pipe between firmware and kernel/userspace.
++
++The firmware itself is based on the following paper:
++https://www.microsoft.com/en-us/research/wp-content/uploads/2017/06/ftpm1.pdf
++
++When the driver is loaded it will expose ``/dev/tpmX`` character devices to
++userspace which will enable userspace to communicate with the firmware tpm
++through this device.
+-- 
+2.19.1
 
