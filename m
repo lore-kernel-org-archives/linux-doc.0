@@ -1,157 +1,110 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 89D467D912
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Apr 2019 11:14:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E0F0B7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Apr 2019 11:47:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731587AbfDJLOT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 10 Apr 2019 07:14:19 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:44434 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730822AbfDJLMQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Apr 2019 07:12:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=/B+lWmatDXzgWdtG0bzCa3wUSj6cMsUS9L/SsfIHpEM=; b=QoMwkrd/PRXaz2tAS/SDKCpggU
-        9SMxE0+I/0sVAUNmQtbEnfBP84pdhTNrihkpV8BkUM1OGj3gtmRsVVAV3/NlGeN5+9HqFj2KK9HXz
-        H9/4lstPVvRPFZf/dvpdUFd+vmLsjHeOAJLhhZnwRCxEz0D8asEyeffMcM6PGyi1oJOWwecsPxQ6S
-        1/KhwM6XOT6X04WXTlcPzHjPS2xhvj01mEDxSp7K2trmdIlmbWQYMTnEDV4EKP/IdQVMfBV9ugrL4
-        xJtLhWL3BepoG6AltRJTfYELcCMPnyTf8DFGuy34vFRcldDB7MMcxd1zdnx3SNnmfnlPoXgM8l0d3
-        zxXe+VQw==;
-Received: from 177.41.129.23.dynamic.adsl.gvt.net.br ([177.41.129.23] helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hEB9L-0006mv-KK; Wed, 10 Apr 2019 11:12:15 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hEB9J-0007SN-7g; Wed, 10 Apr 2019 08:12:13 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>, linux-hwmon@vger.kernel.org
-Subject: [PATCH 01/21] docs: hwmon: k10temp: convert to ReST format
-Date:   Wed, 10 Apr 2019 08:11:51 -0300
-Message-Id: <9ed53a4f160d7cd4f7c05fb919196ac15ecb6d63.1554893882.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1554893881.git.mchehab+samsung@kernel.org>
-References: <cover.1554893881.git.mchehab+samsung@kernel.org>
+        id S1729677AbfDJLrA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 10 Apr 2019 07:47:00 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42954 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727337AbfDJLrA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Apr 2019 07:47:00 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x3ABU4kq046018
+        for <linux-doc@vger.kernel.org>; Wed, 10 Apr 2019 07:46:59 -0400
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2rsfj3ryr5-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Wed, 10 Apr 2019 07:46:58 -0400
+Received: from localhost
+        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <sebott@linux.ibm.com>;
+        Wed, 10 Apr 2019 12:46:56 +0100
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Wed, 10 Apr 2019 12:46:50 +0100
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x3ABkn5J47710432
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 10 Apr 2019 11:46:49 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 55DE84C040;
+        Wed, 10 Apr 2019 11:46:49 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 7D7E74C044;
+        Wed, 10 Apr 2019 11:46:48 +0000 (GMT)
+Received: from dyn-9-152-212-73.boeblingen.de.ibm.com (unknown [9.152.212.73])
+        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Wed, 10 Apr 2019 11:46:48 +0000 (GMT)
+Date:   Wed, 10 Apr 2019 13:46:48 +0200 (CEST)
+From:   Sebastian Ott <sebott@linux.ibm.com>
+X-X-Sender: sebott@schleppi
+To:     Zhen Lei <thunder.leizhen@huawei.com>
+cc:     Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
+        John Garry <john.garry@huawei.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        iommu <iommu@lists.linux-foundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        x86 <x86@kernel.org>, linux-ia64 <linux-ia64@vger.kernel.org>,
+        Hanjun Guo <guohanjun@huawei.com>
+Subject: Re: [PATCH v5 4/6] s390/pci: add support for generic boot option
+ iommu.dma_mode
+In-Reply-To: <20190409125308.18304-5-thunder.leizhen@huawei.com>
+References: <20190409125308.18304-1-thunder.leizhen@huawei.com> <20190409125308.18304-5-thunder.leizhen@huawei.com>
+User-Agent: Alpine 2.21 (LFD 202 2017-01-01)
+Organization: =?ISO-8859-15?Q?=22IBM_Deutschland_Research_&_Development_GmbH?=
+ =?ISO-8859-15?Q?_=2F_Vorsitzende_des_Aufsichtsrats=3A_Matthias?=
+ =?ISO-8859-15?Q?_Hartmann_Gesch=E4ftsf=FChrung=3A_Dirk_Wittkopp?=
+ =?ISO-8859-15?Q?_Sitz_der_Gesellschaft=3A_B=F6blingen_=2F_Reg?=
+ =?ISO-8859-15?Q?istergericht=3A_Amtsgericht_Stuttgart=2C_HRB_2432?=
+ =?ISO-8859-15?Q?94=22?=
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+X-TM-AS-GCONF: 00
+x-cbid: 19041011-0028-0000-0000-0000035F4B8B
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19041011-0029-0000-0000-0000241E6DB2
+Message-Id: <alpine.LFD.2.21.1904101346060.1774@schleppi>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-04-10_06:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=3 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=817 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1904100083
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Convert k10temp to ReST format, in order to allow it to
-be parsed by Sphinx.
+On Tue, 9 Apr 2019, Zhen Lei wrote:
+> s390_iommu=strict is equivalent to iommu.dma_mode=strict.
+> 
+> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- Documentation/hwmon/k10temp | 37 ++++++++++++++++++++++++++++++++++++-
- 1 file changed, 36 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/hwmon/k10temp b/Documentation/hwmon/k10temp
-index 254d2f55345a..12a86ba17de9 100644
---- a/Documentation/hwmon/k10temp
-+++ b/Documentation/hwmon/k10temp
-@@ -2,42 +2,77 @@ Kernel driver k10temp
- =====================
- 
- Supported chips:
-+
- * AMD Family 10h processors:
-+
-   Socket F: Quad-Core/Six-Core/Embedded Opteron (but see below)
-+
-   Socket AM2+: Quad-Core Opteron, Phenom (II) X3/X4, Athlon X2 (but see below)
-+
-   Socket AM3: Quad-Core Opteron, Athlon/Phenom II X2/X3/X4, Sempron II
-+
-   Socket S1G3: Athlon II, Sempron, Turion II
-+
- * AMD Family 11h processors:
-+
-   Socket S1G2: Athlon (X2), Sempron (X2), Turion X2 (Ultra)
-+
- * AMD Family 12h processors: "Llano" (E2/A4/A6/A8-Series)
-+
- * AMD Family 14h processors: "Brazos" (C/E/G/Z-Series)
-+
- * AMD Family 15h processors: "Bulldozer" (FX-Series), "Trinity", "Kaveri", "Carrizo"
-+
- * AMD Family 16h processors: "Kabini", "Mullins"
- 
-   Prefix: 'k10temp'
-+
-   Addresses scanned: PCI space
-+
-   Datasheets:
-+
-   BIOS and Kernel Developer's Guide (BKDG) For AMD Family 10h Processors:
-+
-     http://support.amd.com/us/Processor_TechDocs/31116.pdf
-+
-   BIOS and Kernel Developer's Guide (BKDG) for AMD Family 11h Processors:
-+
-     http://support.amd.com/us/Processor_TechDocs/41256.pdf
-+
-   BIOS and Kernel Developer's Guide (BKDG) for AMD Family 12h Processors:
-+
-     http://support.amd.com/us/Processor_TechDocs/41131.pdf
-+
-   BIOS and Kernel Developer's Guide (BKDG) for AMD Family 14h Models 00h-0Fh Processors:
-+
-     http://support.amd.com/us/Processor_TechDocs/43170.pdf
-+
-   Revision Guide for AMD Family 10h Processors:
-+
-     http://support.amd.com/us/Processor_TechDocs/41322.pdf
-+
-   Revision Guide for AMD Family 11h Processors:
-+
-     http://support.amd.com/us/Processor_TechDocs/41788.pdf
-+
-   Revision Guide for AMD Family 12h Processors:
-+
-     http://support.amd.com/us/Processor_TechDocs/44739.pdf
-+
-   Revision Guide for AMD Family 14h Models 00h-0Fh Processors:
-+
-     http://support.amd.com/us/Processor_TechDocs/47534.pdf
-+
-   AMD Family 11h Processor Power and Thermal Data Sheet for Notebooks:
-+
-     http://support.amd.com/us/Processor_TechDocs/43373.pdf
-+
-   AMD Family 10h Server and Workstation Processor Power and Thermal Data Sheet:
-+
-     http://support.amd.com/us/Processor_TechDocs/43374.pdf
-+
-   AMD Family 10h Desktop Processor Power and Thermal Data Sheet:
-+
-     http://support.amd.com/us/Processor_TechDocs/43375.pdf
- 
- Author: Clemens Ladisch <clemens@ladisch.de>
-@@ -60,7 +95,7 @@ are using an AM3 processor on an AM2+ mainboard, you can safely use the
- 
- There is one temperature measurement value, available as temp1_input in
- sysfs. It is measured in degrees Celsius with a resolution of 1/8th degree.
--Please note that it is defined as a relative value; to quote the AMD manual:
-+Please note that it is defined as a relative value; to quote the AMD manual::
- 
-   Tctl is the processor temperature control value, used by the platform to
-   control cooling systems. Tctl is a non-physical temperature on an
--- 
-2.20.1
+Acked-by: Sebastian Ott <sebott@linux.ibm.com>
 
