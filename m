@@ -5,54 +5,44 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4649B7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Apr 2019 09:57:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 357AA7D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Apr 2019 09:57:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730387AbfDJJ46 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 10 Apr 2019 05:56:58 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:60556 "EHLO
+        id S1730316AbfDJJ4i (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 10 Apr 2019 05:56:38 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:60534 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730332AbfDJJ4i (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Apr 2019 05:56:38 -0400
+        with ESMTP id S1727196AbfDJJ4h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Apr 2019 05:56:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=bFt3dgJiaeyMmKj+dRc8MhcGRLNdgWAAHOpymLVKVDU=; b=RbvuoBTYnxgykhUGR44bhCTs8
-        ZTcebJ6hgUwnclzpNuDH29XgCoMS/bzcjsPn5XSDjfaLv7apsyQfvN6oKI9uTfOOSh03zRyaARgCC
-        YNj0pkY4CDvi+IlgRe4kcmJf7N7wlKWt8zR9MibSxWqMtAQnbZhGRezA1t2+BZ3n7GDeUZjxprnnY
-        6xlcPWezVH6omsQ4GNLr6EqBpNxUKUOrajqoahdDRhIP6fjADuDhaSfRxe/onCirCpFhGNm3k3Img
-        m/p6C7gOmegdP9bWPjJiiD91OSZnKsVLegcArY7Cp5hiaCsipxElUAlnn2/CqV/THORPP8mvT2bcf
-        JtzaJ1NfA==;
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=YprWmfwhQF20Qys/UdJ3RBGreoWNm3/nxiInaksXJ+o=; b=tpadLzQl4noh+bArYx4m+wD4q0
+        X67k5D/8/4dmaQkM1S9Ksd8N+8cHU/rkthXXoBXM+bpIj8SQ5QtulLSsIvZBaNb7nX1gqXg00haVa
+        kADIDc2PDOyWhkUvWDZaBjEtwbHPMJHLoOyxpgazq4tiLYYTF6Mq8oirumB9vNxEfYQZqUeTtD6tV
+        BDfwakks1AjXZXr3HzGl/eK5sRddaDgVduLYsE77JpS1Teol2jl/uur3NErk0EXKsvBdffMBWJ5ij
+        SRnw54tyjsi23dAsghO2DiXYCq36/sFJmUxslUNIrvKTjtyAO5E8NvVcJmXzS3wftowQJxHTVsRFc
+        O+3Sw9CA==;
 Received: from 177.41.129.23.dynamic.adsl.gvt.net.br ([177.41.129.23] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hE9y9-0003Cq-6M; Wed, 10 Apr 2019 09:56:37 +0000
+        id 1hE9y9-0003Cn-6R; Wed, 10 Apr 2019 09:56:37 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hE9y3-0000nu-MW; Wed, 10 Apr 2019 06:56:31 -0300
+        id 1hE9y3-0000oP-T8; Wed, 10 Apr 2019 06:56:31 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        David Howells <dhowells@redhat.com>,
-        Andrea Parri <andrea.parri@amarulasolutions.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        linux-arch@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Will Deacon <will.deacon@arm.com>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>
-Subject: [PATCH 0/8] Prepare files under Documentation/*.txt to build with Sphinx
-Date:   Wed, 10 Apr 2019 06:56:19 -0300
-Message-Id: <cover.1554889999.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 8/8] docs: speculation.txt: mark example blocks as such
+Date:   Wed, 10 Apr 2019 06:56:27 -0300
+Message-Id: <793a3b0103b2d91e4bf850849f9de76cee3273a9.1554889999.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1554889999.git.mchehab+samsung@kernel.org>
+References: <cover.1554889999.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -60,36 +50,54 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In the past, we did some efforts to ensure that almost all files under
-Documentation/*.txt could be built with Sphinx.
+Identify the example blocks there, in order to avoid Sphinx
+warnings.
 
-Some regressions happened there (and some new files got added).
-Fix those files in order to allow them to be able to build with Sphinx.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ Documentation/speculation.txt | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-The changes on this series are trivial, adding the minimum stuff to allow
-building those files with sphinx-build with no warnings and to make the
-contents minimally consistent with other documentation files.
-
-Mauro Carvalho Chehab (8):
-  docs: DMA-API-HOWTO: add a missing "="
-  docs: atomic_bitops.txt: add a title for this document
-  docs: clearing-warn-once.txt: add a title for this document
-  docs: ntb.txt: use Sphinx notation for the two ascii figures
-  docs: unaligned-memory-access.txt: use a lowercase title
-  docs: video-output.txt: convert it to ReST format
-  docs: ntb.txt: add blank lines to clean up some Sphinx warnings
-  docs: speculation.txt: mark example blocks as such
-
- Documentation/DMA-API-HOWTO.txt           |  2 +-
- Documentation/atomic_bitops.txt           |  6 +--
- Documentation/clearing-warn-once.txt      |  2 +
- Documentation/ntb.txt                     | 14 ++++--
- Documentation/speculation.txt             |  8 ++--
- Documentation/unaligned-memory-access.txt |  2 +-
- Documentation/video-output.txt            | 52 +++++++++++------------
- 7 files changed, 47 insertions(+), 39 deletions(-)
-
+diff --git a/Documentation/speculation.txt b/Documentation/speculation.txt
+index e9e6cbae2841..50d7ea857cff 100644
+--- a/Documentation/speculation.txt
++++ b/Documentation/speculation.txt
+@@ -17,7 +17,7 @@ observed to extract secret information.
+ 
+ For example, in the presence of branch prediction, it is possible for bounds
+ checks to be ignored by code which is speculatively executed. Consider the
+-following code:
++following code::
+ 
+ 	int load_array(int *array, unsigned int index)
+ 	{
+@@ -27,7 +27,7 @@ following code:
+ 			return array[index];
+ 	}
+ 
+-Which, on arm64, may be compiled to an assembly sequence such as:
++Which, on arm64, may be compiled to an assembly sequence such as::
+ 
+ 	CMP	<index>, #MAX_ARRAY_ELEMS
+ 	B.LT	less
+@@ -44,7 +44,7 @@ microarchitectural state which can be subsequently measured.
+ 
+ More complex sequences involving multiple dependent memory accesses may
+ result in sensitive information being leaked. Consider the following
+-code, building on the prior example:
++code, building on the prior example::
+ 
+ 	int load_dependent_arrays(int *arr1, int *arr2, int index)
+ 	{
+@@ -77,7 +77,7 @@ A call to array_index_nospec(index, size) returns a sanitized index
+ value that is bounded to [0, size) even under cpu speculation
+ conditions.
+ 
+-This can be used to protect the earlier load_array() example:
++This can be used to protect the earlier load_array() example::
+ 
+ 	int load_array(int *array, unsigned int index)
+ 	{
 -- 
 2.20.1
-
 
