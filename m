@@ -1,109 +1,83 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 62BDF7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  9 Apr 2019 23:22:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 32ED37D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Apr 2019 05:15:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726640AbfDIXWL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 9 Apr 2019 19:22:11 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:46401 "EHLO
-        out3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726573AbfDIXWK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Apr 2019 19:22:10 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id 7BF0825EE9;
-        Tue,  9 Apr 2019 19:22:09 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Tue, 09 Apr 2019 19:22:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=date
-        :from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=vl/fyFA1uDMvpYRDqKzKG8y9NC6
-        DobbF4tLswqG+uik=; b=SzwSoUAICMIlFOtpJZnWvYPesegsK6TfR/bFAkRJnXJ
-        Wv/jnGgDmahg++3ZP5OmDL4S12aAGyCD7QXkY6Z2PZkdJ5FBuP5dJXqYKT2/6up3
-        gik80K/znNjSjV3tFvcSfXw/UUaTKXJ4tx4V1NuepoHLpvKGkWdzm/njT/uSsUQJ
-        Th8v/QGIQOKKMG2gSXJMOtMe/htPxcXICXi6WkDUmCpbEaTsQ2+aWGL0APuQ48A1
-        nKLXGFiEinKuTtASdZ/VeKKg+MDMw5HueY260Bgeqr2Wrh8jpDcavLA702iJIAN4
-        ln7aqgSafvkIVoj7zLRPvRlFGaDKw7QauCHxJKxRXfw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=vl/fyF
-        A1uDMvpYRDqKzKG8y9NC6DobbF4tLswqG+uik=; b=UXmB7b2QSCR3dGUb86WuTY
-        Ts6hdHXO3+jM7oIaWurEJsB4apajCOSqFXOZdgUN3FFnANDCQSHrDVM44IS5sHEJ
-        1IMCZo6cwUaokzcFuwNb7NCuhf59gRb/FAoaHKfAu3XmnZZ/MJTPYbQkw2EX7sTZ
-        aObH2rZ3f82f21hT1n4dE5BzPZUI1D6P0WMIwlNcyMMFIxjkzwmVKkZw2RrGNDF4
-        C43mWiZ8qWYUzCkH1YySys49YHE4yKlmQcxEMtvN3QuvKXHVJHnXvUBBYPnPVM/g
-        5blTzCanFDG6P9glFwZNU0mZw6VNyasOEBBGKDyF8NqI/oKOxDWmitJkM39ryubg
-        ==
-X-ME-Sender: <xms:ISmtXCk5tUyyHWD2Z_WVaMO6BSae_GVj8siC_dgNXX1HwIrvGefvrA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrudeigddvudcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenfg
-    hrlhcuvffnffculdduhedmnecujfgurhepfffhvffukfhfgggtuggjofgfsehttdertdfo
-    redvnecuhfhrohhmpedfvfhosghinhcuvedrucfjrghrughinhhgfdcuoehmvgesthhosg
-    hinhdrtggtqeenucfkphepuddvgedrudejuddrudelrdduleegnecurfgrrhgrmhepmhgr
-    ihhlfhhrohhmpehmvgesthhosghinhdrtggtnecuvehluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:ISmtXNCJI9dbvIRvikySZaFCKPbBcgUw_eEEHdKwH8XO_FE5-b20Jw>
-    <xmx:ISmtXHej32xDEQrvFZSIC05_U_oiDtMq-3N4NPXp0gWmyizxOPk4aw>
-    <xmx:ISmtXLqgWsm5wsWOkzi-01vwgbN2EUqbtcfeBjBKt-q-3SMkJgZOaQ>
-    <xmx:ISmtXHXKn2rig45t3BeU5gjekiPAIzgySB7BnjMsJeDJX6HiP8METw>
-Received: from localhost (124-171-19-194.dyn.iinet.net.au [124.171.19.194])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 5AD05E407B;
-        Tue,  9 Apr 2019 19:22:08 -0400 (EDT)
-Date:   Wed, 10 Apr 2019 09:21:36 +1000
-From:   "Tobin C. Harding" <me@tobin.cc>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     "Tobin C. Harding" <tobin@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/4] docs: Remove unnecessary reference link title
-Message-ID: <20190409232136.GA23698@eros.localdomain>
-References: <20190409004359.29668-1-tobin@kernel.org>
- <20190409004359.29668-4-tobin@kernel.org>
- <20190409152030.2ed66e86@lwn.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190409152030.2ed66e86@lwn.net>
-X-Mailer: Mutt 1.11.4 (2019-03-13)
-User-Agent: Mutt/1.11.4 (2019-03-13)
+        id S1725838AbfDJFPQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 10 Apr 2019 01:15:16 -0400
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:39742 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725818AbfDJFPQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Apr 2019 01:15:16 -0400
+Received: by mail-qk1-f196.google.com with SMTP id c189so479064qke.6
+        for <linux-doc@vger.kernel.org>; Tue, 09 Apr 2019 22:15:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=SFKPgoTlfhejuGwm6gMRCefTFRULz3hgwemumv3gp/0=;
+        b=kL76OatMAw7/HiHkBU6XzZ0wZjksrcJGfIwmEVo/s3Vq+03l9Q9Vuci0F4UgYhl1e1
+         Sw7qdVhs83pq5sZgj0lo9CQo+8GV8LjAfS+k6YgZgmEI5pqapBCMvilSY9V99cmDv3za
+         q6S4My94/Ks60FjBMVFj5N2isUWvYbbNaEYBMv6N1K5wsCiWR6FUNjb8//xNN8psDlZI
+         h2JtVlZ+kA2gXAweaqVvinAttjoPDYng9XsmFh0bNW8b2OkVDEyRFu5EKe1Vya2skAlF
+         FsH2Q8dt4U+rj5nfykEo935c3UO7mq38zvrxIFm1hlTA5rNN93cyFym/kjZ4tFYg+J9F
+         xN5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=SFKPgoTlfhejuGwm6gMRCefTFRULz3hgwemumv3gp/0=;
+        b=PayJgWRNNvly9fEvJBW/xn168s9oBA3P+wO+dKryrvANNSV7EZ6d4cO4lRj6p1klIB
+         nJ4NynMALiJ2WKyS4AQtywR0aAyoBl9RrA2bc9ZlmaD7GxO0xHPnVbNWbK3jOmlUHAk+
+         S99lason6ZjN6Wz4mhkEDHM+/jfkPteq7+cvF4hpdWqVAv3TWw3l1Y4Cm8o96ZF6jrB0
+         WAvyE1p7l8EdtbFPviAWhbVlJUz0c9MdbiNSJVE+dAdRji3qkegkLEAZaTt7NSf29mz4
+         aVgvIg4vnpA4Mp5zNVgp8EYx+qTnearMuNZqMdWinIcHeEDtBv2hNyIVnT9e2tUKvraG
+         y1Tw==
+X-Gm-Message-State: APjAAAW2cPgHbs1s39S9A/g+BdZKqsYc4vUOrXnKB83M1tuqmOpUSnAg
+        TwEaSOA63yw+NvWPwioPXAs=
+X-Google-Smtp-Source: APXvYqx0bwKzLfEHY4cs3u/aUwsyoyLot2fGmcLK/TRc1fpA+915PFku8uuR/5AAL/g1AlZ0wxal0g==
+X-Received: by 2002:a37:69c3:: with SMTP id e186mr11175507qkc.308.1554873315791;
+        Tue, 09 Apr 2019 22:15:15 -0700 (PDT)
+Received: from localhost ([2601:98a:4100:d293:3216:135d:22bc:397f])
+        by smtp.gmail.com with ESMTPSA id 204sm19449646qki.58.2019.04.09.22.15.15
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 09 Apr 2019 22:15:15 -0700 (PDT)
+From:   Dongliang Mu <mudongliangabcd@gmail.com>
+To:     maxk@qti.qualcomm.com, davem@davemloft.net, corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, Dongliang Mu <mudongliangabcd@gmail.com>
+Subject: [PATCH] docs: fix typo in networking/tuntap.txt
+Date:   Wed, 10 Apr 2019 01:15:28 -0400
+Message-Id: <20190410051528.21275-1-mudongliangabcd@gmail.com>
+X-Mailer: git-send-email 2.11.0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 09, 2019 at 03:20:30PM -0600, Jonathan Corbet wrote:
-> On Tue,  9 Apr 2019 10:43:58 +1000
-> "Tobin C. Harding" <tobin@kernel.org> wrote:
-> 
-> > Labels that precede a heading use the heading as the link title.
-> > Explicitly adding the link title is redundant and  makes the reference
-> > slightly less maintainable.
-> > 
-> > Remove unnecessary reference link title.
-> 
-> So I agree with the objective, but...
-> 
-> > -	As mentioned above in :ref:`VMA policies <vma_policy>` section,
-> > +	As mentioned above in :ref:`vma_policy` section,
-> 
-> ...this one generates a warning that highlights a flaw in the reasoning
-> here:
-> 
-> 	Documentation/admin-guide/mm/numa_memory_policy.rst:144: WARNING:
-> 	undefined label: vma-policy (if the link has no caption the label
-> 	must precede a section header)
-> 
-> Said label does not precede a section header, so it can't be used bare in
-> this way.
+Modify "can uses" to "can use"
 
-That's weird, I did a clean build before and after applying the set and
-diffed the stderr outputs, I wonder how I missed this.
+Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+---
+ Documentation/networking/tuntap.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> I'll apply the other three, but this one needs some repairs :)
+diff --git a/Documentation/networking/tuntap.txt b/Documentation/networking/tuntap.txt
+index 949d5dcdd9a3..59f1c6b55249 100644
+--- a/Documentation/networking/tuntap.txt
++++ b/Documentation/networking/tuntap.txt
+@@ -107,7 +107,7 @@ Copyright (C) 1999-2000 Maxim Krasnyansky <max_mk@yahoo.com>
+ 
+   3.3 Multiqueue tuntap interface:
+ 
+-  From version 3.8, Linux supports multiqueue tuntap which can uses multiple
++  From version 3.8, Linux supports multiqueue tuntap which can use multiple
+   file descriptors (queues) to parallelize packets sending or receiving. The
+   device allocation is the same as before, and if user wants to create multiple
+   queues, TUNSETIFF with the same device name must be called many times with
+-- 
+2.11.0
 
-thanks,
-Tobin.
