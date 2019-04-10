@@ -1,208 +1,115 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 393487D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Apr 2019 15:51:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4ECE57D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Apr 2019 16:19:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731181AbfDJPvE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 10 Apr 2019 11:51:04 -0400
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:35565 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728826AbfDJPvE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Apr 2019 11:51:04 -0400
-Received: by mail-qt1-f196.google.com with SMTP id h39so3458415qte.2
-        for <linux-doc@vger.kernel.org>; Wed, 10 Apr 2019 08:51:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=I8SE0hQdgATafth9AsqVC7r1ns9guNMUwC2veAj2keA=;
-        b=kJtgUynGAHE1JRUInC+YKxM3RWQ9GSYDP6Y3rVu6lzNNJpj74oZMigmJktVSwyHNjB
-         nMn14W6udtj6pvGHZ52Ry+xWMSpuNWtB0/oxozJfRiX4m6fAkwZgIEhQuWZLtQfJPCgG
-         4PE/JZr9FenVRSb3+B7dUX3YhsLlKUiP5fFAVrVYdhjq9LR38MN3InHEeXbxF2orffUn
-         53zoCs2ELvlKxspkOwWV8etCU1BuIdVoo7790dV6Ey74nNFvgk5stpKRsm4aEDZ/bprF
-         TQFam94sMoiN78g739ntjrH0zuBQqDtpoXJXV8IN3vVT19fwP7tORCAQ9fsqWwejJEOr
-         gDXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=I8SE0hQdgATafth9AsqVC7r1ns9guNMUwC2veAj2keA=;
-        b=VRhk3cpaEg23BYGY+gUHtgb9AXvMV8kpDyMYtcqjH/6wDdr/3axxXLpds6ouNYdRoa
-         a0sN3V/+SopbmUL2md6zN24pz6edIEkYEgykvzYOVgigWzCtkZ/4/iXk4QfQnIwwGBfM
-         NX1u5TLTVZlDIGkERadi5plYaQC3qEz4HOiBQWznhAIVue0MM1j+y3mXA1OqNfXfZsmr
-         3rKTVomrZsRjsTPIyPKwElY8+CLcatmc6qto6TsjckwsG4sYuLHoy3cabGnhIVeDPill
-         IpGlIRj9Ews3Mpyco9z5TUO/95N/kLTHz4e/VKC5V2d5AqH2xGLdYwCss8LguXwUglC6
-         uztg==
-X-Gm-Message-State: APjAAAU3AaBaUNCjzX2ysOm6fATGbpnRhEMnmnkyTB/ui8k6mMdzEIlQ
-        0glG7ACK/nhGopS6pQxRDVHGJ0mRQsBJGJDg2J9SBA==
-X-Google-Smtp-Source: APXvYqxrxnzD5OxUw/1vC9do17GmEXhvmxvbyYwJA01fgTqEyu4e+DlxDg1gE6Zi9BfO2FTohQPvkNGazJsv6DV/wO8=
-X-Received: by 2002:a0c:b018:: with SMTP id k24mr35721367qvc.218.1554911462775;
- Wed, 10 Apr 2019 08:51:02 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190320163116.39275-1-joel@joelfernandes.org>
- <CAOesGMheoZda84OSz9spQ7p66wot5S_9aaqaKC=QYp+8utASXA@mail.gmail.com>
- <20190408203601.GF133872@google.com> <CAOesGMibHCuMPCYkc8V++Z2Kuf3YQf_OjYn18GvDgzTy6ubV=g@mail.gmail.com>
-In-Reply-To: <CAOesGMibHCuMPCYkc8V++Z2Kuf3YQf_OjYn18GvDgzTy6ubV=g@mail.gmail.com>
-From:   Joel Fernandes <joelaf@google.com>
-Date:   Wed, 10 Apr 2019 11:50:51 -0400
-Message-ID: <CAJWu+or0hWce9+7aEfTHoOR8cptRbzHYVL-bPdJWGZH20dbo7Q@mail.gmail.com>
-Subject: Re: [PATCH v5 1/3] Provide in-kernel headers to make extending kernel easier
-To:     Olof Johansson <olof@lixom.net>
-Cc:     Joel Fernandes <joel@joelfernandes.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Manoj Rao <linux@manojrajarao.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        atish patra <atishp04@gmail.com>,
-        Daniel Colascione <dancol@google.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <groeck@chromium.org>,
+        id S2387756AbfDJQTw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 10 Apr 2019 12:19:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54650 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727892AbfDJQTw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 10 Apr 2019 12:19:52 -0400
+Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A020D2082E;
+        Wed, 10 Apr 2019 16:19:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1554913190;
+        bh=gAg7ItIU9xtozLXCrllhDQag8IWHJgtaqRklURafv0Y=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SMHj9Y4oM+7mBIdPvFqy8aItw30R+O4AVPwqHZGYFZMR4HkDTGdc6x3Q/A+dtx0Og
+         ajH22d5Rz27Dz6oVAua0tCAkEoofBBhsA/WwXeJhD6jCTFuFsJrG3gsLfjGYDN+9aw
+         qCKs1gLi0/KJ6SaIDbduj/sbublgzhk4W2H93HrE=
+Date:   Wed, 10 Apr 2019 12:19:49 -0400
+From:   Sasha Levin <sashal@kernel.org>
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Peter Huewe <peterhuewe@gmx.de>,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        jgg@ziepe.ca, Mark Rutland <mark.rutland@arm.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Karim Yaghmour <karim.yaghmour@opersys.com>,
-        Kees Cook <keescook@chromium.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-trace-devel@vger.kernel.org,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
-Content-Type: text/plain; charset="UTF-8"
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-integrity@vger.kernel.org, linux-kernel@microsoft.com,
+        thiruan@microsoft.com, bryankel@microsoft.com
+Subject: Re: [PATCH v2 1/3] ftpm: dt-binding: add dts documentation for fTPM
+ driver
+Message-ID: <20190410161949.GC11568@sasha-vm>
+References: <20190409184958.7476-1-sashal@kernel.org>
+ <20190409184958.7476-2-sashal@kernel.org>
+ <CAL_JsqLXcY9VFuY8xZvek0ybUXetS27jL-PW0XGLSVQR3Nc5aw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <CAL_JsqLXcY9VFuY8xZvek0ybUXetS27jL-PW0XGLSVQR3Nc5aw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 10, 2019 at 11:07 AM Olof Johansson <olof@lixom.net> wrote:
-[snip]
-> > > Wouldn't it be more convenient to provide it in a standardized format
-> > > such that you won't have to take an additional step, and always have
-> > > This is that form IMO.
-> >
-> > The location of the archive is fixed/known. If you are talking of the
-> > location where the user decompresses it to, then they a;ready know where they
-> > are decompressing to.
+On Tue, Apr 09, 2019 at 04:18:29PM -0500, Rob Herring wrote:
+>On Tue, Apr 9, 2019 at 1:50 PM Sasha Levin <sashal@kernel.org> wrote:
+>>
+>> The parameters are similar to the ones used by IBM's vTPM and the
+>> various I2C tpm drivers.
 >
-> The location _of_ the archive, sure. But the format of what is in the
-> tarball, how it is versioned, and how to manage it will have to be
-> done by every user.
+>Bindings describe h/w (or firmware interfaces in this case), not drivers.
 >
-> For any script that doesn't depend on some shared system state that
-> wants to, say, build a eBPF program and load it, it would need to
-> extract the tarball from scratch to make sure it is the current
-> correct version of it.
+>>
+>> Signed-off-by: Sasha Levin <sashal@kernel.org>
+>> ---
+>>  .../bindings/security/tpm/tpm_ftpm_tee.txt          | 13 +++++++++++++
+>>  .../devicetree/bindings/vendor-prefixes.txt         |  1 +
+>>  2 files changed, 14 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/security/tpm/tpm_ftpm_tee.txt
+>>
+>> diff --git a/Documentation/devicetree/bindings/security/tpm/tpm_ftpm_tee.txt b/Documentation/devicetree/bindings/security/tpm/tpm_ftpm_tee.txt
+>> new file mode 100644
+>> index 000000000000..20fca67a56c4
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/security/tpm/tpm_ftpm_tee.txt
+>> @@ -0,0 +1,13 @@
+>> +Required properties:
+>> +- compatible: should be "microsoft,ftpm"
+>> +- linux,sml-base: 64-bit base address of the reserved memory allocated
+>> +                 for the firmware event log
+>> +- linux,sml-size: size of the memory allocated for the firmware event log
 >
-> If that's required by all users, why not just present the data in a
-> way that it can be used directly?
+>Firmware is defining linux specific properties? What if I want to run
+>BSD? We should use 'reg' here instead.
 
-That is the part that is unclear from your proposal. If we present a
-filesystem view, then I am assuming the data will have to be
-decompressed first into memory. That means you are proposing use of
-30MB uncompressed memory. The whole archive has to be decompressed but
-the whole archive if compressed with XZ for a maximum compression
-ratio.
+This is based on already existing code that defines these names, see
+tpm_read_log_of() in drivers/char/tpm/eventlog/of.c .
 
-> > > Having to copy and extract the tarball is the most awkward step, IMHO.
-> > > I also find the waste of kernel memory for it to be an issue, but
-> > > given that it can be built as a module I guess that's the obvious
-> > > solution for those who care about memory consumption.
-> >
-> > Yes. We discussed in previous threads that for users who really want the
-> > archive to be completely uncompressed and in-memory, can just load the
-> > module, decompress into tmpfs, and unload the module. That is an extra step,
-> > yes.
->
-> Most users will need to decompress it every time they use it anyway,
-> especially if there's no versioned prefix in the tarball that they can
-> use to key to a previously decompressed version with the exact same
-> kernel version and config.
->
-> So, if you need to do that anyway, wouldn't it be easier if you just
-> mounted a FS to get to it. If you're on a system where you can't use
-> it in-place for resource reasons, you can copy it off and unmount it.
-> No extra tools needed in userspace then at run/use time.
->
-> Said filesystem could be populated by a compressed cpio archive since
-> we already have code in the kernel to do this for initramfs, and could
-> do so at mount time -- and at unmount time it'd be freed up.
+These properties were described similarily by other interfaces (see
+Documentation/devicetree/bindings/security/tpm/ibmvtpm.txt or
+Documentation/devicetree/bindings/security/tpm/tpm-i2c.txt for example).
 
-But still, decompressing to the filesystem in a scratch area may be
-better than decompressing to RAM, for some users who have lesser RAM.
-This patchset does not enforce a certain way of doing things and
-leaves it to the user.
+We could rename them all if you'd like, I was just trying to follow the
+existing code.
 
-> If you absolutely need to export a file to userspace with the archive,
-> my suggestion is to do it through debugfs. That way the format isn't
-> in a /proc ABI that can't be changed in the future (debugfs isn't
-> required to be stable in the same way). This way we can change the
-> format carried in the kernel over time without changing the official
-> way we present the data to userspace (via a filesystem view).
->
-> As far as format goes; there's clear precedent on cpio being used and
-> supported; we already have build time requirements on the userspace
-> tools with some options. Using tar would actually be a new dependency
-> even if it is a common tool to have installed. With a self-populating
-> FS, there's no new tool requirements on the runtime side either.
+>What memory is used here? This should be under /reserved-memory if it
+>is part of "main" memory.
 
-debugfs is going away for Android and is controversial in the fact
-that its functionality isn't guaranteed to be there (debugfs breakages
-aren't necessarily bugs AFAIK). So this isn't an option.
+That's my understanding, yes.
 
-> > We had close to 2-3 months of discussions now with various folks up until v5.
-> > I am about to post v6 which is in line with Masahiro Yamada's expecations. In
-> > that I will be dropping module building artifacts due to his module building
-> > concerns and only include the headers.
->
-> I've found some of the old discussion and read up on it. I think it
-> was pretty quick at dismissing ideas for more robust implementations
-> ("it needs squashfs-tools"), and had some narrow viewpoints (exporting
-> a tarball is the least amount of kernel change, while adding
-> complexity at the system/usage side).
+>Really, I'd prefer to not see this in DT at all. Make the firmware
+>discoverable. Why repeat the mistakes of non-discoverable h/w in s/w
+>interfaces? OP-Tee at least has defined a mechanism to enumerate TEE
+>functions IIRC.
 
-Honestly, that's kind of unfair to be quoting just a few points like
-that. If I remember there were 100s of emails and many good view
-points were brought up by many people. We have done the diligence in
-the discussions of this over a period of time.
+Sadly the firmware already exists as-is on live hardware, there is a
+paper describing it back from 2016 and we're stuck having to support
+that.
 
-> I'd also like to clarify: I'm not opposed to the general idea of
-> providing the needed headers with the kernel somehow. I just think
-> it's worth spending effort making sure an interface for it that we'll
-> need to live with forever is appropriately thought through and not
-> rushed in, especially since we're likely to get substantial
-> infrastructure on top of it quickly (eBPF and friends in particular).
-
-We have spent the time :) This seems like the best solution of all.
-Greg KH and other maintainers are also supportive of it as can be seen
-in other threads. We can consider an alternate proposal if it is
-better, but I don't see any better one proposed at the moment.
-
-- squashfs-tools requirement on the build really sucks
-- cpio uncompressed to memory equally sucks because it consumes all
-the memory uncompressed instead of reclaimable pages
-- decompressing into tmpfs will suck for Android because we don't use
-disk-based swap and we run into the same cpio issue above. We use ZRAM
-for compressed swap.
-- debugfs is a non-option for Android
-
-The tar+xz is trivially created without depending on squashfs-tools.
-And xz provides the maximum compression ratio in our experiments.
-Decompression time is a non-issue since trace tools are using it.
-
-The filesystem view sounds using mount/unmount like a pony to me, but
-it does not meet the requirements above. Let me know if I am missing
-something.
-
-thanks,
- - Joel
+--
+Thanks,
+Sasha
