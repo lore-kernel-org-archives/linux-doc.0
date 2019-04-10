@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2D0D07D04D
+	by archive.lwn.net (Postfix) with ESMTP id 5DF037D918
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Apr 2019 19:25:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726680AbfDJTXI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1726671AbfDJTXI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Wed, 10 Apr 2019 15:23:08 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:43992 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:44006 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726096AbfDJTXH (ORCPT
+        with ESMTP id S1726527AbfDJTXH (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Apr 2019 15:23:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,18 +20,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=6Qp3OTiveUtdQiehEFVG/K5c8ofOuDom/ezWCNRJrzE=; b=oGxWV77i7QDDLsj0jEmTTk+pV8
-        z2NhIPiDVswl5Sb6V5XBczg67MHItqCA9rwtMqAJecu3dzsx/CJXl6C4gYvkeTB9HsiWNHq8mUZ0u
-        yAYUeuCOhg5P4/vCErn+WA75+lMH1Bbe02HqbyngQ6054HjW3Yi4taYMtj8E1xDe6vnndG6lDv8GO
-        3ibcy/1DApal3TnDFTyfW2ZGUs5G93TGRkN7GuBYD43/4Dh46dPiM1JX6U/IZ6WNL/RM+/3HLCWaw
-        Io1HSIM6SWyVh7hDF0EWyowhim8SL+i8sse6WHL63SJ6qdq1cRz7zPCu1HA6pbeTuaWGLbmk7bufJ
-        i+TFwMvg==;
+        bh=9xKJ/YbyKW5rRxZsZt0x225FxAk2hW2sKjXaGp6q0hU=; b=DOslt9+EeJ3Dyet+47ZnO5KK4r
+        GzH3LRDQuxlXvhF1TY1OKJyZb0PQDpUm7AlMeAFjjmJTDeprjqFU5sq+ohJes1iEUkWGPBtz6gQPV
+        r6kyNM6Sec3oKfz/Ks0Z2uTi+4DDU+qiPHpXlMzGTwG2JtebfQ6xINezcU5JT6Ny1NZXFvxd5eWJK
+        CA3qUayMdwOyIHiuxHFl4VyZaUdO744EseSGRPVg1kaqrDsCkeEBMEl4rG4r7gVKHupeRsFYcFLSY
+        QY0GwQbfZKZ0l2SusyYcw7iwFPQ6y5fHVl6hm8WvxFts0zmh9Y22pbc0nvFl4P5oAk+kl1RSo3ond
+        OKn5qDSw==;
 Received: from 177.41.129.23.dynamic.adsl.gvt.net.br ([177.41.129.23] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hEIoM-0003RA-JZ; Wed, 10 Apr 2019 19:23:06 +0000
+        id 1hEIoM-0003Qx-Ht; Wed, 10 Apr 2019 19:23:06 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hEIoI-0000yo-S5; Wed, 10 Apr 2019 16:23:02 -0300
+        id 1hEIoJ-0000zS-4U; Wed, 10 Apr 2019 16:23:03 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
@@ -39,9 +39,9 @@ Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Jean Delvare <jdelvare@suse.com>,
         Guenter Roeck <linux@roeck-us.net>, linux-hwmon@vger.kernel.org
-Subject: [PATCH v2 06/21] docs: hwmon: pc87360: convert to ReST format
-Date:   Wed, 10 Apr 2019 16:22:43 -0300
-Message-Id: <6398556a755a19cde69d4185d34b09c985c79bc0.1554923967.git.mchehab+samsung@kernel.org>
+Subject: [PATCH v2 16/21] docs: hwmon: da9052, da9055: convert to ReST format
+Date:   Wed, 10 Apr 2019 16:22:53 -0300
+Message-Id: <53f1f767bdef56b1d9d042b4dc2506625eb5ed05.1554923967.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1554923967.git.mchehab+samsung@kernel.org>
 References: <cover.1554923967.git.mchehab+samsung@kernel.org>
@@ -52,104 +52,150 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Convert pc87360 to ReST format, in order to allow it to
-be parsed by Sphinx.
+Convert da9052 and da9055 to ReST format, in order to allow
+them to be parsed by Sphinx.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/hwmon/pc87360 | 38 +++++++++++++++++++++++++------------
- 1 file changed, 26 insertions(+), 12 deletions(-)
+ Documentation/hwmon/da9052 | 40 ++++++++++++++++++++++++++------------
+ Documentation/hwmon/da9055 | 20 ++++++++++++++-----
+ 2 files changed, 43 insertions(+), 17 deletions(-)
 
-diff --git a/Documentation/hwmon/pc87360 b/Documentation/hwmon/pc87360
-index d5f5cf16ce59..4bad07bce54b 100644
---- a/Documentation/hwmon/pc87360
-+++ b/Documentation/hwmon/pc87360
-@@ -2,14 +2,19 @@ Kernel driver pc87360
- =====================
- 
+diff --git a/Documentation/hwmon/da9052 b/Documentation/hwmon/da9052
+index 5bc51346b689..556e2778b9e5 100644
+--- a/Documentation/hwmon/da9052
++++ b/Documentation/hwmon/da9052
+@@ -1,6 +1,12 @@
++Kernel driver da9052
++====================
++
  Supported chips:
 +
-   * National Semiconductor PC87360, PC87363, PC87364, PC87365 and PC87366
+   * Dialog Semiconductors DA9052-BC and DA9053-AA/Bx PMICs
 +
-     Prefixes: 'pc87360', 'pc87363', 'pc87364', 'pc87365', 'pc87366'
+     Prefix: 'da9052'
 +
-     Addresses scanned: none, address read from Super I/O config space
+     Datasheet: Datasheet is not publicly available.
+ 
+ Authors: David Dajun Chen <dchen@diasemi.com>
+@@ -15,17 +21,20 @@ different inputs. The track and hold circuit ensures stable input voltages at
+ the input of the ADC during the conversion.
+ 
+ The ADC is used to measure the following inputs:
+-Channel 0: VDDOUT - measurement of the system voltage
+-Channel 1: ICH - internal battery charger current measurement
+-Channel 2: TBAT - output from the battery NTC
+-Channel 3: VBAT - measurement of the battery voltage
+-Channel 4: ADC_IN4 - high impedance input (0 - 2.5V)
+-Channel 5: ADC_IN5 - high impedance input (0 - 2.5V)
+-Channel 6: ADC_IN6 - high impedance input (0 - 2.5V)
+-Channel 7: XY - TSI interface to measure the X and Y voltage of the touch
+-	   screen resistive potentiometers
+-Channel 8: Internal Tjunc. - sense (internal temp. sensor)
+-Channel 9: VBBAT - measurement of the backup battery voltage
 +
-     Datasheets: No longer available
++========= ===================================================================
++Channel 0 VDDOUT - measurement of the system voltage
++Channel 1 ICH - internal battery charger current measurement
++Channel 2 TBAT - output from the battery NTC
++Channel 3 VBAT - measurement of the battery voltage
++Channel 4 ADC_IN4 - high impedance input (0 - 2.5V)
++Channel 5 ADC_IN5 - high impedance input (0 - 2.5V)
++Channel 6 ADC_IN6 - high impedance input (0 - 2.5V)
++Channel 7 XY - TSI interface to measure the X and Y voltage of the touch
++	  screen resistive potentiometers
++Channel 8 Internal Tjunc. - sense (internal temp. sensor)
++Channel 9 VBBAT - measurement of the backup battery voltage
++========= ===================================================================
  
- Authors: Jean Delvare <jdelvare@suse.de>
+ By using sysfs attributes we can measure the system voltage VDDOUT, the battery
+ charging current ICH, battery temperature TBAT, battery junction temperature
+@@ -37,12 +46,15 @@ Voltage Monitoring
+ Voltages are sampled by a 10 bit ADC.
  
- Thanks to Sandeep Mehta, Tonko de Rooy and Daniel Ceregatti for testing.
+ The battery voltage is calculated as:
 +
- Thanks to Rudolf Marek for helping me investigate conversion issues.
+ 	Milli volt = ((ADC value * 1000) / 512) + 2500
  
- 
-@@ -17,11 +22,13 @@ Module Parameters
- -----------------
- 
- * init int
--  Chip initialization level:
--   0: None
--  *1: Forcibly enable internal voltage and temperature channels, except in9
--   2: Forcibly enable all voltage and temperature channels, except in9
--   3: Forcibly enable all voltage and temperature channels, including in9
-+    Chip initialization level:
+ The backup battery voltage is calculated as:
 +
-+    - 0: None
-+    - **1**: Forcibly enable internal voltage and temperature channels,
-+      except in9
-+    - 2: Forcibly enable all voltage and temperature channels, except in9
-+    - 3: Forcibly enable all voltage and temperature channels, including in9
+ 	Milli volt = (ADC value * 2500) / 512;
  
- Note that this parameter has no effect for the PC87360, PC87363 and PC87364
- chips.
-@@ -43,13 +50,15 @@ hardware monitoring chipsets, not only controlling and monitoring three fans,
- but also monitoring eleven voltage inputs and two (PC87365) or up to four
- (PC87366) temperatures.
- 
-+  =========== ======= ======= ======= ======= =====
-   Chip        #vin    #fan    #pwm    #temp   devid
--
-+  =========== ======= ======= ======= ======= =====
-   PC87360     -       2       2       -       0xE1
-   PC87363     -       2       2       -       0xE8
-   PC87364     -       3       3       -       0xE4
-   PC87365     11      3       3       2       0xE5
-   PC87366     11      3       3       3-4     0xE9
-+  =========== ======= ======= ======= ======= =====
- 
- The driver assumes that no more than one chip is present, and one of the
- standard Super I/O addresses is used (0x2E/0x2F or 0x4E/0x4F)
-@@ -68,18 +77,23 @@ have to care no more.
- 
- For reference, here are a few values about clock dividers:
- 
--                slowest         accuracy        highest
--                measurable      around 3000     accurate
-+    =========== =============== =============== ===========
-+		slowest         accuracy        highest
-+		measurable      around 3000     accurate
-     divider     speed (RPM)     RPM (RPM)       speed (RPM)
--         1        1882              18           6928
--         2         941              37           4898
--         4         470              74           3464
--         8         235             150           2449
-+    =========== =============== =============== ===========
-+	 1        1882              18           6928
-+	 2         941              37           4898
-+	 4         470              74           3464
-+	 8         235             150           2449
-+    =========== =============== =============== ===========
- 
- For the curious, here is how the values above were computed:
+ The voltages on ADC channels 4, 5 and 6 are calculated as:
 +
-  * slowest measurable speed: clock/(255*divider)
-  * accuracy around 3000 RPM: 3000^2/clock
-  * highest accurate speed: sqrt(clock*100)
-+
- The clock speed for the PC87360 family is 480 kHz. I arbitrarily chose 100
- RPM as the lowest acceptable accuracy.
+ 	Milli volt = (ADC value * 2500) / 1023
  
+ Temperature Monitoring
+@@ -52,10 +64,14 @@ Temperatures are sampled by a 10 bit ADC.  Junction and battery temperatures
+ are monitored by the ADC channels.
+ 
+ The junction temperature is calculated:
++
+ 	Degrees celsius = 1.708 * (TJUNC_RES - T_OFFSET) - 108.8
++
+ The junction temperature attribute is supported by the driver.
+ 
+ The battery temperature is calculated:
+-	Degree Celsius = 1 / (t1 + 1/298)- 273
++
++	Degree Celsius = 1 / (t1 + 1/298) - 273
++
+ where t1 = (1/B)* ln(( ADCval * 2.5)/(R25*ITBAT*255))
+ Default values of R25, B, ITBAT are 10e3, 3380 and 50e-6 respectively.
+diff --git a/Documentation/hwmon/da9055 b/Documentation/hwmon/da9055
+index 855c3f536e00..beae271a3312 100644
+--- a/Documentation/hwmon/da9055
++++ b/Documentation/hwmon/da9055
+@@ -1,6 +1,11 @@
++Kernel driver da9055
++====================
++
+ Supported chips:
+   * Dialog Semiconductors DA9055 PMIC
++
+     Prefix: 'da9055'
++
+     Datasheet: Datasheet is not publicly available.
+ 
+ Authors: David Dajun Chen <dchen@diasemi.com>
+@@ -15,11 +20,12 @@ different inputs. The track and hold circuit ensures stable input voltages at
+ the input of the ADC during the conversion.
+ 
+ The ADC is used to measure the following inputs:
+-Channel 0: VDDOUT - measurement of the system voltage
+-Channel 1: ADC_IN1 - high impedance input (0 - 2.5V)
+-Channel 2: ADC_IN2 - high impedance input (0 - 2.5V)
+-Channel 3: ADC_IN3 - high impedance input (0 - 2.5V)
+-Channel 4: Internal Tjunc. - sense (internal temp. sensor)
++
++- Channel 0: VDDOUT - measurement of the system voltage
++- Channel 1: ADC_IN1 - high impedance input (0 - 2.5V)
++- Channel 2: ADC_IN2 - high impedance input (0 - 2.5V)
++- Channel 3: ADC_IN3 - high impedance input (0 - 2.5V)
++- Channel 4: Internal Tjunc. - sense (internal temp. sensor)
+ 
+ By using sysfs attributes we can measure the system voltage VDDOUT,
+ chip junction temperature and auxiliary channels voltages.
+@@ -31,9 +37,11 @@ Voltages are sampled in a AUTO mode it can be manually sampled too and results
+ are stored in a 10 bit ADC.
+ 
+ The system voltage is calculated as:
++
+ 	Milli volt = ((ADC value * 1000) / 85) + 2500
+ 
+ The voltages on ADC channels 1, 2 and 3 are calculated as:
++
+ 	Milli volt = (ADC value * 1000) / 102
+ 
+ Temperature Monitoring
+@@ -43,5 +51,7 @@ Temperatures are sampled by a 10 bit ADC.  Junction temperatures
+ are monitored by the ADC channels.
+ 
+ The junction temperature is calculated:
++
+ 	Degrees celsius = -0.4084 * (ADC_RES - T_OFFSET) + 307.6332
++
+ The junction temperature attribute is supported by the driver.
 -- 
 2.20.1
 
