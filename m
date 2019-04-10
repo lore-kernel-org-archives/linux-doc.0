@@ -5,332 +5,90 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2AB567D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Apr 2019 19:14:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B91C47D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Apr 2019 19:19:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726527AbfDJTN6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 10 Apr 2019 15:13:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:1055 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726536AbfDJTN5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 10 Apr 2019 15:13:57 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 6476680B2C;
-        Wed, 10 Apr 2019 19:13:57 +0000 (UTC)
-Received: from llong.com (ovpn-120-189.rdu2.redhat.com [10.10.120.189])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 786C46013A;
-        Wed, 10 Apr 2019 19:13:54 +0000 (UTC)
-From:   Waiman Long <longman@redhat.com>
-To:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        id S1726558AbfDJTTf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 10 Apr 2019 15:19:35 -0400
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:36790 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726073AbfDJTTf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Apr 2019 15:19:35 -0400
+Received: by mail-qt1-f196.google.com with SMTP id s15so4287938qtn.3;
+        Wed, 10 Apr 2019 12:19:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Yg1CRWpDLdkT8DcNZ4/1Kt/Rhj0AKjem9XJsrZeWYb4=;
+        b=lauKN18AGDfCEExEDyPVOa6Uh3GT+LQZQj/aeAOz7VFiWFFaOL0w+MUEUCBJHzGgil
+         w/xQGaxhbSpedYNvNYUqkJomuVauywfUYmzsV0H4jqAOxB6mYU6kBaFMIK6m7QT+tU78
+         IJeNJe4AQa/hR5w5gHAgvH6tZu19NVa2RXXDOmVjhajGlbpg0cl/+uJAzn9+2WsGfCuS
+         AqCsmmvyJqsRTwIo4XflWg9WkFHZ5jsMLbZP3LrM2cItIZCNn0WaSdP/zq687cSQmMfN
+         SCVwL0isVUQdNVZRjtTA4dS8NFJDFCUXpR+i5RICbk5/Ft+NE2Tb01XnJa+yfEBOrQAY
+         yz2w==
+X-Gm-Message-State: APjAAAUFzi5zPHKeWxYsd92EddTdEVlxTtmeM2DbmhBChPNb6vgsAUhU
+        tYQrcPHQlnCPfmnsHMUkC3xiL2vjL9WS9wd9Yhk=
+X-Google-Smtp-Source: APXvYqziMS9Y6MH6ktb8d7CS4J0XVAajtu4pUUPQPiejmRWed2wG2wYZO8+c+KHJQJataW3FJ+L3UHv8L+Bm/YeJX5o=
+X-Received: by 2002:a0c:9dcb:: with SMTP id p11mr36568433qvf.28.1554923973662;
+ Wed, 10 Apr 2019 12:19:33 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190320163116.39275-1-joel@joelfernandes.org>
+ <CAOesGMheoZda84OSz9spQ7p66wot5S_9aaqaKC=QYp+8utASXA@mail.gmail.com>
+ <20190408203601.GF133872@google.com> <CAOesGMibHCuMPCYkc8V++Z2Kuf3YQf_OjYn18GvDgzTy6ubV=g@mail.gmail.com>
+In-Reply-To: <CAOesGMibHCuMPCYkc8V++Z2Kuf3YQf_OjYn18GvDgzTy6ubV=g@mail.gmail.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Wed, 10 Apr 2019 21:19:17 +0200
+Message-ID: <CAK8P3a30yY_1mPcUBxOYOkbFwoeCHbo5EHuWMN4fqKug9DiQDQ@mail.gmail.com>
+Subject: Re: [PATCH v5 1/3] Provide in-kernel headers to make extending kernel easier
+To:     Olof Johansson <olof@lixom.net>
+Cc:     Joel Fernandes <joel@joelfernandes.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Qais Yousef <qais.yousef@arm.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Manoj Rao <linux@manojrajarao.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Kirill Tkhai <ktkhai@virtuozzo.com>,
-        Aaron Lu <aaron.lu@intel.com>, Waiman Long <longman@redhat.com>
-Subject: [RFC PATCH 1/2] mm/memcontrol: Finer-grained control for subset of allocated memory
-Date:   Wed, 10 Apr 2019 15:13:20 -0400
-Message-Id: <20190410191321.9527-2-longman@redhat.com>
-In-Reply-To: <20190410191321.9527-1-longman@redhat.com>
-References: <20190410191321.9527-1-longman@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.28]); Wed, 10 Apr 2019 19:13:57 +0000 (UTC)
+        Alexei Starovoitov <ast@kernel.org>,
+        atish patra <atishp04@gmail.com>,
+        Daniel Colascione <dancol@google.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Karim Yaghmour <karim.yaghmour@opersys.com>,
+        Kees Cook <keescook@chromium.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-trace-devel@vger.kernel.org,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The current control mechanism for memory cgroup v2 lumps all the memory
-together irrespective of the type of memory objects. However, there
-are cases where users may have more concern about one type of memory
-usage than the others.
+On Wed, Apr 10, 2019 at 5:09 PM Olof Johansson <olof@lixom.net> wrote:
+>
+> As far as format goes; there's clear precedent on cpio being used and
+> supported; we already have build time requirements on the userspace
+> tools with some options. Using tar would actually be a new dependency
+> even if it is a common tool to have installed. With a self-populating
+> FS, there's no new tool requirements on the runtime side either.
 
-In order to support finer-grained control of memory usage, the following
-two new cgroup v2 control files are added:
+The decision between tar and cpio directly follows from whether the
+headers are uncompressed in kernel space or in user space:
 
- - memory.subset.list
-   Either "" (default), "anon" (anonymous memory) or "file" (file
-   cache). It specifies the type of memory objects we want to monitor.
- - memory.subset.high
-   The high memory limit for the memory type specified in
-   "memory.subset.list".
+- we use cpio for initramfs because unpacking cpio in C code is
+  fairly simple, while unpacking tar is not (see the wikipedia page on tar).
+  If we were to unpack it from the kernel, the initramfs code could be
+  trivially reused.
+- nobody sane uses cpio in user space, since tar is already present
+  almost everywhere, while cpio is rather obscure in comparison.
 
-For simplicity, the limit is for memory usage by all the tasks within
-the current memory cgroup only. It doesn't include memory usage by
-other tasks in child memory cgroups. Hence, we can just check the
-corresponding stat[] array entry of the selected memory type to see if
-it is above the limit.
-
-We currently don't have the capability to specify the type of memory
-objects to reclaim. When memory reclaim is triggered after reaching
-the "memory.subset.high" limit, other type of memory objects will also
-be reclaimed.
-
-In the future, we may extend this capability to allow even more
-fine-grained selection of memory types as well as a combination of them
-if the need arises.
-
-A test program was written to allocate 1 Gbytes of memory and then
-touch every pages of them. This program was then run in a memory cgroup:
-
- # echo anon > memory.subset.list
- # echo 10485760 > memory.subset.high
- # echo $$ > cgroup.procs
- # ~/touch-1gb
-
-While the test program was running:
-
- # grep -w anon memory.stat
- anon 10817536
-
-It was a bit higher than the limit, but that should be OK.
-
-Without setting the limit, the output would be
-
- # grep -w anon memory.stat
- anon 1074335744
-
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- Documentation/admin-guide/cgroup-v2.rst | 35 +++++++++
- include/linux/memcontrol.h              |  7 ++
- mm/memcontrol.c                         | 96 ++++++++++++++++++++++++-
- 3 files changed, 137 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 20f92c16ffbf..0d5b7c77897d 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1080,6 +1080,41 @@ PAGE_SIZE multiple when read back.
- 	high limit is used and monitored properly, this limit's
- 	utility is limited to providing the final safety net.
- 
-+  memory.subset.high
-+	A read-write single value file which exists on non-root cgroups.
-+	The default is "max".
-+
-+	Memory usage throttle limit for a subset of memory objects with
-+	types specified in "memory.subset.list".  If a cgroup's usage for
-+	those memory objects goes over the high boundary, the processes
-+	of the cgroup are throttled and put under heavy reclaim pressure.
-+
-+	This throttle limit is not allowed to go higher than
-+	"memory.high" and will be adjusted accordingly when "memory.high"
-+	is changed.  Because of that, "memory.subset.list" should always
-+	be set first before assigning a limit to this file.
-+
-+	Unlike "memory.high", "memory.subset.high" does not count memory
-+	objects usage in child cgroups.
-+
-+	Going over the high limit never invokes the OOM killer and
-+	under extreme conditions the limit may be breached.
-+
-+  memory.subset.list
-+	A read-write single value file which exists on non-root cgroups.
-+	The default is "" which means no separate memory subcomponent
-+	tracking and throttling.
-+
-+	Currently, only the following two primary subcompoent types are
-+	supported:
-+
-+	 - anon (anonymous memory)
-+	 - file (filesystem cache, including tmpfs and shared memory)
-+
-+	The value of this file should either be "", "anon" or "file".
-+	Changing its value resets "memory.subset.high" to be the same
-+	as "memory.high".
-+
-   memory.oom.group
- 	A read-write single value file which exists on non-root
- 	cgroups.  The default value is "0".
-diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
-index 1f3d880b7ca1..1baf3e4a9eeb 100644
---- a/include/linux/memcontrol.h
-+++ b/include/linux/memcontrol.h
-@@ -212,6 +212,13 @@ struct mem_cgroup {
- 	/* Upper bound of normal memory consumption range */
- 	unsigned long high;
- 
-+	/*
-+	 * Upper memory consumption bound for a subset of memory object type
-+	 * specified in subset_list for the current cgroup only.
-+	 */
-+	unsigned long subset_high;
-+	unsigned long subset_list;
-+
- 	/* Range enforcement for interrupt charges */
- 	struct work_struct high_work;
- 
-diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-index 532e0e2a4817..7e52adea60d9 100644
---- a/mm/memcontrol.c
-+++ b/mm/memcontrol.c
-@@ -2145,6 +2145,14 @@ static void reclaim_high(struct mem_cgroup *memcg,
- 			 unsigned int nr_pages,
- 			 gfp_t gfp_mask)
- {
-+	int mtype = READ_ONCE(memcg->subset_list);
-+
-+	/*
-+	 * Try memory reclaim if subset_high is exceeded.
-+	 */
-+	if (mtype && (memcg_page_state(memcg, mtype) > memcg->subset_high))
-+		try_to_free_mem_cgroup_pages(memcg, nr_pages, gfp_mask, true);
-+
- 	do {
- 		if (page_counter_read(&memcg->memory) <= memcg->high)
- 			continue;
-@@ -2190,6 +2198,7 @@ static int try_charge(struct mem_cgroup *memcg, gfp_t gfp_mask,
- 	bool may_swap = true;
- 	bool drained = false;
- 	bool oomed = false;
-+	bool over_subset_high = false;
- 	enum oom_status oom_status;
- 
- 	if (mem_cgroup_is_root(memcg))
-@@ -2323,6 +2332,10 @@ static int try_charge(struct mem_cgroup *memcg, gfp_t gfp_mask,
- 	if (batch > nr_pages)
- 		refill_stock(memcg, batch - nr_pages);
- 
-+	if (memcg->subset_list &&
-+	   (memcg_page_state(memcg, memcg->subset_list) > memcg->subset_high))
-+		over_subset_high = true;
-+
- 	/*
- 	 * If the hierarchy is above the normal consumption range, schedule
- 	 * reclaim on returning to userland.  We can perform reclaim here
-@@ -2333,7 +2346,8 @@ static int try_charge(struct mem_cgroup *memcg, gfp_t gfp_mask,
- 	 * reclaim, the cost of mismatch is negligible.
- 	 */
- 	do {
--		if (page_counter_read(&memcg->memory) > memcg->high) {
-+		if (page_counter_read(&memcg->memory) > memcg->high ||
-+		    over_subset_high) {
- 			/* Don't bother a random interrupted task */
- 			if (in_interrupt()) {
- 				schedule_work(&memcg->high_work);
-@@ -2343,6 +2357,7 @@ static int try_charge(struct mem_cgroup *memcg, gfp_t gfp_mask,
- 			set_notify_resume(current);
- 			break;
- 		}
-+		over_subset_high = false;
- 	} while ((memcg = parent_mem_cgroup(memcg)));
- 
- 	return 0;
-@@ -4491,6 +4506,7 @@ mem_cgroup_css_alloc(struct cgroup_subsys_state *parent_css)
- 		return ERR_PTR(error);
- 
- 	memcg->high = PAGE_COUNTER_MAX;
-+	memcg->subset_high = PAGE_COUNTER_MAX;
- 	memcg->soft_limit = PAGE_COUNTER_MAX;
- 	if (parent) {
- 		memcg->swappiness = mem_cgroup_swappiness(parent);
-@@ -5447,6 +5463,13 @@ static ssize_t memory_high_write(struct kernfs_open_file *of,
- 
- 	memcg->high = high;
- 
-+	/*
-+	 * Synchronize subset_high if subset_list not set and lower
-+	 * subset_high, if necessary.
-+	 */
-+	if (!memcg->subset_list || (high < memcg->subset_high))
-+		memcg->subset_high = high;
-+
- 	nr_pages = page_counter_read(&memcg->memory);
- 	if (nr_pages > high)
- 		try_to_free_mem_cgroup_pages(memcg, nr_pages - high,
-@@ -5511,6 +5534,65 @@ static ssize_t memory_max_write(struct kernfs_open_file *of,
- 	return nbytes;
- }
- 
-+static int memory_subset_high_show(struct seq_file *m, void *v)
-+{
-+	return seq_puts_memcg_tunable(m,
-+			READ_ONCE(mem_cgroup_from_seq(m)->subset_high));
-+}
-+
-+static ssize_t memory_subset_high_write(struct kernfs_open_file *of,
-+					char *buf, size_t nbytes, loff_t off)
-+{
-+	struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
-+	unsigned long high;
-+	int err;
-+
-+	buf = strstrip(buf);
-+	err = page_counter_memparse(buf, "max", &high);
-+	if (err)
-+		return err;
-+
-+	if (high > memcg->high)
-+		return -EINVAL;
-+
-+	memcg->subset_high = high;
-+	return nbytes;
-+}
-+
-+static int memory_subset_list_show(struct seq_file *m, void *v)
-+{
-+	unsigned long mtype = READ_ONCE(mem_cgroup_from_seq(m)->subset_list);
-+
-+	seq_puts(m, (mtype == MEMCG_RSS)   ? "anon\n" :
-+		    (mtype == MEMCG_CACHE) ? "file\n" : "\n");
-+	return 0;
-+}
-+
-+static ssize_t memory_subset_list_write(struct kernfs_open_file *of,
-+					char *buf, size_t nbytes, loff_t off)
-+{
-+	struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
-+	unsigned long mtype;
-+
-+	buf = strstrip(buf);
-+	if (!strcmp(buf, "anon"))
-+		mtype = MEMCG_RSS;
-+	else if (!strcmp(buf, "file"))
-+		mtype = MEMCG_CACHE;
-+	else if (buf[0] == '\0')
-+		mtype = 0;
-+	else
-+		return -EINVAL;
-+
-+	if (mtype == memcg->subset_list)
-+		return nbytes;
-+
-+	memcg->subset_list = mtype;
-+	/* Reset subset_high */
-+	memcg->subset_high = memcg->high;
-+	return nbytes;
-+}
-+
- static int memory_events_show(struct seq_file *m, void *v)
- {
- 	struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
-@@ -5699,6 +5781,18 @@ static struct cftype memory_files[] = {
- 		.seq_show = memory_oom_group_show,
- 		.write = memory_oom_group_write,
- 	},
-+	{
-+		.name = "subset.high",
-+		.flags = CFTYPE_NOT_ON_ROOT,
-+		.seq_show = memory_subset_high_show,
-+		.write = memory_subset_high_write,
-+	},
-+	{
-+		.name = "subset.list",
-+		.flags = CFTYPE_NOT_ON_ROOT,
-+		.seq_show = memory_subset_list_show,
-+		.write = memory_subset_list_write,
-+	},
- 	{ }	/* terminate */
- };
- 
--- 
-2.18.1
-
+        Arnd
