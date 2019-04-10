@@ -2,36 +2,36 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5FDCF7D2F0
+	by archive.lwn.net (Postfix) with ESMTP id 7B2BA7D912
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Apr 2019 11:14:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731210AbfDJLNi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 10 Apr 2019 07:13:38 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:44480 "EHLO
+        id S1729177AbfDJLOH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 10 Apr 2019 07:14:07 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:44452 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731327AbfDJLMR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Apr 2019 07:12:17 -0400
+        with ESMTP id S1731076AbfDJLMQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Apr 2019 07:12:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Zyl0iXJRwzuvBEZs7BTvFpYBndYhMvCAD5/OttpaVwg=; b=TY6co1T9ocQjgai1d3yjtgrW/G
-        59NVDpuPIg70hwXGGdt7jlNCpeR4aIe0B/wtuk7rj/BrHcf41hxQsu/LUh8HrFPPxzsQoSi85vvVY
-        GHCh4gPoC9XEIdjgvKeC9W3vT4IXYctBM1hzSPejP+hiTU6l3q/WJ2uyHnCJZ2zy0PPqfswS6TDsC
-        b6wUfP3olzUE4bbNn2sEh9qEfZKPjGMFzy3bbfKwdi66x34+GQmCYghoMkWUcQcRNvSYkvn+XChp5
-        b3aO9vdTbByU2OGT6cgstjJKnp2ac+QEgBrNX4powPvE2IkNYa3rzMajh+0JakdH6cv6NF9vuEi9L
-        kGp9xGWg==;
+        bh=aMyMq6+HpBeCrxOa6nGyZagjeADRq/dui+re74lmB8g=; b=RmCeCT1+75JYRO35+CDdWULnT3
+        Oeok7wFCc9H32oiARnXcYAoz2iGBkPzapWkHMeuiidNAdmyi4HiaGVxdEax5J3725HzWfhgmA32UP
+        eRyiP6DuglH+xP8o+ZtmmKXRMZIAoeOLo/yk3VFc1Pi2Z9BISoU/GVrRcGyaLNgvcOC81YnUfxDSx
+        p3+XSARBDJHmDj7xNiXZ4LXpl1qS4eTp06YdiXz3T7b0oo5fbA8tRAuIfqYHc9CcVzCmth5TeDLb5
+        Kh4M2m3kdEp4vGqZtRNm2bEu7ENpltUON/k0E6S/Kj0MpmrocgTIMFSTV5QZW8qdjSnWHfJOpwhhg
+        inTobMug==;
 Received: from 177.41.129.23.dynamic.adsl.gvt.net.br ([177.41.129.23] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hEB9L-0006n1-NH; Wed, 10 Apr 2019 11:12:15 +0000
+        id 1hEB9L-0006n4-Mi; Wed, 10 Apr 2019 11:12:15 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hEB9J-0007T6-Gf; Wed, 10 Apr 2019 08:12:13 -0300
+        id 1hEB9J-0007TD-HT; Wed, 10 Apr 2019 08:12:13 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
@@ -39,9 +39,9 @@ Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Jean Delvare <jdelvare@suse.com>,
         Guenter Roeck <linux@roeck-us.net>, linux-hwmon@vger.kernel.org
-Subject: [PATCH 12/21] docs: hwmon: asc7621: convert to ReST format
-Date:   Wed, 10 Apr 2019 08:12:02 -0300
-Message-Id: <10612d65a1392e596cf60c981985d0af208c8a61.1554893882.git.mchehab+samsung@kernel.org>
+Subject: [PATCH 13/21] docs: hwmon: ads1015: convert to ReST format
+Date:   Wed, 10 Apr 2019 08:12:03 -0300
+Message-Id: <035d94aab9cff675b38a69c2944780ff8a482337.1554893882.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1554893881.git.mchehab+samsung@kernel.org>
 References: <cover.1554893881.git.mchehab+samsung@kernel.org>
@@ -52,307 +52,125 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Convert asc7621 to ReST format, in order to allow it to
+Convert ads1015 to ReST format, in order to allow it to
 be parsed by Sphinx.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/hwmon/asc7621 | 146 ++++++++++++++++++++++--------------
- 1 file changed, 88 insertions(+), 58 deletions(-)
+ Documentation/hwmon/ads1015 | 72 ++++++++++++++++++++++---------------
+ 1 file changed, 43 insertions(+), 29 deletions(-)
 
-diff --git a/Documentation/hwmon/asc7621 b/Documentation/hwmon/asc7621
-index 7287be7e1f21..b5a9fad0f172 100644
---- a/Documentation/hwmon/asc7621
-+++ b/Documentation/hwmon/asc7621
-@@ -1,10 +1,15 @@
-+=====================
- Kernel driver asc7621
--==================
-+=====================
+diff --git a/Documentation/hwmon/ads1015 b/Documentation/hwmon/ads1015
+index 02d2a459385f..e0951c4e57bb 100644
+--- a/Documentation/hwmon/ads1015
++++ b/Documentation/hwmon/ads1015
+@@ -2,17 +2,25 @@ Kernel driver ads1015
+ =====================
  
  Supported chips:
 +
-     Andigilog aSC7621 and aSC7621a
+   * Texas Instruments ADS1015
 +
-     Prefix: 'asc7621'
+     Prefix: 'ads1015'
+-    Datasheet: Publicly available at the Texas Instruments website :
+-               http://focus.ti.com/lit/ds/symlink/ads1015.pdf
 +
-     Addresses scanned: I2C 0x2c, 0x2d, 0x2e
++    Datasheet: Publicly available at the Texas Instruments website:
 +
-     Datasheet: http://www.fairview5.com/linux/asc7621/asc7621.pdf
- 
- Author:
-@@ -73,8 +78,10 @@ Finally, we have added a tach disable function that turns off the tach
- measurement system for individual tachs in order to save power. That is
- in register 75h.
- 
----
-+--------------------------------------------------------------------------
++	       http://focus.ti.com/lit/ds/symlink/ads1015.pdf
 +
- aSC7621 Product Description
-+===========================
- 
- The aSC7621 has a two wire digital interface compatible with SMBus 2.0.
- Using a 10-bit ADC, the aSC7621 measures the temperature of two remote diode
-@@ -102,6 +109,8 @@ System voltages of VCCP, 2.5V, 3.3V, 5.0V, and 12V motherboard power are
- monitored efficiently with internal scaling resistors.
- 
- Features
-+--------
+   * Texas Instruments ADS1115
 +
- - Supports PECI interface and monitors internal and remote thermal diodes
- - 2-wire, SMBus 2.0 compliant, serial interface
- - 10-bit ADC
-@@ -110,7 +119,7 @@ Features
- - Noise filtering of temperature reading for fan speed control
- - 0.25C digital temperature sensor resolution
- - 3 PWM fan speed control outputs for 2-, 3- or 4-wire fans and up to 4 fan
--	tachometer inputs
-+  tachometer inputs
- - Enhanced measured temperature to Temperature Zone assignment.
- - Provides high and low PWM frequency ranges
- - 3 GPIO pins for custom use
-@@ -123,17 +132,20 @@ Except where noted below, the sysfs entries created by this driver follow
- the standards defined in "sysfs-interface".
- 
- temp1_source
-+	=	===============================================
- 	0 	(default) peci_legacy = 0, Remote 1 Temperature
--			peci_legacy = 1, PECI Processor Temperature 0
-+		peci_legacy = 1, PECI Processor Temperature 0
- 	1 	Remote 1 Temperature
- 	2 	Remote 2 Temperature
- 	3 	Internal Temperature
- 	4 	PECI Processor Temperature 0
- 	5 	PECI Processor Temperature 1
- 	6 	PECI Processor Temperature 2
--	7  PECI Processor Temperature 3
-+	7	PECI Processor Temperature 3
-+	=	===============================================
- 
- temp2_source
-+	=	===============================================
- 	0 	(default) Internal Temperature
- 	1 	Remote 1 Temperature
- 	2 	Remote 2 Temperature
-@@ -142,8 +154,10 @@ temp2_source
- 	5 	PECI Processor Temperature 1
- 	6 	PECI Processor Temperature 2
- 	7 	PECI Processor Temperature 3
-+	=	===============================================
- 
- temp3_source
-+	=	===============================================
- 	0 	(default) Remote 2 Temperature
- 	1 	Remote 1 Temperature
- 	2 	Remote 2 Temperature
-@@ -152,10 +166,12 @@ temp3_source
- 	5 	PECI Processor Temperature 1
- 	6 	PECI Processor Temperature 2
- 	7 	PECI Processor Temperature 3
-+	=	===============================================
- 
- temp4_source
-+	=	===============================================
- 	0 	(default) peci_legacy = 0, PECI Processor Temperature 0
--			peci_legacy = 1, Remote 1 Temperature
-+		peci_legacy = 1, Remote 1 Temperature
- 	1 	Remote 1 Temperature
- 	2 	Remote 2 Temperature
- 	3 	Internal Temperature
-@@ -163,58 +179,65 @@ temp4_source
- 	5 	PECI Processor Temperature 1
- 	6 	PECI Processor Temperature 2
- 	7 	PECI Processor Temperature 3
-+	=	===============================================
- 
--temp[1-4]_smoothing_enable
--temp[1-4]_smoothing_time
-+temp[1-4]_smoothing_enable / temp[1-4]_smoothing_time
- 	Smooths spikes in temp readings caused by noise.
- 	Valid values in milliseconds are:
--	35000
--	17600
--	11800
--	 7000
--	 4400
--	 3000
--	 1600
--	  800
+     Prefix: 'ads1115'
+-    Datasheet: Publicly available at the Texas Instruments website :
+-               http://focus.ti.com/lit/ds/symlink/ads1115.pdf
 +
-+	* 35000
-+	* 17600
-+	* 11800
-+	*  7000
-+	*  4400
-+	*  3000
-+	*  1600
-+	*   800
- 
- temp[1-4]_crit
- 	When the corresponding zone temperature reaches this value,
- 	ALL pwm outputs will got to 100%.
- 
--temp[5-8]_input
--temp[5-8]_enable
-+temp[5-8]_input / temp[5-8]_enable
- 	The aSC7621 can also read temperatures provided by the processor
- 	via the PECI bus.  Usually these are "core" temps and are relative
- 	to the point where the automatic thermal control circuit starts
- 	throttling.  This means that these are usually negative numbers.
- 
- pwm[1-3]_enable
-+	=============== ========================================================
- 	0		Fan off.
- 	1		Fan on manual control.
- 	2		Fan on automatic control and will run at the minimum pwm
--				if the temperature for the zone is below the minimum.
--	3		Fan on automatic control but will be off if the temperature
--				for the zone is below the minimum.
--	4-254	Ignored.
-+			if the temperature for the zone is below the minimum.
-+	3		Fan on automatic control but will be off if the
-+			temperature for the zone is below the minimum.
-+	4-254		Ignored.
- 	255		Fan on full.
-+	=============== ========================================================
- 
- pwm[1-3]_auto_channels
- 	Bitmap as described in sysctl-interface with the following
- 	exceptions...
++    Datasheet: Publicly available at the Texas Instruments website:
 +
- 	Only the following combination of zones (and their corresponding masks)
- 	are valid:
--	1
--	2
--	3
--	2,3
--	1,2,3
--	4
--	1,2,3,4
++	       http://focus.ti.com/lit/ds/symlink/ads1115.pdf
  
--	Special values:
--	0			Disabled.
--	16		Fan on manual control.
--	31		Fan on full.
-+	* 1
-+	* 2
-+	* 3
-+	* 2,3
-+	* 1,2,3
-+	* 4
-+	* 1,2,3,4
+ Authors:
+-        Dirk Eibach, Guntermann & Drunck GmbH <eibach@gdsys.de>
++	Dirk Eibach, Guntermann & Drunck GmbH <eibach@gdsys.de>
+ 
+ Description
+ -----------
+@@ -24,14 +32,15 @@ This device is a 12/16-bit A-D converter with 4 inputs.
+ The inputs can be used single ended or in certain differential combinations.
+ 
+ The inputs can be made available by 8 sysfs input files in0_input - in7_input:
+-in0: Voltage over AIN0 and AIN1.
+-in1: Voltage over AIN0 and AIN3.
+-in2: Voltage over AIN1 and AIN3.
+-in3: Voltage over AIN2 and AIN3.
+-in4: Voltage over AIN0 and GND.
+-in5: Voltage over AIN1 and GND.
+-in6: Voltage over AIN2 and GND.
+-in7: Voltage over AIN3 and GND.
 +
-+	* Special values:
++  - in0: Voltage over AIN0 and AIN1.
++  - in1: Voltage over AIN0 and AIN3.
++  - in2: Voltage over AIN1 and AIN3.
++  - in3: Voltage over AIN2 and AIN3.
++  - in4: Voltage over AIN0 and GND.
++  - in5: Voltage over AIN1 and GND.
++  - in6: Voltage over AIN2 and GND.
++  - in7: Voltage over AIN3 and GND.
+ 
+ Which inputs are available can be configured using platform data or devicetree.
+ 
+@@ -42,29 +51,34 @@ Platform Data
+ 
+ In linux/platform_data/ads1015.h platform data is defined, channel_data contains
+ configuration data for the used input combinations:
 +
-+	  ==		======================
-+	  0		Disabled.
-+	  16		Fan on manual control.
-+	  31		Fan on full.
-+	  ==		======================
+ - pga is the programmable gain amplifier (values are full scale)
+-  0: +/- 6.144 V
+-  1: +/- 4.096 V
+-  2: +/- 2.048 V
+-  3: +/- 1.024 V
+-  4: +/- 0.512 V
+-  5: +/- 0.256 V
++
++    - 0: +/- 6.144 V
++    - 1: +/- 4.096 V
++    - 2: +/- 2.048 V
++    - 3: +/- 1.024 V
++    - 4: +/- 0.512 V
++    - 5: +/- 0.256 V
++
+ - data_rate in samples per second
+-  0: 128
+-  1: 250
+-  2: 490
+-  3: 920
+-  4: 1600
+-  5: 2400
+-  6: 3300
  
+-Example:
+-struct ads1015_platform_data data = {
++    - 0: 128
++    - 1: 250
++    - 2: 490
++    - 3: 920
++    - 4: 1600
++    - 5: 2400
++    - 6: 3300
++
++Example::
++
++  struct ads1015_platform_data data = {
+ 	.channel_data = {
+ 		[2] = { .enabled = true, .pga = 1, .data_rate = 0 },
+ 		[4] = { .enabled = true, .pga = 4, .data_rate = 5 },
+ 	}
+-};
++  };
  
- pwm[1-3]_invert
-@@ -226,22 +249,22 @@ pwm[1-3]_freq
- 	PWM frequency in Hz
- 	Valid values in Hz are:
- 
--	10
--	15
--	23
--	30  (default)
--	38
--	47
--	62
--	94
--	23000
--	24000
--	25000
--	26000
--	27000
--	28000
--	29000
--	30000
-+	* 10
-+	* 15
-+	* 23
-+	* 30  (default)
-+	* 38
-+	* 47
-+	* 62
-+	* 94
-+	* 23000
-+	* 24000
-+	* 25000
-+	* 26000
-+	* 27000
-+	* 28000
-+	* 29000
-+	* 30000
- 
- 	Setting any other value will be ignored.
- 
-@@ -251,17 +274,17 @@ peci_enable
- peci_avg
- 	Input filter average time.
- 
--	0 	0 Sec. (no Smoothing) (default)
--	1 	0.25 Sec.
--	2 	0.5 Sec.
--	3 	1.0 Sec.
--	4 	2.0 Sec.
--	5 	4.0 Sec.
--	6 	8.0 Sec.
--	7 	0.0 Sec.
-+	* 0 	0 Sec. (no Smoothing) (default)
-+	* 1 	0.25 Sec.
-+	* 2 	0.5 Sec.
-+	* 3 	1.0 Sec.
-+	* 4 	2.0 Sec.
-+	* 5 	4.0 Sec.
-+	* 6 	8.0 Sec.
-+	* 7 	0.0 Sec.
- 
- peci_legacy
--
-+	=	============================================
- 	0	Standard Mode (default)
- 		Remote Diode 1 reading is associated with
- 		Temperature Zone 1, PECI is associated with
-@@ -270,10 +293,12 @@ peci_legacy
- 	1	Legacy Mode
- 		PECI is associated with Temperature Zone 1,
- 		Remote Diode 1 is associated with Zone 4
-+	=	============================================
- 
- peci_diode
- 	Diode filter
- 
-+	=	====================
- 	0	0.25 Sec.
- 	1 	1.1 Sec.
- 	2 	2.4 Sec.  (default)
-@@ -282,15 +307,20 @@ peci_diode
- 	5 	6.8 Sec.
- 	6 	10.2 Sec.
- 	7 	16.4 Sec.
-+	=	====================
- 
- peci_4domain
- 	Four domain enable
- 
-+	=	===============================================
- 	0 	1 or 2 Domains for enabled processors (default)
- 	1 	3 or 4 Domains for enabled processors
-+	=	===============================================
- 
- peci_domain
- 	Domain
- 
-+	=	==================================================
- 	0 	Processor contains a single domain (0) 	 (default)
- 	1 	Processor contains two domains (0,1)
-+	=	==================================================
+ In this case only in2_input (FS +/- 4.096 V, 128 SPS) and in4_input
+ (FS +/- 0.512 V, 2400 SPS) would be created.
 -- 
 2.20.1
 
