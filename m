@@ -1,165 +1,174 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 79F057D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Apr 2019 15:16:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A17EA7D92A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Apr 2019 15:26:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733078AbfDJPQP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 10 Apr 2019 11:16:15 -0400
-Received: from mail-it1-f196.google.com ([209.85.166.196]:50294 "EHLO
-        mail-it1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733105AbfDJPQO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Apr 2019 11:16:14 -0400
-Received: by mail-it1-f196.google.com with SMTP id q14so4038463itk.0
-        for <linux-doc@vger.kernel.org>; Wed, 10 Apr 2019 08:16:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=lixom-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xXXoU6/FqhffNVx13TnuqZws2BBVOxxAPM7i3tEN7Gk=;
-        b=cKFn1n3jYl3MDH5QBleg3GyZt9fGOMW0AOVk5V6g6+FahiMo/Yni6xpg1MBz2vDqwE
-         jkLTyVfI/9w9tiSrfl7m+VqNrbiN/mOa2q2/xkEozcSzmbrwuYhOEyLbuaf6loxAKX6n
-         2mNl5at8paa3YhadKIfZXAC+WI0PdMzHkELtW/4yxb6V5MY4jwm6H+iXsMS6FEiZ1l4z
-         lvgE8LF8+Ggk7FGbOTPjJdFeIz6Zm4qQ6v2cVZhUFMkhZHDm3eVvrlpPyE+R+TpxIE7E
-         0fIY3eh5s84Z0Yq4g1irQ2YBwCoWCY+v6e8DV0BFyoC4s6sBAyOuniNLQuKlXnfmyyQw
-         dCOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xXXoU6/FqhffNVx13TnuqZws2BBVOxxAPM7i3tEN7Gk=;
-        b=My6OAfk9ZTQ0mppDBXQI1fgNQQJsW7BofBugTUYrrDSexrOVyDGqacuR974Mb7kXA/
-         C3zu9qYMIbqTSbKgq0f7hSp6fYve0LEcFql3HXAQpi2WOlI8W/w1DWA1+ejspCJTfORB
-         SLruUd4MZNzKXiDTd4o+POOCBuU66/1ocXsWQH/Zh1+yy/RHgUEvyMGeICu37HCdAYyT
-         WmwgQF8e3wXNCslb0RehEVVVCXx2DD3o4mzyO5NeD5YuO08UMCxzVYeePUYnvXVH08JK
-         tiU+voKUNwEIjjP671ibhZsQ3/cVwhCn1JJryE+XducQDoabnqSauUU6si4qQ/L7y3cP
-         A4Yw==
-X-Gm-Message-State: APjAAAURJY9jA950vlVPp/auhPDwQrEYq2q+hSuwg+eRwqMt3bqh56PG
-        FfPYyLV2fVTU1gXj6hcKFz7CpvU1jupJSNGQlHty4g==
-X-Google-Smtp-Source: APXvYqxni5IADu3FF8FlZg+Ln4rHXEKRkaB44FhG/joIhG3TELx5Wv9r5dL3+NTYR01YmHFm91lgDHZM5+wOe8dfTck=
-X-Received: by 2002:a24:2458:: with SMTP id f85mr2181063ita.83.1554909373652;
- Wed, 10 Apr 2019 08:16:13 -0700 (PDT)
+        id S1731107AbfDJP0F (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 10 Apr 2019 11:26:05 -0400
+Received: from mout.gmx.net ([212.227.17.20]:34883 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728727AbfDJP0A (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 10 Apr 2019 11:26:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1554909874;
+        bh=xA/BnWtun4BOCtmmVM/Q6GGeuQ7oR+arBXiulO7kTmI=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=ez3t9X+xkifsKQVPzXOndt53CZVRb6llbtR/jLqXGeQeeujVvDVgLjbDiVqUGtsr9
+         aV8glwwT2c63gZz/lZbkujrjXd5R/Ae6nFap9q5lCRd3zof+ILXenA9/UKNuFjpZxr
+         kr1/qAVR+1p+7zpWxob3lMS4iBhQxfElIyDN+9AE=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from longitude ([109.90.232.48]) by mail.gmx.com (mrgmx103
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 0LnPnu-1gfk561V8w-00hh9T; Wed, 10
+ Apr 2019 17:24:34 +0200
+Date:   Wed, 10 Apr 2019 17:24:24 +0200
+From:   Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Dirk Eibach <eibach@gdsys.de>,
+        George Joseph <george.joseph@fairview5.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Juerg Haefliger <juergh@gmail.com>,
+        Steve Glendinning <steve.glendinning@shawell.net>,
+        Huang Rui <ray.huang@amd.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Clemens Ladisch <clemens@ladisch.de>,
+        Rudolf Marek <r.marek@assembler.cz>,
+        Andreas Werner <andreas.werner@men.de>,
+        Jim Cromie <jim.cromie@gmail.com>,
+        Kamil Debski <kamil@wypas.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Marc Hulsman <m.hulsman@tudelft.nl>,
+        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linuxppc-dev@lists.ozlabs.org,
+        patches@opensource.cirrus.com
+Subject: Re: [PATCH 21/21] docs: hwmon: Add an index file and rename docs to
+ *.rst
+Message-ID: <20190410152424.GA11536@latitude>
+References: <cover.1554893881.git.mchehab+samsung@kernel.org>
+ <5ac1fbc7f19192dcd30a184e62e3f7989a5437a4.1554893882.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-References: <20190320163116.39275-1-joel@joelfernandes.org>
- <CAOesGMheoZda84OSz9spQ7p66wot5S_9aaqaKC=QYp+8utASXA@mail.gmail.com> <79b6bdbc-890a-5a51-7fa1-aec57889046a@opersys.com>
-In-Reply-To: <79b6bdbc-890a-5a51-7fa1-aec57889046a@opersys.com>
-From:   Olof Johansson <olof@lixom.net>
-Date:   Wed, 10 Apr 2019 08:15:59 -0700
-Message-ID: <CAOesGMgGFunOeMt93f57fPspdDSHp2twahhudEDhMvZ=VPJHaQ@mail.gmail.com>
-Subject: Re: [PATCH v5 1/3] Provide in-kernel headers to make extending kernel easier
-To:     Karim Yaghmour <karim.yaghmour@opersys.com>
-Cc:     Joel Fernandes <joel@joelfernandes.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Manoj Rao <linux@manojrajarao.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        atish patra <atishp04@gmail.com>,
-        Daniel Colascione <dancol@google.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-trace-devel@vger.kernel.org,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="1yeeQ81UyVL57Vl7"
+Content-Disposition: inline
+In-Reply-To: <5ac1fbc7f19192dcd30a184e62e3f7989a5437a4.1554893882.git.mchehab+samsung@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Provags-ID: V03:K1:TLAu39kAkvV+JyJofEtse/6D/K/biPwb9iYGF66/M1pJjOfHjSl
+ 5Gvn9F/iX0LVkfahejNon6kcT3qms/6ipAdpwzk/bcp4CJrO2+ikn2UVt5DmS72xmQYbgAm
+ Fwh59tkKvyzys0LmnxFnI4MCbOHN9hjVtoafK6B2JMU0kM0HkZOw/KRixn01devzi7mS8qk
+ oGfwAeMn0j3k8kz+gF+Jg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:w13mbtVepiE=:pSML0XQUkNJ6CmMU23Mlte
+ vu/Z26coQEsMKKGod1U9gjsHOUCIIuBPVyYm76i5FBcIA+08ebR4D07ovg6H93+0PbkZgWpnO
+ Sjyqt/PTV8R5YcXFsGXvnu0urHmg57DNsRhiK1JEgoT62IfNuIf6oOFpFtccRZLyObbyf7Pfe
+ D7aJHp3A4KnnSdDumrU/KzzElawLvXuihHVnnRxxTYn1kQPdmV2aL1PW6eSINuoBY+VohrO2r
+ qiNtsAfDaCdnhZSx6qFX3E497osiokRZvFXzp2AEWIlFcpWE35KdIe9K6XHvuWhoH8zyiK2C5
+ ETCP3SuguC/MNfY4u5R17eNQqbE+KTZp74MAseKET5MOE0mOxXUSW3+zevwdhH2on0ShlN99f
+ 5Y4djz+vvvoisni+eYA3NalyurndKVm1ddPIvfmfjuvPIDmsEG2luv+oPBalKU+VvncWYw5mE
+ kkyPU5W4VVbiUxH/BakxzEiUpDZk4aRqeG/wPg+4hNildye6YKy8tmMysLmS7xLBx5sJQqV2x
+ WZ9xUGBRxVwPN2czGmgR/kcwkCznsD419G+NoFU7Xd/hAYh2Io33EI9jfdMk11tYZG+g5suQi
+ TzUeOsta6Qe1zDIKFGEBZ7uZayKa8HvGRnKvrsEH/oYBZQzxGtsZlBML+CXbgolfzd8ZObkYO
+ 8mF9BLzJU0sw+fIq6BYF0c/F/GrrntuN3E+7ZjgVIb+YyepwTKUOBFZcdbqoa+mUAuAggQ1qH
+ zGTdArRP9sgaJvUwC3j7gLdGbVT3W9wn8EF/FCN1EpuW8pHPp7bD+7NfA7F4KhtoiGCGqbIxP
+ ZjKXx+2ufjotOia15JO5KMby/niNkBzRa7vgN0vFkYsh9ch7U5Lt6Wmj8b5nLLTkD1WXfp3iQ
+ ao3001jtjArPcKXrOi0D0tgVFN79gawVQRUxxEHbh02Kqq00hQXQV00sC/7jwc
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 8, 2019 at 1:52 PM Karim Yaghmour
-<karim.yaghmour@opersys.com> wrote:
->
->
-> Hi Olof,
->
-> On 4/8/19 12:29 PM, Olof Johansson wrote:
-> > Sorry to be late at the party with this kind of feedback, but I find
-> > the whole ".tar.gz in procfs" to be an awkward solution, especially if
-> > there's expected to be userspace tooling that depends on this
-> > long-term.
-> >
-> > Wouldn't it be more convenient to provide it in a standardized format
-> > such that you won't have to take an additional step, and always have
-> > it in a known location?
-> >
-> > Something like:
-> >
-> >   - Pseudo-filesystem, that can just be mounted under
-> > /sys/kernel/headers or something (similar to debugfs or
-> > /proc/device-tree).
-> >   - Exporting something like a squashfs image instead, allowing
-> > loopback mounting of it (or by providing a pseudo-/dev entry for it),
-> > again allowing direct export of the contents and avoiding the
-> > extracted directory from being out of sync with currently running
-> > kernel.
-> >
-> > Having to copy and extract the tarball is the most awkward step, IMHO.
-> > I also find the waste of kernel memory for it to be an issue, but
-> > given that it can be built as a module I guess that's the obvious
-> > solution for those who care about memory consumption.
->
-> One of the things I pointed out earlier in the thread is that
-> /proc/config.gz has already set a precedent as to the interface for this
-> sort of artifact. It's a plain compressed file and it's directly
-> accessible from toplevel /proc. From a consistency perspective there's
-> an idiomatic angle to some sort of "/proc/kheaders.gz".
 
-I'm not arguing against providing the headers in some format, I think
-that's a good idea.
+--1yeeQ81UyVL57Vl7
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On similarities, there are some but there are also substantial
-differences in the use model.
+Hello,
 
-For the config file, the main use cases are:
+On Wed, Apr 10, 2019 at 08:12:11AM -0300, Mauro Carvalho Chehab wrote:
+> Now that all files were converted to ReST format, rename them
+> and add an index.
+>=20
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+[...]
+> diff --git a/Documentation/hwmon/submitting-patches b/Documentation/hwmon=
+/submitting-patches.rst
+> similarity index 99%
+> rename from Documentation/hwmon/submitting-patches
+> rename to Documentation/hwmon/submitting-patches.rst
+> index 12540b7d9b50..6120db7556aa 100644
+> --- a/Documentation/hwmon/submitting-patches
+> +++ b/Documentation/hwmon/submitting-patches.rst
 
- - Checking to make sure that the running kernel has a particular set
-of config options set or cleared.
- - Ease of cloning the config of a running kernel when building a new one.
+I'd additionally suggest:
 
-The file format is just a plain text file, even if compressed. No real
-internal structure to consider.
+diff --git a/Documentation/hwmon/submitting-patches b/Documentation/hwmon/s=
+ubmitting-patches.rst
+index f88221b46153..0000a86be4b9 100644
+--- a/Documentation/hwmon/submitting-patches
++++ b/Documentation/hwmon/submitting-patches.rst
+@@ -38,7 +38,7 @@ increase the chances of your change being accepted.
+ 2. Adding functionality to existing drivers
+ -------------------------------------------
+=20
+-* Make sure the documentation in Documentation/hwmon/<driver_name> is up to
++* Make sure the documentation in Documentation/hwmon/<driver_name>.rst is =
+up to
+   date.
+=20
+ * Make sure the information in Kconfig is up to date.
+@@ -60,7 +60,7 @@ increase the chances of your change being accepted.
+=20
+ * Consider adding yourself to MAINTAINERS.
+=20
+-* Document the driver in Documentation/hwmon/<driver_name>.
++* Document the driver in Documentation/hwmon/<driver_name>.rst.
+=20
+ * Add the driver to Kconfig and Makefile in alphabetical order.
+=20
 
-Both of the above uses are relatively rare (well, the first might be
-done in some startup scripts, etc).
+Thanks,
+Jonathan Neusch=C3=A4fer
 
-The kernel headers case is different. The file format is more complex
-(tarball, which would also include the structure of said tarball). You
-can't just zgrep to get some data out.
+--1yeeQ81UyVL57Vl7
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Also, the way the contents is used is different, in that it will be
-needed by runtime tools that build and load eBPF programs. For the
-build to always be known to be against the running headers, every
-build would likely need to decompress and stage said tarball
-independently and not rely on previous state. If that's needed, why
-not just provide it once in the right format and avoid people building
-userspace solutions in several different ways to do the same thing?
+-----BEGIN PGP SIGNATURE-----
 
-> In some offline discussions I was also told that squashfs (I'm no expert
-> of it) required special user-space tools and had some security issues.
+iQIzBAABCgAdFiEEvHAHGBBjQPVy+qvDCDBEmo7zX9sFAlyuCqAACgkQCDBEmo7z
+X9ssgw//ZmPBGq00gnKgIkdptmktJsCCdbRKqAnKS97nKt6Ad54+llNhFidFR3ij
+Owq03OnpCXcu+3rc9qn/bOEv9QHjUmJ9aBysxuMCjbp5Wm69ItkylykWH6DPik8b
+BhloTUt0lnoweWJjZ4qtHyp5xuUlsQ2q6RbGR+BQwgvPA3y3FMuMYnvqi4BmuJs4
+B2DHhAUQnwgy+CMGBq62WTLZsWU6O4xAGnPRepoEIP4yf3ikOn5uiyYXeJt9sWmB
+7TyiXuM+noRFv5qyyiR695nBSlRZN0W690W2au5d8o1d1zp2tnuNTtljFGPv18S9
+gxxRiAzJRiXIGlg9cPZuyu/LD+4NbGwbRv8AfYYTcXyf1ZwLU6/y2VYRt9riJ/Ul
+1k5LFmFhHlxicwFJmobOor+AxJYtkb6fXCwJ2fSclBgP5tMYiKz3SjMlFxsiAczd
+x5uS/ABnXpJXEy3aOKlF3/GLI2ehMXegPLntmgUYGPHybPxTPgMf4ThsKLN0uovd
+f5ZeHCR5EtdFtJuECRIbvAeTs7MyawkdRzABA0dVUXmAxRzNxaU5tpFT8S9/AN1I
+wHTaekePAAReHn5G87/nu1RwsRWoLe8TyGkpy3IFCPmcYgGzZSF63tM2X0/eHuPi
+Q6PdjLqczbpT3X31fJdJ3q9BEWwy+zsHmKCHB81cYGY1F5fAYIY=
+=QA5J
+-----END PGP SIGNATURE-----
 
-I'm unaware of what the security issues are, and there's indeed a
-GPLv2 tool needed to construct the filesystem. The latter can be
-solved, the former I don't know enough about to have an opinion.
-
-Anyway, see my other reply just now -- CPIO + a filesystem view, and
-providing said cpio archive in debugfs for those who want to copy it
-off themselves might be something that fits everybody.
-
-
--Olof
+--1yeeQ81UyVL57Vl7--
