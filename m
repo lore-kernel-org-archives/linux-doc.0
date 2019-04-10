@@ -1,176 +1,76 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D7D217D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Apr 2019 18:31:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 870FA7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Apr 2019 19:13:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728639AbfDJSbC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 10 Apr 2019 14:31:02 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:34908 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727229AbfDJSbC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Apr 2019 14:31:02 -0400
-Received: by mail-pl1-f195.google.com with SMTP id w24so1934118plp.2;
-        Wed, 10 Apr 2019 11:31:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=K5q1mArmhnmzSt9XW4y9g5UDZy89Pu07LHO7UzmM7hs=;
-        b=eULPZPSpjnII+u3PFVRSx6rxl1Czmc5unltkENZqNMp+lgqVagkXcyFKics+dxjirF
-         iM9sIGJtpotImRPinHt2CxVcm0Bi/jw4LfhrPwgifwtGbPFCBn1avKSCB+PiXba46HRY
-         ZczpWAe10T8hm/ElC+ppc5iIzTUg5Jm3y3MEW9Ofz/neiWbEfBwv7Bo4lzGxro4WMlcv
-         kLjn4ioaFl+FLNjiekvdZoeqq7osWw8Q5HxWbMCIsXpDE+kQMYLYbf+ydiN+vGL2Yo7S
-         rQ77xiYyF3noAFOCLEo5uo7XKEqTwf+fq650B6maSpof6mZvRvAOels6hb5eBjb5WU7K
-         jgtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=K5q1mArmhnmzSt9XW4y9g5UDZy89Pu07LHO7UzmM7hs=;
-        b=OaJNU/pZUoIu0oGt0yw7MR5gt+mS58snfY5nTcHAEc9mixZ/ux/ZouOeYJPDTZCatg
-         puiBz9DBdtAXdHNLcDkKMP9LHgqU6DzbNERCpfafYp3ySq2m5/LIYw7ylDAum/Kxrdpg
-         dnPKWt/Cv1/SBoASd+jGFfwvIiIfGZY3GTgNx5Taoe32aWBTd7K59Qn8i96d4IT8wwS1
-         6JwKb2XorBej14PjIgHgNalJ1TjC9qHfCxawy4LZipYtOvRAppRxkOufh3EkFzMKo64A
-         JDHM+24eoqQyF54WImwc2ckVyfwzs/yd+E4WEMjoyeDq8r+O8Cwax/z7WCIf7zXCpbDs
-         FyuQ==
-X-Gm-Message-State: APjAAAW0bB2cJdBtqaoPTo4abyhGnnw4FToDzn4oaeJGx1xZjpOtdld9
-        QadEdsJMdYnPNuRX+3L1dj4=
-X-Google-Smtp-Source: APXvYqzN0pLEns/L/firzlMgQrzOsEpX2Ug+7NYdaWjPHfUCzhXu/doxRCCR9RHiuEZemQet983QsQ==
-X-Received: by 2002:a17:902:7601:: with SMTP id k1mr7525234pll.35.1554921061075;
-        Wed, 10 Apr 2019 11:31:01 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id q5sm3376159pff.97.2019.04.10.11.31.00
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 10 Apr 2019 11:31:00 -0700 (PDT)
-Date:   Wed, 10 Apr 2019 11:30:59 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org
-Subject: Re: [PATCH 01/21] docs: hwmon: k10temp: convert to ReST format
-Message-ID: <20190410183059.GA20261@roeck-us.net>
-References: <cover.1554893881.git.mchehab+samsung@kernel.org>
- <9ed53a4f160d7cd4f7c05fb919196ac15ecb6d63.1554893882.git.mchehab+samsung@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9ed53a4f160d7cd4f7c05fb919196ac15ecb6d63.1554893882.git.mchehab+samsung@kernel.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+        id S1725982AbfDJTNy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 10 Apr 2019 15:13:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59224 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725981AbfDJTNy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 10 Apr 2019 15:13:54 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 4E259316891D;
+        Wed, 10 Apr 2019 19:13:54 +0000 (UTC)
+Received: from llong.com (ovpn-120-189.rdu2.redhat.com [10.10.120.189])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C3138600CC;
+        Wed, 10 Apr 2019 19:13:49 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Hocko <mhocko@kernel.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Kirill Tkhai <ktkhai@virtuozzo.com>,
+        Aaron Lu <aaron.lu@intel.com>, Waiman Long <longman@redhat.com>
+Subject: [RFC PATCH 0/2] mm/memcontrol: Finer-grained memory control
+Date:   Wed, 10 Apr 2019 15:13:19 -0400
+Message-Id: <20190410191321.9527-1-longman@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.41]); Wed, 10 Apr 2019 19:13:54 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 10, 2019 at 08:11:51AM -0300, Mauro Carvalho Chehab wrote:
-> Convert k10temp to ReST format, in order to allow it to
-> be parsed by Sphinx.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+The current control mechanism for memory cgroup v2 lumps all the memory
+together irrespective of the type of memory objects. However, there
+are cases where users may have more concern about one type of memory
+usage than the others.
 
-The first Signed-off-by: is bad. This affects all patches in the series.
+We have customer request to limit memory consumption on anonymous memory
+only as they said the feature was available in other OSes like Solaris.
 
-Guenter
+To allow finer-grained control of memory, this patchset 2 new control
+knobs for memory controller:
+ - memory.subset.list for specifying the type of memory to be under control.
+ - memory.subset.high for the high limit of memory consumption of that
+   memory type.
 
-> ---
->  Documentation/hwmon/k10temp | 37 ++++++++++++++++++++++++++++++++++++-
->  1 file changed, 36 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/hwmon/k10temp b/Documentation/hwmon/k10temp
-> index 254d2f55345a..12a86ba17de9 100644
-> --- a/Documentation/hwmon/k10temp
-> +++ b/Documentation/hwmon/k10temp
-> @@ -2,42 +2,77 @@ Kernel driver k10temp
->  =====================
->  
->  Supported chips:
-> +
->  * AMD Family 10h processors:
-> +
->    Socket F: Quad-Core/Six-Core/Embedded Opteron (but see below)
-> +
->    Socket AM2+: Quad-Core Opteron, Phenom (II) X3/X4, Athlon X2 (but see below)
-> +
->    Socket AM3: Quad-Core Opteron, Athlon/Phenom II X2/X3/X4, Sempron II
-> +
->    Socket S1G3: Athlon II, Sempron, Turion II
-> +
->  * AMD Family 11h processors:
-> +
->    Socket S1G2: Athlon (X2), Sempron (X2), Turion X2 (Ultra)
-> +
->  * AMD Family 12h processors: "Llano" (E2/A4/A6/A8-Series)
-> +
->  * AMD Family 14h processors: "Brazos" (C/E/G/Z-Series)
-> +
->  * AMD Family 15h processors: "Bulldozer" (FX-Series), "Trinity", "Kaveri", "Carrizo"
-> +
->  * AMD Family 16h processors: "Kabini", "Mullins"
->  
->    Prefix: 'k10temp'
-> +
->    Addresses scanned: PCI space
-> +
->    Datasheets:
-> +
->    BIOS and Kernel Developer's Guide (BKDG) For AMD Family 10h Processors:
-> +
->      http://support.amd.com/us/Processor_TechDocs/31116.pdf
-> +
->    BIOS and Kernel Developer's Guide (BKDG) for AMD Family 11h Processors:
-> +
->      http://support.amd.com/us/Processor_TechDocs/41256.pdf
-> +
->    BIOS and Kernel Developer's Guide (BKDG) for AMD Family 12h Processors:
-> +
->      http://support.amd.com/us/Processor_TechDocs/41131.pdf
-> +
->    BIOS and Kernel Developer's Guide (BKDG) for AMD Family 14h Models 00h-0Fh Processors:
-> +
->      http://support.amd.com/us/Processor_TechDocs/43170.pdf
-> +
->    Revision Guide for AMD Family 10h Processors:
-> +
->      http://support.amd.com/us/Processor_TechDocs/41322.pdf
-> +
->    Revision Guide for AMD Family 11h Processors:
-> +
->      http://support.amd.com/us/Processor_TechDocs/41788.pdf
-> +
->    Revision Guide for AMD Family 12h Processors:
-> +
->      http://support.amd.com/us/Processor_TechDocs/44739.pdf
-> +
->    Revision Guide for AMD Family 14h Models 00h-0Fh Processors:
-> +
->      http://support.amd.com/us/Processor_TechDocs/47534.pdf
-> +
->    AMD Family 11h Processor Power and Thermal Data Sheet for Notebooks:
-> +
->      http://support.amd.com/us/Processor_TechDocs/43373.pdf
-> +
->    AMD Family 10h Server and Workstation Processor Power and Thermal Data Sheet:
-> +
->      http://support.amd.com/us/Processor_TechDocs/43374.pdf
-> +
->    AMD Family 10h Desktop Processor Power and Thermal Data Sheet:
-> +
->      http://support.amd.com/us/Processor_TechDocs/43375.pdf
->  
->  Author: Clemens Ladisch <clemens@ladisch.de>
-> @@ -60,7 +95,7 @@ are using an AM3 processor on an AM2+ mainboard, you can safely use the
->  
->  There is one temperature measurement value, available as temp1_input in
->  sysfs. It is measured in degrees Celsius with a resolution of 1/8th degree.
-> -Please note that it is defined as a relative value; to quote the AMD manual:
-> +Please note that it is defined as a relative value; to quote the AMD manual::
->  
->    Tctl is the processor temperature control value, used by the platform to
->    control cooling systems. Tctl is a non-physical temperature on an
+For simplicity, the limit is not hierarchical and applies to only tasks
+in the local memory cgroup.
+
+Waiman Long (2):
+  mm/memcontrol: Finer-grained control for subset of allocated memory
+  mm/memcontrol: Add a new MEMCG_SUBSET_HIGH event
+
+ Documentation/admin-guide/cgroup-v2.rst |  35 +++++++++
+ include/linux/memcontrol.h              |   8 ++
+ mm/memcontrol.c                         | 100 +++++++++++++++++++++++-
+ 3 files changed, 142 insertions(+), 1 deletion(-)
+
+-- 
+2.18.1
+
