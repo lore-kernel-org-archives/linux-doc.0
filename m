@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 357AA7D8A4
+	by archive.lwn.net (Postfix) with ESMTP id DC3A47D90F
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Apr 2019 09:57:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730316AbfDJJ4i (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1730308AbfDJJ4i (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Wed, 10 Apr 2019 05:56:38 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:60534 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:60530 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727196AbfDJJ4h (ORCPT
+        with ESMTP id S1727881AbfDJJ4h (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Apr 2019 05:56:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,26 +20,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=YprWmfwhQF20Qys/UdJ3RBGreoWNm3/nxiInaksXJ+o=; b=tpadLzQl4noh+bArYx4m+wD4q0
-        X67k5D/8/4dmaQkM1S9Ksd8N+8cHU/rkthXXoBXM+bpIj8SQ5QtulLSsIvZBaNb7nX1gqXg00haVa
-        kADIDc2PDOyWhkUvWDZaBjEtwbHPMJHLoOyxpgazq4tiLYYTF6Mq8oirumB9vNxEfYQZqUeTtD6tV
-        BDfwakks1AjXZXr3HzGl/eK5sRddaDgVduLYsE77JpS1Teol2jl/uur3NErk0EXKsvBdffMBWJ5ij
-        SRnw54tyjsi23dAsghO2DiXYCq36/sFJmUxslUNIrvKTjtyAO5E8NvVcJmXzS3wftowQJxHTVsRFc
-        O+3Sw9CA==;
+        bh=6gYD4i2kCfLiq10f8dOgItEdjl6zdLWqSGB6Ne7Dio4=; b=JmkfCrxZPsAYiyhoCZfHPl5XPn
+        c+bfU73iIXob5GKf+ZMcKIo3Yb4Jm507R1FclUyCQBKuQEZt+OI5U+Ae/5uW2WdMZ76mimKN7TDrm
+        T4NpMlcZ0gMVBXNFUKlSmyG8PnHeRpgGiIy1ImXzP1l2/LlCm2oqBHdiZ/KnqIbp1XK4Iyj8x8S51
+        6YkFYsXYSLk0udUnOpPxCeem4QiBx7rH7ZrNICTRwC38z45kS590YFpESY9GS2xhmgUucyefB9p7N
+        Kc7OZ+GLYB5tMouzZ+e6TLofZEDgBorBlrwJhSsvaZBMUC/ca8gEPPO2+Jklu26In6Um1yYl8PEYC
+        edxru6Ug==;
 Received: from 177.41.129.23.dynamic.adsl.gvt.net.br ([177.41.129.23] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hE9y9-0003Cn-6R; Wed, 10 Apr 2019 09:56:37 +0000
+        id 1hE9y9-0003Cm-6v; Wed, 10 Apr 2019 09:56:37 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hE9y3-0000oP-T8; Wed, 10 Apr 2019 06:56:31 -0300
+        id 1hE9y3-0000oL-SI; Wed, 10 Apr 2019 06:56:31 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 8/8] docs: speculation.txt: mark example blocks as such
-Date:   Wed, 10 Apr 2019 06:56:27 -0300
-Message-Id: <793a3b0103b2d91e4bf850849f9de76cee3273a9.1554889999.git.mchehab+samsung@kernel.org>
+Subject: [PATCH 7/8] docs: ntb.txt: add blank lines to clean up some Sphinx warnings
+Date:   Wed, 10 Apr 2019 06:56:26 -0300
+Message-Id: <9f54993f859d5f7fda51842ffdf278a1bbc5d8b0.1554889999.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1554889999.git.mchehab+samsung@kernel.org>
 References: <cover.1554889999.git.mchehab+samsung@kernel.org>
@@ -50,54 +50,48 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Identify the example blocks there, in order to avoid Sphinx
-warnings.
+In order to make it easier to parse and produce the right output,
+add some extra blank lines.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/speculation.txt | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ Documentation/ntb.txt | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/Documentation/speculation.txt b/Documentation/speculation.txt
-index e9e6cbae2841..50d7ea857cff 100644
---- a/Documentation/speculation.txt
-+++ b/Documentation/speculation.txt
-@@ -17,7 +17,7 @@ observed to extract secret information.
+diff --git a/Documentation/ntb.txt b/Documentation/ntb.txt
+index 344a075f81f5..074a423c853c 100644
+--- a/Documentation/ntb.txt
++++ b/Documentation/ntb.txt
+@@ -77,11 +77,13 @@ outbound memory window so to have access to the shared memory region.
  
- For example, in the presence of branch prediction, it is possible for bounds
- checks to be ignored by code which is speculatively executed. Consider the
--following code:
-+following code::
+ As one can see the described scenarios can be combined in one portable
+ algorithm.
++
+  Local device:
+   1) Allocate memory for a shared window
+   2) Initialize memory window by translated address of the allocated region
+      (it may fail if local memory window initialization is unsupported)
+   3) Send the translated address and memory window index to a peer device
++
+  Peer device:
+   1) Initialize memory window with retrieved address of the allocated
+      by another device memory region (it may fail if peer memory window
+@@ -90,6 +92,7 @@ algorithm.
  
- 	int load_array(int *array, unsigned int index)
- 	{
-@@ -27,7 +27,7 @@ following code:
- 			return array[index];
- 	}
- 
--Which, on arm64, may be compiled to an assembly sequence such as:
-+Which, on arm64, may be compiled to an assembly sequence such as::
- 
- 	CMP	<index>, #MAX_ARRAY_ELEMS
- 	B.LT	less
-@@ -44,7 +44,7 @@ microarchitectural state which can be subsequently measured.
- 
- More complex sequences involving multiple dependent memory accesses may
- result in sensitive information being leaked. Consider the following
--code, building on the prior example:
-+code, building on the prior example::
- 
- 	int load_dependent_arrays(int *arr1, int *arr2, int index)
- 	{
-@@ -77,7 +77,7 @@ A call to array_index_nospec(index, size) returns a sanitized index
- value that is bounded to [0, size) even under cpu speculation
- conditions.
- 
--This can be used to protect the earlier load_array() example:
-+This can be used to protect the earlier load_array() example::
- 
- 	int load_array(int *array, unsigned int index)
- 	{
+ In accordance with this scenario, the NTB Memory Window API can be used as
+ follows:
++
+  Local device:
+   1) ntb_mw_count(pidx) - retrieve number of memory ranges, which can
+      be allocated for memory windows between local device and peer device
+@@ -105,6 +108,7 @@ follows:
+   5) Send translated base address (usually together with memory window
+      number) to the peer device using, for instance, scratchpad or message
+      registers.
++
+  Peer device:
+   1) ntb_peer_mw_set_trans(pidx, midx) - try to set received from other
+      device (related to pidx) translated address for specified memory
 -- 
 2.20.1
 
