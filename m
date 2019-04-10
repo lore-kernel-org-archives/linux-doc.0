@@ -2,36 +2,36 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A6C737D91B
+	by archive.lwn.net (Postfix) with ESMTP id EEC8D7D923
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Apr 2019 19:25:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726615AbfDJTXI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 10 Apr 2019 15:23:08 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:43988 "EHLO
+        id S1726564AbfDJTY7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 10 Apr 2019 15:24:59 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:44022 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726230AbfDJTXH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Apr 2019 15:23:07 -0400
+        with ESMTP id S1726093AbfDJTXI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Apr 2019 15:23:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=xCuR65PtwgJBAPxgpGGXq1ybGkxNyklHVSry7KBSYD4=; b=RdKIJdjdLTqxlOT7YsdHYAFw0+
-        Gx2xKX2/2jHacxlXS1WOd1jxZrZxsxUXKoXT9LvU8j+4ksg8diN/U2gUafSFwh+mXp1ZnstIjaGxn
-        uqLXq8E+PV9j7z9TLYgQn7vk0YPptI5LWtK7xuHnLledNhWEjAkAkfjfk5YWPG5IX36eP6EnVOvvw
-        zQX8AtNSnOPPT8hC6R5vfNEzK2Kq1lDJ2NZ+p7EWGCfDUa3DTGB8+7s58sU7D683O22/E07SqEGR6
-        wZVWQiqPafBleKXaM7nqRwLMakIcJZRR+1Eeoddn94Bah8VyHrr5B3iPDyq8M/HH73JeDRUHk+Hee
-        455ZsjWA==;
+        bh=Q1pNcpslvmb56dzJY2LQ9VFTGyQXrn+n93Lv3V4JY2c=; b=R5pDzAntCGrBeuejJPHlh/zErZ
+        +5gjtF9j2GgET+u4y1HIng7OtLB3T8gg1HIwQ3APaIbZX6YF/eXh44mWTPRFTY7nzEgFWrnA6jvNJ
+        rjxlfkqNbEbDtdQCW02mXxUGuwIUkXdKg8PdbADAiUmIoRykl3QmLAhVS1qaJ9203kxPOYU2ybVqf
+        GsJGQTBA3sPE3c3v3rq40dGNPmKIgI1hh5fS9nWy+6q06YA2JWDQZCfZJFtwNxzWIFtttfEydMB3+
+        rPgN5Y6nhfd2snz4ZUkYsRyLLP9EHoLir2lP5x91KkWksXfLmsPTxVvfNBwvSwmZKPSy6Y7rgSWLa
+        plEidH5w==;
 Received: from 177.41.129.23.dynamic.adsl.gvt.net.br ([177.41.129.23] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hEIoM-0003R5-II; Wed, 10 Apr 2019 19:23:06 +0000
+        id 1hEIoM-0003Qz-Jd; Wed, 10 Apr 2019 19:23:06 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hEIoI-0000yg-QA; Wed, 10 Apr 2019 16:23:02 -0300
+        id 1hEIoI-0000yU-Nb; Wed, 10 Apr 2019 16:23:02 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
@@ -39,9 +39,9 @@ Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Jean Delvare <jdelvare@suse.com>,
         Guenter Roeck <linux@roeck-us.net>, linux-hwmon@vger.kernel.org
-Subject: [PATCH v2 04/21] docs: hwmon: sch5627: convert to ReST format
-Date:   Wed, 10 Apr 2019 16:22:41 -0300
-Message-Id: <e3ed1b3a5fafa05f13aef7891f11373b1b2e1d77.1554923967.git.mchehab+samsung@kernel.org>
+Subject: [PATCH v2 01/21] docs: hwmon: k10temp: convert to ReST format
+Date:   Wed, 10 Apr 2019 16:22:38 -0300
+Message-Id: <d91f41b9c6ff6578ec03cbefe155be0e3e8754d9.1554923967.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1554923967.git.mchehab+samsung@kernel.org>
 References: <cover.1554923967.git.mchehab+samsung@kernel.org>
@@ -52,32 +52,105 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Convert sch5627 to ReST format, in order to allow it to
+Convert k10temp to ReST format, in order to allow it to
 be parsed by Sphinx.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/hwmon/sch5627 | 4 ++++
- 1 file changed, 4 insertions(+)
+ Documentation/hwmon/k10temp | 37 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 36 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/hwmon/sch5627 b/Documentation/hwmon/sch5627
-index 0551d266c51c..187682e99114 100644
---- a/Documentation/hwmon/sch5627
-+++ b/Documentation/hwmon/sch5627
-@@ -2,9 +2,13 @@ Kernel driver sch5627
+diff --git a/Documentation/hwmon/k10temp b/Documentation/hwmon/k10temp
+index 254d2f55345a..12a86ba17de9 100644
+--- a/Documentation/hwmon/k10temp
++++ b/Documentation/hwmon/k10temp
+@@ -2,42 +2,77 @@ Kernel driver k10temp
  =====================
  
  Supported chips:
 +
-   * SMSC SCH5627
+ * AMD Family 10h processors:
 +
-     Prefix: 'sch5627'
+   Socket F: Quad-Core/Six-Core/Embedded Opteron (but see below)
 +
-     Addresses scanned: none, address read from Super I/O config space
+   Socket AM2+: Quad-Core Opteron, Phenom (II) X3/X4, Athlon X2 (but see below)
 +
-     Datasheet: Application Note available upon request
+   Socket AM3: Quad-Core Opteron, Athlon/Phenom II X2/X3/X4, Sempron II
++
+   Socket S1G3: Athlon II, Sempron, Turion II
++
+ * AMD Family 11h processors:
++
+   Socket S1G2: Athlon (X2), Sempron (X2), Turion X2 (Ultra)
++
+ * AMD Family 12h processors: "Llano" (E2/A4/A6/A8-Series)
++
+ * AMD Family 14h processors: "Brazos" (C/E/G/Z-Series)
++
+ * AMD Family 15h processors: "Bulldozer" (FX-Series), "Trinity", "Kaveri", "Carrizo"
++
+ * AMD Family 16h processors: "Kabini", "Mullins"
  
- Author: Hans de Goede <hdegoede@redhat.com>
+   Prefix: 'k10temp'
++
+   Addresses scanned: PCI space
++
+   Datasheets:
++
+   BIOS and Kernel Developer's Guide (BKDG) For AMD Family 10h Processors:
++
+     http://support.amd.com/us/Processor_TechDocs/31116.pdf
++
+   BIOS and Kernel Developer's Guide (BKDG) for AMD Family 11h Processors:
++
+     http://support.amd.com/us/Processor_TechDocs/41256.pdf
++
+   BIOS and Kernel Developer's Guide (BKDG) for AMD Family 12h Processors:
++
+     http://support.amd.com/us/Processor_TechDocs/41131.pdf
++
+   BIOS and Kernel Developer's Guide (BKDG) for AMD Family 14h Models 00h-0Fh Processors:
++
+     http://support.amd.com/us/Processor_TechDocs/43170.pdf
++
+   Revision Guide for AMD Family 10h Processors:
++
+     http://support.amd.com/us/Processor_TechDocs/41322.pdf
++
+   Revision Guide for AMD Family 11h Processors:
++
+     http://support.amd.com/us/Processor_TechDocs/41788.pdf
++
+   Revision Guide for AMD Family 12h Processors:
++
+     http://support.amd.com/us/Processor_TechDocs/44739.pdf
++
+   Revision Guide for AMD Family 14h Models 00h-0Fh Processors:
++
+     http://support.amd.com/us/Processor_TechDocs/47534.pdf
++
+   AMD Family 11h Processor Power and Thermal Data Sheet for Notebooks:
++
+     http://support.amd.com/us/Processor_TechDocs/43373.pdf
++
+   AMD Family 10h Server and Workstation Processor Power and Thermal Data Sheet:
++
+     http://support.amd.com/us/Processor_TechDocs/43374.pdf
++
+   AMD Family 10h Desktop Processor Power and Thermal Data Sheet:
++
+     http://support.amd.com/us/Processor_TechDocs/43375.pdf
+ 
+ Author: Clemens Ladisch <clemens@ladisch.de>
+@@ -60,7 +95,7 @@ are using an AM3 processor on an AM2+ mainboard, you can safely use the
+ 
+ There is one temperature measurement value, available as temp1_input in
+ sysfs. It is measured in degrees Celsius with a resolution of 1/8th degree.
+-Please note that it is defined as a relative value; to quote the AMD manual:
++Please note that it is defined as a relative value; to quote the AMD manual::
+ 
+   Tctl is the processor temperature control value, used by the platform to
+   control cooling systems. Tctl is a non-physical temperature on an
 -- 
 2.20.1
 
