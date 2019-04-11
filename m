@@ -1,141 +1,142 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1EF7A7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Apr 2019 14:55:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8FD5C7D099
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Apr 2019 15:12:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726755AbfDKOzR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Apr 2019 10:55:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37642 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726728AbfDKOzR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Apr 2019 10:55:17 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id B69158E581;
-        Thu, 11 Apr 2019 14:55:06 +0000 (UTC)
-Received: from llong.remote.csb (dhcp-17-47.bos.redhat.com [10.18.17.47])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 7F02D17F22;
-        Thu, 11 Apr 2019 14:55:02 +0000 (UTC)
-Subject: Re: [RFC PATCH 0/2] mm/memcontrol: Finer-grained memory control
-To:     Kirill Tkhai <ktkhai@virtuozzo.com>, Tejun Heo <tj@kernel.org>,
-        Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>, aryabinin@virtuozzo.com
-References: <20190410191321.9527-1-longman@redhat.com>
- <1b6ee304-6176-15a0-c3fa-0b59cdd60085@virtuozzo.com>
-From:   Waiman Long <longman@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=longman@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- weim8xU=
-Organization: Red Hat
-Message-ID: <cea941ed-f401-7380-6e48-622115a02533@redhat.com>
-Date:   Thu, 11 Apr 2019 10:55:01 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1726656AbfDKPMp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Apr 2019 11:12:45 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:40296 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726073AbfDKPMp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Apr 2019 11:12:45 -0400
+Received: by mail-pf1-f196.google.com with SMTP id c207so3600924pfc.7;
+        Thu, 11 Apr 2019 08:12:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=IWQcftR6mH8d1KaUspZb8lK78X37q469Ady0BoKgdz8=;
+        b=JnENka0uLW4/bYOvKYXucMlA0PqmhaQN4jjoSSPtLZgun9glviYOrJYqWEW3Vj/Lr5
+         QG6gpe3m2SVTNy7B4+paCcUwbFC5PezIDayv7Xxalr7VvgwDEHLuX3GP9MmnQv2G+pve
+         Gxv4wi6006IbHxeBMWFuwrrny5QpDU2nExPD5fJj6gKmR3nmXFYXjrL1uQN/kSkqtqFg
+         t9b4Hg7fjV+It+BIoVd4QGePOIpMlxZbRwjpGQZH/zSZDBZaKwfNsLZSB+08rVQomHgT
+         To7wlOARDh0wXBhfsLCzzaU6KE8+K8sHELq+lBeADieE8yiR6NIkaFnriOyW7pEQM2k6
+         CNjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=IWQcftR6mH8d1KaUspZb8lK78X37q469Ady0BoKgdz8=;
+        b=d36KkyBUOg+ENiEObMN3i4bkVZFiWL5PMuhEtjyl8ikZEe2hWsh8N1sLyYB6aZGW94
+         +hreq18wZIbxHEvfShY3ZgrA5aCDSxv5ck4ztqwfnsAa1YOadHHbIq1THUHDpv3jTRKf
+         ptDQaQoHqpXsXOjTLEggPy0xX9l3QUZ5QjTotn7r6ZbzyxDcx58KFwg8hDXhqf2VFTGq
+         iqIih+ix2SvDF3d8A7EcIkqBnpufROq9zFwRbcPSKDMW6WD4L6dlFVOGyFvQWCWZYSC0
+         I4EwRxS14l1s0sno4QuM52pusDDKdDiYdXBszrfweNrSeMWL8l30kTMix1oswFOifTZX
+         POTQ==
+X-Gm-Message-State: APjAAAXbIdM7HIGeKb8QIF9sZI+BB+RqE3V/gLHJ7EgJrGNhz5UD9lcA
+        OVlxrDmiWpEf7nptXXHUDuA=
+X-Google-Smtp-Source: APXvYqw5S5JCU7PeLgtcxICw1HN/OU/WskTXIm/GKqIQpZzK6MPJ77+RPnXBn0E3YBi+H77Idhye2A==
+X-Received: by 2002:a63:f212:: with SMTP id v18mr46169864pgh.231.1554995564657;
+        Thu, 11 Apr 2019 08:12:44 -0700 (PDT)
+Received: from mail.google.com ([104.238.181.70])
+        by smtp.gmail.com with ESMTPSA id w11sm27887221pfi.37.2019.04.11.08.12.40
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 11 Apr 2019 08:12:43 -0700 (PDT)
+Date:   Thu, 11 Apr 2019 23:12:36 +0800
+From:   Changbin Du <changbin.du@gmail.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Changbin Du <changbin.du@gmail.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2 00/24] Include linux ACPI docs into Sphinx TOC tree
+Message-ID: <20190411151234.fvowhdqbfmwc6icr@mail.google.com>
+References: <20190329001135.15847-1-changbin.du@gmail.com>
+ <CAJZ5v0gKX9E+U_9eKfTr7pWGH=jxMLz_Jr850-6BcbG3xBz5qg@mail.gmail.com>
+ <CAJZ5v0jbCi3Jgn5YXPCP+zgs-O7z-9_3p3XZGvm40_6RDsJqkQ@mail.gmail.com>
+ <20190403133613.13f3fd75@lwn.net>
+ <CAJZ5v0gWmmNwiNW=5XgpO6EJw6cAXpwOOePOtuGmR_JzrC+64g@mail.gmail.com>
+ <20190409152638.5b20c77f@lwn.net>
+ <CAJZ5v0jgbvixMJTVPfEHMX0z-ssc9ZcMRCwS-QEyqtkFWcNh5Q@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1b6ee304-6176-15a0-c3fa-0b59cdd60085@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.28]); Thu, 11 Apr 2019 14:55:16 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJZ5v0jgbvixMJTVPfEHMX0z-ssc9ZcMRCwS-QEyqtkFWcNh5Q@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04/11/2019 10:37 AM, Kirill Tkhai wrote:
-> On 10.04.2019 22:13, Waiman Long wrote:
->> The current control mechanism for memory cgroup v2 lumps all the memory
->> together irrespective of the type of memory objects. However, there
->> are cases where users may have more concern about one type of memory
->> usage than the others.
->>
->> We have customer request to limit memory consumption on anonymous memory
->> only as they said the feature was available in other OSes like Solaris.
->>
->> To allow finer-grained control of memory, this patchset 2 new control
->> knobs for memory controller:
->>  - memory.subset.list for specifying the type of memory to be under control.
->>  - memory.subset.high for the high limit of memory consumption of that
->>    memory type.
->>
->> For simplicity, the limit is not hierarchical and applies to only tasks
->> in the local memory cgroup.
->>
->> Waiman Long (2):
->>   mm/memcontrol: Finer-grained control for subset of allocated memory
->>   mm/memcontrol: Add a new MEMCG_SUBSET_HIGH event
->>
->>  Documentation/admin-guide/cgroup-v2.rst |  35 +++++++++
->>  include/linux/memcontrol.h              |   8 ++
->>  mm/memcontrol.c                         | 100 +++++++++++++++++++++++-
->>  3 files changed, 142 insertions(+), 1 deletion(-)
-> CC Andrey.
->
-> In Virtuozzo kernel we have similar functionality for limitation of page cache in a cgroup:
->
-> https://github.com/OpenVZ/vzkernel/commit/8ceef5e0c07c7621fcb0e04ccc48a679dfeec4a4
+On Tue, Apr 09, 2019 at 11:44:11PM +0200, Rafael J. Wysocki wrote:
+> On Tue, Apr 9, 2019 at 11:26 PM Jonathan Corbet <corbet@lwn.net> wrote:
+> >
+> > On Tue, 9 Apr 2019 18:42:59 +0200
+> > "Rafael J. Wysocki" <rafael@kernel.org> wrote:
+> >
+> > > > Hardware guide
+> > >
+> > > This is more about documenting the expectations regarding the platform
+> > > firmware, so what about firmware-guide instead?
+> >
+> > I had imagined a slightly wider focus, but this seems OK for now.  We can
+> > always rename it later :)
+> >
+> > > So what about this:
+> > >
+> > > - Create a new firmware-guide under Documentation and add an acpi/
+> > > directory to it for starters.  Put the following files into it:
+> > >
+> > >          acpi-lid
+> > >          aml-debugger
+> > >          debug (ditto)
+> > >          DSD-properties-rules
+> > >          gpio-properties
+> > >          i2c-muxes
+> > >
+> > > - Add an acpi/ subdirectory to Documentation/admin-guide and put the
+> > > following files into it:
+> > >
+> > >          cppc_sysfs
+> > >          initrd_table_override
+> > >          dsdt-override
+> >
+> > I do wonder if, rather than creating a new directory, we shouldn't just
+> > make a single acpi.rst and put that information into it?
+> >
+> > > - Add an acpi/ subdirectory to Documentation/driver-api and put the
+> > > following files into it:
+> > >
+> > >          enumeration
+> > >          scan_handlers
+> >
+> > ...and something similar here?  I guess that would be my preference, but I
+> > don't feel all that strongly about it if there's reasons to do otherwise.
+> 
+> The primary reason would be to retain the correspondence between the
+> old and the new files.
+> 
+> I guess they could be combined, but that would be two sort of
+> different changes in one go.
+> 
+> > In general the plan seems good.
+> 
+> OK, thanks!
+> 
+> Cheers,
+> Rafael
+Ok, if we have reached this greement, I probably do it this weekend. Thanks for your
+comments.
 
-It will be helpful to know the use case where you want to limit page
-cache usage. I have anonymous memory in mind when I compose this patch,
-but I make the mechanism more generic so that it can apply to other use
-cases as well.
-
+-- 
 Cheers,
-Longman
-
+Changbin Du
