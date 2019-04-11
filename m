@@ -1,98 +1,138 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 50EDA7D099
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Apr 2019 15:35:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9193C7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Apr 2019 16:30:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726603AbfDKPfL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Apr 2019 11:35:11 -0400
-Received: from relay.sw.ru ([185.231.240.75]:42926 "EHLO relay.sw.ru"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726595AbfDKPfL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Apr 2019 11:35:11 -0400
-Received: from [172.16.25.169]
-        by relay.sw.ru with esmtp (Exim 4.91)
-        (envelope-from <ktkhai@virtuozzo.com>)
-        id 1hEbjA-0003Qf-Fc; Thu, 11 Apr 2019 18:35:00 +0300
-Subject: Re: [RFC PATCH 0/2] mm/memcontrol: Finer-grained memory control
-To:     Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
-        Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Hocko <mhocko@kernel.org>,
-        Vladimir Davydov <vdavydov.dev@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        id S1726667AbfDKQal (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Apr 2019 12:30:41 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:42759 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726655AbfDKQak (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Apr 2019 12:30:40 -0400
+Received: by mail-pf1-f193.google.com with SMTP id w25so3697637pfi.9
+        for <linux-doc@vger.kernel.org>; Thu, 11 Apr 2019 09:30:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=yz6p7JxlGvdeQQLGjhJ9bVaviFTo9O5jKlmLBrtPSxc=;
+        b=ciY2xhZBqrGVRamWEdyXZm+HVDPPv1+F+OLeHjR7pw4dh1Z2uCIqi7kX9QZ2Nw2fSe
+         3ICSpeJP/1tWvICZXWQjFcCvyAiDNg/RWPWz1whH81jzBceC9pLheMqVAmvugn81KSKm
+         4FTMZrgv8NDSEen6g28eGD9Axz7uKBQR2aoSA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=yz6p7JxlGvdeQQLGjhJ9bVaviFTo9O5jKlmLBrtPSxc=;
+        b=rIxvnSCGOKFXnW0oIwsekM045Kjv7VPR9ygh0Db0KuZQ08+l9ZmRlV/hyZYXwDNSEf
+         lyPTrnSC1hQ56tIC4+lUTXzwgNcSSYGa9BQ5rde/JHDfJIKQZCsDgUD2zgDs4SN53OKa
+         DzVvfQx9aRXh882gqbTsPmsfO4ci/lv+fxGholPPwnqhs+r0XXPqU+bIOWZ3Ad8re0tl
+         TD4wXQrY7tCEiBdMalbMy8mMtmgj488LBnDQ1CQ9NiRf+gcKCqO16NwgpkoVnmrJdf5W
+         6vQ5BnruBqfwCRJbo9hDHMR1HMMdRQzayzCW4nZQC1YsCDbmd/lsUGNPax+lvf8JRrYb
+         Mm2Q==
+X-Gm-Message-State: APjAAAUnIMmSju0XGpW7iyIW7UfQZs2/VM2lnUKvxUvL56FFhgMO7pzm
+        +tZ3WUncfLFdR6ejdQT+P91Z6A==
+X-Google-Smtp-Source: APXvYqznku4Y+edVIheLFiiF6i3mDId8Ozb9gEBivSsdoVik00tTyZSUXFIO+ELMlApiyFEVjPbdZQ==
+X-Received: by 2002:aa7:82d6:: with SMTP id f22mr50947455pfn.190.1555000239933;
+        Thu, 11 Apr 2019 09:30:39 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id h20sm52286114pfj.40.2019.04.11.09.30.38
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 11 Apr 2019 09:30:38 -0700 (PDT)
+Date:   Thu, 11 Apr 2019 12:30:37 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc:     Olof Johansson <olof@lixom.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Qais Yousef <qais.yousef@arm.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Manoj Rao <linux@manojrajarao.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>,
-        Shakeel Butt <shakeelb@google.com>, aryabinin@virtuozzo.com
-References: <20190410191321.9527-1-longman@redhat.com>
- <1b6ee304-6176-15a0-c3fa-0b59cdd60085@virtuozzo.com>
- <cea941ed-f401-7380-6e48-622115a02533@redhat.com>
-From:   Kirill Tkhai <ktkhai@virtuozzo.com>
-Message-ID: <d8fc644e-0e83-7925-e728-34f6fc016f98@virtuozzo.com>
-Date:   Thu, 11 Apr 2019 18:35:00 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Alexei Starovoitov <ast@kernel.org>,
+        atish patra <atishp04@gmail.com>,
+        Daniel Colascione <dancol@google.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Karim Yaghmour <karim.yaghmour@opersys.com>,
+        Kees Cook <keescook@chromium.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-trace-devel@vger.kernel.org,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
+Subject: Re: [PATCH v5 1/3] Provide in-kernel headers to make extending
+ kernel easier
+Message-ID: <20190411163037.GA5786@google.com>
+References: <20190320163116.39275-1-joel@joelfernandes.org>
+ <CAOesGMheoZda84OSz9spQ7p66wot5S_9aaqaKC=QYp+8utASXA@mail.gmail.com>
+ <20190408203601.GF133872@google.com>
+ <CAOesGMibHCuMPCYkc8V++Z2Kuf3YQf_OjYn18GvDgzTy6ubV=g@mail.gmail.com>
+ <CAJWu+or0hWce9+7aEfTHoOR8cptRbzHYVL-bPdJWGZH20dbo7Q@mail.gmail.com>
+ <CAOesGMiuGK-Sbqo2z=1ab070JONav1LF82MRRLCdX-4+14_XZA@mail.gmail.com>
+ <20190411031540.ehezr6kq7ouobpzx@ast-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
-In-Reply-To: <cea941ed-f401-7380-6e48-622115a02533@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190411031540.ehezr6kq7ouobpzx@ast-mbp.dhcp.thefacebook.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11.04.2019 17:55, Waiman Long wrote:
-> On 04/11/2019 10:37 AM, Kirill Tkhai wrote:
->> On 10.04.2019 22:13, Waiman Long wrote:
->>> The current control mechanism for memory cgroup v2 lumps all the memory
->>> together irrespective of the type of memory objects. However, there
->>> are cases where users may have more concern about one type of memory
->>> usage than the others.
->>>
->>> We have customer request to limit memory consumption on anonymous memory
->>> only as they said the feature was available in other OSes like Solaris.
->>>
->>> To allow finer-grained control of memory, this patchset 2 new control
->>> knobs for memory controller:
->>>  - memory.subset.list for specifying the type of memory to be under control.
->>>  - memory.subset.high for the high limit of memory consumption of that
->>>    memory type.
->>>
->>> For simplicity, the limit is not hierarchical and applies to only tasks
->>> in the local memory cgroup.
->>>
->>> Waiman Long (2):
->>>   mm/memcontrol: Finer-grained control for subset of allocated memory
->>>   mm/memcontrol: Add a new MEMCG_SUBSET_HIGH event
->>>
->>>  Documentation/admin-guide/cgroup-v2.rst |  35 +++++++++
->>>  include/linux/memcontrol.h              |   8 ++
->>>  mm/memcontrol.c                         | 100 +++++++++++++++++++++++-
->>>  3 files changed, 142 insertions(+), 1 deletion(-)
->> CC Andrey.
->>
->> In Virtuozzo kernel we have similar functionality for limitation of page cache in a cgroup:
->>
->> https://github.com/OpenVZ/vzkernel/commit/8ceef5e0c07c7621fcb0e04ccc48a679dfeec4a4
+On Wed, Apr 10, 2019 at 08:15:42PM -0700, Alexei Starovoitov wrote:
+> On Wed, Apr 10, 2019 at 09:34:49AM -0700, Olof Johansson wrote:
+> > On Wed, Apr 10, 2019 at 8:51 AM Joel Fernandes <joelaf@google.com> wrote:
+> > >
+> > > On Wed, Apr 10, 2019 at 11:07 AM Olof Johansson <olof@lixom.net> wrote:
+> > > [snip]
+> > > > > > Wouldn't it be more convenient to provide it in a standardized format
+> > > > > > such that you won't have to take an additional step, and always have
+> > > > > > This is that form IMO.
+> ...
+> > Compared to:
+> >  - Extract tarball
+> >  - Build and load
+> >  - Remove file tree from filesystem
 > 
-> It will be helpful to know the use case where you want to limit page
-> cache usage. I have anonymous memory in mind when I compose this patch,
-> but I make the mechanism more generic so that it can apply to other use
-> cases as well.
+> I think there are too many assumptions in this thread in regard to what
+> is more convenient for user space.
+> I think bcc should try to avoid extracting tarball into file system.
+> For example libbcc can uncompress kheader.tar.xz into virtual file system
+> of clang front-end. It's more or less std::map<string, string>
+> with key=path, value=content of the file. Access to such in-memory
+> 'files' is obviously faster than doing open/read syscalls.
+> bcc already uses this approach for some bcc internal 'files' that
+> it passes to clang during compilation.
+> All of /proc/kheaders.tar.xz files can be passed the same way
+> without extracting them into real file system.
+> 
+> Joel, would be great if you can share corresponding bcc patch
+> that takes advantage of /proc/kheaders
 
-We have distributed storage, and there are its daemons on every host.
-There are replication factor 1:N, so the same block may be duplicated
-on different hosts. They produce a lot of pagecache, but it is reused
-not often (because of the above 1:N).
+That sounds good to me. Others have tested this with BCC with a manual
+extraction and setting environment variable to point BCC to the extracted
+location, but I can work BCC patch that makes this automatic and share it (I
+was planning to do the "automatically make BCC do it" patch for the BCC
+project, but first wanted this in. But I agree with Alexei, its a good idea
+to do it now and share it). Masahiro had some nits in v6 that I need to
+address anyway ;-) And Olof grumbled a bit about the commit message which
+could be polished a bit more :-)
 
-So, we want to limit pagecache, but do not limit anon memory. This
-prevents global reclaim, and we found this improves our performance tests.
+thanks!
 
-Kirill
+ - Joel
+
+
