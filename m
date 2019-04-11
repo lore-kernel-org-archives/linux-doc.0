@@ -1,27 +1,57 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 61D6C7D099
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Apr 2019 15:24:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E73B17D099
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Apr 2019 15:31:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726615AbfDKPYS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Apr 2019 11:24:18 -0400
-Received: from mx2.suse.de ([195.135.220.15]:51338 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726121AbfDKPYR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Apr 2019 11:24:17 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 10A4CAD4C;
-        Thu, 11 Apr 2019 15:24:16 +0000 (UTC)
-Date:   Thu, 11 Apr 2019 17:24:15 +0200
-From:   Michal Hocko <mhocko@kernel.org>
+        id S1726564AbfDKPbQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Apr 2019 11:31:16 -0400
+Received: from mail-yb1-f195.google.com ([209.85.219.195]:39965 "EHLO
+        mail-yb1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726073AbfDKPbQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Apr 2019 11:31:16 -0400
+Received: by mail-yb1-f195.google.com with SMTP id q17so2360330ybg.7
+        for <linux-doc@vger.kernel.org>; Thu, 11 Apr 2019 08:31:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg-org.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=3iJKixxuhPHlPoZGh40Oi3FjBSMfJGKskcYDOhWiKGQ=;
+        b=1hwtmF+hHKwJ6ukgkNYfDzhggthKX24NSk2lZP6PHZKK0OuNX/iwCbFuFzPm57tK2P
+         gdNbZDktsfSgeGeQ08V+cWQQmM0Jw9isIS3WhHhuBTBJs2BToG6Tb/eO7VtZT59u6C0V
+         aMA/z6Z3nDieLbf8Pn1TG/Xw4o+Td3G5OUt8msHHo+q/xNxiOR6PHHQXP5i2DL22SxZS
+         yH7x9QB6XSulVn4JbEd2bqKkJKiFN4KVm9Z7DnJO4wXcwe1DtLf+7FHHDf3aOuEHrf0U
+         NlNYSwvNKgcrNkisAliIuUeCvEh/7u7of22dG3702V13GJKwj6q5D4lfNuB0qJuxBKmm
+         70SA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=3iJKixxuhPHlPoZGh40Oi3FjBSMfJGKskcYDOhWiKGQ=;
+        b=chLNoxgkefJn4BelK8cY+ZJgr7m15lYRyKj/EOQz4jI16dIuyzs+mx7149BQtqzQMP
+         70BJZP07crcg3eI1o7M0GJ5r4XiezqL4Gv0R7/7cSFZ/amptSoA7OsZQkNjQpJOO0n6y
+         MOmF3Y+BP1T4OrR8vFQ3k4yuKzZnQg0fXoGaVjFOXUs7xpmuDKu7npFvKaZnTChK6syY
+         CagSfq8o1Y4pTPse0YFtsO4jd1h1LjaHfGjZ846ArsfmeRWS0aC9MSdoTvd1xYwf/V5n
+         povXI2W+G2RIWcAPWU8U4SymKSvJZ+BVeHa9iLpcDWni0x5l/Q60voftiST0Gw1v2O44
+         hcIQ==
+X-Gm-Message-State: APjAAAV21Uig8Kqh5cfHnTOcHyJ7W2O1g9ZKH/JP7Q1Y5JTOSH2tJYam
+        Ri4Y5mSqMb/qn/BI4r6VBT3mtw==
+X-Google-Smtp-Source: APXvYqzuP7mXVps+wydtaxT46o4Hr126QvRlymscA1wR/cFGUUcqB+O2cYv4Je4UHlaqQtB0/Ye0wQ==
+X-Received: by 2002:a25:68cb:: with SMTP id d194mr19752622ybc.33.1554996675392;
+        Thu, 11 Apr 2019 08:31:15 -0700 (PDT)
+Received: from localhost ([2620:10d:c091:200::3:2a81])
+        by smtp.gmail.com with ESMTPSA id i139sm11910189ywa.101.2019.04.11.08.31.14
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 11 Apr 2019 08:31:14 -0700 (PDT)
+Date:   Thu, 11 Apr 2019 11:31:13 -0400
+From:   Johannes Weiner <hannes@cmpxchg.org>
 To:     Waiman Long <longman@redhat.com>
-Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+Cc:     Michal Hocko <mhocko@kernel.org>, Tejun Heo <tj@kernel.org>,
+        Li Zefan <lizefan@huawei.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Vladimir Davydov <vdavydov.dev@gmail.com>,
         linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
@@ -32,57 +62,79 @@ Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
         Kirill Tkhai <ktkhai@virtuozzo.com>,
         Aaron Lu <aaron.lu@intel.com>
 Subject: Re: [RFC PATCH 0/2] mm/memcontrol: Finer-grained memory control
-Message-ID: <20190411152415.GA10383@dhcp22.suse.cz>
+Message-ID: <20190411153113.GA32469@cmpxchg.org>
 References: <20190410191321.9527-1-longman@redhat.com>
  <20190410195443.GL10383@dhcp22.suse.cz>
  <daef5f22-0bc2-a637-fa3d-833205623fb6@redhat.com>
- <20190411151911.GZ10383@dhcp22.suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190411151911.GZ10383@dhcp22.suse.cz>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <daef5f22-0bc2-a637-fa3d-833205623fb6@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 11-04-19 17:19:11, Michal Hocko wrote:
-> On Thu 11-04-19 10:02:16, Waiman Long wrote:
-> > On 04/10/2019 03:54 PM, Michal Hocko wrote:
-> > > On Wed 10-04-19 15:13:19, Waiman Long wrote:
-> > >> The current control mechanism for memory cgroup v2 lumps all the memory
-> > >> together irrespective of the type of memory objects. However, there
-> > >> are cases where users may have more concern about one type of memory
-> > >> usage than the others.
-> > >>
-> > >> We have customer request to limit memory consumption on anonymous memory
-> > >> only as they said the feature was available in other OSes like Solaris.
-> > > Please be more specific about a usecase.
-> > 
-> > From that customer's point of view, page cache is more like common goods
-> > that can typically be shared by a number of different groups. Depending
-> > on which groups touch the pages first, it is possible that most of those
-> > pages can be disproportionately attributed to one group than the others.
-> > Anonymous memory, on the other hand, are not shared and so can more
-> > correctly represent the memory footprint of an application. Of course,
-> > there are certainly cases where an application can have large private
-> > files that can consume a lot of cache pages. These are probably not the
-> > case for the applications used by that customer.
+On Thu, Apr 11, 2019 at 10:02:16AM -0400, Waiman Long wrote:
+> On 04/10/2019 03:54 PM, Michal Hocko wrote:
+> > On Wed 10-04-19 15:13:19, Waiman Long wrote:
+> >> The current control mechanism for memory cgroup v2 lumps all the memory
+> >> together irrespective of the type of memory objects. However, there
+> >> are cases where users may have more concern about one type of memory
+> >> usage than the others.
+> >>
+> >> We have customer request to limit memory consumption on anonymous memory
+> >> only as they said the feature was available in other OSes like Solaris.
+> > Please be more specific about a usecase.
 > 
-> So you are essentially interested in the page cache limiting, right?
-> This has been proposed several times already and always rejected because
-> this is not a good idea.
+> From that customer's point of view, page cache is more like common goods
+> that can typically be shared by a number of different groups. Depending
+> on which groups touch the pages first, it is possible that most of those
+> pages can be disproportionately attributed to one group than the others.
+>
+> Anonymous memory, on the other hand, are not shared and so can more
+> correctly represent the memory footprint of an application. Of course,
+> there are certainly cases where an application can have large private
+> files that can consume a lot of cache pages. These are probably not the
+> case for the applications used by that customer.
 
-OK, so after reading other responses I've realized that I've
-misunderstood your intention. You are really interested in the anon
-memory limiting. But my objection still holds! I would like to hear much
-more specific usecases. Is the page cache such a precious resource it
-cannot be refaulted? With the storage speed these days I am quite not
-sure. Also there is always way to delegate page cache pre-faulting to a
-dedicated cgroup with a low limit protection if _some_ pagecache is
-really important.
+I don't understand what the goal is. What do you accomplish by only
+restricting anon memory? Are you trying to contain malfunctioning
+applications? Malicious applications?
 
--- 
-Michal Hocko
-SUSE Labs
+Cache can apply as much pressure to the system as anon can. So if you
+are in the position to ask your applications to behave wrt cache,
+surely you can ask them to behave wrt anon as well...?
+
+This also answers only one narrow question out of the many that arise
+when heavily sharing cache. The accounting isn't done right,
+memory.current of the participating cgroups will make no sense, IO
+read and writeback burden is assigned to random cgroups.
+
+> >> For simplicity, the limit is not hierarchical and applies to only tasks
+> >> in the local memory cgroup.
+> > This is a no-go to begin with.
+> 
+> The reason for doing that is to introduce as little overhead as
+> possible. We can certainly make it hierarchical, but it will complicate
+> the code and increase runtime overhead. Another alternative is to limit
+> this feature to only leaf memory cgroups. That should be enough to cover
+> what the customer is asking for and leave room for future hierarchical
+> extension, if needed.
+
+I agree with Michal, this is a no-go. It involves userspace ABI that
+we have to maintain indefinitely, so it needs to integrate properly
+with the overall model of the cgroup2 interface.
+
+That includes hierarchical support, but as per above it includes wider
+questions of how this is supposed to integrate with the concepts of
+comprehensive resource control. How it integrates with the accounting
+(if you want to support shared pages, they should also be accounted as
+shared and not to random groups), the relationships with connected
+resources such as IO (in a virtual memory system that can do paging,
+memory and IO are fungible, so if you want to be able to share one,
+you have to be able to share the other as well to the same extent),
+how it integrates with memory.low protection etc.
+
+As it stands, I don't see this patch set addressing any of these.
