@@ -1,68 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C15327D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Apr 2019 10:47:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D03767D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Apr 2019 13:05:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726768AbfDKKrJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Apr 2019 06:47:09 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:38906 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726727AbfDKKrJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Apr 2019 06:47:09 -0400
-Received: by mail-qt1-f194.google.com with SMTP id d13so6474277qth.5
-        for <linux-doc@vger.kernel.org>; Thu, 11 Apr 2019 03:47:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=YjCank62QRafLcPndctYEkegdxvUtLQt0MBD5frAluQ=;
-        b=OWJRlcqqRIwVzVSLUcCxqAoEOGokDxDrcoleCIRXcx0CB1ZqtRKSbdu1HUZYjto8M7
-         0BTUTwjtUcQ8uvXsEO/Xxb0DB4I9i8k5JPaxi9DPqZ1mQJjXdNnDtjBMLpqtW9nCUSGh
-         Wwsg7aQ4I/+cpIRPb4t0SlRTHYg3U+KD7IUCrgApZZYzTOzZaWgK+BOxrlrO0U4Fg+RT
-         SGy6uBQS1+vMqDPgWWJmiLSnud4DkkVrOMK/drQ3I6YvVmlFCnUhW1O33l4wmhqxRW/9
-         QBQrEGYWyar6GPfFWNXE2GbFOiLR4LO1TIRCiO0gBIVxkE1OOAFQhii4uMQgGZGrS7nj
-         dSPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=YjCank62QRafLcPndctYEkegdxvUtLQt0MBD5frAluQ=;
-        b=OqG5id5dZJgfPTE4M+y+s2tjvUHraFju9Hw3/NtoyHmAN5RNE4FtZm9jh+OzkhQHtD
-         kT7HTfZat7/Z56VAfSfYF7o04CkaZ9diXvnE5QFRNksX7433TxZ30vOftcA4V0tkvjj0
-         aOFOJPEVrd2ERHXosvjfV6qhGMiq9usEB6W72j+sOyWvfuS4JNfqlQmV4vaWvXWilshv
-         JDbXrCkTeQUNG+1bi4ZLcz7RhZCR3TrKhaXHJElACtFn5LuSoveF/kAYmab+02hSfoNb
-         wQqLd9Xxy/DZ+7YK+6Lv7HKDx25NZoUYFQJiSaqBuRg6o8Jq62OxSMCNYrCSCSWuDmR4
-         08IQ==
-X-Gm-Message-State: APjAAAXME/Vip17YTq/mtqg4CSJJE4O2oT67gqsUql14AtwSQ9AQNE+X
-        vbKjHC6Lpf/XaSOWrskXtIBZmD17E4/MISUNxeQ=
-X-Google-Smtp-Source: APXvYqxp+GJy+0pDVGBIAhdkleMiRWnGeY7U8KcHdmfIxxJziuAwBnlqXbGNN4Vy1EmrSHntsdXpnwcqdLo45WOyRac=
-X-Received: by 2002:ac8:37c7:: with SMTP id e7mr13871720qtc.46.1554979628478;
- Thu, 11 Apr 2019 03:47:08 -0700 (PDT)
+        id S1726564AbfDKNFm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Apr 2019 09:05:42 -0400
+Received: from foss.arm.com ([217.140.101.70]:42558 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726391AbfDKNFm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Apr 2019 09:05:42 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 83C3B374;
+        Thu, 11 Apr 2019 06:05:41 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4E94F3F557;
+        Thu, 11 Apr 2019 06:05:41 -0700 (PDT)
+Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
+        id A24BF680137; Thu, 11 Apr 2019 14:05:39 +0100 (BST)
+Date:   Thu, 11 Apr 2019 14:05:39 +0100
+From:   Liviu Dudau <liviu.dudau@arm.com>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        linux-hwmon@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 02/21] docs: hwmon: vexpress: convert to ReST format
+Message-ID: <20190411130539.GG15144@e110455-lin.cambridge.arm.com>
+References: <cover.1554923967.git.mchehab+samsung@kernel.org>
+ <2d732435f94520681fec52c12dae5d26b356c5f7.1554923967.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Received: by 2002:a0c:9647:0:0:0:0:0 with HTTP; Thu, 11 Apr 2019 03:47:08
- -0700 (PDT)
-Reply-To: katiehuggin@gmail.com
-From:   Katie Huggins <renato.vigna.italybank@gmail.com>
-Date:   Thu, 11 Apr 2019 10:47:08 +0000
-Message-ID: <CAHJu5Bhwa3r_C0zCmxapp9HdWpwN_nfoeVwP7jp2+AamHnw+4w@mail.gmail.com>
-Subject: Hi dear,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2d732435f94520681fec52c12dae5d26b356c5f7.1554923967.git.mchehab+samsung@kernel.org>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi dear,
+On Wed, Apr 10, 2019 at 04:22:39PM -0300, Mauro Carvalho Chehab wrote:
+> Convert vexpress to ReST format, in order to allow it to
+> be parsed by Sphinx.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-I am still waiting for your Email response, you did receive my first
-email to you????
+Acked-by: Liviu Dudau <liviu.dudau@arm.com>
 
-Respectfully Yours,
+Best regards,
+Liviu
 
-Mrs Katie Huggins
+> ---
+>  Documentation/hwmon/vexpress | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/hwmon/vexpress b/Documentation/hwmon/vexpress
+> index 557d6d5ad90d..8c861c8151ac 100644
+> --- a/Documentation/hwmon/vexpress
+> +++ b/Documentation/hwmon/vexpress
+> @@ -2,14 +2,21 @@ Kernel driver vexpress
+>  ======================
+>  
+>  Supported systems:
+> +
+>    * ARM Ltd. Versatile Express platform
+> +
+>      Prefix: 'vexpress'
+> +
+>      Datasheets:
+> +
+>        * "Hardware Description" sections of the Technical Reference Manuals
+> -        for the Versatile Express boards:
+> -        http://infocenter.arm.com/help/topic/com.arm.doc.subset.boards.express/index.html
+> +	for the Versatile Express boards:
+> +
+> +	- http://infocenter.arm.com/help/topic/com.arm.doc.subset.boards.express/index.html
+> +
+>        * Section "4.4.14. System Configuration registers" of the V2M-P1 TRM:
+> -        http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0447-/index.html
+> +
+> +	- http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0447-/index.html
+>  
+>  Author: Pawel Moll
+>  
+> -- 
+> 2.20.1
+> 
+
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
