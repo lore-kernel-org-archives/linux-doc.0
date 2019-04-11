@@ -1,113 +1,116 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3449F7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 10 Apr 2019 23:13:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D2F5B7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Apr 2019 00:37:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726773AbfDJXMz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 10 Apr 2019 19:12:55 -0400
-Received: from foss.arm.com ([217.140.101.70]:32978 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726106AbfDJXMz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 10 Apr 2019 19:12:55 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C53FAA78;
-        Wed, 10 Apr 2019 16:12:54 -0700 (PDT)
-Received: from mammon-tx2.austin.arm.com (mammon-tx2.austin.arm.com [10.118.29.246])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 154623F557;
-        Wed, 10 Apr 2019 16:12:54 -0700 (PDT)
-From:   Jeremy Linton <jeremy.linton@arm.com>
-To:     linux-arm-kernel@lists.infradead.org
-Cc:     catalin.marinas@arm.com, will.deacon@arm.com, marc.zyngier@arm.com,
-        suzuki.poulose@arm.com, Dave.Martin@arm.com,
-        shankerd@codeaurora.org, julien.thierry@arm.com,
-        mlangsdo@redhat.com, stefan.wahren@i2se.com,
-        Andre.Przywara@arm.com, linux-kernel@vger.kernel.org,
-        Jeremy Linton <jeremy.linton@arm.com>,
-        Andre Przywara <andre.przywara@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [v7 01/10] arm64: Provide a command line to disable spectre_v2 mitigation
-Date:   Wed, 10 Apr 2019 18:12:28 -0500
-Message-Id: <20190410231237.52506-2-jeremy.linton@arm.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190410231237.52506-1-jeremy.linton@arm.com>
-References: <20190410231237.52506-1-jeremy.linton@arm.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1726256AbfDKAh3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 10 Apr 2019 20:37:29 -0400
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:32789 "EHLO
+        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725982AbfDKAh3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Apr 2019 20:37:29 -0400
+X-Greylist: delayed 585 seconds by postgrey-1.27 at vger.kernel.org; Wed, 10 Apr 2019 20:37:28 EDT
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailnew.nyi.internal (Postfix) with ESMTP id EAED236FF;
+        Wed, 10 Apr 2019 20:27:42 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+  by compute4.internal (MEProxy); Wed, 10 Apr 2019 20:27:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+        mime-version:message-id:in-reply-to:references:date:from:to:cc
+        :subject:content-type; s=fm2; bh=y7TBfW/sgVfj1t2WjLCnmvZRvt4FY7U
+        Pg5XrNYBI2h4=; b=Qq2VnWH94NlmzXMxWGK00InBr8qiQ+O93oMoU0KimXH5OxV
+        YE/qgDt3JCPX1GEmU7AHYvAK6M1a/2xTPcMMLrvj3GgexJnIdtRqyS92wdmWiaFn
+        jnKa44icPo9yZ04TbBLDVi/8Ukls99ACPIwow4vvb4Z2SBnwFfz60V8oOZ/TmIe1
+        bCf7AKrFlGY7okJ1Q2lO0QmRI1dfozNjCZWoiBngRjKrBAbR7adyhKEFzsd2VaZN
+        ilAwGBXEBtCaTpuWOfgfw7Nxo0UG7jJdA4pUHHs2EWeDaBqu2MoxZkZT5UGSgVfY
+        xIGO+YXzp30XKFg8FTJtlSCgz04Hg/UA/7t+6Pw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=y7TBfW
+        /sgVfj1t2WjLCnmvZRvt4FY7UPg5XrNYBI2h4=; b=zSIdIW41EGBfuGbcuoJCVD
+        iskVMGbCWbe0Eaq7UywN0z3eg3XPJDqjXFvcVp8WU19sVirQo8U5EVnkcMfL2Of6
+        qZJg/2URnV7Zq6eGYofXuyV33+t9cLhoUD7qqH8P4LgGHq78IFCUQeYiXjfEhamQ
+        hWGmuxU4GrhM8U0jlWsQg6tURsnF2WaH+H/ACuHAalY3466k7MwZvNb6y+M16I7Y
+        +7E6/nsPM+2nNs47KPFw6L5hYilKCvkRCBbCt7FVbGTWXPmV+Cx+dEz3NZkS1wtl
+        wz+qvHKbQd3gZM7vgqbxPC/JVyf0k/x1TzafrSoBwtSMpIi0L+k4ABXoUvLYUkYA
+        ==
+X-ME-Sender: <xms:_YmuXAO1zA1j0dIfPgqHcjeF-Q3pnnncCSl-3Nnjin7qrxupa8QcwA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrudekgddvlecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvufgtsehttdertderreejnecuhfhrohhmpedftehnughr
+    vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
+    hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
+    ufhiiigvpedt
+X-ME-Proxy: <xmx:_YmuXALOPpPZVSUrnz1g-K5qsXoN4shnuNbbyihzuOflXKxPX4-1iA>
+    <xmx:_YmuXBZkWcIL4DTZHRkP2IyfiX5dZ5ebbVchkoPHNkvaAdmoDECzYg>
+    <xmx:_YmuXJm0ZqXi7nqcdAIztCh4AaTjkDM8Z4giO5ab1chwZKbKrrEn1Q>
+    <xmx:_omuXNUDPT8O9uSHa9WBQYaP_GSxFpXGnvTBOt03nOP8kz8tGmo_dw>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 8357A7C1B9; Wed, 10 Apr 2019 20:27:41 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.6-329-gf4aae99-fmstable-20190329v1
+Mime-Version: 1.0
+X-Me-Personality: 52947553
+Message-Id: <e2b1820f-070e-4d8d-81d2-6dd8f564a861@www.fastmail.com>
+In-Reply-To: <2088d3de719397153639c5afdce53b73fe75603a.1554923967.git.mchehab+samsung@kernel.org>
+References: <cover.1554923967.git.mchehab+samsung@kernel.org>
+ <2088d3de719397153639c5afdce53b73fe75603a.1554923967.git.mchehab+samsung@kernel.org>
+Date:   Wed, 10 Apr 2019 20:27:41 -0400
+From:   "Andrew Jeffery" <andrew@aj.id.au>
+To:     "Mauro Carvalho Chehab" <mchehab+samsung@kernel.org>,
+        "Linux Doc Mailing List" <linux-doc@vger.kernel.org>
+Cc:     "Mauro Carvalho Chehab" <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, "Jonathan Corbet" <corbet@lwn.net>,
+        "Jean Delvare" <jdelvare@suse.com>,
+        "Guenter Roeck" <linux@roeck-us.net>,
+        "Joel Stanley" <joel@jms.id.au>, linux-hwmon@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
+Subject: =?UTF-8?Q?Re:_[PATCH_v2_10/21]_docs:_hwmon:_aspeed-pwm-tacho:_convert_to?=
+ =?UTF-8?Q?_ReST_format?=
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are various reasons, including bencmarking, to disable spectrev2
-mitigation on a machine. Provide a command-line to do so.
 
-Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
-Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
-Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/admin-guide/kernel-parameters.txt |  8 ++++----
- arch/arm64/kernel/cpu_errata.c                  | 13 +++++++++++++
- 2 files changed, 17 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 2b8ee90bb644..d153bb15c8c7 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2873,10 +2873,10 @@
- 			check bypass). With this option data leaks are possible
- 			in the system.
- 
--	nospectre_v2	[X86,PPC_FSL_BOOK3E] Disable all mitigations for the Spectre variant 2
--			(indirect branch prediction) vulnerability. System may
--			allow data leaks with this option, which is equivalent
--			to spectre_v2=off.
-+	nospectre_v2	[X86,PPC_FSL_BOOK3E,ARM64] Disable all mitigations for
-+			the Spectre variant 2 (indirect branch prediction)
-+			vulnerability. System may allow data leaks with this
-+			option.
- 
- 	nospec_store_bypass_disable
- 			[HW] Disable all mitigations for the Speculative Store Bypass vulnerability
-diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
-index 9950bb0cbd52..d2b2c69d31bb 100644
---- a/arch/arm64/kernel/cpu_errata.c
-+++ b/arch/arm64/kernel/cpu_errata.c
-@@ -220,6 +220,14 @@ static void qcom_link_stack_sanitization(void)
- 		     : "=&r" (tmp));
- }
- 
-+static bool __nospectre_v2;
-+static int __init parse_nospectre_v2(char *str)
-+{
-+	__nospectre_v2 = true;
-+	return 0;
-+}
-+early_param("nospectre_v2", parse_nospectre_v2);
-+
- static void
- enable_smccc_arch_workaround_1(const struct arm64_cpu_capabilities *entry)
- {
-@@ -231,6 +239,11 @@ enable_smccc_arch_workaround_1(const struct arm64_cpu_capabilities *entry)
- 	if (!entry->matches(entry, SCOPE_LOCAL_CPU))
- 		return;
- 
-+	if (__nospectre_v2) {
-+		pr_info_once("spectrev2 mitigation disabled by command line option\n");
-+		return;
-+	}
-+
- 	if (psci_ops.smccc_version == SMCCC_VERSION_1_0)
- 		return;
- 
--- 
-2.20.1
+On Thu, 11 Apr 2019, at 04:54, Mauro Carvalho Chehab wrote:
+> Convert aspeed-pwm-tacho to ReST format, in order to allow it to
+> be parsed by Sphinx.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
+Acked-by: Andrew Jeffery <andrew@aj.id.au>
+
+> ---
+>  Documentation/hwmon/aspeed-pwm-tacho | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/Documentation/hwmon/aspeed-pwm-tacho 
+> b/Documentation/hwmon/aspeed-pwm-tacho
+> index 7cfb34977460..6dcec845fbc7 100644
+> --- a/Documentation/hwmon/aspeed-pwm-tacho
+> +++ b/Documentation/hwmon/aspeed-pwm-tacho
+> @@ -15,8 +15,10 @@ controller supports up to 16 tachometer inputs.
+>  
+>  The driver provides the following sensor accesses in sysfs:
+>  
+> +=============== ======= =====================================================
+>  fanX_input	ro	provide current fan rotation value in RPM as reported
+>  			by the fan to the device.
+>  
+>  pwmX		rw	get or set PWM fan control value. This is an integer
+>  			value between 0(off) and 255(full speed).
+> +=============== ======= =====================================================
+> -- 
+> 2.20.1
+> 
+>
