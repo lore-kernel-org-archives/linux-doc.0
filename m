@@ -2,45 +2,44 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5DBB47D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Apr 2019 18:37:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1C7927D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Apr 2019 18:43:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726731AbfDKShZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Apr 2019 14:37:25 -0400
-Received: from ms.lwn.net ([45.79.88.28]:38746 "EHLO ms.lwn.net"
+        id S1726713AbfDKSn0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Apr 2019 14:43:26 -0400
+Received: from ms.lwn.net ([45.79.88.28]:38816 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726595AbfDKShY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Apr 2019 14:37:24 -0400
+        id S1726538AbfDKSn0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Apr 2019 14:43:26 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 905332F3;
-        Thu, 11 Apr 2019 18:37:23 +0000 (UTC)
-Date:   Thu, 11 Apr 2019 12:37:22 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 3D5D82D8;
+        Thu, 11 Apr 2019 18:43:25 +0000 (UTC)
+Date:   Thu, 11 Apr 2019 12:43:24 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, David Howells <dhowells@redhat.com>,
-        Andrea Parri <andrea.parri@amarulasolutions.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        linux-arch@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Will Deacon <will.deacon@arm.com>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>
-Subject: Re: [PATCH 0/8] Prepare files under Documentation/*.txt to build
- with Sphinx
-Message-ID: <20190411123722.67d8cbe6@lwn.net>
-In-Reply-To: <cover.1554889999.git.mchehab+samsung@kernel.org>
-References: <cover.1554889999.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Andrew Jeffery <andrew@aj.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        Joel Stanley <joel@jms.id.au>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-hwmon@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, Liviu Dudau <liviu.dudau@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Paul Mackerras <paulus@samba.org>,
+        Sudeep Holla <sudeep.holla@arm.com>
+Subject: Re: [PATCH v2 00/21] Convert hwmon documentation to ReST
+Message-ID: <20190411124324.3ed62fad@lwn.net>
+In-Reply-To: <cover.1554923967.git.mchehab+samsung@kernel.org>
+References: <cover.1554923967.git.mchehab+samsung@kernel.org>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -50,19 +49,30 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 10 Apr 2019 06:56:19 -0300
+On Wed, 10 Apr 2019 16:22:37 -0300
 Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-> In the past, we did some efforts to ensure that almost all files under
-> Documentation/*.txt could be built with Sphinx.
+> This series converts the contents of Documentation/hwmon to ReST
+> format.
 > 
-> Some regressions happened there (and some new files got added).
-> Fix those files in order to allow them to be able to build with Sphinx.
+> PS.: I opted to group the conversion files per groups of maintainer
+> set, as, if I were to generate one patch per file, it would give around
+> 160 patches.
 > 
-> The changes on this series are trivial, adding the minimum stuff to allow
-> building those files with sphinx-build with no warnings and to make the
-> contents minimally consistent with other documentation files.
+> I also added those patches to my development tree at:
+> 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=hwmon
+> 
+> If you want to see the results, they're at:
+> 	https://www.infradead.org/~mchehab/hwmon/
 
-I've applied this set, thanks.
+This set seems generally good and could probably be applied as-is.  But I
+have to ask...is there a reason to not take the last step and actually
+bring this stuff into the Sphinx doc tree?
+
+We seem to be mostly documenting sysfs files and such.  I am *guessing*
+that perhaps the set should move to Documentation/admin-guide/hwmon?  Or
+have I misunderstood the intended audience here?
+
+Thanks,
 
 jon
