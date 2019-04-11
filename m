@@ -1,142 +1,118 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8FD5C7D099
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Apr 2019 15:12:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8DC407D099
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Apr 2019 15:19:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726656AbfDKPMp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Apr 2019 11:12:45 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:40296 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726073AbfDKPMp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Apr 2019 11:12:45 -0400
-Received: by mail-pf1-f196.google.com with SMTP id c207so3600924pfc.7;
-        Thu, 11 Apr 2019 08:12:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=IWQcftR6mH8d1KaUspZb8lK78X37q469Ady0BoKgdz8=;
-        b=JnENka0uLW4/bYOvKYXucMlA0PqmhaQN4jjoSSPtLZgun9glviYOrJYqWEW3Vj/Lr5
-         QG6gpe3m2SVTNy7B4+paCcUwbFC5PezIDayv7Xxalr7VvgwDEHLuX3GP9MmnQv2G+pve
-         Gxv4wi6006IbHxeBMWFuwrrny5QpDU2nExPD5fJj6gKmR3nmXFYXjrL1uQN/kSkqtqFg
-         t9b4Hg7fjV+It+BIoVd4QGePOIpMlxZbRwjpGQZH/zSZDBZaKwfNsLZSB+08rVQomHgT
-         To7wlOARDh0wXBhfsLCzzaU6KE8+K8sHELq+lBeADieE8yiR6NIkaFnriOyW7pEQM2k6
-         CNjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=IWQcftR6mH8d1KaUspZb8lK78X37q469Ady0BoKgdz8=;
-        b=d36KkyBUOg+ENiEObMN3i4bkVZFiWL5PMuhEtjyl8ikZEe2hWsh8N1sLyYB6aZGW94
-         +hreq18wZIbxHEvfShY3ZgrA5aCDSxv5ck4ztqwfnsAa1YOadHHbIq1THUHDpv3jTRKf
-         ptDQaQoHqpXsXOjTLEggPy0xX9l3QUZ5QjTotn7r6ZbzyxDcx58KFwg8hDXhqf2VFTGq
-         iqIih+ix2SvDF3d8A7EcIkqBnpufROq9zFwRbcPSKDMW6WD4L6dlFVOGyFvQWCWZYSC0
-         I4EwRxS14l1s0sno4QuM52pusDDKdDiYdXBszrfweNrSeMWL8l30kTMix1oswFOifTZX
-         POTQ==
-X-Gm-Message-State: APjAAAXbIdM7HIGeKb8QIF9sZI+BB+RqE3V/gLHJ7EgJrGNhz5UD9lcA
-        OVlxrDmiWpEf7nptXXHUDuA=
-X-Google-Smtp-Source: APXvYqw5S5JCU7PeLgtcxICw1HN/OU/WskTXIm/GKqIQpZzK6MPJ77+RPnXBn0E3YBi+H77Idhye2A==
-X-Received: by 2002:a63:f212:: with SMTP id v18mr46169864pgh.231.1554995564657;
-        Thu, 11 Apr 2019 08:12:44 -0700 (PDT)
-Received: from mail.google.com ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id w11sm27887221pfi.37.2019.04.11.08.12.40
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 11 Apr 2019 08:12:43 -0700 (PDT)
-Date:   Thu, 11 Apr 2019 23:12:36 +0800
-From:   Changbin Du <changbin.du@gmail.com>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Changbin Du <changbin.du@gmail.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 00/24] Include linux ACPI docs into Sphinx TOC tree
-Message-ID: <20190411151234.fvowhdqbfmwc6icr@mail.google.com>
-References: <20190329001135.15847-1-changbin.du@gmail.com>
- <CAJZ5v0gKX9E+U_9eKfTr7pWGH=jxMLz_Jr850-6BcbG3xBz5qg@mail.gmail.com>
- <CAJZ5v0jbCi3Jgn5YXPCP+zgs-O7z-9_3p3XZGvm40_6RDsJqkQ@mail.gmail.com>
- <20190403133613.13f3fd75@lwn.net>
- <CAJZ5v0gWmmNwiNW=5XgpO6EJw6cAXpwOOePOtuGmR_JzrC+64g@mail.gmail.com>
- <20190409152638.5b20c77f@lwn.net>
- <CAJZ5v0jgbvixMJTVPfEHMX0z-ssc9ZcMRCwS-QEyqtkFWcNh5Q@mail.gmail.com>
+        id S1726881AbfDKPTS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Apr 2019 11:19:18 -0400
+Received: from mx2.suse.de ([195.135.220.15]:48070 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726630AbfDKPTS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Apr 2019 11:19:18 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id B93ADABE1;
+        Thu, 11 Apr 2019 15:19:15 +0000 (UTC)
+Date:   Thu, 11 Apr 2019 17:19:11 +0200
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>,
+        linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Kirill Tkhai <ktkhai@virtuozzo.com>,
+        Aaron Lu <aaron.lu@intel.com>
+Subject: Re: [RFC PATCH 0/2] mm/memcontrol: Finer-grained memory control
+Message-ID: <20190411151911.GZ10383@dhcp22.suse.cz>
+References: <20190410191321.9527-1-longman@redhat.com>
+ <20190410195443.GL10383@dhcp22.suse.cz>
+ <daef5f22-0bc2-a637-fa3d-833205623fb6@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJZ5v0jgbvixMJTVPfEHMX0z-ssc9ZcMRCwS-QEyqtkFWcNh5Q@mail.gmail.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <daef5f22-0bc2-a637-fa3d-833205623fb6@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 09, 2019 at 11:44:11PM +0200, Rafael J. Wysocki wrote:
-> On Tue, Apr 9, 2019 at 11:26 PM Jonathan Corbet <corbet@lwn.net> wrote:
-> >
-> > On Tue, 9 Apr 2019 18:42:59 +0200
-> > "Rafael J. Wysocki" <rafael@kernel.org> wrote:
-> >
-> > > > Hardware guide
-> > >
-> > > This is more about documenting the expectations regarding the platform
-> > > firmware, so what about firmware-guide instead?
-> >
-> > I had imagined a slightly wider focus, but this seems OK for now.  We can
-> > always rename it later :)
-> >
-> > > So what about this:
-> > >
-> > > - Create a new firmware-guide under Documentation and add an acpi/
-> > > directory to it for starters.  Put the following files into it:
-> > >
-> > >          acpi-lid
-> > >          aml-debugger
-> > >          debug (ditto)
-> > >          DSD-properties-rules
-> > >          gpio-properties
-> > >          i2c-muxes
-> > >
-> > > - Add an acpi/ subdirectory to Documentation/admin-guide and put the
-> > > following files into it:
-> > >
-> > >          cppc_sysfs
-> > >          initrd_table_override
-> > >          dsdt-override
-> >
-> > I do wonder if, rather than creating a new directory, we shouldn't just
-> > make a single acpi.rst and put that information into it?
-> >
-> > > - Add an acpi/ subdirectory to Documentation/driver-api and put the
-> > > following files into it:
-> > >
-> > >          enumeration
-> > >          scan_handlers
-> >
-> > ...and something similar here?  I guess that would be my preference, but I
-> > don't feel all that strongly about it if there's reasons to do otherwise.
+On Thu 11-04-19 10:02:16, Waiman Long wrote:
+> On 04/10/2019 03:54 PM, Michal Hocko wrote:
+> > On Wed 10-04-19 15:13:19, Waiman Long wrote:
+> >> The current control mechanism for memory cgroup v2 lumps all the memory
+> >> together irrespective of the type of memory objects. However, there
+> >> are cases where users may have more concern about one type of memory
+> >> usage than the others.
+> >>
+> >> We have customer request to limit memory consumption on anonymous memory
+> >> only as they said the feature was available in other OSes like Solaris.
+> > Please be more specific about a usecase.
 > 
-> The primary reason would be to retain the correspondence between the
-> old and the new files.
+> From that customer's point of view, page cache is more like common goods
+> that can typically be shared by a number of different groups. Depending
+> on which groups touch the pages first, it is possible that most of those
+> pages can be disproportionately attributed to one group than the others.
+> Anonymous memory, on the other hand, are not shared and so can more
+> correctly represent the memory footprint of an application. Of course,
+> there are certainly cases where an application can have large private
+> files that can consume a lot of cache pages. These are probably not the
+> case for the applications used by that customer.
+
+So you are essentially interested in the page cache limiting, right?
+This has been proposed several times already and always rejected because
+this is not a good idea.
+
+I would really like to see a more specific example where this makes
+sense. False sharing can be certainly happen, no questions about that
+but then the how big of a problem that is? Please more specifics.
+
+> >> To allow finer-grained control of memory, this patchset 2 new control
+> >> knobs for memory controller:
+> >>  - memory.subset.list for specifying the type of memory to be under control.
+> >>  - memory.subset.high for the high limit of memory consumption of that
+> >>    memory type.
+> > Please be more specific about the semantic.
+> >
+> > I am really skeptical about this feature to be honest, though.
+> >
 > 
-> I guess they could be combined, but that would be two sort of
-> different changes in one go.
+> Please see patch 1 which has a more detailed description. This is just
+> an overview for the cover letter.
+
+No, please describe the whole design in high level in the cover letter.
+I am not going to spend time reviewing specific patches if the whole
+idea is not clear beforhand. Design should be clear first before diving
+into technical details.
+ 
+> >> For simplicity, the limit is not hierarchical and applies to only tasks
+> >> in the local memory cgroup.
+> > This is a no-go to begin with.
 > 
-> > In general the plan seems good.
-> 
-> OK, thanks!
-> 
-> Cheers,
-> Rafael
-Ok, if we have reached this greement, I probably do it this weekend. Thanks for your
-comments.
+> The reason for doing that is to introduce as little overhead as
+> possible.
+
+We are not going to break semantic based on very vague hand waving about
+overhead.
+
+> We can certainly make it hierarchical, but it will complicate
+> the code and increase runtime overhead. Another alternative is to limit
+> this feature to only leaf memory cgroups. That should be enough to cover
+> what the customer is asking for and leave room for future hierarchical
+> extension, if needed.
+
+No, this is a broken design that doesn't fall into the over cgroups
+design.
 
 -- 
-Cheers,
-Changbin Du
+Michal Hocko
+SUSE Labs
