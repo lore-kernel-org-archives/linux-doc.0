@@ -5,41 +5,33 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1C7927D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Apr 2019 18:43:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7B92E7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Apr 2019 18:49:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726713AbfDKSn0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Apr 2019 14:43:26 -0400
-Received: from ms.lwn.net ([45.79.88.28]:38816 "EHLO ms.lwn.net"
+        id S1726670AbfDKStH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 11 Apr 2019 14:49:07 -0400
+Received: from ms.lwn.net ([45.79.88.28]:38868 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726538AbfDKSn0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Apr 2019 14:43:26 -0400
+        id S1726677AbfDKStG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Apr 2019 14:49:06 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 3D5D82D8;
-        Thu, 11 Apr 2019 18:43:25 +0000 (UTC)
-Date:   Thu, 11 Apr 2019 12:43:24 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 923002F3;
+        Thu, 11 Apr 2019 18:49:05 +0000 (UTC)
+Date:   Thu, 11 Apr 2019 12:49:04 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Andrew Jeffery <andrew@aj.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>,
-        Joel Stanley <joel@jms.id.au>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-hwmon@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, Liviu Dudau <liviu.dudau@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Paul Mackerras <paulus@samba.org>,
-        Sudeep Holla <sudeep.holla@arm.com>
-Subject: Re: [PATCH v2 00/21] Convert hwmon documentation to ReST
-Message-ID: <20190411124324.3ed62fad@lwn.net>
-In-Reply-To: <cover.1554923967.git.mchehab+samsung@kernel.org>
-References: <cover.1554923967.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/10] Add all documentation files to an html/pdf
+ produced book
+Message-ID: <20190411124904.12e61bc7@lwn.net>
+In-Reply-To: <20190410064939.2a9dca9a@coco.lan>
+References: <cover.1554742526.git.mchehab+samsung@kernel.org>
+        <20190408161820.6a12657f@lwn.net>
+        <20190410064939.2a9dca9a@coco.lan>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -49,29 +41,34 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 10 Apr 2019 16:22:37 -0300
+On Wed, 10 Apr 2019 06:49:39 -0300
 Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-> This series converts the contents of Documentation/hwmon to ReST
-> format.
-> 
-> PS.: I opted to group the conversion files per groups of maintainer
-> set, as, if I were to generate one patch per file, it would give around
-> 160 patches.
-> 
-> I also added those patches to my development tree at:
-> 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=hwmon
-> 
-> If you want to see the results, they're at:
-> 	https://www.infradead.org/~mchehab/hwmon/
+[I'm just responding to one little piece of this for the moment...]
 
-This set seems generally good and could probably be applied as-is.  But I
-have to ask...is there a reason to not take the last step and actually
-bring this stuff into the Sphinx doc tree?
+> In any case, IMHO, the best would be to add a new
+> crap^h^h^h^hstaging group were we could place all legacy random stuff.
+> Then, gradually fix those, splitting stuff and promoting them to the
+> main books, in a similar way to what we do with staging.
 
-We seem to be mostly documenting sysfs files and such.  I am *guessing*
-that perhaps the set should move to Documentation/admin-guide/hwmon?  Or
-have I misunderstood the intended audience here?
+Now that's an interesting idea; I hadn't thought about that.  Doing so,
+though, implies a willingness to stage unloved docs *out*, and my
+experience is that there is little appetite for that.  It also kind of
+implies moving docs twice - at least for the ones that get updates - and
+that may not be entirely appreciated.
+
+> > I feel like it would, if anything, reduce the incentive to
+> > deal with these leftover documents properly.    
+> 
+> IMHO, it is just the opposite. Let's face it: ReST build was added around
+> May, 2016, for Kernel 4.7. People had quite some time and kernel versions
+> to do conversions. If nothing is done, I doubt we would have any boom on
+> patches addressing the issues.
+
+So I don't have any hard numbers, but my feeling is that this work is
+continuing apace and perhaps even picking up.  Certainly I'm having a
+harder time keeping up with it, even when you're busy with other things :)
+These things take time; I'm not really ready to give up on it yet.
 
 Thanks,
 
