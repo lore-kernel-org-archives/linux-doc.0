@@ -1,116 +1,319 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D2F5B7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Apr 2019 00:37:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 395297D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Apr 2019 01:48:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726256AbfDKAh3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 10 Apr 2019 20:37:29 -0400
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:32789 "EHLO
-        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725982AbfDKAh3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Apr 2019 20:37:29 -0400
-X-Greylist: delayed 585 seconds by postgrey-1.27 at vger.kernel.org; Wed, 10 Apr 2019 20:37:28 EDT
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailnew.nyi.internal (Postfix) with ESMTP id EAED236FF;
-        Wed, 10 Apr 2019 20:27:42 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
-  by compute4.internal (MEProxy); Wed, 10 Apr 2019 20:27:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
-        mime-version:message-id:in-reply-to:references:date:from:to:cc
-        :subject:content-type; s=fm2; bh=y7TBfW/sgVfj1t2WjLCnmvZRvt4FY7U
-        Pg5XrNYBI2h4=; b=Qq2VnWH94NlmzXMxWGK00InBr8qiQ+O93oMoU0KimXH5OxV
-        YE/qgDt3JCPX1GEmU7AHYvAK6M1a/2xTPcMMLrvj3GgexJnIdtRqyS92wdmWiaFn
-        jnKa44icPo9yZ04TbBLDVi/8Ukls99ACPIwow4vvb4Z2SBnwFfz60V8oOZ/TmIe1
-        bCf7AKrFlGY7okJ1Q2lO0QmRI1dfozNjCZWoiBngRjKrBAbR7adyhKEFzsd2VaZN
-        ilAwGBXEBtCaTpuWOfgfw7Nxo0UG7jJdA4pUHHs2EWeDaBqu2MoxZkZT5UGSgVfY
-        xIGO+YXzp30XKFg8FTJtlSCgz04Hg/UA/7t+6Pw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=y7TBfW
-        /sgVfj1t2WjLCnmvZRvt4FY7UPg5XrNYBI2h4=; b=zSIdIW41EGBfuGbcuoJCVD
-        iskVMGbCWbe0Eaq7UywN0z3eg3XPJDqjXFvcVp8WU19sVirQo8U5EVnkcMfL2Of6
-        qZJg/2URnV7Zq6eGYofXuyV33+t9cLhoUD7qqH8P4LgGHq78IFCUQeYiXjfEhamQ
-        hWGmuxU4GrhM8U0jlWsQg6tURsnF2WaH+H/ACuHAalY3466k7MwZvNb6y+M16I7Y
-        +7E6/nsPM+2nNs47KPFw6L5hYilKCvkRCBbCt7FVbGTWXPmV+Cx+dEz3NZkS1wtl
-        wz+qvHKbQd3gZM7vgqbxPC/JVyf0k/x1TzafrSoBwtSMpIi0L+k4ABXoUvLYUkYA
-        ==
-X-ME-Sender: <xms:_YmuXAO1zA1j0dIfPgqHcjeF-Q3pnnncCSl-3Nnjin7qrxupa8QcwA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrudekgddvlecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvufgtsehttdertderreejnecuhfhrohhmpedftehnughr
-    vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
-    hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
-    ufhiiigvpedt
-X-ME-Proxy: <xmx:_YmuXALOPpPZVSUrnz1g-K5qsXoN4shnuNbbyihzuOflXKxPX4-1iA>
-    <xmx:_YmuXBZkWcIL4DTZHRkP2IyfiX5dZ5ebbVchkoPHNkvaAdmoDECzYg>
-    <xmx:_YmuXJm0ZqXi7nqcdAIztCh4AaTjkDM8Z4giO5ab1chwZKbKrrEn1Q>
-    <xmx:_omuXNUDPT8O9uSHa9WBQYaP_GSxFpXGnvTBOt03nOP8kz8tGmo_dw>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 8357A7C1B9; Wed, 10 Apr 2019 20:27:41 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.6-329-gf4aae99-fmstable-20190329v1
-Mime-Version: 1.0
-X-Me-Personality: 52947553
-Message-Id: <e2b1820f-070e-4d8d-81d2-6dd8f564a861@www.fastmail.com>
-In-Reply-To: <2088d3de719397153639c5afdce53b73fe75603a.1554923967.git.mchehab+samsung@kernel.org>
-References: <cover.1554923967.git.mchehab+samsung@kernel.org>
- <2088d3de719397153639c5afdce53b73fe75603a.1554923967.git.mchehab+samsung@kernel.org>
-Date:   Wed, 10 Apr 2019 20:27:41 -0400
-From:   "Andrew Jeffery" <andrew@aj.id.au>
-To:     "Mauro Carvalho Chehab" <mchehab+samsung@kernel.org>,
-        "Linux Doc Mailing List" <linux-doc@vger.kernel.org>
-Cc:     "Mauro Carvalho Chehab" <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, "Jonathan Corbet" <corbet@lwn.net>,
-        "Jean Delvare" <jdelvare@suse.com>,
-        "Guenter Roeck" <linux@roeck-us.net>,
-        "Joel Stanley" <joel@jms.id.au>, linux-hwmon@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
-Subject: =?UTF-8?Q?Re:_[PATCH_v2_10/21]_docs:_hwmon:_aspeed-pwm-tacho:_convert_to?=
- =?UTF-8?Q?_ReST_format?=
-Content-Type: text/plain
+        id S1726181AbfDKBsQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 10 Apr 2019 21:48:16 -0400
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:55568 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725981AbfDKBsQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Apr 2019 21:48:16 -0400
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id x3B1m0qu018655;
+        Thu, 11 Apr 2019 10:48:01 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com x3B1m0qu018655
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1554947281;
+        bh=Y46XHKNhY8a5FCXxTFVeV1vpVkwmX9wKuuZ2wsIsUek=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=26BUWuVZZShMtLp2G5sJvtYLVrNGmbDQtlpxB3xu7p/Et4qn8OAx6aAthL+Q4ryuZ
+         wsqy0T0Quq4rEsRDS3rmEZeRnLJIIgbRjJFHemvkUwoM4QjSwAaaO4MJTYinin+JVZ
+         e27/pzuXKUkaG1Z2LaA2rucVKaWBBPSLU5BMLRaG6bfMVYfnYT5IfhbN4yK41czrL0
+         iVYd3KSC4qP2GG8OK1S28znjdYpjyX9G16hUQMCIu36D1nNQlce7N7ah1SiJ8knCr9
+         2z/xFnxe326xJyLTM4XW7pwlzq6jLagAkWcvLOHOYV1mnC3wpUfy7kz0rR0CjhI7sC
+         rg+6NiFjXqAEA==
+X-Nifty-SrcIP: [209.85.217.47]
+Received: by mail-vs1-f47.google.com with SMTP id d8so2565311vsp.2;
+        Wed, 10 Apr 2019 18:48:00 -0700 (PDT)
+X-Gm-Message-State: APjAAAWmmlfVXuG7nUAvv02zC+lNZkTU3hE+aba12/ZLLIzllEv7H0Uw
+        trfGak217MiNJuOMRe6ngdQ97lZLOiwKTSaErBo=
+X-Google-Smtp-Source: APXvYqxAmxO5pZ2UKNcc9W3OOsNNeaquZgg58ZjVhDW7sBBGGQj2z+h8klcsxFYAMPdQXktq1U7T48L7CqegunhXUlk=
+X-Received: by 2002:a67:818e:: with SMTP id c136mr26287981vsd.65.1554947279787;
+ Wed, 10 Apr 2019 18:47:59 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190408212855.233198-1-joel@joelfernandes.org>
+In-Reply-To: <20190408212855.233198-1-joel@joelfernandes.org>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Thu, 11 Apr 2019 10:47:23 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQgvhozubW9b2yqnxHAVE17VHHZiq6N4Py_TzFCHN0YUQ@mail.gmail.com>
+Message-ID: <CAK7LNAQgvhozubW9b2yqnxHAVE17VHHZiq6N4Py_TzFCHN0YUQ@mail.gmail.com>
+Subject: Re: [PATCH v6 1/2] Provide in-kernel headers to make extending kernel easier
+To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        atish patra <atishp04@gmail.com>,
+        Daniel Colascione <dancol@google.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Karim Yaghmour <karim.yaghmour@opersys.com>,
+        Kees Cook <keescook@chromium.org>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-trace-devel@vger.kernel.org,
+        Manoj Rao <linux@manojrajarao.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Qais Yousef <qais.yousef@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Joel,
+
+I have no objection to this patch.
+I checked though it once again,
+please let me point out a little more.
+
+They are all nits.
 
 
-On Thu, 11 Apr 2019, at 04:54, Mauro Carvalho Chehab wrote:
-> Convert aspeed-pwm-tacho to ReST format, in order to allow it to
-> be parsed by Sphinx.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-Acked-by: Andrew Jeffery <andrew@aj.id.au>
-
-> ---
->  Documentation/hwmon/aspeed-pwm-tacho | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/hwmon/aspeed-pwm-tacho 
-> b/Documentation/hwmon/aspeed-pwm-tacho
-> index 7cfb34977460..6dcec845fbc7 100644
-> --- a/Documentation/hwmon/aspeed-pwm-tacho
-> +++ b/Documentation/hwmon/aspeed-pwm-tacho
-> @@ -15,8 +15,10 @@ controller supports up to 16 tachometer inputs.
->  
->  The driver provides the following sensor accesses in sysfs:
->  
-> +=============== ======= =====================================================
->  fanX_input	ro	provide current fan rotation value in RPM as reported
->  			by the fan to the device.
->  
->  pwmX		rw	get or set PWM fan control value. This is an integer
->  			value between 0(off) and 255(full speed).
-> +=============== ======= =====================================================
-> -- 
-> 2.20.1
-> 
+On Tue, Apr 9, 2019 at 6:37 AM Joel Fernandes (Google)
+<joel@joelfernandes.org> wrote:
 >
+> Introduce in-kernel headers which are made available as an archive
+> through proc (/proc/kheaders.tar.xz file). This archive makes it
+> possible to run eBPF and other tracing programs tracing programs that
+
+Just one "tracing programs" is enough.
+
+
+> need to extend the kernel for tracing purposes without any dependency on
+> the file system having headers.
+>
+> On Android and embedded systems, it is common to switch kernels but not
+> have kernel headers available on the file system. Further once a
+> different kernel is booted, any headers stored on the file system will
+> no longer be useful. By storing the headers as a compressed archive
+> within the kernel, we can avoid these issues that have been a hindrance
+> for a long time.
+>
+> The best way to use this feature is by building it in. Several users
+> have a need for this, when they switch debug kernels, they donot want to
+
+'donot' -> 'do not' ?
+
+
+> update the filesystem or worry about it where to store the headers on
+> it. However, the feature is also buildable as a module in case the user
+> desires it not being part of the kernel image. This makes it possible to
+> load and unload the headers from memory on demand. A tracing program, or
+> a kernel module builder can load the module, do its operations, and then
+> unload the module to save kernel memory. The total memory needed is 3.8MB.
+>
+> By having the archive available at a fixed location independent of
+> filesystem dependencies and conventions, all debugging tools can
+> directly refer to the fixed location for the archive, without concerning
+> with where the headers on a typical filesystem which significantly
+> simplifies tooling that needs kernel headers.
+>
+> The code to read the headers is based on /proc/config.gz code and uses
+> the same technique to embed the headers.
+>
+> IKHD_ST and IKHD_ED markers as is to facilitate future patches that
+> would extract the headers from a kernel or module image.
+>
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+
+[snip]
+
+>
+> diff --git a/init/Kconfig b/init/Kconfig
+> index 4592bf7997c0..ea75bfbf7dfa 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -580,6 +580,17 @@ config IKCONFIG_PROC
+>           This option enables access to the kernel configuration file
+>           through /proc/config.gz.
+>
+> +config IKHEADERS_PROC
+> +       tristate "Enable kernel header artifacts through /proc/kheaders.tar.xz"
+> +       depends on PROC_FS
+> +       help
+> +         This option enables access to the kernel header and other artifacts that
+
+This line is indented by a TAB, which is correct.
+
+
+> +          are generated during the build process. These can be used to build kernel
+> +          modules or by other in-kernel programs such as those generated by eBPF
+
+Now that you have dropped the ability to "build kernel modules",
+I'd like you to update this help message.
+
+> +          and systemtap tools. If you build the headers as a module, a module
+> +          called kheaders.ko is built which can be loaded on-demand to get access
+> +          to the headers.
+
+These lines are indented by 8-spaces instead of one TAB.
+Please use TAB-indentation consistently.
+
+
+[snip]
+
+
+> +rm -rf $cpio_dir
+> +mkdir $cpio_dir
+> +
+> +pushd $kroot > /dev/null
+> +for f in $src_file_list;
+> +       do find "$f" ! -name "*.cmd" ! -name ".*";
+> +done | cpio --quiet -pd $cpio_dir
+> +popd > /dev/null
+> +
+> +# The second CPIO can complain if files already exist which can
+> +# happen with out of tree builds. Just silence CPIO for now.
+> +for f in $obj_file_list;
+> +       do find "$f" ! -name "*.cmd" ! -name ".*";
+> +done | cpio --quiet -pd $cpio_dir >/dev/null 2>&1
+> +
+
+Could you add a simple comment about what the following code is doing?
+"Remove comments except SPDX" etc.
+
+
+> +find  $cpio_dir -type f -print0 |
+
+Please replace two spaces after 'find' with one.
+
+
+> +       xargs -0 -P8 -n1 perl -pi -e 'BEGIN {undef $/;}; s/\/\*((?!SPDX).)*?\*\///smg;'
+> +
+> +tar -Jcf $tarfile -C $cpio_dir/ . > /dev/null
+> +
+> +echo "$src_files_md5" > kernel/kheaders.md5
+> +echo "$obj_files_md5" >> kernel/kheaders.md5
+> +echo "$(md5sum $tarfile | cut -d ' ' -f1)" >> kernel/kheaders.md5
+> +
+> +rm -rf $cpio_dir
+> diff --git a/kernel/kheaders.c b/kernel/kheaders.c
+> new file mode 100644
+> index 000000000000..d072a958a8f1
+> --- /dev/null
+> +++ b/kernel/kheaders.c
+> @@ -0,0 +1,73 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * kernel/kheaders.c
+> + * Provide headers and artifacts needed to build kernel modules.
+
+Ditto. Could you update this comment ?
+
+
+> + * (Borrowed code from kernel/configs.c)
+> + */
+> +
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/proc_fs.h>
+> +#include <linux/init.h>
+> +#include <linux/uaccess.h>
+> +
+> +/*
+> + * Define kernel_headers_data and kernel_headers_data_end, within which the the
+> + * compressed kernel headers are stpred. The file is first compressed with xz.
+> + */
+> +
+> +asm (
+> +"      .pushsection .rodata, \"a\"             \n"
+> +"      .global kernel_headers_data             \n"
+> +"kernel_headers_data:                          \n"
+> +"      .incbin \"kernel/kheaders_data.tar.xz\" \n"
+> +"      .global kernel_headers_data_end         \n"
+> +"kernel_headers_data_end:                      \n"
+> +"      .popsection                             \n"
+> +);
+
+You mentioned "IKHD_ST and IKHD_ED markers..." in the commit description,
+but I do not see them in the code.
+
+If you plan to work on a tool to extract the headers,
+I think it is OK to have the markers here.
+
+Anyway, please make the code and the commit-log consistent.
+
+
+> +
+> +extern char kernel_headers_data;
+> +extern char kernel_headers_data_end;
+> +
+> +static ssize_t
+> +ikheaders_read_current(struct file *file, char __user *buf,
+
+Could you stretch this line ?
+It will still fit in 80-cols.
+
+(This is a coding style error in kernel/configs.c)
+
+
+
+Last thing, when CONFIG_IKHEADERS_PROC=y,
+I always see:
+  GEN     kernel/kheaders_data.tar.xz
+
+which I think misleading because
+the script is just checking the md5sum.
+
+
+
+What I like to see is:
+  CHK     kernel/kheaders_data.tar.xz
+for checking md5sum.
+
+And,
+  GEN     kernel/kheaders_data.tar.xz
+for really (re-)generating the tarball.
+
+
+How about this code?
+
+index e3c581d8cde7..12399614c350 100644
+--- a/kernel/Makefile
++++ b/kernel/Makefile
+@@ -125,7 +125,7 @@ $(obj)/config_data.gz: $(KCONFIG_CONFIG) FORCE
+
+ $(obj)/kheaders.o: $(obj)/kheaders_data.tar.xz
+
+-quiet_cmd_genikh = GEN     $(obj)/kheaders_data.tar.xz
++quiet_cmd_genikh = CHK     $(obj)/kheaders_data.tar.xz
+ cmd_genikh = $(srctree)/kernel/gen_ikh_data.sh $@
+ $(obj)/kheaders_data.tar.xz: FORCE
+        $(call cmd,genikh)
+diff --git a/kernel/gen_ikh_data.sh b/kernel/gen_ikh_data.sh
+index ef72c2740d01..613960e18691 100755
+--- a/kernel/gen_ikh_data.sh
++++ b/kernel/gen_ikh_data.sh
+@@ -57,6 +57,10 @@ if [ -f kernel/kheaders.md5 ] &&
+                exit
+ fi
+
++if [ "${quiet}" != "silent_" ]; then
++       echo "  GEN     $tarfile"
++fi
++
+ rm -rf $cpio_dir
+ mkdir $cpio_dir
+
+
+Thanks.
+
+-- 
+Best Regards
+Masahiro Yamada
