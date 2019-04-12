@@ -1,83 +1,98 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C2E437D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Apr 2019 16:27:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1F99A7D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Apr 2019 16:45:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726882AbfDLQ1q (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Apr 2019 12:27:46 -0400
-Received: from mail-oi1-f202.google.com ([209.85.167.202]:51725 "EHLO
-        mail-oi1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726327AbfDLQ1q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Apr 2019 12:27:46 -0400
-Received: by mail-oi1-f202.google.com with SMTP id e185so4775637oib.18
-        for <linux-doc@vger.kernel.org>; Fri, 12 Apr 2019 09:27:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=7TzQmInxTWUl6X3CTT5BO70JvWZxMxCZRjycIU7Ya/4=;
-        b=PcltYHKRIuM8vHlzhVCu4OYcwec0vK5s8EcwuHuilc4fxpaAKUFJjH86ALE7l/DRKg
-         YuLbX70y4/Vg4Vg9EK2HSnIrXk6NJPJw8y8+WRyWzGUmaE4xYKd8/eGCmMP+7E65HJRC
-         V9LOKMTfLmoNhsyI8Fvvp3Rg/rTOhs63zBKShzPdFg+1ZUCEqbmDwMpn+4h4yoVpIYf6
-         nlwJi277LS72hu0Q1cITiPFkNW6BG5CFqhch4x11dbZ6ThYr5KGyoXAktTqjmQBaHsCG
-         22F/tjMXbSZ8ao7S3Wy90oxcfsbkNE4Ucyp55kttDSZvS+v+X9tVD0xDN9UCOYld79z2
-         ahDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=7TzQmInxTWUl6X3CTT5BO70JvWZxMxCZRjycIU7Ya/4=;
-        b=TKcOZusmdp/tztU7OIPNwVVQ/S4vBckmYBBAMYSBOK4Y9DLM7S54QZ9oIzt/w5TaoJ
-         eaq/d9OLFK9SGAVwGbmWA4C3imnHjUv7mT+Mm9yzoSJvLSD1CmPSYjcpsICoVvq/jJ2d
-         RCfZwWILEGVVWhCBAFg7KXIy36itHPnv4Ipxovnw5yj6TXlVwipD1MA3KBGTgLnzXzkb
-         BbL/XfOs8FrVtnQ1+2bgPk7de9ST5wGLoezgP12a1uvy+yDE6FW3z2jNdCcr87MF+0++
-         3jJ2wTk1SbLx01Ch9tl3qVFUOpl05pZ2UdrWDFZtPE62mzDsTk/LYv/hr2dd1TmXcXav
-         DZYg==
-X-Gm-Message-State: APjAAAV+l+J3+uic+LgG/0UpEDzHVgvjUFgiTSGY68ANtvwr3nc8niQ+
-        o0fR2Px7UWwLUHfBSI6GF0td+iQyU9B5
-X-Google-Smtp-Source: APXvYqz1DvyAxVFaZuGtRTF6OQPJhjzK7BZHyl7vF8rThUVvoRyTacyB36EY9cie0Ftt7egBPF0NoxV523v7
-X-Received: by 2002:aca:3203:: with SMTP id y3mr5136634oiy.58.1555086465835;
- Fri, 12 Apr 2019 09:27:45 -0700 (PDT)
-Date:   Fri, 12 Apr 2019 09:27:42 -0700
-Message-Id: <20190412162742.65962-1-venture@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.21.0.392.gf8f6787159e-goog
-Subject: [PATCH] Documentation: hwmon: ir35221: fix company name
-From:   Patrick Venture <venture@google.com>
-To:     venture@google.com, linux@roeck-us.net, jdelvare@suse.com,
-        corbet@lwn.net
-Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        id S1726829AbfDLQpt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Apr 2019 12:45:49 -0400
+Received: from smtp3.goneo.de ([85.220.129.37]:35808 "EHLO smtp3.goneo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726798AbfDLQpt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 12 Apr 2019 12:45:49 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by smtp3.goneo.de (Postfix) with ESMTP id 8BF8323FFBC;
+        Fri, 12 Apr 2019 18:45:45 +0200 (CEST)
+X-Virus-Scanned: by goneo
+Received: from smtp3.goneo.de ([127.0.0.1])
+        by localhost (smtp3.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 38SmQFMpvigx; Fri, 12 Apr 2019 18:45:43 +0200 (CEST)
+Received: from [192.168.1.127] (dyndsl-091-248-139-154.ewe-ip-backbone.de [91.248.139.154])
+        by smtp3.goneo.de (Postfix) with ESMTPSA id 24A2D23F802;
+        Fri, 12 Apr 2019 18:45:43 +0200 (CEST)
+Subject: Re: [PATCH 0/8] Prepare files under Documentation/*.txt to build with
+ Sphinx
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     David Howells <dhowells@redhat.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org,
+        Andrea Parri <andrea.parri@amarulasolutions.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        linux-arch@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Will Deacon <will.deacon@arm.com>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>
+References: <94c47f05-0412-b938-908d-1ef8a91243ed@darmarit.de>
+ <cover.1554889999.git.mchehab+samsung@kernel.org>
+ <18261.1555064496@warthog.procyon.org.uk>
+ <27303.1555071586@warthog.procyon.org.uk>
+ <df609cad-fa5b-ac15-314f-ac8759771d90@darmarit.de>
+ <20190412093947.62913186@lwn.net>
+From:   Markus Heiser <markus.heiser@darmarit.de>
+Message-ID: <06b2aeb4-825a-28d6-fa7d-f1f5900e53d8@darmarit.de>
+Date:   Fri, 12 Apr 2019 18:45:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <20190412093947.62913186@lwn.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: de-DE
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix the company name from "Infinion" to "Infineon."
 
-Signed-off-by: Patrick Venture <venture@google.com>
----
- Documentation/hwmon/ir35221 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Am 12.04.19 um 17:39 schrieb Jonathan Corbet:
+> On Fri, 12 Apr 2019 14:34:25 +0200
+> Markus Heiser <markus.heiser@darmarit.de> wrote:
+> 
+>> Am 12.04.19 um 14:19 schrieb David Howells:
+>>> Markus Heiser <markus.heiser@darmarit.de> wrote:
+>>>    
+>>>> Which is already named in our 'How to write kernel documentation' introduction
+>>>>
+>>>> - https://www.kernel.org/doc/html/latest/doc-guide/sphinx.html#writing-documentation
+>>>
+>>> This should really be in Documentation/ directory.
+>>>    
+>>
+>> I agree with you, it is a kind of information hiding.  If you know proper
+>> places, please send a patch to Jon.
+> 
+> As Jani pointed out, it's in Documentation/doc-guide.
+> 
+> If you're saying it should be in the top level, I kind of disagree.
+> Documentation/ is an exercise in hiding information by placing it in the
+> middle of 200 other, unrelated files.  We've made some progress on that,
+> and I would like to continue to do so.
 
-diff --git a/Documentation/hwmon/ir35221 b/Documentation/hwmon/ir35221
-index f7e112752c04..3e82f3d93f44 100644
---- a/Documentation/hwmon/ir35221
-+++ b/Documentation/hwmon/ir35221
-@@ -2,7 +2,7 @@ Kernel driver ir35221
- =====================
- 
- Supported chips:
--  * Infinion IR35221
-+  * Infineon IR35221
-     Prefix: 'ir35221'
-     Addresses scanned: -
-     Datasheet: Datasheet is not publicly available.
--- 
-2.21.0.392.gf8f6787159e-goog
+For those who are new and are willing to document, it migth be a good idea
+to have a simple Documentation/README.txt  with a link to doc-guide?
 
+Just a few words, I find with my editor, this is what I find often helpful
+when I'am new to a project.
+
+-- Markus --
