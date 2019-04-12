@@ -5,172 +5,81 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E2B577D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Apr 2019 14:38:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B099B7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Apr 2019 15:39:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726850AbfDLOim (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Apr 2019 10:38:42 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:35296 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726714AbfDLOim (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Apr 2019 10:38:42 -0400
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        id S1726785AbfDLPjz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Apr 2019 11:39:55 -0400
+Received: from ms.lwn.net ([45.79.88.28]:45164 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726711AbfDLPjz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 12 Apr 2019 11:39:55 -0400
+Received: from localhost.localdomain (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: bbrezillon)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 8908D28018B;
-        Fri, 12 Apr 2019 15:38:37 +0100 (BST)
-Date:   Fri, 12 Apr 2019 16:38:35 +0200
-From:   Boris Brezillon <boris.brezillon@collabora.com>
-To:     Helen Koike <helen.koike@collabora.com>
-Cc:     dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
-        dnicoara@chromium.org, daniels@collabora.com,
-        alexandros.frantzis@collabora.com, daniel.vetter@ffwll.ch,
-        linux-kernel@vger.kernel.org, tomasz Figa <tfiga@chromium.org>,
-        tina.zhang@intel.com, Sean Paul <seanpaul@google.com>,
-        kernel@collabora.com, nicholas.kazlauskas@amd.com,
-        =?UTF-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@google.com>,
-        Gustavo Padovan <gustavo.padovan@collabora.com>,
-        Sean Paul <sean@poorly.run>, Sandy Huang <hjc@rock-chips.com>,
-        linux-doc@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Harry Wentland <harry.wentland@amd.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
-        "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
-        Anthony Koo <Anthony.Koo@amd.com>,
-        Russell King <rmk+kernel@armlinux.org.uk>,
-        linux-rockchip@lists.infradead.org,
-        Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
-        Eric Anholt <eric@anholt.net>, Leo Li <sunpeng.li@amd.com>,
-        linux-arm-msm@vger.kernel.org,
-        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        linux-arm-kernel@lists.infradead.org,
-        David Francis <David.Francis@amd.com>,
-        Mikita Lipski <mikita.lipski@amd.com>,
-        amd-gfx@lists.freedesktop.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        freedreno@lists.freedesktop.org,
-        Mamta Shukla <mamtashukla555@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v3 2/4] drm/atomic: rename async_{update,check} to
- amend_{update,check}
-Message-ID: <20190412163835.5407984f@collabora.com>
-In-Reply-To: <bda69249-f193-9dbc-5186-7139fb2c365a@collabora.com>
-References: <20190412125827.5877-1-helen.koike@collabora.com>
-        <20190412125827.5877-3-helen.koike@collabora.com>
-        <20190412154957.558e49f8@collabora.com>
-        <bda69249-f193-9dbc-5186-7139fb2c365a@collabora.com>
-Organization: Collabora
+        by ms.lwn.net (Postfix) with ESMTPSA id DF6C7308;
+        Fri, 12 Apr 2019 15:39:50 +0000 (UTC)
+Date:   Fri, 12 Apr 2019 09:39:47 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Markus Heiser <markus.heiser@darmarit.de>
+Cc:     David Howells <dhowells@redhat.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org,
+        Andrea Parri <andrea.parri@amarulasolutions.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        linux-arch@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Will Deacon <will.deacon@arm.com>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>
+Subject: Re: [PATCH 0/8] Prepare files under Documentation/*.txt to build
+ with Sphinx
+Message-ID: <20190412093947.62913186@lwn.net>
+In-Reply-To: <df609cad-fa5b-ac15-314f-ac8759771d90@darmarit.de>
+References: <94c47f05-0412-b938-908d-1ef8a91243ed@darmarit.de>
+        <cover.1554889999.git.mchehab+samsung@kernel.org>
+        <18261.1555064496@warthog.procyon.org.uk>
+        <27303.1555071586@warthog.procyon.org.uk>
+        <df609cad-fa5b-ac15-314f-ac8759771d90@darmarit.de>
+Organization: LWN.net
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 12 Apr 2019 11:06:13 -0300
-Helen Koike <helen.koike@collabora.com> wrote:
+On Fri, 12 Apr 2019 14:34:25 +0200
+Markus Heiser <markus.heiser@darmarit.de> wrote:
 
-> Hi Boris,
-> 
-> On 4/12/19 10:49 AM, Boris Brezillon wrote:
-> > Hi Helen,
-> > 
-> > On Fri, 12 Apr 2019 09:58:25 -0300
-> > Helen Koike <helen.koike@collabora.com> wrote:
+> Am 12.04.19 um 14:19 schrieb David Howells:
+> > Markus Heiser <markus.heiser@darmarit.de> wrote:
 > >   
-> >> Asynchronous update is the ability change the hw state at any time, not
-> >> only during vblank.
+> >> Which is already named in our 'How to write kernel documentation' introduction
 > >>
-> >> Amend mode is the ability to perform 1000 commits to be applied as soon
-> >> as possible without waiting for 1000 vblanks.
-> >>
-> >> async updates can be seen as amend, but the opposite is not true.
-> >>
-> >> &drm_plane_helper_funcs.atomic_async_{update,check}() was being used by
-> >> drivers to implement amend and not async. So rename them to amend.
-> >>
-> >> Also improve docs explaining the difference.
-> >>
-> >> If asynchronous is required, normal page flip can be performed using
-> >> DRM_MODE_PAGE_FLIP_ASYNC flag.
-> >>
-> >> Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> >>
-> >> ---
-> >> Hello,
-> >>
-> >> I would like to officially clarify what async update means by adding it
-> >> in the docs.
-> >> Please correct me if I am wrong, but the current async_{update,check}
-> >> callbacks are being used to do amend (the legacy cursor behavior), i.e.
-> >> to allow 1000 updates without waiting for 1000 vblanks.  
+> >> - https://www.kernel.org/doc/html/latest/doc-guide/sphinx.html#writing-documentation  
 > > 
-> > Right now, the semantic of async update is driver dependent. Some
-> > drivers will amend the last commit touching that plane (amend semantic),
-> > others will update the plane buffer immediately which might cause
-> > tearing (async semantic).  
-> 
-> In my pov, async updates holds the properties of an amend update, so all
-> async updates we have are amend, but the opposite is not true.
-
-By doing that you keep the definition quite vague, and developers will
-still confused about what they should do when AMEND is requested. Why
-not distinguishing AMEND and ASYNC now?
-
-AMEND: replace the pending plane update (if any) by the new one, and
-make sure things will be applied on the next VBLANK (if nothing else
-amends the commit in the meantime)
-
-ASYNC: update things immediately (don't wait for VBLANK)
-
-> 
+> > This should really be in Documentation/ directory.
 > >   
-> >>
-> >> So I would like to clarify this in the docs and rename the current
-> >> callbacks to reflect this behaviour.  
-> > 
-> > I'm all for this clarification, but I don't think renaming the async
-> > hooks is a good idea, since some drivers will not do real 'amend'. So,
-> > you're changing the name, but it's still confusing :-).
-> > 
-> > How about adding new hooks (and/or flags) for the AMEND case, and
-> > keeping the async path untouched. We can then let drivers that
-> > currently implement async as amend implement the amend hooks instead.
-> > Once you've done that, you can hook that up to the legacy cursor update
-> > path so that it first tries one then the other and finally falls back
-> > to a sync update if none of ASYNC/AMEND is possible.  
 > 
-> I kinda did this (I re-introduced async in the last patch in the
-> series). I know this order is confusing, but as rockchip doesn't
-> implement true async, I would have to do a bunch of modifs at once to
-> keep the commits consistent, but I can re-work on that if it makes
-> things clearer.
+> I agree with you, it is a kind of information hiding.  If you know proper
+> places, please send a patch to Jon.
 
-Let's wait for more feedback before taking a decision on this aspect.
+As Jani pointed out, it's in Documentation/doc-guide.
 
-> 
-> >   
-> >>
-> >> I also see that for real async updates, the flag
-> >> DRM_MODE_PAGE_FLIP_ASYNC can be used in a normal sync update (it is
-> >> already being used by some drivers actually, in the atomic path, not only
-> >> in the legacy page flip, at least is what I understood from
-> >> amdgpu_dm_atomic_commit_tail() implementation).  
-> > 
-> > Yes, right now, async does not necessarily imply non-block, but
-> > Daniel seemed to think that most users want non-block when they do an
-> > async page flip, so maybe it should be clarified too.  
-> 
-> users could combine NONBLOCK flag with PAGE_FLIP_ASYNC, no? (we need to
-> add code for it of course).
+If you're saying it should be in the top level, I kind of disagree.
+Documentation/ is an exercise in hiding information by placing it in the
+middle of 200 other, unrelated files.  We've made some progress on that,
+and I would like to continue to do so.
 
-I guess AMD goes through the sync update path to guarantee that fences
-are signaled before doing the page flip, but most of the time, when you
-do an async page flip you don't want to block :-).
+Thanks,
+
+jon
