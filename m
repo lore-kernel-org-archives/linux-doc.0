@@ -5,76 +5,80 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 43DBD7D099
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Apr 2019 10:32:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2B6047D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Apr 2019 11:17:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726798AbfDLKcC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Apr 2019 06:32:02 -0400
-Received: from smtp2-4.goneo.de ([85.220.129.36]:50646 "EHLO smtp2-4.goneo.de"
+        id S1727057AbfDLLQx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Apr 2019 07:16:53 -0400
+Received: from 8bytes.org ([81.169.241.247]:34386 "EHLO theia.8bytes.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726327AbfDLKcC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 12 Apr 2019 06:32:02 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by smtp2.goneo.de (Postfix) with ESMTP id 5A19D23F6FD;
-        Fri, 12 Apr 2019 12:31:59 +0200 (CEST)
-X-Virus-Scanned: by goneo
-Received: from smtp2.goneo.de ([127.0.0.1])
-        by localhost (smtp2.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id UxFPw4LLLmYE; Fri, 12 Apr 2019 12:31:58 +0200 (CEST)
-Received: from [192.168.1.127] (dyndsl-091-248-139-154.ewe-ip-backbone.de [91.248.139.154])
-        by smtp2.goneo.de (Postfix) with ESMTPSA id 25FB1240997;
-        Fri, 12 Apr 2019 12:31:55 +0200 (CEST)
-Subject: Re: [PATCH 0/8] Prepare files under Documentation/*.txt to build with
- Sphinx
-To:     David Howells <dhowells@redhat.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Andrea Parri <andrea.parri@amarulasolutions.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        linux-arch@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Akira Yokosawa <akiyks@gmail.com>,
+        id S1726682AbfDLLQx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 12 Apr 2019 07:16:53 -0400
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+        id 5249D21D; Fri, 12 Apr 2019 13:16:51 +0200 (CEST)
+Date:   Fri, 12 Apr 2019 13:16:50 +0200
+From:   Joerg Roedel <joro@8bytes.org>
+To:     Zhen Lei <thunder.leizhen@huawei.com>
+Cc:     Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
+        John Garry <john.garry@huawei.com>,
+        Robin Murphy <robin.murphy@arm.com>,
         Will Deacon <will.deacon@arm.com>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>
-References: <cover.1554889999.git.mchehab+samsung@kernel.org>
- <18261.1555064496@warthog.procyon.org.uk>
-From:   Markus Heiser <markus.heiser@darmarit.de>
-Message-ID: <94c47f05-0412-b938-908d-1ef8a91243ed@darmarit.de>
-Date:   Fri, 12 Apr 2019 12:31:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        Sebastian Ott <sebott@linux.ibm.com>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        iommu <iommu@lists.linux-foundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        x86 <x86@kernel.org>, linux-ia64 <linux-ia64@vger.kernel.org>,
+        Hanjun Guo <guohanjun@huawei.com>
+Subject: Re: [PATCH v5 1/6] iommu: add generic boot option iommu.dma_mode
+Message-ID: <20190412111649.GK4518@8bytes.org>
+References: <20190409125308.18304-1-thunder.leizhen@huawei.com>
+ <20190409125308.18304-2-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <18261.1555064496@warthog.procyon.org.uk>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: de-DE
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190409125308.18304-2-thunder.leizhen@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Apr 09, 2019 at 08:53:03PM +0800, Zhen Lei wrote:
+> +static int __init iommu_dma_mode_setup(char *str)
+> +{
+> +	if (!str)
+> +		goto fail;
+> +
+> +	if (!strncmp(str, "passthrough", 11))
+> +		iommu_default_dma_mode = IOMMU_DMA_MODE_PASSTHROUGH;
+> +	else if (!strncmp(str, "lazy", 4))
+> +		iommu_default_dma_mode = IOMMU_DMA_MODE_LAZY;
+> +	else if (!strncmp(str, "strict", 6))
+> +		iommu_default_dma_mode = IOMMU_DMA_MODE_STRICT;
+> +	else
+> +		goto fail;
+> +
+> +	pr_info("Force dma mode to be %d\n", iommu_default_dma_mode);
 
-Am 12.04.19 um 12:21 schrieb David Howells:
-> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
-> 
->> In the past, we did some efforts to ensure that almost all files under
->> Documentation/*.txt could be built with Sphinx.
-> 
-> Would recommend a URL.  Presumably this: http://www.sphinx-doc.org
-
-I recommend the Sphinx reStructuredText Primer
-
-- https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html
-
-Which is already named in our 'How to write kernel documentation' introduction
-
-- https://www.kernel.org/doc/html/latest/doc-guide/sphinx.html#writing-documentation
+Printing a number is not very desriptive or helpful to the user. Please
+print the name of the mode instead.
 
 
--- Markus --
+Regards,
+
+	Joerg
