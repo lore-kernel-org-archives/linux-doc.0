@@ -1,105 +1,83 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 17FF47D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Apr 2019 16:17:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C2E437D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Apr 2019 16:27:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726865AbfDLQRd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Apr 2019 12:17:33 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:48793 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726624AbfDLQRd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Apr 2019 12:17:33 -0400
-Received: from [192.168.1.110] ([77.9.22.14]) by mrelayeu.kundenserver.de
- (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MlfCm-1gXMZn2zqc-00ihOT; Fri, 12 Apr 2019 18:16:25 +0200
-Subject: Re: [PATCH v5 1/3] Provide in-kernel headers to make extending kernel
- easier
-To:     Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>
-Cc:     Joel Fernandes <joel@joelfernandes.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Manoj Rao <linux@manojrajarao.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        atish patra <atishp04@gmail.com>,
-        Daniel Colascione <dancol@google.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Karim Yaghmour <karim.yaghmour@opersys.com>,
-        Kees Cook <keescook@chromium.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-trace-devel@vger.kernel.org,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
-References: <20190320163116.39275-1-joel@joelfernandes.org>
- <CAOesGMheoZda84OSz9spQ7p66wot5S_9aaqaKC=QYp+8utASXA@mail.gmail.com>
- <20190408203601.GF133872@google.com>
- <CAOesGMibHCuMPCYkc8V++Z2Kuf3YQf_OjYn18GvDgzTy6ubV=g@mail.gmail.com>
- <CAK8P3a30yY_1mPcUBxOYOkbFwoeCHbo5EHuWMN4fqKug9DiQDQ@mail.gmail.com>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Organization: metux IT consult
-Message-ID: <76db9a89-ae64-5c2b-6f56-3e2b860cbda2@metux.net>
-Date:   Fri, 12 Apr 2019 18:16:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
-MIME-Version: 1.0
-In-Reply-To: <CAK8P3a30yY_1mPcUBxOYOkbFwoeCHbo5EHuWMN4fqKug9DiQDQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:dWetcqOfu10Yc5D6lS4VyXUoAG9WgPFH9RDc2jKVVoXU1gJ+5P8
- MBaUYQMk6VlFIOTX0e6SXCElIpyN44mMd+I29mpzBfS6LbSHfTWfnB7qGSUSUuBVR4rMe57
- QWuzRW7j5dqTuhLQCx26arGX5K1SMUU9Oz2FjxuaGwi/6H2M7Sz0s9O5ceQUkWAk9KU6B1w
- UPlGW6QzOWErJln+1NCWQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:OJXk5PcjVLo=:Uxwf6otcekeXPVs+AqoKvz
- Pp9R7ihPRH9mMxHeHvPc/aZjRKZObGTl9XqeYDcKq6UaZvkEPflpkLa8C/ZlquC7rwQcBuOHa
- ToAlT8d2/rREGxyUgEsknNhrt7h7/j+jKPJ29HZhs6Y1GnVj9IOFQJBF34xnGaKr/9vqe2GNH
- 8ZcBCBQwjLSPihKeyQul+1oYmG+bSNynkM+AWcVgH8zTmjFa5YDfOC4nIh9PoR1+rqd/YhYvP
- pwvUE4EJBYQnp+0Xr8ORNPrJiVXvYiaCcSkolVwgUelNBciiCufsF7cXUjKsx5snB8lYIHQWu
- ejbSFJsESeP0KuU28FEW0DL7kTEwO/9SaU0ELOZrZcGanpoBKY/FRY0GXDqoSebB30+lDfTwR
- ePqu38Q6Wh1WmLxRK/KzIkO06NtKc2M2fO3PLQD/Q/0TRvSk5b1WFT6ru8dRuX6Hsl2SiPRqz
- TW3XMQZuXbT9HrIUbItT0Y0Ycdcf6/y4xBDvrOMcGLhGcpeJq9uAKNHxxTEEe/Vnbc69gKyL5
- 8kw8BROHsT7Y8wAv/fdX3z4h2wtk5spgf3rNLlrnG2A7wb3nuESyGShC0nUIgRMKr6nRYCg6Y
- GmFTjTfQm/YbDhnY+5HPH2plCzT5cABosPO8933ojpdmJIVyLQmDOm4AfFCNIY+OY8KiulGpq
- mRppk0ftrChqqn3Vgy8yzAqWnGepGfvFN01x9HD6/8oyCTnpckK320HylHo/YJ45NflzH/GR6
- XSgAtOX3hWAE1CjhHG6LOTdAyJbWTNEehAL1gmQhABLBhMKVtZ5Y/pNefdI=
+        id S1726882AbfDLQ1q (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Apr 2019 12:27:46 -0400
+Received: from mail-oi1-f202.google.com ([209.85.167.202]:51725 "EHLO
+        mail-oi1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726327AbfDLQ1q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Apr 2019 12:27:46 -0400
+Received: by mail-oi1-f202.google.com with SMTP id e185so4775637oib.18
+        for <linux-doc@vger.kernel.org>; Fri, 12 Apr 2019 09:27:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=7TzQmInxTWUl6X3CTT5BO70JvWZxMxCZRjycIU7Ya/4=;
+        b=PcltYHKRIuM8vHlzhVCu4OYcwec0vK5s8EcwuHuilc4fxpaAKUFJjH86ALE7l/DRKg
+         YuLbX70y4/Vg4Vg9EK2HSnIrXk6NJPJw8y8+WRyWzGUmaE4xYKd8/eGCmMP+7E65HJRC
+         V9LOKMTfLmoNhsyI8Fvvp3Rg/rTOhs63zBKShzPdFg+1ZUCEqbmDwMpn+4h4yoVpIYf6
+         nlwJi277LS72hu0Q1cITiPFkNW6BG5CFqhch4x11dbZ6ThYr5KGyoXAktTqjmQBaHsCG
+         22F/tjMXbSZ8ao7S3Wy90oxcfsbkNE4Ucyp55kttDSZvS+v+X9tVD0xDN9UCOYld79z2
+         ahDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=7TzQmInxTWUl6X3CTT5BO70JvWZxMxCZRjycIU7Ya/4=;
+        b=TKcOZusmdp/tztU7OIPNwVVQ/S4vBckmYBBAMYSBOK4Y9DLM7S54QZ9oIzt/w5TaoJ
+         eaq/d9OLFK9SGAVwGbmWA4C3imnHjUv7mT+Mm9yzoSJvLSD1CmPSYjcpsICoVvq/jJ2d
+         RCfZwWILEGVVWhCBAFg7KXIy36itHPnv4Ipxovnw5yj6TXlVwipD1MA3KBGTgLnzXzkb
+         BbL/XfOs8FrVtnQ1+2bgPk7de9ST5wGLoezgP12a1uvy+yDE6FW3z2jNdCcr87MF+0++
+         3jJ2wTk1SbLx01Ch9tl3qVFUOpl05pZ2UdrWDFZtPE62mzDsTk/LYv/hr2dd1TmXcXav
+         DZYg==
+X-Gm-Message-State: APjAAAV+l+J3+uic+LgG/0UpEDzHVgvjUFgiTSGY68ANtvwr3nc8niQ+
+        o0fR2Px7UWwLUHfBSI6GF0td+iQyU9B5
+X-Google-Smtp-Source: APXvYqz1DvyAxVFaZuGtRTF6OQPJhjzK7BZHyl7vF8rThUVvoRyTacyB36EY9cie0Ftt7egBPF0NoxV523v7
+X-Received: by 2002:aca:3203:: with SMTP id y3mr5136634oiy.58.1555086465835;
+ Fri, 12 Apr 2019 09:27:45 -0700 (PDT)
+Date:   Fri, 12 Apr 2019 09:27:42 -0700
+Message-Id: <20190412162742.65962-1-venture@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.21.0.392.gf8f6787159e-goog
+Subject: [PATCH] Documentation: hwmon: ir35221: fix company name
+From:   Patrick Venture <venture@google.com>
+To:     venture@google.com, linux@roeck-us.net, jdelvare@suse.com,
+        corbet@lwn.net
+Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10.04.19 21:19, Arnd Bergmann wrote:
+Fix the company name from "Infinion" to "Infineon."
 
-> - we use cpio for initramfs because unpacking cpio in C code is
->   fairly simple, while unpacking tar is not (see the wikipedia page on tar).
->   If we were to unpack it from the kernel, the initramfs code could be
->   trivially reused.
+Signed-off-by: Patrick Venture <venture@google.com>
+---
+ Documentation/hwmon/ir35221 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-What about ar ? ;-)
-
-> - nobody sane uses cpio in user space, since tar is already present
->   almost everywhere, while cpio is rather obscure in comparison.
-
-So, rpm doesn't count as "sane" ? :o
-
-
---mtx
-
+diff --git a/Documentation/hwmon/ir35221 b/Documentation/hwmon/ir35221
+index f7e112752c04..3e82f3d93f44 100644
+--- a/Documentation/hwmon/ir35221
++++ b/Documentation/hwmon/ir35221
+@@ -2,7 +2,7 @@ Kernel driver ir35221
+ =====================
+ 
+ Supported chips:
+-  * Infinion IR35221
++  * Infineon IR35221
+     Prefix: 'ir35221'
+     Addresses scanned: -
+     Datasheet: Datasheet is not publicly available.
 -- 
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+2.21.0.392.gf8f6787159e-goog
+
