@@ -2,289 +2,139 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 617317D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Apr 2019 13:11:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 93A877D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Apr 2019 13:50:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727341AbfDLNLi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Apr 2019 09:11:38 -0400
-Received: from foss.arm.com ([217.140.101.70]:60710 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726736AbfDLNLi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 12 Apr 2019 09:11:38 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5B799374;
-        Fri, 12 Apr 2019 06:11:37 -0700 (PDT)
-Received: from [10.1.196.75] (e110467-lin.cambridge.arm.com [10.1.196.75])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B38C63F68F;
-        Fri, 12 Apr 2019 06:11:32 -0700 (PDT)
-Subject: Re: [PATCH v5 1/6] iommu: add generic boot option iommu.dma_mode
-To:     John Garry <john.garry@huawei.com>,
-        Zhen Lei <thunder.leizhen@huawei.com>,
-        Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Joerg Roedel <joro@8bytes.org>,
+        id S1726872AbfDLNuF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Apr 2019 09:50:05 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:34852 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726829AbfDLNuE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Apr 2019 09:50:04 -0400
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: bbrezillon)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id EA2202813B7;
+        Fri, 12 Apr 2019 14:50:00 +0100 (BST)
+Date:   Fri, 12 Apr 2019 15:49:57 +0200
+From:   Boris Brezillon <boris.brezillon@collabora.com>
+To:     Helen Koike <helen.koike@collabora.com>
+Cc:     dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+        dnicoara@chromium.org, daniels@collabora.com,
+        alexandros.frantzis@collabora.com, daniel.vetter@ffwll.ch,
+        linux-kernel@vger.kernel.org, tomasz Figa <tfiga@chromium.org>,
+        tina.zhang@intel.com, Sean Paul <seanpaul@google.com>,
+        kernel@collabora.com, nicholas.kazlauskas@amd.com,
+        =?UTF-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@google.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Sean Paul <sean@poorly.run>, Sandy Huang <hjc@rock-chips.com>,
+        linux-doc@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Sebastian Ott <sebott@linux.ibm.com>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        iommu <iommu@lists.linux-foundation.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        x86 <x86@kernel.org>, linux-ia64 <linux-ia64@vger.kernel.org>
-Cc:     Hanjun Guo <guohanjun@huawei.com>
-References: <20190409125308.18304-1-thunder.leizhen@huawei.com>
- <20190409125308.18304-2-thunder.leizhen@huawei.com>
- <010d3cbd-ef74-ad21-c735-0af8b18955e6@huawei.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <222946ee-adcc-1311-82a7-6afc9ffbc846@arm.com>
-Date:   Fri, 12 Apr 2019 14:11:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Harry Wentland <harry.wentland@amd.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+        "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
+        Anthony Koo <Anthony.Koo@amd.com>,
+        Russell King <rmk+kernel@armlinux.org.uk>,
+        linux-rockchip@lists.infradead.org,
+        Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
+        Eric Anholt <eric@anholt.net>, Leo Li <sunpeng.li@amd.com>,
+        linux-arm-msm@vger.kernel.org,
+        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        linux-arm-kernel@lists.infradead.org,
+        David Francis <David.Francis@amd.com>,
+        Mikita Lipski <mikita.lipski@amd.com>,
+        amd-gfx@lists.freedesktop.org,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        freedreno@lists.freedesktop.org,
+        Mamta Shukla <mamtashukla555@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v3 2/4] drm/atomic: rename async_{update,check} to
+ amend_{update,check}
+Message-ID: <20190412154957.558e49f8@collabora.com>
+In-Reply-To: <20190412125827.5877-3-helen.koike@collabora.com>
+References: <20190412125827.5877-1-helen.koike@collabora.com>
+        <20190412125827.5877-3-helen.koike@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <010d3cbd-ef74-ad21-c735-0af8b18955e6@huawei.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/04/2019 11:26, John Garry wrote:
-> On 09/04/2019 13:53, Zhen Lei wrote:
->> Currently the IOMMU dma contains 3 modes: passthrough, lazy, strict. The
->> passthrough mode bypass the IOMMU, the lazy mode defer the invalidation
->> of hardware TLBs, and the strict mode invalidate IOMMU hardware TLBs
->> synchronously. The three modes are mutually exclusive. But the current
->> boot options are confused, such as: iommu.passthrough and iommu.strict,
->> because they are no good to be coexist. So add iommu.dma_mode.
->>
->> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
->> ---
->>  Documentation/admin-guide/kernel-parameters.txt | 19 ++++++++
->>  drivers/iommu/iommu.c                           | 59 
->> ++++++++++++++++++++-----
->>  include/linux/iommu.h                           |  5 +++
->>  3 files changed, 71 insertions(+), 12 deletions(-)
->>
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt 
->> b/Documentation/admin-guide/kernel-parameters.txt
->> index 2b8ee90bb64470d..f7766f8ac8b9084 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -1811,6 +1811,25 @@
->>              1 - Bypass the IOMMU for DMA.
->>              unset - Use value of CONFIG_IOMMU_DEFAULT_PASSTHROUGH.
->>
->> +    iommu.dma_mode= Configure default dma mode. if unset, use the value
->> +            of CONFIG_IOMMU_DEFAULT_PASSTHROUGH to determine
->> +            passthrough or not.
+Hi Helen,
+
+On Fri, 12 Apr 2019 09:58:25 -0300
+Helen Koike <helen.koike@collabora.com> wrote:
+
+> Asynchronous update is the ability change the hw state at any time, not
+> only during vblank.
 > 
-> To me, for unset it's unclear what we default to. So if unset and also 
-> CONFIG_IOMMU_DEFAULT_PASSTHROUGH is not set, do we get lazy or strict 
-> mode? (note: I'm ignoring backwards compatibility and interaction of 
-> iommu.strict and .passthorugh also, more below).
+> Amend mode is the ability to perform 1000 commits to be applied as soon
+> as possible without waiting for 1000 vblanks.
 > 
-> Could we considering introducing config DEFAULT_IOMMU_DMA_MODE, similar 
-> to DEFAULT_IOSCHED?
-
-Yes, what I was suggesting was specifically refactoring the Kconfig 
-options into a single choice that controls the default (i.e. no command 
-line option provided) behaviour. AFAICS it should be fairly 
-straightforward to maintain the existing "strict" and "passthrough" 
-options (and legacy arch-specific versions thereof) to override that 
-default without introducing yet another command-line option, which I 
-think we should avoid if possible.
->> +            Note: For historical reasons, ARM64/S390/PPC/X86 have
->> +            their specific options. Currently, only ARM64 support
->> +            this boot option, and hope other ARCHs to use this as
->> +            generic boot option.
->> +        passthrough
->> +            Configure DMA to bypass the IOMMU by default.
->> +        lazy
->> +            Request that DMA unmap operations use deferred
->> +            invalidation of hardware TLBs, for increased
->> +            throughput at the cost of reduced device isolation.
->> +            Will fall back to strict mode if not supported by
->> +            the relevant IOMMU driver.
->> +        strict
->> +            DMA unmap operations invalidate IOMMU hardware TLBs
->> +            synchronously.
->> +
->>      io7=        [HW] IO7 for Marvel based alpha systems
->>              See comment before marvel_specify_io7 in
->>              arch/alpha/kernel/core_marvel.c.
->> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
->> index 109de67d5d727c2..df1ce8e22385b48 100644
->> --- a/drivers/iommu/iommu.c
->> +++ b/drivers/iommu/iommu.c
->> @@ -38,12 +38,13 @@
->>
->>  static struct kset *iommu_group_kset;
->>  static DEFINE_IDA(iommu_group_ida);
->> +
->>  #ifdef CONFIG_IOMMU_DEFAULT_PASSTHROUGH
->> -static unsigned int iommu_def_domain_type = IOMMU_DOMAIN_IDENTITY;
->> +#define IOMMU_DEFAULT_DMA_MODE        IOMMU_DMA_MODE_PASSTHROUGH
->>  #else
->> -static unsigned int iommu_def_domain_type = IOMMU_DOMAIN_DMA;
->> +#define IOMMU_DEFAULT_DMA_MODE        IOMMU_DMA_MODE_STRICT
->>  #endif
->> -static bool iommu_dma_strict __read_mostly = true;
->> +static int iommu_default_dma_mode __read_mostly = 
->> IOMMU_DEFAULT_DMA_MODE;
->>
->>  struct iommu_callback_data {
->>      const struct iommu_ops *ops;
->> @@ -147,20 +148,51 @@ static int __init iommu_set_def_domain_type(char 
->> *str)
->>      int ret;
->>
->>      ret = kstrtobool(str, &pt);
->> -    if (ret)
->> -        return ret;
->> +    if (!ret && pt)
->> +        iommu_default_dma_mode = IOMMU_DMA_MODE_PASSTHROUGH;
->>
->> -    iommu_def_domain_type = pt ? IOMMU_DOMAIN_IDENTITY : 
->> IOMMU_DOMAIN_DMA;
->> -    return 0;
->> +    return ret;
->>  }
->>  early_param("iommu.passthrough", iommu_set_def_domain_type);
->>
->>  static int __init iommu_dma_setup(char *str)
->>  {
->> -    return kstrtobool(str, &iommu_dma_strict);
->> +    bool strict;
->> +    int ret;
->> +
->> +    ret = kstrtobool(str, &strict);
->> +    if (!ret)
->> +        iommu_default_dma_mode = strict ?
->> +                IOMMU_DMA_MODE_STRICT : IOMMU_DMA_MODE_LAZY;
->> +
->> +    return ret;
->>  }
->>  early_param("iommu.strict", iommu_dma_setup);
->>
->> +static int __init iommu_dma_mode_setup(char *str)
->> +{
->> +    if (!str)
->> +        goto fail;
->> +
->> +    if (!strncmp(str, "passthrough", 11))
->> +        iommu_default_dma_mode = IOMMU_DMA_MODE_PASSTHROUGH;
->> +    else if (!strncmp(str, "lazy", 4))
->> +        iommu_default_dma_mode = IOMMU_DMA_MODE_LAZY;
->> +    else if (!strncmp(str, "strict", 6))
->> +        iommu_default_dma_mode = IOMMU_DMA_MODE_STRICT;
->> +    else
->> +        goto fail;
->> +
->> +    pr_info("Force dma mode to be %d\n", iommu_default_dma_mode);
+> async updates can be seen as amend, but the opposite is not true.
 > 
-> What happens if the cmdline option iommu.dma_mode is passed multiple 
-> times? We get mutliple - possibily conflicting - prints, right?
-
-Indeed; we ended up removing such prints for the existing options here, 
-specifically because multiple messages seemed more likely to be 
-confusing than useful.
-
-> And do we need to have backwards compatibility, such that the setting 
-> for iommu.strict or iommu.passthrough trumps iommu.dma_mode, regardless 
-> of order?
-
-As above I think it would be preferable to just keep using the existing 
-options anyway. The current behaviour works out as:
-
-iommu.passthrough |      Y	|	  N
-iommu.strict	  |      x	|    Y         N
-------------------|-------------|---------|--------
-MODE		  | PASSTHROUGH | STRICT  |  LAZY
-
-which seems intuitive enough that a specific dma_mode option doesn't add 
-much value, and would more likely just overcomplicate things for users 
-as well as our implementation.
-
-Robin.
-
->> +
->> +    return 0;
->> +
->> +fail:
->> +    pr_debug("Boot option iommu.dma_mode is incorrect, ignored\n");
->> +    return -EINVAL;
->> +}
->> +early_param("iommu.dma_mode", iommu_dma_mode_setup);
->> +
->>  static ssize_t iommu_group_attr_show(struct kobject *kobj,
->>                       struct attribute *__attr, char *buf)
->>  {
->> @@ -1102,14 +1134,17 @@ struct iommu_group 
->> *iommu_group_get_for_dev(struct device *dev)
->>       */
->>      if (!group->default_domain) {
->>          struct iommu_domain *dom;
->> +        int def_domain_type =
->> +            (iommu_default_dma_mode == IOMMU_DMA_MODE_PASSTHROUGH)
->> +            ? IOMMU_DOMAIN_IDENTITY : IOMMU_DOMAIN_DMA;
->>
->> -        dom = __iommu_domain_alloc(dev->bus, iommu_def_domain_type);
->> -        if (!dom && iommu_def_domain_type != IOMMU_DOMAIN_DMA) {
->> +        dom = __iommu_domain_alloc(dev->bus, def_domain_type);
->> +        if (!dom && def_domain_type != IOMMU_DOMAIN_DMA) {
->>              dom = __iommu_domain_alloc(dev->bus, IOMMU_DOMAIN_DMA);
->>              if (dom) {
->>                  dev_warn(dev,
->>                       "failed to allocate default IOMMU domain of type 
->> %u; falling back to IOMMU_DOMAIN_DMA",
->> -                     iommu_def_domain_type);
->> +                     def_domain_type);
->>              }
->>          }
->>
->> @@ -1117,7 +1152,7 @@ struct iommu_group 
->> *iommu_group_get_for_dev(struct device *dev)
->>          if (!group->domain)
->>              group->domain = dom;
->>
->> -        if (dom && !iommu_dma_strict) {
->> +        if (dom && (iommu_default_dma_mode == IOMMU_DMA_MODE_LAZY)) {
->>              int attr = 1;
->>              iommu_domain_set_attr(dom,
->>                            DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE,
->> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
->> index ffbbc7e39ceeba3..c3f4e3416176496 100644
->> --- a/include/linux/iommu.h
->> +++ b/include/linux/iommu.h
->> @@ -42,6 +42,11 @@
->>   */
->>  #define IOMMU_PRIV    (1 << 5)
->>
->> +
->> +#define IOMMU_DMA_MODE_STRICT        0x0
->> +#define IOMMU_DMA_MODE_LAZY        0x1
->> +#define IOMMU_DMA_MODE_PASSTHROUGH    0x2
->> +
->>  struct iommu_ops;
->>  struct iommu_group;
->>  struct bus_type;
->>
+> &drm_plane_helper_funcs.atomic_async_{update,check}() was being used by
+> drivers to implement amend and not async. So rename them to amend.
 > 
+> Also improve docs explaining the difference.
 > 
+> If asynchronous is required, normal page flip can be performed using
+> DRM_MODE_PAGE_FLIP_ASYNC flag.
+> 
+> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+> 
+> ---
+> Hello,
+> 
+> I would like to officially clarify what async update means by adding it
+> in the docs.
+> Please correct me if I am wrong, but the current async_{update,check}
+> callbacks are being used to do amend (the legacy cursor behavior), i.e.
+> to allow 1000 updates without waiting for 1000 vblanks.
+
+Right now, the semantic of async update is driver dependent. Some
+drivers will amend the last commit touching that plane (amend semantic),
+others will update the plane buffer immediately which might cause
+tearing (async semantic).
+
+> 
+> So I would like to clarify this in the docs and rename the current
+> callbacks to reflect this behaviour.
+
+I'm all for this clarification, but I don't think renaming the async
+hooks is a good idea, since some drivers will not do real 'amend'. So,
+you're changing the name, but it's still confusing :-).
+
+How about adding new hooks (and/or flags) for the AMEND case, and
+keeping the async path untouched. We can then let drivers that
+currently implement async as amend implement the amend hooks instead.
+Once you've done that, you can hook that up to the legacy cursor update
+path so that it first tries one then the other and finally falls back
+to a sync update if none of ASYNC/AMEND is possible.
+
+> 
+> I also see that for real async updates, the flag
+> DRM_MODE_PAGE_FLIP_ASYNC can be used in a normal sync update (it is
+> already being used by some drivers actually, in the atomic path, not only
+> in the legacy page flip, at least is what I understood from
+> amdgpu_dm_atomic_commit_tail() implementation).
+
+Yes, right now, async does not necessarily imply non-block, but
+Daniel seemed to think that most users want non-block when they do an
+async page flip, so maybe it should be clarified too.
+
+Regards,
+
+Boris
