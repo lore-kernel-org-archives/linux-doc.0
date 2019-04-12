@@ -2,57 +2,47 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6ECED7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 11 Apr 2019 23:54:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A42CB7D099
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Apr 2019 09:28:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726800AbfDKXye (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 11 Apr 2019 19:54:34 -0400
-Received: from casper.infradead.org ([85.118.1.10]:47202 "EHLO
+        id S1726875AbfDLJ2f (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Apr 2019 05:28:35 -0400
+Received: from casper.infradead.org ([85.118.1.10]:42328 "EHLO
         casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726778AbfDKXyd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Apr 2019 19:54:33 -0400
+        with ESMTP id S1726678AbfDLJ2e (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Apr 2019 05:28:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
         MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
         :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=5+tH/MOpUFSidIY9WhSFyEPUDHOXXaJKp7Fz0cd8hdM=; b=ePP6Db/DLudz1vlMEo/ff/KUH5
-        OqIIhxDmQ5npakBG0WwaLJRr/hxePnhmsXGFwPXcxVRFB2xCAa1wjqQFPEgJ8E4iFw+Z3OmsG3tVQ
-        FRti79d0KGc3O0/B1/F1j3HZk8C/gWPCHLOlyVvkbEJ3Wel9ntoME3ghT9JVauUcmnTu7Bo1SlJPP
-        8KF0sbpgUTXpRCaDIUl9dfzF1WMVTubdsMz0W9ACuGbff+7jKZ2hQHvRheIRgivLzVJtqUHfgghuD
-        K9eFeM+TdFLYi9bZ1i2IOC559xIxUykO5u/frgkzO6gFr0YH3TeZ7iQynn2f2tU5Rs3d7wyZlDJqO
-        82tOS35Q==;
+        bh=WdL/F/RraVaWl4C+zv5obLRbC5DtbEUQ8VLCWL3vU0I=; b=Cxmjv6Bo9ZbULcdLj9ZXPVA7rn
+        GDJBhJsaA95unpN+Xtht+KVQ77YLKicnSvbJzrFg8eD9gViUB4PjPRNj19Cs3ze1pc1f9lrddTIKy
+        c/QjDGiZgwzZYVG9c73/GKohd+kW83gNuK+NGsbpBPGqALHA04Pd2JrSGMwneLa75A7cbdmOEOqTl
+        +RLC5kLSvq627UDxodIS3tj2dJ3MpuQb9QGreDZL1owplKXpe5jMU6x000Q9oepngOe0qJxLPqT8C
+        Ki8BZ9tr1ZrhCmdvZcrvg9bfXPF+LhG9m5rfFXK020EevSDKomsQHOar75sOZtnl0qRuE15Fe7G7p
+        mZjDtejQ==;
 Received: from 201.86.162.146.dynamic.adsl.gvt.net.br ([201.86.162.146] helo=coco.lan)
         by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hEjWT-0006at-9F; Thu, 11 Apr 2019 23:54:25 +0000
-Date:   Thu, 11 Apr 2019 20:54:17 -0300
+        id 1hEsU2-0005DL-Nx; Fri, 12 Apr 2019 09:28:31 +0000
+Date:   Fri, 12 Apr 2019 06:28:26 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Andrew Jeffery <andrew@aj.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Joel Stanley <joel@jms.id.au>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-hwmon@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, Liviu Dudau <liviu.dudau@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Paul Mackerras <paulus@samba.org>,
-        Sudeep Holla <sudeep.holla@arm.com>
-Subject: Re: [PATCH v2 00/21] Convert hwmon documentation to ReST
-Message-ID: <20190411205417.187f9565@coco.lan>
-In-Reply-To: <20190411210731.GA29378@roeck-us.net>
-References: <cover.1554923967.git.mchehab+samsung@kernel.org>
-        <20190411124324.3ed62fad@lwn.net>
-        <20190411174357.251904f5@coco.lan>
-        <20190411210731.GA29378@roeck-us.net>
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/10] Add all documentation files to an html/pdf
+ produced book
+Message-ID: <20190412062826.7681c803@coco.lan>
+In-Reply-To: <20190411124904.12e61bc7@lwn.net>
+References: <cover.1554742526.git.mchehab+samsung@kernel.org>
+        <20190408161820.6a12657f@lwn.net>
+        <20190410064939.2a9dca9a@coco.lan>
+        <20190411124904.12e61bc7@lwn.net>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -62,79 +52,75 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 11 Apr 2019 14:07:31 -0700
-Guenter Roeck <linux@roeck-us.net> escreveu:
+Em Thu, 11 Apr 2019 12:49:04 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> On Thu, Apr 11, 2019 at 05:43:57PM -0300, Mauro Carvalho Chehab wrote:
-> > Em Thu, 11 Apr 2019 12:43:24 -0600
-> > Jonathan Corbet <corbet@lwn.net> escreveu:
-> >   
-> > > On Wed, 10 Apr 2019 16:22:37 -0300
-> > > Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
-> > >   
-> > > > This series converts the contents of Documentation/hwmon to ReST
-> > > > format.
-> > > > 
-> > > > PS.: I opted to group the conversion files per groups of maintainer
-> > > > set, as, if I were to generate one patch per file, it would give around
-> > > > 160 patches.
-> > > > 
-> > > > I also added those patches to my development tree at:
-> > > > 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=hwmon
-> > > > 
-> > > > If you want to see the results, they're at:
-> > > > 	https://www.infradead.org/~mchehab/hwmon/    
-> > > 
-> > > This set seems generally good and could probably be applied as-is.  But I
-> > > have to ask...is there a reason to not take the last step and actually
-> > > bring this stuff into the Sphinx doc tree?
-> > > 
-> > > We seem to be mostly documenting sysfs files and such.  I am *guessing*
-> > > that perhaps the set should move to Documentation/admin-guide/hwmon?  Or
-> > > have I misunderstood the intended audience here?  
-> > 
-> > :-)
-> > 
-> > Yeah, I'd say that 80% of the contents there are user-faced.
-> > 
-> > Yet, the main issue with this (and other driver subsystems) is that there's
-> > a mix of userspace and Kernelspace stuff. One somewhat simple case is
-> > the abituguru: it has a "datasheet" file:
-> > 
-> > 	abituguru-datasheet
-> > 
-> > This contains programming information for the corresponding drivers,
-> > while abituguru and abituguru3 contains mostly userspace
-> > stuff (still, it also contains the I2C address, with shouldn't mean
-> > anything for the user).
-> > 
-> > However, if you take a look at w83781d, you'll see a mix of both
-> > userspace and driver developer info there... it has a chapter called
-> > "Data sheet updates", for example, with is probably meaningless for
-> > anyone but the hwmon driver developers.
-> > 
-> > That's, btw, a pattern that happens a lot inside device driver
-> > documents on almost all subsystems I checked: driver-specific
-> > documentation is usually not split into user-facing/kernel-facing.
-> > 
-> > While nobody does such split, IMHO, the best would be to keep the
-> > information outside Documentation/admin-guide. But hey! You're
-> > the Doc maintainer. If you prefer to move, I'm perfectly fine
-> > with that.
-> >   
+> On Wed, 10 Apr 2019 06:49:39 -0300
+> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 > 
-> Same here, but please don't move the files which are kernel facing only.
+> [I'm just responding to one little piece of this for the moment...]
 > 
-> How do you want to handle this series ? Do you expect it to be pushed
-> through hwmon, or through Documentation, or do you plan to push yourself ?
+> > In any case, IMHO, the best would be to add a new
+> > crap^h^h^h^hstaging group were we could place all legacy random stuff.
+> > Then, gradually fix those, splitting stuff and promoting them to the
+> > main books, in a similar way to what we do with staging.  
 > 
-> If the series isn't pushed through hwmon, we'll likely have a couple of
-> conflicts against hwmon-next.
+> Now that's an interesting idea; I hadn't thought about that.  Doing so,
+> though, implies a willingness to stage unloved docs *out*,
 
-Guenter,
+That sounds like a plus! 
 
-I won't be pushing it myself. IMO, it makes more sense to apply it at
-hwmon-next, except if it would cause some conflicts against docs-next.
+> and my experience is that there is little appetite for that. 
 
-Regards,
+Heh, I guess most of us are biased to avoid dropping stuff. Yet, it
+happens with time. I wouldn't mind dropping something too outdated
+if, after some time, nobody fixes the issues there.
+
+> It also kind of
+> implies moving docs twice - at least for the ones that get updates - and
+> that may not be entirely appreciated.
+
+True, but avoiding moving twice is not trivial. I mean, files
+need to be renamed anyway. Only if we get it right the first
+time (converting the file and placing at the right place), we'll
+avoid a double move.
+
+I considered an alternative of just including a *.txt file
+at a ReST TOC, but Sphinx doesn't allow including a file that
+it is not specified at source_suffix. Worse than that, if a
+suffix is added there, it will parse (and crash) if the file
+has things like:
+        some indented title
+        ===================
+
+or even:
+	- item
+	- ....
+
+With a sort of pattern that we have on several text files.
+
+There's an alternative: we could have an "index_staging.rst" file
+with the documents that require serious work. So, instead of
+actually moving stuff, we'll just place their location there
+(but files still need to be renamed). When the document is fixed,
+all we need is to move from the staging index to the main one.
+
+> > > I feel like it would, if anything, reduce the incentive to
+> > > deal with these leftover documents properly.      
+> > 
+> > IMHO, it is just the opposite. Let's face it: ReST build was added around
+> > May, 2016, for Kernel 4.7. People had quite some time and kernel versions
+> > to do conversions. If nothing is done, I doubt we would have any boom on
+> > patches addressing the issues.  
+> 
+> So I don't have any hard numbers, but my feeling is that this work is
+> continuing apace and perhaps even picking up.  Certainly I'm having a
+> harder time keeping up with it, even when you're busy with other things :)
+> These things take time; I'm not really ready to give up on it yet.
+
+Ok. I'm working on a series of patches converting stuff from some random
+subsystems. I should be sending the series soon.
+
+
+Thanks,
 Mauro
