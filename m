@@ -1,252 +1,415 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A4B9B7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Apr 2019 19:43:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2F4A77D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Apr 2019 19:51:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726884AbfDLTnx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Apr 2019 15:43:53 -0400
-Received: from mail-pg1-f201.google.com ([209.85.215.201]:49241 "EHLO
-        mail-pg1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726833AbfDLTnx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Apr 2019 15:43:53 -0400
-Received: by mail-pg1-f201.google.com with SMTP id x2so7119579pge.16
-        for <linux-doc@vger.kernel.org>; Fri, 12 Apr 2019 12:43:52 -0700 (PDT)
+        id S1727040AbfDLTvl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Apr 2019 15:51:41 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:38156 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727001AbfDLTvl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Apr 2019 15:51:41 -0400
+Received: by mail-pf1-f195.google.com with SMTP id 10so5632871pfo.5
+        for <linux-doc@vger.kernel.org>; Fri, 12 Apr 2019 12:51:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=gVLYpzHO0Xc04/JAvdtllXU9ASmQMnyXdENvGXJVSj4=;
-        b=JnnON0b/Hnqoitayuhv/pNt1i1Cqy2BrgNmlD8DZN3uB4EBYxwxdb7Hg6Kmjq9/QFq
-         zGmTbSvxLsIYBCrpOJw0AkzTTsXk6LxQfpXO48d0CJ/0+QRRrWWRTlTeunKjudwgbeNz
-         3iBt5o8+a/dkXDJGzo7VVtkEntPL6++OwEByLPaH+WSl9vitX8Q0rN2gJaF0FEK/DN0V
-         wdtvQ/MjmmWBNqfFkdzeKvunZNbpwi4E0D7bWTnMHtwKAsRhQUY7Z5CcSGZEzlju6HnY
-         gGq6C/1amkllij1FtkEIiSWSYJL7iFCUOSgPdJisvwU/FzJ8fthlDTRetj5josbH8nTl
-         RhBg==
+        d=joelfernandes.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9FeyArGzj5gP+alpqQKLTZ9TGpRqcDMZc6FU6Su0Lr8=;
+        b=XjAyjQDFBWjIlOLhE3r4buafF7NyOBeuXADmdAX38qoaD9hrVj4i4ULrnQatOHxAnM
+         LpAw+usUYe2DNld88Hs9CfHXXgcbyEJAdH3az8xQBY+FqoHRMi/YqPjnRoBwKBAZrmK4
+         BexF7FeJ9m++C1M5mquoNP/8Dm/tRCfXmmitc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=gVLYpzHO0Xc04/JAvdtllXU9ASmQMnyXdENvGXJVSj4=;
-        b=ESSTnWE2HJ1ewiDmZVapelE+fDApH+GNJKNgcbT9U/tKBuANfqGBissAJFHhBR9gjd
-         9Z4IJcrBzto6xjMyhbAygJRhhl/TmRM3NqoKQ63Dv1lQDLCyGHHYt9a73SaAtehpSo7C
-         VkY9YI+gOAH+m0IuWUEIOK0DypRC2HEv6cdkHR4g6oOfZyqnRvMa3Ks9+KpFU7vrnzdE
-         4LfzQxR8ZYpWeDUzn0nyLT5QIoPLCt8Xl62JNWTnksRNeRVM1mHhKaNCSF+yF1yS0op4
-         j/eF2R4PhI17Yg0NbbKknX27ACQHxp4pVhsIbB83cWubKaDRxnDmQvjZLlvleodwin9z
-         jtTw==
-X-Gm-Message-State: APjAAAWSmxtWZuiRYcNJNc4Qbfbc+hvwlODiQA6tw6hJRckz2gugV3sd
-        hGAZA92gtge+k+Six9ZaOaGfyjkODAEA
-X-Google-Smtp-Source: APXvYqy/HLMm19TYkxR99+/BcxYeDENW3oiTmk3bGB5VQKPJKwa7ZuStNBVw+AeGeiA4SAssU14XPBfMe4/N
-X-Received: by 2002:aa7:939c:: with SMTP id t28mr1519840pfe.144.1555098231861;
- Fri, 12 Apr 2019 12:43:51 -0700 (PDT)
-Date:   Fri, 12 Apr 2019 12:43:48 -0700
-Message-Id: <20190412194348.225570-1-venture@google.com>
-Mime-Version: 1.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9FeyArGzj5gP+alpqQKLTZ9TGpRqcDMZc6FU6Su0Lr8=;
+        b=kP7CorPHg0kWP5x0YB5FUVz4xjTRRKZxvDz9dOZuqSleAzYsL1dc6jwGUEbKBNg8vD
+         qDQMb5yoCrxO/R0Z3STOm+xwpbpNbIEnveh56hkAbqDI8wc0sgmjlVPMIgcOyRbITdy9
+         nH10dbsYyCb6KuS4Sd7rCMfVDZfLMg2Wp4QMd/NX9iPq0dcWrpar7svY6RYkXMwaBU+r
+         O2+WZofmOpLqReVYPBjfF2PKBganbuLFXeRpLIyrRA/+flPhkh1u3NqJ3+mmgK+M3xLz
+         oHgs+q2FFnn8J102n2w+/xVRcB8jAbqw5pqvl3bYUPOhyEMQ7cpM1XsqB2c/MKR3r8x8
+         hwMg==
+X-Gm-Message-State: APjAAAXbNpei/3IHbKNt18SejLeKXav00UHx7qUyAAPnQ4XE6hWPsqL3
+        YRkT6jVFr/OHeNunDQoRYkrevQ==
+X-Google-Smtp-Source: APXvYqyaDM7WeFLKVJPAhW/6Ws17X5iMlRUZIhg1hjGGHPI1RaoRAHTsN+uUR8CwOnalgHHTZNSceQ==
+X-Received: by 2002:a63:c145:: with SMTP id p5mr53602439pgi.339.1555098700158;
+        Fri, 12 Apr 2019 12:51:40 -0700 (PDT)
+Received: from joelaf.cam.corp.google.com ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id e126sm106356796pfh.35.2019.04.12.12.51.36
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 12 Apr 2019 12:51:39 -0700 (PDT)
+From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
+        atishp04@gmail.com, dancol@google.com,
+        Dan Williams <dan.j.williams@intel.com>,
+        dietmar.eggemann@arm.com, gregkh@linuxfoundation.org,
+        Guenter Roeck <groeck@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>, karim.yaghmour@opersys.com,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org,
+        Manoj Rao <linux@manojrajarao.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        mhiramat@kernel.org, qais.yousef@arm.com, rdunlap@infradead.org,
+        rostedt@goodmis.org, Shuah Khan <shuah@kernel.org>, yhs@fb.com
+Subject: [PATCH v7 1/2] Provide in-kernel headers to make extending kernel easier
+Date:   Fri, 12 Apr 2019 15:51:24 -0400
+Message-Id: <20190412195125.3891-1-joel@joelfernandes.org>
 X-Mailer: git-send-email 2.21.0.392.gf8f6787159e-goog
-Subject: [PATCH v2] hwmon: (pmbus/ir38064): Add driver for Infineon IR38064
- Voltage Regulator
-From:   Patrick Venture <venture@google.com>
-To:     venture@google.com, jdelvare@suse.com, linux@roeck-us.net,
-        corbet@lwn.net
-Cc:     Maxim Sloyko <maxims@google.com>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Maxim Sloyko <maxims@google.com>
+Introduce in-kernel headers which are made available as an archive
+through proc (/proc/kheaders.tar.xz file). This archive makes it
+possible to run eBPF and other tracing programs that need to extend the
+kernel for tracing purposes without any dependency on the file system
+having headers.
 
-Add the pmbus driver for the Infineon ir38064 voltage regulator.
+A github PR is sent for the corresponding BCC patch at:
+https://github.com/iovisor/bcc/pull/2312
 
-Signed-off-by: Maxim Sloyko <maxims@google.com>
-Signed-off-by: Patrick Venture <venture@google.com>
+On Android and embedded systems, it is common to switch kernels but not
+have kernel headers available on the file system. Further once a
+different kernel is booted, any headers stored on the file system will
+no longer be useful. This is an issue even well known to distros.
+By storing the headers as a compressed archive within the kernel, we can
+avoid these issues that have been a hindrance for a long time.
+
+The best way to use this feature is by building it in. Several users
+have a need for this, when they switch debug kernels, they do not want to
+update the filesystem or worry about it where to store the headers on
+it. However, the feature is also buildable as a module in case the user
+desires it not being part of the kernel image. This makes it possible to
+load and unload the headers from memory on demand. A tracing program can
+load the module, do its operations, and then unload the module to save
+kernel memory. The total memory needed is 3.3MB.
+
+By having the archive available at a fixed location independent of
+filesystem dependencies and conventions, all debugging tools can
+directly refer to the fixed location for the archive, without concerning
+with where the headers on a typical filesystem which significantly
+simplifies tooling that needs kernel headers.
+
+The code to read the headers is based on /proc/config.gz code and uses
+the same technique to embed the headers.
+
+Other approaches were discussed such as having an in-memory mountable
+filesystem, but that has drawbacks such as requiring an in-kernel xz
+decompressor which we don't have today, and requiring usage of 42 MB of
+kernel memory to host the decompressed headers at anytime. Also this
+approach is simpler than such approaches.
+
+Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 ---
-v2:
- - Cleaned up weird tabbing behavior in doc.
-v1:
- - Initial patchset.
----
- Documentation/hwmon/ir38064   | 64 +++++++++++++++++++++++++++++++++++
- drivers/hwmon/pmbus/Kconfig   |  9 +++++
- drivers/hwmon/pmbus/Makefile  |  1 +
- drivers/hwmon/pmbus/ir38064.c | 60 ++++++++++++++++++++++++++++++++
- 4 files changed, 134 insertions(+)
- create mode 100644 Documentation/hwmon/ir38064
- create mode 100644 drivers/hwmon/pmbus/ir38064.c
 
-diff --git a/Documentation/hwmon/ir38064 b/Documentation/hwmon/ir38064
-new file mode 100644
-index 0000000000000..618779a329da0
---- /dev/null
-+++ b/Documentation/hwmon/ir38064
-@@ -0,0 +1,64 @@
-+Kernel driver ir38064
-+=====================
-+
-+Supported chips:
-+  * Infineon IR38064
-+    Prefix: 'ir38064'
-+    Addresses scanned: -
-+    Datasheet: Publicly available at the Infineon webiste
-+      https://www.infineon.com/dgdl/Infineon-IR38064MTRPBF-DS-v03_07-EN.pdf?fileId=5546d462584d1d4a0158db0d9efb67ca
-+
-+Datasheet is not publicly available.
-+
-+
-+Authors:
-+        Maxim Sloyko <maxims@google.com>
-+        Patrick Venture <venture@google.com>
-+
-+Description
-+-----------
-+
-+IR38064 is a Single-input Voltage, Synchronous Buck Regulator, DC-DC Converter.
-+
-+Usage Notes
-+-----------
-+
-+This driver does not probe for PMBus devices. You will have to instantiate
-+devices explicitly.
-+
-+Sysfs attributes
-+----------------
-+
-+curr1_label		"iout1"
-+curr1_input		Measured output current
-+curr1_crit		Critical maximum current
-+curr1_crit_alarm	Current critical high alarm
-+curr1_max		Maximum current
-+curr1_max_alarm	Current high alarm
-+
-+in1_label		"vin"
-+in1_input		Measured input voltage
-+in1_crit		Critical maximum input voltage
-+in1_crit_alarm		Input voltage critical high alarm
-+in1_min		Minimum input voltage
-+in1_min_alarm		Input voltage low alarm
-+
-+in2_label		"vout1"
-+in2_input		Measured output voltage
-+in2_lcrit		Critical minimum output voltage
-+in2_lcrit_alarm	Output voltage critical low alarm
-+in2_crit		Critical maximum output voltage
-+in2_crit_alarm		Output voltage critical high alarm
-+in2_max		Maximum output voltage
-+in2_max_alarm		Output voltage high alarm
-+in2_min		Minimum output voltage
-+in2_min_alarm		Output voltage low alarm
-+
-+power1_label		"pout1"
-+power1_input		Measured output power
-+
-+temp1_input		Measured temperature
-+temp1_crit		Critical high temperature
-+temp1_crit_alarm	Chip temperature critical high alarm
-+temp1_max		Maximum temperature
-+temp1_max_alarm	Chip temperature high alarm
-diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-index 629cb45f8557a..de87abab990e5 100644
---- a/drivers/hwmon/pmbus/Kconfig
-+++ b/drivers/hwmon/pmbus/Kconfig
-@@ -54,6 +54,15 @@ config SENSORS_IR35221
- 	  This driver can also be built as a module. If so, the module will
- 	  be called ir35521.
+    v6 -> v7:
+    - Minor nits from Masahiro Yamada are addressed.
+
+    v5 -> v6: (Masahiro Yamada suggestions mostly)
+    - Dropped support for module building.
+    - Rebuild archive if script changes.
+    - Move archive file list to script.
+    - Move build script to kernel directory.
+
+    v4 -> v5:
+    (v4 was Tested-by the following folks)
+        Tested-by: qais.yousef@arm.com
+        Tested-by: dietmar.eggemann@arm.com
+        Tested-by: linux@manojrajarao.com
+    (Thanks to Masahiro Yamada for several excellent suggestions)
+    - used incbin instead of bin2c (Masahiro did similar idea)
+    - added module.lds if ia64 otherwise ia64 may fail to build.
+    - added clean-files rule to Makefile
+    - removed strip-comments script and doing it inline
+    - added set -e to header generated to die on errorsr
+    - fixed a minor issue where find command was noisy.
+    - removed unneeded tar.xz rule from kernel/.gitignore
+    - added Tested-by tags from ARM folks.
+
+    Changes since v3:
+    - Blank tar was being generated because of a one line I
+      forgot to push. It is updated now.
+    - Added module.lds since arm64 needs it to build modules.
+
+    Changes since v2:
+    (Thanks to Masahiro Yamada for several excellent suggestions)
+    - Added support for out of tree builds.
+    - Added incremental build support bringing down build time of
+      incremental builds from 50 seconds to 5 seconds.
+    - Fixed various small nits / cleanups.
+    - clean ups to kheaders.c pointed by Alexey Dobriyan.
+    - Fixed MODULE_LICENSE in test module and kheaders.c
+    - Dropped Module.symvers from archive due to circular dependency.
+
+    Changes since v1:
+    - removed IKH_EXTRA variable, not needed (Masahiro Yamada)
+    - small fix ups to selftest
+       - added target to main Makefile etc
+       - added MODULE_LICENSE to test module
+       - made selftest more quiet
+
+    Changes since RFC:
+    Both changes bring size down to 3.8MB:
+    - use xz for compression
+    - strip comments except SPDX lines
+    - Call out the module name in Kconfig
+    - Also added selftests in second patch to ensure headers are always
+    working.
+
+Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+
+ init/Kconfig           | 10 +++++
+ kernel/.gitignore      |  1 +
+ kernel/Makefile        | 10 +++++
+ kernel/gen_ikh_data.sh | 89 ++++++++++++++++++++++++++++++++++++++++++
+ kernel/kheaders.c      | 74 +++++++++++++++++++++++++++++++++++
+ 5 files changed, 184 insertions(+)
+ create mode 100755 kernel/gen_ikh_data.sh
+ create mode 100644 kernel/kheaders.c
+
+diff --git a/init/Kconfig b/init/Kconfig
+index 4592bf7997c0..47c0db6e63a5 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -580,6 +580,16 @@ config IKCONFIG_PROC
+ 	  This option enables access to the kernel configuration file
+ 	  through /proc/config.gz.
  
-+config SENSORS_IR38064
-+	tristate "Infineon IR38064"
++config IKHEADERS_PROC
++	tristate "Enable kernel header artifacts through /proc/kheaders.tar.xz"
++	depends on PROC_FS
 +	help
-+	  If you say yes here you get hardware monitoring support for Infineon
-+	  IR38064.
++	  This option enables access to the kernel header and other artifacts that
++	  are generated during the build process. These can be used to build eBPF
++	  tracing programs, or similar programs.  If you build the headers as a
++	  module, a module called kheaders.ko is built which can be loaded on-demand
++	  to get access to the headers.
 +
-+	  This driver can also be built as a module. If so, the module will
-+	  be called ir38064.
+ config LOG_BUF_SHIFT
+ 	int "Kernel log buffer size (16 => 64KB, 17 => 128KB)"
+ 	range 12 25
+diff --git a/kernel/.gitignore b/kernel/.gitignore
+index 6e699100872f..34d1e77ee9df 100644
+--- a/kernel/.gitignore
++++ b/kernel/.gitignore
+@@ -1,5 +1,6 @@
+ #
+ # Generated files
+ #
++kheaders.md5
+ timeconst.h
+ hz.bc
+diff --git a/kernel/Makefile b/kernel/Makefile
+index 6c57e78817da..12399614c350 100644
+--- a/kernel/Makefile
++++ b/kernel/Makefile
+@@ -70,6 +70,7 @@ obj-$(CONFIG_UTS_NS) += utsname.o
+ obj-$(CONFIG_USER_NS) += user_namespace.o
+ obj-$(CONFIG_PID_NS) += pid_namespace.o
+ obj-$(CONFIG_IKCONFIG) += configs.o
++obj-$(CONFIG_IKHEADERS_PROC) += kheaders.o
+ obj-$(CONFIG_SMP) += stop_machine.o
+ obj-$(CONFIG_KPROBES_SANITY_TEST) += test_kprobes.o
+ obj-$(CONFIG_AUDIT) += audit.o auditfilter.o
+@@ -121,3 +122,12 @@ $(obj)/configs.o: $(obj)/config_data.gz
+ targets += config_data.gz
+ $(obj)/config_data.gz: $(KCONFIG_CONFIG) FORCE
+ 	$(call if_changed,gzip)
 +
- config SENSORS_LM25066
- 	tristate "National Semiconductor LM25066 and compatibles"
- 	help
-diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-index ea0e39518c216..7d1fa6b3c8c93 100644
---- a/drivers/hwmon/pmbus/Makefile
-+++ b/drivers/hwmon/pmbus/Makefile
-@@ -8,6 +8,7 @@ obj-$(CONFIG_SENSORS_PMBUS)	+= pmbus.o
- obj-$(CONFIG_SENSORS_ADM1275)	+= adm1275.o
- obj-$(CONFIG_SENSORS_IBM_CFFPS)	+= ibm-cffps.o
- obj-$(CONFIG_SENSORS_IR35221)	+= ir35221.o
-+obj-$(CONFIG_SENSORS_IR38064)	+= ir38064.o
- obj-$(CONFIG_SENSORS_LM25066)	+= lm25066.o
- obj-$(CONFIG_SENSORS_LTC2978)	+= ltc2978.o
- obj-$(CONFIG_SENSORS_LTC3815)	+= ltc3815.o
-diff --git a/drivers/hwmon/pmbus/ir38064.c b/drivers/hwmon/pmbus/ir38064.c
-new file mode 100644
-index 0000000000000..4b957ebb6fa71
++$(obj)/kheaders.o: $(obj)/kheaders_data.tar.xz
++
++quiet_cmd_genikh = CHK     $(obj)/kheaders_data.tar.xz
++cmd_genikh = $(srctree)/kernel/gen_ikh_data.sh $@
++$(obj)/kheaders_data.tar.xz: FORCE
++	$(call cmd,genikh)
++
++clean-files := kheaders_data.tar.xz kheaders.md5
+diff --git a/kernel/gen_ikh_data.sh b/kernel/gen_ikh_data.sh
+new file mode 100755
+index 000000000000..591a94f7b387
 --- /dev/null
-+++ b/drivers/hwmon/pmbus/ir38064.c
-@@ -0,0 +1,60 @@
-+// SPDX-License-Identifier: GPL-2.0+
++++ b/kernel/gen_ikh_data.sh
+@@ -0,0 +1,89 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-2.0
++
++# This script generates an archive consisting of kernel headers
++# for CONFIG_IKHEADERS_PROC.
++set -e
++spath="$(dirname "$(readlink -f "$0")")"
++kroot="$spath/.."
++outdir="$(pwd)"
++tarfile=$1
++cpio_dir=$outdir/$tarfile.tmp
++
++# Script filename relative to the kernel source root
++# We add it to the archive because it is small and any changes
++# to this script will also cause a rebuild of the archive.
++sfile="$(realpath --relative-to $kroot "$(readlink -f "$0")")"
++
++src_file_list="
++include/
++arch/$SRCARCH/include/
++$sfile
++"
++
++obj_file_list="
++include/
++arch/$SRCARCH/include/
++"
++
++# Support incremental builds by skipping archive generation
++# if timestamps of files being archived are not changed.
++
++# This block is useful for debugging the incremental builds.
++# Uncomment it for debugging.
++# iter=1
++# if [ ! -f /tmp/iter ]; then echo 1 > /tmp/iter;
++# else; 	iter=$(($(cat /tmp/iter) + 1)); fi
++# find $src_file_list -type f | xargs ls -lR > /tmp/src-ls-$iter
++# find $obj_file_list -type f | xargs ls -lR > /tmp/obj-ls-$iter
++
++# include/generated/compile.h is ignored because it is touched even when none
++# of the source files changed. This causes pointless regeneration, so let us
++# ignore them for md5 calculation.
++pushd $kroot > /dev/null
++src_files_md5="$(find $src_file_list -type f                       |
++		grep -v "include/generated/compile.h"		   |
++		xargs ls -lR | md5sum | cut -d ' ' -f1)"
++popd > /dev/null
++obj_files_md5="$(find $obj_file_list -type f                       |
++		grep -v "include/generated/compile.h"		   |
++		xargs ls -lR | md5sum | cut -d ' ' -f1)"
++
++if [ -f $tarfile ]; then tarfile_md5="$(md5sum $tarfile | cut -d ' ' -f1)"; fi
++if [ -f kernel/kheaders.md5 ] &&
++	[ "$(cat kernel/kheaders.md5|head -1)" == "$src_files_md5" ] &&
++	[ "$(cat kernel/kheaders.md5|head -2|tail -1)" == "$obj_files_md5" ] &&
++	[ "$(cat kernel/kheaders.md5|tail -1)" == "$tarfile_md5" ]; then
++		exit
++fi
++
++if [ "${quiet}" != "silent_" ]; then
++       echo "  GEN     $tarfile"
++fi
++
++rm -rf $cpio_dir
++mkdir $cpio_dir
++
++pushd $kroot > /dev/null
++for f in $src_file_list;
++	do find "$f" ! -name "*.cmd" ! -name ".*";
++done | cpio --quiet -pd $cpio_dir
++popd > /dev/null
++
++# The second CPIO can complain if files already exist which can
++# happen with out of tree builds. Just silence CPIO for now.
++for f in $obj_file_list;
++	do find "$f" ! -name "*.cmd" ! -name ".*";
++done | cpio --quiet -pd $cpio_dir >/dev/null 2>&1
++
++# Remove comments except SDPX lines
++find $cpio_dir -type f -print0 |
++	xargs -0 -P8 -n1 perl -pi -e 'BEGIN {undef $/;}; s/\/\*((?!SPDX).)*?\*\///smg;'
++
++tar -Jcf $tarfile -C $cpio_dir/ . > /dev/null
++
++echo "$src_files_md5" > kernel/kheaders.md5
++echo "$obj_files_md5" >> kernel/kheaders.md5
++echo "$(md5sum $tarfile | cut -d ' ' -f1)" >> kernel/kheaders.md5
++
++rm -rf $cpio_dir
+diff --git a/kernel/kheaders.c b/kernel/kheaders.c
+new file mode 100644
+index 000000000000..19526294a4e8
+--- /dev/null
++++ b/kernel/kheaders.c
+@@ -0,0 +1,74 @@
++// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * Hardware monitoring driver for Infineon IR38064
++ * Provide kernel headers useful to build tracing programs
++ * such as for running eBPF tracing tools.
 + *
-+ * Copyright (c) 2017 Google Inc
-+ *
++ * (Borrowed code from kernel/configs.c)
 + */
 +
-+#include <linux/err.h>
-+#include <linux/i2c.h>
-+#include <linux/init.h>
 +#include <linux/kernel.h>
 +#include <linux/module.h>
-+#include "pmbus.h"
++#include <linux/proc_fs.h>
++#include <linux/init.h>
++#include <linux/uaccess.h>
 +
-+static struct pmbus_driver_info ir38064_info = {
-+	.pages = 1,
-+	.format[PSC_VOLTAGE_IN] = linear,
-+	.format[PSC_VOLTAGE_OUT] = direct,
-+	.format[PSC_CURRENT_OUT] = linear,
-+	.format[PSC_POWER] = linear,
-+	.format[PSC_TEMPERATURE] = linear,
-+	.m[PSC_VOLTAGE_OUT] = 256,
-+	.b[PSC_VOLTAGE_OUT] = 0,
-+	.R[PSC_VOLTAGE_OUT] = 0,
-+	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_STATUS_INPUT
-+	    | PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP
-+	    | PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
-+	    | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT
-+	    | PMBUS_HAVE_POUT,
-+};
++/*
++ * Define kernel_headers_data and kernel_headers_data_end, within which the the
++ * compressed kernel headers are stpred. The file is first compressed with xz.
++ */
 +
-+static int ir38064_probe(struct i2c_client *client,
-+			 const struct i2c_device_id *id)
++asm (
++"	.pushsection .rodata, \"a\"		\n"
++"	.global kernel_headers_data		\n"
++"kernel_headers_data:				\n"
++"	.incbin \"kernel/kheaders_data.tar.xz\"	\n"
++"	.global kernel_headers_data_end		\n"
++"kernel_headers_data_end:			\n"
++"	.popsection				\n"
++);
++
++extern char kernel_headers_data;
++extern char kernel_headers_data_end;
++
++static ssize_t
++ikheaders_read_current(struct file *file, char __user *buf,
++		      size_t len, loff_t *offset)
 +{
-+	return pmbus_do_probe(client, id, &ir38064_info);
++	return simple_read_from_buffer(buf, len, offset,
++				       &kernel_headers_data,
++				       &kernel_headers_data_end -
++				       &kernel_headers_data);
 +}
 +
-+static const struct i2c_device_id ir38064_id[] = {
-+	{"ir38064", 0},
-+	{}
++static const struct file_operations ikheaders_file_ops = {
++	.read = ikheaders_read_current,
++	.llseek = default_llseek,
 +};
 +
-+MODULE_DEVICE_TABLE(i2c, ir38064_id);
++static int __init ikheaders_init(void)
++{
++	struct proc_dir_entry *entry;
 +
-+/* This is the driver that will be inserted */
-+static struct i2c_driver ir38064_driver = {
-+	.driver = {
-+		   .name = "ir38064",
-+		   },
-+	.probe = ir38064_probe,
-+	.remove = pmbus_do_remove,
-+	.id_table = ir38064_id,
-+};
++	/* create the current headers file */
++	entry = proc_create("kheaders.tar.xz", S_IRUGO, NULL,
++			    &ikheaders_file_ops);
++	if (!entry)
++		return -ENOMEM;
 +
-+module_i2c_driver(ir38064_driver);
++	proc_set_size(entry,
++		      &kernel_headers_data_end -
++		      &kernel_headers_data);
++	return 0;
++}
 +
-+MODULE_AUTHOR("Maxim Sloyko <maxims@google.com>");
-+MODULE_DESCRIPTION("PMBus driver for Infineon IR38064");
-+MODULE_LICENSE("GPL");
++static void __exit ikheaders_cleanup(void)
++{
++	remove_proc_entry("kheaders.tar.xz", NULL);
++}
++
++module_init(ikheaders_init);
++module_exit(ikheaders_cleanup);
++
++MODULE_LICENSE("GPL v2");
++MODULE_AUTHOR("Joel Fernandes");
++MODULE_DESCRIPTION("Echo the kernel header artifacts used to build the kernel");
 -- 
 2.21.0.392.gf8f6787159e-goog
-
