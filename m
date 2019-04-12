@@ -1,79 +1,76 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 10E1E7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Apr 2019 17:25:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 792DC7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Apr 2019 17:37:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726931AbfDLRZm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Apr 2019 13:25:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37394 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726711AbfDLRZl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 12 Apr 2019 13:25:41 -0400
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AA1DE2077C;
-        Fri, 12 Apr 2019 17:25:38 +0000 (UTC)
-Date:   Fri, 12 Apr 2019 13:25:36 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Manoj Rao <linux@manojrajarao.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        atish patra <atishp04@gmail.com>,
-        Daniel Colascione <dancol@google.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Karim Yaghmour <karim.yaghmour@opersys.com>,
-        Kees Cook <keescook@chromium.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-trace-devel@vger.kernel.org,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
-Subject: Re: [PATCH v5 1/3] Provide in-kernel headers to make extending
- kernel easier
-Message-ID: <20190412132536.1211a66c@gandalf.local.home>
-In-Reply-To: <76db9a89-ae64-5c2b-6f56-3e2b860cbda2@metux.net>
-References: <20190320163116.39275-1-joel@joelfernandes.org>
-        <CAOesGMheoZda84OSz9spQ7p66wot5S_9aaqaKC=QYp+8utASXA@mail.gmail.com>
-        <20190408203601.GF133872@google.com>
-        <CAOesGMibHCuMPCYkc8V++Z2Kuf3YQf_OjYn18GvDgzTy6ubV=g@mail.gmail.com>
-        <CAK8P3a30yY_1mPcUBxOYOkbFwoeCHbo5EHuWMN4fqKug9DiQDQ@mail.gmail.com>
-        <76db9a89-ae64-5c2b-6f56-3e2b860cbda2@metux.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1726890AbfDLRhv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Apr 2019 13:37:51 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:42235 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726327AbfDLRhu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Apr 2019 13:37:50 -0400
+Received: by mail-pl1-f196.google.com with SMTP id cv12so5467620plb.9;
+        Fri, 12 Apr 2019 10:37:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=WQwj+VNsbN89uc9KNQnyoysq5Qv09ZoKMyKulbxkgXc=;
+        b=UOIazxTtFyu8YgBtqMepG51ldHCrXhWFOom93VUBY+NSQuazQmUpDxcjARtIM1BqIl
+         oR5P1/Lq0Ty+MrJlRgo/l/ULdU6nIB46fThbrCU1WBdDQzW/9NQZJBbGP/qTmf+m80Gc
+         h86/OMPlAtc0yu9mmwRn77EjqWSDqNZ5jOuSl/MDrk5B+s/e9yCnf/78KsgeEhAmfMhO
+         dK6x8XsqQ8IMTpe5nNiHph9rmCbHMJltllSd7eniN1vpbcREDpRS68SiQ6HUnNfUwxD1
+         pLkChLUlLt51T/8gEwbjOQe9JvX3k0me8+o7MiPe10w1f08yJcg4tuGJKMBMeWiITOLn
+         o8Pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=WQwj+VNsbN89uc9KNQnyoysq5Qv09ZoKMyKulbxkgXc=;
+        b=YMOFynLNxkWSHt6V7VeDtJ372TLITPKfREKAXL7CIo3PBlmRrIOMEByQxqTwhJi9Zd
+         JiROk/zBRVdrLjgdsdO0BLXlMhlXDT/Y5dvOFEJm2Fc8LruJlyaeeOydm/pDLGeMsBQ/
+         cfgWB9b5Y/j0cNLNGH8TXj1YeqUlZDYP7EWZFLzJCVxcguw+7wPP5zLL1Y51ScoFZ38Z
+         F2E049nkxvbhvZncq8U06f9anixc62K2R2HB0FW318t3Drth5Zev1L0b+xK4STGpKVwn
+         jIZy0LbAhP3/gjK64C2zVdDX2qFI9Y5xjenaWszuf/qiblkG7IWhHOWhX5NP//6b0FPe
+         r+xQ==
+X-Gm-Message-State: APjAAAUs7nHu/tXNB+zYO5psn96qdJWLcAc831/smUFwJKnsvodn9gQa
+        M66vAtFeXAFS/iPIlJY7AIE=
+X-Google-Smtp-Source: APXvYqyJOFrq3CjcLTA7ek/kRbKHAxA+ZlxarcU7HPAz2Cc34cGP3Nc12rv3w2lpqhNBxnUmv6nwFg==
+X-Received: by 2002:a17:902:298b:: with SMTP id h11mr36684419plb.258.1555090670209;
+        Fri, 12 Apr 2019 10:37:50 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id g64sm98942049pfg.13.2019.04.12.10.37.49
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 12 Apr 2019 10:37:49 -0700 (PDT)
+Date:   Fri, 12 Apr 2019 10:37:48 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Patrick Venture <venture@google.com>
+Cc:     jdelvare@suse.com, corbet@lwn.net, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: hwmon: ir35221: fix company name
+Message-ID: <20190412173748.GA22482@roeck-us.net>
+References: <20190412162742.65962-1-venture@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190412162742.65962-1-venture@google.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 12 Apr 2019 18:16:19 +0200
-"Enrico Weigelt, metux IT consult" <lkml@metux.net> wrote:
-
-> So, rpm doesn't count as "sane" ? :o
+On Fri, Apr 12, 2019 at 09:27:42AM -0700, Patrick Venture wrote:
+> Fix the company name from "Infinion" to "Infineon."
 > 
+> Signed-off-by: Patrick Venture <venture@google.com>
 
-As a Debian user... No ;-)
+Applied to hwmon-next.
 
-/me runs
-
--- Steve
+Thanks,
+Guenter
