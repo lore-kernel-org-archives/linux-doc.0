@@ -1,164 +1,277 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 205A97D099
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Apr 2019 21:53:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 33B4F7D099
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Apr 2019 22:15:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726898AbfDLVxk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Apr 2019 17:53:40 -0400
-Received: from zeniv.linux.org.uk ([195.92.253.2]:50208 "EHLO
-        ZenIV.linux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726884AbfDLVxk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Apr 2019 17:53:40 -0400
-Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92 #3 (Red Hat Linux))
-        id 1hF476-0005e7-TN; Fri, 12 Apr 2019 21:53:36 +0000
-Date:   Fri, 12 Apr 2019 22:53:36 +0100
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        axboe@kernel.dk
-Subject: Re: [PATCH REPOST] docs: Add struct file refcounting and SCM_RIGHTS
- mess info
-Message-ID: <20190412215336.GL2217@ZenIV.linux.org.uk>
-References: <20190411142308.179247a4@lwn.net>
+        id S1726920AbfDLWPW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Apr 2019 18:15:22 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:42108 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726898AbfDLWPW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Apr 2019 18:15:22 -0400
+Received: by mail-pf1-f193.google.com with SMTP id w25so5760443pfi.9;
+        Fri, 12 Apr 2019 15:15:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=UI5aFAx8tuN5Y0NxcFHow7VKUkx47lXtz79QmL7wPJk=;
+        b=sgBX5l2a+azBXzNns3nv3ZblTg4kQXnT8BJwcPtR6q4jDLSEc9vl+s5l96PP0HipC8
+         75fCov8L+0bJ3tzRQULhp9r3nAToHXqDwg+CPjyG5ME3batX3JEmQio7f7nMyCNspqgq
+         x5uBcRRXVaq1RSKj1b+PshKu4RZnW2+ZAcFUyB/Il3n5AYIp42nZeqtHPbshg1FJEcJI
+         QgyFqD87X/KEdqMZo5w5o3CTWZpK6E5Gx1Ch4G2ZM4TdJbGd0aKM0cwNklfSZgMZFuEI
+         BlwgZ93YH+D8ZwZ4/l9V+Au2jzUyrU/MOYp/wUK7vOwAM731EAKZ9EBKgwpeyX/dwhDe
+         DVPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=UI5aFAx8tuN5Y0NxcFHow7VKUkx47lXtz79QmL7wPJk=;
+        b=Rm0DK8gRh5nKFEScMcVSjkjUWBa7EAcVMOJgFfm7ayI3EUKWBRcWRabvn+OQd7Otze
+         4/lBnI6bzNnxJ8HhyYywJyc4tpxjFh04qhxzhGTRGtyahke6TbbWwjYfMI7C1Lkg/Vdo
+         5OiqML/9CFVZeebqia6r5Qqw7+agaTw2+nf7vV4YNJatnyciDBFRos9Lf2SAnjCpofoK
+         0eWcgrCRWDC9ksAiaKho8I+s7tQkvZ1T4qEZtzOHWusgCurAsjI019LZB+mExYvY3/FQ
+         Er5mwtUqc1AWcAAzDZx39vt3hdQyiw9d6kemmDad9a8jkzeSwVwtRX3YyfYOdCTO8fYp
+         tUIQ==
+X-Gm-Message-State: APjAAAXZ15Wj5jOnMxe5/ClDA0zf0EUF3CvS0oNvBFRgOovUnNCNYZMj
+        uE5XOvXTF8/i4E2Wo/qBzmSWwxum
+X-Google-Smtp-Source: APXvYqxuotEpgLO8nywy091X/Qhbe3X2rgpfIBmkss3iOewcEnHdVo3CXCD0PXx52iqYCiKArvfq+w==
+X-Received: by 2002:a62:e501:: with SMTP id n1mr36455770pff.17.1555107321125;
+        Fri, 12 Apr 2019 15:15:21 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id w189sm74446933pfw.147.2019.04.12.15.15.19
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 12 Apr 2019 15:15:20 -0700 (PDT)
+Subject: Re: [PATCH v3] hwmon: (pmbus/ir38064): Add driver for Infineon
+ IR38064 Voltage Regulator
+To:     Patrick Venture <venture@google.com>, jdelvare@suse.com,
+        corbet@lwn.net
+Cc:     Maxim Sloyko <maxims@google.com>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190412203756.67329-1-venture@google.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Message-ID: <68befc11-9d25-d2fb-2374-26ff7f3914ae@roeck-us.net>
+Date:   Fri, 12 Apr 2019 15:15:18 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190411142308.179247a4@lwn.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190412203756.67329-1-venture@google.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 11, 2019 at 02:23:08PM -0600, Jonathan Corbet wrote:
-> +======================
-> +Lifecycles and locking
-> +======================
+On 4/12/19 1:37 PM, Patrick Venture wrote:
+> From: Maxim Sloyko <maxims@google.com>
+> 
+> Add the pmbus driver for the Infineon ir38064 voltage regulator.
+> 
+> VOUT_MODE is not supported by the device.  The driver fakes linear16
+> mode with exponent value -8.
+> 
+> The device supports VOUT_PEAK, IOUT_PEAK, and TEMPERATURE_PEAK, however
+> this driver does not enable them.
+> 
+
+I meant to add this into the driver as comment (where people can see it
+going forward). Never mind, I'll apply the patch and add it myself.
+
+Guenter
+
+> Signed-off-by: Maxim Sloyko <maxims@google.com>
+> Signed-off-by: Patrick Venture <venture@google.com>
+> ---
+> v3:
+>   - Updated commit message to indicate behaviors.
+> v2:
+>   - Cleaned up weird tabbing behavior in doc.
+> v1:
+>   - Initial patchset.
+> ---
+>   Documentation/hwmon/ir38064   | 64 +++++++++++++++++++++++++++++++++++
+>   drivers/hwmon/pmbus/Kconfig   |  9 +++++
+>   drivers/hwmon/pmbus/Makefile  |  1 +
+>   drivers/hwmon/pmbus/ir38064.c | 60 ++++++++++++++++++++++++++++++++
+>   4 files changed, 134 insertions(+)
+>   create mode 100644 Documentation/hwmon/ir38064
+>   create mode 100644 drivers/hwmon/pmbus/ir38064.c
+> 
+> diff --git a/Documentation/hwmon/ir38064 b/Documentation/hwmon/ir38064
+> new file mode 100644
+> index 0000000000000..618779a329da0
+> --- /dev/null
+> +++ b/Documentation/hwmon/ir38064
+> @@ -0,0 +1,64 @@
+> +Kernel driver ir38064
+> +=====================
 > +
-> +This manual aspires to cover the lifecycles of VFS objects and the locking
-> +that protects them.
+> +Supported chips:
+> +  * Infineon IR38064
+> +    Prefix: 'ir38064'
+> +    Addresses scanned: -
+> +    Datasheet: Publicly available at the Infineon webiste
+> +      https://www.infineon.com/dgdl/Infineon-IR38064MTRPBF-DS-v03_07-EN.pdf?fileId=5546d462584d1d4a0158db0d9efb67ca
 > +
-> +Reference counting for file structures
-> +======================================
+> +Datasheet is not publicly available.
 > +
-> +(The following text derives from `this email from Al Viro
-> +<https://lwn.net/ml/linux-fsdevel/20190207040058.GW2217@ZenIV.linux.org.uk/>`_).
 > +
-> +The :c:type:`struct file` type represents an open file in the kernel.  Its
-
-That wants a separate section in the beginning, with overview of notions for
-which the word "file" gets misused ;-)  I have something, but it's too much
-of a rant at the moment (mostly regarding the unknown linguistic genius
-somewhere in the bowels of POSIX committees, responsible for the term
-"file description" used along with and in contrast to "file descriptor").
-
-> +lifetime is controlled by a simple reference count (f_count) in that
-> +structure.  References are obtained with functions like fget(), fdget(),
-> +and fget_raw(); they are returned with fput().
-
-... and fdput().  BTW, are you sure that "returned" is the right verb here?
-Would "released" or "dropped" be less overloaded?
-
-The set is actually
-	fget{,_raw}()		fput()
-	fdget{,_raw}()		fdput()
-	fdget_pos()		fdput_pos()
-	get_file()		fput()
-	get_file_rcu()		fput()		[not for general use]
-
-Not sure if it's worth putting here, but _raw variants are the ones that
-accept O_PATH files and fdget_pos() is "with XSI 2.9.7-inflicted exclusion".
-
-> +.. FIXME we should have kerneldoc comments for those functions
+> +Authors:
+> +        Maxim Sloyko <maxims@google.com>
+> +        Patrick Venture <venture@google.com>
 > +
+> +Description
+> +-----------
+> +
+> +IR38064 is a Single-input Voltage, Synchronous Buck Regulator, DC-DC Converter.
+> +
+> +Usage Notes
+> +-----------
+> +
+> +This driver does not probe for PMBus devices. You will have to instantiate
+> +devices explicitly.
+> +
+> +Sysfs attributes
+> +----------------
+> +
+> +curr1_label		"iout1"
+> +curr1_input		Measured output current
+> +curr1_crit		Critical maximum current
+> +curr1_crit_alarm	Current critical high alarm
+> +curr1_max		Maximum current
+> +curr1_max_alarm	Current high alarm
+> +
+> +in1_label		"vin"
+> +in1_input		Measured input voltage
+> +in1_crit		Critical maximum input voltage
+> +in1_crit_alarm		Input voltage critical high alarm
+> +in1_min		Minimum input voltage
+> +in1_min_alarm		Input voltage low alarm
+> +
+> +in2_label		"vout1"
+> +in2_input		Measured output voltage
+> +in2_lcrit		Critical minimum output voltage
+> +in2_lcrit_alarm	Output voltage critical low alarm
+> +in2_crit		Critical maximum output voltage
+> +in2_crit_alarm		Output voltage critical high alarm
+> +in2_max		Maximum output voltage
+> +in2_max_alarm		Output voltage high alarm
+> +in2_min		Minimum output voltage
+> +in2_min_alarm		Output voltage low alarm
+> +
+> +power1_label		"pout1"
+> +power1_input		Measured output power
+> +
+> +temp1_input		Measured temperature
+> +temp1_crit		Critical high temperature
+> +temp1_crit_alarm	Chip temperature critical high alarm
+> +temp1_max		Maximum temperature
+> +temp1_max_alarm	Chip temperature high alarm
+> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+> index 629cb45f8557a..de87abab990e5 100644
+> --- a/drivers/hwmon/pmbus/Kconfig
+> +++ b/drivers/hwmon/pmbus/Kconfig
+> @@ -54,6 +54,15 @@ config SENSORS_IR35221
+>   	  This driver can also be built as a module. If so, the module will
+>   	  be called ir35521.
+>   
+> +config SENSORS_IR38064
+> +	tristate "Infineon IR38064"
+> +	help
+> +	  If you say yes here you get hardware monitoring support for Infineon
+> +	  IR38064.
+> +
+> +	  This driver can also be built as a module. If so, the module will
+> +	  be called ir38064.
+> +
+>   config SENSORS_LM25066
+>   	tristate "National Semiconductor LM25066 and compatibles"
+>   	help
+> diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+> index ea0e39518c216..7d1fa6b3c8c93 100644
+> --- a/drivers/hwmon/pmbus/Makefile
+> +++ b/drivers/hwmon/pmbus/Makefile
+> @@ -8,6 +8,7 @@ obj-$(CONFIG_SENSORS_PMBUS)	+= pmbus.o
+>   obj-$(CONFIG_SENSORS_ADM1275)	+= adm1275.o
+>   obj-$(CONFIG_SENSORS_IBM_CFFPS)	+= ibm-cffps.o
+>   obj-$(CONFIG_SENSORS_IR35221)	+= ir35221.o
+> +obj-$(CONFIG_SENSORS_IR38064)	+= ir38064.o
+>   obj-$(CONFIG_SENSORS_LM25066)	+= lm25066.o
+>   obj-$(CONFIG_SENSORS_LTC2978)	+= ltc2978.o
+>   obj-$(CONFIG_SENSORS_LTC3815)	+= ltc3815.o
+> diff --git a/drivers/hwmon/pmbus/ir38064.c b/drivers/hwmon/pmbus/ir38064.c
+> new file mode 100644
+> index 0000000000000..4b957ebb6fa71
+> --- /dev/null
+> +++ b/drivers/hwmon/pmbus/ir38064.c
+> @@ -0,0 +1,60 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Hardware monitoring driver for Infineon IR38064
+> + *
+> + * Copyright (c) 2017 Google Inc
+> + *
+> + */
+> +
+> +#include <linux/err.h>
+> +#include <linux/i2c.h>
+> +#include <linux/init.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include "pmbus.h"
+> +
+> +static struct pmbus_driver_info ir38064_info = {
+> +	.pages = 1,
+> +	.format[PSC_VOLTAGE_IN] = linear,
+> +	.format[PSC_VOLTAGE_OUT] = direct,
+> +	.format[PSC_CURRENT_OUT] = linear,
+> +	.format[PSC_POWER] = linear,
+> +	.format[PSC_TEMPERATURE] = linear,
+> +	.m[PSC_VOLTAGE_OUT] = 256,
+> +	.b[PSC_VOLTAGE_OUT] = 0,
+> +	.R[PSC_VOLTAGE_OUT] = 0,
+> +	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_STATUS_INPUT
+> +	    | PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP
+> +	    | PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
+> +	    | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT
+> +	    | PMBUS_HAVE_POUT,
+> +};
+> +
+> +static int ir38064_probe(struct i2c_client *client,
+> +			 const struct i2c_device_id *id)
+> +{
+> +	return pmbus_do_probe(client, id, &ir38064_info);
+> +}
+> +
+> +static const struct i2c_device_id ir38064_id[] = {
+> +	{"ir38064", 0},
+> +	{}
+> +};
+> +
+> +MODULE_DEVICE_TABLE(i2c, ir38064_id);
+> +
+> +/* This is the driver that will be inserted */
+> +static struct i2c_driver ir38064_driver = {
+> +	.driver = {
+> +		   .name = "ir38064",
+> +		   },
+> +	.probe = ir38064_probe,
+> +	.remove = pmbus_do_remove,
+> +	.id_table = ir38064_id,
+> +};
+> +
+> +module_i2c_driver(ir38064_driver);
+> +
+> +MODULE_AUTHOR("Maxim Sloyko <maxims@google.com>");
+> +MODULE_DESCRIPTION("PMBus driver for Infineon IR38064");
+> +MODULE_LICENSE("GPL");
+> 
 
-> +Descriptor tables
-> +-----------------
-
-That wants an overview of WTF those are and what are they for; again, fodder
-for the overview section in the beginning...
-
-> +execve() does almost the same thing: if the pre-exec descriptor table is
-> +shared, it will switch to a new copy first.  In case of success the
-> +reference to the original table is dropped, in case of failure we revert to
-> +the original and drop the copy.  Note that handling of close-on-exec is
-> +done in the *copy*; the original is unaffected, so failing in execve() does
-> +not disrupt the descriptor table.
-
-The last part is actually a bit misleading - close-on-exec is handled only after
-the point of no return on execve(), so any execve() failure either happens
-before we get to doing that, or the caller gets killed.
-
-What that really gives is that descriptor table sharing is terminated by
-execve(), even if it had been across the thread group boundary, and those
-who used to share it are unaffected by our close-on-exec (everyone in the
-same thread group will be simply killed by execve(); however, other processes
-might be sharing the damn thing as well and _they_ will keep going - with
-the original table).
-
-> +The SCM_RIGHTS datagram option with Unix-domain sockets can be used to
-> +transfer a file descriptor, and its associated struct file reference, to
-> +the receiving process.
-
-"transfer X and Y to Z" implies that both X and Y are transferred; in reality
-only Y is...   I'm not sure how to put it in one sentence, though ;-/
-
-Perhaps something along the lines of "to pass opened files between the
-processes" might be better, with details explained after that?  Those who
-understand what SCM_RIGHTS is will be fine either way, but I had a bad
-experience explaining what SCM_RIGHTS was to people who'd never looked
-into that thing before.  And most of the problems had been precisely
-because of confusion re what gets passed around...  The variant I'd
-found to work best is along the lines of
-
-################
-	Sender has an opened file and wants to give it to recepient.
-Of course, telling recepient "the file I want you to use is
-descriptor 42" is useless - _their_ descriptor 42 has nothing to do
-with yours, to start with.  What's needed is
-	* getting the opened file reference from sender's descriptor
-table into recepients'
-	* telling the recepient where in _their_ descriptor table
-has it ended up.
-	The way it's done is
-1) sender specifies which of its opened files should be passed (by
-their locations in sender's descriptor table, i.e. their file descriptors).
-2) references to these opened files are attached to a packet and sent
-over.
-3) the packet is received; unused slots in recepient's descriptor table
-are chosen (same as open(2), pipe(2), etc. would have done),
-opened file references from the packet are inserted into those slots
-and their numbers (i.e. file descriptors for recepient to use) are
-given to recepient.  They are more than likely to be different
-from whatever descriptors sender used, of course; it's the opened
-files they refer to that got passed.
-	That requires cooperation from recepient, of course - if
-nothing else, they need to tell recvmsg(2) where to put that
-array of descriptors.  Details are more than slightly clumsy;
-look around in csmg_data(3) for sad boilerplate.
-################
-
-I think it's too verbose to use here, though, and I've no idea how to do it
-in more concise form...
-
-[snip]
-
-> +Note that, in both cases, the leaks are caused by loops passing through
-
-s/loops/loops in the graph of references/, maybe?
-
-> +some SCM_RIGHTS datagrams that can never be received.  So locating those,
-> +removing them from the queues they sit in and then discarding the suckers,
-> +is enough to resolve the situation. Furthermore, in both cases the loop
-> +passes through the unix_sock of something that got sent over in an
-> +SCM_RIGHTS datagram.  So we can do the following:
-
-I wonder if the subsequent discussion of the garbage collector guts (as
-opposed to the need to have it + "the strategy is to find a set of undeliverable
-SCM_RIGHTS datagrams and kick them out, breaking the unreachable loops")
-would better off living separately...
