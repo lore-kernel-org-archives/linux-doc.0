@@ -2,97 +2,78 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1F99A7D8A4
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Apr 2019 16:45:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 10E1E7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Apr 2019 17:25:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726829AbfDLQpt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Apr 2019 12:45:49 -0400
-Received: from smtp3.goneo.de ([85.220.129.37]:35808 "EHLO smtp3.goneo.de"
+        id S1726931AbfDLRZm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Apr 2019 13:25:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37394 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726798AbfDLQpt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 12 Apr 2019 12:45:49 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by smtp3.goneo.de (Postfix) with ESMTP id 8BF8323FFBC;
-        Fri, 12 Apr 2019 18:45:45 +0200 (CEST)
-X-Virus-Scanned: by goneo
-Received: from smtp3.goneo.de ([127.0.0.1])
-        by localhost (smtp3.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 38SmQFMpvigx; Fri, 12 Apr 2019 18:45:43 +0200 (CEST)
-Received: from [192.168.1.127] (dyndsl-091-248-139-154.ewe-ip-backbone.de [91.248.139.154])
-        by smtp3.goneo.de (Postfix) with ESMTPSA id 24A2D23F802;
-        Fri, 12 Apr 2019 18:45:43 +0200 (CEST)
-Subject: Re: [PATCH 0/8] Prepare files under Documentation/*.txt to build with
- Sphinx
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     David Howells <dhowells@redhat.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org,
-        Andrea Parri <andrea.parri@amarulasolutions.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        linux-arch@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Will Deacon <will.deacon@arm.com>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>
-References: <94c47f05-0412-b938-908d-1ef8a91243ed@darmarit.de>
- <cover.1554889999.git.mchehab+samsung@kernel.org>
- <18261.1555064496@warthog.procyon.org.uk>
- <27303.1555071586@warthog.procyon.org.uk>
- <df609cad-fa5b-ac15-314f-ac8759771d90@darmarit.de>
- <20190412093947.62913186@lwn.net>
-From:   Markus Heiser <markus.heiser@darmarit.de>
-Message-ID: <06b2aeb4-825a-28d6-fa7d-f1f5900e53d8@darmarit.de>
-Date:   Fri, 12 Apr 2019 18:45:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726711AbfDLRZl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 12 Apr 2019 13:25:41 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id AA1DE2077C;
+        Fri, 12 Apr 2019 17:25:38 +0000 (UTC)
+Date:   Fri, 12 Apr 2019 13:25:36 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Qais Yousef <qais.yousef@arm.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Manoj Rao <linux@manojrajarao.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        atish patra <atishp04@gmail.com>,
+        Daniel Colascione <dancol@google.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Karim Yaghmour <karim.yaghmour@opersys.com>,
+        Kees Cook <keescook@chromium.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-trace-devel@vger.kernel.org,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
+Subject: Re: [PATCH v5 1/3] Provide in-kernel headers to make extending
+ kernel easier
+Message-ID: <20190412132536.1211a66c@gandalf.local.home>
+In-Reply-To: <76db9a89-ae64-5c2b-6f56-3e2b860cbda2@metux.net>
+References: <20190320163116.39275-1-joel@joelfernandes.org>
+        <CAOesGMheoZda84OSz9spQ7p66wot5S_9aaqaKC=QYp+8utASXA@mail.gmail.com>
+        <20190408203601.GF133872@google.com>
+        <CAOesGMibHCuMPCYkc8V++Z2Kuf3YQf_OjYn18GvDgzTy6ubV=g@mail.gmail.com>
+        <CAK8P3a30yY_1mPcUBxOYOkbFwoeCHbo5EHuWMN4fqKug9DiQDQ@mail.gmail.com>
+        <76db9a89-ae64-5c2b-6f56-3e2b860cbda2@metux.net>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20190412093947.62913186@lwn.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: de-DE
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, 12 Apr 2019 18:16:19 +0200
+"Enrico Weigelt, metux IT consult" <lkml@metux.net> wrote:
 
-Am 12.04.19 um 17:39 schrieb Jonathan Corbet:
-> On Fri, 12 Apr 2019 14:34:25 +0200
-> Markus Heiser <markus.heiser@darmarit.de> wrote:
+> So, rpm doesn't count as "sane" ? :o
 > 
->> Am 12.04.19 um 14:19 schrieb David Howells:
->>> Markus Heiser <markus.heiser@darmarit.de> wrote:
->>>    
->>>> Which is already named in our 'How to write kernel documentation' introduction
->>>>
->>>> - https://www.kernel.org/doc/html/latest/doc-guide/sphinx.html#writing-documentation
->>>
->>> This should really be in Documentation/ directory.
->>>    
->>
->> I agree with you, it is a kind of information hiding.  If you know proper
->> places, please send a patch to Jon.
-> 
-> As Jani pointed out, it's in Documentation/doc-guide.
-> 
-> If you're saying it should be in the top level, I kind of disagree.
-> Documentation/ is an exercise in hiding information by placing it in the
-> middle of 200 other, unrelated files.  We've made some progress on that,
-> and I would like to continue to do so.
 
-For those who are new and are willing to document, it migth be a good idea
-to have a simple Documentation/README.txt  with a link to doc-guide?
+As a Debian user... No ;-)
 
-Just a few words, I find with my editor, this is what I find often helpful
-when I'am new to a project.
+/me runs
 
--- Markus --
+-- Steve
