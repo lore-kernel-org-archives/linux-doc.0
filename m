@@ -5,34 +5,29 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B7D937D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Apr 2019 12:19:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8F5667D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Apr 2019 12:34:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726843AbfDLMT5 convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Apr 2019 08:19:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46069 "EHLO mx1.redhat.com"
+        id S1727110AbfDLMeb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Apr 2019 08:34:31 -0400
+Received: from smtp1.goneo.de ([85.220.129.30]:49320 "EHLO smtp1.goneo.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726763AbfDLMT5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 12 Apr 2019 08:19:57 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 05C7E8B955;
-        Fri, 12 Apr 2019 12:19:56 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-121-98.rdu2.redhat.com [10.10.121.98])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id CDFE968D63;
-        Fri, 12 Apr 2019 12:19:46 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <94c47f05-0412-b938-908d-1ef8a91243ed@darmarit.de>
-References: <94c47f05-0412-b938-908d-1ef8a91243ed@darmarit.de> <cover.1554889999.git.mchehab+samsung@kernel.org> <18261.1555064496@warthog.procyon.org.uk>
-To:     Markus Heiser <markus.heiser@darmarit.de>
-Cc:     dhowells@redhat.com,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        id S1726714AbfDLMeb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 12 Apr 2019 08:34:31 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by smtp1.goneo.de (Postfix) with ESMTP id 3751D2419A4;
+        Fri, 12 Apr 2019 14:34:28 +0200 (CEST)
+X-Virus-Scanned: by goneo
+Received: from smtp1.goneo.de ([127.0.0.1])
+        by localhost (smtp1.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 8vk9zC7gz5Z1; Fri, 12 Apr 2019 14:34:27 +0200 (CEST)
+Received: from [192.168.1.127] (dyndsl-091-248-139-154.ewe-ip-backbone.de [91.248.139.154])
+        by smtp1.goneo.de (Postfix) with ESMTPSA id 2D571240FB4;
+        Fri, 12 Apr 2019 14:34:26 +0200 (CEST)
+Subject: Re: [PATCH 0/8] Prepare files under Documentation/*.txt to build with
+ Sphinx
+To:     David Howells <dhowells@redhat.com>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
@@ -47,26 +42,37 @@ Cc:     dhowells@redhat.com,
         "Paul E. McKenney" <paulmck@linux.ibm.com>,
         Daniel Lustig <dlustig@nvidia.com>,
         Jade Alglave <j.alglave@ucl.ac.uk>
-Subject: Re: [PATCH 0/8] Prepare files under Documentation/*.txt to build with Sphinx
+References: <94c47f05-0412-b938-908d-1ef8a91243ed@darmarit.de>
+ <cover.1554889999.git.mchehab+samsung@kernel.org>
+ <18261.1555064496@warthog.procyon.org.uk>
+ <27303.1555071586@warthog.procyon.org.uk>
+From:   Markus Heiser <markus.heiser@darmarit.de>
+Message-ID: <df609cad-fa5b-ac15-314f-ac8759771d90@darmarit.de>
+Date:   Fri, 12 Apr 2019 14:34:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <27302.1555071586.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: 8BIT
-Date:   Fri, 12 Apr 2019 13:19:46 +0100
-Message-ID: <27303.1555071586@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.27]); Fri, 12 Apr 2019 12:19:57 +0000 (UTC)
+In-Reply-To: <27303.1555071586@warthog.procyon.org.uk>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: de-DE
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Markus Heiser <markus.heiser@darmarit.de> wrote:
 
-> Which is already named in our 'How to write kernel documentation' introduction
+Am 12.04.19 um 14:19 schrieb David Howells:
+> Markus Heiser <markus.heiser@darmarit.de> wrote:
 > 
-> - https://www.kernel.org/doc/html/latest/doc-guide/sphinx.html#writing-documentation
+>> Which is already named in our 'How to write kernel documentation' introduction
+>>
+>> - https://www.kernel.org/doc/html/latest/doc-guide/sphinx.html#writing-documentation
+> 
+> This should really be in Documentation/ directory.
+> 
 
-This should really be in Documentation/ directory.
+I agree with you, it is a kind of information hiding.  If you know proper
+places, please send a patch to Jon.
 
-David
+   -- Markus --
