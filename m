@@ -5,154 +5,172 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 230647D04D
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Apr 2019 14:16:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E2B577D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 12 Apr 2019 14:38:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726944AbfDLOQe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Apr 2019 10:16:34 -0400
-Received: from foss.arm.com ([217.140.101.70]:33794 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726714AbfDLOQe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 12 Apr 2019 10:16:34 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 72D17374;
-        Fri, 12 Apr 2019 07:16:33 -0700 (PDT)
-Received: from [10.1.199.35] (e107154-lin.cambridge.arm.com [10.1.199.35])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9D0813F557;
-        Fri, 12 Apr 2019 07:16:23 -0700 (PDT)
-Subject: Re: [PATCH v2 2/4] arm64: Define Documentation/arm64/elf_at_flags.txt
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Branislav Rankov <Branislav.Rankov@arm.com>,
-        Chintan Pandya <cpandya@codeaurora.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Dave Martin <Dave.Martin@arm.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Graeme Barnes <Graeme.Barnes@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-        Will Deacon <will.deacon@arm.com>
-References: <cover.1552679409.git.andreyknvl@google.com>
- <20190318163533.26838-1-vincenzo.frascino@arm.com>
- <20190318163533.26838-3-vincenzo.frascino@arm.com>
- <859341c2-b352-e914-312a-d3de652495b6@arm.com>
- <20190403165031.GE34351@arrakis.emea.arm.com>
-From:   Kevin Brodsky <kevin.brodsky@arm.com>
-Message-ID: <d2292560-54cf-8dc3-da96-4ccdd72d090e@arm.com>
-Date:   Fri, 12 Apr 2019 15:16:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.3
+        id S1726850AbfDLOim (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Apr 2019 10:38:42 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:35296 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726714AbfDLOim (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Apr 2019 10:38:42 -0400
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: bbrezillon)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 8908D28018B;
+        Fri, 12 Apr 2019 15:38:37 +0100 (BST)
+Date:   Fri, 12 Apr 2019 16:38:35 +0200
+From:   Boris Brezillon <boris.brezillon@collabora.com>
+To:     Helen Koike <helen.koike@collabora.com>
+Cc:     dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+        dnicoara@chromium.org, daniels@collabora.com,
+        alexandros.frantzis@collabora.com, daniel.vetter@ffwll.ch,
+        linux-kernel@vger.kernel.org, tomasz Figa <tfiga@chromium.org>,
+        tina.zhang@intel.com, Sean Paul <seanpaul@google.com>,
+        kernel@collabora.com, nicholas.kazlauskas@amd.com,
+        =?UTF-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@google.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Sean Paul <sean@poorly.run>, Sandy Huang <hjc@rock-chips.com>,
+        linux-doc@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Harry Wentland <harry.wentland@amd.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
+        "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
+        Anthony Koo <Anthony.Koo@amd.com>,
+        Russell King <rmk+kernel@armlinux.org.uk>,
+        linux-rockchip@lists.infradead.org,
+        Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
+        Eric Anholt <eric@anholt.net>, Leo Li <sunpeng.li@amd.com>,
+        linux-arm-msm@vger.kernel.org,
+        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        linux-arm-kernel@lists.infradead.org,
+        David Francis <David.Francis@amd.com>,
+        Mikita Lipski <mikita.lipski@amd.com>,
+        amd-gfx@lists.freedesktop.org,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        freedreno@lists.freedesktop.org,
+        Mamta Shukla <mamtashukla555@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v3 2/4] drm/atomic: rename async_{update,check} to
+ amend_{update,check}
+Message-ID: <20190412163835.5407984f@collabora.com>
+In-Reply-To: <bda69249-f193-9dbc-5186-7139fb2c365a@collabora.com>
+References: <20190412125827.5877-1-helen.koike@collabora.com>
+        <20190412125827.5877-3-helen.koike@collabora.com>
+        <20190412154957.558e49f8@collabora.com>
+        <bda69249-f193-9dbc-5186-7139fb2c365a@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20190403165031.GE34351@arrakis.emea.arm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 03/04/2019 17:50, Catalin Marinas wrote:
-> On Fri, Mar 22, 2019 at 03:52:49PM +0000, Kevin Brodsky wrote:
->> On 18/03/2019 16:35, Vincenzo Frascino wrote:
->>> +2. Features exposed via AT_FLAGS
->>> +--------------------------------
->>> +
->>> +bit[0]: ARM64_AT_FLAGS_SYSCALL_TBI
->>> +
->>> +    On arm64 the TCR_EL1.TBI0 bit has been always enabled on the arm64
->>> +    kernel, hence the userspace (EL0) is allowed to set a non-zero value
->>> +    in the top byte but the resulting pointers are not allowed at the
->>> +    user-kernel syscall ABI boundary.
->>> +    When bit[0] is set to 1 the kernel is advertising to the userspace
->>> +    that a relaxed ABI is supported hence this type of pointers are now
->>> +    allowed to be passed to the syscalls, when these pointers are in
->>> +    memory ranges privately owned by a process and obtained by the
->>> +    process in accordance with the definition of "valid tagged pointer"
->>> +    in paragraph 3.
->>> +    In these cases the tag is preserved as the pointer goes through the
->>> +    kernel. Only when the kernel needs to check if a pointer is coming
->>> +    from userspace an untag operation is required.
->> I would leave this last sentence out, because:
->> 1. It is an implementation detail that doesn't impact this user ABI.
->> 2. It is not entirely accurate: untagging the pointer may be needed for
->> various kinds of address lookup (like finding the corresponding VMA), at
->> which point the kernel usually already knows it is a userspace pointer.
-> I fully agree, the above paragraph should not be part of the user ABI
-> document.
->
->>> +3. ARM64_AT_FLAGS_SYSCALL_TBI
->>> +-----------------------------
->>> +
->>> +From the kernel syscall interface prospective, we define, for the purposes
->>> +of this document, a "valid tagged pointer" as a pointer that either it has
->>> +a zero value set in the top byte or it has a non-zero value, it is in memory
->>> +ranges privately owned by a userspace process and it is obtained in one of
->>> +the following ways:
->>> +  - mmap() done by the process itself, where either:
->>> +    * flags = MAP_PRIVATE | MAP_ANONYMOUS
->>> +    * flags = MAP_PRIVATE and the file descriptor refers to a regular
->>> +      file or "/dev/zero"
->>> +  - a mapping below sbrk(0) done by the process itself
->> I don't think that's very clear, this doesn't say how the mapping is
->> obtained. Maybe "a mapping obtained by the process using brk() or sbrk()"?
-> I think what we mean here is anything in the "[heap]" section as per
-> /proc/*/maps (in the kernel this would be start_brk to brk).
->
->>> +  - any memory mapped by the kernel in the process's address space during
->>> +    creation and following the restrictions presented above (i.e. data, bss,
->>> +    stack).
->> With the rules above, the code section is included as well. Replacing "i.e."
->> with "e.g." would avoid having to list every single section (which is
->> probably not a good idea anyway).
-> We could mention [stack] explicitly as that's documented in the
-> Documentation/filesystems/proc.txt and it's likely considered ABI
-> already.
->
-> The code section is MAP_PRIVATE, and can be done by the dynamic loader
-> (user process), so it falls under the mmap() rules listed above. I guess
-> we could simply drop "done by the process itself" here and allow
-> MAP_PRIVATE|MAP_ANONYMOUS or MAP_PRIVATE of regular file. This would
-> cover the [heap] and [stack] and we won't have to debate the brk() case
-> at all.
+On Fri, 12 Apr 2019 11:06:13 -0300
+Helen Koike <helen.koike@collabora.com> wrote:
 
-That's probably the best option. I initially used this wording because I was worried 
-that there could be cases where the kernel allocates "magic" memory for userspace 
-that is MAP_PRIVATE|MAP_ANONYMOUS, but in fact it's probably not the case (presumably 
-such mapping should always be done via install_special_mapping(), which is definitely 
-not MAP_PRIVATE).
+> Hi Boris,
+> 
+> On 4/12/19 10:49 AM, Boris Brezillon wrote:
+> > Hi Helen,
+> > 
+> > On Fri, 12 Apr 2019 09:58:25 -0300
+> > Helen Koike <helen.koike@collabora.com> wrote:
+> >   
+> >> Asynchronous update is the ability change the hw state at any time, not
+> >> only during vblank.
+> >>
+> >> Amend mode is the ability to perform 1000 commits to be applied as soon
+> >> as possible without waiting for 1000 vblanks.
+> >>
+> >> async updates can be seen as amend, but the opposite is not true.
+> >>
+> >> &drm_plane_helper_funcs.atomic_async_{update,check}() was being used by
+> >> drivers to implement amend and not async. So rename them to amend.
+> >>
+> >> Also improve docs explaining the difference.
+> >>
+> >> If asynchronous is required, normal page flip can be performed using
+> >> DRM_MODE_PAGE_FLIP_ASYNC flag.
+> >>
+> >> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+> >>
+> >> ---
+> >> Hello,
+> >>
+> >> I would like to officially clarify what async update means by adding it
+> >> in the docs.
+> >> Please correct me if I am wrong, but the current async_{update,check}
+> >> callbacks are being used to do amend (the legacy cursor behavior), i.e.
+> >> to allow 1000 updates without waiting for 1000 vblanks.  
+> > 
+> > Right now, the semantic of async update is driver dependent. Some
+> > drivers will amend the last commit touching that plane (amend semantic),
+> > others will update the plane buffer immediately which might cause
+> > tearing (async semantic).  
+> 
+> In my pov, async updates holds the properties of an amend update, so all
+> async updates we have are amend, but the opposite is not true.
 
-> We probably mention somewhere (or we should in the tagged pointers doc)
-> that we don't support tagged PC.
+By doing that you keep the definition quite vague, and developers will
+still confused about what they should do when AMEND is requested. Why
+not distinguishing AMEND and ASYNC now?
 
-I think that Documentation/arm64/tagged-pointers.txt already makes it reasonably 
-clear (anyway, with the architecture not supporting it, you can't expect much from 
-the kernel).
+AMEND: replace the pending plane update (if any) by the new one, and
+make sure things will be applied on the next VBLANK (if nothing else
+amends the commit in the meantime)
 
-Kevin
+ASYNC: update things immediately (don't wait for VBLANK)
+
+> 
+> >   
+> >>
+> >> So I would like to clarify this in the docs and rename the current
+> >> callbacks to reflect this behaviour.  
+> > 
+> > I'm all for this clarification, but I don't think renaming the async
+> > hooks is a good idea, since some drivers will not do real 'amend'. So,
+> > you're changing the name, but it's still confusing :-).
+> > 
+> > How about adding new hooks (and/or flags) for the AMEND case, and
+> > keeping the async path untouched. We can then let drivers that
+> > currently implement async as amend implement the amend hooks instead.
+> > Once you've done that, you can hook that up to the legacy cursor update
+> > path so that it first tries one then the other and finally falls back
+> > to a sync update if none of ASYNC/AMEND is possible.  
+> 
+> I kinda did this (I re-introduced async in the last patch in the
+> series). I know this order is confusing, but as rockchip doesn't
+> implement true async, I would have to do a bunch of modifs at once to
+> keep the commits consistent, but I can re-work on that if it makes
+> things clearer.
+
+Let's wait for more feedback before taking a decision on this aspect.
+
+> 
+> >   
+> >>
+> >> I also see that for real async updates, the flag
+> >> DRM_MODE_PAGE_FLIP_ASYNC can be used in a normal sync update (it is
+> >> already being used by some drivers actually, in the atomic path, not only
+> >> in the legacy page flip, at least is what I understood from
+> >> amdgpu_dm_atomic_commit_tail() implementation).  
+> > 
+> > Yes, right now, async does not necessarily imply non-block, but
+> > Daniel seemed to think that most users want non-block when they do an
+> > async page flip, so maybe it should be clarified too.  
+> 
+> users could combine NONBLOCK flag with PAGE_FLIP_ASYNC, no? (we need to
+> add code for it of course).
+
+I guess AMD goes through the sync update path to guarantee that fences
+are signaled before doing the page flip, but most of the time, when you
+do an async page flip you don't want to block :-).
