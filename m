@@ -1,56 +1,64 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 327217D04D
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 13 Apr 2019 01:49:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A98EF7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 13 Apr 2019 01:52:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727079AbfDMBtG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Apr 2019 21:49:06 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:63412 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726963AbfDMBtG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Apr 2019 21:49:06 -0400
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id x3D1mwOp005573;
-        Sat, 13 Apr 2019 10:48:59 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com x3D1mwOp005573
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1555120139;
-        bh=O9oYvxK5r7nd0a5Qx5tmpDK2z46KhkmD2c6StVwobOI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=rX02K2pPey6MLOBNniUHUhEepaFoLTpXkPW6jOqnfnhIgdH8uEY/at/4IsGUmLd4S
-         pzNTQpvr4IxzTr7QObRJb55oTvArpMkM+tfM/kLnLAAF8K150BZaeOVTd1O6XOXFGS
-         jufu1QPalN2xbwOwx9EA5gPaQn7pSQfOWDD4rVcQy2smBujGNO0LD66yBhbuR6VSnU
-         6V7igM59A6dEtF23lLgMqrBB65z77mNpkJjQuyZY6T1AV/97qUdWlgoga6NmTvWjTA
-         bhpGdflFkc+nTA9biRGga+4UNfmWE7Gp5ggo6APnyYPPgC/yjOKaTBIv+13RvwUn0D
-         7BJVxbEA6Uq5w==
-X-Nifty-SrcIP: [209.85.221.169]
-Received: by mail-vk1-f169.google.com with SMTP id h71so2560605vkf.5;
-        Fri, 12 Apr 2019 18:48:58 -0700 (PDT)
-X-Gm-Message-State: APjAAAVdQACJ+rVUzApltem6X9r6L5rjCTwH1HGoqQ11DNKE2FMCAyPQ
-        eIbun5ZauJjbBdaqHOGVIlFm3UjEjNxTffzCQhc=
-X-Google-Smtp-Source: APXvYqy3a6EW/rvEeRuVqGeMRTgJ3IxHSp31a9jvTjXxX6KZJKnc3dfv/qPtGxEnspXN/DVN7GxmktJeUmz6Ub8QeC4=
-X-Received: by 2002:a1f:39c:: with SMTP id f28mr33679288vki.19.1555120137746;
- Fri, 12 Apr 2019 18:48:57 -0700 (PDT)
+        id S1726992AbfDMBwf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Apr 2019 21:52:35 -0400
+Received: from mail-ua1-f66.google.com ([209.85.222.66]:44792 "EHLO
+        mail-ua1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726998AbfDMBwf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Apr 2019 21:52:35 -0400
+Received: by mail-ua1-f66.google.com with SMTP id p13so3850614uaa.11
+        for <linux-doc@vger.kernel.org>; Fri, 12 Apr 2019 18:52:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Ley2MiL8l84jX50Dn2h5Czl1aGPEqvnDOuoO900uIzI=;
+        b=H/WN6u7ESfScq5rF9An05z++oWff1g6k3o08uD6k6qFEpoOhq5vmMymBr5iPOm0DKN
+         MRR+x5UCBxmbCn/+GpDJdjzQWaZDc7cE9EdKU1Z5KQ1m19Jp8ndLxdHEWgxQ2cF8dGDy
+         hmjYfotKcxQu3RyvydjrPvEMnjlA+MBDJFYy99u4JKLWlI3s9bWruLL3QEDVXp0g2vtc
+         AJf8QbGiksu5mPOmfa65uK/whZkwRFYyieYes0cJogRBSO/tfbhbBMIEz+u5XItOksUh
+         P4s/B9E344NapQVUg9RtU83mKqjCUc+JwSS/aIjAzyZe58UD715iyCBNGAFfy4UeJ+XD
+         6IMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Ley2MiL8l84jX50Dn2h5Czl1aGPEqvnDOuoO900uIzI=;
+        b=OvrGuWhIlUPKu6pb4fI/PlKgImCvcOaifVGl9125ypqkmzrQPt4pNlmdztKPM1Gkmi
+         FZZG6ODC0Mn7e8nX2xNR+InhHjVA944ZCXwOMT2ixJD2T2RwXR/HBCEBOKVBeIpj45/G
+         ond/kktz3/cZiAAM/46gd97tBY3VeH+0ZuqBrHajZhq7PXn0AT+AH5e96FKgJ9JXTiz1
+         KO3ANcdtKU8Nup+P72N6XSsg6LeLjga1rSiOKbkeea6O6M0eOvwBWHzO2NByjE46iovy
+         eESlCPHLynmUjV9NsAduHgXwd04ppDGAMg0c8wk3gXcRFMEERaP7wyaITgwnpsaJ3CfA
+         qvYA==
+X-Gm-Message-State: APjAAAXSuOJaVcgnrOJP8entAWcdrwqw3DujXyLtjILN6SllJ+DOENoO
+        EEoxHa+imtArcsd+kDP99fhzx/E1dAb2jUTIRQxiwg==
+X-Google-Smtp-Source: APXvYqzizaJg/lGulyYWcyU09rFLPAiAQasm0MnzwQVVHHeb6mMq05XYuKlbSWAokic0j84LPkE7A4QMTSU8Lg3uNDs=
+X-Received: by 2002:a9f:2c09:: with SMTP id r9mr30586864uaj.56.1555120354009;
+ Fri, 12 Apr 2019 18:52:34 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190408212855.233198-1-joel@joelfernandes.org>
- <CAK7LNAQgvhozubW9b2yqnxHAVE17VHHZiq6N4Py_TzFCHN0YUQ@mail.gmail.com> <20190412180014.GA175945@google.com>
-In-Reply-To: <20190412180014.GA175945@google.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Sat, 13 Apr 2019 10:48:21 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT83SijpivFJA8GS=bOsgfnV03fo+-QJFgO1SgmLBOiQw@mail.gmail.com>
-Message-ID: <CAK7LNAT83SijpivFJA8GS=bOsgfnV03fo+-QJFgO1SgmLBOiQw@mail.gmail.com>
+ <CAK7LNAQgvhozubW9b2yqnxHAVE17VHHZiq6N4Py_TzFCHN0YUQ@mail.gmail.com>
+ <20190412180014.GA175945@google.com> <CAK7LNAT83SijpivFJA8GS=bOsgfnV03fo+-QJFgO1SgmLBOiQw@mail.gmail.com>
+In-Reply-To: <CAK7LNAT83SijpivFJA8GS=bOsgfnV03fo+-QJFgO1SgmLBOiQw@mail.gmail.com>
+From:   Daniel Colascione <dancol@google.com>
+Date:   Fri, 12 Apr 2019 18:52:22 -0700
+Message-ID: <CAKOZueuf8qM1O7c+m7zRHv1b6-YsZmWoTBfErBLY+yV1pyESmQ@mail.gmail.com>
 Subject: Re: [PATCH v6 1/2] Provide in-kernel headers to make extending kernel easier
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Joel Fernandes <joel@joelfernandes.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Alexei Starovoitov <ast@kernel.org>,
         atish patra <atishp04@gmail.com>,
-        Daniel Colascione <dancol@google.com>,
         Dan Williams <dan.j.williams@intel.com>,
         Dietmar Eggemann <dietmar.eggemann@arm.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -75,55 +83,55 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Apr 13, 2019 at 3:02 AM Joel Fernandes <joel@joelfernandes.org> wrote:
-
+On Fri, Apr 12, 2019 at 6:49 PM Masahiro Yamada
+<yamada.masahiro@socionext.com> wrote:
 >
-> > > +extern char kernel_headers_data;
-> > > +extern char kernel_headers_data_end;
-> > > +
-> > > +static ssize_t
-> > > +ikheaders_read_current(struct file *file, char __user *buf,
+> On Sat, Apr 13, 2019 at 3:02 AM Joel Fernandes <joel@joelfernandes.org> wrote:
+>
 > >
-> > Could you stretch this line ?
-> > It will still fit in 80-cols.
+> > > > +extern char kernel_headers_data;
+> > > > +extern char kernel_headers_data_end;
+> > > > +
+> > > > +static ssize_t
+> > > > +ikheaders_read_current(struct file *file, char __user *buf,
+> > >
+> > > Could you stretch this line ?
+> > > It will still fit in 80-cols.
+> > >
+> > > (This is a coding style error in kernel/configs.c)
 > >
-> > (This is a coding style error in kernel/configs.c)
+> > It takes 87 cols if I expand, so I'll leave it as is.
+> >
 >
-> It takes 87 cols if I expand, so I'll leave it as is.
+>
+> Sorry if what I said was unclear.
+>
+> Since I just did not a good reason to put
+> "static ssize_t" in the previous line,
+> I meant like follows:
+>
+>
+> [Before]
+> static ssize_t
+> ikheaders_read_current(struct file *file, char __user *buf,
+>                        size_t len, loff_t *offset)
+>
+>
+>
+> [After]
+> static ssize_t ikheaders_read_current(struct file *file, char __user *buf,
+>                                       size_t len, loff_t *offset)
+>
+>
+> (takes 74-cols.)
+>
+>
+> (I am sending this from Gmail, so I am not sure
+> how it will look like from you...)
+>
+>
+> Anyway, it is super-bikeshedding stuff.
+> It is OK as-is.
 >
 
-
-Sorry if what I said was unclear.
-
-Since I just did not a good reason to put
-"static ssize_t" in the previous line,
-I meant like follows:
-
-
-[Before]
-static ssize_t
-ikheaders_read_current(struct file *file, char __user *buf,
-                       size_t len, loff_t *offset)
-
-
-
-[After]
-static ssize_t ikheaders_read_current(struct file *file, char __user *buf,
-                                      size_t len, loff_t *offset)
-
-
-(takes 74-cols.)
-
-
-(I am sending this from Gmail, so I am not sure
-how it will look like from you...)
-
-
-Anyway, it is super-bikeshedding stuff.
-It is OK as-is.
-
-
-
---
-Best Regards
-Masahiro Yamada
+What about sorting the files for determinism?
