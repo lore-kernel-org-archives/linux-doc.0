@@ -1,138 +1,170 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AD3F27D04D
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 13 Apr 2019 00:52:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A3D617D91A
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 13 Apr 2019 01:31:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726902AbfDMAwG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 12 Apr 2019 20:52:06 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:36928 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726765AbfDMAwG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Apr 2019 20:52:06 -0400
-Received: by mail-pl1-f196.google.com with SMTP id w23so5893603ply.4;
-        Fri, 12 Apr 2019 17:52:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=FAOFcqGmAyWqRgqK+hze86G4KUWhAcKaMXCl1prsD7U=;
-        b=WH1ZelfwVnWq8wfRpDlMD10uUdU4Yzwvl2MVee4roCocPTsQszssvpu7mYqNa7S26u
-         hqkFJQYJZLikHqgzZ7GxIYc25grjdbXDF92YLkUCGkFIy6fj+f8c/63ver9r867/734G
-         FgP+MqH/EjOOnF6DrHfr5w1JXmds0Rvo98YNl3tc67TRnEKqfgoshit9eXFZ+2eWfaCe
-         FtJg1pyFnhHK/T7VzvYSZjcWMtOrLxkRFTT2fj+VUa3EuPZC9WzzsexiAH1PB7UbjsfU
-         iGa42KAtl0SWUaxzxebYjUV5Tk/rzCAihMnzZAL+0hSTK3AssYuDL+VAR/DVBEsYAnkT
-         uxSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=FAOFcqGmAyWqRgqK+hze86G4KUWhAcKaMXCl1prsD7U=;
-        b=RjyXnWV8OyzNJGJhueu8fJxHYomqLkiFdVCYOf/aK9J2jfzypqaGmWl9PuR0AtB9Cb
-         3xB91tULeXhFi82hmGbxYa5Jd0vTxtrk8EdFoDBwDUsaaxKfUU56beDZE1R2RQ1IhxfD
-         q4JOKhsFEJUbscGPZEsr5QMIb6KOi2yUfU5qM+vuZ0unQXXpjzanSBXTuJdWhkb53iUI
-         CJYz+VrZ65hhvaklnWMBBPR2zLg5zLP2X825mVzXn82XtvR6Z/Ek1xZE0fR5f1s4hvc3
-         EgRy06P/2ic5x3W7393r1cvc4eNC7iPe+NnuFgMcwgvugENv9xGNmiMnkE6itHJnlMi9
-         WGHQ==
-X-Gm-Message-State: APjAAAVlMoMKCBtLTAXPWiEbzKpbSmH1/1jppzgl94QUdxUxi+9AhYpj
-        RMGML5Ati3rXIJqbEqO0nlfVbUfY
-X-Google-Smtp-Source: APXvYqw/Lx/YxaORzJCKB74OjskQexdw6lmOnEtqKF2cGzIqRN9VZsE8gDodjoH8h/y4lpDS8vTpAw==
-X-Received: by 2002:a17:902:bf07:: with SMTP id bi7mr31595426plb.87.1555116725223;
-        Fri, 12 Apr 2019 17:52:05 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id i24sm58250206pfo.85.2019.04.12.17.52.02
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 12 Apr 2019 17:52:04 -0700 (PDT)
-Subject: Re: [PATCH v2 00/21] Convert hwmon documentation to ReST
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Andrew Jeffery <andrew@aj.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Joel Stanley <joel@jms.id.au>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-hwmon@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, Liviu Dudau <liviu.dudau@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Paul Mackerras <paulus@samba.org>,
-        Sudeep Holla <sudeep.holla@arm.com>
-References: <cover.1554923967.git.mchehab+samsung@kernel.org>
- <20190411124324.3ed62fad@lwn.net> <20190411174357.251904f5@coco.lan>
- <20190411210731.GA29378@roeck-us.net> <20190412100451.6fe49de7@lwn.net>
- <8514ff97-3167-3c89-3468-e247d14c5086@roeck-us.net>
- <20190412212541.0cde9452@coco.lan>
-From:   Guenter Roeck <linux@roeck-us.net>
-Message-ID: <f1b5ebcd-bd8c-817f-1394-fd2742c5d8b3@roeck-us.net>
-Date:   Fri, 12 Apr 2019 17:52:01 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1727525AbfDMBbJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 12 Apr 2019 21:31:09 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:56540 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727206AbfDMBbI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Apr 2019 21:31:08 -0400
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id x3D1Ukt9002455;
+        Sat, 13 Apr 2019 10:30:47 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com x3D1Ukt9002455
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1555119047;
+        bh=AbRj27RMd8pEgTSOE0frMyOiJbfpx0njCrPKGZLSK6c=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=pbRnKRv+xLHb3eeq1jDA5cNVauhVhHtlXp5JMAtsmkHYaUEhRIgpaSs+qKll4O1Mt
+         x28LodrRZ+6Bzes9iA/OeoXwU6X+0OtENup7F5mm6kqh05Uj6pOIptngd7/hYz/yQv
+         9dEF/ALswv3hey+DAFA4HnYmDsdbmyxqVCG8YSDSotkFZ+jyaWXOzgtvERHLSjdmES
+         wVHu+D+XqQI3zymI9oljqmCFVe84B9m1xU0mM7U68TTFbG1YQrkxvLFXYC8HzWHAbZ
+         5U4atY51JvgvTBuqE2SCpVcmQI+1HDfVd6tGaZ8KAlOObyXeNCFtAG0V1rx6IxModu
+         kZUR1qKlEgBTA==
+X-Nifty-SrcIP: [209.85.217.52]
+Received: by mail-vs1-f52.google.com with SMTP id f22so6578644vso.7;
+        Fri, 12 Apr 2019 18:30:47 -0700 (PDT)
+X-Gm-Message-State: APjAAAXXFHYe0csJOWHxRZKk/AJYs1ihBNbU0PcYthe89ldUkkB20lU6
+        PaORMCH+cnf5GAW2rKb4lsJeSgoZOyzzMgJxclM=
+X-Google-Smtp-Source: APXvYqxD1Mm3rjY9XlUVAqjlcWGoGiAZcdDc9L8lJwDh8hz2IxPmjfq3XOuPsiyMUcA4dxshI8iIRfFaA6SjozAmE8o=
+X-Received: by 2002:a67:f714:: with SMTP id m20mr34654180vso.211.1555119045997;
+ Fri, 12 Apr 2019 18:30:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190412212541.0cde9452@coco.lan>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20190412195125.3891-1-joel@joelfernandes.org>
+In-Reply-To: <20190412195125.3891-1-joel@joelfernandes.org>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Sat, 13 Apr 2019 10:30:10 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR=KN3gnJT5w1HgrZ5UyeiNZy_rn1Z1wWwgwy3eGF4RgQ@mail.gmail.com>
+Message-ID: <CAK7LNAR=KN3gnJT5w1HgrZ5UyeiNZy_rn1Z1wWwgwy3eGF4RgQ@mail.gmail.com>
+Subject: Re: [PATCH v7 1/2] Provide in-kernel headers to make extending kernel easier
+To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        atish patra <atishp04@gmail.com>,
+        Daniel Colascione <dancol@google.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Karim Yaghmour <karim.yaghmour@opersys.com>,
+        Kees Cook <keescook@chromium.org>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-trace-devel@vger.kernel.org,
+        Manoj Rao <linux@manojrajarao.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Qais Yousef <qais.yousef@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/12/19 5:25 PM, Mauro Carvalho Chehab wrote:
-> Em Fri, 12 Apr 2019 09:12:52 -0700
-> Guenter Roeck <linux@roeck-us.net> escreveu:
-> 
->> On 4/12/19 9:04 AM, Jonathan Corbet wrote:
->>> On Thu, 11 Apr 2019 14:07:31 -0700
->>> Guenter Roeck <linux@roeck-us.net> wrote:
->>>    
->>>>> While nobody does such split, IMHO, the best would be to keep the
->>>>> information outside Documentation/admin-guide. But hey! You're
->>>>> the Doc maintainer. If you prefer to move, I'm perfectly fine
->>>>> with that.
->>>>>       
->>>>
->>>> Same here, but please don't move the files which are kernel facing only.
->>>
->>> Well, let's step back and think about this.  Who is the audience for
->>> these documents?  That will tell us a lot about where they should really
->>> be.
->>>    
->>
->> Most of them are for users, some of them are for driver developers. A few
->> are for both, though that is generally not the intention (and one may argue
->> that driver internal documentation should be moved into the respective
->> driver source).
-> 
-> The big issue is really those files that contain both kernel internals
-> and userspace stuff.
-> 
-> This is a common pattern. I just finishing converting a lot more
-> documents to ReST and I found the same thing on almost all document
-> directories I touched.
-> 
->>> What I would prefer to avoid is the status quo where *everything* is in
->>> the top-level directory, and where documents are organized for the
->>> convenience of their maintainers rather than of their readers.  But
->>> sometimes I feel like I'm alone in that desire...:)
->>>    
->> I am fine with separating user pointing from kernel API/driver developer
->> guides, and I agree that it would make a lot of sense. As I said, please
->> just make sure that kernel facing files don't end up in the wrong directory.
-> 
-> I like the idea of splitting user faced documents from the rest, but
-> this is not an easy task. On several cases, there are just a couple
-> of paragraphs with things like sysfs entries in the middle of a big
-> file with Kernel internals.
-> 
+On Sat, Apr 13, 2019 at 4:54 AM Joel Fernandes (Google)
+<joel@joelfernandes.org> wrote:
+>
+> Introduce in-kernel headers which are made available as an archive
+> through proc (/proc/kheaders.tar.xz file). This archive makes it
+> possible to run eBPF and other tracing programs that need to extend the
+> kernel for tracing purposes without any dependency on the file system
+> having headers.
+>
+> A github PR is sent for the corresponding BCC patch at:
+> https://github.com/iovisor/bcc/pull/2312
+>
+> On Android and embedded systems, it is common to switch kernels but not
+> have kernel headers available on the file system. Further once a
+> different kernel is booted, any headers stored on the file system will
+> no longer be useful. This is an issue even well known to distros.
+> By storing the headers as a compressed archive within the kernel, we can
+> avoid these issues that have been a hindrance for a long time.
+>
+> The best way to use this feature is by building it in. Several users
+> have a need for this, when they switch debug kernels, they do not want to
+> update the filesystem or worry about it where to store the headers on
+> it. However, the feature is also buildable as a module in case the user
+> desires it not being part of the kernel image. This makes it possible to
+> load and unload the headers from memory on demand. A tracing program can
+> load the module, do its operations, and then unload the module to save
+> kernel memory. The total memory needed is 3.3MB.
+>
+> By having the archive available at a fixed location independent of
+> filesystem dependencies and conventions, all debugging tools can
+> directly refer to the fixed location for the archive, without concerning
+> with where the headers on a typical filesystem which significantly
+> simplifies tooling that needs kernel headers.
+>
+> The code to read the headers is based on /proc/config.gz code and uses
+> the same technique to embed the headers.
+>
+> Other approaches were discussed such as having an in-memory mountable
+> filesystem, but that has drawbacks such as requiring an in-kernel xz
+> decompressor which we don't have today, and requiring usage of 42 MB of
+> kernel memory to host the decompressed headers at anytime. Also this
+> approach is simpler than such approaches.
+>
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> ---
 
-Yes, I know. I don't think that cleanup is going to happen anytime soon.
 
-Guenter
+I just noticed minor typos in comment lines (see below).
 
+Anyway, I have no more comment from the build system of view.
+So,
+
+Reviewed-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+
+
+
+> diff --git a/kernel/kheaders.c b/kernel/kheaders.c
+> new file mode 100644
+> index 000000000000..19526294a4e8
+> --- /dev/null
+> +++ b/kernel/kheaders.c
+> @@ -0,0 +1,74 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Provide kernel headers useful to build tracing programs
+> + * such as for running eBPF tracing tools.
+> + *
+> + * (Borrowed code from kernel/configs.c)
+> + */
+> +
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/proc_fs.h>
+> +#include <linux/init.h>
+> +#include <linux/uaccess.h>
+> +
+> +/*
+> + * Define kernel_headers_data and kernel_headers_data_end, within which the the
+> + * compressed kernel headers are stpred. The file is first compressed with xz.
+> + */
+
+
+"the the" -> "the"     ?
+"stpred"  -> "stored"  ?
+
+
+It is up to you if you want to send v8.
+
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
