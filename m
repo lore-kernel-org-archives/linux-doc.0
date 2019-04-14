@@ -1,169 +1,98 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.3 required=5.0 tests=DATE_IN_PAST_12_24,
+	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 515BF7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 14 Apr 2019 19:38:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9EA397D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Apr 2019 03:10:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726392AbfDNTir (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 14 Apr 2019 15:38:47 -0400
-Received: from mail-it1-f194.google.com ([209.85.166.194]:55909 "EHLO
-        mail-it1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726126AbfDNTir (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 Apr 2019 15:38:47 -0400
-Received: by mail-it1-f194.google.com with SMTP id y134so23748234itc.5
-        for <linux-doc@vger.kernel.org>; Sun, 14 Apr 2019 12:38:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=lixom-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QOWtsughs8v5wa64yJxww8mtNQrcGzXPVL4jTOgzC/c=;
-        b=WDfzNPNq7XXUT+Vy97HPWh3UDNOGkcsiWIi4/1mGI47OsfGj/aBaJ0V5eP3WoLkFUm
-         Okq47hXhs9TB71pWkv9Z3Uq1ogtTvwdoOPn/2In/Mo0ZHLwkDmqMiulDWXCxW9p9w3jK
-         yNHQEgxW5nRBrKL3q02Dy1ki9B97+Po5aqDlcQuYRck+cKUYpA+XiKag5N/uTbiR6isX
-         4elBNcmJSATa2N3hIifcyWnY7iCZyrxbO5mdH99IPwzy8V5YjYLjgdWyYyfIdItvu7Ac
-         8rQbBKPtcGOcUzjRl1CiE+lIQBYppRfBgpHNLEQ6ykvJiFnYV3yCkiSPMXvZbYMZFYgz
-         AHSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QOWtsughs8v5wa64yJxww8mtNQrcGzXPVL4jTOgzC/c=;
-        b=bX8EcI/TB7iWJ+/pJUT65/WmXbj9c5SoXbnHtpUiPVjQyOfLWbITv6H3JTJYNNkWYp
-         c8wNEURZ9dwzwj89PCBEwAH4YiQPhzBgmvffcBd+9cfGBKGn5JzlIQMfg62dloSQAFi/
-         uDPk/M3L6aPni8Yv8CmWRPDnZaulY9UxnMOeYBlcdwYVUWEAptuhj4Z9MsQ47rUuX0nV
-         2mH6xvIwdugtJ0NwoYjX5JwaGZJUXsw8uO/9UgnlGWDDCoxkjy4vzgQfItbnw2EiIyzw
-         kjOqv2Pz9lEW3J300ZMsOEQs5oInzPsVQhnzhAKYV+b4+3Y379aYjzhuLPUwJsAUnJjR
-         ytaQ==
-X-Gm-Message-State: APjAAAXqFrtmfDGMY1Y/+5gbiHaFlvwxW+/gT74+7VHxZS+mYJuzoCZd
-        e+Vq0fRtIw98A6DuKtYoqeYvJQZfUkh6dri+Eib3rw==
-X-Google-Smtp-Source: APXvYqw1e1E6pqgqVUSjzULhu0+QVSb2v6ZJpDczRMWtqKRDHCkklZ/5N4hAkSSB8CVIDSZWj7xazJ3U9w1CNvAgGpY=
-X-Received: by 2002:a02:c7c8:: with SMTP id s8mr48885831jao.13.1555270726209;
- Sun, 14 Apr 2019 12:38:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190320163116.39275-1-joel@joelfernandes.org>
- <CAOesGMheoZda84OSz9spQ7p66wot5S_9aaqaKC=QYp+8utASXA@mail.gmail.com>
- <20190408203601.GF133872@google.com> <CAOesGMibHCuMPCYkc8V++Z2Kuf3YQf_OjYn18GvDgzTy6ubV=g@mail.gmail.com>
- <CAJWu+or0hWce9+7aEfTHoOR8cptRbzHYVL-bPdJWGZH20dbo7Q@mail.gmail.com>
- <CAOesGMiuGK-Sbqo2z=1ab070JONav1LF82MRRLCdX-4+14_XZA@mail.gmail.com> <20190411031540.ehezr6kq7ouobpzx@ast-mbp.dhcp.thefacebook.com>
-In-Reply-To: <20190411031540.ehezr6kq7ouobpzx@ast-mbp.dhcp.thefacebook.com>
-From:   Olof Johansson <olof@lixom.net>
-Date:   Sun, 14 Apr 2019 12:38:34 -0700
-Message-ID: <CAOesGMgiPB=7FE7tXXHes7WSLfByyPxirOStoH21NZqMwaUihQ@mail.gmail.com>
-Subject: Re: [PATCH v5 1/3] Provide in-kernel headers to make extending kernel easier
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Joel Fernandes <joelaf@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Manoj Rao <linux@manojrajarao.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        atish patra <atishp04@gmail.com>,
-        Daniel Colascione <dancol@google.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Karim Yaghmour <karim.yaghmour@opersys.com>,
-        Kees Cook <keescook@chromium.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-trace-devel@vger.kernel.org,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1725789AbfDODK0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 14 Apr 2019 23:10:26 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:43696 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726277AbfDODK0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 Apr 2019 23:10:26 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x3F2xaYo185402;
+        Mon, 15 Apr 2019 03:09:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id; s=corp-2018-07-02;
+ bh=C89YXCyTkP9hRP2YyxQNBYCpKGFKBPYOlKJ85ap6qiE=;
+ b=LCnrrgBxIrW+26RyxZoojYdHA8FuGZqc6XFwxN57dI7GthjWQllIEZgFRlXoHfdkt2Ys
+ uOlUnxV1B5/zedBHjfa2R7c+yt1KGVZE+qsqoxNpG6pG3ZzASACqATcbhH29BiayyH6v
+ gdf60JjZeaJT5SbN0MdQubFPh9a7CLh+n9Gm2Eq/v5hnFWvHW3Y6s1kKQ1i7Qty8SO3l
+ cyW+3rPZVEvVaqR5HtKMrXItMf0tku/mImB96l7MotWoONN6musBuDnjE0u6jUadPY1e
+ y+Z/UOqbwLI86uykyXfVBCovVyp7cjOOLQnIwA8JzsV/kNrGWSgyhmpyIPTBj8ArDAtl vg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2130.oracle.com with ESMTP id 2ru76t42gx-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 15 Apr 2019 03:09:19 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x3F382m7073764;
+        Mon, 15 Apr 2019 03:09:19 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserp3030.oracle.com with ESMTP id 2ru5ta3vj3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 15 Apr 2019 03:09:18 +0000
+Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x3F39ECj001943;
+        Mon, 15 Apr 2019 03:09:14 GMT
+Received: from z2.cn.oracle.com (/10.182.69.87)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Sun, 14 Apr 2019 20:09:14 -0700
+From:   Zhenzhong Duan <zhenzhong.duan@oracle.com>
+To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     paulmck@linux.ibm.com, josh@joshtriplett.org, rostedt@goodmis.org,
+        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+        joel@joelfernandes.org, corbet@lwn.net, tglx@linutronix.de,
+        mingo@kernel.org, gregkh@linuxfoundation.org,
+        keescook@chromium.org, srinivas.eeda@oracle.com,
+        Zhenzhong Duan <zhenzhong.duan@oracle.com>
+Subject: [PATCH 1/2] doc: Fixup definition of rcupdate.rcu_task_stall_timeout
+Date:   Sun, 14 Apr 2019 11:11:03 +0800
+Message-Id: <1555211464-28652-1-git-send-email-zhenzhong.duan@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9227 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1904150019
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9227 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1904150019
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 10, 2019 at 8:15 PM Alexei Starovoitov
-<alexei.starovoitov@gmail.com> wrote:
->
-> On Wed, Apr 10, 2019 at 09:34:49AM -0700, Olof Johansson wrote:
-> > On Wed, Apr 10, 2019 at 8:51 AM Joel Fernandes <joelaf@google.com> wrote:
-> > >
-> > > On Wed, Apr 10, 2019 at 11:07 AM Olof Johansson <olof@lixom.net> wrote:
-> > > [snip]
-> > > > > > Wouldn't it be more convenient to provide it in a standardized format
-> > > > > > such that you won't have to take an additional step, and always have
-> > > > > > This is that form IMO.
-> ...
-> > Compared to:
-> >  - Extract tarball
-> >  - Build and load
-> >  - Remove file tree from filesystem
->
-> I think there are too many assumptions in this thread in regard to what
-> is more convenient for user space.
-> I think bcc should try to avoid extracting tarball into file system.
-> For example libbcc can uncompress kheader.tar.xz into virtual file system
-> of clang front-end. It's more or less std::map<string, string>
-> with key=path, value=content of the file. Access to such in-memory
-> 'files' is obviously faster than doing open/read syscalls.
+A positive value of rcupdate.rcu_task_stall_timeout is an interval
+in seconds rather than jiffies.
 
-I think performance is a red herring, especially since you have to
-uncompress it on every compiler invocation. With this you'd need to
-read/touch/write _all_ header files, not just the one your current
-compiler invocation will use.
+Signed-off-by: Zhenzhong Duan <zhenzhong.duan@oracle.com>
+---
+ Documentation/RCU/stallwarn.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-In the grand scheme of things, open/mmap syscalls wouldn't necessarily
-be slower.
+diff --git a/Documentation/RCU/stallwarn.txt b/Documentation/RCU/stallwarn.txt
+index 1ab70c3..13e88fc 100644
+--- a/Documentation/RCU/stallwarn.txt
++++ b/Documentation/RCU/stallwarn.txt
+@@ -153,7 +153,7 @@ rcupdate.rcu_task_stall_timeout
+ 	This boot/sysfs parameter controls the RCU-tasks stall warning
+ 	interval.  A value of zero or less suppresses RCU-tasks stall
+ 	warnings.  A positive value sets the stall-warning interval
+-	in jiffies.  An RCU-tasks stall warning starts with the line:
++	in seconds.  An RCU-tasks stall warning starts with the line:
+ 
+ 		INFO: rcu_tasks detected stalls on tasks:
+ 
+-- 
+1.8.3.1
 
-> bcc already uses this approach for some bcc internal 'files' that
-> it passes to clang during compilation.
-> All of /proc/kheaders.tar.xz files can be passed the same way
-> without extracting them into real file system.
-
-This is now a circular argument. Joel was stating that the plain text
-headers took up too much memory, but now it's preferred to create such
-filesystem in userspace memory on *every compiler invocation*?
-That's... not better. And definitely worse if you want to compile in
-parallel.
-
-
-From my perspective, this is where we're at:
-
-This patch seems to have been met with a lot of responses in the tone
-of "this is not an appealing solution". Meanwhile, some of the
-suggested alternative solutions have not worked out, and we are now at
-a point where there's less interest in exploring alternatives and
-arguments to merge as-is with only minor adjustments.
-
-I understand the desire to solve this. It'd be really convenient to
-have a way to runtime build against the same structure layouts that
-the kernel was built with. But I haven't heard anyone say that they
-*like* the solution proposed, and I haven't seen many of those
-expressing concerns being converted to support it.
-
-Usually what we do at times like this is that we say "Yeah, this is a
-problem that should be solved, but this solution doesn't seem to be
-the right one and we would need to maintain it forever as part of the
-ABI. Let's wait until a better solution is found." With time,
-sometimes a better solution becomes obvious, or circumstances change
-enough to allow for some different approach, or someone has a new idea
-from a different perspective that solves the same problem.
-
-All of that being said, I don't have veto rights on code going into
-the kernel, even if I think picking up this patch would be the wrong
-thing to do.
-
-I'd be a *lot* less hesitant if this went into debugfs or another
-location than /proc, which is one of the most regression-sensitive
-interfaces we have in the kernel.
-
-> Joel, would be great if you can share corresponding bcc patch
-> that takes advantage of /proc/kheaders
-
-
--Olof
