@@ -1,96 +1,169 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E6A797D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 14 Apr 2019 03:11:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 515BF7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 14 Apr 2019 19:38:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727271AbfDNDLw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 13 Apr 2019 23:11:52 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:44697 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727224AbfDNDLw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 Apr 2019 23:11:52 -0400
-Received: by mail-qt1-f194.google.com with SMTP id w5so15560458qtb.11;
-        Sat, 13 Apr 2019 20:11:51 -0700 (PDT)
+        id S1726392AbfDNTir (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 14 Apr 2019 15:38:47 -0400
+Received: from mail-it1-f194.google.com ([209.85.166.194]:55909 "EHLO
+        mail-it1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726126AbfDNTir (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 Apr 2019 15:38:47 -0400
+Received: by mail-it1-f194.google.com with SMTP id y134so23748234itc.5
+        for <linux-doc@vger.kernel.org>; Sun, 14 Apr 2019 12:38:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=pqEpMpq2ZMeZfBmIsXONVhx+1YLpbUMzYss/RTG9tGE=;
-        b=WFsrY3pl84XamdBkRXVOC8T345mqK7np0ATeJewLAO3Go8Nug/L41ewGPWk4oe+uxI
-         D8H3xjhB+g5scgpnHiP8/vDF5vCoI0xMp5hN2TLV3tZ9s+iJkpeXW1/be3X2GHcPaqFy
-         lqVHZ37AQxYa24JyoEIxrsEGWKEKPNiTRFMnY+36kOR4w1WedzZinl+1DPq4hwXcxaF0
-         VnOd9IMQPSfy3ZkgmtO5+N93tN3S4l/WK126KH+5MU9YN+adI017pVmDg4ijsRhSbJ+q
-         14em3lwbaYUTrnNjIWvgjnCqE/68ggnkafJF8O8CpUcHA9JDQN5UU/wgL4X+4x39BG+c
-         XaBA==
+        d=lixom-net.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QOWtsughs8v5wa64yJxww8mtNQrcGzXPVL4jTOgzC/c=;
+        b=WDfzNPNq7XXUT+Vy97HPWh3UDNOGkcsiWIi4/1mGI47OsfGj/aBaJ0V5eP3WoLkFUm
+         Okq47hXhs9TB71pWkv9Z3Uq1ogtTvwdoOPn/2In/Mo0ZHLwkDmqMiulDWXCxW9p9w3jK
+         yNHQEgxW5nRBrKL3q02Dy1ki9B97+Po5aqDlcQuYRck+cKUYpA+XiKag5N/uTbiR6isX
+         4elBNcmJSATa2N3hIifcyWnY7iCZyrxbO5mdH99IPwzy8V5YjYLjgdWyYyfIdItvu7Ac
+         8rQbBKPtcGOcUzjRl1CiE+lIQBYppRfBgpHNLEQ6ykvJiFnYV3yCkiSPMXvZbYMZFYgz
+         AHSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=pqEpMpq2ZMeZfBmIsXONVhx+1YLpbUMzYss/RTG9tGE=;
-        b=k2qeYFqtttzsqO39TongJe48lmf7e+sXIrebsb3f4nLCaerDbDhlxjwCIQVw1mnvl7
-         i80W6UvhZBmfRFAtecAI4oQOx0EkRDLiKN5QBJ7NCbcsd8pkyNDkgdv38vT5xSIRT9xG
-         3MEG35vS0pFw3nD2I4t73lIDCFyehQM+rShvGPVf8/ENwMkjSFBfDUjJLafeFXRcxUOP
-         Tisnjf6PSsO0XReo/o2eSi0c2kEcdcVotZlwjSbyJe3g5dsuR/7ovEDztGlzgPixAxz3
-         FiVqZFxyaOrCW9SvGHvAGnFm2hzHZPRqCYTFG265H/tG7naIL6+FQd+axXPwm9GMd0aI
-         Jscw==
-X-Gm-Message-State: APjAAAWyqy+gH0jYQGz203eutJyP498+3uNdn2PGvFUO/nl+L1xzeAtz
-        qFcAKXPiGVia3je+g3SYn2VG++Z3ijw=
-X-Google-Smtp-Source: APXvYqyEI/7WNff3Zb5sPurf3Y4kzCAM4naDBy0RfI6Nk75n5MFyUM1pXWaW+ooE1VzLqk/ybwtjew==
-X-Received: by 2002:ac8:2368:: with SMTP id b37mr55091967qtb.50.1555211510827;
-        Sat, 13 Apr 2019 20:11:50 -0700 (PDT)
-Received: from localhost.localdomain ([191.35.237.58])
-        by smtp.gmail.com with ESMTPSA id u44sm24668430qte.40.2019.04.13.20.11.47
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 13 Apr 2019 20:11:50 -0700 (PDT)
-From:   Marcos Paulo de Souza <marcos.souza.org@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Marcos Paulo de Souza <marcos.souza.org@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QOWtsughs8v5wa64yJxww8mtNQrcGzXPVL4jTOgzC/c=;
+        b=bX8EcI/TB7iWJ+/pJUT65/WmXbj9c5SoXbnHtpUiPVjQyOfLWbITv6H3JTJYNNkWYp
+         c8wNEURZ9dwzwj89PCBEwAH4YiQPhzBgmvffcBd+9cfGBKGn5JzlIQMfg62dloSQAFi/
+         uDPk/M3L6aPni8Yv8CmWRPDnZaulY9UxnMOeYBlcdwYVUWEAptuhj4Z9MsQ47rUuX0nV
+         2mH6xvIwdugtJ0NwoYjX5JwaGZJUXsw8uO/9UgnlGWDDCoxkjy4vzgQfItbnw2EiIyzw
+         kjOqv2Pz9lEW3J300ZMsOEQs5oInzPsVQhnzhAKYV+b4+3Y379aYjzhuLPUwJsAUnJjR
+         ytaQ==
+X-Gm-Message-State: APjAAAXqFrtmfDGMY1Y/+5gbiHaFlvwxW+/gT74+7VHxZS+mYJuzoCZd
+        e+Vq0fRtIw98A6DuKtYoqeYvJQZfUkh6dri+Eib3rw==
+X-Google-Smtp-Source: APXvYqw1e1E6pqgqVUSjzULhu0+QVSb2v6ZJpDczRMWtqKRDHCkklZ/5N4hAkSSB8CVIDSZWj7xazJ3U9w1CNvAgGpY=
+X-Received: by 2002:a02:c7c8:: with SMTP id s8mr48885831jao.13.1555270726209;
+ Sun, 14 Apr 2019 12:38:46 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190320163116.39275-1-joel@joelfernandes.org>
+ <CAOesGMheoZda84OSz9spQ7p66wot5S_9aaqaKC=QYp+8utASXA@mail.gmail.com>
+ <20190408203601.GF133872@google.com> <CAOesGMibHCuMPCYkc8V++Z2Kuf3YQf_OjYn18GvDgzTy6ubV=g@mail.gmail.com>
+ <CAJWu+or0hWce9+7aEfTHoOR8cptRbzHYVL-bPdJWGZH20dbo7Q@mail.gmail.com>
+ <CAOesGMiuGK-Sbqo2z=1ab070JONav1LF82MRRLCdX-4+14_XZA@mail.gmail.com> <20190411031540.ehezr6kq7ouobpzx@ast-mbp.dhcp.thefacebook.com>
+In-Reply-To: <20190411031540.ehezr6kq7ouobpzx@ast-mbp.dhcp.thefacebook.com>
+From:   Olof Johansson <olof@lixom.net>
+Date:   Sun, 14 Apr 2019 12:38:34 -0700
+Message-ID: <CAOesGMgiPB=7FE7tXXHes7WSLfByyPxirOStoH21NZqMwaUihQ@mail.gmail.com>
+Subject: Re: [PATCH v5 1/3] Provide in-kernel headers to make extending kernel easier
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc:     Joel Fernandes <joelaf@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Qais Yousef <qais.yousef@arm.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Manoj Rao <linux@manojrajarao.com>,
         Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        atish patra <atishp04@gmail.com>,
+        Daniel Colascione <dancol@google.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Karim Yaghmour <karim.yaghmour@opersys.com>,
+        Kees Cook <keescook@chromium.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-trace-devel@vger.kernel.org,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
         Randy Dunlap <rdunlap@infradead.org>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION)
-Subject: [PATCH 3/3] Documentation: kernel-api.rst: Add block/blk-mq.c
-Date:   Sun, 14 Apr 2019 00:10:54 -0300
-Message-Id: <20190414031055.26350-3-marcos.souza.org@gmail.com>
-X-Mailer: git-send-email 2.16.4
-In-Reply-To: <20190414031055.26350-1-marcos.souza.org@gmail.com>
-References: <20190414031055.26350-1-marcos.souza.org@gmail.com>
+        Steven Rostedt <rostedt@goodmis.org>,
+        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Now documented functions of blk-mq.c will appear in the official kernel
-documentation.
+On Wed, Apr 10, 2019 at 8:15 PM Alexei Starovoitov
+<alexei.starovoitov@gmail.com> wrote:
+>
+> On Wed, Apr 10, 2019 at 09:34:49AM -0700, Olof Johansson wrote:
+> > On Wed, Apr 10, 2019 at 8:51 AM Joel Fernandes <joelaf@google.com> wrote:
+> > >
+> > > On Wed, Apr 10, 2019 at 11:07 AM Olof Johansson <olof@lixom.net> wrote:
+> > > [snip]
+> > > > > > Wouldn't it be more convenient to provide it in a standardized format
+> > > > > > such that you won't have to take an additional step, and always have
+> > > > > > This is that form IMO.
+> ...
+> > Compared to:
+> >  - Extract tarball
+> >  - Build and load
+> >  - Remove file tree from filesystem
+>
+> I think there are too many assumptions in this thread in regard to what
+> is more convenient for user space.
+> I think bcc should try to avoid extracting tarball into file system.
+> For example libbcc can uncompress kheader.tar.xz into virtual file system
+> of clang front-end. It's more or less std::map<string, string>
+> with key=path, value=content of the file. Access to such in-memory
+> 'files' is obviously faster than doing open/read syscalls.
 
-Signed-off-by: Marcos Paulo de Souza <marcos.souza.org@gmail.com>
----
- Documentation/core-api/kernel-api.rst | 6 ++++++
- 1 file changed, 6 insertions(+)
+I think performance is a red herring, especially since you have to
+uncompress it on every compiler invocation. With this you'd need to
+read/touch/write _all_ header files, not just the one your current
+compiler invocation will use.
 
-diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
-index 71f5d2fe39b7..cc323480ce0e 100644
---- a/Documentation/core-api/kernel-api.rst
-+++ b/Documentation/core-api/kernel-api.rst
-@@ -276,6 +276,12 @@ Block Devices
- .. kernel-doc:: block/blk-map.c
-    :export:
- 
-+.. kernel-doc:: block/blk-mq.c
-+   :export:
-+
-+.. kernel-doc:: block/blk-mq.c
-+   :internal:
-+
- .. kernel-doc:: block/blk-sysfs.c
-    :internal:
- 
--- 
-2.16.4
+In the grand scheme of things, open/mmap syscalls wouldn't necessarily
+be slower.
 
+> bcc already uses this approach for some bcc internal 'files' that
+> it passes to clang during compilation.
+> All of /proc/kheaders.tar.xz files can be passed the same way
+> without extracting them into real file system.
+
+This is now a circular argument. Joel was stating that the plain text
+headers took up too much memory, but now it's preferred to create such
+filesystem in userspace memory on *every compiler invocation*?
+That's... not better. And definitely worse if you want to compile in
+parallel.
+
+
+From my perspective, this is where we're at:
+
+This patch seems to have been met with a lot of responses in the tone
+of "this is not an appealing solution". Meanwhile, some of the
+suggested alternative solutions have not worked out, and we are now at
+a point where there's less interest in exploring alternatives and
+arguments to merge as-is with only minor adjustments.
+
+I understand the desire to solve this. It'd be really convenient to
+have a way to runtime build against the same structure layouts that
+the kernel was built with. But I haven't heard anyone say that they
+*like* the solution proposed, and I haven't seen many of those
+expressing concerns being converted to support it.
+
+Usually what we do at times like this is that we say "Yeah, this is a
+problem that should be solved, but this solution doesn't seem to be
+the right one and we would need to maintain it forever as part of the
+ABI. Let's wait until a better solution is found." With time,
+sometimes a better solution becomes obvious, or circumstances change
+enough to allow for some different approach, or someone has a new idea
+from a different perspective that solves the same problem.
+
+All of that being said, I don't have veto rights on code going into
+the kernel, even if I think picking up this patch would be the wrong
+thing to do.
+
+I'd be a *lot* less hesitant if this went into debugfs or another
+location than /proc, which is one of the most regression-sensitive
+interfaces we have in the kernel.
+
+> Joel, would be great if you can share corresponding bcc patch
+> that takes advantage of /proc/kheaders
+
+
+-Olof
