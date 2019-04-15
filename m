@@ -1,81 +1,78 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DF5157D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Apr 2019 15:09:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8B1BD7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Apr 2019 15:42:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727696AbfDOPJT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Apr 2019 11:09:19 -0400
-Received: from smtp5-g21.free.fr ([212.27.42.5]:33614 "EHLO smtp5-g21.free.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727659AbfDOPJS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Apr 2019 11:09:18 -0400
-Received: from heffalump.sk2.org (unknown [88.186.243.14])
-        by smtp5-g21.free.fr (Postfix) with ESMTPS id 6AFF45FFD8;
-        Mon, 15 Apr 2019 17:09:15 +0200 (CEST)
-Received: from steve by heffalump.sk2.org with local (Exim 4.89)
-        (envelope-from <steve@sk2.org>)
-        id 1hG3EQ-0002iC-L5; Mon, 15 Apr 2019 17:09:14 +0200
-From:   Stephen Kitt <steve@sk2.org>
-To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        x86@kernel.org, corbet@lwn.net, bhe@redhat.com,
-        kirill.shutemov@linux.intel.com, dave.hansen@linux.intel.com,
-        alex.popov@linux.com, Stephen Kitt <steve@sk2.org>
-Subject: [PATCH] Fix 56-bit addresses in Documentation/x86/x86_64/mm.txt
-Date:   Mon, 15 Apr 2019 17:08:53 +0200
-Message-Id: <20190415150853.10354-1-steve@sk2.org>
-X-Mailer: git-send-email 2.11.0
+        id S1726034AbfDOPlz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Apr 2019 11:41:55 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:32937 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725972AbfDOPlz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 11:41:55 -0400
+Received: by mail-pl1-f194.google.com with SMTP id t16so8766746plo.0;
+        Mon, 15 Apr 2019 08:41:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=03U2+gNC/tIGz//LfXqwAH1STf4MB9cTPsC4LtWU1hs=;
+        b=clAw7PEKP+T+IfxwlxZTrhucaaezcIpRoc0B707Xfji5JrW5EEbGpPDhuOVRi7dj2t
+         hfwzbD6RbHabaoqnTEUVUvSzwWZjj/K2++1ytJ06c/pNgrdRsU7S9W32ihW9JRzoON9o
+         LuIZFV6iTeqeDEzvuDw1xrhTpB8bXsdXHZOEJ1TLP5zoHSKRxOWpz/q1SHzJjblJaKX2
+         uyLRXErKJoYYOb9MJWRZs2H88B2GN8GmmGIRl1cV6L+PHCHu9S+IPYvilg80O6wsvXTz
+         jXWnhyz4ktOHfG6YXOwHGeUtMKGIP2WYGy0+tcAqIaEXILVSIu0Q4jPJjvxJVB2uEc8T
+         IhEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=03U2+gNC/tIGz//LfXqwAH1STf4MB9cTPsC4LtWU1hs=;
+        b=ATf+0TuyJtFAqvCt+PqxbJuCDtqBt/5j/n4o81kwhc5dKQYWI/McWWw5KjojvCuHLg
+         UR0+7gTXyop5bunxgc4LfRAcmpc+zO2rmhlw6c7/EimNjvc7fBI1qU0hD8DGwM9+lBtE
+         MimBfsjCvyM6ww1iwVvZnssJEif757p1XKtk8d1s5uGDvA/abDHKhQaYW35EIfHJiAGP
+         5+0uwHJpqlGf1Ud7NNkwg3hrdYgR2ctFT9vhxRlXTJ3/ia7UhcHiaialG+JpQhvTBSlm
+         M9zkTGv8ifidFdpMR8YC+AQto2ttwjvz2pqWE4pu6IeB9FTon1UzA4yWXX6VDxHxgNMq
+         s07w==
+X-Gm-Message-State: APjAAAVeWSBAfe3pKIxjLWMZK+m35Kuc1q1UJwtjIaO3Z5JfJ4jlbx6d
+        EH6lQnfWeLHCTrjBSXFCEvdnLfjp
+X-Google-Smtp-Source: APXvYqz39iqJRTwlyGeSLEpp91C4BX6W6y9xH6hv9V9M6k16pwsRaq01nE2WBm3oZuE7fINZR4ZQdA==
+X-Received: by 2002:a17:902:b60d:: with SMTP id b13mr77026589pls.100.1555342914669;
+        Mon, 15 Apr 2019 08:41:54 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id y191sm23409547pgd.78.2019.04.15.08.41.52
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 15 Apr 2019 08:41:53 -0700 (PDT)
+Date:   Mon, 15 Apr 2019 08:41:51 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Patrick Venture <venture@google.com>
+Cc:     jdelvare@suse.com, corbet@lwn.net, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: (ir38064) delete incorrect line
+Message-ID: <20190415154151.GA7292@roeck-us.net>
+References: <20190415141728.133110-1-venture@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190415141728.133110-1-venture@google.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This fixes a PT typo, and the following 56-bit address-space
-addresses:
-* the hole extends from 0100000000000000 to feffffffffffffff
-* the KASAN shadow memory area stops at fffffbffffffffff (see kasan.h)
+On Mon, Apr 15, 2019 at 07:17:28AM -0700, Patrick Venture wrote:
+> Delete line indicating the datasheet was not publicly available.  This
+> line was originally present as a default during the write-up and was
+> subsequently not removed once the datasheet was located.
+> 
+> Signed-off-by: Patrick Venture <venture@google.com>
 
-Signed-off-by: Stephen Kitt <steve@sk2.org>
----
- Documentation/x86/x86_64/mm.txt | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Applied.
 
-diff --git a/Documentation/x86/x86_64/mm.txt b/Documentation/x86/x86_64/mm.txt
-index 804f9426ed17..6cbe652d7a49 100644
---- a/Documentation/x86/x86_64/mm.txt
-+++ b/Documentation/x86/x86_64/mm.txt
-@@ -72,7 +72,7 @@ Complete virtual memory map with 5-level page tables
- Notes:
- 
-  - With 56-bit addresses, user-space memory gets expanded by a factor of 512x,
--   from 0.125 PB to 64 PB. All kernel mappings shift down to the -64 PT starting
-+   from 0.125 PB to 64 PB. All kernel mappings shift down to the -64 PB starting
-    offset and many of the regions expand to support the much larger physical
-    memory supported.
- 
-@@ -83,7 +83,7 @@ Notes:
-  0000000000000000 |    0       | 00ffffffffffffff |   64 PB | user-space virtual memory, different per mm
- __________________|____________|__________________|_________|___________________________________________________________
-                   |            |                  |         |
-- 0000800000000000 |  +64    PB | ffff7fffffffffff | ~16K PB | ... huge, still almost 64 bits wide hole of non-canonical
-+ 0100000000000000 |  +64    PB | feffffffffffffff | ~16K PB | ... huge, still almost 64 bits wide hole of non-canonical
-                   |            |                  |         |     virtual memory addresses up to the -64 PB
-                   |            |                  |         |     starting offset of kernel mappings.
- __________________|____________|__________________|_________|___________________________________________________________
-@@ -99,7 +99,7 @@ ____________________________________________________________|___________________
-  ffd2000000000000 |  -11.5  PB | ffd3ffffffffffff |  0.5 PB | ... unused hole
-  ffd4000000000000 |  -11    PB | ffd5ffffffffffff |  0.5 PB | virtual memory map (vmemmap_base)
-  ffd6000000000000 |  -10.5  PB | ffdeffffffffffff | 2.25 PB | ... unused hole
-- ffdf000000000000 |   -8.25 PB | fffffdffffffffff |   ~8 PB | KASAN shadow memory
-+ ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN shadow memory
- __________________|____________|__________________|_________|____________________________________________________________
-                                                             |
-                                                             | Identical layout to the 47-bit one from here on:
--- 
-2.11.0
-
+Thanks,
+Guenter
