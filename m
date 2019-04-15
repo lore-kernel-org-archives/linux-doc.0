@@ -1,136 +1,86 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6C37E7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Apr 2019 14:14:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E930E7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Apr 2019 14:17:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727478AbfDOOOA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Apr 2019 10:14:00 -0400
-Received: from mout.gmx.net ([212.227.15.19]:45559 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727412AbfDOON7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Apr 2019 10:13:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1555337626;
-        bh=0xpCbVixF1sSisaDHnBrPf3wJ16s51J6Bw33EyYYq/g=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=aj1RYQfRTEJLiyXIQYOh1HoxXtn4Ohi4tuw+Rh0LunPpAoXbSrsZM9LAAlBGbVvyb
-         IMrIOum9Eg1FzVQPgW6Aa51FrLmmJ9TiygTa6ZcHKZajNcqSlJJxSKsLtOhqBrCsIt
-         ebtxMeXA+RWVFq5xK1jkgTqi5oqXZXVgusD8Se/k=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([109.90.232.48]) by mail.gmx.com (mrgmx001
- [212.227.17.190]) with ESMTPSA (Nemesis) id 0M3zT0-1gyvBg11iU-00rUTb; Mon, 15
- Apr 2019 16:13:46 +0200
-Date:   Mon, 15 Apr 2019 16:13:44 +0200
-From:   Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     Alex Shi <alex.shi@linux.alibaba.com>
-Cc:     Harry Wei <harryxiyou@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] docs/zh_CN: fix typos in 1.Intro.rst file
-Message-ID: <20190415141344.GB11536@latitude>
-References: <20190415094046.242940-1-alex.shi@linux.alibaba.com>
- <20190415094046.242940-2-alex.shi@linux.alibaba.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="rS8CxjVDS/+yyDmU"
-Content-Disposition: inline
-In-Reply-To: <20190415094046.242940-2-alex.shi@linux.alibaba.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Provags-ID: V03:K1:8gmeNlfBCoUCGR6YBIljTTT+YiV9ZvnBZm2Hbox/7AXiA2Mql65
- JjGbSZ1EhNezjCNsknjQzp0X0qDgwy+LYoD2mLXiWOqdg6qfv5EfeVVmYzIXws4FUEv82zm
- T0wUEUS9cqujMUQpNCcpXXsuDJNftoFprLfujLyIpn6nlNfVIZHnnefn6wi1/7LPBcdw7hK
- HDLLdbPeQ1wbsI6wZVXiw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:TVv+vqHmHv8=:OUkGjQhg7D4ZhFb9u1uS4C
- PQ/sWl5Xm0mdS3D4LN/30JyRMOkGvUld9Hw3fgoua7aTOCfofOF1YxdZ6ETAoXBx722THSzxK
- fQ9ms6zOn5GGCKUYdF57M/ZN+WkdYraevAEvwOiDot/+retUTuoYuOs0eogsPXH/Ia2rwN833
- AjajgaQnAJQpBBMxlWGVhkbCd+SslArf+Q9jTLv16EQh9ho5oY60gmxfghOI+n2HpzjNucIP+
- nLF/ZG8BWLeMyc/aS+BMtY356Aqb+giys9rfdC/7n6F94FuFXeVGibCaEPESTymB/zqlYSTNH
- 05Qo3c0h4An9MHO90DGIF+4C77qcVFewhNUoI7CPVXxtgQx/W+Pks5dPvV0Snmi8VuCp+RxQs
- NTaMDjWr4kEirptwIgS3K4+NdwDeFGn40tePn3WLdbqP44KAChDz3xxBJFp52K+YSPz1Llibr
- YhNsuuM0MDdN7J+3HQxtnEcJAwj+9UAAiALxjBA1TVLHJPX+izaD5gF6QOSo8IuRIy9QpPpQj
- 3SZOklItyMk/tPYzxeNfdpkthKrU+RfaxA+C+e/QTmPF9FWXQ+46j8A6gWpbp2kS8AB4vRCuL
- uB9lU1ZSo6V8e0F3P0Ra9Iq2QPms1R4gK2En/eEi9sNoFVaHSIxde9f3pjAdAoVlZMq1yWUBi
- f8qnYtzgB/iGegRBZ2q3eek4A17bGlJmFO+wn8AshU52nQFDHSzkf3MmBERb18wzfz53rFnhd
- wTw1KOErDrCUIGqcBzinPemlx9a6/bL1ul4weVaxvTftvQthtFkdF15QVuDIypaZx32ZhW64C
- dAYlOD6q17b6+mz7MLpS1gPYtFmccegAtETK1ojDuynpk/iQkeCHeR2W2PSie9M7DKeQy87Kl
- 4V2/dBQGtB9Y2vdHizSIN/5Ot2ZmoQZADreDtnFEm9pxeWm8DwzvwdrcSgAV6y
+        id S1725789AbfDOORl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Apr 2019 10:17:41 -0400
+Received: from mail-ot1-f73.google.com ([209.85.210.73]:57249 "EHLO
+        mail-ot1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727364AbfDOORl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 10:17:41 -0400
+Received: by mail-ot1-f73.google.com with SMTP id c26so9089873otr.23
+        for <linux-doc@vger.kernel.org>; Mon, 15 Apr 2019 07:17:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=tYUX4z3a9vnhDDPclH29VM7BoMseyyZGQ648ccgyB7k=;
+        b=UQNV1AfQmZWIcprEZbMd4jl6liPToQm1PvJERbLxkuCd743QR1Mf6SgZ/LVqZfXjWM
+         uzxJy1QOApMdpC+uDKuYcD4u+Qh6IX+7ejwOKy4u7Fxi8L5sJc5sXNcvpYA0InyhdmNL
+         BJAFwjq/2flyAzImqe1aQNIvbEpDgE5d/yTGuCZJzZvkYog879STkVJoCzEnlzoJDdFB
+         s9Ev4nDeIhaP1Q99z+2VgRoJ9KahdGJOJ06ZkTEPSu4otZyCWUHAYW/D2YMcKl6tuaO9
+         1/XtHgeTEJlRqffXjvyIwa+JEoySz4Re2mwjPwl8yGevp+ae7zbqiynHjnkQL+cQSzfk
+         9gew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=tYUX4z3a9vnhDDPclH29VM7BoMseyyZGQ648ccgyB7k=;
+        b=Fm+CbtpnGJiu3/UcU3Vm3eHZ606CE8/lmw4S+GpCflPMq5KpNbTrjxDTFwlOhRNp1v
+         MsHb9eyISlHVGWmqHXiioGNKQYN4TgeIOi+i/98C98pDacnDgzTfU2h+CEplftbh35Fh
+         ubC5Ymm4Nx0rtDghRCv9JR+irfa8kWF7BWIoRG/I6Fw7Uh6IxJZrHX67LlxfKnytjvIj
+         SerrSZtukuoPdXGYksc81+rwxtybeMmeEfhN68rMlbKaQ79nK8Bx7YVR612nmA0hNihF
+         15CICgyCPYpyNzYdNHWMcEM1N1H94bfrTm8M+vIJpkJfHiOrP8ftdaYPsKmgLv1xpWtO
+         qVyA==
+X-Gm-Message-State: APjAAAXz8RaM1qw/ZbehskI5g9vDnLV0sGkoWZxcW3BprpOhsR5ZnPJB
+        qW0jMABsqwEUtUpjtnVv99kKqv06X+9U
+X-Google-Smtp-Source: APXvYqx8ThQGTWHaDJHu9suGwS422jNrj9DDS6gUoloiBOLYoULr7RIAFFLaqMMcNnWR2GNWvAyZN9XYo9qX
+X-Received: by 2002:a9d:6a53:: with SMTP id h19mr5916188otn.33.1555337860451;
+ Mon, 15 Apr 2019 07:17:40 -0700 (PDT)
+Date:   Mon, 15 Apr 2019 07:17:28 -0700
+Message-Id: <20190415141728.133110-1-venture@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.21.0.392.gf8f6787159e-goog
+Subject: [PATCH] hwmon: (ir38064) delete incorrect line
+From:   Patrick Venture <venture@google.com>
+To:     venture@google.com, jdelvare@suse.com, linux@roeck-us.net,
+        corbet@lwn.net
+Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Delete line indicating the datasheet was not publicly available.  This
+line was originally present as a default during the write-up and was
+subsequently not removed once the datasheet was located.
 
---rS8CxjVDS/+yyDmU
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Patrick Venture <venture@google.com>
+---
+ Documentation/hwmon/ir38064 | 3 ---
+ 1 file changed, 3 deletions(-)
 
-On Mon, Apr 15, 2019 at 05:40:46PM +0800, Alex Shi wrote:
-> Fixed a uncapital issue and a typo.
->=20
-> Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
-> Cc: Harry Wei <harryxiyou@gmail.com>=20
-> Cc: Jonathan Corbet <corbet@lwn.net>=20
-> Cc: linux-doc@vger.kernel.org=20
-> Cc: linux-kernel@vger.kernel.org=20
-> ---
->  Documentation/translations/zh_CN/process/1.Intro.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/Documentation/translations/zh_CN/process/1.Intro.rst b/Docum=
-entation/translations/zh_CN/process/1.Intro.rst
-> index 03bbafc00bd2..2bff9e49822c 100644
-> --- a/Documentation/translations/zh_CN/process/1.Intro.rst
-> +++ b/Documentation/translations/zh_CN/process/1.Intro.rst
-> @@ -79,12 +79,12 @@ Linux=E6=9C=80=E5=BC=95=E4=BA=BA=E6=B3=A8=E7=9B=AE=E7=
-=9A=84=E7=89=B9=E6=80=A7=E4=B9=8B=E4=B8=80=E6=98=AF=E8=BF=99=E4=BA=9B=E5=BC=
-=80=E5=8F=91=E4=BA=BA=E5=91=98=E5=8F=AF=E4=BB=A5=E8=AE=BF=E9=97=AE=E5=AE=83=
-=EF=BC=9B=E4=BB=BB=E4=BD=95
->  =E8=87=B4=E8=B0=A2
->  ----
-> =20
-> -=E6=9C=AC=E6=96=87=E4=BB=B6=E7=94=B1jonathan corbet=E6=92=B0=E5=86=99=EF=
-=BC=8Ccorbet@lwn.net=E3=80=82=E4=BB=A5=E4=B8=8B=E4=BA=BA=E5=91=98=E7=9A=84=
-=E5=BB=BA=E8=AE=AE=E4=BD=BF=E4=B9=8B=E6=9B=B4=E4=B8=BA=E5=AE=8C=E5=96=84=EF=
-=BC=9A
-> +=E6=9C=AC=E6=96=87=E4=BB=B6=E7=94=B1Jonathan corbet=E6=92=B0=E5=86=99=EF=
-=BC=8Ccorbet@lwn.net=E3=80=82=E4=BB=A5=E4=B8=8B=E4=BA=BA=E5=91=98=E7=9A=84=
-=E5=BB=BA=E8=AE=AE=E4=BD=BF=E4=B9=8B=E6=9B=B4=E4=B8=BA=E5=AE=8C=E5=96=84=EF=
-=BC=9A
+diff --git a/Documentation/hwmon/ir38064 b/Documentation/hwmon/ir38064
+index c3697d7aaaa44..9f218c39bfe6f 100644
+--- a/Documentation/hwmon/ir38064
++++ b/Documentation/hwmon/ir38064
+@@ -8,9 +8,6 @@ Supported chips:
+     Datasheet: Publicly available at the Infineon webiste
+       https://www.infineon.com/dgdl/Infineon-IR38064MTRPBF-DS-v03_07-EN.pdf?fileId=5546d462584d1d4a0158db0d9efb67ca
+ 
+-Datasheet is not publicly available.
+-
+-
+ Authors:
+         Maxim Sloyko <maxims@google.com>
+         Patrick Venture <venture@google.com>
+-- 
+2.21.0.392.gf8f6787159e-goog
 
-=E2=80=A6 or perhaps "Jonathan Corbet" (with two capital letters)?
-
->  Johannes Berg, James Berry, Alex Chiang, Roland Dreier, Randy Dunlap,
->  Jake Edge, Jiri Kosina, Matt Mackall, Arthur Marsh, Amanda McPherson,
->  Andrew Morton, Andrew Price, Tsugikazu Shibata, =E5=92=8C Jochen Vo=C3=
-=9F.
-
-
-Jonathan Neusch=C3=A4fer
-
---rS8CxjVDS/+yyDmU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEvHAHGBBjQPVy+qvDCDBEmo7zX9sFAly0kZAACgkQCDBEmo7z
-X9uprA/9GLTNzeZc2l5hhoqBS0LpYj7ZM5L2FPPDZNad4LcF/Kry/ofj0x8snpyk
-ZOwhr/kKLnK1DV7u1Xng89wdAa7ZkB5nHFmZDQ0WcB0ayNwGA8MRdNeF1iiVAQMq
-nHJaYxLB477b7citNFc7xwdI6kSIV/lIRv9om6sniDPnBXMZiBzdDh7IFDXEIRe9
-YlZTI2wr36aMYxCSMs4t7qsy/Z2Q6/4KB+uDiM4rEKGQxge2BOQhtE7nlesdpaoV
-i6AVLV5ryLpT3QDGuZp0WYW3R3CV9iyH02C3qFZtw5k81t60Mge69TKMuAVtOI7E
-Q1VYwlR1GBHquKWsXBNGBDd15cn+eBj8hjMddcap2L8gkfgrnXUxGcYgdyj9Yf60
-v/qPCrEg/xLk6rIJJtXMqV3nitrhGyiW8grCRJtrjtdwIKZLqTtJdIPUTxDt0Y2e
-dprPG8g8Ffjb3lB3NBga370qTZZgDOtewV+Rr9q+9n0dBN5+hVT514y47yO5r3qe
-ab1UCj6gQZPHUqBLGzDvHJhyCx8k0qYeh5OOKlSSrqbruRwdWJv1fqueaEt/pCba
-inm4bzX82pJK/aQKGPt8CbAjl30tEFTyw8KFX+Jm9jio+4gSWcp5F/ivY9S/LvxL
-dSXrHvHt8z+vWcWJ2YSEYS8LpCELsjJE90eImesjsSP466fPk1I=
-=NiXt
------END PGP SIGNATURE-----
-
---rS8CxjVDS/+yyDmU--
