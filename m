@@ -1,100 +1,71 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=5.0 tests=DATE_IN_PAST_12_24,
-	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 37D517D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Apr 2019 03:10:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 747A47D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Apr 2019 08:35:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726392AbfDODK0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 14 Apr 2019 23:10:26 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:43700 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725789AbfDODK0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 Apr 2019 23:10:26 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x3F2xgS3185420;
-        Mon, 15 Apr 2019 03:09:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=corp-2018-07-02;
- bh=S3rZN90fqdr6pFhmgDzEWKZx4JcRMGXDR94iqTn7l8I=;
- b=5Yv7G8++f4KVa/pzPb9OvsPcE00AIUYV7zxLouHNMi4fqafPYdP0R0FfrrzNFJsMmHSL
- ifFK/TE9otV7wQFVT88Njpzf9ySH+7Q1A47Qe3vjpHk5lfzoslJarXUO1hUeEEa/mV+D
- zrANQSzC8MHJCyk4wkUocPf3XKFwKENywMU1eCu0vfcGrCyUIQEdAuFH4vun2ctN0fr4
- Dek9vkT7KGQCRkIIkJKawx1Se8Pq8fwDrczydsGrF+nKL4KnJXuAUkdf3C9K5Zd6vGOZ
- YEMeLSdZViZkfycaQOL43hBlEqDcSqs4GsqF/vRWLZh91+fgXpDnA9IL9InMcwYnW3rp QQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by userp2130.oracle.com with ESMTP id 2ru76t42h9-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 15 Apr 2019 03:09:30 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x3F383Dd102684;
-        Mon, 15 Apr 2019 03:09:30 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by aserp3020.oracle.com with ESMTP id 2rv2ttxjg5-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 15 Apr 2019 03:09:29 +0000
-Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x3F39SXf017286;
-        Mon, 15 Apr 2019 03:09:28 GMT
-Received: from z2.cn.oracle.com (/10.182.69.87)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Sun, 14 Apr 2019 20:09:27 -0700
-From:   Zhenzhong Duan <zhenzhong.duan@oracle.com>
-To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     paulmck@linux.ibm.com, josh@joshtriplett.org, rostedt@goodmis.org,
-        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-        joel@joelfernandes.org, corbet@lwn.net, tglx@linutronix.de,
-        mingo@kernel.org, gregkh@linuxfoundation.org,
-        keescook@chromium.org, srinivas.eeda@oracle.com,
-        Zhenzhong Duan <zhenzhong.duan@oracle.com>
-Subject: [PATCH 2/2] doc: kernel-parameters.txt: fix documentation of nmi_watchdog parameter
-Date:   Sun, 14 Apr 2019 11:11:04 +0800
-Message-Id: <1555211464-28652-2-git-send-email-zhenzhong.duan@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1555211464-28652-1-git-send-email-zhenzhong.duan@oracle.com>
-References: <1555211464-28652-1-git-send-email-zhenzhong.duan@oracle.com>
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9227 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1904150019
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9227 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1904150019
+        id S1726506AbfDOIfF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Apr 2019 04:35:05 -0400
+Received: from chill.innovation.ch ([216.218.245.220]:38822 "EHLO
+        chill.innovation.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726428AbfDOIfE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 04:35:04 -0400
+X-Greylist: delayed 592 seconds by postgrey-1.27 at vger.kernel.org; Mon, 15 Apr 2019 04:35:04 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by chill.innovation.ch (Postfix) with ESMTP id 83E4B640134;
+        Mon, 15 Apr 2019 01:25:12 -0700 (PDT)
+X-Virus-Scanned: amavisd-new at 
+Authentication-Results: chill.innovation.ch (amavisd-new);
+        dkim=pass (2048-bit key) header.d=innovation.ch
+Received: from chill.innovation.ch ([127.0.0.1])
+        by localhost (chill.innovation.ch [127.0.0.1]) (amavisd-new, port 10024)
+        with LMTP id H1LbtuUvMG6O; Mon, 15 Apr 2019 01:25:11 -0700 (PDT)
+From:   =?UTF-8?q?Ronald=20Tschal=C3=A4r?= <ronald@innovation.ch>
+DKIM-Filter: OpenDKIM Filter v2.10.3 chill.innovation.ch AF517640107
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=innovation.ch;
+        s=default; t=1555316710;
+        bh=eNO0gOF1LZuJARxP4k12fOPQiYPfgCfYCjS8vUDbO60=;
+        h=From:To:Cc:Subject:Date:From;
+        b=HjrufkHippBr2y3B01/OL8ZSYBg7Dj4TFPsVGYL+7jAN8b07KIhDt/WeW648FK7al
+         +UDDwpC/pxFOJRCoxvXqnhOcb7di+drKriU18sXZSIy6KHCcZQQ39tCJ8UMtFxOY90
+         ki5k7W86GDSQo4PEBCTZpH8rTJ5UDaA7HU1+WMKhaVBG5U6+XkG40FNO6cH1BDAIvj
+         9Zf4Okckgfh2jgd7W4nIAFMT6frbJnRO9/byLmr3f+JN6+qChNB2wiGHoRBtv4Q80A
+         FiUSMqouuyYLCoN06SUXmRo5IgxpOyMI9AaPFRdDFtHrmEBwMiXDGMYxuD51OJIFZq
+         laF6RNqskWp/Q==
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] debugfs helpers cleanups
+Date:   Mon, 15 Apr 2019 01:25:04 -0700
+Message-Id: <20190415082506.25610-1-ronald@innovation.ch>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As stated in "Documentation/lockup-watchdogs.txt:line 22", the default
-behaivor after 'hardlockup' is to stay locked up rather than panic.
+commit ff9fb72bc077 ("debugfs: return error values, not NULL") changed
+the return values of various debugfs functions in fs/debugfs/inode.c but
+did not update the documentation or behaviour of affected functions in
+fs/debugfs/file.c . These patches attempt to remedy this.
 
-Signed-off-by: Zhenzhong Duan <zhenzhong.duan@oracle.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Ronald Tschalär (2):
+  debugfs: update documented return values of debugfs helpers
+  debugfs: make return value of all debugfs helpers consistent
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 2b8ee90..fcc9579 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2769,7 +2769,7 @@
- 			0 - turn hardlockup detector in nmi_watchdog off
- 			1 - turn hardlockup detector in nmi_watchdog on
- 			When panic is specified, panic when an NMI watchdog
--			timeout occurs (or 'nopanic' to override the opposite
-+			timeout occurs (or 'nopanic' which is the opposite
- 			default). To disable both hard and soft lockup detectors,
- 			please see 'nowatchdog'.
- 			This is useful when you use a panic=... timeout and
+ Documentation/filesystems/debugfs.txt | 16 +++---
+ fs/debugfs/file.c                     | 79 ++++++++++++---------------
+ 2 files changed, 45 insertions(+), 50 deletions(-)
+
 -- 
-1.8.3.1
+2.20.1
 
