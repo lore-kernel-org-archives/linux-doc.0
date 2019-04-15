@@ -1,113 +1,389 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E74B67D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Apr 2019 21:22:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 117BC7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Apr 2019 21:44:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727988AbfDOVVj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Apr 2019 17:21:39 -0400
-Received: from foss.arm.com ([217.140.101.70]:42876 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726041AbfDOVVi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Apr 2019 17:21:38 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 35D2FA78;
-        Mon, 15 Apr 2019 14:21:38 -0700 (PDT)
-Received: from mammon-tx2.austin.arm.com (mammon-tx2.austin.arm.com [10.118.29.246])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7C0653F68F;
-        Mon, 15 Apr 2019 14:21:37 -0700 (PDT)
-From:   Jeremy Linton <jeremy.linton@arm.com>
-To:     linux-arm-kernel@lists.infradead.org
-Cc:     catalin.marinas@arm.com, will.deacon@arm.com, marc.zyngier@arm.com,
-        suzuki.poulose@arm.com, Dave.Martin@arm.com,
-        shankerd@codeaurora.org, julien.thierry@arm.com,
-        mlangsdo@redhat.com, stefan.wahren@i2se.com,
-        Andre.Przywara@arm.com, linux-kernel@vger.kernel.org,
-        Jeremy Linton <jeremy.linton@arm.com>,
-        Andre Przywara <andre.przywara@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [v8 01/10] arm64: Provide a command line to disable spectre_v2 mitigation
-Date:   Mon, 15 Apr 2019 16:21:20 -0500
-Message-Id: <20190415212129.1112-2-jeremy.linton@arm.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190415212129.1112-1-jeremy.linton@arm.com>
-References: <20190415212129.1112-1-jeremy.linton@arm.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1727186AbfDOVoT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Apr 2019 17:44:19 -0400
+Received: from mail-pg1-f202.google.com ([209.85.215.202]:36661 "EHLO
+        mail-pg1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726621AbfDOVoT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 17:44:19 -0400
+Received: by mail-pg1-f202.google.com with SMTP id l13so11181470pgp.3
+        for <linux-doc@vger.kernel.org>; Mon, 15 Apr 2019 14:44:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=hUfVCkJTScphXKAuEDAByy/TrlCOqBdqVQX+1XlCXds=;
+        b=P3GoJhy20cOZlyMZ6UBxtfTQsc0nkVnOnfr0VHvSs0MN3lnIG4jDioEtgqn3NVr24X
+         E0sSp4V+BcuY3UYtFNR93Tr5eCKTSyyV/E8Y0AMICiCIuHpZCemxdqWFa1VZJq63/MXl
+         wVDIgvaDeWalpgUawxJub1/+vEkmvZWd8l5OWOpxn8Qxf7z8tXBsTfCgierjkUmvBVi0
+         oN3lhCpCCdj1ZEBG0zqAE438qZ3zi7ekYNrPGhoRewJ19VGrvIfgCS0LTF5Ui9j2H/LM
+         5hCSLF0PVc2zu+xCKRSQFYTck20mfIT+7h/La2ijhGNgK7JuCZsxcgMU8EEdZZw0AK7L
+         cSLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=hUfVCkJTScphXKAuEDAByy/TrlCOqBdqVQX+1XlCXds=;
+        b=hf1LOXaiCic9vDIvZTWZd3s0EYpGVQvf4OPSVCJ98KOxmZW2Qwl/6BXvtHuEwJky6M
+         UMYlGoqUuVv8XE4B0sG7c4AR4ANWUaq5oY+yCcSfB2B577gHDXc44VPEI0ffMOWDOF5C
+         zITm/WrmV8+oqZxlp3urT7K3wzhOR6Ff7KGK8IRYo+bhG8JdQsrR8PFxQNrfq10lV1wh
+         J98oTONaud8z9p5cwY9d8sSfM6ig/3cEWIS7eIz/N512cjsA07QhLJeQpEFywNySfLX0
+         sNR9W93Km8aVLJ6iPhMkbcFNDR6FZNeDFXznUpDhFXQpevRAD02Qd7EMdjk6zeuJ5QeV
+         osDg==
+X-Gm-Message-State: APjAAAX5Dav/4Dx3akt1NmWupHNLcy2y2GoJ0TWxj9HlrurOS6gjSvW0
+        Cb0MB2t8mIj9XeeqiaDDqAywA8+xPgt/
+X-Google-Smtp-Source: APXvYqz4pVeWnes1GYq7UD7cOnDwpPhgBYxD0YiOGLLqGjMSfxiqKYnUl+as6vHA9J+ywmEZhroTPbiUQrD6
+X-Received: by 2002:a62:1f1b:: with SMTP id f27mr1592785pff.21.1555364658340;
+ Mon, 15 Apr 2019 14:44:18 -0700 (PDT)
+Date:   Mon, 15 Apr 2019 14:44:14 -0700
+Message-Id: <20190415214414.120944-1-venture@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.21.0.392.gf8f6787159e-goog
+Subject: [PATCH v5 2/2] hwmon: (pmbus/isl68137): Add driver for Intersil
+ ISL68137 PWM Controller
+From:   Patrick Venture <venture@google.com>
+To:     venture@google.com, linux@roeck-us.net, jdelvare@suse.com,
+        joel@jms.id.au, andrew@aj.id.au
+Cc:     Maxim Sloyko <maxims@google.com>, kunyi@google.com,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Robert Lippert <rlippert@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are various reasons, including bencmarking, to disable spectrev2
-mitigation on a machine. Provide a command-line to do so.
+From: Maxim Sloyko <maxims@google.com>
 
-Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
-Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
-Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
+Intersil ISL68137 is a digital output 7-phase configurable PWM
+controller with an AVSBus interface.
+
+Signed-off-by: Maxim Sloyko <maxims@google.com>
+Signed-off-by: Robert Lippert <rlippert@google.com>
+Signed-off-by: Patrick Venture <venture@google.com>
 ---
- Documentation/admin-guide/kernel-parameters.txt |  8 ++++----
- arch/arm64/kernel/cpu_errata.c                  | 13 +++++++++++++
- 2 files changed, 17 insertions(+), 4 deletions(-)
+v5:
+ Drop extra parens
+ Drop extra parameter check
+v4:
+ Use kstrtobool
+ Cleanup parens
+ Use rc instead of temporary int
+ Delete unnecessary coment
+ Add remove to driver structure
+v3:
+ Added missing driver documentation
+ Cleaned up goto statements.
+ Add missing error check on pmbus_read_word_data
+ Transitioned to use SENSOR_DEVICE_ATTR_RW
+ Renamed enabled attribute to enable
+ Set up an attribute_group for the enable attribute and added to pmbus_info
+ Removed the boilerplate driver remove method
+v2:
+ Fixed bad header ordering.
+v1:
+ Original new patchset with fixes from Rob Lippert.
+---
+ Documentation/hwmon/isl68137   |  72 ++++++++++++++
+ drivers/hwmon/pmbus/Kconfig    |   9 ++
+ drivers/hwmon/pmbus/Makefile   |   1 +
+ drivers/hwmon/pmbus/isl68137.c | 172 +++++++++++++++++++++++++++++++++
+ 4 files changed, 254 insertions(+)
+ create mode 100644 Documentation/hwmon/isl68137
+ create mode 100644 drivers/hwmon/pmbus/isl68137.c
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 2b8ee90bb644..d153bb15c8c7 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2873,10 +2873,10 @@
- 			check bypass). With this option data leaks are possible
- 			in the system.
- 
--	nospectre_v2	[X86,PPC_FSL_BOOK3E] Disable all mitigations for the Spectre variant 2
--			(indirect branch prediction) vulnerability. System may
--			allow data leaks with this option, which is equivalent
--			to spectre_v2=off.
-+	nospectre_v2	[X86,PPC_FSL_BOOK3E,ARM64] Disable all mitigations for
-+			the Spectre variant 2 (indirect branch prediction)
-+			vulnerability. System may allow data leaks with this
-+			option.
- 
- 	nospec_store_bypass_disable
- 			[HW] Disable all mitigations for the Speculative Store Bypass vulnerability
-diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
-index 9950bb0cbd52..d2b2c69d31bb 100644
---- a/arch/arm64/kernel/cpu_errata.c
-+++ b/arch/arm64/kernel/cpu_errata.c
-@@ -220,6 +220,14 @@ static void qcom_link_stack_sanitization(void)
- 		     : "=&r" (tmp));
- }
- 
-+static bool __nospectre_v2;
-+static int __init parse_nospectre_v2(char *str)
-+{
-+	__nospectre_v2 = true;
-+	return 0;
-+}
-+early_param("nospectre_v2", parse_nospectre_v2);
+diff --git a/Documentation/hwmon/isl68137 b/Documentation/hwmon/isl68137
+new file mode 100644
+index 0000000000000..92e5c5fc5b777
+--- /dev/null
++++ b/Documentation/hwmon/isl68137
+@@ -0,0 +1,72 @@
++Kernel driver isl68137
++======================
 +
- static void
- enable_smccc_arch_workaround_1(const struct arm64_cpu_capabilities *entry)
- {
-@@ -231,6 +239,11 @@ enable_smccc_arch_workaround_1(const struct arm64_cpu_capabilities *entry)
- 	if (!entry->matches(entry, SCOPE_LOCAL_CPU))
- 		return;
++Supported chips:
++  * Intersil ISL68137
++    Prefix: 'isl68137'
++    Addresses scanned: -
++    Datasheet: Publicly available at the Intersil website
++      https://www.intersil.com/content/dam/Intersil/documents/isl6/isl68137.pdf
++
++Authors:
++        Maxim Sloyko <maxims@google.com>
++        Robert Lippert <rlippert@google.com>
++        Patrick Venture <venture@google.com>
++
++Description
++-----------
++
++Intersil ISL68137 is a digital output 7-phase configurable PWM
++controller with an AVSBus interface.
++
++Usage Notes
++-----------
++
++This driver does not probe for PMBus devices. You will have to instantiate
++devices explicitly.
++
++The ISL68137 AVS operation mode must be enabled/disabled at runtime.
++
++Beyond the normal sysfs pmbus attributes, the driver exposes a control attribute.
++
++Additional Sysfs attributes
++---------------------------
++
++avs(0|1)_enable		Controls the AVS state of each rail.
++
++curr1_label		"iin"
++curr1_input		Measured input current
++curr1_crit		Critical maximum current
++curr1_crit_alarm	Current critical high alarm
++
++curr[2-3]_label		"iout[1-2]"
++curr[2-3]_input		Measured output current
++curr[2-3]_crit		Critical maximum current
++curr[2-3]_crit_alarm	Current critical high alarm
++
++in1_label		"vin"
++in1_input		Measured input voltage
++in1_lcrit		Critical minimum input voltage
++in1_lcrit_alarm		Input voltage critical low alarm
++in1_crit		Critical maximum input voltage
++in1_crit_alarm		Input voltage critical high alarm
++
++in[2-3]_label		"vout[1-2]"
++in[2-3]_input		Measured output voltage
++in[2-3]_lcrit		Critical minimum output voltage
++in[2-3]_lcrit_alarm	Output voltage critical low alarm
++in[2-3]_crit		Critical maximum output voltage
++in[2-3]_crit_alarm	Output voltage critical high alarm
++
++power1_label		"pin"
++power1_input		Measured input power
++power1_alarm		Input power high alarm
++
++power[2-3]_label	"pout[1-2]"
++power[2-3]_input	Measured output power
++
++temp[1-3]_input		Measured temperature
++temp[1-3]_crit		Critical high temperature
++temp[1-3]_crit_alarm	Chip temperature critical high alarm
++temp[1-3]_max		Maximum temperature
++temp[1-3]_max_alarm	Chip temperature high alarm
+diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+index de87abab990e5..7edab7e30eaf9 100644
+--- a/drivers/hwmon/pmbus/Kconfig
++++ b/drivers/hwmon/pmbus/Kconfig
+@@ -63,6 +63,15 @@ config SENSORS_IR38064
+ 	  This driver can also be built as a module. If so, the module will
+ 	  be called ir38064.
  
-+	if (__nospectre_v2) {
-+		pr_info_once("spectrev2 mitigation disabled by command line option\n");
-+		return;
++config SENSORS_ISL68137
++	tristate "Intersil ISL68137"
++	help
++	  If you say yes here you get hardware monitoring support for Intersil
++	  ISL68137.
++
++	  This driver can also be built as a module. If so, the module will
++	  be called isl68137.
++
+ config SENSORS_LM25066
+ 	tristate "National Semiconductor LM25066 and compatibles"
+ 	help
+diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+index 7d1fa6b3c8c93..2219b93003167 100644
+--- a/drivers/hwmon/pmbus/Makefile
++++ b/drivers/hwmon/pmbus/Makefile
+@@ -9,6 +9,7 @@ obj-$(CONFIG_SENSORS_ADM1275)	+= adm1275.o
+ obj-$(CONFIG_SENSORS_IBM_CFFPS)	+= ibm-cffps.o
+ obj-$(CONFIG_SENSORS_IR35221)	+= ir35221.o
+ obj-$(CONFIG_SENSORS_IR38064)	+= ir38064.o
++obj-$(CONFIG_SENSORS_ISL68137)	+= isl68137.o
+ obj-$(CONFIG_SENSORS_LM25066)	+= lm25066.o
+ obj-$(CONFIG_SENSORS_LTC2978)	+= ltc2978.o
+ obj-$(CONFIG_SENSORS_LTC3815)	+= ltc3815.o
+diff --git a/drivers/hwmon/pmbus/isl68137.c b/drivers/hwmon/pmbus/isl68137.c
+new file mode 100644
+index 0000000000000..4140c52d6f124
+--- /dev/null
++++ b/drivers/hwmon/pmbus/isl68137.c
+@@ -0,0 +1,172 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Hardware monitoring driver for Intersil ISL68137
++ *
++ * Copyright (c) 2017 Google Inc
++ *
++ */
++
++#include <linux/err.h>
++#include <linux/hwmon-sysfs.h>
++#include <linux/i2c.h>
++#include <linux/init.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/string.h>
++#include <linux/sysfs.h>
++#include "pmbus.h"
++
++#define ISL68137_VOUT_AVS	0x30
++
++static ssize_t isl68137_avs_enable_show_page(struct i2c_client *client,
++					     int page,
++					     char *buf)
++{
++	int val = pmbus_read_byte_data(client, page, PMBUS_OPERATION);
++
++	return sprintf(buf, "%d\n",
++		       (val & ISL68137_VOUT_AVS) == ISL68137_VOUT_AVS ? 1 : 0);
++}
++
++static ssize_t isl68137_avs_enable_store_page(struct i2c_client *client,
++					      int page,
++					      const char *buf, size_t count)
++{
++	int rc, op_val;
++	bool result;
++
++	rc = kstrtobool(buf, &result);
++	if (!rc)
++		return -EINVAL;
++
++	op_val = result ? ISL68137_VOUT_AVS : 0;
++
++	/*
++	 * Writes to VOUT setpoint over AVSBus will persist after the VRM is
++	 * switched to PMBus control. Switching back to AVSBus control
++	 * restores this persisted setpoint rather than re-initializing to
++	 * PMBus VOUT_COMMAND. Writing VOUT_COMMAND first over PMBus before
++	 * enabling AVS control is the workaround.
++	 */
++	if (op_val == ISL68137_VOUT_AVS) {
++		rc = pmbus_read_word_data(client, page, PMBUS_VOUT_COMMAND);
++		if (rc < 0)
++			return rc;
++
++		rc = pmbus_write_word_data(client, page, PMBUS_VOUT_COMMAND,
++					   rc);
++		if (rc < 0)
++			return rc;
 +	}
 +
- 	if (psci_ops.smccc_version == SMCCC_VERSION_1_0)
- 		return;
- 
++	rc = pmbus_update_byte_data(client, page, PMBUS_OPERATION,
++				    ISL68137_VOUT_AVS, op_val);
++
++	return (rc < 0) ? rc : count;
++}
++
++static ssize_t isl68137_avs_enable_show(struct device *dev,
++					struct device_attribute *devattr,
++					char *buf)
++{
++	struct i2c_client *client = to_i2c_client(dev->parent);
++	struct sensor_device_attribute *attr = to_sensor_dev_attr(devattr);
++
++	return isl68137_avs_enable_show_page(client, attr->index, buf);
++}
++
++static ssize_t isl68137_avs_enable_store(struct device *dev,
++				struct device_attribute *devattr,
++				const char *buf, size_t count)
++{
++	struct i2c_client *client = to_i2c_client(dev->parent);
++	struct sensor_device_attribute *attr = to_sensor_dev_attr(devattr);
++
++	return isl68137_avs_enable_store_page(client, attr->index, buf, count);
++}
++
++static SENSOR_DEVICE_ATTR_RW(avs0_enable, isl68137_avs_enable, 0);
++static SENSOR_DEVICE_ATTR_RW(avs1_enable, isl68137_avs_enable, 1);
++
++static struct attribute *enable_attrs[] = {
++	&sensor_dev_attr_avs0_enable.dev_attr.attr,
++	&sensor_dev_attr_avs1_enable.dev_attr.attr,
++	NULL,
++};
++
++static const struct attribute_group enable_group = {
++	.attrs = enable_attrs,
++};
++
++static const struct attribute_group *attribute_groups[] = {
++	&enable_group,
++	NULL,
++};
++
++static struct pmbus_driver_info isl68137_info = {
++	.pages = 2,
++	.format[PSC_VOLTAGE_IN] = direct,
++	.format[PSC_VOLTAGE_OUT] = direct,
++	.format[PSC_CURRENT_IN] = direct,
++	.format[PSC_CURRENT_OUT] = direct,
++	.format[PSC_POWER] = direct,
++	.format[PSC_TEMPERATURE] = direct,
++	.m[PSC_VOLTAGE_IN] = 1,
++	.b[PSC_VOLTAGE_IN] = 0,
++	.R[PSC_VOLTAGE_IN] = 3,
++	.m[PSC_VOLTAGE_OUT] = 1,
++	.b[PSC_VOLTAGE_OUT] = 0,
++	.R[PSC_VOLTAGE_OUT] = 3,
++	.m[PSC_CURRENT_IN] = 1,
++	.b[PSC_CURRENT_IN] = 0,
++	.R[PSC_CURRENT_IN] = 2,
++	.m[PSC_CURRENT_OUT] = 1,
++	.b[PSC_CURRENT_OUT] = 0,
++	.R[PSC_CURRENT_OUT] = 1,
++	.m[PSC_POWER] = 1,
++	.b[PSC_POWER] = 0,
++	.R[PSC_POWER] = 0,
++	.m[PSC_TEMPERATURE] = 1,
++	.b[PSC_TEMPERATURE] = 0,
++	.R[PSC_TEMPERATURE] = 0,
++	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_IIN | PMBUS_HAVE_PIN
++	    | PMBUS_HAVE_STATUS_INPUT | PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2
++	    | PMBUS_HAVE_TEMP3 | PMBUS_HAVE_STATUS_TEMP
++	    | PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
++	    | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT | PMBUS_HAVE_POUT,
++	.func[1] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
++	    | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT | PMBUS_HAVE_POUT,
++	.groups = attribute_groups,
++};
++
++static int isl68137_probe(struct i2c_client *client,
++			  const struct i2c_device_id *id)
++{
++	return pmbus_do_probe(client, id, &isl68137_info);
++}
++
++static const struct i2c_device_id isl68137_id[] = {
++	{"isl68137", 0},
++	{}
++};
++
++MODULE_DEVICE_TABLE(i2c, isl68137_id);
++
++/* This is the driver that will be inserted */
++static struct i2c_driver isl68137_driver = {
++	.driver = {
++		   .name = "isl68137",
++		   },
++	.probe = isl68137_probe,
++	.remove = pmbus_do_remove,
++	.id_table = isl68137_id,
++};
++
++module_i2c_driver(isl68137_driver);
++
++MODULE_AUTHOR("Maxim Sloyko <maxims@google.com>");
++MODULE_DESCRIPTION("PMBus driver for Intersil ISL68137");
++MODULE_LICENSE("GPL");
 -- 
-2.20.1
+2.21.0.392.gf8f6787159e-goog
 
