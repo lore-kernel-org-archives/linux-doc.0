@@ -1,188 +1,136 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 838E47D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Apr 2019 14:05:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6C37E7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Apr 2019 14:14:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727497AbfDOOFe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Apr 2019 10:05:34 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:41498 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725804AbfDOOFe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 10:05:34 -0400
-Received: by mail-pf1-f193.google.com with SMTP id 188so8641725pfd.8
-        for <linux-doc@vger.kernel.org>; Mon, 15 Apr 2019 07:05:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=0WDxr7x++wyxZBE+48i+O5ufisb7Dj38JxloaCZIM1g=;
-        b=NCEoz5IKT8jCnPgqYIAWnJK8ysRkcxML7a53/BSGxcv4hkvYLWrjZ9Yscpy5OoTZmA
-         UgA88NzFVWuBs/mro+fu0DELzgUH7DgwJ5zjtM7kJcbbLgKxwADikls2Zbhp3rfQYvmU
-         FalL6hftLUMqTQUZXUZEJVGJILFdgUIyMhags=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=0WDxr7x++wyxZBE+48i+O5ufisb7Dj38JxloaCZIM1g=;
-        b=dZTgDjpMSMlQZ7759i/jyh5gEm1M66SI/ezdxsstWkWWKPKLkzZCQ964X3TwEbLLeW
-         vuVzvOJS91L+nzc0pvJ3HYZ8yE1AVkbss10mtWUbxHeyITqPHW/jGLFOJdse0yaq60dV
-         IoB/MalkRMmcO3SVqk/Vl9WNRn6CGSjS9OM/1xg5j9O+7n53cSB353nZcyVi6fl10Dtv
-         32k5eLyLQl/KPKlcg58tmqA2468wyZ3B6opGhpEwcVrsJbjj4Kj27zkXgwVGKGQWZQWw
-         xHLjnZomWLp40xk0zXxH/tGzXe1azJwxR/TWHzDHKx1KHGH06CWXoAV1VpO8/S1sfmA3
-         NwFw==
-X-Gm-Message-State: APjAAAXSn88vLDfMEqLFJerWqCz5BVN/GaBWtXeDuciqSuqU00sXzHts
-        nATiR/ISbrgCo0esEfjCwxXVmA==
-X-Google-Smtp-Source: APXvYqyLhgQVBx81W0JcBdv3yAJYu5l22G1X1P7p/QGvIEXEqRq+ou1HUwmoW8xJZITy8HzRTkNEJg==
-X-Received: by 2002:a63:5149:: with SMTP id r9mr67474876pgl.177.1555337133723;
-        Mon, 15 Apr 2019 07:05:33 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id d69sm35046794pfg.24.2019.04.15.07.05.32
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 15 Apr 2019 07:05:32 -0700 (PDT)
-Date:   Mon, 15 Apr 2019 10:05:31 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Olof Johansson <olof@lixom.net>
-Cc:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Manoj Rao <linux@manojrajarao.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        atish patra <atishp04@gmail.com>,
-        Daniel Colascione <dancol@google.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Karim Yaghmour <karim.yaghmour@opersys.com>,
-        Kees Cook <keescook@chromium.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-trace-devel@vger.kernel.org,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
-Subject: Re: [PATCH v5 1/3] Provide in-kernel headers to make extending
- kernel easier
-Message-ID: <20190415140531.GB205801@google.com>
-References: <20190320163116.39275-1-joel@joelfernandes.org>
- <CAOesGMheoZda84OSz9spQ7p66wot5S_9aaqaKC=QYp+8utASXA@mail.gmail.com>
- <20190408203601.GF133872@google.com>
- <CAOesGMibHCuMPCYkc8V++Z2Kuf3YQf_OjYn18GvDgzTy6ubV=g@mail.gmail.com>
- <CAJWu+or0hWce9+7aEfTHoOR8cptRbzHYVL-bPdJWGZH20dbo7Q@mail.gmail.com>
- <CAOesGMiuGK-Sbqo2z=1ab070JONav1LF82MRRLCdX-4+14_XZA@mail.gmail.com>
- <20190411031540.ehezr6kq7ouobpzx@ast-mbp.dhcp.thefacebook.com>
- <CAOesGMgiPB=7FE7tXXHes7WSLfByyPxirOStoH21NZqMwaUihQ@mail.gmail.com>
+        id S1727478AbfDOOOA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Apr 2019 10:14:00 -0400
+Received: from mout.gmx.net ([212.227.15.19]:45559 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727412AbfDOON7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Apr 2019 10:13:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1555337626;
+        bh=0xpCbVixF1sSisaDHnBrPf3wJ16s51J6Bw33EyYYq/g=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=aj1RYQfRTEJLiyXIQYOh1HoxXtn4Ohi4tuw+Rh0LunPpAoXbSrsZM9LAAlBGbVvyb
+         IMrIOum9Eg1FzVQPgW6Aa51FrLmmJ9TiygTa6ZcHKZajNcqSlJJxSKsLtOhqBrCsIt
+         ebtxMeXA+RWVFq5xK1jkgTqi5oqXZXVgusD8Se/k=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from longitude ([109.90.232.48]) by mail.gmx.com (mrgmx001
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 0M3zT0-1gyvBg11iU-00rUTb; Mon, 15
+ Apr 2019 16:13:46 +0200
+Date:   Mon, 15 Apr 2019 16:13:44 +0200
+From:   Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     Alex Shi <alex.shi@linux.alibaba.com>
+Cc:     Harry Wei <harryxiyou@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] docs/zh_CN: fix typos in 1.Intro.rst file
+Message-ID: <20190415141344.GB11536@latitude>
+References: <20190415094046.242940-1-alex.shi@linux.alibaba.com>
+ <20190415094046.242940-2-alex.shi@linux.alibaba.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="rS8CxjVDS/+yyDmU"
 Content-Disposition: inline
-In-Reply-To: <CAOesGMgiPB=7FE7tXXHes7WSLfByyPxirOStoH21NZqMwaUihQ@mail.gmail.com>
+In-Reply-To: <20190415094046.242940-2-alex.shi@linux.alibaba.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Provags-ID: V03:K1:8gmeNlfBCoUCGR6YBIljTTT+YiV9ZvnBZm2Hbox/7AXiA2Mql65
+ JjGbSZ1EhNezjCNsknjQzp0X0qDgwy+LYoD2mLXiWOqdg6qfv5EfeVVmYzIXws4FUEv82zm
+ T0wUEUS9cqujMUQpNCcpXXsuDJNftoFprLfujLyIpn6nlNfVIZHnnefn6wi1/7LPBcdw7hK
+ HDLLdbPeQ1wbsI6wZVXiw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:TVv+vqHmHv8=:OUkGjQhg7D4ZhFb9u1uS4C
+ PQ/sWl5Xm0mdS3D4LN/30JyRMOkGvUld9Hw3fgoua7aTOCfofOF1YxdZ6ETAoXBx722THSzxK
+ fQ9ms6zOn5GGCKUYdF57M/ZN+WkdYraevAEvwOiDot/+retUTuoYuOs0eogsPXH/Ia2rwN833
+ AjajgaQnAJQpBBMxlWGVhkbCd+SslArf+Q9jTLv16EQh9ho5oY60gmxfghOI+n2HpzjNucIP+
+ nLF/ZG8BWLeMyc/aS+BMtY356Aqb+giys9rfdC/7n6F94FuFXeVGibCaEPESTymB/zqlYSTNH
+ 05Qo3c0h4An9MHO90DGIF+4C77qcVFewhNUoI7CPVXxtgQx/W+Pks5dPvV0Snmi8VuCp+RxQs
+ NTaMDjWr4kEirptwIgS3K4+NdwDeFGn40tePn3WLdbqP44KAChDz3xxBJFp52K+YSPz1Llibr
+ YhNsuuM0MDdN7J+3HQxtnEcJAwj+9UAAiALxjBA1TVLHJPX+izaD5gF6QOSo8IuRIy9QpPpQj
+ 3SZOklItyMk/tPYzxeNfdpkthKrU+RfaxA+C+e/QTmPF9FWXQ+46j8A6gWpbp2kS8AB4vRCuL
+ uB9lU1ZSo6V8e0F3P0Ra9Iq2QPms1R4gK2En/eEi9sNoFVaHSIxde9f3pjAdAoVlZMq1yWUBi
+ f8qnYtzgB/iGegRBZ2q3eek4A17bGlJmFO+wn8AshU52nQFDHSzkf3MmBERb18wzfz53rFnhd
+ wTw1KOErDrCUIGqcBzinPemlx9a6/bL1ul4weVaxvTftvQthtFkdF15QVuDIypaZx32ZhW64C
+ dAYlOD6q17b6+mz7MLpS1gPYtFmccegAtETK1ojDuynpk/iQkeCHeR2W2PSie9M7DKeQy87Kl
+ 4V2/dBQGtB9Y2vdHizSIN/5Ot2ZmoQZADreDtnFEm9pxeWm8DwzvwdrcSgAV6y
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Apr 14, 2019 at 12:38:34PM -0700, Olof Johansson wrote:
-> On Wed, Apr 10, 2019 at 8:15 PM Alexei Starovoitov
-> <alexei.starovoitov@gmail.com> wrote:
-> >
-> > On Wed, Apr 10, 2019 at 09:34:49AM -0700, Olof Johansson wrote:
-> > > On Wed, Apr 10, 2019 at 8:51 AM Joel Fernandes <joelaf@google.com> wrote:
-> > > >
-> > > > On Wed, Apr 10, 2019 at 11:07 AM Olof Johansson <olof@lixom.net> wrote:
-> > > > [snip]
-> > > > > > > Wouldn't it be more convenient to provide it in a standardized format
-> > > > > > > such that you won't have to take an additional step, and always have
-> > > > > > > This is that form IMO.
-> > ...
-> > > Compared to:
-> > >  - Extract tarball
-> > >  - Build and load
-> > >  - Remove file tree from filesystem
-> >
-> > I think there are too many assumptions in this thread in regard to what
-> > is more convenient for user space.
-> > I think bcc should try to avoid extracting tarball into file system.
-> > For example libbcc can uncompress kheader.tar.xz into virtual file system
-> > of clang front-end. It's more or less std::map<string, string>
-> > with key=path, value=content of the file. Access to such in-memory
-> > 'files' is obviously faster than doing open/read syscalls.
-> 
-> I think performance is a red herring, especially since you have to
-> uncompress it on every compiler invocation. With this you'd need to
-> read/touch/write _all_ header files, not just the one your current
-> compiler invocation will use.
-> 
-> In the grand scheme of things, open/mmap syscalls wouldn't necessarily
-> be slower.
 
-Agreed.
+--rS8CxjVDS/+yyDmU
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > bcc already uses this approach for some bcc internal 'files' that
-> > it passes to clang during compilation.
-> > All of /proc/kheaders.tar.xz files can be passed the same way
-> > without extracting them into real file system.
-> 
-> This is now a circular argument. Joel was stating that the plain text
-> headers took up too much memory, but now it's preferred to create such
-> filesystem in userspace memory on *every compiler invocation*?
-> That's... not better. And definitely worse if you want to compile in
-> parallel.
+On Mon, Apr 15, 2019 at 05:40:46PM +0800, Alex Shi wrote:
+> Fixed a uncapital issue and a typo.
+>=20
+> Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
+> Cc: Harry Wei <harryxiyou@gmail.com>=20
+> Cc: Jonathan Corbet <corbet@lwn.net>=20
+> Cc: linux-doc@vger.kernel.org=20
+> Cc: linux-kernel@vger.kernel.org=20
+> ---
+>  Documentation/translations/zh_CN/process/1.Intro.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/Documentation/translations/zh_CN/process/1.Intro.rst b/Docum=
+entation/translations/zh_CN/process/1.Intro.rst
+> index 03bbafc00bd2..2bff9e49822c 100644
+> --- a/Documentation/translations/zh_CN/process/1.Intro.rst
+> +++ b/Documentation/translations/zh_CN/process/1.Intro.rst
+> @@ -79,12 +79,12 @@ Linux=E6=9C=80=E5=BC=95=E4=BA=BA=E6=B3=A8=E7=9B=AE=E7=
+=9A=84=E7=89=B9=E6=80=A7=E4=B9=8B=E4=B8=80=E6=98=AF=E8=BF=99=E4=BA=9B=E5=BC=
+=80=E5=8F=91=E4=BA=BA=E5=91=98=E5=8F=AF=E4=BB=A5=E8=AE=BF=E9=97=AE=E5=AE=83=
+=EF=BC=9B=E4=BB=BB=E4=BD=95
+>  =E8=87=B4=E8=B0=A2
+>  ----
+> =20
+> -=E6=9C=AC=E6=96=87=E4=BB=B6=E7=94=B1jonathan corbet=E6=92=B0=E5=86=99=EF=
+=BC=8Ccorbet@lwn.net=E3=80=82=E4=BB=A5=E4=B8=8B=E4=BA=BA=E5=91=98=E7=9A=84=
+=E5=BB=BA=E8=AE=AE=E4=BD=BF=E4=B9=8B=E6=9B=B4=E4=B8=BA=E5=AE=8C=E5=96=84=EF=
+=BC=9A
+> +=E6=9C=AC=E6=96=87=E4=BB=B6=E7=94=B1Jonathan corbet=E6=92=B0=E5=86=99=EF=
+=BC=8Ccorbet@lwn.net=E3=80=82=E4=BB=A5=E4=B8=8B=E4=BA=BA=E5=91=98=E7=9A=84=
+=E5=BB=BA=E8=AE=AE=E4=BD=BF=E4=B9=8B=E6=9B=B4=E4=B8=BA=E5=AE=8C=E5=96=84=EF=
+=BC=9A
 
-The BCC patch does not extract purely into memory, but uses temporary
-directory: https://github.com/iovisor/bcc/pull/2312
-I believe this is a good approach.
+=E2=80=A6 or perhaps "Jonathan Corbet" (with two capital letters)?
 
-> From my perspective, this is where we're at:
-> 
-> This patch seems to have been met with a lot of responses in the tone
-> of "this is not an appealing solution". Meanwhile, some of the
-> suggested alternative solutions have not worked out, and we are now at
-> a point where there's less interest in exploring alternatives and
-> arguments to merge as-is with only minor adjustments.
-> 
-> I understand the desire to solve this. It'd be really convenient to
-> have a way to runtime build against the same structure layouts that
-> the kernel was built with. But I haven't heard anyone say that they
+>  Johannes Berg, James Berry, Alex Chiang, Roland Dreier, Randy Dunlap,
+>  Jake Edge, Jiri Kosina, Matt Mackall, Arthur Marsh, Amanda McPherson,
+>  Andrew Morton, Andrew Price, Tsugikazu Shibata, =E5=92=8C Jochen Vo=C3=
+=9F.
 
-About structure layouts, I'm assuming you mean compiler generated debug info.
-That does not work for eBPF tools as was mentioned previously in these threads:
-https://lkml.org/lkml/2019/3/11/1358
-https://lkml.org/lkml/2019/3/11/1363
 
-> *like* the solution proposed, and I haven't seen many of those
-> expressing concerns being converted to support it.
+Jonathan Neusch=C3=A4fer
 
-IMHO there has been good number of people on both sides of the argument. If
-it were as strong of an opposition as you think, then I would have personally
-not wanted this merged tbh. We do want a solution that is clean and works, and
-I think this is a candidate.
+--rS8CxjVDS/+yyDmU
+Content-Type: application/pgp-signature; name="signature.asc"
 
-[snip]
-> I'd be a *lot* less hesitant if this went into debugfs or another
-> location than /proc, which is one of the most regression-sensitive
-> interfaces we have in the kernel.
+-----BEGIN PGP SIGNATURE-----
 
-The solution should be regression-sensitive imho, we don't want the tracing
-tools to break, people use them. And their usability and robustness is
-important which prompted these patches. For some time we have been hosting
-downloadable headers for popular kernels (such as LTS versions) to workaround
-this issue, but this both a maintenance issue and non-scalable, and not
-robust (someone boots a custom kernel or we forget to update headers for a
-future LTS release and the tools break).
+iQIzBAABCgAdFiEEvHAHGBBjQPVy+qvDCDBEmo7zX9sFAly0kZAACgkQCDBEmo7z
+X9uprA/9GLTNzeZc2l5hhoqBS0LpYj7ZM5L2FPPDZNad4LcF/Kry/ofj0x8snpyk
+ZOwhr/kKLnK1DV7u1Xng89wdAa7ZkB5nHFmZDQ0WcB0ayNwGA8MRdNeF1iiVAQMq
+nHJaYxLB477b7citNFc7xwdI6kSIV/lIRv9om6sniDPnBXMZiBzdDh7IFDXEIRe9
+YlZTI2wr36aMYxCSMs4t7qsy/Z2Q6/4KB+uDiM4rEKGQxge2BOQhtE7nlesdpaoV
+i6AVLV5ryLpT3QDGuZp0WYW3R3CV9iyH02C3qFZtw5k81t60Mge69TKMuAVtOI7E
+Q1VYwlR1GBHquKWsXBNGBDd15cn+eBj8hjMddcap2L8gkfgrnXUxGcYgdyj9Yf60
+v/qPCrEg/xLk6rIJJtXMqV3nitrhGyiW8grCRJtrjtdwIKZLqTtJdIPUTxDt0Y2e
+dprPG8g8Ffjb3lB3NBga370qTZZgDOtewV+Rr9q+9n0dBN5+hVT514y47yO5r3qe
+ab1UCj6gQZPHUqBLGzDvHJhyCx8k0qYeh5OOKlSSrqbruRwdWJv1fqueaEt/pCba
+inm4bzX82pJK/aQKGPt8CbAjl30tEFTyw8KFX+Jm9jio+4gSWcp5F/ivY9S/LvxL
+dSXrHvHt8z+vWcWJ2YSEYS8LpCELsjJE90eImesjsSP466fPk1I=
+=NiXt
+-----END PGP SIGNATURE-----
 
-thanks,
-
- - Joel
-
+--rS8CxjVDS/+yyDmU--
