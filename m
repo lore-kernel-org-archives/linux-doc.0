@@ -1,78 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8B1BD7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Apr 2019 15:42:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 553CE7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Apr 2019 15:57:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726034AbfDOPlz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Apr 2019 11:41:55 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:32937 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725972AbfDOPlz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 11:41:55 -0400
-Received: by mail-pl1-f194.google.com with SMTP id t16so8766746plo.0;
-        Mon, 15 Apr 2019 08:41:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=03U2+gNC/tIGz//LfXqwAH1STf4MB9cTPsC4LtWU1hs=;
-        b=clAw7PEKP+T+IfxwlxZTrhucaaezcIpRoc0B707Xfji5JrW5EEbGpPDhuOVRi7dj2t
-         hfwzbD6RbHabaoqnTEUVUvSzwWZjj/K2++1ytJ06c/pNgrdRsU7S9W32ihW9JRzoON9o
-         LuIZFV6iTeqeDEzvuDw1xrhTpB8bXsdXHZOEJ1TLP5zoHSKRxOWpz/q1SHzJjblJaKX2
-         uyLRXErKJoYYOb9MJWRZs2H88B2GN8GmmGIRl1cV6L+PHCHu9S+IPYvilg80O6wsvXTz
-         jXWnhyz4ktOHfG6YXOwHGeUtMKGIP2WYGy0+tcAqIaEXILVSIu0Q4jPJjvxJVB2uEc8T
-         IhEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=03U2+gNC/tIGz//LfXqwAH1STf4MB9cTPsC4LtWU1hs=;
-        b=ATf+0TuyJtFAqvCt+PqxbJuCDtqBt/5j/n4o81kwhc5dKQYWI/McWWw5KjojvCuHLg
-         UR0+7gTXyop5bunxgc4LfRAcmpc+zO2rmhlw6c7/EimNjvc7fBI1qU0hD8DGwM9+lBtE
-         MimBfsjCvyM6ww1iwVvZnssJEif757p1XKtk8d1s5uGDvA/abDHKhQaYW35EIfHJiAGP
-         5+0uwHJpqlGf1Ud7NNkwg3hrdYgR2ctFT9vhxRlXTJ3/ia7UhcHiaialG+JpQhvTBSlm
-         M9zkTGv8ifidFdpMR8YC+AQto2ttwjvz2pqWE4pu6IeB9FTon1UzA4yWXX6VDxHxgNMq
-         s07w==
-X-Gm-Message-State: APjAAAVeWSBAfe3pKIxjLWMZK+m35Kuc1q1UJwtjIaO3Z5JfJ4jlbx6d
-        EH6lQnfWeLHCTrjBSXFCEvdnLfjp
-X-Google-Smtp-Source: APXvYqz39iqJRTwlyGeSLEpp91C4BX6W6y9xH6hv9V9M6k16pwsRaq01nE2WBm3oZuE7fINZR4ZQdA==
-X-Received: by 2002:a17:902:b60d:: with SMTP id b13mr77026589pls.100.1555342914669;
-        Mon, 15 Apr 2019 08:41:54 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id y191sm23409547pgd.78.2019.04.15.08.41.52
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 15 Apr 2019 08:41:53 -0700 (PDT)
-Date:   Mon, 15 Apr 2019 08:41:51 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Patrick Venture <venture@google.com>
-Cc:     jdelvare@suse.com, corbet@lwn.net, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hwmon: (ir38064) delete incorrect line
-Message-ID: <20190415154151.GA7292@roeck-us.net>
-References: <20190415141728.133110-1-venture@google.com>
+        id S1727786AbfDOP44 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Apr 2019 11:56:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37380 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727771AbfDOP4z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Apr 2019 11:56:55 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0BCCD2183F;
+        Mon, 15 Apr 2019 15:56:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1555343815;
+        bh=bR2KjivPoLlY6Pq+egUxPlsqFOzLQeX1Mn0byEC8zko=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=x9JR7qYkKg4dWd9FhRHhVdijDBjH5v5880HCRGnNWso/i8VQeOwt9LVxZL9M7UH1M
+         bMYxwuhcfLNoyGS/T4+xZpeuTmbdQqrFDDnLODA6S1QLu0jpwYI2mCmilGKymBXDoc
+         Bdvgdf+JZ6cpJ0CkKFDssF86wFiPqMN6pn/ZExU8=
+From:   Sasha Levin <sashal@kernel.org>
+To:     peterhuewe@gmx.de, jarkko.sakkinen@linux.intel.com, jgg@ziepe.ca
+Cc:     corbet@lwn.net, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@microsoft.com, thiruan@microsoft.com,
+        bryankel@microsoft.com, Sasha Levin <sashal@kernel.org>
+Subject: [PATCH v3 2/2] ftpm: add documentation for ftpm driver
+Date:   Mon, 15 Apr 2019 11:56:36 -0400
+Message-Id: <20190415155636.32748-3-sashal@kernel.org>
+X-Mailer: git-send-email 2.19.1
+In-Reply-To: <20190415155636.32748-1-sashal@kernel.org>
+References: <20190415155636.32748-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190415141728.133110-1-venture@google.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 15, 2019 at 07:17:28AM -0700, Patrick Venture wrote:
-> Delete line indicating the datasheet was not publicly available.  This
-> line was originally present as a default during the write-up and was
-> subsequently not removed once the datasheet was located.
-> 
-> Signed-off-by: Patrick Venture <venture@google.com>
+This patch adds basic documentation to describe the new fTPM driver.
 
-Applied.
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Sasha Levin (Microsoft) <sashal@kernel.org>
+---
+ Documentation/security/tpm/index.rst        |  1 +
+ Documentation/security/tpm/tpm_ftpm_tee.rst | 31 +++++++++++++++++++++
+ 2 files changed, 32 insertions(+)
+ create mode 100644 Documentation/security/tpm/tpm_ftpm_tee.rst
 
-Thanks,
-Guenter
+diff --git a/Documentation/security/tpm/index.rst b/Documentation/security/tpm/index.rst
+index af77a7bbb070..15783668644f 100644
+--- a/Documentation/security/tpm/index.rst
++++ b/Documentation/security/tpm/index.rst
+@@ -4,4 +4,5 @@ Trusted Platform Module documentation
+ 
+ .. toctree::
+ 
++   tpm_ftpm_tee
+    tpm_vtpm_proxy
+diff --git a/Documentation/security/tpm/tpm_ftpm_tee.rst b/Documentation/security/tpm/tpm_ftpm_tee.rst
+new file mode 100644
+index 000000000000..29c2f8b5ed10
+--- /dev/null
++++ b/Documentation/security/tpm/tpm_ftpm_tee.rst
+@@ -0,0 +1,31 @@
++=============================================
++Firmware TPM Driver
++=============================================
++
++| Authors:
++| Thirupathaiah Annapureddy <thiruan@microsoft.com>
++| Sasha Levin <sashal@kernel.org>
++
++This document describes the firmware Trusted Platform Module (fTPM)
++device driver.
++
++Introduction
++============
++
++This driver is a shim for a firmware implemented in ARM's TrustZone
++environment. The driver allows programs to interact with the TPM in the same
++way the would interact with a hardware TPM.
++
++Design
++======
++
++The driver acts as a thin layer that passes commands to and from a TPM
++implemented in firmware. The driver itself doesn't contain much logic and is
++used more like a dumb pipe between firmware and kernel/userspace.
++
++The firmware itself is based on the following paper:
++https://www.microsoft.com/en-us/research/wp-content/uploads/2017/06/ftpm1.pdf
++
++When the driver is loaded it will expose ``/dev/tpmX`` character devices to
++userspace which will enable userspace to communicate with the firmware tpm
++through this device.
+-- 
+2.19.1
+
