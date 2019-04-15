@@ -1,86 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E930E7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Apr 2019 14:17:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 527A37D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Apr 2019 14:41:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725789AbfDOORl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Apr 2019 10:17:41 -0400
-Received: from mail-ot1-f73.google.com ([209.85.210.73]:57249 "EHLO
-        mail-ot1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727364AbfDOORl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 10:17:41 -0400
-Received: by mail-ot1-f73.google.com with SMTP id c26so9089873otr.23
-        for <linux-doc@vger.kernel.org>; Mon, 15 Apr 2019 07:17:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=tYUX4z3a9vnhDDPclH29VM7BoMseyyZGQ648ccgyB7k=;
-        b=UQNV1AfQmZWIcprEZbMd4jl6liPToQm1PvJERbLxkuCd743QR1Mf6SgZ/LVqZfXjWM
-         uzxJy1QOApMdpC+uDKuYcD4u+Qh6IX+7ejwOKy4u7Fxi8L5sJc5sXNcvpYA0InyhdmNL
-         BJAFwjq/2flyAzImqe1aQNIvbEpDgE5d/yTGuCZJzZvkYog879STkVJoCzEnlzoJDdFB
-         s9Ev4nDeIhaP1Q99z+2VgRoJ9KahdGJOJ06ZkTEPSu4otZyCWUHAYW/D2YMcKl6tuaO9
-         1/XtHgeTEJlRqffXjvyIwa+JEoySz4Re2mwjPwl8yGevp+ae7zbqiynHjnkQL+cQSzfk
-         9gew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=tYUX4z3a9vnhDDPclH29VM7BoMseyyZGQ648ccgyB7k=;
-        b=Fm+CbtpnGJiu3/UcU3Vm3eHZ606CE8/lmw4S+GpCflPMq5KpNbTrjxDTFwlOhRNp1v
-         MsHb9eyISlHVGWmqHXiioGNKQYN4TgeIOi+i/98C98pDacnDgzTfU2h+CEplftbh35Fh
-         ubC5Ymm4Nx0rtDghRCv9JR+irfa8kWF7BWIoRG/I6Fw7Uh6IxJZrHX67LlxfKnytjvIj
-         SerrSZtukuoPdXGYksc81+rwxtybeMmeEfhN68rMlbKaQ79nK8Bx7YVR612nmA0hNihF
-         15CICgyCPYpyNzYdNHWMcEM1N1H94bfrTm8M+vIJpkJfHiOrP8ftdaYPsKmgLv1xpWtO
-         qVyA==
-X-Gm-Message-State: APjAAAXz8RaM1qw/ZbehskI5g9vDnLV0sGkoWZxcW3BprpOhsR5ZnPJB
-        qW0jMABsqwEUtUpjtnVv99kKqv06X+9U
-X-Google-Smtp-Source: APXvYqx8ThQGTWHaDJHu9suGwS422jNrj9DDS6gUoloiBOLYoULr7RIAFFLaqMMcNnWR2GNWvAyZN9XYo9qX
-X-Received: by 2002:a9d:6a53:: with SMTP id h19mr5916188otn.33.1555337860451;
- Mon, 15 Apr 2019 07:17:40 -0700 (PDT)
-Date:   Mon, 15 Apr 2019 07:17:28 -0700
-Message-Id: <20190415141728.133110-1-venture@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.21.0.392.gf8f6787159e-goog
-Subject: [PATCH] hwmon: (ir38064) delete incorrect line
-From:   Patrick Venture <venture@google.com>
-To:     venture@google.com, jdelvare@suse.com, linux@roeck-us.net,
-        corbet@lwn.net
-Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        id S1727611AbfDOOlO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Apr 2019 10:41:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36494 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727602AbfDOOlN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Apr 2019 10:41:13 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D35DE2075B;
+        Mon, 15 Apr 2019 14:41:10 +0000 (UTC)
+Date:   Mon, 15 Apr 2019 10:41:09 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Olof Johansson <olof@lixom.net>
+Cc:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Joel Fernandes <joelaf@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Qais Yousef <qais.yousef@arm.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Manoj Rao <linux@manojrajarao.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        atish patra <atishp04@gmail.com>,
+        Daniel Colascione <dancol@google.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Karim Yaghmour <karim.yaghmour@opersys.com>,
+        Kees Cook <keescook@chromium.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-trace-devel@vger.kernel.org,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
+Subject: Re: [PATCH v5 1/3] Provide in-kernel headers to make extending
+ kernel easier
+Message-ID: <20190415104109.64d914f3@gandalf.local.home>
+In-Reply-To: <CAOesGMgiPB=7FE7tXXHes7WSLfByyPxirOStoH21NZqMwaUihQ@mail.gmail.com>
+References: <20190320163116.39275-1-joel@joelfernandes.org>
+        <CAOesGMheoZda84OSz9spQ7p66wot5S_9aaqaKC=QYp+8utASXA@mail.gmail.com>
+        <20190408203601.GF133872@google.com>
+        <CAOesGMibHCuMPCYkc8V++Z2Kuf3YQf_OjYn18GvDgzTy6ubV=g@mail.gmail.com>
+        <CAJWu+or0hWce9+7aEfTHoOR8cptRbzHYVL-bPdJWGZH20dbo7Q@mail.gmail.com>
+        <CAOesGMiuGK-Sbqo2z=1ab070JONav1LF82MRRLCdX-4+14_XZA@mail.gmail.com>
+        <20190411031540.ehezr6kq7ouobpzx@ast-mbp.dhcp.thefacebook.com>
+        <CAOesGMgiPB=7FE7tXXHes7WSLfByyPxirOStoH21NZqMwaUihQ@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Delete line indicating the datasheet was not publicly available.  This
-line was originally present as a default during the write-up and was
-subsequently not removed once the datasheet was located.
+On Sun, 14 Apr 2019 12:38:34 -0700
+Olof Johansson <olof@lixom.net> wrote:
 
-Signed-off-by: Patrick Venture <venture@google.com>
----
- Documentation/hwmon/ir38064 | 3 ---
- 1 file changed, 3 deletions(-)
+> >From my perspective, this is where we're at:  
+> 
+> This patch seems to have been met with a lot of responses in the tone
+> of "this is not an appealing solution". Meanwhile, some of the
+> suggested alternative solutions have not worked out, and we are now at
+> a point where there's less interest in exploring alternatives and
+> arguments to merge as-is with only minor adjustments.
 
-diff --git a/Documentation/hwmon/ir38064 b/Documentation/hwmon/ir38064
-index c3697d7aaaa44..9f218c39bfe6f 100644
---- a/Documentation/hwmon/ir38064
-+++ b/Documentation/hwmon/ir38064
-@@ -8,9 +8,6 @@ Supported chips:
-     Datasheet: Publicly available at the Infineon webiste
-       https://www.infineon.com/dgdl/Infineon-IR38064MTRPBF-DS-v03_07-EN.pdf?fileId=5546d462584d1d4a0158db0d9efb67ca
- 
--Datasheet is not publicly available.
--
--
- Authors:
-         Maxim Sloyko <maxims@google.com>
-         Patrick Venture <venture@google.com>
--- 
-2.21.0.392.gf8f6787159e-goog
+Another consideration to make is difficulty of support. Having a
+tarball compressed headers may not be an appealing solution, but it
+isn't one that would be too much of an issue to support. Having a
+better interface would be difficult to get right, and if you get it
+wrong, you are now stuck with supporting something that may become a
+big pain to do so in the future.
 
+> I'd be a *lot* less hesitant if this went into debugfs or another
+> location than /proc, which is one of the most regression-sensitive
+> interfaces we have in the kernel.
+> 
+
+I agree with this assessment. We shouldn't use config.gz as precedence
+for this solution. config.gz should have been in debugfs to begin with,
+but I don't believe debugfs was around when config.gz was introduced.
+(Don't have time to look into the history of the two).
+
+-- Steve
