@@ -2,163 +2,117 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AE4E37D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Apr 2019 09:42:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E9D407D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Apr 2019 13:33:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725939AbfDOJmU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Apr 2019 05:42:20 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:48267 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725816AbfDOJmT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 05:42:19 -0400
-Received: from [192.168.1.110] ([95.115.91.41]) by mrelayeu.kundenserver.de
- (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1N0qmr-1gtCPH1NZ7-00wpnv; Mon, 15 Apr 2019 11:41:22 +0200
-Subject: Re: [PATCH v5 1/3] Provide in-kernel headers to make extending kernel
- easier
-To:     Olof Johansson <olof@lixom.net>,
-        Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Joel Fernandes <joelaf@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Manoj Rao <linux@manojrajarao.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        atish patra <atishp04@gmail.com>,
-        Daniel Colascione <dancol@google.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Karim Yaghmour <karim.yaghmour@opersys.com>,
-        Kees Cook <keescook@chromium.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-trace-devel@vger.kernel.org,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
-References: <20190320163116.39275-1-joel@joelfernandes.org>
- <CAOesGMheoZda84OSz9spQ7p66wot5S_9aaqaKC=QYp+8utASXA@mail.gmail.com>
- <20190408203601.GF133872@google.com>
- <CAOesGMibHCuMPCYkc8V++Z2Kuf3YQf_OjYn18GvDgzTy6ubV=g@mail.gmail.com>
- <CAJWu+or0hWce9+7aEfTHoOR8cptRbzHYVL-bPdJWGZH20dbo7Q@mail.gmail.com>
- <CAOesGMiuGK-Sbqo2z=1ab070JONav1LF82MRRLCdX-4+14_XZA@mail.gmail.com>
- <20190411031540.ehezr6kq7ouobpzx@ast-mbp.dhcp.thefacebook.com>
- <CAOesGMgiPB=7FE7tXXHes7WSLfByyPxirOStoH21NZqMwaUihQ@mail.gmail.com>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Organization: metux IT consult
-Message-ID: <463a08cb-d1ac-b750-c699-8242c2c20fd2@metux.net>
-Date:   Mon, 15 Apr 2019 11:41:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
+        id S1727214AbfDONd6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Apr 2019 09:33:58 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:52098 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727129AbfDONd6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 09:33:58 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x3FDV4QG128929
+        for <linux-doc@vger.kernel.org>; Mon, 15 Apr 2019 09:33:57 -0400
+Received: from e16.ny.us.ibm.com (e16.ny.us.ibm.com [129.33.205.206])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2rvrvxp7v6-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Mon, 15 Apr 2019 09:33:56 -0400
+Received: from localhost
+        by e16.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Mon, 15 Apr 2019 14:33:55 +0100
+Received: from b01cxnp22035.gho.pok.ibm.com (9.57.198.25)
+        by e16.ny.us.ibm.com (146.89.104.203) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Mon, 15 Apr 2019 14:33:49 +0100
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x3FDXmHM16056362
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 15 Apr 2019 13:33:49 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id B27B6B2066;
+        Mon, 15 Apr 2019 13:33:48 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 9424CB205F;
+        Mon, 15 Apr 2019 13:33:48 +0000 (GMT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.188])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Mon, 15 Apr 2019 13:33:48 +0000 (GMT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id 429D116C265F; Mon, 15 Apr 2019 06:33:52 -0700 (PDT)
+Date:   Mon, 15 Apr 2019 06:33:52 -0700
+From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
+To:     Zhenzhong Duan <zhenzhong.duan@oracle.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        josh@joshtriplett.org, rostedt@goodmis.org,
+        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+        joel@joelfernandes.org, corbet@lwn.net, tglx@linutronix.de,
+        mingo@kernel.org, gregkh@linuxfoundation.org,
+        keescook@chromium.org, srinivas.eeda@oracle.com
+Subject: Re: [PATCH 1/2] doc: Fixup definition of
+ rcupdate.rcu_task_stall_timeout
+Reply-To: paulmck@linux.ibm.com
+References: <1555211464-28652-1-git-send-email-zhenzhong.duan@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <CAOesGMgiPB=7FE7tXXHes7WSLfByyPxirOStoH21NZqMwaUihQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:TBuzl5G5ovLUaY43Qv+hnIQusro/f1muW+TE0KRY5F/cVh+vcvu
- j4WZFMgyNqn4uUcLSz/RCQGVZh8C7dd9YeNBA4zeaMM5zeA3s/eXDphNdj5+3vchxduzTB0
- FUr7g2wGw29dZNdOoZCj+fVFHNSDvQwDwSh8gMpGu2Jp9wQuRKrqwZbZ+9TkLdyeMaPtcCY
- 2WEPV9bf2zZUFuceQCBYw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:jLcjNOcMryQ=:LBRLfE5/eMs5y6nnNNDnlE
- DIohbMWLtKarFWrSf0oMDwLOg/17heS1XD9FpP+XB6dtJ3ytFqbcVlFA2ouS/s/10vfrJ7Jy4
- 3I9AuclxJxIbJmx09wNzeeAydtAXaf9BpkFlGfMXkXgQHy9fcmG2487qd0LST4O93ln2pKzEr
- 967OBdSAmqo61rHAm38v60asQuQF/m8YTlhHCD6ljQVpKtW8T3SXuPYewRR6aNNuDe9sPp8h6
- G5GOP9i5IEDSRWfTkN6G5USUYbod1XdyUdtR4k96c7kon7X20CB/2xx7bXdYRtbSWrGAB8fIl
- ebedUvz4oPhX6RROXCmJhaJaoOfO1ndNJ5gkFKoOSRPB2JFTWtnfFampGll235C40Ln54agI1
- u05E4xA6mi7wGyGjgSXcCk+fJ+H+lPxgh5JmeIwqo/q3wz8THG1xTvID92pp80RVLMIGHMOBh
- 8OvtVJ5dvJAQkc6Ambx01m0pVfGBlCbk3TiX++4lZj6z2jazOKUpeWmR90OqZXpAdmg+Uwf/v
- 1k53fhxTRAAet0VDz5CvsuQQQQQ0tPMMrgo6R4Dh4SZUB8QbWHjcRD+pjEUXo8hj8ayOTg0HN
- SeIZUfP97vESSQR+LOFi4lSCCCP002f66sB0lZhBSSkqKTKpSqi2rf+AIWX1OYYJsR23sxLMh
- pZk+k/K9bL59ghBwW3QC8mUYEoc12SlQQJ5ZqU5DM9CKjPBZa33YQeuQ26cxlyFl022p4dru5
- CxZ6urefnibXTtCYYpq+xJEurjUznWpHlY4To36yJFq2Yvo3NxDTqCZXXu8=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1555211464-28652-1-git-send-email-zhenzhong.duan@oracle.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+x-cbid: 19041513-0072-0000-0000-0000041A171C
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00010932; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000284; SDB=6.01189443; UDB=6.00623207; IPR=6.00970229;
+ MB=3.00026451; MTD=3.00000008; XFM=3.00000015; UTC=2019-04-15 13:33:53
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19041513-0073-0000-0000-00004BD5C834
+Message-Id: <20190415133352.GT14111@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-04-15_05:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1904150093
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 14.04.19 21:38, Olof Johansson wrote:
+On Sun, Apr 14, 2019 at 11:11:03AM +0800, Zhenzhong Duan wrote:
+> A positive value of rcupdate.rcu_task_stall_timeout is an interval
+> in seconds rather than jiffies.
+> 
+> Signed-off-by: Zhenzhong Duan <zhenzhong.duan@oracle.com>
 
-Hi folks,
+Good catch, applied, thank you!
 
+Your other patch I must leave to others.
 
-I haven't followed these longs discussions completely, so forgive me if
-I've missed something. But here're my comments on this ...
+							Thanx, Paul
 
-> In the grand scheme of things, open/mmap syscalls wouldn't necessarily> be slower.
-ACK. In my own experience on dealing w/ lots of files, eg. headers, in
-compilation processes, there indeed is a bottleneck, when thousands of
-files have to be processed, but:
+> ---
+>  Documentation/RCU/stallwarn.txt | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/RCU/stallwarn.txt b/Documentation/RCU/stallwarn.txt
+> index 1ab70c3..13e88fc 100644
+> --- a/Documentation/RCU/stallwarn.txt
+> +++ b/Documentation/RCU/stallwarn.txt
+> @@ -153,7 +153,7 @@ rcupdate.rcu_task_stall_timeout
+>  	This boot/sysfs parameter controls the RCU-tasks stall warning
+>  	interval.  A value of zero or less suppresses RCU-tasks stall
+>  	warnings.  A positive value sets the stall-warning interval
+> -	in jiffies.  An RCU-tasks stall warning starts with the line:
+> +	in seconds.  An RCU-tasks stall warning starts with the line:
+>  
+>  		INFO: rcu_tasks detected stalls on tasks:
+>  
+> -- 
+> 1.8.3.1
+> 
 
-a) most the kernel-side delay's were coming from actual IO - w/ tmpfs,
-   that easily goes away, and the syscall overhead isn't so much.
-b) most of the total computation was preprocessor and parsing.
-
-> This patch seems to have been met with a lot of responses in the tone> of "this is not an appealing solution".
-
-Personally, having generic helpers for putting blobs into /proc files
-(like config.gz) sound appealing. But I'm not sure whether doing that
-w/ kernel headers this way is a good solution. Actually, I'm even not
-sure whether raw kernel headers are at all are a good way. (can't we
-use compiler-generated debug info ?)
-
-> Usually what we do at times like this is that we say "Yeah, this is a> problem that should be solved, but this solution doesn't seem to be>
-the right one and we would need to maintain it forever as part of the>
-ABI. Let's wait until a better solution is found." With time,> sometimes
-a better solution becomes obvious, or circumstances change> enough to
-allow for some different approach, or someone has a new idea> from a
-different perspective that solves the same problem.
-ACK. For now, this is an Android-only debug tool, just needed there
-because of it's unusual partitioning/deployment mechanisms - on usual
-GNU/Linux distros, we just have the kheaders in the file system.
-(and even on my small embedded devices, I either run the DUTs via NFS,
-9P2k, initrd, etc or just deploy kernel and headers into the filesystem)
-
-As Android already is in it's own universe, why can't that stuff remain
-incubated there, until we have more field experience w/ it and more time
-to rethink the whole idea very carefully ?
-
-The patch is pretty small, so it's trivial cherry-pick, in case somebody
-outside Android universe wants to use it.
-
-I see two smaller sub-problems that IMHO deserve a more generic
-solution:
-
-#1: generic helpers for easily exposing in-kernel blobs as /proc files
-    (potentially w/ transparent decompression)
-
-#2: generic way for easily linking in files with very few LoC
-
-    one scenario that I've got in mind is using dtb snippets for board
-    drivers, that only need to initialize some generic drivers w/
-    board specific configuration, so that doesn't have to be hand-
-    written anymore.
-
-
-> I'd be a *lot* less hesitant if this went into debugfs or another
-> location than /proc, which is one of the most regression-sensitive
-> interfaces we have in the kernel.
-
-ACK. I don't think that /proc really is the right place for that.
-Actually, I even doubt that for config.gz , it's just historically
-there (many distros already disabled it for many years). IMHO, /proc
-is for process information. (i guess that was also a reason for creating
-debugfs instead of putting that stuff into /proc).
-
-
---mtx
-
--- 
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
