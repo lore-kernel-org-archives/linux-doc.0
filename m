@@ -3,52 +3,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BBF097D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Apr 2019 13:52:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 838E47D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Apr 2019 14:05:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727399AbfDONwx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Apr 2019 09:52:53 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:33106 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726696AbfDONwx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 09:52:53 -0400
-Received: by mail-pl1-f195.google.com with SMTP id t16so8617698plo.0
-        for <linux-doc@vger.kernel.org>; Mon, 15 Apr 2019 06:52:52 -0700 (PDT)
+        id S1727497AbfDOOFe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Apr 2019 10:05:34 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:41498 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725804AbfDOOFe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 10:05:34 -0400
+Received: by mail-pf1-f193.google.com with SMTP id 188so8641725pfd.8
+        for <linux-doc@vger.kernel.org>; Mon, 15 Apr 2019 07:05:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=joelfernandes.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=H0ECi+coMQS790WnImRT1BzjbruprNFYZr4FQCCImBI=;
-        b=uws0u/IkNDfeA2aOvTdeHGFjirw9YYE/5u5AUfvNXfVn+H6je/jHQelY8+nZrZuRYq
-         eDzLzropG6PNgCzqtC2NsAj+zU3QiYKndfbSXySUYPqD2INxgS6JQUu2oR0IUOFOAYyA
-         zRNv5j/L3ZUeLHToSwPIzAPQ9mUMDx9lLnoVU=
+        bh=0WDxr7x++wyxZBE+48i+O5ufisb7Dj38JxloaCZIM1g=;
+        b=NCEoz5IKT8jCnPgqYIAWnJK8ysRkcxML7a53/BSGxcv4hkvYLWrjZ9Yscpy5OoTZmA
+         UgA88NzFVWuBs/mro+fu0DELzgUH7DgwJ5zjtM7kJcbbLgKxwADikls2Zbhp3rfQYvmU
+         FalL6hftLUMqTQUZXUZEJVGJILFdgUIyMhags=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=H0ECi+coMQS790WnImRT1BzjbruprNFYZr4FQCCImBI=;
-        b=Zq+A7BqObjxzfwwkKJL9b7dxYgDtHW9tGPk7MJcJfhtzrW5wstcx9a1fspsPhGQEtD
-         FNQFHq5oiI243muZy+cY4i6zhJcoqfAfbEEsYvZ/XPPwlXpPsSkjPvJPZ06vTK+qADve
-         pJH97aE9tnwTY2bI3rKTwTXHmJ9FcbZNdefIb4X+2J1jfY0sPkQn0acBKiiANbprqtIH
-         ki5SELdeiTLB1l32rl6kYwvg3CLenSLv2C+7g7MFr+9zecb8QZELvfXCACubQryIpzHe
-         PZ6OYmZkUVa8zmalO7K7ZfH3snq3xm/pDQMTVGV12xg+hFV3og9ec65mPObZ3ImzXcQL
-         +TAQ==
-X-Gm-Message-State: APjAAAXFUtnKALiha3di7hu5RrQkLDM9zNmONDXdnKPNx+SaQbivZoyv
-        9zoXx58EUXwsmCYL+rIhyaGY+vTFwCU=
-X-Google-Smtp-Source: APXvYqwvMuOFjHGBJpuaBzExILDLa5UZfSiK+loI/oBxsUTx19uI7c1Fo4MI8zNu5pWgfbNvNjowxg==
-X-Received: by 2002:a17:902:6b8b:: with SMTP id p11mr51636845plk.225.1555336371864;
-        Mon, 15 Apr 2019 06:52:51 -0700 (PDT)
+        bh=0WDxr7x++wyxZBE+48i+O5ufisb7Dj38JxloaCZIM1g=;
+        b=dZTgDjpMSMlQZ7759i/jyh5gEm1M66SI/ezdxsstWkWWKPKLkzZCQ964X3TwEbLLeW
+         vuVzvOJS91L+nzc0pvJ3HYZ8yE1AVkbss10mtWUbxHeyITqPHW/jGLFOJdse0yaq60dV
+         IoB/MalkRMmcO3SVqk/Vl9WNRn6CGSjS9OM/1xg5j9O+7n53cSB353nZcyVi6fl10Dtv
+         32k5eLyLQl/KPKlcg58tmqA2468wyZ3B6opGhpEwcVrsJbjj4Kj27zkXgwVGKGQWZQWw
+         xHLjnZomWLp40xk0zXxH/tGzXe1azJwxR/TWHzDHKx1KHGH06CWXoAV1VpO8/S1sfmA3
+         NwFw==
+X-Gm-Message-State: APjAAAXSn88vLDfMEqLFJerWqCz5BVN/GaBWtXeDuciqSuqU00sXzHts
+        nATiR/ISbrgCo0esEfjCwxXVmA==
+X-Google-Smtp-Source: APXvYqyLhgQVBx81W0JcBdv3yAJYu5l22G1X1P7p/QGvIEXEqRq+ou1HUwmoW8xJZITy8HzRTkNEJg==
+X-Received: by 2002:a63:5149:: with SMTP id r9mr67474876pgl.177.1555337133723;
+        Mon, 15 Apr 2019 07:05:33 -0700 (PDT)
 Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id y12sm118488194pgq.64.2019.04.15.06.52.50
+        by smtp.gmail.com with ESMTPSA id d69sm35046794pfg.24.2019.04.15.07.05.32
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 15 Apr 2019 06:52:50 -0700 (PDT)
-Date:   Mon, 15 Apr 2019 09:52:49 -0400
+        Mon, 15 Apr 2019 07:05:32 -0700 (PDT)
+Date:   Mon, 15 Apr 2019 10:05:31 -0400
 From:   Joel Fernandes <joel@joelfernandes.org>
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Cc:     Olof Johansson <olof@lixom.net>,
-        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+To:     Olof Johansson <olof@lixom.net>
+Cc:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Qais Yousef <qais.yousef@arm.com>,
         Dietmar Eggemann <dietmar.eggemann@arm.com>,
@@ -75,7 +74,7 @@ Cc:     Olof Johansson <olof@lixom.net>,
         Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
 Subject: Re: [PATCH v5 1/3] Provide in-kernel headers to make extending
  kernel easier
-Message-ID: <20190415135249.GA205801@google.com>
+Message-ID: <20190415140531.GB205801@google.com>
 References: <20190320163116.39275-1-joel@joelfernandes.org>
  <CAOesGMheoZda84OSz9spQ7p66wot5S_9aaqaKC=QYp+8utASXA@mail.gmail.com>
  <20190408203601.GF133872@google.com>
@@ -84,58 +83,104 @@ References: <20190320163116.39275-1-joel@joelfernandes.org>
  <CAOesGMiuGK-Sbqo2z=1ab070JONav1LF82MRRLCdX-4+14_XZA@mail.gmail.com>
  <20190411031540.ehezr6kq7ouobpzx@ast-mbp.dhcp.thefacebook.com>
  <CAOesGMgiPB=7FE7tXXHes7WSLfByyPxirOStoH21NZqMwaUihQ@mail.gmail.com>
- <463a08cb-d1ac-b750-c699-8242c2c20fd2@metux.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <463a08cb-d1ac-b750-c699-8242c2c20fd2@metux.net>
+In-Reply-To: <CAOesGMgiPB=7FE7tXXHes7WSLfByyPxirOStoH21NZqMwaUihQ@mail.gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 15, 2019 at 11:41:18AM +0200, Enrico Weigelt, metux IT consult wrote:
-[snip]
-> > This patch seems to have been met with a lot of responses in the tone> of "this is not an appealing solution".
+On Sun, Apr 14, 2019 at 12:38:34PM -0700, Olof Johansson wrote:
+> On Wed, Apr 10, 2019 at 8:15 PM Alexei Starovoitov
+> <alexei.starovoitov@gmail.com> wrote:
+> >
+> > On Wed, Apr 10, 2019 at 09:34:49AM -0700, Olof Johansson wrote:
+> > > On Wed, Apr 10, 2019 at 8:51 AM Joel Fernandes <joelaf@google.com> wrote:
+> > > >
+> > > > On Wed, Apr 10, 2019 at 11:07 AM Olof Johansson <olof@lixom.net> wrote:
+> > > > [snip]
+> > > > > > > Wouldn't it be more convenient to provide it in a standardized format
+> > > > > > > such that you won't have to take an additional step, and always have
+> > > > > > > This is that form IMO.
+> > ...
+> > > Compared to:
+> > >  - Extract tarball
+> > >  - Build and load
+> > >  - Remove file tree from filesystem
+> >
+> > I think there are too many assumptions in this thread in regard to what
+> > is more convenient for user space.
+> > I think bcc should try to avoid extracting tarball into file system.
+> > For example libbcc can uncompress kheader.tar.xz into virtual file system
+> > of clang front-end. It's more or less std::map<string, string>
+> > with key=path, value=content of the file. Access to such in-memory
+> > 'files' is obviously faster than doing open/read syscalls.
 > 
-> Personally, having generic helpers for putting blobs into /proc files
-> (like config.gz) sound appealing. But I'm not sure whether doing that
-> w/ kernel headers this way is a good solution. Actually, I'm even not
-> sure whether raw kernel headers are at all are a good way. (can't we
-> use compiler-generated debug info ?)
+> I think performance is a red herring, especially since you have to
+> uncompress it on every compiler invocation. With this you'd need to
+> read/touch/write _all_ header files, not just the one your current
+> compiler invocation will use.
+> 
+> In the grand scheme of things, open/mmap syscalls wouldn't necessarily
+> be slower.
 
-We can't use compiler generated debug info for this.
+Agreed.
 
-As discussed previously here, eBPF tools need kernel headers, DWARF and
-compiler debug information wont help:
+> > bcc already uses this approach for some bcc internal 'files' that
+> > it passes to clang during compilation.
+> > All of /proc/kheaders.tar.xz files can be passed the same way
+> > without extracting them into real file system.
+> 
+> This is now a circular argument. Joel was stating that the plain text
+> headers took up too much memory, but now it's preferred to create such
+> filesystem in userspace memory on *every compiler invocation*?
+> That's... not better. And definitely worse if you want to compile in
+> parallel.
+
+The BCC patch does not extract purely into memory, but uses temporary
+directory: https://github.com/iovisor/bcc/pull/2312
+I believe this is a good approach.
+
+> From my perspective, this is where we're at:
+> 
+> This patch seems to have been met with a lot of responses in the tone
+> of "this is not an appealing solution". Meanwhile, some of the
+> suggested alternative solutions have not worked out, and we are now at
+> a point where there's less interest in exploring alternatives and
+> arguments to merge as-is with only minor adjustments.
+> 
+> I understand the desire to solve this. It'd be really convenient to
+> have a way to runtime build against the same structure layouts that
+> the kernel was built with. But I haven't heard anyone say that they
+
+About structure layouts, I'm assuming you mean compiler generated debug info.
+That does not work for eBPF tools as was mentioned previously in these threads:
 https://lkml.org/lkml/2019/3/11/1358
 https://lkml.org/lkml/2019/3/11/1363
 
-> > Usually what we do at times like this is that we say "Yeah, this is a> problem that should be solved, but this solution doesn't seem to be>
-> the right one and we would need to maintain it forever as part of the>
-> ABI. Let's wait until a better solution is found." With time,> sometimes
-> a better solution becomes obvious, or circumstances change> enough to
-> allow for some different approach, or someone has a new idea> from a
-> different perspective that solves the same problem.
-> ACK. For now, this is an Android-only debug tool, just needed there
-> because of it's unusual partitioning/deployment mechanisms - on usual
-> GNU/Linux distros, we just have the kheaders in the file system.
-> (and even on my small embedded devices, I either run the DUTs via NFS,
-> 9P2k, initrd, etc or just deploy kernel and headers into the filesystem)
-> 
-> As Android already is in it's own universe, why can't that stuff remain
-> incubated there, until we have more field experience w/ it and more time
-> to rethink the whole idea very carefully ?
+> *like* the solution proposed, and I haven't seen many of those
+> expressing concerns being converted to support it.
 
-Well, we follow mostly an upstream first process.
+IMHO there has been good number of people on both sides of the argument. If
+it were as strong of an opposition as you think, then I would have personally
+not wanted this merged tbh. We do want a solution that is clean and works, and
+I think this is a candidate.
 
-> The patch is pretty small, so it's trivial cherry-pick, in case somebody
-> outside Android universe wants to use it.
+[snip]
+> I'd be a *lot* less hesitant if this went into debugfs or another
+> location than /proc, which is one of the most regression-sensitive
+> interfaces we have in the kernel.
 
-It could break very easily if things upstream change in some way, and adds a
-lot of maintenance burden, besides I don't see a good reason it should not be
-upstreamed tbh.
+The solution should be regression-sensitive imho, we don't want the tracing
+tools to break, people use them. And their usability and robustness is
+important which prompted these patches. For some time we have been hosting
+downloadable headers for popular kernels (such as LTS versions) to workaround
+this issue, but this both a maintenance issue and non-scalable, and not
+robust (someone boots a custom kernel or we forget to update headers for a
+future LTS release and the tools break).
 
 thanks,
 
