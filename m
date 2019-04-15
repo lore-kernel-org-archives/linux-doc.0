@@ -5,96 +5,77 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 527A37D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Apr 2019 14:41:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DF5157D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Apr 2019 15:09:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727611AbfDOOlO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Apr 2019 10:41:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36494 "EHLO mail.kernel.org"
+        id S1727696AbfDOPJT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Apr 2019 11:09:19 -0400
+Received: from smtp5-g21.free.fr ([212.27.42.5]:33614 "EHLO smtp5-g21.free.fr"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727602AbfDOOlN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Apr 2019 10:41:13 -0400
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D35DE2075B;
-        Mon, 15 Apr 2019 14:41:10 +0000 (UTC)
-Date:   Mon, 15 Apr 2019 10:41:09 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Olof Johansson <olof@lixom.net>
-Cc:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Joel Fernandes <joelaf@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Manoj Rao <linux@manojrajarao.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        atish patra <atishp04@gmail.com>,
-        Daniel Colascione <dancol@google.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Karim Yaghmour <karim.yaghmour@opersys.com>,
-        Kees Cook <keescook@chromium.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-trace-devel@vger.kernel.org,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
-Subject: Re: [PATCH v5 1/3] Provide in-kernel headers to make extending
- kernel easier
-Message-ID: <20190415104109.64d914f3@gandalf.local.home>
-In-Reply-To: <CAOesGMgiPB=7FE7tXXHes7WSLfByyPxirOStoH21NZqMwaUihQ@mail.gmail.com>
-References: <20190320163116.39275-1-joel@joelfernandes.org>
-        <CAOesGMheoZda84OSz9spQ7p66wot5S_9aaqaKC=QYp+8utASXA@mail.gmail.com>
-        <20190408203601.GF133872@google.com>
-        <CAOesGMibHCuMPCYkc8V++Z2Kuf3YQf_OjYn18GvDgzTy6ubV=g@mail.gmail.com>
-        <CAJWu+or0hWce9+7aEfTHoOR8cptRbzHYVL-bPdJWGZH20dbo7Q@mail.gmail.com>
-        <CAOesGMiuGK-Sbqo2z=1ab070JONav1LF82MRRLCdX-4+14_XZA@mail.gmail.com>
-        <20190411031540.ehezr6kq7ouobpzx@ast-mbp.dhcp.thefacebook.com>
-        <CAOesGMgiPB=7FE7tXXHes7WSLfByyPxirOStoH21NZqMwaUihQ@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1727659AbfDOPJS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Apr 2019 11:09:18 -0400
+Received: from heffalump.sk2.org (unknown [88.186.243.14])
+        by smtp5-g21.free.fr (Postfix) with ESMTPS id 6AFF45FFD8;
+        Mon, 15 Apr 2019 17:09:15 +0200 (CEST)
+Received: from steve by heffalump.sk2.org with local (Exim 4.89)
+        (envelope-from <steve@sk2.org>)
+        id 1hG3EQ-0002iC-L5; Mon, 15 Apr 2019 17:09:14 +0200
+From:   Stephen Kitt <steve@sk2.org>
+To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        x86@kernel.org, corbet@lwn.net, bhe@redhat.com,
+        kirill.shutemov@linux.intel.com, dave.hansen@linux.intel.com,
+        alex.popov@linux.com, Stephen Kitt <steve@sk2.org>
+Subject: [PATCH] Fix 56-bit addresses in Documentation/x86/x86_64/mm.txt
+Date:   Mon, 15 Apr 2019 17:08:53 +0200
+Message-Id: <20190415150853.10354-1-steve@sk2.org>
+X-Mailer: git-send-email 2.11.0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 14 Apr 2019 12:38:34 -0700
-Olof Johansson <olof@lixom.net> wrote:
+This fixes a PT typo, and the following 56-bit address-space
+addresses:
+* the hole extends from 0100000000000000 to feffffffffffffff
+* the KASAN shadow memory area stops at fffffbffffffffff (see kasan.h)
 
-> >From my perspective, this is where we're at:  
-> 
-> This patch seems to have been met with a lot of responses in the tone
-> of "this is not an appealing solution". Meanwhile, some of the
-> suggested alternative solutions have not worked out, and we are now at
-> a point where there's less interest in exploring alternatives and
-> arguments to merge as-is with only minor adjustments.
+Signed-off-by: Stephen Kitt <steve@sk2.org>
+---
+ Documentation/x86/x86_64/mm.txt | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Another consideration to make is difficulty of support. Having a
-tarball compressed headers may not be an appealing solution, but it
-isn't one that would be too much of an issue to support. Having a
-better interface would be difficult to get right, and if you get it
-wrong, you are now stuck with supporting something that may become a
-big pain to do so in the future.
+diff --git a/Documentation/x86/x86_64/mm.txt b/Documentation/x86/x86_64/mm.txt
+index 804f9426ed17..6cbe652d7a49 100644
+--- a/Documentation/x86/x86_64/mm.txt
++++ b/Documentation/x86/x86_64/mm.txt
+@@ -72,7 +72,7 @@ Complete virtual memory map with 5-level page tables
+ Notes:
+ 
+  - With 56-bit addresses, user-space memory gets expanded by a factor of 512x,
+-   from 0.125 PB to 64 PB. All kernel mappings shift down to the -64 PT starting
++   from 0.125 PB to 64 PB. All kernel mappings shift down to the -64 PB starting
+    offset and many of the regions expand to support the much larger physical
+    memory supported.
+ 
+@@ -83,7 +83,7 @@ Notes:
+  0000000000000000 |    0       | 00ffffffffffffff |   64 PB | user-space virtual memory, different per mm
+ __________________|____________|__________________|_________|___________________________________________________________
+                   |            |                  |         |
+- 0000800000000000 |  +64    PB | ffff7fffffffffff | ~16K PB | ... huge, still almost 64 bits wide hole of non-canonical
++ 0100000000000000 |  +64    PB | feffffffffffffff | ~16K PB | ... huge, still almost 64 bits wide hole of non-canonical
+                   |            |                  |         |     virtual memory addresses up to the -64 PB
+                   |            |                  |         |     starting offset of kernel mappings.
+ __________________|____________|__________________|_________|___________________________________________________________
+@@ -99,7 +99,7 @@ ____________________________________________________________|___________________
+  ffd2000000000000 |  -11.5  PB | ffd3ffffffffffff |  0.5 PB | ... unused hole
+  ffd4000000000000 |  -11    PB | ffd5ffffffffffff |  0.5 PB | virtual memory map (vmemmap_base)
+  ffd6000000000000 |  -10.5  PB | ffdeffffffffffff | 2.25 PB | ... unused hole
+- ffdf000000000000 |   -8.25 PB | fffffdffffffffff |   ~8 PB | KASAN shadow memory
++ ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN shadow memory
+ __________________|____________|__________________|_________|____________________________________________________________
+                                                             |
+                                                             | Identical layout to the 47-bit one from here on:
+-- 
+2.11.0
 
-> I'd be a *lot* less hesitant if this went into debugfs or another
-> location than /proc, which is one of the most regression-sensitive
-> interfaces we have in the kernel.
-> 
-
-I agree with this assessment. We shouldn't use config.gz as precedence
-for this solution. config.gz should have been in debugfs to begin with,
-but I don't believe debugfs was around when config.gz was introduced.
-(Don't have time to look into the history of the two).
-
--- Steve
