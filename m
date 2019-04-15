@@ -5,46 +5,47 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 747A47D04D
+	by archive.lwn.net (Postfix) with ESMTP id 898FF7D2EF
 	for <lwn-linux-doc@archive.lwn.net>; Mon, 15 Apr 2019 08:35:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726506AbfDOIfF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1726428AbfDOIfF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Mon, 15 Apr 2019 04:35:05 -0400
-Received: from chill.innovation.ch ([216.218.245.220]:38822 "EHLO
+Received: from chill.innovation.ch ([216.218.245.220]:38824 "EHLO
         chill.innovation.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726428AbfDOIfE (ORCPT
+        with ESMTP id S1726491AbfDOIfE (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 04:35:04 -0400
-X-Greylist: delayed 592 seconds by postgrey-1.27 at vger.kernel.org; Mon, 15 Apr 2019 04:35:04 EDT
 Received: from localhost (localhost [127.0.0.1])
-        by chill.innovation.ch (Postfix) with ESMTP id 83E4B640134;
-        Mon, 15 Apr 2019 01:25:12 -0700 (PDT)
+        by chill.innovation.ch (Postfix) with ESMTP id 202ED64013E;
+        Mon, 15 Apr 2019 01:25:14 -0700 (PDT)
 X-Virus-Scanned: amavisd-new at 
 Authentication-Results: chill.innovation.ch (amavisd-new);
         dkim=pass (2048-bit key) header.d=innovation.ch
 Received: from chill.innovation.ch ([127.0.0.1])
         by localhost (chill.innovation.ch [127.0.0.1]) (amavisd-new, port 10024)
-        with LMTP id H1LbtuUvMG6O; Mon, 15 Apr 2019 01:25:11 -0700 (PDT)
+        with LMTP id dsSpGWYhOX5Q; Mon, 15 Apr 2019 01:25:12 -0700 (PDT)
 From:   =?UTF-8?q?Ronald=20Tschal=C3=A4r?= <ronald@innovation.ch>
-DKIM-Filter: OpenDKIM Filter v2.10.3 chill.innovation.ch AF517640107
+DKIM-Filter: OpenDKIM Filter v2.10.3 chill.innovation.ch 86EE2640132
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=innovation.ch;
-        s=default; t=1555316710;
-        bh=eNO0gOF1LZuJARxP4k12fOPQiYPfgCfYCjS8vUDbO60=;
-        h=From:To:Cc:Subject:Date:From;
-        b=HjrufkHippBr2y3B01/OL8ZSYBg7Dj4TFPsVGYL+7jAN8b07KIhDt/WeW648FK7al
-         +UDDwpC/pxFOJRCoxvXqnhOcb7di+drKriU18sXZSIy6KHCcZQQ39tCJ8UMtFxOY90
-         ki5k7W86GDSQo4PEBCTZpH8rTJ5UDaA7HU1+WMKhaVBG5U6+XkG40FNO6cH1BDAIvj
-         9Zf4Okckgfh2jgd7W4nIAFMT6frbJnRO9/byLmr3f+JN6+qChNB2wiGHoRBtv4Q80A
-         FiUSMqouuyYLCoN06SUXmRo5IgxpOyMI9AaPFRdDFtHrmEBwMiXDGMYxuD51OJIFZq
-         laF6RNqskWp/Q==
+        s=default; t=1555316711;
+        bh=TBJU3Pb9NNNb10NH8UGsAsbPBXiFDazzRpGDTIYfx/g=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=DY5JKdpYGyL9aP9tsaWNQJuXy+DIkSHg2RgiEiYgqfYxcct3qsyXI4VQVRQEZJ0nN
+         aFMzj9EpnK8u3DdaGihgPCLmfbiFn8utQd7X2XggeDTjd4ZoUQH9OyyvTuWNnks/Xv
+         iMiwIObDW25LPLywGlkivm1/MhqztzL8zu1nh+wNAMt+yY18QWGQPKnssDpaqEcalV
+         iSt2uNJnY88xgigDjDNl7lsCG4aAm5o7sPW70Qc2BNfvvdJjLs6A3DEgUaxm2yYEsQ
+         DB6SC9sAt4HsGe8+xrOQlSOp8M5egPyYAnF5+++7IsLcGhb0g/C+hnS/y31BCSlVfQ
+         cCUphVWqPSGmg==
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
         "Rafael J. Wysocki" <rafael@kernel.org>
 Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] debugfs helpers cleanups
-Date:   Mon, 15 Apr 2019 01:25:04 -0700
-Message-Id: <20190415082506.25610-1-ronald@innovation.ch>
+Subject: [PATCH 2/2] debugfs: make return value of all debugfs helpers consistent
+Date:   Mon, 15 Apr 2019 01:25:06 -0700
+Message-Id: <20190415082506.25610-3-ronald@innovation.ch>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190415082506.25610-1-ronald@innovation.ch>
+References: <20190415082506.25610-1-ronald@innovation.ch>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -53,19 +54,39 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-commit ff9fb72bc077 ("debugfs: return error values, not NULL") changed
-the return values of various debugfs functions in fs/debugfs/inode.c but
-did not update the documentation or behaviour of affected functions in
-fs/debugfs/file.c . These patches attempt to remedy this.
+Since commit ff9fb72bc077 ("debugfs: return error values, not NULL")
+almost all the debugfs helpers have stopped returning NULL. The lone
+holdeout was debugfs_create_u32_array(). So fix that.
 
-Ronald Tschalär (2):
-  debugfs: update documented return values of debugfs helpers
-  debugfs: make return value of all debugfs helpers consistent
+Signed-off-by: Ronald Tschalär <ronald@innovation.ch>
+---
+ fs/debugfs/file.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
- Documentation/filesystems/debugfs.txt | 16 +++---
- fs/debugfs/file.c                     | 79 ++++++++++++---------------
- 2 files changed, 45 insertions(+), 50 deletions(-)
-
+diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
+index ddd708b09fa1..bb706d073782 100644
+--- a/fs/debugfs/file.c
++++ b/fs/debugfs/file.c
+@@ -999,8 +999,8 @@ static const struct file_operations u32_array_fops = {
+  * Once array is created its size can not be changed.
+  *
+  * The function returns a pointer to dentry on success. If an error occurs,
+- * %ERR_PTR(-ERROR) or NULL will be returned. If debugfs is not enabled in
+- * the kernel, the value %ERR_PTR(-ENODEV) will be returned.
++ * %ERR_PTR(-ERROR) will be returned. If debugfs is not enabled in the kernel,
++ * the value %ERR_PTR(-ENODEV) will be returned.
+  */
+ struct dentry *debugfs_create_u32_array(const char *name, umode_t mode,
+ 					    struct dentry *parent,
+@@ -1009,7 +1009,7 @@ struct dentry *debugfs_create_u32_array(const char *name, umode_t mode,
+ 	struct array_data *data = kmalloc(sizeof(*data), GFP_KERNEL);
+ 
+ 	if (data == NULL)
+-		return NULL;
++		return ERR_PTR(-ENOMEM);
+ 
+ 	data->array = array;
+ 	data->elements = elements;
 -- 
 2.20.1
 
