@@ -2,17 +2,17 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 34A167D099
+	by archive.lwn.net (Postfix) with ESMTP id 6BC197D912
 	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 02:58:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728571AbfDPC6b (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Apr 2019 22:58:31 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:44426 "EHLO
+        id S1728613AbfDPC6r (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Apr 2019 22:58:47 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:44392 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726875AbfDPC4f (ORCPT
+        with ESMTP id S1726860AbfDPC4f (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 22:56:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,26 +20,29 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=nxa4mbsYWrlYnFh6W44S8wwB3mmjpiU8NNzdOnbEJxo=; b=JwMgEWxl464QJ2N7Ti8JC3IN/l
-        evoYZFang0FHh53tYChNdbzKLSHvTP+Yb+TSUGsRMZijFURUGsdd0/hPO8hOSh//WGCKDbGsz5Nmt
-        ht9eknimrVttPYNfd7aWhcJtR7/2m2I2lO4CsSfN0pCcTPH1glvo3lOCEwcRDhZmASPT9Qnqf1f37
-        ai0PLMoijXwVVSRderXznRavDZZ0UPmwjV+kbs/tJJGXzgv66go6w2JucMlf9XDbCc1yMpRE8iggA
-        t6OKgPVr1ShiIeaMRxRfDbeCbOP3AthjL0pz0Q9sTmnpy9js87P+k+QceyrxTi2MmvLaDvm/cfVvW
-        tWB3DPpg==;
+        bh=tjfpueBhcJKy8pFnSbvSP53KhQdmJRKIfxX07mzjgFE=; b=eGsXbQty9J12EnGG1n+Iezqu7D
+        qmbkbYxasFVt8zjkbeImmzuitFOvqr8TvRepbTzFdtw38Mrthf6wEHbfbqRm0qoD56dBlnUFvjva+
+        T2wNPIT7FcYUXNxeJKWvXBhka81TzcEvicP49JiNJ690UEhdLynVLG7E2i6TGw2Ar6ua4dGo7kwH5
+        LEHSfC+/f3dEzokCNgKdTuR5oWVPsuIIwCx7KLa1AzYRDar1QQE+0PH3iKJ9Zj/7AskBX9kxcfcT4
+        OHASvNr8Umz98lPSzjhwJbU1KXYc0LS7nxMB/UNaovxZ6JunUeAulKzZUrvIEkAn++nLCqVPCU53a
+        xz7JJ6IQ==;
 Received: from 177.205.118.176.dynamic.adsl.gvt.net.br ([177.205.118.176] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hGEGv-0007aJ-I4; Tue, 16 Apr 2019 02:56:33 +0000
+        id 1hGEGu-0007al-Qa; Tue, 16 Apr 2019 02:56:33 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hGEGo-0001pD-2d; Mon, 15 Apr 2019 23:56:26 -0300
+        id 1hGEGn-0001oC-Mr; Mon, 15 Apr 2019 23:56:25 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 42/57] docs: connector.txt: convert to ReST
-Date:   Mon, 15 Apr 2019 23:56:07 -0300
-Message-Id: <4e12cfbbbfa08ce165b00f14734740280500b7ec.1555382110.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        linux-s390@vger.kernel.org
+Subject: [PATCH 30/57] docs: s390: Debugging390.txt: convert table to ascii artwork
+Date:   Mon, 15 Apr 2019 23:55:55 -0300
+Message-Id: <f186aeca9675371b4551425a1fa880d6fc48babc.1555382110.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1555382110.git.mchehab+samsung@kernel.org>
 References: <cover.1555382110.git.mchehab+samsung@kernel.org>
@@ -50,300 +53,237 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As it has some function definitions, move them to connector.h.
+The first bit/value table inside the document is very
+hard to read and won't fit ReST format. Convert it to
+a nice ascii artwork table with makes it easier to read
+and is compatible with ReST format parser on Sphinx.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/connector/connector.txt | 128 +++++++++-----------------
- include/linux/connector.h             |  63 ++++++++++++-
- 2 files changed, 105 insertions(+), 86 deletions(-)
+ Documentation/s390/Debugging390.txt | 210 ++++++++++++++++------------
+ 1 file changed, 120 insertions(+), 90 deletions(-)
 
-diff --git a/Documentation/connector/connector.txt b/Documentation/connector/connector.txt
-index ab7ca897fab7..2cf9b5adfe2a 100644
---- a/Documentation/connector/connector.txt
-+++ b/Documentation/connector/connector.txt
-@@ -1,6 +1,6 @@
--/*****************************************/
--Kernel Connector.
--/*****************************************/
-+================
-+Kernel Connector
-+================
+diff --git a/Documentation/s390/Debugging390.txt b/Documentation/s390/Debugging390.txt
+index 5ae7f868a007..c35804c238ad 100644
+--- a/Documentation/s390/Debugging390.txt
++++ b/Documentation/s390/Debugging390.txt
+@@ -78,96 +78,126 @@ e.g. switching address translation off requires that you
+ have a logical=physical mapping for the address you are
+ currently running at.
  
- Kernel connector - new netlink based userspace <-> kernel space easy
- to use communication module.
-@@ -12,94 +12,55 @@ identifier, the appropriate callback will be called.
- 
- From the userspace point of view it's quite straightforward:
- 
--	socket();
--	bind();
--	send();
--	recv();
-+	- socket();
-+	- bind();
-+	- send();
-+	- recv();
- 
- But if kernelspace wants to use the full power of such connections, the
- driver writer must create special sockets, must know about struct sk_buff
- handling, etc...  The Connector driver allows any kernelspace agents to use
- netlink based networking for inter-process communication in a significantly
--easier way:
-+easier way::
- 
--int cn_add_callback(struct cb_id *id, char *name, void (*callback) (struct cn_msg *, struct netlink_skb_parms *));
--void cn_netlink_send_multi(struct cn_msg *msg, u16 len, u32 portid, u32 __group, int gfp_mask);
--void cn_netlink_send(struct cn_msg *msg, u32 portid, u32 __group, int gfp_mask);
-+  int cn_add_callback(struct cb_id *id, char *name, void (*callback) (struct cn_msg *, struct netlink_skb_parms *));
-+  void cn_netlink_send_multi(struct cn_msg *msg, u16 len, u32 portid, u32 __group, int gfp_mask);
-+  void cn_netlink_send(struct cn_msg *msg, u32 portid, u32 __group, int gfp_mask);
- 
--struct cb_id
--{
-+  struct cb_id
-+  {
- 	__u32			idx;
- 	__u32			val;
--};
-+  };
- 
- idx and val are unique identifiers which must be registered in the
--connector.h header for in-kernel usage.  void (*callback) (void *) is a
-+connector.h header for in-kernel usage.  `void (*callback) (void *)` is a
- callback function which will be called when a message with above idx.val
- is received by the connector core.  The argument for that function must
--be dereferenced to struct cn_msg *.
-+be dereferenced to `struct cn_msg *`::
- 
--struct cn_msg
--{
-+  struct cn_msg
-+  {
- 	struct cb_id		id;
- 
- 	__u32			seq;
- 	__u32			ack;
- 
--	__u32			len;		/* Length of the following data */
-+	__u32			len;	/* Length of the following data */
- 	__u8			data[0];
--};
-+  };
- 
--/*****************************************/
--Connector interfaces.
--/*****************************************/
-+Connector interfaces
-+====================
- 
--int cn_add_callback(struct cb_id *id, char *name, void (*callback) (struct cn_msg *, struct netlink_skb_parms *));
-+ .. kernel-doc:: include/linux/connector.h
- 
-- Registers new callback with connector core.
-+ Note:
-+   When registering new callback user, connector core assigns
-+   netlink group to the user which is equal to its id.idx.
- 
-- struct cb_id *id		- unique connector's user identifier.
--				  It must be registered in connector.h for legal in-kernel users.
-- char *name			- connector's callback symbolic name.
-- void (*callback) (struct cn..)	- connector's callback.
--				  cn_msg and the sender's credentials
+-      Bit           Value
+-s/390 z/Architecture
+-0       0     Reserved ( must be 0 ) otherwise specification exception occurs.
 -
+-1       1     Program Event Recording 1 PER enabled, 
+-	      PER is used to facilitate debugging e.g. single stepping.
 -
--void cn_del_callback(struct cb_id *id);
+-2-4    2-4    Reserved ( must be 0 ). 
 -
-- Unregisters new callback with connector core.
+-5       5     Dynamic address translation 1=DAT on.
 -
-- struct cb_id *id		- unique connector's user identifier.
+-6       6     Input/Output interrupt Mask
 -
+-7	7     External interrupt Mask used primarily for interprocessor
+-	      signalling and clock interrupts.
 -
--int cn_netlink_send_multi(struct cn_msg *msg, u16 len, u32 portid, u32 __groups, int gfp_mask);
--int cn_netlink_send(struct cn_msg *msg, u32 portid, u32 __groups, int gfp_mask);
+-8-11  8-11    PSW Key used for complex memory protection mechanism
+-	      (not used under linux)
 -
-- Sends message to the specified groups.  It can be safely called from
-- softirq context, but may silently fail under strong memory pressure.
-- If there are no listeners for given group -ESRCH can be returned.
+-12      12    1 on s/390 0 on z/Architecture
 -
-- struct cn_msg *		- message header(with attached data).
-- u16 len			- for *_multi multiple cn_msg messages can be sent
-- u32 port			- destination port.
-- 				  If non-zero the message will be sent to the
--				  given port, which should be set to the
--				  original sender.
-- u32 __group			- destination group.
--				  If port and __group is zero, then appropriate group will
--				  be searched through all registered connector users,
--				  and message will be delivered to the group which was
--				  created for user with the same ID as in msg.
--				  If __group is not zero, then message will be delivered
--				  to the specified group.
-- int gfp_mask			- GFP mask.
+-13      13    Machine Check Mask 1=enable machine check interrupts
 -
-- Note: When registering new callback user, connector core assigns
-- netlink group to the user which is equal to its id.idx.
+-14	14    Wait State. Set this to 1 to stop the processor except for
+-	      interrupts and give  time to other LPARS. Used in CPU idle in
+-	      the kernel to increase overall usage of processor resources.
 -
--/*****************************************/
--Protocol description.
--/*****************************************/
-+Protocol description
-+====================
+-15      15    Problem state ( if set to 1 certain instructions are disabled )
+-	      all linux user programs run with this bit 1 
+-	      ( useful info for debugging under VM ).
+-
+-16-17 16-17   Address Space Control
+-
+-	      00 Primary Space Mode:
+-	      The register CR1 contains the primary address-space control ele-
+-	      ment (PASCE), which points to the primary space region/segment
+-	      table origin.
+-
+-	      01 Access register mode
+-
+-	      10 Secondary Space Mode:
+-	      The register CR7 contains the secondary address-space control
+-	      element (SASCE), which points to the secondary space region or
+-	      segment table origin.
+-
+-	      11 Home Space Mode:
+-	      The register CR13 contains the home space address-space control
+-	      element (HASCE), which points to the home space region/segment
+-	      table origin.
+-
+-	      See "Address Spaces on Linux for s/390 & z/Architecture" below
+-	      for more information about address space usage in Linux.
+-
+-18-19 18-19   Condition codes (CC)
+-
+-20    20      Fixed point overflow mask if 1=FPU exceptions for this event 
+-              occur ( normally 0 ) 
+-
+-21    21      Decimal overflow mask if 1=FPU exceptions for this event occur 
+-              ( normally 0 )
+-
+-22    22      Exponent underflow mask if 1=FPU exceptions for this event occur 
+-              ( normally 0 )
+-
+-23    23      Significance Mask if 1=FPU exceptions for this event occur 
+-              ( normally 0 )
+-
+-24-31 24-30   Reserved Must be 0.
+-
+-      31      Extended Addressing Mode
+-      32      Basic Addressing Mode
+-              Used to set addressing mode
+-	      PSW 31   PSW 32
+-                0         0        24 bit
+-                0         1        31 bit
+-                1         1        64 bit
+-
+-32             1=31 bit addressing mode 0=24 bit addressing mode (for backward 
+-               compatibility), linux always runs with this bit set to 1
+-
+-33-64          Instruction address.
+-      33-63    Reserved must be 0
+-      64-127   Address
+-               In 24 bits mode bits 64-103=0 bits 104-127 Address 
+-               In 31 bits mode bits 64-96=0 bits 97-127 Address
+-               Note: unlike 31 bit mode on s/390 bit 96 must be zero
+-	       when loading the address with LPSWE otherwise a 
+-               specification exception occurs, LPSW is fully backward
+-               compatible.
+-
+++-------------------------+-------------------------------------------------+
++|          Bit            |                                                 |
+++--------+----------------+                     Value                       |
++| s/390  | z/Architecture |                                                 |
+++========+================+=================================================+
++| 0      |     0          | Reserved (must be 0) otherwise specification    |
++|        |                | exception occurs.                               |
+++--------+----------------+-------------------------------------------------+
++| 1      |     1          | Program Event Recording 1 PER enabled,          |
++|        |                | PER is used to facilitate debugging e.g.        |
++|        |                | single stepping.                                |
+++--------+----------------+-------------------------------------------------+
++| 2-4    |    2-4         | Reserved (must be 0).                           |
+++--------+----------------+-------------------------------------------------+
++| 5      |     5          | Dynamic address translation 1=DAT on.           |
+++--------+----------------+-------------------------------------------------+
++| 6      |     6          | Input/Output interrupt Mask                     |
+++--------+----------------+-------------------------------------------------+
++| 7      |     7          | External interrupt Mask used primarily for      |
++|        |                | interprocessor signalling and clock interrupts. |
+++--------+----------------+-------------------------------------------------+
++| 8-11   |   8-11         | PSW Key used for complex memory protection      |
++|        |                | mechanism (not used under linux)                |
+++--------+----------------+-------------------------------------------------+
++| 12     |     12         | 1 on s/390 0 on z/Architecture                  |
+++--------+----------------+-------------------------------------------------+
++| 13     |     13         | Machine Check Mask 1=enable machine check       |
++|        |                | interrupts                                      |
+++--------+----------------+-------------------------------------------------+
++| 14     |     14         | Wait State. Set this to 1 to stop the processor |
++|        |                | except for interrupts and give  time to other   |
++|        |                | LPARS. Used in CPU idle in the kernel to        |
++|        |                | increase overall usage of processor resources.  |
+++--------+----------------+-------------------------------------------------+
++| 15     |     15         | Problem state (if set to 1 certain instructions |
++|        |                | are disabled). All linux user programs run with |
++|        |                | this bit 1 (useful info for debugging under VM).|
+++--------+----------------+-------------------------------------------------+
++| 16-17  |    16-17       | Address Space Control                           |
++|        |                |                                                 |
++|        |                | 00 Primary Space Mode:                          |
++|        |                |                                                 |
++|        |                | The register CR1 contains the primary           |
++|        |                | address-space control element (PASCE), which    |
++|        |                | points to the primary space region/segment      |
++|        |                | table origin.                                   |
++|        |                |                                                 |
++|        |                | 01 Access register mode                         |
++|        |                |                                                 |
++|        |                | 10 Secondary Space Mode:                        |
++|        |                |                                                 |
++|        |                | The register CR7 contains the secondary         |
++|        |                | address-space control element (SASCE), which    |
++|        |                | points to the secondary space region or         |
++|        |                | segment table origin.                           |
++|        |                |                                                 |
++|        |                | 11 Home Space Mode:                             |
++|        |                |                                                 |
++|        |                | The register CR13 contains the home space       |
++|        |                | address-space control element (HASCE), which    |
++|        |                | points to the home space region/segment         |
++|        |                | table origin.                                   |
++|        |                |                                                 |
++|        |                | See "Address Spaces on Linux for s/390 &        |
++|        |                | z/Architecture" below for more information      |
++|        |                | about address space usage in Linux.             |
+++--------+----------------+-------------------------------------------------+
++| 18-19  |    18-19       | Condition codes (CC)                            |
+++--------+----------------+-------------------------------------------------+
++| 20     |    20          | Fixed point overflow mask if 1=FPU exceptions   |
++|        |                | for this event occur (normally 0)               |
+++--------+----------------+-------------------------------------------------+
++| 21     |    21          | Decimal overflow mask if 1=FPU exceptions for   |
++|        |                | this event occur (normally 0)                   |
+++--------+----------------+-------------------------------------------------+
++| 22     |    22          | Exponent underflow mask if 1=FPU exceptions     |
++|        |                | for this event occur (normally 0)               |
+++--------+----------------+-------------------------------------------------+
++| 23     |    23          | Significance Mask if 1=FPU exceptions for this  |
++|        |                | event occur (normally 0)                        |
+++--------+----------------+-------------------------------------------------+
++| 24-31  |    24-30       | Reserved Must be 0.                             |
++|        +----------------+-------------------------------------------------+
++|        |    31          | Extended Addressing Mode                        |
++|        +----------------+-------------------------------------------------+
++|        |    32          | Basic Addressing Mode                           |
++|        |                |                                                 |
++|        |                | Used to set addressing mode                     |
++|        |                |                                                 |
++|        |                |    +---------+----------+----------+            |
++|        |                |    | PSW 31  | PSW 32   |          |            |
++|        |                |    +---------+----------+----------+            |
++|        |                |    |   0     |    0     |  24 bit  |            |
++|        |                |    +---------+----------+----------+            |
++|        |                |    |   0     |    1     |  31 bit  |            |
++|        |                |    +---------+----------+----------+            |
++|        |                |    |   1     |    1     |  64 bit  |            |
++|        |                |    +---------+----------+----------+            |
+++--------+----------------+-------------------------------------------------+
++| 32     |                | 1=31 bit addressing mode 0=24 bit addressing    |
++|        |                | mode (for backward compatibility), linux        |
++|        |                | always runs with this bit set to 1              |
+++--------+----------------+-------------------------------------------------+
++| 33-64  |                | Instruction address.                            |
++|        +----------------+-------------------------------------------------+
++|        |    33-63       | Reserved must be 0                              |
++|        +----------------+-------------------------------------------------+
++|        |    64-127      | Address                                         |
++|        |                |                                                 |
++|        |                |   - In 24 bits mode bits 64-103=0 bits 104-127  |
++|        |                |     Address                                     |
++|        |                |   - In 31 bits mode bits 64-96=0 bits 97-127    |
++|        |                |     Address                                     |
++|        |                |                                                 |
++|        |                | Note:                                           |
++|        |                |     unlike 31 bit mode on s/390 bit 96 must be  |
++|        |                |     zero when loading the address with LPSWE    |
++|        |                |     otherwise a specification exception occurs, |
++|        |                |     LPSW is fully backward compatible.          |
+++--------+----------------+-------------------------------------------------+
  
- The current framework offers a transport layer with fixed headers.  The
- recommended protocol which uses such a header is as following:
-@@ -132,9 +93,8 @@ driver (it also registers itself with id={-1, -1}).
- As example of this usage can be found in the cn_test.c module which
- uses the connector to request notification and to send messages.
- 
--/*****************************************/
--Reliability.
--/*****************************************/
-+Reliability
-+===========
- 
- Netlink itself is not a reliable protocol.  That means that messages can
- be lost due to memory pressure or process' receiving queue overflowed,
-@@ -142,32 +102,31 @@ so caller is warned that it must be prepared.  That is why the struct
- cn_msg [main connector's message header] contains u32 seq and u32 ack
- fields.
- 
--/*****************************************/
--Userspace usage.
--/*****************************************/
-+Userspace usage
-+===============
- 
- 2.6.14 has a new netlink socket implementation, which by default does not
- allow people to send data to netlink groups other than 1.
- So, if you wish to use a netlink socket (for example using connector)
- with a different group number, the userspace application must subscribe to
--that group first.  It can be achieved by the following pseudocode:
-+that group first.  It can be achieved by the following pseudocode::
- 
--s = socket(PF_NETLINK, SOCK_DGRAM, NETLINK_CONNECTOR);
-+  s = socket(PF_NETLINK, SOCK_DGRAM, NETLINK_CONNECTOR);
- 
--l_local.nl_family = AF_NETLINK;
--l_local.nl_groups = 12345;
--l_local.nl_pid = 0;
-+  l_local.nl_family = AF_NETLINK;
-+  l_local.nl_groups = 12345;
-+  l_local.nl_pid = 0;
- 
--if (bind(s, (struct sockaddr *)&l_local, sizeof(struct sockaddr_nl)) == -1) {
-+  if (bind(s, (struct sockaddr *)&l_local, sizeof(struct sockaddr_nl)) == -1) {
- 	perror("bind");
- 	close(s);
- 	return -1;
--}
-+  }
- 
--{
-+  {
- 	int on = l_local.nl_groups;
- 	setsockopt(s, 270, 1, &on, sizeof(on));
--}
-+  }
- 
- Where 270 above is SOL_NETLINK, and 1 is a NETLINK_ADD_MEMBERSHIP socket
- option.  To drop a multicast subscription, one should call the above socket
-@@ -180,16 +139,15 @@ group number 12345, you must increment CN_NETLINK_USERS to that number.
- Additional 0xf numbers are allocated to be used by non-in-kernel users.
- 
- Due to this limitation, group 0xffffffff does not work now, so one can
--not use add/remove connector's group notifications, but as far as I know, 
-+not use add/remove connector's group notifications, but as far as I know,
- only cn_test.c test module used it.
- 
- Some work in netlink area is still being done, so things can be changed in
- 2.6.15 timeframe, if it will happen, documentation will be updated for that
- kernel.
- 
--/*****************************************/
- Code samples
--/*****************************************/
-+============
- 
- Sample code for a connector test module and user space can be found
- in samples/connector/. To build this code, enable CONFIG_CONNECTOR
-diff --git a/include/linux/connector.h b/include/linux/connector.h
-index 032102b19645..5aeb15f71b3a 100644
---- a/include/linux/connector.h
-+++ b/include/linux/connector.h
-@@ -68,10 +68,71 @@ struct cn_dev {
- 	struct cn_queue_dev *cbdev;
- };
- 
-+/**
-+ * cn_add_callback() - Registers new callback with connector core.
-+ *
-+ * @id:		unique connector's user identifier.
-+ *		It must be registered in connector.h for legal
-+ *		in-kernel users.
-+ * @name:	connector's callback symbolic name.
-+ * @callback:	connector's callback.
-+ * 		parameters are %cn_msg and the sender's credentials
-+ */
- int cn_add_callback(struct cb_id *id, const char *name,
- 		    void (*callback)(struct cn_msg *, struct netlink_skb_parms *));
--void cn_del_callback(struct cb_id *);
-+/**
-+ * cn_del_callback() - Unregisters new callback with connector core.
-+ *
-+ * @id:		unique connector's user identifier.
-+ */
-+void cn_del_callback(struct cb_id *id);
-+
-+
-+/**
-+ * cn_netlink_send_mult - Sends message to the specified groups.
-+ *
-+ * @msg: 	message header(with attached data).
-+ * @len:	Number of @msg to be sent.
-+ * @portid:	destination port.
-+ *		If non-zero the message will be sent to the given port,
-+ *		which should be set to the original sender.
-+ * @group:	destination group.
-+ * 		If @portid and @group is zero, then appropriate group will
-+ *		be searched through all registered connector users, and
-+ *		message will be delivered to the group which was created
-+ *		for user with the same ID as in @msg.
-+ *		If @group is not zero, then message will be delivered
-+ *		to the specified group.
-+ * @gfp_mask:	GFP mask.
-+ *
-+ * It can be safely called from softirq context, but may silently
-+ * fail under strong memory pressure.
-+ *
-+ * If there are no listeners for given group %-ESRCH can be returned.
-+ */
- int cn_netlink_send_mult(struct cn_msg *msg, u16 len, u32 portid, u32 group, gfp_t gfp_mask);
-+
-+/**
-+ * cn_netlink_send_mult - Sends message to the specified groups.
-+ *
-+ * @msg:	message header(with attached data).
-+ * @portid:	destination port.
-+ *		If non-zero the message will be sent to the given port,
-+ *		which should be set to the original sender.
-+ * @group:	destination group.
-+ * 		If @portid and @group is zero, then appropriate group will
-+ *		be searched through all registered connector users, and
-+ *		message will be delivered to the group which was created
-+ *		for user with the same ID as in @msg.
-+ *		If @group is not zero, then message will be delivered
-+ *		to the specified group.
-+ * @gfp_mask:	GFP mask.
-+ *
-+ * It can be safely called from softirq context, but may silently
-+ * fail under strong memory pressure.
-+ *
-+ * If there are no listeners for given group %-ESRCH can be returned.
-+ */
- int cn_netlink_send(struct cn_msg *msg, u32 portid, u32 group, gfp_t gfp_mask);
- 
- int cn_queue_add_callback(struct cn_queue_dev *dev, const char *name,
+ Prefix Page(s)
+ --------------
 -- 
 2.20.1
 
