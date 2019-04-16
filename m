@@ -2,111 +2,79 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F19887D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 13:45:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6DB097D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 14:00:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728550AbfDPNpP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Apr 2019 09:45:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44698 "EHLO mail.kernel.org"
+        id S1727037AbfDPOA0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Apr 2019 10:00:26 -0400
+Received: from ms.lwn.net ([45.79.88.28]:38808 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726605AbfDPNpP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 16 Apr 2019 09:45:15 -0400
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        id S1726576AbfDPOAZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Apr 2019 10:00:25 -0400
+Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5DD5921924;
-        Tue, 16 Apr 2019 13:45:11 +0000 (UTC)
-Date:   Tue, 16 Apr 2019 09:45:09 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Karim Yaghmour <karim.yaghmour@opersys.com>
-Cc:     Joel Fernandes <joel@joelfernandes.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Olof Johansson <olof@lixom.net>,
-        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Joel Fernandes <joelaf@google.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Manoj Rao <linux@manojrajarao.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        atish patra <atishp04@gmail.com>,
-        Daniel Colascione <dancol@google.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Android Kernel Team <kernel-team@android.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-trace-devel@vger.kernel.org,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
-Subject: Re: [PATCH v5 1/3] Provide in-kernel headers to make extending
- kernel easier
-Message-ID: <20190416094509.1af6326b@gandalf.local.home>
-In-Reply-To: <f8b15e31-1aab-ab2c-d44d-47325faab67d@opersys.com>
-References: <20190408203601.GF133872@google.com>
-        <CAOesGMibHCuMPCYkc8V++Z2Kuf3YQf_OjYn18GvDgzTy6ubV=g@mail.gmail.com>
-        <CAJWu+or0hWce9+7aEfTHoOR8cptRbzHYVL-bPdJWGZH20dbo7Q@mail.gmail.com>
-        <CAOesGMiuGK-Sbqo2z=1ab070JONav1LF82MRRLCdX-4+14_XZA@mail.gmail.com>
-        <20190411031540.ehezr6kq7ouobpzx@ast-mbp.dhcp.thefacebook.com>
-        <CAOesGMgiPB=7FE7tXXHes7WSLfByyPxirOStoH21NZqMwaUihQ@mail.gmail.com>
-        <20190415104109.64d914f3@gandalf.local.home>
-        <CAGXu5j+KPVRcOJ3Ue9ZQF93GyaDhvCnFCvJ_C3WKCx2=SNdDyg@mail.gmail.com>
-        <20190416083306.5646a687@gandalf.local.home>
-        <20190416124939.GB6027@kroah.com>
-        <20190416130440.GA7944@localhost>
-        <f8b15e31-1aab-ab2c-d44d-47325faab67d@opersys.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        by ms.lwn.net (Postfix) with ESMTPSA id 368F4537;
+        Tue, 16 Apr 2019 14:00:25 +0000 (UTC)
+Date:   Tue, 16 Apr 2019 08:00:24 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mike Snitzer <snitzer@redhat.com>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Alasdair Kergon <agk@redhat.com>,
+        dm-devel@redhat.com
+Subject: Re: [PATCH 10/57] docs: device-mapper: convert it to ReST format
+Message-ID: <20190416080024.7fb65682@lwn.net>
+In-Reply-To: <20190416132851.GA22497@redhat.com>
+References: <cover.1555382110.git.mchehab+samsung@kernel.org>
+        <9dd3c4eca01489bd67ea6de88dfedef8b0e81901.1555382110.git.mchehab+samsung@kernel.org>
+        <20190416132851.GA22497@redhat.com>
+Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 16 Apr 2019 09:32:37 -0400
-Karim Yaghmour <karim.yaghmour@opersys.com> wrote:
+On Tue, 16 Apr 2019 09:28:52 -0400
+Mike Snitzer <snitzer@redhat.com> wrote:
 
-> >>> Then we should perhaps make a new file system call tarballs ;-)
-> >>>
-> >>>   /sys/kernel/tarballs/
-> >>>
-> >>> and place everything there. That way it removes it from /proc (which is
-> >>> the worse place for that) and also makes it something other than debug.
-> >>> That's what I did for tracefs.  
-> >>
-> >> As horrible as that suggestion is, it does kind of make sense :)
-> >>
-> >> We can't put this in debugfs as that's only for debugging and systems
-> >> should never have that mounted for normal operations (users want to
-> >> build ebpf programs), and /proc really should be for processes but that
-> >> horse is long left the barn.
-> >>
-> >> But, I'm willing to consider putting this either in a system-fs-like
-> >> filesystem, or just in sysfs itself, we do have /sys/kernel/ to play
-> >> around in if the main objection is that we should not be cluttering up
-> >> /proc with stuff like this.
-> >>  
-> > 
-> > I am ok with the suggestion of /sys/kernel for the archive. That also seems
-> > to fit well with the idea that the headers are kernel related and probably
-> > belong here more strictly speaking, than /proc.  
-> 
-> This makes sense. And if it alleviates concerns regarding extending 
-> /proc ABIs then might as well switch to this.
-> 
-> Olof, what do you think of this?
+> Can you help me understand why this is the direction text based
+> Documenation is taking in the Linux kernel?  All I see is markup, and
+> escaping of characters, that is a chore to administer over time.
 
-BTW, the name "tarballs" was kind of a joke. Probably should come up
-with a better name. Although, I'm fine with tarballsfs ;-)
+This is a discussion that was mostly resolved some years ago...
 
--- Steve
+Classic Documentation/ is a jumbled collection of unorganized text files,
+some of which contain highly useful information and others of which
+haven't had much to offer since about 1996.  We are working to turn it
+into an organized collection where, hopefully, some thought has actually
+been given to the people who will be reading it.
+
+The ReST conversion, in particular, allows us to link documents into a
+larger structure, create indexes and cross references, and produce output
+in formats like HTML and PDF.  It lets us present the documentation like
+this:
+
+	https://www.kernel.org/doc/html/latest/
+
+Among other things, making the documentation more accessible in this way
+makes it easier and more rewarding for developers to improve it, and I
+believe we are seeing the results of that.  Linus called out the
+documentation work in the 5.1-rc1 announcement, for example.
+
+Nobody has complained about the maintenance burden of RST docs - so far as
+I have heard, anyway.  Things do break occasionally, but problems in the
+docs build almost always result from code changes that mess up the
+kerneldoc comments rather than RST changes, and it's been that way for as
+long as I've been paying attention.
+
+Thanks,
+
+jon
