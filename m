@@ -1,310 +1,238 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1505C7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 19:01:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E267B7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 19:41:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727136AbfDPTAu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Apr 2019 15:00:50 -0400
-Received: from rcdn-iport-5.cisco.com ([173.37.86.76]:12388 "EHLO
-        rcdn-iport-5.cisco.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730263AbfDPTAt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Apr 2019 15:00:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=cisco.com; i=@cisco.com; l=8124; q=dns/txt; s=iport;
-  t=1555441249; x=1556650849;
-  h=from:to:cc:subject:date:message-id;
-  bh=jUbctrdZPohE1FhZjMvHq+JgvCU+PKzQN5Ta0x/P5Yw=;
-  b=dugd2/wc9drEe7etxHfxkW/JweBiNal83cKRV0Xbs/f7CQaS9zatPVgq
-   0w83qDczrx+CUqMjuupMHpaKP0tUSqQmjvr3yflUQmIcSiIDMIowT4jTs
-   MKjl/vDQr1WlCeXVBqjTh2Ni/pXLrxLRDgSoP987qaug/9yV7Is41Tzat
-   g=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0BqAABrJLZc/4gNJK1mGgEBAQEBAgE?=
- =?us-ascii?q?BAQEHAgEBAQGBZYIRgTkzKJgSinyPFoFnEIF4gnWGCSM4EwEDAQEKAQIBAm0?=
- =?us-ascii?q?ohXhSKQeBDgESgyKBdRSrTTOKMBSBHoZ0hFYXeIEHhGGBBIMFFQoRhWwDil8?=
- =?us-ascii?q?Shw6BC5JZUwmCCJINDBuUdotplEWBZiGBVjMaCBsVgyeCFgwLjj8fAzCOIYJ?=
- =?us-ascii?q?RAQE?=
-X-IronPort-AV: E=Sophos;i="5.60,358,1549929600"; 
-   d="scan'208";a="329420946"
-Received: from alln-core-3.cisco.com ([173.36.13.136])
-  by rcdn-iport-5.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 16 Apr 2019 18:53:33 +0000
-Received: from tusi.cisco.com (tusi.cisco.com [172.24.98.27])
-        by alln-core-3.cisco.com (8.15.2/8.15.2) with ESMTP id x3GIrUMp020521;
-        Tue, 16 Apr 2019 18:53:33 GMT
-From:   Ruslan Babayev <fib@cisco.com>
-To:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>
-Cc:     Ruslan Babayev <ruslan@babayev.com>, xe-linux-external@cisco.com,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 3/4] hwmon: (pmbus) add support for IR35215
-Date:   Tue, 16 Apr 2019 11:45:45 -0700
-Message-Id: <20190416184547.40128-3-fib@cisco.com>
+        id S1728734AbfDPTlh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Apr 2019 15:41:37 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:45944 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727997AbfDPTlh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Apr 2019 15:41:37 -0400
+Received: by mail-pl1-f194.google.com with SMTP id bf11so10821392plb.12;
+        Tue, 16 Apr 2019 12:41:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=kPsNBNGRZIREHuLkWl5OQs57K/lLEwg+3DT+aodwTVw=;
+        b=lTnc3xxLX6TghNRPbG9dqrGDIS//VJConEojYRafTjk2lJcOzT+uEs3phcmni3Izqu
+         7ANikKLkLIMp5mTOEGjhcN2J27bnGXK5VjBHpd/IcnRWs9d/WuQM9heZlkICKcPBsFry
+         g/qtz2qZY2UfCdSwDHs4XYlMRbFpLMEbEgHqRslfwcwOh6xUJH7yjdziKRGlLl8+acyQ
+         cKeIVYQu+JXLCYVqW7b4Txlckn37qvcb6Qau6N1bcGurypC6diPZ38aVh6osSyEb1QTo
+         8H5TJol/H/g3vOSHqRRN2Crbq49MlC3CCEagsDtTChnWsvFjrugV3c9CdRGv+hPeD+NH
+         PFeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=kPsNBNGRZIREHuLkWl5OQs57K/lLEwg+3DT+aodwTVw=;
+        b=A7FHY/BEInNvT/4LQGTNtvSKyH/PyRE+tgwK9qb6OX36sPZW4nZTTuO3EhchrWEDLC
+         36R/J1Z0pZIVi2z9DWjJeO+AmKFHiNkPUiso7PrIKQalo/q2BYJmIfUKq1Adm/WSDr8h
+         pUiEbN70Znrkfg96/10fGBj18Ai5p+BRMfB7Re0ZSFFHRsBMzcLZqBtn3A1kpA9HYiGw
+         Zuwtqk5N+xEDwXYKY5gXG1+o9kRKbQl1kUmbvdVjxeeQEju/Lrvs00vOTIxBhlbcoX/H
+         /qyTgTcJGYhDPshgx6p5HY3szpCREflkj551yqRVDf4MKW376Jy3C750GoLicBKXPaK/
+         6brg==
+X-Gm-Message-State: APjAAAWuJvm2w//MmctZULt+PkaetsP+jRxXMDpgbjIOR0jBCpgqv+Ep
+        hoPnzuPPs171mBkd3zu0Z04=
+X-Google-Smtp-Source: APXvYqyGLUsF0GRTqPUm3jbRkMNhxsFYDJeGCEwr+SZn/wFwM5rPnQIA3Vr9lxsdC3wdNm+h1YW7Bw==
+X-Received: by 2002:a17:902:8ecc:: with SMTP id x12mr84322919plo.0.1555443696701;
+        Tue, 16 Apr 2019 12:41:36 -0700 (PDT)
+Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
+        by smtp.gmail.com with ESMTPSA id f5sm55346249pgo.75.2019.04.16.12.41.35
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 16 Apr 2019 12:41:36 -0700 (PDT)
+From:   Nicolin Chen <nicoleotsuka@gmail.com>
+To:     jdelvare@suse.com, linux@roeck-us.net
+Cc:     linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+        corbet@lwn.net, linux-doc@vger.kernel.org
+Subject: [PATCH v2] hwmon: (ina3221) Add averaging mode support
+Date:   Tue, 16 Apr 2019 12:41:31 -0700
+Message-Id: <20190416194131.29560-1-nicoleotsuka@gmail.com>
 X-Mailer: git-send-email 2.17.1
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Outbound-SMTP-Client: 172.24.98.27, tusi.cisco.com
-X-Outbound-Node: alln-core-3.cisco.com
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Ruslan Babayev <ruslan@babayev.com>
+The CONFIG register has a 3-bit averaging mode field for users
+to setup the number of samples that are collected and averaged
+together. This is very useful to filter noise from sensor data.
 
-Provide support for Infineon Dual Output Digital Multi-Phase Buck
-Controllers IR35215 and IR3570B.
+This patch adds a 'samples' sysfs node using hwmon_chip_samples
+of hwmon core, and updates wait time calculation by taking this
+samples value into account.
 
-Cc: xe-linux-external@cisco.com
-Signed-off-by: Ruslan Babayev <ruslan@babayev.com>
+Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
 ---
- Documentation/hwmon/ir35215   | 98 +++++++++++++++++++++++++++++++++++
- drivers/hwmon/pmbus/Kconfig   | 10 ++++
- drivers/hwmon/pmbus/Makefile  |  1 +
- drivers/hwmon/pmbus/ir35215.c | 91 ++++++++++++++++++++++++++++++++
- 4 files changed, 200 insertions(+)
- create mode 100644 Documentation/hwmon/ir35215
- create mode 100644 drivers/hwmon/pmbus/ir35215.c
+Changelog
+v1->v2:
+ * Implemented "samples" through hwmon_chip_info
+ * Used find_closest()
 
-diff --git a/Documentation/hwmon/ir35215 b/Documentation/hwmon/ir35215
-new file mode 100644
-index 000000000000..b77481340006
---- /dev/null
-+++ b/Documentation/hwmon/ir35215
-@@ -0,0 +1,98 @@
-+Kernel driver ir35215
-+=====================
-+
-+Supported chips:
-+  * Infinion IR35215
-+    Prefix: 'ir35215'
-+    Addresses scanned: -
-+    Datasheet: Datasheet is not publicly available.
-+  * Infinion IR3570B
-+    Prefix: 'ir3570b'
-+    Addresses scanned: -
-+    Datasheet: Datasheet is not publicly available.
-+
-+Author: Ruslan Babayev <ruslan@babayev.com>
-+
-+
-+Description
-+-----------
-+
-+IR35215 is a Dual Output Digital Multi-Phase Controller
-+
-+
-+Usage Notes
-+-----------
-+
-+This driver does not probe for PMBus devices. You will have to instantiate
-+devices explicitly.
-+
-+Example: the following commands will load the driver for an IR35215
-+at address 0x40 on I2C bus #4:
-+
-+# modprobe ir35215
-+# echo ir35215 0x40 > /sys/bus/i2c/devices/i2c-4/new_device
-+
-+
-+Sysfs attributes
-+----------------
-+
-+curr[1-2]_label		"iin[1-2]"
-+curr[1-2]_input		Measured input current
-+curr[1-2]_max		Maximum current for
-+curr[1-2]_max_alarm	Current high alarm
-+
-+curr[3-4]_label		"iout[3-4]"
-+curr[3-4]_input		Measured output current
-+curr[3-4]_crit		Critical maximum current
-+curr[3-4]_crit_alarm	Current critical high alarm
-+curr[3-4]_highest	Highest output current
-+curr[3-4]_lowest	Lowest output current
-+curr[3-4]_max		Maximum current
-+curr[3-4]_max_alarm	Current high alarm
-+
-+in[1-2]_label		"vin[1-2]"
-+in[1-2]_input		Measured input voltage
-+in[1-2]_crit		Critical maximum input voltage
-+in[1-2]_crit_alarm	Input voltage critical high alarm
-+in[1-2]_highest		Highest input voltage
-+in[1-2]_lowest		Lowest input voltage
-+in[1-2]_min		Minimum input voltage
-+in[1-2]_min_alarm	Input voltage low alarm
-+
-+in[3-4]_label		"vout[3-4]"
-+in[3-4]_input		Measured output voltage
-+in[3-4]_lcrit		Critical minimum output voltage
-+in[3-4]_lcrit_alarm	Output voltage critical low alarm
-+in[3-4]_crit		Critical maximum output voltage
-+in[3-4]_crit_alarm	Output voltage critical high alarm
-+in[3-4]_highest		Highest output voltage
-+in[3-4]_lowest		Lowest output voltage
-+in[3-4]_max		Maximum output voltage
-+in[3-4]_max_alarm	Output voltage high alarm
-+in[3-4]_min		Minimum output voltage
-+in[3-4]_min_alarm	Output voltage low alarm
-+
-+out[1-2]_command	Commanded output voltage
-+out[1-2]_margin_high	Output voltage when operation is set to "high"
-+out[1-2]_margin_low	Output voltage when operation is set to "low"
-+out[1-2]_max		Maximum output voltage
-+out[1-2]_max_alarm	Output voltage high alarm
-+out[1-2]_operation	Set the output voltage to "on", "off", "high" or "low"
-+
-+power1_label		"pin"
-+power1_input		Measured input power
-+power1_alarm		Input power high alarm
-+power1_max		Input power limit
-+
-+power[2-3]_label	"pout[1-2]"
-+power[2-3]_input	Measured output power
-+power[2-3]_max		Output power limit
-+power[2-3]_max_alarm	Output power high alarm
-+
-+temp[1-2]_input		Measured temperature
-+temp[1-2]_crit		Critical high temperature
-+temp[1-2]_crit_alarm	Chip temperature critical high alarm
-+temp[1-2]_highest	Highest temperature
-+temp[1-2]_lowest	Lowest temperature
-+temp[1-2]_max		Maximum temperature
-+temp[1-2]_max_alarm	Chip temperature high alarm
-diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-index 629cb45f8557..a7dd5e606061 100644
---- a/drivers/hwmon/pmbus/Kconfig
-+++ b/drivers/hwmon/pmbus/Kconfig
-@@ -45,6 +45,16 @@ config SENSORS_IBM_CFFPS
- 	  This driver can also be built as a module. If so, the module will
- 	  be called ibm-cffps.
+ Documentation/hwmon/ina3221 |  3 ++
+ drivers/hwmon/ina3221.c     | 67 ++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 69 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/hwmon/ina3221 b/Documentation/hwmon/ina3221
+index 4b82cbfb551c..ed3f22769d4b 100644
+--- a/Documentation/hwmon/ina3221
++++ b/Documentation/hwmon/ina3221
+@@ -35,3 +35,6 @@ curr[123]_max           Warning alert current(mA) setting, activates the
+                           average is above this value.
+ curr[123]_max_alarm     Warning alert current limit exceeded
+ in[456]_input           Shunt voltage(uV) for channels 1, 2, and 3 respectively
++samples                 Number of samples using in the averaging mode.
++                          Supports the list of number of samples:
++                          1, 4, 16, 64, 128, 256, 512, 1024
+diff --git a/drivers/hwmon/ina3221.c b/drivers/hwmon/ina3221.c
+index e6f43df0435c..74d39d212931 100644
+--- a/drivers/hwmon/ina3221.c
++++ b/drivers/hwmon/ina3221.c
+@@ -22,6 +22,7 @@
+ #include <linux/of.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/regmap.h>
++#include <linux/util_macros.h>
  
-+config SENSORS_IR35215
-+	tristate "Infineon IR35215"
-+	default n
-+	help
-+	  If you say yes here you get hardware monitoring support for the
-+	  Infineon IR35215 controller.
-+
-+	  This driver can also be built as a module. If so, the module will
-+	  be called ir35215.
-+
- config SENSORS_IR35221
- 	tristate "Infineon IR35221"
- 	help
-diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-index ea0e39518c21..48643e3bab42 100644
---- a/drivers/hwmon/pmbus/Makefile
-+++ b/drivers/hwmon/pmbus/Makefile
-@@ -7,6 +7,7 @@ obj-$(CONFIG_PMBUS)		+= pmbus_core.o
- obj-$(CONFIG_SENSORS_PMBUS)	+= pmbus.o
- obj-$(CONFIG_SENSORS_ADM1275)	+= adm1275.o
- obj-$(CONFIG_SENSORS_IBM_CFFPS)	+= ibm-cffps.o
-+obj-$(CONFIG_SENSORS_IR35215)	+= ir35215.o
- obj-$(CONFIG_SENSORS_IR35221)	+= ir35221.o
- obj-$(CONFIG_SENSORS_LM25066)	+= lm25066.o
- obj-$(CONFIG_SENSORS_LTC2978)	+= ltc2978.o
-diff --git a/drivers/hwmon/pmbus/ir35215.c b/drivers/hwmon/pmbus/ir35215.c
-new file mode 100644
-index 000000000000..e50ee465a42d
---- /dev/null
-+++ b/drivers/hwmon/pmbus/ir35215.c
-@@ -0,0 +1,91 @@
-+/*
-+ * Hardware monitoring driver for Infineon IR35215
-+ *
-+ * Copyright (c) 2019 Cisco Systems.
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation; either version 2 of the License, or
-+ * (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-+ * GNU General Public License for more details.
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/init.h>
-+#include <linux/err.h>
-+#include <linux/i2c.h>
-+#include "pmbus.h"
-+
-+#define COMMON_FUNCS	(PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT	\
-+			 | PMBUS_HAVE_IIN | PMBUS_HAVE_IOUT	\
-+			 | PMBUS_HAVE_PIN | PMBUS_HAVE_POUT	\
-+			 | PMBUS_HAVE_TEMP			\
-+			 | PMBUS_HAVE_STATUS_VOUT		\
-+			 | PMBUS_HAVE_STATUS_IOUT		\
-+			 | PMBUS_HAVE_STATUS_INPUT		\
-+			 | PMBUS_HAVE_STATUS_TEMP		\
-+			 | PMBUS_HAVE_VOUT_MARGIN_HIGH		\
-+			 | PMBUS_HAVE_VOUT_MARGIN_LOW		\
-+			)
-+
-+
-+#define IR35215_FUNCS	(COMMON_FUNCS | PMBUS_HAVE_VOUT_COMMAND)
-+#define IR3570B_FUNCS	(COMMON_FUNCS | PMBUS_HAVE_TEMP2)
-+
-+static struct pmbus_driver_info ir35215_info = {
-+	.pages = 2,
-+	.format[PSC_VOLTAGE_IN] = linear,
-+	.format[PSC_VOLTAGE_OUT] = linear,
-+	.format[PSC_CURRENT_IN] = linear,
-+	.format[PSC_CURRENT_OUT] = linear,
-+	.format[PSC_POWER] = linear,
-+	.format[PSC_TEMPERATURE] = linear,
-+	.func[0] = IR35215_FUNCS,
-+	.func[1] = IR35215_FUNCS,
+ #define INA3221_DRIVER_NAME		"ina3221"
+ 
+@@ -51,6 +52,9 @@
+ #define INA3221_CONFIG_VBUS_CT_SHIFT	6
+ #define INA3221_CONFIG_VBUS_CT_MASK	GENMASK(8, 6)
+ #define INA3221_CONFIG_VBUS_CT(x)	(((x) & GENMASK(8, 6)) >> 6)
++#define INA3221_CONFIG_AVG_SHIFT	9
++#define INA3221_CONFIG_AVG_MASK		GENMASK(11, 9)
++#define INA3221_CONFIG_AVG(x)		(((x) & GENMASK(11, 9)) >> 9)
+ #define INA3221_CONFIG_CHs_EN_MASK	GENMASK(14, 12)
+ #define INA3221_CONFIG_CHx_EN(x)	BIT(14 - (x))
+ 
+@@ -135,17 +139,24 @@ static const u16 ina3221_conv_time[] = {
+ 	140, 204, 332, 588, 1100, 2116, 4156, 8244,
+ };
+ 
++/* Lookup table for number of samples using in averaging mode */
++static const int ina3221_avg_samples[] = {
++	1, 4, 16, 64, 128, 256, 512, 1024,
 +};
 +
-+static struct pmbus_driver_info ir3570b_info = {
-+	.pages = 1,
-+	.format[PSC_VOLTAGE_IN] = linear,
-+	.format[PSC_VOLTAGE_OUT] = linear,
-+	.format[PSC_CURRENT_IN] = linear,
-+	.format[PSC_CURRENT_OUT] = linear,
-+	.format[PSC_POWER] = linear,
-+	.format[PSC_TEMPERATURE] = linear,
-+	.func[0] = IR3570B_FUNCS,
-+	.func[1] = IR3570B_FUNCS,
-+};
-+
-+static int ir35215_probe(struct i2c_client *client,
-+			 const struct i2c_device_id *id)
+ static inline int ina3221_wait_for_data(struct ina3221_data *ina)
+ {
+ 	u32 channels = hweight16(ina->reg_config & INA3221_CONFIG_CHs_EN_MASK);
+ 	u32 vbus_ct_idx = INA3221_CONFIG_VBUS_CT(ina->reg_config);
+ 	u32 vsh_ct_idx = INA3221_CONFIG_VSH_CT(ina->reg_config);
++	u32 samples_idx = INA3221_CONFIG_AVG(ina->reg_config);
++	u32 samples = ina3221_avg_samples[samples_idx];
+ 	u32 vbus_ct = ina3221_conv_time[vbus_ct_idx];
+ 	u32 vsh_ct = ina3221_conv_time[vsh_ct_idx];
+ 	u32 wait, cvrf;
+ 
+ 	/* Calculate total conversion time */
+-	wait = channels * (vbus_ct + vsh_ct);
++	wait = channels * (vbus_ct + vsh_ct) * samples;
+ 
+ 	/* Polling the CVRF bit to make sure read data is ready */
+ 	return regmap_field_read_poll_timeout(ina->fields[F_CVRF],
+@@ -176,6 +187,21 @@ static const u8 ina3221_in_reg[] = {
+ 	INA3221_SHUNT3,
+ };
+ 
++static int ina3221_read_chip(struct device *dev, u32 attr, long *val)
 +{
-+	return pmbus_do_probe(client, id, (void *)id->driver_data);
++	struct ina3221_data *ina = dev_get_drvdata(dev);
++	int regval;
++
++	switch (attr) {
++	case hwmon_chip_samples:
++		regval = INA3221_CONFIG_AVG(ina->reg_config);
++		*val = ina3221_avg_samples[regval];
++		return 0;
++	default:
++		return -EOPNOTSUPP;
++	}
 +}
 +
-+static const struct i2c_device_id ir35215_id[] = {
-+	{"ir35215", (kernel_ulong_t)&ir35215_info},
-+	{"ir3570b", (kernel_ulong_t)&ir3570b_info},
-+	{}
-+};
+ static int ina3221_read_in(struct device *dev, u32 attr, int channel, long *val)
+ {
+ 	const bool is_shunt = channel > INA3221_CHANNEL3;
+@@ -279,6 +305,30 @@ static int ina3221_read_curr(struct device *dev, u32 attr,
+ 	}
+ }
+ 
++static int ina3221_write_chip(struct device *dev, u32 attr, long val)
++{
++	struct ina3221_data *ina = dev_get_drvdata(dev);
++	int ret, idx;
 +
-+MODULE_DEVICE_TABLE(i2c, ir35215_id);
++	switch (attr) {
++	case hwmon_chip_samples:
++		idx = find_closest(val, ina3221_avg_samples,
++				   ARRAY_SIZE(ina3221_avg_samples));
 +
-+static struct i2c_driver ir35215_driver = {
-+	.driver = {
-+		.name = "ir35215",
-+	},
-+	.probe = ir35215_probe,
-+	.remove = pmbus_do_remove,
-+	.id_table = ir35215_id,
-+};
++		ret = regmap_update_bits(ina->regmap, INA3221_CONFIG,
++					 INA3221_CONFIG_AVG_MASK,
++					 idx << INA3221_CONFIG_AVG_SHIFT);
++		if (ret)
++			return ret;
 +
-+module_i2c_driver(ir35215_driver);
++		/* Update reg_config accordingly */
++		return regmap_read(ina->regmap, INA3221_CONFIG,
++				   &ina->reg_config);
++	default:
++		return -EOPNOTSUPP;
++	}
++}
 +
-+MODULE_AUTHOR("Ruslan Babayev <ruslan@babayev.com>");
-+MODULE_DESCRIPTION("PMBus driver for IR35215");
-+MODULE_LICENSE("GPL");
+ static int ina3221_write_curr(struct device *dev, u32 attr,
+ 			      int channel, long val)
+ {
+@@ -361,6 +411,9 @@ static int ina3221_read(struct device *dev, enum hwmon_sensor_types type,
+ 	mutex_lock(&ina->lock);
+ 
+ 	switch (type) {
++	case hwmon_chip:
++		ret = ina3221_read_chip(dev, attr, val);
++		break;
+ 	case hwmon_in:
+ 		/* 0-align channel ID */
+ 		ret = ina3221_read_in(dev, attr, channel - 1, val);
+@@ -387,6 +440,9 @@ static int ina3221_write(struct device *dev, enum hwmon_sensor_types type,
+ 	mutex_lock(&ina->lock);
+ 
+ 	switch (type) {
++	case hwmon_chip:
++		ret = ina3221_write_chip(dev, attr, val);
++		break;
+ 	case hwmon_in:
+ 		/* 0-align channel ID */
+ 		ret = ina3221_write_enable(dev, channel - 1, val);
+@@ -423,6 +479,13 @@ static umode_t ina3221_is_visible(const void *drvdata,
+ 	const struct ina3221_input *input = NULL;
+ 
+ 	switch (type) {
++	case hwmon_chip:
++		switch (attr) {
++		case hwmon_chip_samples:
++			return 0644;
++		default:
++			return 0;
++		}
+ 	case hwmon_in:
+ 		/* Ignore in0_ */
+ 		if (channel == 0)
+@@ -463,6 +526,8 @@ static umode_t ina3221_is_visible(const void *drvdata,
+ 				   HWMON_C_MAX | HWMON_C_MAX_ALARM)
+ 
+ static const struct hwmon_channel_info *ina3221_info[] = {
++	HWMON_CHANNEL_INFO(chip,
++			   HWMON_C_SAMPLES),
+ 	HWMON_CHANNEL_INFO(in,
+ 			   /* 0: dummy, skipped in is_visible */
+ 			   HWMON_I_INPUT,
 -- 
 2.17.1
 
