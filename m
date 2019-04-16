@@ -1,49 +1,61 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 33D577D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 18:51:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1505C7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 19:01:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729729AbfDPSvV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Apr 2019 14:51:21 -0400
-Received: from rcdn-iport-3.cisco.com ([173.37.86.74]:49211 "EHLO
-        rcdn-iport-3.cisco.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730223AbfDPSvQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Apr 2019 14:51:16 -0400
-X-Greylist: delayed 427 seconds by postgrey-1.27 at vger.kernel.org; Tue, 16 Apr 2019 14:51:14 EDT
+        id S1727136AbfDPTAu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Apr 2019 15:00:50 -0400
+Received: from rcdn-iport-5.cisco.com ([173.37.86.76]:12388 "EHLO
+        rcdn-iport-5.cisco.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730263AbfDPTAt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Apr 2019 15:00:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=cisco.com; i=@cisco.com; l=8124; q=dns/txt; s=iport;
+  t=1555441249; x=1556650849;
+  h=from:to:cc:subject:date:message-id;
+  bh=jUbctrdZPohE1FhZjMvHq+JgvCU+PKzQN5Ta0x/P5Yw=;
+  b=dugd2/wc9drEe7etxHfxkW/JweBiNal83cKRV0Xbs/f7CQaS9zatPVgq
+   0w83qDczrx+CUqMjuupMHpaKP0tUSqQmjvr3yflUQmIcSiIDMIowT4jTs
+   MKjl/vDQr1WlCeXVBqjTh2Ni/pXLrxLRDgSoP987qaug/9yV7Is41Tzat
+   g=;
 X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0BjBAAKIrZc/51dJa1mHQEBBQEHBQG?=
- =?us-ascii?q?BZYIRgTkzKLIkgWcQgXiCdYYJIzgTAQMBAQoBAgECbSiFeFIpgRUBEoMiggm?=
- =?us-ascii?q?rVjOKMBSBHoZ0hFYXgX+EYYEEgwUVChGFbAOKXxKHDoELkllTCYIIU5E6J2u?=
- =?us-ascii?q?UC4tplEWBZiGBVjMaCBsVgyeCFgwLjj8fAzCOIYJRAQE?=
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0BqAABrJLZc/4gNJK1mGgEBAQEBAgE?=
+ =?us-ascii?q?BAQEHAgEBAQGBZYIRgTkzKJgSinyPFoFnEIF4gnWGCSM4EwEDAQEKAQIBAm0?=
+ =?us-ascii?q?ohXhSKQeBDgESgyKBdRSrTTOKMBSBHoZ0hFYXeIEHhGGBBIMFFQoRhWwDil8?=
+ =?us-ascii?q?Shw6BC5JZUwmCCJINDBuUdotplEWBZiGBVjMaCBsVgyeCFgwLjj8fAzCOIYJ?=
+ =?us-ascii?q?RAQE?=
 X-IronPort-AV: E=Sophos;i="5.60,358,1549929600"; 
-   d="scan'208";a="537122901"
-Received: from rcdn-core-6.cisco.com ([173.37.93.157])
-  by rcdn-iport-3.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 16 Apr 2019 18:44:06 +0000
+   d="scan'208";a="329420946"
+Received: from alln-core-3.cisco.com ([173.36.13.136])
+  by rcdn-iport-5.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 16 Apr 2019 18:53:33 +0000
 Received: from tusi.cisco.com (tusi.cisco.com [172.24.98.27])
-        by rcdn-core-6.cisco.com (8.15.2/8.15.2) with ESMTP id x3GIi30Y026006;
-        Tue, 16 Apr 2019 18:44:06 GMT
-From:   Ruslan Babayev <ruslan@babayev.com>
+        by alln-core-3.cisco.com (8.15.2/8.15.2) with ESMTP id x3GIrUMp020521;
+        Tue, 16 Apr 2019 18:53:33 GMT
+From:   Ruslan Babayev <fib@cisco.com>
 To:     Jean Delvare <jdelvare@suse.com>,
         Guenter Roeck <linux@roeck-us.net>
-Cc:     xe-linux-external@cisco.com, Jonathan Corbet <corbet@lwn.net>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+Cc:     Ruslan Babayev <ruslan@babayev.com>, xe-linux-external@cisco.com,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: [PATCH 3/4] hwmon: (pmbus) add support for IR35215
-Date:   Tue, 16 Apr 2019 11:36:18 -0700
-Message-Id: <20190416183620.39950-3-ruslan@babayev.com>
+Date:   Tue, 16 Apr 2019 11:45:45 -0700
+Message-Id: <20190416184547.40128-3-fib@cisco.com>
 X-Mailer: git-send-email 2.17.1
 X-Auto-Response-Suppress: DR, OOF, AutoReply
 X-Outbound-SMTP-Client: 172.24.98.27, tusi.cisco.com
-X-Outbound-Node: rcdn-core-6.cisco.com
+X-Outbound-Node: alln-core-3.cisco.com
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
+
+From: Ruslan Babayev <ruslan@babayev.com>
 
 Provide support for Infineon Dual Output Digital Multi-Phase Buck
 Controllers IR35215 and IR3570B.
