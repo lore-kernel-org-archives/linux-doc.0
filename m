@@ -5,875 +5,562 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6F4047D2F0
+	by archive.lwn.net (Postfix) with ESMTP id 8B17A7D90F
 	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 03:03:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727149AbfDPDCn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1726312AbfDPDCn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Mon, 15 Apr 2019 23:02:43 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:43992 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:43990 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726680AbfDPC43 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 22:56:29 -0400
+        with ESMTP id S1726676AbfDPC4a (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 22:56:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-        To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Tchib2h3WzNPtD4PekTIVE0KHkEmFA7xKKfWc/uAf/U=; b=lRHBPwXHD42m623h1nfANt8Gu3
-        X7vN+O2PRWRSD6K2hqKjCwlehmatf7BQy/OgbAs5DEeH5DAYCXa9eoF7lIB2fqHtBVY6GvwR6LzIF
-        XsaqygK/bI2MpACHTiHJMBp/UzFYPS0OnWx4DSfDbjwquZHhtk0FCuiww4JR/0NjmFJ+4Ud+/v8RC
-        +E22a3B08oCfCoxdkZ4jNU09eaG2p/BRVmLyVAtS0/WSGfDshHXuVx6Tok1rF9+W8nKsYtu9qnjBf
-        9Ba22iqOcdZ5i2Nwvi3ZpEIYJSBWD8n3c7yb2SHn50YxUl3Djhtb5ULX9Rx4K1mVkDr6bt5gqQMcZ
-        6UFvctfw==;
+        bh=1AUs7l8doB7HbS3wx4Ir5Qt3dZPsE6U0/pdjbofYfos=; b=lOLSuryslmdqXF7g7wG0cJFQ1/
+        /P6C3XBigAaFeeLOPisZ54KRZ7/gn3O2rIgqg4Isck6O7A8SKaY7MI0Yv+tqzja6jD0V8SZoKpF+A
+        mlS5LxX8sdza/vXu1CAbQ6pLfkymWXB/6FRp84wVuGFmmnngJN8+vZCjUofg4XbcRZb81rJPQB5q2
+        yhDFX5h25s9pV9UBoHjChfnNxwIxvvqkytxItH+dpbRRcQ1j2wMyWaJuXkVGXB9VMiIOkmrh4paXv
+        qMVCl8aaa1uBqYGwHKJzmWp8rJStOZwXjKeKvljNHluNvH0VZ83bKuiIDm24K5Ea/8GiHMQ5lVH9T
+        zd3xGjbA==;
 Received: from 177.205.118.176.dynamic.adsl.gvt.net.br ([177.205.118.176] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hGEGp-0007aT-Ry; Tue, 16 Apr 2019 02:56:28 +0000
+        id 1hGEGp-0007aO-SC; Tue, 16 Apr 2019 02:56:28 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hGEGn-0001ll-6S; Mon, 15 Apr 2019 23:56:25 -0300
+        id 1hGEGn-0001lG-0w; Mon, 15 Apr 2019 23:56:25 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Akinobu Mita <akinobu.mita@gmail.com>
-Subject: [PATCH 12/57] docs: fault-injection: convert it to ReST format
-Date:   Mon, 15 Apr 2019 23:55:37 -0300
-Message-Id: <763b2228bb563f62eaa761efba959011df3a0c67.1555382110.git.mchehab+samsung@kernel.org>
+        Jens Axboe <axboe@kernel.dk>
+Subject: [PATCH 06/57] docs: cdrom: convert remaining files to ReST
+Date:   Mon, 15 Apr 2019 23:55:31 -0300
+Message-Id: <47029462b62c4c99e3976926fad2538ffd28f0cd.1555382110.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1555382110.git.mchehab+samsung@kernel.org>
 References: <cover.1555382110.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Instead of using plain text, convert it to ReST format, in
-order for the docs to be parsed and produce html and pdf output.
+The stuff there is almost already at ReST format. A
+conversion for them is trivial: just add a missing titles
+and fix some scape codes for them to match ReST syntax.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- .../fault-injection/fault-injection.txt       | 265 +++++++++---------
- .../fault-injection/notifier-error-inject.txt |  18 +-
- .../fault-injection/nvme-fault-injection.txt  | 174 ++++++------
- .../fault-injection/provoke-crashes.txt       |  40 ++-
- 4 files changed, 263 insertions(+), 234 deletions(-)
+ Documentation/cdrom/ide-cd             | 178 +++++++++++++------------
+ Documentation/cdrom/packet-writing.txt |  27 ++--
+ 2 files changed, 108 insertions(+), 97 deletions(-)
 
-diff --git a/Documentation/fault-injection/fault-injection.txt b/Documentation/fault-injection/fault-injection.txt
-index a17517a083c3..f51bb21d20e4 100644
---- a/Documentation/fault-injection/fault-injection.txt
-+++ b/Documentation/fault-injection/fault-injection.txt
-@@ -1,3 +1,4 @@
-+===========================================
- Fault injection capabilities infrastructure
- ===========================================
- 
-@@ -7,36 +8,36 @@ See also drivers/md/md-faulty.c and "every_nth" module option for scsi_debug.
- Available fault injection capabilities
- --------------------------------------
- 
--o failslab
-+- failslab
- 
-   injects slab allocation failures. (kmalloc(), kmem_cache_alloc(), ...)
- 
--o fail_page_alloc
-+- fail_page_alloc
- 
-   injects page allocation failures. (alloc_pages(), get_free_pages(), ...)
- 
--o fail_futex
-+- fail_futex
- 
-   injects futex deadlock and uaddr fault errors.
- 
--o fail_make_request
-+- fail_make_request
- 
-   injects disk IO errors on devices permitted by setting
-   /sys/block/<device>/make-it-fail or
-   /sys/block/<device>/<partition>/make-it-fail. (generic_make_request())
- 
--o fail_mmc_request
-+- fail_mmc_request
- 
-   injects MMC data errors on devices permitted by setting
-   debugfs entries under /sys/kernel/debug/mmc0/fail_mmc_request
- 
--o fail_function
-+- fail_function
- 
-   injects error return on specific functions, which are marked by
-   ALLOW_ERROR_INJECTION() macro, by setting debugfs entries
-   under /sys/kernel/debug/fail_function. No boot option supported.
- 
--o NVMe fault injection
-+- NVMe fault injection
- 
-   inject NVMe status code and retry flag on devices permitted by setting
-   debugfs entries under /sys/kernel/debug/nvme*/fault_inject. The default
-@@ -47,7 +48,8 @@ o NVMe fault injection
- Configure fault-injection capabilities behavior
- -----------------------------------------------
- 
--o debugfs entries
-+debugfs entries
-+^^^^^^^^^^^^^^^
- 
- fault-inject-debugfs kernel module provides some debugfs entries for runtime
- configuration of fault-injection capabilities.
-@@ -55,6 +57,7 @@ configuration of fault-injection capabilities.
- - /sys/kernel/debug/fail*/probability:
- 
- 	likelihood of failure injection, in percent.
+diff --git a/Documentation/cdrom/ide-cd b/Documentation/cdrom/ide-cd
+index a5f2a7f1ff46..dadc94ef6b6c 100644
+--- a/Documentation/cdrom/ide-cd
++++ b/Documentation/cdrom/ide-cd
+@@ -1,18 +1,20 @@
+ IDE-CD driver documentation
+-Originally by scott snyder  <snyder@fnald0.fnal.gov> (19 May 1996)
+-Carrying on the torch is: Erik Andersen <andersee@debian.org>
+-New maintainers (19 Oct 1998): Jens Axboe <axboe@image.dk>
++===========================
 +
- 	Format: <percent>
++:Originally by: scott snyder  <snyder@fnald0.fnal.gov> (19 May 1996)
++:Carrying on the torch is: Erik Andersen <andersee@debian.org>
++:New maintainers (19 Oct 1998): Jens Axboe <axboe@image.dk>
  
- 	Note that one-failure-per-hundred is a very high error rate
-@@ -83,6 +86,7 @@ configuration of fault-injection capabilities.
- - /sys/kernel/debug/fail*/verbose
+ 1. Introduction
+ ---------------
  
- 	Format: { 0 | 1 | 2 }
+-The ide-cd driver should work with all ATAPI ver 1.2 to ATAPI 2.6 compliant 
++The ide-cd driver should work with all ATAPI ver 1.2 to ATAPI 2.6 compliant
+ CDROM drives which attach to an IDE interface.  Note that some CDROM vendors
+ (including Mitsumi, Sony, Creative, Aztech, and Goldstar) have made
+ both ATAPI-compliant drives and drives which use a proprietary
+ interface.  If your drive uses one of those proprietary interfaces,
+ this driver will not work with it (but one of the other CDROM drivers
+-probably will).  This driver will not work with `ATAPI' drives which
++probably will).  This driver will not work with `ATAPI` drives which
+ attach to the parallel port.  In addition, there is at least one drive
+ (CyCDROM CR520ie) which attaches to the IDE port but is not ATAPI;
+ this driver will not work with drives like that either (but see the
+@@ -31,7 +33,7 @@ This driver provides the following features:
+    from audio tracks.  The program cdda2wav can be used for this.
+    Note, however, that only some drives actually support this.
+ 
+- - There is now support for CDROM changers which comply with the 
++ - There is now support for CDROM changers which comply with the
+    ATAPI 2.6 draft standard (such as the NEC CDR-251).  This additional
+    functionality includes a function call to query which slot is the
+    currently selected slot, a function call to query which slots contain
+@@ -49,11 +51,11 @@ This driver provides the following features:
+    driver.
+ 
+ 1. Make sure that the ide and ide-cd drivers are compiled into the
+-   kernel you're using.  When configuring the kernel, in the section 
+-   entitled "Floppy, IDE, and other block devices", say either `Y' 
+-   (which will compile the support directly into the kernel) or `M'
++   kernel you're using.  When configuring the kernel, in the section
++   entitled "Floppy, IDE, and other block devices", say either `Y`
++   (which will compile the support directly into the kernel) or `M`
+    (to compile support as a module which can be loaded and unloaded)
+-   to the options: 
++   to the options::
+ 
+       ATA/ATAPI/MFM/RLL support
+       Include IDE/ATAPI CDROM support
+@@ -72,35 +74,35 @@ This driver provides the following features:
+    address and an IRQ number, the standard assignments being
+    0x1f0 and 14 for the primary interface and 0x170 and 15 for the
+    secondary interface.  Each interface can control up to two devices,
+-   where each device can be a hard drive, a CDROM drive, a floppy drive, 
+-   or a tape drive.  The two devices on an interface are called `master'
+-   and `slave'; this is usually selectable via a jumper on the drive.
++   where each device can be a hard drive, a CDROM drive, a floppy drive,
++   or a tape drive.  The two devices on an interface are called `master`
++   and `slave`; this is usually selectable via a jumper on the drive.
+ 
+    Linux names these devices as follows.  The master and slave devices
+-   on the primary IDE interface are called `hda' and `hdb',
++   on the primary IDE interface are called `hda` and `hdb`,
+    respectively.  The drives on the secondary interface are called
+-   `hdc' and `hdd'.  (Interfaces at other locations get other letters
++   `hdc` and `hdd`.  (Interfaces at other locations get other letters
+    in the third position; see Documentation/ide/ide.txt.)
+ 
+    If you want your CDROM drive to be found automatically by the
+    driver, you should make sure your IDE interface uses either the
+    primary or secondary addresses mentioned above.  In addition, if
+    the CDROM drive is the only device on the IDE interface, it should
+-   be jumpered as `master'.  (If for some reason you cannot configure
++   be jumpered as `master`.  (If for some reason you cannot configure
+    your system in this manner, you can probably still use the driver.
+    You may have to pass extra configuration information to the kernel
+    when you boot, however.  See Documentation/ide/ide.txt for more
+    information.)
+ 
+ 4. Boot the system.  If the drive is recognized, you should see a
+-   message which looks like
++   message which looks like::
+ 
+      hdb: NEC CD-ROM DRIVE:260, ATAPI CDROM drive
+ 
+    If you do not see this, see section 5 below.
+ 
+ 5. You may want to create a symbolic link /dev/cdrom pointing to the
+-   actual device.  You can do this with the command
++   actual device.  You can do this with the command::
+ 
+      ln -s  /dev/hdX  /dev/cdrom
+ 
+@@ -108,14 +110,14 @@ This driver provides the following features:
+    drive is installed.
+ 
+ 6. You should be able to see any error messages from the driver with
+-   the `dmesg' command.
++   the `dmesg` command.
+ 
+ 
+ 3. Basic usage
+ --------------
+ 
+-An ISO 9660 CDROM can be mounted by putting the disc in the drive and 
+-typing (as root)
++An ISO 9660 CDROM can be mounted by putting the disc in the drive and
++typing (as root)::
+ 
+   mount -t iso9660 /dev/cdrom /mnt/cdrom
+ 
+@@ -123,7 +125,7 @@ where it is assumed that /dev/cdrom is a link pointing to the actual
+ device (as described in step 5 of the last section) and /mnt/cdrom is
+ an empty directory.  You should now be able to see the contents of the
+ CDROM under the /mnt/cdrom directory.  If you want to eject the CDROM,
+-you must first dismount it with a command like
++you must first dismount it with a command like::
+ 
+   umount /mnt/cdrom
+ 
+@@ -148,7 +150,7 @@ such as cdda2wav.  The only types of drive which I've heard support
+ this are Sony and Toshiba drives.  You will get errors if you try to
+ use this function on a drive which does not support it.
+ 
+-For supported changers, you can use the `cdchange' program (appended to
++For supported changers, you can use the `cdchange` program (appended to
+ the end of this file) to switch between changer slots.  Note that the
+ drive should be unmounted before attempting this.  The program takes
+ two arguments:  the CDROM device, and the slot number to which you wish
+@@ -165,7 +167,7 @@ Documentation/ide/ide.txt for current information about the underlying
+ IDE support code.  Some of these items apply only to earlier versions
+ of the driver, but are mentioned here for completeness.
+ 
+-In most cases, you should probably check with `dmesg' for any errors
++In most cases, you should probably check with `dmesg` for any errors
+ from the driver.
+ 
+ a. Drive is not detected during booting.
+@@ -184,9 +186,9 @@ a. Drive is not detected during booting.
+ 
+    - If the autoprobing is not finding your drive, you can tell the
+      driver to assume that one exists by using a lilo option of the
+-     form `hdX=cdrom', where X is the drive letter corresponding to
+-     where your drive is installed.  Note that if you do this and you 
+-     see a boot message like
++     form `hdX=cdrom`, where X is the drive letter corresponding to
++     where your drive is installed.  Note that if you do this and you
++     see a boot message like::
+ 
+        hdX: ATAPI cdrom (?)
+ 
+@@ -220,7 +222,7 @@ b. Timeout/IRQ errors.
+     probably not making it to the host.
+ 
+   - IRQ problems may also be indicated by the message
+-    `IRQ probe failed (<n>)' while booting.  If <n> is zero, that
++    `IRQ probe failed (<n>)` while booting.  If <n> is zero, that
+     means that the system did not see an interrupt from the drive when
+     it was expecting one (on any feasible IRQ).  If <n> is negative,
+     that means the system saw interrupts on multiple IRQ lines, when
+@@ -240,27 +242,27 @@ b. Timeout/IRQ errors.
+     there are hardware problems with the interrupt setup; they
+     apparently don't use interrupts.
+ 
+-  - If you own a Pioneer DR-A24X, you _will_ get nasty error messages 
++  - If you own a Pioneer DR-A24X, you _will_ get nasty error messages
+     on boot such as "irq timeout: status=0x50 { DriveReady SeekComplete }"
+     The Pioneer DR-A24X CDROM drives are fairly popular these days.
+     Unfortunately, these drives seem to become very confused when we perform
+     the standard Linux ATA disk drive probe. If you own one of these drives,
+-    you can bypass the ATA probing which confuses these CDROM drives, by 
+-    adding `append="hdX=noprobe hdX=cdrom"' to your lilo.conf file and running 
+-    lilo (again where X is the drive letter corresponding to where your drive 
++    you can bypass the ATA probing which confuses these CDROM drives, by
++    adding `append="hdX=noprobe hdX=cdrom"` to your lilo.conf file and running
++    lilo (again where X is the drive letter corresponding to where your drive
+     is installed.)
+-    
 +
- 	specifies the verbosity of the messages when failure is
- 	injected.  '0' means no messages; '1' will print only a single
- 	log line per failure; '2' will print a call trace too -- useful
-@@ -91,14 +95,15 @@ configuration of fault-injection capabilities.
- - /sys/kernel/debug/fail*/task-filter:
- 
- 	Format: { 'Y' | 'N' }
-+
- 	A value of 'N' disables filtering by process (default).
- 	Any positive value limits failures to only processes indicated by
- 	/proc/<pid>/make-it-fail==1.
- 
--- /sys/kernel/debug/fail*/require-start:
--- /sys/kernel/debug/fail*/require-end:
--- /sys/kernel/debug/fail*/reject-start:
--- /sys/kernel/debug/fail*/reject-end:
-+- /sys/kernel/debug/fail*/require-start,
-+  /sys/kernel/debug/fail*/require-end,
-+  /sys/kernel/debug/fail*/reject-start,
-+  /sys/kernel/debug/fail*/reject-end:
- 
- 	specifies the range of virtual addresses tested during
- 	stacktrace walking.  Failure is injected only if some caller
-@@ -116,6 +121,7 @@ configuration of fault-injection capabilities.
- - /sys/kernel/debug/fail_page_alloc/ignore-gfp-highmem:
- 
- 	Format: { 'Y' | 'N' }
-+
- 	default is 'N', setting it to 'Y' won't inject failures into
- 	highmem/user allocations.
- 
-@@ -123,6 +129,7 @@ configuration of fault-injection capabilities.
- - /sys/kernel/debug/fail_page_alloc/ignore-gfp-wait:
- 
- 	Format: { 'Y' | 'N' }
-+
- 	default is 'N', setting it to 'Y' will inject failures
- 	only into non-sleep allocations (GFP_ATOMIC allocations).
- 
-@@ -134,12 +141,14 @@ configuration of fault-injection capabilities.
- - /sys/kernel/debug/fail_futex/ignore-private:
- 
- 	Format: { 'Y' | 'N' }
-+
- 	default is 'N', setting it to 'Y' will disable failure injections
- 	when dealing with private (address space) futexes.
- 
- - /sys/kernel/debug/fail_function/inject:
- 
- 	Format: { 'function-name' | '!function-name' | '' }
-+
- 	specifies the target function of error injection by name.
- 	If the function name leads '!' prefix, given function is
- 	removed from injection list. If nothing specified ('')
-@@ -160,10 +169,11 @@ configuration of fault-injection capabilities.
- 	function for given function. This will be created when
- 	user specifies new injection entry.
- 
--o Boot option
-+Boot option
-+^^^^^^^^^^^
- 
- In order to inject faults while debugfs is not available (early boot time),
--use the boot option:
-+use the boot option::
- 
- 	failslab=
- 	fail_page_alloc=
-@@ -171,10 +181,11 @@ use the boot option:
- 	fail_futex=
- 	mmc_core.fail_request=<interval>,<probability>,<space>,<times>
- 
--o proc entries
-+proc entries
-+^^^^^^^^^^^^
- 
--- /proc/<pid>/fail-nth:
--- /proc/self/task/<tid>/fail-nth:
-+- /proc/<pid>/fail-nth,
-+  /proc/self/task/<tid>/fail-nth:
- 
- 	Write to this file of integer N makes N-th call in the task fail.
- 	Read from this file returns a integer value. A value of '0' indicates
-@@ -191,16 +202,16 @@ o proc entries
- How to add new fault injection capability
- -----------------------------------------
- 
--o #include <linux/fault-inject.h>
-+- #include <linux/fault-inject.h>
- 
--o define the fault attributes
-+- define the fault attributes
- 
-   DECLARE_FAULT_ATTR(name);
- 
-   Please see the definition of struct fault_attr in fault-inject.h
-   for details.
- 
--o provide a way to configure fault attributes
-+- provide a way to configure fault attributes
- 
- - boot option
- 
-@@ -222,126 +233,126 @@ o provide a way to configure fault attributes
-   single kernel module, it is better to provide module parameters to
-   configure the fault attributes.
- 
--o add a hook to insert failures
-+- add a hook to insert failures
- 
--  Upon should_fail() returning true, client code should inject a failure.
-+  Upon should_fail() returning true, client code should inject a failure:
- 
- 	should_fail(attr, size);
- 
- Application Examples
- --------------------
- 
--o Inject slab allocation failures into module init/exit code
-+- Inject slab allocation failures into module init/exit code::
- 
--#!/bin/bash
-+    #!/bin/bash
- 
--FAILTYPE=failslab
--echo Y > /sys/kernel/debug/$FAILTYPE/task-filter
--echo 10 > /sys/kernel/debug/$FAILTYPE/probability
--echo 100 > /sys/kernel/debug/$FAILTYPE/interval
--echo -1 > /sys/kernel/debug/$FAILTYPE/times
--echo 0 > /sys/kernel/debug/$FAILTYPE/space
--echo 2 > /sys/kernel/debug/$FAILTYPE/verbose
--echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-wait
-+    FAILTYPE=failslab
-+    echo Y > /sys/kernel/debug/$FAILTYPE/task-filter
-+    echo 10 > /sys/kernel/debug/$FAILTYPE/probability
-+    echo 100 > /sys/kernel/debug/$FAILTYPE/interval
-+    echo -1 > /sys/kernel/debug/$FAILTYPE/times
-+    echo 0 > /sys/kernel/debug/$FAILTYPE/space
-+    echo 2 > /sys/kernel/debug/$FAILTYPE/verbose
-+    echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-wait
- 
--faulty_system()
--{
-+    faulty_system()
-+    {
- 	bash -c "echo 1 > /proc/self/make-it-fail && exec $*"
--}
-+    }
- 
--if [ $# -eq 0 ]
--then
-+    if [ $# -eq 0 ]
-+    then
- 	echo "Usage: $0 modulename [ modulename ... ]"
- 	exit 1
--fi
-+    fi
- 
--for m in $*
--do
-+    for m in $*
-+    do
- 	echo inserting $m...
- 	faulty_system modprobe $m
- 
- 	echo removing $m...
- 	faulty_system modprobe -r $m
--done
-+    done
- 
- ------------------------------------------------------------------------------
- 
--o Inject page allocation failures only for a specific module
-+- Inject page allocation failures only for a specific module::
- 
--#!/bin/bash
-+    #!/bin/bash
- 
--FAILTYPE=fail_page_alloc
--module=$1
-+    FAILTYPE=fail_page_alloc
-+    module=$1
- 
--if [ -z $module ]
--then
-+    if [ -z $module ]
-+    then
- 	echo "Usage: $0 <modulename>"
- 	exit 1
--fi
-+    fi
- 
--modprobe $module
-+    modprobe $module
- 
--if [ ! -d /sys/module/$module/sections ]
--then
-+    if [ ! -d /sys/module/$module/sections ]
-+    then
- 	echo Module $module is not loaded
- 	exit 1
--fi
-+    fi
- 
--cat /sys/module/$module/sections/.text > /sys/kernel/debug/$FAILTYPE/require-start
--cat /sys/module/$module/sections/.data > /sys/kernel/debug/$FAILTYPE/require-end
-+    cat /sys/module/$module/sections/.text > /sys/kernel/debug/$FAILTYPE/require-start
-+    cat /sys/module/$module/sections/.data > /sys/kernel/debug/$FAILTYPE/require-end
- 
--echo N > /sys/kernel/debug/$FAILTYPE/task-filter
--echo 10 > /sys/kernel/debug/$FAILTYPE/probability
--echo 100 > /sys/kernel/debug/$FAILTYPE/interval
--echo -1 > /sys/kernel/debug/$FAILTYPE/times
--echo 0 > /sys/kernel/debug/$FAILTYPE/space
--echo 2 > /sys/kernel/debug/$FAILTYPE/verbose
--echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-wait
--echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-highmem
--echo 10 > /sys/kernel/debug/$FAILTYPE/stacktrace-depth
-+    echo N > /sys/kernel/debug/$FAILTYPE/task-filter
-+    echo 10 > /sys/kernel/debug/$FAILTYPE/probability
-+    echo 100 > /sys/kernel/debug/$FAILTYPE/interval
-+    echo -1 > /sys/kernel/debug/$FAILTYPE/times
-+    echo 0 > /sys/kernel/debug/$FAILTYPE/space
-+    echo 2 > /sys/kernel/debug/$FAILTYPE/verbose
-+    echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-wait
-+    echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-highmem
-+    echo 10 > /sys/kernel/debug/$FAILTYPE/stacktrace-depth
- 
--trap "echo 0 > /sys/kernel/debug/$FAILTYPE/probability" SIGINT SIGTERM EXIT
-+    trap "echo 0 > /sys/kernel/debug/$FAILTYPE/probability" SIGINT SIGTERM EXIT
- 
--echo "Injecting errors into the module $module... (interrupt to stop)"
--sleep 1000000
-+    echo "Injecting errors into the module $module... (interrupt to stop)"
-+    sleep 1000000
- 
- ------------------------------------------------------------------------------
- 
--o Inject open_ctree error while btrfs mount
-+- Inject open_ctree error while btrfs mount::
- 
--#!/bin/bash
-+    #!/bin/bash
- 
--rm -f testfile.img
--dd if=/dev/zero of=testfile.img bs=1M seek=1000 count=1
--DEVICE=$(losetup --show -f testfile.img)
--mkfs.btrfs -f $DEVICE
--mkdir -p tmpmnt
-+    rm -f testfile.img
-+    dd if=/dev/zero of=testfile.img bs=1M seek=1000 count=1
-+    DEVICE=$(losetup --show -f testfile.img)
-+    mkfs.btrfs -f $DEVICE
-+    mkdir -p tmpmnt
- 
--FAILTYPE=fail_function
--FAILFUNC=open_ctree
--echo $FAILFUNC > /sys/kernel/debug/$FAILTYPE/inject
--echo -12 > /sys/kernel/debug/$FAILTYPE/$FAILFUNC/retval
--echo N > /sys/kernel/debug/$FAILTYPE/task-filter
--echo 100 > /sys/kernel/debug/$FAILTYPE/probability
--echo 0 > /sys/kernel/debug/$FAILTYPE/interval
--echo -1 > /sys/kernel/debug/$FAILTYPE/times
--echo 0 > /sys/kernel/debug/$FAILTYPE/space
--echo 1 > /sys/kernel/debug/$FAILTYPE/verbose
-+    FAILTYPE=fail_function
-+    FAILFUNC=open_ctree
-+    echo $FAILFUNC > /sys/kernel/debug/$FAILTYPE/inject
-+    echo -12 > /sys/kernel/debug/$FAILTYPE/$FAILFUNC/retval
-+    echo N > /sys/kernel/debug/$FAILTYPE/task-filter
-+    echo 100 > /sys/kernel/debug/$FAILTYPE/probability
-+    echo 0 > /sys/kernel/debug/$FAILTYPE/interval
-+    echo -1 > /sys/kernel/debug/$FAILTYPE/times
-+    echo 0 > /sys/kernel/debug/$FAILTYPE/space
-+    echo 1 > /sys/kernel/debug/$FAILTYPE/verbose
- 
--mount -t btrfs $DEVICE tmpmnt
--if [ $? -ne 0 ]
--then
-+    mount -t btrfs $DEVICE tmpmnt
-+    if [ $? -ne 0 ]
-+    then
- 	echo "SUCCESS!"
--else
-+    else
- 	echo "FAILED!"
- 	umount tmpmnt
--fi
-+    fi
- 
--echo > /sys/kernel/debug/$FAILTYPE/inject
-+    echo > /sys/kernel/debug/$FAILTYPE/inject
- 
--rmdir tmpmnt
--losetup -d $DEVICE
--rm testfile.img
-+    rmdir tmpmnt
-+    losetup -d $DEVICE
-+    rm testfile.img
- 
- 
- Tool to run command with failslab or fail_page_alloc
-@@ -354,43 +365,43 @@ see the following examples.
- Examples:
- 
- Run a command "make -C tools/testing/selftests/ run_tests" with injecting slab
--allocation failure.
-+allocation failure::
- 
- 	# ./tools/testing/fault-injection/failcmd.sh \
- 		-- make -C tools/testing/selftests/ run_tests
- 
- Same as above except to specify 100 times failures at most instead of one time
--at most by default.
-+at most by default::
- 
- 	# ./tools/testing/fault-injection/failcmd.sh --times=100 \
- 		-- make -C tools/testing/selftests/ run_tests
- 
- Same as above except to inject page allocation failure instead of slab
--allocation failure.
-+allocation failure::
- 
- 	# env FAILCMD_TYPE=fail_page_alloc \
- 		./tools/testing/fault-injection/failcmd.sh --times=100 \
--                -- make -C tools/testing/selftests/ run_tests
-+		-- make -C tools/testing/selftests/ run_tests
- 
- Systematic faults using fail-nth
- ---------------------------------
- 
- The following code systematically faults 0-th, 1-st, 2-nd and so on
--capabilities in the socketpair() system call.
-+capabilities in the socketpair() system call::
- 
--#include <sys/types.h>
--#include <sys/stat.h>
--#include <sys/socket.h>
--#include <sys/syscall.h>
--#include <fcntl.h>
--#include <unistd.h>
--#include <string.h>
--#include <stdlib.h>
+ c. System hangups.
+ 
+   - If the system locks up when you try to access the CDROM, the most
+     likely cause is that you have a buggy IDE adapter which doesn't
+     properly handle simultaneous transactions on multiple interfaces.
+     The most notorious of these is the CMD640B chip.  This problem can
+-    be worked around by specifying the `serialize' option when
++    be worked around by specifying the `serialize` option when
+     booting.  Recent kernels should be able to detect the need for
+     this automatically in most cases, but the detection is not
+     foolproof.  See Documentation/ide/ide.txt for more information
+-    about the `serialize' option and the CMD640B.
++    about the `serialize` option and the CMD640B.
+ 
+   - Note that many MS-DOS CDROM drivers will work with such buggy
+     hardware, apparently because they never attempt to overlap CDROM
+@@ -269,14 +271,14 @@ c. System hangups.
+ 
+ d. Can't mount a CDROM.
+ 
+-  - If you get errors from mount, it may help to check `dmesg' to see
++  - If you get errors from mount, it may help to check `dmesg` to see
+     if there are any more specific errors from the driver or from the
+     filesystem.
+ 
+   - Make sure there's a CDROM loaded in the drive, and that's it's an
+     ISO 9660 disc.  You can't mount an audio CD.
+ 
+-  - With the CDROM in the drive and unmounted, try something like
++  - With the CDROM in the drive and unmounted, try something like::
+ 
+       cat /dev/cdrom | od | more
+ 
+@@ -284,9 +286,9 @@ d. Can't mount a CDROM.
+     OK, and the problem is at the filesystem level (i.e., the CDROM is
+     not ISO 9660 or has errors in the filesystem structure).
+ 
+-  - If you see `not a block device' errors, check that the definitions
++  - If you see `not a block device` errors, check that the definitions
+     of the device special files are correct.  They should be as
+-    follows:
++    follows::
+ 
+       brw-rw----   1 root     disk       3,   0 Nov 11 18:48 /dev/hda
+       brw-rw----   1 root     disk       3,  64 Nov 11 18:48 /dev/hdb
+@@ -301,7 +303,7 @@ d. Can't mount a CDROM.
+     If you have a /dev/cdrom symbolic link, check that it is pointing
+     to the correct device file.
+ 
+-    If you hear people talking of the devices `hd1a' and `hd1b', these
++    If you hear people talking of the devices `hd1a` and `hd1b`, these
+     were old names for what are now called hdc and hdd.  Those names
+     should be considered obsolete.
+ 
+@@ -311,8 +313,8 @@ d. Can't mount a CDROM.
+     always give meaningful error messages.
+ 
+ 
+-e. Directory listings are unpredictably truncated, and `dmesg' shows
+-   `buffer botch' error messages from the driver.
++e. Directory listings are unpredictably truncated, and `dmesg` shows
++   `buffer botch` error messages from the driver.
+ 
+   - There was a bug in the version of the driver in 1.2.x kernels
+     which could cause this.  It was fixed in 1.3.0.  If you can't
+@@ -335,34 +337,36 @@ f. Data corruption.
+ 5. cdchange.c
+ -------------
+ 
+-/*
+- * cdchange.c  [-v]  <device>  [<slot>]
+- *
+- * This loads a CDROM from a specified slot in a changer, and displays 
+- * information about the changer status.  The drive should be unmounted before 
+- * using this program.
+- *
+- * Changer information is displayed if either the -v flag is specified
+- * or no slot was specified.
+- *
+- * Based on code originally from Gerhard Zuber <zuber@berlin.snafu.de>.
+- * Changer status information, and rewrite for the new Uniform CDROM driver
+- * interface by Erik Andersen <andersee@debian.org>.
+- */
++::
+ 
 -#include <stdio.h>
+-#include <stdlib.h>
 -#include <errno.h>
-+  #include <sys/types.h>
-+  #include <sys/stat.h>
-+  #include <sys/socket.h>
-+  #include <sys/syscall.h>
-+  #include <fcntl.h>
-+  #include <unistd.h>
-+  #include <string.h>
-+  #include <stdlib.h>
+-#include <string.h>
+-#include <unistd.h>
+-#include <fcntl.h>
+-#include <sys/ioctl.h>
+-#include <linux/cdrom.h>
++  /*
++   * cdchange.c  [-v]  <device>  [<slot>]
++   *
++   * This loads a CDROM from a specified slot in a changer, and displays
++   * information about the changer status.  The drive should be unmounted before
++   * using this program.
++   *
++   * Changer information is displayed if either the -v flag is specified
++   * or no slot was specified.
++   *
++   * Based on code originally from Gerhard Zuber <zuber@berlin.snafu.de>.
++   * Changer status information, and rewrite for the new Uniform CDROM driver
++   * interface by Erik Andersen <andersee@debian.org>.
++   */
+ 
 +  #include <stdio.h>
++  #include <stdlib.h>
 +  #include <errno.h>
++  #include <string.h>
++  #include <unistd.h>
++  #include <fcntl.h>
++  #include <sys/ioctl.h>
++  #include <linux/cdrom.h>
  
--int main()
+-int
+-main (int argc, char **argv)
 -{
-+  int main()
++
++  int
++  main (int argc, char **argv)
 +  {
- 	int i, err, res, fail_nth, fds[2];
- 	char buf[128];
- 
-@@ -413,23 +424,23 @@ int main()
- 			break;
+ 	char *program;
+ 	char *device;
+ 	int fd;           /* file descriptor for CD-ROM device */
+@@ -382,30 +386,30 @@ main (int argc, char **argv)
+ 		fprintf (stderr, "       Slots are numbered 1 -- n.\n");
+ 		exit (1);
  	}
- 	return 0;
+- 
++
+        if (strcmp (argv[0], "-v") == 0) {
+                 verbose = 1;
+                 ++argv;
+                 --argc;
+         }
+- 
++
+ 	device = argv[0];
+- 
++
+ 	if (argc == 2)
+ 		slot = atoi (argv[1]) - 1;
+ 
+-	/* open device */ 
++	/* open device */
+ 	fd = open(device, O_RDONLY | O_NONBLOCK);
+ 	if (fd < 0) {
+-		fprintf (stderr, "%s: open failed for `%s': %s\n",
++		fprintf (stderr, "%s: open failed for `%s`: %s\n",
+ 			 program, device, strerror (errno));
+ 		exit (1);
+ 	}
+ 
+-	/* Check CD player status */ 
++	/* Check CD player status */
+ 	total_slots_available = ioctl (fd, CDROM_CHANGER_NSLOTS);
+ 	if (total_slots_available <= 1 ) {
+-		fprintf (stderr, "%s: Device `%s' is not an ATAPI "
++		fprintf (stderr, "%s: Device `%s` is not an ATAPI "
+ 			"compliant CD changer.\n", program, device);
+ 		exit (1);
+ 	}
+@@ -418,7 +422,7 @@ main (int argc, char **argv)
+ 			exit (1);
+ 		}
+ 
+-		/* load */ 
++		/* load */
+ 		slot=ioctl (fd, CDROM_SELECT_DISC, slot);
+ 		if (slot<0) {
+ 			fflush(stdout);
+@@ -462,14 +466,14 @@ main (int argc, char **argv)
+ 
+ 		for (x_slot=0; x_slot<total_slots_available; x_slot++) {
+ 			printf ("Slot %2d: ", x_slot+1);
+-             		status = ioctl (fd, CDROM_DRIVE_STATUS, x_slot);
+-             		if (status<0) {
+-             		     perror(" CDROM_DRIVE_STATUS");
+-             		} else switch(status) {
++			status = ioctl (fd, CDROM_DRIVE_STATUS, x_slot);
++			if (status<0) {
++			     perror(" CDROM_DRIVE_STATUS");
++			} else switch(status) {
+ 			case CDS_DISC_OK:
+ 				printf ("Disc present.");
+ 				break;
+-			case CDS_NO_DISC: 
++			case CDS_NO_DISC:
+ 				printf ("Empty slot.");
+ 				break;
+ 			case CDS_TRAY_OPEN:
+@@ -507,11 +511,11 @@ main (int argc, char **argv)
+ 				break;
+ 			}
+ 			}
+-                  	status = ioctl (fd, CDROM_MEDIA_CHANGED, x_slot);
+-                  	if (status<0) {
++			status = ioctl (fd, CDROM_MEDIA_CHANGED, x_slot);
++			if (status<0) {
+ 				perror(" CDROM_MEDIA_CHANGED");
+-                  	}
+-		  	switch (status) {
++			}
++			switch (status) {
+ 			case 1:
+ 				printf ("Changed.\n");
+ 				break;
+@@ -525,10 +529,10 @@ main (int argc, char **argv)
+ 	/* close device */
+ 	status = close (fd);
+ 	if (status != 0) {
+-		fprintf (stderr, "%s: close failed for `%s': %s\n",
++		fprintf (stderr, "%s: close failed for `%s`: %s\n",
+ 			 program, device, strerror (errno));
+ 		exit (1);
+ 	}
+- 
++
+ 	exit (0);
 -}
 +  }
- 
--An example output:
-+An example output::
- 
--1-th fault Y: res=-1/23
--2-th fault Y: res=-1/23
--3-th fault Y: res=-1/12
--4-th fault Y: res=-1/12
--5-th fault Y: res=-1/23
--6-th fault Y: res=-1/23
--7-th fault Y: res=-1/23
--8-th fault Y: res=-1/12
--9-th fault Y: res=-1/12
--10-th fault Y: res=-1/12
--11-th fault Y: res=-1/12
--12-th fault Y: res=-1/12
--13-th fault Y: res=-1/12
--14-th fault Y: res=-1/12
--15-th fault Y: res=-1/12
--16-th fault N: res=0/12
-+	1-th fault Y: res=-1/23
-+	2-th fault Y: res=-1/23
-+	3-th fault Y: res=-1/12
-+	4-th fault Y: res=-1/12
-+	5-th fault Y: res=-1/23
-+	6-th fault Y: res=-1/23
-+	7-th fault Y: res=-1/23
-+	8-th fault Y: res=-1/12
-+	9-th fault Y: res=-1/12
-+	10-th fault Y: res=-1/12
-+	11-th fault Y: res=-1/12
-+	12-th fault Y: res=-1/12
-+	13-th fault Y: res=-1/12
-+	14-th fault Y: res=-1/12
-+	15-th fault Y: res=-1/12
-+	16-th fault N: res=0/12
-diff --git a/Documentation/fault-injection/notifier-error-inject.txt b/Documentation/fault-injection/notifier-error-inject.txt
-index e861d761de24..1668b6e48d3a 100644
---- a/Documentation/fault-injection/notifier-error-inject.txt
-+++ b/Documentation/fault-injection/notifier-error-inject.txt
-@@ -14,7 +14,8 @@ modules that can be used to test the following notifiers.
- PM notifier error injection module
- ----------------------------------
- This feature is controlled through debugfs interface
--/sys/kernel/debug/notifier-error-inject/pm/actions/<notifier event>/error
-+
-+  /sys/kernel/debug/notifier-error-inject/pm/actions/<notifier event>/error
- 
- Possible PM notifier events to be failed are:
- 
-@@ -22,7 +23,7 @@ Possible PM notifier events to be failed are:
-  * PM_SUSPEND_PREPARE
-  * PM_RESTORE_PREPARE
- 
--Example: Inject PM suspend error (-12 = -ENOMEM)
-+Example: Inject PM suspend error (-12 = -ENOMEM)::
- 
- 	# cd /sys/kernel/debug/notifier-error-inject/pm/
- 	# echo -12 > actions/PM_SUSPEND_PREPARE/error
-@@ -32,14 +33,15 @@ Example: Inject PM suspend error (-12 = -ENOMEM)
- Memory hotplug notifier error injection module
- ----------------------------------------------
- This feature is controlled through debugfs interface
--/sys/kernel/debug/notifier-error-inject/memory/actions/<notifier event>/error
-+
-+  /sys/kernel/debug/notifier-error-inject/memory/actions/<notifier event>/error
- 
- Possible memory notifier events to be failed are:
- 
-  * MEM_GOING_ONLINE
-  * MEM_GOING_OFFLINE
- 
--Example: Inject memory hotplug offline error (-12 == -ENOMEM)
-+Example: Inject memory hotplug offline error (-12 == -ENOMEM)::
- 
- 	# cd /sys/kernel/debug/notifier-error-inject/memory
- 	# echo -12 > actions/MEM_GOING_OFFLINE/error
-@@ -49,7 +51,8 @@ Example: Inject memory hotplug offline error (-12 == -ENOMEM)
- powerpc pSeries reconfig notifier error injection module
- --------------------------------------------------------
- This feature is controlled through debugfs interface
--/sys/kernel/debug/notifier-error-inject/pSeries-reconfig/actions/<notifier event>/error
-+
-+  /sys/kernel/debug/notifier-error-inject/pSeries-reconfig/actions/<notifier event>/error
- 
- Possible pSeries reconfig notifier events to be failed are:
- 
-@@ -61,7 +64,8 @@ Possible pSeries reconfig notifier events to be failed are:
- Netdevice notifier error injection module
- ----------------------------------------------
- This feature is controlled through debugfs interface
--/sys/kernel/debug/notifier-error-inject/netdev/actions/<notifier event>/error
-+
-+  /sys/kernel/debug/notifier-error-inject/netdev/actions/<notifier event>/error
- 
- Netdevice notifier events which can be failed are:
- 
-@@ -75,7 +79,7 @@ Netdevice notifier events which can be failed are:
-  * NETDEV_PRECHANGEUPPER
-  * NETDEV_CHANGEUPPER
- 
--Example: Inject netdevice mtu change error (-22 == -EINVAL)
-+Example: Inject netdevice mtu change error (-22 == -EINVAL)::
- 
- 	# cd /sys/kernel/debug/notifier-error-inject/netdev
- 	# echo -22 > actions/NETDEV_CHANGEMTU/error
-diff --git a/Documentation/fault-injection/nvme-fault-injection.txt b/Documentation/fault-injection/nvme-fault-injection.txt
-index 8fbf3bf60b62..bbb1bf3e8650 100644
---- a/Documentation/fault-injection/nvme-fault-injection.txt
-+++ b/Documentation/fault-injection/nvme-fault-injection.txt
-@@ -16,101 +16,105 @@ following.
- Example 1: Inject default status code with no retry
- ---------------------------------------------------
- 
--mount /dev/nvme0n1 /mnt
--echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/times
--echo 100 > /sys/kernel/debug/nvme0n1/fault_inject/probability
--cp a.file /mnt
-+::
- 
--Expected Result:
-+  mount /dev/nvme0n1 /mnt
-+  echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/times
-+  echo 100 > /sys/kernel/debug/nvme0n1/fault_inject/probability
-+  cp a.file /mnt
- 
--cp: cannot stat ‘/mnt/a.file’: Input/output error
-+Expected Result::
- 
--Message from dmesg:
-+  cp: cannot stat ‘/mnt/a.file’: Input/output error
- 
--FAULT_INJECTION: forcing a failure.
--name fault_inject, interval 1, probability 100, space 0, times 1
--CPU: 0 PID: 0 Comm: swapper/0 Not tainted 4.15.0-rc8+ #2
--Hardware name: innotek GmbH VirtualBox/VirtualBox,
--BIOS VirtualBox 12/01/2006
--Call Trace:
--  <IRQ>
--  dump_stack+0x5c/0x7d
--  should_fail+0x148/0x170
--  nvme_should_fail+0x2f/0x50 [nvme_core]
--  nvme_process_cq+0xe7/0x1d0 [nvme]
--  nvme_irq+0x1e/0x40 [nvme]
--  __handle_irq_event_percpu+0x3a/0x190
--  handle_irq_event_percpu+0x30/0x70
--  handle_irq_event+0x36/0x60
--  handle_fasteoi_irq+0x78/0x120
--  handle_irq+0xa7/0x130
--  ? tick_irq_enter+0xa8/0xc0
--  do_IRQ+0x43/0xc0
--  common_interrupt+0xa2/0xa2
--  </IRQ>
--RIP: 0010:native_safe_halt+0x2/0x10
--RSP: 0018:ffffffff82003e90 EFLAGS: 00000246 ORIG_RAX: ffffffffffffffdd
--RAX: ffffffff817a10c0 RBX: ffffffff82012480 RCX: 0000000000000000
--RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
--RBP: 0000000000000000 R08: 000000008e38ce64 R09: 0000000000000000
--R10: 0000000000000000 R11: 0000000000000000 R12: ffffffff82012480
--R13: ffffffff82012480 R14: 0000000000000000 R15: 0000000000000000
--  ? __sched_text_end+0x4/0x4
--  default_idle+0x18/0xf0
--  do_idle+0x150/0x1d0
--  cpu_startup_entry+0x6f/0x80
--  start_kernel+0x4c4/0x4e4
--  ? set_init_arg+0x55/0x55
--  secondary_startup_64+0xa5/0xb0
--  print_req_error: I/O error, dev nvme0n1, sector 9240
--EXT4-fs error (device nvme0n1): ext4_find_entry:1436:
--inode #2: comm cp: reading directory lblock 0
-+Message from dmesg::
-+
-+  FAULT_INJECTION: forcing a failure.
-+  name fault_inject, interval 1, probability 100, space 0, times 1
-+  CPU: 0 PID: 0 Comm: swapper/0 Not tainted 4.15.0-rc8+ #2
-+  Hardware name: innotek GmbH VirtualBox/VirtualBox,
-+  BIOS VirtualBox 12/01/2006
-+  Call Trace:
-+    <IRQ>
-+    dump_stack+0x5c/0x7d
-+    should_fail+0x148/0x170
-+    nvme_should_fail+0x2f/0x50 [nvme_core]
-+    nvme_process_cq+0xe7/0x1d0 [nvme]
-+    nvme_irq+0x1e/0x40 [nvme]
-+    __handle_irq_event_percpu+0x3a/0x190
-+    handle_irq_event_percpu+0x30/0x70
-+    handle_irq_event+0x36/0x60
-+    handle_fasteoi_irq+0x78/0x120
-+    handle_irq+0xa7/0x130
-+    ? tick_irq_enter+0xa8/0xc0
-+    do_IRQ+0x43/0xc0
-+    common_interrupt+0xa2/0xa2
-+    </IRQ>
-+  RIP: 0010:native_safe_halt+0x2/0x10
-+  RSP: 0018:ffffffff82003e90 EFLAGS: 00000246 ORIG_RAX: ffffffffffffffdd
-+  RAX: ffffffff817a10c0 RBX: ffffffff82012480 RCX: 0000000000000000
-+  RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-+  RBP: 0000000000000000 R08: 000000008e38ce64 R09: 0000000000000000
-+  R10: 0000000000000000 R11: 0000000000000000 R12: ffffffff82012480
-+  R13: ffffffff82012480 R14: 0000000000000000 R15: 0000000000000000
-+    ? __sched_text_end+0x4/0x4
-+    default_idle+0x18/0xf0
-+    do_idle+0x150/0x1d0
-+    cpu_startup_entry+0x6f/0x80
-+    start_kernel+0x4c4/0x4e4
-+    ? set_init_arg+0x55/0x55
-+    secondary_startup_64+0xa5/0xb0
-+    print_req_error: I/O error, dev nvme0n1, sector 9240
-+  EXT4-fs error (device nvme0n1): ext4_find_entry:1436:
-+  inode #2: comm cp: reading directory lblock 0
- 
- Example 2: Inject default status code with retry
- ------------------------------------------------
- 
--mount /dev/nvme0n1 /mnt
--echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/times
--echo 100 > /sys/kernel/debug/nvme0n1/fault_inject/probability
--echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/status
--echo 0 > /sys/kernel/debug/nvme0n1/fault_inject/dont_retry
-+::
- 
--cp a.file /mnt
-+  mount /dev/nvme0n1 /mnt
-+  echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/times
-+  echo 100 > /sys/kernel/debug/nvme0n1/fault_inject/probability
-+  echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/status
-+  echo 0 > /sys/kernel/debug/nvme0n1/fault_inject/dont_retry
- 
--Expected Result:
-+  cp a.file /mnt
- 
--command success without error
-+Expected Result::
- 
--Message from dmesg:
-+  command success without error
- 
--FAULT_INJECTION: forcing a failure.
--name fault_inject, interval 1, probability 100, space 0, times 1
--CPU: 1 PID: 0 Comm: swapper/1 Not tainted 4.15.0-rc8+ #4
--Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
--Call Trace:
--  <IRQ>
--  dump_stack+0x5c/0x7d
--  should_fail+0x148/0x170
--  nvme_should_fail+0x30/0x60 [nvme_core]
--  nvme_loop_queue_response+0x84/0x110 [nvme_loop]
--  nvmet_req_complete+0x11/0x40 [nvmet]
--  nvmet_bio_done+0x28/0x40 [nvmet]
--  blk_update_request+0xb0/0x310
--  blk_mq_end_request+0x18/0x60
--  flush_smp_call_function_queue+0x3d/0xf0
--  smp_call_function_single_interrupt+0x2c/0xc0
--  call_function_single_interrupt+0xa2/0xb0
--  </IRQ>
--RIP: 0010:native_safe_halt+0x2/0x10
--RSP: 0018:ffffc9000068bec0 EFLAGS: 00000246 ORIG_RAX: ffffffffffffff04
--RAX: ffffffff817a10c0 RBX: ffff88011a3c9680 RCX: 0000000000000000
--RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
--RBP: 0000000000000001 R08: 000000008e38c131 R09: 0000000000000000
--R10: 0000000000000000 R11: 0000000000000000 R12: ffff88011a3c9680
--R13: ffff88011a3c9680 R14: 0000000000000000 R15: 0000000000000000
--  ? __sched_text_end+0x4/0x4
--  default_idle+0x18/0xf0
--  do_idle+0x150/0x1d0
--  cpu_startup_entry+0x6f/0x80
--  start_secondary+0x187/0x1e0
--  secondary_startup_64+0xa5/0xb0
-+Message from dmesg::
-+
-+  FAULT_INJECTION: forcing a failure.
-+  name fault_inject, interval 1, probability 100, space 0, times 1
-+  CPU: 1 PID: 0 Comm: swapper/1 Not tainted 4.15.0-rc8+ #4
-+  Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
-+  Call Trace:
-+    <IRQ>
-+    dump_stack+0x5c/0x7d
-+    should_fail+0x148/0x170
-+    nvme_should_fail+0x30/0x60 [nvme_core]
-+    nvme_loop_queue_response+0x84/0x110 [nvme_loop]
-+    nvmet_req_complete+0x11/0x40 [nvmet]
-+    nvmet_bio_done+0x28/0x40 [nvmet]
-+    blk_update_request+0xb0/0x310
-+    blk_mq_end_request+0x18/0x60
-+    flush_smp_call_function_queue+0x3d/0xf0
-+    smp_call_function_single_interrupt+0x2c/0xc0
-+    call_function_single_interrupt+0xa2/0xb0
-+    </IRQ>
-+  RIP: 0010:native_safe_halt+0x2/0x10
-+  RSP: 0018:ffffc9000068bec0 EFLAGS: 00000246 ORIG_RAX: ffffffffffffff04
-+  RAX: ffffffff817a10c0 RBX: ffff88011a3c9680 RCX: 0000000000000000
-+  RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-+  RBP: 0000000000000001 R08: 000000008e38c131 R09: 0000000000000000
-+  R10: 0000000000000000 R11: 0000000000000000 R12: ffff88011a3c9680
-+  R13: ffff88011a3c9680 R14: 0000000000000000 R15: 0000000000000000
-+    ? __sched_text_end+0x4/0x4
-+    default_idle+0x18/0xf0
-+    do_idle+0x150/0x1d0
-+    cpu_startup_entry+0x6f/0x80
-+    start_secondary+0x187/0x1e0
-+    secondary_startup_64+0xa5/0xb0
-diff --git a/Documentation/fault-injection/provoke-crashes.txt b/Documentation/fault-injection/provoke-crashes.txt
-index 7a9d3d81525b..9279a3e12278 100644
---- a/Documentation/fault-injection/provoke-crashes.txt
-+++ b/Documentation/fault-injection/provoke-crashes.txt
+diff --git a/Documentation/cdrom/packet-writing.txt b/Documentation/cdrom/packet-writing.txt
+index 2834170d821e..c5c957195a5a 100644
+--- a/Documentation/cdrom/packet-writing.txt
++++ b/Documentation/cdrom/packet-writing.txt
 @@ -1,3 +1,7 @@
-+===============
-+Provoke crashes
-+===============
++==============
++Packet writing
++==============
 +
- The lkdtm module provides an interface to crash or injure the kernel at
- predefined crashpoints to evaluate the reliability of crash dumps obtained
- using different dumping solutions. The module uses KPROBEs to instrument
-@@ -8,31 +12,37 @@ support.
- You can provide the way either through module arguments when inserting
- the module, or through a debugfs interface.
+ Getting started quick
+ ---------------------
  
--Usage: insmod lkdtm.ko [recur_count={>0}] cpoint_name=<> cpoint_type=<>
--				[cpoint_count={>0}]
-+Usage::
+@@ -10,13 +14,16 @@ Getting started quick
+   Download from http://sourceforge.net/projects/linux-udf/
  
--  recur_count : Recursion level for the stack overflow test. Default is 10.
-+	insmod lkdtm.ko [recur_count={>0}] cpoint_name=<> cpoint_type=<>
-+			[cpoint_count={>0}]
- 
--  cpoint_name : Crash point where the kernel is to be crashed. It can be
--	 one of INT_HARDWARE_ENTRY, INT_HW_IRQ_EN, INT_TASKLET_ENTRY,
--	 FS_DEVRW, MEM_SWAPOUT, TIMERADD, SCSI_DISPATCH_CMD,
--	 IDE_CORE_CP, DIRECT
-+recur_count
-+	Recursion level for the stack overflow test. Default is 10.
- 
--  cpoint_type : Indicates the action to be taken on hitting the crash point.
--     It can be one of PANIC, BUG, EXCEPTION, LOOP, OVERFLOW,
--     CORRUPT_STACK, UNALIGNED_LOAD_STORE_WRITE, OVERWRITE_ALLOCATION,
--     WRITE_AFTER_FREE,
-+cpoint_name
-+	Crash point where the kernel is to be crashed. It can be
-+	one of INT_HARDWARE_ENTRY, INT_HW_IRQ_EN, INT_TASKLET_ENTRY,
-+	FS_DEVRW, MEM_SWAPOUT, TIMERADD, SCSI_DISPATCH_CMD,
-+	IDE_CORE_CP, DIRECT
- 
--  cpoint_count : Indicates the number of times the crash point is to be hit
--    to trigger an action. The default is 10.
-+cpoint_type
-+	Indicates the action to be taken on hitting the crash point.
-+	It can be one of PANIC, BUG, EXCEPTION, LOOP, OVERFLOW,
-+	CORRUPT_STACK, UNALIGNED_LOAD_STORE_WRITE, OVERWRITE_ALLOCATION,
-+	WRITE_AFTER_FREE,
+ - Grab a new CD-RW disc and format it (assuming CD-RW is hdc, substitute
+-  as appropriate):
++  as appropriate)::
 +
-+cpoint_count
-+	Indicates the number of times the crash point is to be hit
-+	to trigger an action. The default is 10.
+ 	# cdrwtool -d /dev/hdc -q
  
- You can also induce failures by mounting debugfs and writing the type to
--<mountpoint>/provoke-crash/<crashpoint>. E.g.,
-+<mountpoint>/provoke-crash/<crashpoint>. E.g.::
+-- Setup your writer
++- Setup your writer::
++
+ 	# pktsetup dev_name /dev/hdc
  
-   mount -t debugfs debugfs /mnt
-   echo EXCEPTION > /mnt/provoke-crash/INT_HARDWARE_ENTRY
+-- Now you can mount /dev/pktcdvd/dev_name and copy files to it. Enjoy!
++- Now you can mount /dev/pktcdvd/dev_name and copy files to it. Enjoy::
++
+ 	# mount /dev/pktcdvd/dev_name /cdrom -t udf -o rw,noatime
  
  
--A special file is `DIRECT' which will induce the crash directly without
-+A special file is `DIRECT` which will induce the crash directly without
- KPROBE instrumentation. This mode is the only one available when the module
- is built on a kernel without KPROBEs support.
+@@ -25,11 +32,11 @@ Packet writing for DVD-RW media
+ 
+ DVD-RW discs can be written to much like CD-RW discs if they are in
+ the so called "restricted overwrite" mode. To put a disc in restricted
+-overwrite mode, run:
++overwrite mode, run::
+ 
+ 	# dvd+rw-format /dev/hdc
+ 
+-You can then use the disc the same way you would use a CD-RW disc:
++You can then use the disc the same way you would use a CD-RW disc::
+ 
+ 	# pktsetup dev_name /dev/hdc
+ 	# mount /dev/pktcdvd/dev_name /cdrom -t udf -o rw,noatime
+@@ -41,7 +48,7 @@ Packet writing for DVD+RW media
+ According to the DVD+RW specification, a drive supporting DVD+RW discs
+ shall implement "true random writes with 2KB granularity", which means
+ that it should be possible to put any filesystem with a block size >=
+-2KB on such a disc. For example, it should be possible to do:
++2KB on such a disc. For example, it should be possible to do::
+ 
+ 	# dvd+rw-format /dev/hdc   (only needed if the disc has never
+ 	                            been formatted)
+@@ -54,7 +61,7 @@ follow the specification, but suffer bad performance problems if the
+ writes are not 32KB aligned.
+ 
+ Both problems can be solved by using the pktcdvd driver, which always
+-generates aligned writes.
++generates aligned writes::
+ 
+ 	# dvd+rw-format /dev/hdc
+ 	# pktsetup dev_name /dev/hdc
+@@ -83,7 +90,7 @@ Notes
+ 
+ - Since the pktcdvd driver makes the disc appear as a regular block
+   device with a 2KB block size, you can put any filesystem you like on
+-  the disc. For example, run:
++  the disc. For example, run::
+ 
+ 	# /sbin/mke2fs /dev/pktcdvd/dev_name
+ 
+@@ -97,7 +104,7 @@ Since Linux 2.6.20, the pktcdvd module has a sysfs interface
+ and can be controlled by it. For example the "pktcdvd" tool uses
+ this interface. (see http://tom.ist-im-web.de/download/pktcdvd )
+ 
+-"pktcdvd" works similar to "pktsetup", e.g.:
++"pktcdvd" works similar to "pktsetup", e.g.::
+ 
+ 	# pktcdvd -a dev_name /dev/hdc
+ 	# mkudffs /dev/pktcdvd/dev_name
+@@ -115,7 +122,7 @@ For a description of the sysfs interface look into the file:
+ Using the pktcdvd debugfs interface
+ -----------------------------------
+ 
+-To read pktcdvd device infos in human readable form, do:
++To read pktcdvd device infos in human readable form, do::
+ 
+ 	# cat /sys/kernel/debug/pktcdvd/pktcdvd[0-7]/info
+ 
 -- 
 2.20.1
 
