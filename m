@@ -1,50 +1,69 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6DB107D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 14:33:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1194D7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 14:44:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726837AbfDPOd0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Apr 2019 10:33:26 -0400
-Received: from casper.infradead.org ([85.118.1.10]:47048 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726605AbfDPOdZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Apr 2019 10:33:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=V/pYIOvyt/8G+cXgIPSr1A8Xv/CDMxgMQWIP/93VILc=; b=ZmEEzmf6YzJtGbd4ny+/B5nBMz
-        odF9/yDknuU2ExV9OuScix594tqMqt45Tmcb8wmqt7fOA6JgERtukuVVc+SvKWl4a03QKPPYX55qL
-        rlOq3/g/bQ6H/QSdvvUjYYFi7SAygWjCuQuyvCs02tO3FTf//kKFOIsbdGi2ysqd32MVz+SOE6AIf
-        0bjAhJRZHjOt5PVgVzJEmVeMnf1KDojgkZKfzZp/jvm8hGETwheREMPsVjVp5cblQBktJVaOHRght
-        +65STb+/zCUmJzq9iCgNSzR2q0vgkHeVU3POzOCM5S2EKlJLsLMeNxebD9UN8acy9ewLEMXWAi2Cx
-        Vb9TRZIw==;
-Received: from 177.205.118.176.dynamic.adsl.gvt.net.br ([177.205.118.176] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hGP9G-0006YW-2S; Tue, 16 Apr 2019 14:33:22 +0000
-Date:   Tue, 16 Apr 2019 11:33:16 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Mike Snitzer <snitzer@redhat.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Alasdair Kergon <agk@redhat.com>,
-        dm-devel@redhat.com
-Subject: Re: [PATCH 10/57] docs: device-mapper: convert it to ReST format
-Message-ID: <20190416113316.5c3b496c@coco.lan>
-In-Reply-To: <20190416080024.7fb65682@lwn.net>
-References: <cover.1555382110.git.mchehab+samsung@kernel.org>
-        <9dd3c4eca01489bd67ea6de88dfedef8b0e81901.1555382110.git.mchehab+samsung@kernel.org>
-        <20190416132851.GA22497@redhat.com>
-        <20190416080024.7fb65682@lwn.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726641AbfDPOnw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Apr 2019 10:43:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42456 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725796AbfDPOnv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Apr 2019 10:43:51 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A036D20693;
+        Tue, 16 Apr 2019 14:43:48 +0000 (UTC)
+Date:   Tue, 16 Apr 2019 10:43:46 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Karim Yaghmour <karim.yaghmour@opersys.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Kees Cook <keescook@chromium.org>,
+        Olof Johansson <olof@lixom.net>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Joel Fernandes <joelaf@google.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Qais Yousef <qais.yousef@arm.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Manoj Rao <linux@manojrajarao.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        atish patra <atishp04@gmail.com>,
+        Daniel Colascione <dancol@google.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Android Kernel Team <kernel-team@android.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-trace-devel@vger.kernel.org,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
+Subject: Re: [PATCH v5 1/3] Provide in-kernel headers to make extending
+ kernel easier
+Message-ID: <20190416104346.10cca21f@gandalf.local.home>
+In-Reply-To: <20190416142240.GA31920@kroah.com>
+References: <CAOesGMiuGK-Sbqo2z=1ab070JONav1LF82MRRLCdX-4+14_XZA@mail.gmail.com>
+        <20190411031540.ehezr6kq7ouobpzx@ast-mbp.dhcp.thefacebook.com>
+        <CAOesGMgiPB=7FE7tXXHes7WSLfByyPxirOStoH21NZqMwaUihQ@mail.gmail.com>
+        <20190415104109.64d914f3@gandalf.local.home>
+        <CAGXu5j+KPVRcOJ3Ue9ZQF93GyaDhvCnFCvJ_C3WKCx2=SNdDyg@mail.gmail.com>
+        <20190416083306.5646a687@gandalf.local.home>
+        <20190416124939.GB6027@kroah.com>
+        <20190416130440.GA7944@localhost>
+        <f8b15e31-1aab-ab2c-d44d-47325faab67d@opersys.com>
+        <20190416094509.1af6326b@gandalf.local.home>
+        <20190416142240.GA31920@kroah.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -53,56 +72,12 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 16 Apr 2019 08:00:24 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+On Tue, 16 Apr 2019 16:22:40 +0200
+Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
 
-> On Tue, 16 Apr 2019 09:28:52 -0400
-> Mike Snitzer <snitzer@redhat.com> wrote:
-> 
-> > Can you help me understand why this is the direction text based
-> > Documenation is taking in the Linux kernel?  All I see is markup, and
-> > escaping of characters, that is a chore to administer over time.  
-> 
-> This is a discussion that was mostly resolved some years ago...
-> 
-> Classic Documentation/ is a jumbled collection of unorganized text files,
-> some of which contain highly useful information and others of which
-> haven't had much to offer since about 1996.  We are working to turn it
-> into an organized collection where, hopefully, some thought has actually
-> been given to the people who will be reading it.
-> 
-> The ReST conversion, in particular, allows us to link documents into a
-> larger structure, create indexes and cross references, and produce output
-> in formats like HTML and PDF.  It lets us present the documentation like
-> this:
-> 
-> 	https://www.kernel.org/doc/html/latest/
+> If I make /sys/kernel/config.gz be the same thing as /proc/config.gz
+> will you fix up 'make localmodconfig' to use it?  :)
 
-Just to mention, in the specific case of the device-mapper patch,
-this is the result of those changes (after renaming the files to .rst,
-and adding an index file):
+Sure.
 
-	https://www.infradead.org/~mchehab/rst_conversion/device-mapper/index.html
-
-> 
-> Among other things, making the documentation more accessible in this way
-> makes it easier and more rewarding for developers to improve it, and I
-> believe we are seeing the results of that.  Linus called out the
-> documentation work in the 5.1-rc1 announcement, for example.
-> 
-> Nobody has complained about the maintenance burden of RST docs - so far as
-> I have heard, anyway.  Things do break occasionally, but problems in the
-> docs build almost always result from code changes that mess up the
-> kerneldoc comments rather than RST changes, and it's been that way for as
-> long as I've been paying attention.
-
-
-> 
-> Thanks,
-> 
-> jon
-
-
-
-Thanks,
-Mauro
+-- Steve
