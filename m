@@ -5,70 +5,95 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E78F27D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 15:26:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5BFF07D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 15:49:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726860AbfDPP0M (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Apr 2019 11:26:12 -0400
-Received: from ms.lwn.net ([45.79.88.28]:39154 "EHLO ms.lwn.net"
+        id S1726713AbfDPPtE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Apr 2019 11:49:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60614 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725796AbfDPP0M (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 16 Apr 2019 11:26:12 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1726645AbfDPPtD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Apr 2019 11:49:03 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 9932D537;
-        Tue, 16 Apr 2019 15:26:11 +0000 (UTC)
-Date:   Tue, 16 Apr 2019 09:26:10 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Shuah Khan <shuah@kernel.org>
-Cc:     linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] doc: kselftest: Fix KBUILD_OUTPUT usage instructions
-Message-ID: <20190416092610.78b462de@lwn.net>
-In-Reply-To: <20190416142651.7048-1-shuah@kernel.org>
-References: <20190416142651.7048-1-shuah@kernel.org>
-Organization: LWN.net
+        by mx1.redhat.com (Postfix) with ESMTPS id 77CA3F74B5;
+        Tue, 16 Apr 2019 15:49:03 +0000 (UTC)
+Received: from localhost (unknown [10.18.25.174])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CE825D71A;
+        Tue, 16 Apr 2019 15:48:59 +0000 (UTC)
+Date:   Tue, 16 Apr 2019 11:48:59 -0400
+From:   Mike Snitzer <snitzer@redhat.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Alasdair Kergon <agk@redhat.com>,
+        dm-devel@redhat.com
+Subject: Re: [PATCH 10/57] docs: device-mapper: convert it to ReST format
+Message-ID: <20190416154858.GB22497@redhat.com>
+References: <cover.1555382110.git.mchehab+samsung@kernel.org>
+ <9dd3c4eca01489bd67ea6de88dfedef8b0e81901.1555382110.git.mchehab+samsung@kernel.org>
+ <20190416132851.GA22497@redhat.com>
+ <20190416080024.7fb65682@lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190416080024.7fb65682@lwn.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.38]); Tue, 16 Apr 2019 15:49:03 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 16 Apr 2019 08:26:51 -0600
-Shuah Khan <shuah@kernel.org> wrote:
+On Tue, Apr 16 2019 at 10:00am -0400,
+Jonathan Corbet <corbet@lwn.net> wrote:
 
-> Fix KBUILD_OUTPUT usage instructions. The current documentation
-> is incorrect.
+> On Tue, 16 Apr 2019 09:28:52 -0400
+> Mike Snitzer <snitzer@redhat.com> wrote:
 > 
-> Signed-off-by: Shuah Khan <shuah@kernel.org>
-
-So I'll confess to being a little confused by this one...
-
->  Documentation/dev-tools/kselftest.rst | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+> > Can you help me understand why this is the direction text based
+> > Documenation is taking in the Linux kernel?  All I see is markup, and
+> > escaping of characters, that is a chore to administer over time.
 > 
-> diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
-> index c8c03388b9de..6c910ddaa9f9 100644
-> --- a/Documentation/dev-tools/kselftest.rst
-> +++ b/Documentation/dev-tools/kselftest.rst
-> @@ -39,9 +39,9 @@ Build and run from user specific object directory (make O=dir)::
->  
->    $ make O=/tmp/kselftest kselftest
->  
-> -Build and run KBUILD_OUTPUT directory (make KBUILD_OUTPUT=)::
-> +Build and run from KBUILD_OUTPUT directory (make KBUILD_OUTPUT=)::
->  
-> -  $ make KBUILD_OUTPUT=/tmp/kselftest kselftest
-> +  $ export KBUILD_OUTPUT=/tmp/kselftest; make kselftest
+> This is a discussion that was mostly resolved some years ago...
+> 
+> Classic Documentation/ is a jumbled collection of unorganized text files,
+> some of which contain highly useful information and others of which
+> haven't had much to offer since about 1996.  We are working to turn it
+> into an organized collection where, hopefully, some thought has actually
+> been given to the people who will be reading it.
+> 
+> The ReST conversion, in particular, allows us to link documents into a
+> larger structure, create indexes and cross references, and produce output
+> in formats like HTML and PDF.  It lets us present the documentation like
+> this:
+> 
+> 	https://www.kernel.org/doc/html/latest/
+> 
+> Among other things, making the documentation more accessible in this way
+> makes it easier and more rewarding for developers to improve it, and I
+> believe we are seeing the results of that.  Linus called out the
+> documentation work in the 5.1-rc1 announcement, for example.
+> 
+> Nobody has complained about the maintenance burden of RST docs - so far as
+> I have heard, anyway.  Things do break occasionally, but problems in the
+> docs build almost always result from code changes that mess up the
+> kerneldoc comments rather than RST changes, and it's been that way for as
+> long as I've been paying attention.
 
-Is there a particular reason why this variable needs to be set in the
-environment rather than just in make?  More importantly, though, I don't
-think this would work if you run it from the KBUILD_OUTPUT directory.  What
-you're really doing is running with a separate output directory, right?
+Thanks for the context.  I clearly just haven't followed the evolution.
+Certainly looks like a solid improvement.
+
+Think the last piece I'm missing is: how does one edit a .rst document
+without having to know to sprinkle syntactic sugar around?  Does emacs
+have a ReST mode?  If not what client interface are people using to
+properly change these documents?
+
+(apologies if this is all spelled out nicely in Documentation/
+somewhere, but please help this man learn to fish).
 
 Thanks,
-
-jon
+Mike
