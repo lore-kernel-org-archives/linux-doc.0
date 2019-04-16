@@ -1,167 +1,298 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7B9467D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 18:14:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 33D577D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 18:51:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727490AbfDPSO5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Apr 2019 14:14:57 -0400
-Received: from casper.infradead.org ([85.118.1.10]:38374 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727067AbfDPSO4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Apr 2019 14:14:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=tik6zFx2WnnwNinVI/xSp1hxAz+RbSHGC6Dp9mqkBDY=; b=i3HR6AOI6uX6S2n8mX1UXQDo5P
-        V+MF3ubVO6BAj1aAqLh63PjqjjIuLGtfhmr/rf3AlODMWvpdw9Cipa6su04nESNY2sImIpWD9o0b8
-        UBEYwL5xMkyyRxWiCKBLbLaCVFnhGmbbwca1dsUwYp6mxw0pH2u4dwtTTy8l/ObbDxiJjvRTsgCOj
-        8RY1P3/1yWcGHvejM18ov6VtkjQrsdX39BV+P5GxM65VkAQbAwN+i9QERvDrKO1TiUqhpU8RlM3Oj
-        05B7DFA2LWtK/dBOn4HF86Apw8d/2+16obw/9ulTyXgHzV1N0DkClQxZk8LtWEUDG5u6CPFjV8KrO
-        fqmvt2EQ==;
-Received: from 177.205.118.176.dynamic.adsl.gvt.net.br ([177.205.118.176] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hGSbb-0007AG-Ep; Tue, 16 Apr 2019 18:14:52 +0000
-Date:   Tue, 16 Apr 2019 15:14:46 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Mike Snitzer <snitzer@redhat.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Alasdair Kergon <agk@redhat.com>,
-        dm-devel@redhat.com
-Subject: Re: [PATCH 10/57] docs: device-mapper: convert it to ReST format
-Message-ID: <20190416151446.1a2b8ffa@coco.lan>
-In-Reply-To: <20190416154858.GB22497@redhat.com>
-References: <cover.1555382110.git.mchehab+samsung@kernel.org>
-        <9dd3c4eca01489bd67ea6de88dfedef8b0e81901.1555382110.git.mchehab+samsung@kernel.org>
-        <20190416132851.GA22497@redhat.com>
-        <20190416080024.7fb65682@lwn.net>
-        <20190416154858.GB22497@redhat.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1729729AbfDPSvV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Apr 2019 14:51:21 -0400
+Received: from rcdn-iport-3.cisco.com ([173.37.86.74]:49211 "EHLO
+        rcdn-iport-3.cisco.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730223AbfDPSvQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Apr 2019 14:51:16 -0400
+X-Greylist: delayed 427 seconds by postgrey-1.27 at vger.kernel.org; Tue, 16 Apr 2019 14:51:14 EDT
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0BjBAAKIrZc/51dJa1mHQEBBQEHBQG?=
+ =?us-ascii?q?BZYIRgTkzKLIkgWcQgXiCdYYJIzgTAQMBAQoBAgECbSiFeFIpgRUBEoMiggm?=
+ =?us-ascii?q?rVjOKMBSBHoZ0hFYXgX+EYYEEgwUVChGFbAOKXxKHDoELkllTCYIIU5E6J2u?=
+ =?us-ascii?q?UC4tplEWBZiGBVjMaCBsVgyeCFgwLjj8fAzCOIYJRAQE?=
+X-IronPort-AV: E=Sophos;i="5.60,358,1549929600"; 
+   d="scan'208";a="537122901"
+Received: from rcdn-core-6.cisco.com ([173.37.93.157])
+  by rcdn-iport-3.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 16 Apr 2019 18:44:06 +0000
+Received: from tusi.cisco.com (tusi.cisco.com [172.24.98.27])
+        by rcdn-core-6.cisco.com (8.15.2/8.15.2) with ESMTP id x3GIi30Y026006;
+        Tue, 16 Apr 2019 18:44:06 GMT
+From:   Ruslan Babayev <ruslan@babayev.com>
+To:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>
+Cc:     xe-linux-external@cisco.com, Jonathan Corbet <corbet@lwn.net>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 3/4] hwmon: (pmbus) add support for IR35215
+Date:   Tue, 16 Apr 2019 11:36:18 -0700
+Message-Id: <20190416183620.39950-3-ruslan@babayev.com>
+X-Mailer: git-send-email 2.17.1
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-SMTP-Client: 172.24.98.27, tusi.cisco.com
+X-Outbound-Node: rcdn-core-6.cisco.com
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 16 Apr 2019 11:48:59 -0400
-Mike Snitzer <snitzer@redhat.com> escreveu:
+Provide support for Infineon Dual Output Digital Multi-Phase Buck
+Controllers IR35215 and IR3570B.
 
-> On Tue, Apr 16 2019 at 10:00am -0400,
-> Jonathan Corbet <corbet@lwn.net> wrote:
-> 
-> > On Tue, 16 Apr 2019 09:28:52 -0400
-> > Mike Snitzer <snitzer@redhat.com> wrote:
-> >   
-> > > Can you help me understand why this is the direction text based
-> > > Documenation is taking in the Linux kernel?  All I see is markup, and
-> > > escaping of characters, that is a chore to administer over time.  
-> > 
-> > This is a discussion that was mostly resolved some years ago...
-> > 
-> > Classic Documentation/ is a jumbled collection of unorganized text files,
-> > some of which contain highly useful information and others of which
-> > haven't had much to offer since about 1996.  We are working to turn it
-> > into an organized collection where, hopefully, some thought has actually
-> > been given to the people who will be reading it.
-> > 
-> > The ReST conversion, in particular, allows us to link documents into a
-> > larger structure, create indexes and cross references, and produce output
-> > in formats like HTML and PDF.  It lets us present the documentation like
-> > this:
-> > 
-> > 	https://www.kernel.org/doc/html/latest/
-> > 
-> > Among other things, making the documentation more accessible in this way
-> > makes it easier and more rewarding for developers to improve it, and I
-> > believe we are seeing the results of that.  Linus called out the
-> > documentation work in the 5.1-rc1 announcement, for example.
-> > 
-> > Nobody has complained about the maintenance burden of RST docs - so far as
-> > I have heard, anyway.  Things do break occasionally, but problems in the
-> > docs build almost always result from code changes that mess up the
-> > kerneldoc comments rather than RST changes, and it's been that way for as
-> > long as I've been paying attention.  
-> 
-> Thanks for the context.  I clearly just haven't followed the evolution.
-> Certainly looks like a solid improvement.
-> 
-> Think the last piece I'm missing is: how does one edit a .rst document
-> without having to know to sprinkle syntactic sugar around?  Does emacs
-> have a ReST mode?  If not what client interface are people using to
-> properly change these documents?
+Cc: xe-linux-external@cisco.com
+Signed-off-by: Ruslan Babayev <ruslan@babayev.com>
+---
+ Documentation/hwmon/ir35215   | 98 +++++++++++++++++++++++++++++++++++
+ drivers/hwmon/pmbus/Kconfig   | 10 ++++
+ drivers/hwmon/pmbus/Makefile  |  1 +
+ drivers/hwmon/pmbus/ir35215.c | 91 ++++++++++++++++++++++++++++++++
+ 4 files changed, 200 insertions(+)
+ create mode 100644 Documentation/hwmon/ir35215
+ create mode 100644 drivers/hwmon/pmbus/ir35215.c
 
-I guess the main point is that, after writing a .rst file, run
-"make htmldocs" and see how it fits :-)
+diff --git a/Documentation/hwmon/ir35215 b/Documentation/hwmon/ir35215
+new file mode 100644
+index 000000000000..b77481340006
+--- /dev/null
++++ b/Documentation/hwmon/ir35215
+@@ -0,0 +1,98 @@
++Kernel driver ir35215
++=====================
++
++Supported chips:
++  * Infinion IR35215
++    Prefix: 'ir35215'
++    Addresses scanned: -
++    Datasheet: Datasheet is not publicly available.
++  * Infinion IR3570B
++    Prefix: 'ir3570b'
++    Addresses scanned: -
++    Datasheet: Datasheet is not publicly available.
++
++Author: Ruslan Babayev <ruslan@babayev.com>
++
++
++Description
++-----------
++
++IR35215 is a Dual Output Digital Multi-Phase Controller
++
++
++Usage Notes
++-----------
++
++This driver does not probe for PMBus devices. You will have to instantiate
++devices explicitly.
++
++Example: the following commands will load the driver for an IR35215
++at address 0x40 on I2C bus #4:
++
++# modprobe ir35215
++# echo ir35215 0x40 > /sys/bus/i2c/devices/i2c-4/new_device
++
++
++Sysfs attributes
++----------------
++
++curr[1-2]_label		"iin[1-2]"
++curr[1-2]_input		Measured input current
++curr[1-2]_max		Maximum current for
++curr[1-2]_max_alarm	Current high alarm
++
++curr[3-4]_label		"iout[3-4]"
++curr[3-4]_input		Measured output current
++curr[3-4]_crit		Critical maximum current
++curr[3-4]_crit_alarm	Current critical high alarm
++curr[3-4]_highest	Highest output current
++curr[3-4]_lowest	Lowest output current
++curr[3-4]_max		Maximum current
++curr[3-4]_max_alarm	Current high alarm
++
++in[1-2]_label		"vin[1-2]"
++in[1-2]_input		Measured input voltage
++in[1-2]_crit		Critical maximum input voltage
++in[1-2]_crit_alarm	Input voltage critical high alarm
++in[1-2]_highest		Highest input voltage
++in[1-2]_lowest		Lowest input voltage
++in[1-2]_min		Minimum input voltage
++in[1-2]_min_alarm	Input voltage low alarm
++
++in[3-4]_label		"vout[3-4]"
++in[3-4]_input		Measured output voltage
++in[3-4]_lcrit		Critical minimum output voltage
++in[3-4]_lcrit_alarm	Output voltage critical low alarm
++in[3-4]_crit		Critical maximum output voltage
++in[3-4]_crit_alarm	Output voltage critical high alarm
++in[3-4]_highest		Highest output voltage
++in[3-4]_lowest		Lowest output voltage
++in[3-4]_max		Maximum output voltage
++in[3-4]_max_alarm	Output voltage high alarm
++in[3-4]_min		Minimum output voltage
++in[3-4]_min_alarm	Output voltage low alarm
++
++out[1-2]_command	Commanded output voltage
++out[1-2]_margin_high	Output voltage when operation is set to "high"
++out[1-2]_margin_low	Output voltage when operation is set to "low"
++out[1-2]_max		Maximum output voltage
++out[1-2]_max_alarm	Output voltage high alarm
++out[1-2]_operation	Set the output voltage to "on", "off", "high" or "low"
++
++power1_label		"pin"
++power1_input		Measured input power
++power1_alarm		Input power high alarm
++power1_max		Input power limit
++
++power[2-3]_label	"pout[1-2]"
++power[2-3]_input	Measured output power
++power[2-3]_max		Output power limit
++power[2-3]_max_alarm	Output power high alarm
++
++temp[1-2]_input		Measured temperature
++temp[1-2]_crit		Critical high temperature
++temp[1-2]_crit_alarm	Chip temperature critical high alarm
++temp[1-2]_highest	Highest temperature
++temp[1-2]_lowest	Lowest temperature
++temp[1-2]_max		Maximum temperature
++temp[1-2]_max_alarm	Chip temperature high alarm
+diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+index 629cb45f8557..a7dd5e606061 100644
+--- a/drivers/hwmon/pmbus/Kconfig
++++ b/drivers/hwmon/pmbus/Kconfig
+@@ -45,6 +45,16 @@ config SENSORS_IBM_CFFPS
+ 	  This driver can also be built as a module. If so, the module will
+ 	  be called ibm-cffps.
+ 
++config SENSORS_IR35215
++	tristate "Infineon IR35215"
++	default n
++	help
++	  If you say yes here you get hardware monitoring support for the
++	  Infineon IR35215 controller.
++
++	  This driver can also be built as a module. If so, the module will
++	  be called ir35215.
++
+ config SENSORS_IR35221
+ 	tristate "Infineon IR35221"
+ 	help
+diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+index ea0e39518c21..48643e3bab42 100644
+--- a/drivers/hwmon/pmbus/Makefile
++++ b/drivers/hwmon/pmbus/Makefile
+@@ -7,6 +7,7 @@ obj-$(CONFIG_PMBUS)		+= pmbus_core.o
+ obj-$(CONFIG_SENSORS_PMBUS)	+= pmbus.o
+ obj-$(CONFIG_SENSORS_ADM1275)	+= adm1275.o
+ obj-$(CONFIG_SENSORS_IBM_CFFPS)	+= ibm-cffps.o
++obj-$(CONFIG_SENSORS_IR35215)	+= ir35215.o
+ obj-$(CONFIG_SENSORS_IR35221)	+= ir35221.o
+ obj-$(CONFIG_SENSORS_LM25066)	+= lm25066.o
+ obj-$(CONFIG_SENSORS_LTC2978)	+= ltc2978.o
+diff --git a/drivers/hwmon/pmbus/ir35215.c b/drivers/hwmon/pmbus/ir35215.c
+new file mode 100644
+index 000000000000..e50ee465a42d
+--- /dev/null
++++ b/drivers/hwmon/pmbus/ir35215.c
+@@ -0,0 +1,91 @@
++/*
++ * Hardware monitoring driver for Infineon IR35215
++ *
++ * Copyright (c) 2019 Cisco Systems.
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++ * GNU General Public License for more details.
++ */
++
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/init.h>
++#include <linux/err.h>
++#include <linux/i2c.h>
++#include "pmbus.h"
++
++#define COMMON_FUNCS	(PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT	\
++			 | PMBUS_HAVE_IIN | PMBUS_HAVE_IOUT	\
++			 | PMBUS_HAVE_PIN | PMBUS_HAVE_POUT	\
++			 | PMBUS_HAVE_TEMP			\
++			 | PMBUS_HAVE_STATUS_VOUT		\
++			 | PMBUS_HAVE_STATUS_IOUT		\
++			 | PMBUS_HAVE_STATUS_INPUT		\
++			 | PMBUS_HAVE_STATUS_TEMP		\
++			 | PMBUS_HAVE_VOUT_MARGIN_HIGH		\
++			 | PMBUS_HAVE_VOUT_MARGIN_LOW		\
++			)
++
++
++#define IR35215_FUNCS	(COMMON_FUNCS | PMBUS_HAVE_VOUT_COMMAND)
++#define IR3570B_FUNCS	(COMMON_FUNCS | PMBUS_HAVE_TEMP2)
++
++static struct pmbus_driver_info ir35215_info = {
++	.pages = 2,
++	.format[PSC_VOLTAGE_IN] = linear,
++	.format[PSC_VOLTAGE_OUT] = linear,
++	.format[PSC_CURRENT_IN] = linear,
++	.format[PSC_CURRENT_OUT] = linear,
++	.format[PSC_POWER] = linear,
++	.format[PSC_TEMPERATURE] = linear,
++	.func[0] = IR35215_FUNCS,
++	.func[1] = IR35215_FUNCS,
++};
++
++static struct pmbus_driver_info ir3570b_info = {
++	.pages = 1,
++	.format[PSC_VOLTAGE_IN] = linear,
++	.format[PSC_VOLTAGE_OUT] = linear,
++	.format[PSC_CURRENT_IN] = linear,
++	.format[PSC_CURRENT_OUT] = linear,
++	.format[PSC_POWER] = linear,
++	.format[PSC_TEMPERATURE] = linear,
++	.func[0] = IR3570B_FUNCS,
++	.func[1] = IR3570B_FUNCS,
++};
++
++static int ir35215_probe(struct i2c_client *client,
++			 const struct i2c_device_id *id)
++{
++	return pmbus_do_probe(client, id, (void *)id->driver_data);
++}
++
++static const struct i2c_device_id ir35215_id[] = {
++	{"ir35215", (kernel_ulong_t)&ir35215_info},
++	{"ir3570b", (kernel_ulong_t)&ir3570b_info},
++	{}
++};
++
++MODULE_DEVICE_TABLE(i2c, ir35215_id);
++
++static struct i2c_driver ir35215_driver = {
++	.driver = {
++		.name = "ir35215",
++	},
++	.probe = ir35215_probe,
++	.remove = pmbus_do_remove,
++	.id_table = ir35215_id,
++};
++
++module_i2c_driver(ir35215_driver);
++
++MODULE_AUTHOR("Ruslan Babayev <ruslan@babayev.com>");
++MODULE_DESCRIPTION("PMBus driver for IR35215");
++MODULE_LICENSE("GPL");
+-- 
+2.17.1
 
-As Jon mentioned, a large number of documents (even some written lots of
-years ago) already fits into ReST, and keeping it simpler makes easier
-for plain text file readers.
-
-We do have some documents (like the media book), were we use a lot
-of the markup stuff, as those documents came from DocBook and it is full of
-cross-references, complex tables, images, examples, etc, but for most
-subsystems, you're safe with the usual stuff.
-
-> 
-> (apologies if this is all spelled out nicely in Documentation/
-> somewhere, but please help this man learn to fish).
-
-A few tips if you want to write documents that are easy to
-read as text files and produce nice output after parsed:
-
-1) it is written to document Python. So, it is indentation 
-   sensitive. Usually most of the fixes are just to properly
-   indent things;
-
-2) By default, it identifies line breaks with two \n. The
-   exceptions are literal blocks like:
-
-   ::
-	foo
-	bar
-
-  and things like:
-
-	foo
-	   bar
-
-  (in this case, it will bold **foo**) 
-
-  Another trick that I use to avoid the need of adding an extra \n is to 
-  convert itemized lists into a table, with:
-
-	===
-	foo
-	bar
-	===
-
-3) Things like "struct *foo" usually produces error, as a single
-   * is interpreted as italic. The parser will look for another *. As
-   it won't find, it will produce an error. So, this need to be escaped
-   somehow.
-
-   While you can escape such special characters like * and _ with an
-   inverted bar, like "struct \*foo", that looks ugly for casual
-   text file readers.
-
-   Instead, I do either::
-
-	struct *foo
-
-   or, if I want it in the middle of a text, I use `struct *foo`. 
-   IMO, placing it on a literal block (::) looks visually better for
-   both text and html modes.
-
-Thanks,
-Mauro
