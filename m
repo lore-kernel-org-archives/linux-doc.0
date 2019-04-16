@@ -1,117 +1,130 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0BFB67D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 20:31:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 938637D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 21:57:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729393AbfDPUbQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Apr 2019 16:31:16 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:41622 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727180AbfDPUbQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Apr 2019 16:31:16 -0400
-Received: by mail-pl1-f194.google.com with SMTP id d1so10885559plj.8;
-        Tue, 16 Apr 2019 13:31:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=kCyaUCGVc/V6ZyQOKtuzykzGifqfq9ikv6LcWKWTfVU=;
-        b=J+SPwpl35yPvHJvJZ07r8o1l2k8iBLdOLSUgh3hA52oOCQvnOmI/UtNV7IcX+wYfkE
-         ENWd7wa2xE9c9wXvpgX+FqcJYCa5LtEB+0ZGfd/lBqbPLZhPUnItDgM42vg/wwFzFI/3
-         0KGQQHYgl/IJutFNMyNnnitvjHPrnXrkMfK256Bwj25KM8TpjQCDleaNq1aTiW921Ts+
-         FF3phjjQQ0b29KLaMt5BORp7Fgrym9NeT6rlbak8owR83BkYtHJiq6muO9Pg9p5aG4PD
-         KreMwl56PPQm0avEhhwEWmr2+mrYBxuFT3vi6sS5o3Nmp/l2gMIeH6gVxOA6F2oEbVC+
-         NidQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=kCyaUCGVc/V6ZyQOKtuzykzGifqfq9ikv6LcWKWTfVU=;
-        b=dT3X9c78jW9qLEyTirluXCvDlIn5S9daenfTUuwOVxogPag6Hek/NUvN6iAhtI4iL7
-         4/rDJfFaOr7U9wOdlEwiRoaMPPEDsD1VUW1NBVevdIXgCJ24JOhuPhRj7GqqPVrRX+qO
-         4Myx8PRU1AWGWd5vwR1eomP2NWdU+84km8TBc5/INc5GceXZgK+kyfOr/P0BmWxShgaS
-         04pSWMRD4afJXVTC5S2A7cKh9U61EBzf+iTv2gaRmKqM8mApaHqhyt2kvBFkpDnO+dIw
-         kvGjyP4Hn66ye2p15B7ag56xlTxNR/k/jzYQvxTt9hrvtj/+BGiwTqu8bkQb3w+4BbIM
-         /Qiw==
-X-Gm-Message-State: APjAAAV/xnrsPxdOlvGzM2jUwipqS5qLdjV+pOdj6XLd1tUfixAMImfT
-        NdLJ9TwOCLSftNCdiVZaWoo=
-X-Google-Smtp-Source: APXvYqzUOhZnFUrYJ3CgrX3jDbq+IXxjHEH7hysLbncDjc6qCSVo+371FJ8CPB/OYsHBPFtMOU/9pA==
-X-Received: by 2002:a17:902:2b88:: with SMTP id l8mr80447832plb.262.1555446675674;
-        Tue, 16 Apr 2019 13:31:15 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id j12sm65163698pgg.79.2019.04.16.13.31.14
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 16 Apr 2019 13:31:14 -0700 (PDT)
-Date:   Tue, 16 Apr 2019 13:31:14 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Andrew Jeffery <andrew@aj.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Jean Delvare <jdelvare@suse.com>,
-        Joel Stanley <joel@jms.id.au>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-hwmon@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, Liviu Dudau <liviu.dudau@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Paul Mackerras <paulus@samba.org>,
-        Sudeep Holla <sudeep.holla@arm.com>
-Subject: Re: [PATCH v2 00/21] Convert hwmon documentation to ReST
-Message-ID: <20190416203114.GB25517@roeck-us.net>
-References: <cover.1554923967.git.mchehab+samsung@kernel.org>
- <20190411124324.3ed62fad@lwn.net>
- <20190411174357.251904f5@coco.lan>
- <20190411210731.GA29378@roeck-us.net>
- <20190412100451.6fe49de7@lwn.net>
- <f900adea-d231-c00d-847c-33e66e79ea30@roeck-us.net>
- <20190416141949.09b48789@lwn.net>
+        id S1727845AbfDPV5u (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Apr 2019 17:57:50 -0400
+Received: from mout.gmx.net ([212.227.17.20]:39583 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727136AbfDPV5u (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Apr 2019 17:57:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1555451860;
+        bh=aHw5y8qd8Mk3FlsLP7KGOjmmhB00qlgFp9xq8oPc3iE=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=YfTS3ZcEY9nc6qdKEvsx3kD8/DaN3/ypX1A2Y7YM0dStXi0fJF2KKb4uEb2X7Dc3+
+         y8Z7WTXN72LauXMXXDnB86f8v7d1lW92A7G6Vw9yOXLbUECHSCnxzlpZNj5TuebFzl
+         3iFf6VpR997iNwzx+bM0H2e5oFIwRxhaY9MG5EFY=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from longitude ([109.90.232.48]) by mail.gmx.com (mrgmx103
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 0LpbfG-1gbPtq04Ig-00fUKb; Tue, 16
+ Apr 2019 23:57:40 +0200
+Date:   Tue, 16 Apr 2019 23:57:38 +0200
+From:   Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     Alex Shi <alex.shi@linux.alibaba.com>
+Cc:     kernel-doc@vger.kernel.org, Harry Wei <harryxiyou@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+Subject: Re: [PATCH v2 2/2] docs/zh_CN: fix typos in 1.Intro.rst file
+Message-ID: <20190416215738.GC11536@latitude>
+References: <20190416022825.187932-1-alex.shi@linux.alibaba.com>
+ <20190416022825.187932-2-alex.shi@linux.alibaba.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="DSayHWYpDlRfCAAQ"
 Content-Disposition: inline
-In-Reply-To: <20190416141949.09b48789@lwn.net>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20190416022825.187932-2-alex.shi@linux.alibaba.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Provags-ID: V03:K1:lty/SQgik6raNskLv70/ES5ByEX/V9HX9bUgVgleA9jUN1FD+cp
+ 9lMXlJi+I7S8TBmss7MKTP8AE7xVaNc0qJJqxf1mOhbFtG1TGVpCicYzFHXNfaRSD0D5kRl
+ YSZ7Xg7vsFtykVMqQYzIW+PZB+uufVnVywjOAX5MxCrcLN2CS5O1kds5hmEuAqWzLLsWv75
+ RDg0BzZGXgl8qp2+EO9vA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:M/02r5MQdBM=:5ZtfHA+6tden0/+f9zaeZz
+ c1itR+6tKQq7pPeuNuYg+IpEJBNb4xovYTg3tM8DQcvbyhDx5KGl0IPAJnSqi3olFf+hj7u8u
+ 4e+86U1Sd/EPDnl5vvL3kqzneXzNZm3S0K869IT7Trlquc5joZL631Yw5Okry77qrIJL1eWkM
+ oBxaGLT1ROhO7xj7YEvXcgDPqcKQHZI7PCflbVReA92OERjy7J3OxdX97lKEC3BpcXfgaG1ub
+ PeqAVZoiswOjee9A9jIZ+2mHeUdCKan0RK8QRWiMS+vtuZmFNkFN2h0EQhByFKOIkFncPD3j8
+ 67qwAHBni1bQHYLcvJdGEMYQ5rdPlKTOOEcJHq0b9p8nEO77fEYGOs/C2Cp5fz4iBctndEBRZ
+ Zs5dDIOS3wAvEIugCi4qvemb2lC1hZd/Hb2P8Ob2KqlaJAkIoBMO8w0bX6MbydHveP3QqWexm
+ WoGyfz3MN5Y3WjYOLH9EGzVy+tRsxbRqVnRHVWe+s/C8+0mX52oqZqsZcfx4EZXf59+jPZ6x3
+ +pmk2TmDsFC21eZGgW3PP4xba2VQJl1Ar1P30HySCdTXNYTu158IabLfPeMaJuMRrc155+YaA
+ T8dGpulab2McNjyvu7azECjYTDh7SMZWwH/Oqr0n/YQNK7P8v7V/4+yo/RvRrVoMyfH4Ucfeb
+ I3NfP/34Lx7fkTsSlzq5ivPzFvE84d6XGjmjEm5epADt3sJqqZ9sMG7TYxlhUoMtvcQ4/9PVz
+ MgrhgirSZwswnhqHKpXUwEcd9+uf/bPs7Huon3kzMqwu3hiEsL4TQ2Hrv3VLzSLTg/IYsdbQx
+ ZgJv5oukBpZy8YOxNbRpGaWIbpf26mcjvTvidXH5LXJz0vnEOk2IfA5CwTrNJ/UnLuoIBG2+3
+ rPwTSuzMlH/m4bWKanc5TyfBL4aAO8Si3fg0ScwqWSQGyX0Tf6gLcTXr9SHLfK
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 16, 2019 at 02:19:49PM -0600, Jonathan Corbet wrote:
-> On Fri, 12 Apr 2019 20:09:16 -0700
-> Guenter Roeck <linux@roeck-us.net> wrote:
-> 
-> > The big real-world question is: Is the series good enough for you to accept,
-> > or do you expect some level of user/kernel separation ?
-> 
-> I guess it can go in; it's forward progress, even if it doesn't make the
-> improvements I would like to see.
-> 
-> The real question, I guess, is who should take it.  I've been seeing a
-> fair amount of activity on hwmon, so I suspect that the potential for
-> conflicts is real.  Perhaps things would go smoother if it went through
-> your tree?
-> 
-We'll see a number of conflicts, yes. In terms of timing, this is probably
-the worst release in the last few years to make such a change. I currently
-have 9 patches queued in hwmon-next which touch Documentation/hwmon.
-Of course the changes made in those are all not ReST compatible, and I have
-no idea what to look out for to make it compatible. So this is going to be
-fun (in a negative sense) either way.
 
-I don't really have a recommendation at this point; I think the best I could
-do to take the patches which don't generate conflicts and leave the rest
-alone. But that would also be bad, since the new index file would not match
-reality. No idea, really, what the best or even a useful approach would be.
+--DSayHWYpDlRfCAAQ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Maybe automated changes like this (assuming they are indeed automated)
-can be generated and pushed right after a commit window closes. Would
-that by any chance be possible ?
+On Tue, Apr 16, 2019 at 10:28:25AM +0800, Alex Shi wrote:
+> Fixed uncapital issues, thanks for Jonathan Neusch=C3=A4fer, I am insensi=
+tive
+> on captial custom as a non-captial native language reader. Sorry.
 
-Guenter
+No problem!
+
+> diff --git a/Documentation/translations/zh_CN/process/1.Intro.rst b/Docum=
+entation/translations/zh_CN/process/1.Intro.rst
+> index 03bbafc00bd2..10a15f3dc282 100644
+> --- a/Documentation/translations/zh_CN/process/1.Intro.rst
+> +++ b/Documentation/translations/zh_CN/process/1.Intro.rst
+> @@ -79,13 +79,13 @@ Linux=E6=9C=80=E5=BC=95=E4=BA=BA=E6=B3=A8=E7=9B=AE=E7=
+=9A=84=E7=89=B9=E6=80=A7=E4=B9=8B=E4=B8=80=E6=98=AF=E8=BF=99=E4=BA=9B=E5=BC=
+=80=E5=8F=91=E4=BA=BA=E5=91=98=E5=8F=AF=E4=BB=A5=E8=AE=BF=E9=97=AE=E5=AE=83=
+=EF=BC=9B=E4=BB=BB=E4=BD=95
+>  =E8=87=B4=E8=B0=A2
+>  ----
+> =20
+> -=E6=9C=AC=E6=96=87=E4=BB=B6=E7=94=B1jonathan corbet=E6=92=B0=E5=86=99=EF=
+=BC=8Ccorbet@lwn.net=E3=80=82=E4=BB=A5=E4=B8=8B=E4=BA=BA=E5=91=98=E7=9A=84=
+=E5=BB=BA=E8=AE=AE=E4=BD=BF=E4=B9=8B=E6=9B=B4=E4=B8=BA=E5=AE=8C=E5=96=84=EF=
+=BC=9A
+> +=E6=9C=AC=E6=96=87=E4=BB=B6=E7=94=B1Jonathan Corbet=E6=92=B0=E5=86=99=EF=
+=BC=8Ccorbet@lwn.net=E3=80=82=E4=BB=A5=E4=B8=8B=E4=BA=BA=E5=91=98=E7=9A=84=
+=E5=BB=BA=E8=AE=AE=E4=BD=BF=E4=B9=8B=E6=9B=B4=E4=B8=BA=E5=AE=8C=E5=96=84=EF=
+=BC=9A
+
+For this part of the patch:
+
+Reviewed-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+
+
+Thanks.
+
+--DSayHWYpDlRfCAAQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEvHAHGBBjQPVy+qvDCDBEmo7zX9sFAly2T8sACgkQCDBEmo7z
+X9u+Rw/8Cc3DM2VGnAOu/tpAYarGoB/hTGxa2H3e9RKaIQp2h7CDrximQqfKhcaL
+O/ZoYiK+hd3j7p1Pskg6A3q0swkOZR9TNzrjd7ecnMvlpHFOPD93sIZhqNCVx2kx
++0rJZ9DBV9S3yJH5YIybM/FoQf8C0jCV/K89vnLH+bl+XH0yONudYK4LyhtN6I2W
+IaOadCZngy9SMvUWehcbwBj8jySnF+i53o/cwG+voBssjSDid6WpdFKLeHyEVJFW
+U2N+U+WDYkfCNOxyKNsR0v7uzvT4tYLRdfyOmYpjTs+IoE59fOp7AkW9muLqrYe5
+VgebWImKRqJWuBMKTXJg0nCEeaCaMfaCiMaXXrOoD7bupanF/1YySbpiTn0Euu1j
+js42VXl83glwe3pDMHnUBQiYxG/RMJyBKrgE5tI7dJVMsumSd75JaIZ9UmiUy+FZ
+pMH1n5ExKo8e4gyuV5uCfaYddWZ59ozhOaa9F016MDAtLtp9GNMlL6B+q4ax47H7
+RWX6vJnW3yTa39qxsURbHyCRVaiZ8GxOd84SB7qzx+8PXg7fhthC46EFDehbRrLO
+Hcmq635oo2dyzRFQwAtTRVfl+pLvUEXoWALBKpXRWWNekKsIBOG7WSvTnJJ7pHMz
+8kYAZreCkjVwJBZb/oNmJNYuZWJq1bFC9WoXWSNK2JIMjglXMPo=
+=9oLG
+-----END PGP SIGNATURE-----
+
+--DSayHWYpDlRfCAAQ--
