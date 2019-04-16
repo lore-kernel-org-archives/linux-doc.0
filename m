@@ -2,46 +2,44 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9B9D47D099
+	by archive.lwn.net (Postfix) with ESMTP id E80B27D90F
 	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 03:03:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726713AbfDPC4a (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Apr 2019 22:56:30 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:43976 "EHLO
+        id S1728009AbfDPDCD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Apr 2019 23:02:03 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:44146 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725796AbfDPC43 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 22:56:29 -0400
+        with ESMTP id S1726773AbfDPC4c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 22:56:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=bMA8GC5+AjUSoe7wkFA4yS0uBjN1cENYUWkXHu91bVo=; b=m5QFNdbfev0PVlMDAtvdKbzjnE
-        LDtsV6DlrobVu03TbwILB6aVTJHv/W0P50KTSHO1JWQNwX92r9rgAakKwQBClzmcvObWujzjjxKnA
-        vAWtdGVN3eNdif3oo+tDmXnymCUm809IFeVVMNouX5o2w6orwiSA/nNEa/LDtk1c+ZvXQ7kICQE4v
-        jpKIwZRfjimvd6hhhLKOjaK7P6yon6k8m0ntit9+rrTn2ONUr24hGw7/CBqV4SadnNr6tYEJUIH8F
-        kLn8R+fF9TGEqPtAyXE0WejGGfAT+qIKGSxIogasD3mPzplObLG0UGySeUMAYJEafF3fc0YWiDXUf
-        xuQtRobA==;
+        bh=q+3EGdDIPNdAXYdZsIcsA19ZmC3MF/U+m8Me7nsjfpc=; b=el0vw79HHjbsTtt4ZEshIsivdz
+        qckrtfdk8kl2lDCdSqXv9XK0V5gb3zwHnXcYWAsDyiSW4Do+S7tCUD9Cs8GC7TTRQ8NRnuRRBkgms
+        RwgpYp9W8g/wH4AbpIdywnwuW8h+rG/nr/A0ZecbKCnGjfFaB1FHsFRMprgqjJUdYfWCdnfloVMEz
+        5eFgWlIHfIaQAoR0lSyHJd8t8uRqNQ22WcxDawnM5rW9g5xybJgB4rIQfc86vw8M98+K3P2rd1Zo5
+        GcNASURqNNDjL13Kakc0pSTp646K8QSM/Fu6u+an2gJoUmmwKEVviyO9/VqIaDRw8ZaoSoZ0nRIb6
+        l8LgkRuA==;
 Received: from 177.205.118.176.dynamic.adsl.gvt.net.br ([177.205.118.176] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hGEGp-0007aS-RV; Tue, 16 Apr 2019 02:56:27 +0000
+        id 1hGEGt-0007aS-Lq; Tue, 16 Apr 2019 02:56:31 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hGEGn-0001la-5Y; Mon, 15 Apr 2019 23:56:25 -0300
+        id 1hGEGo-0001q2-Bl; Mon, 15 Apr 2019 23:56:26 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org
-Subject: [PATCH 11/57] docs: extcon: move it to acpi dir and convert it to ReST
-Date:   Mon, 15 Apr 2019 23:55:36 -0300
-Message-Id: <ecd6b6bcbd5831241609f32ddf5ab484da145959.1555382110.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 52/57] docs: memory-devices: convert ti-emif.txt to ReST format
+Date:   Mon, 15 Apr 2019 23:56:17 -0300
+Message-Id: <67c899f93d3e5c7ac712488f6d498777f0a0390f.1555382110.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1555382110.git.mchehab+samsung@kernel.org>
 References: <cover.1555382110.git.mchehab+samsung@kernel.org>
@@ -52,76 +50,96 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The intel-int3496.txt file is a documentation for an ACPI driver.
-
-There's no reason to keep it on a separate directory.
-
-So, instead of keeping it on some random location, move it
-to a sub-directory inside the ACPI documentation dir.
-
-For now, keep it with .txt extension, in order to avoid
-Sphinx build noise. A later patch should change it to .rst
-and movin it to be together with other acpi docs.
+Prepare this file to be moved to a kernel book by converting
+it to ReST format.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- .../drivers/extcon-intel-int3496.txt}              | 14 ++++++++++----
- MAINTAINERS                                        |  2 +-
- 2 files changed, 11 insertions(+), 5 deletions(-)
- rename Documentation/{extcon/intel-int3496.txt => acpi/drivers/extcon-intel-int3496.txt} (66%)
+ Documentation/bus-devices/ti-gpmc.txt    |  1 +
+ Documentation/memory-devices/ti-emif.txt | 25 ++++++++++++++----------
+ 2 files changed, 16 insertions(+), 10 deletions(-)
 
-diff --git a/Documentation/extcon/intel-int3496.txt b/Documentation/acpi/drivers/extcon-intel-int3496.txt
-similarity index 66%
-rename from Documentation/extcon/intel-int3496.txt
-rename to Documentation/acpi/drivers/extcon-intel-int3496.txt
-index 8155dbc7fad3..5137ca834b54 100644
---- a/Documentation/extcon/intel-int3496.txt
-+++ b/Documentation/acpi/drivers/extcon-intel-int3496.txt
-@@ -1,5 +1,6 @@
-+=====================================================
- Intel INT3496 ACPI device extcon driver documentation
-------------------------------------------------------
-+=====================================================
+diff --git a/Documentation/bus-devices/ti-gpmc.txt b/Documentation/bus-devices/ti-gpmc.txt
+index cc9ce57e0a26..c434fcfc5e4c 100644
+--- a/Documentation/bus-devices/ti-gpmc.txt
++++ b/Documentation/bus-devices/ti-gpmc.txt
+@@ -3,6 +3,7 @@ GPMC (General Purpose Memory Controller):
  
- The Intel INT3496 ACPI device extcon driver is a driver for ACPI
- devices with an acpi-id of INT3496, such as found for example on
-@@ -13,15 +14,20 @@ between an USB host and an USB peripheral controller.
- The ACPI devices exposes this functionality by returning an array with up
- to 3 gpio descriptors from its ACPI _CRS (Current Resource Settings) call:
- 
--Index 0: The input gpio for the id-pin, this is always present and valid
--Index 1: The output gpio for enabling Vbus output from the device to the otg
-+=======  =====================================================================
-+Index 0  The input gpio for the id-pin, this is always present and valid
-+Index 1  The output gpio for enabling Vbus output from the device to the otg
-          port, write 1 to enable the Vbus output (this gpio descriptor may
-          be absent or invalid)
--Index 2: The output gpio for muxing of the data pins between the USB host and
-+Index 2  The output gpio for muxing of the data pins between the USB host and
-          the USB peripheral controller, write 1 to mux to the peripheral
-          controller
-+=======  =====================================================================
- 
- There is a mapping between indices and GPIO connection IDs as follows
+ GPMC is an unified memory controller dedicated to interfacing external
+ memory devices like
 +
-+	======= =======
- 	id	index 0
- 	vbus	index 1
- 	mux	index 2
-+	======= =======
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8de292192227..99822421b447 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5958,7 +5958,7 @@ S:	Maintained
- F:	drivers/extcon/
- F:	include/linux/extcon/
- F:	include/linux/extcon.h
--F:	Documentation/extcon/
-+F:	Documentation/acpi/drivers/extcon-intel-int3496.txt
- F:	Documentation/devicetree/bindings/extcon/
+  * Asynchronous SRAM like memories and application specific integrated
+    circuit devices.
+  * Asynchronous, synchronous, and page mode burst NOR flash devices
+diff --git a/Documentation/memory-devices/ti-emif.txt b/Documentation/memory-devices/ti-emif.txt
+index f4ad9a7d0f4b..371f581bd276 100644
+--- a/Documentation/memory-devices/ti-emif.txt
++++ b/Documentation/memory-devices/ti-emif.txt
+@@ -1,20 +1,22 @@
+-TI EMIF SDRAM Controller Driver:
++===============================
++TI EMIF SDRAM Controller Driver
++===============================
  
- EXYNOS DP DRIVER
+ Author
+-========
++======
+ Aneesh V <aneesh@ti.com>
+ 
+ Location
+-============
++========
+ driver/memory/emif.c
+ 
+ Supported SoCs:
+-===================
++===============
+ TI OMAP44xx
+ TI OMAP54xx
+ 
+ Menuconfig option:
+-==========================
++==================
+ Device Drivers
+ 	Memory devices
+ 		Texas Instruments EMIF driver
+@@ -29,10 +31,11 @@ functions of the driver includes re-configuring AC timing
+ parameters and other settings during frequency, voltage and
+ temperature changes
+ 
+-Platform Data (see include/linux/platform_data/emif_plat.h):
+-=====================================================================
++Platform Data (see include/linux/platform_data/emif_plat.h)
++===========================================================
+ DDR device details and other board dependent and SoC dependent
+ information can be passed through platform data (struct emif_platform_data)
++
+ - DDR device details: 'struct ddr_device_info'
+ - Device AC timings: 'struct lpddr2_timings' and 'struct lpddr2_min_tck'
+ - Custom configurations: customizable policy options through
+@@ -40,17 +43,19 @@ information can be passed through platform data (struct emif_platform_data)
+ - IP revision
+ - PHY type
+ 
+-Interface to the external world:
+-================================
++Interface to the external world
++===============================
+ EMIF driver registers notifiers for voltage and frequency changes
+ affecting EMIF and takes appropriate actions when these are invoked.
++
+ - freq_pre_notify_handling()
+ - freq_post_notify_handling()
+ - volt_notify_handling()
+ 
+ Debugfs
+-========
++=======
+ The driver creates two debugfs entries per device.
++
+ - regcache_dump : dump of register values calculated and saved for all
+   frequencies used so far.
+ - mr4 : last polled value of MR4 register in the LPDDR2 device. MR4
 -- 
 2.20.1
 
