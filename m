@@ -5,41 +5,43 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 28F7C7D91A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 02:59:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6A8BA7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 03:00:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728733AbfDPC7P (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Apr 2019 22:59:15 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:44366 "EHLO
+        id S1726094AbfDPC7q (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Apr 2019 22:59:46 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:44314 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726843AbfDPC4e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 22:56:34 -0400
+        with ESMTP id S1726818AbfDPC4d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 22:56:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=kcb7E1tqPyZTcZaFa0FQOtnRkKhYW7nxx751EV3FLOY=; b=fECzn5Aen25iWvaaXa6/M+PsCc
-        QCzZkpybN0sj4gIS0c3VeRPNG9w7On526sVOOqWPiIdw5cOYTwlCjQ1WivKncXPDIaj2RD+Yn2SkS
-        VRFKC4YtbEaFVvF0BXtuj1tbnZcKzqJBe4NmKvUg3COqnYJFH1hIz5dcKEn/Hdxe3L7UWhHqEOBG0
-        0c/jmJ7UP7i+YAh32izXbDC0nS8wlblzVrwcvq1xoRhFrIdVxKOGBUvjviKpA8vS2vtrAlpM6Xrhz
-        EIhTa31F2+JixR8nQGmKr1Si9+CRhP6w+kMXGa4Xc2w2nNaDvSbUzHsnd1wIZblmcNnGCydOJsoTw
-        oua4EpGA==;
+        bh=SzV2S6/tr7UVf/FR5zSWGATUlf/T6mevh0ryPixjKPM=; b=okKprzzYHAeLc4wwrrpJcIjCpp
+        D4ATRBYe6czdTytiWQPPSpCokNtOEKK/2oIqIftuQr2FO09IXBpFcXYhLlmhirPY8j0Q9dQ6pyx7i
+        1JIsbwGJwdBjAIXI97xshpg8NyD0el4O47G/idzyCu2y9KkcA+KpQ2Kk+VKRvHpF90Z7rIPFvCXNn
+        days6RRObyJV+Wx+BBl4ARlvbzUG26TflVTpfBqY62cpCd33sdmBDs+Z0zYcSZwM2mN1fSdA5gBqC
+        EEm2LHp4+xKGK0H4o6lGr8tdu08zOiDpF0qrq35UhHgbYt/XRp/HYRqu/ivfH+f2+a7hpq58GeAwT
+        RiBQRgMw==;
 Received: from 177.205.118.176.dynamic.adsl.gvt.net.br ([177.205.118.176] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hGEGu-0007aQ-PJ; Tue, 16 Apr 2019 02:56:33 +0000
+        id 1hGEGu-0007ae-LD; Tue, 16 Apr 2019 02:56:32 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hGEGo-0001qT-H7; Mon, 15 Apr 2019 23:56:26 -0300
+        id 1hGEGn-0001nQ-GX; Mon, 15 Apr 2019 23:56:25 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 57/57] docs: Prepare files to be renamed to *.rst
-Date:   Mon, 15 Apr 2019 23:56:22 -0300
-Message-Id: <bdcce3a5ab96fa2393f0e38d336844a36dfd35ef.1555382110.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Paul Moore <paul@paul-moore.com>, netdev@vger.kernel.org,
+        linux-security-module@vger.kernel.org
+Subject: [PATCH 23/57] docs: netlabel: convert it to ReST
+Date:   Mon, 15 Apr 2019 23:55:48 -0300
+Message-Id: <104211eb0db14790ad328fff7ad7f712d8d647f9.1555382110.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1555382110.git.mchehab+samsung@kernel.org>
 References: <cover.1555382110.git.mchehab+samsung@kernel.org>
@@ -50,440 +52,177 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Remove some blank spaces at the end of the lines.
+Convert netlabel documentation to ReST.
+
+This was trivial: just add proper title markups.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/bt8xxgpio.txt             |  1 -
- Documentation/bus-virt-phys-mapping.txt | 50 ++++++++++++------------
- Documentation/highuid.txt               |  2 +-
- Documentation/kobject.txt               |  2 +-
- Documentation/ldm.txt                   |  3 +-
- Documentation/memory-barriers.txt       |  2 +-
- Documentation/numastat.txt              |  1 -
- Documentation/pnp.txt                   | 11 +++---
- Documentation/preempt-locking.txt       |  2 +-
- Documentation/rbtree.txt                | 52 ++++++++++++-------------
- Documentation/rtc.txt                   |  6 +--
- Documentation/zorro.txt                 |  5 +--
- 12 files changed, 66 insertions(+), 71 deletions(-)
+ Documentation/netlabel/cipso_ipv4.txt    | 19 +++++++++++++------
+ Documentation/netlabel/introduction.txt  | 16 +++++++++++-----
+ Documentation/netlabel/lsm_interface.txt | 16 +++++++++++-----
+ 3 files changed, 35 insertions(+), 16 deletions(-)
 
-diff --git a/Documentation/bt8xxgpio.txt b/Documentation/bt8xxgpio.txt
-index a845feb074de..4f937bead52c 100644
---- a/Documentation/bt8xxgpio.txt
-+++ b/Documentation/bt8xxgpio.txt
-@@ -59,4 +59,3 @@ The GPIO pins are marked with G00-G23::
-            | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |
-            ^
-            This is pin 1
--
-diff --git a/Documentation/bus-virt-phys-mapping.txt b/Documentation/bus-virt-phys-mapping.txt
-index 4bb07c2f3e7d..0d45d6cf0fcb 100644
---- a/Documentation/bus-virt-phys-mapping.txt
-+++ b/Documentation/bus-virt-phys-mapping.txt
-@@ -19,35 +19,35 @@ How to access I/O mapped memory from within device drivers
- 
- The AHA-1542 is a bus-master device, and your patch makes the driver give the
- controller the physical address of the buffers, which is correct on x86
--(because all bus master devices see the physical memory mappings directly). 
-+(because all bus master devices see the physical memory mappings directly).
- 
- However, on many setups, there are actually **three** different ways of looking
- at memory addresses, and in this case we actually want the third, the
--so-called "bus address". 
-+so-called "bus address".
- 
- Essentially, the three ways of addressing memory are (this is "real memory",
--that is, normal RAM--see later about other details): 
-+that is, normal RAM--see later about other details):
- 
-- - CPU untranslated.  This is the "physical" address.  Physical address 
-+ - CPU untranslated.  This is the "physical" address.  Physical address
-    0 is what the CPU sees when it drives zeroes on the memory bus.
- 
-- - CPU translated address. This is the "virtual" address, and is 
-+ - CPU translated address. This is the "virtual" address, and is
-    completely internal to the CPU itself with the CPU doing the appropriate
--   translations into "CPU untranslated". 
-+   translations into "CPU untranslated".
- 
-- - bus address. This is the address of memory as seen by OTHER devices, 
--   not the CPU. Now, in theory there could be many different bus 
-+ - bus address. This is the address of memory as seen by OTHER devices,
-+   not the CPU. Now, in theory there could be many different bus
-    addresses, with each device seeing memory in some device-specific way, but
-    happily most hardware designers aren't actually actively trying to make
--   things any more complex than necessary, so you can assume that all 
--   external hardware sees the memory the same way. 
-+   things any more complex than necessary, so you can assume that all
-+   external hardware sees the memory the same way.
- 
- Now, on normal PCs the bus address is exactly the same as the physical
- address, and things are very simple indeed. However, they are that simple
- because the memory and the devices share the same address space, and that is
--not generally necessarily true on other PCI/ISA setups. 
-+not generally necessarily true on other PCI/ISA setups.
- 
--Now, just as an example, on the PReP (PowerPC Reference Platform), the 
-+Now, just as an example, on the PReP (PowerPC Reference Platform), the
- CPU sees a memory map something like this (this is from memory)::
- 
- 	0-2 GB		"real memory"
-@@ -58,17 +58,17 @@ Now, that looks simple enough. However, when you look at the same thing from
- the viewpoint of the devices, you have the reverse, and the physical memory
- address 0 actually shows up as address 2 GB for any IO master.
- 
--So when the CPU wants any bus master to write to physical memory 0, it 
-+So when the CPU wants any bus master to write to physical memory 0, it
- has to give the master address 0x80000000 as the memory address.
- 
--So, for example, depending on how the kernel is actually mapped on the 
-+So, for example, depending on how the kernel is actually mapped on the
- PPC, you can end up with a setup like this::
- 
-  physical address:	0
-  virtual address:	0xC0000000
-  bus address:		0x80000000
- 
--where all the addresses actually point to the same thing.  It's just seen 
-+where all the addresses actually point to the same thing.  It's just seen
- through different translations..
- 
- Similarly, on the Alpha, the normal translation is::
-@@ -78,7 +78,7 @@ Similarly, on the Alpha, the normal translation is::
-  bus address:		0x40000000
- 
- (but there are also Alphas where the physical address and the bus address
--are the same). 
-+are the same).
- 
- Anyway, the way to look up all these translations, you do::
- 
-@@ -113,7 +113,7 @@ pointer from the kernel. So you can have something like this::
- 			case STATUS_OK:
- 				...
- 
--on the other hand, you want the bus address when you have a buffer that 
-+on the other hand, you want the bus address when you have a buffer that
- you want to give to the controller::
- 
- 	/* ask the controller to read the sense status into "sense_buffer" */
-@@ -124,7 +124,7 @@ you want to give to the controller::
- 
- And you generally **never** want to use the physical address, because you can't
- use that from the CPU (the CPU only uses translated virtual addresses), and
--you can't use it from the bus master. 
-+you can't use it from the bus master.
- 
- So why do we care about the physical address at all? We do need the physical
- address in some cases, it's just not very often in normal code.  The physical
-@@ -142,7 +142,7 @@ shouldn't need to know about "bus addresses" etc).
- There is a completely different type of memory too, and that's the "shared
- memory" on the PCI or ISA bus. That's generally not RAM (although in the case
- of a video graphics card it can be normal DRAM that is just used for a frame
--buffer), but can be things like a packet buffer in a network card etc. 
-+buffer), but can be things like a packet buffer in a network card etc.
- 
- This memory is called "PCI memory" or "shared memory" or "IO memory" or
- whatever, and there is only one way to access it: the readb/writeb and
-@@ -151,7 +151,7 @@ there is really nothing you can do with such an address: it's not
- conceptually in the same memory space as "real memory" at all, so you cannot
- just dereference a pointer. (Sadly, on x86 it **is** in the same memory space,
- so on x86 it actually works to just deference a pointer, but it's not
--portable). 
-+portable).
- 
- For such memory, you can do things like:
- 
-@@ -197,19 +197,19 @@ Note that kernel versions 2.0.x (and earlier) mistakenly called the
- ioremap() function "vremap()".  ioremap() is the proper name, but I
- didn't think straight when I wrote it originally.  People who have to
- support both can do something like::
-- 
+diff --git a/Documentation/netlabel/cipso_ipv4.txt b/Documentation/netlabel/cipso_ipv4.txt
+index a6075481fd60..cbd3f3231221 100644
+--- a/Documentation/netlabel/cipso_ipv4.txt
++++ b/Documentation/netlabel/cipso_ipv4.txt
+@@ -1,10 +1,13 @@
++===================================
+ NetLabel CIPSO/IPv4 Protocol Engine
+-==============================================================================
++===================================
 +
- 	/* support old naming silliness */
- 	#if LINUX_VERSION_CODE < 0x020100
- 	#define ioremap vremap
--	#define iounmap vfree                                                     
-+	#define iounmap vfree
- 	#endif
-- 
+ Paul Moore, paul.moore@hp.com
+ 
+ May 17, 2006
+ 
+- * Overview
++Overview
++========
+ 
+ The NetLabel CIPSO/IPv4 protocol engine is based on the IETF Commercial
+ IP Security Option (CIPSO) draft from July 16, 1992.  A copy of this
+@@ -13,7 +16,8 @@ draft can be found in this directory
+ it to an RFC standard it has become a de-facto standard for labeled
+ networking and is used in many trusted operating systems.
+ 
+- * Outbound Packet Processing
++Outbound Packet Processing
++==========================
+ 
+ The CIPSO/IPv4 protocol engine applies the CIPSO IP option to packets by
+ adding the CIPSO label to the socket.  This causes all packets leaving the
+@@ -24,7 +28,8 @@ label by using the NetLabel security module API; if the NetLabel "domain" is
+ configured to use CIPSO for packet labeling then a CIPSO IP option will be
+ generated and attached to the socket.
+ 
+- * Inbound Packet Processing
++Inbound Packet Processing
++=========================
+ 
+ The CIPSO/IPv4 protocol engine validates every CIPSO IP option it finds at the
+ IP layer without any special handling required by the LSM.  However, in order
+@@ -33,7 +38,8 @@ NetLabel security module API to extract the security attributes of the packet.
+ This is typically done at the socket layer using the 'socket_sock_rcv_skb()'
+ LSM hook.
+ 
+- * Label Translation
++Label Translation
++=================
+ 
+ The CIPSO/IPv4 protocol engine contains a mechanism to translate CIPSO security
+ attributes such as sensitivity level and category to values which are
+@@ -42,7 +48,8 @@ Domain Of Interpretation (DOI) definition and are configured through the
+ NetLabel user space communication layer.  Each DOI definition can have a
+ different security attribute mapping table.
+ 
+- * Label Translation Cache
++Label Translation Cache
++=======================
+ 
+ The NetLabel system provides a framework for caching security attribute
+ mappings from the network labels to the corresponding LSM identifiers.  The
+diff --git a/Documentation/netlabel/introduction.txt b/Documentation/netlabel/introduction.txt
+index 3caf77bcff0f..9333bbb0adc1 100644
+--- a/Documentation/netlabel/introduction.txt
++++ b/Documentation/netlabel/introduction.txt
+@@ -1,10 +1,13 @@
++=====================
+ NetLabel Introduction
+-==============================================================================
++=====================
 +
- at the top of their source files, and then they can use the right names
--even on 2.0.x systems. 
-+even on 2.0.x systems.
+ Paul Moore, paul.moore@hp.com
  
- And the above sounds worse than it really is.  Most real drivers really
- don't do all that complex things (or rather: the complexity is not so
--much in the actual IO accesses as in error handling and timeouts etc). 
-+much in the actual IO accesses as in error handling and timeouts etc).
- It's generally not hard to fix drivers, and in many cases the code
- actually looks better afterwards::
+ August 2, 2006
  
-diff --git a/Documentation/highuid.txt b/Documentation/highuid.txt
-index 6ee70465c0ea..1ab59d7807d1 100644
---- a/Documentation/highuid.txt
-+++ b/Documentation/highuid.txt
-@@ -19,7 +19,7 @@ What's left to be done for 32-bit UIDs on all Linux architectures:
-   underlying filesystem, because quota records are written at offsets
-   corresponding to the UID in question.
-   Further investigation is needed to see if the quota system can cope
--  properly with huge UIDs. If it can deal with 64-bit file offsets on all 
-+  properly with huge UIDs. If it can deal with 64-bit file offsets on all
-   architectures, this should not be a problem.
+- * Overview
++Overview
++========
  
- - Decide whether or not to keep backwards compatibility with the system
-diff --git a/Documentation/kobject.txt b/Documentation/kobject.txt
-index ff4c25098119..fa0009ca0bc7 100644
---- a/Documentation/kobject.txt
-+++ b/Documentation/kobject.txt
-@@ -270,7 +270,7 @@ such a method has a form like::
+ NetLabel is a mechanism which can be used by kernel security modules to attach
+ security attributes to outgoing network packets generated from user space
+@@ -12,7 +15,8 @@ applications and read security attributes from incoming network packets.  It
+ is composed of three main components, the protocol engines, the communication
+ layer, and the kernel security module API.
  
-     void my_object_release(struct kobject *kobj)
-     {
--    	    struct my_object *mine = container_of(kobj, struct my_object, kobj);
-+	    struct my_object *mine = container_of(kobj, struct my_object, kobj);
+- * Protocol Engines
++Protocol Engines
++================
  
- 	    /* Perform any additional cleanup on this object, then... */
- 	    kfree(mine);
-diff --git a/Documentation/ldm.txt b/Documentation/ldm.txt
-index 12c571368e73..90ccf24ebfdd 100644
---- a/Documentation/ldm.txt
-+++ b/Documentation/ldm.txt
-@@ -75,7 +75,7 @@ When Linux boots, you will see something like::
- Compiling LDM Support
- ---------------------
+ The protocol engines are responsible for both applying and retrieving the
+ network packet's security attributes.  If any translation between the network
+@@ -24,7 +28,8 @@ the NetLabel kernel security module API described below.
+ Detailed information about each NetLabel protocol engine can be found in this
+ directory.
  
--To enable LDM, choose the following two options: 
-+To enable LDM, choose the following two options:
+- * Communication Layer
++Communication Layer
++===================
  
-   - "Advanced partition selection" CONFIG_PARTITION_ADVANCED
-   - "Windows Logical Disk Manager (Dynamic Disk) support" CONFIG_LDM_PARTITION
-@@ -118,4 +118,3 @@ me.
- Cheers,
-     FlatCap - Richard Russon
-     ldm@flatcap.org
--
-diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
-index 4e0446230205..f585022aed8f 100644
---- a/Documentation/memory-barriers.txt
-+++ b/Documentation/memory-barriers.txt
-@@ -334,7 +334,7 @@ And there are anti-guarantees:
-      of the standard containing this guarantee is Section 3.14, which
-      defines "memory location" as follows:
+ The communication layer exists to allow NetLabel configuration and monitoring
+ from user space.  The NetLabel communication layer uses a message based
+@@ -33,7 +38,8 @@ formatting of these NetLabel messages as well as the Generic NETLINK family
+ names can be found in the 'net/netlabel/' directory as comments in the
+ header files as well as in 'include/net/netlabel.h'.
  
--     	memory location
-+	memory location
- 		either an object of scalar type, or a maximal sequence
- 		of adjacent bit-fields all having nonzero width
+- * Security Module API
++Security Module API
++===================
  
-diff --git a/Documentation/numastat.txt b/Documentation/numastat.txt
-index aaf1667489f8..d6f07ca00c27 100644
---- a/Documentation/numastat.txt
-+++ b/Documentation/numastat.txt
-@@ -27,4 +27,3 @@ interleave_hit 	Interleaving wanted to allocate from this node
- For easier reading you can use the numastat utility from the numactl package
- (http://oss.sgi.com/projects/libnuma/). Note that it only works
- well right now on machines with a small number of CPUs.
--
-diff --git a/Documentation/pnp.txt b/Documentation/pnp.txt
-index bab2d10631f0..c103acb9ad99 100644
---- a/Documentation/pnp.txt
-+++ b/Documentation/pnp.txt
-@@ -10,7 +10,7 @@ Overview
- --------
- 
- Plug and Play provides a means of detecting and setting resources for legacy or
--otherwise unconfigurable devices.  The Linux Plug and Play Layer provides these 
-+otherwise unconfigurable devices.  The Linux Plug and Play Layer provides these
- services to compatible drivers.
- 
- 
-@@ -18,7 +18,7 @@ The User Interface
- ------------------
- 
- The Linux Plug and Play user interface provides a means to activate PnP devices
--for legacy and user level drivers that do not support Linux Plug and Play.  The 
-+for legacy and user level drivers that do not support Linux Plug and Play.  The
- user interface is integrated into sysfs.
- 
- In addition to the standard sysfs file the following are created in each
-@@ -113,9 +113,9 @@ The Unified Plug and Play Layer
- -------------------------------
- 
- All Plug and Play drivers, protocols, and services meet at a central location
--called the Plug and Play Layer.  This layer is responsible for the exchange of 
--information between PnP drivers and PnP protocols.  Thus it automatically 
--forwards commands to the proper protocol.  This makes writing PnP drivers 
-+called the Plug and Play Layer.  This layer is responsible for the exchange of
-+information between PnP drivers and PnP protocols.  Thus it automatically
-+forwards commands to the proper protocol.  This makes writing PnP drivers
- significantly easier.
- 
- The following functions are available from the Plug and Play Layer:
-@@ -289,4 +289,3 @@ They are as follows::
- 				     unsigned short vendor,
- 				     unsigned short function,
- 				     struct pnp_dev *from)
--
-diff --git a/Documentation/preempt-locking.txt b/Documentation/preempt-locking.txt
-index 509f5a422d57..47ad9688dc11 100644
---- a/Documentation/preempt-locking.txt
-+++ b/Documentation/preempt-locking.txt
-@@ -16,7 +16,7 @@ requires explicit additional locking for very few additional situations.
- 
- This document is for all kernel hackers.  Developing code in the kernel
- requires protecting these situations.
-- 
+ The purpose of the NetLabel security module API is to provide a protocol
+ independent interface to the underlying NetLabel protocol engines.  In addition
+diff --git a/Documentation/netlabel/lsm_interface.txt b/Documentation/netlabel/lsm_interface.txt
+index 638c74f7de7f..026fc267f798 100644
+--- a/Documentation/netlabel/lsm_interface.txt
++++ b/Documentation/netlabel/lsm_interface.txt
+@@ -1,10 +1,13 @@
++========================================
+ NetLabel Linux Security Module Interface
+-==============================================================================
++========================================
 +
+ Paul Moore, paul.moore@hp.com
  
- RULE #1: Per-CPU data structures need explicit protection
- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-diff --git a/Documentation/rbtree.txt b/Documentation/rbtree.txt
-index c42a21b99046..f2bea06b471b 100644
---- a/Documentation/rbtree.txt
-+++ b/Documentation/rbtree.txt
-@@ -62,8 +62,8 @@ Creating a new rbtree
- Data nodes in an rbtree tree are structures containing a struct rb_node member::
+ May 17, 2006
  
-   struct mytype {
--  	struct rb_node node;
--  	char *keystring;
-+	struct rb_node node;
-+	char *keystring;
-   };
+- * Overview
++Overview
++========
  
- When dealing with a pointer to the embedded struct rb_node, the containing data
-@@ -85,20 +85,20 @@ Example::
+ NetLabel is a mechanism which can set and retrieve security attributes from
+ network packets.  It is intended to be used by LSM developers who want to make
+@@ -12,7 +15,8 @@ use of a common code base for several different packet labeling protocols.
+ The NetLabel security module API is defined in 'include/net/netlabel.h' but a
+ brief overview is given below.
  
-   struct mytype *my_search(struct rb_root *root, char *string)
-   {
--  	struct rb_node *node = root->rb_node;
-+	struct rb_node *node = root->rb_node;
+- * NetLabel Security Attributes
++NetLabel Security Attributes
++============================
  
--  	while (node) {
--  		struct mytype *data = container_of(node, struct mytype, node);
-+	while (node) {
-+		struct mytype *data = container_of(node, struct mytype, node);
- 		int result;
+ Since NetLabel supports multiple different packet labeling protocols and LSMs
+ it uses the concept of security attributes to refer to the packet's security
+@@ -24,7 +28,8 @@ configuration.  It is up to the LSM developer to translate the NetLabel
+ security attributes into whatever security identifiers are in use for their
+ particular LSM.
  
- 		result = strcmp(string, data->keystring);
+- * NetLabel LSM Protocol Operations
++NetLabel LSM Protocol Operations
++================================
  
- 		if (result < 0)
--  			node = node->rb_left;
-+			node = node->rb_left;
- 		else if (result > 0)
--  			node = node->rb_right;
-+			node = node->rb_right;
- 		else
--  			return data;
-+			return data;
- 	}
- 	return NULL;
-   }
-@@ -117,25 +117,25 @@ Example::
+ These are the functions which allow the LSM developer to manipulate the labels
+ on outgoing packets as well as read the labels on incoming packets.  Functions
+@@ -32,7 +37,8 @@ exist to operate both on sockets as well as the sk_buffs directly.  These high
+ level functions are translated into low level protocol operations based on how
+ the administrator has configured the NetLabel subsystem.
  
-   int my_insert(struct rb_root *root, struct mytype *data)
-   {
--  	struct rb_node **new = &(root->rb_node), *parent = NULL;
-+	struct rb_node **new = &(root->rb_node), *parent = NULL;
+- * NetLabel Label Mapping Cache Operations
++NetLabel Label Mapping Cache Operations
++=======================================
  
--  	/* Figure out where to put new node */
--  	while (*new) {
--  		struct mytype *this = container_of(*new, struct mytype, node);
--  		int result = strcmp(data->keystring, this->keystring);
-+	/* Figure out where to put new node */
-+	while (*new) {
-+		struct mytype *this = container_of(*new, struct mytype, node);
-+		int result = strcmp(data->keystring, this->keystring);
- 
- 		parent = *new;
--  		if (result < 0)
--  			new = &((*new)->rb_left);
--  		else if (result > 0)
--  			new = &((*new)->rb_right);
--  		else
--  			return FALSE;
--  	}
-+		if (result < 0)
-+			new = &((*new)->rb_left);
-+		else if (result > 0)
-+			new = &((*new)->rb_right);
-+		else
-+			return FALSE;
-+	}
- 
--  	/* Add new node and rebalance tree. */
--  	rb_link_node(&data->node, parent, new);
--  	rb_insert_color(&data->node, root);
-+	/* Add new node and rebalance tree. */
-+	rb_link_node(&data->node, parent, new);
-+	rb_insert_color(&data->node, root);
- 
- 	return TRUE;
-   }
-@@ -152,14 +152,14 @@ Example::
-   struct mytype *data = mysearch(&mytree, "walrus");
- 
-   if (data) {
--  	rb_erase(&data->node, &mytree);
--  	myfree(data);
-+	rb_erase(&data->node, &mytree);
-+	myfree(data);
-   }
- 
- To replace an existing node in a tree with a new one with the same key, call::
- 
-   void rb_replace_node(struct rb_node *old, struct rb_node *new,
--  			struct rb_root *tree);
-+			struct rb_root *tree);
- 
- Replacing a node this way does not re-sort the tree: If the new node doesn't
- have the same key as the old node, the rbtree will probably become corrupted.
-diff --git a/Documentation/rtc.txt b/Documentation/rtc.txt
-index 688c95b11919..c7647de33c69 100644
---- a/Documentation/rtc.txt
-+++ b/Documentation/rtc.txt
-@@ -86,9 +86,9 @@ a different value to /proc/sys/dev/rtc/max-user-freq. Note that the
- interrupt handler is only a few lines of code to minimize any possibility
- of this effect.
- 
--Also, if the kernel time is synchronized with an external source, the 
--kernel will write the time back to the CMOS clock every 11 minutes. In 
--the process of doing this, the kernel briefly turns off RTC periodic 
-+Also, if the kernel time is synchronized with an external source, the
-+kernel will write the time back to the CMOS clock every 11 minutes. In
-+the process of doing this, the kernel briefly turns off RTC periodic
- interrupts, so be aware of this if you are doing serious work. If you
- don't synchronize the kernel time with an external source (via ntp or
- whatever) then the kernel will keep its hands off the RTC, allowing you
-diff --git a/Documentation/zorro.txt b/Documentation/zorro.txt
-index 664072b017e3..59fb1634d903 100644
---- a/Documentation/zorro.txt
-+++ b/Documentation/zorro.txt
-@@ -77,7 +77,7 @@ The treatment of these regions depends on the type of Zorro space:
- 
-   - Zorro II address space is always mapped and does not have to be mapped
-     explicitly using z_ioremap().
--    
-+
-     Conversion from bus/physical Zorro II addresses to kernel virtual addresses
-     and vice versa is done using::
- 
-@@ -86,7 +86,7 @@ The treatment of these regions depends on the type of Zorro space:
- 
-   - Zorro III address space must be mapped explicitly using z_ioremap() first
-     before it can be accessed::
-- 
-+
- 	virt_addr = z_ioremap(bus_addr, size);
- 	...
- 	z_iounmap(virt_addr);
-@@ -101,4 +101,3 @@ References
- #. linux/arch/m68k/include/asm/zorro.h
- #. linux/drivers/zorro
- #. /proc/bus/zorro
--
+ Depending on the exact configuration, translation between the network packet
+ label and the internal LSM security identifier can be time consuming.  The
 -- 
 2.20.1
 
