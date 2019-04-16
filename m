@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C8AA97D91A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 03:01:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 728607D926
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 03:01:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726775AbfDPDAh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Apr 2019 23:00:37 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:44302 "EHLO
+        id S1727013AbfDPDBA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Apr 2019 23:01:00 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:44286 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726801AbfDPC4d (ORCPT
+        with ESMTP id S1726783AbfDPC4d (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 22:56:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,26 +20,28 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=WqYeRSLC9EuvpodM6VNmO4HsQHOXEAoVN8mffp8BKh8=; b=XeLYFobOnycCXa19yUatArg1RJ
-        e5TYTVQzjvSvV5B7/FzrkMjKpZgMreHAU+MO5h5673ZMonzpana6J73/8DWPdMbNI2qZtH9a+0RKW
-        G0yfvZsH9WO+qJKhWpf6xsC9NjVUbfOszaadZzLU7USCar4LhBczyM6tlRRZP8meaW3OEJUss62B6
-        1BV/yA31PMJ7JdC82lXygVRh76n3qGkddmCowpl+J3RmjuhAq0Dx2Fb5LctXIsO0pt3nNgq9BZ6Y9
-        xSDKiLjFRE5RdZAdaARk6WwpEW1hGW2X3iUSmk/+1xE6fPR4DGEVWiNhns/UFny/tMHWd0vhgMEFg
-        QLgpc25g==;
+        bh=X6PCPujLe0yi/spbjWVARx7ojWRO7h18ZRnSHidvirE=; b=SR3H1Ti6Q2RqQ9OEWS4zWABVnm
+        pw3Prl0FHTVvbCZ0D1Ovz1ikMaqSKgY4lU/hLitySZaWmJp7VH054wz7KogCBxRANJw17RqwHRV5y
+        R96fo0rBaK0A3a4GOemOCtr/i1LYeqbkjklRT0C3lG5rcg+BUsOZzXGuMBWQw/4yffrwkGrnNhDZk
+        sixwsRc4JGfGv41R8B5nNzWli6w3VbKcNQZI2lDzoysGdTxJLyDQhygg/8s8QHkajW7a8oKq8Qbbg
+        6P+W5Lxo17gjOV+EfBrVmL2HWeE3DE/aX/TCHAdXLOfZNq8x/mPGutJ7f0IU2uCyEADBu+dcJbyJA
+        z44KipsQ==;
 Received: from 177.205.118.176.dynamic.adsl.gvt.net.br ([177.205.118.176] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hGEGu-0007aL-JS; Tue, 16 Apr 2019 02:56:32 +0000
+        id 1hGEGu-0007aW-Cv; Tue, 16 Apr 2019 02:56:32 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hGEGo-0001pi-7d; Mon, 15 Apr 2019 23:56:26 -0300
+        id 1hGEGn-0001lz-8S; Mon, 15 Apr 2019 23:56:25 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 48/57] docs: pti_intel_mid.txt: convert to ReST
-Date:   Mon, 15 Apr 2019 23:56:13 -0300
-Message-Id: <10bb7a4443cb9c6e0a85f753b5ac5256d14c17f3.1555382110.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Alan Tull <atull@kernel.org>, Moritz Fischer <mdf@kernel.org>,
+        linux-fpga@vger.kernel.org
+Subject: [PATCH 14/57] docs: fpga: convert it to ReST
+Date:   Mon, 15 Apr 2019 23:55:39 -0300
+Message-Id: <b66aa91ff5b9b3477d21094d3111c1006c59bd42.1555382110.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1555382110.git.mchehab+samsung@kernel.org>
 References: <cover.1555382110.git.mchehab+samsung@kernel.org>
@@ -50,177 +52,144 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Convert this small file to ReST format.
-
-Most of the conversion were related to adjusting whitespaces
-in order for each section to be properly parsed.
+The dfl.txt file is almost there. It needs just a few
+adjustments to be properly parsed.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/pti/pti_intel_mid.txt | 135 ++++++++++++++--------------
- 1 file changed, 70 insertions(+), 65 deletions(-)
+ Documentation/fpga/dfl.txt | 58 +++++++++++++++++++++-----------------
+ 1 file changed, 32 insertions(+), 26 deletions(-)
 
-diff --git a/Documentation/pti/pti_intel_mid.txt b/Documentation/pti/pti_intel_mid.txt
-index e7a5b6d1f7a9..a674317790ba 100644
---- a/Documentation/pti/pti_intel_mid.txt
-+++ b/Documentation/pti/pti_intel_mid.txt
-@@ -1,13 +1,17 @@
-+=============
-+Intel MID PTI
-+=============
+diff --git a/Documentation/fpga/dfl.txt b/Documentation/fpga/dfl.txt
+index 6df4621c3f2a..2f125abd777f 100644
+--- a/Documentation/fpga/dfl.txt
++++ b/Documentation/fpga/dfl.txt
+@@ -1,9 +1,12 @@
+-===============================================================================
+-              FPGA Device Feature List (DFL) Framework Overview
+--------------------------------------------------------------------------------
+-                Enno Luebbers <enno.luebbers@intel.com>
+-                Xiao Guangrong <guangrong.xiao@linux.intel.com>
+-                Wu Hao <hao.wu@intel.com>
++=================================================
++FPGA Device Feature List (DFL) Framework Overview
++=================================================
 +
- The Intel MID PTI project is HW implemented in Intel Atom
- system-on-a-chip designs based on the Parallel Trace
- Interface for MIPI P1149.7 cJTAG standard.  The kernel solution
--for this platform involves the following files:
-+for this platform involves the following files::
++Authors:
++
++- Enno Luebbers <enno.luebbers@intel.com>
++- Xiao Guangrong <guangrong.xiao@linux.intel.com>
++- Wu Hao <hao.wu@intel.com>
  
--./include/linux/pti.h
--./drivers/.../n_tracesink.h
--./drivers/.../n_tracerouter.c
--./drivers/.../n_tracesink.c
--./drivers/.../pti.c
-+	./include/linux/pti.h
-+	./drivers/.../n_tracesink.h
-+	./drivers/.../n_tracerouter.c
-+	./drivers/.../n_tracesink.c
-+	./drivers/.../pti.c
+ The Device Feature List (DFL) FPGA framework (and drivers according to this
+ this framework) hides the very details of low layer hardwares and provides
+@@ -19,7 +22,7 @@ Device Feature List (DFL) defines a linked list of feature headers within the
+ device MMIO space to provide an extensible way of adding features. Software can
+ walk through these predefined data structures to enumerate FPGA features:
+ FPGA Interface Unit (FIU), Accelerated Function Unit (AFU) and Private Features,
+-as illustrated below:
++as illustrated below::
  
- pti.c is the driver that enables various debugging features
- popular on platforms from certain mobile manufacturers.
-@@ -24,13 +28,14 @@ kernel->user->kernel context switch overheads of routing
- data).
+     Header            Header            Header            Header
+  +----------+  +-->+----------+  +-->+----------+  +-->+----------+
+@@ -81,9 +84,9 @@ and release it using close().
  
- An example debugging usage for this driver system:
--   *Hook /dev/ttyPTI0 to syslogd.  Opening this port will also start
-+
-+  * Hook /dev/ttyPTI0 to syslogd.  Opening this port will also start
-     a console device to further capture debugging messages to PTI.
--   *Hook /dev/ttyPTI1 to modem debugging data to write to PTI HW.
-+  * Hook /dev/ttyPTI1 to modem debugging data to write to PTI HW.
-     This is where n_tracerouter and n_tracesink are used.
--   *Hook /dev/pti to a user-level debugging application for writing
-+  * Hook /dev/pti to a user-level debugging application for writing
-     to PTI HW.
--   *Use mipi_* Kernel Driver API in other device drivers for
-+  * `Use mipi_` Kernel Driver API in other device drivers for
-     debugging to PTI by first requesting a PTI write address via
-     mipi_request_masterchannel(1).
+ The following functions are exposed through ioctls:
  
-@@ -42,58 +47,58 @@ but is not just blindly executing as 'root'. Keep in mind
- the use of ioctl(,TIOCSETD,) is not specific to the n_tracerouter
- and n_tracesink line discpline drivers but is a generic
- operation for a program to use a line discpline driver
--on a tty port other than the default n_tty.
--
--/////////// To hook up n_tracerouter and n_tracesink /////////
--
--// Note that n_tracerouter depends on n_tracesink.
--#include <errno.h>
--#define ONE_TTY "/dev/ttyOne"
--#define TWO_TTY "/dev/ttyTwo"
--
--// needed global to hand onto ldisc connection
--static int g_fd_source = -1;
--static int g_fd_sink  = -1;
--
--// these two vars used to grab LDISC values from loaded ldisc drivers
--// in OS.  Look at /proc/tty/ldiscs to get the right numbers from
--// the ldiscs loaded in the system.
--int source_ldisc_num, sink_ldisc_num = -1;
--int retval;
--
--g_fd_source = open(ONE_TTY, O_RDWR); // must be R/W
--g_fd_sink   = open(TWO_TTY, O_RDWR); // must be R/W
--
--if (g_fd_source <= 0) || (g_fd_sink <= 0) {
--   // doubt you'll want to use these exact error lines of code
--   printf("Error on open(). errno: %d\n",errno);
--   return errno;
--}
--
--retval = ioctl(g_fd_sink, TIOCSETD, &sink_ldisc_num);
--if (retval < 0) {
--   printf("Error on ioctl().  errno: %d\n", errno);
--   return errno;
--}
--
--retval = ioctl(g_fd_source, TIOCSETD, &source_ldisc_num);
--if (retval < 0) {
--   printf("Error on ioctl().  errno: %d\n", errno);
--   return errno;
--}
--
--/////////// To disconnect n_tracerouter and n_tracesink ////////
--
--// First make sure data through the ldiscs has stopped.
--
--// Second, disconnect ldiscs.  This provides a
--// little cleaner shutdown on tty stack.
--sink_ldisc_num = 0;
--source_ldisc_num = 0;
--ioctl(g_fd_uart, TIOCSETD, &sink_ldisc_num);
--ioctl(g_fd_gadget, TIOCSETD, &source_ldisc_num);
--
--// Three, program closes connection, and cleanup:
--close(g_fd_uart);
--close(g_fd_gadget);
--g_fd_uart = g_fd_gadget = NULL;
-+on a tty port other than the default n_tty::
+- Get driver API version (DFL_FPGA_GET_API_VERSION)
+- Check for extensions (DFL_FPGA_CHECK_EXTENSION)
+- Program bitstream (DFL_FPGA_FME_PORT_PR)
++- Get driver API version (DFL_FPGA_GET_API_VERSION)
++- Check for extensions (DFL_FPGA_CHECK_EXTENSION)
++- Program bitstream (DFL_FPGA_FME_PORT_PR)
+ 
+ More functions are exposed through sysfs
+ (/sys/class/fpga_region/regionX/dfl-fme.n/):
+@@ -118,18 +121,19 @@ port by using open() on the port device node and release it using close().
+ 
+ The following functions are exposed through ioctls:
+ 
+- Get driver API version (DFL_FPGA_GET_API_VERSION)
+- Check for extensions (DFL_FPGA_CHECK_EXTENSION)
+- Get port info (DFL_FPGA_PORT_GET_INFO)
+- Get MMIO region info (DFL_FPGA_PORT_GET_REGION_INFO)
+- Map DMA buffer (DFL_FPGA_PORT_DMA_MAP)
+- Unmap DMA buffer (DFL_FPGA_PORT_DMA_UNMAP)
+- Reset AFU (*DFL_FPGA_PORT_RESET)
++- Get driver API version (DFL_FPGA_GET_API_VERSION)
++- Check for extensions (DFL_FPGA_CHECK_EXTENSION)
++- Get port info (DFL_FPGA_PORT_GET_INFO)
++- Get MMIO region info (DFL_FPGA_PORT_GET_REGION_INFO)
++- Map DMA buffer (DFL_FPGA_PORT_DMA_MAP)
++- Unmap DMA buffer (DFL_FPGA_PORT_DMA_UNMAP)
++- Reset AFU (DFL_FPGA_PORT_RESET)
+ 
+-*DFL_FPGA_PORT_RESET: reset the FPGA Port and its AFU. Userspace can do Port
+-reset at any time, e.g. during DMA or Partial Reconfiguration. But it should
+-never cause any system level issue, only functional failure (e.g. DMA or PR
+-operation failure) and be recoverable from the failure.
++DFL_FPGA_PORT_RESET:
++  reset the FPGA Port and its AFU. Userspace can do Port
++  reset at any time, e.g. during DMA or Partial Reconfiguration. But it should
++  never cause any system level issue, only functional failure (e.g. DMA or PR
++  operation failure) and be recoverable from the failure.
+ 
+ User-space applications can also mmap() accelerator MMIO regions.
+ 
+@@ -143,6 +147,8 @@ More functions are exposed through sysfs:
+ DFL Framework Overview
+ ======================
+ 
++::
 +
-+  /////////// To hook up n_tracerouter and n_tracesink /////////
-+
-+  // Note that n_tracerouter depends on n_tracesink.
-+  #include <errno.h>
-+  #define ONE_TTY "/dev/ttyOne"
-+  #define TWO_TTY "/dev/ttyTwo"
-+
-+  // needed global to hand onto ldisc connection
-+  static int g_fd_source = -1;
-+  static int g_fd_sink  = -1;
-+
-+  // these two vars used to grab LDISC values from loaded ldisc drivers
-+  // in OS.  Look at /proc/tty/ldiscs to get the right numbers from
-+  // the ldiscs loaded in the system.
-+  int source_ldisc_num, sink_ldisc_num = -1;
-+  int retval;
-+
-+  g_fd_source = open(ONE_TTY, O_RDWR); // must be R/W
-+  g_fd_sink   = open(TWO_TTY, O_RDWR); // must be R/W
-+
-+  if (g_fd_source <= 0) || (g_fd_sink <= 0) {
-+     // doubt you'll want to use these exact error lines of code
-+     printf("Error on open(). errno: %d\n",errno);
-+     return errno;
-+  }
-+
-+  retval = ioctl(g_fd_sink, TIOCSETD, &sink_ldisc_num);
-+  if (retval < 0) {
-+     printf("Error on ioctl().  errno: %d\n", errno);
-+     return errno;
-+  }
-+
-+  retval = ioctl(g_fd_source, TIOCSETD, &source_ldisc_num);
-+  if (retval < 0) {
-+     printf("Error on ioctl().  errno: %d\n", errno);
-+     return errno;
-+  }
-+
-+  /////////// To disconnect n_tracerouter and n_tracesink ////////
-+
-+  // First make sure data through the ldiscs has stopped.
-+
-+  // Second, disconnect ldiscs.  This provides a
-+  // little cleaner shutdown on tty stack.
-+  sink_ldisc_num = 0;
-+  source_ldisc_num = 0;
-+  ioctl(g_fd_uart, TIOCSETD, &sink_ldisc_num);
-+  ioctl(g_fd_gadget, TIOCSETD, &source_ldisc_num);
-+
-+  // Three, program closes connection, and cleanup:
-+  close(g_fd_uart);
-+  close(g_fd_gadget);
-+  g_fd_uart = g_fd_gadget = NULL;
+          +----------+    +--------+ +--------+ +--------+
+          |   FME    |    |  AFU   | |  AFU   | |  AFU   |
+          |  Module  |    | Module | | Module | | Module |
+@@ -151,7 +157,7 @@ DFL Framework Overview
+                  | FPGA Container Device |    Device Feature List
+                  |  (FPGA Base Region)   |         Framework
+                  +-----------------------+
+---------------------------------------------------------------------
++  ------------------------------------------------------------------
+                +----------------------------+
+                |   FPGA DFL Device Module   |
+                | (e.g. PCIE/Platform Device)|
+@@ -220,7 +226,7 @@ the sysfs hierarchy under /sys/class/fpga_region.
+ In the example below, two DFL based FPGA devices are installed in the host. Each
+ fpga device has one FME and two ports (AFUs).
+ 
+-FPGA regions are created under /sys/class/fpga_region/
++FPGA regions are created under /sys/class/fpga_region/::
+ 
+ 	/sys/class/fpga_region/region0
+ 	/sys/class/fpga_region/region1
+@@ -231,7 +237,7 @@ Application needs to search each regionX folder, if feature device is found,
+ (e.g. "dfl-port.n" or "dfl-fme.m" is found), then it's the base
+ fpga region which represents the FPGA device.
+ 
+-Each base region has one FME and two ports (AFUs) as child devices:
++Each base region has one FME and two ports (AFUs) as child devices::
+ 
+ 	/sys/class/fpga_region/region0/dfl-fme.0
+ 	/sys/class/fpga_region/region0/dfl-port.0
+@@ -243,7 +249,7 @@ Each base region has one FME and two ports (AFUs) as child devices:
+ 	/sys/class/fpga_region/region3/dfl-port.3
+ 	...
+ 
+-In general, the FME/AFU sysfs interfaces are named as follows:
++In general, the FME/AFU sysfs interfaces are named as follows::
+ 
+ 	/sys/class/fpga_region/<regionX>/<dfl-fme.n>/
+ 	/sys/class/fpga_region/<regionX>/<dfl-port.m>/
+@@ -251,7 +257,7 @@ In general, the FME/AFU sysfs interfaces are named as follows:
+ with 'n' consecutively numbering all FMEs and 'm' consecutively numbering all
+ ports.
+ 
+-The device nodes used for ioctl() or mmap() can be referenced through:
++The device nodes used for ioctl() or mmap() can be referenced through::
+ 
+ 	/sys/class/fpga_region/<regionX>/<dfl-fme.n>/dev
+ 	/sys/class/fpga_region/<regionX>/<dfl-port.n>/dev
 -- 
 2.20.1
 
