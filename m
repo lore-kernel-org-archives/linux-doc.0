@@ -1,80 +1,118 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6DB097D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 14:00:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 38F427D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 14:19:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727037AbfDPOA0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Apr 2019 10:00:26 -0400
-Received: from ms.lwn.net ([45.79.88.28]:38808 "EHLO ms.lwn.net"
+        id S1726576AbfDPOT5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Apr 2019 10:19:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58736 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726576AbfDPOAZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 16 Apr 2019 10:00:25 -0400
-Received: from lwn.net (localhost [127.0.0.1])
+        id S1725796AbfDPOT5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Apr 2019 10:19:57 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 368F4537;
-        Tue, 16 Apr 2019 14:00:25 +0000 (UTC)
-Date:   Tue, 16 Apr 2019 08:00:24 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mike Snitzer <snitzer@redhat.com>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Alasdair Kergon <agk@redhat.com>,
-        dm-devel@redhat.com
-Subject: Re: [PATCH 10/57] docs: device-mapper: convert it to ReST format
-Message-ID: <20190416080024.7fb65682@lwn.net>
-In-Reply-To: <20190416132851.GA22497@redhat.com>
-References: <cover.1555382110.git.mchehab+samsung@kernel.org>
-        <9dd3c4eca01489bd67ea6de88dfedef8b0e81901.1555382110.git.mchehab+samsung@kernel.org>
-        <20190416132851.GA22497@redhat.com>
-Organization: LWN.net
+        by mail.kernel.org (Postfix) with ESMTPSA id 57B4F223F9;
+        Tue, 16 Apr 2019 14:19:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1555424396;
+        bh=tj2oqLYULvvLSyNlQMoQuuGucML1O57tO2NXSD6MMnM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=IJ9Ugu4BLptS71Y5CUndU9to8xBxIx9YUjFVS3nLcFphIdrBMZDUJxUnCVUWEw9a2
+         vSEW5cqc+unS5wiqaxbjraJGKfzZR0TulGBDx32W9eUcJOkZTCAsDIFg0ousLmk1v0
+         AnH29CN1Hp3SLE5HZvFPL/vwhq4TRu69aFODtQK4=
+Date:   Tue, 16 Apr 2019 15:29:25 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     "Life is hard, and then you die" <ronald@innovation.ch>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] debugfs: make return value of all debugfs helpers
+ consistent
+Message-ID: <20190416132925.GA17483@kroah.com>
+References: <20190415082506.25610-1-ronald@innovation.ch>
+ <20190415082506.25610-3-ronald@innovation.ch>
+ <20190415084844.GA26101@kroah.com>
+ <20190415232959.GC13033@innovation.ch>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190415232959.GC13033@innovation.ch>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 16 Apr 2019 09:28:52 -0400
-Mike Snitzer <snitzer@redhat.com> wrote:
+On Mon, Apr 15, 2019 at 04:29:59PM -0700, Life is hard, and then you die wrote:
+> 
+>   Hi Greg,
+> 
+> On Mon, Apr 15, 2019 at 10:48:44AM +0200, Greg Kroah-Hartman wrote:
+> > On Mon, Apr 15, 2019 at 01:25:06AM -0700, Ronald Tschalär wrote:
+> > > Since commit ff9fb72bc077 ("debugfs: return error values, not NULL")
+> > > almost all the debugfs helpers have stopped returning NULL. The lone
+> > > holdeout was debugfs_create_u32_array(). So fix that.
+> > > 
+> > > Signed-off-by: Ronald Tschalär <ronald@innovation.ch>
+> > > ---
+> > >  fs/debugfs/file.c | 6 +++---
+> > >  1 file changed, 3 insertions(+), 3 deletions(-)
+> > > 
+> > > diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
+> > > index ddd708b09fa1..bb706d073782 100644
+> > > --- a/fs/debugfs/file.c
+> > > +++ b/fs/debugfs/file.c
+> > > @@ -999,8 +999,8 @@ static const struct file_operations u32_array_fops = {
+> > >   * Once array is created its size can not be changed.
+> > >   *
+> > >   * The function returns a pointer to dentry on success. If an error occurs,
+> > > - * %ERR_PTR(-ERROR) or NULL will be returned. If debugfs is not enabled in
+> > > - * the kernel, the value %ERR_PTR(-ENODEV) will be returned.
+> > > + * %ERR_PTR(-ERROR) will be returned. If debugfs is not enabled in the kernel,
+> > > + * the value %ERR_PTR(-ENODEV) will be returned.
+> > >   */
+> > >  struct dentry *debugfs_create_u32_array(const char *name, umode_t mode,
+> > >  					    struct dentry *parent,
+> > > @@ -1009,7 +1009,7 @@ struct dentry *debugfs_create_u32_array(const char *name, umode_t mode,
+> > >  	struct array_data *data = kmalloc(sizeof(*data), GFP_KERNEL);
+> > >  
+> > >  	if (data == NULL)
+> > > -		return NULL;
+> > > +		return ERR_PTR(-ENOMEM);
+> > >  
+> > >  	data->array = array;
+> > >  	data->elements = elements;
+> > 
+> > There is only one caller of this function in the kernel now, and it does
+> > not even care about the return value at all, so we should just remove
+> > the return value entirely as that's the easiest and best thing to do
+> > here.
+> 
+> Interesting argument: since this is a helper/library function, and
+> therefore potentially used in the future by others, it seems to me
+> that consistency with the other functions and providing error feedback
+> would be important.
 
-> Can you help me understand why this is the direction text based
-> Documenation is taking in the Linux kernel?  All I see is markup, and
-> escaping of characters, that is a chore to administer over time.
+Not if you never actually use the return value for anything :)
 
-This is a discussion that was mostly resolved some years ago...
+> > I was going to start doing this slowly over time, but as you are
+> > touching the function now, might as well do it here :)
+> 
+> Are you saying the plan is to make all these helpers return void?
 
-Classic Documentation/ is a jumbled collection of unorganized text files,
-some of which contain highly useful information and others of which
-haven't had much to offer since about 1996.  We are working to turn it
-into an organized collection where, hopefully, some thought has actually
-been given to the people who will be reading it.
+Yes, no caller should do anything "different" based on a return value of
+a debugfs call.  Note, sometimes you do want to save off dentries for
+some files that you later remove, but that's it.
 
-The ReST conversion, in particular, allows us to link documents into a
-larger structure, create indexes and cross references, and produce output
-in formats like HTML and PDF.  It lets us present the documentation like
-this:
+thanks,
 
-	https://www.kernel.org/doc/html/latest/
-
-Among other things, making the documentation more accessible in this way
-makes it easier and more rewarding for developers to improve it, and I
-believe we are seeing the results of that.  Linus called out the
-documentation work in the 5.1-rc1 announcement, for example.
-
-Nobody has complained about the maintenance burden of RST docs - so far as
-I have heard, anyway.  Things do break occasionally, but problems in the
-docs build almost always result from code changes that mess up the
-kerneldoc comments rather than RST changes, and it's been that way for as
-long as I've been paying attention.
-
-Thanks,
-
-jon
+greg k-h
