@@ -5,1909 +5,2174 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A28437D919
+	by archive.lwn.net (Postfix) with ESMTP id 7AFF17D912
 	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 03:01:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726768AbfDPDAF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Apr 2019 23:00:05 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:44288 "EHLO
+        id S1726805AbfDPC4d (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Apr 2019 22:56:33 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:44034 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726784AbfDPC4d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 22:56:33 -0400
+        with ESMTP id S1726702AbfDPC4b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 22:56:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+        To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=DPCTpIHaQiI4S5FshFztm0Ncw7wJUz6angZh4YsfdBc=; b=phfW81g766z6hT178EJ/JBS2aC
-        hhk/TRbblQRhORyqxMbPsyye5Qd5PIL/fRlNNQmHUXVO+omJ+c2GFvxBvZVCNvqkBhOzqzt2KccAz
-        dlqZPZuIeK9c3dsC4KHJlrPfbBQ0j4ri3UlHRRQ287HC0a40aYVXOIYv4rr/ixXZlcENlFJjtGBp3
-        jkxvqh0UiWxh2UCg8DuVVZqYMAFL35ROsxzNtmYCyGmvU3yGg+zuS77AUdY25PYg4mLykBEphpMTh
-        XTeyVL8Rk3tAr8pyCnWmli5Vb+xrRnEbNVX+84vY7N57kokL5NAzU6VxApL1J1SCgFuzh6bsW2/8c
-        wnckr85w==;
+        bh=1XCS9mhVqhMFjbM518EiTeBz7hGKOc7eFkWJ4bAH9Jc=; b=RdVnEEJxKkCgvY1al3ewg/g8lg
+        xXKqWZL1EB317vrRGJaIjLP5hvRnGBzjYREnWzMxUQNg+0ZXlqAolL8Mw+54T9r67uG6m2iqwWoqo
+        AI8K0f6TpSxmpB/Mw3/4xiTZqtrsYyywA7Z/0Vp99znUY7l33kzWA2XSOK4TGtkN3brRx6O6Sgu+P
+        3x0PYTib0vOJhL77dlkvG6hefdvkaR85UP+sJdfSmi+nIEfuwMfH9yDjl2GUl475FhO9YIOFaIh1i
+        VCFpRW8A7fcTGvmK+dTUeAB4LG/ppFRCrJdLPHyPajaTlPjWky/idgzjCD2h8RPGayTe8I0DR0ua9
+        pn/NyR9w==;
 Received: from 177.205.118.176.dynamic.adsl.gvt.net.br ([177.205.118.176] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hGEGt-0007aI-OW; Tue, 16 Apr 2019 02:56:32 +0000
+        id 1hGEGp-0007ao-VQ; Tue, 16 Apr 2019 02:56:29 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hGEGo-0001ps-9O; Mon, 15 Apr 2019 23:56:26 -0300
+        id 1hGEGn-0001oQ-Pz; Mon, 15 Apr 2019 23:56:25 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 50/57] docs: driver-model: convert it to ReST format
-Date:   Mon, 15 Apr 2019 23:56:15 -0300
-Message-Id: <26d54ea7f890853dcc2511447efc325fce2be26d.1555382110.git.mchehab+samsung@kernel.org>
+Subject: [PATCH 33/57] docs: serial: convert it to ReST format
+Date:   Mon, 15 Apr 2019 23:55:58 -0300
+Message-Id: <5b3fe45e414cf1c3ebb1ec5f817f52926dea41fa.1555382110.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1555382110.git.mchehab+samsung@kernel.org>
 References: <cover.1555382110.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Convert the various documents at the driver-model, preparing
-them to be part of the driver-api book.
+The converted files are focused at the Kernel internal API,
+so, this is a good candidate for the kernel API set of books.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/driver-model/binding.txt        |  20 +-
- Documentation/driver-model/bus.txt            |  69 ++--
- Documentation/driver-model/class.txt          |  74 ++--
- .../driver-model/design-patterns.txt          | 106 +++---
- Documentation/driver-model/device.txt         |  57 +--
- Documentation/driver-model/devres.txt         |  50 +--
- Documentation/driver-model/driver.txt         | 112 +++---
- Documentation/driver-model/overview.txt       |  37 +-
- Documentation/driver-model/platform.txt       |  30 +-
- Documentation/driver-model/porting.txt        | 333 +++++++++---------
- 10 files changed, 455 insertions(+), 433 deletions(-)
+ Documentation/serial/README.cycladesZ   |   5 +-
+ Documentation/serial/driver             | 113 +++-
+ Documentation/serial/moxa-smartio       | 750 +++++++++++++-----------
+ Documentation/serial/n_gsm.txt          |  81 +--
+ Documentation/serial/rocket.txt         | 144 +++--
+ Documentation/serial/serial-iso7816.txt |  21 +-
+ Documentation/serial/serial-rs485.txt   |  22 +-
+ Documentation/serial/tty.txt            | 111 ++--
+ 8 files changed, 719 insertions(+), 528 deletions(-)
 
-diff --git a/Documentation/driver-model/binding.txt b/Documentation/driver-model/binding.txt
-index abfc8e290d53..7ea1d7a41e1d 100644
---- a/Documentation/driver-model/binding.txt
-+++ b/Documentation/driver-model/binding.txt
-@@ -1,5 +1,6 @@
--
-+==============
- Driver Binding
-+==============
+diff --git a/Documentation/serial/README.cycladesZ b/Documentation/serial/README.cycladesZ
+index 024a69443cc2..532ff67e2f1c 100644
+--- a/Documentation/serial/README.cycladesZ
++++ b/Documentation/serial/README.cycladesZ
+@@ -1,8 +1,11 @@
++================
++Cyclades-Z notes
++================
  
- Driver binding is the process of associating a device with a device
- driver that can control it. Bus drivers have typically handled this
-@@ -25,7 +26,7 @@ device_register
- When a new device is added, the bus's list of drivers is iterated over
- to find one that supports it. In order to determine that, the device
- ID of the device must match one of the device IDs that the driver
--supports. The format and semantics for comparing IDs is bus-specific. 
-+supports. The format and semantics for comparing IDs is bus-specific.
- Instead of trying to derive a complex state machine and matching
- algorithm, it is up to the bus driver to provide a callback to compare
- a device against the IDs of a driver. The bus returns 1 if a match was
-@@ -36,14 +37,14 @@ int match(struct device * dev, struct device_driver * drv);
- If a match is found, the device's driver field is set to the driver
- and the driver's probe callback is called. This gives the driver a
- chance to verify that it really does support the hardware, and that
--it's in a working state. 
-+it's in a working state.
+ The Cyclades-Z must have firmware loaded onto the card before it will
+ operate.  This operation should be performed during system startup,
  
- Device Class
- ~~~~~~~~~~~~
- 
- Upon the successful completion of probe, the device is registered with
- the class to which it belongs. Device drivers belong to one and only one
--class, and that is set in the driver's devclass field. 
-+class, and that is set in the driver's devclass field.
- devclass_add_device is called to enumerate the device within the class
- and actually register it with the class, which happens with the
- class's register_dev callback.
-@@ -53,7 +54,7 @@ Driver
- ~~~~~~
- 
- When a driver is attached to a device, the device is inserted into the
--driver's list of devices. 
-+driver's list of devices.
- 
- 
- sysfs
-@@ -67,18 +68,18 @@ to the device's directory in the physical hierarchy.
- 
- A directory for the device is created in the class's directory. A
- symlink is created in that directory that points to the device's
--physical location in the sysfs tree. 
-+physical location in the sysfs tree.
- 
- A symlink can be created (though this isn't done yet) in the device's
- physical directory to either its class directory, or the class's
- top-level directory. One can also be created to point to its driver's
--directory also. 
-+directory also.
- 
- 
- driver_register
- ~~~~~~~~~~~~~~~
- 
--The process is almost identical for when a new driver is added. 
-+The process is almost identical for when a new driver is added.
- The bus's list of devices is iterated over to find a match. Devices
- that already have a driver are skipped. All the devices are iterated
- over, to bind as many devices as possible to the driver.
-@@ -94,5 +95,4 @@ of the driver is decremented. All symlinks between the two are removed.
- 
- When a driver is removed, the list of devices that it supports is
- iterated over, and the driver's remove callback is called for each
--one. The device is removed from that list and the symlinks removed. 
--
-+one. The device is removed from that list and the symlinks removed.
-diff --git a/Documentation/driver-model/bus.txt b/Documentation/driver-model/bus.txt
-index c247b488a567..016b15a6e8ea 100644
---- a/Documentation/driver-model/bus.txt
-+++ b/Documentation/driver-model/bus.txt
-@@ -1,5 +1,6 @@
--
--Bus Types 
-+=========
-+Bus Types
-+=========
- 
- Definition
- ~~~~~~~~~~
-@@ -13,12 +14,12 @@ Declaration
- 
- Each bus type in the kernel (PCI, USB, etc) should declare one static
- object of this type. They must initialize the name field, and may
--optionally initialize the match callback.
-+optionally initialize the match callback::
- 
--struct bus_type pci_bus_type = {
--       .name	= "pci",
--       .match	= pci_bus_match,
--};
-+   struct bus_type pci_bus_type = {
-+          .name	= "pci",
-+          .match	= pci_bus_match,
-+   };
- 
- The structure should be exported to drivers in a header file:
- 
-@@ -30,8 +31,8 @@ Registration
- 
- When a bus driver is initialized, it calls bus_register. This
- initializes the rest of the fields in the bus object and inserts it
--into a global list of bus types. Once the bus object is registered, 
--the fields in it are usable by the bus driver. 
-+into a global list of bus types. Once the bus object is registered,
-+the fields in it are usable by the bus driver.
- 
- 
- Callbacks
-@@ -43,17 +44,17 @@ match(): Attaching Drivers to Devices
- The format of device ID structures and the semantics for comparing
- them are inherently bus-specific. Drivers typically declare an array
- of device IDs of devices they support that reside in a bus-specific
--driver structure. 
-+driver structure.
- 
- The purpose of the match callback is to give the bus an opportunity to
- determine if a particular driver supports a particular device by
- comparing the device IDs the driver supports with the device ID of a
- particular device, without sacrificing bus-specific functionality or
--type-safety. 
-+type-safety.
- 
- When a driver is registered with the bus, the bus's list of devices is
- iterated over, and the match callback is called for each device that
--does not have a driver associated with it. 
-+does not have a driver associated with it.
- 
- 
- 
-@@ -64,22 +65,23 @@ The lists of devices and drivers are intended to replace the local
- lists that many buses keep. They are lists of struct devices and
- struct device_drivers, respectively. Bus drivers are free to use the
- lists as they please, but conversion to the bus-specific type may be
--necessary. 
-+necessary.
- 
--The LDM core provides helper functions for iterating over each list.
-+The LDM core provides helper functions for iterating over each list::
- 
--int bus_for_each_dev(struct bus_type * bus, struct device * start, void * data,
--		     int (*fn)(struct device *, void *));
-+  int bus_for_each_dev(struct bus_type * bus, struct device * start,
-+		       void * data,
-+		       int (*fn)(struct device *, void *));
- 
--int bus_for_each_drv(struct bus_type * bus, struct device_driver * start, 
--		     void * data, int (*fn)(struct device_driver *, void *));
-+  int bus_for_each_drv(struct bus_type * bus, struct device_driver * start,
-+		       void * data, int (*fn)(struct device_driver *, void *));
- 
- These helpers iterate over the respective list, and call the callback
- for each device or driver in the list. All list accesses are
- synchronized by taking the bus's lock (read currently). The reference
- count on each object in the list is incremented before the callback is
- called; it is decremented after the next object has been obtained. The
--lock is not held when calling the callback. 
-+lock is not held when calling the callback.
- 
- 
- sysfs
-@@ -87,14 +89,14 @@ sysfs
- There is a top-level directory named 'bus'.
- 
- Each bus gets a directory in the bus directory, along with two default
--directories:
-+directories::
- 
- 	/sys/bus/pci/
- 	|-- devices
- 	`-- drivers
- 
- Drivers registered with the bus get a directory in the bus's drivers
--directory:
-+directory::
- 
- 	/sys/bus/pci/
- 	|-- devices
-@@ -106,7 +108,7 @@ directory:
- 
- Each device that is discovered on a bus of that type gets a symlink in
- the bus's devices directory to the device's directory in the physical
--hierarchy:
-+hierarchy::
- 
- 	/sys/bus/pci/
- 	|-- devices
-@@ -118,26 +120,27 @@ hierarchy:
- 
- Exporting Attributes
- ~~~~~~~~~~~~~~~~~~~~
--struct bus_attribute {
+ The firmware, loader program and the latest device driver code are
+ available from Cyclades at
 +
-+::
-+
-+  struct bus_attribute {
- 	struct attribute	attr;
- 	ssize_t (*show)(struct bus_type *, char * buf);
- 	ssize_t (*store)(struct bus_type *, const char * buf, size_t count);
--};
-+  };
- 
- Bus drivers can export attributes using the BUS_ATTR_RW macro that works
- similarly to the DEVICE_ATTR_RW macro for devices. For example, a
--definition like this:
-+definition like this::
- 
--static BUS_ATTR_RW(debug);
-+	static BUS_ATTR_RW(debug);
- 
--is equivalent to declaring:
-+is equivalent to declaring::
- 
--static bus_attribute bus_attr_debug;
-+	static bus_attribute bus_attr_debug;
- 
- This can then be used to add and remove the attribute from the bus's
--sysfs directory using:
+     ftp://ftp.cyclades.com/pub/cyclades/cyclades-z/linux/
 -
--int bus_create_file(struct bus_type *, struct bus_attribute *);
--void bus_remove_file(struct bus_type *, struct bus_attribute *);
--
-+sysfs directory using::
- 
-+	int bus_create_file(struct bus_type *, struct bus_attribute *);
-+	void bus_remove_file(struct bus_type *, struct bus_attribute *);
-diff --git a/Documentation/driver-model/class.txt b/Documentation/driver-model/class.txt
-index 1fefc480a80b..fff55b80e86a 100644
---- a/Documentation/driver-model/class.txt
-+++ b/Documentation/driver-model/class.txt
+diff --git a/Documentation/serial/driver b/Documentation/serial/driver
+index 86e47c19a924..7fe9e8ec0cae 100644
+--- a/Documentation/serial/driver
++++ b/Documentation/serial/driver
 @@ -1,6 +1,6 @@
 -
-+==============
- Device Classes
--
-+==============
- 
- Introduction
- ~~~~~~~~~~~~
-@@ -13,37 +13,37 @@ device. The following device classes have been identified:
- Each device class defines a set of semantics and a programming interface
- that devices of that class adhere to. Device drivers are the
- implementation of that programming interface for a particular device on
--a particular bus. 
-+a particular bus.
- 
- Device classes are agnostic with respect to what bus a device resides
--on. 
-+on.
+-			Low Level Serial API
+-			--------------------
++====================
++Low Level Serial API
++====================
  
  
- Programming Interface
- ~~~~~~~~~~~~~~~~~~~~~
--The device class structure looks like: 
-+The device class structure looks like::
+ This document is meant as a brief overview of some aspects of the new serial
+@@ -44,7 +44,7 @@ are described in the uart_ops listing below.)
+ There are two locks.  A per-port spinlock, and an overall semaphore.
  
+ From the core driver perspective, the port->lock locks the following
+-data:
++data::
  
--typedef int (*devclass_add)(struct device *);
--typedef void (*devclass_remove)(struct device *);
-+  typedef int (*devclass_add)(struct device *);
-+  typedef void (*devclass_remove)(struct device *);
+ 	port->mctrl
+ 	port->icount
+@@ -75,41 +75,51 @@ hardware.
+ 	return TIOCSER_TEMT.
  
- See the kerneldoc for the struct class.
- 
--A typical device class definition would look like: 
-+A typical device class definition would look like::
- 
--struct device_class input_devclass = {
-+  struct device_class input_devclass = {
-         .name		= "input",
-         .add_device	= input_add_device,
- 	.remove_device	= input_remove_device,
--};
-+  };
- 
- Each device class structure should be exported in a header file so it
- can be used by drivers, extensions and interfaces.
- 
--Device classes are registered and unregistered with the core using: 
-+Device classes are registered and unregistered with the core using::
- 
--int devclass_register(struct device_class * cls);
--void devclass_unregister(struct device_class * cls);
-+  int devclass_register(struct device_class * cls);
-+  void devclass_unregister(struct device_class * cls);
- 
- 
- Devices
-@@ -52,16 +52,16 @@ As devices are bound to drivers, they are added to the device class
- that the driver belongs to. Before the driver model core, this would
- typically happen during the driver's probe() callback, once the device
- has been initialized. It now happens after the probe() callback
--finishes from the core. 
-+finishes from the core.
- 
- The device is enumerated in the class. Each time a device is added to
- the class, the class's devnum field is incremented and assigned to the
- device. The field is never decremented, so if the device is removed
- from the class and re-added, it will receive a different enumerated
--value. 
-+value.
- 
- The class is allowed to create a class-specific structure for the
--device and store it in the device's class_data pointer. 
-+device and store it in the device's class_data pointer.
- 
- There is no list of devices in the device class. Each driver has a
- list of devices that it supports. The device class has a list of
-@@ -73,15 +73,15 @@ Device Drivers
- ~~~~~~~~~~~~~~
- Device drivers are added to device classes when they are registered
- with the core. A driver specifies the class it belongs to by setting
--the struct device_driver::devclass field. 
-+the struct device_driver::devclass field.
- 
- 
- sysfs directory structure
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--There is a top-level sysfs directory named 'class'. 
-+There is a top-level sysfs directory named 'class'.
- 
- Each class gets a directory in the class directory, along with two
--default subdirectories:
-+default subdirectories::
- 
-         class/
-         `-- input
-@@ -89,8 +89,8 @@ default subdirectories:
-             `-- drivers
- 
- 
--Drivers registered with the class get a symlink in the drivers/ directory 
--that points to the driver's directory (under its bus directory):
-+Drivers registered with the class get a symlink in the drivers/ directory
-+that points to the driver's directory (under its bus directory)::
- 
-    class/
-    `-- input
-@@ -99,8 +99,8 @@ that points to the driver's directory (under its bus directory):
-            `-- usb:usb_mouse -> ../../../bus/drivers/usb_mouse/
- 
- 
--Each device gets a symlink in the devices/ directory that points to the 
--device's directory in the physical hierarchy:
-+Each device gets a symlink in the devices/ directory that points to the
-+device's directory in the physical hierarchy::
- 
-    class/
-    `-- input
-@@ -111,37 +111,39 @@ device's directory in the physical hierarchy:
- 
- Exporting Attributes
- ~~~~~~~~~~~~~~~~~~~~
--struct devclass_attribute {
+ 	Locking: none.
 +
-+::
+ 	Interrupts: caller dependent.
 +
-+  struct devclass_attribute {
-         struct attribute        attr;
-         ssize_t (*show)(struct device_class *, char * buf, size_t count, loff_t off);
-         ssize_t (*store)(struct device_class *, const char * buf, size_t count, loff_t off);
--};
-+  };
+ 	This call must not sleep
  
- Class drivers can export attributes using the DEVCLASS_ATTR macro that works
--similarly to the DEVICE_ATTR macro for devices. For example, a definition 
--like this:
-+similarly to the DEVICE_ATTR macro for devices. For example, a definition
-+like this::
- 
--static DEVCLASS_ATTR(debug,0644,show_debug,store_debug);
-+  static DEVCLASS_ATTR(debug,0644,show_debug,store_debug);
- 
--is equivalent to declaring:
-+is equivalent to declaring::
- 
--static devclass_attribute devclass_attr_debug;
-+  static devclass_attribute devclass_attr_debug;
- 
- The bus driver can add and remove the attribute from the class's
--sysfs directory using:
-+sysfs directory using::
- 
--int devclass_create_file(struct device_class *, struct devclass_attribute *);
--void devclass_remove_file(struct device_class *, struct devclass_attribute *);
-+  int devclass_create_file(struct device_class *, struct devclass_attribute *);
-+  void devclass_remove_file(struct device_class *, struct devclass_attribute *);
- 
- In the example above, the file will be named 'debug' in placed in the
--class's directory in sysfs. 
-+class's directory in sysfs.
- 
- 
- Interfaces
- ~~~~~~~~~~
- There may exist multiple mechanisms for accessing the same device of a
--particular class type. Device interfaces describe these mechanisms. 
-+particular class type. Device interfaces describe these mechanisms.
- 
- When a device is added to a device class, the core attempts to add it
- to every interface that is registered with the device class.
--
-diff --git a/Documentation/driver-model/design-patterns.txt b/Documentation/driver-model/design-patterns.txt
-index ba7b2df64904..41eb8f41f7dd 100644
---- a/Documentation/driver-model/design-patterns.txt
-+++ b/Documentation/driver-model/design-patterns.txt
-@@ -1,6 +1,6 @@
--
-+=============================
- Device Driver Design Patterns
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+=============================
- 
- This document describes a few common design patterns found in device drivers.
- It is likely that subsystem maintainers will ask driver developers to
-@@ -19,23 +19,23 @@ that the device the driver binds to will appear in several instances. This
- means that the probe() function and all callbacks need to be reentrant.
- 
- The most common way to achieve this is to use the state container design
--pattern. It usually has this form:
-+pattern. It usually has this form::
- 
--struct foo {
--    spinlock_t lock; /* Example member */
--    (...)
--};
-+  struct foo {
-+      spinlock_t lock; /* Example member */
-+      (...)
-+  };
- 
--static int foo_probe(...)
--{
--    struct foo *foo;
-+  static int foo_probe(...)
-+  {
-+      struct foo *foo;
- 
--    foo = devm_kzalloc(dev, sizeof(*foo), GFP_KERNEL);
--    if (!foo)
--        return -ENOMEM;
--    spin_lock_init(&foo->lock);
--    (...)
--}
-+      foo = devm_kzalloc(dev, sizeof(*foo), GFP_KERNEL);
-+      if (!foo)
-+          return -ENOMEM;
-+      spin_lock_init(&foo->lock);
-+      (...)
-+  }
- 
- This will create an instance of struct foo in memory every time probe() is
- called. This is our state container for this instance of the device driver.
-@@ -43,21 +43,21 @@ Of course it is then necessary to always pass this instance of the
- state around to all functions that need access to the state and its members.
- 
- For example, if the driver is registering an interrupt handler, you would
--pass around a pointer to struct foo like this:
-+pass around a pointer to struct foo like this::
- 
--static irqreturn_t foo_handler(int irq, void *arg)
--{
--    struct foo *foo = arg;
--    (...)
--}
-+  static irqreturn_t foo_handler(int irq, void *arg)
-+  {
-+      struct foo *foo = arg;
-+      (...)
-+  }
- 
--static int foo_probe(...)
--{
--    struct foo *foo;
-+  static int foo_probe(...)
-+  {
-+      struct foo *foo;
- 
--    (...)
--    ret = request_irq(irq, foo_handler, 0, "foo", foo);
--}
-+      (...)
-+      ret = request_irq(irq, foo_handler, 0, "foo", foo);
-+  }
- 
- This way you always get a pointer back to the correct instance of foo in
- your interrupt handler.
-@@ -66,38 +66,38 @@ your interrupt handler.
- 2. container_of()
- ~~~~~~~~~~~~~~~~~
- 
--Continuing on the above example we add an offloaded work:
-+Continuing on the above example we add an offloaded work::
- 
--struct foo {
--    spinlock_t lock;
--    struct workqueue_struct *wq;
--    struct work_struct offload;
--    (...)
--};
-+  struct foo {
-+      spinlock_t lock;
-+      struct workqueue_struct *wq;
-+      struct work_struct offload;
-+      (...)
-+  };
- 
--static void foo_work(struct work_struct *work)
--{
--    struct foo *foo = container_of(work, struct foo, offload);
-+  static void foo_work(struct work_struct *work)
-+  {
-+      struct foo *foo = container_of(work, struct foo, offload);
- 
--    (...)
--}
-+      (...)
-+  }
- 
--static irqreturn_t foo_handler(int irq, void *arg)
--{
--    struct foo *foo = arg;
-+  static irqreturn_t foo_handler(int irq, void *arg)
-+  {
-+      struct foo *foo = arg;
- 
--    queue_work(foo->wq, &foo->offload);
--    (...)
--}
-+      queue_work(foo->wq, &foo->offload);
-+      (...)
-+  }
- 
--static int foo_probe(...)
--{
--    struct foo *foo;
-+  static int foo_probe(...)
-+  {
-+      struct foo *foo;
- 
--    foo->wq = create_singlethread_workqueue("foo-wq");
--    INIT_WORK(&foo->offload, foo_work);
--    (...)
--}
-+      foo->wq = create_singlethread_workqueue("foo-wq");
-+      INIT_WORK(&foo->offload, foo_work);
-+      (...)
-+  }
- 
- The design pattern is the same for an hrtimer or something similar that will
- return a single argument which is a pointer to a struct member in the
-diff --git a/Documentation/driver-model/device.txt b/Documentation/driver-model/device.txt
-index 2403eb856187..2b868d49d349 100644
---- a/Documentation/driver-model/device.txt
-+++ b/Documentation/driver-model/device.txt
-@@ -1,6 +1,6 @@
--
-+==========================
- The Basic Device Structure
--~~~~~~~~~~~~~~~~~~~~~~~~~~
-+==========================
- 
- See the kerneldoc for the struct device.
- 
-@@ -8,9 +8,9 @@ See the kerneldoc for the struct device.
- Programming Interface
- ~~~~~~~~~~~~~~~~~~~~~
- The bus driver that discovers the device uses this to register the
--device with the core:
-+device with the core::
- 
--int device_register(struct device * dev);
-+  int device_register(struct device * dev);
- 
- The bus should initialize the following fields:
- 
-@@ -20,30 +20,33 @@ The bus should initialize the following fields:
-     - bus
- 
- A device is removed from the core when its reference count goes to
--0. The reference count can be adjusted using:
-+0. The reference count can be adjusted using::
- 
--struct device * get_device(struct device * dev);
--void put_device(struct device * dev);
-+  struct device * get_device(struct device * dev);
-+  void put_device(struct device * dev);
- 
- get_device() will return a pointer to the struct device passed to it
- if the reference is not already 0 (if it's in the process of being
- removed already).
- 
--A driver can access the lock in the device structure using: 
-+A driver can access the lock in the device structure using::
- 
--void lock_device(struct device * dev);
--void unlock_device(struct device * dev);
-+  void lock_device(struct device * dev);
-+  void unlock_device(struct device * dev);
- 
- 
- Attributes
- ~~~~~~~~~~
--struct device_attribute {
+   set_mctrl(port, mctrl)
+ 	This function sets the modem control lines for port described
+ 	by 'port' to the state described by mctrl.  The relevant bits
+ 	of mctrl are:
 +
-+::
+ 		- TIOCM_RTS	RTS signal.
+ 		- TIOCM_DTR	DTR signal.
+ 		- TIOCM_OUT1	OUT1 signal.
+ 		- TIOCM_OUT2	OUT2 signal.
+ 		- TIOCM_LOOP	Set the port into loopback mode.
 +
-+  struct device_attribute {
- 	struct attribute	attr;
- 	ssize_t (*show)(struct device *dev, struct device_attribute *attr,
- 			char *buf);
- 	ssize_t (*store)(struct device *dev, struct device_attribute *attr,
- 			 const char *buf, size_t count);
--};
-+  };
+ 	If the appropriate bit is set, the signal should be driven
+ 	active.  If the bit is clear, the signal should be driven
+ 	inactive.
  
- Attributes of devices can be exported by a device driver through sysfs.
+ 	Locking: port->lock taken.
++
+ 	Interrupts: locally disabled.
++
+ 	This call must not sleep
  
-@@ -54,39 +57,39 @@ As explained in Documentation/kobject.txt, device attributes must be
- created before the KOBJ_ADD uevent is generated. The only way to realize
- that is by defining an attribute group.
+   get_mctrl(port)
+ 	Returns the current state of modem control inputs.  The state
+ 	of the outputs should not be returned, since the core keeps
+ 	track of their state.  The state information should include:
++
+ 		- TIOCM_CAR	state of DCD signal
+ 		- TIOCM_CTS	state of CTS signal
+ 		- TIOCM_DSR	state of DSR signal
+ 		- TIOCM_RI	state of RI signal
++
+ 	The bit is set if the signal is currently driven active.  If
+ 	the port does not support CTS, DCD or DSR, the driver should
+ 	indicate that the signal is permanently active.  If RI is
+ 	not available, the signal should not be indicated as active.
  
--Attributes are declared using a macro called DEVICE_ATTR:
-+Attributes are declared using a macro called DEVICE_ATTR::
+ 	Locking: port->lock taken.
++
+ 	Interrupts: locally disabled.
++
+ 	This call must not sleep
  
--#define DEVICE_ATTR(name,mode,show,store)
-+  #define DEVICE_ATTR(name,mode,show,store)
+   stop_tx(port)
+@@ -121,14 +131,18 @@ hardware.
+ 	possible.
  
--Example:
-+Example:::
+ 	Locking: port->lock taken.
++
+ 	Interrupts: locally disabled.
++
+ 	This call must not sleep
  
--static DEVICE_ATTR(type, 0444, show_type, NULL);
--static DEVICE_ATTR(power, 0644, show_power, store_power);
-+  static DEVICE_ATTR(type, 0444, show_type, NULL);
-+  static DEVICE_ATTR(power, 0644, show_power, store_power);
+   start_tx(port)
+ 	Start transmitting characters.
  
- This declares two structures of type struct device_attribute with respective
- names 'dev_attr_type' and 'dev_attr_power'. These two attributes can be
--organized as follows into a group:
-+organized as follows into a group::
+ 	Locking: port->lock taken.
++
+ 	Interrupts: locally disabled.
++
+ 	This call must not sleep
  
--static struct attribute *dev_attrs[] = {
-+  static struct attribute *dev_attrs[] = {
- 	&dev_attr_type.attr,
- 	&dev_attr_power.attr,
- 	NULL,
--};
-+  };
+   throttle(port)
+@@ -138,16 +152,17 @@ hardware.
+ 	This will be called only if hardware assisted flow control is enabled.
  
--static struct attribute_group dev_attr_group = {
-+  static struct attribute_group dev_attr_group = {
- 	.attrs = dev_attrs,
--};
-+  };
+ 	Locking: serialized with .unthrottle() and termios modification by the
+-		 tty layer.
++	tty layer.
  
--static const struct attribute_group *dev_attr_groups[] = {
-+  static const struct attribute_group *dev_attr_groups[] = {
- 	&dev_attr_group,
- 	NULL,
--};
-+  };
+   unthrottle(port)
+ 	Notify the serial driver that characters can now be sent to the serial
+ 	port without fear of overrunning the input buffers of the line
+ 	disciplines.
++
+ 	This will be called only if hardware assisted flow control is enabled.
  
- This array of groups can then be associated with a device by setting the
--group pointer in struct device before device_register() is invoked:
-+group pointer in struct device before device_register() is invoked::
+ 	Locking: serialized with .throttle() and termios modification by the
+-		 tty layer.
++	tty layer.
  
--      dev->groups = dev_attr_groups;
--      device_register(dev);
-+        dev->groups = dev_attr_groups;
-+        device_register(dev);
+   send_xchar(port,ch)
+ 	Transmit a high priority character, even if the port is stopped.
+@@ -159,6 +174,7 @@ hardware.
+ 	Do not transmit if ch == '\0' (__DISABLED_CHAR).
  
- The device_register() function will use the 'groups' pointer to create the
- device attributes and the device_unregister() function will use this pointer
-diff --git a/Documentation/driver-model/devres.txt b/Documentation/driver-model/devres.txt
-index 99994a461359..4f88bdd7d555 100644
---- a/Documentation/driver-model/devres.txt
-+++ b/Documentation/driver-model/devres.txt
-@@ -1,3 +1,4 @@
-+================================
- Devres - Managed Device Resource
- ================================
+ 	Locking: none.
++
+ 	Interrupts: caller dependent.
  
-@@ -5,17 +6,18 @@ Tejun Heo	<teheo@suse.de>
+   stop_rx(port)
+@@ -166,7 +182,9 @@ hardware.
+ 	being closed.
  
- First draft	10 January 2007
+ 	Locking: port->lock taken.
++
+ 	Interrupts: locally disabled.
++
+ 	This call must not sleep
  
-+.. contents
+   enable_ms(port)
+@@ -177,7 +195,9 @@ hardware.
+ 	called.
  
--1. Intro			: Huh? Devres?
--2. Devres			: Devres in a nutshell
--3. Devres Group			: Group devres'es and release them together
--4. Details			: Life time rules, calling context, ...
--5. Overhead			: How much do we have to pay for this?
--6. List of managed interfaces	: Currently implemented managed interfaces
-+   1. Intro			: Huh? Devres?
-+   2. Devres			: Devres in a nutshell
-+   3. Devres Group		: Group devres'es and release them together
-+   4. Details			: Life time rules, calling context, ...
-+   5. Overhead			: How much do we have to pay for this?
-+   6. List of managed interfaces: Currently implemented managed interfaces
+ 	Locking: port->lock taken.
++
+ 	Interrupts: locally disabled.
++
+ 	This call must not sleep
  
+   break_ctl(port,ctl)
+@@ -196,6 +216,7 @@ hardware.
+ 	This method will only be called when the port is initially opened.
  
--  1. Intro
--  --------
-+1. Intro
-+--------
+ 	Locking: port_sem taken.
++
+ 	Interrupts: globally disabled.
  
- devres came up while trying to convert libata to use iomap.  Each
- iomapped address should be kept and unmapped on driver detach.  For
-@@ -42,8 +44,8 @@ would leak resources or even cause oops when failure occurs.  iomap
- adds more to this mix.  So do msi and msix.
+   shutdown(port)
+@@ -210,6 +231,7 @@ hardware.
+ 	this port.
  
+ 	Locking: port_sem taken.
++
+ 	Interrupts: caller dependent.
  
--  2. Devres
--  ---------
-+2. Devres
+   flush_buffer(port)
+@@ -220,7 +242,9 @@ hardware.
+ 	buffer is cleared.
+ 
+ 	Locking: port->lock taken.
++
+ 	Interrupts: locally disabled.
++
+ 	This call must not sleep
+ 
+   set_termios(port,termios,oldtermios)
+@@ -228,29 +252,46 @@ hardware.
+ 	bits.  Update read_status_mask and ignore_status_mask to indicate
+ 	the types of events we are interested in receiving.  Relevant
+ 	termios->c_cflag bits are:
+-		CSIZE	- word size
+-		CSTOPB	- 2 stop bits
+-		PARENB	- parity enable
+-		PARODD	- odd parity (when PARENB is in force)
+-		CREAD	- enable reception of characters (if not set,
++
++		CSIZE
++			- word size
++		CSTOPB
++			- 2 stop bits
++		PARENB
++			- parity enable
++		PARODD
++			- odd parity (when PARENB is in force)
++		CREAD
++			- enable reception of characters (if not set,
+ 			  still receive characters from the port, but
+ 			  throw them away.
+-		CRTSCTS	- if set, enable CTS status change reporting
+-		CLOCAL	- if not set, enable modem status change
++		CRTSCTS
++			- if set, enable CTS status change reporting
++		CLOCAL
++			- if not set, enable modem status change
+ 			  reporting.
++
+ 	Relevant termios->c_iflag bits are:
+-		INPCK	- enable frame and parity error events to be
++
++		INPCK
++			- enable frame and parity error events to be
+ 			  passed to the TTY layer.
+-		BRKINT
+-		PARMRK	- both of these enable break events to be
++		BRKINT / PARMRK
++			- both of these enable break events to be
+ 			  passed to the TTY layer.
+ 
+-		IGNPAR	- ignore parity and framing errors
+-		IGNBRK	- ignore break errors,  If IGNPAR is also
++		IGNPAR
++			- ignore parity and framing errors
++		IGNBRK
++			- ignore break errors,  If IGNPAR is also
+ 			  set, ignore overrun errors as well.
++
+ 	The interaction of the iflag bits is as follows (parity error
+ 	given as an example):
++
++	=============== ======= ======  =============================
+ 	Parity error	INPCK	IGNPAR
++	=============== ======= ======  =============================
+ 	n/a		0	n/a	character received, marked as
+ 					TTY_NORMAL
+ 	None		1	n/a	character received, marked as
+@@ -258,12 +299,15 @@ hardware.
+ 	Yes		1	0	character received, marked as
+ 					TTY_PARITY
+ 	Yes		1	1	character discarded
++	=============== ======= ======  =============================
+ 
+ 	Other flags may be used (eg, xon/xoff characters) if your
+ 	hardware supports hardware "soft" flow control.
+ 
+ 	Locking: caller holds tty_port->mutex
++
+ 	Interrupts: caller dependent.
++
+ 	This call must not sleep
+ 
+   set_ldisc(port,termios)
+@@ -283,6 +327,7 @@ hardware.
+ 	will occur even if CONFIG_PM is not set.
+ 
+ 	Locking: none.
++
+ 	Interrupts: caller dependent.
+ 
+   type(port)
+@@ -291,6 +336,7 @@ hardware.
+ 	substituted.
+ 
+ 	Locking: none.
++
+ 	Interrupts: caller dependent.
+ 
+   release_port(port)
+@@ -298,6 +344,7 @@ hardware.
+ 	the port.
+ 
+ 	Locking: none.
++
+ 	Interrupts: caller dependent.
+ 
+   request_port(port)
+@@ -306,6 +353,7 @@ hardware.
+ 	returns, and it should return -EBUSY on failure.
+ 
+ 	Locking: none.
++
+ 	Interrupts: caller dependent.
+ 
+   config_port(port,type)
+@@ -321,6 +369,7 @@ hardware.
+ 	internally hard wired (eg, system on a chip implementations).
+ 
+ 	Locking: none.
++
+ 	Interrupts: caller dependent.
+ 
+   verify_port(port,serinfo)
+@@ -328,6 +377,7 @@ hardware.
+ 	suitable for this port type.
+ 
+ 	Locking: none.
++
+ 	Interrupts: caller dependent.
+ 
+   ioctl(port,cmd,arg)
+@@ -335,6 +385,7 @@ hardware.
+ 	using the standard numbering system found in <asm/ioctl.h>
+ 
+ 	Locking: none.
++
+ 	Interrupts: caller dependent.
+ 
+   poll_init(port)
+@@ -343,6 +394,7 @@ hardware.
+ 	this should not request interrupts.
+ 
+ 	Locking: tty_mutex and tty_port->mutex taken.
++
+ 	Interrupts: n/a.
+ 
+   poll_put_char(port,ch)
+@@ -350,7 +402,9 @@ hardware.
+ 	port.  It can and should block until there is space in the TX FIFO.
+ 
+ 	Locking: none.
++
+ 	Interrupts: caller dependent.
++
+ 	This call must not sleep
+ 
+   poll_get_char(port)
+@@ -359,7 +413,9 @@ hardware.
+ 	the function should return NO_POLL_CHAR immediately.
+ 
+ 	Locking: none.
++
+ 	Interrupts: caller dependent.
++
+ 	This call must not sleep
+ 
+ Other functions
+@@ -370,6 +426,7 @@ uart_update_timeout(port,cflag,baud)
+ 	number of bits, parity, stop bits and baud rate.
+ 
+ 	Locking: caller is expected to take port->lock
++
+ 	Interrupts: n/a
+ 
+ uart_get_baud_rate(port,termios,old,min,max)
+@@ -385,6 +442,7 @@ uart_get_baud_rate(port,termios,old,min,max)
+ 	Note: min..max must always allow 9600 baud to be selected.
+ 
+ 	Locking: caller dependent.
++
+ 	Interrupts: n/a
+ 
+ uart_get_divisor(port,baud)
+@@ -395,6 +453,7 @@ uart_get_divisor(port,baud)
+ 	custom divisor instead.
+ 
+ 	Locking: caller dependent.
++
+ 	Interrupts: n/a
+ 
+ uart_match_port(port1,port2)
+@@ -402,6 +461,7 @@ uart_match_port(port1,port2)
+ 	uart_port structures describe the same port.
+ 
+ 	Locking: n/a
++
+ 	Interrupts: n/a
+ 
+ uart_write_wakeup(port)
+@@ -409,6 +469,7 @@ uart_write_wakeup(port)
+ 	characters in the transmit buffer have dropped below a threshold.
+ 
+ 	Locking: port->lock should be held.
++
+ 	Interrupts: n/a
+ 
+ uart_register_driver(drv)
+@@ -419,6 +480,7 @@ uart_register_driver(drv)
+ 	registered using uart_add_one_port after this call has succeeded.
+ 
+ 	Locking: none
++
+ 	Interrupts: enabled
+ 
+ uart_unregister_driver()
+@@ -427,15 +489,16 @@ uart_unregister_driver()
+ 	uart_remove_one_port() if it registered them with uart_add_one_port().
+ 
+ 	Locking: none
++
+ 	Interrupts: enabled
+ 
+-uart_suspend_port()
++**uart_suspend_port()**
+ 
+-uart_resume_port()
++**uart_resume_port()**
+ 
+-uart_add_one_port()
++**uart_add_one_port()**
+ 
+-uart_remove_one_port()
++**uart_remove_one_port()**
+ 
+ Other notes
+ -----------
+@@ -444,7 +507,7 @@ It is intended some day to drop the 'unused' entries from uart_port, and
+ allow low level drivers to register their own individual uart_port's with
+ the core.  This will allow drivers to use uart_port as a pointer to a
+ structure containing both the uart_port entry with their own extensions,
+-thus:
++thus::
+ 
+ 	struct my_port {
+ 		struct uart_port	port;
+@@ -459,14 +522,14 @@ Some helpers are provided in order to set/get modem control lines via GPIO.
+ mctrl_gpio_init(port, idx):
+ 	This will get the {cts,rts,...}-gpios from device tree if they are
+ 	present and request them, set direction etc, and return an
+-	allocated structure. devm_* functions are used, so there's no need
++	allocated structure. `devm_*` functions are used, so there's no need
+ 	to call mctrl_gpio_free().
+ 	As this sets up the irq handling make sure to not handle changes to the
+ 	gpio input lines in your driver, too.
+ 
+ mctrl_gpio_free(dev, gpios):
+ 	This will free the requested gpios in mctrl_gpio_init().
+-	As devm_* functions are used, there's generally no need to call
++	As `devm_*` functions are used, there's generally no need to call
+ 	this function.
+ 
+ mctrl_gpio_to_gpiod(gpios, gidx)
+diff --git a/Documentation/serial/moxa-smartio b/Documentation/serial/moxa-smartio
+index 5d2a33be0bd8..156100f17c3f 100644
+--- a/Documentation/serial/moxa-smartio
++++ b/Documentation/serial/moxa-smartio
+@@ -1,28 +1,34 @@
+-=============================================================================
+-          MOXA Smartio/Industio Family Device Driver Installation Guide
+-		    for Linux Kernel 2.4.x, 2.6.x
+-	       Copyright (C) 2008, Moxa Inc.
+-=============================================================================
++=============================================================
++MOXA Smartio/Industio Family Device Driver Installation Guide
++=============================================================
++
++.. note::
++
++   This file is outdated. It needs some care in order to make it
++   updated to Kernel 5.0 and upper
++
++Copyright (C) 2008, Moxa Inc.
++
+ Date: 01/21/2008
+ 
+-Content
++.. Content
+ 
+-1. Introduction
+-2. System Requirement
+-3. Installation
+-   3.1 Hardware installation
+-   3.2 Driver files
+-   3.3 Device naming convention
+-   3.4 Module driver configuration
+-   3.5 Static driver configuration for Linux kernel 2.4.x and 2.6.x.
+-   3.6 Custom configuration
+-   3.7 Verify driver installation
+-4. Utilities
+-5. Setserial
+-6. Troubleshooting
++   1. Introduction
++   2. System Requirement
++   3. Installation
++      3.1 Hardware installation
++      3.2 Driver files
++      3.3 Device naming convention
++      3.4 Module driver configuration
++      3.5 Static driver configuration for Linux kernel 2.4.x and 2.6.x.
++      3.6 Custom configuration
++      3.7 Verify driver installation
++   4. Utilities
++   5. Setserial
++   6. Troubleshooting
+ 
+------------------------------------------------------------------------------
+ 1. Introduction
++^^^^^^^^^^^^^^^
+ 
+    The Smartio/Industio/UPCI family Linux driver supports following multiport
+    boards.
+@@ -43,7 +49,7 @@ Content
+ 	C104H, C104HS,
+ 	CI-104J, CI-104JS,
+ 	CI-134, CI-134I, CI-134IS,
+-	(C114HI, CT-114I, C104P)
++	(C114HI, CT-114I, C104P),
+ 	POS-104UL,
+ 	CB-114,
+ 	CB-134I
+@@ -63,13 +69,17 @@ Content
+    occurs, please contact Moxa at support@moxa.com.tw.
+ 
+    In addition to device driver, useful utilities are also provided in this
+-   version. They are
+-    - msdiag     Diagnostic program for displaying installed Moxa
++   version. They are:
++
++    - msdiag
++		 Diagnostic program for displaying installed Moxa
+                  Smartio/Industio boards.
+-    - msmon      Monitor program to observe data count and line status signals.
++    - msmon
++		 Monitor program to observe data count and line status signals.
+     - msterm     A simple terminal program which is useful in testing serial
+ 	         ports.
+-    - io-irq.exe Configuration program to setup ISA boards. Please note that
++    - io-irq.exe
++		 Configuration program to setup ISA boards. Please note that
+                  this program can only be executed under DOS.
+ 
+    All the drivers and utilities are published in form of source code under
+@@ -84,65 +94,63 @@ Content
+    please refer to hardware installation procedure in the User's Manual.
+ 
+    We assume the user should be familiar with following documents.
++
+    - Serial-HOWTO
+    - Kernel-HOWTO
+ 
+------------------------------------------------------------------------------
+ 2. System Requirement
++^^^^^^^^^^^^^^^^^^^^^
++
+    - Hardware platform: Intel x86 machine
+    - Kernel version: 2.4.x or 2.6.x
+    - gcc version 2.72 or later
+    - Maximum 4 boards can be installed in combination
+ 
+------------------------------------------------------------------------------
+ 3. Installation
++^^^^^^^^^^^^^^^
+ 
+-   3.1 Hardware installation
+-   3.2 Driver files
+-   3.3 Device naming convention
+-   3.4 Module driver configuration
+-   3.5 Static driver configuration for Linux kernel 2.4.x, 2.6.x.
+-   3.6 Custom configuration
+-   3.7 Verify driver installation
++3.1 Hardware installation
++=========================
+ 
++   There are two types of buses, ISA and PCI, for Smartio/Industio
++   family multiport board.
+ 
+-   3.1 Hardware installation
++ISA board
 +---------
  
- devres is basically linked list of arbitrarily sized memory areas
- associated with a struct device.  Each devres entry is associated with
-@@ -58,7 +60,7 @@ using dma_alloc_coherent().  The managed version is called
- dmam_alloc_coherent().  It is identical to dma_alloc_coherent() except
- for the DMA memory allocated using it is managed and will be
- automatically released on driver detach.  Implementation looks like
--the following.
-+the following::
+-       There are two types of buses, ISA and PCI, for Smartio/Industio
+-       family multiport board.
++   You'll have to configure CAP address, I/O address, Interrupt Vector
++   as well as IRQ before installing this driver. Please refer to hardware
++   installation procedure in User's Manual before proceed any further.
++   Please make sure the JP1 is open after the ISA board is set properly.
  
-   struct dma_devres {
- 	size_t		size;
-@@ -98,7 +100,7 @@ If a driver uses dmam_alloc_coherent(), the area is guaranteed to be
- freed whether initialization fails half-way or the device gets
- detached.  If most resources are acquired using managed interface, a
- driver can have much simpler init and exit code.  Init path basically
--looks like the following.
-+looks like the following::
+-       ISA board
+-       ---------
+-       You'll have to configure CAP address, I/O address, Interrupt Vector
+-       as well as IRQ before installing this driver. Please refer to hardware
+-       installation procedure in User's Manual before proceed any further.
+-       Please make sure the JP1 is open after the ISA board is set properly.
++PCI/UPCI board
++--------------
  
-   my_init_one()
-   {
-@@ -119,7 +121,7 @@ looks like the following.
- 	return register_to_upper_layer(d);
-   }
+-       PCI/UPCI board
+-       --------------
+-       You may need to adjust IRQ usage in BIOS to avoid from IRQ conflict
+-       with other ISA devices. Please refer to hardware installation
+-       procedure in User's Manual in advance.
++   You may need to adjust IRQ usage in BIOS to avoid from IRQ conflict
++   with other ISA devices. Please refer to hardware installation
++   procedure in User's Manual in advance.
  
--And exit path,
-+And exit path::
- 
-   my_remove_one()
-   {
-@@ -140,13 +142,13 @@ on you. In some cases this may mean introducing checks that were not
- necessary before moving to the managed devm_* calls.
- 
- 
--  3. Devres group
--  ---------------
-+3. Devres group
+-       PCI IRQ Sharing
+-       -----------
+-       Each port within the same multiport board shares the same IRQ. Up to
+-       4 Moxa Smartio/Industio PCI Family multiport boards can be installed
+-       together on one system and they can share the same IRQ.
++PCI IRQ Sharing
 +---------------
  
- Devres entries can be grouped using devres group.  When a group is
- released, all contained normal devres entries and properly nested
- groups are released.  One usage is to rollback series of acquired
--resources on failure.  For example,
-+resources on failure.  For example::
++   Each port within the same multiport board shares the same IRQ. Up to
++   4 Moxa Smartio/Industio PCI Family multiport boards can be installed
++   together on one system and they can share the same IRQ.
  
-   if (!devres_open_group(dev, NULL, GFP_KERNEL))
- 	return -ENOMEM;
-@@ -172,7 +174,7 @@ like above are usually useful in midlayer driver (e.g. libata core
- layer) where interface function shouldn't have side effect on failure.
- For LLDs, just returning error code suffices in most cases.
+-   3.2 Driver files
  
--Each group is identified by void *id.  It can either be explicitly
-+Each group is identified by `void *id`.  It can either be explicitly
- specified by @id argument to devres_open_group() or automatically
- created by passing NULL as @id as in the above example.  In both
- cases, devres_open_group() returns the group's id.  The returned id
-@@ -180,7 +182,7 @@ can be passed to other devres functions to select the target group.
- If NULL is given to those functions, the latest open group is
- selected.
+-       The driver file may be obtained from ftp, CD-ROM or floppy disk. The
+-       first step, anyway, is to copy driver file "mxser.tgz" into specified
+-       directory. e.g. /moxa. The execute commands as below.
++3.2 Driver files
++================
++
++   The driver file may be obtained from ftp, CD-ROM or floppy disk. The
++   first step, anyway, is to copy driver file "mxser.tgz" into specified
++   directory. e.g. /moxa. The execute commands as below::
  
--For example, you can do something like the following.
-+For example, you can do something like the following::
+        # cd /
+        # mkdir moxa
+        # cd /moxa
+        # tar xvf /dev/fd0
  
-   int my_midlayer_create_something()
-   {
-@@ -199,8 +201,8 @@ For example, you can do something like the following.
-   }
+-       or
++or::
  
- 
--  4. Details
--  ----------
-+4. Details
-+----------
- 
- Lifetime of a devres entry begins on devres allocation and finishes
- when it is released or destroyed (removed and freed) - no reference
-@@ -220,8 +222,8 @@ All devres interface functions can be called without context if the
- right gfp mask is given.
+        # cd /
+        # mkdir moxa
+@@ -151,278 +159,348 @@ Content
+        # tar xvfz mxser.tgz
  
  
--  5. Overhead
--  -----------
-+5. Overhead
-+-----------
+-   3.3 Device naming convention
+-
+-       You may find all the driver and utilities files in /moxa/mxser.
+-       Following installation procedure depends on the model you'd like to
+-       run the driver. If you prefer module driver, please refer to 3.4.
+-       If static driver is required, please refer to 3.5.
+-
+-       Dialin and callout port
+-       -----------------------
+-       This driver remains traditional serial device properties. There are
+-       two special file name for each serial port. One is dial-in port
+-       which is named "ttyMxx". For callout port, the naming convention
+-       is "cumxx".
+-
+-       Device naming when more than 2 boards installed
+-       -----------------------------------------------
+-       Naming convention for each Smartio/Industio multiport board is
+-       pre-defined as below.
+-
+-       Board Num.	 Dial-in Port	      Callout port
+-       1st board	ttyM0  - ttyM7	      cum0  - cum7
+-       2nd board	ttyM8  - ttyM15       cum8  - cum15
+-       3rd board	ttyM16 - ttyM23       cum16 - cum23
+-       4th board	ttyM24 - ttym31       cum24 - cum31
+-
+-
+-       !!!!!!!!!!!!!!!!!!!! NOTE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+-       Under Kernel 2.6 the cum Device is Obsolete. So use ttyM*
+-       device instead.
+-       !!!!!!!!!!!!!!!!!!!! NOTE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+-
+-       Board sequence
+-       --------------
+-       This driver will activate ISA boards according to the parameter set
+-       in the driver. After all specified ISA board activated, PCI board
+-       will be installed in the system automatically driven.
+-       Therefore the board number is sorted by the CAP address of ISA boards.
+-       For PCI boards, their sequence will be after ISA boards and C168H/PCI
+-       has higher priority than C104H/PCI boards.
+-
+-   3.4 Module driver configuration
+-       Module driver is easiest way to install. If you prefer static driver
+-       installation, please skip this paragraph.
+-
+-
+-       ------------- Prepare to use the MOXA driver--------------------
+-       3.4.1 Create tty device with correct major number
+-          Before using MOXA driver, your system must have the tty devices
+-          which are created with driver's major number. We offer one shell
+-          script "msmknod" to simplify the procedure.
+-          This step is only needed to be executed once. But you still
+-          need to do this procedure when:
+-          a. You change the driver's major number. Please refer the "3.7"
+-             section.
+-          b. Your total installed MOXA boards number is changed. Maybe you
+-             add/delete one MOXA board.
+-          c. You want to change the tty name. This needs to modify the
+-             shell script "msmknod"
+-
+-          The procedure is:
+-	  # cd /moxa/mxser/driver
+-	  # ./msmknod
+-
+-          This shell script will require the major number for dial-in
+-          device and callout device to create tty device. You also need
+-          to specify the total installed MOXA board number. Default major
+-          numbers for dial-in device and callout device are 30, 35. If
+-          you need to change to other number, please refer section "3.7"
+-          for more detailed procedure.
+-          Msmknod will delete any special files occupying the same device
+-          naming.
+-
+-       3.4.2 Build the MOXA driver and utilities
+-          Before using the MOXA driver and utilities, you need compile the
+-          all the source code. This step is only need to be executed once.
+-          But you still re-compile the source code if you modify the source
+-          code. For example, if you change the driver's major number (see
+-          "3.7" section), then you need to do this step again.
+-
+-          Find "Makefile" in /moxa/mxser, then run
+-
+-	  # make clean; make install
+-
+-          !!!!!!!!!! NOTE !!!!!!!!!!!!!!!!!
+-	  For Red Hat 9, Red Hat Enterprise Linux AS3/ES3/WS3 & Fedora Core1:
+-	  # make clean; make installsp1
+-
+-	  For Red Hat Enterprise Linux AS4/ES4/WS4:
+-	  # make clean; make installsp2
+-          !!!!!!!!!! NOTE !!!!!!!!!!!!!!!!!
+-
+-	  The driver files "mxser.o" and utilities will be properly compiled
+-	  and copied to system directories respectively.
+-
+-       ------------- Load MOXA driver--------------------
+-       3.4.3 Load the MOXA driver
+-
+-	  # modprobe mxser <argument>
+-
+-	  will activate the module driver. You may run "lsmod" to check
+-	  if "mxser" is activated. If the MOXA board is ISA board, the
+-          <argument> is needed. Please refer to section "3.4.5" for more
+-          information.
+-
+-
+-       ------------- Load MOXA driver on boot --------------------
+-       3.4.4 For the above description, you may manually execute
+-          "modprobe mxser" to activate this driver and run
+-	  "rmmod mxser" to remove it.
+-          However, it's better to have a boot time configuration to
+-          eliminate manual operation. Boot time configuration can be
+-          achieved by rc file. We offer one "rc.mxser" file to simplify
+-          the procedure under "moxa/mxser/driver".
+-
+-          But if you use ISA board, please modify the "modprobe ..." command
+-          to add the argument (see "3.4.5" section). After modifying the
+-          rc.mxser, please try to execute "/moxa/mxser/driver/rc.mxser"
+-          manually to make sure the modification is ok. If any error
+-          encountered, please try to modify again. If the modification is
+-          completed, follow the below step.
+-
+-	  Run following command for setting rc files.
+-
+-	  # cd /moxa/mxser/driver
+-	  # cp ./rc.mxser /etc/rc.d
+-	  # cd /etc/rc.d
+-
+-	  Check "rc.serial" is existed or not. If "rc.serial" doesn't exist,
+-	  create it by vi, run "chmod 755 rc.serial" to change the permission.
+-	  Add "/etc/rc.d/rc.mxser" in last line,
+-
+-          Reboot and check if moxa.o activated by "lsmod" command.
+-
+-       3.4.5. If you'd like to drive Smartio/Industio ISA boards in the system,
+-          you'll have to add parameter to specify CAP address of given
+-	  board while activating "mxser.o". The format for parameters are
+-	  as follows.
+-
+-	  modprobe mxser ioaddr=0x???,0x???,0x???,0x???
+-				|      |     |	  |
+-				|      |     |	  +- 4th ISA board
+-				|      |     +------ 3rd ISA board
+-				|      +------------ 2nd ISA board
+-				+------------------- 1st ISA board
+-
+-   3.5 Static driver configuration for Linux kernel 2.4.x and 2.6.x
+-
+-       Note: To use static driver, you must install the linux kernel
+-             source package.
+-
+-       3.5.1 Backup the built-in driver in the kernel.
+-          # cd /usr/src/linux/drivers/char
+-          # mv mxser.c mxser.c.old
+-
+-          For Red Hat 7.x user, you need to create link:
+-          # cd /usr/src
+-          # ln -s linux-2.4 linux
++3.3 Device naming convention
++============================
++
++   You may find all the driver and utilities files in /moxa/mxser.
++   Following installation procedure depends on the model you'd like to
++   run the driver. If you prefer module driver, please refer to 3.4.
++   If static driver is required, please refer to 3.5.
++
++Dialin and callout port
++-----------------------
++
++   This driver remains traditional serial device properties. There are
++   two special file name for each serial port. One is dial-in port
++   which is named "ttyMxx". For callout port, the naming convention
++   is "cumxx".
++
++Device naming when more than 2 boards installed
++-----------------------------------------------
++
++   Naming convention for each Smartio/Industio multiport board is
++   pre-defined as below.
++
++   ============ ===============       ==============
++   Board Num.	 Dial-in Port	      Callout port
++   1st board	ttyM0  - ttyM7	      cum0  - cum7
++   2nd board	ttyM8  - ttyM15       cum8  - cum15
++   3rd board	ttyM16 - ttyM23       cum16 - cum23
++   4th board	ttyM24 - ttym31       cum24 - cum31
++   ============ ===============       ==============
++
++.. note::
++
++   Under Kernel 2.6 and upper, the cum Device is Obsolete. So use ttyM*
++   device instead.
++
++Board sequence
++--------------
++
++   This driver will activate ISA boards according to the parameter set
++   in the driver. After all specified ISA board activated, PCI board
++   will be installed in the system automatically driven.
++   Therefore the board number is sorted by the CAP address of ISA boards.
++   For PCI boards, their sequence will be after ISA boards and C168H/PCI
++   has higher priority than C104H/PCI boards.
++
++3.4 Module driver configuration
++===============================
++
++   Module driver is easiest way to install. If you prefer static driver
++   installation, please skip this paragraph.
++
++
++   ------------- Prepare to use the MOXA driver --------------------
++
++3.4.1 Create tty device with correct major number
++-------------------------------------------------
++
++   Before using MOXA driver, your system must have the tty devices
++   which are created with driver's major number. We offer one shell
++   script "msmknod" to simplify the procedure.
++   This step is only needed to be executed once. But you still
++   need to do this procedure when:
++
++   a. You change the driver's major number. Please refer the "3.7"
++      section.
++   b. Your total installed MOXA boards number is changed. Maybe you
++      add/delete one MOXA board.
++   c. You want to change the tty name. This needs to modify the
++      shell script "msmknod"
++
++   The procedure is::
++
++	 # cd /moxa/mxser/driver
++	 # ./msmknod
++
++   This shell script will require the major number for dial-in
++   device and callout device to create tty device. You also need
++   to specify the total installed MOXA board number. Default major
++   numbers for dial-in device and callout device are 30, 35. If
++   you need to change to other number, please refer section "3.7"
++   for more detailed procedure.
++   Msmknod will delete any special files occupying the same device
++   naming.
++
++3.4.2 Build the MOXA driver and utilities
++-----------------------------------------
++
++   Before using the MOXA driver and utilities, you need compile the
++   all the source code. This step is only need to be executed once.
++   But you still re-compile the source code if you modify the source
++   code. For example, if you change the driver's major number (see
++   "3.7" section), then you need to do this step again.
++
++   Find "Makefile" in /moxa/mxser, then run
++
++	 # make clean; make install
++
++   ..note::
++
++	 For Red Hat 9, Red Hat Enterprise Linux AS3/ES3/WS3 & Fedora Core1:
++	 # make clean; make installsp1
++
++	 For Red Hat Enterprise Linux AS4/ES4/WS4:
++	 # make clean; make installsp2
++
++   The driver files "mxser.o" and utilities will be properly compiled
++   and copied to system directories respectively.
++
++------------- Load MOXA driver--------------------
++
++3.4.3 Load the MOXA driver
++--------------------------
++
++   ::
++
++	 # modprobe mxser <argument>
++
++   will activate the module driver. You may run "lsmod" to check
++   if "mxser" is activated. If the MOXA board is ISA board, the
++   <argument> is needed. Please refer to section "3.4.5" for more
++   information.
++
++------------- Load MOXA driver on boot --------------------
++
++3.4.4 Load the mxser driver
++---------------------------
++
++
++   For the above description, you may manually execute
++   "modprobe mxser" to activate this driver and run
++   "rmmod mxser" to remove it.
++
++   However, it's better to have a boot time configuration to
++   eliminate manual operation. Boot time configuration can be
++   achieved by rc file. We offer one "rc.mxser" file to simplify
++   the procedure under "moxa/mxser/driver".
++
++   But if you use ISA board, please modify the "modprobe ..." command
++   to add the argument (see "3.4.5" section). After modifying the
++   rc.mxser, please try to execute "/moxa/mxser/driver/rc.mxser"
++   manually to make sure the modification is ok. If any error
++   encountered, please try to modify again. If the modification is
++   completed, follow the below step.
++
++   Run following command for setting rc files::
++
++	 # cd /moxa/mxser/driver
++	 # cp ./rc.mxser /etc/rc.d
++	 # cd /etc/rc.d
++
++   Check "rc.serial" is existed or not. If "rc.serial" doesn't exist,
++   create it by vi, run "chmod 755 rc.serial" to change the permission.
++
++   Add "/etc/rc.d/rc.mxser" in last line.
++
++   Reboot and check if moxa.o activated by "lsmod" command.
++
++3.4.5. specify CAP address
++--------------------------
++
++   If you'd like to drive Smartio/Industio ISA boards in the system,
++   you'll have to add parameter to specify CAP address of given
++   board while activating "mxser.o". The format for parameters are
++   as follows.::
++
++	   modprobe mxser ioaddr=0x???,0x???,0x???,0x???
++				  |  |  |    |
++				  |  |  |    +- 4th ISA board
++				  |  |  +------ 3rd ISA board
++				  |  +------------ 2nd ISA board
++				  +-------------------1st ISA board
++
++3.5 Static driver configuration for Linux kernel 2.4.x and 2.6.x
++================================================================
++
++    Note:
++          To use static driver, you must install the linux kernel
++          source package.
++
++3.5.1 Backup the built-in driver in the kernel
++----------------------------------------------
++
++    ::
++
++       # cd /usr/src/linux/drivers/char
++       # mv mxser.c mxser.c.old
++
++       For Red Hat 7.x user, you need to create link:
++       # cd /usr/src
++       # ln -s linux-2.4 linux
++
++3.5.2 Create link
++-----------------
++    ::
  
- Each devres bookkeeping info is allocated together with requested data
- area.  With debug option turned off, bookkeeping info occupies 16
-@@ -237,8 +239,8 @@ and 400 bytes on 32bit machine after naive conversion (we can
- certainly invest a bit more effort into libata core layer).
+-       3.5.2 Create link
+ 	  # cd /usr/src/linux/drivers/char
+ 	  # ln -s /moxa/mxser/driver/mxser.c mxser.c
+ 
+-       3.5.3 Add CAP address list for ISA boards. For PCI boards user,
+-          please skip this step.
+-
+-	  In module mode, the CAP address for ISA board is given by
+-	  parameter. In static driver configuration, you'll have to
+-	  assign it within driver's source code. If you will not
+-	  install any ISA boards, you may skip to next portion.
+-	  The instructions to modify driver source code are as
+-	  below.
+-	  a. # cd /moxa/mxser/driver
+-	     # vi mxser.c
+-	  b. Find the array mxserBoardCAP[] as below.
+-
+-	     static int mxserBoardCAP[]
+-	     = {0x00, 0x00, 0x00, 0x00};
+-
+-	  c. Change the address within this array using vi. For
+-	     example, to driver 2 ISA boards with CAP address
+-	     0x280 and 0x180 as 1st and 2nd board. Just to change
+-	     the source code as follows.
+-
+-	     static int mxserBoardCAP[]
+-	     = {0x280, 0x180, 0x00, 0x00};
+-
+-       3.5.4 Setup kernel configuration
+-
+-          Configure the kernel:
+-
+-            # cd /usr/src/linux
+-            # make menuconfig
+-
+-          You will go into a menu-driven system. Please select [Character
+-          devices][Non-standard serial port support], enable the [Moxa
+-          SmartIO support] driver with "[*]" for built-in (not "[M]"), then
+-          select [Exit] to exit this program.
+-
+-       3.5.5 Rebuild kernel
+-	  The following are for Linux kernel rebuilding, for your
+-          reference only.
+-	  For appropriate details, please refer to the Linux document.
+-
+-	   a. cd /usr/src/linux
+-	   b. make clean	     /* take a few minutes */
+-	   c. make dep		     /* take a few minutes */
+-	   d. make bzImage	     /* take probably 10-20 minutes */
+-	   e. make install	     /* copy boot image to correct position */
+-	   f. Please make sure the boot kernel (vmlinuz) is in the
+-	      correct position.
+-	   g. If you use 'lilo' utility, you should check /etc/lilo.conf
+-	      'image' item specified the path which is the 'vmlinuz' path,
+-	      or you will load wrong (or old) boot kernel image (vmlinuz).
+-	      After checking /etc/lilo.conf, please run "lilo".
++3.5.3 Add CAP address list for ISA boards.
++------------------------------------------
++
++    For PCI boards user, please skip this step.
++
++    In module mode, the CAP address for ISA board is given by
++    parameter. In static driver configuration, you'll have to
++    assign it within driver's source code. If you will not
++    install any ISA boards, you may skip to next portion.
++    The instructions to modify driver source code are as
++    below.
++
++    a. run::
++
++	# cd /moxa/mxser/driver
++	# vi mxser.c
++
++    b. Find the array mxserBoardCAP[] as below::
++
++	  static int mxserBoardCAP[] = {0x00, 0x00, 0x00, 0x00};
++
++    c. Change the address within this array using vi. For
++       example, to driver 2 ISA boards with CAP address
++       0x280 and 0x180 as 1st and 2nd board. Just to change
++       the source code as follows::
++
++	  static int mxserBoardCAP[] = {0x280, 0x180, 0x00, 0x00};
++
++3.5.4 Setup kernel configuration
++--------------------------------
++
++    Configure the kernel::
++
++      # cd /usr/src/linux
++      # make menuconfig
++
++    You will go into a menu-driven system. Please select [Character
++    devices][Non-standard serial port support], enable the [Moxa
++    SmartIO support] driver with "[*]" for built-in (not "[M]"), then
++    select [Exit] to exit this program.
++
++3.5.5 Rebuild kernel
++--------------------
++
++    The following are for Linux kernel rebuilding, for your
++    reference only.
++
++    For appropriate details, please refer to the Linux document:
++
++        a. Run the following commands::
++
++	     cd /usr/src/linux
++	     make clean		     # take a few minutes
++	     make dep		     # take a few minutes
++	     make bzImage	     # take probably 10-20 minutes
++	     make install	     # copy boot image to correct position
++
++	f. Please make sure the boot kernel (vmlinuz) is in the
++	   correct position.
++	g. If you use 'lilo' utility, you should check /etc/lilo.conf
++	   'image' item specified the path which is the 'vmlinuz' path,
++	   or you will load wrong (or old) boot kernel image (vmlinuz).
++	   After checking /etc/lilo.conf, please run "lilo".
+ 
+ 	  Note that if the result of "make bzImage" is ERROR, then you have to
+ 	  go back to Linux configuration Setup. Type "make menuconfig" in
+           directory /usr/src/linux.
  
  
--  6. List of managed interfaces
--  -----------------------------
-+6. List of managed interfaces
+-       3.5.6 Make tty device and special file
+-          # cd /moxa/mxser/driver
+-          # ./msmknod
++3.5.6 Make tty device and special file
++--------------------------------------
++
++    ::
++       # cd /moxa/mxser/driver
++       # ./msmknod
++
++3.5.7 Make utility
++------------------
++
++    ::
+ 
+-       3.5.7 Make utility
+ 	  # cd /moxa/mxser/utility
+ 	  # make clean; make install
+ 
+-       3.5.8 Reboot
+-
+-
+-
+-   3.6 Custom configuration
+-       Although this driver already provides you default configuration, you
+-       still can change the device name and major number. The instruction to
+-       change these parameters are shown as below.
+-
+-       Change Device name
+-       ------------------
+-       If you'd like to use other device names instead of default naming
+-       convention, all you have to do is to modify the internal code
+-       within the shell script "msmknod". First, you have to open "msmknod"
+-       by vi. Locate each line contains "ttyM" and "cum" and change them
+-       to the device name you desired. "msmknod" creates the device names
+-       you need next time executed.
+-
+-       Change Major number
+-       -------------------
+-       If major number 30 and 35 had been occupied, you may have to select
+-       2 free major numbers for this driver. There are 3 steps to change
+-       major numbers.
+-
+-       3.6.1 Find free major numbers
+-	  In /proc/devices, you may find all the major numbers occupied
+-	  in the system. Please select 2 major numbers that are available.
+-	  e.g. 40, 45.
+-       3.6.2 Create special files
+-	  Run /moxa/mxser/driver/msmknod to create special files with
+-	  specified major numbers.
+-       3.6.3 Modify driver with new major number
+-	  Run vi to open /moxa/mxser/driver/mxser.c. Locate the line
+-	  contains "MXSERMAJOR". Change the content as below.
++3.5.8 Reboot
++------------
++
++
++
++3.6 Custom configuration
++========================
++
++    Although this driver already provides you default configuration, you
++    still can change the device name and major number. The instruction to
++    change these parameters are shown as below.
++
++a. Change Device name
++
++    If you'd like to use other device names instead of default naming
++    convention, all you have to do is to modify the internal code
++    within the shell script "msmknod". First, you have to open "msmknod"
++    by vi. Locate each line contains "ttyM" and "cum" and change them
++    to the device name you desired. "msmknod" creates the device names
++    you need next time executed.
++
++b. Change Major number
++
++    If major number 30 and 35 had been occupied, you may have to select
++    2 free major numbers for this driver. There are 3 steps to change
++    major numbers.
++
++3.6.1 Find free major numbers
 +-----------------------------
++
++    In /proc/devices, you may find all the major numbers occupied
++    in the system. Please select 2 major numbers that are available.
++    e.g. 40, 45.
++
++3.6.2 Create special files
++--------------------------
++
++   Run /moxa/mxser/driver/msmknod to create special files with
++   specified major numbers.
++
++3.6.3 Modify driver with new major number
++-----------------------------------------
++
++   Run vi to open /moxa/mxser/driver/mxser.c. Locate the line
++   contains "MXSERMAJOR". Change the content as below::
++
+ 	  #define	  MXSERMAJOR		  40
+ 	  #define	  MXSERCUMAJOR		  45
+-       3.6.4 Run "make clean; make install" in /moxa/mxser/driver.
  
- CLOCK
-   devm_clk_get()
-diff --git a/Documentation/driver-model/driver.txt b/Documentation/driver-model/driver.txt
-index d661e6f7e6a0..11d281506a04 100644
---- a/Documentation/driver-model/driver.txt
-+++ b/Documentation/driver-model/driver.txt
+-   3.7 Verify driver installation
+-       You may refer to /var/log/messages to check the latest status
+-       log reported by this driver whenever it's activated.
++    3.6.4 Run "make clean; make install" in /moxa/mxser/driver.
++
++3.7 Verify driver installation
++==============================
++
++    You may refer to /var/log/messages to check the latest status
++    log reported by this driver whenever it's activated.
+ 
+------------------------------------------------------------------------------
+ 4. Utilities
++^^^^^^^^^^^^
++
+    There are 3 utilities contained in this driver. They are msdiag, msmon and
+    msterm. These 3 utilities are released in form of source code. They should
+    be compiled into executable file and copied into /usr/bin.
+@@ -430,16 +508,19 @@ Content
+    Before using these utilities, please load driver (refer 3.4 & 3.5) and
+    make sure you had run the "msmknod" utility.
+ 
+-   msdiag - Diagnostic
+-   --------------------
++msdiag - Diagnostic
++===================
++
+    This utility provides the function to display what Moxa Smartio/Industio
+    board found by driver in the system.
+ 
+-   msmon - Port Monitoring
+-   -----------------------
++msmon - Port Monitoring
++=======================
++
+    This utility gives the user a quick view about all the MOXA ports'
+    activities. One can easily learn each port's total received/transmitted
+    (Rx/Tx) character count since the time when the monitoring is started.
++
+    Rx/Tx throughputs per second are also reported in interval basis (e.g.
+    the last 5 seconds) and in average basis (since the time the monitoring
+    is started). You can reset all ports' count by <HOME> key. <+> <->
+@@ -447,19 +528,21 @@ Content
+    on the port, that cursor stay, to view the port's communication
+    parameters, signal status, and input/output queue.
+ 
+-   msterm - Terminal Emulation
+-   ---------------------------
++msterm - Terminal Emulation
++===========================
++
+    This utility provides data sending and receiving ability of all tty ports,
+    especially for MOXA ports. It is quite useful for testing simple
+    application, for example, sending AT command to a modem connected to the
+    port or used as a terminal for login purpose. Note that this is only a
+    dumb terminal emulation without handling full screen operation.
+ 
+------------------------------------------------------------------------------
+ 5. Setserial
++^^^^^^^^^^^^
+ 
+    Supported Setserial parameters are listed as below.
+ 
++   ============== =========================================================
+    uart		  set UART type(16450-->disable FIFO, 16550A-->enable FIFO)
+    close_delay	  set the amount of time(in 1/100 of a second) that DTR
+ 		  should be kept low while being closed.
+@@ -475,49 +558,58 @@ Content
+ 		  application requests 38.4kb.
+    divisor	  This option set the custom division.
+    baud_base	  This option set the base baud rate.
++   ============== =========================================================
+ 
+------------------------------------------------------------------------------
+ 6. Troubleshooting
++^^^^^^^^^^^^^^^^^^
+ 
+    The boot time error messages and solutions are stated as clearly as
+    possible. If all the possible solutions fail, please contact our technical
+    support team to get more help.
+ 
+ 
+-   Error msg: More than 4 Moxa Smartio/Industio family boards found. Fifth board
++   Error msg:
++	      More than 4 Moxa Smartio/Industio family boards found. Fifth board
+               and after are ignored.
++
+    Solution:
+    To avoid this problem, please unplug fifth and after board, because Moxa
+    driver supports up to 4 boards.
+ 
+-   Error msg: Request_irq fail, IRQ(?) may be conflict with another device.
++   Error msg:
++	      Request_irq fail, IRQ(?) may be conflict with another device.
++
+    Solution:
+    Other PCI or ISA devices occupy the assigned IRQ. If you are not sure
+    which device causes the situation, please check /proc/interrupts to find
+    free IRQ and simply change another free IRQ for Moxa board.
+ 
+-   Error msg: Board #: C1xx Series(CAP=xxx) interrupt number invalid.
++   Error msg:
++	      Board #: C1xx Series(CAP=xxx) interrupt number invalid.
++
+    Solution:
+    Each port within the same multiport board shares the same IRQ. Please set
+    one IRQ (IRQ doesn't equal to zero) for one Moxa board.
+ 
+-   Error msg: No interrupt vector be set for Moxa ISA board(CAP=xxx).
++   Error msg:
++	      No interrupt vector be set for Moxa ISA board(CAP=xxx).
++
+    Solution:
+    Moxa ISA board needs an interrupt vector.Please refer to user's manual
+    "Hardware Installation" chapter to set interrupt vector.
+ 
+-   Error msg: Couldn't install MOXA Smartio/Industio family driver!
++   Error msg:
++              Couldn't install MOXA Smartio/Industio family driver!
++
+    Solution:
+    Load Moxa driver fail, the major number may conflict with other devices.
+    Please refer to previous section 3.7 to change a free major number for
+    Moxa driver.
+ 
+-   Error msg: Couldn't install MOXA Smartio/Industio family callout driver!
++   Error msg:
++              Couldn't install MOXA Smartio/Industio family callout driver!
++
+    Solution:
+    Load Moxa callout driver fail, the callout device major number may
+    conflict with other devices. Please refer to previous section 3.7 to
+    change a free callout device major number for Moxa driver.
+-
+-
+------------------------------------------------------------------------------
+-
+diff --git a/Documentation/serial/n_gsm.txt b/Documentation/serial/n_gsm.txt
+index 875361bb7cb4..f3ad9fd26408 100644
+--- a/Documentation/serial/n_gsm.txt
++++ b/Documentation/serial/n_gsm.txt
+@@ -1,28 +1,31 @@
+-n_gsm.c GSM 0710 tty multiplexor HOWTO
+-===================================================
++==============================
++GSM 0710 tty multiplexor HOWTO
++==============================
+ 
+ This line discipline implements the GSM 07.10 multiplexing protocol
+-detailed in the following 3GPP document :
+-http://www.3gpp.org/ftp/Specs/archive/07_series/07.10/0710-720.zip
++detailed in the following 3GPP document:
++
++	http://www.3gpp.org/ftp/Specs/archive/07_series/07.10/0710-720.zip
+ 
+ This document give some hints on how to use this driver with GPRS and 3G
+ modems connected to a physical serial port.
+ 
+ How to use it
+ -------------
+-1- initialize the modem in 0710 mux mode (usually AT+CMUX= command) through
+-its serial port. Depending on the modem used, you can pass more or less
+-parameters to this command,
+-2- switch the serial line to using the n_gsm line discipline by using
+-TIOCSETD ioctl,
+-3- configure the mux using GSMIOC_GETCONF / GSMIOC_SETCONF ioctl,
++1. initialize the modem in 0710 mux mode (usually AT+CMUX= command) through
++   its serial port. Depending on the modem used, you can pass more or less
++   parameters to this command,
++2. switch the serial line to using the n_gsm line discipline by using
++   TIOCSETD ioctl,
++3. configure the mux using GSMIOC_GETCONF / GSMIOC_SETCONF ioctl,
+ 
+ Major parts of the initialization program :
+-(a good starting point is util-linux-ng/sys-utils/ldattach.c)
+-#include <linux/gsmmux.h>
+-#define N_GSM0710	21	/* GSM 0710 Mux */
+-#define DEFAULT_SPEED	B115200
+-#define SERIAL_PORT	/dev/ttyS0
++(a good starting point is util-linux-ng/sys-utils/ldattach.c)::
++
++  #include <linux/gsmmux.h>
++  #define N_GSM0710	21	/* GSM 0710 Mux */
++  #define DEFAULT_SPEED	B115200
++  #define SERIAL_PORT	/dev/ttyS0
+ 
+ 	int ldisc = N_GSM0710;
+ 	struct gsm_config c;
+@@ -60,37 +63,41 @@ Major parts of the initialization program :
+ 	daemon(0,0);
+ 	pause();
+ 
+-4- create the devices corresponding to the "virtual" serial ports (take care,
+-each modem has its configuration and some DLC have dedicated functions,
+-for example GPS), starting with minor 1 (DLC0 is reserved for the management
+-of the mux)
++4. create the devices corresponding to the "virtual" serial ports (take care,
++   each modem has its configuration and some DLC have dedicated functions,
++   for example GPS), starting with minor 1 (DLC0 is reserved for the management
++   of the mux)::
+ 
+-MAJOR=`cat /proc/devices |grep gsmtty | awk '{print $1}`
+-for i in `seq 1 4`; do
++     MAJOR=`cat /proc/devices |grep gsmtty | awk '{print $1}`
++     for i in `seq 1 4`; do
+ 	mknod /dev/ttygsm$i c $MAJOR $i
+-done
++     done
+ 
+-5- use these devices as plain serial ports.
+-for example, it's possible :
+-- and to use gnokii to send / receive SMS on ttygsm1
+-- to use ppp to establish a datalink on ttygsm2
++5. use these devices as plain serial ports.
+ 
+-6- first close all virtual ports before closing the physical port.
++   for example, it's possible:
+ 
+-Note that after closing the physical port the modem is still in multiplexing
+-mode. This may prevent a successful re-opening of the port later. To avoid
+-this situation either reset the modem if your hardware allows that or send
+-a disconnect command frame manually before initializing the multiplexing mode
+-for the second time. The byte sequence for the disconnect command frame is:
+-0xf9, 0x03, 0xef, 0x03, 0xc3, 0x16, 0xf9.
++   - and to use gnokii to send / receive SMS on ttygsm1
++   - to use ppp to establish a datalink on ttygsm2
++
++6. first close all virtual ports before closing the physical port.
++
++   Note that after closing the physical port the modem is still in multiplexing
++   mode. This may prevent a successful re-opening of the port later. To avoid
++   this situation either reset the modem if your hardware allows that or send
++   a disconnect command frame manually before initializing the multiplexing mode
++   for the second time. The byte sequence for the disconnect command frame is::
++
++      0xf9, 0x03, 0xef, 0x03, 0xc3, 0x16, 0xf9.
+ 
+ Additional Documentation
+ ------------------------
+ More practical details on the protocol and how it's supported by industrial
+ modems can be found in the following documents :
+-http://www.telit.com/module/infopool/download.php?id=616
+-http://www.u-blox.com/images/downloads/Product_Docs/LEON-G100-G200-MuxImplementation_ApplicationNote_%28GSM%20G1-CS-10002%29.pdf
+-http://www.sierrawireless.com/Support/Downloads/AirPrime/WMP_Series/~/media/Support_Downloads/AirPrime/Application_notes/CMUX_Feature_Application_Note-Rev004.ashx
+-http://wm.sim.com/sim/News/photo/2010721161442.pdf
++
++- http://www.telit.com/module/infopool/download.php?id=616
++- http://www.u-blox.com/images/downloads/Product_Docs/LEON-G100-G200-MuxImplementation_ApplicationNote_%28GSM%20G1-CS-10002%29.pdf
++- http://www.sierrawireless.com/Support/Downloads/AirPrime/WMP_Series/~/media/Support_Downloads/AirPrime/Application_notes/CMUX_Feature_Application_Note-Rev004.ashx
++- http://wm.sim.com/sim/News/photo/2010721161442.pdf
+ 
+ 11-03-08 - Eric Bénard - <eric@eukrea.com>
+diff --git a/Documentation/serial/rocket.txt b/Documentation/serial/rocket.txt
+index 60b039891057..23761eae4282 100644
+--- a/Documentation/serial/rocket.txt
++++ b/Documentation/serial/rocket.txt
+@@ -1,20 +1,22 @@
+-Comtrol(tm) RocketPort(R)/RocketModem(TM) Series 
++================================================
++Comtrol(tm) RocketPort(R)/RocketModem(TM) Series
++================================================
++
+ Device Driver for the Linux Operating System
++============================================
+ 
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+-
+-PRODUCT OVERVIEW
++Product overview
+ ----------------
+ 
+ This driver provides a loadable kernel driver for the Comtrol RocketPort
+-and RocketModem PCI boards. These boards provide, 2, 4, 8, 16, or 32 
++and RocketModem PCI boards. These boards provide, 2, 4, 8, 16, or 32
+ high-speed serial ports or modems.  This driver supports up to a combination
+ of four RocketPort or RocketModems boards in one machine simultaneously.
+ This file assumes that you are using the RocketPort driver which is
+-integrated into the kernel sources.  
++integrated into the kernel sources.
+ 
+-The driver can also be installed as an external module using the usual 
+-"make;make install" routine.  This external module driver, obtainable 
++The driver can also be installed as an external module using the usual
++"make;make install" routine.  This external module driver, obtainable
+ from the Comtrol website listed below, is useful for updating the driver
+ or installing it into kernels which do not have the driver configured
+ into them.  Installations instructions for the external module
+@@ -29,57 +31,59 @@ information on how to set the DIP switches.
+ 
+ You pass the I/O port to the driver using the following module parameters:
+ 
+-board1 :	I/O port for the first ISA board
+-board2 :	I/O port for the second ISA board
+-board3 :	I/O port for the third ISA board
+-board4 :	I/O port for the fourth ISA board
++board1:
++	I/O port for the first ISA board
++board2:
++	I/O port for the second ISA board
++board3:
++	I/O port for the third ISA board
++board4:
++	I/O port for the fourth ISA board
+ 
+ There is a set of utilities and scripts provided with the external driver
+-( downloadable from http://www.comtrol.com ) that ease the configuration and
++(downloadable from http://www.comtrol.com) that ease the configuration and
+ setup of the ISA cards.
+ 
+ The RocketModem II PCI boards require firmware to be loaded into the card
+ before it will function.  The driver has only been tested as a module for this
+ board.
+ 
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+-
+-INSTALLATION PROCEDURES
++Installation Procedures
+ -----------------------
+ 
+-RocketPort/RocketModem PCI cards require no driver configuration, they are 
++RocketPort/RocketModem PCI cards require no driver configuration, they are
+ automatically detected and configured.
+ 
+-The RocketPort driver can be installed as a module (recommended) or built 
++The RocketPort driver can be installed as a module (recommended) or built
+ into the kernel. This is selected, as for other drivers, through the `make config`
+-command from the root of the Linux source tree during the kernel build process. 
++command from the root of the Linux source tree during the kernel build process.
+ 
+ The RocketPort/RocketModem serial ports installed by this driver are assigned
+-device major number 46, and will be named /dev/ttyRx, where x is the port number 
++device major number 46, and will be named /dev/ttyRx, where x is the port number
+ starting at zero (ex. /dev/ttyR0, /devttyR1, ...).  If you have multiple cards
+ installed in the system, the mapping of port names to serial ports is displayed
+ in the system log at /var/log/messages.
+ 
+ If installed as a module, the module must be loaded.  This can be done
+ manually by entering "modprobe rocket".  To have the module loaded automatically
+-upon system boot, edit a /etc/modprobe.d/*.conf file and add the line
++upon system boot, edit a `/etc/modprobe.d/*.conf` file and add the line
+ "alias char-major-46 rocket".
+ 
+ In order to use the ports, their device names (nodes) must be created with mknod.
+-This is only required once, the system will retain the names once created.  To 
+-create the RocketPort/RocketModem device names, use the command 
+-"mknod /dev/ttyRx c 46 x" where x is the port number starting at zero.  For example:
++This is only required once, the system will retain the names once created.  To
++create the RocketPort/RocketModem device names, use the command
++"mknod /dev/ttyRx c 46 x" where x is the port number starting at zero.
+ 
+->mknod /dev/ttyR0 c 46 0
+->mknod /dev/ttyR1 c 46 1
+->mknod /dev/ttyR2 c 46 2  
++For example::
++
++	> mknod /dev/ttyR0 c 46 0
++	> mknod /dev/ttyR1 c 46 1
++	> mknod /dev/ttyR2 c 46 2
+ 
+ The Linux script MAKEDEV will create the first 16 ttyRx device names (nodes)
+-for you:
++for you::
+ 
+->/dev/MAKEDEV ttyR
+-
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
++	>/dev/MAKEDEV ttyR
+ 
+ ISA Rocketport Boards
+ ---------------------
+@@ -89,7 +93,7 @@ card before installing and using it.  This is done by setting a set of DIP
+ switches on the Rocketport board.
+ 
+ 
+-SETTING THE I/O ADDRESS
++Setting the I/O address
+ -----------------------
+ 
+ Before installing RocketPort(R) or RocketPort RA boards, you must find
+@@ -130,40 +134,36 @@ the first 4 bytes of that range are used by the first board.  You would
+ need to set the second, third, or fourth board to one of the next available
+ blocks such as 0x180.
+ 
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
++RocketPort and RocketPort RA SW1 Settings::
+ 
+-RocketPort and RocketPort RA SW1 Settings:
++            +-------------------------------+
++            | 8 | 7 | 6 | 5 | 4 | 3 | 2 | 1 |
++            +-------+-------+---------------+
++            | Unused| Card  | I/O Port Block|
++            +-------------------------------+
+ 
+-          +-------------------------------+
+-          | 8 | 7 | 6 | 5 | 4 | 3 | 2 | 1 |
+-          +-------+-------+---------------+
+-          | Unused| Card  | I/O Port Block|
+-          +-------------------------------+
++  DIP Switches                             DIP Switches
++  7    8                                   6    5
++  ===================                      ===================
++  On   On   UNUSED, MUST BE ON.            On   On   First Card    <==== Default
++                                           On   Off  Second Card
++                                           Off  On   Third Card
++                                           Off  Off  Fourth Card
+ 
+-DIP Switches                             DIP Switches
+-7    8                                   6    5
+-===================                      ===================
+-On   On   UNUSED, MUST BE ON.            On   On   First Card    <==== Default
+-                                         On   Off  Second Card
+-                                         Off  On   Third Card
+-                                         Off  Off  Fourth Card
++  DIP Switches         I/O Address Range
++  4    3    2    1     Used by the First Card
++  =====================================
++  On   Off  On   Off   100-143
++  On   Off  Off  On    140-183
++  On   Off  Off  Off   180-1C3       <==== Default
++  Off  On   On   Off   200-243
++  Off  On   Off  On    240-283
++  Off  On   Off  Off   280-2C3
++  Off  Off  On   Off   300-343
++  Off  Off  Off  On    340-383
++  Off  Off  Off  Off   380-3C3
+ 
+-DIP Switches         I/O Address Range
+-4    3    2    1     Used by the First Card
+-=====================================
+-On   Off  On   Off   100-143
+-On   Off  Off  On    140-183
+-On   Off  Off  Off   180-1C3       <==== Default
+-Off  On   On   Off   200-243
+-Off  On   Off  On    240-283
+-Off  On   Off  Off   280-2C3
+-Off  Off  On   Off   300-343
+-Off  Off  Off  On    340-383
+-Off  Off  Off  Off   380-3C3
+-
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+-
+-REPORTING BUGS
++Reporting Bugs
+ --------------
+ 
+ For technical support, please provide the following
+@@ -171,19 +171,15 @@ information: Driver version, kernel release, distribution of
+ kernel, and type of board you are using. Error messages and log
+ printouts port configuration details are especially helpful.
+ 
+-USA
+-    Phone: (612) 494-4100
+-      FAX: (612) 494-4199
+-    email: support@comtrol.com
++USA:
++    :Phone: (612) 494-4100
++    :FAX: (612) 494-4199
++    :email: support@comtrol.com
+ 
+-Comtrol Europe
+-    Phone: +44 (0) 1 869 323-220
+-      FAX: +44 (0) 1 869 323-211
+-    email: support@comtrol.co.uk
++Comtrol Europe:
++    :Phone: +44 (0) 1 869 323-220
++    :FAX: +44 (0) 1 869 323-211
++    :email: support@comtrol.co.uk
+ 
+ Web:	http://www.comtrol.com
+ FTP:	ftp.comtrol.com
+-
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+-
+-
+diff --git a/Documentation/serial/serial-iso7816.txt b/Documentation/serial/serial-iso7816.txt
+index 3193d24a2b0f..d990143de0c6 100644
+--- a/Documentation/serial/serial-iso7816.txt
++++ b/Documentation/serial/serial-iso7816.txt
+@@ -1,11 +1,15 @@
+-                        ISO7816 SERIAL COMMUNICATIONS
++=============================
++ISO7816 Serial Communications
++=============================
+ 
+-1. INTRODUCTION
++1. Introduction
++===============
+ 
+   ISO/IEC7816 is a series of standards specifying integrated circuit cards (ICC)
+   also known as smart cards.
+ 
+-2. HARDWARE-RELATED CONSIDERATIONS
++2. Hardware-related considerations
++==================================
+ 
+   Some CPUs/UARTs (e.g., Microchip AT91) contain a built-in mode capable of
+   handling communication with a smart card.
+@@ -15,7 +19,8 @@
+   available at user-level to allow switching from one mode to the other, and
+   vice versa.
+ 
+-3. DATA STRUCTURES ALREADY AVAILABLE IN THE KERNEL
++3. Data Structures Already Available in the Kernel
++==================================================
+ 
+   The Linux kernel provides the serial_iso7816 structure (see [1]) to handle
+   ISO7816 communications. This data structure is used to set and configure
+@@ -27,10 +32,11 @@
+   to TIOCGISO7816 and TIOCSISO7816 ioctls (see below). The iso7816_config
+   callback receives a pointer to struct serial_iso7816.
+ 
+-4. USAGE FROM USER-LEVEL
++4. Usage from user-level
++========================
+ 
+   From user-level, ISO7816 configuration can be get/set using the previous
+-  ioctls. For instance, to set ISO7816 you can use the following code:
++  ioctls. For instance, to set ISO7816 you can use the following code::
+ 
+ 	#include <linux/serial.h>
+ 
+@@ -78,6 +84,7 @@
+ 		/* Error handling. See errno. */
+ 	}
+ 
+-5. REFERENCES
++5. References
++=============
+ 
+  [1]    include/uapi/linux/serial.h
+diff --git a/Documentation/serial/serial-rs485.txt b/Documentation/serial/serial-rs485.txt
+index ce0c1a9b8aab..6bc824f948f9 100644
+--- a/Documentation/serial/serial-rs485.txt
++++ b/Documentation/serial/serial-rs485.txt
+@@ -1,6 +1,9 @@
+-                        RS485 SERIAL COMMUNICATIONS
++===========================
++RS485 Serial Communications
++===========================
+ 
+-1. INTRODUCTION
++1. Introduction
++===============
+ 
+    EIA-485, also known as TIA/EIA-485 or RS-485, is a standard defining the
+    electrical characteristics of drivers and receivers for use in balanced
+@@ -9,7 +12,8 @@
+    because it can be used effectively over long distances and in electrically
+    noisy environments.
+ 
+-2. HARDWARE-RELATED CONSIDERATIONS
++2. Hardware-related Considerations
++==================================
+ 
+    Some CPUs/UARTs (e.g., Atmel AT91 or 16C950 UART) contain a built-in
+    half-duplex mode capable of automatically controlling line direction by
+@@ -22,7 +26,8 @@
+    available at user-level to allow switching from one mode to the other, and
+    vice versa.
+ 
+-3. DATA STRUCTURES ALREADY AVAILABLE IN THE KERNEL
++3. Data Structures Already Available in the Kernel
++==================================================
+ 
+    The Linux kernel provides the serial_rs485 structure (see [1]) to handle
+    RS485 communications. This data structure is used to set and configure RS485
+@@ -38,10 +43,11 @@
+    to TIOCSRS485 and TIOCGRS485 ioctls (see below). The rs485_config callback
+    receives a pointer to struct serial_rs485.
+ 
+-4. USAGE FROM USER-LEVEL
++4. Usage from user-level
++========================
+ 
+    From user-level, RS485 configuration can be get/set using the previous
+-   ioctls. For instance, to set RS485 you can use the following code:
++   ioctls. For instance, to set RS485 you can use the following code::
+ 
+ 	#include <linux/serial.h>
+ 
+@@ -89,7 +95,9 @@
+ 		/* Error handling. See errno. */
+ 	}
+ 
+-5. REFERENCES
++5. References
++=============
+ 
+  [1]	include/uapi/linux/serial.h
++
+  [2]	Documentation/devicetree/bindings/serial/rs485.txt
+diff --git a/Documentation/serial/tty.txt b/Documentation/serial/tty.txt
+index b48780977a68..dd972caacf3e 100644
+--- a/Documentation/serial/tty.txt
++++ b/Documentation/serial/tty.txt
 @@ -1,5 +1,6 @@
 -
-+==============
- Device Drivers
-+==============
+-			The Lockronomicon
++=================
++The Lockronomicon
++=================
  
- See the kerneldoc for the struct device_driver.
+ Your guide to the ancient and twisted locking policies of the tty layer and
+ the warped logic behind them. Beware all ye who read on.
+@@ -9,12 +10,12 @@ Line Discipline
+ ---------------
  
-@@ -26,50 +27,50 @@ Declaration
- As stated above, struct device_driver objects are statically
- allocated. Below is an example declaration of the eepro100
- driver. This declaration is hypothetical only; it relies on the driver
--being converted completely to the new model. 
-+being converted completely to the new model::
+ Line disciplines are registered with tty_register_ldisc() passing the
+-discipline number and the ldisc structure. At the point of registration the 
++discipline number and the ldisc structure. At the point of registration the
+ discipline must be ready to use and it is possible it will get used before
+ the call returns success. If the call returns an error then it won't get
+ called. Do not re-use ldisc numbers as they are part of the userspace ABI
+ and writing over an existing ldisc will cause demons to eat your computer.
+-After the return the ldisc data has been copied so you may free your own 
++After the return the ldisc data has been copied so you may free your own
+ copy of the structure. You must not re-register over the top of the line
+ discipline even with the same data or your computer again will be eaten by
+ demons.
+@@ -26,7 +27,7 @@ code manages the module counts this should not usually be a concern.
  
--static struct device_driver eepro100_driver = {
--       .name		= "eepro100",
--       .bus		= &pci_bus_type,
--       
--       .probe		= eepro100_probe,
--       .remove		= eepro100_remove,
--       .suspend		= eepro100_suspend,
--       .resume		= eepro100_resume,
--};
-+  static struct device_driver eepro100_driver = {
-+         .name		= "eepro100",
-+         .bus		= &pci_bus_type,
-+
-+         .probe		= eepro100_probe,
-+         .remove		= eepro100_remove,
-+         .suspend		= eepro100_suspend,
-+         .resume		= eepro100_resume,
-+  };
+ Heed this warning: the reference count field of the registered copies of the
+ tty_ldisc structure in the ldisc table counts the number of lines using this
+-discipline. The reference count of the tty_ldisc structure within a tty 
++discipline. The reference count of the tty_ldisc structure within a tty
+ counts the number of active users of the ldisc at this instant. In effect it
+ counts the number of threads of execution within an ldisc method (plus those
+ about to enter and exit although this detail matters not).
+@@ -34,9 +35,11 @@ about to enter and exit although this detail matters not).
+ Line Discipline Methods
+ -----------------------
  
- Most drivers will not be able to be converted completely to the new
- model because the bus they belong to has a bus-specific structure with
--bus-specific fields that cannot be generalized. 
-+bus-specific fields that cannot be generalized.
+-TTY side interfaces:
++TTY side interfaces
++^^^^^^^^^^^^^^^^^^^
  
- The most common example of this are device ID structures. A driver
- typically defines an array of device IDs that it supports. The format
- of these structures and the semantics for comparing device IDs are
- completely bus-specific. Defining them as bus-specific entities would
--sacrifice type-safety, so we keep bus-specific structures around. 
-+sacrifice type-safety, so we keep bus-specific structures around.
+-open()		-	Called when the line discipline is attached to
++======================= =======================================================
++open()			Called when the line discipline is attached to
+ 			the terminal. No other call into the line
+ 			discipline for this tty will occur until it
+ 			completes successfully. Should initialize any
+@@ -47,66 +50,69 @@ open()		-	Called when the line discipline is attached to
+ 			Returning an error will prevent the ldisc from
+ 			being attached. Can sleep.
  
- Bus-specific drivers should include a generic struct device_driver in
--the definition of the bus-specific driver. Like this:
-+the definition of the bus-specific driver. Like this::
+-close()		-	This is called on a terminal when the line
++close()			This is called on a terminal when the line
+ 			discipline is being unplugged. At the point of
+ 			execution no further users will enter the
+ 			ldisc code for this tty. Can sleep.
  
--struct pci_driver {
--       const struct pci_device_id *id_table;
--       struct device_driver	  driver;
--};
-+  struct pci_driver {
-+         const struct pci_device_id *id_table;
-+         struct device_driver	  driver;
-+  };
+-hangup()	-	Called when the tty line is hung up.
++hangup()		Called when the tty line is hung up.
+ 			The line discipline should cease I/O to the tty.
+ 			No further calls into the ldisc code will occur.
+ 			The return value is ignored. Can sleep.
  
- A definition that included bus-specific fields would look like
--(using the eepro100 driver again):
-+(using the eepro100 driver again)::
+-read()		-	(optional) A process requests reading data from
++read()			(optional) A process requests reading data from
+ 			the line. Multiple read calls may occur in parallel
+ 			and the ldisc must deal with serialization issues.
+ 			If not defined, the process will receive an EIO
+ 			error. May sleep.
  
--static struct pci_driver eepro100_driver = {
--       .id_table       = eepro100_pci_tbl,
--       .driver	       = {
-+  static struct pci_driver eepro100_driver = {
-+         .id_table       = eepro100_pci_tbl,
-+         .driver	       = {
- 		.name		= "eepro100",
- 		.bus		= &pci_bus_type,
- 		.probe		= eepro100_probe,
- 		.remove		= eepro100_remove,
- 		.suspend	= eepro100_suspend,
- 		.resume		= eepro100_resume,
--       },
--};
-+         },
-+  };
+-write()		-	(optional) A process requests writing data to the
++write()			(optional) A process requests writing data to the
+ 			line. Multiple write calls are serialized by the
+ 			tty layer for the ldisc. If not defined, the
+ 			process will receive an EIO error. May sleep.
  
- Some may find the syntax of embedded struct initialization awkward or
- even a bit ugly. So far, it's the best way we've found to do what we want...
-@@ -77,12 +78,14 @@ even a bit ugly. So far, it's the best way we've found to do what we want...
- Registration
- ~~~~~~~~~~~~
+-flush_buffer()	-	(optional) May be called at any point between
++flush_buffer()		(optional) May be called at any point between
+ 			open and close, and instructs the line discipline
+ 			to empty its input buffer.
  
--int driver_register(struct device_driver * drv);
-+::
-+
-+  int driver_register(struct device_driver *drv);
+-set_termios()	-	(optional) Called on termios structure changes.
++set_termios()		(optional) Called on termios structure changes.
+ 			The caller passes the old termios data and the
+ 			current data is in the tty. Called under the
+ 			termios semaphore so allowed to sleep. Serialized
+ 			against itself only.
  
- The driver registers the structure on startup. For drivers that have
- no bus-specific fields (i.e. don't have a bus-specific driver
- structure), they would use driver_register and pass a pointer to their
--struct device_driver object. 
-+struct device_driver object.
+-poll()		-	(optional) Check the status for the poll/select
++poll()			(optional) Check the status for the poll/select
+ 			calls. Multiple poll calls may occur in parallel.
+ 			May sleep.
  
- Most drivers, however, will have a bus-specific structure and will
- need to register with the bus using something like pci_driver_register.
-@@ -101,7 +104,7 @@ By defining wrapper functions, the transition to the new model can be
- made easier. Drivers can ignore the generic structure altogether and
- let the bus wrapper fill in the fields. For the callbacks, the bus can
- define generic callbacks that forward the call to the bus-specific
--callbacks of the drivers. 
-+callbacks of the drivers.
+-ioctl()		-	(optional) Called when an ioctl is handed to the
++ioctl()			(optional) Called when an ioctl is handed to the
+ 			tty layer that might be for the ldisc. Multiple
+ 			ioctl calls may occur in parallel. May sleep.
  
- This solution is intended to be only temporary. In order to get class
- information in the driver, the drivers must be modified anyway. Since
-@@ -113,16 +116,16 @@ Access
- ~~~~~~
+-compat_ioctl()	-	(optional) Called when a 32 bit ioctl is handed
++compat_ioctl()		(optional) Called when a 32 bit ioctl is handed
+ 			to the tty layer that might be for the ldisc.
+ 			Multiple ioctl calls may occur in parallel.
+ 			May sleep.
++======================= =======================================================
  
- Once the object has been registered, it may access the common fields of
--the object, like the lock and the list of devices. 
-+the object, like the lock and the list of devices::
+-Driver Side Interfaces:
++Driver Side Interfaces
++^^^^^^^^^^^^^^^^^^^^^^
  
--int driver_for_each_dev(struct device_driver * drv, void * data, 
--		        int (*callback)(struct device * dev, void * data));
-+  int driver_for_each_dev(struct device_driver *drv, void *data,
-+			  int (*callback)(struct device *dev, void *data));
+-receive_buf()	-	(optional) Called by the low-level driver to hand
++======================= =======================================================
++receive_buf()		(optional) Called by the low-level driver to hand
+ 			a buffer of received bytes to the ldisc for
+ 			processing. The number of bytes is guaranteed not
+ 			to exceed the current value of tty->receive_room.
+ 			All bytes must be processed.
  
- The devices field is a list of all the devices that have been bound to
- the driver. The LDM core provides a helper function to operate on all
- the devices a driver controls. This helper locks the driver on each
- node access, and does proper reference counting on each device as it
--accesses it. 
-+accesses it.
+-receive_buf2()	-	(optional) Called by the low-level driver to hand
++receive_buf2()		(optional) Called by the low-level driver to hand
+ 			a buffer of received bytes to the ldisc for
+ 			processing. Returns the number of bytes processed.
  
+ 			If both receive_buf() and receive_buf2() are
+ 			defined, receive_buf2() should be preferred.
  
- sysfs
-@@ -142,7 +145,9 @@ supports.
- Callbacks
- ~~~~~~~~~
+-write_wakeup()	-	May be called at any point between open and close.
++write_wakeup()		May be called at any point between open and close.
+ 			The TTY_DO_WRITE_WAKEUP flag indicates if a call
+ 			is needed but always races versus calls. Thus the
+ 			ldisc must be careful about setting order and to
+@@ -117,17 +123,20 @@ write_wakeup()	-	May be called at any point between open and close.
+ 			is permitted to call the driver write method from
+ 			this function. In such a situation defer it.
  
--	int	(*probe)	(struct device * dev);
-+::
-+
-+	int	(*probe)	(struct device *dev);
- 
- The probe() entry is called in task context, with the bus's rwsem locked
- and the driver partially bound to the device.  Drivers commonly use
-@@ -162,9 +167,9 @@ the driver to that device.
- 
- A driver's probe() may return a negative errno value to indicate that
- the driver did not bind to this device, in which case it should have
--released all resources it allocated.
-+released all resources it allocated::
- 
--	int 	(*remove)	(struct device * dev);
-+	int 	(*remove)	(struct device *dev);
- 
- remove is called to unbind a driver from a device. This may be
- called if a device is physically removed from the system, if the
-@@ -173,43 +178,46 @@ in other cases.
- 
- It is up to the driver to determine if the device is present or
- not. It should free any resources allocated specifically for the
--device; i.e. anything in the device's driver_data field. 
-+device; i.e. anything in the device's driver_data field.
- 
- If the device is still present, it should quiesce the device and place
--it into a supported low-power state.
-+it into a supported low-power state::
- 
--	int	(*suspend)	(struct device * dev, pm_message_t state);
-+	int	(*suspend)	(struct device *dev, pm_message_t state);
- 
--suspend is called to put the device in a low power state.
-+suspend is called to put the device in a low power state::
- 
--	int	(*resume)	(struct device * dev);
-+	int	(*resume)	(struct device *dev);
- 
- Resume is used to bring a device back from a low power state.
+-dcd_change()	-	Report to the tty line the current DCD pin status
++dcd_change()		Report to the tty line the current DCD pin status
+ 			changes and the relative timestamp. The timestamp
+ 			cannot be NULL.
++======================= =======================================================
  
  
- Attributes
- ~~~~~~~~~~
--struct driver_attribute {
--        struct attribute        attr;
--        ssize_t (*show)(struct device_driver *driver, char *buf);
--        ssize_t (*store)(struct device_driver *, const char * buf, size_t count);
--};
+ Driver Access
++^^^^^^^^^^^^^
  
--Device drivers can export attributes via their sysfs directories. 
-+::
-+
-+  struct driver_attribute {
-+          struct attribute        attr;
-+          ssize_t (*show)(struct device_driver *driver, char *buf);
-+          ssize_t (*store)(struct device_driver *, const char *buf, size_t count);
-+  };
-+
-+Device drivers can export attributes via their sysfs directories.
- Drivers can declare attributes using a DRIVER_ATTR_RW and DRIVER_ATTR_RO
- macro that works identically to the DEVICE_ATTR_RW and DEVICE_ATTR_RO
- macros.
+ Line discipline methods can call the following methods of the underlying
+ hardware driver through the function pointers within the tty->driver
+ structure:
  
--Example:
-+Example::
++======================= =======================================================
+ write()			Write a block of characters to the tty device.
+ 			Returns the number of characters accepted. The
+ 			character buffer passed to this method is already
+@@ -189,13 +198,16 @@ wait_until_sent()	Waits until the device has written out all of the
+ 			characters in its transmitter FIFO.
  
--DRIVER_ATTR_RW(debug);
-+	DRIVER_ATTR_RW(debug);
+ send_xchar()		Send a high-priority XON/XOFF character to the device.
++======================= =======================================================
  
--This is equivalent to declaring:
-+This is equivalent to declaring::
  
--struct driver_attribute driver_attr_debug;
-+	struct driver_attribute driver_attr_debug;
+ Flags
++^^^^^
  
- This can then be used to add and remove the attribute from the
--driver's directory using:
-+driver's directory using::
+ Line discipline methods have access to tty->flags field containing the
+ following interesting flags:
  
--int driver_create_file(struct device_driver *, const struct driver_attribute *);
--void driver_remove_file(struct device_driver *, const struct driver_attribute *);
-+  int driver_create_file(struct device_driver *, const struct driver_attribute *);
-+  void driver_remove_file(struct device_driver *, const struct driver_attribute *);
-diff --git a/Documentation/driver-model/overview.txt b/Documentation/driver-model/overview.txt
-index 6a8f9a8075d8..d4d1e9b40e0c 100644
---- a/Documentation/driver-model/overview.txt
-+++ b/Documentation/driver-model/overview.txt
-@@ -1,4 +1,6 @@
-+=============================
- The Linux Kernel Device Model
-+=============================
++======================= =======================================================
+ TTY_THROTTLED		Driver input is throttled. The ldisc should call
+ 			tty->driver->unthrottle() in order to resume
+ 			reception when it is ready to process more data.
+@@ -212,102 +224,105 @@ TTY_OTHER_CLOSED	Device is a pty and the other side has closed.
  
- Patrick Mochel	<mochel@digitalimplant.org>
+ TTY_NO_WRITE_SPLIT	Prevent driver from splitting up writes into
+ 			smaller chunks.
++======================= =======================================================
  
-@@ -41,14 +43,14 @@ data structure. These fields must still be accessed by the bus layers,
- and sometimes by the device-specific drivers.
  
- Other bus layers are encouraged to do what has been done for the PCI layer.
--struct pci_dev now looks like this:
-+struct pci_dev now looks like this::
+ Locking
++^^^^^^^
  
--struct pci_dev {
-+  struct pci_dev {
- 	...
+ Callers to the line discipline functions from the tty layer are required to
+ take line discipline locks. The same is true of calls from the driver side
+ but not yet enforced.
  
- 	struct device dev;     /* Generic device interface */
- 	...
--};
-+  };
+-Three calls are now provided
++Three calls are now provided::
  
- Note first that the struct device dev within the struct pci_dev is
- statically allocated. This means only one allocation on device discovery.
-@@ -80,26 +82,26 @@ easy. This has been accomplished by implementing a special purpose virtual
- file system named sysfs.
+ 	ldisc = tty_ldisc_ref(tty);
  
- Almost all mainstream Linux distros mount this filesystem automatically; you
--can see some variation of the following in the output of the "mount" command:
-+can see some variation of the following in the output of the "mount" command::
+ takes a handle to the line discipline in the tty and returns it. If no ldisc
+ is currently attached or the ldisc is being closed and re-opened at this
+ point then NULL is returned. While this handle is held the ldisc will not
+-change or go away.
++change or go away::
  
--$ mount
--...
--none on /sys type sysfs (rw,noexec,nosuid,nodev)
--...
--$
-+  $ mount
-+  ...
-+  none on /sys type sysfs (rw,noexec,nosuid,nodev)
-+  ...
-+  $
+ 	tty_ldisc_deref(ldisc)
  
- The auto-mounting of sysfs is typically accomplished by an entry similar to
--the following in the /etc/fstab file:
-+the following in the /etc/fstab file::
+ Returns the ldisc reference and allows the ldisc to be closed. Returning the
+ reference takes away your right to call the ldisc functions until you take
+-a new reference.
++a new reference::
  
--none     	/sys	sysfs    defaults	  	0 0
-+  none     	/sys	sysfs    defaults	  	0 0
+ 	ldisc = tty_ldisc_ref_wait(tty);
  
--or something similar in the /lib/init/fstab file on Debian-based systems:
-+or something similar in the /lib/init/fstab file on Debian-based systems::
+ Performs the same function as tty_ldisc_ref except that it will wait for an
+-ldisc change to complete and then return a reference to the new ldisc. 
++ldisc change to complete and then return a reference to the new ldisc.
  
--none            /sys    sysfs    nodev,noexec,nosuid    0 0
-+  none            /sys    sysfs    nodev,noexec,nosuid    0 0
+ While these functions are slightly slower than the old code they should have
+ minimal impact as most receive logic uses the flip buffers and they only
+ need to take a reference when they push bits up through the driver.
  
--If sysfs is not automatically mounted, you can always do it manually with:
-+If sysfs is not automatically mounted, you can always do it manually with::
+-A caution: The ldisc->open(), ldisc->close() and driver->set_ldisc 
++A caution: The ldisc->open(), ldisc->close() and driver->set_ldisc
+ functions are called with the ldisc unavailable. Thus tty_ldisc_ref will
+ fail in this situation if used within these functions. Ldisc and driver
+-code calling its own functions must be careful in this case. 
++code calling its own functions must be careful in this case.
  
--# mount -t sysfs sysfs /sys
-+	# mount -t sysfs sysfs /sys
  
- Whenever a device is inserted into the tree, a directory is created for it.
- This directory may be populated at each layer of discovery - the global layer,
-@@ -108,7 +110,7 @@ the bus layer, or the device layer.
- The global layer currently creates two files - 'name' and 'power'. The
- former only reports the name of the device. The latter reports the
- current power state of the device. It will also be used to set the current
--power state. 
-+power state.
+ Driver Interface
+ ----------------
  
- The bus layer may also create files for the devices it finds while probing the
- bus. For example, the PCI layer currently creates 'irq' and 'resource' files
-@@ -118,6 +120,5 @@ A device-specific driver may also export files in its directory to expose
- device-specific data or tunable interfaces.
+-open()		-	Called when a device is opened. May sleep
++======================= =======================================================
++open()			Called when a device is opened. May sleep
  
- More information about the sysfs directory layout can be found in
--the other documents in this directory and in the file 
-+the other documents in this directory and in the file
- Documentation/filesystems/sysfs.txt.
+-close()		-	Called when a device is closed. At the point of
+-			return from this call the driver must make no 
++close()			Called when a device is closed. At the point of
++			return from this call the driver must make no
+ 			further ldisc calls of any kind. May sleep
+ 
+-write()		-	Called to write bytes to the device. May not
+-			sleep. May occur in parallel in special cases. 
++write()			Called to write bytes to the device. May not
++			sleep. May occur in parallel in special cases.
+ 			Because this includes panic paths drivers generally
+ 			shouldn't try and do clever locking here.
+ 
+-put_char()	-	Stuff a single character onto the queue. The
++put_char()		Stuff a single character onto the queue. The
+ 			driver is guaranteed following up calls to
+ 			flush_chars.
+ 
+-flush_chars()	-	Ask the kernel to write put_char queue
++flush_chars()		Ask the kernel to write put_char queue
+ 
+-write_room()	-	Return the number of characters that can be stuffed
++write_room()		Return the number of characters that can be stuffed
+ 			into the port buffers without overflow (or less).
+ 			The ldisc is responsible for being intelligent
+- 			about multi-threading of write_room/write calls
++			about multi-threading of write_room/write calls
+ 
+-ioctl()		-	Called when an ioctl may be for the driver
++ioctl()			Called when an ioctl may be for the driver
+ 
+-set_termios()	-	Called on termios change, serialized against
++set_termios()		Called on termios change, serialized against
+ 			itself by a semaphore. May sleep.
+ 
+-set_ldisc()	-	Notifier for discipline change. At the point this 
++set_ldisc()		Notifier for discipline change. At the point this
+ 			is done the discipline is not yet usable. Can now
+ 			sleep (I think)
+ 
+-throttle()	-	Called by the ldisc to ask the driver to do flow
++throttle()		Called by the ldisc to ask the driver to do flow
+ 			control.  Serialization including with unthrottle
+ 			is the job of the ldisc layer.
+ 
+-unthrottle()	-	Called by the ldisc to ask the driver to stop flow
++unthrottle()		Called by the ldisc to ask the driver to stop flow
+ 			control.
+ 
+-stop()		-	Ldisc notifier to the driver to stop output. As with
++stop()			Ldisc notifier to the driver to stop output. As with
+ 			throttle the serializations with start() are down
+ 			to the ldisc layer.
+ 
+-start()		-	Ldisc notifier to the driver to start output.
++start()			Ldisc notifier to the driver to start output.
+ 
+-hangup()	-	Ask the tty driver to cause a hangup initiated
++hangup()		Ask the tty driver to cause a hangup initiated
+ 			from the host side. [Can sleep ??]
+ 
+-break_ctl()	-	Send RS232 break. Can sleep. Can get called in
++break_ctl()		Send RS232 break. Can sleep. Can get called in
+ 			parallel, driver must serialize (for now), and
+ 			with write calls.
+ 
+-wait_until_sent() -	Wait for characters to exit the hardware queue
++wait_until_sent()	Wait for characters to exit the hardware queue
+ 			of the driver. Can sleep
+ 
+-send_xchar()	  -	Send XON/XOFF and if possible jump the queue with
++send_xchar()	  	Send XON/XOFF and if possible jump the queue with
+ 			it in order to get fast flow control responses.
+ 			Cannot sleep ??
 -
-diff --git a/Documentation/driver-model/platform.txt b/Documentation/driver-model/platform.txt
-index 9d9e47dfc013..334dd4071ae4 100644
---- a/Documentation/driver-model/platform.txt
-+++ b/Documentation/driver-model/platform.txt
-@@ -1,5 +1,7 @@
-+============================
- Platform Devices and Drivers
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+============================
-+
- See <linux/platform_device.h> for the driver model interface to the
- platform bus:  platform_device, and platform_driver.  This pseudo-bus
- is used to connect devices on busses with minimal infrastructure,
-@@ -19,15 +21,15 @@ be connected through a segment of some other kind of bus; but its
- registers will still be directly addressable.
- 
- Platform devices are given a name, used in driver binding, and a
--list of resources such as addresses and IRQs.
-+list of resources such as addresses and IRQs::
- 
--struct platform_device {
-+  struct platform_device {
- 	const char	*name;
- 	u32		id;
- 	struct device	dev;
- 	u32		num_resources;
- 	struct resource	*resource;
--};
-+  };
- 
- 
- Platform drivers
-@@ -35,9 +37,9 @@ Platform drivers
- Platform drivers follow the standard driver model convention, where
- discovery/enumeration is handled outside the drivers, and drivers
- provide probe() and remove() methods.  They support power management
--and shutdown notifications using the standard conventions.
-+and shutdown notifications using the standard conventions::
- 
--struct platform_driver {
-+  struct platform_driver {
- 	int (*probe)(struct platform_device *);
- 	int (*remove)(struct platform_device *);
- 	void (*shutdown)(struct platform_device *);
-@@ -46,25 +48,25 @@ struct platform_driver {
- 	int (*resume_early)(struct platform_device *);
- 	int (*resume)(struct platform_device *);
- 	struct device_driver driver;
--};
-+  };
- 
- Note that probe() should in general verify that the specified device hardware
- actually exists; sometimes platform setup code can't be sure.  The probing
- can use device resources, including clocks, and device platform_data.
- 
--Platform drivers register themselves the normal way:
-+Platform drivers register themselves the normal way::
- 
- 	int platform_driver_register(struct platform_driver *drv);
- 
- Or, in common situations where the device is known not to be hot-pluggable,
- the probe() routine can live in an init section to reduce the driver's
--runtime memory footprint:
-+runtime memory footprint::
- 
- 	int platform_driver_probe(struct platform_driver *drv,
- 			  int (*probe)(struct platform_device *))
- 
- Kernel modules can be composed of several platform drivers. The platform core
--provides helpers to register and unregister an array of drivers:
-+provides helpers to register and unregister an array of drivers::
- 
- 	int __platform_register_drivers(struct platform_driver * const *drivers,
- 				      unsigned int count, struct module *owner);
-@@ -73,7 +75,7 @@ provides helpers to register and unregister an array of drivers:
- 
- If one of the drivers fails to register, all drivers registered up to that
- point will be unregistered in reverse order. Note that there is a convenience
--macro that passes THIS_MODULE as owner parameter:
-+macro that passes THIS_MODULE as owner parameter::
- 
- 	#define platform_register_drivers(drivers, count)
- 
-@@ -81,7 +83,7 @@ macro that passes THIS_MODULE as owner parameter:
- Device Enumeration
- ~~~~~~~~~~~~~~~~~~
- As a rule, platform specific (and often board-specific) setup code will
--register platform devices:
-+register platform devices::
- 
- 	int platform_device_register(struct platform_device *pdev);
- 
-@@ -133,14 +135,14 @@ tend to already have "normal" modes, such as ones using device nodes that
- were created by PNP or by platform device setup.
- 
- None the less, there are some APIs to support such legacy drivers.  Avoid
--using these calls except with such hotplug-deficient drivers.
-+using these calls except with such hotplug-deficient drivers::
- 
- 	struct platform_device *platform_device_alloc(
- 			const char *name, int id);
- 
- You can use platform_device_alloc() to dynamically allocate a device, which
- you will then initialize with resources and platform_device_register().
--A better solution is usually:
-+A better solution is usually::
- 
- 	struct platform_device *platform_device_register_simple(
- 			const char *name, int id,
-diff --git a/Documentation/driver-model/porting.txt b/Documentation/driver-model/porting.txt
-index 453053f1661f..4db1be49c6d8 100644
---- a/Documentation/driver-model/porting.txt
-+++ b/Documentation/driver-model/porting.txt
-@@ -1,5 +1,6 @@
--
-+=======================================
- Porting Drivers to the New Driver Model
-+=======================================
- 
- Patrick Mochel
- 
-@@ -8,8 +9,8 @@ Patrick Mochel
- 
- Overview
- 
--Please refer to Documentation/driver-model/*.txt for definitions of
--various driver types and concepts. 
-+Please refer to `Documentation/driver-model/*.txt` for definitions of
-+various driver types and concepts.
- 
- Most of the work of porting devices drivers to the new model happens
- at the bus driver layer. This was intentional, to minimize the
-@@ -18,11 +19,11 @@ of bus drivers.
- 
- In a nutshell, the driver model consists of a set of objects that can
- be embedded in larger, bus-specific objects. Fields in these generic
--objects can replace fields in the bus-specific objects. 
-+objects can replace fields in the bus-specific objects.
- 
- The generic objects must be registered with the driver model core. By
- doing so, they will exported via the sysfs filesystem. sysfs can be
--mounted by doing 
-+mounted by doing::
- 
- 	# mount -t sysfs sysfs /sys
- 
-@@ -30,108 +31,109 @@ mounted by doing
- 
- The Process
- 
--Step 0: Read include/linux/device.h for object and function definitions. 
-+Step 0: Read include/linux/device.h for object and function definitions.
- 
--Step 1: Registering the bus driver. 
-+Step 1: Registering the bus driver.
- 
- 
--- Define a struct bus_type for the bus driver.
-+- Define a struct bus_type for the bus driver::
- 
--struct bus_type pci_bus_type = {
--        .name           = "pci",
--};
-+    struct bus_type pci_bus_type = {
-+          .name           = "pci",
-+    };
- 
- 
- - Register the bus type.
-+
-   This should be done in the initialization function for the bus type,
--  which is usually the module_init(), or equivalent, function. 
-+  which is usually the module_init(), or equivalent, function::
- 
--static int __init pci_driver_init(void)
--{
--        return bus_register(&pci_bus_type);
--}
-+    static int __init pci_driver_init(void)
-+    {
-+            return bus_register(&pci_bus_type);
-+    }
- 
--subsys_initcall(pci_driver_init);
-+    subsys_initcall(pci_driver_init);
- 
- 
-   The bus type may be unregistered (if the bus driver may be compiled
--  as a module) by doing:
-+  as a module) by doing::
- 
-      bus_unregister(&pci_bus_type);
- 
- 
--- Export the bus type for others to use. 
-+- Export the bus type for others to use.
- 
--  Other code may wish to reference the bus type, so declare it in a 
-+  Other code may wish to reference the bus type, so declare it in a
-   shared header file and export the symbol.
- 
--From include/linux/pci.h:
-+From include/linux/pci.h::
- 
--extern struct bus_type pci_bus_type;
-+  extern struct bus_type pci_bus_type;
- 
- 
--From file the above code appears in:
-+From file the above code appears in::
- 
--EXPORT_SYMBOL(pci_bus_type);
-+  EXPORT_SYMBOL(pci_bus_type);
- 
- 
- 
- - This will cause the bus to show up in /sys/bus/pci/ with two
--  subdirectories: 'devices' and 'drivers'.
-+  subdirectories: 'devices' and 'drivers'::
- 
--# tree -d /sys/bus/pci/
--/sys/bus/pci/
--|-- devices
--`-- drivers
-+    # tree -d /sys/bus/pci/
-+    /sys/bus/pci/
-+    |-- devices
-+    `-- drivers
- 
- 
- 
--Step 2: Registering Devices. 
-+Step 2: Registering Devices.
- 
- struct device represents a single device. It mainly contains metadata
--describing the relationship the device has to other entities. 
-+describing the relationship the device has to other entities.
- 
- 
--- Embed a struct device in the bus-specific device type. 
-+- Embed a struct device in the bus-specific device type::
- 
- 
--struct pci_dev {
--       ...
--       struct  device  dev;            /* Generic device interface */
--       ...
--};
-+    struct pci_dev {
-+           ...
-+           struct  device  dev;            /* Generic device interface */
-+           ...
-+    };
- 
--  It is recommended that the generic device not be the first item in 
-+  It is recommended that the generic device not be the first item in
-   the struct to discourage programmers from doing mindless casts
-   between the object types. Instead macros, or inline functions,
--  should be created to convert from the generic object type.
-+  should be created to convert from the generic object type::
- 
- 
--#define to_pci_dev(n) container_of(n, struct pci_dev, dev)
-+    #define to_pci_dev(n) container_of(n, struct pci_dev, dev)
- 
--or 
-+    or
- 
--static inline struct pci_dev * to_pci_dev(struct kobject * kobj)
--{
-+    static inline struct pci_dev * to_pci_dev(struct kobject * kobj)
-+    {
- 	return container_of(n, struct pci_dev, dev);
--}
-+    }
- 
--  This allows the compiler to verify type-safety of the operations 
-+  This allows the compiler to verify type-safety of the operations
-   that are performed (which is Good).
- 
- 
- - Initialize the device on registration.
- 
--  When devices are discovered or registered with the bus type, the 
-+  When devices are discovered or registered with the bus type, the
-   bus driver should initialize the generic device. The most important
-   things to initialize are the bus_id, parent, and bus fields.
- 
-   The bus_id is an ASCII string that contains the device's address on
-   the bus. The format of this string is bus-specific. This is
--  necessary for representing devices in sysfs. 
-+  necessary for representing devices in sysfs.
- 
-   parent is the physical parent of the device. It is important that
--  the bus driver sets this field correctly. 
-+  the bus driver sets this field correctly.
- 
-   The driver model maintains an ordered list of devices that it uses
-   for power management. This list must be in order to guarantee that
-@@ -140,13 +142,13 @@ static inline struct pci_dev * to_pci_dev(struct kobject * kobj)
-   devices.
- 
-   Also, the location of the device's sysfs directory depends on a
--  device's parent. sysfs exports a directory structure that mirrors 
-+  device's parent. sysfs exports a directory structure that mirrors
-   the device hierarchy. Accurately setting the parent guarantees that
-   sysfs will accurately represent the hierarchy.
- 
-   The device's bus field is a pointer to the bus type the device
-   belongs to. This should be set to the bus_type that was declared
--  and initialized before. 
-+  and initialized before.
- 
-   Optionally, the bus driver may set the device's name and release
-   fields.
-@@ -155,107 +157,107 @@ static inline struct pci_dev * to_pci_dev(struct kobject * kobj)
- 
-      "ATI Technologies Inc Radeon QD"
- 
--  The release field is a callback that the driver model core calls 
--  when the device has been removed, and all references to it have 
-+  The release field is a callback that the driver model core calls
-+  when the device has been removed, and all references to it have
-   been released. More on this in a moment.
- 
- 
--- Register the device. 
-+- Register the device.
- 
-   Once the generic device has been initialized, it can be registered
--  with the driver model core by doing:
-+  with the driver model core by doing::
- 
-        device_register(&dev->dev);
- 
--  It can later be unregistered by doing: 
-+  It can later be unregistered by doing::
- 
-        device_unregister(&dev->dev);
- 
--  This should happen on buses that support hotpluggable devices. 
-+  This should happen on buses that support hotpluggable devices.
-   If a bus driver unregisters a device, it should not immediately free
--  it. It should instead wait for the driver model core to call the 
--  device's release method, then free the bus-specific object. 
-+  it. It should instead wait for the driver model core to call the
-+  device's release method, then free the bus-specific object.
-   (There may be other code that is currently referencing the device
--  structure, and it would be rude to free the device while that is 
-+  structure, and it would be rude to free the device while that is
-   happening).
- 
- 
--  When the device is registered, a directory in sysfs is created. 
--  The PCI tree in sysfs looks like: 
-+  When the device is registered, a directory in sysfs is created.
-+  The PCI tree in sysfs looks like::
- 
--/sys/devices/pci0/
--|-- 00:00.0
--|-- 00:01.0
--|   `-- 01:00.0
--|-- 00:02.0
--|   `-- 02:1f.0
--|       `-- 03:00.0
--|-- 00:1e.0
--|   `-- 04:04.0
--|-- 00:1f.0
--|-- 00:1f.1
--|   |-- ide0
--|   |   |-- 0.0
--|   |   `-- 0.1
--|   `-- ide1
--|       `-- 1.0
--|-- 00:1f.2
--|-- 00:1f.3
--`-- 00:1f.5
-+    /sys/devices/pci0/
-+    |-- 00:00.0
-+    |-- 00:01.0
-+    |   `-- 01:00.0
-+    |-- 00:02.0
-+    |   `-- 02:1f.0
-+    |       `-- 03:00.0
-+    |-- 00:1e.0
-+    |   `-- 04:04.0
-+    |-- 00:1f.0
-+    |-- 00:1f.1
-+    |   |-- ide0
-+    |   |   |-- 0.0
-+    |   |   `-- 0.1
-+    |   `-- ide1
-+    |       `-- 1.0
-+    |-- 00:1f.2
-+    |-- 00:1f.3
-+    `-- 00:1f.5
- 
-   Also, symlinks are created in the bus's 'devices' directory
--  that point to the device's directory in the physical hierarchy. 
-+  that point to the device's directory in the physical hierarchy::
- 
--/sys/bus/pci/devices/
--|-- 00:00.0 -> ../../../devices/pci0/00:00.0
--|-- 00:01.0 -> ../../../devices/pci0/00:01.0
--|-- 00:02.0 -> ../../../devices/pci0/00:02.0
--|-- 00:1e.0 -> ../../../devices/pci0/00:1e.0
--|-- 00:1f.0 -> ../../../devices/pci0/00:1f.0
--|-- 00:1f.1 -> ../../../devices/pci0/00:1f.1
--|-- 00:1f.2 -> ../../../devices/pci0/00:1f.2
--|-- 00:1f.3 -> ../../../devices/pci0/00:1f.3
--|-- 00:1f.5 -> ../../../devices/pci0/00:1f.5
--|-- 01:00.0 -> ../../../devices/pci0/00:01.0/01:00.0
--|-- 02:1f.0 -> ../../../devices/pci0/00:02.0/02:1f.0
--|-- 03:00.0 -> ../../../devices/pci0/00:02.0/02:1f.0/03:00.0
--`-- 04:04.0 -> ../../../devices/pci0/00:1e.0/04:04.0
-+    /sys/bus/pci/devices/
-+    |-- 00:00.0 -> ../../../devices/pci0/00:00.0
-+    |-- 00:01.0 -> ../../../devices/pci0/00:01.0
-+    |-- 00:02.0 -> ../../../devices/pci0/00:02.0
-+    |-- 00:1e.0 -> ../../../devices/pci0/00:1e.0
-+    |-- 00:1f.0 -> ../../../devices/pci0/00:1f.0
-+    |-- 00:1f.1 -> ../../../devices/pci0/00:1f.1
-+    |-- 00:1f.2 -> ../../../devices/pci0/00:1f.2
-+    |-- 00:1f.3 -> ../../../devices/pci0/00:1f.3
-+    |-- 00:1f.5 -> ../../../devices/pci0/00:1f.5
-+    |-- 01:00.0 -> ../../../devices/pci0/00:01.0/01:00.0
-+    |-- 02:1f.0 -> ../../../devices/pci0/00:02.0/02:1f.0
-+    |-- 03:00.0 -> ../../../devices/pci0/00:02.0/02:1f.0/03:00.0
-+    `-- 04:04.0 -> ../../../devices/pci0/00:1e.0/04:04.0
- 
- 
- 
- Step 3: Registering Drivers.
- 
- struct device_driver is a simple driver structure that contains a set
--of operations that the driver model core may call. 
-+of operations that the driver model core may call.
- 
- 
--- Embed a struct device_driver in the bus-specific driver. 
-+- Embed a struct device_driver in the bus-specific driver.
- 
--  Just like with devices, do something like:
-+  Just like with devices, do something like::
- 
--struct pci_driver {
--       ...
--       struct device_driver    driver;
--};
-+    struct pci_driver {
-+           ...
-+           struct device_driver    driver;
-+    };
- 
- 
--- Initialize the generic driver structure. 
-+- Initialize the generic driver structure.
- 
-   When the driver registers with the bus (e.g. doing pci_register_driver()),
-   initialize the necessary fields of the driver: the name and bus
--  fields. 
-+  fields.
- 
- 
- - Register the driver.
- 
--  After the generic driver has been initialized, call
-+  After the generic driver has been initialized, call::
- 
- 	driver_register(&drv->driver);
- 
-   to register the driver with the core.
- 
-   When the driver is unregistered from the bus, unregister it from the
--  core by doing:
-+  core by doing::
- 
-         driver_unregister(&drv->driver);
- 
-@@ -265,15 +267,15 @@ struct pci_driver {
- 
- - Sysfs representation.
- 
--  Drivers are exported via sysfs in their bus's 'driver's directory. 
--  For example:
-+  Drivers are exported via sysfs in their bus's 'driver's directory.
-+  For example::
- 
--/sys/bus/pci/drivers/
--|-- 3c59x
--|-- Ensoniq AudioPCI
--|-- agpgart-amdk7
--|-- e100
--`-- serial
-+    /sys/bus/pci/drivers/
-+    |-- 3c59x
-+    |-- Ensoniq AudioPCI
-+    |-- agpgart-amdk7
-+    |-- e100
-+    `-- serial
- 
- 
- Step 4: Define Generic Methods for Drivers.
-@@ -281,30 +283,30 @@ Step 4: Define Generic Methods for Drivers.
- struct device_driver defines a set of operations that the driver model
- core calls. Most of these operations are probably similar to
- operations the bus already defines for drivers, but taking different
--parameters. 
-+parameters.
- 
- It would be difficult and tedious to force every driver on a bus to
- simultaneously convert their drivers to generic format. Instead, the
- bus driver should define single instances of the generic methods that
--forward call to the bus-specific drivers. For instance: 
-+forward call to the bus-specific drivers. For instance::
- 
- 
--static int pci_device_remove(struct device * dev)
--{
--        struct pci_dev * pci_dev = to_pci_dev(dev);
--        struct pci_driver * drv = pci_dev->driver;
-+  static int pci_device_remove(struct device * dev)
-+  {
-+          struct pci_dev * pci_dev = to_pci_dev(dev);
-+          struct pci_driver * drv = pci_dev->driver;
- 
--        if (drv) {
--                if (drv->remove)
--                        drv->remove(pci_dev);
--                pci_dev->driver = NULL;
--        }
--        return 0;
--}
-+          if (drv) {
-+                  if (drv->remove)
-+                          drv->remove(pci_dev);
-+                  pci_dev->driver = NULL;
-+          }
-+          return 0;
-+  }
- 
- 
- The generic driver should be initialized with these methods before it
--is registered. 
-+is registered::
- 
-         /* initialize common driver fields */
-         drv->driver.name = drv->name;
-@@ -320,23 +322,23 @@ is registered.
- 
- Ideally, the bus should only initialize the fields if they are not
- already set. This allows the drivers to implement their own generic
--methods. 
-+methods.
- 
- 
--Step 5: Support generic driver binding. 
-+Step 5: Support generic driver binding.
- 
- The model assumes that a device or driver can be dynamically
- registered with the bus at any time. When registration happens,
- devices must be bound to a driver, or drivers must be bound to all
--devices that it supports. 
-+devices that it supports.
- 
- A driver typically contains a list of device IDs that it supports. The
--bus driver compares these IDs to the IDs of devices registered with it. 
-+bus driver compares these IDs to the IDs of devices registered with it.
- The format of the device IDs, and the semantics for comparing them are
--bus-specific, so the generic model does attempt to generalize them. 
-+bus-specific, so the generic model does attempt to generalize them.
- 
- Instead, a bus may supply a method in struct bus_type that does the
--comparison: 
-+comparison::
- 
-   int (*match)(struct device * dev, struct device_driver * drv);
- 
-@@ -346,59 +348,59 @@ and zero otherwise. It may also return error code (for example
- not possible.
- 
- When a device is registered, the bus's list of drivers is iterated
--over. bus->match() is called for each one until a match is found. 
-+over. bus->match() is called for each one until a match is found.
- 
- When a driver is registered, the bus's list of devices is iterated
- over. bus->match() is called for each device that is not already
--claimed by a driver. 
-+claimed by a driver.
- 
- When a device is successfully bound to a driver, device->driver is
- set, the device is added to a per-driver list of devices, and a
- symlink is created in the driver's sysfs directory that points to the
--device's physical directory:
-+device's physical directory::
- 
--/sys/bus/pci/drivers/
--|-- 3c59x
--|   `-- 00:0b.0 -> ../../../../devices/pci0/00:0b.0
--|-- Ensoniq AudioPCI
--|-- agpgart-amdk7
--|   `-- 00:00.0 -> ../../../../devices/pci0/00:00.0
--|-- e100
--|   `-- 00:0c.0 -> ../../../../devices/pci0/00:0c.0
--`-- serial
-+  /sys/bus/pci/drivers/
-+  |-- 3c59x
-+  |   `-- 00:0b.0 -> ../../../../devices/pci0/00:0b.0
-+  |-- Ensoniq AudioPCI
-+  |-- agpgart-amdk7
-+  |   `-- 00:00.0 -> ../../../../devices/pci0/00:00.0
-+  |-- e100
-+  |   `-- 00:0c.0 -> ../../../../devices/pci0/00:0c.0
-+  `-- serial
- 
- 
- This driver binding should replace the existing driver binding
--mechanism the bus currently uses. 
-+mechanism the bus currently uses.
- 
- 
- Step 6: Supply a hotplug callback.
- 
- Whenever a device is registered with the driver model core, the
--userspace program /sbin/hotplug is called to notify userspace. 
-+userspace program /sbin/hotplug is called to notify userspace.
- Users can define actions to perform when a device is inserted or
--removed. 
-+removed.
- 
- The driver model core passes several arguments to userspace via
- environment variables, including
- 
- - ACTION: set to 'add' or 'remove'
--- DEVPATH: set to the device's physical path in sysfs. 
-+- DEVPATH: set to the device's physical path in sysfs.
- 
- A bus driver may also supply additional parameters for userspace to
- consume. To do this, a bus must implement the 'hotplug' method in
--struct bus_type:
-+struct bus_type::
- 
--     int (*hotplug) (struct device *dev, char **envp, 
-+     int (*hotplug) (struct device *dev, char **envp,
-                      int num_envp, char *buffer, int buffer_size);
- 
--This is called immediately before /sbin/hotplug is executed. 
-+This is called immediately before /sbin/hotplug is executed.
- 
- 
- Step 7: Cleaning up the bus driver.
- 
- The generic bus, device, and driver structures provide several fields
--that can replace those defined privately to the bus driver. 
-+that can replace those defined privately to the bus driver.
- 
- - Device list.
- 
-@@ -407,36 +409,36 @@ type. This includes all devices on all instances of that bus type.
- An internal list that the bus uses may be removed, in favor of using
- this one.
- 
--The core provides an iterator to access these devices. 
-+The core provides an iterator to access these devices::
- 
--int bus_for_each_dev(struct bus_type * bus, struct device * start, 
--                     void * data, int (*fn)(struct device *, void *));
-+  int bus_for_each_dev(struct bus_type * bus, struct device * start,
-+                       void * data, int (*fn)(struct device *, void *));
- 
- 
- - Driver list.
- 
- struct bus_type also contains a list of all drivers registered with
--it. An internal list of drivers that the bus driver maintains may 
--be removed in favor of using the generic one. 
-+it. An internal list of drivers that the bus driver maintains may
-+be removed in favor of using the generic one.
- 
--The drivers may be iterated over, like devices: 
-+The drivers may be iterated over, like devices::
- 
--int bus_for_each_drv(struct bus_type * bus, struct device_driver * start,
--                     void * data, int (*fn)(struct device_driver *, void *));
-+  int bus_for_each_drv(struct bus_type * bus, struct device_driver * start,
-+                       void * data, int (*fn)(struct device_driver *, void *));
- 
- 
- Please see drivers/base/bus.c for more information.
- 
- 
--- rwsem 
-+- rwsem
- 
- struct bus_type contains an rwsem that protects all core accesses to
- the device and driver lists. This can be used by the bus driver
- internally, and should be used when accessing the device or driver
--lists the bus maintains. 
-+lists the bus maintains.
- 
- 
--- Device and driver fields. 
-+- Device and driver fields.
- 
- Some of the fields in struct device and struct device_driver duplicate
- fields in the bus-specific representations of these objects. Feel free
-@@ -444,4 +446,3 @@ to remove the bus-specific ones and favor the generic ones. Note
- though, that this will likely mean fixing up all the drivers that
- reference the bus-specific fields (though those should all be 1-line
- changes).
--
++======================= =======================================================
 -- 
 2.20.1
 
