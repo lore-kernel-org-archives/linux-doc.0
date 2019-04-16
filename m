@@ -2,738 +2,1336 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AB6537D912
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 02:57:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DF2D87D919
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 02:57:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726258AbfDPC51 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Apr 2019 22:57:27 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:44758 "EHLO
+        id S1726346AbfDPC5b (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Apr 2019 22:57:31 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:44520 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727149AbfDPC4j (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 22:56:39 -0400
+        with ESMTP id S1726921AbfDPC4h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 22:56:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+        To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=RmGypS1SiFkM+Leoe9RYaXmjo3WtNtAuPm9+npxzwN0=; b=Ib+xJg6oPykHeIe8DhcrdAgy4t
-        tdmgpzUxPW9QUFLucNKX4R7Iw1dacXtRLTF+HY/Eg5Uz5NVYi2n1AyuomfStKYq/4cdcA8mjkLRAu
-        XLspqkZAy3UIvG2f6YHYUQX3Dh6Uy8d0vZHzqgq0t2Fz8PqB6Zp9nXPWerHitE0+zosAqu6lgHxNc
-        fw64uHz9hShWpd++sE3V3wRmBhTvvlLny1s9l0yq8OQILrPKB/Ghx5mt8GY0hqu7aqVt7rrqIlt6r
-        MSzmnb/IuOSIeXFZWiMu94laV0utdYGAVqTz0xqUthz80nqaPFsNiWc08d58dx/oCkhCbUxVlRa6f
-        eBVxwkAg==;
+        bh=rM3ip393YGYtWfS8pyAN+9uOLaxuVBHfr4R+myENGus=; b=SV1VyJcuxm600GXLpD4PjfphGR
+        MwejqziafmIzXYSk//zb9aRaMD+l5XS7mYSy3TCO4vpubMf2i6ee7pFrIx60j7TeTesS4fkCn9dmS
+        EGdy9fx49FkjRDnek4C4XUFrQR0qbkUU0oBmodkhqPrWAo+brhmr5G2bBfQ0EfKq/ejOsHf48OX2/
+        1FvLrJGG8D9Vec+HKJOTLZK6wOMi4b43u3/5m6SR26zQTR5hMoOJXuEdDJky5+fd16mp43GSqeBko
+        A1PxxYBN/mcbGVwKqscSyj3lL5Ualw70WIh8Km3Mid4VvKAieYcnDkslZhT4oXq5ON0WywPyFPxdK
+        Hm6zei3Q==;
 Received: from 177.205.118.176.dynamic.adsl.gvt.net.br ([177.205.118.176] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hGEGz-0007kf-Hz; Tue, 16 Apr 2019 02:56:38 +0000
+        id 1hGEGv-0007aU-U8; Tue, 16 Apr 2019 02:56:34 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hGEGn-0001mu-Dn; Mon, 15 Apr 2019 23:56:25 -0300
+        id 1hGEGo-0001p0-0f; Mon, 15 Apr 2019 23:56:26 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Petr Mladek <pmladek@suse.com>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
-        live-patching@vger.kernel.org
-Subject: [PATCH 20/57] docs: livepatch: convert it to ReST format
-Date:   Mon, 15 Apr 2019 23:55:45 -0300
-Message-Id: <f8eb5302d14147f5721cce816b1d3500184ce383.1555382110.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 40/57] docs: scheduler: convert files to ReST
+Date:   Mon, 15 Apr 2019 23:56:05 -0300
+Message-Id: <611f7123d344b825e9047c4524f1e98dd1a50723.1555382110.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1555382110.git.mchehab+samsung@kernel.org>
 References: <cover.1555382110.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Convert livepatch documentation to ReST format. The changes
-are mostly trivial, as the documents are already on a good
-shape. Just a few markup changes are needed for Sphinx to
-properly parse the docs.
+In order to prepare to add them to the Kernel API book,
+convert the files to ReST format.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/livepatch/callbacks.txt         |  12 +-
- .../livepatch/cumulative-patches.txt          |  14 +-
- Documentation/livepatch/livepatch.txt         |  56 ++---
- Documentation/livepatch/module-elf-format.txt | 211 ++++++++++--------
- Documentation/livepatch/shadow-vars.txt       |  65 ++++--
- 5 files changed, 199 insertions(+), 159 deletions(-)
+ Documentation/scheduler/completion.txt        |  38 +--
+ Documentation/scheduler/sched-arch.txt        |  18 +-
+ Documentation/scheduler/sched-bwc.txt         |  28 +-
+ Documentation/scheduler/sched-deadline.txt    | 293 +++++++++---------
+ Documentation/scheduler/sched-design-CFS.txt  |  15 +-
+ Documentation/scheduler/sched-domains.txt     |   8 +-
+ Documentation/scheduler/sched-energy.txt      |  47 +--
+ Documentation/scheduler/sched-nice-design.txt |   6 +-
+ Documentation/scheduler/sched-rt-group.txt    |  28 +-
+ Documentation/scheduler/sched-stats.txt       |  35 ++-
+ 10 files changed, 290 insertions(+), 226 deletions(-)
 
-diff --git a/Documentation/livepatch/callbacks.txt b/Documentation/livepatch/callbacks.txt
-index 182e31d4abce..d76d1f0d9fcf 100644
---- a/Documentation/livepatch/callbacks.txt
-+++ b/Documentation/livepatch/callbacks.txt
-@@ -30,16 +30,20 @@ be patched, irrespective of the target klp_object's current state.
+diff --git a/Documentation/scheduler/completion.txt b/Documentation/scheduler/completion.txt
+index e5b9df4d8078..9f039b4f4b09 100644
+--- a/Documentation/scheduler/completion.txt
++++ b/Documentation/scheduler/completion.txt
+@@ -1,3 +1,4 @@
++================================================
+ Completions - "wait for completion" barrier APIs
+ ================================================
  
- Callbacks can be registered for the following livepatch actions:
+@@ -46,7 +47,7 @@ it has to wait for it.
  
--  * Pre-patch    - before a klp_object is patched
-+  * Pre-patch
-+                 - before a klp_object is patched
+ To use completions you need to #include <linux/completion.h> and
+ create a static or dynamic variable of type 'struct completion',
+-which has only two fields:
++which has only two fields::
  
--  * Post-patch   - after a klp_object has been patched and is active
-+  * Post-patch
-+                 - after a klp_object has been patched and is active
-                    across all tasks
+ 	struct completion {
+ 		unsigned int done;
+@@ -57,7 +58,7 @@ This provides the ->wait waitqueue to place tasks on for waiting (if any), and
+ the ->done completion flag for indicating whether it's completed or not.
  
--  * Pre-unpatch  - before a klp_object is unpatched (ie, patched code is
-+  * Pre-unpatch
-+                 - before a klp_object is unpatched (ie, patched code is
-                    active), used to clean up post-patch callback
-                    resources
+ Completions should be named to refer to the event that is being synchronized on.
+-A good example is:
++A good example is::
  
--  * Post-unpatch - after a klp_object has been patched, all code has
-+  * Post-unpatch
-+                 - after a klp_object has been patched, all code has
-                    been restored and no tasks are running patched code,
-                    used to cleanup pre-patch callback resources
+ 	wait_for_completion(&early_console_added);
  
-diff --git a/Documentation/livepatch/cumulative-patches.txt b/Documentation/livepatch/cumulative-patches.txt
-index 0012808e8d44..1931f318976a 100644
---- a/Documentation/livepatch/cumulative-patches.txt
-+++ b/Documentation/livepatch/cumulative-patches.txt
-@@ -18,7 +18,7 @@ Usage
- -----
+@@ -81,7 +82,7 @@ have taken place, even if these wait functions return prematurely due to a timeo
+ or a signal triggering.
  
- The atomic replace can be enabled by setting "replace" flag in struct klp_patch,
--for example:
-+for example::
+ Initializing of dynamically allocated completion objects is done via a call to
+-init_completion():
++init_completion()::
  
- 	static struct klp_patch patch = {
- 		.mod = THIS_MODULE,
-@@ -49,19 +49,19 @@ Features
+ 	init_completion(&dynamic_object->done);
  
- The atomic replace allows:
+@@ -100,7 +101,8 @@ but be aware of other races.
  
--  + Atomically revert some functions in a previous patch while
-+  - Atomically revert some functions in a previous patch while
-     upgrading other functions.
+ For static declaration and initialization, macros are available.
  
--  + Remove eventual performance impact caused by core redirection
-+  - Remove eventual performance impact caused by core redirection
-     for functions that are no longer patched.
+-For static (or global) declarations in file scope you can use DECLARE_COMPLETION():
++For static (or global) declarations in file scope you can use
++DECLARE_COMPLETION()::
  
--  + Decrease user confusion about dependencies between livepatches.
-+  - Decrease user confusion about dependencies between livepatches.
+ 	static DECLARE_COMPLETION(setup_done);
+ 	DECLARE_COMPLETION(setup_done);
+@@ -111,7 +113,7 @@ initialized to 'not done' and doesn't require an init_completion() call.
+ When a completion is declared as a local variable within a function,
+ then the initialization should always use DECLARE_COMPLETION_ONSTACK()
+ explicitly, not just to make lockdep happy, but also to make it clear
+-that limited scope had been considered and is intentional:
++that limited scope had been considered and is intentional::
  
+ 	DECLARE_COMPLETION_ONSTACK(setup_done)
  
- Limitations:
- ------------
+@@ -140,11 +142,11 @@ Waiting for completions:
+ ------------------------
  
--  + Once the operation finishes, there is no straightforward way
-+  - Once the operation finishes, there is no straightforward way
-     to reverse it and restore the replaced patches atomically.
+ For a thread to wait for some concurrent activity to finish, it
+-calls wait_for_completion() on the initialized completion structure:
++calls wait_for_completion() on the initialized completion structure::
  
-     A good practice is to set .replace flag in any released livepatch.
-@@ -74,7 +74,7 @@ Limitations:
-     only when the transition was not forced.
+ 	void wait_for_completion(struct completion *done)
  
+-A typical usage scenario is:
++A typical usage scenario is::
  
--  + Only the (un)patching callbacks from the _new_ cumulative livepatch are
-+  - Only the (un)patching callbacks from the _new_ cumulative livepatch are
-     executed. Any callbacks from the replaced patches are ignored.
+ 	CPU#1					CPU#2
  
-     In other words, the cumulative patch is responsible for doing any actions
-@@ -93,7 +93,7 @@ Limitations:
-     enabled patches were called.
+@@ -192,17 +194,17 @@ A common problem that occurs is to have unclean assignment of return types,
+ so take care to assign return-values to variables of the proper type.
  
+ Checking for the specific meaning of return values also has been found
+-to be quite inaccurate, e.g. constructs like:
++to be quite inaccurate, e.g. constructs like::
  
--  + There is no special handling of shadow variables. Livepatch authors
-+  - There is no special handling of shadow variables. Livepatch authors
-     must create their own rules how to pass them from one cumulative
-     patch to the other. Especially that they should not blindly remove
-     them in module_exit() functions.
-diff --git a/Documentation/livepatch/livepatch.txt b/Documentation/livepatch/livepatch.txt
-index 4627b41ff02e..2a1bb3d34b11 100644
---- a/Documentation/livepatch/livepatch.txt
-+++ b/Documentation/livepatch/livepatch.txt
-@@ -4,22 +4,22 @@ Livepatch
+ 	if (!wait_for_completion_interruptible_timeout(...))
  
- This document outlines basic information about kernel livepatching.
+ ... would execute the same code path for successful completion and for the
+-interrupted case - which is probably not what you want.
++interrupted case - which is probably not what you want::
  
--Table of Contents:
-+.. Table of Contents:
+ 	int wait_for_completion_interruptible(struct completion *done)
  
--1. Motivation
--2. Kprobes, Ftrace, Livepatching
--3. Consistency model
--4. Livepatch module
--   4.1. New functions
--   4.2. Metadata
--5. Livepatch life-cycle
--   5.1. Loading
--   5.2. Enabling
--   5.3. Replacing
--   5.4. Disabling
--   5.5. Removing
--6. Sysfs
--7. Limitations
-+    1. Motivation
-+    2. Kprobes, Ftrace, Livepatching
-+    3. Consistency model
-+    4. Livepatch module
-+       4.1. New functions
-+       4.2. Metadata
-+    5. Livepatch life-cycle
-+       5.1. Loading
-+       5.2. Enabling
-+       5.3. Replacing
-+       5.4. Disabling
-+       5.5. Removing
-+    6. Sysfs
-+    7. Limitations
+ This function marks the task TASK_INTERRUPTIBLE while it is waiting.
+-If a signal was received while waiting it will return -ERESTARTSYS; 0 otherwise.
++If a signal was received while waiting it will return -ERESTARTSYS; 0 otherwise::
  
+ 	unsigned long wait_for_completion_timeout(struct completion *done, unsigned long timeout)
  
- 1. Motivation
-@@ -40,14 +40,14 @@ There are multiple mechanisms in the Linux kernel that are directly related
- to redirection of code execution; namely: kernel probes, function tracing,
- and livepatching:
+@@ -214,7 +216,7 @@ Timeouts are preferably calculated with msecs_to_jiffies() or usecs_to_jiffies()
+ to make the code largely HZ-invariant.
  
--  + The kernel probes are the most generic. The code can be redirected by
-+  - The kernel probes are the most generic. The code can be redirected by
-     putting a breakpoint instruction instead of any instruction.
+ If the returned timeout value is deliberately ignored a comment should probably explain
+-why (e.g. see drivers/mfd/wm8350-core.c wm8350_read_auxadc()).
++why (e.g. see drivers/mfd/wm8350-core.c wm8350_read_auxadc())::
  
--  + The function tracer calls the code from a predefined location that is
-+  - The function tracer calls the code from a predefined location that is
-     close to the function entry point. This location is generated by the
-     compiler using the '-pg' gcc option.
+ 	long wait_for_completion_interruptible_timeout(struct completion *done, unsigned long timeout)
  
--  + Livepatching typically needs to redirect the code at the very beginning
-+  - Livepatching typically needs to redirect the code at the very beginning
-     of the function entry before the function parameters or the stack
-     are in any way modified.
+@@ -225,14 +227,14 @@ jiffies if completion occurred.
  
-@@ -258,7 +258,7 @@ Documentation/livepatch/module-elf-format.txt for more details.
- The patch is described by several structures that split the information
- into three levels:
+ Further variants include _killable which uses TASK_KILLABLE as the
+ designated tasks state and will return -ERESTARTSYS if it is interrupted,
+-or 0 if completion was achieved.  There is a _timeout variant as well:
++or 0 if completion was achieved.  There is a _timeout variant as well::
  
--  + struct klp_func is defined for each patched function. It describes
-+  - struct klp_func is defined for each patched function. It describes
-     the relation between the original and the new implementation of a
-     particular function.
+ 	long wait_for_completion_killable(struct completion *done)
+ 	long wait_for_completion_killable_timeout(struct completion *done, unsigned long timeout)
  
-@@ -275,7 +275,7 @@ into three levels:
-     only for a particular object ( vmlinux or a kernel module ). Note that
-     kallsyms allows for searching symbols according to the object name.
+ The _io variants wait_for_completion_io() behave the same as the non-_io
+ variants, except for accounting waiting time as 'waiting on IO', which has
+-an impact on how the task is accounted in scheduling/IO stats:
++an impact on how the task is accounted in scheduling/IO stats::
  
--  + struct klp_object defines an array of patched functions (struct
-+  - struct klp_object defines an array of patched functions (struct
-     klp_func) in the same object. Where the object is either vmlinux
-     (NULL) or a module name.
+ 	void wait_for_completion_io(struct completion *done)
+ 	unsigned long wait_for_completion_io_timeout(struct completion *done, unsigned long timeout)
+@@ -243,11 +245,11 @@ Signaling completions:
  
-@@ -285,7 +285,7 @@ into three levels:
-     only when they are available.
+ A thread that wants to signal that the conditions for continuation have been
+ achieved calls complete() to signal exactly one of the waiters that it can
+-continue:
++continue::
+ 
+ 	void complete(struct completion *done)
+ 
+-... or calls complete_all() to signal all current and future waiters:
++... or calls complete_all() to signal all current and future waiters::
+ 
+ 	void complete_all(struct completion *done)
+ 
+@@ -268,7 +270,7 @@ probably are a design bug.
+ 
+ Signaling completion from IRQ context is fine as it will appropriately
+ lock with spin_lock_irqsave()/spin_unlock_irqrestore() and it will never
+-sleep. 
++sleep.
  
  
--  + struct klp_patch defines an array of patched objects (struct
-+  - struct klp_patch defines an array of patched objects (struct
-     klp_object).
+ try_wait_for_completion()/completion_done():
+@@ -276,14 +278,14 @@ try_wait_for_completion()/completion_done():
  
-     This structure handles all patched functions consistently and eventually,
-@@ -337,14 +337,16 @@ operation fails.
- Second, livepatch enters into a transition state where tasks are converging
- to the patched state. If an original function is patched for the first
- time, a function specific struct klp_ops is created and an universal
--ftrace handler is registered[*]. This stage is indicated by a value of '1'
-+ftrace handler is registered\ [#]_. This stage is indicated by a value of '1'
- in /sys/kernel/livepatch/<name>/transition. For more information about
- this process, see the "Consistency model" section.
+ The try_wait_for_completion() function will not put the thread on the wait
+ queue but rather returns false if it would need to enqueue (block) the thread,
+-else it consumes one posted completion and returns true.
++else it consumes one posted completion and returns true::
  
- Finally, once all tasks have been patched, the 'transition' value changes
- to '0'.
+ 	bool try_wait_for_completion(struct completion *done)
  
--[*] Note that functions might be patched multiple times. The ftrace handler
-+.. [#]
+ Finally, to check the state of a completion without changing it in any way,
+ call completion_done(), which returns false if there are no posted
+ completions that were not yet consumed by waiters (implying that there are
+-waiters) and true otherwise;
++waiters) and true otherwise::
+ 
+ 	bool completion_done(struct completion *done)
+ 
+diff --git a/Documentation/scheduler/sched-arch.txt b/Documentation/scheduler/sched-arch.txt
+index a2f27bbf2cba..0eaec669790a 100644
+--- a/Documentation/scheduler/sched-arch.txt
++++ b/Documentation/scheduler/sched-arch.txt
+@@ -1,4 +1,6 @@
+-	CPU Scheduler implementation hints for architecture specific code
++=================================================================
++CPU Scheduler implementation hints for architecture specific code
++=================================================================
+ 
+ 	Nick Piggin, 2005
+ 
+@@ -35,9 +37,10 @@ Your cpu_idle routines need to obey the following rules:
+ 4. The only time interrupts need to be disabled when checking
+    need_resched is if we are about to sleep the processor until
+    the next interrupt (this doesn't provide any protection of
+-   need_resched, it prevents losing an interrupt).
++   need_resched, it prevents losing an interrupt):
 +
-+    Note that functions might be patched multiple times. The ftrace handler
-     is registered only once for a given function. Further patches just add
-     an entry to the list (see field `func_stack`) of the struct klp_ops.
-     The right implementation is selected by the ftrace handler, see
-@@ -421,7 +423,7 @@ See Documentation/ABI/testing/sysfs-kernel-livepatch for more details.
++	4a. Common problem with this type of sleep appears to be::
  
- The current Livepatch implementation has several limitations:
+-	4a. Common problem with this type of sleep appears to be:
+ 	        local_irq_disable();
+ 	        if (!need_resched()) {
+ 	                local_irq_enable();
+@@ -51,10 +54,10 @@ Your cpu_idle routines need to obey the following rules:
+    although it may be reasonable to do some background work or enter
+    a low CPU priority.
  
--  + Only functions that can be traced could be patched.
-+  - Only functions that can be traced could be patched.
+-   	5a. If TIF_POLLING_NRFLAG is set, and we do decide to enter
+-	    an interrupt sleep, it needs to be cleared then a memory
+-	    barrier issued (followed by a test of need_resched with
+-	    interrupts disabled, as explained in 3).
++      - 5a. If TIF_POLLING_NRFLAG is set, and we do decide to enter
++	an interrupt sleep, it needs to be cleared then a memory
++	barrier issued (followed by a test of need_resched with
++	interrupts disabled, as explained in 3).
  
-     Livepatch is based on the dynamic ftrace. In particular, functions
-     implementing ftrace or the livepatch ftrace handler could not be
-@@ -431,7 +433,7 @@ The current Livepatch implementation has several limitations:
+ arch/x86/kernel/process.c has examples of both polling and
+ sleeping idle functions.
+@@ -71,4 +74,3 @@ sh64 - Is sleeping racy vs interrupts? (See #4a)
  
+ sparc - IRQs on at this point(?), change local_irq_save to _disable.
+       - TODO: needs secondary CPUs to disable preempt (See #1)
+-
+diff --git a/Documentation/scheduler/sched-bwc.txt b/Documentation/scheduler/sched-bwc.txt
+index f6b1873f68ab..4ee2bd2f791d 100644
+--- a/Documentation/scheduler/sched-bwc.txt
++++ b/Documentation/scheduler/sched-bwc.txt
+@@ -1,3 +1,4 @@
++=====================
+ CFS Bandwidth Control
+ =====================
  
+@@ -27,7 +28,8 @@ cpu.cfs_quota_us: the total available run-time within a period (in microseconds)
+ cpu.cfs_period_us: the length of a period (in microseconds)
+ cpu.stat: exports throttling statistics [explained further below]
  
--  + Livepatch works reliably only when the dynamic ftrace is located at
-+  - Livepatch works reliably only when the dynamic ftrace is located at
-     the very beginning of the function.
- 
-     The function need to be redirected before the stack or the function
-@@ -445,7 +447,7 @@ The current Livepatch implementation has several limitations:
-     this is handled on the ftrace level.
- 
- 
--  + Kretprobes using the ftrace framework conflict with the patched
-+  - Kretprobes using the ftrace framework conflict with the patched
-     functions.
- 
-     Both kretprobes and livepatches use a ftrace handler that modifies
-@@ -453,7 +455,7 @@ The current Livepatch implementation has several limitations:
-     is rejected when the handler is already in use by the other.
- 
- 
--  + Kprobes in the original function are ignored when the code is
-+  - Kprobes in the original function are ignored when the code is
-     redirected to the new implementation.
- 
-     There is a work in progress to add warnings about this situation.
-diff --git a/Documentation/livepatch/module-elf-format.txt b/Documentation/livepatch/module-elf-format.txt
-index f21a5289a09c..7f557c6f6deb 100644
---- a/Documentation/livepatch/module-elf-format.txt
-+++ b/Documentation/livepatch/module-elf-format.txt
-@@ -4,29 +4,29 @@ Livepatch module Elf format
- 
- This document outlines the Elf format requirements that livepatch modules must follow.
- 
-------------------
--Table of Contents
-------------------
--0. Background and motivation
--1. Livepatch modinfo field
--2. Livepatch relocation sections
--   2.1 What are livepatch relocation sections?
--   2.2 Livepatch relocation section format
--       2.2.1 Required flags
--       2.2.2 Required name format
--       2.2.3 Example livepatch relocation section names
--       2.2.4 Example `readelf --sections` output
--       2.2.5 Example `readelf --relocs` output
--3. Livepatch symbols
--   3.1 What are livepatch symbols?
--   3.2 A livepatch module's symbol table
--   3.3 Livepatch symbol format
--       3.3.1 Required flags
--       3.3.2 Required name format
--       3.3.3 Example livepatch symbol names
--       3.3.4 Example `readelf --symbols` output
--4. Architecture-specific sections
--5. Symbol table and Elf section access
+-The default values are:
++The default values are::
 +
-+.. Table of Contents
+ 	cpu.cfs_period_us=100ms
+ 	cpu.cfs_quota=-1
+ 
+@@ -55,7 +57,8 @@ For efficiency run-time is transferred between the global pool and CPU local
+ on large systems.  The amount transferred each time such an update is required
+ is described as the "slice".
+ 
+-This is tunable via procfs:
++This is tunable via procfs::
 +
-+   0. Background and motivation
-+   1. Livepatch modinfo field
-+   2. Livepatch relocation sections
-+      2.1 What are livepatch relocation sections?
-+      2.2 Livepatch relocation section format
-+          2.2.1 Required flags
-+          2.2.2 Required name format
-+          2.2.3 Example livepatch relocation section names
-+          2.2.4 Example `readelf --sections` output
-+          2.2.5 Example `readelf --relocs` output
-+   3. Livepatch symbols
-+      3.1 What are livepatch symbols?
-+      3.2 A livepatch module's symbol table
-+      3.3 Livepatch symbol format
-+          3.3.1 Required flags
-+          3.3.2 Required name format
-+          3.3.3 Example livepatch symbol names
-+          3.3.4 Example `readelf --symbols` output
-+   4. Architecture-specific sections
-+   5. Symbol table and Elf section access
+ 	/proc/sys/kernel/sched_cfs_bandwidth_slice_us (default=5ms)
  
- ----------------------------
- 0. Background and motivation
-@@ -89,12 +89,15 @@ used by the kernel module loader to identify livepatch modules.
+ Larger slice values will reduce transfer overheads, while smaller values allow
+@@ -66,6 +69,7 @@ Statistics
+ A group's bandwidth statistics are exported via 3 fields in cpu.stat.
  
- Example modinfo output:
- -----------------------
--% modinfo livepatch-meminfo.ko
--filename:		livepatch-meminfo.ko
--livepatch:		Y
--license:		GPL
--depends:
--vermagic:		4.3.0+ SMP mod_unload
+ cpu.stat:
 +
-+::
+ - nr_periods: Number of enforcement intervals that have elapsed.
+ - nr_throttled: Number of times the group has been throttled/limited.
+ - throttled_time: The total time duration (in nanoseconds) for which entities
+@@ -78,12 +82,15 @@ Hierarchical considerations
+ The interface enforces that an individual entity's bandwidth is always
+ attainable, that is: max(c_i) <= C. However, over-subscription in the
+ aggregate case is explicitly allowed to enable work-conserving semantics
+-within a hierarchy.
++within a hierarchy:
 +
-+	% modinfo livepatch-meminfo.ko
-+	filename:		livepatch-meminfo.ko
-+	livepatch:		Y
-+	license:		GPL
-+	depends:
-+	vermagic:		4.3.0+ SMP mod_unload
- 
- --------------------------------
- 2. Livepatch relocation sections
-@@ -142,17 +145,18 @@ be copied into memory along with the other SHF_ALLOC sections).
- 
- 2.2.2 Required name format
- --------------------------
--The name of a livepatch relocation section must conform to the following format:
-+The name of a livepatch relocation section must conform to the following
-+format::
- 
--.klp.rela.objname.section_name
--^        ^^     ^ ^          ^
--|________||_____| |__________|
--   [A]      [B]        [C]
-+  .klp.rela.objname.section_name
-+  ^        ^^     ^ ^          ^
-+  |________||_____| |__________|
-+     [A]      [B]        [C]
- 
--[A] The relocation section name is prefixed with the string ".klp.rela."
--[B] The name of the object (i.e. "vmlinux" or name of module) to
--    which the relocation section belongs follows immediately after the prefix.
--[C] The actual name of the section to which this relocation section applies.
-+  [A] The relocation section name is prefixed with the string ".klp.rela."
-+  [B] The name of the object (i.e. "vmlinux" or name of module) to
-+      which the relocation section belongs follows immediately after the prefix.
-+  [C] The actual name of the section to which this relocation section applies.
- 
- 2.2.3 Example livepatch relocation section names:
- -------------------------------------------------
-@@ -162,6 +166,9 @@ The name of a livepatch relocation section must conform to the following format:
- 2.2.4 Example `readelf --sections` output for a patch
- module that patches vmlinux and modules 9p, btrfs, ext4:
- --------------------------------------------------------
+   e.g. \Sum (c_i) may exceed C
 +
-+::
+ [ Where C is the parent's bandwidth, and c_i its children ]
+ 
+ 
+ There are two ways in which a group may become throttled:
 +
-   Section Headers:
-   [Nr] Name                          Type                    Address          Off    Size   ES Flg Lk Inf Al
-   [ snip ]
-@@ -175,23 +182,26 @@ module that patches vmlinux and modules 9p, btrfs, ext4:
-   [ snip ]                                       ^                                             ^
-                                                  |                                             |
-                                                 [*]                                           [*]
--[*] Livepatch relocation sections are SHT_RELA sections but with a few special
--characteristics. Notice that they are marked SHF_ALLOC ("A") so that they will
--not be discarded when the module is loaded into memory, as well as with the
--SHF_RELA_LIVEPATCH flag ("o" - for OS-specific).
-+  [*] Livepatch relocation sections are SHT_RELA sections but with a few special
-+  characteristics. Notice that they are marked SHF_ALLOC ("A") so that they will
-+  not be discarded when the module is loaded into memory, as well as with the
-+  SHF_RELA_LIVEPATCH flag ("o" - for OS-specific).
+ 	a. it fully consumes its own quota within a period
+ 	b. a parent's quota is fully consumed within its period
  
- 2.2.5 Example `readelf --relocs` output for a patch module:
- -----------------------------------------------------------
--Relocation section '.klp.rela.btrfs.text.btrfs_feature_attr_show' at offset 0x2ba0 contains 4 entries:
--    Offset             Info             Type               Symbol's Value  Symbol's Name + Addend
--000000000000001f  0000005e00000002 R_X86_64_PC32          0000000000000000 .klp.sym.vmlinux.printk,0 - 4
--0000000000000028  0000003d0000000b R_X86_64_32S           0000000000000000 .klp.sym.btrfs.btrfs_ktype,0 + 0
--0000000000000036  0000003b00000002 R_X86_64_PC32          0000000000000000 .klp.sym.btrfs.can_modify_feature.isra.3,0 - 4
--000000000000004c  0000004900000002 R_X86_64_PC32          0000000000000000 .klp.sym.vmlinux.snprintf,0 - 4
--[ snip ]                                                                   ^
--                                                                           |
+@@ -92,7 +99,7 @@ be allowed to until the parent's runtime is refreshed.
+ 
+ Examples
+ --------
+-1. Limit a group to 1 CPU worth of runtime.
++1. Limit a group to 1 CPU worth of runtime::
+ 
+ 	If period is 250ms and quota is also 250ms, the group will get
+ 	1 CPU worth of runtime every 250ms.
+@@ -100,10 +107,10 @@ Examples
+ 	# echo 250000 > cpu.cfs_quota_us /* quota = 250ms */
+ 	# echo 250000 > cpu.cfs_period_us /* period = 250ms */
+ 
+-2. Limit a group to 2 CPUs worth of runtime on a multi-CPU machine.
++2. Limit a group to 2 CPUs worth of runtime on a multi-CPU machine
+ 
+-	With 500ms period and 1000ms quota, the group can get 2 CPUs worth of
+-	runtime every 500ms.
++   With 500ms period and 1000ms quota, the group can get 2 CPUs worth of
++   runtime every 500ms::
+ 
+ 	# echo 1000000 > cpu.cfs_quota_us /* quota = 1000ms */
+ 	# echo 500000 > cpu.cfs_period_us /* period = 500ms */
+@@ -112,11 +119,10 @@ Examples
+ 
+ 3. Limit a group to 20% of 1 CPU.
+ 
+-	With 50ms period, 10ms quota will be equivalent to 20% of 1 CPU.
++   With 50ms period, 10ms quota will be equivalent to 20% of 1 CPU::
+ 
+ 	# echo 10000 > cpu.cfs_quota_us /* quota = 10ms */
+ 	# echo 50000 > cpu.cfs_period_us /* period = 50ms */
+ 
+-	By using a small period here we are ensuring a consistent latency
+-	response at the expense of burst capacity.
+-
++   By using a small period here we are ensuring a consistent latency
++   response at the expense of burst capacity.
+diff --git a/Documentation/scheduler/sched-deadline.txt b/Documentation/scheduler/sched-deadline.txt
+index b14e03ff3528..12b8147b7995 100644
+--- a/Documentation/scheduler/sched-deadline.txt
++++ b/Documentation/scheduler/sched-deadline.txt
+@@ -1,29 +1,29 @@
+-			  Deadline Task Scheduling
+-			  ------------------------
++========================
++Deadline Task Scheduling
++========================
+ 
+-CONTENTS
+-========
++.. CONTENTS
+ 
+- 0. WARNING
+- 1. Overview
+- 2. Scheduling algorithm
+-   2.1 Main algorithm
+-   2.2 Bandwidth reclaiming
+- 3. Scheduling Real-Time Tasks
+-   3.1 Definitions
+-   3.2 Schedulability Analysis for Uniprocessor Systems
+-   3.3 Schedulability Analysis for Multiprocessor Systems
+-   3.4 Relationship with SCHED_DEADLINE Parameters
+- 4. Bandwidth management
+-   4.1 System-wide settings
+-   4.2 Task interface
+-   4.3 Default behavior
+-   4.4 Behavior of sched_yield()
+- 5. Tasks CPU affinity
+-   5.1 SCHED_DEADLINE and cpusets HOWTO
+- 6. Future plans
+- A. Test suite
+- B. Minimal main()
++    0. WARNING
++    1. Overview
++    2. Scheduling algorithm
++      2.1 Main algorithm
++      2.2 Bandwidth reclaiming
++    3. Scheduling Real-Time Tasks
++      3.1 Definitions
++      3.2 Schedulability Analysis for Uniprocessor Systems
++      3.3 Schedulability Analysis for Multiprocessor Systems
++      3.4 Relationship with SCHED_DEADLINE Parameters
++    4. Bandwidth management
++      4.1 System-wide settings
++      4.2 Task interface
++      4.3 Default behavior
++      4.4 Behavior of sched_yield()
++    5. Tasks CPU affinity
++      5.1 SCHED_DEADLINE and cpusets HOWTO
++    6. Future plans
++    A. Test suite
++    B. Minimal main()
+ 
+ 
+ 0. WARNING
+@@ -44,7 +44,7 @@ CONTENTS
+ 
+ 
+ 2. Scheduling algorithm
+-==================
++=======================
+ 
+ 2.1 Main algorithm
+ ------------------
+@@ -80,7 +80,7 @@ CONTENTS
+     a "remaining runtime". These two parameters are initially set to 0;
+ 
+   - When a SCHED_DEADLINE task wakes up (becomes ready for execution),
+-    the scheduler checks if
++    the scheduler checks if::
+ 
+                  remaining runtime                  runtime
+         ----------------------------------    >    ---------
+@@ -97,7 +97,7 @@ CONTENTS
+     left unchanged;
+ 
+   - When a SCHED_DEADLINE task executes for an amount of time t, its
+-    remaining runtime is decreased as
++    remaining runtime is decreased as::
+ 
+          remaining runtime = remaining runtime - t
+ 
+@@ -112,7 +112,7 @@ CONTENTS
+ 
+   - When the current time is equal to the replenishment time of a
+     throttled task, the scheduling deadline and the remaining runtime are
+-    updated as
++    updated as::
+ 
+          scheduling deadline = scheduling deadline + period
+          remaining runtime = remaining runtime + runtime
+@@ -129,7 +129,7 @@ CONTENTS
+  Reclamation of Unused Bandwidth) algorithm [15, 16, 17] and it is enabled
+  when flag SCHED_FLAG_RECLAIM is set.
+ 
+- The following diagram illustrates the state names for tasks handled by GRUB:
++ The following diagram illustrates the state names for tasks handled by GRUB::
+ 
+                              ------------
+                  (d)        |   Active   |
+@@ -168,7 +168,7 @@ CONTENTS
+       breaking the real-time guarantees.
+ 
+       The 0-lag time for a task entering the ActiveNonContending state is
+-      computed as
++      computed as::
+ 
+                         (runtime * dl_period)
+              deadline - ---------------------
+@@ -183,7 +183,7 @@ CONTENTS
+       the task's utilization must be removed from the previous runqueue's active
+       utilization and must be added to the new runqueue's active utilization.
+       In order to avoid races between a task waking up on a runqueue while the
+-       "inactive timer" is running on a different CPU, the "dl_non_contending"
++      "inactive timer" is running on a different CPU, the "dl_non_contending"
+       flag is used to indicate that a task is not on a runqueue but is active
+       (so, the flag is set when the task blocks and is cleared when the
+       "inactive timer" fires or when the task  wakes up).
+@@ -222,36 +222,36 @@ CONTENTS
+ 
+ 
+  Let's now see a trivial example of two deadline tasks with runtime equal
+- to 4 and period equal to 8 (i.e., bandwidth equal to 0.5):
++ to 4 and period equal to 8 (i.e., bandwidth equal to 0.5)::
+ 
+-     A            Task T1
+-     |
+-     |                               |
+-     |                               |
+-     |--------                       |----
+-     |       |                       V
+-     |---|---|---|---|---|---|---|---|--------->t
+-     0   1   2   3   4   5   6   7   8
++         A            Task T1
++         |
++         |                               |
++         |                               |
++         |--------                       |----
++         |       |                       V
++         |---|---|---|---|---|---|---|---|--------->t
++         0   1   2   3   4   5   6   7   8
+ 
+ 
+-     A            Task T2
+-     |
+-     |                               |
+-     |                               |
+-     |       ------------------------|
+-     |       |                       V
+-     |---|---|---|---|---|---|---|---|--------->t
+-     0   1   2   3   4   5   6   7   8
++         A            Task T2
++         |
++         |                               |
++         |                               |
++         |       ------------------------|
++         |       |                       V
++         |---|---|---|---|---|---|---|---|--------->t
++         0   1   2   3   4   5   6   7   8
+ 
+ 
+-     A            running_bw
+-     |
+-   1 -----------------               ------
+-     |               |               |
+-  0.5-               -----------------
+-     |                               |
+-     |---|---|---|---|---|---|---|---|--------->t
+-     0   1   2   3   4   5   6   7   8
++         A            running_bw
++         |
++       1 -----------------               ------
++         |               |               |
++      0.5-               -----------------
++         |                               |
++         |---|---|---|---|---|---|---|---|--------->t
++         0   1   2   3   4   5   6   7   8
+ 
+ 
+   - Time t = 0:
+@@ -284,7 +284,7 @@ CONTENTS
+ 
+ 
+ 2.3 Energy-aware scheduling
+-------------------------
++---------------------------
+ 
+  When cpufreq's schedutil governor is selected, SCHED_DEADLINE implements the
+  GRUB-PA [19] algorithm, reducing the CPU operating frequency to the minimum
+@@ -299,15 +299,20 @@ CONTENTS
+ 3. Scheduling Real-Time Tasks
+ =============================
+ 
+- * BIG FAT WARNING ******************************************************
+- *
+- * This section contains a (not-thorough) summary on classical deadline
+- * scheduling theory, and how it applies to SCHED_DEADLINE.
+- * The reader can "safely" skip to Section 4 if only interested in seeing
+- * how the scheduling policy can be used. Anyway, we strongly recommend
+- * to come back here and continue reading (once the urge for testing is
+- * satisfied :P) to be sure of fully understanding all technical details.
+- ************************************************************************
 +
-+::
 +
-+  Relocation section '.klp.rela.btrfs.text.btrfs_feature_attr_show' at offset 0x2ba0 contains 4 entries:
-+      Offset             Info             Type               Symbol's Value  Symbol's Name + Addend
-+  000000000000001f  0000005e00000002 R_X86_64_PC32          0000000000000000 .klp.sym.vmlinux.printk,0 - 4
-+  0000000000000028  0000003d0000000b R_X86_64_32S           0000000000000000 .klp.sym.btrfs.btrfs_ktype,0 + 0
-+  0000000000000036  0000003b00000002 R_X86_64_PC32          0000000000000000 .klp.sym.btrfs.can_modify_feature.isra.3,0 - 4
-+  000000000000004c  0000004900000002 R_X86_64_PC32          0000000000000000 .klp.sym.vmlinux.snprintf,0 - 4
-+  [ snip ]                                                                   ^
-+                                                                             |
-                                                                           [*]
--[*] Every symbol referenced by a relocation is a livepatch symbol.
-+  [*] Every symbol referenced by a relocation is a livepatch symbol.
- 
- --------------------
- 3. Livepatch symbols
-@@ -231,18 +241,19 @@ relocation section refer to their respective symbols with their symbol indices,
- and the original symbol indices (and thus the symtab ordering) must be
- preserved in order for apply_relocate_add() to find the right symbol.
- 
--For example, take this particular rela from a livepatch module:
--Relocation section '.klp.rela.btrfs.text.btrfs_feature_attr_show' at offset 0x2ba0 contains 4 entries:
--    Offset             Info             Type               Symbol's Value  Symbol's Name + Addend
--000000000000001f  0000005e00000002 R_X86_64_PC32          0000000000000000 .klp.sym.vmlinux.printk,0 - 4
-+For example, take this particular rela from a livepatch module:::
- 
--This rela refers to the symbol '.klp.sym.vmlinux.printk,0', and the symbol index is encoded
--in 'Info'. Here its symbol index is 0x5e, which is 94 in decimal, which refers to the
--symbol index 94.
--And in this patch module's corresponding symbol table, symbol index 94 refers to that very symbol:
--[ snip ]
--94: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT OS [0xff20] .klp.sym.vmlinux.printk,0
--[ snip ]
-+  Relocation section '.klp.rela.btrfs.text.btrfs_feature_attr_show' at offset 0x2ba0 contains 4 entries:
-+      Offset             Info             Type               Symbol's Value  Symbol's Name + Addend
-+  000000000000001f  0000005e00000002 R_X86_64_PC32          0000000000000000 .klp.sym.vmlinux.printk,0 - 4
++ ..  BIG FAT WARNING ******************************************************
 +
-+  This rela refers to the symbol '.klp.sym.vmlinux.printk,0', and the symbol index is encoded
-+  in 'Info'. Here its symbol index is 0x5e, which is 94 in decimal, which refers to the
-+  symbol index 94.
-+  And in this patch module's corresponding symbol table, symbol index 94 refers to that very symbol:
-+  [ snip ]
-+  94: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT OS [0xff20] .klp.sym.vmlinux.printk,0
-+  [ snip ]
- 
- ---------------------------
- 3.3 Livepatch symbol format
-@@ -256,42 +267,48 @@ See include/uapi/linux/elf.h for the actual definitions.
- 
- 3.3.2 Required name format
- --------------------------
--Livepatch symbol names must conform to the following format:
-+Livepatch symbol names must conform to the following format::
- 
--.klp.sym.objname.symbol_name,sympos
--^       ^^     ^ ^         ^ ^
--|_______||_____| |_________| |
--   [A]     [B]       [C]    [D]
-+  .klp.sym.objname.symbol_name,sympos
-+  ^       ^^     ^ ^         ^ ^
-+  |_______||_____| |_________| |
-+     [A]     [B]       [C]    [D]
- 
--[A] The symbol name is prefixed with the string ".klp.sym."
--[B] The name of the object (i.e. "vmlinux" or name of module) to
--    which the symbol belongs follows immediately after the prefix.
--[C] The actual name of the symbol.
--[D] The position of the symbol in the object (as according to kallsyms)
--    This is used to differentiate duplicate symbols within the same
--    object. The symbol position is expressed numerically (0, 1, 2...).
--    The symbol position of a unique symbol is 0.
-+  [A] The symbol name is prefixed with the string ".klp.sym."
-+  [B] The name of the object (i.e. "vmlinux" or name of module) to
-+      which the symbol belongs follows immediately after the prefix.
-+  [C] The actual name of the symbol.
-+  [D] The position of the symbol in the object (as according to kallsyms)
-+      This is used to differentiate duplicate symbols within the same
-+      object. The symbol position is expressed numerically (0, 1, 2...).
-+      The symbol position of a unique symbol is 0.
- 
- 3.3.3 Example livepatch symbol names:
- -------------------------------------
--.klp.sym.vmlinux.snprintf,0
--.klp.sym.vmlinux.printk,0
--.klp.sym.btrfs.btrfs_ktype,0
++ .. warning::
 +
-+::
++   This section contains a (not-thorough) summary on classical deadline
++   scheduling theory, and how it applies to SCHED_DEADLINE.
++   The reader can "safely" skip to Section 4 if only interested in seeing
++   how the scheduling policy can be used. Anyway, we strongly recommend
++   to come back here and continue reading (once the urge for testing is
++   satisfied :P) to be sure of fully understanding all technical details.
 +
-+	.klp.sym.vmlinux.snprintf,0
-+	.klp.sym.vmlinux.printk,0
-+	.klp.sym.btrfs.btrfs_ktype,0
++ .. ************************************************************************
  
- 3.3.4 Example `readelf --symbols` output for a patch module:
- ------------------------------------------------------------
--Symbol table '.symtab' contains 127 entries:
--   Num:    Value          Size Type    Bind   Vis     Ndx         Name
--   [ snip ]
--    73: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT OS [0xff20] .klp.sym.vmlinux.snprintf,0
--    74: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT OS [0xff20] .klp.sym.vmlinux.capable,0
--    75: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT OS [0xff20] .klp.sym.vmlinux.find_next_bit,0
--    76: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT OS [0xff20] .klp.sym.vmlinux.si_swapinfo,0
--  [ snip ]                                               ^
--                                                         |
--                                                        [*]
--[*] Note that the 'Ndx' (Section index) for these symbols is SHN_LIVEPATCH (0xff20).
--    "OS" means OS-specific.
+  There are no limitations on what kind of task can exploit this new
+  scheduling discipline, even if it must be said that it is particularly
+@@ -329,6 +334,7 @@ CONTENTS
+  sporadic with minimum inter-arrival time P is r_{j+1} >= r_j + P. Finally,
+  d_j = r_j + D, where D is the task's relative deadline.
+  Summing up, a real-time task can be described as
 +
-+::
+ 	Task = (WCET, D, P)
+ 
+  The utilization of a real-time task is defined as the ratio between its
+@@ -352,13 +358,15 @@ CONTENTS
+  between the finishing time of a job and its absolute deadline).
+  More precisely, it can be proven that using a global EDF scheduler the
+  maximum tardiness of each task is smaller or equal than
 +
-+  Symbol table '.symtab' contains 127 entries:
-+     Num:    Value          Size Type    Bind   Vis     Ndx         Name
-+     [ snip ]
-+      73: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT OS [0xff20] .klp.sym.vmlinux.snprintf,0
-+      74: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT OS [0xff20] .klp.sym.vmlinux.capable,0
-+      75: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT OS [0xff20] .klp.sym.vmlinux.find_next_bit,0
-+      76: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT OS [0xff20] .klp.sym.vmlinux.si_swapinfo,0
-+    [ snip ]                                               ^
-+                                                           |
-+                                                          [*]
-+  [*] Note that the 'Ndx' (Section index) for these symbols is SHN_LIVEPATCH (0xff20).
-+      "OS" means OS-specific.
- 
- ---------------------------------
- 4. Architecture-specific sections
-@@ -313,11 +330,11 @@ Since apply_relocate_add() requires access to a module's section headers,
- symbol table, and relocation section indices, Elf information is preserved for
- livepatch modules and is made accessible by the module loader through
- module->klp_info, which is a klp_modinfo struct. When a livepatch module loads,
--this struct is filled in by the module loader. Its fields are documented below:
-+this struct is filled in by the module loader. Its fields are documented below::
- 
--struct klp_modinfo {
--	Elf_Ehdr hdr; /* Elf header */
--	Elf_Shdr *sechdrs; /* Section header table */
--	char *secstrings; /* String table for the section headers */
--	unsigned int symndx; /* The symbol table section index */
--};
-+	struct klp_modinfo {
-+		Elf_Ehdr hdr; /* Elf header */
-+		Elf_Shdr *sechdrs; /* Section header table */
-+		char *secstrings; /* String table for the section headers */
-+		unsigned int symndx; /* The symbol table section index */
-+	};
-diff --git a/Documentation/livepatch/shadow-vars.txt b/Documentation/livepatch/shadow-vars.txt
-index ecc09a7be5dd..c05715aeafa4 100644
---- a/Documentation/livepatch/shadow-vars.txt
-+++ b/Documentation/livepatch/shadow-vars.txt
-@@ -27,10 +27,13 @@ A hashtable references all shadow variables.  These references are
- stored and retrieved through a <obj, id> pair.
- 
- * The klp_shadow variable data structure encapsulates both tracking
--meta-data and shadow-data:
-+  meta-data and shadow-data:
+ 	((M − 1) · WCET_max − WCET_min)/(M − (M − 2) · U_max) + WCET_max
 +
-   - meta-data
+  where WCET_max = max{WCET_i} is the maximum WCET, WCET_min=min{WCET_i}
+  is the minimum WCET, and U_max = max{WCET_i/P_i} is the maximum
+  utilization[12].
+ 
+ 3.2 Schedulability Analysis for Uniprocessor Systems
+-------------------------
++----------------------------------------------------
+ 
+  If M=1 (uniprocessor system), or in case of partitioned scheduling (each
+  real-time task is statically assigned to one and only one CPU), it is
+@@ -370,7 +378,9 @@ CONTENTS
+  a task as WCET_i/min{D_i,P_i}, and EDF is able to respect all the deadlines
+  of all the tasks running on a CPU if the sum of the densities of the tasks
+  running on such a CPU is smaller or equal than 1:
 +
-     - obj - pointer to parent object
-     - id - data identifier
+ 	sum(WCET_i / min{D_i, P_i}) <= 1
 +
-   - data[] - storage for shadow data
- 
- It is important to note that the klp_shadow_alloc() and
-@@ -47,31 +50,43 @@ to do actions that can be done only once when a new variable is allocated.
- 
- * klp_shadow_alloc() - allocate and add a new shadow variable
-   - search hashtable for <obj, id> pair
+  It is important to notice that this condition is only sufficient, and not
+  necessary: there are task sets that are schedulable, but do not respect the
+  condition. For example, consider the task set {Task_1,Task_2} composed by
+@@ -379,7 +389,9 @@ CONTENTS
+  (Task_1 is scheduled as soon as it is released, and finishes just in time
+  to respect its deadline; Task_2 is scheduled immediately after Task_1, hence
+  its response time cannot be larger than 50ms + 10ms = 60ms) even if
 +
-   - if exists
+ 	50 / min{50,100} + 10 / min{100, 100} = 50 / 50 + 10 / 100 = 1.1
 +
-     - WARN and return NULL
+  Of course it is possible to test the exact schedulability of tasks with
+  D_i != P_i (checking a condition that is both sufficient and necessary),
+  but this cannot be done by comparing the total utilization or density with
+@@ -399,7 +411,7 @@ CONTENTS
+  4 Linux uses an admission test based on the tasks' utilizations.
+ 
+ 3.3 Schedulability Analysis for Multiprocessor Systems
+-------------------------
++------------------------------------------------------
+ 
+  On multiprocessor systems with global EDF scheduling (non partitioned
+  systems), a sufficient test for schedulability can not be based on the
+@@ -428,7 +440,9 @@ CONTENTS
+  between total utilization (or density) and a fixed constant. If all tasks
+  have D_i = P_i, a sufficient schedulability condition can be expressed in
+  a simple way:
 +
-   - if <obj, id> doesn't already exist
+ 	sum(WCET_i / P_i) <= M - (M - 1) · U_max
 +
-     - allocate a new shadow variable
-     - initialize the variable using a custom constructor and data when provided
-     - add <obj, id> to the global hashtable
+  where U_max = max{WCET_i / P_i}[10]. Notice that for U_max = 1,
+  M - (M - 1) · U_max becomes M - M + 1 = 1 and this schedulability condition
+  just confirms the Dhall's effect. A more complete survey of the literature
+@@ -447,7 +461,7 @@ CONTENTS
+  the tasks are limited.
  
- * klp_shadow_get_or_alloc() - get existing or alloc a new shadow variable
-   - search hashtable for <obj, id> pair
+ 3.4 Relationship with SCHED_DEADLINE Parameters
+-------------------------
++-----------------------------------------------
+ 
+  Finally, it is important to understand the relationship between the
+  SCHED_DEADLINE scheduling parameters described in Section 2 (runtime,
+@@ -473,6 +487,7 @@ CONTENTS
+  this task, as it is not possible to respect its temporal constraints.
+ 
+  References:
 +
-   - if exists
+   1 - C. L. Liu and J. W. Layland. Scheduling algorithms for multiprogram-
+       ming in a hard-real-time environment. Journal of the Association for
+       Computing Machinery, 20(1), 1973.
+@@ -596,11 +611,13 @@ CONTENTS
+  Specifying a periodic/sporadic task that executes for a given amount of
+  runtime at each instance, and that is scheduled according to the urgency of
+  its own timing constraints needs, in general, a way of declaring:
 +
-     - return existing shadow variable
+   - a (maximum/typical) instance execution time,
+   - a minimum interval between consecutive instances,
+   - a time constraint by which each instance must be completed.
+ 
+  Therefore:
 +
-   - if <obj, id> doesn't already exist
+   * a new struct sched_attr, containing all the necessary fields is
+     provided;
+   * the new scheduling related syscalls that manipulate it, i.e.,
+@@ -658,21 +675,21 @@ CONTENTS
+ ------------------------------------
+ 
+  An example of a simple configuration (pin a -deadline task to CPU0)
+- follows (rt-app is used to create a -deadline task).
++ follows (rt-app is used to create a -deadline task)::
+ 
+- mkdir /dev/cpuset
+- mount -t cgroup -o cpuset cpuset /dev/cpuset
+- cd /dev/cpuset
+- mkdir cpu0
+- echo 0 > cpu0/cpuset.cpus
+- echo 0 > cpu0/cpuset.mems
+- echo 1 > cpuset.cpu_exclusive
+- echo 0 > cpuset.sched_load_balance
+- echo 1 > cpu0/cpuset.cpu_exclusive
+- echo 1 > cpu0/cpuset.mem_exclusive
+- echo $$ > cpu0/tasks
+- rt-app -t 100000:10000:d:0 -D5 (it is now actually superfluous to specify
+- task affinity)
++   mkdir /dev/cpuset
++   mount -t cgroup -o cpuset cpuset /dev/cpuset
++   cd /dev/cpuset
++   mkdir cpu0
++   echo 0 > cpu0/cpuset.cpus
++   echo 0 > cpu0/cpuset.mems
++   echo 1 > cpuset.cpu_exclusive
++   echo 0 > cpuset.sched_load_balance
++   echo 1 > cpu0/cpuset.cpu_exclusive
++   echo 1 > cpu0/cpuset.mem_exclusive
++   echo $$ > cpu0/tasks
++   rt-app -t 100000:10000:d:0 -D5 # it is now actually superfluous to specify
++				  # task affinity
+ 
+ 6. Future plans
+ ===============
+@@ -711,7 +728,7 @@ Appendix A. Test suite
+  rt-app is available at: https://github.com/scheduler-tools/rt-app.
+ 
+  Thread parameters can be specified from the command line, with something like
+- this:
++ this::
+ 
+   # rt-app -t 100000:10000:d -t 150000:20000:f:10 -D5
+ 
+@@ -721,27 +738,27 @@ Appendix A. Test suite
+  of 5 seconds.
+ 
+  More interestingly, configurations can be described with a json file that
+- can be passed as input to rt-app with something like this:
++ can be passed as input to rt-app with something like this::
+ 
+   # rt-app my_config.json
+ 
+  The parameters that can be specified with the second method are a superset
+  of the command line options. Please refer to rt-app documentation for more
+- details (<rt-app-sources>/doc/*.json).
++ details (`<rt-app-sources>/doc/*.json`).
+ 
+  The second testing application is a modification of schedtool, called
+  schedtool-dl, which can be used to setup SCHED_DEADLINE parameters for a
+  certain pid/application. schedtool-dl is available at:
+  https://github.com/scheduler-tools/schedtool-dl.git.
+ 
+- The usage is straightforward:
++ The usage is straightforward::
+ 
+   # schedtool -E -t 10000000:100000000 -e ./my_cpuhog_app
+ 
+  With this, my_cpuhog_app is put to run inside a SCHED_DEADLINE reservation
+  of 10ms every 100ms (note that parameters are expressed in microseconds).
+  You can also use schedtool to create a reservation for an already running
+- application, given that you know its pid:
++ application, given that you know its pid::
+ 
+   # schedtool -E -t 10000000:100000000 my_app_pid
+ 
+@@ -750,43 +767,43 @@ Appendix B. Minimal main()
+ 
+  We provide in what follows a simple (ugly) self-contained code snippet
+  showing how SCHED_DEADLINE reservations can be created by a real-time
+- application developer.
+-
+- #define _GNU_SOURCE
+- #include <unistd.h>
+- #include <stdio.h>
+- #include <stdlib.h>
+- #include <string.h>
+- #include <time.h>
+- #include <linux/unistd.h>
+- #include <linux/kernel.h>
+- #include <linux/types.h>
+- #include <sys/syscall.h>
+- #include <pthread.h>
+-
+- #define gettid() syscall(__NR_gettid)
+-
+- #define SCHED_DEADLINE	6
+-
+- /* XXX use the proper syscall numbers */
+- #ifdef __x86_64__
+- #define __NR_sched_setattr		314
+- #define __NR_sched_getattr		315
+- #endif
+-
+- #ifdef __i386__
+- #define __NR_sched_setattr		351
+- #define __NR_sched_getattr		352
+- #endif
+-
+- #ifdef __arm__
+- #define __NR_sched_setattr		380
+- #define __NR_sched_getattr		381
+- #endif
+-
+- static volatile int done;
+-
+- struct sched_attr {
++ application developer::
 +
-     - allocate a new shadow variable
-     - initialize the variable using a custom constructor and data when provided
-     - add <obj, id> pair to the global hashtable
- 
- * klp_shadow_free() - detach and free a <obj, id> shadow variable
-   - find and remove a <obj, id> reference from global hashtable
++   #define _GNU_SOURCE
++   #include <unistd.h>
++   #include <stdio.h>
++   #include <stdlib.h>
++   #include <string.h>
++   #include <time.h>
++   #include <linux/unistd.h>
++   #include <linux/kernel.h>
++   #include <linux/types.h>
++   #include <sys/syscall.h>
++   #include <pthread.h>
 +
-     - if found
++   #define gettid() syscall(__NR_gettid)
 +
-       - call destructor function if defined
-       - free shadow variable
- 
- * klp_shadow_free_all() - detach and free all <*, id> shadow variables
-   - find and remove any <*, id> references from global hashtable
++   #define SCHED_DEADLINE	6
 +
-     - if found
++   /* XXX use the proper syscall numbers */
++   #ifdef __x86_64__
++   #define __NR_sched_setattr		314
++   #define __NR_sched_getattr		315
++   #endif
 +
-       - call destructor function if defined
-       - free shadow variable
++   #ifdef __i386__
++   #define __NR_sched_setattr		351
++   #define __NR_sched_getattr		352
++   #endif
++
++   #ifdef __arm__
++   #define __NR_sched_setattr		380
++   #define __NR_sched_getattr		381
++   #endif
++
++   static volatile int done;
++
++   struct sched_attr {
+ 	__u32 size;
  
-@@ -102,12 +117,12 @@ parent "goes live" (ie, any shadow variable get-API requests are made
- for this <obj, id> pair.)
+ 	__u32 sched_policy;
+@@ -802,25 +819,25 @@ Appendix B. Minimal main()
+ 	__u64 sched_runtime;
+ 	__u64 sched_deadline;
+ 	__u64 sched_period;
+- };
++   };
  
- For commit 1d147bfa6429, when a parent sta_info structure is allocated,
--allocate a shadow copy of the ps_lock pointer, then initialize it:
-+allocate a shadow copy of the ps_lock pointer, then initialize it::
+- int sched_setattr(pid_t pid,
++   int sched_setattr(pid_t pid,
+ 		  const struct sched_attr *attr,
+ 		  unsigned int flags)
+- {
++   {
+ 	return syscall(__NR_sched_setattr, pid, attr, flags);
+- }
++   }
  
--#define PS_LOCK 1
--struct sta_info *sta_info_alloc(struct ieee80211_sub_if_data *sdata,
--				const u8 *addr, gfp_t gfp)
--{
-+  #define PS_LOCK 1
-+  struct sta_info *sta_info_alloc(struct ieee80211_sub_if_data *sdata,
-+				  const u8 *addr, gfp_t gfp)
-+  {
- 	struct sta_info *sta;
- 	spinlock_t *ps_lock;
+- int sched_getattr(pid_t pid,
++   int sched_getattr(pid_t pid,
+ 		  struct sched_attr *attr,
+ 		  unsigned int size,
+ 		  unsigned int flags)
+- {
++   {
+ 	return syscall(__NR_sched_getattr, pid, attr, size, flags);
+- }
++   }
  
-@@ -123,10 +138,10 @@ struct sta_info *sta_info_alloc(struct ieee80211_sub_if_data *sdata,
- 	...
+- void *run_deadline(void *data)
+- {
++   void *run_deadline(void *data)
++   {
+ 	struct sched_attr attr;
+ 	int x = 0;
+ 	int ret;
+@@ -851,10 +868,10 @@ Appendix B. Minimal main()
  
- When requiring a ps_lock, query the shadow variable API to retrieve one
--for a specific struct sta_info:
-+for a specific struct sta_info:::
+ 	printf("deadline thread dies [%ld]\n", gettid());
+ 	return NULL;
+- }
++   }
  
--void ieee80211_sta_ps_deliver_wakeup(struct sta_info *sta)
--{
-+  void ieee80211_sta_ps_deliver_wakeup(struct sta_info *sta)
-+  {
- 	spinlock_t *ps_lock;
+- int main (int argc, char **argv)
+- {
++   int main (int argc, char **argv)
++   {
+ 	pthread_t thread;
  
- 	/* sync with ieee80211_tx_h_unicast_ps_buf */
-@@ -136,10 +151,10 @@ void ieee80211_sta_ps_deliver_wakeup(struct sta_info *sta)
- 	...
+ 	printf("main thread [%ld]\n", gettid());
+@@ -868,4 +885,4 @@ Appendix B. Minimal main()
  
- When the parent sta_info structure is freed, first free the shadow
--variable:
-+variable::
- 
--void sta_info_free(struct ieee80211_local *local, struct sta_info *sta)
--{
-+  void sta_info_free(struct ieee80211_local *local, struct sta_info *sta)
-+  {
- 	klp_shadow_free(sta, PS_LOCK, NULL);
- 	kfree(sta);
- 	...
-@@ -155,19 +170,19 @@ these cases, the klp_shadow_get_or_alloc() call can be used to attach
- shadow variables to parents already in-flight.
- 
- For commit 1d147bfa6429, a good spot to allocate a shadow spinlock is
--inside ieee80211_sta_ps_deliver_wakeup():
-+inside ieee80211_sta_ps_deliver_wakeup()::
- 
--int ps_lock_shadow_ctor(void *obj, void *shadow_data, void *ctor_data)
--{
-+  int ps_lock_shadow_ctor(void *obj, void *shadow_data, void *ctor_data)
-+  {
- 	spinlock_t *lock = shadow_data;
- 
- 	spin_lock_init(lock);
+ 	printf("main dies [%ld]\n", gettid());
  	return 0;
--}
-+  }
+- }
++   }
+diff --git a/Documentation/scheduler/sched-design-CFS.txt b/Documentation/scheduler/sched-design-CFS.txt
+index edd861c94c1b..82406685365a 100644
+--- a/Documentation/scheduler/sched-design-CFS.txt
++++ b/Documentation/scheduler/sched-design-CFS.txt
+@@ -1,9 +1,10 @@
+-                      =============
+-                      CFS Scheduler
+-                      =============
++=============
++CFS Scheduler
++=============
  
--#define PS_LOCK 1
--void ieee80211_sta_ps_deliver_wakeup(struct sta_info *sta)
--{
-+  #define PS_LOCK 1
-+  void ieee80211_sta_ps_deliver_wakeup(struct sta_info *sta)
-+  {
- 	spinlock_t *ps_lock;
  
- 	/* sync with ieee80211_tx_h_unicast_ps_buf */
-@@ -200,10 +215,12 @@ suggests how to handle the parent object.
- =============
+ 1.  OVERVIEW
++============
  
- * https://github.com/dynup/kpatch
--The livepatch implementation is based on the kpatch version of shadow
--variables.
+ CFS stands for "Completely Fair Scheduler," and is the new "desktop" process
+ scheduler implemented by Ingo Molnar and merged in Linux 2.6.23.  It is the
+@@ -27,6 +28,7 @@ is its actual runtime normalized to the total number of running tasks.
+ 
+ 
+ 2.  FEW IMPLEMENTATION DETAILS
++==============================
+ 
+ In CFS the virtual runtime is expressed and tracked via the per-task
+ p->se.vruntime (nanosec-unit) value.  This way, it's possible to accurately
+@@ -49,6 +51,7 @@ algorithm variants to recognize sleepers.
+ 
+ 
+ 3.  THE RBTREE
++==============
+ 
+ CFS's design is quite radical: it does not use the old data structures for the
+ runqueues, but it uses a time-ordered rbtree to build a "timeline" of future
+@@ -84,6 +87,7 @@ picked and the current task is preempted.
+ 
+ 
+ 4.  SOME FEATURES OF CFS
++========================
+ 
+ CFS uses nanosecond granularity accounting and does not rely on any jiffies or
+ other HZ detail.  Thus the CFS scheduler has no notion of "timeslices" in the
+@@ -113,6 +117,7 @@ result.
+ 
+ 
+ 5. Scheduling policies
++======================
+ 
+ CFS implements three scheduling policies:
+ 
+@@ -137,6 +142,7 @@ SCHED_IDLE.
+ 
+ 
+ 6.  SCHEDULING CLASSES
++======================
+ 
+ The new CFS scheduler has been designed in such a way to introduce "Scheduling
+ Classes," an extensible hierarchy of scheduler modules.  These modules
+@@ -197,6 +203,7 @@ This is the (partial) list of the hooks:
+ 
+ 
+ 7.  GROUP SCHEDULER EXTENSIONS TO CFS
++=====================================
+ 
+ Normally, the scheduler operates on individual tasks and strives to provide
+ fair CPU time to each task.  Sometimes, it may be desirable to group tasks and
+@@ -219,7 +226,7 @@ SCHED_BATCH) tasks.
+ 
+ When CONFIG_FAIR_GROUP_SCHED is defined, a "cpu.shares" file is created for each
+ group created using the pseudo filesystem.  See example steps below to create
+-task groups and modify their CPU share using the "cgroups" pseudo filesystem.
++task groups and modify their CPU share using the "cgroups" pseudo filesystem::
+ 
+ 	# mount -t tmpfs cgroup_root /sys/fs/cgroup
+ 	# mkdir /sys/fs/cgroup/cpu
+diff --git a/Documentation/scheduler/sched-domains.txt b/Documentation/scheduler/sched-domains.txt
+index 4af80b1c05aa..f7504226f445 100644
+--- a/Documentation/scheduler/sched-domains.txt
++++ b/Documentation/scheduler/sched-domains.txt
+@@ -1,3 +1,7 @@
++=================
++Scheduler Domains
++=================
 +
-+  The livepatch implementation is based on the kpatch version of shadow
-+  variables.
+ Each CPU has a "base" scheduling domain (struct sched_domain). The domain
+ hierarchy is built from these base domains via the ->parent pointer. ->parent
+ MUST be NULL terminated, and domain structures should be per-CPU as they are
+@@ -46,7 +50,9 @@ CPU's runqueue and the newly found busiest one and starts moving tasks from it
+ to our runqueue. The exact number of tasks amounts to an imbalance previously
+ computed while iterating over this sched domain's groups.
  
- * http://files.mkgnu.net/files/dynamos/doc/papers/dynamos_eurosys_07.pdf
--Dynamic and Adaptive Updates of Non-Quiescent Subsystems in Commodity
--Operating System Kernels (Kritis Makris, Kyung Dong Ryu 2007) presented
--a datatype update technique called "shadow data structures".
+-*** Implementing sched domains ***
++Implementing sched domains
++==========================
 +
-+  Dynamic and Adaptive Updates of Non-Quiescent Subsystems in Commodity
-+  Operating System Kernels (Kritis Makris, Kyung Dong Ryu 2007) presented
-+  a datatype update technique called "shadow data structures".
+ The "base" domain will "span" the first level of the hierarchy. In the case
+ of SMT, you'll span all siblings of the physical CPU, with each group being
+ a single virtual CPU.
+diff --git a/Documentation/scheduler/sched-energy.txt b/Documentation/scheduler/sched-energy.txt
+index 197d81f4b836..fce5858c9082 100644
+--- a/Documentation/scheduler/sched-energy.txt
++++ b/Documentation/scheduler/sched-energy.txt
+@@ -1,6 +1,6 @@
+-			   =======================
+-			   Energy Aware Scheduling
+-			   =======================
++=======================
++Energy Aware Scheduling
++=======================
+ 
+ 1. Introduction
+ ---------------
+@@ -12,7 +12,7 @@ with a minimal impact on throughput. This document aims at providing an
+ introduction on how EAS works, what are the main design decisions behind it, and
+ details what is needed to get it to run.
+ 
+-Before going any further, please note that at the time of writing:
++Before going any further, please note that at the time of writing::
+ 
+    /!\ EAS does not support platforms with symmetric CPU topologies /!\
+ 
+@@ -33,13 +33,13 @@ To make it clear from the start:
+  - power = energy/time = [joule/second] = [watt]
+ 
+ The goal of EAS is to minimize energy, while still getting the job done. That
+-is, we want to maximize:
++is, we want to maximize::
+ 
+ 	performance [inst/s]
+ 	--------------------
+ 	    power [W]
+ 
+-which is equivalent to minimizing:
++which is equivalent to minimizing::
+ 
+ 	energy [J]
+ 	-----------
+@@ -97,7 +97,7 @@ domains can contain duplicate elements.
+ 
+ Example 1.
+     Let us consider a platform with 12 CPUs, split in 3 performance domains
+-    (pd0, pd4 and pd8), organized as follows:
++    (pd0, pd4 and pd8), organized as follows::
+ 
+ 	          CPUs:   0 1 2 3 4 5 6 7 8 9 10 11
+ 	          PDs:   |--pd0--|--pd4--|---pd8---|
+@@ -108,6 +108,7 @@ Example 1.
+     containing 6 CPUs. The two root domains are denoted rd1 and rd2 in the
+     above figure. Since pd4 intersects with both rd1 and rd2, it will be
+     present in the linked list '->pd' attached to each of them:
++
+        * rd1->pd: pd0 -> pd4
+        * rd2->pd: pd4 -> pd8
+ 
+@@ -159,9 +160,9 @@ Example 2.
+     Each performance domain has three Operating Performance Points (OPPs).
+     The CPU capacity and power cost associated with each OPP is listed in
+     the Energy Model table. The util_avg of P is shown on the figures
+-    below as 'PP'.
++    below as 'PP'::
+ 
+-    CPU util.
++     CPU util.
+       1024                 - - - - - - -              Energy Model
+                                                +-----------+-------------+
+                                                |  Little   |     Big     |
+@@ -188,8 +189,7 @@ Example 2.
+     (which is coherent with the behaviour of the schedutil CPUFreq
+     governor, see Section 6. for more details on this topic).
+ 
+-    Case 1. P is migrated to CPU1
+-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++    **Case 1. P is migrated to CPU1**::
+ 
+       1024                 - - - - - - -
+ 
+@@ -207,8 +207,7 @@ Example 2.
+             CPU0   CPU1     CPU2   CPU3
+ 
+ 
+-    Case 2. P is migrated to CPU3
+-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++    **Case 2. P is migrated to CPU3**::
+ 
+       1024                 - - - - - - -
+ 
+@@ -226,8 +225,7 @@ Example 2.
+             CPU0   CPU1     CPU2   CPU3
+ 
+ 
+-    Case 3. P stays on prev_cpu / CPU 0
+-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++    **Case 3. P stays on prev_cpu / CPU 0**::
+ 
+       1024                 - - - - - - -
+ 
+@@ -324,7 +322,9 @@ hardware properties and on other features of the kernel being enabled. This
+ section lists these dependencies and provides hints as to how they can be met.
+ 
+ 
+-  6.1 - Asymmetric CPU topology
++6.1 - Asymmetric CPU topology
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
+ 
+ As mentioned in the introduction, EAS is only supported on platforms with
+ asymmetric CPU topologies for now. This requirement is checked at run-time by
+@@ -347,7 +347,8 @@ significant savings on SMP platforms have been observed yet. This restriction
+ could be amended in the future if proven otherwise.
+ 
+ 
+-  6.2 - Energy Model presence
++6.2 - Energy Model presence
++^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+ EAS uses the EM of a platform to estimate the impact of scheduling decisions on
+ energy. So, your platform must provide power cost tables to the EM framework in
+@@ -358,7 +359,8 @@ Please also note that the scheduling domains need to be re-built after the
+ EM has been registered in order to start EAS.
+ 
+ 
+-  6.3 - Energy Model complexity
++6.3 - Energy Model complexity
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+ The task wake-up path is very latency-sensitive. When the EM of a platform is
+ too complex (too many CPUs, too many performance domains, too many performance
+@@ -388,7 +390,8 @@ two possible options:
+        hence enabling it to cope with larger EMs in reasonable time.
+ 
+ 
+-  6.4 - Schedutil governor
++6.4 - Schedutil governor
++^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+ EAS tries to predict at which OPP will the CPUs be running in the close future
+ in order to estimate their energy consumption. To do so, it is assumed that OPPs
+@@ -405,7 +408,8 @@ frequency requests and energy predictions.
+ Using EAS with any other governor than schedutil is not supported.
+ 
+ 
+-  6.5 Scale-invariant utilization signals
++6.5 Scale-invariant utilization signals
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+ In order to make accurate prediction across CPUs and for all performance
+ states, EAS needs frequency-invariant and CPU-invariant PELT signals. These can
+@@ -416,7 +420,8 @@ Using EAS on a platform that doesn't implement these two callbacks is not
+ supported.
+ 
+ 
+-  6.6 Multithreading (SMT)
++6.6 Multithreading (SMT)
++^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+ EAS in its current form is SMT unaware and is not able to leverage
+ multithreaded hardware to save energy. EAS considers threads as independent
+diff --git a/Documentation/scheduler/sched-nice-design.txt b/Documentation/scheduler/sched-nice-design.txt
+index 3ac1e46d5365..0571f1b47e64 100644
+--- a/Documentation/scheduler/sched-nice-design.txt
++++ b/Documentation/scheduler/sched-nice-design.txt
+@@ -1,3 +1,7 @@
++=====================
++Scheduler Nice Design
++=====================
++
+ This document explains the thinking about the revamped and streamlined
+ nice-levels implementation in the new Linux scheduler.
+ 
+@@ -14,7 +18,7 @@ much stronger than they were before in 2.4 (and people were happy about
+ that change), and we also intentionally calibrated the linear timeslice
+ rule so that nice +19 level would be _exactly_ 1 jiffy. To better
+ understand it, the timeslice graph went like this (cheesy ASCII art
+-alert!):
++alert!)::
+ 
+ 
+                    A
+diff --git a/Documentation/scheduler/sched-rt-group.txt b/Documentation/scheduler/sched-rt-group.txt
+index d8fce3e78457..79b30a21c51a 100644
+--- a/Documentation/scheduler/sched-rt-group.txt
++++ b/Documentation/scheduler/sched-rt-group.txt
+@@ -1,18 +1,18 @@
+-				Real-Time group scheduling
+-				--------------------------
++==========================
++Real-Time group scheduling
++==========================
+ 
+-CONTENTS
+-========
++.. CONTENTS
+ 
+-0. WARNING
+-1. Overview
+-  1.1 The problem
+-  1.2 The solution
+-2. The interface
+-  2.1 System-wide settings
+-  2.2 Default behaviour
+-  2.3 Basis for grouping tasks
+-3. Future plans
++   0. WARNING
++   1. Overview
++     1.1 The problem
++     1.2 The solution
++   2. The interface
++     2.1 System-wide settings
++     2.2 Default behaviour
++     2.3 Basis for grouping tasks
++   3. Future plans
+ 
+ 
+ 0. WARNING
+@@ -159,9 +159,11 @@ Consider two sibling groups A and B; both have 50% bandwidth, but A's
+ period is twice the length of B's.
+ 
+ * group A: period=100000us, runtime=50000us
++
+ 	- this runs for 0.05s once every 0.1s
+ 
+ * group B: period= 50000us, runtime=25000us
++
+ 	- this runs for 0.025s twice every 0.1s (or once every 0.05 sec).
+ 
+ This means that currently a while (1) loop in A will run for the full period of
+diff --git a/Documentation/scheduler/sched-stats.txt b/Documentation/scheduler/sched-stats.txt
+index 8259b34a66ae..0cb0aa714545 100644
+--- a/Documentation/scheduler/sched-stats.txt
++++ b/Documentation/scheduler/sched-stats.txt
+@@ -1,3 +1,7 @@
++====================
++Scheduler Statistics
++====================
++
+ Version 15 of schedstats dropped counters for some sched_yield:
+ yld_exp_empty, yld_act_empty and yld_both_empty. Otherwise, it is
+ identical to version 14.
+@@ -35,19 +39,23 @@ CPU statistics
+ cpu<N> 1 2 3 4 5 6 7 8 9
+ 
+ First field is a sched_yield() statistic:
++
+      1) # of times sched_yield() was called
+ 
+ Next three are schedule() statistics:
++
+      2) This field is a legacy array expiration count field used in the O(1)
+ 	scheduler. We kept it for ABI compatibility, but it is always set to zero.
+      3) # of times schedule() was called
+      4) # of times schedule() left the processor idle
+ 
+ Next two are try_to_wake_up() statistics:
++
+      5) # of times try_to_wake_up() was called
+      6) # of times try_to_wake_up() was called to wake up the local cpu
+ 
+ Next three are statistics describing scheduling latency:
++
+      7) sum of all time spent running by tasks on this processor (in jiffies)
+      8) sum of all time spent waiting to run by tasks on this processor (in
+         jiffies)
+@@ -67,24 +75,23 @@ The first field is a bit mask indicating what cpus this domain operates over.
+ The next 24 are a variety of load_balance() statistics in grouped into types
+ of idleness (idle, busy, and newly idle):
+ 
+-     1) # of times in this domain load_balance() was called when the
++    1)  # of times in this domain load_balance() was called when the
+         cpu was idle
+-     2) # of times in this domain load_balance() checked but found
++    2)  # of times in this domain load_balance() checked but found
+         the load did not require balancing when the cpu was idle
+-     3) # of times in this domain load_balance() tried to move one or
++    3)  # of times in this domain load_balance() tried to move one or
+         more tasks and failed, when the cpu was idle
+-     4) sum of imbalances discovered (if any) with each call to
++    4)  sum of imbalances discovered (if any) with each call to
+         load_balance() in this domain when the cpu was idle
+-     5) # of times in this domain pull_task() was called when the cpu
++    5)  # of times in this domain pull_task() was called when the cpu
+         was idle
+-     6) # of times in this domain pull_task() was called even though
++    6)  # of times in this domain pull_task() was called even though
+         the target task was cache-hot when idle
+-     7) # of times in this domain load_balance() was called but did
++    7)  # of times in this domain load_balance() was called but did
+         not find a busier queue while the cpu was idle
+-     8) # of times in this domain a busier queue was found while the
++    8)  # of times in this domain a busier queue was found while the
+         cpu was idle but no busier group was found
+-
+-     9) # of times in this domain load_balance() was called when the
++    9)  # of times in this domain load_balance() was called when the
+         cpu was busy
+     10) # of times in this domain load_balance() checked but found the
+         load did not require balancing when busy
+@@ -117,21 +124,25 @@ of idleness (idle, busy, and newly idle):
+         was just becoming idle but no busier group was found
+ 
+    Next three are active_load_balance() statistics:
++
+     25) # of times active_load_balance() was called
+     26) # of times active_load_balance() tried to move a task and failed
+     27) # of times active_load_balance() successfully moved a task
+ 
+    Next three are sched_balance_exec() statistics:
++
+     28) sbe_cnt is not used
+     29) sbe_balanced is not used
+     30) sbe_pushed is not used
+ 
+    Next three are sched_balance_fork() statistics:
++
+     31) sbf_cnt is not used
+     32) sbf_balanced is not used
+     33) sbf_pushed is not used
+ 
+    Next three are try_to_wake_up() statistics:
++
+     34) # of times in this domain try_to_wake_up() awoke a task that
+         last ran on a different cpu in this domain
+     35) # of times in this domain try_to_wake_up() moved a task to the
+@@ -139,10 +150,11 @@ of idleness (idle, busy, and newly idle):
+     36) # of times in this domain try_to_wake_up() started passive balancing
+ 
+ /proc/<pid>/schedstat
+-----------------
++---------------------
+ schedstats also adds a new /proc/<pid>/schedstat file to include some of
+ the same information on a per-process level.  There are three fields in
+ this file correlating for that process to:
++
+      1) time spent on the cpu
+      2) time spent waiting on a runqueue
+      3) # of timeslices run on this cpu
+@@ -151,4 +163,5 @@ A program could be easily written to make use of these extra fields to
+ report on how well a particular process or set of processes is faring
+ under the scheduler's policies.  A simple version of such a program is
+ available at
++
+     http://eaglet.rain.com/rick/linux/schedstat/v12/latency.c
 -- 
 2.20.1
 
