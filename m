@@ -1,113 +1,116 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B1AFA7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 10:47:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 657287D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 11:35:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728436AbfDPKrd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Apr 2019 06:47:33 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:44774 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727783AbfDPKrd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Apr 2019 06:47:33 -0400
-Received: by mail-oi1-f195.google.com with SMTP id i21so16494616oib.11;
-        Tue, 16 Apr 2019 03:47:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yWXhi339mwAqDrCT7JrSf4caIHpti1OuTxdcqSXGDS0=;
-        b=JlYD3/f4LWKj1l1OqNqiK0SSsK81giN4hJxQyWL8sogCfloPoWOjFSZgwpvQkK1/Zf
-         fhz3MCtoR7qEgymBbg2BlgKxNVouejFdXftnfnSsID+5fYa0JpCQDBIBe3Fvqmr0Wj0e
-         Wg/Y23ojqv0uUy2Tq1aG96qa6Id9tK1CdFIcYIj5J/Qh6RGOh0VEA61pfd2FwOsMhKzR
-         bmnYeIRUHO6TXcA30Etdlh0klOp2+vKZoSHeqRzVxTaeF6bTVS7hg/sIg5im1cWKoAUP
-         wyJMZERhy/0jyfkRyIOqdmzROr2vv7DrHZG80/dQWaEymSoUHgY+isx2lSiJDhu219f7
-         IMGg==
-X-Gm-Message-State: APjAAAXNaCK2AovnLZCJuAZXh7DWLP+Ud8+oZxhuS2s2vTCQNOAKKXAF
-        T5iFKZqa1iYzqXTZ44jujrp9urHV73IvdUE8SutTVQ==
-X-Google-Smtp-Source: APXvYqw7XW41k4tZG5i/11Wt7jrrozjQbfMgUmHErB4gC1Qb+YQzOQuVYtyD5Ox4U+o2jKR+PzfeSad6f3z/UdxsTDs=
-X-Received: by 2002:aca:4c08:: with SMTP id z8mr17409050oia.30.1555411651913;
- Tue, 16 Apr 2019 03:47:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1555382110.git.mchehab+samsung@kernel.org>
- <cfab8842b681a84518b327980b08aee95d159605.1555382110.git.mchehab+samsung@kernel.org>
- <1616669.eeiCRjss8h@kreacher> <20190416074137.53873332@coco.lan>
-In-Reply-To: <20190416074137.53873332@coco.lan>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Tue, 16 Apr 2019 12:47:21 +0200
-Message-ID: <CAJZ5v0gSP3URj4imX1wroC9bBurbWQ0GVF9F_0e+FpXuHQfODQ@mail.gmail.com>
-Subject: Re: [PATCH 25/57] docs: power: convert docs to ReST
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S1728147AbfDPLfs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Apr 2019 07:35:48 -0400
+Received: from casper.infradead.org ([85.118.1.10]:57466 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726838AbfDPLfs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Apr 2019 07:35:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=zcGftKM5cHuD9u74AreR2J9u/eutxvpid7fH5uK59eo=; b=YQd9NQSWFk5DNYVHOgmKMh6FAA
+        EPnZsj+7OFaYCx7jaGuOIvgjYAq3EUEok/QeYWJN0jEswfKG6nLfeCYAK7rZKt9Uij01WJO9nlqIu
+        kHQN85p2t0xXrHas1jLLfpZFc3+VdarZZrYKhwRfbXMDyCX34VozibHHrioAfCNmKXwaoY/prG1Vr
+        Cn/dgPWAankIMrgBn1wRL6iEkcalv+nlaFtzegW2COO/Vti9dkntgbHkbSpeIQuhtb+CvZ5f55Wfp
+        YIdjP+AkonItqTFqwTIxQeRxOMOOD7RLzIz6kE2J5pI/yeWKhjILaE28ryelAOq4ybIVmpvee+6dC
+        SEPPwBNw==;
+Received: from 177.205.118.176.dynamic.adsl.gvt.net.br ([177.205.118.176] helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hGMNN-0007mG-EC; Tue, 16 Apr 2019 11:35:45 +0000
+Date:   Tue, 16 Apr 2019 08:35:41 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Mike Rapoport <rppt@linux.ibm.com>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH 46/57] docs: cma/debugfs.txt: convert to ReST and move
+ to admin-guide/mm
+Message-ID: <20190416083541.7d126935@coco.lan>
+In-Reply-To: <20190416052159.GB27735@rapoport-lnx>
+References: <cover.1555382110.git.mchehab+samsung@kernel.org>
+        <fad74a378f3e988c9519a784bed2a5b4aa471482.1555382110.git.mchehab+samsung@kernel.org>
+        <20190416052159.GB27735@rapoport-lnx>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 16, 2019 at 12:41 PM Mauro Carvalho Chehab
-<mchehab+samsung@kernel.org> wrote:
->
-> Em Tue, 16 Apr 2019 10:59:23 +0200
-> "Rafael J. Wysocki" <rjw@rjwysocki.net> escreveu:
->
-> > On Tuesday, April 16, 2019 4:55:50 AM CEST Mauro Carvalho Chehab wrote:
-> > > Convert the PM documents to ReST, in order to allow them to
-> > > build with Sphinx.
-> >
-> > And what exactly is the motivation for doing that?
->
-> Providing a little of context, I tried to submit a patchset that would
-> just place existing documents on a sort of "staging" way, without
-> actually reformatting:
->
->         https://lkml.org/lkml/2019/4/10/244
->
-> Jon had some concerns about such approach.
->
-> So, I split into one patch per subsystem. Then, I looked on each, and
-> opted to do the conversion, as, on several cases, the conversion
-> seemed to be easy enough.
->
-> My selfish motivation is that I was returning from vacations and wanted to
-> review some stuff at the Kernel docs, but, discovered that, despite we
-> started migrating the documentation on May, 2016, still the vast
-> majority of documents that weren't converted.
->
-> For me, the main motivation for the conversion are:
->
-> 1) Documents will be grouped into books and chapters,
->    with makes easier to study them;
-> 2) The Sphinx javascript is very convenient for seeking a
->    document and a keyword within the body of the document;
-> 3) Using a browser to read documentation allows to better
->    scale the document to the screen I'm using.
->
-> That's said, sometimes I just prefer to convert the document
-> to a PDF and read it on my tablet. PDF tools also provide
-> similar features.
->
-> In other words, for my own consumption, I prefer reading
-> documents using document tools, instead of reading in plain
-> text.
+Em Tue, 16 Apr 2019 08:21:59 +0300
+Mike Rapoport <rppt@linux.ibm.com> escreveu:
 
-I see, thanks!
+> Hi Mauro,
+> 
+> On Mon, Apr 15, 2019 at 11:56:11PM -0300, Mauro Carvalho Chehab wrote:
+> > The debugfs interface for CMA should be there together with other
+> > mm-related documents.
+> > 
+> > Convert this small file to ReST and move it to its rightful place.
+> > 
+> > The conversion is actually quite simple: just add a title for the
+> > document. In order to make it to look better for the audience,
+> > also mark the "echo" command as a literal block.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> > ---
+> >  Documentation/cma/debugfs.txt | 6 +++++-  
+>  
+> It wasn't really moved ;-)
 
-> > There are plans for some of these files to be converted already, some of them need to be merged or split and it just is not worth it to convert some others.
->
-> Feel free to use this patch as an starting point. If you prefer,
-> I can split into smaller sets, but my main goal here is just
-> to help to speedup the conversion.
+Heh, yeah! The original patch was moving it:
 
-OK, we'll see.  Thank you!
+	https://git.linuxtv.org/mchehab/experimental.git/commit/?h=all_with_indexes&id=e02d3ba65eba1676b01c82988b8054b88e6e5cdc
+
+It seems I forgot to fix the comment here.
+
+I opted to do just the conversion and place the move patch on a separate
+series (yet to be submitted), in order to avoid merge conflicts.
+
+> 
+> >  1 file changed, 5 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/cma/debugfs.txt b/Documentation/cma/debugfs.txt
+> > index 6cef20a8cedc..4e06ffabd78a 100644
+> > --- a/Documentation/cma/debugfs.txt
+> > +++ b/Documentation/cma/debugfs.txt
+> > @@ -1,3 +1,7 @@
+> > +=====================
+> > +CMA Debugfs Interface
+> > +=====================
+> > +
+> >  The CMA debugfs interface is useful to retrieve basic information out of the
+> >  different CMA areas and to test allocation/release in each of the areas.
+> > 
+> > @@ -12,7 +16,7 @@ The structure of the files created under that directory is as follows:
+> >   - [RO] count: Amount of memory in the CMA area.
+> >   - [RO] order_per_bit: Order of pages represented by one bit.
+> >   - [RO] bitmap: The bitmap of page states in the zone.
+> > - - [WO] alloc: Allocate N pages from that CMA area. For example:
+> > + - [WO] alloc: Allocate N pages from that CMA area. For example::
+> > 
+> >  	echo 5 > <debugfs>/cma/cma-2/alloc
+> > 
+> > -- 
+> > 2.20.1
+> >   
+> 
+
+
+
+Thanks,
+Mauro
