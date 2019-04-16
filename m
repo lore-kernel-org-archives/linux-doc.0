@@ -2,79 +2,54 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 846297D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 02:28:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 10E927D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 02:33:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725796AbfDPC2k (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Apr 2019 22:28:40 -0400
-Received: from out30-42.freemail.mail.aliyun.com ([115.124.30.42]:41582 "EHLO
-        out30-42.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725793AbfDPC2i (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 22:28:38 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R451e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04446;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0TPQerKc_1555381714;
-Received: from localhost(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TPQerKc_1555381714)
+        id S1725796AbfDPCdW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Apr 2019 22:33:22 -0400
+Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:34506 "EHLO
+        out30-131.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725768AbfDPCdW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 22:33:22 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R881e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04426;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0TPQY1Oj_1555381999;
+Received: from Alexs-MacBook-Pro.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TPQY1Oj_1555381999)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Tue, 16 Apr 2019 10:28:34 +0800
+          Tue, 16 Apr 2019 10:33:20 +0800
+Subject: Re: [PATCH 2/2] docs/zh_CN: fix typos in 1.Intro.rst file
+To:     =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>
+Cc:     Harry Wei <harryxiyou@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190415094046.242940-1-alex.shi@linux.alibaba.com>
+ <20190415094046.242940-2-alex.shi@linux.alibaba.com>
+ <20190415141344.GB11536@latitude>
 From:   Alex Shi <alex.shi@linux.alibaba.com>
-To:     kernel-doc@vger.kernel.org
-Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-Subject: [PATCH v2 2/2] docs/zh_CN: fix typos in 1.Intro.rst file
-Date:   Tue, 16 Apr 2019 10:28:25 +0800
-Message-Id: <20190416022825.187932-2-alex.shi@linux.alibaba.com>
-X-Mailer: git-send-email 2.19.1.856.g8858448bb
-In-Reply-To: <20190416022825.187932-1-alex.shi@linux.alibaba.com>
-References: <20190416022825.187932-1-alex.shi@linux.alibaba.com>
+Message-ID: <29d5ec75-7f10-5d08-6a40-1a2a0c3472dd@linux.alibaba.com>
+Date:   Tue, 16 Apr 2019 10:33:19 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+ Gecko/20100101 Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20190415141344.GB11536@latitude>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fixed uncapital issues, thanks for Jonathan Neuschäfer, I am insensitive
-on captial custom as a non-captial native language reader. Sorry.
 
-Also fix a typo. And replace more colloquial words in Chinese.
 
-Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
-Cc: Harry Wei <harryxiyou@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
- Documentation/translations/zh_CN/process/1.Intro.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+On 2019/4/15 10:13 下午, Jonathan Neuschäfer wrote:
+>>  
+>> -本文件由jonathan corbet撰写，corbet@lwn.net。以下人员的建议使之更为完善：
+>> +本文件由Jonathan corbet撰写，corbet@lwn.net。以下人员的建议使之更为完善：
+> … or perhaps "Jonathan Corbet" (with two capital letters)?
+> 
 
-diff --git a/Documentation/translations/zh_CN/process/1.Intro.rst b/Documentation/translations/zh_CN/process/1.Intro.rst
-index 03bbafc00bd2..10a15f3dc282 100644
---- a/Documentation/translations/zh_CN/process/1.Intro.rst
-+++ b/Documentation/translations/zh_CN/process/1.Intro.rst
-@@ -79,13 +79,13 @@ Linux最引人注目的特性之一是这些开发人员可以访问它；任何
- 致谢
- ----
- 
--本文件由jonathan corbet撰写，corbet@lwn.net。以下人员的建议使之更为完善：
-+本文件由Jonathan Corbet撰写，corbet@lwn.net。以下人员的建议使之更为完善：
- Johannes Berg, James Berry, Alex Chiang, Roland Dreier, Randy Dunlap,
- Jake Edge, Jiri Kosina, Matt Mackall, Arthur Marsh, Amanda McPherson,
- Andrew Morton, Andrew Price, Tsugikazu Shibata, 和 Jochen Voß.
- 
--这项工作得到了Linux基金会的支持，特别感谢Amanda McPherson，他看到了这香工作
--的价值并使之发生。
-+这项工作得到了Linux基金会的支持，特别感谢Amanda McPherson，他看到了这项工作
-+的价值并把它变成现实。
- 
- 代码进入主线的重要性
- --------------------
--- 
-2.19.1.856.g8858448bb
+Right，Chinese has no capital custom. I should take more care on this.
 
+Thanks, Jon!
+Alex 
