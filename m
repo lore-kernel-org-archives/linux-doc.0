@@ -2,17 +2,17 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6A8BA7D2F0
+	by archive.lwn.net (Postfix) with ESMTP id 858AE7D912
 	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 03:00:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726094AbfDPC7q (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Apr 2019 22:59:46 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:44314 "EHLO
+        id S1726312AbfDPDAF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Apr 2019 23:00:05 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:44310 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726818AbfDPC4d (ORCPT
+        with ESMTP id S1726814AbfDPC4d (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 22:56:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,28 +20,28 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=SzV2S6/tr7UVf/FR5zSWGATUlf/T6mevh0ryPixjKPM=; b=okKprzzYHAeLc4wwrrpJcIjCpp
-        D4ATRBYe6czdTytiWQPPSpCokNtOEKK/2oIqIftuQr2FO09IXBpFcXYhLlmhirPY8j0Q9dQ6pyx7i
-        1JIsbwGJwdBjAIXI97xshpg8NyD0el4O47G/idzyCu2y9KkcA+KpQ2Kk+VKRvHpF90Z7rIPFvCXNn
-        days6RRObyJV+Wx+BBl4ARlvbzUG26TflVTpfBqY62cpCd33sdmBDs+Z0zYcSZwM2mN1fSdA5gBqC
-        EEm2LHp4+xKGK0H4o6lGr8tdu08zOiDpF0qrq35UhHgbYt/XRp/HYRqu/ivfH+f2+a7hpq58GeAwT
-        RiBQRgMw==;
+        bh=jXkdB0C3YC54scrOjj5bnKKgWfCNB6nvC4e9vjR9xpc=; b=uaIt6UabKVv8vlKA8HKuN6a6LW
+        CSSsIrzqhVrDCAy1RX6Yf5ITGrQn9UVHBmKChhdl5gNbkuoVBjpcnMhO0U3NiLLm3g4tN26dlFaRq
+        xVOGzIpn8SJZOsEvAE0+g7MLIjRY3Cy4JYik8tlXqQj+a2ytsrQpardLUc/LfDkYTKkNS6xoNeVmi
+        U2CPElbxXHzcdNlZmNweKX2X7xo+7DTSfDuDvE65wRxMrtWlYUmY5JuURLQUK7VaA17bvccogMY8V
+        i18gikBg/XPz5SB0WL8wc2OoVIJYlvp8LclU227q36ql1X5szTmGQJaussXXCJMsN3OaBJSdnrfI0
+        0RNS/dJQ==;
 Received: from 177.205.118.176.dynamic.adsl.gvt.net.br ([177.205.118.176] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hGEGu-0007ae-LD; Tue, 16 Apr 2019 02:56:32 +0000
+        id 1hGEGu-0007ad-Ji; Tue, 16 Apr 2019 02:56:32 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hGEGn-0001nQ-GX; Mon, 15 Apr 2019 23:56:25 -0300
+        id 1hGEGn-0001nI-Fj; Mon, 15 Apr 2019 23:56:25 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Paul Moore <paul@paul-moore.com>, netdev@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-Subject: [PATCH 23/57] docs: netlabel: convert it to ReST
-Date:   Mon, 15 Apr 2019 23:55:48 -0300
-Message-Id: <104211eb0db14790ad328fff7ad7f712d8d647f9.1555382110.git.mchehab+samsung@kernel.org>
+        Sudeep Dutt <sudeep.dutt@intel.com>,
+        Ashutosh Dixit <ashutosh.dixit@intel.com>
+Subject: [PATCH 22/57] docs: mic: convert it to ReST format
+Date:   Mon, 15 Apr 2019 23:55:47 -0300
+Message-Id: <a8d9e0dee8df3b8f369543ca23f4bd0a9c6e0271.1555382110.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1555382110.git.mchehab+samsung@kernel.org>
 References: <cover.1555382110.git.mchehab+samsung@kernel.org>
@@ -52,177 +52,133 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Convert netlabel documentation to ReST.
+Convert Intel Many Integrated Core architecture docs to ReST.
 
-This was trivial: just add proper title markups.
+The conversion is trivial: just add title and literal block
+markups, and adjust some identation.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/netlabel/cipso_ipv4.txt    | 19 +++++++++++++------
- Documentation/netlabel/introduction.txt  | 16 +++++++++++-----
- Documentation/netlabel/lsm_interface.txt | 16 +++++++++++-----
- 3 files changed, 35 insertions(+), 16 deletions(-)
+ Documentation/mic/mic_overview.txt  |  6 ++-
+ Documentation/mic/scif_overview.txt | 58 +++++++++++++++++------------
+ 2 files changed, 39 insertions(+), 25 deletions(-)
 
-diff --git a/Documentation/netlabel/cipso_ipv4.txt b/Documentation/netlabel/cipso_ipv4.txt
-index a6075481fd60..cbd3f3231221 100644
---- a/Documentation/netlabel/cipso_ipv4.txt
-+++ b/Documentation/netlabel/cipso_ipv4.txt
-@@ -1,10 +1,13 @@
-+===================================
- NetLabel CIPSO/IPv4 Protocol Engine
--==============================================================================
-+===================================
+diff --git a/Documentation/mic/mic_overview.txt b/Documentation/mic/mic_overview.txt
+index 074adbdf83a4..17d956bdaf7c 100644
+--- a/Documentation/mic/mic_overview.txt
++++ b/Documentation/mic/mic_overview.txt
+@@ -1,3 +1,7 @@
++======================================================
++Intel Many Integrated Core (MIC) architecture overview
++======================================================
 +
- Paul Moore, paul.moore@hp.com
+ An Intel MIC X100 device is a PCIe form factor add-in coprocessor
+ card based on the Intel Many Integrated Core (MIC) architecture
+ that runs a Linux OS. It is a PCIe endpoint in a platform and therefore
+@@ -45,7 +49,7 @@ Here is a block diagram of the various components described above. The
+ virtio backends are situated on the host rather than the card given better
+ single threaded performance for the host compared to MIC, the ability of
+ the host to initiate DMA's to/from the card using the MIC DMA engine and
+-the fact that the virtio block storage backend can only be on the host.
++the fact that the virtio block storage backend can only be on the host::
  
- May 17, 2006
- 
-- * Overview
-+Overview
-+========
- 
- The NetLabel CIPSO/IPv4 protocol engine is based on the IETF Commercial
- IP Security Option (CIPSO) draft from July 16, 1992.  A copy of this
-@@ -13,7 +16,8 @@ draft can be found in this directory
- it to an RFC standard it has become a de-facto standard for labeled
- networking and is used in many trusted operating systems.
- 
-- * Outbound Packet Processing
-+Outbound Packet Processing
-+==========================
- 
- The CIPSO/IPv4 protocol engine applies the CIPSO IP option to packets by
- adding the CIPSO label to the socket.  This causes all packets leaving the
-@@ -24,7 +28,8 @@ label by using the NetLabel security module API; if the NetLabel "domain" is
- configured to use CIPSO for packet labeling then a CIPSO IP option will be
- generated and attached to the socket.
- 
-- * Inbound Packet Processing
-+Inbound Packet Processing
-+=========================
- 
- The CIPSO/IPv4 protocol engine validates every CIPSO IP option it finds at the
- IP layer without any special handling required by the LSM.  However, in order
-@@ -33,7 +38,8 @@ NetLabel security module API to extract the security attributes of the packet.
- This is typically done at the socket layer using the 'socket_sock_rcv_skb()'
- LSM hook.
- 
-- * Label Translation
-+Label Translation
-+=================
- 
- The CIPSO/IPv4 protocol engine contains a mechanism to translate CIPSO security
- attributes such as sensitivity level and category to values which are
-@@ -42,7 +48,8 @@ Domain Of Interpretation (DOI) definition and are configured through the
- NetLabel user space communication layer.  Each DOI definition can have a
- different security attribute mapping table.
- 
-- * Label Translation Cache
-+Label Translation Cache
-+=======================
- 
- The NetLabel system provides a framework for caching security attribute
- mappings from the network labels to the corresponding LSM identifiers.  The
-diff --git a/Documentation/netlabel/introduction.txt b/Documentation/netlabel/introduction.txt
-index 3caf77bcff0f..9333bbb0adc1 100644
---- a/Documentation/netlabel/introduction.txt
-+++ b/Documentation/netlabel/introduction.txt
-@@ -1,10 +1,13 @@
-+=====================
- NetLabel Introduction
--==============================================================================
-+=====================
-+
- Paul Moore, paul.moore@hp.com
- 
- August 2, 2006
- 
-- * Overview
-+Overview
-+========
- 
- NetLabel is a mechanism which can be used by kernel security modules to attach
- security attributes to outgoing network packets generated from user space
-@@ -12,7 +15,8 @@ applications and read security attributes from incoming network packets.  It
- is composed of three main components, the protocol engines, the communication
- layer, and the kernel security module API.
- 
-- * Protocol Engines
-+Protocol Engines
-+================
- 
- The protocol engines are responsible for both applying and retrieving the
- network packet's security attributes.  If any translation between the network
-@@ -24,7 +28,8 @@ the NetLabel kernel security module API described below.
- Detailed information about each NetLabel protocol engine can be found in this
- directory.
- 
-- * Communication Layer
-+Communication Layer
-+===================
- 
- The communication layer exists to allow NetLabel configuration and monitoring
- from user space.  The NetLabel communication layer uses a message based
-@@ -33,7 +38,8 @@ formatting of these NetLabel messages as well as the Generic NETLINK family
- names can be found in the 'net/netlabel/' directory as comments in the
- header files as well as in 'include/net/netlabel.h'.
- 
-- * Security Module API
-+Security Module API
-+===================
- 
- The purpose of the NetLabel security module API is to provide a protocol
- independent interface to the underlying NetLabel protocol engines.  In addition
-diff --git a/Documentation/netlabel/lsm_interface.txt b/Documentation/netlabel/lsm_interface.txt
-index 638c74f7de7f..026fc267f798 100644
---- a/Documentation/netlabel/lsm_interface.txt
-+++ b/Documentation/netlabel/lsm_interface.txt
-@@ -1,10 +1,13 @@
+                +----------+           |             +----------+
+                | Card OS  |           |             | Host OS  |
+diff --git a/Documentation/mic/scif_overview.txt b/Documentation/mic/scif_overview.txt
+index 0a280d986731..4c8ad9e43706 100644
+--- a/Documentation/mic/scif_overview.txt
++++ b/Documentation/mic/scif_overview.txt
+@@ -1,3 +1,7 @@
 +========================================
- NetLabel Linux Security Module Interface
--==============================================================================
++Symmetric Communication Interface (SCIF)
 +========================================
 +
- Paul Moore, paul.moore@hp.com
+ The Symmetric Communication Interface (SCIF (pronounced as skiff)) is a low
+ level communications API across PCIe currently implemented for MIC. Currently
+ SCIF provides inter-node communication within a single host platform, where a
+@@ -8,8 +12,11 @@ is to deliver the maximum possible performance given the communication
+ abilities of the hardware. SCIF has been used to implement an offload compiler
+ runtime and OFED support for MPI implementations for MIC coprocessors.
  
- May 17, 2006
+-==== SCIF API Components ====
++SCIF API Components
++===================
++
+ The SCIF API has the following parts:
++
+ 1. Connection establishment using a client server model
+ 2. Byte stream messaging intended for short messages
+ 3. Node enumeration to determine online nodes
+@@ -28,9 +35,12 @@ can also register local memory which is followed by data transfer using either
+ DMA, CPU copies or remote memory mapping via mmap. SCIF supports both user and
+ kernel mode clients which are functionally equivalent.
  
-- * Overview
-+Overview
-+========
+-==== SCIF Performance for MIC ====
++SCIF Performance for MIC
++========================
++
+ DMA bandwidth comparison between the TCP (over ethernet over PCIe) stack versus
+-SCIF shows the performance advantages of SCIF for HPC applications and runtimes.
++SCIF shows the performance advantages of SCIF for HPC applications and
++runtimes::
  
- NetLabel is a mechanism which can set and retrieve security attributes from
- network packets.  It is intended to be used by LSM developers who want to make
-@@ -12,7 +15,8 @@ use of a common code base for several different packet labeling protocols.
- The NetLabel security module API is defined in 'include/net/netlabel.h' but a
- brief overview is given below.
+              Comparison of TCP and SCIF based BW
  
-- * NetLabel Security Attributes
-+NetLabel Security Attributes
-+============================
+@@ -66,33 +76,33 @@ space API similar to the kernel API in scif.h. The SCIF user space library
+ is distributed @ https://software.intel.com/en-us/mic-developer
  
- Since NetLabel supports multiple different packet labeling protocols and LSMs
- it uses the concept of security attributes to refer to the packet's security
-@@ -24,7 +28,8 @@ configuration.  It is up to the LSM developer to translate the NetLabel
- security attributes into whatever security identifiers are in use for their
- particular LSM.
+ Here is some pseudo code for an example of how two applications on two PCIe
+-nodes would typically use the SCIF API:
++nodes would typically use the SCIF API::
  
-- * NetLabel LSM Protocol Operations
-+NetLabel LSM Protocol Operations
-+================================
+-Process A (on node A)			Process B (on node B)
++  Process A (on node A)			Process B (on node B)
  
- These are the functions which allow the LSM developer to manipulate the labels
- on outgoing packets as well as read the labels on incoming packets.  Functions
-@@ -32,7 +37,8 @@ exist to operate both on sockets as well as the sk_buffs directly.  These high
- level functions are translated into low level protocol operations based on how
- the administrator has configured the NetLabel subsystem.
+-/* get online node information */
+-scif_get_node_ids(..)			scif_get_node_ids(..)
+-scif_open(..)				scif_open(..)
+-scif_bind(..)				scif_bind(..)
+-scif_listen(..)
+-scif_accept(..)				scif_connect(..)
+-/* SCIF connection established */
++  /* get online node information */
++  scif_get_node_ids(..)			scif_get_node_ids(..)
++  scif_open(..)				scif_open(..)
++  scif_bind(..)				scif_bind(..)
++  scif_listen(..)
++  scif_accept(..)				scif_connect(..)
++  /* SCIF connection established */
  
-- * NetLabel Label Mapping Cache Operations
-+NetLabel Label Mapping Cache Operations
-+=======================================
+-/* Send and receive short messages */
+-scif_send(..)/scif_recv(..)		scif_send(..)/scif_recv(..)
++  /* Send and receive short messages */
++  scif_send(..)/scif_recv(..)		scif_send(..)/scif_recv(..)
  
- Depending on the exact configuration, translation between the network packet
- label and the internal LSM security identifier can be time consuming.  The
+-/* Register memory */
+-scif_register(..)			scif_register(..)
++  /* Register memory */
++  scif_register(..)			scif_register(..)
+ 
+-/* RDMA */
+-scif_readfrom(..)/scif_writeto(..)	scif_readfrom(..)/scif_writeto(..)
++  /* RDMA */
++  scif_readfrom(..)/scif_writeto(..)	scif_readfrom(..)/scif_writeto(..)
+ 
+-/* Fence DMAs */
+-scif_fence_signal(..)			scif_fence_signal(..)
++  /* Fence DMAs */
++  scif_fence_signal(..)			scif_fence_signal(..)
+ 
+-mmap(..)				mmap(..)
++  mmap(..)				mmap(..)
+ 
+-/* Access remote registered memory */
++  /* Access remote registered memory */
+ 
+-/* Close the endpoints */
+-scif_close(..)				scif_close(..)
++  /* Close the endpoints */
++  scif_close(..)				scif_close(..)
 -- 
 2.20.1
 
