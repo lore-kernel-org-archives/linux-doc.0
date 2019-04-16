@@ -2,202 +2,355 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9F5577D92A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 03:03:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 30A067D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 03:03:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725796AbfDPDCf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Apr 2019 23:02:35 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:44010 "EHLO
+        id S1728418AbfDPDCn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Apr 2019 23:02:43 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:43978 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726686AbfDPC4a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 22:56:30 -0400
+        with ESMTP id S1726628AbfDPC43 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 22:56:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+        To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=8VAeXYQhAceTMAWihPs9U6+XpVdyQlovkNBbfa8Vd8o=; b=MbgizJmwjYVf5poFS5o/nJeT/R
-        62PwPtjP6++x+mMwIgw70rh8rZZGBjsKBk2IwFMMX6ybHTYAVv0IF68ODf87X0vqvYCNnMUxLEvj8
-        Pk61cO9NRgSYz69toRTVqgiApG3/TxRj+dzg+hX8jtflIOWzoNp7Gdsu7FONV7t/L2Q+6Iid+cMFG
-        2/kihhKz7lK6nrQpHhW/s42gv/+I86ysWWCHeMsGA+Nw4kUKnwH8zQT4JfdudGcGDPdmYMOrYacdc
-        MB5Yt1TU+r7AFBQFeH7RuecVyMU3aabFpVkQg1WMlPXdJiAUwDkCeHM4Wy/rs8s9yGmROfm1jXVSc
-        AwVPmToA==;
+        bh=ROo0V5tASYYmluZFwiPFZ4NY6wYz8FNHFQgcBBsMV7A=; b=t5vR29FecUN28nSqP3q2fiI1xc
+        Gljlzhs4hp+WeQOk29GLneTJ4OT9t+xlpAUEImcXYrXXldCGRJpWwq9ZCNok+iYfM+fn/WKgRV6vq
+        jy7CPvckA59bC8T+jS2Ulx01wyyzA51cgDMv3yUZEvvQDtnssB3F3qZMpA9+scZCO/otsO9uNHFlB
+        aRikCFTrVmBwjnVv7o2Wp5Tgc9MzKp4evbdxRoPS3FJSVdo7V07v0YDMZVhewpRR5I/cW5/0I8Amu
+        c+Wda7DdLCTARgWOBcCg0A9F4eURnb8CUgz1jQC+GZsK4ymetlRsaoe66/APKf44hb4I9oR8xKJ4F
+        yVbRAofQ==;
 Received: from 177.205.118.176.dynamic.adsl.gvt.net.br ([177.205.118.176] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hGEGp-0007aL-Ru; Tue, 16 Apr 2019 02:56:28 +0000
+        id 1hGEGp-0007aq-W7; Tue, 16 Apr 2019 02:56:28 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hGEGm-0001kv-Rq; Mon, 15 Apr 2019 23:56:24 -0300
+        id 1hGEGn-0001oc-Rs; Mon, 15 Apr 2019 23:56:25 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>
-Subject: [PATCH 01/57] docs: trace: fix some Sphinx warnings
-Date:   Mon, 15 Apr 2019 23:55:26 -0300
-Message-Id: <82131a55ac990a5afc7927cd4b26620e89b2398a.1555382110.git.mchehab+samsung@kernel.org>
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: [PATCH 35/57] docs: timers: convert documentation to ReST
+Date:   Mon, 15 Apr 2019 23:56:00 -0300
+Message-Id: <cb53bf2e4b00c9ba398e17079b3fb4f86d081a47.1555382110.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1555382110.git.mchehab+samsung@kernel.org>
 References: <cover.1555382110.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are some warnings produced when building trace. Fix them.
+The conversion here is really trivial: just a bunch of title
+markups and very few puntual changes is enough to make it to
+be parsed by Sphinx and generate a nice html.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/trace/ftrace.rst    |  1 +
- Documentation/trace/histogram.rst | 86 ++++++++++++++++---------------
- 2 files changed, 45 insertions(+), 42 deletions(-)
+ Documentation/timers/NO_HZ.txt        | 40 ++++++++++++++++-----------
+ Documentation/timers/highres.txt      | 11 ++++----
+ Documentation/timers/hpet.txt         |  4 ++-
+ Documentation/timers/hrtimers.txt     |  6 ++--
+ Documentation/timers/timekeeping.txt  |  3 +-
+ Documentation/timers/timers-howto.txt | 15 +++++++---
+ 6 files changed, 49 insertions(+), 30 deletions(-)
 
-diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-index 809b39d066ee..f60079259669 100644
---- a/Documentation/trace/ftrace.rst
-+++ b/Documentation/trace/ftrace.rst
-@@ -1435,6 +1435,7 @@ trace has provided some very helpful debugging information.
+diff --git a/Documentation/timers/NO_HZ.txt b/Documentation/timers/NO_HZ.txt
+index 9591092da5e0..065db217cb04 100644
+--- a/Documentation/timers/NO_HZ.txt
++++ b/Documentation/timers/NO_HZ.txt
+@@ -1,4 +1,6 @@
+-		NO_HZ: Reducing Scheduling-Clock Ticks
++﻿======================================
++NO_HZ: Reducing Scheduling-Clock Ticks
++======================================
  
- If we prefer function graph output instead of function, we can set
- display-graph option::
+ 
+ This document describes Kconfig options and boot parameters that can
+@@ -28,7 +30,8 @@ by a third section on RCU-specific considerations, a fourth section
+ discussing testing, and a fifth and final section listing known issues.
+ 
+ 
+-NEVER OMIT SCHEDULING-CLOCK TICKS
++Never Omit Scheduling-Clock Ticks
++=================================
+ 
+ Very old versions of Linux from the 1990s and the very early 2000s
+ are incapable of omitting scheduling-clock ticks.  It turns out that
+@@ -59,7 +62,8 @@ degrade your applications performance.  If this describes your workload,
+ you should read the following two sections.
+ 
+ 
+-OMIT SCHEDULING-CLOCK TICKS FOR IDLE CPUs
++Omit Scheduling-Clock Ticks For Idle CPUs
++=========================================
+ 
+ If a CPU is idle, there is little point in sending it a scheduling-clock
+ interrupt.  After all, the primary purpose of a scheduling-clock interrupt
+@@ -97,7 +101,8 @@ By default, CONFIG_NO_HZ_IDLE=y kernels boot with "nohz=on", enabling
+ dyntick-idle mode.
+ 
+ 
+-OMIT SCHEDULING-CLOCK TICKS FOR CPUs WITH ONLY ONE RUNNABLE TASK
++Omit Scheduling-Clock Ticks For CPUs With Only One Runnable Task
++================================================================
+ 
+ If a CPU has only one runnable task, there is little point in sending it
+ a scheduling-clock interrupt because there is no other task to switch to.
+@@ -174,7 +179,8 @@ However, the drawbacks listed above mean that adaptive ticks should not
+ (yet) be enabled by default.
+ 
+ 
+-RCU IMPLICATIONS
++RCU Implications
++================
+ 
+ There are situations in which idle CPUs cannot be permitted to
+ enter either dyntick-idle mode or adaptive-tick mode, the most
+@@ -199,7 +205,8 @@ scheduler will decide where to run them, which might or might not be
+ where you want them to run.
+ 
+ 
+-TESTING
++Testing
++=======
+ 
+ So you enable all the OS-jitter features described in this document,
+ but do not see any change in your workload's behavior.  Is this because
+@@ -222,9 +229,10 @@ We do not currently have a good way to remove OS jitter from single-CPU
+ systems.
+ 
+ 
+-KNOWN ISSUES
++Known Issues
++============
+ 
+-o	Dyntick-idle slows transitions to and from idle slightly.
++*	Dyntick-idle slows transitions to and from idle slightly.
+ 	In practice, this has not been a problem except for the most
+ 	aggressive real-time workloads, which have the option of disabling
+ 	dyntick-idle mode, an option that most of them take.  However,
+@@ -248,13 +256,13 @@ o	Dyntick-idle slows transitions to and from idle slightly.
+ 		this parameter effectively disables Turbo Mode on Intel
+ 		CPUs, which can significantly reduce maximum performance.
+ 
+-o	Adaptive-ticks slows user/kernel transitions slightly.
++*	Adaptive-ticks slows user/kernel transitions slightly.
+ 	This is not expected to be a problem for computationally intensive
+ 	workloads, which have few such transitions.  Careful benchmarking
+ 	will be required to determine whether or not other workloads
+ 	are significantly affected by this effect.
+ 
+-o	Adaptive-ticks does not do anything unless there is only one
++*	Adaptive-ticks does not do anything unless there is only one
+ 	runnable task for a given CPU, even though there are a number
+ 	of other situations where the scheduling-clock tick is not
+ 	needed.  To give but one example, consider a CPU that has one
+@@ -275,7 +283,7 @@ o	Adaptive-ticks does not do anything unless there is only one
+ 
+ 	Better handling of these sorts of situations is future work.
+ 
+-o	A reboot is required to reconfigure both adaptive idle and RCU
++*	A reboot is required to reconfigure both adaptive idle and RCU
+ 	callback offloading.  Runtime reconfiguration could be provided
+ 	if needed, however, due to the complexity of reconfiguring RCU at
+ 	runtime, there would need to be an earthshakingly good reason.
+@@ -283,12 +291,12 @@ o	A reboot is required to reconfigure both adaptive idle and RCU
+ 	simply offloading RCU callbacks from all CPUs and pinning them
+ 	where you want them whenever you want them pinned.
+ 
+-o	Additional configuration is required to deal with other sources
++*	Additional configuration is required to deal with other sources
+ 	of OS jitter, including interrupts and system-utility tasks
+ 	and processes.  This configuration normally involves binding
+ 	interrupts and tasks to particular CPUs.
+ 
+-o	Some sources of OS jitter can currently be eliminated only by
++*	Some sources of OS jitter can currently be eliminated only by
+ 	constraining the workload.  For example, the only way to eliminate
+ 	OS jitter due to global TLB shootdowns is to avoid the unmapping
+ 	operations (such as kernel module unload operations) that
+@@ -299,17 +307,17 @@ o	Some sources of OS jitter can currently be eliminated only by
+ 	helpful, especially when combined with the mlock() and mlockall()
+ 	system calls.
+ 
+-o	Unless all CPUs are idle, at least one CPU must keep the
++*	Unless all CPUs are idle, at least one CPU must keep the
+ 	scheduling-clock interrupt going in order to support accurate
+ 	timekeeping.
+ 
+-o	If there might potentially be some adaptive-ticks CPUs, there
++*	If there might potentially be some adaptive-ticks CPUs, there
+ 	will be at least one CPU keeping the scheduling-clock interrupt
+ 	going, even if all CPUs are otherwise idle.
+ 
+ 	Better handling of this situation is ongoing work.
+ 
+-o	Some process-handling operations still require the occasional
++*	Some process-handling operations still require the occasional
+ 	scheduling-clock tick.	These operations include calculating CPU
+ 	load, maintaining sched average, computing CFS entity vruntime,
+ 	computing avenrun, and carrying out load balancing.  They are
+diff --git a/Documentation/timers/highres.txt b/Documentation/timers/highres.txt
+index 8f9741592123..f93528e6f1c8 100644
+--- a/Documentation/timers/highres.txt
++++ b/Documentation/timers/highres.txt
+@@ -1,5 +1,6 @@
++=====================================================
+ High resolution timers and dynamic ticks design notes
+------------------------------------------------------
++=====================================================
+ 
+ Further information can be found in the paper of the OLS 2006 talk "hrtimers
+ and beyond". The paper is part of the OLS 2006 Proceedings Volume 1, which can
+@@ -35,6 +36,7 @@ also figure #2 (OLS slides p. 15)
+ 
+ The main differences to the timer wheel, which holds the armed timer_list type
+ timers are:
 +
-  with echo 1 > options/display-graph
+        - time ordered enqueueing into a rb-tree
+        - independent of ticks (the processing is based on nanoseconds)
  
-   # tracer: irqsoff
-diff --git a/Documentation/trace/histogram.rst b/Documentation/trace/histogram.rst
-index 7612c7ad5715..2a6b23f779bb 100644
---- a/Documentation/trace/histogram.rst
-+++ b/Documentation/trace/histogram.rst
-@@ -2121,33 +2121,33 @@ The following commonly-used handler.action pairs are available:
-     the end the event that triggered the snapshot (in this case you
-     can verify the timestamps between the sched_waking and
-     sched_switch events, which should match the time displayed in the
--    global maximum):
-+    global maximum)::
+@@ -55,7 +57,8 @@ merged into the 2.6.18 kernel.
  
--    # cat /sys/kernel/debug/tracing/snapshot
-+     # cat /sys/kernel/debug/tracing/snapshot
- 
--     <...>-2103  [005] d..3   309.873125: sched_switch: prev_comm=cyclictest prev_pid=2103 prev_prio=19 prev_state=D ==> next_comm=swapper/5 next_pid=0 next_prio=120
--     <idle>-0     [005] d.h3   309.873611: sched_waking: comm=cyclictest pid=2102 prio=19 target_cpu=005
--     <idle>-0     [005] dNh4   309.873613: sched_wakeup: comm=cyclictest pid=2102 prio=19 target_cpu=005
--     <idle>-0     [005] d..3   309.873616: sched_switch: prev_comm=swapper/5 prev_pid=0 prev_prio=120 prev_state=S ==> next_comm=cyclictest next_pid=2102 next_prio=19
--     <...>-2102  [005] d..3   309.873625: sched_switch: prev_comm=cyclictest prev_pid=2102 prev_prio=19 prev_state=D ==> next_comm=swapper/5 next_pid=0 next_prio=120
--     <idle>-0     [005] d.h3   309.874624: sched_waking: comm=cyclictest pid=2102 prio=19 target_cpu=005
--     <idle>-0     [005] dNh4   309.874626: sched_wakeup: comm=cyclictest pid=2102 prio=19 target_cpu=005
--     <idle>-0     [005] dNh3   309.874628: sched_waking: comm=cyclictest pid=2103 prio=19 target_cpu=005
--     <idle>-0     [005] dNh4   309.874630: sched_wakeup: comm=cyclictest pid=2103 prio=19 target_cpu=005
--     <idle>-0     [005] d..3   309.874633: sched_switch: prev_comm=swapper/5 prev_pid=0 prev_prio=120 prev_state=S ==> next_comm=cyclictest next_pid=2102 next_prio=19
--     <idle>-0     [004] d.h3   309.874757: sched_waking: comm=gnome-terminal- pid=1699 prio=120 target_cpu=004
--     <idle>-0     [004] dNh4   309.874762: sched_wakeup: comm=gnome-terminal- pid=1699 prio=120 target_cpu=004
--     <idle>-0     [004] d..3   309.874766: sched_switch: prev_comm=swapper/4 prev_pid=0 prev_prio=120 prev_state=S ==> next_comm=gnome-terminal- next_pid=1699 next_prio=120
-- gnome-terminal--1699  [004] d.h2   309.874941: sched_stat_runtime: comm=gnome-terminal- pid=1699 runtime=180706 [ns] vruntime=1126870572 [ns]
--     <idle>-0     [003] d.s4   309.874956: sched_waking: comm=rcu_sched pid=9 prio=120 target_cpu=007
--     <idle>-0     [003] d.s5   309.874960: sched_wake_idle_without_ipi: cpu=7
--     <idle>-0     [003] d.s5   309.874961: sched_wakeup: comm=rcu_sched pid=9 prio=120 target_cpu=007
--     <idle>-0     [007] d..3   309.874963: sched_switch: prev_comm=swapper/7 prev_pid=0 prev_prio=120 prev_state=S ==> next_comm=rcu_sched next_pid=9 next_prio=120
--  rcu_sched-9     [007] d..3   309.874973: sched_stat_runtime: comm=rcu_sched pid=9 runtime=13646 [ns] vruntime=22531430286 [ns]
--  rcu_sched-9     [007] d..3   309.874978: sched_switch: prev_comm=rcu_sched prev_pid=9 prev_prio=120 prev_state=R+ ==> next_comm=swapper/7 next_pid=0 next_prio=120
--      <...>-2102  [005] d..4   309.874994: sched_migrate_task: comm=cyclictest pid=2103 prio=19 orig_cpu=5 dest_cpu=1
--      <...>-2102  [005] d..4   309.875185: sched_wake_idle_without_ipi: cpu=1
--     <idle>-0     [001] d..3   309.875200: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=S ==> next_comm=cyclictest next_pid=2103 next_prio=19
-+         <...>-2103  [005] d..3   309.873125: sched_switch: prev_comm=cyclictest prev_pid=2103 prev_prio=19 prev_state=D ==> next_comm=swapper/5 next_pid=0 next_prio=120
-+         <idle>-0     [005] d.h3   309.873611: sched_waking: comm=cyclictest pid=2102 prio=19 target_cpu=005
-+         <idle>-0     [005] dNh4   309.873613: sched_wakeup: comm=cyclictest pid=2102 prio=19 target_cpu=005
-+         <idle>-0     [005] d..3   309.873616: sched_switch: prev_comm=swapper/5 prev_pid=0 prev_prio=120 prev_state=S ==> next_comm=cyclictest next_pid=2102 next_prio=19
-+         <...>-2102  [005] d..3   309.873625: sched_switch: prev_comm=cyclictest prev_pid=2102 prev_prio=19 prev_state=D ==> next_comm=swapper/5 next_pid=0 next_prio=120
-+         <idle>-0     [005] d.h3   309.874624: sched_waking: comm=cyclictest pid=2102 prio=19 target_cpu=005
-+         <idle>-0     [005] dNh4   309.874626: sched_wakeup: comm=cyclictest pid=2102 prio=19 target_cpu=005
-+         <idle>-0     [005] dNh3   309.874628: sched_waking: comm=cyclictest pid=2103 prio=19 target_cpu=005
-+         <idle>-0     [005] dNh4   309.874630: sched_wakeup: comm=cyclictest pid=2103 prio=19 target_cpu=005
-+         <idle>-0     [005] d..3   309.874633: sched_switch: prev_comm=swapper/5 prev_pid=0 prev_prio=120 prev_state=S ==> next_comm=cyclictest next_pid=2102 next_prio=19
-+         <idle>-0     [004] d.h3   309.874757: sched_waking: comm=gnome-terminal- pid=1699 prio=120 target_cpu=004
-+         <idle>-0     [004] dNh4   309.874762: sched_wakeup: comm=gnome-terminal- pid=1699 prio=120 target_cpu=004
-+         <idle>-0     [004] d..3   309.874766: sched_switch: prev_comm=swapper/4 prev_pid=0 prev_prio=120 prev_state=S ==> next_comm=gnome-terminal- next_pid=1699 next_prio=120
-+     gnome-terminal--1699  [004] d.h2   309.874941: sched_stat_runtime: comm=gnome-terminal- pid=1699 runtime=180706 [ns] vruntime=1126870572 [ns]
-+         <idle>-0     [003] d.s4   309.874956: sched_waking: comm=rcu_sched pid=9 prio=120 target_cpu=007
-+         <idle>-0     [003] d.s5   309.874960: sched_wake_idle_without_ipi: cpu=7
-+         <idle>-0     [003] d.s5   309.874961: sched_wakeup: comm=rcu_sched pid=9 prio=120 target_cpu=007
-+         <idle>-0     [007] d..3   309.874963: sched_switch: prev_comm=swapper/7 prev_pid=0 prev_prio=120 prev_state=S ==> next_comm=rcu_sched next_pid=9 next_prio=120
-+      rcu_sched-9     [007] d..3   309.874973: sched_stat_runtime: comm=rcu_sched pid=9 runtime=13646 [ns] vruntime=22531430286 [ns]
-+      rcu_sched-9     [007] d..3   309.874978: sched_switch: prev_comm=rcu_sched prev_pid=9 prev_prio=120 prev_state=R+ ==> next_comm=swapper/7 next_pid=0 next_prio=120
-+          <...>-2102  [005] d..4   309.874994: sched_migrate_task: comm=cyclictest pid=2103 prio=19 orig_cpu=5 dest_cpu=1
-+          <...>-2102  [005] d..4   309.875185: sched_wake_idle_without_ipi: cpu=1
-+         <idle>-0     [001] d..3   309.875200: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=S ==> next_comm=cyclictest next_pid=2103 next_prio=19
- 
-   - onchange(var).save(field,..	.)
- 
-@@ -2201,9 +2201,10 @@ The following commonly-used handler.action pairs are available:
-     following the rest of the fields.
- 
-     If a snaphot was taken, there is also a message indicating that,
--    along with the value and event that triggered the snapshot:
-+    along with the value and event that triggered the snapshot::
+ Further information about the Generic Time Of Day framework is available in the
+ OLS 2005 Proceedings Volume 1:
+-http://www.linuxsymposium.org/2005/linuxsymposium_procv1.pdf
 +
-+      # cat /sys/kernel/debug/tracing/events/tcp/tcp_probe/hist
++	http://www.linuxsymposium.org/2005/linuxsymposium_procv1.pdf
  
--    # cat /sys/kernel/debug/tracing/events/tcp/tcp_probe/hist
-       { dport:       1521 } hitcount:          8
- 	changed:         10  snd_wnd:      35456  srtt:     154262  rcv_wnd:      42112
+ The paper "We Are Not Getting Any Younger: A New Approach to Time and
+ Timers" was written by J. Stultz, D.V. Hart, & N. Aravamudan.
+@@ -100,6 +103,7 @@ accounting, profiling, and high resolution timers.
  
-@@ -2216,14 +2217,15 @@ The following commonly-used handler.action pairs are available:
-       { dport:        443 } hitcount:        211
- 	changed:         10  snd_wnd:      26960  srtt:      17379  rcv_wnd:      28800
- 
--    Snapshot taken (see tracing/snapshot).  Details:
-+    Snapshot taken (see tracing/snapshot).  Details::
+ The management layer assigns one or more of the following functions to a clock
+ event device:
 +
-         triggering value { onchange($cwnd) }:         10
-         triggered by event with key: { dport:         80 }
+       - system global periodic tick (jiffies update)
+       - cpu local update_process_times
+       - cpu local profiling
+@@ -244,6 +248,3 @@ extended to x86_64 and ARM already. Initial (work in progress) support is also
+ available for MIPS and PowerPC.
  
--    Totals:
--        Hits: 414
--        Entries: 4
--        Dropped: 0
-+      Totals:
-+          Hits: 414
-+          Entries: 4
-+          Dropped: 0
+ 	  Thomas, Ingo
+-
+-
+-
+diff --git a/Documentation/timers/hpet.txt b/Documentation/timers/hpet.txt
+index 895345ec513b..c9d05d3caaca 100644
+--- a/Documentation/timers/hpet.txt
++++ b/Documentation/timers/hpet.txt
+@@ -1,4 +1,6 @@
+-		High Precision Event Timer Driver for Linux
++===========================================
++High Precision Event Timer Driver for Linux
++===========================================
  
-     In the above case, the event that triggered the snapshot has the
-     key with dport == 80.  If you look at the bucket that has 80 as
-@@ -2233,18 +2235,18 @@ The following commonly-used handler.action pairs are available:
-     the global snapshot).
+ The High Precision Event Timer (HPET) hardware follows a specification
+ by Intel and Microsoft, revision 1.
+diff --git a/Documentation/timers/hrtimers.txt b/Documentation/timers/hrtimers.txt
+index 588d85724f10..c1c20a693e8f 100644
+--- a/Documentation/timers/hrtimers.txt
++++ b/Documentation/timers/hrtimers.txt
+@@ -1,6 +1,6 @@
+-
++======================================================
+ hrtimers - subsystem for high-resolution kernel timers
+-----------------------------------------------------
++======================================================
  
-     And finally, looking at the snapshot data should show at or near
--    the end the event that triggered the snapshot:
-+    the end the event that triggered the snapshot::
+ This patch introduces a new subsystem for high-resolution kernel timers.
  
--    # cat /sys/kernel/debug/tracing/snapshot
-+      # cat /sys/kernel/debug/tracing/snapshot
+@@ -146,7 +146,7 @@ the clock_getres() interface. This will return whatever real resolution
+ a given clock has - be it low-res, high-res, or artificially-low-res.
  
--       gnome-shell-1261  [006] dN.3    49.823113: sched_stat_runtime: comm=gnome-shell pid=1261 runtime=49347 [ns] vruntime=1835730389 [ns]
--     kworker/u16:4-773   [003] d..3    49.823114: sched_switch: prev_comm=kworker/u16:4 prev_pid=773 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:2 next_pid=135 next_prio=120
--       gnome-shell-1261  [006] d..3    49.823114: sched_switch: prev_comm=gnome-shell prev_pid=1261 prev_prio=120 prev_state=R+ ==> next_comm=kworker/6:2 next_pid=387 next_prio=120
--       kworker/3:2-135   [003] d..3    49.823118: sched_stat_runtime: comm=kworker/3:2 pid=135 runtime=5339 [ns] vruntime=17815800388 [ns]
--       kworker/6:2-387   [006] d..3    49.823120: sched_stat_runtime: comm=kworker/6:2 pid=387 runtime=9594 [ns] vruntime=14589605367 [ns]
--       kworker/6:2-387   [006] d..3    49.823122: sched_switch: prev_comm=kworker/6:2 prev_pid=387 prev_prio=120 prev_state=R+ ==> next_comm=gnome-shell next_pid=1261 next_prio=120
--       kworker/3:2-135   [003] d..3    49.823123: sched_switch: prev_comm=kworker/3:2 prev_pid=135 prev_prio=120 prev_state=T ==> next_comm=swapper/3 next_pid=0 next_prio=120
--            <idle>-0     [004] ..s7    49.823798: tcp_probe: src=10.0.0.10:54326 dest=23.215.104.193:80 mark=0x0 length=32 snd_nxt=0xe3ae2ff5 snd_una=0xe3ae2ecd snd_cwnd=10 ssthresh=2147483647 snd_wnd=28960 srtt=19604 rcv_wnd=29312
-+         gnome-shell-1261  [006] dN.3    49.823113: sched_stat_runtime: comm=gnome-shell pid=1261 runtime=49347 [ns] vruntime=1835730389 [ns]
-+       kworker/u16:4-773   [003] d..3    49.823114: sched_switch: prev_comm=kworker/u16:4 prev_pid=773 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:2 next_pid=135 next_prio=120
-+         gnome-shell-1261  [006] d..3    49.823114: sched_switch: prev_comm=gnome-shell prev_pid=1261 prev_prio=120 prev_state=R+ ==> next_comm=kworker/6:2 next_pid=387 next_prio=120
-+         kworker/3:2-135   [003] d..3    49.823118: sched_stat_runtime: comm=kworker/3:2 pid=135 runtime=5339 [ns] vruntime=17815800388 [ns]
-+         kworker/6:2-387   [006] d..3    49.823120: sched_stat_runtime: comm=kworker/6:2 pid=387 runtime=9594 [ns] vruntime=14589605367 [ns]
-+         kworker/6:2-387   [006] d..3    49.823122: sched_switch: prev_comm=kworker/6:2 prev_pid=387 prev_prio=120 prev_state=R+ ==> next_comm=gnome-shell next_pid=1261 next_prio=120
-+         kworker/3:2-135   [003] d..3    49.823123: sched_switch: prev_comm=kworker/3:2 prev_pid=135 prev_prio=120 prev_state=T ==> next_comm=swapper/3 next_pid=0 next_prio=120
-+              <idle>-0     [004] ..s7    49.823798: tcp_probe: src=10.0.0.10:54326 dest=23.215.104.193:80 mark=0x0 length=32 snd_nxt=0xe3ae2ff5 snd_una=0xe3ae2ecd snd_cwnd=10 ssthresh=2147483647 snd_wnd=28960 srtt=19604 rcv_wnd=29312
+ hrtimers - testing and verification
+-----------------------------------
++-----------------------------------
  
- 3. User space creating a trigger
- --------------------------------
+ We used the high-resolution clock subsystem ontop of hrtimers to verify
+ the hrtimer implementation details in praxis, and we also ran the posix
+diff --git a/Documentation/timers/timekeeping.txt b/Documentation/timers/timekeeping.txt
+index 2d1732b0a868..f83e98852e2c 100644
+--- a/Documentation/timers/timekeeping.txt
++++ b/Documentation/timers/timekeeping.txt
+@@ -1,5 +1,6 @@
++===========================================================
+ Clock sources, Clock events, sched_clock() and delay timers
+------------------------------------------------------------
++===========================================================
+ 
+ This document tries to briefly explain some basic kernel timekeeping
+ abstractions. It partly pertains to the drivers usually found in
+diff --git a/Documentation/timers/timers-howto.txt b/Documentation/timers/timers-howto.txt
+index 038f8c77a076..7e3167bec2b1 100644
+--- a/Documentation/timers/timers-howto.txt
++++ b/Documentation/timers/timers-howto.txt
+@@ -1,5 +1,6 @@
++===================================================================
+ delays - Information on the various kernel delay / sleep mechanisms
+--------------------------------------------------------------------
++===================================================================
+ 
+ This document seeks to answer the common question: "What is the
+ RightWay (TM) to insert a delay?"
+@@ -17,7 +18,7 @@ code in an atomic context?"  This should be followed closely by "Does
+ it really need to delay in atomic context?" If so...
+ 
+ ATOMIC CONTEXT:
+-	You must use the *delay family of functions. These
++	You must use the `*delay` family of functions. These
+ 	functions use the jiffie estimation of clock speed
+ 	and will busy wait for enough loop cycles to achieve
+ 	the desired delay:
+@@ -35,21 +36,26 @@ ATOMIC CONTEXT:
+ 	be refactored to allow for the use of msleep.
+ 
+ NON-ATOMIC CONTEXT:
+-	You should use the *sleep[_range] family of functions.
++	You should use the `*sleep[_range]` family of functions.
+ 	There are a few more options here, while any of them may
+ 	work correctly, using the "right" sleep function will
+ 	help the scheduler, power management, and just make your
+ 	driver better :)
+ 
+ 	-- Backed by busy-wait loop:
++
+ 		udelay(unsigned long usecs)
++
+ 	-- Backed by hrtimers:
++
+ 		usleep_range(unsigned long min, unsigned long max)
++
+ 	-- Backed by jiffies / legacy_timers
++
+ 		msleep(unsigned long msecs)
+ 		msleep_interruptible(unsigned long msecs)
+ 
+-	Unlike the *delay family, the underlying mechanism
++	Unlike the `*delay` family, the underlying mechanism
+ 	driving each of these calls varies, thus there are
+ 	quirks you should be aware of.
+ 
+@@ -70,6 +76,7 @@ NON-ATOMIC CONTEXT:
+ 		- Why not msleep for (1ms - 20ms)?
+ 			Explained originally here:
+ 				http://lkml.org/lkml/2007/8/3/250
++
+ 			msleep(1~20) may not do what the caller intends, and
+ 			will often sleep longer (~20 ms actual sleep for any
+ 			value given in the 1~20ms range). In many cases this
 -- 
 2.20.1
 
