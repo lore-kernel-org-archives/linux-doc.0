@@ -5,49 +5,83 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AF1A37D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 08:59:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 66F3F7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 09:05:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727852AbfDPI70 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Apr 2019 04:59:26 -0400
-Received: from cloudserver094114.home.pl ([79.96.170.134]:47158 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726576AbfDPI70 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Apr 2019 04:59:26 -0400
-Received: from 79.184.254.18.ipv4.supernova.orange.pl (79.184.254.18) (HELO kreacher.localnet)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.213)
- id 9e76c8fa0672b35f; Tue, 16 Apr 2019 10:59:23 +0200
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, linux-pm@vger.kernel.org
-Subject: Re: [PATCH 25/57] docs: power: convert docs to ReST
-Date:   Tue, 16 Apr 2019 10:59:23 +0200
-Message-ID: <1616669.eeiCRjss8h@kreacher>
-In-Reply-To: <cfab8842b681a84518b327980b08aee95d159605.1555382110.git.mchehab+samsung@kernel.org>
-References: <cover.1555382110.git.mchehab+samsung@kernel.org> <cfab8842b681a84518b327980b08aee95d159605.1555382110.git.mchehab+samsung@kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+        id S1726208AbfDPJFi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Apr 2019 05:05:38 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60864 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726160AbfDPJFh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Apr 2019 05:05:37 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 6AF982D7F9;
+        Tue, 16 Apr 2019 09:05:37 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-65.ams2.redhat.com [10.36.116.65])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 123DD5C220;
+        Tue, 16 Apr 2019 09:05:34 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+        id 45DC01747C; Tue, 16 Apr 2019 11:05:33 +0200 (CEST)
+From:   Gerd Hoffmann <kraxel@redhat.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     Gerd Hoffmann <kraxel@redhat.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] drm: add drm_format_helper.c to kerneldoc
+Date:   Tue, 16 Apr 2019 11:05:33 +0200
+Message-Id: <20190416090533.28374-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.30]); Tue, 16 Apr 2019 09:05:37 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tuesday, April 16, 2019 4:55:50 AM CEST Mauro Carvalho Chehab wrote:
-> Convert the PM documents to ReST, in order to allow them to
-> build with Sphinx.
+Also drop the dstclip parameter sphinx has warned about (leftolver from
+an earlier patch version).
 
-And what exactly is the motivation for doing that?
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ drivers/gpu/drm/drm_format_helper.c   | 1 -
+ Documentation/gpu/drm-kms-helpers.rst | 6 ++++++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
-There are plans for some of these files to be converted already, some of them need to be merged or split and it just is not worth it to convert some others.
-
-Thanks,
-Rafael
-
-
+diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
+index da388012df2a..a18da35145b7 100644
+--- a/drivers/gpu/drm/drm_format_helper.c
++++ b/drivers/gpu/drm/drm_format_helper.c
+@@ -235,7 +235,6 @@ static void drm_fb_xrgb8888_to_rgb888_line(u8 *dbuf, u32 *sbuf,
+  * @vaddr: XRGB8888 source buffer
+  * @fb: DRM framebuffer
+  * @clip: Clip rectangle area to copy
+- * @dstclip: Clip destination too.
+  *
+  * Drivers can use this function for RGB888 devices that don't natively
+  * support XRGB8888.
+diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
+index 58b375e47615..14102ae035dc 100644
+--- a/Documentation/gpu/drm-kms-helpers.rst
++++ b/Documentation/gpu/drm-kms-helpers.rst
+@@ -107,6 +107,12 @@ fbdev Helper Functions Reference
+ .. kernel-doc:: drivers/gpu/drm/drm_fb_helper.c
+    :export:
+ 
++format Helper Functions Reference
++=================================
++
++.. kernel-doc:: drivers/gpu/drm/drm_format_helper.c
++   :export:
++
+ Framebuffer CMA Helper Functions Reference
+ ==========================================
+ 
+-- 
+2.18.1
 
