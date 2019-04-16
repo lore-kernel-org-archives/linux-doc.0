@@ -2,98 +2,132 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4A7AC7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 11:48:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3B15D7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 12:19:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729348AbfDPLra (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Apr 2019 07:47:30 -0400
-Received: from casper.infradead.org ([85.118.1.10]:58884 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729359AbfDPLr3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Apr 2019 07:47:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=m7ys/Ne1HhO/kvU1VCh2ZObtEJS5qve7R1i2J9k/ZJU=; b=Jq0qSmuE3SWe5uEbUlXyHfuKtH
-        pBUt4se+XmV9ZdXTI12+X49lTp+inP9U9XFdU/ArvDA3i8Kq8+rRL5HX8SQmEE05aLIbIQVdoDW6r
-        3dMF1WVvasODyPRRZaZRsH/N+2Kt+m1joJed8u0+83b+H4n9MLy1ztI/a1BtxJp7qERYCiYXGBk2s
-        Lo0zvf4uxYjgVwNU7oNNKy5tgkrw8ZaUGOERpyLCbkTUc+QxLHlMd2uZ/HXq8w2iT4M71FBhSwgpz
-        ntUMnm/QoR54pUHB55gQNAIgFDeQn+Go7GHThf+iASjd0H/y8upMS/ql1zOSKzQjyTV31xdUEj9VT
-        SPocMp/g==;
-Received: from 177.205.118.176.dynamic.adsl.gvt.net.br ([177.205.118.176] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hGMYe-0008Fj-TM; Tue, 16 Apr 2019 11:47:25 +0000
-Date:   Tue, 16 Apr 2019 08:47:19 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Petr Mladek <pmladek@suse.com>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
-        live-patching@vger.kernel.org
-Subject: Re: [PATCH 20/57] docs: livepatch: convert it to ReST format
-Message-ID: <20190416084719.4284d31d@coco.lan>
-In-Reply-To: <20190416084354.ol7umvh2lmii6jbk@pathway.suse.cz>
-References: <cover.1555382110.git.mchehab+samsung@kernel.org>
-        <f8eb5302d14147f5721cce816b1d3500184ce383.1555382110.git.mchehab+samsung@kernel.org>
-        <20190416084354.ol7umvh2lmii6jbk@pathway.suse.cz>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727490AbfDPMTN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Apr 2019 08:19:13 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:46837 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726907AbfDPMTN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Apr 2019 08:19:13 -0400
+Received: by mail-ed1-f67.google.com with SMTP id d1so17667880edd.13
+        for <linux-doc@vger.kernel.org>; Tue, 16 Apr 2019 05:19:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=sender:date:from:to:cc:subject:message-id:mail-followup-to
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=nHF9XJqFQuD9UoI91jWbQxMStT/2DXQZkyAN+huoJF4=;
+        b=CK3YSSqOta8CqNFWYr9y/P5bRo+ZqohsiBrBp/NVf/6msnRSCr6qhMl1rWGH7CnS10
+         iwBgBHT3MrPIBiiIbn6ebodO5ItKGVynovFc3U+N+KBJCTaebTSUyem4NqtOdbgrDhve
+         0l9EA+VUPcd8bXcf566ljECzjQsbbxuCCq6AQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=nHF9XJqFQuD9UoI91jWbQxMStT/2DXQZkyAN+huoJF4=;
+        b=tzPs/SChQUEI1GHDNuW0dkrafbjYtTwdoXjKdsrOOO7DDb75GN5grlcegD6AvJ0J/S
+         xfK0IujgMlqA/riY4XbtCGOGp3ooop6Fo2Okkji6taY4BH6SXSNavA33GBqmA31k4MHU
+         1kghcghftZToLc0pIrZepUC4jSux81kNN89rmv65/E+YBDqZiy4LgFvQyldQkRybVdH5
+         LHY/NIowl9U0m9entmYcPqW2v4m9rfSgxxBHCYPgV203JLdWb1qqIkgbxAj8NpNJlV6o
+         qjv6/3D5sbdYBRD64odWHe83J/nP3PrzRNwOmla42hrGK4m61/TlZxW9c//X1eUjtSfV
+         6luw==
+X-Gm-Message-State: APjAAAUug7RX2ANAXBDqz5Q6Ck6IS6ZliwAgRVzGo6dIGLtn+iS1ytfA
+        MGm18kLVJhTFzaMrOYOh67mMRg==
+X-Google-Smtp-Source: APXvYqwJ2gNREaibz9YH4XUsPh0OuK6xFHBg6KArJGqJ/0JZjt8DCBYpDwfTkmDWe3Qw1tZLmqo2fg==
+X-Received: by 2002:a50:9265:: with SMTP id j34mr16893394eda.243.1555417151484;
+        Tue, 16 Apr 2019 05:19:11 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
+        by smtp.gmail.com with ESMTPSA id g14sm5452648ejs.49.2019.04.16.05.19.10
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 16 Apr 2019 05:19:10 -0700 (PDT)
+Date:   Tue, 16 Apr 2019 14:19:08 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Gerd Hoffmann <kraxel@redhat.com>
+Cc:     dri-devel@lists.freedesktop.org,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] drm: add drm_format_helper.c to kerneldoc
+Message-ID: <20190416121908.GH13337@phenom.ffwll.local>
+Mail-Followup-To: Gerd Hoffmann <kraxel@redhat.com>,
+        dri-devel@lists.freedesktop.org,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+References: <20190416090533.28374-1-kraxel@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190416090533.28374-1-kraxel@redhat.com>
+X-Operating-System: Linux phenom 4.19.0-1-amd64 
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 16 Apr 2019 10:43:54 +0200
-Petr Mladek <pmladek@suse.com> escreveu:
-
-> On Mon 2019-04-15 23:55:45, Mauro Carvalho Chehab wrote:
-> > Convert livepatch documentation to ReST format. The changes
-> > are mostly trivial, as the documents are already on a good
-> > shape. Just a few markup changes are needed for Sphinx to
-> > properly parse the docs.
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>  
+On Tue, Apr 16, 2019 at 11:05:33AM +0200, Gerd Hoffmann wrote:
+> Also drop the dstclip parameter sphinx has warned about (leftolver from
+> an earlier patch version).
 > 
-> Thanks a lot for the conversion. I tried html output and
-> it looks very well.
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+
+Assuming it all builds cleanly and all the links work and no warnings from
+sphinx:
+
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+> ---
+>  drivers/gpu/drm/drm_format_helper.c   | 1 -
+>  Documentation/gpu/drm-kms-helpers.rst | 6 ++++++
+>  2 files changed, 6 insertions(+), 1 deletion(-)
 > 
-> Just a question. This patch does only the formatting.
-> The documentation is not really generated because the file
-> is not renamed to .rst. Also it is not referenced from
-> any top level documents. Is it by intention?
-
-Yes. The rationale is simple: renaming to .rst would require
-to add them on an index file (or otherwise build would produce lots
-of warnings). As this series is doing a lot of such conversions,
-assuming that some of those patches will go through different
-trees, that would cause lots of conflicts at the main index files.
-
-So, it sounds better to apply the conversion first and then,
-on a better moment (maybe late during the merge window), do the
-rename and add to the index files.
-
+> diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
+> index da388012df2a..a18da35145b7 100644
+> --- a/drivers/gpu/drm/drm_format_helper.c
+> +++ b/drivers/gpu/drm/drm_format_helper.c
+> @@ -235,7 +235,6 @@ static void drm_fb_xrgb8888_to_rgb888_line(u8 *dbuf, u32 *sbuf,
+>   * @vaddr: XRGB8888 source buffer
+>   * @fb: DRM framebuffer
+>   * @clip: Clip rectangle area to copy
+> - * @dstclip: Clip destination too.
+>   *
+>   * Drivers can use this function for RGB888 devices that don't natively
+>   * support XRGB8888.
+> diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
+> index 58b375e47615..14102ae035dc 100644
+> --- a/Documentation/gpu/drm-kms-helpers.rst
+> +++ b/Documentation/gpu/drm-kms-helpers.rst
+> @@ -107,6 +107,12 @@ fbdev Helper Functions Reference
+>  .. kernel-doc:: drivers/gpu/drm/drm_fb_helper.c
+>     :export:
+>  
+> +format Helper Functions Reference
+> +=================================
+> +
+> +.. kernel-doc:: drivers/gpu/drm/drm_format_helper.c
+> +   :export:
+> +
+>  Framebuffer CMA Helper Functions Reference
+>  ==========================================
+>  
+> -- 
+> 2.18.1
 > 
-> 
-> I am happy even for the conversion, so:
-> 
-> Reviewed-by: Petr Mladek <pmladek@suse.com>
-> 
-> Best Regards,
-> Petr
 
-
-
-Thanks,
-Mauro
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
