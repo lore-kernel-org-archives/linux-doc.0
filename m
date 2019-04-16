@@ -1,100 +1,90 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3EC107D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 09:58:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 05DE27D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 10:18:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728556AbfDPJ6W (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Apr 2019 05:58:22 -0400
-Received: from casper.infradead.org ([85.118.1.10]:50600 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726739AbfDPJ6W (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Apr 2019 05:58:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=sP/+g+YITf4kSwQg6jWKcy9Hzpj2iP/E6kmV831FVp0=; b=HAJzIt/mkFcFrqyUTqPhMz19+S
-        qUNhAAim90wx23B6Td7Tt9/eHtw864EtZnJHTrzoCGCP8wrNgHa6rnSr6BtSLffYZdI/prapQ1qpY
-        YsUETnZQrTAiWiDQRJDZqMYtvmJFUA6W9wUjlztcZ/wgS/TtHY+fxty4NceZTXlcAzhLXXMayZ88b
-        mglYrvJNY7UzQPNuYp/20u6QwQMmEn9gKLLmlcXLMdSZRDO1dXleSMLJBkkk8kXV2feXL1ybLYJT9
-        Oo6XiP2RruIYFJJModOKBkMA98EFcg68Y1cfxetbw6hf2kdGpqUS3Q03/q+tJs+WyN5VS6bugIgly
-        OJuTmldw==;
-Received: from 177.205.118.176.dynamic.adsl.gvt.net.br ([177.205.118.176] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hGKr5-0004L4-TH; Tue, 16 Apr 2019 09:58:20 +0000
-Date:   Tue, 16 Apr 2019 06:58:15 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S1728651AbfDPKSB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Apr 2019 06:18:01 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:38319 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726638AbfDPKSA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Apr 2019 06:18:00 -0400
+Received: by mail-oi1-f194.google.com with SMTP id a6so16448323oie.5;
+        Tue, 16 Apr 2019 03:18:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0TuyvSOa9yABxybjHPN+lmbVTaeXDs+z8tLDKxQyOJo=;
+        b=c1WCu5y/ZIWdKORNsJeBsFE9s0N21B9UIsT2bSdXRr+jcnLFzPozQVbzLclnDI+9Ak
+         j35iJmCLTjjtL6/7lb8VSFc/YOVZqpkfzcUhZOsW6DZCKYvvG1snkIhiPFpkHza91oBG
+         CGQ7TK/sEAhQHPJSsMRiASIEqK1OsI4JsYTWIslbiThc2bQoGRbqeMEKWSqgaNwxsqgd
+         E5QNWv8hTWPhnTtoFIZq5EY7LZwnGIoVJdrONJ/RngEhTFWZodozGVT7N+5vsSpyWyLT
+         xshjeXXL7a2uPs4MzT94cb3JWwSxLgM0RXluhMDxCe+GMvSTftl8Zd1lC54lM8i4BioE
+         gnVw==
+X-Gm-Message-State: APjAAAWoLIvDBVRISOB6U0VKv+B7qzAJ8tYfS7evlqeVtmJvXHfHtOSG
+        gpoxenwMkzIAV3dpHKYdW3sXQqbUW4w1VQe9+fY=
+X-Google-Smtp-Source: APXvYqzDFE+wwUBZuvDJuLyi664UF43IBwogfYvWVIFa0AQREjcnET7HQE6+BT+o2CEPrwFMNGXMn32G3ipyXIR19Oc=
+X-Received: by 2002:aca:4c08:: with SMTP id z8mr17331578oia.30.1555409879608;
+ Tue, 16 Apr 2019 03:17:59 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1555382110.git.mchehab+samsung@kernel.org>
+ <10802a7ac16958a2786c2fc083fb5cb50eb7ebb9.1555382110.git.mchehab+samsung@kernel.org>
+ <CAJZ5v0hZK07zQzmD6J0J5dBUAecpE_31_W5Ade5UpWrsWBeU+Q@mail.gmail.com> <20190416065444.2460d3a3@coco.lan>
+In-Reply-To: <20190416065444.2460d3a3@coco.lan>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 16 Apr 2019 12:17:48 +0200
+Message-ID: <CAJZ5v0i3-VCxNvp5v2wUOeaCUJcJUXLZzHFNJiFH5FG-Negpdw@mail.gmail.com>
+Subject: Re: [PATCH 02/57] docs: acpi: convert text files to ReST
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Linux PM <linux-pm@vger.kernel.org>
-Subject: Re: [PATCH 09/57] docs: cpu-freq: convert files to ReST
-Message-ID: <20190416065815.57fbdf2c@coco.lan>
-In-Reply-To: <CAJZ5v0he8GHZ+EFJ911vgrO53NnEWDwm=_vZD4K9SVL0MahMTQ@mail.gmail.com>
-References: <cover.1555382110.git.mchehab+samsung@kernel.org>
-        <b2f9cc0d15d7e3058be01015be36f698debd8b14.1555382110.git.mchehab+samsung@kernel.org>
-        <CAJZ5v0he8GHZ+EFJ911vgrO53NnEWDwm=_vZD4K9SVL0MahMTQ@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        Len Brown <lenb@kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Changbin Du <changbin.du@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 16 Apr 2019 10:21:31 +0200
-"Rafael J. Wysocki" <rafael@kernel.org> escreveu:
-
-> On Tue, Apr 16, 2019 at 4:56 AM Mauro Carvalho Chehab
-> <mchehab+samsung@kernel.org> wrote:
+On Tue, Apr 16, 2019 at 11:54 AM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
+>
+> Em Tue, 16 Apr 2019 10:17:11 +0200
+> "Rafael J. Wysocki" <rafael@kernel.org> escreveu:
+>
+> > On Tue, Apr 16, 2019 at 5:02 AM Mauro Carvalho Chehab
+> > <mchehab+samsung@kernel.org> wrote:
+> > >
+> > > Most of the files are already in good shape, making easier to
+> > > convert them to ReST by adding proper title markups and
+> > > addressing some identation and markups to properly format the
+> > > document.
 > >
-> > In order to be able to build html and pdf files, convert the
-> > documentation to ReST format.
+> > There is concurrent work on this under way, please see
+> > https://marc.info/?t=155381845300002&r=2&w=2
 > >
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>  
-> 
-> Please don't convert these files.
-> 
-> They need more work than just semi-automatic conversion
+> > I'd prefer that one to continue, honestly.
+>
+> Agreed. I didn't notice the patchset.
+>
+> Btw, please notice patch 11/57:
+>
+>         Subject: [PATCH 11/57] docs: extcon: move it to acpi dir and convert it to ReST
+>
+> IMO, it makes sense to move the extcon driver to ACPI, as it sounds
+> to be just another ACPI driver.
 
-Except for one exception (at patch 32/57), the ReST conversion on this
-patch set was manually made. I basically renamed the files to
-.rst, checked the errors and fixed, trying to preserve the original
-document style as much as possible, while providing a good visual
-for the html output.
+But that can be done later, on top of the Changbin Du's changes.
 
-I suspect that trying to write a script for such kind of conversion
-is not an easy task, as some documents within the Kernel tree have
-their own personal style, (there was even one written in LaTeX at
-the CDROM docs), and I suspect that a script would end by adding 
-extra unwanted markups.
-
-> and the material in them needs to go under driver-api.
-
-Yeah, those documents make sense to be at the driver-api set. 
-
-The rationale why I placed the patch with actually renames on a
-separate patchset (already on my devel tree, but yet to be submitted)
-is that, this way, it should be easy for maintainers to pick the 
-conversion patch, apply on their trees, and, if they're not ready
-yet, postpone the actual rename/move thing.
-
-> This is quite hight in my TODO list.
-
-OK. Feel free to use this patch as a starting point if you
-want.
-
-Regards,
-Mauro
+Thanks,
+Rafael
