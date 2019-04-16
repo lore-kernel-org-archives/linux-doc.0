@@ -5,195 +5,215 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7996C7D912
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 02:56:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1F5D57D099
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 02:56:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726918AbfDPC4f (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Apr 2019 22:56:35 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:44326 "EHLO
+        id S1726959AbfDPC4g (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Apr 2019 22:56:36 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:44534 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726825AbfDPC4e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 22:56:34 -0400
+        with ESMTP id S1726924AbfDPC4g (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 22:56:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+        To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=376aadq8N9wIfBalBChBnKYcDcz66NsFk3pbpZYA1Io=; b=O74jm3ZfeMJ6LjOzP5ZaXmhOd9
-        KoJrNedI+q/yZGtXpLTtPPSoSGCL3DwRCid624gYd8l+v2QvFfyKQ6G5VR0Ef+2U1P+OsVX12UFL7
-        fuiz9MCiK2EesoALtJU1EtI5FrwKeW1scd45N+ARZyT+G9cNcjKJ+omv0sTKg1Z/J+EUv7egQbyXQ
-        gKpFdbFeFQxFMPzTR2jyBRq+rHUmeJOOy1FU57M0dnlsaTRq0zYih7heGSoNhDK0FIM8iqNFX9yy/
-        FqnjHfkvBMuuY6NJDPn/6/N1vhtjNy+OZ3NNRUVYbxT8YEIeWkKFTeTSnH+TbxO89p/rppXCbPe5t
-        LIqxw9iA==;
+        bh=q5BvRKNC5E2Z4qAZ/NkoF5aANDSgRkCrhT52rDcWEzI=; b=hTQNqW1F1B8i/59leVyUh42/DH
+        ZKlJDd+g6JNAVZxsbpis2Yx86VtUkMX+G1H3GXqYmaHDma/7nWQYsnkGpF190EvE9EW87Y3/BSgg+
+        XcOOtIWL8JLCKjUIeV5PQ81opp9qxvjcQFb1SVQl0jZZAflk+6AIAS3eq7+JpqZ+JolBtYgJvDDEm
+        qhY8K51GSz0kOjKmTsKDUMlJ6lhBYBDj+RLmaKICX6ye5Fxux1hKF6mQwbOMwxnBRsrQnn4wA8EJT
+        f1JBnGa7tpKkq9CNYs8utvolYcHeCuI9OnQZDZaQ0bWhG0a2gR2d+SUNxq++dEfU+oDnMhkWuijVa
+        DRmLwncA==;
 Received: from 177.205.118.176.dynamic.adsl.gvt.net.br ([177.205.118.176] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hGEGu-0007aT-Pa; Tue, 16 Apr 2019 02:56:32 +0000
+        id 1hGEGw-0007aV-JP; Tue, 16 Apr 2019 02:56:34 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hGEGo-0001pd-6p; Mon, 15 Apr 2019 23:56:26 -0300
+        id 1hGEGo-0001q6-CY; Mon, 15 Apr 2019 23:56:26 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 47/57] docs: console.txt: convert to ReST format
-Date:   Mon, 15 Apr 2019 23:56:12 -0300
-Message-Id: <d2c8955af5c69f46bb3524ffe69d4681ee963922.1555382110.git.mchehab+samsung@kernel.org>
+Subject: [PATCH 53/57] docs: xen-tpmfront.txt: convert the file to ReST format
+Date:   Mon, 15 Apr 2019 23:56:18 -0300
+Message-Id: <89981957b7ab12fa6e6c392b4b39fbc5ea08f139.1555382110.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1555382110.git.mchehab+samsung@kernel.org>
 References: <cover.1555382110.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Convert this small file to ReST in preparation for adding it to
-the driver-api book.
+In order to be able to add this file to the security book,
+we need first to convert it to reST.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/console/console.txt | 61 +++++++++++++++++--------------
- 1 file changed, 33 insertions(+), 28 deletions(-)
+ Documentation/security/tpm/xen-tpmfront.txt | 101 +++++++++++---------
+ 1 file changed, 56 insertions(+), 45 deletions(-)
 
-diff --git a/Documentation/console/console.txt b/Documentation/console/console.txt
-index d73c2ab4beda..8b0205d27a71 100644
---- a/Documentation/console/console.txt
-+++ b/Documentation/console/console.txt
-@@ -1,3 +1,4 @@
-+===============
- Console Drivers
- ===============
+diff --git a/Documentation/security/tpm/xen-tpmfront.txt b/Documentation/security/tpm/xen-tpmfront.txt
+index 69346de87ff3..00d5b1db227d 100644
+--- a/Documentation/security/tpm/xen-tpmfront.txt
++++ b/Documentation/security/tpm/xen-tpmfront.txt
+@@ -1,4 +1,6 @@
++﻿=============================
+ Virtual TPM interface for Xen
++=============================
  
-@@ -17,25 +18,26 @@ of driver occupying the consoles.) They can only take over the console that is
- occupied by the system driver. In the same token, if the modular driver is
- released by the console, the system driver will take over.
+ Authors: Matthew Fioravante (JHUAPL), Daniel De Graaf (NSA)
  
--Modular drivers, from the programmer's point of view, have to call:
-+Modular drivers, from the programmer's point of view, have to call::
+@@ -6,7 +8,8 @@ This document describes the virtual Trusted Platform Module (vTPM) subsystem for
+ Xen. The reader is assumed to have familiarity with building and installing Xen,
+ Linux, and a basic understanding of the TPM and vTPM concepts.
  
- 	 do_take_over_console() - load and bind driver to console layer
- 	 give_up_console() - unload driver; it will only work if driver
- 			     is fully unbound
+-INTRODUCTION
++Introduction
++------------
  
--In newer kernels, the following are also available:
-+In newer kernels, the following are also available::
+ The goal of this work is to provide a TPM functionality to a virtual guest
+ operating system (in Xen terms, a DomU).  This allows programs to interact with
+@@ -24,81 +27,89 @@ This mini-os vTPM subsystem was built on top of the previous vTPM work done by
+ IBM and Intel corporation.
  
- 	 do_register_con_driver()
- 	 do_unregister_con_driver()
  
- If sysfs is enabled, the contents of /sys/class/vtconsole can be
- examined. This shows the console backends currently registered by the
--system which are named vtcon<n> where <n> is an integer from 0 to 15. Thus:
-+system which are named vtcon<n> where <n> is an integer from 0 to 15.
-+Thus::
+-DESIGN OVERVIEW
++Design Overview
+ ---------------
  
-        ls /sys/class/vtconsole
-        .  ..  vtcon0  vtcon1
+-The architecture of vTPM is described below:
++The architecture of vTPM is described below::
  
--Each directory in /sys/class/vtconsole has 3 files:
-+Each directory in /sys/class/vtconsole has 3 files::
+-+------------------+
+-|    Linux DomU    | ...
+-|       |  ^       |
+-|       v  |       |
+-|   xen-tpmfront   |
+-+------------------+
+-        |  ^
+-        v  |
+-+------------------+
+-| mini-os/tpmback  |
+-|       |  ^       |
+-|       v  |       |
+-|  vtpm-stubdom    | ...
+-|       |  ^       |
+-|       v  |       |
+-| mini-os/tpmfront |
+-+------------------+
+-        |  ^
+-        v  |
+-+------------------+
+-| mini-os/tpmback  |
+-|       |  ^       |
+-|       v  |       |
+-| vtpmmgr-stubdom  |
+-|       |  ^       |
+-|       v  |       |
+-| mini-os/tpm_tis  |
+-+------------------+
+-        |  ^
+-        v  |
+-+------------------+
+-|   Hardware TPM   |
+-+------------------+
++  +------------------+
++  |    Linux DomU    | ...
++  |       |  ^       |
++  |       v  |       |
++  |   xen-tpmfront   |
++  +------------------+
++          |  ^
++          v  |
++  +------------------+
++  | mini-os/tpmback  |
++  |       |  ^       |
++  |       v  |       |
++  |  vtpm-stubdom    | ...
++  |       |  ^       |
++  |       v  |       |
++  | mini-os/tpmfront |
++  +------------------+
++          |  ^
++          v  |
++  +------------------+
++  | mini-os/tpmback  |
++  |       |  ^       |
++  |       v  |       |
++  | vtpmmgr-stubdom  |
++  |       |  ^       |
++  |       v  |       |
++  | mini-os/tpm_tis  |
++  +------------------+
++          |  ^
++          v  |
++  +------------------+
++  |   Hardware TPM   |
++  +------------------+
  
-      ls /sys/class/vtconsole/vtcon0
-      .  ..  bind  name  uevent
-@@ -46,27 +48,29 @@ What do these files signify?
-         read, or acts to bind or unbind the driver to the virtual consoles
-         when written to. The possible values are:
+- * Linux DomU: The Linux based guest that wants to use a vTPM. There may be
++* Linux DomU:
++	       The Linux based guest that wants to use a vTPM. There may be
+ 	       more than one of these.
  
--	0 - means the driver is not bound and if echo'ed, commands the driver
-+	0
-+	  - means the driver is not bound and if echo'ed, commands the driver
- 	    to unbind
+- * xen-tpmfront.ko: Linux kernel virtual TPM frontend driver. This driver
++* xen-tpmfront.ko:
++		    Linux kernel virtual TPM frontend driver. This driver
+                     provides vTPM access to a Linux-based DomU.
  
--        1 - means the driver is bound and if echo'ed, commands the driver to
-+        1
-+	  - means the driver is bound and if echo'ed, commands the driver to
- 	    bind
+- * mini-os/tpmback: Mini-os TPM backend driver. The Linux frontend driver
++* mini-os/tpmback:
++		    Mini-os TPM backend driver. The Linux frontend driver
+ 		    connects to this backend driver to facilitate communications
+ 		    between the Linux DomU and its vTPM. This driver is also
+ 		    used by vtpmmgr-stubdom to communicate with vtpm-stubdom.
  
--     2. name - read-only file. Shows the name of the driver in this format:
-+     2. name - read-only file. Shows the name of the driver in this format::
+- * vtpm-stubdom: A mini-os stub domain that implements a vTPM. There is a
++* vtpm-stubdom:
++		 A mini-os stub domain that implements a vTPM. There is a
+ 		 one to one mapping between running vtpm-stubdom instances and
+                  logical vtpms on the system. The vTPM Platform Configuration
+                  Registers (PCRs) are normally all initialized to zero.
  
--	cat /sys/class/vtconsole/vtcon0/name
--	(S) VGA+
-+	  cat /sys/class/vtconsole/vtcon0/name
-+	  (S) VGA+
+- * mini-os/tpmfront: Mini-os TPM frontend driver. The vTPM mini-os domain
++* mini-os/tpmfront:
++		     Mini-os TPM frontend driver. The vTPM mini-os domain
+ 		     vtpm-stubdom uses this driver to communicate with
+ 		     vtpmmgr-stubdom. This driver is also used in mini-os
+ 		     domains such as pv-grub that talk to the vTPM domain.
  
--	    '(S)' stands for a (S)ystem driver, i.e., it cannot be directly
--	    commanded to bind or unbind
-+	      '(S)' stands for a (S)ystem driver, i.e., it cannot be directly
-+	      commanded to bind or unbind
+- * vtpmmgr-stubdom: A mini-os domain that implements the vTPM manager. There is
++* vtpmmgr-stubdom:
++		    A mini-os domain that implements the vTPM manager. There is
+ 		    only one vTPM manager and it should be running during the
+ 		    entire lifetime of the machine.  This domain regulates
+ 		    access to the physical TPM on the system and secures the
+ 		    persistent state of each vTPM.
  
--	    'VGA+' is the name of the driver
-+	      'VGA+' is the name of the driver
+- * mini-os/tpm_tis: Mini-os TPM version 1.2 TPM Interface Specification (TIS)
++* mini-os/tpm_tis:
++		    Mini-os TPM version 1.2 TPM Interface Specification (TIS)
+                     driver. This driver used by vtpmmgr-stubdom to talk directly to
+                     the hardware TPM. Communication is facilitated by mapping
+                     hardware memory pages into vtpmmgr-stubdom.
  
--	cat /sys/class/vtconsole/vtcon1/name
--	(M) frame buffer device
-+	  cat /sys/class/vtconsole/vtcon1/name
-+	  (M) frame buffer device
+- * Hardware TPM: The physical TPM that is soldered onto the motherboard.
++* Hardware TPM:
++		The physical TPM that is soldered onto the motherboard.
  
--	    In this case, '(M)' stands for a (M)odular driver, one that can be
--	    directly commanded to bind or unbind.
-+	      In this case, '(M)' stands for a (M)odular driver, one that can be
-+	      directly commanded to bind or unbind.
  
-      3. uevent - ignore this file
+-INTEGRATION WITH XEN
++Integration With Xen
+ --------------------
  
-@@ -75,14 +79,17 @@ driver takes over the consoles vacated by the driver. Binding, on the other
- hand, will bind the driver to the consoles that are currently occupied by a
- system driver.
- 
--NOTE1: Binding and unbinding must be selected in Kconfig. It's under:
-+NOTE1:
-+  Binding and unbinding must be selected in Kconfig. It's under::
- 
--Device Drivers -> Character devices -> Support for binding and unbinding
--console drivers
-+    Device Drivers ->
-+	Character devices ->
-+		Support for binding and unbinding console drivers
- 
--NOTE2: If any of the virtual consoles are in KD_GRAPHICS mode, then binding or
--unbinding will not succeed. An example of an application that sets the console
--to KD_GRAPHICS is X.
-+NOTE2:
-+  If any of the virtual consoles are in KD_GRAPHICS mode, then binding or
-+  unbinding will not succeed. An example of an application that sets the
-+  console to KD_GRAPHICS is X.
- 
- How useful is this feature? This is very useful for console driver
- developers. By unbinding the driver from the console layer, one can unload the
-@@ -92,10 +99,10 @@ framebuffer console to VGA console and vice versa, this feature also makes
- this possible. (NOTE NOTE NOTE: Please read fbcon.txt under Documentation/fb
- for more details.)
- 
--Notes for developers:
--=====================
-+Notes for developers
-+====================
- 
--do_take_over_console() is now broken up into:
-+do_take_over_console() is now broken up into::
- 
-      do_register_con_driver()
-      do_bind_con_driver() - private function
-@@ -104,7 +111,7 @@ give_up_console() is a wrapper to do_unregister_con_driver(), and a driver must
- be fully unbound for this call to succeed. con_is_bound() will check if the
- driver is bound or not.
- 
--Guidelines for console driver writers:
-+Guidelines for console driver writers
- =====================================
- 
- In order for binding to and unbinding from the console to properly work,
-@@ -140,6 +147,4 @@ The current crop of console drivers should still work correctly, but binding
- and unbinding them may cause problems. With minimal fixes, these drivers can
- be made to work correctly.
- 
--==========================
- Antonino Daplas <adaplas@pol.net>
--
+ Support for the vTPM driver was added in Xen using the libxl toolstack in Xen
 -- 
 2.20.1
 
