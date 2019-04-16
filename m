@@ -2,17 +2,17 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1E0547D912
+	by archive.lwn.net (Postfix) with ESMTP id 8287B7D919
 	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 02:58:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725852AbfDPC6N (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 15 Apr 2019 22:58:13 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:44464 "EHLO
+        id S1726346AbfDPC6b (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 15 Apr 2019 22:58:31 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:44440 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726905AbfDPC4f (ORCPT
+        with ESMTP id S1726877AbfDPC4f (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Apr 2019 22:56:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,26 +20,29 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=tMJPA8XKlMb7HXqe8+rd4L7DaiBpG3Vaxyj02DvN2Fc=; b=S7wEK27WQjePN+YDaZrARtSsn+
-        rV3qSxAsTKmFwaHzhRTvE4FET9FxitpL/d5flK9Q/gJMgJF0ZwVx31tnKBstF28oLg07C/MHPJnqz
-        E5VOC/s5oBbzM7qyOEbsVAUvu7rtj8/ZcAgUdSlkQU6Qh2ltfAX54IR7XfEjgYokLrG0P3J8qNm6k
-        nH0y2T+BRhqOKp0MyH/8G6GnYKQNIvJ6pEFKV5Vp7Rrifyz29lUKCpt7a+5tPgaTgZ8KSIpRI3AUG
-        1rETqcpxhu8+wRGzBglVTKbD/eDUr6uEk9Yb6lTkaLx9JcI2c/wbErLD4PxRjAMOz4hvNYUype5RS
-        ks5USWww==;
+        bh=zqYjYl8Ezj1GC9uYumRWsV16tiKnjEnd/bc08agJDEg=; b=XhYzZeZ308+WI6Hufgxit58TCu
+        2UiDbfhgBeFyltrBMNIQRLBgclqQYPoY+lrhkQepLLfxOxRudihfAOgHufRC1ccmqCZPmyTKLSwed
+        h87F9eMMAR/+0zQxNzoXyDR8qb5n2zT95/dfAzkYBe897z2JJYNN7jMwZOTf4caPKg+MXVl6/uSk5
+        9YkJCxV1kZZ+cjY8Yj0uTPVyqgdoARyJ8yt0XGY5QnCITGvnBl34LJpILHiA52u3XeLFtU8Y3fYt/
+        Fp0bnkMcEkr5cTdnqzTnPl4H0lopm23i0U8rH00rMh+suDO3hGXbh3rI73+PVVaUi/jo3Bb6Ac+/D
+        OeVQs+Xg==;
 Received: from 177.205.118.176.dynamic.adsl.gvt.net.br ([177.205.118.176] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hGEGv-0007aP-P2; Tue, 16 Apr 2019 02:56:33 +0000
+        id 1hGEGu-0007ak-Qy; Tue, 16 Apr 2019 02:56:33 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hGEGo-0001p8-1m; Mon, 15 Apr 2019 23:56:26 -0300
+        id 1hGEGn-0001o7-M4; Mon, 15 Apr 2019 23:56:25 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 41/57] docs: EDID/HOWTO.txt: convert to ReST and move to kernel-API
-Date:   Mon, 15 Apr 2019 23:56:06 -0300
-Message-Id: <078dfe8f2ebe8c2a3e7cd8504580fbf67f214109.1555382110.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Palmer Dabbelt <palmer@sifive.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        linux-riscv@lists.infradead.org
+Subject: [PATCH 29/57] docs: riscv: convert it to ReST format
+Date:   Mon, 15 Apr 2019 23:55:54 -0300
+Message-Id: <bf7dc05989fbd8959d3207056b82680f99e86692.1555382110.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1555382110.git.mchehab+samsung@kernel.org>
 References: <cover.1555382110.git.mchehab+samsung@kernel.org>
@@ -50,57 +53,191 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sphinx need to know when a paragraph ends. So, do some adjustments
-at the file for it to be properly parsed.
+The conversion here is trivial:
+ - Adjust the document title's markup
+ - Do some whitespace alignment;
+ - mark literal blocks;
+ - Use ReST way to markup indented lists.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/EDID/HOWTO.txt | 29 ++++++++++++++++++-----------
- 1 file changed, 18 insertions(+), 11 deletions(-)
+ Documentation/riscv/pmu.txt | 98 ++++++++++++++++++++-----------------
+ 1 file changed, 52 insertions(+), 46 deletions(-)
 
-diff --git a/Documentation/EDID/HOWTO.txt b/Documentation/EDID/HOWTO.txt
-index 539871c3b785..9a9b512e0ac9 100644
---- a/Documentation/EDID/HOWTO.txt
-+++ b/Documentation/EDID/HOWTO.txt
-@@ -1,3 +1,7 @@
-+====
-+EDID
-+====
+diff --git a/Documentation/riscv/pmu.txt b/Documentation/riscv/pmu.txt
+index b29f03a6d82f..acb216b99c26 100644
+--- a/Documentation/riscv/pmu.txt
++++ b/Documentation/riscv/pmu.txt
+@@ -1,5 +1,7 @@
++===================================
+ Supporting PMUs on RISC-V platforms
+-==========================================
++===================================
 +
- In the good old days when graphics parameters were configured explicitly
- in a file called xorg.conf, even broken hardware could be managed.
+ Alan Kao <alankao@andestech.com>, Mar 2018
  
-@@ -34,16 +38,19 @@ Makefile. Please note that the EDID data structure expects the timing
- values in a different way as compared to the standard X11 format.
+ Introduction
+@@ -77,13 +79,13 @@ Note that some features can be done in this stage as well:
+ (2) privilege level setting (user space only, kernel space only, both);
+ (3) destructor setting.  Normally it is sufficient to apply *riscv_destroy_event*;
+ (4) tweaks for non-sampling events, which will be utilized by functions such as
+-*perf_adjust_period*, usually something like the follows:
++    *perf_adjust_period*, usually something like the follows::
  
- X11:
--HTimings:  hdisp hsyncstart hsyncend htotal
--VTimings:  vdisp vsyncstart vsyncend vtotal
-+  HTimings:
-+    hdisp hsyncstart hsyncend htotal
-+  VTimings:
-+    vdisp vsyncstart vsyncend vtotal
+-if (!is_sampling_event(event)) {
+-        hwc->sample_period = x86_pmu.max_period;
+-        hwc->last_period = hwc->sample_period;
+-        local64_set(&hwc->period_left, hwc->sample_period);
+-}
++      if (!is_sampling_event(event)) {
++              hwc->sample_period = x86_pmu.max_period;
++              hwc->last_period = hwc->sample_period;
++              local64_set(&hwc->period_left, hwc->sample_period);
++      }
  
--EDID:
--#define XPIX hdisp
--#define XBLANK htotal-hdisp
--#define XOFFSET hsyncstart-hdisp
--#define XPULSE hsyncend-hsyncstart
-+EDID::
+ In the case of *riscv_base_pmu*, only (3) is provided for now.
  
--#define YPIX vdisp
--#define YBLANK vtotal-vdisp
--#define YOFFSET vsyncstart-vdisp
--#define YPULSE vsyncend-vsyncstart
-+  #define XPIX hdisp
-+  #define XBLANK htotal-hdisp
-+  #define XOFFSET hsyncstart-hdisp
-+  #define XPULSE hsyncend-hsyncstart
+@@ -94,10 +96,10 @@ In the case of *riscv_base_pmu*, only (3) is provided for now.
+ 3.1. Interrupt Initialization
+ 
+ This often occurs at the beginning of the *event_init* method. In common
+-practice, this should be a code segment like
++practice, this should be a code segment like::
+ 
+-int x86_reserve_hardware(void)
+-{
++  int x86_reserve_hardware(void)
++  {
+         int err = 0;
+ 
+         if (!atomic_inc_not_zero(&pmc_refcount)) {
+@@ -114,7 +116,7 @@ int x86_reserve_hardware(void)
+         }
+ 
+         return err;
+-}
++  }
+ 
+ And the magic is in *reserve_pmc_hardware*, which usually does atomic
+ operations to make implemented IRQ accessible from some global function pointer.
+@@ -128,28 +130,28 @@ which will be introduced in the next section.)
+ 
+ 3.2. IRQ Structure
+ 
+-Basically, a IRQ runs the following pseudo code:
++Basically, a IRQ runs the following pseudo code::
+ 
+-for each hardware counter that triggered this overflow
++  for each hardware counter that triggered this overflow
+ 
+-    get the event of this counter
++      get the event of this counter
+ 
+-    // following two steps are defined as *read()*,
+-    // check the section Reading/Writing Counters for details.
+-    count the delta value since previous interrupt
+-    update the event->count (# event occurs) by adding delta, and
+-               event->hw.period_left by subtracting delta
++      // following two steps are defined as *read()*,
++      // check the section Reading/Writing Counters for details.
++      count the delta value since previous interrupt
++      update the event->count (# event occurs) by adding delta, and
++                 event->hw.period_left by subtracting delta
+ 
+-    if the event overflows
+-        sample data
+-        set the counter appropriately for the next overflow
++      if the event overflows
++          sample data
++          set the counter appropriately for the next overflow
+ 
+-        if the event overflows again
+-            too frequently, throttle this event
+-        fi
+-    fi
++          if the event overflows again
++              too frequently, throttle this event
++          fi
++      fi
+ 
+-end for
++  end for
+ 
+ However as of this writing, none of the RISC-V implementations have designed an
+ interrupt for perf, so the details are to be completed in the future.
+@@ -195,23 +197,26 @@ A normal flow of these state transitions are as follows:
+   At this stage, a general event is bound to a physical counter, if any.
+   The state changes to PERF_HES_STOPPED and PERF_HES_UPTODATE, because it is now
+   stopped, and the (software) event count does not need updating.
+-** *start* is then called, and the counter is enabled.
+-   With flag PERF_EF_RELOAD, it writes an appropriate value to the counter (check
+-   previous section for detail).
+-   Nothing is written if the flag does not contain PERF_EF_RELOAD.
+-   The state now is reset to none, because it is neither stopped nor updated
+-   (the counting already started)
 +
-+  #define YPIX vdisp
-+  #define YBLANK vtotal-vdisp
-+  #define YOFFSET vsyncstart-vdisp
-+  #define YPULSE vsyncend-vsyncstart
++  - *start* is then called, and the counter is enabled.
++    With flag PERF_EF_RELOAD, it writes an appropriate value to the counter (check
++    previous section for detail).
++    Nothing is written if the flag does not contain PERF_EF_RELOAD.
++    The state now is reset to none, because it is neither stopped nor updated
++    (the counting already started)
++
+ * When being context-switched out, *del* is called.  It then checks out all the
+   events in the PMU and calls *stop* to update their counts.
+-** *stop* is called by *del*
+-   and the perf core with flag PERF_EF_UPDATE, and it often shares the same
+-   subroutine as *read* with the same logic.
+-   The state changes to PERF_HES_STOPPED and PERF_HES_UPTODATE, again.
+ 
+-** Life cycle of these two pairs: *add* and *del* are called repeatedly as
+-  tasks switch in-and-out; *start* and *stop* is also called when the perf core
+-  needs a quick stop-and-start, for instance, when the interrupt period is being
+-  adjusted.
++  - *stop* is called by *del*
++    and the perf core with flag PERF_EF_UPDATE, and it often shares the same
++    subroutine as *read* with the same logic.
++    The state changes to PERF_HES_STOPPED and PERF_HES_UPTODATE, again.
++
++  - Life cycle of these two pairs: *add* and *del* are called repeatedly as
++    tasks switch in-and-out; *start* and *stop* is also called when the perf core
++    needs a quick stop-and-start, for instance, when the interrupt period is being
++    adjusted.
+ 
+ Current implementation is sufficient for now and can be easily extended to
+ features in the future.
+@@ -225,25 +230,26 @@ A. Related Structures
+   Both structures are designed to be read-only.
+ 
+   *struct pmu* defines some function pointer interfaces, and most of them take
+-*struct perf_event* as a main argument, dealing with perf events according to
+-perf's internal state machine (check kernel/events/core.c for details).
++  *struct perf_event* as a main argument, dealing with perf events according to
++  perf's internal state machine (check kernel/events/core.c for details).
+ 
+   *struct riscv_pmu* defines PMU-specific parameters.  The naming follows the
+-convention of all other architectures.
++  convention of all other architectures.
+ 
+ * struct perf_event: include/linux/perf_event.h
+ * struct hw_perf_event
+ 
+   The generic structure that represents perf events, and the hardware-related
+-details.
++  details.
+ 
+ * struct riscv_hw_events: arch/riscv/include/asm/perf_event.h
+ 
+   The structure that holds the status of events, has two fixed members:
+-the number of events and the array of the events.
++  the number of events and the array of the events.
+ 
+ References
+ ----------
+ 
+ [1] https://github.com/riscv/riscv-linux/pull/124
++
+ [2] https://groups.google.com/a/groups.riscv.org/forum/#!topic/sw-dev/f19TmCNP6yA
 -- 
 2.20.1
 
