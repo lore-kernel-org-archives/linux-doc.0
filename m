@@ -1,100 +1,65 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4F4E87D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 14:55:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D4EBA7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 15:09:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729091AbfDPOzW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Apr 2019 10:55:22 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:36756 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726751AbfDPOzW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Apr 2019 10:55:22 -0400
-Received: by mail-pg1-f194.google.com with SMTP id 85so10477056pgc.3;
-        Tue, 16 Apr 2019 07:55:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=h5lj1gghN6sLzB8P8PsOd/8lnM1lSwrScwwzcgsBFOw=;
-        b=pCz+2X8ORA0fAd5nUseqMAAc9lxUBn0sZvkyN38GmYew8mjAIw+7jqTa+xiYR1hP6v
-         6/9kvDbg2V8TaljcUSR8T22xSOW0U9IQumqAMGVsipzxYi5bmzEeReHKHGEXAuePfX1B
-         Gtc8TKl2RVx/R+GmUQCzQwtvw0kUR/GVFwUCSpQPYU8LFv+6tUtui7lI2fCtzYPR6xrq
-         F4fWCbn9fDwZf6nMvMft2glCyd4+7KKzN3sCL8PkDv1za6KNPzkSCdkWTBSPrLL33X/c
-         y1vP+F+nVrFPpNOQEqYiAuljeIaVpccNdR+uokGHhzV9IVqOAmg2YBQcyvuCCaX/KP9s
-         JQyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=h5lj1gghN6sLzB8P8PsOd/8lnM1lSwrScwwzcgsBFOw=;
-        b=AJiV+Qlyf1UOkT5OjIdtdYJE3V+C49yU6pbNpvag9njTnklzURlbk3VhuWsu2gNYoc
-         ZD5E120rsB/LyKXYfMNQvDZOcADuHswduYcCtIM5Y7sAIyvpVoRWoz4DghL/UCdqimiC
-         oQvVcUobWZ/jKvGMw/qghAxaenLFnAsQywj2qmOUE7GXUSXCxvcFtSu2S62Qs0FaW+6g
-         Lxy9wQztGMDXA+SalV39yfHlhsp+M4n67PBUud9G/Sov8liBTwtkZcj+fHqHYpdQ1uEK
-         NBjHQdtqCxwnSTJBjUaXGQDaA9GCrGDQOE1v0YjQnj5NG3HvR9ITsMxereUPl++Jo/1j
-         8z5g==
-X-Gm-Message-State: APjAAAWjFio47dzD5bZl186B3UlyWt+uXOr0PLpZjmuh9h1Lckd4ufNi
-        Hs3HBXLgDM0fM+2DtgXWaeM=
-X-Google-Smtp-Source: APXvYqxeWtbapT2u2GF2ntnqZTAq1Ax39Q3nJiPgpPse0X/k+7MdHqGHJTijrBnlTJsLTx3UWSbSoQ==
-X-Received: by 2002:a62:61c2:: with SMTP id v185mr83648369pfb.117.1555426521601;
-        Tue, 16 Apr 2019 07:55:21 -0700 (PDT)
-Received: from mail.google.com ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id l4sm36189479pgh.17.2019.04.16.07.55.20
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 16 Apr 2019 07:55:20 -0700 (PDT)
-Date:   Tue, 16 Apr 2019 14:55:19 +0000
-From:   Changbin Du <changbin.du@gmail.com>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
+        id S1726875AbfDPPJA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Apr 2019 11:09:00 -0400
+Received: from ms.lwn.net ([45.79.88.28]:39034 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725796AbfDPPJA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Apr 2019 11:09:00 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 452DE738;
+        Tue, 16 Apr 2019 15:08:59 +0000 (UTC)
+Date:   Tue, 16 Apr 2019 09:08:58 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Steven Rostedt <rostedt@goodmis.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Changbin Du <changbin.du@gmail.com>
-Subject: Re: [PATCH 02/57] docs: acpi: convert text files to ReST
-Message-ID: <20190416145518.xigzqsawvbrospir@mail.google.com>
-References: <cover.1555382110.git.mchehab+samsung@kernel.org>
- <10802a7ac16958a2786c2fc083fb5cb50eb7ebb9.1555382110.git.mchehab+samsung@kernel.org>
- <CAJZ5v0hZK07zQzmD6J0J5dBUAecpE_31_W5Ade5UpWrsWBeU+Q@mail.gmail.com>
+        linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
+        Tom Zanussi <tom.zanussi@linux.intel.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Masanari Iida <standby24x7@gmail.com>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Subject: Re: [PATCH] docs: trace: fix some Sphinx warnings
+Message-ID: <20190416090858.3cebacfe@lwn.net>
+In-Reply-To: <20190415183451.506a4b6a@gandalf.local.home>
+References: <466439c96cc753254dc0fab97902d3d12aaf1e6a.1555358399.git.mchehab+samsung@kernel.org>
+        <20190415183451.506a4b6a@gandalf.local.home>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJZ5v0hZK07zQzmD6J0J5dBUAecpE_31_W5Ade5UpWrsWBeU+Q@mail.gmail.com>
-User-Agent: NeoMutt/20180716-508-7c9a6d
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 16, 2019 at 10:17:11AM +0200, Rafael J. Wysocki wrote:
-> On Tue, Apr 16, 2019 at 5:02 AM Mauro Carvalho Chehab
-> <mchehab+samsung@kernel.org> wrote:
-> >
-> > Most of the files are already in good shape, making easier to
-> > convert them to ReST by adding proper title markups and
-> > addressing some identation and markups to properly format the
-> > document.
-> 
-> There is concurrent work on this under way, please see
-> https://marc.info/?t=155381845300002&r=2&w=2
-> 
-I will update the serias asap. I am just a little busy these days. My
-conversion includes pci, acpi and x86, others are not touched.
+On Mon, 15 Apr 2019 18:34:51 -0400
+Steven Rostedt <rostedt@goodmis.org> wrote:
 
-> I'd prefer that one to continue, honestly.
+> On Mon, 15 Apr 2019 17:00:05 -0300
+> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 > 
-> Thanks,
-> Rafael
+> > There are some warnings produced when building trace. Fix them.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>  
+> 
+> Acked-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
+> 
+> Jon,
+> 
+> Care to take this through your tree?
 
--- 
-Cheers,
-Changbin Du
+I've applied it, thanks.
+
+jon
