@@ -1,82 +1,108 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EB6A47D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 14:26:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6DB107D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 14:33:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726751AbfDPO0y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Apr 2019 10:26:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33874 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726215AbfDPO0y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 16 Apr 2019 10:26:54 -0400
-Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 65EC320693;
-        Tue, 16 Apr 2019 14:26:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1555424813;
-        bh=SW+knCHMKnNsSOhDX+aycQOVRyyXv6exYV4WrlOgHZU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=tHMRNLf7xXbMl6oEN0FJHdte+wGCNfHEa2haSsmBlZWd6qSXJAZjhwwcLALkHTZ5L
-         9iKVYRt7F7xrdm1aldEh7s6AnkGRoogfMlD2XBbhECaNHv2i274Uz4Opg8b8Vw/B0g
-         tgRA7W5feXrWg183ech8G5H3cBzdWNf4ga0prU9s=
-From:   Shuah Khan <shuah@kernel.org>
-To:     shuah@kernel.org, corbet@lwn.net
-Cc:     linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] doc: kselftest: Fix KBUILD_OUTPUT usage instructions
-Date:   Tue, 16 Apr 2019 08:26:51 -0600
-Message-Id: <20190416142651.7048-1-shuah@kernel.org>
-X-Mailer: git-send-email 2.19.1
+        id S1726837AbfDPOd0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Apr 2019 10:33:26 -0400
+Received: from casper.infradead.org ([85.118.1.10]:47048 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726605AbfDPOdZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Apr 2019 10:33:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=V/pYIOvyt/8G+cXgIPSr1A8Xv/CDMxgMQWIP/93VILc=; b=ZmEEzmf6YzJtGbd4ny+/B5nBMz
+        odF9/yDknuU2ExV9OuScix594tqMqt45Tmcb8wmqt7fOA6JgERtukuVVc+SvKWl4a03QKPPYX55qL
+        rlOq3/g/bQ6H/QSdvvUjYYFi7SAygWjCuQuyvCs02tO3FTf//kKFOIsbdGi2ysqd32MVz+SOE6AIf
+        0bjAhJRZHjOt5PVgVzJEmVeMnf1KDojgkZKfzZp/jvm8hGETwheREMPsVjVp5cblQBktJVaOHRght
+        +65STb+/zCUmJzq9iCgNSzR2q0vgkHeVU3POzOCM5S2EKlJLsLMeNxebD9UN8acy9ewLEMXWAi2Cx
+        Vb9TRZIw==;
+Received: from 177.205.118.176.dynamic.adsl.gvt.net.br ([177.205.118.176] helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hGP9G-0006YW-2S; Tue, 16 Apr 2019 14:33:22 +0000
+Date:   Tue, 16 Apr 2019 11:33:16 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Mike Snitzer <snitzer@redhat.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Alasdair Kergon <agk@redhat.com>,
+        dm-devel@redhat.com
+Subject: Re: [PATCH 10/57] docs: device-mapper: convert it to ReST format
+Message-ID: <20190416113316.5c3b496c@coco.lan>
+In-Reply-To: <20190416080024.7fb65682@lwn.net>
+References: <cover.1555382110.git.mchehab+samsung@kernel.org>
+        <9dd3c4eca01489bd67ea6de88dfedef8b0e81901.1555382110.git.mchehab+samsung@kernel.org>
+        <20190416132851.GA22497@redhat.com>
+        <20190416080024.7fb65682@lwn.net>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix KBUILD_OUTPUT usage instructions. The current documentation
-is incorrect.
+Em Tue, 16 Apr 2019 08:00:24 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-Signed-off-by: Shuah Khan <shuah@kernel.org>
----
- Documentation/dev-tools/kselftest.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+> On Tue, 16 Apr 2019 09:28:52 -0400
+> Mike Snitzer <snitzer@redhat.com> wrote:
+> 
+> > Can you help me understand why this is the direction text based
+> > Documenation is taking in the Linux kernel?  All I see is markup, and
+> > escaping of characters, that is a chore to administer over time.  
+> 
+> This is a discussion that was mostly resolved some years ago...
+> 
+> Classic Documentation/ is a jumbled collection of unorganized text files,
+> some of which contain highly useful information and others of which
+> haven't had much to offer since about 1996.  We are working to turn it
+> into an organized collection where, hopefully, some thought has actually
+> been given to the people who will be reading it.
+> 
+> The ReST conversion, in particular, allows us to link documents into a
+> larger structure, create indexes and cross references, and produce output
+> in formats like HTML and PDF.  It lets us present the documentation like
+> this:
+> 
+> 	https://www.kernel.org/doc/html/latest/
 
-diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
-index c8c03388b9de..6c910ddaa9f9 100644
---- a/Documentation/dev-tools/kselftest.rst
-+++ b/Documentation/dev-tools/kselftest.rst
-@@ -39,9 +39,9 @@ Build and run from user specific object directory (make O=dir)::
- 
-   $ make O=/tmp/kselftest kselftest
- 
--Build and run KBUILD_OUTPUT directory (make KBUILD_OUTPUT=)::
-+Build and run from KBUILD_OUTPUT directory (make KBUILD_OUTPUT=)::
- 
--  $ make KBUILD_OUTPUT=/tmp/kselftest kselftest
-+  $ export KBUILD_OUTPUT=/tmp/kselftest; make kselftest
- 
- The above commands run the tests and print pass/fail summary to make it
- easier to understand the test results. Please find the detailed individual
-@@ -65,9 +65,9 @@ Build and run from user specific object directory (make O=dir)::
- 
-   $ make O=/tmp/kselftest TARGETS="size timers" kselftest
- 
--Build and run KBUILD_OUTPUT directory (make KBUILD_OUTPUT=)::
-+Build and run from KBUILD_OUTPUT directory (make KBUILD_OUTPUT=)::
- 
--  $ make KBUILD_OUTPUT=/tmp/kselftest TARGETS="size timers" kselftest
-+  $ export KBUILD_OUTPUT=/tmp/kselftest; make TARGETS="size timers" kselftest
- 
- The above commands run the tests and print pass/fail summary to make it
- easier to understand the test results. Please find the detailed individual
--- 
-2.17.1
+Just to mention, in the specific case of the device-mapper patch,
+this is the result of those changes (after renaming the files to .rst,
+and adding an index file):
 
+	https://www.infradead.org/~mchehab/rst_conversion/device-mapper/index.html
+
+> 
+> Among other things, making the documentation more accessible in this way
+> makes it easier and more rewarding for developers to improve it, and I
+> believe we are seeing the results of that.  Linus called out the
+> documentation work in the 5.1-rc1 announcement, for example.
+> 
+> Nobody has complained about the maintenance burden of RST docs - so far as
+> I have heard, anyway.  Things do break occasionally, but problems in the
+> docs build almost always result from code changes that mess up the
+> kerneldoc comments rather than RST changes, and it's been that way for as
+> long as I've been paying attention.
+
+
+> 
+> Thanks,
+> 
+> jon
+
+
+
+Thanks,
+Mauro
