@@ -1,133 +1,97 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3B15D7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 12:19:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 16AED7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 12:33:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727490AbfDPMTN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Apr 2019 08:19:13 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:46837 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726907AbfDPMTN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Apr 2019 08:19:13 -0400
-Received: by mail-ed1-f67.google.com with SMTP id d1so17667880edd.13
-        for <linux-doc@vger.kernel.org>; Tue, 16 Apr 2019 05:19:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=sender:date:from:to:cc:subject:message-id:mail-followup-to
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=nHF9XJqFQuD9UoI91jWbQxMStT/2DXQZkyAN+huoJF4=;
-        b=CK3YSSqOta8CqNFWYr9y/P5bRo+ZqohsiBrBp/NVf/6msnRSCr6qhMl1rWGH7CnS10
-         iwBgBHT3MrPIBiiIbn6ebodO5ItKGVynovFc3U+N+KBJCTaebTSUyem4NqtOdbgrDhve
-         0l9EA+VUPcd8bXcf566ljECzjQsbbxuCCq6AQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=nHF9XJqFQuD9UoI91jWbQxMStT/2DXQZkyAN+huoJF4=;
-        b=tzPs/SChQUEI1GHDNuW0dkrafbjYtTwdoXjKdsrOOO7DDb75GN5grlcegD6AvJ0J/S
-         xfK0IujgMlqA/riY4XbtCGOGp3ooop6Fo2Okkji6taY4BH6SXSNavA33GBqmA31k4MHU
-         1kghcghftZToLc0pIrZepUC4jSux81kNN89rmv65/E+YBDqZiy4LgFvQyldQkRybVdH5
-         LHY/NIowl9U0m9entmYcPqW2v4m9rfSgxxBHCYPgV203JLdWb1qqIkgbxAj8NpNJlV6o
-         qjv6/3D5sbdYBRD64odWHe83J/nP3PrzRNwOmla42hrGK4m61/TlZxW9c//X1eUjtSfV
-         6luw==
-X-Gm-Message-State: APjAAAUug7RX2ANAXBDqz5Q6Ck6IS6ZliwAgRVzGo6dIGLtn+iS1ytfA
-        MGm18kLVJhTFzaMrOYOh67mMRg==
-X-Google-Smtp-Source: APXvYqwJ2gNREaibz9YH4XUsPh0OuK6xFHBg6KArJGqJ/0JZjt8DCBYpDwfTkmDWe3Qw1tZLmqo2fg==
-X-Received: by 2002:a50:9265:: with SMTP id j34mr16893394eda.243.1555417151484;
-        Tue, 16 Apr 2019 05:19:11 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
-        by smtp.gmail.com with ESMTPSA id g14sm5452648ejs.49.2019.04.16.05.19.10
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 16 Apr 2019 05:19:10 -0700 (PDT)
-Date:   Tue, 16 Apr 2019 14:19:08 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Gerd Hoffmann <kraxel@redhat.com>
-Cc:     dri-devel@lists.freedesktop.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
+        id S1727915AbfDPMdM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Apr 2019 08:33:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45322 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726796AbfDPMdL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Apr 2019 08:33:11 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 01141206BA;
+        Tue, 16 Apr 2019 12:33:08 +0000 (UTC)
+Date:   Tue, 16 Apr 2019 08:33:06 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Olof Johansson <olof@lixom.net>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Joel Fernandes <joelaf@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Qais Yousef <qais.yousef@arm.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Manoj Rao <linux@manojrajarao.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        atish patra <atishp04@gmail.com>,
+        Daniel Colascione <dancol@google.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <groeck@chromium.org>,
         Jonathan Corbet <corbet@lwn.net>,
+        Karim Yaghmour <karim.yaghmour@opersys.com>,
+        Android Kernel Team <kernel-team@android.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drm: add drm_format_helper.c to kerneldoc
-Message-ID: <20190416121908.GH13337@phenom.ffwll.local>
-Mail-Followup-To: Gerd Hoffmann <kraxel@redhat.com>,
-        dri-devel@lists.freedesktop.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20190416090533.28374-1-kraxel@redhat.com>
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-trace-devel@vger.kernel.org,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>
+Subject: Re: [PATCH v5 1/3] Provide in-kernel headers to make extending
+ kernel easier
+Message-ID: <20190416083306.5646a687@gandalf.local.home>
+In-Reply-To: <CAGXu5j+KPVRcOJ3Ue9ZQF93GyaDhvCnFCvJ_C3WKCx2=SNdDyg@mail.gmail.com>
+References: <20190320163116.39275-1-joel@joelfernandes.org>
+        <CAOesGMheoZda84OSz9spQ7p66wot5S_9aaqaKC=QYp+8utASXA@mail.gmail.com>
+        <20190408203601.GF133872@google.com>
+        <CAOesGMibHCuMPCYkc8V++Z2Kuf3YQf_OjYn18GvDgzTy6ubV=g@mail.gmail.com>
+        <CAJWu+or0hWce9+7aEfTHoOR8cptRbzHYVL-bPdJWGZH20dbo7Q@mail.gmail.com>
+        <CAOesGMiuGK-Sbqo2z=1ab070JONav1LF82MRRLCdX-4+14_XZA@mail.gmail.com>
+        <20190411031540.ehezr6kq7ouobpzx@ast-mbp.dhcp.thefacebook.com>
+        <CAOesGMgiPB=7FE7tXXHes7WSLfByyPxirOStoH21NZqMwaUihQ@mail.gmail.com>
+        <20190415104109.64d914f3@gandalf.local.home>
+        <CAGXu5j+KPVRcOJ3Ue9ZQF93GyaDhvCnFCvJ_C3WKCx2=SNdDyg@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190416090533.28374-1-kraxel@redhat.com>
-X-Operating-System: Linux phenom 4.19.0-1-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 16, 2019 at 11:05:33AM +0200, Gerd Hoffmann wrote:
-> Also drop the dstclip parameter sphinx has warned about (leftolver from
-> an earlier patch version).
+On Mon, 15 Apr 2019 22:50:10 -0500
+Kees Cook <keescook@chromium.org> wrote:
+
+> On Mon, Apr 15, 2019 at 9:41 AM Steven Rostedt <rostedt@goodmis.org> wrote:
+> > I agree with this assessment. We shouldn't use config.gz as precedence
+> > for this solution. config.gz should have been in debugfs to begin with,
+> > but I don't believe debugfs was around when config.gz was introduced.
+> > (Don't have time to look into the history of the two).  
 > 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-
-Assuming it all builds cleanly and all the links work and no warnings from
-sphinx:
-
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> ---
->  drivers/gpu/drm/drm_format_helper.c   | 1 -
->  Documentation/gpu/drm-kms-helpers.rst | 6 ++++++
->  2 files changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-> index da388012df2a..a18da35145b7 100644
-> --- a/drivers/gpu/drm/drm_format_helper.c
-> +++ b/drivers/gpu/drm/drm_format_helper.c
-> @@ -235,7 +235,6 @@ static void drm_fb_xrgb8888_to_rgb888_line(u8 *dbuf, u32 *sbuf,
->   * @vaddr: XRGB8888 source buffer
->   * @fb: DRM framebuffer
->   * @clip: Clip rectangle area to copy
-> - * @dstclip: Clip destination too.
->   *
->   * Drivers can use this function for RGB888 devices that don't natively
->   * support XRGB8888.
-> diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
-> index 58b375e47615..14102ae035dc 100644
-> --- a/Documentation/gpu/drm-kms-helpers.rst
-> +++ b/Documentation/gpu/drm-kms-helpers.rst
-> @@ -107,6 +107,12 @@ fbdev Helper Functions Reference
->  .. kernel-doc:: drivers/gpu/drm/drm_fb_helper.c
->     :export:
->  
-> +format Helper Functions Reference
-> +=================================
-> +
-> +.. kernel-doc:: drivers/gpu/drm/drm_format_helper.c
-> +   :export:
-> +
->  Framebuffer CMA Helper Functions Reference
->  ==========================================
->  
-> -- 
-> 2.18.1
+> I don't agree with this: /proc/config.gz is used by a lot of tools
+> that do sanity-check of running systems. This isn't _debugging_...
+> it's verifying correct kernel builds. It's a fancy version of checking
+> /proc/version.
 > 
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Then we should perhaps make a new file system call tarballs ;-)
+
+ /sys/kernel/tarballs/
+
+and place everything there. That way it removes it from /proc (which is
+the worse place for that) and also makes it something other than debug.
+That's what I did for tracefs.
+
+-- Steve
