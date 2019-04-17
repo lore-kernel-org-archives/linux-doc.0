@@ -1,242 +1,108 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 093C07D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 16 Apr 2019 23:55:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 84AD07D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Apr 2019 01:58:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728809AbfDPXzz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Apr 2019 19:55:55 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:40360 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728000AbfDPXzz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Apr 2019 19:55:55 -0400
-Received: by mail-pf1-f193.google.com with SMTP id c207so11179963pfc.7;
-        Tue, 16 Apr 2019 16:55:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=FafW789Qixf3yGtjX5GjHHsOmeQ6Y/2e1HgsZOq4wds=;
-        b=ToRDYw92LOiX7Y8fCJUIot+WXPgzF3Ff1CGpJBw2p7L9/msgPJta3k/UN2JQHUjfiz
-         hU0iorlPWybFbbsjwFdb49ztRxMLFbZnrhRkNG5MV8uAz+c2/hn7Xc2mmlxZM2Beonwn
-         m8MlNB1ZW8S/2sE5J8Xfy3nssXdhV/H/j/0erZv0SuX5oXXt3LSYi2XqnoV0qNIJZbLC
-         norupoHihTJTxgE8sO7VMRkLEuINrMKe/s7AnAoY2/ZMyfeKHcgZfkyj1RhaB+c0RgbV
-         k/D/rKN+86hq7fDt7YhgnH69jlKj1xGyOTMniJk4i+u2zm1NgtV3uu0aU46lpN8em0MX
-         S7pA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=FafW789Qixf3yGtjX5GjHHsOmeQ6Y/2e1HgsZOq4wds=;
-        b=tEoEr8RfPZyFPSBHtTAPy3KIpX2ny127xncQp/6qDvn+DyHNPFzr5oJ04pin58aX0D
-         XAQRrinLS7p2++qGPdHbKjfblkXtj8w8TLgBWnXeabacO6abcHc0WMoPaKZOPygvzK8j
-         P+8imE3on550fFQkVUhBiAd6Me84KUo5rBoFXGfsX1Z+kDACkp5w/t6g4FUUNtvBkD75
-         dHnngtwDjb6MsLTLLkYrJfNAzVzjW6zva0YYxaLmUHvO8ewFp2mMtLzzw9CttSnGbuNZ
-         tLB7l0N3FLzlN31pVnkn9wSo/vCN6NfbXEXkNC90Pnal65QE34EaalGMIptN5cq5Pr18
-         b37w==
-X-Gm-Message-State: APjAAAVdnyr4IKjtKgQ1+M0wMilX8ZfnKXXHgzRA9KI4Ec3+M8z4TaAp
-        axggzzvwgev/ajC46816PyggOg/XFB8=
-X-Google-Smtp-Source: APXvYqxxrzGmQVq/OZOqWFQanb9ZR9cWaXxyosNTSwRrBbwlIpcDPFs93OvIkATwposc3a3QOBnbKA==
-X-Received: by 2002:aa7:9888:: with SMTP id r8mr31861750pfl.116.1555458953955;
-        Tue, 16 Apr 2019 16:55:53 -0700 (PDT)
-Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com. [216.228.112.22])
-        by smtp.gmail.com with ESMTPSA id 71sm120384429pfs.36.2019.04.16.16.55.52
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 16 Apr 2019 16:55:53 -0700 (PDT)
-From:   Nicolin Chen <nicoleotsuka@gmail.com>
-To:     jdelvare@suse.com, linux@roeck-us.net
-Cc:     linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
-        corbet@lwn.net, linux-doc@vger.kernel.org
-Subject: [PATCH] hwmon: (ina3221) Add voltage conversion time settings
-Date:   Tue, 16 Apr 2019 16:55:48 -0700
-Message-Id: <20190416235548.22733-1-nicoleotsuka@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        id S1728373AbfDQB6y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Apr 2019 21:58:54 -0400
+Received: from casper.infradead.org ([85.118.1.10]:35016 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728032AbfDQB6y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Apr 2019 21:58:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=S8RInvAC69V+yULWzOSPTpkgsKgagKqSc8vWonnjHdk=; b=TfIZ0rh1l4cXZFpNZv5pLWq/aa
+        00bwFyRhCo/rUaf0DQmBAzNWvSho3F5md0vYacEWBt9jTHMweaoFU3+zfwBVhAFObFu1aZfctthgq
+        FIp+7WTw+GM2+UBqEVOyR//5QNPwwj43J63I2Lvp3G6rrqkLhhBlUiw5iwil2i67DtB7NR136hVjo
+        QFNCr4u5cx5K0vt/69EVOUjss9vRm8mSdV+ahE+Fqi1pAcXIKKHiv0BIyV/8Um1ji++crImiONxSo
+        D0Q1GFEVsF++Ntfe8WScX1q1pdHzRPtjewDKAheKk54iPVINNgGydp46Cjrh92ofgWp1mJnpQrH7L
+        wda/oiCA==;
+Received: from 177.205.118.176.dynamic.adsl.gvt.net.br ([177.205.118.176] helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hGZqV-0002ww-Uz; Wed, 17 Apr 2019 01:58:44 +0000
+Date:   Tue, 16 Apr 2019 22:58:36 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Andrew Jeffery <andrew@aj.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Joel Stanley <joel@jms.id.au>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-hwmon@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, Liviu Dudau <liviu.dudau@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Paul Mackerras <paulus@samba.org>,
+        Sudeep Holla <sudeep.holla@arm.com>
+Subject: Re: [PATCH v2 00/21] Convert hwmon documentation to ReST
+Message-ID: <20190416225836.1d5953bc@coco.lan>
+In-Reply-To: <20190416203114.GB25517@roeck-us.net>
+References: <cover.1554923967.git.mchehab+samsung@kernel.org>
+        <20190411124324.3ed62fad@lwn.net>
+        <20190411174357.251904f5@coco.lan>
+        <20190411210731.GA29378@roeck-us.net>
+        <20190412100451.6fe49de7@lwn.net>
+        <f900adea-d231-c00d-847c-33e66e79ea30@roeck-us.net>
+        <20190416141949.09b48789@lwn.net>
+        <20190416203114.GB25517@roeck-us.net>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The CONFIG register has two 3-bit fields for conversion time
-settings of Bus-voltage and Shunt-voltage, respectively. The
-conversion settings, along with averaging mode, allow users
-to optimize available timing requirement.
+Em Tue, 16 Apr 2019 13:31:14 -0700
+Guenter Roeck <linux@roeck-us.net> escreveu:
 
-This patch adds an 'update_interval' sysfs node through the
-hwmon_chip_info of hwmon core. It reflects a total hardware
-conversion time:
-    samples * channels * (Bus + Shunt conversion times)
+> On Tue, Apr 16, 2019 at 02:19:49PM -0600, Jonathan Corbet wrote:
+> > On Fri, 12 Apr 2019 20:09:16 -0700
+> > Guenter Roeck <linux@roeck-us.net> wrote:
+> >   
+> > > The big real-world question is: Is the series good enough for you to accept,
+> > > or do you expect some level of user/kernel separation ?  
+> > 
+> > I guess it can go in; it's forward progress, even if it doesn't make the
+> > improvements I would like to see.
+> > 
+> > The real question, I guess, is who should take it.  I've been seeing a
+> > fair amount of activity on hwmon, so I suspect that the potential for
+> > conflicts is real.  Perhaps things would go smoother if it went through
+> > your tree?
+> >   
+> We'll see a number of conflicts, yes. In terms of timing, this is probably
+> the worst release in the last few years to make such a change. I currently
+> have 9 patches queued in hwmon-next which touch Documentation/hwmon.
+> Of course the changes made in those are all not ReST compatible, and I have
+> no idea what to look out for to make it compatible. So this is going to be
+> fun (in a negative sense) either way.
+> 
+> I don't really have a recommendation at this point; I think the best I could
+> do to take the patches which don't generate conflicts and leave the rest
+> alone. But that would also be bad, since the new index file would not match
+> reality. No idea, really, what the best or even a useful approach would be.
+> 
+> Maybe automated changes like this (assuming they are indeed automated)
+> can be generated and pushed right after a commit window closes. Would
+> that by any chance be possible ?
 
-Though INA3221 supports different conversion time setups for
-Bus and Shunt voltages, this patch only adds the support of
-a unified setting for both conversion times, by dividing the
-conversion time into two equal values.
+No, those patches are hand-maid, but I can surely rebase it on the top of
+your tree. Is your tree already merged at linux-next, or should I use some
+other branch/tree for rebase?
 
-Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
----
-
-Hi Guenter,
-
-I am not quite sure if this update_interval is the best way to
-implement the conversion time settings but I can't find another
-common approach. This implementation certainly has drawbacks:
- 1) It can't configure Bus and Shunt conversion times separately
-    (Not crucial for me at this point as I set them equally)
- 2) Users need to calculate for the settings of conversion time
- 3) The ABI defines update_interval in msec while the hardware
-    and datasheet does in usec, and that generates rounding diff
- 4) The update_interval value would be spontaneously modified
-    everytime number of samples or number of enabled channels
-    gets changed. This might confuses users who tries to have
-    a fixed update_interval other than really merely setting
-    conversion time.
-
-I see IIO subsystem have something like IIO_CHAN_INFO_INT_TIME
-for conversion time setting exclusively. Do we have something
-similar under hwmon?
-
-Thanks
-
- Documentation/hwmon/ina3221 |  9 +++++
- drivers/hwmon/ina3221.c     | 65 ++++++++++++++++++++++++++++++++-----
- 2 files changed, 65 insertions(+), 9 deletions(-)
-
-diff --git a/Documentation/hwmon/ina3221 b/Documentation/hwmon/ina3221
-index ed3f22769d4b..3b05170112f0 100644
---- a/Documentation/hwmon/ina3221
-+++ b/Documentation/hwmon/ina3221
-@@ -38,3 +38,12 @@ in[456]_input           Shunt voltage(uV) for channels 1, 2, and 3 respectively
- samples                 Number of samples using in the averaging mode.
-                           Supports the list of number of samples:
-                           1, 4, 16, 64, 128, 256, 512, 1024
-+update_interval         Data conversion time in millisecond, following:
-+                          update_interval = C x S x (BC + SC)
-+                              C: number of enabled channels
-+                              S: number of samples
-+                             BC: bus-voltage conversion time in millisecond
-+                             SC: shunt-voltage conversion time in millisecond
-+                          Affects both Bus- and Shunt-voltage conversion time.
-+                          Note that setting update_interval to 0ms sets both BC
-+                          and SC to 140 us (minimum conversion time).
-diff --git a/drivers/hwmon/ina3221.c b/drivers/hwmon/ina3221.c
-index 74d39d212931..af4ab8ddddce 100644
---- a/drivers/hwmon/ina3221.c
-+++ b/drivers/hwmon/ina3221.c
-@@ -144,19 +144,37 @@ static const int ina3221_avg_samples[] = {
- 	1, 4, 16, 64, 128, 256, 512, 1024,
- };
- 
--static inline int ina3221_wait_for_data(struct ina3221_data *ina)
-+/* Converting update_interval in msec to conversion time in usec */
-+static inline u32 ina3221_interval_ms_to_conv_time(u16 config, int interval)
- {
--	u32 channels = hweight16(ina->reg_config & INA3221_CONFIG_CHs_EN_MASK);
--	u32 vbus_ct_idx = INA3221_CONFIG_VBUS_CT(ina->reg_config);
--	u32 vsh_ct_idx = INA3221_CONFIG_VSH_CT(ina->reg_config);
--	u32 samples_idx = INA3221_CONFIG_AVG(ina->reg_config);
-+	u32 channels = hweight16(config & INA3221_CONFIG_CHs_EN_MASK);
-+	u32 samples_idx = INA3221_CONFIG_AVG(config);
-+	u32 samples = ina3221_avg_samples[samples_idx];
-+
-+	/* Bisect the result to Bus and Shunt conversion times */
-+	return DIV_ROUND_CLOSEST(interval * 1000 / 2, channels * samples);
-+}
-+
-+/* Converting CONFIG register value to update_interval in usec */
-+static inline u32 ina3221_reg_to_interval_us(u16 config)
-+{
-+	u32 channels = hweight16(config & INA3221_CONFIG_CHs_EN_MASK);
-+	u32 vbus_ct_idx = INA3221_CONFIG_VBUS_CT(config);
-+	u32 vsh_ct_idx = INA3221_CONFIG_VSH_CT(config);
-+	u32 samples_idx = INA3221_CONFIG_AVG(config);
- 	u32 samples = ina3221_avg_samples[samples_idx];
- 	u32 vbus_ct = ina3221_conv_time[vbus_ct_idx];
- 	u32 vsh_ct = ina3221_conv_time[vsh_ct_idx];
--	u32 wait, cvrf;
- 
- 	/* Calculate total conversion time */
--	wait = channels * (vbus_ct + vsh_ct) * samples;
-+	return channels * (vbus_ct + vsh_ct) * samples;
-+}
-+
-+static inline int ina3221_wait_for_data(struct ina3221_data *ina)
-+{
-+	u32 wait, cvrf;
-+
-+	wait = ina3221_reg_to_interval_us(ina->reg_config);
- 
- 	/* Polling the CVRF bit to make sure read data is ready */
- 	return regmap_field_read_poll_timeout(ina->fields[F_CVRF],
-@@ -197,6 +215,11 @@ static int ina3221_read_chip(struct device *dev, u32 attr, long *val)
- 		regval = INA3221_CONFIG_AVG(ina->reg_config);
- 		*val = ina3221_avg_samples[regval];
- 		return 0;
-+	case hwmon_chip_update_interval:
-+		/* Return in msec */
-+		*val = ina3221_reg_to_interval_us(ina->reg_config);
-+		*val = DIV_ROUND_CLOSEST(*val, 1000);
-+		return 0;
- 	default:
- 		return -EOPNOTSUPP;
- 	}
-@@ -308,7 +331,7 @@ static int ina3221_read_curr(struct device *dev, u32 attr,
- static int ina3221_write_chip(struct device *dev, u32 attr, long val)
- {
- 	struct ina3221_data *ina = dev_get_drvdata(dev);
--	int ret, idx;
-+	int ret, idx, tmp;
- 
- 	switch (attr) {
- 	case hwmon_chip_samples:
-@@ -321,6 +344,28 @@ static int ina3221_write_chip(struct device *dev, u32 attr, long val)
- 		if (ret)
- 			return ret;
- 
-+		/* Update reg_config accordingly */
-+		return regmap_read(ina->regmap, INA3221_CONFIG,
-+				   &ina->reg_config);
-+	case hwmon_chip_update_interval:
-+		tmp = ina3221_interval_ms_to_conv_time(ina->reg_config, val);
-+		idx = find_closest(tmp, ina3221_conv_time,
-+				   ARRAY_SIZE(ina3221_conv_time));
-+
-+		/* Update Bus-voltage conversion time */
-+		ret = regmap_update_bits(ina->regmap, INA3221_CONFIG,
-+					 INA3221_CONFIG_VBUS_CT_MASK,
-+					 idx << INA3221_CONFIG_VBUS_CT_SHIFT);
-+		if (ret)
-+			return ret;
-+
-+		/* Update Shunt-voltage conversion time */
-+		ret = regmap_update_bits(ina->regmap, INA3221_CONFIG,
-+					 INA3221_CONFIG_VSH_CT_MASK,
-+					 idx << INA3221_CONFIG_VSH_CT_SHIFT);
-+		if (ret)
-+			return ret;
-+
- 		/* Update reg_config accordingly */
- 		return regmap_read(ina->regmap, INA3221_CONFIG,
- 				   &ina->reg_config);
-@@ -482,6 +527,7 @@ static umode_t ina3221_is_visible(const void *drvdata,
- 	case hwmon_chip:
- 		switch (attr) {
- 		case hwmon_chip_samples:
-+		case hwmon_chip_update_interval:
- 			return 0644;
- 		default:
- 			return 0;
-@@ -527,7 +573,8 @@ static umode_t ina3221_is_visible(const void *drvdata,
- 
- static const struct hwmon_channel_info *ina3221_info[] = {
- 	HWMON_CHANNEL_INFO(chip,
--			   HWMON_C_SAMPLES),
-+			   HWMON_C_SAMPLES,
-+			   HWMON_C_UPDATE_INTERVAL),
- 	HWMON_CHANNEL_INFO(in,
- 			   /* 0: dummy, skipped in is_visible */
- 			   HWMON_I_INPUT,
--- 
-2.17.1
-
+Thanks,
+Mauro
