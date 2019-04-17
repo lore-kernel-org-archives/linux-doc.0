@@ -1,97 +1,144 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A8CF87D04D
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Apr 2019 02:05:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E2DCD7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Apr 2019 02:37:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728108AbfDQCFC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Apr 2019 22:05:02 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:34746 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727063AbfDQCFC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Apr 2019 22:05:02 -0400
-Received: by mail-pf1-f195.google.com with SMTP id b3so11325573pfd.1
-        for <linux-doc@vger.kernel.org>; Tue, 16 Apr 2019 19:05:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=babayev.com; s=google;
-        h=references:user-agent:from:to:cc:subject:in-reply-to:date
-         :message-id:mime-version;
-        bh=DHgWX8BenTTHLAIhsHOcfwer3VhUji97XDm74Dz1U3I=;
-        b=BToFSUdGYTU24GWhSNQ8aJwRmvHHUTDWahfHxafKU+iea7ZU/xbw1yALrSu0IeEWbZ
-         Fcl12lCOOwxRvbaucutb/QXyEgFkUokX8yPUfm80rvFV3NvckORsC9Bj5yH59/IHLPM9
-         sfIK59cbauE+Q6M0VtEG/7UolhfbDs3wAffQ8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:references:user-agent:from:to:cc:subject
-         :in-reply-to:date:message-id:mime-version;
-        bh=DHgWX8BenTTHLAIhsHOcfwer3VhUji97XDm74Dz1U3I=;
-        b=KhF3OPOyegWar3GMS/X1eWBeKe42dtYgZ0iAYPN8GCSdO3tiogHuHP6VPSY5eDMpkf
-         N3du2J6/5gPkIwlg9bD+I1ZdhQIkayKVDfNL9nypuwzDUL7HVp62vL+POGpeePQI9VML
-         rqVgLRRd+Po6gsmT/n0FRW4J5nvW5zr3+WPzq3ICukmEv17IHXwAahGkj8rFrvZZ5VA6
-         UYxmlo2pvC+6DX8YBAwYSLfbbuV+B2Bwr+0lCZZ0m3Ch+4qQ5yxNSGB9noEr9fsEiJj5
-         aHhGrl7ykJ8ugKVCIWokZ6C5q82fJPuAKvDpQTG3APghV2bCMhg6AgtTS6MV7utm5+QJ
-         HHFg==
-X-Gm-Message-State: APjAAAX82KYa1yCCB+sgw1QwLGQ0TWOum9qjPTYfRHxJzwEz39NTtBQC
-        tPID/sm70YJQdko+2IAtCmC0qA==
-X-Google-Smtp-Source: APXvYqx95duLpezI8vQsZevG2MTXhFBesevf2aH+BVMCN5Uzq4QaQNc9/K4q0o5UaHkzxOSPK8jLng==
-X-Received: by 2002:aa7:9294:: with SMTP id j20mr22851905pfa.64.1555466701410;
-        Tue, 16 Apr 2019 19:05:01 -0700 (PDT)
-Received: from localhost (50-46-216-15.evrt.wa.frontiernet.net. [50.46.216.15])
-        by smtp.gmail.com with ESMTPSA id p128sm123265808pfp.30.2019.04.16.19.05.00
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 16 Apr 2019 19:05:00 -0700 (PDT)
-References: <20190416183620.39950-3-ruslan@babayev.com> <20190416201603.GA25257@roeck-us.net>
-User-agent: mu4e 1.0; emacs 26.1
-From:   Ruslan Babayev <ruslan@babayev.com>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Ruslan Babayev <ruslan@babayev.com>,
-        Jean Delvare <jdelvare@suse.com>, xe-linux-external@cisco.com,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/4] hwmon: (pmbus) add support for IR35215
-In-reply-to: <20190416201603.GA25257@roeck-us.net>
-Date:   Tue, 16 Apr 2019 19:04:59 -0700
-Message-ID: <87zhopcrp0.fsf@babayev.com>
+        id S1729097AbfDQChN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Apr 2019 22:37:13 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:51496 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727063AbfDQChN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Apr 2019 22:37:13 -0400
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 051CDC13ADFA5248D7C5;
+        Wed, 17 Apr 2019 10:37:10 +0800 (CST)
+Received: from [127.0.0.1] (10.177.23.164) by DGGEMS401-HUB.china.huawei.com
+ (10.3.19.201) with Microsoft SMTP Server id 14.3.408.0; Wed, 17 Apr 2019
+ 10:37:00 +0800
+Subject: Re: [PATCH v5 1/6] iommu: add generic boot option iommu.dma_mode
+To:     Will Deacon <will.deacon@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>
+References: <20190409125308.18304-1-thunder.leizhen@huawei.com>
+ <20190409125308.18304-2-thunder.leizhen@huawei.com>
+ <010d3cbd-ef74-ad21-c735-0af8b18955e6@huawei.com>
+ <222946ee-adcc-1311-82a7-6afc9ffbc846@arm.com>
+ <20190416152100.GB4187@fuggles.cambridge.arm.com>
+CC:     John Garry <john.garry@huawei.com>,
+        Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        Sebastian Ott <sebott@linux.ibm.com>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        "Martin Schwidefsky" <schwidefsky@de.ibm.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        "Michael Ellerman" <mpe@ellerman.id.au>,
+        Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        iommu <iommu@lists.linux-foundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        x86 <x86@kernel.org>, linux-ia64 <linux-ia64@vger.kernel.org>,
+        Hanjun Guo <guohanjun@huawei.com>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <5CB6914A.8050308@huawei.com>
+Date:   Wed, 17 Apr 2019 10:36:58 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
+ Thunderbird/38.5.1
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20190416152100.GB4187@fuggles.cambridge.arm.com>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.177.23.164]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-Guenter Roeck writes:
 
->> +
->> +#include <linux/kernel.h>
->> +#include <linux/module.h>
->> +#include <linux/init.h>
->> +#include <linux/err.h>
->> +#include <linux/i2c.h>
->
-> Alphabetic include file order please.
+On 2019/4/16 23:21, Will Deacon wrote:
+> On Fri, Apr 12, 2019 at 02:11:31PM +0100, Robin Murphy wrote:
+>> On 12/04/2019 11:26, John Garry wrote:
+>>> On 09/04/2019 13:53, Zhen Lei wrote:
+>>>> +static int __init iommu_dma_mode_setup(char *str)
+>>>> +{
+>>>> +    if (!str)
+>>>> +        goto fail;
+>>>> +
+>>>> +    if (!strncmp(str, "passthrough", 11))
+>>>> +        iommu_default_dma_mode = IOMMU_DMA_MODE_PASSTHROUGH;
+>>>> +    else if (!strncmp(str, "lazy", 4))
+>>>> +        iommu_default_dma_mode = IOMMU_DMA_MODE_LAZY;
+>>>> +    else if (!strncmp(str, "strict", 6))
+>>>> +        iommu_default_dma_mode = IOMMU_DMA_MODE_STRICT;
+>>>> +    else
+>>>> +        goto fail;
+>>>> +
+>>>> +    pr_info("Force dma mode to be %d\n", iommu_default_dma_mode);
+>>>
+>>> What happens if the cmdline option iommu.dma_mode is passed multiple
+>>> times? We get mutliple - possibily conflicting - prints, right?
+>>
+>> Indeed; we ended up removing such prints for the existing options here,
+>> specifically because multiple messages seemed more likely to be confusing
+>> than useful.
 
-Sure
+I originally intended to be compatible with X86 printing.
 
->> +
->> +static struct pmbus_driver_info ir3570b_info = {
->> +	.pages = 1,
->
-> Either this ...
->
->> +	.format[PSC_VOLTAGE_IN] = linear,
->> +	.format[PSC_VOLTAGE_OUT] = linear,
->> +	.format[PSC_CURRENT_IN] = linear,
->> +	.format[PSC_CURRENT_OUT] = linear,
->> +	.format[PSC_POWER] = linear,
->> +	.format[PSC_TEMPERATURE] = linear,
->> +	.func[0] = IR3570B_FUNCS,
->> +	.func[1] = IR3570B_FUNCS,
->
-> ... or this is wrong.
+ 		} else if (!strncmp(str, "strict", 6)) {
+ 			pr_info("Disable batched IOTLB flush\n");
+			intel_iommu_strict = 1;
+ 		}
 
-The latter is wrong. Thanks for catching it.
+>>
+>>> And do we need to have backwards compatibility, such that the setting
+>>> for iommu.strict or iommu.passthrough trumps iommu.dma_mode, regardless
+>>> of order?
+>>
+>> As above I think it would be preferable to just keep using the existing
+>> options anyway. The current behaviour works out as:
+>>
+>> iommu.passthrough |      Y	|	  N
+>> iommu.strict	  |      x	|    Y         N
+>> ------------------|-------------|---------|--------
+>> MODE		  | PASSTHROUGH | STRICT  |  LAZY
+>>
+>> which seems intuitive enough that a specific dma_mode option doesn't add
+>> much value, and would more likely just overcomplicate things for users as
+>> well as our implementation.
+> 
+> Agreed. We can't remove the existing options, and they do the job perfectly
+> well so I don't see the need to add more options on top.
+
+OK, I will remove the iommu.dma_mode option in the next version. Thanks for you three.
+
+I didn't want to add it at first, but later found that the boot options on
+each ARCH are different, then want to normalize it.
+
+In addition, do we need to compatible the build option name IOMMU_DEFAULT_PASSTHROUGH? or
+change it to IOMMU_DEFAULT_DMA_MODE_PASSTHROUGH or IOMMU_DEFAULT_MODE_PASSTHROUGH?
+
+> 
+> Will
+> 
+> .
+> 
+
+-- 
+Thanks!
+BestRegards
+
