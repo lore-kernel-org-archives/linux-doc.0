@@ -1,144 +1,132 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E2DCD7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Apr 2019 02:37:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2B8A57D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Apr 2019 03:49:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729097AbfDQChN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 16 Apr 2019 22:37:13 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:51496 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727063AbfDQChN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 16 Apr 2019 22:37:13 -0400
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 051CDC13ADFA5248D7C5;
-        Wed, 17 Apr 2019 10:37:10 +0800 (CST)
-Received: from [127.0.0.1] (10.177.23.164) by DGGEMS401-HUB.china.huawei.com
- (10.3.19.201) with Microsoft SMTP Server id 14.3.408.0; Wed, 17 Apr 2019
- 10:37:00 +0800
-Subject: Re: [PATCH v5 1/6] iommu: add generic boot option iommu.dma_mode
-To:     Will Deacon <will.deacon@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>
-References: <20190409125308.18304-1-thunder.leizhen@huawei.com>
- <20190409125308.18304-2-thunder.leizhen@huawei.com>
- <010d3cbd-ef74-ad21-c735-0af8b18955e6@huawei.com>
- <222946ee-adcc-1311-82a7-6afc9ffbc846@arm.com>
- <20190416152100.GB4187@fuggles.cambridge.arm.com>
-CC:     John Garry <john.garry@huawei.com>,
-        Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Sebastian Ott <sebott@linux.ibm.com>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        "Martin Schwidefsky" <schwidefsky@de.ibm.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        id S1729270AbfDQDte (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 16 Apr 2019 23:49:34 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:35159 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727219AbfDQDte (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Apr 2019 23:49:34 -0400
+Received: by mail-pl1-f196.google.com with SMTP id w24so11356653plp.2;
+        Tue, 16 Apr 2019 20:49:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=9DHw/jF/PpaNCEANBTI+YbvaJ8TD0OFM8JDdklRcth0=;
+        b=i5Svs29EgAr2DT9P09QaoVU5+hOc0bgN5mwiBbanAN45k97dkdovK/BlS4fOKZC3Lr
+         lwf9mNnTuN85I1jny6pgpwEjB5IEWO5Kuj8Eos4vxVpkpO0Gzb3Z0FSH/Xq1HoiJufN8
+         A+Swa3wFGVw0QlSyztXIkU6kYy+tkAvR5If2u2s27jGst+A+D9Td3d73uoAmTRKY7pAY
+         LG1UFuWZInis7uxvtPYGuo64+eT0/prmK488l0MnP9Io6koZpzOGyRP3RA+e4TYymYGH
+         nesH8Daw9NImmUEtkD+FXXdyszoAcEe2fXkhrZvPJr/EJl4yoUAJI5zn/r7VXSm8urgX
+         TdDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=9DHw/jF/PpaNCEANBTI+YbvaJ8TD0OFM8JDdklRcth0=;
+        b=iNBWSVq/AkJMEuP4DY2WJlTjsuEuYGFjak3qbiLbD9IaC8YnDiRTgSUGOPYAQ9H57i
+         IZ4v93zNs6BMbE4Q7kAodmje23m9rwJ8wau6Lgxbywhw+exyO00nzIX5YsmwozTbPbj9
+         2PwuKPnSzgX01p6uEWMmiUUasdC1QaU7gTum13WZWe+9puIFU940Bb6HnZ1lKRJCsvfz
+         jG53CUM42BkvxlE4KUrLLoz14iY7MiJGwB0Ba0nBiyCED/AigtmYuBfYz6TI9MsbIU4q
+         5SFy3vEoAlyq4oyySmuo/3FtYmcqbEe9HoCE3evdkTrLtpcOu8IKjDVZATuIPjDrCgv7
+         hM2A==
+X-Gm-Message-State: APjAAAUCga9VwlmWSKXBeWH/6A2iCaYpwc20FluFBHFiWOA55Dvd8uqI
+        EKBIGJYUI96AuzwVzbjxfCQ=
+X-Google-Smtp-Source: APXvYqyhKYuRN96dQStz/269gpggAMU/dgElpUC3S3KlvGPU1e8KeWXhFOkxAmLa26o5YbPxKOnMcw==
+X-Received: by 2002:a17:902:9341:: with SMTP id g1mr49225182plp.81.1555472973777;
+        Tue, 16 Apr 2019 20:49:33 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id a17sm96997965pfj.123.2019.04.16.20.49.32
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 16 Apr 2019 20:49:32 -0700 (PDT)
+Subject: Re: [PATCH v2 00/21] Convert hwmon documentation to ReST
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Andrew Jeffery <andrew@aj.id.au>,
         Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Joel Stanley <joel@jms.id.au>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-hwmon@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, Liviu Dudau <liviu.dudau@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
         Paul Mackerras <paulus@samba.org>,
-        "Michael Ellerman" <mpe@ellerman.id.au>,
-        Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        iommu <iommu@lists.linux-foundation.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        x86 <x86@kernel.org>, linux-ia64 <linux-ia64@vger.kernel.org>,
-        Hanjun Guo <guohanjun@huawei.com>
-From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <5CB6914A.8050308@huawei.com>
-Date:   Wed, 17 Apr 2019 10:36:58 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
- Thunderbird/38.5.1
+        Sudeep Holla <sudeep.holla@arm.com>
+References: <cover.1554923967.git.mchehab+samsung@kernel.org>
+ <20190411124324.3ed62fad@lwn.net> <20190411174357.251904f5@coco.lan>
+ <20190411210731.GA29378@roeck-us.net> <20190412100451.6fe49de7@lwn.net>
+ <f900adea-d231-c00d-847c-33e66e79ea30@roeck-us.net>
+ <20190416141949.09b48789@lwn.net> <20190416203114.GB25517@roeck-us.net>
+ <20190416225836.1d5953bc@coco.lan>
+From:   Guenter Roeck <linux@roeck-us.net>
+Message-ID: <1d8a4410-4a8c-7b7a-141d-d2495cc66749@roeck-us.net>
+Date:   Tue, 16 Apr 2019 20:49:31 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190416152100.GB4187@fuggles.cambridge.arm.com>
-Content-Type: text/plain; charset="windows-1252"
+In-Reply-To: <20190416225836.1d5953bc@coco.lan>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.177.23.164]
-X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 2019/4/16 23:21, Will Deacon wrote:
-> On Fri, Apr 12, 2019 at 02:11:31PM +0100, Robin Murphy wrote:
->> On 12/04/2019 11:26, John Garry wrote:
->>> On 09/04/2019 13:53, Zhen Lei wrote:
->>>> +static int __init iommu_dma_mode_setup(char *str)
->>>> +{
->>>> +    if (!str)
->>>> +        goto fail;
->>>> +
->>>> +    if (!strncmp(str, "passthrough", 11))
->>>> +        iommu_default_dma_mode = IOMMU_DMA_MODE_PASSTHROUGH;
->>>> +    else if (!strncmp(str, "lazy", 4))
->>>> +        iommu_default_dma_mode = IOMMU_DMA_MODE_LAZY;
->>>> +    else if (!strncmp(str, "strict", 6))
->>>> +        iommu_default_dma_mode = IOMMU_DMA_MODE_STRICT;
->>>> +    else
->>>> +        goto fail;
->>>> +
->>>> +    pr_info("Force dma mode to be %d\n", iommu_default_dma_mode);
+On 4/16/19 6:58 PM, Mauro Carvalho Chehab wrote:
+> Em Tue, 16 Apr 2019 13:31:14 -0700
+> Guenter Roeck <linux@roeck-us.net> escreveu:
+> 
+>> On Tue, Apr 16, 2019 at 02:19:49PM -0600, Jonathan Corbet wrote:
+>>> On Fri, 12 Apr 2019 20:09:16 -0700
+>>> Guenter Roeck <linux@roeck-us.net> wrote:
+>>>    
+>>>> The big real-world question is: Is the series good enough for you to accept,
+>>>> or do you expect some level of user/kernel separation ?
 >>>
->>> What happens if the cmdline option iommu.dma_mode is passed multiple
->>> times? We get mutliple - possibily conflicting - prints, right?
+>>> I guess it can go in; it's forward progress, even if it doesn't make the
+>>> improvements I would like to see.
+>>>
+>>> The real question, I guess, is who should take it.  I've been seeing a
+>>> fair amount of activity on hwmon, so I suspect that the potential for
+>>> conflicts is real.  Perhaps things would go smoother if it went through
+>>> your tree?
+>>>    
+>> We'll see a number of conflicts, yes. In terms of timing, this is probably
+>> the worst release in the last few years to make such a change. I currently
+>> have 9 patches queued in hwmon-next which touch Documentation/hwmon.
+>> Of course the changes made in those are all not ReST compatible, and I have
+>> no idea what to look out for to make it compatible. So this is going to be
+>> fun (in a negative sense) either way.
 >>
->> Indeed; we ended up removing such prints for the existing options here,
->> specifically because multiple messages seemed more likely to be confusing
->> than useful.
-
-I originally intended to be compatible with X86 printing.
-
- 		} else if (!strncmp(str, "strict", 6)) {
- 			pr_info("Disable batched IOTLB flush\n");
-			intel_iommu_strict = 1;
- 		}
-
+>> I don't really have a recommendation at this point; I think the best I could
+>> do to take the patches which don't generate conflicts and leave the rest
+>> alone. But that would also be bad, since the new index file would not match
+>> reality. No idea, really, what the best or even a useful approach would be.
 >>
->>> And do we need to have backwards compatibility, such that the setting
->>> for iommu.strict or iommu.passthrough trumps iommu.dma_mode, regardless
->>> of order?
->>
->> As above I think it would be preferable to just keep using the existing
->> options anyway. The current behaviour works out as:
->>
->> iommu.passthrough |      Y	|	  N
->> iommu.strict	  |      x	|    Y         N
->> ------------------|-------------|---------|--------
->> MODE		  | PASSTHROUGH | STRICT  |  LAZY
->>
->> which seems intuitive enough that a specific dma_mode option doesn't add
->> much value, and would more likely just overcomplicate things for users as
->> well as our implementation.
+>> Maybe automated changes like this (assuming they are indeed automated)
+>> can be generated and pushed right after a commit window closes. Would
+>> that by any chance be possible ?
 > 
-> Agreed. We can't remove the existing options, and they do the job perfectly
-> well so I don't see the need to add more options on top.
-
-OK, I will remove the iommu.dma_mode option in the next version. Thanks for you three.
-
-I didn't want to add it at first, but later found that the boot options on
-each ARCH are different, then want to normalize it.
-
-In addition, do we need to compatible the build option name IOMMU_DEFAULT_PASSTHROUGH? or
-change it to IOMMU_DEFAULT_DMA_MODE_PASSTHROUGH or IOMMU_DEFAULT_MODE_PASSTHROUGH?
-
-> 
-> Will
-> 
-> .
+> No, those patches are hand-maid, but I can surely rebase it on the top of
+> your tree. Is your tree already merged at linux-next, or should I use some
+> other branch/tree for rebase?
 > 
 
--- 
-Thanks!
-BestRegards
+linux-next merges hwmon-next. next-20190416 is missing one patch which touches
+Documentation/hwmon, but that should be easy to deal with.
 
+Thanks,
+Guenter
