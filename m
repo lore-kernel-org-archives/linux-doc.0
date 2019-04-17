@@ -1,252 +1,121 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-3.2 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	FSL_HELO_FAKE,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0ADF57D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Apr 2019 14:36:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 827D27D04D
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Apr 2019 16:15:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732399AbfDQOgb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 17 Apr 2019 10:36:31 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:39497 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729453AbfDQOga (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Apr 2019 10:36:30 -0400
-Received: by mail-lj1-f196.google.com with SMTP id l7so22665789ljg.6
-        for <linux-doc@vger.kernel.org>; Wed, 17 Apr 2019 07:36:28 -0700 (PDT)
+        id S1730258AbfDQQP3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 17 Apr 2019 12:15:29 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:45772 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729395AbfDQQP2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Apr 2019 12:15:28 -0400
+Received: by mail-wr1-f68.google.com with SMTP id s15so32682052wra.12;
+        Wed, 17 Apr 2019 09:15:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=aYpvTFf0qZElPLw/muGHvS8dE/2mug1cDst2X31iqmw=;
-        b=cvm843qXLqUQ0ltX6klK7YVQl9QU/F4aGuAvL7ZAzJSlveFKDSdJ/lNsrZY0hxF94f
-         qP1hPE3n1Ot8gaYMp8wC/hvN2Z7/SQnGr59BCvOm0yP6kJaUN52w4VBhRgv7IUZR5T3m
-         VeQzZwHgtMGQyLOkgjkmjORqQEi/+geEFtMWV7pgSP8zGZjHkNi37mNKrzZhEYah/QS+
-         dXsqOCRU/pl2Nyu4WzlULuW+MuIcWsYm+4+riUl89XEnuwCf7X6XKFVMAHBGAhpHQV+2
-         Oe4wLKr+lnkNMEtxvzkcs7zbP72J1xsSeFtJGKyoXZb3b4j47HZy6rHsjFC7u9zUh1lg
-         FG3w==
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=2E2gGWXwlEXHD0EdhjliuzLa0L4LUy3dnmNjJuBPY1M=;
+        b=nyS/WViclzZJjR30HVMMB/ma7fcLYSTWP9QxF2Fshf4EJq6uRarq3jSaxiVNfV92fh
+         zEZfmA69o8F7gNO5JT6uv0zE0OJeE7BWbIRv09fAQTN2l+N2dnFwJ9Lfuiiy6+74FoDp
+         uGRo9f5/Goa9H9R9Ca2oLvyjv31O0I5e5WLdLO3tmvoyjg1wNvw+8b2zxVEfd9gJSTwJ
+         +SSg2n/omewPli8xLPnvSElOhwgHU9I/P33Tw7RfhZ2LRLr+x5PTn04fXGfMHG1ZHR4/
+         XB7f4UjQbIdtenugCUJSD8W8ywk7H6JVByBN8MjE8ZURVuqLb51s1gVwQaBsfh/AY/u/
+         6ICw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=aYpvTFf0qZElPLw/muGHvS8dE/2mug1cDst2X31iqmw=;
-        b=jrxvi9AYFKg5jBEc2sSbX/Vjpqpfjpv5lpcTngOR7xM195x3I3V68eL++KWIBJAHNl
-         C5FqmhjHUjP2VHOsvDs4+rEG1ZphGiQAnvfrNT0WqkToX/qH90TgqDONPDIM8QniwvVr
-         t7Yml6KDKH+5GQcg8wMAQ21a5rVu21KMmsigp4K3XP+3a2H3MyI168JOyk8W/ZyONC8l
-         aqIC1yh9updHBHMUFyigHmSPm1pHV1s9/Z8uuFEsgpAiBGundG91MvqDyduDmLPoFsIZ
-         UQyE67t1A/go/OIPqRTsKP+DlpyeMZ32Zk1i475WX4j8Jp+3ugVH56TEw3+qVwiYi28c
-         hG6A==
-X-Gm-Message-State: APjAAAUpeQU5qa/71dXZdE0vh27gjjrw6xj7ggscjpmEeakegioVXTYz
-        YZNJ2cZi14MuCweC49rlinIN62FMyB02zKWj2R2L
-X-Google-Smtp-Source: APXvYqzIRq1TtmAHQvMfI9/2v3ZwCpClKzw6wpPHGPILEdVRcVNVPodTxE9XbtFfz2uqj5/VBWvEfh8wJJLmfxPNes8=
-X-Received: by 2002:a2e:8108:: with SMTP id d8mr21571767ljg.57.1555511787821;
- Wed, 17 Apr 2019 07:36:27 -0700 (PDT)
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=2E2gGWXwlEXHD0EdhjliuzLa0L4LUy3dnmNjJuBPY1M=;
+        b=nBR+wtjJDdfshmdLRlUr6HJ3s3sJNaMlD/cPBjdwVglBPYCKFrAaDyohXcLTHW69r7
+         eASUxXylTxAMhwwqGmu6MfufZ6eZu9tYd9qUtKU/evVu/zRlWKILIgPaC8ojkOj3/Nxh
+         AxFSZxj9WF4tnwKeBMS1ADslhqQnkOHF3BEIXOZtkJwkdLat8F6D6Zvw8T6DVAoRAyDz
+         sjis53MhqFOeh8euiUM14P6zJUJhsOILf8Xl4qsuF+ufNUzBdq0plMPjdLGAdSB5YiwC
+         PTehD+rKnCZ1S/DJUlhJtUbiabVAXOltmdCkLXQFT9pUEjBfIRztmeE6HWoaaUjWbmSL
+         A0sg==
+X-Gm-Message-State: APjAAAXqpgtV+XHu5MDOih9bYLs8MRsw7gNiQSYn6qEBMMgwHqT2fGUr
+        fnp1dzY8CNaMdF3T/yaLEqM=
+X-Google-Smtp-Source: APXvYqy35ID2kalnRZopmGnEWCBLThqKczYiLY/rC35gAIxUEa+THgEb4y2voVmHavCnFbNEpnRFQQ==
+X-Received: by 2002:adf:dbce:: with SMTP id e14mr59140093wrj.249.1555517726742;
+        Wed, 17 Apr 2019 09:15:26 -0700 (PDT)
+Received: from gmail.com (2E8B0CD5.catv.pool.telekom.hu. [46.139.12.213])
+        by smtp.gmail.com with ESMTPSA id y1sm154976060wrd.34.2019.04.17.09.15.24
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 17 Apr 2019 09:15:25 -0700 (PDT)
+Date:   Wed, 17 Apr 2019 18:15:22 +0200
+From:   Ingo Molnar <mingo@kernel.org>
+To:     Khalid Aziz <khalid.aziz@oracle.com>
+Cc:     juergh@gmail.com, tycho@tycho.ws, jsteckli@amazon.de,
+        keescook@google.com, konrad.wilk@oracle.com,
+        Juerg Haefliger <juerg.haefliger@canonical.com>,
+        deepa.srinivasan@oracle.com, chris.hyser@oracle.com,
+        tyhicks@canonical.com, dwmw@amazon.co.uk,
+        andrew.cooper3@citrix.com, jcm@redhat.com,
+        boris.ostrovsky@oracle.com, iommu@lists.linux-foundation.org,
+        x86@kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+        Khalid Aziz <khalid@gonehiking.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <a.p.zijlstra@chello.nl>,
+        Dave Hansen <dave@sr71.net>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Arjan van de Ven <arjan@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [RFC PATCH v9 03/13] mm: Add support for eXclusive Page Frame
+ Ownership (XPFO)
+Message-ID: <20190417161042.GA43453@gmail.com>
+References: <cover.1554248001.git.khalid.aziz@oracle.com>
+ <f1ac3700970365fb979533294774af0b0dd84b3b.1554248002.git.khalid.aziz@oracle.com>
 MIME-Version: 1.0
-References: <cover.1555382110.git.mchehab+samsung@kernel.org> <104211eb0db14790ad328fff7ad7f712d8d647f9.1555382110.git.mchehab+samsung@kernel.org>
-In-Reply-To: <104211eb0db14790ad328fff7ad7f712d8d647f9.1555382110.git.mchehab+samsung@kernel.org>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Wed, 17 Apr 2019 10:36:16 -0400
-Message-ID: <CAHC9VhTcTifp1v9JfGLNw+4HPvqMjYsX0gM2tXZDOhmxUHt+oA@mail.gmail.com>
-Subject: Re: [PATCH 23/57] docs: netlabel: convert it to ReST
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        netdev@vger.kernel.org, linux-security-module@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f1ac3700970365fb979533294774af0b0dd84b3b.1554248002.git.khalid.aziz@oracle.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 15, 2019 at 10:56 PM Mauro Carvalho Chehab
-<mchehab+samsung@kernel.org> wrote:
->
-> Convert netlabel documentation to ReST.
->
-> This was trivial: just add proper title markups.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
->  Documentation/netlabel/cipso_ipv4.txt    | 19 +++++++++++++------
->  Documentation/netlabel/introduction.txt  | 16 +++++++++++-----
->  Documentation/netlabel/lsm_interface.txt | 16 +++++++++++-----
->  3 files changed, 35 insertions(+), 16 deletions(-)
 
-Thanks for doing this.  I should probably revisit these docs to make
-sure they are still valid/correct; if nothing else that email address
-is from two employers ago (my apologies to the current email address
-holder).
+[ Sorry, had to trim the Cc: list from hell. Tried to keep all the 
+  mailing lists and all x86 developers. ]
 
-Acked-by: Paul Moore <paul@paul-moore.com>
+* Khalid Aziz <khalid.aziz@oracle.com> wrote:
 
-> diff --git a/Documentation/netlabel/cipso_ipv4.txt b/Documentation/netlabel/cipso_ipv4.txt
-> index a6075481fd60..cbd3f3231221 100644
-> --- a/Documentation/netlabel/cipso_ipv4.txt
-> +++ b/Documentation/netlabel/cipso_ipv4.txt
-> @@ -1,10 +1,13 @@
-> +===================================
->  NetLabel CIPSO/IPv4 Protocol Engine
-> -==============================================================================
-> +===================================
-> +
->  Paul Moore, paul.moore@hp.com
->
->  May 17, 2006
->
-> - * Overview
-> +Overview
-> +========
->
->  The NetLabel CIPSO/IPv4 protocol engine is based on the IETF Commercial
->  IP Security Option (CIPSO) draft from July 16, 1992.  A copy of this
-> @@ -13,7 +16,8 @@ draft can be found in this directory
->  it to an RFC standard it has become a de-facto standard for labeled
->  networking and is used in many trusted operating systems.
->
-> - * Outbound Packet Processing
-> +Outbound Packet Processing
-> +==========================
->
->  The CIPSO/IPv4 protocol engine applies the CIPSO IP option to packets by
->  adding the CIPSO label to the socket.  This causes all packets leaving the
-> @@ -24,7 +28,8 @@ label by using the NetLabel security module API; if the NetLabel "domain" is
->  configured to use CIPSO for packet labeling then a CIPSO IP option will be
->  generated and attached to the socket.
->
-> - * Inbound Packet Processing
-> +Inbound Packet Processing
-> +=========================
->
->  The CIPSO/IPv4 protocol engine validates every CIPSO IP option it finds at the
->  IP layer without any special handling required by the LSM.  However, in order
-> @@ -33,7 +38,8 @@ NetLabel security module API to extract the security attributes of the packet.
->  This is typically done at the socket layer using the 'socket_sock_rcv_skb()'
->  LSM hook.
->
-> - * Label Translation
-> +Label Translation
-> +=================
->
->  The CIPSO/IPv4 protocol engine contains a mechanism to translate CIPSO security
->  attributes such as sensitivity level and category to values which are
-> @@ -42,7 +48,8 @@ Domain Of Interpretation (DOI) definition and are configured through the
->  NetLabel user space communication layer.  Each DOI definition can have a
->  different security attribute mapping table.
->
-> - * Label Translation Cache
-> +Label Translation Cache
-> +=======================
->
->  The NetLabel system provides a framework for caching security attribute
->  mappings from the network labels to the corresponding LSM identifiers.  The
-> diff --git a/Documentation/netlabel/introduction.txt b/Documentation/netlabel/introduction.txt
-> index 3caf77bcff0f..9333bbb0adc1 100644
-> --- a/Documentation/netlabel/introduction.txt
-> +++ b/Documentation/netlabel/introduction.txt
-> @@ -1,10 +1,13 @@
-> +=====================
->  NetLabel Introduction
-> -==============================================================================
-> +=====================
-> +
->  Paul Moore, paul.moore@hp.com
->
->  August 2, 2006
->
-> - * Overview
-> +Overview
-> +========
->
->  NetLabel is a mechanism which can be used by kernel security modules to attach
->  security attributes to outgoing network packets generated from user space
-> @@ -12,7 +15,8 @@ applications and read security attributes from incoming network packets.  It
->  is composed of three main components, the protocol engines, the communication
->  layer, and the kernel security module API.
->
-> - * Protocol Engines
-> +Protocol Engines
-> +================
->
->  The protocol engines are responsible for both applying and retrieving the
->  network packet's security attributes.  If any translation between the network
-> @@ -24,7 +28,8 @@ the NetLabel kernel security module API described below.
->  Detailed information about each NetLabel protocol engine can be found in this
->  directory.
->
-> - * Communication Layer
-> +Communication Layer
-> +===================
->
->  The communication layer exists to allow NetLabel configuration and monitoring
->  from user space.  The NetLabel communication layer uses a message based
-> @@ -33,7 +38,8 @@ formatting of these NetLabel messages as well as the Generic NETLINK family
->  names can be found in the 'net/netlabel/' directory as comments in the
->  header files as well as in 'include/net/netlabel.h'.
->
-> - * Security Module API
-> +Security Module API
-> +===================
->
->  The purpose of the NetLabel security module API is to provide a protocol
->  independent interface to the underlying NetLabel protocol engines.  In addition
-> diff --git a/Documentation/netlabel/lsm_interface.txt b/Documentation/netlabel/lsm_interface.txt
-> index 638c74f7de7f..026fc267f798 100644
-> --- a/Documentation/netlabel/lsm_interface.txt
-> +++ b/Documentation/netlabel/lsm_interface.txt
-> @@ -1,10 +1,13 @@
-> +========================================
->  NetLabel Linux Security Module Interface
-> -==============================================================================
-> +========================================
-> +
->  Paul Moore, paul.moore@hp.com
->
->  May 17, 2006
->
-> - * Overview
-> +Overview
-> +========
->
->  NetLabel is a mechanism which can set and retrieve security attributes from
->  network packets.  It is intended to be used by LSM developers who want to make
-> @@ -12,7 +15,8 @@ use of a common code base for several different packet labeling protocols.
->  The NetLabel security module API is defined in 'include/net/netlabel.h' but a
->  brief overview is given below.
->
-> - * NetLabel Security Attributes
-> +NetLabel Security Attributes
-> +============================
->
->  Since NetLabel supports multiple different packet labeling protocols and LSMs
->  it uses the concept of security attributes to refer to the packet's security
-> @@ -24,7 +28,8 @@ configuration.  It is up to the LSM developer to translate the NetLabel
->  security attributes into whatever security identifiers are in use for their
->  particular LSM.
->
-> - * NetLabel LSM Protocol Operations
-> +NetLabel LSM Protocol Operations
-> +================================
->
->  These are the functions which allow the LSM developer to manipulate the labels
->  on outgoing packets as well as read the labels on incoming packets.  Functions
-> @@ -32,7 +37,8 @@ exist to operate both on sockets as well as the sk_buffs directly.  These high
->  level functions are translated into low level protocol operations based on how
->  the administrator has configured the NetLabel subsystem.
->
-> - * NetLabel Label Mapping Cache Operations
-> +NetLabel Label Mapping Cache Operations
-> +=======================================
->
->  Depending on the exact configuration, translation between the network packet
->  label and the internal LSM security identifier can be time consuming.  The
-> --
-> 2.20.1
->
+> From: Juerg Haefliger <juerg.haefliger@canonical.com>
+> 
+> This patch adds basic support infrastructure for XPFO which protects 
+> against 'ret2dir' kernel attacks. The basic idea is to enforce 
+> exclusive ownership of page frames by either the kernel or userspace, 
+> unless explicitly requested by the kernel. Whenever a page destined for 
+> userspace is allocated, it is unmapped from physmap (the kernel's page 
+> table). When such a page is reclaimed from userspace, it is mapped back 
+> to physmap. Individual architectures can enable full XPFO support using 
+> this infrastructure by supplying architecture specific pieces.
 
+I have a higher level, meta question:
 
--- 
-paul moore
-www.paul-moore.com
+Is there any updated analysis outlining why this XPFO overhead would be 
+required on x86-64 kernels running on SMAP/SMEP CPUs which should be all 
+recent Intel and AMD CPUs, and with kernel that mark all direct kernel 
+mappings as non-executable - which should be all reasonably modern 
+kernels later than v4.0 or so?
+
+I.e. the original motivation of the XPFO patches was to prevent execution 
+of direct kernel mappings. Is this motivation still present if those 
+mappings are non-executable?
+
+(Sorry if this has been asked and answered in previous discussions.)
+
+Thanks,
+
+	Ingo
