@@ -5,117 +5,142 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0573F7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Apr 2019 09:48:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 702747D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Apr 2019 09:48:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731915AbfDQJsN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 17 Apr 2019 05:48:13 -0400
-Received: from casper.infradead.org ([85.118.1.10]:59848 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731706AbfDQJsL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Apr 2019 05:48:11 -0400
+        id S1731679AbfDQJqh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 17 Apr 2019 05:46:37 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:44478 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731632AbfDQJqh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Apr 2019 05:46:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Qi7jhFlrpS4mCz2yht0D/QYsavV/ww0hplcsoy6Cnzc=; b=X1TrkOmbRgrLY7YEnjpGPKeTd1
-        B9f9Os/kQKdT1xaoK7/NEGFfIG3G2vm2B1bS7NOWv2oCyXCRd6PEYN4+Sz1FTwAjAlaPk/QVrXptX
-        0DHrtpSMepqnUuFuJcEKIGjzJQzwq/ZFMIalifKmIHOreBOQSdcm7xSLJchDNAXbLSL2cNFsG6n1L
-        W4i06p1mF+Drg75jzySA5b8gRdz4ML7U0Emf3HuUwtyPEQmjVk1qUQR+5ZBQ889VIL6AVbFs+VRmJ
-        CD44kBbuKoYWud5Gfa0Ra0dYba1Q1pUm17GaRawL7VE0DpaH03W+DR82X9+IxwK32gAUjMJKGCaAs
-        Mbi5I5Dw==;
-Received: from 177.132.233.55.dynamic.adsl.gvt.net.br ([177.132.233.55] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hGhAh-0008Go-SE; Wed, 17 Apr 2019 09:48:04 +0000
-Date:   Wed, 17 Apr 2019 06:47:56 -0300
+        bh=XJ5nNnNov1WL9We9Rkq0YuX1IdpxSUQHOhnmRyQ5KdY=; b=sKSNJPQLGO0D/zt+T5GNzRoia8
+        9UjLRTJFRkxV/JrJwL5Orq08QFcfZjJn8stjoQs8LTYmwhq1g5O/lMUFt4uWLlpdQJoMa9L9v2M2x
+        lXXqjJrE7gJEe2RllGIbUrfXY1nCTrv+rWJm6QQJUCNARy0unLvjS6MN9AKfG+0inKpVO36cab4Dt
+        h/ngBkXfGCAuRWcobOJVpfRQ9T5JmPYE7hkZaInb7HfHEemwmfgWxy2fAoUGtYfS3StG9CJnjNR4p
+        GNqwHp6U8DCb7e+umFCnUVM7Vr2pMFJMTpJo8DHgc+guD80pfN/G8QtLTSo32fW/LJPYXIYIerhGS
+        2i3X7+9w==;
+Received: from 177.132.233.55.dynamic.adsl.gvt.net.br ([177.132.233.55] helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hGh9G-0000aB-Gg; Wed, 17 Apr 2019 09:46:34 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hGh9C-0003ue-WF; Wed, 17 Apr 2019 06:46:31 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Andrew Jeffery <andrew@aj.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Jean Delvare <jdelvare@suse.com>,
-        Joel Stanley <joel@jms.id.au>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-hwmon@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, Liviu Dudau <liviu.dudau@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Paul Mackerras <paulus@samba.org>,
-        Sudeep Holla <sudeep.holla@arm.com>
-Subject: Re: [PATCH v2 00/21] Convert hwmon documentation to ReST
-Message-ID: <20190417064745.46385036@coco.lan>
-In-Reply-To: <1d8a4410-4a8c-7b7a-141d-d2495cc66749@roeck-us.net>
-References: <cover.1554923967.git.mchehab+samsung@kernel.org>
-        <20190411124324.3ed62fad@lwn.net>
-        <20190411174357.251904f5@coco.lan>
-        <20190411210731.GA29378@roeck-us.net>
-        <20190412100451.6fe49de7@lwn.net>
-        <f900adea-d231-c00d-847c-33e66e79ea30@roeck-us.net>
-        <20190416141949.09b48789@lwn.net>
-        <20190416203114.GB25517@roeck-us.net>
-        <20190416225836.1d5953bc@coco.lan>
-        <1d8a4410-4a8c-7b7a-141d-d2495cc66749@roeck-us.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Guenter Roeck <linux@roeck-us.net>, linux-hwmon@vger.kernel.org
+Subject: [PATCH v3 09/21] docs: hwmon: coretemp: convert to ReST format
+Date:   Wed, 17 Apr 2019 06:46:17 -0300
+Message-Id: <5d264b71876d4e03dd72e27749158a30794cc1b8.1555494108.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1555494108.git.mchehab+samsung@kernel.org>
+References: <cover.1555494108.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 16 Apr 2019 20:49:31 -0700
-Guenter Roeck <linux@roeck-us.net> escreveu:
+Convert coretemp to ReST format, in order to allow it to
+be parsed by Sphinx.
 
-> On 4/16/19 6:58 PM, Mauro Carvalho Chehab wrote:
-> > Em Tue, 16 Apr 2019 13:31:14 -0700
-> > Guenter Roeck <linux@roeck-us.net> escreveu:
-> >   
-> >> On Tue, Apr 16, 2019 at 02:19:49PM -0600, Jonathan Corbet wrote:  
-> >>> On Fri, 12 Apr 2019 20:09:16 -0700
-> >>> Guenter Roeck <linux@roeck-us.net> wrote:
-> >>>      
-> >>>> The big real-world question is: Is the series good enough for you to accept,
-> >>>> or do you expect some level of user/kernel separation ?  
-> >>>
-> >>> I guess it can go in; it's forward progress, even if it doesn't make the
-> >>> improvements I would like to see.
-> >>>
-> >>> The real question, I guess, is who should take it.  I've been seeing a
-> >>> fair amount of activity on hwmon, so I suspect that the potential for
-> >>> conflicts is real.  Perhaps things would go smoother if it went through
-> >>> your tree?
-> >>>      
-> >> We'll see a number of conflicts, yes. In terms of timing, this is probably
-> >> the worst release in the last few years to make such a change. I currently
-> >> have 9 patches queued in hwmon-next which touch Documentation/hwmon.
-> >> Of course the changes made in those are all not ReST compatible, and I have
-> >> no idea what to look out for to make it compatible. So this is going to be
-> >> fun (in a negative sense) either way.
-> >>
-> >> I don't really have a recommendation at this point; I think the best I could
-> >> do to take the patches which don't generate conflicts and leave the rest
-> >> alone. But that would also be bad, since the new index file would not match
-> >> reality. No idea, really, what the best or even a useful approach would be.
-> >>
-> >> Maybe automated changes like this (assuming they are indeed automated)
-> >> can be generated and pushed right after a commit window closes. Would
-> >> that by any chance be possible ?  
-> > 
-> > No, those patches are hand-maid, but I can surely rebase it on the top of
-> > your tree. Is your tree already merged at linux-next, or should I use some
-> > other branch/tree for rebase?
-> >   
-> 
-> linux-next merges hwmon-next. next-20190416 is missing one patch which touches
-> Documentation/hwmon, but that should be easy to deal with.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ Documentation/hwmon/coretemp | 46 +++++++++++++++++++++++-------------
+ 1 file changed, 30 insertions(+), 16 deletions(-)
 
-Ok, did a rebase on the top of next-20190417. While re-reading the output
-of the html files, I noticed a few minor issues on some tables and fixed.
+diff --git a/Documentation/hwmon/coretemp b/Documentation/hwmon/coretemp
+index fec5a9bf755f..c609329e3bc4 100644
+--- a/Documentation/hwmon/coretemp
++++ b/Documentation/hwmon/coretemp
+@@ -3,20 +3,29 @@ Kernel driver coretemp
+ 
+ Supported chips:
+   * All Intel Core family
++
+     Prefix: 'coretemp'
+-    CPUID: family 0x6, models 0xe (Pentium M DC), 0xf (Core 2 DC 65nm),
+-                              0x16 (Core 2 SC 65nm), 0x17 (Penryn 45nm),
+-                              0x1a (Nehalem), 0x1c (Atom), 0x1e (Lynnfield),
+-                              0x26 (Tunnel Creek Atom), 0x27 (Medfield Atom),
+-                              0x36 (Cedar Trail Atom)
+-    Datasheet: Intel 64 and IA-32 Architectures Software Developer's Manual
+-               Volume 3A: System Programming Guide
+-               http://softwarecommunity.intel.com/Wiki/Mobility/720.htm
++
++    CPUID: family 0x6, models
++
++			    - 0xe (Pentium M DC), 0xf (Core 2 DC 65nm),
++			    - 0x16 (Core 2 SC 65nm), 0x17 (Penryn 45nm),
++			    - 0x1a (Nehalem), 0x1c (Atom), 0x1e (Lynnfield),
++			    - 0x26 (Tunnel Creek Atom), 0x27 (Medfield Atom),
++			    - 0x36 (Cedar Trail Atom)
++
++    Datasheet:
++
++	       Intel 64 and IA-32 Architectures Software Developer's Manual
++	       Volume 3A: System Programming Guide
++
++	       http://softwarecommunity.intel.com/Wiki/Mobility/720.htm
+ 
+ Author: Rudolf Marek
+ 
+ Description
+ -----------
++
+ This driver permits reading the DTS (Digital Temperature Sensor) embedded
+ inside Intel CPUs. This driver can read both the per-core and per-package
+ temperature using the appropriate sensors. The per-package sensor is new;
+@@ -35,14 +44,17 @@ may be raised, if the temperature grows enough (more than TjMax) to trigger
+ the Out-Of-Spec bit. Following table summarizes the exported sysfs files:
+ 
+ All Sysfs entries are named with their core_id (represented here by 'X').
+-tempX_input	 - Core temperature (in millidegrees Celsius).
+-tempX_max	 - All cooling devices should be turned on (on Core2).
+-tempX_crit	 - Maximum junction temperature (in millidegrees Celsius).
+-tempX_crit_alarm - Set when Out-of-spec bit is set, never clears.
+-		   Correct CPU operation is no longer guaranteed.
+-tempX_label	 - Contains string "Core X", where X is processor
+-		   number. For Package temp, this will be "Physical id Y",
+-		   where Y is the package number.
++
++================= ========================================================
++tempX_input	  Core temperature (in millidegrees Celsius).
++tempX_max	  All cooling devices should be turned on (on Core2).
++tempX_crit	  Maximum junction temperature (in millidegrees Celsius).
++tempX_crit_alarm  Set when Out-of-spec bit is set, never clears.
++		  Correct CPU operation is no longer guaranteed.
++tempX_label	  Contains string "Core X", where X is processor
++		  number. For Package temp, this will be "Physical id Y",
++		  where Y is the package number.
++================= ========================================================
+ 
+ On CPU models which support it, TjMax is read from a model-specific register.
+ On other models, it is set to an arbitrary value based on weak heuristics.
+@@ -52,6 +64,7 @@ as a module parameter (tjmax).
+ Appendix A. Known TjMax lists (TBD):
+ Some information comes from ark.intel.com
+ 
++=============== =============================================== ================
+ Process		Processor					TjMax(C)
+ 
+ 22nm		Core i5/i7 Processors
+@@ -179,3 +192,4 @@ Process		Processor					TjMax(C)
+ 65nm		Celeron Processors
+ 		T1700/1600					100
+ 		560/550/540/530					100
++=============== =============================================== ================
+-- 
+2.20.1
 
-Thanks,
-Mauro
