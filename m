@@ -1,52 +1,58 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 734DA7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Apr 2019 19:49:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7B9A67D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Apr 2019 19:52:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733114AbfDQTtT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 17 Apr 2019 15:49:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50606 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729779AbfDQTtT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 17 Apr 2019 15:49:19 -0400
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AA7BD217FA
-        for <linux-doc@vger.kernel.org>; Wed, 17 Apr 2019 19:49:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1555530557;
-        bh=un9JngdqTRaqtIrvykfJj/MFL9SGLhvcacMgNjMe4H4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=kn8Vkti4sBxNwzVpRT0c4mTQmL2NZNKopl87jqCVp809RH0mPB/oMge5j1G1+57D6
-         mx2SzHFI79Y6yc98bMu7vvnU5XaVTnC9MROa8/O0GhnxRGifXFOrQbSxRMIrCrkHaY
-         kdQxYP95wXhAxvIbkelVm11g9KylGmv40LeJYNT8=
-Received: by mail-wr1-f52.google.com with SMTP id t17so33432185wrw.13
-        for <linux-doc@vger.kernel.org>; Wed, 17 Apr 2019 12:49:17 -0700 (PDT)
-X-Gm-Message-State: APjAAAW/8WYAc7s+s3cvWwKX4xsLpqN3h1XURQL24Azm6ogNLJfhpLT8
-        pW5uqsowDCfMPwxHMrKHq+zJbBoSgaV+fwVoBhn6tQ==
-X-Google-Smtp-Source: APXvYqwslPQOOCGBluAyQ370prOUXMhL8otOt2EJTpreLpaaBphk3bN4/Rpkbdm1dLisarFpIiIJANwuHztMcLGcdZw=
-X-Received: by 2002:adf:f344:: with SMTP id e4mr23917370wrp.77.1555530556240;
- Wed, 17 Apr 2019 12:49:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1554248001.git.khalid.aziz@oracle.com> <f1ac3700970365fb979533294774af0b0dd84b3b.1554248002.git.khalid.aziz@oracle.com>
- <20190417161042.GA43453@gmail.com> <e16c1d73-d361-d9c7-5b8e-c495318c2509@oracle.com>
- <20190417170918.GA68678@gmail.com> <8d314750-251c-7e6a-7002-5df2462ada6b@oracle.com>
-In-Reply-To: <8d314750-251c-7e6a-7002-5df2462ada6b@oracle.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Wed, 17 Apr 2019 12:49:04 -0700
-X-Gmail-Original-Message-ID: <CALCETrXFzWFMrV-zDa4QFjB=4WnC9RZmorBko65dLGhymDpeQw@mail.gmail.com>
-Message-ID: <CALCETrXFzWFMrV-zDa4QFjB=4WnC9RZmorBko65dLGhymDpeQw@mail.gmail.com>
-Subject: Re: [RFC PATCH v9 03/13] mm: Add support for eXclusive Page Frame
- Ownership (XPFO)
-To:     Khalid Aziz <khalid.aziz@oracle.com>
-Cc:     Ingo Molnar <mingo@kernel.org>, Juerg Haefliger <juergh@gmail.com>,
-        Tycho Andersen <tycho@tycho.ws>, jsteckli@amazon.de,
+        id S1732634AbfDQTwT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 17 Apr 2019 15:52:19 -0400
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:40585 "EHLO
+        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731759AbfDQTwT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Apr 2019 15:52:19 -0400
+Received: by mail-qk1-f194.google.com with SMTP id w20so15129289qka.7
+        for <linux-doc@vger.kernel.org>; Wed, 17 Apr 2019 12:52:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tycho-ws.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=Uru0Jbz4B8OYoAQYJt2C55pxQlJkGfm/+9nWfpEgZPQ=;
+        b=aQd1aeO2CXg7gYGOcvtEUcXMyHfbY37wbHMchotalTNQZ2RxhJxZjLextp8ZWtQKA9
+         ElDQno8BAegcG5tWka17SzrohZ4MVbbZKar4D1otZqJs6viRLbUgEjktrlyhXOKFoRRr
+         Xqiz5AKyn2cqhIrRtLq2t6y4exSmyJWI+xolW690Pg05j5xcNprdRzKeq2BM/bBe7uD9
+         Mna5BBYIALxIoHSfeGneAc4J6qlxgdl4umsVpI32Ws6NYWtDPh57d2uN8d9IDlmzf+34
+         LgmN/QkDbE6mdN4NdIUb/v42FYkyBUW0DAfjxZ5Ti4wxRTTn11MCXXYyLy0I5wiy+cup
+         dbCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Uru0Jbz4B8OYoAQYJt2C55pxQlJkGfm/+9nWfpEgZPQ=;
+        b=YoVSdfbd2rEZCRqJCXmsVISTf/E5iOTyvD9Ud1AiKwQxV+FgmIAJ7ssO2Wka40B3O9
+         w/7C+mOnR7mcsAjlSgBEu7mxGSlWKPcDJ69Qq8mox+eNIw8s6YApUIpcnpgVhPQlLdNT
+         8CRgEkIlPaSWrzQncxX4GCidhygXAFHbhRBJPSMzUZFyUOIhFniyiW6FPDbW2vm9KfBy
+         JCZKANeMV3YYOd/PdBvP4f9I1NJjuQQ6p9tFv8OS6koG7fylWvoFDwpk2nfwlTLa0Q0p
+         W6yx0B7j1pFscXpiP7U9lVn8qRkmEuWWok/2Zr1JQiBvwHULM3MNPTk19nnhtjSqbP96
+         O5Ew==
+X-Gm-Message-State: APjAAAV2l3vU3H6xnAuekjvPjVF+fvqHsJzNZCO0fO4knR7Fx/rB4Q9U
+        wIFIH3Kuj4ZM1oNG8iwkEL3ybQ==
+X-Google-Smtp-Source: APXvYqxALLwioQYr156hXrQYUcVxn+eWorINAhsmvLl+aLFkTmy03SLo3tuclnCeyTO/WqSU4/UWYQ==
+X-Received: by 2002:ae9:e64d:: with SMTP id x13mr70666110qkl.112.1555530737946;
+        Wed, 17 Apr 2019 12:52:17 -0700 (PDT)
+Received: from cisco ([2601:282:901:dd7b:7136:cebf:c0d3:8091])
+        by smtp.gmail.com with ESMTPSA id v30sm28498609qta.4.2019.04.17.12.52.15
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 17 Apr 2019 12:52:17 -0700 (PDT)
+Date:   Wed, 17 Apr 2019 13:52:13 -0600
+From:   Tycho Andersen <tycho@tycho.ws>
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     Khalid Aziz <khalid.aziz@oracle.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Juerg Haefliger <juergh@gmail.com>, jsteckli@amazon.de,
         Kees Cook <keescook@google.com>,
         Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
         Juerg Haefliger <juerg.haefliger@canonical.com>,
@@ -66,85 +72,38 @@ Cc:     Ingo Molnar <mingo@kernel.org>, Juerg Haefliger <juergh@gmail.com>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Andy Lutomirski <luto@kernel.org>,
         Peter Zijlstra <a.p.zijlstra@chello.nl>,
         Dave Hansen <dave@sr71.net>, Borislav Petkov <bp@alien8.de>,
         "H. Peter Anvin" <hpa@zytor.com>,
         Arjan van de Ven <arjan@infradead.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [RFC PATCH v9 03/13] mm: Add support for eXclusive Page Frame
+ Ownership (XPFO)
+Message-ID: <20190417195213.GE3758@cisco>
+References: <cover.1554248001.git.khalid.aziz@oracle.com>
+ <f1ac3700970365fb979533294774af0b0dd84b3b.1554248002.git.khalid.aziz@oracle.com>
+ <20190417161042.GA43453@gmail.com>
+ <e16c1d73-d361-d9c7-5b8e-c495318c2509@oracle.com>
+ <20190417170918.GA68678@gmail.com>
+ <8d314750-251c-7e6a-7002-5df2462ada6b@oracle.com>
+ <CALCETrXFzWFMrV-zDa4QFjB=4WnC9RZmorBko65dLGhymDpeQw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALCETrXFzWFMrV-zDa4QFjB=4WnC9RZmorBko65dLGhymDpeQw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 17, 2019 at 10:33 AM Khalid Aziz <khalid.aziz@oracle.com> wrote:
->
-> On 4/17/19 11:09 AM, Ingo Molnar wrote:
-> >
-> > * Khalid Aziz <khalid.aziz@oracle.com> wrote:
-> >
-> >>> I.e. the original motivation of the XPFO patches was to prevent execution
-> >>> of direct kernel mappings. Is this motivation still present if those
-> >>> mappings are non-executable?
-> >>>
-> >>> (Sorry if this has been asked and answered in previous discussions.)
-> >>
-> >> Hi Ingo,
-> >>
-> >> That is a good question. Because of the cost of XPFO, we have to be very
-> >> sure we need this protection. The paper from Vasileios, Michalis and
-> >> Angelos - <http://www.cs.columbia.edu/~vpk/papers/ret2dir.sec14.pdf>,
-> >> does go into how ret2dir attacks can bypass SMAP/SMEP in sections 6.1
-> >> and 6.2.
-> >
-> > So it would be nice if you could generally summarize external arguments
-> > when defending a patchset, instead of me having to dig through a PDF
-> > which not only causes me to spend time that you probably already spent
-> > reading that PDF, but I might also interpret it incorrectly. ;-)
->
-> Sorry, you are right. Even though that paper explains it well, a summary
-> is always useful.
->
-> >
-> > The PDF you cited says this:
-> >
-> >   "Unfortunately, as shown in Table 1, the W^X prop-erty is not enforced
-> >    in many platforms, including x86-64.  In our example, the content of
-> >    user address 0xBEEF000 is also accessible through kernel address
-> >    0xFFFF87FF9F080000 as plain, executable code."
-> >
-> > Is this actually true of modern x86-64 kernels? We've locked down W^X
-> > protections in general.
-> >
-> > I.e. this conclusion:
-> >
-> >   "Therefore, by simply overwriting kfptr with 0xFFFF87FF9F080000 and
-> >    triggering the kernel to dereference it, an attacker can directly
-> >    execute shell code with kernel privileges."
-> >
-> > ... appears to be predicated on imperfect W^X protections on the x86-64
-> > kernel.
-> >
-> > Do such holes exist on the latest x86-64 kernel? If yes, is there a
-> > reason to believe that these W^X holes cannot be fixed, or that any fix
-> > would be more expensive than XPFO?
->
-> Even if physmap is not executable, return-oriented programming (ROP) can
-> still be used to launch an attack. Instead of placing executable code at
-> user address 0xBEEF000, attacker can place an ROP payload there. kfptr
-> is then overwritten to point to a stack-pivoting gadget. Using the
-> physmap address aliasing, the ROP payload becomes kernel-mode stack. The
-> execution can then be hijacked upon execution of ret instruction. This
-> is a gist of the subsection titled "Non-executable physmap" under
-> section 6.2 and it looked convincing enough to me. If you have a
-> different take on this, I am very interested in your point of view.
+On Wed, Apr 17, 2019 at 12:49:04PM -0700, Andy Lutomirski wrote:
+> I also proposed using a gcc plugin (or upstream gcc feature) to add
+> some instrumentation to any code that pops RSP to verify that the
+> resulting (unsigned) change in RSP is between 0 and THREAD_SIZE bytes.
+> This will make ROP quite a bit harder.
 
-My issue with all this is that XPFO is really very expensive.  I think
-that, if we're going to seriously consider upstreaming expensive
-exploit mitigations like this, we should consider others first, in
-particular CFI techniques.  grsecurity's RAP would be a great start.
-I also proposed using a gcc plugin (or upstream gcc feature) to add
-some instrumentation to any code that pops RSP to verify that the
-resulting (unsigned) change in RSP is between 0 and THREAD_SIZE bytes.
-This will make ROP quite a bit harder.
+I've been playing around with this for a bit, and hope to have
+something to post Soon :)
+
+Tycho
