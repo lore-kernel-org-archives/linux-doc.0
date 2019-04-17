@@ -1,273 +1,252 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 120C07D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Apr 2019 14:04:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0ADF57D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 17 Apr 2019 14:36:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732250AbfDQOEN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 17 Apr 2019 10:04:13 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:41241 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729940AbfDQOEN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Apr 2019 10:04:13 -0400
-Received: by mail-pg1-f193.google.com with SMTP id f6so12056819pgs.8;
-        Wed, 17 Apr 2019 07:04:12 -0700 (PDT)
+        id S1732399AbfDQOgb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 17 Apr 2019 10:36:31 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:39497 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729453AbfDQOga (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Apr 2019 10:36:30 -0400
+Received: by mail-lj1-f196.google.com with SMTP id l7so22665789ljg.6
+        for <linux-doc@vger.kernel.org>; Wed, 17 Apr 2019 07:36:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=XpgQAxW1cWrQxvk5Acp+qxKikIazVI82fhRdt1eYNcE=;
-        b=cb56O+U8hS9gRW/hQscsWhQXQplBfEel4scoAxPMApAicsuWQmwgV40hhFvaxbzNHH
-         1Z0JXoLof4i57CAJaOCKqaFhylqdIzBvCfH20tn3y/Lz6VceQSMKLzaDeEZqQKZCUSv0
-         a63GrRMs4Pfh1HC1K7k8zfO5MXLAyqZlQ/4+pPebJ2Zn6isbhFUfMbniz3CbPVG5qv01
-         hNwtOBIRVW2uksGQks1q1KzA3EgKC+rgBF4hTL5w6+7bYwzEtEdXKzNRUh7UUt66EKbu
-         4HYttCrDAE4u32NqNf6Csj+S8AOYPTdnT2O/DMSXrrBBIO5ghFLK3nlzzRjI54FZpwrE
-         E1bA==
+        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=aYpvTFf0qZElPLw/muGHvS8dE/2mug1cDst2X31iqmw=;
+        b=cvm843qXLqUQ0ltX6klK7YVQl9QU/F4aGuAvL7ZAzJSlveFKDSdJ/lNsrZY0hxF94f
+         qP1hPE3n1Ot8gaYMp8wC/hvN2Z7/SQnGr59BCvOm0yP6kJaUN52w4VBhRgv7IUZR5T3m
+         VeQzZwHgtMGQyLOkgjkmjORqQEi/+geEFtMWV7pgSP8zGZjHkNi37mNKrzZhEYah/QS+
+         dXsqOCRU/pl2Nyu4WzlULuW+MuIcWsYm+4+riUl89XEnuwCf7X6XKFVMAHBGAhpHQV+2
+         Oe4wLKr+lnkNMEtxvzkcs7zbP72J1xsSeFtJGKyoXZb3b4j47HZy6rHsjFC7u9zUh1lg
+         FG3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=XpgQAxW1cWrQxvk5Acp+qxKikIazVI82fhRdt1eYNcE=;
-        b=plmAn2ilfzxlt8zPNPtCxBq4mCORYmn3hVjKDs3ROEnyjPhax9zeZjCK2K5dkzdtN4
-         AEYedQkUlk+sP/d5A1TynScXMyYC1vW8bfKd3f5eWYSNplZTkcvI3Hn0WTNZZA+FPjYY
-         LAOL8u5J4QCR/TcISCxtJP9icYZN3YwJlsX1RmGOIp9DzK2TS2YesuPdMt/XVTrWA28r
-         gzTpdsLaMS72BljszV5TZ/gEyaE4EGaAezF3jKn3m78ouKsEBjlCB9YIMqXH7SaJbTXM
-         YC9YQTEpo6iUQ5AGm3Mf+JW4AMBhwm1rkv45AwQ/2PvnCuW/CcLhGQzaqf+h4m90KI2+
-         Oypw==
-X-Gm-Message-State: APjAAAVTeJ0u6+T2F8RZ6IZ+Zls3M1EYTA1VgcG2PzzsokQ1V7f7Kidq
-        qk0zFsgGKXkyg/JAkA5ptWkDgKRr
-X-Google-Smtp-Source: APXvYqz+srM9aebPzOSs17jyO01ySrR/xSqoj77CEgENsBKz7nE5veFFcGIU6kUaE3tedPGhnLJMRg==
-X-Received: by 2002:a62:ee17:: with SMTP id e23mr89380709pfi.80.1555509851745;
-        Wed, 17 Apr 2019 07:04:11 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id h10sm83622218pfj.79.2019.04.17.07.04.10
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 17 Apr 2019 07:04:11 -0700 (PDT)
-Subject: Re: [PATCH] hwmon: (ina3221) Add voltage conversion time settings
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Nicolin Chen <nicoleotsuka@gmail.com>, jdelvare@suse.com
-Cc:     linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
-        corbet@lwn.net, linux-doc@vger.kernel.org
-References: <20190416235548.22733-1-nicoleotsuka@gmail.com>
- <1ad27385-e62a-d4f0-2590-c50458119f12@roeck-us.net>
-Message-ID: <2a193494-a33e-dac0-456a-241d7b3e59ad@roeck-us.net>
-Date:   Wed, 17 Apr 2019 07:04:09 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=aYpvTFf0qZElPLw/muGHvS8dE/2mug1cDst2X31iqmw=;
+        b=jrxvi9AYFKg5jBEc2sSbX/Vjpqpfjpv5lpcTngOR7xM195x3I3V68eL++KWIBJAHNl
+         C5FqmhjHUjP2VHOsvDs4+rEG1ZphGiQAnvfrNT0WqkToX/qH90TgqDONPDIM8QniwvVr
+         t7Yml6KDKH+5GQcg8wMAQ21a5rVu21KMmsigp4K3XP+3a2H3MyI168JOyk8W/ZyONC8l
+         aqIC1yh9updHBHMUFyigHmSPm1pHV1s9/Z8uuFEsgpAiBGundG91MvqDyduDmLPoFsIZ
+         UQyE67t1A/go/OIPqRTsKP+DlpyeMZ32Zk1i475WX4j8Jp+3ugVH56TEw3+qVwiYi28c
+         hG6A==
+X-Gm-Message-State: APjAAAUpeQU5qa/71dXZdE0vh27gjjrw6xj7ggscjpmEeakegioVXTYz
+        YZNJ2cZi14MuCweC49rlinIN62FMyB02zKWj2R2L
+X-Google-Smtp-Source: APXvYqzIRq1TtmAHQvMfI9/2v3ZwCpClKzw6wpPHGPILEdVRcVNVPodTxE9XbtFfz2uqj5/VBWvEfh8wJJLmfxPNes8=
+X-Received: by 2002:a2e:8108:: with SMTP id d8mr21571767ljg.57.1555511787821;
+ Wed, 17 Apr 2019 07:36:27 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1ad27385-e62a-d4f0-2590-c50458119f12@roeck-us.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <cover.1555382110.git.mchehab+samsung@kernel.org> <104211eb0db14790ad328fff7ad7f712d8d647f9.1555382110.git.mchehab+samsung@kernel.org>
+In-Reply-To: <104211eb0db14790ad328fff7ad7f712d8d647f9.1555382110.git.mchehab+samsung@kernel.org>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Wed, 17 Apr 2019 10:36:16 -0400
+Message-ID: <CAHC9VhTcTifp1v9JfGLNw+4HPvqMjYsX0gM2tXZDOhmxUHt+oA@mail.gmail.com>
+Subject: Re: [PATCH 23/57] docs: netlabel: convert it to ReST
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        netdev@vger.kernel.org, linux-security-module@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/17/19 6:46 AM, Guenter Roeck wrote:
-> On 4/16/19 4:55 PM, Nicolin Chen wrote:
->> The CONFIG register has two 3-bit fields for conversion time
->> settings of Bus-voltage and Shunt-voltage, respectively. The
->> conversion settings, along with averaging mode, allow users
->> to optimize available timing requirement.
->>
->> This patch adds an 'update_interval' sysfs node through the
->> hwmon_chip_info of hwmon core. It reflects a total hardware
->> conversion time:
->>      samples * channels * (Bus + Shunt conversion times)
->>
->> Though INA3221 supports different conversion time setups for
->> Bus and Shunt voltages, this patch only adds the support of
->> a unified setting for both conversion times, by dividing the
->> conversion time into two equal values.
->>
->> Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
->> ---
->>
->> Hi Guenter,
->>
->> I am not quite sure if this update_interval is the best way to
->> implement the conversion time settings but I can't find another
->> common approach. This implementation certainly has drawbacks:
->>   1) It can't configure Bus and Shunt conversion times separately
->>      (Not crucial for me at this point as I set them equally)
->>   2) Users need to calculate for the settings of conversion time
->>   3) The ABI defines update_interval in msec while the hardware
->>      and datasheet does in usec, and that generates rounding diff
->>   4) The update_interval value would be spontaneously modified
->>      everytime number of samples or number of enabled channels
->>      gets changed. This might confuses users who tries to have
->>      a fixed update_interval other than really merely setting
->>      conversion time.
->>
->> I see IIO subsystem have something like IIO_CHAN_INFO_INT_TIME
->> for conversion time setting exclusively. Do we have something
->> similar under hwmon?
->>
-> 
-> No. I think what you have should be good enough for now.
-> Please see comments below.
-> 
-> Thanks,
-> Guenter
-> 
->> Thanks
->>
->>   Documentation/hwmon/ina3221 |  9 +++++
->>   drivers/hwmon/ina3221.c     | 65 ++++++++++++++++++++++++++++++++-----
->>   2 files changed, 65 insertions(+), 9 deletions(-)
->>
->> diff --git a/Documentation/hwmon/ina3221 b/Documentation/hwmon/ina3221
->> index ed3f22769d4b..3b05170112f0 100644
->> --- a/Documentation/hwmon/ina3221
->> +++ b/Documentation/hwmon/ina3221
->> @@ -38,3 +38,12 @@ in[456]_input           Shunt voltage(uV) for channels 1, 2, and 3 respectively
->>   samples                 Number of samples using in the averaging mode.
->>                             Supports the list of number of samples:
->>                             1, 4, 16, 64, 128, 256, 512, 1024
->> +update_interval         Data conversion time in millisecond, following:
->> +                          update_interval = C x S x (BC + SC)
->> +                              C: number of enabled channels
->> +                              S: number of samples
->> +                             BC: bus-voltage conversion time in millisecond
->> +                             SC: shunt-voltage conversion time in millisecond
->> +                          Affects both Bus- and Shunt-voltage conversion time.
->> +                          Note that setting update_interval to 0ms sets both BC
->> +                          and SC to 140 us (minimum conversion time).
->> diff --git a/drivers/hwmon/ina3221.c b/drivers/hwmon/ina3221.c
->> index 74d39d212931..af4ab8ddddce 100644
->> --- a/drivers/hwmon/ina3221.c
->> +++ b/drivers/hwmon/ina3221.c
->> @@ -144,19 +144,37 @@ static const int ina3221_avg_samples[] = {
->>       1, 4, 16, 64, 128, 256, 512, 1024,
->>   };
->> -static inline int ina3221_wait_for_data(struct ina3221_data *ina)
->> +/* Converting update_interval in msec to conversion time in usec */
->> +static inline u32 ina3221_interval_ms_to_conv_time(u16 config, int interval)
->>   {
->> -    u32 channels = hweight16(ina->reg_config & INA3221_CONFIG_CHs_EN_MASK);
->> -    u32 vbus_ct_idx = INA3221_CONFIG_VBUS_CT(ina->reg_config);
->> -    u32 vsh_ct_idx = INA3221_CONFIG_VSH_CT(ina->reg_config);
->> -    u32 samples_idx = INA3221_CONFIG_AVG(ina->reg_config);
->> +    u32 channels = hweight16(config & INA3221_CONFIG_CHs_EN_MASK);
->> +    u32 samples_idx = INA3221_CONFIG_AVG(config);
->> +    u32 samples = ina3221_avg_samples[samples_idx];
->> +
->> +    /* Bisect the result to Bus and Shunt conversion times */
->> +    return DIV_ROUND_CLOSEST(interval * 1000 / 2, channels * samples);
->> +}
->> +
->> +/* Converting CONFIG register value to update_interval in usec */
->> +static inline u32 ina3221_reg_to_interval_us(u16 config)
->> +{
->> +    u32 channels = hweight16(config & INA3221_CONFIG_CHs_EN_MASK);
->> +    u32 vbus_ct_idx = INA3221_CONFIG_VBUS_CT(config);
->> +    u32 vsh_ct_idx = INA3221_CONFIG_VSH_CT(config);
->> +    u32 samples_idx = INA3221_CONFIG_AVG(config);
->>       u32 samples = ina3221_avg_samples[samples_idx];
->>       u32 vbus_ct = ina3221_conv_time[vbus_ct_idx];
->>       u32 vsh_ct = ina3221_conv_time[vsh_ct_idx];
->> -    u32 wait, cvrf;
->>       /* Calculate total conversion time */
->> -    wait = channels * (vbus_ct + vsh_ct) * samples;
->> +    return channels * (vbus_ct + vsh_ct) * samples;
->> +}
->> +
->> +static inline int ina3221_wait_for_data(struct ina3221_data *ina)
->> +{
->> +    u32 wait, cvrf;
->> +
->> +    wait = ina3221_reg_to_interval_us(ina->reg_config);
->>       /* Polling the CVRF bit to make sure read data is ready */
->>       return regmap_field_read_poll_timeout(ina->fields[F_CVRF],
->> @@ -197,6 +215,11 @@ static int ina3221_read_chip(struct device *dev, u32 attr, long *val)
->>           regval = INA3221_CONFIG_AVG(ina->reg_config);
->>           *val = ina3221_avg_samples[regval];
->>           return 0;
->> +    case hwmon_chip_update_interval:
->> +        /* Return in msec */
->> +        *val = ina3221_reg_to_interval_us(ina->reg_config);
->> +        *val = DIV_ROUND_CLOSEST(*val, 1000);
->> +        return 0;
->>       default:
->>           return -EOPNOTSUPP;
->>       }
->> @@ -308,7 +331,7 @@ static int ina3221_read_curr(struct device *dev, u32 attr,
->>   static int ina3221_write_chip(struct device *dev, u32 attr, long val)
->>   {
->>       struct ina3221_data *ina = dev_get_drvdata(dev);
->> -    int ret, idx;
->> +    int ret, idx, tmp;
->>       switch (attr) {
->>       case hwmon_chip_samples:
->> @@ -321,6 +344,28 @@ static int ina3221_write_chip(struct device *dev, u32 attr, long val)
->>           if (ret)
->>               return ret;
->> +        /* Update reg_config accordingly */
->> +        return regmap_read(ina->regmap, INA3221_CONFIG,
->> +                   &ina->reg_config);
->> +    case hwmon_chip_update_interval:
->> +        tmp = ina3221_interval_ms_to_conv_time(ina->reg_config, val);
->> +        idx = find_closest(tmp, ina3221_conv_time,
->> +                   ARRAY_SIZE(ina3221_conv_time));
->> +
->> +        /* Update Bus-voltage conversion time */
->> +        ret = regmap_update_bits(ina->regmap, INA3221_CONFIG,
->> +                     INA3221_CONFIG_VBUS_CT_MASK,
->> +                     idx << INA3221_CONFIG_VBUS_CT_SHIFT);
->> +        if (ret)
->> +            return ret;
->> +
->> +        /* Update Shunt-voltage conversion time */
->> +        ret = regmap_update_bits(ina->regmap, INA3221_CONFIG,
->> +                     INA3221_CONFIG_VSH_CT_MASK,
->> +                     idx << INA3221_CONFIG_VSH_CT_SHIFT);
->> +        if (ret)
->> +            return ret;
-> 
-> It should be possible to update both conversion times with a single call,
-> since both calls touch only one register. Something like
-> 
->          ret = regmap_update_bits(ina->regmap, INA3221_CONFIG
->              INA3221_CONFIG_VBUS_CT_MASK | INA3221_CONFIG_VSH_CT_MASK,
->              (idx << INA3221_CONFIG_VBUS_CT_SHIFT) | (idx << INA3221_CONFIG_VSH_CT_SHIFT));
-> 
-> Granted, that is a bit long, but it saves an extra i2c write operation.
-> 
+On Mon, Apr 15, 2019 at 10:56 PM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
+>
+> Convert netlabel documentation to ReST.
+>
+> This was trivial: just add proper title markups.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+>  Documentation/netlabel/cipso_ipv4.txt    | 19 +++++++++++++------
+>  Documentation/netlabel/introduction.txt  | 16 +++++++++++-----
+>  Documentation/netlabel/lsm_interface.txt | 16 +++++++++++-----
+>  3 files changed, 35 insertions(+), 16 deletions(-)
 
-Thinking about it ... does it even make sense to cache reg_config twice,
-or would it be better to just update the local copy and use regmap_write()
-to send it to the chip ?
+Thanks for doing this.  I should probably revisit these docs to make
+sure they are still valid/correct; if nothing else that email address
+is from two employers ago (my apologies to the current email address
+holder).
 
-Guenter
+Acked-by: Paul Moore <paul@paul-moore.com>
 
->> +
->>           /* Update reg_config accordingly */
->>           return regmap_read(ina->regmap, INA3221_CONFIG,
->>                      &ina->reg_config);
->> @@ -482,6 +527,7 @@ static umode_t ina3221_is_visible(const void *drvdata,
->>       case hwmon_chip:
->>           switch (attr) {
->>           case hwmon_chip_samples:
->> +        case hwmon_chip_update_interval:
->>               return 0644;
->>           default:
->>               return 0;
->> @@ -527,7 +573,8 @@ static umode_t ina3221_is_visible(const void *drvdata,
->>   static const struct hwmon_channel_info *ina3221_info[] = {
->>       HWMON_CHANNEL_INFO(chip,
->> -               HWMON_C_SAMPLES),
->> +               HWMON_C_SAMPLES,
->> +               HWMON_C_UPDATE_INTERVAL),
->>       HWMON_CHANNEL_INFO(in,
->>                  /* 0: dummy, skipped in is_visible */
->>                  HWMON_I_INPUT,
->>
-> 
-> 
+> diff --git a/Documentation/netlabel/cipso_ipv4.txt b/Documentation/netlabel/cipso_ipv4.txt
+> index a6075481fd60..cbd3f3231221 100644
+> --- a/Documentation/netlabel/cipso_ipv4.txt
+> +++ b/Documentation/netlabel/cipso_ipv4.txt
+> @@ -1,10 +1,13 @@
+> +===================================
+>  NetLabel CIPSO/IPv4 Protocol Engine
+> -==============================================================================
+> +===================================
+> +
+>  Paul Moore, paul.moore@hp.com
+>
+>  May 17, 2006
+>
+> - * Overview
+> +Overview
+> +========
+>
+>  The NetLabel CIPSO/IPv4 protocol engine is based on the IETF Commercial
+>  IP Security Option (CIPSO) draft from July 16, 1992.  A copy of this
+> @@ -13,7 +16,8 @@ draft can be found in this directory
+>  it to an RFC standard it has become a de-facto standard for labeled
+>  networking and is used in many trusted operating systems.
+>
+> - * Outbound Packet Processing
+> +Outbound Packet Processing
+> +==========================
+>
+>  The CIPSO/IPv4 protocol engine applies the CIPSO IP option to packets by
+>  adding the CIPSO label to the socket.  This causes all packets leaving the
+> @@ -24,7 +28,8 @@ label by using the NetLabel security module API; if the NetLabel "domain" is
+>  configured to use CIPSO for packet labeling then a CIPSO IP option will be
+>  generated and attached to the socket.
+>
+> - * Inbound Packet Processing
+> +Inbound Packet Processing
+> +=========================
+>
+>  The CIPSO/IPv4 protocol engine validates every CIPSO IP option it finds at the
+>  IP layer without any special handling required by the LSM.  However, in order
+> @@ -33,7 +38,8 @@ NetLabel security module API to extract the security attributes of the packet.
+>  This is typically done at the socket layer using the 'socket_sock_rcv_skb()'
+>  LSM hook.
+>
+> - * Label Translation
+> +Label Translation
+> +=================
+>
+>  The CIPSO/IPv4 protocol engine contains a mechanism to translate CIPSO security
+>  attributes such as sensitivity level and category to values which are
+> @@ -42,7 +48,8 @@ Domain Of Interpretation (DOI) definition and are configured through the
+>  NetLabel user space communication layer.  Each DOI definition can have a
+>  different security attribute mapping table.
+>
+> - * Label Translation Cache
+> +Label Translation Cache
+> +=======================
+>
+>  The NetLabel system provides a framework for caching security attribute
+>  mappings from the network labels to the corresponding LSM identifiers.  The
+> diff --git a/Documentation/netlabel/introduction.txt b/Documentation/netlabel/introduction.txt
+> index 3caf77bcff0f..9333bbb0adc1 100644
+> --- a/Documentation/netlabel/introduction.txt
+> +++ b/Documentation/netlabel/introduction.txt
+> @@ -1,10 +1,13 @@
+> +=====================
+>  NetLabel Introduction
+> -==============================================================================
+> +=====================
+> +
+>  Paul Moore, paul.moore@hp.com
+>
+>  August 2, 2006
+>
+> - * Overview
+> +Overview
+> +========
+>
+>  NetLabel is a mechanism which can be used by kernel security modules to attach
+>  security attributes to outgoing network packets generated from user space
+> @@ -12,7 +15,8 @@ applications and read security attributes from incoming network packets.  It
+>  is composed of three main components, the protocol engines, the communication
+>  layer, and the kernel security module API.
+>
+> - * Protocol Engines
+> +Protocol Engines
+> +================
+>
+>  The protocol engines are responsible for both applying and retrieving the
+>  network packet's security attributes.  If any translation between the network
+> @@ -24,7 +28,8 @@ the NetLabel kernel security module API described below.
+>  Detailed information about each NetLabel protocol engine can be found in this
+>  directory.
+>
+> - * Communication Layer
+> +Communication Layer
+> +===================
+>
+>  The communication layer exists to allow NetLabel configuration and monitoring
+>  from user space.  The NetLabel communication layer uses a message based
+> @@ -33,7 +38,8 @@ formatting of these NetLabel messages as well as the Generic NETLINK family
+>  names can be found in the 'net/netlabel/' directory as comments in the
+>  header files as well as in 'include/net/netlabel.h'.
+>
+> - * Security Module API
+> +Security Module API
+> +===================
+>
+>  The purpose of the NetLabel security module API is to provide a protocol
+>  independent interface to the underlying NetLabel protocol engines.  In addition
+> diff --git a/Documentation/netlabel/lsm_interface.txt b/Documentation/netlabel/lsm_interface.txt
+> index 638c74f7de7f..026fc267f798 100644
+> --- a/Documentation/netlabel/lsm_interface.txt
+> +++ b/Documentation/netlabel/lsm_interface.txt
+> @@ -1,10 +1,13 @@
+> +========================================
+>  NetLabel Linux Security Module Interface
+> -==============================================================================
+> +========================================
+> +
+>  Paul Moore, paul.moore@hp.com
+>
+>  May 17, 2006
+>
+> - * Overview
+> +Overview
+> +========
+>
+>  NetLabel is a mechanism which can set and retrieve security attributes from
+>  network packets.  It is intended to be used by LSM developers who want to make
+> @@ -12,7 +15,8 @@ use of a common code base for several different packet labeling protocols.
+>  The NetLabel security module API is defined in 'include/net/netlabel.h' but a
+>  brief overview is given below.
+>
+> - * NetLabel Security Attributes
+> +NetLabel Security Attributes
+> +============================
+>
+>  Since NetLabel supports multiple different packet labeling protocols and LSMs
+>  it uses the concept of security attributes to refer to the packet's security
+> @@ -24,7 +28,8 @@ configuration.  It is up to the LSM developer to translate the NetLabel
+>  security attributes into whatever security identifiers are in use for their
+>  particular LSM.
+>
+> - * NetLabel LSM Protocol Operations
+> +NetLabel LSM Protocol Operations
+> +================================
+>
+>  These are the functions which allow the LSM developer to manipulate the labels
+>  on outgoing packets as well as read the labels on incoming packets.  Functions
+> @@ -32,7 +37,8 @@ exist to operate both on sockets as well as the sk_buffs directly.  These high
+>  level functions are translated into low level protocol operations based on how
+>  the administrator has configured the NetLabel subsystem.
+>
+> - * NetLabel Label Mapping Cache Operations
+> +NetLabel Label Mapping Cache Operations
+> +=======================================
+>
+>  Depending on the exact configuration, translation between the network packet
+>  label and the internal LSM security identifier can be time consuming.  The
+> --
+> 2.20.1
+>
 
+
+-- 
+paul moore
+www.paul-moore.com
