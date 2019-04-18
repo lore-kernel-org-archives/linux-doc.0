@@ -1,119 +1,72 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6F56C7D099
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Apr 2019 18:18:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 33D557D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Apr 2019 20:17:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404135AbfDRSKh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 18 Apr 2019 14:10:37 -0400
-Received: from casper.infradead.org ([85.118.1.10]:52346 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391603AbfDRSKh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Apr 2019 14:10:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Q97wY6btVCHy/kFofHI09uzvbtwu21iq5Uz5kIDdyws=; b=urJdq4JxwV4eFQA2l8/RVg4szk
-        /MBfg0DCCjnUbMwm3panxmAoIN7YgOQgTN8RO8Bv5+//absL/8MJBesC7NeU5eJ1Vr/L1Yt/w8ZD2
-        Fsb6qhmrYMqmN8cJL/gEMzOHcxKQWEBD+hp57z/RQ8sx/Si44CzGGaNng7DGufNBXVYW7QHO7OsmG
-        H0u2IzZeSGqWLI1k1T+mQtgT1Oqm1iwTGi/CxyVSpQoENW6HLSnt7KK6o0J2fiNcA4voLFShnaAod
-        +lyxyCitOLNndxBhrPTs0xsKa1KOztFaWmiQfJ8ctlg1/J11PCDy00pi1byCZ7L/N8KBi4rsxl4bd
-        Gv8RcjHw==;
-Received: from 177.132.233.55.dynamic.adsl.gvt.net.br ([177.132.233.55] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hHBUX-0005MG-Iw; Thu, 18 Apr 2019 18:10:34 +0000
-Date:   Thu, 18 Apr 2019 15:10:28 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] docs: hwmon: convert three docs to ReST format
-Message-ID: <20190418151028.341723f7@coco.lan>
-In-Reply-To: <87k1frgysq.fsf@intel.com>
-References: <287cf72fc213656c1593f8bd42feb62f7a5f26e7.1555580417.git.mchehab+samsung@kernel.org>
-        <87k1frgysq.fsf@intel.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S2389807AbfDRURR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 18 Apr 2019 16:17:17 -0400
+Received: from out30-42.freemail.mail.aliyun.com ([115.124.30.42]:49920 "EHLO
+        out30-42.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728181AbfDRURR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Apr 2019 16:17:17 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04426;MF=yang.shi@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0TPfSgC1_1555618625;
+Received: from e19h19392.et15sqa.tbsite.net(mailfrom:yang.shi@linux.alibaba.com fp:SMTPD_---0TPfSgC1_1555618625)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Fri, 19 Apr 2019 04:17:13 +0800
+From:   Yang Shi <yang.shi@linux.alibaba.com>
+To:     mhocko@suse.com, kirill.shutemov@linux.intel.com, ziy@nvidia.com,
+        rppt@linux.vnet.ibm.com, corbet@lwn.net, akpm@linux-foundation.org
+Cc:     yang.shi@linux.alibaba.com, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] doc: mm: migration doesn't use FOLL_SPLIT anymore
+Date:   Fri, 19 Apr 2019 04:17:04 +0800
+Message-Id: <1555618624-23957-1-git-send-email-yang.shi@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 18 Apr 2019 17:42:29 +0300
-Jani Nikula <jani.nikula@linux.intel.com> escreveu:
+When demonstrating FOLL_SPLIT in transhuge document, migration is used
+as an example.  But, since commit 94723aafb9e7 ("mm: unclutter THP
+migration"), the way of THP migration is totally changed.  FOLL_SPLIT is
+not used by migration anymore due to the change.
 
-> On Thu, 18 Apr 2019, Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
-> > Those three new drivers were missed on the initial conversion
-> > to ReST format. So:
-> >
-> > - Rename them to .rst;
-> > - Add them to the hwmon index.rst index;
-> > - add some blank lines at the "Supported systems:" part, in
-> >   order to allow Sphinx to properly identify new lines,
-> >   suppressing warnings and avoid it to output some random
-> >   lines in bold;
-> > - When multiple authors are involved, change the authors
-> >   part to a list, in order to avoid adding blank lines.
-> > - adjust the table cells (one of the tables seemed to be
-> >   assuming that tab is 4 positions instead of 8) and add
-> >   the table markup.
-> > - be sure that the section markups have the same number of
-> >   characters as the section title.
-> >
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> > ---
-> >  Documentation/hwmon/index.rst                 |  3 +++
-> >  Documentation/hwmon/{ir38064 => ir38064.rst}  | 21 ++++++++++++-------
-> >  .../hwmon/{isl68137 => isl68137.rst}          | 16 ++++++++++----
-> >  .../hwmon/{lochnagar => lochnagar.rst}        |  7 +++++--
-> >  4 files changed, 33 insertions(+), 14 deletions(-)
-> >  rename Documentation/hwmon/{ir38064 => ir38064.rst} (76%)
-> >  rename Documentation/hwmon/{isl68137 => isl68137.rst} (85%)
-> >  rename Documentation/hwmon/{lochnagar => lochnagar.rst} (93%)
-> >
-> > diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> > index 893804414510..3fa14fe7b49c 100644
-> > --- a/Documentation/hwmon/index.rst
-> > +++ b/Documentation/hwmon/index.rst
-> > @@ -65,6 +65,8 @@ Hardware Monitoring Kernel Drivers
-> >     ina2xx.rst
-> >     ina3221.rst
-> >     ir35221.rst
-> > +   ir38064.rst
-> > +   isl68137.rst  
-> 
-> Didn't notice it on the first patch adding index.rst, but I don't think
-> it's customary to add .rst suffix to the toctree.
+Remove the obsolete example to avoid confusion.
 
-Provided that all documents are at the same time, I guess it
-doesn't matter having a .rst there or not.
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+Cc: Zi Yan <ziy@nvidia.com>
+Cc: Mike Rapoport <rppt@linux.vnet.ibm.com>
+Signed-off-by: Yang Shi <yang.shi@linux.alibaba.com>
+---
+ Documentation/vm/transhuge.rst | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-Btw, newer versions of Sphinx build can work with other formats
-like markdown. I suspect that, if we end mixing markdown documents,
-it would be worth having the extension there.
+diff --git a/Documentation/vm/transhuge.rst b/Documentation/vm/transhuge.rst
+index a8cf680..8df3806 100644
+--- a/Documentation/vm/transhuge.rst
++++ b/Documentation/vm/transhuge.rst
+@@ -55,13 +55,7 @@ prevent page from being split by anyone.
+ In case you can't handle compound pages if they're returned by
+ follow_page, the FOLL_SPLIT bit can be specified as parameter to
+ follow_page, so that it will split the hugepages before returning
+-them. Migration for example passes FOLL_SPLIT as parameter to
+-follow_page because it's not hugepage aware and in fact it can't work
+-at all on hugetlbfs (but it instead works fine on transparent
+-hugepages thanks to FOLL_SPLIT). migration simply can't deal with
+-hugepages being returned (as it's not only checking the pfn of the
+-page and pinning it during the copy but it pretends to migrate the
+-memory in regular page sizes and with regular pte/pmd mappings).
++them.
+ 
+ Graceful fallback
+ =================
+-- 
+1.8.3.1
 
-FYI, someone recently added a markdown file at the tree:
-
-commit e453fa60e086786fe89ba15ee8fef80bc2e6ecc3
-Author: Sascha Hauer <s.hauer@pengutronix.de>
-Date:   Fri Sep 7 14:36:46 2018 +0200
-
-    Documentation: ubifs: Add authentication whitepaper
-
-	Documentation/filesystems/ubifs-authentication.md
-
-IMO, the best would be to just run pandoc into it and convert
-to .rst, than to mix different markup languages.
-
-Thanks,
-Mauro
