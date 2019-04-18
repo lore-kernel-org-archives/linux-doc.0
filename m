@@ -1,164 +1,104 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 196DA7D099
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Apr 2019 12:42:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 626737D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Apr 2019 13:20:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729497AbfDRMmm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 18 Apr 2019 08:42:42 -0400
-Received: from casper.infradead.org ([85.118.1.10]:49308 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726162AbfDRMmm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Apr 2019 08:42:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=FVaqqPnygq1+XAL2fV0XyKGzQwLVOq4vtfOZzXdI+DY=; b=mhYX69b7VKfQqcoKdU0MCUDY48
-        wz7J5q7ip7jfFijvK+A2ZbRvvIroxJe506D3ZMQrb3CoLvm9xyPHHWa/5V6VVBpMznpOnG3TfkBul
-        kz42uT6vbsEoSWFDuxWpELrhXI3brxwrB2rUkFxbS3l/dQ1clL/hYTVu4waRAQlFVAZ3+DkBqFnzm
-        gqZN/EwyZolsR5K1343i6maSxSww63KZgfyNN3MAFzgqy9B9T+AHfzMgzbhHjdvpwUt4XzdVhma0k
-        h/lt7McRzt4geBfeCA+wuguIFyeSB89NrhZTxPp/AqEhMrzdLLhaX7EmpBQ/MpRtZ2kCWwpclFQTQ
-        +L6+vL3A==;
-Received: from 177.132.233.55.dynamic.adsl.gvt.net.br ([177.132.233.55] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hH6N8-0000gI-FO; Thu, 18 Apr 2019 12:42:35 +0000
-Date:   Thu, 18 Apr 2019 09:42:23 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-fbdev@vger.kernel.org, linux-s390@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-watchdog@vger.kernel.org, xdp-newbies@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com, bpf@vger.kernel.org,
-        linux-ide@vger.kernel.org, linux-pm@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-scsi@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        x86@kernel.org, dm-devel@redhat.com, target-devel@vger.kernel.org,
-        netdev@vger.kernel.org, kexec@lists.infradead.org,
-        linux-fpga@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        linux-security-module@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Avoiding merge conflicts while adding new docs - Was: Re: [PATCH
- 00/57] Convert files to ReST
-Message-ID: <20190418091526.00e074d1@coco.lan>
-In-Reply-To: <cover.1555382110.git.mchehab+samsung@kernel.org>
-References: <cover.1555382110.git.mchehab+samsung@kernel.org>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1733192AbfDRNUW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 18 Apr 2019 09:20:22 -0400
+Received: from terminus.zytor.com ([198.137.202.136]:45309 "EHLO
+        terminus.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731317AbfDRNUV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Apr 2019 09:20:21 -0400
+Received: from terminus.zytor.com (localhost [127.0.0.1])
+        by terminus.zytor.com (8.15.2/8.15.2) with ESMTPS id x3IDK3hM201549
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+        Thu, 18 Apr 2019 06:20:03 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 terminus.zytor.com x3IDK3hM201549
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+        s=2019041745; t=1555593604;
+        bh=3asjTbSBgJoFaUsAgbc9HXc9yPvu7F7RlRZcpsuB/X8=;
+        h=Date:From:Cc:Reply-To:To:Subject:From;
+        b=nevVB4zvPI3cVVfLElFOffFCSCkvplOLzbZqLeoiMG0Z+Ak1tg0C1qGZvL17v9xqb
+         c1SVPMK+FexQdCAY8j+q8pTRrIEV42PNcrgiKpjYppl1u4sPFgNIO7HjiY4tju1z9Z
+         ozLaLcXC4qF8Qdmurz67Vh1gPWBexgj2NxPtqdeycV+nvLcsuxiVtsCDnz6en9R+Xu
+         V+Ykipbovao0HZc7GMGLvseRqaQ7X1pEfPMGUesnsYUjJ8/sPRP7tkKJDtvyVus4sI
+         kqk4vhJtnLpxMiHVJK3Af0E3obuEXIIZVHdIGwKI6fR4+W2DaEcYkFQ/taushWWq8n
+         qoXGsnsRavukw==
+Received: (from tipbot@localhost)
+        by terminus.zytor.com (8.15.2/8.15.2/Submit) id x3IDK2lO201541;
+        Thu, 18 Apr 2019 06:20:02 -0700
+Date:   Thu, 18 Apr 2019 06:20:02 -0700
+X-Authentication-Warning: terminus.zytor.com: tipbot set sender to tipbot@zytor.com using -f
+From:   "tip-bot for Paul E. McKenney" <tipbot@zytor.com>
+Message-ID: <tip-1755ecedc485e8a898ac27b90be664784ddb6b57@git.kernel.org>
+Cc:     tglx@linutronix.de, hpa@zytor.com, davem@davemloft.net,
+        mhiramat@kernel.org, linux-doc@vger.kernel.org, corbet@lwn.net,
+        anil.s.keshavamurthy@intel.com, naveen.n.rao@linux.ibm.com,
+        mingo@kernel.org, paulmck@linux.ibm.com
+Reply-To: paulmck@linux.ibm.com, linux-kernel@vger.kernel.org,
+          naveen.n.rao@linux.ibm.com, corbet@lwn.net, davem@davemloft.net,
+          hpa@zytor.com, tglx@linutronix.de,
+          anil.s.keshavamurthy@intel.com, mingo@kernel.org,
+          linux-doc@vger.kernel.org, mhiramat@kernel.org
+To:     linux-tip-commits@vger.kernel.org
+Subject: [tip:core/rcu] doc/kprobes: Update obsolete RCU update functions
+Git-Commit-ID: 1755ecedc485e8a898ac27b90be664784ddb6b57
+X-Mailer: tip-git-log-daemon
+Robot-ID: <tip-bot.git.kernel.org>
+Robot-Unsubscribe: Contact <mailto:hpa@kernel.org> to get blacklisted from
+ these emails
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Disposition: inline
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jon,
+Commit-ID:  1755ecedc485e8a898ac27b90be664784ddb6b57
+Gitweb:     https://git.kernel.org/tip/1755ecedc485e8a898ac27b90be664784ddb6b57
+Author:     Paul E. McKenney <paulmck@linux.ibm.com>
+AuthorDate: Wed, 9 Jan 2019 14:50:29 -0800
+Committer:  Paul E. McKenney <paulmck@linux.ibm.com>
+CommitDate: Wed, 27 Mar 2019 13:03:48 -0700
 
-Em Mon, 15 Apr 2019 23:55:25 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> escreveu:
+doc/kprobes: Update obsolete RCU update functions
 
-> I have a separate patch series with do the actual rename and
-> adjustment of references. I opted to submit this first, as it
-> sounds easier to merge this way, as each subsystem maintainer
-> can apply the conversion directly on their trees (or at docs
-> tree), avoiding merge conflects.
+The RCU flavors have been consolidated, so this commit replaces mentions
+of the now-obsolete synchronize_sched() function with synchronize_rcu().
 
-Based on the number of feedbacks we have about this, I'm
-considering to submit a second version of my conversion patch
-series that would be doing the rename together with each patch,
-adding the rst files to an index file.
+Signed-off-by: Paul E. McKenney <paulmck@linux.ibm.com>
+Cc: "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>
+Cc: Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: <linux-doc@vger.kernel.org>
+Acked-by: Masami Hiramatsu <mhiramat@kernel.org>
+---
+ Documentation/kprobes.txt | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-However, doing that would produce lots of warnings. We have
-already lots of those at linux-next:
-
-	checking consistency... 
-
-	docs/Documentation/accelerators/ocxl.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/admin-guide/mm/numaperf.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/allocators.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/attributes.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/bigalloc.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/bitmaps.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/blockgroup.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/blocks.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/checksums.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/directory.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/eainode.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/group_descr.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/ifork.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/inlinedata.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/inodes.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/journal.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/mmp.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/special_inodes.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/super.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/fmc/index.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/gpu/msm-crash-dump.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/interconnect/interconnect.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/laptops/lg-laptop.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/virtual/kvm/amd-memory-encryption.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/virtual/kvm/vcpu-requests.rst: WARNING: document isn't included in any toctree
-
-After thinking a little bit and doing some tests, I think a good solution
-would be to add ":orphan:" markup to the new .rst files that were not
-added yet into the main body (e. g. something like the enclosed example).
-
-That will make Sphinx suppress the:
-	"WARNING: document isn't included in any toctree"
-warning for the new files, while they're not included at the main indexes.
-
-This way, maintainers can do all the hard work of doing/applying the ReST
-file conversion/addition patch series on their own trees, and, once
-everything gets merged, submit a patch against the latest docs-next
-tree, removing the :orphan: tag and add them to the common index.rst
-files.
-
-That should largely avoid merging conflicts.
-
-For example, assuming that someone converts the stuff at
-Documentation/accounting and rename the text files there to
-RST (I'm actually doing that), he could add the enclosed change on
-the top of its index file:
-
-	diff --git a/Documentation/accounting/index.rst b/Documentation/accounting/index.rst
-	index e7dda5afa73f..e1f6284b5ff3 100644
-	--- a/Documentation/accounting/index.rst
-	+++ b/Documentation/accounting/index.rst
-	@@ -1,3 +1,5 @@
-	+:orphan:
-	+
-	 ==========
-	 Accounting
-	 ==========
-
-With would make Sphinx to ignore the subdir index file while
-reporting errors. It will still build the documentation, allowing
-the developer to test the changes.
-
-One of the advantages is that checking the orphaned docs is as
-easy as running:
-
-	$ git grep -l ":orphan:" Documentation/
-	...
-	Documentation/accounting/index.rst
-	...
-
-Making easy for people to check the orphaned files and send a fixup
-patch if something got orphaned after the merge window and send a
-fixes patches to be applied upstream.
-
-What do you think?
-
-Regards,
-Mauro
+diff --git a/Documentation/kprobes.txt b/Documentation/kprobes.txt
+index 10f4499e677c..ee60e519438a 100644
+--- a/Documentation/kprobes.txt
++++ b/Documentation/kprobes.txt
+@@ -243,10 +243,10 @@ Optimization
+ ^^^^^^^^^^^^
+ 
+ The Kprobe-optimizer doesn't insert the jump instruction immediately;
+-rather, it calls synchronize_sched() for safety first, because it's
++rather, it calls synchronize_rcu() for safety first, because it's
+ possible for a CPU to be interrupted in the middle of executing the
+-optimized region [3]_.  As you know, synchronize_sched() can ensure
+-that all interruptions that were active when synchronize_sched()
++optimized region [3]_.  As you know, synchronize_rcu() can ensure
++that all interruptions that were active when synchronize_rcu()
+ was called are done, but only if CONFIG_PREEMPT=n.  So, this version
+ of kprobe optimization supports only kernels with CONFIG_PREEMPT=n [4]_.
+ 
