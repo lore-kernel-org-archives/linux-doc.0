@@ -2,40 +2,40 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0D5187D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Apr 2019 21:59:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 706F47D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Apr 2019 23:13:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725824AbfDRV76 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 18 Apr 2019 17:59:58 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:45160 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725815AbfDRV76 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Apr 2019 17:59:58 -0400
+        id S1725917AbfDRXN4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 18 Apr 2019 19:13:56 -0400
+Received: from casper.infradead.org ([85.118.1.10]:44080 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725887AbfDRXNz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Apr 2019 19:13:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
         :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=9jaQe96AMfy8BsHFHwpCay+crw8HVDe9YDeN8yMwU9E=; b=TVFH39vfZ3SdG+TAWrDl1NZdtz
-        zc8gJjoM6v/gwKG2pNiA1hK9c5qp6maUd83cdDJalVmyzZafeBimA+NCaf2S704aNLk59UohBPBvR
-        lnX6Hh2NcaNOMpttgRsC3cw6ffyW8+jdWMm+f7+L08xjbzqfWVPT417gKOoSQKh89Kui8B79++iym
-        Jx+sG6OC7ePtVKBe+ADZVBs7LkSIJinUw0bCFoBrrv+69hUKXdJKAZElb9EfL3GHSODZxlHdoR6K1
-        xrChSAYUp0uPMyw1ezkbDvl2CCLR/4jCla9qlj5mKoIsl8sCI4Oz1F+7aBwojPSASjKDa8Sduaplz
-        2CPTlslw==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hHF4J-0007K8-AJ; Thu, 18 Apr 2019 21:59:43 +0000
-Subject: Re: [PATCH] docs: core-api: fix broken references for div64.c and
- gcd.c
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        bh=oIV8JCP5QbONJPn1jmgevBSwiHtpslE8bP9Xf28NwSM=; b=PnL0yMHqKMsBTJC/yJLMLnYNwX
+        OfLtJ1BbZEXwCv2eQcFig3cnkzEjw8HzEIhkl+hgOb6lAOeNXHo7L4aLLCsJBfxq/at845y+0q7kJ
+        PGMnx09RdA4kHCWi8wxKtfbdg2KgdqszjYmp+wdZ8m/bljWNpT0Ktjnq1jsVuHrTedmUcdDR/Oo1E
+        3x5H1Yy8cNfMZXJjqJEi+AIHBef+vZ7jXbY9V1ooXwXqMYJqpDUQ9FGp0nGWN6X6GUS4Q1/S2t5yT
+        wIYvgHnQAhNG0slcJf9p8JzwGqP9gMDwiA14Aa1KebB1GA6mg2zxujjGbADz+cqPnmrjb5IAmoASF
+        BpOmuYqg==;
+Received: from 177.132.233.55.dynamic.adsl.gvt.net.br ([177.132.233.55] helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hHFsu-00062h-FU; Thu, 18 Apr 2019 22:52:01 +0000
+Date:   Thu, 18 Apr 2019 19:51:53 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Thierry Reding <thierry.reding@gmail.com>,
@@ -44,59 +44,67 @@ Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
         Ray Jui <rjui@broadcom.com>,
         Mike Rapoport <rppt@linux.vnet.ibm.com>,
         Marcos Paulo de Souza <marcos.souza.org@gmail.com>
+Subject: Re: [PATCH] docs: core-api: fix broken references for div64.c and
+ gcd.c
+Message-ID: <20190418195153.4708cbc7@coco.lan>
+In-Reply-To: <f1ccd7d6-c5c7-f558-18a9-1c2602a2ef84@infradead.org>
 References: <734f49bae5d4052b3c25691dfefad59bea2e5843.1555580999.git.mchehab+samsung@kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <f1ccd7d6-c5c7-f558-18a9-1c2602a2ef84@infradead.org>
-Date:   Thu, 18 Apr 2019 14:59:41 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        <f1ccd7d6-c5c7-f558-18a9-1c2602a2ef84@infradead.org>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <734f49bae5d4052b3c25691dfefad59bea2e5843.1555580999.git.mchehab+samsung@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/18/19 2:50 AM, Mauro Carvalho Chehab wrote:
-> Those files were moved to lib/math.
+Em Thu, 18 Apr 2019 14:59:41 -0700
+Randy Dunlap <rdunlap@infradead.org> escreveu:
+
+> On 4/18/19 2:50 AM, Mauro Carvalho Chehab wrote:
+> > Those files were moved to lib/math.
+> > 
+> > Fixes: 9635bad21596 ("lib: Move mathematic helpers to separate folder")  
 > 
-> Fixes: 9635bad21596 ("lib: Move mathematic helpers to separate folder")
+> Is that commid ID in mainline?  I get:
+> fatal: ambiguous argument '9635bad21596': unknown revision or path not in the working tree.
 
-Is that commid ID in mainline?  I get:
-fatal: ambiguous argument '9635bad21596': unknown revision or path not in the working tree.
+No, it is on Linux-next.
 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
-> ---
->  Documentation/core-api/kernel-api.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
-> index 71f5d2fe39b7..a29c99d13331 100644
-> --- a/Documentation/core-api/kernel-api.rst
-> +++ b/Documentation/core-api/kernel-api.rst
-> @@ -147,10 +147,10 @@ Division Functions
->  .. kernel-doc:: include/linux/math64.h
->     :internal:
->  
-> -.. kernel-doc:: lib/div64.c
-> +.. kernel-doc:: lib/math/div64.c
->     :functions: div_s64_rem div64_u64_rem div64_u64 div64_s64
->  
-> -.. kernel-doc:: lib/gcd.c
-> +.. kernel-doc:: lib/math/gcd.c
->     :export:
->  
->  UUID/GUID
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>  
+> 
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> 
+> Thanks.
+> 
+> > ---
+> >  Documentation/core-api/kernel-api.rst | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
+> > index 71f5d2fe39b7..a29c99d13331 100644
+> > --- a/Documentation/core-api/kernel-api.rst
+> > +++ b/Documentation/core-api/kernel-api.rst
+> > @@ -147,10 +147,10 @@ Division Functions
+> >  .. kernel-doc:: include/linux/math64.h
+> >     :internal:
+> >  
+> > -.. kernel-doc:: lib/div64.c
+> > +.. kernel-doc:: lib/math/div64.c
+> >     :functions: div_s64_rem div64_u64_rem div64_u64 div64_s64
+> >  
+> > -.. kernel-doc:: lib/gcd.c
+> > +.. kernel-doc:: lib/math/gcd.c
+> >     :export:
+> >  
+> >  UUID/GUID
+> >   
+> 
 > 
 
 
--- 
-~Randy
+
+Thanks,
+Mauro
