@@ -1,111 +1,102 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 75B417D099
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Apr 2019 20:30:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0D5187D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Apr 2019 21:59:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388360AbfDRUac (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 18 Apr 2019 16:30:32 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:17090 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731565AbfDRUab (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Apr 2019 16:30:31 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cb8de6c0001>; Thu, 18 Apr 2019 13:30:36 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 18 Apr 2019 13:30:31 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 18 Apr 2019 13:30:31 -0700
-Received: from [10.2.163.72] (172.20.13.39) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 18 Apr
- 2019 20:30:29 +0000
-From:   Zi Yan <ziy@nvidia.com>
-To:     Yang Shi <yang.shi@linux.alibaba.com>
-CC:     <mhocko@suse.com>, <kirill.shutemov@linux.intel.com>,
-        <rppt@linux.vnet.ibm.com>, <corbet@lwn.net>,
-        <akpm@linux-foundation.org>, <linux-doc@vger.kernel.org>,
-        <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] doc: mm: migration doesn't use FOLL_SPLIT anymore
-Date:   Thu, 18 Apr 2019 16:30:27 -0400
-X-Mailer: MailMate (1.12.4r5622)
-Message-ID: <C8CBF3A3-5ADA-4CA6-8AEB-4836AE9146D7@nvidia.com>
-In-Reply-To: <1555618624-23957-1-git-send-email-yang.shi@linux.alibaba.com>
-References: <1555618624-23957-1-git-send-email-yang.shi@linux.alibaba.com>
+        id S1725824AbfDRV76 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 18 Apr 2019 17:59:58 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:45160 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725815AbfDRV76 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Apr 2019 17:59:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=9jaQe96AMfy8BsHFHwpCay+crw8HVDe9YDeN8yMwU9E=; b=TVFH39vfZ3SdG+TAWrDl1NZdtz
+        zc8gJjoM6v/gwKG2pNiA1hK9c5qp6maUd83cdDJalVmyzZafeBimA+NCaf2S704aNLk59UohBPBvR
+        lnX6Hh2NcaNOMpttgRsC3cw6ffyW8+jdWMm+f7+L08xjbzqfWVPT417gKOoSQKh89Kui8B79++iym
+        Jx+sG6OC7ePtVKBe+ADZVBs7LkSIJinUw0bCFoBrrv+69hUKXdJKAZElb9EfL3GHSODZxlHdoR6K1
+        xrChSAYUp0uPMyw1ezkbDvl2CCLR/4jCla9qlj5mKoIsl8sCI4Oz1F+7aBwojPSASjKDa8Sduaplz
+        2CPTlslw==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hHF4J-0007K8-AJ; Thu, 18 Apr 2019 21:59:43 +0000
+Subject: Re: [PATCH] docs: core-api: fix broken references for div64.c and
+ gcd.c
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Ray Jui <rjui@broadcom.com>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Marcos Paulo de Souza <marcos.souza.org@gmail.com>
+References: <734f49bae5d4052b3c25691dfefad59bea2e5843.1555580999.git.mchehab+samsung@kernel.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <f1ccd7d6-c5c7-f558-18a9-1c2602a2ef84@infradead.org>
+Date:   Thu, 18 Apr 2019 14:59:41 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL103.nvidia.com (172.20.187.11) To
- HQMAIL101.nvidia.com (172.20.187.10)
-Content-Type: text/plain; format=flowed
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1555619436; bh=T3JD0sgSOXk1vRSr1uVe9SorhMd4n+SS+HWTi6IFNCc=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:X-Mailer:Message-ID:
-         In-Reply-To:References:MIME-Version:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type;
-        b=SwnFKNonXOE1zQVJWCyAkBVjCLR/gdo0c98WcA4gmTZefaRGQCthtZhxg/jleQzpb
-         9ey3mfNA2l5uwtSrjts4734cmnAQzrvuHJkA0/uVgRhdrUSqaEEH5iSCLqsgZ+z1mf
-         eeg11NLcYkIb/mqsgxPlqRYvLKPIDYGdSbrtnlZUeJ4SkRHOQlXkM81nzq/VmKWoBq
-         F+ZustVToSp/Ww2x7qBHKYszHEDGptzDItgUiSNegC2a4t8wVt2Udzszw5zk7EYoRl
-         T2VVXWCXJVBoGCwEAjqmLJrf4butHZI6agSmOQ0mGBaG9CzXgI07vrYyRDygRIjFSL
-         N81lBCiahYjRw==
+In-Reply-To: <734f49bae5d4052b3c25691dfefad59bea2e5843.1555580999.git.mchehab+samsung@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 18 Apr 2019, at 16:17, Yang Shi wrote:
+On 4/18/19 2:50 AM, Mauro Carvalho Chehab wrote:
+> Those files were moved to lib/math.
+> 
+> Fixes: 9635bad21596 ("lib: Move mathematic helpers to separate folder")
 
-> When demonstrating FOLL_SPLIT in transhuge document, migration is used
-> as an example.  But, since commit 94723aafb9e7 ("mm: unclutter THP
-> migration"), the way of THP migration is totally changed.  FOLL_SPLIT 
-> is
-> not used by migration anymore due to the change.
->
-> Remove the obsolete example to avoid confusion.
->
-> Cc: Michal Hocko <mhocko@suse.com>
-> Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> Cc: Zi Yan <ziy@nvidia.com>
-> Cc: Mike Rapoport <rppt@linux.vnet.ibm.com>
-> Signed-off-by: Yang Shi <yang.shi@linux.alibaba.com>
+Is that commid ID in mainline?  I get:
+fatal: ambiguous argument '9635bad21596': unknown revision or path not in the working tree.
+
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
 > ---
->  Documentation/vm/transhuge.rst | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
->
-> diff --git a/Documentation/vm/transhuge.rst 
-> b/Documentation/vm/transhuge.rst
-> index a8cf680..8df3806 100644
-> --- a/Documentation/vm/transhuge.rst
-> +++ b/Documentation/vm/transhuge.rst
-> @@ -55,13 +55,7 @@ prevent page from being split by anyone.
->  In case you can't handle compound pages if they're returned by
->  follow_page, the FOLL_SPLIT bit can be specified as parameter to
->  follow_page, so that it will split the hugepages before returning
-> -them. Migration for example passes FOLL_SPLIT as parameter to
-> -follow_page because it's not hugepage aware and in fact it can't work
-> -at all on hugetlbfs (but it instead works fine on transparent
-> -hugepages thanks to FOLL_SPLIT). migration simply can't deal with
-> -hugepages being returned (as it's not only checking the pfn of the
-> -page and pinning it during the copy but it pretends to migrate the
-> -memory in regular page sizes and with regular pte/pmd mappings).
-> +them.
->
->  Graceful fallback
->  =================
-> -- 
-> 1.8.3.1
-
-Thanks for updating the document.
-
-Reviewed-by: Zi Yan <ziy@nvidia.com>
+>  Documentation/core-api/kernel-api.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
+> index 71f5d2fe39b7..a29c99d13331 100644
+> --- a/Documentation/core-api/kernel-api.rst
+> +++ b/Documentation/core-api/kernel-api.rst
+> @@ -147,10 +147,10 @@ Division Functions
+>  .. kernel-doc:: include/linux/math64.h
+>     :internal:
+>  
+> -.. kernel-doc:: lib/div64.c
+> +.. kernel-doc:: lib/math/div64.c
+>     :functions: div_s64_rem div64_u64_rem div64_u64 div64_s64
+>  
+> -.. kernel-doc:: lib/gcd.c
+> +.. kernel-doc:: lib/math/gcd.c
+>     :export:
+>  
+>  UUID/GUID
+> 
 
 
-
---
-Best Regards,
-Yan Zi
+-- 
+~Randy
