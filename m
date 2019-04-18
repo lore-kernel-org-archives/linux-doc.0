@@ -2,136 +2,87 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BA0707D099
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Apr 2019 09:44:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 74DE37D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Apr 2019 09:50:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388346AbfDRJox (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 18 Apr 2019 05:44:53 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:60850 "EHLO
+        id S2388201AbfDRJua (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 18 Apr 2019 05:50:30 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:34494 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388070AbfDRJox (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Apr 2019 05:44:53 -0400
+        with ESMTP id S1733049AbfDRJu3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Apr 2019 05:50:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=qMkC1T6ZJuUcdXnH9Yp0SsrwKBb1Irh2P/qjZGqcIw4=; b=nvkEZdQ9rFH3Terix674ZEQNo
-        zCC4F0acxM9ojsrnHyOSjlqY9IfKpsl7TWinVqA7j7pqsQM0gWsi8gU011AauMKo3rimuqDWhhbYy
-        KdiW8dseMvkzVJk0I+P0HB63KfkCHxCmWRrE/MKjIUfbD8gFW13T7Qkcj1IByCn7MpfotPWmvszMG
-        aG6Q455QgSlVDU+/hF7IPRg2xl4DLB0QycoIsDxV0qI9734oVSfMaUohOfKr/35v0uyhNpYGm+O33
-        1xsBqvrOHHFYeFrkKIoQobiUN/PaqSsKAzXjqj+9UfP8bBZ73hu1cBfbbB0QwligB4C0TP6d1ocgP
-        EACpO1pcw==;
-Received: from 177.132.233.55.dynamic.adsl.gvt.net.br ([177.132.233.55] helo=coco.lan)
+         bh=0m721at5cwMfiWxrdIYV8i/+vD6LBjTJalnje+Q//hI=; b=KOhJ74iejdPdvbwOawaXKNSSZ
+        hYY+fa/jyT3efq5bRa0PJxsnfFf3ljNJDRbwUHBVaJdhKdFvjNJ2cN4PYUy6pM+iPW3pHvwxDcAcw
+        Gf3je9ttAH2YswmxYpovcgz0XcbQ/r4iMbRDbf1uq38twr4VFj5CXLORl6QVRSx8LX1r/WiBbrlmG
+        TSu8dI9MVfj5StvKZGsom3H48CaBoBPdDfpiKnHOtOGbYXN0ZHPS0zc14kaClnJFg05nrAB4nbCZN
+        sXs2wTtbs8nppi9ZoLV4CVglhL0BcD5zQzxIQW9efk6N7sydPnSEkjfNv6fO/tjtqxjlzGlqDSqDy
+        hf+APruQw==;
+Received: from 177.132.233.55.dynamic.adsl.gvt.net.br ([177.132.233.55] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hH3b3-0000fU-Ni; Thu, 18 Apr 2019 09:44:46 +0000
-Date:   Thu, 18 Apr 2019 06:44:36 -0300
-From:   Mauro Carvalho Chehab <mchehab@infradead.org>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id 1hH3ga-0003X2-PQ; Thu, 18 Apr 2019 09:50:28 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hH3gW-0007kz-Fu; Thu, 18 Apr 2019 06:50:24 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jean Delvare <jdelvare@suse.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Dirk Eibach <eibach@gdsys.de>,
-        George Joseph <george.joseph@fairview5.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Juerg Haefliger <juergh@gmail.com>,
-        Steve Glendinning <steve.glendinning@shawell.net>,
-        Huang Rui <ray.huang@amd.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Clemens Ladisch <clemens@ladisch.de>,
-        Rudolf Marek <r.marek@assembler.cz>,
-        Andreas Werner <andreas.werner@men.de>,
-        Jim Cromie <jim.cromie@gmail.com>,
-        Kamil Debski <kamil@wypas.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Marc Hulsman <m.hulsman@tudelft.nl>,
-        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linuxppc-dev@lists.ozlabs.org,
-        patches@opensource.cirrus.com
-Subject: Re: [PATCH v3 21/21] docs: hwmon: Add an index file and rename docs
- to *.rst
-Message-ID: <20190418064436.1803bf3a@coco.lan>
-In-Reply-To: <20190417174728.GA17706@roeck-us.net>
-References: <cover.1555494108.git.mchehab+samsung@kernel.org>
-        <efbe0a2b5be35026c3a2dbdb9090c4fbd932c9a2.1555494108.git.mchehab+samsung@kernel.org>
-        <20190417164741.GA12147@roeck-us.net>
-        <20190417141352.3225bbb3@coco.lan>
-        <20190417142215.791df5e7@coco.lan>
-        <20190417174337.GA16749@roeck-us.net>
-        <20190417174728.GA17706@roeck-us.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Ray Jui <rjui@broadcom.com>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Marcos Paulo de Souza <marcos.souza.org@gmail.com>
+Subject: [PATCH] docs: core-api: fix broken references for div64.c and gcd.c
+Date:   Thu, 18 Apr 2019 06:50:18 -0300
+Message-Id: <734f49bae5d4052b3c25691dfefad59bea2e5843.1555580999.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <mchehab@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 17 Apr 2019 10:47:28 -0700
-Guenter Roeck <linux@roeck-us.net> escreveu:
+Those files were moved to lib/math.
 
-> On Wed, Apr 17, 2019 at 10:43:37AM -0700, Guenter Roeck wrote:
-> > On Wed, Apr 17, 2019 at 02:22:15PM -0300, Mauro Carvalho Chehab wrote:  
-> > > Em Wed, 17 Apr 2019 14:13:52 -0300
-> > > Mauro Carvalho Chehab <mchehab+samsung@kernel.org> escreveu:
-> > >   
-> > > > Em Wed, 17 Apr 2019 09:47:41 -0700
-> > > > Guenter Roeck <linux@roeck-us.net> escreveu:
-> > > >   
-> > > > > On Wed, Apr 17, 2019 at 06:46:29AM -0300, Mauro Carvalho Chehab wrote:    
-> > > > > > Now that all files were converted to ReST format, rename them
-> > > > > > and add an index.
-> > > > > > 
-> > > > > > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> > > > > > Acked-by: Liviu Dudau <liviu.dudau@arm.com>      
-> > > > > 
-> > > > > I applied all patches except this one, which fails due to a conflict in
-> > > > > ab8500. I also notice that this file has not been touched by your series,
-> > > > > which is odd. At the same time, patch 20/21 is missing from your series,
-> > > > > and has been missing all along. Does the missing patch possibly touch
-> > > > > Documentation/hwmon/ab8500 ?    
-> > > > 
-> > > > Patch 20/21 is the biggest one. Maybe vger rejected it either due to
-> > > > its size or due to the number of c/c.
-> > > > 
-> > > > Just bounced it to you. Please let me know if you didn't receive it
-> > > > yet.  
-> > > 
-> > > Btw, LKML got it:
-> > > 
-> > > https://lore.kernel.org/lkml/cccc2a52363a5aaeea10e186ead8570503ea648e.1555494108.git.mchehab+samsung@kernel.org/
-> > >   
-> > patchwork didn't get it (or didn't accept it). I got it now.
-> > All patches applied, and pushed out to hwmon-next.
-> > 
-> > We have one (new) unconverted file left - Documentation/hwmon/lochnagar.  
-> 
-> Plus ir38064 and isl68137. Lots of new drivers recently.
+Fixes: 9635bad21596 ("lib: Move mathematic helpers to separate folder")
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ Documentation/core-api/kernel-api.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Ok, just sent a patch for those three new files. I wrote a more
-detailed description about what steps I followed at the conversion
-of those tree files, and why I did it. 
+diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
+index 71f5d2fe39b7..a29c99d13331 100644
+--- a/Documentation/core-api/kernel-api.rst
++++ b/Documentation/core-api/kernel-api.rst
+@@ -147,10 +147,10 @@ Division Functions
+ .. kernel-doc:: include/linux/math64.h
+    :internal:
+ 
+-.. kernel-doc:: lib/div64.c
++.. kernel-doc:: lib/math/div64.c
+    :functions: div_s64_rem div64_u64_rem div64_u64 div64_s64
+ 
+-.. kernel-doc:: lib/gcd.c
++.. kernel-doc:: lib/math/gcd.c
+    :export:
+ 
+ UUID/GUID
+-- 
+2.20.1
 
-Hopefully, this would help hwmon developers
-that may already be preparing a new driver for submission.
-
-Thanks,
-Mauro
