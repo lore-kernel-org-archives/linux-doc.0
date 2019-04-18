@@ -2,250 +2,136 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 25A0C7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Apr 2019 09:40:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BA0707D099
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Apr 2019 09:44:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388434AbfDRJk2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 18 Apr 2019 05:40:28 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:60750 "EHLO
+        id S2388346AbfDRJox (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 18 Apr 2019 05:44:53 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:60850 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388244AbfDRJk2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Apr 2019 05:40:28 -0400
+        with ESMTP id S2388070AbfDRJox (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Apr 2019 05:44:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=yhlRNyjUqRk9rCHrDlI8HQIYmKPBj5M2+grg1BxW/8Y=; b=bWNwUzwu8IHnJCMZ4+Pb+7qXX
-        eDx/Fm/BzXg1Ls/8Nt0/YMVysvQFPomz5Ix+GKr3Rm796lX3MFPoCHDIOnuAxIdW1qY8I/I5Uifeb
-        d/Wlyms6vWYfDKRi9FQgGEgucUg0Wi0bwsyIZFG8iAK+HvGynPOt5QGBMTdfsob7fCiqAWsckg10f
-        25JzERlyRtFZ4lKzgOlc0y+IjtzHbAztqNi/GvuFq0PhpFDkfVIUaJCWn6hAekfkcXGwBLDTxAbXH
-        cpyjRzoSzrp0UY3yVu8vSMHvhxuQBvAm4Stji/AdLRk8MfH6WSSW7oE/Iw+/5jUQs8UJDSINEWRrq
-        +yqOsd7oQ==;
-Received: from 177.132.233.55.dynamic.adsl.gvt.net.br ([177.132.233.55] helo=bombadil.infradead.org)
+         bh=qMkC1T6ZJuUcdXnH9Yp0SsrwKBb1Irh2P/qjZGqcIw4=; b=nvkEZdQ9rFH3Terix674ZEQNo
+        zCC4F0acxM9ojsrnHyOSjlqY9IfKpsl7TWinVqA7j7pqsQM0gWsi8gU011AauMKo3rimuqDWhhbYy
+        KdiW8dseMvkzVJk0I+P0HB63KfkCHxCmWRrE/MKjIUfbD8gFW13T7Qkcj1IByCn7MpfotPWmvszMG
+        aG6Q455QgSlVDU+/hF7IPRg2xl4DLB0QycoIsDxV0qI9734oVSfMaUohOfKr/35v0uyhNpYGm+O33
+        1xsBqvrOHHFYeFrkKIoQobiUN/PaqSsKAzXjqj+9UfP8bBZ73hu1cBfbbB0QwligB4C0TP6d1ocgP
+        EACpO1pcw==;
+Received: from 177.132.233.55.dynamic.adsl.gvt.net.br ([177.132.233.55] helo=coco.lan)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hH3Wu-0000Ng-2u; Thu, 18 Apr 2019 09:40:28 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hH3Wr-00073f-2I; Thu, 18 Apr 2019 06:40:25 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] docs: hwmon: convert three docs to ReST format
-Date:   Thu, 18 Apr 2019 06:40:22 -0300
-Message-Id: <287cf72fc213656c1593f8bd42feb62f7a5f26e7.1555580417.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.20.1
+        id 1hH3b3-0000fU-Ni; Thu, 18 Apr 2019 09:44:46 +0000
+Date:   Thu, 18 Apr 2019 06:44:36 -0300
+From:   Mauro Carvalho Chehab <mchehab@infradead.org>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Dirk Eibach <eibach@gdsys.de>,
+        George Joseph <george.joseph@fairview5.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Juerg Haefliger <juergh@gmail.com>,
+        Steve Glendinning <steve.glendinning@shawell.net>,
+        Huang Rui <ray.huang@amd.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Clemens Ladisch <clemens@ladisch.de>,
+        Rudolf Marek <r.marek@assembler.cz>,
+        Andreas Werner <andreas.werner@men.de>,
+        Jim Cromie <jim.cromie@gmail.com>,
+        Kamil Debski <kamil@wypas.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Marc Hulsman <m.hulsman@tudelft.nl>,
+        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linuxppc-dev@lists.ozlabs.org,
+        patches@opensource.cirrus.com
+Subject: Re: [PATCH v3 21/21] docs: hwmon: Add an index file and rename docs
+ to *.rst
+Message-ID: <20190418064436.1803bf3a@coco.lan>
+In-Reply-To: <20190417174728.GA17706@roeck-us.net>
+References: <cover.1555494108.git.mchehab+samsung@kernel.org>
+        <efbe0a2b5be35026c3a2dbdb9090c4fbd932c9a2.1555494108.git.mchehab+samsung@kernel.org>
+        <20190417164741.GA12147@roeck-us.net>
+        <20190417141352.3225bbb3@coco.lan>
+        <20190417142215.791df5e7@coco.lan>
+        <20190417174337.GA16749@roeck-us.net>
+        <20190417174728.GA17706@roeck-us.net>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <mchehab@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Those three new drivers were missed on the initial conversion
-to ReST format. So:
+Em Wed, 17 Apr 2019 10:47:28 -0700
+Guenter Roeck <linux@roeck-us.net> escreveu:
 
-- Rename them to .rst;
-- Add them to the hwmon index.rst index;
-- add some blank lines at the "Supported systems:" part, in
-  order to allow Sphinx to properly identify new lines,
-  suppressing warnings and avoid it to output some random
-  lines in bold;
-- When multiple authors are involved, change the authors
-  part to a list, in order to avoid adding blank lines.
-- adjust the table cells (one of the tables seemed to be
-  assuming that tab is 4 positions instead of 8) and add
-  the table markup.
-- be sure that the section markups have the same number of
-  characters as the section title.
+> On Wed, Apr 17, 2019 at 10:43:37AM -0700, Guenter Roeck wrote:
+> > On Wed, Apr 17, 2019 at 02:22:15PM -0300, Mauro Carvalho Chehab wrote:  
+> > > Em Wed, 17 Apr 2019 14:13:52 -0300
+> > > Mauro Carvalho Chehab <mchehab+samsung@kernel.org> escreveu:
+> > >   
+> > > > Em Wed, 17 Apr 2019 09:47:41 -0700
+> > > > Guenter Roeck <linux@roeck-us.net> escreveu:
+> > > >   
+> > > > > On Wed, Apr 17, 2019 at 06:46:29AM -0300, Mauro Carvalho Chehab wrote:    
+> > > > > > Now that all files were converted to ReST format, rename them
+> > > > > > and add an index.
+> > > > > > 
+> > > > > > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> > > > > > Acked-by: Liviu Dudau <liviu.dudau@arm.com>      
+> > > > > 
+> > > > > I applied all patches except this one, which fails due to a conflict in
+> > > > > ab8500. I also notice that this file has not been touched by your series,
+> > > > > which is odd. At the same time, patch 20/21 is missing from your series,
+> > > > > and has been missing all along. Does the missing patch possibly touch
+> > > > > Documentation/hwmon/ab8500 ?    
+> > > > 
+> > > > Patch 20/21 is the biggest one. Maybe vger rejected it either due to
+> > > > its size or due to the number of c/c.
+> > > > 
+> > > > Just bounced it to you. Please let me know if you didn't receive it
+> > > > yet.  
+> > > 
+> > > Btw, LKML got it:
+> > > 
+> > > https://lore.kernel.org/lkml/cccc2a52363a5aaeea10e186ead8570503ea648e.1555494108.git.mchehab+samsung@kernel.org/
+> > >   
+> > patchwork didn't get it (or didn't accept it). I got it now.
+> > All patches applied, and pushed out to hwmon-next.
+> > 
+> > We have one (new) unconverted file left - Documentation/hwmon/lochnagar.  
+> 
+> Plus ir38064 and isl68137. Lots of new drivers recently.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- Documentation/hwmon/index.rst                 |  3 +++
- Documentation/hwmon/{ir38064 => ir38064.rst}  | 21 ++++++++++++-------
- .../hwmon/{isl68137 => isl68137.rst}          | 16 ++++++++++----
- .../hwmon/{lochnagar => lochnagar.rst}        |  7 +++++--
- 4 files changed, 33 insertions(+), 14 deletions(-)
- rename Documentation/hwmon/{ir38064 => ir38064.rst} (76%)
- rename Documentation/hwmon/{isl68137 => isl68137.rst} (85%)
- rename Documentation/hwmon/{lochnagar => lochnagar.rst} (93%)
+Ok, just sent a patch for those three new files. I wrote a more
+detailed description about what steps I followed at the conversion
+of those tree files, and why I did it. 
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 893804414510..3fa14fe7b49c 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -65,6 +65,8 @@ Hardware Monitoring Kernel Drivers
-    ina2xx.rst
-    ina3221.rst
-    ir35221.rst
-+   ir38064.rst
-+   isl68137.rst
-    it87.rst
-    jc42.rst
-    k10temp.rst
-@@ -86,6 +88,7 @@ Hardware Monitoring Kernel Drivers
-    lm93.rst
-    lm95234.rst
-    lm95245.rst
-+   lochnagar.rst
-    ltc2945.rst
-    ltc2978.rst
-    ltc2990.rst
-diff --git a/Documentation/hwmon/ir38064 b/Documentation/hwmon/ir38064.rst
-similarity index 76%
-rename from Documentation/hwmon/ir38064
-rename to Documentation/hwmon/ir38064.rst
-index 9f218c39bfe6..c455d755a267 100644
---- a/Documentation/hwmon/ir38064
-+++ b/Documentation/hwmon/ir38064.rst
-@@ -2,15 +2,18 @@ Kernel driver ir38064
- =====================
- 
- Supported chips:
-+
-   * Infineon IR38064
-+
-     Prefix: 'ir38064'
-     Addresses scanned: -
-+
-     Datasheet: Publicly available at the Infineon webiste
-       https://www.infineon.com/dgdl/Infineon-IR38064MTRPBF-DS-v03_07-EN.pdf?fileId=5546d462584d1d4a0158db0d9efb67ca
- 
- Authors:
--        Maxim Sloyko <maxims@google.com>
--        Patrick Venture <venture@google.com>
-+      - Maxim Sloyko <maxims@google.com>
-+      - Patrick Venture <venture@google.com>
- 
- Description
- -----------
-@@ -26,29 +29,30 @@ devices explicitly.
- Sysfs attributes
- ----------------
- 
-+======================= ===========================
- curr1_label		"iout1"
- curr1_input		Measured output current
- curr1_crit		Critical maximum current
- curr1_crit_alarm	Current critical high alarm
- curr1_max		Maximum current
--curr1_max_alarm	Current high alarm
-+curr1_max_alarm		Current high alarm
- 
- in1_label		"vin"
- in1_input		Measured input voltage
- in1_crit		Critical maximum input voltage
- in1_crit_alarm		Input voltage critical high alarm
--in1_min		Minimum input voltage
-+in1_min			Minimum input voltage
- in1_min_alarm		Input voltage low alarm
- 
- in2_label		"vout1"
- in2_input		Measured output voltage
- in2_lcrit		Critical minimum output voltage
--in2_lcrit_alarm	Output voltage critical low alarm
-+in2_lcrit_alarm		Output voltage critical low alarm
- in2_crit		Critical maximum output voltage
- in2_crit_alarm		Output voltage critical high alarm
--in2_max		Maximum output voltage
-+in2_max			Maximum output voltage
- in2_max_alarm		Output voltage high alarm
--in2_min		Minimum output voltage
-+in2_min			Minimum output voltage
- in2_min_alarm		Output voltage low alarm
- 
- power1_label		"pout1"
-@@ -58,4 +62,5 @@ temp1_input		Measured temperature
- temp1_crit		Critical high temperature
- temp1_crit_alarm	Chip temperature critical high alarm
- temp1_max		Maximum temperature
--temp1_max_alarm	Chip temperature high alarm
-+temp1_max_alarm		Chip temperature high alarm
-+======================= ===========================
-diff --git a/Documentation/hwmon/isl68137 b/Documentation/hwmon/isl68137.rst
-similarity index 85%
-rename from Documentation/hwmon/isl68137
-rename to Documentation/hwmon/isl68137.rst
-index 92e5c5fc5b77..a5a7c8545c9e 100644
---- a/Documentation/hwmon/isl68137
-+++ b/Documentation/hwmon/isl68137.rst
-@@ -2,16 +2,22 @@ Kernel driver isl68137
- ======================
- 
- Supported chips:
-+
-   * Intersil ISL68137
-+
-     Prefix: 'isl68137'
-+
-     Addresses scanned: -
--    Datasheet: Publicly available at the Intersil website
-+
-+    Datasheet:
-+
-+      Publicly available at the Intersil website
-       https://www.intersil.com/content/dam/Intersil/documents/isl6/isl68137.pdf
- 
- Authors:
--        Maxim Sloyko <maxims@google.com>
--        Robert Lippert <rlippert@google.com>
--        Patrick Venture <venture@google.com>
-+      - Maxim Sloyko <maxims@google.com>
-+      - Robert Lippert <rlippert@google.com>
-+      - Patrick Venture <venture@google.com>
- 
- Description
- -----------
-@@ -32,6 +38,7 @@ Beyond the normal sysfs pmbus attributes, the driver exposes a control attribute
- Additional Sysfs attributes
- ---------------------------
- 
-+======================= ====================================
- avs(0|1)_enable		Controls the AVS state of each rail.
- 
- curr1_label		"iin"
-@@ -70,3 +77,4 @@ temp[1-3]_crit		Critical high temperature
- temp[1-3]_crit_alarm	Chip temperature critical high alarm
- temp[1-3]_max		Maximum temperature
- temp[1-3]_max_alarm	Chip temperature high alarm
-+======================= ====================================
-diff --git a/Documentation/hwmon/lochnagar b/Documentation/hwmon/lochnagar.rst
-similarity index 93%
-rename from Documentation/hwmon/lochnagar
-rename to Documentation/hwmon/lochnagar.rst
-index e9686fb3eb40..1d609c4d18c3 100644
---- a/Documentation/hwmon/lochnagar
-+++ b/Documentation/hwmon/lochnagar.rst
-@@ -1,5 +1,5 @@
- Kernel Driver Lochnagar
--========================
-+=======================
- 
- Supported systems:
-   * Cirrus Logic : Lochnagar 2
-@@ -21,6 +21,7 @@ by software.
- Sysfs attributes
- ----------------
- 
-+======================= =======================================================
- temp1_input             The Lochnagar board temperature (milliCelsius)
- in0_input               Measured voltage for DBVDD1 (milliVolts)
- in0_label               "DBVDD1"
-@@ -76,5 +77,7 @@ curr8_label             "MICVDD"
- power8_average          Measured average power for MICVDD (microWatts)
- power8_average_interval Power averaging time input valid from 1 to 1708mS
- power8_label            "MICVDD"
-+======================= =======================================================
- 
--Note: It is not possible to measure voltage on the SYSVDD rail.
-+Note:
-+    It is not possible to measure voltage on the SYSVDD rail.
--- 
-2.20.1
+Hopefully, this would help hwmon developers
+that may already be preparing a new driver for submission.
 
+Thanks,
+Mauro
