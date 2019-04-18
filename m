@@ -2,88 +2,250 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1D4627D04D
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Apr 2019 09:26:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 25A0C7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Apr 2019 09:40:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728093AbfDRJ0n (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 18 Apr 2019 05:26:43 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:55316 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725747AbfDRJ0n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Apr 2019 05:26:43 -0400
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id x3I9QLSv014251;
-        Thu, 18 Apr 2019 18:26:22 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x3I9QLSv014251
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1555579582;
-        bh=mCidIO2kdLrsu0lOZK1cDW6X++3CEu5ocBDg6MWSPR4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=CMJ5vL4wUaDAEY8nw9DL3aAJaFwO934GUe/XOUTdgGHQwZoq71nrdD60IdCWJ5XQ9
-         xo2gXg1m4nq9RcIuejPHLntqaAawQuifqsSxne+ZoFeSKsbNmffi0wmVFu5SN1Sebf
-         iqfZn6b/vMYmP6b7m9OHZzrhlHmzi7YC45nkwKzrGdUnGZksylcEZ7t/v5fOPCc6Du
-         voeeTuq8qVcQt4nECgUirNQPPBQ9LerO+Jn67fdNqMs+fXVm77NmZV6nnc4t5eO82+
-         W3GHlJL8lNpJ9+E3ZW9C0G9K2ZKixgAGnkf3BKzHWgkkxUbLz4fYi9WGWkN5rbzzdb
-         rBemZqTkSg+Lw==
-X-Nifty-SrcIP: [209.85.222.54]
-Received: by mail-ua1-f54.google.com with SMTP id k32so556985uae.3;
-        Thu, 18 Apr 2019 02:26:22 -0700 (PDT)
-X-Gm-Message-State: APjAAAWjtiOyWH6yTl8jDdrwqlxZBjss9ev0JIC2stQPArJVTeOIMG4k
-        U+leSD6KXLDpmMbXXBHl1uAA3IPiD29H1lkpGGE=
-X-Google-Smtp-Source: APXvYqxVdaWJjfJJLAeJy/Oqm2hJrnuAFv6MWyLZLgzi43sa+u93+LQ1lWM4rY0k62AHI1snDMQ9LOyYIufRODczdNA=
-X-Received: by 2002:ab0:7008:: with SMTP id k8mr49427876ual.40.1555579581021;
- Thu, 18 Apr 2019 02:26:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1555382110.git.mchehab+samsung@kernel.org> <5cfeb21a8841c1e029e8396bdaa7cd55ac0b08a2.1555382110.git.mchehab+samsung@kernel.org>
-In-Reply-To: <5cfeb21a8841c1e029e8396bdaa7cd55ac0b08a2.1555382110.git.mchehab+samsung@kernel.org>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Thu, 18 Apr 2019 18:25:45 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQUGkW=Mnz-EtUkm=7uBpGLZNgO+3MUTmkWOggo+_eHjw@mail.gmail.com>
-Message-ID: <CAK7LNAQUGkW=Mnz-EtUkm=7uBpGLZNgO+3MUTmkWOggo+_eHjw@mail.gmail.com>
-Subject: Re: [PATCH 18/57] docs: kbuild: convert it to ReST output
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S2388434AbfDRJk2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 18 Apr 2019 05:40:28 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:60750 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388244AbfDRJk2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Apr 2019 05:40:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=yhlRNyjUqRk9rCHrDlI8HQIYmKPBj5M2+grg1BxW/8Y=; b=bWNwUzwu8IHnJCMZ4+Pb+7qXX
+        eDx/Fm/BzXg1Ls/8Nt0/YMVysvQFPomz5Ix+GKr3Rm796lX3MFPoCHDIOnuAxIdW1qY8I/I5Uifeb
+        d/Wlyms6vWYfDKRi9FQgGEgucUg0Wi0bwsyIZFG8iAK+HvGynPOt5QGBMTdfsob7fCiqAWsckg10f
+        25JzERlyRtFZ4lKzgOlc0y+IjtzHbAztqNi/GvuFq0PhpFDkfVIUaJCWn6hAekfkcXGwBLDTxAbXH
+        cpyjRzoSzrp0UY3yVu8vSMHvhxuQBvAm4Stji/AdLRk8MfH6WSSW7oE/Iw+/5jUQs8UJDSINEWRrq
+        +yqOsd7oQ==;
+Received: from 177.132.233.55.dynamic.adsl.gvt.net.br ([177.132.233.55] helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hH3Wu-0000Ng-2u; Thu, 18 Apr 2019 09:40:28 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hH3Wr-00073f-2I; Thu, 18 Apr 2019 06:40:25 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH] docs: hwmon: convert three docs to ReST format
+Date:   Thu, 18 Apr 2019 06:40:22 -0300
+Message-Id: <287cf72fc213656c1593f8bd42feb62f7a5f26e7.1555580417.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 16, 2019 at 12:01 PM Mauro Carvalho Chehab
-<mchehab+samsung@kernel.org> wrote:
->
-> The kbuild documentation clearly shows that the documents
-> there are written at different times: some use markdown,
-> some use their own peculiar logic to split sections.
->
-> Convert everything to ReST without affecting too much
-> the author's style and avoiding adding uneeded markups.
+Those three new drivers were missed on the initial conversion
+to ReST format. So:
 
-Sorry for my ignorance, but shouldn't ReST use
-the extension '.rst' instead of '.txt' ?
+- Rename them to .rst;
+- Add them to the hwmon index.rst index;
+- add some blank lines at the "Supported systems:" part, in
+  order to allow Sphinx to properly identify new lines,
+  suppressing warnings and avoid it to output some random
+  lines in bold;
+- When multiple authors are involved, change the authors
+  part to a list, in order to avoid adding blank lines.
+- adjust the table cells (one of the tables seemed to be
+  assuming that tab is 4 positions instead of 8) and add
+  the table markup.
+- be sure that the section markups have the same number of
+  characters as the section title.
 
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ Documentation/hwmon/index.rst                 |  3 +++
+ Documentation/hwmon/{ir38064 => ir38064.rst}  | 21 ++++++++++++-------
+ .../hwmon/{isl68137 => isl68137.rst}          | 16 ++++++++++----
+ .../hwmon/{lochnagar => lochnagar.rst}        |  7 +++++--
+ 4 files changed, 33 insertions(+), 14 deletions(-)
+ rename Documentation/hwmon/{ir38064 => ir38064.rst} (76%)
+ rename Documentation/hwmon/{isl68137 => isl68137.rst} (85%)
+ rename Documentation/hwmon/{lochnagar => lochnagar.rst} (93%)
 
-
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
->  Documentation/kbuild/headers_install.txt      |   5 +-
->  Documentation/kbuild/kbuild.txt               | 119 ++--
->  Documentation/kbuild/kconfig-language.txt     | 232 ++++----
->  .../kbuild/kconfig-macro-language.txt         |  37 +-
->  Documentation/kbuild/kconfig.txt              | 136 +++--
->  Documentation/kbuild/makefiles.txt            | 518 +++++++++++-------
->  Documentation/kbuild/modules.txt              | 166 +++---
->  7 files changed, 720 insertions(+), 493 deletions(-)
->
-
+diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+index 893804414510..3fa14fe7b49c 100644
+--- a/Documentation/hwmon/index.rst
++++ b/Documentation/hwmon/index.rst
+@@ -65,6 +65,8 @@ Hardware Monitoring Kernel Drivers
+    ina2xx.rst
+    ina3221.rst
+    ir35221.rst
++   ir38064.rst
++   isl68137.rst
+    it87.rst
+    jc42.rst
+    k10temp.rst
+@@ -86,6 +88,7 @@ Hardware Monitoring Kernel Drivers
+    lm93.rst
+    lm95234.rst
+    lm95245.rst
++   lochnagar.rst
+    ltc2945.rst
+    ltc2978.rst
+    ltc2990.rst
+diff --git a/Documentation/hwmon/ir38064 b/Documentation/hwmon/ir38064.rst
+similarity index 76%
+rename from Documentation/hwmon/ir38064
+rename to Documentation/hwmon/ir38064.rst
+index 9f218c39bfe6..c455d755a267 100644
+--- a/Documentation/hwmon/ir38064
++++ b/Documentation/hwmon/ir38064.rst
+@@ -2,15 +2,18 @@ Kernel driver ir38064
+ =====================
+ 
+ Supported chips:
++
+   * Infineon IR38064
++
+     Prefix: 'ir38064'
+     Addresses scanned: -
++
+     Datasheet: Publicly available at the Infineon webiste
+       https://www.infineon.com/dgdl/Infineon-IR38064MTRPBF-DS-v03_07-EN.pdf?fileId=5546d462584d1d4a0158db0d9efb67ca
+ 
+ Authors:
+-        Maxim Sloyko <maxims@google.com>
+-        Patrick Venture <venture@google.com>
++      - Maxim Sloyko <maxims@google.com>
++      - Patrick Venture <venture@google.com>
+ 
+ Description
+ -----------
+@@ -26,29 +29,30 @@ devices explicitly.
+ Sysfs attributes
+ ----------------
+ 
++======================= ===========================
+ curr1_label		"iout1"
+ curr1_input		Measured output current
+ curr1_crit		Critical maximum current
+ curr1_crit_alarm	Current critical high alarm
+ curr1_max		Maximum current
+-curr1_max_alarm	Current high alarm
++curr1_max_alarm		Current high alarm
+ 
+ in1_label		"vin"
+ in1_input		Measured input voltage
+ in1_crit		Critical maximum input voltage
+ in1_crit_alarm		Input voltage critical high alarm
+-in1_min		Minimum input voltage
++in1_min			Minimum input voltage
+ in1_min_alarm		Input voltage low alarm
+ 
+ in2_label		"vout1"
+ in2_input		Measured output voltage
+ in2_lcrit		Critical minimum output voltage
+-in2_lcrit_alarm	Output voltage critical low alarm
++in2_lcrit_alarm		Output voltage critical low alarm
+ in2_crit		Critical maximum output voltage
+ in2_crit_alarm		Output voltage critical high alarm
+-in2_max		Maximum output voltage
++in2_max			Maximum output voltage
+ in2_max_alarm		Output voltage high alarm
+-in2_min		Minimum output voltage
++in2_min			Minimum output voltage
+ in2_min_alarm		Output voltage low alarm
+ 
+ power1_label		"pout1"
+@@ -58,4 +62,5 @@ temp1_input		Measured temperature
+ temp1_crit		Critical high temperature
+ temp1_crit_alarm	Chip temperature critical high alarm
+ temp1_max		Maximum temperature
+-temp1_max_alarm	Chip temperature high alarm
++temp1_max_alarm		Chip temperature high alarm
++======================= ===========================
+diff --git a/Documentation/hwmon/isl68137 b/Documentation/hwmon/isl68137.rst
+similarity index 85%
+rename from Documentation/hwmon/isl68137
+rename to Documentation/hwmon/isl68137.rst
+index 92e5c5fc5b77..a5a7c8545c9e 100644
+--- a/Documentation/hwmon/isl68137
++++ b/Documentation/hwmon/isl68137.rst
+@@ -2,16 +2,22 @@ Kernel driver isl68137
+ ======================
+ 
+ Supported chips:
++
+   * Intersil ISL68137
++
+     Prefix: 'isl68137'
++
+     Addresses scanned: -
+-    Datasheet: Publicly available at the Intersil website
++
++    Datasheet:
++
++      Publicly available at the Intersil website
+       https://www.intersil.com/content/dam/Intersil/documents/isl6/isl68137.pdf
+ 
+ Authors:
+-        Maxim Sloyko <maxims@google.com>
+-        Robert Lippert <rlippert@google.com>
+-        Patrick Venture <venture@google.com>
++      - Maxim Sloyko <maxims@google.com>
++      - Robert Lippert <rlippert@google.com>
++      - Patrick Venture <venture@google.com>
+ 
+ Description
+ -----------
+@@ -32,6 +38,7 @@ Beyond the normal sysfs pmbus attributes, the driver exposes a control attribute
+ Additional Sysfs attributes
+ ---------------------------
+ 
++======================= ====================================
+ avs(0|1)_enable		Controls the AVS state of each rail.
+ 
+ curr1_label		"iin"
+@@ -70,3 +77,4 @@ temp[1-3]_crit		Critical high temperature
+ temp[1-3]_crit_alarm	Chip temperature critical high alarm
+ temp[1-3]_max		Maximum temperature
+ temp[1-3]_max_alarm	Chip temperature high alarm
++======================= ====================================
+diff --git a/Documentation/hwmon/lochnagar b/Documentation/hwmon/lochnagar.rst
+similarity index 93%
+rename from Documentation/hwmon/lochnagar
+rename to Documentation/hwmon/lochnagar.rst
+index e9686fb3eb40..1d609c4d18c3 100644
+--- a/Documentation/hwmon/lochnagar
++++ b/Documentation/hwmon/lochnagar.rst
+@@ -1,5 +1,5 @@
+ Kernel Driver Lochnagar
+-========================
++=======================
+ 
+ Supported systems:
+   * Cirrus Logic : Lochnagar 2
+@@ -21,6 +21,7 @@ by software.
+ Sysfs attributes
+ ----------------
+ 
++======================= =======================================================
+ temp1_input             The Lochnagar board temperature (milliCelsius)
+ in0_input               Measured voltage for DBVDD1 (milliVolts)
+ in0_label               "DBVDD1"
+@@ -76,5 +77,7 @@ curr8_label             "MICVDD"
+ power8_average          Measured average power for MICVDD (microWatts)
+ power8_average_interval Power averaging time input valid from 1 to 1708mS
+ power8_label            "MICVDD"
++======================= =======================================================
+ 
+-Note: It is not possible to measure voltage on the SYSVDD rail.
++Note:
++    It is not possible to measure voltage on the SYSVDD rail.
 -- 
-Best Regards
-Masahiro Yamada
+2.20.1
+
