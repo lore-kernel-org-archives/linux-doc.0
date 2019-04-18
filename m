@@ -1,247 +1,153 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BFB267D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Apr 2019 14:00:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BAF307D04D
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Apr 2019 14:36:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389154AbfDROAM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 18 Apr 2019 10:00:12 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:35608 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729331AbfDROAL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 18 Apr 2019 10:00:11 -0400
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 4D6D927C1B49D1288B7F;
-        Thu, 18 Apr 2019 22:00:07 +0800 (CST)
-Received: from HGHY1l002753561.china.huawei.com (10.177.23.164) by
- DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
- 14.3.408.0; Thu, 18 Apr 2019 21:59:57 +0800
-From:   Zhen Lei <thunder.leizhen@huawei.com>
-To:     Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
-        John Garry <john.garry@huawei.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Sebastian Ott <sebott@linux.ibm.com>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        "Martin Schwidefsky" <schwidefsky@de.ibm.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        "Michael Ellerman" <mpe@ellerman.id.au>,
-        Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
+        id S2388343AbfDROgE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 18 Apr 2019 10:36:04 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:53168 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731317AbfDROgE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Apr 2019 10:36:04 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x3IEJJ4K081960;
+        Thu, 18 Apr 2019 14:34:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2018-07-02;
+ bh=AL/6XEs1B3BsG/bXzvFYIzuqptan4i6pMcE1H0+0SkI=;
+ b=ylFkenx2gLgBHYyGmWupVhKcQN67lFFgacw3sDWrvc2UyMrlPdQyvRWc1MWjFkNik5jm
+ 71B1aOguPFfyKZwocNP/SMGZxoxt7Fxi3QtN/SgpOhysgr/4HrVfbPeGtFHnwA3yIxlG
+ Hy1hSEdxdOjsGvN/N6787w1ybzWXCK8WaBatHX4fFVDIF903zPvWinjxuorByNB7ibEF
+ PNJoPTEBbn4WH+etQKqD4MGBh97w5FikjrdsLQhlVIen2uh7aIMHYexHO8Nf1B3EvtnK
+ Lyg6v4V14wXFCheokSGz5j4y4rdfNOYyvGEP+ZwCp4EZo65ljg2Txcaea91uWAoku77x ag== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2130.oracle.com with ESMTP id 2rvwk41a9g-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 18 Apr 2019 14:34:46 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x3IEYHYK012588;
+        Thu, 18 Apr 2019 14:34:45 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserp3030.oracle.com with ESMTP id 2rwe7b0mb3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 18 Apr 2019 14:34:45 +0000
+Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x3IEYZET027844;
+        Thu, 18 Apr 2019 14:34:35 GMT
+Received: from [192.168.1.16] (/24.9.64.241)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 18 Apr 2019 07:34:35 -0700
+Subject: Re: [RFC PATCH v9 03/13] mm: Add support for eXclusive Page Frame
+ Ownership (XPFO)
+To:     Kees Cook <keescook@google.com>, Andy Lutomirski <luto@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        David Woodhouse <dwmw2@infradead.org>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Juerg Haefliger <juergh@gmail.com>,
+        Tycho Andersen <tycho@tycho.ws>,
+        Julian Stecklina <jsteckli@amazon.de>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Juerg Haefliger <juerg.haefliger@canonical.com>,
+        deepa.srinivasan@oracle.com, chris hyser <chris.hyser@oracle.com>,
+        Tyler Hicks <tyhicks@canonical.com>,
+        David Woodhouse <dwmw@amazon.co.uk>,
+        Andrew Cooper <andrew.cooper3@citrix.com>,
+        Jon Masters <jcm@redhat.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
         iommu <iommu@lists.linux-foundation.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        x86 <x86@kernel.org>, linux-ia64 <linux-ia64@vger.kernel.org>
-CC:     Zhen Lei <thunder.leizhen@huawei.com>,
-        Hanjun Guo <guohanjun@huawei.com>
-Subject: [PATCH v6 1/1] iommu: enhance IOMMU dma mode build options
-Date:   Thu, 18 Apr 2019 21:57:01 +0800
-Message-ID: <20190418135701.24668-2-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.19.2.windows.1
-In-Reply-To: <20190418135701.24668-1-thunder.leizhen@huawei.com>
-References: <20190418135701.24668-1-thunder.leizhen@huawei.com>
+        X86 ML <x86@kernel.org>,
+        "linux-alpha@vger.kernel.org" <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        LSM List <linux-security-module@vger.kernel.org>,
+        Khalid Aziz <khalid@gonehiking.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Peter Zijlstra <a.p.zijlstra@chello.nl>,
+        Dave Hansen <dave@sr71.net>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Arjan van de Ven <arjan@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <cover.1554248001.git.khalid.aziz@oracle.com>
+ <f1ac3700970365fb979533294774af0b0dd84b3b.1554248002.git.khalid.aziz@oracle.com>
+ <20190417161042.GA43453@gmail.com>
+ <e16c1d73-d361-d9c7-5b8e-c495318c2509@oracle.com>
+ <20190417170918.GA68678@gmail.com>
+ <56A175F6-E5DA-4BBD-B244-53B786F27B7F@gmail.com>
+ <20190417172632.GA95485@gmail.com>
+ <063753CC-5D83-4789-B594-019048DE22D9@gmail.com>
+ <alpine.DEB.2.21.1904172317460.3174@nanos.tec.linutronix.de>
+ <CAHk-=wgBMg9P-nYQR2pS0XwVdikPCBqLsMFqR9nk=wSmAd4_5g@mail.gmail.com>
+ <alpine.DEB.2.21.1904180129000.3174@nanos.tec.linutronix.de>
+ <CAHk-=whUwOjFW6RjHVM8kNOv1QVLJuHj2Dda0=mpLPdJ1UyatQ@mail.gmail.com>
+ <CALCETrXm9PuUTEEmzA8bQJmg=PHC_2XSywECittVhXbMJS1rSA@mail.gmail.com>
+ <CAGXu5jL-qJtW7eH8S2yhqciE+J+FWz8HHzTrGJTgVUbd55n6dQ@mail.gmail.com>
+From:   Khalid Aziz <khalid.aziz@oracle.com>
+Organization: Oracle Corp
+Message-ID: <8f9d059d-e720-cd24-faa6-45493fc012e0@oracle.com>
+Date:   Thu, 18 Apr 2019 08:34:32 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.177.23.164]
-X-CFilter-Loop: Reflected
+In-Reply-To: <CAGXu5jL-qJtW7eH8S2yhqciE+J+FWz8HHzTrGJTgVUbd55n6dQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9231 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1904180098
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9231 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1904180098
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-First, add build option IOMMU_DEFAULT_{LAZY|STRICT}, so that we have the
-opportunity to set {lazy|strict} mode as default at build time. Then put
-the three config options in an choice, make people can only choose one of
-the three at a time.
+On 4/17/19 11:41 PM, Kees Cook wrote:
+> On Wed, Apr 17, 2019 at 11:41 PM Andy Lutomirski <luto@kernel.org> wrot=
+e:
+>> I don't think this type of NX goof was ever the argument for XPFO.
+>> The main argument I've heard is that a malicious user program writes a=
 
-The default IOMMU dma modes on each ARCHs have no change.
+>> ROP payload into user memory (regular anonymous user memory) and then
+>> gets the kernel to erroneously set RSP (*not* RIP) to point there.
+>=20
+> Well, more than just ROP. Any of the various attack primitives. The NX
+> stuff is about moving RIP: SMEP-bypassing. But there is still basic
+> SMAP-bypassing for putting a malicious structure in userspace and
+> having the kernel access it via the linear mapping, etc.
+>=20
+>> I find this argument fairly weak for a couple reasons.  First, if
+>> we're worried about this, let's do in-kernel CFI, not XPFO, to
+>=20
+> CFI is getting much closer. Getting the kernel happy under Clang, LTO,
+> and CFI is under active development. (It's functional for arm64
+> already, and pieces have been getting upstreamed.)
+>=20
 
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
----
- arch/ia64/kernel/pci-dma.c                |  2 +-
- arch/powerpc/platforms/powernv/pci-ioda.c |  3 ++-
- arch/s390/pci/pci_dma.c                   |  2 +-
- arch/x86/kernel/pci-dma.c                 |  7 ++---
- drivers/iommu/Kconfig                     | 44 ++++++++++++++++++++++++++-----
- drivers/iommu/amd_iommu_init.c            |  3 ++-
- drivers/iommu/intel-iommu.c               |  2 +-
- drivers/iommu/iommu.c                     |  3 ++-
- 8 files changed, 48 insertions(+), 18 deletions(-)
+CFI theoretically offers protection with fairly low overhead. I have not
+played much with CFI in clang. I agree with Linus that probability of
+bugs in XPFO implementation itself is a cause of concern. If CFI in
+Clang can provide us the same level of protection as XPFO does, I
+wouldn't want to push for an expensive change like XPFO.
 
-diff --git a/arch/ia64/kernel/pci-dma.c b/arch/ia64/kernel/pci-dma.c
-index fe988c49f01ce6a..655511dbf3c3b34 100644
---- a/arch/ia64/kernel/pci-dma.c
-+++ b/arch/ia64/kernel/pci-dma.c
-@@ -22,7 +22,7 @@
- int force_iommu __read_mostly;
- #endif
+If Clang/CFI can't get us there for extended period of time, does it
+make sense to continue to poke at XPFO?
 
--int iommu_pass_through;
-+int iommu_pass_through = IS_ENABLED(CONFIG_IOMMU_DEFAULT_PASSTHROUGH);
-
- static int __init pci_iommu_init(void)
- {
-diff --git a/arch/powerpc/platforms/powernv/pci-ioda.c b/arch/powerpc/platforms/powernv/pci-ioda.c
-index 3ead4c237ed0ec9..383e082a9bb985c 100644
---- a/arch/powerpc/platforms/powernv/pci-ioda.c
-+++ b/arch/powerpc/platforms/powernv/pci-ioda.c
-@@ -85,7 +85,8 @@ void pe_level_printk(const struct pnv_ioda_pe *pe, const char *level,
- 	va_end(args);
- }
-
--static bool pnv_iommu_bypass_disabled __read_mostly;
-+static bool pnv_iommu_bypass_disabled __read_mostly =
-+			!IS_ENABLED(CONFIG_IOMMU_DEFAULT_PASSTHROUGH);
- static bool pci_reset_phbs __read_mostly;
-
- static int __init iommu_setup(char *str)
-diff --git a/arch/s390/pci/pci_dma.c b/arch/s390/pci/pci_dma.c
-index 9e52d1527f71495..784ad1e0acecfb1 100644
---- a/arch/s390/pci/pci_dma.c
-+++ b/arch/s390/pci/pci_dma.c
-@@ -17,7 +17,7 @@
-
- static struct kmem_cache *dma_region_table_cache;
- static struct kmem_cache *dma_page_table_cache;
--static int s390_iommu_strict;
-+static int s390_iommu_strict = IS_ENABLED(CONFIG_IOMMU_DEFAULT_STRICT);
-
- static int zpci_refresh_global(struct zpci_dev *zdev)
- {
-diff --git a/arch/x86/kernel/pci-dma.c b/arch/x86/kernel/pci-dma.c
-index d460998ae828514..fb2bab42a0a3173 100644
---- a/arch/x86/kernel/pci-dma.c
-+++ b/arch/x86/kernel/pci-dma.c
-@@ -43,11 +43,8 @@
-  * It is also possible to disable by default in kernel config, and enable with
-  * iommu=nopt at boot time.
-  */
--#ifdef CONFIG_IOMMU_DEFAULT_PASSTHROUGH
--int iommu_pass_through __read_mostly = 1;
--#else
--int iommu_pass_through __read_mostly;
--#endif
-+int iommu_pass_through __read_mostly =
-+			IS_ENABLED(CONFIG_IOMMU_DEFAULT_PASSTHROUGH);
-
- extern struct iommu_table_entry __iommu_table[], __iommu_table_end[];
-
-diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-index 6f07f3b21816c64..8a1f1793cde76b4 100644
---- a/drivers/iommu/Kconfig
-+++ b/drivers/iommu/Kconfig
-@@ -74,17 +74,47 @@ config IOMMU_DEBUGFS
- 	  debug/iommu directory, and then populate a subdirectory with
- 	  entries as required.
-
--config IOMMU_DEFAULT_PASSTHROUGH
--	bool "IOMMU passthrough by default"
-+choice
-+	prompt "IOMMU dma mode"
- 	depends on IOMMU_API
--        help
--	  Enable passthrough by default, removing the need to pass in
--	  iommu.passthrough=on or iommu=pt through command line. If this
--	  is enabled, you can still disable with iommu.passthrough=off
--	  or iommu=nopt depending on the architecture.
-+	default IOMMU_DEFAULT_PASSTHROUGH if (PPC_POWERNV && PCI)
-+	default IOMMU_DEFAULT_LAZY if (AMD_IOMMU || INTEL_IOMMU || S390_IOMMU)
-+	default IOMMU_DEFAULT_STRICT
-+	help
-+	  This option allows IOMMU dma mode to be chose at build time, to
-+	  override the default dma mode of each ARCHs, removing the need to
-+	  pass in kernel parameters through command line. You can still use
-+	  ARCHs specific boot options to override this option again.
-+
-+config IOMMU_DEFAULT_PASSTHROUGH
-+	bool "passthrough"
-+	help
-+	  In this mode, the dma access through IOMMU without any addresses
-+	  transformation. That means, the wrong or illegal dma access can not
-+	  be caught, no error information will be reported.
-
- 	  If unsure, say N here.
-
-+config IOMMU_DEFAULT_LAZY
-+	bool "lazy"
-+	help
-+	  Support lazy mode, where for every IOMMU DMA unmap operation, the
-+	  flush operation of IOTLB and the free operation of IOVA are deferred.
-+	  They are only guaranteed to be done before the related IOVA will be
-+	  reused.
-+
-+config IOMMU_DEFAULT_STRICT
-+	bool "strict"
-+	help
-+	  For every IOMMU DMA unmap operation, the flush operation of IOTLB and
-+	  the free operation of IOVA are guaranteed to be done in the unmap
-+	  function.
-+
-+	  This mode is safer than the two above, but it maybe slow in some high
-+	  performace scenarios.
-+
-+endchoice
-+
- config OF_IOMMU
-        def_bool y
-        depends on OF && IOMMU_API
-diff --git a/drivers/iommu/amd_iommu_init.c b/drivers/iommu/amd_iommu_init.c
-index ff40ba758cf365e..16c02b08adb4cb2 100644
---- a/drivers/iommu/amd_iommu_init.c
-+++ b/drivers/iommu/amd_iommu_init.c
-@@ -166,7 +166,8 @@ struct ivmd_header {
- 					   to handle */
- LIST_HEAD(amd_iommu_unity_map);		/* a list of required unity mappings
- 					   we find in ACPI */
--bool amd_iommu_unmap_flush;		/* if true, flush on every unmap */
-+bool amd_iommu_unmap_flush = IS_ENABLED(CONFIG_IOMMU_DEFAULT_STRICT);
-+					/* if true, flush on every unmap */
-
- LIST_HEAD(amd_iommu_list);		/* list of all AMD IOMMUs in the
- 					   system */
-diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
-index 28cb713d728ceef..0c3cc716210f35a 100644
---- a/drivers/iommu/intel-iommu.c
-+++ b/drivers/iommu/intel-iommu.c
-@@ -362,7 +362,7 @@ static int domain_detach_iommu(struct dmar_domain *domain,
-
- static int dmar_map_gfx = 1;
- static int dmar_forcedac;
--static int intel_iommu_strict;
-+static int intel_iommu_strict = IS_ENABLED(CONFIG_IOMMU_DEFAULT_STRICT);
- static int intel_iommu_superpage = 1;
- static int intel_iommu_sm;
- static int iommu_identity_mapping;
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 109de67d5d727c2..0ec5952ac60e2a3 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -43,7 +43,8 @@
- #else
- static unsigned int iommu_def_domain_type = IOMMU_DOMAIN_DMA;
- #endif
--static bool iommu_dma_strict __read_mostly = true;
-+static bool iommu_dma_strict __read_mostly =
-+			IS_ENABLED(CONFIG_IOMMU_DEFAULT_STRICT);
-
- struct iommu_callback_data {
- 	const struct iommu_ops *ops;
---
-1.8.3
-
+Thanks,
+Khalid
 
