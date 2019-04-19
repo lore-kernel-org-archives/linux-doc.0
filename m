@@ -1,110 +1,77 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=ADVANCE_FEE_5_NEW_MONEY,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,LOTS_OF_MONEY,
+	MAILING_LIST_MULTI,MONEY_BARRISTER,RCVD_IN_DNSWL_HI autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 706F47D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 18 Apr 2019 23:13:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8598D7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 19 Apr 2019 18:21:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725917AbfDRXN4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 18 Apr 2019 19:13:56 -0400
-Received: from casper.infradead.org ([85.118.1.10]:44080 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725887AbfDRXNz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Apr 2019 19:13:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=oIV8JCP5QbONJPn1jmgevBSwiHtpslE8bP9Xf28NwSM=; b=PnL0yMHqKMsBTJC/yJLMLnYNwX
-        OfLtJ1BbZEXwCv2eQcFig3cnkzEjw8HzEIhkl+hgOb6lAOeNXHo7L4aLLCsJBfxq/at845y+0q7kJ
-        PGMnx09RdA4kHCWi8wxKtfbdg2KgdqszjYmp+wdZ8m/bljWNpT0Ktjnq1jsVuHrTedmUcdDR/Oo1E
-        3x5H1Yy8cNfMZXJjqJEi+AIHBef+vZ7jXbY9V1ooXwXqMYJqpDUQ9FGp0nGWN6X6GUS4Q1/S2t5yT
-        wIYvgHnQAhNG0slcJf9p8JzwGqP9gMDwiA14Aa1KebB1GA6mg2zxujjGbADz+cqPnmrjb5IAmoASF
-        BpOmuYqg==;
-Received: from 177.132.233.55.dynamic.adsl.gvt.net.br ([177.132.233.55] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hHFsu-00062h-FU; Thu, 18 Apr 2019 22:52:01 +0000
-Date:   Thu, 18 Apr 2019 19:51:53 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Ray Jui <rjui@broadcom.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Marcos Paulo de Souza <marcos.souza.org@gmail.com>
-Subject: Re: [PATCH] docs: core-api: fix broken references for div64.c and
- gcd.c
-Message-ID: <20190418195153.4708cbc7@coco.lan>
-In-Reply-To: <f1ccd7d6-c5c7-f558-18a9-1c2602a2ef84@infradead.org>
-References: <734f49bae5d4052b3c25691dfefad59bea2e5843.1555580999.git.mchehab+samsung@kernel.org>
-        <f1ccd7d6-c5c7-f558-18a9-1c2602a2ef84@infradead.org>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727379AbfDSSVQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 19 Apr 2019 14:21:16 -0400
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:38761 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727371AbfDSSVO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Apr 2019 14:21:14 -0400
+Received: by mail-qt1-f194.google.com with SMTP id d13so6267627qth.5
+        for <linux-doc@vger.kernel.org>; Fri, 19 Apr 2019 11:21:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=6Ps8SEGO9Fo+SMspBhwjfoq7jrywgnYRV/CfqchimtI=;
+        b=TXnQdL65IfmfI0Vrh1GtjRedvSkLSk9h1IC/9kvwrZtrc+pfDCBt6hQOZxvLsbJkDb
+         Mwdjbe9HeCIlyaek75gVVeuOouzp1938fM8HuNjRGOM4faEQAYAd6Pg4aw6nAIoxx4KX
+         pDFNf6H4URhc9/Po4Yme4XPPkYQxSe5W6TqXeoVayKLdaamFHRtAh10MdPPfaQy0nlBW
+         koUxpt7Juf1VrmjtpLn+LWO4ULkKtbiXaDX9k0bJDs/9YW/p7E/sb9gFW81phytpXRPn
+         7DZOx0VT5pVGEnm6TE0yH9BKVylhgZzg1lw/uMfT6TeLCPKeH47EH3wsfXmuMgvOekeH
+         VH5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=6Ps8SEGO9Fo+SMspBhwjfoq7jrywgnYRV/CfqchimtI=;
+        b=eNrytJLXQaohL6jXRtKRiYMb4reKHBw5xgEjyN4+CZKQj514gWW3AAfa4X645q7wzT
+         JCVSbVd8UkPp40m+Ri6neKl0Hsp3fQDiEAxnZIrMUaqrkb6ufU1Ypnnd21hsy9RJTXGv
+         z6rxBgQy9US9BihgqAgNXbd4tqmTEKn1sG6+4/7FrRfHIKpzYHpI/uFwgCMKGcCbtTIe
+         oeXcd85+VOtZWbthKX+fiV6+JLYsPcTXO5ikJ9tU5UIrmgKlpR/zpJeou1jBzmI54Nxg
+         RDjwVK4ppvGlPvl5BqNQcWAmnFLMAknEqk9HgocmmUVKmTEoPWpxRuub3HOsfHoAewnf
+         SXrw==
+X-Gm-Message-State: APjAAAWmxMOhWPuV21ymuLHU2zMKS170oIq/FI4IeBOlCb2s27dlOlJN
+        1twRKcEcF9v1CQkXmI1HGPWcZcbl8qYES2cgQKw=
+X-Google-Smtp-Source: APXvYqzebZIW0ouJQOM2qgSa/eEMvBlWob5Z7XyeP+VhY9NnwbsPWCyu6IVIST53JM4OxnAI7ThPNyxBDb5dt9GtIzw=
+X-Received: by 2002:ac8:66d3:: with SMTP id m19mr4197202qtp.359.1555695081070;
+ Fri, 19 Apr 2019 10:31:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a0c:9dd7:0:0:0:0:0 with HTTP; Fri, 19 Apr 2019 10:31:20
+ -0700 (PDT)
+Reply-To: claiirebori@yahoo.com
+From:   MARK CASADY <suyatiyati2000@gmail.com>
+Date:   Fri, 19 Apr 2019 19:31:20 +0200
+Message-ID: <CALdqnc=MKF7Bi5aEp6vRiBtuzEGFUTgdeUxCkzBhQWLd4o9c_w@mail.gmail.com>
+Subject: Dear
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 18 Apr 2019 14:59:41 -0700
-Randy Dunlap <rdunlap@infradead.org> escreveu:
+Dear,
 
-> On 4/18/19 2:50 AM, Mauro Carvalho Chehab wrote:
-> > Those files were moved to lib/math.
-> > 
-> > Fixes: 9635bad21596 ("lib: Move mathematic helpers to separate folder")  
-> 
-> Is that commid ID in mainline?  I get:
-> fatal: ambiguous argument '9635bad21596': unknown revision or path not in the working tree.
+I am Mr.Marck Csady a solicitor at law, i need your assistance to
+represent my late client fund valued at $2.5 million dollars that his
+bank wants to comfiscate, You bear the same last name with my late
+client and he is also a national of your country.
 
-No, it is on Linux-next.
+Please if you are interested to assist me then get back to me through
+my private email bellow.
 
-> 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>  
-> 
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> 
-> Thanks.
-> 
-> > ---
-> >  Documentation/core-api/kernel-api.rst | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
-> > index 71f5d2fe39b7..a29c99d13331 100644
-> > --- a/Documentation/core-api/kernel-api.rst
-> > +++ b/Documentation/core-api/kernel-api.rst
-> > @@ -147,10 +147,10 @@ Division Functions
-> >  .. kernel-doc:: include/linux/math64.h
-> >     :internal:
-> >  
-> > -.. kernel-doc:: lib/div64.c
-> > +.. kernel-doc:: lib/math/div64.c
-> >     :functions: div_s64_rem div64_u64_rem div64_u64 div64_s64
-> >  
-> > -.. kernel-doc:: lib/gcd.c
-> > +.. kernel-doc:: lib/math/gcd.c
-> >     :export:
-> >  
-> >  UUID/GUID
-> >   
-> 
-> 
+i will make all necessary informations known to you,including the name
+of the bank and modes to the repartriation of this fund.
 
-
-
-Thanks,
-Mauro
+PLEASE REPLY THROUGH MY PRIVATE EMAIL ADDRESS
+Thanks for your understanding
+Marck Csady Esq.
