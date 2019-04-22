@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AFC317D91A
+	by archive.lwn.net (Postfix) with ESMTP id C50797D922
 	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Apr 2019 13:37:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728003AbfDVNhH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1728070AbfDVNhH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Mon, 22 Apr 2019 09:37:07 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:36842 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:36832 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727392AbfDVN2N (ORCPT
+        with ESMTP id S1727386AbfDVN2N (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Apr 2019 09:28:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,28 +20,28 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=8VAeXYQhAceTMAWihPs9U6+XpVdyQlovkNBbfa8Vd8o=; b=TbTXRfzN9nrv64u8wnCulYfkTd
-        CW5gBg3LeQy06X00i+MSRVZXufpLBBd1Eyq8Tf/TG9eVe9govF9aW8Ufk8HO1C6YjirODM14ZerlW
-        kV0wggg0dTbD9xue+LjwiDL0eMfFlXxm29ovuiGdC+3u4PDklLzRLGothTVA0lv7txiUKh7pBRzRx
-        i/BbeSFuVxgQmJWrWQ4Dy1R+kGUn+s6TCEKyen+svKI3+uv1eGEBuWo3ykdZkfsWVv22Y4q4Mh6pf
-        FszBwxhdnbSk3NwZNurqAhmzvD6hmkCRTPAOcq+0xwJ3lm47lo9LKtftac5Kt36E849F3LoRm3pFa
-        22xPbfsg==;
+        bh=KvPPUKTEpOxvb76aHCKt6md1PVNE4eyXh3HPI1BClCU=; b=L3S4JG071WOCo99myo48JGHsOr
+        lZITH7S76mj+e0moT8ZSpl5nsrf2xSTGCMtFBbQmZMVTokF2EYw5nBNwRqHmjivaJLUXcW3VWGads
+        5ktCSEFrfbv9NedhwYw6ZdgAYQx72UYFpYY4GdoJumTLY6VdU7agO69QedLommiClvDi5AJyLJZbc
+        MkqgztqQOrmB6uThq5h63BC/AVzS1qldBoHP9AksCgP74vJ0lfkQWzWKmUrQ9jPNEW82k6KbR5CPc
+        sTVD0cvSJmTESZO6dlPdpKij8q3GCFuos2z9XCeKVJQ9F8jFD2fXzhWS7K2cleWe3jRC3UsVGdXPe
+        VEcSWBFA==;
 Received: from 179.176.125.229.dynamic.adsl.gvt.net.br ([179.176.125.229] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hIYzU-0005HV-Jk; Mon, 22 Apr 2019 13:28:12 +0000
+        id 1hIYzU-0005Hg-OR; Mon, 22 Apr 2019 13:28:13 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hIYzS-0005jZ-9T; Mon, 22 Apr 2019 10:28:10 -0300
+        id 1hIYzS-0005kW-LX; Mon, 22 Apr 2019 10:28:10 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>
-Subject: [PATCH v2 02/79] docs: trace: fix some Sphinx warnings
-Date:   Mon, 22 Apr 2019 10:26:51 -0300
-Message-Id: <f3b8a921f5c19e16dba40a7af5e2fc56baf93c74.1555938375.git.mchehab+samsung@kernel.org>
+        Wu Hao <hao.wu@intel.com>, Alan Tull <atull@kernel.org>,
+        Moritz Fischer <mdf@kernel.org>, linux-fpga@vger.kernel.org
+Subject: [PATCH v2 14/79] docs: fpga: convert docs to ReST and rename to *.rst
+Date:   Mon, 22 Apr 2019 10:27:03 -0300
+Message-Id: <902793a6738ce31b384e71cfeca27a9b9080000d.1555938376.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1555938375.git.mchehab+samsung@kernel.org>
 References: <cover.1555938375.git.mchehab+samsung@kernel.org>
@@ -52,152 +52,197 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are some warnings produced when building trace. Fix them.
+The dfl.txt file is almost there. It needs just a few
+adjustments to be properly parsed.
+
+The conversion is actually:
+  - add blank lines and identation in order to identify paragraphs;
+  - fix tables markups;
+  - add some lists markups;
+  - mark literal blocks;
+  - adjust title markups.
+
+At its new index.rst, let's add a :orphan: while this is not linked to
+the main index.rst file, in order to avoid build warnings.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/trace/ftrace.rst    |  1 +
- Documentation/trace/histogram.rst | 86 ++++++++++++++++---------------
- 2 files changed, 45 insertions(+), 42 deletions(-)
+ Documentation/fpga/{dfl.txt => dfl.rst} | 58 ++++++++++++++-----------
+ Documentation/fpga/index.rst            | 17 ++++++++
+ MAINTAINERS                             |  2 +-
+ 3 files changed, 50 insertions(+), 27 deletions(-)
+ rename Documentation/fpga/{dfl.txt => dfl.rst} (89%)
+ create mode 100644 Documentation/fpga/index.rst
 
-diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-index 809b39d066ee..f60079259669 100644
---- a/Documentation/trace/ftrace.rst
-+++ b/Documentation/trace/ftrace.rst
-@@ -1435,6 +1435,7 @@ trace has provided some very helpful debugging information.
- 
- If we prefer function graph output instead of function, we can set
- display-graph option::
+diff --git a/Documentation/fpga/dfl.txt b/Documentation/fpga/dfl.rst
+similarity index 89%
+rename from Documentation/fpga/dfl.txt
+rename to Documentation/fpga/dfl.rst
+index 6df4621c3f2a..2f125abd777f 100644
+--- a/Documentation/fpga/dfl.txt
++++ b/Documentation/fpga/dfl.rst
+@@ -1,9 +1,12 @@
+-===============================================================================
+-              FPGA Device Feature List (DFL) Framework Overview
+--------------------------------------------------------------------------------
+-                Enno Luebbers <enno.luebbers@intel.com>
+-                Xiao Guangrong <guangrong.xiao@linux.intel.com>
+-                Wu Hao <hao.wu@intel.com>
++=================================================
++FPGA Device Feature List (DFL) Framework Overview
++=================================================
 +
-  with echo 1 > options/display-graph
- 
-   # tracer: irqsoff
-diff --git a/Documentation/trace/histogram.rst b/Documentation/trace/histogram.rst
-index 7612c7ad5715..2a6b23f779bb 100644
---- a/Documentation/trace/histogram.rst
-+++ b/Documentation/trace/histogram.rst
-@@ -2121,33 +2121,33 @@ The following commonly-used handler.action pairs are available:
-     the end the event that triggered the snapshot (in this case you
-     can verify the timestamps between the sched_waking and
-     sched_switch events, which should match the time displayed in the
--    global maximum):
-+    global maximum)::
- 
--    # cat /sys/kernel/debug/tracing/snapshot
-+     # cat /sys/kernel/debug/tracing/snapshot
- 
--     <...>-2103  [005] d..3   309.873125: sched_switch: prev_comm=cyclictest prev_pid=2103 prev_prio=19 prev_state=D ==> next_comm=swapper/5 next_pid=0 next_prio=120
--     <idle>-0     [005] d.h3   309.873611: sched_waking: comm=cyclictest pid=2102 prio=19 target_cpu=005
--     <idle>-0     [005] dNh4   309.873613: sched_wakeup: comm=cyclictest pid=2102 prio=19 target_cpu=005
--     <idle>-0     [005] d..3   309.873616: sched_switch: prev_comm=swapper/5 prev_pid=0 prev_prio=120 prev_state=S ==> next_comm=cyclictest next_pid=2102 next_prio=19
--     <...>-2102  [005] d..3   309.873625: sched_switch: prev_comm=cyclictest prev_pid=2102 prev_prio=19 prev_state=D ==> next_comm=swapper/5 next_pid=0 next_prio=120
--     <idle>-0     [005] d.h3   309.874624: sched_waking: comm=cyclictest pid=2102 prio=19 target_cpu=005
--     <idle>-0     [005] dNh4   309.874626: sched_wakeup: comm=cyclictest pid=2102 prio=19 target_cpu=005
--     <idle>-0     [005] dNh3   309.874628: sched_waking: comm=cyclictest pid=2103 prio=19 target_cpu=005
--     <idle>-0     [005] dNh4   309.874630: sched_wakeup: comm=cyclictest pid=2103 prio=19 target_cpu=005
--     <idle>-0     [005] d..3   309.874633: sched_switch: prev_comm=swapper/5 prev_pid=0 prev_prio=120 prev_state=S ==> next_comm=cyclictest next_pid=2102 next_prio=19
--     <idle>-0     [004] d.h3   309.874757: sched_waking: comm=gnome-terminal- pid=1699 prio=120 target_cpu=004
--     <idle>-0     [004] dNh4   309.874762: sched_wakeup: comm=gnome-terminal- pid=1699 prio=120 target_cpu=004
--     <idle>-0     [004] d..3   309.874766: sched_switch: prev_comm=swapper/4 prev_pid=0 prev_prio=120 prev_state=S ==> next_comm=gnome-terminal- next_pid=1699 next_prio=120
-- gnome-terminal--1699  [004] d.h2   309.874941: sched_stat_runtime: comm=gnome-terminal- pid=1699 runtime=180706 [ns] vruntime=1126870572 [ns]
--     <idle>-0     [003] d.s4   309.874956: sched_waking: comm=rcu_sched pid=9 prio=120 target_cpu=007
--     <idle>-0     [003] d.s5   309.874960: sched_wake_idle_without_ipi: cpu=7
--     <idle>-0     [003] d.s5   309.874961: sched_wakeup: comm=rcu_sched pid=9 prio=120 target_cpu=007
--     <idle>-0     [007] d..3   309.874963: sched_switch: prev_comm=swapper/7 prev_pid=0 prev_prio=120 prev_state=S ==> next_comm=rcu_sched next_pid=9 next_prio=120
--  rcu_sched-9     [007] d..3   309.874973: sched_stat_runtime: comm=rcu_sched pid=9 runtime=13646 [ns] vruntime=22531430286 [ns]
--  rcu_sched-9     [007] d..3   309.874978: sched_switch: prev_comm=rcu_sched prev_pid=9 prev_prio=120 prev_state=R+ ==> next_comm=swapper/7 next_pid=0 next_prio=120
--      <...>-2102  [005] d..4   309.874994: sched_migrate_task: comm=cyclictest pid=2103 prio=19 orig_cpu=5 dest_cpu=1
--      <...>-2102  [005] d..4   309.875185: sched_wake_idle_without_ipi: cpu=1
--     <idle>-0     [001] d..3   309.875200: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=S ==> next_comm=cyclictest next_pid=2103 next_prio=19
-+         <...>-2103  [005] d..3   309.873125: sched_switch: prev_comm=cyclictest prev_pid=2103 prev_prio=19 prev_state=D ==> next_comm=swapper/5 next_pid=0 next_prio=120
-+         <idle>-0     [005] d.h3   309.873611: sched_waking: comm=cyclictest pid=2102 prio=19 target_cpu=005
-+         <idle>-0     [005] dNh4   309.873613: sched_wakeup: comm=cyclictest pid=2102 prio=19 target_cpu=005
-+         <idle>-0     [005] d..3   309.873616: sched_switch: prev_comm=swapper/5 prev_pid=0 prev_prio=120 prev_state=S ==> next_comm=cyclictest next_pid=2102 next_prio=19
-+         <...>-2102  [005] d..3   309.873625: sched_switch: prev_comm=cyclictest prev_pid=2102 prev_prio=19 prev_state=D ==> next_comm=swapper/5 next_pid=0 next_prio=120
-+         <idle>-0     [005] d.h3   309.874624: sched_waking: comm=cyclictest pid=2102 prio=19 target_cpu=005
-+         <idle>-0     [005] dNh4   309.874626: sched_wakeup: comm=cyclictest pid=2102 prio=19 target_cpu=005
-+         <idle>-0     [005] dNh3   309.874628: sched_waking: comm=cyclictest pid=2103 prio=19 target_cpu=005
-+         <idle>-0     [005] dNh4   309.874630: sched_wakeup: comm=cyclictest pid=2103 prio=19 target_cpu=005
-+         <idle>-0     [005] d..3   309.874633: sched_switch: prev_comm=swapper/5 prev_pid=0 prev_prio=120 prev_state=S ==> next_comm=cyclictest next_pid=2102 next_prio=19
-+         <idle>-0     [004] d.h3   309.874757: sched_waking: comm=gnome-terminal- pid=1699 prio=120 target_cpu=004
-+         <idle>-0     [004] dNh4   309.874762: sched_wakeup: comm=gnome-terminal- pid=1699 prio=120 target_cpu=004
-+         <idle>-0     [004] d..3   309.874766: sched_switch: prev_comm=swapper/4 prev_pid=0 prev_prio=120 prev_state=S ==> next_comm=gnome-terminal- next_pid=1699 next_prio=120
-+     gnome-terminal--1699  [004] d.h2   309.874941: sched_stat_runtime: comm=gnome-terminal- pid=1699 runtime=180706 [ns] vruntime=1126870572 [ns]
-+         <idle>-0     [003] d.s4   309.874956: sched_waking: comm=rcu_sched pid=9 prio=120 target_cpu=007
-+         <idle>-0     [003] d.s5   309.874960: sched_wake_idle_without_ipi: cpu=7
-+         <idle>-0     [003] d.s5   309.874961: sched_wakeup: comm=rcu_sched pid=9 prio=120 target_cpu=007
-+         <idle>-0     [007] d..3   309.874963: sched_switch: prev_comm=swapper/7 prev_pid=0 prev_prio=120 prev_state=S ==> next_comm=rcu_sched next_pid=9 next_prio=120
-+      rcu_sched-9     [007] d..3   309.874973: sched_stat_runtime: comm=rcu_sched pid=9 runtime=13646 [ns] vruntime=22531430286 [ns]
-+      rcu_sched-9     [007] d..3   309.874978: sched_switch: prev_comm=rcu_sched prev_pid=9 prev_prio=120 prev_state=R+ ==> next_comm=swapper/7 next_pid=0 next_prio=120
-+          <...>-2102  [005] d..4   309.874994: sched_migrate_task: comm=cyclictest pid=2103 prio=19 orig_cpu=5 dest_cpu=1
-+          <...>-2102  [005] d..4   309.875185: sched_wake_idle_without_ipi: cpu=1
-+         <idle>-0     [001] d..3   309.875200: sched_switch: prev_comm=swapper/1 prev_pid=0 prev_prio=120 prev_state=S ==> next_comm=cyclictest next_pid=2103 next_prio=19
- 
-   - onchange(var).save(field,..	.)
- 
-@@ -2201,9 +2201,10 @@ The following commonly-used handler.action pairs are available:
-     following the rest of the fields.
- 
-     If a snaphot was taken, there is also a message indicating that,
--    along with the value and event that triggered the snapshot:
-+    along with the value and event that triggered the snapshot::
++Authors:
 +
-+      # cat /sys/kernel/debug/tracing/events/tcp/tcp_probe/hist
++- Enno Luebbers <enno.luebbers@intel.com>
++- Xiao Guangrong <guangrong.xiao@linux.intel.com>
++- Wu Hao <hao.wu@intel.com>
  
--    # cat /sys/kernel/debug/tracing/events/tcp/tcp_probe/hist
-       { dport:       1521 } hitcount:          8
- 	changed:         10  snd_wnd:      35456  srtt:     154262  rcv_wnd:      42112
+ The Device Feature List (DFL) FPGA framework (and drivers according to this
+ this framework) hides the very details of low layer hardwares and provides
+@@ -19,7 +22,7 @@ Device Feature List (DFL) defines a linked list of feature headers within the
+ device MMIO space to provide an extensible way of adding features. Software can
+ walk through these predefined data structures to enumerate FPGA features:
+ FPGA Interface Unit (FIU), Accelerated Function Unit (AFU) and Private Features,
+-as illustrated below:
++as illustrated below::
  
-@@ -2216,14 +2217,15 @@ The following commonly-used handler.action pairs are available:
-       { dport:        443 } hitcount:        211
- 	changed:         10  snd_wnd:      26960  srtt:      17379  rcv_wnd:      28800
+     Header            Header            Header            Header
+  +----------+  +-->+----------+  +-->+----------+  +-->+----------+
+@@ -81,9 +84,9 @@ and release it using close().
  
--    Snapshot taken (see tracing/snapshot).  Details:
-+    Snapshot taken (see tracing/snapshot).  Details::
+ The following functions are exposed through ioctls:
+ 
+- Get driver API version (DFL_FPGA_GET_API_VERSION)
+- Check for extensions (DFL_FPGA_CHECK_EXTENSION)
+- Program bitstream (DFL_FPGA_FME_PORT_PR)
++- Get driver API version (DFL_FPGA_GET_API_VERSION)
++- Check for extensions (DFL_FPGA_CHECK_EXTENSION)
++- Program bitstream (DFL_FPGA_FME_PORT_PR)
+ 
+ More functions are exposed through sysfs
+ (/sys/class/fpga_region/regionX/dfl-fme.n/):
+@@ -118,18 +121,19 @@ port by using open() on the port device node and release it using close().
+ 
+ The following functions are exposed through ioctls:
+ 
+- Get driver API version (DFL_FPGA_GET_API_VERSION)
+- Check for extensions (DFL_FPGA_CHECK_EXTENSION)
+- Get port info (DFL_FPGA_PORT_GET_INFO)
+- Get MMIO region info (DFL_FPGA_PORT_GET_REGION_INFO)
+- Map DMA buffer (DFL_FPGA_PORT_DMA_MAP)
+- Unmap DMA buffer (DFL_FPGA_PORT_DMA_UNMAP)
+- Reset AFU (*DFL_FPGA_PORT_RESET)
++- Get driver API version (DFL_FPGA_GET_API_VERSION)
++- Check for extensions (DFL_FPGA_CHECK_EXTENSION)
++- Get port info (DFL_FPGA_PORT_GET_INFO)
++- Get MMIO region info (DFL_FPGA_PORT_GET_REGION_INFO)
++- Map DMA buffer (DFL_FPGA_PORT_DMA_MAP)
++- Unmap DMA buffer (DFL_FPGA_PORT_DMA_UNMAP)
++- Reset AFU (DFL_FPGA_PORT_RESET)
+ 
+-*DFL_FPGA_PORT_RESET: reset the FPGA Port and its AFU. Userspace can do Port
+-reset at any time, e.g. during DMA or Partial Reconfiguration. But it should
+-never cause any system level issue, only functional failure (e.g. DMA or PR
+-operation failure) and be recoverable from the failure.
++DFL_FPGA_PORT_RESET:
++  reset the FPGA Port and its AFU. Userspace can do Port
++  reset at any time, e.g. during DMA or Partial Reconfiguration. But it should
++  never cause any system level issue, only functional failure (e.g. DMA or PR
++  operation failure) and be recoverable from the failure.
+ 
+ User-space applications can also mmap() accelerator MMIO regions.
+ 
+@@ -143,6 +147,8 @@ More functions are exposed through sysfs:
+ DFL Framework Overview
+ ======================
+ 
++::
 +
-         triggering value { onchange($cwnd) }:         10
-         triggered by event with key: { dport:         80 }
+          +----------+    +--------+ +--------+ +--------+
+          |   FME    |    |  AFU   | |  AFU   | |  AFU   |
+          |  Module  |    | Module | | Module | | Module |
+@@ -151,7 +157,7 @@ DFL Framework Overview
+                  | FPGA Container Device |    Device Feature List
+                  |  (FPGA Base Region)   |         Framework
+                  +-----------------------+
+---------------------------------------------------------------------
++  ------------------------------------------------------------------
+                +----------------------------+
+                |   FPGA DFL Device Module   |
+                | (e.g. PCIE/Platform Device)|
+@@ -220,7 +226,7 @@ the sysfs hierarchy under /sys/class/fpga_region.
+ In the example below, two DFL based FPGA devices are installed in the host. Each
+ fpga device has one FME and two ports (AFUs).
  
--    Totals:
--        Hits: 414
--        Entries: 4
--        Dropped: 0
-+      Totals:
-+          Hits: 414
-+          Entries: 4
-+          Dropped: 0
+-FPGA regions are created under /sys/class/fpga_region/
++FPGA regions are created under /sys/class/fpga_region/::
  
-     In the above case, the event that triggered the snapshot has the
-     key with dport == 80.  If you look at the bucket that has 80 as
-@@ -2233,18 +2235,18 @@ The following commonly-used handler.action pairs are available:
-     the global snapshot).
+ 	/sys/class/fpga_region/region0
+ 	/sys/class/fpga_region/region1
+@@ -231,7 +237,7 @@ Application needs to search each regionX folder, if feature device is found,
+ (e.g. "dfl-port.n" or "dfl-fme.m" is found), then it's the base
+ fpga region which represents the FPGA device.
  
-     And finally, looking at the snapshot data should show at or near
--    the end the event that triggered the snapshot:
-+    the end the event that triggered the snapshot::
+-Each base region has one FME and two ports (AFUs) as child devices:
++Each base region has one FME and two ports (AFUs) as child devices::
  
--    # cat /sys/kernel/debug/tracing/snapshot
-+      # cat /sys/kernel/debug/tracing/snapshot
+ 	/sys/class/fpga_region/region0/dfl-fme.0
+ 	/sys/class/fpga_region/region0/dfl-port.0
+@@ -243,7 +249,7 @@ Each base region has one FME and two ports (AFUs) as child devices:
+ 	/sys/class/fpga_region/region3/dfl-port.3
+ 	...
  
--       gnome-shell-1261  [006] dN.3    49.823113: sched_stat_runtime: comm=gnome-shell pid=1261 runtime=49347 [ns] vruntime=1835730389 [ns]
--     kworker/u16:4-773   [003] d..3    49.823114: sched_switch: prev_comm=kworker/u16:4 prev_pid=773 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:2 next_pid=135 next_prio=120
--       gnome-shell-1261  [006] d..3    49.823114: sched_switch: prev_comm=gnome-shell prev_pid=1261 prev_prio=120 prev_state=R+ ==> next_comm=kworker/6:2 next_pid=387 next_prio=120
--       kworker/3:2-135   [003] d..3    49.823118: sched_stat_runtime: comm=kworker/3:2 pid=135 runtime=5339 [ns] vruntime=17815800388 [ns]
--       kworker/6:2-387   [006] d..3    49.823120: sched_stat_runtime: comm=kworker/6:2 pid=387 runtime=9594 [ns] vruntime=14589605367 [ns]
--       kworker/6:2-387   [006] d..3    49.823122: sched_switch: prev_comm=kworker/6:2 prev_pid=387 prev_prio=120 prev_state=R+ ==> next_comm=gnome-shell next_pid=1261 next_prio=120
--       kworker/3:2-135   [003] d..3    49.823123: sched_switch: prev_comm=kworker/3:2 prev_pid=135 prev_prio=120 prev_state=T ==> next_comm=swapper/3 next_pid=0 next_prio=120
--            <idle>-0     [004] ..s7    49.823798: tcp_probe: src=10.0.0.10:54326 dest=23.215.104.193:80 mark=0x0 length=32 snd_nxt=0xe3ae2ff5 snd_una=0xe3ae2ecd snd_cwnd=10 ssthresh=2147483647 snd_wnd=28960 srtt=19604 rcv_wnd=29312
-+         gnome-shell-1261  [006] dN.3    49.823113: sched_stat_runtime: comm=gnome-shell pid=1261 runtime=49347 [ns] vruntime=1835730389 [ns]
-+       kworker/u16:4-773   [003] d..3    49.823114: sched_switch: prev_comm=kworker/u16:4 prev_pid=773 prev_prio=120 prev_state=R+ ==> next_comm=kworker/3:2 next_pid=135 next_prio=120
-+         gnome-shell-1261  [006] d..3    49.823114: sched_switch: prev_comm=gnome-shell prev_pid=1261 prev_prio=120 prev_state=R+ ==> next_comm=kworker/6:2 next_pid=387 next_prio=120
-+         kworker/3:2-135   [003] d..3    49.823118: sched_stat_runtime: comm=kworker/3:2 pid=135 runtime=5339 [ns] vruntime=17815800388 [ns]
-+         kworker/6:2-387   [006] d..3    49.823120: sched_stat_runtime: comm=kworker/6:2 pid=387 runtime=9594 [ns] vruntime=14589605367 [ns]
-+         kworker/6:2-387   [006] d..3    49.823122: sched_switch: prev_comm=kworker/6:2 prev_pid=387 prev_prio=120 prev_state=R+ ==> next_comm=gnome-shell next_pid=1261 next_prio=120
-+         kworker/3:2-135   [003] d..3    49.823123: sched_switch: prev_comm=kworker/3:2 prev_pid=135 prev_prio=120 prev_state=T ==> next_comm=swapper/3 next_pid=0 next_prio=120
-+              <idle>-0     [004] ..s7    49.823798: tcp_probe: src=10.0.0.10:54326 dest=23.215.104.193:80 mark=0x0 length=32 snd_nxt=0xe3ae2ff5 snd_una=0xe3ae2ecd snd_cwnd=10 ssthresh=2147483647 snd_wnd=28960 srtt=19604 rcv_wnd=29312
+-In general, the FME/AFU sysfs interfaces are named as follows:
++In general, the FME/AFU sysfs interfaces are named as follows::
  
- 3. User space creating a trigger
- --------------------------------
+ 	/sys/class/fpga_region/<regionX>/<dfl-fme.n>/
+ 	/sys/class/fpga_region/<regionX>/<dfl-port.m>/
+@@ -251,7 +257,7 @@ In general, the FME/AFU sysfs interfaces are named as follows:
+ with 'n' consecutively numbering all FMEs and 'm' consecutively numbering all
+ ports.
+ 
+-The device nodes used for ioctl() or mmap() can be referenced through:
++The device nodes used for ioctl() or mmap() can be referenced through::
+ 
+ 	/sys/class/fpga_region/<regionX>/<dfl-fme.n>/dev
+ 	/sys/class/fpga_region/<regionX>/<dfl-port.n>/dev
+diff --git a/Documentation/fpga/index.rst b/Documentation/fpga/index.rst
+new file mode 100644
+index 000000000000..2c87d1ea084f
+--- /dev/null
++++ b/Documentation/fpga/index.rst
+@@ -0,0 +1,17 @@
++:orphan:
++
++====
++fpga
++====
++
++.. toctree::
++    :maxdepth: 1
++
++    dfl
++
++.. only::  subproject and html
++
++   Indices
++   =======
++
++   * :ref:`genindex`
+diff --git a/MAINTAINERS b/MAINTAINERS
+index fac4490d2a00..3dd988519a11 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6186,7 +6186,7 @@ FPGA DFL DRIVERS
+ M:	Wu Hao <hao.wu@intel.com>
+ L:	linux-fpga@vger.kernel.org
+ S:	Maintained
+-F:	Documentation/fpga/dfl.txt
++F:	Documentation/fpga/dfl.rst
+ F:	include/uapi/linux/fpga-dfl.h
+ F:	drivers/fpga/dfl*
+ 
 -- 
 2.20.1
 
