@@ -5,44 +5,41 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 12D0D7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Apr 2019 13:33:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0803E7D099
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Apr 2019 13:34:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727699AbfDVNdN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Apr 2019 09:33:13 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:37692 "EHLO
+        id S1727526AbfDVN2T (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Apr 2019 09:28:19 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:37422 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727547AbfDVN2U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Apr 2019 09:28:20 -0400
+        with ESMTP id S1727460AbfDVN2R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Apr 2019 09:28:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=zvzvyVb+im44veXN4ZpUOwK9iqmuVXaqp+QMzzaaYqg=; b=i/MnSCYwhQaRAc1byPgDI9Yijw
-        Bpks9RbJW/DoJezqTb8V6ZWMWiuvLuhsk/2Dc9HsiRNGD3MiJc3OYBKd/q7iyXXxWYP7umxjPN9U+
-        kKKFmYZyuGUhzEpMIIXbYcUgJ+4F8zDrwWuuwP264PsEC2kMJ1ogDyjlzaVwAEwj1LdhFnkZp2cV3
-        23W/RvmNXSB00z0yGPHJKXnkbkIcqV6OXEP2M4FsNcj39uUDTBkfWqMDsH1c6m0vnBBBEoA2zmEQF
-        IEbrn6ugAnhE/HDaTN/vF1vnDuNHvYTs/nmSj107UEsjJaSBmiz3Gb5+3Qm0D+Cf/ZbZikQv0sU/t
-        YX0FCa0Q==;
+        bh=cQY43MPArmwZuFfu6bTfT8QQw2Mpx/rEXeT6lNvrai0=; b=LO+7dyr0bwnYLA9482OkNw9vig
+        eCeo5gem0gT/2M6o6Ncqc+bFjKPKeaozjg3agP6gzSXoijW+jpfTHA8f3IDBnDKM1PvVO/kT6Ijjc
+        4UW72OGj+nCbn8sb6mU9tCyusutS88TfzB5bOUOBI1AXnxN7JiOwzs5wWGTTDgeLo6tcononWupx/
+        2rIE4xAc0k2okxJtx7CHKvodMaBXqG6mCwJmfGKFscqpMmuVytjBq9pdiPOv7+xfMGmMZk6LzbyJf
+        j97kw/95AdkYbkTbRzjROTz1z8kbp5Cr1F3jLmJeZ2Wd8wLX8YMGA22Rq5ktHZTYjH2MvuP7dMIcY
+        wjsF5LCg==;
 Received: from 179.176.125.229.dynamic.adsl.gvt.net.br ([179.176.125.229] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hIYza-0005Ha-Uj; Mon, 22 Apr 2019 13:28:19 +0000
+        id 1hIYzY-0005HS-Pe; Mon, 22 Apr 2019 13:28:17 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hIYzU-0005o5-1A; Mon, 22 Apr 2019 10:28:12 -0300
+        id 1hIYzU-0005pH-K5; Mon, 22 Apr 2019 10:28:12 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>, cgroups@vger.kernel.org
-Subject: [PATCH v2 57/79] docs: accounting: convert to ReST
-Date:   Mon, 22 Apr 2019 10:27:46 -0300
-Message-Id: <13b52516ab787b9a9637e6b9adfec88ec1931b99.1555938376.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v2 72/79] docs: mmc: convert to ReST
+Date:   Mon, 22 Apr 2019 10:28:01 -0300
+Message-Id: <18e9ca201cbf4d46ceff57f6bf1179d32bdb014f.1555938376.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1555938375.git.mchehab+samsung@kernel.org>
 References: <cover.1555938375.git.mchehab+samsung@kernel.org>
@@ -53,7 +50,7 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rename the accounting documentation files to ReST, add an
+Rename the mmc documentation files to ReST, add an
 index for them and adjust in order to produce a nice html
 output via the Sphinx build system.
 
@@ -62,462 +59,296 @@ the main index.rst file, in order to avoid build warnings.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- .../{cgroupstats.txt => cgroupstats.rst}      | 14 +++--
- ...ay-accounting.txt => delay-accounting.rst} | 61 +++++++++++--------
- Documentation/accounting/index.rst            | 14 +++++
- Documentation/accounting/{psi.txt => psi.rst} | 40 ++++++------
- ...kstats-struct.txt => taskstats-struct.rst} | 53 ++++++++++------
- .../{taskstats.txt => taskstats.rst}          | 15 +++--
- Documentation/admin-guide/cgroup-v2.rst       |  6 +-
- init/Kconfig                                  |  2 +-
- 8 files changed, 126 insertions(+), 79 deletions(-)
- rename Documentation/accounting/{cgroupstats.txt => cgroupstats.rst} (77%)
- rename Documentation/accounting/{delay-accounting.txt => delay-accounting.rst} (77%)
- create mode 100644 Documentation/accounting/index.rst
- rename Documentation/accounting/{psi.txt => psi.rst} (91%)
- rename Documentation/accounting/{taskstats-struct.txt => taskstats-struct.rst} (90%)
- rename Documentation/accounting/{taskstats.txt => taskstats.rst} (95%)
+ Documentation/mmc/index.rst                   | 13 +++++
+ .../{mmc-async-req.txt => mmc-async-req.rst}  | 53 +++++++++++--------
+ .../{mmc-dev-attrs.txt => mmc-dev-attrs.rst}  | 32 +++++++----
+ .../{mmc-dev-parts.txt => mmc-dev-parts.rst}  | 13 ++---
+ .../mmc/{mmc-tools.txt => mmc-tools.rst}      |  5 +-
+ 5 files changed, 79 insertions(+), 37 deletions(-)
+ create mode 100644 Documentation/mmc/index.rst
+ rename Documentation/mmc/{mmc-async-req.txt => mmc-async-req.rst} (75%)
+ rename Documentation/mmc/{mmc-dev-attrs.txt => mmc-dev-attrs.rst} (73%)
+ rename Documentation/mmc/{mmc-dev-parts.txt => mmc-dev-parts.rst} (83%)
+ rename Documentation/mmc/{mmc-tools.txt => mmc-tools.rst} (92%)
 
-diff --git a/Documentation/accounting/cgroupstats.txt b/Documentation/accounting/cgroupstats.rst
-similarity index 77%
-rename from Documentation/accounting/cgroupstats.txt
-rename to Documentation/accounting/cgroupstats.rst
-index d16a9849e60e..b9afc48f4ea2 100644
---- a/Documentation/accounting/cgroupstats.txt
-+++ b/Documentation/accounting/cgroupstats.rst
-@@ -1,3 +1,7 @@
-+==================
-+Control Groupstats
-+==================
-+
- Control Groupstats is inspired by the discussion at
- http://lkml.org/lkml/2007/4/11/187 and implements per cgroup statistics as
- suggested by Andrew Morton in http://lkml.org/lkml/2007/4/11/263.
-@@ -19,9 +23,9 @@ about tasks blocked on I/O. If CONFIG_TASK_DELAY_ACCT is disabled, this
- information will not be available.
- 
- To extract cgroup statistics a utility very similar to getdelays.c
--has been developed, the sample output of the utility is shown below
-+has been developed, the sample output of the utility is shown below::
- 
--~/balbir/cgroupstats # ./getdelays  -C "/sys/fs/cgroup/a"
--sleeping 1, blocked 0, running 1, stopped 0, uninterruptible 0
--~/balbir/cgroupstats # ./getdelays  -C "/sys/fs/cgroup"
--sleeping 155, blocked 0, running 1, stopped 0, uninterruptible 2
-+  ~/balbir/cgroupstats # ./getdelays  -C "/sys/fs/cgroup/a"
-+  sleeping 1, blocked 0, running 1, stopped 0, uninterruptible 0
-+  ~/balbir/cgroupstats # ./getdelays  -C "/sys/fs/cgroup"
-+  sleeping 155, blocked 0, running 1, stopped 0, uninterruptible 2
-diff --git a/Documentation/accounting/delay-accounting.txt b/Documentation/accounting/delay-accounting.rst
-similarity index 77%
-rename from Documentation/accounting/delay-accounting.txt
-rename to Documentation/accounting/delay-accounting.rst
-index 042ea59b5853..7cc7f5852da0 100644
---- a/Documentation/accounting/delay-accounting.txt
-+++ b/Documentation/accounting/delay-accounting.rst
-@@ -1,5 +1,6 @@
-+================
- Delay accounting
------------------
-+================
- 
- Tasks encounter delays in execution when they wait
- for some kernel resource to become available e.g. a
-@@ -39,7 +40,9 @@ in detail in a separate document in this directory. Taskstats returns a
- generic data structure to userspace corresponding to per-pid and per-tgid
- statistics. The delay accounting functionality populates specific fields of
- this structure. See
-+
-      include/linux/taskstats.h
-+
- for a description of the fields pertaining to delay accounting.
- It will generally be in the form of counters returning the cumulative
- delay seen for cpu, sync block I/O, swapin, memory reclaim etc.
-@@ -61,13 +64,16 @@ also serves as an example of using the taskstats interface.
- Usage
- -----
- 
--Compile the kernel with
-+Compile the kernel with::
-+
- 	CONFIG_TASK_DELAY_ACCT=y
- 	CONFIG_TASKSTATS=y
- 
- Delay accounting is enabled by default at boot up.
--To disable, add
-+To disable, add::
-+
-    nodelayacct
-+
- to the kernel boot options. The rest of the instructions
- below assume this has not been done.
- 
-@@ -78,40 +84,43 @@ The utility also allows a given command to be
- executed and the corresponding delays to be
- seen.
- 
--General format of the getdelays command
-+General format of the getdelays command::
- 
--getdelays [-t tgid] [-p pid] [-c cmd...]
-+	getdelays [-t tgid] [-p pid] [-c cmd...]
- 
- 
--Get delays, since system boot, for pid 10
--# ./getdelays -p 10
--(output similar to next case)
-+Get delays, since system boot, for pid 10::
- 
--Get sum of delays, since system boot, for all pids with tgid 5
--# ./getdelays -t 5
-+	# ./getdelays -p 10
-+	(output similar to next case)
- 
-+Get sum of delays, since system boot, for all pids with tgid 5::
- 
--CPU	count	real total	virtual total	delay total
--	7876	92005750	100000000	24001500
--IO	count	delay total
--	0	0
--SWAP	count	delay total
--	0	0
--RECLAIM	count	delay total
--	0	0
-+	# ./getdelays -t 5
- 
--Get delays seen in executing a given simple command
--# ./getdelays -c ls /
- 
--bin   data1  data3  data5  dev  home  media  opt   root  srv        sys  usr
--boot  data2  data4  data6  etc  lib   mnt    proc  sbin  subdomain  tmp  var
-+	CPU	count	real total	virtual total	delay total
-+		7876	92005750	100000000	24001500
-+	IO	count	delay total
-+		0	0
-+	SWAP	count	delay total
-+		0	0
-+	RECLAIM	count	delay total
-+		0	0
- 
-+Get delays seen in executing a given simple command::
- 
--CPU	count	real total	virtual total	delay total
-+  # ./getdelays -c ls /
-+
-+  bin   data1  data3  data5  dev  home  media  opt   root  srv        sys  usr
-+  boot  data2  data4  data6  etc  lib   mnt    proc  sbin  subdomain  tmp  var
-+
-+
-+  CPU	count	real total	virtual total	delay total
- 	6	4000250		4000000		0
--IO	count	delay total
-+  IO	count	delay total
- 	0	0
--SWAP	count	delay total
-+  SWAP	count	delay total
- 	0	0
--RECLAIM	count	delay total
-+  RECLAIM	count	delay total
- 	0	0
-diff --git a/Documentation/accounting/index.rst b/Documentation/accounting/index.rst
+diff --git a/Documentation/mmc/index.rst b/Documentation/mmc/index.rst
 new file mode 100644
-index 000000000000..e1f6284b5ff3
+index 000000000000..3305478ddadb
 --- /dev/null
-+++ b/Documentation/accounting/index.rst
-@@ -0,0 +1,14 @@
++++ b/Documentation/mmc/index.rst
+@@ -0,0 +1,13 @@
 +:orphan:
 +
-+==========
-+Accounting
-+==========
++========================
++MMC/SD/SDIO card support
++========================
 +
 +.. toctree::
 +   :maxdepth: 1
 +
-+   cgroupstats
-+   delay-accounting
-+   psi
-+   taskstats
-+   taskstats-struct
-diff --git a/Documentation/accounting/psi.txt b/Documentation/accounting/psi.rst
-similarity index 91%
-rename from Documentation/accounting/psi.txt
-rename to Documentation/accounting/psi.rst
-index 5cbe5659e3b7..621111ce5740 100644
---- a/Documentation/accounting/psi.txt
-+++ b/Documentation/accounting/psi.rst
-@@ -35,14 +35,14 @@ Pressure interface
- Pressure information for each resource is exported through the
- respective file in /proc/pressure/ -- cpu, memory, and io.
- 
--The format for CPU is as such:
-+The format for CPU is as such::
- 
--some avg10=0.00 avg60=0.00 avg300=0.00 total=0
-+	some avg10=0.00 avg60=0.00 avg300=0.00 total=0
- 
--and for memory and IO:
-+and for memory and IO::
- 
--some avg10=0.00 avg60=0.00 avg300=0.00 total=0
--full avg10=0.00 avg60=0.00 avg300=0.00 total=0
-+	some avg10=0.00 avg60=0.00 avg300=0.00 total=0
-+	full avg10=0.00 avg60=0.00 avg300=0.00 total=0
- 
- The "some" line indicates the share of time in which at least some
- tasks are stalled on a given resource.
-@@ -77,9 +77,9 @@ To register a trigger user has to open psi interface file under
- /proc/pressure/ representing the resource to be monitored and write the
- desired threshold and time window. The open file descriptor should be
- used to wait for trigger events using select(), poll() or epoll().
--The following format is used:
-+The following format is used::
- 
--<some|full> <stall amount in us> <time window in us>
-+	<some|full> <stall amount in us> <time window in us>
- 
- For example writing "some 150000 1000000" into /proc/pressure/memory
- would add 150ms threshold for partial memory stall measured within
-@@ -115,18 +115,20 @@ trigger  is closed.
- Userspace monitor usage example
- ===============================
- 
--#include <errno.h>
--#include <fcntl.h>
--#include <stdio.h>
--#include <poll.h>
--#include <string.h>
--#include <unistd.h>
-+::
- 
--/*
-- * Monitor memory partial stall with 1s tracking window size
-- * and 150ms threshold.
-- */
--int main() {
-+  #include <errno.h>
-+  #include <fcntl.h>
-+  #include <stdio.h>
-+  #include <poll.h>
-+  #include <string.h>
-+  #include <unistd.h>
++   mmc-dev-attrs
++   mmc-dev-parts
++   mmc-async-req
++   mmc-tools
+diff --git a/Documentation/mmc/mmc-async-req.txt b/Documentation/mmc/mmc-async-req.rst
+similarity index 75%
+rename from Documentation/mmc/mmc-async-req.txt
+rename to Documentation/mmc/mmc-async-req.rst
+index ae1907b10e4a..0f7197c9c3b5 100644
+--- a/Documentation/mmc/mmc-async-req.txt
++++ b/Documentation/mmc/mmc-async-req.rst
+@@ -1,13 +1,20 @@
++========================
++MMC Asynchronous Request
++========================
 +
-+  /*
-+   * Monitor memory partial stall with 1s tracking window size
-+   * and 150ms threshold.
-+   */
-+  int main() {
- 	const char trig[] = "some 150000 1000000";
- 	struct pollfd fds;
- 	int n;
-@@ -165,7 +167,7 @@ int main() {
- 	}
+ Rationale
+ =========
  
- 	return 0;
--}
-+  }
- 
- Cgroup2 interface
- =================
-diff --git a/Documentation/accounting/taskstats-struct.txt b/Documentation/accounting/taskstats-struct.rst
-similarity index 90%
-rename from Documentation/accounting/taskstats-struct.txt
-rename to Documentation/accounting/taskstats-struct.rst
-index e7512c061c15..6392d2966abd 100644
---- a/Documentation/accounting/taskstats-struct.txt
-+++ b/Documentation/accounting/taskstats-struct.rst
-@@ -1,5 +1,6 @@
-+====================
- The struct taskstats
----------------------
-+====================
- 
- This document contains an explanation of the struct taskstats fields.
- 
-@@ -10,16 +11,24 @@ There are three different groups of fields in the struct taskstats:
-     the common fields and basic accounting fields are collected for
-     delivery at do_exit() of a task.
- 2) Delay accounting fields
--    These fields are placed between
--    /* Delay accounting fields start */
--    and
--    /* Delay accounting fields end */
-+    These fields are placed between::
+ How significant is the cache maintenance overhead?
 +
-+	/* Delay accounting fields start */
+ It depends. Fast eMMC and multiple cache levels with speculative cache
+ pre-fetch makes the cache overhead relatively significant. If the DMA
+ preparations for the next request are done in parallel with the current
+ transfer, the DMA preparation overhead would not affect the MMC performance.
 +
-+    and::
+ The intention of non-blocking (asynchronous) MMC requests is to minimize the
+ time between when an MMC request ends and another MMC request begins.
 +
-+	/* Delay accounting fields end */
+ Using mmc_wait_for_req(), the MMC controller is idle while dma_map_sg and
+ dma_unmap_sg are processing. Using non-blocking MMC requests makes it
+ possible to prepare the caches for next job in parallel with an active
+@@ -17,6 +24,7 @@ MMC block driver
+ ================
+ 
+ The mmc_blk_issue_rw_rq() in the MMC block driver is made non-blocking.
 +
-     Their values are collected if CONFIG_TASK_DELAY_ACCT is set.
- 3) Extended accounting fields
--    These fields are placed between
--    /* Extended accounting fields start */
--    and
--    /* Extended accounting fields end */
-+    These fields are placed between::
+ The increase in throughput is proportional to the time it takes to
+ prepare (major part of preparations are dma_map_sg() and dma_unmap_sg())
+ a request and how fast the memory is. The faster the MMC/SD is the
+@@ -35,6 +43,7 @@ MMC core API extension
+ ======================
+ 
+ There is one new public function mmc_start_req().
 +
-+	/* Extended accounting fields start */
+ It starts a new MMC command request for a host. The function isn't
+ truly non-blocking. If there is an ongoing async request it waits
+ for completion of that request and starts the new one and returns. It
+@@ -47,6 +56,7 @@ MMC host extensions
+ There are two optional members in the mmc_host_ops -- pre_req() and
+ post_req() -- that the host driver may implement in order to move work
+ to before and after the actual mmc_host_ops.request() function is called.
 +
-+    and::
+ In the DMA case pre_req() may do dma_map_sg() and prepare the DMA
+ descriptor, and post_req() runs the dma_unmap_sg().
+ 
+@@ -55,33 +65,34 @@ Optimize for the first request
+ 
+ The first request in a series of requests can't be prepared in parallel
+ with the previous transfer, since there is no previous request.
 +
-+	/* Extended accounting fields end */
+ The argument is_first_req in pre_req() indicates that there is no previous
+ request. The host driver may optimize for this scenario to minimize
+ the performance loss. A way to optimize for this is to split the current
+ request in two chunks, prepare the first chunk and start the request,
+ and finally prepare the second chunk and start the transfer.
+ 
+-Pseudocode to handle is_first_req scenario with minimal prepare overhead:
++Pseudocode to handle is_first_req scenario with minimal prepare overhead::
+ 
+-if (is_first_req && req->size > threshold)
+-   /* start MMC transfer for the complete transfer size */
+-   mmc_start_command(MMC_CMD_TRANSFER_FULL_SIZE);
++  if (is_first_req && req->size > threshold)
++     /* start MMC transfer for the complete transfer size */
++     mmc_start_command(MMC_CMD_TRANSFER_FULL_SIZE);
+ 
+-   /*
+-    * Begin to prepare DMA while cmd is being processed by MMC.
+-    * The first chunk of the request should take the same time
+-    * to prepare as the "MMC process command time".
+-    * If prepare time exceeds MMC cmd time
+-    * the transfer is delayed, guesstimate max 4k as first chunk size.
+-    */
+-    prepare_1st_chunk_for_dma(req);
+-    /* flush pending desc to the DMAC (dmaengine.h) */
+-    dma_issue_pending(req->dma_desc);
++     /*
++      * Begin to prepare DMA while cmd is being processed by MMC.
++      * The first chunk of the request should take the same time
++      * to prepare as the "MMC process command time".
++      * If prepare time exceeds MMC cmd time
++      * the transfer is delayed, guesstimate max 4k as first chunk size.
++      */
++      prepare_1st_chunk_for_dma(req);
++      /* flush pending desc to the DMAC (dmaengine.h) */
++      dma_issue_pending(req->dma_desc);
+ 
+-    prepare_2nd_chunk_for_dma(req);
+-    /*
+-     * The second issue_pending should be called before MMC runs out
+-     * of the first chunk. If the MMC runs out of the first data chunk
+-     * before this call, the transfer is delayed.
+-     */
+-    dma_issue_pending(req->dma_desc);
++      prepare_2nd_chunk_for_dma(req);
++      /*
++       * The second issue_pending should be called before MMC runs out
++       * of the first chunk. If the MMC runs out of the first data chunk
++       * before this call, the transfer is delayed.
++       */
++      dma_issue_pending(req->dma_desc);
+diff --git a/Documentation/mmc/mmc-dev-attrs.txt b/Documentation/mmc/mmc-dev-attrs.rst
+similarity index 73%
+rename from Documentation/mmc/mmc-dev-attrs.txt
+rename to Documentation/mmc/mmc-dev-attrs.rst
+index 4ad0bb17f343..4f44b1b730d6 100644
+--- a/Documentation/mmc/mmc-dev-attrs.txt
++++ b/Documentation/mmc/mmc-dev-attrs.rst
+@@ -1,3 +1,4 @@
++==================================
+ SD and MMC Block Device Attributes
+ ==================================
+ 
+@@ -6,23 +7,29 @@ SD or MMC device.
+ 
+ The following attributes are read/write.
+ 
+-	force_ro		Enforce read-only access even if write protect switch is off.
++	========		===============================================
++	force_ro		Enforce read-only access even if write protect 					switch is off.
++	========		===============================================
+ 
+ SD and MMC Device Attributes
+ ============================
+ 
+ All attributes are read-only.
+ 
++	======================	===============================================
+ 	cid			Card Identification Register
+ 	csd			Card Specific Data Register
+ 	scr			SD Card Configuration Register (SD only)
+ 	date			Manufacturing Date (from CID Register)
+-	fwrev			Firmware/Product Revision (from CID Register) (SD and MMCv1 only)
+-	hwrev			Hardware/Product Revision (from CID Register) (SD and MMCv1 only)
++	fwrev			Firmware/Product Revision (from CID Register)
++				(SD and MMCv1 only)
++	hwrev			Hardware/Product Revision (from CID Register)
++				(SD and MMCv1 only)
+ 	manfid			Manufacturer ID (from CID Register)
+ 	name			Product Name (from CID Register)
+ 	oemid			OEM/Application ID (from CID Register)
+-	prv			Product Revision (from CID Register) (SD and MMCv4 only)
++	prv			Product Revision (from CID Register)
++				(SD and MMCv4 only)
+ 	serial			Product Serial Number (from CID Register)
+ 	erase_size		Erase group size
+ 	preferred_erase_size	Preferred erase size
+@@ -30,7 +37,10 @@ All attributes are read-only.
+ 	rel_sectors		Reliable write sector count
+ 	ocr 			Operation Conditions Register
+ 	dsr			Driver Stage Register
+-	cmdq_en			Command Queue enabled: 1 => enabled, 0 => not enabled
++	cmdq_en			Command Queue enabled:
 +
-     Their values are collected if CONFIG_TASK_XACCT is set.
++					1 => enabled, 0 => not enabled
++	======================	===============================================
  
- 4) Per-task and per-thread context switch count statistics
-@@ -31,10 +40,12 @@ There are three different groups of fields in the struct taskstats:
- Future extension should add fields to the end of the taskstats struct, and
- should not change the relative position of each field within the struct.
+ Note on Erase Size and Preferred Erase Size:
  
-+::
- 
--struct taskstats {
-+  struct taskstats {
+@@ -44,14 +54,15 @@ Note on Erase Size and Preferred Erase Size:
+ 	SD/MMC cards can erase an arbitrarily large area up to and
+ 	including the whole card.  When erasing a large area it may
+ 	be desirable to do it in smaller chunks for three reasons:
+-		1. A single erase command will make all other I/O on
 +
-+1) Common and basic accounting fields::
++	     1. A single erase command will make all other I/O on
+ 		the card wait.  This is not a problem if the whole card
+ 		is being erased, but erasing one partition will make
+ 		I/O for another partition on the same card wait for the
+ 		duration of the erase - which could be a several
+ 		minutes.
+-		2. To be able to inform the user of erase progress.
+-		3. The erase timeout becomes too large to be very
++	     2. To be able to inform the user of erase progress.
++	     3. The erase timeout becomes too large to be very
+ 		useful.  Because the erase timeout contains a margin
+ 		which is multiplied by the size of the erase area,
+ 		the value can end up being several minutes for large
+@@ -72,6 +83,9 @@ Note on Erase Size and Preferred Erase Size:
+ 	"preferred_erase_size" is in bytes.
  
--1) Common and basic accounting fields:
- 	/* The version number of this struct. This field is always set to
- 	 * TAKSTATS_VERSION, which is defined in <linux/taskstats.h>.
- 	 * Each time the struct is changed, the value should be incremented.
-@@ -83,7 +94,8 @@ struct taskstats {
- 	__u64	ac_majflt;		/* Major Page Fault Count */
- 
- 
--2) Delay accounting fields:
-+2) Delay accounting fields::
+ Note on raw_rpmb_size_mult:
 +
- 	/* Delay accounting fields start
- 	 *
- 	 * All values, until the comment "Delay accounting fields end" are
-@@ -134,7 +146,8 @@ struct taskstats {
- 	/* version 1 ends here */
- 
- 
--3) Extended accounting fields
-+3) Extended accounting fields::
+ 	"raw_rpmb_size_mult" is a multiple of 128kB block.
 +
- 	/* Extended accounting fields start */
- 
- 	/* Accumulated RSS usage in duration of a task, in MBytes-usecs.
-@@ -164,17 +177,23 @@ struct taskstats {
- 
- 	/* Extended accounting fields end */
- 
--4) Per-task and per-thread statistics
-+4) Per-task and per-thread statistics::
+ 	RPMB size in byte is calculated by using the following equation:
+-	RPMB partition size = 128kB x raw_rpmb_size_mult
 +
- 	__u64	nvcsw;			/* Context voluntary switch counter */
- 	__u64	nivcsw;			/* Context involuntary switch counter */
++		RPMB partition size = 128kB x raw_rpmb_size_mult
+diff --git a/Documentation/mmc/mmc-dev-parts.txt b/Documentation/mmc/mmc-dev-parts.rst
+similarity index 83%
+rename from Documentation/mmc/mmc-dev-parts.txt
+rename to Documentation/mmc/mmc-dev-parts.rst
+index f08d078d43cf..995922f1f744 100644
+--- a/Documentation/mmc/mmc-dev-parts.txt
++++ b/Documentation/mmc/mmc-dev-parts.rst
+@@ -1,3 +1,4 @@
++============================
+ SD and MMC Device Partitions
+ ============================
  
--5) Time accounting for SMT machines
-+5) Time accounting for SMT machines::
+@@ -18,18 +19,18 @@ platform, write access is disabled by default to reduce the chance of
+ accidental bricking.
+ 
+ To enable write access to /dev/mmcblkXbootY, disable the forced read-only
+-access with:
++access with::
+ 
+-echo 0 > /sys/block/mmcblkXbootY/force_ro
++	echo 0 > /sys/block/mmcblkXbootY/force_ro
+ 
+-To re-enable read-only access:
++To re-enable read-only access::
+ 
+-echo 1 > /sys/block/mmcblkXbootY/force_ro
++	echo 1 > /sys/block/mmcblkXbootY/force_ro
+ 
+ The boot partitions can also be locked read only until the next power on,
+-with:
++with::
+ 
+-echo 1 > /sys/block/mmcblkXbootY/ro_lock_until_next_power_on
++	echo 1 > /sys/block/mmcblkXbootY/ro_lock_until_next_power_on
+ 
+ This is a feature of the card and not of the kernel. If the card does
+ not support boot partition locking, the file will not exist. If the
+diff --git a/Documentation/mmc/mmc-tools.txt b/Documentation/mmc/mmc-tools.rst
+similarity index 92%
+rename from Documentation/mmc/mmc-tools.txt
+rename to Documentation/mmc/mmc-tools.rst
+index 735509c165d5..54406093768b 100644
+--- a/Documentation/mmc/mmc-tools.txt
++++ b/Documentation/mmc/mmc-tools.rst
+@@ -1,14 +1,17 @@
++======================
+ MMC tools introduction
+ ======================
+ 
+ There is one MMC test tools called mmc-utils, which is maintained by Chris Ball,
+ you can find it at the below public git repository:
+-http://git.kernel.org/cgit/linux/kernel/git/cjb/mmc-utils.git/
 +
- 	__u64	ac_utimescaled;		/* utime scaled on frequency etc */
- 	__u64	ac_stimescaled;		/* stime scaled on frequency etc */
- 	__u64	cpu_scaled_run_real_total; /* scaled cpu_run_real_total */
++	http://git.kernel.org/cgit/linux/kernel/git/cjb/mmc-utils.git/
  
--6) Extended delay accounting fields for memory reclaim
-+6) Extended delay accounting fields for memory reclaim::
+ Functions
+ =========
+ 
+ The mmc-utils tools can do the following:
 +
- 	/* Delay waiting for memory reclaim */
- 	__u64	freepages_count;
- 	__u64	freepages_delay_total;
--}
-+
-+::
-+
-+  }
-diff --git a/Documentation/accounting/taskstats.txt b/Documentation/accounting/taskstats.rst
-similarity index 95%
-rename from Documentation/accounting/taskstats.txt
-rename to Documentation/accounting/taskstats.rst
-index ff06b738bb88..2a28b7f55c10 100644
---- a/Documentation/accounting/taskstats.txt
-+++ b/Documentation/accounting/taskstats.rst
-@@ -1,5 +1,6 @@
-+=============================
- Per-task statistics interface
-------------------------------
-+=============================
- 
- 
- Taskstats is a netlink-based interface for sending per-task and
-@@ -65,7 +66,7 @@ taskstats.h file.
- 
- The data exchanged between user and kernel space is a netlink message belonging
- to the NETLINK_GENERIC family and using the netlink attributes interface.
--The messages are in the format
-+The messages are in the format::
- 
-     +----------+- - -+-------------+-------------------+
-     | nlmsghdr | Pad |  genlmsghdr | taskstats payload |
-@@ -167,15 +168,13 @@ extended and the number of cpus grows large.
- To avoid losing statistics, userspace should do one or more of the following:
- 
- - increase the receive buffer sizes for the netlink sockets opened by
--listeners to receive exit data.
-+  listeners to receive exit data.
- 
- - create more listeners and reduce the number of cpus being listened to by
--each listener. In the extreme case, there could be one listener for each cpu.
--Users may also consider setting the cpu affinity of the listener to the subset
--of cpus to which it listens, especially if they are listening to just one cpu.
-+  each listener. In the extreme case, there could be one listener for each cpu.
-+  Users may also consider setting the cpu affinity of the listener to the subset
-+  of cpus to which it listens, especially if they are listening to just one cpu.
- 
- Despite these measures, if the userspace receives ENOBUFS error messages
- indicated overflow of receive buffers, it should take measures to handle the
- loss of data.
--
------
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 19c4e78666ff..123c87b75787 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -981,7 +981,7 @@ All time durations are in microseconds.
- 	A read-only nested-key file which exists on non-root cgroups.
- 
- 	Shows pressure stall information for CPU. See
--	Documentation/accounting/psi.txt for details.
-+	Documentation/accounting/psi.rst for details.
- 
- 
- Memory
-@@ -1318,7 +1318,7 @@ PAGE_SIZE multiple when read back.
- 	A read-only nested-key file which exists on non-root cgroups.
- 
- 	Shows pressure stall information for memory. See
--	Documentation/accounting/psi.txt for details.
-+	Documentation/accounting/psi.rst for details.
- 
- 
- Usage Guidelines
-@@ -1461,7 +1461,7 @@ IO Interface Files
- 	A read-only nested-key file which exists on non-root cgroups.
- 
- 	Shows pressure stall information for IO. See
--	Documentation/accounting/psi.txt for details.
-+	Documentation/accounting/psi.rst for details.
- 
- 
- Writeback
-diff --git a/init/Kconfig b/init/Kconfig
-index 448f8daa1204..4fb96464f0f2 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -516,7 +516,7 @@ config PSI
- 	  have cpu.pressure, memory.pressure, and io.pressure files,
- 	  which aggregate pressure stalls for the grouped tasks only.
- 
--	  For more details see Documentation/accounting/psi.txt.
-+	  For more details see Documentation/accounting/psi.rst.
- 
- 	  Say N if unsure.
- 
+  - Print and parse extcsd data.
+  - Determine the eMMC writeprotect status.
+  - Set the eMMC writeprotect status.
 -- 
 2.20.1
 
