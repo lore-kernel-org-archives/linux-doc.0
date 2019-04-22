@@ -1,55 +1,70 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CA7F57D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Apr 2019 19:32:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BF6E07D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Apr 2019 22:23:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727397AbfDVTc1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Apr 2019 15:32:27 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:59108 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726305AbfDVTc1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Apr 2019 15:32:27 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x3MJUDBB049863;
-        Mon, 22 Apr 2019 19:30:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : from : to :
- cc : references : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2018-07-02;
- bh=WH/Ljdr8TJUTrAi5oLGMpFDZ+oLv/QGAaimWLH/RF5Y=;
- b=oLnlTenxF7nnPodU74CKxVdtTdurZTHC2c+IYDHYu4ConBppy1DQR5ZRD2yjJFvZgGWr
- s4yQwwuUvTu9u+sFyoVUu0Ps8OuhhW0poWi1ZMLvaVC5TBbAF1wwcZr5XAReyOOTF+by
- uC0TnLDiZT5r3TKE6PPp1vUjAz4Kig9RayQOAPeSyneDjrd8g3giZqr3VY0DWHpHGibW
- +Tp8jlms4x1+K3jD0LKvfWig3toDL2oxHG0Gk75UGHP6ZXqvAC5kZivppkWtzcLz1h9X
- XEAwsf7cBrXzU2kQ/Ajn/P/r+v3zskWbTDpMTbY0n+hrjLQtUDBZ3bbfv/WSjVOTlFLG 6g== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by userp2120.oracle.com with ESMTP id 2ryv2q001q-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 22 Apr 2019 19:30:53 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x3MJUfFP107047;
-        Mon, 22 Apr 2019 19:30:52 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by userp3020.oracle.com with ESMTP id 2s0dwdv8c5-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 22 Apr 2019 19:30:52 +0000
-Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x3MJUjCf011034;
-        Mon, 22 Apr 2019 19:30:46 GMT
-Received: from [192.168.1.16] (/24.9.64.241)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 22 Apr 2019 12:30:45 -0700
+        id S1726638AbfDVWXr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Apr 2019 18:23:47 -0400
+Received: from mail-vk1-f196.google.com ([209.85.221.196]:34396 "EHLO
+        mail-vk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727306AbfDVWXq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Apr 2019 18:23:46 -0400
+Received: by mail-vk1-f196.google.com with SMTP id x84so2760520vkd.1
+        for <linux-doc@vger.kernel.org>; Mon, 22 Apr 2019 15:23:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Apsh13b43ex5kM603MFVFBzVRJeAAR6IMS53yCHVuRM=;
+        b=Vl0fYQ0UCHGtndl0jafErZw5vqbDAq4DrFX3SfBAIMhEhneL9rXawPTcud8fgV5g3D
+         W/sHE49ARVD9KYD5FloU01n2RfA2pTgnKMthR4SE5EVifhT+Zv7f89iMoQqyLkH17UHR
+         Ufjeoo3iZe8A1ywqY/dQX9OJ6hQY+RdFMicuSiIFmS2kjW0kxDgF0PQchZJoFDeQwLJ4
+         Bu9iNZw8/m1h5Vvq6bsIi0oFDRabTh4fUKE/VXZ1BpEeHCWZiVc862ytrlz+nAaTR+Cp
+         kF/vZydc6r2yg2X0nSiZbBoPzLhOuIzzabOzb88ffPr/VLLo66HUZNIe7JxAbYTKUz7T
+         O38g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Apsh13b43ex5kM603MFVFBzVRJeAAR6IMS53yCHVuRM=;
+        b=X1s87jq7+Iyg2DBeR8TwV5kdl2NBDUihLziUawc7TqKr/hM1zt5LEFRdYtaVoFIsRE
+         7YTsewi5LbEDYwDFDtsns8cLS6aWTRmXczIg+nBxa2Fd6r+0bhdNNG+0AVi7uCDkCdHw
+         w1V5I3neWdswnJc933eUFFv0VYwWgOUnr9HLU0VmYV3f+ivowagJi5IOnpua/DtllgJq
+         zkwtNQh6yJ2idu5Dt8TvoykmMWKtLe45T9e+n4CnA9EDMdZ37HZ5FdgfTeViDGCSTIvX
+         X0FN07eHZdoFGQ3KkFK28ngv5J9QR0JAjMsTGfWaMjVjKTbXStfvUafxbLPz9BfMcRx5
+         69kg==
+X-Gm-Message-State: APjAAAUdRXWUIeUr5PZQFe2g7tboa0E9Y0fxfcZH64SylujmBJ3xe/cd
+        dybhvNFfaCMs/KaPFbEdsfZLBnGiD3lIqnP99hKpAg==
+X-Google-Smtp-Source: APXvYqxiq50qJu8wanUuH+yOCTaJNMUpHEhGXVEwCujnFscJAmlLegU3s6VeZj+61I7iVGG+tUCCywSMlxsTtse/mUo=
+X-Received: by 2002:a1f:2e07:: with SMTP id u7mr11692664vku.44.1555971825052;
+ Mon, 22 Apr 2019 15:23:45 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1554248001.git.khalid.aziz@oracle.com> <f1ac3700970365fb979533294774af0b0dd84b3b.1554248002.git.khalid.aziz@oracle.com>
+ <20190417161042.GA43453@gmail.com> <e16c1d73-d361-d9c7-5b8e-c495318c2509@oracle.com>
+ <20190417170918.GA68678@gmail.com> <56A175F6-E5DA-4BBD-B244-53B786F27B7F@gmail.com>
+ <20190417172632.GA95485@gmail.com> <063753CC-5D83-4789-B594-019048DE22D9@gmail.com>
+ <alpine.DEB.2.21.1904172317460.3174@nanos.tec.linutronix.de>
+ <CAHk-=wgBMg9P-nYQR2pS0XwVdikPCBqLsMFqR9nk=wSmAd4_5g@mail.gmail.com>
+ <alpine.DEB.2.21.1904180129000.3174@nanos.tec.linutronix.de>
+ <CAHk-=whUwOjFW6RjHVM8kNOv1QVLJuHj2Dda0=mpLPdJ1UyatQ@mail.gmail.com>
+ <CALCETrXm9PuUTEEmzA8bQJmg=PHC_2XSywECittVhXbMJS1rSA@mail.gmail.com>
+ <CAGXu5jL-qJtW7eH8S2yhqciE+J+FWz8HHzTrGJTgVUbd55n6dQ@mail.gmail.com> <8f9d059d-e720-cd24-faa6-45493fc012e0@oracle.com>
+In-Reply-To: <8f9d059d-e720-cd24-faa6-45493fc012e0@oracle.com>
+From:   Kees Cook <keescook@google.com>
+Date:   Mon, 22 Apr 2019 15:23:32 -0700
+Message-ID: <CAGXu5jLPkD_6BL1m2=13KVTfZ7znr-xAyz+CB23eoeboFgCSOg@mail.gmail.com>
 Subject: Re: [RFC PATCH v9 03/13] mm: Add support for eXclusive Page Frame
  Ownership (XPFO)
-From:   Khalid Aziz <khalid.aziz@oracle.com>
-To:     Kees Cook <keescook@google.com>, Andy Lutomirski <luto@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
+To:     Khalid Aziz <khalid.aziz@oracle.com>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Nadav Amit <nadav.amit@gmail.com>,
         Ingo Molnar <mingo@kernel.org>,
         Juerg Haefliger <juergh@gmail.com>,
@@ -77,87 +92,57 @@ Cc:     Thomas Gleixner <tglx@linutronix.de>,
         "H. Peter Anvin" <hpa@zytor.com>,
         Arjan van de Ven <arjan@infradead.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <cover.1554248001.git.khalid.aziz@oracle.com>
- <f1ac3700970365fb979533294774af0b0dd84b3b.1554248002.git.khalid.aziz@oracle.com>
- <20190417161042.GA43453@gmail.com>
- <e16c1d73-d361-d9c7-5b8e-c495318c2509@oracle.com>
- <20190417170918.GA68678@gmail.com>
- <56A175F6-E5DA-4BBD-B244-53B786F27B7F@gmail.com>
- <20190417172632.GA95485@gmail.com>
- <063753CC-5D83-4789-B594-019048DE22D9@gmail.com>
- <alpine.DEB.2.21.1904172317460.3174@nanos.tec.linutronix.de>
- <CAHk-=wgBMg9P-nYQR2pS0XwVdikPCBqLsMFqR9nk=wSmAd4_5g@mail.gmail.com>
- <alpine.DEB.2.21.1904180129000.3174@nanos.tec.linutronix.de>
- <CAHk-=whUwOjFW6RjHVM8kNOv1QVLJuHj2Dda0=mpLPdJ1UyatQ@mail.gmail.com>
- <CALCETrXm9PuUTEEmzA8bQJmg=PHC_2XSywECittVhXbMJS1rSA@mail.gmail.com>
- <CAGXu5jL-qJtW7eH8S2yhqciE+J+FWz8HHzTrGJTgVUbd55n6dQ@mail.gmail.com>
- <8f9d059d-e720-cd24-faa6-45493fc012e0@oracle.com>
-Organization: Oracle Corp
-Message-ID: <302e3d5b-d2fd-3c25-335b-466ba83035c5@oracle.com>
-Date:   Mon, 22 Apr 2019 13:30:41 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
-MIME-Version: 1.0
-In-Reply-To: <8f9d059d-e720-cd24-faa6-45493fc012e0@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9235 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1904220147
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9235 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1904220147
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/18/19 8:34 AM, Khalid Aziz wrote:
+On Thu, Apr 18, 2019 at 7:35 AM Khalid Aziz <khalid.aziz@oracle.com> wrote:
+>
 > On 4/17/19 11:41 PM, Kees Cook wrote:
->> On Wed, Apr 17, 2019 at 11:41 PM Andy Lutomirski <luto@kernel.org> wro=
-te:
->>> I don't think this type of NX goof was ever the argument for XPFO.
->>> The main argument I've heard is that a malicious user program writes =
-a
->>> ROP payload into user memory (regular anonymous user memory) and then=
-
->>> gets the kernel to erroneously set RSP (*not* RIP) to point there.
->>
->> Well, more than just ROP. Any of the various attack primitives. The NX=
-
->> stuff is about moving RIP: SMEP-bypassing. But there is still basic
->> SMAP-bypassing for putting a malicious structure in userspace and
->> having the kernel access it via the linear mapping, etc.
->>
->>> I find this argument fairly weak for a couple reasons.  First, if
->>> we're worried about this, let's do in-kernel CFI, not XPFO, to
->>
->> CFI is getting much closer. Getting the kernel happy under Clang, LTO,=
-
->> and CFI is under active development. (It's functional for arm64
->> already, and pieces have been getting upstreamed.)
->>
->=20
-> CFI theoretically offers protection with fairly low overhead. I have no=
-t
+> > On Wed, Apr 17, 2019 at 11:41 PM Andy Lutomirski <luto@kernel.org> wrote:
+> >> I don't think this type of NX goof was ever the argument for XPFO.
+> >> The main argument I've heard is that a malicious user program writes a
+> >> ROP payload into user memory (regular anonymous user memory) and then
+> >> gets the kernel to erroneously set RSP (*not* RIP) to point there.
+> >
+> > Well, more than just ROP. Any of the various attack primitives. The NX
+> > stuff is about moving RIP: SMEP-bypassing. But there is still basic
+> > SMAP-bypassing for putting a malicious structure in userspace and
+> > having the kernel access it via the linear mapping, etc.
+> >
+> >> I find this argument fairly weak for a couple reasons.  First, if
+> >> we're worried about this, let's do in-kernel CFI, not XPFO, to
+> >
+> > CFI is getting much closer. Getting the kernel happy under Clang, LTO,
+> > and CFI is under active development. (It's functional for arm64
+> > already, and pieces have been getting upstreamed.)
+> >
+>
+> CFI theoretically offers protection with fairly low overhead. I have not
 > played much with CFI in clang. I agree with Linus that probability of
 > bugs in XPFO implementation itself is a cause of concern. If CFI in
 > Clang can provide us the same level of protection as XPFO does, I
 > wouldn't want to push for an expensive change like XPFO.
->=20
+>
 > If Clang/CFI can't get us there for extended period of time, does it
 > make sense to continue to poke at XPFO?
 
-Any feedback on continued effort on XPFO? If it makes sense to have XPFO
-available as a solution for ret2dir issue in case Clang/CFI does not
-work out, I will continue to refine it.
+Well, I think CFI will certainly vastly narrow the execution paths
+available to an attacker, but what I continue to see XPFO useful for
+is stopping attacks that need to locate something in memory. (i.e. not
+ret2dir but, like, read2dir.) It's arguable that such attacks would
+just use heap, stack, etc to hold such things, but the linear map
+remains relatively easy to find/target. But I agree: the protection is
+getting more and more narrow (especially with CFI coming down the
+pipe), and if it's still a 28% hit, that's not going to be tenable for
+anyone but the truly paranoid. :)
 
---
-Khalid
+All that said, there isn't a very good backward-edge CFI protection
+(i.e. ROP defense) on x86 in Clang. The forward-edge looks decent, but
+requires LTO, etc. My point is there is still a long path to gaining
+CFI in upstream.
 
+-- 
+Kees Cook
