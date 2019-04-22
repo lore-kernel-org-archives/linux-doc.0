@@ -2,49 +2,51 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 585FD7D9ED
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Apr 2019 13:34:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3CC2A7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Apr 2019 13:35:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726842AbfDVNeM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Apr 2019 09:34:12 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:37566 "EHLO
+        id S1726430AbfDVN2R (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Apr 2019 09:28:17 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:36916 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727514AbfDVN2T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Apr 2019 09:28:19 -0400
+        with ESMTP id S1727406AbfDVN2P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Apr 2019 09:28:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=chQseRVUcs1PrOUelscVQ4BrUhO7B+KwTQKv4ZvvUVA=; b=r+7uz5vse5efZXPfSRA6Svf6Ox
-        e1zZFeWY8Vb/Ylu826w+CF3XYh/771feEklJ5oSJ4Qr8OxUu+WnWi/MGgWv+dQIZYbgidgXwvW5Uz
-        fI8XzCoxFwH7nfmUFt7bytBX06l0XrteRWPME+wLnFAPm/ogbupw8aAlSCaqPa+6G7D0htYRoQmRW
-        jFSPLeNmzaRt7Rk3dJzrXXAzt3pZ+/t0S9cO1StrTdilZ0EAZbQQntmY93b2cV7VcLDfw7GX3lwtN
-        C/IVDG88PnL8kzOjmmfA75Ee2IVOw/7YtuDLTrN6o25Grz0MWxtgGUEgnpH2Aj/ImP3TpuHG57dHp
-        5rD+o0Hw==;
+        bh=oPG5Chwp9mxYRRTZcnB1/MLaUvJI2smfunnhYsN/cUw=; b=JWNXpyUkYRzX4Dt8FIZ0xSa6Mp
+        BuGv4Kj4pf3MQRUCWZmboTYzfCJzVCrfwZX8A7jnXpoXXDSooOht1vQ8oDQidDjmaPSzWeluHxRK1
+        GFDWg9FgMV6Bfjycn1c8wYFFkv+ppxmHSy7L5/iEGYFU+6gRiB1VhLPj7xibC3dvYP/h2oVYpk8wg
+        wX6xOteueY9KNcivjAT+xOfZrXdbvYfLzgq0DXETLZNnbhD3NF61/ErfMJ3S06KZIMg3jlDwg2Vgd
+        ZBJSKt4x8BWoieG8MLfkSFhKqIlf/qaMl+cCDcvqtN50/EAB+XdhgUB6kCrzL5380RX/nrOKa7xm4
+        ck1WGDfg==;
 Received: from 179.176.125.229.dynamic.adsl.gvt.net.br ([179.176.125.229] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hIYzZ-0005Hf-Jt; Mon, 22 Apr 2019 13:28:17 +0000
+        id 1hIYzV-0005Hl-21; Mon, 22 Apr 2019 13:28:14 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hIYzU-0005oX-9e; Mon, 22 Apr 2019 10:28:12 -0300
+        id 1hIYzS-0005l1-RU; Mon, 22 Apr 2019 10:28:10 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        linux-iio@vger.kernel.org
-Subject: [PATCH v2 63/79] docs: iio: convert to ReST
-Date:   Mon, 22 Apr 2019 10:27:52 -0300
-Message-Id: <41bbbddf74ffb1e557ac6c924dac5054d6650950.1555938376.git.mchehab+samsung@kernel.org>
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Petr Mladek <pmladek@suse.com>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        live-patching@vger.kernel.org
+Subject: [PATCH v2 20/79] docs: livepatch: convert docs to ReST and rename to *.rst
+Date:   Mon, 22 Apr 2019 10:27:09 -0300
+Message-Id: <ed6b33aa15f9bf7f5dd54ce936b9f1aa4de64a3d.1555938376.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1555938375.git.mchehab+samsung@kernel.org>
 References: <cover.1555938375.git.mchehab+samsung@kernel.org>
@@ -55,230 +57,791 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rename the iio documentation files to ReST, add an
-index for them and adjust in order to produce a nice html
-output via the Sphinx build system.
+Convert livepatch documentation to ReST format. The changes
+are mostly trivial, as the documents are already on a good
+shape. Just a few markup changes are needed for Sphinx to
+properly parse the docs.
+
+The conversion is actually:
+  - add blank lines and identation in order to identify paragraphs;
+  - fix tables markups;
+  - add some lists markups;
+  - mark literal blocks;
+  - The in-file TOC becomes a comment, in order to skip it from the
+    output, as Sphinx already generates an index there.
+  - adjust title markups.
 
 At its new index.rst, let's add a :orphan: while this is not linked to
 the main index.rst file, in order to avoid build warnings.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- .../iio/{ep93xx_adc.txt => ep93xx_adc.rst}    | 15 +++++-
- .../{iio_configfs.txt => iio_configfs.rst}    | 52 +++++++++++--------
- Documentation/iio/index.rst                   | 12 +++++
- drivers/iio/Kconfig                           |  2 +-
- 4 files changed, 56 insertions(+), 25 deletions(-)
- rename Documentation/iio/{ep93xx_adc.txt => ep93xx_adc.rst} (71%)
- rename Documentation/iio/{iio_configfs.txt => iio_configfs.rst} (73%)
- create mode 100644 Documentation/iio/index.rst
+ .../ABI/testing/sysfs-kernel-livepatch        |   2 +-
+ .../{callbacks.txt => callbacks.rst}          |  12 +-
+ ...ive-patches.txt => cumulative-patches.rst} |  14 +-
+ Documentation/livepatch/index.rst             |  21 ++
+ .../{livepatch.txt => livepatch.rst}          |  60 ++---
+ ...e-elf-format.txt => module-elf-format.rst} | 211 ++++++++++--------
+ .../{shadow-vars.txt => shadow-vars.rst}      |  65 ++++--
+ .../Documentation/stack-validation.txt        |   2 +-
+ 8 files changed, 224 insertions(+), 163 deletions(-)
+ rename Documentation/livepatch/{callbacks.txt => callbacks.rst} (94%)
+ rename Documentation/livepatch/{cumulative-patches.txt => cumulative-patches.rst} (89%)
+ create mode 100644 Documentation/livepatch/index.rst
+ rename Documentation/livepatch/{livepatch.txt => livepatch.rst} (93%)
+ rename Documentation/livepatch/{module-elf-format.txt => module-elf-format.rst} (68%)
+ rename Documentation/livepatch/{shadow-vars.txt => shadow-vars.rst} (87%)
 
-diff --git a/Documentation/iio/ep93xx_adc.txt b/Documentation/iio/ep93xx_adc.rst
-similarity index 71%
-rename from Documentation/iio/ep93xx_adc.txt
-rename to Documentation/iio/ep93xx_adc.rst
-index 23053e7817bd..4fd8dea3f6b8 100644
---- a/Documentation/iio/ep93xx_adc.txt
-+++ b/Documentation/iio/ep93xx_adc.rst
-@@ -1,12 +1,16 @@
--Cirrus Logic EP93xx ADC driver.
-+==============================
-+Cirrus Logic EP93xx ADC driver
-+==============================
+diff --git a/Documentation/ABI/testing/sysfs-kernel-livepatch b/Documentation/ABI/testing/sysfs-kernel-livepatch
+index 85db352f68f9..bea7bd5a1d5f 100644
+--- a/Documentation/ABI/testing/sysfs-kernel-livepatch
++++ b/Documentation/ABI/testing/sysfs-kernel-livepatch
+@@ -45,7 +45,7 @@ Description:
+ 		use this feature without a clearance from a patch
+ 		distributor. Removal (rmmod) of patch modules is permanently
+ 		disabled when the feature is used. See
+-		Documentation/livepatch/livepatch.txt for more information.
++		Documentation/livepatch/livepatch.rst for more information.
  
- 1. Overview
-+===========
+ What:		/sys/kernel/livepatch/<patch>/<object>
+ Date:		Nov 2014
+diff --git a/Documentation/livepatch/callbacks.txt b/Documentation/livepatch/callbacks.rst
+similarity index 94%
+rename from Documentation/livepatch/callbacks.txt
+rename to Documentation/livepatch/callbacks.rst
+index 182e31d4abce..d76d1f0d9fcf 100644
+--- a/Documentation/livepatch/callbacks.txt
++++ b/Documentation/livepatch/callbacks.rst
+@@ -30,16 +30,20 @@ be patched, irrespective of the target klp_object's current state.
  
- The driver is intended to work on both low-end (EP9301, EP9302) devices with
- 5-channel ADC and high-end (EP9307, EP9312, EP9315) devices with 10-channel
- touchscreen/ADC module.
+ Callbacks can be registered for the following livepatch actions:
  
- 2. Channel numbering
-+====================
+-  * Pre-patch    - before a klp_object is patched
++  * Pre-patch
++                 - before a klp_object is patched
  
- Numbering scheme for channels 0..4 is defined in EP9301 and EP9302 datasheets.
- EP9307, EP9312 and EP9312 have 3 channels more (total 8), but the numbering is
-@@ -17,13 +21,20 @@ Assuming ep93xx_adc is IIO device0, you'd find the following entries under
+-  * Post-patch   - after a klp_object has been patched and is active
++  * Post-patch
++                 - after a klp_object has been patched and is active
+                    across all tasks
  
-   +-----------------+---------------+
-   | sysfs entry     | ball/pin name |
--  +-----------------+---------------+
-+  +=================+===============+
-   | in_voltage0_raw | YM            |
-+  +-----------------+---------------+
-   | in_voltage1_raw | SXP           |
-+  +-----------------+---------------+
-   | in_voltage2_raw | SXM           |
-+  +-----------------+---------------+
-   | in_voltage3_raw | SYP           |
-+  +-----------------+---------------+
-   | in_voltage4_raw | SYM           |
-+  +-----------------+---------------+
-   | in_voltage5_raw | XP            |
-+  +-----------------+---------------+
-   | in_voltage6_raw | XM            |
-+  +-----------------+---------------+
-   | in_voltage7_raw | YP            |
-   +-----------------+---------------+
-diff --git a/Documentation/iio/iio_configfs.txt b/Documentation/iio/iio_configfs.rst
-similarity index 73%
-rename from Documentation/iio/iio_configfs.txt
-rename to Documentation/iio/iio_configfs.rst
-index 4e5f101837a8..ecbfdb3afef7 100644
---- a/Documentation/iio/iio_configfs.txt
-+++ b/Documentation/iio/iio_configfs.rst
-@@ -1,6 +1,9 @@
-+===============================
- Industrial IIO configfs support
-+===============================
+-  * Pre-unpatch  - before a klp_object is unpatched (ie, patched code is
++  * Pre-unpatch
++                 - before a klp_object is unpatched (ie, patched code is
+                    active), used to clean up post-patch callback
+                    resources
  
- 1. Overview
-+===========
+-  * Post-unpatch - after a klp_object has been patched, all code has
++  * Post-unpatch
++                 - after a klp_object has been patched, all code has
+                    been restored and no tasks are running patched code,
+                    used to cleanup pre-patch callback resources
  
- Configfs is a filesystem-based manager of kernel objects. IIO uses some
- objects that could be easily configured using configfs (e.g.: devices,
-@@ -10,20 +13,22 @@ See Documentation/filesystems/configfs/configfs.txt for more information
- about how configfs works.
+diff --git a/Documentation/livepatch/cumulative-patches.txt b/Documentation/livepatch/cumulative-patches.rst
+similarity index 89%
+rename from Documentation/livepatch/cumulative-patches.txt
+rename to Documentation/livepatch/cumulative-patches.rst
+index 0012808e8d44..1931f318976a 100644
+--- a/Documentation/livepatch/cumulative-patches.txt
++++ b/Documentation/livepatch/cumulative-patches.rst
+@@ -18,7 +18,7 @@ Usage
+ -----
  
- 2. Usage
-+========
+ The atomic replace can be enabled by setting "replace" flag in struct klp_patch,
+-for example:
++for example::
  
- In order to use configfs support in IIO we need to select it at compile
- time via CONFIG_IIO_CONFIGFS config option.
+ 	static struct klp_patch patch = {
+ 		.mod = THIS_MODULE,
+@@ -49,19 +49,19 @@ Features
  
--Then, mount the configfs filesystem (usually under /config directory):
-+Then, mount the configfs filesystem (usually under /config directory)::
+ The atomic replace allows:
  
--$ mkdir /config
--$ mount -t configfs none /config
-+  $ mkdir /config
-+  $ mount -t configfs none /config
+-  + Atomically revert some functions in a previous patch while
++  - Atomically revert some functions in a previous patch while
+     upgrading other functions.
  
- At this point, all default IIO groups will be created and can be accessed
- under /config/iio. Next chapters will describe available IIO configuration
- objects.
+-  + Remove eventual performance impact caused by core redirection
++  - Remove eventual performance impact caused by core redirection
+     for functions that are no longer patched.
  
- 3. Software triggers
-+====================
- 
- One of the IIO default configfs groups is the "triggers" group. It is
- automagically accessible when the configfs is mounted and can be found
-@@ -31,40 +36,40 @@ under /config/iio/triggers.
- 
- IIO software triggers implementation offers support for creating multiple
- trigger types. A new trigger type is usually implemented as a separate
--kernel module following the interface in include/linux/iio/sw_trigger.h:
-+kernel module following the interface in include/linux/iio/sw_trigger.h::
- 
--/*
-- * drivers/iio/trigger/iio-trig-sample.c
-- * sample kernel module implementing a new trigger type
-- */
--#include <linux/iio/sw_trigger.h>
-+  /*
-+   * drivers/iio/trigger/iio-trig-sample.c
-+   * sample kernel module implementing a new trigger type
-+   */
-+  #include <linux/iio/sw_trigger.h>
+-  + Decrease user confusion about dependencies between livepatches.
++  - Decrease user confusion about dependencies between livepatches.
  
  
--static struct iio_sw_trigger *iio_trig_sample_probe(const char *name)
--{
-+  static struct iio_sw_trigger *iio_trig_sample_probe(const char *name)
-+  {
- 	/*
- 	 * This allocates and registers an IIO trigger plus other
- 	 * trigger type specific initialization.
- 	 */
--}
-+  }
+ Limitations:
+ ------------
  
--static int iio_trig_hrtimer_remove(struct iio_sw_trigger *swt)
--{
-+  static int iio_trig_hrtimer_remove(struct iio_sw_trigger *swt)
-+  {
- 	/*
- 	 * This undoes the actions in iio_trig_sample_probe
- 	 */
--}
-+  }
+-  + Once the operation finishes, there is no straightforward way
++  - Once the operation finishes, there is no straightforward way
+     to reverse it and restore the replaced patches atomically.
  
--static const struct iio_sw_trigger_ops iio_trig_sample_ops = {
-+  static const struct iio_sw_trigger_ops iio_trig_sample_ops = {
- 	.probe		= iio_trig_sample_probe,
- 	.remove		= iio_trig_sample_remove,
--};
-+  };
+     A good practice is to set .replace flag in any released livepatch.
+@@ -74,7 +74,7 @@ Limitations:
+     only when the transition was not forced.
  
--static struct iio_sw_trigger_type iio_trig_sample = {
-+  static struct iio_sw_trigger_type iio_trig_sample = {
- 	.name = "trig-sample",
- 	.owner = THIS_MODULE,
- 	.ops = &iio_trig_sample_ops,
--};
-+  };
  
- module_iio_sw_trigger_driver(iio_trig_sample);
+-  + Only the (un)patching callbacks from the _new_ cumulative livepatch are
++  - Only the (un)patching callbacks from the _new_ cumulative livepatch are
+     executed. Any callbacks from the replaced patches are ignored.
  
-@@ -73,21 +78,24 @@ iio-trig-sample module will create 'trig-sample' trigger type directory
- /config/iio/triggers/trig-sample.
+     In other words, the cumulative patch is responsible for doing any actions
+@@ -93,7 +93,7 @@ Limitations:
+     enabled patches were called.
  
- We support the following interrupt sources (trigger types):
-+
- 	* hrtimer, uses high resolution timers as interrupt source
  
- 3.1 Hrtimer triggers creation and destruction
-+---------------------------------------------
- 
- Loading iio-trig-hrtimer module will register hrtimer trigger types allowing
- users to create hrtimer triggers under /config/iio/triggers/hrtimer.
- 
--e.g:
-+e.g::
- 
--$ mkdir /config/iio/triggers/hrtimer/instance1
--$ rmdir /config/iio/triggers/hrtimer/instance1
-+  $ mkdir /config/iio/triggers/hrtimer/instance1
-+  $ rmdir /config/iio/triggers/hrtimer/instance1
- 
- Each trigger can have one or more attributes specific to the trigger type.
- 
- 3.2 "hrtimer" trigger types attributes
-+--------------------------------------
- 
- "hrtimer" trigger type doesn't have any configurable attribute from /config dir.
- It does introduce the sampling_frequency attribute to trigger directory.
-diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
+-  + There is no special handling of shadow variables. Livepatch authors
++  - There is no special handling of shadow variables. Livepatch authors
+     must create their own rules how to pass them from one cumulative
+     patch to the other. Especially that they should not blindly remove
+     them in module_exit() functions.
+diff --git a/Documentation/livepatch/index.rst b/Documentation/livepatch/index.rst
 new file mode 100644
-index 000000000000..0593dca89a94
+index 000000000000..edd291d51847
 --- /dev/null
-+++ b/Documentation/iio/index.rst
-@@ -0,0 +1,12 @@
++++ b/Documentation/livepatch/index.rst
+@@ -0,0 +1,21 @@
 +:orphan:
 +
-+==============
-+Industrial I/O
-+==============
++===================
++Kernel Livepatching
++===================
 +
 +.. toctree::
-+   :maxdepth: 1
++    :maxdepth: 1
 +
-+   iio_configfs
++    livepatch
++    callbacks
++    cumulative-patches
++    module-elf-format
++    shadow-vars
 +
-+   ep93xx_adc
-diff --git a/drivers/iio/Kconfig b/drivers/iio/Kconfig
-index 014006d1cbb6..c1aa87db19ff 100644
---- a/drivers/iio/Kconfig
-+++ b/drivers/iio/Kconfig
-@@ -28,7 +28,7 @@ config IIO_CONFIGFS
- 	help
- 	  This allows configuring various IIO bits through configfs
- 	  (e.g. software triggers). For more info see
--	  Documentation/iio/iio_configfs.txt.
-+	  Documentation/iio/iio_configfs.rst.
++.. only::  subproject and html
++
++   Indices
++   =======
++
++   * :ref:`genindex`
+diff --git a/Documentation/livepatch/livepatch.txt b/Documentation/livepatch/livepatch.rst
+similarity index 93%
+rename from Documentation/livepatch/livepatch.txt
+rename to Documentation/livepatch/livepatch.rst
+index 4627b41ff02e..c2c598c4ead8 100644
+--- a/Documentation/livepatch/livepatch.txt
++++ b/Documentation/livepatch/livepatch.rst
+@@ -4,22 +4,22 @@ Livepatch
  
- config IIO_TRIGGER
- 	bool "Enable triggered sampling support"
+ This document outlines basic information about kernel livepatching.
+ 
+-Table of Contents:
++.. Table of Contents:
+ 
+-1. Motivation
+-2. Kprobes, Ftrace, Livepatching
+-3. Consistency model
+-4. Livepatch module
+-   4.1. New functions
+-   4.2. Metadata
+-5. Livepatch life-cycle
+-   5.1. Loading
+-   5.2. Enabling
+-   5.3. Replacing
+-   5.4. Disabling
+-   5.5. Removing
+-6. Sysfs
+-7. Limitations
++    1. Motivation
++    2. Kprobes, Ftrace, Livepatching
++    3. Consistency model
++    4. Livepatch module
++       4.1. New functions
++       4.2. Metadata
++    5. Livepatch life-cycle
++       5.1. Loading
++       5.2. Enabling
++       5.3. Replacing
++       5.4. Disabling
++       5.5. Removing
++    6. Sysfs
++    7. Limitations
+ 
+ 
+ 1. Motivation
+@@ -40,14 +40,14 @@ There are multiple mechanisms in the Linux kernel that are directly related
+ to redirection of code execution; namely: kernel probes, function tracing,
+ and livepatching:
+ 
+-  + The kernel probes are the most generic. The code can be redirected by
++  - The kernel probes are the most generic. The code can be redirected by
+     putting a breakpoint instruction instead of any instruction.
+ 
+-  + The function tracer calls the code from a predefined location that is
++  - The function tracer calls the code from a predefined location that is
+     close to the function entry point. This location is generated by the
+     compiler using the '-pg' gcc option.
+ 
+-  + Livepatching typically needs to redirect the code at the very beginning
++  - Livepatching typically needs to redirect the code at the very beginning
+     of the function entry before the function parameters or the stack
+     are in any way modified.
+ 
+@@ -249,7 +249,7 @@ The patch contains only functions that are really modified. But they
+ might want to access functions or data from the original source file
+ that may only be locally accessible. This can be solved by a special
+ relocation section in the generated livepatch module, see
+-Documentation/livepatch/module-elf-format.txt for more details.
++Documentation/livepatch/module-elf-format.rst for more details.
+ 
+ 
+ 4.2. Metadata
+@@ -258,7 +258,7 @@ Documentation/livepatch/module-elf-format.txt for more details.
+ The patch is described by several structures that split the information
+ into three levels:
+ 
+-  + struct klp_func is defined for each patched function. It describes
++  - struct klp_func is defined for each patched function. It describes
+     the relation between the original and the new implementation of a
+     particular function.
+ 
+@@ -275,7 +275,7 @@ into three levels:
+     only for a particular object ( vmlinux or a kernel module ). Note that
+     kallsyms allows for searching symbols according to the object name.
+ 
+-  + struct klp_object defines an array of patched functions (struct
++  - struct klp_object defines an array of patched functions (struct
+     klp_func) in the same object. Where the object is either vmlinux
+     (NULL) or a module name.
+ 
+@@ -285,7 +285,7 @@ into three levels:
+     only when they are available.
+ 
+ 
+-  + struct klp_patch defines an array of patched objects (struct
++  - struct klp_patch defines an array of patched objects (struct
+     klp_object).
+ 
+     This structure handles all patched functions consistently and eventually,
+@@ -337,14 +337,16 @@ operation fails.
+ Second, livepatch enters into a transition state where tasks are converging
+ to the patched state. If an original function is patched for the first
+ time, a function specific struct klp_ops is created and an universal
+-ftrace handler is registered[*]. This stage is indicated by a value of '1'
++ftrace handler is registered\ [#]_. This stage is indicated by a value of '1'
+ in /sys/kernel/livepatch/<name>/transition. For more information about
+ this process, see the "Consistency model" section.
+ 
+ Finally, once all tasks have been patched, the 'transition' value changes
+ to '0'.
+ 
+-[*] Note that functions might be patched multiple times. The ftrace handler
++.. [#]
++
++    Note that functions might be patched multiple times. The ftrace handler
+     is registered only once for a given function. Further patches just add
+     an entry to the list (see field `func_stack`) of the struct klp_ops.
+     The right implementation is selected by the ftrace handler, see
+@@ -368,7 +370,7 @@ the ftrace handler is unregistered and the struct klp_ops is
+ freed when the related function is not modified by the new patch
+ and func_stack list becomes empty.
+ 
+-See Documentation/livepatch/cumulative-patches.txt for more details.
++See Documentation/livepatch/cumulative-patches.rst for more details.
+ 
+ 
+ 5.4. Disabling
+@@ -421,7 +423,7 @@ See Documentation/ABI/testing/sysfs-kernel-livepatch for more details.
+ 
+ The current Livepatch implementation has several limitations:
+ 
+-  + Only functions that can be traced could be patched.
++  - Only functions that can be traced could be patched.
+ 
+     Livepatch is based on the dynamic ftrace. In particular, functions
+     implementing ftrace or the livepatch ftrace handler could not be
+@@ -431,7 +433,7 @@ The current Livepatch implementation has several limitations:
+ 
+ 
+ 
+-  + Livepatch works reliably only when the dynamic ftrace is located at
++  - Livepatch works reliably only when the dynamic ftrace is located at
+     the very beginning of the function.
+ 
+     The function need to be redirected before the stack or the function
+@@ -445,7 +447,7 @@ The current Livepatch implementation has several limitations:
+     this is handled on the ftrace level.
+ 
+ 
+-  + Kretprobes using the ftrace framework conflict with the patched
++  - Kretprobes using the ftrace framework conflict with the patched
+     functions.
+ 
+     Both kretprobes and livepatches use a ftrace handler that modifies
+@@ -453,7 +455,7 @@ The current Livepatch implementation has several limitations:
+     is rejected when the handler is already in use by the other.
+ 
+ 
+-  + Kprobes in the original function are ignored when the code is
++  - Kprobes in the original function are ignored when the code is
+     redirected to the new implementation.
+ 
+     There is a work in progress to add warnings about this situation.
+diff --git a/Documentation/livepatch/module-elf-format.txt b/Documentation/livepatch/module-elf-format.rst
+similarity index 68%
+rename from Documentation/livepatch/module-elf-format.txt
+rename to Documentation/livepatch/module-elf-format.rst
+index f21a5289a09c..7f557c6f6deb 100644
+--- a/Documentation/livepatch/module-elf-format.txt
++++ b/Documentation/livepatch/module-elf-format.rst
+@@ -4,29 +4,29 @@ Livepatch module Elf format
+ 
+ This document outlines the Elf format requirements that livepatch modules must follow.
+ 
+------------------
+-Table of Contents
+------------------
+-0. Background and motivation
+-1. Livepatch modinfo field
+-2. Livepatch relocation sections
+-   2.1 What are livepatch relocation sections?
+-   2.2 Livepatch relocation section format
+-       2.2.1 Required flags
+-       2.2.2 Required name format
+-       2.2.3 Example livepatch relocation section names
+-       2.2.4 Example `readelf --sections` output
+-       2.2.5 Example `readelf --relocs` output
+-3. Livepatch symbols
+-   3.1 What are livepatch symbols?
+-   3.2 A livepatch module's symbol table
+-   3.3 Livepatch symbol format
+-       3.3.1 Required flags
+-       3.3.2 Required name format
+-       3.3.3 Example livepatch symbol names
+-       3.3.4 Example `readelf --symbols` output
+-4. Architecture-specific sections
+-5. Symbol table and Elf section access
++
++.. Table of Contents
++
++   0. Background and motivation
++   1. Livepatch modinfo field
++   2. Livepatch relocation sections
++      2.1 What are livepatch relocation sections?
++      2.2 Livepatch relocation section format
++          2.2.1 Required flags
++          2.2.2 Required name format
++          2.2.3 Example livepatch relocation section names
++          2.2.4 Example `readelf --sections` output
++          2.2.5 Example `readelf --relocs` output
++   3. Livepatch symbols
++      3.1 What are livepatch symbols?
++      3.2 A livepatch module's symbol table
++      3.3 Livepatch symbol format
++          3.3.1 Required flags
++          3.3.2 Required name format
++          3.3.3 Example livepatch symbol names
++          3.3.4 Example `readelf --symbols` output
++   4. Architecture-specific sections
++   5. Symbol table and Elf section access
+ 
+ ----------------------------
+ 0. Background and motivation
+@@ -89,12 +89,15 @@ used by the kernel module loader to identify livepatch modules.
+ 
+ Example modinfo output:
+ -----------------------
+-% modinfo livepatch-meminfo.ko
+-filename:		livepatch-meminfo.ko
+-livepatch:		Y
+-license:		GPL
+-depends:
+-vermagic:		4.3.0+ SMP mod_unload
++
++::
++
++	% modinfo livepatch-meminfo.ko
++	filename:		livepatch-meminfo.ko
++	livepatch:		Y
++	license:		GPL
++	depends:
++	vermagic:		4.3.0+ SMP mod_unload
+ 
+ --------------------------------
+ 2. Livepatch relocation sections
+@@ -142,17 +145,18 @@ be copied into memory along with the other SHF_ALLOC sections).
+ 
+ 2.2.2 Required name format
+ --------------------------
+-The name of a livepatch relocation section must conform to the following format:
++The name of a livepatch relocation section must conform to the following
++format::
+ 
+-.klp.rela.objname.section_name
+-^        ^^     ^ ^          ^
+-|________||_____| |__________|
+-   [A]      [B]        [C]
++  .klp.rela.objname.section_name
++  ^        ^^     ^ ^          ^
++  |________||_____| |__________|
++     [A]      [B]        [C]
+ 
+-[A] The relocation section name is prefixed with the string ".klp.rela."
+-[B] The name of the object (i.e. "vmlinux" or name of module) to
+-    which the relocation section belongs follows immediately after the prefix.
+-[C] The actual name of the section to which this relocation section applies.
++  [A] The relocation section name is prefixed with the string ".klp.rela."
++  [B] The name of the object (i.e. "vmlinux" or name of module) to
++      which the relocation section belongs follows immediately after the prefix.
++  [C] The actual name of the section to which this relocation section applies.
+ 
+ 2.2.3 Example livepatch relocation section names:
+ -------------------------------------------------
+@@ -162,6 +166,9 @@ The name of a livepatch relocation section must conform to the following format:
+ 2.2.4 Example `readelf --sections` output for a patch
+ module that patches vmlinux and modules 9p, btrfs, ext4:
+ --------------------------------------------------------
++
++::
++
+   Section Headers:
+   [Nr] Name                          Type                    Address          Off    Size   ES Flg Lk Inf Al
+   [ snip ]
+@@ -175,23 +182,26 @@ module that patches vmlinux and modules 9p, btrfs, ext4:
+   [ snip ]                                       ^                                             ^
+                                                  |                                             |
+                                                 [*]                                           [*]
+-[*] Livepatch relocation sections are SHT_RELA sections but with a few special
+-characteristics. Notice that they are marked SHF_ALLOC ("A") so that they will
+-not be discarded when the module is loaded into memory, as well as with the
+-SHF_RELA_LIVEPATCH flag ("o" - for OS-specific).
++  [*] Livepatch relocation sections are SHT_RELA sections but with a few special
++  characteristics. Notice that they are marked SHF_ALLOC ("A") so that they will
++  not be discarded when the module is loaded into memory, as well as with the
++  SHF_RELA_LIVEPATCH flag ("o" - for OS-specific).
+ 
+ 2.2.5 Example `readelf --relocs` output for a patch module:
+ -----------------------------------------------------------
+-Relocation section '.klp.rela.btrfs.text.btrfs_feature_attr_show' at offset 0x2ba0 contains 4 entries:
+-    Offset             Info             Type               Symbol's Value  Symbol's Name + Addend
+-000000000000001f  0000005e00000002 R_X86_64_PC32          0000000000000000 .klp.sym.vmlinux.printk,0 - 4
+-0000000000000028  0000003d0000000b R_X86_64_32S           0000000000000000 .klp.sym.btrfs.btrfs_ktype,0 + 0
+-0000000000000036  0000003b00000002 R_X86_64_PC32          0000000000000000 .klp.sym.btrfs.can_modify_feature.isra.3,0 - 4
+-000000000000004c  0000004900000002 R_X86_64_PC32          0000000000000000 .klp.sym.vmlinux.snprintf,0 - 4
+-[ snip ]                                                                   ^
+-                                                                           |
++
++::
++
++  Relocation section '.klp.rela.btrfs.text.btrfs_feature_attr_show' at offset 0x2ba0 contains 4 entries:
++      Offset             Info             Type               Symbol's Value  Symbol's Name + Addend
++  000000000000001f  0000005e00000002 R_X86_64_PC32          0000000000000000 .klp.sym.vmlinux.printk,0 - 4
++  0000000000000028  0000003d0000000b R_X86_64_32S           0000000000000000 .klp.sym.btrfs.btrfs_ktype,0 + 0
++  0000000000000036  0000003b00000002 R_X86_64_PC32          0000000000000000 .klp.sym.btrfs.can_modify_feature.isra.3,0 - 4
++  000000000000004c  0000004900000002 R_X86_64_PC32          0000000000000000 .klp.sym.vmlinux.snprintf,0 - 4
++  [ snip ]                                                                   ^
++                                                                             |
+                                                                           [*]
+-[*] Every symbol referenced by a relocation is a livepatch symbol.
++  [*] Every symbol referenced by a relocation is a livepatch symbol.
+ 
+ --------------------
+ 3. Livepatch symbols
+@@ -231,18 +241,19 @@ relocation section refer to their respective symbols with their symbol indices,
+ and the original symbol indices (and thus the symtab ordering) must be
+ preserved in order for apply_relocate_add() to find the right symbol.
+ 
+-For example, take this particular rela from a livepatch module:
+-Relocation section '.klp.rela.btrfs.text.btrfs_feature_attr_show' at offset 0x2ba0 contains 4 entries:
+-    Offset             Info             Type               Symbol's Value  Symbol's Name + Addend
+-000000000000001f  0000005e00000002 R_X86_64_PC32          0000000000000000 .klp.sym.vmlinux.printk,0 - 4
++For example, take this particular rela from a livepatch module:::
+ 
+-This rela refers to the symbol '.klp.sym.vmlinux.printk,0', and the symbol index is encoded
+-in 'Info'. Here its symbol index is 0x5e, which is 94 in decimal, which refers to the
+-symbol index 94.
+-And in this patch module's corresponding symbol table, symbol index 94 refers to that very symbol:
+-[ snip ]
+-94: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT OS [0xff20] .klp.sym.vmlinux.printk,0
+-[ snip ]
++  Relocation section '.klp.rela.btrfs.text.btrfs_feature_attr_show' at offset 0x2ba0 contains 4 entries:
++      Offset             Info             Type               Symbol's Value  Symbol's Name + Addend
++  000000000000001f  0000005e00000002 R_X86_64_PC32          0000000000000000 .klp.sym.vmlinux.printk,0 - 4
++
++  This rela refers to the symbol '.klp.sym.vmlinux.printk,0', and the symbol index is encoded
++  in 'Info'. Here its symbol index is 0x5e, which is 94 in decimal, which refers to the
++  symbol index 94.
++  And in this patch module's corresponding symbol table, symbol index 94 refers to that very symbol:
++  [ snip ]
++  94: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT OS [0xff20] .klp.sym.vmlinux.printk,0
++  [ snip ]
+ 
+ ---------------------------
+ 3.3 Livepatch symbol format
+@@ -256,42 +267,48 @@ See include/uapi/linux/elf.h for the actual definitions.
+ 
+ 3.3.2 Required name format
+ --------------------------
+-Livepatch symbol names must conform to the following format:
++Livepatch symbol names must conform to the following format::
+ 
+-.klp.sym.objname.symbol_name,sympos
+-^       ^^     ^ ^         ^ ^
+-|_______||_____| |_________| |
+-   [A]     [B]       [C]    [D]
++  .klp.sym.objname.symbol_name,sympos
++  ^       ^^     ^ ^         ^ ^
++  |_______||_____| |_________| |
++     [A]     [B]       [C]    [D]
+ 
+-[A] The symbol name is prefixed with the string ".klp.sym."
+-[B] The name of the object (i.e. "vmlinux" or name of module) to
+-    which the symbol belongs follows immediately after the prefix.
+-[C] The actual name of the symbol.
+-[D] The position of the symbol in the object (as according to kallsyms)
+-    This is used to differentiate duplicate symbols within the same
+-    object. The symbol position is expressed numerically (0, 1, 2...).
+-    The symbol position of a unique symbol is 0.
++  [A] The symbol name is prefixed with the string ".klp.sym."
++  [B] The name of the object (i.e. "vmlinux" or name of module) to
++      which the symbol belongs follows immediately after the prefix.
++  [C] The actual name of the symbol.
++  [D] The position of the symbol in the object (as according to kallsyms)
++      This is used to differentiate duplicate symbols within the same
++      object. The symbol position is expressed numerically (0, 1, 2...).
++      The symbol position of a unique symbol is 0.
+ 
+ 3.3.3 Example livepatch symbol names:
+ -------------------------------------
+-.klp.sym.vmlinux.snprintf,0
+-.klp.sym.vmlinux.printk,0
+-.klp.sym.btrfs.btrfs_ktype,0
++
++::
++
++	.klp.sym.vmlinux.snprintf,0
++	.klp.sym.vmlinux.printk,0
++	.klp.sym.btrfs.btrfs_ktype,0
+ 
+ 3.3.4 Example `readelf --symbols` output for a patch module:
+ ------------------------------------------------------------
+-Symbol table '.symtab' contains 127 entries:
+-   Num:    Value          Size Type    Bind   Vis     Ndx         Name
+-   [ snip ]
+-    73: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT OS [0xff20] .klp.sym.vmlinux.snprintf,0
+-    74: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT OS [0xff20] .klp.sym.vmlinux.capable,0
+-    75: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT OS [0xff20] .klp.sym.vmlinux.find_next_bit,0
+-    76: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT OS [0xff20] .klp.sym.vmlinux.si_swapinfo,0
+-  [ snip ]                                               ^
+-                                                         |
+-                                                        [*]
+-[*] Note that the 'Ndx' (Section index) for these symbols is SHN_LIVEPATCH (0xff20).
+-    "OS" means OS-specific.
++
++::
++
++  Symbol table '.symtab' contains 127 entries:
++     Num:    Value          Size Type    Bind   Vis     Ndx         Name
++     [ snip ]
++      73: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT OS [0xff20] .klp.sym.vmlinux.snprintf,0
++      74: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT OS [0xff20] .klp.sym.vmlinux.capable,0
++      75: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT OS [0xff20] .klp.sym.vmlinux.find_next_bit,0
++      76: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT OS [0xff20] .klp.sym.vmlinux.si_swapinfo,0
++    [ snip ]                                               ^
++                                                           |
++                                                          [*]
++  [*] Note that the 'Ndx' (Section index) for these symbols is SHN_LIVEPATCH (0xff20).
++      "OS" means OS-specific.
+ 
+ ---------------------------------
+ 4. Architecture-specific sections
+@@ -313,11 +330,11 @@ Since apply_relocate_add() requires access to a module's section headers,
+ symbol table, and relocation section indices, Elf information is preserved for
+ livepatch modules and is made accessible by the module loader through
+ module->klp_info, which is a klp_modinfo struct. When a livepatch module loads,
+-this struct is filled in by the module loader. Its fields are documented below:
++this struct is filled in by the module loader. Its fields are documented below::
+ 
+-struct klp_modinfo {
+-	Elf_Ehdr hdr; /* Elf header */
+-	Elf_Shdr *sechdrs; /* Section header table */
+-	char *secstrings; /* String table for the section headers */
+-	unsigned int symndx; /* The symbol table section index */
+-};
++	struct klp_modinfo {
++		Elf_Ehdr hdr; /* Elf header */
++		Elf_Shdr *sechdrs; /* Section header table */
++		char *secstrings; /* String table for the section headers */
++		unsigned int symndx; /* The symbol table section index */
++	};
+diff --git a/Documentation/livepatch/shadow-vars.txt b/Documentation/livepatch/shadow-vars.rst
+similarity index 87%
+rename from Documentation/livepatch/shadow-vars.txt
+rename to Documentation/livepatch/shadow-vars.rst
+index ecc09a7be5dd..c05715aeafa4 100644
+--- a/Documentation/livepatch/shadow-vars.txt
++++ b/Documentation/livepatch/shadow-vars.rst
+@@ -27,10 +27,13 @@ A hashtable references all shadow variables.  These references are
+ stored and retrieved through a <obj, id> pair.
+ 
+ * The klp_shadow variable data structure encapsulates both tracking
+-meta-data and shadow-data:
++  meta-data and shadow-data:
++
+   - meta-data
++
+     - obj - pointer to parent object
+     - id - data identifier
++
+   - data[] - storage for shadow data
+ 
+ It is important to note that the klp_shadow_alloc() and
+@@ -47,31 +50,43 @@ to do actions that can be done only once when a new variable is allocated.
+ 
+ * klp_shadow_alloc() - allocate and add a new shadow variable
+   - search hashtable for <obj, id> pair
++
+   - if exists
++
+     - WARN and return NULL
++
+   - if <obj, id> doesn't already exist
++
+     - allocate a new shadow variable
+     - initialize the variable using a custom constructor and data when provided
+     - add <obj, id> to the global hashtable
+ 
+ * klp_shadow_get_or_alloc() - get existing or alloc a new shadow variable
+   - search hashtable for <obj, id> pair
++
+   - if exists
++
+     - return existing shadow variable
++
+   - if <obj, id> doesn't already exist
++
+     - allocate a new shadow variable
+     - initialize the variable using a custom constructor and data when provided
+     - add <obj, id> pair to the global hashtable
+ 
+ * klp_shadow_free() - detach and free a <obj, id> shadow variable
+   - find and remove a <obj, id> reference from global hashtable
++
+     - if found
++
+       - call destructor function if defined
+       - free shadow variable
+ 
+ * klp_shadow_free_all() - detach and free all <*, id> shadow variables
+   - find and remove any <*, id> references from global hashtable
++
+     - if found
++
+       - call destructor function if defined
+       - free shadow variable
+ 
+@@ -102,12 +117,12 @@ parent "goes live" (ie, any shadow variable get-API requests are made
+ for this <obj, id> pair.)
+ 
+ For commit 1d147bfa6429, when a parent sta_info structure is allocated,
+-allocate a shadow copy of the ps_lock pointer, then initialize it:
++allocate a shadow copy of the ps_lock pointer, then initialize it::
+ 
+-#define PS_LOCK 1
+-struct sta_info *sta_info_alloc(struct ieee80211_sub_if_data *sdata,
+-				const u8 *addr, gfp_t gfp)
+-{
++  #define PS_LOCK 1
++  struct sta_info *sta_info_alloc(struct ieee80211_sub_if_data *sdata,
++				  const u8 *addr, gfp_t gfp)
++  {
+ 	struct sta_info *sta;
+ 	spinlock_t *ps_lock;
+ 
+@@ -123,10 +138,10 @@ struct sta_info *sta_info_alloc(struct ieee80211_sub_if_data *sdata,
+ 	...
+ 
+ When requiring a ps_lock, query the shadow variable API to retrieve one
+-for a specific struct sta_info:
++for a specific struct sta_info:::
+ 
+-void ieee80211_sta_ps_deliver_wakeup(struct sta_info *sta)
+-{
++  void ieee80211_sta_ps_deliver_wakeup(struct sta_info *sta)
++  {
+ 	spinlock_t *ps_lock;
+ 
+ 	/* sync with ieee80211_tx_h_unicast_ps_buf */
+@@ -136,10 +151,10 @@ void ieee80211_sta_ps_deliver_wakeup(struct sta_info *sta)
+ 	...
+ 
+ When the parent sta_info structure is freed, first free the shadow
+-variable:
++variable::
+ 
+-void sta_info_free(struct ieee80211_local *local, struct sta_info *sta)
+-{
++  void sta_info_free(struct ieee80211_local *local, struct sta_info *sta)
++  {
+ 	klp_shadow_free(sta, PS_LOCK, NULL);
+ 	kfree(sta);
+ 	...
+@@ -155,19 +170,19 @@ these cases, the klp_shadow_get_or_alloc() call can be used to attach
+ shadow variables to parents already in-flight.
+ 
+ For commit 1d147bfa6429, a good spot to allocate a shadow spinlock is
+-inside ieee80211_sta_ps_deliver_wakeup():
++inside ieee80211_sta_ps_deliver_wakeup()::
+ 
+-int ps_lock_shadow_ctor(void *obj, void *shadow_data, void *ctor_data)
+-{
++  int ps_lock_shadow_ctor(void *obj, void *shadow_data, void *ctor_data)
++  {
+ 	spinlock_t *lock = shadow_data;
+ 
+ 	spin_lock_init(lock);
+ 	return 0;
+-}
++  }
+ 
+-#define PS_LOCK 1
+-void ieee80211_sta_ps_deliver_wakeup(struct sta_info *sta)
+-{
++  #define PS_LOCK 1
++  void ieee80211_sta_ps_deliver_wakeup(struct sta_info *sta)
++  {
+ 	spinlock_t *ps_lock;
+ 
+ 	/* sync with ieee80211_tx_h_unicast_ps_buf */
+@@ -200,10 +215,12 @@ suggests how to handle the parent object.
+ =============
+ 
+ * https://github.com/dynup/kpatch
+-The livepatch implementation is based on the kpatch version of shadow
+-variables.
++
++  The livepatch implementation is based on the kpatch version of shadow
++  variables.
+ 
+ * http://files.mkgnu.net/files/dynamos/doc/papers/dynamos_eurosys_07.pdf
+-Dynamic and Adaptive Updates of Non-Quiescent Subsystems in Commodity
+-Operating System Kernels (Kritis Makris, Kyung Dong Ryu 2007) presented
+-a datatype update technique called "shadow data structures".
++
++  Dynamic and Adaptive Updates of Non-Quiescent Subsystems in Commodity
++  Operating System Kernels (Kritis Makris, Kyung Dong Ryu 2007) presented
++  a datatype update technique called "shadow data structures".
+diff --git a/tools/objtool/Documentation/stack-validation.txt b/tools/objtool/Documentation/stack-validation.txt
+index 3995735a878f..8df526c80b65 100644
+--- a/tools/objtool/Documentation/stack-validation.txt
++++ b/tools/objtool/Documentation/stack-validation.txt
+@@ -111,7 +111,7 @@ c) Higher live patching compatibility rate
+    be detectable).  Objtool makes that possible.
+ 
+    For more details, see the livepatch documentation in the Linux kernel
+-   source tree at Documentation/livepatch/livepatch.txt.
++   source tree at Documentation/livepatch/livepatch.rst.
+ 
+ Rules
+ -----
 -- 
 2.20.1
 
