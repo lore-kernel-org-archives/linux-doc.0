@@ -5,44 +5,45 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 196A37D918
+	by archive.lwn.net (Postfix) with ESMTP id 36E337D919
 	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Apr 2019 13:35:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727452AbfDVN2Q (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Apr 2019 09:28:16 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:36896 "EHLO
+        id S1727463AbfDVN2R (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Apr 2019 09:28:17 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:36892 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727402AbfDVN2O (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Apr 2019 09:28:14 -0400
+        with ESMTP id S1727401AbfDVN2P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Apr 2019 09:28:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=HYB8QycB6SOcXnUVrWXVnGq0cf9ZQ/chN+ixl9wYt78=; b=ZutF45aTUSzZqAfWj0mD478Yls
-        UEK/3D9Cr/3wTaxBP+q+tGW+g2epcZ5l6jQ4UJC7B8/QerxAvAdXHWH37FWaVe2b5PHEdtr3JLC75
-        ohWlhpOcrT9ewZBFjhB/qAozs2p1OLykEVP945i9hayttHn8iCuuH/AS+AW/oyve7QPkcLo26HwJl
-        Y3u6vDZDhaTSmGMbAkTETS9P0Loz/q/RR4zR1+0C4SekPKk2negAzsdPwlg8ucxEnjL73luvXyRuz
-        vc292dqft5R+hM7KJe0MKph78iri9d7j4piNb6i+fqkIjdugc1lXj6P2UZtz9QfbHy5UjWy8/y0Nu
-        pyf4VEwg==;
+        bh=ymqOIFwuW6QIeBqOL3PLM0YGGItO6eMrlYDdHVPp7L0=; b=nxzDih+EZRpeZSKtAchbXr+sAc
+        jLmiZbrDdEke8lsQ+3fWrgME8oqTdSRdIDcM6lm/4ETk0GIOFdWOTWqs5KMW1faG0LTTh7yLL/fsE
+        viD96fXlaEHBB+2YA93fsOg5MwJNa2AJk2F3GxbRjSWhI7/VEZVleqplOPHsrW4lcoq0Liz9fGdPs
+        /FDm6cyPlnWEfejCGIiRzTeO6J5AC2twy3HSFXon3/kBNPHgV9oNjRanI2locAr1GJz5uZjvVp0Xb
+        IoPRQgXC6T+bfJ6HWDhRgnLn7eKmIe9qWwFk92aL528Pw60szIQabyH+GHzYjfpxY0yCn+Gwgd0s/
+        fFMjBSSA==;
 Received: from 179.176.125.229.dynamic.adsl.gvt.net.br ([179.176.125.229] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hIYzU-0005HZ-Mu; Mon, 22 Apr 2019 13:28:13 +0000
+        id 1hIYzU-0005Hj-QL; Mon, 22 Apr 2019 13:28:13 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hIYzS-0005k5-Gv; Mon, 22 Apr 2019 10:28:10 -0300
+        id 1hIYzS-0005kg-NE; Mon, 22 Apr 2019 10:28:10 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        linux-pm@vger.kernel.org
-Subject: [PATCH v2 10/79] docs: cpu-freq: convert docs to ReST and rename to *.rst
-Date:   Mon, 22 Apr 2019 10:26:59 -0300
-Message-Id: <90ab7c100b7fb0120689ebeda5d13447b2cb2af8.1555938375.git.mchehab+samsung@kernel.org>
+        Borislav Petkov <bp@alien8.de>, Jens Axboe <axboe@kernel.dk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-ide@vger.kernel.org, linux-m68k@lists.linux-m68k.org
+Subject: [PATCH v2 16/79] docs: ide: convert docs to ReST and rename to *.rst
+Date:   Mon, 22 Apr 2019 10:27:05 -0300
+Message-Id: <990303426b8d75b98531731246d704e3b1a49f9e.1555938376.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1555938375.git.mchehab+samsung@kernel.org>
 References: <cover.1555938375.git.mchehab+samsung@kernel.org>
@@ -65,831 +66,455 @@ the main index.rst file, in order to avoid build warnings.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- .../{amd-powernow.txt => amd-powernow.rst}    |  11 +-
- Documentation/cpu-freq/{core.txt => core.rst} |  66 +++---
- .../{cpu-drivers.txt => cpu-drivers.rst}      | 217 +++++++++---------
- ...pufreq-nforce2.txt => cpufreq-nforce2.rst} |  12 +-
- Documentation/cpu-freq/cpufreq-stats.rst      | 128 +++++++++++
- Documentation/cpu-freq/cpufreq-stats.txt      | 127 ----------
- Documentation/cpu-freq/index.rst              |  52 +++++
- Documentation/cpu-freq/index.txt              |  56 -----
- .../{pcc-cpufreq.txt => pcc-cpufreq.rst}      | 102 ++++----
- drivers/cpufreq/Kconfig.x86                   |   2 +-
- 10 files changed, 391 insertions(+), 382 deletions(-)
- rename Documentation/cpu-freq/{amd-powernow.txt => amd-powernow.rst} (91%)
- rename Documentation/cpu-freq/{core.txt => core.rst} (67%)
- rename Documentation/cpu-freq/{cpu-drivers.txt => cpu-drivers.rst} (57%)
- rename Documentation/cpu-freq/{cpufreq-nforce2.txt => cpufreq-nforce2.rst} (65%)
- create mode 100644 Documentation/cpu-freq/cpufreq-stats.rst
- delete mode 100644 Documentation/cpu-freq/cpufreq-stats.txt
- create mode 100644 Documentation/cpu-freq/index.rst
- delete mode 100644 Documentation/cpu-freq/index.txt
- rename Documentation/cpu-freq/{pcc-cpufreq.txt => pcc-cpufreq.rst} (80%)
+ .../admin-guide/kernel-parameters.txt         |   2 +-
+ Documentation/cdrom/ide-cd.rst                |  18 +--
+ Documentation/ide/changelogs.rst              |  17 ++
+ .../ide/{ide-tape.txt => ide-tape.rst}        |  23 +--
+ Documentation/ide/{ide.txt => ide.rst}        | 147 ++++++++++--------
+ Documentation/ide/index.rst                   |  21 +++
+ ...arm-plug-howto.txt => warm-plug-howto.rst} |  10 +-
+ arch/m68k/q40/README                          |   2 +-
+ drivers/ide/Kconfig                           |  20 +--
+ 9 files changed, 155 insertions(+), 105 deletions(-)
+ create mode 100644 Documentation/ide/changelogs.rst
+ rename Documentation/ide/{ide-tape.txt => ide-tape.rst} (83%)
+ rename Documentation/ide/{ide.txt => ide.rst} (72%)
+ create mode 100644 Documentation/ide/index.rst
+ rename Documentation/ide/{warm-plug-howto.txt => warm-plug-howto.rst} (61%)
 
-diff --git a/Documentation/cpu-freq/amd-powernow.txt b/Documentation/cpu-freq/amd-powernow.rst
-similarity index 91%
-rename from Documentation/cpu-freq/amd-powernow.txt
-rename to Documentation/cpu-freq/amd-powernow.rst
-index 254da155fa47..50b2c45c3a2c 100644
---- a/Documentation/cpu-freq/amd-powernow.txt
-+++ b/Documentation/cpu-freq/amd-powernow.rst
-@@ -1,3 +1,7 @@
-+=============================
-+AMD powernow driver specifics
-+=============================
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index fce382aebf60..bfe926a7b15f 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1504,7 +1504,7 @@
+ 			Format: =0.0 to prevent dma on hda, =0.1 hdb =1.0 hdc
+ 			.vlb_clock .pci_clock .noflush .nohpa .noprobe .nowerr
+ 			.cdrom .chs .ignore_cable are additional options
+-			See Documentation/ide/ide.txt.
++			See Documentation/ide/ide.rst.
+ 
+ 	ide-generic.probe-mask= [HW] (E)IDE subsystem
+ 			Format: <int>
+diff --git a/Documentation/cdrom/ide-cd.rst b/Documentation/cdrom/ide-cd.rst
+index dadc94ef6b6c..bdccb74fc92d 100644
+--- a/Documentation/cdrom/ide-cd.rst
++++ b/Documentation/cdrom/ide-cd.rst
+@@ -47,7 +47,7 @@ This driver provides the following features:
+ ---------------
+ 
+ 0. The ide-cd relies on the ide disk driver.  See
+-   Documentation/ide/ide.txt for up-to-date information on the ide
++   Documentation/ide/ide.rst for up-to-date information on the ide
+    driver.
+ 
+ 1. Make sure that the ide and ide-cd drivers are compiled into the
+@@ -62,7 +62,7 @@ This driver provides the following features:
+ 
+    Depending on what type of IDE interface you have, you may need to
+    specify additional configuration options.  See
+-   Documentation/ide/ide.txt.
++   Documentation/ide/ide.rst.
+ 
+ 2. You should also ensure that the iso9660 filesystem is either
+    compiled into the kernel or available as a loadable module.  You
+@@ -82,7 +82,7 @@ This driver provides the following features:
+    on the primary IDE interface are called `hda` and `hdb`,
+    respectively.  The drives on the secondary interface are called
+    `hdc` and `hdd`.  (Interfaces at other locations get other letters
+-   in the third position; see Documentation/ide/ide.txt.)
++   in the third position; see Documentation/ide/ide.rst.)
+ 
+    If you want your CDROM drive to be found automatically by the
+    driver, you should make sure your IDE interface uses either the
+@@ -91,7 +91,7 @@ This driver provides the following features:
+    be jumpered as `master`.  (If for some reason you cannot configure
+    your system in this manner, you can probably still use the driver.
+    You may have to pass extra configuration information to the kernel
+-   when you boot, however.  See Documentation/ide/ide.txt for more
++   when you boot, however.  See Documentation/ide/ide.rst for more
+    information.)
+ 
+ 4. Boot the system.  If the drive is recognized, you should see a
+@@ -163,7 +163,7 @@ to change.  If the slot number is -1, the drive is unloaded.
+ This section discusses some common problems encountered when trying to
+ use the driver, and some possible solutions.  Note that if you are
+ experiencing problems, you should probably also review
+-Documentation/ide/ide.txt for current information about the underlying
++Documentation/ide/ide.rst for current information about the underlying
+ IDE support code.  Some of these items apply only to earlier versions
+ of the driver, but are mentioned here for completeness.
+ 
+@@ -173,7 +173,7 @@ from the driver.
+ a. Drive is not detected during booting.
+ 
+    - Review the configuration instructions above and in
+-     Documentation/ide/ide.txt, and check how your hardware is
++     Documentation/ide/ide.rst, and check how your hardware is
+      configured.
+ 
+    - If your drive is the only device on an IDE interface, it should
+@@ -181,7 +181,7 @@ a. Drive is not detected during booting.
+ 
+    - If your IDE interface is not at the standard addresses of 0x170
+      or 0x1f0, you'll need to explicitly inform the driver using a
+-     lilo option.  See Documentation/ide/ide.txt.  (This feature was
++     lilo option.  See Documentation/ide/ide.rst.  (This feature was
+      added around kernel version 1.3.30.)
+ 
+    - If the autoprobing is not finding your drive, you can tell the
+@@ -207,7 +207,7 @@ a. Drive is not detected during booting.
+      Support for some interfaces needing extra initialization is
+      provided in later 1.3.x kernels.  You may need to turn on
+      additional kernel configuration options to get them to work;
+-     see Documentation/ide/ide.txt.
++     see Documentation/ide/ide.rst.
+ 
+      Even if support is not available for your interface, you may be
+      able to get it to work with the following procedure.  First boot
+@@ -261,7 +261,7 @@ c. System hangups.
+     be worked around by specifying the `serialize` option when
+     booting.  Recent kernels should be able to detect the need for
+     this automatically in most cases, but the detection is not
+-    foolproof.  See Documentation/ide/ide.txt for more information
++    foolproof.  See Documentation/ide/ide.rst for more information
+     about the `serialize` option and the CMD640B.
+ 
+   - Note that many MS-DOS CDROM drivers will work with such buggy
+diff --git a/Documentation/ide/changelogs.rst b/Documentation/ide/changelogs.rst
+new file mode 100644
+index 000000000000..fdf9d0fb8027
+--- /dev/null
++++ b/Documentation/ide/changelogs.rst
+@@ -0,0 +1,17 @@
++Changelog for ide cd
++--------------------
 +
- 
- PowerNow! and Cool'n'Quiet are AMD names for frequency
- management capabilities in AMD processors. As the hardware
-@@ -23,16 +27,19 @@ not supply these tables.
- 7th Generation: powernow-k7: Athlon, Duron, Geode.
- 
- 8th Generation: powernow-k8: Athlon, Athlon 64, Opteron, Sempron.
++ .. include:: ChangeLog.ide-cd.1994-2004
++    :literal:
 +
- Documentation on this functionality in 8th generation processors
- is available in the "BIOS and Kernel Developer's Guide", publication
--26094, in chapter 9, available for download from www.amd.com. 
-+26094, in chapter 9, available for download from www.amd.com.
- 
- BIOS supplied data, for powernow-k7 and for powernow-k8, may be
- from either the PSB table or from ACPI objects. The ACPI support
- is only available if the kernel config sets CONFIG_ACPI_PROCESSOR.
++Changelog for ide floppy
++------------------------
 +
- The powernow-k8 driver will attempt to use ACPI if so configured,
- and fall back to PST if that fails.
++ .. include:: ChangeLog.ide-floppy.1996-2002
++    :literal:
 +
- The powernow-k7 driver will try to use the PSB support first, and
- fall back to ACPI if the PSB support fails. A module parameter,
--acpi_force, is provided to force ACPI support to be used instead 
-+acpi_force, is provided to force ACPI support to be used instead
- of PSB support.
-diff --git a/Documentation/cpu-freq/core.txt b/Documentation/cpu-freq/core.rst
-similarity index 67%
-rename from Documentation/cpu-freq/core.txt
-rename to Documentation/cpu-freq/core.rst
-index 073f128af5a7..c719e3cb700c 100644
---- a/Documentation/cpu-freq/core.txt
-+++ b/Documentation/cpu-freq/core.rst
-@@ -1,31 +1,22 @@
--     CPU frequency and voltage scaling code in the Linux(TM) kernel
-+================================================================
-+General description of the CPUFreq core and of CPUFreq notifiers
-+================================================================
- 
-+Authors:
-+  - Dominik Brodowski  <linux@brodo.de>
-+  - David Kimdon <dwhedon@debian.org>
-+  - Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-+  - Viresh Kumar <viresh.kumar@linaro.org>
- 
--		         L i n u x    C P U F r e q
- 
--			  C P U F r e q    C o r e
-+.. Contents:
- 
--
--		    Dominik Brodowski  <linux@brodo.de>
--		     David Kimdon <dwhedon@debian.org>
--		Rafael J. Wysocki <rafael.j.wysocki@intel.com>
--		   Viresh Kumar <viresh.kumar@linaro.org>
--
--
--
--   Clock scaling allows you to change the clock speed of the CPUs on the
--    fly. This is a nice method to save battery power, because the lower
--            the clock speed, the less power the CPU consumes.
--
--
--Contents:
-----------
--1.  CPUFreq core and interfaces
--2.  CPUFreq notifiers
--3.  CPUFreq Table Generation with Operating Performance Point (OPP)
-+  1.  CPUFreq core and interfaces
-+  2.  CPUFreq notifiers
-+  3.  CPUFreq Table Generation with Operating Performance Point (OPP)
- 
- 1. General Information
--=======================
-+======================
- 
- The CPUFreq core code is located in drivers/cpufreq/cpufreq.c. This
- cpufreq code offers a standardized interface for the CPUFreq
-@@ -60,18 +51,18 @@ transition notifiers.
- These are notified when a new policy is intended to be set. Each
- CPUFreq policy notifier is called twice for a policy transition:
- 
--1.) During CPUFREQ_ADJUST all CPUFreq notifiers may change the limit if
--    they see a need for this - may it be thermal considerations or
--    hardware limitations.
-+1) During CPUFREQ_ADJUST all CPUFreq notifiers may change the limit if
-+   they see a need for this - may it be thermal considerations or
-+   hardware limitations.
- 
--2.) And during CPUFREQ_NOTIFY all notifiers are informed of the new policy
--   - if two hardware drivers failed to agree on a new policy before this
-+2) And during CPUFREQ_NOTIFY all notifiers are informed of the new policy -
-+   if two hardware drivers failed to agree on a new policy before this
-    stage, the incompatible hardware shall be shut down, and the user
-    informed of this.
- 
- The phase is specified in the second argument to the notifier.
- 
--The third argument, a void *pointer, points to a struct cpufreq_policy
-+The third argument, a `void *` pointer, points to a struct cpufreq_policy
- consisting of several values, including min, max (the lower and upper
- frequencies (in kHz) of the new policy).
- 
-@@ -88,23 +79,27 @@ CPUFREQ_POSTCHANGE.
- 
- The third argument is a struct cpufreq_freqs with the following
- values:
--cpu	- number of the affected CPU
--old	- old frequency
--new	- new frequency
--flags	- flags of the cpufreq driver
++Changelog for ide tape
++----------------------
 +
-+======= ===========================
-+cpu	number of the affected CPU
-+old	old frequency
-+new	new frequency
-+flags	flags of the cpufreq driver
-+======= ===========================
++ .. include:: ChangeLog.ide-tape.1995-2002
++    :literal:
+diff --git a/Documentation/ide/ide-tape.txt b/Documentation/ide/ide-tape.rst
+similarity index 83%
+rename from Documentation/ide/ide-tape.txt
+rename to Documentation/ide/ide-tape.rst
+index 3f348a0b21d8..3e061d9c0e38 100644
+--- a/Documentation/ide/ide-tape.txt
++++ b/Documentation/ide/ide-tape.rst
+@@ -1,4 +1,6 @@
+-IDE ATAPI streaming tape driver.
++===============================
++IDE ATAPI streaming tape driver
++===============================
  
- 3. CPUFreq Table Generation with Operating Performance Point (OPP)
- ==================================================================
- For details about OPP, see Documentation/power/opp.txt
+ This driver is a part of the Linux ide driver.
  
--dev_pm_opp_init_cpufreq_table -
-+dev_pm_opp_init_cpufreq_table
- 	This function provides a ready to use conversion routine to translate
- 	the OPP layer's internal information about the available frequencies
- 	into a format readily providable to cpufreq.
+@@ -10,14 +12,14 @@ to the request-list of the block device, and waits for their completion.
+ The block device major and minor numbers are determined from the
+ tape's relative position in the ide interfaces, as explained in ide.c.
  
- 	WARNING: Do not use this function in interrupt context.
+-The character device interface consists of the following devices:
++The character device interface consists of the following devices::
  
--	Example:
-+	Example::
+-ht0		major 37, minor 0	first  IDE tape, rewind on close.
+-ht1		major 37, minor 1	second IDE tape, rewind on close.
+-...
+-nht0		major 37, minor 128	first  IDE tape, no rewind on close.
+-nht1		major 37, minor 129	second IDE tape, no rewind on close.
+-...
++  ht0		major 37, minor 0	first  IDE tape, rewind on close.
++  ht1		major 37, minor 1	second IDE tape, rewind on close.
++  ...
++  nht0		major 37, minor 128	first  IDE tape, no rewind on close.
++  nht1		major 37, minor 129	second IDE tape, no rewind on close.
++  ...
+ 
+ The general magnetic tape commands compatible interface, as defined by
+ include/linux/mtio.h, is accessible through the character device.
+@@ -40,9 +42,10 @@ Testing was done with a 2 GB CONNER CTMA 4000 IDE ATAPI Streaming Tape Drive.
+ Here are some words from the first releases of hd.c, which are quoted
+ in ide.c and apply here as well:
+ 
+-| Special care is recommended.  Have Fun!
++* Special care is recommended.  Have Fun!
+ 
+-Possible improvements:
++Possible improvements
++=====================
+ 
+ 1. Support for the ATAPI overlap protocol.
+ 
+diff --git a/Documentation/ide/ide.txt b/Documentation/ide/ide.rst
+similarity index 72%
+rename from Documentation/ide/ide.txt
+rename to Documentation/ide/ide.rst
+index 7aca987c23d9..88bdcba92f7d 100644
+--- a/Documentation/ide/ide.txt
++++ b/Documentation/ide/ide.rst
+@@ -1,41 +1,43 @@
+-
+-	Information regarding the Enhanced IDE drive in Linux 2.6
+-
+-==============================================================================
+-
++============================================
++Information regarding the Enhanced IDE drive
++============================================
+ 
+    The hdparm utility can be used to control various IDE features on a
+    running system. It is packaged separately.  Please Look for it on popular
+    linux FTP sites.
+ 
++-------------------------------------------------------------------------------
+ 
++.. important::
+ 
+-***  IMPORTANT NOTICES:  BUGGY IDE CHIPSETS CAN CORRUPT DATA!!
+-***  =================
+-***  PCI versions of the CMD640 and RZ1000 interfaces are now detected
+-***  automatically at startup when PCI BIOS support is configured.
+-***
+-***  Linux disables the "prefetch" ("readahead") mode of the RZ1000
+-***  to prevent data corruption possible due to hardware design flaws.
+-***
+-***  For the CMD640, linux disables "IRQ unmasking" (hdparm -u1) on any
+-***  drive for which the "prefetch" mode of the CMD640 is turned on.
+-***  If "prefetch" is disabled (hdparm -p8), then "IRQ unmasking" can be
+-***  used again.
+-***
+-***  For the CMD640, linux disables "32bit I/O" (hdparm -c1) on any drive
+-***  for which the "prefetch" mode of the CMD640 is turned off.
+-***  If "prefetch" is enabled (hdparm -p9), then "32bit I/O" can be
+-***  used again.
+-***
+-***  The CMD640 is also used on some Vesa Local Bus (VLB) cards, and is *NOT*
+-***  automatically detected by Linux.  For safe, reliable operation with such
+-***  interfaces, one *MUST* use the "cmd640.probe_vlb" kernel option.
+-***
+-***  Use of the "serialize" option is no longer necessary.
+-
+-================================================================================
+-Common pitfalls:
++   BUGGY IDE CHIPSETS CAN CORRUPT DATA!!
 +
- 	 soc_pm_init()
- 	 {
- 		/* Do things */
-@@ -117,4 +112,5 @@ dev_pm_opp_init_cpufreq_table -
- 	NOTE: This function is available only if CONFIG_CPU_FREQ is enabled in
- 	addition to CONFIG_PM_OPP.
- 
--dev_pm_opp_free_cpufreq_table - Free up the table allocated by dev_pm_opp_init_cpufreq_table
-+dev_pm_opp_free_cpufreq_table
-+	Free up the table allocated by dev_pm_opp_init_cpufreq_table
-diff --git a/Documentation/cpu-freq/cpu-drivers.txt b/Documentation/cpu-freq/cpu-drivers.rst
-similarity index 57%
-rename from Documentation/cpu-freq/cpu-drivers.txt
-rename to Documentation/cpu-freq/cpu-drivers.rst
-index 6e353d00cdc6..9cc2559bc34b 100644
---- a/Documentation/cpu-freq/cpu-drivers.txt
-+++ b/Documentation/cpu-freq/cpu-drivers.rst
-@@ -1,35 +1,25 @@
--     CPU frequency and voltage scaling code in the Linux(TM) kernel
--
--
--		         L i n u x    C P U F r e q
--
--			   C P U   D r i v e r s 
--
--		       - information for developers -
--
--
--		    Dominik Brodowski  <linux@brodo.de>
--		Rafael J. Wysocki <rafael.j.wysocki@intel.com>
--		   Viresh Kumar <viresh.kumar@linaro.org>
--
--
--
--   Clock scaling allows you to change the clock speed of the CPUs on the
--    fly. This is a nice method to save battery power, because the lower
--            the clock speed, the less power the CPU consumes.
--
--
--Contents:
-----------
--1.   What To Do?
--1.1  Initialization
--1.2  Per-CPU Initialization
--1.3  verify
--1.4  target/target_index or setpolicy?
--1.5  target/target_index
--1.6  setpolicy
--1.7  get_intermediate and target_intermediate
--2.   Frequency Table Helpers
-+===============================================
-+How to implement a new cpufreq processor driver
-+===============================================
++    PCI versions of the CMD640 and RZ1000 interfaces are now detected
++    automatically at startup when PCI BIOS support is configured.
 +
-+.. information for developers
++    Linux disables the "prefetch" ("readahead") mode of the RZ1000
++    to prevent data corruption possible due to hardware design flaws.
 +
-+Authors:
-+  - Dominik Brodowski  <linux@brodo.de>
-+  - Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-+  - Viresh Kumar <viresh.kumar@linaro.org>
++    For the CMD640, linux disables "IRQ unmasking" (hdparm -u1) on any
++    drive for which the "prefetch" mode of the CMD640 is turned on.
++    If "prefetch" is disabled (hdparm -p8), then "IRQ unmasking" can be
++    used again.
 +
-+.. Contents:
++    For the CMD640, linux disables "32bit I/O" (hdparm -c1) on any drive
++    for which the "prefetch" mode of the CMD640 is turned off.
++    If "prefetch" is enabled (hdparm -p9), then "32bit I/O" can be
++    used again.
 +
-+   1.   What To Do?
-+   1.1  Initialization
-+   1.2  Per-CPU Initialization
-+   1.3  verify
-+   1.4  target/target_index or setpolicy?
-+   1.5  target/target_index
-+   1.6  setpolicy
-+   1.7  get_intermediate and target_intermediate
-+   2.   Frequency Table Helpers
++    The CMD640 is also used on some Vesa Local Bus (VLB) cards, and is *NOT*
++    automatically detected by Linux.  For safe, reliable operation with such
++    interfaces, one *MUST* use the "cmd640.probe_vlb" kernel option.
++
++    Use of the "serialize" option is no longer necessary.
++
++-------------------------------------------------------------------------------
++
++Common pitfalls
++===============
  
+ - 40-conductor IDE cables are capable of transferring data in DMA modes up to
+   udma2, but no faster.
+@@ -49,19 +51,18 @@ Common pitfalls:
+ - Even better try to stick to the same vendor and device type on the same
+   cable.
  
- 
-@@ -46,59 +36,73 @@ on what is necessary:
- 
- First of all, in an __initcall level 7 (module_init()) or later
- function check whether this kernel runs on the right CPU and the right
--chipset. If so, register a struct cpufreq_driver with the CPUfreq core
--using cpufreq_register_driver()
-+chipset. If so, register a `struct cpufreq_driver` with the CPUfreq core
-+using `cpufreq_register_driver()`
- 
--What shall this struct cpufreq_driver contain? 
-+What shall this `struct cpufreq_driver` contain?
- 
-- .name - The name of this driver.
-+.name
-+  The name of this driver.
- 
-- .init - A pointer to the per-policy initialization function.
-+.init
-+  A pointer to the per-policy initialization function.
- 
-- .verify - A pointer to a "verification" function.
-+.verify
-+  A pointer to a "verification" function.
- 
-- .setpolicy _or_ .fast_switch _or_ .target _or_ .target_index - See
-- below on the differences.
-+.setpolicy **or** .fast_switch **or** .target **or** .target_index
-+  See below on the differences.
- 
- And optionally
- 
-- .flags - Hints for the cpufreq core.
-+.flags
-+  Hints for the cpufreq core.
- 
-- .driver_data - cpufreq driver specific data.
-+.driver_data
-+  cpufreq driver specific data.
- 
-- .resolve_freq - Returns the most appropriate frequency for a target
-- frequency. Doesn't change the frequency though.
-+.resolve_freq
-+  Returns the most appropriate frequency for a target
-+  frequency. Doesn't change the frequency though.
- 
-- .get_intermediate and target_intermediate - Used to switch to stable
-- frequency while changing CPU frequency.
-+.get_intermediate and target_intermediate
-+  Used to switch to stable frequency while changing CPU frequency.
- 
-- .get - Returns current frequency of the CPU.
-+.get
-+  Returns current frequency of the CPU.
- 
-- .bios_limit - Returns HW/BIOS max frequency limitations for the CPU.
-+.bios_limit
-+  Returns HW/BIOS max frequency limitations for the CPU.
- 
-- .exit - A pointer to a per-policy cleanup function called during
-- CPU_POST_DEAD phase of cpu hotplug process.
-+.exit
-+  A pointer to a per-policy cleanup function called during
-+  CPU_POST_DEAD phase of cpu hotplug process.
- 
-- .stop_cpu - A pointer to a per-policy stop function called during
-- CPU_DOWN_PREPARE phase of cpu hotplug process.
-+.stop_cpu
-+  A pointer to a per-policy stop function called during
-+  CPU_DOWN_PREPARE phase of cpu hotplug process.
- 
-- .suspend - A pointer to a per-policy suspend function which is called
-- with interrupts disabled and _after_ the governor is stopped for the
-- policy.
-+.suspend
-+  A pointer to a per-policy suspend function which is called with
-+  interrupts disabled and **after** the governor is stopped for the policy.
- 
-- .resume - A pointer to a per-policy resume function which is called
-- with interrupts disabled and _before_ the governor is started again.
-+.resume
-+  A pointer to a per-policy resume function which is called
-+  with interrupts disabled and **before** the governor is started again.
- 
-- .ready - A pointer to a per-policy ready function which is called after
-- the policy is fully initialized.
-+.ready
-+  A pointer to a per-policy ready function which is called after
-+  the policy is fully initialized.
- 
-- .attr - A pointer to a NULL-terminated list of "struct freq_attr" which
-- allow to export values to sysfs.
-+.attr
-+  A pointer to a NULL-terminated list of `struct freq_attr` which
-+  allow to export values to sysfs.
- 
-- .boost_enabled - If set, boost frequencies are enabled.
-+.boost_enabled
-+  If set, boost frequencies are enabled.
- 
-- .set_boost - A pointer to a per-policy function to enable/disable boost
-- frequencies.
-+.set_boost
-+  A pointer to a per-policy function to enable/disable boost frequencies.
- 
- 
- 1.2 Per-CPU Initialization
-@@ -108,37 +112,42 @@ Whenever a new CPU is registered with the device model, or after the
- cpufreq driver registers itself, the per-policy initialization function
- cpufreq_driver.init is called if no cpufreq policy existed for the CPU.
- Note that the .init() and .exit() routines are called only once for the
--policy and not for each CPU managed by the policy. It takes a struct
--cpufreq_policy *policy as argument. What to do now?
-+policy and not for each CPU managed by the policy. It takes a `struct
-+cpufreq_policy *policy` as argument. What to do now?
- 
- If necessary, activate the CPUfreq support on your CPU.
- 
- Then, the driver must fill in the following values:
- 
--policy->cpuinfo.min_freq _and_
--policy->cpuinfo.max_freq -	the minimum and maximum frequency 
--				(in kHz) which is supported by 
--				this CPU
--policy->cpuinfo.transition_latency   the time it takes on this CPU to
--				switch between two frequencies in
--				nanoseconds (if appropriate, else
--				specify CPUFREQ_ETERNAL)
+-================================================================================
 -
--policy->cur			The current operating frequency of
--				this CPU (if appropriate)
--policy->min, 
--policy->max, 
--policy->policy and, if necessary,
--policy->governor		must contain the "default policy" for
--				this CPU. A few moments later,
--				cpufreq_driver.verify and either
--				cpufreq_driver.setpolicy or
--				cpufreq_driver.target/target_index is called
--				with these values.
--policy->cpus			Update this with the masks of the
--				(online + offline) CPUs that do DVFS
--				along with this CPU (i.e.  that share
--				clock/voltage rails with it).
-++---------------------------------------+--------------------------------------+
-+| policy->cpuinfo.min_freq **and**	|				       |
-+| policy->cpuinfo.max_freq		| the minimum and maximum frequency    |
-+| 					| (in kHz) which is supported by       |
-+| 					| this CPU			       |
-++---------------------------------------+--------------------------------------+
-+| policy->cpuinfo.transition_latency	| the time it takes on this CPU to     |
-+| 					| switch between two frequencies in    |
-+| 					| nanoseconds (if appropriate, else    |
-+| 					| specify CPUFREQ_ETERNAL)	       |
-++---------------------------------------+--------------------------------------+
-+| policy->cur				| The current operating frequency of   |
-+| 					| this CPU (if appropriate)	       |
-++---------------------------------------+--------------------------------------+
-+| policy->min,				|				       |
-+| policy->max,				|				       |
-+| policy->policy and, if necessary,	|				       |
-+| policy->governor			| must contain the "default policy"    |
-+| 					| for this CPU. A few moments later,   |
-+| 					| cpufreq_driver.verify and either     |
-+| 					| cpufreq_driver.setpolicy or	       |
-+| 					| cpufreq_driver.target/target_index   |
-+| 					| is called with these values.	       |
-++---------------------------------------+--------------------------------------+
-+| policy->cpus				| Update this with the masks of the    |
-+| 					| (online + offline) CPUs that do DVFS |
-+| 					| along with this CPU (i.e. that share |
-+| 					| clock/voltage rails with it).	       |
-++---------------------------------------+--------------------------------------+
+-This is the multiple IDE interface driver, as evolved from hd.c.
++This is the multiple IDE interface driver, as evolved from hd.c
++===============================================================
  
- For setting some of these values (cpuinfo.min[max]_freq, policy->min[max]), the
- frequency table helpers might be helpful. See the section 2 for more information
-@@ -151,8 +160,8 @@ on them.
- When the user decides a new policy (consisting of
- "policy,governor,min,max") shall be set, this policy must be validated
- so that incompatible values can be corrected. For verifying these
--values cpufreq_verify_within_limits(struct cpufreq_policy *policy,
--unsigned int min_freq, unsigned int max_freq) function might be helpful.
-+values `cpufreq_verify_within_limits(struct cpufreq_policy *policy,
-+unsigned int min_freq, unsigned int max_freq)` function might be helpful.
- See section 2 for details on frequency table helpers.
+ It supports up to 9 IDE interfaces per default, on one or more IRQs (usually
+-14 & 15).  There can be up to two drives per interface, as per the ATA-6 spec.
++14 & 15).  There can be up to two drives per interface, as per the ATA-6 spec.::
  
- You need to make sure that at least one valid frequency (or operating
-@@ -163,7 +172,7 @@ policy->max first, and only if this is no solution, decrease policy->min.
- 1.4 target or target_index or setpolicy or fast_switch?
- -------------------------------------------------------
+-Primary:    ide0, port 0x1f0; major=3;  hda is minor=0; hdb is minor=64
+-Secondary:  ide1, port 0x170; major=22; hdc is minor=0; hdd is minor=64
+-Tertiary:   ide2, port 0x1e8; major=33; hde is minor=0; hdf is minor=64
+-Quaternary: ide3, port 0x168; major=34; hdg is minor=0; hdh is minor=64
+-fifth..     ide4, usually PCI, probed
+-sixth..     ide5, usually PCI, probed
++  Primary:    ide0, port 0x1f0; major=3;  hda is minor=0; hdb is minor=64
++  Secondary:  ide1, port 0x170; major=22; hdc is minor=0; hdd is minor=64
++  Tertiary:   ide2, port 0x1e8; major=33; hde is minor=0; hdf is minor=64
++  Quaternary: ide3, port 0x168; major=34; hdg is minor=0; hdh is minor=64
++  fifth..     ide4, usually PCI, probed
++  sixth..     ide5, usually PCI, probed
  
--Most cpufreq drivers or even most cpu frequency scaling algorithms 
-+Most cpufreq drivers or even most cpu frequency scaling algorithms
- only allow the CPU frequency to be set to predefined fixed values. For
- these, you use the ->target(), ->target_index() or ->fast_switch()
- callbacks.
-@@ -175,8 +184,8 @@ limits on their own. These shall use the ->setpolicy() callback.
- 1.5. target/target_index
- ------------------------
+ To access devices on interfaces > ide0, device entries please make sure that
+ device files for them are present in /dev.  If not, please create such
+@@ -80,12 +81,15 @@ seldom occurs.  Be careful, and if in doubt, don't do it!
  
--The target_index call has two arguments: struct cpufreq_policy *policy,
--and unsigned int index (into the exposed frequency table).
-+The target_index call has two arguments: `struct cpufreq_policy *policy`,
-+and `unsigned int index` (into the exposed frequency table).
+ Drives are normally found by auto-probing and/or examining the CMOS/BIOS data.
+ For really weird situations, the apparent (fdisk) geometry can also be specified
+-on the kernel "command line" using LILO.  The format of such lines is:
++on the kernel "command line" using LILO.  The format of such lines is::
  
- The CPUfreq driver must set the new frequency when called here. The
- actual frequency must be determined by freq_table[index].frequency.
-@@ -184,10 +193,10 @@ actual frequency must be determined by freq_table[index].frequency.
- It should always restore to earlier frequency (i.e. policy->restore_freq) in
- case of errors, even if we switched to intermediate frequency earlier.
- 
--Deprecated:
-+Deprecated
- ----------
--The target call has three arguments: struct cpufreq_policy *policy,
--unsigned int target_frequency, unsigned int relation.
-+The target call has three arguments: `struct cpufreq_policy *policy`,
-+`unsigned int target_frequency`, `unsigned int relation`.
- 
- The CPUfreq driver must set the new frequency when called here. The
- actual frequency must be determined using the following rules:
-@@ -210,14 +219,14 @@ Not all drivers are expected to implement it, as sleeping from within
- this callback isn't allowed. This callback must be highly optimized to
- do switching as fast as possible.
- 
--This function has two arguments: struct cpufreq_policy *policy and
--unsigned int target_frequency.
-+This function has two arguments: `struct cpufreq_policy *policy` and
-+`unsigned int target_frequency`.
- 
- 
- 1.7 setpolicy
- -------------
- 
--The setpolicy call only takes a struct cpufreq_policy *policy as
-+The setpolicy call only takes a `struct cpufreq_policy *policy` as
- argument. You need to set the lower limit of the in-processor or
- in-chipset dynamic frequency switching to policy->min, the upper limit
- to policy->max, and -if supported- select a performance-oriented
-@@ -278,10 +287,10 @@ table.
- 
- cpufreq_for_each_valid_entry(pos, table) - iterates over all entries,
- excluding CPUFREQ_ENTRY_INVALID frequencies.
--Use arguments "pos" - a cpufreq_frequency_table * as a loop cursor and
--"table" - the cpufreq_frequency_table * you want to iterate over.
-+Use arguments "pos" - a `cpufreq_frequency_table *` as a loop cursor and
-+"table" - the `cpufreq_frequency_table *` you want to iterate over.
+ 	ide_core.chs=[interface_number.device_number]:cyls,heads,sects
+-or	ide_core.cdrom=[interface_number.device_number]
  
 -For example:
++or::
++
++	ide_core.cdrom=[interface_number.device_number]
++
 +For example::
  
- 	struct cpufreq_frequency_table *pos, *driver_freq_table;
+ 	ide_core.chs=1.0:1050,32,64  ide_core.cdrom=1.1
  
-diff --git a/Documentation/cpu-freq/cpufreq-nforce2.txt b/Documentation/cpu-freq/cpufreq-nforce2.rst
-similarity index 65%
-rename from Documentation/cpu-freq/cpufreq-nforce2.txt
-rename to Documentation/cpu-freq/cpufreq-nforce2.rst
-index babce1315026..d40700bd5083 100644
---- a/Documentation/cpu-freq/cpufreq-nforce2.txt
-+++ b/Documentation/cpu-freq/cpufreq-nforce2.rst
-@@ -1,3 +1,6 @@
-+=================================
-+nVidia nForce2 platform specifics
-+=================================
+@@ -96,10 +100,12 @@ geometry for partitioning purposes (fdisk).
+ If the auto-probing during boot time confuses a drive (ie. the drive works
+ with hd.c but not with ide.c), then an command line option may be specified
+ for each drive for which you'd like the drive to skip the hardware
+-probe/identification sequence.  For example:
++probe/identification sequence.  For example::
  
- The cpufreq-nforce2 driver changes the FSB on nVidia nForce2 platforms.
+ 	ide_core.noprobe=0.1
+-or
++
++or::
++
+ 	ide_core.chs=1.0:768,16,32
+ 	ide_core.noprobe=1.0
  
-@@ -6,14 +9,15 @@ can be controlled independently from the PCI/AGP clock.
+@@ -115,22 +121,24 @@ Such drives will be identified at boot time, just like a hard disk.
  
- The module has two options:
+ If for some reason your cdrom drive is *not* found at boot time, you can force
+ the probe to look harder by supplying a kernel command line parameter
+-via LILO, such as:
++via LILO, such as:::
  
-+        ======== ======================================
- 	fid: 	 multiplier * 10 (for example 8.5 = 85)
- 	min_fsb: minimum FSB
-+        ======== ======================================
+ 	ide_core.cdrom=1.0	/* "master" on second interface (hdc) */
+-or
++
++or::
++
+ 	ide_core.cdrom=1.1	/* "slave" on second interface (hdd) */
  
- If not set, fid is calculated from the current CPU speed and the FSB.
- min_fsb defaults to FSB at boot time - 50 MHz.
+ For example, a GW2000 system might have a hard drive on the primary
+ interface (/dev/hda) and an IDE cdrom drive on the secondary interface
+-(/dev/hdc).  To mount a CD in the cdrom drive, one would use something like:
++(/dev/hdc).  To mount a CD in the cdrom drive, one would use something like::
  
--IMPORTANT: The available range is limited downwards!
--           Also the minimum available FSB can differ, for systems 
-+IMPORTANT:
-+           The available range is limited downwards!
-+           Also the minimum available FSB can differ, for systems
-            booting with 200 MHz, 150 should always work.
+ 	ln -sf /dev/hdc /dev/cdrom
+ 	mkdir /mnt/cdrom
+ 	mount /dev/cdrom /mnt/cdrom -t iso9660 -o ro
+ 
+ If, after doing all of the above, mount doesn't work and you see
+-errors from the driver (with dmesg) complaining about `status=0xff',
++errors from the driver (with dmesg) complaining about `status=0xff`,
+ this means that the hardware is not responding to the driver's attempts
+ to read it.  One of the following is probably the problem:
+ 
+@@ -165,7 +173,7 @@ drivers can always be compiled as loadable modules, the chipset drivers
+ can only be compiled into the kernel, and the core code (ide.c) can be
+ compiled as a loadable module provided no chipset support is needed.
+ 
+-When using ide.c as a module in combination with kmod, add:
++When using ide.c as a module in combination with kmod, add::
+ 
+ 	alias block-major-3 ide-probe
+ 
+@@ -176,10 +184,8 @@ driver using the "options=" keyword to insmod, while replacing any ',' with
+ ';'.
+ 
+ 
+-================================================================================
 -
--
-diff --git a/Documentation/cpu-freq/cpufreq-stats.rst b/Documentation/cpu-freq/cpufreq-stats.rst
+ Summary of ide driver parameters for kernel command line
+---------------------------------------------------------
++========================================================
+ 
+ For legacy IDE VLB host drivers (ali14xx/dtc2278/ht6560b/qd65xx/umc8672)
+ you need to explicitly enable probing by using "probe" kernel parameter,
+@@ -226,28 +232,31 @@ Other kernel parameters for ide_core are:
+ 
+ * "chs=[interface_number.device_number]" to force device as a disk (using CHS)
+ 
+-================================================================================
+ 
+ Some Terminology
+-----------------
+-IDE = Integrated Drive Electronics, meaning that each drive has a built-in
+-controller, which is why an "IDE interface card" is not a "controller card".
++================
+ 
+-ATA = AT (the old IBM 286 computer) Attachment Interface, a draft American
+-National Standard for connecting hard drives to PCs.  This is the official
+-name for "IDE".
++IDE
++  Integrated Drive Electronics, meaning that each drive has a built-in
++  controller, which is why an "IDE interface card" is not a "controller card".
+ 
+-The latest standards define some enhancements, known as the ATA-6 spec,
+-which grew out of vendor-specific "Enhanced IDE" (EIDE) implementations.
++ATA
++  AT (the old IBM 286 computer) Attachment Interface, a draft American
++  National Standard for connecting hard drives to PCs.  This is the official
++  name for "IDE".
+ 
+-ATAPI = ATA Packet Interface, a new protocol for controlling the drives,
+-similar to SCSI protocols, created at the same time as the ATA2 standard.
+-ATAPI is currently used for controlling CDROM, TAPE and FLOPPY (ZIP or
+-LS120/240) devices, removable R/W cartridges, and for high capacity hard disk
+-drives.
++  The latest standards define some enhancements, known as the ATA-6 spec,
++  which grew out of vendor-specific "Enhanced IDE" (EIDE) implementations.
++
++ATAPI
++  ATA Packet Interface, a new protocol for controlling the drives,
++  similar to SCSI protocols, created at the same time as the ATA2 standard.
++  ATAPI is currently used for controlling CDROM, TAPE and FLOPPY (ZIP or
++  LS120/240) devices, removable R/W cartridges, and for high capacity hard disk
++  drives.
+ 
+ mlord@pobox.com
+---
++
+ 
+ Wed Apr 17 22:52:44 CEST 2002 edited by Marcin Dalecki, the current
+ maintainer.
+diff --git a/Documentation/ide/index.rst b/Documentation/ide/index.rst
 new file mode 100644
-index 000000000000..3e33712b496e
+index 000000000000..45bc12d3957f
 --- /dev/null
-+++ b/Documentation/cpu-freq/cpufreq-stats.rst
-@@ -0,0 +1,128 @@
-+==========================================
-+General description of sysfs cpufreq stats
-+==========================================
-+
-+.. information for users
-+
-+
-+Author: Venkatesh Pallipadi <venkatesh.pallipadi@intel.com>
-+
-+.. Contents
-+   1. Introduction
-+   2. Statistics Provided (with example)
-+   3. Configuring cpufreq-stats
-+
-+
-+1. Introduction
-+===============
-+
-+cpufreq-stats is a driver that provides CPU frequency statistics for each CPU.
-+These statistics are provided in /sysfs as a bunch of read_only interfaces. This
-+interface (when configured) will appear in a separate directory under cpufreq
-+in /sysfs (<sysfs root>/devices/system/cpu/cpuX/cpufreq/stats/) for each CPU.
-+Various statistics will form read_only files under this directory.
-+
-+This driver is designed to be independent of any particular cpufreq_driver
-+that may be running on your CPU. So, it will work with any cpufreq_driver.
-+
-+
-+2. Statistics Provided (with example)
-+=====================================
-+
-+cpufreq stats provides following statistics (explained in detail below).
-+-  time_in_state
-+-  total_trans
-+-  trans_table
-+
-+All the statistics will be from the time the stats driver has been inserted
-+(or the time the stats were reset) to the time when a read of a particular
-+statistic is done. Obviously, stats driver will not have any information
-+about the frequency transitions before the stats driver insertion.
-+
-+::
-+
-+    <mysystem>:/sys/devices/system/cpu/cpu0/cpufreq/stats # ls -l
-+    total 0
-+    drwxr-xr-x  2 root root    0 May 14 16:06 .
-+    drwxr-xr-x  3 root root    0 May 14 15:58 ..
-+    --w-------  1 root root 4096 May 14 16:06 reset
-+    -r--r--r--  1 root root 4096 May 14 16:06 time_in_state
-+    -r--r--r--  1 root root 4096 May 14 16:06 total_trans
-+    -r--r--r--  1 root root 4096 May 14 16:06 trans_table
-+
-+reset
-+  Write-only attribute that can be used to reset the stat counters. This can be
-+  useful for evaluating system behaviour under different governors without the
-+  need for a reboot.
-+
-+time_in_state
-+  This gives the amount of time spent in each of the frequencies supported by
-+  this CPU. The cat output will have "<frequency> <time>" pair in each line,
-+  which will mean this CPU spent <time> usertime units of time at <frequency>.
-+  Output will have one line for each of the supported frequencies. usertime
-+  units here is 10mS (similar to other time exported in /proc).
-+
-+::
-+
-+  <mysystem>:/sys/devices/system/cpu/cpu0/cpufreq/stats # cat time_in_state
-+  3600000 2089
-+  3400000 136
-+  3200000 34
-+  3000000 67
-+  2800000 172488
-+
-+
-+total_trans
-+  This gives the total number of frequency transitions on this CPU. The cat
-+  output will have a single count which is the total number of frequency
-+  transitions.
-+
-+::
-+
-+  <mysystem>:/sys/devices/system/cpu/cpu0/cpufreq/stats # cat total_trans
-+  20
-+
-+trans_table
-+  This will give a fine grained information about all the CPU frequency
-+  transitions. The cat output here is a two dimensional matrix, where an entry
-+  <i,j> (row i, column j) represents the count of number of transitions from
-+  Freq_i to Freq_j. Freq_i rows and Freq_j columns follow the sorting order in
-+  which the driver has provided the frequency table initially to the cpufreq
-+  core and so can be sorted (ascending or descending) or unsorted.  The output
-+  here also contains the actual freq values for each row and column for better
-+  readability.
-+
-+  If the transition table is bigger than PAGE_SIZE, reading this will
-+  return an -EFBIG error.
-+
-+::
-+
-+  <mysystem>:/sys/devices/system/cpu/cpu0/cpufreq/stats # cat trans_table
-+     From  :    To
-+           :   3600000   3400000   3200000   3000000   2800000
-+    3600000:         0         5         0         0         0
-+    3400000:         4         0         2         0         0
-+    3200000:         0         1         0         2         0
-+    3000000:         0         0         1         0         3
-+    2800000:         0         0         0         2         0
-+
-+3. Configuring cpufreq-stats
-+============================
-+
-+To configure cpufreq-stats in your kernel::
-+
-+   Config Main Menu
-+	Power management options (ACPI, APM)  --->
-+		CPU Frequency scaling  --->
-+			[*] CPU Frequency scaling
-+			[*]   CPU frequency translation statistics
-+
-+
-+"CPU Frequency scaling" (CONFIG_CPU_FREQ) should be enabled to configure
-+cpufreq-stats.
-+
-+"CPU frequency translation statistics" (CONFIG_CPU_FREQ_STAT) provides the
-+statistics which includes time_in_state, total_trans and trans_table.
-+
-+Once this option is enabled and your CPU supports cpufrequency, you
-+will be able to see the CPU frequency statistics in /sysfs.
-diff --git a/Documentation/cpu-freq/cpufreq-stats.txt b/Documentation/cpu-freq/cpufreq-stats.txt
-deleted file mode 100644
-index 14378cecb172..000000000000
---- a/Documentation/cpu-freq/cpufreq-stats.txt
-+++ /dev/null
-@@ -1,127 +0,0 @@
--
--     CPU frequency and voltage scaling statistics in the Linux(TM) kernel
--
--
--             L i n u x    c p u f r e q - s t a t s   d r i v e r
--
--                       - information for users -
--
--
--             Venkatesh Pallipadi <venkatesh.pallipadi@intel.com>
--
--Contents
--1. Introduction
--2. Statistics Provided (with example)
--3. Configuring cpufreq-stats
--
--
--1. Introduction
--
--cpufreq-stats is a driver that provides CPU frequency statistics for each CPU.
--These statistics are provided in /sysfs as a bunch of read_only interfaces. This
--interface (when configured) will appear in a separate directory under cpufreq
--in /sysfs (<sysfs root>/devices/system/cpu/cpuX/cpufreq/stats/) for each CPU.
--Various statistics will form read_only files under this directory.
--
--This driver is designed to be independent of any particular cpufreq_driver
--that may be running on your CPU. So, it will work with any cpufreq_driver.
--
--
--2. Statistics Provided (with example)
--
--cpufreq stats provides following statistics (explained in detail below).
---  time_in_state
---  total_trans
---  trans_table
--
--All the statistics will be from the time the stats driver has been inserted
--(or the time the stats were reset) to the time when a read of a particular
--statistic is done. Obviously, stats driver will not have any information
--about the frequency transitions before the stats driver insertion.
--
----------------------------------------------------------------------------------
--<mysystem>:/sys/devices/system/cpu/cpu0/cpufreq/stats # ls -l
--total 0
--drwxr-xr-x  2 root root    0 May 14 16:06 .
--drwxr-xr-x  3 root root    0 May 14 15:58 ..
----w-------  1 root root 4096 May 14 16:06 reset
---r--r--r--  1 root root 4096 May 14 16:06 time_in_state
---r--r--r--  1 root root 4096 May 14 16:06 total_trans
---r--r--r--  1 root root 4096 May 14 16:06 trans_table
----------------------------------------------------------------------------------
--
---  reset
--Write-only attribute that can be used to reset the stat counters. This can be
--useful for evaluating system behaviour under different governors without the
--need for a reboot.
--
---  time_in_state
--This gives the amount of time spent in each of the frequencies supported by
--this CPU. The cat output will have "<frequency> <time>" pair in each line, which
--will mean this CPU spent <time> usertime units of time at <frequency>. Output
--will have one line for each of the supported frequencies. usertime units here 
--is 10mS (similar to other time exported in /proc).
--
----------------------------------------------------------------------------------
--<mysystem>:/sys/devices/system/cpu/cpu0/cpufreq/stats # cat time_in_state 
--3600000 2089
--3400000 136
--3200000 34
--3000000 67
--2800000 172488
----------------------------------------------------------------------------------
--
--
---  total_trans
--This gives the total number of frequency transitions on this CPU. The cat 
--output will have a single count which is the total number of frequency
--transitions.
--
----------------------------------------------------------------------------------
--<mysystem>:/sys/devices/system/cpu/cpu0/cpufreq/stats # cat total_trans
--20
----------------------------------------------------------------------------------
--
---  trans_table
--This will give a fine grained information about all the CPU frequency
--transitions. The cat output here is a two dimensional matrix, where an entry
--<i,j> (row i, column j) represents the count of number of transitions from 
--Freq_i to Freq_j. Freq_i rows and Freq_j columns follow the sorting order in
--which the driver has provided the frequency table initially to the cpufreq core
--and so can be sorted (ascending or descending) or unsorted.  The output here
--also contains the actual freq values for each row and column for better
--readability.
--
--If the transition table is bigger than PAGE_SIZE, reading this will
--return an -EFBIG error.
--
----------------------------------------------------------------------------------
--<mysystem>:/sys/devices/system/cpu/cpu0/cpufreq/stats # cat trans_table
--   From  :    To
--         :   3600000   3400000   3200000   3000000   2800000 
--  3600000:         0         5         0         0         0 
--  3400000:         4         0         2         0         0 
--  3200000:         0         1         0         2         0 
--  3000000:         0         0         1         0         3 
--  2800000:         0         0         0         2         0 
----------------------------------------------------------------------------------
--
--
--3. Configuring cpufreq-stats
--
--To configure cpufreq-stats in your kernel
--Config Main Menu
--	Power management options (ACPI, APM)  --->
--		CPU Frequency scaling  --->
--			[*] CPU Frequency scaling
--			[*]   CPU frequency translation statistics
--
--
--"CPU Frequency scaling" (CONFIG_CPU_FREQ) should be enabled to configure
--cpufreq-stats.
--
--"CPU frequency translation statistics" (CONFIG_CPU_FREQ_STAT) provides the
--statistics which includes time_in_state, total_trans and trans_table.
--
--Once this option is enabled and your CPU supports cpufrequency, you
--will be able to see the CPU frequency statistics in /sysfs.
-diff --git a/Documentation/cpu-freq/index.rst b/Documentation/cpu-freq/index.rst
-new file mode 100644
-index 000000000000..10e6c05f60f6
---- /dev/null
-+++ b/Documentation/cpu-freq/index.rst
-@@ -0,0 +1,52 @@
++++ b/Documentation/ide/index.rst
+@@ -0,0 +1,21 @@
 +:orphan:
 +
-+==============================================================
-+CPU frequency and voltage scaling code in the Linux(TM) kernel
-+==============================================================
-+
-+
-+Author: Dominik Brodowski  <linux@brodo.de>
-+
-+
-+Clock scaling allows you to change the clock speed of the CPUs on the
-+fly. This is a nice method to save battery power, because the lower
-+the clock speed, the less power the CPU consumes.
-+
++==================================
++Integrated Drive Electronics (IDE)
++==================================
 +
 +.. toctree::
 +    :maxdepth: 1
 +
-+    core
-+    cpufreq-stats
-+    cpu-drivers
++    ide
++    ide-tape
++    warm-plug-howto
 +
-+    amd-powernow
-+    cpufreq-nforce2
-+    pcc-cpufreq
++    changelogs
 +
 +.. only::  subproject and html
 +
@@ -897,251 +522,138 @@ index 000000000000..10e6c05f60f6
 +   =======
 +
 +   * :ref:`genindex`
-+
-+Mailing List
-+------------
-+There is a CPU frequency changing CVS commit and general list where
-+you can report bugs, problems or submit patches. To post a message,
-+send an email to linux-pm@vger.kernel.org.
-+
-+Links
-+-----
-+the FTP archives:
-+* ftp://ftp.linux.org.uk/pub/linux/cpufreq/
-+
-+how to access the CVS repository:
-+* http://cvs.arm.linux.org.uk/
-+
-+the CPUFreq Mailing list:
-+* http://vger.kernel.org/vger-lists.html#linux-pm
-+
-+Clock and voltage scaling for the SA-1100:
-+* http://www.lartmaker.nl/projects/scaling
-diff --git a/Documentation/cpu-freq/index.txt b/Documentation/cpu-freq/index.txt
-deleted file mode 100644
-index c15e75386a05..000000000000
---- a/Documentation/cpu-freq/index.txt
-+++ /dev/null
-@@ -1,56 +0,0 @@
--     CPU frequency and voltage scaling code in the Linux(TM) kernel
+diff --git a/Documentation/ide/warm-plug-howto.txt b/Documentation/ide/warm-plug-howto.rst
+similarity index 61%
+rename from Documentation/ide/warm-plug-howto.txt
+rename to Documentation/ide/warm-plug-howto.rst
+index 98152bcd515a..c245242ef2f1 100644
+--- a/Documentation/ide/warm-plug-howto.txt
++++ b/Documentation/ide/warm-plug-howto.rst
+@@ -1,14 +1,14 @@
 -
--
--		         L i n u x    C P U F r e q
--
--
--
--
--		    Dominik Brodowski  <linux@brodo.de>
--
--
--
--   Clock scaling allows you to change the clock speed of the CPUs on the
--    fly. This is a nice method to save battery power, because the lower
--            the clock speed, the less power the CPU consumes.
--
--
--
--Documents in this directory:
------------------------------
--
--amd-powernow.txt -	AMD powernow driver specific file.
--
--core.txt	-	General description of the CPUFreq core and
--			of CPUFreq notifiers.
--
--cpu-drivers.txt -	How to implement a new cpufreq processor driver.
--
--cpufreq-nforce2.txt -	nVidia nForce2 platform specific file.
--
--cpufreq-stats.txt -	General description of sysfs cpufreq stats.
--
--index.txt	-	File index, Mailing list and Links (this document)
--
--pcc-cpufreq.txt -	PCC cpufreq driver specific file.
--
--
--Mailing List
--------------
--There is a CPU frequency changing CVS commit and general list where
--you can report bugs, problems or submit patches. To post a message,
--send an email to linux-pm@vger.kernel.org.
--
--Links
-------
--the FTP archives:
--* ftp://ftp.linux.org.uk/pub/linux/cpufreq/
--
--how to access the CVS repository:
--* http://cvs.arm.linux.org.uk/
--
--the CPUFreq Mailing list:
--* http://vger.kernel.org/vger-lists.html#linux-pm
--
--Clock and voltage scaling for the SA-1100:
--* http://www.lartmaker.nl/projects/scaling
-diff --git a/Documentation/cpu-freq/pcc-cpufreq.txt b/Documentation/cpu-freq/pcc-cpufreq.rst
-similarity index 80%
-rename from Documentation/cpu-freq/pcc-cpufreq.txt
-rename to Documentation/cpu-freq/pcc-cpufreq.rst
-index 9e3c3b33514c..d846a36536e4 100644
---- a/Documentation/cpu-freq/pcc-cpufreq.txt
-+++ b/Documentation/cpu-freq/pcc-cpufreq.rst
-@@ -1,45 +1,38 @@
--/*
-- *  pcc-cpufreq.txt - PCC interface documentation
-- *
-- *  Copyright (C) 2009 Red Hat, Matthew Garrett <mjg@redhat.com>
-- *  Copyright (C) 2009 Hewlett-Packard Development Company, L.P.
-- *      Nagananda Chumbalkar <nagananda.chumbalkar@hp.com>
-- *
-- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-- *
-- *  This program is free software; you can redistribute it and/or modify
-- *  it under the terms of the GNU General Public License as published by
-- *  the Free Software Foundation; version 2 of the License.
-- *
-- *  This program is distributed in the hope that it will be useful, but
-- *  WITHOUT ANY WARRANTY; without even the implied warranty of
-- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE, GOOD TITLE or NON
-- *  INFRINGEMENT. See the GNU General Public License for more details.
-- *
-- *  You should have received a copy of the GNU General Public License along
-- *  with this program; if not, write to the Free Software Foundation, Inc.,
-- *  675 Mass Ave, Cambridge, MA 02139, USA.
-- *
-- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-- */
--
--
--			Processor Clocking Control Driver
--			---------------------------------
--
--Contents:
-----------
--1.	Introduction
--1.1	PCC interface
--1.1.1   Get Average Frequency
--1.1.2	Set Desired Frequency
--1.2	Platforms affected
--2.	Driver and /sys details
--2.1	scaling_available_frequencies
--2.2	cpuinfo_transition_latency
--2.3	cpuinfo_cur_freq
--2.4	related_cpus
--3.	Caveats
-+==========================================================
-+Processor Clocking Control Driver cpufreq driver specifics
-+==========================================================
-+
-+
-+.. pcc-cpufreq.txt - PCC interface documentation
-+
-+    Copyright (C) 2009 Red Hat, Matthew Garrett <mjg@redhat.com>
-+    Copyright (C) 2009 Hewlett-Packard Development Company, L.P.
-+        Nagananda Chumbalkar <nagananda.chumbalkar@hp.com>
-+
-+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+    This program is free software; you can redistribute it and/or modify
-+    it under the terms of the GNU General Public License as published by
-+    the Free Software Foundation; version 2 of the License.
-+
-+    This program is distributed in the hope that it will be useful, but
-+    WITHOUT ANY WARRANTY; without even the implied warranty of
-+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE, GOOD TITLE or NON
-+    INFRINGEMENT. See the GNU General Public License for more details.
-+
-+
-+.. Contents:
-+   1.	Introduction
-+   1.1	PCC interface
-+   1.1.1  Get Average Frequency
-+   1.1.2  Set Desired Frequency
-+   1.2	Platforms affected
-+   2.	Driver and /sys details
-+   2.1	scaling_available_frequencies
-+   2.2	cpuinfo_transition_latency
-+   2.3	cpuinfo_cur_freq
-+   2.4	related_cpus
-+   3.	Caveats
++===================
+ IDE warm-plug HOWTO
+ ===================
  
- 1. Introduction:
- ----------------
-@@ -72,6 +65,7 @@ memory region. The shared memory region header contains the "command" and
- doorbell.
+-To warm-plug devices on a port 'idex':
++To warm-plug devices on a port 'idex'::
  
- The following commands are supported by the PCC interface:
-+
- * Get Average Frequency
- * Set Desired Frequency
+-# echo -n "1" > /sys/class/ide_port/idex/delete_devices
++	# echo -n "1" > /sys/class/ide_port/idex/delete_devices
  
-@@ -140,7 +134,9 @@ Internally, there is no need for the driver to convert the "target" frequency
- to a corresponding P-state.
+-unplug old device(s) and plug new device(s)
++unplug old device(s) and plug new device(s)::
  
- The VERSION number for the driver will be of the format v.xy.ab.
--eg: 1.00.02
-+eg::
-+
-+   1.00.02
-    ----- --
-     |    |
-     |    -- this will increase with bug fixes/enhancements to the driver
-@@ -168,21 +164,21 @@ A) Often cpuinfo_cur_freq will show a value different than what is declared
- in the scaling_available_frequencies or scaling_cur_freq, or scaling_max_freq.
- This is due to "turbo boost" available on recent Intel processors. If certain
- conditions are met the BIOS can achieve a slightly higher speed than requested
--by OSPM. An example:
-+by OSPM. An example::
+-# echo -n "1" > /sys/class/ide_port/idex/scan
++	# echo -n "1" > /sys/class/ide_port/idex/scan
  
--scaling_cur_freq	: 2933000
--cpuinfo_cur_freq	: 3196000
-+	scaling_cur_freq	: 2933000
-+	cpuinfo_cur_freq	: 3196000
+ done
  
- B) There is a round-off error associated with the cpuinfo_cur_freq value.
- Since the driver obtains the current frequency as a "percentage" (%) of the
- nominal frequency from the BIOS, sometimes, the values displayed by
--scaling_cur_freq and cpuinfo_cur_freq may not match. An example:
-+scaling_cur_freq and cpuinfo_cur_freq may not match. An example::
+diff --git a/arch/m68k/q40/README b/arch/m68k/q40/README
+index 93f4c4cd3c45..a4991d2d8af6 100644
+--- a/arch/m68k/q40/README
++++ b/arch/m68k/q40/README
+@@ -31,7 +31,7 @@ drivers used by the Q40, apart from the very obvious (console etc.):
+ 		char/joystick/*		# most of this should work, not
+ 				        # in default config.in
+ 	        block/q40ide.c		# startup for ide
+-		      ide*		# see Documentation/ide/ide.txt
++		      ide*		# see Documentation/ide/ide.rst
+ 		      floppy.c		# normal PC driver, DMA emu in asm/floppy.h
+ 					# and arch/m68k/kernel/entry.S
+ 					# see drivers/block/README.fd
+diff --git a/drivers/ide/Kconfig b/drivers/ide/Kconfig
+index 19fcd0756f46..6683010b59cb 100644
+--- a/drivers/ide/Kconfig
++++ b/drivers/ide/Kconfig
+@@ -24,13 +24,13 @@ menuconfig IDE
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called ide-core.
  
--scaling_cur_freq	: 1600000
--cpuinfo_cur_freq	: 1583000
-+	scaling_cur_freq	: 1600000
-+	cpuinfo_cur_freq	: 1583000
+-	  For further information, please read <file:Documentation/ide/ide.txt>.
++	  For further information, please read <file:Documentation/ide/ide.rst>.
  
- In this example, the nominal frequency is 2933 MHz. The driver obtains the
--current frequency, cpuinfo_cur_freq, as 54% of the nominal frequency:
-+current frequency, cpuinfo_cur_freq, as 54% of the nominal frequency::
+ 	  If unsure, say N.
  
- 	54% of 2933 MHz = 1583 MHz
+ if IDE
  
-@@ -191,10 +187,10 @@ corresponds to the frequency of the P0 P-state.
+-comment "Please see Documentation/ide/ide.txt for help/info on IDE drives"
++comment "Please see Documentation/ide/ide.rst for help/info on IDE drives"
  
- 2.4 related_cpus:
- -----------------
--The related_cpus field is identical to affected_cpus.
-+The related_cpus field is identical to affected_cpus:
- 
--affected_cpus	: 4
--related_cpus	: 4
-+	affected_cpus	: 4
-+	related_cpus	: 4
- 
- Currently, the PCC driver does not evaluate _PSD. The platforms that support
- PCC do not implement SW_ALL. So OSPM doesn't need to perform any coordination
-diff --git a/drivers/cpufreq/Kconfig.x86 b/drivers/cpufreq/Kconfig.x86
-index 35f71825b7f3..c0c61edb8d93 100644
---- a/drivers/cpufreq/Kconfig.x86
-+++ b/drivers/cpufreq/Kconfig.x86
-@@ -24,7 +24,7 @@ config X86_PCC_CPUFREQ
- 	  This driver adds support for the PCC interface.
- 
- 	  For details, take a look at:
--	  <file:Documentation/cpu-freq/pcc-cpufreq.txt>.
-+	  <file:Documentation/cpu-freq/pcc-cpufreq.rst>.
+ config IDE_XFER_MODE
+ 	bool
+@@ -162,7 +162,7 @@ config BLK_DEV_IDETAPE
+ 	  along with other IDE devices, as "hdb" or "hdc", or something
+ 	  similar, and will be mapped to a character device such as "ht0"
+ 	  (check the boot messages with dmesg).  Be sure to consult the
+-	  <file:drivers/ide/ide-tape.c> and <file:Documentation/ide/ide.txt>
++	  <file:drivers/ide/ide-tape.c> and <file:Documentation/ide/ide.rst>
+ 	  files for usage information.
  
  	  To compile this driver as a module, choose M here: the
- 	  module will be called pcc-cpufreq.
+@@ -250,7 +250,7 @@ config BLK_DEV_CMD640
+ 
+ 	  The CMD640 chip is also used on add-in cards by Acculogic, and on
+ 	  the "CSA-6400E PCI to IDE controller" that some people have. For
+-	  details, read <file:Documentation/ide/ide.txt>.
++	  details, read <file:Documentation/ide/ide.rst>.
+ 
+ config BLK_DEV_CMD640_ENHANCED
+ 	bool "CMD640 enhanced support"
+@@ -258,7 +258,7 @@ config BLK_DEV_CMD640_ENHANCED
+ 	help
+ 	  This option includes support for setting/autotuning PIO modes and
+ 	  prefetch on CMD640 IDE interfaces.  For details, read
+-	  <file:Documentation/ide/ide.txt>. If you have a CMD640 IDE interface
++	  <file:Documentation/ide/ide.rst>. If you have a CMD640 IDE interface
+ 	  and your BIOS does not already do this for you, then say Y here.
+ 	  Otherwise say N.
+ 
+@@ -818,7 +818,7 @@ config BLK_DEV_ALI14XX
+ 	  boot parameter.  It enables support for the secondary IDE interface
+ 	  of the ALI M1439/1443/1445/1487/1489 chipsets, and permits faster
+ 	  I/O speeds to be set as well.
+-	  See the files <file:Documentation/ide/ide.txt> and
++	  See the files <file:Documentation/ide/ide.rst> and
+ 	  <file:drivers/ide/ali14xx.c> for more info.
+ 
+ config BLK_DEV_DTC2278
+@@ -829,7 +829,7 @@ config BLK_DEV_DTC2278
+ 	  This driver is enabled at runtime using the "dtc2278.probe" kernel
+ 	  boot parameter. It enables support for the secondary IDE interface
+ 	  of the DTC-2278 card, and permits faster I/O speeds to be set as
+-	  well. See the <file:Documentation/ide/ide.txt> and
++	  well. See the <file:Documentation/ide/ide.rst> and
+ 	  <file:drivers/ide/dtc2278.c> files for more info.
+ 
+ config BLK_DEV_HT6560B
+@@ -840,7 +840,7 @@ config BLK_DEV_HT6560B
+ 	  This driver is enabled at runtime using the "ht6560b.probe" kernel
+ 	  boot parameter. It enables support for the secondary IDE interface
+ 	  of the Holtek card, and permits faster I/O speeds to be set as well.
+-	  See the <file:Documentation/ide/ide.txt> and
++	  See the <file:Documentation/ide/ide.rst> and
+ 	  <file:drivers/ide/ht6560b.c> files for more info.
+ 
+ config BLK_DEV_QD65XX
+@@ -850,7 +850,7 @@ config BLK_DEV_QD65XX
+ 	help
+ 	  This driver is enabled at runtime using the "qd65xx.probe" kernel
+ 	  boot parameter.  It permits faster I/O speeds to be set.  See the
+-	  <file:Documentation/ide/ide.txt> and <file:drivers/ide/qd65xx.c>
++	  <file:Documentation/ide/ide.rst> and <file:drivers/ide/qd65xx.c>
+ 	  for more info.
+ 
+ config BLK_DEV_UMC8672
+@@ -861,7 +861,7 @@ config BLK_DEV_UMC8672
+ 	  This driver is enabled at runtime using the "umc8672.probe" kernel
+ 	  boot parameter. It enables support for the secondary IDE interface
+ 	  of the UMC-8672, and permits faster I/O speeds to be set as well.
+-	  See the files <file:Documentation/ide/ide.txt> and
++	  See the files <file:Documentation/ide/ide.rst> and
+ 	  <file:drivers/ide/umc8672.c> for more info.
+ 
+ endif
 -- 
 2.20.1
 
