@@ -2,171 +2,215 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DF46C7D918
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Apr 2019 13:36:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 16F6C7D91A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Apr 2019 13:36:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727423AbfDVN2P (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Apr 2019 09:28:15 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:36868 "EHLO
+        id S1727560AbfDVNfv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Apr 2019 09:35:51 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:36974 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727399AbfDVN2O (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Apr 2019 09:28:14 -0400
+        with ESMTP id S1727426AbfDVN2P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Apr 2019 09:28:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+        To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=GECUijow27B5LO3QbZmnOSuGvkmLy8YlG7BfwPjabio=; b=R5fJWr3WWddOKK3ZSE/DYhh05G
-        UeJO2kZeMZ7NNymocSBPX+Bu2udtn2VKiXlmvYV2XNXSDsyYGL2C5ZdokLRp53d232fklQud06Y0V
-        pzvT7tfWnyaLyqbbWRfAIqdahVtU3t9KE+lV6Ld11G17NYnfDl/lldAndJU94T7AWbFnyOyty1B8O
-        vJRXTnvsLrwjwVM0vHxqp9eBE3Eg5J6Bn8KPZNw24TXlo07gjBemUjrWalUx7/Fo2uuXX6ZKc0U+F
-        9hGqcx6h85aIhc2tkGZv87zOMQXI5NhVsR8ILg6kn454LmLLtFDiRcOQAg7WojX4Ew4HwE81gS6Md
-        igDAFfhw==;
+        bh=C5EVQrj0GuSUjMGc7i0F21EF2opDnhMdOktxxczj01A=; b=OJV96kguWXWEeOkRrGWAcOYVib
+        egdly6fAK6dF8stknHaSx5KdbYpKca601iYpcbiWKdFrQcCstVJZXk/UpjwaLNO/g6g0d1kxv3jYy
+        +nDM0nZwgzfg04r517mS46qtjg84NEb+6bLXvUp610Gjz6T24ZL3gKp8AluCD6FEw5hmLMadtCOxP
+        N8FrDnkT7nd5tvGR9XYdLXDyLsNHN4E63nSyuj5zvmJOL0IFMF6vvoiLIxVJLX0w93IX7pTje5Cae
+        3nLhi9Bz+nbmUj2+jOBYPUDFISl/Y5jsqsoQ/FqjRbPQ0CKvxKj0frV+SnXvkSurl8VNtInZcuXMG
+        eIYMVhxQ==;
 Received: from 179.176.125.229.dynamic.adsl.gvt.net.br ([179.176.125.229] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hIYzV-0005Hp-5G; Mon, 22 Apr 2019 13:28:13 +0000
+        id 1hIYzV-0005I2-Q2; Mon, 22 Apr 2019 13:28:14 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hIYzS-0005lE-UL; Mon, 22 Apr 2019 10:28:10 -0300
+        id 1hIYzT-0005mH-Ag; Mon, 22 Apr 2019 10:28:11 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Paul Moore <paul@paul-moore.com>, netdev@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-Subject: [PATCH v2 23/79] docs: netlabel: convert docs to ReST and rename to *.rst
-Date:   Mon, 22 Apr 2019 10:27:12 -0300
-Message-Id: <72133d276dd8cde2d1ee8528b4e87ab2a614cbd0.1555938376.git.mchehab+samsung@kernel.org>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Clemens Ladisch <clemens@ladisch.de>,
+        Antti Palosaari <crope@iki.fi>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Andy Whitcroft <apw@canonical.com>,
+        Joe Perches <joe@perches.com>
+Subject: [PATCH v2 35/79] docs: timers: convert docs to ReST and rename to *.rst
+Date:   Mon, 22 Apr 2019 10:27:24 -0300
+Message-Id: <2adb3a9be93e8e1793192440c9bebdad2e538ce7.1555938376.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1555938375.git.mchehab+samsung@kernel.org>
 References: <cover.1555938375.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Convert netlabel documentation to ReST.
+The conversion here is really trivial: just a bunch of title
+markups and very few puntual changes is enough to make it to
+be parsed by Sphinx and generate a nice html.
 
-This was trivial: just add proper title markups.
+The conversion is actually:
+  - add blank lines and identation in order to identify paragraphs;
+  - fix tables markups;
+  - add some lists markups;
+  - mark literal blocks;
+  - adjust title markups.
 
 At its new index.rst, let's add a :orphan: while this is not linked to
 the main index.rst file, in order to avoid build warnings.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- .../{cipso_ipv4.txt => cipso_ipv4.rst}        | 19 +++++++++++------
- Documentation/netlabel/draft_ietf.rst         |  5 +++++
- Documentation/netlabel/index.rst              | 21 +++++++++++++++++++
- .../{introduction.txt => introduction.rst}    | 16 +++++++++-----
- .../{lsm_interface.txt => lsm_interface.rst}  | 16 +++++++++-----
- 5 files changed, 61 insertions(+), 16 deletions(-)
- rename Documentation/netlabel/{cipso_ipv4.txt => cipso_ipv4.rst} (87%)
- create mode 100644 Documentation/netlabel/draft_ietf.rst
- create mode 100644 Documentation/netlabel/index.rst
- rename Documentation/netlabel/{introduction.txt => introduction.rst} (91%)
- rename Documentation/netlabel/{lsm_interface.txt => lsm_interface.rst} (88%)
+ .../timers/{highres.txt => highres.rst}       | 13 +++---
+ Documentation/timers/{hpet.txt => hpet.rst}   |  4 +-
+ .../timers/{hrtimers.txt => hrtimers.rst}     |  6 +--
+ Documentation/timers/index.rst                | 22 ++++++++++
+ Documentation/timers/{NO_HZ.txt => no_hz.rst} | 40 +++++++++++--------
+ .../{timekeeping.txt => timekeeping.rst}      |  3 +-
+ .../{timers-howto.txt => timers-howto.rst}    | 15 +++++--
+ MAINTAINERS                                   |  2 +-
+ drivers/media/usb/dvb-usb-v2/anysee.c         |  2 +-
+ drivers/regulator/core.c                      |  2 +-
+ include/linux/iopoll.h                        |  4 +-
+ include/linux/regmap.h                        |  4 +-
+ scripts/checkpatch.pl                         |  8 ++--
+ 13 files changed, 83 insertions(+), 42 deletions(-)
+ rename Documentation/timers/{highres.txt => highres.rst} (98%)
+ rename Documentation/timers/{hpet.txt => hpet.rst} (91%)
+ rename Documentation/timers/{hrtimers.txt => hrtimers.rst} (98%)
+ create mode 100644 Documentation/timers/index.rst
+ rename Documentation/timers/{NO_HZ.txt => no_hz.rst} (93%)
+ rename Documentation/timers/{timekeeping.txt => timekeeping.rst} (98%)
+ rename Documentation/timers/{timers-howto.txt => timers-howto.rst} (93%)
 
-diff --git a/Documentation/netlabel/cipso_ipv4.txt b/Documentation/netlabel/cipso_ipv4.rst
-similarity index 87%
-rename from Documentation/netlabel/cipso_ipv4.txt
-rename to Documentation/netlabel/cipso_ipv4.rst
-index a6075481fd60..cbd3f3231221 100644
---- a/Documentation/netlabel/cipso_ipv4.txt
-+++ b/Documentation/netlabel/cipso_ipv4.rst
-@@ -1,10 +1,13 @@
-+===================================
- NetLabel CIPSO/IPv4 Protocol Engine
--==============================================================================
-+===================================
+diff --git a/Documentation/timers/highres.txt b/Documentation/timers/highres.rst
+similarity index 98%
+rename from Documentation/timers/highres.txt
+rename to Documentation/timers/highres.rst
+index 8f9741592123..bde5eb7e5c9e 100644
+--- a/Documentation/timers/highres.txt
++++ b/Documentation/timers/highres.rst
+@@ -1,5 +1,6 @@
++=====================================================
+ High resolution timers and dynamic ticks design notes
+------------------------------------------------------
++=====================================================
+ 
+ Further information can be found in the paper of the OLS 2006 talk "hrtimers
+ and beyond". The paper is part of the OLS 2006 Proceedings Volume 1, which can
+@@ -30,11 +31,12 @@ hrtimer base infrastructure
+ ---------------------------
+ 
+ The hrtimer base infrastructure was merged into the 2.6.16 kernel. Details of
+-the base implementation are covered in Documentation/timers/hrtimers.txt. See
++the base implementation are covered in Documentation/timers/hrtimers.rst. See
+ also figure #2 (OLS slides p. 15)
+ 
+ The main differences to the timer wheel, which holds the armed timer_list type
+ timers are:
 +
- Paul Moore, paul.moore@hp.com
+        - time ordered enqueueing into a rb-tree
+        - independent of ticks (the processing is based on nanoseconds)
  
- May 17, 2006
+@@ -55,7 +57,8 @@ merged into the 2.6.18 kernel.
  
-- * Overview
-+Overview
-+========
- 
- The NetLabel CIPSO/IPv4 protocol engine is based on the IETF Commercial
- IP Security Option (CIPSO) draft from July 16, 1992.  A copy of this
-@@ -13,7 +16,8 @@ draft can be found in this directory
- it to an RFC standard it has become a de-facto standard for labeled
- networking and is used in many trusted operating systems.
- 
-- * Outbound Packet Processing
-+Outbound Packet Processing
-+==========================
- 
- The CIPSO/IPv4 protocol engine applies the CIPSO IP option to packets by
- adding the CIPSO label to the socket.  This causes all packets leaving the
-@@ -24,7 +28,8 @@ label by using the NetLabel security module API; if the NetLabel "domain" is
- configured to use CIPSO for packet labeling then a CIPSO IP option will be
- generated and attached to the socket.
- 
-- * Inbound Packet Processing
-+Inbound Packet Processing
-+=========================
- 
- The CIPSO/IPv4 protocol engine validates every CIPSO IP option it finds at the
- IP layer without any special handling required by the LSM.  However, in order
-@@ -33,7 +38,8 @@ NetLabel security module API to extract the security attributes of the packet.
- This is typically done at the socket layer using the 'socket_sock_rcv_skb()'
- LSM hook.
- 
-- * Label Translation
-+Label Translation
-+=================
- 
- The CIPSO/IPv4 protocol engine contains a mechanism to translate CIPSO security
- attributes such as sensitivity level and category to values which are
-@@ -42,7 +48,8 @@ Domain Of Interpretation (DOI) definition and are configured through the
- NetLabel user space communication layer.  Each DOI definition can have a
- different security attribute mapping table.
- 
-- * Label Translation Cache
-+Label Translation Cache
-+=======================
- 
- The NetLabel system provides a framework for caching security attribute
- mappings from the network labels to the corresponding LSM identifiers.  The
-diff --git a/Documentation/netlabel/draft_ietf.rst b/Documentation/netlabel/draft_ietf.rst
-new file mode 100644
-index 000000000000..5ed39ab8234b
---- /dev/null
-+++ b/Documentation/netlabel/draft_ietf.rst
-@@ -0,0 +1,5 @@
-+Draft IETF CIPSO IP Security
-+----------------------------
+ Further information about the Generic Time Of Day framework is available in the
+ OLS 2005 Proceedings Volume 1:
+-http://www.linuxsymposium.org/2005/linuxsymposium_procv1.pdf
 +
-+ .. include:: draft-ietf-cipso-ipsecurity-01.txt
-+    :literal:
-diff --git a/Documentation/netlabel/index.rst b/Documentation/netlabel/index.rst
++	http://www.linuxsymposium.org/2005/linuxsymposium_procv1.pdf
+ 
+ The paper "We Are Not Getting Any Younger: A New Approach to Time and
+ Timers" was written by J. Stultz, D.V. Hart, & N. Aravamudan.
+@@ -100,6 +103,7 @@ accounting, profiling, and high resolution timers.
+ 
+ The management layer assigns one or more of the following functions to a clock
+ event device:
++
+       - system global periodic tick (jiffies update)
+       - cpu local update_process_times
+       - cpu local profiling
+@@ -244,6 +248,3 @@ extended to x86_64 and ARM already. Initial (work in progress) support is also
+ available for MIPS and PowerPC.
+ 
+ 	  Thomas, Ingo
+-
+-
+-
+diff --git a/Documentation/timers/hpet.txt b/Documentation/timers/hpet.rst
+similarity index 91%
+rename from Documentation/timers/hpet.txt
+rename to Documentation/timers/hpet.rst
+index 895345ec513b..c9d05d3caaca 100644
+--- a/Documentation/timers/hpet.txt
++++ b/Documentation/timers/hpet.rst
+@@ -1,4 +1,6 @@
+-		High Precision Event Timer Driver for Linux
++===========================================
++High Precision Event Timer Driver for Linux
++===========================================
+ 
+ The High Precision Event Timer (HPET) hardware follows a specification
+ by Intel and Microsoft, revision 1.
+diff --git a/Documentation/timers/hrtimers.txt b/Documentation/timers/hrtimers.rst
+similarity index 98%
+rename from Documentation/timers/hrtimers.txt
+rename to Documentation/timers/hrtimers.rst
+index 588d85724f10..c1c20a693e8f 100644
+--- a/Documentation/timers/hrtimers.txt
++++ b/Documentation/timers/hrtimers.rst
+@@ -1,6 +1,6 @@
+-
++======================================================
+ hrtimers - subsystem for high-resolution kernel timers
+-----------------------------------------------------
++======================================================
+ 
+ This patch introduces a new subsystem for high-resolution kernel timers.
+ 
+@@ -146,7 +146,7 @@ the clock_getres() interface. This will return whatever real resolution
+ a given clock has - be it low-res, high-res, or artificially-low-res.
+ 
+ hrtimers - testing and verification
+-----------------------------------
++-----------------------------------
+ 
+ We used the high-resolution clock subsystem ontop of hrtimers to verify
+ the hrtimer implementation details in praxis, and we also ran the posix
+diff --git a/Documentation/timers/index.rst b/Documentation/timers/index.rst
 new file mode 100644
-index 000000000000..47f1e0e5acd1
+index 000000000000..91f6f8263c48
 --- /dev/null
-+++ b/Documentation/netlabel/index.rst
-@@ -0,0 +1,21 @@
++++ b/Documentation/timers/index.rst
+@@ -0,0 +1,22 @@
 +:orphan:
 +
-+========
-+NetLabel
-+========
++======
++timers
++======
 +
 +.. toctree::
 +    :maxdepth: 1
 +
-+    introduction
-+    cipso_ipv4
-+    lsm_interface
-+
-+    draft_ietf
++    highres
++    hpet
++    hrtimers
++    no_hz
++    timekeeping
++    timers-howto
 +
 +.. only::  subproject and html
 +
@@ -174,112 +218,340 @@ index 000000000000..47f1e0e5acd1
 +   =======
 +
 +   * :ref:`genindex`
-diff --git a/Documentation/netlabel/introduction.txt b/Documentation/netlabel/introduction.rst
-similarity index 91%
-rename from Documentation/netlabel/introduction.txt
-rename to Documentation/netlabel/introduction.rst
-index 3caf77bcff0f..9333bbb0adc1 100644
---- a/Documentation/netlabel/introduction.txt
-+++ b/Documentation/netlabel/introduction.rst
-@@ -1,10 +1,13 @@
-+=====================
- NetLabel Introduction
--==============================================================================
-+=====================
-+
- Paul Moore, paul.moore@hp.com
+diff --git a/Documentation/timers/NO_HZ.txt b/Documentation/timers/no_hz.rst
+similarity index 93%
+rename from Documentation/timers/NO_HZ.txt
+rename to Documentation/timers/no_hz.rst
+index 9591092da5e0..065db217cb04 100644
+--- a/Documentation/timers/NO_HZ.txt
++++ b/Documentation/timers/no_hz.rst
+@@ -1,4 +1,6 @@
+-		NO_HZ: Reducing Scheduling-Clock Ticks
++﻿======================================
++NO_HZ: Reducing Scheduling-Clock Ticks
++======================================
  
- August 2, 2006
  
-- * Overview
-+Overview
-+========
+ This document describes Kconfig options and boot parameters that can
+@@ -28,7 +30,8 @@ by a third section on RCU-specific considerations, a fourth section
+ discussing testing, and a fifth and final section listing known issues.
  
- NetLabel is a mechanism which can be used by kernel security modules to attach
- security attributes to outgoing network packets generated from user space
-@@ -12,7 +15,8 @@ applications and read security attributes from incoming network packets.  It
- is composed of three main components, the protocol engines, the communication
- layer, and the kernel security module API.
  
-- * Protocol Engines
-+Protocol Engines
+-NEVER OMIT SCHEDULING-CLOCK TICKS
++Never Omit Scheduling-Clock Ticks
++=================================
+ 
+ Very old versions of Linux from the 1990s and the very early 2000s
+ are incapable of omitting scheduling-clock ticks.  It turns out that
+@@ -59,7 +62,8 @@ degrade your applications performance.  If this describes your workload,
+ you should read the following two sections.
+ 
+ 
+-OMIT SCHEDULING-CLOCK TICKS FOR IDLE CPUs
++Omit Scheduling-Clock Ticks For Idle CPUs
++=========================================
+ 
+ If a CPU is idle, there is little point in sending it a scheduling-clock
+ interrupt.  After all, the primary purpose of a scheduling-clock interrupt
+@@ -97,7 +101,8 @@ By default, CONFIG_NO_HZ_IDLE=y kernels boot with "nohz=on", enabling
+ dyntick-idle mode.
+ 
+ 
+-OMIT SCHEDULING-CLOCK TICKS FOR CPUs WITH ONLY ONE RUNNABLE TASK
++Omit Scheduling-Clock Ticks For CPUs With Only One Runnable Task
++================================================================
+ 
+ If a CPU has only one runnable task, there is little point in sending it
+ a scheduling-clock interrupt because there is no other task to switch to.
+@@ -174,7 +179,8 @@ However, the drawbacks listed above mean that adaptive ticks should not
+ (yet) be enabled by default.
+ 
+ 
+-RCU IMPLICATIONS
++RCU Implications
 +================
  
- The protocol engines are responsible for both applying and retrieving the
- network packet's security attributes.  If any translation between the network
-@@ -24,7 +28,8 @@ the NetLabel kernel security module API described below.
- Detailed information about each NetLabel protocol engine can be found in this
- directory.
+ There are situations in which idle CPUs cannot be permitted to
+ enter either dyntick-idle mode or adaptive-tick mode, the most
+@@ -199,7 +205,8 @@ scheduler will decide where to run them, which might or might not be
+ where you want them to run.
  
-- * Communication Layer
-+Communication Layer
-+===================
  
- The communication layer exists to allow NetLabel configuration and monitoring
- from user space.  The NetLabel communication layer uses a message based
-@@ -33,7 +38,8 @@ formatting of these NetLabel messages as well as the Generic NETLINK family
- names can be found in the 'net/netlabel/' directory as comments in the
- header files as well as in 'include/net/netlabel.h'.
+-TESTING
++Testing
++=======
  
-- * Security Module API
-+Security Module API
-+===================
+ So you enable all the OS-jitter features described in this document,
+ but do not see any change in your workload's behavior.  Is this because
+@@ -222,9 +229,10 @@ We do not currently have a good way to remove OS jitter from single-CPU
+ systems.
  
- The purpose of the NetLabel security module API is to provide a protocol
- independent interface to the underlying NetLabel protocol engines.  In addition
-diff --git a/Documentation/netlabel/lsm_interface.txt b/Documentation/netlabel/lsm_interface.rst
-similarity index 88%
-rename from Documentation/netlabel/lsm_interface.txt
-rename to Documentation/netlabel/lsm_interface.rst
-index 638c74f7de7f..026fc267f798 100644
---- a/Documentation/netlabel/lsm_interface.txt
-+++ b/Documentation/netlabel/lsm_interface.rst
-@@ -1,10 +1,13 @@
-+========================================
- NetLabel Linux Security Module Interface
--==============================================================================
-+========================================
+ 
+-KNOWN ISSUES
++Known Issues
++============
+ 
+-o	Dyntick-idle slows transitions to and from idle slightly.
++*	Dyntick-idle slows transitions to and from idle slightly.
+ 	In practice, this has not been a problem except for the most
+ 	aggressive real-time workloads, which have the option of disabling
+ 	dyntick-idle mode, an option that most of them take.  However,
+@@ -248,13 +256,13 @@ o	Dyntick-idle slows transitions to and from idle slightly.
+ 		this parameter effectively disables Turbo Mode on Intel
+ 		CPUs, which can significantly reduce maximum performance.
+ 
+-o	Adaptive-ticks slows user/kernel transitions slightly.
++*	Adaptive-ticks slows user/kernel transitions slightly.
+ 	This is not expected to be a problem for computationally intensive
+ 	workloads, which have few such transitions.  Careful benchmarking
+ 	will be required to determine whether or not other workloads
+ 	are significantly affected by this effect.
+ 
+-o	Adaptive-ticks does not do anything unless there is only one
++*	Adaptive-ticks does not do anything unless there is only one
+ 	runnable task for a given CPU, even though there are a number
+ 	of other situations where the scheduling-clock tick is not
+ 	needed.  To give but one example, consider a CPU that has one
+@@ -275,7 +283,7 @@ o	Adaptive-ticks does not do anything unless there is only one
+ 
+ 	Better handling of these sorts of situations is future work.
+ 
+-o	A reboot is required to reconfigure both adaptive idle and RCU
++*	A reboot is required to reconfigure both adaptive idle and RCU
+ 	callback offloading.  Runtime reconfiguration could be provided
+ 	if needed, however, due to the complexity of reconfiguring RCU at
+ 	runtime, there would need to be an earthshakingly good reason.
+@@ -283,12 +291,12 @@ o	A reboot is required to reconfigure both adaptive idle and RCU
+ 	simply offloading RCU callbacks from all CPUs and pinning them
+ 	where you want them whenever you want them pinned.
+ 
+-o	Additional configuration is required to deal with other sources
++*	Additional configuration is required to deal with other sources
+ 	of OS jitter, including interrupts and system-utility tasks
+ 	and processes.  This configuration normally involves binding
+ 	interrupts and tasks to particular CPUs.
+ 
+-o	Some sources of OS jitter can currently be eliminated only by
++*	Some sources of OS jitter can currently be eliminated only by
+ 	constraining the workload.  For example, the only way to eliminate
+ 	OS jitter due to global TLB shootdowns is to avoid the unmapping
+ 	operations (such as kernel module unload operations) that
+@@ -299,17 +307,17 @@ o	Some sources of OS jitter can currently be eliminated only by
+ 	helpful, especially when combined with the mlock() and mlockall()
+ 	system calls.
+ 
+-o	Unless all CPUs are idle, at least one CPU must keep the
++*	Unless all CPUs are idle, at least one CPU must keep the
+ 	scheduling-clock interrupt going in order to support accurate
+ 	timekeeping.
+ 
+-o	If there might potentially be some adaptive-ticks CPUs, there
++*	If there might potentially be some adaptive-ticks CPUs, there
+ 	will be at least one CPU keeping the scheduling-clock interrupt
+ 	going, even if all CPUs are otherwise idle.
+ 
+ 	Better handling of this situation is ongoing work.
+ 
+-o	Some process-handling operations still require the occasional
++*	Some process-handling operations still require the occasional
+ 	scheduling-clock tick.	These operations include calculating CPU
+ 	load, maintaining sched average, computing CFS entity vruntime,
+ 	computing avenrun, and carrying out load balancing.  They are
+diff --git a/Documentation/timers/timekeeping.txt b/Documentation/timers/timekeeping.rst
+similarity index 98%
+rename from Documentation/timers/timekeeping.txt
+rename to Documentation/timers/timekeeping.rst
+index 2d1732b0a868..f83e98852e2c 100644
+--- a/Documentation/timers/timekeeping.txt
++++ b/Documentation/timers/timekeeping.rst
+@@ -1,5 +1,6 @@
++===========================================================
+ Clock sources, Clock events, sched_clock() and delay timers
+------------------------------------------------------------
++===========================================================
+ 
+ This document tries to briefly explain some basic kernel timekeeping
+ abstractions. It partly pertains to the drivers usually found in
+diff --git a/Documentation/timers/timers-howto.txt b/Documentation/timers/timers-howto.rst
+similarity index 93%
+rename from Documentation/timers/timers-howto.txt
+rename to Documentation/timers/timers-howto.rst
+index 038f8c77a076..7e3167bec2b1 100644
+--- a/Documentation/timers/timers-howto.txt
++++ b/Documentation/timers/timers-howto.rst
+@@ -1,5 +1,6 @@
++===================================================================
+ delays - Information on the various kernel delay / sleep mechanisms
+--------------------------------------------------------------------
++===================================================================
+ 
+ This document seeks to answer the common question: "What is the
+ RightWay (TM) to insert a delay?"
+@@ -17,7 +18,7 @@ code in an atomic context?"  This should be followed closely by "Does
+ it really need to delay in atomic context?" If so...
+ 
+ ATOMIC CONTEXT:
+-	You must use the *delay family of functions. These
++	You must use the `*delay` family of functions. These
+ 	functions use the jiffie estimation of clock speed
+ 	and will busy wait for enough loop cycles to achieve
+ 	the desired delay:
+@@ -35,21 +36,26 @@ ATOMIC CONTEXT:
+ 	be refactored to allow for the use of msleep.
+ 
+ NON-ATOMIC CONTEXT:
+-	You should use the *sleep[_range] family of functions.
++	You should use the `*sleep[_range]` family of functions.
+ 	There are a few more options here, while any of them may
+ 	work correctly, using the "right" sleep function will
+ 	help the scheduler, power management, and just make your
+ 	driver better :)
+ 
+ 	-- Backed by busy-wait loop:
 +
- Paul Moore, paul.moore@hp.com
+ 		udelay(unsigned long usecs)
++
+ 	-- Backed by hrtimers:
++
+ 		usleep_range(unsigned long min, unsigned long max)
++
+ 	-- Backed by jiffies / legacy_timers
++
+ 		msleep(unsigned long msecs)
+ 		msleep_interruptible(unsigned long msecs)
  
- May 17, 2006
+-	Unlike the *delay family, the underlying mechanism
++	Unlike the `*delay` family, the underlying mechanism
+ 	driving each of these calls varies, thus there are
+ 	quirks you should be aware of.
  
-- * Overview
-+Overview
-+========
+@@ -70,6 +76,7 @@ NON-ATOMIC CONTEXT:
+ 		- Why not msleep for (1ms - 20ms)?
+ 			Explained originally here:
+ 				http://lkml.org/lkml/2007/8/3/250
++
+ 			msleep(1~20) may not do what the caller intends, and
+ 			will often sleep longer (~20 ms actual sleep for any
+ 			value given in the 1~20ms range). In many cases this
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7e600004f993..8dfa2fa5101a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7127,7 +7127,7 @@ F:	drivers/net/ethernet/hp/hp100.*
+ HPET:	High Precision Event Timers driver
+ M:	Clemens Ladisch <clemens@ladisch.de>
+ S:	Maintained
+-F:	Documentation/timers/hpet.txt
++F:	Documentation/timers/hpet.rst
+ F:	drivers/char/hpet.c
+ F:	include/linux/hpet.h
+ F:	include/uapi/linux/hpet.h
+diff --git a/drivers/media/usb/dvb-usb-v2/anysee.c b/drivers/media/usb/dvb-usb-v2/anysee.c
+index 0df7ad69e6c7..a4271f6c414a 100644
+--- a/drivers/media/usb/dvb-usb-v2/anysee.c
++++ b/drivers/media/usb/dvb-usb-v2/anysee.c
+@@ -65,7 +65,7 @@ static int anysee_ctrl_msg(struct dvb_usb_device *d,
+ 	/* TODO FIXME: dvb_usb_generic_rw() fails rarely with error code -32
+ 	 * (EPIPE, Broken pipe). Function supports currently msleep() as a
+ 	 * parameter but I would not like to use it, since according to
+-	 * Documentation/timers/timers-howto.txt it should not be used such
++	 * Documentation/timers/timers-howto.rst it should not be used such
+ 	 * short, under < 20ms, sleeps. Repeating failed message would be
+ 	 * better choice as not to add unwanted delays...
+ 	 * Fixing that correctly is one of those or both;
+diff --git a/drivers/regulator/core.c b/drivers/regulator/core.c
+index 186a37675b50..e67a98115d9d 100644
+--- a/drivers/regulator/core.c
++++ b/drivers/regulator/core.c
+@@ -2308,7 +2308,7 @@ static int regulator_ena_gpio_ctrl(struct regulator_dev *rdev, bool enable)
+  *
+  * Delay for the requested amount of time as per the guidelines in:
+  *
+- *     Documentation/timers/timers-howto.txt
++ *     Documentation/timers/timers-howto.rst
+  *
+  * The assumption here is that regulators will never be enabled in
+  * atomic context and therefore sleeping functions can be used.
+diff --git a/include/linux/iopoll.h b/include/linux/iopoll.h
+index b1d861caca16..320bbc9761c8 100644
+--- a/include/linux/iopoll.h
++++ b/include/linux/iopoll.h
+@@ -30,7 +30,7 @@
+  * @cond: Break condition (usually involving @val)
+  * @sleep_us: Maximum time to sleep between reads in us (0
+  *            tight-loops).  Should be less than ~20ms since usleep_range
+- *            is used (see Documentation/timers/timers-howto.txt).
++ *            is used (see Documentation/timers/timers-howto.rst).
+  * @timeout_us: Timeout in us, 0 means never timeout
+  *
+  * Returns 0 on success and -ETIMEDOUT upon a timeout. In either
+@@ -69,7 +69,7 @@
+  * @cond: Break condition (usually involving @val)
+  * @delay_us: Time to udelay between reads in us (0 tight-loops).  Should
+  *            be less than ~10us since udelay is used (see
+- *            Documentation/timers/timers-howto.txt).
++ *            Documentation/timers/timers-howto.rst).
+  * @timeout_us: Timeout in us, 0 means never timeout
+  *
+  * Returns 0 on success and -ETIMEDOUT upon a timeout. In either
+diff --git a/include/linux/regmap.h b/include/linux/regmap.h
+index daeec7dbd65c..ed5e9d0a1285 100644
+--- a/include/linux/regmap.h
++++ b/include/linux/regmap.h
+@@ -112,7 +112,7 @@ struct reg_sequence {
+  * @cond: Break condition (usually involving @val)
+  * @sleep_us: Maximum time to sleep between reads in us (0
+  *            tight-loops).  Should be less than ~20ms since usleep_range
+- *            is used (see Documentation/timers/timers-howto.txt).
++ *            is used (see Documentation/timers/timers-howto.rst).
+  * @timeout_us: Timeout in us, 0 means never timeout
+  *
+  * Returns 0 on success and -ETIMEDOUT upon a timeout or the regmap_read
+@@ -154,7 +154,7 @@ struct reg_sequence {
+  * @cond: Break condition (usually involving @val)
+  * @sleep_us: Maximum time to sleep between reads in us (0
+  *            tight-loops).  Should be less than ~20ms since usleep_range
+- *            is used (see Documentation/timers/timers-howto.txt).
++ *            is used (see Documentation/timers/timers-howto.rst).
+  * @timeout_us: Timeout in us, 0 means never timeout
+  *
+  * Returns 0 on success and -ETIMEDOUT upon a timeout or the regmap_field_read
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 1c421ac42b07..d36598bbf1b0 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -5714,7 +5714,7 @@ sub process {
+ 			# ignore udelay's < 10, however
+ 			if (! ($delay < 10) ) {
+ 				CHK("USLEEP_RANGE",
+-				    "usleep_range is preferred over udelay; see Documentation/timers/timers-howto.txt\n" . $herecurr);
++				    "usleep_range is preferred over udelay; see Documentation/timers/timers-howto.rst\n" . $herecurr);
+ 			}
+ 			if ($delay > 2000) {
+ 				WARN("LONG_UDELAY",
+@@ -5726,7 +5726,7 @@ sub process {
+ 		if ($line =~ /\bmsleep\s*\((\d+)\);/) {
+ 			if ($1 < 20) {
+ 				WARN("MSLEEP",
+-				     "msleep < 20ms can sleep for up to 20ms; see Documentation/timers/timers-howto.txt\n" . $herecurr);
++				     "msleep < 20ms can sleep for up to 20ms; see Documentation/timers/timers-howto.rst\n" . $herecurr);
+ 			}
+ 		}
  
- NetLabel is a mechanism which can set and retrieve security attributes from
- network packets.  It is intended to be used by LSM developers who want to make
-@@ -12,7 +15,8 @@ use of a common code base for several different packet labeling protocols.
- The NetLabel security module API is defined in 'include/net/netlabel.h' but a
- brief overview is given below.
+@@ -6117,11 +6117,11 @@ sub process {
+ 			my $max = $7;
+ 			if ($min eq $max) {
+ 				WARN("USLEEP_RANGE",
+-				     "usleep_range should not use min == max args; see Documentation/timers/timers-howto.txt\n" . "$here\n$stat\n");
++				     "usleep_range should not use min == max args; see Documentation/timers/timers-howto.rst\n" . "$here\n$stat\n");
+ 			} elsif ($min =~ /^\d+$/ && $max =~ /^\d+$/ &&
+ 				 $min > $max) {
+ 				WARN("USLEEP_RANGE",
+-				     "usleep_range args reversed, use min then max; see Documentation/timers/timers-howto.txt\n" . "$here\n$stat\n");
++				     "usleep_range args reversed, use min then max; see Documentation/timers/timers-howto.rst\n" . "$here\n$stat\n");
+ 			}
+ 		}
  
-- * NetLabel Security Attributes
-+NetLabel Security Attributes
-+============================
- 
- Since NetLabel supports multiple different packet labeling protocols and LSMs
- it uses the concept of security attributes to refer to the packet's security
-@@ -24,7 +28,8 @@ configuration.  It is up to the LSM developer to translate the NetLabel
- security attributes into whatever security identifiers are in use for their
- particular LSM.
- 
-- * NetLabel LSM Protocol Operations
-+NetLabel LSM Protocol Operations
-+================================
- 
- These are the functions which allow the LSM developer to manipulate the labels
- on outgoing packets as well as read the labels on incoming packets.  Functions
-@@ -32,7 +37,8 @@ exist to operate both on sockets as well as the sk_buffs directly.  These high
- level functions are translated into low level protocol operations based on how
- the administrator has configured the NetLabel subsystem.
- 
-- * NetLabel Label Mapping Cache Operations
-+NetLabel Label Mapping Cache Operations
-+=======================================
- 
- Depending on the exact configuration, translation between the network packet
- label and the internal LSM security identifier can be time consuming.  The
 -- 
 2.20.1
 
