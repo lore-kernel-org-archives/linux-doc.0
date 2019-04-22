@@ -5,41 +5,46 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9020A7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Apr 2019 13:32:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 812DA7D91A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Apr 2019 13:32:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727274AbfDVNcK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Apr 2019 09:32:10 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:37792 "EHLO
+        id S1727604AbfDVNcZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Apr 2019 09:32:25 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:37634 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727560AbfDVN2V (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Apr 2019 09:28:21 -0400
+        with ESMTP id S1727399AbfDVN2U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Apr 2019 09:28:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Jzaush9YZYQv7XnqgU8rzwO0XVYHLkrQhLElBhcRH0U=; b=Je2lejhfGwGSpx4Jc4IVdOX5So
-        GEWDAzVSKZ1uQTj1HPIJ+i26Tho2BIcbJUgX01MIOlYFjVmx8Iwge3Qg8qNK9FzdZDlq0E6sT7Xg7
-        OMMga/3hk0epE8dojTtniFkxnjeuxOpyUSomjrO+PoSMVh2VXQUqThodiUS0apeZh4czAh1lzV4iL
-        1cW3ZPVikZyYETULnHaK4hzTYH8sXsvS+Q6JC1iIJLjKV7XxJr85p/7zMJZ3qvgQaSJKEYBD5F/86
-        nziy8geIeE5FILj3UcwBrszSRABDEfSsMi6zU7/bY1w1mPItLutU+Io+fSFl6TeE41Z8eDKK9PxM3
-        CBSP6ruQ==;
+        bh=3x4H5mEGyZKwIzr3GUIqoH31lU/0J3sIFJEZufYIvjs=; b=iav2l0iSi//6NlEVnwV7Cldh8T
+        Rn8YfB6jEpZQMoq0FKxVyD3hHdlWmWhUujgOICvU5S0DOxc7A6koBPdJwHG8hxe5QKkWziSfe4ZeM
+        w4nFo/vz5lfGbXHx8uHGBXlS/UHKS+4TBZnM4fMx7Dkf3CrQ2ybLv/bd1lMGy1a5/EnLB/Kk/+uQm
+        GMRVumyDHW5FTGxlATzYcF9eXt6VTSIezOauJUutpkgBLkqrDayfUAgTBy0+IjOKUiV5Q+7VvbQ1/
+        LaLXcThcW66+rjJ3/Oi+qqG6hcDDuLAPYsAb4ZAdmzUnTXuC9APb10FXX2Ngklgc6GXVi0yfALwUZ
+        uGZdxUzQ==;
 Received: from 179.176.125.229.dynamic.adsl.gvt.net.br ([179.176.125.229] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hIYzb-0005I3-Eh; Mon, 22 Apr 2019 13:28:20 +0000
+        id 1hIYzZ-0005Hs-Aj; Mon, 22 Apr 2019 13:28:18 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hIYzT-0005mx-Hs; Mon, 22 Apr 2019 10:28:11 -0300
+        id 1hIYzU-0005oi-C2; Mon, 22 Apr 2019 10:28:12 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2 43/79] docs: m68k: convert docs to ReST and rename to *.rst
-Date:   Mon, 22 Apr 2019 10:27:32 -0300
-Message-Id: <efe82e7f9621c5f756d30fdb7d04fbd19c5d268c.1555938376.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 65/79] docs: ioctl: convert to ReST
+Date:   Mon, 22 Apr 2019 10:27:54 -0300
+Message-Id: <3bc56b16284ce581b00400d49ab9e984ab714756.1555938376.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1555938375.git.mchehab+samsung@kernel.org>
 References: <cover.1555938375.git.mchehab+samsung@kernel.org>
@@ -50,913 +55,3842 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Convert the m68k kernel-options.txt file to ReST.
+Rename the iio documentation files to ReST, add an
+index for them and adjust in order to produce a nice html
+output via the Sphinx build system.
 
-The conversion is trivial, as the document is already on a format
-close enough to ReST. Just some small adjustments were needed in
-order to make it both good for being parsed while keeping it on
-a good txt shape.
+The cdrom.txt and hdio.txt have their own particular syntax.
+In order to speedup the conversion, I used a small ancillary
+perl script:
+
+	my $d;
+	$d .= $_ while(<>);
+	$d =~ s/(\nCDROM\S+)\s+(\w[^\n]*)/$1\n\t$2\n/g;
+	$d =~ s/(\nHDIO\S+)\s+(\w[^\n]*)/$1\n\t$2\n/g;
+	$d =~ s/(\n\s*usage:)[\s\n]*(\w[^\n]*)/$1:\n\n\t  $2\n/g;
+	$d =~ s/(\n\s*)(E\w+[\s\n]*\w[^\n]*)/$1- $2/g;
+	$d =~ s/(\n\s*)(inputs|outputs|notes):\s*(\w[^\n]*)/$1$2:\n\t\t$3\n/g;
+	print $d;
+
+It basically add blank lines on a few interesting places. The
+script is not perfect: still several things require manual work,
+but it saved quite some time doing some obvious stuff.
 
 At its new index.rst, let's add a :orphan: while this is not linked to
 the main index.rst file, in order to avoid build warnings.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- .../admin-guide/kernel-parameters.rst         |   2 +-
- Documentation/m68k/index.rst                  |  17 +
- ...{kernel-options.txt => kernel-options.rst} | 319 ++++++++++--------
- 3 files changed, 191 insertions(+), 147 deletions(-)
- create mode 100644 Documentation/m68k/index.rst
- rename Documentation/m68k/{kernel-options.txt => kernel-options.rst} (78%)
+ ...g-up-ioctls.txt => botching-up-ioctls.rst} |    1 +
+ Documentation/ioctl/cdrom.rst                 | 1233 +++++++++++++++++
+ Documentation/ioctl/cdrom.txt                 |  967 -------------
+ Documentation/ioctl/{hdio.txt => hdio.rst}    |  835 +++++++----
+ Documentation/ioctl/index.rst                 |   16 +
+ ...{ioctl-decoding.txt => ioctl-decoding.rst} |   13 +-
+ drivers/gpu/drm/drm_ioctl.c                   |    2 +-
+ 7 files changed, 1814 insertions(+), 1253 deletions(-)
+ rename Documentation/ioctl/{botching-up-ioctls.txt => botching-up-ioctls.rst} (99%)
+ create mode 100644 Documentation/ioctl/cdrom.rst
+ delete mode 100644 Documentation/ioctl/cdrom.txt
+ rename Documentation/ioctl/{hdio.txt => hdio.rst} (54%)
+ create mode 100644 Documentation/ioctl/index.rst
+ rename Documentation/ioctl/{ioctl-decoding.txt => ioctl-decoding.rst} (54%)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.rst b/Documentation/admin-guide/kernel-parameters.rst
-index b8d0bc07ed0a..a4d76c6a13bd 100644
---- a/Documentation/admin-guide/kernel-parameters.rst
-+++ b/Documentation/admin-guide/kernel-parameters.rst
-@@ -117,7 +117,7 @@ parameter is applicable::
- 	LOOP	Loopback device support is enabled.
- 	M68k	M68k architecture is enabled.
- 			These options have more detailed description inside of
--			Documentation/m68k/kernel-options.txt.
-+			Documentation/m68k/kernel-options.rst.
- 	MDA	MDA console support is enabled.
- 	MIPS	MIPS architecture is enabled.
- 	MOUSE	Appropriate mouse support is enabled.
-diff --git a/Documentation/m68k/index.rst b/Documentation/m68k/index.rst
+diff --git a/Documentation/ioctl/botching-up-ioctls.txt b/Documentation/ioctl/botching-up-ioctls.rst
+similarity index 99%
+rename from Documentation/ioctl/botching-up-ioctls.txt
+rename to Documentation/ioctl/botching-up-ioctls.rst
+index 883fb034bd04..ac697fef3545 100644
+--- a/Documentation/ioctl/botching-up-ioctls.txt
++++ b/Documentation/ioctl/botching-up-ioctls.rst
+@@ -1,3 +1,4 @@
++=================================
+ (How to avoid) Botching up ioctls
+ =================================
+ 
+diff --git a/Documentation/ioctl/cdrom.rst b/Documentation/ioctl/cdrom.rst
 new file mode 100644
-index 000000000000..f3273ec075c3
+index 000000000000..3b4c0506de46
 --- /dev/null
-+++ b/Documentation/m68k/index.rst
-@@ -0,0 +1,17 @@
++++ b/Documentation/ioctl/cdrom.rst
+@@ -0,0 +1,1233 @@
++============================
++Summary of CDROM ioctl calls
++============================
++
++- Edward A. Falk <efalk@google.com>
++
++November, 2004
++
++This document attempts to describe the ioctl(2) calls supported by
++the CDROM layer.  These are by-and-large implemented (as of Linux 2.6)
++in drivers/cdrom/cdrom.c and drivers/block/scsi_ioctl.c
++
++ioctl values are listed in <linux/cdrom.h>.  As of this writing, they
++are as follows:
++
++	======================	===============================================
++	CDROMPAUSE		Pause Audio Operation
++	CDROMRESUME		Resume paused Audio Operation
++	CDROMPLAYMSF		Play Audio MSF (struct cdrom_msf)
++	CDROMPLAYTRKIND		Play Audio Track/index (struct cdrom_ti)
++	CDROMREADTOCHDR		Read TOC header (struct cdrom_tochdr)
++	CDROMREADTOCENTRY	Read TOC entry (struct cdrom_tocentry)
++	CDROMSTOP		Stop the cdrom drive
++	CDROMSTART		Start the cdrom drive
++	CDROMEJECT		Ejects the cdrom media
++	CDROMVOLCTRL		Control output volume (struct cdrom_volctrl)
++	CDROMSUBCHNL		Read subchannel data (struct cdrom_subchnl)
++	CDROMREADMODE2		Read CDROM mode 2 data (2336 Bytes)
++				(struct cdrom_read)
++	CDROMREADMODE1		Read CDROM mode 1 data (2048 Bytes)
++				(struct cdrom_read)
++	CDROMREADAUDIO		(struct cdrom_read_audio)
++	CDROMEJECT_SW		enable(1)/disable(0) auto-ejecting
++	CDROMMULTISESSION	Obtain the start-of-last-session
++				address of multi session disks
++				(struct cdrom_multisession)
++	CDROM_GET_MCN		Obtain the "Universal Product Code"
++				if available (struct cdrom_mcn)
++	CDROM_GET_UPC		Deprecated, use CDROM_GET_MCN instead.
++	CDROMRESET		hard-reset the drive
++	CDROMVOLREAD		Get the drive's volume setting
++				(struct cdrom_volctrl)
++	CDROMREADRAW		read data in raw mode (2352 Bytes)
++				(struct cdrom_read)
++	CDROMREADCOOKED		read data in cooked mode
++	CDROMSEEK		seek msf address
++	CDROMPLAYBLK		scsi-cd only, (struct cdrom_blk)
++	CDROMREADALL		read all 2646 bytes
++	CDROMGETSPINDOWN	return 4-bit spindown value
++	CDROMSETSPINDOWN	set 4-bit spindown value
++	CDROMCLOSETRAY		pendant of CDROMEJECT
++	CDROM_SET_OPTIONS	Set behavior options
++	CDROM_CLEAR_OPTIONS	Clear behavior options
++	CDROM_SELECT_SPEED	Set the CD-ROM speed
++	CDROM_SELECT_DISC	Select disc (for juke-boxes)
++	CDROM_MEDIA_CHANGED	Check is media changed
++	CDROM_DRIVE_STATUS	Get tray position, etc.
++	CDROM_DISC_STATUS	Get disc type, etc.
++	CDROM_CHANGER_NSLOTS	Get number of slots
++	CDROM_LOCKDOOR		lock or unlock door
++	CDROM_DEBUG		Turn debug messages on/off
++	CDROM_GET_CAPABILITY	get capabilities
++	CDROMAUDIOBUFSIZ	set the audio buffer size
++	DVD_READ_STRUCT		Read structure
++	DVD_WRITE_STRUCT	Write structure
++	DVD_AUTH		Authentication
++	CDROM_SEND_PACKET	send a packet to the drive
++	CDROM_NEXT_WRITABLE	get next writable block
++	CDROM_LAST_WRITTEN	get last block written on disc
++	======================	===============================================
++
++
++The information that follows was determined from reading kernel source
++code.  It is likely that some corrections will be made over time.
++
++------------------------------------------------------------------------------
++
++General:
++
++	Unless otherwise specified, all ioctl calls return 0 on success
++	and -1 with errno set to an appropriate value on error.  (Some
++	ioctls return non-negative data values.)
++
++	Unless otherwise specified, all ioctl calls return -1 and set
++	errno to EFAULT on a failed attempt to copy data to or from user
++	address space.
++
++	Individual drivers may return error codes not listed here.
++
++	Unless otherwise specified, all data structures and constants
++	are defined in <linux/cdrom.h>
++
++------------------------------------------------------------------------------
++
++
++CDROMPAUSE
++	Pause Audio Operation
++
++
++	usage::
++
++	  ioctl(fd, CDROMPAUSE, 0);
++
++
++	inputs:
++		none
++
++
++	outputs:
++		none
++
++
++	error return:
++	  - ENOSYS	cd drive not audio-capable.
++
++
++CDROMRESUME
++	Resume paused Audio Operation
++
++
++	usage::
++
++	  ioctl(fd, CDROMRESUME, 0);
++
++
++	inputs:
++		none
++
++
++	outputs:
++		none
++
++
++	error return:
++	  - ENOSYS	cd drive not audio-capable.
++
++
++CDROMPLAYMSF
++	Play Audio MSF
++
++	(struct cdrom_msf)
++
++
++	usage::
++
++	  struct cdrom_msf msf;
++
++	  ioctl(fd, CDROMPLAYMSF, &msf);
++
++	inputs:
++		cdrom_msf structure, describing a segment of music to play
++
++
++	outputs:
++		none
++
++
++	error return:
++	  - ENOSYS	cd drive not audio-capable.
++
++	notes:
++		- MSF stands for minutes-seconds-frames
++		- LBA stands for logical block address
++		- Segment is described as start and end times, where each time
++		  is described as minutes:seconds:frames.
++		  A frame is 1/75 of a second.
++
++
++CDROMPLAYTRKIND
++	Play Audio Track/index
++
++	(struct cdrom_ti)
++
++
++	usage::
++
++	  struct cdrom_ti ti;
++
++	  ioctl(fd, CDROMPLAYTRKIND, &ti);
++
++	inputs:
++		cdrom_ti structure, describing a segment of music to play
++
++
++	outputs:
++		none
++
++
++	error return:
++	  - ENOSYS	cd drive not audio-capable.
++
++	notes:
++		- Segment is described as start and end times, where each time
++		  is described as a track and an index.
++
++
++
++CDROMREADTOCHDR
++	Read TOC header
++
++	(struct cdrom_tochdr)
++
++
++	usage::
++
++	  cdrom_tochdr header;
++
++	  ioctl(fd, CDROMREADTOCHDR, &header);
++
++	inputs:
++		cdrom_tochdr structure
++
++
++	outputs:
++		cdrom_tochdr structure
++
++
++	error return:
++	  - ENOSYS	cd drive not audio-capable.
++
++
++
++CDROMREADTOCENTRY
++	Read TOC entry
++
++	(struct cdrom_tocentry)
++
++
++	usage::
++
++	  struct cdrom_tocentry entry;
++
++	  ioctl(fd, CDROMREADTOCENTRY, &entry);
++
++	inputs:
++		cdrom_tocentry structure
++
++
++	outputs:
++		cdrom_tocentry structure
++
++
++	error return:
++	  - ENOSYS	cd drive not audio-capable.
++	  - EINVAL	entry.cdte_format not CDROM_MSF or CDROM_LBA
++	  - EINVAL	requested track out of bounds
++	  - EIO		I/O error reading TOC
++
++	notes:
++		- TOC stands for Table Of Contents
++		- MSF stands for minutes-seconds-frames
++		- LBA stands for logical block address
++
++
++
++CDROMSTOP
++	Stop the cdrom drive
++
++
++	usage::
++
++	  ioctl(fd, CDROMSTOP, 0);
++
++
++	inputs:
++		none
++
++
++	outputs:
++		none
++
++
++	error return:
++	  - ENOSYS	cd drive not audio-capable.
++
++	notes:
++	  - Exact interpretation of this ioctl depends on the device,
++	    but most seem to spin the drive down.
++
++
++CDROMSTART
++	Start the cdrom drive
++
++
++	usage::
++
++	  ioctl(fd, CDROMSTART, 0);
++
++
++	inputs:
++		none
++
++
++	outputs:
++		none
++
++
++	error return:
++	  - ENOSYS	cd drive not audio-capable.
++
++	notes:
++	  - Exact interpretation of this ioctl depends on the device,
++	    but most seem to spin the drive up and/or close the tray.
++	    Other devices ignore the ioctl completely.
++
++
++CDROMEJECT
++	- Ejects the cdrom media
++
++
++	usage::
++
++	  ioctl(fd, CDROMEJECT, 0);
++
++
++	inputs:
++		none
++
++
++	outputs:
++		none
++
++
++	error returns:
++	  - ENOSYS	cd drive not capable of ejecting
++	  - EBUSY	other processes are accessing drive, or door is locked
++
++	notes:
++		- See CDROM_LOCKDOOR, below.
++
++
++
++
++CDROMCLOSETRAY
++	pendant of CDROMEJECT
++
++
++	usage::
++
++	  ioctl(fd, CDROMCLOSETRAY, 0);
++
++
++	inputs:
++		none
++
++
++	outputs:
++		none
++
++
++	error returns:
++	  - ENOSYS	cd drive not capable of closing the tray
++	  - EBUSY	other processes are accessing drive, or door is locked
++
++	notes:
++		- See CDROM_LOCKDOOR, below.
++
++
++
++
++CDROMVOLCTRL
++	Control output volume (struct cdrom_volctrl)
++
++
++	usage::
++
++	  struct cdrom_volctrl volume;
++
++	  ioctl(fd, CDROMVOLCTRL, &volume);
++
++	inputs:
++		cdrom_volctrl structure containing volumes for up to 4
++		channels.
++
++	outputs:
++		none
++
++
++	error return:
++	  - ENOSYS	cd drive not audio-capable.
++
++
++
++CDROMVOLREAD
++	Get the drive's volume setting
++
++	(struct cdrom_volctrl)
++
++
++	usage::
++
++	  struct cdrom_volctrl volume;
++
++	  ioctl(fd, CDROMVOLREAD, &volume);
++
++	inputs:
++		none
++
++
++	outputs:
++		The current volume settings.
++
++
++	error return:
++	  - ENOSYS	cd drive not audio-capable.
++
++
++
++CDROMSUBCHNL
++	Read subchannel data
++
++	(struct cdrom_subchnl)
++
++
++	usage::
++
++	  struct cdrom_subchnl q;
++
++	  ioctl(fd, CDROMSUBCHNL, &q);
++
++	inputs:
++		cdrom_subchnl structure
++
++
++	outputs:
++		cdrom_subchnl structure
++
++
++	error return:
++	  - ENOSYS	cd drive not audio-capable.
++	  - EINVAL	format not CDROM_MSF or CDROM_LBA
++
++	notes:
++		- Format is converted to CDROM_MSF or CDROM_LBA
++		  as per user request on return
++
++
++
++CDROMREADRAW
++	read data in raw mode (2352 Bytes)
++
++	(struct cdrom_read)
++
++	usage::
++
++	  union {
++
++	    struct cdrom_msf msf;		/* input */
++	    char buffer[CD_FRAMESIZE_RAW];	/* return */
++	  } arg;
++	  ioctl(fd, CDROMREADRAW, &arg);
++
++	inputs:
++		cdrom_msf structure indicating an address to read.
++
++		Only the start values are significant.
++
++	outputs:
++		Data written to address provided by user.
++
++
++	error return:
++	  - EINVAL	address less than 0, or msf less than 0:2:0
++	  - ENOMEM	out of memory
++
++	notes:
++		- As of 2.6.8.1, comments in <linux/cdrom.h> indicate that this
++		  ioctl accepts a cdrom_read structure, but actual source code
++		  reads a cdrom_msf structure and writes a buffer of data to
++		  the same address.
++
++		- MSF values are converted to LBA values via this formula::
++
++		    lba = (((m * CD_SECS) + s) * CD_FRAMES + f) - CD_MSF_OFFSET;
++
++
++
++
++CDROMREADMODE1
++	Read CDROM mode 1 data (2048 Bytes)
++
++	(struct cdrom_read)
++
++	notes:
++		Identical to CDROMREADRAW except that block size is
++		CD_FRAMESIZE (2048) bytes
++
++
++
++CDROMREADMODE2
++	Read CDROM mode 2 data (2336 Bytes)
++
++	(struct cdrom_read)
++
++	notes:
++		Identical to CDROMREADRAW except that block size is
++		CD_FRAMESIZE_RAW0 (2336) bytes
++
++
++
++CDROMREADAUDIO
++	(struct cdrom_read_audio)
++
++	usage::
++
++	  struct cdrom_read_audio ra;
++
++	  ioctl(fd, CDROMREADAUDIO, &ra);
++
++	inputs:
++		cdrom_read_audio structure containing read start
++		point and length
++
++	outputs:
++		audio data, returned to buffer indicated by ra
++
++
++	error return:
++	  - EINVAL	format not CDROM_MSF or CDROM_LBA
++	  - EINVAL	nframes not in range [1 75]
++	  - ENXIO	drive has no queue (probably means invalid fd)
++	  - ENOMEM	out of memory
++
++
++CDROMEJECT_SW
++	enable(1)/disable(0) auto-ejecting
++
++
++	usage::
++
++	  int val;
++
++	  ioctl(fd, CDROMEJECT_SW, val);
++
++	inputs:
++		Flag specifying auto-eject flag.
++
++
++	outputs:
++		none
++
++
++	error return:
++	  - ENOSYS	Drive is not capable of ejecting.
++	  - EBUSY	Door is locked
++
++
++
++
++CDROMMULTISESSION
++	Obtain the start-of-last-session address of multi session disks
++
++	(struct cdrom_multisession)
++
++	usage::
++
++	  struct cdrom_multisession ms_info;
++
++	  ioctl(fd, CDROMMULTISESSION, &ms_info);
++
++	inputs:
++		cdrom_multisession structure containing desired
++
++	  format.
++
++	outputs:
++		cdrom_multisession structure is filled with last_session
++		information.
++
++	error return:
++	  - EINVAL	format not CDROM_MSF or CDROM_LBA
++
++
++CDROM_GET_MCN
++	Obtain the "Universal Product Code"
++	if available
++
++	(struct cdrom_mcn)
++
++
++	usage::
++
++	  struct cdrom_mcn mcn;
++
++	  ioctl(fd, CDROM_GET_MCN, &mcn);
++
++	inputs:
++		none
++
++
++	outputs:
++		Universal Product Code
++
++
++	error return:
++	  - ENOSYS	Drive is not capable of reading MCN data.
++
++	notes:
++		- Source code comments state::
++
++		    The following function is implemented, although very few
++		    audio discs give Universal Product Code information, which
++		    should just be the Medium Catalog Number on the box.  Note,
++		    that the way the code is written on the CD is /not/ uniform
++		    across all discs!
++
++
++
++
++CDROM_GET_UPC
++	CDROM_GET_MCN  (deprecated)
++
++
++	Not implemented, as of 2.6.8.1
++
++
++
++CDROMRESET
++	hard-reset the drive
++
++
++	usage::
++
++	  ioctl(fd, CDROMRESET, 0);
++
++
++	inputs:
++		none
++
++
++	outputs:
++		none
++
++
++	error return:
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - ENOSYS	Drive is not capable of resetting.
++
++
++
++
++CDROMREADCOOKED
++	read data in cooked mode
++
++
++	usage::
++
++	  u8 buffer[CD_FRAMESIZE]
++
++	  ioctl(fd, CDROMREADCOOKED, buffer);
++
++	inputs:
++		none
++
++
++	outputs:
++		2048 bytes of data, "cooked" mode.
++
++
++	notes:
++		Not implemented on all drives.
++
++
++
++
++
++CDROMREADALL
++	read all 2646 bytes
++
++
++	Same as CDROMREADCOOKED, but reads 2646 bytes.
++
++
++
++CDROMSEEK
++	seek msf address
++
++
++	usage::
++
++	  struct cdrom_msf msf;
++
++	  ioctl(fd, CDROMSEEK, &msf);
++
++	inputs:
++		MSF address to seek to.
++
++
++	outputs:
++		none
++
++
++
++
++CDROMPLAYBLK
++	scsi-cd only
++
++	(struct cdrom_blk)
++
++
++	usage::
++
++	  struct cdrom_blk blk;
++
++	  ioctl(fd, CDROMPLAYBLK, &blk);
++
++	inputs:
++		Region to play
++
++
++	outputs:
++		none
++
++
++
++
++CDROMGETSPINDOWN
++	usage::
++
++	  char spindown;
++
++	  ioctl(fd, CDROMGETSPINDOWN, &spindown);
++
++	inputs:
++		none
++
++
++	outputs:
++		The value of the current 4-bit spindown value.
++
++
++
++
++
++CDROMSETSPINDOWN
++	usage::
++
++	  char spindown
++
++	  ioctl(fd, CDROMSETSPINDOWN, &spindown);
++
++	inputs:
++		4-bit value used to control spindown (TODO: more detail here)
++
++
++	outputs:
++		none
++
++
++
++
++
++
++CDROM_SET_OPTIONS
++	Set behavior options
++
++
++	usage::
++
++	  int options;
++
++	  ioctl(fd, CDROM_SET_OPTIONS, options);
++
++	inputs:
++		New values for drive options.  The logical 'or' of:
++
++	    ==============      ==================================
++	    CDO_AUTO_CLOSE	close tray on first open(2)
++	    CDO_AUTO_EJECT	open tray on last release
++	    CDO_USE_FFLAGS	use O_NONBLOCK information on open
++	    CDO_LOCK		lock tray on open files
++	    CDO_CHECK_TYPE	check type on open for data
++	    ==============      ==================================
++
++	outputs:
++		Returns the resulting options settings in the
++		ioctl return value.  Returns -1 on error.
++
++	error return:
++	  - ENOSYS	selected option(s) not supported by drive.
++
++
++
++
++CDROM_CLEAR_OPTIONS
++	Clear behavior options
++
++
++	Same as CDROM_SET_OPTIONS, except that selected options are
++	turned off.
++
++
++
++CDROM_SELECT_SPEED
++	Set the CD-ROM speed
++
++
++	usage::
++
++	  int speed;
++
++	  ioctl(fd, CDROM_SELECT_SPEED, speed);
++
++	inputs:
++		New drive speed.
++
++
++	outputs:
++		none
++
++
++	error return:
++	  - ENOSYS	speed selection not supported by drive.
++
++
++
++CDROM_SELECT_DISC
++	Select disc (for juke-boxes)
++
++
++	usage::
++
++	  int disk;
++
++	  ioctl(fd, CDROM_SELECT_DISC, disk);
++
++	inputs:
++		Disk to load into drive.
++
++
++	outputs:
++		none
++
++
++	error return:
++	  - EINVAL	Disk number beyond capacity of drive
++
++
++
++CDROM_MEDIA_CHANGED
++	Check is media changed
++
++
++	usage::
++
++	  int slot;
++
++	  ioctl(fd, CDROM_MEDIA_CHANGED, slot);
++
++	inputs:
++		Slot number to be tested, always zero except for jukeboxes.
++
++		May also be special values CDSL_NONE or CDSL_CURRENT
++
++	outputs:
++		Ioctl return value is 0 or 1 depending on whether the media
++
++	  has been changed, or -1 on error.
++
++	error returns:
++	  - ENOSYS	Drive can't detect media change
++	  - EINVAL	Slot number beyond capacity of drive
++	  - ENOMEM	Out of memory
++
++
++
++CDROM_DRIVE_STATUS
++	Get tray position, etc.
++
++
++	usage::
++
++	  int slot;
++
++	  ioctl(fd, CDROM_DRIVE_STATUS, slot);
++
++	inputs:
++		Slot number to be tested, always zero except for jukeboxes.
++
++		May also be special values CDSL_NONE or CDSL_CURRENT
++
++	outputs:
++		Ioctl return value will be one of the following values
++
++	  from <linux/cdrom.h>:
++
++	    =================== ==========================
++	    CDS_NO_INFO		Information not available.
++	    CDS_NO_DISC
++	    CDS_TRAY_OPEN
++	    CDS_DRIVE_NOT_READY
++	    CDS_DISC_OK
++	    -1			error
++	    =================== ==========================
++
++	error returns:
++	  - ENOSYS	Drive can't detect drive status
++	  - EINVAL	Slot number beyond capacity of drive
++	  - ENOMEM	Out of memory
++
++
++
++
++CDROM_DISC_STATUS
++	Get disc type, etc.
++
++
++	usage::
++
++	  ioctl(fd, CDROM_DISC_STATUS, 0);
++
++
++	inputs:
++		none
++
++
++	outputs:
++		Ioctl return value will be one of the following values
++
++	  from <linux/cdrom.h>:
++
++	    - CDS_NO_INFO
++	    - CDS_AUDIO
++	    - CDS_MIXED
++	    - CDS_XA_2_2
++	    - CDS_XA_2_1
++	    - CDS_DATA_1
++
++	error returns:
++		none at present
++
++	notes:
++	    - Source code comments state::
++
++
++		Ok, this is where problems start.  The current interface for
++		the CDROM_DISC_STATUS ioctl is flawed.  It makes the false
++		assumption that CDs are all CDS_DATA_1 or all CDS_AUDIO, etc.
++		Unfortunately, while this is often the case, it is also
++		very common for CDs to have some tracks with data, and some
++		tracks with audio.	Just because I feel like it, I declare
++		the following to be the best way to cope.  If the CD has
++		ANY data tracks on it, it will be returned as a data CD.
++		If it has any XA tracks, I will return it as that.	Now I
++		could simplify this interface by combining these returns with
++		the above, but this more clearly demonstrates the problem
++		with the current interface.  Too bad this wasn't designed
++		to use bitmasks...	       -Erik
++
++		Well, now we have the option CDS_MIXED: a mixed-type CD.
++		User level programmers might feel the ioctl is not very
++		useful.
++				---david
++
++
++
++
++CDROM_CHANGER_NSLOTS
++	Get number of slots
++
++
++	usage::
++
++	  ioctl(fd, CDROM_CHANGER_NSLOTS, 0);
++
++
++	inputs:
++		none
++
++
++	outputs:
++		The ioctl return value will be the number of slots in a
++		CD changer.  Typically 1 for non-multi-disk devices.
++
++	error returns:
++		none
++
++
++
++CDROM_LOCKDOOR
++	lock or unlock door
++
++
++	usage::
++
++	  int lock;
++
++	  ioctl(fd, CDROM_LOCKDOOR, lock);
++
++	inputs:
++		Door lock flag, 1=lock, 0=unlock
++
++
++	outputs:
++		none
++
++
++	error returns:
++	  - EDRIVE_CANT_DO_THIS
++
++				Door lock function not supported.
++	  - EBUSY
++
++				Attempt to unlock when multiple users
++				have the drive open and not CAP_SYS_ADMIN
++
++	notes:
++		As of 2.6.8.1, the lock flag is a global lock, meaning that
++		all CD drives will be locked or unlocked together.  This is
++		probably a bug.
++
++		The EDRIVE_CANT_DO_THIS value is defined in <linux/cdrom.h>
++		and is currently (2.6.8.1) the same as EOPNOTSUPP
++
++
++
++CDROM_DEBUG
++	Turn debug messages on/off
++
++
++	usage::
++
++	  int debug;
++
++	  ioctl(fd, CDROM_DEBUG, debug);
++
++	inputs:
++		Cdrom debug flag, 0=disable, 1=enable
++
++
++	outputs:
++		The ioctl return value will be the new debug flag.
++
++
++	error return:
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++
++
++
++CDROM_GET_CAPABILITY
++	get capabilities
++
++
++	usage::
++
++	  ioctl(fd, CDROM_GET_CAPABILITY, 0);
++
++
++	inputs:
++		none
++
++
++	outputs:
++		The ioctl return value is the current device capability
++		flags.  See CDC_CLOSE_TRAY, CDC_OPEN_TRAY, etc.
++
++
++
++CDROMAUDIOBUFSIZ
++	set the audio buffer size
++
++
++	usage::
++
++	  int arg;
++
++	  ioctl(fd, CDROMAUDIOBUFSIZ, val);
++
++	inputs:
++		New audio buffer size
++
++
++	outputs:
++		The ioctl return value is the new audio buffer size, or -1
++		on error.
++
++	error return:
++	  - ENOSYS	Not supported by this driver.
++
++	notes:
++		Not supported by all drivers.
++
++
++
++
++DVD_READ_STRUCT			Read structure
++
++	usage::
++
++	  dvd_struct s;
++
++	  ioctl(fd, DVD_READ_STRUCT, &s);
++
++	inputs:
++		dvd_struct structure, containing:
++
++	    =================== ==========================================
++	    type		specifies the information desired, one of
++				DVD_STRUCT_PHYSICAL, DVD_STRUCT_COPYRIGHT,
++				DVD_STRUCT_DISCKEY, DVD_STRUCT_BCA,
++				DVD_STRUCT_MANUFACT
++	    physical.layer_num	desired layer, indexed from 0
++	    copyright.layer_num	desired layer, indexed from 0
++	    disckey.agid
++	    =================== ==========================================
++
++	outputs:
++		dvd_struct structure, containing:
++
++	    =================== ================================
++	    physical		for type == DVD_STRUCT_PHYSICAL
++	    copyright		for type == DVD_STRUCT_COPYRIGHT
++	    disckey.value	for type == DVD_STRUCT_DISCKEY
++	    bca.{len,value}	for type == DVD_STRUCT_BCA
++	    manufact.{len,valu}	for type == DVD_STRUCT_MANUFACT
++	    =================== ================================
++
++	error returns:
++	  - EINVAL	physical.layer_num exceeds number of layers
++	  - EIO		Received invalid response from drive
++
++
++
++DVD_WRITE_STRUCT		Write structure
++
++	Not implemented, as of 2.6.8.1
++
++
++
++DVD_AUTH			Authentication
++
++	usage::
++
++	  dvd_authinfo ai;
++
++	  ioctl(fd, DVD_AUTH, &ai);
++
++	inputs:
++		dvd_authinfo structure.  See <linux/cdrom.h>
++
++
++	outputs:
++		dvd_authinfo structure.
++
++
++	error return:
++	  - ENOTTY	ai.type not recognized.
++
++
++
++CDROM_SEND_PACKET
++	send a packet to the drive
++
++
++	usage::
++
++	  struct cdrom_generic_command cgc;
++
++	  ioctl(fd, CDROM_SEND_PACKET, &cgc);
++
++	inputs:
++		cdrom_generic_command structure containing the packet to send.
++
++
++	outputs:
++		none
++
++	  cdrom_generic_command structure containing results.
++
++	error return:
++	  - EIO
++
++			command failed.
++	  - EPERM
++
++			Operation not permitted, either because a
++			write command was attempted on a drive which
++			is opened read-only, or because the command
++			requires CAP_SYS_RAWIO
++	  - EINVAL
++
++			cgc.data_direction not set
++
++
++
++CDROM_NEXT_WRITABLE
++	get next writable block
++
++
++	usage::
++
++	  long next;
++
++	  ioctl(fd, CDROM_NEXT_WRITABLE, &next);
++
++	inputs:
++		none
++
++
++	outputs:
++		The next writable block.
++
++
++	notes:
++		If the device does not support this ioctl directly, the
++
++	  ioctl will return CDROM_LAST_WRITTEN + 7.
++
++
++
++CDROM_LAST_WRITTEN
++	get last block written on disc
++
++
++	usage::
++
++	  long last;
++
++	  ioctl(fd, CDROM_LAST_WRITTEN, &last);
++
++	inputs:
++		none
++
++
++	outputs:
++		The last block written on disc
++
++
++	notes:
++		If the device does not support this ioctl directly, the
++		result is derived from the disc's table of contents.  If the
++		table of contents can't be read, this ioctl returns an
++		error.
+diff --git a/Documentation/ioctl/cdrom.txt b/Documentation/ioctl/cdrom.txt
+deleted file mode 100644
+index a4d62a9d6771..000000000000
+--- a/Documentation/ioctl/cdrom.txt
++++ /dev/null
+@@ -1,967 +0,0 @@
+-		Summary of CDROM ioctl calls.
+-		============================
+-
+-		Edward A. Falk <efalk@google.com>
+-
+-		November, 2004
+-
+-This document attempts to describe the ioctl(2) calls supported by
+-the CDROM layer.  These are by-and-large implemented (as of Linux 2.6)
+-in drivers/cdrom/cdrom.c and drivers/block/scsi_ioctl.c
+-
+-ioctl values are listed in <linux/cdrom.h>.  As of this writing, they
+-are as follows:
+-
+-	CDROMPAUSE		Pause Audio Operation
+-	CDROMRESUME		Resume paused Audio Operation
+-	CDROMPLAYMSF		Play Audio MSF (struct cdrom_msf)
+-	CDROMPLAYTRKIND		Play Audio Track/index (struct cdrom_ti)
+-	CDROMREADTOCHDR		Read TOC header (struct cdrom_tochdr)
+-	CDROMREADTOCENTRY	Read TOC entry (struct cdrom_tocentry)
+-	CDROMSTOP		Stop the cdrom drive
+-	CDROMSTART		Start the cdrom drive
+-	CDROMEJECT		Ejects the cdrom media
+-	CDROMVOLCTRL		Control output volume (struct cdrom_volctrl)
+-	CDROMSUBCHNL		Read subchannel data (struct cdrom_subchnl)
+-	CDROMREADMODE2		Read CDROM mode 2 data (2336 Bytes)
+-					   (struct cdrom_read)
+-	CDROMREADMODE1		Read CDROM mode 1 data (2048 Bytes)
+-					   (struct cdrom_read)
+-	CDROMREADAUDIO		(struct cdrom_read_audio)
+-	CDROMEJECT_SW		enable(1)/disable(0) auto-ejecting
+-	CDROMMULTISESSION	Obtain the start-of-last-session
+-				  address of multi session disks
+-				  (struct cdrom_multisession)
+-	CDROM_GET_MCN		Obtain the "Universal Product Code"
+-				   if available (struct cdrom_mcn)
+-	CDROM_GET_UPC		Deprecated, use CDROM_GET_MCN instead.
+-	CDROMRESET		hard-reset the drive
+-	CDROMVOLREAD		Get the drive's volume setting
+-					  (struct cdrom_volctrl)
+-	CDROMREADRAW		read data in raw mode (2352 Bytes)
+-					   (struct cdrom_read)
+-	CDROMREADCOOKED		read data in cooked mode
+-	CDROMSEEK		seek msf address
+-	CDROMPLAYBLK		scsi-cd only, (struct cdrom_blk)
+-	CDROMREADALL		read all 2646 bytes
+-	CDROMGETSPINDOWN	return 4-bit spindown value
+-	CDROMSETSPINDOWN	set 4-bit spindown value
+-	CDROMCLOSETRAY		pendant of CDROMEJECT
+-	CDROM_SET_OPTIONS	Set behavior options
+-	CDROM_CLEAR_OPTIONS	Clear behavior options
+-	CDROM_SELECT_SPEED	Set the CD-ROM speed
+-	CDROM_SELECT_DISC	Select disc (for juke-boxes)
+-	CDROM_MEDIA_CHANGED	Check is media changed
+-	CDROM_DRIVE_STATUS	Get tray position, etc.
+-	CDROM_DISC_STATUS	Get disc type, etc.
+-	CDROM_CHANGER_NSLOTS	Get number of slots
+-	CDROM_LOCKDOOR		lock or unlock door
+-	CDROM_DEBUG		Turn debug messages on/off
+-	CDROM_GET_CAPABILITY	get capabilities
+-	CDROMAUDIOBUFSIZ	set the audio buffer size
+-	DVD_READ_STRUCT		Read structure
+-	DVD_WRITE_STRUCT	Write structure
+-	DVD_AUTH		Authentication
+-	CDROM_SEND_PACKET	send a packet to the drive
+-	CDROM_NEXT_WRITABLE	get next writable block
+-	CDROM_LAST_WRITTEN	get last block written on disc
+-
+-
+-The information that follows was determined from reading kernel source
+-code.  It is likely that some corrections will be made over time.
+-
+-
+-
+-
+-
+-
+-
+-General:
+-
+-	Unless otherwise specified, all ioctl calls return 0 on success
+-	and -1 with errno set to an appropriate value on error.  (Some
+-	ioctls return non-negative data values.)
+-
+-	Unless otherwise specified, all ioctl calls return -1 and set
+-	errno to EFAULT on a failed attempt to copy data to or from user
+-	address space.
+-
+-	Individual drivers may return error codes not listed here.
+-
+-	Unless otherwise specified, all data structures and constants
+-	are defined in <linux/cdrom.h>
+-
+-
+-
+-
+-CDROMPAUSE			Pause Audio Operation
+-
+-	usage:
+-
+-	  ioctl(fd, CDROMPAUSE, 0);
+-
+-	inputs:		none
+-
+-	outputs:	none
+-
+-	error return:
+-	  ENOSYS	cd drive not audio-capable.
+-
+-
+-CDROMRESUME			Resume paused Audio Operation
+-
+-	usage:
+-
+-	  ioctl(fd, CDROMRESUME, 0);
+-
+-	inputs:		none
+-
+-	outputs:	none
+-
+-	error return:
+-	  ENOSYS	cd drive not audio-capable.
+-
+-
+-CDROMPLAYMSF			Play Audio MSF (struct cdrom_msf)
+-
+-	usage:
+-
+-	  struct cdrom_msf msf;
+-	  ioctl(fd, CDROMPLAYMSF, &msf);
+-
+-	inputs:
+-	  cdrom_msf structure, describing a segment of music to play
+-
+-	outputs:	none
+-
+-	error return:
+-	  ENOSYS	cd drive not audio-capable.
+-
+-	notes:
+-	  MSF stands for minutes-seconds-frames
+-	  LBA stands for logical block address
+-
+-	  Segment is described as start and end times, where each time
+-	  is described as minutes:seconds:frames.  A frame is 1/75 of
+-	  a second.
+-
+-
+-CDROMPLAYTRKIND			Play Audio Track/index (struct cdrom_ti)
+-
+-	usage:
+-
+-	  struct cdrom_ti ti;
+-	  ioctl(fd, CDROMPLAYTRKIND, &ti);
+-
+-	inputs:
+-	  cdrom_ti structure, describing a segment of music to play
+-
+-	outputs:	none
+-
+-	error return:
+-	  ENOSYS	cd drive not audio-capable.
+-
+-	notes:
+-	  Segment is described as start and end times, where each time
+-	  is described as a track and an index.
+-
+-
+-
+-CDROMREADTOCHDR			Read TOC header (struct cdrom_tochdr)
+-
+-	usage:
+-
+-	  cdrom_tochdr header;
+-	  ioctl(fd, CDROMREADTOCHDR, &header);
+-
+-	inputs:
+-	  cdrom_tochdr structure
+-
+-	outputs:
+-	  cdrom_tochdr structure
+-
+-	error return:
+-	  ENOSYS	cd drive not audio-capable.
+-
+-
+-
+-CDROMREADTOCENTRY		Read TOC entry (struct cdrom_tocentry)
+-
+-	usage:
+-
+-	  struct cdrom_tocentry entry;
+-	  ioctl(fd, CDROMREADTOCENTRY, &entry);
+-
+-	inputs:
+-	  cdrom_tocentry structure
+-
+-	outputs:
+-	  cdrom_tocentry structure
+-
+-	error return:
+-	  ENOSYS	cd drive not audio-capable.
+-	  EINVAL	entry.cdte_format not CDROM_MSF or CDROM_LBA
+-	  EINVAL	requested track out of bounds
+-	  EIO		I/O error reading TOC
+-
+-	notes:
+-	  TOC stands for Table Of Contents
+-	  MSF stands for minutes-seconds-frames
+-	  LBA stands for logical block address
+-
+-
+-
+-CDROMSTOP			Stop the cdrom drive
+-
+-	usage:
+-
+-	  ioctl(fd, CDROMSTOP, 0);
+-
+-	inputs:		none
+-
+-	outputs:	none
+-
+-	error return:
+-	  ENOSYS	cd drive not audio-capable.
+-
+-	notes:
+-	  Exact interpretation of this ioctl depends on the device,
+-	  but most seem to spin the drive down.
+-
+-
+-CDROMSTART			Start the cdrom drive
+-
+-	usage:
+-
+-	  ioctl(fd, CDROMSTART, 0);
+-
+-	inputs:		none
+-
+-	outputs:	none
+-
+-	error return:
+-	  ENOSYS	cd drive not audio-capable.
+-
+-	notes:
+-	  Exact interpretation of this ioctl depends on the device,
+-	  but most seem to spin the drive up and/or close the tray.
+-	  Other devices ignore the ioctl completely.
+-
+-
+-CDROMEJECT			Ejects the cdrom media
+-
+-	usage:
+-
+-	  ioctl(fd, CDROMEJECT, 0);
+-
+-	inputs:		none
+-
+-	outputs:	none
+-
+-	error returns:
+-	  ENOSYS	cd drive not capable of ejecting
+-	  EBUSY		other processes are accessing drive, or door is locked
+-
+-	notes:
+-	  See CDROM_LOCKDOOR, below.
+-
+-
+-
+-CDROMCLOSETRAY			pendant of CDROMEJECT
+-
+-	usage:
+-
+-	  ioctl(fd, CDROMCLOSETRAY, 0);
+-
+-	inputs:		none
+-
+-	outputs:	none
+-
+-	error returns:
+-	  ENOSYS	cd drive not capable of closing the tray
+-	  EBUSY		other processes are accessing drive, or door is locked
+-
+-	notes:
+-	  See CDROM_LOCKDOOR, below.
+-
+-
+-
+-CDROMVOLCTRL			Control output volume (struct cdrom_volctrl)
+-
+-	usage:
+-
+-	  struct cdrom_volctrl volume;
+-	  ioctl(fd, CDROMVOLCTRL, &volume);
+-
+-	inputs:
+-	  cdrom_volctrl structure containing volumes for up to 4
+-	  channels.
+-
+-	outputs:	none
+-
+-	error return:
+-	  ENOSYS	cd drive not audio-capable.
+-
+-
+-
+-CDROMVOLREAD			Get the drive's volume setting
+-					  (struct cdrom_volctrl)
+-
+-	usage:
+-
+-	  struct cdrom_volctrl volume;
+-	  ioctl(fd, CDROMVOLREAD, &volume);
+-
+-	inputs:		none
+-
+-	outputs:
+-	  The current volume settings.
+-
+-	error return:
+-	  ENOSYS	cd drive not audio-capable.
+-
+-
+-
+-CDROMSUBCHNL			Read subchannel data (struct cdrom_subchnl)
+-
+-	usage:
+-
+-	  struct cdrom_subchnl q;
+-	  ioctl(fd, CDROMSUBCHNL, &q);
+-
+-	inputs:
+-	  cdrom_subchnl structure
+-
+-	outputs:
+-	  cdrom_subchnl structure
+-
+-	error return:
+-	  ENOSYS	cd drive not audio-capable.
+-	  EINVAL	format not CDROM_MSF or CDROM_LBA
+-
+-	notes:
+-	  Format is converted to CDROM_MSF or CDROM_LBA
+-	  as per user request on return
+-
+-
+-
+-CDROMREADRAW			read data in raw mode (2352 Bytes)
+-					   (struct cdrom_read)
+-
+-	usage:
+-
+-	  union {
+-	    struct cdrom_msf msf;		/* input */
+-	    char buffer[CD_FRAMESIZE_RAW];	/* return */
+-	  } arg;
+-	  ioctl(fd, CDROMREADRAW, &arg);
+-
+-	inputs:
+-	  cdrom_msf structure indicating an address to read.
+-	  Only the start values are significant.
+-
+-	outputs:
+-	  Data written to address provided by user.
+-
+-	error return:
+-	  EINVAL	address less than 0, or msf less than 0:2:0
+-	  ENOMEM	out of memory
+-
+-	notes:
+-	  As of 2.6.8.1, comments in <linux/cdrom.h> indicate that this
+-	  ioctl accepts a cdrom_read structure, but actual source code
+-	  reads a cdrom_msf structure and writes a buffer of data to
+-	  the same address.
+-
+-	  MSF values are converted to LBA values via this formula:
+-
+-	    lba = (((m * CD_SECS) + s) * CD_FRAMES + f) - CD_MSF_OFFSET;
+-
+-
+-
+-
+-CDROMREADMODE1			Read CDROM mode 1 data (2048 Bytes)
+-					   (struct cdrom_read)
+-
+-	notes:
+-	  Identical to CDROMREADRAW except that block size is
+-	  CD_FRAMESIZE (2048) bytes
+-
+-
+-
+-CDROMREADMODE2			Read CDROM mode 2 data (2336 Bytes)
+-					   (struct cdrom_read)
+-
+-	notes:
+-	  Identical to CDROMREADRAW except that block size is
+-	  CD_FRAMESIZE_RAW0 (2336) bytes
+-
+-
+-
+-CDROMREADAUDIO			(struct cdrom_read_audio)
+-
+-	usage:
+-
+-	  struct cdrom_read_audio ra;
+-	  ioctl(fd, CDROMREADAUDIO, &ra);
+-
+-	inputs:
+-	  cdrom_read_audio structure containing read start
+-	  point and length
+-
+-	outputs:
+-	  audio data, returned to buffer indicated by ra
+-
+-	error return:
+-	  EINVAL	format not CDROM_MSF or CDROM_LBA
+-	  EINVAL	nframes not in range [1 75]
+-	  ENXIO		drive has no queue (probably means invalid fd)
+-	  ENOMEM	out of memory
+-
+-
+-CDROMEJECT_SW			enable(1)/disable(0) auto-ejecting
+-
+-	usage:
+-
+-	  int val;
+-	  ioctl(fd, CDROMEJECT_SW, val);
+-
+-	inputs:
+-	  Flag specifying auto-eject flag.
+-
+-	outputs:	none
+-
+-	error return:
+-	  ENOSYS	Drive is not capable of ejecting.
+-	  EBUSY		Door is locked
+-
+-
+-
+-
+-CDROMMULTISESSION		Obtain the start-of-last-session
+-				  address of multi session disks
+-				  (struct cdrom_multisession)
+-	usage:
+-
+-	  struct cdrom_multisession ms_info;
+-	  ioctl(fd, CDROMMULTISESSION, &ms_info);
+-
+-	inputs:
+-	  cdrom_multisession structure containing desired
+-	  format.
+-
+-	outputs:
+-	  cdrom_multisession structure is filled with last_session
+-	  information.
+-
+-	error return:
+-	  EINVAL	format not CDROM_MSF or CDROM_LBA
+-
+-
+-CDROM_GET_MCN			Obtain the "Universal Product Code"
+-				   if available (struct cdrom_mcn)
+-
+-	usage:
+-
+-	  struct cdrom_mcn mcn;
+-	  ioctl(fd, CDROM_GET_MCN, &mcn);
+-
+-	inputs:		none
+-
+-	outputs:
+-	  Universal Product Code
+-
+-	error return:
+-	  ENOSYS	Drive is not capable of reading MCN data.
+-
+-	notes:
+-	  Source code comments state:
+-
+-	    The following function is implemented, although very few
+-	    audio discs give Universal Product Code information, which
+-	    should just be the Medium Catalog Number on the box.  Note,
+-	    that the way the code is written on the CD is /not/ uniform
+-	    across all discs!
+-
+-
+-
+-
+-CDROM_GET_UPC			CDROM_GET_MCN  (deprecated)
+-
+-	Not implemented, as of 2.6.8.1
+-
+-
+-
+-CDROMRESET			hard-reset the drive
+-
+-	usage:
+-
+-	  ioctl(fd, CDROMRESET, 0);
+-
+-	inputs:		none
+-
+-	outputs:	none
+-
+-	error return:
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-	  ENOSYS	Drive is not capable of resetting.
+-
+-
+-
+-
+-CDROMREADCOOKED			read data in cooked mode
+-
+-	usage:
+-
+-	  u8 buffer[CD_FRAMESIZE]
+-	  ioctl(fd, CDROMREADCOOKED, buffer);
+-
+-	inputs:		none
+-
+-	outputs:
+-	  2048 bytes of data, "cooked" mode.
+-
+-	notes:
+-	  Not implemented on all drives.
+-
+-
+-
+-
+-CDROMREADALL			read all 2646 bytes
+-
+-	Same as CDROMREADCOOKED, but reads 2646 bytes.
+-
+-
+-
+-CDROMSEEK			seek msf address
+-
+-	usage:
+-
+-	  struct cdrom_msf msf;
+-	  ioctl(fd, CDROMSEEK, &msf);
+-
+-	inputs:
+-	  MSF address to seek to.
+-
+-	outputs:	none
+-
+-
+-
+-CDROMPLAYBLK			scsi-cd only, (struct cdrom_blk)
+-
+-	usage:
+-
+-	  struct cdrom_blk blk;
+-	  ioctl(fd, CDROMPLAYBLK, &blk);
+-
+-	inputs:
+-	  Region to play
+-
+-	outputs:	none
+-
+-
+-
+-CDROMGETSPINDOWN
+-
+-	usage:
+-
+-	  char spindown;
+-	  ioctl(fd, CDROMGETSPINDOWN, &spindown);
+-
+-	inputs:		none
+-
+-	outputs:
+-	  The value of the current 4-bit spindown value.
+-
+-
+-
+-
+-CDROMSETSPINDOWN
+-
+-	usage:
+-
+-	  char spindown
+-	  ioctl(fd, CDROMSETSPINDOWN, &spindown);
+-
+-	inputs:
+-	  4-bit value used to control spindown (TODO: more detail here)
+-
+-	outputs:	none
+-
+-
+-
+-
+-
+-CDROM_SET_OPTIONS		Set behavior options
+-
+-	usage:
+-
+-	  int options;
+-	  ioctl(fd, CDROM_SET_OPTIONS, options);
+-
+-	inputs:
+-	  New values for drive options.  The logical 'or' of:
+-	    CDO_AUTO_CLOSE	close tray on first open(2)
+-	    CDO_AUTO_EJECT	open tray on last release
+-	    CDO_USE_FFLAGS	use O_NONBLOCK information on open
+-	    CDO_LOCK		lock tray on open files
+-	    CDO_CHECK_TYPE	check type on open for data
+-
+-	outputs:
+-	  Returns the resulting options settings in the
+-	  ioctl return value.  Returns -1 on error.
+-
+-	error return:
+-	  ENOSYS	selected option(s) not supported by drive.
+-
+-
+-
+-
+-CDROM_CLEAR_OPTIONS		Clear behavior options
+-
+-	Same as CDROM_SET_OPTIONS, except that selected options are
+-	turned off.
+-
+-
+-
+-CDROM_SELECT_SPEED		Set the CD-ROM speed
+-
+-	usage:
+-
+-	  int speed;
+-	  ioctl(fd, CDROM_SELECT_SPEED, speed);
+-
+-	inputs:
+-	  New drive speed.
+-
+-	outputs:	none
+-
+-	error return:
+-	  ENOSYS	speed selection not supported by drive.
+-
+-
+-
+-CDROM_SELECT_DISC		Select disc (for juke-boxes)
+-
+-	usage:
+-
+-	  int disk;
+-	  ioctl(fd, CDROM_SELECT_DISC, disk);
+-
+-	inputs:
+-	  Disk to load into drive.
+-
+-	outputs:	none
+-
+-	error return:
+-	  EINVAL	Disk number beyond capacity of drive
+-
+-
+-
+-CDROM_MEDIA_CHANGED		Check is media changed
+-
+-	usage:
+-
+-	  int slot;
+-	  ioctl(fd, CDROM_MEDIA_CHANGED, slot);
+-
+-	inputs:
+-	  Slot number to be tested, always zero except for jukeboxes.
+-	  May also be special values CDSL_NONE or CDSL_CURRENT
+-
+-	outputs:
+-	  Ioctl return value is 0 or 1 depending on whether the media
+-	  has been changed, or -1 on error.
+-
+-	error returns:
+-	  ENOSYS	Drive can't detect media change
+-	  EINVAL	Slot number beyond capacity of drive
+-	  ENOMEM	Out of memory
+-
+-
+-
+-CDROM_DRIVE_STATUS		Get tray position, etc.
+-
+-	usage:
+-
+-	  int slot;
+-	  ioctl(fd, CDROM_DRIVE_STATUS, slot);
+-
+-	inputs:
+-	  Slot number to be tested, always zero except for jukeboxes.
+-	  May also be special values CDSL_NONE or CDSL_CURRENT
+-
+-	outputs:
+-	  Ioctl return value will be one of the following values
+-	  from <linux/cdrom.h>:
+-
+-	    CDS_NO_INFO		Information not available.
+-	    CDS_NO_DISC
+-	    CDS_TRAY_OPEN
+-	    CDS_DRIVE_NOT_READY
+-	    CDS_DISC_OK
+-	    -1			error
+-
+-	error returns:
+-	  ENOSYS	Drive can't detect drive status
+-	  EINVAL	Slot number beyond capacity of drive
+-	  ENOMEM	Out of memory
+-
+-
+-
+-
+-CDROM_DISC_STATUS		Get disc type, etc.
+-
+-	usage:
+-
+-	  ioctl(fd, CDROM_DISC_STATUS, 0);
+-
+-	inputs:		none
+-
+-	outputs:
+-	  Ioctl return value will be one of the following values
+-	  from <linux/cdrom.h>:
+-	    CDS_NO_INFO
+-	    CDS_AUDIO
+-	    CDS_MIXED
+-	    CDS_XA_2_2
+-	    CDS_XA_2_1
+-	    CDS_DATA_1
+-
+-	error returns:	none at present
+-
+-	notes:
+-	  Source code comments state:
+-
+-	    Ok, this is where problems start.  The current interface for
+-	    the CDROM_DISC_STATUS ioctl is flawed.  It makes the false
+-	    assumption that CDs are all CDS_DATA_1 or all CDS_AUDIO, etc.
+-	    Unfortunately, while this is often the case, it is also
+-	    very common for CDs to have some tracks with data, and some
+-	    tracks with audio.	Just because I feel like it, I declare
+-	    the following to be the best way to cope.  If the CD has
+-	    ANY data tracks on it, it will be returned as a data CD.
+-	    If it has any XA tracks, I will return it as that.	Now I
+-	    could simplify this interface by combining these returns with
+-	    the above, but this more clearly demonstrates the problem
+-	    with the current interface.  Too bad this wasn't designed
+-	    to use bitmasks...	       -Erik
+-
+-	    Well, now we have the option CDS_MIXED: a mixed-type CD.
+-	    User level programmers might feel the ioctl is not very
+-	    useful.
+-			---david
+-
+-
+-
+-
+-CDROM_CHANGER_NSLOTS		Get number of slots
+-
+-	usage:
+-
+-	  ioctl(fd, CDROM_CHANGER_NSLOTS, 0);
+-
+-	inputs:		none
+-
+-	outputs:
+-	  The ioctl return value will be the number of slots in a
+-	  CD changer.  Typically 1 for non-multi-disk devices.
+-
+-	error returns:	none
+-
+-
+-
+-CDROM_LOCKDOOR			lock or unlock door
+-
+-	usage:
+-
+-	  int lock;
+-	  ioctl(fd, CDROM_LOCKDOOR, lock);
+-
+-	inputs:
+-	  Door lock flag, 1=lock, 0=unlock
+-
+-	outputs:	none
+-
+-	error returns:
+-	  EDRIVE_CANT_DO_THIS	Door lock function not supported.
+-	  EBUSY			Attempt to unlock when multiple users
+-	  			have the drive open and not CAP_SYS_ADMIN
+-
+-	notes:
+-	  As of 2.6.8.1, the lock flag is a global lock, meaning that
+-	  all CD drives will be locked or unlocked together.  This is
+-	  probably a bug.
+-
+-	  The EDRIVE_CANT_DO_THIS value is defined in <linux/cdrom.h>
+-	  and is currently (2.6.8.1) the same as EOPNOTSUPP
+-
+-
+-
+-CDROM_DEBUG			Turn debug messages on/off
+-
+-	usage:
+-
+-	  int debug;
+-	  ioctl(fd, CDROM_DEBUG, debug);
+-
+-	inputs:
+-	  Cdrom debug flag, 0=disable, 1=enable
+-
+-	outputs:
+-	  The ioctl return value will be the new debug flag.
+-
+-	error return:
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-
+-
+-
+-CDROM_GET_CAPABILITY		get capabilities
+-
+-	usage:
+-
+-	  ioctl(fd, CDROM_GET_CAPABILITY, 0);
+-
+-	inputs:		none
+-
+-	outputs:
+-	  The ioctl return value is the current device capability
+-	  flags.  See CDC_CLOSE_TRAY, CDC_OPEN_TRAY, etc.
+-
+-
+-
+-CDROMAUDIOBUFSIZ		set the audio buffer size
+-
+-	usage:
+-
+-	  int arg;
+-	  ioctl(fd, CDROMAUDIOBUFSIZ, val);
+-
+-	inputs:
+-	  New audio buffer size
+-
+-	outputs:
+-	  The ioctl return value is the new audio buffer size, or -1
+-	  on error.
+-
+-	error return:
+-	  ENOSYS	Not supported by this driver.
+-
+-	notes:
+-	  Not supported by all drivers.
+-
+-
+-
+-DVD_READ_STRUCT			Read structure
+-
+-	usage:
+-
+-	  dvd_struct s;
+-	  ioctl(fd, DVD_READ_STRUCT, &s);
+-
+-	inputs:
+-	  dvd_struct structure, containing:
+-	    type		specifies the information desired, one of
+-	    			DVD_STRUCT_PHYSICAL, DVD_STRUCT_COPYRIGHT,
+-				DVD_STRUCT_DISCKEY, DVD_STRUCT_BCA,
+-				DVD_STRUCT_MANUFACT
+-	    physical.layer_num	desired layer, indexed from 0
+-	    copyright.layer_num	desired layer, indexed from 0
+-	    disckey.agid
+-
+-	outputs:
+-	  dvd_struct structure, containing:
+-	    physical		for type == DVD_STRUCT_PHYSICAL
+-	    copyright		for type == DVD_STRUCT_COPYRIGHT
+-	    disckey.value	for type == DVD_STRUCT_DISCKEY
+-	    bca.{len,value}	for type == DVD_STRUCT_BCA
+-	    manufact.{len,valu}	for type == DVD_STRUCT_MANUFACT
+-
+-	error returns:
+-	  EINVAL	physical.layer_num exceeds number of layers
+-	  EIO		Received invalid response from drive
+-
+-
+-
+-DVD_WRITE_STRUCT		Write structure
+-
+-	Not implemented, as of 2.6.8.1
+-
+-
+-
+-DVD_AUTH			Authentication
+-
+-	usage:
+-
+-	  dvd_authinfo ai;
+-	  ioctl(fd, DVD_AUTH, &ai);
+-
+-	inputs:
+-	  dvd_authinfo structure.  See <linux/cdrom.h>
+-
+-	outputs:
+-	  dvd_authinfo structure.
+-
+-	error return:
+-	  ENOTTY	ai.type not recognized.
+-
+-
+-
+-CDROM_SEND_PACKET		send a packet to the drive
+-
+-	usage:
+-
+-	  struct cdrom_generic_command cgc;
+-	  ioctl(fd, CDROM_SEND_PACKET, &cgc);
+-
+-	inputs:
+-	  cdrom_generic_command structure containing the packet to send.
+-
+-	outputs:	none
+-	  cdrom_generic_command structure containing results.
+-
+-	error return:
+-	  EIO		command failed.
+-	  EPERM		Operation not permitted, either because a
+-			write command was attempted on a drive which
+-			is opened read-only, or because the command
+-			requires CAP_SYS_RAWIO
+-	  EINVAL	cgc.data_direction not set
+-
+-
+-
+-CDROM_NEXT_WRITABLE		get next writable block
+-
+-	usage:
+-
+-	  long next;
+-	  ioctl(fd, CDROM_NEXT_WRITABLE, &next);
+-
+-	inputs:		none
+-
+-	outputs:
+-	  The next writable block.
+-
+-	notes:
+-	  If the device does not support this ioctl directly, the
+-	  ioctl will return CDROM_LAST_WRITTEN + 7.
+-
+-
+-
+-CDROM_LAST_WRITTEN		get last block written on disc
+-
+-	usage:
+-
+-	  long last;
+-	  ioctl(fd, CDROM_LAST_WRITTEN, &last);
+-
+-	inputs:		none
+-
+-	outputs:
+-	  The last block written on disc
+-
+-	notes:
+-	  If the device does not support this ioctl directly, the
+-	  result is derived from the disc's table of contents.  If the
+-	  table of contents can't be read, this ioctl returns an
+-	  error.
+diff --git a/Documentation/ioctl/hdio.txt b/Documentation/ioctl/hdio.rst
+similarity index 54%
+rename from Documentation/ioctl/hdio.txt
+rename to Documentation/ioctl/hdio.rst
+index 18eb98c44ffe..e822e3dff176 100644
+--- a/Documentation/ioctl/hdio.txt
++++ b/Documentation/ioctl/hdio.rst
+@@ -1,9 +1,10 @@
+-		Summary of HDIO_ ioctl calls.
+-		============================
++==============================
++Summary of `HDIO_` ioctl calls
++==============================
+ 
+-		Edward A. Falk <efalk@google.com>
++- Edward A. Falk <efalk@google.com>
+ 
+-		November, 2004
++November, 2004
+ 
+ This document attempts to describe the ioctl(2) calls supported by
+ the HD/IDE layer.  These are by-and-large implemented (as of Linux 2.6)
+@@ -14,6 +15,7 @@ are as follows:
+ 
+     ioctls that pass argument pointers to user space:
+ 
++	=======================	=======================================
+ 	HDIO_GETGEO		get device geometry
+ 	HDIO_GET_UNMASKINTR	get current unmask setting
+ 	HDIO_GET_MULTCOUNT	get current IDE blockmode setting
+@@ -36,9 +38,11 @@ are as follows:
+ 	HDIO_DRIVE_TASK		execute task and special drive command
+ 	HDIO_DRIVE_CMD		execute a special drive command
+ 	HDIO_DRIVE_CMD_AEB	HDIO_DRIVE_TASK
++	=======================	=======================================
+ 
+     ioctls that pass non-pointer values:
+ 
++	=======================	=======================================
+ 	HDIO_SET_MULTCOUNT	change IDE blockmode
+ 	HDIO_SET_UNMASKINTR	permit other irqs during I/O
+ 	HDIO_SET_KEEPSETTINGS	keep ioctl settings on reset
+@@ -57,16 +61,13 @@ are as follows:
+ 
+ 	HDIO_SET_IDE_SCSI	Set scsi emulation mode on/off
+ 	HDIO_SET_SCSI_IDE	not implemented yet
++	=======================	=======================================
+ 
+ 
+ The information that follows was determined from reading kernel source
+ code.  It is likely that some corrections will be made over time.
+ 
+-
+-
+-
+-
+-
++------------------------------------------------------------------------------
+ 
+ General:
+ 
+@@ -80,459 +81,610 @@ General:
+ 	Unless otherwise specified, all data structures and constants
+ 	are defined in <linux/hdreg.h>
+ 
++------------------------------------------------------------------------------
+ 
++HDIO_GETGEO
++	get device geometry
+ 
+-HDIO_GETGEO			get device geometry
+ 
+-	usage:
++	usage::
+ 
+ 	  struct hd_geometry geom;
++
+ 	  ioctl(fd, HDIO_GETGEO, &geom);
+ 
+ 
+-	inputs:		none
++	inputs:
++		none
++
++
+ 
+ 	outputs:
++		hd_geometry structure containing:
+ 
+-	  hd_geometry structure containing:
+ 
++	    =========	==================================
+ 	    heads	number of heads
+ 	    sectors	number of sectors/track
+ 	    cylinders	number of cylinders, mod 65536
+ 	    start	starting sector of this partition.
++	    =========	==================================
+ 
+ 
+ 	error returns:
+-	  EINVAL	if the device is not a disk drive or floppy drive,
+-	  		or if the user passes a null pointer
++	  - EINVAL
++
++			if the device is not a disk drive or floppy drive,
++			or if the user passes a null pointer
+ 
+ 
+ 	notes:
++		Not particularly useful with modern disk drives, whose geometry
++		is a polite fiction anyway.  Modern drives are addressed
++		purely by sector number nowadays (lba addressing), and the
++		drive geometry is an abstraction which is actually subject
++		to change.  Currently (as of Nov 2004), the geometry values
++		are the "bios" values -- presumably the values the drive had
++		when Linux first booted.
+ 
+-	  Not particularly useful with modern disk drives, whose geometry
+-	  is a polite fiction anyway.  Modern drives are addressed
+-	  purely by sector number nowadays (lba addressing), and the
+-	  drive geometry is an abstraction which is actually subject
+-	  to change.  Currently (as of Nov 2004), the geometry values
+-	  are the "bios" values -- presumably the values the drive had
+-	  when Linux first booted.
++		In addition, the cylinders field of the hd_geometry is an
++		unsigned short, meaning that on most architectures, this
++		ioctl will not return a meaningful value on drives with more
++		than 65535 tracks.
+ 
+-	  In addition, the cylinders field of the hd_geometry is an
+-	  unsigned short, meaning that on most architectures, this
+-	  ioctl will not return a meaningful value on drives with more
+-	  than 65535 tracks.
++		The start field is unsigned long, meaning that it will not
++		contain a meaningful value for disks over 219 Gb in size.
+ 
+-	  The start field is unsigned long, meaning that it will not
+-	  contain a meaningful value for disks over 219 Gb in size.
+ 
+ 
+ 
++HDIO_GET_UNMASKINTR
++	get current unmask setting
+ 
+-HDIO_GET_UNMASKINTR		get current unmask setting
+ 
+-	usage:
++	usage::
+ 
+ 	  long val;
++
+ 	  ioctl(fd, HDIO_GET_UNMASKINTR, &val);
+ 
+-	inputs:		none
++	inputs:
++		none
++
++
+ 
+ 	outputs:
+-	  The value of the drive's current unmask setting
++		The value of the drive's current unmask setting
+ 
+ 
+ 
+-HDIO_SET_UNMASKINTR		permit other irqs during I/O
+ 
+-	usage:
++
++HDIO_SET_UNMASKINTR
++	permit other irqs during I/O
++
++
++	usage::
+ 
+ 	  unsigned long val;
++
+ 	  ioctl(fd, HDIO_SET_UNMASKINTR, val);
+ 
+ 	inputs:
+-	  New value for unmask flag
++		New value for unmask flag
++
++
++
++	outputs:
++		none
++
+ 
+-	outputs:	none
+ 
+ 	error return:
+-	  EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-	  EINVAL	value out of range [0 1]
+-	  EBUSY		Controller busy
++	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - EINVAL	value out of range [0 1]
++	  - EBUSY	Controller busy
+ 
+ 
+ 
+ 
+-HDIO_GET_MULTCOUNT		get current IDE blockmode setting
++HDIO_GET_MULTCOUNT
++	get current IDE blockmode setting
+ 
+-	usage:
++
++	usage::
+ 
+ 	  long val;
++
+ 	  ioctl(fd, HDIO_GET_MULTCOUNT, &val);
+ 
+-	inputs:		none
++	inputs:
++		none
++
++
+ 
+ 	outputs:
+-	  The value of the current IDE block mode setting.  This
+-	  controls how many sectors the drive will transfer per
+-	  interrupt.
++		The value of the current IDE block mode setting.  This
++		controls how many sectors the drive will transfer per
++		interrupt.
+ 
+ 
+ 
+-HDIO_SET_MULTCOUNT		change IDE blockmode
++HDIO_SET_MULTCOUNT
++	change IDE blockmode
+ 
+-	usage:
++
++	usage::
+ 
+ 	  int val;
++
+ 	  ioctl(fd, HDIO_SET_MULTCOUNT, val);
+ 
+ 	inputs:
+-	  New value for IDE block mode setting.  This controls how many
+-	  sectors the drive will transfer per interrupt.
++		New value for IDE block mode setting.  This controls how many
++		sectors the drive will transfer per interrupt.
++
++	outputs:
++		none
++
+ 
+-	outputs:	none
+ 
+ 	error return:
+-	  EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-	  EINVAL	value out of range supported by disk.
+-	  EBUSY		Controller busy or blockmode already set.
+-	  EIO		Drive did not accept new block mode.
++	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - EINVAL	value out of range supported by disk.
++	  - EBUSY	Controller busy or blockmode already set.
++	  - EIO		Drive did not accept new block mode.
+ 
+ 	notes:
+-
+-	  Source code comments read:
++	  Source code comments read::
+ 
+ 	    This is tightly woven into the driver->do_special cannot
+ 	    touch.  DON'T do it again until a total personality rewrite
+ 	    is committed.
+ 
+ 	  If blockmode has already been set, this ioctl will fail with
+-	  EBUSY
++	  -EBUSY
+ 
+ 
+ 
+-HDIO_GET_QDMA			get use-qdma flag
++HDIO_GET_QDMA
++	get use-qdma flag
++
+ 
+ 	Not implemented, as of 2.6.8.1
+ 
+ 
+ 
+-HDIO_SET_XFER			set transfer rate via proc
++HDIO_SET_XFER
++	set transfer rate via proc
++
+ 
+ 	Not implemented, as of 2.6.8.1
+ 
+ 
+ 
+-HDIO_OBSOLETE_IDENTITY		OBSOLETE, DO NOT USE
++HDIO_OBSOLETE_IDENTITY
++	OBSOLETE, DO NOT USE
++
+ 
+ 	Same as HDIO_GET_IDENTITY (see below), except that it only
+ 	returns the first 142 bytes of drive identity information.
+ 
+ 
+ 
+-HDIO_GET_IDENTITY		get IDE identification info
++HDIO_GET_IDENTITY
++	get IDE identification info
+ 
+-	usage:
++
++	usage::
+ 
+ 	  unsigned char identity[512];
++
+ 	  ioctl(fd, HDIO_GET_IDENTITY, identity);
+ 
+-	inputs:		none
++	inputs:
++		none
++
++
+ 
+ 	outputs:
+-
+-	  ATA drive identity information.  For full description, see
+-	  the IDENTIFY DEVICE and IDENTIFY PACKET DEVICE commands in
+-	  the ATA specification.
++		ATA drive identity information.  For full description, see
++		the IDENTIFY DEVICE and IDENTIFY PACKET DEVICE commands in
++		the ATA specification.
+ 
+ 	error returns:
+-	  EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
+-	  ENOMSG	IDENTIFY DEVICE information not available
++	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - ENOMSG	IDENTIFY DEVICE information not available
+ 
+ 	notes:
++		Returns information that was obtained when the drive was
++		probed.  Some of this information is subject to change, and
++		this ioctl does not re-probe the drive to update the
++		information.
+ 
+-	  Returns information that was obtained when the drive was
+-	  probed.  Some of this information is subject to change, and
+-	  this ioctl does not re-probe the drive to update the
+-	  information.
++		This information is also available from /proc/ide/hdX/identify
+ 
+-	  This information is also available from /proc/ide/hdX/identify
+ 
+ 
++HDIO_GET_KEEPSETTINGS
++	get keep-settings-on-reset flag
+ 
+-HDIO_GET_KEEPSETTINGS		get keep-settings-on-reset flag
+ 
+-	usage:
++	usage::
+ 
+ 	  long val;
++
+ 	  ioctl(fd, HDIO_GET_KEEPSETTINGS, &val);
+ 
+-	inputs:		none
++	inputs:
++		none
++
++
+ 
+ 	outputs:
+-	  The value of the current "keep settings" flag
++		The value of the current "keep settings" flag
++
++
+ 
+ 	notes:
++		When set, indicates that kernel should restore settings
++		after a drive reset.
+ 
+-	  When set, indicates that kernel should restore settings
+-	  after a drive reset.
+ 
+ 
++HDIO_SET_KEEPSETTINGS
++	keep ioctl settings on reset
+ 
+-HDIO_SET_KEEPSETTINGS		keep ioctl settings on reset
+ 
+-	usage:
++	usage::
+ 
+ 	  long val;
++
+ 	  ioctl(fd, HDIO_SET_KEEPSETTINGS, val);
+ 
+ 	inputs:
+-	  New value for keep_settings flag
++		New value for keep_settings flag
++
++
++
++	outputs:
++		none
++
+ 
+-	outputs:	none
+ 
+ 	error return:
+-	  EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-	  EINVAL	value out of range [0 1]
+-	  EBUSY		Controller busy
++	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - EINVAL	value out of range [0 1]
++	  - EBUSY		Controller busy
+ 
+ 
+ 
+-HDIO_GET_32BIT			get current io_32bit setting
++HDIO_GET_32BIT
++	get current io_32bit setting
+ 
+-	usage:
++
++	usage::
+ 
+ 	  long val;
++
+ 	  ioctl(fd, HDIO_GET_32BIT, &val);
+ 
+-	inputs:		none
++	inputs:
++		none
++
++
+ 
+ 	outputs:
+-	  The value of the current io_32bit setting
++		The value of the current io_32bit setting
++
++
+ 
+ 	notes:
++		0=16-bit, 1=32-bit, 2,3 = 32bit+sync
+ 
+-	  0=16-bit, 1=32-bit, 2,3 = 32bit+sync
+ 
+ 
+ 
+-HDIO_GET_NOWERR			get ignore-write-error flag
+ 
+-	usage:
++HDIO_GET_NOWERR
++	get ignore-write-error flag
++
++
++	usage::
+ 
+ 	  long val;
++
+ 	  ioctl(fd, HDIO_GET_NOWERR, &val);
+ 
+-	inputs:		none
++	inputs:
++		none
++
++
+ 
+ 	outputs:
+-	  The value of the current ignore-write-error flag
++		The value of the current ignore-write-error flag
+ 
+ 
+ 
+-HDIO_GET_DMA			get use-dma flag
+ 
+-	usage:
++
++HDIO_GET_DMA
++	get use-dma flag
++
++
++	usage::
+ 
+ 	  long val;
++
+ 	  ioctl(fd, HDIO_GET_DMA, &val);
+ 
+-	inputs:		none
++	inputs:
++		none
++
++
+ 
+ 	outputs:
+-	  The value of the current use-dma flag
++		The value of the current use-dma flag
+ 
+ 
+ 
+-HDIO_GET_NICE			get nice flags
+ 
+-	usage:
++
++HDIO_GET_NICE
++	get nice flags
++
++
++	usage::
+ 
+ 	  long nice;
++
+ 	  ioctl(fd, HDIO_GET_NICE, &nice);
+ 
+-	inputs:		none
++	inputs:
++		none
++
++
+ 
+ 	outputs:
++		The drive's "nice" values.
++
+ 
+-	  The drive's "nice" values.
+ 
+ 	notes:
++		Per-drive flags which determine when the system will give more
++		bandwidth to other devices sharing the same IDE bus.
+ 
+-	  Per-drive flags which determine when the system will give more
+-	  bandwidth to other devices sharing the same IDE bus.
+-	  See <linux/hdreg.h>, near symbol IDE_NICE_DSC_OVERLAP.
++		See <linux/hdreg.h>, near symbol IDE_NICE_DSC_OVERLAP.
+ 
+ 
+ 
+ 
+-HDIO_SET_NICE			set nice flags
++HDIO_SET_NICE
++	set nice flags
+ 
+-	usage:
++
++	usage::
+ 
+ 	  unsigned long nice;
++
+ 	  ...
+ 	  ioctl(fd, HDIO_SET_NICE, nice);
+ 
+ 	inputs:
+-	  bitmask of nice flags.
++		bitmask of nice flags.
++
++
++
++	outputs:
++		none
++
+ 
+-	outputs:	none
+ 
+ 	error returns:
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-	  EPERM		Flags other than DSC_OVERLAP and NICE_1 set.
+-	  EPERM		DSC_OVERLAP specified but not supported by drive
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - EPERM	Flags other than DSC_OVERLAP and NICE_1 set.
++	  - EPERM	DSC_OVERLAP specified but not supported by drive
+ 
+ 	notes:
++		This ioctl sets the DSC_OVERLAP and NICE_1 flags from values
++		provided by the user.
+ 
+-	  This ioctl sets the DSC_OVERLAP and NICE_1 flags from values
+-	  provided by the user.
++		Nice flags are listed in <linux/hdreg.h>, starting with
++		IDE_NICE_DSC_OVERLAP.  These values represent shifts.
+ 
+-	  Nice flags are listed in <linux/hdreg.h>, starting with
+-	  IDE_NICE_DSC_OVERLAP.  These values represent shifts.
+ 
+ 
+ 
+ 
++HDIO_GET_WCACHE
++	get write cache mode on|off
+ 
+-HDIO_GET_WCACHE			get write cache mode on|off
+ 
+-	usage:
++	usage::
+ 
+ 	  long val;
++
+ 	  ioctl(fd, HDIO_GET_WCACHE, &val);
+ 
+-	inputs:		none
++	inputs:
++		none
++
++
+ 
+ 	outputs:
+-	  The value of the current write cache mode
++		The value of the current write cache mode
+ 
+ 
+ 
+-HDIO_GET_ACOUSTIC		get acoustic value
+ 
+-	usage:
++
++HDIO_GET_ACOUSTIC
++	get acoustic value
++
++
++	usage::
+ 
+ 	  long val;
++
+ 	  ioctl(fd, HDIO_GET_ACOUSTIC, &val);
+ 
+-	inputs:		none
++	inputs:
++		none
++
++
+ 
+ 	outputs:
+-	  The value of the current acoustic settings
++		The value of the current acoustic settings
++
++
+ 
+ 	notes:
++		See HDIO_SET_ACOUSTIC
++
+ 
+-	  See HDIO_SET_ACOUSTIC
+ 
+ 
+ 
+ HDIO_GET_ADDRESS
++	usage::
+ 
+-	usage:
+ 
+ 	  long val;
++
+ 	  ioctl(fd, HDIO_GET_ADDRESS, &val);
+ 
+-	inputs:		none
++	inputs:
++		none
++
++
+ 
+ 	outputs:
+-	  The value of the current addressing mode:
+-	    0 = 28-bit
+-	    1 = 48-bit
+-	    2 = 48-bit doing 28-bit
+-	    3 = 64-bit
++		The value of the current addressing mode:
+ 
++	    =  ===================
++	    0  28-bit
++	    1  48-bit
++	    2  48-bit doing 28-bit
++	    3  64-bit
++	    =  ===================
+ 
+ 
+-HDIO_GET_BUSSTATE		get the bus state of the hwif
+ 
+-	usage:
++HDIO_GET_BUSSTATE
++	get the bus state of the hwif
++
++
++	usage::
+ 
+ 	  long state;
++
+ 	  ioctl(fd, HDIO_SCAN_HWIF, &state);
+ 
+-	inputs:		none
++	inputs:
++		none
++
++
+ 
+ 	outputs:
+-	  Current power state of the IDE bus.  One of BUSSTATE_OFF,
+-	  BUSSTATE_ON, or BUSSTATE_TRISTATE
++		Current power state of the IDE bus.  One of BUSSTATE_OFF,
++		BUSSTATE_ON, or BUSSTATE_TRISTATE
+ 
+ 	error returns:
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
+ 
+ 
+ 
+ 
+-HDIO_SET_BUSSTATE		set the bus state of the hwif
++HDIO_SET_BUSSTATE
++	set the bus state of the hwif
+ 
+-	usage:
++
++	usage::
+ 
+ 	  int state;
++
+ 	  ...
+ 	  ioctl(fd, HDIO_SCAN_HWIF, state);
+ 
+ 	inputs:
+-	  Desired IDE power state.  One of BUSSTATE_OFF, BUSSTATE_ON,
+-	  or BUSSTATE_TRISTATE
++		Desired IDE power state.  One of BUSSTATE_OFF, BUSSTATE_ON,
++		or BUSSTATE_TRISTATE
++
++	outputs:
++		none
++
+ 
+-	outputs:	none
+ 
+ 	error returns:
+-	  EACCES	Access denied:  requires CAP_SYS_RAWIO
+-	  EOPNOTSUPP	Hardware interface does not support bus power control
++	  - EACCES	Access denied:  requires CAP_SYS_RAWIO
++	  - EOPNOTSUPP	Hardware interface does not support bus power control
+ 
+ 
+ 
+ 
+-HDIO_TRISTATE_HWIF		execute a channel tristate
++HDIO_TRISTATE_HWIF
++	execute a channel tristate
++
+ 
+ 	Not implemented, as of 2.6.8.1.  See HDIO_SET_BUSSTATE
+ 
+ 
+ 
+-HDIO_DRIVE_RESET		execute a device reset
++HDIO_DRIVE_RESET
++	execute a device reset
+ 
+-	usage:
++
++	usage::
+ 
+ 	  int args[3]
++
+ 	  ...
+ 	  ioctl(fd, HDIO_DRIVE_RESET, args);
+ 
+-	inputs:		none
++	inputs:
++		none
++
++
++
++	outputs:
++		none
++
+ 
+-	outputs:	none
+ 
+ 	error returns:
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-	  ENXIO		No such device:	phy dead or ctl_addr == 0
+-	  EIO		I/O error:	reset timed out or hardware error
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - ENXIO	No such device:	phy dead or ctl_addr == 0
++	  - EIO		I/O error:	reset timed out or hardware error
+ 
+ 	notes:
+ 
+-	  Execute a reset on the device as soon as the current IO
+-	  operation has completed.
++	  - Execute a reset on the device as soon as the current IO
++	    operation has completed.
+ 
+-	  Executes an ATAPI soft reset if applicable, otherwise
+-	  executes an ATA soft reset on the controller.
++	  - Executes an ATAPI soft reset if applicable, otherwise
++	    executes an ATA soft reset on the controller.
+ 
+ 
+ 
+-HDIO_DRIVE_TASKFILE		execute raw taskfile
++HDIO_DRIVE_TASKFILE
++	execute raw taskfile
+ 
+-	Note:  If you don't have a copy of the ANSI ATA specification
+-	handy, you should probably ignore this ioctl.
+ 
+-	Execute an ATA disk command directly by writing the "taskfile"
+-	registers of the drive.  Requires ADMIN and RAWIO access
+-	privileges.
++	Note:
++		If you don't have a copy of the ANSI ATA specification
++		handy, you should probably ignore this ioctl.
+ 
+-	usage:
++	- Execute an ATA disk command directly by writing the "taskfile"
++	  registers of the drive.  Requires ADMIN and RAWIO access
++	  privileges.
++
++	usage::
+ 
+ 	  struct {
++
+ 	    ide_task_request_t req_task;
+ 	    u8 outbuf[OUTPUT_SIZE];
+ 	    u8 inbuf[INPUT_SIZE];
+@@ -548,6 +700,7 @@ HDIO_DRIVE_TASKFILE		execute raw taskfile
+ 
+ 	  (See below for details on memory area passed to ioctl.)
+ 
++	  ============	===================================================
+ 	  io_ports[8]	values to be written to taskfile registers
+ 	  hob_ports[8]	high-order bytes, for extended commands.
+ 	  out_flags	flags indicating which registers are valid
+@@ -557,24 +710,29 @@ HDIO_DRIVE_TASKFILE		execute raw taskfile
+ 	  out_size	size of output buffer
+ 	  outbuf	buffer of data to be transmitted to disk
+ 	  inbuf		buffer of data to be received from disk (see [1])
++	  ============	===================================================
+ 
+ 	outputs:
+ 
++	  ===========	====================================================
+ 	  io_ports[]	values returned in the taskfile registers
+ 	  hob_ports[]	high-order bytes, for extended commands.
+ 	  out_flags	flags indicating which registers are valid (see [2])
+ 	  in_flags	flags indicating which registers should be returned
+ 	  outbuf	buffer of data to be transmitted to disk (see [1])
+ 	  inbuf		buffer of data to be received from disk
++	  ===========	====================================================
+ 
+ 	error returns:
+-	  EACCES	CAP_SYS_ADMIN or CAP_SYS_RAWIO privilege not set.
+-	  ENOMSG	Device is not a disk drive.
+-	  ENOMEM	Unable to allocate memory for task
+-	  EFAULT	req_cmd == TASKFILE_IN_OUT (not implemented as of 2.6.8)
+-	  EPERM		req_cmd == TASKFILE_MULTI_OUT and drive
+-	  		multi-count not yet set.
+-	  EIO		Drive failed the command.
++	  - EACCES	CAP_SYS_ADMIN or CAP_SYS_RAWIO privilege not set.
++	  - ENOMSG	Device is not a disk drive.
++	  - ENOMEM	Unable to allocate memory for task
++	  - EFAULT	req_cmd == TASKFILE_IN_OUT (not implemented as of 2.6.8)
++	  - EPERM
++
++			req_cmd == TASKFILE_MULTI_OUT and drive
++			multi-count not yet set.
++	  - EIO		Drive failed the command.
+ 
+ 	notes:
+ 
+@@ -615,22 +773,25 @@ HDIO_DRIVE_TASKFILE		execute raw taskfile
+ 	  Command is passed to the disk drive via the ide_task_request_t
+ 	  structure, which contains these fields:
+ 
++	    ============	===============================================
+ 	    io_ports[8]		values for the taskfile registers
+ 	    hob_ports[8]	high-order bytes, for extended commands
+ 	    out_flags		flags indicating which entries in the
+-	    			io_ports[] and hob_ports[] arrays
++				io_ports[] and hob_ports[] arrays
+ 				contain valid values.  Type ide_reg_valid_t.
+ 	    in_flags		flags indicating which entries in the
+-	    			io_ports[] and hob_ports[] arrays
++				io_ports[] and hob_ports[] arrays
+ 				are expected to contain valid values
+ 				on return.
+ 	    data_phase		See below
+ 	    req_cmd		Command type, see below
+ 	    out_size		output (user->drive) buffer size, bytes
+ 	    in_size		input (drive->user) buffer size, bytes
++	    ============	===============================================
+ 
+ 	  When out_flags is zero, the following registers are loaded.
+ 
++	    ============	===============================================
+ 	    HOB_FEATURE		If the drive supports LBA48
+ 	    HOB_NSECTOR		If the drive supports LBA48
+ 	    HOB_SECTOR		If the drive supports LBA48
+@@ -644,9 +805,11 @@ HDIO_DRIVE_TASKFILE		execute raw taskfile
+ 	    SELECT		First, masked with 0xE0 if LBA48, 0xEF
+ 				otherwise; then, or'ed with the default
+ 				value of SELECT.
++	    ============	===============================================
+ 
+ 	  If any bit in out_flags is set, the following registers are loaded.
+ 
++	    ============	===============================================
+ 	    HOB_DATA		If out_flags.b.data is set.  HOB_DATA will
+ 				travel on DD8-DD15 on little endian machines
+ 				and on DD0-DD7 on big endian machines.
+@@ -664,6 +827,7 @@ HDIO_DRIVE_TASKFILE		execute raw taskfile
+ 	    HCYL		If out_flags.b.hcyl is set
+ 	    SELECT		Or'ed with the default value of SELECT and
+ 				loaded regardless of out_flags.b.select.
++	    ============	===============================================
+ 
+ 	  Taskfile registers are read back from the drive into
+ 	  {io|hob}_ports[] after the command completes iff one of the
+@@ -674,6 +838,7 @@ HDIO_DRIVE_TASKFILE		execute raw taskfile
+ 	    2. One or more than one bits are set in out_flags.
+ 	    3. The requested data_phase is TASKFILE_NO_DATA.
+ 
++	    ============	===============================================
+ 	    HOB_DATA		If in_flags.b.data is set.  It will contain
+ 				DD8-DD15 on little endian machines and
+ 				DD0-DD7 on big endian machines.
+@@ -689,10 +854,12 @@ HDIO_DRIVE_TASKFILE		execute raw taskfile
+ 	    SECTOR
+ 	    LCYL
+ 	    HCYL
++	    ============	===============================================
+ 
+ 	  The data_phase field describes the data transfer to be
+ 	  performed.  Value is one of:
+ 
++	    ===================        ========================================
+ 	    TASKFILE_IN
+ 	    TASKFILE_MULTI_IN
+ 	    TASKFILE_OUT
+@@ -708,15 +875,18 @@ HDIO_DRIVE_TASKFILE		execute raw taskfile
+ 	    TASKFILE_P_OUT		unimplemented
+ 	    TASKFILE_P_OUT_DMA		unimplemented
+ 	    TASKFILE_P_OUT_DMAQ		unimplemented
++	    ===================        ========================================
+ 
+ 	  The req_cmd field classifies the command type.  It may be
+ 	  one of:
+ 
++	    ========================    =======================================
+ 	    IDE_DRIVE_TASK_NO_DATA
+ 	    IDE_DRIVE_TASK_SET_XFER	unimplemented
+ 	    IDE_DRIVE_TASK_IN
+ 	    IDE_DRIVE_TASK_OUT		unimplemented
+ 	    IDE_DRIVE_TASK_RAW_WRITE
++	    ========================    =======================================
+ 
+ 	  [6] Do not access {in|out}_flags->all except for resetting
+ 	  all the bits.  Always access individual bit fields.  ->all
+@@ -726,45 +896,57 @@ HDIO_DRIVE_TASKFILE		execute raw taskfile
+ 
+ 
+ 
+-HDIO_DRIVE_CMD			execute a special drive command
++HDIO_DRIVE_CMD
++	execute a special drive command
++
+ 
+ 	Note:  If you don't have a copy of the ANSI ATA specification
+ 	handy, you should probably ignore this ioctl.
+ 
+-	usage:
++	usage::
+ 
+ 	  u8 args[4+XFER_SIZE];
++
+ 	  ...
+ 	  ioctl(fd, HDIO_DRIVE_CMD, args);
+ 
+ 	inputs:
++	    Commands other than WIN_SMART:
+ 
+-	  Commands other than WIN_SMART
++	    =======     =======
+ 	    args[0]	COMMAND
+ 	    args[1]	NSECTOR
+ 	    args[2]	FEATURE
+ 	    args[3]	NSECTOR
++	    =======     =======
+ 
+-	  WIN_SMART
++	    WIN_SMART:
++
++	    =======     =======
+ 	    args[0]	COMMAND
+ 	    args[1]	SECTOR
+ 	    args[2]	FEATURE
+ 	    args[3]	NSECTOR
++	    =======     =======
+ 
+ 	outputs:
++		args[] buffer is filled with register values followed by any
++
+ 
+-	  args[] buffer is filled with register values followed by any
+ 	  data returned by the disk.
++
++	    ========	====================================================
+ 	    args[0]	status
+ 	    args[1]	error
+ 	    args[2]	NSECTOR
+ 	    args[3]	undefined
+ 	    args[4+]	NSECTOR * 512 bytes of data returned by the command.
++	    ========	====================================================
+ 
+ 	error returns:
+-	  EACCES	Access denied:  requires CAP_SYS_RAWIO
+-	  ENOMEM	Unable to allocate memory for task
+-	  EIO		Drive reports error
++	  - EACCES	Access denied:  requires CAP_SYS_RAWIO
++	  - ENOMEM	Unable to allocate memory for task
++	  - EIO		Drive reports error
+ 
+ 	notes:
+ 
+@@ -789,20 +971,24 @@ HDIO_DRIVE_CMD			execute a special drive command
+ 
+ 
+ 
+-HDIO_DRIVE_TASK			execute task and special drive command
++HDIO_DRIVE_TASK
++	execute task and special drive command
++
+ 
+ 	Note:  If you don't have a copy of the ANSI ATA specification
+ 	handy, you should probably ignore this ioctl.
+ 
+-	usage:
++	usage::
+ 
+ 	  u8 args[7];
++
+ 	  ...
+ 	  ioctl(fd, HDIO_DRIVE_TASK, args);
+ 
+ 	inputs:
++	    Taskfile register values:
+ 
+-	  Taskfile register values:
++	    =======	=======
+ 	    args[0]	COMMAND
+ 	    args[1]	FEATURE
+ 	    args[2]	NSECTOR
+@@ -810,10 +996,13 @@ HDIO_DRIVE_TASK			execute task and special drive command
+ 	    args[4]	LCYL
+ 	    args[5]	HCYL
+ 	    args[6]	SELECT
++	    =======	=======
+ 
+ 	outputs:
++	    Taskfile register values:
+ 
+-	  Taskfile register values:
++
++	    =======	=======
+ 	    args[0]	status
+ 	    args[1]	error
+ 	    args[2]	NSECTOR
+@@ -821,12 +1010,13 @@ HDIO_DRIVE_TASK			execute task and special drive command
+ 	    args[4]	LCYL
+ 	    args[5]	HCYL
+ 	    args[6]	SELECT
++	    =======	=======
+ 
+ 	error returns:
+-	  EACCES	Access denied:  requires CAP_SYS_RAWIO
+-	  ENOMEM	Unable to allocate memory for task
+-	  ENOMSG	Device is not a disk drive.
+-	  EIO		Drive failed the command.
++	  - EACCES	Access denied:  requires CAP_SYS_RAWIO
++	  - ENOMEM	Unable to allocate memory for task
++	  - ENOMSG	Device is not a disk drive.
++	  - EIO		Drive failed the command.
+ 
+ 	notes:
+ 
+@@ -836,236 +1026,317 @@ HDIO_DRIVE_TASK			execute task and special drive command
+ 
+ 
+ 
+-HDIO_DRIVE_CMD_AEB		HDIO_DRIVE_TASK
++HDIO_DRIVE_CMD_AEB
++	HDIO_DRIVE_TASK
++
+ 
+ 	Not implemented, as of 2.6.8.1
+ 
+ 
+ 
+-HDIO_SET_32BIT			change io_32bit flags
++HDIO_SET_32BIT
++	change io_32bit flags
+ 
+-	usage:
++
++	usage::
+ 
+ 	  int val;
++
+ 	  ioctl(fd, HDIO_SET_32BIT, val);
+ 
+ 	inputs:
+-	  New value for io_32bit flag
++		New value for io_32bit flag
++
++
++
++	outputs:
++		none
++
+ 
+-	outputs:	none
+ 
+ 	error return:
+-	  EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-	  EINVAL	value out of range [0 3]
+-	  EBUSY		Controller busy
++	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - EINVAL	value out of range [0 3]
++	  - EBUSY	Controller busy
+ 
+ 
+ 
+ 
+-HDIO_SET_NOWERR			change ignore-write-error flag
++HDIO_SET_NOWERR
++	change ignore-write-error flag
+ 
+-	usage:
++
++	usage::
+ 
+ 	  int val;
++
+ 	  ioctl(fd, HDIO_SET_NOWERR, val);
+ 
+ 	inputs:
+-	  New value for ignore-write-error flag.  Used for ignoring
++		New value for ignore-write-error flag.  Used for ignoring
++
++
+ 	  WRERR_STAT
+ 
+-	outputs:	none
++	outputs:
++		none
++
++
+ 
+ 	error return:
+-	  EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-	  EINVAL	value out of range [0 1]
+-	  EBUSY		Controller busy
++	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - EINVAL	value out of range [0 1]
++	  - EBUSY		Controller busy
+ 
+ 
+ 
+-HDIO_SET_DMA			change use-dma flag
++HDIO_SET_DMA
++	change use-dma flag
+ 
+-	usage:
++
++	usage::
+ 
+ 	  long val;
++
+ 	  ioctl(fd, HDIO_SET_DMA, val);
+ 
+ 	inputs:
+-	  New value for use-dma flag
++		New value for use-dma flag
++
++
++
++	outputs:
++		none
++
+ 
+-	outputs:	none
+ 
+ 	error return:
+-	  EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-	  EINVAL	value out of range [0 1]
+-	  EBUSY		Controller busy
++	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - EINVAL	value out of range [0 1]
++	  - EBUSY	Controller busy
+ 
+ 
+ 
+-HDIO_SET_PIO_MODE		reconfig interface to new speed
++HDIO_SET_PIO_MODE
++	reconfig interface to new speed
+ 
+-	usage:
++
++	usage::
+ 
+ 	  long val;
++
+ 	  ioctl(fd, HDIO_SET_PIO_MODE, val);
+ 
+ 	inputs:
+-	  New interface speed.
++		New interface speed.
++
++
++
++	outputs:
++		none
++
+ 
+-	outputs:	none
+ 
+ 	error return:
+-	  EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-	  EINVAL	value out of range [0 255]
+-	  EBUSY		Controller busy
++	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - EINVAL	value out of range [0 255]
++	  - EBUSY	Controller busy
+ 
+ 
+ 
+-HDIO_SCAN_HWIF			register and (re)scan interface
++HDIO_SCAN_HWIF
++	register and (re)scan interface
+ 
+-	usage:
++
++	usage::
+ 
+ 	  int args[3]
++
+ 	  ...
+ 	  ioctl(fd, HDIO_SCAN_HWIF, args);
+ 
+ 	inputs:
++
++	  =======	=========================
+ 	  args[0]	io address to probe
++
++
+ 	  args[1]	control address to probe
+ 	  args[2]	irq number
++	  =======	=========================
++
++	outputs:
++		none
++
+ 
+-	outputs:	none
+ 
+ 	error returns:
+-	  EACCES	Access denied:  requires CAP_SYS_RAWIO
+-	  EIO		Probe failed.
++	  - EACCES	Access denied:  requires CAP_SYS_RAWIO
++	  - EIO		Probe failed.
+ 
+ 	notes:
++		This ioctl initializes the addresses and irq for a disk
++		controller, probes for drives, and creates /proc/ide
++		interfaces as appropriate.
+ 
+-	  This ioctl initializes the addresses and irq for a disk
+-	  controller, probes for drives, and creates /proc/ide
+-	  interfaces as appropriate.
+ 
+ 
++HDIO_UNREGISTER_HWIF
++	unregister interface
+ 
+-HDIO_UNREGISTER_HWIF		unregister interface
+ 
+-	usage:
++	usage::
+ 
+ 	  int index;
++
+ 	  ioctl(fd, HDIO_UNREGISTER_HWIF, index);
+ 
+ 	inputs:
+-	  index		index of hardware interface to unregister
++		index		index of hardware interface to unregister
++
++
++
++	outputs:
++		none
++
+ 
+-	outputs:	none
+ 
+ 	error returns:
+-	  EACCES	Access denied:  requires CAP_SYS_RAWIO
++	  - EACCES	Access denied:  requires CAP_SYS_RAWIO
+ 
+ 	notes:
++		This ioctl removes a hardware interface from the kernel.
+ 
+-	  This ioctl removes a hardware interface from the kernel.
++		Currently (2.6.8) this ioctl silently fails if any drive on
++		the interface is busy.
+ 
+-	  Currently (2.6.8) this ioctl silently fails if any drive on
+-	  the interface is busy.
+ 
+ 
++HDIO_SET_WCACHE
++	change write cache enable-disable
+ 
+-HDIO_SET_WCACHE			change write cache enable-disable
+ 
+-	usage:
++	usage::
+ 
+ 	  int val;
++
+ 	  ioctl(fd, HDIO_SET_WCACHE, val);
+ 
+ 	inputs:
+-	  New value for write cache enable
++		New value for write cache enable
++
++
++
++	outputs:
++		none
++
+ 
+-	outputs:	none
+ 
+ 	error return:
+-	  EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-	  EINVAL	value out of range [0 1]
+-	  EBUSY		Controller busy
++	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - EINVAL	value out of range [0 1]
++	  - EBUSY	Controller busy
+ 
+ 
+ 
+-HDIO_SET_ACOUSTIC		change acoustic behavior
++HDIO_SET_ACOUSTIC
++	change acoustic behavior
+ 
+-	usage:
++
++	usage::
+ 
+ 	  int val;
++
+ 	  ioctl(fd, HDIO_SET_ACOUSTIC, val);
+ 
+ 	inputs:
+-	  New value for drive acoustic settings
++		New value for drive acoustic settings
++
++
++
++	outputs:
++		none
++
+ 
+-	outputs:	none
+ 
+ 	error return:
+-	  EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-	  EINVAL	value out of range [0 254]
+-	  EBUSY		Controller busy
++	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - EINVAL	value out of range [0 254]
++	  - EBUSY	Controller busy
+ 
+ 
+ 
+-HDIO_SET_QDMA			change use-qdma flag
++HDIO_SET_QDMA
++	change use-qdma flag
++
+ 
+ 	Not implemented, as of 2.6.8.1
+ 
+ 
+ 
+-HDIO_SET_ADDRESS		change lba addressing modes
++HDIO_SET_ADDRESS
++	change lba addressing modes
+ 
+-	usage:
++
++	usage::
+ 
+ 	  int val;
++
+ 	  ioctl(fd, HDIO_SET_ADDRESS, val);
+ 
+ 	inputs:
+-	  New value for addressing mode
+-	    0 = 28-bit
+-	    1 = 48-bit
+-	    2 = 48-bit doing 28-bit
++		New value for addressing mode
++
++	    =   ===================
++	    0   28-bit
++	    1   48-bit
++	    2   48-bit doing 28-bit
++	    =   ===================
++
++	outputs:
++		none
++
+ 
+-	outputs:	none
+ 
+ 	error return:
+-	  EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-	  EINVAL	value out of range [0 2]
+-	  EBUSY		Controller busy
+-	  EIO		Drive does not support lba48 mode.
++	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - EINVAL	value out of range [0 2]
++	  - EBUSY		Controller busy
++	  - EIO		Drive does not support lba48 mode.
+ 
+ 
+ HDIO_SET_IDE_SCSI
++	usage::
+ 
+-	usage:
+ 
+ 	  long val;
++
+ 	  ioctl(fd, HDIO_SET_IDE_SCSI, val);
+ 
+ 	inputs:
+-	  New value for scsi emulation mode (?)
++		New value for scsi emulation mode (?)
++
++
++
++	outputs:
++		none
++
+ 
+-	outputs:	none
+ 
+ 	error return:
+-	  EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
+-	  EACCES	Access denied:  requires CAP_SYS_ADMIN
+-	  EINVAL	value out of range [0 1]
+-	  EBUSY		Controller busy
++	  - EINVAL	(bdev != bdev->bd_contains) (not sure what this means)
++	  - EACCES	Access denied:  requires CAP_SYS_ADMIN
++	  - EINVAL	value out of range [0 1]
++	  - EBUSY	Controller busy
+ 
+ 
+ 
+ HDIO_SET_SCSI_IDE
+-
+ 	Not implemented, as of 2.6.8.1
+-
+-
+diff --git a/Documentation/ioctl/index.rst b/Documentation/ioctl/index.rst
+new file mode 100644
+index 000000000000..1a6f437566e3
+--- /dev/null
++++ b/Documentation/ioctl/index.rst
+@@ -0,0 +1,16 @@
 +:orphan:
 +
-+=================
-+m68k Architecture
-+=================
++======
++IOCTLs
++======
 +
 +.. toctree::
-+   :maxdepth: 2
++   :maxdepth: 1
 +
-+   kernel-options
++   ioctl-number
 +
-+.. only::  subproject and html
++   botching-up-ioctls
++   ioctl-decoding
 +
-+   Indices
-+   =======
++   cdrom
++   hdio
+diff --git a/Documentation/ioctl/ioctl-decoding.txt b/Documentation/ioctl/ioctl-decoding.rst
+similarity index 54%
+rename from Documentation/ioctl/ioctl-decoding.txt
+rename to Documentation/ioctl/ioctl-decoding.rst
+index e35efb0cec2e..380d6bb3e3ea 100644
+--- a/Documentation/ioctl/ioctl-decoding.txt
++++ b/Documentation/ioctl/ioctl-decoding.rst
+@@ -1,10 +1,16 @@
++==============================
++Decoding an IOCTL Magic Number
++==============================
 +
-+   * :ref:`genindex`
-diff --git a/Documentation/m68k/kernel-options.txt b/Documentation/m68k/kernel-options.rst
-similarity index 78%
-rename from Documentation/m68k/kernel-options.txt
-rename to Documentation/m68k/kernel-options.rst
-index 79d21246c75a..cabd9419740d 100644
---- a/Documentation/m68k/kernel-options.txt
-+++ b/Documentation/m68k/kernel-options.rst
-@@ -1,22 +1,24 @@
--
--
--				  Command Line Options for Linux/m68k
--				  ===================================
-+===================================
-+Command Line Options for Linux/m68k
-+===================================
- 
- Last Update: 2 May 1999
-+
- Linux/m68k version: 2.2.6
-+
- Author: Roman.Hodek@informatik.uni-erlangen.de (Roman Hodek)
-+
- Update: jds@kom.auc.dk (Jes Sorensen) and faq@linux-m68k.org (Chris Lawrence)
- 
- 0) Introduction
- ===============
- 
--  Often I've been asked which command line options the Linux/m68k
-+Often I've been asked which command line options the Linux/m68k
- kernel understands, or how the exact syntax for the ... option is, or
- ... about the option ... . I hope, this document supplies all the
- answers...
- 
--  Note that some options might be outdated, their descriptions being
-+Note that some options might be outdated, their descriptions being
- incomplete or missing. Please update the information and send in the
- patches.
- 
-@@ -38,11 +40,11 @@ argument contains an '=', it is of class 2, and the definition is put
- into init's environment. All other arguments are passed to init as
- command line options.
- 
--  This document describes the valid kernel options for Linux/m68k in
-+This document describes the valid kernel options for Linux/m68k in
- the version mentioned at the start of this file. Later revisions may
- add new such options, and some may be missing in older versions.
- 
--  In general, the value (the part after the '=') of an option is a
-+In general, the value (the part after the '=') of an option is a
- list of values separated by commas. The interpretation of these values
- is up to the driver that "owns" the option. This association of
- options with drivers is also the reason that some are further
-@@ -55,21 +57,21 @@ subdivided.
- 2.1) root=
- ----------
- 
--Syntax: root=/dev/<device>
--    or: root=<hex_number>
-+:Syntax: root=/dev/<device>
-+:or:     root=<hex_number>
- 
- This tells the kernel which device it should mount as the root
- filesystem. The device must be a block device with a valid filesystem
- on it.
- 
--  The first syntax gives the device by name. These names are converted
-+The first syntax gives the device by name. These names are converted
- into a major/minor number internally in the kernel in an unusual way.
- Normally, this "conversion" is done by the device files in /dev, but
- this isn't possible here, because the root filesystem (with /dev)
- isn't mounted yet... So the kernel parses the name itself, with some
- hardcoded name to number mappings. The name must always be a
- combination of two or three letters, followed by a decimal number.
--Valid names are:
-+Valid names are::
- 
-   /dev/ram: -> 0x0100 (initial ramdisk)
-   /dev/hda: -> 0x0300 (first IDE disk)
-@@ -81,7 +83,7 @@ Valid names are:
-   /dev/sde: -> 0x0840 (fifth SCSI disk)
-   /dev/fd : -> 0x0200 (floppy disk)
- 
--  The name must be followed by a decimal number, that stands for the
-+The name must be followed by a decimal number, that stands for the
- partition number. Internally, the value of the number is just
- added to the device number mentioned in the table above. The
- exceptions are /dev/ram and /dev/fd, where /dev/ram refers to an
-@@ -100,12 +102,12 @@ the kernel command line.
- 
- [Strange and maybe uninteresting stuff ON]
- 
--  This unusual translation of device names has some strange
-+This unusual translation of device names has some strange
- consequences: If, for example, you have a symbolic link from /dev/fd
- to /dev/fd0D720 as an abbreviation for floppy driver #0 in DD format,
- you cannot use this name for specifying the root device, because the
- kernel cannot see this symlink before mounting the root FS and it
--isn't in the table above. If you use it, the root device will not be 
-+isn't in the table above. If you use it, the root device will not be
- set at all, without an error message. Another example: You cannot use a
- partition on e.g. the sixth SCSI disk as the root filesystem, if you
- want to specify it by name. This is, because only the devices up to
-@@ -118,7 +120,7 @@ knowledge that each disk uses 16 minors, and write "root=/dev/sde17"
- 
- [Strange and maybe uninteresting stuff OFF]
- 
--  If the device containing your root partition isn't in the table
-+If the device containing your root partition isn't in the table
- above, you can also specify it by major and minor numbers. These are
- written in hex, with no prefix and no separator between. E.g., if you
- have a CD with contents appropriate as a root filesystem in the first
-@@ -136,6 +138,7 @@ known partition UUID as the starting point.  For example,
- if partition 5 of the device has the UUID of
- 00112233-4455-6677-8899-AABBCCDDEEFF then partition 3 may be found as
- follows:
-+
-   PARTUUID=00112233-4455-6677-8899-AABBCCDDEEFF/PARTNROFF=-2
- 
- Authoritative information can be found in
-@@ -145,8 +148,8 @@ Authoritative information can be found in
- 2.2) ro, rw
- -----------
- 
--Syntax: ro
--    or: rw
-+:Syntax: ro
-+:or:     rw
- 
- These two options tell the kernel whether it should mount the root
- filesystem read-only or read-write. The default is read-only, except
-@@ -156,7 +159,7 @@ for ramdisks, which default to read-write.
- 2.3) debug
- ----------
- 
--Syntax: debug
-+:Syntax: debug
- 
- This raises the kernel log level to 10 (the default is 7). This is the
- same level as set by the "dmesg" command, just that the maximum level
-@@ -166,7 +169,7 @@ selectable by dmesg is 8.
- 2.4) debug=
- -----------
- 
--Syntax: debug=<device>
-+:Syntax: debug=<device>
- 
- This option causes certain kernel messages be printed to the selected
- debugging device. This can aid debugging the kernel, since the
-@@ -175,7 +178,7 @@ devices are possible depends on the machine type. There are no checks
- for the validity of the device name. If the device isn't implemented,
- nothing happens.
- 
--  Messages logged this way are in general stack dumps after kernel
-+Messages logged this way are in general stack dumps after kernel
- memory faults or bad kernel traps, and kernel panics. To be exact: all
- messages of level 0 (panic messages) and all messages printed while
- the log level is 8 or more (their level doesn't matter). Before stack
-@@ -185,19 +188,27 @@ at least 8 can also be set by the "debug" command line option (see
- 
- Devices possible for Amiga:
- 
-- - "ser": built-in serial port; parameters: 9600bps, 8N1
-- - "mem": Save the messages to a reserved area in chip mem. After
-+ - "ser":
-+	  built-in serial port; parameters: 9600bps, 8N1
-+ - "mem":
-+	  Save the messages to a reserved area in chip mem. After
-           rebooting, they can be read under AmigaOS with the tool
-           'dmesg'.
- 
- Devices possible for Atari:
- 
-- - "ser1": ST-MFP serial port ("Modem1"); parameters: 9600bps, 8N1
-- - "ser2": SCC channel B serial port ("Modem2"); parameters: 9600bps, 8N1
-- - "ser" : default serial port
-+ - "ser1":
-+	   ST-MFP serial port ("Modem1"); parameters: 9600bps, 8N1
-+ - "ser2":
-+	   SCC channel B serial port ("Modem2"); parameters: 9600bps, 8N1
-+ - "ser" :
-+	   default serial port
-            This is "ser2" for a Falcon, and "ser1" for any other machine
-- - "midi": The MIDI port; parameters: 31250bps, 8N1
-- - "par" : parallel port
-+ - "midi":
-+	   The MIDI port; parameters: 31250bps, 8N1
-+ - "par" :
-+	   parallel port
-+
-            The printing routine for this implements a timeout for the
-            case there's no printer connected (else the kernel would
-            lock up). The timeout is not exact, but usually a few
-@@ -205,26 +216,29 @@ Devices possible for Atari:
- 
- 
- 2.6) ramdisk_size=
---------------
-+------------------
- 
--Syntax: ramdisk_size=<size>
-+:Syntax: ramdisk_size=<size>
- 
--  This option instructs the kernel to set up a ramdisk of the given
-+This option instructs the kernel to set up a ramdisk of the given
- size in KBytes. Do not use this option if the ramdisk contents are
- passed by bootstrap! In this case, the size is selected automatically
- and should not be overwritten.
- 
--  The only application is for root filesystems on floppy disks, that
-+The only application is for root filesystems on floppy disks, that
- should be loaded into memory. To do that, select the corresponding
- size of the disk as ramdisk size, and set the root device to the disk
- drive (with "root=").
- 
- 
- 2.7) swap=
-+
-+  I can't find any sign of this option in 2.2.6.
-+
- 2.8) buff=
- -----------
- 
--  I can't find any sign of these options in 2.2.6.
-+  I can't find any sign of this option in 2.2.6.
- 
- 
- 3) General Device Options (Amiga and Atari)
-@@ -233,13 +247,13 @@ drive (with "root=").
- 3.1) ether=
- -----------
- 
--Syntax: ether=[<irq>[,<base_addr>[,<mem_start>[,<mem_end>]]]],<dev-name>
-+:Syntax: ether=[<irq>[,<base_addr>[,<mem_start>[,<mem_end>]]]],<dev-name>
- 
--  <dev-name> is the name of a net driver, as specified in
-+<dev-name> is the name of a net driver, as specified in
- drivers/net/Space.c in the Linux source. Most prominent are eth0, ...
- eth3, sl0, ... sl3, ppp0, ..., ppp3, dummy, and lo.
- 
--  The non-ethernet drivers (sl, ppp, dummy, lo) obviously ignore the
-+The non-ethernet drivers (sl, ppp, dummy, lo) obviously ignore the
- settings by this options. Also, the existing ethernet drivers for
- Linux/m68k (ariadne, a2065, hydra) don't use them because Zorro boards
- are really Plug-'n-Play, so the "ether=" option is useless altogether
-@@ -249,9 +263,9 @@ for Linux/m68k.
- 3.2) hd=
- --------
- 
--Syntax: hd=<cylinders>,<heads>,<sectors>
-+:Syntax: hd=<cylinders>,<heads>,<sectors>
- 
--  This option sets the disk geometry of an IDE disk. The first hd=
-+This option sets the disk geometry of an IDE disk. The first hd=
- option is for the first IDE disk, the second for the second one.
- (I.e., you can give this option twice.) In most cases, you won't have
- to use this option, since the kernel can obtain the geometry data
-@@ -262,9 +276,9 @@ disks.
- 3.3) max_scsi_luns=
- -------------------
- 
--Syntax: max_scsi_luns=<n>
-+:Syntax: max_scsi_luns=<n>
- 
--  Sets the maximum number of LUNs (logical units) of SCSI devices to
-+Sets the maximum number of LUNs (logical units) of SCSI devices to
- be scanned. Valid values for <n> are between 1 and 8. Default is 8 if
- "Probe all LUNs on each SCSI device" was selected during the kernel
- configuration, else 1.
-@@ -273,9 +287,9 @@ configuration, else 1.
- 3.4) st=
- --------
- 
--Syntax: st=<buffer_size>,[<write_thres>,[<max_buffers>]]
-+:Syntax: st=<buffer_size>,[<write_thres>,[<max_buffers>]]
- 
--  Sets several parameters of the SCSI tape driver. <buffer_size> is
-+Sets several parameters of the SCSI tape driver. <buffer_size> is
- the number of 512-byte buffers reserved for tape operations for each
- device. <write_thres> sets the number of blocks which must be filled
- to start an actual write operation to the tape. Maximum value is the
-@@ -286,9 +300,9 @@ buffers allocated for all tape devices.
- 3.5) dmasound=
- --------------
- 
--Syntax: dmasound=[<buffers>,<buffer-size>[,<catch-radius>]]
-+:Syntax: dmasound=[<buffers>,<buffer-size>[,<catch-radius>]]
- 
--  This option controls some configurations of the Linux/m68k DMA sound
-+This option controls some configurations of the Linux/m68k DMA sound
- driver (Amiga and Atari): <buffers> is the number of buffers you want
- to use (minimum 4, default 4), <buffer-size> is the size of each
- buffer in kilobytes (minimum 4, default 32) and <catch-radius> says
-@@ -305,20 +319,22 @@ don't need to expand the sound.
- 4.1) video=
- -----------
- 
--Syntax: video=<fbname>:<sub-options...>
-+:Syntax: video=<fbname>:<sub-options...>
- 
- The <fbname> parameter specifies the name of the frame buffer,
--eg. most atari users will want to specify `atafb' here. The
-+eg. most atari users will want to specify `atafb` here. The
- <sub-options> is a comma-separated list of the sub-options listed
- below.
- 
--NB: Please notice that this option was renamed from `atavideo' to
--    `video' during the development of the 1.3.x kernels, thus you
-+NB:
-+    Please notice that this option was renamed from `atavideo` to
-+    `video` during the development of the 1.3.x kernels, thus you
-     might need to update your boot-scripts if upgrading to 2.x from
-     an 1.2.x kernel.
- 
--NBB: The behavior of video= was changed in 2.1.57 so the recommended
--option is to specify the name of the frame buffer.
-+NBB:
-+    The behavior of video= was changed in 2.1.57 so the recommended
-+    option is to specify the name of the frame buffer.
- 
- 4.1.1) Video Mode
- -----------------
-@@ -341,11 +357,11 @@ mode, if the hardware allows. Currently defined names are:
-  - falh2           : 896x608x1, Falcon only
-  - falh16          : 896x608x4, Falcon only
- 
--  If no video mode is given on the command line, the kernel tries the
-+If no video mode is given on the command line, the kernel tries the
- modes names "default<n>" in turn, until one is possible with the
- hardware in use.
- 
--  A video mode setting doesn't make sense, if the external driver is
-+A video mode setting doesn't make sense, if the external driver is
- activated by a "external:" sub-option.
- 
- 4.1.2) inverse
-@@ -358,17 +374,17 @@ option, you can make the background white.
- 4.1.3) font
- -----------
- 
--Syntax: font:<fontname>
-+:Syntax: font:<fontname>
- 
- Specify the font to use in text modes. Currently you can choose only
--between `VGA8x8', `VGA8x16' and `PEARL8x8'. `VGA8x8' is default, if the
-+between `VGA8x8`, `VGA8x16` and `PEARL8x8`. `VGA8x8` is default, if the
- vertical size of the display is less than 400 pixel rows. Otherwise, the
--`VGA8x16' font is the default.
-+`VGA8x16` font is the default.
- 
--4.1.4) hwscroll_
------------------
-+4.1.4) `hwscroll_`
-+------------------
- 
--Syntax: hwscroll_<n>
-+:Syntax: `hwscroll_<n>`
- 
- The number of additional lines of video memory to reserve for
- speeding up the scrolling ("hardware scrolling"). Hardware scrolling
-@@ -378,7 +394,7 @@ possible with plain STs and graphics cards (The former because the
- base address must be on a 256 byte boundary there, the latter because
- the kernel doesn't know how to set the base address at all.)
- 
--  By default, <n> is set to the number of visible text lines on the
-+By default, <n> is set to the number of visible text lines on the
- display. Thus, the amount of video memory is doubled, compared to no
- hardware scrolling. You can turn off the hardware scrolling altogether
- by setting <n> to 0.
-@@ -386,31 +402,31 @@ by setting <n> to 0.
- 4.1.5) internal:
- ----------------
- 
--Syntax: internal:<xres>;<yres>[;<xres_max>;<yres_max>;<offset>]
-+:Syntax: internal:<xres>;<yres>[;<xres_max>;<yres_max>;<offset>]
- 
- This option specifies the capabilities of some extended internal video
- hardware, like e.g. OverScan. <xres> and <yres> give the (extended)
- dimensions of the screen.
- 
--  If your OverScan needs a black border, you have to write the last
-+If your OverScan needs a black border, you have to write the last
- three arguments of the "internal:". <xres_max> is the maximum line
- length the hardware allows, <yres_max> the maximum number of lines.
- <offset> is the offset of the visible part of the screen memory to its
- physical start, in bytes.
- 
--  Often, extended interval video hardware has to be activated somehow.
-+Often, extended interval video hardware has to be activated somehow.
- For this, see the "sw_*" options below.
- 
- 4.1.6) external:
- ----------------
- 
--Syntax:
--  external:<xres>;<yres>;<depth>;<org>;<scrmem>[;<scrlen>[;<vgabase>\
--           [;<colw>[;<coltype>[;<xres_virtual>]]]]]
-+:Syntax:
-+  external:<xres>;<yres>;<depth>;<org>;<scrmem>[;<scrlen>[;<vgabase>
-+  [;<colw>[;<coltype>[;<xres_virtual>]]]]]
- 
--[I had to break this line...]
-+.. I had to break this line...
- 
--  This is probably the most complicated parameter... It specifies that
-+This is probably the most complicated parameter... It specifies that
- you have some external video hardware (a graphics board), and how to
- use it under Linux/m68k. The kernel cannot know more about the hardware
- than you tell it here! The kernel also is unable to set or change any
-@@ -418,38 +434,44 @@ video modes, since it doesn't know about any board internal. So, you
- have to switch to that video mode before you start Linux, and cannot
- switch to another mode once Linux has started.
- 
--  The first 3 parameters of this sub-option should be obvious: <xres>,
-+The first 3 parameters of this sub-option should be obvious: <xres>,
- <yres> and <depth> give the dimensions of the screen and the number of
- planes (depth). The depth is the logarithm to base 2 of the number
- of colors possible. (Or, the other way round: The number of colors is
- 2^depth).
- 
--  You have to tell the kernel furthermore how the video memory is
-+You have to tell the kernel furthermore how the video memory is
- organized. This is done by a letter as <org> parameter:
- 
-- 'n': "normal planes", i.e. one whole plane after another
-- 'i': "interleaved planes", i.e. 16 bit of the first plane, than 16 bit
-+ 'n':
-+      "normal planes", i.e. one whole plane after another
-+ 'i':
-+      "interleaved planes", i.e. 16 bit of the first plane, than 16 bit
-       of the next, and so on... This mode is used only with the
--	  built-in Atari video modes, I think there is no card that
--	  supports this mode.
-- 'p': "packed pixels", i.e. <depth> consecutive bits stand for all
--	  planes of one pixel; this is the most common mode for 8 planes
--	  (256 colors) on graphic cards
-- 't': "true color" (more or less packed pixels, but without a color
--	  lookup table); usually depth is 24
-+      built-in Atari video modes, I think there is no card that
-+      supports this mode.
-+ 'p':
-+      "packed pixels", i.e. <depth> consecutive bits stand for all
-+      planes of one pixel; this is the most common mode for 8 planes
-+      (256 colors) on graphic cards
-+ 't':
-+      "true color" (more or less packed pixels, but without a color
-+      lookup table); usually depth is 24
- 
- For monochrome modes (i.e., <depth> is 1), the <org> letter has a
- different meaning:
- 
-- 'n': normal colors, i.e. 0=white, 1=black
-- 'i': inverted colors, i.e. 0=black, 1=white
-+ 'n':
-+      normal colors, i.e. 0=white, 1=black
-+ 'i':
-+      inverted colors, i.e. 0=black, 1=white
- 
--  The next important information about the video hardware is the base
-+The next important information about the video hardware is the base
- address of the video memory. That is given in the <scrmem> parameter,
- as a hexadecimal number with a "0x" prefix. You have to find out this
- address in the documentation of your hardware.
- 
--  The next parameter, <scrlen>, tells the kernel about the size of the
-+The next parameter, <scrlen>, tells the kernel about the size of the
- video memory. If it's missing, the size is calculated from <xres>,
- <yres>, and <depth>. For now, it is not useful to write a value here.
- It would be used only for hardware scrolling (which isn't possible
-@@ -460,7 +482,7 @@ empty, either by ending the "external:" after the video address or by
- writing two consecutive semicolons, if you want to give a <vgabase>
- (it is allowed to leave this parameter empty).
- 
--  The <vgabase> parameter is optional. If it is not given, the kernel
-+The <vgabase> parameter is optional. If it is not given, the kernel
- cannot read or write any color registers of the video hardware, and
- thus you have to set appropriate colors before you start Linux. But if
- your card is somehow VGA compatible, you can tell the kernel the base
-@@ -472,18 +494,18 @@ uses the addresses vgabase+0x3c7...vgabase+0x3c9. The <vgabase>
- parameter is written in hexadecimal with a "0x" prefix, just as
- <scrmem>.
- 
--  <colw> is meaningful only if <vgabase> is specified. It tells the
-+<colw> is meaningful only if <vgabase> is specified. It tells the
- kernel how wide each of the color register is, i.e. the number of bits
- per single color (red/green/blue). Default is 6, another quite usual
- value is 8.
- 
--  Also <coltype> is used together with <vgabase>. It tells the kernel
-+Also <coltype> is used together with <vgabase>. It tells the kernel
- about the color register model of your gfx board. Currently, the types
- "vga" (which is also the default) and "mv300" (SANG MV300) are
- implemented.
- 
--  Parameter <xres_virtual> is required for ProMST or ET4000 cards where
--the physical linelength differs from the visible length. With ProMST, 
-+Parameter <xres_virtual> is required for ProMST or ET4000 cards where
-+the physical linelength differs from the visible length. With ProMST,
- xres_virtual must be set to 2048. For ET4000, xres_virtual depends on the
- initialisation of the video-card.
- If you're missing a corresponding yres_virtual: the external part is legacy,
-@@ -499,13 +521,13 @@ currently works only with the ScreenWonder!
- 4.1.8) monitorcap:
- -------------------
- 
--Syntax: monitorcap:<vmin>;<vmax>;<hmin>;<hmax>
-+:Syntax: monitorcap:<vmin>;<vmax>;<hmin>;<hmax>
- 
- This describes the capabilities of a multisync monitor. Don't use it
- with a fixed-frequency monitor! For now, only the Falcon frame buffer
- uses the settings of "monitorcap:".
- 
--  <vmin> and <vmax> are the minimum and maximum, resp., vertical frequencies
-+<vmin> and <vmax> are the minimum and maximum, resp., vertical frequencies
- your monitor can work with, in Hz. <hmin> and <hmax> are the same for
- the horizontal frequency, in kHz.
- 
-@@ -520,28 +542,28 @@ If this option is given, the framebuffer device doesn't do any video
- mode calculations and settings on its own. The only Atari fb device
- that does this currently is the Falcon.
- 
--  What you reach with this: Settings for unknown video extensions
-+What you reach with this: Settings for unknown video extensions
- aren't overridden by the driver, so you can still use the mode found
- when booting, when the driver doesn't know to set this mode itself.
- But this also means, that you can't switch video modes anymore...
- 
--  An example where you may want to use "keep" is the ScreenBlaster for
-+An example where you may want to use "keep" is the ScreenBlaster for
- the Falcon.
- 
- 
- 4.2) atamouse=
- --------------
- 
--Syntax: atamouse=<x-threshold>,[<y-threshold>]
-+:Syntax: atamouse=<x-threshold>,[<y-threshold>]
- 
--  With this option, you can set the mouse movement reporting threshold.
-+With this option, you can set the mouse movement reporting threshold.
- This is the number of pixels of mouse movement that have to accumulate
- before the IKBD sends a new mouse packet to the kernel. Higher values
- reduce the mouse interrupt load and thus reduce the chance of keyboard
- overruns. Lower values give a slightly faster mouse responses and
- slightly better mouse tracking.
- 
--  You can set the threshold in x and y separately, but usually this is
-+You can set the threshold in x and y separately, but usually this is
- of little practical use. If there's just one number in the option, it
- is used for both dimensions. The default value is 2 for both
- thresholds.
-@@ -550,7 +572,7 @@ thresholds.
- 4.3) ataflop=
- -------------
- 
--Syntax: ataflop=<drive type>[,<trackbuffering>[,<steprateA>[,<steprateB>]]]
-+:Syntax: ataflop=<drive type>[,<trackbuffering>[,<steprateA>[,<steprateB>]]]
- 
-    The drive type may be 0, 1, or 2, for DD, HD, and ED, resp. This
-    setting affects how many buffers are reserved and which formats are
-@@ -563,15 +585,15 @@ Syntax: ataflop=<drive type>[,<trackbuffering>[,<steprateA>[,<steprateB>]]]
-    no for the Medusa and yes for all others.
- 
-    With the two following parameters, you can change the default
--   steprate used for drive A and B, resp. 
-+   steprate used for drive A and B, resp.
- 
- 
- 4.4) atascsi=
- -------------
- 
--Syntax: atascsi=<can_queue>[,<cmd_per_lun>[,<scat-gat>[,<host-id>[,<tagged>]]]]
-+:Syntax: atascsi=<can_queue>[,<cmd_per_lun>[,<scat-gat>[,<host-id>[,<tagged>]]]]
- 
--  This option sets some parameters for the Atari native SCSI driver.
-+This option sets some parameters for the Atari native SCSI driver.
- Generally, any number of arguments can be omitted from the end. And
- for each of the numbers, a negative value means "use default". The
- defaults depend on whether TT-style or Falcon-style SCSI is used.
-@@ -597,11 +619,14 @@ ignored (others aren't affected).
-     32). Default: 8/1. (Note: Values > 1 seem to cause problems on a
-     Falcon, cause not yet known.)
- 
--      The <cmd_per_lun> value at a great part determines the amount of
-+    The <cmd_per_lun> value at a great part determines the amount of
-     memory SCSI reserves for itself. The formula is rather
-     complicated, but I can give you some hints:
--      no scatter-gather  : cmd_per_lun * 232 bytes
--      full scatter-gather: cmd_per_lun * approx. 17 Kbytes
-+
-+      no scatter-gather:
-+	cmd_per_lun * 232 bytes
-+      full scatter-gather:
-+	cmd_per_lun * approx. 17 Kbytes
- 
-   <scat-gat>:
-     Size of the scatter-gather table, i.e. the number of requests
-@@ -634,19 +659,23 @@ ignored (others aren't affected).
- 4.5 switches=
- -------------
- 
--Syntax: switches=<list of switches>
-+:Syntax: switches=<list of switches>
- 
--  With this option you can switch some hardware lines that are often
-+With this option you can switch some hardware lines that are often
- used to enable/disable certain hardware extensions. Examples are
- OverScan, overclocking, ...
- 
--  The <list of switches> is a comma-separated list of the following
-+The <list of switches> is a comma-separated list of the following
- items:
- 
--  ikbd: set RTS of the keyboard ACIA high
--  midi: set RTS of the MIDI ACIA high
--  snd6: set bit 6 of the PSG port A
--  snd7: set bit 6 of the PSG port A
-+  ikbd:
-+	set RTS of the keyboard ACIA high
-+  midi:
-+	set RTS of the MIDI ACIA high
-+  snd6:
-+	set bit 6 of the PSG port A
-+  snd7:
-+	set bit 6 of the PSG port A
- 
- It doesn't make sense to mention a switch more than once (no
- difference to only once), but you can give as many switches as you
-@@ -654,16 +683,16 @@ want to enable different features. The switch lines are set as early
- as possible during kernel initialization (even before determining the
- present hardware.)
- 
--  All of the items can also be prefixed with "ov_", i.e. "ov_ikbd",
--"ov_midi", ... These options are meant for switching on an OverScan
-+All of the items can also be prefixed with `ov_`, i.e. `ov_ikbd`,
-+`ov_midi`, ... These options are meant for switching on an OverScan
- video extension. The difference to the bare option is that the
- switch-on is done after video initialization, and somehow synchronized
- to the HBLANK. A speciality is that ov_ikbd and ov_midi are switched
- off before rebooting, so that OverScan is disabled and TOS boots
- correctly.
- 
--  If you give an option both, with and without the "ov_" prefix, the
--earlier initialization ("ov_"-less) takes precedence. But the
-+If you give an option both, with and without the `ov_` prefix, the
-+earlier initialization (`ov_`-less) takes precedence. But the
- switching-off on reset still happens in this case.
- 
- 5) Options for Amiga Only:
-@@ -672,10 +701,10 @@ switching-off on reset still happens in this case.
- 5.1) video=
- -----------
- 
--Syntax: video=<fbname>:<sub-options...>
-+:Syntax: video=<fbname>:<sub-options...>
- 
- The <fbname> parameter specifies the name of the frame buffer, valid
--options are `amifb', `cyber', 'virge', `retz3' and `clgen', provided
-+options are `amifb`, `cyber`, 'virge', `retz3` and `clgen`, provided
- that the respective frame buffer devices have been compiled into the
- kernel (or compiled as loadable modules). The behavior of the <fbname>
- option was changed in 2.1.57 so it is now recommended to specify this
-@@ -697,9 +726,11 @@ predefined video modes are available:
- NTSC modes:
-  - ntsc            : 640x200, 15 kHz, 60 Hz
-  - ntsc-lace       : 640x400, 15 kHz, 60 Hz interlaced
-+
- PAL modes:
-  - pal             : 640x256, 15 kHz, 50 Hz
-  - pal-lace        : 640x512, 15 kHz, 50 Hz interlaced
-+
- ECS modes:
-  - multiscan       : 640x480, 29 kHz, 57 Hz
-  - multiscan-lace  : 640x960, 29 kHz, 57 Hz interlaced
-@@ -715,6 +746,7 @@ ECS modes:
-  - dblpal-lace     : 640x1024, 27 kHz, 47 Hz interlaced
-  - dblntsc         : 640x200, 27 kHz, 57 Hz doublescan
-  - dblpal          : 640x256, 27 kHz, 47 Hz doublescan
-+
- VGA modes:
-  - vga             : 640x480, 31 kHz, 60 Hz
-  - vga70           : 640x400, 31 kHz, 70 Hz
-@@ -726,7 +758,7 @@ chipset and 8-bit color for the AGA chipset.
- 5.1.2) depth
- ------------
- 
--Syntax: depth:<nr. of bit-planes>
-+:Syntax: depth:<nr. of bit-planes>
- 
- Specify the number of bit-planes for the selected video-mode.
- 
-@@ -739,32 +771,32 @@ Use inverted display (black on white). Functionally the same as the
- 5.1.4) font
- -----------
- 
--Syntax: font:<fontname>
-+:Syntax: font:<fontname>
- 
- Specify the font to use in text modes. Functionally the same as the
--"font" sub-option for the Atari, except that `PEARL8x8' is used instead
--of `VGA8x8' if the vertical size of the display is less than 400 pixel
-+"font" sub-option for the Atari, except that `PEARL8x8` is used instead
-+of `VGA8x8` if the vertical size of the display is less than 400 pixel
- rows.
- 
- 5.1.5) monitorcap:
- -------------------
- 
--Syntax: monitorcap:<vmin>;<vmax>;<hmin>;<hmax>
-+:Syntax: monitorcap:<vmin>;<vmax>;<hmin>;<hmax>
- 
- This describes the capabilities of a multisync monitor. For now, only
- the color frame buffer uses the settings of "monitorcap:".
- 
--  <vmin> and <vmax> are the minimum and maximum, resp., vertical frequencies
-+<vmin> and <vmax> are the minimum and maximum, resp., vertical frequencies
- your monitor can work with, in Hz. <hmin> and <hmax> are the same for
- the horizontal frequency, in kHz.
- 
--  The defaults are 50;90;15;38 (Generic Amiga multisync monitor).
-+The defaults are 50;90;15;38 (Generic Amiga multisync monitor).
- 
- 
- 5.2) fd_def_df0=
- ----------------
- 
--Syntax: fd_def_df0=<value>
-+:Syntax: fd_def_df0=<value>
- 
- Sets the df0 value for "silent" floppy drives. The value should be in
- hexadecimal with "0x" prefix.
-@@ -773,7 +805,7 @@ hexadecimal with "0x" prefix.
- 5.3) wd33c93=
- -------------
- 
--Syntax: wd33c93=<sub-options...>
-+:Syntax: wd33c93=<sub-options...>
- 
- These options affect the A590/A2091, A3000 and GVP Series II SCSI
- controllers.
-@@ -784,9 +816,9 @@ below.
- 5.3.1) nosync
- -------------
- 
--Syntax: nosync:bitmask
-+:Syntax: nosync:bitmask
- 
--  bitmask is a byte where the 1st 7 bits correspond with the 7
-+bitmask is a byte where the 1st 7 bits correspond with the 7
- possible SCSI devices. Set a bit to prevent sync negotiation on that
- device. To maintain backwards compatibility, a command-line such as
- "wd33c93=255" will be automatically translated to
-@@ -796,35 +828,35 @@ all devices, eg. nosync:0xff.
- 5.3.2) period
- -------------
- 
--Syntax: period:ns
-+:Syntax: period:ns
- 
--  `ns' is the minimum # of nanoseconds in a SCSI data transfer
-+`ns` is the minimum # of nanoseconds in a SCSI data transfer
- period. Default is 500; acceptable values are 250 - 1000.
- 
- 5.3.3) disconnect
- -----------------
- 
--Syntax: disconnect:x
-+:Syntax: disconnect:x
- 
--  Specify x = 0 to never allow disconnects, 2 to always allow them.
-+Specify x = 0 to never allow disconnects, 2 to always allow them.
- x = 1 does 'adaptive' disconnects, which is the default and generally
- the best choice.
- 
- 5.3.4) debug
- ------------
- 
--Syntax: debug:x
-+:Syntax: debug:x
- 
--  If `DEBUGGING_ON' is defined, x is a bit mask that causes various
-+If `DEBUGGING_ON` is defined, x is a bit mask that causes various
- types of debug output to printed - see the DB_xxx defines in
- wd33c93.h.
- 
- 5.3.5) clock
- ------------
- 
--Syntax: clock:x
-+:Syntax: clock:x
- 
--  x = clock input in MHz for WD33c93 chip. Normal values would be from
-+x = clock input in MHz for WD33c93 chip. Normal values would be from
- 8 through 20. The default value depends on your hostadapter(s),
- default for the A3000 internal controller is 14, for the A2091 it's 8
- and for the GVP hostadapters it's either 8 or 14, depending on the
-@@ -834,15 +866,15 @@ hostadapters.
- 5.3.6) next
- -----------
- 
--  No argument. Used to separate blocks of keywords when there's more
-+No argument. Used to separate blocks of keywords when there's more
- than one wd33c93-based host adapter in the system.
- 
- 5.3.7) nodma
- ------------
- 
--Syntax: nodma:x
-+:Syntax: nodma:x
- 
--  If x is 1 (or if the option is just written as "nodma"), the WD33c93
-+If x is 1 (or if the option is just written as "nodma"), the WD33c93
- controller will not use DMA (= direct memory access) to access the
- Amiga's memory.  This is useful for some systems (like A3000's and
- A4000's with the A3640 accelerator, revision 3.0) that have problems
-@@ -853,32 +885,27 @@ possible.
- 5.4) gvp11=
- -----------
- 
--Syntax: gvp11=<addr-mask>
-+:Syntax: gvp11=<addr-mask>
- 
--  The earlier versions of the GVP driver did not handle DMA
-+The earlier versions of the GVP driver did not handle DMA
- address-mask settings correctly which made it necessary for some
- people to use this option, in order to get their GVP controller
- running under Linux. These problems have hopefully been solved and the
- use of this option is now highly unrecommended!
- 
--  Incorrect use can lead to unpredictable behavior, so please only use
-+Incorrect use can lead to unpredictable behavior, so please only use
- this option if you *know* what you are doing and have a reason to do
- so. In any case if you experience problems and need to use this
- option, please inform us about it by mailing to the Linux/68k kernel
- mailing list.
- 
--  The address mask set by this option specifies which addresses are
-+The address mask set by this option specifies which addresses are
- valid for DMA with the GVP Series II SCSI controller. An address is
- valid, if no bits are set except the bits that are set in the mask,
- too.
- 
--  Some versions of the GVP can only DMA into a 24 bit address range,
-+Some versions of the GVP can only DMA into a 24 bit address range,
- some can address a 25 bit address range while others can use the whole
- 32 bit address range for DMA. The correct setting depends on your
- controller and should be autodetected by the driver. An example is the
- 24 bit region which is specified by a mask of 0x00fffffe.
--
--
--/* Local Variables: */
--/* mode: text       */
--/* End:             */
+ To decode a hex IOCTL code:
+ 
+ Most architectures use this generic format, but check
+ include/ARCH/ioctl.h for specifics, e.g. powerpc
+ uses 3 bits to encode read/write and 13 bits for size.
+ 
+- bits    meaning
++ ====== ==================================
++ bits   meaning
++ ====== ==================================
+  31-30	00 - no parameters: uses _IO macro
+ 	10 - read: _IOR
+ 	01 - write: _IOW
+@@ -16,9 +22,10 @@ uses 3 bits to encode read/write and 13 bits for size.
+ 	unique to each driver
+ 
+  7-0	function #
++ ====== ==================================
+ 
+ 
+ So for example 0x82187201 is a read with arg length of 0x218,
+-character 'r' function 1. Grepping the source reveals this is:
++character 'r' function 1. Grepping the source reveals this is::
+ 
+-#define VFAT_IOCTL_READDIR_BOTH         _IOR('r', 1, struct dirent [2])
++	#define VFAT_IOCTL_READDIR_BOTH         _IOR('r', 1, struct dirent [2])
+diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+index ce8a70875bd5..ae44a1a31d9f 100644
+--- a/drivers/gpu/drm/drm_ioctl.c
++++ b/drivers/gpu/drm/drm_ioctl.c
+@@ -720,7 +720,7 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
+  *     };
+  *
+  * Please make sure that you follow all the best practices from
+- * ``Documentation/ioctl/botching-up-ioctls.txt``. Note that drm_ioctl()
++ * ``Documentation/ioctl/botching-up-ioctls.rst``. Note that drm_ioctl()
+  * automatically zero-extends structures, hence make sure you can add more stuff
+  * at the end, i.e. don't put a variable sized array there.
+  *
 -- 
 2.20.1
 
