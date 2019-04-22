@@ -2,44 +2,45 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C448B7D918
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Apr 2019 13:31:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A0B867D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Apr 2019 13:32:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727908AbfDVNbM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Apr 2019 09:31:12 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:37922 "EHLO
+        id S1727367AbfDVN2V (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Apr 2019 09:28:21 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:37768 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727577AbfDVN2W (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Apr 2019 09:28:22 -0400
+        with ESMTP id S1727556AbfDVN2V (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Apr 2019 09:28:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=MSpk8T7tzWpPqxtZTwFeqXERybaysiTPsBK0y8m1yww=; b=q05pMDWPnuHmH71Az60LARLEtX
-        ao2DW/tanSE4Upmv5PX/eIkkLCM4Ape0fzxyUADqrE5BbIwDoKL2vHB0AT7231XliIfYsGdGQdHpN
-        85INNDrn7tnjVJqaPtTXcXT3oWUZwin4A++x4rh2s3qJixT1HWR0Tq9PsnzWYg//aeYRcjo5ECB+c
-        QbU6ySanllErzYpvsj9T+4ZcvMomsYWNMmi282dYHNap3Ul+Q4RnEMBvI+ICJXC/c/5tF8aqPArRG
-        6P32GkKMoAkmTgAl8j7Yl905eKn9TTUK2J2L41s0sLRJ9gIVvzj6jpFbpuCVCnGaubcpVRsKLeUbq
-        gwMdhaWw==;
+        bh=Xgp9K2E3/AiwjL0mYh03usUsFh3eZrw9uB7Ke6y66R4=; b=ty50b5WhFYK5lxoDK8yw2FuQph
+        bRbJzKFNTV1vGKjVtSWwz72XAwBsUVBGZy9ysMzm37Afw7XBfQPCaDH2WJKYnQ5Ere8WqYb2YeBZl
+        WqFB2yhx6V3sNof8+vFAXJNpsm9AIGhZDUP/iVfp48j7eNysS7tVbeNvDHhwea9RF8nuy6CTh0uQ/
+        XoC3eDJHG29swduw2W6D5B2O3mhzJ6YOL6DU1DImAegxPQTEaqqiO+2D0OoIY+n6aTxyjJPGXrRjW
+        IhovJDUNXi8VqSroBuJiEMRgqt6T1xvnLzHBl7O6YZL3Fh/8vvpytKGGsygsqEqgTHThwUToluuei
+        WMpfHoSQ==;
 Received: from 179.176.125.229.dynamic.adsl.gvt.net.br ([179.176.125.229] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hIYzd-0005Hj-0P; Mon, 22 Apr 2019 13:28:21 +0000
+        id 1hIYzb-0005Ht-WB; Mon, 22 Apr 2019 13:28:20 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hIYzT-0005nj-RU; Mon, 22 Apr 2019 10:28:11 -0300
+        id 1hIYzT-0005mq-Gk; Mon, 22 Apr 2019 10:28:11 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2 53/79] docs: nvmem: convert docs to ReST and rename to *.rst
-Date:   Mon, 22 Apr 2019 10:27:42 -0300
-Message-Id: <41fe02b98daae3feee8df656e09e0f3c82e201c5.1555938376.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Milo Kim <milo.kim@ti.com>
+Subject: [PATCH v2 42/79] docs: lp855x-driver.txt: convert to ReST and move to kernel-api
+Date:   Mon, 22 Apr 2019 10:27:31 -0300
+Message-Id: <a774a888eeec42df4446b7a8e30787e91e5d9392.1555938376.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1555938375.git.mchehab+samsung@kernel.org>
 References: <cover.1555938375.git.mchehab+samsung@kernel.org>
@@ -50,228 +51,200 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In order to be able to add it into a doc book, we need first
-convert it to ReST.
+This small file seems to be an attempt to start documenting
+backlight drivers.
 
-The conversion is actually:
-  - add blank lines and identation in order to identify paragraphs;
-  - mark literal blocks;
-  - adjust title markups.
+It contains descriptions of the controls for the driver
+with could sound as an somewhat user-faced description, but
+it's main focus is to describe, instead, the data that should
+be passed via platform data and some driver-specific stuff.
 
-While this is not part of any book, mark it as :orphan:, in order
-to avoid build warnings.
+While this is not part of the driver-api book, mark it as
+:orphan:, in order to avoid build warnings.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/nvmem/{nvmem.txt => nvmem.rst} | 112 ++++++++++---------
- 1 file changed, 59 insertions(+), 53 deletions(-)
- rename Documentation/nvmem/{nvmem.txt => nvmem.rst} (62%)
+ Documentation/backlight/lp855x-driver.rst | 83 +++++++++++++++++++++++
+ Documentation/backlight/lp855x-driver.txt | 66 ------------------
+ MAINTAINERS                               |  2 +-
+ 3 files changed, 84 insertions(+), 67 deletions(-)
+ create mode 100644 Documentation/backlight/lp855x-driver.rst
+ delete mode 100644 Documentation/backlight/lp855x-driver.txt
 
-diff --git a/Documentation/nvmem/nvmem.txt b/Documentation/nvmem/nvmem.rst
-similarity index 62%
-rename from Documentation/nvmem/nvmem.txt
-rename to Documentation/nvmem/nvmem.rst
-index fc2fe4b18655..3866b6e066d5 100644
---- a/Documentation/nvmem/nvmem.txt
-+++ b/Documentation/nvmem/nvmem.rst
-@@ -1,5 +1,10 @@
--			    NVMEM SUBSYSTEM
--	  Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+diff --git a/Documentation/backlight/lp855x-driver.rst b/Documentation/backlight/lp855x-driver.rst
+new file mode 100644
+index 000000000000..62b7ed847a77
+--- /dev/null
++++ b/Documentation/backlight/lp855x-driver.rst
+@@ -0,0 +1,83 @@
 +:orphan:
 +
-+===============
-+NVMEM Subsystem
-+===============
++====================
++Kernel driver lp855x
++====================
 +
-+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
- 
- This document explains the NVMEM Framework along with the APIs provided,
- and how to use it.
-@@ -40,54 +45,54 @@ nvmem_device pointer.
- 
- nvmem_unregister(nvmem) is used to unregister a previously registered provider.
- 
--For example, a simple qfprom case:
-+For example, a simple qfprom case::
- 
--static struct nvmem_config econfig = {
-+  static struct nvmem_config econfig = {
- 	.name = "qfprom",
- 	.owner = THIS_MODULE,
--};
-+  };
- 
--static int qfprom_probe(struct platform_device *pdev)
--{
-+  static int qfprom_probe(struct platform_device *pdev)
-+  {
- 	...
- 	econfig.dev = &pdev->dev;
- 	nvmem = nvmem_register(&econfig);
- 	...
--}
-+  }
- 
- It is mandatory that the NVMEM provider has a regmap associated with its
- struct device. Failure to do would return error code from nvmem_register().
- 
- Users of board files can define and register nvmem cells using the
--nvmem_cell_table struct:
-+nvmem_cell_table struct::
- 
--static struct nvmem_cell_info foo_nvmem_cells[] = {
-+  static struct nvmem_cell_info foo_nvmem_cells[] = {
- 	{
- 		.name		= "macaddr",
- 		.offset		= 0x7f00,
- 		.bytes		= ETH_ALEN,
- 	}
--};
-+  };
- 
--static struct nvmem_cell_table foo_nvmem_cell_table = {
-+  static struct nvmem_cell_table foo_nvmem_cell_table = {
- 	.nvmem_name		= "i2c-eeprom",
- 	.cells			= foo_nvmem_cells,
- 	.ncells			= ARRAY_SIZE(foo_nvmem_cells),
--};
-+  };
- 
--nvmem_add_cell_table(&foo_nvmem_cell_table);
-+  nvmem_add_cell_table(&foo_nvmem_cell_table);
- 
- Additionally it is possible to create nvmem cell lookup entries and register
--them with the nvmem framework from machine code as shown in the example below:
-+them with the nvmem framework from machine code as shown in the example below::
- 
--static struct nvmem_cell_lookup foo_nvmem_lookup = {
-+  static struct nvmem_cell_lookup foo_nvmem_lookup = {
- 	.nvmem_name		= "i2c-eeprom",
- 	.cell_name		= "macaddr",
- 	.dev_id			= "foo_mac.0",
- 	.con_id			= "mac-address",
--};
-+  };
- 
--nvmem_add_cell_lookups(&foo_nvmem_lookup, 1);
-+  nvmem_add_cell_lookups(&foo_nvmem_lookup, 1);
- 
- NVMEM Consumers
- +++++++++++++++
-@@ -99,43 +104,43 @@ read from and to NVMEM.
- =================================
- 
- NVMEM cells are the data entries/fields in the NVMEM.
--The NVMEM framework provides 3 APIs to read/write NVMEM cells.
-+The NVMEM framework provides 3 APIs to read/write NVMEM cells::
- 
--struct nvmem_cell *nvmem_cell_get(struct device *dev, const char *name);
--struct nvmem_cell *devm_nvmem_cell_get(struct device *dev, const char *name);
-+  struct nvmem_cell *nvmem_cell_get(struct device *dev, const char *name);
-+  struct nvmem_cell *devm_nvmem_cell_get(struct device *dev, const char *name);
- 
--void nvmem_cell_put(struct nvmem_cell *cell);
--void devm_nvmem_cell_put(struct device *dev, struct nvmem_cell *cell);
-+  void nvmem_cell_put(struct nvmem_cell *cell);
-+  void devm_nvmem_cell_put(struct device *dev, struct nvmem_cell *cell);
- 
--void *nvmem_cell_read(struct nvmem_cell *cell, ssize_t *len);
--int nvmem_cell_write(struct nvmem_cell *cell, void *buf, ssize_t len);
-+  void *nvmem_cell_read(struct nvmem_cell *cell, ssize_t *len);
-+  int nvmem_cell_write(struct nvmem_cell *cell, void *buf, ssize_t len);
- 
--*nvmem_cell_get() apis will get a reference to nvmem cell for a given id,
-+`*nvmem_cell_get()` apis will get a reference to nvmem cell for a given id,
- and nvmem_cell_read/write() can then read or write to the cell.
--Once the usage of the cell is finished the consumer should call *nvmem_cell_put()
--to free all the allocation memory for the cell.
-+Once the usage of the cell is finished the consumer should call
-+`*nvmem_cell_put()` to free all the allocation memory for the cell.
- 
- 4. Direct NVMEM device based consumer APIs
- ==========================================
- 
- In some instances it is necessary to directly read/write the NVMEM.
--To facilitate such consumers NVMEM framework provides below apis.
-+To facilitate such consumers NVMEM framework provides below apis::
- 
--struct nvmem_device *nvmem_device_get(struct device *dev, const char *name);
--struct nvmem_device *devm_nvmem_device_get(struct device *dev,
-+  struct nvmem_device *nvmem_device_get(struct device *dev, const char *name);
-+  struct nvmem_device *devm_nvmem_device_get(struct device *dev,
- 					   const char *name);
--void nvmem_device_put(struct nvmem_device *nvmem);
--int nvmem_device_read(struct nvmem_device *nvmem, unsigned int offset,
-+  void nvmem_device_put(struct nvmem_device *nvmem);
-+  int nvmem_device_read(struct nvmem_device *nvmem, unsigned int offset,
- 		      size_t bytes, void *buf);
--int nvmem_device_write(struct nvmem_device *nvmem, unsigned int offset,
-+  int nvmem_device_write(struct nvmem_device *nvmem, unsigned int offset,
- 		       size_t bytes, void *buf);
--int nvmem_device_cell_read(struct nvmem_device *nvmem,
-+  int nvmem_device_cell_read(struct nvmem_device *nvmem,
- 			   struct nvmem_cell_info *info, void *buf);
--int nvmem_device_cell_write(struct nvmem_device *nvmem,
-+  int nvmem_device_cell_write(struct nvmem_device *nvmem,
- 			    struct nvmem_cell_info *info, void *buf);
- 
- Before the consumers can read/write NVMEM directly, it should get hold
--of nvmem_controller from one of the *nvmem_device_get() api.
-+of nvmem_controller from one of the `*nvmem_device_get()` api.
- 
- The difference between these apis and cell based apis is that these apis always
- take nvmem_device as parameter.
-@@ -145,12 +150,12 @@ take nvmem_device as parameter.
- 
- When a consumer no longer needs the NVMEM, it has to release the reference
- to the NVMEM it has obtained using the APIs mentioned in the above section.
--The NVMEM framework provides 2 APIs to release a reference to the NVMEM.
-+The NVMEM framework provides 2 APIs to release a reference to the NVMEM::
- 
--void nvmem_cell_put(struct nvmem_cell *cell);
--void devm_nvmem_cell_put(struct device *dev, struct nvmem_cell *cell);
--void nvmem_device_put(struct nvmem_device *nvmem);
--void devm_nvmem_device_put(struct device *dev, struct nvmem_device *nvmem);
-+  void nvmem_cell_put(struct nvmem_cell *cell);
-+  void devm_nvmem_cell_put(struct device *dev, struct nvmem_cell *cell);
-+  void nvmem_device_put(struct nvmem_device *nvmem);
-+  void devm_nvmem_device_put(struct device *dev, struct nvmem_device *nvmem);
- 
- Both these APIs are used to release a reference to the NVMEM and
- devm_nvmem_cell_put and devm_nvmem_device_put destroys the devres associated
-@@ -162,20 +167,21 @@ Userspace
- 6. Userspace binary interface
- ==============================
- 
--Userspace can read/write the raw NVMEM file located at
--/sys/bus/nvmem/devices/*/nvmem
-+Userspace can read/write the raw NVMEM file located at::
- 
--ex:
-+	/sys/bus/nvmem/devices/*/nvmem
- 
--hexdump /sys/bus/nvmem/devices/qfprom0/nvmem
-+ex::
- 
--0000000 0000 0000 0000 0000 0000 0000 0000 0000
--*
--00000a0 db10 2240 0000 e000 0c00 0c00 0000 0c00
--0000000 0000 0000 0000 0000 0000 0000 0000 0000
--...
--*
--0001000
-+  hexdump /sys/bus/nvmem/devices/qfprom0/nvmem
++Backlight driver for LP855x ICs
 +
-+  0000000 0000 0000 0000 0000 0000 0000 0000 0000
-+  *
-+  00000a0 db10 2240 0000 e000 0c00 0c00 0000 0c00
-+  0000000 0000 0000 0000 0000 0000 0000 0000 0000
-+  ...
-+  *
-+  0001000
++Supported chips:
++
++	Texas Instruments LP8550, LP8551, LP8552, LP8553, LP8555, LP8556 and
++	LP8557
++
++Author: Milo(Woogyom) Kim <milo.kim@ti.com>
++
++Description
++-----------
++
++* Brightness control
++
++  Brightness can be controlled by the pwm input or the i2c command.
++  The lp855x driver supports both cases.
++
++* Device attributes
++
++  1) bl_ctl_mode
++
++  Backlight control mode.
++
++  Value: pwm based or register based
++
++  2) chip_id
++
++  The lp855x chip id.
++
++  Value: lp8550/lp8551/lp8552/lp8553/lp8555/lp8556/lp8557
++
++Platform data for lp855x
++------------------------
++
++For supporting platform specific data, the lp855x platform data can be used.
++
++* name:
++	Backlight driver name. If it is not defined, default name is set.
++* device_control:
++	Value of DEVICE CONTROL register.
++* initial_brightness:
++	Initial value of backlight brightness.
++* period_ns:
++	Platform specific PWM period value. unit is nano.
++	Only valid when brightness is pwm input mode.
++* size_program:
++	Total size of lp855x_rom_data.
++* rom_data:
++	List of new eeprom/eprom registers.
++
++Examples
++========
++
++1) lp8552 platform data: i2c register mode with new eeprom data::
++
++    #define EEPROM_A5_ADDR	0xA5
++    #define EEPROM_A5_VAL	0x4f	/* EN_VSYNC=0 */
++
++    static struct lp855x_rom_data lp8552_eeprom_arr[] = {
++	{EEPROM_A5_ADDR, EEPROM_A5_VAL},
++    };
++
++    static struct lp855x_platform_data lp8552_pdata = {
++	.name = "lcd-bl",
++	.device_control = I2C_CONFIG(LP8552),
++	.initial_brightness = INITIAL_BRT,
++	.size_program = ARRAY_SIZE(lp8552_eeprom_arr),
++	.rom_data = lp8552_eeprom_arr,
++    };
++
++2) lp8556 platform data: pwm input mode with default rom data::
++
++    static struct lp855x_platform_data lp8556_pdata = {
++	.device_control = PWM_CONFIG(LP8556),
++	.initial_brightness = INITIAL_BRT,
++	.period_ns = 1000000,
++    };
+diff --git a/Documentation/backlight/lp855x-driver.txt b/Documentation/backlight/lp855x-driver.txt
+deleted file mode 100644
+index 01bce243d3d7..000000000000
+--- a/Documentation/backlight/lp855x-driver.txt
++++ /dev/null
+@@ -1,66 +0,0 @@
+-Kernel driver lp855x
+-====================
+-
+-Backlight driver for LP855x ICs
+-
+-Supported chips:
+-	Texas Instruments LP8550, LP8551, LP8552, LP8553, LP8555, LP8556 and
+-	LP8557
+-
+-Author: Milo(Woogyom) Kim <milo.kim@ti.com>
+-
+-Description
+------------
+-
+-* Brightness control
+-
+-Brightness can be controlled by the pwm input or the i2c command.
+-The lp855x driver supports both cases.
+-
+-* Device attributes
+-
+-1) bl_ctl_mode
+-Backlight control mode.
+-Value : pwm based or register based
+-
+-2) chip_id
+-The lp855x chip id.
+-Value : lp8550/lp8551/lp8552/lp8553/lp8555/lp8556/lp8557
+-
+-Platform data for lp855x
+-------------------------
+-
+-For supporting platform specific data, the lp855x platform data can be used.
+-
+-* name : Backlight driver name. If it is not defined, default name is set.
+-* device_control : Value of DEVICE CONTROL register.
+-* initial_brightness : Initial value of backlight brightness.
+-* period_ns : Platform specific PWM period value. unit is nano.
+-	     Only valid when brightness is pwm input mode.
+-* size_program : Total size of lp855x_rom_data.
+-* rom_data : List of new eeprom/eprom registers.
+-
+-example 1) lp8552 platform data : i2c register mode with new eeprom data
+-
+-#define EEPROM_A5_ADDR	0xA5
+-#define EEPROM_A5_VAL	0x4f	/* EN_VSYNC=0 */
+-
+-static struct lp855x_rom_data lp8552_eeprom_arr[] = {
+-	{EEPROM_A5_ADDR, EEPROM_A5_VAL},
+-};
+-
+-static struct lp855x_platform_data lp8552_pdata = {
+-	.name = "lcd-bl",
+-	.device_control = I2C_CONFIG(LP8552),
+-	.initial_brightness = INITIAL_BRT,
+-	.size_program = ARRAY_SIZE(lp8552_eeprom_arr),
+-	.rom_data = lp8552_eeprom_arr,
+-};
+-
+-example 2) lp8556 platform data : pwm input mode with default rom data
+-
+-static struct lp855x_platform_data lp8556_pdata = {
+-	.device_control = PWM_CONFIG(LP8556),
+-	.initial_brightness = INITIAL_BRT,
+-	.period_ns = 1000000,
+-};
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c40b6a876f2d..f67d86aad5f0 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -15616,7 +15616,7 @@ F:	sound/soc/codecs/isabelle*
+ TI LP855x BACKLIGHT DRIVER
+ M:	Milo Kim <milo.kim@ti.com>
+ S:	Maintained
+-F:	Documentation/backlight/lp855x-driver.txt
++F:	Documentation/backlight/lp855x-driver.rst
+ F:	drivers/video/backlight/lp855x_bl.c
+ F:	include/linux/platform_data/lp855x.h
  
- 7. DeviceTree Binding
- =====================
 -- 
 2.20.1
 
