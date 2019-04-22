@@ -5,1114 +5,1203 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 314AE7DBD4
+	by archive.lwn.net (Postfix) with ESMTP id 5C5D17DC63
 	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Apr 2019 13:36:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727427AbfDVNfn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Apr 2019 09:35:43 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:36958 "EHLO
+        id S1727950AbfDVNfw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Apr 2019 09:35:52 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:36940 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727419AbfDVN2P (ORCPT
+        with ESMTP id S1727410AbfDVN2P (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Apr 2019 09:28:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-        To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=e+8+X/iT/lrWGh5Cv0wn4saEsqEmc5Hh5ao46kW56qc=; b=dgWT4ucoqFq/lNC8IiOnDarZMe
-        1QP/OlTbjbfsPVXwDQ7nP0GNP+fv+Ujl968DtgXZvvCITchM+omjRZw3fBlC1vvbrSLNRZHRWmMlW
-        p8qrwteZnDgX1m32IM5pWtWfGhqxq4uTlwNk9lv/GSRA0sQas0HVin0zOBwsCMCjhNqWT5O6qNEyo
-        qJ8ViuodNB/Z0+moMAi39QaPU+099+Rdo3amVuWhDWPvNl9XMSmQ+KHZEh7Ej2I08QJe/aJ7KREJ2
-        EWHHTozfwu66vcxSW5EsSLsWlOGCpkijGWWo7co0eHU9l/CX4FvbuGRNTOL/ySVuZzCwHB4mm+wh1
-        pxKbUBJQ==;
+        bh=ouxzGDyR2cOLtgx6lDXkFDM9khcYdFpKWyQGUCf0esc=; b=uohG4DPtD9sixp/i/E5WkSGJKL
+        SNYSuFMGiBKlzc4ZysQVLnRNwHR9y9v7sqlaveHehC9/ZRpe6McTz9eIPg8WMTI6QMX7STpX+fn3+
+        1sWxyHTDKO6Aaj5dnlBXi4fr/+B5vm0LUc3hLqJv3xGAb9T8z3bEHCvKBLXGGg2cNxiNMIXAFkVDH
+        xR0Q5AGSjt2JMp4qc4nssVx7ssE/Vg9efH1Ys6xy6hZDI7VdUGOEhnZd8RTq4wsEsNhRuf//3J35i
+        abMsPQNfEsStyAvZUarfviP/oweSEVzetbHQyIDpllEoV3pyR7OOr0/ZrzGBO0pbkOdnUMZSBmdXR
+        i28jI7eg==;
 Received: from 179.176.125.229.dynamic.adsl.gvt.net.br ([179.176.125.229] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hIYzU-0005Hf-Ps; Mon, 22 Apr 2019 13:28:13 +0000
+        id 1hIYzV-0005Hz-JH; Mon, 22 Apr 2019 13:28:14 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hIYzS-0005kJ-J8; Mon, 22 Apr 2019 10:28:10 -0300
+        id 1hIYzT-0005m2-7G; Mon, 22 Apr 2019 10:28:11 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Kees Cook <keescook@chromium.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v2 12/79] docs: fault-injection: convert docs to ReST and rename to *.rst
-Date:   Mon, 22 Apr 2019 10:27:01 -0300
-Message-Id: <4a866538ad7527addac7797d7f6497d125af3fad.1555938376.git.mchehab+samsung@kernel.org>
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        linux-s390@vger.kernel.org
+Subject: [PATCH v2 32/79] s390: include/asm/debug.h add kerneldoc markups
+Date:   Mon, 22 Apr 2019 10:27:21 -0300
+Message-Id: <72c962ac804048c90b123af5cab9e463b63129b5.1555938376.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1555938375.git.mchehab+samsung@kernel.org>
 References: <cover.1555938375.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The conversion is actually:
-  - add blank lines and identation in order to identify paragraphs;
-  - fix tables markups;
-  - add some lists markups;
-  - mark literal blocks;
-  - adjust title markups.
+Instead of keeping the documentation inside s390dbf.rst,
+move them to arch/s390/include/asm/debug.h, using standard
+kernel-doc markups.
 
-At its new index.rst, let's add a :orphan: while this is not linked to
-the main index.rst file, in order to avoid build warnings.
+Keeping the documentation close to the code helps to keep it
+updated. It also makes easier to document other stuff inside
+debug.h, as all it needs is to add kernel-doc markups inside
+it, as the file will be already be included at the produced
+documentation.
+
+-
+
+Those were converted to kerneldoc using this script specially
+designed to parse ths file, and manually editted:
+
+<script>
+use strict;
+
+my $mode = "";
+my $parameter = "";
+my $ret = "";
+my $descr = "";
+
+sub add_var($)
+{
+	my $ln = shift;
+
+	$ln =~ s/^\s+//;
+	$ln =~ s/\s+$//;
+
+	return if ($ln eq "");
+
+	$ln =~ s/^(\S+)\s+/$1\t/;
+
+	print " * \@$ln\n";
+}
+
+sub add_return($)
+{
+	my $ln = shift;
+
+	print " *\n * Return:\n" if ($mode ne "Return Value:");
+
+	$ln =~ s/^\s+//;
+	$ln =~ s/\s+$//;
+
+	return if ($ln eq "");
+
+	print " * -   $ln\n";
+}
+
+sub add_description($)
+{
+	my $ln = shift;
+
+	print " *\n * \n" if ($mode ne "Description:");
+
+	$ln =~ s/^\s+//;
+	$ln =~ s/\s+$//;
+
+	return if ($ln eq "");
+
+	print " * $ln\n";
+}
+
+sub flush_results()
+{
+	print " */\n\n";
+}
+
+while (<>) {
+	if (m/^[\-]+$/) {
+		flush_results();
+		$mode = "";
+		$parameter = "";
+		$ret = "";
+		$descr = "";
+		next;
+	}
+	if (m/(Parameter:)(.*)/) {
+		print " *\n" if ($mode eq "func");
+		add_var($2);
+		$mode = $1;
+		next;
+	}
+	if (m/(Return Value:)(.*)/) {
+		add_return($2);
+		$mode = $1;
+		next;
+	}
+	if (m/(Description:)(.*)/) {
+		add_description($2);
+		$mode = $1;
+		next;
+	}
+	if ($mode eq "Parameter:") {
+		add_var($_);
+		next;
+	}
+	if ($mode eq "Return Value:") {
+		add_return($_);
+		next;
+	}
+	if ($mode eq "Description:") {
+		add_description($_);
+		next;
+	}
+	next if (m/^\s*$/);
+
+	if (m/^\S+.*\s\*?(\S+)\s*\(/) {
+		if ($mode eq "") {
+			print "/**\n * $1()\n";
+		} else {
+			print " * $1()\n";
+		}
+		$mode="func";
+	}
+}
+flush_results();
+</script>
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- ...ault-injection.txt => fault-injection.rst} | 265 +++++++++---------
- Documentation/fault-injection/index.rst       |  20 ++
- ...r-inject.txt => notifier-error-inject.rst} |  18 +-
- .../fault-injection/nvme-fault-injection.rst  | 120 ++++++++
- .../fault-injection/nvme-fault-injection.txt  | 116 --------
- .../fault-injection/provoke-crashes.rst       |  48 ++++
- .../fault-injection/provoke-crashes.txt       |  38 ---
- Documentation/process/4.Coding.rst            |   2 +-
- .../translations/it_IT/process/4.Coding.rst   |   2 +-
- .../translations/zh_CN/process/4.Coding.rst   |   2 +-
- drivers/misc/lkdtm/core.c                     |   2 +-
- include/linux/fault-inject.h                  |   2 +-
- lib/Kconfig.debug                             |   2 +-
- tools/testing/fault-injection/failcmd.sh      |   2 +-
- 14 files changed, 344 insertions(+), 295 deletions(-)
- rename Documentation/fault-injection/{fault-injection.txt => fault-injection.rst} (68%)
- create mode 100644 Documentation/fault-injection/index.rst
- rename Documentation/fault-injection/{notifier-error-inject.txt => notifier-error-inject.rst} (83%)
- create mode 100644 Documentation/fault-injection/nvme-fault-injection.rst
- delete mode 100644 Documentation/fault-injection/nvme-fault-injection.txt
- create mode 100644 Documentation/fault-injection/provoke-crashes.rst
- delete mode 100644 Documentation/fault-injection/provoke-crashes.txt
+ Documentation/s390/s390dbf.rst | 672 +--------------------------------
+ arch/s390/include/asm/debug.h  | 231 ++++++++++++
+ 2 files changed, 232 insertions(+), 671 deletions(-)
 
-diff --git a/Documentation/fault-injection/fault-injection.txt b/Documentation/fault-injection/fault-injection.rst
-similarity index 68%
-rename from Documentation/fault-injection/fault-injection.txt
-rename to Documentation/fault-injection/fault-injection.rst
-index a17517a083c3..f51bb21d20e4 100644
---- a/Documentation/fault-injection/fault-injection.txt
-+++ b/Documentation/fault-injection/fault-injection.rst
-@@ -1,3 +1,4 @@
-+===========================================
- Fault injection capabilities infrastructure
- ===========================================
- 
-@@ -7,36 +8,36 @@ See also drivers/md/md-faulty.c and "every_nth" module option for scsi_debug.
- Available fault injection capabilities
- --------------------------------------
- 
--o failslab
-+- failslab
- 
-   injects slab allocation failures. (kmalloc(), kmem_cache_alloc(), ...)
- 
--o fail_page_alloc
-+- fail_page_alloc
- 
-   injects page allocation failures. (alloc_pages(), get_free_pages(), ...)
- 
--o fail_futex
-+- fail_futex
- 
-   injects futex deadlock and uaddr fault errors.
- 
--o fail_make_request
-+- fail_make_request
- 
-   injects disk IO errors on devices permitted by setting
-   /sys/block/<device>/make-it-fail or
-   /sys/block/<device>/<partition>/make-it-fail. (generic_make_request())
- 
--o fail_mmc_request
-+- fail_mmc_request
- 
-   injects MMC data errors on devices permitted by setting
-   debugfs entries under /sys/kernel/debug/mmc0/fail_mmc_request
- 
--o fail_function
-+- fail_function
- 
-   injects error return on specific functions, which are marked by
-   ALLOW_ERROR_INJECTION() macro, by setting debugfs entries
-   under /sys/kernel/debug/fail_function. No boot option supported.
- 
--o NVMe fault injection
-+- NVMe fault injection
- 
-   inject NVMe status code and retry flag on devices permitted by setting
-   debugfs entries under /sys/kernel/debug/nvme*/fault_inject. The default
-@@ -47,7 +48,8 @@ o NVMe fault injection
- Configure fault-injection capabilities behavior
- -----------------------------------------------
- 
--o debugfs entries
-+debugfs entries
-+^^^^^^^^^^^^^^^
- 
- fault-inject-debugfs kernel module provides some debugfs entries for runtime
- configuration of fault-injection capabilities.
-@@ -55,6 +57,7 @@ configuration of fault-injection capabilities.
- - /sys/kernel/debug/fail*/probability:
- 
- 	likelihood of failure injection, in percent.
-+
- 	Format: <percent>
- 
- 	Note that one-failure-per-hundred is a very high error rate
-@@ -83,6 +86,7 @@ configuration of fault-injection capabilities.
- - /sys/kernel/debug/fail*/verbose
- 
- 	Format: { 0 | 1 | 2 }
-+
- 	specifies the verbosity of the messages when failure is
- 	injected.  '0' means no messages; '1' will print only a single
- 	log line per failure; '2' will print a call trace too -- useful
-@@ -91,14 +95,15 @@ configuration of fault-injection capabilities.
- - /sys/kernel/debug/fail*/task-filter:
- 
- 	Format: { 'Y' | 'N' }
-+
- 	A value of 'N' disables filtering by process (default).
- 	Any positive value limits failures to only processes indicated by
- 	/proc/<pid>/make-it-fail==1.
- 
--- /sys/kernel/debug/fail*/require-start:
--- /sys/kernel/debug/fail*/require-end:
--- /sys/kernel/debug/fail*/reject-start:
--- /sys/kernel/debug/fail*/reject-end:
-+- /sys/kernel/debug/fail*/require-start,
-+  /sys/kernel/debug/fail*/require-end,
-+  /sys/kernel/debug/fail*/reject-start,
-+  /sys/kernel/debug/fail*/reject-end:
- 
- 	specifies the range of virtual addresses tested during
- 	stacktrace walking.  Failure is injected only if some caller
-@@ -116,6 +121,7 @@ configuration of fault-injection capabilities.
- - /sys/kernel/debug/fail_page_alloc/ignore-gfp-highmem:
- 
- 	Format: { 'Y' | 'N' }
-+
- 	default is 'N', setting it to 'Y' won't inject failures into
- 	highmem/user allocations.
- 
-@@ -123,6 +129,7 @@ configuration of fault-injection capabilities.
- - /sys/kernel/debug/fail_page_alloc/ignore-gfp-wait:
- 
- 	Format: { 'Y' | 'N' }
-+
- 	default is 'N', setting it to 'Y' will inject failures
- 	only into non-sleep allocations (GFP_ATOMIC allocations).
- 
-@@ -134,12 +141,14 @@ configuration of fault-injection capabilities.
- - /sys/kernel/debug/fail_futex/ignore-private:
- 
- 	Format: { 'Y' | 'N' }
-+
- 	default is 'N', setting it to 'Y' will disable failure injections
- 	when dealing with private (address space) futexes.
- 
- - /sys/kernel/debug/fail_function/inject:
- 
- 	Format: { 'function-name' | '!function-name' | '' }
-+
- 	specifies the target function of error injection by name.
- 	If the function name leads '!' prefix, given function is
- 	removed from injection list. If nothing specified ('')
-@@ -160,10 +169,11 @@ configuration of fault-injection capabilities.
- 	function for given function. This will be created when
- 	user specifies new injection entry.
- 
--o Boot option
-+Boot option
-+^^^^^^^^^^^
- 
- In order to inject faults while debugfs is not available (early boot time),
--use the boot option:
-+use the boot option::
- 
- 	failslab=
- 	fail_page_alloc=
-@@ -171,10 +181,11 @@ use the boot option:
- 	fail_futex=
- 	mmc_core.fail_request=<interval>,<probability>,<space>,<times>
- 
--o proc entries
-+proc entries
-+^^^^^^^^^^^^
- 
--- /proc/<pid>/fail-nth:
--- /proc/self/task/<tid>/fail-nth:
-+- /proc/<pid>/fail-nth,
-+  /proc/self/task/<tid>/fail-nth:
- 
- 	Write to this file of integer N makes N-th call in the task fail.
- 	Read from this file returns a integer value. A value of '0' indicates
-@@ -191,16 +202,16 @@ o proc entries
- How to add new fault injection capability
- -----------------------------------------
- 
--o #include <linux/fault-inject.h>
-+- #include <linux/fault-inject.h>
- 
--o define the fault attributes
-+- define the fault attributes
- 
-   DECLARE_FAULT_ATTR(name);
- 
-   Please see the definition of struct fault_attr in fault-inject.h
-   for details.
- 
--o provide a way to configure fault attributes
-+- provide a way to configure fault attributes
- 
- - boot option
- 
-@@ -222,126 +233,126 @@ o provide a way to configure fault attributes
-   single kernel module, it is better to provide module parameters to
-   configure the fault attributes.
- 
--o add a hook to insert failures
-+- add a hook to insert failures
- 
--  Upon should_fail() returning true, client code should inject a failure.
-+  Upon should_fail() returning true, client code should inject a failure:
- 
- 	should_fail(attr, size);
- 
- Application Examples
- --------------------
- 
--o Inject slab allocation failures into module init/exit code
-+- Inject slab allocation failures into module init/exit code::
- 
--#!/bin/bash
-+    #!/bin/bash
- 
--FAILTYPE=failslab
--echo Y > /sys/kernel/debug/$FAILTYPE/task-filter
--echo 10 > /sys/kernel/debug/$FAILTYPE/probability
--echo 100 > /sys/kernel/debug/$FAILTYPE/interval
--echo -1 > /sys/kernel/debug/$FAILTYPE/times
--echo 0 > /sys/kernel/debug/$FAILTYPE/space
--echo 2 > /sys/kernel/debug/$FAILTYPE/verbose
--echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-wait
-+    FAILTYPE=failslab
-+    echo Y > /sys/kernel/debug/$FAILTYPE/task-filter
-+    echo 10 > /sys/kernel/debug/$FAILTYPE/probability
-+    echo 100 > /sys/kernel/debug/$FAILTYPE/interval
-+    echo -1 > /sys/kernel/debug/$FAILTYPE/times
-+    echo 0 > /sys/kernel/debug/$FAILTYPE/space
-+    echo 2 > /sys/kernel/debug/$FAILTYPE/verbose
-+    echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-wait
- 
--faulty_system()
--{
-+    faulty_system()
-+    {
- 	bash -c "echo 1 > /proc/self/make-it-fail && exec $*"
--}
-+    }
- 
--if [ $# -eq 0 ]
--then
-+    if [ $# -eq 0 ]
-+    then
- 	echo "Usage: $0 modulename [ modulename ... ]"
- 	exit 1
--fi
-+    fi
- 
--for m in $*
--do
-+    for m in $*
-+    do
- 	echo inserting $m...
- 	faulty_system modprobe $m
- 
- 	echo removing $m...
- 	faulty_system modprobe -r $m
--done
-+    done
- 
- ------------------------------------------------------------------------------
- 
--o Inject page allocation failures only for a specific module
-+- Inject page allocation failures only for a specific module::
- 
--#!/bin/bash
-+    #!/bin/bash
- 
--FAILTYPE=fail_page_alloc
--module=$1
-+    FAILTYPE=fail_page_alloc
-+    module=$1
- 
--if [ -z $module ]
--then
-+    if [ -z $module ]
-+    then
- 	echo "Usage: $0 <modulename>"
- 	exit 1
--fi
-+    fi
- 
--modprobe $module
-+    modprobe $module
- 
--if [ ! -d /sys/module/$module/sections ]
--then
-+    if [ ! -d /sys/module/$module/sections ]
-+    then
- 	echo Module $module is not loaded
- 	exit 1
--fi
-+    fi
- 
--cat /sys/module/$module/sections/.text > /sys/kernel/debug/$FAILTYPE/require-start
--cat /sys/module/$module/sections/.data > /sys/kernel/debug/$FAILTYPE/require-end
-+    cat /sys/module/$module/sections/.text > /sys/kernel/debug/$FAILTYPE/require-start
-+    cat /sys/module/$module/sections/.data > /sys/kernel/debug/$FAILTYPE/require-end
- 
--echo N > /sys/kernel/debug/$FAILTYPE/task-filter
--echo 10 > /sys/kernel/debug/$FAILTYPE/probability
--echo 100 > /sys/kernel/debug/$FAILTYPE/interval
--echo -1 > /sys/kernel/debug/$FAILTYPE/times
--echo 0 > /sys/kernel/debug/$FAILTYPE/space
--echo 2 > /sys/kernel/debug/$FAILTYPE/verbose
--echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-wait
--echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-highmem
--echo 10 > /sys/kernel/debug/$FAILTYPE/stacktrace-depth
-+    echo N > /sys/kernel/debug/$FAILTYPE/task-filter
-+    echo 10 > /sys/kernel/debug/$FAILTYPE/probability
-+    echo 100 > /sys/kernel/debug/$FAILTYPE/interval
-+    echo -1 > /sys/kernel/debug/$FAILTYPE/times
-+    echo 0 > /sys/kernel/debug/$FAILTYPE/space
-+    echo 2 > /sys/kernel/debug/$FAILTYPE/verbose
-+    echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-wait
-+    echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-highmem
-+    echo 10 > /sys/kernel/debug/$FAILTYPE/stacktrace-depth
- 
--trap "echo 0 > /sys/kernel/debug/$FAILTYPE/probability" SIGINT SIGTERM EXIT
-+    trap "echo 0 > /sys/kernel/debug/$FAILTYPE/probability" SIGINT SIGTERM EXIT
- 
--echo "Injecting errors into the module $module... (interrupt to stop)"
--sleep 1000000
-+    echo "Injecting errors into the module $module... (interrupt to stop)"
-+    sleep 1000000
- 
- ------------------------------------------------------------------------------
- 
--o Inject open_ctree error while btrfs mount
-+- Inject open_ctree error while btrfs mount::
- 
--#!/bin/bash
-+    #!/bin/bash
- 
--rm -f testfile.img
--dd if=/dev/zero of=testfile.img bs=1M seek=1000 count=1
--DEVICE=$(losetup --show -f testfile.img)
--mkfs.btrfs -f $DEVICE
--mkdir -p tmpmnt
-+    rm -f testfile.img
-+    dd if=/dev/zero of=testfile.img bs=1M seek=1000 count=1
-+    DEVICE=$(losetup --show -f testfile.img)
-+    mkfs.btrfs -f $DEVICE
-+    mkdir -p tmpmnt
- 
--FAILTYPE=fail_function
--FAILFUNC=open_ctree
--echo $FAILFUNC > /sys/kernel/debug/$FAILTYPE/inject
--echo -12 > /sys/kernel/debug/$FAILTYPE/$FAILFUNC/retval
--echo N > /sys/kernel/debug/$FAILTYPE/task-filter
--echo 100 > /sys/kernel/debug/$FAILTYPE/probability
--echo 0 > /sys/kernel/debug/$FAILTYPE/interval
--echo -1 > /sys/kernel/debug/$FAILTYPE/times
--echo 0 > /sys/kernel/debug/$FAILTYPE/space
--echo 1 > /sys/kernel/debug/$FAILTYPE/verbose
-+    FAILTYPE=fail_function
-+    FAILFUNC=open_ctree
-+    echo $FAILFUNC > /sys/kernel/debug/$FAILTYPE/inject
-+    echo -12 > /sys/kernel/debug/$FAILTYPE/$FAILFUNC/retval
-+    echo N > /sys/kernel/debug/$FAILTYPE/task-filter
-+    echo 100 > /sys/kernel/debug/$FAILTYPE/probability
-+    echo 0 > /sys/kernel/debug/$FAILTYPE/interval
-+    echo -1 > /sys/kernel/debug/$FAILTYPE/times
-+    echo 0 > /sys/kernel/debug/$FAILTYPE/space
-+    echo 1 > /sys/kernel/debug/$FAILTYPE/verbose
- 
--mount -t btrfs $DEVICE tmpmnt
--if [ $? -ne 0 ]
--then
-+    mount -t btrfs $DEVICE tmpmnt
-+    if [ $? -ne 0 ]
-+    then
- 	echo "SUCCESS!"
--else
-+    else
- 	echo "FAILED!"
- 	umount tmpmnt
--fi
-+    fi
- 
--echo > /sys/kernel/debug/$FAILTYPE/inject
-+    echo > /sys/kernel/debug/$FAILTYPE/inject
- 
--rmdir tmpmnt
--losetup -d $DEVICE
--rm testfile.img
-+    rmdir tmpmnt
-+    losetup -d $DEVICE
-+    rm testfile.img
- 
- 
- Tool to run command with failslab or fail_page_alloc
-@@ -354,43 +365,43 @@ see the following examples.
- Examples:
- 
- Run a command "make -C tools/testing/selftests/ run_tests" with injecting slab
--allocation failure.
-+allocation failure::
- 
- 	# ./tools/testing/fault-injection/failcmd.sh \
- 		-- make -C tools/testing/selftests/ run_tests
- 
- Same as above except to specify 100 times failures at most instead of one time
--at most by default.
-+at most by default::
- 
- 	# ./tools/testing/fault-injection/failcmd.sh --times=100 \
- 		-- make -C tools/testing/selftests/ run_tests
- 
- Same as above except to inject page allocation failure instead of slab
--allocation failure.
-+allocation failure::
- 
- 	# env FAILCMD_TYPE=fail_page_alloc \
- 		./tools/testing/fault-injection/failcmd.sh --times=100 \
--                -- make -C tools/testing/selftests/ run_tests
-+		-- make -C tools/testing/selftests/ run_tests
- 
- Systematic faults using fail-nth
- ---------------------------------
- 
- The following code systematically faults 0-th, 1-st, 2-nd and so on
--capabilities in the socketpair() system call.
-+capabilities in the socketpair() system call::
- 
--#include <sys/types.h>
--#include <sys/stat.h>
--#include <sys/socket.h>
--#include <sys/syscall.h>
--#include <fcntl.h>
--#include <unistd.h>
--#include <string.h>
--#include <stdlib.h>
--#include <stdio.h>
--#include <errno.h>
-+  #include <sys/types.h>
-+  #include <sys/stat.h>
-+  #include <sys/socket.h>
-+  #include <sys/syscall.h>
-+  #include <fcntl.h>
-+  #include <unistd.h>
-+  #include <string.h>
-+  #include <stdlib.h>
-+  #include <stdio.h>
-+  #include <errno.h>
- 
--int main()
--{
-+  int main()
-+  {
- 	int i, err, res, fail_nth, fds[2];
- 	char buf[128];
- 
-@@ -413,23 +424,23 @@ int main()
- 			break;
- 	}
- 	return 0;
--}
-+  }
- 
--An example output:
-+An example output::
- 
--1-th fault Y: res=-1/23
--2-th fault Y: res=-1/23
--3-th fault Y: res=-1/12
--4-th fault Y: res=-1/12
--5-th fault Y: res=-1/23
--6-th fault Y: res=-1/23
--7-th fault Y: res=-1/23
--8-th fault Y: res=-1/12
--9-th fault Y: res=-1/12
--10-th fault Y: res=-1/12
--11-th fault Y: res=-1/12
--12-th fault Y: res=-1/12
--13-th fault Y: res=-1/12
--14-th fault Y: res=-1/12
--15-th fault Y: res=-1/12
--16-th fault N: res=0/12
-+	1-th fault Y: res=-1/23
-+	2-th fault Y: res=-1/23
-+	3-th fault Y: res=-1/12
-+	4-th fault Y: res=-1/12
-+	5-th fault Y: res=-1/23
-+	6-th fault Y: res=-1/23
-+	7-th fault Y: res=-1/23
-+	8-th fault Y: res=-1/12
-+	9-th fault Y: res=-1/12
-+	10-th fault Y: res=-1/12
-+	11-th fault Y: res=-1/12
-+	12-th fault Y: res=-1/12
-+	13-th fault Y: res=-1/12
-+	14-th fault Y: res=-1/12
-+	15-th fault Y: res=-1/12
-+	16-th fault N: res=0/12
-diff --git a/Documentation/fault-injection/index.rst b/Documentation/fault-injection/index.rst
-new file mode 100644
-index 000000000000..92b5639ed07a
---- /dev/null
-+++ b/Documentation/fault-injection/index.rst
-@@ -0,0 +1,20 @@
-+:orphan:
-+
-+===============
-+fault-injection
-+===============
-+
-+.. toctree::
-+    :maxdepth: 1
-+
-+    fault-injection
-+    notifier-error-inject
-+    nvme-fault-injection
-+    provoke-crashes
-+
-+.. only::  subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
-diff --git a/Documentation/fault-injection/notifier-error-inject.txt b/Documentation/fault-injection/notifier-error-inject.rst
-similarity index 83%
-rename from Documentation/fault-injection/notifier-error-inject.txt
-rename to Documentation/fault-injection/notifier-error-inject.rst
-index e861d761de24..1668b6e48d3a 100644
---- a/Documentation/fault-injection/notifier-error-inject.txt
-+++ b/Documentation/fault-injection/notifier-error-inject.rst
-@@ -14,7 +14,8 @@ modules that can be used to test the following notifiers.
- PM notifier error injection module
- ----------------------------------
- This feature is controlled through debugfs interface
--/sys/kernel/debug/notifier-error-inject/pm/actions/<notifier event>/error
-+
-+  /sys/kernel/debug/notifier-error-inject/pm/actions/<notifier event>/error
- 
- Possible PM notifier events to be failed are:
- 
-@@ -22,7 +23,7 @@ Possible PM notifier events to be failed are:
-  * PM_SUSPEND_PREPARE
-  * PM_RESTORE_PREPARE
- 
--Example: Inject PM suspend error (-12 = -ENOMEM)
-+Example: Inject PM suspend error (-12 = -ENOMEM)::
- 
- 	# cd /sys/kernel/debug/notifier-error-inject/pm/
- 	# echo -12 > actions/PM_SUSPEND_PREPARE/error
-@@ -32,14 +33,15 @@ Example: Inject PM suspend error (-12 = -ENOMEM)
- Memory hotplug notifier error injection module
- ----------------------------------------------
- This feature is controlled through debugfs interface
--/sys/kernel/debug/notifier-error-inject/memory/actions/<notifier event>/error
-+
-+  /sys/kernel/debug/notifier-error-inject/memory/actions/<notifier event>/error
- 
- Possible memory notifier events to be failed are:
- 
-  * MEM_GOING_ONLINE
-  * MEM_GOING_OFFLINE
- 
--Example: Inject memory hotplug offline error (-12 == -ENOMEM)
-+Example: Inject memory hotplug offline error (-12 == -ENOMEM)::
- 
- 	# cd /sys/kernel/debug/notifier-error-inject/memory
- 	# echo -12 > actions/MEM_GOING_OFFLINE/error
-@@ -49,7 +51,8 @@ Example: Inject memory hotplug offline error (-12 == -ENOMEM)
- powerpc pSeries reconfig notifier error injection module
- --------------------------------------------------------
- This feature is controlled through debugfs interface
--/sys/kernel/debug/notifier-error-inject/pSeries-reconfig/actions/<notifier event>/error
-+
-+  /sys/kernel/debug/notifier-error-inject/pSeries-reconfig/actions/<notifier event>/error
- 
- Possible pSeries reconfig notifier events to be failed are:
- 
-@@ -61,7 +64,8 @@ Possible pSeries reconfig notifier events to be failed are:
- Netdevice notifier error injection module
- ----------------------------------------------
- This feature is controlled through debugfs interface
--/sys/kernel/debug/notifier-error-inject/netdev/actions/<notifier event>/error
-+
-+  /sys/kernel/debug/notifier-error-inject/netdev/actions/<notifier event>/error
- 
- Netdevice notifier events which can be failed are:
- 
-@@ -75,7 +79,7 @@ Netdevice notifier events which can be failed are:
-  * NETDEV_PRECHANGEUPPER
-  * NETDEV_CHANGEUPPER
- 
--Example: Inject netdevice mtu change error (-22 == -EINVAL)
-+Example: Inject netdevice mtu change error (-22 == -EINVAL)::
- 
- 	# cd /sys/kernel/debug/notifier-error-inject/netdev
- 	# echo -22 > actions/NETDEV_CHANGEMTU/error
-diff --git a/Documentation/fault-injection/nvme-fault-injection.rst b/Documentation/fault-injection/nvme-fault-injection.rst
-new file mode 100644
-index 000000000000..bbb1bf3e8650
---- /dev/null
-+++ b/Documentation/fault-injection/nvme-fault-injection.rst
-@@ -0,0 +1,120 @@
-+NVMe Fault Injection
-+====================
-+Linux's fault injection framework provides a systematic way to support
-+error injection via debugfs in the /sys/kernel/debug directory. When
-+enabled, the default NVME_SC_INVALID_OPCODE with no retry will be
-+injected into the nvme_end_request. Users can change the default status
-+code and no retry flag via the debugfs. The list of Generic Command
-+Status can be found in include/linux/nvme.h
-+
-+Following examples show how to inject an error into the nvme.
-+
-+First, enable CONFIG_FAULT_INJECTION_DEBUG_FS kernel config,
-+recompile the kernel. After booting up the kernel, do the
-+following.
-+
-+Example 1: Inject default status code with no retry
-+---------------------------------------------------
-+
-+::
-+
-+  mount /dev/nvme0n1 /mnt
-+  echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/times
-+  echo 100 > /sys/kernel/debug/nvme0n1/fault_inject/probability
-+  cp a.file /mnt
-+
-+Expected Result::
-+
-+  cp: cannot stat ‘/mnt/a.file’: Input/output error
-+
-+Message from dmesg::
-+
-+  FAULT_INJECTION: forcing a failure.
-+  name fault_inject, interval 1, probability 100, space 0, times 1
-+  CPU: 0 PID: 0 Comm: swapper/0 Not tainted 4.15.0-rc8+ #2
-+  Hardware name: innotek GmbH VirtualBox/VirtualBox,
-+  BIOS VirtualBox 12/01/2006
-+  Call Trace:
-+    <IRQ>
-+    dump_stack+0x5c/0x7d
-+    should_fail+0x148/0x170
-+    nvme_should_fail+0x2f/0x50 [nvme_core]
-+    nvme_process_cq+0xe7/0x1d0 [nvme]
-+    nvme_irq+0x1e/0x40 [nvme]
-+    __handle_irq_event_percpu+0x3a/0x190
-+    handle_irq_event_percpu+0x30/0x70
-+    handle_irq_event+0x36/0x60
-+    handle_fasteoi_irq+0x78/0x120
-+    handle_irq+0xa7/0x130
-+    ? tick_irq_enter+0xa8/0xc0
-+    do_IRQ+0x43/0xc0
-+    common_interrupt+0xa2/0xa2
-+    </IRQ>
-+  RIP: 0010:native_safe_halt+0x2/0x10
-+  RSP: 0018:ffffffff82003e90 EFLAGS: 00000246 ORIG_RAX: ffffffffffffffdd
-+  RAX: ffffffff817a10c0 RBX: ffffffff82012480 RCX: 0000000000000000
-+  RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-+  RBP: 0000000000000000 R08: 000000008e38ce64 R09: 0000000000000000
-+  R10: 0000000000000000 R11: 0000000000000000 R12: ffffffff82012480
-+  R13: ffffffff82012480 R14: 0000000000000000 R15: 0000000000000000
-+    ? __sched_text_end+0x4/0x4
-+    default_idle+0x18/0xf0
-+    do_idle+0x150/0x1d0
-+    cpu_startup_entry+0x6f/0x80
-+    start_kernel+0x4c4/0x4e4
-+    ? set_init_arg+0x55/0x55
-+    secondary_startup_64+0xa5/0xb0
-+    print_req_error: I/O error, dev nvme0n1, sector 9240
-+  EXT4-fs error (device nvme0n1): ext4_find_entry:1436:
-+  inode #2: comm cp: reading directory lblock 0
-+
-+Example 2: Inject default status code with retry
-+------------------------------------------------
-+
-+::
-+
-+  mount /dev/nvme0n1 /mnt
-+  echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/times
-+  echo 100 > /sys/kernel/debug/nvme0n1/fault_inject/probability
-+  echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/status
-+  echo 0 > /sys/kernel/debug/nvme0n1/fault_inject/dont_retry
-+
-+  cp a.file /mnt
-+
-+Expected Result::
-+
-+  command success without error
-+
-+Message from dmesg::
-+
-+  FAULT_INJECTION: forcing a failure.
-+  name fault_inject, interval 1, probability 100, space 0, times 1
-+  CPU: 1 PID: 0 Comm: swapper/1 Not tainted 4.15.0-rc8+ #4
-+  Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
-+  Call Trace:
-+    <IRQ>
-+    dump_stack+0x5c/0x7d
-+    should_fail+0x148/0x170
-+    nvme_should_fail+0x30/0x60 [nvme_core]
-+    nvme_loop_queue_response+0x84/0x110 [nvme_loop]
-+    nvmet_req_complete+0x11/0x40 [nvmet]
-+    nvmet_bio_done+0x28/0x40 [nvmet]
-+    blk_update_request+0xb0/0x310
-+    blk_mq_end_request+0x18/0x60
-+    flush_smp_call_function_queue+0x3d/0xf0
-+    smp_call_function_single_interrupt+0x2c/0xc0
-+    call_function_single_interrupt+0xa2/0xb0
-+    </IRQ>
-+  RIP: 0010:native_safe_halt+0x2/0x10
-+  RSP: 0018:ffffc9000068bec0 EFLAGS: 00000246 ORIG_RAX: ffffffffffffff04
-+  RAX: ffffffff817a10c0 RBX: ffff88011a3c9680 RCX: 0000000000000000
-+  RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-+  RBP: 0000000000000001 R08: 000000008e38c131 R09: 0000000000000000
-+  R10: 0000000000000000 R11: 0000000000000000 R12: ffff88011a3c9680
-+  R13: ffff88011a3c9680 R14: 0000000000000000 R15: 0000000000000000
-+    ? __sched_text_end+0x4/0x4
-+    default_idle+0x18/0xf0
-+    do_idle+0x150/0x1d0
-+    cpu_startup_entry+0x6f/0x80
-+    start_secondary+0x187/0x1e0
-+    secondary_startup_64+0xa5/0xb0
-diff --git a/Documentation/fault-injection/nvme-fault-injection.txt b/Documentation/fault-injection/nvme-fault-injection.txt
-deleted file mode 100644
-index 8fbf3bf60b62..000000000000
---- a/Documentation/fault-injection/nvme-fault-injection.txt
-+++ /dev/null
-@@ -1,116 +0,0 @@
--NVMe Fault Injection
--====================
--Linux's fault injection framework provides a systematic way to support
--error injection via debugfs in the /sys/kernel/debug directory. When
--enabled, the default NVME_SC_INVALID_OPCODE with no retry will be
--injected into the nvme_end_request. Users can change the default status
--code and no retry flag via the debugfs. The list of Generic Command
--Status can be found in include/linux/nvme.h
+diff --git a/Documentation/s390/s390dbf.rst b/Documentation/s390/s390dbf.rst
+index ec2a1faa414b..d2595b548879 100644
+--- a/Documentation/s390/s390dbf.rst
++++ b/Documentation/s390/s390dbf.rst
+@@ -104,684 +104,14 @@ the "debug_stoppable" sysctl. If you set "debug_stoppable" to 0 the debug
+ feature cannot be stopped. If the debug feature is already stopped, it
+ will stay deactivated.
+ 
+-----------------------------------------------------------------------------
 -
--Following examples show how to inject an error into the nvme.
+ Kernel Interfaces:
+ ------------------
+ 
+-::
 -
--First, enable CONFIG_FAULT_INJECTION_DEBUG_FS kernel config,
--recompile the kernel. After booting up the kernel, do the
--following.
+-  debug_info_t *debug_register(char *name, int pages, int nr_areas,
+-			       int buf_size);
 -
--Example 1: Inject default status code with no retry
-----------------------------------------------------
+-Parameter:
+-	      name:
+-			   Name of debug log (e.g. used for debugfs entry)
+-	      pages:
+-			   Number of pages, which will be allocated per area
+-	      nr_areas:
+-			   Number of debug areas
+-	      buf_size:
+-			   Size of data area in each debug entry
 -
--mount /dev/nvme0n1 /mnt
--echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/times
--echo 100 > /sys/kernel/debug/nvme0n1/fault_inject/probability
--cp a.file /mnt
+-Return Value:
+-	Handle for generated debug area
 -
--Expected Result:
+-	  NULL if register failed
 -
--cp: cannot stat ‘/mnt/a.file’: Input/output error
+-Description:  Allocates memory for a debug log
+-	      Must not be called within an interrupt handler
 -
--Message from dmesg:
+-----------------------------------------------------------------------------
 -
--FAULT_INJECTION: forcing a failure.
--name fault_inject, interval 1, probability 100, space 0, times 1
--CPU: 0 PID: 0 Comm: swapper/0 Not tainted 4.15.0-rc8+ #2
--Hardware name: innotek GmbH VirtualBox/VirtualBox,
--BIOS VirtualBox 12/01/2006
--Call Trace:
--  <IRQ>
--  dump_stack+0x5c/0x7d
--  should_fail+0x148/0x170
--  nvme_should_fail+0x2f/0x50 [nvme_core]
--  nvme_process_cq+0xe7/0x1d0 [nvme]
--  nvme_irq+0x1e/0x40 [nvme]
--  __handle_irq_event_percpu+0x3a/0x190
--  handle_irq_event_percpu+0x30/0x70
--  handle_irq_event+0x36/0x60
--  handle_fasteoi_irq+0x78/0x120
--  handle_irq+0xa7/0x130
--  ? tick_irq_enter+0xa8/0xc0
--  do_IRQ+0x43/0xc0
--  common_interrupt+0xa2/0xa2
--  </IRQ>
--RIP: 0010:native_safe_halt+0x2/0x10
--RSP: 0018:ffffffff82003e90 EFLAGS: 00000246 ORIG_RAX: ffffffffffffffdd
--RAX: ffffffff817a10c0 RBX: ffffffff82012480 RCX: 0000000000000000
--RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
--RBP: 0000000000000000 R08: 000000008e38ce64 R09: 0000000000000000
--R10: 0000000000000000 R11: 0000000000000000 R12: ffffffff82012480
--R13: ffffffff82012480 R14: 0000000000000000 R15: 0000000000000000
--  ? __sched_text_end+0x4/0x4
--  default_idle+0x18/0xf0
--  do_idle+0x150/0x1d0
--  cpu_startup_entry+0x6f/0x80
--  start_kernel+0x4c4/0x4e4
--  ? set_init_arg+0x55/0x55
--  secondary_startup_64+0xa5/0xb0
--  print_req_error: I/O error, dev nvme0n1, sector 9240
--EXT4-fs error (device nvme0n1): ext4_find_entry:1436:
--inode #2: comm cp: reading directory lblock 0
+-::
 -
--Example 2: Inject default status code with retry
--------------------------------------------------
+-  debug_info_t *debug_register_mode(char *name, int pages, int nr_areas,
+-				    int buf_size, mode_t mode, uid_t uid,
+-				    gid_t gid);
 -
--mount /dev/nvme0n1 /mnt
--echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/times
--echo 100 > /sys/kernel/debug/nvme0n1/fault_inject/probability
--echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/status
--echo 0 > /sys/kernel/debug/nvme0n1/fault_inject/dont_retry
+-Parameter:
+-	      name:
+-			   Name of debug log (e.g. used for debugfs entry)
+-	      pages:
+-			   Number of pages, which will be allocated per area
+-	      nr_areas:
+-			   Number of debug areas
+-	      buf_size:
+-			   Size of data area in each debug entry
+-	      mode:
+-			   File mode for debugfs files. E.g. S_IRWXUGO
+-	      uid:
+-			   User ID for debugfs files. Currently only 0 is
+-			   supported.
+-	      gid:
+-			   Group ID for debugfs files. Currently only 0 is
+-			   supported.
 -
--cp a.file /mnt
+-Return Value:
+-	      Handle for generated debug area
 -
--Expected Result:
+-		NULL if register failed
 -
--command success without error
+-Description:
+-	      Allocates memory for a debug log
+-	      Must not be called within an interrupt handler
 -
--Message from dmesg:
+----------------------------------------------------------------------------
 -
--FAULT_INJECTION: forcing a failure.
--name fault_inject, interval 1, probability 100, space 0, times 1
--CPU: 1 PID: 0 Comm: swapper/1 Not tainted 4.15.0-rc8+ #4
--Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
--Call Trace:
--  <IRQ>
--  dump_stack+0x5c/0x7d
--  should_fail+0x148/0x170
--  nvme_should_fail+0x30/0x60 [nvme_core]
--  nvme_loop_queue_response+0x84/0x110 [nvme_loop]
--  nvmet_req_complete+0x11/0x40 [nvmet]
--  nvmet_bio_done+0x28/0x40 [nvmet]
--  blk_update_request+0xb0/0x310
--  blk_mq_end_request+0x18/0x60
--  flush_smp_call_function_queue+0x3d/0xf0
--  smp_call_function_single_interrupt+0x2c/0xc0
--  call_function_single_interrupt+0xa2/0xb0
--  </IRQ>
--RIP: 0010:native_safe_halt+0x2/0x10
--RSP: 0018:ffffc9000068bec0 EFLAGS: 00000246 ORIG_RAX: ffffffffffffff04
--RAX: ffffffff817a10c0 RBX: ffff88011a3c9680 RCX: 0000000000000000
--RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
--RBP: 0000000000000001 R08: 000000008e38c131 R09: 0000000000000000
--R10: 0000000000000000 R11: 0000000000000000 R12: ffff88011a3c9680
--R13: ffff88011a3c9680 R14: 0000000000000000 R15: 0000000000000000
--  ? __sched_text_end+0x4/0x4
--  default_idle+0x18/0xf0
--  do_idle+0x150/0x1d0
--  cpu_startup_entry+0x6f/0x80
--  start_secondary+0x187/0x1e0
--  secondary_startup_64+0xa5/0xb0
-diff --git a/Documentation/fault-injection/provoke-crashes.rst b/Documentation/fault-injection/provoke-crashes.rst
-new file mode 100644
-index 000000000000..9279a3e12278
---- /dev/null
-+++ b/Documentation/fault-injection/provoke-crashes.rst
-@@ -0,0 +1,48 @@
-+===============
-+Provoke crashes
-+===============
-+
-+The lkdtm module provides an interface to crash or injure the kernel at
-+predefined crashpoints to evaluate the reliability of crash dumps obtained
-+using different dumping solutions. The module uses KPROBEs to instrument
-+crashing points, but can also crash the kernel directly without KRPOBE
-+support.
-+
-+
-+You can provide the way either through module arguments when inserting
-+the module, or through a debugfs interface.
-+
-+Usage::
-+
-+	insmod lkdtm.ko [recur_count={>0}] cpoint_name=<> cpoint_type=<>
-+			[cpoint_count={>0}]
-+
-+recur_count
-+	Recursion level for the stack overflow test. Default is 10.
-+
-+cpoint_name
-+	Crash point where the kernel is to be crashed. It can be
-+	one of INT_HARDWARE_ENTRY, INT_HW_IRQ_EN, INT_TASKLET_ENTRY,
-+	FS_DEVRW, MEM_SWAPOUT, TIMERADD, SCSI_DISPATCH_CMD,
-+	IDE_CORE_CP, DIRECT
-+
-+cpoint_type
-+	Indicates the action to be taken on hitting the crash point.
-+	It can be one of PANIC, BUG, EXCEPTION, LOOP, OVERFLOW,
-+	CORRUPT_STACK, UNALIGNED_LOAD_STORE_WRITE, OVERWRITE_ALLOCATION,
-+	WRITE_AFTER_FREE,
-+
-+cpoint_count
-+	Indicates the number of times the crash point is to be hit
-+	to trigger an action. The default is 10.
-+
-+You can also induce failures by mounting debugfs and writing the type to
-+<mountpoint>/provoke-crash/<crashpoint>. E.g.::
-+
-+  mount -t debugfs debugfs /mnt
-+  echo EXCEPTION > /mnt/provoke-crash/INT_HARDWARE_ENTRY
-+
-+
-+A special file is `DIRECT` which will induce the crash directly without
-+KPROBE instrumentation. This mode is the only one available when the module
-+is built on a kernel without KPROBEs support.
-diff --git a/Documentation/fault-injection/provoke-crashes.txt b/Documentation/fault-injection/provoke-crashes.txt
-deleted file mode 100644
-index 7a9d3d81525b..000000000000
---- a/Documentation/fault-injection/provoke-crashes.txt
-+++ /dev/null
-@@ -1,38 +0,0 @@
--The lkdtm module provides an interface to crash or injure the kernel at
--predefined crashpoints to evaluate the reliability of crash dumps obtained
--using different dumping solutions. The module uses KPROBEs to instrument
--crashing points, but can also crash the kernel directly without KRPOBE
--support.
+-::
+-
+-  void debug_unregister (debug_info_t * id);
+-
+-Parameter:
+-	       id:
+-		    handle for debug log
+-
+-Return Value:
+-	       none
+-
+-Description:
+-	       frees memory for a debug log and removes all registered debug
+-	       views.
+-
+-	       Must not be called within an interrupt handler
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  void debug_set_level (debug_info_t * id, int new_level);
+-
+-Parameter:     id:        handle for debug log
+-	       new_level: new debug level
+-
+-Return Value:
+-	       none
+-
+-Description:
+-	       Sets new actual debug level if new_level is valid.
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  bool debug_level_enabled (debug_info_t * id, int level);
+-
+-Parameter:
+-	      id:
+-			  handle for debug log
+-	      level:
+-			  debug level
+-
+-Return Value:
+-	      True if level is less or equal to the current debug level.
+-
+-Description:
+-	      Returns true if debug events for the specified level would be
+-	      logged. Otherwise returns false.
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  void debug_stop_all(void);
+-
+-Parameter:
+-	       none
+-
+-Return Value:
+-	       none
+-
+-Description:
+-	       stops the debug feature if stopping is allowed. Currently
+-	       used in case of a kernel oops.
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  debug_entry_t* debug_event (debug_info_t* id, int level, void* data,
+-			      int length);
+-
+-Parameter:
+-	       id:
+-		       handle for debug log
+-	       level:
+-		       debug level
+-	       data:
+-		       pointer to data for debug entry
+-	       length:
+-		       length of data in bytes
+-
+-Return Value:
+-	       Address of written debug entry
+-
+-Description:
+-	       writes debug entry to active debug area (if level <= actual
+-	       debug level)
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  debug_entry_t* debug_int_event (debug_info_t * id, int level,
+-				  unsigned int data);
+-  debug_entry_t* debug_long_event(debug_info_t * id, int level,
+-				  unsigned long data);
+-
+-Parameter:
+-	       id:
+-		       handle for debug log
+-	       level:
+-		       debug level
+-	       data:
+-		       integer value for debug entry
+-
+-Return Value:
+-	       Address of written debug entry
+-
+-Description:
+-	       writes debug entry to active debug area (if level <= actual
+-	       debug level)
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  debug_entry_t* debug_text_event (debug_info_t * id, int level,
+-				   const char* data);
+-
+-Parameter:
+-	       id:
+-		       handle for debug log
+-	       level:
+-		       debug level
+-	       data:
+-		       string for debug entry
+-
+-Return Value:
+-	       Address of written debug entry
+-
+-Description:
+-	       writes debug entry in ascii format to active debug area
+-	       (if level <= actual debug level)
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  debug_entry_t* debug_sprintf_event (debug_info_t * id, int level,
+-				      char* string,...);
+-
+-Parameter:
+-	       id:
+-		      handle for debug log
+-	       level:
+-		      debug level
+-	       string:
+-		      format string for debug entry
+-	       ...:
+-		      varargs used as in sprintf()
+-
+-Return Value:  Address of written debug entry
+-
+-Description:
+-	       writes debug entry with format string and varargs (longs) to
+-	       active debug area (if level $<=$ actual debug level).
+-	       floats and long long datatypes cannot be used as varargs.
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  debug_entry_t* debug_exception (debug_info_t* id, int level, void* data,
+-				  int length);
+-
+-Parameter:
+-	       id:
+-		       handle for debug log
+-	       level:
+-		       debug level
+-	       data:
+-		       pointer to data for debug entry
+-	       length:
+-		       length of data in bytes
+-
+-Return Value:
+-	       Address of written debug entry
+-
+-Description:
+-	       writes debug entry to active debug area (if level <= actual
+-	       debug level) and switches to next debug area
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  debug_entry_t* debug_int_exception (debug_info_t * id, int level,
+-				      unsigned int data);
+-  debug_entry_t* debug_long_exception(debug_info_t * id, int level,
+-				      unsigned long data);
+-
+-Parameter:     id:     handle for debug log
+-	       level:  debug level
+-	       data:   integer value for debug entry
+-
+-Return Value:  Address of written debug entry
+-
+-Description:   writes debug entry to active debug area (if level <= actual
+-	       debug level) and switches to next debug area
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  debug_entry_t* debug_text_exception (debug_info_t * id, int level,
+-				       const char* data);
+-
+-Parameter:     id:     handle for debug log
+-	       level:  debug level
+-	       data:   string for debug entry
+-
+-Return Value:  Address of written debug entry
+-
+-Description:   writes debug entry in ascii format to active debug area
+-	       (if level <= actual debug level) and switches to next debug
+-	       area
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  debug_entry_t* debug_sprintf_exception (debug_info_t * id, int level,
+-					  char* string,...);
+-
+-Parameter:     id:    handle for debug log
+-	       level: debug level
+-	       string: format string for debug entry
+-	       ...: varargs used as in sprintf()
+-
+-Return Value:  Address of written debug entry
+-
+-Description:   writes debug entry with format string and varargs (longs) to
+-	       active debug area (if level $<=$ actual debug level) and
+-	       switches to next debug area.
+-	       floats and long long datatypes cannot be used as varargs.
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  int debug_register_view (debug_info_t * id, struct debug_view *view);
+-
+-Parameter:     id:    handle for debug log
+-	       view:  pointer to debug view struct
+-
+-Return Value:  0  : ok
+-	       < 0: Error
+-
+-Description:   registers new debug view and creates debugfs dir entry
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  int debug_unregister_view (debug_info_t * id, struct debug_view *view);
+-
+-Parameter:     id:    handle for debug log
+-	       view:  pointer to debug view struct
+-
+-Return Value:  0  : ok
+-	       < 0: Error
+-
+-Description:   unregisters debug view and removes debugfs dir entry
 -
 -
--You can provide the way either through module arguments when inserting
--the module, or through a debugfs interface.
--
--Usage: insmod lkdtm.ko [recur_count={>0}] cpoint_name=<> cpoint_type=<>
--				[cpoint_count={>0}]
--
--  recur_count : Recursion level for the stack overflow test. Default is 10.
--
--  cpoint_name : Crash point where the kernel is to be crashed. It can be
--	 one of INT_HARDWARE_ENTRY, INT_HW_IRQ_EN, INT_TASKLET_ENTRY,
--	 FS_DEVRW, MEM_SWAPOUT, TIMERADD, SCSI_DISPATCH_CMD,
--	 IDE_CORE_CP, DIRECT
--
--  cpoint_type : Indicates the action to be taken on hitting the crash point.
--     It can be one of PANIC, BUG, EXCEPTION, LOOP, OVERFLOW,
--     CORRUPT_STACK, UNALIGNED_LOAD_STORE_WRITE, OVERWRITE_ALLOCATION,
--     WRITE_AFTER_FREE,
--
--  cpoint_count : Indicates the number of times the crash point is to be hit
--    to trigger an action. The default is 10.
--
--You can also induce failures by mounting debugfs and writing the type to
--<mountpoint>/provoke-crash/<crashpoint>. E.g.,
--
--  mount -t debugfs debugfs /mnt
--  echo EXCEPTION > /mnt/provoke-crash/INT_HARDWARE_ENTRY
--
--
--A special file is `DIRECT' which will induce the crash directly without
--KPROBE instrumentation. This mode is the only one available when the module
--is built on a kernel without KPROBEs support.
-diff --git a/Documentation/process/4.Coding.rst b/Documentation/process/4.Coding.rst
-index 4b7a5ab3cec1..13dd893c9f88 100644
---- a/Documentation/process/4.Coding.rst
-+++ b/Documentation/process/4.Coding.rst
-@@ -298,7 +298,7 @@ enabled, a configurable percentage of memory allocations will be made to
- fail; these failures can be restricted to a specific range of code.
- Running with fault injection enabled allows the programmer to see how the
- code responds when things go badly.  See
--Documentation/fault-injection/fault-injection.txt for more information on
-+Documentation/fault-injection/fault-injection.rst for more information on
- how to use this facility.
++.. kernel-doc:: arch/s390/include/asm/debug.h
  
- Other kinds of errors can be found with the "sparse" static analysis tool.
-diff --git a/Documentation/translations/it_IT/process/4.Coding.rst b/Documentation/translations/it_IT/process/4.Coding.rst
-index c05b89e616dd..a5e36aa60448 100644
---- a/Documentation/translations/it_IT/process/4.Coding.rst
-+++ b/Documentation/translations/it_IT/process/4.Coding.rst
-@@ -314,7 +314,7 @@ di allocazione di memoria sarà destinata al fallimento; questi fallimenti
- possono essere ridotti ad uno specifico pezzo di codice.  Procedere con
- l'inserimento dei fallimenti attivo permette al programmatore di verificare
- come il codice risponde quando le cose vanno male.  Consultate:
--Documentation/fault-injection/fault-injection.txt per avere maggiori
-+Documentation/fault-injection/fault-injection.rst per avere maggiori
- informazioni su come utilizzare questo strumento.
+ Predefined views:
+ -----------------
  
- Altre tipologie di errori possono essere riscontrati con lo strumento di
-diff --git a/Documentation/translations/zh_CN/process/4.Coding.rst b/Documentation/translations/zh_CN/process/4.Coding.rst
-index 5301e9d55255..b8b6d4c8ef3c 100644
---- a/Documentation/translations/zh_CN/process/4.Coding.rst
-+++ b/Documentation/translations/zh_CN/process/4.Coding.rst
-@@ -205,7 +205,7 @@ Linus对这个问题给出了最佳答案:
- 启用故障注入后，内存分配的可配置百分比将失败；这些失败可以限制在特定的代码
- 范围内。在启用了故障注入的情况下运行，程序员可以看到当情况恶化时代码如何响
- 应。有关如何使用此工具的详细信息，请参阅
--Documentation/fault-injection/fault-injection.txt。
-+Documentation/fault-injection/fault-injection.rst。
+-extern struct debug_view debug_hex_ascii_view;
+-
+-extern struct debug_view debug_raw_view;
+-
+-extern struct debug_view debug_sprintf_view;
+-
+-Examples
+---------
+-
+-::
+-
+-  /*
+-   * hex_ascii- + raw-view Example
+-   */
+-
+-  #include <linux/init.h>
+-  #include <asm/debug.h>
+-
+-  static debug_info_t* debug_info;
+-
+-  static int init(void)
+-  {
+-      /* register 4 debug areas with one page each and 4 byte data field */
+-
+-      debug_info = debug_register ("test", 1, 4, 4 );
+-      debug_register_view(debug_info,&debug_hex_ascii_view);
+-      debug_register_view(debug_info,&debug_raw_view);
+-
+-      debug_text_event(debug_info, 4 , "one ");
+-      debug_int_exception(debug_info, 4, 4711);
+-      debug_event(debug_info, 3, &debug_info, 4);
+-
+-      return 0;
+-  }
+-
+-  static void cleanup(void)
+-  {
+-      debug_unregister (debug_info);
+-  }
+-
+-  module_init(init);
+-  module_exit(cleanup);
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  /*
+-   * sprintf-view Example
+-   */
+-
+-  #include <linux/init.h>
+-  #include <asm/debug.h>
+-
+-  static debug_info_t* debug_info;
+-
+-  static int init(void)
+-  {
+-      /* register 4 debug areas with one page each and data field for */
+-      /* format string pointer + 2 varargs (= 3 * sizeof(long))       */
+-
+-      debug_info = debug_register ("test", 1, 4, sizeof(long) * 3);
+-      debug_register_view(debug_info,&debug_sprintf_view);
+-
+-      debug_sprintf_event(debug_info, 2 , "first event in %s:%i\n",__FILE__,__LINE__);
+-      debug_sprintf_exception(debug_info, 1, "pointer to debug info: %p\n",&debug_info);
+-
+-      return 0;
+-  }
+-
+-  static void cleanup(void)
+-  {
+-      debug_unregister (debug_info);
+-  }
+-
+-  module_init(init);
+-  module_exit(cleanup);
+-
+-Debugfs Interface
+------------------
+-Views to the debug logs can be investigated through reading the corresponding
+-debugfs-files:
+-
+-Example::
+-
+-  > ls /sys/kernel/debug/s390dbf/dasd
+-  flush  hex_ascii  level pages raw
+-  > cat /sys/kernel/debug/s390dbf/dasd/hex_ascii | sort -k2,2 -s
+-  00 00974733272:680099 2 - 02 0006ad7e  07 ea 4a 90 | ....
+-  00 00974733272:682210 2 - 02 0006ade6  46 52 45 45 | FREE
+-  00 00974733272:682213 2 - 02 0006adf6  07 ea 4a 90 | ....
+-  00 00974733272:682281 1 * 02 0006ab08  41 4c 4c 43 | EXCP
+-  01 00974733272:682284 2 - 02 0006ab16  45 43 4b 44 | ECKD
+-  01 00974733272:682287 2 - 02 0006ab28  00 00 00 04 | ....
+-  01 00974733272:682289 2 - 02 0006ab3e  00 00 00 20 | ...
+-  01 00974733272:682297 2 - 02 0006ad7e  07 ea 4a 90 | ....
+-  01 00974733272:684384 2 - 00 0006ade6  46 52 45 45 | FREE
+-  01 00974733272:684388 2 - 00 0006adf6  07 ea 4a 90 | ....
+-
+-See section about predefined views for explanation of the above output!
+-
+-Changing the debug level
+-------------------------
+-
+-Example::
+-
+-
+-  > cat /sys/kernel/debug/s390dbf/dasd/level
+-  3
+-  > echo "5" > /sys/kernel/debug/s390dbf/dasd/level
+-  > cat /sys/kernel/debug/s390dbf/dasd/level
+-  5
+-
+-Flushing debug areas
+---------------------
+-Debug areas can be flushed with piping the number of the desired
+-area (0...n) to the debugfs file "flush". When using "-" all debug areas
+-are flushed.
+-
+-Examples:
+-
+-1. Flush debug area 0::
+-
+-     > echo "0" > /sys/kernel/debug/s390dbf/dasd/flush
+-
+-2. Flush all debug areas::
+-
+-     > echo "-" > /sys/kernel/debug/s390dbf/dasd/flush
+-
+-Changing the size of debug areas
+-------------------------------------
+-It is possible the change the size of debug areas through piping
+-the number of pages to the debugfs file "pages". The resize request will
+-also flush the debug areas.
+-
+-Example:
+-
+-Define 4 pages for the debug areas of debug feature "dasd"::
+-
+-  > echo "4" > /sys/kernel/debug/s390dbf/dasd/pages
+-
+-Stooping the debug feature
+---------------------------
+-Example:
+-
+-1. Check if stopping is allowed::
+-
+-     > cat /proc/sys/s390dbf/debug_stoppable
+-
+-2. Stop debug feature::
+-
+-     > echo 0 > /proc/sys/s390dbf/debug_active
+-
+-lcrash Interface
+-----------------
+-It is planned that the dump analysis tool lcrash gets an additional command
+-'s390dbf' to display all the debug logs. With this tool it will be possible
+-to investigate the debug logs on a live system and with a memory dump after
+-a system crash.
+-
+-Investigating raw memory
+-------------------------
+-One last possibility to investigate the debug logs at a live
+-system and after a system crash is to look at the raw memory
+-under VM or at the Service Element.
+-It is possible to find the anker of the debug-logs through
+-the 'debug_area_first' symbol in the System map. Then one has
+-to follow the correct pointers of the data-structures defined
+-in debug.h and find the debug-areas in memory.
+-Normally modules which use the debug feature will also have
+-a global variable with the pointer to the debug-logs. Following
+-this pointer it will also be possible to find the debug logs in
+-memory.
+-
+-For this method it is recommended to use '16 * x + 4' byte (x = 0..n)
+-for the length of the data field in debug_register() in
+-order to see the debug entries well formatted.
+-
+-
+-Predefined Views
+-----------------
+-
+-There are three predefined views: hex_ascii, raw and sprintf.
+-The hex_ascii view shows the data field in hex and ascii representation
+-(e.g. '45 43 4b 44 | ECKD').
+-The raw view returns a bytestream as the debug areas are stored in memory.
+-
+-The sprintf view formats the debug entries in the same way as the sprintf
+-function would do. The sprintf event/exception functions write to the
+-debug entry a pointer to the format string (size = sizeof(long))
+-and for each vararg a long value. So e.g. for a debug entry with a format
+-string plus two varargs one would need to allocate a (3 * sizeof(long))
+-byte data area in the debug_register() function.
+-
+-IMPORTANT:
+-  Using "%s" in sprintf event functions is dangerous. You can only
+-  use "%s" in the sprintf event functions, if the memory for the passed string
+-  is available as long as the debug feature exists. The reason behind this is
+-  that due to performance considerations only a pointer to the string is stored
+-  in  the debug feature. If you log a string that is freed afterwards, you will
+-  get an OOPS when inspecting the debug feature, because then the debug feature
+-  will access the already freed memory.
+-
+-NOTE:
+-  If using the sprintf view do NOT use other event/exception functions
+-  than the sprintf-event and -exception functions.
+-
+-The format of the hex_ascii and sprintf view is as follows:
+-
+-- Number of area
+-- Timestamp (formatted as seconds and microseconds since 00:00:00 Coordinated
+-  Universal Time (UTC), January 1, 1970)
+-- level of debug entry
+-- Exception flag (* = Exception)
+-- Cpu-Number of calling task
+-- Return Address to caller
+-- data field
+-
+-The format of the raw view is:
+-
+-- Header as described in debug.h
+-- datafield
+-
+-A typical line of the hex_ascii view will look like the following (first line
+-is only for explanation and will not be displayed when 'cating' the view):
+-
+-area  time           level exception cpu caller    data (hex + ascii)
+---------------------------------------------------------------------------
+-00    00964419409:440690 1 -         00  88023fe
+-
+-
+-Defining views
+---------------
+-
+-Views are specified with the 'debug_view' structure. There are defined
+-callback functions which are used for reading and writing the debugfs files::
+-
+-  struct debug_view {
+-	char name[DEBUG_MAX_PROCF_LEN];
+-	debug_prolog_proc_t* prolog_proc;
+-	debug_header_proc_t* header_proc;
+-	debug_format_proc_t* format_proc;
+-	debug_input_proc_t*  input_proc;
+-	void*                private_data;
+-  };
+-
+-where::
+-
+-  typedef int (debug_header_proc_t) (debug_info_t* id,
+-				     struct debug_view* view,
+-				     int area,
+-				     debug_entry_t* entry,
+-				     char* out_buf);
+-
+-  typedef int (debug_format_proc_t) (debug_info_t* id,
+-				     struct debug_view* view, char* out_buf,
+-				     const char* in_buf);
+-  typedef int (debug_prolog_proc_t) (debug_info_t* id,
+-				     struct debug_view* view,
+-				     char* out_buf);
+-  typedef int (debug_input_proc_t) (debug_info_t* id,
+-				    struct debug_view* view,
+-				    struct file* file, const char* user_buf,
+-				    size_t in_buf_size, loff_t* offset);
+-
+-
+-The "private_data" member can be used as pointer to view specific data.
+-It is not used by the debug feature itself.
+-
+-The output when reading a debugfs file is structured like this::
+-
+-  "prolog_proc output"
+-
+-  "header_proc output 1"  "format_proc output 1"
+-  "header_proc output 2"  "format_proc output 2"
+-  "header_proc output 3"  "format_proc output 3"
+-  ...
+-
+-When a view is read from the debugfs, the Debug Feature calls the
+-'prolog_proc' once for writing the prolog.
+-Then 'header_proc' and 'format_proc' are called for each
+-existing debug entry.
+-
+-The input_proc can be used to implement functionality when it is written to
+-the view (e.g. like with 'echo "0" > /sys/kernel/debug/s390dbf/dasd/level).
+-
+-For header_proc there can be used the default function
+-debug_dflt_header_fn() which is defined in debug.h.
+-and which produces the same header output as the predefined views.
+-E.g::
+-
+-  00 00964419409:440761 2 - 00 88023ec
+-
+-In order to see how to use the callback functions check the implementation
+-of the default views!
+-
+-Example::
+-
+-  #include <asm/debug.h>
+-
+-  #define UNKNOWNSTR "data: %08x"
+-
+-  const char* messages[] =
+-  {"This error...........\n",
+-   "That error...........\n",
+-   "Problem..............\n",
+-   "Something went wrong.\n",
+-   "Everything ok........\n",
+-   NULL
+-  };
+-
+-  static int debug_test_format_fn(
+-     debug_info_t * id, struct debug_view *view,
+-     char *out_buf, const char *in_buf
+-  )
+-  {
+-    int i, rc = 0;
+-
+-    if(id->buf_size >= 4) {
+-       int msg_nr = *((int*)in_buf);
+-       if(msg_nr < sizeof(messages)/sizeof(char*) - 1)
+-	  rc += sprintf(out_buf, "%s", messages[msg_nr]);
+-       else
+-	  rc += sprintf(out_buf, UNKNOWNSTR, msg_nr);
+-    }
+-   out:
+-     return rc;
+-  }
+-
+-  struct debug_view debug_test_view = {
+-    "myview",                 /* name of view */
+-    NULL,                     /* no prolog */
+-    &debug_dflt_header_fn,    /* default header for each entry */
+-    &debug_test_format_fn,    /* our own format function */
+-    NULL,                     /* no input function */
+-    NULL                      /* no private data */
+-  };
+-
+-test:
+-=====
+-
+ ::
  
- 使用“sparse”静态分析工具可以发现其他类型的错误。对于sparse，可以警告程序员
- 用户空间和内核空间地址之间的混淆、big endian和small endian数量的混合、在需
-diff --git a/drivers/misc/lkdtm/core.c b/drivers/misc/lkdtm/core.c
-index b51cf182b031..9c2f335b7023 100644
---- a/drivers/misc/lkdtm/core.c
-+++ b/drivers/misc/lkdtm/core.c
-@@ -28,7 +28,7 @@
-  *
-  * Debugfs support added by Simon Kagstrom <simon.kagstrom@netinsight.net>
-  *
-- * See Documentation/fault-injection/provoke-crashes.txt for instructions
-+ * See Documentation/fault-injection/provoke-crashes.rst for instructions
-  */
- #include "lkdtm.h"
- #include <linux/fs.h>
-diff --git a/include/linux/fault-inject.h b/include/linux/fault-inject.h
-index 7e6c77740413..e525f6957c49 100644
---- a/include/linux/fault-inject.h
-+++ b/include/linux/fault-inject.h
-@@ -11,7 +11,7 @@
+   debug_info_t *debug_info;
+diff --git a/arch/s390/include/asm/debug.h b/arch/s390/include/asm/debug.h
+index b94783f71322..b55486f70deb 100644
+--- a/arch/s390/include/asm/debug.h
++++ b/arch/s390/include/asm/debug.h
+@@ -95,25 +95,106 @@ debug_entry_t *debug_exception_common(debug_info_t *id, int level,
+ 
+ /* Debug Feature API: */
+ 
++/**
++ * debug_register() - allocates memory for a debug log.
++ *
++ * @name:        Name of debug log (e.g. used for debugfs entry)
++ * @pages:       Number of pages, which will be allocated per area
++ * @nr_areas:    Number of debug areas
++ * @buf_size:    Size of data area in each debug entry
++ *
++ * Return:
++ * - Handler for generated debug area
++ * - %NULL if register failed
++ *
++ * Must not be called within an interrupt handler.
++ */
+ debug_info_t *debug_register(const char *name, int pages, int nr_areas,
+ 			     int buf_size);
+ 
++/**
++ * debug_register_mode() - allocates memory for a debug log.
++ *
++ * @name:	Name of debug log (e.g. used for debugfs entry)
++ * @pages:	Number of pages, which will be allocated per area
++ * @nr_areas:	Number of debug areas
++ * @buf_size:	Size of data area in each debug entry
++ * @mode:	File mode for debugfs files. E.g. S_IRWXUGO
++ * @uid:	User ID for debugfs files. Currently only 0 is supported.
++ * @gid:	Group ID for debugfs files. Currently only 0 is supported.
++ *
++ * Return:
++ * - Handler for generated debug area
++ * - %NULL if register failed
++ *
++ * Must not be called within an interrupt handler
++ */
+ debug_info_t *debug_register_mode(const char *name, int pages, int nr_areas,
+ 				  int buf_size, umode_t mode, uid_t uid,
+ 				  gid_t gid);
+ 
++/**
++ * debug_unregister() - frees memory for a debug log and removes all
++ *			registered debug
++ * views.
++ *
++ * @id:		handle for debug log
++ *
++ * Return:
++ *    none
++ *
++ * Must not be called within an interrupt handler
++ */
+ void debug_unregister(debug_info_t *id);
+ 
++/**
++ * debug_set_level() -  Sets new actual debug level if new_level is valid.
++ *
++ * @id:		handle for debug log
++ * @new_level:	new debug level
++ *
++ * Return:
++ *    none
++ */
+ void debug_set_level(debug_info_t *id, int new_level);
+ 
+ void debug_set_critical(void);
++
++/**
++ * debug_stop_all() - stops the debug feature if stopping is allowed.
++ *
++ * Return:
++ * -   none
++ */
+ void debug_stop_all(void);
+ 
++/**
++ * debug_level_enabled() - Returns true if debug events for the specified
++ *			   level would be logged. Otherwise returns false.
++ *
++ * @id:		handle for debug log
++ * @level:	debug level
++ *
++ * Return:
++ * - %true if level is less or equal to the current debug level.
++ */
+ static inline bool debug_level_enabled(debug_info_t *id, int level)
+ {
+ 	return level <= id->level;
+ }
+ 
++/**
++ * debug_event() - writes debug entry to active debug area
++ *		   (if level <= actual debug level)
++ *
++ * @id:		handle for debug log
++ * @level:	debug level
++ * @data:	pointer to data for debug entry
++ * @length:	length of data in bytes
++ *
++ * Return:
++ * - Address of written debug entry
++ */
+ static inline debug_entry_t *debug_event(debug_info_t *id, int level,
+ 					 void *data, int length)
+ {
+@@ -122,6 +203,18 @@ static inline debug_entry_t *debug_event(debug_info_t *id, int level,
+ 	return debug_event_common(id, level, data, length);
+ }
+ 
++/**
++ * debug_int_event() - writes debug entry to active debug area
++ * 		       (if level <= actual debug level)
++ *
++ * @id:		handle for debug log
++ * @level:	debug level
++ * @tag:	integer value for debug entry
++ *
++ * Return:
++ * - Address of written debug entry
++ * - %NULL if error
++ */
+ static inline debug_entry_t *debug_int_event(debug_info_t *id, int level,
+ 					     unsigned int tag)
+ {
+@@ -132,6 +225,18 @@ static inline debug_entry_t *debug_int_event(debug_info_t *id, int level,
+ 	return debug_event_common(id, level, &t, sizeof(unsigned int));
+ }
+ 
++/**
++ * debug_long_event() - writes debug entry to active debug area
++ * 		       (if level <= actual debug level)
++ *
++ * @id:		handle for debug log
++ * @level:	debug level
++ * @tag:	integer value for debug entry
++ *
++ * Return:
++ * - Address of written debug entry
++ * - %NULL if error
++ */
+ static inline debug_entry_t *debug_long_event(debug_info_t *id, int level,
+ 					      unsigned long tag)
+ {
+@@ -142,6 +247,18 @@ static inline debug_entry_t *debug_long_event(debug_info_t *id, int level,
+ 	return debug_event_common(id, level, &t, sizeof(unsigned long));
+ }
+ 
++/**
++ * debug_text_event() - writes debug entry in ascii format to active
++ *			debug area (if level <= actual debug level)
++ *
++ * @id:		handle for debug log
++ * @level:	debug level
++ * @txt:	string for debug entry
++ *
++ * Return:
++ * - Address of written debug entry
++ * - %NULL if error
++ */
+ static inline debug_entry_t *debug_text_event(debug_info_t *id, int level,
+ 					      const char *txt)
+ {
+@@ -158,6 +275,22 @@ extern debug_entry_t *
+ __debug_sprintf_event(debug_info_t *id, int level, char *string, ...)
+ 	__attribute__ ((format(printf, 3, 4)));
+ 
++/**
++ * debug_sprintf_event() - writes debug entry with format string
++ *			   and varargs (longs) to active debug area
++ *			   (if level $<=$ actual debug level).
++ *
++ * @_id:	handle for debug log
++ * @_level:	debug level
++ * @_fmt:	format string for debug entry
++ * @...:	varargs used as in sprintf()
++ *
++ * Return:
++ * - Address of written debug entry
++ * - %NULL if error
++ *
++ * floats and long long datatypes cannot be used as varargs.
++ */
+ #define debug_sprintf_event(_id, _level, _fmt, ...)			\
+ ({									\
+ 	debug_entry_t *__ret;						\
+@@ -172,6 +305,20 @@ __debug_sprintf_event(debug_info_t *id, int level, char *string, ...)
+ 	__ret;								\
+ })
+ 
++/**
++ * debug_exception() - writes debug entry to active debug area
++ *		       (if level <= actual debug level) and switches
++ *		       to next debug area
++ *
++ * @id:		handle for debug log
++ * @level:	debug level
++ * @data:	pointer to data for debug entry
++ * @length:	length of data in bytes
++ *
++ * Return:
++ * - Address of written debug entry
++ * - %NULL if error
++ */
+ static inline debug_entry_t *debug_exception(debug_info_t *id, int level,
+ 					     void *data, int length)
+ {
+@@ -180,6 +327,19 @@ static inline debug_entry_t *debug_exception(debug_info_t *id, int level,
+ 	return debug_exception_common(id, level, data, length);
+ }
+ 
++/**
++ * debug_int_exception() - writes debug entry to active debug area
++ *			   (if level <= actual debug level)
++ *			   and switches to next debug area
++ *
++ * @id:		handle for debug log
++ * @level:	debug level
++ * @tag:	integer value for debug entry
++ *
++ * Return:
++ * - Address of written debug entry
++ * - %NULL if error
++ */
+ static inline debug_entry_t *debug_int_exception(debug_info_t *id, int level,
+ 						 unsigned int tag)
+ {
+@@ -190,6 +350,19 @@ static inline debug_entry_t *debug_int_exception(debug_info_t *id, int level,
+ 	return debug_exception_common(id, level, &t, sizeof(unsigned int));
+ }
+ 
++/**
++ * debug_long_exception() - writes debug entry to active debug area
++ *			   (if level <= actual debug level)
++ *			   and switches to next debug area
++ *
++ * @id:		handle for debug log
++ * @level:	debug level
++ * @tag:	integer value for debug entry
++ *
++ * Return:
++ * - Address of written debug entry
++ * - %NULL if error
++ */
+ static inline debug_entry_t *debug_long_exception (debug_info_t *id, int level,
+ 						   unsigned long tag)
+ {
+@@ -200,6 +373,20 @@ static inline debug_entry_t *debug_long_exception (debug_info_t *id, int level,
+ 	return debug_exception_common(id, level, &t, sizeof(unsigned long));
+ }
+ 
++/**
++ * debug_text_exception() - writes debug entry in ascii format to active
++ *			    debug area (if level <= actual debug level)
++ *			    and switches to next debug
++ * area
++ *
++ * @id:	handle for debug log
++ * @level:	debug level
++ * @txt:	string for debug entry
++ *
++ * Return:
++ * - Address of written debug entry
++ * - %NULL if error
++ */
+ static inline debug_entry_t *debug_text_exception(debug_info_t *id, int level,
+ 						  const char *txt)
+ {
+@@ -216,6 +403,24 @@ extern debug_entry_t *
+ __debug_sprintf_exception(debug_info_t *id, int level, char *string, ...)
+ 	__attribute__ ((format(printf, 3, 4)));
+ 
++
++/**
++ * debug_sprintf_exception() - writes debug entry with format string and
++ *			       varargs (longs) to active debug area
++ * 			       (if level $<=$ actual debug level)
++ *			       and switches to next debug area.
++ *
++ * @_id:	handle for debug log
++ * @_level:	debug level
++ * @_fmt:	format string for debug entry
++ * @...:	varargs used as in sprintf()
++ *
++ * Return:
++ * - Address of written debug entry
++ * - %NULL if error
++ *
++ * floats and long long datatypes cannot be used as varargs.
++ */
+ #define debug_sprintf_exception(_id, _level, _fmt, ...)			\
+ ({									\
+ 	debug_entry_t *__ret;						\
+@@ -230,7 +435,33 @@ __debug_sprintf_exception(debug_info_t *id, int level, char *string, ...)
+ 	__ret;								\
+ })
+ 
++/**
++ * debug_register_view() - registers new debug view and creates debugfs
++ *			   dir entry
++ *
++ * @id:	handle for debug log
++ * @view:	pointer to debug view struct
++ *
++ * Return:
++ * -   0  : ok
++ * -   < 0: Error
++ */
+ int debug_register_view(debug_info_t *id, struct debug_view *view);
++
++/**
++ * debug_unregister_view()
++ *
++ * @id:	handle for debug log
++ * @view:	pointer to debug view struct
++ *
++ * Return:
++ * -   0  : ok
++ * -   < 0: Error
++ *
++ *
++ * unregisters debug view and removes debugfs dir entry
++ */
++
+ int debug_unregister_view(debug_info_t *id, struct debug_view *view);
  
  /*
-  * For explanation of the elements of this struct, see
-- * Documentation/fault-injection/fault-injection.txt
-+ * Documentation/fault-injection/fault-injection.rst
-  */
- struct fault_attr {
- 	unsigned long probability;
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 3a9d41bd4d45..1b0129196e70 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -1681,7 +1681,7 @@ config LKDTM
- 	called lkdtm.
- 
- 	Documentation on how to use the module can be found in
--	Documentation/fault-injection/provoke-crashes.txt
-+	Documentation/fault-injection/provoke-crashes.rst
- 
- config TEST_LIST_SORT
- 	tristate "Linked list sorting test"
-diff --git a/tools/testing/fault-injection/failcmd.sh b/tools/testing/fault-injection/failcmd.sh
-index 29a6c63c5a15..78dac34264be 100644
---- a/tools/testing/fault-injection/failcmd.sh
-+++ b/tools/testing/fault-injection/failcmd.sh
-@@ -42,7 +42,7 @@ OPTIONS
- 	--interval=value, --space=value, --verbose=value, --task-filter=value,
- 	--stacktrace-depth=value, --require-start=value, --require-end=value,
- 	--reject-start=value, --reject-end=value, --ignore-gfp-wait=value
--		See Documentation/fault-injection/fault-injection.txt for more
-+		See Documentation/fault-injection/fault-injection.rst for more
- 		information
- 
- 	failslab options:
 -- 
 2.20.1
 
