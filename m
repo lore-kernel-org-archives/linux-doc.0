@@ -1,148 +1,96 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BF6E07D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Apr 2019 22:23:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E9E347D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Apr 2019 22:28:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726638AbfDVWXr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Apr 2019 18:23:47 -0400
-Received: from mail-vk1-f196.google.com ([209.85.221.196]:34396 "EHLO
-        mail-vk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727306AbfDVWXq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Apr 2019 18:23:46 -0400
-Received: by mail-vk1-f196.google.com with SMTP id x84so2760520vkd.1
-        for <linux-doc@vger.kernel.org>; Mon, 22 Apr 2019 15:23:45 -0700 (PDT)
+        id S1729516AbfDVW22 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Apr 2019 18:28:28 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:34994 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727336AbfDVW22 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Apr 2019 18:28:28 -0400
+Received: by mail-pl1-f194.google.com with SMTP id w24so6459168plp.2;
+        Mon, 22 Apr 2019 15:28:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Apsh13b43ex5kM603MFVFBzVRJeAAR6IMS53yCHVuRM=;
-        b=Vl0fYQ0UCHGtndl0jafErZw5vqbDAq4DrFX3SfBAIMhEhneL9rXawPTcud8fgV5g3D
-         W/sHE49ARVD9KYD5FloU01n2RfA2pTgnKMthR4SE5EVifhT+Zv7f89iMoQqyLkH17UHR
-         Ufjeoo3iZe8A1ywqY/dQX9OJ6hQY+RdFMicuSiIFmS2kjW0kxDgF0PQchZJoFDeQwLJ4
-         Bu9iNZw8/m1h5Vvq6bsIi0oFDRabTh4fUKE/VXZ1BpEeHCWZiVc862ytrlz+nAaTR+Cp
-         kF/vZydc6r2yg2X0nSiZbBoPzLhOuIzzabOzb88ffPr/VLLo66HUZNIe7JxAbYTKUz7T
-         O38g==
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=l5AxmITSIPrmdVWT9ltbBGc4UrQcWGmU2dmUvvxRp1s=;
+        b=LriKm8pB8ehN531+Iv6xtcWLvEjrblTDmO+CNRFLemQ9eUdQzS7cbVSxRUdw3O/RxX
+         b/IWBHYX+17nTDB+Mg1MwZr/HL0uwTIVMMa9+Vv3fa5akNEFmkLSXyTU6UHITo3GBma4
+         u2fSTjzR26eyVBJntnA069sHYGqLYBuWAh6XH1yIdEOldQKOCcIjL9sqCzENERNq5lb/
+         a/VAal80oRXvv2NSAP99bEU7uvVi34dMNf8eDysNbuLp7AdoSvqN/SkbsoltbdVLJ8WJ
+         vU8fTOhFB+kT4G9MW6K/xCAQ89CAFXqBZPTW8LLiVv/iTNQonwKQCn06nFc/nFjNb8IU
+         OPuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Apsh13b43ex5kM603MFVFBzVRJeAAR6IMS53yCHVuRM=;
-        b=X1s87jq7+Iyg2DBeR8TwV5kdl2NBDUihLziUawc7TqKr/hM1zt5LEFRdYtaVoFIsRE
-         7YTsewi5LbEDYwDFDtsns8cLS6aWTRmXczIg+nBxa2Fd6r+0bhdNNG+0AVi7uCDkCdHw
-         w1V5I3neWdswnJc933eUFFv0VYwWgOUnr9HLU0VmYV3f+ivowagJi5IOnpua/DtllgJq
-         zkwtNQh6yJ2idu5Dt8TvoykmMWKtLe45T9e+n4CnA9EDMdZ37HZ5FdgfTeViDGCSTIvX
-         X0FN07eHZdoFGQ3KkFK28ngv5J9QR0JAjMsTGfWaMjVjKTbXStfvUafxbLPz9BfMcRx5
-         69kg==
-X-Gm-Message-State: APjAAAUdRXWUIeUr5PZQFe2g7tboa0E9Y0fxfcZH64SylujmBJ3xe/cd
-        dybhvNFfaCMs/KaPFbEdsfZLBnGiD3lIqnP99hKpAg==
-X-Google-Smtp-Source: APXvYqxiq50qJu8wanUuH+yOCTaJNMUpHEhGXVEwCujnFscJAmlLegU3s6VeZj+61I7iVGG+tUCCywSMlxsTtse/mUo=
-X-Received: by 2002:a1f:2e07:: with SMTP id u7mr11692664vku.44.1555971825052;
- Mon, 22 Apr 2019 15:23:45 -0700 (PDT)
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=l5AxmITSIPrmdVWT9ltbBGc4UrQcWGmU2dmUvvxRp1s=;
+        b=fAOija65uHZGrvyE/xXh1XIQBOtH5BA4LL9Uf0TOudwvdpQvTRAnuWmmFOy9nQQlmm
+         o2EXuhSgHUnnaVep+NF+Pu/ZAkthVUqtPU1ABFimS7bKE3yyow3/HpF/jngqCuNhJWE/
+         Y9zhSD1znoxCVvsKj2M4puEVC9BiZ+8g4NUSgAsWYGiojREliRW5a4qORKLS4FNeEB25
+         0P5t8r1Fj+sVSg52B3kBPV+xhy1uSAbTMbJMS2R1qFfbryVUDWW1v43Hdd7WFLolbuZA
+         x5LiszN/o357jhiMUWSAnZAXt5r6Uh/PzsTaRNptKcAAtcAVfH97FXJHbG472OE5nQ2+
+         xunw==
+X-Gm-Message-State: APjAAAVZ50Az2dpIkVXU4VNRB4Ilf64YKqCgRzsEx7OF696AbN15ky2X
+        wiYzYTxpSukl/akqIYYEDX4=
+X-Google-Smtp-Source: APXvYqzAk1lkaSPfLPtKoCiUGATWprtVGPXYcGaxLmKED5CVGWvN2Cj1kl60EKbIlBpwGK1hUuqbAA==
+X-Received: by 2002:a17:902:3324:: with SMTP id a33mr22770566plc.186.1555972106937;
+        Mon, 22 Apr 2019 15:28:26 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id w3sm25455837pfn.179.2019.04.22.15.28.25
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 22 Apr 2019 15:28:25 -0700 (PDT)
+Date:   Mon, 22 Apr 2019 15:28:24 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        linux-hwmon@vger.kernel.org, patches@opensource.cirrus.com
+Subject: Re: [PATCH] docs: hwmon: convert three docs to ReST format
+Message-ID: <20190422222824.GA16756@roeck-us.net>
+References: <287cf72fc213656c1593f8bd42feb62f7a5f26e7.1555954774.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-References: <cover.1554248001.git.khalid.aziz@oracle.com> <f1ac3700970365fb979533294774af0b0dd84b3b.1554248002.git.khalid.aziz@oracle.com>
- <20190417161042.GA43453@gmail.com> <e16c1d73-d361-d9c7-5b8e-c495318c2509@oracle.com>
- <20190417170918.GA68678@gmail.com> <56A175F6-E5DA-4BBD-B244-53B786F27B7F@gmail.com>
- <20190417172632.GA95485@gmail.com> <063753CC-5D83-4789-B594-019048DE22D9@gmail.com>
- <alpine.DEB.2.21.1904172317460.3174@nanos.tec.linutronix.de>
- <CAHk-=wgBMg9P-nYQR2pS0XwVdikPCBqLsMFqR9nk=wSmAd4_5g@mail.gmail.com>
- <alpine.DEB.2.21.1904180129000.3174@nanos.tec.linutronix.de>
- <CAHk-=whUwOjFW6RjHVM8kNOv1QVLJuHj2Dda0=mpLPdJ1UyatQ@mail.gmail.com>
- <CALCETrXm9PuUTEEmzA8bQJmg=PHC_2XSywECittVhXbMJS1rSA@mail.gmail.com>
- <CAGXu5jL-qJtW7eH8S2yhqciE+J+FWz8HHzTrGJTgVUbd55n6dQ@mail.gmail.com> <8f9d059d-e720-cd24-faa6-45493fc012e0@oracle.com>
-In-Reply-To: <8f9d059d-e720-cd24-faa6-45493fc012e0@oracle.com>
-From:   Kees Cook <keescook@google.com>
-Date:   Mon, 22 Apr 2019 15:23:32 -0700
-Message-ID: <CAGXu5jLPkD_6BL1m2=13KVTfZ7znr-xAyz+CB23eoeboFgCSOg@mail.gmail.com>
-Subject: Re: [RFC PATCH v9 03/13] mm: Add support for eXclusive Page Frame
- Ownership (XPFO)
-To:     Khalid Aziz <khalid.aziz@oracle.com>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Juerg Haefliger <juergh@gmail.com>,
-        Tycho Andersen <tycho@tycho.ws>,
-        Julian Stecklina <jsteckli@amazon.de>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Juerg Haefliger <juerg.haefliger@canonical.com>,
-        deepa.srinivasan@oracle.com, chris hyser <chris.hyser@oracle.com>,
-        Tyler Hicks <tyhicks@canonical.com>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Andrew Cooper <andrew.cooper3@citrix.com>,
-        Jon Masters <jcm@redhat.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        iommu <iommu@lists.linux-foundation.org>,
-        X86 ML <x86@kernel.org>,
-        "linux-alpha@vger.kernel.org" <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        Khalid Aziz <khalid@gonehiking.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Peter Zijlstra <a.p.zijlstra@chello.nl>,
-        Dave Hansen <dave@sr71.net>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Arjan van de Ven <arjan@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <287cf72fc213656c1593f8bd42feb62f7a5f26e7.1555954774.git.mchehab+samsung@kernel.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 18, 2019 at 7:35 AM Khalid Aziz <khalid.aziz@oracle.com> wrote:
->
-> On 4/17/19 11:41 PM, Kees Cook wrote:
-> > On Wed, Apr 17, 2019 at 11:41 PM Andy Lutomirski <luto@kernel.org> wrote:
-> >> I don't think this type of NX goof was ever the argument for XPFO.
-> >> The main argument I've heard is that a malicious user program writes a
-> >> ROP payload into user memory (regular anonymous user memory) and then
-> >> gets the kernel to erroneously set RSP (*not* RIP) to point there.
-> >
-> > Well, more than just ROP. Any of the various attack primitives. The NX
-> > stuff is about moving RIP: SMEP-bypassing. But there is still basic
-> > SMAP-bypassing for putting a malicious structure in userspace and
-> > having the kernel access it via the linear mapping, etc.
-> >
-> >> I find this argument fairly weak for a couple reasons.  First, if
-> >> we're worried about this, let's do in-kernel CFI, not XPFO, to
-> >
-> > CFI is getting much closer. Getting the kernel happy under Clang, LTO,
-> > and CFI is under active development. (It's functional for arm64
-> > already, and pieces have been getting upstreamed.)
-> >
->
-> CFI theoretically offers protection with fairly low overhead. I have not
-> played much with CFI in clang. I agree with Linus that probability of
-> bugs in XPFO implementation itself is a cause of concern. If CFI in
-> Clang can provide us the same level of protection as XPFO does, I
-> wouldn't want to push for an expensive change like XPFO.
->
-> If Clang/CFI can't get us there for extended period of time, does it
-> make sense to continue to poke at XPFO?
+On Mon, Apr 22, 2019 at 02:39:37PM -0300, Mauro Carvalho Chehab wrote:
+> Those three new drivers were missed on the initial conversion
+> to ReST format. So:
+> 
+> - Rename them to .rst;
+> - Add them to the hwmon index.rst index;
+> - add some blank lines at the "Supported systems:" part, in
+>   order to allow Sphinx to properly identify new lines,
+>   suppressing warnings and avoid it to output some random
+>   lines in bold;
+> - When multiple authors are involved, change the authors
+>   part to a list, in order to avoid adding blank lines.
+> - adjust the table cells (one of the tables seemed to be
+>   assuming that tab is 4 positions instead of 8) and add
+>   the table markup.
+> - be sure that the section markups have the same number of
+>   characters as the section title.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-Well, I think CFI will certainly vastly narrow the execution paths
-available to an attacker, but what I continue to see XPFO useful for
-is stopping attacks that need to locate something in memory. (i.e. not
-ret2dir but, like, read2dir.) It's arguable that such attacks would
-just use heap, stack, etc to hold such things, but the linear map
-remains relatively easy to find/target. But I agree: the protection is
-getting more and more narrow (especially with CFI coming down the
-pipe), and if it's still a 28% hit, that's not going to be tenable for
-anyone but the truly paranoid. :)
+Applied to hwmon-next.
 
-All that said, there isn't a very good backward-edge CFI protection
-(i.e. ROP defense) on x86 in Clang. The forward-edge looks decent, but
-requires LTO, etc. My point is there is still a long path to gaining
-CFI in upstream.
-
--- 
-Kees Cook
+Thanks,
+Guenter
