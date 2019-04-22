@@ -1,80 +1,75 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0FC8A7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Apr 2019 15:41:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6A46E7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Apr 2019 16:26:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727571AbfDVPlD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Apr 2019 11:41:03 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:39558 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726260AbfDVPlD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Apr 2019 11:41:03 -0400
-Received: by mail-pg1-f195.google.com with SMTP id l18so5891949pgj.6;
-        Mon, 22 Apr 2019 08:41:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=gXYtroXiYVRWPoTwZ7DmD5A/QVoBluJQOy5jcAR8Msc=;
-        b=l6dZX1+b1I3zrRHOSt7u9ab9BU7D/UF/FQcRJFeQcRBnUUTBxs6CvuQXj37UbpOVP4
-         w2zgcj7EBdrsYauNOBJIjQLL92HLGRGLUXup3hvrdvVGa0PiyJ+V+8aHLSmtb37oJTOL
-         6qsD4S/Cs3UJzMPY/qhaSCt6bm6YbN9KYScuErlfSVez5rrIyVwdHcl9qGw8YT+ogoRE
-         CLZpsBNnvNb3y61iIrAIIC9b9spaAayHRrDLCPsHn01ZM/mTz2N6+vp6DzN2nCNxqqeg
-         k3oS7Jhg+v64cB0S0Elkl654cePJ3jWVBxuzNqMQAGQe7XiMehKhO85EOubmmXsTKdKi
-         /kFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=gXYtroXiYVRWPoTwZ7DmD5A/QVoBluJQOy5jcAR8Msc=;
-        b=COvAAQbJJ/YcxqjKSmnhDdnRZQO0qeBDgX65YhFaxw+VkpYkOKreePbOdn8jFtA2Lr
-         2vHH1wzkrRgOj4GqEia8fVSxa0ZeFoubx9ftS9JTi5EqYzOY341O2Z75WaWdBGi6Sxp9
-         WrcuDZxz5J2bDZ+I38MM1/BOD3+YlgVvt/6pvZWF7dUySc9xCJjH+M2fGYyDSZLnOWTB
-         m0pS9DiKztnwvuhuGIt53/pB6MoAYhPkOeR9pYBz1qdAZm6x9HLU36+tSo7SIDYnbA6n
-         GgFQDHAdDTXeC0RzA2tr4ytWydWmfIcEqQfDdgGWfayJ+SUFHqYGRrNZFowaAPgQXhnM
-         95qg==
-X-Gm-Message-State: APjAAAWxY0AmoUTMaMqexumNBOm4m8yWbEbl2YTe5GouH9eFmnK1h6IZ
-        35JXKFh2exabMk8iIDhf+p4=
-X-Google-Smtp-Source: APXvYqys1m9go2cal+0K9TZ3AhadTptw7nFT/KUmX8RNBIJ4JUp02Th+E7/5P8yR6uO6owveLZd1+Q==
-X-Received: by 2002:aa7:9ad4:: with SMTP id x20mr20772356pfp.250.1555947662547;
-        Mon, 22 Apr 2019 08:41:02 -0700 (PDT)
-Received: from localhost (c-73-222-71-142.hsd1.ca.comcast.net. [73.222.71.142])
-        by smtp.gmail.com with ESMTPSA id u5sm19343629pfm.121.2019.04.22.08.41.01
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 22 Apr 2019 08:41:01 -0700 (PDT)
-Date:   Mon, 22 Apr 2019 08:40:59 -0700
-From:   Richard Cochran <richardcochran@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org
-Subject: Re: [PATCH v2 28/79] docs: ptp.txt: convert to ReST and move to
- driver-api
-Message-ID: <20190422154059.pv7ybtylc53azdxo@localhost>
+        id S1727360AbfDVQ0M (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Apr 2019 12:26:12 -0400
+Received: from smtpcmd11116.aruba.it ([62.149.156.116]:49245 "EHLO
+        smtpcmd11116.aruba.it" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726430AbfDVQ0L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Apr 2019 12:26:11 -0400
+X-Greylist: delayed 420 seconds by postgrey-1.27 at vger.kernel.org; Mon, 22 Apr 2019 12:26:11 EDT
+Received: from [192.168.1.41] ([93.146.66.165])
+        by smtpcmd11.ad.aruba.it with bizsmtp
+        id 3UK92000N3Zw7e501UK9sx; Mon, 22 Apr 2019 18:19:10 +0200
+Subject: Re: [PATCH v2 27/79] docs: pps.txt: convert to ReST and rename to
+ pps.rst
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
 References: <cover.1555938375.git.mchehab+samsung@kernel.org>
- <21d7862dfaaa7a587469aacf7b8a2e55cf705bfd.1555938376.git.mchehab+samsung@kernel.org>
+ <d6ffab20421f56b72a596cc99197667ea6da99ff.1555938376.git.mchehab+samsung@kernel.org>
+From:   Rodolfo Giometti <giometti@enneenne.com>
+Message-ID: <d48b0aa4-2a22-933e-6e32-93405c5c7292@enneenne.com>
+Date:   Mon, 22 Apr 2019 18:19:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <21d7862dfaaa7a587469aacf7b8a2e55cf705bfd.1555938376.git.mchehab+samsung@kernel.org>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <d6ffab20421f56b72a596cc99197667ea6da99ff.1555938376.git.mchehab+samsung@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aruba.it; s=a1;
+        t=1555949950; bh=EK4nSe1YJWsvw1duFBAabXZBUkvpQ+dEm7Zr/3gBFS8=;
+        h=Subject:To:From:Date:MIME-Version:Content-Type;
+        b=aYWWVUmThbT2LO5VqbwP+wy9HSTMvsupcaugs5oWLo18FcA16bTeGnjSNusK0tU0N
+         zizUE4QCFUCQARiU/cgwr/sxK77dpk/+jx/1AOKTuRVd/lL+Z3lOldoLodk0J8G7Bk
+         lik4QmGWxFR/Ek70935fHl4zfaVbFVPkmr9kWpWtcgqtVHZ2joeYa7S8YklqKBu/XL
+         mzsId+RHfb0taEw6V9i1kpt0NwBM5wJGtwlcF/QiwRDHYc2l5tIWm66orXS1xIYHmz
+         xyQgl9N50aA1VlV6t28Cc0V5OorosXc/4zi+gBeqbKTGLeCHiXajq9TXcHlZyXvm8l
+         yaQ+HK5Sq44aQ==
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 22, 2019 at 10:27:17AM -0300, Mauro Carvalho Chehab wrote:
-> The conversion is trivial: just adjust title markups.
+On 22/04/2019 15:27, Mauro Carvalho Chehab wrote:
+> This file is already in a good shape: just its title and
+> adding some literal block markups is needed for it to be
+> part of the document.
+> 
+> While it has a small chapter with sysfs stuff, most of
+> the document is focused on driver development.
+> 
+> As it describes a kernel API, move it to the driver-api
+> directory.
 > 
 > In order to avoid conflicts, let's add an :orphan: tag
-> to it, to be removed when this file gets added to the
-> driver-api book.
+> to it, to be removed when added to the driver-api book.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-Acked-by: Richard Cochran <richardcochran@gmail.com>
+Acked-by: Rodolfo Giometti <giometti@enneenne.com>
+
+-- 
+GNU/Linux Solutions                  e-mail: giometti@enneenne.com
+Linux Device Driver                          giometti@linux.it
+Embedded Systems                     phone:  +39 349 2432127
+UNIX programming                     skype:  rodolfo.giometti
