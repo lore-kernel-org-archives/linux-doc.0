@@ -5,58 +5,54 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EBFF77D91A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Apr 2019 13:35:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3A7807D926
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Apr 2019 13:35:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727480AbfDVNe2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Apr 2019 09:34:28 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:37508 "EHLO
+        id S1727496AbfDVNem (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Apr 2019 09:34:42 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:37472 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727496AbfDVN2S (ORCPT
+        with ESMTP id S1727483AbfDVN2S (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Apr 2019 09:28:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-        To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=WOSFr6JIpHIz9AW26zzmEIyXmQVyYYSMHuI6Mabmr4k=; b=OufqaBCB2kBR0NlimVK5RBIWnY
-        yE/8QDwKUBS87baDfBzvnDEtGDuOlzgiAwHiNJ1/s/wL2V0q2BxAf3YgK5u20jVn51ZUL81EfCj6F
-        8zz+1zmPCPfYTEulweD6aSKppkg6oEbZfdw0J16shbNUA7KRhUkQF+1/VrkSbCkO+2Xnq1BwVEEmN
-        ncgth5hnUnDazLYwPa/Ycj6CPp7HfcjzBHwLCG/AqiC0LcwhRX6qm2ZcBRzChSnmmPX3qQgqqJvnb
-        hjdKqEmv7veJ/G+lzGVCJWmpfYAGTtkRSw2xaJgs93NtCBCukJ/3gc2+TK8HNF+wtN83PcbPJxQK6
-        gKTsEHFA==;
+        bh=gdSJGy4yadqVvI8gq4YA9aqS9a3CA3ecHZ7Izvg6NGI=; b=LDZfkQ14YzgXCzD6nHwqTIsxoD
+        UdOPMmogRkWu68yjGaz3jjTIPl+cXVwGyMsNEg1WpLmS4VJAomvfIoPUwjFliwQo2UlXUzyyNCHBz
+        gVQYWYElPGMgsMN1PjHXteDcsP3U3gWZIspC1zhiyT8tj+YdbhuQF4gtOwqVWTZFGcnzlfmtVViw3
+        SnqCCCr88LnL3OljZlNidfTFYQ5EuigfAtXjFaITmKu62DM4gdlKrKPgYQov6rIp6SixHwVWeFDnO
+        K51WEp7b9HXiEiDfK6AmWWZXhilzIouMVqWenaHk7drPSIuv3RFUoJcmPYLbNAMl3D/6Ef0NqgdM/
+        vhZ7sHxw==;
 Received: from 179.176.125.229.dynamic.adsl.gvt.net.br ([179.176.125.229] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hIYzY-0005HX-QJ; Mon, 22 Apr 2019 13:28:17 +0000
+        id 1hIYzY-0005Hg-S0; Mon, 22 Apr 2019 13:28:17 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hIYzU-0005p9-IN; Mon, 22 Apr 2019 10:28:12 -0300
+        id 1hIYzU-0005pY-O4; Mon, 22 Apr 2019 10:28:12 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Keith Busch <keith.busch@intel.com>,
-        Ira Weiny <ira.weiny@intel.com>, linux-nvdimm@lists.01.org
-Subject: [PATCH v2 70/79] docs: nvdimm: convert to ReST
-Date:   Mon, 22 Apr 2019 10:27:59 -0300
-Message-Id: <64796709d3479b914d99381c4ada29802ce26c32.1555938376.git.mchehab+samsung@kernel.org>
+        Matt Porter <mporter@kernel.crashing.org>,
+        Alexandre Bounine <alex.bou9@gmail.com>
+Subject: [PATCH v2 75/79] docs: rapidio: convert to ReST
+Date:   Mon, 22 Apr 2019 10:28:04 -0300
+Message-Id: <28cc285931ac302d0fddd2e094196c17a2ff46c0.1555938376.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1555938375.git.mchehab+samsung@kernel.org>
 References: <cover.1555938375.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rename the mtd documentation files to ReST, add an
+Rename the rapidio documentation files to ReST, add an
 index for them and adjust in order to produce a nice html
 output via the Sphinx build system.
 
@@ -65,1153 +61,591 @@ the main index.rst file, in order to avoid build warnings.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/nvdimm/{btt.txt => btt.rst}     | 139 ++---
- Documentation/nvdimm/index.rst                |  12 +
- .../nvdimm/{nvdimm.txt => nvdimm.rst}         | 518 ++++++++++--------
- .../nvdimm/{security.txt => security.rst}     |   4 +-
- drivers/nvdimm/Kconfig                        |   2 +-
- 5 files changed, 388 insertions(+), 287 deletions(-)
- rename Documentation/nvdimm/{btt.txt => btt.rst} (71%)
- create mode 100644 Documentation/nvdimm/index.rst
- rename Documentation/nvdimm/{nvdimm.txt => nvdimm.rst} (60%)
- rename Documentation/nvdimm/{security.txt => security.rst} (99%)
+ Documentation/rapidio/index.rst               | 15 +++++
+ .../{mport_cdev.txt => mport_cdev.rst}        | 47 ++++++-------
+ .../rapidio/{rapidio.txt => rapidio.rst}      | 39 +++++++----
+ .../rapidio/{rio_cm.txt => rio_cm.rst}        | 66 ++++++++++++-------
+ .../rapidio/{sysfs.txt => sysfs.rst}          |  4 ++
+ .../rapidio/{tsi721.txt => tsi721.rst}        | 45 ++++++++-----
+ drivers/rapidio/Kconfig                       |  2 +-
+ 7 files changed, 141 insertions(+), 77 deletions(-)
+ create mode 100644 Documentation/rapidio/index.rst
+ rename Documentation/rapidio/{mport_cdev.txt => mport_cdev.rst} (84%)
+ rename Documentation/rapidio/{rapidio.txt => rapidio.rst} (97%)
+ rename Documentation/rapidio/{rio_cm.txt => rio_cm.rst} (76%)
+ rename Documentation/rapidio/{sysfs.txt => sysfs.rst} (75%)
+ rename Documentation/rapidio/{tsi721.txt => tsi721.rst} (79%)
 
-diff --git a/Documentation/nvdimm/btt.txt b/Documentation/nvdimm/btt.rst
-similarity index 71%
-rename from Documentation/nvdimm/btt.txt
-rename to Documentation/nvdimm/btt.rst
-index e293fb664924..20727c9bbbe5 100644
---- a/Documentation/nvdimm/btt.txt
-+++ b/Documentation/nvdimm/btt.rst
-@@ -1,9 +1,10 @@
-+=============================
- BTT - Block Translation Table
- =============================
- 
- 
- 1. Introduction
-----------------
-+===============
- 
- Persistent memory based storage is able to perform IO at byte (or more
- accurately, cache line) granularity. However, we often want to expose such
-@@ -25,7 +26,7 @@ provides atomic sector updates.
- 
- 
- 2. Static Layout
------------------
-+================
- 
- The underlying storage on which a BTT can be laid out is not limited in any way.
- The BTT, however, splits the available space into chunks of up to 512 GiB,
-@@ -33,43 +34,43 @@ called "Arenas".
- 
- Each arena follows the same layout for its metadata, and all references in an
- arena are internal to it (with the exception of one field that points to the
--next arena). The following depicts the "On-disk" metadata layout:
-+next arena). The following depicts the "On-disk" metadata layout::
- 
- 
--  Backing Store     +------->  Arena
--+---------------+   |   +------------------+
--|               |   |   | Arena info block |
--|    Arena 0    +---+   |       4K         |
--|     512G      |       +------------------+
--|               |       |                  |
--+---------------+       |                  |
--|               |       |                  |
--|    Arena 1    |       |   Data Blocks    |
--|     512G      |       |                  |
--|               |       |                  |
--+---------------+       |                  |
--|       .       |       |                  |
--|       .       |       |                  |
--|       .       |       |                  |
--|               |       |                  |
--|               |       |                  |
--+---------------+       +------------------+
--                        |                  |
--                        |     BTT Map      |
--                        |                  |
--                        |                  |
--                        +------------------+
--                        |                  |
--                        |     BTT Flog     |
--                        |                  |
--                        +------------------+
--                        | Info block copy  |
--                        |       4K         |
--                        +------------------+
-+    Backing Store     +------->  Arena
-+  +---------------+   |   +------------------+
-+  |               |   |   | Arena info block |
-+  |    Arena 0    +---+   |       4K         |
-+  |     512G      |       +------------------+
-+  |               |       |                  |
-+  +---------------+       |                  |
-+  |               |       |                  |
-+  |    Arena 1    |       |   Data Blocks    |
-+  |     512G      |       |                  |
-+  |               |       |                  |
-+  +---------------+       |                  |
-+  |       .       |       |                  |
-+  |       .       |       |                  |
-+  |       .       |       |                  |
-+  |               |       |                  |
-+  |               |       |                  |
-+  +---------------+       +------------------+
-+                          |                  |
-+                          |     BTT Map      |
-+                          |                  |
-+                          |                  |
-+                          +------------------+
-+                          |                  |
-+                          |     BTT Flog     |
-+                          |                  |
-+                          +------------------+
-+                          | Info block copy  |
-+                          |       4K         |
-+                          +------------------+
- 
- 
- 3. Theory of Operation
------------------------
-+======================
- 
- 
- a. The BTT Map
-@@ -79,31 +80,37 @@ The map is a simple lookup/indirection table that maps an LBA to an internal
- block. Each map entry is 32 bits. The two most significant bits are special
- flags, and the remaining form the internal block number.
- 
-+======== =============================================================
- Bit      Description
--31 - 30	: Error and Zero flags - Used in the following way:
--	 Bit		      Description
--	31 30
--	-----------------------------------------------------------------------
--	 00	Initial state. Reads return zeroes; Premap = Postmap
--	 01	Zero state: Reads return zeroes
--	 10	Error state: Reads fail; Writes clear 'E' bit
--	 11	Normal Block – has valid postmap
-+======== =============================================================
-+31 - 30	 Error and Zero flags - Used in the following way:
- 
-+	   == ==  ====================================================
-+	   31 30  Description
-+	   == ==  ====================================================
-+	   0  0	  Initial state. Reads return zeroes; Premap = Postmap
-+	   0  1	  Zero state: Reads return zeroes
-+	   1  0	  Error state: Reads fail; Writes clear 'E' bit
-+	   1  1	  Normal Block – has valid postmap
-+	   == ==  ====================================================
- 
--29 - 0	: Mappings to internal 'postmap' blocks
-+29 - 0	 Mappings to internal 'postmap' blocks
-+======== =============================================================
- 
- 
- Some of the terminology that will be subsequently used:
- 
--External LBA  : LBA as made visible to upper layers.
--ABA           : Arena Block Address - Block offset/number within an arena
--Premap ABA    : The block offset into an arena, which was decided upon by range
-+============	================================================================
-+External LBA	LBA as made visible to upper layers.
-+ABA		Arena Block Address - Block offset/number within an arena
-+Premap ABA	The block offset into an arena, which was decided upon by range
- 		checking the External LBA
--Postmap ABA   : The block number in the "Data Blocks" area obtained after
-+Postmap ABA	The block number in the "Data Blocks" area obtained after
- 		indirection from the map
--nfree	      : The number of free blocks that are maintained at any given time.
-+nfree		The number of free blocks that are maintained at any given time.
- 		This is the number of concurrent writes that can happen to the
- 		arena.
-+============	================================================================
- 
- 
- For example, after adding a BTT, we surface a disk of 1024G. We get a read for
-@@ -121,19 +128,21 @@ i.e. Every write goes to a "free" block. A running list of free blocks is
- maintained in the form of the BTT flog. 'Flog' is a combination of the words
- "free list" and "log". The flog contains 'nfree' entries, and an entry contains:
- 
--lba     : The premap ABA that is being written to
--old_map : The old postmap ABA - after 'this' write completes, this will be a
-+========  =====================================================================
-+lba       The premap ABA that is being written to
-+old_map   The old postmap ABA - after 'this' write completes, this will be a
- 	  free block.
--new_map : The new postmap ABA. The map will up updated to reflect this
-+new_map   The new postmap ABA. The map will up updated to reflect this
- 	  lba->postmap_aba mapping, but we log it here in case we have to
- 	  recover.
--seq	: Sequence number to mark which of the 2 sections of this flog entry is
-+seq	  Sequence number to mark which of the 2 sections of this flog entry is
- 	  valid/newest. It cycles between 01->10->11->01 (binary) under normal
- 	  operation, with 00 indicating an uninitialized state.
--lba'	: alternate lba entry
--old_map': alternate old postmap entry
--new_map': alternate new postmap entry
--seq'	: alternate sequence number.
-+lba'	  alternate lba entry
-+old_map'  alternate old postmap entry
-+new_map'  alternate new postmap entry
-+seq'	  alternate sequence number.
-+========  =====================================================================
- 
- Each of the above fields is 32-bit, making one entry 32 bytes. Entries are also
- padded to 64 bytes to avoid cache line sharing or aliasing. Flog updates are
-@@ -147,8 +156,10 @@ c. The concept of lanes
- 
- While 'nfree' describes the number of concurrent IOs an arena can process
- concurrently, 'nlanes' is the number of IOs the BTT device as a whole can
--process.
-- nlanes = min(nfree, num_cpus)
-+process::
-+
-+	nlanes = min(nfree, num_cpus)
-+
- A lane number is obtained at the start of any IO, and is used for indexing into
- all the on-disk and in-memory data structures for the duration of the IO. If
- there are more CPUs than the max number of available lanes, than lanes are
-@@ -180,10 +191,10 @@ e. In-memory data structure: map locks
- --------------------------------------
- 
- Consider a case where two writer threads are writing to the same LBA. There can
--be a race in the following sequence of steps:
-+be a race in the following sequence of steps::
- 
--free[lane] = map[premap_aba]
--map[premap_aba] = postmap_aba
-+	free[lane] = map[premap_aba]
-+	map[premap_aba] = postmap_aba
- 
- Both threads can update their respective free[lane] with the same old, freed
- postmap_aba. This has made the layout inconsistent by losing a free entry, and
-@@ -202,6 +213,7 @@ On startup, we analyze the BTT flog to create our list of free blocks. We walk
- through all the entries, and for each lane, of the set of two possible
- 'sections', we always look at the most recent one only (based on the sequence
- number). The reconstruction rules/steps are simple:
-+
- - Read map[log_entry.lba].
- - If log_entry.new matches the map entry, then log_entry.old is free.
- - If log_entry.new does not match the map entry, then log_entry.new is free.
-@@ -228,7 +240,7 @@ Write:
- 1.  Convert external LBA to Arena number + pre-map ABA
- 2.  Get a lane (and take lane_lock)
- 3.  Use lane to index into in-memory free list and obtain a new block, next flog
--        index, next sequence number
-+    index, next sequence number
- 4.  Scan the RTT to check if free block is present, and spin/wait if it is.
- 5.  Write data to this free block
- 6.  Read map to get the existing post-map ABA entry for this pre-map ABA
-@@ -245,6 +257,7 @@ Write:
- An arena would be in an error state if any of the metadata is corrupted
- irrecoverably, either due to a bug or a media error. The following conditions
- indicate an error:
-+
- - Info block checksum does not match (and recovering from the copy also fails)
- - All internal available blocks are not uniquely and entirely addressed by the
-   sum of mapped blocks and free blocks (from the BTT flog).
-@@ -263,7 +276,7 @@ The BTT can be set up on any disk (namespace) exposed by the libnvdimm subsystem
- (pmem, or blk mode). The easiest way to set up such a namespace is using the
- 'ndctl' utility [1]:
- 
--For example, the ndctl command line to setup a btt with a 4k sector size is:
-+For example, the ndctl command line to setup a btt with a 4k sector size is::
- 
-     ndctl create-namespace -f -e namespace0.0 -m sector -l 4k
- 
-diff --git a/Documentation/nvdimm/index.rst b/Documentation/nvdimm/index.rst
+diff --git a/Documentation/rapidio/index.rst b/Documentation/rapidio/index.rst
 new file mode 100644
-index 000000000000..1a3402d3775e
+index 000000000000..ab7b5541b346
 --- /dev/null
-+++ b/Documentation/nvdimm/index.rst
-@@ -0,0 +1,12 @@
++++ b/Documentation/rapidio/index.rst
+@@ -0,0 +1,15 @@
 +:orphan:
 +
-+===================================
-+Non-Volatile Memory Device (NVDIMM)
-+===================================
++===========================
++The Linux RapidIO Subsystem
++===========================
 +
 +.. toctree::
 +   :maxdepth: 1
 +
-+   nvdimm
-+   btt
-+   security
-diff --git a/Documentation/nvdimm/nvdimm.txt b/Documentation/nvdimm/nvdimm.rst
-similarity index 60%
-rename from Documentation/nvdimm/nvdimm.txt
-rename to Documentation/nvdimm/nvdimm.rst
-index e894de69915a..e47da39c8e20 100644
---- a/Documentation/nvdimm/nvdimm.txt
-+++ b/Documentation/nvdimm/nvdimm.rst
-@@ -1,8 +1,14 @@
--			  LIBNVDIMM: Non-Volatile Devices
--	      libnvdimm - kernel / libndctl - userspace helper library
--			   linux-nvdimm@lists.01.org
--				      v13
-+===============================
-+LIBNVDIMM: Non-Volatile Devices
-+===============================
- 
-+libnvdimm - kernel / libndctl - userspace helper library
++   rapidio
++   sysfs
 +
-+linux-nvdimm@lists.01.org
-+
-+Version 13
-+
-+.. contents:
++   tsi721
++   mport_cdev
++   rio_cm
+diff --git a/Documentation/rapidio/mport_cdev.txt b/Documentation/rapidio/mport_cdev.rst
+similarity index 84%
+rename from Documentation/rapidio/mport_cdev.txt
+rename to Documentation/rapidio/mport_cdev.rst
+index a53f786ee2e9..df77a7f7be7d 100644
+--- a/Documentation/rapidio/mport_cdev.txt
++++ b/Documentation/rapidio/mport_cdev.rst
+@@ -1,13 +1,9 @@
++==================================================================
+ RapidIO subsystem mport character device driver (rio_mport_cdev.c)
+ ==================================================================
  
- 	Glossary
- 	Overview
-@@ -40,49 +46,57 @@
- 
- 
- Glossary
----------
+-Version History:
+-----------------
+-  1.0.0 - Initial driver release.
 -
--PMEM: A system-physical-address range where writes are persistent.  A
--block device composed of PMEM is capable of DAX.  A PMEM address range
--may span an interleave of several DIMMs.
+-==================================================================
 -
--BLK: A set of one or more programmable memory mapped apertures provided
--by a DIMM to access its media.  This indirection precludes the
--performance benefit of interleaving, but enables DIMM-bounded failure
--modes.
+-I. Overview
++1. Overview
++===========
+ 
+ This device driver is the result of collaboration within the RapidIO.org
+ Software Task Group (STG) between Texas Instruments, Freescale,
+@@ -29,40 +25,41 @@ Using available set of ioctl commands user-space applications can perform
+ following RapidIO bus and subsystem operations:
+ 
+ - Reads and writes from/to configuration registers of mport devices
+-    (RIO_MPORT_MAINT_READ_LOCAL/RIO_MPORT_MAINT_WRITE_LOCAL)
++  (RIO_MPORT_MAINT_READ_LOCAL/RIO_MPORT_MAINT_WRITE_LOCAL)
+ - Reads and writes from/to configuration registers of remote RapidIO devices.
+   This operations are defined as RapidIO Maintenance reads/writes in RIO spec.
+-    (RIO_MPORT_MAINT_READ_REMOTE/RIO_MPORT_MAINT_WRITE_REMOTE)
++  (RIO_MPORT_MAINT_READ_REMOTE/RIO_MPORT_MAINT_WRITE_REMOTE)
+ - Set RapidIO Destination ID for mport devices (RIO_MPORT_MAINT_HDID_SET)
+ - Set RapidIO Component Tag for mport devices (RIO_MPORT_MAINT_COMPTAG_SET)
+ - Query logical index of mport devices (RIO_MPORT_MAINT_PORT_IDX_GET)
+ - Query capabilities and RapidIO link configuration of mport devices
+-    (RIO_MPORT_GET_PROPERTIES)
++  (RIO_MPORT_GET_PROPERTIES)
+ - Enable/Disable reporting of RapidIO doorbell events to user-space applications
+-    (RIO_ENABLE_DOORBELL_RANGE/RIO_DISABLE_DOORBELL_RANGE)
++  (RIO_ENABLE_DOORBELL_RANGE/RIO_DISABLE_DOORBELL_RANGE)
+ - Enable/Disable reporting of RIO port-write events to user-space applications
+-    (RIO_ENABLE_PORTWRITE_RANGE/RIO_DISABLE_PORTWRITE_RANGE)
++  (RIO_ENABLE_PORTWRITE_RANGE/RIO_DISABLE_PORTWRITE_RANGE)
+ - Query/Control type of events reported through this driver: doorbells,
+   port-writes or both (RIO_SET_EVENT_MASK/RIO_GET_EVENT_MASK)
+ - Configure/Map mport's outbound requests window(s) for specific size,
+   RapidIO destination ID, hopcount and request type
+-    (RIO_MAP_OUTBOUND/RIO_UNMAP_OUTBOUND)
++  (RIO_MAP_OUTBOUND/RIO_UNMAP_OUTBOUND)
+ - Configure/Map mport's inbound requests window(s) for specific size,
+   RapidIO base address and local memory base address
+-    (RIO_MAP_INBOUND/RIO_UNMAP_INBOUND)
++  (RIO_MAP_INBOUND/RIO_UNMAP_INBOUND)
+ - Allocate/Free contiguous DMA coherent memory buffer for DMA data transfers
+   to/from remote RapidIO devices (RIO_ALLOC_DMA/RIO_FREE_DMA)
+ - Initiate DMA data transfers to/from remote RapidIO devices (RIO_TRANSFER).
+   Supports blocking, asynchronous and posted (a.k.a 'fire-and-forget') data
+   transfer modes.
+ - Check/Wait for completion of asynchronous DMA data transfer
+-    (RIO_WAIT_FOR_ASYNC)
++  (RIO_WAIT_FOR_ASYNC)
+ - Manage device objects supported by RapidIO subsystem (RIO_DEV_ADD/RIO_DEV_DEL).
+   This allows implementation of various RapidIO fabric enumeration algorithms
+   as user-space applications while using remaining functionality provided by
+   kernel RapidIO subsystem.
+ 
+-II. Hardware Compatibility
++2. Hardware Compatibility
++=========================
+ 
+ This device driver uses standard interfaces defined by kernel RapidIO subsystem
+ and therefore it can be used with any mport device driver registered by RapidIO
+@@ -78,29 +75,35 @@ functionality of their platform when planning to use this driver:
+   specific DMA engine support and therefore DMA data transfers mport_cdev driver
+   are not available.
+ 
+-III. Module parameters
++3. Module parameters
++====================
+ 
+-- 'dma_timeout' - DMA transfer completion timeout (in msec, default value 3000).
++- 'dma_timeout'
++      - DMA transfer completion timeout (in msec, default value 3000).
+         This parameter set a maximum completion wait time for SYNC mode DMA
+         transfer requests and for RIO_WAIT_FOR_ASYNC ioctl requests.
+ 
+-- 'dbg_level' - This parameter allows to control amount of debug information
++- 'dbg_level'
++      - This parameter allows to control amount of debug information
+         generated by this device driver. This parameter is formed by set of
+         bit masks that correspond to the specific functional blocks.
+         For mask definitions see 'drivers/rapidio/devices/rio_mport_cdev.c'
+         This parameter can be changed dynamically.
+         Use CONFIG_RAPIDIO_DEBUG=y to enable debug output at the top level.
+ 
+-IV. Known problems
++4. Known problems
++=================
+ 
+   None.
+ 
+-V. User-space Applications and API
++5. User-space Applications and API
++==================================
+ 
+ API library and applications that use this device driver are available from
+ RapidIO.org.
+ 
+-VI. TODO List
++6. TODO List
++============
+ 
+ - Add support for sending/receiving "raw" RapidIO messaging packets.
+ - Add memory mapped DMA data transfers as an option when RapidIO-specific DMA
+diff --git a/Documentation/rapidio/rapidio.txt b/Documentation/rapidio/rapidio.rst
+similarity index 97%
+rename from Documentation/rapidio/rapidio.txt
+rename to Documentation/rapidio/rapidio.rst
+index 28fbd877f85a..fb8942d3ba85 100644
+--- a/Documentation/rapidio/rapidio.txt
++++ b/Documentation/rapidio/rapidio.rst
+@@ -1,6 +1,6 @@
+-                          The Linux RapidIO Subsystem
 -
--DPA: DIMM Physical Address, is a DIMM-relative offset.  With one DIMM in
--the system there would be a 1:1 system-physical-address:DPA association.
--Once more DIMMs are added a memory controller interleave must be
--decoded to determine the DPA associated with a given
--system-physical-address.  BLK capacity always has a 1:1 relationship
--with a single-DIMM's DPA range.
--
--DAX: File system extensions to bypass the page cache and block layer to
--mmap persistent memory, from a PMEM block device, directly into a
--process address space.
--
--DSM: Device Specific Method: ACPI method to to control specific
--device - in this case the firmware.
--
--DCR: NVDIMM Control Region Structure defined in ACPI 6 Section 5.2.25.5.
--It defines a vendor-id, device-id, and interface format for a given DIMM.
--
--BTT: Block Translation Table: Persistent memory is byte addressable.
--Existing software may have an expectation that the power-fail-atomicity
--of writes is at least one sector, 512 bytes.  The BTT is an indirection
--table with atomic update semantics to front a PMEM/BLK block device
--driver and present arbitrary atomic sector sizes.
--
--LABEL: Metadata stored on a DIMM device that partitions and identifies
--(persistently names) storage between PMEM and BLK.  It also partitions
--BLK storage to host BTTs with different parameters per BLK-partition.
--Note that traditional partition tables, GPT/MBR, are layered on top of a
--BLK or PMEM device.
-+========
-+
-+PMEM:
-+  A system-physical-address range where writes are persistent.  A
-+  block device composed of PMEM is capable of DAX.  A PMEM address range
-+  may span an interleave of several DIMMs.
-+
-+BLK:
-+  A set of one or more programmable memory mapped apertures provided
-+  by a DIMM to access its media.  This indirection precludes the
-+  performance benefit of interleaving, but enables DIMM-bounded failure
-+  modes.
-+
-+DPA:
-+  DIMM Physical Address, is a DIMM-relative offset.  With one DIMM in
-+  the system there would be a 1:1 system-physical-address:DPA association.
-+  Once more DIMMs are added a memory controller interleave must be
-+  decoded to determine the DPA associated with a given
-+  system-physical-address.  BLK capacity always has a 1:1 relationship
-+  with a single-DIMM's DPA range.
-+
-+DAX:
-+  File system extensions to bypass the page cache and block layer to
-+  mmap persistent memory, from a PMEM block device, directly into a
-+  process address space.
-+
-+DSM:
-+  Device Specific Method: ACPI method to to control specific
-+  device - in this case the firmware.
-+
-+DCR:
-+  NVDIMM Control Region Structure defined in ACPI 6 Section 5.2.25.5.
-+  It defines a vendor-id, device-id, and interface format for a given DIMM.
-+
-+BTT:
-+  Block Translation Table: Persistent memory is byte addressable.
-+  Existing software may have an expectation that the power-fail-atomicity
-+  of writes is at least one sector, 512 bytes.  The BTT is an indirection
-+  table with atomic update semantics to front a PMEM/BLK block device
-+  driver and present arbitrary atomic sector sizes.
-+
-+LABEL:
-+  Metadata stored on a DIMM device that partitions and identifies
-+  (persistently names) storage between PMEM and BLK.  It also partitions
-+  BLK storage to host BTTs with different parameters per BLK-partition.
-+  Note that traditional partition tables, GPT/MBR, are layered on top of a
-+  BLK or PMEM device.
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++============
++Introduction
++============
  
+ The RapidIO standard is a packet-based fabric interconnect standard designed for
+ use in embedded systems. Development of the RapidIO standard is directed by the
+@@ -11,7 +11,7 @@ This document describes the basics of the Linux RapidIO subsystem and provides
+ information on its major components.
  
- Overview
----------
-+========
+ 1 Overview
+-----------
++==========
  
- The LIBNVDIMM subsystem provides support for three types of NVDIMMs, namely,
- PMEM, BLK, and NVDIMM devices that can simultaneously support both PMEM
-@@ -96,19 +110,30 @@ accessible via BLK.  When that occurs a LABEL is needed to reserve DPA
- for exclusive access via one mode a time.
+ Because the RapidIO subsystem follows the Linux device model it is integrated
+ into the kernel similarly to other buses by defining RapidIO-specific device and
+@@ -22,7 +22,7 @@ architecture-specific interfaces that provide support for common RapidIO
+ subsystem operations.
  
- Supporting Documents
--ACPI 6: http://www.uefi.org/sites/default/files/resources/ACPI_6.0.pdf
--NVDIMM Namespace: http://pmem.io/documents/NVDIMM_Namespace_Spec.pdf
--DSM Interface Example: http://pmem.io/documents/NVDIMM_DSM_Interface_Example.pdf
--Driver Writer's Guide: http://pmem.io/documents/NVDIMM_Driver_Writers_Guide.pdf
-+--------------------
-+
-+ACPI 6:
-+	http://www.uefi.org/sites/default/files/resources/ACPI_6.0.pdf
-+NVDIMM Namespace:
-+	http://pmem.io/documents/NVDIMM_Namespace_Spec.pdf
-+DSM Interface Example:
-+	http://pmem.io/documents/NVDIMM_DSM_Interface_Example.pdf
-+Driver Writer's Guide:
-+	http://pmem.io/documents/NVDIMM_Driver_Writers_Guide.pdf
- 
- Git Trees
--LIBNVDIMM: https://git.kernel.org/cgit/linux/kernel/git/djbw/nvdimm.git
--LIBNDCTL: https://github.com/pmem/ndctl.git
--PMEM: https://github.com/01org/prd
-+---------
-+
-+LIBNVDIMM:
-+	https://git.kernel.org/cgit/linux/kernel/git/djbw/nvdimm.git
-+LIBNDCTL:
-+	https://github.com/pmem/ndctl.git
-+PMEM:
-+	https://github.com/01org/prd
- 
- 
- LIBNVDIMM PMEM and BLK
+ 2. Core Components
 -------------------
-+======================
++==================
  
- Prior to the arrival of the NFIT, non-volatile memory was described to a
- system in various ad-hoc ways.  Usually only the bare minimum was
-@@ -122,38 +147,39 @@ For each NVDIMM access method (PMEM, BLK), LIBNVDIMM provides a block
- device driver:
+ A typical RapidIO network is a combination of endpoints and switches.
+ Each of these components is represented in the subsystem by an associated data
+@@ -30,6 +30,7 @@ structure. The core logical components of the RapidIO subsystem are defined
+ in include/linux/rio.h file.
  
-     1. PMEM (nd_pmem.ko): Drives a system-physical-address range.  This
--    range is contiguous in system memory and may be interleaved (hardware
--    memory controller striped) across multiple DIMMs.  When interleaved the
--    platform may optionally provide details of which DIMMs are participating
--    in the interleave.
-+       range is contiguous in system memory and may be interleaved (hardware
-+       memory controller striped) across multiple DIMMs.  When interleaved the
-+       platform may optionally provide details of which DIMMs are participating
-+       in the interleave.
+ 2.1 Master Port
++---------------
  
--    Note that while LIBNVDIMM describes system-physical-address ranges that may
--    alias with BLK access as ND_NAMESPACE_PMEM ranges and those without
--    alias as ND_NAMESPACE_IO ranges, to the nd_pmem driver there is no
--    distinction.  The different device-types are an implementation detail
--    that userspace can exploit to implement policies like "only interface
--    with address ranges from certain DIMMs".  It is worth noting that when
--    aliasing is present and a DIMM lacks a label, then no block device can
--    be created by default as userspace needs to do at least one allocation
--    of DPA to the PMEM range.  In contrast ND_NAMESPACE_IO ranges, once
--    registered, can be immediately attached to nd_pmem.
-+       Note that while LIBNVDIMM describes system-physical-address ranges that may
-+       alias with BLK access as ND_NAMESPACE_PMEM ranges and those without
-+       alias as ND_NAMESPACE_IO ranges, to the nd_pmem driver there is no
-+       distinction.  The different device-types are an implementation detail
-+       that userspace can exploit to implement policies like "only interface
-+       with address ranges from certain DIMMs".  It is worth noting that when
-+       aliasing is present and a DIMM lacks a label, then no block device can
-+       be created by default as userspace needs to do at least one allocation
-+       of DPA to the PMEM range.  In contrast ND_NAMESPACE_IO ranges, once
-+       registered, can be immediately attached to nd_pmem.
+ A master port (or mport) is a RapidIO interface controller that is local to the
+ processor executing the Linux code. A master port generates and receives RapidIO
+@@ -46,6 +47,7 @@ includes rio_ops data structure which contains pointers to hardware specific
+ implementations of RapidIO functions.
  
-     2. BLK (nd_blk.ko): This driver performs I/O using a set of platform
--    defined apertures.  A set of apertures will access just one DIMM.
--    Multiple windows (apertures) allow multiple concurrent accesses, much like
--    tagged-command-queuing, and would likely be used by different threads or
--    different CPUs.
-+       defined apertures.  A set of apertures will access just one DIMM.
-+       Multiple windows (apertures) allow multiple concurrent accesses, much like
-+       tagged-command-queuing, and would likely be used by different threads or
-+       different CPUs.
+ 2.2 Device
++----------
  
--    The NFIT specification defines a standard format for a BLK-aperture, but
--    the spec also allows for vendor specific layouts, and non-NFIT BLK
--    implementations may have other designs for BLK I/O.  For this reason
--    "nd_blk" calls back into platform-specific code to perform the I/O.
--    One such implementation is defined in the "Driver Writer's Guide" and "DSM
--    Interface Example".
-+       The NFIT specification defines a standard format for a BLK-aperture, but
-+       the spec also allows for vendor specific layouts, and non-NFIT BLK
-+       implementations may have other designs for BLK I/O.  For this reason
-+       "nd_blk" calls back into platform-specific code to perform the I/O.
-+
-+       One such implementation is defined in the "Driver Writer's Guide" and "DSM
-+       Interface Example".
+ A RapidIO device is any endpoint (other than mport) or switch in the network.
+ All devices are presented in the RapidIO subsystem by corresponding rio_dev data
+@@ -53,6 +55,7 @@ structure. Devices form one global device list and per-network device lists
+ (depending on number of available mports and networks).
  
+ 2.3 Switch
++----------
  
- Why BLK?
----------
-+========
+ A RapidIO switch is a special class of device that routes packets between its
+ ports towards their final destination. The packet destination port within a
+@@ -66,6 +69,7 @@ specific switch drivers that are designed to provide hardware-specific
+ implementation of common switch management routines.
  
- While PMEM provides direct byte-addressable CPU-load/store access to
- NVDIMM storage, it does not provide the best system RAS (recovery,
-@@ -162,12 +188,15 @@ system-physical-address address causes a CPU exception while an access
- to a corrupted address through an BLK-aperture causes that block window
- to raise an error status in a register.  The latter is more aligned with
- the standard error model that host-bus-adapter attached disks present.
-+
- Also, if an administrator ever wants to replace a memory it is easier to
- service a system at DIMM module boundaries.  Compare this to PMEM where
- data could be interleaved in an opaque hardware specific manner across
- several DIMMs.
- 
- PMEM vs BLK
+ 2.4 Network
 +-----------
-+
- BLK-apertures solve these RAS problems, but their presence is also the
- major contributing factor to the complexity of the ND subsystem.  They
- complicate the implementation because PMEM and BLK alias in DPA space.
-@@ -185,13 +214,14 @@ carved into an arbitrary number of BLK devices with discontiguous
- extents.
  
- BLK-REGIONs, PMEM-REGIONs, Atomic Sectors, and DAX
----------------------------------------------------
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ A RapidIO network is a combination of interconnected endpoint and switch devices.
+ Each RapidIO network known to the system is represented by corresponding rio_net
+@@ -74,11 +78,13 @@ ports that form the same network. It also contains a pointer to the default
+ master port that is used to communicate with devices within the network.
  
- One of the few
- reasons to allow multiple BLK namespaces per REGION is so that each
- BLK-namespace can be configured with a BTT with unique atomic sector
- sizes.  While a PMEM device can host a BTT the LABEL specification does
- not provide for a sector size to be specified for a PMEM namespace.
-+
- This is due to the expectation that the primary usage model for PMEM is
- via DAX, and the BTT is incompatible with DAX.  However, for the cases
- where an application or filesystem still needs atomic sector update
-@@ -200,52 +230,52 @@ LIBNVDIMM/NDCTL: Block Translation Table "btt"
+ 2.5 Device Drivers
++------------------
  
+ RapidIO device-specific drivers follow Linux Kernel Driver Model and are
+ intended to support specific RapidIO devices attached to the RapidIO network.
  
- Example NVDIMM Platform
-------------------------
-+=======================
+ 2.6 Subsystem Interfaces
++------------------------
  
- For the remainder of this document the following diagram will be
--referenced for any example sysfs layouts.
-+referenced for any example sysfs layouts::
+ RapidIO interconnect specification defines features that may be used to provide
+ one or more common service layers for all participating RapidIO devices. These
+@@ -90,7 +96,7 @@ subsystem interfaces. This allows to have multiple common services attached to
+ the same device without blocking attachment of a device-specific driver.
  
- 
--                             (a)               (b)           DIMM   BLK-REGION
--          +-------------------+--------+--------+--------+
--+------+  |       pm0.0       | blk2.0 | pm1.0  | blk2.1 |    0      region2
--| imc0 +--+- - - region0- - - +--------+        +--------+
--+--+---+  |       pm0.0       | blk3.0 | pm1.0  | blk3.1 |    1      region3
--   |      +-------------------+--------v        v--------+
--+--+---+                               |                 |
--| cpu0 |                                     region1
--+--+---+                               |                 |
--   |      +----------------------------^        ^--------+
--+--+---+  |           blk4.0           | pm1.0  | blk4.0 |    2      region4
--| imc1 +--+----------------------------|        +--------+
--+------+  |           blk5.0           | pm1.0  | blk5.0 |    3      region5
--          +----------------------------+--------+--------+
-+                               (a)               (b)           DIMM   BLK-REGION
-+            +-------------------+--------+--------+--------+
-+  +------+  |       pm0.0       | blk2.0 | pm1.0  | blk2.1 |    0      region2
-+  | imc0 +--+- - - region0- - - +--------+        +--------+
-+  +--+---+  |       pm0.0       | blk3.0 | pm1.0  | blk3.1 |    1      region3
-+     |      +-------------------+--------v        v--------+
-+  +--+---+                               |                 |
-+  | cpu0 |                                     region1
-+  +--+---+                               |                 |
-+     |      +----------------------------^        ^--------+
-+  +--+---+  |           blk4.0           | pm1.0  | blk4.0 |    2      region4
-+  | imc1 +--+----------------------------|        +--------+
-+  +------+  |           blk5.0           | pm1.0  | blk5.0 |    3      region5
-+            +----------------------------+--------+--------+
- 
- In this platform we have four DIMMs and two memory controllers in one
- socket.  Each unique interface (BLK or PMEM) to DPA space is identified
- by a region device with a dynamically assigned id (REGION0 - REGION5).
- 
-     1. The first portion of DIMM0 and DIMM1 are interleaved as REGION0. A
--    single PMEM namespace is created in the REGION0-SPA-range that spans most
--    of DIMM0 and DIMM1 with a user-specified name of "pm0.0". Some of that
--    interleaved system-physical-address range is reclaimed as BLK-aperture
--    accessed space starting at DPA-offset (a) into each DIMM.  In that
--    reclaimed space we create two BLK-aperture "namespaces" from REGION2 and
--    REGION3 where "blk2.0" and "blk3.0" are just human readable names that
--    could be set to any user-desired name in the LABEL.
-+       single PMEM namespace is created in the REGION0-SPA-range that spans most
-+       of DIMM0 and DIMM1 with a user-specified name of "pm0.0". Some of that
-+       interleaved system-physical-address range is reclaimed as BLK-aperture
-+       accessed space starting at DPA-offset (a) into each DIMM.  In that
-+       reclaimed space we create two BLK-aperture "namespaces" from REGION2 and
-+       REGION3 where "blk2.0" and "blk3.0" are just human readable names that
-+       could be set to any user-desired name in the LABEL.
- 
-     2. In the last portion of DIMM0 and DIMM1 we have an interleaved
--    system-physical-address range, REGION1, that spans those two DIMMs as
--    well as DIMM2 and DIMM3.  Some of REGION1 is allocated to a PMEM namespace
--    named "pm1.0", the rest is reclaimed in 4 BLK-aperture namespaces (for
--    each DIMM in the interleave set), "blk2.1", "blk3.1", "blk4.0", and
--    "blk5.0".
-+       system-physical-address range, REGION1, that spans those two DIMMs as
-+       well as DIMM2 and DIMM3.  Some of REGION1 is allocated to a PMEM namespace
-+       named "pm1.0", the rest is reclaimed in 4 BLK-aperture namespaces (for
-+       each DIMM in the interleave set), "blk2.1", "blk3.1", "blk4.0", and
-+       "blk5.0".
- 
-     3. The portion of DIMM2 and DIMM3 that do not participate in the REGION1
--    interleaved system-physical-address range (i.e. the DPA address past
--    offset (b) are also included in the "blk4.0" and "blk5.0" namespaces.
--    Note, that this example shows that BLK-aperture namespaces don't need to
--    be contiguous in DPA-space.
-+       interleaved system-physical-address range (i.e. the DPA address past
-+       offset (b) are also included in the "blk4.0" and "blk5.0" namespaces.
-+       Note, that this example shows that BLK-aperture namespaces don't need to
-+       be contiguous in DPA-space.
- 
-     This bus is provided by the kernel under the device
-     /sys/devices/platform/nfit_test.0 when CONFIG_NFIT_TEST is enabled and
-@@ -254,7 +284,7 @@ by a region device with a dynamically assigned id (REGION0 - REGION5).
- 
- 
- LIBNVDIMM Kernel Device Model and LIBNDCTL Userspace API
------------------------------------------------------
-+========================================================
- 
- What follows is a description of the LIBNVDIMM sysfs layout and a
- corresponding object hierarchy diagram as viewed through the LIBNDCTL
-@@ -263,12 +293,18 @@ NVDIMM Platform which is also the LIBNVDIMM bus used in the LIBNDCTL unit
- test.
- 
- LIBNDCTL: Context
-+-----------------
-+
- Every API call in the LIBNDCTL library requires a context that holds the
- logging parameters and other library instance state.  The library is
- based on the libabc template:
--https://git.kernel.org/cgit/linux/kernel/git/kay/libabc.git
-+
-+	https://git.kernel.org/cgit/linux/kernel/git/kay/libabc.git
- 
- LIBNDCTL: instantiate a new library context example
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+::
- 
- 	struct ndctl_ctx *ctx;
- 
-@@ -278,7 +314,7 @@ LIBNDCTL: instantiate a new library context example
- 		return NULL;
- 
- LIBNVDIMM/LIBNDCTL: Bus
---------------------
-+-----------------------
- 
- A bus has a 1:1 relationship with an NFIT.  The current expectation for
- ACPI based systems is that there is only ever one platform-global NFIT.
-@@ -288,9 +324,10 @@ we we use this capability to test multiple NFIT configurations in the
- unit test.
- 
- LIBNVDIMM: control class device in /sys/class
-+---------------------------------------------
- 
- This character device accepts DSM messages to be passed to DIMM
--identified by its NFIT handle.
-+identified by its NFIT handle::
- 
- 	/sys/class/nd/ndctl0
- 	|-- dev
-@@ -300,10 +337,15 @@ identified by its NFIT handle.
- 
- 
- LIBNVDIMM: bus
-+--------------
-+
-+::
- 
- 	struct nvdimm_bus *nvdimm_bus_register(struct device *parent,
- 	       struct nvdimm_bus_descriptor *nfit_desc);
- 
-+::
-+
- 	/sys/devices/platform/nfit_test.0/ndbus0
- 	|-- commands
- 	|-- nd
-@@ -324,7 +366,9 @@ LIBNVDIMM: bus
- 	`-- wait_probe
- 
- LIBNDCTL: bus enumeration example
--Find the bus handle that describes the bus from Example NVDIMM Platform
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+Find the bus handle that describes the bus from Example NVDIMM Platform::
- 
- 	static struct ndctl_bus *get_bus_by_provider(struct ndctl_ctx *ctx,
- 			const char *provider)
-@@ -342,7 +386,7 @@ Find the bus handle that describes the bus from Example NVDIMM Platform
- 
- 
- LIBNVDIMM/LIBNDCTL: DIMM (NMEM)
+ 3. Subsystem Initialization
 ----------------------------
-+-------------------------------
++===========================
  
- The DIMM device provides a character device for sending commands to
- hardware, and it is a container for LABELs.  If the DIMM is defined by
-@@ -355,11 +399,16 @@ Range Mapping Structure", and there is no requirement that they actually
- be physical DIMMs, so we use a more generic name.
+ In order to initialize the RapidIO subsystem, a platform must initialize and
+ register at least one master port within the RapidIO network. To register mport
+@@ -105,7 +111,7 @@ RapidIO subsystem can be configured to be built as a statically linked or
+ modular component of the kernel (see details below).
  
- LIBNVDIMM: DIMM (NMEM)
-+^^^^^^^^^^^^^^^^^^^^^^
+ 4. Enumeration and Discovery
+-----------------------------
++============================
+ 
+ 4.1 Overview
+ ------------
+@@ -168,14 +174,16 @@ on RapidIO subsystem build configuration:
+   (b) If the RapidIO subsystem core is built as a loadable module, in addition
+   to the method shown above, the host destination ID(s) can be specified using
+   traditional methods of passing module parameter "hdid=" during its loading:
 +
-+::
+   - from command line: "modprobe rapidio hdid=-1,7", or
+   - from modprobe configuration file using configuration command "options",
+     like in this example: "options rapidio hdid=-1,7". An example of modprobe
+     configuration file is provided in the section below.
  
- 	struct nvdimm *nvdimm_create(struct nvdimm_bus *nvdimm_bus, void *provider_data,
- 			const struct attribute_group **groups, unsigned long flags,
- 			unsigned long *dsm_mask);
- 
-+::
+-  NOTES:
++NOTES:
+   (i) if "hdid=" parameter is omitted all available mport will be assigned
+   destination ID = -1;
 +
- 	/sys/devices/platform/nfit_test.0/ndbus0
- 	|-- nmem0
- 	|   |-- available_slots
-@@ -384,15 +433,20 @@ LIBNVDIMM: DIMM (NMEM)
+   (ii) the "hdid=" parameter in systems with multiple mports can have
+   destination ID assignments omitted from the end of list (default = -1).
  
+@@ -317,8 +325,7 @@ must ensure that they are loaded before the enumeration/discovery starts.
+ This process can be automated by specifying pre- or post- dependencies in the
+ RapidIO-specific modprobe configuration file as shown in the example below.
  
- LIBNDCTL: DIMM enumeration example
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-  File /etc/modprobe.d/rapidio.conf:
+-  ----------------------------------
++File /etc/modprobe.d/rapidio.conf::
  
- Note, in this example we are assuming NFIT-defined DIMMs which are
- identified by an "nfit_handle" a 32-bit value where:
--Bit 3:0 DIMM number within the memory channel
--Bit 7:4 memory channel number
--Bit 11:8 memory controller ID
--Bit 15:12 socket ID (within scope of a Node controller if node controller is present)
--Bit 27:16 Node Controller ID
--Bit 31:28 Reserved
+   # Configure RapidIO subsystem modules
+ 
+@@ -335,17 +342,21 @@ RapidIO-specific modprobe configuration file as shown in the example below.
+ 
+   --------------------------
+ 
+-NOTE: In the example above, one of "softdep" commands must be removed or
+-commented out to keep required module loading sequence.
++NOTE:
++  In the example above, one of "softdep" commands must be removed or
++  commented out to keep required module loading sequence.
+ 
+-A. References
+--------------
++5. References
++=============
+ 
+ [1] RapidIO Trade Association. RapidIO Interconnect Specifications.
+     http://www.rapidio.org.
 +
-+   - Bit 3:0 DIMM number within the memory channel
-+   - Bit 7:4 memory channel number
-+   - Bit 11:8 memory controller ID
-+   - Bit 15:12 socket ID (within scope of a Node controller if node
-+     controller is present)
-+   - Bit 27:16 Node Controller ID
-+   - Bit 31:28 Reserved
+ [2] Rapidio TA. Technology Comparisons.
+     http://www.rapidio.org/education/technology_comparisons/
 +
-+::
- 
- 	static struct ndctl_dimm *get_dimm_by_handle(struct ndctl_bus *bus,
- 	       unsigned int handle)
-@@ -413,7 +467,7 @@ Bit 31:28 Reserved
- 	dimm = get_dimm_by_handle(bus, DIMM_HANDLE(0, 0, 0, 0, 0));
- 
- LIBNVDIMM/LIBNDCTL: Region
------------------------
-+--------------------------
- 
- A generic REGION device is registered for each PMEM range or BLK-aperture
- set.  Per the example there are 6 regions: 2 PMEM and 4 BLK-aperture
-@@ -435,13 +489,15 @@ emits, "devtype" duplicates the DEVTYPE variable stored by udev at the
- at the 'add' event, and finally, the optional "spa_index" is provided in
- the case where the region is defined by a SPA.
- 
--LIBNVDIMM: region
-+LIBNVDIMM: region::
- 
- 	struct nd_region *nvdimm_pmem_region_create(struct nvdimm_bus *nvdimm_bus,
- 			struct nd_region_desc *ndr_desc);
- 	struct nd_region *nvdimm_blk_region_create(struct nvdimm_bus *nvdimm_bus,
- 			struct nd_region_desc *ndr_desc);
- 
-+::
+ [3] RapidIO support for Linux.
+     http://lwn.net/Articles/139118/
 +
- 	/sys/devices/platform/nfit_test.0/ndbus0
- 	|-- region0
- 	|   |-- available_size
-@@ -468,10 +524,11 @@ LIBNVDIMM: region
- 	[..]
+ [4] Matt Porter. RapidIO for Linux. Ottawa Linux Symposium, 2005
+     http://www.kernel.org/doc/ols/2005/ols2005v2-pages-43-56.pdf
+diff --git a/Documentation/rapidio/rio_cm.txt b/Documentation/rapidio/rio_cm.rst
+similarity index 76%
+rename from Documentation/rapidio/rio_cm.txt
+rename to Documentation/rapidio/rio_cm.rst
+index 27aa401f1126..5294430a7a74 100644
+--- a/Documentation/rapidio/rio_cm.txt
++++ b/Documentation/rapidio/rio_cm.rst
+@@ -1,13 +1,10 @@
++==========================================================================
+ RapidIO subsystem Channelized Messaging character device driver (rio_cm.c)
+ ==========================================================================
  
- LIBNDCTL: region enumeration example
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-Version History:
+-----------------
+-  1.0.0 - Initial driver release.
  
- Sample region retrieval routines based on NFIT-unique data like
- "spa_index" (interleave set id) for PMEM and "nfit_handle" (dimm id) for
--BLK.
-+BLK::
+-==========================================================================
+-
+-I. Overview
++1. Overview
++===========
  
- 	static struct ndctl_region *get_pmem_region_by_spa_index(struct ndctl_bus *bus,
- 			unsigned int spa_index)
-@@ -518,33 +575,33 @@ REGION name generic and expects userspace to always consider the
- region-attributes for four reasons:
+ This device driver is the result of collaboration within the RapidIO.org
+ Software Task Group (STG) between Texas Instruments, Prodrive Technologies,
+@@ -41,79 +38,98 @@ in /dev directory common for all registered RapidIO mport devices.
  
-     1. There are already more than two REGION and "namespace" types.  For
--    PMEM there are two subtypes.  As mentioned previously we have PMEM where
--    the constituent DIMM devices are known and anonymous PMEM.  For BLK
--    regions the NFIT specification already anticipates vendor specific
--    implementations.  The exact distinction of what a region contains is in
--    the region-attributes not the region-name or the region-devtype.
-+       PMEM there are two subtypes.  As mentioned previously we have PMEM where
-+       the constituent DIMM devices are known and anonymous PMEM.  For BLK
-+       regions the NFIT specification already anticipates vendor specific
-+       implementations.  The exact distinction of what a region contains is in
-+       the region-attributes not the region-name or the region-devtype.
+ Following ioctl commands are available to user-space applications:
  
-     2. A region with zero child-namespaces is a possible configuration.  For
--    example, the NFIT allows for a DCR to be published without a
--    corresponding BLK-aperture.  This equates to a DIMM that can only accept
--    control/configuration messages, but no i/o through a descendant block
--    device.  Again, this "type" is advertised in the attributes ('mappings'
--    == 0) and the name does not tell you much.
-+       example, the NFIT allows for a DCR to be published without a
-+       corresponding BLK-aperture.  This equates to a DIMM that can only accept
-+       control/configuration messages, but no i/o through a descendant block
-+       device.  Again, this "type" is advertised in the attributes ('mappings'
-+       == 0) and the name does not tell you much.
+-- RIO_CM_MPORT_GET_LIST : Returns to caller list of local mport devices that
++- RIO_CM_MPORT_GET_LIST:
++    Returns to caller list of local mport devices that
+     support messaging operations (number of entries up to RIO_MAX_MPORTS).
+     Each list entry is combination of mport's index in the system and RapidIO
+     destination ID assigned to the port.
+-- RIO_CM_EP_GET_LIST_SIZE : Returns number of messaging capable remote endpoints
++- RIO_CM_EP_GET_LIST_SIZE:
++    Returns number of messaging capable remote endpoints
+     in a RapidIO network associated with the specified mport device.
+-- RIO_CM_EP_GET_LIST : Returns list of RapidIO destination IDs for messaging
++- RIO_CM_EP_GET_LIST:
++    Returns list of RapidIO destination IDs for messaging
+     capable remote endpoints (peers) available in a RapidIO network associated
+     with the specified mport device.
+-- RIO_CM_CHAN_CREATE : Creates RapidIO message exchange channel data structure
++- RIO_CM_CHAN_CREATE:
++    Creates RapidIO message exchange channel data structure
+     with channel ID assigned automatically or as requested by a caller.
+-- RIO_CM_CHAN_BIND : Binds the specified channel data structure to the specified
++- RIO_CM_CHAN_BIND:
++    Binds the specified channel data structure to the specified
+     mport device.
+-- RIO_CM_CHAN_LISTEN : Enables listening for connection requests on the specified
++- RIO_CM_CHAN_LISTEN:
++    Enables listening for connection requests on the specified
+     channel.
+-- RIO_CM_CHAN_ACCEPT : Accepts a connection request from peer on the specified
++- RIO_CM_CHAN_ACCEPT:
++    Accepts a connection request from peer on the specified
+     channel. If wait timeout for this request is specified by a caller it is
+     a blocking call. If timeout set to 0 this is non-blocking call - ioctl
+     handler checks for a pending connection request and if one is not available
+     exits with -EGAIN error status immediately.
+-- RIO_CM_CHAN_CONNECT : Sends a connection request to a remote peer/channel.
+-- RIO_CM_CHAN_SEND : Sends a data message through the specified channel.
++- RIO_CM_CHAN_CONNECT:
++    Sends a connection request to a remote peer/channel.
++- RIO_CM_CHAN_SEND:
++    Sends a data message through the specified channel.
+     The handler for this request assumes that message buffer specified by
+     a caller includes the reserved space for a packet header required by
+     this driver.
+-- RIO_CM_CHAN_RECEIVE : Receives a data message through a connected channel.
++- RIO_CM_CHAN_RECEIVE:
++    Receives a data message through a connected channel.
+     If the channel does not have an incoming message ready to return this ioctl
+     handler will wait for new message until timeout specified by a caller
+     expires. If timeout value is set to 0, ioctl handler uses a default value
+     defined by MAX_SCHEDULE_TIMEOUT.
+-- RIO_CM_CHAN_CLOSE : Closes a specified channel and frees associated buffers.
++- RIO_CM_CHAN_CLOSE:
++    Closes a specified channel and frees associated buffers.
+     If the specified channel is in the CONNECTED state, sends close notification
+     to the remote peer.
  
-     3. What if a third major interface type arises in the future?  Outside
--    of vendor specific implementations, it's not difficult to envision a
--    third class of interface type beyond BLK and PMEM.  With a generic name
--    for the REGION level of the device-hierarchy old userspace
--    implementations can still make sense of new kernel advertised
--    region-types.  Userspace can always rely on the generic region
--    attributes like "mappings", "size", etc and the expected child devices
--    named "namespace".  This generic format of the device-model hierarchy
--    allows the LIBNVDIMM and LIBNDCTL implementations to be more uniform and
--    future-proof.
-+       of vendor specific implementations, it's not difficult to envision a
-+       third class of interface type beyond BLK and PMEM.  With a generic name
-+       for the REGION level of the device-hierarchy old userspace
-+       implementations can still make sense of new kernel advertised
-+       region-types.  Userspace can always rely on the generic region
-+       attributes like "mappings", "size", etc and the expected child devices
-+       named "namespace".  This generic format of the device-model hierarchy
-+       allows the LIBNVDIMM and LIBNDCTL implementations to be more uniform and
-+       future-proof.
+ The ioctl command codes and corresponding data structures intended for use by
+ user-space applications are defined in 'include/uapi/linux/rio_cm_cdev.h'.
  
-     4. There are more robust mechanisms for determining the major type of a
--    region than a device name.  See the next section, How Do I Determine the
--    Major Type of a Region?
-+       region than a device name.  See the next section, How Do I Determine the
-+       Major Type of a Region?
+-II. Hardware Compatibility
++2. Hardware Compatibility
++=========================
  
- How Do I Determine the Major Type of a Region?
- ----------------------------------------------
-@@ -553,7 +610,8 @@ Outside of the blanket recommendation of "use libndctl", or simply
- looking at the kernel header (/usr/include/linux/ndctl.h) to decode the
- "nstype" integer attribute, here are some other options.
+ This device driver uses standard interfaces defined by kernel RapidIO subsystem
+ and therefore it can be used with any mport device driver registered by RapidIO
+ subsystem with limitations set by available mport HW implementation of messaging
+ mailboxes.
  
--    1. module alias lookup:
-+1. module alias lookup
-+^^^^^^^^^^^^^^^^^^^^^^
+-III. Module parameters
++3. Module parameters
++====================
  
-     The whole point of region/namespace device type differentiation is to
-     decide which block-device driver will attach to a given LIBNVDIMM namespace.
-@@ -569,28 +627,31 @@ looking at the kernel header (/usr/include/linux/ndctl.h) to decode the
-     the resulting namespaces.  The output from module resolution is more
-     accurate than a region-name or region-devtype.
+-- 'dbg_level' - This parameter allows to control amount of debug information
++- 'dbg_level'
++      - This parameter allows to control amount of debug information
+         generated by this device driver. This parameter is formed by set of
+         bit masks that correspond to the specific functional block.
+         For mask definitions see 'drivers/rapidio/devices/rio_cm.c'
+         This parameter can be changed dynamically.
+         Use CONFIG_RAPIDIO_DEBUG=y to enable debug output at the top level.
  
--    2. udev:
-+2. udev
-+^^^^^^^
+-- 'cmbox' - Number of RapidIO mailbox to use (default value is 1).
++- 'cmbox'
++      - Number of RapidIO mailbox to use (default value is 1).
+         This parameter allows to set messaging mailbox number that will be used
+         within entire RapidIO network. It can be used when default mailbox is
+         used by other device drivers or is not supported by some nodes in the
+         RapidIO network.
  
--    The kernel "devtype" is registered in the udev database
--    # udevadm info --path=/devices/platform/nfit_test.0/ndbus0/region0
--    P: /devices/platform/nfit_test.0/ndbus0/region0
--    E: DEVPATH=/devices/platform/nfit_test.0/ndbus0/region0
--    E: DEVTYPE=nd_pmem
--    E: MODALIAS=nd:t2
--    E: SUBSYSTEM=nd
-+    The kernel "devtype" is registered in the udev database::
+-- 'chstart' - Start channel number for dynamic assignment. Default value - 256.
++- 'chstart'
++      - Start channel number for dynamic assignment. Default value - 256.
+         Allows to exclude channel numbers below this parameter from dynamic
+         allocation to avoid conflicts with software components that use
+         reserved predefined channel numbers.
  
--    # udevadm info --path=/devices/platform/nfit_test.0/ndbus0/region4
--    P: /devices/platform/nfit_test.0/ndbus0/region4
--    E: DEVPATH=/devices/platform/nfit_test.0/ndbus0/region4
--    E: DEVTYPE=nd_blk
--    E: MODALIAS=nd:t3
--    E: SUBSYSTEM=nd
-+	# udevadm info --path=/devices/platform/nfit_test.0/ndbus0/region0
-+	P: /devices/platform/nfit_test.0/ndbus0/region0
-+	E: DEVPATH=/devices/platform/nfit_test.0/ndbus0/region0
-+	E: DEVTYPE=nd_pmem
-+	E: MODALIAS=nd:t2
-+	E: SUBSYSTEM=nd
+-IV. Known problems
++4. Known problems
++=================
+ 
+   None.
+ 
+-V. User-space Applications and API Library
++5. User-space Applications and API Library
++==========================================
+ 
+ Messaging API library and applications that use this device driver are available
+ from RapidIO.org.
+ 
+-VI. TODO List
++6. TODO List
++============
+ 
+ - Add support for system notification messages (reserved channel 0).
+diff --git a/Documentation/rapidio/sysfs.txt b/Documentation/rapidio/sysfs.rst
+similarity index 75%
+rename from Documentation/rapidio/sysfs.txt
+rename to Documentation/rapidio/sysfs.rst
+index a1adac888e6e..540f72683496 100644
+--- a/Documentation/rapidio/sysfs.txt
++++ b/Documentation/rapidio/sysfs.rst
+@@ -1,3 +1,7 @@
++=============
++Sysfs entries
++=============
 +
-+	# udevadm info --path=/devices/platform/nfit_test.0/ndbus0/region4
-+	P: /devices/platform/nfit_test.0/ndbus0/region4
-+	E: DEVPATH=/devices/platform/nfit_test.0/ndbus0/region4
-+	E: DEVTYPE=nd_blk
-+	E: MODALIAS=nd:t3
-+	E: SUBSYSTEM=nd
+ The RapidIO sysfs files have moved to:
+ Documentation/ABI/testing/sysfs-bus-rapidio and
+ Documentation/ABI/testing/sysfs-class-rapidio
+diff --git a/Documentation/rapidio/tsi721.txt b/Documentation/rapidio/tsi721.rst
+similarity index 79%
+rename from Documentation/rapidio/tsi721.txt
+rename to Documentation/rapidio/tsi721.rst
+index cd2a2935d51d..42aea438cd20 100644
+--- a/Documentation/rapidio/tsi721.txt
++++ b/Documentation/rapidio/tsi721.rst
+@@ -1,7 +1,9 @@
++=========================================================================
+ RapidIO subsystem mport driver for IDT Tsi721 PCI Express-to-SRIO bridge.
+ =========================================================================
  
-     ...and is available as a region attribute, but keep in mind that the
-     "devtype" does not indicate sub-type variations and scripts should
-     really be understanding the other attributes.
+-I. Overview
++1. Overview
++===========
  
--    3. type specific attributes:
-+3. type specific attributes
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ This driver implements all currently defined RapidIO mport callback functions.
+ It supports maintenance read and write operations, inbound and outbound RapidIO
+@@ -17,7 +19,9 @@ into the corresponding message queue. Messaging callbacks are implemented to be
+ fully compatible with RIONET driver (Ethernet over RapidIO messaging services).
  
-     As it currently stands a BLK-aperture region will never have a
-     "nfit/spa_index" attribute, but neither will a non-NFIT PMEM region.  A
-@@ -600,7 +661,7 @@ looking at the kernel header (/usr/include/linux/ndctl.h) to decode the
- 
- 
- LIBNVDIMM/LIBNDCTL: Namespace
---------------------------
-+-----------------------------
- 
- A REGION, after resolving DPA aliasing and LABEL specified boundaries,
- surfaces one or more "namespace" devices.  The arrival of a "namespace"
-@@ -608,12 +669,14 @@ device currently triggers either the nd_blk or nd_pmem driver to load
- and register a disk/block device.
- 
- LIBNVDIMM: namespace
-+^^^^^^^^^^^^^^^^^^^^
+ 1. Module parameters:
+-- 'dbg_level' - This parameter allows to control amount of debug information
 +
- Here is a sample layout from the three major types of NAMESPACE where
- namespace0.0 represents DIMM-info-backed PMEM (note that it has a 'uuid'
- attribute), namespace2.0 represents a BLK namespace (note it has a
- 'sector_size' attribute) that, and namespace6.0 represents an anonymous
- PMEM namespace (note that has no 'uuid' attribute due to not support a
--LABEL).
-+LABEL)::
++- 'dbg_level'
++      - This parameter allows to control amount of debug information
+         generated by this device driver. This parameter is formed by set of
+         This parameter can be changed bit masks that correspond to the specific
+         functional block.
+@@ -25,37 +29,44 @@ fully compatible with RIONET driver (Ethernet over RapidIO messaging services).
+         This parameter can be changed dynamically.
+         Use CONFIG_RAPIDIO_DEBUG=y to enable debug output at the top level.
  
- 	/sys/devices/platform/nfit_test.0/ndbus0/region0/namespace0.0
- 	|-- alt_name
-@@ -656,76 +719,84 @@ LABEL).
- 	`-- uevent
+-- 'dma_desc_per_channel' - This parameter defines number of hardware buffer
++- 'dma_desc_per_channel'
++      - This parameter defines number of hardware buffer
+         descriptors allocated for each registered Tsi721 DMA channel.
+         Its default value is 128.
  
- LIBNDCTL: namespace enumeration example
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- Namespaces are indexed relative to their parent region, example below.
- These indexes are mostly static from boot to boot, but subsystem makes
- no guarantees in this regard.  For a static namespace identifier use its
- 'uuid' attribute.
+-- 'dma_txqueue_sz' - DMA transactions queue size. Defines number of pending
++- 'dma_txqueue_sz'
++      - DMA transactions queue size. Defines number of pending
+         transaction requests that can be accepted by each DMA channel.
+         Default value is 16.
  
--static struct ndctl_namespace *get_namespace_by_id(struct ndctl_region *region,
--                unsigned int id)
--{
--        struct ndctl_namespace *ndns;
-+::
+-- 'dma_sel' - DMA channel selection mask. Bitmask that defines which hardware
++- 'dma_sel'
++      - DMA channel selection mask. Bitmask that defines which hardware
+         DMA channels (0 ... 6) will be registered with DmaEngine core.
+         If bit is set to 1, the corresponding DMA channel will be registered.
+         DMA channels not selected by this mask will not be used by this device
+         driver. Default value is 0x7f (use all channels).
  
--        ndctl_namespace_foreach(region, ndns)
--                if (ndctl_namespace_get_id(ndns) == id)
--                        return ndns;
-+  static struct ndctl_namespace
-+  *get_namespace_by_id(struct ndctl_region *region, unsigned int id)
-+  {
-+          struct ndctl_namespace *ndns;
+-- 'pcie_mrrs' - override value for PCIe Maximum Read Request Size (MRRS).
++- 'pcie_mrrs'
++      - override value for PCIe Maximum Read Request Size (MRRS).
+         This parameter gives an ability to override MRRS value set during PCIe
+         configuration process. Tsi721 supports read request sizes up to 4096B.
+         Value for this parameter must be set as defined by PCIe specification:
+         0 = 128B, 1 = 256B, 2 = 512B, 3 = 1024B, 4 = 2048B and 5 = 4096B.
+         Default value is '-1' (= keep platform setting).
  
--        return NULL;
--}
-+          ndctl_namespace_foreach(region, ndns)
-+                  if (ndctl_namespace_get_id(ndns) == id)
-+                          return ndns;
+-- 'mbox_sel' - RIO messaging MBOX selection mask. This is a bitmask that defines
++- 'mbox_sel'
++      - RIO messaging MBOX selection mask. This is a bitmask that defines
+         messaging MBOXes are managed by this device driver. Mask bits 0 - 3
+         correspond to MBOX0 - MBOX3. MBOX is under driver's control if the
+         corresponding bit is set to '1'. Default value is 0x0f (= all).
+ 
+-II. Known problems
++2. Known problems
++=================
+ 
+   None.
+ 
+-III. DMA Engine Support
++3. DMA Engine Support
++=====================
+ 
+ Tsi721 mport driver supports DMA data transfers between local system memory and
+ remote RapidIO devices. This functionality is implemented according to SLAVE
+@@ -68,17 +79,21 @@ One BDMA channel is reserved for generation of maintenance read/write requests.
+ 
+ If Tsi721 mport driver have been built with RAPIDIO_DMA_ENGINE support included,
+ this driver will accept DMA-specific module parameter:
+-  "dma_desc_per_channel" - defines number of hardware buffer descriptors used by
 +
-+          return NULL;
-+  }
++  "dma_desc_per_channel"
++			 - defines number of hardware buffer descriptors used by
+                            each BDMA channel of Tsi721 (by default - 128).
  
- LIBNDCTL: namespace creation example
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
- Idle namespaces are automatically created by the kernel if a given
- region has enough available capacity to create a new namespace.
- Namespace instantiation involves finding an idle namespace and
- configuring it.  For the most part the setting of namespace attributes
- can occur in any order, the only constraint is that 'uuid' must be set
- before 'size'.  This enables the kernel to track DPA allocations
--internally with a static identifier.
-+internally with a static identifier::
+-IV. Version History
++4. Version History
  
--static int configure_namespace(struct ndctl_region *region,
--                struct ndctl_namespace *ndns,
--                struct namespace_parameters *parameters)
--{
--        char devname[50];
-+  static int configure_namespace(struct ndctl_region *region,
-+                  struct ndctl_namespace *ndns,
-+                  struct namespace_parameters *parameters)
-+  {
-+          char devname[50];
+-  1.1.0 - DMA operations re-worked to support data scatter/gather lists larger
++  =====   ====================================================================
++  1.1.0   DMA operations re-worked to support data scatter/gather lists larger
+           than hardware buffer descriptors ring.
+-  1.0.0 - Initial driver release.
++  1.0.0   Initial driver release.
++  =====   ====================================================================
  
--        snprintf(devname, sizeof(devname), "namespace%d.%d",
--                        ndctl_region_get_id(region), paramaters->id);
-+          snprintf(devname, sizeof(devname), "namespace%d.%d",
-+                          ndctl_region_get_id(region), paramaters->id);
+-V.  License
+------------------------------------------------
++5.  License
++===========
  
--        ndctl_namespace_set_alt_name(ndns, devname);
--        /* 'uuid' must be set prior to setting size! */
--        ndctl_namespace_set_uuid(ndns, paramaters->uuid);
--        ndctl_namespace_set_size(ndns, paramaters->size);
--        /* unlike pmem namespaces, blk namespaces have a sector size */
--        if (parameters->lbasize)
--                ndctl_namespace_set_sector_size(ndns, parameters->lbasize);
--        ndctl_namespace_enable(ndns);
--}
-+          ndctl_namespace_set_alt_name(ndns, devname);
-+          /* 'uuid' must be set prior to setting size! */
-+          ndctl_namespace_set_uuid(ndns, paramaters->uuid);
-+          ndctl_namespace_set_size(ndns, paramaters->size);
-+          /* unlike pmem namespaces, blk namespaces have a sector size */
-+          if (parameters->lbasize)
-+                  ndctl_namespace_set_sector_size(ndns, parameters->lbasize);
-+          ndctl_namespace_enable(ndns);
-+  }
+   Copyright(c) 2011 Integrated Device Technology, Inc. All rights reserved.
  
+diff --git a/drivers/rapidio/Kconfig b/drivers/rapidio/Kconfig
+index e3d8fe41b50c..2f82bb50f8db 100644
+--- a/drivers/rapidio/Kconfig
++++ b/drivers/rapidio/Kconfig
+@@ -85,7 +85,7 @@ config RAPIDIO_CHMAN
+ 	  This option includes RapidIO channelized messaging driver which
+ 	  provides socket-like interface to allow sharing of single RapidIO
+ 	  messaging mailbox between multiple user-space applications.
+-	  See "Documentation/rapidio/rio_cm.txt" for driver description.
++	  See "Documentation/rapidio/rio_cm.rst" for driver description.
  
- Why the Term "namespace"?
-+^^^^^^^^^^^^^^^^^^^^^^^^^
- 
-     1. Why not "volume" for instance?  "volume" ran the risk of confusing
--    ND (libnvdimm subsystem) to a volume manager like device-mapper.
-+       ND (libnvdimm subsystem) to a volume manager like device-mapper.
- 
-     2. The term originated to describe the sub-devices that can be created
--    within a NVME controller (see the nvme specification:
--    http://www.nvmexpress.org/specifications/), and NFIT namespaces are
--    meant to parallel the capabilities and configurability of
--    NVME-namespaces.
-+       within a NVME controller (see the nvme specification:
-+       http://www.nvmexpress.org/specifications/), and NFIT namespaces are
-+       meant to parallel the capabilities and configurability of
-+       NVME-namespaces.
- 
- 
- LIBNVDIMM/LIBNDCTL: Block Translation Table "btt"
-----------------------------------------------
-+-------------------------------------------------
- 
- A BTT (design document: http://pmem.io/2014/09/23/btt.html) is a stacked
- block device driver that fronts either the whole block device or a
- partition of a block device emitted by either a PMEM or BLK NAMESPACE.
- 
- LIBNVDIMM: btt layout
-+^^^^^^^^^^^^^^^^^^^^^
-+
- Every region will start out with at least one BTT device which is the
- seed device.  To activate it set the "namespace", "uuid", and
- "sector_size" attributes and then bind the device to the nd_pmem or
--nd_blk driver depending on the region type.
-+nd_blk driver depending on the region type::
- 
- 	/sys/devices/platform/nfit_test.1/ndbus0/region0/btt0/
- 	|-- namespace
-@@ -739,10 +810,12 @@ nd_blk driver depending on the region type.
- 	`-- uuid
- 
- LIBNDCTL: btt creation example
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
- Similar to namespaces an idle BTT device is automatically created per
- region.  Each time this "seed" btt device is configured and enabled a new
- seed is created.  Creating a BTT configuration involves two steps of
--finding and idle BTT and assigning it to consume a PMEM or BLK namespace.
-+finding and idle BTT and assigning it to consume a PMEM or BLK namespace::
- 
- 	static struct ndctl_btt *get_idle_btt(struct ndctl_region *region)
- 	{
-@@ -787,29 +860,30 @@ Summary LIBNDCTL Diagram
- ------------------------
- 
- For the given example above, here is the view of the objects as seen by the
--LIBNDCTL API:
--            +---+
--            |CTX|    +---------+   +--------------+  +---------------+
--            +-+-+  +-> REGION0 +---> NAMESPACE0.0 +--> PMEM8 "pm0.0" |
--              |    | +---------+   +--------------+  +---------------+
--+-------+     |    | +---------+   +--------------+  +---------------+
--| DIMM0 <-+   |    +-> REGION1 +---> NAMESPACE1.0 +--> PMEM6 "pm1.0" |
--+-------+ |   |    | +---------+   +--------------+  +---------------+
--| DIMM1 <-+ +-v--+ | +---------+   +--------------+  +---------------+
--+-------+ +-+BUS0+---> REGION2 +-+-> NAMESPACE2.0 +--> ND6  "blk2.0" |
--| DIMM2 <-+ +----+ | +---------+ | +--------------+  +----------------------+
--+-------+ |        |             +-> NAMESPACE2.1 +--> ND5  "blk2.1" | BTT2 |
--| DIMM3 <-+        |               +--------------+  +----------------------+
--+-------+          | +---------+   +--------------+  +---------------+
--                   +-> REGION3 +-+-> NAMESPACE3.0 +--> ND4  "blk3.0" |
--                   | +---------+ | +--------------+  +----------------------+
--                   |             +-> NAMESPACE3.1 +--> ND3  "blk3.1" | BTT1 |
--                   |               +--------------+  +----------------------+
--                   | +---------+   +--------------+  +---------------+
--                   +-> REGION4 +---> NAMESPACE4.0 +--> ND2  "blk4.0" |
--                   | +---------+   +--------------+  +---------------+
--                   | +---------+   +--------------+  +----------------------+
--                   +-> REGION5 +---> NAMESPACE5.0 +--> ND1  "blk5.0" | BTT0 |
--                     +---------+   +--------------+  +---------------+------+
-+LIBNDCTL API::
-+
-+              +---+
-+              |CTX|    +---------+   +--------------+  +---------------+
-+              +-+-+  +-> REGION0 +---> NAMESPACE0.0 +--> PMEM8 "pm0.0" |
-+                |    | +---------+   +--------------+  +---------------+
-+  +-------+     |    | +---------+   +--------------+  +---------------+
-+  | DIMM0 <-+   |    +-> REGION1 +---> NAMESPACE1.0 +--> PMEM6 "pm1.0" |
-+  +-------+ |   |    | +---------+   +--------------+  +---------------+
-+  | DIMM1 <-+ +-v--+ | +---------+   +--------------+  +---------------+
-+  +-------+ +-+BUS0+---> REGION2 +-+-> NAMESPACE2.0 +--> ND6  "blk2.0" |
-+  | DIMM2 <-+ +----+ | +---------+ | +--------------+  +----------------------+
-+  +-------+ |        |             +-> NAMESPACE2.1 +--> ND5  "blk2.1" | BTT2 |
-+  | DIMM3 <-+        |               +--------------+  +----------------------+
-+  +-------+          | +---------+   +--------------+  +---------------+
-+                     +-> REGION3 +-+-> NAMESPACE3.0 +--> ND4  "blk3.0" |
-+                     | +---------+ | +--------------+  +----------------------+
-+                     |             +-> NAMESPACE3.1 +--> ND3  "blk3.1" | BTT1 |
-+                     |               +--------------+  +----------------------+
-+                     | +---------+   +--------------+  +---------------+
-+                     +-> REGION4 +---> NAMESPACE4.0 +--> ND2  "blk4.0" |
-+                     | +---------+   +--------------+  +---------------+
-+                     | +---------+   +--------------+  +----------------------+
-+                     +-> REGION5 +---> NAMESPACE5.0 +--> ND1  "blk5.0" | BTT0 |
-+                       +---------+   +--------------+  +---------------+------+
- 
- 
-diff --git a/Documentation/nvdimm/security.txt b/Documentation/nvdimm/security.rst
-similarity index 99%
-rename from Documentation/nvdimm/security.txt
-rename to Documentation/nvdimm/security.rst
-index 4c36c05ca98e..ad9dea099b34 100644
---- a/Documentation/nvdimm/security.txt
-+++ b/Documentation/nvdimm/security.rst
-@@ -1,4 +1,5 @@
--NVDIMM SECURITY
-+===============
-+NVDIMM Security
- ===============
- 
- 1. Introduction
-@@ -138,4 +139,5 @@ This command is only available when the master security is enabled, indicated
- by the extended security status.
- 
- [1]: http://pmem.io/documents/NVDIMM_DSM_Interface-V1.8.pdf
-+
- [2]: http://www.t13.org/documents/UploadedDocuments/docs2006/e05179r4-ACS-SecurityClarifications.pdf
-diff --git a/drivers/nvdimm/Kconfig b/drivers/nvdimm/Kconfig
-index 5e27918e4624..3ff6a22173fe 100644
---- a/drivers/nvdimm/Kconfig
-+++ b/drivers/nvdimm/Kconfig
-@@ -32,7 +32,7 @@ config BLK_DEV_PMEM
- 	  Documentation/admin-guide/kernel-parameters.rst).  This driver converts
- 	  these persistent memory ranges into block devices that are
- 	  capable of DAX (direct-access) file system mappings.  See
--	  Documentation/nvdimm/nvdimm.txt for more details.
-+	  Documentation/nvdimm/nvdimm.rst for more details.
- 
- 	  Say Y if you want to use an NVDIMM
- 
+ config RAPIDIO_MPORT_CDEV
+ 	tristate "RapidIO /dev mport device driver"
 -- 
 2.20.1
 
