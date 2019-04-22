@@ -1,75 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	FAKE_REPLY_C,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6A46E7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Apr 2019 16:26:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 00A387D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Apr 2019 17:35:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727360AbfDVQ0M (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Apr 2019 12:26:12 -0400
-Received: from smtpcmd11116.aruba.it ([62.149.156.116]:49245 "EHLO
-        smtpcmd11116.aruba.it" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726430AbfDVQ0L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Apr 2019 12:26:11 -0400
-X-Greylist: delayed 420 seconds by postgrey-1.27 at vger.kernel.org; Mon, 22 Apr 2019 12:26:11 EDT
-Received: from [192.168.1.41] ([93.146.66.165])
-        by smtpcmd11.ad.aruba.it with bizsmtp
-        id 3UK92000N3Zw7e501UK9sx; Mon, 22 Apr 2019 18:19:10 +0200
-Subject: Re: [PATCH v2 27/79] docs: pps.txt: convert to ReST and rename to
- pps.rst
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-References: <cover.1555938375.git.mchehab+samsung@kernel.org>
- <d6ffab20421f56b72a596cc99197667ea6da99ff.1555938376.git.mchehab+samsung@kernel.org>
-From:   Rodolfo Giometti <giometti@enneenne.com>
-Message-ID: <d48b0aa4-2a22-933e-6e32-93405c5c7292@enneenne.com>
-Date:   Mon, 22 Apr 2019 18:19:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726260AbfDVRfi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Apr 2019 13:35:38 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:44252 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726587AbfDVRfi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Apr 2019 13:35:38 -0400
+Received: by mail-pf1-f195.google.com with SMTP id y13so6021457pfm.11;
+        Mon, 22 Apr 2019 10:35:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=jmrhYNL/ByE6hmjbtkEhEpY7aO/3rzFj/0dilHff4Yg=;
+        b=OHdvsZjazjKiWUhDTgiR6hy9CU+mGJMuwt3/p+SkUpiAOYdOacleifvHEOq5Yk3J93
+         mCMMdP/GHuKkdngN/9/W4xyhDkWkwsbCi9y9l4GbocId2PmSzycX6BHBjS2Zvg0Htsdh
+         JSMaxKdBGlxPUsgplZmX6Q9h0pu3+bXfmLFF4fDCeYyXjH0M+anxCm3eGV3LQ70mtatq
+         pDFnkxp1Hv58CTW8qD+MJ9tq2/+phcyPV7xphOe/bQAv1jW9L2MCOF8uGq9yOLfmzkid
+         C0lfFd2SE44kOZPvo+X0h1ol6BnEZs6EWppJtwJ+9utiCsG8eW+y85Fru446S2x/bfzH
+         bXBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :mime-version:content-disposition:user-agent;
+        bh=jmrhYNL/ByE6hmjbtkEhEpY7aO/3rzFj/0dilHff4Yg=;
+        b=Tu8kWTTTAFrVEDBvFoNtbhCxjvAnXzAXpqOj9B/hla/A5UzMfSz5T0nE5PNPd1gkka
+         wx02o5aEJbGPMxJXiL7DnsIEqdb6lqrxztfv3MZ1T6mJ20IyGEaS5lb+XUNvYh7CzjZj
+         Nlx0G3m1pATMhmFCq1MiS0AsxzKGUoIdpVLl49ZeYuX6bEryibbks9ytUZVolUXMV3mU
+         VsrOY5oom2ibTD2L5gVXNt5TfUbPL71OYRe4WsSYj2Fyh2vNrnEBAtYFtBBki+stuwnn
+         MNEhD4kl2jqXKoNB5nVCGXfrBrt7MjmLhxRXDjZoXFap2m7l/R9mMLEvFFETcYacrDU3
+         66+Q==
+X-Gm-Message-State: APjAAAVEkO9E+3I4+iNDC7xGgJCKWu9d6YINiq2DOMLEjMF3qZJgk2kP
+        YsqFAWOVpKFtoaOby4mJwWs=
+X-Google-Smtp-Source: APXvYqwYRJquRAkmpVuEjmc/qeAjcM9Loa4PJNTiaejBIifT99xstigK65+9j1IItNnM1SZqbeXSVg==
+X-Received: by 2002:a65:6108:: with SMTP id z8mr20019624pgu.106.1555954537381;
+        Mon, 22 Apr 2019 10:35:37 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id s187sm15366162pgb.13.2019.04.22.10.35.35
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 22 Apr 2019 10:35:36 -0700 (PDT)
+Date:   Mon, 22 Apr 2019 10:35:34 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH] docs: hwmon: remove the extension from .rst files
+Message-ID: <20190422173534.GA1656@roeck-us.net>
 MIME-Version: 1.0
-In-Reply-To: <d6ffab20421f56b72a596cc99197667ea6da99ff.1555938376.git.mchehab+samsung@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aruba.it; s=a1;
-        t=1555949950; bh=EK4nSe1YJWsvw1duFBAabXZBUkvpQ+dEm7Zr/3gBFS8=;
-        h=Subject:To:From:Date:MIME-Version:Content-Type;
-        b=aYWWVUmThbT2LO5VqbwP+wy9HSTMvsupcaugs5oWLo18FcA16bTeGnjSNusK0tU0N
-         zizUE4QCFUCQARiU/cgwr/sxK77dpk/+jx/1AOKTuRVd/lL+Z3lOldoLodk0J8G7Bk
-         lik4QmGWxFR/Ek70935fHl4zfaVbFVPkmr9kWpWtcgqtVHZ2joeYa7S8YklqKBu/XL
-         mzsId+RHfb0taEw6V9i1kpt0NwBM5wJGtwlcF/QiwRDHYc2l5tIWm66orXS1xIYHmz
-         xyQgl9N50aA1VlV6t28Cc0V5OorosXc/4zi+gBeqbKTGLeCHiXajq9TXcHlZyXvm8l
-         yaQ+HK5Sq44aQ==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 22/04/2019 15:27, Mauro Carvalho Chehab wrote:
-> This file is already in a good shape: just its title and
-> adding some literal block markups is needed for it to be
-> part of the document.
+On Mon, Apr 22, 2019 at 08:14:55AM -0300, Mauro Carvalho Chehab wrote:
+> On almost all places, we're including ReST files without the
+> extension.
 > 
-> While it has a small chapter with sysfs stuff, most of
-> the document is focused on driver development.
+> Let's remove the extension here	as well, in order to use just
+> one standard.
 > 
-> As it describes a kernel API, move it to the driver-api
-> directory.
-> 
-> In order to avoid conflicts, let's add an :orphan: tag
-> to it, to be removed when added to the driver-api book.
-> 
+> Suggested-by: Jani Nikula <jani.nikula@linux.intel.com>
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+>  Documentation/hwmon/index.rst | 322 +++++++++++++++++-----------------
+>  1 file changed, 161 insertions(+), 161 deletions(-)
+> 
+> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> index 3fa14fe7b49c..ee090e51653a 100644
+> --- a/Documentation/hwmon/index.rst
+> +++ b/Documentation/hwmon/index.rst
+> @@ -5,11 +5,11 @@ Linux Hardware Monitoring
+>  .. toctree::
+>     :maxdepth: 1
+>  
+...
+> -   ir38064.rst
+> -   isl68137.rst
+...
+> -   lochnagar.rst
 
-Acked-by: Rodolfo Giometti <giometti@enneenne.com>
+You never actually sent the patches to convert the above files to .rst.
+It looks like you did convert the files in your tree and added them to
+the index. Since I don't have those patches, this patch does not apply.
 
--- 
-GNU/Linux Solutions                  e-mail: giometti@enneenne.com
-Linux Device Driver                          giometti@linux.it
-Embedded Systems                     phone:  +39 349 2432127
-UNIX programming                     skype:  rodolfo.giometti
+Guenter
