@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B882A7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Apr 2019 13:33:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3D25C7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 22 Apr 2019 13:33:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727736AbfDVNc7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Apr 2019 09:32:59 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:37666 "EHLO
+        id S1727602AbfDVNdN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 22 Apr 2019 09:33:13 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:37644 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727542AbfDVN2U (ORCPT
+        with ESMTP id S1727534AbfDVN2U (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Apr 2019 09:28:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,33 +20,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=4jdYop9xHDkCl5xDqUF5Cu/QZJKlXeVRenYOK6DdkLQ=; b=LQUzxLcby8ZDVuhXMgrNch3N1x
-        PHu15kMtQ8d3EpazhdtSpX5xMQDpK++SYpd9A/5lGWQcI77D05mV0MShgosK4a+3dSBIRAzHI47qM
-        XioA2E7UP5ZWC7WyFA01zL9s68YBy89QRa/ySf4jjxpmPm2tgsdOW2S1hj2X98yLDzsX72zdxJAB1
-        ZmvBDJlPLt9cR1OV64gf6QdoKZgKrIvUX4tNTjxEF8FzP9vPO8YwVnaUBD8NyzU3M+omBqtptBiwn
-        QbQtfEiErQguUUmXDWBANEyYo9+zjhzW+pHMXDkSNmegMCN3mUU+RXV3qn96oAkWSCcNxhnv+b5nG
-        H+LE3O9A==;
+        bh=COYQynwiWcfV4ql7L3zUct4W9iCDBklaXF7pt7Mt+fg=; b=cZ3QKrQ71K3YMUSxD63GzEyhM6
+        4TomKDPH4wtDN3HvUy354ZgdiFLoKT8B7jJBNDvKAKA+KZQH8jIlUdVKanhEBkL11/TZUImIJW6B/
+        HuCskNKFovH1TtIY+GVYlFaWZur69s210OrisdsViqrgnhafGRZfCf3p4yzuQ7B/pK31zXzdfMonl
+        qnSbIaSo8fPsWtz9VSUfPu9YoxdPSnwY45devccktlKVCU0AmsEpP/hh4zpu8jk+QJzlX6YlCk+mN
+        UmX8cV375w3TFd4L2ySWMy7r/nUfuEVKwyTqX2GNbQfNQTNAbZsiN3lRjPUON9V6f/ytvWpoh2223
+        obIAsqiQ==;
 Received: from 179.176.125.229.dynamic.adsl.gvt.net.br ([179.176.125.229] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hIYzZ-0005Hu-Qv; Mon, 22 Apr 2019 13:28:18 +0000
+        id 1hIYza-0005I2-MA; Mon, 22 Apr 2019 13:28:18 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hIYzU-0005ph-QK; Mon, 22 Apr 2019 10:28:12 -0300
+        id 1hIYzT-0005nV-P0; Mon, 22 Apr 2019 10:28:11 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Shaokun Zhang <zhangshaokun@hisilicon.com>,
-        Khuong Dinh <khuong@os.amperecomputing.com>,
-        Andy Gross <andy.gross@linaro.org>,
-        David Brown <david.brown@linaro.org>,
-        Will Deacon <will.deacon@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 77/79] docs: perf: convert to ReST
-Date:   Mon, 22 Apr 2019 10:28:06 -0300
-Message-Id: <845362b2b956c7019e495d4117a7afe9948e61ca.1555938376.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v2 50/79] docs: memory-devices: convert ti-emif.txt to ReST
+Date:   Mon, 22 Apr 2019 10:27:39 -0300
+Message-Id: <0e9c023bbb657d7f870fa8734eb333bb788bb881.1555938376.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1555938375.git.mchehab+samsung@kernel.org>
 References: <cover.1555938375.git.mchehab+samsung@kernel.org>
@@ -57,346 +50,92 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rename the perf documentation files to ReST, add an
-index for them and adjust in order to produce a nice html
-output via the Sphinx build system.
+Prepare this file to be moved to a kernel book by converting
+it to ReST format and renaming it to ti-emif.rst.
 
-At its new index.rst, let's add a :orphan: while this is not linked to
-the main index.rst file, in order to avoid build warnings.
+While this is not part of any book, mark it as :orphan:, in order
+to avoid build warnings.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- .../perf/{arm-ccn.txt => arm-ccn.rst}         | 18 +++++-----
- .../perf/{arm_dsu_pmu.txt => arm_dsu_pmu.rst} |  5 +--
- .../perf/{hisi-pmu.txt => hisi-pmu.rst}       | 35 +++++++++++--------
- Documentation/perf/index.rst                  | 16 +++++++++
- .../perf/{qcom_l2_pmu.txt => qcom_l2_pmu.rst} |  3 +-
- .../perf/{qcom_l3_pmu.txt => qcom_l3_pmu.rst} |  3 +-
- .../{thunderx2-pmu.txt => thunderx2-pmu.rst}  | 25 ++++++-------
- .../perf/{xgene-pmu.txt => xgene-pmu.rst}     |  3 +-
- MAINTAINERS                                   |  4 +--
- drivers/perf/qcom_l3_pmu.c                    |  2 +-
- 10 files changed, 72 insertions(+), 42 deletions(-)
- rename Documentation/perf/{arm-ccn.txt => arm-ccn.rst} (86%)
- rename Documentation/perf/{arm_dsu_pmu.txt => arm_dsu_pmu.rst} (92%)
- rename Documentation/perf/{hisi-pmu.txt => hisi-pmu.rst} (73%)
- create mode 100644 Documentation/perf/index.rst
- rename Documentation/perf/{qcom_l2_pmu.txt => qcom_l2_pmu.rst} (94%)
- rename Documentation/perf/{qcom_l3_pmu.txt => qcom_l3_pmu.rst} (93%)
- rename Documentation/perf/{thunderx2-pmu.txt => thunderx2-pmu.rst} (73%)
- rename Documentation/perf/{xgene-pmu.txt => xgene-pmu.rst} (96%)
+ .../{ti-emif.txt => ti-emif.rst}              | 27 ++++++++++++-------
+ 1 file changed, 17 insertions(+), 10 deletions(-)
+ rename Documentation/memory-devices/{ti-emif.txt => ti-emif.rst} (81%)
 
-diff --git a/Documentation/perf/arm-ccn.txt b/Documentation/perf/arm-ccn.rst
-similarity index 86%
-rename from Documentation/perf/arm-ccn.txt
-rename to Documentation/perf/arm-ccn.rst
-index 15cdb7bc57c3..832b0c64023a 100644
---- a/Documentation/perf/arm-ccn.txt
-+++ b/Documentation/perf/arm-ccn.rst
-@@ -1,3 +1,4 @@
-+==========================
- ARM Cache Coherent Network
- ==========================
- 
-@@ -29,6 +30,7 @@ Crosspoint watchpoint-based events (special "event" value 0xfe)
- require "xp" and "vc" as as above plus "port" (device port index),
- "dir" (transmit/receive direction), comparator values ("cmp_l"
- and "cmp_h") and "mask", being index of the comparator mask.
-+
- Masks are defined separately from the event description
- (due to limited number of the config values) in the "cmp_mask"
- directory, with first 8 configurable by user and additional
-@@ -44,16 +46,16 @@ request the events on this processor (if not, the perf_event->cpu value
- will be overwritten anyway). In case of this processor being offlined,
- the events are migrated to another one and the attribute is updated.
- 
--Example of perf tool use:
-+Example of perf tool use::
- 
--/ # perf list | grep ccn
--  ccn/cycles/                                        [Kernel PMU event]
--<...>
--  ccn/xp_valid_flit,xp=?,port=?,vc=?,dir=?/          [Kernel PMU event]
--<...>
-+  / # perf list | grep ccn
-+    ccn/cycles/                                        [Kernel PMU event]
-+  <...>
-+    ccn/xp_valid_flit,xp=?,port=?,vc=?,dir=?/          [Kernel PMU event]
-+  <...>
- 
--/ # perf stat -a -e ccn/cycles/,ccn/xp_valid_flit,xp=1,port=0,vc=1,dir=1/ \
--                                                                       sleep 1
-+  / # perf stat -a -e ccn/cycles/,ccn/xp_valid_flit,xp=1,port=0,vc=1,dir=1/ \
-+                                                                         sleep 1
- 
- The driver does not support sampling, therefore "perf record" will
- not work. Per-task (without "-a") perf sessions are not supported.
-diff --git a/Documentation/perf/arm_dsu_pmu.txt b/Documentation/perf/arm_dsu_pmu.rst
-similarity index 92%
-rename from Documentation/perf/arm_dsu_pmu.txt
-rename to Documentation/perf/arm_dsu_pmu.rst
-index d611e15f5add..7fd34db75d13 100644
---- a/Documentation/perf/arm_dsu_pmu.txt
-+++ b/Documentation/perf/arm_dsu_pmu.rst
-@@ -1,3 +1,4 @@
-+==================================
- ARM DynamIQ Shared Unit (DSU) PMU
- ==================================
- 
-@@ -13,7 +14,7 @@ PMU doesn't support process specific events and cannot be used in sampling mode.
- The DSU provides a bitmap for a subset of implemented events via hardware
- registers. There is no way for the driver to determine if the other events
- are available or not. Hence the driver exposes only those events advertised
--by the DSU, in "events" directory under :
-+by the DSU, in "events" directory under::
- 
-   /sys/bus/event_sources/devices/arm_dsu_<N>/
- 
-@@ -23,6 +24,6 @@ and use the raw event code for the unlisted events.
- The driver also exposes the CPUs connected to the DSU instance in "associated_cpus".
- 
- 
--e.g usage :
-+e.g usage::
- 
- 	perf stat -a -e arm_dsu_0/cycles/
-diff --git a/Documentation/perf/hisi-pmu.txt b/Documentation/perf/hisi-pmu.rst
-similarity index 73%
-rename from Documentation/perf/hisi-pmu.txt
-rename to Documentation/perf/hisi-pmu.rst
-index 267a028b2741..404a5c3d9d00 100644
---- a/Documentation/perf/hisi-pmu.txt
-+++ b/Documentation/perf/hisi-pmu.rst
-@@ -1,5 +1,7 @@
-+======================================================
- HiSilicon SoC uncore Performance Monitoring Unit (PMU)
- ======================================================
-+
- The HiSilicon SoC chip includes various independent system device PMUs
- such as L3 cache (L3C), Hydra Home Agent (HHA) and DDRC. These PMUs are
- independent and have hardware logic to gather statistics and performance
-@@ -11,11 +13,13 @@ called Super CPU cluster (SCCL) and is made up of 6 CCLs. Each SCCL has
- two HHAs (0 - 1) and four DDRCs (0 - 3), respectively.
- 
- HiSilicon SoC uncore PMU driver
-----------------------------------------
-+-------------------------------
-+
- Each device PMU has separate registers for event counting, control and
- interrupt, and the PMU driver shall register perf PMU drivers like L3C,
- HHA and DDRC etc. The available events and configuration options shall
--be described in the sysfs, see :
-+be described in the sysfs, see:
-+
- /sys/devices/hisi_sccl{X}_<l3c{Y}/hha{Y}/ddrc{Y}>/, or
- /sys/bus/event_source/devices/hisi_sccl{X}_<l3c{Y}/hha{Y}/ddrc{Y}>.
- The "perf list" command shall list the available events from sysfs.
-@@ -24,27 +28,30 @@ Each L3C, HHA and DDRC is registered as a separate PMU with perf. The PMU
- name will appear in event listing as hisi_sccl<sccl-id>_module<index-id>.
- where "sccl-id" is the identifier of the SCCL and "index-id" is the index of
- module.
-+
- e.g. hisi_sccl3_l3c0/rd_hit_cpipe is READ_HIT_CPIPE event of L3C index #0 in
- SCCL ID #3.
-+
- e.g. hisi_sccl1_hha0/rx_operations is RX_OPERATIONS event of HHA index #0 in
- SCCL ID #1.
- 
- The driver also provides a "cpumask" sysfs attribute, which shows the CPU core
- ID used to count the uncore PMU event.
- 
--Example usage of perf:
--$# perf list
--hisi_sccl3_l3c0/rd_hit_cpipe/ [kernel PMU event]
--------------------------------------------
--hisi_sccl3_l3c0/wr_hit_cpipe/ [kernel PMU event]
--------------------------------------------
--hisi_sccl1_l3c0/rd_hit_cpipe/ [kernel PMU event]
--------------------------------------------
--hisi_sccl1_l3c0/wr_hit_cpipe/ [kernel PMU event]
--------------------------------------------
-+Example usage of perf::
- 
--$# perf stat -a -e hisi_sccl3_l3c0/rd_hit_cpipe/ sleep 5
--$# perf stat -a -e hisi_sccl3_l3c0/config=0x02/ sleep 5
-+  $# perf list
-+  hisi_sccl3_l3c0/rd_hit_cpipe/ [kernel PMU event]
-+  ------------------------------------------
-+  hisi_sccl3_l3c0/wr_hit_cpipe/ [kernel PMU event]
-+  ------------------------------------------
-+  hisi_sccl1_l3c0/rd_hit_cpipe/ [kernel PMU event]
-+  ------------------------------------------
-+  hisi_sccl1_l3c0/wr_hit_cpipe/ [kernel PMU event]
-+  ------------------------------------------
-+
-+  $# perf stat -a -e hisi_sccl3_l3c0/rd_hit_cpipe/ sleep 5
-+  $# perf stat -a -e hisi_sccl3_l3c0/config=0x02/ sleep 5
- 
- The current driver does not support sampling. So "perf record" is unsupported.
- Also attach to a task is unsupported as the events are all uncore.
-diff --git a/Documentation/perf/index.rst b/Documentation/perf/index.rst
-new file mode 100644
-index 000000000000..4bf848e27f26
---- /dev/null
-+++ b/Documentation/perf/index.rst
-@@ -0,0 +1,16 @@
+diff --git a/Documentation/memory-devices/ti-emif.txt b/Documentation/memory-devices/ti-emif.rst
+similarity index 81%
+rename from Documentation/memory-devices/ti-emif.txt
+rename to Documentation/memory-devices/ti-emif.rst
+index f4ad9a7d0f4b..c9242294e63c 100644
+--- a/Documentation/memory-devices/ti-emif.txt
++++ b/Documentation/memory-devices/ti-emif.rst
+@@ -1,20 +1,24 @@
+-TI EMIF SDRAM Controller Driver:
 +:orphan:
 +
-+===========================
-+Performance monitor support
-+===========================
++===============================
++TI EMIF SDRAM Controller Driver
++===============================
+ 
+ Author
+-========
++======
+ Aneesh V <aneesh@ti.com>
+ 
+ Location
+-============
++========
+ driver/memory/emif.c
+ 
+ Supported SoCs:
+-===================
++===============
+ TI OMAP44xx
+ TI OMAP54xx
+ 
+ Menuconfig option:
+-==========================
++==================
+ Device Drivers
+ 	Memory devices
+ 		Texas Instruments EMIF driver
+@@ -29,10 +33,11 @@ functions of the driver includes re-configuring AC timing
+ parameters and other settings during frequency, voltage and
+ temperature changes
+ 
+-Platform Data (see include/linux/platform_data/emif_plat.h):
+-=====================================================================
++Platform Data (see include/linux/platform_data/emif_plat.h)
++===========================================================
+ DDR device details and other board dependent and SoC dependent
+ information can be passed through platform data (struct emif_platform_data)
 +
-+.. toctree::
-+   :maxdepth: 1
+ - DDR device details: 'struct ddr_device_info'
+ - Device AC timings: 'struct lpddr2_timings' and 'struct lpddr2_min_tck'
+ - Custom configurations: customizable policy options through
+@@ -40,17 +45,19 @@ information can be passed through platform data (struct emif_platform_data)
+ - IP revision
+ - PHY type
+ 
+-Interface to the external world:
+-================================
++Interface to the external world
++===============================
+ EMIF driver registers notifiers for voltage and frequency changes
+ affecting EMIF and takes appropriate actions when these are invoked.
 +
-+   hisi-pmu
-+   qcom_l2_pmu
-+   qcom_l3_pmu
-+   arm-ccn
-+   xgene-pmu
-+   arm_dsu_pmu
-+   thunderx2-pmu
-diff --git a/Documentation/perf/qcom_l2_pmu.txt b/Documentation/perf/qcom_l2_pmu.rst
-similarity index 94%
-rename from Documentation/perf/qcom_l2_pmu.txt
-rename to Documentation/perf/qcom_l2_pmu.rst
-index b25b97659ab9..c130178a4a55 100644
---- a/Documentation/perf/qcom_l2_pmu.txt
-+++ b/Documentation/perf/qcom_l2_pmu.rst
-@@ -1,3 +1,4 @@
-+=====================================================================
- Qualcomm Technologies Level-2 Cache Performance Monitoring Unit (PMU)
- =====================================================================
+ - freq_pre_notify_handling()
+ - freq_post_notify_handling()
+ - volt_notify_handling()
  
-@@ -28,7 +29,7 @@ The driver provides a "cpumask" sysfs attribute which contains a mask
- consisting of one CPU per cluster which will be used to handle all the PMU
- events on that cluster.
- 
--Examples for use with perf:
-+Examples for use with perf::
- 
-   perf stat -e l2cache_0/config=0x001/,l2cache_0/config=0x042/ -a sleep 1
- 
-diff --git a/Documentation/perf/qcom_l3_pmu.txt b/Documentation/perf/qcom_l3_pmu.rst
-similarity index 93%
-rename from Documentation/perf/qcom_l3_pmu.txt
-rename to Documentation/perf/qcom_l3_pmu.rst
-index 96b3a9444a0d..a3d014a46bfd 100644
---- a/Documentation/perf/qcom_l3_pmu.txt
-+++ b/Documentation/perf/qcom_l3_pmu.rst
-@@ -1,3 +1,4 @@
-+===========================================================================
- Qualcomm Datacenter Technologies L3 Cache Performance Monitoring Unit (PMU)
- ===========================================================================
- 
-@@ -17,7 +18,7 @@ The hardware implements 32bit event counters and has a flat 8bit event space
- exposed via the "event" format attribute. In addition to the 32bit physical
- counters the driver supports virtual 64bit hardware counters by using hardware
- counter chaining. This feature is exposed via the "lc" (long counter) format
--flag. E.g.:
-+flag. E.g.::
- 
-   perf stat -e l3cache_0_0/read-miss,lc/
- 
-diff --git a/Documentation/perf/thunderx2-pmu.txt b/Documentation/perf/thunderx2-pmu.rst
-similarity index 73%
-rename from Documentation/perf/thunderx2-pmu.txt
-rename to Documentation/perf/thunderx2-pmu.rst
-index dffc57143736..08e33675853a 100644
---- a/Documentation/perf/thunderx2-pmu.txt
-+++ b/Documentation/perf/thunderx2-pmu.rst
-@@ -1,3 +1,4 @@
-+=============================================================
- Cavium ThunderX2 SoC Performance Monitoring Unit (PMU UNCORE)
- =============================================================
- 
-@@ -24,18 +25,18 @@ and configuration options under sysfs, see
- The driver does not support sampling, therefore "perf record" will not
- work. Per-task perf sessions are also not supported.
- 
--Examples:
-+Examples::
- 
--# perf stat -a -e uncore_dmc_0/cnt_cycles/ sleep 1
-+  # perf stat -a -e uncore_dmc_0/cnt_cycles/ sleep 1
- 
--# perf stat -a -e \
--uncore_dmc_0/cnt_cycles/,\
--uncore_dmc_0/data_transfers/,\
--uncore_dmc_0/read_txns/,\
--uncore_dmc_0/write_txns/ sleep 1
-+  # perf stat -a -e \
-+  uncore_dmc_0/cnt_cycles/,\
-+  uncore_dmc_0/data_transfers/,\
-+  uncore_dmc_0/read_txns/,\
-+  uncore_dmc_0/write_txns/ sleep 1
- 
--# perf stat -a -e \
--uncore_l3c_0/read_request/,\
--uncore_l3c_0/read_hit/,\
--uncore_l3c_0/inv_request/,\
--uncore_l3c_0/inv_hit/ sleep 1
-+  # perf stat -a -e \
-+  uncore_l3c_0/read_request/,\
-+  uncore_l3c_0/read_hit/,\
-+  uncore_l3c_0/inv_request/,\
-+  uncore_l3c_0/inv_hit/ sleep 1
-diff --git a/Documentation/perf/xgene-pmu.txt b/Documentation/perf/xgene-pmu.rst
-similarity index 96%
-rename from Documentation/perf/xgene-pmu.txt
-rename to Documentation/perf/xgene-pmu.rst
-index d7cff4454e5b..644f8ed89152 100644
---- a/Documentation/perf/xgene-pmu.txt
-+++ b/Documentation/perf/xgene-pmu.rst
-@@ -1,3 +1,4 @@
-+================================================
- APM X-Gene SoC Performance Monitoring Unit (PMU)
- ================================================
- 
-@@ -33,7 +34,7 @@ each PMU, please refer to APM X-Gene User Manual.
- Each perf driver also provides a "cpumask" sysfs attribute, which contains a
- single CPU ID of the processor which will be used to handle all the PMU events.
- 
--Example for perf tool use:
-+Example for perf tool use::
- 
-  / # perf list | grep -e l3c -e iob -e mcb -e mc
-    l3c0/ackq-full/                                    [Kernel PMU event]
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3ed27c0c36d8..68d0070d18b6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1102,7 +1102,7 @@ APPLIED MICRO (APM) X-GENE SOC PMU
- M:	Khuong Dinh <khuong@os.amperecomputing.com>
- S:	Supported
- F:	drivers/perf/xgene_pmu.c
--F:	Documentation/perf/xgene-pmu.txt
-+F:	Documentation/perf/xgene-pmu.rst
- F:	Documentation/devicetree/bindings/perf/apm-xgene-pmu.txt
- 
- APTINA CAMERA SENSOR PLL
-@@ -7082,7 +7082,7 @@ M:	Shaokun Zhang <zhangshaokun@hisilicon.com>
- W:	http://www.hisilicon.com
- S:	Supported
- F:	drivers/perf/hisilicon
--F:	Documentation/perf/hisi-pmu.txt
-+F:	Documentation/perf/hisi-pmu.rst
- 
- HISILICON ROCE DRIVER
- M:	Lijun Ou <oulijun@huawei.com>
-diff --git a/drivers/perf/qcom_l3_pmu.c b/drivers/perf/qcom_l3_pmu.c
-index 5d70646da8c7..bb5af9503084 100644
---- a/drivers/perf/qcom_l3_pmu.c
-+++ b/drivers/perf/qcom_l3_pmu.c
-@@ -7,7 +7,7 @@
-  * the slices. User space needs to aggregate to individual counts to provide
-  * a global picture.
-  *
-- * See Documentation/perf/qcom_l3_pmu.txt for more details.
-+ * See Documentation/perf/qcom_l3_pmu.rst for more details.
-  *
-  * Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
-  *
+ Debugfs
+-========
++=======
+ The driver creates two debugfs entries per device.
++
+ - regcache_dump : dump of register values calculated and saved for all
+   frequencies used so far.
+ - mr4 : last polled value of MR4 register in the LPDDR2 device. MR4
 -- 
 2.20.1
 
