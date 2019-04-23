@@ -1,87 +1,103 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A8F267D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Apr 2019 21:30:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 12A167D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Apr 2019 22:11:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726599AbfDWVa5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 23 Apr 2019 17:30:57 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:42033 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726748AbfDWVa5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Apr 2019 17:30:57 -0400
-Received: by mail-lf1-f65.google.com with SMTP id w23so12865708lfc.9
-        for <linux-doc@vger.kernel.org>; Tue, 23 Apr 2019 14:30:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gj/C1n+4JzJjjhUoe8msJVAVKtyw85XXivazIssjzrg=;
-        b=cigG1jTIozfeAIS/XLpR6jV/YEmZREqI1ziiBnf1BbfcpDoj3jhUEXe15oKYKIuGnE
-         jBPvCcMGDw2U+nN6GPExSYnVApWcT64Iy7swJUmzNCeKgR7uVrxmYWoz2erEJ3jiVbab
-         XF0N53UmdOg8uJOYvVxhhV+od04HlT+3VUatNKjeF5yfRDx5dF0Cu9pZoaasj4dN7h9t
-         5IQ01ja27mYBXWbhP1in5Ht5RU+YCYbNdzQ+ND5CL94NqDSGoeqOSIWpOK8uy6z0AUA4
-         qN/IUMWHEMPBk0a4iQaVub+N+1TalO9A71MXI0sTN0Zoq/reYsHlOImQHKu7MGe0C4i4
-         R65g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gj/C1n+4JzJjjhUoe8msJVAVKtyw85XXivazIssjzrg=;
-        b=rcpf94lh2pJPRt8pxmJvUvFu8ka2bFcoRK/DPed/yDpTC9G7Gm2IiAoCLsLR+6GGpR
-         5V39jfNIvKXtx2u/ZhZB8yjf1UvNj9d0A2YCTjD52tOC+9ldUl94jJhjXHOm+AisibSZ
-         vvqFASKhCPuq5KWPmRlyiVshJJe6M4u/f4pDrV2RqAbzzXlw7iFYfGMPWjM3zTgAJzKq
-         kJp4+DUY0lF27u7TUTM7IPfJMKyfBhOkPJNBPUFAClXZOv0Yv/DNvFLce3I8QD4ZRZ4/
-         12IClK1GtV5v3+mbUXhlU0G5PcZuPIX3howOLLk1usuRbWzZQ9nq4jFQi7JbMcTVDL1v
-         bEAw==
-X-Gm-Message-State: APjAAAUkwIa6cvt0xVZ0JP43VrwUyMtk0Knonh7sc62241Ac6zc3BIeF
-        3u25Ey1oB/tFsDh3FZBiaCYSchk1EH3KHEBM5/3IMA==
-X-Google-Smtp-Source: APXvYqw5sqlx6rYco2PwRId3MXLuHuEkR0+CdFN5dPdrXDVjgtRlcAiFlNcLVn70F9u+GsoI/xvF4Hpk9DZI+i3WRqQ=
-X-Received: by 2002:ac2:4647:: with SMTP id s7mr14850759lfo.168.1556055055246;
- Tue, 23 Apr 2019 14:30:55 -0700 (PDT)
+        id S1727929AbfDWWLg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 23 Apr 2019 18:11:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58814 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726325AbfDWWLg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Apr 2019 18:11:36 -0400
+Received: from localhost (unknown [69.71.4.100])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id AB5FD21738;
+        Tue, 23 Apr 2019 22:11:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1556057496;
+        bh=6uaIDqhlQe789sFXRkyJVF8NsVndwaJW3RinM5iteNE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=tQl6VeFTzcdo2gVP1ZdPp8m7WgIVsiolfKFmY1PC9/qgjcPMGQDCkj5xbv6PT593t
+         R2k7ne6t2oXNpbphqANwgxGyxRELMdIspps1SSjnO5QB78pTVLwJLTN0SgcZgLtD0Q
+         kmJOkzl2ZhgIUvUzGEaMPEu7vKQx/2Cw3CY8B7GE=
+Date:   Tue, 23 Apr 2019 17:11:34 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     sathyanarayanan kuppuswamy 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc:     "Raj, Ashok" <ashok.raj@intel.com>, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pci@vger.kernel.org, Keith Busch <keith.busch@intel.com>,
+        alex.williamson@redhat.com
+Subject: Re: [PATCH v1 1/5] PCI/IOV: Add support to verify PF/VF spec
+ compliance
+Message-ID: <20190423221134.GI14616@google.com>
+References: <cover.1551909341.git.sathyanarayanan.kuppuswamy@linux.intel.com>
+ <317aaed09820db65c21452663bed33468f874d3a.1551909341.git.sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20190419135918.GC173520@google.com>
+ <20190419173728.GE46517@otc-nc-03>
+ <22ad30c0-fc7e-b5ac-a224-c1a247c33359@linux.intel.com>
 MIME-Version: 1.0
-References: <cover.1555938375.git.mchehab+samsung@kernel.org> <03cdacc3db76c5ff984c1507ea6434650d36d822.1555938376.git.mchehab+samsung@kernel.org>
-In-Reply-To: <03cdacc3db76c5ff984c1507ea6434650d36d822.1555938376.git.mchehab+samsung@kernel.org>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 23 Apr 2019 23:30:43 +0200
-Message-ID: <CACRpkdY_OHTU6dN-2BXYhPYyAVW62nSzqfNx66bAB++=epGMbg@mail.gmail.com>
-Subject: Re: [PATCH v2 15/79] docs: gpio: convert docs to ReST and rename to *.rst
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <22ad30c0-fc7e-b5ac-a224-c1a247c33359@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 22, 2019 at 3:28 PM Mauro Carvalho Chehab
-<mchehab+samsung@kernel.org> wrote:
+On Fri, Apr 19, 2019 at 11:41:31AM -0700, sathyanarayanan kuppuswamy wrote:
+> On 4/19/19 10:37 AM, Raj, Ashok wrote:
+> > On Fri, Apr 19, 2019 at 08:59:18AM -0500, Bjorn Helgaas wrote:
+> > > On Wed, Mar 06, 2019 at 02:11:14PM -0800, sathyanarayanan.kuppuswamy@linux.intel.com wrote:
+> > > > From: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+> > > > 
+> > > > PF/VF implementation must comply with PCIe specification as
+> > > > defined in r4.0, sec 9.3.4, 9.3.5, 9.3.6 and 9.3.7. And if
+> > > > it does not comply, return error and skip PF/VF device
+> > > > creation.
+> > > As far as I can tell, this patch basically looks for excuses not to
+> > > enable SR-IOV.  Does this actually solve a problem?  Are there
+> > > non-compliant devices out there that blow up if we enable SR-IOV?
+> > We ran into one case with a future product for INTx value on VF's. We do have
+> > a quirk for it upstream now. We thought it might be good to just run through
+> > some of the basic requirements and see if any device violates it, that would allow
+> > us to catch them early.
+> > 
+> > We are looking into other things like PASID and End-2-End prefix capability for instance.
+> > There is another subtle thing like number of eetlp_prefix_supported. Which i don't
+> > pci core checks today, and we might need to do that to be compliant or find devices
+> > that break that contract.
+> > 
+> > Real intend is to be find such breaks early, it also helps the product guys :-)
+> > 
+> > With upcoming vIOMMU effort, we need to ensure that capabilities are exported properly
+> > depending on if its a SRIOV-PF/VF or a Scalable device.
+> > 
+> > Cheers,
+> > Ashok
+> 
+> I agree with Ashok's comments. It helps us find SRIOV related features
+> enable/disable issues easily.
+> 
+> Also, there is some of level of spec compliance checks in enabling
+> PASID/PRI/ATS already in our existing code.
+> 
+> I am just grouping them together in one place and expanded it for other IOV
+> related features.
 
-> The API described at sysfs.txt is deprecated.
->
-> Still, as it is still part of the Kernel (and will likely be
-> there for some time, as we don't simply remove APIs). So,
-> it makes sense to keep it there.
->
-> The conversion of this file is trivial:
->   - add blank lines and identation in order to identify paragraphs;
->   - mark a literal block as such.
->
-> At its new index.rst, let's add a :orphan: while this is not linked to
-> the main index.rst file, in order to avoid build warnings.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+My $0.02:
 
-Patch applied to the GPIO tree.
+  - If there's a problem that actually prevents Linux from using a feature,
+    check for the problem close to the point where we use the feature.
 
-Yours,
-Linus Walleij
+  - If you want to check for spec compliance, most of that can be done more
+    easily in user-space by examining lspci output.
+
+Bjorn
