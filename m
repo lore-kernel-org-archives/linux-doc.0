@@ -1,84 +1,63 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E9A777D099
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Apr 2019 10:52:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E442C7D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Apr 2019 11:19:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727452AbfDWKwW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 23 Apr 2019 06:52:22 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:37608 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726655AbfDWKwT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Apr 2019 06:52:19 -0400
-Received: by mail-lj1-f195.google.com with SMTP id v13so504817ljk.4
-        for <linux-doc@vger.kernel.org>; Tue, 23 Apr 2019 03:52:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jjHJWj5FeXe18WchV2bn8F7Pb/3Z1VsLWjcSEKmeIAU=;
-        b=uHUxSxzuPKxxVAA87jIdgcZeG2i8ehbZ5AKsl7ok4ibVNub+BR7/bfbP6XrHYLG57T
-         +A7T9Dr3dk5ZAzaCGoXAYQxdXyMXYuzQLD3ZpF2yOi8VvbH5i3H14nFBlc9Gm/CVkVCQ
-         GFjSCbIU8WkGFKyWURIa4HpSI52+nTmpV3DX9M3ycnsQqJ72jL5Bh0e850P0TobJTb3r
-         3RxPG5h65NnLGeMDUM3Q1HINi2OTlTzjSKIWlazhkyWF5k7q0EjrmosSf+tKg2ZHSymR
-         Q1CUzOrwOD9FCUbbBj/MiooXltXWCgYw/r6BBHTEIVh69jERNersfFGN8ifxnJhKeIxT
-         b5Eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jjHJWj5FeXe18WchV2bn8F7Pb/3Z1VsLWjcSEKmeIAU=;
-        b=LlfwUGMFdoweoQRS7I2+sckGDpWfLiXgYgZWuX4v1Gk8TCtPhsPk5Ksbg+Tk6+TluC
-         QcxmAB8QUmddBO9uPu8jnBkV5L6i+23lZFF+zEUWKkjReEiCQqFakB4j60UH11y3p+eR
-         o0zhyJ4JKgCtpCMgq5+OuhQdR5CUVY1am/DJqqiHKcDMAiMyEjlu50EmwQUCiatU3BX0
-         fWHABJ3DDqNynGRfO9jrw+Zn/ttDacHbfLxd54vmn/+Mx3S3pApWeyQqsyXuzT/jVLHV
-         Xj6CN42e7zwBs7cVjuoU7OcQlrG5y1EpLUlz5QpODNPSa6Tggg16y07PxSYHtDv/E92q
-         BHlA==
-X-Gm-Message-State: APjAAAUkKzaUYgwf1FheCzSy5XYQ2GhzMSu/xH7QPpc8JGSr7mJP3D1A
-        hHa4/6M6CX9Shwkna36Vv9PRZqYt6sPlW7nnj5t4eg==
-X-Google-Smtp-Source: APXvYqwMt5uT1pB7M8THZUlaySgjL6nMPPyMuWushg7nGzWH2zl+JqyBRVsNZIanc80nK4eKsAUkFlYxgigeOTc4Qww=
-X-Received: by 2002:a2e:834d:: with SMTP id l13mr13669579ljh.97.1556016737041;
- Tue, 23 Apr 2019 03:52:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1555382110.git.mchehab+samsung@kernel.org> <0f2d522a80f96391d3f7b51389d08b4afaedb618.1555382110.git.mchehab+samsung@kernel.org>
-In-Reply-To: <0f2d522a80f96391d3f7b51389d08b4afaedb618.1555382110.git.mchehab+samsung@kernel.org>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 23 Apr 2019 12:52:04 +0200
-Message-ID: <CACRpkdYQeEoyE9sAAo2KZjurx9sH4w+bzM-_-_h6U4w7PeX7eg@mail.gmail.com>
-Subject: Re: [PATCH 15/57] docs: gpio: convert it to ReST
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S1726421AbfDWLTr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 23 Apr 2019 07:19:47 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:47812 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726204AbfDWLTq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Apr 2019 07:19:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=9dI4Sk2ke72Ib9kZokOQXHR9Plp7vlR5+6E/NjlqO1Y=; b=ng4USdauPZaFq4WaXiN99ZRv+
+        6652E/r9ekkoL6w5TD/uDIGEryVj//w8WsHXwibtZEKgmHmQ9gQeBsxVvdYfbyJLeNDBEqiTvX+km
+        SVkYdz98E//pJ8aBdD4+cpEW1FfUPqJCKqAxREtVMDgMhYJ7GTz8PaByCiCyMigAWl+36Yk6+X7Wk
+        3XwdtonfSeb2u4uwREdE/Y2XbAYfgMwO29VWzL+W3FMPm/tpyHualLKKG3Ru9hJl0v4LlbyDKPeKp
+        pEiy/ruvXnPX/GMZvAyzwkmM0r4f965z/LMGoOc/zbt1INkK/XrIKYsrCYxA3anQygQwli3aqIUBs
+        Fv0MgcI1g==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hItSe-0003Fl-Q9; Tue, 23 Apr 2019 11:19:41 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 6DF3F29B59F03; Tue, 23 Apr 2019 13:19:37 +0200 (CEST)
+Date:   Tue, 23 Apr 2019 13:19:37 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Ingo Molnar <mingo@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>
+Subject: Re: [PATCH v2 38/79] docs: scheduler: convert docs to ReST and
+ rename to *.rst
+Message-ID: <20190423111937.GM11158@hirez.programming.kicks-ass.net>
+References: <cover.1555938375.git.mchehab+samsung@kernel.org>
+ <2a3b2b06459e0134a3af4fbf3e6f62e6d42c4d26.1555938376.git.mchehab+samsung@kernel.org>
+ <20190423082937.GZ11158@hirez.programming.kicks-ass.net>
+ <20190423103202.GA13655@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190423103202.GA13655@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 16, 2019 at 4:56 AM Mauro Carvalho Chehab
-<mchehab+samsung@kernel.org> wrote:
+On Tue, Apr 23, 2019 at 12:32:02PM +0200, Ingo Molnar wrote:
 
-> The API described at sysfs.txt is deprecated.
->
-> Still, as it is still part of the Kernel (and will likely be
-> there for some time, as we don't simply remove APIs). So,
-> it makes sense to keep it there.
->
-> The conversion of this file is trivial.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> The .rst files still read like text files, right?
 
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
-
-Mauro will you merge this or do you want me to merge it?
-
-Yours,
-Linus Walleij
+Like a harder to read text file for no gains.
