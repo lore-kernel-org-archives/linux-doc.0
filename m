@@ -6,48 +6,48 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 768067D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Apr 2019 16:32:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 527947D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Apr 2019 16:33:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728836AbfDWQbW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 23 Apr 2019 12:31:22 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:42947 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728672AbfDWQbW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Apr 2019 12:31:22 -0400
-Received: by mail-pl1-f196.google.com with SMTP id x15so3432851pln.9;
-        Tue, 23 Apr 2019 09:31:21 -0700 (PDT)
+        id S1728753AbfDWQcm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 23 Apr 2019 12:32:42 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:35343 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728656AbfDWQcm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Apr 2019 12:32:42 -0400
+Received: by mail-pl1-f194.google.com with SMTP id w24so7796269plp.2;
+        Tue, 23 Apr 2019 09:32:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Z9Aq19FQiDXcRtSj5P6rKh+DiG01WgKftvX0KyN8OgY=;
-        b=KjVTVMA+ZvC2wQYsH7B1kORjqpOj8MQikSPGGXHSBFG/okNfaWiMyuU9YIg98yWILA
-         8R4O/2L2Gt+JcKrzE2jWnbGVcug3aluX30wsmsCcH15zT+vQWzjmyXJ2jJeFafRjpYH7
-         yRXxamuov3ycUcTj33vaDLP67UpgQ+nNYaPtLMQh13bouAGML4C/h0uQiPfuRn4fnkK6
-         ewm15Iz/6JGlgwJK9tet8bJqN6l46IMeEiGmpLhCka7JksEWKgsA8xU0VpJ06TOmTIVD
-         weBpF02JU5hzU1Op+SEdOZUefBb1AjTUcDkXN7M+FyaXjuzsXm4zJrpNF3EMTS92fGDq
-         Axrg==
+        bh=+Kb3yhKuecaH+tPIFeyKoNCy2Q2HKYqzIlny4c2UXFY=;
+        b=L3xeiXnpEXxmenNLrs3YPDFeZpH9FfZiKFIk4GYjcLhr2xZro8lXD4MaVnNqw7+jN7
+         +J2IpkhfT5PSmtMDaP4aHuZcPdpjSyAcRtcPy+4/2YeedvJAajM4WtMkuU6OafogY3Sk
+         FFQwZ6w+rtnQ1lAE/l0vN8BawDclFuInn33NfUGeFTZ0hsY5fOoUJdexuV4rIahaeoje
+         5m8SP4/I7OsWUcU2OnSwVsQgJPnuW7AF4GepHV8TUSXtavc7GS53blGwnwMpYxhHTkP2
+         9At0PSe0cpVBGpEQto0JOcGB1xmA2xGOwJD7dr79wAjsa7agDRnkQKXq3jYEtHSRoccZ
+         yr6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Z9Aq19FQiDXcRtSj5P6rKh+DiG01WgKftvX0KyN8OgY=;
-        b=qOMzLSwJP/RRKDAa6Q2ba7nXmzzwFtmCzP3fg+AEyBZPSV8+IYmTCSvbP1QwMOSTEZ
-         5LO7RfKqipThfu9ShSALIlgQ6ksArWRb8nV7mzpsIyotE9KwsGQZkADZvDcs+m874w9y
-         0s1QhFDWlRFaiA/jFv/NH/ziUia5futCWXUpsHjQUGp77WiJX5UQke4uD+j8iYic5xWw
-         NnDvVdQSI1FHo9KrxWFKO8iEBXCHrrNdPy+CqHP0KL1GxKPXl30L+S4Q50hkZ+Ryv7kA
-         gfz/RlpR4ZhIBfd6AbHZ7sklTwCGccZ5g6HkHQpiOKWPgRtxnx/8plgAIZA0YaGLbvri
-         0mYw==
-X-Gm-Message-State: APjAAAXwYjACBfzvel5cGZWm0IegVNRZUu7oLQgN4Aarkf6iUFdIewKm
-        XAOSvbL2zCu3IWoTgNF/wwo=
-X-Google-Smtp-Source: APXvYqyedsi2U8ftySv9IxrDFm+WkUW43vfLhaGdL6fCZ1sYA6MoafoCCefyp5bNSyFgVrlbbMQYfg==
-X-Received: by 2002:a17:902:b10c:: with SMTP id q12mr27686211plr.254.1556037081532;
-        Tue, 23 Apr 2019 09:31:21 -0700 (PDT)
+        bh=+Kb3yhKuecaH+tPIFeyKoNCy2Q2HKYqzIlny4c2UXFY=;
+        b=cPj/IZlpca685pN21K4m16xo6gCW4NGiPPN/hntaxnyS3WXfGVUbav1G+xjD+7k9Po
+         FYe1F9S0KFMpRnlMkqMUnWR0MtkM4pX0P16mx+9Umf+/KT6dMBILxOKQUwbnh6RrDpiU
+         TRFhbQ8YuvYxCfV7mYKdrjJip0sFETPigKI/fDPLliaoSUUBz1hKUjdyjBWO0cW/zeLr
+         CI74rNDQ+pA/mBxcJiWq1W5mseMpIUU1jJrXJngrxEF+6cizYYH9PtABCL5Zfp75sGO6
+         bP1dX6WtBEDWJ/NCbLIH085KVRUlk7u/+HsnREYfJCAyYWQD0KZCwNbCsLpMJX0WzZrS
+         eGqA==
+X-Gm-Message-State: APjAAAVhtT06xxOaQevO+7/qo5xM7S1AQp+G7f9Lb42A0eVThqtDVm67
+        gEXjoiqzA7MOI9OnPIaffd0=
+X-Google-Smtp-Source: APXvYqzuFBXtP4aSifoDWH3IVT1QXDqLt0k1TlsPXALgdM6up9DM5f8I9lUgUEZLrb7aoOMVFUnFqA==
+X-Received: by 2002:a17:902:e490:: with SMTP id cj16mr27286585plb.156.1556037161684;
+        Tue, 23 Apr 2019 09:32:41 -0700 (PDT)
 Received: from localhost.localdomain ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id v1sm24364801pff.81.2019.04.23.09.31.13
+        by smtp.gmail.com with ESMTPSA id v1sm24364801pff.81.2019.04.23.09.32.33
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 23 Apr 2019 09:31:20 -0700 (PDT)
+        Tue, 23 Apr 2019 09:32:41 -0700 (PDT)
 From:   Changbin Du <changbin.du@gmail.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Bjorn Helgaas <bhelgaas@google.com>, rjw@rjwysocki.net,
@@ -57,9 +57,9 @@ Cc:     Bjorn Helgaas <bhelgaas@google.com>, rjw@rjwysocki.net,
         linuxppc-dev@lists.ozlabs.org, linux-acpi@vger.kernel.org,
         linux-gpio@vger.kernel.org, mchehab+samsung@kernel.org,
         Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH v4 07/63] Documentation: ACPI: move DSD-properties-rules.txt to firmware-guide/acpi and covert to reST
-Date:   Wed, 24 Apr 2019 00:28:36 +0800
-Message-Id: <20190423162932.21428-8-changbin.du@gmail.com>
+Subject: [PATCH v4 15/63] Documentation: ACPI: move dsd/data-node-references.txt to firmware-guide/acpi and convert to reST
+Date:   Wed, 24 Apr 2019 00:28:44 +0800
+Message-Id: <20190423162932.21428-16-changbin.du@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190423162932.21428-1-changbin.du@gmail.com>
 References: <20190423162932.21428-1-changbin.du@gmail.com>
@@ -75,87 +75,81 @@ add it to Sphinx TOC tree. No essential content change.
 
 Signed-off-by: Changbin Du <changbin.du@gmail.com>
 ---
- .../acpi/DSD-properties-rules.rst}            | 21 +++++++++++--------
+ .../acpi/dsd/data-node-references.rst}        | 28 +++++++++++--------
  Documentation/firmware-guide/acpi/index.rst   |  1 +
- 2 files changed, 13 insertions(+), 9 deletions(-)
- rename Documentation/{acpi/DSD-properties-rules.txt => firmware-guide/acpi/DSD-properties-rules.rst} (88%)
+ 2 files changed, 17 insertions(+), 12 deletions(-)
+ rename Documentation/{acpi/dsd/data-node-references.txt => firmware-guide/acpi/dsd/data-node-references.rst} (79%)
 
-diff --git a/Documentation/acpi/DSD-properties-rules.txt b/Documentation/firmware-guide/acpi/DSD-properties-rules.rst
-similarity index 88%
-rename from Documentation/acpi/DSD-properties-rules.txt
-rename to Documentation/firmware-guide/acpi/DSD-properties-rules.rst
-index 3e4862bdad98..4306f29b6103 100644
---- a/Documentation/acpi/DSD-properties-rules.txt
-+++ b/Documentation/firmware-guide/acpi/DSD-properties-rules.rst
-@@ -1,8 +1,11 @@
+diff --git a/Documentation/acpi/dsd/data-node-references.txt b/Documentation/firmware-guide/acpi/dsd/data-node-references.rst
+similarity index 79%
+rename from Documentation/acpi/dsd/data-node-references.txt
+rename to Documentation/firmware-guide/acpi/dsd/data-node-references.rst
+index c3871565c8cf..79c5368eaecf 100644
+--- a/Documentation/acpi/dsd/data-node-references.txt
++++ b/Documentation/firmware-guide/acpi/dsd/data-node-references.rst
+@@ -1,9 +1,12 @@
+-Copyright (C) 2018 Intel Corporation
+-Author: Sakari Ailus <sakari.ailus@linux.intel.com>
+-
 +.. SPDX-License-Identifier: GPL-2.0
++.. include:: <isonum.txt>
+ 
++===================================
+ Referencing hierarchical data nodes
+------------------------------------
++===================================
 +
-+==================================
- _DSD Device Properties Usage Rules
------------------------------------
-+==================================
++:Copyright: |copy| 2018 Intel Corporation
++:Author: Sakari Ailus <sakari.ailus@linux.intel.com>
  
- Properties, Property Sets and Property Subsets
------------------------------------------------
-+==============================================
+ ACPI in general allows referring to device objects in the tree only.
+ Hierarchical data extension nodes may not be referred to directly, hence this
+@@ -28,13 +31,14 @@ extension key.
  
- The _DSD (Device Specific Data) configuration object, introduced in ACPI 5.1,
- allows any type of device configuration data to be provided via the ACPI
-@@ -18,7 +21,7 @@ specific type) associated with it.
  
- In the ACPI _DSD context it is an element of the sub-package following the
- generic Device Properties UUID in the _DSD return package as specified in the
--Device Properties UUID definition document [1].
-+Device Properties UUID definition document [1]_.
+ Example
+--------
++=======
  
- It also may be regarded as the definition of a key and the associated data type
- that can be returned by _DSD in the Device Properties UUID sub-package for a
-@@ -33,14 +36,14 @@ Property subsets are nested collections of properties.  Each of them is
- associated with an additional key (name) allowing the subset to be referred
- to as a whole (and to be treated as a separate entity).  The canonical
- representation of property subsets is via the mechanism specified in the
--Hierarchical Properties Extension UUID definition document [2].
-+Hierarchical Properties Extension UUID definition document [2]_.
+-	In the ASL snippet below, the "reference" _DSD property [2] contains a
+-	device object reference to DEV0 and under that device object, a
+-	hierarchical data extension key "node@1" referring to the NOD1 object
+-	and lastly, a hierarchical data extension key "anothernode" referring to
+-	the ANOD object which is also the final target node of the reference.
++In the ASL snippet below, the "reference" _DSD property [2] contains a
++device object reference to DEV0 and under that device object, a
++hierarchical data extension key "node@1" referring to the NOD1 object
++and lastly, a hierarchical data extension key "anothernode" referring to
++the ANOD object which is also the final target node of the reference.
++::
  
- Property sets may be hierarchical.  That is, a property set may contain
- multiple property subsets that each may contain property subsets of its
- own and so on.
+ 	Device (DEV0)
+ 	{
+@@ -75,10 +79,10 @@ Example
+ 	    })
+ 	}
  
- General Validity Rule for Property Sets
-----------------------------------------
-+=======================================
- 
- Valid property sets must follow the guidance given by the Device Properties UUID
- definition document [1].
-@@ -73,7 +76,7 @@ suitable for the ACPI environment and consequently they cannot belong to a valid
- property set.
- 
- Property Sets and Device Tree Bindings
----------------------------------------
-+======================================
- 
- It often is useful to make _DSD return property sets that follow Device Tree
- bindings.
-@@ -91,7 +94,7 @@ expected to automatically work in the ACPI environment regardless of their
- contents.
+-Please also see a graph example in graph.txt .
++Please also see a graph example in :doc:`graph`.
  
  References
 -----------
 +==========
  
--[1] http://www.uefi.org/sites/default/files/resources/_DSD-device-properties-UUID.pdf
--[2] http://www.uefi.org/sites/default/files/resources/_DSD-hierarchical-data-extension-UUID-v1.1.pdf
-+.. [1] http://www.uefi.org/sites/default/files/resources/_DSD-device-properties-UUID.pdf
-+.. [2] http://www.uefi.org/sites/default/files/resources/_DSD-hierarchical-data-extension-UUID-v1.1.pdf
+ [1] Hierarchical Data Extension UUID For _DSD.
+     <URL:http://www.uefi.org/sites/default/files/resources/_DSD-hierarchical-data-extension-UUID-v1.1.pdf>,
 diff --git a/Documentation/firmware-guide/acpi/index.rst b/Documentation/firmware-guide/acpi/index.rst
-index 868bd25a3398..0e05b843521c 100644
+index f81cfbcb6878..6d4e0df4f063 100644
 --- a/Documentation/firmware-guide/acpi/index.rst
 +++ b/Documentation/firmware-guide/acpi/index.rst
-@@ -10,3 +10,4 @@ ACPI Support
+@@ -9,6 +9,7 @@ ACPI Support
+ 
     namespace
+    dsd/graph
++   dsd/data-node-references
     enumeration
     osi
-+   DSD-properties-rules
+    method-customizing
 -- 
 2.20.1
 
