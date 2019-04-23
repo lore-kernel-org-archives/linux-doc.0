@@ -2,34 +2,34 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 697507D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Apr 2019 21:08:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A6BF17D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Apr 2019 21:10:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726351AbfDWVIz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 23 Apr 2019 17:08:55 -0400
-Received: from casper.infradead.org ([85.118.1.10]:38522 "EHLO
+        id S1727740AbfDWVJ7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 23 Apr 2019 17:09:59 -0400
+Received: from casper.infradead.org ([85.118.1.10]:38646 "EHLO
         casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726029AbfDWVIy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Apr 2019 17:08:54 -0400
+        with ESMTP id S1726029AbfDWVJ7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Apr 2019 17:09:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
         MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
         :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=vdJiYFNKoKyfpKh/sHwLi3OzHq3/SpHY3SiZoXQLSOo=; b=G6a4jleNomlkvu7eTiW0NpqxiO
-        /ZBQDd1qzueVFNl1v/y5qc3zaNQ5vXizByhEQ6+sCOgk72t47SG/fLY9Ib9Lr1Wb98rzVR5YTr4Cy
-        R+skOlk62aIQx2b8XLYg2CeyupDYpZEWXed/v0XfHS3Id5+jQ1u2bKqWeQUaw1In6VRIkQucDThx1
-        X7SDQYApTQ+eLciLf3PyQdPPD/RaOsP4KMcvBCjLigmGI0p2zNJMciAlKvIfhvh5IJMVtEuEZjpgj
-        TkUTto5qgswEezqaIPG+Sox6o6td747KLECfJ64HPWFEVB0rlzdqwZaSYbzK4E/zEj8aiTDZUWXGU
-        m3+KaGNg==;
+        bh=2wCa3nFyIHBkX+W7L08Ddl9/YQMFyOa83nnq8nn7FoI=; b=N2hDZE6qZ5seHNnDs2TmZ6DEwF
+        sapUo2Ma+lbARcWApPNvphi0Kp+5CJ4vZ4obzBQhef/uJTpi7YWjwdZDKYPzLCxyF0y7vTZxxlj4T
+        arPi4FZm1vFa39rVgoYEVK3U53KRUGszkCl18oY8DXYQTkHMdZJQ3K9FD393XK1mDuYPv8j8wAH+S
+        OTRIlrp+do3u+T7UlcsCWUgYXea7GoExQ3u+fyGEyHEOJiuVNgKJ/jqh4Ou2ui3hPc4fZE+vZdU6U
+        C06x/wrfk1xsJJD4X5jcUVCBhaHbpyWcGTX5IEhQtinPda1tvY8qZsMkqidbsWMb5xKIz3F/JH+1l
+        PcbaCB0g==;
 Received: from 177.17.136.231.dynamic.adsl.gvt.net.br ([177.17.136.231] helo=coco.lan)
         by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hJ2ep-0003j0-BE; Tue, 23 Apr 2019 21:08:51 +0000
-Date:   Tue, 23 Apr 2019 18:08:45 -0300
+        id 1hJ2fq-0003nY-Po; Tue, 23 Apr 2019 21:09:55 +0000
+Date:   Tue, 23 Apr 2019 18:09:48 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Changbin Du <changbin.du@gmail.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
@@ -39,12 +39,12 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         x86@kernel.org, fenghua.yu@intel.com,
         linuxppc-dev@lists.ozlabs.org, linux-acpi@vger.kernel.org,
         linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v4 11/63] Documentation: ACPI: move dsdt-override.txt to
- admin-guide/acpi and convert to reST
-Message-ID: <20190423180845.603542d5@coco.lan>
-In-Reply-To: <20190423162932.21428-12-changbin.du@gmail.com>
+Subject: Re: [PATCH v4 12/63] Documentation: ACPI: move i2c-muxes.txt to
+ firmware-guide/acpi and convert to reST
+Message-ID: <20190423180948.326fd3d8@coco.lan>
+In-Reply-To: <20190423162932.21428-13-changbin.du@gmail.com>
 References: <20190423162932.21428-1-changbin.du@gmail.com>
-        <20190423162932.21428-12-changbin.du@gmail.com>
+        <20190423162932.21428-13-changbin.du@gmail.com>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -54,7 +54,7 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 24 Apr 2019 00:28:40 +0800
+Em Wed, 24 Apr 2019 00:28:41 +0800
 Changbin Du <changbin.du@gmail.com> escreveu:
 
 > This converts the plain text documentation to reStructuredText format and
@@ -62,44 +62,161 @@ Changbin Du <changbin.du@gmail.com> escreveu:
 > 
 > Signed-off-by: Changbin Du <changbin.du@gmail.com>
 
+For the conversion itself:
+
 Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
 > ---
->  .../acpi/dsdt-override.rst}                               | 8 +++++++-
->  Documentation/admin-guide/acpi/index.rst                  | 1 +
->  2 files changed, 8 insertions(+), 1 deletion(-)
->  rename Documentation/{acpi/dsdt-override.txt => admin-guide/acpi/dsdt-override.rst} (56%)
+>  Documentation/acpi/i2c-muxes.txt              | 58 ------------------
+>  .../firmware-guide/acpi/i2c-muxes.rst         | 61 +++++++++++++++++++
+>  Documentation/firmware-guide/acpi/index.rst   |  3 +-
+>  3 files changed, 63 insertions(+), 59 deletions(-)
+>  delete mode 100644 Documentation/acpi/i2c-muxes.txt
+>  create mode 100644 Documentation/firmware-guide/acpi/i2c-muxes.rst
 > 
-> diff --git a/Documentation/acpi/dsdt-override.txt b/Documentation/admin-guide/acpi/dsdt-override.rst
-> similarity index 56%
-> rename from Documentation/acpi/dsdt-override.txt
-> rename to Documentation/admin-guide/acpi/dsdt-override.rst
-> index 784841caa6e6..50bd7f194bf4 100644
-> --- a/Documentation/acpi/dsdt-override.txt
-> +++ b/Documentation/admin-guide/acpi/dsdt-override.rst
-> @@ -1,6 +1,12 @@
+> diff --git a/Documentation/acpi/i2c-muxes.txt b/Documentation/acpi/i2c-muxes.txt
+> deleted file mode 100644
+> index 9fcc4f0b885e..000000000000
+> --- a/Documentation/acpi/i2c-muxes.txt
+> +++ /dev/null
+> @@ -1,58 +0,0 @@
+> -ACPI I2C Muxes
+> ---------------
+> -
+> -Describing an I2C device hierarchy that includes I2C muxes requires an ACPI
+> -Device () scope per mux channel.
+> -
+> -Consider this topology:
+> -
+> -+------+   +------+
+> -| SMB1 |-->| MUX0 |--CH00--> i2c client A (0x50)
+> -|      |   | 0x70 |--CH01--> i2c client B (0x50)
+> -+------+   +------+
+> -
+> -which corresponds to the following ASL:
+> -
+> -Device (SMB1)
+> -{
+> -    Name (_HID, ...)
+> -    Device (MUX0)
+> -    {
+> -        Name (_HID, ...)
+> -        Name (_CRS, ResourceTemplate () {
+> -            I2cSerialBus (0x70, ControllerInitiated, I2C_SPEED,
+> -                          AddressingMode7Bit, "^SMB1", 0x00,
+> -                          ResourceConsumer,,)
+> -        }
+> -
+> -        Device (CH00)
+> -        {
+> -            Name (_ADR, 0)
+> -
+> -            Device (CLIA)
+> -            {
+> -                Name (_HID, ...)
+> -                Name (_CRS, ResourceTemplate () {
+> -                    I2cSerialBus (0x50, ControllerInitiated, I2C_SPEED,
+> -                                  AddressingMode7Bit, "^CH00", 0x00,
+> -                                  ResourceConsumer,,)
+> -                }
+> -            }
+> -        }
+> -
+> -        Device (CH01)
+> -        {
+> -            Name (_ADR, 1)
+> -
+> -            Device (CLIB)
+> -            {
+> -                Name (_HID, ...)
+> -                Name (_CRS, ResourceTemplate () {
+> -                    I2cSerialBus (0x50, ControllerInitiated, I2C_SPEED,
+> -                                  AddressingMode7Bit, "^CH01", 0x00,
+> -                                  ResourceConsumer,,)
+> -                }
+> -            }
+> -        }
+> -    }
+> -}
+> diff --git a/Documentation/firmware-guide/acpi/i2c-muxes.rst b/Documentation/firmware-guide/acpi/i2c-muxes.rst
+> new file mode 100644
+> index 000000000000..3a8997ccd7c4
+> --- /dev/null
+> +++ b/Documentation/firmware-guide/acpi/i2c-muxes.rst
+> @@ -0,0 +1,61 @@
 > +.. SPDX-License-Identifier: GPL-2.0
 > +
-> +===============
-> +Overriding DSDT
-> +===============
+> +==============
+> +ACPI I2C Muxes
+> +==============
 > +
->  Linux supports a method of overriding the BIOS DSDT:
->  
-> -CONFIG_ACPI_CUSTOM_DSDT builds the image into the kernel.
-> +CONFIG_ACPI_CUSTOM_DSDT - builds the image into the kernel.
->  
->  When to use this method is described in detail on the
->  Linux/ACPI home page:
-> diff --git a/Documentation/admin-guide/acpi/index.rst b/Documentation/admin-guide/acpi/index.rst
-> index 09e4e81e4fb7..d68e9914c5ff 100644
-> --- a/Documentation/admin-guide/acpi/index.rst
-> +++ b/Documentation/admin-guide/acpi/index.rst
-> @@ -9,3 +9,4 @@ the Linux ACPI support.
->     :maxdepth: 1
->  
->     initrd_table_override
-> +   dsdt-override
+> +Describing an I2C device hierarchy that includes I2C muxes requires an ACPI
+> +Device () scope per mux channel.
+> +
+> +Consider this topology::
+> +
+> +    +------+   +------+
+> +    | SMB1 |-->| MUX0 |--CH00--> i2c client A (0x50)
+> +    |      |   | 0x70 |--CH01--> i2c client B (0x50)
+> +    +------+   +------+
+> +
+> +which corresponds to the following ASL::
+> +
+> +    Device (SMB1)
+> +    {
+> +        Name (_HID, ...)
+> +        Device (MUX0)
+> +        {
+> +            Name (_HID, ...)
+> +            Name (_CRS, ResourceTemplate () {
+> +                I2cSerialBus (0x70, ControllerInitiated, I2C_SPEED,
+> +                            AddressingMode7Bit, "^SMB1", 0x00,
+> +                            ResourceConsumer,,)
+> +            }
+> +
+> +            Device (CH00)
+> +            {
+> +                Name (_ADR, 0)
+> +
+> +                Device (CLIA)
+> +                {
+> +                    Name (_HID, ...)
+> +                    Name (_CRS, ResourceTemplate () {
+> +                        I2cSerialBus (0x50, ControllerInitiated, I2C_SPEED,
+> +                                    AddressingMode7Bit, "^CH00", 0x00,
+> +                                    ResourceConsumer,,)
+> +                    }
+> +                }
+> +            }
+> +
+> +            Device (CH01)
+> +            {
+> +                Name (_ADR, 1)
+> +
+> +                Device (CLIB)
+> +                {
+> +                    Name (_HID, ...)
+> +                    Name (_CRS, ResourceTemplate () {
+> +                        I2cSerialBus (0x50, ControllerInitiated, I2C_SPEED,
+> +                                    AddressingMode7Bit, "^CH01", 0x00,
+> +                                    ResourceConsumer,,)
+> +                    }
+> +                }
+> +            }
+> +        }
+> +    }
+> diff --git a/Documentation/firmware-guide/acpi/index.rst b/Documentation/firmware-guide/acpi/index.rst
+> index d1d069b26bbc..1c89888f6ee8 100644
+> --- a/Documentation/firmware-guide/acpi/index.rst
+> +++ b/Documentation/firmware-guide/acpi/index.rst
+> @@ -12,4 +12,5 @@ ACPI Support
+>     osi
+>     method-customizing
+>     DSD-properties-rules
+> -   gpio-properties
+> \ No newline at end of file
+> +   gpio-properties
+> +   i2c-muxes
 
 
 
