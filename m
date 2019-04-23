@@ -1,150 +1,176 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 704377D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Apr 2019 19:00:24 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 626217D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Apr 2019 19:37:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725975AbfDWTAY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 23 Apr 2019 15:00:24 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:46570 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725956AbfDWTAX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Apr 2019 15:00:23 -0400
-Received: by mail-lf1-f68.google.com with SMTP id k18so12532343lfj.13;
-        Tue, 23 Apr 2019 12:00:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=lJAquJngVeLiE+27zlo3Haxi5bkf/Fn6M8UQM88Fq0Y=;
-        b=Ug2fMkinEcto9NC7g+mxNs/cK/WpSlqguRRqvx0DxFih2QS3jybEZlVIYBGsHcCsBd
-         T9dkt5F6QHmhM5PA9wazYh05Xc7iBYeWXytitHN9UUNX6rVn0gXPM0J0lsF0eXeQPaLH
-         zRf/QxPBXQQBwPV2x4BdSdyABPcPZRVfPBb8NURi0fk+kwvJLo6Ym1YFUCzIPSR9E0PH
-         ESLi5joyskwXaycJDfWday2CL4pazbZpBUa+x5wwYSLJXIpxElUgxA3kJJAW1h+AowCs
-         hMt7Xx2J5FfHwcK3nYEtThA8lpTW6h3hvFaBr92umke9NSom12KmaWBkEW9JHRL6SgoB
-         4oKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=lJAquJngVeLiE+27zlo3Haxi5bkf/Fn6M8UQM88Fq0Y=;
-        b=gOca3lKi4FyseNkyATFkMDpJf3feSOHyT5SecGT1bHhxtNYlRztOO5PPafGhn2/kLU
-         Kt24glcSYAj3KIZ0xfFXivWUJzSYgLCOmwnUDxK5q7AiFRG9saXPAoaTKYJGiEBu04zR
-         PE3yIDqtLeEg2RjnEtt+NAsYKBnGJQt/j3QurPZUVC8ZJj9/9UBScZ7EGBLcGscqD9Zq
-         BrohtwG5sx+3+KeSv+OJn5MkaGEYsrw/Y8pMkH15KGYJYZD9PgtsFMgBIfT56IQ98QGx
-         VSA1xZebqY7+faixYkJLPaKpn3zQ09N/OuwOAUnB6UhtNraty40EAYjxR0cNrzQrhW4/
-         EJ0g==
-X-Gm-Message-State: APjAAAV8K93RoXprgqqnGmfYY/LDls9z8w2wuyln565V6WU912quRecQ
-        WiaO2ncvpfkEZpdTuwVYHO/99fcC
-X-Google-Smtp-Source: APXvYqzl6YI8VYT+chHTZhsK71+KFjV1uKsnKgvohl1YjccuYNTUXoQS0HjEi3imfwGeThUHA7rByQ==
-X-Received: by 2002:ac2:42d6:: with SMTP id n22mr3525480lfl.57.1556046019773;
-        Tue, 23 Apr 2019 12:00:19 -0700 (PDT)
-Received: from [192.168.1.19] (ciw222.neoplus.adsl.tpnet.pl. [83.31.46.222])
-        by smtp.gmail.com with ESMTPSA id q18sm2713405lfm.81.2019.04.23.12.00.17
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 23 Apr 2019 12:00:18 -0700 (PDT)
-Subject: Re: [PATCH v2 61/79] docs: leds: convert to ReST
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Vadim Pasternak <vadimp@mellanox.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        Jozsef Kadlecsik <kadlec@blackhole.kfki.hu>,
-        Florian Westphal <fw@strlen.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        linux-leds@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        coreteam@netfilter.org, netdev@vger.kernel.org
-References: <cover.1555938375.git.mchehab+samsung@kernel.org>
- <c8da7b666a127687471f38cbb5edc12d44814009.1555938376.git.mchehab+samsung@kernel.org>
-From:   Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Message-ID: <a8d307d2-04c7-d63e-54a4-5082217e38e8@gmail.com>
-Date:   Tue, 23 Apr 2019 21:00:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726136AbfDWThs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 23 Apr 2019 15:37:48 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:38686 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725945AbfDWThr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Apr 2019 15:37:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=v90smGlR8YcBtf35qFxkKO1Jv3MDZCbrErhvMGJqpKU=; b=eNHwFwrHFtvIQDQop6c+p6GEk
+        hs0p+v4WYM0v160PuFTRFqssnvUMvznFykaKmusuYPlX9VPMpdd9CSg2BFENMdRpsvWjv8lk9fGXH
+        I30l+4DvPXoHqmdzXYJ6E5AdqIH+d1N7dOJQgnrgAowZ5C8Mn6FOz40yIk0Nlee5UEexXD7+wprae
+        LUOOsPRnK9Qm5aG2YXLNf1vDZwsS4D4mznengK7AMW6+M9FINhU/YsVKwXxybZLnxPPeNkikpvI/0
+        k0DJ1Is0rdkIIJhYwHmwj8DTjucOAh42GfVUMezohZtHXDYoM4klx2OvApB4uwNtpZdztMKsGrM3/
+        HF1HOITWQ==;
+Received: from 177.17.136.231.dynamic.adsl.gvt.net.br ([177.17.136.231] helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hJ1Ef-0003hu-D2; Tue, 23 Apr 2019 19:37:45 +0000
+Date:   Tue, 23 Apr 2019 16:37:40 -0300
+From:   Mauro Carvalho Chehab <mchehab@infradead.org>
+To:     David Howells <dhowells@redhat.com>
+Cc:     Mike Snitzer <snitzer@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org
+Subject: Re: [PATCH v2 56/79] docs: Documentation/*.txt: rename all ReST
+ files to *.rst
+Message-ID: <20190423163740.76b0a9f1@coco.lan>
+In-Reply-To: <20704.1556031146@warthog.procyon.org.uk>
+References: <20190423132100.GB7132@redhat.com>
+        <cover.1555938375.git.mchehab+samsung@kernel.org>
+        <cda57849a6462ccc72dcd360b30068ab6a1021c4.1555938376.git.mchehab+samsung@kernel.org>
+        <20190423083135.GA11158@hirez.programming.kicks-ass.net>
+        <20190423125519.GA7104@redhat.com>
+        <20190423130132.GT4038@hirez.programming.kicks-ass.net>
+        <20704.1556031146@warthog.procyon.org.uk>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <c8da7b666a127687471f38cbb5edc12d44814009.1555938376.git.mchehab+samsung@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <mchehab@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mauro,
+Em Tue, 23 Apr 2019 15:52:26 +0100
+David Howells <dhowells@redhat.com> escreveu:
 
-Thank you for your effort.
-
-On 4/22/19 3:27 PM, Mauro Carvalho Chehab wrote:
-> Rename the leds documentation files to ReST, add an
-> index for them and adjust in order to produce a nice html
-> output via the Sphinx build system.
+> Mike Snitzer <snitzer@redhat.com> wrote:
 > 
-> At its new index.rst, let's add a :orphan: while this is not linked to
-> the main index.rst file, in order to avoid build warnings.
+> > Peter Zijlstra <peterz@infradead.org> wrote:
+> >   
+> > > But yes, I have 0 motivation to learn or abide by rst. It simply doesn't
+> > > give me anything in return. There is no upside, only worse text files :/  
+> > 
+> > Right, but these changes aren't meant for our benefit.  They are for
+> > users who get cleaner web accessible Linux kernel docs.  Seems the
+> > decision has been made that the users' benefit, and broader
+> > modernization of Linux docs, outweighs the inconvenience for engineers
+> > who maintain the content of said documentation.  
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
->   Documentation/laptops/thinkpad-acpi.txt       |   4 +-
->   Documentation/leds/index.rst                  |  25 ++
->   .../leds/{leds-blinkm.txt => leds-blinkm.rst} |  63 ++---
->   ...s-class-flash.txt => leds-class-flash.rst} |  49 ++--
->   .../leds/{leds-class.txt => leds-class.rst}   |  15 +-
->   .../leds/{leds-lm3556.txt => leds-lm3556.rst} | 100 ++++++--
->   .../leds/{leds-lp3944.txt => leds-lp3944.rst} |  23 +-
->   Documentation/leds/leds-lp5521.rst            | 115 +++++++++
->   Documentation/leds/leds-lp5521.txt            | 101 --------
->   Documentation/leds/leds-lp5523.rst            | 147 ++++++++++++
->   Documentation/leds/leds-lp5523.txt            | 130 ----------
->   Documentation/leds/leds-lp5562.rst            | 137 +++++++++++
->   Documentation/leds/leds-lp5562.txt            | 120 ----------
->   Documentation/leds/leds-lp55xx.rst            | 224 ++++++++++++++++++
->   Documentation/leds/leds-lp55xx.txt            | 194 ---------------
->   Documentation/leds/leds-mlxcpld.rst           | 118 +++++++++
->   Documentation/leds/leds-mlxcpld.txt           | 110 ---------
->   ...edtrig-oneshot.txt => ledtrig-oneshot.rst} |  11 +-
->   ...ig-transient.txt => ledtrig-transient.rst} |  63 +++--
->   ...edtrig-usbport.txt => ledtrig-usbport.rst} |  11 +-
->   Documentation/leds/{uleds.txt => uleds.rst}   |   5 +-
->   MAINTAINERS                                   |   2 +-
->   drivers/leds/trigger/Kconfig                  |   2 +-
->   drivers/leds/trigger/ledtrig-transient.c      |   2 +-
->   net/netfilter/Kconfig                         |   2 +-
->   25 files changed, 996 insertions(+), 777 deletions(-)
->   create mode 100644 Documentation/leds/index.rst
->   rename Documentation/leds/{leds-blinkm.txt => leds-blinkm.rst} (56%)
->   rename Documentation/leds/{leds-class-flash.txt => leds-class-flash.rst} (74%)
->   rename Documentation/leds/{leds-class.txt => leds-class.rst} (92%)
->   rename Documentation/leds/{leds-lm3556.txt => leds-lm3556.rst} (70%)
->   rename Documentation/leds/{leds-lp3944.txt => leds-lp3944.rst} (78%)
->   create mode 100644 Documentation/leds/leds-lp5521.rst
->   delete mode 100644 Documentation/leds/leds-lp5521.txt
->   create mode 100644 Documentation/leds/leds-lp5523.rst
->   delete mode 100644 Documentation/leds/leds-lp5523.txt
->   create mode 100644 Documentation/leds/leds-lp5562.rst
->   delete mode 100644 Documentation/leds/leds-lp5562.txt
->   create mode 100644 Documentation/leds/leds-lp55xx.rst
->   delete mode 100644 Documentation/leds/leds-lp55xx.txt
->   create mode 100644 Documentation/leds/leds-mlxcpld.rst
->   delete mode 100644 Documentation/leds/leds-mlxcpld.txt
->   rename Documentation/leds/{ledtrig-oneshot.txt => ledtrig-oneshot.rst} (90%)
->   rename Documentation/leds/{ledtrig-transient.txt => ledtrig-transient.rst} (81%)
->   rename Documentation/leds/{ledtrig-usbport.txt => ledtrig-usbport.rst} (86%)
->   rename Documentation/leds/{uleds.txt => uleds.rst} (95%)
+> Whilst I can sympathise with Mauro and Jon - and appreciate the hard work
+> they've put into this, I do think that the engineers dealing directly with the
+> kernel code should be considered the primary audience.
 > 
-> diff --git a/Documentation/laptops/thinkpad-acpi.txt b/Documentation/laptops/thinkpad-acpi.txt
-> index 3de3c95f01f6..65719384fc36 100644
+> There've been some changes that I've particularly objected to, such as
+> removing contents lists from files and replacing them with markup like:
+> 
+> 	.. contents:: :local:
 
-Acked-by: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Actually, just:
 
--- 
-Best regards,
-Jacek Anaszewski
+	.. contents
+
+Is enough. The goal here is just to avoid having two indexes when
+generating an html output - and sometimes the internal contents index
+is broken - I got one of these during this patch series: a very
+confusing internal "contents" that doesn't really match the contents
+of the file - probably because some patch changed the contents but
+didn't update the internal index.
+
+> 
+> This actually impedes use of the file.  It should not be necessary to build
+> the docs to get that for ordinary use.
+
+IMHO, replacing:
+
+	Contents
+
+		1. Introduction
+		...
+
+By:
+
+
+	.. Contents
+
+		1. Introduction
+		...
+
+won't make the document harder to read as plain text file. With html 
+output, the contents will be at both the index.html and at the lateral
+bar, so the text "Contents" can be hidden (and that's what the two points
+make: it transforms the block into a comment).
+
+> 
+> 
+> Anyway, the biggest doc issue in the kernel isn't addressed by the conversion
+> to ReST: and that is that most people don't seem interested in documenting
+> stuff - whether because writing documentation isn't as fun as writing code or
+> the fact that English isn't their native language, I don't know.  I can
+> sympathise more with the latter.
+
+Yeah, foreign people gets afraid on writing English documents. Yet, my
+personal perception is that we end by getting more contributions once
+the documents get converted, as more people end reading them and ends
+by sending us more contributions.
+
+> Kerneldoc is a start - and probably means that a lot of API functions are at
+> least slightly documented - but too many APIs are not mentioned in the
+> Documentation directory at all.  Remember: if you can't describe it, it's
+> probably wrong!
+
+Fully agreed.
+
+> I'm not sure what we could do about this, but it would probably have to be
+> imposed from the top: no more undocumented APIs.  Any new API must come with
+> documentation; changes to APIs must include changes to the documentation.
+
+This is a requirement on media: we don't accept for quite a while uAPI
+changes without documentation, and we're doing the same for new kAPI
+changes (although it is a little more complex to track kAPI changes).
+ 
+> If you really want to upset people, you could add: anyone who wants to alter
+> an already existing undocumented API must supply documentation for the whole
+> API (but that could be considered a bit cruel).
+
+Well, we may politely request that ;-) If it doesn't work, we can accept
+documentation for just the new stuff.
+
+> 
+> And anyone who says "But the code is the documentation!" needs to consider
+> carefully what happens to their code after it has been trampled, generalised,
+> split, combined, renormalised, cthulhuised, janitorised and had parts of it
+> migrate.
+
+Yes, on a complex system like the Kernel, having just access to the code
+is not enough, as developers don't usually have the time to read the code
+for every single function call his code needs to use.
+
+> 
+> </rant>
+> 
+> And now, after that, I think a fresh cup of tea is called for!
+> 
+> David
+
+
+
+Thanks,
+Mauro
