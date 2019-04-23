@@ -1,107 +1,76 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E41F77D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Apr 2019 02:45:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A4BD97D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Apr 2019 08:22:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731123AbfDWCpu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 22 Apr 2019 22:45:50 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:6674 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729113AbfDWCpu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 22 Apr 2019 22:45:50 -0400
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 5C8025C6578F44F050BD;
-        Tue, 23 Apr 2019 10:45:46 +0800 (CST)
-Received: from [127.0.0.1] (10.177.23.164) by DGGEMS412-HUB.china.huawei.com
- (10.3.19.212) with Microsoft SMTP Server id 14.3.439.0; Tue, 23 Apr 2019
- 10:45:39 +0800
-Subject: Re: [PATCH v5 1/6] iommu: add generic boot option iommu.dma_mode
-To:     Joerg Roedel <joro@8bytes.org>
-References: <20190409125308.18304-1-thunder.leizhen@huawei.com>
- <20190409125308.18304-2-thunder.leizhen@huawei.com>
- <20190412111649.GK4518@8bytes.org>
-CC:     Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
-        John Garry <john.garry@huawei.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Sebastian Ott <sebott@linux.ibm.com>,
-        "Gerald Schaefer" <gerald.schaefer@de.ibm.com>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        iommu <iommu@lists.linux-foundation.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        x86 <x86@kernel.org>, linux-ia64 <linux-ia64@vger.kernel.org>,
-        Hanjun Guo <guohanjun@huawei.com>
-From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <5CBE7C51.8070002@huawei.com>
-Date:   Tue, 23 Apr 2019 10:45:37 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
- Thunderbird/38.5.1
+        id S1725990AbfDWIWO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 23 Apr 2019 04:22:14 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:42460 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725939AbfDWIWN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Apr 2019 04:22:13 -0400
+Received: by mail-ot1-f66.google.com with SMTP id f23so2894057otl.9;
+        Tue, 23 Apr 2019 01:22:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=TZN3K22+KCH5eguILL1VGvwfyXMHOhQ1rRvqt9oWkJA=;
+        b=iWgxm4qB36/GSDNYu5AEl1z4uAmus3bu+TzkPY4wnT3GoXTejlx9sRBMsSjc9MById
+         E5dX3J/RPMP+R77gpXdGmGsJ2gJY5uFS9qlKe3vvnenhpJeCp2p1F5IhQVlPm1k5AJP+
+         HynYF5kmRU7PQq9SDbcI5b04GVof+1UoV9fW7MBaOa8XZTUg7Grh+q8H13hHP5O1Efha
+         ThvTAyzOCSRaxunfWL/yAjGrzyPHojPDw9JriXDJQWrdR5jpWOMRzlr/uZ3UVz/4lIGi
+         5ShZjLfLQBqSTMrbJSnAptovDVydLUoifZrHnBBV73cgioK+l+ihF+GR65HaQy/ktZYy
+         PcGw==
+X-Gm-Message-State: APjAAAWY0+suFlD9ZdIZZ9YRYjJZODGETPkrNneTflFKV8HkCcfbtHVK
+        0Fg619WA5ayzD255UOioBok+X+FIaB22cs1kS2w=
+X-Google-Smtp-Source: APXvYqy3RBGDzq9UdYEtqJdqqVXwr8vL9We+kp9vM0Vu61Wl0geMa46n/aaexSFfBxUwiFVF/RVMbgkuIUYtDIYnrSM=
+X-Received: by 2002:a9d:6209:: with SMTP id g9mr1778471otj.186.1556007733123;
+ Tue, 23 Apr 2019 01:22:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190412111649.GK4518@8bytes.org>
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.177.23.164]
-X-CFilter-Loop: Reflected
+References: <cover.1555938375.git.mchehab+samsung@kernel.org> <90ab7c100b7fb0120689ebeda5d13447b2cb2af8.1555938375.git.mchehab+samsung@kernel.org>
+In-Reply-To: <90ab7c100b7fb0120689ebeda5d13447b2cb2af8.1555938375.git.mchehab+samsung@kernel.org>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 23 Apr 2019 10:21:59 +0200
+Message-ID: <CAJZ5v0it3JfAZu8=4_m996JGjSRC6DLfRNYd6KrszB10-U2Fig@mail.gmail.com>
+Subject: Re: [PATCH v2 10/79] docs: cpu-freq: convert docs to ReST and rename
+ to *.rst
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Linux PM <linux-pm@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Apr 22, 2019 at 3:36 PM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
+>
+> The conversion is actually:
+>   - add blank lines and identation in order to identify paragraphs;
+>   - fix tables markups;
+>   - add some lists markups;
+>   - mark literal blocks;
+>   - adjust title markups.
+>
+> At its new index.rst, let's add a :orphan: while this is not linked to
+> the main index.rst file, in order to avoid build warnings.
 
+Well, as stated before, please drop this one too.
 
-On 2019/4/12 19:16, Joerg Roedel wrote:
-> On Tue, Apr 09, 2019 at 08:53:03PM +0800, Zhen Lei wrote:
->> +static int __init iommu_dma_mode_setup(char *str)
->> +{
->> +	if (!str)
->> +		goto fail;
->> +
->> +	if (!strncmp(str, "passthrough", 11))
->> +		iommu_default_dma_mode = IOMMU_DMA_MODE_PASSTHROUGH;
->> +	else if (!strncmp(str, "lazy", 4))
->> +		iommu_default_dma_mode = IOMMU_DMA_MODE_LAZY;
->> +	else if (!strncmp(str, "strict", 6))
->> +		iommu_default_dma_mode = IOMMU_DMA_MODE_STRICT;
->> +	else
->> +		goto fail;
->> +
->> +	pr_info("Force dma mode to be %d\n", iommu_default_dma_mode);
-> 
-> Printing a number is not very desriptive or helpful to the user. Please
-> print the name of the mode instead.
+There is a plan to convert the remaining cpufreq documentation into
+.rst (and which has already been done for the admin-guide part) and
+the resulting files should go into driver-api.
 
-OK, thanks. I have given up adding iommu.dma_mode boot option according
-to Robin and Will's suggestion. So these codes will be removed in v6.
-
-> 
-> 
-> Regards,
-> 
-> 	Joerg
-> 
-> .
-> 
-
--- 
-Thanks!
-BestRegards
-
+Thanks,
+Rafael
