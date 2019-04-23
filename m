@@ -5,31 +5,31 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6F3C57D099
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Apr 2019 12:36:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B5B997D04D
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Apr 2019 12:38:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727726AbfDWMgT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 23 Apr 2019 08:36:19 -0400
-Received: from casper.infradead.org ([85.118.1.10]:46742 "EHLO
+        id S1727690AbfDWMia (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 23 Apr 2019 08:38:30 -0400
+Received: from casper.infradead.org ([85.118.1.10]:46868 "EHLO
         casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727778AbfDWMgS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Apr 2019 08:36:18 -0400
+        with ESMTP id S1726150AbfDWMia (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Apr 2019 08:38:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
         MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
         :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=hFkON702bUd/WwTPJ6kyCwfsNPeaZfVttAo8WVlv5FQ=; b=YPcAkK6Go5opICdqhZWHfmrWOl
-        ZHdS/UNIw5A/i3W5jpc10DLLoboupAJ2c0H0QfKSlkzNnASsOnrpUr+jdHJ9p9wdnEhbfekCvbIQP
-        ig/cH9oKDmrX6LCIT/b+oTQC2TusMbzUJjjwBCQir0A2x/TT5U2wX8kHPWIFjaZfdYeeWkQj9qMbS
-        2ffaDf98/zSep9BrdRhll6+Yy+aN4a5+6CLdHGQke1FR4uI15NvVWc4V2bQEuhvaij4gWbFfDHUqD
-        V2e81rhNIj6UAwgge9RYjbSTChoKeQdXM0MwbSbm1kawb2Ck2E4dP36ssoBPXuDAqU6TKYNmq2Wuw
-        c95rQGGQ==;
+        bh=jzsCu3UclCPI4Y3sy+iQiRukLb1fa86cUHsLshVIRb4=; b=mKLA4xKILZf611KFqFyn7OqbXm
+        B9GQhp2gs27WeI0/7IR+3GhOxdIn5lRQ4GpgE/WNkLGnvRxWxe18oqmNJmAHslz4zcoHq09VY2xxC
+        jagHDybF9gHj+nlpxZ7pe+AWJOBOKlABvK4IHO9z3g0aNoOn5LDO7jBX1Dg7b55rcnFxe5Tv0WXWK
+        Rfrre8oNVVxHlzASzRyIKf/bNJK69TwI/RNdtJfvKcZ4kgB8jNoDjzE82HAzWc6kzDoZWlKgwcvgS
+        di4AuAJXhdH2Bj11ce4NhZteBBMxlrwfdi0jQSrxI4ZyScHY2bi4K757eMNcRpFFhyYTZecavyMeL
+        6Ma2iczA==;
 Received: from 177.17.136.231.dynamic.adsl.gvt.net.br ([177.17.136.231] helo=coco.lan)
         by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hIuek-0001D7-27; Tue, 23 Apr 2019 12:36:14 +0000
-Date:   Tue, 23 Apr 2019 09:36:08 -0300
+        id 1hIugt-0001HC-Eq; Tue, 23 Apr 2019 12:38:28 +0000
+Date:   Tue, 23 Apr 2019 09:38:22 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linus Walleij <linus.walleij@linaro.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -38,13 +38,12 @@ Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Subject: Re: [PATCH v2 15/79] docs: gpio: convert docs to ReST and rename to
- *.rst
-Message-ID: <20190423093608.1af5e0fb@coco.lan>
-In-Reply-To: <CACRpkdY=YurusedRbMDWstJUP4CLUosW0rLetvE=Hkov1Y9HGQ@mail.gmail.com>
-References: <cover.1555938375.git.mchehab+samsung@kernel.org>
-        <03cdacc3db76c5ff984c1507ea6434650d36d822.1555938376.git.mchehab+samsung@kernel.org>
-        <CACRpkdY=YurusedRbMDWstJUP4CLUosW0rLetvE=Hkov1Y9HGQ@mail.gmail.com>
+Subject: Re: [PATCH 15/57] docs: gpio: convert it to ReST
+Message-ID: <20190423093822.52227129@coco.lan>
+In-Reply-To: <CACRpkdYQeEoyE9sAAo2KZjurx9sH4w+bzM-_-_h6U4w7PeX7eg@mail.gmail.com>
+References: <cover.1555382110.git.mchehab+samsung@kernel.org>
+        <0f2d522a80f96391d3f7b51389d08b4afaedb618.1555382110.git.mchehab+samsung@kernel.org>
+        <CACRpkdYQeEoyE9sAAo2KZjurx9sH4w+bzM-_-_h6U4w7PeX7eg@mail.gmail.com>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -54,10 +53,10 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 23 Apr 2019 13:23:50 +0200
+Em Tue, 23 Apr 2019 12:52:04 +0200
 Linus Walleij <linus.walleij@linaro.org> escreveu:
 
-> On Mon, Apr 22, 2019 at 3:28 PM Mauro Carvalho Chehab
+> On Tue, Apr 16, 2019 at 4:56 AM Mauro Carvalho Chehab
 > <mchehab+samsung@kernel.org> wrote:
 > 
 > > The API described at sysfs.txt is deprecated.
@@ -66,21 +65,22 @@ Linus Walleij <linus.walleij@linaro.org> escreveu:
 > > there for some time, as we don't simply remove APIs). So,
 > > it makes sense to keep it there.
 > >
-> > The conversion of this file is trivial:
-> >   - add blank lines and identation in order to identify paragraphs;
-> >   - mark a literal block as such.
-> >
-> > At its new index.rst, let's add a :orphan: while this is not linked to
-> > the main index.rst file, in order to avoid build warnings.
+> > The conversion of this file is trivial.
 > >
 > > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>  
 > 
 > Acked-by: Linus Walleij <linus.walleij@linaro.org>
 > 
-> Same question as the v1: should I apply it or will you :)
+> Mauro will you merge this or do you want me to merge it?
 
-I suspect that it would be better if it gets applied via
-the GPIO tree, in order to reduce potential merge conflicts.
+Linus,
 
-Regards,
+Just answered on the other e-mail: better to merge via your
+tree. Just notice that this version was superseded by
+
+ [PATCH v2 15/79] docs: gpio: convert docs to ReST and rename to *.rst
+
+As it also does the rename to .rst.
+
+Thanks,
 Mauro
