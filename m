@@ -1,99 +1,86 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.7 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	FSL_HELO_FAKE,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C73EC7D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Apr 2019 12:31:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6F3C57D099
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Apr 2019 12:36:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726033AbfDWMbC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 23 Apr 2019 08:31:02 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:36579 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726204AbfDWMbC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Apr 2019 08:31:02 -0400
-Received: by mail-wr1-f68.google.com with SMTP id b1so8652127wru.3;
-        Tue, 23 Apr 2019 05:31:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=+9wxr5R3pk2oel1OfIQlHTOTnUvOX8cEZ1l94U4oBF8=;
-        b=mizTPRShAF1dM0yfIHmgRTVxwNuSoOi0eKbP73V2j33rQDacaUAhCJuGXkvLMgTbhr
-         RtU+YjH6ln1gfb+c7IA98DBdvSekblLz9zQzCvc1X0yZvcbolEn2kzHmMr3Trbd9X6Op
-         pIAzfuBqkj6eWWdBNM/KJ+6zTJrjpSnpdSMoNTVl52bggJtjpgMzCgvlry6OYQfOvqbZ
-         U0tIJIGzgplGfdFs2rwUekxic6kaFUOGcmsGindeMnkmLk1v5p1sVbEdq496JeqBwoNP
-         2GcEs2hJWFEtbNImdzQIjV7LE77X2sFwnxSQ4MDEYz7L/ipzVCjFKp0NbpoO+PeumJ67
-         zCkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=+9wxr5R3pk2oel1OfIQlHTOTnUvOX8cEZ1l94U4oBF8=;
-        b=lvJEdEfoN08wzR/bD/GdGYlhe3QK37eukn5iyiYrSk9qAc5siRitJAHzW353JuW+6l
-         Kk8CLBCe4hD6QgyhZtdfU9wwQJSRuCsPtKwuQBcTNSN3Lcd/F1GN1jikz+m5NFgrCrWS
-         E1zGSuD9f4vHJrR8hACK64p2LAYmqZLSjiKR/ZTH7rqrch/yKp6do8bi/c9OGXXE1eec
-         pwlPLV5RdfyxtKhhNrOJpbGoE2lPU5XDsOBPvTGdLYum9RkFs6PRsX7JGhlj91eQEBhB
-         853zLfudnKRQuEfOB4mxkurzHLqpIpjkkLozVM95aYr5bqRbw1Q1kbOV6eeJwUYf1toB
-         O4tg==
-X-Gm-Message-State: APjAAAWoIcwfUG45pYS89fNrdt3ZEFqxs5sq/RuofJvkEAVYJHrlK1DZ
-        5mtoTF6y+GWaEs+nwYYLyoY=
-X-Google-Smtp-Source: APXvYqznVXo22PgJ4A60yTTxCmKJ8qyXu+UGtlFM23tosnZ73o8aQYHrMIjQiYyi5NfqXepCIz4knA==
-X-Received: by 2002:adf:dc4b:: with SMTP id m11mr17589058wrj.66.1556022660471;
-        Tue, 23 Apr 2019 05:31:00 -0700 (PDT)
-Received: from gmail.com (2E8B0CD5.catv.pool.telekom.hu. [46.139.12.213])
-        by smtp.gmail.com with ESMTPSA id v22sm2981298wml.32.2019.04.23.05.30.59
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 23 Apr 2019 05:30:59 -0700 (PDT)
-Date:   Tue, 23 Apr 2019 14:30:57 +0200
-From:   Ingo Molnar <mingo@kernel.org>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S1727726AbfDWMgT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 23 Apr 2019 08:36:19 -0400
+Received: from casper.infradead.org ([85.118.1.10]:46742 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727778AbfDWMgS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Apr 2019 08:36:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=hFkON702bUd/WwTPJ6kyCwfsNPeaZfVttAo8WVlv5FQ=; b=YPcAkK6Go5opICdqhZWHfmrWOl
+        ZHdS/UNIw5A/i3W5jpc10DLLoboupAJ2c0H0QfKSlkzNnASsOnrpUr+jdHJ9p9wdnEhbfekCvbIQP
+        ig/cH9oKDmrX6LCIT/b+oTQC2TusMbzUJjjwBCQir0A2x/TT5U2wX8kHPWIFjaZfdYeeWkQj9qMbS
+        2ffaDf98/zSep9BrdRhll6+Yy+aN4a5+6CLdHGQke1FR4uI15NvVWc4V2bQEuhvaij4gWbFfDHUqD
+        V2e81rhNIj6UAwgge9RYjbSTChoKeQdXM0MwbSbm1kawb2Ck2E4dP36ssoBPXuDAqU6TKYNmq2Wuw
+        c95rQGGQ==;
+Received: from 177.17.136.231.dynamic.adsl.gvt.net.br ([177.17.136.231] helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hIuek-0001D7-27; Tue, 23 Apr 2019 12:36:14 +0000
+Date:   Tue, 23 Apr 2019 09:36:08 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>
-Subject: Re: [PATCH v2 38/79] docs: scheduler: convert docs to ReST and
- rename to *.rst
-Message-ID: <20190423123057.GA91497@gmail.com>
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Subject: Re: [PATCH v2 15/79] docs: gpio: convert docs to ReST and rename to
+ *.rst
+Message-ID: <20190423093608.1af5e0fb@coco.lan>
+In-Reply-To: <CACRpkdY=YurusedRbMDWstJUP4CLUosW0rLetvE=Hkov1Y9HGQ@mail.gmail.com>
 References: <cover.1555938375.git.mchehab+samsung@kernel.org>
- <2a3b2b06459e0134a3af4fbf3e6f62e6d42c4d26.1555938376.git.mchehab+samsung@kernel.org>
- <20190423082937.GZ11158@hirez.programming.kicks-ass.net>
- <20190423103202.GA13655@gmail.com>
- <20190423111937.GM11158@hirez.programming.kicks-ass.net>
+        <03cdacc3db76c5ff984c1507ea6434650d36d822.1555938376.git.mchehab+samsung@kernel.org>
+        <CACRpkdY=YurusedRbMDWstJUP4CLUosW0rLetvE=Hkov1Y9HGQ@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190423111937.GM11158@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Em Tue, 23 Apr 2019 13:23:50 +0200
+Linus Walleij <linus.walleij@linaro.org> escreveu:
 
-* Peter Zijlstra <peterz@infradead.org> wrote:
-
-> On Tue, Apr 23, 2019 at 12:32:02PM +0200, Ingo Molnar wrote:
+> On Mon, Apr 22, 2019 at 3:28 PM Mauro Carvalho Chehab
+> <mchehab+samsung@kernel.org> wrote:
 > 
-> > The .rst files still read like text files, right?
+> > The API described at sysfs.txt is deprecated.
+> >
+> > Still, as it is still part of the Kernel (and will likely be
+> > there for some time, as we don't simply remove APIs). So,
+> > it makes sense to keep it there.
+> >
+> > The conversion of this file is trivial:
+> >   - add blank lines and identation in order to identify paragraphs;
+> >   - mark a literal block as such.
+> >
+> > At its new index.rst, let's add a :orphan: while this is not linked to
+> > the main index.rst file, in order to avoid build warnings.
+> >
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>  
 > 
-> Like a harder to read text file for no gains.
+> Acked-by: Linus Walleij <linus.walleij@linaro.org>
+> 
+> Same question as the v1: should I apply it or will you :)
 
-I just looked through a couple of RST files in Documentation/, and they 
-look like perfectly readable text files to me.
+I suspect that it would be better if it gets applied via
+the GPIO tree, in order to reduce potential merge conflicts.
 
-Some of the formatting details are arguably 'special' and can be broken 
-via "text edits" without being aware of the RST markup relevance - but I 
-don't think it's a problem for RST-unaware developers to break that 
-markup, the Documentation/ folks have been rather generous and flexible 
-in fixing those up, in addition to fixing all the typos as well.
-
-So I'd be cautiously in favor of the RST conversion, assuming I don't get 
-yelled at if I break the markup. ;-)
-
-Thanks,
-
-	Ingo
+Regards,
+Mauro
