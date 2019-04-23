@@ -1,86 +1,105 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B5B997D04D
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Apr 2019 12:38:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 172EC7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Apr 2019 14:52:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727690AbfDWMia (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 23 Apr 2019 08:38:30 -0400
-Received: from casper.infradead.org ([85.118.1.10]:46868 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726150AbfDWMia (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Apr 2019 08:38:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=jzsCu3UclCPI4Y3sy+iQiRukLb1fa86cUHsLshVIRb4=; b=mKLA4xKILZf611KFqFyn7OqbXm
-        B9GQhp2gs27WeI0/7IR+3GhOxdIn5lRQ4GpgE/WNkLGnvRxWxe18oqmNJmAHslz4zcoHq09VY2xxC
-        jagHDybF9gHj+nlpxZ7pe+AWJOBOKlABvK4IHO9z3g0aNoOn5LDO7jBX1Dg7b55rcnFxe5Tv0WXWK
-        Rfrre8oNVVxHlzASzRyIKf/bNJK69TwI/RNdtJfvKcZ4kgB8jNoDjzE82HAzWc6kzDoZWlKgwcvgS
-        di4AuAJXhdH2Bj11ce4NhZteBBMxlrwfdi0jQSrxI4ZyScHY2bi4K757eMNcRpFFhyYTZecavyMeL
-        6Ma2iczA==;
-Received: from 177.17.136.231.dynamic.adsl.gvt.net.br ([177.17.136.231] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hIugt-0001HC-Eq; Tue, 23 Apr 2019 12:38:28 +0000
-Date:   Tue, 23 Apr 2019 09:38:22 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S1727690AbfDWOwe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 23 Apr 2019 10:52:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40042 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727467AbfDWOwe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Apr 2019 10:52:34 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 11AAF30BC66C;
+        Tue, 23 Apr 2019 14:52:34 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-121-98.rdu2.redhat.com [10.10.121.98])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 712811995D;
+        Tue, 23 Apr 2019 14:52:27 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <20190423132100.GB7132@redhat.com>
+References: <20190423132100.GB7132@redhat.com> <cover.1555938375.git.mchehab+samsung@kernel.org> <cda57849a6462ccc72dcd360b30068ab6a1021c4.1555938376.git.mchehab+samsung@kernel.org> <20190423083135.GA11158@hirez.programming.kicks-ass.net> <20190423125519.GA7104@redhat.com> <20190423130132.GT4038@hirez.programming.kicks-ass.net>
+To:     Mike Snitzer <snitzer@redhat.com>
+Cc:     dhowells@redhat.com, Peter Zijlstra <peterz@infradead.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Subject: Re: [PATCH 15/57] docs: gpio: convert it to ReST
-Message-ID: <20190423093822.52227129@coco.lan>
-In-Reply-To: <CACRpkdYQeEoyE9sAAo2KZjurx9sH4w+bzM-_-_h6U4w7PeX7eg@mail.gmail.com>
-References: <cover.1555382110.git.mchehab+samsung@kernel.org>
-        <0f2d522a80f96391d3f7b51389d08b4afaedb618.1555382110.git.mchehab+samsung@kernel.org>
-        <CACRpkdYQeEoyE9sAAo2KZjurx9sH4w+bzM-_-_h6U4w7PeX7eg@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org
+Subject: Re: [PATCH v2 56/79] docs: Documentation/*.txt: rename all ReST files to *.rst
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <20703.1556031146.1@warthog.procyon.org.uk>
+Date:   Tue, 23 Apr 2019 15:52:26 +0100
+Message-ID: <20704.1556031146@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.46]); Tue, 23 Apr 2019 14:52:34 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 23 Apr 2019 12:52:04 +0200
-Linus Walleij <linus.walleij@linaro.org> escreveu:
+Mike Snitzer <snitzer@redhat.com> wrote:
 
-> On Tue, Apr 16, 2019 at 4:56 AM Mauro Carvalho Chehab
-> <mchehab+samsung@kernel.org> wrote:
+> Peter Zijlstra <peterz@infradead.org> wrote:
 > 
-> > The API described at sysfs.txt is deprecated.
-> >
-> > Still, as it is still part of the Kernel (and will likely be
-> > there for some time, as we don't simply remove APIs). So,
-> > it makes sense to keep it there.
-> >
-> > The conversion of this file is trivial.
-> >
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>  
+> > But yes, I have 0 motivation to learn or abide by rst. It simply doesn't
+> > give me anything in return. There is no upside, only worse text files :/
 > 
-> Acked-by: Linus Walleij <linus.walleij@linaro.org>
-> 
-> Mauro will you merge this or do you want me to merge it?
+> Right, but these changes aren't meant for our benefit.  They are for
+> users who get cleaner web accessible Linux kernel docs.  Seems the
+> decision has been made that the users' benefit, and broader
+> modernization of Linux docs, outweighs the inconvenience for engineers
+> who maintain the content of said documentation.
 
-Linus,
+Whilst I can sympathise with Mauro and Jon - and appreciate the hard work
+they've put into this, I do think that the engineers dealing directly with the
+kernel code should be considered the primary audience.
 
-Just answered on the other e-mail: better to merge via your
-tree. Just notice that this version was superseded by
+There've been some changes that I've particularly objected to, such as
+removing contents lists from files and replacing them with markup like:
 
- [PATCH v2 15/79] docs: gpio: convert docs to ReST and rename to *.rst
+	.. contents:: :local:
 
-As it also does the rename to .rst.
+This actually impedes use of the file.  It should not be necessary to build
+the docs to get that for ordinary use.
 
-Thanks,
-Mauro
+
+Anyway, the biggest doc issue in the kernel isn't addressed by the conversion
+to ReST: and that is that most people don't seem interested in documenting
+stuff - whether because writing documentation isn't as fun as writing code or
+the fact that English isn't their native language, I don't know.  I can
+sympathise more with the latter.
+
+Kerneldoc is a start - and probably means that a lot of API functions are at
+least slightly documented - but too many APIs are not mentioned in the
+Documentation directory at all.  Remember: if you can't describe it, it's
+probably wrong!
+
+I'm not sure what we could do about this, but it would probably have to be
+imposed from the top: no more undocumented APIs.  Any new API must come with
+documentation; changes to APIs must include changes to the documentation.
+
+If you really want to upset people, you could add: anyone who wants to alter
+an already existing undocumented API must supply documentation for the whole
+API (but that could be considered a bit cruel).
+
+And anyone who says "But the code is the documentation!" needs to consider
+carefully what happens to their code after it has been trampled, generalised,
+split, combined, renormalised, cthulhuised, janitorised and had parts of it
+migrate.
+
+</rant>
+
+And now, after that, I think a fresh cup of tea is called for!
+
+David
