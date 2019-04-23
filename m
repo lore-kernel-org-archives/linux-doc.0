@@ -1,67 +1,78 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 416687D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Apr 2019 17:13:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C3A3A7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 23 Apr 2019 17:36:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727831AbfDWRNB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 23 Apr 2019 13:13:01 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:52242 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727656AbfDWRNA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Apr 2019 13:13:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=bfxbOld5oy9Owt8ChLuFHnhjLdbxAfrET6dK5MZwYxA=; b=rkprz1yVMMdbuqH4MD0vDW5co
-        ti+NsQ7FO4D/QiU/IE1sF1KgxHpAXTXpX9REDFZesfv9FkFTFhi6UGD/jnRZeuNFb6DtNgtjWLDZ2
-        iDNsMB+g8/NXepjOCXIh5H/hFzXEY++Ne5sYHky+/c9XEHHFL5M1ccj+DrQy12kr9fOKp4/B1v1Fj
-        t/IS2Owgt1mBT6w96w0MpPnZNM9aBZr2HK0+iHbrtCj1f14dwVqylTu9OniU2NCroik7+Ovhf0XXd
-        SXK5qPZQVosDdHDvU1p+OFsFSoHu0Xtwo1Bh436gXy9Nig0T4T4ETV3OKFiayiS2aS1ATAz6IcnZh
-        p+GlS65ug==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hIyyX-0007DT-D9; Tue, 23 Apr 2019 17:12:57 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 0BEA429C30E03; Tue, 23 Apr 2019 19:12:56 +0200 (CEST)
-Date:   Tue, 23 Apr 2019 19:12:56 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     David Howells <dhowells@redhat.com>,
-        Mike Snitzer <snitzer@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org
-Subject: Re: [PATCH v2 56/79] docs: Documentation/*.txt: rename all ReST
- files to *.rst
-Message-ID: <20190423171256.GH12232@hirez.programming.kicks-ass.net>
-References: <20190423132100.GB7132@redhat.com>
- <cover.1555938375.git.mchehab+samsung@kernel.org>
- <cda57849a6462ccc72dcd360b30068ab6a1021c4.1555938376.git.mchehab+samsung@kernel.org>
- <20190423083135.GA11158@hirez.programming.kicks-ass.net>
- <20190423125519.GA7104@redhat.com>
- <20190423130132.GT4038@hirez.programming.kicks-ass.net>
- <20704.1556031146@warthog.procyon.org.uk>
- <20190423105415.3a69a0cb@lwn.net>
+        id S1729372AbfDWRgq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 23 Apr 2019 13:36:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:32872 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728526AbfDWRgp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Apr 2019 13:36:45 -0400
+Received: from localhost (odyssey.drury.edu [64.22.249.253])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 02F66206BA;
+        Tue, 23 Apr 2019 17:36:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1556041005;
+        bh=0ywx4lbgLqdcOUJmTJLQ1S0sd6blYojEzZMGaehyCq4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RFKifikufVAAEiYElOfFEZNBmaOX2AaURO7CJBO43uVnIm7SiUToincr0CoU5SipS
+         eq2M2g/oAiDcLtIuc216jiwUzJebwpsyrWM9ejkKSSdRE8ZRTqbu9nljumpqsQwuQ6
+         IfP1DjparUtNRl4DWKZkRDEo/m77cCe09UE43KGY=
+Date:   Tue, 23 Apr 2019 12:36:44 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Changbin Du <changbin.du@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Linux PCI <linux-pci@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        linux-gpio@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Subject: Re: [PATCH v4 00/63] Include linux ACPI/PCI/X86 docs into Sphinx TOC
+ tree
+Message-ID: <20190423173644.GA14616@google.com>
+References: <20190423162932.21428-1-changbin.du@gmail.com>
+ <CAJZ5v0jPyaGQcDfpW5b7A-_3bvkfL78MxFmPtjwCGZ4-=KwUwg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190423105415.3a69a0cb@lwn.net>
+In-Reply-To: <CAJZ5v0jPyaGQcDfpW5b7A-_3bvkfL78MxFmPtjwCGZ4-=KwUwg@mail.gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 23, 2019 at 10:54:15AM -0600, Jonathan Corbet wrote:
-> Few people complain about the biggest impediment to the readability of
-> text files, though: the use of kerneldoc comments.
+On Tue, Apr 23, 2019 at 06:39:47PM +0200, Rafael J. Wysocki wrote:
+> On Tue, Apr 23, 2019 at 6:30 PM Changbin Du <changbin.du@gmail.com> wrote:
+> > Hi Corbet and All,
+> > The kernel now uses Sphinx to generate intelligent and beautiful
+> > documentation from reStructuredText files. I converted all of the Linux
+> > ACPI/PCI/X86 docs to reST format in this serias.
+> >
+> > In this version I combined ACPI and PCI docs, and added new x86 docs
+> > conversion.
+> 
+> I'm not sure if combining all three into one big patch series has been
+> a good idea, honestly.
 
-I just stopped using kerneldoc.
+Yeah, if you post this again, I would find it easier to deal with if
+linux-pci only got the PCI-related things.  63 patches is a little too
+much for one series.
+
+Bjorn
