@@ -2,331 +2,118 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 591E47D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Apr 2019 11:41:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2CD4B7D910
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Apr 2019 11:51:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727337AbfDXLlP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 24 Apr 2019 07:41:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50486 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726211AbfDXLlO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 24 Apr 2019 07:41:14 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 1607330BC412;
-        Wed, 24 Apr 2019 11:41:14 +0000 (UTC)
-Received: from gondolin (dhcp-192-187.str.redhat.com [10.33.192.187])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8D29E272BB;
-        Wed, 24 Apr 2019 11:41:11 +0000 (UTC)
-Date:   Wed, 24 Apr 2019 13:41:09 +0200
-From:   Cornelia Huck <cohuck@redhat.com>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Pierre Morel <pmorel@linux.ibm.com>,
-        Halil Pasic <pasic@linux.ibm.com>,
-        Farhan Ali <alifm@linux.ibm.com>,
-        Eric Farman <farman@linux.ibm.com>, linux-s390@vger.kernel.org,
-        kvm@vger.kernel.org
-Subject: Re: [PATCH v2 31/79] docs: s390: convert docs to ReST and rename to
- *.rst
-Message-ID: <20190424134109.2891a7cc.cohuck@redhat.com>
-In-Reply-To: <fb86b676b3b426732f1f11378868a9bd3b580b46.1555938376.git.mchehab+samsung@kernel.org>
-References: <cover.1555938375.git.mchehab+samsung@kernel.org>
-        <fb86b676b3b426732f1f11378868a9bd3b580b46.1555938376.git.mchehab+samsung@kernel.org>
-Organization: Red Hat GmbH
+        id S1725978AbfDXLvi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 24 Apr 2019 07:51:38 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:33290 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726322AbfDXLvh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Apr 2019 07:51:37 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x3OBobhv058081
+        for <linux-doc@vger.kernel.org>; Wed, 24 Apr 2019 07:51:36 -0400
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2s2n2npuw3-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Wed, 24 Apr 2019 07:51:35 -0400
+Received: from localhost
+        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
+        Wed, 24 Apr 2019 12:51:33 +0100
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Wed, 24 Apr 2019 12:51:29 +0100
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com [9.149.105.60])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x3OBpS6P52166882
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 24 Apr 2019 11:51:29 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id DFAB642041;
+        Wed, 24 Apr 2019 11:51:28 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 3BF134204F;
+        Wed, 24 Apr 2019 11:51:28 +0000 (GMT)
+Received: from rapoport-lnx (unknown [9.148.8.112])
+        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Wed, 24 Apr 2019 11:51:28 +0000 (GMT)
+Date:   Wed, 24 Apr 2019 14:51:26 +0300
+From:   Mike Rapoport <rppt@linux.ibm.com>
+To:     Mauro Carvalho Chehab <mchehab@infradead.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        David Howells <dhowells@redhat.com>,
+        Mike Snitzer <snitzer@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org
+Subject: Re: [PATCH v2 56/79] docs: Documentation/*.txt: rename all ReST
+ files to *.rst
+References: <20190423132100.GB7132@redhat.com>
+ <cover.1555938375.git.mchehab+samsung@kernel.org>
+ <cda57849a6462ccc72dcd360b30068ab6a1021c4.1555938376.git.mchehab+samsung@kernel.org>
+ <20190423083135.GA11158@hirez.programming.kicks-ass.net>
+ <20190423125519.GA7104@redhat.com>
+ <20190423130132.GT4038@hirez.programming.kicks-ass.net>
+ <20704.1556031146@warthog.procyon.org.uk>
+ <20190423105415.3a69a0cb@lwn.net>
+ <20190423172641.612012c8@coco.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.43]); Wed, 24 Apr 2019 11:41:14 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190423172641.612012c8@coco.lan>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-TM-AS-GCONF: 00
+x-cbid: 19042411-0016-0000-0000-00000273003B
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19042411-0017-0000-0000-000032CF7194
+Message-Id: <20190424115126.GC6278@rapoport-lnx>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-04-24_08:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1904240097
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 22 Apr 2019 10:27:20 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+On Tue, Apr 23, 2019 at 05:26:41PM -0300, Mauro Carvalho Chehab wrote:
+> Em Tue, 23 Apr 2019 10:54:15 -0600
+> Jonathan Corbet <corbet@lwn.net> escreveu:
+> 
+> > On Tue, 23 Apr 2019 15:52:26 +0100
+> > David Howells <dhowells@redhat.com> wrote:
+> > 
+> > Suggestions / patches on how to improve things for *all* users of the
+> > docs are certainly welcome!
+> > 
+> > I am, incidentally, toying with the idea of trying to put together a
+> > documentation microconf at the Linux Plumbers Conference this year.  If
+> > anybody out there thinks that's a good idea and would like to
+> > participate, please let me know.
+> 
+> If you add a microconf to LPC, I'm in. 
 
-> Convert all text files with s390 documentation to ReST format.
-> 
-> Tried to preserve as much as possible the original document
-> format. Still, some of the files required some work in order
-> for it to be visible on both plain text and after converted
-> to html.
-> 
-> The conversion is actually:
->   - add blank lines and identation in order to identify paragraphs;
->   - fix tables markups;
->   - add some lists markups;
->   - mark literal blocks;
->   - adjust title markups.
-> 
-> At its new index.rst, let's add a :orphan: while this is not linked to
-> the main index.rst file, in order to avoid build warnings.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
->  .../admin-guide/kernel-parameters.txt         |    4 +-
->  Documentation/driver-api/s390-drivers.rst     |    4 +-
->  Documentation/s390/{3270.txt => 3270.rst}     |   85 +-
->  Documentation/s390/{cds.txt => cds.rst}       |  354 ++-
->  .../s390/{CommonIO => common_io.rst}          |   49 +-
->  Documentation/s390/{DASD => dasd.rst}         |   33 +-
->  .../{Debugging390.txt => debugging390.rst}    | 2389 ++++++++++-------
->  .../{driver-model.txt => driver-model.rst}    |  179 +-
->  Documentation/s390/index.rst                  |   30 +
->  .../s390/{monreader.txt => monreader.rst}     |   85 +-
->  Documentation/s390/{qeth.txt => qeth.rst}     |   36 +-
->  Documentation/s390/s390dbf.rst                |  803 ++++++
->  Documentation/s390/s390dbf.txt                |  667 -----
->  Documentation/s390/text_files.rst             |   11 +
->  .../s390/{vfio-ap.txt => vfio-ap.rst}         |  487 ++--
->  .../s390/{vfio-ccw.txt => vfio-ccw.rst}       |   90 +-
->  .../s390/{zfcpdump.txt => zfcpdump.rst}       |    2 +
->  MAINTAINERS                                   |    4 +-
->  arch/s390/Kconfig                             |    4 +-
->  arch/s390/include/asm/debug.h                 |    4 +-
->  drivers/s390/char/zcore.c                     |    2 +-
->  21 files changed, 3089 insertions(+), 2233 deletions(-)
->  rename Documentation/s390/{3270.txt => 3270.rst} (90%)
->  rename Documentation/s390/{cds.txt => cds.rst} (64%)
->  rename Documentation/s390/{CommonIO => common_io.rst} (87%)
->  rename Documentation/s390/{DASD => dasd.rst} (92%)
->  rename Documentation/s390/{Debugging390.txt => debugging390.rst} (53%)
->  rename Documentation/s390/{driver-model.txt => driver-model.rst} (73%)
->  create mode 100644 Documentation/s390/index.rst
->  rename Documentation/s390/{monreader.txt => monreader.rst} (81%)
->  rename Documentation/s390/{qeth.txt => qeth.rst} (62%)
->  create mode 100644 Documentation/s390/s390dbf.rst
->  delete mode 100644 Documentation/s390/s390dbf.txt
->  create mode 100644 Documentation/s390/text_files.rst
->  rename Documentation/s390/{vfio-ap.txt => vfio-ap.rst} (72%)
->  rename Documentation/s390/{vfio-ccw.txt => vfio-ccw.rst} (89%)
->  rename Documentation/s390/{zfcpdump.txt => zfcpdump.rst} (97%)
++1
+ 
+> IMO, we made big advances with documentation, but there's a lot more
+> to be done. Having a microconf to discuss those things may help us
+> to bring new ideas about how to keep improving it.
+
+The most difficult part, IMHO, is to convince people to document things ;-)
+ 
+> Thanks,
+> Mauro
 > 
 
-(...)
+-- 
+Sincerely yours,
+Mike.
 
-> diff --git a/Documentation/s390/3270.txt b/Documentation/s390/3270.rst
-> similarity index 90%
-> rename from Documentation/s390/3270.txt
-> rename to Documentation/s390/3270.rst
-> index 7c715de99774..e09e77954238 100644
-> --- a/Documentation/s390/3270.txt
-> +++ b/Documentation/s390/3270.rst
-
-(...)
-
-> @@ -17,12 +21,12 @@ twenty and thirty years ago.
->  You may have 3270s in-house and not know it.  If you're using the
->  VM-ESA operating system, define a 3270 to your virtual machine by using
->  the command "DEF GRAF <hex-address>"  This paper presumes you will be
-> -defining four 3270s with the CP/CMS commands
-> +defining four 3270s with the CP/CMS commands:
->  
-> -	DEF GRAF 620
-> -	DEF GRAF 621
-> -	DEF GRAF 622
-> -	DEF GRAF 623
-> +	- DEF GRAF 620
-> +	- DEF GRAF 621
-> +	- DEF GRAF 622
-> +	- DEF GRAF 623
-
-IIUC, this makes this into a bulleted list... but the user is supposed
-to enter these commands (similar to the shell commands further down in
-this file).
-
->  
->  Your network connection from VM-ESA allows you to use x3270, tn3270, or
->  another 3270 emulator, started from an xterm window on your PC or
-
-(...)
-
-> @@ -84,20 +92,22 @@ Here are the installation steps in detail:
->  		make modules_install
->  
->  	2. (Perform this step only if you have configured tub3270 as a
-> -	module.)  Add a line to a file /etc/modprobe.d/*.conf to automatically
-> +	module.)  Add a line to a file `/etc/modprobe.d/*.conf` to automatically
->  	load the driver when it's needed.  With this line added, you will see
->  	login prompts appear on your 3270s as soon as boot is complete (or
->  	with emulated 3270s, as soon as you dial into your vm guest using the
->  	command "DIAL <vmguestname>").  Since the line-mode major number is
-> -	227, the line to add should be:
-> +	227, the line to add should be::
-> +
->  		alias char-major-227 tub3270
->  
->  	3. Define graphic devices to your vm guest machine, if you
->  	haven't already.  Define them before you reboot (reipl):
-> -		DEFINE GRAF 620
-> -		DEFINE GRAF 621
-> -		DEFINE GRAF 622
-> -		DEFINE GRAF 623
-> +
-> +		- DEFINE GRAF 620
-> +		- DEFINE GRAF 621
-> +		- DEFINE GRAF 622
-> +		- DEFINE GRAF 623
-
-Same here.
-
->  
->  	4. Reboot.  The reboot process scans hardware devices, including
->  	3270s, and this enables the tub3270 driver once loaded to respond
-
-(...)
-
-
-> diff --git a/Documentation/s390/CommonIO b/Documentation/s390/common_io.rst
-> similarity index 87%
-> rename from Documentation/s390/CommonIO
-> rename to Documentation/s390/common_io.rst
-> index 6e0f63f343b4..846485681ce7 100644
-> --- a/Documentation/s390/CommonIO
-> +++ b/Documentation/s390/common_io.rst
-> @@ -1,5 +1,9 @@
-> -S/390 common I/O-Layer - command line parameters, procfs and debugfs entries
-> -============================================================================
-> +======================
-> +S/390 common I/O-Layer
-> +======================
-> +
-> +command line parameters, procfs and debugfs entries
-> +===================================================
-
-I don't see why this should be split into two lines? If anything needs
-to be changed, I'd drop the hyphen.
-
->  
->  Command line parameters
->  -----------------------
-> @@ -13,7 +17,7 @@ Command line parameters
->  	device := {all | [!]ipldev | [!]condev | [!]<devno> | [!]<devno>-<devno>}
->  
->    The given devices will be ignored by the common I/O-layer; no detection
-> -  and device sensing will be done on any of those devices. The subchannel to 
-> +  and device sensing will be done on any of those devices. The subchannel to
->    which the device in question is attached will be treated as if no device was
->    attached.
->  
-> @@ -28,14 +32,20 @@ Command line parameters
->    keywords can be used to refer to the CCW based boot device and CCW console
->    device respectively (these are probably useful only when combined with the '!'
->    operator). The '!' operator will cause the I/O-layer to _not_ ignore a device.
-> -  The command line is parsed from left to right.
-> +  The command line
-> +  is parsed from left to right.
-
-Why this change?
-
-> +
-> +  For example::
->  
-> -  For example, 
->  	cio_ignore=0.0.0023-0.0.0042,0.0.4711
-> +
->    will ignore all devices ranging from 0.0.0023 to 0.0.0042 and the device
->    0.0.4711, if detected.
-> -  As another example,
-> +
-> +  As another example::
-> +
->  	cio_ignore=all,!0.0.4711,!0.0.fd00-0.0.fd02
-> +
->    will ignore all devices but 0.0.4711, 0.0.fd00, 0.0.fd01, 0.0.fd02.
->  
->    By default, no devices are ignored.
-
-(...)
-
-> diff --git a/Documentation/s390/Debugging390.txt b/Documentation/s390/debugging390.rst
-> similarity index 53%
-> rename from Documentation/s390/Debugging390.txt
-> rename to Documentation/s390/debugging390.rst
-> index c35804c238ad..d49305fd5e1a 100644
-> --- a/Documentation/s390/Debugging390.txt
-> +++ b/Documentation/s390/debugging390.rst
-
-I'll skip this one...
-
-(Question for the s390 arch maintainers: I remember that there was some
-interesting stuff in there, but I'm not sure how much of it is still
-accurate/useful... is it worth spending time on trying to update this?)
-
-(...)
-
-
-> diff --git a/Documentation/s390/s390dbf.rst b/Documentation/s390/s390dbf.rst
-> new file mode 100644
-> index 000000000000..ec2a1faa414b
-> --- /dev/null
-> +++ b/Documentation/s390/s390dbf.rst
-
-(...)
-
-> diff --git a/Documentation/s390/s390dbf.txt b/Documentation/s390/s390dbf.txt
-> deleted file mode 100644
-> index 61329fd62e89..000000000000
-> --- a/Documentation/s390/s390dbf.txt
-> +++ /dev/null
-
-I wonder why this does not show up as a rename?
-
-(...)
-
-> diff --git a/Documentation/s390/text_files.rst b/Documentation/s390/text_files.rst
-> new file mode 100644
-> index 000000000000..c94d05d4fa17
-> --- /dev/null
-> +++ b/Documentation/s390/text_files.rst
-> @@ -0,0 +1,11 @@
-> +ibm 3270 changelog
-> +------------------
-> +
-> +.. include:: 3270.ChangeLog
-> +    :literal:
-> +
-> +ibm 3270 config3270.sh
-> +----------------------
-> +
-> +.. literalinclude:: config3270.sh
-> +    :language: shell
-
-
-Another question for the s390 arch maintainers: How valuable is this still?
-
-(...)
-
-> diff --git a/Documentation/s390/vfio-ccw.txt b/Documentation/s390/vfio-ccw.rst
-> similarity index 89%
-> rename from Documentation/s390/vfio-ccw.txt
-> rename to Documentation/s390/vfio-ccw.rst
-> index 2be11ad864ff..1f6d0b56d53e 100644
-> --- a/Documentation/s390/vfio-ccw.txt
-> +++ b/Documentation/s390/vfio-ccw.rst
-
-(...)
-
-> @@ -295,6 +321,6 @@ Reference
->  1. ESA/s390 Principles of Operation manual (IBM Form. No. SA22-7832)
->  2. ESA/390 Common I/O Device Commands manual (IBM Form. No. SA22-7204)
->  3. https://en.wikipedia.org/wiki/Channel_I/O
-> -4. Documentation/s390/cds.txt
-> +4. Documentation/s390/cds.rst
->  5. Documentation/vfio.txt
->  6. Documentation/vfio-mediated-device.txt
-
-Are these two renamed in a later patch?
-
-(...)
