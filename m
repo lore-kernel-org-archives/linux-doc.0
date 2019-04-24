@@ -2,34 +2,34 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D1ECE7D922
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Apr 2019 18:11:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 70BE57D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Apr 2019 18:13:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388074AbfDXSK3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 24 Apr 2019 14:10:29 -0400
-Received: from casper.infradead.org ([85.118.1.10]:48756 "EHLO
+        id S2388064AbfDXSMp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 24 Apr 2019 14:12:45 -0400
+Received: from casper.infradead.org ([85.118.1.10]:48988 "EHLO
         casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388807AbfDXSK3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Apr 2019 14:10:29 -0400
+        with ESMTP id S2387726AbfDXSMo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Apr 2019 14:12:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
         MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
         :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=d+dDVPR0m38MbRKD/xgSDYv2iaJ3D1TOHrXAP3UsC/0=; b=VtZaOJBUNkTV4G6Vvt5H2TOwxv
-        eZOXu6uG9Y6Lfow92VCRCJmn7xHGmlMkdeK4zTGYEJuqhutf09DboYU8kJ8+bp3qS7zSuNVW89YKg
-        8iNVzHiSHQUBAcWguL6QBTiYCM2N3hdor0YzuiP+OwafWYbAH7HfIHyx6v6K7bn0M32BITb2BsKOt
-        7tkA6nuQSIC+mhR7JnOkprersSvXWJFtheAGxJneU8QP7pvng8MjbUw02Y8hWyysb5a4aAz3ZC16j
-        hKx7XIyKKwNTmqvW9+gQx0oKp7OB80sgLvsu8/i0JuRU8/ROIXNHLfeICc8KcM4kCToZvCF83Hkdf
-        PTATqA4A==;
+        bh=ojgIGtqBjKZ94rG62AN3WAggUWCZ+hJ6m5woSpGnwUc=; b=O1/F2Qpu51GO8rXz1zY6kYk99L
+        XrZlPd3IlyXTDjPoqKWGkQ5L9ocnA+I/P9bunB/fSk9vhEPYRAZEeNbp8uderR2zg3eMU4Um449UQ
+        JDiIDpo4Y/nvTg9W5eMOQW4SVXC4xvq+GLXJzJzNtdosM6b0r2bRoOiynVZDK9eu2ZpBQyEI2tzzn
+        2+Hq0uDmIVrzTNK1UXukkg/kMtNzFd2MEIvgNbLYOdakf1WdML/JmeoL6fYbGbSyagrhuUE2/qLwk
+        2nZ2nuZANyvKzCUoyn/QXq9V9RbcfqO/Yq09GKoeR4BYNCqOMXCJke1on90Pix4qUKL0knXOa1JYy
+        iBqFTp0w==;
 Received: from 177.17.136.231.dynamic.adsl.gvt.net.br ([177.17.136.231] helo=coco.lan)
         by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hJMLh-0001wh-EO; Wed, 24 Apr 2019 18:10:26 +0000
-Date:   Wed, 24 Apr 2019 15:10:20 -0300
+        id 1hJMNt-000219-Pf; Wed, 24 Apr 2019 18:12:42 +0000
+Date:   Wed, 24 Apr 2019 15:12:36 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Changbin Du <changbin.du@gmail.com>
 Cc:     rjw@rjwysocki.net, Jonathan Corbet <corbet@lwn.net>,
@@ -37,12 +37,12 @@ Cc:     rjw@rjwysocki.net, Jonathan Corbet <corbet@lwn.net>,
         linux-kernel@vger.kernel.org, fenghua.yu@intel.com,
         linuxppc-dev@lists.ozlabs.org, linux-acpi@vger.kernel.org,
         linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v5 14/23] Documentation: ACPI: move
- dsd/data-node-references.txt to firmware-guide/acpi and convert to reST
-Message-ID: <20190424151020.406b81ef@coco.lan>
-In-Reply-To: <20190424175306.25880-15-changbin.du@gmail.com>
+Subject: Re: [PATCH v5 20/23] Documentation: ACPI: move cppc_sysfs.txt to
+ admin-guide/acpi and convert to reST
+Message-ID: <20190424151236.776d9678@coco.lan>
+In-Reply-To: <20190424175306.25880-21-changbin.du@gmail.com>
 References: <20190424175306.25880-1-changbin.du@gmail.com>
-        <20190424175306.25880-15-changbin.du@gmail.com>
+        <20190424175306.25880-21-changbin.du@gmail.com>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -52,103 +52,59 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 25 Apr 2019 01:52:57 +0800
+Em Thu, 25 Apr 2019 01:53:03 +0800
 Changbin Du <changbin.du@gmail.com> escreveu:
 
 > This converts the plain text documentation to reStructuredText format and
 > add it to Sphinx TOC tree. No essential content change.
 > 
 > Signed-off-by: Changbin Du <changbin.du@gmail.com>
-
-Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-
 > ---
->  .../acpi/dsd/data-node-references.rst}        | 36 ++++++++++---------
->  Documentation/firmware-guide/acpi/index.rst   |  1 +
->  2 files changed, 21 insertions(+), 16 deletions(-)
->  rename Documentation/{acpi/dsd/data-node-references.txt => firmware-guide/acpi/dsd/data-node-references.rst} (71%)
+>  .../acpi/cppc_sysfs.rst}                      | 71 ++++++++++---------
+>  Documentation/admin-guide/acpi/index.rst      |  1 +
+>  2 files changed, 40 insertions(+), 32 deletions(-)
+>  rename Documentation/{acpi/cppc_sysfs.txt => admin-guide/acpi/cppc_sysfs.rst} (51%)
 > 
-> diff --git a/Documentation/acpi/dsd/data-node-references.txt b/Documentation/firmware-guide/acpi/dsd/data-node-references.rst
-> similarity index 71%
-> rename from Documentation/acpi/dsd/data-node-references.txt
-> rename to Documentation/firmware-guide/acpi/dsd/data-node-references.rst
-> index c3871565c8cf..1351984e767c 100644
-> --- a/Documentation/acpi/dsd/data-node-references.txt
-> +++ b/Documentation/firmware-guide/acpi/dsd/data-node-references.rst
-> @@ -1,9 +1,12 @@
-> -Copyright (C) 2018 Intel Corporation
-> -Author: Sakari Ailus <sakari.ailus@linux.intel.com>
-> -
+> diff --git a/Documentation/acpi/cppc_sysfs.txt b/Documentation/admin-guide/acpi/cppc_sysfs.rst
+> similarity index 51%
+> rename from Documentation/acpi/cppc_sysfs.txt
+> rename to Documentation/admin-guide/acpi/cppc_sysfs.rst
+> index f20fb445135d..a4b99afbe331 100644
+> --- a/Documentation/acpi/cppc_sysfs.txt
+> +++ b/Documentation/admin-guide/acpi/cppc_sysfs.rst
+> @@ -1,5 +1,11 @@
 > +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: <isonum.txt>
 >  
-> +===================================
->  Referencing hierarchical data nodes
-> ------------------------------------
-> +===================================
+> -	Collaborative Processor Performance Control (CPPC)
+> +==================================================
+> +Collaborative Processor Performance Control (CPPC)
+> +==================================================
 > +
-> +:Copyright: |copy| 2018 Intel Corporation
-> +:Author: Sakari Ailus <sakari.ailus@linux.intel.com>
+> +CPPC
+> +====
 >  
->  ACPI in general allows referring to device objects in the tree only.
->  Hierarchical data extension nodes may not be referred to directly, hence this
-> @@ -28,13 +31,14 @@ extension key.
+>  CPPC defined in the ACPI spec describes a mechanism for the OS to manage the
+>  performance of a logical processor on a contigious and abstract performance
+> @@ -10,31 +16,28 @@ For more details on CPPC please refer to the ACPI specification at:
 >  
+>  http://uefi.org/specifications
 >  
->  Example
-> --------
-> +=======
->  
-> -	In the ASL snippet below, the "reference" _DSD property [2] contains a
-> -	device object reference to DEV0 and under that device object, a
-> -	hierarchical data extension key "node@1" referring to the NOD1 object
-> -	and lastly, a hierarchical data extension key "anothernode" referring to
-> -	the ANOD object which is also the final target node of the reference.
-> +In the ASL snippet below, the "reference" _DSD property [2] contains a
-> +device object reference to DEV0 and under that device object, a
-> +hierarchical data extension key "node@1" referring to the NOD1 object
-> +and lastly, a hierarchical data extension key "anothernode" referring to
-> +the ANOD object which is also the final target node of the reference.
-> +::
->  
->  	Device (DEV0)
->  	{
-> @@ -75,15 +79,15 @@ Example
->  	    })
->  	}
->  
-> -Please also see a graph example in graph.txt .
-> +Please also see a graph example in :doc:`graph`.
->  
->  References
-> -----------
-> +==========
->  
->  [1] Hierarchical Data Extension UUID For _DSD.
-> -    <URL:http://www.uefi.org/sites/default/files/resources/_DSD-hierarchical-data-extension-UUID-v1.1.pdf>,
-> -    referenced 2018-07-17.
-> +<http://www.uefi.org/sites/default/files/resources/_DSD-hierarchical-data-extension-UUID-v1.1.pdf>,
-> +referenced 2018-07-17.
->  
->  [2] Device Properties UUID For _DSD.
-> -    <URL:http://www.uefi.org/sites/default/files/resources/_DSD-device-properties-UUID.pdf>,
-> -    referenced 2016-10-04.
-> +<http://www.uefi.org/sites/default/files/resources/_DSD-device-properties-UUID.pdf>,
-> +referenced 2016-10-04.
-> diff --git a/Documentation/firmware-guide/acpi/index.rst b/Documentation/firmware-guide/acpi/index.rst
-> index f81cfbcb6878..6d4e0df4f063 100644
-> --- a/Documentation/firmware-guide/acpi/index.rst
-> +++ b/Documentation/firmware-guide/acpi/index.rst
-> @@ -9,6 +9,7 @@ ACPI Support
->  
->     namespace
->     dsd/graph
-> +   dsd/data-node-references
->     enumeration
->     osi
->     method-customizing
+> -Some of the CPPC registers are exposed via sysfs under:
+> -
+> -/sys/devices/system/cpu/cpuX/acpi_cppc/
 
 
+> -
+> -for each cpu X
+
+Yeah, there it is: you're removing those two lines.
+
+> +Some of the CPPC registers are exposed via sysfs under::
+>  
+> ---------------------------------------------------------------------------------
+> +  /sys/devices/system/cpu/cpuX/acpi_cppc/
+
+As per my reply to v4.
 
 Thanks,
 Mauro
