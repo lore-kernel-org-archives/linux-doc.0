@@ -1,330 +1,142 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AD2F07D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Apr 2019 01:25:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2976B7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Apr 2019 03:51:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729050AbfDXBZI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 23 Apr 2019 21:25:08 -0400
-Received: from mail-vk1-f202.google.com ([209.85.221.202]:43951 "EHLO
-        mail-vk1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729044AbfDXBZI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Apr 2019 21:25:08 -0400
-Received: by mail-vk1-f202.google.com with SMTP id v4so7828519vka.10
-        for <linux-doc@vger.kernel.org>; Tue, 23 Apr 2019 18:25:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=BnSv4zm4i6EGVGTLxxBxM9ekmE1jOZHKuWDbujyQK+g=;
-        b=snXYjXcay5EJ2DKosTdFw0q9SlwY+6WkyErmyl9dlm1nhBgXbdHX6iftz4/SLkVCtL
-         1iCTshiz5j3hsd9KeeUlG1XS3xbVdw8Hbg/QNXnlfv0SH7vvXcwpkVgfXNOJr4SOnpwE
-         If8w49LzEdL4k9qw8KKhYStTeO1NvpxSyixEgXWLBI69zviWUbrH9TbX+fOCJLpITnym
-         +q2t8/WMSAm0Wm+/6Ch7ZlxKLLKiHbCrJdSPBcbi80hayQcqmf9Nyb+Jx/6nhHLSxknd
-         dfEGWQ5QMgOL+BJIcv71O+/Z6tFF2cJG1RoOz1zupmCiOyBw4B//vUkJv2FAhq9tor5Y
-         EpcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=BnSv4zm4i6EGVGTLxxBxM9ekmE1jOZHKuWDbujyQK+g=;
-        b=DKSyXNB4YxEp26L9Vt0UZN6FhQ1DAq9TPC9FETQvBQfdHBwvUf9eX82/IgGwZzeetj
-         dybntJwg+aZXlt7yfArTXmPlDbOUN7OEJlTtuZ9zGIX2gT2pRkdxB1c+Kd8bLRVPVg3e
-         4GGHzMlGX5olnTIiJuiJaqg9m1VT1/LHPolaIgLRNO/gbhU8afBnk7SKGJvfKYwB22c5
-         qAiAxrgnEktDvVdp0HN26WiCqVA2IsrYE7nMit2HpIQaie5N9l4LPi8KWt2wuqN2kAHx
-         QemKyeX4KmcJsxW31MRTV+9mjitdzkb5QvI6koL9bfXMRZiAzTTaxBsfhd0IdOtu7v/U
-         3Z2Q==
-X-Gm-Message-State: APjAAAVl6QQkqAAvDJbxKuxxU9u6/w65m3gjwl/DFTGDHf+vuGHr8xMk
-        hGVRYt5wbKQ0YcGwaaNCZz60OUrs73Y=
-X-Google-Smtp-Source: APXvYqxomWMFnP380GE41zUlfeT46bMS4pKADgRULCGzYSofBZan1RB25Y7fs4B98czE0N2OaCAq3aPlRIE=
-X-Received: by 2002:a67:c404:: with SMTP id c4mr16453992vsk.125.1556069106407;
- Tue, 23 Apr 2019 18:25:06 -0700 (PDT)
-Date:   Tue, 23 Apr 2019 18:25:01 -0700
-Message-Id: <20190424012501.40811-1-drosen@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.21.0.593.g511ec345e18-goog
-Subject: [PATCH] f2fs: Add option to limit required GC for checkpoint=disable
-From:   Daniel Rosenberg <drosen@google.com>
-To:     Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <yuchao0@huawei.com>,
+        id S1728909AbfDXDvu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 23 Apr 2019 23:51:50 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:17750 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726474AbfDXDvu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Apr 2019 23:51:50 -0400
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id x3O3pdiE007519;
+        Wed, 24 Apr 2019 12:51:40 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x3O3pdiE007519
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1556077900;
+        bh=+HJeyNjpRgp8bYTWk5WH+vdNtyBYFFKDuTqCkYj2rOQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=I9flOMnKO8pgKJJkcxBLsmLGmMCqAPSIu6sDfKL25hH/EH78HUDoo5MhpPNWGFtyv
+         tL77IXBxrZr26prgwiw+IeMlAUoxsFywNE+X/Im+8ZSl5o1pVXD5UvjiTCS2UJNgYJ
+         UMjqfsaJ6XZ5Z4DJV680zpKQQjvRW3Xc+Npi4EH/gLHEyxaEPE1xpEupqj40I2HfIZ
+         df9AnlCCMLHh+5G/z8XlRfCdXet1m9nWT2lv5oEB4Wh2+Nyi2ihd7WBxuGPI4GhskW
+         E8hgurkX1f6o7kpHbNqYlykTn+OU55iE8jlLo3gIYeCuMSylBeSJnRNtUTAoExzUdd
+         Nneo9ZICBHOqg==
+X-Nifty-SrcIP: [209.85.217.53]
+Received: by mail-vs1-f53.google.com with SMTP id s2so9580254vsi.5;
+        Tue, 23 Apr 2019 20:51:40 -0700 (PDT)
+X-Gm-Message-State: APjAAAXnwWQXC9MXMWOGO4/Y4dXydQ8qFd2EdrpgxejYJLEAwRE7hXw3
+        I6GSRQdv/fKx/iQePNAe53EPizCLnZA0l5g5uFs=
+X-Google-Smtp-Source: APXvYqxsUTFBYv/TA0s3DojNe8ro2oiPdhhm/v2+YG0pTgOTFckcQuADD8qLwY2G50volvs+Fg4rSj1y8P6isyQVvWc=
+X-Received: by 2002:a67:7a43:: with SMTP id v64mr16408997vsc.54.1556077899016;
+ Tue, 23 Apr 2019 20:51:39 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190423212741.12219-1-ndesaulniers@google.com>
+In-Reply-To: <20190423212741.12219-1-ndesaulniers@google.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Wed, 24 Apr 2019 12:51:03 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS9zy92MZQ7qj3xQtS+MeYr2cVsrekcBv8yVG6Qu0Fzkw@mail.gmail.com>
+Message-ID: <CAK7LNAS9zy92MZQ7qj3xQtS+MeYr2cVsrekcBv8yVG6Qu0Fzkw@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: drop support for cc-ldoption
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        linux-f2fs-devel@lists.sourceforge.net
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, kernel-team@android.com,
-        Daniel Rosenberg <drosen@google.com>
+        clang-built-linux@googlegroups.com,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This extends the checkpoint option to allow checkpoint=disable:%u
-This allows you to specify what percent of the drive you are willing
-to lose access to while mounting with checkpoint=disable. If the amount
-lost would be higher, the mount will return -EAGAIN.
-Currently, we need to run garbage collection until the amount of holes
-is smaller than the OVP space. With the new option, f2fs can mark
-space as unusable up front instead of requiring that
-the space be freed up with garbage collection.
+On Wed, Apr 24, 2019 at 6:27 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
+>
+> If you want to see if your linker supports a certain flag, then ask the
+> linker directly with ld-option (not the compiler with cc-ldoption).
+> Checking for linker flag support is an antipattern that complicates the
+> usage of various linkers other than bfd via -fuse-ld={bfd|gold|lld}.
+>
+> Cc: clang-built-linux@googlegroups.com
+> Suggested-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> ---
+> This should probably wait until all of the call sites have been cleaned
+> up.
 
-Signed-off-by: Daniel Rosenberg <drosen@google.com>
----
- Documentation/ABI/testing/sysfs-fs-f2fs |  8 +++++
- Documentation/filesystems/f2fs.txt      |  8 +++--
- fs/f2fs/f2fs.h                          |  6 +++-
- fs/f2fs/segment.c                       | 17 ++++++++--
- fs/f2fs/super.c                         | 44 +++++++++++++------------
- fs/f2fs/sysfs.c                         | 16 +++++++++
- 6 files changed, 72 insertions(+), 27 deletions(-)
+Indeed.
+Please remind me if I forget to apply this.
 
-diff --git a/Documentation/ABI/testing/sysfs-fs-f2fs b/Documentation/ABI/testing/sysfs-fs-f2fs
-index 91822ce258317..d65b9ebc56190 100644
---- a/Documentation/ABI/testing/sysfs-fs-f2fs
-+++ b/Documentation/ABI/testing/sysfs-fs-f2fs
-@@ -243,3 +243,11 @@ Description:
- 		 - Del: echo '[h/c]!extension' > /sys/fs/f2fs/<disk>/extension_list
- 		 - [h] means add/del hot file extension
- 		 - [c] means add/del cold file extension
-+
-+What:		/sys/fs/f2fs/<disk>/unusable
-+Date		April 2019
-+Contact:	"Daniel Rosenberg" <drosen@google.com>
-+Description:
-+		Displays the number of blocks that are unusable during checkpoint=disable
-+		or the number of blocks that would be unusable if checkpoint=disable
-+		were to be set.
-diff --git a/Documentation/filesystems/f2fs.txt b/Documentation/filesystems/f2fs.txt
-index f7b5e4ff0de3e..b3b5534407da7 100644
---- a/Documentation/filesystems/f2fs.txt
-+++ b/Documentation/filesystems/f2fs.txt
-@@ -214,11 +214,15 @@ fsync_mode=%s          Control the policy of fsync. Currently supports "posix",
-                        non-atomic files likewise "nobarrier" mount option.
- test_dummy_encryption  Enable dummy encryption, which provides a fake fscrypt
-                        context. The fake fscrypt context is used by xfstests.
--checkpoint=%s          Set to "disable" to turn off checkpointing. Set to "enable"
-+checkpoint=%s[:%u]     Set to "disable" to turn off checkpointing. Set to "enable"
-                        to reenable checkpointing. Is enabled by default. While
-                        disabled, any unmounting or unexpected shutdowns will cause
-                        the filesystem contents to appear as they did when the
--                       filesystem was mounted with that option.
-+                       filesystem was mounted with that option. While mounting
-+                       with disabled, you may optionally add a percentage to
-+                       limit the amount of space that checkpoint=disable denies
-+                       access to. If this is set, the mount may return EAGAIN if
-+                       additional garbage collection is required to meet the limit
- 
- ================================================================================
- DEBUGFS ENTRIES
-diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
-index 30acde08822ef..d0477251cec56 100644
---- a/fs/f2fs/f2fs.h
-+++ b/fs/f2fs/f2fs.h
-@@ -136,6 +136,9 @@ struct f2fs_mount_info {
- 	int alloc_mode;			/* segment allocation policy */
- 	int fsync_mode;			/* fsync policy */
- 	bool test_dummy_encryption;	/* test dummy encryption */
-+	block_t unusable_percent_cap;   /* Percent of space allowed to be
-+					 * unusable when disabling checkpoint
-+					 */
- };
- 
- #define F2FS_FEATURE_ENCRYPT		0x0001
-@@ -3049,7 +3052,8 @@ bool f2fs_issue_discard_timeout(struct f2fs_sb_info *sbi);
- void f2fs_clear_prefree_segments(struct f2fs_sb_info *sbi,
- 					struct cp_control *cpc);
- void f2fs_dirty_to_prefree(struct f2fs_sb_info *sbi);
--int f2fs_disable_cp_again(struct f2fs_sb_info *sbi);
-+block_t f2fs_get_unusable_blocks(struct f2fs_sb_info *sbi);
-+int f2fs_disable_cp_again(struct f2fs_sb_info *sbi, block_t unusable);
- void f2fs_release_discard_addrs(struct f2fs_sb_info *sbi);
- int f2fs_npages_for_summary_flush(struct f2fs_sb_info *sbi, bool for_ra);
- void f2fs_allocate_new_segments(struct f2fs_sb_info *sbi);
-diff --git a/fs/f2fs/segment.c b/fs/f2fs/segment.c
-index a3380d1de6000..704224f4a2866 100644
---- a/fs/f2fs/segment.c
-+++ b/fs/f2fs/segment.c
-@@ -869,11 +869,12 @@ void f2fs_dirty_to_prefree(struct f2fs_sb_info *sbi)
- 	mutex_unlock(&dirty_i->seglist_lock);
- }
- 
--int f2fs_disable_cp_again(struct f2fs_sb_info *sbi)
-+block_t f2fs_get_unusable_blocks(struct f2fs_sb_info *sbi)
- {
--	struct dirty_seglist_info *dirty_i = DIRTY_I(sbi);
- 	block_t ovp = overprovision_segments(sbi) << sbi->log_blocks_per_seg;
-+	struct dirty_seglist_info *dirty_i = DIRTY_I(sbi);
- 	block_t holes[2] = {0, 0};	/* DATA and NODE */
-+	block_t unusable;
- 	struct seg_entry *se;
- 	unsigned int segno;
- 
-@@ -887,7 +888,17 @@ int f2fs_disable_cp_again(struct f2fs_sb_info *sbi)
- 	}
- 	mutex_unlock(&dirty_i->seglist_lock);
- 
--	if (holes[DATA] > ovp || holes[NODE] > ovp)
-+	unusable = holes[DATA] > holes[NODE] ? holes[DATA] : holes[NODE];
-+	if (unusable > ovp)
-+		return unusable - ovp;
-+	return 0;
-+}
-+
-+int f2fs_disable_cp_again(struct f2fs_sb_info *sbi, block_t unusable)
-+{
-+	block_t max_allowed =  (sbi->user_block_count / 100) *
-+			F2FS_OPTION(sbi).unusable_percent_cap;
-+	if (unusable > max_allowed)
- 		return -EAGAIN;
- 	if (is_sbi_flag_set(sbi, SBI_CP_DISABLED_QUICK) &&
- 		dirty_segments(sbi) > overprovision_segments(sbi))
-diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
-index 0b6fa77c35f3e..f91ec6b440f39 100644
---- a/fs/f2fs/super.c
-+++ b/fs/f2fs/super.c
-@@ -136,7 +136,9 @@ enum {
- 	Opt_alloc,
- 	Opt_fsync,
- 	Opt_test_dummy_encryption,
--	Opt_checkpoint,
-+	Opt_checkpoint_disable,
-+	Opt_checkpoint_disable_cap,
-+	Opt_checkpoint_enable,
- 	Opt_err,
- };
- 
-@@ -195,7 +197,9 @@ static match_table_t f2fs_tokens = {
- 	{Opt_alloc, "alloc_mode=%s"},
- 	{Opt_fsync, "fsync_mode=%s"},
- 	{Opt_test_dummy_encryption, "test_dummy_encryption"},
--	{Opt_checkpoint, "checkpoint=%s"},
-+	{Opt_checkpoint_disable, "checkpoint=disable"},
-+	{Opt_checkpoint_disable_cap, "checkpoint=disable:%u"},
-+	{Opt_checkpoint_enable, "checkpoint=enable"},
- 	{Opt_err, NULL},
- };
- 
-@@ -771,22 +775,17 @@ static int parse_options(struct super_block *sb, char *options)
- 					"Test dummy encryption mount option ignored");
- #endif
- 			break;
--		case Opt_checkpoint:
--			name = match_strdup(&args[0]);
--			if (!name)
--				return -ENOMEM;
--
--			if (strlen(name) == 6 &&
--					!strncmp(name, "enable", 6)) {
--				clear_opt(sbi, DISABLE_CHECKPOINT);
--			} else if (strlen(name) == 7 &&
--					!strncmp(name, "disable", 7)) {
--				set_opt(sbi, DISABLE_CHECKPOINT);
--			} else {
--				kvfree(name);
-+		case Opt_checkpoint_disable_cap:
-+			if (args->from && match_int(args, &arg))
- 				return -EINVAL;
--			}
--			kvfree(name);
-+			if (arg < 0 || arg > 100)
-+				return -EINVAL;
-+			F2FS_OPTION(sbi).unusable_percent_cap = arg;
-+		case Opt_checkpoint_disable:
-+			set_opt(sbi, DISABLE_CHECKPOINT);
-+			break;
-+		case Opt_checkpoint_enable:
-+			clear_opt(sbi, DISABLE_CHECKPOINT);
- 			break;
- 		default:
- 			f2fs_msg(sb, KERN_ERR,
-@@ -1411,8 +1410,8 @@ static int f2fs_show_options(struct seq_file *seq, struct dentry *root)
- 		seq_printf(seq, ",alloc_mode=%s", "reuse");
- 
- 	if (test_opt(sbi, DISABLE_CHECKPOINT))
--		seq_puts(seq, ",checkpoint=disable");
--
-+		seq_printf(seq, ",checkpoint=disable:%u",
-+				F2FS_OPTION(sbi).unusable_percent_cap);
- 	if (F2FS_OPTION(sbi).fsync_mode == FSYNC_MODE_POSIX)
- 		seq_printf(seq, ",fsync_mode=%s", "posix");
- 	else if (F2FS_OPTION(sbi).fsync_mode == FSYNC_MODE_STRICT)
-@@ -1441,6 +1440,7 @@ static void default_options(struct f2fs_sb_info *sbi)
- 	set_opt(sbi, EXTENT_CACHE);
- 	set_opt(sbi, NOHEAP);
- 	clear_opt(sbi, DISABLE_CHECKPOINT);
-+	F2FS_OPTION(sbi).unusable_percent_cap = 100;
- 	sbi->sb->s_flags |= SB_LAZYTIME;
- 	set_opt(sbi, FLUSH_MERGE);
- 	set_opt(sbi, DISCARD);
-@@ -1469,6 +1469,7 @@ static int f2fs_disable_checkpoint(struct f2fs_sb_info *sbi)
- 	struct cp_control cpc;
- 	int err = 0;
- 	int ret;
-+	block_t unusable;
- 
- 	if (s_flags & SB_RDONLY) {
- 		f2fs_msg(sbi->sb, KERN_ERR,
-@@ -1496,7 +1497,8 @@ static int f2fs_disable_checkpoint(struct f2fs_sb_info *sbi)
- 		goto restore_flag;
- 	}
- 
--	if (f2fs_disable_cp_again(sbi)) {
-+	unusable = f2fs_get_unusable_blocks(sbi);
-+	if (f2fs_disable_cp_again(sbi, unusable)) {
- 		err = -EAGAIN;
- 		goto restore_flag;
- 	}
-@@ -1506,7 +1508,7 @@ static int f2fs_disable_checkpoint(struct f2fs_sb_info *sbi)
- 	set_sbi_flag(sbi, SBI_CP_DISABLED);
- 	f2fs_write_checkpoint(sbi, &cpc);
- 
--	sbi->unusable_block_count = 0;
-+	sbi->unusable_block_count = unusable;
- 	mutex_unlock(&sbi->gc_mutex);
- restore_flag:
- 	sbi->sb->s_flags = s_flags;	/* Restore MS_RDONLY status */
-diff --git a/fs/f2fs/sysfs.c b/fs/f2fs/sysfs.c
-index 729f46a3c9ee0..fa184880cff34 100644
---- a/fs/f2fs/sysfs.c
-+++ b/fs/f2fs/sysfs.c
-@@ -68,6 +68,20 @@ static ssize_t dirty_segments_show(struct f2fs_attr *a,
- 		(unsigned long long)(dirty_segments(sbi)));
- }
- 
-+static ssize_t unusable_show(struct f2fs_attr *a,
-+		struct f2fs_sb_info *sbi, char *buf)
-+{
-+	block_t unusable;
-+
-+	if (test_opt(sbi, DISABLE_CHECKPOINT))
-+		unusable = sbi->unusable_block_count;
-+	else
-+		unusable = f2fs_get_unusable_blocks(sbi);
-+	return snprintf(buf, PAGE_SIZE, "%llu\n",
-+		(unsigned long long)unusable);
-+}
-+
-+
- static ssize_t lifetime_write_kbytes_show(struct f2fs_attr *a,
- 		struct f2fs_sb_info *sbi, char *buf)
- {
-@@ -440,6 +454,7 @@ F2FS_GENERAL_RO_ATTR(dirty_segments);
- F2FS_GENERAL_RO_ATTR(lifetime_write_kbytes);
- F2FS_GENERAL_RO_ATTR(features);
- F2FS_GENERAL_RO_ATTR(current_reserved_blocks);
-+F2FS_GENERAL_RO_ATTR(unusable);
- 
- #ifdef CONFIG_FS_ENCRYPTION
- F2FS_FEATURE_RO_ATTR(encryption, FEAT_CRYPTO);
-@@ -495,6 +510,7 @@ static struct attribute *f2fs_attrs[] = {
- 	ATTR_LIST(inject_type),
- #endif
- 	ATTR_LIST(dirty_segments),
-+	ATTR_LIST(unusable),
- 	ATTR_LIST(lifetime_write_kbytes),
- 	ATTR_LIST(features),
- 	ATTR_LIST(reserved_blocks),
+
+> Masahiro sent them for arm and arm64, while I sent cleanups for all
+> the rest.
+
+Thanks. I did not even notice cc-ldoption were checking
+quite old flags.
+
+
+
+
+>
+>
+>  Documentation/kbuild/makefiles.txt | 14 --------------
+>  scripts/Kbuild.include             |  5 -----
+>  2 files changed, 19 deletions(-)
+>
+> diff --git a/Documentation/kbuild/makefiles.txt b/Documentation/kbuild/makefiles.txt
+> index 03c065855eaf..d65ad5746f94 100644
+> --- a/Documentation/kbuild/makefiles.txt
+> +++ b/Documentation/kbuild/makefiles.txt
+> @@ -437,20 +437,6 @@ more details, with real examples.
+>         The second argument is optional, and if supplied will be used
+>         if first argument is not supported.
+>
+> -    cc-ldoption
+> -       cc-ldoption is used to check if $(CC) when used to link object files
+> -       supports the given option.  An optional second option may be
+> -       specified if first option are not supported.
+> -
+> -       Example:
+> -               #arch/x86/kernel/Makefile
+> -               vsyscall-flags += $(call cc-ldoption, -Wl$(comma)--hash-style=sysv)
+> -
+> -       In the above example, vsyscall-flags will be assigned the option
+> -       -Wl$(comma)--hash-style=sysv if it is supported by $(CC).
+> -       The second argument is optional, and if supplied will be used
+> -       if first argument is not supported.
+> -
+>      as-instr
+>         as-instr checks if the assembler reports a specific instruction
+>         and then outputs either option1 or option2
+> diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
+> index 7484b9d8272f..fbfb37d1bcc8 100644
+> --- a/scripts/Kbuild.include
+> +++ b/scripts/Kbuild.include
+> @@ -138,11 +138,6 @@ cc-disable-warning = $(call try-run,\
+>  # Usage:  EXTRA_CFLAGS += $(call cc-ifversion, -lt, 0402, -O1)
+>  cc-ifversion = $(shell [ $(CONFIG_GCC_VERSION)0 $(1) $(2)000 ] && echo $(3) || echo $(4))
+>
+> -# cc-ldoption
+> -# Usage: ldflags += $(call cc-ldoption, -Wl$(comma)--hash-style=both)
+> -cc-ldoption = $(call try-run,\
+> -       $(CC) $(1) $(KBUILD_CPPFLAGS) $(CC_OPTION_CFLAGS) -nostdlib -x c /dev/null -o "$$TMP",$(1),$(2))
+> -
+>  # ld-option
+>  # Usage: KBUILD_LDFLAGS += $(call ld-option, -X, -Y)
+>  ld-option = $(call try-run, $(LD) $(KBUILD_LDFLAGS) $(1) -v,$(1),$(2),$(3))
+> --
+> 2.21.0.593.g511ec345e18-goog
+>
+
+
 -- 
-2.21.0.593.g511ec345e18-goog
-
+Best Regards
+Masahiro Yamada
