@@ -5,45 +5,46 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9FA8A7D92A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Apr 2019 14:57:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 84B6F7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Apr 2019 15:00:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731638AbfDXO47 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 24 Apr 2019 10:56:59 -0400
-Received: from casper.infradead.org ([85.118.1.10]:51590 "EHLO
+        id S1730785AbfDXOeA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 24 Apr 2019 10:34:00 -0400
+Received: from casper.infradead.org ([85.118.1.10]:45808 "EHLO
         casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728065AbfDXO45 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Apr 2019 10:56:57 -0400
+        with ESMTP id S1730687AbfDXOeA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Apr 2019 10:34:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
         MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
         :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=HAegWhTw52zFr6txY4cu/OvT7InTwy7rOkvAWwmB5RM=; b=LJr48VvTgnXLO74Hxq76Gu1DM6
-        7NtAg0qBrp5QUUJrZqMmWDYOxG+soFK0D7BfNgJNYJxf/ujAROBCM6PQHsftBPTG2/+jbq9N6/vul
-        ItTW+k/ATPBzYZlZbOkkhsWuctjlcx9rWNhKyxHRX9Yl7IegX4Gn8IkvtGv/J8NuhF51GO78WY34b
-        1Ljr+zvvyvvbGfGKdo2Javdy7kRperh3vnK8H5NhSw/rUg87/y30fgf6UL3+CJuCCU8s7x7ry5WgL
-        aiP/1zCAd1MsiH6klZUyiuLZ9vNkri5n7DCdqNFX1+8sieblpcMquosw1mlRRYcy103ibNTlHgSSt
-        RL2wT0Aw==;
+        bh=752iRMZdzW1Xx1Ba7tR94VeDEIoNfyBpmB1y6s6F63I=; b=DXICtp6GbJn58hMxzKMgxp8RE1
+        zys4QpNza2sJG0aNb2ZXKBkyqOLgQLdA9nNb3kwX+/BVjZqlsLq2cjy3apoWmrIWWL1Wokqzz20L+
+        6IAK1BazA5PyjBmeHNEeeYie0JamY39hEeLP1rT0eZE+g2zjY6+uI7tpSphpXQIt0N8a0SzyMgtk1
+        /WpOKLU9aDm+n+9M+5Mi58VbsvhJf7qioyHZlleNAKA9prSkHFhHiML2DtmCxcD1+hrmopvMF2fYZ
+        0vsyqoHC4XOWQ4ECE+crKXRqap1vIh01P6W4gxqnDV8tSu0o7lWmz/ZvYmZEoWFshTMS1/MJoHbTO
+        pBWtTzEQ==;
 Received: from 177.17.136.231.dynamic.adsl.gvt.net.br ([177.17.136.231] helo=coco.lan)
         by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hJJKP-000176-Rq; Wed, 24 Apr 2019 14:56:54 +0000
-Date:   Wed, 24 Apr 2019 11:56:47 -0300
+        id 1hJIyB-0007dg-H5; Wed, 24 Apr 2019 14:33:56 +0000
+Date:   Wed, 24 Apr 2019 11:33:49 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Changbin Du <changbin.du@gmail.com>, mingo@redhat.com
+To:     Changbin Du <changbin.du@gmail.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Bjorn Helgaas <bhelgaas@google.com>, rjw@rjwysocki.net,
         linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, tglx@linutronix.de, x86@kernel.org,
-        fenghua.yu@intel.com, linuxppc-dev@lists.ozlabs.org,
-        linux-acpi@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v4 24/63] Documentation: ACPI: move video_extension.txt
- to firmware-guide/acpi and convert to reST
-Message-ID: <20190424115647.092dec38@coco.lan>
-In-Reply-To: <20190423162932.21428-25-changbin.du@gmail.com>
+        linux-kernel@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
+        x86@kernel.org, fenghua.yu@intel.com,
+        linuxppc-dev@lists.ozlabs.org, linux-acpi@vger.kernel.org,
+        linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v4 20/63] Documentation: ACPI: move apei/einj.txt to
+ firmware-guide/acpi and convert to reST
+Message-ID: <20190424113349.79e1c577@coco.lan>
+In-Reply-To: <20190423162932.21428-21-changbin.du@gmail.com>
 References: <20190423162932.21428-1-changbin.du@gmail.com>
-        <20190423162932.21428-25-changbin.du@gmail.com>
+        <20190423162932.21428-21-changbin.du@gmail.com>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -53,7 +54,7 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 24 Apr 2019 00:28:53 +0800
+Em Wed, 24 Apr 2019 00:28:49 +0800
 Changbin Du <changbin.du@gmail.com> escreveu:
 
 > This converts the plain text documentation to reStructuredText format and
@@ -61,184 +62,213 @@ Changbin Du <changbin.du@gmail.com> escreveu:
 > 
 > Signed-off-by: Changbin Du <changbin.du@gmail.com>
 > ---
+>  .../acpi/apei/einj.rst}                       | 98 ++++++++++---------
 >  Documentation/firmware-guide/acpi/index.rst   |  1 +
->  .../acpi/video_extension.rst}                 | 63 ++++++++++---------
->  2 files changed, 36 insertions(+), 28 deletions(-)
->  rename Documentation/{acpi/video_extension.txt => firmware-guide/acpi/video_extension.rst} (79%)
+>  2 files changed, 53 insertions(+), 46 deletions(-)
+>  rename Documentation/{acpi/apei/einj.txt => firmware-guide/acpi/apei/einj.rst} (67%)
 > 
-> diff --git a/Documentation/firmware-guide/acpi/index.rst b/Documentation/firmware-guide/acpi/index.rst
-> index 0e60f4b7129a..ae609eec4679 100644
-> --- a/Documentation/firmware-guide/acpi/index.rst
-> +++ b/Documentation/firmware-guide/acpi/index.rst
-> @@ -23,3 +23,4 @@ ACPI Support
->     i2c-muxes
->     acpi-lid
->     lpit
-> +   video_extension
-> diff --git a/Documentation/acpi/video_extension.txt b/Documentation/firmware-guide/acpi/video_extension.rst
-> similarity index 79%
-> rename from Documentation/acpi/video_extension.txt
-> rename to Documentation/firmware-guide/acpi/video_extension.rst
-> index 79bf6a4921be..06f7e3230b6e 100644
-> --- a/Documentation/acpi/video_extension.txt
-> +++ b/Documentation/firmware-guide/acpi/video_extension.rst
-> @@ -1,5 +1,8 @@
+> diff --git a/Documentation/acpi/apei/einj.txt b/Documentation/firmware-guide/acpi/apei/einj.rst
+> similarity index 67%
+> rename from Documentation/acpi/apei/einj.txt
+> rename to Documentation/firmware-guide/acpi/apei/einj.rst
+> index e550c8b98139..d85e2667155c 100644
+> --- a/Documentation/acpi/apei/einj.txt
+> +++ b/Documentation/firmware-guide/acpi/apei/einj.rst
+> @@ -1,13 +1,16 @@
+> -			APEI Error INJection
+> -			~~~~~~~~~~~~~~~~~~~~
 > +.. SPDX-License-Identifier: GPL-2.0
 > +
-> +=====================
->  ACPI video extensions
-> -~~~~~~~~~~~~~~~~~~~~~
-> +=====================
+> +====================
+> +APEI Error INJection
+> +====================
 >  
->  This driver implement the ACPI Extensions For Display Adapters for
->  integrated graphics devices on motherboard, as specified in ACPI 2.0
-> @@ -8,9 +11,10 @@ defining the video POST device, retrieving EDID information or to
->  setup a video output, etc.  Note that this is an ref. implementation
->  only.  It may or may not work for your integrated video device.
+>  EINJ provides a hardware error injection mechanism. It is very useful
+>  for debugging and testing APEI and RAS features in general.
 >  
-> -The ACPI video driver does 3 things regarding backlight control:
-> +The ACPI video driver does 3 things regarding backlight control.
+>  You need to check whether your BIOS supports EINJ first. For that, look
+> -for early boot messages similar to this one:
+> +for early boot messages similar to this one::
 >  
-> -1 Export a sysfs interface for user space to control backlight level
-> +1. Export a sysfs interface for user space to control backlight level
-> +=====================================================================
+> -ACPI: EINJ 0x000000007370A000 000150 (v01 INTEL           00000001 INTL 00000001)
+> +  ACPI: EINJ 0x000000007370A000 000150 (v01 INTEL           00000001 INTL 00000001)
 >  
->  If the ACPI table has a video device, and acpi_backlight=vendor kernel
->  command line is not present, the driver will register a backlight device
-
-Hmm... you didn't touch on this part of the document:
-
-	And what ACPI video driver does is:
-	actual_brightness: on read, control method _BQC will be evaluated to
-	get the brightness level the firmware thinks it is at;
-	bl_power: not implemented, will set the current brightness instead;
-	brightness: on write, control method _BCM will run to set the requested
-	brightness level;
-	max_brightness: Derived from the _BCL package(see below);
-	type: firmware
-
-You should touch it. My suggestion here is:
-
-	And what ACPI video driver does is:
-
-	actual_brightness:
-		on read, control method _BQC will be evaluated to
-		get the brightness level the firmware thinks it is at;
-	bl_power:
-		not implemented, will set the current brightness instead;
-	brightness:
-		on write, control method _BCM will run to set the requested
-		brightness level;
-	max_brightness:
-		Derived from the _BCL package(see below);
-	type:
-		firmware
-
-> @@ -32,26 +36,26 @@ type: firmware
+>  which shows that the BIOS is exposing an EINJ table - it is the
+>  mechanism through which the injection is done.
+> @@ -23,11 +26,11 @@ order to see the APEI,EINJ,... functionality supported and exposed by
+>  the BIOS menu.
 >  
->  Note that ACPI video backlight driver will always use index for
->  brightness, actual_brightness and max_brightness. So if we have
-> -the following _BCL package:
-> +the following _BCL package::
+>  To use EINJ, make sure the following are options enabled in your kernel
+> -configuration:
+> +configuration::
 >  
-> -Method (_BCL, 0, NotSerialized)
-> -{
-> -	Return (Package (0x0C)
-> +	Method (_BCL, 0, NotSerialized)
->  	{
-> -		0x64,
-> -		0x32,
-> -		0x0A,
-> -		0x14,
-> -		0x1E,
-> -		0x28,
-> -		0x32,
-> -		0x3C,
-> -		0x46,
-> -		0x50,
-> -		0x5A,
-> -		0x64
-> -	})
-> -}
-> +		Return (Package (0x0C)
-> +		{
-> +			0x64,
-> +			0x32,
-> +			0x0A,
-> +			0x14,
-> +			0x1E,
-> +			0x28,
-> +			0x32,
-> +			0x3C,
-> +			0x46,
-> +			0x50,
-> +			0x5A,
-> +			0x64
-> +		})
-> +	}
+> -CONFIG_DEBUG_FS
+> -CONFIG_ACPI_APEI
+> -CONFIG_ACPI_APEI_EINJ
+> +  CONFIG_DEBUG_FS
+> +  CONFIG_ACPI_APEI
+> +  CONFIG_ACPI_APEI_EINJ
 >  
->  The first two levels are for when laptop are on AC or on battery and are
->  not used by Linux currently. The remaining 10 levels are supported levels
-> @@ -62,13 +66,15 @@ as a "brightness level" indicator. Thus from the user space perspective
->  the range of available brightness levels is from 0 to 9 (max_brightness)
->  inclusive.
+>  The EINJ user interface is in <debugfs mount point>/apei/einj.
 >  
-> -2 Notify user space about hotkey event
-> +2. Notify user space about hotkey event
-> +=======================================
+> @@ -35,22 +38,22 @@ The following files belong to it:
 >  
->  There are generally two cases for hotkey event reporting:
+>  - available_error_type
+>  
+> -  This file shows which error types are supported:
+> -
+> -  Error Type Value	Error Description
+> -  ================	=================
+> -  0x00000001		Processor Correctable
+> -  0x00000002		Processor Uncorrectable non-fatal
+> -  0x00000004		Processor Uncorrectable fatal
+> -  0x00000008		Memory Correctable
+> -  0x00000010		Memory Uncorrectable non-fatal
+> -  0x00000020		Memory Uncorrectable fatal
+> -  0x00000040		PCI Express Correctable
+> -  0x00000080		PCI Express Uncorrectable fatal
+> -  0x00000100		PCI Express Uncorrectable non-fatal
+> -  0x00000200		Platform Correctable
+> -  0x00000400		Platform Uncorrectable non-fatal
+> -  0x00000800		Platform Uncorrectable fatal
+> +  This file shows which error types are supported::
 > +
->  i) For some laptops, when user presses the hotkey, a scancode will be
->     generated and sent to user space through the input device created by
->     the keyboard driver as a key type input event, with proper remap, the
-> -   following key code will appear to user space:
-> +   following key code will appear to user space::
+> +    Error Type Value	Error Description
+> +    ================	=================
+> +    0x00000001		Processor Correctable
+> +    0x00000002		Processor Uncorrectable non-fatal
+> +    0x00000004		Processor Uncorrectable fatal
+> +    0x00000008		Memory Correctable
+> +    0x00000010		Memory Uncorrectable non-fatal
+> +    0x00000020		Memory Uncorrectable fatal
+> +    0x00000040		PCI Express Correctable
+> +    0x00000080		PCI Express Uncorrectable fatal
+> +    0x00000100		PCI Express Uncorrectable non-fatal
+> +    0x00000200		Platform Correctable
+> +    0x00000400		Platform Uncorrectable non-fatal
+> +    0x00000800		Platform Uncorrectable fatal
+
+This is a table and not a literal block. 
+
+The best here to preserve the author's intent is to just adjust the table 
+markups in order to make it parseable, e. g.:
+
+  This file shows which error types are supported:
+
+  ================	===================================
+  Error Type Value	Error Description
+  ================	===================================
+  0x00000001		Processor Correctable
+  0x00000002		Processor Uncorrectable non-fatal
+  0x00000004		Processor Uncorrectable fatal
+  0x00000008		Memory Correctable
+  0x00000010		Memory Uncorrectable non-fatal
+  0x00000020		Memory Uncorrectable fatal
+  0x00000040		PCI Express Correctable
+  0x00000080		PCI Express Uncorrectable fatal
+  0x00000100		PCI Express Uncorrectable non-fatal
+  0x00000200		Platform Correctable
+  0x00000400		Platform Uncorrectable non-fatal
+  0x00000800		Platform Uncorrectable fatal
+  ================	===================================
+
+After such change:
+
+Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+
 >  
->  	EV_KEY, KEY_BRIGHTNESSUP
->  	EV_KEY, KEY_BRIGHTNESSDOWN
-> @@ -82,7 +88,7 @@ ii) For some laptops, the press of the hotkey will not generate the
->      about the event. The event value is defined in the ACPI spec. ACPI
->      video driver will generate an key type input event according to the
->      notify value it received and send the event to user space through the
-> -    input device it created:
-> +    input device it created::
+>    The format of the file contents are as above, except present are only
+>    the available error types.
+> @@ -73,9 +76,12 @@ The following files belong to it:
+>    injection. Value is a bitmask as specified in ACPI5.0 spec for the
+>    SET_ERROR_TYPE_WITH_ADDRESS data structure:
 >  
->  	event		keycode
->  	0x86		KEY_BRIGHTNESSUP
-
-Perhaps making this as a table would work better:
-
-    input device it created:
-
-	=====		===================
-	event		keycode
-	=====		===================
-	0x86		KEY_BRIGHTNESSUP
-	0x87		KEY_BRIGHTNESSDOWN
-	etc.
-	=====		===================
-
-
-> @@ -94,13 +100,14 @@ so this would lead to the same effect as case i) now.
->  Once user space tool receives this event, it can modify the backlight
->  level through the sysfs interface.
+> -	Bit 0 - Processor APIC field valid (see param3 below).
+> -	Bit 1 - Memory address and mask valid (param1 and param2).
+> -	Bit 2 - PCIe (seg,bus,dev,fn) valid (see param4 below).
+> +    Bit 0
+> +      Processor APIC field valid (see param3 below).
+> +    Bit 1
+> +      Memory address and mask valid (param1 and param2).
+> +    Bit 2
+> +      PCIe (seg,bus,dev,fn) valid (see param4 below).
 >  
-> -3 Change backlight level in the kernel
-> +3. Change backlight level in the kernel
-> +=======================================
+>    If set to zero, legacy behavior is mimicked where the type of
+>    injection specifies just one bit set, and param1 is multiplexed.
+> @@ -121,7 +127,7 @@ BIOS versions based on the ACPI 5.0 specification have more control over
+>  the target of the injection. For processor-related errors (type 0x1, 0x2
+>  and 0x4), you can set flags to 0x3 (param3 for bit 0, and param1 and
+>  param2 for bit 1) so that you have more information added to the error
+> -signature being injected. The actual data passed is this:
+> +signature being injected. The actual data passed is this::
 >  
->  This works for machines covered by case ii) in Section 2. Once the driver
->  received a notification, it will set the backlight level accordingly. This does
->  not affect the sending of event to user space, they are always sent to user
->  space regardless of whether or not the video module controls the backlight level
->  directly. This behaviour can be controlled through the brightness_switch_enabled
-> -module parameter as documented in admin-guide/kernel-parameters.rst. It is recommended to
-> -disable this behaviour once a GUI environment starts up and wants to have full
-> -control of the backlight level.
-> +module parameter as documented in admin-guide/kernel-parameters.rst. It is
-> +recommended to disable this behaviour once a GUI environment starts up and
-> +wants to have full control of the backlight level.
+>  	memory_address = param1;
+>  	memory_address_range = param2;
+> @@ -131,7 +137,7 @@ signature being injected. The actual data passed is this:
+>  For memory errors (type 0x8, 0x10 and 0x20) the address is set using
+>  param1 with a mask in param2 (0x0 is equivalent to all ones). For PCI
+>  express errors (type 0x40, 0x80 and 0x100) the segment, bus, device and
+> -function are specified using param1:
+> +function are specified using param1::
+>  
+>           31     24 23    16 15    11 10      8  7        0
+>  	+-------------------------------------------------+
+> @@ -152,26 +158,26 @@ documentation for details (and expect changes to this API if vendors
+>  creativity in using this feature expands beyond our expectations).
+>  
+>  
+> -An error injection example:
+> +An error injection example::
+>  
+> -# cd /sys/kernel/debug/apei/einj
+> -# cat available_error_type		# See which errors can be injected
+> -0x00000002	Processor Uncorrectable non-fatal
+> -0x00000008	Memory Correctable
+> -0x00000010	Memory Uncorrectable non-fatal
+> -# echo 0x12345000 > param1		# Set memory address for injection
+> -# echo $((-1 << 12)) > param2		# Mask 0xfffffffffffff000 - anywhere in this page
+> -# echo 0x8 > error_type			# Choose correctable memory error
+> -# echo 1 > error_inject			# Inject now
+> +  # cd /sys/kernel/debug/apei/einj
+> +  # cat available_error_type		# See which errors can be injected
+> +  0x00000002	Processor Uncorrectable non-fatal
+> +  0x00000008	Memory Correctable
+> +  0x00000010	Memory Uncorrectable non-fatal
+> +  # echo 0x12345000 > param1		# Set memory address for injection
+> +  # echo $((-1 << 12)) > param2		# Mask 0xfffffffffffff000 - anywhere in this page
+> +  # echo 0x8 > error_type			# Choose correctable memory error
+> +  # echo 1 > error_inject			# Inject now
+>  
+> -You should see something like this in dmesg:
+> +You should see something like this in dmesg::
+>  
+> -[22715.830801] EDAC sbridge MC3: HANDLING MCE MEMORY ERROR
+> -[22715.834759] EDAC sbridge MC3: CPU 0: Machine Check Event: 0 Bank 7: 8c00004000010090
+> -[22715.834759] EDAC sbridge MC3: TSC 0
+> -[22715.834759] EDAC sbridge MC3: ADDR 12345000 EDAC sbridge MC3: MISC 144780c86
+> -[22715.834759] EDAC sbridge MC3: PROCESSOR 0:306e7 TIME 1422553404 SOCKET 0 APIC 0
+> -[22716.616173] EDAC MC3: 1 CE memory read error on CPU_SrcID#0_Channel#0_DIMM#0 (channel:0 slot:0 page:0x12345 offset:0x0 grain:32 syndrome:0x0 -  area:DRAM err_code:0001:0090 socket:0 channel_mask:1 rank:0)
+> +  [22715.830801] EDAC sbridge MC3: HANDLING MCE MEMORY ERROR
+> +  [22715.834759] EDAC sbridge MC3: CPU 0: Machine Check Event: 0 Bank 7: 8c00004000010090
+> +  [22715.834759] EDAC sbridge MC3: TSC 0
+> +  [22715.834759] EDAC sbridge MC3: ADDR 12345000 EDAC sbridge MC3: MISC 144780c86
+> +  [22715.834759] EDAC sbridge MC3: PROCESSOR 0:306e7 TIME 1422553404 SOCKET 0 APIC 0
+> +  [22716.616173] EDAC MC3: 1 CE memory read error on CPU_SrcID#0_Channel#0_DIMM#0 (channel:0 slot:0 page:0x12345 offset:0x0 grain:32 syndrome:0x0 -  area:DRAM err_code:0001:0090 socket:0 channel_mask:1 rank:0)
+>  
+>  For more information about EINJ, please refer to ACPI specification
+>  version 4.0, section 17.5 and ACPI 5.0, section 18.6.
+> diff --git a/Documentation/firmware-guide/acpi/index.rst b/Documentation/firmware-guide/acpi/index.rst
+> index 869badba6d7a..fca854f017d8 100644
+> --- a/Documentation/firmware-guide/acpi/index.rst
+> +++ b/Documentation/firmware-guide/acpi/index.rst
+> @@ -18,6 +18,7 @@ ACPI Support
+>     debug
+>     aml-debugger
+>     apei/output_format
+> +   apei/einj
+>     gpio-properties
+>     i2c-muxes
+>     acpi-lid
 
 
 
