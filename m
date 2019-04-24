@@ -6,48 +6,48 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DE1607D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Apr 2019 17:55:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 62DD47D922
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Apr 2019 17:55:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390613AbfDXRye (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 24 Apr 2019 13:54:34 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:44485 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390526AbfDXRye (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Apr 2019 13:54:34 -0400
-Received: by mail-pl1-f193.google.com with SMTP id y12so7082205plk.11;
-        Wed, 24 Apr 2019 10:54:33 -0700 (PDT)
+        id S2391005AbfDXRyy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 24 Apr 2019 13:54:54 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:43984 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390255AbfDXRyx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Apr 2019 13:54:53 -0400
+Received: by mail-pl1-f194.google.com with SMTP id n8so9641357plp.10;
+        Wed, 24 Apr 2019 10:54:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=CxZMZUAr4JsWLXOP74o9WB/6Sh8wLgv5YMYKwlqYUA4=;
-        b=adRm9/uhJBiY7AAoCos5GFXwNsiTmmTwxNtdv0nYuJLl99xA2M+QpfIFHM1DjdA/nR
-         0QBEXNBO1/yRxIw5geX3TvqdBD7A+1j+Rq1kVGvSzVetXXlvlTDEVzQnLyPkSDH/8dXz
-         qUntUZhQ4tmMRg49tssyzy53IzGvxh/xu1oEb4d93cqzppXRexz+dNlJMQxNFSHrPx7N
-         47PEbtY/br7FISeeqk8y4vSvCj6thMsjRxADQ2U0qAtxmw0duRKT46gIqi5fkQSXClfo
-         FuYTDpCjYCxWgLrrwHhg6ax1Jqu3e/qrSYNslSgrIf3sJFPCXzcpd15SQkvFxtz/E2Ld
-         dVDg==
+        bh=TaCx91wAcR4ikyNBIoUaFJho1ovTMWA1CQykmERd8P8=;
+        b=FEYnTqwAc2fxNRPXY2L0oyc1FvLU0ghDznFRVvTI7RCd68UScVHnw/DkdKxWH5htDb
+         5gkBcFZaWMvLkkjzhGKSfMTJ1Y0wRG2+5sHzRCdbnV6M+71QykRvgc+Zk+ZX6aQL6GgI
+         tp/8yoQtEMwYzoJZyRvH8eDn64CyP48URkA03RSwvlF7xAMyit+C+PVMc2aa14RKGAmE
+         bz6T1CYb1eH9LjtKSibaSdS9LGIpfsnJkM+F9bre/6LQplD7J356sH2+71hy2Ddrin4s
+         xowpyUMOTkvcxb6gWqAO5YjEAUR/Qoy6nV2xXEwNRtkEcY27fR9OXT0zgQL6rmbn4ZU6
+         vdJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=CxZMZUAr4JsWLXOP74o9WB/6Sh8wLgv5YMYKwlqYUA4=;
-        b=ZV2c9VNW1iO8sAcZshfW56aoWEustjmEZgNssKTUM9VxfgBqkky9ML1J1WvuS4cvUz
-         NmaRPY6m0bGBjZnLqdUixIpJj5H/LHOX0uBJUTtonZpV9DfHCm/Zwk3eJv2beEEsgSqD
-         GogkYCsF37LCFn7oLIlgWp6Z+n7l5sNpbo5JektmLWrcVeyt02ybXUB5zVmNurX6YxoN
-         moP3rK3j6spsbuSTC7LdkBWVYzsVPJEQV3nQyheF5tafZFFRqX0Z0Em3hDLlgmrfTfKV
-         f4up6smZIIC8zscvvDZ/BZqE6TRBFT8sn/ukMhxsa63scpj+yHT9Z7KBKGNgB3cbs3X6
-         iivw==
-X-Gm-Message-State: APjAAAX/bcJzG+9v5lZ8zZ58o2ELDd9T4iadHXvvJhYMbLMtEHzu3MJq
-        E10u0ISeDQTsuTISTrWmqZA=
-X-Google-Smtp-Source: APXvYqzzzJmCOWZl2b+20zYsYXO4+WhJUTGx///GyRiE+EmOBk0Ai0sKsla1/9y/tvldVJC8sytylg==
-X-Received: by 2002:a17:902:7e04:: with SMTP id b4mr11841367plm.211.1556128472976;
-        Wed, 24 Apr 2019 10:54:32 -0700 (PDT)
+        bh=TaCx91wAcR4ikyNBIoUaFJho1ovTMWA1CQykmERd8P8=;
+        b=gHSXk18RIk0s6qENYSQMIcgZ2jjz1/ZffjV0bygLwZvR5wuVn3TqHGt5Bc+q7sLQ4l
+         +GvztYpltu2x3OKUGvrLe1IihXYlQfb/z50hxAqtB0GuIPCLaeDoIQtE59DOl7GC/hFO
+         8pkuYnP+C3vhhRJTWMoc0q48YPPBU3V9ssyvHFyaMY2XZw4r+3jPaRC1HnCZH/dCk1Uc
+         XvmDChU4MdPS1DeED2re6rOMSrWSjQLDHrDcRVb76uLZKwF42/WjF8NXSs0bORH0NOIK
+         YQAiaG26W6bhs66OZNAjAO+f/r7wyHLzoT4QW8fS4Vu2aWFQGRhiFAL5sLkNcqJbtYIq
+         edyg==
+X-Gm-Message-State: APjAAAXxHy5J3tvASc3RGfGn3u5pGH1mMLkUQIXj8zuBkb4cPak5MZRy
+        Kt5Id2Vfz9gRXNJZPdpu7lQ=
+X-Google-Smtp-Source: APXvYqw94LJSG6bq/oxV3g25pebeMLlLlm7qpwZ5Gc6UHmRBGwyg81szL5vyrIWlHh2ubVqXtedWIQ==
+X-Received: by 2002:a17:902:362:: with SMTP id 89mr32591775pld.172.1556128491862;
+        Wed, 24 Apr 2019 10:54:51 -0700 (PDT)
 Received: from localhost.localdomain ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id 6sm29275630pfp.143.2019.04.24.10.54.26
+        by smtp.gmail.com with ESMTPSA id 6sm29275630pfp.143.2019.04.24.10.54.43
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 24 Apr 2019 10:54:32 -0700 (PDT)
+        Wed, 24 Apr 2019 10:54:50 -0700 (PDT)
 From:   Changbin Du <changbin.du@gmail.com>
 To:     rjw@rjwysocki.net, Jonathan Corbet <corbet@lwn.net>
 Cc:     Bjorn Helgaas <bhelgaas@google.com>, linux-doc@vger.kernel.org,
@@ -55,9 +55,9 @@ Cc:     Bjorn Helgaas <bhelgaas@google.com>, linux-doc@vger.kernel.org,
         linuxppc-dev@lists.ozlabs.org, linux-acpi@vger.kernel.org,
         linux-gpio@vger.kernel.org, mchehab+samsung@kernel.org,
         Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH v5 04/23] Documentation: ACPI: move linuxized-acpica.txt to driver-api/acpi and convert to  reST
-Date:   Thu, 25 Apr 2019 01:52:47 +0800
-Message-Id: <20190424175306.25880-5-changbin.du@gmail.com>
+Subject: [PATCH v5 06/23] Documentation: ACPI: move DSD-properties-rules.txt to firmware-guide/acpi and covert to reST
+Date:   Thu, 25 Apr 2019 01:52:49 +0800
+Message-Id: <20190424175306.25880-7-changbin.du@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190424175306.25880-1-changbin.du@gmail.com>
 References: <20190424175306.25880-1-changbin.du@gmail.com>
@@ -74,233 +74,87 @@ add it to Sphinx TOC tree. No essential content change.
 Signed-off-by: Changbin Du <changbin.du@gmail.com>
 Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/driver-api/acpi/index.rst       |   1 +
- .../acpi/linuxized-acpica.rst}                | 109 ++++++++++--------
- 2 files changed, 64 insertions(+), 46 deletions(-)
- rename Documentation/{acpi/linuxized-acpica.txt => driver-api/acpi/linuxized-acpica.rst} (80%)
+ .../acpi/DSD-properties-rules.rst}            | 21 +++++++++++--------
+ Documentation/firmware-guide/acpi/index.rst   |  1 +
+ 2 files changed, 13 insertions(+), 9 deletions(-)
+ rename Documentation/{acpi/DSD-properties-rules.txt => firmware-guide/acpi/DSD-properties-rules.rst} (88%)
 
-diff --git a/Documentation/driver-api/acpi/index.rst b/Documentation/driver-api/acpi/index.rst
-index 898b0c60671a..12649947b19b 100644
---- a/Documentation/driver-api/acpi/index.rst
-+++ b/Documentation/driver-api/acpi/index.rst
-@@ -5,3 +5,4 @@ ACPI Support
- .. toctree::
-    :maxdepth: 2
- 
-+   linuxized-acpica
-diff --git a/Documentation/acpi/linuxized-acpica.txt b/Documentation/driver-api/acpi/linuxized-acpica.rst
-similarity index 80%
-rename from Documentation/acpi/linuxized-acpica.txt
-rename to Documentation/driver-api/acpi/linuxized-acpica.rst
-index 3ad7b0dfb083..0ca8f1538519 100644
---- a/Documentation/acpi/linuxized-acpica.txt
-+++ b/Documentation/driver-api/acpi/linuxized-acpica.rst
-@@ -1,31 +1,37 @@
+diff --git a/Documentation/acpi/DSD-properties-rules.txt b/Documentation/firmware-guide/acpi/DSD-properties-rules.rst
+similarity index 88%
+rename from Documentation/acpi/DSD-properties-rules.txt
+rename to Documentation/firmware-guide/acpi/DSD-properties-rules.rst
+index 3e4862bdad98..4306f29b6103 100644
+--- a/Documentation/acpi/DSD-properties-rules.txt
++++ b/Documentation/firmware-guide/acpi/DSD-properties-rules.rst
+@@ -1,8 +1,11 @@
 +.. SPDX-License-Identifier: GPL-2.0
-+.. include:: <isonum.txt>
 +
-+============================================================
- Linuxized ACPICA - Introduction to ACPICA Release Automation
-+============================================================
++==================================
+ _DSD Device Properties Usage Rules
+-----------------------------------
++==================================
  
--Copyright (C) 2013-2016, Intel Corporation
--Author: Lv Zheng <lv.zheng@intel.com>
-+:Copyright: |copy| 2013-2016, Intel Corporation
+ Properties, Property Sets and Property Subsets
+-----------------------------------------------
++==============================================
  
-+:Author: Lv Zheng <lv.zheng@intel.com>
+ The _DSD (Device Specific Data) configuration object, introduced in ACPI 5.1,
+ allows any type of device configuration data to be provided via the ACPI
+@@ -18,7 +21,7 @@ specific type) associated with it.
  
--Abstract:
+ In the ACPI _DSD context it is an element of the sub-package following the
+ generic Device Properties UUID in the _DSD return package as specified in the
+-Device Properties UUID definition document [1].
++Device Properties UUID definition document [1]_.
  
-+Abstract
-+========
- This document describes the ACPICA project and the relationship between
- ACPICA and Linux.  It also describes how ACPICA code in drivers/acpi/acpica,
- include/acpi and tools/power/acpi is automatically updated to follow the
- upstream.
+ It also may be regarded as the definition of a key and the associated data type
+ that can be returned by _DSD in the Device Properties UUID sub-package for a
+@@ -33,14 +36,14 @@ Property subsets are nested collections of properties.  Each of them is
+ associated with an additional key (name) allowing the subset to be referred
+ to as a whole (and to be treated as a separate entity).  The canonical
+ representation of property subsets is via the mechanism specified in the
+-Hierarchical Properties Extension UUID definition document [2].
++Hierarchical Properties Extension UUID definition document [2]_.
  
-+ACPICA Project
-+==============
+ Property sets may be hierarchical.  That is, a property set may contain
+ multiple property subsets that each may contain property subsets of its
+ own and so on.
  
--1. ACPICA Project
--
--   The ACPI Component Architecture (ACPICA) project provides an operating
--   system (OS)-independent reference implementation of the Advanced
--   Configuration and Power Interface Specification (ACPI).  It has been
--   adapted by various host OSes.  By directly integrating ACPICA, Linux can
--   also benefit from the application experiences of ACPICA from other host
--   OSes.
-+The ACPI Component Architecture (ACPICA) project provides an operating
-+system (OS)-independent reference implementation of the Advanced
-+Configuration and Power Interface Specification (ACPI).  It has been
-+adapted by various host OSes.  By directly integrating ACPICA, Linux can
-+also benefit from the application experiences of ACPICA from other host
-+OSes.
+ General Validity Rule for Property Sets
+----------------------------------------
++=======================================
  
--   The homepage of ACPICA project is: www.acpica.org, it is maintained and
--   supported by Intel Corporation.
-+The homepage of ACPICA project is: www.acpica.org, it is maintained and
-+supported by Intel Corporation.
+ Valid property sets must follow the guidance given by the Device Properties UUID
+ definition document [1].
+@@ -73,7 +76,7 @@ suitable for the ACPI environment and consequently they cannot belong to a valid
+ property set.
  
--   The following figure depicts the Linux ACPI subsystem where the ACPICA
--   adaptation is included:
-+The following figure depicts the Linux ACPI subsystem where the ACPICA
-+adaptation is included::
+ Property Sets and Device Tree Bindings
+---------------------------------------
++======================================
  
-       +---------------------------------------------------------+
-       |                                                         |
-@@ -71,21 +77,27 @@ upstream.
+ It often is useful to make _DSD return property sets that follow Device Tree
+ bindings.
+@@ -91,7 +94,7 @@ expected to automatically work in the ACPI environment regardless of their
+ contents.
  
-                  Figure 1. Linux ACPI Software Components
+ References
+-----------
++==========
  
--   NOTE:
-+.. note::
-     A. OS Service Layer - Provided by Linux to offer OS dependent
-        implementation of the predefined ACPICA interfaces (acpi_os_*).
-+       ::
-+
-          include/acpi/acpiosxf.h
-          drivers/acpi/osl.c
-          include/acpi/platform
-          include/asm/acenv.h
-     B. ACPICA Functionality - Released from ACPICA code base to offer
-        OS independent implementation of the ACPICA interfaces (acpi_*).
-+       ::
-+
-          drivers/acpi/acpica
-          include/acpi/ac*.h
-          tools/power/acpi
-     C. Linux/ACPI Functionality - Providing Linux specific ACPI
-        functionality to the other Linux kernel subsystems and user space
-        programs.
-+       ::
-+
-          drivers/acpi
-          include/linux/acpi.h
-          include/linux/acpi*.h
-@@ -95,24 +107,27 @@ upstream.
-        ACPI subsystem to offer architecture specific implementation of the
-        ACPI interfaces.  They are Linux specific components and are out of
-        the scope of this document.
-+       ::
-+
-          include/asm/acpi.h
-          include/asm/acpi*.h
-          arch/*/acpi
- 
--2. ACPICA Release
-+ACPICA Release
-+==============
- 
--   The ACPICA project maintains its code base at the following repository URL:
--   https://github.com/acpica/acpica.git. As a rule, a release is made every
--   month.
-+The ACPICA project maintains its code base at the following repository URL:
-+https://github.com/acpica/acpica.git. As a rule, a release is made every
-+month.
- 
--   As the coding style adopted by the ACPICA project is not acceptable by
--   Linux, there is a release process to convert the ACPICA git commits into
--   Linux patches.  The patches generated by this process are referred to as
--   "linuxized ACPICA patches".  The release process is carried out on a local
--   copy the ACPICA git repository.  Each commit in the monthly release is
--   converted into a linuxized ACPICA patch.  Together, they form the monthly
--   ACPICA release patchset for the Linux ACPI community.  This process is
--   illustrated in the following figure:
-+As the coding style adopted by the ACPICA project is not acceptable by
-+Linux, there is a release process to convert the ACPICA git commits into
-+Linux patches.  The patches generated by this process are referred to as
-+"linuxized ACPICA patches".  The release process is carried out on a local
-+copy the ACPICA git repository.  Each commit in the monthly release is
-+converted into a linuxized ACPICA patch.  Together, they form the monthly
-+ACPICA release patchset for the Linux ACPI community.  This process is
-+illustrated in the following figure::
- 
-     +-----------------------------+
-     | acpica / master (-) commits |
-@@ -153,7 +168,7 @@ upstream.
- 
-                 Figure 2. ACPICA -> Linux Upstream Process
- 
--   NOTE:
-+.. note::
-     A. Linuxize Utilities - Provided by the ACPICA repository, including a
-        utility located in source/tools/acpisrc folder and a number of
-        scripts located in generate/linux folder.
-@@ -170,19 +185,20 @@ upstream.
-    following kernel configuration options:
-    CONFIG_ACPI/CONFIG_ACPI_DEBUG/CONFIG_ACPI_DEBUGGER
- 
--3. ACPICA Divergences
-+ACPICA Divergences
-+==================
- 
--   Ideally, all of the ACPICA commits should be converted into Linux patches
--   automatically without manual modifications, the "linux / master" tree should
--   contain the ACPICA code that exactly corresponds to the ACPICA code
--   contained in "new linuxized acpica" tree and it should be possible to run
--   the release process fully automatically.
-+Ideally, all of the ACPICA commits should be converted into Linux patches
-+automatically without manual modifications, the "linux / master" tree should
-+contain the ACPICA code that exactly corresponds to the ACPICA code
-+contained in "new linuxized acpica" tree and it should be possible to run
-+the release process fully automatically.
- 
--   As a matter of fact, however, there are source code differences between
--   the ACPICA code in Linux and the upstream ACPICA code, referred to as
--   "ACPICA Divergences".
-+As a matter of fact, however, there are source code differences between
-+the ACPICA code in Linux and the upstream ACPICA code, referred to as
-+"ACPICA Divergences".
- 
--   The various sources of ACPICA divergences include:
-+The various sources of ACPICA divergences include:
-    1. Legacy divergences - Before the current ACPICA release process was
-       established, there already had been divergences between Linux and
-       ACPICA. Over the past several years those divergences have been greatly
-@@ -213,11 +229,12 @@ upstream.
-       rebased on the ACPICA side in order to offer better solutions, new ACPICA
-       divergences are generated.
- 
--4. ACPICA Development
-+ACPICA Development
-+==================
- 
--   This paragraph guides Linux developers to use the ACPICA upstream release
--   utilities to obtain Linux patches corresponding to upstream ACPICA commits
--   before they become available from the ACPICA release process.
-+This paragraph guides Linux developers to use the ACPICA upstream release
-+utilities to obtain Linux patches corresponding to upstream ACPICA commits
-+before they become available from the ACPICA release process.
- 
-    1. Cherry-pick an ACPICA commit
- 
-@@ -225,7 +242,7 @@ upstream.
-    you want to cherry pick must be committed into the local repository.
- 
-    Then the gen-patch.sh command can help to cherry-pick an ACPICA commit
--   from the ACPICA local repository:
-+   from the ACPICA local repository::
- 
-    $ git clone https://github.com/acpica/acpica
-    $ cd acpica
-@@ -240,7 +257,7 @@ upstream.
-    changes that haven't been applied to Linux yet.
- 
-    You can generate the ACPICA release series yourself and rebase your code on
--   top of the generated ACPICA release patches:
-+   top of the generated ACPICA release patches::
- 
-    $ git clone https://github.com/acpica/acpica
-    $ cd acpica
-@@ -254,7 +271,7 @@ upstream.
-    3. Inspect the current divergences
- 
-    If you have local copies of both Linux and upstream ACPICA, you can generate
--   a diff file indicating the state of the current divergences:
-+   a diff file indicating the state of the current divergences::
- 
-    # git clone https://github.com/acpica/acpica
-    # git clone http://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+-[1] http://www.uefi.org/sites/default/files/resources/_DSD-device-properties-UUID.pdf
+-[2] http://www.uefi.org/sites/default/files/resources/_DSD-hierarchical-data-extension-UUID-v1.1.pdf
++.. [1] http://www.uefi.org/sites/default/files/resources/_DSD-device-properties-UUID.pdf
++.. [2] http://www.uefi.org/sites/default/files/resources/_DSD-hierarchical-data-extension-UUID-v1.1.pdf
+diff --git a/Documentation/firmware-guide/acpi/index.rst b/Documentation/firmware-guide/acpi/index.rst
+index 868bd25a3398..0e05b843521c 100644
+--- a/Documentation/firmware-guide/acpi/index.rst
++++ b/Documentation/firmware-guide/acpi/index.rst
+@@ -10,3 +10,4 @@ ACPI Support
+    namespace
+    enumeration
+    osi
++   DSD-properties-rules
 -- 
 2.20.1
 
