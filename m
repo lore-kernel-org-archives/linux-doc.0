@@ -6,49 +6,49 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CADA07D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Apr 2019 18:58:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B327D7D910
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Apr 2019 19:00:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388289AbfDXS60 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 24 Apr 2019 14:58:26 -0400
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:33974 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727055AbfDXS6Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Apr 2019 14:58:25 -0400
-Received: by mail-qk1-f193.google.com with SMTP id n68so11540744qka.1;
-        Wed, 24 Apr 2019 11:58:25 -0700 (PDT)
+        id S1727099AbfDXTAZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 24 Apr 2019 15:00:25 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:37608 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727055AbfDXTAZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Apr 2019 15:00:25 -0400
+Received: by mail-qt1-f195.google.com with SMTP id z16so21585782qtn.4;
+        Wed, 24 Apr 2019 12:00:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=2UctWeOPYH7gh4xbfG1yAVrMDrr9BA28kij+L+zI8ew=;
-        b=CLotHtY+q8bXpvMX/SmQYLYdHZDyptDBtVd2cOQxdfaESxO2GsaKBrVF49T8XhHBCG
-         Szqjxn5y7AoftBOAS7GPEHxEAWyzpAK2xrGl2bZBmHGrZ+rjWzBZObsUloOpGA8UTEQZ
-         kZQUgRbPVKQ9r3GhKJgmOXE/mrXnfkT0RfZRB7ybzGmJPsfAwouSLyKmAjjiJGiqn7OP
-         Cvt7SiavnNk5zXR6a6jFgB4tjsojrv5Az9VpqVXcJjpKcJ14M55qHMrYQDwyBrPy9xu8
-         GzkveWV12G8hWu9HkoHepAdt5dv7rStCnYO8qRP82Q9471RkyW7m8IH6sRVxInSuA1aC
-         4yxg==
+        bh=/FZy59f9HL2X3MbfHJ0G6hsGqO3psViqlKPPUuR6fNo=;
+        b=q8hjbWX2/Rq8XC2LdcrnlAoOXnEfA1kmjBBoylIKum+3GuPG+zohCguBwww/MCJ27F
+         oqJ0YEK1RBIjN8M28mclgqIGpx9KY4vsqtgcI4QZmFwm862SeoLxoe0jow7+T+KUQu27
+         WLQTZvoXEz67t5F2LIeQNdpvHdwucTr9N2E17CKBc4M6eRwl5SVW3s961l4+qfXcRKu5
+         7F7X9P4gKJ8e/9KCahWT1BVt9mNNLy9NDfwdyz4glnUCLytljhJ567AOR4LOutX2xGY+
+         gnCR/16WqvnZT+26eBlWypqTiBPvPYfdNlQCiGYfJ6AEySKTmO8iYKjTZbFUMU9eUkvN
+         iXNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=2UctWeOPYH7gh4xbfG1yAVrMDrr9BA28kij+L+zI8ew=;
-        b=NncOPWAGT+Z8jhL/FERUSTVw/VKvHpIn12dCtptDgpquk4nRvGUJapk6OYrdX+jkl2
-         tYxAILOgKytuqj/AxcClc6gZgCsBpliuIopH6YQTFXDdUZ076ERcbTSRuZCQi7heOz5V
-         0WBCkB3DY1acKNkCFcJtvArsIwvLZoGwWifOIGXIl02/DLUIa9BxZMbR7OqVUGG2ccLA
-         XIxXHrdvz/oKwh2kH/XiCs+7KuX4pTdglapqX2r4q4DWdED9VaMcm8shPtTaSr1IfCVX
-         +3pP27y50SjFxokzPUf1zX3ACgI8mGhmjK4XpmY1ySQQYFEM4kC3H+w7t0Q3seDKkqul
-         LYpA==
-X-Gm-Message-State: APjAAAUdpBQt/v3GhraOCdcXin0DuaUN9a7NwLIKSiqlkngaPMMOJM1d
-        o4emcW5O73WTObtKSC4nnqxuUHk=
-X-Google-Smtp-Source: APXvYqySASYIr0SDVnE1yI4p69ruXx8VnZB5EJq1r5YfXGQ2XGY2NfeGtV1O8ehNtrYV+VmNpea+aA==
-X-Received: by 2002:a05:620a:1334:: with SMTP id p20mr1205504qkj.244.1556132304679;
-        Wed, 24 Apr 2019 11:58:24 -0700 (PDT)
+        bh=/FZy59f9HL2X3MbfHJ0G6hsGqO3psViqlKPPUuR6fNo=;
+        b=Ynec4lVb/eKIVDVWtdjPsNs5cnXvvnAU9KiS9X/4NuYfIy2tLvPFKHEoAhBWz4y+Z+
+         XRha2H3m7+EqxT1vyDHmRO/Cxon4yD97n+F7Wss1X6Cx9AQilRxjSOUKHYOBQ4vduJp3
+         3doBCGL7lRgDSMUMmjL7geRbXW+OxNCwkIAXWg16TH7e4wB9bm8EvQz9Pfn7QevoxhFv
+         YiSAkSn6V7zcrAUKuRY1FlLbqiJKF/j8xLmqVhvCGHM9+pPG5w65FtUyXCmd6+EGl04h
+         yxSgZNoTwb36N7Oepd+QnLp80BdTx98ze0grVkNeC8KAPU90rOkrFoQdftdTtaPffiAb
+         xj5Q==
+X-Gm-Message-State: APjAAAVgobMPsNL4XYr4q1yYpkOA9+qsXoOkuOtjSPWcz05OEpqLTBg6
+        AsZaOnOtpJCWGvL0eaEWnQ==
+X-Google-Smtp-Source: APXvYqzUa37EIznTuZsKVCE0rtxzmrSbjNdVJfiGIZUk8HNfZfY91SDsdlfuvH2z2xBujvCQv9HiBQ==
+X-Received: by 2002:aed:35fa:: with SMTP id d55mr3416038qte.169.1556132424044;
+        Wed, 24 Apr 2019 12:00:24 -0700 (PDT)
 Received: from gabell (nat-pool-bos-t.redhat.com. [66.187.233.206])
-        by smtp.gmail.com with ESMTPSA id h189sm564936qkc.89.2019.04.24.11.58.21
+        by smtp.gmail.com with ESMTPSA id z85sm9183651qka.18.2019.04.24.12.00.21
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 24 Apr 2019 11:58:23 -0700 (PDT)
-Date:   Wed, 24 Apr 2019 14:58:14 -0400
+        Wed, 24 Apr 2019 12:00:23 -0700 (PDT)
+Date:   Wed, 24 Apr 2019 15:00:20 -0400
 From:   Masayoshi Mizuma <msys.mizuma@gmail.com>
 To:     Brendan Higgins <brendanhiggins@google.com>
 Cc:     corbet@lwn.net, frowand.list@gmail.com, keescook@google.com,
@@ -57,93 +57,97 @@ Cc:     corbet@lwn.net, frowand.list@gmail.com, keescook@google.com,
         pmladek@suse.com, linux-doc@vger.kernel.org, amir73il@gmail.com,
         dri-devel@lists.freedesktop.org, Alexander.Levin@microsoft.com,
         linux-kselftest@vger.kernel.org, linux-nvdimm@lists.01.org,
-        khilman@baylibre.com, knut.omang@oracle.com,
-        Felix Guo <felixguoxiuping@gmail.com>, wfg@linux.intel.com,
+        khilman@baylibre.com, knut.omang@oracle.com, wfg@linux.intel.com,
         joel@jms.id.au, jdike@addtoit.com, dan.carpenter@oracle.com,
         devicetree@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Tim.Bird@sony.com, linux-um@lists.infradead.org,
-        rostedt@goodmis.org, julia.lawall@lip6.fr,
-        kunit-dev@googlegroups.com, richard@nod.at,
+        Tim.Bird@sony.com, Avinash Kondareddy <akndr41@gmail.com>,
+        linux-um@lists.infradead.org, rostedt@goodmis.org,
+        julia.lawall@lip6.fr, kunit-dev@googlegroups.com, richard@nod.at,
         gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
         daniel@ffwll.ch, mpe@ellerman.id.au, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v1 14/17] Documentation: kunit: add documentation for
- KUnit
-Message-ID: <20190424185813.xabwr4lt6aunvpsd@gabell>
+Subject: Re: [PATCH v1 11/17] kunit: test: add test managed resource tests
+Message-ID: <20190424190019.wvljyeo3y7gd24p5@gabell>
 References: <20190404220652.19765-1-brendanhiggins@google.com>
- <20190404220652.19765-15-brendanhiggins@google.com>
+ <20190404220652.19765-12-brendanhiggins@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190404220652.19765-15-brendanhiggins@google.com>
+In-Reply-To: <20190404220652.19765-12-brendanhiggins@google.com>
 User-Agent: NeoMutt/20180716
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Brendan,
-
-KUNIT_ASSERT_NOT_ERR_OR_NULL() should be replaced to
-KUNIT_EXPECT_NOT_ERR_OR_NULL(), right?
-
-On Thu, Apr 04, 2019 at 03:06:49PM -0700, Brendan Higgins wrote:
-> Add documentation for KUnit, the Linux kernel unit testing framework.
-> - Add intro and usage guide for KUnit
-> - Add API reference
+On Thu, Apr 04, 2019 at 03:06:46PM -0700, Brendan Higgins wrote:
+> From: Avinash Kondareddy <akndr41@gmail.com>
 > 
-> Signed-off-by: Felix Guo <felixguoxiuping@gmail.com>
+> Tests how tests interact with test managed resources in their lifetime.
+> 
+> Signed-off-by: Avinash Kondareddy <akndr41@gmail.com>
 > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
 > ---
-
-<snip>
-
-> diff --git a/Documentation/kunit/start.rst b/Documentation/kunit/start.rst
-> new file mode 100644
-> index 0000000000000..5cdba5091905e
-> --- /dev/null
-> +++ b/Documentation/kunit/start.rst
-
-<snip>
-
-> +Assertions
-> +~~~~~~~~~~
+>  kunit/test-test.c | 122 ++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 122 insertions(+)
+> 
+> diff --git a/kunit/test-test.c b/kunit/test-test.c
+> index 4bd7a34d0a6cb..54add8ca418a0 100644
+> --- a/kunit/test-test.c
+> +++ b/kunit/test-test.c
+> @@ -135,3 +135,125 @@ static struct kunit_module kunit_try_catch_test_module = {
+>  	.test_cases = kunit_try_catch_test_cases,
+>  };
+>  module_test(kunit_try_catch_test_module);
 > +
-> +KUnit also has the concept of an *assertion*. An assertion is just like an
-> +expectation except the assertion immediately terminates the test case if it is
-> +not satisfied.
+> +/*
+> + * Context for testing test managed resources
+> + * is_resource_initialized is used to test arbitrary resources
+> + */
+> +struct kunit_test_resource_context {
+> +	struct kunit test;
+> +	bool is_resource_initialized;
+> +};
 > +
-> +For example:
+> +static int fake_resource_init(struct kunit_resource *res, void *context)
+> +{
+> +	struct kunit_test_resource_context *ctx = context;
 > +
-> +.. code-block:: c
+> +	res->allocation = &ctx->is_resource_initialized;
+> +	ctx->is_resource_initialized = true;
+> +	return 0;
+> +}
 > +
-> +	static void mock_test_do_expect_default_return(struct kunit *test)
-> +	{
-> +		struct mock_test_context *ctx = test->priv;
-> +		struct mock *mock = ctx->mock;
-> +		int param0 = 5, param1 = -5;
-> +		const char *two_param_types[] = {"int", "int"};
-> +		const void *two_params[] = {&param0, &param1};
-> +		const void *ret;
+> +static void fake_resource_free(struct kunit_resource *res)
+> +{
+> +	bool *is_resource_initialized = res->allocation;
 > +
-> +		ret = mock->do_expect(mock,
-> +				      "test_printk", test_printk,
-> +				      two_param_types, two_params,
-> +				      ARRAY_SIZE(two_params));
-
-> +		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ret);
-
-		KUNIT_EXPECT_NOT_ERR_OR_NULL(test, ret);
-
-> +		KUNIT_EXPECT_EQ(test, -4, *((int *) ret));
-> +	}
+> +	*is_resource_initialized = false;
+> +}
 > +
-> +In this example, the method under test should return a pointer to a value, so
-> +if the pointer returned by the method is null or an errno, we don't want to
-> +bother continuing the test since the following expectation could crash the test
+> +static void kunit_resource_test_init_resources(struct kunit *test)
+> +{
+> +	struct kunit_test_resource_context *ctx = test->priv;
+> +
+> +	kunit_init_test(&ctx->test, "testing_test_init_test");
+> +
+> +	KUNIT_EXPECT_TRUE(test, list_empty(&ctx->test.resources));
+> +}
+> +
+> +static void kunit_resource_test_alloc_resource(struct kunit *test)
+> +{
+> +	struct kunit_test_resource_context *ctx = test->priv;
+> +	struct kunit_resource *res;
+> +	kunit_resource_free_t free = fake_resource_free;
+> +
+> +	res = kunit_alloc_resource(&ctx->test,
+> +				   fake_resource_init,
+> +				   fake_resource_free,
+> +				   ctx);
+> +
 
-> +case. `ASSERT_NOT_ERR_OR_NULL(...)` allows us to bail out of the test case if
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, res);
 
-  +case. `KUNIT_EXPECT_NOT_ERR_OR_NULL(...)` allows us to bail out of the test case if
+	KUNIT_EXPECT_NOT_ERR_OR_NULL(test, res);
 
 Thanks!
 Masa
