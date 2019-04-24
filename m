@@ -1,132 +1,173 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7194C7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Apr 2019 15:34:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9428E7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Apr 2019 15:37:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731164AbfDXPef (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 24 Apr 2019 11:34:35 -0400
-Received: from casper.infradead.org ([85.118.1.10]:56212 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730792AbfDXPef (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Apr 2019 11:34:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=sqQ0QZ1qv0/cq0WsSzdCrhPHL6++zwMLBU3pK19WzZQ=; b=GUMia/JvBbB3zAQVnK3orn6C1j
-        82JUj+d2DVCZLnWRQuk8r3JFWRh05Q5K0pNOo3seAOO3tsWm1//G0gBOb8WEgh1Xy/BgF4Txmw4Lf
-        j4zOWVq9WGjAwYOrgT+eKNYUQL+OM+REyJk0uUJyMMByD/4HDigsOJYX6Dwk492azCivbCSYyyIWs
-        p6cOqhwWC6MaDrFJh0/H4Ed2a99E/JMvOzAxZ8DLCMadovwmdlXnFFMg6aKnMGRoL3WKIMSuoaCPD
-        5MBRbGKVmhYpf5JsYriwQwbj6ut2E5HcWzzcuHSbGc84agRYxtQsdDF/1evUgIy13eId83GOX3Wbk
-        KbEkFIyQ==;
-Received: from 177.17.136.231.dynamic.adsl.gvt.net.br ([177.17.136.231] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hJJup-0002ie-EU; Wed, 24 Apr 2019 15:34:31 +0000
-Date:   Wed, 24 Apr 2019 12:34:25 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Changbin Du <changbin.du@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Bjorn Helgaas <bhelgaas@google.com>, rjw@rjwysocki.net,
-        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        x86@kernel.org, fenghua.yu@intel.com,
-        linuxppc-dev@lists.ozlabs.org, linux-acpi@vger.kernel.org,
-        linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v4 30/63] Documentation: PCI: convert acpi-info.txt to
- reST
-Message-ID: <20190424123425.3e63f970@coco.lan>
-In-Reply-To: <20190423162932.21428-31-changbin.du@gmail.com>
-References: <20190423162932.21428-1-changbin.du@gmail.com>
-        <20190423162932.21428-31-changbin.du@gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+        id S1730858AbfDXPhK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 24 Apr 2019 11:37:10 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60022 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730825AbfDXPhK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 24 Apr 2019 11:37:10 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 3260E88E56;
+        Wed, 24 Apr 2019 15:37:09 +0000 (UTC)
+Received: from llong.com (dhcp-17-85.bos.redhat.com [10.18.17.85])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C5472608C1;
+        Wed, 24 Apr 2019 15:37:05 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Darren Hart <dvhart@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        Waiman Long <longman@redhat.com>
+Subject: [PATCH] futex: Consolidate duplicated timer setup code
+Date:   Wed, 24 Apr 2019 11:36:51 -0400
+Message-Id: <20190424153651.15002-1-longman@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.25]); Wed, 24 Apr 2019 15:37:09 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 24 Apr 2019 00:28:59 +0800
-Changbin Du <changbin.du@gmail.com> escreveu:
+A new futex_setup_timer() helper function is added to consolidate all
+the hrtimer_sleeper setup code.
 
-> This converts the plain text documentation to reStructuredText format and
-> add it to Sphinx TOC tree. No essential content change.
->=20
-> Signed-off-by: Changbin Du <changbin.du@gmail.com>
-> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-> ---
->  Documentation/PCI/{acpi-info.txt =3D> acpi-info.rst} | 11 ++++++++---
->  Documentation/PCI/index.rst                        |  1 +
->  2 files changed, 9 insertions(+), 3 deletions(-)
->  rename Documentation/PCI/{acpi-info.txt =3D> acpi-info.rst} (97%)
->=20
-> diff --git a/Documentation/PCI/acpi-info.txt b/Documentation/PCI/acpi-inf=
-o.rst
-> similarity index 97%
-> rename from Documentation/PCI/acpi-info.txt
-> rename to Documentation/PCI/acpi-info.rst
-> index 3ffa3b03970e..f7dabb7ca255 100644
-> --- a/Documentation/PCI/acpi-info.txt
-> +++ b/Documentation/PCI/acpi-info.rst
-> @@ -1,4 +1,8 @@
-> -		ACPI considerations for PCI host bridges
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +ACPI considerations for PCI host bridges
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =20
->  The general rule is that the ACPI namespace should describe everything t=
-he
->  OS might use unless there's another way for the OS to find it [1, 2].
-> @@ -135,8 +139,9 @@ address always corresponds to bus 0, even if the bus =
-range below the bridge
-> =20
->      Extended Address Space Descriptor (.4)
->      General Flags: Bit [0] Consumer/Producer:
-> -	1=E2=80=93This device consumes this resource
-> -	0=E2=80=93This device produces and consumes this resource
-> +
-> +        * 1 =E2=80=93 This device consumes this resource
-> +        * 0 =E2=80=93 This device produces and consumes this resource
+Signed-off-by: Waiman Long <longman@redhat.com>
+---
+ kernel/futex.c | 67 ++++++++++++++++++++++++++++----------------------
+ 1 file changed, 37 insertions(+), 30 deletions(-)
 
-Hmm.. I think that you would need to add some extra blank lines before
-the above, e. g., something like:
+diff --git a/kernel/futex.c b/kernel/futex.c
+index a0514e01c3eb..d24679d75270 100644
+--- a/kernel/futex.c
++++ b/kernel/futex.c
+@@ -486,6 +486,35 @@ enum futex_access {
+ 	FUTEX_WRITE
+ };
+ 
++/**
++ * futex_setup_timer - set up the sleeping hrtimer.
++ * @time:	ptr to the given timeout value
++ * @timeout:	the hrtimer_sleeper structure to be set up
++ * @flags:	futex flags
++ * @range_ns:	optional range in ns
++ *
++ * Return: Initialized hrtimer_sleeper structure or NULL if no timeout
++ *	   value given
++ */
++static inline struct hrtimer_sleeper *
++futex_setup_timer(ktime_t *time, struct hrtimer_sleeper *timeout,
++		  int flags, u64 range_ns)
++{
++	if (!time)
++		return NULL;
++
++	hrtimer_init_on_stack(&timeout->timer, (flags & FLAGS_CLOCKRT) ?
++			      CLOCK_REALTIME : CLOCK_MONOTONIC,
++			      HRTIMER_MODE_ABS);
++	hrtimer_init_sleeper(timeout, current);
++	if (range_ns)
++		hrtimer_set_expires_range_ns(&timeout->timer, *time, range_ns);
++	else
++		hrtimer_set_expires(&timeout->timer, *time);
++
++	return timeout;
++}
++
+ /**
+  * get_futex_key() - Get parameters which are the keys for a futex
+  * @uaddr:	virtual address of the futex
+@@ -2679,7 +2708,7 @@ static int futex_wait_setup(u32 __user *uaddr, u32 val, unsigned int flags,
+ static int futex_wait(u32 __user *uaddr, unsigned int flags, u32 val,
+ 		      ktime_t *abs_time, u32 bitset)
+ {
+-	struct hrtimer_sleeper timeout, *to = NULL;
++	struct hrtimer_sleeper timeout, *to;
+ 	struct restart_block *restart;
+ 	struct futex_hash_bucket *hb;
+ 	struct futex_q q = futex_q_init;
+@@ -2689,17 +2718,8 @@ static int futex_wait(u32 __user *uaddr, unsigned int flags, u32 val,
+ 		return -EINVAL;
+ 	q.bitset = bitset;
+ 
+-	if (abs_time) {
+-		to = &timeout;
+-
+-		hrtimer_init_on_stack(&to->timer, (flags & FLAGS_CLOCKRT) ?
+-				      CLOCK_REALTIME : CLOCK_MONOTONIC,
+-				      HRTIMER_MODE_ABS);
+-		hrtimer_init_sleeper(to, current);
+-		hrtimer_set_expires_range_ns(&to->timer, *abs_time,
+-					     current->timer_slack_ns);
+-	}
+-
++	to = futex_setup_timer(abs_time, &timeout, flags,
++			       current->timer_slack_ns);
+ retry:
+ 	/*
+ 	 * Prepare to wait on uaddr. On success, holds hb lock and increments
+@@ -2779,7 +2799,7 @@ static long futex_wait_restart(struct restart_block *restart)
+ static int futex_lock_pi(u32 __user *uaddr, unsigned int flags,
+ 			 ktime_t *time, int trylock)
+ {
+-	struct hrtimer_sleeper timeout, *to = NULL;
++	struct hrtimer_sleeper timeout, *to;
+ 	struct futex_pi_state *pi_state = NULL;
+ 	struct rt_mutex_waiter rt_waiter;
+ 	struct futex_hash_bucket *hb;
+@@ -2792,13 +2812,7 @@ static int futex_lock_pi(u32 __user *uaddr, unsigned int flags,
+ 	if (refill_pi_state_cache())
+ 		return -ENOMEM;
+ 
+-	if (time) {
+-		to = &timeout;
+-		hrtimer_init_on_stack(&to->timer, CLOCK_REALTIME,
+-				      HRTIMER_MODE_ABS);
+-		hrtimer_init_sleeper(to, current);
+-		hrtimer_set_expires(&to->timer, *time);
+-	}
++	to = futex_setup_timer(time, &timeout, FLAGS_CLOCKRT, 0);
+ 
+ retry:
+ 	ret = get_futex_key(uaddr, flags & FLAGS_SHARED, &q.key, FUTEX_WRITE);
+@@ -3182,7 +3196,7 @@ static int futex_wait_requeue_pi(u32 __user *uaddr, unsigned int flags,
+ 				 u32 val, ktime_t *abs_time, u32 bitset,
+ 				 u32 __user *uaddr2)
+ {
+-	struct hrtimer_sleeper timeout, *to = NULL;
++	struct hrtimer_sleeper timeout, *to;
+ 	struct futex_pi_state *pi_state = NULL;
+ 	struct rt_mutex_waiter rt_waiter;
+ 	struct futex_hash_bucket *hb;
+@@ -3199,15 +3213,8 @@ static int futex_wait_requeue_pi(u32 __user *uaddr, unsigned int flags,
+ 	if (!bitset)
+ 		return -EINVAL;
+ 
+-	if (abs_time) {
+-		to = &timeout;
+-		hrtimer_init_on_stack(&to->timer, (flags & FLAGS_CLOCKRT) ?
+-				      CLOCK_REALTIME : CLOCK_MONOTONIC,
+-				      HRTIMER_MODE_ABS);
+-		hrtimer_init_sleeper(to, current);
+-		hrtimer_set_expires_range_ns(&to->timer, *abs_time,
+-					     current->timer_slack_ns);
+-	}
++	to = futex_setup_timer(abs_time, &timeout, flags,
++			       current->timer_slack_ns);
+ 
+ 	/*
+ 	 * The waiter is allocated on our stack, manipulated by the requeue
+-- 
+2.18.1
 
-	[4] ACPI 6.2, sec 6.4.3.5.1, 2, 3, 4:
-	    QWord/DWord/Word Address Space Descriptor (.1, .2, .3)
-	      General Flags: Bit [0] Ignored
-=09
-	    Extended Address Space Descriptor (.4)
-	      General Flags: Bit [0] Consumer/Producer:
-
-		* 1 =E2=80=93 This device consumes this resource
-		* 0 =E2=80=93 This device produces and consumes this resource
-
-> =20
->  [5] ACPI 6.2, sec 19.6.43:
->      ResourceUsage specifies whether the Memory range is consumed by
-> diff --git a/Documentation/PCI/index.rst b/Documentation/PCI/index.rst
-> index 1b25bcc1edca..c877a369481d 100644
-> --- a/Documentation/PCI/index.rst
-> +++ b/Documentation/PCI/index.rst
-> @@ -12,3 +12,4 @@ Linux PCI Bus Subsystem
->     PCIEBUS-HOWTO
->     pci-iov-howto
->     MSI-HOWTO
-> +   acpi-info
-
-
-
-Thanks,
-Mauro
