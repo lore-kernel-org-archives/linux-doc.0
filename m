@@ -1,97 +1,187 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 927E77D923
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Apr 2019 18:02:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E241E7DBEB
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Apr 2019 18:06:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389270AbfDXSCZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 24 Apr 2019 14:02:25 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33742 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2388720AbfDXSCZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Apr 2019 14:02:25 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x3OHrm2s056320
-        for <linux-doc@vger.kernel.org>; Wed, 24 Apr 2019 14:02:24 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2s2vh9gj5p-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 24 Apr 2019 14:02:23 -0400
-Received: from localhost
-        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Wed, 24 Apr 2019 19:02:21 +0100
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
-        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 24 Apr 2019 19:02:19 +0100
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
-        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x3OI2Iad44957784
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 24 Apr 2019 18:02:18 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 2AE31A405B;
-        Wed, 24 Apr 2019 18:02:18 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9BFE1A405C;
-        Wed, 24 Apr 2019 18:02:17 +0000 (GMT)
-Received: from rapoport-lnx (unknown [9.148.205.22])
-        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Wed, 24 Apr 2019 18:02:17 +0000 (GMT)
-Date:   Wed, 24 Apr 2019 21:02:15 +0300
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs/vm: add documentation of memory models
-References: <1556101715-31966-1-git-send-email-rppt@linux.ibm.com>
- <20190424101455.12cd407e@lwn.net>
+        id S2387953AbfDXSEl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 24 Apr 2019 14:04:41 -0400
+Received: from casper.infradead.org ([85.118.1.10]:48034 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389233AbfDXSEk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Apr 2019 14:04:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=QQxjRBbmdgAM9Bh3kBDiayTByaZ8rOIgL5n86+QEto4=; b=eHPgs9VBSJ+I8+KqGmbMTju2lr
+        c0xcIJhkO2M5DD563NVO7255UOmAOc+vpo2IvNPVwyqe69ZqXkx9iioAWr9eJ4b2LMu+rhf8rYyUo
+        mtQXyGjUMNv/lFhjz4jaEpC7/Tp0UkNaMIXXlAM2xteretCYdUOIlYuRI08ZjgbyPhkjYAtk47b7m
+        OA0nNjLt5UlGU5fFoI53mMacP+QpIDgHjTG4uSifigHWhQfA2mF9d0P2n0WuaAsakliiGpFMUgQjo
+        rvB17MoDNgV16L/zRs1kMRB1oFucBzRHljfN9aiZfld7RN8Wcr4XEM55inxhU1IiOVWlqKJ5tLTjt
+        pHQcNoMQ==;
+Received: from 177.17.136.231.dynamic.adsl.gvt.net.br ([177.17.136.231] helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hJMG2-0001jj-TS; Wed, 24 Apr 2019 18:04:35 +0000
+Date:   Wed, 24 Apr 2019 15:04:28 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Changbin Du <changbin.du@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Bjorn Helgaas <bhelgaas@google.com>, rjw@rjwysocki.net,
+        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
+        x86@kernel.org, fenghua.yu@intel.com,
+        linuxppc-dev@lists.ozlabs.org, linux-acpi@vger.kernel.org,
+        linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v4 21/63] Documentation: ACPI: move cppc_sysfs.txt to
+ admin-guide/acpi and convert to reST
+Message-ID: <20190424150428.7eb70014@coco.lan>
+In-Reply-To: <20190424172232.qtzogm6sweaa4gva@mail.google.com>
+References: <20190423162932.21428-1-changbin.du@gmail.com>
+        <20190423162932.21428-22-changbin.du@gmail.com>
+        <20190424114844.5de4cfa5@coco.lan>
+        <20190424172232.qtzogm6sweaa4gva@mail.google.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190424101455.12cd407e@lwn.net>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 19042418-0020-0000-0000-0000033460D5
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19042418-0021-0000-0000-00002186C7BB
-Message-Id: <20190424180215.GA13535@rapoport-lnx>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-04-24_11:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1904240131
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 24, 2019 at 10:14:55AM -0600, Jonathan Corbet wrote:
-> On Wed, 24 Apr 2019 13:28:35 +0300
-> Mike Rapoport <rppt@linux.ibm.com> wrote:
-> 
-> > Describe what {FLAT,DISCONTIG,SPARSE}MEM are and how they manage to
-> > maintain pfn <-> struct page correspondence.
-> 
-> Quick question: should this document perhaps mention that DISCONTIGMEM
-> appears to be on its way out?
+Em Thu, 25 Apr 2019 01:22:34 +0800
+Changbin Du <changbin.du@gmail.com> escreveu:
 
-I suspect it'll take a while until then, but I'll add a sentence about it
-being deprecated.
-Which reminds me that mm/Kconfig also begs for the corresponding update.
- 
-> Thanks,
-> 
-> jon
-> 
+> On Wed, Apr 24, 2019 at 11:48:44AM -0300, Mauro Carvalho Chehab wrote:
+> > Em Wed, 24 Apr 2019 00:28:50 +0800
+> > Changbin Du <changbin.du@gmail.com> escreveu:
+> >   
+> > > This converts the plain text documentation to reStructuredText format and
+> > > add it to Sphinx TOC tree. No essential content change.
+> > > 
+> > > Signed-off-by: Changbin Du <changbin.du@gmail.com>
+> > > ---
+> > >  .../acpi/cppc_sysfs.rst}                      | 71 ++++++++++---------
+> > >  Documentation/admin-guide/acpi/index.rst      |  1 +
+> > >  2 files changed, 40 insertions(+), 32 deletions(-)
+> > >  rename Documentation/{acpi/cppc_sysfs.txt => admin-guide/acpi/cppc_sysfs.rst} (51%)
+> > > 
+> > > diff --git a/Documentation/acpi/cppc_sysfs.txt b/Documentation/admin-guide/acpi/cppc_sysfs.rst
+> > > similarity index 51%
+> > > rename from Documentation/acpi/cppc_sysfs.txt
+> > > rename to Documentation/admin-guide/acpi/cppc_sysfs.rst
+> > > index f20fb445135d..a4b99afbe331 100644
+> > > --- a/Documentation/acpi/cppc_sysfs.txt
+> > > +++ b/Documentation/admin-guide/acpi/cppc_sysfs.rst
+> > > @@ -1,5 +1,11 @@
+> > > +.. SPDX-License-Identifier: GPL-2.0
+> > >  
+> > > -	Collaborative Processor Performance Control (CPPC)
+> > > +==================================================
+> > > +Collaborative Processor Performance Control (CPPC)
+> > > +==================================================
+> > > +
+> > > +CPPC
+> > > +====
+> > >  
+> > >  CPPC defined in the ACPI spec describes a mechanism for the OS to manage the
+> > >  performance of a logical processor on a contigious and abstract performance
+> > > @@ -10,31 +16,28 @@ For more details on CPPC please refer to the ACPI specification at:
+> > >  
+> > >  http://uefi.org/specifications
+> > >  
+> > > -Some of the CPPC registers are exposed via sysfs under:
+> > > -
+> > > -/sys/devices/system/cpu/cpuX/acpi_cppc/
+> > > -  
+> > 
+> >   
+> > > -for each cpu X  
+> > 
+> > Hmm... removed by mistake?
+> >  
+> I comfirmed that no content removed.
 
--- 
-Sincerely yours,
-Mike.
+At this patch, it looks that you removed the line: "for each cpu X"
+(or am I reading it wrong?)
 
+> 
+> > > +Some of the CPPC registers are exposed via sysfs under::
+> > >  
+> > > ---------------------------------------------------------------------------------
+> > > +  /sys/devices/system/cpu/cpuX/acpi_cppc/  
+> > 
+> > Did you parse this with Sphinx? It doesn't sound a valid ReST construction
+> > to my eyes, as:
+> > 
+> > 1) I've seen some versions of Sphinx to abort with severe errors when 
+> >    there's no blank line after the horizontal bar markup;
+> > 
+> > 2) It will very likely ignore the "::" (I didn't test it myself), as you're
+> >    not indenting the horizontal bar. End of indentation will mean the end
+> >    of an (empty) literal block.
+> > 
+> > So, I would stick with:
+> > 
+> > 
+> > 	Some of the CPPC registers are exposed via sysfs under:
+> > 
+> > 	  /sys/devices/system/cpu/cpuX/acpi_cppc/
+> > 
+> > 	---------------------------------------------------------------------------------
+> > 
+> > 	for each cpu X::
+> > 
+> > 
+> > or:
+> > 
+> > 	Some of the CPPC registers are exposed via sysfs under:
+> > 
+> > 		/sys/devices/system/cpu/cpuX/acpi_cppc/
+> > 
+> > 	for each cpu X
+> > 
+> > 	--------------------------------------------------------------------------------
+> > 
+> > 	::
+> > 
+> > (with is closer to the original author's intent)
+> > 
+> > Same applies to the other similar changes on this document.
+> >  
+> I didn't seen any warning here and the generated html is good. So I think it is
+> ok.
+
+Basically, what you're doing is:
+
+<rst>
+
+::
+
+foo
+   literal-block bar
+
+</rst>
+
+(where "foo" is the horizontal bar markup)
+
+I would avoid such pattern for two reasons:
+
+1) it sounds a violation of ReST syntax to format an in
+   indented paragraph some non-blank lines after a non-indented
+   line. As such, I won't doubt that different versions of Sphinx
+   would handle it differently. I'm even tempted to open a BZ
+   to Sphinx in order for them to provide a fix for that, if the
+   latest version of Sphinx accepts such crazy markup.
+
+2) It is very confusing for any human reading it.
+
+Thanks,
+Mauro
