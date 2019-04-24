@@ -1,51 +1,37 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 470C07D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Apr 2019 15:04:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 52E5D7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Apr 2019 15:10:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730725AbfDXPDx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 24 Apr 2019 11:03:53 -0400
-Received: from casper.infradead.org ([85.118.1.10]:52764 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730588AbfDXPDw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Apr 2019 11:03:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=jSu9ny5eryGAPEhyPkjGFXlRuxhppqvvRvIzVbMknhY=; b=ifE9egBVhU+e9aqmk3M8nPTP6t
-        JWiIL2BOfDdWP2w4WH/oqB9he+nfAYQqmexFE5UxTsFSSSl9effMr48OF5PAKuTdA+abOe/cujoZs
-        +2EeNAhGIz60DAvRI3fQft77KdMxpHFrK6laY8HrzNK9Re6CsPVYpsPDqhBzdEip+U+a8hzZ+Bm6r
-        eL46kfpx5rG4SmiRyUDzE6hbzI4ABjkrwU18K4lUIF1dt8EcshOD3u/aa6UB07uHI0v9B3LIxSmgD
-        U+94wyMYhJ6wP5MORtopKIAglp12BKsCUvXoB/WB8WMizPb/8SlFg/OShp2nyaQcmHgioVLBf2Hlt
-        uGll19Yg==;
-Received: from 177.17.136.231.dynamic.adsl.gvt.net.br ([177.17.136.231] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hJJR7-0001WG-8O; Wed, 24 Apr 2019 15:03:49 +0000
-Date:   Wed, 24 Apr 2019 12:03:43 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Changbin Du <changbin.du@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Bjorn Helgaas <bhelgaas@google.com>, rjw@rjwysocki.net,
-        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        x86@kernel.org, fenghua.yu@intel.com,
-        linuxppc-dev@lists.ozlabs.org, linux-acpi@vger.kernel.org,
-        linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v4 25/63] Documentation: add Linux PCI to Sphinx TOC
- tree
-Message-ID: <20190424120336.4f66cbb8@coco.lan>
-In-Reply-To: <20190423162932.21428-26-changbin.du@gmail.com>
-References: <20190423162932.21428-1-changbin.du@gmail.com>
-        <20190423162932.21428-26-changbin.du@gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727913AbfDXPKL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 24 Apr 2019 11:10:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35606 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727876AbfDXPKL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 24 Apr 2019 11:10:11 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9CE1420878;
+        Wed, 24 Apr 2019 15:10:10 +0000 (UTC)
+Date:   Wed, 24 Apr 2019 11:10:09 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>
+Subject: Re: [PATCH v2 02/79] docs: trace: fix some Sphinx warnings
+Message-ID: <20190424111009.63fa8007@gandalf.local.home>
+In-Reply-To: <f3b8a921f5c19e16dba40a7af5e2fc56baf93c74.1555938375.git.mchehab+samsung@kernel.org>
+References: <cover.1555938375.git.mchehab+samsung@kernel.org>
+        <f3b8a921f5c19e16dba40a7af5e2fc56baf93c74.1555938375.git.mchehab+samsung@kernel.org>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -54,79 +40,21 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 24 Apr 2019 00:28:54 +0800
-Changbin Du <changbin.du@gmail.com> escreveu:
+On Mon, 22 Apr 2019 10:26:51 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-> Add a index.rst for PCI subsystem. More docs will be added later.
+> There are some warnings produced when building trace. Fix them.
 > 
-> Signed-off-by: Changbin Du <changbin.du@gmail.com>
-> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+
+I guess I'm fine with this (I just read the text file as is).
+
+Acked-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
+
+-- Steve
+
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 > ---
->  Documentation/PCI/index.rst | 9 +++++++++
-
-On a past discussion at docs ML, we've agreed to use lowercase for new
-stuff. My suggestion here would be to use lowercase for "pci".
-
-Also, there's already a pci directory under driver-api, added on this
-commit:
-
-	commit fcc78f9c22474d60c65d522e50ea07006ec1b9fc
-	Author: Logan Gunthorpe <logang@deltatee.com>
-	Date:   Thu Oct 4 15:27:39 2018 -0600
-
-	    docs-rst: Add a new directory for PCI documentation
-
-I would just add a new section at Documentation/driver-api/pci/index.rst
-with something like:
-
-	Legacy PCI documentation
-	========================
-
-	.. note::
-
-	   The files here were written a long time ago and need some serious
-	   work. Use their contents with caution.
-
-	.. toctree::
-	    :maxdepth: 1
-
-	    <files converted from Documentation/PCI>
-
-And add those documents from Documentation/PCI into it.
-
->  Documentation/index.rst     | 1 +
->  2 files changed, 10 insertions(+)
->  create mode 100644 Documentation/PCI/index.rst
+>  Documentation/trace/ftrace.rst    |  1 +
+>  Documentation/trace/histogram.rst | 86 ++++++++++++++++---------------
+>  2 files changed, 45 insertions(+), 42 deletions(-)
 > 
-> diff --git a/Documentation/PCI/index.rst b/Documentation/PCI/index.rst
-> new file mode 100644
-> index 000000000000..c2f8728d11cf
-> --- /dev/null
-> +++ b/Documentation/PCI/index.rst
-> @@ -0,0 +1,9 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=======================
-> +Linux PCI Bus Subsystem
-> +=======================
-> +
-> +.. toctree::
-> +   :maxdepth: 2
-> +   :numbered:
-> diff --git a/Documentation/index.rst b/Documentation/index.rst
-> index fdfa85c56a50..d80138284e0f 100644
-> --- a/Documentation/index.rst
-> +++ b/Documentation/index.rst
-> @@ -100,6 +100,7 @@ needed).
->     filesystems/index
->     vm/index
->     bpf/index
-> +   PCI/index
->     misc-devices/index
->  
->  Architecture-specific documentation
-
-
-
-Thanks,
-Mauro
