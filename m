@@ -4,50 +4,50 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 776FF7D918
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Apr 2019 15:33:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 253B77D913
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Apr 2019 15:34:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729933AbfDYPcw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 25 Apr 2019 11:32:52 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:43080 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729901AbfDYPcv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Apr 2019 11:32:51 -0400
-Received: by mail-pl1-f196.google.com with SMTP id n8so11268203plp.10;
-        Thu, 25 Apr 2019 08:32:51 -0700 (PDT)
+        id S1730203AbfDYPd3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 25 Apr 2019 11:33:29 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:34814 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730180AbfDYPd2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Apr 2019 11:33:28 -0400
+Received: by mail-pf1-f193.google.com with SMTP id b3so105497pfd.1;
+        Thu, 25 Apr 2019 08:33:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=7iW4MbVd77MEAccCwSku/MkHI3UfK1BuasUTDy15CeE=;
-        b=u3lROnbm0VN76si2ABD4XoHYOXl2xIcsMsmytLpSxXYVKKCC+htJeY8bTEPD/S3Phe
-         UNoWAEeO8B8FO969vE0Hl8R+qas+OT0BcPFzY2kEuAIQ4ZkY3ydS7Jr5lSuB1jD3DEE6
-         OUBy5sU/S3rSxjGDBD7JSbfl9pfde3FToAjtmDjcjfcQeElSRUOdCK5iJDnuM9aoRPRW
-         9iO+wcAuC7s9EKBsnLX65eAdj7/y6z9xaAerkUY8BVylQeGubiIw6/8Ebg+1yGyCigYB
-         8BctT4BfoeHJt8Ab04al19rVcTfxHYwrfzz9wWNlJjN+SN5ut9DYi782wGk3EzYcV1E/
-         x9eQ==
+        bh=5a/6MPsR4urKp6yQEMyiUcAMrF2FenVOvePurxnpdZ8=;
+        b=bQb9AJGQlPSOo3LXhEGmCcLePbpXt3ZDwN9IY0TD8i+MWU/1jfz8mKaZXqgEs8kxP3
+         TCE4C68S2MhbovfNZlQbpwJTewaK5rayecNA3fRKvT2ECRT2ITGgSaDcwsor+iBi3HUm
+         sK8hNOcFZTx57HYoHgfj97irLlieOolVxiEa7K5PhsnbADqj8AvCt3ulIdtYltd1jGA9
+         UahPsFHLftmQRA0Ii0eUyjITyj2+Ck2vdwKp3SGLfvPaRxpf1k22ZwPLaIXsOspEf25E
+         1Bz+OaX/eAEfuGfCDQEquq+vwsfCk9rPqz7yq8DGcmKOJWu3ZfA2k/yNC5Q/y7TpDyii
+         j0nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=7iW4MbVd77MEAccCwSku/MkHI3UfK1BuasUTDy15CeE=;
-        b=h/aNhATwDwhk6H0zs6a/nX//Gw4KcTFUTz59ZvhiKB/g5QN3ymqvmafaFR9itBdsi3
-         WR3KPJb7UHvX/WduGWzdvE4iJ0Tl+Vv8Jm9+lsSv4NvmrmlKBsuQuoF/VAA2L3yp78f+
-         h5lJjyh8elMypzcy6cvKUJGoH2IZOteagYTfiq/AAfEx3gTHl1jg8Ac/PaYu+oV0EyZw
-         XwxFkmZxH+J6tAieMkzOYArAsXl2wLzwcKgMhTy4tuIc6yL4gjJ39AoB6ZiYuyb6+dBs
-         pTzWVPt//Yl3d+8n0b0OuFsSBynPTLKsqQxushdJ6ZbQuQlWCFwicQAk3/TZ4Mh3qN6k
-         Igrw==
-X-Gm-Message-State: APjAAAXWMLBvXqFaOB7BBe+EtK3EawWpc9SkaytZENfs25OqcGpAgqet
-        h5+M8sXacipXGGldV4yZF5w=
-X-Google-Smtp-Source: APXvYqwatzTfNnv6S1Wgdobw7qtMufyuTFu57h2iiajodT0TTyLGILlwrVsoBD8jHQDyecaxVxCO0Q==
-X-Received: by 2002:a17:902:968b:: with SMTP id n11mr39637747plp.118.1556206370992;
-        Thu, 25 Apr 2019 08:32:50 -0700 (PDT)
+        bh=5a/6MPsR4urKp6yQEMyiUcAMrF2FenVOvePurxnpdZ8=;
+        b=GZdYlO2TsS1Ptut+P6AmZ/d1H3j4mUCrkt8pYzDE2ViLz3VuU0cxdxKGUKt/pPGc1q
+         K+RRIijfT7cRSU6e24bvXpdyqe5QjRL6Y42vjqb8glhqggGygldXuIPOhMiKKfPRc9R8
+         BUMkJQn2SO2dKuMdMTwbs7HRGGBTePazG7yLpt6cPiRcKM37TdWxSxpLnpZfWV+SE/7M
+         FPkDHdFQiDWT8FpuPu3LDUnigzKt9Br84oKAji7Tqxixtn5/TWptj8FomOLjr/ejda8S
+         TC927kaGSc+c2GuFyiXFS6VCVSlhDKI2cS1ylAZNcGmEJgAvfu4p2BUsx0wdDc+bDnNa
+         YETg==
+X-Gm-Message-State: APjAAAWS+gYpuy8VLVDv7SbdCySVcEUE+Uyf0k8ZqyWynSxGatKrGnNC
+        O5b6CmI/KbvRSp2oY45v8C2PBTnc
+X-Google-Smtp-Source: APXvYqyD82rg0mi82mhLm44kgfK1nVbiS1CcHAwNaq0u8ox19Zj+Cp7hQO6CnorxaLYLJIXtAwc90A==
+X-Received: by 2002:a63:6581:: with SMTP id z123mr38514410pgb.243.1556206406976;
+        Thu, 25 Apr 2019 08:33:26 -0700 (PDT)
 Received: from localhost.localdomain ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id c14sm2643363pgj.94.2019.04.25.08.32.45
+        by smtp.gmail.com with ESMTPSA id c14sm2643363pgj.94.2019.04.25.08.33.21
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 25 Apr 2019 08:32:50 -0700 (PDT)
+        Thu, 25 Apr 2019 08:33:26 -0700 (PDT)
 From:   Changbin Du <changbin.du@gmail.com>
 To:     rjw@rjwysocki.net, Jonathan Corbet <corbet@lwn.net>
 Cc:     Bjorn Helgaas <bhelgaas@google.com>, linux-doc@vger.kernel.org,
@@ -55,9 +55,9 @@ Cc:     Bjorn Helgaas <bhelgaas@google.com>, linux-doc@vger.kernel.org,
         linuxppc-dev@lists.ozlabs.org, linux-acpi@vger.kernel.org,
         linux-gpio@vger.kernel.org, mchehab+samsung@kernel.org,
         Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH v6 13/24] Documentation: ACPI: move acpi-lid.txt to firmware-guide/acpi and convert to reST
-Date:   Thu, 25 Apr 2019 23:31:06 +0800
-Message-Id: <20190425153117.16057-14-changbin.du@gmail.com>
+Subject: [PATCH v6 19/24] Documentation: ACPI: move apei/output_format.txt to firmware-guide/acpi and convert to reST
+Date:   Thu, 25 Apr 2019 23:31:12 +0800
+Message-Id: <20190425153117.16057-20-changbin.du@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190425153117.16057-1-changbin.du@gmail.com>
 References: <20190425153117.16057-1-changbin.du@gmail.com>
@@ -74,141 +74,334 @@ add it to Sphinx TOC tree. No essential content change.
 Signed-off-by: Changbin Du <changbin.du@gmail.com>
 Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- .../acpi/acpi-lid.rst}                        | 40 ++++++++++++++-----
- Documentation/firmware-guide/acpi/index.rst   |  1 +
- 2 files changed, 30 insertions(+), 11 deletions(-)
- rename Documentation/{acpi/acpi-lid.txt => firmware-guide/acpi/acpi-lid.rst} (86%)
+ Documentation/acpi/apei/output_format.txt     | 147 -----------------
+ .../acpi/apei/output_format.rst               | 150 ++++++++++++++++++
+ Documentation/firmware-guide/acpi/index.rst   |   1 +
+ 3 files changed, 151 insertions(+), 147 deletions(-)
+ delete mode 100644 Documentation/acpi/apei/output_format.txt
+ create mode 100644 Documentation/firmware-guide/acpi/apei/output_format.rst
 
-diff --git a/Documentation/acpi/acpi-lid.txt b/Documentation/firmware-guide/acpi/acpi-lid.rst
-similarity index 86%
-rename from Documentation/acpi/acpi-lid.txt
-rename to Documentation/firmware-guide/acpi/acpi-lid.rst
-index effe7af3a5af..874ce0ed340d 100644
---- a/Documentation/acpi/acpi-lid.txt
-+++ b/Documentation/firmware-guide/acpi/acpi-lid.rst
-@@ -1,13 +1,18 @@
--Special Usage Model of the ACPI Control Method Lid Device
+diff --git a/Documentation/acpi/apei/output_format.txt b/Documentation/acpi/apei/output_format.txt
+deleted file mode 100644
+index 0c49c197c47a..000000000000
+--- a/Documentation/acpi/apei/output_format.txt
++++ /dev/null
+@@ -1,147 +0,0 @@
+-                     APEI output format
+-                     ~~~~~~~~~~~~~~~~~~
+-
+-APEI uses printk as hardware error reporting interface, the output
+-format is as follow.
+-
+-<error record> :=
+-APEI generic hardware error status
+-severity: <integer>, <severity string>
+-section: <integer>, severity: <integer>, <severity string>
+-flags: <integer>
+-<section flags strings>
+-fru_id: <uuid string>
+-fru_text: <string>
+-section_type: <section type string>
+-<section data>
+-
+-<severity string>* := recoverable | fatal | corrected | info
+-
+-<section flags strings># :=
+-[primary][, containment warning][, reset][, threshold exceeded]\
+-[, resource not accessible][, latent error]
+-
+-<section type string> := generic processor error | memory error | \
+-PCIe error | unknown, <uuid string>
+-
+-<section data> :=
+-<generic processor section data> | <memory section data> | \
+-<pcie section data> | <null>
+-
+-<generic processor section data> :=
+-[processor_type: <integer>, <proc type string>]
+-[processor_isa: <integer>, <proc isa string>]
+-[error_type: <integer>
+-<proc error type strings>]
+-[operation: <integer>, <proc operation string>]
+-[flags: <integer>
+-<proc flags strings>]
+-[level: <integer>]
+-[version_info: <integer>]
+-[processor_id: <integer>]
+-[target_address: <integer>]
+-[requestor_id: <integer>]
+-[responder_id: <integer>]
+-[IP: <integer>]
+-
+-<proc type string>* := IA32/X64 | IA64
+-
+-<proc isa string>* := IA32 | IA64 | X64
+-
+-<processor error type strings># :=
+-[cache error][, TLB error][, bus error][, micro-architectural error]
+-
+-<proc operation string>* := unknown or generic | data read | data write | \
+-instruction execution
+-
+-<proc flags strings># :=
+-[restartable][, precise IP][, overflow][, corrected]
+-
+-<memory section data> :=
+-[error_status: <integer>]
+-[physical_address: <integer>]
+-[physical_address_mask: <integer>]
+-[node: <integer>]
+-[card: <integer>]
+-[module: <integer>]
+-[bank: <integer>]
+-[device: <integer>]
+-[row: <integer>]
+-[column: <integer>]
+-[bit_position: <integer>]
+-[requestor_id: <integer>]
+-[responder_id: <integer>]
+-[target_id: <integer>]
+-[error_type: <integer>, <mem error type string>]
+-
+-<mem error type string>* :=
+-unknown | no error | single-bit ECC | multi-bit ECC | \
+-single-symbol chipkill ECC | multi-symbol chipkill ECC | master abort | \
+-target abort | parity error | watchdog timeout | invalid address | \
+-mirror Broken | memory sparing | scrub corrected error | \
+-scrub uncorrected error
+-
+-<pcie section data> :=
+-[port_type: <integer>, <pcie port type string>]
+-[version: <integer>.<integer>]
+-[command: <integer>, status: <integer>]
+-[device_id: <integer>:<integer>:<integer>.<integer>
+-slot: <integer>
+-secondary_bus: <integer>
+-vendor_id: <integer>, device_id: <integer>
+-class_code: <integer>]
+-[serial number: <integer>, <integer>]
+-[bridge: secondary_status: <integer>, control: <integer>]
+-[aer_status: <integer>, aer_mask: <integer>
+-<aer status string>
+-[aer_uncor_severity: <integer>]
+-aer_layer=<aer layer string>, aer_agent=<aer agent string>
+-aer_tlp_header: <integer> <integer> <integer> <integer>]
+-
+-<pcie port type string>* := PCIe end point | legacy PCI end point | \
+-unknown | unknown | root port | upstream switch port | \
+-downstream switch port | PCIe to PCI/PCI-X bridge | \
+-PCI/PCI-X to PCIe bridge | root complex integrated endpoint device | \
+-root complex event collector
+-
+-if section severity is fatal or recoverable
+-<aer status string># :=
+-unknown | unknown | unknown | unknown | Data Link Protocol | \
+-unknown | unknown | unknown | unknown | unknown | unknown | unknown | \
+-Poisoned TLP | Flow Control Protocol | Completion Timeout | \
+-Completer Abort | Unexpected Completion | Receiver Overflow | \
+-Malformed TLP | ECRC | Unsupported Request
+-else
+-<aer status string># :=
+-Receiver Error | unknown | unknown | unknown | unknown | unknown | \
+-Bad TLP | Bad DLLP | RELAY_NUM Rollover | unknown | unknown | unknown | \
+-Replay Timer Timeout | Advisory Non-Fatal
+-fi
+-
+-<aer layer string> :=
+-Physical Layer | Data Link Layer | Transaction Layer
+-
+-<aer agent string> :=
+-Receiver ID | Requester ID | Completer ID | Transmitter ID
+-
+-Where, [] designate corresponding content is optional
+-
+-All <field string> description with * has the following format:
+-
+-field: <integer>, <field string>
+-
+-Where value of <integer> should be the position of "string" in <field
+-string> description. Otherwise, <field string> will be "unknown".
+-
+-All <field strings> description with # has the following format:
+-
+-field: <integer>
+-<field strings>
+-
+-Where each string in <fields strings> corresponding to one set bit of
+-<integer>. The bit position is the position of "string" in <field
+-strings> description.
+-
+-For more detailed explanation of every field, please refer to UEFI
+-specification version 2.3 or later, section Appendix N: Common
+-Platform Error Record.
+diff --git a/Documentation/firmware-guide/acpi/apei/output_format.rst b/Documentation/firmware-guide/acpi/apei/output_format.rst
+new file mode 100644
+index 000000000000..c2e7ebddb529
+--- /dev/null
++++ b/Documentation/firmware-guide/acpi/apei/output_format.rst
+@@ -0,0 +1,150 @@
 +.. SPDX-License-Identifier: GPL-2.0
-+.. include:: <isonum.txt>
- 
--Copyright (C) 2016, Intel Corporation
--Author: Lv Zheng <lv.zheng@intel.com>
-+=========================================================
-+Special Usage Model of the ACPI Control Method Lid Device
-+=========================================================
- 
-+:Copyright: |copy| 2016, Intel Corporation
- 
--Abstract:
-+:Author: Lv Zheng <lv.zheng@intel.com>
- 
--Platforms containing lids convey lid state (open/close) to OSPMs using a
--control method lid device. To implement this, the AML tables issue
-+Abstract
-+========
-+Platforms containing lids convey lid state (open/close) to OSPMs
-+using a control method lid device. To implement this, the AML tables issue
- Notify(lid_device, 0x80) to notify the OSPMs whenever the lid state has
- changed. The _LID control method for the lid device must be implemented to
- report the "current" state of the lid as either "opened" or "closed".
-@@ -19,7 +24,8 @@ taken into account. This document describes the restrictions and the
- expections of the Linux ACPI lid device driver.
- 
- 
--1. Restrictions of the returning value of the _LID control method
-+Restrictions of the returning value of the _LID control method
-+==============================================================
- 
- The _LID control method is described to return the "current" lid state.
- However the word of "current" has ambiguity, some buggy AML tables return
-@@ -30,7 +36,8 @@ initial returning value. When the AML tables implement this control method
- with cached value, the initial returning value is likely not reliable.
- There are platforms always retun "closed" as initial lid state.
- 
--2. Restrictions of the lid state change notifications
-+Restrictions of the lid state change notifications
-+==================================================
- 
- There are buggy AML tables never notifying when the lid device state is
- changed to "opened". Thus the "opened" notification is not guaranteed. But
-@@ -39,18 +46,22 @@ state is changed to "closed". The "closed" notification is normally used to
- trigger some system power saving operations on Windows. Since it is fully
- tested, it is reliable from all AML tables.
- 
--3. Expections for the userspace users of the ACPI lid device driver
-+Expections for the userspace users of the ACPI lid device driver
-+================================================================
- 
- The ACPI button driver exports the lid state to the userspace via the
--following file:
-+following file::
 +
-   /proc/acpi/button/lid/LID0/state
++==================
++APEI output format
++==================
 +
- This file actually calls the _LID control method described above. And given
- the previous explanation, it is not reliable enough on some platforms. So
- it is advised for the userspace program to not to solely rely on this file
- to determine the actual lid state.
- 
- The ACPI button driver emits the following input event to the userspace:
--  SW_LID
-+  * SW_LID
++APEI uses printk as hardware error reporting interface, the output
++format is as follow::
 +
- The ACPI lid device driver is implemented to try to deliver the platform
- triggered events to the userspace. However, given the fact that the buggy
- firmware cannot make sure "opened"/"closed" events are paired, the ACPI
-@@ -59,20 +70,25 @@ button driver uses the following 3 modes in order not to trigger issues.
- If the userspace hasn't been prepared to ignore the unreliable "opened"
- events and the unreliable initial state notification, Linux users can use
- the following kernel parameters to handle the possible issues:
++        <error record> :=
++        APEI generic hardware error status
++        severity: <integer>, <severity string>
++        section: <integer>, severity: <integer>, <severity string>
++        flags: <integer>
++        <section flags strings>
++        fru_id: <uuid string>
++        fru_text: <string>
++        section_type: <section type string>
++        <section data>
 +
- A. button.lid_init_state=method:
-    When this option is specified, the ACPI button driver reports the
-    initial lid state using the returning value of the _LID control method
-    and whether the "opened"/"closed" events are paired fully relies on the
-    firmware implementation.
++        <severity string>* := recoverable | fatal | corrected | info
 +
-    This option can be used to fix some platforms where the returning value
-    of the _LID control method is reliable but the initial lid state
-    notification is missing.
++        <section flags strings># :=
++        [primary][, containment warning][, reset][, threshold exceeded]\
++        [, resource not accessible][, latent error]
 +
-    This option is the default behavior during the period the userspace
-    isn't ready to handle the buggy AML tables.
++        <section type string> := generic processor error | memory error | \
++        PCIe error | unknown, <uuid string>
 +
- B. button.lid_init_state=open:
-    When this option is specified, the ACPI button driver always reports the
-    initial lid state as "opened" and whether the "opened"/"closed" events
-    are paired fully relies on the firmware implementation.
++        <section data> :=
++        <generic processor section data> | <memory section data> | \
++        <pcie section data> | <null>
 +
-    This may fix some platforms where the returning value of the _LID
-    control method is not reliable and the initial lid state notification is
-    missing.
-@@ -80,6 +96,7 @@ B. button.lid_init_state=open:
- If the userspace has been prepared to ignore the unreliable "opened" events
- and the unreliable initial state notification, Linux users should always
- use the following kernel parameter:
++        <generic processor section data> :=
++        [processor_type: <integer>, <proc type string>]
++        [processor_isa: <integer>, <proc isa string>]
++        [error_type: <integer>
++        <proc error type strings>]
++        [operation: <integer>, <proc operation string>]
++        [flags: <integer>
++        <proc flags strings>]
++        [level: <integer>]
++        [version_info: <integer>]
++        [processor_id: <integer>]
++        [target_address: <integer>]
++        [requestor_id: <integer>]
++        [responder_id: <integer>]
++        [IP: <integer>]
 +
- C. button.lid_init_state=ignore:
-    When this option is specified, the ACPI button driver never reports the
-    initial lid state and there is a compensation mechanism implemented to
-@@ -89,6 +106,7 @@ C. button.lid_init_state=ignore:
-    notifications can be delivered to the userspace when the lid is actually
-    opens given that some AML tables do not send "opened" notifications
-    reliably.
++        <proc type string>* := IA32/X64 | IA64
 +
-    In this mode, if everything is correctly implemented by the platform
-    firmware, the old userspace programs should still work. Otherwise, the
-    new userspace programs are required to work with the ACPI button driver.
++        <proc isa string>* := IA32 | IA64 | X64
++
++        <processor error type strings># :=
++        [cache error][, TLB error][, bus error][, micro-architectural error]
++
++        <proc operation string>* := unknown or generic | data read | data write | \
++        instruction execution
++
++        <proc flags strings># :=
++        [restartable][, precise IP][, overflow][, corrected]
++
++        <memory section data> :=
++        [error_status: <integer>]
++        [physical_address: <integer>]
++        [physical_address_mask: <integer>]
++        [node: <integer>]
++        [card: <integer>]
++        [module: <integer>]
++        [bank: <integer>]
++        [device: <integer>]
++        [row: <integer>]
++        [column: <integer>]
++        [bit_position: <integer>]
++        [requestor_id: <integer>]
++        [responder_id: <integer>]
++        [target_id: <integer>]
++        [error_type: <integer>, <mem error type string>]
++
++        <mem error type string>* :=
++        unknown | no error | single-bit ECC | multi-bit ECC | \
++        single-symbol chipkill ECC | multi-symbol chipkill ECC | master abort | \
++        target abort | parity error | watchdog timeout | invalid address | \
++        mirror Broken | memory sparing | scrub corrected error | \
++        scrub uncorrected error
++
++        <pcie section data> :=
++        [port_type: <integer>, <pcie port type string>]
++        [version: <integer>.<integer>]
++        [command: <integer>, status: <integer>]
++        [device_id: <integer>:<integer>:<integer>.<integer>
++        slot: <integer>
++        secondary_bus: <integer>
++        vendor_id: <integer>, device_id: <integer>
++        class_code: <integer>]
++        [serial number: <integer>, <integer>]
++        [bridge: secondary_status: <integer>, control: <integer>]
++        [aer_status: <integer>, aer_mask: <integer>
++        <aer status string>
++        [aer_uncor_severity: <integer>]
++        aer_layer=<aer layer string>, aer_agent=<aer agent string>
++        aer_tlp_header: <integer> <integer> <integer> <integer>]
++
++        <pcie port type string>* := PCIe end point | legacy PCI end point | \
++        unknown | unknown | root port | upstream switch port | \
++        downstream switch port | PCIe to PCI/PCI-X bridge | \
++        PCI/PCI-X to PCIe bridge | root complex integrated endpoint device | \
++        root complex event collector
++
++        if section severity is fatal or recoverable
++        <aer status string># :=
++        unknown | unknown | unknown | unknown | Data Link Protocol | \
++        unknown | unknown | unknown | unknown | unknown | unknown | unknown | \
++        Poisoned TLP | Flow Control Protocol | Completion Timeout | \
++        Completer Abort | Unexpected Completion | Receiver Overflow | \
++        Malformed TLP | ECRC | Unsupported Request
++        else
++        <aer status string># :=
++        Receiver Error | unknown | unknown | unknown | unknown | unknown | \
++        Bad TLP | Bad DLLP | RELAY_NUM Rollover | unknown | unknown | unknown | \
++        Replay Timer Timeout | Advisory Non-Fatal
++        fi
++
++        <aer layer string> :=
++        Physical Layer | Data Link Layer | Transaction Layer
++
++        <aer agent string> :=
++        Receiver ID | Requester ID | Completer ID | Transmitter ID
++
++Where, [] designate corresponding content is optional
++
++All <field string> description with * has the following format::
++
++        field: <integer>, <field string>
++
++Where value of <integer> should be the position of "string" in <field
++string> description. Otherwise, <field string> will be "unknown".
++
++All <field strings> description with # has the following format::
++
++        field: <integer>
++        <field strings>
++
++Where each string in <fields strings> corresponding to one set bit of
++<integer>. The bit position is the position of "string" in <field
++strings> description.
++
++For more detailed explanation of every field, please refer to UEFI
++specification version 2.3 or later, section Appendix N: Common
++Platform Error Record.
 diff --git a/Documentation/firmware-guide/acpi/index.rst b/Documentation/firmware-guide/acpi/index.rst
-index 1c89888f6ee8..bedcb0b242a2 100644
+index e9f253d54897..869badba6d7a 100644
 --- a/Documentation/firmware-guide/acpi/index.rst
 +++ b/Documentation/firmware-guide/acpi/index.rst
-@@ -14,3 +14,4 @@ ACPI Support
+@@ -17,6 +17,7 @@ ACPI Support
     DSD-properties-rules
+    debug
+    aml-debugger
++   apei/output_format
     gpio-properties
     i2c-muxes
-+   acpi-lid
-\ No newline at end of file
+    acpi-lid
 -- 
 2.20.1
 
