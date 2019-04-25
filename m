@@ -1,141 +1,187 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 51EEA7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Apr 2019 09:18:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1AE4B7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Apr 2019 11:02:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727950AbfDYJRs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 25 Apr 2019 05:17:48 -0400
-Received: from mx07-00178001.pphosted.com ([62.209.51.94]:37911 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726887AbfDYJRr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Apr 2019 05:17:47 -0400
-Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x3P91Rgv023616;
-        Thu, 25 Apr 2019 11:17:31 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-type; s=STMicroelectronics;
- bh=YxS1CmFL4QUjGza2F9ElVAd/BnjMK/K8FnWYOu39aEY=;
- b=CKcL4ouOzvK6j6Z3lB1aJDZeXhk4CLwcPkktnry9uxvq8ZSdCogCTERnNiXRgcYvfP9g
- 0iqjMC35nMDV07nmBhN2ohR2ojdU9n6gAu8DFGh8/4OCj3q9VRh/jqnxlfWVTLb9lf7m
- Wo7oN4OEVSwrh+V8xq1zjUOu+XD0Pch9JJxhdwb9haN1XcXJdn7/XoRI91Hrj6xBfNXn
- kI1OTQ3gBBG3XFsQrcjv1b0G0Wcjytpb38/Ui80xMl1EROsRVrnwlkyJe+uQNFBVbmdO
- MfOYhQ+hg/HhZoCwUIrRvNeE0Y038caYMUb1ajdKQNbmOKo+4LUTpkep0fNmY3YZa/Td +w== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 2rys6s2m27-1
-        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Thu, 25 Apr 2019 11:17:31 +0200
-Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 0A91334;
-        Thu, 25 Apr 2019 09:17:31 +0000 (GMT)
-Received: from Webmail-eu.st.com (Safex1hubcas21.st.com [10.75.90.44])
-        by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id D0A791615;
-        Thu, 25 Apr 2019 09:17:30 +0000 (GMT)
-Received: from SAFEX1HUBCAS23.st.com (10.75.90.47) by SAFEX1HUBCAS21.st.com
- (10.75.90.44) with Microsoft SMTP Server (TLS) id 14.3.361.1; Thu, 25 Apr
- 2019 11:17:30 +0200
-Received: from localhost (10.201.23.25) by webmail-ga.st.com (10.75.90.48)
- with Microsoft SMTP Server (TLS) id 14.3.439.0; Thu, 25 Apr 2019 11:17:30
- +0200
-From:   Fabien Dessenne <fabien.dessenne@st.com>
-To:     Ohad Ben-Cohen <ohad@wizery.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
+        id S1729540AbfDYLCT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 25 Apr 2019 07:02:19 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:41036 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726626AbfDYLCT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 25 Apr 2019 07:02:19 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CA3E8374;
+        Thu, 25 Apr 2019 04:02:18 -0700 (PDT)
+Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 11F493F5C1;
+        Thu, 25 Apr 2019 04:02:13 -0700 (PDT)
+Date:   Thu, 25 Apr 2019 12:02:11 +0100
+From:   Dave Martin <Dave.Martin@arm.com>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        <linux-remoteproc@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>
-CC:     Fabien Dessenne <fabien.dessenne@st.com>,
-        Benjamin Gaignard <benjamin.gaignard@st.com>
-Subject: [PATCH v2 1/6] dt-bindings: hwlock: add support of shared locks
-Date:   Thu, 25 Apr 2019 11:17:18 +0200
-Message-ID: <1556183843-28033-2-git-send-email-fabien.dessenne@st.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1556183843-28033-1-git-send-email-fabien.dessenne@st.com>
-References: <1556183843-28033-1-git-send-email-fabien.dessenne@st.com>
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Subject: Re: [RFC PATCH v6 22/26] x86/cet/shstk: ELF header parsing of Shadow
+ Stack
+Message-ID: <20190425110211.GZ3567@e103592.cambridge.arm.com>
+References: <20181119214809.6086-1-yu-cheng.yu@intel.com>
+ <20181119214809.6086-23-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.201.23.25]
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-04-25_08:,,
- signatures=0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181119214809.6086-23-yu-cheng.yu@intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Use #hwlock-cells value to define whether the locks can be shared
-by several users.
+On Mon, Nov 19, 2018 at 01:48:05PM -0800, Yu-cheng Yu wrote:
+> Look in .note.gnu.property of an ELF file and check if Shadow Stack needs
+> to be enabled for the task.
 
-Signed-off-by: Fabien Dessenne <fabien.dessenne@st.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
----
- .../devicetree/bindings/hwlock/hwlock.txt          | 27 ++++++++++++++++------
- 1 file changed, 20 insertions(+), 7 deletions(-)
+What's the status of this series?  I don't see anything in linux-next
+yet.
 
-diff --git a/Documentation/devicetree/bindings/hwlock/hwlock.txt b/Documentation/devicetree/bindings/hwlock/hwlock.txt
-index 085d1f5..e98088a 100644
---- a/Documentation/devicetree/bindings/hwlock/hwlock.txt
-+++ b/Documentation/devicetree/bindings/hwlock/hwlock.txt
-@@ -13,7 +13,7 @@ hwlock providers:
- 
- Required properties:
- - #hwlock-cells:        Specifies the number of cells needed to represent a
--                        specific lock.
-+                        specific lock. Shall be 1 or 2 (see hwlocks below).
- 
- hwlock users:
- =============
-@@ -27,6 +27,11 @@ Required properties:
-                         #hwlock-cells. The list can have just a single hwlock
-                         or multiple hwlocks, with each hwlock represented by
-                         a phandle and a corresponding args specifier.
-+                        If #hwlock-cells is 1, all of the locks are exclusive
-+                        (cannot be used by several users).
-+                        If #hwlock-cells is 2, the value of the second cell
-+                        defines whether the lock is for exclusive usage (0) or
-+                        shared (1) i.e. can be used by several users.
- 
- Optional properties:
- - hwlock-names:         List of hwlock name strings defined in the same order
-@@ -46,14 +51,22 @@ of length 1.
- 		...
- 	};
- 
--2. Example of a node using multiple specific hwlocks:
-+2. Example of nodes using multiple and shared specific hwlocks:
- 
--The following example has a node requesting two hwlocks, a hwlock within
--the hwlock device node 'hwlock1' with #hwlock-cells value of 1, and another
--hwlock within the hwlock device node 'hwlock2' with #hwlock-cells value of 2.
-+The following example has a nodeA requesting two hwlocks:
-+- an exclusive one (#hwlock-cells = 1) within the hwlock device node 'hwlock1'
-+- a shared one (#hwlock-cells = 2, second cell = 1) within the hwlock device
-+  node 'hwlock2'.
-+The shared lock is also be used by nodeB.
- 
--	node {
-+	nodeA {
- 		...
--		hwlocks = <&hwlock1 2>, <&hwlock2 0 3>;
-+		hwlocks = <&hwlock1 2>, <&hwlock2 0 1>;
- 		...
- 	};
-+
-+	nodeB {
-+		...
-+		hwlocks = <&hwlock2 0 1>;
-+		...
-+	};
-\ No newline at end of file
--- 
-2.7.4
+For describing ELF features, Arm has recently adopted
+NT_GNU_PROPERTY_TYPE_0, with properties closely modelled on
+GNU_PROPERTY_X86_FEATURE_1_AND etc. [1]
 
+So, arm64 will be need something like this patch for supporting new
+features (such as the Branch Target Identification feature of ARMv8.5-A
+[2]).
+
+If this series isn't likely to merge soon, can we split this patch into
+generic and x86-specific parts and handle them separately?
+
+It would be good to see the generic ELF note parsing move to common
+code -- I'll take a look and comment in more detail.
+
+[...]
+
+> diff --git a/arch/x86/include/asm/elf.h b/arch/x86/include/asm/elf.h
+> index 69c0f892e310..557ed0ba71c7 100644
+> --- a/arch/x86/include/asm/elf.h
+> +++ b/arch/x86/include/asm/elf.h
+> @@ -381,4 +381,9 @@ struct va_alignment {
+>  
+>  extern struct va_alignment va_align;
+>  extern unsigned long align_vdso_addr(unsigned long);
+> +
+> +#ifdef CONFIG_ARCH_HAS_PROGRAM_PROPERTIES
+> +extern int arch_setup_features(void *ehdr, void *phdr, struct file *file,
+> +			       bool interp);
+> +#endif
+>  #endif /* _ASM_X86_ELF_H */
+> diff --git a/arch/x86/include/uapi/asm/elf_property.h b/arch/x86/include/uapi/asm/elf_property.h
+> new file mode 100644
+> index 000000000000..af361207718c
+> --- /dev/null
+> +++ b/arch/x86/include/uapi/asm/elf_property.h
+> @@ -0,0 +1,15 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef _UAPI_ASM_X86_ELF_PROPERTY_H
+> +#define _UAPI_ASM_X86_ELF_PROPERTY_H
+> +
+> +/*
+> + * pr_type
+> + */
+> +#define GNU_PROPERTY_X86_FEATURE_1_AND (0xc0000002)
+> +
+> +/*
+> + * Bits for GNU_PROPERTY_X86_FEATURE_1_AND
+> + */
+> +#define GNU_PROPERTY_X86_FEATURE_1_SHSTK	(0x00000002)
+> +
+
+Generally we seem to collect all ELF definitions in <linux/uapi/elf.h>,
+including arch-specific ones.
+
+Is a new header really needed here?
+
+[...]
+
+> diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
+> index 54207327f98f..007ff0fbae84 100644
+> --- a/fs/binfmt_elf.c
+> +++ b/fs/binfmt_elf.c
+> @@ -1081,6 +1081,21 @@ static int load_elf_binary(struct linux_binprm *bprm)
+>  		goto out_free_dentry;
+>  	}
+>  
+> +#ifdef CONFIG_ARCH_HAS_PROGRAM_PROPERTIES
+> +	if (interpreter) {
+> +		retval = arch_setup_features(&loc->interp_elf_ex,
+> +					     interp_elf_phdata,
+> +					     interpreter, true);
+
+Can we dummy no-op functions in the common headers to avoid this
+ifdeffery?  Logically all arches will always do this step, even if it's
+a no-op today.
+
+> +	} else {
+> +		retval = arch_setup_features(&loc->elf_ex,
+> +					     elf_phdata,
+> +					     bprm->file, false);
+> +	}
+> +
+> +	if (retval < 0)
+> +		goto out_free_dentry;
+> +#endif
+> +
+>  	if (elf_interpreter) {
+>  		unsigned long interp_map_addr = 0;
+>  
+> diff --git a/include/uapi/linux/elf.h b/include/uapi/linux/elf.h
+> index c5358e0ae7c5..5ef25a565e88 100644
+> --- a/include/uapi/linux/elf.h
+> +++ b/include/uapi/linux/elf.h
+> @@ -372,6 +372,7 @@ typedef struct elf64_shdr {
+>  #define NT_PRFPREG	2
+>  #define NT_PRPSINFO	3
+>  #define NT_TASKSTRUCT	4
+> +#define NT_GNU_PROPERTY_TYPE_0 5
+
+IIUC, note type codes are namespaced by the note name.  This section
+currently only seems to have codes for name == "LINUX".
+
+There are conflicts: for example NT_GNU_ABI_TAG == NT_PRSTATUS.
+
+We should probably split out the codes for name == "GNU" into a separate
+list, otherwise people are likely to get confused.
+
+As noted above, can the GNU_PRPOERTY_<arch>_* definitions just go in
+here instead of a separate header?
+
+[...]
+
+Cheers
+---Dave
+
+[1] https://developer.arm.com/docs/ihi0056/latest/elf-for-the-arm-64-bit-architecture-aarch64-abi-2019q1-documentation
+
+[2] https://community.arm.com/developer/ip-products/processors/b/processors-ip-blog/posts/arm-a-profile-architecture-2018-developments-armv85a
