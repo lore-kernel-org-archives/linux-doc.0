@@ -1,131 +1,73 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5993A7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Apr 2019 08:22:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 998777D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Apr 2019 08:44:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729064AbfDYIWw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 25 Apr 2019 04:22:52 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:54494 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726330AbfDYIWu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Apr 2019 04:22:50 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x3P84AnB132828
-        for <linux-doc@vger.kernel.org>; Thu, 25 Apr 2019 04:22:49 -0400
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2s378fwj25-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Thu, 25 Apr 2019 04:22:48 -0400
-Received: from localhost
-        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Thu, 25 Apr 2019 09:22:45 +0100
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
-        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Thu, 25 Apr 2019 09:22:43 +0100
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x3P8Mgcd46530680
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 25 Apr 2019 08:22:42 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id B0DCF11C052;
-        Thu, 25 Apr 2019 08:22:42 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id F2F1B11C058;
-        Thu, 25 Apr 2019 08:22:41 +0000 (GMT)
-Received: from rapoport-lnx (unknown [9.148.205.63])
-        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Thu, 25 Apr 2019 08:22:41 +0000 (GMT)
-Date:   Thu, 25 Apr 2019 11:22:40 +0300
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs/vm: add documentation of memory models
-References: <1556101715-31966-1-git-send-email-rppt@linux.ibm.com>
- <a4def881-1df0-6835-4b9a-dc957c979683@infradead.org>
+        id S1726884AbfDYIo2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 25 Apr 2019 04:44:28 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:46191 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725965AbfDYIo1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Apr 2019 04:44:27 -0400
+Received: by mail-oi1-f194.google.com with SMTP id l12so5603036oie.13;
+        Thu, 25 Apr 2019 01:44:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Bjt9UbhvtnUU4JF1Ugmh32U0petY5Yn4OCBHxmRAjRk=;
+        b=eXVovOSqqFaD22FpBoWsv41sqZwOu4iycZOlx3Wt2k6FY8krMv0kvZ5ya1bbY8Y6Ve
+         g4qZPN3Vm5tkACuIuYxWAJJVb62sDUi7krHBrvKxGuOYkLHN7a63LTF/iZzHa91gx2oW
+         zsyf6CTGoRvAl0lqr6WC1uvAgLlTTT77FADv2XtypBbrP790Hw5I9PC++xxrl8owKcgT
+         I65JXsIu4HORQYT3znJ8tlh7YlJl5dWxRjftzmdTKQNbR+D7t0YbnMRW6EXOsNNdVO3e
+         Iv7HT5R0EJ0I5Hw8tk4DhYwtK1dd/TXT2GaIS4BSwmrkzpH+AsncrkWSnjJIn+v5w3AS
+         Ns3g==
+X-Gm-Message-State: APjAAAWRTKS3ArbSmb5TdKQ+H8hvB3CC1Q7H23H/EWrSHMhrkpASZ2+V
+        KdZV7cPSgLTkibebM6GzrJfrIHuM6rpy96zUX8M=
+X-Google-Smtp-Source: APXvYqzanEsCHYgN6ChHqJF1LmTkEoNSTo+9Gyq2P+euIofGGYu9abx/xIveUmPQLvCRXgC5r9O3U8qgxIthy2setfg=
+X-Received: by 2002:aca:f511:: with SMTP id t17mr2363558oih.115.1556181866282;
+ Thu, 25 Apr 2019 01:44:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a4def881-1df0-6835-4b9a-dc957c979683@infradead.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 19042508-0008-0000-0000-000002DF50E6
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19042508-0009-0000-0000-0000224BA941
-Message-Id: <20190425082239.GC10625@rapoport-lnx>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-04-25_07:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1904250056
+References: <20190424175306.25880-1-changbin.du@gmail.com>
+In-Reply-To: <20190424175306.25880-1-changbin.du@gmail.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Thu, 25 Apr 2019 10:44:14 +0200
+Message-ID: <CAJZ5v0i3iEyn1vBjPkA0X=8h_UrSeTNV_JduJq9qfYpgCOAPjQ@mail.gmail.com>
+Subject: Re: [PATCH v5 00/23] Include linux ACPI docs into Sphinx TOC tree
+To:     Changbin Du <changbin.du@gmail.com>
+Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        linux-gpio@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Randy,
+.On Wed, Apr 24, 2019 at 7:54 PM Changbin Du <changbin.du@gmail.com> wrote:
+>
+> Hi All,
+> The kernel now uses Sphinx to generate intelligent and beautiful documentation
+> from reStructuredText files. I converted all of the Linux ACPI/PCI/X86 docs to
+> reST format in this serias.
+>
+> The hieararchy of ACPI docs are based on Corbet's suggestion:
+> https://lkml.org/lkml/2019/4/3/1047
+> I did some adjustment according to the content and finally they are placed as:
+> Documentation/firmware-guide/acpi/
 
-On Wed, Apr 24, 2019 at 06:08:46PM -0700, Randy Dunlap wrote:
-> On 4/24/19 3:28 AM, Mike Rapoport wrote:
-> > Describe what {FLAT,DISCONTIG,SPARSE}MEM are and how they manage to
-> > maintain pfn <-> struct page correspondence.
-> > 
-> > Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-> > ---
-> >  Documentation/vm/index.rst        |   1 +
-> >  Documentation/vm/memory-model.rst | 171 ++++++++++++++++++++++++++++++++++++++
-> >  2 files changed, 172 insertions(+)
-> >  create mode 100644 Documentation/vm/memory-model.rst
-> > 
-> 
-> Hi Mike,
-> I have a few minor edits below...
+I'd like to queue up this series, but it is missing a patch to create
+Documentation/firmware-guide/acpi/index.rst.
 
-I kinda expected those ;-)
-
-> > diff --git a/Documentation/vm/memory-model.rst b/Documentation/vm/memory-model.rst
-> > new file mode 100644
-> > index 0000000..914c52a
-> > --- /dev/null
-> > +++ b/Documentation/vm/memory-model.rst
-
-...
-
-> > +
-> > +With FLATMEM, the conversion between a PFN and the `struct page` is
-> > +straightforward: `PFN - ARCH_PFN_OFFSET` is an index to the
-> > +`mem_map` array.
-> > +
-> > +The `ARCH_PFN_OFFSET` defines the first page frame number for
-> > +systems that their physical memory does not start at 0.
-> 
-> s/that/when/ ?  Seems awkward as is.
-
-Yeah, it is awkward. How about
-
-The `ARCH_PFN_OFFSET` defines the first page frame number for
-systems with physical memory starting at address different from 0.
-
-> > +
-> > +DISCONTIGMEM
-> > +============
-> > +
-> 
-> thanks.
-> -- 
-> ~Randy
-> 
-
--- 
-Sincerely yours,
-Mike.
-
+Care to provide one?
