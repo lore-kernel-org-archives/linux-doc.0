@@ -6,48 +6,48 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 03A927D9ED
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Apr 2019 15:34:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 089DB7D910
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Apr 2019 15:34:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729434AbfDYPd6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 25 Apr 2019 11:33:58 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:41200 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727204AbfDYPd5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Apr 2019 11:33:57 -0400
-Received: by mail-pl1-f196.google.com with SMTP id d9so5352908pls.8;
-        Thu, 25 Apr 2019 08:33:57 -0700 (PDT)
+        id S2387574AbfDYPcW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 25 Apr 2019 11:32:22 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:33655 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387427AbfDYPcW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Apr 2019 11:32:22 -0400
+Received: by mail-pf1-f196.google.com with SMTP id h5so107222pfo.0;
+        Thu, 25 Apr 2019 08:32:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=pH04kRYyWalcfdxNFd/RcJuwybMGiJUgaT2sLCy0+qg=;
-        b=iN2o7l39vbfm3GPxdoByMVBRsNlBD00wuyCl6eGB8qlBWm0aQOqWxuTVaMBj7MOff2
-         1ysN3+coPGduTwY4VqISIt3BCyHmQ1PHAof2DQrt/yZte2Rq1KBS23L5YATJbajaIadF
-         iHXUpT6bdkmTZ+nk9T5UGWXC0vXn5czdAg9qfVoOXn/fsHAZP6zPBaTOBeiUHa7pOYj8
-         eIsXKYsAjXiG7xLXbbqQD/76GNZeUCLcdp3OQyj/CRLGiI9Qee/+6EQp6ZNxocWk3wh9
-         /2YDE+fhuaN2Zbq95YonJ3cQBKGiFeLWr68eUpMVtmDir+FCqXoeRh9wXTlGZ7SwLL1u
-         aZ+g==
+        bh=g2q5HZCs0wb1AiehSMCcBp9Dd3YROqUjTWd5HoUyXnI=;
+        b=qc5zN+a4lc9+gZzooB28qJSGFrGCGjklmAWMhmwsoAEXTeDtlxzsOPGdwSiNjX0E7v
+         ofFH29d5mv3hm+TU+6xlkhnq2URzTpt7CO+vZD/dGHUG82oF6mmLLTXqTWfABSjTWO9Y
+         VywMMpKESJg6x/2GmFw5Mb/wTqGEqlOMPsqZWOKbBIm/nrHRnZJvr0tG2DzAPBkpARrd
+         gFmoWvdlCayrkkomzo0MXL/ckOur5GdNBBrZ/rwipfIJcLRxlWfTiSBy9JKgnbwX6rjz
+         khqC1VdbRaw63WJQtVzfbn/yTEaQNtFnedtvWspVcebltzSs7hf3Jt4QygrZj0SP4Lm2
+         rpyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=pH04kRYyWalcfdxNFd/RcJuwybMGiJUgaT2sLCy0+qg=;
-        b=JSypXSBvpYeHjUWb6+Fb17TyhRxJFWgSryvH6UnCAMTLNEIiccyqPRTWT4WxkVEi1y
-         FWyo3rgHMGGtEzFRt3WoQYtoUHXmThkoSvPAAtM+qtIU0lcHdQ8d2YOvMFQdjrTvXUdJ
-         0TZetc1GJPVNLq0xEZ805r/EEJn7ouLngA9l7oxDm50WvPhvPQBTSTulXBBso84km69u
-         G1Iqu4l3xoeGkZjoo8z+9zIKoIf1u9vhNYtC/S83sgvpr9vjBcOU7DYyQrpmLbKTfmgO
-         TF6VMhXrluoVkaVscr3GIq6SvoA9kUdInACloB4/jX0TFrGsBVRqLa04/jKSkS4aZEtX
-         3D+g==
-X-Gm-Message-State: APjAAAXZBYBVb4ddbN6ozio/IYYzT/s5lGhiZE3lLltek34zYJtnEEz1
-        RI9blHCJzRogEWytNRwRxqY=
-X-Google-Smtp-Source: APXvYqzWkzGezzauzDXq+xcpyaqTeA6tKz0TdwasgTWJxjmapU525EUVsWXF6ZFMoSFWbH8xQsIOkQ==
-X-Received: by 2002:a17:902:9687:: with SMTP id n7mr5818167plp.105.1556206436680;
-        Thu, 25 Apr 2019 08:33:56 -0700 (PDT)
+        bh=g2q5HZCs0wb1AiehSMCcBp9Dd3YROqUjTWd5HoUyXnI=;
+        b=JQ8PkxtN+6iH1ssH4nXyRbJTrE/gH7DKx+a4P/QkvwtWeH4lXze5fvgpw+GeAPqPuh
+         BbKDeAc7fgFRNLK+BBrp2m3+TUhEzi8xTD/1jdY134S7IXnIszJPAobwmqa7MFXgCcou
+         QupuUU1OAvv3WtinpwLiS9t8V4lNZjvrPu6r6y2dnWpAekHms8B0zkj9okjRClas4BVw
+         OjktApKECdo9BTgD6bSrlyAr6FqQD8viRBuGYMckCa3SISkevu9fdpPnUpJFANs2fqju
+         3Iy6pkvApvxhEh0UInlpUtbxCen03eeX9DOLzodKikZC962dFMP9uC54DsBRzOf2hjJy
+         jOTw==
+X-Gm-Message-State: APjAAAX8lyFPmPeWIr5CAuh5TSIQg3qldShAo6W5syA4kFKDNwvKoHWi
+        Zq6EqTSog4FZokCK96Cn/xw=
+X-Google-Smtp-Source: APXvYqxDdhXKmMynQwtHV1SeokOJvTgGhvFPwrIKvfuxG94xp+2CM42C/EBIIrtgjdquoN/YWyEjXA==
+X-Received: by 2002:a65:51c8:: with SMTP id i8mr37475938pgq.175.1556206340605;
+        Thu, 25 Apr 2019 08:32:20 -0700 (PDT)
 Received: from localhost.localdomain ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id c14sm2643363pgj.94.2019.04.25.08.33.51
+        by smtp.gmail.com with ESMTPSA id c14sm2643363pgj.94.2019.04.25.08.32.15
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 25 Apr 2019 08:33:55 -0700 (PDT)
+        Thu, 25 Apr 2019 08:32:19 -0700 (PDT)
 From:   Changbin Du <changbin.du@gmail.com>
 To:     rjw@rjwysocki.net, Jonathan Corbet <corbet@lwn.net>
 Cc:     Bjorn Helgaas <bhelgaas@google.com>, linux-doc@vger.kernel.org,
@@ -55,9 +55,9 @@ Cc:     Bjorn Helgaas <bhelgaas@google.com>, linux-doc@vger.kernel.org,
         linuxppc-dev@lists.ozlabs.org, linux-acpi@vger.kernel.org,
         linux-gpio@vger.kernel.org, mchehab+samsung@kernel.org,
         Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH v6 24/24] Documentation: ACPI: move video_extension.txt to firmware-guide/acpi and convert to reST
-Date:   Thu, 25 Apr 2019 23:31:17 +0800
-Message-Id: <20190425153117.16057-25-changbin.du@gmail.com>
+Subject: [PATCH v6 08/24] Documentation: ACPI: move gpio-properties.txt to firmware-guide/acpi and convert to reST
+Date:   Thu, 25 Apr 2019 23:31:01 +0800
+Message-Id: <20190425153117.16057-9-changbin.du@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190425153117.16057-1-changbin.du@gmail.com>
 References: <20190425153117.16057-1-changbin.du@gmail.com>
@@ -74,169 +74,216 @@ add it to Sphinx TOC tree. No essential content change.
 Signed-off-by: Changbin Du <changbin.du@gmail.com>
 Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
+ .../acpi/gpio-properties.rst}                 | 78 +++++++++++--------
  Documentation/firmware-guide/acpi/index.rst   |  1 +
- .../acpi/video_extension.rst}                 | 85 +++++++++++--------
- 2 files changed, 52 insertions(+), 34 deletions(-)
- rename Documentation/{acpi/video_extension.txt => firmware-guide/acpi/video_extension.rst} (68%)
+ MAINTAINERS                                   |  2 +-
+ 3 files changed, 46 insertions(+), 35 deletions(-)
+ rename Documentation/{acpi/gpio-properties.txt => firmware-guide/acpi/gpio-properties.rst} (81%)
 
-diff --git a/Documentation/firmware-guide/acpi/index.rst b/Documentation/firmware-guide/acpi/index.rst
-index 0e60f4b7129a..ae609eec4679 100644
---- a/Documentation/firmware-guide/acpi/index.rst
-+++ b/Documentation/firmware-guide/acpi/index.rst
-@@ -23,3 +23,4 @@ ACPI Support
-    i2c-muxes
-    acpi-lid
-    lpit
-+   video_extension
-diff --git a/Documentation/acpi/video_extension.txt b/Documentation/firmware-guide/acpi/video_extension.rst
-similarity index 68%
-rename from Documentation/acpi/video_extension.txt
-rename to Documentation/firmware-guide/acpi/video_extension.rst
-index 79bf6a4921be..932fb47342a7 100644
---- a/Documentation/acpi/video_extension.txt
-+++ b/Documentation/firmware-guide/acpi/video_extension.rst
+diff --git a/Documentation/acpi/gpio-properties.txt b/Documentation/firmware-guide/acpi/gpio-properties.rst
+similarity index 81%
+rename from Documentation/acpi/gpio-properties.txt
+rename to Documentation/firmware-guide/acpi/gpio-properties.rst
+index 88c65cb5bf0a..bb6d74f23ee0 100644
+--- a/Documentation/acpi/gpio-properties.txt
++++ b/Documentation/firmware-guide/acpi/gpio-properties.rst
 @@ -1,5 +1,8 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+=====================
- ACPI video extensions
--~~~~~~~~~~~~~~~~~~~~~
-+=====================
++======================================
+ _DSD Device Properties Related to GPIO
+---------------------------------------
++======================================
  
- This driver implement the ACPI Extensions For Display Adapters for
- integrated graphics devices on motherboard, as specified in ACPI 2.0
-@@ -8,9 +11,12 @@ defining the video POST device, retrieving EDID information or to
- setup a video output, etc.  Note that this is an ref. implementation
- only.  It may or may not work for your integrated video device.
+ With the release of ACPI 5.1, the _DSD configuration object finally
+ allows names to be given to GPIOs (and other things as well) returned
+@@ -8,7 +11,7 @@ the corresponding GPIO, which is pretty error prone (it depends on
+ the _CRS output ordering, for example).
  
--The ACPI video driver does 3 things regarding backlight control:
-+The ACPI video driver exports the backlight control via a sysfs interface,
-+notifies userspace with events and changes the backlight level via ACPI
-+firmware, as detailed at the following chapters:
+ With _DSD we can now query GPIOs using a name instead of an integer
+-index, like the ASL example below shows:
++index, like the ASL example below shows::
  
--1 Export a sysfs interface for user space to control backlight level
-+Export a sysfs interface for user space to control backlight level
-+==================================================================
+   // Bluetooth device with reset and shutdown GPIOs
+   Device (BTH)
+@@ -34,15 +37,19 @@ index, like the ASL example below shows:
+       })
+   }
  
- If the ACPI table has a video device, and acpi_backlight=vendor kernel
- command line is not present, the driver will register a backlight device
-@@ -22,36 +28,41 @@ The backlight sysfs interface has a standard definition here:
- Documentation/ABI/stable/sysfs-class-backlight.
+-The format of the supported GPIO property is:
++The format of the supported GPIO property is::
  
- And what ACPI video driver does is:
--actual_brightness: on read, control method _BQC will be evaluated to
--get the brightness level the firmware thinks it is at;
--bl_power: not implemented, will set the current brightness instead;
--brightness: on write, control method _BCM will run to set the requested
--brightness level;
--max_brightness: Derived from the _BCL package(see below);
--type: firmware
+   Package () { "name", Package () { ref, index, pin, active_low }}
+ 
+-  ref - The device that has _CRS containing GpioIo()/GpioInt() resources,
+-        typically this is the device itself (BTH in our case).
+-  index - Index of the GpioIo()/GpioInt() resource in _CRS starting from zero.
+-  pin - Pin in the GpioIo()/GpioInt() resource. Typically this is zero.
+-  active_low - If 1 the GPIO is marked as active_low.
++ref
++  The device that has _CRS containing GpioIo()/GpioInt() resources,
++  typically this is the device itself (BTH in our case).
++index
++  Index of the GpioIo()/GpioInt() resource in _CRS starting from zero.
++pin
++  Pin in the GpioIo()/GpioInt() resource. Typically this is zero.
++active_low
++  If 1 the GPIO is marked as active_low.
+ 
+ Since ACPI GpioIo() resource does not have a field saying whether it is
+ active low or high, the "active_low" argument can be used here.  Setting
+@@ -55,7 +62,7 @@ It is possible to leave holes in the array of GPIOs. This is useful in
+ cases like with SPI host controllers where some chip selects may be
+ implemented as GPIOs and some as native signals. For example a SPI host
+ controller can have chip selects 0 and 2 implemented as GPIOs and 1 as
+-native:
++native::
+ 
+   Package () {
+       "cs-gpios",
+@@ -67,7 +74,7 @@ native:
+   }
+ 
+ Other supported properties
+---------------------------
++==========================
+ 
+ Following Device Tree compatible device properties are also supported by
+ _DSD device properties for GPIO controllers:
+@@ -78,7 +85,7 @@ _DSD device properties for GPIO controllers:
+ - input
+ - line-name
+ 
+-Example:
++Example::
+ 
+   Name (_DSD, Package () {
+       // _DSD Hierarchical Properties Extension UUID
+@@ -100,7 +107,7 @@ Example:
+ 
+ - gpio-line-names
+ 
+-Example:
++Example::
+ 
+   Package () {
+       "gpio-line-names",
+@@ -114,7 +121,7 @@ See Documentation/devicetree/bindings/gpio/gpio.txt for more information
+ about these properties.
+ 
+ ACPI GPIO Mappings Provided by Drivers
+---------------------------------------
++======================================
+ 
+ There are systems in which the ACPI tables do not contain _DSD but provide _CRS
+ with GpioIo()/GpioInt() resources and device drivers still need to work with
+@@ -139,16 +146,16 @@ line in that resource starting from zero, and the active-low flag for that line,
+ respectively, in analogy with the _DSD GPIO property format specified above.
+ 
+ For the example Bluetooth device discussed previously the data structures in
+-question would look like this:
++question would look like this::
+ 
+-static const struct acpi_gpio_params reset_gpio = { 1, 1, false };
+-static const struct acpi_gpio_params shutdown_gpio = { 0, 0, false };
++  static const struct acpi_gpio_params reset_gpio = { 1, 1, false };
++  static const struct acpi_gpio_params shutdown_gpio = { 0, 0, false };
+ 
+-static const struct acpi_gpio_mapping bluetooth_acpi_gpios[] = {
+-  { "reset-gpios", &reset_gpio, 1 },
+-  { "shutdown-gpios", &shutdown_gpio, 1 },
+-  { },
+-};
++  static const struct acpi_gpio_mapping bluetooth_acpi_gpios[] = {
++    { "reset-gpios", &reset_gpio, 1 },
++    { "shutdown-gpios", &shutdown_gpio, 1 },
++    { },
++  };
+ 
+ Next, the mapping table needs to be passed as the second argument to
+ acpi_dev_add_driver_gpios() that will register it with the ACPI device object
+@@ -158,12 +165,12 @@ calling acpi_dev_remove_driver_gpios() on the ACPI device object where that
+ table was previously registered.
+ 
+ Using the _CRS fallback
+------------------------
++=======================
+ 
+ If a device does not have _DSD or the driver does not create ACPI GPIO
+ mapping, the Linux GPIO framework refuses to return any GPIOs. This is
+ because the driver does not know what it actually gets. For example if we
+-have a device like below:
++have a device like below::
+ 
+   Device (BTH)
+   {
+@@ -177,7 +184,7 @@ have a device like below:
+       })
+   }
+ 
+-The driver might expect to get the right GPIO when it does:
++The driver might expect to get the right GPIO when it does::
+ 
+   desc = gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+ 
+@@ -193,22 +200,25 @@ the ACPI GPIO mapping tables are hardly linked to ACPI ID and certain
+ objects, as listed in the above chapter, of the device in question.
+ 
+ Getting GPIO descriptor
+------------------------
++=======================
 +
-+actual_brightness:
-+  on read, control method _BQC will be evaluated to
-+  get the brightness level the firmware thinks it is at;
-+bl_power:
-+  not implemented, will set the current brightness instead;
-+brightness:
-+  on write, control method _BCM will run to set the requested brightness level;
-+max_brightness:
-+  Derived from the _BCL package(see below);
-+type:
-+  firmware
++There are two main approaches to get GPIO resource from ACPI::
  
- Note that ACPI video backlight driver will always use index for
- brightness, actual_brightness and max_brightness. So if we have
--the following _BCL package:
-+the following _BCL package::
+-There are two main approaches to get GPIO resource from ACPI:
+-	desc = gpiod_get(dev, connection_id, flags);
+-	desc = gpiod_get_index(dev, connection_id, index, flags);
++  desc = gpiod_get(dev, connection_id, flags);
++  desc = gpiod_get_index(dev, connection_id, index, flags);
  
--Method (_BCL, 0, NotSerialized)
--{
--	Return (Package (0x0C)
-+	Method (_BCL, 0, NotSerialized)
- 	{
--		0x64,
--		0x32,
--		0x0A,
--		0x14,
--		0x1E,
--		0x28,
--		0x32,
--		0x3C,
--		0x46,
--		0x50,
--		0x5A,
--		0x64
--	})
--}
-+		Return (Package (0x0C)
-+		{
-+			0x64,
-+			0x32,
-+			0x0A,
-+			0x14,
-+			0x1E,
-+			0x28,
-+			0x32,
-+			0x3C,
-+			0x46,
-+			0x50,
-+			0x5A,
-+			0x64
-+		})
-+	}
+ We may consider two different cases here, i.e. when connection ID is
+ provided and otherwise.
  
- The first two levels are for when laptop are on AC or on battery and are
- not used by Linux currently. The remaining 10 levels are supported levels
-@@ -62,13 +73,15 @@ as a "brightness level" indicator. Thus from the user space perspective
- the range of available brightness levels is from 0 to 9 (max_brightness)
- inclusive.
- 
--2 Notify user space about hotkey event
-+Notify user space about hotkey event
-+====================================
- 
- There are generally two cases for hotkey event reporting:
+-Case 1:
+-	desc = gpiod_get(dev, "non-null-connection-id", flags);
+-	desc = gpiod_get_index(dev, "non-null-connection-id", index, flags);
++Case 1::
 +
- i) For some laptops, when user presses the hotkey, a scancode will be
-    generated and sent to user space through the input device created by
-    the keyboard driver as a key type input event, with proper remap, the
--   following key code will appear to user space:
-+   following key code will appear to user space::
++  desc = gpiod_get(dev, "non-null-connection-id", flags);
++  desc = gpiod_get_index(dev, "non-null-connection-id", index, flags);
++
++Case 2::
  
- 	EV_KEY, KEY_BRIGHTNESSUP
- 	EV_KEY, KEY_BRIGHTNESSDOWN
-@@ -84,23 +97,27 @@ ii) For some laptops, the press of the hotkey will not generate the
-     notify value it received and send the event to user space through the
-     input device it created:
+-Case 2:
+-	desc = gpiod_get(dev, NULL, flags);
+-	desc = gpiod_get_index(dev, NULL, index, flags);
++  desc = gpiod_get(dev, NULL, flags);
++  desc = gpiod_get_index(dev, NULL, index, flags);
  
-+	=====		==================
- 	event		keycode
-+	=====		==================
- 	0x86		KEY_BRIGHTNESSUP
- 	0x87		KEY_BRIGHTNESSDOWN
- 	etc.
-+	=====		==================
+ Case 1 assumes that corresponding ACPI device description must have
+ defined device properties and will prevent to getting any GPIO resources
+diff --git a/Documentation/firmware-guide/acpi/index.rst b/Documentation/firmware-guide/acpi/index.rst
+index 0e05b843521c..61d67763851b 100644
+--- a/Documentation/firmware-guide/acpi/index.rst
++++ b/Documentation/firmware-guide/acpi/index.rst
+@@ -11,3 +11,4 @@ ACPI Support
+    enumeration
+    osi
+    DSD-properties-rules
++   gpio-properties
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 09f43f1bdd15..87f930bf32ad 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6593,7 +6593,7 @@ M:	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+ L:	linux-gpio@vger.kernel.org
+ L:	linux-acpi@vger.kernel.org
+ S:	Maintained
+-F:	Documentation/acpi/gpio-properties.txt
++F:	Documentation/firmware-guide/acpi/gpio-properties.rst
+ F:	drivers/gpio/gpiolib-acpi.c
  
- so this would lead to the same effect as case i) now.
- 
- Once user space tool receives this event, it can modify the backlight
- level through the sysfs interface.
- 
--3 Change backlight level in the kernel
-+Change backlight level in the kernel
-+====================================
- 
- This works for machines covered by case ii) in Section 2. Once the driver
- received a notification, it will set the backlight level accordingly. This does
- not affect the sending of event to user space, they are always sent to user
- space regardless of whether or not the video module controls the backlight level
- directly. This behaviour can be controlled through the brightness_switch_enabled
--module parameter as documented in admin-guide/kernel-parameters.rst. It is recommended to
--disable this behaviour once a GUI environment starts up and wants to have full
--control of the backlight level.
-+module parameter as documented in admin-guide/kernel-parameters.rst. It is
-+recommended to disable this behaviour once a GUI environment starts up and
-+wants to have full control of the backlight level.
+ GPIO IR Transmitter
 -- 
 2.20.1
 
