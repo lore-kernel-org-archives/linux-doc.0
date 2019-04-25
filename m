@@ -1,163 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ABD147D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Apr 2019 15:15:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A151B7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Apr 2019 15:20:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726754AbfDYPPF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 25 Apr 2019 11:15:05 -0400
-Received: from mga09.intel.com ([134.134.136.24]:58434 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726555AbfDYPPF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 25 Apr 2019 11:15:05 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Apr 2019 08:15:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,394,1549958400"; 
-   d="scan'208";a="340728748"
-Received: from yyu32-desk1.sc.intel.com ([10.144.155.177])
-  by fmsmga005.fm.intel.com with ESMTP; 25 Apr 2019 08:15:02 -0700
-Message-ID: <e7bbb51291434a9c8526d7b617929465d5784121.camel@intel.com>
-Subject: Re: [RFC PATCH v6 22/26] x86/cet/shstk: ELF header parsing of
- Shadow Stack
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Dave Martin <Dave.Martin@arm.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S1728158AbfDYPUq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 25 Apr 2019 11:20:46 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:46994 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726026AbfDYPUp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Apr 2019 11:20:45 -0400
+Received: by mail-pl1-f193.google.com with SMTP id o7so9023491pll.13;
+        Thu, 25 Apr 2019 08:20:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=yoGmyiBWeZnSsqkaBcEqMFAHcCmUDlyEJTGPecR9P2k=;
+        b=h9nSvzUU1D22znVNFQ1LSGhY/0zTExAwrch/8IAqB2qOf32x85XkppW9Qkg8apnTLx
+         U31SxfBskuD4jasmcIot/IIyg9VB9JzfcVi/0Ek8ofJ2n0RE/RGVrcRMdRu+1hLUMcry
+         BSwLTfgRv9LZcYh2Ptpzeg5Eq7Y91dIZxyWOgWOSPs4a175JAS+jYOyYie3BZqWehcGQ
+         Cjowx9sJzpwok5JaMrlbTeb0mEY34SZ4cuEC0NnSSc4naB8eFtosl07D1xt6hhH17Ls5
+         jAqBNuY9EwsRHZy5pfApE03f1201K1ED/uINpnqrp0Bi4IRO+XqDAjsKqIO/4yuw7gGF
+         K6XA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=yoGmyiBWeZnSsqkaBcEqMFAHcCmUDlyEJTGPecR9P2k=;
+        b=qNdnxr/np0FEU+4B4ha20flUf3UceXgfoh1wpFen5fvgdz1AqrWxx6nk472R9ClX0W
+         9h32c1wMMkCRF3ScHrRiSscUtOK13gekC2/0KvNR+i3Pa2UP5jgg8VrbEDfzT81xZa5R
+         dHDfi0ZhE/+VRluhYZqKVilfnuAuHU2osgdNjInEKog34nzjy9fjvG0BuZw3I92OGOmg
+         Wdq8wDOqrc1Vq2kcJ3xiiM13aerTM9ITvzccyWn+lOdIW4ovgKlEUUoXaHQOiXRr/Uri
+         DsrOZuZdfme3jnij9K39d9FVpMXweRSLee5xpoceSspFXQfUJaU2mKLCyXfjGgze21uz
+         g+HA==
+X-Gm-Message-State: APjAAAUAgVPEqqQuBUBq+e7t8YHOpcDBGkYZy+CG5P/AHrr17I3cR+sR
+        iVCcPlxkXCMqeREuouaXXTx/6urz
+X-Google-Smtp-Source: APXvYqwiI2NpjrX77r+6N7Cj/eYgSoQZlyoYY9SaicaEwRGqAwKcL+aCStyywLLg2owA0vEn3apKfQ==
+X-Received: by 2002:a17:902:407:: with SMTP id 7mr40074978ple.62.1556205645128;
+        Thu, 25 Apr 2019 08:20:45 -0700 (PDT)
+Received: from mail.google.com ([104.238.181.70])
+        by smtp.gmail.com with ESMTPSA id v15sm30955894pff.105.2019.04.25.08.20.39
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 25 Apr 2019 08:20:44 -0700 (PDT)
+Date:   Thu, 25 Apr 2019 23:20:35 +0800
+From:   Changbin Du <changbin.du@gmail.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Changbin Du <changbin.du@gmail.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Date:   Thu, 25 Apr 2019 08:14:52 -0700
-In-Reply-To: <20190425110211.GZ3567@e103592.cambridge.arm.com>
-References: <20181119214809.6086-1-yu-cheng.yu@intel.com>
-         <20181119214809.6086-23-yu-cheng.yu@intel.com>
-         <20190425110211.GZ3567@e103592.cambridge.arm.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        Bjorn Helgaas <bhelgaas@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        linux-gpio@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Subject: Re: [PATCH v5 00/23] Include linux ACPI docs into Sphinx TOC tree
+Message-ID: <20190425152034.u4q6wjhm3yfhbnzp@mail.google.com>
+References: <20190424175306.25880-1-changbin.du@gmail.com>
+ <CAJZ5v0i3iEyn1vBjPkA0X=8h_UrSeTNV_JduJq9qfYpgCOAPjQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJZ5v0i3iEyn1vBjPkA0X=8h_UrSeTNV_JduJq9qfYpgCOAPjQ@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2019-04-25 at 12:02 +0100, Dave Martin wrote:
-> On Mon, Nov 19, 2018 at 01:48:05PM -0800, Yu-cheng Yu wrote:
-> > Look in .note.gnu.property of an ELF file and check if Shadow Stack needs
-> > to be enabled for the task.
+On Thu, Apr 25, 2019 at 10:44:14AM +0200, Rafael J. Wysocki wrote:
+> .On Wed, Apr 24, 2019 at 7:54 PM Changbin Du <changbin.du@gmail.com> wrote:
+> >
+> > Hi All,
+> > The kernel now uses Sphinx to generate intelligent and beautiful documentation
+> > from reStructuredText files. I converted all of the Linux ACPI/PCI/X86 docs to
+> > reST format in this serias.
+> >
+> > The hieararchy of ACPI docs are based on Corbet's suggestion:
+> > https://lkml.org/lkml/2019/4/3/1047
+> > I did some adjustment according to the content and finally they are placed as:
+> > Documentation/firmware-guide/acpi/
 > 
-> What's the status of this series?  I don't see anything in linux-next
-> yet.
+> I'd like to queue up this series, but it is missing a patch to create
+> Documentation/firmware-guide/acpi/index.rst.
 > 
-> For describing ELF features, Arm has recently adopted
-> NT_GNU_PROPERTY_TYPE_0, with properties closely modelled on
-> GNU_PROPERTY_X86_FEATURE_1_AND etc. [1]
-> 
-> So, arm64 will be need something like this patch for supporting new
-> features (such as the Branch Target Identification feature of ARMv8.5-A
-> [2]).
-> 
-> If this series isn't likely to merge soon, can we split this patch into
-> generic and x86-specific parts and handle them separately?
-> 
-> It would be good to see the generic ELF note parsing move to common
-> code -- I'll take a look and comment in more detail.
+> Care to provide one?
+oops, the first patch is missed. Let me add it next.
 
-Yes, I will work on that.
-
-> 
-> [...]
-> 
-> > diff --git a/arch/x86/include/asm/elf.h b/arch/x86/include/asm/elf.h
-> > index 69c0f892e310..557ed0ba71c7 100644
-> > --- a/arch/x86/include/asm/elf.h
-> > +++ b/arch/x86/include/asm/elf.h
-> > @@ -381,4 +381,9 @@ struct va_alignment {
-> >  
-> >  extern struct va_alignment va_align;
-> >  extern unsigned long align_vdso_addr(unsigned long);
-> > +
-> > +#ifdef CONFIG_ARCH_HAS_PROGRAM_PROPERTIES
-> > +extern int arch_setup_features(void *ehdr, void *phdr, struct file *file,
-> > +			       bool interp);
-> > +#endif
-> >  #endif /* _ASM_X86_ELF_H */
-> > diff --git a/arch/x86/include/uapi/asm/elf_property.h
-> > b/arch/x86/include/uapi/asm/elf_property.h
-> > new file mode 100644
-> > index 000000000000..af361207718c
-> > --- /dev/null
-> > +++ b/arch/x86/include/uapi/asm/elf_property.h
-> > @@ -0,0 +1,15 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +#ifndef _UAPI_ASM_X86_ELF_PROPERTY_H
-> > +#define _UAPI_ASM_X86_ELF_PROPERTY_H
-> > +
-> > +/*
-> > + * pr_type
-> > + */
-> > +#define GNU_PROPERTY_X86_FEATURE_1_AND (0xc0000002)
-> > +
-> > +/*
-> > + * Bits for GNU_PROPERTY_X86_FEATURE_1_AND
-> > + */
-> > +#define GNU_PROPERTY_X86_FEATURE_1_SHSTK	(0x00000002)
-> > +
-> 
-> Generally we seem to collect all ELF definitions in <linux/uapi/elf.h>,
-> including arch-specific ones.
-
-Agree.
-
-> 
-> Is a new header really needed here?
-> 
-> [...]
-> 
-> > diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c
-> > index 54207327f98f..007ff0fbae84 100644
-> > --- a/fs/binfmt_elf.c
-> > +++ b/fs/binfmt_elf.c
-> > @@ -1081,6 +1081,21 @@ static int load_elf_binary(struct linux_binprm *bprm)
-> >  		goto out_free_dentry;
-> >  	}
-> >  
-> > +#ifdef CONFIG_ARCH_HAS_PROGRAM_PROPERTIES
-> > +	if (interpreter) {
-> > +		retval = arch_setup_features(&loc->interp_elf_ex,
-> > +					     interp_elf_phdata,
-> > +					     interpreter, true);
-> 
-> Can we dummy no-op functions in the common headers to avoid this
-> ifdeffery?  Logically all arches will always do this step, even if it's
-> a no-op today.
-
-Sure.
-
-Thanks,
-
-Yu-cheng
-
+-- 
+Cheers,
+Changbin Du
