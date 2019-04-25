@@ -4,50 +4,50 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2E2AE7D918
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Apr 2019 15:31:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 80BAE7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Apr 2019 15:32:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729205AbfDYPbm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 25 Apr 2019 11:31:42 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:46464 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726026AbfDYPbl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Apr 2019 11:31:41 -0400
-Received: by mail-pg1-f193.google.com with SMTP id n2so10028pgg.13;
-        Thu, 25 Apr 2019 08:31:40 -0700 (PDT)
+        id S1729316AbfDYPby (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 25 Apr 2019 11:31:54 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:34962 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728513AbfDYPbx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Apr 2019 11:31:53 -0400
+Received: by mail-pg1-f194.google.com with SMTP id h1so39646pgs.2;
+        Thu, 25 Apr 2019 08:31:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=V9nzDmKVs6B2fvIsmgDPfkl3yh4fpAvQzb9wSqlneGU=;
-        b=jdEaSoZLj73TAFcApF7rENFfh01EaZJ0MNw6sKz8qO15YAR2btCXKvoiH1ROxCGsmb
-         LOjTQbz38X/Ftk6b4J/+ARuHkYBbKB5BnqRTU39PzG+B6msfh55wIGebHkA9y8pYfKu4
-         72rC5xAyZd89c0tOIx+kSIt3oPYnMECIjaLg1n02H2oHHqb/NTUIybYqAQVNn1aqZ0GF
-         BF6zEoDnbSA8lMewxePuT7QCf2njcJKBoj1YCO6yn9hb4T3nKoHtuCS0vuKkylh8B+uF
-         vpwNnGtVMAww5FJ0RY3PEh83mNV4QKwPOVG4U5rHqDrPowmSWBIo/hH8b5WGpgryg2sa
-         uzCg==
+        bh=oy6KoWLCzqwBPFFZLDtYtaD4m0hOkn4WdDvKhqmJ+bM=;
+        b=UnD4IVl83LQZXShjasiCu0OQ62xQoNgUhaFNaszSonnDbTP4v8ko+WQTLgGPvll0oP
+         5AsnxMZP5DEX+Rmj7Eg8MJ+FR8YCxWoSP6PEHziEF9xOQASWdnP8OVrqqL4KrfsmW3aO
+         N35XZPmTbIT7W1ePvv5Y8k6CFXZdLJcOrJ9Jouh3/seKoJgerbsTI0XnwvkF85vKehUv
+         kAWBSpfxxCltKXELmYvx/Cfd8wm96azxSMH+x2axYALG2JU0xUOH9al3eQZ6d1zWFK7k
+         QfaDuhJnv74YZ+ExGeaQ6fBit72XcWrgojCTEV9malahSJBfkDnkeSX3eWblTMN2XOVg
+         nQOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=V9nzDmKVs6B2fvIsmgDPfkl3yh4fpAvQzb9wSqlneGU=;
-        b=bQTqMJfSzI2EjffFz6/tby9Wk4vQ4Cyo2wudkYv8/yXNuOLyov4zYo3MLRw/IWfcFu
-         ImYdRO18hXwIgN3+qcCXsPL0K8R+RMIGHtFrKvAqGJeGK53oIyaAEgBZHUeSee1bRfA5
-         0qn9O8JUw1JvDV0F2TbAtYw99kdfKBIBFgLiB4LW6rTxtf4Nkn+I/OydaBkZ70VCZgKo
-         vohsk6PH8tjhIG79QIrRWHs6B7LSW91l542iTBJ+U05GdVgB1hPsDrSjRr7ftKGHovm9
-         Qc4rbjuaU6BPPcaqFqPBJ3sYtwvRtlbKvci+u8EneU0J1nb+PmJaXr5wdOGb+A0PojKS
-         cEGA==
-X-Gm-Message-State: APjAAAXJm/V6wQGrqI63Oy+Bwh2N0ycjupcahucMiOUljZBv0ROL8j6p
-        0U5Zd7WJ3k/dgQ6Jt4MGUC4=
-X-Google-Smtp-Source: APXvYqzFTgC2Jvs/yOKKDftQRRa8InUlkgNmWcPljHcVsijce2GVeWByOsQVXdkq/P8gVAE9yeSpqw==
-X-Received: by 2002:a63:5d44:: with SMTP id o4mr37785200pgm.15.1556206300285;
-        Thu, 25 Apr 2019 08:31:40 -0700 (PDT)
+        bh=oy6KoWLCzqwBPFFZLDtYtaD4m0hOkn4WdDvKhqmJ+bM=;
+        b=TahRC5B/X8evzHWFTB+TTtDl2jerY3xs36vxJ1aLSyH2QUeFpiZlLbn/CW/w6vt5X8
+         uR07Ib2J7AK5EK2RocTabaI7CZOcDDjw/KIAfNByC7U4lXOpW0oGUlJlQS9ufA2oIiq6
+         +Wg87oV7Ezd6uUYW6EYfoJ15kUa8ZXF7dPUBKLb13FYlMLdC+7gII583TSaDLRA+E8zi
+         jdoG/bf+5EAQyXtJDilYyTkIl+/WOkG8T6uQf8FTIOMQXF1jlrCYsFxMzcFPr1gBud9o
+         j9OQuvPkHdi55SYjnBtzLN7fWg+xhgH2eBm5OIeCVZolWWxIcVViM9vWVuGdMoKrk9i/
+         i5Sg==
+X-Gm-Message-State: APjAAAX7+WOcE5V/zx9KnQeN3GBKvEdeMXLyj36wnzbrQ4ifGZooIXR9
+        8UxrAjfjVVA2OHYWdCf8V5M=
+X-Google-Smtp-Source: APXvYqw5yVtW1mSt7kNHzWxiq9vABDn9EaxsM+4n56XSe9q1h7VGubnYRaPZukUfbJWQU3bKaMaN9w==
+X-Received: by 2002:a63:188:: with SMTP id 130mr35934841pgb.391.1556206312376;
+        Thu, 25 Apr 2019 08:31:52 -0700 (PDT)
 Received: from localhost.localdomain ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id c14sm2643363pgj.94.2019.04.25.08.31.34
+        by smtp.gmail.com with ESMTPSA id c14sm2643363pgj.94.2019.04.25.08.31.47
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 25 Apr 2019 08:31:39 -0700 (PDT)
+        Thu, 25 Apr 2019 08:31:51 -0700 (PDT)
 From:   Changbin Du <changbin.du@gmail.com>
 To:     rjw@rjwysocki.net, Jonathan Corbet <corbet@lwn.net>
 Cc:     Bjorn Helgaas <bhelgaas@google.com>, linux-doc@vger.kernel.org,
@@ -55,9 +55,9 @@ Cc:     Bjorn Helgaas <bhelgaas@google.com>, linux-doc@vger.kernel.org,
         linuxppc-dev@lists.ozlabs.org, linux-acpi@vger.kernel.org,
         linux-gpio@vger.kernel.org, mchehab+samsung@kernel.org,
         Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH v6 01/24] Documentation: add Linux ACPI to Sphinx TOC tree
-Date:   Thu, 25 Apr 2019 23:30:54 +0800
-Message-Id: <20190425153117.16057-2-changbin.du@gmail.com>
+Subject: [PATCH v6 03/24] Documentation: ACPI: move enumeration.txt to firmware-guide/acpi and convert to reST
+Date:   Thu, 25 Apr 2019 23:30:56 +0800
+Message-Id: <20190425153117.16057-4-changbin.du@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190425153117.16057-1-changbin.du@gmail.com>
 References: <20190425153117.16057-1-changbin.du@gmail.com>
@@ -68,135 +68,322 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add below index.rst files for ACPI subsystem. More docs will be added later.
-  o admin-guide/acpi/index.rst
-  o driver-api/acpi/index.rst
-  o firmware-guide/index.rst
+This converts the plain text documentation to reStructuredText format and
+add it to Sphinx TOC tree. No essential content change.
 
 Signed-off-by: Changbin Du <changbin.du@gmail.com>
 Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/admin-guide/acpi/index.rst    | 10 ++++++++++
- Documentation/admin-guide/index.rst         |  1 +
- Documentation/driver-api/acpi/index.rst     |  7 +++++++
- Documentation/driver-api/index.rst          |  1 +
- Documentation/firmware-guide/acpi/index.rst |  9 +++++++++
- Documentation/firmware-guide/index.rst      | 13 +++++++++++++
- Documentation/index.rst                     | 10 ++++++++++
- 7 files changed, 51 insertions(+)
- create mode 100644 Documentation/admin-guide/acpi/index.rst
- create mode 100644 Documentation/driver-api/acpi/index.rst
- create mode 100644 Documentation/firmware-guide/acpi/index.rst
- create mode 100644 Documentation/firmware-guide/index.rst
+ .../acpi/enumeration.rst}                     | 135 ++++++++++--------
+ Documentation/firmware-guide/acpi/index.rst   |   1 +
+ 2 files changed, 74 insertions(+), 62 deletions(-)
+ rename Documentation/{acpi/enumeration.txt => firmware-guide/acpi/enumeration.rst} (87%)
 
-diff --git a/Documentation/admin-guide/acpi/index.rst b/Documentation/admin-guide/acpi/index.rst
-new file mode 100644
-index 000000000000..3e041206089d
---- /dev/null
-+++ b/Documentation/admin-guide/acpi/index.rst
-@@ -0,0 +1,10 @@
-+============
-+ACPI Support
-+============
+diff --git a/Documentation/acpi/enumeration.txt b/Documentation/firmware-guide/acpi/enumeration.rst
+similarity index 87%
+rename from Documentation/acpi/enumeration.txt
+rename to Documentation/firmware-guide/acpi/enumeration.rst
+index 7bcf9c3d9fbe..ce755e963714 100644
+--- a/Documentation/acpi/enumeration.txt
++++ b/Documentation/firmware-guide/acpi/enumeration.rst
+@@ -1,5 +1,9 @@
+-ACPI based device enumeration
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++.. SPDX-License-Identifier: GPL-2.0
 +
-+Here we document in detail how to interact with various mechanisms in
-+the Linux ACPI support.
++=============================
++ACPI Based Device Enumeration
++=============================
 +
-+.. toctree::
-+   :maxdepth: 1
-+
-diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index 0a491676685e..5b8286fdd91b 100644
---- a/Documentation/admin-guide/index.rst
-+++ b/Documentation/admin-guide/index.rst
-@@ -77,6 +77,7 @@ configure specific aspects of kernel behavior to your liking.
-    LSM/index
-    mm/index
-    perf-security
-+   acpi/index
+ ACPI 5 introduced a set of new resources (UartTSerialBus, I2cSerialBus,
+ SpiSerialBus, GpioIo and GpioInt) which can be used in enumerating slave
+ devices behind serial bus controllers.
+@@ -11,12 +15,12 @@ that are accessed through memory-mapped registers.
+ In order to support this and re-use the existing drivers as much as
+ possible we decided to do following:
  
- .. only::  subproject and html
+-	o Devices that have no bus connector resource are represented as
+-	  platform devices.
++  - Devices that have no bus connector resource are represented as
++    platform devices.
  
-diff --git a/Documentation/driver-api/acpi/index.rst b/Documentation/driver-api/acpi/index.rst
-new file mode 100644
-index 000000000000..898b0c60671a
---- /dev/null
-+++ b/Documentation/driver-api/acpi/index.rst
-@@ -0,0 +1,7 @@
-+============
-+ACPI Support
+-	o Devices behind real busses where there is a connector resource
+-	  are represented as struct spi_device or struct i2c_device
+-	  (standard UARTs are not busses so there is no struct uart_device).
++  - Devices behind real busses where there is a connector resource
++    are represented as struct spi_device or struct i2c_device
++    (standard UARTs are not busses so there is no struct uart_device).
+ 
+ As both ACPI and Device Tree represent a tree of devices (and their
+ resources) this implementation follows the Device Tree way as much as
+@@ -31,7 +35,8 @@ enumerated from ACPI namespace. This handle can be used to extract other
+ device-specific configuration. There is an example of this below.
+ 
+ Platform bus support
+-~~~~~~~~~~~~~~~~~~~~
++====================
++
+ Since we are using platform devices to represent devices that are not
+ connected to any physical bus we only need to implement a platform driver
+ for the device and add supported ACPI IDs. If this same IP-block is used on
+@@ -39,7 +44,7 @@ some other non-ACPI platform, the driver might work out of the box or needs
+ some minor changes.
+ 
+ Adding ACPI support for an existing driver should be pretty
+-straightforward. Here is the simplest example:
++straightforward. Here is the simplest example::
+ 
+ 	#ifdef CONFIG_ACPI
+ 	static const struct acpi_device_id mydrv_acpi_match[] = {
+@@ -61,12 +66,13 @@ configuring GPIOs it can get its ACPI handle and extract this information
+ from ACPI tables.
+ 
+ DMA support
+-~~~~~~~~~~~
++===========
++
+ DMA controllers enumerated via ACPI should be registered in the system to
+ provide generic access to their resources. For example, a driver that would
+ like to be accessible to slave devices via generic API call
+ dma_request_slave_channel() must register itself at the end of the probe
+-function like this:
++function like this::
+ 
+ 	err = devm_acpi_dma_controller_register(dev, xlate_func, dw);
+ 	/* Handle the error if it's not a case of !CONFIG_ACPI */
+@@ -74,7 +80,7 @@ function like this:
+ and implement custom xlate function if needed (usually acpi_dma_simple_xlate()
+ is enough) which converts the FixedDMA resource provided by struct
+ acpi_dma_spec into the corresponding DMA channel. A piece of code for that case
+-could look like:
++could look like::
+ 
+ 	#ifdef CONFIG_ACPI
+ 	struct filter_args {
+@@ -114,7 +120,7 @@ provided by struct acpi_dma.
+ Clients must call dma_request_slave_channel() with the string parameter that
+ corresponds to a specific FixedDMA resource. By default "tx" means the first
+ entry of the FixedDMA resource array, "rx" means the second entry. The table
+-below shows a layout:
++below shows a layout::
+ 
+ 	Device (I2C0)
+ 	{
+@@ -138,12 +144,13 @@ acpi_dma_request_slave_chan_by_index() directly and therefore choose the
+ specific FixedDMA resource by its index.
+ 
+ SPI serial bus support
+-~~~~~~~~~~~~~~~~~~~~~~
++======================
++
+ Slave devices behind SPI bus have SpiSerialBus resource attached to them.
+ This is extracted automatically by the SPI core and the slave devices are
+ enumerated once spi_register_master() is called by the bus driver.
+ 
+-Here is what the ACPI namespace for a SPI slave might look like:
++Here is what the ACPI namespace for a SPI slave might look like::
+ 
+ 	Device (EEP0)
+ 	{
+@@ -163,7 +170,7 @@ Here is what the ACPI namespace for a SPI slave might look like:
+ 
+ The SPI device drivers only need to add ACPI IDs in a similar way than with
+ the platform device drivers. Below is an example where we add ACPI support
+-to at25 SPI eeprom driver (this is meant for the above ACPI snippet):
++to at25 SPI eeprom driver (this is meant for the above ACPI snippet)::
+ 
+ 	#ifdef CONFIG_ACPI
+ 	static const struct acpi_device_id at25_acpi_match[] = {
+@@ -182,7 +189,7 @@ to at25 SPI eeprom driver (this is meant for the above ACPI snippet):
+ 
+ Note that this driver actually needs more information like page size of the
+ eeprom etc. but at the time writing this there is no standard way of
+-passing those. One idea is to return this in _DSM method like:
++passing those. One idea is to return this in _DSM method like::
+ 
+ 	Device (EEP0)
+ 	{
+@@ -202,7 +209,7 @@ passing those. One idea is to return this in _DSM method like:
+ 		}
+ 
+ Then the at25 SPI driver can get this configuration by calling _DSM on its
+-ACPI handle like:
++ACPI handle like::
+ 
+ 	struct acpi_buffer output = { ACPI_ALLOCATE_BUFFER, NULL };
+ 	struct acpi_object_list input;
+@@ -220,14 +227,15 @@ ACPI handle like:
+ 	kfree(output.pointer);
+ 
+ I2C serial bus support
+-~~~~~~~~~~~~~~~~~~~~~~
++======================
++
+ The slaves behind I2C bus controller only need to add the ACPI IDs like
+ with the platform and SPI drivers. The I2C core automatically enumerates
+ any slave devices behind the controller device once the adapter is
+ registered.
+ 
+ Below is an example of how to add ACPI support to the existing mpu3050
+-input driver:
++input driver::
+ 
+ 	#ifdef CONFIG_ACPI
+ 	static const struct acpi_device_id mpu3050_acpi_match[] = {
+@@ -251,56 +259,57 @@ input driver:
+ 	};
+ 
+ GPIO support
+-~~~~~~~~~~~~
 +============
 +
-+.. toctree::
-+   :maxdepth: 2
+ ACPI 5 introduced two new resources to describe GPIO connections: GpioIo
+ and GpioInt. These resources can be used to pass GPIO numbers used by
+ the device to the driver. ACPI 5.1 extended this with _DSD (Device
+ Specific Data) which made it possible to name the GPIOs among other things.
+ 
+-For example:
++For example::
+ 
+-Device (DEV)
+-{
+-	Method (_CRS, 0, NotSerialized)
++	Device (DEV)
+ 	{
+-		Name (SBUF, ResourceTemplate()
++		Method (_CRS, 0, NotSerialized)
+ 		{
+-			...
+-			// Used to power on/off the device
+-			GpioIo (Exclusive, PullDefault, 0x0000, 0x0000,
+-				IoRestrictionOutputOnly, "\\_SB.PCI0.GPI0",
+-				0x00, ResourceConsumer,,)
++			Name (SBUF, ResourceTemplate()
+ 			{
+-				// Pin List
+-				0x0055
+-			}
++				...
++				// Used to power on/off the device
++				GpioIo (Exclusive, PullDefault, 0x0000, 0x0000,
++					IoRestrictionOutputOnly, "\\_SB.PCI0.GPI0",
++					0x00, ResourceConsumer,,)
++				{
++					// Pin List
++					0x0055
++				}
 +
-diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
-index c0b600ed9961..aa87075c7846 100644
---- a/Documentation/driver-api/index.rst
-+++ b/Documentation/driver-api/index.rst
-@@ -56,6 +56,7 @@ available subsections can be seen below.
-    slimbus
-    soundwire/index
-    fpga/index
-+   acpi/index
++				// Interrupt for the device
++				GpioInt (Edge, ActiveHigh, ExclusiveAndWake, PullNone,
++					0x0000, "\\_SB.PCI0.GPI0", 0x00, ResourceConsumer,,)
++				{
++					// Pin list
++					0x0058
++				}
++
++				...
  
- .. only::  subproject and html
+-			// Interrupt for the device
+-			GpioInt (Edge, ActiveHigh, ExclusiveAndWake, PullNone,
+-				 0x0000, "\\_SB.PCI0.GPI0", 0x00, ResourceConsumer,,)
+-			{
+-				// Pin list
+-				0x0058
+ 			}
  
+-			...
+-
++			Return (SBUF)
+ 		}
+ 
+-		Return (SBUF)
+-	}
+-
+-	// ACPI 5.1 _DSD used for naming the GPIOs
+-	Name (_DSD, Package ()
+-	{
+-		ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
+-		Package ()
++		// ACPI 5.1 _DSD used for naming the GPIOs
++		Name (_DSD, Package ()
+ 		{
+-			Package () {"power-gpios", Package() {^DEV, 0, 0, 0 }},
+-			Package () {"irq-gpios", Package() {^DEV, 1, 0, 0 }},
+-		}
+-	})
+-	...
++			ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
++			Package ()
++			{
++				Package () {"power-gpios", Package() {^DEV, 0, 0, 0 }},
++				Package () {"irq-gpios", Package() {^DEV, 1, 0, 0 }},
++			}
++		})
++		...
+ 
+ These GPIO numbers are controller relative and path "\\_SB.PCI0.GPI0"
+ specifies the path to the controller. In order to use these GPIOs in Linux
+@@ -310,7 +319,7 @@ There is a standard GPIO API for that and is documented in
+ Documentation/gpio/.
+ 
+ In the above example we can get the corresponding two GPIO descriptors with
+-a code like this:
++a code like this::
+ 
+ 	#include <linux/gpio/consumer.h>
+ 	...
+@@ -334,21 +343,22 @@ See Documentation/acpi/gpio-properties.txt for more information about the
+ _DSD binding related to GPIOs.
+ 
+ MFD devices
+-~~~~~~~~~~~
++===========
++
+ The MFD devices register their children as platform devices. For the child
+ devices there needs to be an ACPI handle that they can use to reference
+ parts of the ACPI namespace that relate to them. In the Linux MFD subsystem
+ we provide two ways:
+ 
+-	o The children share the parent ACPI handle.
+-	o The MFD cell can specify the ACPI id of the device.
++  - The children share the parent ACPI handle.
++  - The MFD cell can specify the ACPI id of the device.
+ 
+ For the first case, the MFD drivers do not need to do anything. The
+ resulting child platform device will have its ACPI_COMPANION() set to point
+ to the parent device.
+ 
+ If the ACPI namespace has a device that we can match using an ACPI id or ACPI
+-adr, the cell should be set like:
++adr, the cell should be set like::
+ 
+ 	static struct mfd_cell_acpi_match my_subdevice_cell_acpi_match = {
+ 		.pnpid = "XYZ0001",
+@@ -366,7 +376,8 @@ the MFD device and if found, that ACPI companion device is bound to the
+ resulting child platform device.
+ 
+ Device Tree namespace link device ID
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++====================================
++
+ The Device Tree protocol uses device identification based on the "compatible"
+ property whose value is a string or an array of strings recognized as device
+ identifiers by drivers and the driver core.  The set of all those strings may be
+@@ -423,4 +434,4 @@ the _DSD of the device object itself or the _DSD of its ancestor in the
+ Otherwise, the _DSD itself is regarded as invalid and therefore the "compatible"
+ property returned by it is meaningless.
+ 
+-Refer to DSD-properties-rules.txt for more information.
++Refer to :doc:`DSD-properties-rules` for more information.
 diff --git a/Documentation/firmware-guide/acpi/index.rst b/Documentation/firmware-guide/acpi/index.rst
-new file mode 100644
-index 000000000000..0ec7d072ba22
---- /dev/null
+index 210ad8acd6df..99677c73f1fb 100644
+--- a/Documentation/firmware-guide/acpi/index.rst
 +++ b/Documentation/firmware-guide/acpi/index.rst
-@@ -0,0 +1,9 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+============
-+ACPI Support
-+============
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-diff --git a/Documentation/firmware-guide/index.rst b/Documentation/firmware-guide/index.rst
-new file mode 100644
-index 000000000000..5355784ca0a2
---- /dev/null
-+++ b/Documentation/firmware-guide/index.rst
-@@ -0,0 +1,13 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===============================
-+The Linux kernel firmware guide
-+===============================
-+
-+This section describes the ACPI subsystem in Linux from firmware perspective.
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   acpi/index
-+
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index 80a421cb935e..fdfa85c56a50 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -35,6 +35,16 @@ trying to get it to work optimally on a given system.
+@@ -8,3 +8,4 @@ ACPI Support
+    :maxdepth: 1
  
-    admin-guide/index
- 
-+Firmware-related documentation
-+------------------------------
-+The following holds information on the kernel's expectations regarding the
-+platform firmwares.
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   firmware-guide/index
-+
- Application-developer documentation
- -----------------------------------
- 
+    namespace
++   enumeration
 -- 
 2.20.1
 
