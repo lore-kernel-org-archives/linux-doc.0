@@ -6,148 +6,132 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B327D7D910
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 24 Apr 2019 19:00:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9BA967D910
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Apr 2019 00:45:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727099AbfDXTAZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 24 Apr 2019 15:00:25 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:37608 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727055AbfDXTAZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Apr 2019 15:00:25 -0400
-Received: by mail-qt1-f195.google.com with SMTP id z16so21585782qtn.4;
-        Wed, 24 Apr 2019 12:00:24 -0700 (PDT)
+        id S1727592AbfDYAoz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 24 Apr 2019 20:44:55 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:41034 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726455AbfDYAoy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Apr 2019 20:44:54 -0400
+Received: by mail-pl1-f194.google.com with SMTP id d9so4229873pls.8;
+        Wed, 24 Apr 2019 17:44:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=/FZy59f9HL2X3MbfHJ0G6hsGqO3psViqlKPPUuR6fNo=;
-        b=q8hjbWX2/Rq8XC2LdcrnlAoOXnEfA1kmjBBoylIKum+3GuPG+zohCguBwww/MCJ27F
-         oqJ0YEK1RBIjN8M28mclgqIGpx9KY4vsqtgcI4QZmFwm862SeoLxoe0jow7+T+KUQu27
-         WLQTZvoXEz67t5F2LIeQNdpvHdwucTr9N2E17CKBc4M6eRwl5SVW3s961l4+qfXcRKu5
-         7F7X9P4gKJ8e/9KCahWT1BVt9mNNLy9NDfwdyz4glnUCLytljhJ567AOR4LOutX2xGY+
-         gnCR/16WqvnZT+26eBlWypqTiBPvPYfdNlQCiGYfJ6AEySKTmO8iYKjTZbFUMU9eUkvN
-         iXNw==
+        bh=ZByeP/U/Xsd+bzaA85yvOt7T/npZJcZ57cO9BOcxw9k=;
+        b=MHC2cPC9MLaoJAmE0CQN2S97KWBqkPkLXs9f+lzC+8TPecWG2IM3XWlk4gYZd7AaMD
+         20TYn191QK9PLMw5yBzhtLf8+6iS2/O0pVoQsRgHp8Gv3kflNQwkNfGQpgaJPoTiRu8c
+         FNW52u2xkj2adCr8HGTYq9Q0v7rjOgp9dRdAcDno1UnknHgKYjI1faCRBpBfpQ8Srb9J
+         njMYRHV1PqkT1MLU4IsSFYCM0U39NGDM8i6nKuv5Dxs9ZUKp1AkPpOCKq5JF6a0bZzlM
+         XnTkPt5GY3LlwDkH16Usygfj4fExjFxgSQbr+8Deb9GM8KqE6wDqdnLNbCa88ymTeLaK
+         ECeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=/FZy59f9HL2X3MbfHJ0G6hsGqO3psViqlKPPUuR6fNo=;
-        b=Ynec4lVb/eKIVDVWtdjPsNs5cnXvvnAU9KiS9X/4NuYfIy2tLvPFKHEoAhBWz4y+Z+
-         XRha2H3m7+EqxT1vyDHmRO/Cxon4yD97n+F7Wss1X6Cx9AQilRxjSOUKHYOBQ4vduJp3
-         3doBCGL7lRgDSMUMmjL7geRbXW+OxNCwkIAXWg16TH7e4wB9bm8EvQz9Pfn7QevoxhFv
-         YiSAkSn6V7zcrAUKuRY1FlLbqiJKF/j8xLmqVhvCGHM9+pPG5w65FtUyXCmd6+EGl04h
-         yxSgZNoTwb36N7Oepd+QnLp80BdTx98ze0grVkNeC8KAPU90rOkrFoQdftdTtaPffiAb
-         xj5Q==
-X-Gm-Message-State: APjAAAVgobMPsNL4XYr4q1yYpkOA9+qsXoOkuOtjSPWcz05OEpqLTBg6
-        AsZaOnOtpJCWGvL0eaEWnQ==
-X-Google-Smtp-Source: APXvYqzUa37EIznTuZsKVCE0rtxzmrSbjNdVJfiGIZUk8HNfZfY91SDsdlfuvH2z2xBujvCQv9HiBQ==
-X-Received: by 2002:aed:35fa:: with SMTP id d55mr3416038qte.169.1556132424044;
-        Wed, 24 Apr 2019 12:00:24 -0700 (PDT)
-Received: from gabell (nat-pool-bos-t.redhat.com. [66.187.233.206])
-        by smtp.gmail.com with ESMTPSA id z85sm9183651qka.18.2019.04.24.12.00.21
+        bh=ZByeP/U/Xsd+bzaA85yvOt7T/npZJcZ57cO9BOcxw9k=;
+        b=nKkGsa4nxvgp5JjVhahYr3MSusuwt/ZieckZkcywRKtXHb1xpLlYOGE+mOYNgYfuWP
+         akR2nYz2sxPA2t4vOQzS/b7mKYl2C4rHH5f7JLB5t19vi9AZKb9zr42AXSBBi/hJE+pr
+         g8Isuzoorgt/gBLzWYT9HseVWWxyatgbzfPiDaEVh/IKC3frf1OESg/yOReHp5cvC5tT
+         /R1Dnu4AkB1bYaK2hRxiy1ob2RKQrSk9fOn5aPH0t8b/pc+C48IVnrI+AvI45RM9sbah
+         LpIuo/5lBshLzZs1auJhpV4r92RbHbCc6JoaNuduJgrfDNTstiO4WB08apghVLWmoty0
+         aZUw==
+X-Gm-Message-State: APjAAAXWfHzE6M56ikzKyXK6opIo5ZaXfKTdOvK3LUcAYln2YZ2ecSOg
+        AA2Z+S5xK3lMghXarHzXJCg=
+X-Google-Smtp-Source: APXvYqwiA2jiYqMbnX8meUdO/rblXtj9B6eFO73auf+KnxKT4SbqW+4arNMPnXTszoQF0bAOgYPKww==
+X-Received: by 2002:a17:902:b617:: with SMTP id b23mr33814911pls.73.1556153093960;
+        Wed, 24 Apr 2019 17:44:53 -0700 (PDT)
+Received: from mail.google.com ([104.238.181.70])
+        by smtp.gmail.com with ESMTPSA id j9sm42583869pfc.43.2019.04.24.17.44.52
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 24 Apr 2019 12:00:23 -0700 (PDT)
-Date:   Wed, 24 Apr 2019 15:00:20 -0400
-From:   Masayoshi Mizuma <msys.mizuma@gmail.com>
-To:     Brendan Higgins <brendanhiggins@google.com>
-Cc:     corbet@lwn.net, frowand.list@gmail.com, keescook@google.com,
-        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
-        robh@kernel.org, shuah@kernel.org, yamada.masahiro@socionext.com,
-        pmladek@suse.com, linux-doc@vger.kernel.org, amir73il@gmail.com,
-        dri-devel@lists.freedesktop.org, Alexander.Levin@microsoft.com,
-        linux-kselftest@vger.kernel.org, linux-nvdimm@lists.01.org,
-        khilman@baylibre.com, knut.omang@oracle.com, wfg@linux.intel.com,
-        joel@jms.id.au, jdike@addtoit.com, dan.carpenter@oracle.com,
-        devicetree@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Tim.Bird@sony.com, Avinash Kondareddy <akndr41@gmail.com>,
-        linux-um@lists.infradead.org, rostedt@goodmis.org,
-        julia.lawall@lip6.fr, kunit-dev@googlegroups.com, richard@nod.at,
-        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-        daniel@ffwll.ch, mpe@ellerman.id.au, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v1 11/17] kunit: test: add test managed resource tests
-Message-ID: <20190424190019.wvljyeo3y7gd24p5@gabell>
-References: <20190404220652.19765-1-brendanhiggins@google.com>
- <20190404220652.19765-12-brendanhiggins@google.com>
+        Wed, 24 Apr 2019 17:44:52 -0700 (PDT)
+Date:   Thu, 25 Apr 2019 00:44:51 +0000
+From:   Changbin Du <changbin.du@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Changbin Du <changbin.du@gmail.com>, rjw@rjwysocki.net,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bjorn Helgaas <bhelgaas@google.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, fenghua.yu@intel.com,
+        linuxppc-dev@lists.ozlabs.org, linux-acpi@vger.kernel.org,
+        linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v5 20/23] Documentation: ACPI: move cppc_sysfs.txt to
+ admin-guide/acpi and convert to reST
+Message-ID: <20190425004450.qdajhnzlanufxhx3@mail.google.com>
+References: <20190424175306.25880-1-changbin.du@gmail.com>
+ <20190424175306.25880-21-changbin.du@gmail.com>
+ <20190424151236.776d9678@coco.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190404220652.19765-12-brendanhiggins@google.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20190424151236.776d9678@coco.lan>
+User-Agent: NeoMutt/20180716-508-7c9a6d
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 04, 2019 at 03:06:46PM -0700, Brendan Higgins wrote:
-> From: Avinash Kondareddy <akndr41@gmail.com>
+On Wed, Apr 24, 2019 at 03:12:36PM -0300, Mauro Carvalho Chehab wrote:
+> Em Thu, 25 Apr 2019 01:53:03 +0800
+> Changbin Du <changbin.du@gmail.com> escreveu:
 > 
-> Tests how tests interact with test managed resources in their lifetime.
+> > This converts the plain text documentation to reStructuredText format and
+> > add it to Sphinx TOC tree. No essential content change.
+> > 
+> > Signed-off-by: Changbin Du <changbin.du@gmail.com>
+> > ---
+> >  .../acpi/cppc_sysfs.rst}                      | 71 ++++++++++---------
+> >  Documentation/admin-guide/acpi/index.rst      |  1 +
+> >  2 files changed, 40 insertions(+), 32 deletions(-)
+> >  rename Documentation/{acpi/cppc_sysfs.txt => admin-guide/acpi/cppc_sysfs.rst} (51%)
+> > 
+> > diff --git a/Documentation/acpi/cppc_sysfs.txt b/Documentation/admin-guide/acpi/cppc_sysfs.rst
+> > similarity index 51%
+> > rename from Documentation/acpi/cppc_sysfs.txt
+> > rename to Documentation/admin-guide/acpi/cppc_sysfs.rst
+> > index f20fb445135d..a4b99afbe331 100644
+> > --- a/Documentation/acpi/cppc_sysfs.txt
+> > +++ b/Documentation/admin-guide/acpi/cppc_sysfs.rst
+> > @@ -1,5 +1,11 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> >  
+> > -	Collaborative Processor Performance Control (CPPC)
+> > +==================================================
+> > +Collaborative Processor Performance Control (CPPC)
+> > +==================================================
+> > +
+> > +CPPC
+> > +====
+> >  
+> >  CPPC defined in the ACPI spec describes a mechanism for the OS to manage the
+> >  performance of a logical processor on a contigious and abstract performance
+> > @@ -10,31 +16,28 @@ For more details on CPPC please refer to the ACPI specification at:
+> >  
+> >  http://uefi.org/specifications
+> >  
+> > -Some of the CPPC registers are exposed via sysfs under:
+> > -
+> > -/sys/devices/system/cpu/cpuX/acpi_cppc/
 > 
-> Signed-off-by: Avinash Kondareddy <akndr41@gmail.com>
-> Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> ---
->  kunit/test-test.c | 122 ++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 122 insertions(+)
 > 
-> diff --git a/kunit/test-test.c b/kunit/test-test.c
-> index 4bd7a34d0a6cb..54add8ca418a0 100644
-> --- a/kunit/test-test.c
-> +++ b/kunit/test-test.c
-> @@ -135,3 +135,125 @@ static struct kunit_module kunit_try_catch_test_module = {
->  	.test_cases = kunit_try_catch_test_cases,
->  };
->  module_test(kunit_try_catch_test_module);
-> +
-> +/*
-> + * Context for testing test managed resources
-> + * is_resource_initialized is used to test arbitrary resources
-> + */
-> +struct kunit_test_resource_context {
-> +	struct kunit test;
-> +	bool is_resource_initialized;
-> +};
-> +
-> +static int fake_resource_init(struct kunit_resource *res, void *context)
-> +{
-> +	struct kunit_test_resource_context *ctx = context;
-> +
-> +	res->allocation = &ctx->is_resource_initialized;
-> +	ctx->is_resource_initialized = true;
-> +	return 0;
-> +}
-> +
-> +static void fake_resource_free(struct kunit_resource *res)
-> +{
-> +	bool *is_resource_initialized = res->allocation;
-> +
-> +	*is_resource_initialized = false;
-> +}
-> +
-> +static void kunit_resource_test_init_resources(struct kunit *test)
-> +{
-> +	struct kunit_test_resource_context *ctx = test->priv;
-> +
-> +	kunit_init_test(&ctx->test, "testing_test_init_test");
-> +
-> +	KUNIT_EXPECT_TRUE(test, list_empty(&ctx->test.resources));
-> +}
-> +
-> +static void kunit_resource_test_alloc_resource(struct kunit *test)
-> +{
-> +	struct kunit_test_resource_context *ctx = test->priv;
-> +	struct kunit_resource *res;
-> +	kunit_resource_free_t free = fake_resource_free;
-> +
-> +	res = kunit_alloc_resource(&ctx->test,
-> +				   fake_resource_init,
-> +				   fake_resource_free,
-> +				   ctx);
-> +
+> > -
+> > -for each cpu X
+> 
+> Yeah, there it is: you're removing those two lines.
+>
+They are indented, see below diffs. I did remove "-----...." two lines.
+> > +Some of the CPPC registers are exposed via sysfs under::
+> >  
+> > ---------------------------------------------------------------------------------
+> > +  /sys/devices/system/cpu/cpuX/acpi_cppc/
+> 
+> As per my reply to v4.
+> 
+> Thanks,
+> Mauro
 
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, res);
-
-	KUNIT_EXPECT_NOT_ERR_OR_NULL(test, res);
-
-Thanks!
-Masa
+-- 
+Cheers,
+Changbin Du
