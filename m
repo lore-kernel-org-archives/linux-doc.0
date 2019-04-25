@@ -1,89 +1,135 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3328F7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Apr 2019 16:21:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F0D1F7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Apr 2019 18:09:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727402AbfDYQU4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 25 Apr 2019 12:20:56 -0400
-Received: from mga06.intel.com ([134.134.136.31]:53584 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726534AbfDYQU4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 25 Apr 2019 12:20:56 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Apr 2019 09:20:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,394,1549958400"; 
-   d="scan'208";a="138791963"
-Received: from yyu32-desk1.sc.intel.com ([10.144.155.177])
-  by orsmga006.jf.intel.com with ESMTP; 25 Apr 2019 09:20:54 -0700
-Message-ID: <61ca9af34259921452aaeea047016c598ef73c77.camel@intel.com>
-Subject: Re: [RFC PATCH v6 22/26] x86/cet/shstk: ELF header parsing of
- Shadow Stack
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Dave Martin <Dave.Martin@arm.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        id S1730313AbfDYSJS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 25 Apr 2019 14:09:18 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:35176 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726780AbfDYSJR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Apr 2019 14:09:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=2oKokC3pkrt1E8iupN9/b6YmSxWCfYtApWjD9u1/PBY=; b=dSsewGvtuMhhlNA66ppDxBFwY
+        IwxcrS6w1Yr4eDYIiQkSN4UCcv98j5XCjgcJ06n5+5qyXPNHSdnNAM8va5oF/cW1zBN1oHLLU+CKf
+        lrNCY0rg2jaySC7z2jKotuTNlL5ZSQinGfYKCam13OfX6NQspDuqwl/gd3uNhUDXMwj34=;
+Received: from 94.197.120.252.threembb.co.uk ([94.197.120.252] helo=finisterre.ee.mobilebroadband)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <broonie@sirena.org.uk>)
+        id 1hJin0-0003sZ-S0; Thu, 25 Apr 2019 18:08:32 +0000
+Received: by finisterre.ee.mobilebroadband (Postfix, from userid 1000)
+        id 9B05B441D3B; Thu, 25 Apr 2019 19:07:58 +0100 (BST)
+Date:   Thu, 25 Apr 2019 19:07:58 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Sebastian Reichel <sre@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+        Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Date:   Thu, 25 Apr 2019 09:20:44 -0700
-In-Reply-To: <20190425153547.GG3567@e103592.cambridge.arm.com>
-References: <20181119214809.6086-1-yu-cheng.yu@intel.com>
-         <20181119214809.6086-23-yu-cheng.yu@intel.com>
-         <20190425110211.GZ3567@e103592.cambridge.arm.com>
-         <e7bbb51291434a9c8526d7b617929465d5784121.camel@intel.com>
-         <20190425153547.GG3567@e103592.cambridge.arm.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        "David S. Miller" <davem@davemloft.net>, linux-pm@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v2 25/79] docs: convert docs to ReST and rename to *.rst
+Message-ID: <20190425180758.GC23183@sirena.org.uk>
+Mail-Followup-To: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Sebastian Reichel <sre@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+        Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        "David S. Miller" <davem@davemloft.net>, linux-pm@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org
+References: <cover.1555938375.git.mchehab+samsung@kernel.org>
+ <7adf9035ae06ecc6c7e46b51cb677f0a8f61d19a.1555938376.git.mchehab+samsung@kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="aT9PWwzfKXlsBJM1"
+Content-Disposition: inline
+In-Reply-To: <7adf9035ae06ecc6c7e46b51cb677f0a8f61d19a.1555938376.git.mchehab+samsung@kernel.org>
+X-Cookie: But they went to MARS around 1953!!
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2019-04-25 at 16:35 +0100, Dave Martin wrote:
-> On Thu, Apr 25, 2019 at 08:14:52AM -0700, Yu-cheng Yu wrote:
-> > On Thu, 2019-04-25 at 12:02 +0100, Dave Martin wrote:
-> > > [...]
-> One other question: according to the draft spec at
-> https://github.com/hjl-tools/linux-abi/wiki/Linux-Extensions-to-gABI, it
-> looks like the .note.gnu.property section is supposed to be marked with
-> SHF_ALLOC in object files.
-> 
-> I think that means that the linker will map it with a PT_LOAD entry in
-> the program header table in addition to the PT_NOTE that describes the
-> location of the note.  I need to check what the toolchain actually
-> does.
-> 
-> If so, can we simply rely on the notes being already mapped, rather than
-> needing to do additional I/O on the ELF file to fetch the notes?
 
-Assuming that is mapped and we do copy_from_user, it will trigger page faults. 
-I suspect in this case reading from the file is better?
+--aT9PWwzfKXlsBJM1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yu-cheng
+On Mon, Apr 22, 2019 at 10:27:14AM -0300, Mauro Carvalho Chehab wrote:
+> Convert the PM documents to ReST, in order to allow them to
+> build with Sphinx.
+
+This is massively CCed covering a large range of subsystems and is patch
+25 of a 79 patch series so I've no context for what's going on here or
+why... =20
+
+--aT9PWwzfKXlsBJM1
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAlzB930ACgkQJNaLcl1U
+h9D9hggAgwfFCuARstTCzGVBwHcVdm64UOuT+vxyBjKpaiOugpu9eYgcEyTMTndn
+s/LwwIR6+jTD8By3kSTAXNwf45w0LPS6lFtpErJnjM5UirPgDON9007j9qhKipEN
+tJvLGym/Jsh45UdlYTK1odH7gaOZCwygFNT3x/GyB223C7QCmWBWpwEm1bcMUJ1m
+x8dEcMx7tFb4LdKprVW5kTex9KsBWG1MCnw8OCiZTmvnlXfkcvJnm4T5Rzv8ZLR1
+vpMRGaEVRnHIgfnPArpTgNa/owmkH6oB8f4A3bLpvRlqfQO3xYP0DQMKXNjyKESN
+JYPDGkiQ4n7iBx70h8+FV4GcF7mlNA==
+=a3df
+-----END PGP SIGNATURE-----
+
+--aT9PWwzfKXlsBJM1--
