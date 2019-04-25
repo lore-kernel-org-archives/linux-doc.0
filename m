@@ -5,42 +5,42 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5BAD47D923
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Apr 2019 09:18:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 876D07D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Apr 2019 09:18:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727846AbfDYJRz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 25 Apr 2019 05:17:55 -0400
-Received: from mx07-00178001.pphosted.com ([62.209.51.94]:37955 "EHLO
+        id S1728469AbfDYJSV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 25 Apr 2019 05:18:21 -0400
+Received: from mx07-00178001.pphosted.com ([62.209.51.94]:41402 "EHLO
         mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728151AbfDYJRy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Apr 2019 05:17:54 -0400
-Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x3P91RM4023615;
-        Thu, 25 Apr 2019 11:17:39 +0200
+        by vger.kernel.org with ESMTP id S1727884AbfDYJRs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Apr 2019 05:17:48 -0400
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x3P8uclC024832;
+        Thu, 25 Apr 2019 11:17:35 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-type; s=STMicroelectronics;
- bh=gWt2Yvp7kFHU0NSj4PHJldddgEcgVYkKXyg6dUFoJn4=;
- b=J8eWF0Ji/OwAmYuP8G/kYjsx24gzjc97wcoqB8kn9lA0hbEWKzWy2pyaJfn3YaNkqiCH
- FkN7Pk7vQMipZK6vwC7g0FLnuPi886oYr4cg27z1sQrtZEfI46ZlFYHl+pBO59HJTaHp
- Usg2oFkIAj5TejEdGI7SAVw+6k6rBN4/nK19YKh4VDxFNok03WKA9PSX821OoXj3XH2q
- SzSI9ELp0EWXsgCMXVXJGIuntrXrxe7CHRsOdhpEWntyvAG0qewlWpeMyqv44t96d5Jn
- we/lto9q6Y3AJmITll34vxmIKCFEAxMrzerg8zIQ2xubfvuqKl60h5+KkDnxNXD/qjzf wQ== 
+ bh=Nqd+gozUf5Ccqerwr42nwux1s+gDmbq7mr0/bjPx4TQ=;
+ b=py3L40Df54MkS0zNym18BUeDoMYmvLd7t5M/bJId5rpCEB8LTQWsd5kURgixZZnjzHB8
+ wHM8fWupPh+hY+hyeXDUfCpkTAT6PBvxBXV8z8O8Nxcp9HfAUtkK9dMKvWaocc38n29y
+ g6pXhdasXREp/8ex6xqWNH5TFZ3uziIL2yORsekMeV//KS5nnRH2P9dSU8orJJMz7/cw
+ 06x8rmUl4pOjD7vYrfhwlz6dElz6W0tdPAKFqdr+z+MXMV6ecIS00zxXnMlkVgOVRDzF
+ 6MfGaq+KvqfMQofzMUgux2KuHbxG6ZbEae5Frer4ZfdHdWPp4+kaGT9BS4g+2B+u3bPz 8A== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 2rys6s2m2h-1
+        by mx07-00178001.pphosted.com with ESMTP id 2ryrvxjq4k-1
         (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Thu, 25 Apr 2019 11:17:39 +0200
+        Thu, 25 Apr 2019 11:17:35 +0200
 Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id AE53731;
-        Thu, 25 Apr 2019 09:17:33 +0000 (GMT)
-Received: from Webmail-eu.st.com (Safex1hubcas22.st.com [10.75.90.92])
-        by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 91F4C1615;
-        Thu, 25 Apr 2019 09:17:33 +0000 (GMT)
-Received: from SAFEX1HUBCAS23.st.com (10.75.90.47) by Safex1hubcas22.st.com
- (10.75.90.92) with Microsoft SMTP Server (TLS) id 14.3.361.1; Thu, 25 Apr
- 2019 11:17:33 +0200
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id E35DF38;
+        Thu, 25 Apr 2019 09:17:34 +0000 (GMT)
+Received: from Webmail-eu.st.com (Safex1hubcas21.st.com [10.75.90.44])
+        by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id BB303161B;
+        Thu, 25 Apr 2019 09:17:34 +0000 (GMT)
+Received: from SAFEX1HUBCAS23.st.com (10.75.90.47) by SAFEX1HUBCAS21.st.com
+ (10.75.90.44) with Microsoft SMTP Server (TLS) id 14.3.361.1; Thu, 25 Apr
+ 2019 11:17:34 +0200
 Received: from localhost (10.201.23.25) by webmail-ga.st.com (10.75.90.48)
- with Microsoft SMTP Server (TLS) id 14.3.439.0; Thu, 25 Apr 2019 11:17:32
+ with Microsoft SMTP Server (TLS) id 14.3.439.0; Thu, 25 Apr 2019 11:17:34
  +0200
 From:   Fabien Dessenne <fabien.dessenne@st.com>
 To:     Ohad Ben-Cohen <ohad@wizery.com>,
@@ -56,9 +56,9 @@ To:     Ohad Ben-Cohen <ohad@wizery.com>,
         <linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>
 CC:     Fabien Dessenne <fabien.dessenne@st.com>,
         Benjamin Gaignard <benjamin.gaignard@st.com>
-Subject: [PATCH v2 3/6] dt-bindings: hwlock: update STM32 #hwlock-cells value
-Date:   Thu, 25 Apr 2019 11:17:20 +0200
-Message-ID: <1556183843-28033-4-git-send-email-fabien.dessenne@st.com>
+Subject: [PATCH v2 4/6] ARM: dts: stm32: Add hwspinlock node for stm32mp157 SoC
+Date:   Thu, 25 Apr 2019 11:17:21 +0200
+Message-ID: <1556183843-28033-5-git-send-email-fabien.dessenne@st.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1556183843-28033-1-git-send-email-fabien.dessenne@st.com>
 References: <1556183843-28033-1-git-send-email-fabien.dessenne@st.com>
@@ -72,38 +72,32 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Use a value of 2, so users can share hwlocks.
+Declare hwspinlock device for stm32mp157 SoC
 
 Signed-off-by: Fabien Dessenne <fabien.dessenne@st.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
 ---
- Documentation/devicetree/bindings/hwlock/st,stm32-hwspinlock.txt | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ arch/arm/boot/dts/stm32mp157c.dtsi | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/hwlock/st,stm32-hwspinlock.txt b/Documentation/devicetree/bindings/hwlock/st,stm32-hwspinlock.txt
-index adf4f000..60a3716 100644
---- a/Documentation/devicetree/bindings/hwlock/st,stm32-hwspinlock.txt
-+++ b/Documentation/devicetree/bindings/hwlock/st,stm32-hwspinlock.txt
-@@ -4,8 +4,8 @@ STM32 Hardware Spinlock Device Binding
- Required properties :
- - compatible : should be "st,stm32-hwspinlock".
- - reg : the register address of hwspinlock.
--- #hwlock-cells : hwlock users only use the hwlock id to represent a specific
--	hwlock, so the number of cells should be <1> here.
-+- #hwlock-cells : should be <2> so the hwlock users use the hwlock id to
-+	represent a specific hwlock and define its shared / exclusive attribute.
- - clock-names : Must contain "hsem".
- - clocks : Must contain a phandle entry for the clock in clock-names, see the
- 	common clock bindings.
-@@ -16,7 +16,7 @@ Please look at the generic hwlock binding for usage information for consumers,
- Example of hwlock provider:
- 	hwspinlock@4c000000 {
- 		compatible = "st,stm32-hwspinlock";
--		#hwlock-cells = <1>;
-+		#hwlock-cells = <2>;
- 		reg = <0x4c000000 0x400>;
- 		clocks = <&rcc HSEM>;
- 		clock-names = "hsem";
+diff --git a/arch/arm/boot/dts/stm32mp157c.dtsi b/arch/arm/boot/dts/stm32mp157c.dtsi
+index 105e21f..824d7e1 100644
+--- a/arch/arm/boot/dts/stm32mp157c.dtsi
++++ b/arch/arm/boot/dts/stm32mp157c.dtsi
+@@ -886,6 +886,14 @@
+ 			status = "disabled";
+ 		};
+ 
++		hsem: hwspinlock@4c000000 {
++			compatible = "st,stm32-hwspinlock";
++			#hwlock-cells = <2>;
++			reg = <0x4c000000 0x400>;
++			clocks = <&rcc HSEM>;
++			clock-names = "hsem";
++		};
++
+ 		ipcc: mailbox@4c001000 {
+ 			compatible = "st,stm32mp1-ipcc";
+ 			#mbox-cells = <1>;
 -- 
 2.7.4
 
