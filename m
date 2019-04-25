@@ -5,42 +5,42 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 475157D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Apr 2019 09:18:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E7B0F7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Apr 2019 09:18:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726888AbfDYJR7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 25 Apr 2019 05:17:59 -0400
-Received: from mx07-00178001.pphosted.com ([62.209.51.94]:23376 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726887AbfDYJR4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Apr 2019 05:17:56 -0400
-Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x3P91RM6023615;
-        Thu, 25 Apr 2019 11:17:40 +0200
+        id S1728125AbfDYJRv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 25 Apr 2019 05:17:51 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:11406 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726887AbfDYJRu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Apr 2019 05:17:50 -0400
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+        by mx08-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x3P98EbV001148;
+        Thu, 25 Apr 2019 11:17:38 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-type; s=STMicroelectronics;
- bh=0/wuEmKjJOSd230MuGusU1DgsuWoQ281XaTZzSew2DI=;
- b=Lt3fYGgMEf3AZV4wmvBC7J/cXQ/kQYjVqDw2uMA8HXAY/uZiRq4ESubcSaxHabMMTqL9
- M7j6abAy7U7GvkdkAaZhDR1OWYn9b1BopV+Ac/bjVYJngo8laVU7d7UjE2wdw29Vlqfh
- HVJ7ox5Bje7wFTLdahtqRDPMJSRkeSIrrbQ5HNIe/5tO3crXQU9nX+ouoUHtWD67OnW9
- /b+tU15K9HXwfoxsae0/uryyrjgm87ukjEhAKy+EA5MfmnRWqs7ifS6uH82pGn+XnD3L
- y/YCGfM2/n06JDp/14ZUfi0KFExVuFwNTiiEe1tBQonCu5wXF4CbmSzbBx0lq6iqxMQT dw== 
+ bh=TB3BkgmyReUhhLwwZP6E0LuWO4jA3RAmt5KETLnSFmk=;
+ b=erSsRncWHfTfgt1hSBbJVJkg4qpjxVOYOW155egY+s/7bfch9x6ovQd99jhKgW32hzAp
+ iOo04rFy+9NpvhSA9Bf/HKtFOxlYSA8oxTdfiL8j/uxo5sACisdBXQdSJ0p30mfZ6xTn
+ D9EeRrmLENOkU5ioixzzmPYz2VR8+ds33mPOZsUKLDNKl4Hd+k3MZNdxfanzD0GxcgI5
+ 2PO4ZJhyLNtwEsD8Smktfsyc7kGm6g9leXkczQgnbzNqBLYB/7mTMtZ/Nb5qJTJ/Mp0k
+ rVx+HW3073yt3Vd3rTX3lc5HvKjjpxRAifn/qO7b66qn2Pk4g4EFysbtejs/sZi7K0wv BQ== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 2rys6s2m2w-1
+        by mx08-00178001.pphosted.com with ESMTP id 2ryrj6cabb-1
         (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Thu, 25 Apr 2019 11:17:39 +0200
+        Thu, 25 Apr 2019 11:17:37 +0200
 Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 02F443F;
-        Thu, 25 Apr 2019 09:17:36 +0000 (GMT)
-Received: from Webmail-eu.st.com (Safex1hubcas22.st.com [10.75.90.92])
-        by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id D8C7D1615;
-        Thu, 25 Apr 2019 09:17:35 +0000 (GMT)
-Received: from SAFEX1HUBCAS23.st.com (10.75.90.47) by Safex1hubcas22.st.com
- (10.75.90.92) with Microsoft SMTP Server (TLS) id 14.3.361.1; Thu, 25 Apr
- 2019 11:17:35 +0200
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 2B9B83A;
+        Thu, 25 Apr 2019 09:17:37 +0000 (GMT)
+Received: from Webmail-eu.st.com (Safex1hubcas21.st.com [10.75.90.44])
+        by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 0B409161E;
+        Thu, 25 Apr 2019 09:17:37 +0000 (GMT)
+Received: from SAFEX1HUBCAS23.st.com (10.75.90.47) by SAFEX1HUBCAS21.st.com
+ (10.75.90.44) with Microsoft SMTP Server (TLS) id 14.3.361.1; Thu, 25 Apr
+ 2019 11:17:36 +0200
 Received: from localhost (10.201.23.25) by webmail-ga.st.com (10.75.90.48)
- with Microsoft SMTP Server (TLS) id 14.3.439.0; Thu, 25 Apr 2019 11:17:35
+ with Microsoft SMTP Server (TLS) id 14.3.439.0; Thu, 25 Apr 2019 11:17:36
  +0200
 From:   Fabien Dessenne <fabien.dessenne@st.com>
 To:     Ohad Ben-Cohen <ohad@wizery.com>,
@@ -56,9 +56,9 @@ To:     Ohad Ben-Cohen <ohad@wizery.com>,
         <linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>
 CC:     Fabien Dessenne <fabien.dessenne@st.com>,
         Benjamin Gaignard <benjamin.gaignard@st.com>
-Subject: [PATCH v2 5/6] ARM: dts: stm32: Add hwlock for irqchip on stm32mp157
-Date:   Thu, 25 Apr 2019 11:17:22 +0200
-Message-ID: <1556183843-28033-6-git-send-email-fabien.dessenne@st.com>
+Subject: [PATCH v2 6/6] ARM: dts: stm32: hwlocks for GPIO for stm32mp157
+Date:   Thu, 25 Apr 2019 11:17:23 +0200
+Message-ID: <1556183843-28033-7-git-send-email-fabien.dessenne@st.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1556183843-28033-1-git-send-email-fabien.dessenne@st.com>
 References: <1556183843-28033-1-git-send-email-fabien.dessenne@st.com>
@@ -72,26 +72,33 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Define a hwspinlock to be used by the irq controller driver and the
-syscon driver.
+Declare a shared hwlock to be used by all gpio / pin controllers.
 
 Signed-off-by: Fabien Dessenne <fabien.dessenne@st.com>
 ---
- arch/arm/boot/dts/stm32mp157c.dtsi | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm/boot/dts/stm32mp157-pinctrl.dtsi | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm/boot/dts/stm32mp157c.dtsi b/arch/arm/boot/dts/stm32mp157c.dtsi
-index 824d7e1..417bdf7 100644
---- a/arch/arm/boot/dts/stm32mp157c.dtsi
-+++ b/arch/arm/boot/dts/stm32mp157c.dtsi
-@@ -921,6 +921,7 @@
- 			interrupt-controller;
- 			#interrupt-cells = <2>;
- 			reg = <0x5000d000 0x400>;
-+			hwlocks = <&hsem 1 1>;
- 		};
+diff --git a/arch/arm/boot/dts/stm32mp157-pinctrl.dtsi b/arch/arm/boot/dts/stm32mp157-pinctrl.dtsi
+index 6b3a9c6..9fd562a 100644
+--- a/arch/arm/boot/dts/stm32mp157-pinctrl.dtsi
++++ b/arch/arm/boot/dts/stm32mp157-pinctrl.dtsi
+@@ -14,6 +14,7 @@
+ 			ranges = <0 0x50002000 0xa400>;
+ 			interrupt-parent = <&exti>;
+ 			st,syscfg = <&exti 0x60 0xff>;
++			hwlocks = <&hsem 0 1>;
+ 			pins-are-numbered;
  
- 		syscfg: syscon@50020000 {
+ 			gpioa: gpio@50002000 {
+@@ -424,6 +425,7 @@
+ 			pins-are-numbered;
+ 			interrupt-parent = <&exti>;
+ 			st,syscfg = <&exti 0x60 0xff>;
++			hwlocks = <&hsem 0 1>;
+ 
+ 			gpioz: gpio@54004000 {
+ 				gpio-controller;
 -- 
 2.7.4
 
