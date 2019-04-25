@@ -1,137 +1,261 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9BA967D910
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Apr 2019 00:45:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8B1FD7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 25 Apr 2019 01:08:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727592AbfDYAoz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 24 Apr 2019 20:44:55 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:41034 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726455AbfDYAoy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Apr 2019 20:44:54 -0400
-Received: by mail-pl1-f194.google.com with SMTP id d9so4229873pls.8;
-        Wed, 24 Apr 2019 17:44:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ZByeP/U/Xsd+bzaA85yvOt7T/npZJcZ57cO9BOcxw9k=;
-        b=MHC2cPC9MLaoJAmE0CQN2S97KWBqkPkLXs9f+lzC+8TPecWG2IM3XWlk4gYZd7AaMD
-         20TYn191QK9PLMw5yBzhtLf8+6iS2/O0pVoQsRgHp8Gv3kflNQwkNfGQpgaJPoTiRu8c
-         FNW52u2xkj2adCr8HGTYq9Q0v7rjOgp9dRdAcDno1UnknHgKYjI1faCRBpBfpQ8Srb9J
-         njMYRHV1PqkT1MLU4IsSFYCM0U39NGDM8i6nKuv5Dxs9ZUKp1AkPpOCKq5JF6a0bZzlM
-         XnTkPt5GY3LlwDkH16Usygfj4fExjFxgSQbr+8Deb9GM8KqE6wDqdnLNbCa88ymTeLaK
-         ECeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ZByeP/U/Xsd+bzaA85yvOt7T/npZJcZ57cO9BOcxw9k=;
-        b=nKkGsa4nxvgp5JjVhahYr3MSusuwt/ZieckZkcywRKtXHb1xpLlYOGE+mOYNgYfuWP
-         akR2nYz2sxPA2t4vOQzS/b7mKYl2C4rHH5f7JLB5t19vi9AZKb9zr42AXSBBi/hJE+pr
-         g8Isuzoorgt/gBLzWYT9HseVWWxyatgbzfPiDaEVh/IKC3frf1OESg/yOReHp5cvC5tT
-         /R1Dnu4AkB1bYaK2hRxiy1ob2RKQrSk9fOn5aPH0t8b/pc+C48IVnrI+AvI45RM9sbah
-         LpIuo/5lBshLzZs1auJhpV4r92RbHbCc6JoaNuduJgrfDNTstiO4WB08apghVLWmoty0
-         aZUw==
-X-Gm-Message-State: APjAAAXWfHzE6M56ikzKyXK6opIo5ZaXfKTdOvK3LUcAYln2YZ2ecSOg
-        AA2Z+S5xK3lMghXarHzXJCg=
-X-Google-Smtp-Source: APXvYqwiA2jiYqMbnX8meUdO/rblXtj9B6eFO73auf+KnxKT4SbqW+4arNMPnXTszoQF0bAOgYPKww==
-X-Received: by 2002:a17:902:b617:: with SMTP id b23mr33814911pls.73.1556153093960;
-        Wed, 24 Apr 2019 17:44:53 -0700 (PDT)
-Received: from mail.google.com ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id j9sm42583869pfc.43.2019.04.24.17.44.52
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 24 Apr 2019 17:44:52 -0700 (PDT)
-Date:   Thu, 25 Apr 2019 00:44:51 +0000
-From:   Changbin Du <changbin.du@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Changbin Du <changbin.du@gmail.com>, rjw@rjwysocki.net,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bjorn Helgaas <bhelgaas@google.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, fenghua.yu@intel.com,
-        linuxppc-dev@lists.ozlabs.org, linux-acpi@vger.kernel.org,
-        linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v5 20/23] Documentation: ACPI: move cppc_sysfs.txt to
- admin-guide/acpi and convert to reST
-Message-ID: <20190425004450.qdajhnzlanufxhx3@mail.google.com>
-References: <20190424175306.25880-1-changbin.du@gmail.com>
- <20190424175306.25880-21-changbin.du@gmail.com>
- <20190424151236.776d9678@coco.lan>
+        id S1728721AbfDYBIu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 24 Apr 2019 21:08:50 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:51422 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728694AbfDYBIt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Apr 2019 21:08:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=u0+f+5W55gCaYe2hCoPvwjObKNxtQ8YzSGTEv/ShQIA=; b=Y5heAHpw11mspH2GORkrEjdW8
+        p1uIDMXCODEL7KAgz+ReFtoh1NiL6MheZckwyQl2e3LIwa1IXW3gpP5qJ4QCU6VdZ3oDXbs28eHrr
+        0y2QsnjaOtVUVqW2rteTa1kXWK9YxLqKGKQ8VV1QjXdaXi9FfXyNruX9VSiOuor+Yfh/j7iz68ZFo
+        xjG3xIoop3KqxetcpPeeXMD7OgJTVY2hvj5MBkvy1CD/ZmwddO/ppICOdh/qZgexNNV4sxgAWqkik
+        KIpCsPQwC7ZJGrCE/QDnG6qG8hbvYBnLWOzDI4FIBWP5PkAIrofzfyGjOmTah6Zqo2tr6n/ZI2mtS
+        u3ZxUDHHA==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hJSsa-0005rc-OY; Thu, 25 Apr 2019 01:08:48 +0000
+Subject: Re: [PATCH] docs/vm: add documentation of memory models
+To:     Mike Rapoport <rppt@linux.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org
+References: <1556101715-31966-1-git-send-email-rppt@linux.ibm.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <a4def881-1df0-6835-4b9a-dc957c979683@infradead.org>
+Date:   Wed, 24 Apr 2019 18:08:46 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190424151236.776d9678@coco.lan>
-User-Agent: NeoMutt/20180716-508-7c9a6d
+In-Reply-To: <1556101715-31966-1-git-send-email-rppt@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 24, 2019 at 03:12:36PM -0300, Mauro Carvalho Chehab wrote:
-> Em Thu, 25 Apr 2019 01:53:03 +0800
-> Changbin Du <changbin.du@gmail.com> escreveu:
+On 4/24/19 3:28 AM, Mike Rapoport wrote:
+> Describe what {FLAT,DISCONTIG,SPARSE}MEM are and how they manage to
+> maintain pfn <-> struct page correspondence.
 > 
-> > This converts the plain text documentation to reStructuredText format and
-> > add it to Sphinx TOC tree. No essential content change.
-> > 
-> > Signed-off-by: Changbin Du <changbin.du@gmail.com>
-> > ---
-> >  .../acpi/cppc_sysfs.rst}                      | 71 ++++++++++---------
-> >  Documentation/admin-guide/acpi/index.rst      |  1 +
-> >  2 files changed, 40 insertions(+), 32 deletions(-)
-> >  rename Documentation/{acpi/cppc_sysfs.txt => admin-guide/acpi/cppc_sysfs.rst} (51%)
-> > 
-> > diff --git a/Documentation/acpi/cppc_sysfs.txt b/Documentation/admin-guide/acpi/cppc_sysfs.rst
-> > similarity index 51%
-> > rename from Documentation/acpi/cppc_sysfs.txt
-> > rename to Documentation/admin-guide/acpi/cppc_sysfs.rst
-> > index f20fb445135d..a4b99afbe331 100644
-> > --- a/Documentation/acpi/cppc_sysfs.txt
-> > +++ b/Documentation/admin-guide/acpi/cppc_sysfs.rst
-> > @@ -1,5 +1,11 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> >  
-> > -	Collaborative Processor Performance Control (CPPC)
-> > +==================================================
-> > +Collaborative Processor Performance Control (CPPC)
-> > +==================================================
-> > +
-> > +CPPC
-> > +====
-> >  
-> >  CPPC defined in the ACPI spec describes a mechanism for the OS to manage the
-> >  performance of a logical processor on a contigious and abstract performance
-> > @@ -10,31 +16,28 @@ For more details on CPPC please refer to the ACPI specification at:
-> >  
-> >  http://uefi.org/specifications
-> >  
-> > -Some of the CPPC registers are exposed via sysfs under:
-> > -
-> > -/sys/devices/system/cpu/cpuX/acpi_cppc/
+> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> ---
+>  Documentation/vm/index.rst        |   1 +
+>  Documentation/vm/memory-model.rst | 171 ++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 172 insertions(+)
+>  create mode 100644 Documentation/vm/memory-model.rst
 > 
-> 
-> > -
-> > -for each cpu X
-> 
-> Yeah, there it is: you're removing those two lines.
->
-They are indented, see below diffs. I did remove "-----...." two lines.
-> > +Some of the CPPC registers are exposed via sysfs under::
-> >  
-> > ---------------------------------------------------------------------------------
-> > +  /sys/devices/system/cpu/cpuX/acpi_cppc/
-> 
-> As per my reply to v4.
-> 
-> Thanks,
-> Mauro
 
+Hi Mike,
+I have a few minor edits below...
+
+> diff --git a/Documentation/vm/memory-model.rst b/Documentation/vm/memory-model.rst
+> new file mode 100644
+> index 0000000..914c52a
+> --- /dev/null
+> +++ b/Documentation/vm/memory-model.rst
+> @@ -0,0 +1,171 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. _physical_memory_model:
+> +
+> +=====================
+> +Physical Memory Model
+> +=====================
+> +
+> +Physical memory in a system may be addressed in different ways. The
+> +simplest case is when the physical memory starts at address 0 and
+> +spans a contiguous range up to the maximal address. It could be,
+> +however, that this range contains small holes that are not accessible
+> +for the CPU. Then there could be several contiguous ranges at
+> +completely distinct addresses. And, don't forget about NUMA, where
+> +different memory banks are attached to different CPUs.
+> +
+> +Linux abstracts this diversity using one of the three memory models:
+> +FLATMEM, DISCONTIGMEM and SPARSEMEM. Each architecture defines what
+> +memory models it supports, what is the default memory model and
+> +whether it possible to manually override that default.
+> +
+> +All the memory models track the status of physical page frames using
+> +:c:type:`struct page` arranged in one or more arrays.
+> +
+> +Regardless of the selected memory model, there exists one-to-one
+> +mapping between the physical page frame number (PFN) and the
+> +corresponding `struct page`.
+> +
+> +Each memory model defines :c:func:`pfn_to_page` and :c:func:`page_to_pfn`
+> +helpers that allow the conversion from PFN to `struct page` and vise
+
+                                                                   vice
+
+> +versa.
+> +
+> +FLATMEM
+> +=======
+> +
+> +The simplest memory model is FLATMEM. This model is suitable for
+> +non-NUMA systems with contiguous, or mostly contiguous, physical
+> +memory.
+> +
+> +In the FLATMEM memory model, there is a global `mem_map` array that
+> +maps the entire physical memory. For most architectures, the holes
+> +have entries in the `mem_map` array. The `struct page` objects
+> +corresponding to the holes are never fully initialized.
+> +
+> +To allocate the `mem_map` array, architecture specific setup code
+> +should call :c:func:`free_area_init_node` function or its convenience
+> +wrapper :c:func:`free_area_init`. Yet, the mappings array is not
+> +usable until the call to :c:func:`memblock_free_all` that hands all
+> +the memory to the page allocator.
+> +
+> +If an architecture enables `CONFIG_ARCH_HAS_HOLES_MEMORYMODEL` option,
+> +it may free parts of the `mem_map` array that do not cover the
+> +actual physical pages. In such case, the architecture specific
+> +:c:func:`pfn_valid` implementation should take the holes in the
+> +`mem_map` into account.
+> +
+> +With FLATMEM, the conversion between a PFN and the `struct page` is
+> +straightforward: `PFN - ARCH_PFN_OFFSET` is an index to the
+> +`mem_map` array.
+> +
+> +The `ARCH_PFN_OFFSET` defines the first page frame number for
+> +systems that their physical memory does not start at 0.
+
+s/that/when/ ?  Seems awkward as is.
+
+> +
+> +DISCONTIGMEM
+> +============
+> +
+> +The DISCONTIGMEM model treats the physical memory as a collection of
+> +`nodes` similarly to how Linux NUMA support does. For each node Linux
+> +constructs an independent memory management subsystem represented by
+> +`struct pglist_data` (or `pg_data_t` for short). Among other
+> +things, `pg_data_t` holds the `node_mem_map` array that maps
+> +physical pages belonging to that node. The `node_start_pfn` field of
+> +`pg_data_t` is the number of the first page frame belonging to that
+> +node.
+> +
+> +The architecture setup code should call :c:func:`free_area_init_node` for
+> +each node in the system to initialize the `pg_data_t` object and its
+> +`node_mem_map`.
+> +
+> +Every `node_mem_map` behaves exactly as FLATMEM's `mem_map` -
+> +every physical page frame in a node has a `struct page` entry in the
+> +`node_mem_map` array. When DISCONTIGMEM is enabled, a portion of the
+> +`flags` field of the `struct page` encodes the node number of the
+> +node hosting that page.
+> +
+> +The conversion between a PFN and the `struct page` in the
+> +DISCONTIGMEM model became slightly more complex as it has to determine
+> +which node hosts the physical page and which `pg_data_t` object
+> +holds the `struct page`.
+> +
+> +Architectures that support DISCONTIGMEM provide :c:func:`pfn_to_nid`
+> +to convert PFN to the node number. The opposite conversion helper
+> +:c:func:`page_to_nid` is generic as it uses the node number encoded in
+> +page->flags.
+> +
+> +Once the node number is known, the PFN can be used to index
+> +appropriate `node_mem_map` array to access the `struct page` and
+> +the offset of the `struct page` from the `node_mem_map` plus
+> +`node_start_pfn` is the PFN of that page.
+> +
+> +SPARSEMEM
+> +=========
+> +
+> +SPARSEMEM is the most versatile memory model available in Linux and it
+> +is the only memory model that supports several advanced features such
+> +as hot-plug and hot-remove of the physical memory, alternative memory
+> +maps for non-volatile memory devices and deferred initialization of
+> +the memory map for larger systems.
+> +
+> +The SPARSEMEM model presents the physical memory as a collection of
+> +sections. A section is represented with :c:type:`struct mem_section`
+> +that contains `section_mem_map` that is, logically, a pointer to an
+> +array of struct pages. However, it is stored with some other magic
+> +that aids the sections management. The section size and maximal number
+> +of section is specified using `SECTION_SIZE_BITS` and
+> +`MAX_PHYSMEM_BITS` constants defined by each architecture that
+> +supports SPARSEMEM. While `MAX_PHYSMEM_BITS` is an actual width of a
+> +physical address that an architecture supports, the
+> +`SECTION_SIZE_BITS` is an arbitrary value.
+> +
+> +The maximal number of sections is denoted `NR_MEM_SECTIONS` and
+> +defined as
+> +
+> +.. math::
+> +
+> +   NR\_MEM\_SECTIONS = 2 ^ {(MAX\_PHYSMEM\_BITS - SECTION\_SIZE\_BITS)}
+> +
+> +The `mem_section` objects are arranged in a two dimensional array
+
+                                               two-dimensional
+
+> +called `mem_sections`. The size and placement of this array depend
+> +on `CONFIG_SPARSEMEM_EXTREME` and the maximal possible number of
+> +sections:
+> +
+> +* When `CONFIG_SPARSEMEM_EXTREME` is disabled, the `mem_sections`
+> +  array is static and has `NR_MEM_SECTIONS` rows. Each row holds a
+> +  single `mem_section` object.
+> +* When `CONFIG_SPARSEMEM_EXTREME` is enabled, the `mem_sections`
+> +  array is dynamically allocated. Each row contains PAGE_SIZE worth of
+> +  `mem_section` objects and the number of rows is calculated to fit
+> +  all the memory sections.
+> +
+> +The architecture setup code should call :c:func:`memory_present` for
+> +each active memory range or use :c:func:`memblocks_present` or
+> +:c:func:`sparse_memory_present_with_active_regions` wrappers to
+> +initialize the memory sections. Next, the actual memory maps should be
+> +set up using :c:func:`sparse_init`.
+> +
+> +With SPARSEMEM there are two possible ways to convert a PFN to the
+> +corresponding `struct page` - a "classic sparse" and "sparse
+> +vmemmap". The selection is made at build time and it is determined by
+> +the value of `CONFIG_SPARSEMEM_VMEMMAP`.
+> +
+> +The classic sparse encodes the section number of a page in page->flags
+> +and uses high bits of a PFN to access the section that maps that page
+> +frame. Inside a section, the PFN is the index to the array of pages.
+> +
+> +The sparse vmemmap uses a virtually mapped memory map to optimize
+> +pfn_to_page and page_to_pfn operations. There is a global `struct
+> +page *vmemmap` pointer that points to a virtually contiguous array of
+> +`struct page` objects. A PFN is an index to that array and the the
+> +offset of the `struct page` from `vmemmap` is the PFN of that
+> +page.
+> +
+> +To use vmemmap, an architecture has to reserve a range of virtual
+> +addresses that will map the physical pages containing the memory
+> +map. and make sure that `vmemmap` points to that range. In addition,
+
+   map and
+
+> +the architecture should implement :c:func:`vmemmap_populate` method
+> +that will allocate the physical memory and create page tables for the
+> +virtual memory map. If an architecture does not have any special
+> +requirements for the vmemmap mappings, it can use default
+> +:c:func:`vmemmap_populate_basepages` provided by the generic memory
+> +management.
+> 
+
+thanks.
 -- 
-Cheers,
-Changbin Du
+~Randy
