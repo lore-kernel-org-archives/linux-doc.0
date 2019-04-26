@@ -6,56 +6,56 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8A1067D922
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Apr 2019 15:32:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 33E147D91A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Apr 2019 15:33:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726448AbfDZPcf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Apr 2019 11:32:35 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:35295 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726272AbfDZPcb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Apr 2019 11:32:31 -0400
-Received: by mail-pf1-f196.google.com with SMTP id t21so1911303pfh.2;
-        Fri, 26 Apr 2019 08:32:30 -0700 (PDT)
+        id S1726729AbfDZPcn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Apr 2019 11:32:43 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:43661 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726696AbfDZPcl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Apr 2019 11:32:41 -0400
+Received: by mail-pf1-f195.google.com with SMTP id e67so1893379pfe.10;
+        Fri, 26 Apr 2019 08:32:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=5jjkiJL4nDuKZfOxFqwF/ZDYwX10t+hM0cHd7uXaRQI=;
-        b=r//mM3eNoI0HGUGbY/RGurxgpi5itmCIRB6bsDZ2oUnu4HBYbk6VNPbRDI482JKI9p
-         GJDeWAfZ18N9nhQ3mXXgx3ErVxgzVMAC0+KI4N4/l5MTvstZWQnhSHKa3x4ShXSonWWr
-         EBj00+q9pEmTYnwCc25IjzNxjBNtQHTbzERfnWXODMOPWK3USN3Q+749zrJ9MQOJ/la5
-         j0CEgRHhGQnSR59x/Jg+F6jLNefGfBiuQGvHHzsaKSNQgvOdto7hWDGMC697e4cSv3TT
-         XngL5z8cHWG12V/PwU06hHpWhiROXzPHPYvREM6mgb+7A8PCOIWkg4UHBprR1KGDSOW5
-         6mYw==
+        bh=n9lwqiKGdUroDww2WFkm9jYtVCvbzItCk9Ugl1HYVfw=;
+        b=HKIptMudEQ+6us8JHx15m5uF+NLQr5slcrd6kSybISCA6LP8MSN/2/RAk2zh2u1Mue
+         XFTYBS8/AB8YRhZlWTsRsoNBXPlszGois3doU65bvodFDouOBsw/Ft7QXPXEwas+oG9j
+         lo49GqZW4Nr1JwYozCaAQt9Ere888KXcKKFhU77aZOvP9HM3Ka/wcltEd+FBVzUODFAN
+         4stURUq9mmPq+tCz0xMrsBi5eeXx3m2grZr3LHNH/cw2lWHNYNwtL+28sTAxHhPW3pXL
+         FHRWL3He2hqfdwf7CX8wU/QLue80w3oVGNGP7emmdF8ty5N4f693NqShVjGSsotCnFXl
+         7+JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=5jjkiJL4nDuKZfOxFqwF/ZDYwX10t+hM0cHd7uXaRQI=;
-        b=lwDXDwWwLZpd5I4ozjHpSHcOF2KK3nfRSzE0Tzv02dsctGalbl+2XL9U3vBhq3rwxY
-         7aObi5MeRHW1HlfACpel51yBVzV8xlMdnvZZipZHTq3wysquvEv3viCyjIpNRFFEwz9M
-         +8nUaT9WHSJ96wSCXue92byNDHymgkYZQt6JMuoom3O7JDfCWtBIigHjsQhvccLnqHz8
-         uyj9qKT0ADotYGaqHNkD9A7aKFEsQ/dGTBAOtAblD4Favs0AuIpWRehlFsMUQEUqlO+R
-         QPLsIvECvLxI4evsaiqoaPPjqMvcroTOBFyxQ/OzVeD5TanGVDysDaIR0jW4/Kk0+x/n
-         l+OA==
-X-Gm-Message-State: APjAAAUTFUJfDq/w9fIGcxSl2A6AmN9wOSHTvZP6dSPkzceKcYm+770Z
-        mlz3+BHEx26+vZstcjwq49s=
-X-Google-Smtp-Source: APXvYqwWETsJgGqSGuuZc7pJ+zfgvNP+iVEeX2WuhU66LJoEbg1FEj5pLgqX+4akmY98VEKsTuNFEw==
-X-Received: by 2002:a65:6644:: with SMTP id z4mr11895423pgv.300.1556292750609;
-        Fri, 26 Apr 2019 08:32:30 -0700 (PDT)
+        bh=n9lwqiKGdUroDww2WFkm9jYtVCvbzItCk9Ugl1HYVfw=;
+        b=r3vlJ5u+2eJliKgQDK7j/NuonG/ZOzpZL8FMbnIX6nHFwE8CDsDhx6JPUpfj6urIlc
+         k/eNOeolgAvcc6ytETmhyu9KsqDE5iLLqap1HD7zw7F04my+mjCrq7VQf+87dEqVc+Kt
+         ZdqmyAVfqweuQHKmQF6lxYYllDbjv8sS26gs3me+cTyUY1s43aqq/MJonb8IKMXrk6PT
+         IsEvzP41hG8/n3+H9htCZ7MM4miQJZKFx68MFO6nSp5p6XOCBgpCFv1hJqsOM3qhBeAh
+         WdtM4fabTd0u5Kgg3QRYXGzsIETiXv888jFcTQ+wl4QLiSVSpHYikUT5g0eQYLJgn/G5
+         V2jg==
+X-Gm-Message-State: APjAAAXdBno02RI5saA+y3SZFNrhWRXe3dLjDR36G/IeQEdjTOk/ZR84
+        xlYmucmsVxbssooXg3WUpn4=
+X-Google-Smtp-Source: APXvYqxF9PR+YusJwQ4Wt1zdaXFT9Q82Vdhg9k3YBt7amEk+kNEJJ5KKyiW0jHmhp+cB9936Z774YA==
+X-Received: by 2002:a63:fb4d:: with SMTP id w13mr44723968pgj.397.1556292760600;
+        Fri, 26 Apr 2019 08:32:40 -0700 (PDT)
 Received: from localhost.localdomain ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id b1sm29024833pgq.15.2019.04.26.08.32.26
+        by smtp.gmail.com with ESMTPSA id b1sm29024833pgq.15.2019.04.26.08.32.35
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 26 Apr 2019 08:32:29 -0700 (PDT)
+        Fri, 26 Apr 2019 08:32:39 -0700 (PDT)
 From:   Changbin Du <changbin.du@gmail.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         mchehab+samsung@kernel.org, Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH 03/27] Documentation: x86: convert topology.txt to reST
-Date:   Fri, 26 Apr 2019 23:31:26 +0800
-Message-Id: <20190426153150.21228-4-changbin.du@gmail.com>
+Subject: [PATCH 05/27] Documentation: x86: convert kernel-stacks to reST
+Date:   Fri, 26 Apr 2019 23:31:28 +0800
+Message-Id: <20190426153150.21228-6-changbin.du@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190426153150.21228-1-changbin.du@gmail.com>
 References: <20190426153150.21228-1-changbin.du@gmail.com>
@@ -72,224 +72,76 @@ add it to Sphinx TOC tree. No essential content change.
 Signed-off-by: Changbin Du <changbin.du@gmail.com>
 ---
  Documentation/x86/index.rst                   |  1 +
- .../x86/{topology.txt => topology.rst}        | 92 ++++++++++---------
- 2 files changed, 49 insertions(+), 44 deletions(-)
- rename Documentation/x86/{topology.txt => topology.rst} (74%)
+ .../x86/{kernel-stacks => kernel-stacks.rst}  | 20 ++++++++++++-------
+ 2 files changed, 14 insertions(+), 7 deletions(-)
+ rename Documentation/x86/{kernel-stacks => kernel-stacks.rst} (92%)
 
 diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
-index 8f08caf4fbbb..2033791e53bc 100644
+index c0bfd0bd6000..489f4f4179c4 100644
 --- a/Documentation/x86/index.rst
 +++ b/Documentation/x86/index.rst
-@@ -9,3 +9,4 @@ Linux x86 Support
-    :numbered:
- 
+@@ -11,3 +11,4 @@ Linux x86 Support
     boot
-+   topology
-diff --git a/Documentation/x86/topology.txt b/Documentation/x86/topology.rst
-similarity index 74%
-rename from Documentation/x86/topology.txt
-rename to Documentation/x86/topology.rst
-index 2953e3ec9a02..5176e5315faa 100644
---- a/Documentation/x86/topology.txt
-+++ b/Documentation/x86/topology.rst
-@@ -1,3 +1,6 @@
+    topology
+    exception-tables
++   kernel-stacks
+diff --git a/Documentation/x86/kernel-stacks b/Documentation/x86/kernel-stacks.rst
+similarity index 92%
+rename from Documentation/x86/kernel-stacks
+rename to Documentation/x86/kernel-stacks.rst
+index 9a0aa4d3a866..3e6bf5940db0 100644
+--- a/Documentation/x86/kernel-stacks
++++ b/Documentation/x86/kernel-stacks.rst
+@@ -1,5 +1,11 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+============
- x86 Topology
- ============
++=============
++Kernel Stacks
++=============
++
+ Kernel stacks on x86-64 bit
+----------------------------
++===========================
  
-@@ -33,14 +36,14 @@ The topology of a system is described in the units of:
-     - cores
-     - threads
+ Most of the text from Keith Owens, hacked by AK
  
--* Package:
--
--  Packages contain a number of cores plus shared resources, e.g. DRAM
--  controller, shared caches etc.
-+Package
-+=======
-+Packages contain a number of cores plus shared resources, e.g. DRAM
-+controller, shared caches etc.
+@@ -57,7 +63,7 @@ IST events with the same code to be nested.  However in most cases, the
+ stack size allocated to an IST assumes no nesting for the same code.
+ If that assumption is ever broken then the stacks will become corrupt.
  
--  AMD nomenclature for package is 'Node'.
-+AMD nomenclature for package is 'Node'.
+-The currently assigned IST stacks are :-
++The currently assigned IST stacks are :
  
--  Package-related topology information in the kernel:
-+Package-related topology information in the kernel:
+ * DOUBLEFAULT_STACK.  EXCEPTION_STKSZ (PAGE_SIZE).
  
-   - cpuinfo_x86.x86_max_cores:
- 
-@@ -66,40 +69,41 @@ The topology of a system is described in the units of:
-   - cpu_llc_id:
- 
-     A per-CPU variable containing:
--    - On Intel, the first APIC ID of the list of CPUs sharing the Last Level
--    Cache
- 
--    - On AMD, the Node ID or Core Complex ID containing the Last Level
--    Cache. In general, it is a number identifying an LLC uniquely on the
--    system.
-+      - On Intel, the first APIC ID of the list of CPUs sharing the Last Level
-+        Cache
- 
--* Cores:
-+      - On AMD, the Node ID or Core Complex ID containing the Last Level
-+        Cache. In general, it is a number identifying an LLC uniquely on the
-+        system.
- 
--  A core consists of 1 or more threads. It does not matter whether the threads
--  are SMT- or CMT-type threads.
-+Cores
-+=====
-+A core consists of 1 or more threads. It does not matter whether the threads
-+are SMT- or CMT-type threads.
- 
--  AMDs nomenclature for a CMT core is "Compute Unit". The kernel always uses
--  "core".
-+AMDs nomenclature for a CMT core is "Compute Unit". The kernel always uses
-+"core".
- 
--  Core-related topology information in the kernel:
-+Core-related topology information in the kernel:
- 
-   - smp_num_siblings:
- 
-     The number of threads in a core. The number of threads in a package can be
--    calculated by:
-+    calculated by::
- 
- 	threads_per_package = cpuinfo_x86.x86_max_cores * smp_num_siblings
+@@ -98,7 +104,7 @@ For more details see the Intel IA32 or AMD AMD64 architecture manuals.
  
  
--* Threads:
-+Threads
-+=======
-+A thread is a single scheduling unit. It's the equivalent to a logical Linux
-+CPU.
+ Printing backtraces on x86
+---------------------------
++==========================
  
--  A thread is a single scheduling unit. It's the equivalent to a logical Linux
--  CPU.
-+AMDs nomenclature for CMT threads is "Compute Unit Core". The kernel always
-+uses "thread".
+ The question about the '?' preceding function names in an x86 stacktrace
+ keeps popping up, here's an indepth explanation. It helps if the reader
+@@ -108,7 +114,7 @@ arch/x86/kernel/dumpstack.c.
+ Adapted from Ingo's mail, Message-ID: <20150521101614.GA10889@gmail.com>:
  
--  AMDs nomenclature for CMT threads is "Compute Unit Core". The kernel always
--  uses "thread".
--
--  Thread-related topology information in the kernel:
-+Thread-related topology information in the kernel:
+ We always scan the full kernel stack for return addresses stored on
+-the kernel stack(s) [*], from stack top to stack bottom, and print out
++the kernel stack(s) [1]_, from stack top to stack bottom, and print out
+ anything that 'looks like' a kernel text address.
  
-   - topology_core_cpumask():
+ If it fits into the frame pointer chain, we print it without a question
+@@ -136,6 +142,6 @@ that look like kernel text addresses, so if debug information is wrong,
+ we still print out the real call chain as well - just with more question
+ marks than ideal.
  
-@@ -113,15 +117,15 @@ The topology of a system is described in the units of:
-     The cpumask contains all online threads in the core to which a thread
-     belongs.
- 
--   - topology_logical_package_id():
-+  - topology_logical_package_id():
- 
-     The logical package ID to which a thread belongs.
- 
--   - topology_physical_package_id():
-+  - topology_physical_package_id():
- 
-     The physical package ID to which a thread belongs.
- 
--   - topology_core_id();
-+  - topology_core_id();
- 
-     The ID of the core to which a thread belongs. It is also printed in /proc/cpuinfo
-     "core_id."
-@@ -129,41 +133,41 @@ The topology of a system is described in the units of:
- 
- 
- System topology examples
-+========================
- 
--Note:
--
--The alternative Linux CPU enumeration depends on how the BIOS enumerates the
--threads. Many BIOSes enumerate all threads 0 first and then all threads 1.
--That has the "advantage" that the logical Linux CPU numbers of threads 0 stay
--the same whether threads are enabled or not. That's merely an implementation
--detail and has no practical impact.
-+.. note::
-+  The alternative Linux CPU enumeration depends on how the BIOS enumerates the
-+  threads. Many BIOSes enumerate all threads 0 first and then all threads 1.
-+  That has the "advantage" that the logical Linux CPU numbers of threads 0 stay
-+  the same whether threads are enabled or not. That's merely an implementation
-+  detail and has no practical impact.
- 
--1) Single Package, Single Core
-+1) Single Package, Single Core::
- 
-    [package 0] -> [core 0] -> [thread 0] -> Linux CPU 0
- 
- 2) Single Package, Dual Core
- 
--   a) One thread per core
-+   a) One thread per core::
- 
- 	[package 0] -> [core 0] -> [thread 0] -> Linux CPU 0
- 		    -> [core 1] -> [thread 0] -> Linux CPU 1
- 
--   b) Two threads per core
-+   b) Two threads per core::
- 
- 	[package 0] -> [core 0] -> [thread 0] -> Linux CPU 0
- 				-> [thread 1] -> Linux CPU 1
- 		    -> [core 1] -> [thread 0] -> Linux CPU 2
- 				-> [thread 1] -> Linux CPU 3
- 
--      Alternative enumeration:
-+      Alternative enumeration::
- 
- 	[package 0] -> [core 0] -> [thread 0] -> Linux CPU 0
- 				-> [thread 1] -> Linux CPU 2
- 		    -> [core 1] -> [thread 0] -> Linux CPU 1
- 				-> [thread 1] -> Linux CPU 3
- 
--      AMD nomenclature for CMT systems:
-+      AMD nomenclature for CMT systems::
- 
- 	[node 0] -> [Compute Unit 0] -> [Compute Unit Core 0] -> Linux CPU 0
- 				     -> [Compute Unit Core 1] -> Linux CPU 1
-@@ -172,7 +176,7 @@ detail and has no practical impact.
- 
- 4) Dual Package, Dual Core
- 
--   a) One thread per core
-+   a) One thread per core::
- 
- 	[package 0] -> [core 0] -> [thread 0] -> Linux CPU 0
- 		    -> [core 1] -> [thread 0] -> Linux CPU 1
-@@ -180,7 +184,7 @@ detail and has no practical impact.
- 	[package 1] -> [core 0] -> [thread 0] -> Linux CPU 2
- 		    -> [core 1] -> [thread 0] -> Linux CPU 3
- 
--   b) Two threads per core
-+   b) Two threads per core::
- 
- 	[package 0] -> [core 0] -> [thread 0] -> Linux CPU 0
- 				-> [thread 1] -> Linux CPU 1
-@@ -192,7 +196,7 @@ detail and has no practical impact.
- 		    -> [core 1] -> [thread 0] -> Linux CPU 6
- 				-> [thread 1] -> Linux CPU 7
- 
--      Alternative enumeration:
-+      Alternative enumeration::
- 
- 	[package 0] -> [core 0] -> [thread 0] -> Linux CPU 0
- 				-> [thread 1] -> Linux CPU 4
-@@ -204,7 +208,7 @@ detail and has no practical impact.
- 		    -> [core 1] -> [thread 0] -> Linux CPU 3
- 				-> [thread 1] -> Linux CPU 7
- 
--      AMD nomenclature for CMT systems:
-+      AMD nomenclature for CMT systems::
- 
- 	[node 0] -> [Compute Unit 0] -> [Compute Unit Core 0] -> Linux CPU 0
- 				     -> [Compute Unit Core 1] -> Linux CPU 1
+-[*] For things like IRQ and IST stacks, we also scan those stacks, in
+-    the right order, and try to cross from one stack into another
+-    reconstructing the call chain. This works most of the time.
++.. [1] For things like IRQ and IST stacks, we also scan those stacks, in
++       the right order, and try to cross from one stack into another
++       reconstructing the call chain. This works most of the time.
 -- 
 2.20.1
 
