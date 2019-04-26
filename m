@@ -6,56 +6,56 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AF46C7D8A4
+	by archive.lwn.net (Postfix) with ESMTP id E1F057D91A
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Apr 2019 15:35:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727053AbfDZPd5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Apr 2019 11:33:57 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:43558 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727054AbfDZPdz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Apr 2019 11:33:55 -0400
-Received: by mail-pg1-f195.google.com with SMTP id z9so1789706pgu.10;
-        Fri, 26 Apr 2019 08:33:54 -0700 (PDT)
+        id S1726295AbfDZPe7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Apr 2019 11:34:59 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:45459 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726218AbfDZPe6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Apr 2019 11:34:58 -0400
+Received: by mail-pg1-f193.google.com with SMTP id y27so1075334pgl.12;
+        Fri, 26 Apr 2019 08:34:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=j70G0amKcQXuPLeLIbM+m355FLoVLcQ+hAcLiiC/LxY=;
-        b=kGw8HXWb2F2NH0sUZg34ijADRtcQ0PLZVxppWcFNUA9vAVfEAe0TW4iWmeijl8256V
-         8+SW5omAYJE5NtPmWY2bd+6bnZO5gSJMy6gOZjqYmY3jPBgae2HODbt1brH+7XqeacJo
-         QqxKvOsq6jDVGnM0Dz1fQOn+usUn2qqwExt2R0cQ33bvRR+toN/71u5RrQMYNmI4er4M
-         dGss2b9Kvk9e5W5D8p4JsjSG6r2mrMRF6uW59rKAXy07Dld8JxObQ5DN6GqflkSBN+Sr
-         PZ90WRnPX9boK2gSL2M6LNSfAabHnYl/IJ3MdcII3t1bB8wx1pS8Pfkuqdvj5eqyrI0i
-         MuDw==
+        bh=6w+/ukhBs5A+/Cpc4cy3lRbWsMEd9es6i7ZvKVBddzs=;
+        b=ar+hnKRt9xUnyGmefS2iMG5EjolPiFrDp9Nf+0rIIyPKhjJQaxNzloVnIzTDIwL7iA
+         Yv0STlefWYMTZU9UH26Iiup2BtXIe/InVTAfqs9R9EdzY259S3IXxLIQQu9JlnQa4BZF
+         CHk/e9HbyRyN3ga7ZWKCUhofgJNHR5WZcjF7XQ5TxFwenJI4onqp+A3Zx1B766gK36V1
+         2RINT3Zpdr2u2SEhcsfuVVmTMg5Yq70uZQoMPrcGx+8iIi1GS8T00QLvwwz6H5MsC5G8
+         m2atqbJfc//HZ9JFRR+6oAfCOAas6Jm95goa4oXiPl0xRMiAYSSdbAfQ0Ny9QR4LgTRB
+         yc7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=j70G0amKcQXuPLeLIbM+m355FLoVLcQ+hAcLiiC/LxY=;
-        b=IHp3rsSDPid8c0Mv/lk0yLVCmFQuaMgngosbQrXxnG9dj1KYB86FeNEY6+4lJV0VQt
-         6b6uZ6jd5Tskls2IPhQy96kDXMXuW3SXtX/TQ19ZU3d7vM1rgK7yb2R93XIIiYhOmfmf
-         3k/OSFiliFLLag8oGotwS1DL729r8zeMM7TJa4ueMIrD0jQKTQGu7bXlRn356X+HUlx9
-         FfqbGJeowQ9gZcD/tOnnNr2ez6RfKmOT63wMEnvktK5OfbN9fZ3YHXCUVITyn7PdNKiA
-         tnVExgTrpdPkQ9gnji4kzL6nH1+w48AGOHUvfIbeZKCV/wnPUxy/JzpHLojhD73rp0iQ
-         8k2w==
-X-Gm-Message-State: APjAAAXO9AfqX6oECRyknopt64+tr1iYoUHN02jn9BRrErCBCxNemX7s
-        LTf8opEMvtJ51uY2iOwDGGw1wVbe
-X-Google-Smtp-Source: APXvYqxFaZ05dHpWKzhv+pnkhWyAjdzHmyuBRkeecHuKP5QCrsVDBvm34X978uhpDCmGebLSIASkrw==
-X-Received: by 2002:a63:f012:: with SMTP id k18mr45267952pgh.433.1556292834374;
-        Fri, 26 Apr 2019 08:33:54 -0700 (PDT)
+        bh=6w+/ukhBs5A+/Cpc4cy3lRbWsMEd9es6i7ZvKVBddzs=;
+        b=WMHzWeW12U/zt978EBcyobguaRd48wanc6F8rTP4C8xSTkgpnZMjEwOGW7d2ks0uyR
+         k+XIE3/Zp1//jefWRPdAz4cRmNuukwhn3G7Ke0s60W7IvMN5MUPlucGkdhBuWlG/DJz3
+         zMcEdI1CBsIGBK6REq84VokEXUp1lB64smvt8PHVUo7grAF9Y3GayXTVQr5PudcuoeXG
+         630deAFvp1l87cXxjuYgGI/tHBTMJacA7lTYtsWff5gEgK1YEjy2lN/GfI5KQvDvsz5t
+         hwQ7vqn9pR2f8r05IVPjb++iWJQUaxliFvRi6mxyr1avqREBqSUq6n5XIHcy6HmhotTg
+         zqLg==
+X-Gm-Message-State: APjAAAVkWf+SeSFbzs6NLdkEiKAQmCqIx+Q9MTEOzDcSffpMfFU+PqeJ
+        e/GWk3nn+Youdvm0qU1B81A=
+X-Google-Smtp-Source: APXvYqyhOjXBIHrE1PLiNyUHrTuBtyaXSkQWw+LvT/V5jz/U6qA+dmw6b+LPNvu0NoqoIBqrpOpLpw==
+X-Received: by 2002:a63:dc50:: with SMTP id f16mr44486519pgj.396.1556292897821;
+        Fri, 26 Apr 2019 08:34:57 -0700 (PDT)
 Received: from localhost.localdomain ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id b1sm29024833pgq.15.2019.04.26.08.33.48
+        by smtp.gmail.com with ESMTPSA id b1sm29024833pgq.15.2019.04.26.08.34.52
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 26 Apr 2019 08:33:53 -0700 (PDT)
+        Fri, 26 Apr 2019 08:34:57 -0700 (PDT)
 From:   Changbin Du <changbin.du@gmail.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         mchehab+samsung@kernel.org, Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH 18/27] Documentation: x86: convert orc-unwinder.txt to reST
-Date:   Fri, 26 Apr 2019 23:31:41 +0800
-Message-Id: <20190426153150.21228-19-changbin.du@gmail.com>
+Subject: [PATCH 27/27] Documentation: x86: convert x86_64/machinecheck to reST
+Date:   Fri, 26 Apr 2019 23:31:50 +0800
+Message-Id: <20190426153150.21228-28-changbin.du@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190426153150.21228-1-changbin.du@gmail.com>
 References: <20190426153150.21228-1-changbin.du@gmail.com>
@@ -71,122 +71,54 @@ add it to Sphinx TOC tree. No essential content change.
 
 Signed-off-by: Changbin Du <changbin.du@gmail.com>
 ---
- Documentation/x86/index.rst                   |  1 +
- .../{orc-unwinder.txt => orc-unwinder.rst}    | 27 ++++++++++---------
- 2 files changed, 16 insertions(+), 12 deletions(-)
- rename Documentation/x86/{orc-unwinder.txt => orc-unwinder.rst} (93%)
+ Documentation/x86/x86_64/index.rst                    |  1 +
+ .../x86/x86_64/{machinecheck => machinecheck.rst}     | 11 ++++++-----
+ 2 files changed, 7 insertions(+), 5 deletions(-)
+ rename Documentation/x86/x86_64/{machinecheck => machinecheck.rst} (92%)
 
-diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
-index 4e9fa2b046df..c41c17906b6d 100644
---- a/Documentation/x86/index.rst
-+++ b/Documentation/x86/index.rst
-@@ -14,6 +14,7 @@ Linux x86 Support
-    kernel-stacks
-    entry_64
-    earlyprintk
-+   orc-unwinder
-    zero-page
-    tlb
-    mtrr
-diff --git a/Documentation/x86/orc-unwinder.txt b/Documentation/x86/orc-unwinder.rst
-similarity index 93%
-rename from Documentation/x86/orc-unwinder.txt
-rename to Documentation/x86/orc-unwinder.rst
-index cd4b29be29af..d811576c1f3e 100644
---- a/Documentation/x86/orc-unwinder.txt
-+++ b/Documentation/x86/orc-unwinder.rst
-@@ -1,8 +1,11 @@
+diff --git a/Documentation/x86/x86_64/index.rst b/Documentation/x86/x86_64/index.rst
+index c04b6eab3c76..d6eaaa5a35fc 100644
+--- a/Documentation/x86/x86_64/index.rst
++++ b/Documentation/x86/x86_64/index.rst
+@@ -13,3 +13,4 @@ x86_64 Support
+    5level-paging
+    fake-numa-for-cpusets
+    cpu-hotplug-spec
++   machinecheck
+diff --git a/Documentation/x86/x86_64/machinecheck b/Documentation/x86/x86_64/machinecheck.rst
+similarity index 92%
+rename from Documentation/x86/x86_64/machinecheck
+rename to Documentation/x86/x86_64/machinecheck.rst
+index d0648a74fceb..8e9d2d529a8d 100644
+--- a/Documentation/x86/x86_64/machinecheck
++++ b/Documentation/x86/x86_64/machinecheck.rst
+@@ -1,5 +1,8 @@
 +.. SPDX-License-Identifier: GPL-2.0
-+
-+============
- ORC unwinder
- ============
  
- Overview
----------
-+========
+-Configurable sysfs parameters for the x86-64 machine check code.
++===============================================================
++Configurable sysfs parameters for the x86-64 machine check code
++===============================================================
  
- The kernel CONFIG_UNWINDER_ORC option enables the ORC unwinder, which is
- similar in concept to a DWARF unwinder.  The difference is that the
-@@ -23,12 +26,12 @@ correlate instruction addresses with their stack states at run time.
+ Machine checks report internal hardware error conditions detected
+ by the CPU. Uncorrected errors typically cause a machine check
+@@ -16,14 +19,12 @@ log then mcelog should run to collect and decode machine check entries
+ from /dev/mcelog. Normally mcelog should be run regularly from a cronjob.
  
+ Each CPU has a directory in /sys/devices/system/machinecheck/machinecheckN
+-(N = CPU number)
++(N = CPU number).
  
- ORC vs frame pointers
-----------------------
-+=====================
+ The directory contains some configurable entries:
  
- With frame pointers enabled, GCC adds instrumentation code to every
- function in the kernel.  The kernel's .text size increases by about
- 3.2%, resulting in a broad kernel-wide slowdown.  Measurements by Mel
--Gorman [1] have shown a slowdown of 5-10% for some workloads.
-+Gorman [1]_ have shown a slowdown of 5-10% for some workloads.
- 
- In contrast, the ORC unwinder has no effect on text size or runtime
- performance, because the debuginfo is out of band.  So if you disable
-@@ -55,7 +58,7 @@ depending on the kernel config.
- 
- 
- ORC vs DWARF
--------------
-+============
- 
- ORC debuginfo's advantage over DWARF itself is that it's much simpler.
- It gets rid of the complex DWARF CFI state machine and also gets rid of
-@@ -65,7 +68,7 @@ mission critical oops code.
- 
- The simpler debuginfo format also enables the unwinder to be much faster
- than DWARF, which is important for perf and lockdep.  In a basic
--performance test by Jiri Slaby [2], the ORC unwinder was about 20x
-+performance test by Jiri Slaby [2]_, the ORC unwinder was about 20x
- faster than an out-of-tree DWARF unwinder.  (Note: That measurement was
- taken before some performance tweaks were added, which doubled
- performance, so the speedup over DWARF may be closer to 40x.)
-@@ -85,7 +88,7 @@ still be able to control the format, e.g. no complex state machines.
- 
- 
- ORC unwind table generation
-----------------------------
-+===========================
- 
- The ORC data is generated by objtool.  With the existing compile-time
- stack metadata validation feature, objtool already follows all code
-@@ -133,7 +136,7 @@ objtool follows GCC code quite well.
- 
- 
- Unwinder implementation details
---------------------------------
-+===============================
- 
- Objtool generates the ORC data by integrating with the compile-time
- stack metadata validation feature, which is described in detail in
-@@ -154,7 +157,7 @@ subset of the table needs to be searched.
- 
- 
- Etymology
-----------
-+=========
- 
- Orcs, fearsome creatures of medieval folklore, are the Dwarves' natural
- enemies.  Similarly, the ORC unwinder was created in opposition to the
-@@ -162,7 +165,7 @@ complexity and slowness of DWARF.
- 
- "Although Orcs rarely consider multiple solutions to a problem, they do
- excel at getting things done because they are creatures of action, not
--thought." [3]  Similarly, unlike the esoteric DWARF unwinder, the
-+thought." [3]_  Similarly, unlike the esoteric DWARF unwinder, the
- veracious ORC unwinder wastes no time or siloconic effort decoding
- variable-length zero-extended unsigned-integer byte-coded
- state-machine-based debug information entries.
-@@ -174,6 +177,6 @@ brutal, unyielding efficiency.
- ORC stands for Oops Rewind Capability.
- 
- 
--[1] https://lkml.kernel.org/r/20170602104048.jkkzssljsompjdwy@suse.de
--[2] https://lkml.kernel.org/r/d2ca5435-6386-29b8-db87-7f227c2b713a@suse.cz
--[3] http://dustin.wikidot.com/half-orcs-and-orcs
-+.. [1] https://lkml.kernel.org/r/20170602104048.jkkzssljsompjdwy@suse.de
-+.. [2] https://lkml.kernel.org/r/d2ca5435-6386-29b8-db87-7f227c2b713a@suse.cz
-+.. [3] http://dustin.wikidot.com/half-orcs-and-orcs
+-Entries:
+-
+ bankNctl
+-(N bank number)
++	(N bank number)
+ 	64bit Hex bitmask enabling/disabling specific subevents for bank N
+ 	When a bit in the bitmask is zero then the respective
+ 	subevent will not be reported.
 -- 
 2.20.1
 
