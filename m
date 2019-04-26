@@ -4,58 +4,58 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B20C47D922
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Apr 2019 15:35:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AF46C7D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Apr 2019 15:35:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726343AbfDZPex (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Apr 2019 11:34:53 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:35301 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726218AbfDZPew (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Apr 2019 11:34:52 -0400
-Received: by mail-pl1-f195.google.com with SMTP id w24so1760133plp.2;
-        Fri, 26 Apr 2019 08:34:52 -0700 (PDT)
+        id S1727053AbfDZPd5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Apr 2019 11:33:57 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:43558 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727054AbfDZPdz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Apr 2019 11:33:55 -0400
+Received: by mail-pg1-f195.google.com with SMTP id z9so1789706pgu.10;
+        Fri, 26 Apr 2019 08:33:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=/yvtB3uaTRGxnRgaWP7FcK1I6Vvjpy6XLjw84eVyA1w=;
-        b=Hy7Zx1XkVkUjOYrBhQUrGQH6vA7nf1W1eDK0gCjj/dn5gdcK6I/Asx8LQ/TLeqv2nV
-         oxeteOlgOBjTHqsx94I1+vshwMJ0cRnFZSN/4R2/SLqSXeyRi2MAWBUguv0/KJFxBu+b
-         ZXz4imGMQJ3yMsYgnyYqUUt5W/RJB8Uvba2pi+lECjDymDg//8zbwxbONIgwO5cSr1T1
-         5rQb/x+Eq84OV07HmWKVbM1390/7wSoUO+dnZBYbMxHb5IN0jVyY1f3gol9+ctItwaBb
-         sz4acryjRWrtuSyXYg4F6GdHrnU9xVXFHMAEiffD8PuMCb6OK0e7/s+2CxYn/cIgjlIx
-         gmKg==
+        bh=j70G0amKcQXuPLeLIbM+m355FLoVLcQ+hAcLiiC/LxY=;
+        b=kGw8HXWb2F2NH0sUZg34ijADRtcQ0PLZVxppWcFNUA9vAVfEAe0TW4iWmeijl8256V
+         8+SW5omAYJE5NtPmWY2bd+6bnZO5gSJMy6gOZjqYmY3jPBgae2HODbt1brH+7XqeacJo
+         QqxKvOsq6jDVGnM0Dz1fQOn+usUn2qqwExt2R0cQ33bvRR+toN/71u5RrQMYNmI4er4M
+         dGss2b9Kvk9e5W5D8p4JsjSG6r2mrMRF6uW59rKAXy07Dld8JxObQ5DN6GqflkSBN+Sr
+         PZ90WRnPX9boK2gSL2M6LNSfAabHnYl/IJ3MdcII3t1bB8wx1pS8Pfkuqdvj5eqyrI0i
+         MuDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=/yvtB3uaTRGxnRgaWP7FcK1I6Vvjpy6XLjw84eVyA1w=;
-        b=n+4m8/0FzAIHudk3ckU3EKaZsmPLZvdtuG7ImeXHKjPdqBHeQwcPoLKTdWNwxlQvb2
-         bZQKXgwGD9xn2nsDTx/EyJIvnr/aZGl8zkbftTq7ZDv0JFViIJMADcW8Ms7MgMZVTdF/
-         dSfmwpzcLGl9ae6OiAD5jdGLdSbH/eJ4tIfTi8DrvHEHmcBZksqXLrn33xojy5k1fCjP
-         6nPMXTug822+Ewv8zDutx4rC6F1ryg26MWQ95jUYH7+Eu2VDmUET/qOuZqtiv0B6i7iD
-         8hPHYuCd3cmzonLqXXlvt/u9NCGUsZQZulirZFSeSRNbqglWjB1tQeM/v9YV1vH9YCkj
-         fhBA==
-X-Gm-Message-State: APjAAAXyiBbzsYXTAeDjKn/DKr/HEchChW5H7gqgnS8dMpy/Y7pboxuL
-        eYukgPbSF7aTk2LLVB3CGXU=
-X-Google-Smtp-Source: APXvYqx+XFFSNMdyptPC6bheylkNX1OLLKht4m00w1EqHUFBc4bD1V3kgftEmEFOOeYx/JRxMZkSKQ==
-X-Received: by 2002:a17:902:8a4:: with SMTP id 33mr46785950pll.7.1556292892025;
-        Fri, 26 Apr 2019 08:34:52 -0700 (PDT)
+        bh=j70G0amKcQXuPLeLIbM+m355FLoVLcQ+hAcLiiC/LxY=;
+        b=IHp3rsSDPid8c0Mv/lk0yLVCmFQuaMgngosbQrXxnG9dj1KYB86FeNEY6+4lJV0VQt
+         6b6uZ6jd5Tskls2IPhQy96kDXMXuW3SXtX/TQ19ZU3d7vM1rgK7yb2R93XIIiYhOmfmf
+         3k/OSFiliFLLag8oGotwS1DL729r8zeMM7TJa4ueMIrD0jQKTQGu7bXlRn356X+HUlx9
+         FfqbGJeowQ9gZcD/tOnnNr2ez6RfKmOT63wMEnvktK5OfbN9fZ3YHXCUVITyn7PdNKiA
+         tnVExgTrpdPkQ9gnji4kzL6nH1+w48AGOHUvfIbeZKCV/wnPUxy/JzpHLojhD73rp0iQ
+         8k2w==
+X-Gm-Message-State: APjAAAXO9AfqX6oECRyknopt64+tr1iYoUHN02jn9BRrErCBCxNemX7s
+        LTf8opEMvtJ51uY2iOwDGGw1wVbe
+X-Google-Smtp-Source: APXvYqxFaZ05dHpWKzhv+pnkhWyAjdzHmyuBRkeecHuKP5QCrsVDBvm34X978uhpDCmGebLSIASkrw==
+X-Received: by 2002:a63:f012:: with SMTP id k18mr45267952pgh.433.1556292834374;
+        Fri, 26 Apr 2019 08:33:54 -0700 (PDT)
 Received: from localhost.localdomain ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id b1sm29024833pgq.15.2019.04.26.08.34.46
+        by smtp.gmail.com with ESMTPSA id b1sm29024833pgq.15.2019.04.26.08.33.48
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 26 Apr 2019 08:34:51 -0700 (PDT)
+        Fri, 26 Apr 2019 08:33:53 -0700 (PDT)
 From:   Changbin Du <changbin.du@gmail.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         mchehab+samsung@kernel.org, Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH 26/27] Documentation: x86: convert x86_64/cpu-hotplug-spec to reST
-Date:   Fri, 26 Apr 2019 23:31:49 +0800
-Message-Id: <20190426153150.21228-27-changbin.du@gmail.com>
+Subject: [PATCH 18/27] Documentation: x86: convert orc-unwinder.txt to reST
+Date:   Fri, 26 Apr 2019 23:31:41 +0800
+Message-Id: <20190426153150.21228-19-changbin.du@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190426153150.21228-1-changbin.du@gmail.com>
 References: <20190426153150.21228-1-changbin.du@gmail.com>
@@ -71,37 +71,122 @@ add it to Sphinx TOC tree. No essential content change.
 
 Signed-off-by: Changbin Du <changbin.du@gmail.com>
 ---
- .../x86/x86_64/{cpu-hotplug-spec => cpu-hotplug-spec.rst}    | 5 ++++-
- Documentation/x86/x86_64/index.rst                           | 1 +
- 2 files changed, 5 insertions(+), 1 deletion(-)
- rename Documentation/x86/x86_64/{cpu-hotplug-spec => cpu-hotplug-spec.rst} (88%)
+ Documentation/x86/index.rst                   |  1 +
+ .../{orc-unwinder.txt => orc-unwinder.rst}    | 27 ++++++++++---------
+ 2 files changed, 16 insertions(+), 12 deletions(-)
+ rename Documentation/x86/{orc-unwinder.txt => orc-unwinder.rst} (93%)
 
-diff --git a/Documentation/x86/x86_64/cpu-hotplug-spec b/Documentation/x86/x86_64/cpu-hotplug-spec.rst
-similarity index 88%
-rename from Documentation/x86/x86_64/cpu-hotplug-spec
-rename to Documentation/x86/x86_64/cpu-hotplug-spec.rst
-index 3c23e0587db3..8d1c91f0c880 100644
---- a/Documentation/x86/x86_64/cpu-hotplug-spec
-+++ b/Documentation/x86/x86_64/cpu-hotplug-spec.rst
-@@ -1,5 +1,8 @@
+diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
+index 4e9fa2b046df..c41c17906b6d 100644
+--- a/Documentation/x86/index.rst
++++ b/Documentation/x86/index.rst
+@@ -14,6 +14,7 @@ Linux x86 Support
+    kernel-stacks
+    entry_64
+    earlyprintk
++   orc-unwinder
+    zero-page
+    tlb
+    mtrr
+diff --git a/Documentation/x86/orc-unwinder.txt b/Documentation/x86/orc-unwinder.rst
+similarity index 93%
+rename from Documentation/x86/orc-unwinder.txt
+rename to Documentation/x86/orc-unwinder.rst
+index cd4b29be29af..d811576c1f3e 100644
+--- a/Documentation/x86/orc-unwinder.txt
++++ b/Documentation/x86/orc-unwinder.rst
+@@ -1,8 +1,11 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+===================================================
- Firmware support for CPU hotplug under Linux/x86-64
-----------------------------------------------------
-+===================================================
++============
+ ORC unwinder
+ ============
  
- Linux/x86-64 supports CPU hotplug now. For various reasons Linux wants to
- know in advance of boot time the maximum number of CPUs that could be plugged
-diff --git a/Documentation/x86/x86_64/index.rst b/Documentation/x86/x86_64/index.rst
-index e2a324cde671..c04b6eab3c76 100644
---- a/Documentation/x86/x86_64/index.rst
-+++ b/Documentation/x86/x86_64/index.rst
-@@ -12,3 +12,4 @@ x86_64 Support
-    mm
-    5level-paging
-    fake-numa-for-cpusets
-+   cpu-hotplug-spec
+ Overview
+---------
++========
+ 
+ The kernel CONFIG_UNWINDER_ORC option enables the ORC unwinder, which is
+ similar in concept to a DWARF unwinder.  The difference is that the
+@@ -23,12 +26,12 @@ correlate instruction addresses with their stack states at run time.
+ 
+ 
+ ORC vs frame pointers
+----------------------
++=====================
+ 
+ With frame pointers enabled, GCC adds instrumentation code to every
+ function in the kernel.  The kernel's .text size increases by about
+ 3.2%, resulting in a broad kernel-wide slowdown.  Measurements by Mel
+-Gorman [1] have shown a slowdown of 5-10% for some workloads.
++Gorman [1]_ have shown a slowdown of 5-10% for some workloads.
+ 
+ In contrast, the ORC unwinder has no effect on text size or runtime
+ performance, because the debuginfo is out of band.  So if you disable
+@@ -55,7 +58,7 @@ depending on the kernel config.
+ 
+ 
+ ORC vs DWARF
+-------------
++============
+ 
+ ORC debuginfo's advantage over DWARF itself is that it's much simpler.
+ It gets rid of the complex DWARF CFI state machine and also gets rid of
+@@ -65,7 +68,7 @@ mission critical oops code.
+ 
+ The simpler debuginfo format also enables the unwinder to be much faster
+ than DWARF, which is important for perf and lockdep.  In a basic
+-performance test by Jiri Slaby [2], the ORC unwinder was about 20x
++performance test by Jiri Slaby [2]_, the ORC unwinder was about 20x
+ faster than an out-of-tree DWARF unwinder.  (Note: That measurement was
+ taken before some performance tweaks were added, which doubled
+ performance, so the speedup over DWARF may be closer to 40x.)
+@@ -85,7 +88,7 @@ still be able to control the format, e.g. no complex state machines.
+ 
+ 
+ ORC unwind table generation
+----------------------------
++===========================
+ 
+ The ORC data is generated by objtool.  With the existing compile-time
+ stack metadata validation feature, objtool already follows all code
+@@ -133,7 +136,7 @@ objtool follows GCC code quite well.
+ 
+ 
+ Unwinder implementation details
+--------------------------------
++===============================
+ 
+ Objtool generates the ORC data by integrating with the compile-time
+ stack metadata validation feature, which is described in detail in
+@@ -154,7 +157,7 @@ subset of the table needs to be searched.
+ 
+ 
+ Etymology
+----------
++=========
+ 
+ Orcs, fearsome creatures of medieval folklore, are the Dwarves' natural
+ enemies.  Similarly, the ORC unwinder was created in opposition to the
+@@ -162,7 +165,7 @@ complexity and slowness of DWARF.
+ 
+ "Although Orcs rarely consider multiple solutions to a problem, they do
+ excel at getting things done because they are creatures of action, not
+-thought." [3]  Similarly, unlike the esoteric DWARF unwinder, the
++thought." [3]_  Similarly, unlike the esoteric DWARF unwinder, the
+ veracious ORC unwinder wastes no time or siloconic effort decoding
+ variable-length zero-extended unsigned-integer byte-coded
+ state-machine-based debug information entries.
+@@ -174,6 +177,6 @@ brutal, unyielding efficiency.
+ ORC stands for Oops Rewind Capability.
+ 
+ 
+-[1] https://lkml.kernel.org/r/20170602104048.jkkzssljsompjdwy@suse.de
+-[2] https://lkml.kernel.org/r/d2ca5435-6386-29b8-db87-7f227c2b713a@suse.cz
+-[3] http://dustin.wikidot.com/half-orcs-and-orcs
++.. [1] https://lkml.kernel.org/r/20170602104048.jkkzssljsompjdwy@suse.de
++.. [2] https://lkml.kernel.org/r/d2ca5435-6386-29b8-db87-7f227c2b713a@suse.cz
++.. [3] http://dustin.wikidot.com/half-orcs-and-orcs
 -- 
 2.20.1
 
