@@ -4,58 +4,58 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 586367D91B
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Apr 2019 15:34:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2B6087D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Apr 2019 15:34:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726253AbfDZPeN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Apr 2019 11:34:13 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:41182 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726597AbfDZPeM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Apr 2019 11:34:12 -0400
-Received: by mail-pl1-f196.google.com with SMTP id d9so1746961pls.8;
-        Fri, 26 Apr 2019 08:34:12 -0700 (PDT)
+        id S1726628AbfDZPe2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Apr 2019 11:34:28 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:40436 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726218AbfDZPe0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Apr 2019 11:34:26 -0400
+Received: by mail-pf1-f196.google.com with SMTP id s4so1902676pfh.7;
+        Fri, 26 Apr 2019 08:34:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ao1k2Uh8U/LRDASbEEQCfw1kgyOffPMSmdg/Hjoj9fg=;
-        b=YJstlmFf+uppi2wmqwvFurBeGphjmmqjfr2DLcoPB9fKFKxCJdTEGzGVjTlREx7dd+
-         OacHdM66u1vlj2lNQvlWuAi33DJiEHRAVw6Bxb/yl0hDKEOKtpbGq1l9/za1JLTHyM39
-         B/j+bhfCZ0OOeV9JcS2szAWbXTQwAsr+mG4sr9JP+OAa4K0fmyRDMGmIIZcwzZM/7Yy8
-         7/hxHRQ+0EH4hDxRKXROUOPrcz+pOvIMFNtwudYaRBLKTsBYFJKb5ythCIF/ihfjA/O5
-         ngh8ltO/u0pOtOirEFuvntZOImsPUdOciTJ4CjF561ilpwG32tUkbYelIaJs6qNVwUvJ
-         pYfw==
+        bh=EltilnvvP1BvvyVI1MTgDNOjtPuzRRDurGYU5XZhXEs=;
+        b=VmTxzb9G8xWP/elTNrrhgNHbowJ5YBP4fcPS1hoea+YJ71+DrQEXFSKVBEJSpPh6b4
+         7ZtA+Rymu2xiB092b9kaWmT+bTS/UdQn4hfaf9VSWkOH5d5YBmw8Qo587//n/JUCweaq
+         dMQowEQc/mPXXghk2+Rq5Xss23ne/z1dZM+quvHPqKFHbht1N0AVZkIMax9GQDBXe0sw
+         4yR5xUTZS5OSUTX0FdJiyfqz1U4QRjbzoSkYSRroYSSyIg0tEubtI0Bv1BHS32IC1Jg2
+         MVdXGRUByLVMLXPiNWIWpI97fJr2HRRcgXic5WTc3ZiFAh0+KMg3i6cL9GMLlX4dcmj8
+         FtHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ao1k2Uh8U/LRDASbEEQCfw1kgyOffPMSmdg/Hjoj9fg=;
-        b=Hk7dbO8Lzsl5rOm8zHfl51abK4w/rn7ZvC/biCcKkuCjFQi6t5ugWky0JK48B4eaGp
-         U24S5QUvmOGVdEzwo6S1IdQnHQJ7Y7oes99fv3ig+n5yWx19+eSZBQMWTHr5SVhL9dxo
-         SBZzDA/UQJKUBfzttMnq5tS8ag/UijOsO1OOgAeXcp+QBw1zPi9QRc+ni/KE5/wp/AaI
-         LRnHxQSxvYUdSXpAn1Vl8KkUVLqMq0bPn9eDXOhiQkg1lPtHGaFD9MJ+XPf+aOfS39Tx
-         QJfJLTHbRu7hrl3srCg7WAt/TFNXoZbgMMA/Gjcndx4jDJBVgMxRtswOCK10qe4pdcOi
-         J5iA==
-X-Gm-Message-State: APjAAAWcRPd1F10sjMdUkW1RWGQ3Ll+SImJXBvshRiLjBHFqBwA1L6H1
-        /3qjJKhQCqLnFqY7X2oXLCg=
-X-Google-Smtp-Source: APXvYqw0+yavpWLuAnKNZ2bGSUjdXIADD2Vh4j32jQxF5axuMILTAeNq9967/q5vL51iBsiY/9Loag==
-X-Received: by 2002:a17:902:29e9:: with SMTP id h96mr27832008plb.258.1556292852215;
-        Fri, 26 Apr 2019 08:34:12 -0700 (PDT)
+        bh=EltilnvvP1BvvyVI1MTgDNOjtPuzRRDurGYU5XZhXEs=;
+        b=f08jwmkhnDBAddpjx+bSCcfK6aUxbp69EL33FZXAQAS50wUVVZ44qPdq5EzjICqpFf
+         BLmw52xnp83dLs0hgOac9cXei4+SfOTuNRadRpWfNpeidiky7WCZYRIjxOnNfqBEerzn
+         AZuJXci7bnsRKum4V2nGalfj9+BdmueLJNiF4Ps/Vxuvq0Zls723t71L8tyIoHkZGEd0
+         VDnfcoE9dhvotK7tOV3862KXG723PJ+BP0nsEh06PVCdV0t7Q60mTmnynBul268Yb3OF
+         03gkZcnrIu0H0EkzngFXzGDUi91tHiqwqJFNKBqbYOP07ql/XIAEKCyG+Iy7/OdWpbVi
+         +PMw==
+X-Gm-Message-State: APjAAAU7t3q/QKk9f1S7sAuikk6dPsSv2zir0XluBm9yNrtWqwbjAU2s
+        J4Prx8V5ryruMotwwcTMMrU=
+X-Google-Smtp-Source: APXvYqxJHd4kGLCipwQ3mhyQA1QZVhAOZmzc7WkeL0EImdhr28PNtmUxWZUOJTNzwYE0F/kdDSc7zQ==
+X-Received: by 2002:a63:fb58:: with SMTP id w24mr8518858pgj.444.1556292865988;
+        Fri, 26 Apr 2019 08:34:25 -0700 (PDT)
 Received: from localhost.localdomain ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id b1sm29024833pgq.15.2019.04.26.08.34.02
+        by smtp.gmail.com with ESMTPSA id b1sm29024833pgq.15.2019.04.26.08.34.20
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 26 Apr 2019 08:34:11 -0700 (PDT)
+        Fri, 26 Apr 2019 08:34:25 -0700 (PDT)
 From:   Changbin Du <changbin.du@gmail.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         mchehab+samsung@kernel.org, Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH 20/27] Documentation: x86: convert i386/IO-APIC.txt to reST
-Date:   Fri, 26 Apr 2019 23:31:43 +0800
-Message-Id: <20190426153150.21228-21-changbin.du@gmail.com>
+Subject: [PATCH 22/27] Documentation: x86: convert x86_64/uefi.txt to reST
+Date:   Fri, 26 Apr 2019 23:31:45 +0800
+Message-Id: <20190426153150.21228-23-changbin.du@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190426153150.21228-1-changbin.du@gmail.com>
 References: <20190426153150.21228-1-changbin.du@gmail.com>
@@ -71,130 +71,86 @@ add it to Sphinx TOC tree. No essential content change.
 
 Signed-off-by: Changbin Du <changbin.du@gmail.com>
 ---
- .../x86/i386/{IO-APIC.txt => IO-APIC.rst}     | 26 ++++++++++++-------
- Documentation/x86/i386/index.rst              | 10 +++++++
- Documentation/x86/index.rst                   |  1 +
- 3 files changed, 27 insertions(+), 10 deletions(-)
- rename Documentation/x86/i386/{IO-APIC.txt => IO-APIC.rst} (93%)
- create mode 100644 Documentation/x86/i386/index.rst
+ Documentation/x86/x86_64/index.rst            |  1 +
+ .../x86/x86_64/{uefi.txt => uefi.rst}         | 30 ++++++++++++++-----
+ 2 files changed, 24 insertions(+), 7 deletions(-)
+ rename Documentation/x86/x86_64/{uefi.txt => uefi.rst} (79%)
 
-diff --git a/Documentation/x86/i386/IO-APIC.txt b/Documentation/x86/i386/IO-APIC.rst
-similarity index 93%
-rename from Documentation/x86/i386/IO-APIC.txt
-rename to Documentation/x86/i386/IO-APIC.rst
-index 15f5baf7e1b6..aec98f742763 100644
---- a/Documentation/x86/i386/IO-APIC.txt
-+++ b/Documentation/x86/i386/IO-APIC.rst
-@@ -1,3 +1,11 @@
+diff --git a/Documentation/x86/x86_64/index.rst b/Documentation/x86/x86_64/index.rst
+index a8cf7713cac9..ddfa1f9d4193 100644
+--- a/Documentation/x86/x86_64/index.rst
++++ b/Documentation/x86/x86_64/index.rst
+@@ -8,3 +8,4 @@ x86_64 Support
+    :maxdepth: 2
+ 
+    boot-options
++   uefi
+diff --git a/Documentation/x86/x86_64/uefi.txt b/Documentation/x86/x86_64/uefi.rst
+similarity index 79%
+rename from Documentation/x86/x86_64/uefi.txt
+rename to Documentation/x86/x86_64/uefi.rst
+index a5e2b4fdb170..88c3ba32546f 100644
+--- a/Documentation/x86/x86_64/uefi.txt
++++ b/Documentation/x86/x86_64/uefi.rst
+@@ -1,5 +1,8 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+=======
-+IO-APIC
-+=======
++=====================================
+ General note on [U]EFI x86_64 support
+--------------------------------------
++=====================================
+ 
+ The nomenclature EFI and UEFI are used interchangeably in this document.
+ 
+@@ -14,29 +17,42 @@ with EFI firmware and specifications are listed below.
+ 
+ 3. x86_64 platform with EFI/UEFI firmware.
+ 
+-Mechanics:
++Mechanics
+ ---------
+-- Build the kernel with the following configuration.
 +
-+:Author: Ingo Molnar <mingo@kernel.org>
++- Build the kernel with the following configuration::
 +
- Most (all) Intel-MP compliant SMP boards have the so-called 'IO-APIC',
- which is an enhanced interrupt controller. It enables us to route
- hardware interrupts to multiple CPUs, or to CPU groups. Without an
-@@ -13,7 +21,7 @@ usually worked around by the kernel. If your MP-compliant SMP board does
- not boot Linux, then consult the linux-smp mailing list archives first.
- 
- If your box boots fine with enabled IO-APIC IRQs, then your
--/proc/interrupts will look like this one:
-+/proc/interrupts will look like this one::
- 
-    ---------------------------->
-   hell:~> cat /proc/interrupts
-@@ -37,14 +45,14 @@ none of those IRQ sources is performance-critical.
- In the unlikely case that your board does not create a working mp-table,
- you can use the pirq= boot parameter to 'hand-construct' IRQ entries. This
- is non-trivial though and cannot be automated. One sample /etc/lilo.conf
--entry:
-+entry::
- 
- 	append="pirq=15,11,10"
- 
- The actual numbers depend on your system, on your PCI cards and on their
- PCI slot position. Usually PCI slots are 'daisy chained' before they are
- connected to the PCI chipset IRQ routing facility (the incoming PIRQ1-4
--lines):
-+lines)::
- 
-                ,-.        ,-.        ,-.        ,-.        ,-.
-      PIRQ4 ----| |-.    ,-| |-.    ,-| |-.    ,-| |--------| |
-@@ -56,7 +64,7 @@ lines):
-      PIRQ1 ----| |-  `----| |-  `----| |-  `----| |--------| |
-                `-'        `-'        `-'        `-'        `-'
- 
--Every PCI card emits a PCI IRQ, which can be INTA, INTB, INTC or INTD:
-+Every PCI card emits a PCI IRQ, which can be INTA, INTB, INTC or INTD::
- 
-                                ,-.
-                          INTD--| |
-@@ -78,19 +86,19 @@ to have non shared interrupts). Slot5 should be used for videocards, they
- do not use interrupts normally, thus they are not daisy chained either.
- 
- so if you have your SCSI card (IRQ11) in Slot1, Tulip card (IRQ9) in
--Slot2, then you'll have to specify this pirq= line:
-+Slot2, then you'll have to specify this pirq= line::
- 
- 	append="pirq=11,9"
- 
- the following script tries to figure out such a default pirq= line from
--your PCI configuration:
-+your PCI configuration::
- 
- 	echo -n pirq=; echo `scanpci | grep T_L | cut -c56-` | sed 's/ /,/g'
- 
- note that this script won't work if you have skipped a few slots or if your
- board does not do default daisy-chaining. (or the IO-APIC has the PIRQ pins
- connected in some strange way). E.g. if in the above case you have your SCSI
--card (IRQ11) in Slot3, and have Slot1 empty:
-+card (IRQ11) in Slot3, and have Slot1 empty::
- 
- 	append="pirq=0,9,11"
- 
-@@ -105,7 +113,7 @@ won't function properly (e.g. if it's inserted as a module).
- If you have 2 PCI buses, then you can use up to 8 pirq values, although such
- boards tend to have a good configuration.
- 
--Be prepared that it might happen that you need some strange pirq line:
-+Be prepared that it might happen that you need some strange pirq line::
- 
- 	append="pirq=0,0,0,0,0,0,9,11"
- 
-@@ -115,5 +123,3 @@ Good luck and mail to linux-smp@vger.kernel.org or
- linux-kernel@vger.kernel.org if you have any problems that are not covered
- by this document.
- 
---- mingo
--
-diff --git a/Documentation/x86/i386/index.rst b/Documentation/x86/i386/index.rst
-new file mode 100644
-index 000000000000..8747cf5bbd49
---- /dev/null
-+++ b/Documentation/x86/i386/index.rst
-@@ -0,0 +1,10 @@
-+.. SPDX-License-Identifier: GPL-2.0
+ 	CONFIG_FB_EFI=y
+ 	CONFIG_FRAMEBUFFER_CONSOLE=y
 +
-+============
-+i386 Support
-+============
+   If EFI runtime services are expected, the following configuration should
+-  be selected.
++  be selected::
 +
-+.. toctree::
-+   :maxdepth: 2
+ 	CONFIG_EFI=y
+ 	CONFIG_EFI_VARS=y or m		# optional
 +
-+   IO-APIC
-diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
-index 526f7a008b8e..19323c5b89ce 100644
---- a/Documentation/x86/index.rst
-+++ b/Documentation/x86/index.rst
-@@ -26,3 +26,4 @@ Linux x86 Support
-    microcode
-    resctrl_ui
-    usb-legacy-support
-+   i386/index
+ - Create a VFAT partition on the disk
+ - Copy the following to the VFAT partition:
++
+ 	elilo bootloader with x86_64 support, elilo configuration file,
+ 	kernel image built in first step and corresponding
+ 	initrd. Instructions on building elilo	and its dependencies
+ 	can be found in the elilo sourceforge project.
++
+ - Boot to EFI shell and invoke elilo choosing the kernel image built
+   in first step.
+ - If some or all EFI runtime services don't work, you can try following
+   kernel command line parameters to turn off some or all EFI runtime
+   services.
+-	noefi		turn off all EFI runtime services
+-	reboot_type=k	turn off EFI reboot runtime service
++
++	noefi
++		turn off all EFI runtime services
++	reboot_type=k
++		turn off EFI reboot runtime service
++
+ - If the EFI memory map has additional entries not in the E820 map,
+   you can include those entries in the kernels memory map of available
+   physical RAM by using the following kernel command line parameter.
+-	add_efi_memmap	include EFI memory map of available physical RAM
++
++	add_efi_memmap
++		include EFI memory map of available physical RAM
 -- 
 2.20.1
 
