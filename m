@@ -3,17 +3,17 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=FREEMAIL_REPLYTO_END_DIGIT,
 	HEADER_FROM_DIFFERENT_DOMAINS,LOTS_OF_MONEY,MAILING_LIST_MULTI,
-	MILLION_USD,RCVD_IN_DNSWL_HI,T_MONEY_PERCENT autolearn=ham
+	MILLION_USD,RCVD_IN_DNSWL_HI,T_MONEY_PERCENT autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1798B7D912
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Apr 2019 09:32:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DF6527D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Apr 2019 09:32:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726172AbfDZJcM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1726119AbfDZJcM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Fri, 26 Apr 2019 05:32:12 -0400
-Received: from smtp2.ono.com ([62.42.230.179]:14869 "EHLO smtp2.ono.com"
+Received: from smtp2.ono.com ([62.42.230.179]:13348 "EHLO smtp2.ono.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725935AbfDZJcM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1725923AbfDZJcM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Fri, 26 Apr 2019 05:32:12 -0400
 X-Junkmail-Premium-Raw: score=16/50,refid=2.7.2:2019.4.26.85116:17:16.798,ip=62.42.230.132,rules=__HAS_MSGID,
  __SANE_MSGID, MSGID_JMAIL_DEFAULT, INVALID_MSGID_NO_FQDN, __HAS_FROM,
@@ -32,9 +32,9 @@ X-Junkmail-Premium-Raw: score=16/50,refid=2.7.2:2019.4.26.85116:17:16.798,ip=62.
  __PHISH_SPEAR_STRUCTURE_2, REPLYTO_FROM_DIFF_ADDY, NO_URI_HTTPS,
  BODY_SIZE_7000_LESS, TO_MALFORMED
 Received: from resprs02 (62.42.230.132) by smtp2.ono.com (9.0.019.09-1)
-        id 5CAF0F5D00B1C97C; Fri, 26 Apr 2019 11:32:02 +0200
+        id 5CAF0F5D00B1C980; Fri, 26 Apr 2019 11:32:02 +0200
 Received: from (149.126.76.23) by webmailcpr02n.ono.com;  Fri, 26 Apr 2019 10:57:48 +0200
-Message-ID: <24193036.1610751556269068228.JavaMail.defaultUser@defaultHost>
+Message-ID: <9662785.1610771556269068615.JavaMail.defaultUser@defaultHost>
 Date:   Fri, 26 Apr 2019 10:57:48 +0200 (CEST)
 From:   Aisha Gadafi <atienza22@ono.com>
 Reply-To: mgaddafi034@gmail.com
