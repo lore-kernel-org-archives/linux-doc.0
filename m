@@ -1,129 +1,82 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7A5577D922
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Apr 2019 09:47:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0D3537D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Apr 2019 11:31:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726193AbfDZJqf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Apr 2019 05:46:35 -0400
-Received: from casper.infradead.org ([85.118.1.10]:52042 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725985AbfDZJqf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Apr 2019 05:46:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=gTBjYHF7PdfcMS747oVD2PM5dGAfiuGzrLBbmiynnAI=; b=ThiRHSVnK8igKQlUt70ItUpgfn
-        ahvUpV2Rj5VYX6v2qdgqkJ5YDlrjlEHjCiqciVId/LoW/vvbKtqqhjBZvImCJFrk4tTc96+SgQTMt
-        3OwLruS8ajlGs/wQ20K30ls643aeeOVpb/B7MjXylL0emp1dw6nykZEPhyzyfDfgrbPNaH7y3BxV8
-        0/Pf9E/MtLsN+dZ02jvg38Neh4bT8CtGsUuBDGhhjAjqMii4uRKfUZed6iZ/INQKwoT8UUu5T/2j8
-        o0WOHq5yMZ0fJgkLpfKIpMcsztztvKqpYFW56Aq/Y4OzodfEabMJl4Dq9mXtvOf21R/5AYdWX7Hzf
-        niiIxfrA==;
-Received: from [179.95.39.209] (helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hJxQz-000573-Hl; Fri, 26 Apr 2019 09:46:22 +0000
-Date:   Fri, 26 Apr 2019 06:46:09 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Sebastian Reichel <sre@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
-        Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        "David S. Miller" <davem@davemloft.net>, linux-pm@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v2 25/79] docs: convert docs to ReST and rename to *.rst
-Message-ID: <20190426064609.7f00e013@coco.lan>
-In-Reply-To: <20190425180758.GC23183@sirena.org.uk>
-References: <cover.1555938375.git.mchehab+samsung@kernel.org>
-        <7adf9035ae06ecc6c7e46b51cb677f0a8f61d19a.1555938376.git.mchehab+samsung@kernel.org>
-        <20190425180758.GC23183@sirena.org.uk>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1725954AbfDZLbU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Apr 2019 07:31:20 -0400
+Received: from smtp1.goneo.de ([85.220.129.30]:33670 "EHLO smtp1.goneo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725923AbfDZLbU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 26 Apr 2019 07:31:20 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by smtp1.goneo.de (Postfix) with ESMTP id E7D0B23F296;
+        Fri, 26 Apr 2019 13:31:16 +0200 (CEST)
+X-Virus-Scanned: by goneo
+Received: from smtp1.goneo.de ([127.0.0.1])
+        by localhost (smtp1.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id IGS607Rw8s9R; Fri, 26 Apr 2019 13:31:16 +0200 (CEST)
+Received: from [192.168.1.127] (dyndsl-091-248-137-208.ewe-ip-backbone.de [91.248.137.208])
+        by smtp1.goneo.de (Postfix) with ESMTPSA id A50E923F35F;
+        Fri, 26 Apr 2019 13:31:15 +0200 (CEST)
+Subject: Re: [PATCH 1/2] Docs: An initial automarkup extension for sphinx
+To:     Jani Nikula <jani.nikula@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20190425200125.12302-1-corbet@lwn.net>
+ <20190425200125.12302-2-corbet@lwn.net> <87tvelrv8d.fsf@intel.com>
+From:   Markus Heiser <markus.heiser@darmarit.de>
+Message-ID: <d0190209-ce72-1107-8012-a521984f2d0f@darmarit.de>
+Date:   Fri, 26 Apr 2019 13:31:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <87tvelrv8d.fsf@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: de-DE
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mark,
-
-Em Thu, 25 Apr 2019 19:07:58 +0100
-Mark Brown <broonie@kernel.org> escreveu:
-
-> On Mon, Apr 22, 2019 at 10:27:14AM -0300, Mauro Carvalho Chehab wrote:
-> > Convert the PM documents to ReST, in order to allow them to
-> > build with Sphinx.  
+Am 26.04.19 um 11:06 schrieb Jani Nikula:
+> On Thu, 25 Apr 2019, Jonathan Corbet<corbet@lwn.net>  wrote:
+>> Rather than fill our text files with :c:func:`function()` syntax, just do
+>> the markup via a hook into the sphinx build process.  As is always the
+>> case, the real problem is detecting the situations where this markup should
+>> *not*  be done.
+> This is basically a regex based pre-processing step in front of Sphinx,
+> but it's not independent as it embeds a limited understanding/parsing of
+> reStructuredText syntax. This is similar to what we do in kernel-doc the
+> Perl monster, except slightly different.
 > 
-> This is massively CCed covering a large range of subsystems and is patch
-> 25 of a 79 patch series so I've no context for what's going on here or
-> why...  
+> I understand the motivation, and I sympathize with the idea of a quick
+> regex hack to silence the mob. But I fear this will lead to hard to
+> solve corner cases and the same style of "impedance mismatches" we had
+> with the kernel-doc/docproc/docbook Rube Goldberg machine of the past.
+> 
+> It's more involved, but I think the better place to do this (as well as
+> the kernel-doc transformations) would be in the doctree-read event,
+> after the rst parsing is done. You can traverse the doctree and find the
+> places which weren't special for Sphinx, and replace the plain text
+> nodes in-place. I've toyed with this in the past, but alas I didn't have
+> (and still don't) have the time to finish the job. There were some
+> unresolved issues with e.g. replacing nodes that had syntax highlighting
+> (because I wanted to make the references work also within preformatted
+> blocks).
+> 
+> If you decide to go with regex anyway, I'd at least consider pulling the
+> transformations/highlights from kernel-doc the script to the Sphinx
+> extension, and use the exact same transformations for stuff in source
+> code comments and rst files.
 
-There are two goals of this series:
+FWIW mentioning: I fully agree with Jan.
 
-1) to prepare for placing the new *.rst files under Documentation/ into an
-   index file, being part of one of the books. Most of the stuff covered
-   on this series either fit at the system admin guide or at the
-   Kernel API documentation book;
-
-2) to ensure that, if some edition on a file would cause warnings at
-   Sphinx build, someone will notice and submit a followup patch.
-
-You can see more details at patch 00/79:
-	https://lore.kernel.org/lkml/20190422115110.26443b44@coco.lan/
-
-In order to do that, this series has one patch per Documentation/*
-sub-directory. This specific one is for the documents under
-Documentation/power/ [1].
-
-[1] btw, the title of this specific patch should be, instead:
-	docs: power: convert docs to ReST and rename to *.rst
-
-The series is long because I'm trying to cover a significant part
-of the documentation files. In any case, except if an eventual
-conflict might rise on some file, this patch is independent from
-all other files, and should be safe to apply directly via the
-subsystem git tree.
-
-I'm working on a follow-up patch series that should be adding the
-power/index.rst file into another index file - probably at
-Documentation/index.rst[1]. As such patch will be adding a lot of other
-index files, the best would be to merge it via the docs tree, in
-order to avoid conflicts.
-
-
-[1] such patch will be removing the ":orphan:" meta-tag from it
-(that basically tells the build system to not produce warnings if
-the file is not directly or indirectly referenced by the main
-index file).
-
-Thanks,
-Mauro
+   -- Markus --
