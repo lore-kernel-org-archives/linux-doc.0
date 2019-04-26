@@ -6,56 +6,56 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7204C7D922
+	by archive.lwn.net (Postfix) with ESMTP id B0D987D926
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Apr 2019 15:33:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726766AbfDZPcr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Apr 2019 11:32:47 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:41059 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726696AbfDZPcq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Apr 2019 11:32:46 -0400
-Received: by mail-pl1-f194.google.com with SMTP id d9so1745054pls.8;
-        Fri, 26 Apr 2019 08:32:46 -0700 (PDT)
+        id S1726255AbfDZPcx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Apr 2019 11:32:53 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:33724 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726814AbfDZPcw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Apr 2019 11:32:52 -0400
+Received: by mail-pg1-f196.google.com with SMTP id k19so1816091pgh.0;
+        Fri, 26 Apr 2019 08:32:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Qw8iXfD3ItYngoQYik6Jp498D9sHvHA3oeNnrYYHbk4=;
-        b=fbhJcu1fG3OoONfHlhroaCt4w35XyEL5Fz9jSI8bcoiIQbYGvjbKPMT5TH71zVzc4q
-         KQEXfRHIRCKPAcivQQaVVHkQwemG9xmcbm3WkoY4XN+0K6TiguCQjgA4ilc3q4CX8OIR
-         P7Q/AeMwLfwn+WNZ/63FLraCp+PeX7GMlelcq5wsm3u3unOUwRnAMZbB8UiPX6ZhZlEm
-         cT/c+4d6KFyOS2zoW1NbPLWvjYmEijdTD/8vIdDBqGEDvJR1E3rXDtGyxDjeyR5puORt
-         RjG9Mqqkulne++QEBLZ6iv4NGScYU871KdY317nchCLPZ8ocCRV2CIKH02Ua9o6s57Qc
-         D6Yw==
+        bh=YQZo9l6ViyTZNmh9VAv63MarTgsVGWDeuZ7svah48L4=;
+        b=n5VYlOR5fU0DPFR7WDX3Wi4KexjXrRHjTDJxU6y5gVQhSLKogNwvUqlm8QxVfKDlCS
+         GfCOQouXa3HsmHfTJCigXn7gy+td24iAYLqMHpNsVzY3ShJ5DnGfrq7RpRijGjZUNMot
+         tYD0Is8sLWKK/NASdBp83Dj9AzH/8J7RxVpGoUsP6v25HleLHDcU/q1gESejrbo+JXUL
+         L2g7cRKJBvoq/pAbBUcG3dYQnmRDuUfVAMCsmW4RoTwyEB4TRxIP9mL3gDu1jLrmJbqB
+         v5Xv/o14WYiwAy/rVrk98zZeAtZjVA6zprU8zUv3NNe7oJW93IdyCDDlc0vNMhUpVM9h
+         H1Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Qw8iXfD3ItYngoQYik6Jp498D9sHvHA3oeNnrYYHbk4=;
-        b=i8I2/uPRBkjffgBkh/WTywVWW7x+Z/uv+whgIPqGMJVfOk9aaRyD4pPKjyVTItuCqF
-         ted5z3bWIDO2rTnGrnMso930bCZELEWPp7ZxbN7x4XcYq4NO39ZIGVI5+jQ/p0m8Wbvt
-         H52z4KgZCbbdBlsdJtpElCQIS5RZiz9TFkXaJ5JxPynmLFGmiQ8FnROAC6wI+S1Jdoxy
-         vs1rYYP6sDG9R3eAGTJXOa8bzI18UTowlxYlXz0OG+QhavsecQr6CIkDPHYAfuutCDBe
-         pEM8umnapCMONq8lUts1o/J/KLyvxQ0w9uHm63rd3dBeTQBTcAiIQU+2PoHuXIA9Rtix
-         55Mg==
-X-Gm-Message-State: APjAAAXuCNLfFWc3R98+bLZVcRInLgIArgDY9KZBRFkWtxTzdf7cZM0V
-        08wCdwxF+ng/BcbM+s2FT34=
-X-Google-Smtp-Source: APXvYqxXWUREqCKF57ycqs65HZcNJIa6R+UZEfCR7D4k2cNb+Ngkz+g1LaaDcgv3y/uJWz0rz74hzQ==
-X-Received: by 2002:a17:902:29e9:: with SMTP id h96mr27823553plb.258.1556292765921;
-        Fri, 26 Apr 2019 08:32:45 -0700 (PDT)
+        bh=YQZo9l6ViyTZNmh9VAv63MarTgsVGWDeuZ7svah48L4=;
+        b=UlFGvlf21HZp/tsTwTpuqlPTiFcMjiO1CPEDrQZ4PbRuEqZjDX7e4mrpGlTPu8R4Te
+         sHvYachcoBIlblacYcq9kDbWpsxk1IdajSyc8Zjf4/cV9h/nIOERQbji0t3/GZ40Spst
+         PIBZxPMjOn4XasaPQqn/5wVEscEfFjqVpGGDWZa/VnvZRscLsDKKESeuzgB7PcBdCRL7
+         /Nt2rp3SirFBSKxBkT+WM3rIVHVsqs44ikivPX0tGwQf95L9rB7zHD7TB+lZPsLz714D
+         nwTufv+0MM3+8PGmg3gkGDbf+C1VXDa2ytzu8pEeZPLKRD6QMQGXNuEUa+eaVYTyq1CN
+         2WMQ==
+X-Gm-Message-State: APjAAAWivaHRT0OKJyRsxg8lKq2mN1g44R04tNOo8+rkfCXYER9WPGE3
+        rxjC2eh2bzU5z/XcBu8/GkD0QBLR
+X-Google-Smtp-Source: APXvYqwOnTDcHbiRNjFRmBAsiS3wGO1QE1qm9ZNqCEycXMX788gu7aYpMuIUg2wlpC9f5V3MyEXvyQ==
+X-Received: by 2002:aa7:8252:: with SMTP id e18mr3041092pfn.105.1556292771113;
+        Fri, 26 Apr 2019 08:32:51 -0700 (PDT)
 Received: from localhost.localdomain ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id b1sm29024833pgq.15.2019.04.26.08.32.40
+        by smtp.gmail.com with ESMTPSA id b1sm29024833pgq.15.2019.04.26.08.32.46
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 26 Apr 2019 08:32:45 -0700 (PDT)
+        Fri, 26 Apr 2019 08:32:50 -0700 (PDT)
 From:   Changbin Du <changbin.du@gmail.com>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         mchehab+samsung@kernel.org, Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH 06/27] Documentation: x86: convert entry_64.txt to reST
-Date:   Fri, 26 Apr 2019 23:31:29 +0800
-Message-Id: <20190426153150.21228-7-changbin.du@gmail.com>
+Subject: [PATCH 07/27] Documentation: x86: convert earlyprintk.txt to reST
+Date:   Fri, 26 Apr 2019 23:31:30 +0800
+Message-Id: <20190426153150.21228-8-changbin.du@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190426153150.21228-1-changbin.du@gmail.com>
 References: <20190426153150.21228-1-changbin.du@gmail.com>
@@ -71,64 +71,199 @@ add it to Sphinx TOC tree. No essential content change.
 
 Signed-off-by: Changbin Du <changbin.du@gmail.com>
 ---
- Documentation/x86/{entry_64.txt => entry_64.rst} | 12 +++++++++---
- Documentation/x86/index.rst                      |  1 +
- 2 files changed, 10 insertions(+), 3 deletions(-)
- rename Documentation/x86/{entry_64.txt => entry_64.rst} (95%)
+ .../x86/{earlyprintk.txt => earlyprintk.rst}  | 103 ++++++++++--------
+ Documentation/x86/index.rst                   |   1 +
+ 2 files changed, 57 insertions(+), 47 deletions(-)
+ rename Documentation/x86/{earlyprintk.txt => earlyprintk.rst} (59%)
 
-diff --git a/Documentation/x86/entry_64.txt b/Documentation/x86/entry_64.rst
-similarity index 95%
-rename from Documentation/x86/entry_64.txt
-rename to Documentation/x86/entry_64.rst
-index c1df8eba9dfd..a48b3f6ebbe8 100644
---- a/Documentation/x86/entry_64.txt
-+++ b/Documentation/x86/entry_64.rst
-@@ -1,3 +1,9 @@
+diff --git a/Documentation/x86/earlyprintk.txt b/Documentation/x86/earlyprintk.rst
+similarity index 59%
+rename from Documentation/x86/earlyprintk.txt
+rename to Documentation/x86/earlyprintk.rst
+index 46933e06c972..7714e32501ec 100644
+--- a/Documentation/x86/earlyprintk.txt
++++ b/Documentation/x86/earlyprintk.rst
+@@ -1,52 +1,58 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+==============
-+Kernel Entries
-+==============
++============
++Early Printk
++============
+ 
+ Mini-HOWTO for using the earlyprintk=dbgp boot option with a
+ USB2 Debug port key and a debug cable, on x86 systems.
+ 
+ You need two computers, the 'USB debug key' special gadget and
+-and two USB cables, connected like this:
++and two USB cables, connected like this::
+ 
+   [host/target] <-------> [USB debug key] <-------> [client/console]
+ 
+-1. There are a number of specific hardware requirements:
+-
+- a.) Host/target system needs to have USB debug port capability.
+-
+- You can check this capability by looking at a 'Debug port' bit in
+- the lspci -vvv output:
+-
+- # lspci -vvv
+- ...
+- 00:1d.7 USB Controller: Intel Corporation 82801H (ICH8 Family) USB2 EHCI Controller #1 (rev 03) (prog-if 20 [EHCI])
+-         Subsystem: Lenovo ThinkPad T61
+-         Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR+ FastB2B- DisINTx-
+-         Status: Cap+ 66MHz- UDF- FastB2B+ ParErr- DEVSEL=medium >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+-         Latency: 0
+-         Interrupt: pin D routed to IRQ 19
+-         Region 0: Memory at fe227000 (32-bit, non-prefetchable) [size=1K]
+-         Capabilities: [50] Power Management version 2
+-                 Flags: PMEClk- DSI- D1- D2- AuxCurrent=375mA PME(D0+,D1-,D2-,D3hot+,D3cold+)
+-                 Status: D0 PME-Enable- DSel=0 DScale=0 PME+
+-         Capabilities: [58] Debug port: BAR=1 offset=00a0
++Hardware requirements
++=====================
 +
- This file documents some of the kernel entries in
- arch/x86/entry/entry_64.S.  A lot of this explanation is adapted from
- an email from Ingo Molnar:
-@@ -59,7 +65,7 @@ Now, there's a secondary complication: there's a cheap way to test
- which mode the CPU is in and an expensive way.
++  a) Host/target system needs to have USB debug port capability.
++
++     You can check this capability by looking at a 'Debug port' bit in
++     the lspci -vvv output::
++
++       # lspci -vvv
++       ...
++       00:1d.7 USB Controller: Intel Corporation 82801H (ICH8 Family) USB2 EHCI Controller #1 (rev 03) (prog-if 20 [EHCI])
++               Subsystem: Lenovo ThinkPad T61
++               Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR+ FastB2B- DisINTx-
++               Status: Cap+ 66MHz- UDF- FastB2B+ ParErr- DEVSEL=medium >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
++               Latency: 0
++               Interrupt: pin D routed to IRQ 19
++               Region 0: Memory at fe227000 (32-bit, non-prefetchable) [size=1K]
++               Capabilities: [50] Power Management version 2
++                       Flags: PMEClk- DSI- D1- D2- AuxCurrent=375mA PME(D0+,D1-,D2-,D3hot+,D3cold+)
++                       Status: D0 PME-Enable- DSel=0 DScale=0 PME+
++               Capabilities: [58] Debug port: BAR=1 offset=00a0
+                             ^^^^^^^^^^^ <==================== [ HERE ]
+-	 Kernel driver in use: ehci_hcd
+-         Kernel modules: ehci-hcd
+- ...
++               Kernel driver in use: ehci_hcd
++               Kernel modules: ehci-hcd
++       ...
  
- The cheap way is to pick this info off the entry frame on the kernel
--stack, from the CS of the ptregs area of the kernel stack:
-+stack, from the CS of the ptregs area of the kernel stack::
+-( If your system does not list a debug port capability then you probably
+-  won't be able to use the USB debug key. )
++     .. note::
++       If your system does not list a debug port capability then you probably
++       won't be able to use the USB debug key. )
  
- 	xorl %ebx,%ebx
- 	testl $3,CS+8(%rsp)
-@@ -67,7 +73,7 @@ stack, from the CS of the ptregs area of the kernel stack:
- 	SWAPGS
+- b.) You also need a NetChip USB debug cable/key:
++  b) You also need a NetChip USB debug cable/key:
  
- The expensive (paranoid) way is to read back the MSR_GS_BASE value
--(which is what SWAPGS modifies):
-+(which is what SWAPGS modifies)::
+         http://www.plxtech.com/products/NET2000/NET20DC/default.asp
  
- 	movl $1,%ebx
- 	movl $MSR_GS_BASE,%ecx
-@@ -76,7 +82,7 @@ The expensive (paranoid) way is to read back the MSR_GS_BASE value
- 	js 1f   /* negative -> in kernel */
- 	SWAPGS
- 	xorl %ebx,%ebx
--1:	ret
-+  1:	ret
+      This is a small blue plastic connector with two USB connections;
+      it draws power from its USB connections.
  
- If we are at an interrupt or user-trap/gate-alike boundary then we can
- use the faster check: the stack will be a reliable indicator of
+- c.) You need a second client/console system with a high speed USB 2.0
+-     port.
++  c) You need a second client/console system with a high speed USB 2.0 port.
+ 
+- d.) The NetChip device must be plugged directly into the physical
+-     debug port on the "host/target" system.  You cannot use a USB hub in
++  d) The NetChip device must be plugged directly into the physical
++     debug port on the "host/target" system. You cannot use a USB hub in
+      between the physical debug port and the "host/target" system.
+ 
+      The EHCI debug controller is bound to a specific physical USB
+@@ -65,24 +71,26 @@ and two USB cables, connected like this:
+      to the hardware vendor, because there is no reason not to wire
+      this port into one of the physically accessible ports.
+ 
+- e.) It is also important to note, that many versions of the NetChip
++  e) It is also important to note, that many versions of the NetChip
+      device require the "client/console" system to be plugged into the
+      right hand side of the device (with the product logo facing up and
+      readable left to right).  The reason being is that the 5 volt
+      power supply is taken from only one side of the device and it
+      must be the side that does not get rebooted.
+ 
+-2. Software requirements:
++Software requirements
++=====================
+ 
+- a.) On the host/target system:
++  a) On the host/target system:
+ 
+-    You need to enable the following kernel config option:
++    You need to enable the following kernel config option::
+ 
+       CONFIG_EARLY_PRINTK_DBGP=y
+ 
+     And you need to add the boot command line: "earlyprintk=dbgp".
+ 
+-    (If you are using Grub, append it to the 'kernel' line in
++    .. note::
++     If you are using Grub, append it to the 'kernel' line in
+      /etc/grub.conf.  If you are using Grub2 on a BIOS firmware system,
+      append it to the 'linux' line in /boot/grub2/grub.cfg. If you are
+      using Grub2 on an EFI firmware system, append it to the 'linux'
+@@ -101,9 +109,9 @@ and two USB cables, connected like this:
+     this channel open beyond early bootup. This can be useful for
+     debugging crashes under Xorg, etc.
+ 
+- b.) On the client/console system:
++  b) On the client/console system:
+ 
+-    You should enable the following kernel config option:
++    You should enable the following kernel config option::
+ 
+       CONFIG_USB_SERIAL_DEBUG=y
+ 
+@@ -115,27 +123,28 @@ and two USB cables, connected like this:
+     it up to use /dev/ttyUSB0 - or use a raw 'cat /dev/ttyUSBx' to
+     see the raw output.
+ 
+- c.) On Nvidia Southbridge based systems: the kernel will try to probe
++  c) On Nvidia Southbridge based systems: the kernel will try to probe
+      and find out which port has a debug device connected.
+ 
+-3. Testing that it works fine:
++Testing
++=======
+ 
+-   You can test the output by using earlyprintk=dbgp,keep and provoking
+-   kernel messages on the host/target system. You can provoke a harmless
+-   kernel message by for example doing:
++You can test the output by using earlyprintk=dbgp,keep and provoking
++kernel messages on the host/target system. You can provoke a harmless
++kernel message by for example doing::
+ 
+      echo h > /proc/sysrq-trigger
+ 
+-   On the host/target system you should see this help line in "dmesg" output:
++On the host/target system you should see this help line in "dmesg" output::
+ 
+      SysRq : HELP : loglevel(0-9) reBoot Crashdump terminate-all-tasks(E) memory-full-oom-kill(F) kill-all-tasks(I) saK show-backtrace-all-active-cpus(L) show-memory-usage(M) nice-all-RT-tasks(N) powerOff show-registers(P) show-all-timers(Q) unRaw Sync show-task-states(T) Unmount show-blocked-tasks(W) dump-ftrace-buffer(Z)
+ 
+-   On the client/console system do:
++On the client/console system do::
+ 
+        cat /dev/ttyUSB0
+ 
+-   And you should see the help line above displayed shortly after you've
+-   provoked it on the host system.
++And you should see the help line above displayed shortly after you've
++provoked it on the host system.
+ 
+ If it does not work then please ask about it on the linux-kernel@vger.kernel.org
+ mailing list or contact the x86 maintainers.
 diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
-index 489f4f4179c4..8a666c5abc85 100644
+index 8a666c5abc85..7b8388ebd43d 100644
 --- a/Documentation/x86/index.rst
 +++ b/Documentation/x86/index.rst
-@@ -12,3 +12,4 @@ Linux x86 Support
-    topology
+@@ -13,3 +13,4 @@ Linux x86 Support
     exception-tables
     kernel-stacks
-+   entry_64
+    entry_64
++   earlyprintk
 -- 
 2.20.1
 
