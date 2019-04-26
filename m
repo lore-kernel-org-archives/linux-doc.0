@@ -1,92 +1,89 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CAC537D8A4
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Apr 2019 16:16:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8D6C27D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Apr 2019 16:52:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726218AbfDZQQn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Apr 2019 12:16:43 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:52824 "EHLO mail.skyhub.de"
+        id S1726353AbfDZQwM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Apr 2019 12:52:12 -0400
+Received: from ms.lwn.net ([45.79.88.28]:50112 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726252AbfDZQQn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 26 Apr 2019 12:16:43 -0400
-Received: from zn.tnic (p200300EC2F0E4E009523F59E52E4EA88.dip0.t-ipconnect.de [IPv6:2003:ec:2f0e:4e00:9523:f59e:52e4:ea88])
+        id S1725944AbfDZQwL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 26 Apr 2019 12:52:11 -0400
+Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 3E2011EC05A6;
-        Fri, 26 Apr 2019 18:16:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1556295401;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=+eiT18Rlztua2QRRPsWhxmkEjPY4mAruq/2ZoQQBbo8=;
-        b=SMeTv9p4ocusHBDUDfRSDVDRqx8DR2gxPVciCq8g/xTzFq97lPlqVQkKFCn0lK0mF5VIFr
-        QaSle7lsjEmc4rBJQ1SSklQCaBkyuqxK1uhzKk6LsGTVUEzeQf5HD+2fo/XFPP5gx5vIs7
-        xg5jhxH5vMDnXWA8AkCI5qfjvlU38wc=
-Date:   Fri, 26 Apr 2019 18:16:40 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Changbin Du <changbin.du@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, tglx@linutronix.de,
-        mingo@redhat.com, x86@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mchehab+samsung@kernel.org
-Subject: Re: [PATCH 01/27] Documentation: add Linux x86 docs to Sphinx TOC
- tree
-Message-ID: <20190426161640.GH4608@zn.tnic>
-References: <20190426153150.21228-1-changbin.du@gmail.com>
- <20190426153150.21228-2-changbin.du@gmail.com>
+        by ms.lwn.net (Postfix) with ESMTPSA id 50E6D7DF;
+        Fri, 26 Apr 2019 16:52:10 +0000 (UTC)
+Date:   Fri, 26 Apr 2019 10:52:09 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Jani Nikula <jani.nikula@linux.intel.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Matthew Wilcox <willy@infradead.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH 1/2] Docs: An initial automarkup extension for sphinx
+Message-ID: <20190426105209.1e414eae@lwn.net>
+In-Reply-To: <87tvelrv8d.fsf@intel.com>
+References: <20190425200125.12302-1-corbet@lwn.net>
+        <20190425200125.12302-2-corbet@lwn.net>
+        <87tvelrv8d.fsf@intel.com>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190426153150.21228-2-changbin.du@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 26, 2019 at 11:31:24PM +0800, Changbin Du wrote:
-> Add a index.rst for x86 support. More docs will be added later.
-> 
-> Signed-off-by: Changbin Du <changbin.du@gmail.com>
-> Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
->  Documentation/index.rst     | 1 +
->  Documentation/x86/index.rst | 9 +++++++++
->  2 files changed, 10 insertions(+)
->  create mode 100644 Documentation/x86/index.rst
-> 
-> diff --git a/Documentation/index.rst b/Documentation/index.rst
-> index 80a421cb935e..d65dd4934a1a 100644
-> --- a/Documentation/index.rst
-> +++ b/Documentation/index.rst
-> @@ -101,6 +101,7 @@ implementation.
->  .. toctree::
->     :maxdepth: 2
->  
-> +   x86/index
->     sh/index
->  
->  Filesystem Documentation
-> diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
-> new file mode 100644
-> index 000000000000..7612d3142b2a
-> --- /dev/null
-> +++ b/Documentation/x86/index.rst
-> @@ -0,0 +1,9 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=================
-> +Linux x86 Support
+On Fri, 26 Apr 2019 12:06:42 +0300
+Jani Nikula <jani.nikula@linux.intel.com> wrote:
 
-x86-specific Documentation
+> It's more involved, but I think the better place to do this (as well as
+> the kernel-doc transformations) would be in the doctree-read event,
+> after the rst parsing is done. You can traverse the doctree and find the
+> places which weren't special for Sphinx, and replace the plain text
+> nodes in-place. I've toyed with this in the past, but alas I didn't have
+> (and still don't) have the time to finish the job.
 
--- 
-Regards/Gruss,
-    Boris.
+I had thought about this; indeed, there's a comment in the posted patch to
+that effect.  The tradeoff comes down to this, I think:
 
-Good mailing practices for 400: avoid top-posting and trim the reply.
+ - The fragility and inelegance of embedding a bit of redundant RST
+   parsing into this extension v. that of adding a late parsing stage as a
+   transform, trying to enumerate every node type that you might want to
+   change, and digging into the C domain code to emulate its reference
+   generation.
+
+ - The time required to implement a solution; I'm having a bit of a hard
+   time keeping up with docs at the moment as it is.
+
+ - Regexes.  This solution has more of them, but we're not going to get
+   away from them regardless.
+
+I am not at all opposed to a more proper solution that might, in the
+long term, produce more deterministic results.  I can even try to work in
+that direction.  But this is something that can be done now that, IMO,
+doesn't in any way close off a better implementation in the future.  If we
+agree that we should automatically generate references for occurrences of
+"function()", we can change how that is actually done later.
+
+I'll look into this further, but my inclination is to go forward with what
+I have now.  It's simple and easy to understand, and doesn't seem to screw
+up anywhere in the current body of kernel docs as far as I can tell.
+
+> If you decide to go with regex anyway, I'd at least consider pulling the
+> transformations/highlights from kernel-doc the script to the Sphinx
+> extension, and use the exact same transformations for stuff in source
+> code comments and rst files.
+
+Pulling all RST manipulation out of kerneldoc has a great deal of appeal;
+assuming this goes forward that should indeed be high on the todo list.
+
+Thanks,
+
+jon
