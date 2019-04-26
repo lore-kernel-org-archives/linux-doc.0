@@ -1,65 +1,418 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0266A7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Apr 2019 18:59:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7B6F87D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Apr 2019 19:04:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726553AbfDZS7C (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Apr 2019 14:59:02 -0400
-Received: from mga05.intel.com ([192.55.52.43]:5933 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726358AbfDZS7C (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 26 Apr 2019 14:59:02 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Apr 2019 11:59:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,398,1549958400"; 
-   d="scan'208";a="168268245"
-Received: from dlevy1-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.47.21])
-  by fmsmga001.fm.intel.com with ESMTP; 26 Apr 2019 11:58:59 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Matthew Wilcox <willy@infradead.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH 1/2] Docs: An initial automarkup extension for sphinx
-In-Reply-To: <20190426105209.1e414eae@lwn.net>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20190425200125.12302-1-corbet@lwn.net> <20190425200125.12302-2-corbet@lwn.net> <87tvelrv8d.fsf@intel.com> <20190426105209.1e414eae@lwn.net>
-Date:   Fri, 26 Apr 2019 21:58:58 +0300
-Message-ID: <87zhoch9u5.fsf@intel.com>
+        id S1726399AbfDZTEw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Apr 2019 15:04:52 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:32819 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726359AbfDZTEv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Apr 2019 15:04:51 -0400
+Received: by mail-pg1-f194.google.com with SMTP id k19so2056477pgh.0
+        for <linux-doc@vger.kernel.org>; Fri, 26 Apr 2019 12:04:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SQlqxfSsarDUrU5KqN/LPzSuKlWywacSGGQtZbZw+TE=;
+        b=Fdt/aXcHxudi0gtLbx7ctkVRKc62c2i0o+fstIanZNSiJV1k3HIGll5Hcs8YUMIS84
+         0OtrnVUP992dhvfqWsajanY6laW8bSjXhitmPrawJepQbvnCrRV+Gn295OnDmWaREnOh
+         SEbYnnRaPOI3OZ3NxzQLHSkl/7Sd12RcZKCjQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SQlqxfSsarDUrU5KqN/LPzSuKlWywacSGGQtZbZw+TE=;
+        b=EGCNqMHgK2SNrzeYb5t9gSfMbuRBjncOlGUKWMAwnAYZ6TAAqGzbA0uvGGj97d5Vg/
+         rXL0C2vb2Hpx8BinnslqnsH2OQbILbWMcGFJEITxTyGx4sDlc9SGauDURhg9jN/djY9G
+         F8Nsb45254xb1PoWkfJL79KtxnJinNwugwwNArU+3W4GbB0FSHc/WiL8Cc9ln3SUuLPc
+         CftL1BzctRW0mA3HbjTToSPCS820pqCXlrEN8MbZ+nbRbud3eHVqN1qjz55JN3f6WOSl
+         5cjU+V/5Frfy5HfGO6F1gO0DoYIkpcKDJDgvMbn2Ts34GFn89mJn+aGnmeKhlY19tOh5
+         /ucQ==
+X-Gm-Message-State: APjAAAUfLMI4Vm6DvEyBY+m6EkxnT2T2hKPPeeqB12lo1mNDim3OZibR
+        NJNUvs3Fw+PNT3BFjwX69YOreg==
+X-Google-Smtp-Source: APXvYqyDyM6UcIj2aG5AGCnI0ZZartrq2h9FpGFrc1IXmrAlP32wecloRdyzOMD8u5Ir5Kh4rGMemw==
+X-Received: by 2002:a65:51c9:: with SMTP id i9mr45827582pgq.187.1556305489573;
+        Fri, 26 Apr 2019 12:04:49 -0700 (PDT)
+Received: from joelaf.cam.corp.google.com ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id j22sm7756797pfi.139.2019.04.26.12.04.46
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 26 Apr 2019 12:04:48 -0700 (PDT)
+From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
+        atishp04@gmail.com, dancol@google.com,
+        Dan Williams <dan.j.williams@intel.com>,
+        dietmar.eggemann@arm.com, gregkh@linuxfoundation.org,
+        Guenter Roeck <groeck@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>, karim.yaghmour@opersys.com,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org,
+        Manoj Rao <linux@manojrajarao.com>, mhiramat@kernel.org,
+        qais.yousef@arm.com, rdunlap@infradead.org, rostedt@goodmis.org,
+        Shuah Khan <shuah@kernel.org>, yhs@fb.com
+Subject: [PATCH v7 resend 1/2] Provide in-kernel headers to make extending kernel easier
+Date:   Fri, 26 Apr 2019 15:04:29 -0400
+Message-Id: <20190426190430.172543-1-joel@joelfernandes.org>
+X-Mailer: git-send-email 2.21.0.593.g511ec345e18-goog
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 26 Apr 2019, Jonathan Corbet <corbet@lwn.net> wrote:
-> I am not at all opposed to a more proper solution that might, in the
-> long term, produce more deterministic results.  I can even try to work in
-> that direction.  But this is something that can be done now that, IMO,
-> doesn't in any way close off a better implementation in the future.  If we
-> agree that we should automatically generate references for occurrences of
-> "function()", we can change how that is actually done later.
->
-> I'll look into this further, but my inclination is to go forward with what
-> I have now.  It's simple and easy to understand, and doesn't seem to screw
-> up anywhere in the current body of kernel docs as far as I can tell.
+Introduce in-kernel headers which are made available as an archive
+through proc (/proc/kheaders.tar.xz file). This archive makes it
+possible to run eBPF and other tracing programs that need to extend the
+kernel for tracing purposes without any dependency on the file system
+having headers.
 
-Fair enough. It's most important that this doesn't block us from
-switching to a different implementation later once someone figures it
-out.
+A github PR is sent for the corresponding BCC patch at:
+https://github.com/iovisor/bcc/pull/2312
 
-BR,
-Jani.
+On Android and embedded systems, it is common to switch kernels but not
+have kernel headers available on the file system. Further once a
+different kernel is booted, any headers stored on the file system will
+no longer be useful. This is an issue even well known to distros.
+By storing the headers as a compressed archive within the kernel, we can
+avoid these issues that have been a hindrance for a long time.
 
+The best way to use this feature is by building it in. Several users
+have a need for this, when they switch debug kernels, they do not want to
+update the filesystem or worry about it where to store the headers on
+it. However, the feature is also buildable as a module in case the user
+desires it not being part of the kernel image. This makes it possible to
+load and unload the headers from memory on demand. A tracing program can
+load the module, do its operations, and then unload the module to save
+kernel memory. The total memory needed is 3.3MB.
 
+By having the archive available at a fixed location independent of
+filesystem dependencies and conventions, all debugging tools can
+directly refer to the fixed location for the archive, without concerning
+with where the headers on a typical filesystem which significantly
+simplifies tooling that needs kernel headers.
+
+The code to read the headers is based on /proc/config.gz code and uses
+the same technique to embed the headers.
+
+Other approaches were discussed such as having an in-memory mountable
+filesystem, but that has drawbacks such as requiring an in-kernel xz
+decompressor which we don't have today, and requiring usage of 42 MB of
+kernel memory to host the decompressed headers at anytime. Also this
+approach is simpler than such approaches.
+
+Reviewed-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+---
+
+(Just a resend with Masahiro's Reviewed-by tag added)
+
+    v6 -> v7:
+    - Minor nits from Masahiro Yamada are addressed.
+
+    v5 -> v6: (Masahiro Yamada suggestions mostly)
+    - Dropped support for module building.
+    - Rebuild archive if script changes.
+    - Move archive file list to script.
+    - Move build script to kernel directory.
+
+    v4 -> v5:
+    (v4 was Tested-by the following folks)
+        Tested-by: qais.yousef@arm.com
+        Tested-by: dietmar.eggemann@arm.com
+        Tested-by: linux@manojrajarao.com
+    (Thanks to Masahiro Yamada for several excellent suggestions)
+    - used incbin instead of bin2c (Masahiro did similar idea)
+    - added module.lds if ia64 otherwise ia64 may fail to build.
+    - added clean-files rule to Makefile
+    - removed strip-comments script and doing it inline
+    - added set -e to header generated to die on errorsr
+    - fixed a minor issue where find command was noisy.
+    - removed unneeded tar.xz rule from kernel/.gitignore
+    - added Tested-by tags from ARM folks.
+
+    Changes since v3:
+    - Blank tar was being generated because of a one line I
+      forgot to push. It is updated now.
+    - Added module.lds since arm64 needs it to build modules.
+
+    Changes since v2:
+    (Thanks to Masahiro Yamada for several excellent suggestions)
+    - Added support for out of tree builds.
+    - Added incremental build support bringing down build time of
+      incremental builds from 50 seconds to 5 seconds.
+    - Fixed various small nits / cleanups.
+    - clean ups to kheaders.c pointed by Alexey Dobriyan.
+    - Fixed MODULE_LICENSE in test module and kheaders.c
+    - Dropped Module.symvers from archive due to circular dependency.
+
+    Changes since v1:
+    - removed IKH_EXTRA variable, not needed (Masahiro Yamada)
+    - small fix ups to selftest
+       - added target to main Makefile etc
+       - added MODULE_LICENSE to test module
+       - made selftest more quiet
+
+    Changes since RFC:
+    Both changes bring size down to 3.8MB:
+    - use xz for compression
+    - strip comments except SPDX lines
+    - Call out the module name in Kconfig
+    - Also added selftests in second patch to ensure headers are always
+    working.
+
+Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+
+ init/Kconfig           | 10 +++++
+ kernel/.gitignore      |  1 +
+ kernel/Makefile        | 10 +++++
+ kernel/gen_ikh_data.sh | 89 ++++++++++++++++++++++++++++++++++++++++++
+ kernel/kheaders.c      | 74 +++++++++++++++++++++++++++++++++++
+ 5 files changed, 184 insertions(+)
+ create mode 100755 kernel/gen_ikh_data.sh
+ create mode 100644 kernel/kheaders.c
+
+diff --git a/init/Kconfig b/init/Kconfig
+index 4592bf7997c0..47c0db6e63a5 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -580,6 +580,16 @@ config IKCONFIG_PROC
+ 	  This option enables access to the kernel configuration file
+ 	  through /proc/config.gz.
+ 
++config IKHEADERS_PROC
++	tristate "Enable kernel header artifacts through /proc/kheaders.tar.xz"
++	depends on PROC_FS
++	help
++	  This option enables access to the kernel header and other artifacts that
++	  are generated during the build process. These can be used to build eBPF
++	  tracing programs, or similar programs.  If you build the headers as a
++	  module, a module called kheaders.ko is built which can be loaded on-demand
++	  to get access to the headers.
++
+ config LOG_BUF_SHIFT
+ 	int "Kernel log buffer size (16 => 64KB, 17 => 128KB)"
+ 	range 12 25
+diff --git a/kernel/.gitignore b/kernel/.gitignore
+index 6e699100872f..34d1e77ee9df 100644
+--- a/kernel/.gitignore
++++ b/kernel/.gitignore
+@@ -1,5 +1,6 @@
+ #
+ # Generated files
+ #
++kheaders.md5
+ timeconst.h
+ hz.bc
+diff --git a/kernel/Makefile b/kernel/Makefile
+index 6c57e78817da..12399614c350 100644
+--- a/kernel/Makefile
++++ b/kernel/Makefile
+@@ -70,6 +70,7 @@ obj-$(CONFIG_UTS_NS) += utsname.o
+ obj-$(CONFIG_USER_NS) += user_namespace.o
+ obj-$(CONFIG_PID_NS) += pid_namespace.o
+ obj-$(CONFIG_IKCONFIG) += configs.o
++obj-$(CONFIG_IKHEADERS_PROC) += kheaders.o
+ obj-$(CONFIG_SMP) += stop_machine.o
+ obj-$(CONFIG_KPROBES_SANITY_TEST) += test_kprobes.o
+ obj-$(CONFIG_AUDIT) += audit.o auditfilter.o
+@@ -121,3 +122,12 @@ $(obj)/configs.o: $(obj)/config_data.gz
+ targets += config_data.gz
+ $(obj)/config_data.gz: $(KCONFIG_CONFIG) FORCE
+ 	$(call if_changed,gzip)
++
++$(obj)/kheaders.o: $(obj)/kheaders_data.tar.xz
++
++quiet_cmd_genikh = CHK     $(obj)/kheaders_data.tar.xz
++cmd_genikh = $(srctree)/kernel/gen_ikh_data.sh $@
++$(obj)/kheaders_data.tar.xz: FORCE
++	$(call cmd,genikh)
++
++clean-files := kheaders_data.tar.xz kheaders.md5
+diff --git a/kernel/gen_ikh_data.sh b/kernel/gen_ikh_data.sh
+new file mode 100755
+index 000000000000..591a94f7b387
+--- /dev/null
++++ b/kernel/gen_ikh_data.sh
+@@ -0,0 +1,89 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-2.0
++
++# This script generates an archive consisting of kernel headers
++# for CONFIG_IKHEADERS_PROC.
++set -e
++spath="$(dirname "$(readlink -f "$0")")"
++kroot="$spath/.."
++outdir="$(pwd)"
++tarfile=$1
++cpio_dir=$outdir/$tarfile.tmp
++
++# Script filename relative to the kernel source root
++# We add it to the archive because it is small and any changes
++# to this script will also cause a rebuild of the archive.
++sfile="$(realpath --relative-to $kroot "$(readlink -f "$0")")"
++
++src_file_list="
++include/
++arch/$SRCARCH/include/
++$sfile
++"
++
++obj_file_list="
++include/
++arch/$SRCARCH/include/
++"
++
++# Support incremental builds by skipping archive generation
++# if timestamps of files being archived are not changed.
++
++# This block is useful for debugging the incremental builds.
++# Uncomment it for debugging.
++# iter=1
++# if [ ! -f /tmp/iter ]; then echo 1 > /tmp/iter;
++# else; 	iter=$(($(cat /tmp/iter) + 1)); fi
++# find $src_file_list -type f | xargs ls -lR > /tmp/src-ls-$iter
++# find $obj_file_list -type f | xargs ls -lR > /tmp/obj-ls-$iter
++
++# include/generated/compile.h is ignored because it is touched even when none
++# of the source files changed. This causes pointless regeneration, so let us
++# ignore them for md5 calculation.
++pushd $kroot > /dev/null
++src_files_md5="$(find $src_file_list -type f                       |
++		grep -v "include/generated/compile.h"		   |
++		xargs ls -lR | md5sum | cut -d ' ' -f1)"
++popd > /dev/null
++obj_files_md5="$(find $obj_file_list -type f                       |
++		grep -v "include/generated/compile.h"		   |
++		xargs ls -lR | md5sum | cut -d ' ' -f1)"
++
++if [ -f $tarfile ]; then tarfile_md5="$(md5sum $tarfile | cut -d ' ' -f1)"; fi
++if [ -f kernel/kheaders.md5 ] &&
++	[ "$(cat kernel/kheaders.md5|head -1)" == "$src_files_md5" ] &&
++	[ "$(cat kernel/kheaders.md5|head -2|tail -1)" == "$obj_files_md5" ] &&
++	[ "$(cat kernel/kheaders.md5|tail -1)" == "$tarfile_md5" ]; then
++		exit
++fi
++
++if [ "${quiet}" != "silent_" ]; then
++       echo "  GEN     $tarfile"
++fi
++
++rm -rf $cpio_dir
++mkdir $cpio_dir
++
++pushd $kroot > /dev/null
++for f in $src_file_list;
++	do find "$f" ! -name "*.cmd" ! -name ".*";
++done | cpio --quiet -pd $cpio_dir
++popd > /dev/null
++
++# The second CPIO can complain if files already exist which can
++# happen with out of tree builds. Just silence CPIO for now.
++for f in $obj_file_list;
++	do find "$f" ! -name "*.cmd" ! -name ".*";
++done | cpio --quiet -pd $cpio_dir >/dev/null 2>&1
++
++# Remove comments except SDPX lines
++find $cpio_dir -type f -print0 |
++	xargs -0 -P8 -n1 perl -pi -e 'BEGIN {undef $/;}; s/\/\*((?!SPDX).)*?\*\///smg;'
++
++tar -Jcf $tarfile -C $cpio_dir/ . > /dev/null
++
++echo "$src_files_md5" > kernel/kheaders.md5
++echo "$obj_files_md5" >> kernel/kheaders.md5
++echo "$(md5sum $tarfile | cut -d ' ' -f1)" >> kernel/kheaders.md5
++
++rm -rf $cpio_dir
+diff --git a/kernel/kheaders.c b/kernel/kheaders.c
+new file mode 100644
+index 000000000000..70ae6052920d
+--- /dev/null
++++ b/kernel/kheaders.c
+@@ -0,0 +1,74 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Provide kernel headers useful to build tracing programs
++ * such as for running eBPF tracing tools.
++ *
++ * (Borrowed code from kernel/configs.c)
++ */
++
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/proc_fs.h>
++#include <linux/init.h>
++#include <linux/uaccess.h>
++
++/*
++ * Define kernel_headers_data and kernel_headers_data_end, within which the
++ * compressed kernel headers are stored. The file is first compressed with xz.
++ */
++
++asm (
++"	.pushsection .rodata, \"a\"		\n"
++"	.global kernel_headers_data		\n"
++"kernel_headers_data:				\n"
++"	.incbin \"kernel/kheaders_data.tar.xz\"	\n"
++"	.global kernel_headers_data_end		\n"
++"kernel_headers_data_end:			\n"
++"	.popsection				\n"
++);
++
++extern char kernel_headers_data;
++extern char kernel_headers_data_end;
++
++static ssize_t
++ikheaders_read_current(struct file *file, char __user *buf,
++		      size_t len, loff_t *offset)
++{
++	return simple_read_from_buffer(buf, len, offset,
++				       &kernel_headers_data,
++				       &kernel_headers_data_end -
++				       &kernel_headers_data);
++}
++
++static const struct file_operations ikheaders_file_ops = {
++	.read = ikheaders_read_current,
++	.llseek = default_llseek,
++};
++
++static int __init ikheaders_init(void)
++{
++	struct proc_dir_entry *entry;
++
++	/* create the current headers file */
++	entry = proc_create("kheaders.tar.xz", S_IRUGO, NULL,
++			    &ikheaders_file_ops);
++	if (!entry)
++		return -ENOMEM;
++
++	proc_set_size(entry,
++		      &kernel_headers_data_end -
++		      &kernel_headers_data);
++	return 0;
++}
++
++static void __exit ikheaders_cleanup(void)
++{
++	remove_proc_entry("kheaders.tar.xz", NULL);
++}
++
++module_init(ikheaders_init);
++module_exit(ikheaders_cleanup);
++
++MODULE_LICENSE("GPL v2");
++MODULE_AUTHOR("Joel Fernandes");
++MODULE_DESCRIPTION("Echo the kernel header artifacts used to build the kernel");
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.21.0.593.g511ec345e18-goog
