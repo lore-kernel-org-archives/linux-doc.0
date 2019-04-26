@@ -1,75 +1,129 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=FREEMAIL_REPLYTO_END_DIGIT,
-	HEADER_FROM_DIFFERENT_DOMAINS,LOTS_OF_MONEY,MAILING_LIST_MULTI,
-	MILLION_USD,RCVD_IN_DNSWL_HI,T_MONEY_PERCENT autolearn=unavailable
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DF6527D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Apr 2019 09:32:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7A5577D922
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 26 Apr 2019 09:47:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726119AbfDZJcM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Apr 2019 05:32:12 -0400
-Received: from smtp2.ono.com ([62.42.230.179]:13348 "EHLO smtp2.ono.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725923AbfDZJcM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 26 Apr 2019 05:32:12 -0400
-X-Junkmail-Premium-Raw: score=16/50,refid=2.7.2:2019.4.26.85116:17:16.798,ip=62.42.230.132,rules=__HAS_MSGID,
- __SANE_MSGID, MSGID_JMAIL_DEFAULT, INVALID_MSGID_NO_FQDN, __HAS_FROM,
- __HAS_REPLYTO, __FRAUD_WEBMAIL_REPLYTO, __SUBJ_ALPHA_START,
- __PHISH_SPEAR_SUBJ_ALERT, __SUBJ_ALPHA_END, __MIME_VERSION, __CT,
- __CT_TEXT_PLAIN, __CTE, MISSING_HEADERS, __CP_NAME_BODY,
- __FRAUD_INYOURCOUNTRY, __STOCK_PHRASE_7, __STOCK_PHRASE_8,
- __FRAUD_MONEY_GENERIC, __FRAUD_MONEY_BIG_COIN_DIG, __OEM_PRICE,
- __FRAUD_MONEY_CURRENCY_DOLLAR, __NO_HTML_TAG_RAW, BODY_SIZE_700_799,
- BODYTEXTP_SIZE_3000_LESS, __MIME_TEXT_P1, __MIME_TEXT_ONLY, HTML_00_01,
- HTML_00_10, __FRAUD_MONEY_CURRENCY, __FRAUD_MONEY_BIG_COIN,
- __FRAUD_MONEY_VALUE, __FRAUD_MONEY, FRAUD_X3, BODY_SIZE_5000_LESS,
- __FRAUD_WEBMAIL, WEBMAIL_REPLYTO_NOT_FROM, FRAUD_WEBMAIL_R_NOT_F,
- __FRAUD_COMMON, __MIME_TEXT_P, NO_URI_FOUND, NO_CTA_URI_FOUND,
- __PHISH_SPEAR_STRUCTURE_1, BODY_SIZE_1000_LESS, BODY_SIZE_2000_LESS,
- __PHISH_SPEAR_STRUCTURE_2, REPLYTO_FROM_DIFF_ADDY, NO_URI_HTTPS,
- BODY_SIZE_7000_LESS, TO_MALFORMED
-Received: from resprs02 (62.42.230.132) by smtp2.ono.com (9.0.019.09-1)
-        id 5CAF0F5D00B1C980; Fri, 26 Apr 2019 11:32:02 +0200
-Received: from (149.126.76.23) by webmailcpr02n.ono.com;  Fri, 26 Apr 2019 10:57:48 +0200
-Message-ID: <9662785.1610771556269068615.JavaMail.defaultUser@defaultHost>
-Date:   Fri, 26 Apr 2019 10:57:48 +0200 (CEST)
-From:   Aisha Gadafi <atienza22@ono.com>
-Reply-To: mgaddafi034@gmail.com
-Subject: hello dear
+        id S1726193AbfDZJqf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Apr 2019 05:46:35 -0400
+Received: from casper.infradead.org ([85.118.1.10]:52042 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725985AbfDZJqf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Apr 2019 05:46:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=gTBjYHF7PdfcMS747oVD2PM5dGAfiuGzrLBbmiynnAI=; b=ThiRHSVnK8igKQlUt70ItUpgfn
+        ahvUpV2Rj5VYX6v2qdgqkJ5YDlrjlEHjCiqciVId/LoW/vvbKtqqhjBZvImCJFrk4tTc96+SgQTMt
+        3OwLruS8ajlGs/wQ20K30ls643aeeOVpb/B7MjXylL0emp1dw6nykZEPhyzyfDfgrbPNaH7y3BxV8
+        0/Pf9E/MtLsN+dZ02jvg38Neh4bT8CtGsUuBDGhhjAjqMii4uRKfUZed6iZ/INQKwoT8UUu5T/2j8
+        o0WOHq5yMZ0fJgkLpfKIpMcsztztvKqpYFW56Aq/Y4OzodfEabMJl4Dq9mXtvOf21R/5AYdWX7Hzf
+        niiIxfrA==;
+Received: from [179.95.39.209] (helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hJxQz-000573-Hl; Fri, 26 Apr 2019 09:46:22 +0000
+Date:   Fri, 26 Apr 2019 06:46:09 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Sebastian Reichel <sre@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+        Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        "David S. Miller" <davem@davemloft.net>, linux-pm@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v2 25/79] docs: convert docs to ReST and rename to *.rst
+Message-ID: <20190426064609.7f00e013@coco.lan>
+In-Reply-To: <20190425180758.GC23183@sirena.org.uk>
+References: <cover.1555938375.git.mchehab+samsung@kernel.org>
+        <7adf9035ae06ecc6c7e46b51cb677f0a8f61d19a.1555938376.git.mchehab+samsung@kernel.org>
+        <20190425180758.GC23183@sirena.org.uk>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain;charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Assalamu Alaikum Wa Rahmatullahi Wa Barakatuh,
+Hi Mark,
 
-hello dear
+Em Thu, 25 Apr 2019 19:07:58 +0100
+Mark Brown <broonie@kernel.org> escreveu:
 
-I came across your contact during my private search. Mrs Aisha Al-
-Qaddafi is my name, the only daughter of late Libyan president, am a 
-single Mother and a Widow with three Children.I have funds the sum of 
-$27.5 million USD for, investment, I am interested in you for 
-investment project assistance in your country,because of my current 
-refugee status, i shall compensate you 30% of the total sum after the 
-funds are transfer into your account,I am willing to, negotiate 
-investment/business profit sharing ratio with you base on the future 
-investment earning profits.
+> On Mon, Apr 22, 2019 at 10:27:14AM -0300, Mauro Carvalho Chehab wrote:
+> > Convert the PM documents to ReST, in order to allow them to
+> > build with Sphinx.  
+> 
+> This is massively CCed covering a large range of subsystems and is patch
+> 25 of a 79 patch series so I've no context for what's going on here or
+> why...  
 
-Reply me urgent for more details
+There are two goals of this series:
 
-Mrs Aisha Al-Qaddafi
+1) to prepare for placing the new *.rst files under Documentation/ into an
+   index file, being part of one of the books. Most of the stuff covered
+   on this series either fit at the system admin guide or at the
+   Kernel API documentation book;
+
+2) to ensure that, if some edition on a file would cause warnings at
+   Sphinx build, someone will notice and submit a followup patch.
+
+You can see more details at patch 00/79:
+	https://lore.kernel.org/lkml/20190422115110.26443b44@coco.lan/
+
+In order to do that, this series has one patch per Documentation/*
+sub-directory. This specific one is for the documents under
+Documentation/power/ [1].
+
+[1] btw, the title of this specific patch should be, instead:
+	docs: power: convert docs to ReST and rename to *.rst
+
+The series is long because I'm trying to cover a significant part
+of the documentation files. In any case, except if an eventual
+conflict might rise on some file, this patch is independent from
+all other files, and should be safe to apply directly via the
+subsystem git tree.
+
+I'm working on a follow-up patch series that should be adding the
+power/index.rst file into another index file - probably at
+Documentation/index.rst[1]. As such patch will be adding a lot of other
+index files, the best would be to merge it via the docs tree, in
+order to avoid conflicts.
 
 
+[1] such patch will be removing the ":orphan:" meta-tag from it
+(that basically tells the build system to not produce warnings if
+the file is not directly or indirectly referenced by the main
+index file).
 
-
-
-
-
-
+Thanks,
+Mauro
