@@ -1,204 +1,144 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9FA227D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 27 Apr 2019 02:47:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3E72A7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 27 Apr 2019 04:00:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727251AbfD0CrJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Apr 2019 22:47:09 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:46911 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726309AbfD0CrJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Apr 2019 22:47:09 -0400
-Received: by mail-pg1-f195.google.com with SMTP id n2so2429405pgg.13;
-        Fri, 26 Apr 2019 19:47:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=DTbobDXu46tz6rQCEUq+Jc4zXHSm7T9KuFg/tSyacXM=;
-        b=LuSkYC6dFmup5V7EpcFZJkhdPar+Gq2j7/RIt8F8NwGdlVclP0LLnENwLCexja+0y3
-         a/VofzBy1UTNppoC6+x7CYkYzUQDt4NOmZRE+iLWzbWFUZeIDlJQfKx/b9vOCjCMeM4W
-         P9r/tOtbs2B1SmguCo3WkJfFsPRIECyMpQLzpKud3twUfboKEh0v8zy1chVq6x2jwN2x
-         gM+/h3TuslIgv68SqX/ltAH9F1TkVSdGpMAqnUjaCAKwWjox52JRROr6u12rAks5swYZ
-         bHoEFY60tVlgGo7329AzNV/aAvfalEl/7y6Fp7x4E3t2hjjEeCIvLVASSDjLxIKOHcfI
-         idzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=DTbobDXu46tz6rQCEUq+Jc4zXHSm7T9KuFg/tSyacXM=;
-        b=fhBzpXLnZxbe5lZHU9LwxjGdPJs6byyq890ZmRSHp7ntTT+6Xhsb+ia9tRvba4MyOa
-         8gNXpz3mb8AviusDblpLHQZ4yrlOSIFVnrXeUthjYV+L6Ayif0lK2HVpp8oNjmT36zTC
-         CNEybUY6LV4g8G6kX/gY5oZIC00zDu5Y2FCOjobiOkTI0efjVOYrvKRDxaKhdO142Qec
-         1MT8fAVEONkyAlbr/SCJyExcg99+VUhvdYKWg4ytHgHfaVqbqvIdTCRi9cGV9Qj+awfB
-         SQdbD+WaRX+2dNTES+pxwF5dML8cFnpu/J/ZCoHn2CcTJL0o7H13Snrmd9mnNK5TlORr
-         7Z4g==
-X-Gm-Message-State: APjAAAW9TwmwGhvw7WCcgQlSRMjML6BJpwtvA7cyQ8OiSSci/8b/S4eO
-        mpguIcDy6ONsl0+xcyboGrqYHwEl
-X-Google-Smtp-Source: APXvYqxso8p5BC1fYJwaW45xzmTVZATJeoYbftWiPomeUgakawZRFrx0d9sDAypoup+0Z5R41x+e9A==
-X-Received: by 2002:a63:c749:: with SMTP id v9mr25147157pgg.432.1556333227762;
-        Fri, 26 Apr 2019 19:47:07 -0700 (PDT)
-Received: from mail.google.com ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id f20sm57188138pff.176.2019.04.26.19.47.03
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 26 Apr 2019 19:47:07 -0700 (PDT)
-Date:   Sat, 27 Apr 2019 10:47:00 +0800
-From:   Changbin Du <changbin.du@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Changbin Du <changbin.du@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/27] Include linux x86 docs into Sphinx TOC tree
-Message-ID: <20190427024659.iav7ajabw7cljrxw@mail.google.com>
-References: <20190426153150.21228-1-changbin.du@gmail.com>
- <20190426123946.554730b8@coco.lan>
+        id S1725974AbfD0EA2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 27 Apr 2019 00:00:28 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:43070 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725781AbfD0EA2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 Apr 2019 00:00:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=i/m5ZRNk7cAVz4wurBU96zAR+YAnziWC+vvr6x3mZh0=; b=om0/dO3bdLqw+0zMMvofbYpIq
+        NhE77Vxez19Lul4FNwBITl1Nejx9YB+dcWM7ag2HHVekeLvH0gPZ4a/NkdetzB4LL3C0Zu93zAOw7
+        JPjNPpW81Wu2XWf7fGKz5S1WsKrdmN+pCu3cu0AcwzKz4DcYYvvKueknUbEYG8YgtL6/izIhv6bG6
+        +xb5gFMBMwZ/Dq5tqErP4MeVOZamfVwj6e520tEQSXMRvn+y73coCIYbgLDM/Z1s4PXVlSKWWOKLb
+        7MbAMjOg9x6jRgiKWyMy9g/wgS41HC78yOKE1tSI+LAhtWDKqPiGZWOZyesgSIxVFKMRToouDkw5L
+        f4ShFEFPA==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hKEVn-0000Sd-IV; Sat, 27 Apr 2019 04:00:27 +0000
+Subject: Re: [PATCH v2] docs/vm: add documentation of memory models
+To:     Mike Rapoport <rppt@linux.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Anshuman Khandual <anshuman.khandual@arm.com>,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org
+References: <1556228236-12540-1-git-send-email-rppt@linux.ibm.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <cb3d9579-ca20-bd16-31d9-78d634e7e635@infradead.org>
+Date:   Fri, 26 Apr 2019 21:00:27 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190426123946.554730b8@coco.lan>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <1556228236-12540-1-git-send-email-rppt@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 26, 2019 at 12:39:46PM -0300, Mauro Carvalho Chehab wrote:
-> Em Fri, 26 Apr 2019 23:31:23 +0800
-> Changbin Du <changbin.du@gmail.com> escreveu:
+On 4/25/19 2:37 PM, Mike Rapoport wrote:
+> Describe what {FLAT,DISCONTIG,SPARSE}MEM are and how they manage to
+> maintain pfn <-> struct page correspondence.
 > 
-> > Hi all,
-> > 
-> > The kernel now uses Sphinx to generate intelligent and beautiful documentation
-> > from reStructuredText files. I converted most of the Linux x86 docs to rst
-> > format in this serias.
-> > 
-> > For you to preview, please visit below url:
-> > http://www.bytemem.com:8080/kernel-doc/index.html
-> 
-> Do you have a URL for the git tree? It is probably easier to merge from
-> it on a tem branch locally, specially for some patches like 02/27, were 
-> git didn't understand the conversion as a rename.
->
-yeah, I can send a pull request if @maintainer prefers.
+> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> ---
+> v2 changes:
+> * spelling/grammar fixes
+> * added note about deprectation of DISCONTIGMEM
 
-> > 
-> > Thank you!
-> > 
-> > Changbin Du (27):
-> >   Documentation: add Linux x86 docs to Sphinx TOC tree
-> >   Documentation: x86: convert boot.txt to reST
-> >   Documentation: x86: convert topology.txt to reST
-> >   Documentation: x86: convert exception-tables.txt to reST
-> >   Documentation: x86: convert kernel-stacks to reST
-> >   Documentation: x86: convert entry_64.txt to reST
-> >   Documentation: x86: convert earlyprintk.txt to reST
-> >   Documentation: x86: convert zero-page.txt to reST
-> >   Documentation: x86: convert tlb.txt to reST
-> >   Documentation: x86: convert mtrr.txt to reST
-> >   Documentation: x86: convert pat.txt to reST
-> >   Documentation: x86: convert protection-keys.txt to reST
-> >   Documentation: x86: convert intel_mpx.txt to reST
-> >   Documentation: x86: convert amd-memory-encryption.txt to reST
-> >   Documentation: x86: convert pti.txt to reST
-> >   Documentation: x86: convert microcode.txt to reST
-> >   Documentation: x86: convert resctrl_ui.txt to reST
-> >   Documentation: x86: convert orc-unwinder.txt to reST
-> >   Documentation: x86: convert usb-legacy-support.txt to reST
-> >   Documentation: x86: convert i386/IO-APIC.txt to reST
-> >   Documentation: x86: convert x86_64/boot-options.txt to reST
-> >   Documentation: x86: convert x86_64/uefi.txt to reST
-> >   Documentation: x86: convert x86_64/mm.txt to reST
-> >   Documentation: x86: convert x86_64/5level-paging.txt to reST
-> >   Documentation: x86: convert x86_64/fake-numa-for-cpusets to reST
-> >   Documentation: x86: convert x86_64/cpu-hotplug-spec to reST
-> >   Documentation: x86: convert x86_64/machinecheck to reST
-> > 
-> >  Documentation/index.rst                       |    1 +
-> >  ...cryption.txt => amd-memory-encryption.rst} |   13 +-
-> >  Documentation/x86/boot.rst                    | 1238 +++++++++++++++++
-> >  Documentation/x86/boot.txt                    | 1130 ---------------
-> >  .../x86/{earlyprintk.txt => earlyprintk.rst}  |  103 +-
-> >  .../x86/{entry_64.txt => entry_64.rst}        |   12 +-
-> >  ...eption-tables.txt => exception-tables.rst} |  231 +--
-> >  .../x86/i386/{IO-APIC.txt => IO-APIC.rst}     |   26 +-
-> >  Documentation/x86/i386/index.rst              |   10 +
-> >  Documentation/x86/index.rst                   |   30 +
-> >  .../x86/{intel_mpx.txt => intel_mpx.rst}      |  120 +-
-> >  .../x86/{kernel-stacks => kernel-stacks.rst}  |   20 +-
-> >  .../x86/{microcode.txt => microcode.rst}      |   62 +-
-> >  Documentation/x86/mtrr.rst                    |  350 +++++
-> >  Documentation/x86/mtrr.txt                    |  329 -----
-> >  .../{orc-unwinder.txt => orc-unwinder.rst}    |   27 +-
-> >  Documentation/x86/pat.rst                     |  235 ++++
-> >  Documentation/x86/pat.txt                     |  230 ---
-> >  ...rotection-keys.txt => protection-keys.rst} |   33 +-
-> >  Documentation/x86/{pti.txt => pti.rst}        |   17 +-
-> >  .../x86/{resctrl_ui.txt => resctrl_ui.rst}    |  913 ++++++------
-> >  Documentation/x86/{tlb.txt => tlb.rst}        |   30 +-
-> >  .../x86/{topology.txt => topology.rst}        |   92 +-
-> >  ...acy-support.txt => usb-legacy-support.rst} |    8 +-
-> >  .../{5level-paging.txt => 5level-paging.rst}  |   16 +-
-> >  Documentation/x86/x86_64/boot-options.rst     |  326 +++++
-> >  Documentation/x86/x86_64/boot-options.txt     |  278 ----
-> >  ...{cpu-hotplug-spec => cpu-hotplug-spec.rst} |    5 +-
-> >  ...-for-cpusets => fake-numa-for-cpusets.rst} |   25 +-
-> >  Documentation/x86/x86_64/index.rst            |   16 +
-> >  .../x86_64/{machinecheck => machinecheck.rst} |   11 +-
-> >  Documentation/x86/x86_64/mm.rst               |  161 +++
-> >  Documentation/x86/x86_64/mm.txt               |  153 --
-> >  .../x86/x86_64/{uefi.txt => uefi.rst}         |   30 +-
-> >  Documentation/x86/zero-page.rst               |   45 +
-> >  Documentation/x86/zero-page.txt               |   40 -
-> >  36 files changed, 3412 insertions(+), 2954 deletions(-)
-> >  rename Documentation/x86/{amd-memory-encryption.txt => amd-memory-encryption.rst} (94%)
-> >  create mode 100644 Documentation/x86/boot.rst
-> >  delete mode 100644 Documentation/x86/boot.txt
-> >  rename Documentation/x86/{earlyprintk.txt => earlyprintk.rst} (59%)
-> >  rename Documentation/x86/{entry_64.txt => entry_64.rst} (95%)
-> >  rename Documentation/x86/{exception-tables.txt => exception-tables.rst} (67%)
-> >  rename Documentation/x86/i386/{IO-APIC.txt => IO-APIC.rst} (93%)
-> >  create mode 100644 Documentation/x86/i386/index.rst
-> >  create mode 100644 Documentation/x86/index.rst
-> >  rename Documentation/x86/{intel_mpx.txt => intel_mpx.rst} (75%)
-> >  rename Documentation/x86/{kernel-stacks => kernel-stacks.rst} (92%)
-> >  rename Documentation/x86/{microcode.txt => microcode.rst} (81%)
-> >  create mode 100644 Documentation/x86/mtrr.rst
-> >  delete mode 100644 Documentation/x86/mtrr.txt
-> >  rename Documentation/x86/{orc-unwinder.txt => orc-unwinder.rst} (93%)
-> >  create mode 100644 Documentation/x86/pat.rst
-> >  delete mode 100644 Documentation/x86/pat.txt
-> >  rename Documentation/x86/{protection-keys.txt => protection-keys.rst} (83%)
-> >  rename Documentation/x86/{pti.txt => pti.rst} (96%)
-> >  rename Documentation/x86/{resctrl_ui.txt => resctrl_ui.rst} (68%)
-> >  rename Documentation/x86/{tlb.txt => tlb.rst} (81%)
-> >  rename Documentation/x86/{topology.txt => topology.rst} (74%)
-> >  rename Documentation/x86/{usb-legacy-support.txt => usb-legacy-support.rst} (92%)
-> >  rename Documentation/x86/x86_64/{5level-paging.txt => 5level-paging.rst} (91%)
-> >  create mode 100644 Documentation/x86/x86_64/boot-options.rst
-> >  delete mode 100644 Documentation/x86/x86_64/boot-options.txt
-> >  rename Documentation/x86/x86_64/{cpu-hotplug-spec => cpu-hotplug-spec.rst} (88%)
-> >  rename Documentation/x86/x86_64/{fake-numa-for-cpusets => fake-numa-for-cpusets.rst} (85%)
-> >  create mode 100644 Documentation/x86/x86_64/index.rst
-> >  rename Documentation/x86/x86_64/{machinecheck => machinecheck.rst} (92%)
-> >  create mode 100644 Documentation/x86/x86_64/mm.rst
-> >  delete mode 100644 Documentation/x86/x86_64/mm.txt
-> >  rename Documentation/x86/x86_64/{uefi.txt => uefi.rst} (79%)
-> >  create mode 100644 Documentation/x86/zero-page.rst
-> >  delete mode 100644 Documentation/x86/zero-page.txt
-> > 
-> 
-> 
-> 
-> Thanks,
-> Mauro
+                     deprecation
 
+and a few more comments below...
+
+
+> * added a paragraph about 'struct vmem_altmap'
+> 
+>  Documentation/vm/index.rst        |   1 +
+>  Documentation/vm/memory-model.rst | 183 ++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 184 insertions(+)
+>  create mode 100644 Documentation/vm/memory-model.rst
+> 
+> diff --git a/Documentation/vm/index.rst b/Documentation/vm/index.rst
+> index b58cc3b..e8d943b 100644
+> --- a/Documentation/vm/index.rst
+> +++ b/Documentation/vm/index.rst
+> @@ -37,6 +37,7 @@ descriptions of data structures and algorithms.
+>     hwpoison
+>     hugetlbfs_reserv
+>     ksm
+> +   memory-model
+>     mmu_notifier
+>     numa
+>     overcommit-accounting
+> diff --git a/Documentation/vm/memory-model.rst b/Documentation/vm/memory-model.rst
+> new file mode 100644
+> index 0000000..0b4cf19
+> --- /dev/null
+> +++ b/Documentation/vm/memory-model.rst
+> @@ -0,0 +1,183 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. _physical_memory_model:
+> +
+> +=====================
+> +Physical Memory Model
+> +=====================
+> +
+> +Physical memory in a system may be addressed in different ways. The
+> +simplest case is when the physical memory starts at address 0 and
+> +spans a contiguous range up to the maximal address. It could be,
+> +however, that this range contains small holes that are not accessible
+> +for the CPU. Then there could be several contiguous ranges at
+> +completely distinct addresses. And, don't forget about NUMA, where
+> +different memory banks are attached to different CPUs.
+> +
+> +Linux abstracts this diversity using one of the three memory models:
+> +FLATMEM, DISCONTIGMEM and SPARSEMEM. Each architecture defines what
+> +memory models it supports, what is the default memory model and
+
+                              what the default memory model is and
+
+> +whether it possible to manually override that default.
+
+   whether it is possible
+
+> +
+> +.. note::
+> +   At time of this writing, DISCONTIGMEM is considered deprecated,
+> +   although it is still in use by several architectures
+
+end with '.'
+
+> +
+> +All the memory models track the status of physical page frames using
+> +:c:type:`struct page` arranged in one or more arrays.
+> +
+> +Regardless of the selected memory model, there exists one-to-one
+> +mapping between the physical page frame number (PFN) and the
+> +corresponding `struct page`.
+> +
+> +Each memory model defines :c:func:`pfn_to_page` and :c:func:`page_to_pfn`
+> +helpers that allow the conversion from PFN to `struct page` and vice
+> +versa.
+
+[snip]
+
+
+thanks.
 -- 
-Cheers,
-Changbin Du
+~Randy
