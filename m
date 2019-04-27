@@ -6,115 +6,198 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 527D67D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 27 Apr 2019 02:44:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9FA227D08A
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 27 Apr 2019 02:47:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727224AbfD0CoE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 26 Apr 2019 22:44:04 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:34840 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726309AbfD0CoE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Apr 2019 22:44:04 -0400
-Received: by mail-pg1-f193.google.com with SMTP id h1so2456983pgs.2;
-        Fri, 26 Apr 2019 19:44:04 -0700 (PDT)
+        id S1727251AbfD0CrJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 26 Apr 2019 22:47:09 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:46911 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726309AbfD0CrJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Apr 2019 22:47:09 -0400
+Received: by mail-pg1-f195.google.com with SMTP id n2so2429405pgg.13;
+        Fri, 26 Apr 2019 19:47:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=zg0LYhE0P4OXkrauK+ke+LuLcD0+75WxFT63U7jCmBA=;
-        b=J/ux8PzFunc2E3LnpYq92iZIJXjEZvOlhXoRx40ua6hgXfExy7TmTOsuLuyhNV9zdn
-         F3wbZGguZZCfRzZ3snXGA7dQkEc8aSyUl4nxGxu9PRkM3rP3vlwJFcDksXmN13Ui/9+B
-         SbGeNmla285F6CxH6hxEmL0Wo4PEyiS2EEVjAks7A26mn0DPWP214X98Jj+GVowDMQzi
-         vmjxqSa3Cp8iFu5iOa4XWPUsDvLwjcjssdEr8trNtl/9gKY+a565/+Evi2zELTeP6ctD
-         S92/LR+f7kfZlDRnGOrkO5UcuWbFmrxVkNduDdZEqzSRs8Wx2khS6nBo8GySAJolfIwq
-         Q0JQ==
+        bh=DTbobDXu46tz6rQCEUq+Jc4zXHSm7T9KuFg/tSyacXM=;
+        b=LuSkYC6dFmup5V7EpcFZJkhdPar+Gq2j7/RIt8F8NwGdlVclP0LLnENwLCexja+0y3
+         a/VofzBy1UTNppoC6+x7CYkYzUQDt4NOmZRE+iLWzbWFUZeIDlJQfKx/b9vOCjCMeM4W
+         P9r/tOtbs2B1SmguCo3WkJfFsPRIECyMpQLzpKud3twUfboKEh0v8zy1chVq6x2jwN2x
+         gM+/h3TuslIgv68SqX/ltAH9F1TkVSdGpMAqnUjaCAKwWjox52JRROr6u12rAks5swYZ
+         bHoEFY60tVlgGo7329AzNV/aAvfalEl/7y6Fp7x4E3t2hjjEeCIvLVASSDjLxIKOHcfI
+         idzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=zg0LYhE0P4OXkrauK+ke+LuLcD0+75WxFT63U7jCmBA=;
-        b=Ls7w9A2Acg36eBhMGpZ3/iNDMX8+GNk+9uffyQgfgBkAf5f05FgaTw2mVzOf55p3NO
-         T4/TKteBz2fbdxTNaih7prrQwRT65UDcGQQRjAA/435TPOP7HAzS/y42DlyapKnDzNqH
-         uEVf6jDqwUSgUVfwmeMMkdWzgOdKjgh2zH4c9dbnl75ywbdXwQRqRkvD5MCCgd+x32y8
-         oIm0zqEpjcAs8NBhltj06cIwfEdjp14LzTfrlUcH0C+JpCgfNjXzzTPCNPbjaRSQFHS+
-         eMDmNsmAN2SAesx1NqxSAiKBQdhRfDZa3chF58rVbNZX93hPxx4NUsfiTS2yelses+sT
-         pgDQ==
-X-Gm-Message-State: APjAAAX5j1RNsBPtIzh29cPvRrPMlhr5jQ753SPH16gtm6JtNhb2BlOo
-        mL1tpYaygT3bmOMaU1RF5gQ=
-X-Google-Smtp-Source: APXvYqwsl1KxnSp6Ve16GzLS7g+20cGpHYhU1z1XYLC309QH2Gn/1mZkCazPZM2czvgqmMoHIwPaDQ==
-X-Received: by 2002:a63:750c:: with SMTP id q12mr47242799pgc.133.1556333043650;
-        Fri, 26 Apr 2019 19:44:03 -0700 (PDT)
+        bh=DTbobDXu46tz6rQCEUq+Jc4zXHSm7T9KuFg/tSyacXM=;
+        b=fhBzpXLnZxbe5lZHU9LwxjGdPJs6byyq890ZmRSHp7ntTT+6Xhsb+ia9tRvba4MyOa
+         8gNXpz3mb8AviusDblpLHQZ4yrlOSIFVnrXeUthjYV+L6Ayif0lK2HVpp8oNjmT36zTC
+         CNEybUY6LV4g8G6kX/gY5oZIC00zDu5Y2FCOjobiOkTI0efjVOYrvKRDxaKhdO142Qec
+         1MT8fAVEONkyAlbr/SCJyExcg99+VUhvdYKWg4ytHgHfaVqbqvIdTCRi9cGV9Qj+awfB
+         SQdbD+WaRX+2dNTES+pxwF5dML8cFnpu/J/ZCoHn2CcTJL0o7H13Snrmd9mnNK5TlORr
+         7Z4g==
+X-Gm-Message-State: APjAAAW9TwmwGhvw7WCcgQlSRMjML6BJpwtvA7cyQ8OiSSci/8b/S4eO
+        mpguIcDy6ONsl0+xcyboGrqYHwEl
+X-Google-Smtp-Source: APXvYqxso8p5BC1fYJwaW45xzmTVZATJeoYbftWiPomeUgakawZRFrx0d9sDAypoup+0Z5R41x+e9A==
+X-Received: by 2002:a63:c749:: with SMTP id v9mr25147157pgg.432.1556333227762;
+        Fri, 26 Apr 2019 19:47:07 -0700 (PDT)
 Received: from mail.google.com ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id k5sm20486930pgi.58.2019.04.26.19.43.59
+        by smtp.gmail.com with ESMTPSA id f20sm57188138pff.176.2019.04.26.19.47.03
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 26 Apr 2019 19:44:02 -0700 (PDT)
-Date:   Sat, 27 Apr 2019 10:43:56 +0800
+        Fri, 26 Apr 2019 19:47:07 -0700 (PDT)
+Date:   Sat, 27 Apr 2019 10:47:00 +0800
 From:   Changbin Du <changbin.du@gmail.com>
-To:     Borislav Petkov <bp@alien8.de>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Changbin Du <changbin.du@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>, tglx@linutronix.de,
-        mingo@redhat.com, x86@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mchehab+samsung@kernel.org
-Subject: Re: [PATCH 01/27] Documentation: add Linux x86 docs to Sphinx TOC
- tree
-Message-ID: <20190427024355.5wmydcl5dsv4vr3x@mail.google.com>
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/27] Include linux x86 docs into Sphinx TOC tree
+Message-ID: <20190427024659.iav7ajabw7cljrxw@mail.google.com>
 References: <20190426153150.21228-1-changbin.du@gmail.com>
- <20190426153150.21228-2-changbin.du@gmail.com>
- <20190426161640.GH4608@zn.tnic>
+ <20190426123946.554730b8@coco.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190426161640.GH4608@zn.tnic>
+In-Reply-To: <20190426123946.554730b8@coco.lan>
 User-Agent: NeoMutt/20180716
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 26, 2019 at 06:16:40PM +0200, Borislav Petkov wrote:
-> On Fri, Apr 26, 2019 at 11:31:24PM +0800, Changbin Du wrote:
-> > Add a index.rst for x86 support. More docs will be added later.
-> > 
-> > Signed-off-by: Changbin Du <changbin.du@gmail.com>
-> > Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> > ---
-> >  Documentation/index.rst     | 1 +
-> >  Documentation/x86/index.rst | 9 +++++++++
-> >  2 files changed, 10 insertions(+)
-> >  create mode 100644 Documentation/x86/index.rst
-> > 
-> > diff --git a/Documentation/index.rst b/Documentation/index.rst
-> > index 80a421cb935e..d65dd4934a1a 100644
-> > --- a/Documentation/index.rst
-> > +++ b/Documentation/index.rst
-> > @@ -101,6 +101,7 @@ implementation.
-> >  .. toctree::
-> >     :maxdepth: 2
-> >  
-> > +   x86/index
-> >     sh/index
-> >  
-> >  Filesystem Documentation
-> > diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
-> > new file mode 100644
-> > index 000000000000..7612d3142b2a
-> > --- /dev/null
-> > +++ b/Documentation/x86/index.rst
-> > @@ -0,0 +1,9 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +=================
-> > +Linux x86 Support
+On Fri, Apr 26, 2019 at 12:39:46PM -0300, Mauro Carvalho Chehab wrote:
+> Em Fri, 26 Apr 2019 23:31:23 +0800
+> Changbin Du <changbin.du@gmail.com> escreveu:
 > 
-> x86-specific Documentation
+> > Hi all,
+> > 
+> > The kernel now uses Sphinx to generate intelligent and beautiful documentation
+> > from reStructuredText files. I converted most of the Linux x86 docs to rst
+> > format in this serias.
+> > 
+> > For you to preview, please visit below url:
+> > http://www.bytemem.com:8080/kernel-doc/index.html
+> 
+> Do you have a URL for the git tree? It is probably easier to merge from
+> it on a tem branch locally, specially for some patches like 02/27, were 
+> git didn't understand the conversion as a rename.
 >
-sure.
+yeah, I can send a pull request if @maintainer prefers.
 
-> -- 
-> Regards/Gruss,
->     Boris.
+> > 
+> > Thank you!
+> > 
+> > Changbin Du (27):
+> >   Documentation: add Linux x86 docs to Sphinx TOC tree
+> >   Documentation: x86: convert boot.txt to reST
+> >   Documentation: x86: convert topology.txt to reST
+> >   Documentation: x86: convert exception-tables.txt to reST
+> >   Documentation: x86: convert kernel-stacks to reST
+> >   Documentation: x86: convert entry_64.txt to reST
+> >   Documentation: x86: convert earlyprintk.txt to reST
+> >   Documentation: x86: convert zero-page.txt to reST
+> >   Documentation: x86: convert tlb.txt to reST
+> >   Documentation: x86: convert mtrr.txt to reST
+> >   Documentation: x86: convert pat.txt to reST
+> >   Documentation: x86: convert protection-keys.txt to reST
+> >   Documentation: x86: convert intel_mpx.txt to reST
+> >   Documentation: x86: convert amd-memory-encryption.txt to reST
+> >   Documentation: x86: convert pti.txt to reST
+> >   Documentation: x86: convert microcode.txt to reST
+> >   Documentation: x86: convert resctrl_ui.txt to reST
+> >   Documentation: x86: convert orc-unwinder.txt to reST
+> >   Documentation: x86: convert usb-legacy-support.txt to reST
+> >   Documentation: x86: convert i386/IO-APIC.txt to reST
+> >   Documentation: x86: convert x86_64/boot-options.txt to reST
+> >   Documentation: x86: convert x86_64/uefi.txt to reST
+> >   Documentation: x86: convert x86_64/mm.txt to reST
+> >   Documentation: x86: convert x86_64/5level-paging.txt to reST
+> >   Documentation: x86: convert x86_64/fake-numa-for-cpusets to reST
+> >   Documentation: x86: convert x86_64/cpu-hotplug-spec to reST
+> >   Documentation: x86: convert x86_64/machinecheck to reST
+> > 
+> >  Documentation/index.rst                       |    1 +
+> >  ...cryption.txt => amd-memory-encryption.rst} |   13 +-
+> >  Documentation/x86/boot.rst                    | 1238 +++++++++++++++++
+> >  Documentation/x86/boot.txt                    | 1130 ---------------
+> >  .../x86/{earlyprintk.txt => earlyprintk.rst}  |  103 +-
+> >  .../x86/{entry_64.txt => entry_64.rst}        |   12 +-
+> >  ...eption-tables.txt => exception-tables.rst} |  231 +--
+> >  .../x86/i386/{IO-APIC.txt => IO-APIC.rst}     |   26 +-
+> >  Documentation/x86/i386/index.rst              |   10 +
+> >  Documentation/x86/index.rst                   |   30 +
+> >  .../x86/{intel_mpx.txt => intel_mpx.rst}      |  120 +-
+> >  .../x86/{kernel-stacks => kernel-stacks.rst}  |   20 +-
+> >  .../x86/{microcode.txt => microcode.rst}      |   62 +-
+> >  Documentation/x86/mtrr.rst                    |  350 +++++
+> >  Documentation/x86/mtrr.txt                    |  329 -----
+> >  .../{orc-unwinder.txt => orc-unwinder.rst}    |   27 +-
+> >  Documentation/x86/pat.rst                     |  235 ++++
+> >  Documentation/x86/pat.txt                     |  230 ---
+> >  ...rotection-keys.txt => protection-keys.rst} |   33 +-
+> >  Documentation/x86/{pti.txt => pti.rst}        |   17 +-
+> >  .../x86/{resctrl_ui.txt => resctrl_ui.rst}    |  913 ++++++------
+> >  Documentation/x86/{tlb.txt => tlb.rst}        |   30 +-
+> >  .../x86/{topology.txt => topology.rst}        |   92 +-
+> >  ...acy-support.txt => usb-legacy-support.rst} |    8 +-
+> >  .../{5level-paging.txt => 5level-paging.rst}  |   16 +-
+> >  Documentation/x86/x86_64/boot-options.rst     |  326 +++++
+> >  Documentation/x86/x86_64/boot-options.txt     |  278 ----
+> >  ...{cpu-hotplug-spec => cpu-hotplug-spec.rst} |    5 +-
+> >  ...-for-cpusets => fake-numa-for-cpusets.rst} |   25 +-
+> >  Documentation/x86/x86_64/index.rst            |   16 +
+> >  .../x86_64/{machinecheck => machinecheck.rst} |   11 +-
+> >  Documentation/x86/x86_64/mm.rst               |  161 +++
+> >  Documentation/x86/x86_64/mm.txt               |  153 --
+> >  .../x86/x86_64/{uefi.txt => uefi.rst}         |   30 +-
+> >  Documentation/x86/zero-page.rst               |   45 +
+> >  Documentation/x86/zero-page.txt               |   40 -
+> >  36 files changed, 3412 insertions(+), 2954 deletions(-)
+> >  rename Documentation/x86/{amd-memory-encryption.txt => amd-memory-encryption.rst} (94%)
+> >  create mode 100644 Documentation/x86/boot.rst
+> >  delete mode 100644 Documentation/x86/boot.txt
+> >  rename Documentation/x86/{earlyprintk.txt => earlyprintk.rst} (59%)
+> >  rename Documentation/x86/{entry_64.txt => entry_64.rst} (95%)
+> >  rename Documentation/x86/{exception-tables.txt => exception-tables.rst} (67%)
+> >  rename Documentation/x86/i386/{IO-APIC.txt => IO-APIC.rst} (93%)
+> >  create mode 100644 Documentation/x86/i386/index.rst
+> >  create mode 100644 Documentation/x86/index.rst
+> >  rename Documentation/x86/{intel_mpx.txt => intel_mpx.rst} (75%)
+> >  rename Documentation/x86/{kernel-stacks => kernel-stacks.rst} (92%)
+> >  rename Documentation/x86/{microcode.txt => microcode.rst} (81%)
+> >  create mode 100644 Documentation/x86/mtrr.rst
+> >  delete mode 100644 Documentation/x86/mtrr.txt
+> >  rename Documentation/x86/{orc-unwinder.txt => orc-unwinder.rst} (93%)
+> >  create mode 100644 Documentation/x86/pat.rst
+> >  delete mode 100644 Documentation/x86/pat.txt
+> >  rename Documentation/x86/{protection-keys.txt => protection-keys.rst} (83%)
+> >  rename Documentation/x86/{pti.txt => pti.rst} (96%)
+> >  rename Documentation/x86/{resctrl_ui.txt => resctrl_ui.rst} (68%)
+> >  rename Documentation/x86/{tlb.txt => tlb.rst} (81%)
+> >  rename Documentation/x86/{topology.txt => topology.rst} (74%)
+> >  rename Documentation/x86/{usb-legacy-support.txt => usb-legacy-support.rst} (92%)
+> >  rename Documentation/x86/x86_64/{5level-paging.txt => 5level-paging.rst} (91%)
+> >  create mode 100644 Documentation/x86/x86_64/boot-options.rst
+> >  delete mode 100644 Documentation/x86/x86_64/boot-options.txt
+> >  rename Documentation/x86/x86_64/{cpu-hotplug-spec => cpu-hotplug-spec.rst} (88%)
+> >  rename Documentation/x86/x86_64/{fake-numa-for-cpusets => fake-numa-for-cpusets.rst} (85%)
+> >  create mode 100644 Documentation/x86/x86_64/index.rst
+> >  rename Documentation/x86/x86_64/{machinecheck => machinecheck.rst} (92%)
+> >  create mode 100644 Documentation/x86/x86_64/mm.rst
+> >  delete mode 100644 Documentation/x86/x86_64/mm.txt
+> >  rename Documentation/x86/x86_64/{uefi.txt => uefi.rst} (79%)
+> >  create mode 100644 Documentation/x86/zero-page.rst
+> >  delete mode 100644 Documentation/x86/zero-page.txt
+> > 
 > 
-> Good mailing practices for 400: avoid top-posting and trim the reply.
+> 
+> 
+> Thanks,
+> Mauro
 
 -- 
 Cheers,
