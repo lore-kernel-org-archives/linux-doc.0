@@ -5,140 +5,199 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3E72A7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 27 Apr 2019 04:00:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9AF947D08A
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 27 Apr 2019 06:24:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725974AbfD0EA2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 27 Apr 2019 00:00:28 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:43070 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725781AbfD0EA2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 Apr 2019 00:00:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=i/m5ZRNk7cAVz4wurBU96zAR+YAnziWC+vvr6x3mZh0=; b=om0/dO3bdLqw+0zMMvofbYpIq
-        NhE77Vxez19Lul4FNwBITl1Nejx9YB+dcWM7ag2HHVekeLvH0gPZ4a/NkdetzB4LL3C0Zu93zAOw7
-        JPjNPpW81Wu2XWf7fGKz5S1WsKrdmN+pCu3cu0AcwzKz4DcYYvvKueknUbEYG8YgtL6/izIhv6bG6
-        +xb5gFMBMwZ/Dq5tqErP4MeVOZamfVwj6e520tEQSXMRvn+y73coCIYbgLDM/Z1s4PXVlSKWWOKLb
-        7MbAMjOg9x6jRgiKWyMy9g/wgS41HC78yOKE1tSI+LAhtWDKqPiGZWOZyesgSIxVFKMRToouDkw5L
-        f4ShFEFPA==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hKEVn-0000Sd-IV; Sat, 27 Apr 2019 04:00:27 +0000
-Subject: Re: [PATCH v2] docs/vm: add documentation of memory models
-To:     Mike Rapoport <rppt@linux.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Anshuman Khandual <anshuman.khandual@arm.com>,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org
-References: <1556228236-12540-1-git-send-email-rppt@linux.ibm.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <cb3d9579-ca20-bd16-31d9-78d634e7e635@infradead.org>
-Date:   Fri, 26 Apr 2019 21:00:27 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <1556228236-12540-1-git-send-email-rppt@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1726001AbfD0GYv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 27 Apr 2019 02:24:51 -0400
+Received: from conuserg-12.nifty.com ([210.131.2.79]:60922 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725966AbfD0GYv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 Apr 2019 02:24:51 -0400
+Received: from grover.flets-west.jp (softbank126125154137.bbtec.net [126.125.154.137]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id x3R6OCps017956;
+        Sat, 27 Apr 2019 15:24:12 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com x3R6OCps017956
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1556346253;
+        bh=vL1Bf+spcHyBGtHPjmjcDXjku/vXN2a3uQCvr5j1ra4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=GXXOX8kGpTUYL9RzlNG/2ComWmUxYKKMeNjNFvP+xu3MNLKPMadjUOZcsjaUc43nr
+         1nb6UrhLYY3e2UeMpXtZ3Uc5H7LyawwiLi9hk/dMxuyJvr8URTg3A3EO3HZDPFsC/2
+         Kck+9rNricvrcySCvPfuJs/jyuNEjDl5gI+ndkv8aA+r84OXB9wKnnjNmvezFbbrLY
+         Iob1BnCUWWWtoluz9OtSUbUshRfPXL5xoJw81pLhAVr1C79fvO6ajdL3AyqPupu8Xc
+         qHUeJhBjt4gLapjU7pwnPXz8JrC6E2aDtAwCxrxONPWp7sWQHuimRzXow0KyYKEJDr
+         9oCpRzBCzrWCw==
+X-Nifty-SrcIP: [126.125.154.137]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     Olaf Weber <olaf@sgi.com>,
+        Gabriel Krisman Bertazi <krisman@collabora.co.uk>,
+        "Theodore Ts'o" <tytso@mit.edu>
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-fsdevel@vger.kernel.org
+Subject: [PATCH] unicode: refactor the rule for regenerating utf8data.h
+Date:   Sat, 27 Apr 2019 15:24:01 +0900
+Message-Id: <1556346241-10451-1-git-send-email-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/25/19 2:37 PM, Mike Rapoport wrote:
-> Describe what {FLAT,DISCONTIG,SPARSE}MEM are and how they manage to
-> maintain pfn <-> struct page correspondence.
-> 
-> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-> ---
-> v2 changes:
-> * spelling/grammar fixes
-> * added note about deprectation of DISCONTIGMEM
+scripts/mkutf8data is used only when regenerating utf8data.h,
+which never happens in the normal kernel build. However, it is
+irrespectively built if CONFIG_UNICODE is enabled.
 
-                     deprecation
+Moreover, there is no good reason for it to reside in the scripts/
+directory since it is only used in fs/unicode/.
 
-and a few more comments below...
+Hence, move it from scripts/ to fs/unicode/.
 
+In some cases, we bypass build artifacts in the normal build. The
+conventianl way to do so is to surround the code with ifdef REGENERATE_*.
 
-> * added a paragraph about 'struct vmem_altmap'
-> 
->  Documentation/vm/index.rst        |   1 +
->  Documentation/vm/memory-model.rst | 183 ++++++++++++++++++++++++++++++++++++++
->  2 files changed, 184 insertions(+)
->  create mode 100644 Documentation/vm/memory-model.rst
-> 
-> diff --git a/Documentation/vm/index.rst b/Documentation/vm/index.rst
-> index b58cc3b..e8d943b 100644
-> --- a/Documentation/vm/index.rst
-> +++ b/Documentation/vm/index.rst
-> @@ -37,6 +37,7 @@ descriptions of data structures and algorithms.
->     hwpoison
->     hugetlbfs_reserv
->     ksm
-> +   memory-model
->     mmu_notifier
->     numa
->     overcommit-accounting
-> diff --git a/Documentation/vm/memory-model.rst b/Documentation/vm/memory-model.rst
-> new file mode 100644
-> index 0000000..0b4cf19
-> --- /dev/null
-> +++ b/Documentation/vm/memory-model.rst
-> @@ -0,0 +1,183 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. _physical_memory_model:
-> +
-> +=====================
-> +Physical Memory Model
-> +=====================
-> +
-> +Physical memory in a system may be addressed in different ways. The
-> +simplest case is when the physical memory starts at address 0 and
-> +spans a contiguous range up to the maximal address. It could be,
-> +however, that this range contains small holes that are not accessible
-> +for the CPU. Then there could be several contiguous ranges at
-> +completely distinct addresses. And, don't forget about NUMA, where
-> +different memory banks are attached to different CPUs.
-> +
-> +Linux abstracts this diversity using one of the three memory models:
-> +FLATMEM, DISCONTIGMEM and SPARSEMEM. Each architecture defines what
-> +memory models it supports, what is the default memory model and
+For example,
 
-                              what the default memory model is and
+ - 7373f4f83c71 ("kbuild: add implicit rules for parser generation")
+ - 6aaf49b495b4 ("crypto: arm,arm64 - Fix random regeneration of S_shipped")
 
-> +whether it possible to manually override that default.
+I rewrote the rule in a more kbuild'ish style.
 
-   whether it is possible
+It works like this:
 
-> +
-> +.. note::
-> +   At time of this writing, DISCONTIGMEM is considered deprecated,
-> +   although it is still in use by several architectures
+$ make REGENERATE_UTF8DATA=1 fs/unicode/
+  [ snip ]
+  HOSTCC  fs/unicode/mkutf8data
+  GEN     fs/unicode/utf8data.h
+  CC      fs/unicode/utf8-norm.o
+  CC      fs/unicode/utf8-core.o
+  AR      fs/unicode/built-in.a
 
-end with '.'
+Also, I added utf8data.h to .gitignore and dontdiff.
 
-> +
-> +All the memory models track the status of physical page frames using
-> +:c:type:`struct page` arranged in one or more arrays.
-> +
-> +Regardless of the selected memory model, there exists one-to-one
-> +mapping between the physical page frame number (PFN) and the
-> +corresponding `struct page`.
-> +
-> +Each memory model defines :c:func:`pfn_to_page` and :c:func:`page_to_pfn`
-> +helpers that allow the conversion from PFN to `struct page` and vice
-> +versa.
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
 
-[snip]
+ Documentation/dontdiff               |  1 +
+ fs/unicode/.gitignore                |  1 +
+ fs/unicode/Makefile                  | 37 +++++++++++++++++++++++++-----------
+ fs/unicode/README.utf8data           | 10 +++++-----
+ {scripts => fs/unicode}/mkutf8data.c |  0
+ scripts/Makefile                     |  1 -
+ 6 files changed, 33 insertions(+), 17 deletions(-)
+ create mode 100644 fs/unicode/.gitignore
+ rename {scripts => fs/unicode}/mkutf8data.c (100%)
 
-
-thanks.
+diff --git a/Documentation/dontdiff b/Documentation/dontdiff
+index ef25a06..bc353ad 100644
+--- a/Documentation/dontdiff
++++ b/Documentation/dontdiff
+@@ -176,6 +176,7 @@ mkprep
+ mkregtable
+ mktables
+ mktree
++mkutf8data
+ modpost
+ modules.builtin
+ modules.order
+diff --git a/fs/unicode/.gitignore b/fs/unicode/.gitignore
+new file mode 100644
+index 0000000..44811fc
+--- /dev/null
++++ b/fs/unicode/.gitignore
+@@ -0,0 +1 @@
++mkutf8data
+diff --git a/fs/unicode/Makefile b/fs/unicode/Makefile
+index 671d31f..1a109b7 100644
+--- a/fs/unicode/Makefile
++++ b/fs/unicode/Makefile
+@@ -5,15 +5,30 @@ obj-$(CONFIG_UNICODE_NORMALIZATION_SELFTEST) += utf8-selftest.o
+ 
+ unicode-y := utf8-norm.o utf8-core.o
+ 
+-# This rule is not invoked during the kernel compilation.  It is used to
+-# regenerate the utf8data.h header file.
+-utf8data.h.new: *.txt $(objdir)/scripts/mkutf8data
+-	$(objdir)/scripts/mkutf8data \
+-		-a DerivedAge.txt \
+-		-c DerivedCombiningClass.txt \
+-		-p DerivedCoreProperties.txt \
+-		-d UnicodeData.txt \
+-		-f CaseFolding.txt \
+-		-n NormalizationCorrections.txt \
+-		-t NormalizationTest.txt \
++
++# To regenerate utf8data.h, run the following in the top directory:
++#   $ make REGENERATE_UTF8DATA=1 fs/unicode/
++ifdef REGENERATE_UTF8DATA
++
++$(obj)/utf8-norm.o: $(obj)/utf8data.h
++
++quiet_cmd_utf8data = GEN     $@
++      cmd_utf8data = $(obj)/mkutf8data \
++		-a $(src)/DerivedAge.txt \
++		-c $(src)/DerivedCombiningClass.txt \
++		-p $(src)/DerivedCoreProperties.txt \
++		-d $(src)/UnicodeData.txt \
++		-f $(src)/CaseFolding.txt \
++		-n $(src)/NormalizationCorrections.txt \
++		-t $(src)/NormalizationTest.txt \
+ 		-o $@
++
++$(obj)/utf8data.h: $(filter %.txt, $(cmd_utf8data)) $(obj)/mkutf8data FORCE
++	$(call if_changed,utf8data)
++
++always += utf8data.h
++no-clean-files += utf8data.h
++
++endif
++
++hostprogs-y += mkutf8data
+diff --git a/fs/unicode/README.utf8data b/fs/unicode/README.utf8data
+index eeb7561..155d56e 100644
+--- a/fs/unicode/README.utf8data
++++ b/fs/unicode/README.utf8data
+@@ -41,15 +41,15 @@ released version of the UCD can be found here:
+ 
+   http://www.unicode.org/Public/UCD/latest/
+ 
+-To build the utf8data.h file, from a kernel tree that has been built,
+-cd to this directory (fs/unicode) and run this command:
++To regenerate utf8data.h in the build process, pass REGENERATE_UTF8DATA=1
++from the command line. The easiest command to update it is this:
+ 
+-	make C=../.. objdir=../.. utf8data.h.new
++	make REGENERATE_UTF8DATA=1 fs/unicode/
+ 
+-After sanity checking the newly generated utf8data.h.new file (the
++After sanity checking the newly generated utf8data.h file (the
+ version generated from the 12.1.0 UCD should be 4,109 lines long, and
+ have a total size of 324k) and/or comparing it with the older version
+-of utf8data.h, rename it to utf8data.h.
++of utf8data.h, check it in.
+ 
+ If you are a kernel developer updating to a newer version of the
+ Unicode Character Database, please update this README.utf8data file
+diff --git a/scripts/mkutf8data.c b/fs/unicode/mkutf8data.c
+similarity index 100%
+rename from scripts/mkutf8data.c
+rename to fs/unicode/mkutf8data.c
+diff --git a/scripts/Makefile b/scripts/Makefile
+index b87e3e0..9d442ee 100644
+--- a/scripts/Makefile
++++ b/scripts/Makefile
+@@ -20,7 +20,6 @@ hostprogs-$(CONFIG_ASN1)	 += asn1_compiler
+ hostprogs-$(CONFIG_MODULE_SIG)	 += sign-file
+ hostprogs-$(CONFIG_SYSTEM_TRUSTED_KEYRING) += extract-cert
+ hostprogs-$(CONFIG_SYSTEM_EXTRA_CERTIFICATE) += insert-sys-cert
+-hostprogs-$(CONFIG_UNICODE) += mkutf8data
+ 
+ HOSTCFLAGS_sortextable.o = -I$(srctree)/tools/include
+ HOSTCFLAGS_asn1_compiler.o = -I$(srctree)/include
 -- 
-~Randy
+2.7.4
+
