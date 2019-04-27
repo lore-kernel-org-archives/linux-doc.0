@@ -1,196 +1,104 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 827FF7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 27 Apr 2019 09:55:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8F4D27D08A
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 27 Apr 2019 13:38:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725937AbfD0JzJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 27 Apr 2019 05:55:09 -0400
-Received: from casper.infradead.org ([85.118.1.10]:34286 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725871AbfD0JzI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 Apr 2019 05:55:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=TX5MgcqQkk3zac0vfZJisWBjIybTtuyDWso/ooWAlhM=; b=wKz0SqOi1x9gT7QAvl3b8BGLxp
-        iUuH4RxiieEZWoeNBtqjvRk2cZhXxqTnsWoq/DcWYjp95vM9+x7wdWUdNhnzlstAq/Txb95X5RYqZ
-        01bKIZ4vXuR3OgIltyOGhBJzCsgijbq7T4fA4GzWASgirQtgjKymtm+xYt9is2tQLEO2oa2erVTva
-        TSAOLBgRxP2HDI7n8H3YHp5AqQLcVM3KA4eCLxbaNiXUNMc+pLhe/xphxnVh6ACW4M4MB76B1ej+E
-        jr0I2YWwKKUEkgHH6GQldJOC2+U5lc5LRm9+1uTHV3GWgNYS1B0MjmpGB8PoWcEoZtptdFhaxdk2X
-        wSBaWD/Q==;
-Received: from 177.17.250.151.dynamic.adsl.gvt.net.br ([177.17.250.151] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hKK2s-0005mQ-Jz; Sat, 27 Apr 2019 09:54:59 +0000
-Date:   Sat, 27 Apr 2019 06:54:52 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Changbin Du <changbin.du@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/27] Include linux x86 docs into Sphinx TOC tree
-Message-ID: <20190427065452.183f60a3@coco.lan>
-In-Reply-To: <20190427024659.iav7ajabw7cljrxw@mail.google.com>
-References: <20190426153150.21228-1-changbin.du@gmail.com>
-        <20190426123946.554730b8@coco.lan>
-        <20190427024659.iav7ajabw7cljrxw@mail.google.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726071AbfD0Nis (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 27 Apr 2019 09:38:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37754 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725902AbfD0Nir (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 27 Apr 2019 09:38:47 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 690622087C;
+        Sat, 27 Apr 2019 13:38:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1556372326;
+        bh=CQcLLq5g0BGJbtU32SVU6f5FrjJ1oFNOfzb5TjWhoQw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=VrSZOaxD3J8Y9bd0i/Ao20cxuGAUkc5xtteQQaQTLR0SqpT+eBj9scMUlWJ7z30Fd
+         Cr6LcQyukHusNdWX794WdFdVxxZ/ehgIxOqu8Qt63U4KpulEeRq6zOSISMhciNF/g6
+         kJScp46Ejq962tIRsV7hJzVQJWveers8pjTvNflI=
+Date:   Sat, 27 Apr 2019 15:38:44 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Andrew Morton <akpm@linux-foundation.org>, ast@kernel.org,
+        atishp04@gmail.com, dancol@google.com,
+        Dan Williams <dan.j.williams@intel.com>,
+        dietmar.eggemann@arm.com, Guenter Roeck <groeck@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>, karim.yaghmour@opersys.com,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org,
+        Manoj Rao <linux@manojrajarao.com>, mhiramat@kernel.org,
+        qais.yousef@arm.com, rdunlap@infradead.org, rostedt@goodmis.org,
+        Shuah Khan <shuah@kernel.org>, yhs@fb.com
+Subject: Re: [PATCH v7 resend 1/2] Provide in-kernel headers to make
+ extending kernel easier
+Message-ID: <20190427133844.GA29366@kroah.com>
+References: <20190426190430.172543-1-joel@joelfernandes.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190426190430.172543-1-joel@joelfernandes.org>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Sat, 27 Apr 2019 10:47:00 +0800
-Changbin Du <changbin.du@gmail.com> escreveu:
-
-> On Fri, Apr 26, 2019 at 12:39:46PM -0300, Mauro Carvalho Chehab wrote:
-> > Em Fri, 26 Apr 2019 23:31:23 +0800
-> > Changbin Du <changbin.du@gmail.com> escreveu:
-> >   
-> > > Hi all,
-> > > 
-> > > The kernel now uses Sphinx to generate intelligent and beautiful documentation
-> > > from reStructuredText files. I converted most of the Linux x86 docs to rst
-> > > format in this serias.
-> > > 
-> > > For you to preview, please visit below url:
-> > > http://www.bytemem.com:8080/kernel-doc/index.html  
-> > 
-> > Do you have a URL for the git tree? It is probably easier to merge from
-> > it on a tem branch locally, specially for some patches like 02/27, were 
-> > git didn't understand the conversion as a rename.
-> >  
-> yeah, I can send a pull request if @maintainer prefers.
-
-No need for a pull request. I just want an URL so I can pull and be
-able to review the patches twitching the similarity detection of git
-(for example running git show -M10) in order to force git to consider
-patches like 02/27 as a renames.
-
+On Fri, Apr 26, 2019 at 03:04:29PM -0400, Joel Fernandes (Google) wrote:
+> Introduce in-kernel headers which are made available as an archive
+> through proc (/proc/kheaders.tar.xz file). This archive makes it
+> possible to run eBPF and other tracing programs that need to extend the
+> kernel for tracing purposes without any dependency on the file system
+> having headers.
 > 
-> > > 
-> > > Thank you!
-> > > 
-> > > Changbin Du (27):
-> > >   Documentation: add Linux x86 docs to Sphinx TOC tree
-> > >   Documentation: x86: convert boot.txt to reST
-> > >   Documentation: x86: convert topology.txt to reST
-> > >   Documentation: x86: convert exception-tables.txt to reST
-> > >   Documentation: x86: convert kernel-stacks to reST
-> > >   Documentation: x86: convert entry_64.txt to reST
-> > >   Documentation: x86: convert earlyprintk.txt to reST
-> > >   Documentation: x86: convert zero-page.txt to reST
-> > >   Documentation: x86: convert tlb.txt to reST
-> > >   Documentation: x86: convert mtrr.txt to reST
-> > >   Documentation: x86: convert pat.txt to reST
-> > >   Documentation: x86: convert protection-keys.txt to reST
-> > >   Documentation: x86: convert intel_mpx.txt to reST
-> > >   Documentation: x86: convert amd-memory-encryption.txt to reST
-> > >   Documentation: x86: convert pti.txt to reST
-> > >   Documentation: x86: convert microcode.txt to reST
-> > >   Documentation: x86: convert resctrl_ui.txt to reST
-> > >   Documentation: x86: convert orc-unwinder.txt to reST
-> > >   Documentation: x86: convert usb-legacy-support.txt to reST
-> > >   Documentation: x86: convert i386/IO-APIC.txt to reST
-> > >   Documentation: x86: convert x86_64/boot-options.txt to reST
-> > >   Documentation: x86: convert x86_64/uefi.txt to reST
-> > >   Documentation: x86: convert x86_64/mm.txt to reST
-> > >   Documentation: x86: convert x86_64/5level-paging.txt to reST
-> > >   Documentation: x86: convert x86_64/fake-numa-for-cpusets to reST
-> > >   Documentation: x86: convert x86_64/cpu-hotplug-spec to reST
-> > >   Documentation: x86: convert x86_64/machinecheck to reST
-> > > 
-> > >  Documentation/index.rst                       |    1 +
-> > >  ...cryption.txt => amd-memory-encryption.rst} |   13 +-
-> > >  Documentation/x86/boot.rst                    | 1238 +++++++++++++++++
-> > >  Documentation/x86/boot.txt                    | 1130 ---------------
-> > >  .../x86/{earlyprintk.txt => earlyprintk.rst}  |  103 +-
-> > >  .../x86/{entry_64.txt => entry_64.rst}        |   12 +-
-> > >  ...eption-tables.txt => exception-tables.rst} |  231 +--
-> > >  .../x86/i386/{IO-APIC.txt => IO-APIC.rst}     |   26 +-
-> > >  Documentation/x86/i386/index.rst              |   10 +
-> > >  Documentation/x86/index.rst                   |   30 +
-> > >  .../x86/{intel_mpx.txt => intel_mpx.rst}      |  120 +-
-> > >  .../x86/{kernel-stacks => kernel-stacks.rst}  |   20 +-
-> > >  .../x86/{microcode.txt => microcode.rst}      |   62 +-
-> > >  Documentation/x86/mtrr.rst                    |  350 +++++
-> > >  Documentation/x86/mtrr.txt                    |  329 -----
-> > >  .../{orc-unwinder.txt => orc-unwinder.rst}    |   27 +-
-> > >  Documentation/x86/pat.rst                     |  235 ++++
-> > >  Documentation/x86/pat.txt                     |  230 ---
-> > >  ...rotection-keys.txt => protection-keys.rst} |   33 +-
-> > >  Documentation/x86/{pti.txt => pti.rst}        |   17 +-
-> > >  .../x86/{resctrl_ui.txt => resctrl_ui.rst}    |  913 ++++++------
-> > >  Documentation/x86/{tlb.txt => tlb.rst}        |   30 +-
-> > >  .../x86/{topology.txt => topology.rst}        |   92 +-
-> > >  ...acy-support.txt => usb-legacy-support.rst} |    8 +-
-> > >  .../{5level-paging.txt => 5level-paging.rst}  |   16 +-
-> > >  Documentation/x86/x86_64/boot-options.rst     |  326 +++++
-> > >  Documentation/x86/x86_64/boot-options.txt     |  278 ----
-> > >  ...{cpu-hotplug-spec => cpu-hotplug-spec.rst} |    5 +-
-> > >  ...-for-cpusets => fake-numa-for-cpusets.rst} |   25 +-
-> > >  Documentation/x86/x86_64/index.rst            |   16 +
-> > >  .../x86_64/{machinecheck => machinecheck.rst} |   11 +-
-> > >  Documentation/x86/x86_64/mm.rst               |  161 +++
-> > >  Documentation/x86/x86_64/mm.txt               |  153 --
-> > >  .../x86/x86_64/{uefi.txt => uefi.rst}         |   30 +-
-> > >  Documentation/x86/zero-page.rst               |   45 +
-> > >  Documentation/x86/zero-page.txt               |   40 -
-> > >  36 files changed, 3412 insertions(+), 2954 deletions(-)
-> > >  rename Documentation/x86/{amd-memory-encryption.txt => amd-memory-encryption.rst} (94%)
-> > >  create mode 100644 Documentation/x86/boot.rst
-> > >  delete mode 100644 Documentation/x86/boot.txt
-> > >  rename Documentation/x86/{earlyprintk.txt => earlyprintk.rst} (59%)
-> > >  rename Documentation/x86/{entry_64.txt => entry_64.rst} (95%)
-> > >  rename Documentation/x86/{exception-tables.txt => exception-tables.rst} (67%)
-> > >  rename Documentation/x86/i386/{IO-APIC.txt => IO-APIC.rst} (93%)
-> > >  create mode 100644 Documentation/x86/i386/index.rst
-> > >  create mode 100644 Documentation/x86/index.rst
-> > >  rename Documentation/x86/{intel_mpx.txt => intel_mpx.rst} (75%)
-> > >  rename Documentation/x86/{kernel-stacks => kernel-stacks.rst} (92%)
-> > >  rename Documentation/x86/{microcode.txt => microcode.rst} (81%)
-> > >  create mode 100644 Documentation/x86/mtrr.rst
-> > >  delete mode 100644 Documentation/x86/mtrr.txt
-> > >  rename Documentation/x86/{orc-unwinder.txt => orc-unwinder.rst} (93%)
-> > >  create mode 100644 Documentation/x86/pat.rst
-> > >  delete mode 100644 Documentation/x86/pat.txt
-> > >  rename Documentation/x86/{protection-keys.txt => protection-keys.rst} (83%)
-> > >  rename Documentation/x86/{pti.txt => pti.rst} (96%)
-> > >  rename Documentation/x86/{resctrl_ui.txt => resctrl_ui.rst} (68%)
-> > >  rename Documentation/x86/{tlb.txt => tlb.rst} (81%)
-> > >  rename Documentation/x86/{topology.txt => topology.rst} (74%)
-> > >  rename Documentation/x86/{usb-legacy-support.txt => usb-legacy-support.rst} (92%)
-> > >  rename Documentation/x86/x86_64/{5level-paging.txt => 5level-paging.rst} (91%)
-> > >  create mode 100644 Documentation/x86/x86_64/boot-options.rst
-> > >  delete mode 100644 Documentation/x86/x86_64/boot-options.txt
-> > >  rename Documentation/x86/x86_64/{cpu-hotplug-spec => cpu-hotplug-spec.rst} (88%)
-> > >  rename Documentation/x86/x86_64/{fake-numa-for-cpusets => fake-numa-for-cpusets.rst} (85%)
-> > >  create mode 100644 Documentation/x86/x86_64/index.rst
-> > >  rename Documentation/x86/x86_64/{machinecheck => machinecheck.rst} (92%)
-> > >  create mode 100644 Documentation/x86/x86_64/mm.rst
-> > >  delete mode 100644 Documentation/x86/x86_64/mm.txt
-> > >  rename Documentation/x86/x86_64/{uefi.txt => uefi.rst} (79%)
-> > >  create mode 100644 Documentation/x86/zero-page.rst
-> > >  delete mode 100644 Documentation/x86/zero-page.txt
-> > >   
-> > 
-> > 
-> > 
-> > Thanks,
-> > Mauro  
+> A github PR is sent for the corresponding BCC patch at:
+> https://github.com/iovisor/bcc/pull/2312
 > 
+> On Android and embedded systems, it is common to switch kernels but not
+> have kernel headers available on the file system. Further once a
+> different kernel is booted, any headers stored on the file system will
+> no longer be useful. This is an issue even well known to distros.
+> By storing the headers as a compressed archive within the kernel, we can
+> avoid these issues that have been a hindrance for a long time.
+> 
+> The best way to use this feature is by building it in. Several users
+> have a need for this, when they switch debug kernels, they do not want to
+> update the filesystem or worry about it where to store the headers on
+> it. However, the feature is also buildable as a module in case the user
+> desires it not being part of the kernel image. This makes it possible to
+> load and unload the headers from memory on demand. A tracing program can
+> load the module, do its operations, and then unload the module to save
+> kernel memory. The total memory needed is 3.3MB.
+> 
+> By having the archive available at a fixed location independent of
+> filesystem dependencies and conventions, all debugging tools can
+> directly refer to the fixed location for the archive, without concerning
+> with where the headers on a typical filesystem which significantly
+> simplifies tooling that needs kernel headers.
+> 
+> The code to read the headers is based on /proc/config.gz code and uses
+> the same technique to embed the headers.
+> 
+> Other approaches were discussed such as having an in-memory mountable
+> filesystem, but that has drawbacks such as requiring an in-kernel xz
+> decompressor which we don't have today, and requiring usage of 42 MB of
+> kernel memory to host the decompressed headers at anytime. Also this
+> approach is simpler than such approaches.
+> 
+> Reviewed-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 
-
-
-Thanks,
-Mauro
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
