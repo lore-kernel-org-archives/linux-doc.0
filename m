@@ -5,112 +5,78 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 79E3F7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Apr 2019 14:54:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0ABE17D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Apr 2019 21:45:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728432AbfD2Oy1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 29 Apr 2019 10:54:27 -0400
-Received: from conuserg-10.nifty.com ([210.131.2.77]:22343 "EHLO
-        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728365AbfD2Oy0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Apr 2019 10:54:26 -0400
-Received: from grover.flets-west.jp (softbank126125154137.bbtec.net [126.125.154.137]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id x3TEs2DB010195;
-        Mon, 29 Apr 2019 23:54:02 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com x3TEs2DB010195
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1556549643;
-        bh=ZweuqeTPoljDbmkeKikxx4wqv2jN6rBHEqKiytbbuyo=;
-        h=From:To:Cc:Subject:Date:From;
-        b=l9rJ2fILRGWkiRdjPQqkQ+A3OyAOOJvSctLMA4lZvRP6HDVOMRzwk/BXQnR2xJgw3
-         XSmAQN8R//scUoKeNA27TkvueVuNL8yNUJHGMEEHtosKb/ue4SUdNF407j2qAX82Q4
-         Y+G9f2sLUukhrZYtHvQgRzkKhxls/pxcluF3n/yYuwSYfBfQPGsYviyIlg2tLP4ZJa
-         /VlhXSbP/v0GoP590kBBJwRcejz9xySlk1EDfMIkQZLuMVdA/f/b2kZGyQge9olqWP
-         /h33yMzqY7UxUeAVpDSWb1yoj4Ty+b19OcEZIKg5q38ueNTWceP26F3PmlbM20c1p0
-         4EMCcKdZue8Ig==
-X-Nifty-SrcIP: [126.125.154.137]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH] dontdiff: update with Kconfig build artifacts
-Date:   Mon, 29 Apr 2019 23:53:50 +0900
-Message-Id: <1556549630-17605-1-git-send-email-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.7.4
+        id S1729443AbfD2Vpn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 29 Apr 2019 17:45:43 -0400
+Received: from mx.kolabnow.com ([95.128.36.41]:33808 "EHLO mx.kolabnow.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729354AbfD2Vpn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 29 Apr 2019 17:45:43 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id 25D884A3;
+        Mon, 29 Apr 2019 23:45:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-transfer-encoding:mime-version:message-id:date:date
+        :subject:subject:from:from:received:received:received; s=
+        dkim20160331; t=1556574340; x=1558388741; bh=FkmmNzOhZAiBzAGvga+
+        1Vd0vaNR7piDEbAc1VZkwiiU=; b=BTwgcF7DaVhW4uhAH/kU+jE1Tfat1Bsh5NU
+        hAP/AvbxRpJKWwppoQ5jHwhILZOLtYZN6jq0StiBx91Dt5fHeCSgppzbiLlRBHNf
+        37faZJOkTQgL6YR0+QKT91lVmtgYO93kiA7VgFKfLRwdB95wNFzjVo4a0n16dHIK
+        Zfa3ZTC28dRXJbU3vv3UKveIW1EzEqJb8XcUv3VdNKjqj9E2tqhUYyBGbhJQeVXl
+        hz3bFoDhCMV9PhIUaVZAd1wX/1Jax0NKaiTABsYCQPmxMCsppYTtWB0thWir7jBI
+        /0q9+Pz4Pl55xfvi8jwH+Sl2ikue6Uid1zGLMViXmWF7/A+/tdVwv6gn6Qt7Q48n
+        p4e2k95zd2msoT4JTJ+JLRyGz4M5ex7/DXqxsiQpdXaoGmCXx1NLTxLjOkACF7mA
+        4929iJCS0xmhaxDGbYEnrcwLs4e4joVNYtvc+Lch5Jd+wotqWjZaqyKmBnbK3/5g
+        fpwzHL4EHMGBLKI8txYQZalDYh8TitjrrjnXhv2XbvpOpG2bAR8a8c+a4SJ6LsTt
+        5FtVQSgxxmzLhSV2N6oBFwnNFrWE12B2sJUdS1k/dhwX1/hczSM3UhuHEmxtAX5v
+        8CAxlxkWvhDmhRomIts1CXbKqm9w5nEry3QMckTg3Nqiy+rAVP16+u2Ou6hXtYRr
+        UqVqDjdk=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id aKTMrz2PH84d; Mon, 29 Apr 2019 23:45:40 +0200 (CEST)
+Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id D985C1F1;
+        Mon, 29 Apr 2019 23:45:39 +0200 (CEST)
+Received: from ext-subm003.mykolab.com (unknown [10.9.6.3])
+        by int-mx001.mykolab.com (Postfix) with ESMTPS id 8C2DB517;
+        Mon, 29 Apr 2019 23:45:39 +0200 (CEST)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] doc: fix typo in PGP guide
+Date:   Mon, 29 Apr 2019 23:45:14 +0200
+Message-Id: <20190429214514.25625-1-federico.vaga@vaga.pv.it>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add generated *conf-cfg files.
+Fix typo in the GPG guide for maintainers
 
-Commit 694c49a7c01c ("kconfig: drop localization support") removed
-"gconf.glade.h" and "kxgettext".
-
-"kconfig" and "lxdialog" should not be excluded either.
-
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
 ---
+ Documentation/process/maintainer-pgp-guide.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- Documentation/dontdiff | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/dontdiff b/Documentation/dontdiff
-index ef25a06..15c54da 100644
---- a/Documentation/dontdiff
-+++ b/Documentation/dontdiff
-@@ -127,7 +127,7 @@ flask.h
- fore200e_mkfirm
- fore200e_pca_fw.c*
- gconf
--gconf.glade.h
-+gconf-cfg
- gen-devlist
- gen_crc32table
- gen_init_cpio
-@@ -148,24 +148,22 @@ int32.c
- int4.c
- int8.c
- kallsyms
--kconfig
- keywords.c
- ksym.c*
- ksym.h*
--kxgettext
- *lex.c
- *lex.*.c
- linux
- logo_*.c
- logo_*_clut224.c
- logo_*_mono.c
--lxdialog
- mach-types
- mach-types.h
- machtypes.h
- map
- map_hugetlb
- mconf
-+mconf-cfg
- miboot*
- mk_elfconfig
- mkboot
-@@ -181,6 +179,7 @@ modules.builtin
- modules.order
- modversions.h*
- nconf
-+nconf-cfg
- ncscope.*
- offset.h
- oui.c*
-@@ -200,6 +199,7 @@ pnmtologo
- ppc_defs.h*
- pss_boot.h
- qconf
-+qconf-cfg
- r100_reg_safe.h
- r200_reg_safe.h
- r300_reg_safe.h
+diff --git a/Documentation/process/maintainer-pgp-guide.rst b/Documentation/process/maintainer-pgp-guide.rst
+index aff9b1a4d77b..4bab7464ff8c 100644
+--- a/Documentation/process/maintainer-pgp-guide.rst
++++ b/Documentation/process/maintainer-pgp-guide.rst
+@@ -943,7 +943,7 @@ have on your keyring::
+ 
+ Next, open the `PGP pathfinder`_. In the "From" field, paste the key
+ fingerprint of Linus Torvalds from the output above. In the "To" field,
+-paste they key-id you found via ``gpg --search`` of the unknown key, and
++paste the key-id you found via ``gpg --search`` of the unknown key, and
+ check the results:
+ 
+ - `Finding paths to Linus`_
 -- 
-2.7.4
+2.20.1
 
