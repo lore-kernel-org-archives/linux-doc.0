@@ -5,78 +5,134 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0ABE17D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Apr 2019 21:45:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D636F7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Apr 2019 21:47:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729443AbfD2Vpn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 29 Apr 2019 17:45:43 -0400
-Received: from mx.kolabnow.com ([95.128.36.41]:33808 "EHLO mx.kolabnow.com"
+        id S1729384AbfD2Vrf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 29 Apr 2019 17:47:35 -0400
+Received: from mx.kolabnow.com ([95.128.36.41]:33832 "EHLO mx.kolabnow.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729354AbfD2Vpn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 29 Apr 2019 17:45:43 -0400
+        id S1729341AbfD2Vrf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 29 Apr 2019 17:47:35 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id 25D884A3;
-        Mon, 29 Apr 2019 23:45:41 +0200 (CEST)
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id E9C7E4A3;
+        Mon, 29 Apr 2019 23:47:32 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-transfer-encoding:mime-version:message-id:date:date
-        :subject:subject:from:from:received:received:received; s=
-        dkim20160331; t=1556574340; x=1558388741; bh=FkmmNzOhZAiBzAGvga+
-        1Vd0vaNR7piDEbAc1VZkwiiU=; b=BTwgcF7DaVhW4uhAH/kU+jE1Tfat1Bsh5NU
-        hAP/AvbxRpJKWwppoQ5jHwhILZOLtYZN6jq0StiBx91Dt5fHeCSgppzbiLlRBHNf
-        37faZJOkTQgL6YR0+QKT91lVmtgYO93kiA7VgFKfLRwdB95wNFzjVo4a0n16dHIK
-        Zfa3ZTC28dRXJbU3vv3UKveIW1EzEqJb8XcUv3VdNKjqj9E2tqhUYyBGbhJQeVXl
-        hz3bFoDhCMV9PhIUaVZAd1wX/1Jax0NKaiTABsYCQPmxMCsppYTtWB0thWir7jBI
-        /0q9+Pz4Pl55xfvi8jwH+Sl2ikue6Uid1zGLMViXmWF7/A+/tdVwv6gn6Qt7Q48n
-        p4e2k95zd2msoT4JTJ+JLRyGz4M5ex7/DXqxsiQpdXaoGmCXx1NLTxLjOkACF7mA
-        4929iJCS0xmhaxDGbYEnrcwLs4e4joVNYtvc+Lch5Jd+wotqWjZaqyKmBnbK3/5g
-        fpwzHL4EHMGBLKI8txYQZalDYh8TitjrrjnXhv2XbvpOpG2bAR8a8c+a4SJ6LsTt
-        5FtVQSgxxmzLhSV2N6oBFwnNFrWE12B2sJUdS1k/dhwX1/hczSM3UhuHEmxtAX5v
-        8CAxlxkWvhDmhRomIts1CXbKqm9w5nEry3QMckTg3Nqiy+rAVP16+u2Ou6hXtYRr
-        UqVqDjdk=
+        content-transfer-encoding:content-type:content-type:mime-version
+        :message-id:date:date:subject:subject:from:from:received
+        :received:received; s=dkim20160331; t=1556574451; x=1558388852;
+         bh=g929uR7j5Bljj/SBE5STwaZj4+jLJMam9hBjyMFxOyE=; b=YGTQ8yQFm8e9
+        4TrdLZqp1JH50iqSFWrKO3MCLnziDMD7C5FnLUc0efA+VhGJWW3CaTFiIkh68LLJ
+        azzqBl/CIqZbgu5HAOzJeaoeSYMRZw1pmFo/mfda29FycAeqE5nwVSeI2UsbRv/D
+        8j3rdBkK3MU/6t1FjFjTay/UwlskevI4xCeT7Tt/GZB++VyNNerPJ20QEDgCbq5Y
+        oiZ8gRA9WJbMX0px1CUtRPVJ6xcixNpNV5TN+tZrCTUKv+OalQLQi8athhyTjdDF
+        36DOV9j+NuHkJXijwAJ5tbb0sh5ha6MK2GX3XGAo6+rAXztTbGKL8lLbbpjzRdLf
+        EpLVhYrbojIu8oH9LwpeBmfM0SC5G+1A0mJx1Qp8BRyVDolAntVOuWiX1Lt/8IBT
+        PnhbsggEhGg5eUWC4yDOgSWsgJeDE7ERPIZLCBPaNn+MmDTqaiyEDBmuHUxBa4p3
+        3oNgqy17yXdtTPEiNjV+CEcXyct2cPVV/GzUIvMoaj7MMEutZozrPyhuJPA4bF6I
+        P/1Bh2NanE5TaRw3yWNOaNtwc22bdNEbqEVyDIWloIqqkVy8RWFNhi8e8BVfcWDo
+        pqeB8Jlx7SYnJxQ5XmM87zmGBhy8+z5636LvAe4HID6fhMm21YxYm45p+R9XtBgW
+        dW7UgWZqnMQ1M8UB9kGgZP3EJLAqVHA=
 X-Virus-Scanned: amavisd-new at mykolab.com
 Received: from mx.kolabnow.com ([127.0.0.1])
         by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id aKTMrz2PH84d; Mon, 29 Apr 2019 23:45:40 +0200 (CEST)
-Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
-        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id D985C1F1;
-        Mon, 29 Apr 2019 23:45:39 +0200 (CEST)
+        with ESMTP id u67NlFI4fDUg; Mon, 29 Apr 2019 23:47:31 +0200 (CEST)
+Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id A48BA126;
+        Mon, 29 Apr 2019 23:47:31 +0200 (CEST)
 Received: from ext-subm003.mykolab.com (unknown [10.9.6.3])
-        by int-mx001.mykolab.com (Postfix) with ESMTPS id 8C2DB517;
-        Mon, 29 Apr 2019 23:45:39 +0200 (CEST)
+        by int-mx003.mykolab.com (Postfix) with ESMTPS id 570282A0D;
+        Mon, 29 Apr 2019 23:47:31 +0200 (CEST)
 From:   Federico Vaga <federico.vaga@vaga.pv.it>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] doc: fix typo in PGP guide
-Date:   Mon, 29 Apr 2019 23:45:14 +0200
-Message-Id: <20190429214514.25625-1-federico.vaga@vaga.pv.it>
+Subject: [PATCH] doc:it_IT: translation alignment
+Date:   Mon, 29 Apr 2019 23:47:20 +0200
+Message-Id: <20190429214720.25725-1-federico.vaga@vaga.pv.it>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix typo in the GPG guide for maintainers
+Aling Italian translation after the following changes in Documentation
+
+bba757d8578f coding-style.rst: Generic alloc functions do not need OOM logging
+d8e8bcc3d8de docs: doc-guide: remove the extension from .rst files
 
 Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
 ---
- Documentation/process/maintainer-pgp-guide.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../it_IT/core-api/memory-allocation.rst            | 13 +++++++++++++
+ .../translations/it_IT/doc-guide/index.rst          |  6 +++---
+ .../translations/it_IT/process/coding-style.rst     |  8 +++++++-
+ 3 files changed, 23 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/translations/it_IT/core-api/memory-allocation.rst
 
-diff --git a/Documentation/process/maintainer-pgp-guide.rst b/Documentation/process/maintainer-pgp-guide.rst
-index aff9b1a4d77b..4bab7464ff8c 100644
---- a/Documentation/process/maintainer-pgp-guide.rst
-+++ b/Documentation/process/maintainer-pgp-guide.rst
-@@ -943,7 +943,7 @@ have on your keyring::
+diff --git a/Documentation/translations/it_IT/core-api/memory-allocation.rst b/Documentation/translations/it_IT/core-api/memory-allocation.rst
+new file mode 100644
+index 000000000000..11d5148f8d6b
+--- /dev/null
++++ b/Documentation/translations/it_IT/core-api/memory-allocation.rst
+@@ -0,0 +1,13 @@
++.. include:: ../disclaimer-ita.rst
++
++:Original: :ref:`Documentation/core-api/memory-allocation.rst <memory_allocation>`
++
++.. _it_memory_allocation:
+
++================================
++Guida all'allocazione di memoria
++================================
++
++.. warning::
++
++    TODO ancora da tradurre
+diff --git a/Documentation/translations/it_IT/doc-guide/index.rst b/Documentation/translations/it_IT/doc-guide/index.rst
+index 7a6562b547ee..9fffff626711 100644
+--- a/Documentation/translations/it_IT/doc-guide/index.rst
++++ b/Documentation/translations/it_IT/doc-guide/index.rst
+@@ -12,9 +12,9 @@ Come scrivere la documentazione del kernel
+ .. toctree::
+    :maxdepth: 1
  
- Next, open the `PGP pathfinder`_. In the "From" field, paste the key
- fingerprint of Linus Torvalds from the output above. In the "To" field,
--paste they key-id you found via ``gpg --search`` of the unknown key, and
-+paste the key-id you found via ``gpg --search`` of the unknown key, and
- check the results:
+-   sphinx.rst
+-   kernel-doc.rst
+-   parse-headers.rst
++   sphinx
++   kernel-doc
++   parse-headers
  
- - `Finding paths to Linus`_
+ .. only::  subproject and html
+ 
+diff --git a/Documentation/translations/it_IT/process/coding-style.rst b/Documentation/translations/it_IT/process/coding-style.rst
+index 2fd0e7f79d55..5ef534c95e69 100644
+--- a/Documentation/translations/it_IT/process/coding-style.rst
++++ b/Documentation/translations/it_IT/process/coding-style.rst
+@@ -859,7 +859,8 @@ racchiusa in #ifdef, potete usare printk(KERN_DEBUG ...).
+ 
+ Il kernel fornisce i seguenti assegnatori ad uso generico:
+ kmalloc(), kzalloc(), kmalloc_array(), kcalloc(), vmalloc(), e vzalloc().
+-Per maggiori informazioni, consultate la documentazione dell'API.
++Per maggiori informazioni, consultate la documentazione dell'API:
++:ref:`Documentation/translations/it_IT/core-api/memory-allocation.rst <it_memory_allocation>`
+ 
+ Il modo preferito per passare la dimensione di una struttura è il seguente:
+ 
+@@ -890,6 +891,11 @@ Il modo preferito per assegnare un vettore a zero è il seguente:
+ Entrambe verificano la condizione di overflow per la dimensione
+ d'assegnamento n * sizeof(...), se accade ritorneranno NULL.
+ 
++Questi allocatori generici producono uno *stack dump* in caso di fallimento
++a meno che non venga esplicitamente specificato __GFP_NOWARN. Quindi, nella
++maggior parte dei casi, è inutile stampare messaggi aggiuntivi quando uno di
++questi allocatori ritornano un puntatore NULL.
++
+ 15) Il morbo inline
+ -------------------
+ 
 -- 
 2.20.1
 
