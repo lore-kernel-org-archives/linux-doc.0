@@ -3,45 +3,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DEBFA7DBEB
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Apr 2019 10:06:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 566FA7DE5B
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 29 Apr 2019 10:06:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727795AbfD2KEA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 29 Apr 2019 06:04:00 -0400
-Received: from mx07-00178001.pphosted.com ([62.209.51.94]:16434 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727740AbfD2KD7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Apr 2019 06:03:59 -0400
-Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x3TA1rtx011137;
-        Mon, 29 Apr 2019 12:03:29 +0200
+        id S1727849AbfD2KEE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 29 Apr 2019 06:04:04 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:7902 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727817AbfD2KED (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Apr 2019 06:04:03 -0400
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+        by mx08-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x3TA37W2029049;
+        Mon, 29 Apr 2019 12:03:39 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=STMicroelectronics;
- bh=DpoTfHz7/K/KSDDjaslQS/haOcbJqcn4nklrvjzyMCE=;
- b=XKdesF5tx4cpKu6iU1fsZTX2rUos7yD0vbnx5yWoKHBav1DrBlLZq85/XIDwezqJ5N9H
- 1GOjiC91KbxA0plkTaypZLWBolijKDGKClmo4UrqybHRXviHFSszTbpQ4yrTb+eGwLwz
- j+KEDkiY4ICEQVGODJ6nz3xOZxWg8e86MpS5kwV48QAatpj2BWp0EZfhmvWYDys7mbHg
- 5KKk1k+MVO3weR3zAK39VK4Ur+Ii/4TaqwgfLnLW+ucLuQOkZK4vrcnK0l+yqgZcxUQS
- u3VBBU47L3hu+N234byZvN1uOqz4k/wUPi1nIIfCN+w6YFbnx8nrjvTgRYWmPPWgIlYP xg== 
+ : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=n2u4++2HSfET332tMSV3lV3tD9SsVHg37tndqAOXNsU=;
+ b=rN/NQmxoXNbvzde+GhX0trZQo+p5rJrmjppITX01WoHmt/r29utiq4/Geib8QbSILOmz
+ 1u4DTvXhqKBKxpp+D9Y9kdMpY7AHp7DRtiUH5EyLBhr2VGhwmX0VmbZ1+dmHWpvWV5KX
+ kLAoIGuLiU0OmHic2rfNjw9bwA+PDKHIxZEODcQYKWUPDiSLxOZKH5gsw+v5ocETuBGK
+ cSXFgRwBJiEyXWieNZLhGN1GaR3yHvrm9SAvXWD+S92ENW9Pv2zKer4q5i+NJVmGsynE
+ xHLOZiRLMiije//OpC0QW9veZYPQin/5O0hGJsYDPoclxVtQG/k7veLzgy4H2aH0rlDH 8g== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 2s4cj0bfpw-1
+        by mx08-00178001.pphosted.com with ESMTP id 2s4c7448a0-1
         (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Mon, 29 Apr 2019 12:03:29 +0200
+        Mon, 29 Apr 2019 12:03:39 +0200
 Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id BFB2A31;
-        Mon, 29 Apr 2019 10:03:27 +0000 (GMT)
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 41E9834;
+        Mon, 29 Apr 2019 10:03:39 +0000 (GMT)
 Received: from Webmail-eu.st.com (sfhdag3node3.st.com [10.75.127.9])
-        by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 803A51516;
-        Mon, 29 Apr 2019 10:03:27 +0000 (GMT)
+        by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 203441517;
+        Mon, 29 Apr 2019 10:03:39 +0000 (GMT)
 Received: from SFHDAG5NODE1.st.com (10.75.127.13) by SFHDAG3NODE3.st.com
  (10.75.127.9) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Mon, 29 Apr
- 2019 12:03:27 +0200
+ 2019 12:03:38 +0200
 Received: from SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6]) by
  SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6%20]) with mapi id
- 15.00.1347.000; Mon, 29 Apr 2019 12:03:27 +0200
+ 15.00.1347.000; Mon, 29 Apr 2019 12:03:38 +0200
 From:   Gerald BAEZA <gerald.baeza@st.com>
 To:     "will.deacon@arm.com" <will.deacon@arm.com>,
         "mark.rutland@arm.com" <mark.rutland@arm.com>,
@@ -61,11 +61,13 @@ CC:     "linux-arm-kernel@lists.infradead.org"
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         Gerald BAEZA <gerald.baeza@st.com>
-Subject: [PATCH 0/5] stm32-ddr-pmu driver creation
-Thread-Topic: [PATCH 0/5] stm32-ddr-pmu driver creation
-Thread-Index: AQHU/nLKF7OhsIWL502SfbL6GLT5iw==
-Date:   Mon, 29 Apr 2019 10:03:27 +0000
-Message-ID: <1556532194-27904-1-git-send-email-gerald.baeza@st.com>
+Subject: [PATCH 4/5] ARM: configs: enable STM32_DDR_PMU
+Thread-Topic: [PATCH 4/5] ARM: configs: enable STM32_DDR_PMU
+Thread-Index: AQHU/nLQ6c8DagHePECKTlRzQJvc3A==
+Date:   Mon, 29 Apr 2019 10:03:38 +0000
+Message-ID: <1556532194-27904-5-git-send-email-gerald.baeza@st.com>
+References: <1556532194-27904-1-git-send-email-gerald.baeza@st.com>
+In-Reply-To: <1556532194-27904-1-git-send-email-gerald.baeza@st.com>
 Accept-Language: fr-FR, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -83,36 +85,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The DDRPERFM is the DDR Performance Monitor embedded in STM32MP1 SOC.
+STM32_DDR_PMU enables the perf driver that
+controls the DDR Performance Monitor (DDRPERFM)
 
-This series adds support for the DDRPERFM via a new stm32-ddr-pmu driver,
-registered into the perf framework.
+Signed-off-by: Gerald Baeza <gerald.baeza@st.com>
+---
+ arch/arm/configs/multi_v7_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-This driver is inspired from arch/arm/mm/cache-l2x0-pmu.c
-
-This series depends on the "clk: stm32mp1: Add ddrperfm clock" patch,
-sent separately.
-
-Gerald Baeza (5):
-  Documentation: perf: stm32: ddrperfm support
-  dt-bindings: perf: stm32: ddrperfm support
-  perf: stm32: ddrperfm driver creation
-  ARM: configs: enable STM32_DDR_PMU
-  ARM: dts: stm32: add ddrperfm on stm32mp157c
-
- .../devicetree/bindings/perf/stm32-ddr-pmu.txt     |  18 +
- Documentation/perf/stm32-ddr-pmu.txt               |  41 ++
- arch/arm/boot/dts/stm32mp157c.dtsi                 |   9 +
- arch/arm/configs/multi_v7_defconfig                |   1 +
- drivers/perf/Kconfig                               |   6 +
- drivers/perf/Makefile                              |   1 +
- drivers/perf/stm32_ddr_pmu.c                       | 502 +++++++++++++++++=
-++++
- 7 files changed, 578 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/perf/stm32-ddr-pmu.tx=
-t
- create mode 100644 Documentation/perf/stm32-ddr-pmu.txt
- create mode 100644 drivers/perf/stm32_ddr_pmu.c
-
+diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v=
+7_defconfig
+index c75051b..6bc6ffd 100644
+--- a/arch/arm/configs/multi_v7_defconfig
++++ b/arch/arm/configs/multi_v7_defconfig
+@@ -979,6 +979,7 @@ CONFIG_PHY_UNIPHIER_USB2=3Dy
+ CONFIG_OMAP_USB2=3Dy
+ CONFIG_TI_PIPE3=3Dy
+ CONFIG_TWL4030_USB=3Dm
++CONFIG_STM32_DDR_PMU=3Dm
+ CONFIG_NVMEM_IMX_OCOTP=3Dy
+ CONFIG_NVMEM_SUNXI_SID=3Dy
+ CONFIG_NVMEM_VF610_OCOTP=3Dy
 --=20
 2.7.4
