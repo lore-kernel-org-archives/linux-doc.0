@@ -3,41 +3,41 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 58ACE7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Apr 2019 10:52:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 757887D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Apr 2019 10:52:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727005AbfD3KwL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 30 Apr 2019 06:52:11 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:60988 "EHLO
+        id S1727314AbfD3KwQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 30 Apr 2019 06:52:16 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:32784 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726294AbfD3KwL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Apr 2019 06:52:11 -0400
+        with ESMTP id S1726436AbfD3KwP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Apr 2019 06:52:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
         :Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From
         :Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=dC/qP4NdN6lQuDcg0MFhcntTmuZFwV41wwE9EhdfDJ4=; b=TF2lfkTGEd28tPwvqNK7+O9SXc
-        UGDUGWkYy9fJUhMA/ziVW9Oq5vVE2m6z3B7k3+s+Esotspjht7WD+2yCT+vIuK3H0uTppojeJh9zy
-        6q9stFUf0bF8kK54t/ZGWPwM54ar/xbSQS0e5OSj6i3YNndzYfvFP0JDS9nAWjTGULYtWw8tKfMsS
-        w+RvDu/Oi4wJqPPdZDoerGWO9GN1Ak1ZQ6VPqRNA6a0GqY9VDhuCACMMNlzABYws13TXar+5I7N5r
-        3HPgkJhBZIHBEw7uheHTfqvsXZa7JtMCozlRcYvqp4gRffEKBhI3GXNZTcESlxZ0NsjtzfdzgGmoP
-        l3NUiwaw==;
+        bh=OjOD2oMjxpggW41tpwAHqLAmFcrJ2PV74fctRCPb0YM=; b=CAfFvUb3h9Z5Ktfh8rxh+5IiDm
+        lY97oHjJ7HjwOKCA8j31dx2moU99TYCoFTqmI699YPJyl4KkkkwxSH7DCdALtZyL8TB7wrHPN9ZCf
+        ifeMmu1pv5uedYgpFQqiagEdgnChynosW3ZBFzzjah7r7s2Akt9qg/HwqpOVJLVTg3+TahiKvFnVq
+        kMKZvPMEWQMLM5QoiTRFpjY2riHn/D3MqcUTjG81KwHd+FKu6pnv8qKReYmCEf7eAhFkXAY2HJoX9
+        5DCuWwiUau852nNnlQv3dS1uj2fznNQU4fZVikPoHxnAjBO3ImVCwcG//VDzqFADdkQY65G+1SylZ
+        Nxeq0yMA==;
 Received: from adsl-173-228-226-134.prtc.net ([173.228.226.134] helo=localhost)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hLQMs-0007E8-99; Tue, 30 Apr 2019 10:52:10 +0000
+        id 1hLQMw-0007EX-5d; Tue, 30 Apr 2019 10:52:14 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     Jonathan Corbet <corbet@lwn.net>,
         Thomas Gleixner <tglx@linutronix.de>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Kate Stewart <kstewart@linuxfoundation.org>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] docs: Don't reference the ZLib license in license-rules.rst
-Date:   Tue, 30 Apr 2019 06:51:28 -0400
-Message-Id: <20190430105130.24500-2-hch@lst.de>
+Subject: [PATCH 3/3] LICENSES: Rename other to deprecated
+Date:   Tue, 30 Apr 2019 06:51:30 -0400
+Message-Id: <20190430105130.24500-4-hch@lst.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190430105130.24500-1-hch@lst.de>
 References: <20190430105130.24500-1-hch@lst.de>
@@ -49,30 +49,73 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We never had a file called LICENSES/other/ZLib in the tree, so don't
-reference it.  Instead mention the GPL v1 as an (bad) example.
+Make it clear in the directory name that these are not intended for new
+code.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- Documentation/process/license-rules.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/process/license-rules.rst     | 8 ++++----
+ LICENSES/{other => deprecated}/GPL-1.0      | 0
+ LICENSES/{other => deprecated}/ISC          | 0
+ LICENSES/{other => deprecated}/Linux-OpenIB | 0
+ LICENSES/{other => deprecated}/X11          | 0
+ 5 files changed, 4 insertions(+), 4 deletions(-)
+ rename LICENSES/{other => deprecated}/GPL-1.0 (100%)
+ rename LICENSES/{other => deprecated}/ISC (100%)
+ rename LICENSES/{other => deprecated}/Linux-OpenIB (100%)
+ rename LICENSES/{other => deprecated}/X11 (100%)
 
 diff --git a/Documentation/process/license-rules.rst b/Documentation/process/license-rules.rst
-index 6b09033a8e9e..ade495fe6811 100644
+index 507b695fa9da..2ef44ada3f11 100644
 --- a/Documentation/process/license-rules.rst
 +++ b/Documentation/process/license-rules.rst
-@@ -255,9 +255,9 @@ kernel, can be broken down into:
+@@ -234,13 +234,13 @@ kernel, can be broken down into:
+ 
+ |
+ 
+-2. Not recommended licenses:
++2. Deprecated licenses:
+ 
+    These licenses should only be used for existing code or for importing
+    code from a different project.  These licenses are available from the
+    directory::
+ 
+-      LICENSES/other/
++      LICENSES/deprecated/
+ 
+    in the kernel source tree.
+ 
+@@ -250,12 +250,12 @@ kernel, can be broken down into:
+ 
+    Examples::
+ 
+-      LICENSES/other/ISC
++      LICENSES/deprecated/ISC
+ 
     Contains the Internet Systems Consortium license text and the required
     metatags::
  
--      LICENSES/other/ZLib
-+      LICENSES/other/GPL-1.0
+-      LICENSES/other/GPL-1.0
++      LICENSES/deprecated/GPL-1.0
  
--   Contains the ZLIB license text and the required metatags.
-+   Contains the GPL version 1 license text and the required metatags.
+    Contains the GPL version 1 license text and the required metatags.
  
-    Metatags:
- 
+diff --git a/LICENSES/other/GPL-1.0 b/LICENSES/deprecated/GPL-1.0
+similarity index 100%
+rename from LICENSES/other/GPL-1.0
+rename to LICENSES/deprecated/GPL-1.0
+diff --git a/LICENSES/other/ISC b/LICENSES/deprecated/ISC
+similarity index 100%
+rename from LICENSES/other/ISC
+rename to LICENSES/deprecated/ISC
+diff --git a/LICENSES/other/Linux-OpenIB b/LICENSES/deprecated/Linux-OpenIB
+similarity index 100%
+rename from LICENSES/other/Linux-OpenIB
+rename to LICENSES/deprecated/Linux-OpenIB
+diff --git a/LICENSES/other/X11 b/LICENSES/deprecated/X11
+similarity index 100%
+rename from LICENSES/other/X11
+rename to LICENSES/deprecated/X11
 -- 
 2.20.1
 
