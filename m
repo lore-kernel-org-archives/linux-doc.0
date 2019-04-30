@@ -1,59 +1,55 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 867F07D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Apr 2019 11:53:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 29E377D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 30 Apr 2019 12:23:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730784AbfD3Lxn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 30 Apr 2019 07:53:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41624 "EHLO mail.kernel.org"
+        id S1727344AbfD3MXE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 30 Apr 2019 08:23:04 -0400
+Received: from ms.lwn.net ([45.79.88.28]:48084 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730565AbfD3Lxm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 30 Apr 2019 07:53:42 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        id S1726073AbfD3MXE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 30 Apr 2019 08:23:04 -0400
+Received: from localhost.localdomain (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 799382075E;
-        Tue, 30 Apr 2019 11:53:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1556625222;
-        bh=ulh/dOBZo/I8x2ReyMQ0GnSjIUgyQejot7EHRcKeUPY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=k8anD+6xoq+foqxxEoj7DEIeLMQtFJC8vp0l6BEn2x33ufPyXHK8Ca32LeA69VJgp
-         udy2zZnEiQaZnhtCpcUyiZZlIorRgSdGfNI9W94NztV1ywfVhDFrIH/d92zjR1hJ+d
-         MB+m6s1+kgpXC7z45xJtgSRbOcqaEmWBwYtbN7I8=
-Date:   Tue, 30 Apr 2019 13:41:34 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: clarify other licenses in LICENSES/
-Message-ID: <20190430114134.GA17027@kroah.com>
-References: <20190430105130.24500-1-hch@lst.de>
+        by ms.lwn.net (Postfix) with ESMTPSA id 3ADA79AF;
+        Tue, 30 Apr 2019 12:23:03 +0000 (UTC)
+Date:   Tue, 30 Apr 2019 06:23:00 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] dontdiff: update with Kconfig build artifacts
+Message-ID: <20190430062300.7c9cf177@lwn.net>
+In-Reply-To: <1556549630-17605-1-git-send-email-yamada.masahiro@socionext.com>
+References: <1556549630-17605-1-git-send-email-yamada.masahiro@socionext.com>
+Organization: LWN.net
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190430105130.24500-1-hch@lst.de>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 30, 2019 at 06:51:27AM -0400, Christoph Hellwig wrote:
-> Hi all,
+On Mon, 29 Apr 2019 23:53:50 +0900
+Masahiro Yamada <yamada.masahiro@socionext.com> wrote:
+
+> Add generated *conf-cfg files.
 > 
-> this series splits the others category into dual or deprecated,
-> and also fixes up some other minor bits in the documentation for
-> these non-preferred licenses.
+> Commit 694c49a7c01c ("kconfig: drop localization support") removed
+> "gconf.glade.h" and "kxgettext".
+> 
+> "kconfig" and "lxdialog" should not be excluded either.
+> 
+> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 
-Looks good to me, thanks for doing this!
+Applied, thanks.
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+jon
