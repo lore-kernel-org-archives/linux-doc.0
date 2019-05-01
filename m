@@ -5,66 +5,94 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B96697D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  1 May 2019 10:15:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E58AE7D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  1 May 2019 14:49:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726090AbfEAKPK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 1 May 2019 06:15:10 -0400
-Received: from cloudserver094114.home.pl ([79.96.170.134]:64696 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726101AbfEAKPK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 May 2019 06:15:10 -0400
-Received: from 79.184.254.69.ipv4.supernova.orange.pl (79.184.254.69) (HELO kreacher.localnet)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.213)
- id 16ecf9d589608daa; Wed, 1 May 2019 12:15:07 +0200
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Changbin Du <changbin.du@gmail.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        linux-gpio@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Subject: Re: [PATCH v5 00/23] Include linux ACPI docs into Sphinx TOC tree
-Date:   Wed, 01 May 2019 12:15:07 +0200
-Message-ID: <3825811.MXkekUSqSZ@kreacher>
-In-Reply-To: <20190425152034.u4q6wjhm3yfhbnzp@mail.google.com>
-References: <20190424175306.25880-1-changbin.du@gmail.com> <CAJZ5v0i3iEyn1vBjPkA0X=8h_UrSeTNV_JduJq9qfYpgCOAPjQ@mail.gmail.com> <20190425152034.u4q6wjhm3yfhbnzp@mail.google.com>
+        id S1726683AbfEAOtu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 1 May 2019 10:49:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49598 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726673AbfEAOtu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 1 May 2019 10:49:50 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 6AA7EC024915;
+        Wed,  1 May 2019 14:49:49 +0000 (UTC)
+Received: from llong.remote.csb (dhcp-17-85.bos.redhat.com [10.18.17.85])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id E30A710021B4;
+        Wed,  1 May 2019 14:49:44 +0000 (UTC)
+Subject: Re: [RFC PATCH v9 03/13] mm: Add support for eXclusive Page Frame
+ Ownership (XPFO)
+To:     Khalid Aziz <khalid.aziz@oracle.com>,
+        Ingo Molnar <mingo@kernel.org>
+Cc:     juergh@gmail.com, tycho@tycho.ws, jsteckli@amazon.de,
+        keescook@google.com, konrad.wilk@oracle.com,
+        Juerg Haefliger <juerg.haefliger@canonical.com>,
+        deepa.srinivasan@oracle.com, chris.hyser@oracle.com,
+        tyhicks@canonical.com, dwmw@amazon.co.uk,
+        andrew.cooper3@citrix.com, jcm@redhat.com,
+        boris.ostrovsky@oracle.com, iommu@lists.linux-foundation.org,
+        x86@kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+        Khalid Aziz <khalid@gonehiking.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <a.p.zijlstra@chello.nl>,
+        Dave Hansen <dave@sr71.net>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Arjan van de Ven <arjan@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <cover.1554248001.git.khalid.aziz@oracle.com>
+ <f1ac3700970365fb979533294774af0b0dd84b3b.1554248002.git.khalid.aziz@oracle.com>
+ <20190417161042.GA43453@gmail.com>
+ <e16c1d73-d361-d9c7-5b8e-c495318c2509@oracle.com>
+From:   Waiman Long <longman@redhat.com>
+Organization: Red Hat
+Message-ID: <35c4635e-8214-7dde-b4ec-4cb266b2ea10@redhat.com>
+Date:   Wed, 1 May 2019 10:49:44 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <e16c1d73-d361-d9c7-5b8e-c495318c2509@oracle.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.32]); Wed, 01 May 2019 14:49:50 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thursday, April 25, 2019 5:20:35 PM CEST Changbin Du wrote:
-> On Thu, Apr 25, 2019 at 10:44:14AM +0200, Rafael J. Wysocki wrote:
-> > .On Wed, Apr 24, 2019 at 7:54 PM Changbin Du <changbin.du@gmail.com> wrote:
-> > >
-> > > Hi All,
-> > > The kernel now uses Sphinx to generate intelligent and beautiful documentation
-> > > from reStructuredText files. I converted all of the Linux ACPI/PCI/X86 docs to
-> > > reST format in this serias.
-> > >
-> > > The hieararchy of ACPI docs are based on Corbet's suggestion:
-> > > https://lkml.org/lkml/2019/4/3/1047
-> > > I did some adjustment according to the content and finally they are placed as:
-> > > Documentation/firmware-guide/acpi/
-> > 
-> > I'd like to queue up this series, but it is missing a patch to create
-> > Documentation/firmware-guide/acpi/index.rst.
-> > 
-> > Care to provide one?
-> oops, the first patch is missed. Let me add it next.
+On Wed, Apr 03, 2019 at 11:34:04AM -0600, Khalid Aziz wrote:
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt
+b/Documentation/admin-guide/kernel-parameters.txt
 
-I've picked up the first patch from the v6 and applied this series on top of it.
+> index 858b6c0b9a15..9b36da94760e 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2997,6 +2997,12 @@
+>
+>      nox2apic    [X86-64,APIC] Do not enable x2APIC mode.
+>
+> +    noxpfo        [XPFO] Disable eXclusive Page Frame Ownership (XPFO)
+> +            when CONFIG_XPFO is on. Physical pages mapped into
+> +            user applications will also be mapped in the
+> +            kernel's address space as if CONFIG_XPFO was not
+> +            enabled.
+> +
+>      cpu0_hotplug    [X86] Turn on CPU0 hotplug feature when
+>              CONFIG_BO OTPARAM_HOTPLUG_CPU0 is off.
+>              Some features depend on CPU0. Known dependencies are:
 
- Thanks!
+Given the big performance impact that XPFO can have. It should be off by
+default when configured. Instead, the xpfo option should be used to
+enable it.
 
-
+Cheers,
+Longman
 
