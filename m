@@ -6,52 +6,51 @@ X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3B84D7D922
+	by archive.lwn.net (Postfix) with ESMTP id 67B377D926
 	for <lwn-linux-doc@archive.lwn.net>; Wed,  1 May 2019 23:05:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726458AbfEAXFV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1726125AbfEAXFV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Wed, 1 May 2019 19:05:21 -0400
-Received: from mail-yw1-f74.google.com ([209.85.161.74]:44370 "EHLO
-        mail-yw1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726125AbfEAXFI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 May 2019 19:05:08 -0400
-Received: by mail-yw1-f74.google.com with SMTP id g128so1126191ywf.11
-        for <linux-doc@vger.kernel.org>; Wed, 01 May 2019 16:05:08 -0700 (PDT)
+Received: from mail-vs1-f74.google.com ([209.85.217.74]:56949 "EHLO
+        mail-vs1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726585AbfEAXFG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 May 2019 19:05:06 -0400
+Received: by mail-vs1-f74.google.com with SMTP id 2so31055vsp.23
+        for <linux-doc@vger.kernel.org>; Wed, 01 May 2019 16:05:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=PRLXnvg3FnToIBJTwXVR7d2TK/MHZSW5pjHfdNwtr7Q=;
-        b=K5TwnumODggM3WBroA2xjKir+Hf59I1szowVRTt0lzCy/25DKO4Auoy9KuasdBqFUu
-         UWvBOKOTmtxVhAOl4er1T2140+nu1Bz+99TiGL9+yTK//z+jqboMkU5aijHYP0BbYsOh
-         P/McaehM5toEAU772+pJGpQWNEZx5xhfrNPAJoKaW0IpWIVJaq0KjD8R8F3QXpB30i5m
-         XrT04TmEJJAw/8yrNXA4XJeGyU/uVcdsIpKRYnl9kRb2X6reSvrGJiWqLpi2xAFDwIgz
-         M+mClrFoRM5PxaczMRkZTVN0VXOBXS2l+ZY6dXc7xjKICM5LbtnpXVDT7unPYWdXqa7Y
-         wpCA==
+        bh=PFBS31SOQXYxw4yS+C4amFknlw8hawiRGGMxTbQ36y4=;
+        b=CT9czlwnMnLnA2cs0qndAQOiX2aPx2OSYAqbzTjXJr/BBhWM9cK1PNnFVhmDqrO9Nj
+         NkQml1h79HIx2biFYzVc5UeKJHOL44Q1INMyy/lKH50HhKXx0N2SESZFVEWWH6yuHvkr
+         2d6C1BrjDq9fm2aFqJ+RhhcZDwa6yMEiVjAniuAxk7neMUkPfEJfF16rOpLWJxCNajJr
+         sTVm9wiXxWgnLk64sKD4lOyDUkMUaKjOKM/EZahUgPoF4dqE866ndUC4DZs0iOz20pxU
+         e+hRKa5endOO4JBLJiHhqK2KxRUvVFsiFIdK7rmY4OLCE+PpIn9AVR8dqbRl4NI3BEJG
+         KcAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=PRLXnvg3FnToIBJTwXVR7d2TK/MHZSW5pjHfdNwtr7Q=;
-        b=j8GjM2Bo41r/1xmsv+JDRTN2hKdB/guE7FGC9qC7a1GLGyFQlqYqkEofOHXBxaQpj3
-         d6GQWZuQtx+l9yB81DwiMcUusRb+xyZjvPn5CKXEzwW3qP9/hJX/JpXZuOHAKuiOFL+H
-         lG6EyKIQF1V1g/sKaQDlG2W9pLTOSA0KivtEgrZLz0UIfg5bUOLZmXhwK78CCi9benJM
-         l2jCK+0PQWwzl54E1EK3++9/ROfX0wBI3RqWToUWvpMk/vDG3KaDh1xqqV0DDSJAq8xB
-         EsJ10++mSL4OXO3QwauYhgQyw16QcEVWcxI5AB6YSGhgOItR317g1SyR8uQY741EDlwJ
-         7gmQ==
-X-Gm-Message-State: APjAAAW6BoyYMpvGLBS/dX/NYUaJsVb1Rw1KY+HSQvs87awDzMD7319J
-        JLO+WWlBc9w8+gBfV9ETlbgSZzmOUnvkhL9DqaxE/g==
-X-Google-Smtp-Source: APXvYqxSccXA/VUA/6JwG1W+T505ogTb6cCEY1XA3skvxQHV+dYiYJA75B70f0UwwhMZGG1vCcs3UYjo4MLfLh9fEqXVcw==
-X-Received: by 2002:a25:aa87:: with SMTP id t7mr327533ybi.419.1556751907604;
- Wed, 01 May 2019 16:05:07 -0700 (PDT)
-Date:   Wed,  1 May 2019 16:01:26 -0700
+        bh=PFBS31SOQXYxw4yS+C4amFknlw8hawiRGGMxTbQ36y4=;
+        b=qMvtg1Srn8wPS/DN3BfjkbnB3GdFXkB+mMZ9vi8c7++S+Ruldi2PFCUPgceD7av1yi
+         5ZsIqNKcgVJ2OLkDXtekyNUROnP5pXKR1kSWuT4bkqtpo0bkyFqxkciBqujPopH6ntmu
+         aLxzHsv8/01VpfvdjKxD6kAfbzW8wDY4owqM16GKI7p01IwEHD9y/Zaj82P6P+vkyTpl
+         80WvYWVx3WfPrMIL12sNYCwViOMQx8HU/dhjaV1FuuxJHQQ7hU8wEEfRu/i6ecyjGdm1
+         PlPO/4BxQp8ZN8o9sZKbJ8iaqCbS1pj/UhCtY388Yi02jIuDp4Jl0qOw8TAIVNQzvLNB
+         I2RA==
+X-Gm-Message-State: APjAAAXrDk7xx/pr/7sdS5hyzcbDAWirPPfVySBv343Bilgeevzqbtc0
+        w0d7aLIi6+izMcPPXDgiA/oR9DfcAvp9+inw7c24AQ==
+X-Google-Smtp-Source: APXvYqyW0QaIJ9/fn349r10l0ts9l27TIANLui0Et8DiwcFOvDM/az2AcijbBC7llTdGDodV01VSlxHM/JSGOugaJ7WgKw==
+X-Received: by 2002:a67:ed44:: with SMTP id m4mr319097vsp.112.1556751905107;
+ Wed, 01 May 2019 16:05:05 -0700 (PDT)
+Date:   Wed,  1 May 2019 16:01:25 -0700
 In-Reply-To: <20190501230126.229218-1-brendanhiggins@google.com>
-Message-Id: <20190501230126.229218-18-brendanhiggins@google.com>
+Message-Id: <20190501230126.229218-17-brendanhiggins@google.com>
 Mime-Version: 1.0
 References: <20190501230126.229218-1-brendanhiggins@google.com>
 X-Mailer: git-send-email 2.21.0.593.g511ec345e18-goog
-Subject: [PATCH v2 17/17] MAINTAINERS: add proc sysctl KUnit test to PROC
- SYSCTL section
+Subject: [PATCH v2 16/17] kernel/sysctl-test: Add null pointer test for sysctl.c:proc_dointvec()
 From:   Brendan Higgins <brendanhiggins@google.com>
 To:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
         keescook@google.com, kieran.bingham@ideasonboard.com,
@@ -69,6 +68,7 @@ Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
         knut.omang@oracle.com, logang@deltatee.com, mpe@ellerman.id.au,
         pmladek@suse.com, richard@nod.at, rientjes@google.com,
         rostedt@goodmis.org, wfg@linux.intel.com,
+        Iurii Zaikin <yzaikin@google.com>,
         Brendan Higgins <brendanhiggins@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
@@ -76,25 +76,349 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add entry for the new proc sysctl KUnit test to the PROC SYSCTL section.
+From: Iurii Zaikin <yzaikin@google.com>
 
+KUnit tests for initialized data behavior of proc_dointvec that is
+explicitly checked in the code. Includes basic parsing tests including
+int min/max overflow.
+
+Signed-off-by: Iurii Zaikin <yzaikin@google.com>
 Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ kernel/Makefile      |   2 +
+ kernel/sysctl-test.c | 292 +++++++++++++++++++++++++++++++++++++++++++
+ lib/Kconfig.debug    |   6 +
+ 3 files changed, 300 insertions(+)
+ create mode 100644 kernel/sysctl-test.c
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c78ae95c56b80..23cc97332c3d7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12524,6 +12524,7 @@ S:	Maintained
- F:	fs/proc/proc_sysctl.c
- F:	include/linux/sysctl.h
- F:	kernel/sysctl.c
-+F:	kernel/sysctl-test.c
- F:	tools/testing/selftests/sysctl/
+diff --git a/kernel/Makefile b/kernel/Makefile
+index 6c57e78817dad..c81a8976b6a4b 100644
+--- a/kernel/Makefile
++++ b/kernel/Makefile
+@@ -112,6 +112,8 @@ obj-$(CONFIG_HAS_IOMEM) += iomem.o
+ obj-$(CONFIG_ZONE_DEVICE) += memremap.o
+ obj-$(CONFIG_RSEQ) += rseq.o
  
- PS3 NETWORK SUPPORT
++obj-$(CONFIG_SYSCTL_KUNIT_TEST) += sysctl-test.o
++
+ obj-$(CONFIG_GCC_PLUGIN_STACKLEAK) += stackleak.o
+ KASAN_SANITIZE_stackleak.o := n
+ KCOV_INSTRUMENT_stackleak.o := n
+diff --git a/kernel/sysctl-test.c b/kernel/sysctl-test.c
+new file mode 100644
+index 0000000000000..a0fba6b6fc2dc
+--- /dev/null
++++ b/kernel/sysctl-test.c
+@@ -0,0 +1,292 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * KUnit test of proc sysctl.
++ */
++
++#include <kunit/test.h>
++#include <linux/printk.h>
++#include <linux/sysctl.h>
++#include <linux/uaccess.h>
++
++static int i_zero;
++static int i_one_hundred = 100;
++
++struct test_sysctl_data {
++	int int_0001;
++	int int_0002;
++	int int_0003[4];
++
++	unsigned int uint_0001;
++
++	char string_0001[65];
++};
++
++static struct test_sysctl_data test_data = {
++	.int_0001 = 60,
++	.int_0002 = 1,
++
++	.int_0003[0] = 0,
++	.int_0003[1] = 1,
++	.int_0003[2] = 2,
++	.int_0003[3] = 3,
++
++	.uint_0001 = 314,
++
++	.string_0001 = "(none)",
++};
++
++static void sysctl_test_dointvec_null_tbl_data(struct kunit *test)
++{
++	struct ctl_table table = {
++		.procname = "foo",
++		.data		= NULL,
++		.maxlen		= sizeof(int),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec,
++		.extra1		= &i_zero,
++		.extra2         = &i_one_hundred,
++	};
++	void  *buffer = kunit_kzalloc(test, sizeof(int), GFP_USER);
++	size_t len;
++	loff_t pos;
++
++	len = 1234;
++	KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 0, buffer, &len, &pos));
++	KUNIT_EXPECT_EQ(test, 0, len);
++	len = 1234;
++	KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 1, buffer, &len, &pos));
++	KUNIT_EXPECT_EQ(test, 0, len);
++}
++
++static void sysctl_test_dointvec_table_maxlen_unset(struct kunit *test)
++{
++	struct ctl_table table = {
++		.procname = "foo",
++		.data		= &test_data.int_0001,
++		.maxlen		= 0,
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec,
++		.extra1		= &i_zero,
++		.extra2         = &i_one_hundred,
++	};
++	void  *buffer = kunit_kzalloc(test, sizeof(int), GFP_USER);
++	size_t len;
++	loff_t pos;
++
++	len = 1234;
++	KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 0, buffer, &len, &pos));
++	KUNIT_EXPECT_EQ(test, 0, len);
++	len = 1234;
++	KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 1, buffer, &len, &pos));
++	KUNIT_EXPECT_EQ(test, 0, len);
++}
++
++static void sysctl_test_dointvec_table_len_is_zero(struct kunit *test)
++{
++	struct ctl_table table = {
++		.procname = "foo",
++		.data		= &test_data.int_0001,
++		.maxlen		= sizeof(int),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec,
++		.extra1		= &i_zero,
++		.extra2         = &i_one_hundred,
++	};
++	void  *buffer = kunit_kzalloc(test, sizeof(int), GFP_USER);
++	size_t len;
++	loff_t pos;
++
++	len = 0;
++	KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 0, buffer, &len, &pos));
++	KUNIT_EXPECT_EQ(test, 0, len);
++	KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 1, buffer, &len, &pos));
++	KUNIT_EXPECT_EQ(test, 0, len);
++}
++
++static void sysctl_test_dointvec_table_read_but_position_set(struct kunit *test)
++{
++	struct ctl_table table = {
++		.procname = "foo",
++		.data		= &test_data.int_0001,
++		.maxlen		= sizeof(int),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec,
++		.extra1		= &i_zero,
++		.extra2         = &i_one_hundred,
++	};
++	void  *buffer = kunit_kzalloc(test, sizeof(int), GFP_USER);
++	size_t len;
++	loff_t pos;
++
++	len = 1234;
++	pos = 1;
++	KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 0, buffer, &len, &pos));
++	KUNIT_EXPECT_EQ(test, 0, len);
++}
++
++static void sysctl_test_dointvec_happy_single_positive(struct kunit *test)
++{
++	struct ctl_table table = {
++		.procname = "foo",
++		.data		= &test_data.int_0001,
++		.maxlen		= sizeof(int),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec,
++		.extra1		= &i_zero,
++		.extra2         = &i_one_hundred,
++	};
++	char input[] = "9";
++	size_t len = sizeof(input) - 1;
++	loff_t pos = 0;
++
++	table.data = kunit_kzalloc(test, sizeof(int), GFP_USER);
++	KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 1, input, &len, &pos));
++	KUNIT_EXPECT_EQ(test, sizeof(input) - 1, len);
++	KUNIT_EXPECT_EQ(test, sizeof(input) - 1, pos);
++	KUNIT_EXPECT_EQ(test, 9, *(int *)table.data);
++}
++
++static void sysctl_test_dointvec_happy_single_negative(struct kunit *test)
++{
++	struct ctl_table table = {
++		.procname = "foo",
++		.data		= &test_data.int_0001,
++		.maxlen		= sizeof(int),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec,
++		.extra1		= &i_zero,
++		.extra2         = &i_one_hundred,
++	};
++	char input[] = "-9";
++	size_t len = sizeof(input) - 1;
++	loff_t pos = 0;
++
++	table.data = kunit_kzalloc(test, sizeof(int), GFP_USER);
++	KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 1, input, &len, &pos));
++	KUNIT_EXPECT_EQ(test, sizeof(input) - 1, len);
++	KUNIT_EXPECT_EQ(test, sizeof(input) - 1, pos);
++	KUNIT_EXPECT_EQ(test, -9, *(int *)table.data);
++}
++
++static void sysctl_test_dointvec_single_less_int_min(struct kunit *test)
++{
++	struct ctl_table table = {
++		.procname = "foo",
++		.data		= &test_data.int_0001,
++		.maxlen		= sizeof(int),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec,
++		.extra1		= &i_zero,
++		.extra2         = &i_one_hundred,
++	};
++	char input[32];
++	size_t len = sizeof(input) - 1;
++	loff_t pos = 0;
++	long less_than_min = (long)INT_MIN - 1;
++
++	KUNIT_EXPECT_LT(test, less_than_min, INT_MIN);
++	KUNIT_EXPECT_LT(test,
++			snprintf(input, sizeof(input), "%ld", less_than_min),
++			sizeof(input));
++
++	table.data = kunit_kzalloc(test, sizeof(int), GFP_USER);
++	KUNIT_EXPECT_EQ(test, -EINVAL,
++			proc_dointvec(&table, 1, input, &len, &pos));
++	KUNIT_EXPECT_EQ(test, sizeof(input) - 1, len);
++	KUNIT_EXPECT_EQ(test, 0, *(int *)table.data);
++}
++
++static void sysctl_test_dointvec_single_greater_int_max(struct kunit *test)
++{
++	struct ctl_table table = {
++		.procname = "foo",
++		.data		= &test_data.int_0001,
++		.maxlen		= sizeof(int),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec,
++		.extra1		= &i_zero,
++		.extra2         = &i_one_hundred,
++	};
++	char input[32];
++	size_t len = sizeof(input) - 1;
++	loff_t pos = 0;
++	long greater_than_max = (long)INT_MAX + 1;
++
++	KUNIT_EXPECT_GT(test, greater_than_max, INT_MAX);
++	KUNIT_EXPECT_LT(test, snprintf(input, sizeof(input), "%ld",
++				       greater_than_max),
++			sizeof(input));
++	table.data = kunit_kzalloc(test, sizeof(int), GFP_USER);
++	KUNIT_EXPECT_EQ(test, -EINVAL,
++			proc_dointvec(&table, 1, input, &len, &pos));
++	KUNIT_EXPECT_EQ(test, sizeof(input) - 1, len);
++	KUNIT_EXPECT_EQ(test, 0, *(int *)table.data);
++}
++
++static int sysctl_test_init(struct kunit *test)
++{
++	return 0;
++}
++
++/*
++ * This is run once after each test case, see the comment on example_test_module
++ * for more information.
++ */
++static void sysctl_test_exit(struct kunit *test)
++{
++}
++
++/*
++ * Here we make a list of all the test cases we want to add to the test module
++ * below.
++ */
++static struct kunit_case sysctl_test_cases[] = {
++	/*
++	 * This is a helper to create a test case object from a test case
++	 * function; its exact function is not important to understand how to
++	 * use KUnit, just know that this is how you associate test cases with a
++	 * test module.
++	 */
++	KUNIT_CASE(sysctl_test_dointvec_null_tbl_data),
++	KUNIT_CASE(sysctl_test_dointvec_table_maxlen_unset),
++	KUNIT_CASE(sysctl_test_dointvec_table_len_is_zero),
++	KUNIT_CASE(sysctl_test_dointvec_table_read_but_position_set),
++	KUNIT_CASE(sysctl_test_dointvec_happy_single_positive),
++	KUNIT_CASE(sysctl_test_dointvec_happy_single_negative),
++	KUNIT_CASE(sysctl_test_dointvec_single_less_int_min),
++	KUNIT_CASE(sysctl_test_dointvec_single_greater_int_max),
++	{},
++};
++
++/*
++ * This defines a suite or grouping of tests.
++ *
++ * Test cases are defined as belonging to the suite by adding them to
++ * `test_cases`.
++ *
++ * Often it is desirable to run some function which will set up things which
++ * will be used by every test; this is accomplished with an `init` function
++ * which runs before each test case is invoked. Similarly, an `exit` function
++ * may be specified which runs after every test case and can be used to for
++ * cleanup. For clarity, running tests in a test module would behave as follows:
++ *
++ * module.init(test);
++ * module.test_case[0](test);
++ * module.exit(test);
++ * module.init(test);
++ * module.test_case[1](test);
++ * module.exit(test);
++ * ...;
++ */
++static struct kunit_module sysctl_test_module = {
++	.name = "sysctl_test",
++	.init = sysctl_test_init,
++	.exit = sysctl_test_exit,
++	.test_cases = sysctl_test_cases,
++};
++
++/*
++ * This registers the above test module telling KUnit that this is a suite of
++ * tests that need to be run.
++ */
++module_test(sysctl_test_module);
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index d5a4a4036d2f8..772af4ec70111 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -1908,6 +1908,12 @@ config TEST_SYSCTL
+ 
+ 	  If unsure, say N.
+ 
++config SYSCTL_KUNIT_TEST
++	bool "KUnit test for sysctl"
++	depends on KUNIT
++	help
++	  Enables KUnit sysctl test.
++
+ config TEST_UDELAY
+ 	tristate "udelay test driver"
+ 	help
 -- 
 2.21.0.593.g511ec345e18-goog
 
