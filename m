@@ -1,80 +1,140 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8C0E27D8A4
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  1 May 2019 22:02:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 16E8B7D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  1 May 2019 23:02:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726236AbfEAWBy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 1 May 2019 18:01:54 -0400
-Received: from mga05.intel.com ([192.55.52.43]:31714 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726137AbfEAWBy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 1 May 2019 18:01:54 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 May 2019 15:01:53 -0700
-X-ExtLoop1: 1
-Received: from yyu32-desk1.sc.intel.com ([143.183.136.147])
-  by orsmga002.jf.intel.com with ESMTP; 01 May 2019 15:01:49 -0700
-Message-ID: <1c69263279be0b2f6582e58a0bf28bc213d94693.camel@intel.com>
-Subject: Re: [PATCH] binfmt_elf: Extract .note.gnu.property from an ELF file
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
-Date:   Wed, 01 May 2019 14:54:23 -0700
-In-Reply-To: <20190501213709.GD28500@bombadil.infradead.org>
-References: <20190501211217.5039-1-yu-cheng.yu@intel.com>
-         <20190501213709.GD28500@bombadil.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.1-2 
+        id S1726139AbfEAXCL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 1 May 2019 19:02:11 -0400
+Received: from mail-vs1-f74.google.com ([209.85.217.74]:37535 "EHLO
+        mail-vs1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726137AbfEAXCL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 May 2019 19:02:11 -0400
+Received: by mail-vs1-f74.google.com with SMTP id b26so45383vsl.4
+        for <linux-doc@vger.kernel.org>; Wed, 01 May 2019 16:02:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=De7JrG6+3XL344zZMScSqunmKbgZceVjMJC0FL9AbxY=;
+        b=qtzfVeePMbJhJqE+Yf+Kv1DhoZE9ng7nvFaWF8RJXgdCikBdWv36SI916RGwYzUukq
+         xZ9iRq7CanllZWM7N5EMvSrH76h/QHHPUoEYCnmM+oUL1rzrZdP/C9kf6bQfkkH2oii8
+         V97WCJiEG/EbkMT96CrHZ3ULLAQCRx09BXRHAZU8A+nmmtZPD4qqi9tcI9XX7ENyOW6Q
+         pByKUepLMJrt85M4mkzTyPvyDYRRbm2pwYxrVTb6Gm/Oqz+saBFL/hmmcJKeXHcDy2/O
+         6eNpA52lwMEF/MP27yaxHbVokdjjs1RKVkQH0OPZY00rCv9fgG3G1mGLf74KJ8HBy8CY
+         U+lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=De7JrG6+3XL344zZMScSqunmKbgZceVjMJC0FL9AbxY=;
+        b=L2N3DMnCPSayODKKPKo31ejdimyXhGYBjEQo38ruuj0wvwNj5Nm7Rm9TtzGbcQxDZU
+         QPZnRMFFHhHf6iPicRzv9V6etm5Qe1MBTCLKeHSO4InYFo8Scvb9kEdMgVqxtpxz7HjF
+         oeCgAEi6tHMBii1HfO6IwbvCX6vKOGJUoJaeMFv6I6Oxh2zkvvyoK1WVwCzswqIxxWlP
+         +4R2/Z091OUnm5eTiMBjbRCCNBmWCE8sgPGt4FJPCNz1yg3zCR94vLsmZFCXRzuGaxyP
+         LOg3vLiPxc/2fnTED8U4PCDX1eqLQvWNjC96cDtuC7HE8LGyEW9fbslYjaI4dEJwZJ3M
+         i1aw==
+X-Gm-Message-State: APjAAAVfkK7WcEiv5RhY2y99ubcoFe5WWJXHdaaf4CjLHJaIAckGPcmE
+        sFlutTmJHC3PM6nLWwhXA++L6FX3Nbw5kt67bXJ0sA==
+X-Google-Smtp-Source: APXvYqytaGaXIlQSl5wsYvREjZvXVeqTJ4FhNvP2xNvz38NyshdL0U4pqVOMRR/ps0I6/FLnggB5b5wmfrnXtO1aUnE0lA==
+X-Received: by 2002:ab0:20a1:: with SMTP id y1mr213208ual.101.1556751729917;
+ Wed, 01 May 2019 16:02:09 -0700 (PDT)
+Date:   Wed,  1 May 2019 16:01:09 -0700
+Message-Id: <20190501230126.229218-1-brendanhiggins@google.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+X-Mailer: git-send-email 2.21.0.593.g511ec345e18-goog
+Subject: [PATCH v2 00/17] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+From:   Brendan Higgins <brendanhiggins@google.com>
+To:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
+        keescook@google.com, kieran.bingham@ideasonboard.com,
+        mcgrof@kernel.org, robh@kernel.org, sboyd@kernel.org,
+        shuah@kernel.org
+Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com,
+        dan.j.williams@intel.com, daniel@ffwll.ch, jdike@addtoit.com,
+        joel@jms.id.au, julia.lawall@lip6.fr, khilman@baylibre.com,
+        knut.omang@oracle.com, logang@deltatee.com, mpe@ellerman.id.au,
+        pmladek@suse.com, richard@nod.at, rientjes@google.com,
+        rostedt@goodmis.org, wfg@linux.intel.com,
+        Brendan Higgins <brendanhiggins@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2019-05-01 at 14:37 -0700, Matthew Wilcox wrote:
-> On Wed, May 01, 2019 at 02:12:17PM -0700, Yu-cheng Yu wrote:
-> > +++ b/fs/Kconfig.binfmt
-> > @@ -35,6 +35,10 @@ config COMPAT_BINFMT_ELF
-> >  config ARCH_BINFMT_ELF_STATE
-> >  	bool
-> >  
-> > +config ARCH_USE_GNU_PROPERTY
-> > +	bool
-> > +	depends on 64BIT
-> 
-> I don't think this is right.  I think you should get rid of the depends line
-> and instead select the symbol from each of argh64 and x86 Kconfig files.
+## TLDR
 
-That makes sense.  Thanks!
+I rebased the last patchset on 5.1-rc7 in hopes that we can get this in
+5.2.
 
-Yu-cheng
+Shuah, I think you, Greg KH, and myself talked off thread, and we agreed
+we would merge through your tree when the time came? Am I remembering
+correctly?
+
+## Background
+
+This patch set proposes KUnit, a lightweight unit testing and mocking
+framework for the Linux kernel.
+
+Unlike Autotest and kselftest, KUnit is a true unit testing framework;
+it does not require installing the kernel on a test machine or in a VM
+and does not require tests to be written in userspace running on a host
+kernel. Additionally, KUnit is fast: From invocation to completion KUnit
+can run several dozen tests in under a second. Currently, the entire
+KUnit test suite for KUnit runs in under a second from the initial
+invocation (build time excluded).
+
+KUnit is heavily inspired by JUnit, Python's unittest.mock, and
+Googletest/Googlemock for C++. KUnit provides facilities for defining
+unit test cases, grouping related test cases into test suites, providing
+common infrastructure for running tests, mocking, spying, and much more.
+
+## What's so special about unit testing?
+
+A unit test is supposed to test a single unit of code in isolation,
+hence the name. There should be no dependencies outside the control of
+the test; this means no external dependencies, which makes tests orders
+of magnitudes faster. Likewise, since there are no external dependencies,
+there are no hoops to jump through to run the tests. Additionally, this
+makes unit tests deterministic: a failing unit test always indicates a
+problem. Finally, because unit tests necessarily have finer granularity,
+they are able to test all code paths easily solving the classic problem
+of difficulty in exercising error handling code.
+
+## Is KUnit trying to replace other testing frameworks for the kernel?
+
+No. Most existing tests for the Linux kernel are end-to-end tests, which
+have their place. A well tested system has lots of unit tests, a
+reasonable number of integration tests, and some end-to-end tests. KUnit
+is just trying to address the unit test space which is currently not
+being addressed.
+
+## More information on KUnit
+
+There is a bunch of documentation near the end of this patch set that
+describes how to use KUnit and best practices for writing unit tests.
+For convenience I am hosting the compiled docs here:
+https://google.github.io/kunit-docs/third_party/kernel/docs/
+Additionally for convenience, I have applied these patches to a branch:
+https://kunit.googlesource.com/linux/+/kunit/rfc/v5.1-rc7/v1
+The repo may be cloned with:
+git clone https://kunit.googlesource.com/linux
+This patchset is on the kunit/rfc/v5.1-rc7/v1 branch.
+
+## Changes Since Last Version
+
+None. I just rebased the last patchset on v5.1-rc7.
+
+-- 
+2.21.0.593.g511ec345e18-goog
+
