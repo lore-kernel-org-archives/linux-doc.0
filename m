@@ -1,119 +1,96 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 294DE7D912
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  1 May 2019 03:01:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8CBC37D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  1 May 2019 04:24:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726077AbfEADA5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 30 Apr 2019 23:00:57 -0400
-Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:57075 "EHLO
-        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725909AbfEADAz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Apr 2019 23:00:55 -0400
-Received: from callcc.thunk.org (adsl-173-228-226-134.prtc.net [173.228.226.134])
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x412xVCE001527
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 30 Apr 2019 22:59:32 -0400
-Received: by callcc.thunk.org (Postfix, from userid 15806)
-        id 95C10420023; Tue, 30 Apr 2019 22:59:30 -0400 (EDT)
-Date:   Tue, 30 Apr 2019 22:59:30 -0400
-From:   "Theodore Ts'o" <tytso@mit.edu>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Olaf Weber <olaf@sgi.com>,
-        Gabriel Krisman Bertazi <krisman@collabora.co.uk>,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
-        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2] unicode: refactor the rule for regenerating utf8data.h
-Message-ID: <20190501025930.GB5377@mit.edu>
-Mail-Followup-To: Theodore Ts'o <tytso@mit.edu>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Olaf Weber <olaf@sgi.com>,
-        Gabriel Krisman Bertazi <krisman@collabora.co.uk>,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
-        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-fsdevel@vger.kernel.org
-References: <1556507731-830-1-git-send-email-yamada.masahiro@socionext.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1556507731-830-1-git-send-email-yamada.masahiro@socionext.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1726101AbfEAEYg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 1 May 2019 00:24:36 -0400
+Received: from mail-it1-f194.google.com ([209.85.166.194]:50857 "EHLO
+        mail-it1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725298AbfEAEYf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 May 2019 00:24:35 -0400
+Received: by mail-it1-f194.google.com with SMTP id q14so8375221itk.0;
+        Tue, 30 Apr 2019 21:24:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+         :reply-to:organization;
+        bh=Nk48nKxFrzVCbK/utRpRT/1210jzyM5INfoRqpnVTi0=;
+        b=hAjGPJJwuCRGfx7J5DNr7yixJbVMhYzPBZftMDPiFmRzYV2GTkZynFtEWe7oki+5LX
+         d/4twZjqbNISjooUyKgalqeHdcZF0c5pvEr/Jkn5pOJyEROW9EnLQjzlG/pyZ6zYo1oN
+         DajJB8QL5feM8TkJpmbDyjR/6Q1gV19JzbAeVlNnfFYGBwqKulvrNgbY8DZyEZV9yOPT
+         F3UZjQuKA4r/M0KXBpNL5cGbI7HUUr9RPG9OUwZL1lZ6ulsG87W3k4mgsYAVTzDAH5Qx
+         waYgVeb68BYyjzvSr/rLMltXFUHczwu/fQKn1c5RWth+eMWvKzkbhT4ExSn9Fgv4xlyP
+         Z2oQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :in-reply-to:references:reply-to:organization;
+        bh=Nk48nKxFrzVCbK/utRpRT/1210jzyM5INfoRqpnVTi0=;
+        b=p9NeGFbYZxXWx3Z41vwloO4DLjae6E/UwZuVWfV7Ssguyf2ACQ781XTIRwmgk8oHvY
+         6nUsn3vEzcjaAE8bu5KsY9AD2gDGJycK7lAtqUZAmEfaxgVHsjIMaiktFL+P5BxNxudm
+         c1Nn2wK2rE+h4VY9bTdPY78hxewDadCUYv7uEMaV0PGBpdSWearDd++on5j6/HSDCKKt
+         ervA80CvMbJfA2eZI4xqNM6hVlOfcsHCQNaM4AeUtyqc43P7O3WDw7W9AKtKr9szW5yu
+         eHKf8Fj9UzdUJo9UZcpEsj1P3z8MIz9cO4IbdgId2uTFBjOazncJMD77/W8Zw+Basuxf
+         kXqQ==
+X-Gm-Message-State: APjAAAWFWs+YoQN5g6hI4JJy6Hn7WekJYJhzRRjP75tnPnoQo/YzgqW/
+        HM8jtbgspr+NRMs1mz6hn2o=
+X-Google-Smtp-Source: APXvYqwWa2ZAqJt4ecnI9pcgMvcwq1G4EZn6BY/+uHQYojEevrJIVmj0qsNp2jOhfMoHIObotM6eqQ==
+X-Received: by 2002:a24:9414:: with SMTP id j20mr6385601ite.91.1556684674965;
+        Tue, 30 Apr 2019 21:24:34 -0700 (PDT)
+Received: from nuc8.lan (h69-131-112-51.cntcnh.dsl.dynamic.tds.net. [69.131.112.51])
+        by smtp.gmail.com with ESMTPSA id b8sm2569728itb.20.2019.04.30.21.24.33
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 30 Apr 2019 21:24:34 -0700 (PDT)
+From:   Len Brown <lenb@kernel.org>
+To:     x86@kernel.org
+Cc:     linux-kernel@vger.kernel.org, Len Brown <len.brown@intel.com>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH 01/18] x86 topology: Fix doc typo
+Date:   Wed,  1 May 2019 00:24:10 -0400
+Message-Id: <6f53f0e494d743c79e18f6e3a98085711e6ddd0c.1556657368.git.len.brown@intel.com>
+X-Mailer: git-send-email 2.18.0-rc0
+In-Reply-To: <20190501042427.13156-1-lenb@kernel.org>
+References: <20190501042427.13156-1-lenb@kernel.org>
+Reply-To: Len Brown <lenb@kernel.org>
+Organization: Intel Open Source Technology Center
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 29, 2019 at 12:15:31PM +0900, Masahiro Yamada wrote:
-> scripts/mkutf8data is used only when regenerating utf8data.h,
-> which never happens in the normal kernel build. However, it is
-> irrespectively built if CONFIG_UNICODE is enabled.
-> 
-> Moreover, there is no good reason for it to reside in the scripts/
-> directory since it is only used in fs/unicode/.
-> 
-> Hence, move it from scripts/ to fs/unicode/.
-> 
-> In some cases, we bypass build artifacts in the normal build. The
-> conventional way to do so is to surround the code with ifdef REGENERATE_*.
-> 
-> For example,
-> 
->  - 7373f4f83c71 ("kbuild: add implicit rules for parser generation")
->  - 6aaf49b495b4 ("crypto: arm,arm64 - Fix random regeneration of S_shipped")
-> 
-> I rewrote the rule in a more kbuild'ish style.
-> 
-> In the normal build, utf8data.h is just shipped from the check-in file.
-> 
-> $ make
->   [ snip ]
->   SHIPPED fs/unicode/utf8data.h
->   CC      fs/unicode/utf8-norm.o
->   CC      fs/unicode/utf8-core.o
->   CC      fs/unicode/utf8-selftest.o
->   AR      fs/unicode/built-in.a
-> 
-> If you want to generate utf8data.h based on UCD, put *.txt files into
-> fs/unicode/, then pass REGENERATE_UTF8DATA=1 from the command line.
-> The mkutf8data tool will be automatically compiled to generate the
-> utf8data.h from the *.txt files.
-> 
-> $ make REGENERATE_UTF8DATA=1
->   [ snip ]
->   HOSTCC  fs/unicode/mkutf8data
->   GEN     fs/unicode/utf8data.h
->   CC      fs/unicode/utf8-norm.o
->   CC      fs/unicode/utf8-core.o
->   CC      fs/unicode/utf8-selftest.o
->   AR      fs/unicode/built-in.a
-> 
-> I renamed the check-in utf8data.h to utf8data.h_shipped so that this
-> will work for the out-of-tree build.
-> 
-> You can update it based on the latest UCD like this:
-> 
-> $ make REGENERATE_UTF8DATA=1 fs/unicode/
-> $ cp fs/unicode/utf8data.h fs/unicode/utf8data.h_shipped
-> 
-> Also, I added entries to .gitignore and dontdiff.
-> 
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> ---
-> 
-> Changes in v2:
->  - Make this work correctly with O= option
+From: Len Brown <len.brown@intel.com>
 
-Thanks, I've updated my tree to use this version of the commit.
+Syntax only, no functional or semantic change.
 
-	     	     	     	    	 - Ted
+reflect actual cpuinfo_x86 field name:
+
+s/logical_id/logical_proc_id/
+
+Signed-off-by: Len Brown <len.brown@intel.com>
+Cc: linux-doc@vger.kernel.org
+---
+ Documentation/x86/topology.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/x86/topology.txt b/Documentation/x86/topology.txt
+index 2953e3ec9a02..06b3cdbc4048 100644
+--- a/Documentation/x86/topology.txt
++++ b/Documentation/x86/topology.txt
+@@ -51,7 +51,7 @@ The topology of a system is described in the units of:
+     The physical ID of the package. This information is retrieved via CPUID
+     and deduced from the APIC IDs of the cores in the package.
+ 
+-  - cpuinfo_x86.logical_id:
++  - cpuinfo_x86.logical_proc_id:
+ 
+     The logical ID of the package. As we do not trust BIOSes to enumerate the
+     packages in a consistent way, we introduced the concept of logical package
+-- 
+2.18.0-rc0
+
