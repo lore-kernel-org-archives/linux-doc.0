@@ -1,305 +1,114 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 01F817D8A4
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  1 May 2019 04:26:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E063F7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  1 May 2019 06:32:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725298AbfEAEYk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 1 May 2019 00:24:40 -0400
-Received: from mail-it1-f196.google.com ([209.85.166.196]:56250 "EHLO
-        mail-it1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726128AbfEAEYj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 May 2019 00:24:39 -0400
-Received: by mail-it1-f196.google.com with SMTP id w130so8318020itc.5;
-        Tue, 30 Apr 2019 21:24:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :reply-to:organization;
-        bh=isOyLkQGIr28y954+xXmnr2KCoPmXbiRFpy/WFUCd6k=;
-        b=qIvFbygzhhkX34dCerxJLtL9Ok+IYl2hARsOkud/SaiN2XCSb3O6T0pXPFRIm8kykW
-         nS2dGeiupT4z4cqgQoNzX4TGnbs8Qzkwad6CWx+t5/CkVw5G6QmhH9XXlvSr2eRND02O
-         2N3zqSIRdQLkkId/SlpadAbRco5eJ2hdycli+Ek4bZ33/2EIJugMmxyb/IvOjWdQBUaV
-         QFJXn7jXaG3cgM6VDDDpXQEPWV6gaR0pNJHBK69eS4nfXN52BwcH0T37CMFLrY+/ZClu
-         IxhiTIfjBBCnghIoKzW6xbh6aDnopY5JlWRL3wj0hufpDQv07mkTY8DrptWKydXrDshx
-         rmXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :in-reply-to:references:reply-to:organization;
-        bh=isOyLkQGIr28y954+xXmnr2KCoPmXbiRFpy/WFUCd6k=;
-        b=PpzfQ3Tq8xvWtLAH8CEfb5atlLIfUGBAcyT+NQnWTwXWUMRREIQq/hdZHupx3slEi/
-         9wbdPUPhSNQry+DUozYP9uGkSBRMn6JxPhe2NM5FqjpYZ6iTvQVmqHHWYZ695eUbYg6+
-         S85YjJH/eb5w4LkmVU/1TQyaG0KI49c2uv6G9LLN7iFaln8UcUhIXGxydBU+8jp1+1Y2
-         jm63SsQWPAYX3IEE4Y5UpScjSsi8f03UpjfFiY0l0FU93yglViXDxDw9/rVZfOJk4gLY
-         q5UI8Ip4AtQVvtuEJM8JpREnTn4lzRRO2Oyn9vD0PDf4alZkw3TM9NkAParzm+DU8R45
-         hLdg==
-X-Gm-Message-State: APjAAAXpzxCaVxaLGvKbeTnk7m5wMKDluzNxC2tZMORt0bgXbAhvQzB0
-        Ci+h4Ob3E8q60gakNioou+0=
-X-Google-Smtp-Source: APXvYqw/Zfg51QY3Xssm1fg/rZBSPWdIwT5uadnm0wwTyQhfZkxvnCeUdSMgMYS9K1jFEE8OeWX/iA==
-X-Received: by 2002:a24:1f50:: with SMTP id d77mr6392514itd.25.1556684679088;
-        Tue, 30 Apr 2019 21:24:39 -0700 (PDT)
-Received: from nuc8.lan (h69-131-112-51.cntcnh.dsl.dynamic.tds.net. [69.131.112.51])
-        by smtp.gmail.com with ESMTPSA id b8sm2569728itb.20.2019.04.30.21.24.37
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 30 Apr 2019 21:24:38 -0700 (PDT)
-From:   Len Brown <lenb@kernel.org>
-To:     x86@kernel.org
-Cc:     linux-kernel@vger.kernel.org, Len Brown <len.brown@intel.com>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 04/18] x86 topology: Add CPUID.1F multi-die/package support
-Date:   Wed,  1 May 2019 00:24:13 -0400
-Message-Id: <0b3e54cf35965be35725730b7a50d00068518f75.1556657368.git.len.brown@intel.com>
-X-Mailer: git-send-email 2.18.0-rc0
-In-Reply-To: <6f53f0e494d743c79e18f6e3a98085711e6ddd0c.1556657368.git.len.brown@intel.com>
-References: <6f53f0e494d743c79e18f6e3a98085711e6ddd0c.1556657368.git.len.brown@intel.com>
-Reply-To: Len Brown <lenb@kernel.org>
-Organization: Intel Open Source Technology Center
+        id S1725973AbfEAGcJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 1 May 2019 02:32:09 -0400
+Received: from mail-eopbgr20100.outbound.protection.outlook.com ([40.107.2.100]:31200
+        "EHLO EUR02-VE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725776AbfEAGcJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 1 May 2019 02:32:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.se;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zzb9vUd4d1YkAInqZkuXsKBS405lJk3GCp+bez9xrEA=;
+ b=mwGfmt1HW2reSS1KLLQQfBv0f2nm+RPNXY/f4y5/3jj5b6GVFVh175QoqbYrJbkDxA1XIQg0rEOBj46UONC6mIKsSauUfOXUbRiGc3US7zrdNrJ4NkcLMAo2HcMJOstCjjs39utePIvWP6Aj35rl8Btjisa0IaTmPp/AtTrZzHg=
+Received: from VI1PR10MB2672.EURPRD10.PROD.OUTLOOK.COM (20.178.126.212) by
+ VI1PR10MB2445.EURPRD10.PROD.OUTLOOK.COM (20.177.62.153) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1835.16; Wed, 1 May 2019 06:32:02 +0000
+Received: from VI1PR10MB2672.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::48b8:9cff:182:f3d8]) by VI1PR10MB2672.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::48b8:9cff:182:f3d8%2]) with mapi id 15.20.1856.008; Wed, 1 May 2019
+ 06:32:02 +0000
+From:   Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+To:     "Jerry.Hoemann@hpe.com" <Jerry.Hoemann@hpe.com>
+CC:     "linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Esben Haabendal <esben@haabendal.dk>,
+        "martin@hundeboll.net" <martin@hundeboll.net>,
+        Rasmus Villemoes <Rasmus.Villemoes@prevas.se>
+Subject: Re: [PATCH v9 0/3] watchdog: allow setting deadline for opening
+ /dev/watchdogN
+Thread-Topic: [PATCH v9 0/3] watchdog: allow setting deadline for opening
+ /dev/watchdogN
+Thread-Index: AQHUscpDmplMI0yNIE6bua5CvRNO/KZV/4GAgABsEQA=
+Date:   Wed, 1 May 2019 06:32:02 +0000
+Message-ID: <31d75b51-6cd6-9029-40a5-fec631e110bf@prevas.dk>
+References: <20190116121432.26732-1-rasmus.villemoes@prevas.dk>
+ <20190121204527.5548-1-rasmus.villemoes@prevas.dk>
+ <20190501000511.GA25050@anatevka>
+In-Reply-To: <20190501000511.GA25050@anatevka>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR09CA0071.eurprd09.prod.outlook.com
+ (2603:10a6:7:3d::15) To VI1PR10MB2672.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:803:e3::20)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Rasmus.Villemoes@prevas.se; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [81.216.59.226]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 89c97c9b-046f-43b6-5648-08d6cdfeb86e
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(2017052603328)(7193020);SRVR:VI1PR10MB2445;
+x-ms-traffictypediagnostic: VI1PR10MB2445:
+x-microsoft-antispam-prvs: <VI1PR10MB244502683A17A360EB99954B8A3B0@VI1PR10MB2445.EURPRD10.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 00246AB517
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(366004)(376002)(136003)(39850400004)(396003)(346002)(199004)(189003)(66446008)(2906002)(476003)(66066001)(81166006)(64756008)(81156014)(6246003)(4326008)(66556008)(107886003)(2501003)(66946007)(25786009)(6512007)(6486002)(36756003)(66476007)(6916009)(6116002)(8676002)(73956011)(53936002)(8976002)(52116002)(256004)(229853002)(8936002)(3846002)(68736007)(5640700003)(6436002)(74482002)(71190400001)(2351001)(7736002)(305945005)(42882007)(11346002)(486006)(446003)(26005)(14454004)(71200400001)(72206003)(186003)(478600001)(99286004)(31686004)(6506007)(386003)(5660300002)(102836004)(316002)(76176011)(44832011)(54906003)(31696002)(2616005);DIR:OUT;SFP:1102;SCL:1;SRVR:VI1PR10MB2445;H:VI1PR10MB2672.EURPRD10.PROD.OUTLOOK.COM;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: prevas.se does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 9gFa7ZrD39oH2fEoRwnEh2Z+vgAsLsMb6WWIdR6j7GSAUNQlaEvVsbyTQWaLlgz5kCNPE7cq5RdKDYF+UJfLnezHV5mSqAVIx/WbGLA1tdnX3O0zpXEiKDfmIUUKsSUfU0Imq7fSajchzPajiurlya4Gk9kE/V8NOr9dFssN0FtC66e7fNWVWG6BQtgIg58sf0BnO1TgU0wO6gRnzrOnxfr3HNrOblNlQDRbFv9ozVLvnPUUFvKGmvpZn/0DTPS4kXZIwbRm90q0b2Ui+ZRZfgPOcoolwpqg+kdhvwcGK4Icuhwm9Do39dQflHmslvtcwWOKB96693tfIE6C85XfPuaEbjP8VmHTdr5xrBfwbPasV5ZlXbE5IVzh2SgkE4kpQI+xxBkhjhA3ET7OmjK7IjnhaZw0bToC+2rEgHnf6cs=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <FB086433BD17BF4893190A6BD32355D2@EURPRD10.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: prevas.dk
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89c97c9b-046f-43b6-5648-08d6cdfeb86e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 May 2019 06:32:02.1901
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d350cf71-778d-4780-88f5-071a4cb1ed61
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB2445
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Len Brown <len.brown@intel.com>
-
-Some new systems have multiple software-visible die within each package.
-
-Update Linux parsing of the Intel CPUID "Extended Topology Leaf"
-to handle either CPUID.B, or the new CPUID.1F.
-
-Add cpuinfo_x86.die_id and cpuinfo_x86.max_dies to store the result.
-
-die_id will be non-zero only for multi-die/package systems.
-
-Signed-off-by: Len Brown <len.brown@intel.com>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/x86/topology.txt   |  4 ++
- arch/x86/include/asm/processor.h |  4 +-
- arch/x86/kernel/cpu/topology.c   | 85 +++++++++++++++++++++++++-------
- arch/x86/kernel/smpboot.c        |  2 +
- 4 files changed, 75 insertions(+), 20 deletions(-)
-
-diff --git a/Documentation/x86/topology.txt b/Documentation/x86/topology.txt
-index 06b3cdbc4048..8107b6cfc9ea 100644
---- a/Documentation/x86/topology.txt
-+++ b/Documentation/x86/topology.txt
-@@ -46,6 +46,10 @@ The topology of a system is described in the units of:
- 
-     The number of cores in a package. This information is retrieved via CPUID.
- 
-+  - cpuinfo_x86.x86_max_dies:
-+
-+    The number of dies in a package. This information is retrieved via CPUID.
-+
-   - cpuinfo_x86.phys_proc_id:
- 
-     The physical ID of the package. This information is retrieved via CPUID
-diff --git a/arch/x86/include/asm/processor.h b/arch/x86/include/asm/processor.h
-index 2bb3a648fc12..2507edc30cc2 100644
---- a/arch/x86/include/asm/processor.h
-+++ b/arch/x86/include/asm/processor.h
-@@ -105,7 +105,8 @@ struct cpuinfo_x86 {
- 	int			x86_power;
- 	unsigned long		loops_per_jiffy;
- 	/* cpuid returned max cores value: */
--	u16			 x86_max_cores;
-+	u16			x86_max_cores;
-+	u16			x86_max_dies;
- 	u16			apicid;
- 	u16			initial_apicid;
- 	u16			x86_clflush_size;
-@@ -117,6 +118,7 @@ struct cpuinfo_x86 {
- 	u16			logical_proc_id;
- 	/* Core id: */
- 	u16			cpu_core_id;
-+	u16			cpu_die_id;
- 	/* Index into per_cpu list: */
- 	u16			cpu_index;
- 	u32			microcode;
-diff --git a/arch/x86/kernel/cpu/topology.c b/arch/x86/kernel/cpu/topology.c
-index 8f6c784141d1..4d17e699657d 100644
---- a/arch/x86/kernel/cpu/topology.c
-+++ b/arch/x86/kernel/cpu/topology.c
-@@ -15,33 +15,63 @@
- /* leaf 0xb SMT level */
- #define SMT_LEVEL	0
- 
--/* leaf 0xb sub-leaf types */
-+/* extended topology sub-leaf types */
- #define INVALID_TYPE	0
- #define SMT_TYPE	1
- #define CORE_TYPE	2
-+#define DIE_TYPE	5
- 
- #define LEAFB_SUBTYPE(ecx)		(((ecx) >> 8) & 0xff)
- #define BITS_SHIFT_NEXT_LEVEL(eax)	((eax) & 0x1f)
- #define LEVEL_MAX_SIBLINGS(ebx)		((ebx) & 0xffff)
- 
--int detect_extended_topology_early(struct cpuinfo_x86 *c)
--{
- #ifdef CONFIG_SMP
-+/*
-+ * Check if given CPUID extended toplogy "leaf" is implemented
-+ */
-+static int check_extended_topology_leaf(int leaf)
-+{
- 	unsigned int eax, ebx, ecx, edx;
- 
--	if (c->cpuid_level < 0xb)
-+	cpuid_count(leaf, SMT_LEVEL, &eax, &ebx, &ecx, &edx);
-+
-+	if (ebx == 0 || (LEAFB_SUBTYPE(ecx) != SMT_TYPE))
- 		return -1;
- 
--	cpuid_count(0xb, SMT_LEVEL, &eax, &ebx, &ecx, &edx);
-+	return 0;
-+}
-+/*
-+ * Return best CPUID Extended Toplogy Leaf supported
-+ */
-+static int detect_extended_topology_leaf(struct cpuinfo_x86 *c)
-+{
-+	if (c->cpuid_level >= 0x1f) {
-+		if (check_extended_topology_leaf(0x1f) == 0)
-+			return 0x1f;
-+	}
- 
--	/*
--	 * check if the cpuid leaf 0xb is actually implemented.
--	 */
--	if (ebx == 0 || (LEAFB_SUBTYPE(ecx) != SMT_TYPE))
-+	if (c->cpuid_level >= 0xb) {
-+		if (check_extended_topology_leaf(0xb) == 0)
-+			return 0xb;
-+	}
-+
-+	return -1;
-+}
-+#endif
-+
-+int detect_extended_topology_early(struct cpuinfo_x86 *c)
-+{
-+#ifdef CONFIG_SMP
-+	unsigned int eax, ebx, ecx, edx;
-+	int leaf;
-+
-+	leaf = detect_extended_topology_leaf(c);
-+	if (leaf < 0)
- 		return -1;
- 
- 	set_cpu_cap(c, X86_FEATURE_XTOPOLOGY);
- 
-+	cpuid_count(leaf, SMT_LEVEL, &eax, &ebx, &ecx, &edx);
- 	/*
- 	 * initial apic id, which also represents 32-bit extended x2apic id.
- 	 */
-@@ -52,7 +82,7 @@ int detect_extended_topology_early(struct cpuinfo_x86 *c)
- }
- 
- /*
-- * Check for extended topology enumeration cpuid leaf 0xb and if it
-+ * Check for extended topology enumeration cpuid leaf, and if it
-  * exists, use it for populating initial_apicid and cpu topology
-  * detection.
-  */
-@@ -60,22 +90,28 @@ int detect_extended_topology(struct cpuinfo_x86 *c)
- {
- #ifdef CONFIG_SMP
- 	unsigned int eax, ebx, ecx, edx, sub_index;
--	unsigned int ht_mask_width, core_plus_mask_width;
-+	unsigned int ht_mask_width, core_plus_mask_width, die_plus_mask_width;
- 	unsigned int core_select_mask, core_level_siblings;
-+	unsigned int die_select_mask, die_level_siblings;
-+	int leaf;
- 
--	if (detect_extended_topology_early(c) < 0)
-+	leaf = detect_extended_topology_leaf(c);
-+	if (leaf < 0)
- 		return -1;
- 
- 	/*
- 	 * Populate HT related information from sub-leaf level 0.
- 	 */
--	cpuid_count(0xb, SMT_LEVEL, &eax, &ebx, &ecx, &edx);
-+	cpuid_count(leaf, SMT_LEVEL, &eax, &ebx, &ecx, &edx);
-+	c->initial_apicid = edx;
- 	core_level_siblings = smp_num_siblings = LEVEL_MAX_SIBLINGS(ebx);
- 	core_plus_mask_width = ht_mask_width = BITS_SHIFT_NEXT_LEVEL(eax);
-+	die_level_siblings = LEVEL_MAX_SIBLINGS(ebx);
-+	die_plus_mask_width = BITS_SHIFT_NEXT_LEVEL(eax);
- 
- 	sub_index = 1;
- 	do {
--		cpuid_count(0xb, sub_index, &eax, &ebx, &ecx, &edx);
-+		cpuid_count(leaf, sub_index, &eax, &ebx, &ecx, &edx);
- 
- 		/*
- 		 * Check for the Core type in the implemented sub leaves.
-@@ -83,23 +119,34 @@ int detect_extended_topology(struct cpuinfo_x86 *c)
- 		if (LEAFB_SUBTYPE(ecx) == CORE_TYPE) {
- 			core_level_siblings = LEVEL_MAX_SIBLINGS(ebx);
- 			core_plus_mask_width = BITS_SHIFT_NEXT_LEVEL(eax);
--			break;
-+			die_level_siblings = core_level_siblings;
-+			die_plus_mask_width = BITS_SHIFT_NEXT_LEVEL(eax);
-+		}
-+		if (LEAFB_SUBTYPE(ecx) == DIE_TYPE) {
-+			die_level_siblings = LEVEL_MAX_SIBLINGS(ebx);
-+			die_plus_mask_width = BITS_SHIFT_NEXT_LEVEL(eax);
- 		}
- 
- 		sub_index++;
- 	} while (LEAFB_SUBTYPE(ecx) != INVALID_TYPE);
- 
- 	core_select_mask = (~(-1 << core_plus_mask_width)) >> ht_mask_width;
--
--	c->cpu_core_id = apic->phys_pkg_id(c->initial_apicid, ht_mask_width)
--						 & core_select_mask;
--	c->phys_proc_id = apic->phys_pkg_id(c->initial_apicid, core_plus_mask_width);
-+	die_select_mask = (~(-1 << die_plus_mask_width)) >>
-+				core_plus_mask_width;
-+
-+	c->cpu_core_id = apic->phys_pkg_id(c->initial_apicid,
-+				ht_mask_width) & core_select_mask;
-+	c->cpu_die_id = apic->phys_pkg_id(c->initial_apicid,
-+				core_plus_mask_width) & die_select_mask;
-+	c->phys_proc_id = apic->phys_pkg_id(c->initial_apicid,
-+				die_plus_mask_width);
- 	/*
- 	 * Reinit the apicid, now that we have extended initial_apicid.
- 	 */
- 	c->apicid = apic->phys_pkg_id(c->initial_apicid, 0);
- 
- 	c->x86_max_cores = (core_level_siblings / smp_num_siblings);
-+	c->x86_max_dies = (die_level_siblings / core_level_siblings);
- #endif
- 	return 0;
- }
-diff --git a/arch/x86/kernel/smpboot.c b/arch/x86/kernel/smpboot.c
-index 3f8bbfb26c18..05f9cfdddffd 100644
---- a/arch/x86/kernel/smpboot.c
-+++ b/arch/x86/kernel/smpboot.c
-@@ -389,6 +389,7 @@ static bool match_smt(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
- 		int cpu1 = c->cpu_index, cpu2 = o->cpu_index;
- 
- 		if (c->phys_proc_id == o->phys_proc_id &&
-+		    c->cpu_die_id == o->cpu_die_id &&
- 		    per_cpu(cpu_llc_id, cpu1) == per_cpu(cpu_llc_id, cpu2)) {
- 			if (c->cpu_core_id == o->cpu_core_id)
- 				return topology_sane(c, o, "smt");
-@@ -400,6 +401,7 @@ static bool match_smt(struct cpuinfo_x86 *c, struct cpuinfo_x86 *o)
- 		}
- 
- 	} else if (c->phys_proc_id == o->phys_proc_id &&
-+		   c->cpu_die_id == o->cpu_die_id &&
- 		   c->cpu_core_id == o->cpu_core_id) {
- 		return topology_sane(c, o, "smt");
- 	}
--- 
-2.18.0-rc0
-
+T24gMDEvMDUvMjAxOSAwMi4wNSwgSmVycnkgSG9lbWFubiB3cm90ZToNCj4gT24gTW9uLCBKYW4g
+MjEsIDIwMTkgYXQgMDg6NDU6MzhQTSArMDAwMCwgUmFzbXVzIFZpbGxlbW9lcyB3cm90ZToNCj4+
+DQo+PiBUaGVzZSBwYXRjaGVzIGFsbG93IG9uZSB0byBzZXQgYSBtYXhpbXVtIHRpbWUgZm9yIHdo
+aWNoIHRoZSBrZXJuZWwNCj4+IHdpbGwgZmVlZCB0aGUgd2F0Y2hkb2csDQo+IA0KPiBSYXNtdXMs
+DQo+IA0KPiBTb3JyeSBpZiBJIG1pc3NlZCBpdCwgYnV0IGFyZSB5b3Ugc3RpbGwgbG9va2luZyBp
+bnRvIGFkZGluZw0KPiB0aGlzIGZlYXR1cmU/IA0KDQpJIGFtLCBhbmQgc3RpbGwgaW50ZW5kIHRv
+IGdldCBhcm91bmQgdG8gaXQgd2hlbiBJIGdldCBzb21lIGlkbGUgY3ljbGVzLg0KDQpJIHdhcyB0
+aGlua2luZyBpdCBtaWdodCBhbHNvIGJlIHVzZWZ1bCB3aXRoDQo+IGtkdW1wIHdoZW4gYSB3YXRj
+aGRvZyB3YXMgcnVubmluZyBpbiB0aGUgZmlyc3Qga2VybmVsLg0KPiANCj4gQWZ0ZXIgYSBwYW5p
+YyBpZiBrZHVtcCBpcyBjb25maWd1cmVkLCB0aGUgc3lzdGVtIHdpbGwgYm9vdCB0aGUNCj4gY3Jh
+c2gga2VybmVsLiAgSWYgYSB3YXRjaGRvZyB3YXMgcnVubmluZyBpbiB0aGUgZmlyc3Qga2VybmVs
+DQo+IGl0IHdvdWxkIHN0aWxsIHJ1bm5pbmcgaW4gdGhlIGNyYXNoIGtlcm5lbCBlbnZpcm9ubWVu
+dC4NCj4gDQo+IFNvbWUgb2YgdGhlIGRyaXZlcnMgb24gSFBFIHN5c3RlbXMgdGFrZSBhIG5vbi10
+cml2aWFsIGFtb3VudCBvZiB0aW1lDQo+IHRvIHJlc2V0IGR1cmluZyB0aGUgY3Jhc2gga2VybmVs
+IGJvb3QsIHNvIGl0IHdvdWxkIGJlIGdvb2QgdG8gaGF2ZQ0KPiB0aGUgY29yZSBwZXQgdGhlIHdh
+dGNoZG9nIHVudGlsIHVzZXIgc3BhY2UgaXMgcmVhZHkuICBCdXQgYXMgdGhlDQo+IGNyYXNoIGtl
+cm5lbCBlbnZpcm9ubWVudCBoYXMgaXRzIGlzc3VlcywgIHdlIHJlYWxseSBkb24ndCB3YW50DQo+
+IHRoZSBjb3JlIHRvIHBpbmcgdGhlIHdhdGNoZG9nIGluZGVmaW5pdGVseS4NCg0KVGhhbmtzLCBp
+dCdzIGdyZWF0IHRvIGhlYXIgdGhhdCBvdGhlcnMgd291bGQgYWxzbyBiZSBpbnRlcmVzdGVkIGlu
+IHRoaXMuDQpUaGlzIHdpbGwgbW92ZSBpdCB1cCBhIGZldyBwbGFjZXMgb24gbXkgdG9kbyBsaXN0
+LiBJJ2xsIHRyeSB0byByZW1lbWJlcg0KdG8gYWRkIHlvdSB0byB0aGUgY2MgbGlzdC4NCg0KVGhh
+bmtzLA0KUmFzbXVzDQo=
