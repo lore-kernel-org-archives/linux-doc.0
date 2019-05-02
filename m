@@ -1,141 +1,111 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0A6C57D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 May 2019 20:30:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D77747D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 May 2019 20:51:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726303AbfEBUaY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 2 May 2019 16:30:24 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:44398 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726280AbfEBUaY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 May 2019 16:30:24 -0400
-Received: by mail-ot1-f65.google.com with SMTP id d24so3322763otl.11
-        for <linux-doc@vger.kernel.org>; Thu, 02 May 2019 13:30:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EDdiyphkogtVcXTbSVRyR+FjzQZde+G185126UMJh7I=;
-        b=gITVrJC9deQ8wHwXinOhDV5dI98+XHC/WuqFuL8GH7a8CRP7Weez43rOFpDLFNlC0p
-         SurYDhddnsqnL5Ihvys33lK/4j+PLxs8IphZcAQuHXXE7X5COStC3ZBhj/5h/Hdg9FPW
-         sQYG3mb/RBDu620PDIXl0abFAqievobMhbfvYW6GdeEoPEN8iXGYFBkxbfpJn8Y1y4f8
-         F6SjQjXGRwZVR+lGXlZDhrUGxSdzCSH/YiD/bsD5q2GkFQLqoLWuw3S9nlwb/QcTf+/G
-         D2dqk3uPHxSxGLiPz52WCid9DnN+TbYr8zJiLQQDEG4D0HgQVfXL2NqaKqq1E/1r4TBH
-         gHpA==
+        id S1726308AbfEBUv1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 2 May 2019 16:51:27 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:37355 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726201AbfEBUv1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 May 2019 16:51:27 -0400
+Received: by mail-oi1-f194.google.com with SMTP id 143so2848629oii.4;
+        Thu, 02 May 2019 13:51:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EDdiyphkogtVcXTbSVRyR+FjzQZde+G185126UMJh7I=;
-        b=t4TDOnycCIugBpLif/S366FiCV/OG13v2gpBJHL9WscoYLmhBr5DU7ygpwB/60+M1U
-         1T9ShVhvzQRSI4oIR9ZnvvKYYf2BdWyDmrRe9MOOTn3K8Pb4cQNBqXurGw+KxhSJPsIp
-         rXkPbKuiQiiqWHLOsR1P5g8m3iNVUKeatAVU2ZhgiEZk/IWQqddvSeL1gNEFEtY/waiA
-         eJB5m+5NrivTdJXQJGDJ4vBbw9tDq/3sljTqIjg/4ua8gsHMEy4IV1lEKWRBoT5hor8M
-         Qf/dM7/fSLft16fHQV89tOGlhW4/UScr5SFBOXWulfwsSyJ2NGl0jfxMrEVcOQvrFsOD
-         e8fw==
-X-Gm-Message-State: APjAAAXQjcPgGEX4fp0qSM9lDCxMWqIignWUIZMxEKxz3+opHLUpqk0u
-        mhGDSQa5gerJZkkHcBgfbEu7UZlyQwKPsgapCLbkkA==
-X-Google-Smtp-Source: APXvYqz43GD9Ydk/3iHIuvGx3dSX5DTZZLzaJSUOTfbGyq2mCG6ID5DjuBQ5u6fo5kf0q+kWNBtbkFi3ckrHB0dUqUs=
-X-Received: by 2002:a9d:7f19:: with SMTP id j25mr3854222otq.25.1556829023216;
- Thu, 02 May 2019 13:30:23 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=W0M/s2a9tlTFv/FTWip3G2NKE0kpp0LnOAR85a1p4R0=;
+        b=D8pVa0GjAotJ4c5N5fkYKH1jrYMnsR/I2wAZQHo/s2NfYdSlSITwuZg29YSajEZHau
+         /g8uGJT6+rZkHIhIpJAekennYU/buoTfVnsq6YHgTwMzXBxmuQi4zAN1eP1D2nwctaQj
+         1f2qGO1ZVzW2cfGAIC3SRL4Whw3diW+AkIPvMMnGr/ZD1yuc/A0+lCStttQG0o7UzmyE
+         o9Vz07pQpZM9fHN9fDpW/zwuFxC9HSlpc5lR5O/8hrAtnka8L+KYJukrF68JKyR4J36p
+         XXlI0TQGTC8VsM7nOSTkvo3S5LkF8uV/5SZS2gm4Uo7Zenpwcr+mm4M0/o8uZyLdvtEK
+         B15Q==
+X-Gm-Message-State: APjAAAU4rEzFbSmJFlENufR+4CP2EjNmRrfqntouYAZ/OWixXhPB7wRo
+        RKgUraeoClW3ZkkZMuuZyw==
+X-Google-Smtp-Source: APXvYqzDbdYwgPCIEAr+hiFN60T0e7ZJougtcItHrR9eZtQEVRkQfvLf64qmrsDMjgQaRmbSto/j/w==
+X-Received: by 2002:a54:4698:: with SMTP id k24mr3819905oic.104.1556830286202;
+        Thu, 02 May 2019 13:51:26 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id w5sm21290otg.34.2019.05.02.13.51.24
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 02 May 2019 13:51:24 -0700 (PDT)
+Date:   Thu, 2 May 2019 15:51:24 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Gerald BAEZA <gerald.baeza@st.com>
+Cc:     "will.deacon@arm.com" <will.deacon@arm.com>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
+        Alexandre TORGUE <alexandre.torgue@st.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+        "olof@lixom.net" <olof@lixom.net>,
+        "horms+renesas@verge.net.au" <horms+renesas@verge.net.au>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH 2/5] dt-bindings: perf: stm32: ddrperfm support
+Message-ID: <20190502205124.GA17384@bogus>
+References: <1556532194-27904-1-git-send-email-gerald.baeza@st.com>
+ <1556532194-27904-3-git-send-email-gerald.baeza@st.com>
 MIME-Version: 1.0
-References: <20190501230126.229218-1-brendanhiggins@google.com>
- <20190501230126.229218-8-brendanhiggins@google.com> <20190502105849.GB12416@kroah.com>
-In-Reply-To: <20190502105849.GB12416@kroah.com>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Thu, 2 May 2019 13:30:12 -0700
-Message-ID: <CAFd5g44os8xEMMiROkmX_KM4-9yL=+y6kw4-JApxhdzJV5pwkg@mail.gmail.com>
-Subject: Re: [PATCH v2 07/17] kunit: test: add initial tests
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-        shuah@kernel.org, devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-kselftest@vger.kernel.org,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1556532194-27904-3-git-send-email-gerald.baeza@st.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 2, 2019 at 3:58 AM Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Wed, May 01, 2019 at 04:01:16PM -0700, Brendan Higgins wrote:
-> > Add a test for string stream along with a simpler example.
-> >
-> > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> > ---
-> >  kunit/Kconfig              | 12 ++++++
-> >  kunit/Makefile             |  4 ++
-> >  kunit/example-test.c       | 88 ++++++++++++++++++++++++++++++++++++++
-> >  kunit/string-stream-test.c | 61 ++++++++++++++++++++++++++
-> >  4 files changed, 165 insertions(+)
-> >  create mode 100644 kunit/example-test.c
-> >  create mode 100644 kunit/string-stream-test.c
-> >
-> > diff --git a/kunit/Kconfig b/kunit/Kconfig
-> > index 64480092b2c24..5cb500355c873 100644
-> > --- a/kunit/Kconfig
-> > +++ b/kunit/Kconfig
-> > @@ -13,4 +13,16 @@ config KUNIT
-> >         special hardware. For more information, please see
-> >         Documentation/kunit/
-> >
-> > +config KUNIT_TEST
-> > +     bool "KUnit test for KUnit"
-> > +     depends on KUNIT
-> > +     help
-> > +       Enables KUnit test to test KUnit.
-> > +
-> > +config KUNIT_EXAMPLE_TEST
-> > +     bool "Example test for KUnit"
-> > +     depends on KUNIT
-> > +     help
-> > +       Enables example KUnit test to demo features of KUnit.
->
-> Can't these tests be module?
+On Mon, Apr 29, 2019 at 10:03:37AM +0000, Gerald BAEZA wrote:
+> The DDRPERFM is the DDR Performance Monitor embedded in STM32MP1 SOC.
+> 
+> This documentation indicates how to enable stm32-ddr-pmu driver on
+> DDRPERFM peripheral, via the device tree.
+> 
+> Signed-off-by: Gerald Baeza <gerald.baeza@st.com>
+> ---
+>  .../devicetree/bindings/perf/stm32-ddr-pmu.txt         | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/perf/stm32-ddr-pmu.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/perf/stm32-ddr-pmu.txt b/Documentation/devicetree/bindings/perf/stm32-ddr-pmu.txt
+> new file mode 100644
+> index 0000000..dabc4c7
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/perf/stm32-ddr-pmu.txt
+> @@ -0,0 +1,18 @@
+> +* STM32 DDR Performance Monitor (DDRPERFM)
+> +
+> +Required properties:
+> +- compatible: must be "st,stm32-ddr-pmu".
+> +- reg: physical address and length of the registers set.
+> +- clocks: list of phandles and specifiers to all input clocks listed in
+> +	  clock-names property.
+> +- clock-names: "bus" corresponds to the DDRPERFM bus clock and "ddr" to
+> +	       the DDR frequency.
 
-At this time, no. KUnit doesn't support loading tests as kernel
-modules; it is something we could add in in the future, but I would
-rather not open that can of worms right now. There are some other
-things I would like to do that would probably be easier to do before
-adding support for tests as loadable modules.
+You have 'resets' in the dts.
 
->
-> Or am I mis-reading the previous logic?
->
-> Anyway, just a question, nothing objecting to this as-is for now.
-
-Cool
-
-Cheers!
+> +
+> +Example:
+> +	ddrperfm: perf@5a007000 {
+> +		compatible = "st,stm32-ddr-pmu";
+> +		reg = <0x5a007000 0x400>;
+> +		clocks = <&rcc DDRPERFM>, <&rcc PLL2_R>;
+> +		clock-names = "bus", "ddr";
+> +	};
+> +
+> -- 
+> 2.7.4
