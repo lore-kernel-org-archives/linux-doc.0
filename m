@@ -4,58 +4,58 @@ X-Spam-Level:
 X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2BA867D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 May 2019 07:11:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A9F577D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 May 2019 07:11:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726711AbfEBHK6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 2 May 2019 03:10:58 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:42935 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726055AbfEBHK6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 May 2019 03:10:58 -0400
-Received: by mail-pf1-f196.google.com with SMTP id 13so370618pfw.9;
-        Thu, 02 May 2019 00:10:57 -0700 (PDT)
+        id S1726452AbfEBHLI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 2 May 2019 03:11:08 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:33413 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726189AbfEBHLH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 May 2019 03:11:07 -0400
+Received: by mail-pg1-f194.google.com with SMTP id k19so659442pgh.0;
+        Thu, 02 May 2019 00:11:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=NC8m/jDpU0Uzaq9jOe9QnHWhLNtfwXpLgED1uBMCHW4=;
-        b=hkLWdaWrxraY8lEyxYHiSBkSU0z0lBlDRT1xqzK5Maz72AgpeG2UWtXdmI1grfvxJ1
-         uNhMvp5wGSoOQATtjuUeuCUtXpIEkK7lyhgH9eFmw80+uXQfRNYqdBc+E1gwLLe9yudf
-         klNYflD1S1rzARsYq62GY97HrsRPfk/mHfnyRCFIzIk/CMkaQehr0lEzvfhOEX/avYwR
-         wnNg3YcDiueVrkBSEcVn1L4VymT24LZzWGMd43sUACQ02A+t2dt5TegErlZ1BRaznqd9
-         kevYCYoHoRcVGouQH9uJoydLWzW4o2wgpSfkjowvG28oKVWVVAFXAzcP/NlkGccEkWIy
-         390w==
+        bh=+HtXa4Ue9AbTj0aCIbX5pYV5pqTXz//dsdosYq60Tuc=;
+        b=l7sOeayujdJsS4fGRnA6NvKrGSBpfYxEArMAqJv59PfDNBVXLUt0jp1h7Ox3lGHnr2
+         KM4Yn41Sz8UciMfSXEhEchzZ5XuFHrRkl1mt1PH2qRve75wWYhdF4wGAQfHI6h35GluX
+         nfA0zpDZoV4A6bh8/470pDIhc0niqA6E2srmy6Sk/S3qMT09GUkHcgNqpULSJphR+VpU
+         EE61TjEn2QXbfUSwbvhEP2j5jCTpY6wZqqDD5vG2xZeGw+Qjd2UcjHj4ZjGMgW0K/Mn8
+         MvTm/KluYFHtTvI+xIdJjOIHIBZ7RyTbjhv4S90iMUCxG1fklHCdMJlO38F22I+veqqT
+         /O6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=NC8m/jDpU0Uzaq9jOe9QnHWhLNtfwXpLgED1uBMCHW4=;
-        b=QYl0NYhO5gwrUyZCF4thzIi8eIhqivVA7D0FRWi35soSe/doVvD8JAea8gvXIQ5zE4
-         4WYofqY+5Eu4Onc+K3FeD9f/Y6Rj5/rJ6rX8R/w24NGkpmxk2mTGceA3BrzRUH6oxwd9
-         AO3ISvh2pcWZ6u6z3yfAmmyQPnm6ZgESBJppRYLWPv8etIqFEg+h5iX1USiyYglvpYes
-         w5htw0VBmzTfEOTuM4aKD6pJx8YNLrp3PvlSl8bYP/HBv3veut109BExlUbgq7Vghv2q
-         1VOU7znmvVoPoJfXbpG3a4y6cn94yles/CWqqP/bX+yr79RlGCPFr4GkCXwPNXvgQyqp
-         WV4g==
-X-Gm-Message-State: APjAAAXnkMzkoZEptCxoAwXCiFv8OG32yPG+KGf966jE64TOn1Ilf36g
-        s0RdmqWsXrBlnTpGAdg0+tQ=
-X-Google-Smtp-Source: APXvYqwc2vJKnaJal1+JnFLru+jxJvvEHqBGpLl4ugClbGsQv15AzZ69XuUL+6XyQnORfF6Z/hDGLA==
-X-Received: by 2002:aa7:8851:: with SMTP id k17mr2426888pfo.121.1556781057607;
-        Thu, 02 May 2019 00:10:57 -0700 (PDT)
+        bh=+HtXa4Ue9AbTj0aCIbX5pYV5pqTXz//dsdosYq60Tuc=;
+        b=hgDOG24V6i2UbkVptQ1JJzKeGpuFLXftBXkx4/dUa0X89vlJTFoh1dzUuLBaMp5OBs
+         krGOp+1/I1F5MsIyq2c+ahtMQqnrPbR9e6SNjrrMOeDUq91ato3LWfYEarRd1nG/G2GR
+         CdhzaMb9cYNYSyF+0Ga/Ix47TkZyL8JFRCto/6BsbVA5mNNhyEGjnIuzOTVQ2BEOlwov
+         R04XVQdoKKUbjYcEkYRfCn5ggJWJ2iqqPniX/hSI1ahFF7hdJp9g8DAZ5hpHllSCBTWK
+         4oTczdEu2sfNTFZepU0n4wDkpqqzznwtTmP66WUpW7H0lJ8Ntz9S1ysktABIcnwkpmLk
+         FV4g==
+X-Gm-Message-State: APjAAAWEE5EI4xQw14ZvkHfnL+2rN90hPO9/fzcRTeYa3Oo1cQYvtl+9
+        8F4EUZI+BDAqObcCxPM22SE=
+X-Google-Smtp-Source: APXvYqz293adfA2NUem/X/9a1XrPHfGjWymNkbZ9Hm+4+uWfswrqvIbPQqa/ExHl9M77DoBc3U5zCg==
+X-Received: by 2002:a62:a219:: with SMTP id m25mr2480947pff.197.1556781066824;
+        Thu, 02 May 2019 00:11:06 -0700 (PDT)
 Received: from laptop.DHCP ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id u24sm4686976pfh.91.2019.05.02.00.10.53
+        by smtp.gmail.com with ESMTPSA id u24sm4686976pfh.91.2019.05.02.00.11.02
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 02 May 2019 00:10:56 -0700 (PDT)
+        Thu, 02 May 2019 00:11:06 -0700 (PDT)
 From:   Changbin Du <changbin.du@gmail.com>
 To:     corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de
 Cc:     x86@kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, Changbin Du <changbin.du@gmail.com>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Subject: [PATCH v2 14/27] Documentation: x86: convert amd-memory-encryption.txt to reST
-Date:   Thu,  2 May 2019 15:06:20 +0800
-Message-Id: <20190502070633.9809-15-changbin.du@gmail.com>
+Subject: [PATCH v2 16/27] Documentation: x86: convert microcode.txt to reST
+Date:   Thu,  2 May 2019 15:06:22 +0800
+Message-Id: <20190502070633.9809-17-changbin.du@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190502070633.9809-1-changbin.du@gmail.com>
 References: <20190502070633.9809-1-changbin.du@gmail.com>
@@ -72,71 +72,152 @@ add it to Sphinx TOC tree. No essential content change.
 Signed-off-by: Changbin Du <changbin.du@gmail.com>
 Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- ...ory-encryption.txt => amd-memory-encryption.rst} | 13 ++++++++++---
- Documentation/x86/index.rst                         |  1 +
- 2 files changed, 11 insertions(+), 3 deletions(-)
- rename Documentation/x86/{amd-memory-encryption.txt => amd-memory-encryption.rst} (94%)
+ Documentation/x86/index.rst                   |  1 +
+ .../x86/{microcode.txt => microcode.rst}      | 62 ++++++++++---------
+ 2 files changed, 35 insertions(+), 28 deletions(-)
+ rename Documentation/x86/{microcode.txt => microcode.rst} (81%)
 
-diff --git a/Documentation/x86/amd-memory-encryption.txt b/Documentation/x86/amd-memory-encryption.rst
-similarity index 94%
-rename from Documentation/x86/amd-memory-encryption.txt
-rename to Documentation/x86/amd-memory-encryption.rst
-index afc41f544dab..c48d452d0718 100644
---- a/Documentation/x86/amd-memory-encryption.txt
-+++ b/Documentation/x86/amd-memory-encryption.rst
-@@ -1,3 +1,9 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=====================
-+AMD Memory Encryption
-+=====================
-+
- Secure Memory Encryption (SME) and Secure Encrypted Virtualization (SEV) are
- features found on AMD processors.
- 
-@@ -34,7 +40,7 @@ is operating in 64-bit or 32-bit PAE mode, in all other modes the SEV hardware
- forces the memory encryption bit to 1.
- 
- Support for SME and SEV can be determined through the CPUID instruction. The
--CPUID function 0x8000001f reports information related to SME:
-+CPUID function 0x8000001f reports information related to SME::
- 
- 	0x8000001f[eax]:
- 		Bit[0] indicates support for SME
-@@ -48,14 +54,14 @@ CPUID function 0x8000001f reports information related to SME:
- 			   addresses)
- 
- If support for SME is present, MSR 0xc00100010 (MSR_K8_SYSCFG) can be used to
--determine if SME is enabled and/or to enable memory encryption:
-+determine if SME is enabled and/or to enable memory encryption::
- 
- 	0xc0010010:
- 		Bit[23]   0 = memory encryption features are disabled
- 			  1 = memory encryption features are enabled
- 
- If SEV is supported, MSR 0xc0010131 (MSR_AMD64_SEV) can be used to determine if
--SEV is active:
-+SEV is active::
- 
- 	0xc0010131:
- 		Bit[0]	  0 = memory encryption is not active
-@@ -68,6 +74,7 @@ requirements for the system.  If this bit is not set upon Linux startup then
- Linux itself will not set it and memory encryption will not be possible.
- 
- The state of SME in the Linux kernel can be documented as follows:
-+
- 	- Supported:
- 	  The CPU supports SME (determined through CPUID instruction).
- 
 diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
-index b5cdc0d889b3..85f1f44cc8ac 100644
+index 6719defc16f8..ae29c026be72 100644
 --- a/Documentation/x86/index.rst
 +++ b/Documentation/x86/index.rst
-@@ -20,3 +20,4 @@ x86-specific Documentation
-    pat
-    protection-keys
+@@ -22,3 +22,4 @@ x86-specific Documentation
     intel_mpx
-+   amd-memory-encryption
+    amd-memory-encryption
+    pti
++   microcode
+diff --git a/Documentation/x86/microcode.txt b/Documentation/x86/microcode.rst
+similarity index 81%
+rename from Documentation/x86/microcode.txt
+rename to Documentation/x86/microcode.rst
+index 79fdb4a8148a..a320d37982ed 100644
+--- a/Documentation/x86/microcode.txt
++++ b/Documentation/x86/microcode.rst
+@@ -1,7 +1,11 @@
+-	The Linux Microcode Loader
++.. SPDX-License-Identifier: GPL-2.0
+ 
+-Authors: Fenghua Yu <fenghua.yu@intel.com>
+-	 Borislav Petkov <bp@suse.de>
++==========================
++The Linux Microcode Loader
++==========================
++
++:Authors: - Fenghua Yu <fenghua.yu@intel.com>
++          - Borislav Petkov <bp@suse.de>
+ 
+ The kernel has a x86 microcode loading facility which is supposed to
+ provide microcode loading methods in the OS. Potential use cases are
+@@ -10,8 +14,8 @@ and updating the microcode on long-running systems without rebooting.
+ 
+ The loader supports three loading methods:
+ 
+-1. Early load microcode
+-=======================
++Early load microcode
++====================
+ 
+ The kernel can update microcode very early during boot. Loading
+ microcode early can fix CPU issues before they are observed during
+@@ -26,8 +30,10 @@ loader parses the combined initrd image during boot.
+ 
+ The microcode files in cpio name space are:
+ 
+-on Intel: kernel/x86/microcode/GenuineIntel.bin
+-on AMD  : kernel/x86/microcode/AuthenticAMD.bin
++on Intel:
++  kernel/x86/microcode/GenuineIntel.bin
++on AMD  :
++  kernel/x86/microcode/AuthenticAMD.bin
+ 
+ During BSP (BootStrapping Processor) boot (pre-SMP), the kernel
+ scans the microcode file in the initrd. If microcode matching the
+@@ -42,8 +48,8 @@ Here's a crude example how to prepare an initrd with microcode (this is
+ normally done automatically by the distribution, when recreating the
+ initrd, so you don't really have to do it yourself. It is documented
+ here for future reference only).
++::
+ 
+----
+   #!/bin/bash
+ 
+   if [ -z "$1" ]; then
+@@ -76,15 +82,15 @@ here for future reference only).
+   cat ucode.cpio $INITRD.orig > $INITRD
+ 
+   rm -rf $TMPDIR
+----
++
+ 
+ The system needs to have the microcode packages installed into
+ /lib/firmware or you need to fixup the paths above if yours are
+ somewhere else and/or you've downloaded them directly from the processor
+ vendor's site.
+ 
+-2. Late loading
+-===============
++Late loading
++============
+ 
+ There are two legacy user space interfaces to load microcode, either through
+ /dev/cpu/microcode or through /sys/devices/system/cpu/microcode/reload file
+@@ -94,9 +100,9 @@ The /dev/cpu/microcode method is deprecated because it needs a special
+ userspace tool for that.
+ 
+ The easier method is simply installing the microcode packages your distro
+-supplies and running:
++supplies and running::
+ 
+-# echo 1 > /sys/devices/system/cpu/microcode/reload
++  # echo 1 > /sys/devices/system/cpu/microcode/reload
+ 
+ as root.
+ 
+@@ -104,29 +110,29 @@ The loading mechanism looks for microcode blobs in
+ /lib/firmware/{intel-ucode,amd-ucode}. The default distro installation
+ packages already put them there.
+ 
+-3. Builtin microcode
+-====================
++Builtin microcode
++=================
+ 
+ The loader supports also loading of a builtin microcode supplied through
+ the regular builtin firmware method CONFIG_EXTRA_FIRMWARE. Only 64-bit is
+ currently supported.
+ 
+-Here's an example:
++Here's an example::
+ 
+-CONFIG_EXTRA_FIRMWARE="intel-ucode/06-3a-09 amd-ucode/microcode_amd_fam15h.bin"
+-CONFIG_EXTRA_FIRMWARE_DIR="/lib/firmware"
++  CONFIG_EXTRA_FIRMWARE="intel-ucode/06-3a-09 amd-ucode/microcode_amd_fam15h.bin"
++  CONFIG_EXTRA_FIRMWARE_DIR="/lib/firmware"
+ 
+-This basically means, you have the following tree structure locally:
++This basically means, you have the following tree structure locally::
+ 
+-/lib/firmware/
+-|-- amd-ucode
+-...
+-|   |-- microcode_amd_fam15h.bin
+-...
+-|-- intel-ucode
+-...
+-|   |-- 06-3a-09
+-...
++  /lib/firmware/
++  |-- amd-ucode
++  ...
++  |   |-- microcode_amd_fam15h.bin
++  ...
++  |-- intel-ucode
++  ...
++  |   |-- 06-3a-09
++  ...
+ 
+ so that the build system can find those files and integrate them into
+ the final kernel image. The early loader finds them and applies them.
 -- 
 2.20.1
 
