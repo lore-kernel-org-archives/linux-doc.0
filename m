@@ -1,157 +1,125 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D5E9F7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 May 2019 16:33:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CEFFA7D910
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 May 2019 18:08:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726452AbfEBQd0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 2 May 2019 12:33:26 -0400
-Received: from mga12.intel.com ([192.55.52.136]:6989 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726451AbfEBQd0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 2 May 2019 12:33:26 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 May 2019 09:33:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,422,1549958400"; 
-   d="scan'208";a="296427717"
-Received: from yyu32-desk1.sc.intel.com ([143.183.136.147])
-  by orsmga004.jf.intel.com with ESMTP; 02 May 2019 09:33:23 -0700
-Message-ID: <91611b9e159799bbf603b65cf7bb6b37dd81b075.camel@intel.com>
-Subject: Re: [PATCH] binfmt_elf: Extract .note.gnu.property from an ELF file
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Dave Martin <Dave.Martin@arm.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        libc-alpha@sourceware.org
-Date:   Thu, 02 May 2019 09:25:56 -0700
-In-Reply-To: <20190502161424.GQ3567@e103592.cambridge.arm.com>
-References: <20190501211217.5039-1-yu-cheng.yu@intel.com>
-         <20190502111003.GO3567@e103592.cambridge.arm.com>
-         <5b2c6cee345e00182e97842ae90c02cdcd830135.camel@intel.com>
-         <20190502161424.GQ3567@e103592.cambridge.arm.com>
+        id S1726457AbfEBSIX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 2 May 2019 14:08:23 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:43414 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726249AbfEBSIX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 May 2019 14:08:23 -0400
+Received: by mail-ot1-f65.google.com with SMTP id e108so2926486ote.10
+        for <linux-doc@vger.kernel.org>; Thu, 02 May 2019 11:08:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=79fGKeHlH9FAaVSR1O2RxcfKwTsSnTq5QCRHjsEaUQU=;
+        b=p6+GkF2pa0r8kIFWr3Ue5xSJ4hl91lXS3nyMKkOj5gQv9nBUeqd4BeLUxnZv1anIlK
+         lg1rsW/DG5+gG35Q6B+ZLV3xvGi60oYqbQR6qqrpeA01srJDWSHy+u56ea2PsXrn8x+q
+         dAZDe0q27TZ76u7UainpJzKpuJcdKWXXDrVVYsacHOUkrblZnv39zmUQ3mgKo/PyMxtj
+         cBGYHB2uWwE8NxbLX7q9WWmg2lFe3RBeI4j2lZBmhh5c2j8csXxGrExgKmjwwY08DAy9
+         PMxuPc1keMhPOI13z500WCy1D+qUSgNiYEXKQhnXWgZ+09G9ndEGtieagtsVwWkzEqOt
+         uIWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=79fGKeHlH9FAaVSR1O2RxcfKwTsSnTq5QCRHjsEaUQU=;
+        b=lN9fAkP/7xsF9OrULBWc16lRRctomFDFbNvyjGrOlgXYcYj2xxATZWqLOiqcdmKQ5S
+         g8gxMZ6Bugo2sJ5g+juMmf7pzUinKJD0lLYGB3+IRfyl0nZ7bydEY1iX3ShRS+eaaA6b
+         Lkgk1PdnceGSeeZMFcKdtaf7vAdUJGOazMxnVTgrCtjGSAIV9BFFUR36M897oAvxbtlc
+         RdOsXnQ+AOIhYEBid+UXACL27c6EMIvjfB8E3b3AWQCWGAppWsku68lRtBHcTokazd15
+         jneV2xxUqEglVlJzQI3uoi46D8NvLy98Yzcb/wWNSwUY1PCz/70Iju4KAXoPBzS6tCV8
+         JOcQ==
+X-Gm-Message-State: APjAAAVl1Wkof/0Z+mbUX6LD134t4F0h4hwcJavHXJPSzZqpeDb5H7Ex
+        zZWqrlh/D0CkmkcPDlKkrXdvFhD0FVqFLVWdx75Fbg==
+X-Google-Smtp-Source: APXvYqw/nI7b+z83V0GIDl0oQazXtqsfs+CMRGbHgYqDLdBGzPB7zXqfHkbXMcNZ2dozl9lGwjO1NMDSJQAOJdRu1uE=
+X-Received: by 2002:a9d:3621:: with SMTP id w30mr3409606otb.98.1556820502021;
+ Thu, 02 May 2019 11:08:22 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190501230126.229218-1-brendanhiggins@google.com>
+ <20190501230126.229218-13-brendanhiggins@google.com> <20190502110220.GD12416@kroah.com>
+In-Reply-To: <20190502110220.GD12416@kroah.com>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Thu, 2 May 2019 11:07:57 -0700
+Message-ID: <CAFd5g47t=EdLKFCT=CnPkrM2z0nDVo24Gz4j0VxFOJbARP37Lg@mail.gmail.com>
+Subject: Re: [PATCH v2 12/17] kunit: tool: add Python wrappers for running
+ KUnit tests
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Kees Cook <keescook@google.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        shuah@kernel.org, devicetree <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-kselftest@vger.kernel.org,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "Bird, Timothy" <Tim.Bird@sony.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Petr Mladek <pmladek@suse.com>,
+        Richard Weinberger <richard@nod.at>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com,
+        Felix Guo <felixguoxiuping@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2019-05-02 at 17:14 +0100, Dave Martin wrote:
-> On Thu, May 02, 2019 at 08:47:06AM -0700, Yu-cheng Yu wrote:
-> > On Thu, 2019-05-02 at 12:10 +0100, Dave Martin wrote:
-> > > On Wed, May 01, 2019 at 02:12:17PM -0700, Yu-cheng Yu wrote:
-> > > > An ELF file's .note.gnu.property indicates features the executable file
-> > > > can support.  For example, the property GNU_PROPERTY_X86_FEATURE_1_AND
-> > > > indicates the file supports GNU_PROPERTY_X86_FEATURE_1_IBT and/or
-> > > > GNU_PROPERTY_X86_FEATURE_1_SHSTK.
-> > 
-> > [...]
-> > > A couple of questions before I look in more detail:
-> > > 
-> > > 1) Can we rely on PT_GNU_PROPERTY being present in the phdrs to describe
-> > > the NT_GNU_PROPERTY_TYPE_0 note?  If so, we can avoid trying to parse
-> > > irrelevant PT_NOTE segments.
-> > 
-> > Some older linkers can create multiples of NT_GNU_PROPERTY_TYPE_0.  The code
-> > scans all PT_NOTE segments to ensure there is only one
-> > NT_GNU_PROPERTY_TYPE_0. 
-> > If there are multiples, then all are considered invalid.
-> 
-> I'm concerned that in the arm64 case we would waste some effort by
-> scanning multiple notes.
-> 
-> Could we do something like iterating over the phdrs, and if we find
-> exactly one PT_GNU_PROPERTY then use that, else fall back to scanning
-> all PT_NOTEs?
+On Thu, May 2, 2019 at 4:02 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Wed, May 01, 2019 at 04:01:21PM -0700, Brendan Higgins wrote:
+> > From: Felix Guo <felixguoxiuping@gmail.com>
+> >
+> > The ultimate goal is to create minimal isolated test binaries; in the
+> > meantime we are using UML to provide the infrastructure to run tests, so
+> > define an abstract way to configure and run tests that allow us to
+> > change the context in which tests are built without affecting the user.
+> > This also makes pretty and dynamic error reporting, and a lot of other
+> > nice features easier.
+> >
+> > kunit_config.py:
+> >   - parse .config and Kconfig files.
+> >
+> > kunit_kernel.py: provides helper functions to:
+> >   - configure the kernel using kunitconfig.
+> >   - build the kernel with the appropriate configuration.
+> >   - provide function to invoke the kernel and stream the output back.
+> >
+> > Signed-off-by: Felix Guo <felixguoxiuping@gmail.com>
+> > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+>
+> Ah, here's probably my answer to my previous logging format question,
+> right?  What's the chance that these wrappers output stuff in a standard
+> format that test-framework-tools can already parse?  :)
 
-That makes sense to me, but the concern is that we don't know the
-PT_GNU_PROPERTY the only one.  This probably needs to be discussed with more
-people.
+It should be pretty easy to do. I had some patches that pack up the
+results into a serialized format for a presubmit service; it should be
+pretty straightforward to take the same logic and just change the
+output format.
 
-> > > 2) Are there standard types for things like the program property header?
-> > > If not, can we add something in elf.h?  We should try to coordinate with
-> > > libc on that.  Something like
-> > > 
-> > > typedef __u32 Elf_Word;
-> > > 
-> > > typedef struct {
-> > > 	Elf_Word pr_type;
-> > > 	Elf_Word pr_datasz;
-> > > } Elf_Gnu_Prophdr;
-> > > 
-> > > (i.e., just the header part from [1], with a more specific name -- which
-> > > I just made up).
-> > 
-> > Yes, I will fix that.
-> > 
-> > [...]
-> > > 3) It looks like we have to go and re-parse all the notes for every
-> > > property requested by the arch code.
-> > 
-> > As explained above, it is necessary to scan all PT_NOTE segments.  But there
-> > should be only one NT_GNU_PROPERTY_TYPE_0 in an ELF file.  Once that is
-> > found,
-> > perhaps we can store it somewhere, or call into the arch code as you
-> > mentioned
-> > below.  I will look into that.
-> 
-> Just to get something working on arm64, I'm working on some hacks that
-> move things around a bit -- I'll post when I have something.
-> 
-> Did you have any view on my other point, below?
-
-That should work.  I will also make some changes for that.
-
-> 
-> Cheers
-> ---Dave
-> 
-> > > For now there is only one property requested anyway, so this is probably
-> > > not too bad.  But could we flip things around so that we have some
-> > > CONFIG_ARCH_WANTS_ELF_GNU_PROPERTY (say), and have the ELF core code
-> > > call into the arch backend for each property found?
-> > > 
-> > > The arch could provide some hook
-> > > 
-> > > 	int arch_elf_has_gnu_property(const Elf_Gnu_Prophdr *prop,
-> > > 					const void *data);
-> > > 
-> > > to consume the properties as they are found.
-> > > 
-> > > This would effectively replace the arch_setup_property() hook you
-> > > currently have.
-> > > 
-> > > Cheers
-> > > ---Dave
-> > > 
-> > > [1] https://github.com/hjl-tools/linux-abi/wiki/Linux-Extensions-to-gABI
+Cheers
