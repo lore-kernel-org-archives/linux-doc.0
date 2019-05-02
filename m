@@ -6,56 +6,56 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 148517D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 May 2019 07:12:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CD31E7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 May 2019 07:12:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726270AbfEBHLm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 2 May 2019 03:11:42 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:40534 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726202AbfEBHLl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 May 2019 03:11:41 -0400
-Received: by mail-pg1-f196.google.com with SMTP id d31so643547pgl.7;
-        Thu, 02 May 2019 00:11:41 -0700 (PDT)
+        id S1726377AbfEBHL0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 2 May 2019 03:11:26 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:35623 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726202AbfEBHL0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 May 2019 03:11:26 -0400
+Received: by mail-pg1-f194.google.com with SMTP id h1so655072pgs.2;
+        Thu, 02 May 2019 00:11:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=T5ewii1e+MTEfWZGeRVIBVrPsob2PwcVcWoJvnrmTVY=;
-        b=WuspEN7/uK2jP84acxB/Ef808mAHUJ4WGQpKUiao33FnWzc1pD+LkJtRr6jh4Ie/Dh
-         Vt7G62bmJMU1QgPb6Y1M5rUhVG7OXR0Glv1sFQDRhEZFpL0nTbDkHBBvRGcSI65i4lvu
-         sKE00WYhd22/Z4nKTLMMika+PGalte0FW4mjTGs3PQvOnr5Jf+S1q/+DZcGADnP65bZZ
-         7S7CZMQNcwicONPDeeVsfjLyTgegR3kffdNsa3GVnk0AITAOji1qmJaCFsvfljVuTwFL
-         f15WVjwNgLqXnhLw5UQ6hVh9y5AT+7OLS+zWgohek0IMQPeCxeupd7GRKPXJEcsVA/kJ
-         SXjw==
+        bh=+ht7GrFTU79fToPKb9Iep8eH6HLgwHBDoqhSDEh8xGU=;
+        b=leNUqZhQaIC2E++KYr7LBdudAD48gDl5Gwwv4xMk64LRBCZsGsncfyj+BD2zmsHvMK
+         qO9w5KpQ/yKD/c/MYAkP7yb2AsoIdpb/5Qtefdsj676OQ/lS7FDh7P67+KTuOF0RB6qH
+         LpINMiKF93ja6rHewQ7vL85KsEQqBwEfmyJyJObgVRY9nFA5Ju3MQzwPbng8N8Nr3LJO
+         HKcEbok3fGIs0+lcwFvHR6tDoGT2o1rd9VpTBpB/PY+bpNWJlH7z/5c6M8C6/j4IBzUr
+         Q/meT59LQ2ToE/cVDvcleIBwll5HcyamuOziFzNi3/9Xh9pRKnCwY79koZ05s4/p4VSz
+         L4cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=T5ewii1e+MTEfWZGeRVIBVrPsob2PwcVcWoJvnrmTVY=;
-        b=emk7tDEr7MxMwBYrgymB2Id+e5sm/kkxcO3FBnwuOAMS/021eZTU+pKR3zwnyHPrX9
-         W/gaIKHuKQZ50fUCHI83ZiAGMwWxig15KKEK1E7wA3mvoTlGTvd9lbstVo+nPcVEjDlH
-         s+vgyNp/NH3DyoTy/FGHzsSqag8pyy773Mp/MbaNzu9OclB2cWkJGwS/ThmuA2bkIVOB
-         k1alzXLuCuXO2fLa6+S7oiUKal1urvZkwuCk8i3VVCip2mBtuFkl0cj/nHw88/lOhQL0
-         vCFzEbqPkDdFrfb/iz+MB1k1EJfg9truG3+ytMSJ1VOObcyo45BSwYajXShsCSl+tBIS
-         mQig==
-X-Gm-Message-State: APjAAAUZUG1JN5/ma9hKxQ0LxLXEnbCnFwEh0jpEudJTGYktetYLzqg6
-        sS6Q+2yQuE74sGwdbxHMSy4=
-X-Google-Smtp-Source: APXvYqwmjXjxSEaRe9RG+96kApF4FxIBDWbITMZ2aIHPK019dzSJkdYU4yT97j41XbzzYAXQbCn2Hg==
-X-Received: by 2002:a63:2ace:: with SMTP id q197mr2335192pgq.371.1556781100875;
-        Thu, 02 May 2019 00:11:40 -0700 (PDT)
+        bh=+ht7GrFTU79fToPKb9Iep8eH6HLgwHBDoqhSDEh8xGU=;
+        b=TM+6E5KThPOUp11c1r4f66wyRga6MtRE4+qXQLodGKCjzqo33ldDRGVGmGmvx0OTs9
+         SOdaEG498HXKB36d14WbSc40JRLZzvjoAa8q3eZCT+fYxTS0BM0FyvzoZykes5zCIZP3
+         e6PQdcmwZ2ckIUHKIQa3i0Gp1LLpnkfvO8d1DF/RrRqtRDc7+KetcPHzT3Rkfl6HAPox
+         AJFFG6XjE/pLl1sY+XoyPi3WNCdrvLge4doXRjKgIP9NPgHNeMYYeiqxjhSFErwNFWj9
+         dYh1h5zJW7Qkjl2w1GyAcV/AbF4n9ao5XL3ZQHXBJZUYv7jGDQJG9Z0Z5ZZhKKihXQR1
+         nQEQ==
+X-Gm-Message-State: APjAAAVZ8139AjZWaPNJTpajwwBseoBBhA1GvkcVh10LJotINu0X+DSL
+        ebnbLYyyqyEjaUGpKbcNSiw=
+X-Google-Smtp-Source: APXvYqx4RDrqub0ciRxOeiw7+beyuzBKmwGhPd628qNerr+hZmAjKMRCpP/QvXKsErFf4tQGtPD9xQ==
+X-Received: by 2002:a62:4e86:: with SMTP id c128mr2466915pfb.39.1556781085723;
+        Thu, 02 May 2019 00:11:25 -0700 (PDT)
 Received: from laptop.DHCP ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id u24sm4686976pfh.91.2019.05.02.00.11.35
+        by smtp.gmail.com with ESMTPSA id u24sm4686976pfh.91.2019.05.02.00.11.21
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 02 May 2019 00:11:39 -0700 (PDT)
+        Thu, 02 May 2019 00:11:24 -0700 (PDT)
 From:   Changbin Du <changbin.du@gmail.com>
 To:     corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de
 Cc:     x86@kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, Changbin Du <changbin.du@gmail.com>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Subject: [PATCH v2 22/27] Documentation: x86: convert x86_64/uefi.txt to reST
-Date:   Thu,  2 May 2019 15:06:28 +0800
-Message-Id: <20190502070633.9809-23-changbin.du@gmail.com>
+Subject: [PATCH v2 19/27] Documentation: x86: convert usb-legacy-support.txt to reST
+Date:   Thu,  2 May 2019 15:06:25 +0800
+Message-Id: <20190502070633.9809-20-changbin.du@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190502070633.9809-1-changbin.du@gmail.com>
 References: <20190502070633.9809-1-changbin.du@gmail.com>
@@ -72,86 +72,77 @@ add it to Sphinx TOC tree. No essential content change.
 Signed-off-by: Changbin Du <changbin.du@gmail.com>
 Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/x86/x86_64/index.rst            |  1 +
- .../x86/x86_64/{uefi.txt => uefi.rst}         | 30 ++++++++++++++-----
- 2 files changed, 24 insertions(+), 7 deletions(-)
- rename Documentation/x86/x86_64/{uefi.txt => uefi.rst} (79%)
+ Documentation/x86/index.rst                   |  1 +
+ ...acy-support.txt => usb-legacy-support.rst} | 40 +++++++++++--------
+ 2 files changed, 24 insertions(+), 17 deletions(-)
+ rename Documentation/x86/{usb-legacy-support.txt => usb-legacy-support.rst} (53%)
 
-diff --git a/Documentation/x86/x86_64/index.rst b/Documentation/x86/x86_64/index.rst
-index a8cf7713cac9..ddfa1f9d4193 100644
---- a/Documentation/x86/x86_64/index.rst
-+++ b/Documentation/x86/x86_64/index.rst
-@@ -8,3 +8,4 @@ x86_64 Support
-    :maxdepth: 2
- 
-    boot-options
-+   uefi
-diff --git a/Documentation/x86/x86_64/uefi.txt b/Documentation/x86/x86_64/uefi.rst
-similarity index 79%
-rename from Documentation/x86/x86_64/uefi.txt
-rename to Documentation/x86/x86_64/uefi.rst
-index a5e2b4fdb170..88c3ba32546f 100644
---- a/Documentation/x86/x86_64/uefi.txt
-+++ b/Documentation/x86/x86_64/uefi.rst
-@@ -1,5 +1,8 @@
+diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
+index 453557097743..3eb0334ae2d4 100644
+--- a/Documentation/x86/index.rst
++++ b/Documentation/x86/index.rst
+@@ -25,3 +25,4 @@ x86-specific Documentation
+    pti
+    microcode
+    resctrl_ui
++   usb-legacy-support
+diff --git a/Documentation/x86/usb-legacy-support.txt b/Documentation/x86/usb-legacy-support.rst
+similarity index 53%
+rename from Documentation/x86/usb-legacy-support.txt
+rename to Documentation/x86/usb-legacy-support.rst
+index 1894cdfc69d9..e01c08b7c981 100644
+--- a/Documentation/x86/usb-legacy-support.txt
++++ b/Documentation/x86/usb-legacy-support.rst
+@@ -1,7 +1,11 @@
++
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+=====================================
- General note on [U]EFI x86_64 support
---------------------------------------
-+=====================================
++==================
+ USB Legacy support
+-~~~~~~~~~~~~~~~~~~
++==================
  
- The nomenclature EFI and UEFI are used interchangeably in this document.
+-Vojtech Pavlik <vojtech@suse.cz>, January 2004
++:Author: Vojtech Pavlik <vojtech@suse.cz>, January 2004
  
-@@ -14,29 +17,42 @@ with EFI firmware and specifications are listed below.
  
- 3. x86_64 platform with EFI/UEFI firmware.
+ Also known as "USB Keyboard" or "USB Mouse support" in the BIOS Setup is a
+@@ -27,18 +31,20 @@ It has several drawbacks, though:
  
--Mechanics:
-+Mechanics
- ---------
--- Build the kernel with the following configuration.
+ Solutions:
+ 
+-Problem 1) can be solved by loading the USB drivers prior to loading the
+-PS/2 mouse driver. Since the PS/2 mouse driver is in 2.6 compiled into
+-the kernel unconditionally, this means the USB drivers need to be
+-compiled-in, too.
+-
+-Problem 2) can currently only be solved by either disabling HIGHMEM64G
+-in the kernel config or USB Legacy support in the BIOS. A BIOS update
+-could help, but so far no such update exists.
+-
+-Problem 3) is usually fixed by a BIOS update. Check the board
+-manufacturers web site. If an update is not available, disable USB
+-Legacy support in the BIOS. If this alone doesn't help, try also adding
+-idle=poll on the kernel command line. The BIOS may be entering the SMM
+-on the HLT instruction as well.
+-
++Problem 1)
++  can be solved by loading the USB drivers prior to loading the
++  PS/2 mouse driver. Since the PS/2 mouse driver is in 2.6 compiled into
++  the kernel unconditionally, this means the USB drivers need to be
++  compiled-in, too.
 +
-+- Build the kernel with the following configuration::
++Problem 2)
++  can currently only be solved by either disabling HIGHMEM64G
++  in the kernel config or USB Legacy support in the BIOS. A BIOS update
++  could help, but so far no such update exists.
 +
- 	CONFIG_FB_EFI=y
- 	CONFIG_FRAMEBUFFER_CONSOLE=y
-+
-   If EFI runtime services are expected, the following configuration should
--  be selected.
-+  be selected::
-+
- 	CONFIG_EFI=y
- 	CONFIG_EFI_VARS=y or m		# optional
-+
- - Create a VFAT partition on the disk
- - Copy the following to the VFAT partition:
-+
- 	elilo bootloader with x86_64 support, elilo configuration file,
- 	kernel image built in first step and corresponding
- 	initrd. Instructions on building elilo	and its dependencies
- 	can be found in the elilo sourceforge project.
-+
- - Boot to EFI shell and invoke elilo choosing the kernel image built
-   in first step.
- - If some or all EFI runtime services don't work, you can try following
-   kernel command line parameters to turn off some or all EFI runtime
-   services.
--	noefi		turn off all EFI runtime services
--	reboot_type=k	turn off EFI reboot runtime service
-+
-+	noefi
-+		turn off all EFI runtime services
-+	reboot_type=k
-+		turn off EFI reboot runtime service
-+
- - If the EFI memory map has additional entries not in the E820 map,
-   you can include those entries in the kernels memory map of available
-   physical RAM by using the following kernel command line parameter.
--	add_efi_memmap	include EFI memory map of available physical RAM
-+
-+	add_efi_memmap
-+		include EFI memory map of available physical RAM
++Problem 3)
++  is usually fixed by a BIOS update. Check the board
++  manufacturers web site. If an update is not available, disable USB
++  Legacy support in the BIOS. If this alone doesn't help, try also adding
++  idle=poll on the kernel command line. The BIOS may be entering the SMM
++  on the HLT instruction as well.
 -- 
 2.20.1
 
