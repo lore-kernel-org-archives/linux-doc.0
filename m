@@ -6,73 +6,72 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E85D67D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 May 2019 03:19:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 768787D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 May 2019 03:27:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726194AbfEBDTP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 1 May 2019 23:19:15 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:36156 "EHLO
+        id S1726197AbfEBD1o (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 1 May 2019 23:27:44 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:41574 "EHLO
         mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726183AbfEBDTP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 May 2019 23:19:15 -0400
-Received: by mail-pg1-f194.google.com with SMTP id 85so396776pgc.3;
-        Wed, 01 May 2019 20:19:14 -0700 (PDT)
+        with ESMTP id S1726194AbfEBD1n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 1 May 2019 23:27:43 -0400
+Received: by mail-pg1-f194.google.com with SMTP id f6so393209pgs.8;
+        Wed, 01 May 2019 20:27:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=/yzpTsai6h5BSaF4rNTM64MdCNaobw+dmMem9j3pOdo=;
-        b=uGH1EA0F/v45/Jf+fjzwNzVHFlZBxjkl2oO3ncpjY/to82XkEnBWuU+GGns7TIrpXb
-         SXX8g6kibo/t6RrheeIMPDQZuq7BkjSm3dSPqnxcHUf2SWmOvpEDrbzJQXLjr92AgW0F
-         8iMOBMkEkEst9N4bNf8DLaN/mIUCFXoR5QEHdqHXX+9eSKqIvxmEwP3VXfrWE2xjzz8b
-         l/gNRJ5nMDpXq3e+J/cdRYvH3EHn8MX6JICGRfQgbVb4NjAkoJK4VO6PIplfEXevQygM
-         AjBpaZCyEwV4XYUOJ82lyRQprgAoyFwqvZRL0swnzxkNCuSNNbgKQ4WbhFsZw0nu4uHF
-         UN2w==
+        bh=VAd0SGkp85Ez2t+J3zfmV6dJFmC5cfQc6TKioyESibE=;
+        b=YEDS8kDsjQ4oc5I/WaQogus8axs3IGZlRQ4gmsIkmaYusOkDrJjkrmhb3ZfaDpnWK3
+         017o5cucCMqSU8Vph7a49k+jmPKkMGrQ3wLqf3hm+LOFw0eXgJ93AmlKJ+MhgQrZ8QOp
+         RO3ZjHM/LTctBRRNS9MiIEfkEAQAd5ZrzB6qTXfOyuUf0vy9ahE0wzLbRmvlFGEShlrj
+         VC6Zhy3U+gBpXjiL/mINuu1tHXUiInLHq9vDXSN7FP3uRVB0pYaZnG3Gq5hbNn+iuuY+
+         ls+0B7tZ2BXheiukxtNXAzNCazvcYOykKZRgIySSv9CFVzXD7wRZcW2D2nRq8RDcT+kf
+         oqaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=/yzpTsai6h5BSaF4rNTM64MdCNaobw+dmMem9j3pOdo=;
-        b=eNYcU9hPgTKRovdOJRNkBQ7kG3FJzt9GvMS/1zbyZaj1LPyp3Flh/DOOFXvmuGbmRo
-         SLeqCO1eDpUo0wUAtJnDDpvV2BndnFks7IATaEonu4fbMIecqR6oB3rmjnN/V/vwCIMk
-         iZeizKybiwhepF0Q5A9291wkUeSpmJKWM+HoyGtyhMjrXTXtjq0OyaVbcsJApsPZM2e6
-         uE2bQTjzf25/ZDxUg4NtbcDLR35yi3YyGxrHcpxhPtbIUI+rVTm91G+Kr0urvE2smBfh
-         +GJ1x8Vsv489IdM4QCkZV5yJ9AQjisWQUG6yvNye1Aur7Day5b2wnmxHvtxkFrAYHcgC
-         YfLA==
-X-Gm-Message-State: APjAAAXTrPJeTYXlTqQC/cmVIDjWKfKyiPq87GmdpCpB+J46QkW1MrfE
-        AB/OxiYMvF0fe93eY0emRCPBXc4P
-X-Google-Smtp-Source: APXvYqwPmkM5aU5+IbM7cOc0Dv6IhFFaGs2hvOsWVI1Une65a88pfb/LXfZDiV1B/pxirMVHgQdyNg==
-X-Received: by 2002:aa7:90ca:: with SMTP id k10mr1477496pfk.144.1556767153813;
-        Wed, 01 May 2019 20:19:13 -0700 (PDT)
+        bh=VAd0SGkp85Ez2t+J3zfmV6dJFmC5cfQc6TKioyESibE=;
+        b=QQSz49LDrqrjVri0bRmrm+WaTPj6IY7veDrGXkVlnaY21v0HCJ9Tu0xJz4xiiXjg9V
+         Ah/uM/ZiLo6YVxTRrrT0OjvA5/gaf/zhBllLbQhV227bPkUcsL5qc8Nb0Ku1Nf3lZpQX
+         5TYl21tprNrPgeWo0pzN1YZsgp8kHvZwvl/M5e9Pinxl+W6lPxO9nv67OM/CYPivg7tX
+         OsL6hZpaIxV7Tbuh5v0BHCneRMfpaJISVU0/scY1SSfatUHfdDjYhOm+YFiMhHyYM6BF
+         1oZRTLooh36mbNjwvbmWIxcTuwUQs4L4Tjtn44+xsvAUXUDetPsWI9VlDd/TTTC+z2mO
+         q8FA==
+X-Gm-Message-State: APjAAAVYGkwVj9byJOKjwpu6t2s3+8N0+gH/yk2FVzlWXfO3pF74yDzr
+        ncjglmBAmniA10JGFeteVfU=
+X-Google-Smtp-Source: APXvYqylTKyWwsafrns386rxx2eucGo17d+qJ8VspXZzpBOpI6ZQ3B6ljK2DZc+cED1Q5QWgYMNi3w==
+X-Received: by 2002:a65:4589:: with SMTP id o9mr1462346pgq.381.1556767662820;
+        Wed, 01 May 2019 20:27:42 -0700 (PDT)
 Received: from mail.google.com ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id m9sm8468985pfh.99.2019.05.01.20.19.08
+        by smtp.gmail.com with ESMTPSA id o2sm61070195pgq.1.2019.05.01.20.27.34
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 01 May 2019 20:19:13 -0700 (PDT)
-Date:   Thu, 2 May 2019 11:19:04 +0800
+        Wed, 01 May 2019 20:27:41 -0700 (PDT)
+Date:   Thu, 2 May 2019 11:27:29 +0800
 From:   Changbin Du <changbin.du@gmail.com>
 To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Changbin Du <changbin.du@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>, tglx@linutronix.de,
         mingo@redhat.com, bp@alien8.de, x86@kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 04/27] Documentation: x86: convert exception-tables.txt
- to reST
-Message-ID: <20190502031902.b6h7upsfom37jqa5@mail.google.com>
+Subject: Re: [PATCH 07/27] Documentation: x86: convert earlyprintk.txt to reST
+Message-ID: <20190502032727.3r75t2dot5dgxagk@mail.google.com>
 References: <20190426153150.21228-1-changbin.du@gmail.com>
- <20190426153150.21228-5-changbin.du@gmail.com>
- <20190427114826.340aa8bd@coco.lan>
+ <20190426153150.21228-8-changbin.du@gmail.com>
+ <20190427141739.6e18f127@coco.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190427114826.340aa8bd@coco.lan>
+In-Reply-To: <20190427141739.6e18f127@coco.lan>
 User-Agent: NeoMutt/20180716
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Apr 27, 2019 at 11:48:26AM -0300, Mauro Carvalho Chehab wrote:
-> Em Fri, 26 Apr 2019 23:31:27 +0800
+On Sat, Apr 27, 2019 at 02:17:39PM -0300, Mauro Carvalho Chehab wrote:
+> Em Fri, 26 Apr 2019 23:31:30 +0800
 > Changbin Du <changbin.du@gmail.com> escreveu:
 > 
 > > This converts the plain text documentation to reStructuredText format and
@@ -80,392 +79,229 @@ On Sat, Apr 27, 2019 at 11:48:26AM -0300, Mauro Carvalho Chehab wrote:
 > > 
 > > Signed-off-by: Changbin Du <changbin.du@gmail.com>
 > > ---
-> >  ...eption-tables.txt => exception-tables.rst} | 231 ++++++++++--------
+> >  .../x86/{earlyprintk.txt => earlyprintk.rst}  | 103 ++++++++++--------
 > >  Documentation/x86/index.rst                   |   1 +
-> >  2 files changed, 126 insertions(+), 106 deletions(-)
-> >  rename Documentation/x86/{exception-tables.txt => exception-tables.rst} (67%)
+> >  2 files changed, 57 insertions(+), 47 deletions(-)
+> >  rename Documentation/x86/{earlyprintk.txt => earlyprintk.rst} (59%)
 > > 
-> > diff --git a/Documentation/x86/exception-tables.txt b/Documentation/x86/exception-tables.rst
-> > similarity index 67%
-> > rename from Documentation/x86/exception-tables.txt
-> > rename to Documentation/x86/exception-tables.rst
-> > index e396bcd8d830..2ffb096c8b58 100644
-> > --- a/Documentation/x86/exception-tables.txt
-> > +++ b/Documentation/x86/exception-tables.rst
-> > @@ -1,5 +1,10 @@
-> > -     Kernel level exception handling in Linux
-> > -  Commentary by Joerg Pommnitz <joerg@raleigh.ibm.com>
+> > diff --git a/Documentation/x86/earlyprintk.txt b/Documentation/x86/earlyprintk.rst
+> > similarity index 59%
+> > rename from Documentation/x86/earlyprintk.txt
+> > rename to Documentation/x86/earlyprintk.rst
+> > index 46933e06c972..7714e32501ec 100644
+> > --- a/Documentation/x86/earlyprintk.txt
+> > +++ b/Documentation/x86/earlyprintk.rst
+> > @@ -1,52 +1,58 @@
 > > +.. SPDX-License-Identifier: GPL-2.0
 > > +
-> > +===============================
-> > +Kernel level exception handling
-> > +===============================
-> > +
-> > +Commentary by Joerg Pommnitz <joerg@raleigh.ibm.com>
+> > +============
+> > +Early Printk
+> > +============
 > >  
-> >  When a process runs in kernel mode, it often has to access user
-> >  mode memory whose address has been passed by an untrusted program.
-> > @@ -25,9 +30,9 @@ How does this work?
+> >  Mini-HOWTO for using the earlyprintk=dbgp boot option with a
+> >  USB2 Debug port key and a debug cable, on x86 systems.
 > >  
-> >  Whenever the kernel tries to access an address that is currently not
-> >  accessible, the CPU generates a page fault exception and calls the
-> > -page fault handler
-> > +page fault handler::
+> >  You need two computers, the 'USB debug key' special gadget and
+> > -and two USB cables, connected like this:
+> > +and two USB cables, connected like this::
 > >  
-> > -void do_page_fault(struct pt_regs *regs, unsigned long error_code)
-> > +  void do_page_fault(struct pt_regs *regs, unsigned long error_code)
+> >    [host/target] <-------> [USB debug key] <-------> [client/console]
 > >  
-> >  in arch/x86/mm/fault.c. The parameters on the stack are set up by
-> >  the low level assembly glue in arch/x86/kernel/entry_32.S. The parameter
-> > @@ -57,73 +62,74 @@ as an example. The definition is somewhat hard to follow, so let's peek at
-> >  the code generated by the preprocessor and the compiler. I selected
-> >  the get_user call in drivers/char/sysrq.c for a detailed examination.
-> >  
-> > -The original code in sysrq.c line 587:
-> > +The original code in sysrq.c line 587::
-> > +
-> >          get_user(c, buf);
-> >  
-> > -The preprocessor output (edited to become somewhat readable):
+> > -1. There are a number of specific hardware requirements:
 > > -
-> > -(
-> > -  {
-> > -    long __gu_err = - 14 , __gu_val = 0;
-> > -    const __typeof__(*( (  buf ) )) *__gu_addr = ((buf));
-> > -    if (((((0 + current_set[0])->tss.segment) == 0x18 )  ||
-> > -       (((sizeof(*(buf))) <= 0xC0000000UL) &&
-> > -       ((unsigned long)(__gu_addr ) <= 0xC0000000UL - (sizeof(*(buf)))))))
-> > -      do {
-> > -        __gu_err  = 0;
-> > -        switch ((sizeof(*(buf)))) {
-> > -          case 1:
-> > -            __asm__ __volatile__(
-> > -              "1:      mov" "b" " %2,%" "b" "1\n"
-> > -              "2:\n"
-> > -              ".section .fixup,\"ax\"\n"
-> > -              "3:      movl %3,%0\n"
-> > -              "        xor" "b" " %" "b" "1,%" "b" "1\n"
-> > -              "        jmp 2b\n"
-> > -              ".section __ex_table,\"a\"\n"
-> > -              "        .align 4\n"
-> > -              "        .long 1b,3b\n"
-> > -              ".text"        : "=r"(__gu_err), "=q" (__gu_val): "m"((*(struct __large_struct *)
-> > -                            (   __gu_addr   )) ), "i"(- 14 ), "0"(  __gu_err  )) ;
-> > -              break;
-> > -          case 2:
-> > -            __asm__ __volatile__(
-> > -              "1:      mov" "w" " %2,%" "w" "1\n"
-> > -              "2:\n"
-> > -              ".section .fixup,\"ax\"\n"
-> > -              "3:      movl %3,%0\n"
-> > -              "        xor" "w" " %" "w" "1,%" "w" "1\n"
-> > -              "        jmp 2b\n"
-> > -              ".section __ex_table,\"a\"\n"
-> > -              "        .align 4\n"
-> > -              "        .long 1b,3b\n"
-> > -              ".text"        : "=r"(__gu_err), "=r" (__gu_val) : "m"((*(struct __large_struct *)
-> > -                            (   __gu_addr   )) ), "i"(- 14 ), "0"(  __gu_err  ));
-> > -              break;
-> > -          case 4:
-> > -            __asm__ __volatile__(
-> > -              "1:      mov" "l" " %2,%" "" "1\n"
-> > -              "2:\n"
-> > -              ".section .fixup,\"ax\"\n"
-> > -              "3:      movl %3,%0\n"
-> > -              "        xor" "l" " %" "" "1,%" "" "1\n"
-> > -              "        jmp 2b\n"
-> > -              ".section __ex_table,\"a\"\n"
-> > -              "        .align 4\n"        "        .long 1b,3b\n"
-> > -              ".text"        : "=r"(__gu_err), "=r" (__gu_val) : "m"((*(struct __large_struct *)
-> > -                            (   __gu_addr   )) ), "i"(- 14 ), "0"(__gu_err));
-> > -              break;
-> > -          default:
-> > -            (__gu_val) = __get_user_bad();
-> > -        }
-> > -      } while (0) ;
-> > -    ((c)) = (__typeof__(*((buf))))__gu_val;
-> > -    __gu_err;
-> > -  }
-> > -);
-> > +The preprocessor output (edited to become somewhat readable)::
+> > - a.) Host/target system needs to have USB debug port capability.
+> > -
+> > - You can check this capability by looking at a 'Debug port' bit in
+> > - the lspci -vvv output:
+> > -
+> > - # lspci -vvv
+> > - ...
+> > - 00:1d.7 USB Controller: Intel Corporation 82801H (ICH8 Family) USB2 EHCI Controller #1 (rev 03) (prog-if 20 [EHCI])
+> > -         Subsystem: Lenovo ThinkPad T61
+> > -         Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR+ FastB2B- DisINTx-
+> > -         Status: Cap+ 66MHz- UDF- FastB2B+ ParErr- DEVSEL=medium >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+> > -         Latency: 0
+> > -         Interrupt: pin D routed to IRQ 19
+> > -         Region 0: Memory at fe227000 (32-bit, non-prefetchable) [size=1K]
+> > -         Capabilities: [50] Power Management version 2
+> > -                 Flags: PMEClk- DSI- D1- D2- AuxCurrent=375mA PME(D0+,D1-,D2-,D3hot+,D3cold+)
+> > -                 Status: D0 PME-Enable- DSel=0 DScale=0 PME+
+> > -         Capabilities: [58] Debug port: BAR=1 offset=00a0
+> > +Hardware requirements
+> > +=====================
 > > +
-> > +  (
-> > +    {
-> > +      long __gu_err = - 14 , __gu_val = 0;
-> > +      const __typeof__(*( (  buf ) )) *__gu_addr = ((buf));
-> > +      if (((((0 + current_set[0])->tss.segment) == 0x18 )  ||
-> > +        (((sizeof(*(buf))) <= 0xC0000000UL) &&
-> > +        ((unsigned long)(__gu_addr ) <= 0xC0000000UL - (sizeof(*(buf)))))))
-> > +        do {
-> > +          __gu_err  = 0;
-> > +          switch ((sizeof(*(buf)))) {
-> > +            case 1:
-> > +              __asm__ __volatile__(
-> > +                "1:      mov" "b" " %2,%" "b" "1\n"
-> > +                "2:\n"
-> > +                ".section .fixup,\"ax\"\n"
-> > +                "3:      movl %3,%0\n"
-> > +                "        xor" "b" " %" "b" "1,%" "b" "1\n"
-> > +                "        jmp 2b\n"
-> > +                ".section __ex_table,\"a\"\n"
-> > +                "        .align 4\n"
-> > +                "        .long 1b,3b\n"
-> > +                ".text"        : "=r"(__gu_err), "=q" (__gu_val): "m"((*(struct __large_struct *)
-> > +                              (   __gu_addr   )) ), "i"(- 14 ), "0"(  __gu_err  )) ;
-> > +                break;
-> > +            case 2:
-> > +              __asm__ __volatile__(
-> > +                "1:      mov" "w" " %2,%" "w" "1\n"
-> > +                "2:\n"
-> > +                ".section .fixup,\"ax\"\n"
-> > +                "3:      movl %3,%0\n"
-> > +                "        xor" "w" " %" "w" "1,%" "w" "1\n"
-> > +                "        jmp 2b\n"
-> > +                ".section __ex_table,\"a\"\n"
-> > +                "        .align 4\n"
-> > +                "        .long 1b,3b\n"
-> > +                ".text"        : "=r"(__gu_err), "=r" (__gu_val) : "m"((*(struct __large_struct *)
-> > +                              (   __gu_addr   )) ), "i"(- 14 ), "0"(  __gu_err  ));
-> > +                break;
-> > +            case 4:
-> > +              __asm__ __volatile__(
-> > +                "1:      mov" "l" " %2,%" "" "1\n"
-> > +                "2:\n"
-> > +                ".section .fixup,\"ax\"\n"
-> > +                "3:      movl %3,%0\n"
-> > +                "        xor" "l" " %" "" "1,%" "" "1\n"
-> > +                "        jmp 2b\n"
-> > +                ".section __ex_table,\"a\"\n"
-> > +                "        .align 4\n"        "        .long 1b,3b\n"
-> > +                ".text"        : "=r"(__gu_err), "=r" (__gu_val) : "m"((*(struct __large_struct *)
-> > +                              (   __gu_addr   )) ), "i"(- 14 ), "0"(__gu_err));
-> > +                break;
-> > +            default:
-> > +              (__gu_val) = __get_user_bad();
-> > +          }
-> > +        } while (0) ;
-> > +      ((c)) = (__typeof__(*((buf))))__gu_val;
-> > +      __gu_err;
-> > +    }
-> > +  );
-> >  
-> >  WOW! Black GCC/assembly magic. This is impossible to follow, so let's
-> > -see what code gcc generates:
-> > +see what code gcc generates::
-> >  
-> >   >         xorl %edx,%edx
-> >   >         movl current_set,%eax  
-> > @@ -154,7 +160,7 @@ understand. Can we? The actual user access is quite obvious. Thanks
-> >  to the unified address space we can just access the address in user
-> >  memory. But what does the .section stuff do?????
-> >  
-> > -To understand this we have to look at the final kernel:
-> > +To understand this we have to look at the final kernel::
-> >  
-> >   > objdump --section-headers vmlinux
-> >   >  
-> > @@ -181,7 +187,7 @@ To understand this we have to look at the final kernel:
-> >  
-> >  There are obviously 2 non standard ELF sections in the generated object
-> >  file. But first we want to find out what happened to our code in the
-> > -final kernel executable:
-> > +final kernel executable::
-> >  
-> >   > objdump --disassemble --section=.text vmlinux
-> >   >  
-> > @@ -199,7 +205,7 @@ final kernel executable:
-> >  The whole user memory access is reduced to 10 x86 machine instructions.
-> >  The instructions bracketed in the .section directives are no longer
-> >  in the normal execution path. They are located in a different section
-> > -of the executable file:
-> > +of the executable file::
-> >  
-> >   > objdump --disassemble --section=.fixup vmlinux
-> >   >  
-> > @@ -207,14 +213,15 @@ of the executable file:
-> >   > c0199ffa <.fixup+10ba> xorb   %dl,%dl
-> >   > c0199ffc <.fixup+10bc> jmp    c017e7a7 <do_con_write+e3>  
-> >  
-> > -And finally:
-> > +And finally::
+> > +  a) Host/target system needs to have USB debug port capability.
 > > +
-> >   > objdump --full-contents --section=__ex_table vmlinux
-> >   >
-> >   >  c01aa7c4 93c017c0 e09f19c0 97c017c0 99c017c0  ................
-> >   >  c01aa7d4 f6c217c0 e99f19c0 a5e717c0 f59f19c0  ................
-> >   >  c01aa7e4 080a18c0 01a019c0 0a0a18c0 04a019c0  ................  
-> >  
-> > -or in human readable byte order:
-> > +or in human readable byte order::
-> >  
-> >   >  c01aa7c4 c017c093 c0199fe0 c017c097 c017c099  ................
-> >   >  c01aa7d4 c017c2f6 c0199fe9 c017e7a5 c0199ff5  ................  
-> > @@ -222,18 +229,22 @@ or in human readable byte order:
-> >                                 this is the interesting part!
-> >   >  c01aa7e4 c0180a08 c019a001 c0180a0a c019a004  ................  
-> >  
-> > -What happened? The assembly directives
-> > +What happened? The assembly directives::
-> >  
-> > -.section .fixup,"ax"
-> > -.section __ex_table,"a"
-> > +  .section .fixup,"ax"
-> > +  .section __ex_table,"a"
-> >  
-> >  told the assembler to move the following code to the specified
-> > -sections in the ELF object file. So the instructions
-> > -3:      movl $-14,%eax
-> > -        xorb %dl,%dl
-> > -        jmp 2b
-> > -ended up in the .fixup section of the object file and the addresses
-> > +sections in the ELF object file. So the instructions::
+> > +     You can check this capability by looking at a 'Debug port' bit in
+> > +     the lspci -vvv output::
 > > +
-> > +  3:      movl $-14,%eax
-> > +          xorb %dl,%dl
-> > +          jmp 2b
-> > +
-> > +ended up in the .fixup section of the object file and the addresses::
-> > +
-> >          .long 1b,3b
-> > +
-> >  ended up in the __ex_table section of the object file. 1b and 3b
-> >  are local labels. The local label 1b (1b stands for next label 1
-> >  backward) is the address of the instruction that might fault, i.e.
-> > @@ -246,35 +257,39 @@ the fault, in our case the actual value is c0199ff5:
-> >  the original assembly code: > 3:      movl $-14,%eax
-> >  and linked in vmlinux     : > c0199ff5 <.fixup+10b5> movl   $0xfffffff2,%eax
+> > +       # lspci -vvv
+> > +       ...
+> > +       00:1d.7 USB Controller: Intel Corporation 82801H (ICH8 Family) USB2 EHCI Controller #1 (rev 03) (prog-if 20 [EHCI])
+> > +               Subsystem: Lenovo ThinkPad T61
+> > +               Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR+ FastB2B- DisINTx-
+> > +               Status: Cap+ 66MHz- UDF- FastB2B+ ParErr- DEVSEL=medium >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+> > +               Latency: 0
+> > +               Interrupt: pin D routed to IRQ 19
+> > +               Region 0: Memory at fe227000 (32-bit, non-prefetchable) [size=1K]
+> > +               Capabilities: [50] Power Management version 2
+> > +                       Flags: PMEClk- DSI- D1- D2- AuxCurrent=375mA PME(D0+,D1-,D2-,D3hot+,D3cold+)
+> > +                       Status: D0 PME-Enable- DSel=0 DScale=0 PME+
+> > +               Capabilities: [58] Debug port: BAR=1 offset=00a0
+> >                              ^^^^^^^^^^^ <==================== [ HERE ]
+> > -	 Kernel driver in use: ehci_hcd
+> > -         Kernel modules: ehci-hcd
+> > - ...
+> > +               Kernel driver in use: ehci_hcd
+> > +               Kernel modules: ehci-hcd
+> > +       ...
 > >  
-> > -The assembly code
-> > +The assembly code::
-> > +
-> >   > .section __ex_table,"a"
-> >   >         .align 4
-> >   >         .long 1b,3b  
-> >  
-> > -becomes the value pair
-> > +becomes the value pair::
-> > +
-> >   >  c01aa7d4 c017c2f6 c0199fe9 c017e7a5 c0199ff5  ................  
-> >                                 ^this is ^this is
-> >                                 1b       3b
-> > +
-> >  c017e7a5,c0199ff5 in the exception table of the kernel.
-> >  
-> >  So, what actually happens if a fault from kernel mode with no suitable
-> >  vma occurs?
-> >  
-> > -1.) access to invalid address:
-> > - > c017e7a5 <do_con_write+e1> movb   (%ebx),%dl  
-> > -2.) MMU generates exception
-> > -3.) CPU calls do_page_fault
-> > -4.) do page fault calls search_exception_table (regs->eip == c017e7a5);
-> > -5.) search_exception_table looks up the address c017e7a5 in the
-> > -    exception table (i.e. the contents of the ELF section __ex_table)
-> > -    and returns the address of the associated fault handle code c0199ff5.
-> > -6.) do_page_fault modifies its own return address to point to the fault
-> > -    handle code and returns.
-> > -7.) execution continues in the fault handling code.
-> > -8.) 8a) EAX becomes -EFAULT (== -14)
-> > -    8b) DL  becomes zero (the value we "read" from user space)
-> > -    8c) execution continues at local label 2 (address of the
-> > -        instruction immediately after the faulting user access).
-> > +#. access to invalid address::
-> > +
-> > +    > c017e7a5 <do_con_write+e1> movb   (%ebx),%dl
-> > +#. MMU generates exception
-> > +#. CPU calls do_page_fault
-> > +#. do page fault calls search_exception_table (regs->eip == c017e7a5);
-> > +#. search_exception_table looks up the address c017e7a5 in the
-> > +   exception table (i.e. the contents of the ELF section __ex_table)
-> > +   and returns the address of the associated fault handle code c0199ff5.
-> > +#. do_page_fault modifies its own return address to point to the fault
-> > +   handle code and returns.
-> > +#. execution continues in the fault handling code.
-> > +#. a) EAX becomes -EFAULT (== -14)
-> > +   b) DL  becomes zero (the value we "read" from user space)
-> > +   c) execution continues at local label 2 (address of the
-> > +      instruction immediately after the faulting user access).
-> >  
-> >  The steps 8a to 8c in a certain way emulate the faulting instruction.
-> >  
-> > @@ -295,14 +310,15 @@ Things changed when 64-bit support was added to x86 Linux. Rather than
-> >  double the size of the exception table by expanding the two entries
-> >  from 32-bits to 64 bits, a clever trick was used to store addresses
-> >  as relative offsets from the table itself. The assembly code changed
-> > -from:
-> > -	.long 1b,3b
-> > -to:
-> > -        .long (from) - .
-> > -        .long (to) - .
-> > +from::
-> > +
-> > +    .long 1b,3b
-> > +  to:
-> > +          .long (from) - .
-> > +          .long (to) - .
-> >  
-> >  and the C-code that uses these values converts back to absolute addresses
-> > -like this:
-> > +like this::
-> >  
-> >  	ex_insn_addr(const struct exception_table_entry *x)
-> >  	{
-> > @@ -313,15 +329,18 @@ In v4.6 the exception table entry was expanded with a new field "handler".
-> >  This is also 32-bits wide and contains a third relative function
-> >  pointer which points to one of:
-> >  
-> > -1) int ex_handler_default(const struct exception_table_entry *fixup)
-> > +1) `int ex_handler_default(const struct exception_table_entry *fixup)`
-> >     This is legacy case that just jumps to the fixup code
+> > -( If your system does not list a debug port capability then you probably
+> > -  won't be able to use the USB debug key. )
+> > +     .. note::
+> > +       If your system does not list a debug port capability then you probably
+> > +       won't be able to use the USB debug key. )
 > 
-> You should like change the indentation, or add an extra line, as otherwise, 
-> it will be shown as:
-> 
-> 	1. int ex_handler_default(const struct exception_table_entry *fixup) This is legacy case that just jumps to the fixup code
-> 	...
-> 
-> I would do, instead:
-> 
-> 	1) ``int ex_handler_default(const struct exception_table_entry *fixup)``
-> 		This is legacy case that just jumps to the fixup code
-> 
-> With would make the function name monospaced and bold, and place the
-> function explanation at the next line.
-> 
-> Same is valid for (2) and (3) below.
-> 
-> With such change:
-> 
-> Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> You should remove the close parenthesis on the above line.
 >
-Fixed all. Thanks.
+Fixed.
 
+> >  
+> > - b.) You also need a NetChip USB debug cable/key:
+> > +  b) You also need a NetChip USB debug cable/key:
+> >  
+> >          http://www.plxtech.com/products/NET2000/NET20DC/default.asp
+> >  
+> >       This is a small blue plastic connector with two USB connections;
+> >       it draws power from its USB connections.
+> >  
+> > - c.) You need a second client/console system with a high speed USB 2.0
+> > -     port.
+> > +  c) You need a second client/console system with a high speed USB 2.0 port.
+> >  
+> > - d.) The NetChip device must be plugged directly into the physical
+> > -     debug port on the "host/target" system.  You cannot use a USB hub in
+> > +  d) The NetChip device must be plugged directly into the physical
+> > +     debug port on the "host/target" system. You cannot use a USB hub in
+> >       between the physical debug port and the "host/target" system.
+> >  
+> >       The EHCI debug controller is bound to a specific physical USB
+> > @@ -65,24 +71,26 @@ and two USB cables, connected like this:
+> >       to the hardware vendor, because there is no reason not to wire
+> >       this port into one of the physically accessible ports.
+> >  
+> > - e.) It is also important to note, that many versions of the NetChip
+> > +  e) It is also important to note, that many versions of the NetChip
+> >       device require the "client/console" system to be plugged into the
+> >       right hand side of the device (with the product logo facing up and
+> >       readable left to right).  The reason being is that the 5 volt
+> >       power supply is taken from only one side of the device and it
+> >       must be the side that does not get rebooted.
+> >  
+> > -2. Software requirements:
+> > +Software requirements
+> > +=====================
+> >  
+> > - a.) On the host/target system:
+> > +  a) On the host/target system:
+> >  
+> > -    You need to enable the following kernel config option:
+> > +    You need to enable the following kernel config option::
+> >  
+> >        CONFIG_EARLY_PRINTK_DBGP=y
+> >  
+> >      And you need to add the boot command line: "earlyprintk=dbgp".
+> >  
+> > -    (If you are using Grub, append it to the 'kernel' line in
+> > +    .. note::
+> > +     If you are using Grub, append it to the 'kernel' line in
+> >      /etc/grub.conf.  If you are using Grub2 on a BIOS firmware system,
+> >      append it to the 'linux' line in /boot/grub2/grub.cfg. If you are
+> >      using Grub2 on an EFI firmware system, append it to the 'linux'
+> >      or 'linuxefi' line in /boot/grub2/grub.cfg or
+> >      /boot/efi/EFI/<distro>/grub.cfg.)
 > 
-> > -2) int ex_handler_fault(const struct exception_table_entry *fixup)
-> > +
-> > +2) `int ex_handler_fault(const struct exception_table_entry *fixup)`
-> >     This case provides the fault number of the trap that occurred at
-> >     entry->insn. It is used to distinguish page faults from machine
-> >     check.
-> > -3) int ex_handler_ext(const struct exception_table_entry *fixup)
-> > +
-> > +3) `int ex_handler_ext(const struct exception_table_entry *fixup)`
-> >     This case is used for uaccess_err ... we need to set a flag
-> >     in the task structure. Before the handler functions existed this
-> >     case was handled by adding a large offset to the fixup to tag
-> >     it as special.
+> Same here: You should remove the close parenthesis on the above line.
 > 
-> > +
-> >  More functions can easily be added.
+> 
+> >       /etc/grub.conf.  If you are using Grub2 on a BIOS firmware system,
+> >       append it to the 'linux' line in /boot/grub2/grub.cfg. If you are
+> >       using Grub2 on an EFI firmware system, append it to the 'linux'
+> 
+> Hmm... there is another note here:
+> 
+>      NOTE: normally earlyprintk console gets turned off once the
+>      regular console is alive - use "earlyprintk=dbgp,keep" to keep
+>      this channel open beyond early bootup. This can be useful for
+>      debugging crashes under Xorg, etc.
+> 
+> Why are you keeping it untouched?
+>
+I missed this block. Now fixed.
+
+> After fixing the above:
+> 
+> Reviewed-by: 
+> 
+> > @@ -101,9 +109,9 @@ and two USB cables, connected like this:
+> >      this channel open beyond early bootup. This can be useful for
+> >      debugging crashes under Xorg, etc.
+> >  
+> > - b.) On the client/console system:
+> > +  b) On the client/console system:
+> >  
+> > -    You should enable the following kernel config option:
+> > +    You should enable the following kernel config option::
+> >  
+> >        CONFIG_USB_SERIAL_DEBUG=y
+> >  
+> > @@ -115,27 +123,28 @@ and two USB cables, connected like this:
+> >      it up to use /dev/ttyUSB0 - or use a raw 'cat /dev/ttyUSBx' to
+> >      see the raw output.
+> >  
+> > - c.) On Nvidia Southbridge based systems: the kernel will try to probe
+> > +  c) On Nvidia Southbridge based systems: the kernel will try to probe
+> >       and find out which port has a debug device connected.
+> >  
+> > -3. Testing that it works fine:
+> > +Testing
+> > +=======
+> >  
+> > -   You can test the output by using earlyprintk=dbgp,keep and provoking
+> > -   kernel messages on the host/target system. You can provoke a harmless
+> > -   kernel message by for example doing:
+> > +You can test the output by using earlyprintk=dbgp,keep and provoking
+> > +kernel messages on the host/target system. You can provoke a harmless
+> > +kernel message by for example doing::
+> >  
+> >       echo h > /proc/sysrq-trigger
+> >  
+> > -   On the host/target system you should see this help line in "dmesg" output:
+> > +On the host/target system you should see this help line in "dmesg" output::
+> >  
+> >       SysRq : HELP : loglevel(0-9) reBoot Crashdump terminate-all-tasks(E) memory-full-oom-kill(F) kill-all-tasks(I) saK show-backtrace-all-active-cpus(L) show-memory-usage(M) nice-all-RT-tasks(N) powerOff show-registers(P) show-all-timers(Q) unRaw Sync show-task-states(T) Unmount show-blocked-tasks(W) dump-ftrace-buffer(Z)
+> >  
+> > -   On the client/console system do:
+> > +On the client/console system do::
+> >  
+> >         cat /dev/ttyUSB0
+> >  
+> > -   And you should see the help line above displayed shortly after you've
+> > -   provoked it on the host system.
+> > +And you should see the help line above displayed shortly after you've
+> > +provoked it on the host system.
+> >  
+> >  If it does not work then please ask about it on the linux-kernel@vger.kernel.org
+> >  mailing list or contact the x86 maintainers.
 > > diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
-> > index 2033791e53bc..c0bfd0bd6000 100644
+> > index 8a666c5abc85..7b8388ebd43d 100644
 > > --- a/Documentation/x86/index.rst
 > > +++ b/Documentation/x86/index.rst
-> > @@ -10,3 +10,4 @@ Linux x86 Support
-> >  
-> >     boot
-> >     topology
-> > +   exception-tables
+> > @@ -13,3 +13,4 @@ Linux x86 Support
+> >     exception-tables
+> >     kernel-stacks
+> >     entry_64
+> > +   earlyprintk
 > 
 > 
 > 
