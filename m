@@ -4,58 +4,58 @@ X-Spam-Level:
 X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8DF287D918
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 May 2019 07:11:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6189E7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 May 2019 07:12:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726865AbfEBHLw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 2 May 2019 03:11:52 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:34176 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726536AbfEBHLv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 May 2019 03:11:51 -0400
-Received: by mail-pl1-f195.google.com with SMTP id ck18so616657plb.1;
-        Thu, 02 May 2019 00:11:51 -0700 (PDT)
+        id S1726887AbfEBHMC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 2 May 2019 03:12:02 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:44365 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726513AbfEBHMB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 May 2019 03:12:01 -0400
+Received: by mail-pf1-f194.google.com with SMTP id y13so672448pfm.11;
+        Thu, 02 May 2019 00:12:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=b71hcILz1f2BsDF7VpHynv0OFLT/ZIfiSJGLjPU43yY=;
-        b=YbQqBaVPEsJ/chaMmZLT5aMcZrGCiKU6LW1APVVgLDo8ADBXA88kYpyEuWe3vQjdOR
-         Ts8YiKDjcRNM5d9qjhGMA2hOqjtCelk1XeGExwkqWC5GRsjgPDrHpwcZJgy7x3eTNoAU
-         /8axjPzIyPmNp1NaZ3tcZG4n9tcvGrhOVYxbMHGgBpc/Subg/W3luYw2QPWphKb5FZ5z
-         K/zexXit9HKYopwoa80ytapAdUcRLfoAMR3zQQukNMPUjOLmU6CtS9wi0nxQAQ8uSl5L
-         Juxyey+UtwD2zm3VE3bPSjrooxrhE5dULH/477PgSHXlHpFWX4B1M7HfQOzH+KImIgnB
-         Bmdw==
+        bh=PKBU7pt8rvrhzoOSyv05XPu1ZaQkpgjUMyroog+NNeg=;
+        b=oCGEFHdyBrMaNvRzkrSjazbvihEhYjGKP5k8vSj9bkqv848Mt88G2AdBlGPujjGTzt
+         CaySq+CTRVp/Nx++BPv70omHi0/l77MZLmMdVHl7u5YNjf388MenEovTIFy4DNXplx9M
+         XPttBa0o6pwfraiPzypQgEc3EBe2IHvQSGATJycrh7CJP1zm+xfcbcyq0rFhlatKAmQS
+         1fwFaaFnMtoiDFUKHkaatc1Wybm/0OPQOrGm2Jhqg0DsY7/EbUxF7oKrIk+MgV25y0gA
+         Jv4snS8ZZRPaNHGp4gbHN2a/iChz++JcyTOFYWCCL5x0xJIx3zqUgxqEcWEq23FC/699
+         psQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=b71hcILz1f2BsDF7VpHynv0OFLT/ZIfiSJGLjPU43yY=;
-        b=kQXVMG2Gky6v5tNGG6+d5MSj8qxGrwxlP+lQ1+24SIw3kp7574cxNfeZCUUV4avMOv
-         TqZ1ImZugGHqPelQqqf7hsiuuirgg2z+vxjzq/zdqnIQgpNQIQ0Q5gzZGvhjMGhjZWpz
-         nSan6UFDuA+ICEP+MI4uVfYMThNIQyUPKJjoZyC/V329rznJJ6rC9JvEafMmJF+isDs4
-         rIGh1BLK/upja+7b3wiY4KWzpKLZPASlrmVk3bYuE0WzEZ6joIhoP7W+eUgPtLpMNGEW
-         dbeUFLz5lin2RIiqIpOKdo8cbvhsN/l5H0GeLDAoXMWkFk9t0jc2KvkJ5LeK1xHd7Yzr
-         OKYg==
-X-Gm-Message-State: APjAAAUqO7iZZrG71ZXV0DqNtpzDvxYAOzZH6U6OAaAx4ua9gXd2NZoy
-        E6mplxn1vBj6ifHp3o4GohQ=
-X-Google-Smtp-Source: APXvYqyzSxuboACVPCytRm9W4IiuMlUBjlm7TSBkmCX/V2zONBmwANZwQigz7eT35nXUtVx8vVT5Qg==
-X-Received: by 2002:a17:902:ba8e:: with SMTP id k14mr2163666pls.80.1556781110958;
-        Thu, 02 May 2019 00:11:50 -0700 (PDT)
+        bh=PKBU7pt8rvrhzoOSyv05XPu1ZaQkpgjUMyroog+NNeg=;
+        b=sr/NGqsnMEnUY4uxIcmopxJtBWGBeuUIrJbk4slBMRQWBPEG1C0GokJEbqVChPK/BK
+         eBzj6QcQl2otXPgFypY8wrC2vVhoBb31n8Wjfll/CYhVMlhjnnbzWGkDVLpRXuPwhXCV
+         4wTLMiguUTYUTdIugQwdLCOqFACXuMbKs1nosgFW3x62MSY6XpZ4JXNhj/z/RdhxYPng
+         3psiEOduMuSJC4QeQW1xnjXczsLPzDThSzP6ZMKeCWoRVqhy8TEqMxkguz+9Y0S9T5PG
+         lzLgouD+voLnQ2OaSK0Ycp17iC+1d+V/V+a/zhSHiaT8f/saiQKiY60wx/fvPmhkreAt
+         qkqA==
+X-Gm-Message-State: APjAAAWiH0BycAR79U2mohfpgk5Yz9Ue6iqQWkhglbWUo4e5IfgwCkbT
+        +mAJckad8qmY5TXqKivPsII=
+X-Google-Smtp-Source: APXvYqyE4c+8yniLY+crklQailEtZHDTotQES4gMKpDihqPrCQutVnQh+EHFtzkorGpG+iYFg07ZZQ==
+X-Received: by 2002:a62:fb16:: with SMTP id x22mr2528077pfm.140.1556781121316;
+        Thu, 02 May 2019 00:12:01 -0700 (PDT)
 Received: from laptop.DHCP ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id u24sm4686976pfh.91.2019.05.02.00.11.46
+        by smtp.gmail.com with ESMTPSA id u24sm4686976pfh.91.2019.05.02.00.11.57
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 02 May 2019 00:11:50 -0700 (PDT)
+        Thu, 02 May 2019 00:12:00 -0700 (PDT)
 From:   Changbin Du <changbin.du@gmail.com>
 To:     corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de
 Cc:     x86@kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, Changbin Du <changbin.du@gmail.com>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Subject: [PATCH v2 24/27] Documentation: x86: convert x86_64/5level-paging.txt to reST
-Date:   Thu,  2 May 2019 15:06:30 +0800
-Message-Id: <20190502070633.9809-25-changbin.du@gmail.com>
+Subject: [PATCH v2 26/27] Documentation: x86: convert x86_64/cpu-hotplug-spec to reST
+Date:   Thu,  2 May 2019 15:06:32 +0800
+Message-Id: <20190502070633.9809-27-changbin.du@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190502070633.9809-1-changbin.du@gmail.com>
 References: <20190502070633.9809-1-changbin.du@gmail.com>
@@ -72,66 +72,37 @@ add it to Sphinx TOC tree. No essential content change.
 Signed-off-by: Changbin Du <changbin.du@gmail.com>
 Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- .../{5level-paging.txt => 5level-paging.rst}     | 16 +++++++++++-----
- Documentation/x86/x86_64/index.rst               |  1 +
- 2 files changed, 12 insertions(+), 5 deletions(-)
- rename Documentation/x86/x86_64/{5level-paging.txt => 5level-paging.rst} (91%)
+ .../x86/x86_64/{cpu-hotplug-spec => cpu-hotplug-spec.rst}    | 5 ++++-
+ Documentation/x86/x86_64/index.rst                           | 1 +
+ 2 files changed, 5 insertions(+), 1 deletion(-)
+ rename Documentation/x86/x86_64/{cpu-hotplug-spec => cpu-hotplug-spec.rst} (88%)
 
-diff --git a/Documentation/x86/x86_64/5level-paging.txt b/Documentation/x86/x86_64/5level-paging.rst
-similarity index 91%
-rename from Documentation/x86/x86_64/5level-paging.txt
-rename to Documentation/x86/x86_64/5level-paging.rst
-index 2432a5ef86d9..ab88a4514163 100644
---- a/Documentation/x86/x86_64/5level-paging.txt
-+++ b/Documentation/x86/x86_64/5level-paging.rst
-@@ -1,5 +1,11 @@
--== Overview ==
+diff --git a/Documentation/x86/x86_64/cpu-hotplug-spec b/Documentation/x86/x86_64/cpu-hotplug-spec.rst
+similarity index 88%
+rename from Documentation/x86/x86_64/cpu-hotplug-spec
+rename to Documentation/x86/x86_64/cpu-hotplug-spec.rst
+index 3c23e0587db3..8d1c91f0c880 100644
+--- a/Documentation/x86/x86_64/cpu-hotplug-spec
++++ b/Documentation/x86/x86_64/cpu-hotplug-spec.rst
+@@ -1,5 +1,8 @@
 +.. SPDX-License-Identifier: GPL-2.0
- 
-+==============
-+5-level paging
-+==============
 +
-+Overview
-+========
- Original x86-64 was limited by 4-level paing to 256 TiB of virtual address
- space and 64 TiB of physical address space. We are already bumping into
- this limit: some vendors offers servers with 64 TiB of memory today.
-@@ -16,16 +22,17 @@ QEMU 2.9 and later support 5-level paging.
- Virtual memory layout for 5-level paging is described in
- Documentation/x86/x86_64/mm.txt
++===================================================
+ Firmware support for CPU hotplug under Linux/x86-64
+----------------------------------------------------
++===================================================
  
--== Enabling 5-level paging ==
- 
-+Enabling 5-level paging
-+=======================
- CONFIG_X86_5LEVEL=y enables the feature.
- 
- Kernel with CONFIG_X86_5LEVEL=y still able to boot on 4-level hardware.
- In this case additional page table level -- p4d -- will be folded at
- runtime.
- 
--== User-space and large virtual address space ==
--
-+User-space and large virtual address space
-+==========================================
- On x86, 5-level paging enables 56-bit userspace virtual address space.
- Not all user space is ready to handle wide addresses. It's known that
- at least some JIT compilers use higher bits in pointers to encode their
-@@ -58,4 +65,3 @@ One important case we need to handle here is interaction with MPX.
- MPX (without MAWA extension) cannot handle addresses above 47-bit, so we
- need to make sure that MPX cannot be enabled we already have VMA above
- the boundary and forbid creating such VMAs once MPX is enabled.
--
+ Linux/x86-64 supports CPU hotplug now. For various reasons Linux wants to
+ know in advance of boot time the maximum number of CPUs that could be plugged
 diff --git a/Documentation/x86/x86_64/index.rst b/Documentation/x86/x86_64/index.rst
-index 4b65d29ef459..7b8c82151358 100644
+index e2a324cde671..c04b6eab3c76 100644
 --- a/Documentation/x86/x86_64/index.rst
 +++ b/Documentation/x86/x86_64/index.rst
-@@ -10,3 +10,4 @@ x86_64 Support
-    boot-options
-    uefi
+@@ -12,3 +12,4 @@ x86_64 Support
     mm
-+   5level-paging
+    5level-paging
+    fake-numa-for-cpusets
++   cpu-hotplug-spec
 -- 
 2.20.1
 
