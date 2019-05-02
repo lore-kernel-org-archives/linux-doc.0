@@ -1,89 +1,169 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A5A6F7D8A4
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 May 2019 14:04:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5A4227D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 May 2019 14:30:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726268AbfEBOEb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 2 May 2019 10:04:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41754 "EHLO mail.kernel.org"
+        id S1726327AbfEBOaB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 2 May 2019 10:30:01 -0400
+Received: from foss.arm.com ([217.140.101.70]:46854 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726197AbfEBOEb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 2 May 2019 10:04:31 -0400
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AB3F1206DF;
-        Thu,  2 May 2019 14:04:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1556805870;
-        bh=Wa7agHm7Un4ja3yaCvgGgD1ND3pUZJ7MD4aKZiRFMCM=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=yX5jTSzrUif4ca3k3xa8i9BRvwX2CoEc3LSZADtQzBQU989uyUErZwEyIeGvuAtbz
-         UMq4IZzjZwSlSfIlEfCCs4JueRJdLmpmGVu4hBGn/PniD+9zEIFE0G2oc27b7amOah
-         TyFD1OvQOYCZcqsTjmi92jjUJmi6G3VQLb2z3k/0=
-Subject: Re: [PATCH v2 00/17] kunit: introduce KUnit, the Linux kernel unit
- testing framework
-To:     Greg KH <gregkh@linuxfoundation.org>,
-        Brendan Higgins <brendanhiggins@google.com>
-Cc:     frowand.list@gmail.com, keescook@google.com,
-        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
-        robh@kernel.org, sboyd@kernel.org, devicetree@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-um@lists.infradead.org, Alexander.Levin@microsoft.com,
-        Tim.Bird@sony.com, amir73il@gmail.com, dan.carpenter@oracle.com,
-        dan.j.williams@intel.com, daniel@ffwll.ch, jdike@addtoit.com,
-        joel@jms.id.au, julia.lawall@lip6.fr, khilman@baylibre.com,
-        knut.omang@oracle.com, logang@deltatee.com, mpe@ellerman.id.au,
-        pmladek@suse.com, richard@nod.at, rientjes@google.com,
-        rostedt@goodmis.org, wfg@linux.intel.com, shuah <shuah@kernel.org>
-References: <20190501230126.229218-1-brendanhiggins@google.com>
- <20190502105053.GA12416@kroah.com>
-From:   shuah <shuah@kernel.org>
-Message-ID: <76e84d54-6b7e-8cc1-492b-43822fc43ac4@kernel.org>
-Date:   Thu, 2 May 2019 08:04:14 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726278AbfEBOaA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 2 May 2019 10:30:00 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C155F374;
+        Thu,  2 May 2019 07:29:59 -0700 (PDT)
+Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B4FB13F5AF;
+        Thu,  2 May 2019 07:29:54 -0700 (PDT)
+Date:   Thu, 2 May 2019 15:29:52 +0100
+From:   Dave Martin <Dave.Martin@arm.com>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        libc-alpha@sourceware.org
+Subject: Re: [PATCH] binfmt_elf: Extract .note.gnu.property from an ELF file
+Message-ID: <20190502142951.GP3567@e103592.cambridge.arm.com>
+References: <20190501211217.5039-1-yu-cheng.yu@intel.com>
+ <20190502111003.GO3567@e103592.cambridge.arm.com>
 MIME-Version: 1.0
-In-Reply-To: <20190502105053.GA12416@kroah.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190502111003.GO3567@e103592.cambridge.arm.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/2/19 4:50 AM, Greg KH wrote:
-> On Wed, May 01, 2019 at 04:01:09PM -0700, Brendan Higgins wrote:
->> ## TLDR
->>
->> I rebased the last patchset on 5.1-rc7 in hopes that we can get this in
->> 5.2.
-> 
-> That might be rushing it, normally trees are already closed now for
-> 5.2-rc1 if 5.1-final comes out this Sunday.
-> 
->> Shuah, I think you, Greg KH, and myself talked off thread, and we agreed
->> we would merge through your tree when the time came? Am I remembering
->> correctly?
-> 
-> No objection from me.
-> 
+On Thu, May 02, 2019 at 12:10:04PM +0100, Dave Martin wrote:
+> On Wed, May 01, 2019 at 02:12:17PM -0700, Yu-cheng Yu wrote:
+> > An ELF file's .note.gnu.property indicates features the executable file
+> > can support.  For example, the property GNU_PROPERTY_X86_FEATURE_1_AND
+> > indicates the file supports GNU_PROPERTY_X86_FEATURE_1_IBT and/or
+> > GNU_PROPERTY_X86_FEATURE_1_SHSTK.
+> > 
+> > This patch was part of the Control-flow Enforcement series; the original
+> > patch is here: https://lkml.org/lkml/2018/11/20/205.  Dave Martin responded
+> > that ARM recently introduced new features to NT_GNU_PROPERTY_TYPE_0 with
+> > properties closely modelled on GNU_PROPERTY_X86_FEATURE_1_AND, and it is
+> > logical to split out the generic part.  Here it is.
+> > 
+> > With this patch, if an arch needs to setup features from ELF properties,
+> > it needs CONFIG_ARCH_USE_GNU_PROPERTY to be set, and a specific
+> > arch_setup_property().
+> > 
+> > For example, for X86_64:
+> > 
+> > int arch_setup_property(void *ehdr, void *phdr, struct file *f, bool inter)
+> > {
+> > 	int r;
+> > 	uint32_t property;
+> > 
+> > 	r = get_gnu_property(ehdr, phdr, f, GNU_PROPERTY_X86_FEATURE_1_AND,
+> > 			     &property);
+> > 	...
+> > }
 
-Yes. I can take these through kselftest tree when the time comes.
-Agree with Greg that 5.2 might be rushing it. 5.3 would be a good
-target.
+[...]
 
-thanks,
--- Shuah
+> > diff --git a/fs/binfmt_elf.c b/fs/binfmt_elf.c > > index 7d09d125f148..40aa4a4fd64d 100644
+> > --- a/fs/binfmt_elf.c
+> > +++ b/fs/binfmt_elf.c
+> > @@ -1076,6 +1076,19 @@ static int load_elf_binary(struct linux_binprm *bprm)
+> >  		goto out_free_dentry;
+> >  	}
+> >  
+> > +	if (interpreter) {
+> > +		retval = arch_setup_property(&loc->interp_elf_ex,
+> > +					     interp_elf_phdata,
+> > +					     interpreter, true);
+> > +	} else {
+> > +		retval = arch_setup_property(&loc->elf_ex,
+> > +					     elf_phdata,
+> > +					     bprm->file, false);
+> > +	}
 
+This will be too late for arm64, since we need to twiddle the mmap prot
+flags for the executable's pages based on the detected properties.
 
+Can we instead move this much earlier, letting the arch code stash
+something in arch_state that can be consumed later on?
 
+This also has the advantage that we can report errors to the execve()
+caller before passing the point of no return (i.e., flush_old_exec()).
+
+[...]
+
+> > diff --git a/fs/gnu_property.c b/fs/gnu_property.c
+
+[...]
+
+> > +int get_gnu_property(void *ehdr_p, void *phdr_p, struct file *f,
+> > +		     u32 pr_type, u32 *property)
+> > +{
+> > +	struct elf64_hdr *ehdr64 = ehdr_p;
+> > +	int err = 0;
+> > +
+> > +	*property = 0;
+> > +
+> > +	if (ehdr64->e_ident[EI_CLASS] == ELFCLASS64) {
+> > +		struct elf64_phdr *phdr64 = phdr_p;
+> > +
+> > +		err = scan_segments_64(f, phdr64, ehdr64->e_phnum,
+> > +				       pr_type, property);
+> > +		if (err < 0)
+> > +			goto out;
+> > +	} else {
+> > +#ifdef CONFIG_COMPAT
+> > +		struct elf32_hdr *ehdr32 = ehdr_p;
+> > +
+> > +		if (ehdr32->e_ident[EI_CLASS] == ELFCLASS32) {
+> > +			struct elf32_phdr *phdr32 = phdr_p;
+> > +
+> > +			err = scan_segments_32(f, phdr32, ehdr32->e_phnum,
+> > +					       pr_type, property);
+> > +			if (err < 0)
+> > +				goto out;
+> > +		}
+> > +#else
+> > +	WARN_ONCE(1, "Exec of 32-bit app, but CONFIG_COMPAT is not enabled.\n");
+> > +	return -ENOTSUPP;
+> > +#endif
+> > +	}
+
+We have already made a ton of assumptions about the ELF class by this
+point, and we don't seem to check it explicitly elsewhere, so it is a
+bit weird to police it specifically here.
+
+Can we simply pass the assumed ELF class as a parameter instead?
+
+[...]
+
+Cheers
+---DavE
