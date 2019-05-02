@@ -4,58 +4,58 @@ X-Spam-Level:
 X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 18C5A7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 May 2019 07:10:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2BA867D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 May 2019 07:11:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726413AbfEBHKt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 2 May 2019 03:10:49 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:36796 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726202AbfEBHKs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 May 2019 03:10:48 -0400
-Received: by mail-pg1-f194.google.com with SMTP id 85so651890pgc.3;
-        Thu, 02 May 2019 00:10:48 -0700 (PDT)
+        id S1726711AbfEBHK6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 2 May 2019 03:10:58 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:42935 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726055AbfEBHK6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 May 2019 03:10:58 -0400
+Received: by mail-pf1-f196.google.com with SMTP id 13so370618pfw.9;
+        Thu, 02 May 2019 00:10:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=sp5SvL0P5lrU86BpXk5nK8V2Shd1dKoGOnP2voXWJNg=;
-        b=Me9ZA0cPf/JxdnQ4ZjQ6PhYMDQsy79kk9zaKmJuLcsbbIj4JGnP022I1mlvxa7gqgM
-         wbW1K6yX8F7RoEvdHhY5c9aEnLFn/z1L4RTmvM+7k36Ctusex+6pPlWfo8wrZwd2YSIg
-         9SX70NBRqQIrd4vKsqkaPRoWVbm1p/Rrb7gvbGCq7DNjNZ9PMAH70/L9juKXnQNdBMLR
-         LO3G/hioG38W6NGJpP0/ghpMcrgIUxx0i13WWoYLX00HVm2AyzUBml/oOkga43GCK9f8
-         fg1rkmkzUy+PbMDhInhVk0Kr3+P05+mcKaRwurGYDRQcANVpgL0nEIo1w7JlLAakY44l
-         O9YA==
+        bh=NC8m/jDpU0Uzaq9jOe9QnHWhLNtfwXpLgED1uBMCHW4=;
+        b=hkLWdaWrxraY8lEyxYHiSBkSU0z0lBlDRT1xqzK5Maz72AgpeG2UWtXdmI1grfvxJ1
+         uNhMvp5wGSoOQATtjuUeuCUtXpIEkK7lyhgH9eFmw80+uXQfRNYqdBc+E1gwLLe9yudf
+         klNYflD1S1rzARsYq62GY97HrsRPfk/mHfnyRCFIzIk/CMkaQehr0lEzvfhOEX/avYwR
+         wnNg3YcDiueVrkBSEcVn1L4VymT24LZzWGMd43sUACQ02A+t2dt5TegErlZ1BRaznqd9
+         kevYCYoHoRcVGouQH9uJoydLWzW4o2wgpSfkjowvG28oKVWVVAFXAzcP/NlkGccEkWIy
+         390w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=sp5SvL0P5lrU86BpXk5nK8V2Shd1dKoGOnP2voXWJNg=;
-        b=fk340raZLFuK3cJ0pv8wfuFpHdr0pxf7hbUKdMLNXd6TigeJlLYWdYzrJeeLWamxpe
-         XLxW3geKKGL0QFKtWDOjQF/PrBdf9qAJFDyGiAhr031sf2zdIv79pYs+XsED7QrjdxAj
-         nIHpRIyiP/J/9dE51g+fY3Pcma+oXPk7cZMKnxGE0Aw6O3ahSVgViU7nbWVj7xJZ0wA/
-         JQGS3UNPOA1SMtcifJYX/UdUgAKn2cpeTD2dIhWl80BplxgljlyGGDMRiSL/QFnsqoPT
-         LJJnc5Qi5jOZOeKmBgJrYBH7bBCNpmpejU0YUzh3WVQyDPcD+A6LSVuqH0mw33sT3Nby
-         ubag==
-X-Gm-Message-State: APjAAAVNxtBI8zlbzlqKHFdRo+UKDkIgfuNzi+SQF/yjuKvMMG52hbOR
-        9MIdoorsYkdrub9XaYk3bAs=
-X-Google-Smtp-Source: APXvYqzJQe+H5DneUR8vcvxuwAjPkenqlAS2BtimAqItsW24VZPCQcVkCKTvhu7AUvRBMQGAM8/Zng==
-X-Received: by 2002:a65:4341:: with SMTP id k1mr2388518pgq.88.1556781047609;
-        Thu, 02 May 2019 00:10:47 -0700 (PDT)
+        bh=NC8m/jDpU0Uzaq9jOe9QnHWhLNtfwXpLgED1uBMCHW4=;
+        b=QYl0NYhO5gwrUyZCF4thzIi8eIhqivVA7D0FRWi35soSe/doVvD8JAea8gvXIQ5zE4
+         4WYofqY+5Eu4Onc+K3FeD9f/Y6Rj5/rJ6rX8R/w24NGkpmxk2mTGceA3BrzRUH6oxwd9
+         AO3ISvh2pcWZ6u6z3yfAmmyQPnm6ZgESBJppRYLWPv8etIqFEg+h5iX1USiyYglvpYes
+         w5htw0VBmzTfEOTuM4aKD6pJx8YNLrp3PvlSl8bYP/HBv3veut109BExlUbgq7Vghv2q
+         1VOU7znmvVoPoJfXbpG3a4y6cn94yles/CWqqP/bX+yr79RlGCPFr4GkCXwPNXvgQyqp
+         WV4g==
+X-Gm-Message-State: APjAAAXnkMzkoZEptCxoAwXCiFv8OG32yPG+KGf966jE64TOn1Ilf36g
+        s0RdmqWsXrBlnTpGAdg0+tQ=
+X-Google-Smtp-Source: APXvYqwc2vJKnaJal1+JnFLru+jxJvvEHqBGpLl4ugClbGsQv15AzZ69XuUL+6XyQnORfF6Z/hDGLA==
+X-Received: by 2002:aa7:8851:: with SMTP id k17mr2426888pfo.121.1556781057607;
+        Thu, 02 May 2019 00:10:57 -0700 (PDT)
 Received: from laptop.DHCP ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id u24sm4686976pfh.91.2019.05.02.00.10.41
+        by smtp.gmail.com with ESMTPSA id u24sm4686976pfh.91.2019.05.02.00.10.53
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 02 May 2019 00:10:46 -0700 (PDT)
+        Thu, 02 May 2019 00:10:56 -0700 (PDT)
 From:   Changbin Du <changbin.du@gmail.com>
 To:     corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de
 Cc:     x86@kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, Changbin Du <changbin.du@gmail.com>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Subject: [PATCH v2 12/27] Documentation: x86: convert protection-keys.txt to reST
-Date:   Thu,  2 May 2019 15:06:18 +0800
-Message-Id: <20190502070633.9809-13-changbin.du@gmail.com>
+Subject: [PATCH v2 14/27] Documentation: x86: convert amd-memory-encryption.txt to reST
+Date:   Thu,  2 May 2019 15:06:20 +0800
+Message-Id: <20190502070633.9809-15-changbin.du@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190502070633.9809-1-changbin.du@gmail.com>
 References: <20190502070633.9809-1-changbin.du@gmail.com>
@@ -72,113 +72,71 @@ add it to Sphinx TOC tree. No essential content change.
 Signed-off-by: Changbin Du <changbin.du@gmail.com>
 Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/x86/index.rst                   |  1 +
- ...rotection-keys.txt => protection-keys.rst} | 33 ++++++++++++-------
- 2 files changed, 22 insertions(+), 12 deletions(-)
- rename Documentation/x86/{protection-keys.txt => protection-keys.rst} (83%)
+ ...ory-encryption.txt => amd-memory-encryption.rst} | 13 ++++++++++---
+ Documentation/x86/index.rst                         |  1 +
+ 2 files changed, 11 insertions(+), 3 deletions(-)
+ rename Documentation/x86/{amd-memory-encryption.txt => amd-memory-encryption.rst} (94%)
 
-diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
-index f7012e4afacd..e2c0db9fcd4e 100644
---- a/Documentation/x86/index.rst
-+++ b/Documentation/x86/index.rst
-@@ -18,3 +18,4 @@ x86-specific Documentation
-    tlb
-    mtrr
-    pat
-+   protection-keys
-diff --git a/Documentation/x86/protection-keys.txt b/Documentation/x86/protection-keys.rst
-similarity index 83%
-rename from Documentation/x86/protection-keys.txt
-rename to Documentation/x86/protection-keys.rst
-index ecb0d2dadfb7..49d9833af871 100644
---- a/Documentation/x86/protection-keys.txt
-+++ b/Documentation/x86/protection-keys.rst
+diff --git a/Documentation/x86/amd-memory-encryption.txt b/Documentation/x86/amd-memory-encryption.rst
+similarity index 94%
+rename from Documentation/x86/amd-memory-encryption.txt
+rename to Documentation/x86/amd-memory-encryption.rst
+index afc41f544dab..c48d452d0718 100644
+--- a/Documentation/x86/amd-memory-encryption.txt
++++ b/Documentation/x86/amd-memory-encryption.rst
 @@ -1,3 +1,9 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+======================
-+Memory Protection Keys
-+======================
++=====================
++AMD Memory Encryption
++=====================
 +
- Memory Protection Keys for Userspace (PKU aka PKEYs) is a feature
- which is found on Intel's Skylake "Scalable Processor" Server CPUs.
- It will be avalable in future non-server parts.
-@@ -23,9 +29,10 @@ even though there is theoretically space in the PAE PTEs.  These
- permissions are enforced on data access only and have no effect on
- instruction fetches.
+ Secure Memory Encryption (SME) and Secure Encrypted Virtualization (SEV) are
+ features found on AMD processors.
  
--=========================== Syscalls ===========================
-+Syscalls
-+========
+@@ -34,7 +40,7 @@ is operating in 64-bit or 32-bit PAE mode, in all other modes the SEV hardware
+ forces the memory encryption bit to 1.
  
--There are 3 system calls which directly interact with pkeys:
-+There are 3 system calls which directly interact with pkeys::
+ Support for SME and SEV can be determined through the CPUID instruction. The
+-CPUID function 0x8000001f reports information related to SME:
++CPUID function 0x8000001f reports information related to SME::
  
- 	int pkey_alloc(unsigned long flags, unsigned long init_access_rights)
- 	int pkey_free(int pkey);
-@@ -37,6 +44,7 @@ pkey_alloc().  An application calls the WRPKRU instruction
- directly in order to change access permissions to memory covered
- with a key.  In this example WRPKRU is wrapped by a C function
- called pkey_set().
-+::
+ 	0x8000001f[eax]:
+ 		Bit[0] indicates support for SME
+@@ -48,14 +54,14 @@ CPUID function 0x8000001f reports information related to SME:
+ 			   addresses)
  
- 	int real_prot = PROT_READ|PROT_WRITE;
- 	pkey = pkey_alloc(0, PKEY_DISABLE_WRITE);
-@@ -45,43 +53,44 @@ called pkey_set().
- 	... application runs here
+ If support for SME is present, MSR 0xc00100010 (MSR_K8_SYSCFG) can be used to
+-determine if SME is enabled and/or to enable memory encryption:
++determine if SME is enabled and/or to enable memory encryption::
  
- Now, if the application needs to update the data at 'ptr', it can
--gain access, do the update, then remove its write access:
-+gain access, do the update, then remove its write access::
+ 	0xc0010010:
+ 		Bit[23]   0 = memory encryption features are disabled
+ 			  1 = memory encryption features are enabled
  
- 	pkey_set(pkey, 0); // clear PKEY_DISABLE_WRITE
- 	*ptr = foo; // assign something
- 	pkey_set(pkey, PKEY_DISABLE_WRITE); // set PKEY_DISABLE_WRITE again
+ If SEV is supported, MSR 0xc0010131 (MSR_AMD64_SEV) can be used to determine if
+-SEV is active:
++SEV is active::
  
- Now when it frees the memory, it will also free the pkey since it
--is no longer in use:
-+is no longer in use::
+ 	0xc0010131:
+ 		Bit[0]	  0 = memory encryption is not active
+@@ -68,6 +74,7 @@ requirements for the system.  If this bit is not set upon Linux startup then
+ Linux itself will not set it and memory encryption will not be possible.
  
- 	munmap(ptr, PAGE_SIZE);
- 	pkey_free(pkey);
+ The state of SME in the Linux kernel can be documented as follows:
++
+ 	- Supported:
+ 	  The CPU supports SME (determined through CPUID instruction).
  
--(Note: pkey_set() is a wrapper for the RDPKRU and WRPKRU instructions.
-- An example implementation can be found in
-- tools/testing/selftests/x86/protection_keys.c)
-+.. note:: pkey_set() is a wrapper for the RDPKRU and WRPKRU instructions.
-+          An example implementation can be found in
-+          tools/testing/selftests/x86/protection_keys.c.
- 
--=========================== Behavior ===========================
-+Behavior
-+========
- 
- The kernel attempts to make protection keys consistent with the
--behavior of a plain mprotect().  For instance if you do this:
-+behavior of a plain mprotect().  For instance if you do this::
- 
- 	mprotect(ptr, size, PROT_NONE);
- 	something(ptr);
- 
--you can expect the same effects with protection keys when doing this:
-+you can expect the same effects with protection keys when doing this::
- 
- 	pkey = pkey_alloc(0, PKEY_DISABLE_WRITE | PKEY_DISABLE_READ);
- 	pkey_mprotect(ptr, size, PROT_READ|PROT_WRITE, pkey);
- 	something(ptr);
- 
- That should be true whether something() is a direct access to 'ptr'
--like:
-+like::
- 
- 	*ptr = foo;
- 
- or when the kernel does the access on the application's behalf like
--with a read():
-+with a read()::
- 
- 	read(fd, ptr, 1);
- 
+diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
+index b5cdc0d889b3..85f1f44cc8ac 100644
+--- a/Documentation/x86/index.rst
++++ b/Documentation/x86/index.rst
+@@ -20,3 +20,4 @@ x86-specific Documentation
+    pat
+    protection-keys
+    intel_mpx
++   amd-memory-encryption
 -- 
 2.20.1
 
