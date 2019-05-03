@@ -3,59 +3,58 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EA0CD7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  2 May 2019 23:45:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CA9877D90F
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  3 May 2019 00:41:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726297AbfEBXpm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 2 May 2019 19:45:42 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:37978 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726255AbfEBXpm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 May 2019 19:45:42 -0400
-Received: by mail-oi1-f195.google.com with SMTP id t70so3157670oif.5
-        for <linux-doc@vger.kernel.org>; Thu, 02 May 2019 16:45:41 -0700 (PDT)
+        id S1726327AbfECAlW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 2 May 2019 20:41:22 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:42589 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726480AbfECAlV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 2 May 2019 20:41:21 -0400
+Received: by mail-oi1-f193.google.com with SMTP id k9so3157490oig.9
+        for <linux-doc@vger.kernel.org>; Thu, 02 May 2019 17:41:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=ylV5gAlOXI2nFNZnhMPfqqvANEP1/evAl3taiRkcInQ=;
-        b=OrjlPAypoDuLTmMWabsyH76U4J0Mgjkpr3DQnHBX1C/sWw9dQWGJZqdGNPLs+jVmSg
-         c3bYyd65ExNrwdSzAF9/C3j2TwsTXUxo6mYRYKux2ifXavoN2kS9n00OiZWShZJ2VN9E
-         Jey0nYLCGUng4+ySvL4+XGzNZ7sYP4XCUNcymRLj9xf6jLOnFx+3mvowrkn0pYKwRyZg
-         3M2fA5czV+OipZELphNhEy5iD2t61ukDrrNzVoHA9OjKJNH0VGnLzAHCbuiCf9QjtvzN
-         IDmzum+SPe0jeiAShs/g76LnFAxiI2OcVPBTp+1OnYkCXtTKkvmMFQSC+CcJJLS2aj7L
-         YRtg==
+        bh=i/LGIUMFfkHhxCSDT3fm51UOA28cPrGRFTawiLz9qdU=;
+        b=FJIAYLW9LNf9oanARKl7TfF4hN+5D95QZaw548QJynu0CjT8BCwlpKeraO6t9YYkOs
+         GtNX3/gAG5EXPOJwbqEw8XIrwSSwlKCrob0M1UGIcbcgu72bFgtpR14EttoAsQY2aDgu
+         R3g2UNQXhcb3FGDMQxi+sYsTRkYHs3qzvEqqHMGSEtbYKM2QA4nxdIkJahuLnsBoO2+c
+         TGr8njZSgd2pD66c4pynpYDwYtRx3F05qDNXkbRYRi3lANeuXFpYdvOTMjhMHRrrhF8P
+         3i1MCfzjUMz11YJpZRIR9WsEPFVnmwGmtj8MUe4JYxQcAMMsvhz5BhNLX+0hNU5ukE4d
+         83hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=ylV5gAlOXI2nFNZnhMPfqqvANEP1/evAl3taiRkcInQ=;
-        b=iAAStEsyLCmrO3OORdFORdvEZP5G7ZQW3VXtWvWzd2XzNatg8P+S/R5GrL0zoUvF31
-         V63PPGmcoVw8/vvwVM2xLpsQ3hYxaEXh4t9dBzHwyfkwlR1vWLCSykbaMh1LJNyP4wtQ
-         kS5C+DWFgj8UHcfXW454FZ7t9tEnk13wG1XDRtNVf8C3SJlm03LzFPwvHZmOCyaBAJby
-         mfEHE+m5wW8qOOeU96RlNTukZjiuv6amoZAO4xKMWcxQrJlfz+uQzg57qoHLDDgUXjAo
-         KmqRbptR4uPKZVaozOZcLOXNlwCAoUc6FVzStL+bBbMCLVrpze7yul8u1mUaMjegAdRY
-         QC9g==
-X-Gm-Message-State: APjAAAV/SsegR98B908Pij2BZTkP0AChICEVURzmuGL4PoXlhgbQdBKM
-        4Lf5QkWPGITwxxqcng7IFRwVnW9Tx7k/ou9x449Shg==
-X-Google-Smtp-Source: APXvYqza1ahwn/TDeWwW8NfzPMf/2RsvBcbxrAIWRnpkKGe/w6LvErCEtGQm7aaUbxq8tyCdcrjFzojfQN03A2rWnss=
-X-Received: by 2002:aca:57d8:: with SMTP id l207mr4208582oib.44.1556840740661;
- Thu, 02 May 2019 16:45:40 -0700 (PDT)
+        bh=i/LGIUMFfkHhxCSDT3fm51UOA28cPrGRFTawiLz9qdU=;
+        b=af7apDBBzMqdc6M4RjVmaWp+58JJKLzrEq2LBrUzLbo+268oBgsVV7Em2HXykIQbvA
+         X2YFKC3XOUXEo/Pvcqpc+p33IniNT69V9+acrD8ounpBR99qE8O8wPAwNj0sA+i0qw4c
+         Xvh142gF47/Hh5Hz+g9K3a8f/hkeV4PIyZRH10pL186jV2L62AyJmX7g+yFdp2jXf2Nr
+         XTb31n4xIjPec5wDqEf2ltu3TRvEyhsn+BppcvODj7Yq+tSfm4SO8CNn6Wtp2Hj1gzAY
+         4E3ASPdvchFY64cjEdCoKf9MPNjaaMdait9o3ILahVHN27lgSHVuMKE0jGeNKF+HKa3h
+         r+bw==
+X-Gm-Message-State: APjAAAU/WoaF0svKqiJ0fDudBeA33GzwoLBmw+ka+fUGnrp0e8ix4LmY
+        iH5NbgZfbTgoE93v51WGq2XrZUuWpBtTgfaWaK4UPQ==
+X-Google-Smtp-Source: APXvYqx+IeNo/M2uU5es7ZAJsOSGR6b01vZ0dEQaWTEj9cNFRVwEHLuSMfXDE/OIHXARFXXWqbF1LQIlh8BGLZyE6Eo=
+X-Received: by 2002:aca:4586:: with SMTP id s128mr4126147oia.148.1556844080319;
+ Thu, 02 May 2019 17:41:20 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190501230126.229218-1-brendanhiggins@google.com>
- <20190501230126.229218-13-brendanhiggins@google.com> <20190502110220.GD12416@kroah.com>
- <CAFd5g47t=EdLKFCT=CnPkrM2z0nDVo24Gz4j0VxFOJbARP37Lg@mail.gmail.com> <a49c5088-a821-210c-66de-f422536f5b01@gmail.com>
-In-Reply-To: <a49c5088-a821-210c-66de-f422536f5b01@gmail.com>
+ <20190502105053.GA12416@kroah.com> <20190502110513.GF12416@kroah.com>
+In-Reply-To: <20190502110513.GF12416@kroah.com>
 From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Thu, 2 May 2019 16:45:29 -0700
-Message-ID: <CAFd5g44iWRchQKdJYtjRtPY6e-6e0eXpKXXsx5Ooi6sWE474KA@mail.gmail.com>
-Subject: Re: [PATCH v2 12/17] kunit: tool: add Python wrappers for running
- KUnit tests
-To:     Frank Rowand <frowand.list@gmail.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
+Date:   Thu, 2 May 2019 17:41:08 -0700
+Message-ID: <CAFd5g46RyQ+jaV3bDejBaeca4Yv3G9ppT5JxdKqZw6PSbiSDYw@mail.gmail.com>
+Subject: Re: [PATCH v2 00/17] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
         Kees Cook <keescook@google.com>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Luis Chamberlain <mcgrof@kernel.org>,
@@ -83,84 +82,59 @@ Cc:     Greg KH <gregkh@linuxfoundation.org>,
         Petr Mladek <pmladek@suse.com>,
         Richard Weinberger <richard@nod.at>,
         David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com,
-        Felix Guo <felixguoxiuping@gmail.com>
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 2, 2019 at 2:16 PM Frank Rowand <frowand.list@gmail.com> wrote:
+On Thu, May 2, 2019 at 4:05 AM Greg KH <gregkh@linuxfoundation.org> wrote:
 >
-> On 5/2/19 11:07 AM, Brendan Higgins wrote:
-> > On Thu, May 2, 2019 at 4:02 AM Greg KH <gregkh@linuxfoundation.org> wrote:
-> >>
-> >> On Wed, May 01, 2019 at 04:01:21PM -0700, Brendan Higgins wrote:
-> >>> From: Felix Guo <felixguoxiuping@gmail.com>
-> >>>
-> >>> The ultimate goal is to create minimal isolated test binaries; in the
-> >>> meantime we are using UML to provide the infrastructure to run tests, so
-> >>> define an abstract way to configure and run tests that allow us to
-> >>> change the context in which tests are built without affecting the user.
-> >>> This also makes pretty and dynamic error reporting, and a lot of other
-> >>> nice features easier.
-> >>>
-> >>> kunit_config.py:
-> >>>   - parse .config and Kconfig files.
-> >>>
-> >>> kunit_kernel.py: provides helper functions to:
-> >>>   - configure the kernel using kunitconfig.
-> >>>   - build the kernel with the appropriate configuration.
-> >>>   - provide function to invoke the kernel and stream the output back.
-> >>>
-> >>> Signed-off-by: Felix Guo <felixguoxiuping@gmail.com>
-> >>> Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> >>
-> >> Ah, here's probably my answer to my previous logging format question,
-> >> right?  What's the chance that these wrappers output stuff in a standard
-> >> format that test-framework-tools can already parse?  :)
-
-To be clear, the test-framework-tools format we are talking about is
-TAP13[1], correct?
-
-My understanding is that is what kselftest is being converted to use.
-
+> On Thu, May 02, 2019 at 12:50:53PM +0200, Greg KH wrote:
+> > On Wed, May 01, 2019 at 04:01:09PM -0700, Brendan Higgins wrote:
+> > > ## TLDR
+> > >
+> > > I rebased the last patchset on 5.1-rc7 in hopes that we can get this in
+> > > 5.2.
 > >
-> > It should be pretty easy to do. I had some patches that pack up the
-> > results into a serialized format for a presubmit service; it should be
-> > pretty straightforward to take the same logic and just change the
-> > output format.
+> > That might be rushing it, normally trees are already closed now for
+> > 5.2-rc1 if 5.1-final comes out this Sunday.
+> >
+> > > Shuah, I think you, Greg KH, and myself talked off thread, and we agreed
+> > > we would merge through your tree when the time came? Am I remembering
+> > > correctly?
+> >
+> > No objection from me.
+> >
+> > Let me go review the latest round of patches now.
 >
-> When examining and trying out the previous versions of the patch I found
-> the wrappers useful to provide information about how to control and use
-> the tests, but I had no interest in using the scripts as they do not
-> fit in with my personal environment and workflow.
+> Overall, looks good to me, and provides a framework we can build on.
+> I'm a bit annoyed at the reliance on uml at the moment, but we can work
+> on that in the future :)
+
+Eh, I mostly fixed that.
+
+I removed the KUnit framework's reliance on UML i.e. the actual tests
+now run on any architecture.
+
+The only UML dependent bit is the KUnit wrapper scripts, which could
+be made to work to support other architectures pretty trivially. The
+only limitation here is that it would be dependent on the actual
+workflow you are using.
+
+In anycase, if you are comfortable reading the results in the kernel
+logs, then there is no dependence on UML. (I should probably provide
+some documentation on that...)
+
 >
-> In the previous versions of the patch, these helper scripts are optional,
-> which is good for my use case.  If the helper scripts are required to
+> Thanks for sticking with this, now the real work begins...
 
-They are still optional.
+I don't doubt it.
 
-> get the data into the proper format then the scripts are not quite so
-> optional, they become the expected environment.  I think the proper
-> format should exist without the helper scripts.
+>
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-That's a good point. A couple things,
+Does this cover all the patches in this set?
 
-First off, supporting TAP13, either in the kernel or the wrapper
-script is not hard, but I don't think that is the real issue that you
-raise.
-
-If your only concern is that you will always be able to have human
-readable KUnit results printed to the kernel log, that is a guarantee
-I feel comfortable making. Beyond that, I think it is going to take a
-long while before I would feel comfortable guaranteeing anything about
-how will KUnit work, what kind of data it will want to expose, and how
-it will be organized. I think the wrapper script provides a nice
-facade that I can maintain, can mediate between the implementation
-details and the user, and can mediate between the implementation
-details and other pieces of software that might want to consume
-results.
-
-[1] https://testanything.org/tap-version-13-specification.html
+Thanks!
