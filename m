@@ -1,113 +1,92 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-3.4 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	FSL_HELO_FAKE,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2822C7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  3 May 2019 15:08:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 523867D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  3 May 2019 17:45:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727425AbfECPI3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 3 May 2019 11:08:29 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:40777 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726495AbfECPI3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 May 2019 11:08:29 -0400
-Received: by mail-pf1-f193.google.com with SMTP id u17so3029861pfn.7
-        for <linux-doc@vger.kernel.org>; Fri, 03 May 2019 08:08:29 -0700 (PDT)
+        id S1728602AbfECRpA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 3 May 2019 13:45:00 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:39678 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726480AbfECRpA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 May 2019 13:45:00 -0400
+Received: by mail-wm1-f68.google.com with SMTP id n25so7625043wmk.4;
+        Fri, 03 May 2019 10:44:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=kNTkQVNOA2OoGY05E27L56yuHsdvzUwDV9bMvSlE76A=;
-        b=MFvmRDDkIMtc9BaQDjrWPOSUDO9Jo1/wdFL+oMmuaFtd8BrX+9VVatnVk8YjQSnsoW
-         BsziOIyoxXHvWBYgvME24AJwRTKzg1v5hpxTEyKu2vSeYGAOa5tUX3uW7FhbKDdETQyb
-         5v+yKc70MV3v8Y806ihEUUkgJzSgITzNo64UQ=
+        bh=t4cyN7e/E+3KAl7sbPpgTsGbsxg6GONbg48fXIFY76o=;
+        b=smqsaY2ywLCfyclbZ+5qDfOP6UVYS+/rtIHjag/XRu1E8e74lgG0xBKlB096D9p/Sv
+         yYSwo94H8qW7fQDzJbvf7/AfQav5mSud7Cu+RuwDj7MCQsOn+8VYRyqu6y6xcRWQb+hH
+         94Nq1ElyUz5A1Pelm17w67FVkBt5tx44IgGVg3Q6T37ZvZa+AUdDIenKtO3q6RW185OE
+         E1/zhca+fgFqb/rEpj92xPrzDaWUhq1yXG1z/DASdgtKP4k69zEc2rutle7CqRwAs/4A
+         5mzknstcA3GK0Qf2rLBxASNsiVdcAOiLBE21Dp8ofXD6hJAO/lkLcqx1jMlFrAdyB7sc
+         uOvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=kNTkQVNOA2OoGY05E27L56yuHsdvzUwDV9bMvSlE76A=;
-        b=PsbyJodiqe9eezW4jgNb1I+hgvJi5XloMjvMluMMpqEzTw8QwYG+TwL6EictCZkRED
-         ir0J2/8Zy+eiO6HyERVZKyZxS/scTLw7g8ewKtq5mE3OpBE6bCsQ4Eay+1hpy9pGCAXg
-         eW9S5D8Ft3k6KIDRejaxAXM9/tg7LPLc2BWXl/Kxq9iag6GTpkPG9hJmACSzPBUyQhLv
-         MUpfcJEQRIBYP/GdO7rSn7zy3g+wNkdOUUCNhhWFW/Xth4Kk9XAWhARYph3sAYQFQ29k
-         r1BiItT+8CMTPh3YFGMBi4XuppeHSpew6U+Senfeb6DdtmeqVd8PIaRRWli4oEsqVhod
-         ozSg==
-X-Gm-Message-State: APjAAAWkR/jCBruKzYS9BMv+Df1BrXduyx87nZMf6+KjdVlgaMpwt9qx
-        kKufqDgUJoz9iIwaoXVFXYusyQ==
-X-Google-Smtp-Source: APXvYqw24XwNGkccqq09Ydr+Lfzc0vUPYmCja1k9q/7RdUIA3TyzF/y1fhaSR7qOXsBcDbXc//83LQ==
-X-Received: by 2002:a65:5c82:: with SMTP id a2mr11014324pgt.378.1556896108024;
-        Fri, 03 May 2019 08:08:28 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id d3sm3262715pfn.113.2019.05.03.08.08.26
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=t4cyN7e/E+3KAl7sbPpgTsGbsxg6GONbg48fXIFY76o=;
+        b=n81WzB5pnKWfjG+kvNc4duTzdkWEVxP9QepBnLqIWg1qrSoE30UDL8ccOOxqnJeVxW
+         0otqxCEweai0WTn+m5WFDw7/B294CC1YHiIaXKkIg7G+QebVdry9EBxhix0Zlt80C+qL
+         JRH7VhsT5kzV7bs3ycYG6pSwH2gJKX4ns9BwkX8af54zuulDL0ifpDmRbLi8GtqLFZHk
+         S82sK10RGCxdEqWq8y2yxIsQBsjDR+yLzwt0V2tUj89hGhNdFyCRaLG4gmeJQD21hQJj
+         0X+fuQY41OqigyLNcuDeUJYlGLVqU3fG6pBa+Lry4c5nAhybqIWEMQp8loCmHTzqzadl
+         Us/A==
+X-Gm-Message-State: APjAAAUL4DwZfiPQZE/iWDHBu/LV82vFufOCD+EDxD1Bwa1qxADpT8F6
+        Vh7TaGQ5aZm2DDZw6GIVNao=
+X-Google-Smtp-Source: APXvYqzBWf8fKDF6Kp9Ud0HFoTG2rxkjduJGSvdXpNA83cq6Nuv2dkbLXqYgqTlo46CAGzYmfb+xJw==
+X-Received: by 2002:a1c:eb12:: with SMTP id j18mr7692987wmh.48.1556905498724;
+        Fri, 03 May 2019 10:44:58 -0700 (PDT)
+Received: from gmail.com (2E8B0CD5.catv.pool.telekom.hu. [46.139.12.213])
+        by smtp.gmail.com with ESMTPSA id c204sm16769255wmd.0.2019.05.03.10.44.57
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 03 May 2019 08:08:27 -0700 (PDT)
-Date:   Fri, 3 May 2019 11:08:25 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        atish patra <atishp04@gmail.com>,
-        Daniel Colascione <dancol@google.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Karim Yaghmour <karim.yaghmour@opersys.com>,
-        Kees Cook <keescook@chromium.org>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-trace-devel@vger.kernel.org,
-        Manoj Rao <linux@manojrajarao.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>,
-        Olof Johansson <olof@lixom.net>
-Subject: Re: [PATCH v7 resend 1/2] Provide in-kernel headers to make
- extending kernel easier
-Message-ID: <20190503150825.GC253329@google.com>
-References: <20190426190430.172543-1-joel@joelfernandes.org>
- <20190427133844.GA29366@kroah.com>
- <20190429132602.GA165075@google.com>
- <20190429135455.GA2412@kroah.com>
- <CAK7LNARkGLQ_P4LSuC69QN8XPN47W5ujkDE3EauLrwnBgygsSA@mail.gmail.com>
- <20190429142425.GB29007@kroah.com>
- <20190503103315.0149ca71@gandalf.local.home>
+        Fri, 03 May 2019 10:44:58 -0700 (PDT)
+Date:   Fri, 3 May 2019 19:44:55 +0200
+From:   Ingo Molnar <mingo@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Changbin Du <changbin.du@gmail.com>, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 00/27] Include linux x86 docs into Sphinx TOC tree
+Message-ID: <20190503174455.GA69353@gmail.com>
+References: <20190502070633.9809-1-changbin.du@gmail.com>
+ <20190503064347.1d027e87@lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190503103315.0149ca71@gandalf.local.home>
+In-Reply-To: <20190503064347.1d027e87@lwn.net>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 03, 2019 at 10:33:15AM -0400, Steven Rostedt wrote:
-> On Mon, 29 Apr 2019 16:24:25 +0200
-> Greg KH <gregkh@linuxfoundation.org> wrote:
+
+* Jonathan Corbet <corbet@lwn.net> wrote:
+
+> On Thu,  2 May 2019 15:06:06 +0800
+> Changbin Du <changbin.du@gmail.com> wrote:
 > 
-> > Hah, ok, I'll be glad to queue this up in my tree.  I'll take it now,
-> > and if people who really object to this being in /proc/ and want it in
-> > /sys/, we can add a follow-on patch before 5.2-final is out to move the
-> > file to that location.
+> > The kernel now uses Sphinx to generate intelligent and beautiful documentation
+> > from reStructuredText files. I converted all of the Linux x86 docs to rst
+> > format in this serias.
+> > 
+> > For you to preview, please visit below url:
+> > http://www.bytemem.com:8080/kernel-doc/index.html
 > 
-> I really don't think putting it in /proc now is a good idea. Let's put
-> it in /sys now. If we don't do it now and it gets into a main release,
-> then that will become the permanent location for it.
+> x86 folks: how would you like to handle this set?  Take it yourselves,
+> have me take it, print it out and set it on fire, ...?
 
-I will send a patch to move it into /sys/kernel on top of this. Hope everyone
-else is also Ok with that as the location.
+If you are otherwise happy with it:
 
-thanks,
+Acked-by: Ingo Molnar <mingo@kernel.org>
 
- - Joel
+Thanks,
 
+	Ingo
