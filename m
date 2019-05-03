@@ -1,98 +1,84 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0A7377D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  3 May 2019 07:49:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 17CBA7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  3 May 2019 11:55:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726511AbfECHtM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 3 May 2019 03:49:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55376 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725789AbfECHtL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 3 May 2019 03:49:11 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 906E9205F4;
-        Fri,  3 May 2019 07:49:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1556869751;
-        bh=ZgniHRv8E+BcrQYu8PwEidskt0uLyw99bsJIfZ4hwNM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cr7rRBaG88jGIikiLUaYEenv9V2UUDkhtXNE8mzQAA31d5RS4+md4UwuxPXADK4gJ
-         idpvQXfxU2wFw8wERCHdSJ2Ta2LAZDkrgxs2sGyogiHfaG/7z/enK4AsqH1VyeScnz
-         oUAsitHrQUVMDR36HP9INpQfYbiifOjI/WkcAUTE=
-Date:   Fri, 3 May 2019 09:49:08 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Pavel Machek <pavel@denx.de>
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        atish patra <atishp04@gmail.com>,
-        Daniel Colascione <dancol@google.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Karim Yaghmour <karim.yaghmour@opersys.com>,
-        Kees Cook <keescook@chromium.org>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-trace-devel@vger.kernel.org,
-        Manoj Rao <linux@manojrajarao.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Shuah Khan <shuah@kernel.org>, Yonghong Song <yhs@fb.com>,
-        Olof Johansson <olof@lixom.net>
-Subject: Re: [PATCH v7 resend 1/2] Provide in-kernel headers to make
- extending kernel easier
-Message-ID: <20190503074908.GB27088@kroah.com>
-References: <20190426190430.172543-1-joel@joelfernandes.org>
- <20190427133844.GA29366@kroah.com>
- <20190429132602.GA165075@google.com>
- <20190429135455.GA2412@kroah.com>
- <CAK7LNARkGLQ_P4LSuC69QN8XPN47W5ujkDE3EauLrwnBgygsSA@mail.gmail.com>
- <20190429142425.GB29007@kroah.com>
- <20190503073007.GA5834@amd>
+        id S1727682AbfECLzb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 3 May 2019 07:55:31 -0400
+Received: from mail-vk1-f196.google.com ([209.85.221.196]:45823 "EHLO
+        mail-vk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727631AbfECLzb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 May 2019 07:55:31 -0400
+Received: by mail-vk1-f196.google.com with SMTP id h127so1296291vkd.12;
+        Fri, 03 May 2019 04:55:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7VCheTd5Z52teJFWvnQeU956xBJ2CRF4Y806I5zmdrA=;
+        b=Y7mX8MDgpuOhuDYxVtf0tWhd0JvaI/Vjd4nNnidsOSDM3vFmNzFjsP4h6cPXJJDreK
+         fVO6E9L8O9dsvyCGEIGzblYLNKJhc8+7IjYqsicjv0R7irX8kkzlbZYpygKPEG0Q9yrC
+         LWLMda6Ep92RYXnYimw85HF0gCeD0TkfhVfpvtglGUPwkJkyx3/G6FCqw3/DaHWCffcS
+         RzdzMVR031WA53zQ7DEOSkb3H6nnoabIzisk8fd2S4T/4AzKlQwNcjAgni7ipeSrp/yV
+         B9F/eOd3npaDSkQ0MdItNH8VmNloqtpENGAh9ukhv4QFYTIf13WiI5S7XvdI26yqxiFr
+         EtMQ==
+X-Gm-Message-State: APjAAAWfqJ2X4+R69M2U+Dzc9tQu2oiH1/Ue6vQ4+lwvcD2xxU/YVvGP
+        StIfK696IJLi9gCSj8+EuU6fcz3nzT4oSQyUZ3VPyzwM
+X-Google-Smtp-Source: APXvYqzw23e43kzerbAa8l1zHyyfUmacEItjitBTgD2T2EwUzRoG5YLRLAZt6EtCG0tqu2fTsqLxKB1yTfaRhd9sYAw=
+X-Received: by 2002:a1f:b297:: with SMTP id b145mr5022264vkf.74.1556884530046;
+ Fri, 03 May 2019 04:55:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190503073007.GA5834@amd>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+References: <cover.1555938375.git.mchehab+samsung@kernel.org> <efe82e7f9621c5f756d30fdb7d04fbd19c5d268c.1555938376.git.mchehab+samsung@kernel.org>
+In-Reply-To: <efe82e7f9621c5f756d30fdb7d04fbd19c5d268c.1555938376.git.mchehab+samsung@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 3 May 2019 13:55:18 +0200
+Message-ID: <CAMuHMdXBK4v9FMU5G3r9tORwo-19-XzxGpdn-3SUJDF9VQvQxw@mail.gmail.com>
+Subject: Re: [PATCH v2 43/79] docs: m68k: convert docs to ReST and rename to *.rst
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 03, 2019 at 09:30:07AM +0200, Pavel Machek wrote:
-> > > > As you say, either is fine with me.
-> > > >
-> > > > > 2. Who is going to pull this patch: This seems a matter of where the header
-> > > > > archive resides. If it is in /sys/kernel/ then I am assuming Greg will pull
-> > > > > it.  Masahiro has given his Reviewed-by tag, is he the one to pull it?
-> > > >
-> > > > I can take it, but it probably should just go through the kbuild tree,
-> > > > as that makes more sense to me.
-> > > 
-> > > 
-> > > I do not want to take responsibility for this.
-> > 
-> > Hah, ok, I'll be glad to queue this up in my tree.  I'll take it now,
-> > and if people who really object to this being in /proc/ and want it in
-> > /sys/, we can add a follow-on patch before 5.2-final is out to move the
-> > file to that location.
-> 
-> People really object to having it in kernel in the first place.
+Hi Mauro,
 
-Then do not select that .config option, and all is good :)
+On Mon, Apr 22, 2019 at 3:34 PM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
+> Convert the m68k kernel-options.txt file to ReST.
+>
+> The conversion is trivial, as the document is already on a format
+> close enough to ReST. Just some small adjustments were needed in
+> order to make it both good for being parsed while keeping it on
+> a good txt shape.
+>
+> At its new index.rst, let's add a :orphan: while this is not linked to
+> the main index.rst file, in order to avoid build warnings.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+
+Thanks for the conversion!
+
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+
+P.S. Looks like some kernel options no longer exist, and need to be removed.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
