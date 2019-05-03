@@ -1,92 +1,173 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.4 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	FSL_HELO_FAKE,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 523867D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  3 May 2019 17:45:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F20F67D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  3 May 2019 18:25:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728602AbfECRpA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 3 May 2019 13:45:00 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:39678 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726480AbfECRpA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 May 2019 13:45:00 -0400
-Received: by mail-wm1-f68.google.com with SMTP id n25so7625043wmk.4;
-        Fri, 03 May 2019 10:44:59 -0700 (PDT)
+        id S1726428AbfECSZd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 3 May 2019 14:25:33 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:41908 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726400AbfECSZd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 May 2019 14:25:33 -0400
+Received: by mail-pf1-f195.google.com with SMTP id 188so3272555pfd.8
+        for <linux-doc@vger.kernel.org>; Fri, 03 May 2019 11:25:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=t4cyN7e/E+3KAl7sbPpgTsGbsxg6GONbg48fXIFY76o=;
-        b=smqsaY2ywLCfyclbZ+5qDfOP6UVYS+/rtIHjag/XRu1E8e74lgG0xBKlB096D9p/Sv
-         yYSwo94H8qW7fQDzJbvf7/AfQav5mSud7Cu+RuwDj7MCQsOn+8VYRyqu6y6xcRWQb+hH
-         94Nq1ElyUz5A1Pelm17w67FVkBt5tx44IgGVg3Q6T37ZvZa+AUdDIenKtO3q6RW185OE
-         E1/zhca+fgFqb/rEpj92xPrzDaWUhq1yXG1z/DASdgtKP4k69zEc2rutle7CqRwAs/4A
-         5mzknstcA3GK0Qf2rLBxASNsiVdcAOiLBE21Dp8ofXD6hJAO/lkLcqx1jMlFrAdyB7sc
-         uOvQ==
+        d=joelfernandes.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=i/bmY+EZ6xV0W0SpIYyFyIDSPu4iDN/leFZKV35/9Vc=;
+        b=m7r8+vcXgU2Jzs3FITtKSxn3MZ0/Ui0kiBxk1JUrg+f9GJCZqLzVOs28Xuo7YABkcp
+         HkZI4irETyZws53pUubSxSy2M0164P9FJYKzN3EKqiuCufrWsFAhpnuhF8CGmvuEEFdo
+         RYdVxSMizwoP6PdkcyTua4mYxoeSqRh/dtQfA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=t4cyN7e/E+3KAl7sbPpgTsGbsxg6GONbg48fXIFY76o=;
-        b=n81WzB5pnKWfjG+kvNc4duTzdkWEVxP9QepBnLqIWg1qrSoE30UDL8ccOOxqnJeVxW
-         0otqxCEweai0WTn+m5WFDw7/B294CC1YHiIaXKkIg7G+QebVdry9EBxhix0Zlt80C+qL
-         JRH7VhsT5kzV7bs3ycYG6pSwH2gJKX4ns9BwkX8af54zuulDL0ifpDmRbLi8GtqLFZHk
-         S82sK10RGCxdEqWq8y2yxIsQBsjDR+yLzwt0V2tUj89hGhNdFyCRaLG4gmeJQD21hQJj
-         0X+fuQY41OqigyLNcuDeUJYlGLVqU3fG6pBa+Lry4c5nAhybqIWEMQp8loCmHTzqzadl
-         Us/A==
-X-Gm-Message-State: APjAAAUL4DwZfiPQZE/iWDHBu/LV82vFufOCD+EDxD1Bwa1qxADpT8F6
-        Vh7TaGQ5aZm2DDZw6GIVNao=
-X-Google-Smtp-Source: APXvYqzBWf8fKDF6Kp9Ud0HFoTG2rxkjduJGSvdXpNA83cq6Nuv2dkbLXqYgqTlo46CAGzYmfb+xJw==
-X-Received: by 2002:a1c:eb12:: with SMTP id j18mr7692987wmh.48.1556905498724;
-        Fri, 03 May 2019 10:44:58 -0700 (PDT)
-Received: from gmail.com (2E8B0CD5.catv.pool.telekom.hu. [46.139.12.213])
-        by smtp.gmail.com with ESMTPSA id c204sm16769255wmd.0.2019.05.03.10.44.57
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 03 May 2019 10:44:58 -0700 (PDT)
-Date:   Fri, 3 May 2019 19:44:55 +0200
-From:   Ingo Molnar <mingo@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Changbin Du <changbin.du@gmail.com>, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 00/27] Include linux x86 docs into Sphinx TOC tree
-Message-ID: <20190503174455.GA69353@gmail.com>
-References: <20190502070633.9809-1-changbin.du@gmail.com>
- <20190503064347.1d027e87@lwn.net>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=i/bmY+EZ6xV0W0SpIYyFyIDSPu4iDN/leFZKV35/9Vc=;
+        b=dh1S+jCVF30rGLu2fNtxsyF76E1GMBkUnDBk7EGcOXp8UQE0ud6J41OPMBqVZzAgXM
+         9Qg17perGTlVa10Xm0Ib0eEJ6M+6zh6lxacIWYBnBvW/ZCo5yX86eGdha+aSfvgoOpYD
+         RdPd3DzrsGN4KJwfVrranDP2M5PlaEuk2DOW7Jyk5HFQDIgZaeTWjmcjynAEdlkPRSQB
+         zOMYFfmmFbyH1jAsRjNVkyrMx+LmFI/FeDNmhdwjntr5LOJXyfI+O1y2cRdB+BU2jIGf
+         QAFYg1arD+xI6wO/DMOp+YF2V58EyM1GXTPKa+yDpDTTkztopRaa+P5v1fgRyGHXu2Jb
+         CAxw==
+X-Gm-Message-State: APjAAAWPE+VlfkHanZHUVTqwl1+hWyIrrt2qph9cnzVF6kF85vCEinKT
+        0iSyjwuN0TsoZQ9t94g94kXVFQ==
+X-Google-Smtp-Source: APXvYqxXomx3NaQybucA9CD70Lvpm4yE4KqrBRott1+Bcq0msUt/U7YHgaagq201nzW7ilNHNeShKw==
+X-Received: by 2002:a63:5110:: with SMTP id f16mr12391491pgb.107.1556907932139;
+        Fri, 03 May 2019 11:25:32 -0700 (PDT)
+Received: from joelaf.cam.corp.google.com ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id n188sm4110093pfn.64.2019.05.03.11.25.27
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 03 May 2019 11:25:30 -0700 (PDT)
+From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Adrian Ratiu <adrian.ratiu@collabora.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>, atishp04@gmail.com,
+        bpf@vger.kernel.org, Brendan Gregg <bgregg@netflix.com>,
+        Brendan Gregg <brendan.d.gregg@gmail.com>, dancol@google.com,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Dan Williams <dan.j.williams@intel.com>,
+        dietmar.eggemann@arm.com, duyuchao <yuchao.du@unisoc.com>,
+        gregkh@linuxfoundation.org, Guenter Roeck <groeck@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Karim Yaghmour <karim.yaghmour@opersys.com>,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org,
+        Manjo Raja Rao <linux@manojrajarao.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        =?UTF-8?q?Micha=C5=82=20Gregorczyk?= <michalgr@fb.com>,
+        Michal Gregorczyk <michalgr@live.com>,
+        Mohammad Husain <russoue@gmail.com>,
+        Olof Johansson <olof@lixom.net>, qais.yousef@arm.com,
+        rdunlap@infradead.org, Shuah Khan <shuah@kernel.org>,
+        Srinivas Ramana <sramana@codeaurora.org>,
+        Tamir Carmeli <carmeli.tamir@gmail.com>, yhs@fb.com
+Subject: [PATCH] kheaders: Move from proc to sysfs
+Date:   Fri,  3 May 2019 14:24:59 -0400
+Message-Id: <20190503182459.159121-1-joel@joelfernandes.org>
+X-Mailer: git-send-email 2.21.0.1020.gf2820cf01a-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190503064347.1d027e87@lwn.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+The kheaders archive consisting of the kernel headers used for compiling
+bpf programs is in /proc. However there is concern that moving it here
+will make it permanent. Let us move it to /sys/kernel as discussed [1].
 
-* Jonathan Corbet <corbet@lwn.net> wrote:
+[1] https://lore.kernel.org/patchwork/patch/1067310/#1265969
 
-> On Thu,  2 May 2019 15:06:06 +0800
-> Changbin Du <changbin.du@gmail.com> wrote:
-> 
-> > The kernel now uses Sphinx to generate intelligent and beautiful documentation
-> > from reStructuredText files. I converted all of the Linux x86 docs to rst
-> > format in this serias.
-> > 
-> > For you to preview, please visit below url:
-> > http://www.bytemem.com:8080/kernel-doc/index.html
-> 
-> x86 folks: how would you like to handle this set?  Take it yourselves,
-> have me take it, print it out and set it on fire, ...?
+Suggested-by: Steven Rostedt <rostedt@goodmis.org>
+Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+---
+This patch applies on top of the previous patch that was applied to the
+driver tree:
+https://lore.kernel.org/patchwork/patch/1067310/
 
-If you are otherwise happy with it:
+ kernel/kheaders.c | 40 ++++++++++++++++------------------------
+ 1 file changed, 16 insertions(+), 24 deletions(-)
 
-Acked-by: Ingo Molnar <mingo@kernel.org>
-
-Thanks,
-
-	Ingo
+diff --git a/kernel/kheaders.c b/kernel/kheaders.c
+index 70ae6052920d..6a16f8f6898d 100644
+--- a/kernel/kheaders.c
++++ b/kernel/kheaders.c
+@@ -8,9 +8,8 @@
+ 
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+-#include <linux/proc_fs.h>
++#include <linux/kobject.h>
+ #include <linux/init.h>
+-#include <linux/uaccess.h>
+ 
+ /*
+  * Define kernel_headers_data and kernel_headers_data_end, within which the
+@@ -31,39 +30,32 @@ extern char kernel_headers_data;
+ extern char kernel_headers_data_end;
+ 
+ static ssize_t
+-ikheaders_read_current(struct file *file, char __user *buf,
+-		      size_t len, loff_t *offset)
++ikheaders_read(struct file *file,  struct kobject *kobj,
++	       struct bin_attribute *bin_attr,
++	       char *buf, loff_t off, size_t len)
+ {
+-	return simple_read_from_buffer(buf, len, offset,
+-				       &kernel_headers_data,
+-				       &kernel_headers_data_end -
+-				       &kernel_headers_data);
++	memcpy(buf, &kernel_headers_data + off, len);
++	return len;
+ }
+ 
+-static const struct file_operations ikheaders_file_ops = {
+-	.read = ikheaders_read_current,
+-	.llseek = default_llseek,
++static struct bin_attribute kheaders_attr __ro_after_init = {
++	.attr = {
++		.name = "kheaders.tar.xz",
++		.mode = S_IRUGO,
++	},
++	.read = &ikheaders_read,
+ };
+ 
+ static int __init ikheaders_init(void)
+ {
+-	struct proc_dir_entry *entry;
+-
+-	/* create the current headers file */
+-	entry = proc_create("kheaders.tar.xz", S_IRUGO, NULL,
+-			    &ikheaders_file_ops);
+-	if (!entry)
+-		return -ENOMEM;
+-
+-	proc_set_size(entry,
+-		      &kernel_headers_data_end -
+-		      &kernel_headers_data);
+-	return 0;
++	kheaders_attr.size = (&kernel_headers_data_end -
++			      &kernel_headers_data);
++	return sysfs_create_bin_file(kernel_kobj, &kheaders_attr);
+ }
+ 
+ static void __exit ikheaders_cleanup(void)
+ {
+-	remove_proc_entry("kheaders.tar.xz", NULL);
++	sysfs_remove_bin_file(kernel_kobj, &kheaders_attr);
+ }
+ 
+ module_init(ikheaders_init);
+-- 
+2.21.0.1020.gf2820cf01a-goog
