@@ -1,173 +1,265 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F20F67D08A
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  3 May 2019 18:25:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CB6507D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  3 May 2019 18:59:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726428AbfECSZd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 3 May 2019 14:25:33 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:41908 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726400AbfECSZd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 May 2019 14:25:33 -0400
-Received: by mail-pf1-f195.google.com with SMTP id 188so3272555pfd.8
-        for <linux-doc@vger.kernel.org>; Fri, 03 May 2019 11:25:32 -0700 (PDT)
+        id S1726781AbfECS7h (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 3 May 2019 14:59:37 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:39673 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726776AbfECS7h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 3 May 2019 14:59:37 -0400
+Received: by mail-pl1-f194.google.com with SMTP id e92so3110555plb.6;
+        Fri, 03 May 2019 11:59:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=i/bmY+EZ6xV0W0SpIYyFyIDSPu4iDN/leFZKV35/9Vc=;
-        b=m7r8+vcXgU2Jzs3FITtKSxn3MZ0/Ui0kiBxk1JUrg+f9GJCZqLzVOs28Xuo7YABkcp
-         HkZI4irETyZws53pUubSxSy2M0164P9FJYKzN3EKqiuCufrWsFAhpnuhF8CGmvuEEFdo
-         RYdVxSMizwoP6PdkcyTua4mYxoeSqRh/dtQfA=
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ADpdDwLHxFyfFWAX1if0+NpffCsUFbkjDEInr1QTSC4=;
+        b=VrvZIthSvvpLa9ofdi1TVHc0CvLr2VIODR9OjnFm+Up9we0zDAZUBWMLlTbOSItHKo
+         Pbam23b4EY+ccSifRG/ZxjMcIQVAiXiA3KyIi8wmckJ7RJLpCpUuffuKoF64akwkaZ+a
+         3QcFYyfiYX8VkGbLXp+59LQq0XggiQTSFvsoJX1JIXyAy+67nRdTPeZZes4fPGEw0SNJ
+         /9swLP5EtM7Jh7wPv9iAEyde8+QQDQGJVMKmJBfXFZRut96aOVsFH2VBxXFKDhAr7gl6
+         0FaZZo8MGkaVEpcuBTPxzyLi+qG9bWgEYJF7h83gR5avy0pM2sQoY06ujQlTV4yL6n8q
+         BstA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=i/bmY+EZ6xV0W0SpIYyFyIDSPu4iDN/leFZKV35/9Vc=;
-        b=dh1S+jCVF30rGLu2fNtxsyF76E1GMBkUnDBk7EGcOXp8UQE0ud6J41OPMBqVZzAgXM
-         9Qg17perGTlVa10Xm0Ib0eEJ6M+6zh6lxacIWYBnBvW/ZCo5yX86eGdha+aSfvgoOpYD
-         RdPd3DzrsGN4KJwfVrranDP2M5PlaEuk2DOW7Jyk5HFQDIgZaeTWjmcjynAEdlkPRSQB
-         zOMYFfmmFbyH1jAsRjNVkyrMx+LmFI/FeDNmhdwjntr5LOJXyfI+O1y2cRdB+BU2jIGf
-         QAFYg1arD+xI6wO/DMOp+YF2V58EyM1GXTPKa+yDpDTTkztopRaa+P5v1fgRyGHXu2Jb
-         CAxw==
-X-Gm-Message-State: APjAAAWPE+VlfkHanZHUVTqwl1+hWyIrrt2qph9cnzVF6kF85vCEinKT
-        0iSyjwuN0TsoZQ9t94g94kXVFQ==
-X-Google-Smtp-Source: APXvYqxXomx3NaQybucA9CD70Lvpm4yE4KqrBRott1+Bcq0msUt/U7YHgaagq201nzW7ilNHNeShKw==
-X-Received: by 2002:a63:5110:: with SMTP id f16mr12391491pgb.107.1556907932139;
-        Fri, 03 May 2019 11:25:32 -0700 (PDT)
-Received: from joelaf.cam.corp.google.com ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id n188sm4110093pfn.64.2019.05.03.11.25.27
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 03 May 2019 11:25:30 -0700 (PDT)
-From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Adrian Ratiu <adrian.ratiu@collabora.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>, atishp04@gmail.com,
-        bpf@vger.kernel.org, Brendan Gregg <bgregg@netflix.com>,
-        Brendan Gregg <brendan.d.gregg@gmail.com>, dancol@google.com,
-        Daniel Borkmann <daniel@iogearbox.net>,
+        bh=ADpdDwLHxFyfFWAX1if0+NpffCsUFbkjDEInr1QTSC4=;
+        b=nNO3Uy8nfTx7DcFJUhocsCye11Py6t+73V2kfxLXrNOiKjUCs47u/VaFUFCiKm19bv
+         rGwbXJQcOU6qtBuVG6QYdRIIjaZzwtASEMBxeuwCallv2FJMukmmM3lfieJ8fT9RvdXh
+         tgDA06s06sDhCiQFtgGHjBHXj5BY9c6NgI1C5DbP9og/37RsUUOPvT3cZvtsxbx2oFdh
+         ZRgxlfiOYTeLp5ufkZODr8aRBvSBjMO9WgaQkoNxbxd5zCZk4OOkkqPNOSUbAfHwzbFz
+         QnEEt1pQvizsFjqGra4/FS3vHFs5BsV2kzRvfwAPbELQKLe5IRS7cTZW9BkttxIbr7O5
+         UhPQ==
+X-Gm-Message-State: APjAAAVl8YIA4n/Q9++ZFkFjokvrluZmu6GGWoN6mciGnGl/vR9TfCVu
+        7LtL+isNyLbRPMkQyCp0LhA=
+X-Google-Smtp-Source: APXvYqxqbfGXr3FDXhDmUCd7JmX5osXVjgyq86nBDxgo3T0uzvTwYN2tw6/OWvrILTq7mQlibweAAw==
+X-Received: by 2002:a17:902:bf44:: with SMTP id u4mr12529409pls.171.1556909976558;
+        Fri, 03 May 2019 11:59:36 -0700 (PDT)
+Received: from [192.168.1.70] (c-24-6-192-50.hsd1.ca.comcast.net. [24.6.192.50])
+        by smtp.gmail.com with ESMTPSA id l2sm3517136pgl.2.2019.05.03.11.59.34
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 03 May 2019 11:59:35 -0700 (PDT)
+Subject: Re: [PATCH v2 12/17] kunit: tool: add Python wrappers for running
+ KUnit tests
+To:     Brendan Higgins <brendanhiggins@google.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@google.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        shuah@kernel.org, devicetree <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-kselftest@vger.kernel.org,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "Bird, Timothy" <Tim.Bird@sony.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
         Dan Williams <dan.j.williams@intel.com>,
-        dietmar.eggemann@arm.com, duyuchao <yuchao.du@unisoc.com>,
-        gregkh@linuxfoundation.org, Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Karim Yaghmour <karim.yaghmour@opersys.com>,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org,
-        Manjo Raja Rao <linux@manojrajarao.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        =?UTF-8?q?Micha=C5=82=20Gregorczyk?= <michalgr@fb.com>,
-        Michal Gregorczyk <michalgr@live.com>,
-        Mohammad Husain <russoue@gmail.com>,
-        Olof Johansson <olof@lixom.net>, qais.yousef@arm.com,
-        rdunlap@infradead.org, Shuah Khan <shuah@kernel.org>,
-        Srinivas Ramana <sramana@codeaurora.org>,
-        Tamir Carmeli <carmeli.tamir@gmail.com>, yhs@fb.com
-Subject: [PATCH] kheaders: Move from proc to sysfs
-Date:   Fri,  3 May 2019 14:24:59 -0400
-Message-Id: <20190503182459.159121-1-joel@joelfernandes.org>
-X-Mailer: git-send-email 2.21.0.1020.gf2820cf01a-goog
+        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Petr Mladek <pmladek@suse.com>,
+        Richard Weinberger <richard@nod.at>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com,
+        Felix Guo <felixguoxiuping@gmail.com>
+References: <20190501230126.229218-1-brendanhiggins@google.com>
+ <20190501230126.229218-13-brendanhiggins@google.com>
+ <20190502110220.GD12416@kroah.com>
+ <CAFd5g47t=EdLKFCT=CnPkrM2z0nDVo24Gz4j0VxFOJbARP37Lg@mail.gmail.com>
+ <a49c5088-a821-210c-66de-f422536f5b01@gmail.com>
+ <CAFd5g44iWRchQKdJYtjRtPY6e-6e0eXpKXXsx5Ooi6sWE474KA@mail.gmail.com>
+ <1a5f3c44-9fa9-d423-66bf-45255a90c468@gmail.com>
+ <CAFd5g45RYm+zfdJXnyp2KZZH5ojfOzy++aq+4zBeE5VDu6WgEw@mail.gmail.com>
+From:   Frank Rowand <frowand.list@gmail.com>
+Message-ID: <052fa196-4ea9-8384-79b7-fe6bacc0ee82@gmail.com>
+Date:   Fri, 3 May 2019 11:59:33 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFd5g45RYm+zfdJXnyp2KZZH5ojfOzy++aq+4zBeE5VDu6WgEw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The kheaders archive consisting of the kernel headers used for compiling
-bpf programs is in /proc. However there is concern that moving it here
-will make it permanent. Let us move it to /sys/kernel as discussed [1].
+On 5/2/19 10:36 PM, Brendan Higgins wrote:
+> On Thu, May 2, 2019 at 6:45 PM Frank Rowand <frowand.list@gmail.com> wrote:
+>>
+>> On 5/2/19 4:45 PM, Brendan Higgins wrote:
+>>> On Thu, May 2, 2019 at 2:16 PM Frank Rowand <frowand.list@gmail.com> wrote:
+>>>>
+>>>> On 5/2/19 11:07 AM, Brendan Higgins wrote:
+>>>>> On Thu, May 2, 2019 at 4:02 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+>>>>>>
+>>>>>> On Wed, May 01, 2019 at 04:01:21PM -0700, Brendan Higgins wrote:
+>>>>>>> From: Felix Guo <felixguoxiuping@gmail.com>
+>>>>>>>
+>>>>>>> The ultimate goal is to create minimal isolated test binaries; in the
+>>>>>>> meantime we are using UML to provide the infrastructure to run tests, so
+>>>>>>> define an abstract way to configure and run tests that allow us to
+>>>>>>> change the context in which tests are built without affecting the user.
+>>>>>>> This also makes pretty and dynamic error reporting, and a lot of other
+>>>>>>> nice features easier.
+>>>>>>>
+>>>>>>> kunit_config.py:
+>>>>>>>   - parse .config and Kconfig files.
+>>>>>>>
+>>>>>>> kunit_kernel.py: provides helper functions to:
+>>>>>>>   - configure the kernel using kunitconfig.
+>>>>>>>   - build the kernel with the appropriate configuration.
+>>>>>>>   - provide function to invoke the kernel and stream the output back.
+>>>>>>>
+>>>>>>> Signed-off-by: Felix Guo <felixguoxiuping@gmail.com>
+>>>>>>> Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+>>>>>>
+>>>>>> Ah, here's probably my answer to my previous logging format question,
+>>>>>> right?  What's the chance that these wrappers output stuff in a standard
+>>>>>> format that test-framework-tools can already parse?  :)
+>>>
+>>> To be clear, the test-framework-tools format we are talking about is
+>>> TAP13[1], correct?
+>>
+>> I'm not sure what the test community prefers for a format.  I'll let them
+>> jump in and debate that question.
+>>
+>>
+>>>
+>>> My understanding is that is what kselftest is being converted to use.
+>>>
+>>>>>
+>>>>> It should be pretty easy to do. I had some patches that pack up the
+>>>>> results into a serialized format for a presubmit service; it should be
+>>>>> pretty straightforward to take the same logic and just change the
+>>>>> output format.
+>>>>
+>>>> When examining and trying out the previous versions of the patch I found
+>>>> the wrappers useful to provide information about how to control and use
+>>>> the tests, but I had no interest in using the scripts as they do not
+>>>> fit in with my personal environment and workflow.
+>>>>
+>>>> In the previous versions of the patch, these helper scripts are optional,
+>>>> which is good for my use case.  If the helper scripts are required to
+>>>
+>>> They are still optional.
+>>>
+>>>> get the data into the proper format then the scripts are not quite so
+>>>> optional, they become the expected environment.  I think the proper
+>>>> format should exist without the helper scripts.
+>>>
+>>> That's a good point. A couple things,
+>>>
+>>> First off, supporting TAP13, either in the kernel or the wrapper
+>>> script is not hard, but I don't think that is the real issue that you
+>>> raise.
+>>>
+>>> If your only concern is that you will always be able to have human
+>>> readable KUnit results printed to the kernel log, that is a guarantee
+>>> I feel comfortable making. Beyond that, I think it is going to take a
+>>> long while before I would feel comfortable guaranteeing anything about
+>>> how will KUnit work, what kind of data it will want to expose, and how
+>>> it will be organized. I think the wrapper script provides a nice
+>>> facade that I can maintain, can mediate between the implementation
+>>> details and the user, and can mediate between the implementation
+>>> details and other pieces of software that might want to consume
+>>> results.
+>>>
+>>> [1] https://testanything.org/tap-version-13-specification.html
+>>
+>> My concern is based on a focus on my little part of the world
+>> (which in _previous_ versions of the patch series was the devicetree
+>> unittest.c tests being converted to use the kunit infrastructure).
+>> If I step back and think of the entire kernel globally I may end
+>> up with a different conclusion - but I'm going to remain myopic
+>> for this email.
+>>
+>> I want the test results to be usable by me and my fellow
+>> developers.  I prefer that the test results be easily accessible
+>> (current printk() implementation means that kunit messages are
+>> just as accessible as the current unittest.c printk() output).
+>> If the printk() output needs to be filtered through a script
+>> to generate the actual test results then that is sub-optimal
+>> to me.  It is one more step added to my workflow.  And
+>> potentially with an embedded target a major pain to get a
+>> data file (the kernel log file) transferred from a target
+>> to my development host.
+> 
+> That's fair. If that is indeed your only concern, then I don't think
+> the wrapper script will ever be an issue for you. You will always be
+> able to execute a given test the old fashioned/manual way, and the
+> wrapper script only summarizes results, it does not change the
+> contents.
+> 
+>>
+>> I want a reported test failure to be easy to trace back to the
+>> point in the source where the failure is reported.  With printk()
+>> the search is a simple grep for the failure message.  If the
+>> failure message has been processed by a script, and then the
+>> failure reported to me in an email, then I may have to look
+>> at the script to reverse engineer how the original failure
+>> message was transformed into the message that was reported
+>> to me in the email.  Then I search for the point in the
+>> source where the failure is reported.  So a basic task has
+>> just become more difficult and time consuming.
+> 
+> That seems to be a valid concern. I would reiterate that you shouldn't
+> be concerned by any processing done by the wrapper script itself, but
+> the reality is that depending on what happens with automated
+> testing/presubmit/CI other people might end up parsing and
+> transforming test results - it might happen, it might not.
 
-[1] https://lore.kernel.org/patchwork/patch/1067310/#1265969
+You seem to be missing my point.
 
-Suggested-by: Steven Rostedt <rostedt@goodmis.org>
-Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
----
-This patch applies on top of the previous patch that was applied to the
-driver tree:
-https://lore.kernel.org/patchwork/patch/1067310/
+Greg asked that the output be in a standard format.
 
- kernel/kheaders.c | 40 ++++++++++++++++------------------------
- 1 file changed, 16 insertions(+), 24 deletions(-)
+You replied that the standard format could be created by the wrapper script.
 
-diff --git a/kernel/kheaders.c b/kernel/kheaders.c
-index 70ae6052920d..6a16f8f6898d 100644
---- a/kernel/kheaders.c
-+++ b/kernel/kheaders.c
-@@ -8,9 +8,8 @@
- 
- #include <linux/kernel.h>
- #include <linux/module.h>
--#include <linux/proc_fs.h>
-+#include <linux/kobject.h>
- #include <linux/init.h>
--#include <linux/uaccess.h>
- 
- /*
-  * Define kernel_headers_data and kernel_headers_data_end, within which the
-@@ -31,39 +30,32 @@ extern char kernel_headers_data;
- extern char kernel_headers_data_end;
- 
- static ssize_t
--ikheaders_read_current(struct file *file, char __user *buf,
--		      size_t len, loff_t *offset)
-+ikheaders_read(struct file *file,  struct kobject *kobj,
-+	       struct bin_attribute *bin_attr,
-+	       char *buf, loff_t off, size_t len)
- {
--	return simple_read_from_buffer(buf, len, offset,
--				       &kernel_headers_data,
--				       &kernel_headers_data_end -
--				       &kernel_headers_data);
-+	memcpy(buf, &kernel_headers_data + off, len);
-+	return len;
- }
- 
--static const struct file_operations ikheaders_file_ops = {
--	.read = ikheaders_read_current,
--	.llseek = default_llseek,
-+static struct bin_attribute kheaders_attr __ro_after_init = {
-+	.attr = {
-+		.name = "kheaders.tar.xz",
-+		.mode = S_IRUGO,
-+	},
-+	.read = &ikheaders_read,
- };
- 
- static int __init ikheaders_init(void)
- {
--	struct proc_dir_entry *entry;
--
--	/* create the current headers file */
--	entry = proc_create("kheaders.tar.xz", S_IRUGO, NULL,
--			    &ikheaders_file_ops);
--	if (!entry)
--		return -ENOMEM;
--
--	proc_set_size(entry,
--		      &kernel_headers_data_end -
--		      &kernel_headers_data);
--	return 0;
-+	kheaders_attr.size = (&kernel_headers_data_end -
-+			      &kernel_headers_data);
-+	return sysfs_create_bin_file(kernel_kobj, &kheaders_attr);
- }
- 
- static void __exit ikheaders_cleanup(void)
- {
--	remove_proc_entry("kheaders.tar.xz", NULL);
-+	sysfs_remove_bin_file(kernel_kobj, &kheaders_attr);
- }
- 
- module_init(ikheaders_init);
--- 
-2.21.0.1020.gf2820cf01a-goog
+Now you say that "it might happen, it might not".  In other words the output
+may or may not end up in the standard format.
+
+As Greg points out in comments to patch 12:
+
+  "The core of kunit should also log the messages in this format as well,
+  and not rely on the helper scripts as Frank points out, not everyone
+  will use/want them.  Might as well make it easy for everyone to always
+  do the right thing and not force it to always be added in later."
+
+I am requesting that the original message be in the standard format.  Of
+course anyone is free to transform the messages in later processing, no
+big deal.
+
+
+> I currently
+> have a CI system set up for KUnit on my public repo that I don't think
+> you would be offended by, but I don't know what we are going to do
+> when it comes time to integrate with existing upstream CI systems.
+> 
+> In anycase, I don't think that either sticking with or doing away with
+> the wrapper script is going to have any long term bearing on what
+> happens in this regard.
+> 
+> Cheers
+> 
+
