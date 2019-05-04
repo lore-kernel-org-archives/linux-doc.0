@@ -1,115 +1,111 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 613957D8A4
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  4 May 2019 08:12:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7A7427D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  4 May 2019 08:44:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726770AbfEDIMA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 4 May 2019 04:12:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58986 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726217AbfEDIL7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 4 May 2019 04:11:59 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8819920645;
-        Sat,  4 May 2019 08:11:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1556957518;
-        bh=SBbvUNLEDR59y1jM6qdHyiKYw3PXx9SL+kY8eY9adTE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bCI0mV+q7oTtHAc1tn1nAzj/sTUxo6EII2xFNvacFrex/zzCVejjFj9qxHNazmNxt
-         Grfo+FlEjjQBYJ/kK0Oo1eNADT8zgfZjJC++xoDuWHd9J76GesfCdhAJ8eLbfHy/kX
-         Uhy0Zad+IsIDTKh4IWZm3bQG2d0ChpRr/XKS+4Bk=
-Date:   Sat, 4 May 2019 10:11:55 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Joel Fernandes <joel@joelfernandes.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Adrian Ratiu <adrian.ratiu@collabora.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        atish patra <atishp04@gmail.com>, bpf <bpf@vger.kernel.org>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Brendan Gregg <brendan.d.gregg@gmail.com>,
-        Daniel Colascione <dancol@google.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        duyuchao <yuchao.du@unisoc.com>,
-        Guenter Roeck <groeck@chromium.org>,
+        id S1726444AbfEDIor (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 4 May 2019 04:44:47 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:7153 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726178AbfEDIor (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 4 May 2019 04:44:47 -0400
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id EAB0F5D52CC2EA261151;
+        Sat,  4 May 2019 16:44:44 +0800 (CST)
+Received: from [127.0.0.1] (10.177.23.164) by DGGEMS413-HUB.china.huawei.com
+ (10.3.19.213) with Microsoft SMTP Server id 14.3.439.0; Sat, 4 May 2019
+ 16:44:39 +0800
+Subject: Re: [PATCH v6 0/1] iommu: enhance IOMMU dma mode build options
+To:     Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
+        John Garry <john.garry@huawei.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Joerg Roedel <joro@8bytes.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Karim Yaghmour <karim.yaghmour@opersys.com>,
-        Kees Cook <keescook@chromium.org>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-trace-devel@vger.kernel.org,
-        Manjo Raja Rao <linux@manojrajarao.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        =?utf-8?Q?Micha=C5=82?= Gregorczyk <michalgr@fb.com>,
-        Michal Gregorczyk <michalgr@live.com>,
-        Mohammad Husain <russoue@gmail.com>,
-        Olof Johansson <olof@lixom.net>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Srinivas Ramana <sramana@codeaurora.org>,
-        Tamir Carmeli <carmeli.tamir@gmail.com>,
-        Yonghong Song <yhs@fb.com>
-Subject: Re: [PATCH] kheaders: Move from proc to sysfs
-Message-ID: <20190504081155.GA13298@kroah.com>
-References: <20190503182459.159121-1-joel@joelfernandes.org>
- <CAK7LNATRTqh_OJcQaWfcYYYqyZ-c0u1prD17LDYwDh18z2V31Q@mail.gmail.com>
- <CAK7LNASkR7cauvcLprgrTKNv-iY4yjS278FPGJ-UEYTBrANKYw@mail.gmail.com>
- <20190504005920.GA261146@google.com>
- <CAADnVQKh6yVgYR_cZ56MSQ2WxfBjFYaQxbEH=xaeM0FjxAeaZg@mail.gmail.com>
+        linux-doc <linux-doc@vger.kernel.org>,
+        Sebastian Ott <sebott@linux.ibm.com>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        "Martin Schwidefsky" <schwidefsky@de.ibm.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        "Michael Ellerman" <mpe@ellerman.id.au>,
+        Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        iommu <iommu@lists.linux-foundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        x86 <x86@kernel.org>, linux-ia64 <linux-ia64@vger.kernel.org>
+References: <20190418135701.24668-1-thunder.leizhen@huawei.com>
+CC:     Hanjun Guo <guohanjun@huawei.com>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <5CCD50E7.3070505@huawei.com>
+Date:   Sat, 4 May 2019 16:44:23 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
+ Thunderbird/38.5.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAADnVQKh6yVgYR_cZ56MSQ2WxfBjFYaQxbEH=xaeM0FjxAeaZg@mail.gmail.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <20190418135701.24668-1-thunder.leizhen@huawei.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.177.23.164]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, May 04, 2019 at 12:46:21AM -0700, Alexei Starovoitov wrote:
-> On Fri, May 3, 2019 at 5:59 PM Joel Fernandes <joel@joelfernandes.org> wrote:
-> >
-> > On Sat, May 04, 2019 at 09:21:41AM +0900, Masahiro Yamada wrote:
-> > > On Sat, May 4, 2019 at 9:18 AM Masahiro Yamada
-> > > <yamada.masahiro@socionext.com> wrote:
-> > > >
-> > > > On Sat, May 4, 2019 at 3:27 AM Joel Fernandes (Google)
-> > > > <joel@joelfernandes.org> wrote:
-> > > > >
-> > > > > The kheaders archive consisting of the kernel headers used for compiling
-> > > > > bpf programs is in /proc. However there is concern that moving it here
-> > > > > will make it permanent. Let us move it to /sys/kernel as discussed [1].
-> > > > >
-> > > > > [1] https://lore.kernel.org/patchwork/patch/1067310/#1265969
-> > > > >
-> > > > > Suggested-by: Steven Rostedt <rostedt@goodmis.org>
-> > > > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > > > > ---
-> > > > > This patch applies on top of the previous patch that was applied to the
-> > > > > driver tree:
-> > > > > https://lore.kernel.org/patchwork/patch/1067310/
+Hi all,
+  Can anybody review or comment?
+
+
+On 2019/4/18 21:57, Zhen Lei wrote:
+> v5 --> v6:
+> 1. give up adding boot option iommu.dma_mode
 > 
-> I think it would be cleaner to take it out, squash and reapply.
+> v4 --> v5:
+> As Hanjun and Thomas Gleixner's suggestion:
+> 1. Keep the old ARCH specific boot options no change.
+> 2. Keep build option CONFIG_IOMMU_DEFAULT_PASSTHROUGH no change.
+> 
+> v4:
+> As Robin Murphy's suggestion:
+> "It's also not necessarily obvious to the user how this interacts with
+> IOMMU_DEFAULT_PASSTHROUGH, so if we really do go down this route, maybe it
+> would be better to refactor the whole lot into a single selection of something
+> like IOMMU_DEFAULT_MODE anyway."
+> 
+> In this version, I tried to normalize the IOMMU dma mode boot options for all
+> ARCHs. When IOMMU is enabled, there are 3 dma modes: paasthrough(bypass),
+> lazy(mapping but defer the IOTLB invalidation), strict. But currently each
+> ARCHs defined their private boot options, different with each other. For
+> example, to enable/disable "passthrough", ARM64 use iommu.passthrough=1/0,
+> X86 use iommu=pt/nopt, PPC/POWERNV use iommu=nobypass.
+> 
+> Zhen Lei (1):
+>   iommu: enhance IOMMU dma mode build options
+> 
+>  arch/ia64/kernel/pci-dma.c                |  2 +-
+>  arch/powerpc/platforms/powernv/pci-ioda.c |  3 ++-
+>  arch/s390/pci/pci_dma.c                   |  2 +-
+>  arch/x86/kernel/pci-dma.c                 |  7 ++---
+>  drivers/iommu/Kconfig                     | 44 ++++++++++++++++++++++++++-----
+>  drivers/iommu/amd_iommu_init.c            |  3 ++-
+>  drivers/iommu/intel-iommu.c               |  2 +-
+>  drivers/iommu/iommu.c                     |  3 ++-
+>  8 files changed, 48 insertions(+), 18 deletions(-)
+> 
 
-It is in a un-rebasable-tree already, sorry.  A patch on top is fine.
+-- 
+Thanks!
+BestRegards
 
-thanks,
-
-greg k-h
