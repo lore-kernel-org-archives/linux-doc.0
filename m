@@ -2,57 +2,86 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DAC9F7D8A4
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  5 May 2019 19:02:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CE6987D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  5 May 2019 20:31:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726905AbfEETCV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 5 May 2019 15:02:21 -0400
-Received: from ms.lwn.net ([45.79.88.28]:60644 "EHLO ms.lwn.net"
+        id S1727232AbfEEUbv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 5 May 2019 16:31:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54074 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726636AbfEETCV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 5 May 2019 15:02:21 -0400
-Received: from localhost.localdomain (localhost [127.0.0.1])
+        id S1726905AbfEEUbv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 5 May 2019 16:31:51 -0400
+Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 770E42E6;
-        Sun,  5 May 2019 19:02:20 +0000 (UTC)
-Date:   Sun, 5 May 2019 13:02:19 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Changbin Du <changbin.du@gmail.com>
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 00/27] Include linux x86 docs into Sphinx TOC tree
-Message-ID: <20190505130219.29bd72f8@lwn.net>
-In-Reply-To: <20190502070633.9809-1-changbin.du@gmail.com>
-References: <20190502070633.9809-1-changbin.du@gmail.com>
-Organization: LWN.net
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3ADEB20651;
+        Sun,  5 May 2019 20:31:47 +0000 (UTC)
+Date:   Sun, 5 May 2019 16:31:45 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     Greg KH <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+        Adrian Ratiu <adrian.ratiu@collabora.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>, atishp04@gmail.com,
+        bpf@vger.kernel.org, Brendan Gregg <bgregg@netflix.com>,
+        Brendan Gregg <brendan.d.gregg@gmail.com>, dancol@google.com,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Dan Williams <dan.j.williams@intel.com>,
+        dietmar.eggemann@arm.com, duyuchao <yuchao.du@unisoc.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Karim Yaghmour <karim.yaghmour@opersys.com>,
+        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org,
+        Manjo Raja Rao <linux@manojrajarao.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        =?UTF-8?B?TWljaGHFgg==?= Gregorczyk <michalgr@fb.com>,
+        Michal Gregorczyk <michalgr@live.com>,
+        Mohammad Husain <russoue@gmail.com>,
+        Olof Johansson <olof@lixom.net>, qais.yousef@arm.com,
+        rdunlap@infradead.org, Shuah Khan <shuah@kernel.org>,
+        Srinivas Ramana <sramana@codeaurora.org>,
+        Tamir Carmeli <carmeli.tamir@gmail.com>, yhs@fb.com
+Subject: Re: [PATCH v2] kheaders: Move from proc to sysfs
+Message-ID: <20190505163145.45f77e44@oasis.local.home>
+In-Reply-To: <20190505132623.GA3076@localhost>
+References: <20190504121213.183203-1-joel@joelfernandes.org>
+        <20190504122158.GA23535@kroah.com>
+        <20190504123650.GA229151@google.com>
+        <20190505091030.GA25646@kroah.com>
+        <20190505132623.GA3076@localhost>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu,  2 May 2019 15:06:06 +0800
-Changbin Du <changbin.du@gmail.com> wrote:
+On Sun, 5 May 2019 13:26:23 +0000
+Joel Fernandes <joel@joelfernandes.org> wrote:
 
-> The kernel now uses Sphinx to generate intelligent and beautiful documentation
-> from reStructuredText files. I converted all of the Linux x86 docs to rst
-> format in this serias.
+> On Sun, May 05, 2019 at 11:10:30AM +0200, Greg KH wrote:
+> > On Sat, May 04, 2019 at 08:36:50AM -0400, Joel Fernandes wrote:  
+> > > > But, you should change S_IRUGO to the correct octal number, checkpatch
+> > > > should have barfed on this change.  
+> > > 
+> > > fixed, below is the updated patch inline, thanks!  
+> > 
+> > Please resend as a "real" submission, doing so in this format is a bit
+> > more difficult to apply.  
 > 
-> For you to preview, please visit below url:
-> http://www.bytemem.com:8080/kernel-doc/index.html
-> 
-> Thank you!
+> git am --scissors can do it, but no problem I will send as a formal
+> submission. Thanks a lot.
+>
 
-So which tree was this generated against?  I was gearing up to try it
-out, but it doesn't really want to apply to docs-next...
+True, but a lot of us depend on scripts to pull in patches from our
+INBOX. Which is why we like them to stay with the standard format.
 
-Thanks,
-
-jon
+-- Steve
