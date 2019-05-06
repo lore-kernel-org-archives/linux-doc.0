@@ -1,107 +1,182 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9BAA87D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 May 2019 15:47:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AE0697D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 May 2019 17:09:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726922AbfEFPr3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 6 May 2019 11:47:29 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:44666 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725994AbfEFPr3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 May 2019 11:47:29 -0400
-Received: by mail-qk1-f194.google.com with SMTP id w25so2045503qkj.11;
-        Mon, 06 May 2019 08:47:28 -0700 (PDT)
+        id S1726694AbfEFRJk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 6 May 2019 13:09:40 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:45966 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726386AbfEFRJk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 May 2019 13:09:40 -0400
+Received: by mail-pg1-f195.google.com with SMTP id i21so6748333pgi.12;
+        Mon, 06 May 2019 10:09:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=E/XjEjFJHTNXNUvCeIBTVGrT6CD0tFJQfkjcnYeMhDY=;
-        b=WFo86atePse5UmQK+FdjsQtdOQVjO6JrWLd1xYEi2IMozqnr1cQ3J6vuxd3K5gctkU
-         XsHuazRLDKDlGNx+rMgrPMRCPJ6oBDmOOlutFuDcLwMPw4scj7kpqzMv7cl6hg35vWEY
-         5Jo6jnIk5CH1m9lNzIXjTixLiTU77ECI7aUU/JbALWp0cMUgMEwkMgZ7hD3uN9i6ImhW
-         2a3f1jij5WKh6ZVyp1ZYKiNoBS3PgNo3b11OoMZftLmzMwIrn3ULeWrJwifkleo4h6d6
-         bKGMiQvOOvCNzRjOGOOP6O5nxYth83P/miVp9QGwck0+wEWuGrwwA1wlrLAfhekoHQTn
-         pYyg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PJ5Vy1fvJOMCfsNlZt9kLkloUoOWT4WJb6tP7nNpgzI=;
+        b=uCg9ZanY5YS3ptCxOrBuUCjZAvjpv9NNZKCZwZpHEdiCjrwL+vnSUjKfMCs2DJiCXs
+         pgLr5jyCxBSDqdDbTcz6QjWyLM+KJanKZVm+QbrgCchpw3I25EciN+RG4wxs7PiT2Es0
+         ++YKwZevPTxRUHbMkEdBzFYh+5NHDR6br81moXZY1gBqV+zDqakrrY5ekgIqR2b9DyCu
+         elmPrXKuH8nVCS9uZTEWdItHxZ9ym/sruHKQhTnfv7P3+Ko+cbp7TT+fYZ7lPSmlYOzw
+         5NRZOEjyel32nIKWctOM7u0Vi/UXgZjmNCGpOYaTe2EIsBqwL4K/zdLVNz6A11hQShi0
+         Jd1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=E/XjEjFJHTNXNUvCeIBTVGrT6CD0tFJQfkjcnYeMhDY=;
-        b=NTNWAM4SS7AOFuCA0Kiu3c+b8LmjB+xLCrDGUkba+mYj5LDMBfA9GhBRQCuLy3TuH4
-         jCVgt7gjD7QS1cDdm2zmsoNUFzIK1LNgN8i1rZSzswEK4NWUCAb36sGYGmopXgtFSfO9
-         ikD6c4W9gVejNPrfKHGR1cCnCmHnmzHvlNeYOPEq7GOlL1YbZNvn2nMCV0+SUcXvG/6v
-         DSoFpBYZpRbj2hnlpCR9RhUVchEkDlZ8C1AfVIJsVSum89XBoYNFJRj+Wyq1N5AhIVyQ
-         EgFBVIC1YudFsjxGm/UQX2D94YjSwE+ViJtcROsW4RoH4DFR4rJBmBJ7/H2xYC+4RaTb
-         98Ug==
-X-Gm-Message-State: APjAAAWTFqphWOk4BKHRdouGRrmAfFyNou0+amEv8C1obHttu3S6c0Hj
-        nk5EMp6Mhyx+loATAA3xtXs=
-X-Google-Smtp-Source: APXvYqyGWKd+xSOSpvNfUpsvwC4L227cvwkKiLHI1zuDfWsdmprNrmz8KfFvHgA6pkY4TuPO96A4Rg==
-X-Received: by 2002:a37:de16:: with SMTP id h22mr19541559qkj.306.1557157647429;
-        Mon, 06 May 2019 08:47:27 -0700 (PDT)
-Received: from localhost ([2620:10d:c091:500::3:34f3])
-        by smtp.gmail.com with ESMTPSA id i23sm8328331qtc.18.2019.05.06.08.47.26
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 06 May 2019 08:47:26 -0700 (PDT)
-Date:   Mon, 6 May 2019 08:47:25 -0700
-From:   Tejun Heo <tj@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        Jens Axboe <axboe@kernel.dk>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>, linux-block@vger.kernel.org,
-        cgroups@vger.kernel.org, netdev@vger.kernel.org,
-        bpf@vger.kernel.org, linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v2 08/79] docs: cgroup-v1: convert docs to ReST and
- rename to *.rst
-Message-ID: <20190506154725.GS374014@devbig004.ftw2.facebook.com>
-References: <cover.1555938375.git.mchehab+samsung@kernel.org>
- <c6e79690c038fc6bbf9265a065c1f861d6e156fa.1555938375.git.mchehab+samsung@kernel.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PJ5Vy1fvJOMCfsNlZt9kLkloUoOWT4WJb6tP7nNpgzI=;
+        b=qkWwSmQRcamYZSxLNjp9w/Ks1DdNWDoucugesB0XjMze90pUVMsQXf2UClht+kAuLM
+         iah6xLFt+IR+Ihx+IgtnJZVfb9CZeg2TmAr+9sj1HBiN985mJosrDtigQiSxwSWEI2GR
+         x5dt5xQvf43c9obAeSGhCuz5e6PL3bcnVAEnbV7PQWTFejXsIYw5uG63ui90RYIJBS+l
+         /Z997MbbCYb5hKi+S7/VIHZmsarr+sdIDAeJYQjI/Gxdmj2vKUf3F9ns5lEen8N5eG+d
+         5pMyJsbnHtJyGDV9lILCwVrE0GI5FlXltD+Ub2FfURZIWFaebAuqeMKOhpD3KtyLFxQD
+         Lbeg==
+X-Gm-Message-State: APjAAAUfJKgc1Va09ScoY4LPepCxtMzKYoh6KtZGUYlvQrBXdPKsqQn5
+        7GbnvWKtdogFNwU7apW5Ud4=
+X-Google-Smtp-Source: APXvYqxeD3Fk3xGdhGPsF+4N81pTgqKo/gdUwCLyybMHlPhc1dJ4LhVGomO+AeIMwfSsDWV6TDxcZA==
+X-Received: by 2002:a63:c50c:: with SMTP id f12mr33112898pgd.71.1557162579234;
+        Mon, 06 May 2019 10:09:39 -0700 (PDT)
+Received: from localhost.localdomain ([104.238.181.70])
+        by smtp.gmail.com with ESMTPSA id h13sm11045680pgk.55.2019.05.06.10.09.34
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 06 May 2019 10:09:38 -0700 (PDT)
+From:   Changbin Du <changbin.du@gmail.com>
+To:     corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de
+Cc:     x86@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Changbin Du <changbin.du@gmail.com>
+Subject: [PATCH v3 00/27] Include linux x86 docs into Sphinx TOC tree
+Date:   Tue,  7 May 2019 01:08:56 +0800
+Message-Id: <20190506170923.7117-1-changbin.du@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c6e79690c038fc6bbf9265a065c1f861d6e156fa.1555938375.git.mchehab+samsung@kernel.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 22, 2019 at 10:26:57AM -0300, Mauro Carvalho Chehab wrote:
-> Convert the cgroup-v1 files to ReST format, in order to
-> allow a later addition to the admin-guide.
-> 
-> The conversion is actually:
->   - add blank lines and identation in order to identify paragraphs;
->   - fix tables markups;
->   - add some lists markups;
->   - mark literal blocks;
->   - adjust title markups.
-> 
-> At its new index.rst, let's add a :orphan: while this is not linked to
-> the main index.rst file, in order to avoid build warnings.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Hi all,
 
-Acked-by: Tejun Heo <tj@kernel.org>
+The kernel now uses Sphinx to generate intelligent and beautiful documentation
+from reStructuredText files. I converted all of the Linux x86 docs to rst
+format in this serias.
 
-Please feel free to route with other patches in the series.
+For you to preview, please visit below url:
+http://www.bytemem.com:8080/kernel-doc/index.html
 
-Thanks.
+Thank you!
+
+v3: rebase to docs-next branch.
+v2: resolve comments from Mauro and Borislav.
+
+Changbin Du (27):
+  Documentation: add Linux x86 docs to Sphinx TOC tree
+  Documentation: x86: convert boot.txt to reST
+  Documentation: x86: convert topology.txt to reST
+  Documentation: x86: convert exception-tables.txt to reST
+  Documentation: x86: convert kernel-stacks to reST
+  Documentation: x86: convert entry_64.txt to reST
+  Documentation: x86: convert earlyprintk.txt to reST
+  Documentation: x86: convert zero-page.txt to reST
+  Documentation: x86: convert tlb.txt to reST
+  Documentation: x86: convert mtrr.txt to reST
+  Documentation: x86: convert pat.txt to reST
+  Documentation: x86: convert protection-keys.txt to reST
+  Documentation: x86: convert intel_mpx.txt to reST
+  Documentation: x86: convert amd-memory-encryption.txt to reST
+  Documentation: x86: convert pti.txt to reST
+  Documentation: x86: convert microcode.txt to reST
+  Documentation: x86: convert resctrl_ui.txt to reST
+  Documentation: x86: convert orc-unwinder.txt to reST
+  Documentation: x86: convert usb-legacy-support.txt to reST
+  Documentation: x86: convert i386/IO-APIC.txt to reST
+  Documentation: x86: convert x86_64/boot-options.txt to reST
+  Documentation: x86: convert x86_64/uefi.txt to reST
+  Documentation: x86: convert x86_64/mm.txt to reST
+  Documentation: x86: convert x86_64/5level-paging.txt to reST
+  Documentation: x86: convert x86_64/fake-numa-for-cpusets to reST
+  Documentation: x86: convert x86_64/cpu-hotplug-spec to reST
+  Documentation: x86: convert x86_64/machinecheck to reST
+
+ Documentation/index.rst                       |   1 +
+ ...cryption.txt => amd-memory-encryption.rst} |  13 +-
+ Documentation/x86/{boot.txt => boot.rst}      | 530 ++++++----
+ .../x86/{earlyprintk.txt => earlyprintk.rst}  | 122 +--
+ .../x86/{entry_64.txt => entry_64.rst}        |  12 +-
+ ...eption-tables.txt => exception-tables.rst} | 247 ++---
+ .../x86/i386/{IO-APIC.txt => IO-APIC.rst}     |  28 +-
+ Documentation/x86/i386/index.rst              |  10 +
+ Documentation/x86/index.rst                   |  30 +
+ .../x86/{intel_mpx.txt => intel_mpx.rst}      | 120 +--
+ .../x86/{kernel-stacks => kernel-stacks.rst}  |  20 +-
+ .../x86/{microcode.txt => microcode.rst}      |  62 +-
+ Documentation/x86/mtrr.rst                    | 354 +++++++
+ Documentation/x86/mtrr.txt                    | 329 -------
+ .../{orc-unwinder.txt => orc-unwinder.rst}    |  27 +-
+ Documentation/x86/pat.rst                     | 242 +++++
+ Documentation/x86/pat.txt                     | 230 -----
+ ...rotection-keys.txt => protection-keys.rst} |  33 +-
+ Documentation/x86/{pti.txt => pti.rst}        |  17 +-
+ .../x86/{resctrl_ui.txt => resctrl_ui.rst}    | 916 ++++++++++--------
+ Documentation/x86/{tlb.txt => tlb.rst}        |  30 +-
+ .../x86/{topology.txt => topology.rst}        |  92 +-
+ ...acy-support.txt => usb-legacy-support.rst} |  40 +-
+ .../{5level-paging.txt => 5level-paging.rst}  |  16 +-
+ Documentation/x86/x86_64/boot-options.rst     | 335 +++++++
+ Documentation/x86/x86_64/boot-options.txt     | 278 ------
+ ...{cpu-hotplug-spec => cpu-hotplug-spec.rst} |   5 +-
+ ...-for-cpusets => fake-numa-for-cpusets.rst} |  25 +-
+ Documentation/x86/x86_64/index.rst            |  16 +
+ .../x86_64/{machinecheck => machinecheck.rst} |  12 +-
+ Documentation/x86/x86_64/mm.rst               | 161 +++
+ Documentation/x86/x86_64/mm.txt               | 153 ---
+ .../x86/x86_64/{uefi.txt => uefi.rst}         |  30 +-
+ Documentation/x86/zero-page.rst               |  45 +
+ Documentation/x86/zero-page.txt               |  40 -
+ 35 files changed, 2561 insertions(+), 2060 deletions(-)
+ rename Documentation/x86/{amd-memory-encryption.txt => amd-memory-encryption.rst} (94%)
+ rename Documentation/x86/{boot.txt => boot.rst} (73%)
+ rename Documentation/x86/{earlyprintk.txt => earlyprintk.rst} (51%)
+ rename Documentation/x86/{entry_64.txt => entry_64.rst} (95%)
+ rename Documentation/x86/{exception-tables.txt => exception-tables.rst} (64%)
+ rename Documentation/x86/i386/{IO-APIC.txt => IO-APIC.rst} (93%)
+ create mode 100644 Documentation/x86/i386/index.rst
+ create mode 100644 Documentation/x86/index.rst
+ rename Documentation/x86/{intel_mpx.txt => intel_mpx.rst} (75%)
+ rename Documentation/x86/{kernel-stacks => kernel-stacks.rst} (92%)
+ rename Documentation/x86/{microcode.txt => microcode.rst} (81%)
+ create mode 100644 Documentation/x86/mtrr.rst
+ delete mode 100644 Documentation/x86/mtrr.txt
+ rename Documentation/x86/{orc-unwinder.txt => orc-unwinder.rst} (93%)
+ create mode 100644 Documentation/x86/pat.rst
+ delete mode 100644 Documentation/x86/pat.txt
+ rename Documentation/x86/{protection-keys.txt => protection-keys.rst} (83%)
+ rename Documentation/x86/{pti.txt => pti.rst} (96%)
+ rename Documentation/x86/{resctrl_ui.txt => resctrl_ui.rst} (68%)
+ rename Documentation/x86/{tlb.txt => tlb.rst} (81%)
+ rename Documentation/x86/{topology.txt => topology.rst} (74%)
+ rename Documentation/x86/{usb-legacy-support.txt => usb-legacy-support.rst} (53%)
+ rename Documentation/x86/x86_64/{5level-paging.txt => 5level-paging.rst} (91%)
+ create mode 100644 Documentation/x86/x86_64/boot-options.rst
+ delete mode 100644 Documentation/x86/x86_64/boot-options.txt
+ rename Documentation/x86/x86_64/{cpu-hotplug-spec => cpu-hotplug-spec.rst} (88%)
+ rename Documentation/x86/x86_64/{fake-numa-for-cpusets => fake-numa-for-cpusets.rst} (85%)
+ create mode 100644 Documentation/x86/x86_64/index.rst
+ rename Documentation/x86/x86_64/{machinecheck => machinecheck.rst} (92%)
+ create mode 100644 Documentation/x86/x86_64/mm.rst
+ delete mode 100644 Documentation/x86/x86_64/mm.txt
+ rename Documentation/x86/x86_64/{uefi.txt => uefi.rst} (79%)
+ create mode 100644 Documentation/x86/zero-page.rst
+ delete mode 100644 Documentation/x86/zero-page.txt
 
 -- 
-tejun
+2.20.1
+
