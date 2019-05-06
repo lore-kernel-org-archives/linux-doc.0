@@ -1,245 +1,230 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 597B37D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 May 2019 01:35:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2E4DE7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 May 2019 08:48:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725840AbfEFBfI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 5 May 2019 21:35:08 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:34160 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725813AbfEFBfI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 5 May 2019 21:35:08 -0400
-Received: by mail-pg1-f194.google.com with SMTP id c13so5652125pgt.1
-        for <linux-doc@vger.kernel.org>; Sun, 05 May 2019 18:35:08 -0700 (PDT)
+        id S1726181AbfEFIsX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 6 May 2019 04:48:23 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:42150 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726063AbfEFIsW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 May 2019 04:48:22 -0400
+Received: by mail-oi1-f196.google.com with SMTP id k9so8889607oig.9
+        for <linux-doc@vger.kernel.org>; Mon, 06 May 2019 01:48:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1bZS6QNu3Og8dmYIBYZs/QPsWGTr16uK5TDgJ7mlBd8=;
-        b=oFoSAFGkkSQZQTESShUDzd5h4YLrcvOJdgh2qNjtweZWVbz4UktLQhSdeAspAMd9U/
-         9NJgdIdcsPyU/TTbjbkYnrhMgXTxjumbAEVOlaUk9ApBJvgVUtSIB3BOrRpc9Ku/Z4Zz
-         zpRlsjxL8HyX0+HAb4Qa9MLSm7jH8m2SJUKE4=
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MeIMthOxRJANSArvv5AObvGzpm/HBsUqmQ+gWt5K6h4=;
+        b=EnO7STvybywxQ2wAHAyVtfRt84WqWHo207o6kKVYZqrOG/ThSPPoSiv9GKUUU6krNY
+         ZPKR5EsUOem3trEr0yMncM+DcCpGDrZ0FDCeazMNQyv2Pd5e5dQ6QhqISngWLdNZe7mc
+         eawHIqLnKoEL5GaC7a/wL78gStXrV93eaNw5LiiwdvjwLuumdactPs7Xo+O1nOLBrCoI
+         q7RNn20cdCpK2RkkKmjieZ4bqnI6tlUECZmK1Q2Q7GxKkiiHbNI+h1D6YkpszJ0eKle6
+         VcM9pzRThTNiXpbPMDpK9Er1S78DZpzSLNHj1u5T0r9XUmsbM0Jw6UaKS//SSn1+WQji
+         72ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1bZS6QNu3Og8dmYIBYZs/QPsWGTr16uK5TDgJ7mlBd8=;
-        b=JKRXesCaqGFFqHY1tjrkx2zZoogagIQZEz+5tU1rTYLtg0l1NIvrYWMDFSpfxG2+Rf
-         T2XpSPrG/vhuXdGYV4XfELdbWckYO2Nx/uMbCCVb0hLZ3UTg6qKpC15BNvcyeqaeK+Cr
-         WoK5L4C9TVw9Xz5VxBb+FOZYh8b2nmXUDxCWSlNZx2wpiHt8eKPvF3jWkxjabXQ0CvLQ
-         qQr21+Lf4evIOPkoaPSP4D/kv6zJQGgmMR2bVIORT9jJUzYoAzqwxpA1a6HEEqIH0lRP
-         Lxqb76M893oMBkDn9uea4XUamVRLKtmLqkKBP4xnEPtW9m3KdUMw111ETd7/IFpBYVwr
-         r+vg==
-X-Gm-Message-State: APjAAAULvbh1F79yiGCjPC/bEkfsTdlhrTxu92OeD/CO0Oa3cjKsXR0c
-        PD1RFkKr+2niyVdIDHZ1tfo7Gg==
-X-Google-Smtp-Source: APXvYqyMqjH1rv8o1a5MG6lttWXnrtTTnVkW2pdmDmafQmbF4Z2cWekbCd1pLswsBkrlxyLONtca4g==
-X-Received: by 2002:a62:46c7:: with SMTP id o68mr30726847pfi.54.1557106507313;
-        Sun, 05 May 2019 18:35:07 -0700 (PDT)
-Received: from joelaf.cam.corp.google.com ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id m131sm15649677pga.3.2019.05.05.18.35.01
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Sun, 05 May 2019 18:35:05 -0700 (PDT)
-From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Adrian Ratiu <adrian.ratiu@collabora.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>, atishp04@gmail.com,
-        bpf@vger.kernel.org, Brendan Gregg <bgregg@netflix.com>,
-        Brendan Gregg <brendan.d.gregg@gmail.com>, dancol@google.com,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Dan Williams <dan.j.williams@intel.com>,
-        dietmar.eggemann@arm.com, duyuchao <yuchao.du@unisoc.com>,
-        gregkh@linuxfoundation.org, Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Karim Yaghmour <karim.yaghmour@opersys.com>,
-        Kees Cook <keescook@chromium.org>, kernel-team@android.com,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org,
-        Manjo Raja Rao <linux@manojrajarao.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        =?UTF-8?q?Micha=C5=82=20Gregorczyk?= <michalgr@fb.com>,
-        Michal Gregorczyk <michalgr@live.com>,
-        Mohammad Husain <russoue@gmail.com>,
-        Olof Johansson <olof@lixom.net>, qais.yousef@arm.com,
-        rdunlap@infradead.org, Shuah Khan <shuah@kernel.org>,
-        Srinivas Ramana <sramana@codeaurora.org>,
-        Tamir Carmeli <carmeli.tamir@gmail.com>, yhs@fb.com
-Subject: [PATCH v3] kheaders: Move from proc to sysfs
-Date:   Sun,  5 May 2019 21:34:56 -0400
-Message-Id: <20190506013456.86061-1-joel@joelfernandes.org>
-X-Mailer: git-send-email 2.21.0.1020.gf2820cf01a-goog
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MeIMthOxRJANSArvv5AObvGzpm/HBsUqmQ+gWt5K6h4=;
+        b=Jl4j2QnGYj65vkH1x5wQvBGuxjrRtkClnHVS0aSVNBm5swACztSi3tDoBvM8pkEG85
+         hLROPuWAdru5C4oCRYTd6YGUxKYXE9t/WLVVAvPJjDMwqq/tpKYEZ08md8KRTosMDfBY
+         s3M0PqXIpvuLmyGM4sFPsrfOYf9dSXaZeXERplwPtvMKaA7AhOSHBw/dmzxEUznV6bRw
+         6fGgPQFIWbRPUkqDw3d1+VH5G9ZUBE0103zBSA5C2qqOBl++ykhOnkCXSfXSDMhHUBEz
+         qWee+uuYjHX+beO/MrC67yDRNJvf3BZz6+FItpsO+lawMKOGGigSJPMVBeZR7HM647H1
+         B71A==
+X-Gm-Message-State: APjAAAWYE3MwqsBiw6wPSgRqintOPvhG5k06C7UeFnAFCOHJJ9l1uPUP
+        mx0fItq+1vJ0NiqDTKqX7l+eUpZCZTcoxSd3TRoH9A==
+X-Google-Smtp-Source: APXvYqwzZvfW7/3beZRJaVyn8GceHPah5zWKYDYxiPS3rsvYlVs7eDDRovZxwZa4HjwEUc1S/sOaEWJ7E7OBNja8JRU=
+X-Received: by 2002:aca:a84d:: with SMTP id r74mr402573oie.44.1557132501212;
+ Mon, 06 May 2019 01:48:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20190501230126.229218-1-brendanhiggins@google.com>
+ <20190501230126.229218-9-brendanhiggins@google.com> <0a605543-477a-1854-eb35-6e586606889b@deltatee.com>
+ <CAFd5g47hxAd=+72xbPJbWPdZCXRXmtLpsGhUh=zc7MSwfcaGJQ@mail.gmail.com> <b2379db6-634a-001e-6f67-37427d8a2666@deltatee.com>
+In-Reply-To: <b2379db6-634a-001e-6f67-37427d8a2666@deltatee.com>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Mon, 6 May 2019 01:48:09 -0700
+Message-ID: <CAFd5g47LzBfE8J-rCgd4TU_P_=iwbctgeOMM9JZFDN8ZK6R7iw@mail.gmail.com>
+Subject: Re: [PATCH v2 08/17] kunit: test: add support for test abort
+To:     Logan Gunthorpe <logang@deltatee.com>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@google.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        shuah <shuah@kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-kselftest@vger.kernel.org,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "Bird, Timothy" <Tim.Bird@sony.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Petr Mladek <pmladek@suse.com>,
+        Richard Weinberger <richard@nod.at>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The kheaders archive consisting of the kernel headers used for compiling
-bpf programs is in /proc. However there is concern that moving it here
-will make it permanent. Let us move it to /sys/kernel as discussed [1].
+On Fri, May 3, 2019 at 5:33 AM Logan Gunthorpe <logang@deltatee.com> wrote:
+>
+>
+>
+> On 2019-05-03 12:48 a.m., Brendan Higgins wrote:
+> > On Thu, May 2, 2019 at 8:15 PM Logan Gunthorpe <logang@deltatee.com> wrote:
+> >> On 2019-05-01 5:01 p.m., Brendan Higgins wrote:
+> >>> +/*
+> >>> + * struct kunit_try_catch - provides a generic way to run code which might fail.
+> >>> + * @context: used to pass user data to the try and catch functions.
+> >>> + *
+> >>> + * kunit_try_catch provides a generic, architecture independent way to execute
+> >>> + * an arbitrary function of type kunit_try_catch_func_t which may bail out by
+> >>> + * calling kunit_try_catch_throw(). If kunit_try_catch_throw() is called, @try
+> >>> + * is stopped at the site of invocation and @catch is catch is called.
+> >>
+> >> I found some of the C++ comparisons in this series a bit distasteful but
+> >> wasn't going to say anything until I saw the try catch.... But looking
+> >> into the implementation it's just a thread that can exit early which
+> >> seems fine to me. Just a poor choice of name I guess...
+> >
+> > Guilty as charged (I have a long history with C++, sorry). Would you
+> > prefer I changed the name? I just figured that try-catch is a commonly
+> > understood pattern that describes exactly what I am doing.
+>
+> It is a commonly understood pattern, but I don't think it's what the
+> code is doing. Try-catch cleans up an entire stack and allows each level
+> of the stack to apply local cleanup. This implementation simply exits a
+> thread and has none of that complexity. To me, it seems like an odd
+> abstraction here as it's really just a test runner that can exit early
+> (though I haven't seen the follow-up UML implementation).
 
-[1] https://lore.kernel.org/patchwork/patch/1067310/#1265969
+Yeah, that is closer to what the UML specific version does, but that's
+a conversation for another time.
 
-Suggested-by: Steven Rostedt <rostedt@goodmis.org>
-Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
----
-This patch applies on top of the previous patch that was applied to the
-driver tree:
-https://lore.kernel.org/patchwork/patch/1067310/
+>
+> I would prefer to see this cleaned up such that the abstraction matches
+> more what's going on but I don't feel that strongly about it so I'll
+> leave it up to you to figure out what's best unless other reviewers have
+> stronger opinions.
 
-v2->v3: Fixed sysfs file mode nit (Greg).
-v1->v2: Fixed some kconfig nits.
+Cool. Let's revisit this with the follow-up patchset.
 
- init/Kconfig                                | 16 ++++-----
- kernel/Makefile                             |  4 +--
- kernel/{gen_ikh_data.sh => gen_kheaders.sh} |  2 +-
- kernel/kheaders.c                           | 40 +++++++++------------
- 4 files changed, 26 insertions(+), 36 deletions(-)
- rename kernel/{gen_ikh_data.sh => gen_kheaders.sh} (98%)
+>
+> >>
+> >> [snip]
+> >>
+> >>> +static void __noreturn kunit_abort(struct kunit *test)
+> >>> +{
+> >>> +     kunit_set_death_test(test, true);
+> >>> +
+> >>> +     kunit_try_catch_throw(&test->try_catch);
+> >>> +
+> >>> +     /*
+> >>> +      * Throw could not abort from test.
+> >>> +      *
+> >>> +      * XXX: we should never reach this line! As kunit_try_catch_throw is
+> >>> +      * marked __noreturn.
+> >>> +      */
+> >>> +     WARN_ONCE(true, "Throw could not abort from test!\n");
+> >>> +}
+> >>> +
+> >>>  int kunit_init_test(struct kunit *test, const char *name)
+> >>>  {
+> >>>       spin_lock_init(&test->lock);
+> >>> @@ -77,6 +103,7 @@ int kunit_init_test(struct kunit *test, const char *name)
+> >>>       test->name = name;
+> >>>       test->vprintk = kunit_vprintk;
+> >>>       test->fail = kunit_fail;
+> >>> +     test->abort = kunit_abort;
+> >>
+> >> There are a number of these function pointers which seem to be pointless
+> >> to me as you only ever set them to one function. Just call the function
+> >> directly. As it is, it is an unnecessary indirection for someone reading
+> >> the code. If and when you have multiple implementations of the function
+> >> then add the pointer. Don't assume you're going to need it later on and
+> >> add all this maintenance burden if you never use it..
+> >
+> > Ah, yes, Frank (and probably others) previously asked me to remove
+> > unnecessary method pointers; I removed all the totally unused ones. As
+> > for these, I don't use them in this patchset, but I use them in my
+> > patchsets that will follow up this one. These in particular are
+> > present so that they can be mocked out for testing.
+>
+> Adding indirection and function pointers solely for the purpose of
+> mocking out while testing doesn't sit well with me and I don't think it
+> should be a pattern that's encouraged. Adding extra complexity like this
+> to a design to make it unit-testable doesn't seem like something that
+> makes sense in kernel code. Especially given that indirect calls are
+> more expensive in the age of spectre.
 
-diff --git a/init/Kconfig b/init/Kconfig
-index 26a364a95b57..c3661991b089 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -579,15 +579,13 @@ config IKCONFIG_PROC
- 	  This option enables access to the kernel configuration file
- 	  through /proc/config.gz.
- 
--config IKHEADERS_PROC
--	tristate "Enable kernel header artifacts through /proc/kheaders.tar.xz"
--	depends on PROC_FS
--	help
--	  This option enables access to the kernel header and other artifacts that
--	  are generated during the build process. These can be used to build eBPF
--	  tracing programs, or similar programs.  If you build the headers as a
--	  module, a module called kheaders.ko is built which can be loaded on-demand
--	  to get access to the headers.
-+config IKHEADERS
-+	tristate "Enable kernel headers through /sys/kernel/kheaders.tar.xz"
-+	help
-+	  This option enables access to the in-kernel headers that are generated during
-+	  the build process. These can be used to build eBPF tracing programs,
-+	  or similar programs.  If you build the headers as a module, a module called
-+	  kheaders.ko is built which can be loaded on-demand to get access to headers.
- 
- config LOG_BUF_SHIFT
- 	int "Kernel log buffer size (16 => 64KB, 17 => 128KB)"
-diff --git a/kernel/Makefile b/kernel/Makefile
-index 12399614c350..b32a558fae2f 100644
---- a/kernel/Makefile
-+++ b/kernel/Makefile
-@@ -70,7 +70,7 @@ obj-$(CONFIG_UTS_NS) += utsname.o
- obj-$(CONFIG_USER_NS) += user_namespace.o
- obj-$(CONFIG_PID_NS) += pid_namespace.o
- obj-$(CONFIG_IKCONFIG) += configs.o
--obj-$(CONFIG_IKHEADERS_PROC) += kheaders.o
-+obj-$(CONFIG_IKHEADERS) += kheaders.o
- obj-$(CONFIG_SMP) += stop_machine.o
- obj-$(CONFIG_KPROBES_SANITY_TEST) += test_kprobes.o
- obj-$(CONFIG_AUDIT) += audit.o auditfilter.o
-@@ -126,7 +126,7 @@ $(obj)/config_data.gz: $(KCONFIG_CONFIG) FORCE
- $(obj)/kheaders.o: $(obj)/kheaders_data.tar.xz
- 
- quiet_cmd_genikh = CHK     $(obj)/kheaders_data.tar.xz
--cmd_genikh = $(srctree)/kernel/gen_ikh_data.sh $@
-+cmd_genikh = $(srctree)/kernel/gen_kheaders.sh $@
- $(obj)/kheaders_data.tar.xz: FORCE
- 	$(call cmd,genikh)
- 
-diff --git a/kernel/gen_ikh_data.sh b/kernel/gen_kheaders.sh
-similarity index 98%
-rename from kernel/gen_ikh_data.sh
-rename to kernel/gen_kheaders.sh
-index 591a94f7b387..581b83534587 100755
---- a/kernel/gen_ikh_data.sh
-+++ b/kernel/gen_kheaders.sh
-@@ -2,7 +2,7 @@
- # SPDX-License-Identifier: GPL-2.0
- 
- # This script generates an archive consisting of kernel headers
--# for CONFIG_IKHEADERS_PROC.
-+# for CONFIG_IKHEADERS.
- set -e
- spath="$(dirname "$(readlink -f "$0")")"
- kroot="$spath/.."
-diff --git a/kernel/kheaders.c b/kernel/kheaders.c
-index 70ae6052920d..8f69772af77b 100644
---- a/kernel/kheaders.c
-+++ b/kernel/kheaders.c
-@@ -8,9 +8,8 @@
- 
- #include <linux/kernel.h>
- #include <linux/module.h>
--#include <linux/proc_fs.h>
-+#include <linux/kobject.h>
- #include <linux/init.h>
--#include <linux/uaccess.h>
- 
- /*
-  * Define kernel_headers_data and kernel_headers_data_end, within which the
-@@ -31,39 +30,32 @@ extern char kernel_headers_data;
- extern char kernel_headers_data_end;
- 
- static ssize_t
--ikheaders_read_current(struct file *file, char __user *buf,
--		      size_t len, loff_t *offset)
-+ikheaders_read(struct file *file,  struct kobject *kobj,
-+	       struct bin_attribute *bin_attr,
-+	       char *buf, loff_t off, size_t len)
- {
--	return simple_read_from_buffer(buf, len, offset,
--				       &kernel_headers_data,
--				       &kernel_headers_data_end -
--				       &kernel_headers_data);
-+	memcpy(buf, &kernel_headers_data + off, len);
-+	return len;
- }
- 
--static const struct file_operations ikheaders_file_ops = {
--	.read = ikheaders_read_current,
--	.llseek = default_llseek,
-+static struct bin_attribute kheaders_attr __ro_after_init = {
-+	.attr = {
-+		.name = "kheaders.tar.xz",
-+		.mode = 0444,
-+	},
-+	.read = &ikheaders_read,
- };
- 
- static int __init ikheaders_init(void)
- {
--	struct proc_dir_entry *entry;
--
--	/* create the current headers file */
--	entry = proc_create("kheaders.tar.xz", S_IRUGO, NULL,
--			    &ikheaders_file_ops);
--	if (!entry)
--		return -ENOMEM;
--
--	proc_set_size(entry,
--		      &kernel_headers_data_end -
--		      &kernel_headers_data);
--	return 0;
-+	kheaders_attr.size = (&kernel_headers_data_end -
-+			      &kernel_headers_data);
-+	return sysfs_create_bin_file(kernel_kobj, &kheaders_attr);
- }
- 
- static void __exit ikheaders_cleanup(void)
- {
--	remove_proc_entry("kheaders.tar.xz", NULL);
-+	sysfs_remove_bin_file(kernel_kobj, &kheaders_attr);
- }
- 
- module_init(ikheaders_init);
--- 
-2.21.0.1020.gf2820cf01a-goog
+Indirection is a pretty common method to make something mockable or
+fakeable. Nevertheless, probably an easier discussion to have once we
+have some examples to discuss.
+
+>
+> Also, mocking these particular functions seems like it's an artifact of
+> how you've designed the try/catch abstraction. If the abstraction was
+> more around an abort-able test runner then it doesn't make sense to need
+> to mock out the abort/fail functions as you will be testing overly
+> generic features of something that don't seem necessary to the
+> implementation.
+>
+> >>
+> >> [snip]
+> >>
+> >>> +void kunit_generic_try_catch_init(struct kunit_try_catch *try_catch)
+> >>> +{
+> >>> +     try_catch->run = kunit_generic_run_try_catch;
+> >>> +     try_catch->throw = kunit_generic_throw;
+> >>> +}
+> >>
+> >> Same here. There's only one implementation of try_catch and I can't
+> >> really see any sensible justification for another implementation. Even
+> >> if there is, add the indirection when the second implementation is
+> >> added. This isn't C++ and we don't need to make everything a "method".
+> >
+> > These methods are for a UML specific implementation in a follow up
+> > patchset, which is needed for some features like crash recovery, death
+> > tests, and removes dependence on kthreads.
+> >
+> > I know this probably sounds like premature complexity. Arguably it is
+> > in hindsight, but I wrote those features before I pulled out these
+> > interfaces (they were actually both originally in this patchset, but I
+> > dropped them to make this patchset easier to review). I can remove
+> > these methods and add them back in when I actually use them in the
+> > follow up patchsets if you prefer.
+>
+> Yes, remove them now and add them back when you use them in follow-up
+> patches. If reviewers find problems with the follow-up patches or have a
+> better suggestion on how to do what ever it is you are doing, then you
+> just have this unnecessary code and there's wasted developer time and
+> review bandwidth that will need to be spent cleaning it up.
+
+Fair enough. Next patchset will have the remaining unused indirection
+you pointed out removed.
+
+Thanks!
