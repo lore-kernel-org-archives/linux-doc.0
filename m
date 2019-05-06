@@ -1,55 +1,122 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=5.0 tests=FREEMAIL_REPLYTO_END_DIGIT,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	RCVD_IN_SBL_CSS autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A0D817D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 May 2019 11:30:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 23C337D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 May 2019 13:36:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726294AbfEFLaH convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 6 May 2019 07:30:07 -0400
-Received: from static.customer-201-144-31-24.uninet-ide.com.mx ([201.144.31.24]:58645
-        "EHLO mail.sesesp.col.gob.mx" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725883AbfEFLaH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 May 2019 07:30:07 -0400
-X-Greylist: delayed 13524 seconds by postgrey-1.27 at vger.kernel.org; Mon, 06 May 2019 07:30:07 EDT
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.sesesp.col.gob.mx (Postfix) with ESMTP id 00E0639B2EBD;
-        Sun,  5 May 2019 23:49:45 -0500 (CDT)
-Received: from mail.sesesp.col.gob.mx ([127.0.0.1])
-        by localhost (mail.sesesp.col.gob.mx [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id Xf2h3T1IBf7U; Sun,  5 May 2019 23:49:39 -0500 (CDT)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.sesesp.col.gob.mx (Postfix) with ESMTP id DC26239B2FD8;
-        Sun,  5 May 2019 23:43:06 -0500 (CDT)
-X-Virus-Scanned: amavisd-new at sesesp.col.gob.mx
-Received: from mail.sesesp.col.gob.mx ([127.0.0.1])
-        by localhost (mail.sesesp.col.gob.mx [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id MHiS1j7Wv6VX; Sun,  5 May 2019 23:43:06 -0500 (CDT)
-Received: from [192.168.43.155] (unknown [41.203.78.129])
-        by mail.sesesp.col.gob.mx (Postfix) with ESMTPSA id F0EA639B2B9F;
-        Sun,  5 May 2019 23:36:16 -0500 (CDT)
-Content-Type: text/plain; charset="iso-8859-1"
+        id S1725994AbfEFNgs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 6 May 2019 09:36:48 -0400
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:48684 "EHLO
+        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725852AbfEFNgs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 May 2019 09:36:48 -0400
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20190506133647euoutp0279dbe96f84c61a336cf48df6520579ff~cG3-XqPg81220812208euoutp028
+        for <linux-doc@vger.kernel.org>; Mon,  6 May 2019 13:36:47 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20190506133647euoutp0279dbe96f84c61a336cf48df6520579ff~cG3-XqPg81220812208euoutp028
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1557149807;
+        bh=mpzfjPxjilDGHHTfSGCPPOE2d5TMe4FioI4bwbCKZKM=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=k0jb0a3jdVNvB97ioEkUQyu2CUAewOOyuQE6gox++Os4uPaotPrJgw/+AC5tCRSi7
+         MFYpPFeGGtSblbim93y8RJu1IL8ZIKfa8WGV9I77nsWIrb9/UdmMG9F+BbuG2jNJQJ
+         qnCrxOWVdajf229bnzGSmgSZVOg8ojRFomL5eo3E=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20190506133646eucas1p1da9c632aad85f681acd4466a7eaf21ca~cG3__AKpo1913119131eucas1p1q;
+        Mon,  6 May 2019 13:36:46 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges3new.samsung.com (EUCPMTA) with SMTP id CC.56.04325.E6830DC5; Mon,  6
+        May 2019 14:36:46 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20190506133645eucas1p28ec8b11ad9d2109d92029b86b1c29425~cG3_J9sMq2088420884eucas1p2j;
+        Mon,  6 May 2019 13:36:45 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20190506133645eusmtrp1e94c412f27e99463b1b2e3ba16cc394e~cG3978Zl91095910959eusmtrp1P;
+        Mon,  6 May 2019 13:36:45 +0000 (GMT)
+X-AuditID: cbfec7f5-b75ff700000010e5-ff-5cd0386e7615
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id 60.60.04140.D6830DC5; Mon,  6
+        May 2019 14:36:45 +0100 (BST)
+Received: from [106.120.51.71] (unknown [106.120.51.71]) by
+        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20190506133645eusmtip1ddfc37e0a733b13cd9062236dd513ee0~cG39kQvWY0999109991eusmtip1V;
+        Mon,  6 May 2019 13:36:45 +0000 (GMT)
+Subject: Re: [PATCH 13/57] docs: fb: convert documentation to ReST format
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+From:   Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Message-ID: <ff3ed615-ba13-37d7-7c5f-583161e91adc@samsung.com>
+Date:   Mon, 6 May 2019 15:36:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+        Thunderbird/45.3.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: REQUEST
-To:     Recipients <eguevara@sesesp.col.gob.mx>
-From:   "Johann Reimann" <eguevara@sesesp.col.gob.mx>
-Date:   Mon, 06 May 2019 05:30:48 +0100
-Reply-To: johannreimann44@gmail.com
-Message-Id: <20190506043616.F0EA639B2B9F@mail.sesesp.col.gob.mx>
+In-Reply-To: <f282cbd57dcee9d598c13d8b1e4ea4cc1459b8ad.1555382110.git.mchehab+samsung@kernel.org>
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprPKsWRmVeSWpSXmKPExsWy7djPc7p5FhdiDN7uFLZ4cqCd0eLK1/ds
+        FgvblrBYnOj7wGpxedccNov3nzqZLHacWsTswO6xeYWWx6ZVnWwe97uPM3ks7pvM6vF5k1wA
+        axSXTUpqTmZZapG+XQJXxpM1P9gLVjNX/Hoxka2B8QlTFyMnh4SAicS0Z73MXYxcHEICKxgl
+        nv47xwbhfGGU+HR0FSOE85lRYseWiewwLf0Ni9khEssZJfZ3XILqf8so8fzoMmaQKmEBT4n/
+        R5+C2SICZhInzx0Fm8ss8JJRYvmpP6wgCTYBK4mJ7SA7ODl4BewkPm84ABZnEVCRuPl3I1AD
+        B4eoQIRE/xl1iBJBiZMzn7CA2JwCiRKNHXvBypkF5CW2v50DdoSEwDJ2ieOfu1khTnWRuPG8
+        nQXCFpZ4dXwL1AsyEqcn97BANKxjlPjb8QKqezvQdZP/sUFUWUscPn6RFeQKZgFNifW79CHC
+        jhKN1x8xg4QlBPgkbrwVhDiCT2LStulQYV6JjjYhiGo1iQ3LNrDBrO3auZIZwvaQeLmzn2UC
+        o+IsJK/NQvLOLIS9CxiZVzGKp5YW56anFhvnpZbrFSfmFpfmpesl5+duYgQmm9P/jn/dwbjv
+        T9IhRgEORiUeXg+l8zFCrIllxZW5hxglOJiVRHgTn52LEeJNSaysSi3Kjy8qzUktPsQozcGi
+        JM5bzfAgWkggPbEkNTs1tSC1CCbLxMEp1cA4j/Ptw7o/b9NmpUv1pcafORsutzvxybe+O8sy
+        Y5rnKb82CnioZMq0JeCi/9OpUyzWnpy6kHEZ2zsW/o91p7LWz5ibdfIe1+85Yiv548t1N9Wt
+        F1uaNHO6r/a1ksyz1vMuvjabkty1IfNfTvsR68S6Rbf9cx/LTLjCxNPPWjST6dHejMq+DVNX
+        KbEUZyQaajEXFScCAMySGdgyAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrCIsWRmVeSWpSXmKPExsVy+t/xu7q5FhdiDO4/lbJ4cqCd0eLK1/ds
+        FgvblrBYnOj7wGpxedccNov3nzqZLHacWsTswO6xeYWWx6ZVnWwe97uPM3ks7pvM6vF5k1wA
+        a5SeTVF+aUmqQkZ+cYmtUrShhZGeoaWFnpGJpZ6hsXmslZGpkr6dTUpqTmZZapG+XYJexpM1
+        P9gLVjNX/Hoxka2B8QlTFyMnh4SAiUR/w2L2LkYuDiGBpYwS3zcvBEpwACVkJI6vL4OoEZb4
+        c62LDaLmNaNEV+deRpCEsICnxP+jT5lBbBEBM4mT546ygdhCAi8YJXouiYI0MAu8ZJTY2LSe
+        FSTBJmAlMbF9FVgzr4CdxOcNB8DiLAIqEjf/bgRrFhWIkLj1sIMFokZQ4uTMJ2A2p0CiRGPH
+        XrB6ZgF1iT/zLjFD2PIS29/OYZ7AKDgLScssJGWzkJQtYGRexSiSWlqcm55bbKRXnJhbXJqX
+        rpecn7uJERhD24793LKDsetd8CFGAQ5GJR5eD6XzMUKsiWXFlbmHGCU4mJVEeBOfnYsR4k1J
+        rKxKLcqPLyrNSS0+xGgK9MREZinR5HxgfOeVxBuaGppbWBqaG5sbm1koifN2CByMERJITyxJ
+        zU5NLUgtgulj4uCUamDcvGjDgivG0zSMf0Vul1jaEd+4PcD7+t7zZy86HLu3YdGS5rXskbEz
+        bq7RbdHdZKC/ZKPiAYPExNzlQnNmVYmucnVxLE+LL/93xISr5LKPYtVB3xuvT0bV79Hy7V/P
+        Vehk+0x3u8C8F6zO9TtdH3xPjJ2/MnfS5lvum5nzdYt29YpGW8TMsG1RYinOSDTUYi4qTgQA
+        SqZNebcCAAA=
+X-CMS-MailID: 20190506133645eucas1p28ec8b11ad9d2109d92029b86b1c29425
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20190416025636epcas4p2b3bd395b2673bffb3cc0cbdd211aa841
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20190416025636epcas4p2b3bd395b2673bffb3cc0cbdd211aa841
+References: <cover.1555382110.git.mchehab+samsung@kernel.org>
+        <CGME20190416025636epcas4p2b3bd395b2673bffb3cc0cbdd211aa841@epcas4p2.samsung.com>
+        <f282cbd57dcee9d598c13d8b1e4ea4cc1459b8ad.1555382110.git.mchehab+samsung@kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Good day,
 
-My Name is Johann Reimann and i have something important to discuss with you but only with your permission i will proceed.
+On 04/16/2019 04:55 AM, Mauro Carvalho Chehab wrote:
+> Convert all documents here from plain txt to ReST format, in
+> order to allow parsing them with the documentation build
+> system.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-Regards
-J. Reimann
+Acked-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+
+Best regards,
+--
+Bartlomiej Zolnierkiewicz
+Samsung R&D Institute Poland
+Samsung Electronics
