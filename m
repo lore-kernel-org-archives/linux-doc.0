@@ -1,129 +1,319 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ED0607D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 May 2019 09:18:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2AC6A7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 May 2019 11:12:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726376AbfEFJSO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 6 May 2019 05:18:14 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:46586 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726149AbfEFJSO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 May 2019 05:18:14 -0400
-Received: by mail-ot1-f65.google.com with SMTP id v17so2736914otp.13
-        for <linux-doc@vger.kernel.org>; Mon, 06 May 2019 02:18:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EuMXXHqqPef2GwgL+nQvKY3dmYnxYLGClh5z++gsDCE=;
-        b=sqUiKiFkHuS/zMcsXJp/YVQ9Xvsj9z1z6Qymcl2DruVbxk25BEUbeggocvbWAnhm5w
-         zafVtoeptdhmkmQVySQB3JwkXQHS6fLm2/wWTVMXU2RAbc2imQQv9+YkBVvD6ic2JuMI
-         1ikTcpdlA9VrSJ94GFL5FOP0BgugrA521QHxv3MHfGRZERmqFxPksbw8JgkSiOXb5kCz
-         NhICHik7i/u7iBVQPDnR6rVT2h+P/BC3GpK/7XThzUVtCWPANcl0bPo/9Evg9oejZRXN
-         F/kwBaILmSEdHFapwIeGtAxrGfQ7g/4sN7rpo+FU+AipihP/fGSchFlx5sCt7F6gjQZJ
-         akeQ==
+        id S1725856AbfEFLMO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 6 May 2019 07:12:14 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:46668 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725852AbfEFLMO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 May 2019 07:12:14 -0400
+Received: by mail-ot1-f68.google.com with SMTP id v17so2979645otp.13;
+        Mon, 06 May 2019 04:12:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EuMXXHqqPef2GwgL+nQvKY3dmYnxYLGClh5z++gsDCE=;
-        b=EPzhOEGOh/pMtUFjh8Yk51hIWdxTnBsdO+/jssABsc9DPZ4r0ZlbcdYb5FjGuFkawQ
-         4VHT2JbpKdmE2aF/xjn7xRyVfhPBY9VTn7eAEx2u+oTVoic+hVB9O91uvwyE8Aq39uQA
-         GUO7ge6B75NcxIOC+zZlOFl9ZTgvHwATC9zvg7hFds6RvMoz4XZA7DdJzwI9Z0rHc5aD
-         DqZxHjJqSXF2YCJCZEVQR4+B9sl4RfuRyDHJ710rHRjK1X//aJmN5IxKDV2Pbnn9JE7L
-         0EtH9lYxJUvL//iO1WC1ekNO4NzKj4PnuI4e0GA7MnT0CJJTTu+qwowUsh9VWPLGM9F9
-         wLlQ==
-X-Gm-Message-State: APjAAAWTmLw5Wnxv7vT6mZEsiz+UcWrG9giYG+MffRKaUIjB358WbVaQ
-        damAgb3KIfF5jQUeLEdrvwP0tyYKPeNJeuz0228lvg==
-X-Google-Smtp-Source: APXvYqwJ3xWdH/Lcmkx6YRG/BMIY9WxqPyKwUn5ZqoX3PeD8nyMheiZI5T1OFI6UXxsrrwGRwMbiUWxrFpDFumPm0yg=
-X-Received: by 2002:a9d:71de:: with SMTP id z30mr15637896otj.113.1557134293178;
- Mon, 06 May 2019 02:18:13 -0700 (PDT)
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=qxFWxffUaNwCH+pTVKfTQVEOzDV7taE1r/9uB31qbsQ=;
+        b=NPu91QuSXeam6b8dVVBxgSuSJDSvBz8TXlKZVPeldqnbMsFIXc0h0Tv/7VfK6YdcNr
+         Sam/nZdVhxAPjp8SnFN2g8oTf/NGMRd+RZhxCcB082zEI2X1u2/rckMErbEvOUjVrABK
+         gqkpnaHdG89Jsjsgfs9xWqp9MCB4eYKp0bl3G0SvRei6DlYGCr3dixld0OD9G1R9XkUd
+         cRjmtMPbHrPj7yxbm5oRylqSYRT0rTJpXsc8IReVwl7jX15TozaaWBikSpXNpi8FVCnf
+         ZN4FCr2tuQo+Uo20NFGWdKJWquOykP+jUE5H99rbHVUFXWBrJGXgwF+nNERANo+7qmRQ
+         mjjA==
+X-Gm-Message-State: APjAAAWJvy0LBFfdZz+ikirSMzqC19uBEQRQFcjgHKaSYAgiPP4BXahD
+        S5SbBBa2jlKWAgfg5g/dO16yJswMzY7PyX1aBkhfS710
+X-Google-Smtp-Source: APXvYqzkyRdCsWvfS8pdvLcCz76CRcEogRmt2E2SWYMnzefM4tm2s0FDHdVphTUkCBPbbV1qLoObdTTF6tDTIi78KFo=
+X-Received: by 2002:a9d:4c06:: with SMTP id l6mr15827436otf.65.1557141133170;
+ Mon, 06 May 2019 04:12:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190501230126.229218-1-brendanhiggins@google.com>
- <20190501230126.229218-16-brendanhiggins@google.com> <68f88e1c-d40f-9dad-7296-ab2b2303c575@kernel.org>
-In-Reply-To: <68f88e1c-d40f-9dad-7296-ab2b2303c575@kernel.org>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Mon, 6 May 2019 02:18:01 -0700
-Message-ID: <CAFd5g456XwQV2+iy=0K7AwBc5wbQDRL2DAJgMEsJBLtFdZ5erQ@mail.gmail.com>
-Subject: Re: [PATCH v2 15/17] MAINTAINERS: add entry for KUnit the unit
- testing framework
-To:     shuah <shuah@kernel.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-kselftest@vger.kernel.org,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com,
-        Shuah Khan <skhan@linuxfoundation.org>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Mon, 6 May 2019 13:12:01 +0200
+Message-ID: <CAJZ5v0hW+jd7r5J5=XyMM2rk5oHQrrP70_LBEVdSMTGsd=zxNw@mail.gmail.com>
+Subject: [GIT PULL] ACPI updates for v5.2-rc1
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 3, 2019 at 7:38 AM shuah <shuah@kernel.org> wrote:
->
-> On 5/1/19 5:01 PM, Brendan Higgins wrote:
-> > Add myself as maintainer of KUnit, the Linux kernel's unit testing
-> > framework.
-> >
-> > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> > ---
-> >   MAINTAINERS | 10 ++++++++++
-> >   1 file changed, 10 insertions(+)
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 5c38f21aee787..c78ae95c56b80 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -8448,6 +8448,16 @@ S:     Maintained
-> >   F:  tools/testing/selftests/
-> >   F:  Documentation/dev-tools/kselftest*
-> >
-> > +KERNEL UNIT TESTING FRAMEWORK (KUnit)
-> > +M:   Brendan Higgins <brendanhiggins@google.com>
-> > +L:   kunit-dev@googlegroups.com
-> > +W:   https://google.github.io/kunit-docs/third_party/kernel/docs/
-> > +S:   Maintained
-> > +F:   Documentation/kunit/
-> > +F:   include/kunit/
-> > +F:   kunit/
-> > +F:   tools/testing/kunit/
-> > +
->
-> Please add kselftest mailing list to this entry, based on our
-> conversation on taking these patches through kselftest tree.
+Hi Linus,
 
-Will do.
+Please pull from the tag
+
+ git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git \
+ acpi-5.2-rc1
+
+with top-most commit 10b4768b27a0b8f9459570723ecb1809f4d707e0
+
+ Merge branch 'acpi-doc'
+
+on top of commit 2c2a2fb1e2a9256714338875bede6b7cbd4b9542
+
+ Revert "ACPICA: Clear status of GPEs before enabling them"
+
+to receive ACPI updates for 5.2-rc1.
+
+These rearrange the ACPI documentation by converting it to the .rst format
+and splitting it into clear categories (admin guide, driver API, firmware
+guide), switch over multiple users of a problematic library function to
+a new better one, update the ACPICA code in the kernel to a new upstream
+release, fix a few issues, improve power device management diagnostics
+and do some cleanups.
+
+Specifics:
+
+ - Convert the ACPI documentation in the kernel source tree to the
+   .rst format and split it into the admin guide, driver API and
+   firmware guide parts (Changbin Du).
+
+ - Add a PRP0001 usage example to the ACPI documentation (Thomas
+   Preston).
+
+ - Switch over the users of the acpi_dev_get_first_match_name()
+   library function which turned out to be problematic to a new,
+   better one called acpi_dev_get_first_match_dev() (Andy Shevchenko,
+   YueHaibing).
+
+ - Update the ACPICA code in the kernel to upstream release 20190405
+   including:
+   * Null pointer dereference check in acpi_ns_delete_node() (Erik
+     Schmauss).
+   * Multiple macro and function name changes (Bob Moore).
+   * Predefined operation region name fix (Erik Schmauss).
+
+ - Fix hibernation issue on systems using the Baytrail and
+   Cherrytrail Intel SoCs introduced during the 4.20 development
+   cycle (Hans de Goede).
+
+ - Add Sony VPCEH3U1E to the backlight quirk list (Zhang Rui).
+
+ - Fix button handling during system resume (Zhang Rui).
+
+ - Add a device PM diagnostic message (Rafael Wysocki).
+
+ - Clean up the code, comments and white space in multiple places
+   (Bjorn Helgaas, Gustavo Silva, Kefeng Wang).
 
 Thanks!
+
+
+---------------
+
+Andy Shevchenko (10):
+      ACPI / utils: Introduce acpi_dev_get_first_match_dev() helper
+      extcon: axp288: Convert to use acpi_dev_get_first_match_dev()
+      gpio: merrifield: Convert to use acpi_dev_get_first_match_dev()
+      ASoC: Intel: bytcht_da7213: Convert to use acpi_dev_get_first_match_dev()
+      ASoC: Intel: bytcht_es8316: Convert to use acpi_dev_get_first_match_dev()
+      ASoC: Intel: bytcr_rt5640: Convert to use acpi_dev_get_first_match_dev()
+      ASoC: Intel: bytcr_rt5651: Convert to use acpi_dev_get_first_match_dev()
+      ASoC: Intel: cht_bsw_rt5645: Convert to use acpi_dev_get_first_match_dev()
+      ASoC: Intel: cht_bsw_rt5672: Convert to use acpi_dev_get_first_match_dev()
+      ACPI / utils: Remove deprecated function since no user left
+
+Bjorn Helgaas (4):
+      ACPI: Fix comment typos
+      ACPI / scan: Simplify acpi_bus_extract_wakeup_device_power_package()
+      ACPI / scan: Add labels for PNP button devices
+      ACPI / tables: Clean up whitespace
+
+Bob Moore (5):
+      ACPICA: Rename nameseg copy macro for clarity
+      ACPICA: Rename nameseg compare macro for clarity
+      ACPICA: Rename nameseg length macro/define for clarity
+      ACPICA: Update version to 20190329
+      ACPICA: Update version to 20190405
+
+Changbin Du (24):
+      Documentation: add Linux ACPI to Sphinx TOC tree
+      Documentation: ACPI: move namespace.txt to firmware-guide/acpi
+and convert to reST
+      Documentation: ACPI: move enumeration.txt to firmware-guide/acpi
+and convert to reST
+      Documentation: ACPI: move osi.txt to firmware-guide/acpi and
+convert to reST
+      Documentation: ACPI: move linuxized-acpica.txt to
+driver-api/acpi and convert to reST
+      Documentation: ACPI: move scan_handlers.txt to driver-api/acpi
+and convert to reST
+      Documentation: ACPI: move DSD-properties-rules.txt to
+firmware-guide/acpi and covert to reST
+      Documentation: ACPI: move gpio-properties.txt to
+firmware-guide/acpi and convert to reST
+      Documentation: ACPI: move method-customizing.txt to
+firmware-guide/acpi and convert to reST
+      Documentation: ACPI: move initrd_table_override.txt to
+admin-guide/acpi and convert to reST
+      Documentation: ACPI: move dsdt-override.txt to admin-guide/acpi
+and convert to reST
+      Documentation: ACPI: move i2c-muxes.txt to firmware-guide/acpi
+and convert to reST
+      Documentation: ACPI: move acpi-lid.txt to firmware-guide/acpi
+and convert to reST
+      Documentation: ACPI: move dsd/graph.txt to firmware-guide/acpi
+and convert to reST
+      Documentation: ACPI: move dsd/data-node-references.txt to
+firmware-guide/acpi and convert to reST
+      Documentation: ACPI: move debug.txt to firmware-guide/acpi and
+convert to reST
+      Documentation: ACPI: move method-tracing.txt to
+firmware-guide/acpi and convert to rsST
+      Documentation: ACPI: move aml-debugger.txt to
+firmware-guide/acpi and convert to reST
+      Documentation: ACPI: move apei/output_format.txt to
+firmware-guide/acpi and convert to reST
+      Documentation: ACPI: move apei/einj.txt to firmware-guide/acpi
+and convert to reST
+      Documentation: ACPI: move cppc_sysfs.txt to admin-guide/acpi and
+convert to reST
+      Documentation: ACPI: move lpit.txt to firmware-guide/acpi and
+convert to reST
+      Documentation: ACPI: move ssdt-overlays.txt to admin-guide/acpi
+and convert to reST
+      Documentation: ACPI: move video_extension.txt to
+firmware-guide/acpi and convert to reST
+
+Erik Schmauss (2):
+      ACPICA: utilities: fix spelling of PCC to platform_comm_channel
+      ACPICA: Namespace: add check to avoid null pointer dereference
+
+Gustavo A. R. Silva (1):
+      ACPI: event: replace strcpy() by strscpy()
+
+Hans de Goede (1):
+      ACPI / LPSS: Use acpi_lpss_* instead of acpi_subsys_* functions
+for hibernate
+
+Kefeng Wang (1):
+      ACPI / DPTF: Use dev_get_drvdata()
+
+Rafael J. Wysocki (1):
+      ACPI: PM: Print debug messages when enabling GPEs for wakeup
+
+Thomas Preston (1):
+      Documentation: acpi: Add an example for PRP0001
+
+YueHaibing (1):
+      gpio: merrifield: Fix build err without CONFIG_ACPI
+
+Zhang Rui (2):
+      ACPI: video: Use vendor backlight on Sony VPCEH3U1E
+      ACPI: button: reinitialize button state upon resume
+
+---------------
+
+ Documentation/acpi/aml-debugger.txt                |  66 -----
+ Documentation/acpi/apei/output_format.txt          | 147 -----------
+ Documentation/acpi/i2c-muxes.txt                   |  58 ----
+ Documentation/acpi/initrd_table_override.txt       | 111 --------
+ Documentation/acpi/method-customizing.txt          |  73 -----
+ Documentation/acpi/method-tracing.txt              | 192 --------------
+ Documentation/acpi/ssdt-overlays.txt               | 172 ------------
+ .../acpi/cppc_sysfs.rst}                           |  71 ++---
+ .../acpi/dsdt-override.rst}                        |   8 +-
+ Documentation/admin-guide/acpi/index.rst           |  14 +
+ .../admin-guide/acpi/initrd_table_override.rst     | 115 ++++++++
+ Documentation/admin-guide/acpi/ssdt-overlays.rst   | 180 +++++++++++++
+ Documentation/admin-guide/index.rst                |   1 +
+ Documentation/driver-api/acpi/index.rst            |   9 +
+ .../acpi/linuxized-acpica.rst}                     | 109 ++++----
+ .../acpi/scan_handlers.rst}                        |  24 +-
+ Documentation/driver-api/index.rst                 |   1 +
+ .../acpi/DSD-properties-rules.rst}                 |  21 +-
+ .../acpi/acpi-lid.rst}                             |  40 ++-
+ Documentation/firmware-guide/acpi/aml-debugger.rst |  75 ++++++
+ .../einj.txt => firmware-guide/acpi/apei/einj.rst} |  94 ++++---
+ .../firmware-guide/acpi/apei/output_format.rst     | 150 +++++++++++
+ .../debug.txt => firmware-guide/acpi/debug.rst}    |  31 ++-
+ .../acpi/dsd/data-node-references.rst}             |  36 +--
+ .../acpi/dsd/graph.rst}                            | 157 +++++------
+ .../acpi/enumeration.rst}                          | 161 ++++++-----
+ .../acpi/gpio-properties.rst}                      |  78 +++---
+ Documentation/firmware-guide/acpi/i2c-muxes.rst    |  61 +++++
+ Documentation/firmware-guide/acpi/index.rst        |  26 ++
+ .../lpit.txt => firmware-guide/acpi/lpit.rst}      |  18 +-
+ .../firmware-guide/acpi/method-customizing.rst     |  89 +++++++
+ .../firmware-guide/acpi/method-tracing.rst         | 238 +++++++++++++++++
+ .../acpi/namespace.rst}                            | 294 +++++++++++----------
+ .../{acpi/osi.txt => firmware-guide/acpi/osi.rst}  |  15 +-
+ .../acpi/video_extension.rst}                      |  83 +++---
+ Documentation/firmware-guide/index.rst             |  13 +
+ Documentation/index.rst                            |  10 +
+ MAINTAINERS                                        |   2 +-
+ arch/x86/boot/compressed/acpi.c                    |   2 +-
+ drivers/acpi/acpi_configfs.c                       |   4 +-
+ drivers/acpi/acpi_dbg.c                            |   2 +-
+ drivers/acpi/acpi_lpat.c                           |   2 +-
+ drivers/acpi/acpi_lpss.c                           |   4 +-
+ drivers/acpi/acpica/aclocal.h                      |   4 +-
+ drivers/acpi/acpica/dbexec.c                       |   2 +-
+ drivers/acpi/acpica/dbnames.c                      |   2 +-
+ drivers/acpi/acpica/dsinit.c                       |   2 +-
+ drivers/acpi/acpica/evgpeinit.c                    |   4 +-
+ drivers/acpi/acpica/exnames.c                      |   6 +-
+ drivers/acpi/acpica/nsaccess.c                     |   2 +-
+ drivers/acpi/acpica/nsalloc.c                      |   4 +
+ drivers/acpi/acpica/nsdump.c                       |   2 +-
+ drivers/acpi/acpica/nsinit.c                       |   4 +-
+ drivers/acpi/acpica/nsnames.c                      |   8 +-
+ drivers/acpi/acpica/nsparse.c                      |   2 +-
+ drivers/acpi/acpica/nsrepair.c                     |   2 +-
+ drivers/acpi/acpica/nsrepair2.c                    |   4 +-
+ drivers/acpi/acpica/nsutils.c                      |  14 +-
+ drivers/acpi/acpica/nsxfname.c                     |   4 +-
+ drivers/acpi/acpica/psargs.c                       |   8 +-
+ drivers/acpi/acpica/rsxface.c                      |   8 +-
+ drivers/acpi/acpica/tbdata.c                       |   3 +-
+ drivers/acpi/acpica/tbfind.c                       |  20 +-
+ drivers/acpi/acpica/tbinstal.c                     |   2 +-
+ drivers/acpi/acpica/tbprint.c                      |  10 +-
+ drivers/acpi/acpica/tbutils.c                      |   6 +-
+ drivers/acpi/acpica/tbxface.c                      |   4 +-
+ drivers/acpi/acpica/tbxfload.c                     |  15 +-
+ drivers/acpi/acpica/utascii.c                      |   2 +-
+ drivers/acpi/acpica/utdecode.c                     |   4 +-
+ drivers/acpi/acpica/utmisc.c                       |   8 +-
+ drivers/acpi/acpica/utpredef.c                     |   4 +-
+ drivers/acpi/acpica/utstring.c                     |   6 +-
+ drivers/acpi/button.c                              |   5 +-
+ drivers/acpi/cppc_acpi.c                           |  34 +--
+ drivers/acpi/device_pm.c                           |   3 +
+ drivers/acpi/dptf/dptf_power.c                     |   3 +-
+ drivers/acpi/event.c                               |   4 +-
+ drivers/acpi/power.c                               |   4 +-
+ drivers/acpi/pptt.c                                |  48 ++--
+ drivers/acpi/scan.c                                |  21 +-
+ drivers/acpi/spcr.c                                |   2 +-
+ drivers/acpi/sysfs.c                               |  14 +-
+ drivers/acpi/tables.c                              |  22 +-
+ drivers/acpi/utils.c                               |  16 +-
+ drivers/acpi/video_detect.c                        |  10 +-
+ drivers/extcon/extcon-axp288.c                     |   9 +-
+ drivers/firmware/iscsi_ibft.c                      |   2 +-
+ drivers/gpio/gpio-merrifield.c                     |  18 +-
+ .../intel/int340x_thermal/acpi_thermal_rel.c       |   2 +-
+ include/acpi/acpi_bus.h                            |   8 +-
+ include/acpi/acpixf.h                              |   2 +-
+ include/acpi/actbl.h                               |   4 +-
+ include/acpi/actypes.h                             |  12 +-
+ include/linux/acpi.h                               |   6 +-
+ sound/soc/intel/boards/bytcht_da7213.c             |   9 +-
+ sound/soc/intel/boards/bytcht_es8316.c             |   9 +-
+ sound/soc/intel/boards/bytcr_rt5640.c              |  10 +-
+ sound/soc/intel/boards/bytcr_rt5651.c              |  14 +-
+ sound/soc/intel/boards/cht_bsw_rt5645.c            |   9 +-
+ sound/soc/intel/boards/cht_bsw_rt5672.c            |   9 +-
+ .../acpi/os_specific/service_layers/oslinuxtbl.c   |  48 ++--
+ tools/power/acpi/tools/acpidump/apdump.c           |   8 +-
+ tools/power/acpi/tools/acpidump/apfiles.c          |   8 +-
+ 104 files changed, 1977 insertions(+), 1619 deletions(-)
