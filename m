@@ -1,126 +1,133 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AE00E7D910
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 May 2019 17:12:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CA7B07D90F
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 May 2019 17:44:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727171AbfEFRMQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 6 May 2019 13:12:16 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:41367 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726370AbfEFRMP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 May 2019 13:12:15 -0400
-Received: by mail-pl1-f194.google.com with SMTP id d9so6682095pls.8;
-        Mon, 06 May 2019 10:12:15 -0700 (PDT)
+        id S1726694AbfEFRoJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 6 May 2019 13:44:09 -0400
+Received: from mail-vs1-f66.google.com ([209.85.217.66]:42342 "EHLO
+        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726426AbfEFRoI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 May 2019 13:44:08 -0400
+Received: by mail-vs1-f66.google.com with SMTP id r62so1867797vsc.9
+        for <linux-doc@vger.kernel.org>; Mon, 06 May 2019 10:44:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=YaNnLqU9o2lpY1nR/3WwmAgKR0IVYxRkeI3qUXiAw/Y=;
-        b=HbhLjJC8LFnPmOLID1sNlMNWwgmi/mqvze6SF86s6VVJoSgSecXo6yyXvyMjwoh617
-         cZeYp2Pb5C1C9hpjlqWa5KnDw84EUeTPwtOzbqbtijt3EfDIof/gx77ehYQIB0sIV6cg
-         i3/BMKt17F6j3V/YRUkXF65BBnPdGxg/yWmkFrOAd/5f8lrFk5I1jz/RTveByLdNte5l
-         gVr4zUPJX/AlT+ECAlq1nvD3OjWx/4IMrXQPmCKBwAFAFC/MNmETad5opUTWO6n/JPRH
-         tHbAM5neO+lCmlttQNau4liZG1+9/+5ytHokHVKCJb96eNOTgv0IpzY5GiQKXFQC56v5
-         ZIKg==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=OeGgjZBJ9uWD1pdsX/+zOfgOjAibZGBp9WPaU0eToUc=;
+        b=m4Zw2fBY+VMLzhBfTBbz4Dtlq0Cc6l6MqEwoJ7YTjrYPzeO8QeIYW3yIFLyCL117Kt
+         axxocOSPh/a+gWkz5TWdPKqb2BPRt/jtybJOfLKxxemlLxpId3LZKDrEsHYJlkXqRfwz
+         fCTrKPtDSaBjY4auU4otyGauXVMtlpMTLmviNmwp8xF+tgZuQMZPsaKxN5HR6oBL5vv2
+         Zb040i1FzkyXpGkN4I4IP7WFVE6iEZwE10S2R1vSIzVYWL40r/PqrLJElx8kQUpZMdyS
+         9343jPbZPHbXIDd2SJlyBmLnUf59HZ8PtlBE/IOAyuF/EUfnmI/1F3+fvCafLr94a9B9
+         gs7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=YaNnLqU9o2lpY1nR/3WwmAgKR0IVYxRkeI3qUXiAw/Y=;
-        b=g+CvtxZOZ//tjpkJOt57Fnk56yGbjzBJ20GqFVCy8G+VyxA/oxIHiLrsIXxIkeRS0r
-         Rv5HLjD8ylrJ5KBhqAgcUbi2lkSgPtkndIsTzvg4/HII/VoiuA8bC3tlQBVYOfCCxV+K
-         LguFU4EbfWDchPu7BobmxQmcrdOf54gVKM9ZSETyWMy94oDvRvNMdWFv4dc3y28i6aCD
-         fTAkbEVDQAPTkklIG7We8uymJyErD1MVBQpaPQjTuOwVSapSKSx6llDyqdG4GXaEMi/0
-         Aq/SONL51dD3Bddy88P0uLC+WAp8zZBzpoFPXn2V3LSZdJnZxr6KGwdjumoZSlrdkFHf
-         5ikQ==
-X-Gm-Message-State: APjAAAWusSuLSEOzYKWYdPYAhF14RkwsQliDfZi1I9T6EuW64ZFD7eJM
-        8rEyKZ3UN7v7HVsAMQyj3Wo=
-X-Google-Smtp-Source: APXvYqxZIUDk5OqDdjWEloO+8U12RC6IIdrfQ9bD4vKEgecCErpXS0sMvNF/eXSwSMSA5eBXOV9Adg==
-X-Received: by 2002:a17:902:9693:: with SMTP id n19mr33356286plp.92.1557162734908;
-        Mon, 06 May 2019 10:12:14 -0700 (PDT)
-Received: from localhost.localdomain ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id h13sm11045680pgk.55.2019.05.06.10.12.09
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 06 May 2019 10:12:14 -0700 (PDT)
-From:   Changbin Du <changbin.du@gmail.com>
-To:     corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de
-Cc:     x86@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Changbin Du <changbin.du@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Subject: [PATCH v3 27/27] Documentation: x86: convert x86_64/machinecheck to reST
-Date:   Tue,  7 May 2019 01:09:23 +0800
-Message-Id: <20190506170923.7117-28-changbin.du@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190506170923.7117-1-changbin.du@gmail.com>
-References: <20190506170923.7117-1-changbin.du@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OeGgjZBJ9uWD1pdsX/+zOfgOjAibZGBp9WPaU0eToUc=;
+        b=sIPSVb3tQC6/i9b9tVVnbwNpfMbvmbaVqCCadFzD4f05wrPg6ymj0fUr/JESWI7uk5
+         PC/6K97VrgXTDj9PE7uV7pORIV+zbvwj6rcMUkmqhjTwwCmWgOaTWFKm2AQgf9B8xHqH
+         TlTTPHeDuHlUqVsJrqY7bG1T2rfzTiAKs6v2IJDnWuLCdX16fWE7+8bYWPeCEp6FGXv3
+         iFZAu4/mrXrN1DqlAgrbBygboybP02v9W0Cl040LfjDV9zLrH495BDo+Ac3klGvsU7Rd
+         EFkbIh3+Eq8HSW/ncWtBvxSE2ngNV7wdqy9CltvbNrfMzmWjhQd1f282t+TwA+pvLkJw
+         7/Bg==
+X-Gm-Message-State: APjAAAWQeB1hAPElnSi5swmyQA9LkUP4aHSEveksxGEVsezjlxmXZbRz
+        S/POswbe5yQ2fpSUOjdB4ni1sBRHyGjz4cqWTlZRdA==
+X-Google-Smtp-Source: APXvYqxj9ho/3KigVFISlPQqfamyJ4vl1xCgP8i9j8q0ibA/ApDLHmmjNXKUf72ouvJJD/44drdXvLamKur++kGc2Rs=
+X-Received: by 2002:a67:dd95:: with SMTP id i21mr8883021vsk.48.1557164647231;
+ Mon, 06 May 2019 10:44:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20190501230126.229218-1-brendanhiggins@google.com>
+ <20190501230126.229218-13-brendanhiggins@google.com> <20190502110220.GD12416@kroah.com>
+ <CAFd5g47t=EdLKFCT=CnPkrM2z0nDVo24Gz4j0VxFOJbARP37Lg@mail.gmail.com>
+ <a49c5088-a821-210c-66de-f422536f5b01@gmail.com> <CAFd5g44iWRchQKdJYtjRtPY6e-6e0eXpKXXsx5Ooi6sWE474KA@mail.gmail.com>
+ <1a5f3c44-9fa9-d423-66bf-45255a90c468@gmail.com> <CAFd5g45RYm+zfdJXnyp2KZZH5ojfOzy++aq+4zBeE5VDu6WgEw@mail.gmail.com>
+ <052fa196-4ea9-8384-79b7-fe6bacc0ee82@gmail.com> <CAFd5g47aY-CL+d7DfiyTidY4aAVY+eg1TM1UJ4nYqKSfHOi-0w@mail.gmail.com>
+ <63f63c7c-6185-5e64-b338-6a5e7fb9e27c@gmail.com>
+In-Reply-To: <63f63c7c-6185-5e64-b338-6a5e7fb9e27c@gmail.com>
+From:   Kees Cook <keescook@google.com>
+Date:   Mon, 6 May 2019 10:43:55 -0700
+Message-ID: <CAGXu5jJpp2HyEWMtAde+VUt=9ni3HRu69NM4rUQJu4kBrnx9Kw@mail.gmail.com>
+Subject: Re: [PATCH v2 12/17] kunit: tool: add Python wrappers for running
+ KUnit tests
+To:     Frank Rowand <frowand.list@gmail.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Shuah Khan <shuah@kernel.org>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "Bird, Timothy" <Tim.Bird@sony.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Petr Mladek <pmladek@suse.com>,
+        Richard Weinberger <richard@nod.at>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com,
+        Felix Guo <felixguoxiuping@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This converts the plain text documentation to reStructuredText format and
-add it to Sphinx TOC tree. No essential content change.
+On Sun, May 5, 2019 at 5:19 PM Frank Rowand <frowand.list@gmail.com> wrote:
+> You can see the full version 14 document in the submitter's repo:
+>
+>   $ git clone https://github.com/isaacs/testanything.github.io.git
+>   $ cd testanything.github.io
+>   $ git checkout tap14
+>   $ ls tap-version-14-specification.md
+>
+> My understanding is the the version 14 specification is not trying to
+> add new features, but instead capture what is already implemented in
+> the wild.
 
-Signed-off-by: Changbin Du <changbin.du@gmail.com>
-Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- Documentation/x86/x86_64/index.rst                   |  1 +
- .../x86/x86_64/{machinecheck => machinecheck.rst}    | 12 +++++++-----
- 2 files changed, 8 insertions(+), 5 deletions(-)
- rename Documentation/x86/x86_64/{machinecheck => machinecheck.rst} (92%)
+Oh! I didn't know about the work on TAP 14. I'll go read through this.
 
-diff --git a/Documentation/x86/x86_64/index.rst b/Documentation/x86/x86_64/index.rst
-index c04b6eab3c76..d6eaaa5a35fc 100644
---- a/Documentation/x86/x86_64/index.rst
-+++ b/Documentation/x86/x86_64/index.rst
-@@ -13,3 +13,4 @@ x86_64 Support
-    5level-paging
-    fake-numa-for-cpusets
-    cpu-hotplug-spec
-+   machinecheck
-diff --git a/Documentation/x86/x86_64/machinecheck b/Documentation/x86/x86_64/machinecheck.rst
-similarity index 92%
-rename from Documentation/x86/x86_64/machinecheck
-rename to Documentation/x86/x86_64/machinecheck.rst
-index d0648a74fceb..e189168406fa 100644
---- a/Documentation/x86/x86_64/machinecheck
-+++ b/Documentation/x86/x86_64/machinecheck.rst
-@@ -1,5 +1,8 @@
-+.. SPDX-License-Identifier: GPL-2.0
- 
--Configurable sysfs parameters for the x86-64 machine check code.
-+===============================================================
-+Configurable sysfs parameters for the x86-64 machine check code
-+===============================================================
- 
- Machine checks report internal hardware error conditions detected
- by the CPU. Uncorrected errors typically cause a machine check
-@@ -16,14 +19,13 @@ log then mcelog should run to collect and decode machine check entries
- from /dev/mcelog. Normally mcelog should be run regularly from a cronjob.
- 
- Each CPU has a directory in /sys/devices/system/machinecheck/machinecheckN
--(N = CPU number)
-+(N = CPU number).
- 
- The directory contains some configurable entries:
- 
--Entries:
--
- bankNctl
--(N bank number)
-+	(N bank number)
-+
- 	64bit Hex bitmask enabling/disabling specific subevents for bank N
- 	When a bit in the bitmask is zero then the respective
- 	subevent will not be reported.
+> > ## Here is what I propose for this patchset:
+> >
+> >  - Print out test number range at the beginning of each test suite.
+> >  - Print out log lines as soon as they happen as diagnostics.
+> >  - Print out the lines that state whether a test passes or fails as a
+> > ok/not ok line.
+> >
+> > This would be technically conforming with TAP13 and is consistent with
+> > what some kselftests have done.
+
+This is what I fixed kselftest to actually do (it wasn't doing correct
+TAP13), and Shuah is testing the series now:
+https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git/log/?h=ksft-tap-refactor
+
+I'll go read TAP 14 now...
+
 -- 
-2.20.1
-
+Kees Cook
