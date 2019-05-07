@@ -1,36 +1,29 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH autolearn=unavailable
+X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 616C37D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  7 May 2019 16:57:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 184047D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  7 May 2019 17:03:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727233AbfEGQ5V (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 7 May 2019 12:57:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56514 "EHLO mail.kernel.org"
+        id S1727206AbfEGRDj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 7 May 2019 13:03:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58426 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727165AbfEGQ5V (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 7 May 2019 12:57:21 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        id S1726602AbfEGRDi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 7 May 2019 13:03:38 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EA68D2054F;
-        Tue,  7 May 2019 16:57:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1557248240;
-        bh=D6MpCQTS8LI1AAzN1OZT+Q/x/AiPwhtV7g7kacQEbx0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pjgx1GTyMP+8PrB4yhNbdYYUT4PUzjnrXZrXUGgoIXuA1GMtcBVXzbftpqViPkLRf
-         Od3fEvQcUMn8gEGQgMi4aq2W81hyvEPRzpOFzYwjYPV58uOgOdz57cUJFqiCQmFdMh
-         NM+XkPDA1KAFGGjnkOidL7aoRawFLQCcA14u1/ds=
-Date:   Tue, 7 May 2019 18:57:18 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
+        by mail.kernel.org (Postfix) with ESMTPSA id 47879205C9;
+        Tue,  7 May 2019 17:03:35 +0000 (UTC)
+Date:   Tue, 7 May 2019 13:03:33 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Joel Fernandes <joel@joelfernandes.org>,
+        linux-kernel@vger.kernel.org,
         Adrian Ratiu <adrian.ratiu@collabora.com>,
         Alexei Starovoitov <ast@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>, atishp04@gmail.com,
@@ -48,7 +41,7 @@ Cc:     Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
         Manjo Raja Rao <linux@manojrajarao.com>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
         Masami Hiramatsu <mhiramat@kernel.org>,
-        =?utf-8?Q?Micha=C5=82?= Gregorczyk <michalgr@fb.com>,
+        =?UTF-8?B?TWljaGHFgg==?= Gregorczyk <michalgr@fb.com>,
         Michal Gregorczyk <michalgr@live.com>,
         Mohammad Husain <russoue@gmail.com>,
         Olof Johansson <olof@lixom.net>, qais.yousef@arm.com,
@@ -56,48 +49,39 @@ Cc:     Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
         Srinivas Ramana <sramana@codeaurora.org>,
         Tamir Carmeli <carmeli.tamir@gmail.com>, yhs@fb.com
 Subject: Re: [PATCH v2] kheaders: Move from proc to sysfs
-Message-ID: <20190507165718.GA1241@kroah.com>
+Message-ID: <20190507130333.58c95268@gandalf.local.home>
+In-Reply-To: <20190507165718.GA1241@kroah.com>
 References: <20190504121213.183203-1-joel@joelfernandes.org>
- <20190504122158.GA23535@kroah.com>
- <20190504123650.GA229151@google.com>
- <20190505091030.GA25646@kroah.com>
- <20190505132623.GA3076@localhost>
- <20190505163145.45f77e44@oasis.local.home>
- <20190507163824.GC89248@google.com>
+        <20190504122158.GA23535@kroah.com>
+        <20190504123650.GA229151@google.com>
+        <20190505091030.GA25646@kroah.com>
+        <20190505132623.GA3076@localhost>
+        <20190505163145.45f77e44@oasis.local.home>
+        <20190507163824.GC89248@google.com>
+        <20190507165718.GA1241@kroah.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190507163824.GC89248@google.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 07, 2019 at 12:38:24PM -0400, Joel Fernandes wrote:
-> On Sun, May 05, 2019 at 04:31:45PM -0400, Steven Rostedt wrote:
-> > On Sun, 5 May 2019 13:26:23 +0000
-> > Joel Fernandes <joel@joelfernandes.org> wrote:
-> > 
-> > > On Sun, May 05, 2019 at 11:10:30AM +0200, Greg KH wrote:
-> > > > On Sat, May 04, 2019 at 08:36:50AM -0400, Joel Fernandes wrote:  
-> > > > > > But, you should change S_IRUGO to the correct octal number, checkpatch
-> > > > > > should have barfed on this change.  
-> > > > > 
-> > > > > fixed, below is the updated patch inline, thanks!  
-> > > > 
-> > > > Please resend as a "real" submission, doing so in this format is a bit
-> > > > more difficult to apply.  
-> > > 
-> > > git am --scissors can do it, but no problem I will send as a formal
-> > > submission. Thanks a lot.
-> > >
-> > 
-> > True, but a lot of us depend on scripts to pull in patches from our
-> > INBOX. Which is why we like them to stay with the standard format.
-> 
-> Thanks makes sense. So Greg, I submitted this properly, does it look good to
-> you now? Steven, I would appreciate any Acks/Reviews on the patch as well:
-> https://lore.kernel.org/patchwork/patch/1070199/
+On Tue, 7 May 2019 18:57:18 +0200
+Greg KH <gregkh@linuxfoundation.org> wrote:
 
-Looks good to me, should get to it in a few days...
+> > Thanks makes sense. So Greg, I submitted this properly, does it look good to
+> > you now? Steven, I would appreciate any Acks/Reviews on the patch as well:
+> > https://lore.kernel.org/patchwork/patch/1070199/  
+> 
+> Looks good to me, should get to it in a few days...
+
+Me too. Feel free to add
+
+Acked-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
+
+But as for reviewing, I see nothing wrong with it, but I doubt I'll
+find something that Greg missed in this code.
+
+-- Steve
