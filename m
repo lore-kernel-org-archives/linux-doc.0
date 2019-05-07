@@ -1,132 +1,135 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 80B557D910
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  6 May 2019 21:43:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D5F707D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  7 May 2019 00:04:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726604AbfEFVnG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 6 May 2019 17:43:06 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:44755 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726408AbfEFVnF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 May 2019 17:43:05 -0400
-Received: by mail-oi1-f194.google.com with SMTP id y25so3709109oih.11
-        for <linux-doc@vger.kernel.org>; Mon, 06 May 2019 14:43:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=94ZZFjAz8L6vodxrYz5ZCQ36NJZDWbAB/OOZ4duFwS4=;
-        b=tLixckVpvUKIIP5RUjay0lZW7YNSS3dUAp/uUYFinYYsKHGVICkPCkOYGtF3sbBoWy
-         WrEckQ4QP028zfHhbL5kBL+ohEGOP1dDKk+Bp5+VWfMsnb090NYGYzTdl/D4Y4BZg795
-         E2qTT59iEGKQL66/nZu7o3rbn+PokHJnlfYdNIP/E2c/XuQzdE7pg9j0bvYzbCuwwxJL
-         emPADFPM3ZOiA8e/GRITu0dcg4Os+e17Y3+CUGf4fPlweNagjJdF4OInhRnPReNkri5n
-         LWQH1BOxdyyoBD4Yg62n/XVFQ/+F+SIAiTFtipiJC/QAUrtnzp2bJR8vq6aT+hCDGigV
-         3HDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=94ZZFjAz8L6vodxrYz5ZCQ36NJZDWbAB/OOZ4duFwS4=;
-        b=dbMSiHVEMnZnv0s9zG3J5rv9bTDCh0AC8/UCZneGrB73L6oMN9bQB3IQMq56Z2OQRV
-         flZF9MdMZaJdjeKJQkM37Ak7dJOlrWGNpHHyK1sX2CkdEUx0LZLwgvdJdADtM4RymJTB
-         lHqD6/+joQwqUKkA/wt2THlXBpJFbK7VHfPZ0TTT3q9KgyfjYPE+Ij3i4jTyjfePJwwP
-         YiF1O8j5yBF2PqJW4b1Dy6/mvtai7Z0moDwv4KUZsndJ35g1UNMe30i58QX8MruHhImX
-         3art5kvqSaXFx1yYv2P1jo8ypamXEPomMTdkFqM92DARJJTmtE+EPbt/He3KzgmNYDry
-         kltw==
-X-Gm-Message-State: APjAAAWTw7lKfEuR4dJxTPWkVw47pm0cdEOq3pqS9UV4pOxUUZdSej2W
-        u9Cm3/dK2Rl2OXbAOLTaNJloiWGWh8I/wDVUlNHP5g==
-X-Google-Smtp-Source: APXvYqyhYHswKnB+01odEGOhapU2d1ybkbO7OVGv0qMcxCiM57xMXMGlQ7Mu0aMV2CefJNmt9LchrL7CnYaGHRcRbVk=
-X-Received: by 2002:aca:d4cf:: with SMTP id l198mr192007oig.137.1557178984528;
- Mon, 06 May 2019 14:43:04 -0700 (PDT)
+        id S1726406AbfEGAE7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 6 May 2019 20:04:59 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:33844 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726046AbfEGAE7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 6 May 2019 20:04:59 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x4702DON037011
+        for <linux-doc@vger.kernel.org>; Mon, 6 May 2019 20:04:57 -0400
+Received: from e16.ny.us.ibm.com (e16.ny.us.ibm.com [129.33.205.206])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2savjxmyt4-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Mon, 06 May 2019 20:04:57 -0400
+Received: from localhost
+        by e16.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Tue, 7 May 2019 01:04:57 +0100
+Received: from b01cxnp23032.gho.pok.ibm.com (9.57.198.27)
+        by e16.ny.us.ibm.com (146.89.104.203) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Tue, 7 May 2019 01:04:53 +0100
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x4704qw327984092
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 7 May 2019 00:04:52 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 2DB21B2072;
+        Tue,  7 May 2019 00:04:52 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 19F2FB205F;
+        Tue,  7 May 2019 00:04:52 +0000 (GMT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.216])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Tue,  7 May 2019 00:04:52 +0000 (GMT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id 89AFB16C5DD3; Mon,  6 May 2019 17:04:53 -0700 (PDT)
+Date:   Mon, 6 May 2019 17:04:53 -0700
+From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
+To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
+        Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] doc/rcu: Correct field_count field naming in examples
+Reply-To: paulmck@linux.ibm.com
+References: <20190505020328.165839-1-joel@joelfernandes.org>
 MIME-Version: 1.0
-References: <20190501230126.229218-1-brendanhiggins@google.com>
- <20190501230126.229218-13-brendanhiggins@google.com> <20190502110220.GD12416@kroah.com>
- <CAFd5g47t=EdLKFCT=CnPkrM2z0nDVo24Gz4j0VxFOJbARP37Lg@mail.gmail.com>
- <a49c5088-a821-210c-66de-f422536f5b01@gmail.com> <CAFd5g44iWRchQKdJYtjRtPY6e-6e0eXpKXXsx5Ooi6sWE474KA@mail.gmail.com>
- <1a5f3c44-9fa9-d423-66bf-45255a90c468@gmail.com> <CAFd5g45RYm+zfdJXnyp2KZZH5ojfOzy++aq+4zBeE5VDu6WgEw@mail.gmail.com>
- <052fa196-4ea9-8384-79b7-fe6bacc0ee82@gmail.com> <CAFd5g47aY-CL+d7DfiyTidY4aAVY+eg1TM1UJ4nYqKSfHOi-0w@mail.gmail.com>
- <63f63c7c-6185-5e64-b338-6a5e7fb9e27c@gmail.com> <CAGXu5jJpp2HyEWMtAde+VUt=9ni3HRu69NM4rUQJu4kBrnx9Kw@mail.gmail.com>
-In-Reply-To: <CAGXu5jJpp2HyEWMtAde+VUt=9ni3HRu69NM4rUQJu4kBrnx9Kw@mail.gmail.com>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Mon, 6 May 2019 14:42:53 -0700
-Message-ID: <CAFd5g47d-e31NecDEbMud0rUH55EbhcS0wJpjB1PZZaX5Udqmw@mail.gmail.com>
-Subject: Re: [PATCH v2 12/17] kunit: tool: add Python wrappers for running
- KUnit tests
-To:     Kees Cook <keescook@google.com>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com,
-        Felix Guo <felixguoxiuping@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190505020328.165839-1-joel@joelfernandes.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+x-cbid: 19050700-0072-0000-0000-000004289D4B
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00011062; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000285; SDB=6.01199625; UDB=6.00629371; IPR=6.00980501;
+ MB=3.00026763; MTD=3.00000008; XFM=3.00000015; UTC=2019-05-07 00:04:55
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19050700-0073-0000-0000-00004C1EC4B0
+Message-Id: <20190507000453.GB3923@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-06_14:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1905060181
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> On Sun, May 5, 2019 at 5:19 PM Frank Rowand <frowand.list@gmail.com> wrote:
-> > You can see the full version 14 document in the submitter's repo:
-> >
-> >   $ git clone https://github.com/isaacs/testanything.github.io.git
-> >   $ cd testanything.github.io
-> >   $ git checkout tap14
-> >   $ ls tap-version-14-specification.md
-> >
-> > My understanding is the the version 14 specification is not trying to
-> > add new features, but instead capture what is already implemented in
-> > the wild.
->
-> Oh! I didn't know about the work on TAP 14. I'll go read through this.
->
-> > > ## Here is what I propose for this patchset:
-> > >
-> > >  - Print out test number range at the beginning of each test suite.
-> > >  - Print out log lines as soon as they happen as diagnostics.
-> > >  - Print out the lines that state whether a test passes or fails as a
-> > > ok/not ok line.
-> > >
-> > > This would be technically conforming with TAP13 and is consistent with
-> > > what some kselftests have done.
->
-> This is what I fixed kselftest to actually do (it wasn't doing correct
-> TAP13), and Shuah is testing the series now:
-> https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git/log/?h=ksft-tap-refactor
+On Sat, May 04, 2019 at 10:03:10PM -0400, Joel Fernandes (Google) wrote:
+> I believe this field should be called field_count instead of file_count.
+> Correct the doc with the same.
+> 
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 
-Oh, cool! I guess this is an okay approach then.
+But if we are going to update this, why not update it with the current
+audit_filter_task(), audit_del_rule(), and audit_add_rule() code?
 
-Thanks!
+Hmmm...  One reason is that some of them have changed beyond recognition.
+
+And this example code predates v2.6.12.  ;-)
+
+So good eyes, but I believe that this really does reflect the ancient
+code...
+
+On the other hand, would you have ideas for more modern replacement
+examples?
+
+							Thanx, Paul
+
+> ---
+>  Documentation/RCU/listRCU.txt | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/RCU/listRCU.txt b/Documentation/RCU/listRCU.txt
+> index adb5a3782846..190e666fc359 100644
+> --- a/Documentation/RCU/listRCU.txt
+> +++ b/Documentation/RCU/listRCU.txt
+> @@ -175,7 +175,7 @@ otherwise, the added fields would need to be filled in):
+>  		list_for_each_entry(e, list, list) {
+>  			if (!audit_compare_rule(rule, &e->rule)) {
+>  				e->rule.action = newaction;
+> -				e->rule.file_count = newfield_count;
+> +				e->rule.field_count = newfield_count;
+>  				write_unlock(&auditsc_lock);
+>  				return 0;
+>  			}
+> @@ -204,7 +204,7 @@ RCU ("read-copy update") its name.  The RCU code is as follows:
+>  					return -ENOMEM;
+>  				audit_copy_rule(&ne->rule, &e->rule);
+>  				ne->rule.action = newaction;
+> -				ne->rule.file_count = newfield_count;
+> +				ne->rule.field_count = newfield_count;
+>  				list_replace_rcu(&e->list, &ne->list);
+>  				call_rcu(&e->rcu, audit_free_rule);
+>  				return 0;
+> -- 
+> 2.21.0.1020.gf2820cf01a-goog
+> 
+
