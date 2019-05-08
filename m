@@ -2,387 +2,198 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EE7467D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 May 2019 18:04:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 74A7E7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 May 2019 18:16:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726970AbfEHSEx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 8 May 2019 14:04:53 -0400
-Received: from ms.lwn.net ([45.79.88.28]:54146 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726883AbfEHSEx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 8 May 2019 14:04:53 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id D39302C5;
-        Wed,  8 May 2019 18:04:51 +0000 (UTC)
-Date:   Wed, 8 May 2019 12:04:50 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
-Subject: [GIT PULL] Docs for 5.2
-Message-ID: <20190508120450.197d4e8e@lwn.net>
-Organization: LWN.net
+        id S1727900AbfEHSQo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 8 May 2019 14:16:44 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42540 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727850AbfEHSQn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 May 2019 14:16:43 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x48I7JmF025241
+        for <linux-doc@vger.kernel.org>; Wed, 8 May 2019 14:16:42 -0400
+Received: from e11.ny.us.ibm.com (e11.ny.us.ibm.com [129.33.205.201])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2sc33cuj9q-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Wed, 08 May 2019 14:16:42 -0400
+Received: from localhost
+        by e11.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
+        Wed, 8 May 2019 19:16:40 +0100
+Received: from b01cxnp23033.gho.pok.ibm.com (9.57.198.28)
+        by e11.ny.us.ibm.com (146.89.104.198) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Wed, 8 May 2019 19:16:38 +0100
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
+        by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x48IGbn431719532
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 8 May 2019 18:16:37 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 9E2B3B205F;
+        Wed,  8 May 2019 18:16:37 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 71029B2067;
+        Wed,  8 May 2019 18:16:37 +0000 (GMT)
+Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.216])
+        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+        Wed,  8 May 2019 18:16:37 +0000 (GMT)
+Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
+        id E6DC116C343E; Wed,  8 May 2019 11:16:38 -0700 (PDT)
+Date:   Wed, 8 May 2019 11:16:38 -0700
+From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
+        Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] doc/rcu: Correct field_count field naming in examples
+Reply-To: paulmck@linux.ibm.com
+References: <20190505020328.165839-1-joel@joelfernandes.org>
+ <20190507000453.GB3923@linux.ibm.com>
+ <20190508162635.GD187505@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190508162635.GD187505@google.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+x-cbid: 19050818-2213-0000-0000-0000038AA190
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00011072; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000285; SDB=6.01200459; UDB=6.00629877; IPR=6.00981345;
+ MB=3.00026796; MTD=3.00000008; XFM=3.00000015; UTC=2019-05-08 18:16:40
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19050818-2214-0000-0000-00005E5B2D6C
+Message-Id: <20190508181638.GY3923@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-08_10:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1905080111
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following changes since commit
-9e98c678c2d6ae3a17cb2de55d17f69dddaa231b:
+On Wed, May 08, 2019 at 12:26:35PM -0400, Joel Fernandes wrote:
+> On Mon, May 06, 2019 at 05:04:53PM -0700, Paul E. McKenney wrote:
+> > On Sat, May 04, 2019 at 10:03:10PM -0400, Joel Fernandes (Google) wrote:
+> > > I believe this field should be called field_count instead of file_count.
+> > > Correct the doc with the same.
+> > > 
+> > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> > 
+> > But if we are going to update this, why not update it with the current
+> > audit_filter_task(), audit_del_rule(), and audit_add_rule() code?
+> > 
+> > Hmmm...  One reason is that some of them have changed beyond recognition.
+> 
+> It seems to me that these 3 functions are just structured differently but is
+> conceptually the same.
+> 
+> There is now an array of lists stored in audit_filter_list. Each list is a
+> set of rules. Versus in the listRCU.txt, there is only one global.
+> 
+> The other difference is there is a mutex held &audit_filter_mutex
+> audit_{add,del}_rule. Where as in listRCU, it says that is not needed since
+> another mutex is already held.
 
-  Linux 5.1-rc1 (2019-03-17 14:22:26 -0700)
+Agreed.
 
-are available in the Git repository at:
+> > And this example code predates v2.6.12.  ;-)
+> > 
+> > So good eyes, but I believe that this really does reflect the ancient
+> > code...
+> > 
+> > On the other hand, would you have ideas for more modern replacement
+> > examples?
+> 
+> There are 3 cases I can see in listRCU.txt:
+>   (1) action taken outside of read_lock (can tolerate stale data), no in-place update.
+>                 this is the best possible usage of RCU.
+>   (2) action taken outside of read_lock, in-place updates
+>                 this is good as long as not too many in-place updates.
+>                 involves copying creating new list node and replacing the
+>                 node being updated with it.
+>   (3) cannot tolerate stale data: here a deleted or obsolete flag can be used
+>                                   protected by a per-entry lock. reader
+> 				  aborts if object is stale.
+> 
+> Any replacement example must make satisfy (3) too?
 
-  git://git.lwn.net/linux.git tags/docs-5.2
+It would be OK to have a separate example for (3).  It would of course
+be nicer to have one example for all three, but not all -that- important.
 
-for you to fetch changes up to d9defe448f4c7b88ca2ae636a321ef8970fa718d:
+> The only example for (3) that I know of is sysvipc sempahores which you also
+> mentioned in the paper. Looking through this code, it hasn't changed
+> conceptually and it could be a fit for an example (ipc_valid_object() checks
+> for whether the object is stale).
 
-  docs/livepatch: Unify style of livepatch documentation in the ReST format (2019-05-07 16:06:28 -0600)
+That is indeed the classic canonical example.  ;-)
 
-----------------------------------------------------------------
-A reasonably busy cycle for docs, including:
+> The other example could be dentry look up which uses seqlocks for the
+> RCU-walk case? But that could be too complex. This is also something I first
+> learnt from the paper and then the excellent path-lookup.rst document in
+> kernel sources.
 
- - Lots of work on the Chinese and Italian translations
- - Some license-rules clarifications from Christoph
- - Various build-script fixes
- - A new document on memory models
- - RST conversion of the live-patching docs
- - The usual collection of typo fixes and corrections.
+This is a great example, but it would need serious simplification for
+use in the Documentation/RCU directory.  Note that dcache uses it to
+gain very limited and targeted consistency -- only a few types of updates
+acquire the write-side of that seqlock.
 
-Expect a trivial conflict in the .mailmap file due to the modification
-of two adjacent entries.
-----------------------------------------------------------------
-Alessia Mantegazza (1):
-      doc:it_IT: translation for maintainer-pgp-guide
+Might be quite worthwhile to have a simplified example, though!
+Perhaps a trivial hash table where write-side sequence lock is acquired
+only when moving an element from one chain to another?
 
-Alex Shi (93):
-      docs/zh_CN: add disclaimer file
-      docs/zh_CN: move process related docs into process dir
-      docs/zh_CN: change Chinese index to know process dir
-      docs/zh_CN: add index file into process dir
-      docs/zh_CN: rename HOWTO into process directory
-      docs/zh_CN: howto format changes
-      docs/zh_CN: rename SubmittingPatches for html links
-      docs/zh_CN: format the submitting-patches doc to rst
-      docs/zh_CN: rename stable_kernel_rules doc
-      docs/zh_CN: rst format change for stable-kernel-rules
-      docs/zh_CN: rename email-clients.txt as email-clients.rst
-      docs/zh_CN: do rst format for email-clients.rst
-      docs/zh_CN: rename volatile-consider-harmful doc
-      docs/zh_CN: volatile doc format changes
-      docs/zh_CN: rename SubmittingDrivers
-      docs/zh_CN: format submitting drivers as rst
-      docs/zh_CN: rename magic-numbers as rst doc
-      docs/zh_CN: format the magic-number doc as rst
-      docs/zh_CN: rename stable_api_nonsense.txt as stable-api-nonsense.rst
-      docs/zh_CN: format stable-api-nonsense
-      docs/zh_CN: update Li Yang's email address
-      mailmap: update Li Yang's email address
-      docs/zh_CN: update Zhang Wei's email address
-      mailmap: update email address for Triplex
-      docs/zh_CN: update TripleX chung's email address
-      docs/zh_CN: fix indent issue in stable-api-nonsense file
-      docs/zh_CN: fix indent issue in submitting-drivers
-      docs/zh_CN: remove zh-kernel.org in MAINTAINERS
-      mailmap: update my obsolete email address
-      docs/zh_CN: fix rst format issue in submitting-patch
-      docs/zh_CN: fix rst format errors in howto.rst
-      docs/zh_CN: translate development-process into Chinese
-      docs/zh_CN: add disclaimer and translator info in development-process
-      docs/zh_CN: link development-process into process index
-      docs/zh_CN: add Chinese 1.Intro file
-      docs/zh_CN: add disclaimer and translator info into 1.Intro
-      docs/zh_CN: add 2.Process.rst for development-process
-      docs/zh_CN: add disclaimer and translator info in 2.Process
-      docs/zh_CN: translate 3.Early-stage of development process
-      docs/zh_CN: add disclaimer/translator info in 3.Early-stage
-      docs/zh_CN: add 4.Coding.rst
-      docs/zh_CN: add disclaimer and translator info in 4.Coding
-      docs/zh_CN: add 5.Posting.rst into development-process
-      docs/zh_CN: add disclaimer and translator info in 5.Posting
-      docs/zh_CN: add the 6th doc 6.Followthrought.rst
-      docs/zh_CN: add disclaimer and translator info in 6.Followthrough
-      docs/zh_CN: translate 7.AdvanceTopics.rst
-      docs/zh_CN: add disclaimer and translator info in 7.Advancedtopics
-      docs/zh_CN: add 8.Conclusion.rst in development-process
-      docs/zh_CN: add disclaimer and translator info in 8.Conclusion
-      docs/zh_CN: add license-rules Chinese translation
-      docs/zh_CN: fix links failure in license-rules
-      docs/zh_CN: include Chinese translation header for license-rules
-      docs/zh_CN: link the license-rules file into process index
-      docs/zh_CN: add submit-checklist file
-      docs/zh_CN: add disclaimer and transtlator info in submit-checklist
-      docs/zh_CN: link the submit-checklist into process/index
-      docs/zh_CN: add CoC doc
-      docs/zh_CN: add disclaimer and translator info in CoC
-      docs/zh_CN: link the CoC into process/index
-      docs/zh_CN: add CoC interpretation
-      docs/zh_CN: add disclaim and translator into CoC interp
-      docs/zh_CN: link CoC interpretation into index
-      docs/zh_CN: fix link issue in howto.rst
-      docs/zh_CN: update howto.rst to latest version
-      docs/zh_CN: update translator info and comments in howto
-      docs/zh_CN: redirect license-rules to Chinese doc
-      docs/zh_CN: redirect howto.rst link to Chinese version
-      docs/zh_CN: update to latest submitting-patches.rst
-      docs/zh_CN: update translator info in submitting-patches
-      docs/zh_CN: redirect the submitting-patches to Chinese doc
-      docs/zh_CN: redirect submit-checklist
-      docs/zh_CN: update co-developed-by info after English version
-      docs/zh_CN: add programming-language.rst
-      docs/zh_CN: link programming-language into process/index
-      docs/zh_CN: add disclaimer and translator info into programming-language
-      docs/zh_CN: add git setting in email-clients
-      docs/zh_CN: Update mutt setting info in email-clients
-      docs/zh_CN: add Alex into translator in email-clients
-      docs/zh_CN: redirect the email-clients link to Chinese version
-      docs/zh_CN: add management-style.rst in Chinese
-      docs/zh_CN: add disclaimer and translator info in management-style
-      docs/zh_CN: link management-style into process/index
-      docs/zh_CN: redirect management-style to Chinese one
-      docs/zh_CN: Cleanup stable-api-nonscense in Chinese
-      docs/zh_CN: redirect stable-api-nonsense to Chinese version
-      docs/zh_CN: update coding-sytle.rst
-      docs/zh_CN: redirect coding-sytle to Chinese version
-      docs/zh_CN: correct the disclaimer file
-      docs/zh_CN: add Alex Shi as Chinese documentation maintainer
-      docs/zh_CN: correct a word in managment-style.
-      docs/zh_CN: redirect CoC docs to Chinese version
-      docs/zh_CN: fix typos in 1.Intro.rst file
+> I will keep any eye out for other examples in the kernel code as well.
 
-Christoph Hellwig (3):
-      docs: Don't reference the ZLib license in license-rules.rst
-      LICENSES: Clearly mark dual license only licenses
-      LICENSES: Rename other to deprecated
+Very good!
 
-Federico Vaga (6):
-      doc: add translation disclaimer
-      doc:it_IT: translations for documents in process/
-      doc: minor fixes to translation's disclaimer
-      doc:it: alignement clarification about sign-off and Co-developed-by
-      doc: fix typo in PGP guide
-      doc:it_IT: translation alignment
+							Thanx, Paul
 
-Jakub Wilk (3):
-      Documentation: seccomp: fix reST markup
-      Documentation: seccomp: unify list indentation
-      Documentation: fix core_pattern max length
+> Let me know what you think, thanks!
+> 
+>  - Joel
+> 
+> 
+> > > ---
+> > >  Documentation/RCU/listRCU.txt | 4 ++--
+> > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/Documentation/RCU/listRCU.txt b/Documentation/RCU/listRCU.txt
+> > > index adb5a3782846..190e666fc359 100644
+> > > --- a/Documentation/RCU/listRCU.txt
+> > > +++ b/Documentation/RCU/listRCU.txt
+> > > @@ -175,7 +175,7 @@ otherwise, the added fields would need to be filled in):
+> > >  		list_for_each_entry(e, list, list) {
+> > >  			if (!audit_compare_rule(rule, &e->rule)) {
+> > >  				e->rule.action = newaction;
+> > > -				e->rule.file_count = newfield_count;
+> > > +				e->rule.field_count = newfield_count;
+> > >  				write_unlock(&auditsc_lock);
+> > >  				return 0;
+> > >  			}
+> > > @@ -204,7 +204,7 @@ RCU ("read-copy update") its name.  The RCU code is as follows:
+> > >  					return -ENOMEM;
+> > >  				audit_copy_rule(&ne->rule, &e->rule);
+> > >  				ne->rule.action = newaction;
+> > > -				ne->rule.file_count = newfield_count;
+> > > +				ne->rule.field_count = newfield_count;
+> > >  				list_replace_rcu(&e->list, &ne->list);
+> > >  				call_rcu(&e->rcu, audit_free_rule);
+> > >  				return 0;
+> > > -- 
+> > > 2.21.0.1020.gf2820cf01a-goog
+> > > 
+> > 
+> 
 
-Joe Perches (1):
-      coding-style.rst: Generic alloc functions do not need OOM logging
-
-Joel Stanley (1):
-      Documentation: rtc: Correct location of rtctest.c
-
-Jonathan Corbet (1):
-      docs: Fix a build error in coding-style.rst
-
-Jonathan Neuschäfer (3):
-      docs: core-api: Drop reference to flexible-arrays
-      Documentation: soundwire: Ensure that code is inside the code blocks
-      Documentation: kernel-docs: Remove entry for vfs.txt
-
-Juergen Gross (1):
-      doc: add boot protocol 2.13 description to Documentation/x86/boot.txt
-
-Masahiro Yamada (1):
-      dontdiff: update with Kconfig build artifacts
-
-Mauro Carvalho Chehab (15):
-      docs: Makefile: use latexmk if available
-      docs: scripts/sphinx-pre-install: suggest latexmk for building pdf
-      docs: DMA-API-HOWTO: add a missing "="
-      docs: atomic_bitops.txt: add a title for this document
-      docs: clearing-warn-once.txt: add a title for this document
-      docs: ntb.txt: use Sphinx notation for the two ascii figures
-      docs: unaligned-memory-access.txt: use a lowercase title
-      docs: video-output.txt: convert it to ReST format
-      docs: ntb.txt: add blank lines to clean up some Sphinx warnings
-      docs: speculation.txt: mark example blocks as such
-      docs: trace: fix some Sphinx warnings
-      docs: doc-guide: remove the extension from .rst files
-      scripts/documentation-file-ref-check: don't parse Next/ dir
-      scripts/documentation-file-ref-check: detect broken :doc:`foo`
-      docs: livepatch: convert docs to ReST and rename to *.rst
-
-Mike Rapoport (1):
-      docs/vm: add documentation of memory models
-
-Petr Mladek (1):
-      docs/livepatch: Unify style of livepatch documentation in the ReST format
-
-Ralph Campbell (1):
-      docs/vm: Minor editorial changes in the THP and hugetlbfs
-
-Sean Christopherson (2):
-      docs: Clarify the usage and sign-off requirements for Co-developed-by
-      checkpatch: Warn on improper usage of Co-developed-by
-
-Shuah Khan (1):
-      doc: kselftest: Fix KBUILD_OUTPUT usage instructions
-
-Tobin C. Harding (3):
-      docs: Fix spelling mistake
-      docs: Add colon clearing sphinx warning
-      docs: Use reference to link to rst file
-
-Tom Levy (1):
-      docs: remove spaces from shell variable assignment
-
-Yang Shi (1):
-      doc: mm: migration doesn't use FOLL_SPLIT anymore
-
- .mailmap                                           |   6 +
- Documentation/ABI/testing/sysfs-kernel-livepatch   |   2 +-
- Documentation/DMA-API-HOWTO.txt                    |   2 +-
- Documentation/Makefile                             |   9 +-
- Documentation/atomic_bitops.txt                    |   6 +-
- Documentation/clearing-warn-once.txt               |   2 +
- Documentation/core-api/index.rst                   |   1 -
- Documentation/dev-tools/kselftest.rst              |  42 +-
- Documentation/doc-guide/index.rst                  |   6 +-
- Documentation/dontdiff                             |   8 +-
- Documentation/driver-api/soundwire/stream.rst      |  16 +-
- .../livepatch/{callbacks.txt => callbacks.rst}     |  45 +-
- ...mulative-patches.txt => cumulative-patches.rst} |  14 +-
- Documentation/livepatch/index.rst                  |  21 +
- .../livepatch/{livepatch.txt => livepatch.rst}     |  62 +-
- ...module-elf-format.txt => module-elf-format.rst} | 353 ++++----
- .../livepatch/{shadow-vars.txt => shadow-vars.rst} |  65 +-
- Documentation/ntb.txt                              |  14 +-
- Documentation/process/5.Posting.rst                |  10 +-
- Documentation/process/coding-style.rst             |   6 +-
- Documentation/process/deprecated.rst               |   2 +
- Documentation/process/howto.rst                    |   2 +-
- Documentation/process/kernel-docs.rst              |  12 -
- Documentation/process/license-rules.rst            |  61 +-
- Documentation/process/maintainer-pgp-guide.rst     |   2 +-
- Documentation/process/submitting-patches.rst       |  46 +-
- Documentation/rtc.txt                              |   2 +-
- Documentation/speculation.txt                      |   8 +-
- Documentation/sysctl/kernel.txt                    |   2 +-
- Documentation/trace/ftrace.rst                     |   1 +
- Documentation/trace/histogram.rst                  |  94 ++-
- Documentation/translations/index.rst               |  40 +
- .../it_IT/core-api/memory-allocation.rst           |  13 +
- .../translations/it_IT/disclaimer-ita.rst          |  13 +-
- .../translations/it_IT/doc-guide/index.rst         |   6 +-
- Documentation/translations/it_IT/index.rst         |  65 +-
- .../translations/it_IT/networking/netdev-FAQ.rst   |  13 +
- .../translations/it_IT/process/5.Posting.rst       |  10 +-
- .../translations/it_IT/process/coding-style.rst    |   8 +-
- .../translations/it_IT/process/deprecated.rst      | 129 +++
- .../it_IT/process/kernel-enforcement-statement.rst | 168 +++-
- .../translations/it_IT/process/license-rules.rst   | 452 ++++++++++
- .../it_IT/process/maintainer-pgp-guide.rst         | 939 ++++++++++++++++++++-
- .../it_IT/process/stable-kernel-rules.rst          | 194 ++++-
- .../it_IT/process/submitting-patches.rst           |  47 +-
- Documentation/translations/ja_JP/SubmittingPatches |   6 +-
- Documentation/translations/zh_CN/SubmittingPatches | 412 ---------
- .../translations/zh_CN/disclaimer-zh_CN.rst        |   9 +
- Documentation/translations/zh_CN/index.rst         |  17 +-
- Documentation/translations/zh_CN/magic-number.txt  | 153 ----
- Documentation/translations/zh_CN/oops-tracing.txt  |   2 +-
- .../translations/zh_CN/process/1.Intro.rst         | 186 ++++
- .../translations/zh_CN/process/2.Process.rst       | 360 ++++++++
- .../translations/zh_CN/process/3.Early-stage.rst   | 161 ++++
- .../translations/zh_CN/process/4.Coding.rst        | 290 +++++++
- .../translations/zh_CN/process/5.Posting.rst       | 240 ++++++
- .../translations/zh_CN/process/6.Followthrough.rst | 145 ++++
- .../zh_CN/process/7.AdvancedTopics.rst             | 124 +++
- .../translations/zh_CN/process/8.Conclusion.rst    |  64 ++
- .../process/code-of-conduct-interpretation.rst     | 108 +++
- .../translations/zh_CN/process/code-of-conduct.rst |  72 ++
- .../zh_CN/{ => process}/coding-style.rst           |  21 +-
- .../zh_CN/process/development-process.rst          |  26 +
- .../email-clients.rst}                             | 104 ++-
- .../zh_CN/{HOWTO => process/howto.rst}             | 265 +++---
- Documentation/translations/zh_CN/process/index.rst |  60 ++
- .../translations/zh_CN/process/license-rules.rst   | 370 ++++++++
- .../translations/zh_CN/process/magic-number.rst    | 151 ++++
- .../zh_CN/process/management-style.rst             | 207 +++++
- .../zh_CN/process/programming-language.rst         |  41 +
- .../stable-api-nonsense.rst}                       |  68 +-
- .../stable-kernel-rules.rst}                       |  34 +-
- .../zh_CN/process/submit-checklist.rst             | 107 +++
- .../submitting-drivers.rst}                        |  36 +-
- .../zh_CN/process/submitting-patches.rst           | 682 +++++++++++++++
- .../volatile-considered-harmful.rst}               |  35 +-
- Documentation/translations/zh_CN/sparse.txt        |   6 +-
- Documentation/unaligned-memory-access.txt          |   2 +-
- Documentation/userspace-api/seccomp_filter.rst     |   8 +-
- Documentation/video-output.txt                     |  52 +-
- Documentation/vm/hugetlbfs_reserv.rst              |  17 +-
- Documentation/vm/index.rst                         |   1 +
- Documentation/vm/memory-model.rst                  | 183 ++++
- Documentation/vm/numa.rst                          |   4 +-
- Documentation/vm/transhuge.rst                     |  81 +-
- Documentation/x86/boot.txt                         |   4 +
- LICENSES/{other => deprecated}/GPL-1.0             |   0
- LICENSES/{other => deprecated}/ISC                 |   0
- LICENSES/{other => deprecated}/Linux-OpenIB        |   0
- LICENSES/{other => deprecated}/X11                 |   0
- LICENSES/{other => dual}/Apache-2.0                |   4 +
- LICENSES/{other => dual}/CDDL-1.0                  |   4 +-
- LICENSES/{other => dual}/MPL-1.1                   |   4 +
- MAINTAINERS                                        |   2 +-
- include/linux/wait.h                               |   2 +-
- scripts/checkpatch.pl                              |  18 +
- scripts/documentation-file-ref-check               |  32 +
- scripts/sphinx-pre-install                         |   1 +
- tools/objtool/Documentation/stack-validation.txt   |   2 +-
- 99 files changed, 6606 insertions(+), 1396 deletions(-)
- rename Documentation/livepatch/{callbacks.txt => callbacks.rst} (87%)
- rename Documentation/livepatch/{cumulative-patches.txt => cumulative-patches.rst} (89%)
- create mode 100644 Documentation/livepatch/index.rst
- rename Documentation/livepatch/{livepatch.txt => livepatch.rst} (93%)
- rename Documentation/livepatch/{module-elf-format.txt => module-elf-format.rst} (55%)
- rename Documentation/livepatch/{shadow-vars.txt => shadow-vars.rst} (87%)
- create mode 100644 Documentation/translations/it_IT/core-api/memory-allocation.rst
- create mode 100644 Documentation/translations/it_IT/networking/netdev-FAQ.rst
- create mode 100644 Documentation/translations/it_IT/process/deprecated.rst
- create mode 100644 Documentation/translations/it_IT/process/license-rules.rst
- delete mode 100644 Documentation/translations/zh_CN/SubmittingPatches
- create mode 100644 Documentation/translations/zh_CN/disclaimer-zh_CN.rst
- delete mode 100644 Documentation/translations/zh_CN/magic-number.txt
- create mode 100644 Documentation/translations/zh_CN/process/1.Intro.rst
- create mode 100644 Documentation/translations/zh_CN/process/2.Process.rst
- create mode 100644 Documentation/translations/zh_CN/process/3.Early-stage.rst
- create mode 100644 Documentation/translations/zh_CN/process/4.Coding.rst
- create mode 100644 Documentation/translations/zh_CN/process/5.Posting.rst
- create mode 100644 Documentation/translations/zh_CN/process/6.Followthrough.rst
- create mode 100644 Documentation/translations/zh_CN/process/7.AdvancedTopics.rst
- create mode 100644 Documentation/translations/zh_CN/process/8.Conclusion.rst
- create mode 100644 Documentation/translations/zh_CN/process/code-of-conduct-interpretation.rst
- create mode 100644 Documentation/translations/zh_CN/process/code-of-conduct.rst
- rename Documentation/translations/zh_CN/{ => process}/coding-style.rst (97%)
- create mode 100644 Documentation/translations/zh_CN/process/development-process.rst
- rename Documentation/translations/zh_CN/{email-clients.txt => process/email-clients.rst} (74%)
- rename Documentation/translations/zh_CN/{HOWTO => process/howto.rst} (70%)
- create mode 100644 Documentation/translations/zh_CN/process/index.rst
- create mode 100644 Documentation/translations/zh_CN/process/license-rules.rst
- create mode 100644 Documentation/translations/zh_CN/process/magic-number.rst
- create mode 100644 Documentation/translations/zh_CN/process/management-style.rst
- create mode 100644 Documentation/translations/zh_CN/process/programming-language.rst
- rename Documentation/translations/zh_CN/{stable_api_nonsense.txt => process/stable-api-nonsense.rst} (78%)
- rename Documentation/translations/zh_CN/{stable_kernel_rules.txt => process/stable-kernel-rules.rst} (74%)
- create mode 100644 Documentation/translations/zh_CN/process/submit-checklist.rst
- rename Documentation/translations/zh_CN/{SubmittingDrivers => process/submitting-drivers.rst} (85%)
- create mode 100644 Documentation/translations/zh_CN/process/submitting-patches.rst
- rename Documentation/translations/zh_CN/{volatile-considered-harmful.txt => process/volatile-considered-harmful.rst} (81%)
- create mode 100644 Documentation/vm/memory-model.rst
- rename LICENSES/{other => deprecated}/GPL-1.0 (100%)
- rename LICENSES/{other => deprecated}/ISC (100%)
- rename LICENSES/{other => deprecated}/Linux-OpenIB (100%)
- rename LICENSES/{other => deprecated}/X11 (100%)
- rename LICENSES/{other => dual}/Apache-2.0 (97%)
- rename LICENSES/{other => dual}/CDDL-1.0 (99%)
- rename LICENSES/{other => dual}/MPL-1.1 (99%)
