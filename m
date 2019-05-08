@@ -1,155 +1,123 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2A69D7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 May 2019 03:44:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CCDDA7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 May 2019 04:42:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726718AbfEHDoc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 7 May 2019 23:44:32 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:55088 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726704AbfEHDoc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 May 2019 23:44:32 -0400
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id x483iAfQ000467;
-        Wed, 8 May 2019 12:44:11 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x483iAfQ000467
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1557287051;
-        bh=GtYEji5+EE71+LZjKDY0sxmohdZ0g+Z5/jFvjX0CHzk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=1ZESEjZOrbdTa5+bMjMIxX7JKfYmQ/Y+dVySrIFat/BgQw0mbSCMDzXGSvjMWFz/n
-         avfYjmfH7jmGaI5QdsMqFVxzcZu8izw/LpK1K5OCkgm8I5KWmyRvu9UHOa8gxKoDZt
-         m+aRszBtUwNrViHlN1ejn9NLZd5sBn8LipsbVhKP/EmJklWC8d0SClpntEUdswPbO0
-         uxHDUcYmEs99d3dEYaGWHtzJe4sW3DhiZbWvfKF+a3i+oGn774ldgNtYyHqsLu0LUi
-         wdmGRah9iOVXGv/gkE0XnKA1+0cx7FHv6uxS86y+Yf+qd+CK0/DwFFePzuMXVm07lT
-         NS2Z5t8WpH/UA==
-X-Nifty-SrcIP: [209.85.217.45]
-Received: by mail-vs1-f45.google.com with SMTP id g127so11777172vsd.6;
-        Tue, 07 May 2019 20:44:11 -0700 (PDT)
-X-Gm-Message-State: APjAAAUR3AuX3SmgwdBFiodM0SXGkP8nbnBJI942Jhx3gtbPtTPGtQfc
-        gQJhKeLMYD4sno69/A9o8/2bWOLvuRdWYJQxHWE=
-X-Google-Smtp-Source: APXvYqz4ub6AwdOUIv3IBI3Jv6hdIY2r3aV/UeyA9Lf21f53omFZix/UHdWvee9kuR48UmUZmxkT6DyZqggTTN2/rBA=
-X-Received: by 2002:a67:fd89:: with SMTP id k9mr7071343vsq.54.1557287050111;
- Tue, 07 May 2019 20:44:10 -0700 (PDT)
+        id S1727070AbfEHEmG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 8 May 2019 00:42:06 -0400
+Received: from mail-vs1-f66.google.com ([209.85.217.66]:35564 "EHLO
+        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726109AbfEHEmG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 May 2019 00:42:06 -0400
+Received: by mail-vs1-f66.google.com with SMTP id s4so7673667vsl.2
+        for <linux-doc@vger.kernel.org>; Tue, 07 May 2019 21:42:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vLH+/uAC3vUrfOPxTEYrno+A0sUf0tEBN5RGNCkywlE=;
+        b=bHdHAm1+CelPIzEDiciBV1JovJqMomr8rEGeKkRsjJmBBl+YaJDuqnA64n/UEQJ27y
+         e5HyHtdd6RG2xiy/5+q3RRVK93nri8iCQNPdH/WqBXk6KrQk2VfpY8uXAtmChJX11ssc
+         EgDUjLKx4PRFbBOiGGd8EsU5V56bBc+vANs4V3wMLZm6Ys10DKms8N7/4Ba3hxWILbkD
+         ikaEpvTcRJcw4C/0m/i/lyfwc11qGoXXUTGqEkuuUAIoMh9MXUCEgJxm6KlrrIZQyZ/7
+         FcSyueeJaH68nLZxyi2A7IwD9TK3jckpkhBguSFJJmMphf8oIpMlJGMOjkvHBGCGoyt/
+         352w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vLH+/uAC3vUrfOPxTEYrno+A0sUf0tEBN5RGNCkywlE=;
+        b=cVKmPFkfM9JFwNtsfejEB9VHhGiwT0ExdFFxGGlw5Pe9Ts5uptOUQcY6e5vFE2ZLKS
+         yeaq8RBmyAYxOg7w3ndojbdDuQdT0sBf7JQeY9cziPGM5p+yUMmbbPZuF5ivl9/SlXFf
+         SIjzpk9ASD8xU+ndCCdJMrVI02W4tzyXM/h+OskWnK+ZUpFHJDDcrE5JT/8xXEmJHE50
+         9WfrRSvSegEqQC5hp6FM1tGFmjop+VCtKz81Q1Mhc2FVgzpJnwwx5CKP+2zj2ygBdYzY
+         /2gFmRdaoD1ZH+4B6quVHkNixQknpF3dbe67Hb/o/HoxeQac1dFOJDDW6Nfj0rsEBAes
+         gmHQ==
+X-Gm-Message-State: APjAAAXQcLjMPKLpC1hN5RdUqyGZksYlIUu9lC/e55omgpum6crIK8v3
+        Z2reRwgfVaoUkXxVVaURBzWbUOBbNynxLHPnKlDOFQ==
+X-Google-Smtp-Source: APXvYqwfoRhHzPIyICbbAUAN4AgwVMMPziNZGoNKELTPvfctvJKaLAIj1Gjmz92THJDNw0ZtgSbKRFrqhQVYj54vsBE=
+X-Received: by 2002:a67:d887:: with SMTP id f7mr9258563vsj.141.1557290525198;
+ Tue, 07 May 2019 21:42:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190506013456.86061-1-joel@joelfernandes.org>
-In-Reply-To: <20190506013456.86061-1-joel@joelfernandes.org>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Wed, 8 May 2019 12:43:34 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQesyT-vspoGKdgRqycZfhtJm5Upx2T6ij-yB5i4Nx5nw@mail.gmail.com>
-Message-ID: <CAK7LNAQesyT-vspoGKdgRqycZfhtJm5Upx2T6ij-yB5i4Nx5nw@mail.gmail.com>
-Subject: Re: [PATCH v3] kheaders: Move from proc to sysfs
-To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Adrian Ratiu <adrian.ratiu@collabora.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        atish patra <atishp04@gmail.com>, bpf@vger.kernel.org,
-        Brendan Gregg <bgregg@netflix.com>,
-        Brendan Gregg <brendan.d.gregg@gmail.com>,
-        Daniel Colascione <dancol@google.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        duyuchao <yuchao.du@unisoc.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Karim Yaghmour <karim.yaghmour@opersys.com>,
-        Kees Cook <keescook@chromium.org>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-trace-devel@vger.kernel.org,
-        Manjo Raja Rao <linux@manojrajarao.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        =?UTF-8?Q?Micha=C5=82_Gregorczyk?= <michalgr@fb.com>,
-        Michal Gregorczyk <michalgr@live.com>,
-        Mohammad Husain <russoue@gmail.com>,
-        Olof Johansson <olof@lixom.net>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Srinivas Ramana <sramana@codeaurora.org>,
-        Tamir Carmeli <carmeli.tamir@gmail.com>,
-        Yonghong Song <yhs@fb.com>
+References: <20190415155636.32748-1-sashal@kernel.org> <20190507174020.GH1747@sasha-vm>
+In-Reply-To: <20190507174020.GH1747@sasha-vm>
+From:   Sumit Garg <sumit.garg@linaro.org>
+Date:   Wed, 8 May 2019 10:11:54 +0530
+Message-ID: <CAFA6WYPk5Bm11RfaC72g_C8rnMQEPyp-MhtopmDM3Of31v1Z_w@mail.gmail.com>
+Subject: Re: [PATCH v3 0/2] ftpm: a firmware based TPM driver
+To:     Sasha Levin <sashal@kernel.org>
+Cc:     peterhuewe@gmx.de, jarkko.sakkinen@linux.intel.com, jgg@ziepe.ca,
+        corbet@lwn.net,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@microsoft.com, thiruan@microsoft.com,
+        bryankel@microsoft.com, tee-dev@lists.linaro.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 6, 2019 at 10:37 AM Joel Fernandes (Google)
-<joel@joelfernandes.org> wrote:
->
-> The kheaders archive consisting of the kernel headers used for compiling
-> bpf programs is in /proc. However there is concern that moving it here
-> will make it permanent. Let us move it to /sys/kernel as discussed [1].
->
-> [1] https://lore.kernel.org/patchwork/patch/1067310/#1265969
->
-> Suggested-by: Steven Rostedt <rostedt@goodmis.org>
-> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> ---
-> This patch applies on top of the previous patch that was applied to the
-> driver tree:
-> https://lore.kernel.org/patchwork/patch/1067310/
->
-> v2->v3: Fixed sysfs file mode nit (Greg).
-> v1->v2: Fixed some kconfig nits.
->
->  init/Kconfig                                | 16 ++++-----
->  kernel/Makefile                             |  4 +--
->  kernel/{gen_ikh_data.sh => gen_kheaders.sh} |  2 +-
->  kernel/kheaders.c                           | 40 +++++++++------------
->  4 files changed, 26 insertions(+), 36 deletions(-)
->  rename kernel/{gen_ikh_data.sh => gen_kheaders.sh} (98%)
->
-> diff --git a/init/Kconfig b/init/Kconfig
-> index 26a364a95b57..c3661991b089 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -579,15 +579,13 @@ config IKCONFIG_PROC
->           This option enables access to the kernel configuration file
->           through /proc/config.gz.
->
-> -config IKHEADERS_PROC
-> -       tristate "Enable kernel header artifacts through /proc/kheaders.tar.xz"
-> -       depends on PROC_FS
-> -       help
-> -         This option enables access to the kernel header and other artifacts that
-> -         are generated during the build process. These can be used to build eBPF
-> -         tracing programs, or similar programs.  If you build the headers as a
-> -         module, a module called kheaders.ko is built which can be loaded on-demand
-> -         to get access to the headers.
-> +config IKHEADERS
-> +       tristate "Enable kernel headers through /sys/kernel/kheaders.tar.xz"
++ TEE ML
 
+Hi Sasha,
 
-I suggested "depends on SYSFS" twice, both in v1 and v2.
+Firstly apologies for my comments here as I recently joined
+linux-integrity ML so I don't have other patches in my inbox. Also, it
+would be nice if you could cc TEE ML in future patches, so that people
+are aware of such interesting use-cases and may provide some feedback.
 
-https://lore.kernel.org/patchwork/patch/1069806/#1266147
-https://lore.kernel.org/patchwork/patch/1070005/#1266279
-
-
-
-> +       help
-> +         This option enables access to the in-kernel headers that are generated during
-> +         the build process. These can be used to build eBPF tracing programs,
-> +         or similar programs.  If you build the headers as a module, a module called
-> +         kheaders.ko is built which can be loaded on-demand to get access to headers.
+On Tue, 7 May 2019 at 23:10, Sasha Levin <sashal@kernel.org> wrote:
 >
->  config LOG_BUF_SHIFT
->         int "Kernel log buffer size (16 => 64KB, 17 => 128KB)"
+> On Mon, Apr 15, 2019 at 11:56:34AM -0400, Sasha Levin wrote:
+> >From: "Sasha Levin (Microsoft)" <sashal@kernel.org>
+> >
+> >Changes since v2:
+> >
+> > - Drop the devicetree bindings patch (we don't add any new ones).
+> > - More code cleanups based on Jason Gunthorpe's review.
+> >
+> >Sasha Levin (2):
+> >  ftpm: firmware TPM running in TEE
+> >  ftpm: add documentation for ftpm driver
+>
+> Ping? Does anyone have any objections to this?
+>
 
+From [PATCH v3 1/2] ftpm: firmware TPM running in TEE:
 
--- 
-Best Regards
-Masahiro Yamada
+> +static const struct of_device_id of_ftpm_tee_ids[] = {
+> + { .compatible = "microsoft,ftpm" },
+> + { }
+> +};
+> +MODULE_DEVICE_TABLE(of, of_ftpm_tee_ids);
+> +
+> +static struct platform_driver ftpm_tee_driver = {
+> + .driver = {
+> + .name = DRIVER_NAME,
+> + .of_match_table = of_match_ptr(of_ftpm_tee_ids),
+> + },
+> + .probe = ftpm_tee_probe,
+> + .remove = ftpm_tee_remove,
+> +};
+> +
+> +module_platform_driver(ftpm_tee_driver);
+
+Here this fTPM driver (seems to communicate with OP-TEE based TA)
+should register on TEE bus [1] rather than platform bus as its actual
+dependency is on TEE driver rather than using deferred probe to meet
+its dependency. Have a look at OP-TEE based RNG driver here [2].
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=0fc1db9d105915021260eb241661b8e96f5c0f1a
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=5fe8b1cc6a03c46b3061e808256d39dcebd0d0f0
+
+-Sumit
+
+> --
+> Thanks,
+> Sasha
