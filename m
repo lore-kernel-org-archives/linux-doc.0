@@ -1,199 +1,197 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 74A7E7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 May 2019 18:16:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 253197D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 May 2019 19:18:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727900AbfEHSQo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 8 May 2019 14:16:44 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42540 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727850AbfEHSQn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 May 2019 14:16:43 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x48I7JmF025241
-        for <linux-doc@vger.kernel.org>; Wed, 8 May 2019 14:16:42 -0400
-Received: from e11.ny.us.ibm.com (e11.ny.us.ibm.com [129.33.205.201])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2sc33cuj9q-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 08 May 2019 14:16:42 -0400
-Received: from localhost
-        by e11.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <paulmck@linux.vnet.ibm.com>;
-        Wed, 8 May 2019 19:16:40 +0100
-Received: from b01cxnp23033.gho.pok.ibm.com (9.57.198.28)
-        by e11.ny.us.ibm.com (146.89.104.198) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 8 May 2019 19:16:38 +0100
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x48IGbn431719532
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 8 May 2019 18:16:37 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9E2B3B205F;
-        Wed,  8 May 2019 18:16:37 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 71029B2067;
-        Wed,  8 May 2019 18:16:37 +0000 (GMT)
-Received: from paulmck-ThinkPad-W541 (unknown [9.70.82.216])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Wed,  8 May 2019 18:16:37 +0000 (GMT)
-Received: by paulmck-ThinkPad-W541 (Postfix, from userid 1000)
-        id E6DC116C343E; Wed,  8 May 2019 11:16:38 -0700 (PDT)
-Date:   Wed, 8 May 2019 11:16:38 -0700
-From:   "Paul E. McKenney" <paulmck@linux.ibm.com>
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
-        Josh Triplett <josh@joshtriplett.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] doc/rcu: Correct field_count field naming in examples
-Reply-To: paulmck@linux.ibm.com
-References: <20190505020328.165839-1-joel@joelfernandes.org>
- <20190507000453.GB3923@linux.ibm.com>
- <20190508162635.GD187505@google.com>
+        id S1727469AbfEHTSN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 8 May 2019 15:18:13 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:43363 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727329AbfEHTSM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 May 2019 15:18:12 -0400
+Received: by mail-ot1-f65.google.com with SMTP id i8so9646864oth.10
+        for <linux-doc@vger.kernel.org>; Wed, 08 May 2019 12:18:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=x37pcn3M6vPyg8cwbr5kr7DA8TIGTpCINTXyPVgD+Ik=;
+        b=Tx5sqWDXdN8o4nGLji4/tassr/7PVDxGlOko7CN/z8i4N9ZMaHczzcrn/j+3bWaIHg
+         iOhpr/qiQfk83FIrSpg8oOQ/3ZDOOWZK1iGRN1Ddaj0rjVUqqAdg+akK6Az9iUT/HWCE
+         +RbgLGBoM1KXmGzzFIdkSL/IP4jH5qxrIacDRusA9GI4pmte2X+oIf0E5qiPUr2cjsje
+         HB/zl/SGOwDMcNb4wUEnNJNezPu8EGRGEAmGb2cN0dQFAqmAPXLAujkKEFLsuw97W54q
+         q1Z4px77M6zMr0w7jrHy+UAPGRirtQr8A0ngAaBrMdPG2Wp4nQeveIDR0gQr0RiXfH01
+         tN9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=x37pcn3M6vPyg8cwbr5kr7DA8TIGTpCINTXyPVgD+Ik=;
+        b=FZrbjA+e4JNWQBzqLdZUt+Q5x2dB/Jrwi1bxW2yiUlgLi42UDd0p5f7RsySaGwhDsJ
+         4zffeRQKHmUTCBQQexYdOrHT91JmuM0cylN9eegTUdfKcpNtzc2uPiUG48UITTiw6miX
+         OomOHCoH5fnJ4mjEcg9gY6xi9Kb5tG59ndLQWbRwAwKmbVCOCEjWY9odvPFDCg482vnk
+         KJehRM28uw5NExP00C3xsfuZE+TabMOBboHIdF/BzGYftNahpiQmfBpOHQQGYv8SzK24
+         XUYq2ny71+CSGJPedUu6f/ZfGiS4PjRaCN19K2qsBipfqmSDLfG/OGcRvjlw8gf9dSkZ
+         1Q9A==
+X-Gm-Message-State: APjAAAV3chAq4MgOT3J07+Px3OTUXSZAOHdBNobwHe3Lh9zTHD3KRRq2
+        tHrB0lcmDjLirblWk4o425y/hJim5WBbHJW8HtaUUg==
+X-Google-Smtp-Source: APXvYqyfzxRBSCRa6LOxqn0s3VTe/9YM4zBiRl29i9QcDTSnE2MBNKYlv+HY3jgBfbTk6mq4eJX0kIjTTskxL5HlLJ0=
+X-Received: by 2002:a05:6830:14cd:: with SMTP id t13mr11912335otq.25.1557343091371;
+ Wed, 08 May 2019 12:18:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190508162635.GD187505@google.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-x-cbid: 19050818-2213-0000-0000-0000038AA190
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00011072; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000285; SDB=6.01200459; UDB=6.00629877; IPR=6.00981345;
- MB=3.00026796; MTD=3.00000008; XFM=3.00000015; UTC=2019-05-08 18:16:40
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19050818-2214-0000-0000-00005E5B2D6C
-Message-Id: <20190508181638.GY3923@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-08_10:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1905080111
+References: <20190501230126.229218-1-brendanhiggins@google.com>
+ <54940124-50df-16ec-1a32-ad794ee05da7@gmail.com> <20190507080119.GB28121@kroah.com>
+ <20190507172256.GB5900@mit.edu>
+In-Reply-To: <20190507172256.GB5900@mit.edu>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Wed, 8 May 2019 12:17:59 -0700
+Message-ID: <CAFd5g47vQQeSHLX_cvWSVzva9YgsXz9DNqPv8Z=nw=-kAcmr3Q@mail.gmail.com>
+Subject: Re: [PATCH v2 00/17] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+To:     "Theodore Ts'o" <tytso@mit.edu>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Kees Cook <keescook@google.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        shuah <shuah@kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "Bird, Timothy" <Tim.Bird@sony.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Petr Mladek <pmladek@suse.com>,
+        Richard Weinberger <richard@nod.at>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 08, 2019 at 12:26:35PM -0400, Joel Fernandes wrote:
-> On Mon, May 06, 2019 at 05:04:53PM -0700, Paul E. McKenney wrote:
-> > On Sat, May 04, 2019 at 10:03:10PM -0400, Joel Fernandes (Google) wrote:
-> > > I believe this field should be called field_count instead of file_count.
-> > > Correct the doc with the same.
-> > > 
-> > > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > 
-> > But if we are going to update this, why not update it with the current
-> > audit_filter_task(), audit_del_rule(), and audit_add_rule() code?
-> > 
-> > Hmmm...  One reason is that some of them have changed beyond recognition.
-> 
-> It seems to me that these 3 functions are just structured differently but is
-> conceptually the same.
-> 
-> There is now an array of lists stored in audit_filter_list. Each list is a
-> set of rules. Versus in the listRCU.txt, there is only one global.
-> 
-> The other difference is there is a mutex held &audit_filter_mutex
-> audit_{add,del}_rule. Where as in listRCU, it says that is not needed since
-> another mutex is already held.
+> On Tue, May 07, 2019 at 10:01:19AM +0200, Greg KH wrote:
+> > > My understanding is that the intent of KUnit is to avoid booting a kernel on
+> > > real hardware or in a virtual machine.  That seems to be a matter of semantics
+> > > to me because isn't invoking a UML Linux just running the Linux kernel in
+> > > a different form of virtualization?
+> > >
+> > > So I do not understand why KUnit is an improvement over kselftest.
+> > >
+> > > It seems to me that KUnit is just another piece of infrastructure that I
+> > > am going to have to be familiar with as a kernel developer.  More overhead,
+> > > more information to stuff into my tiny little brain.
+> > >
+> > > I would guess that some developers will focus on just one of the two test
+> > > environments (and some will focus on both), splitting the development
+> > > resources instead of pooling them on a common infrastructure.
+> > >
+> > > What am I missing?
+> >
+> > kselftest provides no in-kernel framework for testing kernel code
+> > specifically.  That should be what kunit provides, an "easy" way to
+> > write in-kernel tests for things.
+> >
+> > Brendan, did I get it right?
+>
+> Yes, that's basically right.  You don't *have* to use KUnit.  It's
+> supposed to be a simple way to run a large number of small tests that
+> for specific small components in a system.
+>
+> For example, I currently use xfstests using KVM and GCE to test all of
+> ext4.  These tests require using multiple 5 GB and 20GB virtual disks,
+> and it works by mounting ext4 file systems and exercising ext4 through
+> the system call interfaces, using userspace tools such as fsstress,
+> fsx, fio, etc.  It requires time overhead to start the VM, create and
+> allocate virtual disks, etc.  For example, to run a single 3 seconds
+> xfstest (generic/001), it requires full 10 seconds to run it via
+> kvm-xfstests.
+>
+> KUnit is something else; it's specifically intended to allow you to
+> create lightweight tests quickly and easily, and by reducing the
+> effort needed to write and run unit tests, hopefully we'll have a lot
+> more of them and thus improve kernel quality.
+>
+> As an example, I have a volunteer working on developing KUinit tests
+> for ext4.  We're going to start by testing the ext4 extent status
+> tree.  The source code is at fs/ext4/extent_status.c; it's
+> approximately 1800 LOC.  The Kunit tests for the extent status tree
+> will exercise all of the corner cases for the various extent status
+> tree functions --- e.g., ext4_es_insert_delayed_block(),
+> ext4_es_remove_extent(), ext4_es_cache_extent(), etc.  And it will do
+> this in isolation without our needing to create a test file system or
+> using a test block device.
+>
+> Next we'll test the ext4 block allocator, again in isolation.  To test
+> the block allocator we will have to write "mock functions" which
+> simulate reading allocation bitmaps from disk.  Again, this will allow
+> the test writer to explicitly construct corner cases and validate that
+> the block allocator works as expected without having to reverese
+> engineer file system data structures which will force a particular
+> code path to be executed.
+>
+> So this is why it's largely irrelevant to me that KUinit uses UML.  In
+> fact, it's a feature.  We're not testing device drivers, or the
+> scheduler, or anything else architecture-specific.  UML is not about
+> virtualization.  What it's about in this context is allowing us to
+> start running test code as quickly as possible.  Booting KVM takes
+> about 3-4 seconds, and this includes initializing virtio_scsi and
+> other device drivers.  If by using UML we can hold the amount of
+> unnecessary kernel subsystem initialization down to the absolute
+> minimum, and if it means that we can communicating to the test
+> framework via a userspace "printf" from UML/KUnit code, as opposed to
+> via a virtual serial port to KVM's virtual console, it all makes for
+> lighter weight testing.
+>
+> Why did I go looking for a volunteer to write KUnit tests for ext4?
+> Well, I have a plan to make some changes in restructing how ext4's
+> write path works, in order to support things like copy-on-write, a
+> more efficient delayed allocation system, etc.  This will require
+> making changes to the extent status tree, and by having unit tests for
+> the extent status tree, we'll be able to detect any bugs that we might
+> accidentally introduce in the es tree far more quickly than if we
+> didn't have those tests available.  Google has long found that having
+> these sorts of unit tests is a real win for developer velocity for any
+> non-trivial code module (or C++ class), even when you take into
+> account the time it takes to create the unit tests.
+>
+>                                         - Ted
+>
+> P.S.  Many thanks to Brendan for finding such a volunteer for me; the
+> person in question is a SRE from Switzerland who is interested in
+> getting involved with kernel testing, and this is going to be their
+> 20% project.  :-)
 
-Agreed.
+Thanks Ted, I really appreciate it!
 
-> > And this example code predates v2.6.12.  ;-)
-> > 
-> > So good eyes, but I believe that this really does reflect the ancient
-> > code...
-> > 
-> > On the other hand, would you have ideas for more modern replacement
-> > examples?
-> 
-> There are 3 cases I can see in listRCU.txt:
->   (1) action taken outside of read_lock (can tolerate stale data), no in-place update.
->                 this is the best possible usage of RCU.
->   (2) action taken outside of read_lock, in-place updates
->                 this is good as long as not too many in-place updates.
->                 involves copying creating new list node and replacing the
->                 node being updated with it.
->   (3) cannot tolerate stale data: here a deleted or obsolete flag can be used
->                                   protected by a per-entry lock. reader
-> 				  aborts if object is stale.
-> 
-> Any replacement example must make satisfy (3) too?
+Since Ted provided such an awesome detailed response, I don't think I
+really need to go into any detail; nevertheless, I think that Greg and
+Shuah have the right idea; in particular, Shuah provides a good
+summary.
 
-It would be OK to have a separate example for (3).  It would of course
-be nicer to have one example for all three, but not all -that- important.
-
-> The only example for (3) that I know of is sysvipc sempahores which you also
-> mentioned in the paper. Looking through this code, it hasn't changed
-> conceptually and it could be a fit for an example (ipc_valid_object() checks
-> for whether the object is stale).
-
-That is indeed the classic canonical example.  ;-)
-
-> The other example could be dentry look up which uses seqlocks for the
-> RCU-walk case? But that could be too complex. This is also something I first
-> learnt from the paper and then the excellent path-lookup.rst document in
-> kernel sources.
-
-This is a great example, but it would need serious simplification for
-use in the Documentation/RCU directory.  Note that dcache uses it to
-gain very limited and targeted consistency -- only a few types of updates
-acquire the write-side of that seqlock.
-
-Might be quite worthwhile to have a simplified example, though!
-Perhaps a trivial hash table where write-side sequence lock is acquired
-only when moving an element from one chain to another?
-
-> I will keep any eye out for other examples in the kernel code as well.
-
-Very good!
-
-							Thanx, Paul
-
-> Let me know what you think, thanks!
-> 
->  - Joel
-> 
-> 
-> > > ---
-> > >  Documentation/RCU/listRCU.txt | 4 ++--
-> > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/Documentation/RCU/listRCU.txt b/Documentation/RCU/listRCU.txt
-> > > index adb5a3782846..190e666fc359 100644
-> > > --- a/Documentation/RCU/listRCU.txt
-> > > +++ b/Documentation/RCU/listRCU.txt
-> > > @@ -175,7 +175,7 @@ otherwise, the added fields would need to be filled in):
-> > >  		list_for_each_entry(e, list, list) {
-> > >  			if (!audit_compare_rule(rule, &e->rule)) {
-> > >  				e->rule.action = newaction;
-> > > -				e->rule.file_count = newfield_count;
-> > > +				e->rule.field_count = newfield_count;
-> > >  				write_unlock(&auditsc_lock);
-> > >  				return 0;
-> > >  			}
-> > > @@ -204,7 +204,7 @@ RCU ("read-copy update") its name.  The RCU code is as follows:
-> > >  					return -ENOMEM;
-> > >  				audit_copy_rule(&ne->rule, &e->rule);
-> > >  				ne->rule.action = newaction;
-> > > -				ne->rule.file_count = newfield_count;
-> > > +				ne->rule.field_count = newfield_count;
-> > >  				list_replace_rcu(&e->list, &ne->list);
-> > >  				call_rcu(&e->rcu, audit_free_rule);
-> > >  				return 0;
-> > > -- 
-> > > 2.21.0.1020.gf2820cf01a-goog
-> > > 
-> > 
-> 
-
+Thanks everyone!
