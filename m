@@ -1,56 +1,52 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	T_DKIMWL_WL_HIGH autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EED6F7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 May 2019 20:00:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C66357D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 May 2019 20:26:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728524AbfEHUAQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 8 May 2019 16:00:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53628 "EHLO mail.kernel.org"
+        id S1729045AbfEHU0z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 8 May 2019 16:26:55 -0400
+Received: from ms.lwn.net ([45.79.88.28]:54802 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728437AbfEHUAQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 8 May 2019 16:00:16 -0400
-Subject: Re: [GIT PULL] Docs for 5.2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1557345616;
-        bh=C+d1yH9VgO3t0OZXP58pkmMthnaVNiUYGHsMQZujw6o=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=Kpy+RQ1ig0LSRxqO34LyKLJx45bjjdh4f1o2TogLKB/Rzy+cK2X8azccPTCsYR1ce
-         oLzWwGbpfaDKlKz0eccYkNdLxQi/vRAHoKSPJLHlR1H8kkkzWCDR2loR4O1c7knuDn
-         HyboCY8e1lhhMVoL29QVMtHrD/5iHsXfcvKWWE6c=
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20190508120450.197d4e8e@lwn.net>
-References: <20190508120450.197d4e8e@lwn.net>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20190508120450.197d4e8e@lwn.net>
-X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-5.2
-X-PR-Tracked-Commit-Id: d9defe448f4c7b88ca2ae636a321ef8970fa718d
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 8c79f4cd441b27df6cadd11b70a50e06b3b3a2bf
-Message-Id: <155734561595.27473.7812087348378002899.pr-tracker-bot@kernel.org>
-Date:   Wed, 08 May 2019 20:00:15 +0000
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
+        id S1729016AbfEHU0z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 8 May 2019 16:26:55 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id C53587DC;
+        Wed,  8 May 2019 20:26:54 +0000 (UTC)
+Date:   Wed, 8 May 2019 14:26:53 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Federico Vaga <federico.vaga@vaga.pv.it>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] doc:it_IT: align documentation after licenses patches
+Message-ID: <20190508142653.67f72702@lwn.net>
+In-Reply-To: <20190507220525.23189-1-federico.vaga@vaga.pv.it>
+References: <20190507220525.23189-1-federico.vaga@vaga.pv.it>
+Organization: LWN.net
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The pull request you sent on Wed, 8 May 2019 12:04:50 -0600:
+On Wed,  8 May 2019 00:05:25 +0200
+Federico Vaga <federico.vaga@vaga.pv.it> wrote:
 
-> git://git.lwn.net/linux.git tags/docs-5.2
+> This patch translates in Italian the following updates
+> 
+> 62be257e986d LICENSES: Rename other to deprecated
+> 8ea8814fcdcb LICENSES: Clearly mark dual license only licenses
+> 6132c37ca543 docs: Don't reference the ZLib license in license-rules.rst
+> 
+> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/8c79f4cd441b27df6cadd11b70a50e06b3b3a2bf
+Applied, thanks.
 
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+jon
