@@ -5,165 +5,151 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EFEAB7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  7 May 2019 22:06:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2A69D7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 May 2019 03:44:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726091AbfEGWGM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 7 May 2019 18:06:12 -0400
-Received: from mx.kolabnow.com ([95.128.36.42]:19180 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725843AbfEGWGM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 7 May 2019 18:06:12 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id 0C75E404EE;
-        Wed,  8 May 2019 00:06:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-transfer-encoding:content-type:content-type:mime-version
-        :message-id:date:date:subject:subject:from:from:received
-        :received:received; s=dkim20160331; t=1557266768; x=1559081169;
-         bh=PX87WpDrIxp8L2RYRles5DX7wyZMmqVIc4/AQkhrgJI=; b=kgzx8oIV6WFF
-        G2CFHrR6W1hdZQch7VSc8J1hiQT0sxGazWKcrEqxsc0MPwAMy7pD2fq6Z3DPLo5A
-        tIe0maigNYDuWywTTpoZHrEUMOMbNP6FNF5e9PhMYRiOMzv1Cpb6CyCWPu+n7eyU
-        MJftGoZ/q+tiro65CYYZW1arIcuPkzx6rMQGMIHhiyE4MaANKkopnqxODV5xfJC+
-        yUIl+20aDpz6/koPuMsHIT49z9cGh8rPuAl3Os70zz4+JFg+Waei/d8oDAoTx0IE
-        Gd7/EThNqOxxMlH6m5SY0mszkv8xhh63iXRXaNcPOPq0bEeNht9zuQcbLZ6LDYAV
-        Dtfgdm8t25Xcijxy2UnzMKqSahoUi/MWz53IX69nXUTwRLHzJryc6RFmrdmf1gKX
-        T/CBlWdvEK1ltfAV+t06iuFNhnbTZpqkgEUehDrAElQN9A7EUrDSAOUyt4L+bnCu
-        VCn2vEa0j31oQzyZEyrsW3tcj+1PwDgqgsMu+KhquXI4Q6uscL1SAZSoLE73p4CD
-        OvLeCThEdR19FspscGLY30Rp61/iiSsYjwocH1qjTWA2ITM9IsSMg1N9BYc6vLEw
-        sCC7mV4DCm2+rWu7unSoJpb3v51qUgO6fAFabW3HPy3BEstSbsli56QEHYE8CUJv
-        wUCNfvDFIYomY1UEczHQcNFRz3DpHDI=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 0-HV4Nuj7TLa; Wed,  8 May 2019 00:06:08 +0200 (CEST)
-Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
-        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id AFBCF403A8;
-        Wed,  8 May 2019 00:06:08 +0200 (CEST)
-Received: from ext-subm003.mykolab.com (unknown [10.9.6.3])
-        by int-mx002.mykolab.com (Postfix) with ESMTPS id 4D50E4696;
-        Wed,  8 May 2019 00:06:08 +0200 (CEST)
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] doc:it_IT: align documentation after licenses patches
-Date:   Wed,  8 May 2019 00:05:25 +0200
-Message-Id: <20190507220525.23189-1-federico.vaga@vaga.pv.it>
+        id S1726718AbfEHDoc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 7 May 2019 23:44:32 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:55088 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726704AbfEHDoc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 7 May 2019 23:44:32 -0400
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id x483iAfQ000467;
+        Wed, 8 May 2019 12:44:11 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x483iAfQ000467
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1557287051;
+        bh=GtYEji5+EE71+LZjKDY0sxmohdZ0g+Z5/jFvjX0CHzk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=1ZESEjZOrbdTa5+bMjMIxX7JKfYmQ/Y+dVySrIFat/BgQw0mbSCMDzXGSvjMWFz/n
+         avfYjmfH7jmGaI5QdsMqFVxzcZu8izw/LpK1K5OCkgm8I5KWmyRvu9UHOa8gxKoDZt
+         m+aRszBtUwNrViHlN1ejn9NLZd5sBn8LipsbVhKP/EmJklWC8d0SClpntEUdswPbO0
+         uxHDUcYmEs99d3dEYaGWHtzJe4sW3DhiZbWvfKF+a3i+oGn774ldgNtYyHqsLu0LUi
+         wdmGRah9iOVXGv/gkE0XnKA1+0cx7FHv6uxS86y+Yf+qd+CK0/DwFFePzuMXVm07lT
+         NS2Z5t8WpH/UA==
+X-Nifty-SrcIP: [209.85.217.45]
+Received: by mail-vs1-f45.google.com with SMTP id g127so11777172vsd.6;
+        Tue, 07 May 2019 20:44:11 -0700 (PDT)
+X-Gm-Message-State: APjAAAUR3AuX3SmgwdBFiodM0SXGkP8nbnBJI942Jhx3gtbPtTPGtQfc
+        gQJhKeLMYD4sno69/A9o8/2bWOLvuRdWYJQxHWE=
+X-Google-Smtp-Source: APXvYqz4ub6AwdOUIv3IBI3Jv6hdIY2r3aV/UeyA9Lf21f53omFZix/UHdWvee9kuR48UmUZmxkT6DyZqggTTN2/rBA=
+X-Received: by 2002:a67:fd89:: with SMTP id k9mr7071343vsq.54.1557287050111;
+ Tue, 07 May 2019 20:44:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20190506013456.86061-1-joel@joelfernandes.org>
+In-Reply-To: <20190506013456.86061-1-joel@joelfernandes.org>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Wed, 8 May 2019 12:43:34 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQesyT-vspoGKdgRqycZfhtJm5Upx2T6ij-yB5i4Nx5nw@mail.gmail.com>
+Message-ID: <CAK7LNAQesyT-vspoGKdgRqycZfhtJm5Upx2T6ij-yB5i4Nx5nw@mail.gmail.com>
+Subject: Re: [PATCH v3] kheaders: Move from proc to sysfs
+To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Adrian Ratiu <adrian.ratiu@collabora.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        atish patra <atishp04@gmail.com>, bpf@vger.kernel.org,
+        Brendan Gregg <bgregg@netflix.com>,
+        Brendan Gregg <brendan.d.gregg@gmail.com>,
+        Daniel Colascione <dancol@google.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        duyuchao <yuchao.du@unisoc.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Karim Yaghmour <karim.yaghmour@opersys.com>,
+        Kees Cook <keescook@chromium.org>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-trace-devel@vger.kernel.org,
+        Manjo Raja Rao <linux@manojrajarao.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        =?UTF-8?Q?Micha=C5=82_Gregorczyk?= <michalgr@fb.com>,
+        Michal Gregorczyk <michalgr@live.com>,
+        Mohammad Husain <russoue@gmail.com>,
+        Olof Johansson <olof@lixom.net>,
+        Qais Yousef <qais.yousef@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Srinivas Ramana <sramana@codeaurora.org>,
+        Tamir Carmeli <carmeli.tamir@gmail.com>,
+        Yonghong Song <yhs@fb.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch translates in Italian the following updates
+On Mon, May 6, 2019 at 10:37 AM Joel Fernandes (Google)
+<joel@joelfernandes.org> wrote:
+>
+> The kheaders archive consisting of the kernel headers used for compiling
+> bpf programs is in /proc. However there is concern that moving it here
+> will make it permanent. Let us move it to /sys/kernel as discussed [1].
+>
+> [1] https://lore.kernel.org/patchwork/patch/1067310/#1265969
+>
+> Suggested-by: Steven Rostedt <rostedt@goodmis.org>
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> ---
+> This patch applies on top of the previous patch that was applied to the
+> driver tree:
+> https://lore.kernel.org/patchwork/patch/1067310/
+>
+> v2->v3: Fixed sysfs file mode nit (Greg).
+> v1->v2: Fixed some kconfig nits.
+>
+>  init/Kconfig                                | 16 ++++-----
+>  kernel/Makefile                             |  4 +--
+>  kernel/{gen_ikh_data.sh => gen_kheaders.sh} |  2 +-
+>  kernel/kheaders.c                           | 40 +++++++++------------
+>  4 files changed, 26 insertions(+), 36 deletions(-)
+>  rename kernel/{gen_ikh_data.sh => gen_kheaders.sh} (98%)
+>
+> diff --git a/init/Kconfig b/init/Kconfig
+> index 26a364a95b57..c3661991b089 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -579,15 +579,13 @@ config IKCONFIG_PROC
+>           This option enables access to the kernel configuration file
+>           through /proc/config.gz.
+>
+> -config IKHEADERS_PROC
+> -       tristate "Enable kernel header artifacts through /proc/kheaders.tar.xz"
+> -       depends on PROC_FS
+> -       help
+> -         This option enables access to the kernel header and other artifacts that
+> -         are generated during the build process. These can be used to build eBPF
+> -         tracing programs, or similar programs.  If you build the headers as a
+> -         module, a module called kheaders.ko is built which can be loaded on-demand
+> -         to get access to the headers.
+> +config IKHEADERS
+> +       tristate "Enable kernel headers through /sys/kernel/kheaders.tar.xz"
 
-62be257e986d LICENSES: Rename other to deprecated
-8ea8814fcdcb LICENSES: Clearly mark dual license only licenses
-6132c37ca543 docs: Don't reference the ZLib license in license-rules.rst
 
-Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
----
- .../it_IT/process/license-rules.rst           | 60 +++++++++++++++++--
- 1 file changed, 54 insertions(+), 6 deletions(-)
+I suggested "depends on SYSFS" twice, both in v1 and v2.
 
-diff --git a/Documentation/translations/it_IT/process/license-rules.rst b/Documentation/translations/it_IT/process/license-rules.rst
-index 91a8794ffd79..f058e06996dc 100644
---- a/Documentation/translations/it_IT/process/license-rules.rst
-+++ b/Documentation/translations/it_IT/process/license-rules.rst
-@@ -249,13 +249,13 @@ essere categorizzate in:
- 
- |
- 
--2. Licenze non raccomandate:
-+2. Licenze deprecate:
- 
-    Questo tipo di licenze dovrebbero essere usate solo per codice già esistente
-    o quando si prende codice da altri progetti.  Le licenze sono disponibili
-    nei sorgenti del kernel nella cartella::
- 
--     LICENSES/other/
-+     LICENSES/deprecated/
- 
-    I file in questa cartella contengono il testo completo della licenza e i
-    `Metatag`_.  Il nome di questi file è lo stesso usato come identificatore
-@@ -263,14 +263,14 @@ essere categorizzate in:
- 
-    Esempi::
- 
--     LICENSES/other/ISC
-+     LICENSES/deprecated/ISC
- 
-    Contiene il testo della licenza Internet System Consortium e i suoi
-    metatag::
- 
--     LICENSES/other/ZLib
-+     LICENSES/deprecated/GPL-1.0
- 
--   Contiene il testo della licenza ZLIB e i suoi metatag.
-+   Contiene il testo della versione 1 della licenza GPL e i suoi metatag.
- 
-    Metatag:
- 
-@@ -294,7 +294,55 @@ essere categorizzate in:
- 
- |
- 
--3. _`Eccezioni`:
-+3. Solo per doppie licenze
-+
-+   Queste licenze dovrebbero essere usate solamente per codice licenziato in
-+   combinazione con un'altra licenza che solitamente è quella preferita.
-+   Queste licenze sono disponibili nei sorgenti del kernel nella cartella::
-+
-+     LICENSES/dual
-+
-+   I file in questa cartella contengono il testo completo della rispettiva
-+   licenza e i suoi `Metatags`_.  I nomi dei file sono identici agli
-+   identificatori di licenza SPDX che dovrebbero essere usati nei file
-+   sorgenti.
-+
-+   Esempi::
-+
-+     LICENSES/dual/MPL-1.1
-+
-+   Questo file contiene il testo della versione 1.1 della licenza *Mozilla
-+   Pulic License* e i metatag necessari::
-+
-+     LICENSES/dual/Apache-2.0
-+
-+   Questo file contiene il testo della versione 2.0 della licenza Apache e i
-+   metatag necessari.
-+
-+   Metatag:
-+
-+   I requisiti per le 'altre' ('*other*') licenze sono identici a quelli per le
-+   `Licenze raccomandate`_.
-+
-+   Esempio del formato del file::
-+
-+   Valid-License-Identifier: MPL-1.1
-+   SPDX-URL: https://spdx.org/licenses/MPL-1.1.html
-+   Usage-Guide:
-+     Do NOT use. The MPL-1.1 is not GPL2 compatible. It may only be used for
-+     dual-licensed files where the other license is GPL2 compatible.
-+     If you end up using this it MUST be used together with a GPL2 compatible
-+     license using "OR".
-+     To use the Mozilla Public License version 1.1 put the following SPDX
-+     tag/value pair into a comment according to the placement guidelines in
-+     the licensing rules documentation:
-+   SPDX-License-Identifier: MPL-1.1
-+   License-Text:
-+     Full license text
-+
-+|
-+
-+4. _`Eccezioni`:
- 
-    Alcune licenze possono essere corrette con delle eccezioni che forniscono
-    diritti aggiuntivi.  Queste eccezioni sono disponibili nei sorgenti del
+https://lore.kernel.org/patchwork/patch/1069806/#1266147
+https://lore.kernel.org/patchwork/patch/1070005/#1266279
+
+
+
+> +       help
+> +         This option enables access to the in-kernel headers that are generated during
+> +         the build process. These can be used to build eBPF tracing programs,
+> +         or similar programs.  If you build the headers as a module, a module called
+> +         kheaders.ko is built which can be loaded on-demand to get access to headers.
+>
+>  config LOG_BUF_SHIFT
+>         int "Kernel log buffer size (16 => 64KB, 17 => 128KB)"
+
+
 -- 
-2.21.0
-
+Best Regards
+Masahiro Yamada
