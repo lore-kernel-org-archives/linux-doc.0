@@ -1,139 +1,273 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 30A127D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 May 2019 08:24:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 63D6A7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 May 2019 09:43:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726561AbfEHIYa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 8 May 2019 04:24:30 -0400
-Received: from mail-vs1-f67.google.com ([209.85.217.67]:33100 "EHLO
-        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726521AbfEHIYa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 May 2019 04:24:30 -0400
-Received: by mail-vs1-f67.google.com with SMTP id z145so12139647vsc.0
-        for <linux-doc@vger.kernel.org>; Wed, 08 May 2019 01:24:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=XNonYk8/ihexURqWmbVWGo+HlXE5x3mb0fn10s1rhqQ=;
-        b=NCJGCMhKpS7Nhq/WlWT49Dtmz49HBFEsfHuLJFyUR7lU7KrMSRbEg5CxmzO2MYJYAc
-         xeTN36amdNGYTYJcDBGer9V9C59ZmERZ814kwtqfK1+2l3beltuBS2EBTwo2kQ9rU39r
-         RxT3GqRpQuluDKyof/1SKJz3cvlP8m/dXmvHfAu5yzWo82mFctlVQWntst4XRWOzOPVw
-         pT0eC6YSnaSl4yILqf+YIau2ag0dZA0fAHDEdr3/OOzOk1GCM6ac31g5+xSm3J9KG3XW
-         6K2sZ28EunqXWhvUgwN4V6aDhQP8XPfopzGQDynU3l2hP3w2aC3ch8IfGiLu/yOgCROn
-         V77w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XNonYk8/ihexURqWmbVWGo+HlXE5x3mb0fn10s1rhqQ=;
-        b=We0SPprj0k58GTA53FblcZbUHOipvqfDxtMGhvYCRKjkAP3WghKuHx2slZ6a1d75ml
-         0eFOa6dykRl6U6d7HRE/m8zaxtye7AHylPD2DmwA04CVZiJf+HbAJO0P2jPPcGvxW5dS
-         oh0gIGdck6XVopXiVcl0lfL1O6Si3y9aItwwzplV5Xif7PWFEDgsE3rSH0B1p5oPiPgH
-         2JldWyezT7foLjQaz556FAic6zoO3muO8fDmPJ+Sxk/4dxbvQ/VVpx1WORzx3N46QUVp
-         MxBtPLkeRuOrCCchEqORN+J9kptldHZ0yIA2zsXNuXXSIL00Gn9HwnZu21qXVIaDDkMh
-         I2qA==
-X-Gm-Message-State: APjAAAVwSXyy+y3tPZtBcY4JooNAqSskljgsyvV0xxbO8QnSHh35/0w3
-        GtmzMD48+LPhXIW5OgIb8BcqkBtdQj3BNntGcOueZg==
-X-Google-Smtp-Source: APXvYqzvqdfI/hjY2GupzJ4hQmeRb6kwfQPT4h75YLOR9fvCTVxVuStyB4lVkDgiLkIc9vXwMXKH+beoO6ciJweK3Yw=
-X-Received: by 2002:a67:fa95:: with SMTP id f21mr19250315vsq.180.1557303869534;
- Wed, 08 May 2019 01:24:29 -0700 (PDT)
+        id S1726720AbfEHJmy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 8 May 2019 05:42:54 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:39156 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726603AbfEHJmy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 8 May 2019 05:42:54 -0400
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id E2271E1F38C9344801A4;
+        Wed,  8 May 2019 17:42:49 +0800 (CST)
+Received: from [127.0.0.1] (10.202.227.238) by DGGEMS414-HUB.china.huawei.com
+ (10.3.19.214) with Microsoft SMTP Server id 14.3.439.0; Wed, 8 May 2019
+ 17:42:39 +0800
+Subject: Re: [PATCH v6 1/1] iommu: enhance IOMMU dma mode build options
+To:     Zhen Lei <thunder.leizhen@huawei.com>,
+        Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "Will Deacon" <will.deacon@arm.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        Sebastian Ott <sebott@linux.ibm.com>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        "Martin Schwidefsky" <schwidefsky@de.ibm.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        "Michael Ellerman" <mpe@ellerman.id.au>,
+        Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        iommu <iommu@lists.linux-foundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        x86 <x86@kernel.org>, linux-ia64 <linux-ia64@vger.kernel.org>
+References: <20190418135701.24668-1-thunder.leizhen@huawei.com>
+ <20190418135701.24668-2-thunder.leizhen@huawei.com>
+CC:     Hanjun Guo <guohanjun@huawei.com>
+From:   John Garry <john.garry@huawei.com>
+Message-ID: <ca30a698-8047-9a86-a2f1-0b3e1c8692bf@huawei.com>
+Date:   Wed, 8 May 2019 10:42:25 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.3.0
 MIME-Version: 1.0
-References: <20190415155636.32748-1-sashal@kernel.org> <20190507174020.GH1747@sasha-vm>
- <CAFA6WYPk5Bm11RfaC72g_C8rnMQEPyp-MhtopmDM3Of31v1Z_w@mail.gmail.com> <20190508080232.vzdyvmrqx2apfvlf@holly.lan>
-In-Reply-To: <20190508080232.vzdyvmrqx2apfvlf@holly.lan>
-From:   Sumit Garg <sumit.garg@linaro.org>
-Date:   Wed, 8 May 2019 13:54:18 +0530
-Message-ID: <CAFA6WYP206hVoqkKcbEvLP9O7ZAOLLru3OZPbVDO95Me=euFnA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/2] ftpm: a firmware based TPM driver
-To:     Daniel Thompson <daniel.thompson@linaro.org>
-Cc:     Sasha Levin <sashal@kernel.org>, peterhuewe@gmx.de,
-        jarkko.sakkinen@linux.intel.com, jgg@ziepe.ca, corbet@lwn.net,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-kernel@microsoft.com, thiruan@microsoft.com,
-        bryankel@microsoft.com, tee-dev@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190418135701.24668-2-thunder.leizhen@huawei.com>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.227.238]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 8 May 2019 at 13:32, Daniel Thompson <daniel.thompson@linaro.org> wrote:
+On 18/04/2019 14:57, Zhen Lei wrote:
+> First, add build option IOMMU_DEFAULT_{LAZY|STRICT}, so that we have the
+> opportunity to set {lazy|strict} mode as default at build time. Then put
+> the three config options in an choice, make people can only choose one of
+> the three at a time.
 >
-> On Wed, May 08, 2019 at 10:11:54AM +0530, Sumit Garg wrote:
-> > + TEE ML
-> >
-> > Hi Sasha,
-> >
-> > Firstly apologies for my comments here as I recently joined
-> > linux-integrity ML so I don't have other patches in my inbox. Also, it
-> > would be nice if you could cc TEE ML in future patches, so that people
-> > are aware of such interesting use-cases and may provide some feedback.
+> The default IOMMU dma modes on each ARCHs have no change.
 >
-> If this kind is desire exists then shouldn't it be captured in
-> MAINTAINERS?
+> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+> ---
+>  arch/ia64/kernel/pci-dma.c                |  2 +-
+>  arch/powerpc/platforms/powernv/pci-ioda.c |  3 ++-
+>  arch/s390/pci/pci_dma.c                   |  2 +-
+>  arch/x86/kernel/pci-dma.c                 |  7 ++---
+>  drivers/iommu/Kconfig                     | 44 ++++++++++++++++++++++++++-----
+>  drivers/iommu/amd_iommu_init.c            |  3 ++-
+>  drivers/iommu/intel-iommu.c               |  2 +-
+>  drivers/iommu/iommu.c                     |  3 ++-
+>  8 files changed, 48 insertions(+), 18 deletions(-)
+>
+> diff --git a/arch/ia64/kernel/pci-dma.c b/arch/ia64/kernel/pci-dma.c
+> index fe988c49f01ce6a..655511dbf3c3b34 100644
+> --- a/arch/ia64/kernel/pci-dma.c
+> +++ b/arch/ia64/kernel/pci-dma.c
+> @@ -22,7 +22,7 @@
+>  int force_iommu __read_mostly;
+>  #endif
+>
+> -int iommu_pass_through;
+> +int iommu_pass_through = IS_ENABLED(CONFIG_IOMMU_DEFAULT_PASSTHROUGH);
+>
+>  static int __init pci_iommu_init(void)
+>  {
+> diff --git a/arch/powerpc/platforms/powernv/pci-ioda.c b/arch/powerpc/platforms/powernv/pci-ioda.c
+> index 3ead4c237ed0ec9..383e082a9bb985c 100644
+> --- a/arch/powerpc/platforms/powernv/pci-ioda.c
+> +++ b/arch/powerpc/platforms/powernv/pci-ioda.c
+> @@ -85,7 +85,8 @@ void pe_level_printk(const struct pnv_ioda_pe *pe, const char *level,
+>  	va_end(args);
+>  }
+>
+> -static bool pnv_iommu_bypass_disabled __read_mostly;
+> +static bool pnv_iommu_bypass_disabled __read_mostly =
+> +			!IS_ENABLED(CONFIG_IOMMU_DEFAULT_PASSTHROUGH);
+>  static bool pci_reset_phbs __read_mostly;
+>
+>  static int __init iommu_setup(char *str)
+> diff --git a/arch/s390/pci/pci_dma.c b/arch/s390/pci/pci_dma.c
+> index 9e52d1527f71495..784ad1e0acecfb1 100644
+> --- a/arch/s390/pci/pci_dma.c
+> +++ b/arch/s390/pci/pci_dma.c
+> @@ -17,7 +17,7 @@
+>
+>  static struct kmem_cache *dma_region_table_cache;
+>  static struct kmem_cache *dma_page_table_cache;
+> -static int s390_iommu_strict;
+> +static int s390_iommu_strict = IS_ENABLED(CONFIG_IOMMU_DEFAULT_STRICT);
+>
+>  static int zpci_refresh_global(struct zpci_dev *zdev)
+>  {
+> diff --git a/arch/x86/kernel/pci-dma.c b/arch/x86/kernel/pci-dma.c
+> index d460998ae828514..fb2bab42a0a3173 100644
+> --- a/arch/x86/kernel/pci-dma.c
+> +++ b/arch/x86/kernel/pci-dma.c
+> @@ -43,11 +43,8 @@
+>   * It is also possible to disable by default in kernel config, and enable with
+>   * iommu=nopt at boot time.
+>   */
+> -#ifdef CONFIG_IOMMU_DEFAULT_PASSTHROUGH
+> -int iommu_pass_through __read_mostly = 1;
+> -#else
+> -int iommu_pass_through __read_mostly;
+> -#endif
+> +int iommu_pass_through __read_mostly =
+> +			IS_ENABLED(CONFIG_IOMMU_DEFAULT_PASSTHROUGH);
+>
+>  extern struct iommu_table_entry __iommu_table[], __iommu_table_end[];
+>
+> diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
+> index 6f07f3b21816c64..8a1f1793cde76b4 100644
+> --- a/drivers/iommu/Kconfig
+> +++ b/drivers/iommu/Kconfig
+> @@ -74,17 +74,47 @@ config IOMMU_DEBUGFS
+>  	  debug/iommu directory, and then populate a subdirectory with
+>  	  entries as required.
+>
+> -config IOMMU_DEFAULT_PASSTHROUGH
+> -	bool "IOMMU passthrough by default"
+> +choice
+> +	prompt "IOMMU dma mode"
+
+/s/dma/DMA/
+
+And how about add "default", as in "Default IOMMU DMA mode" or "IOMMU 
+default DMA mode"?
+
+>  	depends on IOMMU_API
+> -        help
+> -	  Enable passthrough by default, removing the need to pass in
+> -	  iommu.passthrough=on or iommu=pt through command line. If this
+> -	  is enabled, you can still disable with iommu.passthrough=off
+> -	  or iommu=nopt depending on the architecture.
+> +	default IOMMU_DEFAULT_PASSTHROUGH if (PPC_POWERNV && PCI)
+> +	default IOMMU_DEFAULT_LAZY if (AMD_IOMMU || INTEL_IOMMU || S390_IOMMU)
+> +	default IOMMU_DEFAULT_STRICT
+> +	help
+> +	  This option allows IOMMU dma mode to be chose at build time, to
+
+again, capitalize acronyms, i.e. /s/dma/DMA/ (more of these above and below)
+
+> +	  override the default dma mode of each ARCHs, removing the need to
+> +	  pass in kernel parameters through command line. You can still use
+> +	  ARCHs specific boot options to override this option again.
+> +
+> +config IOMMU_DEFAULT_PASSTHROUGH
+
+I think that it may need to be indented, along with the other choices
+
+> +	bool "passthrough"
+> +	help
+> +	  In this mode, the dma access through IOMMU without any addresses
+> +	  transformation. That means, the wrong or illegal dma access can not
+
+transformation, or translation?
+
+> +	  be caught, no error information will be reported.
+>
+>  	  If unsure, say N here.
+>
+> +config IOMMU_DEFAULT_LAZY
+> +	bool "lazy"
+> +	help
+> +	  Support lazy mode, where for every IOMMU DMA unmap operation, the
+> +	  flush operation of IOTLB and the free operation of IOVA are deferred.
+> +	  They are only guaranteed to be done before the related IOVA will be
+> +	  reused.
+> +
+> +config IOMMU_DEFAULT_STRICT
+> +	bool "strict"
+> +	help
+> +	  For every IOMMU DMA unmap operation, the flush operation of IOTLB and
+> +	  the free operation of IOVA are guaranteed to be done in the unmap
+> +	  function.
+> +
+> +	  This mode is safer than the two above, but it maybe slow in some high
+
+slow, or slower? And passthough is not safe, so anything is implicitly 
+safer.
+
+> +	  performace scenarios.
+> +
+> +endchoice
+> +
+>  config OF_IOMMU
+>         def_bool y
+>         depends on OF && IOMMU_API
+> diff --git a/drivers/iommu/amd_iommu_init.c b/drivers/iommu/amd_iommu_init.c
+> index ff40ba758cf365e..16c02b08adb4cb2 100644
+> --- a/drivers/iommu/amd_iommu_init.c
+> +++ b/drivers/iommu/amd_iommu_init.c
+> @@ -166,7 +166,8 @@ struct ivmd_header {
+>  					   to handle */
+>  LIST_HEAD(amd_iommu_unity_map);		/* a list of required unity mappings
+>  					   we find in ACPI */
+> -bool amd_iommu_unmap_flush;		/* if true, flush on every unmap */
+> +bool amd_iommu_unmap_flush = IS_ENABLED(CONFIG_IOMMU_DEFAULT_STRICT);
+> +					/* if true, flush on every unmap */
+>
+>  LIST_HEAD(amd_iommu_list);		/* list of all AMD IOMMUs in the
+>  					   system */
+> diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+> index 28cb713d728ceef..0c3cc716210f35a 100644
+> --- a/drivers/iommu/intel-iommu.c
+> +++ b/drivers/iommu/intel-iommu.c
+> @@ -362,7 +362,7 @@ static int domain_detach_iommu(struct dmar_domain *domain,
+>
+>  static int dmar_map_gfx = 1;
+>  static int dmar_forcedac;
+> -static int intel_iommu_strict;
+> +static int intel_iommu_strict = IS_ENABLED(CONFIG_IOMMU_DEFAULT_STRICT);
+>  static int intel_iommu_superpage = 1;
+>  static int intel_iommu_sm;
+>  static int iommu_identity_mapping;
+> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+> index 109de67d5d727c2..0ec5952ac60e2a3 100644
+> --- a/drivers/iommu/iommu.c
+> +++ b/drivers/iommu/iommu.c
+> @@ -43,7 +43,8 @@
+>  #else
+>  static unsigned int iommu_def_domain_type = IOMMU_DOMAIN_DMA;
+>  #endif
+> -static bool iommu_dma_strict __read_mostly = true;
+> +static bool iommu_dma_strict __read_mostly =
+> +			IS_ENABLED(CONFIG_IOMMU_DEFAULT_STRICT);
+>
+>  struct iommu_callback_data {
+>  	const struct iommu_ops *ops;
+> --
+> 1.8.3
+>
+>
+>
+> .
 >
 
-Makes sense, will send a patch to capture it in MAINTAINERS file.
 
--Sumit
-
->
-> Daniel.
->
-> >
-> > On Tue, 7 May 2019 at 23:10, Sasha Levin <sashal@kernel.org> wrote:
-> > >
-> > > On Mon, Apr 15, 2019 at 11:56:34AM -0400, Sasha Levin wrote:
-> > > >From: "Sasha Levin (Microsoft)" <sashal@kernel.org>
-> > > >
-> > > >Changes since v2:
-> > > >
-> > > > - Drop the devicetree bindings patch (we don't add any new ones).
-> > > > - More code cleanups based on Jason Gunthorpe's review.
-> > > >
-> > > >Sasha Levin (2):
-> > > >  ftpm: firmware TPM running in TEE
-> > > >  ftpm: add documentation for ftpm driver
-> > >
-> > > Ping? Does anyone have any objections to this?
-> > >
-> >
-> > From [PATCH v3 1/2] ftpm: firmware TPM running in TEE:
-> >
-> > > +static const struct of_device_id of_ftpm_tee_ids[] = {
-> > > + { .compatible = "microsoft,ftpm" },
-> > > + { }
-> > > +};
-> > > +MODULE_DEVICE_TABLE(of, of_ftpm_tee_ids);
-> > > +
-> > > +static struct platform_driver ftpm_tee_driver = {
-> > > + .driver = {
-> > > + .name = DRIVER_NAME,
-> > > + .of_match_table = of_match_ptr(of_ftpm_tee_ids),
-> > > + },
-> > > + .probe = ftpm_tee_probe,
-> > > + .remove = ftpm_tee_remove,
-> > > +};
-> > > +
-> > > +module_platform_driver(ftpm_tee_driver);
-> >
-> > Here this fTPM driver (seems to communicate with OP-TEE based TA)
-> > should register on TEE bus [1] rather than platform bus as its actual
-> > dependency is on TEE driver rather than using deferred probe to meet
-> > its dependency. Have a look at OP-TEE based RNG driver here [2].
-> >
-> > [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=0fc1db9d105915021260eb241661b8e96f5c0f1a
-> > [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=5fe8b1cc6a03c46b3061e808256d39dcebd0d0f0
-> >
-> > -Sumit
-> >
-> > > --
-> > > Thanks,
-> > > Sasha
