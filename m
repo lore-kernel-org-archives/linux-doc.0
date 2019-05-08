@@ -5,135 +5,135 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2AA197D08A
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 May 2019 08:02:39 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 30A127D08A
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  8 May 2019 08:24:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726415AbfEHICi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 8 May 2019 04:02:38 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:37286 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725778AbfEHICi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 May 2019 04:02:38 -0400
-Received: by mail-wr1-f68.google.com with SMTP id a12so15779795wrn.4
-        for <linux-doc@vger.kernel.org>; Wed, 08 May 2019 01:02:37 -0700 (PDT)
+        id S1726561AbfEHIYa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 8 May 2019 04:24:30 -0400
+Received: from mail-vs1-f67.google.com ([209.85.217.67]:33100 "EHLO
+        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726521AbfEHIYa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 May 2019 04:24:30 -0400
+Received: by mail-vs1-f67.google.com with SMTP id z145so12139647vsc.0
+        for <linux-doc@vger.kernel.org>; Wed, 08 May 2019 01:24:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=lW7WPvS0BGszPgf22bfJoZtgKKh2N28a/QSwohBZbr8=;
-        b=lr+O5/B0mr3yFBj3gucyu+7aRM6kkirSd0HWcJrx1iOguC0CdFSymKqv56EcXwGw0/
-         Pm9EmV2CSSH3Fnv37oBNPGCTTOoo8NDkzbP4efMm+tcvdiSx66GzbeW2sfnyINs1wX5I
-         PkhEDqhfVjl9VRv6lddMh+POF/EhIcDx21mQbcNiKZ7k6z8IAUrbRR1zDG69wSipQVM+
-         r3tyClDm6HP9BGRSwBRb5EcvnNCxAelsaCC4kb/+t9QXIlBmYabC7n3bdTKMcwDKoaQO
-         LD74S7jaGvjBkYVmZyuB/LimjmQLPaUIa1u6cvgqVWRvMBOB3WL9aP1fFUZqz9h57djj
-         8THw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=XNonYk8/ihexURqWmbVWGo+HlXE5x3mb0fn10s1rhqQ=;
+        b=NCJGCMhKpS7Nhq/WlWT49Dtmz49HBFEsfHuLJFyUR7lU7KrMSRbEg5CxmzO2MYJYAc
+         xeTN36amdNGYTYJcDBGer9V9C59ZmERZ814kwtqfK1+2l3beltuBS2EBTwo2kQ9rU39r
+         RxT3GqRpQuluDKyof/1SKJz3cvlP8m/dXmvHfAu5yzWo82mFctlVQWntst4XRWOzOPVw
+         pT0eC6YSnaSl4yILqf+YIau2ag0dZA0fAHDEdr3/OOzOk1GCM6ac31g5+xSm3J9KG3XW
+         6K2sZ28EunqXWhvUgwN4V6aDhQP8XPfopzGQDynU3l2hP3w2aC3ch8IfGiLu/yOgCROn
+         V77w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=lW7WPvS0BGszPgf22bfJoZtgKKh2N28a/QSwohBZbr8=;
-        b=NLo+07PyCIh6JjarKkp/gEBdpYoTbQxTpOEnfcIYV8HL452cMZqfllteYOm7aMuJCx
-         KRX34Wj3MAaZ6xlRIuNBtqdRzfCfBnC/CgXpSmHR7sdoSNGb8ejsW4iTk3bck91Hfo54
-         KRc6b6Sko5UT3eJsyrhK6NMIHYReYHvYY2XblmwDJV38qnn3bV2SMG8BW0C1mwiENc5q
-         +H++Vn1qIanhuplitLgOgSf8EvYIAr1HOI1kUWgG/hCsjgcIZ29pq/xa+VkAggue7VHk
-         7eqbBMF3+n9/ID/eZpbVvhYdlYMEMLchwA0VQKyNpM8QyN7jKiXJDCKP4VqauhAksW0i
-         2oLg==
-X-Gm-Message-State: APjAAAVkWrzyFx/2jK4ZmwktUOIqvdMMcmOwQmdJiVJvMkEWgoKLhqdm
-        GbSZopcWWJhAgQfhkYMWUQMD1A==
-X-Google-Smtp-Source: APXvYqxTM7m8BRMjwLTWwpw8EixNZYqSmNK8dFtS5CxerzYfaEU5rADDWyznr8Pqz9IiBpzJA2BlFQ==
-X-Received: by 2002:adf:ce90:: with SMTP id r16mr569812wrn.156.1557302556362;
-        Wed, 08 May 2019 01:02:36 -0700 (PDT)
-Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net. [86.9.19.6])
-        by smtp.gmail.com with ESMTPSA id j190sm2658814wmb.19.2019.05.08.01.02.34
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 08 May 2019 01:02:34 -0700 (PDT)
-Date:   Wed, 8 May 2019 09:02:32 +0100
-From:   Daniel Thompson <daniel.thompson@linaro.org>
-To:     Sumit Garg <sumit.garg@linaro.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XNonYk8/ihexURqWmbVWGo+HlXE5x3mb0fn10s1rhqQ=;
+        b=We0SPprj0k58GTA53FblcZbUHOipvqfDxtMGhvYCRKjkAP3WghKuHx2slZ6a1d75ml
+         0eFOa6dykRl6U6d7HRE/m8zaxtye7AHylPD2DmwA04CVZiJf+HbAJO0P2jPPcGvxW5dS
+         oh0gIGdck6XVopXiVcl0lfL1O6Si3y9aItwwzplV5Xif7PWFEDgsE3rSH0B1p5oPiPgH
+         2JldWyezT7foLjQaz556FAic6zoO3muO8fDmPJ+Sxk/4dxbvQ/VVpx1WORzx3N46QUVp
+         MxBtPLkeRuOrCCchEqORN+J9kptldHZ0yIA2zsXNuXXSIL00Gn9HwnZu21qXVIaDDkMh
+         I2qA==
+X-Gm-Message-State: APjAAAVwSXyy+y3tPZtBcY4JooNAqSskljgsyvV0xxbO8QnSHh35/0w3
+        GtmzMD48+LPhXIW5OgIb8BcqkBtdQj3BNntGcOueZg==
+X-Google-Smtp-Source: APXvYqzvqdfI/hjY2GupzJ4hQmeRb6kwfQPT4h75YLOR9fvCTVxVuStyB4lVkDgiLkIc9vXwMXKH+beoO6ciJweK3Yw=
+X-Received: by 2002:a67:fa95:: with SMTP id f21mr19250315vsq.180.1557303869534;
+ Wed, 08 May 2019 01:24:29 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190415155636.32748-1-sashal@kernel.org> <20190507174020.GH1747@sasha-vm>
+ <CAFA6WYPk5Bm11RfaC72g_C8rnMQEPyp-MhtopmDM3Of31v1Z_w@mail.gmail.com> <20190508080232.vzdyvmrqx2apfvlf@holly.lan>
+In-Reply-To: <20190508080232.vzdyvmrqx2apfvlf@holly.lan>
+From:   Sumit Garg <sumit.garg@linaro.org>
+Date:   Wed, 8 May 2019 13:54:18 +0530
+Message-ID: <CAFA6WYP206hVoqkKcbEvLP9O7ZAOLLru3OZPbVDO95Me=euFnA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/2] ftpm: a firmware based TPM driver
+To:     Daniel Thompson <daniel.thompson@linaro.org>
 Cc:     Sasha Levin <sashal@kernel.org>, peterhuewe@gmx.de,
         jarkko.sakkinen@linux.intel.com, jgg@ziepe.ca, corbet@lwn.net,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
         linux-kernel@microsoft.com, thiruan@microsoft.com,
         bryankel@microsoft.com, tee-dev@lists.linaro.org
-Subject: Re: [PATCH v3 0/2] ftpm: a firmware based TPM driver
-Message-ID: <20190508080232.vzdyvmrqx2apfvlf@holly.lan>
-References: <20190415155636.32748-1-sashal@kernel.org>
- <20190507174020.GH1747@sasha-vm>
- <CAFA6WYPk5Bm11RfaC72g_C8rnMQEPyp-MhtopmDM3Of31v1Z_w@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFA6WYPk5Bm11RfaC72g_C8rnMQEPyp-MhtopmDM3Of31v1Z_w@mail.gmail.com>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 08, 2019 at 10:11:54AM +0530, Sumit Garg wrote:
-> + TEE ML
-> 
-> Hi Sasha,
-> 
-> Firstly apologies for my comments here as I recently joined
-> linux-integrity ML so I don't have other patches in my inbox. Also, it
-> would be nice if you could cc TEE ML in future patches, so that people
-> are aware of such interesting use-cases and may provide some feedback.
-
-If this kind is desire exists then shouldn't it be captured in
-MAINTAINERS?
-
-
-Daniel.
-
-> 
-> On Tue, 7 May 2019 at 23:10, Sasha Levin <sashal@kernel.org> wrote:
+On Wed, 8 May 2019 at 13:32, Daniel Thompson <daniel.thompson@linaro.org> wrote:
+>
+> On Wed, May 08, 2019 at 10:11:54AM +0530, Sumit Garg wrote:
+> > + TEE ML
 > >
-> > On Mon, Apr 15, 2019 at 11:56:34AM -0400, Sasha Levin wrote:
-> > >From: "Sasha Levin (Microsoft)" <sashal@kernel.org>
-> > >
-> > >Changes since v2:
-> > >
-> > > - Drop the devicetree bindings patch (we don't add any new ones).
-> > > - More code cleanups based on Jason Gunthorpe's review.
-> > >
-> > >Sasha Levin (2):
-> > >  ftpm: firmware TPM running in TEE
-> > >  ftpm: add documentation for ftpm driver
+> > Hi Sasha,
 > >
-> > Ping? Does anyone have any objections to this?
+> > Firstly apologies for my comments here as I recently joined
+> > linux-integrity ML so I don't have other patches in my inbox. Also, it
+> > would be nice if you could cc TEE ML in future patches, so that people
+> > are aware of such interesting use-cases and may provide some feedback.
+>
+> If this kind is desire exists then shouldn't it be captured in
+> MAINTAINERS?
+>
+
+Makes sense, will send a patch to capture it in MAINTAINERS file.
+
+-Sumit
+
+>
+> Daniel.
+>
 > >
-> 
-> From [PATCH v3 1/2] ftpm: firmware TPM running in TEE:
-> 
-> > +static const struct of_device_id of_ftpm_tee_ids[] = {
-> > + { .compatible = "microsoft,ftpm" },
-> > + { }
-> > +};
-> > +MODULE_DEVICE_TABLE(of, of_ftpm_tee_ids);
-> > +
-> > +static struct platform_driver ftpm_tee_driver = {
-> > + .driver = {
-> > + .name = DRIVER_NAME,
-> > + .of_match_table = of_match_ptr(of_ftpm_tee_ids),
-> > + },
-> > + .probe = ftpm_tee_probe,
-> > + .remove = ftpm_tee_remove,
-> > +};
-> > +
-> > +module_platform_driver(ftpm_tee_driver);
-> 
-> Here this fTPM driver (seems to communicate with OP-TEE based TA)
-> should register on TEE bus [1] rather than platform bus as its actual
-> dependency is on TEE driver rather than using deferred probe to meet
-> its dependency. Have a look at OP-TEE based RNG driver here [2].
-> 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=0fc1db9d105915021260eb241661b8e96f5c0f1a
-> [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=5fe8b1cc6a03c46b3061e808256d39dcebd0d0f0
-> 
-> -Sumit
-> 
-> > --
-> > Thanks,
-> > Sasha
+> > On Tue, 7 May 2019 at 23:10, Sasha Levin <sashal@kernel.org> wrote:
+> > >
+> > > On Mon, Apr 15, 2019 at 11:56:34AM -0400, Sasha Levin wrote:
+> > > >From: "Sasha Levin (Microsoft)" <sashal@kernel.org>
+> > > >
+> > > >Changes since v2:
+> > > >
+> > > > - Drop the devicetree bindings patch (we don't add any new ones).
+> > > > - More code cleanups based on Jason Gunthorpe's review.
+> > > >
+> > > >Sasha Levin (2):
+> > > >  ftpm: firmware TPM running in TEE
+> > > >  ftpm: add documentation for ftpm driver
+> > >
+> > > Ping? Does anyone have any objections to this?
+> > >
+> >
+> > From [PATCH v3 1/2] ftpm: firmware TPM running in TEE:
+> >
+> > > +static const struct of_device_id of_ftpm_tee_ids[] = {
+> > > + { .compatible = "microsoft,ftpm" },
+> > > + { }
+> > > +};
+> > > +MODULE_DEVICE_TABLE(of, of_ftpm_tee_ids);
+> > > +
+> > > +static struct platform_driver ftpm_tee_driver = {
+> > > + .driver = {
+> > > + .name = DRIVER_NAME,
+> > > + .of_match_table = of_match_ptr(of_ftpm_tee_ids),
+> > > + },
+> > > + .probe = ftpm_tee_probe,
+> > > + .remove = ftpm_tee_remove,
+> > > +};
+> > > +
+> > > +module_platform_driver(ftpm_tee_driver);
+> >
+> > Here this fTPM driver (seems to communicate with OP-TEE based TA)
+> > should register on TEE bus [1] rather than platform bus as its actual
+> > dependency is on TEE driver rather than using deferred probe to meet
+> > its dependency. Have a look at OP-TEE based RNG driver here [2].
+> >
+> > [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=0fc1db9d105915021260eb241661b8e96f5c0f1a
+> > [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=5fe8b1cc6a03c46b3061e808256d39dcebd0d0f0
+> >
+> > -Sumit
+> >
+> > > --
+> > > Thanks,
+> > > Sasha
