@@ -1,210 +1,190 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 212C47D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 May 2019 15:20:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 16F887D912
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 May 2019 15:42:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726617AbfEIPUE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 9 May 2019 11:20:04 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:62766 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726251AbfEIPUE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 May 2019 11:20:04 -0400
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id x49FJklU008070;
-        Fri, 10 May 2019 00:19:47 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x49FJklU008070
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1557415188;
-        bh=/RmcGIvKlIeX5sautHUKWG9CqgOL/snHwlMz4C7RK7Y=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=LpHPoAEd2po4sFlMrUGrNwEbOY28Aww4RDFL8YojNSo8sO3uY8ARSe11GyQZr8OUc
-         PRXjmAA9Atra/ht71v0rHNXzigOrkVT34erRnwrRqUUVqzsgRkUrKxyr6wo4jKapXO
-         x+D0BbHsXbe3nlzMrhdbo42vgj+AHOcWxsHTrvXbYr0d6fzsy1ol6RSHLUHYi3ayUH
-         MOjWMWO+tHDDhtImH09a0PoueXUKhmfqqJyCQ57GfOsMfWyrvnUPEY+1c8oag+THsl
-         aQtv59lraQ5Gmx3yk+TyXlcVHT55wTSMsVki/rd1We3cI4eZ1og6VgKylmkDa0tjDc
-         q7H/XL+sV3XHw==
-X-Nifty-SrcIP: [209.85.217.46]
-Received: by mail-vs1-f46.google.com with SMTP id q64so1671666vsd.1;
-        Thu, 09 May 2019 08:19:47 -0700 (PDT)
-X-Gm-Message-State: APjAAAWM3w7VKAifW8aL/3MwywEk4SKCrCfOlEDDoWjTqJKxEvzINsqX
-        7Ec/mtowIRbMhQk5h45mNZWn5cHSgm5VS6znWuI=
-X-Google-Smtp-Source: APXvYqx6QjKlJ2f+g4A6WK94eltfaSbhy0aZvu24LJigaNs8MefbVE61l1HSqEqjAJsc0x0q+dn5JmOY0plbpWccbg8=
-X-Received: by 2002:a67:f109:: with SMTP id n9mr2430794vsk.181.1557415186326;
- Thu, 09 May 2019 08:19:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190501230126.229218-1-brendanhiggins@google.com>
-In-Reply-To: <20190501230126.229218-1-brendanhiggins@google.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Fri, 10 May 2019 00:19:08 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARzaeZ+ZNbDSii2cpFkk4bUqOu3keNq4qX0LhftuK8+MQ@mail.gmail.com>
-Message-ID: <CAK7LNARzaeZ+ZNbDSii2cpFkk4bUqOu3keNq4qX0LhftuK8+MQ@mail.gmail.com>
-Subject: Re: [PATCH v2 00/17] kunit: introduce KUnit, the Linux kernel unit
- testing framework
-To:     Brendan Higgins <brendanhiggins@google.com>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        keescook@google.com, kieran.bingham@ideasonboard.com,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-        "Cc: Shuah Khan" <shuah@kernel.org>,
-        DTML <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>, linux-nvdimm@lists.01.org,
-        linux-um@lists.infradead.org, Alexander.Levin@microsoft.com,
-        Tim Bird <Tim.Bird@sony.com>, amir73il@gmail.com,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Richard Weinberger <richard@nod.at>, rientjes@google.com,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
+        id S1726666AbfEIPmd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 9 May 2019 11:42:33 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54364 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726658AbfEIPmd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 May 2019 11:42:33 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x49FcR8j091541
+        for <linux-doc@vger.kernel.org>; Thu, 9 May 2019 11:42:33 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2scpj91s4g-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Thu, 09 May 2019 11:42:32 -0400
+Received: from localhost
+        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <zohar@linux.ibm.com>;
+        Thu, 9 May 2019 16:42:30 +0100
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Thu, 9 May 2019 16:42:25 +0100
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x49FgOKc61472792
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 9 May 2019 15:42:24 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 83835A4040;
+        Thu,  9 May 2019 15:42:24 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 32B28A4055;
+        Thu,  9 May 2019 15:42:22 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.80.95.107])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Thu,  9 May 2019 15:42:22 +0000 (GMT)
+Subject: Re: [PATCH v10 01/12] MODSIGN: Export module signature definitions
+From:   Mimi Zohar <zohar@linux.ibm.com>
+To:     Thiago Jung Bauermann <bauerman@linux.ibm.com>,
+        linux-integrity@vger.kernel.org
+Cc:     linux-security-module@vger.kernel.org, keyrings@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        David Howells <dhowells@redhat.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "AKASHI, Takahiro" <takahiro.akashi@linaro.org>
+Date:   Thu, 09 May 2019 11:42:08 -0400
+In-Reply-To: <20190418035120.2354-2-bauerman@linux.ibm.com>
+References: <20190418035120.2354-1-bauerman@linux.ibm.com>
+         <20190418035120.2354-2-bauerman@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19050915-0008-0000-0000-000002E4F703
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19050915-0009-0000-0000-000022517E40
+Message-Id: <1557416528.10635.62.camel@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-09_02:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1905090090
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 2, 2019 at 8:02 AM Brendan Higgins
-<brendanhiggins@google.com> wrote:
->
-> ## TLDR
->
-> I rebased the last patchset on 5.1-rc7 in hopes that we can get this in
-> 5.2.
->
-> Shuah, I think you, Greg KH, and myself talked off thread, and we agreed
-> we would merge through your tree when the time came? Am I remembering
-> correctly?
->
-> ## Background
->
-> This patch set proposes KUnit, a lightweight unit testing and mocking
-> framework for the Linux kernel.
->
-> Unlike Autotest and kselftest, KUnit is a true unit testing framework;
-> it does not require installing the kernel on a test machine or in a VM
-> and does not require tests to be written in userspace running on a host
-> kernel. Additionally, KUnit is fast: From invocation to completion KUnit
-> can run several dozen tests in under a second. Currently, the entire
-> KUnit test suite for KUnit runs in under a second from the initial
-> invocation (build time excluded).
->
-> KUnit is heavily inspired by JUnit, Python's unittest.mock, and
-> Googletest/Googlemock for C++. KUnit provides facilities for defining
-> unit test cases, grouping related test cases into test suites, providing
-> common infrastructure for running tests, mocking, spying, and much more.
->
-> ## What's so special about unit testing?
->
-> A unit test is supposed to test a single unit of code in isolation,
-> hence the name. There should be no dependencies outside the control of
-> the test; this means no external dependencies, which makes tests orders
-> of magnitudes faster. Likewise, since there are no external dependencies,
-> there are no hoops to jump through to run the tests. Additionally, this
-> makes unit tests deterministic: a failing unit test always indicates a
-> problem. Finally, because unit tests necessarily have finer granularity,
-> they are able to test all code paths easily solving the classic problem
-> of difficulty in exercising error handling code.
->
-> ## Is KUnit trying to replace other testing frameworks for the kernel?
->
-> No. Most existing tests for the Linux kernel are end-to-end tests, which
-> have their place. A well tested system has lots of unit tests, a
-> reasonable number of integration tests, and some end-to-end tests. KUnit
-> is just trying to address the unit test space which is currently not
-> being addressed.
->
-> ## More information on KUnit
->
-> There is a bunch of documentation near the end of this patch set that
-> describes how to use KUnit and best practices for writing unit tests.
-> For convenience I am hosting the compiled docs here:
-> https://google.github.io/kunit-docs/third_party/kernel/docs/
-> Additionally for convenience, I have applied these patches to a branch:
-> https://kunit.googlesource.com/linux/+/kunit/rfc/v5.1-rc7/v1
-> The repo may be cloned with:
-> git clone https://kunit.googlesource.com/linux
-> This patchset is on the kunit/rfc/v5.1-rc7/v1 branch.
->
-> ## Changes Since Last Version
->
-> None. I just rebased the last patchset on v5.1-rc7.
->
-> --
-> 2.21.0.593.g511ec345e18-goog
->
+On Thu, 2019-04-18 at 00:51 -0300, Thiago Jung Bauermann wrote:
+> IMA will use the module_signature format for append signatures, so export
+> the relevant definitions and factor out the code which verifies that the
+> appended signature trailer is valid.
+> 
+> Also, create a CONFIG_MODULE_SIG_FORMAT option so that IMA can select it
+> and be able to use mod_check_sig() without having to depend on either
+> CONFIG_MODULE_SIG or CONFIG_MODULES.
+> 
+> Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+> Cc: Jessica Yu <jeyu@kernel.org>
 
-The following is the log of 'git am' of this series.
-I see several 'new blank line at EOF' warnings.
+Just a couple minor questions/comments below.
+
+Reviewed-by: Mimi Zohar <zohar@linux.ibm.com>
+
+> ---
+
+< snip >
 
 
+> diff --git a/init/Kconfig b/init/Kconfig
+> index 4592bf7997c0..a71019553ee1 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -1906,7 +1906,7 @@ config MODULE_SRCVERSION_ALL
+>  config MODULE_SIG
+>  	bool "Module signature verification"
+>  	depends on MODULES
+> -	select SYSTEM_DATA_VERIFICATION
+> +	select MODULE_SIG_FORMAT
+>  	help
+>  	  Check modules for valid signatures upon load: the signature
+>  	  is simply appended to the module. For more information see
+> @@ -2036,6 +2036,10 @@ config TRIM_UNUSED_KSYMS
+>  
+>  endif # MODULES
+>  
+> +config MODULE_SIG_FORMAT
+> +	def_bool n
+> +	select SYSTEM_DATA_VERIFICATION
 
-masahiro@pug:~/workspace/bsp/linux$ git am ~/Downloads/*.patch
-Applying: kunit: test: add KUnit test runner core
-Applying: kunit: test: add test resource management API
-Applying: kunit: test: add string_stream a std::stream like string builder
-.git/rebase-apply/patch:223: new blank line at EOF.
-+
-warning: 1 line adds whitespace errors.
-Applying: kunit: test: add kunit_stream a std::stream like logger
-Applying: kunit: test: add the concept of expectations
-.git/rebase-apply/patch:475: new blank line at EOF.
-+
-warning: 1 line adds whitespace errors.
-Applying: kbuild: enable building KUnit
-Applying: kunit: test: add initial tests
-.git/rebase-apply/patch:203: new blank line at EOF.
-+
-warning: 1 line adds whitespace errors.
-Applying: kunit: test: add support for test abort
-.git/rebase-apply/patch:453: new blank line at EOF.
-+
-warning: 1 line adds whitespace errors.
-Applying: kunit: test: add tests for kunit test abort
-Applying: kunit: test: add the concept of assertions
-.git/rebase-apply/patch:518: new blank line at EOF.
-+
-warning: 1 line adds whitespace errors.
-Applying: kunit: test: add test managed resource tests
-Applying: kunit: tool: add Python wrappers for running KUnit tests
-.git/rebase-apply/patch:457: new blank line at EOF.
-+
-warning: 1 line adds whitespace errors.
-Applying: kunit: defconfig: add defconfigs for building KUnit tests
-Applying: Documentation: kunit: add documentation for KUnit
-.git/rebase-apply/patch:71: new blank line at EOF.
-+
-.git/rebase-apply/patch:209: new blank line at EOF.
-+
-.git/rebase-apply/patch:848: new blank line at EOF.
-+
-warning: 3 lines add whitespace errors.
-Applying: MAINTAINERS: add entry for KUnit the unit testing framework
-Applying: kernel/sysctl-test: Add null pointer test for sysctl.c:proc_dointvec()
-Applying: MAINTAINERS: add proc sysctl KUnit test to PROC SYSCTL section
+Normally Kconfigs, in the same file, are defined before they are used.
+ I'm not sure if that is required or just a convention.
 
 
+>  config MODULES_TREE_LOOKUP
+>  	def_bool y
+>  	depends on PERF_EVENTS || TRACING
+> diff --git a/kernel/Makefile b/kernel/Makefile
+> index 6c57e78817da..d2f2488f80ab 100644
+> --- a/kernel/Makefile
+> +++ b/kernel/Makefile
+> @@ -57,6 +57,7 @@ endif
+>  obj-$(CONFIG_UID16) += uid16.o
+>  obj-$(CONFIG_MODULES) += module.o
+>  obj-$(CONFIG_MODULE_SIG) += module_signing.o
+> +obj-$(CONFIG_MODULE_SIG_FORMAT) += module_signature.o
+>  obj-$(CONFIG_KALLSYMS) += kallsyms.o
+>  obj-$(CONFIG_BSD_PROCESS_ACCT) += acct.o
+>  obj-$(CONFIG_CRASH_CORE) += crash_core.o
+> diff --git a/kernel/module.c b/kernel/module.c
+> index 985caa467aef..326ddeb364dd 100644
+> --- a/kernel/module.c
+> +++ b/kernel/module.c
+> @@ -19,6 +19,7 @@
+>  #include <linux/export.h>
+>  #include <linux/extable.h>
+>  #include <linux/moduleloader.h>
+> +#include <linux/module_signature.h>
+>  #include <linux/trace_events.h>
+>  #include <linux/init.h>
+>  #include <linux/kallsyms.h>
+> diff --git a/kernel/module_signature.c b/kernel/module_signature.c
+> new file mode 100644
+> index 000000000000..6d5e59f27f55
+> --- /dev/null
+> +++ b/kernel/module_signature.c
+> @@ -0,0 +1,45 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Module signature checker
+> + *
+> + * Copyright (C) 2012 Red Hat, Inc. All Rights Reserved.
+> + * Written by David Howells (dhowells@redhat.com)
+> + */
+> +
+> +#include <linux/errno.h>
+> +#include <linux/printk.h>
+> +#include <linux/module_signature.h>
+> +#include <asm/byteorder.h>
+> +
+> +/**
+> + * mod_check_sig - check that the given signature is sane
+> + *
+> + * @ms:		Signature to check.
+> + * @file_len:	Size of the file to which @ms is appended.
 
+"name" is missing.
 
+Mimi
 
+> + */
 
---
-Best Regards
-Masahiro Yamada
