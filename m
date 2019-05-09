@@ -1,58 +1,32 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C6EB77D913
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 May 2019 18:12:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7F96A7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 May 2019 21:44:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726701AbfEISMR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 9 May 2019 14:12:17 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:35450 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726632AbfEISMR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 May 2019 14:12:17 -0400
-Received: by mail-pf1-f194.google.com with SMTP id t87so1736577pfa.2;
-        Thu, 09 May 2019 11:12:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Uxi0dT3bZPj5ZkTVCL1ze6BziBmMlaGGA5Ikg1U2vOM=;
-        b=NVDbC1bDsKomR5b17X9A07TUn96+Z0R3C4QHe4+4XmcpJtOfCd8CgmuLCZMfSUHc2Y
-         AZQbhyOHVN3PbnfvpXNwIyTiJEC0AnC3A31KnDgtom1X8Z0bgVekXTI3BVaR1rUMtVkc
-         mpvbZA/KClKMuTnmyJdmslHsYwuIqmD1989ZCuOTgZCEOLUbJp+Az3OuPzbniWLdhZRK
-         A4eykSViXmcMIyntll9GMv/G9FH9fbRHmzzNbY06sd7ytRr4VIvYZ01eaVqBFzNo471Q
-         13oOjpRmdvJZD1oIeJ41HPZmqYmiXnHa+CbiBBf3n0hUjCKPHXEpNrM3Np8eHuClrL/7
-         NdMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Uxi0dT3bZPj5ZkTVCL1ze6BziBmMlaGGA5Ikg1U2vOM=;
-        b=KWBcRuY1ZFzu4sDVv4UmjfwaKq1ypyP0wFO59su254aqLyO6sqd/qe8lg7LtaVz+DZ
-         DILQ9g6ui/wPoGC+ficqXkRo8/cZLajKc7LRcS47etHwJevyR7jZbJXZJGmjZ48gcO3P
-         IkPPTgdGpXmJkG8hm1mKuPJ3/w6i5NiFgZ4Qbfw+ugFaB8LYJbP8CuSR9NOiHp+PNo8s
-         k5XisFBfgDa/QJLLLv1TVZFAV7OFG7gvLqRqdYgjVJjI9FY2YzQZllZFpeWtAUm5i8uG
-         4rko+w0bTxlE42902DWkY6i0xMxZHzuK8dlHs/AScygUbbTTtmT45g4ixWwIE36L0KB7
-         kSDQ==
-X-Gm-Message-State: APjAAAXPCZ+B1UcrGCXT2T3mP2FLcr1s2tYqe1Y376c+ear2LYSpRPYZ
-        yzSV9gY5e1hZoLb8cS85b70=
-X-Google-Smtp-Source: APXvYqwGz4a+VK7p6ts4ffA1rbfVCYWZRJS4YjX+gCEsA57HSqJ7sXPY9ft7Z0NWCteDTJWoQXvRRA==
-X-Received: by 2002:a65:5941:: with SMTP id g1mr7554475pgu.51.1557425535979;
-        Thu, 09 May 2019 11:12:15 -0700 (PDT)
-Received: from [192.168.1.70] (c-24-6-192-50.hsd1.ca.comcast.net. [24.6.192.50])
-        by smtp.gmail.com with ESMTPSA id l68sm6532427pfb.20.2019.05.09.11.12.13
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 09 May 2019 11:12:15 -0700 (PDT)
-Subject: Re: [PATCH v2 00/17] kunit: introduce KUnit, the Linux kernel unit
- testing framework
-To:     Tim.Bird@sony.com, tytso@mit.edu, knut.omang@oracle.com
-Cc:     gregkh@linuxfoundation.org, brendanhiggins@google.com,
+        id S1726661AbfEIVoR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 9 May 2019 17:44:17 -0400
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:45284 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726219AbfEIVoQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 May 2019 17:44:16 -0400
+Received: from callcc.thunk.org (guestnat-104-133-0-109.corp.google.com [104.133.0.109] (may be forged))
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x49LgY32008689
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 9 May 2019 17:42:35 -0400
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id B6256420024; Thu,  9 May 2019 17:42:33 -0400 (EDT)
+Date:   Thu, 9 May 2019 17:42:33 -0400
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     Frank Rowand <frowand.list@gmail.com>
+Cc:     Tim.Bird@sony.com, knut.omang@oracle.com,
+        gregkh@linuxfoundation.org, brendanhiggins@google.com,
         keescook@google.com, kieran.bingham@ideasonboard.com,
         mcgrof@kernel.org, robh@kernel.org, sboyd@kernel.org,
         shuah@kernel.org, devicetree@vger.kernel.org,
@@ -67,8 +41,27 @@ Cc:     gregkh@linuxfoundation.org, brendanhiggins@google.com,
         logang@deltatee.com, mpe@ellerman.id.au, pmladek@suse.com,
         richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
         wfg@linux.intel.com
-References: <20190501230126.229218-1-brendanhiggins@google.com>
- <54940124-50df-16ec-1a32-ad794ee05da7@gmail.com>
+Subject: Re: [PATCH v2 00/17] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+Message-ID: <20190509214233.GA20877@mit.edu>
+Mail-Followup-To: Theodore Ts'o <tytso@mit.edu>,
+        Frank Rowand <frowand.list@gmail.com>, Tim.Bird@sony.com,
+        knut.omang@oracle.com, gregkh@linuxfoundation.org,
+        brendanhiggins@google.com, keescook@google.com,
+        kieran.bingham@ideasonboard.com, mcgrof@kernel.org, robh@kernel.org,
+        sboyd@kernel.org, shuah@kernel.org, devicetree@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-um@lists.infradead.org, Alexander.Levin@microsoft.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com,
+        dan.j.williams@intel.com, daniel@ffwll.ch, jdike@addtoit.com,
+        joel@jms.id.au, julia.lawall@lip6.fr, khilman@baylibre.com,
+        logang@deltatee.com, mpe@ellerman.id.au, pmladek@suse.com,
+        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
+        wfg@linux.intel.com
+References: <54940124-50df-16ec-1a32-ad794ee05da7@gmail.com>
  <20190507080119.GB28121@kroah.com>
  <a09a7e0e-9894-8c1a-34eb-fc482b1759d0@gmail.com>
  <20190509015856.GB7031@mit.edu>
@@ -77,122 +70,38 @@ References: <20190501230126.229218-1-brendanhiggins@google.com>
  <7fd35df81c06f6eb319223a22e7b93f29926edb9.camel@oracle.com>
  <20190509133551.GD29703@mit.edu>
  <ECADFF3FD767C149AD96A924E7EA6EAF9770D591@USCULXMSG01.am.sony.com>
-From:   Frank Rowand <frowand.list@gmail.com>
-Message-ID: <875c546d-9713-bb59-47e4-77a1d2c69a6d@gmail.com>
-Date:   Thu, 9 May 2019 11:12:12 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ <875c546d-9713-bb59-47e4-77a1d2c69a6d@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <ECADFF3FD767C149AD96A924E7EA6EAF9770D591@USCULXMSG01.am.sony.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <875c546d-9713-bb59-47e4-77a1d2c69a6d@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/9/19 10:00 AM, Tim.Bird@sony.com wrote:
->> -----Original Message-----
->> From: Theodore Ts'o 
->>
-
-< massive snip >
-
-I'll reply in more detail to some other earlier messages in this thread
-later.
-
-This reply is an attempt to return to the intent of my original reply to
-patch 0 of this series.
-
-
->> Ultimately, I'm a pragmatist.  If KTF serves your needs best, good for
->> you.  If other approaches are better for other parts of the kernel,
->> let's not try to impose a strict "There Must Be Only One" religion.
->> That's already not true today, and for good reason.  There are many
->> different kinds of kernel code, and many different types of test
->> philosophies.  Trying to force all kernel testing into a single
->> Procrustean Bed is simply not productive.
+On Thu, May 09, 2019 at 11:12:12AM -0700, Frank Rowand wrote:
 > 
-> Had to look up "Procrustean Bed" - great phrase.  :-)
+>    "My understanding is that the intent of KUnit is to avoid booting a kernel on
+>    real hardware or in a virtual machine.  That seems to be a matter of semantics
+>    to me because isn't invoking a UML Linux just running the Linux kernel in
+>    a different form of virtualization?
 > 
-> I'm not of the opinion that there must only be one test framework
-> in the kernel. But we should avoid unnecessary multiplication. Every
-> person is going to have a different idea for where the line of necessity
-> is drawn.  My own opinion is that what KUnit is adding is different enough
-> from kselftest, that it's a valuable addition.  
+>    So I do not understand why KUnit is an improvement over kselftest.
 > 
->  -- Tim
+>    ...
+> 
+>    What am I missing?"
 
-My first reply to patch 0 was in the context of knowing next to nothing
-about kselftest.  My level of understanding was essentially from slideware.
-(As the thread progressed, I dug a little deeper into kselftest, so now have
-a slightly better, though still fairly surface understanding of kselftest).
+One major difference: kselftest requires a userspace environment; it
+starts systemd, requires a root file system from which you can load
+modules, etc.  Kunit doesn't require a root file system; doesn't
+require that you start systemd; doesn't allow you to run arbitrary
+perl, python, bash, etc. scripts.  As such, it's much lighter weight
+than kselftest, and will have much less overhead before you can start
+running tests.  So it's not really the same kind of virtualization.
 
-Maybe I did not explain myself clearly enough in that reply.  I will try
-again here.
+Does this help?
 
-Patch 0 provided a one paragraph explanation of why KUnit exists, titled
-
-   "## What's so special about unit testing?"
-
-Patch 0 also provided a statement that it is not meant to replace
-kselftest, in a paragraph titled
-
-   "## Is KUnit trying to replace other testing frameworks for the kernel?"
-
-I stated:
-
-   "My understanding is that the intent of KUnit is to avoid booting a kernel on
-   real hardware or in a virtual machine.  That seems to be a matter of semantics
-   to me because isn't invoking a UML Linux just running the Linux kernel in
-   a different form of virtualization?
-
-   So I do not understand why KUnit is an improvement over kselftest.
-
-   ...
-
-   What am I missing?"
-
-
-I was looking for a fuller, better explanation than was given in patch 0
-of how KUnit provides something that is different than what kselftest
-provides for creating unit tests for kernel code.
-
-New question "(2)":
-
-(2) If KUnit provides something unique, then the obvious follow on
-question would be: does it make sense to (a) integrate that feature into
-kselftest, (b) integrate the current kselftest in kernel test functionality
-into KUnit and convert the in kernel test portion of kselftest to use
-KUnit, or (c) KUnit and kselftest are so different that they need to
-remain separate features.
-
-*****  Please do not reply to this email with a discussion of "(2)".
-*****  Such a discussion is premature if there is not an answer
-*****  to my first question.
-
-Observation (3), rephrased:
-
-(3) I also brought up the issue that if option (c) was the answer to
-question "(2)" (instead of either option (a) or option (b)) then this
-is extra overhead for any developer or maintainer involved in different
-subsystems that use the different frameworks.  I intended this as one
-possible motivation for why my first question mattered.
-
-Ted grabbed hold of this issue and basically ignored what I intended
-to be my core question.  Nobody else has answered my core question,
-though Knut's first reply did manage to get somewhere near the
-intent of my core question.
-
-*****  Please do not reply to this email with a discussion of "(3)".
-*****  Such a discussion is premature if there is not an answer
-*****  to my first question.
-*****
-*****  Also that discussion is already occurring in this thread,
-*****  feel free to discuss it there if you want, even though I
-*****  feel such discussion is premature.
-
-I still do not have an answer to my original question.
-
--Frank
+					- Ted
