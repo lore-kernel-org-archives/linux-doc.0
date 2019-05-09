@@ -5,72 +5,92 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AB28F7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 May 2019 03:06:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 280787D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 May 2019 03:21:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726082AbfEIDGB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 8 May 2019 23:06:01 -0400
-Received: from mail.cn.fujitsu.com ([183.91.158.132]:43663 "EHLO
-        heian.cn.fujitsu.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725842AbfEIDGB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 May 2019 23:06:01 -0400
-X-IronPort-AV: E=Sophos;i="5.60,448,1549900800"; 
-   d="scan'208,217";a="62200514"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 09 May 2019 11:05:59 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-        by cn.fujitsu.com (Postfix) with ESMTP id EFD464CDB2FD;
-        Thu,  9 May 2019 11:05:55 +0800 (CST)
-Received: from iridescent.g08.fujitsu.local (10.167.225.140) by
- G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
- (TLS) id 14.3.439.0; Thu, 9 May 2019 11:05:58 +0800
-From:   Shiyang Ruan <ruansy.fnst@cn.fujitsu.com>
-To:     <corbet@lwn.net>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] Documentation: xfs: Fix typo
-Date:   Thu, 9 May 2019 11:05:49 +0800
-Message-ID: <20190509030549.2253-1-ruansy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.17.0
+        id S1726438AbfEIDVo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 8 May 2019 23:21:44 -0400
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:60933 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726109AbfEIDVo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 8 May 2019 23:21:44 -0400
+Received: from callcc.thunk.org ([66.31.38.53])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x493KHVw012310
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 8 May 2019 23:20:19 -0400
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id A3951420024; Wed,  8 May 2019 23:20:17 -0400 (EDT)
+Date:   Wed, 8 May 2019 23:20:17 -0400
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     Frank Rowand <frowand.list@gmail.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        keescook@google.com, kieran.bingham@ideasonboard.com,
+        mcgrof@kernel.org, robh@kernel.org, sboyd@kernel.org,
+        shuah@kernel.org, devicetree@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-um@lists.infradead.org, Alexander.Levin@microsoft.com,
+        Tim.Bird@sony.com, amir73il@gmail.com, dan.carpenter@oracle.com,
+        dan.j.williams@intel.com, daniel@ffwll.ch, jdike@addtoit.com,
+        joel@jms.id.au, julia.lawall@lip6.fr, khilman@baylibre.com,
+        knut.omang@oracle.com, logang@deltatee.com, mpe@ellerman.id.au,
+        pmladek@suse.com, richard@nod.at, rientjes@google.com,
+        rostedt@goodmis.org, wfg@linux.intel.com
+Subject: Re: [PATCH v2 00/17] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+Message-ID: <20190509032017.GA29703@mit.edu>
+Mail-Followup-To: Theodore Ts'o <tytso@mit.edu>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Brendan Higgins <brendanhiggins@google.com>, keescook@google.com,
+        kieran.bingham@ideasonboard.com, mcgrof@kernel.org, robh@kernel.org,
+        sboyd@kernel.org, shuah@kernel.org, devicetree@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-um@lists.infradead.org, Alexander.Levin@microsoft.com,
+        Tim.Bird@sony.com, amir73il@gmail.com, dan.carpenter@oracle.com,
+        dan.j.williams@intel.com, daniel@ffwll.ch, jdike@addtoit.com,
+        joel@jms.id.au, julia.lawall@lip6.fr, khilman@baylibre.com,
+        knut.omang@oracle.com, logang@deltatee.com, mpe@ellerman.id.au,
+        pmladek@suse.com, richard@nod.at, rientjes@google.com,
+        rostedt@goodmis.org, wfg@linux.intel.com
+References: <20190501230126.229218-1-brendanhiggins@google.com>
+ <54940124-50df-16ec-1a32-ad794ee05da7@gmail.com>
+ <20190507080119.GB28121@kroah.com>
+ <a09a7e0e-9894-8c1a-34eb-fc482b1759d0@gmail.com>
+ <20190509015856.GB7031@mit.edu>
+ <580e092f-fa4e-eedc-9e9a-a57dd085f0a6@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.167.225.140]
-X-yoursite-MailScanner-ID: EFD464CDB2FD.AF98F
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: ruansy.fnst@cn.fujitsu.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <580e092f-fa4e-eedc-9e9a-a57dd085f0a6@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In "Y+P" of this line, there are two non-ASCII characters(0xd9 0x8d)
-following behind the 'Y'.  Shown as a small '=' under the '+' in VIM
-and a '賺' in webpage[1].
+On Wed, May 08, 2019 at 07:13:59PM -0700, Frank Rowand wrote:
+> > If you want to use vice grips as a hammer, screwdriver, monkey wrench,
+> > etc.  there's nothing stopping you from doing that.  But it's not fair
+> > to object to other people who might want to use better tools.
+> > 
+> > The reality is that we have a lot of testing tools.  It's not just
+> > kselftests.  There is xfstests for file system code, blktests for
+> > block layer tests, etc.   We use the right tool for the right job.
+> 
+> More specious arguments.
 
-I think it's a mistake and remove these strange characters.
+Well, *I* don't think they are specious; so I think we're going to
+have to agree to disagree.
 
-[1]: https://www.kernel.org/doc/Documentation/filesystems/xfs-delayed-logging-design.txt
+Cheers,
 
-Signed-off-by: Shiyang Ruan <ruansy.fnst@cn.fujitsu.com>
----
- Documentation/filesystems/xfs-delayed-logging-design.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/filesystems/xfs-delayed-logging-design.txt b/Documentation/filesystems/xfs-delayed-logging-design.txt
-index 2ce36439c09f..9a6dd289b17b 100644
---- a/Documentation/filesystems/xfs-delayed-logging-design.txt
-+++ b/Documentation/filesystems/xfs-delayed-logging-design.txt
-@@ -34,7 +34,7 @@ transaction:
- 	   D			A+B+C+D		X+n+m+o
- 	    <object written to disk>
- 	   E			   E		   Y (> X+n+m+o)
--	   F			  E+F		  Yٍ+p
-+	   F			  E+F		  Y+p
- 
- In other words, each time an object is relogged, the new transaction contains
- the aggregation of all the previous changes currently held only in the log.
--- 
-2.17.0
-
-
-
+						- Ted
