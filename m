@@ -1,161 +1,127 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A5B0C7D910
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 May 2019 22:47:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 512437D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 May 2019 23:01:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726658AbfEIWrs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 9 May 2019 18:47:48 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:39053 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726682AbfEIWrr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 May 2019 18:47:47 -0400
-Received: by mail-pf1-f196.google.com with SMTP id z26so2073495pfg.6
-        for <linux-doc@vger.kernel.org>; Thu, 09 May 2019 15:47:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=vZRf/O+AYO1pjasRFrKqOyps3I4eNGFPQS8KhShdX90=;
-        b=Ye5VPeIClHIvOa3yb/Txa2nZfvUQR7hyXGf8jlN8r7iBdWzaJtSWZksEgYFQpdW+le
-         CqqejGHpFq3qNoZ6SId2I8t2xH38UIuS4VQ0klh21WPl8hWhSZnaIBHQpZQdxggBGLJb
-         zkdOrKjnmeaLHbdYu1LbpWW+AHV9M7rizlsQA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=vZRf/O+AYO1pjasRFrKqOyps3I4eNGFPQS8KhShdX90=;
-        b=picFZ682ikScc72LIafSDfTOjOvye0euDsbfz25Rb2qKo0pG4ghOAgSuJmSd/kDLy6
-         iy4NtI1yZNznofm2bAKoRQkaD+24UcPcuOEA8iSfiVjrLyalFXwTo8fiX0ahn6O9XM8D
-         JepstKZFdBB1QbDptiwfrrG+7QlNwoFUdDimsiQvHAZsNuw9InRY8KI/oyHNTcbvv8Jt
-         EXvpuRUM0s8dENcHV1s7eQ5P9EFpPGjvzRgcmJMIyyJTmaVewa4xzMgu+Mz+z65I7hgM
-         QyY+zsFQ23KpmIDG3rua1VaaGgHlgR04EpxjHBWElHOgZfICpDO4w1kfR2xH4DuB533e
-         /gKg==
-X-Gm-Message-State: APjAAAWIZ7aZ6Ztbfrfjh8fceQLGdDhW5UhCDsYwIVh2TTyPivSrCQyo
-        DHUgWQETleHpXiZJ33l0gtZb8w==
-X-Google-Smtp-Source: APXvYqwO0Rpd3ouiehbTSdDrhChC3UhFFIDoCyfVb2yZJbYtD/jBLOeJxKNQDgTgWjLrHtJmKc4WbA==
-X-Received: by 2002:a65:43c8:: with SMTP id n8mr8758516pgp.365.1557442066517;
-        Thu, 09 May 2019 15:47:46 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id h6sm8950991pfk.188.2019.05.09.15.47.44
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 09 May 2019 15:47:45 -0700 (PDT)
-Date:   Thu, 9 May 2019 18:47:43 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Adrian Ratiu <adrian.ratiu@collabora.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        atish patra <atishp04@gmail.com>, bpf@vger.kernel.org,
-        Brendan Gregg <bgregg@netflix.com>,
-        Brendan Gregg <brendan.d.gregg@gmail.com>,
-        Daniel Colascione <dancol@google.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        duyuchao <yuchao.du@unisoc.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <groeck@chromium.org>,
+        id S1726710AbfEIXBV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 9 May 2019 19:01:21 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:40360 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726694AbfEIXBU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 May 2019 19:01:20 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x49MpeXj111575
+        for <linux-doc@vger.kernel.org>; Thu, 9 May 2019 19:01:19 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2scu49cun6-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Thu, 09 May 2019 19:01:19 -0400
+Received: from localhost
+        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <zohar@linux.ibm.com>;
+        Fri, 10 May 2019 00:01:16 +0100
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Fri, 10 May 2019 00:01:11 +0100
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x49N1AMv42991828
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 9 May 2019 23:01:10 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 53B33A405C;
+        Thu,  9 May 2019 23:01:10 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 904E9A406B;
+        Thu,  9 May 2019 23:01:08 +0000 (GMT)
+Received: from dhcp-9-31-103-88.watson.ibm.com (unknown [9.31.103.88])
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Thu,  9 May 2019 23:01:08 +0000 (GMT)
+Subject: Re: [PATCH v10 09/12] ima: Implement support for module-style
+ appended signatures
+From:   Mimi Zohar <zohar@linux.ibm.com>
+To:     Thiago Jung Bauermann <bauerman@linux.ibm.com>,
+        linux-integrity@vger.kernel.org
+Cc:     linux-security-module@vger.kernel.org, keyrings@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        David Howells <dhowells@redhat.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Karim Yaghmour <karim.yaghmour@opersys.com>,
-        Kees Cook <keescook@chromium.org>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-trace-devel@vger.kernel.org,
-        Manjo Raja Rao <linux@manojrajarao.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        =?utf-8?Q?Micha=C5=82?= Gregorczyk <michalgr@fb.com>,
-        Michal Gregorczyk <michalgr@live.com>,
-        Mohammad Husain <russoue@gmail.com>,
-        Olof Johansson <olof@lixom.net>,
-        Qais Yousef <qais.yousef@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Srinivas Ramana <sramana@codeaurora.org>,
-        Tamir Carmeli <carmeli.tamir@gmail.com>,
-        Yonghong Song <yhs@fb.com>
-Subject: Re: [PATCH v3] kheaders: Move from proc to sysfs
-Message-ID: <20190509224743.GA29215@google.com>
-References: <20190506013456.86061-1-joel@joelfernandes.org>
- <CAK7LNAQesyT-vspoGKdgRqycZfhtJm5Upx2T6ij-yB5i4Nx5nw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNAQesyT-vspoGKdgRqycZfhtJm5Upx2T6ij-yB5i4Nx5nw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        "AKASHI, Takahiro" <takahiro.akashi@linaro.org>
+Date:   Thu, 09 May 2019 19:01:08 -0400
+In-Reply-To: <20190418035120.2354-10-bauerman@linux.ibm.com>
+References: <20190418035120.2354-1-bauerman@linux.ibm.com>
+         <20190418035120.2354-10-bauerman@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19050923-0008-0000-0000-000002E51248
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19050923-0009-0000-0000-000022519B3D
+Message-Id: <1557442868.10635.87.camel@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-09_02:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=3 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1905090130
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 08, 2019 at 12:43:34PM +0900, Masahiro Yamada wrote:
-> On Mon, May 6, 2019 at 10:37 AM Joel Fernandes (Google)
-> <joel@joelfernandes.org> wrote:
-> >
-> > The kheaders archive consisting of the kernel headers used for compiling
-> > bpf programs is in /proc. However there is concern that moving it here
-> > will make it permanent. Let us move it to /sys/kernel as discussed [1].
-> >
-> > [1] https://lore.kernel.org/patchwork/patch/1067310/#1265969
-> >
-> > Suggested-by: Steven Rostedt <rostedt@goodmis.org>
-> > Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> > ---
-> > This patch applies on top of the previous patch that was applied to the
-> > driver tree:
-> > https://lore.kernel.org/patchwork/patch/1067310/
-> >
-> > v2->v3: Fixed sysfs file mode nit (Greg).
-> > v1->v2: Fixed some kconfig nits.
-> >
-> >  init/Kconfig                                | 16 ++++-----
-> >  kernel/Makefile                             |  4 +--
-> >  kernel/{gen_ikh_data.sh => gen_kheaders.sh} |  2 +-
-> >  kernel/kheaders.c                           | 40 +++++++++------------
-> >  4 files changed, 26 insertions(+), 36 deletions(-)
-> >  rename kernel/{gen_ikh_data.sh => gen_kheaders.sh} (98%)
-> >
-> > diff --git a/init/Kconfig b/init/Kconfig
-> > index 26a364a95b57..c3661991b089 100644
-> > --- a/init/Kconfig
-> > +++ b/init/Kconfig
-> > @@ -579,15 +579,13 @@ config IKCONFIG_PROC
-> >           This option enables access to the kernel configuration file
-> >           through /proc/config.gz.
-> >
-> > -config IKHEADERS_PROC
-> > -       tristate "Enable kernel header artifacts through /proc/kheaders.tar.xz"
-> > -       depends on PROC_FS
-> > -       help
-> > -         This option enables access to the kernel header and other artifacts that
-> > -         are generated during the build process. These can be used to build eBPF
-> > -         tracing programs, or similar programs.  If you build the headers as a
-> > -         module, a module called kheaders.ko is built which can be loaded on-demand
-> > -         to get access to the headers.
-> > +config IKHEADERS
-> > +       tristate "Enable kernel headers through /sys/kernel/kheaders.tar.xz"
-> 
-> 
-> I suggested "depends on SYSFS" twice, both in v1 and v2.
-> 
-> https://lore.kernel.org/patchwork/patch/1069806/#1266147
-> https://lore.kernel.org/patchwork/patch/1070005/#1266279
+Hi Thiago,
 
-Sorry about missing that. I have made a note of this, and can address it in a
-later patch. There is a more pressing issue with allmodconfig regression
-times so I will look into that first. Also a vacation is taking up some of my
-time.
+> diff --git a/security/integrity/ima/ima_policy.c b/security/integrity/ima/ima_policy.c
+> index fca7a3f23321..a7a20a8c15c1 100644
+> --- a/security/integrity/ima/ima_policy.c
+> +++ b/security/integrity/ima/ima_policy.c
+> @@ -1144,6 +1144,12 @@ void ima_delete_rules(void)
+>  	}
+>  }
+>  
+> +#define __ima_hook_stringify(str)	(#str),
+> +
+> +const char *const func_tokens[] = {
+> +	__ima_hooks(__ima_hook_stringify)
+> +};
+> +
+>  #ifdef	CONFIG_IMA_READ_POLICY
+>  enum {
+>  	mask_exec = 0, mask_write, mask_read, mask_append
+> @@ -1156,12 +1162,6 @@ static const char *const mask_tokens[] = {
+>  	"MAY_APPEND"
+>  };
+>  
+> -#define __ima_hook_stringify(str)	(#str),
+> -
+> -static const char *const func_tokens[] = {
+> -	__ima_hooks(__ima_hook_stringify)
+> -};
+> -
+>  void *ima_policy_start(struct seq_file *m, loff_t *pos)
+>  {
+>  	loff_t l = *pos;
 
-Needless to say I will get to it soon and the point has been duly noted!
+Is moving this something left over from previous versions or there is
+a need for this change?
 
-thanks,
+Other than this, the patch looks good.
 
- - Joel
+Mimi
+
