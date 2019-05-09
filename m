@@ -2,73 +2,97 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1D7297D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 May 2019 07:41:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 644317D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 May 2019 10:31:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725774AbfEIHlU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 9 May 2019 03:41:20 -0400
-Received: from mail.cn.fujitsu.com ([183.91.158.132]:14607 "EHLO
-        heian.cn.fujitsu.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725961AbfEIHlU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 May 2019 03:41:20 -0400
-X-IronPort-AV: E=Sophos;i="5.60,449,1549900800"; 
-   d="scan'208";a="62230554"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 09 May 2019 15:40:56 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-        by cn.fujitsu.com (Postfix) with ESMTP id 473E44CDBCD7;
-        Thu,  9 May 2019 15:40:56 +0800 (CST)
-Received: from iridescent.g08.fujitsu.local (10.167.225.140) by
- G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
- (TLS) id 14.3.439.0; Thu, 9 May 2019 15:40:58 +0800
-From:   Shiyang Ruan <ruansy.fnst@cn.fujitsu.com>
-To:     <corbet@lwn.net>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-nvdimm@lists.01.org>
-Subject: [PATCH v2] Documentation: nvdimm: Fix typo
-Date:   Thu, 9 May 2019 15:40:49 +0800
-Message-ID: <20190509074049.12192-1-ruansy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20190509023744.4936-1-ruansy.fnst@cn.fujitsu.com>
-References: <20190509023744.4936-1-ruansy.fnst@cn.fujitsu.com>
+        id S1726192AbfEIKbv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 9 May 2019 06:31:51 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:33223 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725892AbfEIKbu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 May 2019 06:31:50 -0400
+X-UUID: 49b54b4d4c1e425091c7a2b3e6c30802-20190509
+X-UUID: 49b54b4d4c1e425091c7a2b3e6c30802-20190509
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
+        (envelope-from <lecopzer.chen@mediatek.com>)
+        (mhqrelay.mediatek.com ESMTP with TLS)
+        with ESMTP id 1425517763; Thu, 09 May 2019 18:31:39 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Thu, 9 May 2019 18:31:38 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Thu, 9 May 2019 18:31:38 +0800
+From:   <lecopzer.chen@mediatek.com>
+To:     <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+CC:     <corbet@lwn.net>, <mhiramat@kernel.org>,
+        <srv_heupstream@mediatek.com>, <yj.chiang@mediatek.com>,
+        Lecopzer Chen <lecopzer.chen@mediatek.com>
+Subject: [PATCH] Documentation: {u,k}probes: add tracing_on before tracing
+Date:   Thu, 9 May 2019 18:31:16 +0800
+Message-ID: <1557397876-18153-1-git-send-email-lecopzer.chen@mediatek.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Originating-IP: [10.167.225.140]
-X-yoursite-MailScanner-ID: 473E44CDBCD7.A7B27
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: ruansy.fnst@cn.fujitsu.com
+X-MTK:  N
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Remove the extra 'we '.
+From: Lecopzer Chen <lecopzer.chen@mediatek.com>
 
-Signed-off-by: Shiyang Ruan <ruansy.fnst@cn.fujitsu.com>
+After following the document step by step, the `cat trace` can't be
+worked without enabling tracing_on and might mislead newbies about
+the functionality.
+
+Signed-off-by: Lecopzer Chen <lecopzer.chen@mediatek.com>
 ---
- Documentation/nvdimm/nvdimm.txt | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/trace/kprobetrace.rst  | 6 ++++++
+ Documentation/trace/uprobetracer.rst | 7 ++++++-
+ 2 files changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/nvdimm/nvdimm.txt b/Documentation/nvdimm/nvdimm.txt
-index e894de69915a..1669f626b037 100644
---- a/Documentation/nvdimm/nvdimm.txt
-+++ b/Documentation/nvdimm/nvdimm.txt
-@@ -284,8 +284,8 @@ A bus has a 1:1 relationship with an NFIT.  The current expectation for
- ACPI based systems is that there is only ever one platform-global NFIT.
- That said, it is trivial to register multiple NFITs, the specification
- does not preclude it.  The infrastructure supports multiple busses and
--we we use this capability to test multiple NFIT configurations in the
--unit test.
-+we use this capability to test multiple NFIT configurations in the unit
-+test.
+diff --git a/Documentation/trace/kprobetrace.rst b/Documentation/trace/kprobetrace.rst
+index 235ce2ab131a..baa3c42ba2f4 100644
+--- a/Documentation/trace/kprobetrace.rst
++++ b/Documentation/trace/kprobetrace.rst
+@@ -189,6 +189,12 @@ events, you need to enable it.
+   echo 1 > /sys/kernel/debug/tracing/events/kprobes/myprobe/enable
+   echo 1 > /sys/kernel/debug/tracing/events/kprobes/myretprobe/enable
  
- LIBNVDIMM: control class device in /sys/class
++Use the following command to start tracing in an interval.
++::
++    # echo 1 > tracing_on
++    Open something...
++    # echo 0 > tracing_on
++
+ And you can see the traced information via /sys/kernel/debug/tracing/trace.
+ ::
  
+diff --git a/Documentation/trace/uprobetracer.rst b/Documentation/trace/uprobetracer.rst
+index 4346e23e3ae7..0b21305fabdc 100644
+--- a/Documentation/trace/uprobetracer.rst
++++ b/Documentation/trace/uprobetracer.rst
+@@ -152,10 +152,15 @@ events, you need to enable it by::
+ 
+     # echo 1 > events/uprobes/enable
+ 
+-Lets disable the event after sleeping for some time.
++Lets start tracing, sleep for some time and stop tracing.
+ ::
+ 
++    # echo 1 > tracing_on
+     # sleep 20
++    # echo 0 > tracing_on
++
++Also, you can disable the event by::
++
+     # echo 0 > events/uprobes/enable
+ 
+ And you can see the traced information via /sys/kernel/debug/tracing/trace.
 -- 
-2.17.0
-
-
+2.18.0
 
