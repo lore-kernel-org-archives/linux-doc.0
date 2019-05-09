@@ -5,178 +5,115 @@ X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7DDB47D08A
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 May 2019 23:01:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AD1117D08A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  9 May 2019 23:32:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726808AbfEIXBl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 9 May 2019 19:01:41 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45448 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726701AbfEIXBl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 May 2019 19:01:41 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x49Mpg3Y172510
-        for <linux-doc@vger.kernel.org>; Thu, 9 May 2019 19:01:40 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2scuysaya0-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Thu, 09 May 2019 19:01:39 -0400
-Received: from localhost
-        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <zohar@linux.ibm.com>;
-        Fri, 10 May 2019 00:01:37 +0100
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
-        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Fri, 10 May 2019 00:01:32 +0100
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x49N1VD750659486
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 9 May 2019 23:01:31 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id BE2FF4C044;
-        Thu,  9 May 2019 23:01:31 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E739D4C040;
-        Thu,  9 May 2019 23:01:29 +0000 (GMT)
-Received: from dhcp-9-31-103-88.watson.ibm.com (unknown [9.31.103.88])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Thu,  9 May 2019 23:01:29 +0000 (GMT)
-Subject: Re: [PATCH v10 11/12] ima: Define ima-modsig template
-From:   Mimi Zohar <zohar@linux.ibm.com>
-To:     Thiago Jung Bauermann <bauerman@linux.ibm.com>,
-        linux-integrity@vger.kernel.org
-Cc:     linux-security-module@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        David Howells <dhowells@redhat.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Jessica Yu <jeyu@kernel.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "AKASHI, Takahiro" <takahiro.akashi@linaro.org>
-Date:   Thu, 09 May 2019 19:01:29 -0400
-In-Reply-To: <20190418035120.2354-12-bauerman@linux.ibm.com>
-References: <20190418035120.2354-1-bauerman@linux.ibm.com>
-         <20190418035120.2354-12-bauerman@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 19050923-0020-0000-0000-0000033B164F
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19050923-0021-0000-0000-0000218DBF5D
-Message-Id: <1557442889.10635.88.camel@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-09_02:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=3 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1905090130
+        id S1726824AbfEIXcZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 9 May 2019 19:32:25 -0400
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:38430 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726108AbfEIXcY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 May 2019 19:32:24 -0400
+Received: from callcc.thunk.org (guestnat-104-133-0-109.corp.google.com [104.133.0.109] (may be forged))
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x49NUiJg006219
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 9 May 2019 19:30:45 -0400
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id AC36A420024; Thu,  9 May 2019 19:30:43 -0400 (EDT)
+Date:   Thu, 9 May 2019 19:30:43 -0400
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     Logan Gunthorpe <logang@deltatee.com>
+Cc:     Frank Rowand <frowand.list@gmail.com>, Tim.Bird@sony.com,
+        knut.omang@oracle.com, gregkh@linuxfoundation.org,
+        brendanhiggins@google.com, keescook@google.com,
+        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
+        robh@kernel.org, sboyd@kernel.org, shuah@kernel.org,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, amir73il@gmail.com,
+        dan.carpenter@oracle.com, dan.j.williams@intel.com,
+        daniel@ffwll.ch, jdike@addtoit.com, joel@jms.id.au,
+        julia.lawall@lip6.fr, khilman@baylibre.com, mpe@ellerman.id.au,
+        pmladek@suse.com, richard@nod.at, rientjes@google.com,
+        rostedt@goodmis.org, wfg@linux.intel.com
+Subject: Re: [PATCH v2 00/17] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+Message-ID: <20190509233043.GC20877@mit.edu>
+Mail-Followup-To: Theodore Ts'o <tytso@mit.edu>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Frank Rowand <frowand.list@gmail.com>, Tim.Bird@sony.com,
+        knut.omang@oracle.com, gregkh@linuxfoundation.org,
+        brendanhiggins@google.com, keescook@google.com,
+        kieran.bingham@ideasonboard.com, mcgrof@kernel.org, robh@kernel.org,
+        sboyd@kernel.org, shuah@kernel.org, devicetree@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-um@lists.infradead.org, Alexander.Levin@microsoft.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com,
+        dan.j.williams@intel.com, daniel@ffwll.ch, jdike@addtoit.com,
+        joel@jms.id.au, julia.lawall@lip6.fr, khilman@baylibre.com,
+        mpe@ellerman.id.au, pmladek@suse.com, richard@nod.at,
+        rientjes@google.com, rostedt@goodmis.org, wfg@linux.intel.com
+References: <a09a7e0e-9894-8c1a-34eb-fc482b1759d0@gmail.com>
+ <20190509015856.GB7031@mit.edu>
+ <580e092f-fa4e-eedc-9e9a-a57dd085f0a6@gmail.com>
+ <20190509032017.GA29703@mit.edu>
+ <7fd35df81c06f6eb319223a22e7b93f29926edb9.camel@oracle.com>
+ <20190509133551.GD29703@mit.edu>
+ <ECADFF3FD767C149AD96A924E7EA6EAF9770D591@USCULXMSG01.am.sony.com>
+ <875c546d-9713-bb59-47e4-77a1d2c69a6d@gmail.com>
+ <20190509214233.GA20877@mit.edu>
+ <b09ba170-229b-fde4-3e9a-e50d6ab4c1b5@deltatee.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b09ba170-229b-fde4-3e9a-e50d6ab4c1b5@deltatee.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2019-04-18 at 00:51 -0300, Thiago Jung Bauermann wrote:
-> Define new "d-modsig" template field which holds the digest that is
-> expected to match the one contained in the modsig, and also new "modsig"
-> template field which holds the appended file signature.
+On Thu, May 09, 2019 at 04:20:05PM -0600, Logan Gunthorpe wrote:
 > 
-> Add a new "ima-modsig" defined template descriptor with the new fields as
-> well as the ones from the "ima-sig" descriptor.
+> The second item, arguably, does have significant overlap with kselftest.
+> Whether you are running short tests in a light weight UML environment or
+> higher level tests in an heavier VM the two could be using the same
+> framework for writing or defining in-kernel tests. It *may* also be valuable
+> for some people to be able to run all the UML tests in the heavy VM
+> environment along side other higher level tests.
 > 
-> Change ima_store_measurement() to accept a struct modsig * argument so that
-> it can be passed along to the templates via struct ima_event_data.
+> Looking at the selftests tree in the repo, we already have similar items to
+> what Kunit is adding as I described in point (2) above. kselftest_harness.h
+> contains macros like EXPECT_* and ASSERT_* with very similar intentions to
+> the new KUNIT_EXECPT_* and KUNIT_ASSERT_* macros.
 > 
-> Suggested-by: Mimi Zohar <zohar@linux.ibm.com>
-> Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
-
-Thanks, Roberto.  Just some thoughts inline below.
-
-Reviewed-by: Mimi Zohar <zohar@linux.ibm.com>
-
-> ---
-
-<snip>
-
-> +/*
-> + * Validating the appended signature included in the measurement list requires
-> + * the file hash calculated without the appended signature (i.e., the 'd-modsig'
-> + * field). Therefore, notify the user if they have the 'modsig' field but not
-> + * the 'd-modsig' field in the template.
-> + */
-> +static void check_current_template_modsig(void)
-> +{
-> +#define MSG "template with 'modsig' field also needs 'd-modsig' field\n"
-> +	struct ima_template_desc *template;
-> +	bool has_modsig, has_dmodsig;
-> +	static bool checked;
-> +	int i;
-> +
-> +	/* We only need to notify the user once. */
-> +	if (checked)
-> +		return;
-> +
-> +	has_modsig = has_dmodsig = false;
-> +	template = ima_template_desc_current();
-> +	for (i = 0; i < template->num_fields; i++) {
-> +		if (!strcmp(template->fields[i]->field_id, "modsig"))
-> +			has_modsig = true;
-> +		else if (!strcmp(template->fields[i]->field_id, "d-modsig"))
-> +			has_dmodsig = true;
-> +	}
-> +
-> +	if (has_modsig && !has_dmodsig)
-> +		pr_notice(MSG);
-> +
-> +	checked = true;
-> +#undef MSG
-> +}
-> +
-
-There was some recent discussion about supporting per IMA policy rule
-template formats.  This feature will allow just the kexec kernel image
-to require ima-modsig.  When per policy rule template formats support
-is upstreamed, this function will need to be updated.
-
-<snip>
+> However, the number of users of this harness appears to be quite small. Most
+> of the code in the selftests tree seems to be a random mismash of scripts
+> and userspace code so it's not hard to see it as something completely
+> different from the new Kunit:
 > 
-> @@ -389,3 +425,25 @@ int ima_eventsig_init(struct ima_event_data *event_data,
->  	return ima_write_template_field_data(xattr_value, event_data->xattr_len,
->  					     DATA_FMT_HEX, field_data);
->  }
-> +
-> +int ima_eventmodsig_init(struct ima_event_data *event_data,
-> +			 struct ima_field_data *field_data)
-> +{
-> +	const void *data;
-> +	u32 data_len;
-> +	int rc;
-> +
-> +	if (!event_data->modsig)
-> +		return 0;
-> +
-> +	/*
-> +	 * The xattr_value for IMA_MODSIG is a runtime structure containing
-> +	 * pointers. Get its raw data instead.
-> +	 */
+> $ git grep --files-with-matches kselftest_harness.h *
 
-"xattr_value"?  The comment needs some clarification.
+To the extent that we can unify how tests are written, I agree that
+this would be a good thing.  However, you should note that
+kselftest_harness.h is currently assums that it will be included in
+userspace programs.  This is most obviously seen if you look closely
+at the functions defined in the header files which makes calls to
+fork(), abort() and fprintf().
 
-Mimi
+So Kunit can't reuse kselftest_harness.h unmodified.  And whether or
+not the actual implementation of the header file can be reused or
+refactored, making the unit tests use the same or similar syntax would
+be a good thing.
 
-> +	rc = ima_modsig_serialize(event_data->modsig, &data, &data_len);
-> +	if (rc)
-> +		return rc;
-> +
-> +	return ima_write_template_field_data(data, data_len,
-> +					     DATA_FMT_HEX, field_data);
-> +}
+Cheers,
 
+						- Ted
