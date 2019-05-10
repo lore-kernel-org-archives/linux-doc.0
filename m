@@ -1,102 +1,148 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 42B887D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 May 2019 00:41:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0FB697D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 May 2019 03:04:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726795AbfEJAlt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 9 May 2019 20:41:49 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:48001 "EHLO
-        out4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726714AbfEJAlt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 May 2019 20:41:49 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.nyi.internal (Postfix) with ESMTP id DBEE0244D4;
-        Thu,  9 May 2019 20:41:48 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Thu, 09 May 2019 20:41:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=eSuSuN
-        WKvuPEDUPjbixf2FvUCsLfGC4yeDD4rUAOVfY=; b=nTKo8Y+C8t4v3/B0TVP69m
-        ccd+25zeVPVFUoY4V0qBoUGUX0i5vqpKfGK/pvpNWnvcHUTeUi0+Pdpo3gvKor1d
-        az8yY5nD8ZJ3cRJhCLfpBywApTuiYVx/KU0umH+Kxs4BppXPGTT30rZZ3mU3RLOX
-        vZYidikiMb2TOdyACEiKsfUrPmZjKiG3OmnA+soNVd6w6/dBWOXANaJ8ANZ1ddoe
-        2J5C6SFcdqmxi7mmh7+XV0ARRtwv0hwRIgITXtEe2w2nq8eT+b+Ofy3fVqQMbex0
-        CS9nfCybu5eOt1cXST/794lft7Lmwl3hvtCgkqmTXAwSCbaYQ15gpGGHp2m7PJyw
-        ==
-X-ME-Sender: <xms:zMjUXNjUsGsZF5k6Y9opmAEj3XkuP1O8t2pH2ms6OCDakt9md0NAFQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrkeeigddugedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    goteeftdduqddtudculdduhedmnecujfgurhepfffhvffukfhfgggtuggjofgfsehttder
-    tdforedvnecuhfhrohhmpedfvfhosghinhcuvedrucfjrghrughinhhgfdcuoehtohgsih
-    hnsehkvghrnhgvlhdrohhrgheqnecukfhppeduvdegrddujedurddvuddrhedvnecurfgr
-    rhgrmhepmhgrihhlfhhrohhmpehtohgsihhnsehkvghrnhgvlhdrohhrghenucevlhhush
-    htvghrufhiiigvpedt
-X-ME-Proxy: <xmx:zMjUXLB1G5jzUpXX_1wx0JhoZOG5hXWRvUtB1hkI6awged12RSKVjg>
-    <xmx:zMjUXGxPikSVMiIzWj3fJq-xnqtbURk0G5xsLqCqqLz1Fk4eFEguEA>
-    <xmx:zMjUXJMoG3ZInwUicjbBHfo-pW83tauKieyX1P5kx37goJgq2aI_QQ>
-    <xmx:zMjUXCVsv5qsP8rIqsBnX-QfgENdc5e_9wKLjhM1f79-KUlIrWUKdQ>
-Received: from localhost (124-171-21-52.dyn.iinet.net.au [124.171.21.52])
-        by mail.messagingengine.com (Postfix) with ESMTPA id B0A33103D0;
-        Thu,  9 May 2019 20:41:47 -0400 (EDT)
-Date:   Fri, 10 May 2019 10:41:04 +1000
-From:   "Tobin C. Harding" <tobin@kernel.org>
-To:     "Tobin C. Harding" <tobin@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Corey Minyard <minyard@acm.org>,
-        Thomas Hellstrom <thellstrom@vmware.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: Move kref.txt to core-api/kref.rst
-Message-ID: <20190510004104.GA12809@eros.localdomain>
-References: <20190510001747.8767-1-tobin@kernel.org>
+        id S1726931AbfEJDEq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 9 May 2019 23:04:46 -0400
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:48677 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726842AbfEJDEp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 May 2019 23:04:45 -0400
+X-Greylist: delayed 42282 seconds by postgrey-1.27 at vger.kernel.org; Thu, 09 May 2019 23:04:43 EDT
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id x4A34XGX005393;
+        Fri, 10 May 2019 12:04:34 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com x4A34XGX005393
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1557457474;
+        bh=DYJ0GRwyv9LQw+wYut+AKlESUHW5OcD/mZsMQ0v23g4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=jupzuktqIfQz0vJS1GaSpRqu2LQlIojIZ6l/TI0jmjH+y1VkJRBs89e7uRAv6B1Ef
+         uHXWjQCyh3QM1FLLkbOfmNDmcIDMv3Oq/FlPK1nJiwjkiN5C9tudnBuh0F8evz5qm8
+         ZorME1HYwlKxsObBT8LwUNg5l1Fi86fQ7ffUtVkUvXf1TvrufFpYms99rIymu6dL/K
+         hIlycbAJXfNN986oEc9iUdGhQ9gZ5CSC7yKV9BeU183dZd8/MJ0EQhq+4AgJe2J6jP
+         TyF0SLqvX8D3dQhEIQDaNOjnh/QC3NF0r7D48IC/P5jvWFHuMVUbINwaFq0DbE19/a
+         SQYZWBc5p+oIQ==
+X-Nifty-SrcIP: [209.85.221.172]
+Received: by mail-vk1-f172.google.com with SMTP id r195so1138772vke.0;
+        Thu, 09 May 2019 20:04:34 -0700 (PDT)
+X-Gm-Message-State: APjAAAXPoLeBAjMKgvMs+7lHCRTpm9Hq0dTQmmpAFWkoH4tUhr5WR/3F
+        J7W+aIcHDbWUKKSwAH8vslzCIpnSnNqVTr2rDMc=
+X-Google-Smtp-Source: APXvYqy2m1+g4N+7CIk2iyVkz9i+viWE9nsO8OqKDhs3ADzAs5NWYmvIdraov4KIA0ibHwe/v+Jg8QmbzOy0PS2UyFc=
+X-Received: by 2002:a1f:d585:: with SMTP id m127mr3859437vkg.34.1557457473272;
+ Thu, 09 May 2019 20:04:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190510001747.8767-1-tobin@kernel.org>
-X-Mailer: Mutt 1.11.4 (2019-03-13)
-User-Agent: Mutt/1.11.4 (2019-03-13)
+References: <20190501230126.229218-1-brendanhiggins@google.com> <20190501230126.229218-7-brendanhiggins@google.com>
+In-Reply-To: <20190501230126.229218-7-brendanhiggins@google.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Fri, 10 May 2019 12:03:57 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ+SRMn8UFjW1dZv_TrL0qjD2v2S=rXgtUpiA-urr1DDA@mail.gmail.com>
+Message-ID: <CAK7LNAQ+SRMn8UFjW1dZv_TrL0qjD2v2S=rXgtUpiA-urr1DDA@mail.gmail.com>
+Subject: Re: [PATCH v2 06/17] kbuild: enable building KUnit
+To:     Brendan Higgins <brendanhiggins@google.com>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@google.com>,
+        kieran.bingham@ideasonboard.com,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        "Cc: Shuah Khan" <shuah@kernel.org>,
+        DTML <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>, linux-nvdimm@lists.01.org,
+        linux-um@lists.infradead.org, Alexander.Levin@microsoft.com,
+        Tim Bird <Tim.Bird@sony.com>, amir73il@gmail.com,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Petr Mladek <pmladek@suse.com>,
+        Richard Weinberger <richard@nod.at>, rientjes@google.com,
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 10, 2019 at 10:17:47AM +1000, Tobin C. Harding wrote:
-> kref.txt is already written using correct ReStructuredText format.  This
-> can be verified as follows
-> 
-> 	make cleandocs
-> 	make htmldocs 2> pre.stderr
-> 	mv Documentation/kref.txt Documentation/core-api/kref.rst
-> 	// Add 'kref' to core-api/index.rst
-> 	make cleandocs
-> 	make htmldocs 2> post.stderr
-> 	diff pre.stderr post.stderr
-> 
-> While doing the file move, fix the column width to be 72 characters wide
-> as it is throughout the document.  This is whitespace only.  kref.txt is
-> so cleanly written its a shame to have these few extra wide paragraphs.
-> 
-> Signed-off-by: Tobin C. Harding <tobin@kernel.org>
+On Thu, May 2, 2019 at 8:03 AM Brendan Higgins
+<brendanhiggins@google.com> wrote:
+>
+> Add KUnit to root Kconfig and Makefile allowing it to actually be built.
+>
+> Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+
+You need to make sure
+to not break git-bisect'abililty.
+
+
+With this commit, I see build error.
+
+  CC      kunit/test.o
+kunit/test.c:11:10: fatal error: os.h: No such file or directory
+ #include <os.h>
+          ^~~~~~
+compilation terminated.
+make[1]: *** [scripts/Makefile.build;279: kunit/test.o] Error 1
+make: *** [Makefile;1763: kunit/] Error 2
+
+
+
+
+
+
+
+
 > ---
-> 
-> I'm always hesitant to do docs patches that seem obvious - is there
-> some reason that this was not done previously?
-> 
-> I did this one in preparation for converting kobject.txt, my intent is
-> to put kboject.rst in core-api/ also?
+>  Kconfig  | 2 ++
+>  Makefile | 2 +-
+>  2 files changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/Kconfig b/Kconfig
+> index 48a80beab6853..10428501edb78 100644
+> --- a/Kconfig
+> +++ b/Kconfig
+> @@ -30,3 +30,5 @@ source "crypto/Kconfig"
+>  source "lib/Kconfig"
+>
+>  source "lib/Kconfig.debug"
+> +
+> +source "kunit/Kconfig"
+> diff --git a/Makefile b/Makefile
+> index 2b99679148dc7..77368f498d84c 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -969,7 +969,7 @@ endif
+>  PHONY += prepare0
+>
+>  ifeq ($(KBUILD_EXTMOD),)
+> -core-y         += kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/
+> +core-y         += kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/ kunit/
+>
+>  vmlinux-dirs   := $(patsubst %/,%,$(filter %/, $(init-y) $(init-m) \
+>                      $(core-y) $(core-m) $(drivers-y) $(drivers-m) \
+> --
+> 2.21.0.593.g511ec345e18-goog
+>
 
-Oh, I should have started on kobject.rst before sending this.  It builds
-without errors also.  The 'conversion' is no more than renaming the
-file.
 
-If this patch is acceptable I can re-spin it as part of a series that
-does kobject as well so you don't get merge conflicts in core-api/index
-
-thanks,
-Tobin.
+-- 
+Best Regards
+Masahiro Yamada
