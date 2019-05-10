@@ -3,51 +3,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A73077D919
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 May 2019 21:03:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B181C7D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 May 2019 21:03:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728022AbfEJVDF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 10 May 2019 17:03:05 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:44111 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728053AbfEJVDE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 May 2019 17:03:04 -0400
-Received: by mail-pf1-f196.google.com with SMTP id g9so3820474pfo.11
-        for <linux-doc@vger.kernel.org>; Fri, 10 May 2019 14:03:04 -0700 (PDT)
+        id S1728088AbfEJVDJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 10 May 2019 17:03:09 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:33504 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728083AbfEJVDI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 May 2019 17:03:08 -0400
+Received: by mail-pg1-f194.google.com with SMTP id h17so3579784pgv.0
+        for <linux-doc@vger.kernel.org>; Fri, 10 May 2019 14:03:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=joelfernandes.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=zjB9LsovF8lpor6w+CVg9dpdpQizlQADdXWnWKh0+Rg=;
-        b=D9SGlVo7Ck++vUgsqaKCetHOTba4eXxwBJsMn3w97aLNbUgfrUym6eZH5nWBabzQU+
-         bJDdNUxEktiLHBSD01aT4b7MJ79S8DC5r3msDBA5w4Z2KGcMKKFUBTCzOlK/B6ZdAz6L
-         3yZiCCGHiItEXH8/4KAuTTq0FR/DHlAqHa4LM=
+        bh=g9Gow6vM42aJp56wjf9r7GBUU79udYOMt8dacDWI13Q=;
+        b=UVBj/OwFLiTzum6IDgk7LUVfg4GiBlqfYvJJl4E6HY2WxlnZ0tj+8Mbyp8HNH5SRIF
+         xlPqFSE4NCYZBHfO7irbMEN+Vg+YxVQx3scJ2UAuP3Tk7DRfDauHCWrKS0qfq1K4r+C8
+         3DBrBuEM2rpf+Pk1qNBmlldbVkgMKr/w1GTH0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=zjB9LsovF8lpor6w+CVg9dpdpQizlQADdXWnWKh0+Rg=;
-        b=PYnHmQDl+6/U+Im4zi4uo2zIcWsw0Bl/zm89Lj0mL47YRMsZZEeBURo+CKqcFt3uwn
-         z6mrQqgzTB8gLeeHqK5rHMdlay7GE++Dt9aYTAcV9JHgHO+kK9dgJMUYnDVswkzzPKeJ
-         Kpshf7BXKsSfMlz8FdYqCbKbquMdlar+U7ef31Fm97iEkGD2zYeXN5MzHwfhT3QZfS9m
-         AZIThXam9jXAF9dJ3JhoV9Zt0mD6qaQYmOsb9s+eqz2ERLq5HhRZ+lyvDe2cwdOAwXFd
-         IueTyGqwHz3SHOcNrNpt5z9ttx3ukUY5NIr5L4K1fwdpeoA4B8hB9hilvgnO4BsJxdfv
-         lgvw==
-X-Gm-Message-State: APjAAAU6TU/7W6KnOWgMA70ZR727zTAFqUp8veDi9/uhRYGhwdGcB2Bi
-        vT9e3r/h0ZK85/W+x7zldOZGtw==
-X-Google-Smtp-Source: APXvYqwU/uIecHFUVATLCO4RFIu+l81mTNnwtJnQxKy3rwJUU8eEXNHuGZuMJKQAC5NWdvLcmGiz8A==
-X-Received: by 2002:a62:470e:: with SMTP id u14mr17205590pfa.31.1557522183583;
-        Fri, 10 May 2019 14:03:03 -0700 (PDT)
+        bh=g9Gow6vM42aJp56wjf9r7GBUU79udYOMt8dacDWI13Q=;
+        b=IFM8b5aol/+UpzufpNRP+CkWzOBe3MGriwgByHs5l3nK0KEVU1cgO02QzndPwRCl0S
+         y4oEFCbABVVnVkYlFhJSyfyyp8pBqpJfC/g7LBZ6uxm0K+Is+3e6xDj4nElKQ61CRSTC
+         Z/cLKO9DggIDd3pE+YQY/GBbq6jQZ/SrY1FAL7tKHRpAPKgYgZE2wxYU1OoZHm0HnOAu
+         UhaK/kyRUiptfbVAztHChfqPTs1t2ubyXWbLu0CRBY8hM2vbWxfKl+uWAA6+o308Eo1c
+         L+prZlhYd3tPh1tvngy+YEJjsjW6T72ymUiPlpAQ9b3Ao8nhRx1Xtq/k++L5fR+cRN7M
+         8mfQ==
+X-Gm-Message-State: APjAAAXFNu3Hm3siQ+8n5j4vlqQ37c8ULyexQWoSoUQNCrG4QqkWAah/
+        4A8vCekqXImcQNi7F/XWtgtuvw==
+X-Google-Smtp-Source: APXvYqxx7K5CBGqKQ/c/VTttlOFyb3tvfg/8U27VnQPYkICRqEywBVXgF7yTbE4iu6TL2YhtYXVtAQ==
+X-Received: by 2002:a63:2118:: with SMTP id h24mr16498738pgh.320.1557522187805;
+        Fri, 10 May 2019 14:03:07 -0700 (PDT)
 Received: from joelaf.cam.corp.google.com ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id y8sm6523333pgk.20.2019.05.10.14.02.59
+        by smtp.gmail.com with ESMTPSA id y8sm6523333pgk.20.2019.05.10.14.03.03
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 10 May 2019 14:03:02 -0700 (PDT)
+        Fri, 10 May 2019 14:03:06 -0700 (PDT)
 From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
         Adrian Ratiu <adrian.ratiu@collabora.com>,
         Alexei Starovoitov <ast@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>, atishp04@gmail.com,
@@ -63,7 +63,6 @@ Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
         linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
         linux-trace-devel@vger.kernel.org,
         Manjo Raja Rao <linux@manojrajarao.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
         Masami Hiramatsu <mhiramat@kernel.org>,
         =?UTF-8?q?Micha=C5=82=20Gregorczyk?= <michalgr@fb.com>,
         Michal Gregorczyk <michalgr@live.com>,
@@ -73,9 +72,9 @@ Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
         Shuah Khan <shuah@kernel.org>,
         Srinivas Ramana <sramana@codeaurora.org>,
         Tamir Carmeli <carmeli.tamir@gmail.com>, yhs@fb.com
-Subject: [PATCH 2/3] kheaders: Do not regenerate archive if config is not changed
-Date:   Fri, 10 May 2019 17:02:42 -0400
-Message-Id: <20190510210243.152808-3-joel@joelfernandes.org>
+Subject: [PATCH 3/3] kheaders: Make it depend on sysfs
+Date:   Fri, 10 May 2019 17:02:43 -0400
+Message-Id: <20190510210243.152808-4-joel@joelfernandes.org>
 X-Mailer: git-send-email 2.21.0.1020.gf2820cf01a-goog
 In-Reply-To: <20190510210243.152808-1-joel@joelfernandes.org>
 References: <20190510210243.152808-1-joel@joelfernandes.org>
@@ -86,65 +85,27 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Linus reported an issue that doing an allmodconfig was causing the
-kheaders archive to be regenerated even though the config is the same.
-This patch fixes the issue by ignoring the config-related header files
-for "knowing when to regenerate based on timestamps".  Instead, if the
-CONFIG_X_Y option really changes, then we there are the
-include/config/X/Y.h which will already tells us "if a config really
-changed". So we don't really need these files for regeneration detection
-anyway, and ignoring them fixes Linus's issue.
+The kheaders archive is exposed through SYSFS in /sys/kernel/. Make it
+depend on SYSFS as it makes no sense to enable this feature without it.
 
-Reported-by: Linus Torvalds <torvalds@linux-foundation.org>
+Suggested-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 ---
- kernel/gen_kheaders.sh | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ init/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/kernel/gen_kheaders.sh b/kernel/gen_kheaders.sh
-index 581b83534587..9a34e1d9bd7f 100755
---- a/kernel/gen_kheaders.sh
-+++ b/kernel/gen_kheaders.sh
-@@ -31,9 +31,8 @@ arch/$SRCARCH/include/
+diff --git a/init/Kconfig b/init/Kconfig
+index ce08adf0f637..f27138a8cf28 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -581,6 +581,7 @@ config IKCONFIG_PROC
  
- # This block is useful for debugging the incremental builds.
- # Uncomment it for debugging.
--# iter=1
--# if [ ! -f /tmp/iter ]; then echo 1 > /tmp/iter;
--# else; 	iter=$(($(cat /tmp/iter) + 1)); fi
-+# if [ ! -f /tmp/iter ]; then iter=1; echo 1 > /tmp/iter;
-+# else iter=$(($(cat /tmp/iter) + 1)); echo $iter > /tmp/iter; fi
- # find $src_file_list -type f | xargs ls -lR > /tmp/src-ls-$iter
- # find $obj_file_list -type f | xargs ls -lR > /tmp/obj-ls-$iter
- 
-@@ -43,10 +42,18 @@ arch/$SRCARCH/include/
- pushd $kroot > /dev/null
- src_files_md5="$(find $src_file_list -type f                       |
- 		grep -v "include/generated/compile.h"		   |
-+		grep -v "include/generated/autoconf.h"		   |
-+		grep -v "include/config/auto.conf"		   |
-+		grep -v "include/config/auto.conf.cmd"		   |
-+		grep -v "include/config/tristate.conf"		   |
- 		xargs ls -lR | md5sum | cut -d ' ' -f1)"
- popd > /dev/null
- obj_files_md5="$(find $obj_file_list -type f                       |
- 		grep -v "include/generated/compile.h"		   |
-+		grep -v "include/generated/autoconf.h"		   |
-+		grep -v "include/config/auto.conf"                 |
-+		grep -v "include/config/auto.conf.cmd"		   |
-+		grep -v "include/config/tristate.conf"		   |
- 		xargs ls -lR | md5sum | cut -d ' ' -f1)"
- 
- if [ -f $tarfile ]; then tarfile_md5="$(md5sum $tarfile | cut -d ' ' -f1)"; fi
-@@ -82,7 +89,7 @@ find $cpio_dir -type f -print0 |
- 
- tar -Jcf $tarfile -C $cpio_dir/ . > /dev/null
- 
--echo "$src_files_md5" > kernel/kheaders.md5
-+echo "$src_files_md5" >  kernel/kheaders.md5
- echo "$obj_files_md5" >> kernel/kheaders.md5
- echo "$(md5sum $tarfile | cut -d ' ' -f1)" >> kernel/kheaders.md5
- 
+ config IKHEADERS
+ 	tristate "Enable kernel headers through /sys/kernel/kheaders.tar.xz"
++	depends on SYSFS
+ 	help
+ 	  This option enables access to the in-kernel headers that are generated during
+ 	  the build process. These can be used to build eBPF tracing programs,
 -- 
 2.21.0.1020.gf2820cf01a-goog
 
