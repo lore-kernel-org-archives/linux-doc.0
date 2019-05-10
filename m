@@ -1,116 +1,67 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 149B77D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 May 2019 03:23:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 71F867D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 May 2019 04:20:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726882AbfEJDXl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 9 May 2019 23:23:41 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:54330 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726806AbfEJDXl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 9 May 2019 23:23:41 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4A3JaPV006206;
-        Fri, 10 May 2019 03:22:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2018-07-02;
- bh=O6+xUKWNdwz44CAQq1ERbOLEmB9+b7RfoaoWF0Y4mb4=;
- b=pSj6ssFmTMF0t++JKWjtBRHtNJMA2rBJU+LVRWnlHpXoKp3iJe+E1S3MSyXM0djK+hQU
- /7242BF/C2Sgi97mQ8ir35Uu1Fb43y9OH9Gu5q63CyXRxP0lkYDWk02jQp+ipzuaWVy8
- 1e8ITbeidF+ZzZP5ux/N4k5B4mhqcUTfP7pz1F9VGqw/g6XI/v6ZfQgrwe2er3uQRujm
- KAZQHQVSRf66TnryE4p+pN8T+yXgbs4iIw1aOagQX25lkCVOpZCRdWDVfzvPklmgukj3
- b7F8pW577kwdEEL69OiYRViPbVxqAMNurKEdw8bu8ZaO8VuRqwVeprykGIX681slBzlq qA== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by aserp2130.oracle.com with ESMTP id 2s94b6egx4-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 10 May 2019 03:22:37 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4A3M0ca172871;
-        Fri, 10 May 2019 03:22:36 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by userp3030.oracle.com with ESMTP id 2sagyvkj3s-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 10 May 2019 03:22:36 +0000
-Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x4A3MUSt000635;
-        Fri, 10 May 2019 03:22:30 GMT
-Received: from [10.191.28.74] (/10.191.28.74)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 09 May 2019 20:22:30 -0700
-Subject: Re: [PATCH 2/2] doc: kernel-parameters.txt: fix documentation of
- nmi_watchdog parameter
-To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     paulmck@linux.ibm.com, josh@joshtriplett.org, rostedt@goodmis.org,
-        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-        joel@joelfernandes.org, corbet@lwn.net, tglx@linutronix.de,
-        mingo@kernel.org, gregkh@linuxfoundation.org,
-        keescook@chromium.org, srinivas.eeda@oracle.com
-References: <1555211464-28652-1-git-send-email-zhenzhong.duan@oracle.com>
- <1555211464-28652-2-git-send-email-zhenzhong.duan@oracle.com>
-From:   Zhenzhong Duan <zhenzhong.duan@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <ca8971aa-7500-1067-fb4e-2dd03c806b86@oracle.com>
-Date:   Fri, 10 May 2019 11:22:23 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1725904AbfEJEUd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 10 May 2019 00:20:33 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:7875 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725903AbfEJEUc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 May 2019 00:20:32 -0400
+X-UUID: 6840245851e3448192aee4006048c008-20190510
+X-UUID: 6840245851e3448192aee4006048c008-20190510
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
+        (envelope-from <lecopzer.chen@mediatek.com>)
+        (mhqrelay.mediatek.com ESMTP with TLS)
+        with ESMTP id 127925819; Fri, 10 May 2019 12:20:27 +0800
+Received: from mtkcas09.mediatek.inc (172.21.101.178) by
+ mtkmbs01n2.mediatek.inc (172.21.101.79) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Fri, 10 May 2019 12:20:25 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas09.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Fri, 10 May 2019 12:20:25 +0800
+From:   Lecopzer Chen <lecopzer.chen@mediatek.com>
+To:     <mhiramat@kernel.org>
+CC:     <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <corbet@lwn.net>, <srv_heupstream@mediatek.com>,
+        <yj.chiang@mediatek.com>,
+        Lecopzer Chen <lecopzer.chen@mediatek.com>
+Subject: RE: [PATCH] Documentation: {u,k}probes: add tracing_on before tracing
+Date:   Fri, 10 May 2019 12:19:49 +0800
+Message-ID: <1557461989-29625-1-git-send-email-lecopzer.chen@mediatek.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <20190509220829.42cb21dc0555abe1de98df10@kernel.org>
+References: <20190509220829.42cb21dc0555abe1de98df10@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <1555211464-28652-2-git-send-email-zhenzhong.duan@oracle.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9252 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1905100021
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9252 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1905100021
+Content-Type: text/plain
+X-TM-SNTS-SMTP: 1CA06B267CE4478EE285A06EA3FFDD04B648AED898BFE11B98B3F8C4C573F0C12000:8
+X-MTK:  N
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+>> From: Lecopzer Chen <lecopzer.chen@mediatek.com>
+>> 
+>> After following the document step by step, the `cat trace` can't be
+>> worked without enabling tracing_on and might mislead newbies about
+>> the functionality.
 
-On 2019/4/14 11:11, Zhenzhong Duan wrote:
-> As stated in "Documentation/lockup-watchdogs.txt:line 22", the default
-> behaivor after 'hardlockup' is to stay locked up rather than panic.
->
-> Signed-off-by: Zhenzhong Duan <zhenzhong.duan@oracle.com>
-> ---
->   Documentation/admin-guide/kernel-parameters.txt | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 2b8ee90..fcc9579 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -2769,7 +2769,7 @@
->   			0 - turn hardlockup detector in nmi_watchdog off
->   			1 - turn hardlockup detector in nmi_watchdog on
->   			When panic is specified, panic when an NMI watchdog
-> -			timeout occurs (or 'nopanic' to override the opposite
-> +			timeout occurs (or 'nopanic' which is the opposite
->   			default). To disable both hard and soft lockup detectors,
->   			please see 'nowatchdog'.
->   			This is useful when you use a panic=... timeout and
+> OK, but isn't tracing_on enabled by default?
 
-Hi Maintainers,
-
-Any comment?
+Yes, but it may be disabled by some distros' init process.
 
 
-Thanks
+> Anyway, it looks good to me (for making sure the trace is enabled).
 
-Zhenzhong
+> Acked-by: Masami Hiramatsu <mhiramat@kernel.org>
 
+> Thanks!
+
+Thanks a lots for your reply!
