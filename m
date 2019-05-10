@@ -3,173 +3,264 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH autolearn=ham autolearn_force=no
-	version=3.4.2
+	RCVD_IN_DNSWL_HI,T_DKIMWL_WL_HIGH,UNPARSEABLE_RELAY
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A08DB7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 May 2019 10:51:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DF5257D08A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 May 2019 11:39:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727083AbfEJKvC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 10 May 2019 06:51:02 -0400
-Received: from mail-eopbgr800050.outbound.protection.outlook.com ([40.107.80.50]:27824
-        "EHLO NAM03-DM3-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727049AbfEJKvC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 10 May 2019 06:51:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=r8fT2x+6pypIkKAJnbqWrIJr08X+X5oHp6knLpySV3s=;
- b=hZ9X2zfw3NGgOxb6cFbkGj96bPKTOT5j8sNPeBCwjJQhwzrbgXytkFsOPqh0FqH/iMUzVqVi2T7oOwlCGPmVIcU7tBnkCBImoy0//PDdbA2wv9dvH1roVNKihOrwJwSI7o4CLKLBKs13wc9jiYLw9BBUSzxzumYQ9a/wd/8YHrA=
-Received: from MN2PR05MB6141.namprd05.prod.outlook.com (20.178.241.217) by
- MN2PR05MB6431.namprd05.prod.outlook.com (20.178.247.25) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1878.18; Fri, 10 May 2019 10:50:57 +0000
-Received: from MN2PR05MB6141.namprd05.prod.outlook.com
- ([fe80::60b8:98a9:5fab:36ee]) by MN2PR05MB6141.namprd05.prod.outlook.com
- ([fe80::60b8:98a9:5fab:36ee%4]) with mapi id 15.20.1878.022; Fri, 10 May 2019
- 10:50:57 +0000
-From:   Thomas Hellstrom <thellstrom@vmware.com>
-To:     "corbet@lwn.net" <corbet@lwn.net>,
-        "tobin@kernel.org" <tobin@kernel.org>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "minyard@acm.org" <minyard@acm.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH] docs: Move kref.txt to core-api/kref.rst
-Thread-Topic: [PATCH] docs: Move kref.txt to core-api/kref.rst
-Thread-Index: AQHVBsXqHSAMgK8dWUqaz4yoOLeFEaZkLvEA
-Date:   Fri, 10 May 2019 10:50:57 +0000
-Message-ID: <a3db1384695bbaa051d93c18ac30175fb95165e3.camel@vmware.com>
-References: <20190510001747.8767-1-tobin@kernel.org>
-In-Reply-To: <20190510001747.8767-1-tobin@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=thellstrom@vmware.com; 
-x-originating-ip: [155.4.205.35]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c5d95c6d-59db-441e-b827-08d6d5356203
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(2017052603328)(7193020);SRVR:MN2PR05MB6431;
-x-ms-traffictypediagnostic: MN2PR05MB6431:
-x-microsoft-antispam-prvs: <MN2PR05MB643184A4741D6DBBD7284F9CA10C0@MN2PR05MB6431.namprd05.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 0033AAD26D
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(366004)(136003)(346002)(39860400002)(376002)(396003)(189003)(199004)(8676002)(7736002)(81166006)(6506007)(2906002)(66446008)(66476007)(81156014)(66556008)(64756008)(316002)(25786009)(6116002)(73956011)(66946007)(186003)(91956017)(3846002)(118296001)(76116006)(36756003)(256004)(110136005)(305945005)(486006)(54906003)(14444005)(5660300002)(8936002)(4326008)(476003)(6512007)(2616005)(11346002)(71190400001)(446003)(26005)(71200400001)(86362001)(76176011)(6246003)(6486002)(66066001)(14454004)(102836004)(2501003)(478600001)(99286004)(6436002)(68736007)(53936002)(229853002);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR05MB6431;H:MN2PR05MB6141.namprd05.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: vmware.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: go4M1wVH6UiwhF9XG+dRl93OlZzpRIoH5LxFKNUoEZdtNLLeh3VN4Kr2jPRhrNJhBp7T4xo5Eqswei55RznJlXl+Jy8wENhkG5fIi2AKqXsOBkjmsgN6Mk6M6xtTKIW9+CXPQwQmOAT9MFjEVqC16SIU9XlAbAbN50aqhg4unxsXpq9HG+2pvM4XdLk5Tv0UTQGYtxx8c1IAgCD4ijvwcN1DflE9Xo8HMQWBhJGU4hJb3YKC6iBqSJxNTbpkqL+QGyDSe9ENpOIWhRaYJj70IY8sp032ub1x08fdiNCfTH0HN0V2kpNd8LGPRCrOlXbLc9Y2YfhMO4Vq8eQNGK3mivRslrZ4pi1Cnf9rVkSKJ1LXGUYBcV7/+krymapiLD+e1rz+YZn2/Y4ujyA9Y8I6aIzeKE6xwjgrNLtQQXx8HVo=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <4ED99C4FFDFF174889E96C841102BEE1@namprd05.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        id S1727196AbfEJLi6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 10 May 2019 07:38:58 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:50472 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727175AbfEJLi5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 May 2019 07:38:57 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4ABYWes171319;
+        Fri, 10 May 2019 11:37:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : subject
+ : from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=corp-2018-07-02;
+ bh=uItGwRyuCRl9mmMVE4L1Nw0evDm9cO6EMsr+QrxE1/A=;
+ b=k9cS+0ywWXeSgoEi0SAQbHlb06pfmBXrzpN+ls/IsTNn3NUiveSsZY4BwlTdkXuBhr2O
+ BeVLun70BPgzomOjtFsyxVthxh3p2vFt/I/E7Q1j9wOLWPLSZz6dVmpPbF6Yg0JXk6Vy
+ O9OWRCAAx1S3v8cmGJHsE8EtAcga21uP6q2J1VCRNiyaRz4qkX10C43O4e+PCjo4J741
+ klmLg6mOyBPai16avfiHB+DfTrOH/kdgdzjj5YgWWy3fPZtrfLK9ighSM0JC4uiNrQQQ
+ 3gat1JBOOTEZpYUAlbbdc7W3Q2Xz9q9L+fqVoRIkkGahlP3vK6YVdAY4XOnhrSX5Key1 tw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2130.oracle.com with ESMTP id 2s94bggf39-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 10 May 2019 11:37:20 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4ABbGD5078991;
+        Fri, 10 May 2019 11:37:19 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3030.oracle.com with ESMTP id 2scpy67a12-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 10 May 2019 11:37:19 +0000
+Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x4ABb2aY018536;
+        Fri, 10 May 2019 11:37:02 GMT
+Received: from asu (/92.220.18.196)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Fri, 10 May 2019 04:37:01 -0700
+Message-ID: <0a1659f2abb2cba109ba588e4a87bda252c57be6.camel@oracle.com>
+Subject: Re: [PATCH v2 00/17] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+From:   Knut Omang <knut.omang@oracle.com>
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        "Theodore Ts'o" <tytso@mit.edu>, Tim.Bird@sony.com,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Kees Cook <keescook@google.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Rob Herring <robh@kernel.org>, sboyd@kernel.org,
+        Shuah Khan <shuah@kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>, linux-nvdimm@lists.01.org,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Dan Williams <dan.j.williams@intel.com>, jdike@addtoit.com,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Petr Mladek <pmladek@suse.com>,
+        Richard Weinberger <richard@nod.at>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
+Date:   Fri, 10 May 2019 13:36:54 +0200
+In-Reply-To: <CAKMK7uFd1xUx8u3xWLwifVSq4OEnMO4S-m0hESe68UzONXnMFg@mail.gmail.com>
+References: <a09a7e0e-9894-8c1a-34eb-fc482b1759d0@gmail.com>
+         <20190509015856.GB7031@mit.edu>
+         <580e092f-fa4e-eedc-9e9a-a57dd085f0a6@gmail.com>
+         <20190509032017.GA29703@mit.edu>
+         <7fd35df81c06f6eb319223a22e7b93f29926edb9.camel@oracle.com>
+         <20190509133551.GD29703@mit.edu>
+         <ECADFF3FD767C149AD96A924E7EA6EAF9770D591@USCULXMSG01.am.sony.com>
+         <875c546d-9713-bb59-47e4-77a1d2c69a6d@gmail.com>
+         <20190509214233.GA20877@mit.edu>
+         <b09ba170-229b-fde4-3e9a-e50d6ab4c1b5@deltatee.com>
+         <20190509233043.GC20877@mit.edu>
+         <8914afef-1e66-e6e3-f891-5855768d3018@deltatee.com>
+         <6d6e91ec-33d3-830b-4895-4d7a20ba7d45@gmail.com>
+         <a1b88d5add15d43de0468c32d9a2427629337abb.camel@oracle.com>
+         <CAKMK7uFd1xUx8u3xWLwifVSq4OEnMO4S-m0hESe68UzONXnMFg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
 MIME-Version: 1.0
-X-OriginatorOrg: vmware.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c5d95c6d-59db-441e-b827-08d6d5356203
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 May 2019 10:50:57.2858
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR05MB6431
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9252 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1905100082
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9252 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1905100082
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gRnJpLCAyMDE5LTA1LTEwIGF0IDEwOjE3ICsxMDAwLCBUb2JpbiBDLiBIYXJkaW5nIHdyb3Rl
-Og0KPiBrcmVmLnR4dCBpcyBhbHJlYWR5IHdyaXR0ZW4gdXNpbmcgY29ycmVjdCBSZVN0cnVjdHVy
-ZWRUZXh0DQo+IGZvcm1hdC4gIFRoaXMNCj4gY2FuIGJlIHZlcmlmaWVkIGFzIGZvbGxvd3MNCj4g
-DQo+IAltYWtlIGNsZWFuZG9jcw0KPiAJbWFrZSBodG1sZG9jcyAyPiBwcmUuc3RkZXJyDQo+IAlt
-diBEb2N1bWVudGF0aW9uL2tyZWYudHh0IERvY3VtZW50YXRpb24vY29yZS1hcGkva3JlZi5yc3QN
-Cj4gCS8vIEFkZCAna3JlZicgdG8gY29yZS1hcGkvaW5kZXgucnN0DQo+IAltYWtlIGNsZWFuZG9j
-cw0KPiAJbWFrZSBodG1sZG9jcyAyPiBwb3N0LnN0ZGVycg0KPiAJZGlmZiBwcmUuc3RkZXJyIHBv
-c3Quc3RkZXJyDQo+IA0KPiBXaGlsZSBkb2luZyB0aGUgZmlsZSBtb3ZlLCBmaXggdGhlIGNvbHVt
-biB3aWR0aCB0byBiZSA3MiBjaGFyYWN0ZXJzDQo+IHdpZGUNCj4gYXMgaXQgaXMgdGhyb3VnaG91
-dCB0aGUgZG9jdW1lbnQuICBUaGlzIGlzIHdoaXRlc3BhY2Ugb25seS4gIGtyZWYudHh0DQo+IGlz
-DQo+IHNvIGNsZWFubHkgd3JpdHRlbiBpdHMgYSBzaGFtZSB0byBoYXZlIHRoZXNlIGZldyBleHRy
-YSB3aWRlDQo+IHBhcmFncmFwaHMuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBUb2JpbiBDLiBIYXJk
-aW5nIDx0b2JpbkBrZXJuZWwub3JnPg0KPiAtLS0NCj4gDQo+IEknbSBhbHdheXMgaGVzaXRhbnQg
-dG8gZG8gZG9jcyBwYXRjaGVzIHRoYXQgc2VlbSBvYnZpb3VzIC0gaXMgdGhlcmUNCj4gc29tZSBy
-ZWFzb24gdGhhdCB0aGlzIHdhcyBub3QgZG9uZSBwcmV2aW91c2x5Pw0KDQpTcGVha2luZyBmb3Ig
-dGhlIHR3byBrcmVmLnR4dCBwYXJhZ3JhcGhzLCB0aGUgd2lkdGggYmVpbmcgdG9vIGxhcmdlIGlz
-DQpzaW1wbHkgYW4gb3ZlcnNpZ2h0IGZyb20gbXkgc2lkZS4gSSB3YXNuJ3QgYXdhcmUgb2YgdGhl
-IHJlc3RyaWN0aW9uLg0KDQoNClJldmlld2VkLWJ5OiBUaG9tYXMgSGVsbHN0cm9tIDx0aGVsbHN0
-cm9tQHZtd2FyZS5jb20+DQoNCj4gDQo+IEkgZGlkIHRoaXMgb25lIGluIHByZXBhcmF0aW9uIGZv
-ciBjb252ZXJ0aW5nIGtvYmplY3QudHh0LCBteSBpbnRlbnQNCj4gaXMNCj4gdG8gcHV0IGtib2pl
-Y3QucnN0IGluIGNvcmUtYXBpLyBhbHNvPw0KPiANCj4gSSBjYW4gc3BsaXQgdGhlIHdoaXRlc3Bh
-Y2UgY2hhbmdlIGFuZCB0aGUgZmlsZSByZW5hbWUgaW50byBzZXBhcmF0ZQ0KPiBwYXRjaGVzIGlm
-IHlvdSdkIHByZWZlci4NCj4gDQo+IHRoYW5rcywNCj4gVG9iaW4uDQo+IA0KPiAgRG9jdW1lbnRh
-dGlvbi9jb3JlLWFwaS9pbmRleC5yc3QgICAgICAgICAgICAgIHwgIDEgKw0KPiAgRG9jdW1lbnRh
-dGlvbi97a3JlZi50eHQgPT4gY29yZS1hcGkva3JlZi5yc3R9IHwgMjQgKysrKysrKysrLS0tLS0t
-DQo+IC0tLS0NCj4gIERvY3VtZW50YXRpb24va29iamVjdC50eHQgICAgICAgICAgICAgICAgICAg
-ICB8ICA0ICsrKysNCj4gIDMgZmlsZXMgY2hhbmdlZCwgMTcgaW5zZXJ0aW9ucygrKSwgMTIgZGVs
-ZXRpb25zKC0pDQo+ICByZW5hbWUgRG9jdW1lbnRhdGlvbi97a3JlZi50eHQgPT4gY29yZS1hcGkv
-a3JlZi5yc3R9ICg5MyUpDQo+IA0KPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9jb3JlLWFw
-aS9pbmRleC5yc3QgYi9Eb2N1bWVudGF0aW9uL2NvcmUtDQo+IGFwaS9pbmRleC5yc3QNCj4gaW5k
-ZXggZWUxYmI4OTgzYTg4Li4xYzk1ZjBjZGQyMzkgMTAwNjQ0DQo+IC0tLSBhL0RvY3VtZW50YXRp
-b24vY29yZS1hcGkvaW5kZXgucnN0DQo+ICsrKyBiL0RvY3VtZW50YXRpb24vY29yZS1hcGkvaW5k
-ZXgucnN0DQo+IEBAIC0zNCw2ICszNCw3IEBAIENvcmUgdXRpbGl0aWVzDQo+ICAgICB0aW1la2Vl
-cGluZw0KPiAgICAgYm9vdC10aW1lLW1tDQo+ICAgICBtZW1vcnktaG90cGx1Zw0KPiArICAga3Jl
-Zg0KPiAgDQo+ICANCj4gIEludGVyZmFjZXMgZm9yIGtlcm5lbCBkZWJ1Z2dpbmcNCj4gZGlmZiAt
-LWdpdCBhL0RvY3VtZW50YXRpb24va3JlZi50eHQgYi9Eb2N1bWVudGF0aW9uL2NvcmUtYXBpL2ty
-ZWYucnN0DQo+IHNpbWlsYXJpdHkgaW5kZXggOTMlDQo+IHJlbmFtZSBmcm9tIERvY3VtZW50YXRp
-b24va3JlZi50eHQNCj4gcmVuYW1lIHRvIERvY3VtZW50YXRpb24vY29yZS1hcGkva3JlZi5yc3QN
-Cj4gaW5kZXggM2FmMzg0MTU2ZDdlLi5hMjE3NGRkMDllYjIgMTAwNjQ0DQo+IC0tLSBhL0RvY3Vt
-ZW50YXRpb24va3JlZi50eHQNCj4gKysrIGIvRG9jdW1lbnRhdGlvbi9jb3JlLWFwaS9rcmVmLnJz
-dA0KPiBAQCAtMjMwLDggKzIzMCw4IEBAIG9mIHRoZSBmcmVlIG9wZXJhdGlvbnMgdGhhdCBjb3Vs
-ZCB0YWtlIGEgbG9uZw0KPiB0aW1lIG9yIG1pZ2h0IGNsYWltIHRoZQ0KPiAgc2FtZSBsb2NrLiAg
-Tm90ZSB0aGF0IGRvaW5nIGV2ZXJ5dGhpbmcgaW4gdGhlIHJlbGVhc2Ugcm91dGluZSBpcw0KPiBz
-dGlsbA0KPiAgcHJlZmVycmVkIGFzIGl0IGlzIGEgbGl0dGxlIG5lYXRlci4NCj4gIA0KPiAtVGhl
-IGFib3ZlIGV4YW1wbGUgY291bGQgYWxzbyBiZSBvcHRpbWl6ZWQgdXNpbmcNCj4ga3JlZl9nZXRf
-dW5sZXNzX3plcm8oKSBpbg0KPiAtdGhlIGZvbGxvd2luZyB3YXk6Og0KPiArVGhlIGFib3ZlIGV4
-YW1wbGUgY291bGQgYWxzbyBiZSBvcHRpbWl6ZWQgdXNpbmcNCj4ga3JlZl9nZXRfdW5sZXNzX3pl
-cm8oKQ0KPiAraW4gdGhlIGZvbGxvd2luZyB3YXk6Og0KPiAgDQo+ICAJc3RhdGljIHN0cnVjdCBt
-eV9kYXRhICpnZXRfZW50cnkoKQ0KPiAgCXsNCj4gQEAgLTI2MSwxMSArMjYxLDExIEBAIHRoZSBm
-b2xsb3dpbmcgd2F5OjoNCj4gIAkJa3JlZl9wdXQoJmVudHJ5LT5yZWZjb3VudCwgcmVsZWFzZV9l
-bnRyeSk7DQo+ICAJfQ0KPiAgDQo+IC1XaGljaCBpcyB1c2VmdWwgdG8gcmVtb3ZlIHRoZSBtdXRl
-eCBsb2NrIGFyb3VuZCBrcmVmX3B1dCgpIGluDQo+IHB1dF9lbnRyeSgpLCBidXQNCj4gLWl0J3Mg
-aW1wb3J0YW50IHRoYXQga3JlZl9nZXRfdW5sZXNzX3plcm8gaXMgZW5jbG9zZWQgaW4gdGhlIHNh
-bWUNCj4gY3JpdGljYWwNCj4gLXNlY3Rpb24gdGhhdCBmaW5kcyB0aGUgZW50cnkgaW4gdGhlIGxv
-b2t1cCB0YWJsZSwNCj4gLW90aGVyd2lzZSBrcmVmX2dldF91bmxlc3NfemVybyBtYXkgcmVmZXJl
-bmNlIGFscmVhZHkgZnJlZWQgbWVtb3J5Lg0KPiAtTm90ZSB0aGF0IGl0IGlzIGlsbGVnYWwgdG8g
-dXNlIGtyZWZfZ2V0X3VubGVzc196ZXJvIHdpdGhvdXQgY2hlY2tpbmcNCj4gaXRzDQo+ICtXaGlj
-aCBpcyB1c2VmdWwgdG8gcmVtb3ZlIHRoZSBtdXRleCBsb2NrIGFyb3VuZCBrcmVmX3B1dCgpIGlu
-DQo+ICtwdXRfZW50cnkoKSwgYnV0IGl0J3MgaW1wb3J0YW50IHRoYXQga3JlZl9nZXRfdW5sZXNz
-X3plcm8gaXMNCj4gZW5jbG9zZWQgaW4NCj4gK3RoZSBzYW1lIGNyaXRpY2FsIHNlY3Rpb24gdGhh
-dCBmaW5kcyB0aGUgZW50cnkgaW4gdGhlIGxvb2t1cCB0YWJsZSwNCj4gK290aGVyd2lzZSBrcmVm
-X2dldF91bmxlc3NfemVybyBtYXkgcmVmZXJlbmNlIGFscmVhZHkgZnJlZWQNCj4gbWVtb3J5LiAg
-Tm90ZQ0KPiArdGhhdCBpdCBpcyBpbGxlZ2FsIHRvIHVzZSBrcmVmX2dldF91bmxlc3NfemVybyB3
-aXRob3V0IGNoZWNraW5nIGl0cw0KPiAgcmV0dXJuIHZhbHVlLiBJZiB5b3UgYXJlIHN1cmUgKGJ5
-IGFscmVhZHkgaGF2aW5nIGEgdmFsaWQgcG9pbnRlcikNCj4gdGhhdA0KPiAga3JlZl9nZXRfdW5s
-ZXNzX3plcm8oKSB3aWxsIHJldHVybiB0cnVlLCB0aGVuIHVzZSBrcmVmX2dldCgpDQo+IGluc3Rl
-YWQuDQo+ICANCj4gQEAgLTMxMiw4ICszMTIsOCBAQCBsb2NraW5nIGZvciBsb29rdXBzIGluIHRo
-ZSBhYm92ZSBleGFtcGxlOjoNCj4gIAkJa3JlZl9wdXQoJmVudHJ5LT5yZWZjb3VudCwgcmVsZWFz
-ZV9lbnRyeV9yY3UpOw0KPiAgCX0NCj4gIA0KPiAtQnV0IG5vdGUgdGhhdCB0aGUgc3RydWN0IGty
-ZWYgbWVtYmVyIG5lZWRzIHRvIHJlbWFpbiBpbiB2YWxpZCBtZW1vcnkNCj4gZm9yIGENCj4gLXJj
-dSBncmFjZSBwZXJpb2QgYWZ0ZXIgcmVsZWFzZV9lbnRyeV9yY3Ugd2FzIGNhbGxlZC4gVGhhdCBj
-YW4gYmUNCj4gYWNjb21wbGlzaGVkDQo+IC1ieSB1c2luZyBrZnJlZV9yY3UoZW50cnksIHJoZWFk
-KSBhcyBkb25lIGFib3ZlLCBvciBieSBjYWxsaW5nDQo+IHN5bmNocm9uaXplX3JjdSgpDQo+IC1i
-ZWZvcmUgdXNpbmcga2ZyZWUsIGJ1dCBub3RlIHRoYXQgc3luY2hyb25pemVfcmN1KCkgbWF5IHNs
-ZWVwIGZvciBhDQo+IC1zdWJzdGFudGlhbCBhbW91bnQgb2YgdGltZS4NCj4gK0J1dCBub3RlIHRo
-YXQgdGhlIHN0cnVjdCBrcmVmIG1lbWJlciBuZWVkcyB0byByZW1haW4gaW4gdmFsaWQgbWVtb3J5
-DQo+IGZvcg0KPiArYSByY3UgZ3JhY2UgcGVyaW9kIGFmdGVyIHJlbGVhc2VfZW50cnlfcmN1IHdh
-cyBjYWxsZWQuIFRoYXQgY2FuIGJlDQo+ICthY2NvbXBsaXNoZWQgYnkgdXNpbmcga2ZyZWVfcmN1
-KGVudHJ5LCByaGVhZCkgYXMgZG9uZSBhYm92ZSwgb3IgYnkNCj4gK2NhbGxpbmcgc3luY2hyb25p
-emVfcmN1KCkgYmVmb3JlIHVzaW5nIGtmcmVlLCBidXQgbm90ZSB0aGF0DQo+ICtzeW5jaHJvbml6
-ZV9yY3UoKSBtYXkgc2xlZXAgZm9yIGEgc3Vic3RhbnRpYWwgYW1vdW50IG9mIHRpbWUuDQo+IGRp
-ZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2tvYmplY3QudHh0IGIvRG9jdW1lbnRhdGlvbi9rb2Jq
-ZWN0LnR4dA0KPiBpbmRleCBmZjRjMjUwOTgxMTkuLjE0MDAzMGI0NjAzYiAxMDA2NDQNCj4gLS0t
-IGEvRG9jdW1lbnRhdGlvbi9rb2JqZWN0LnR4dA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL2tvYmpl
-Y3QudHh0DQo+IEBAIC0xNTksNiArMTU5LDEwIEBAIGtlcm5lbCBhdCB0aGUgc2FtZSB0aW1lLCBj
-YWxsZWQgc3VycHJpc2luZ2x5DQo+IGVub3VnaCBrb2JqZWN0X2luaXRfYW5kX2FkZCgpOjoNCj4g
-ICAgICBpbnQga29iamVjdF9pbml0X2FuZF9hZGQoc3RydWN0IGtvYmplY3QgKmtvYmosIHN0cnVj
-dCBrb2JqX3R5cGUNCj4gKmt0eXBlLA0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBz
-dHJ1Y3Qga29iamVjdCAqcGFyZW50LCBjb25zdCBjaGFyDQo+ICpmbXQsIC4uLik7DQo+ICANCj4g
-K0FuIGVycm9yIHJldHVybiBmcm9tIGtvYmplY3RfaW5pdF9hbmRfYWRkKCkgbXVzdCBiZSBmb2xs
-b3dlZCBieSBhDQo+IGNhbGwgdG8NCj4gK2tvYmplY3RfcHV0KCkgc2luY2UgdGhlICdpbml0JyBw
-YXJ0IG9mIHRoaXMgZnVuY3Rpb24gaXMgYWx3YXlzDQo+IGNhbGxlZCBhbmQgdGhlDQo+ICtlcnJv
-ciByZXR1cm4gaXMgZHVlIHRvIHRoZSAnYWRkJyBwYXJ0Lg0KPiArDQo+ICBUaGUgYXJndW1lbnRz
-IGFyZSB0aGUgc2FtZSBhcyB0aGUgaW5kaXZpZHVhbCBrb2JqZWN0X2luaXQoKSBhbmQNCj4gIGtv
-YmplY3RfYWRkKCkgZnVuY3Rpb25zIGRlc2NyaWJlZCBhYm92ZS4NCj4gIA0K
+On Fri, 2019-05-10 at 10:12 +0200, Daniel Vetter wrote:
+> On Fri, May 10, 2019 at 7:49 AM Knut Omang <knut.omang@oracle.com> wrote:
+> >
+> > On Thu, 2019-05-09 at 22:18 -0700, Frank Rowand wrote:
+> > > On 5/9/19 4:40 PM, Logan Gunthorpe wrote:
+> > > >
+> > > >
+> > > > On 2019-05-09 5:30 p.m., Theodore Ts'o wrote:
+> > > >> On Thu, May 09, 2019 at 04:20:05PM -0600, Logan Gunthorpe wrote:
+> > > >>>
+> > > >>> The second item, arguably, does have significant overlap with kselftest.
+> > > >>> Whether you are running short tests in a light weight UML environment or
+> > > >>> higher level tests in an heavier VM the two could be using the same
+> > > >>> framework for writing or defining in-kernel tests. It *may* also be valuable
+> > > >>> for some people to be able to run all the UML tests in the heavy VM
+> > > >>> environment along side other higher level tests.
+> > > >>>
+> > > >>> Looking at the selftests tree in the repo, we already have similar items to
+> > > >>> what Kunit is adding as I described in point (2) above. kselftest_harness.h
+> > > >>> contains macros like EXPECT_* and ASSERT_* with very similar intentions to
+> > > >>> the new KUNIT_EXECPT_* and KUNIT_ASSERT_* macros.
+> > > >>>
+> > > >>> However, the number of users of this harness appears to be quite small. Most
+> > > >>> of the code in the selftests tree seems to be a random mismash of scripts
+> > > >>> and userspace code so it's not hard to see it as something completely
+> > > >>> different from the new Kunit:
+> > > >>>
+> > > >>> $ git grep --files-with-matches kselftest_harness.h *
+> > > >>
+> > > >> To the extent that we can unify how tests are written, I agree that
+> > > >> this would be a good thing.  However, you should note that
+> > > >> kselftest_harness.h is currently assums that it will be included in
+> > > >> userspace programs.  This is most obviously seen if you look closely
+> > > >> at the functions defined in the header files which makes calls to
+> > > >> fork(), abort() and fprintf().
+> > > >
+> > > > Ah, yes. I obviously did not dig deep enough. Using kunit for
+> > > > in-kernel tests and kselftest_harness for userspace tests seems like
+> > > > a sensible line to draw to me. Trying to unify kernel and userspace
+> > > > here sounds like it could be difficult so it's probably not worth
+> > > > forcing the issue unless someone wants to do some really fancy work
+> > > > to get it done.
+> > > >
+> > > > Based on some of the other commenters, I was under the impression
+> > > > that kselftests had in-kernel tests but I'm not sure where or if they
+> > > > exist.
+> > >
+> > > YES, kselftest has in-kernel tests.  (Excuse the shouting...)
+> > >
+> > > Here is a likely list of them in the kernel source tree:
+> > >
+> > > $ grep module_init lib/test_*.c
+> > > lib/test_bitfield.c:module_init(test_bitfields)
+> > > lib/test_bitmap.c:module_init(test_bitmap_init);
+> > > lib/test_bpf.c:module_init(test_bpf_init);
+> > > lib/test_debug_virtual.c:module_init(test_debug_virtual_init);
+> > > lib/test_firmware.c:module_init(test_firmware_init);
+> > > lib/test_hash.c:module_init(test_hash_init);  /* Does everything */
+> > > lib/test_hexdump.c:module_init(test_hexdump_init);
+> > > lib/test_ida.c:module_init(ida_checks);
+> > > lib/test_kasan.c:module_init(kmalloc_tests_init);
+> > > lib/test_list_sort.c:module_init(list_sort_test);
+> > > lib/test_memcat_p.c:module_init(test_memcat_p_init);
+> > > lib/test_module.c:static int __init test_module_init(void)
+> > > lib/test_module.c:module_init(test_module_init);
+> > > lib/test_objagg.c:module_init(test_objagg_init);
+> > > lib/test_overflow.c:static int __init test_module_init(void)
+> > > lib/test_overflow.c:module_init(test_module_init);
+> > > lib/test_parman.c:module_init(test_parman_init);
+> > > lib/test_printf.c:module_init(test_printf_init);
+> > > lib/test_rhashtable.c:module_init(test_rht_init);
+> > > lib/test_siphash.c:module_init(siphash_test_init);
+> > > lib/test_sort.c:module_init(test_sort_init);
+> > > lib/test_stackinit.c:module_init(test_stackinit_init);
+> > > lib/test_static_key_base.c:module_init(test_static_key_base_init);
+> > > lib/test_static_keys.c:module_init(test_static_key_init);
+> > > lib/test_string.c:module_init(string_selftest_init);
+> > > lib/test_ubsan.c:module_init(test_ubsan_init);
+> > > lib/test_user_copy.c:module_init(test_user_copy_init);
+> > > lib/test_uuid.c:module_init(test_uuid_init);
+> > > lib/test_vmalloc.c:module_init(vmalloc_test_init)
+> > > lib/test_xarray.c:module_init(xarray_checks);
+> > >
+> > >
+> > > > If they do exists, it seems like it would make sense to
+> > > > convert those to kunit and have Kunit tests run-able in a VM or
+> > > > baremetal instance.
+> > >
+> > > They already run in a VM.
+> > >
+> > > They already run on bare metal.
+> > >
+> > > They already run in UML.
+> > >
+> > > This is not to say that KUnit does not make sense.  But I'm still trying
+> > > to get a better description of the KUnit features (and there are
+> > > some).
+> >
+> > FYI, I have a master student who looks at converting some of these to KTF, such as for
+> > instance the XArray tests, which lended themselves quite good to a semi-automated
+> > conversion.
+> >
+> > The result is also a somewhat more compact code as well as the flexibility
+> > provided by the Googletest executor and the KTF frameworks, such as running selected
+> > tests, output formatting, debugging features etc.
+> 
+> So is KTF already in upstream? 
+
+No..
+
+> Or is the plan to unify the KTF and
+> Kunit in-kernel test harnesses? 
+
+Since KTF delegates reporting and test running to user space - reporting is based on
+netlink communication with the user land frontend (Googletest based, but can in principle
+be ported to any user land framework if need be) - little specific test harness features
+are needed for KTF, so there's little if no direct overlap with the infrastructure in
+kselftests (as far as I understand, I'd like to spend more time on the details there..)
+
+> Because there's tons of these
+> in-kernel unit tests already, and every merge we get more (Frank's
+> list didn't even look into drivers or anywhere else, e.g. it's missing
+> the locking self tests I worked on in the past), and a more structured
+> approach would really be good.
+
+That's been my thinking too. Having a unified way to gradually move to would benefit
+anyone who needs to relate to these tests in that there will be less to learn.
+But that would be a long term evolutionary goal of course.
+
+Also I think each of these test suites/sets would benefit from being more available for
+running even in kernels not made specifically for testing, and I think using the module
+structure and a lean, common module (ktf.ko) as a library for the tests, but no
+"polluting" of the "production" kernel code with anything else, is a kind of a policy that
+comes implicitly with KTF that can make it easier to maintain a sort of standard
+"language" for writing kernel tests. 
+
+Wrt KTF, we're working on making a suitable patch set for the kernel,
+but also have projects running internally that uses KTF as a standalone git repository,
+and that inspires new features and other changes, as well as a growing set of tests. 
+I want to make sure we find a good candidate kernel integration that can coexist nicely
+with the separate git repo version without becoming too much of a back/forward porting
+challenge.
+
+Knut
+
+> -Daniel
+
