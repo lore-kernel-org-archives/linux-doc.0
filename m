@@ -2,66 +2,99 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,UNPARSEABLE_RELAY autolearn=ham
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 71F867D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 May 2019 04:20:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AE99E7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 May 2019 04:50:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725904AbfEJEUd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 10 May 2019 00:20:33 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:7875 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725903AbfEJEUc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 May 2019 00:20:32 -0400
-X-UUID: 6840245851e3448192aee4006048c008-20190510
-X-UUID: 6840245851e3448192aee4006048c008-20190510
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
-        (envelope-from <lecopzer.chen@mediatek.com>)
-        (mhqrelay.mediatek.com ESMTP with TLS)
-        with ESMTP id 127925819; Fri, 10 May 2019 12:20:27 +0800
-Received: from mtkcas09.mediatek.inc (172.21.101.178) by
- mtkmbs01n2.mediatek.inc (172.21.101.79) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Fri, 10 May 2019 12:20:25 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas09.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Fri, 10 May 2019 12:20:25 +0800
-From:   Lecopzer Chen <lecopzer.chen@mediatek.com>
-To:     <mhiramat@kernel.org>
-CC:     <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <corbet@lwn.net>, <srv_heupstream@mediatek.com>,
-        <yj.chiang@mediatek.com>,
-        Lecopzer Chen <lecopzer.chen@mediatek.com>
-Subject: RE: [PATCH] Documentation: {u,k}probes: add tracing_on before tracing
-Date:   Fri, 10 May 2019 12:19:49 +0800
-Message-ID: <1557461989-29625-1-git-send-email-lecopzer.chen@mediatek.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <20190509220829.42cb21dc0555abe1de98df10@kernel.org>
-References: <20190509220829.42cb21dc0555abe1de98df10@kernel.org>
+        id S1726967AbfEJEu4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 10 May 2019 00:50:56 -0400
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:43736 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726284AbfEJEu4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 10 May 2019 00:50:56 -0400
+Received: from callcc.thunk.org ([66.31.38.53])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x4A4livR031694
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 10 May 2019 00:47:45 -0400
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id 11AEE420024; Fri, 10 May 2019 00:47:44 -0400 (EDT)
+Date:   Fri, 10 May 2019 00:47:43 -0400
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     Logan Gunthorpe <logang@deltatee.com>
+Cc:     Frank Rowand <frowand.list@gmail.com>, Tim.Bird@sony.com,
+        knut.omang@oracle.com, gregkh@linuxfoundation.org,
+        brendanhiggins@google.com, keescook@google.com,
+        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
+        robh@kernel.org, sboyd@kernel.org, shuah@kernel.org,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, amir73il@gmail.com,
+        dan.carpenter@oracle.com, dan.j.williams@intel.com,
+        daniel@ffwll.ch, jdike@addtoit.com, joel@jms.id.au,
+        julia.lawall@lip6.fr, khilman@baylibre.com, mpe@ellerman.id.au,
+        pmladek@suse.com, richard@nod.at, rientjes@google.com,
+        rostedt@goodmis.org, wfg@linux.intel.com
+Subject: Re: [PATCH v2 00/17] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+Message-ID: <20190510044743.GA6889@mit.edu>
+Mail-Followup-To: Theodore Ts'o <tytso@mit.edu>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Frank Rowand <frowand.list@gmail.com>, Tim.Bird@sony.com,
+        knut.omang@oracle.com, gregkh@linuxfoundation.org,
+        brendanhiggins@google.com, keescook@google.com,
+        kieran.bingham@ideasonboard.com, mcgrof@kernel.org, robh@kernel.org,
+        sboyd@kernel.org, shuah@kernel.org, devicetree@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-um@lists.infradead.org, Alexander.Levin@microsoft.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com,
+        dan.j.williams@intel.com, daniel@ffwll.ch, jdike@addtoit.com,
+        joel@jms.id.au, julia.lawall@lip6.fr, khilman@baylibre.com,
+        mpe@ellerman.id.au, pmladek@suse.com, richard@nod.at,
+        rientjes@google.com, rostedt@goodmis.org, wfg@linux.intel.com
+References: <580e092f-fa4e-eedc-9e9a-a57dd085f0a6@gmail.com>
+ <20190509032017.GA29703@mit.edu>
+ <7fd35df81c06f6eb319223a22e7b93f29926edb9.camel@oracle.com>
+ <20190509133551.GD29703@mit.edu>
+ <ECADFF3FD767C149AD96A924E7EA6EAF9770D591@USCULXMSG01.am.sony.com>
+ <875c546d-9713-bb59-47e4-77a1d2c69a6d@gmail.com>
+ <20190509214233.GA20877@mit.edu>
+ <b09ba170-229b-fde4-3e9a-e50d6ab4c1b5@deltatee.com>
+ <20190509233043.GC20877@mit.edu>
+ <8914afef-1e66-e6e3-f891-5855768d3018@deltatee.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-SNTS-SMTP: 1CA06B267CE4478EE285A06EA3FFDD04B648AED898BFE11B98B3F8C4C573F0C12000:8
-X-MTK:  N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8914afef-1e66-e6e3-f891-5855768d3018@deltatee.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->> From: Lecopzer Chen <lecopzer.chen@mediatek.com>
->> 
->> After following the document step by step, the `cat trace` can't be
->> worked without enabling tracing_on and might mislead newbies about
->> the functionality.
+On Thu, May 09, 2019 at 05:40:48PM -0600, Logan Gunthorpe wrote:
+> 
+> Based on some of the other commenters, I was under the impression that
+> kselftests had in-kernel tests but I'm not sure where or if they exist. If
+> they do exists, it seems like it would make sense to convert those to kunit
+> and have Kunit tests run-able in a VM or baremetal instance.
 
-> OK, but isn't tracing_on enabled by default?
+There are kselftests tests which are shell scripts which load a
+module, and the module runs the in-kernel code.  However, I didn't see
+much infrastructure for the in-kernel test code; the one or two test
+modules called from kselftests looked pretty ad hoc to me.
 
-Yes, but it may be disabled by some distros' init process.
+That's why I used the "vise grips" analogy.  You can use a pair of
+vise grips like a monkey wrench; but it's not really a monkey wrench,
+and might not be the best tool to loosen or tighten nuts and bolts.
 
-
-> Anyway, it looks good to me (for making sure the trace is enabled).
-
-> Acked-by: Masami Hiramatsu <mhiramat@kernel.org>
-
-> Thanks!
-
-Thanks a lots for your reply!
+       	   	     	       	   - Ted
