@@ -2,169 +2,110 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 63E297D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 May 2019 15:28:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D1BDB7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 10 May 2019 16:18:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727332AbfEJP2j (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 10 May 2019 11:28:39 -0400
-Received: from ms.lwn.net ([45.79.88.28]:48734 "EHLO ms.lwn.net"
+        id S1727492AbfEJQSg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 10 May 2019 12:18:36 -0400
+Received: from ale.deltatee.com ([207.54.116.67]:36628 "EHLO ale.deltatee.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727144AbfEJP2j (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 10 May 2019 11:28:39 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 987782C5;
-        Fri, 10 May 2019 15:28:38 +0000 (UTC)
-Date:   Fri, 10 May 2019 09:28:37 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
-Subject: [GIT PULL] Some more documentation work for 5.2
-Message-ID: <20190510092837.09b2a4f5@lwn.net>
-Organization: LWN.net
+        id S1727271AbfEJQSg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 10 May 2019 12:18:36 -0400
+Received: from guinness.priv.deltatee.com ([172.16.1.162])
+        by ale.deltatee.com with esmtp (Exim 4.89)
+        (envelope-from <logang@deltatee.com>)
+        id 1hP8Dm-0006xr-3M; Fri, 10 May 2019 10:18:07 -0600
+To:     Frank Rowand <frowand.list@gmail.com>,
+        Theodore Ts'o <tytso@mit.edu>, Tim.Bird@sony.com,
+        knut.omang@oracle.com, gregkh@linuxfoundation.org,
+        brendanhiggins@google.com, keescook@google.com,
+        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
+        robh@kernel.org, sboyd@kernel.org, shuah@kernel.org,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, amir73il@gmail.com,
+        dan.carpenter@oracle.com, dan.j.williams@intel.com,
+        daniel@ffwll.ch, jdike@addtoit.com, joel@jms.id.au,
+        julia.lawall@lip6.fr, khilman@baylibre.com, mpe@ellerman.id.au,
+        pmladek@suse.com, richard@nod.at, rientjes@google.com,
+        rostedt@goodmis.org, wfg@linux.intel.com
+References: <a09a7e0e-9894-8c1a-34eb-fc482b1759d0@gmail.com>
+ <20190509015856.GB7031@mit.edu>
+ <580e092f-fa4e-eedc-9e9a-a57dd085f0a6@gmail.com>
+ <20190509032017.GA29703@mit.edu>
+ <7fd35df81c06f6eb319223a22e7b93f29926edb9.camel@oracle.com>
+ <20190509133551.GD29703@mit.edu>
+ <ECADFF3FD767C149AD96A924E7EA6EAF9770D591@USCULXMSG01.am.sony.com>
+ <875c546d-9713-bb59-47e4-77a1d2c69a6d@gmail.com>
+ <20190509214233.GA20877@mit.edu>
+ <b09ba170-229b-fde4-3e9a-e50d6ab4c1b5@deltatee.com>
+ <20190509233043.GC20877@mit.edu>
+ <8914afef-1e66-e6e3-f891-5855768d3018@deltatee.com>
+ <6d6e91ec-33d3-830b-4895-4d7a20ba7d45@gmail.com>
+From:   Logan Gunthorpe <logang@deltatee.com>
+Message-ID: <3faa022b-0b70-0375-aa6d-12ea83a2671f@deltatee.com>
+Date:   Fri, 10 May 2019 10:17:56 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <6d6e91ec-33d3-830b-4895-4d7a20ba7d45@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-CA
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 172.16.1.162
+X-SA-Exim-Rcpt-To: wfg@linux.intel.com, rostedt@goodmis.org, rientjes@google.com, richard@nod.at, pmladek@suse.com, mpe@ellerman.id.au, khilman@baylibre.com, julia.lawall@lip6.fr, joel@jms.id.au, jdike@addtoit.com, daniel@ffwll.ch, dan.j.williams@intel.com, dan.carpenter@oracle.com, amir73il@gmail.com, Alexander.Levin@microsoft.com, linux-um@lists.infradead.org, linux-nvdimm@lists.01.org, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, kunit-dev@googlegroups.com, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, shuah@kernel.org, sboyd@kernel.org, robh@kernel.org, mcgrof@kernel.org, kieran.bingham@ideasonboard.com, keescook@google.com, brendanhiggins@google.com, gregkh@linuxfoundation.org, knut.omang@oracle.com, Tim.Bird@sony.com, tytso@mit.edu, frowand.list@gmail.com
+X-SA-Exim-Mail-From: logang@deltatee.com
+Subject: Re: [PATCH v2 00/17] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following changes since commit
-d9defe448f4c7b88ca2ae636a321ef8970fa718d:
 
-  docs/livepatch: Unify style of livepatch documentation in the ReST format (2019-05-07 16:06:28 -0600)
 
-are available in the Git repository at:
+On 2019-05-09 11:18 p.m., Frank Rowand wrote:
 
-  git://git.lwn.net/linux.git tags/docs-5.2a
+> YES, kselftest has in-kernel tests.  (Excuse the shouting...)
 
-for you to fetch changes up to afbd4d42470e91470bc59040094b89cd717530bd:
+Cool. From my cursory look, in my opinion, these would be greatly
+improved by converting them to the framework Brendan is proposing for Kunit.
 
-  Merge branch 'x86' into docs-next (2019-05-08 14:38:11 -0600)
+>> If they do exists, it seems like it would make sense to
+>> convert those to kunit and have Kunit tests run-able in a VM or
+>> baremetal instance.
+> 
+> They already run in a VM.
+> 
+> They already run on bare metal.
+> 
+> They already run in UML.
 
-----------------------------------------------------------------
-Some late arriving documentation changes.  In particular, this contains the
-conversion of the x86 docs to RST (acked by Ingo), which has been in the
-works for some time but needed a couple of final tweaks.
+Simply being able to run in UML is not the only thing here. Kunit
+provides the infrastructure to quickly build, run and report results for
+all the tests from userspace without needing to worry about the details
+of building and running a UML kernel, then parsing dmesg to figure out
+what tests were run or not.
 
-There is a moderately annoying conflict with
-Documentation/x86/x86_64/mm.txt, which has a parallel change that went in
-via the x86 tree.  The resolution is to delete that file but to propagate
-the change; I've put a proposed merge (which is really just what Stephen
-did in docs-next) at the tag docs-5.2a-merge should that be helpful.
-----------------------------------------------------------------
+> This is not to say that KUnit does not make sense.  But I'm still trying
+> to get a better description of the KUnit features (and there are
+> some).
 
-Changbin Du (27): Documentation: add Linux x86 docs to Sphinx TOC tree
-      Documentation: x86: convert boot.txt to reST
-      Documentation: x86: convert topology.txt to reST
-      Documentation: x86: convert exception-tables.txt to reST
-      Documentation: x86: convert kernel-stacks to reST
-      Documentation: x86: convert entry_64.txt to reST
-      Documentation: x86: convert earlyprintk.txt to reST
-      Documentation: x86: convert zero-page.txt to reST
-      Documentation: x86: convert tlb.txt to reST
-      Documentation: x86: convert mtrr.txt to reST
-      Documentation: x86: convert pat.txt to reST
-      Documentation: x86: convert protection-keys.txt to reST
-      Documentation: x86: convert intel_mpx.txt to reST
-      Documentation: x86: convert amd-memory-encryption.txt to reST
-      Documentation: x86: convert pti.txt to reST
-      Documentation: x86: convert microcode.txt to reST
-      Documentation: x86: convert resctrl_ui.txt to reST
-      Documentation: x86: convert orc-unwinder.txt to reST
-      Documentation: x86: convert usb-legacy-support.txt to reST
-      Documentation: x86: convert i386/IO-APIC.txt to reST
-      Documentation: x86: convert x86_64/boot-options.txt to reST
-      Documentation: x86: convert x86_64/uefi.txt to reST
-      Documentation: x86: convert x86_64/mm.txt to reST
-      Documentation: x86: convert x86_64/5level-paging.txt to reST
-      Documentation: x86: convert x86_64/fake-numa-for-cpusets to reST
-      Documentation: x86: convert x86_64/cpu-hotplug-spec to reST
-      Documentation: x86: convert x86_64/machinecheck to reST
+So read the patches, or the documentation[1] or the LWN article[2]. It's
+pretty well described in a lot of places -- that's one of the big
+advantages of it. In contrast, few people seems to have any concept of
+what kselftests are or where they are or how to run them (I was
+surprised to find the in-kernel tests in the lib tree).
 
-Federico Vaga (1):
-      doc:it_IT: align documentation after licenses patches
+Logan
 
-Jonathan Corbet (1):
-      Merge branch 'x86' into docs-next
-
-Tzvetomir Stoyanov (1):
-      Documentation/trace: Add clarification how histogram onmatch works
-
- Documentation/index.rst                            |   1 +
- Documentation/trace/histogram.rst                  |  11 +-
- .../translations/it_IT/process/license-rules.rst   |  60 +-
- ...ry-encryption.txt => amd-memory-encryption.rst} |  13 +-
- Documentation/x86/{boot.txt => boot.rst}           | 528 +++++++-----
- .../x86/{earlyprintk.txt => earlyprintk.rst}       | 122 +--
- Documentation/x86/{entry_64.txt => entry_64.rst}   |  12 +-
- .../{exception-tables.txt => exception-tables.rst} | 247 +++---
- .../x86/i386/{IO-APIC.txt => IO-APIC.rst}          |  28 +-
- Documentation/x86/i386/index.rst                   |  10 +
- Documentation/x86/index.rst                        |  30 +
- Documentation/x86/{intel_mpx.txt => intel_mpx.rst} | 120 +--
- .../x86/{kernel-stacks => kernel-stacks.rst}       |  20 +-
- Documentation/x86/{microcode.txt => microcode.rst} |  62 +-
- Documentation/x86/mtrr.rst                         | 354 ++++++++
- Documentation/x86/mtrr.txt                         | 329 --------
- .../x86/{orc-unwinder.txt => orc-unwinder.rst}     |  27 +-
- Documentation/x86/pat.rst                          | 242 ++++++
- Documentation/x86/pat.txt                          | 230 ------
- .../{protection-keys.txt => protection-keys.rst}   |  33 +-
- Documentation/x86/{pti.txt => pti.rst}             |  17 +-
- .../x86/{resctrl_ui.txt => resctrl_ui.rst}         | 916 +++++++++++----------
- Documentation/x86/{tlb.txt => tlb.rst}             |  30 +-
- Documentation/x86/{topology.txt => topology.rst}   |  92 ++-
- ...b-legacy-support.txt => usb-legacy-support.rst} |  40 +-
- .../{5level-paging.txt => 5level-paging.rst}       |  16 +-
- Documentation/x86/x86_64/boot-options.rst          | 335 ++++++++
- Documentation/x86/x86_64/boot-options.txt          | 278 -------
- .../{cpu-hotplug-spec => cpu-hotplug-spec.rst}     |   5 +-
- ...-numa-for-cpusets => fake-numa-for-cpusets.rst} |  25 +-
- Documentation/x86/x86_64/index.rst                 |  16 +
- .../x86/x86_64/{machinecheck => machinecheck.rst}  |  12 +-
- Documentation/x86/x86_64/mm.rst                    | 161 ++++
- Documentation/x86/x86_64/mm.txt                    | 153 ----
- Documentation/x86/x86_64/{uefi.txt => uefi.rst}    |  30 +-
- Documentation/x86/zero-page.rst                    |  45 +
- Documentation/x86/zero-page.txt                    |  40 -
- 37 files changed, 2620 insertions(+), 2070 deletions(-)
- rename Documentation/x86/{amd-memory-encryption.txt => amd-memory-encryption.rst} (94%)
- rename Documentation/x86/{boot.txt => boot.rst} (73%)
- rename Documentation/x86/{earlyprintk.txt => earlyprintk.rst} (51%)
- rename Documentation/x86/{entry_64.txt => entry_64.rst} (95%)
- rename Documentation/x86/{exception-tables.txt => exception-tables.rst} (64%)
- rename Documentation/x86/i386/{IO-APIC.txt => IO-APIC.rst} (93%)
- create mode 100644 Documentation/x86/i386/index.rst
- create mode 100644 Documentation/x86/index.rst
- rename Documentation/x86/{intel_mpx.txt => intel_mpx.rst} (75%)
- rename Documentation/x86/{kernel-stacks => kernel-stacks.rst} (92%)
- rename Documentation/x86/{microcode.txt => microcode.rst} (81%)
- create mode 100644 Documentation/x86/mtrr.rst
- delete mode 100644 Documentation/x86/mtrr.txt
- rename Documentation/x86/{orc-unwinder.txt => orc-unwinder.rst} (93%)
- create mode 100644 Documentation/x86/pat.rst
- delete mode 100644 Documentation/x86/pat.txt
- rename Documentation/x86/{protection-keys.txt => protection-keys.rst} (83%)
- rename Documentation/x86/{pti.txt => pti.rst} (96%)
- rename Documentation/x86/{resctrl_ui.txt => resctrl_ui.rst} (68%)
- rename Documentation/x86/{tlb.txt => tlb.rst} (81%)
- rename Documentation/x86/{topology.txt => topology.rst} (74%)
- rename Documentation/x86/{usb-legacy-support.txt => usb-legacy-support.rst} (53%)
- rename Documentation/x86/x86_64/{5level-paging.txt => 5level-paging.rst} (91%)
- create mode 100644 Documentation/x86/x86_64/boot-options.rst
- delete mode 100644 Documentation/x86/x86_64/boot-options.txt
- rename Documentation/x86/x86_64/{cpu-hotplug-spec => cpu-hotplug-spec.rst} (88%)
- rename Documentation/x86/x86_64/{fake-numa-for-cpusets => fake-numa-for-cpusets.rst} (85%)
- create mode 100644 Documentation/x86/x86_64/index.rst
- rename Documentation/x86/x86_64/{machinecheck => machinecheck.rst} (92%)
- create mode 100644 Documentation/x86/x86_64/mm.rst
- delete mode 100644 Documentation/x86/x86_64/mm.txt
- rename Documentation/x86/x86_64/{uefi.txt => uefi.rst} (79%)
- create mode 100644 Documentation/x86/zero-page.rst
- delete mode 100644 Documentation/x86/zero-page.txt
+[1] https://google.github.io/kunit-docs/third_party/kernel/docs/
+[2] https://lwn.net/Articles/780985/
