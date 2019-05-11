@@ -1,102 +1,118 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4AFB07D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 11 May 2019 17:35:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 60BD67D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 11 May 2019 22:11:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726270AbfEKRfp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 11 May 2019 13:35:45 -0400
-Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:50198 "EHLO
-        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725879AbfEKRfp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 May 2019 13:35:45 -0400
-Received: from callcc.thunk.org (rrcs-67-53-55-100.west.biz.rr.com [67.53.55.100])
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x4BHXkiw001051
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 11 May 2019 13:33:50 -0400
-Received: by callcc.thunk.org (Postfix, from userid 15806)
-        id DFD64420024; Sat, 11 May 2019 13:33:44 -0400 (EDT)
-Date:   Sat, 11 May 2019 13:33:44 -0400
-From:   "Theodore Ts'o" <tytso@mit.edu>
-To:     Frank Rowand <frowand.list@gmail.com>
-Cc:     Tim.Bird@sony.com, knut.omang@oracle.com,
-        gregkh@linuxfoundation.org, brendanhiggins@google.com,
-        keescook@google.com, kieran.bingham@ideasonboard.com,
-        mcgrof@kernel.org, robh@kernel.org, sboyd@kernel.org,
-        shuah@kernel.org, devicetree@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-um@lists.infradead.org, Alexander.Levin@microsoft.com,
-        amir73il@gmail.com, dan.carpenter@oracle.com,
-        dan.j.williams@intel.com, daniel@ffwll.ch, jdike@addtoit.com,
-        joel@jms.id.au, julia.lawall@lip6.fr, khilman@baylibre.com,
-        logang@deltatee.com, mpe@ellerman.id.au, pmladek@suse.com,
-        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
-        wfg@linux.intel.com
-Subject: Re: [PATCH v2 00/17] kunit: introduce KUnit, the Linux kernel unit
- testing framework
-Message-ID: <20190511173344.GA8507@mit.edu>
-Mail-Followup-To: Theodore Ts'o <tytso@mit.edu>,
-        Frank Rowand <frowand.list@gmail.com>, Tim.Bird@sony.com,
-        knut.omang@oracle.com, gregkh@linuxfoundation.org,
-        brendanhiggins@google.com, keescook@google.com,
-        kieran.bingham@ideasonboard.com, mcgrof@kernel.org, robh@kernel.org,
-        sboyd@kernel.org, shuah@kernel.org, devicetree@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-um@lists.infradead.org, Alexander.Levin@microsoft.com,
-        amir73il@gmail.com, dan.carpenter@oracle.com,
-        dan.j.williams@intel.com, daniel@ffwll.ch, jdike@addtoit.com,
-        joel@jms.id.au, julia.lawall@lip6.fr, khilman@baylibre.com,
-        logang@deltatee.com, mpe@ellerman.id.au, pmladek@suse.com,
-        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
-        wfg@linux.intel.com
-References: <a09a7e0e-9894-8c1a-34eb-fc482b1759d0@gmail.com>
- <20190509015856.GB7031@mit.edu>
- <580e092f-fa4e-eedc-9e9a-a57dd085f0a6@gmail.com>
- <20190509032017.GA29703@mit.edu>
- <7fd35df81c06f6eb319223a22e7b93f29926edb9.camel@oracle.com>
- <20190509133551.GD29703@mit.edu>
- <ECADFF3FD767C149AD96A924E7EA6EAF9770D591@USCULXMSG01.am.sony.com>
- <875c546d-9713-bb59-47e4-77a1d2c69a6d@gmail.com>
- <20190509214233.GA20877@mit.edu>
- <80c72e64-2665-bd51-f78c-97f50f9a53ba@gmail.com>
+        id S1726099AbfEKWLi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 11 May 2019 18:11:38 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:55087 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726210AbfEKWLh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 May 2019 18:11:37 -0400
+Received: by mail-wm1-f66.google.com with SMTP id i3so4693874wml.4
+        for <linux-doc@vger.kernel.org>; Sat, 11 May 2019 15:11:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=d1+FGziLF47L4qrx03aVD+M8jY5l9sq1jNKrZJyhi2o=;
+        b=Ej4E7gbnKGYiowwSnWtaTwbeMaxu1nIyXWrwEaork0CeI/aFXbuw4R6MmShvlH/OZ4
+         fC5MfKzqE6lg+eUSu+7ClEGLLRY+L/4hU+vlLfCpQZokJksy/FUSAezD1n3yQyBSXfWJ
+         5WDCkAW7BK2eq0YLIvZHkl87MGNWpVc+Id3/M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=d1+FGziLF47L4qrx03aVD+M8jY5l9sq1jNKrZJyhi2o=;
+        b=aewXqyAvEvPK6JZnQd6umnzJu/LfsHAFoo0kLAMNqdYhD9JsgL9jRyHDVvuGk3Dp+N
+         TaOlIs7+eRroVgqe0a7x2XQs2rT2DtcrwTtk+EE98y6yfQKBFXgq4gPFWF3t9q94201y
+         nUxJEmgzqVrMHUoU3mOzqimVhsNd8RmIxhM1SDcE+mNmkosryObeI4aGuK23Gq+2hAmy
+         dTl8Is4NCJN9l2NqO3W2paorMu86lQHFZemdwci1TTeMZJdn+gdttFwnPJz7xQ6fXBR4
+         feU8RjKKzCD6XaARTM2gcRjDajZNnrt/8HUPQ2bMyohivUpAVMH/uLDVt+Vq2kTHICZ+
+         PJVg==
+X-Gm-Message-State: APjAAAUtdOtBw1OUggCgYyvc11tnqvayAB7nFPtQ1tc7b4QnleYgWbke
+        /EVwx2sfXxd5vPAj8iiEtgcE5Q==
+X-Google-Smtp-Source: APXvYqxOKIy4AHjaZp8FltX2FkddcS0U5ptHUeNcdKRpT68Ku+qiK08plVhUjpP6TiWqvwmGdD4eYw==
+X-Received: by 2002:a1c:cc10:: with SMTP id h16mr11462278wmb.39.1557612695128;
+        Sat, 11 May 2019 15:11:35 -0700 (PDT)
+Received: from andrea ([89.22.71.151])
+        by smtp.gmail.com with ESMTPSA id 91sm17491123wrs.43.2019.05.11.15.11.33
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 11 May 2019 15:11:34 -0700 (PDT)
+Date:   Sun, 12 May 2019 00:11:26 +0200
+From:   Andrea Parri <andrea.parri@amarulasolutions.com>
+To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc:     Joel Fernandes <joel@joelfernandes.org>,
+        linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
+        Josh Triplett <josh@joshtriplett.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] doc/rcu: Correct field_count field naming in examples
+Message-ID: <20190511221126.GA3984@andrea>
+References: <20190505020328.165839-1-joel@joelfernandes.org>
+ <20190507000453.GB3923@linux.ibm.com>
+ <20190508162635.GD187505@google.com>
+ <20190508181638.GY3923@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <80c72e64-2665-bd51-f78c-97f50f9a53ba@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190508181638.GY3923@linux.ibm.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 10, 2019 at 02:12:40PM -0700, Frank Rowand wrote:
-> However, the reply is incorrect.  Kselftest in-kernel tests (which
-> is the context here) can be configured as built in instead of as
-> a module, and built in a UML kernel.  The UML kernel can boot,
-> running the in-kernel tests before UML attempts to invoke the
-> init process.
+Hi Paul, Joel,
 
-Um, Citation needed?
+> > > On the other hand, would you have ideas for more modern replacement
+> > > examples?
+> > 
+> > There are 3 cases I can see in listRCU.txt:
+> >   (1) action taken outside of read_lock (can tolerate stale data), no in-place update.
+> >                 this is the best possible usage of RCU.
+> >   (2) action taken outside of read_lock, in-place updates
+> >                 this is good as long as not too many in-place updates.
+> >                 involves copying creating new list node and replacing the
+> >                 node being updated with it.
+> >   (3) cannot tolerate stale data: here a deleted or obsolete flag can be used
+> >                                   protected by a per-entry lock. reader
+> > 				  aborts if object is stale.
+> > 
+> > Any replacement example must make satisfy (3) too?
+> 
+> It would be OK to have a separate example for (3).  It would of course
+> be nicer to have one example for all three, but not all -that- important.
+> 
+> > The only example for (3) that I know of is sysvipc sempahores which you also
+> > mentioned in the paper. Looking through this code, it hasn't changed
+> > conceptually and it could be a fit for an example (ipc_valid_object() checks
+> > for whether the object is stale).
+> 
+> That is indeed the classic canonical example.  ;-)
+> 
+> > The other example could be dentry look up which uses seqlocks for the
+> > RCU-walk case? But that could be too complex. This is also something I first
+> > learnt from the paper and then the excellent path-lookup.rst document in
+> > kernel sources.
+> 
+> This is a great example, but it would need serious simplification for
+> use in the Documentation/RCU directory.  Note that dcache uses it to
+> gain very limited and targeted consistency -- only a few types of updates
+> acquire the write-side of that seqlock.
+> 
+> Might be quite worthwhile to have a simplified example, though!
+> Perhaps a trivial hash table where write-side sequence lock is acquired
+> only when moving an element from one chain to another?
 
-I don't see any evidence for this in the kselftest documentation, nor
-do I see any evidence of this in the kselftest Makefiles.
+Sorry to take you down here..., but what do you mean by "the paper"?  ;-/
 
-There exists test modules in the kernel that run before the init
-scripts run --- but that's not strictly speaking part of kselftests,
-and do not have any kind of infrastructure.  As noted, the
-kselftests_harness header file fundamentally assumes that you are
-running test code in userspace.
-
-				- Ted
+Thanx,
+  Andrea
