@@ -1,128 +1,130 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6FD2D7D8A4
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 12 May 2019 01:09:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E854E7D08A
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 12 May 2019 12:50:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726338AbfELBJw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 11 May 2019 21:09:52 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:34423 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726393AbfELBJw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 11 May 2019 21:09:52 -0400
-Received: by mail-wr1-f68.google.com with SMTP id f8so1817499wrt.1
-        for <linux-doc@vger.kernel.org>; Sat, 11 May 2019 18:09:50 -0700 (PDT)
+        id S1726642AbfELMu0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 12 May 2019 08:50:26 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:40147 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726586AbfELMu0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 May 2019 08:50:26 -0400
+Received: by mail-pg1-f193.google.com with SMTP id d31so5316366pgl.7;
+        Sun, 12 May 2019 05:50:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=b8AW4BGaZt47ssLrB6qXfhhNxNJaIAABugP8Bf2LUJc=;
-        b=JtUgc6MIGk7Y5MmFv4m3d4ISHMCOvUp6g70RA6sbJklbPEVGXVcftsBCT7hb5H1h0k
-         /tp84iZt9wpGTu4789QOwr/LuvvL5efzMDvkcNfztOA+KYtq22DXr4TJOuCD71vDgcfy
-         PAmm6OmFKtJSdn20Sq0KP1N7R6yfVj4Vk6Oss=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ID+FnkIsdsZZMHR0TLy2V6Zvg3KgV03Hfi0KeMPekp0=;
+        b=NDlLj5nzt4sv/G1h38gd65TbDuLxRpNGGJB1U1LTuU0ZoxHqOPQ7B+rJBJ/5u5LEbP
+         ltkpXruirUbrJEI3UW4h+7VZciaC4LHtNXlMZQAR/eULyuDKGEk5nYzmeyJXciopaOrG
+         yVUu+yzY+fWNbEqV5+bktX0SHUw1b3L3EVNVxcR7KVu+wdQbA8WtPXbv5Cn22H1xVqK+
+         TN35R53BKdeHblC6mxN/KieS+XTDhNqZUZLlUC9MQScxlmjNnfOcuYjw1gtY3yTkNwfY
+         yvDf3fqAOE60zbuJL8ThOjbwqwlmlvFQr6cCTN6Hjbfk8/Oi0Bv6gGh4KkZRgaEZN82i
+         YQZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=b8AW4BGaZt47ssLrB6qXfhhNxNJaIAABugP8Bf2LUJc=;
-        b=romgGiy/mCuJI6tF23zBYCYZiexyaxLdZFIcclw6leLBXP/Ikmcdk0iYbpZEbozkv2
-         Uld6LNPBPxlgzA55n88ABGw/Df58bzlzUBipZd4km2VOOZ6e//EYXlklNsEdR27Cor20
-         PIRXCe4xHzjOxOvLkJKJID0ntylyHB9/fMPMJoXeBTKbzZhwqakbNz9vNbuEPHDKfKrF
-         snOu4vN3G3apiBwFXpkzqzQuNs7qIdupWhwElyrZNPbcoUGa6fNpz1WFg0BWvUouEmlV
-         SWpvRL6pNdJ0Pi1mU0oFEbbYgtdstGJvEVhaewKAF9Jd422s+LOLPL2nwByfBV+wClcS
-         c/lw==
-X-Gm-Message-State: APjAAAUeB79tEuQPDldaovHvK1HWCKsHDNbU+qq3q73nTNoBsTpc8Wdy
-        hlTW+T91ZWiraPFnirhdX4k58A==
-X-Google-Smtp-Source: APXvYqyhFbsf1FNgNI+/rAhBZzMgj02SE5lckYXHhdIt2dVUQv5+Ig7Tv7vgFOweYh2jEJHIGNHKzg==
-X-Received: by 2002:a5d:4647:: with SMTP id j7mr7970362wrs.280.1557623389777;
-        Sat, 11 May 2019 18:09:49 -0700 (PDT)
-Received: from andrea ([89.22.71.151])
-        by smtp.gmail.com with ESMTPSA id t18sm19424094wrg.19.2019.05.11.18.09.48
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 11 May 2019 18:09:49 -0700 (PDT)
-Date:   Sun, 12 May 2019 03:09:41 +0200
-From:   Andrea Parri <andrea.parri@amarulasolutions.com>
-To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc:     Joel Fernandes <joel@joelfernandes.org>,
-        linux-kernel@vger.kernel.org, rcu@vger.kernel.org,
-        Josh Triplett <josh@joshtriplett.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] doc/rcu: Correct field_count field naming in examples
-Message-ID: <20190512010941.GA8611@andrea>
-References: <20190505020328.165839-1-joel@joelfernandes.org>
- <20190507000453.GB3923@linux.ibm.com>
- <20190508162635.GD187505@google.com>
- <20190508181638.GY3923@linux.ibm.com>
- <20190511221126.GA3984@andrea>
- <20190512004131.GE3923@linux.ibm.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ID+FnkIsdsZZMHR0TLy2V6Zvg3KgV03Hfi0KeMPekp0=;
+        b=a39YjTx+EW3D4p6re6xrHqZ9HKgQiuaS33B/WFjVVz3zSMkmPWmxIYP0BeDzUn4cVw
+         LRAd+7fJg6TJ2x+iL14wTzurP0eb1+yc14wNEWNz68FD/gM9ltpSzRctxAVLw0M+ReB3
+         zlt+GaFK6rhDOclx4ku1dUIPLpFfm9BjlT4bJP/s/PRpzg7ZePy/OpNL4sO0LzhLK+lj
+         RluyWSXYwGfn9stQj4DA4WR2OK9AmJ/HlKWnErYTztJ1cK9fkvzdPVAMAWDwsnMhIE95
+         lSsKVOQJSEzZYrLb3Egj7EYlxzMir0O6wNh1eqVAT3WMJVtTNTwlL8apUd/aZyusoaaG
+         TdNQ==
+X-Gm-Message-State: APjAAAVjqz3A/KWKuyPrIGS7pPAlH29cbaNSdENLm+1XYDhBiCSyioMO
+        E29Ao/mF5QJff6EEvQ2Ea0I=
+X-Google-Smtp-Source: APXvYqx1MURAMugsEwI2GJoOnkxPy/0xLoML4WLYdEwlv41NNm+VzQ+M/LTTCGTfl2TUoala8ffJxg==
+X-Received: by 2002:aa7:8157:: with SMTP id d23mr90254pfn.92.1557665425593;
+        Sun, 12 May 2019 05:50:25 -0700 (PDT)
+Received: from localhost.localdomain ([104.238.181.70])
+        by smtp.gmail.com with ESMTPSA id n2sm146426pgp.27.2019.05.12.05.50.22
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Sun, 12 May 2019 05:50:24 -0700 (PDT)
+From:   Changbin Du <changbin.du@gmail.com>
+To:     bhelgaas@google.com, corbet@lwn.net
+Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mchehab+samsung@kernel.org,
+        Changbin Du <changbin.du@gmail.com>
+Subject: [PATCH v4 00/12] Include linux PCI docs into Sphinx TOC tree
+Date:   Sun, 12 May 2019 20:49:57 +0800
+Message-Id: <20190512125009.32079-1-changbin.du@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190512004131.GE3923@linux.ibm.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, May 11, 2019 at 05:41:31PM -0700, Paul E. McKenney wrote:
-> On Sun, May 12, 2019 at 12:11:26AM +0200, Andrea Parri wrote:
-> > Hi Paul, Joel,
-> > 
-> > > > > On the other hand, would you have ideas for more modern replacement
-> > > > > examples?
-> > > > 
-> > > > There are 3 cases I can see in listRCU.txt:
-> > > >   (1) action taken outside of read_lock (can tolerate stale data), no in-place update.
-> > > >                 this is the best possible usage of RCU.
-> > > >   (2) action taken outside of read_lock, in-place updates
-> > > >                 this is good as long as not too many in-place updates.
-> > > >                 involves copying creating new list node and replacing the
-> > > >                 node being updated with it.
-> > > >   (3) cannot tolerate stale data: here a deleted or obsolete flag can be used
-> > > >                                   protected by a per-entry lock. reader
-> > > > 				  aborts if object is stale.
-> > > > 
-> > > > Any replacement example must make satisfy (3) too?
-> > > 
-> > > It would be OK to have a separate example for (3).  It would of course
-> > > be nicer to have one example for all three, but not all -that- important.
-> > > 
-> > > > The only example for (3) that I know of is sysvipc sempahores which you also
-> > > > mentioned in the paper. Looking through this code, it hasn't changed
-> > > > conceptually and it could be a fit for an example (ipc_valid_object() checks
-> > > > for whether the object is stale).
-> > > 
-> > > That is indeed the classic canonical example.  ;-)
-> > > 
-> > > > The other example could be dentry look up which uses seqlocks for the
-> > > > RCU-walk case? But that could be too complex. This is also something I first
-> > > > learnt from the paper and then the excellent path-lookup.rst document in
-> > > > kernel sources.
-> > > 
-> > > This is a great example, but it would need serious simplification for
-> > > use in the Documentation/RCU directory.  Note that dcache uses it to
-> > > gain very limited and targeted consistency -- only a few types of updates
-> > > acquire the write-side of that seqlock.
-> > > 
-> > > Might be quite worthwhile to have a simplified example, though!
-> > > Perhaps a trivial hash table where write-side sequence lock is acquired
-> > > only when moving an element from one chain to another?
-> > 
-> > Sorry to take you down here..., but what do you mean by "the paper"?  ;-/
-> 
-> One or both of these two:
-> 
-> http://www2.rdrop.com/~paulmck/techreports/survey.2012.09.17a.pdf
-> http://www2.rdrop.com/~paulmck/techreports/RCUUsage.2013.02.24a.pdf
+Hi all,
 
-Oh, these are familiar.  ;-) Thank you!
+The kernel now uses Sphinx to generate intelligent and beautiful documentation
+from reStructuredText files. I converted most of the Linux PCI docs to rst
+format in this serias.
 
-  Andrea
+For you to preview, please visit below url:
+http://www.bytemem.com:8080/kernel-doc/PCI/index.html
+
+Thank you!
+
+v2: trivial style update.
+v3: update titles. (Bjorn Helgaas)
+v4: fix comments from Mauro Carvalho Chehab
+
+Changbin Du (12):
+  Documentation: add Linux PCI to Sphinx TOC tree
+  Documentation: PCI: convert pci.txt to reST
+  Documentation: PCI: convert PCIEBUS-HOWTO.txt to reST
+  Documentation: PCI: convert pci-iov-howto.txt to reST
+  Documentation: PCI: convert MSI-HOWTO.txt to reST
+  Documentation: PCI: convert acpi-info.txt to reST
+  Documentation: PCI: convert pci-error-recovery.txt to reST
+  Documentation: PCI: convert pcieaer-howto.txt to reST
+  Documentation: PCI: convert endpoint/pci-endpoint.txt to reST
+  Documentation: PCI: convert endpoint/pci-endpoint-cfs.txt to reST
+  Documentation: PCI: convert endpoint/pci-test-function.txt to reST
+  Documentation: PCI: convert endpoint/pci-test-howto.txt to reST
+
+ .../PCI/{acpi-info.txt => acpi-info.rst}      |  15 +-
+ Documentation/PCI/endpoint/index.rst          |  13 +
+ ...-endpoint-cfs.txt => pci-endpoint-cfs.rst} |  99 ++---
+ .../{pci-endpoint.txt => pci-endpoint.rst}    |  96 +++--
+ ...est-function.txt => pci-test-function.rst} |  34 +-
+ ...{pci-test-howto.txt => pci-test-howto.rst} |  81 ++--
+ Documentation/PCI/index.rst                   |  18 +
+ .../PCI/{MSI-HOWTO.txt => msi-howto.rst}      |  85 +++--
+ ...or-recovery.txt => pci-error-recovery.rst} | 287 +++++++-------
+ .../{pci-iov-howto.txt => pci-iov-howto.rst}  | 161 ++++----
+ Documentation/PCI/{pci.txt => pci.rst}        | 356 ++++++++----------
+ .../{pcieaer-howto.txt => pcieaer-howto.rst}  | 156 +++++---
+ .../{PCIEBUS-HOWTO.txt => picebus-howto.rst}  | 140 ++++---
+ Documentation/index.rst                       |   1 +
+ MAINTAINERS                                   |   2 +-
+ include/linux/mod_devicetable.h               |  19 +
+ include/linux/pci.h                           |  37 ++
+ 17 files changed, 912 insertions(+), 688 deletions(-)
+ rename Documentation/PCI/{acpi-info.txt => acpi-info.rst} (96%)
+ create mode 100644 Documentation/PCI/endpoint/index.rst
+ rename Documentation/PCI/endpoint/{pci-endpoint-cfs.txt => pci-endpoint-cfs.rst} (64%)
+ rename Documentation/PCI/endpoint/{pci-endpoint.txt => pci-endpoint.rst} (82%)
+ rename Documentation/PCI/endpoint/{pci-test-function.txt => pci-test-function.rst} (84%)
+ rename Documentation/PCI/endpoint/{pci-test-howto.txt => pci-test-howto.rst} (78%)
+ create mode 100644 Documentation/PCI/index.rst
+ rename Documentation/PCI/{MSI-HOWTO.txt => msi-howto.rst} (88%)
+ rename Documentation/PCI/{pci-error-recovery.txt => pci-error-recovery.rst} (67%)
+ rename Documentation/PCI/{pci-iov-howto.txt => pci-iov-howto.rst} (63%)
+ rename Documentation/PCI/{pci.txt => pci.rst} (68%)
+ rename Documentation/PCI/{pcieaer-howto.txt => pcieaer-howto.rst} (72%)
+ rename Documentation/PCI/{PCIEBUS-HOWTO.txt => picebus-howto.rst} (70%)
+
+-- 
+2.20.1
+
