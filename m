@@ -6,56 +6,56 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0F93E7D923
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 12 May 2019 12:51:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7BDD27D08A
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 12 May 2019 12:51:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726536AbfELMvY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 12 May 2019 08:51:24 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:44592 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727009AbfELMvY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 May 2019 08:51:24 -0400
-Received: by mail-pg1-f195.google.com with SMTP id z16so5304540pgv.11;
-        Sun, 12 May 2019 05:51:23 -0700 (PDT)
+        id S1726907AbfELMvG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 12 May 2019 08:51:06 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:44312 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726536AbfELMvG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 May 2019 08:51:06 -0400
+Received: by mail-pl1-f193.google.com with SMTP id d3so5026106plj.11;
+        Sun, 12 May 2019 05:51:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=KPJyTDsfdBAYb4kysJw7JhftNxA9CSPFTGsSIHtwfqc=;
-        b=SmbuGI8HMomb1ZlgKW0NXJUQAhAET3N3990vBEB91UnK4t483JzWhbQnKEE6BBMR3c
-         vLeziBBUXUpKRvVcvFcJqQE8Sutm74I5a6EXV7hqQPDZ4kl+FgXESnv2tMZQnxQT1H1k
-         XHldkLaEWwglNd4/fk7Nv2GBPnREuoP/ABTalb6pFbYWqrhDVWyxQC7AU/u8kbU8ln10
-         0tDM7XIbxoUdjcdGi9f1EuOcW8vYCxUjTI0Ddmrh5S8rDJXopZEEfHCBzl3CLRDIIU94
-         PhCjnXWINzL1JzbUxmmEZjx/FZUFp2izyN8F7PD4ZtbDm4ImBrM2+aExSLV5+llCujsh
-         NvmQ==
+        bh=wHpKh9yZv40w8cL9famlaYd8tdLmsvVuNyVSl3VwE34=;
+        b=e0y2ReiIz0PO3tdHDa+/AstCBw+lIfDnaOOcx8w9u454srBpCJiTMcJa/kMTLrSn3U
+         dyIy2QBYzqVy32u+lO+8PIiE8G0dHB0hTnx3ljwYIagqKIr59WwjLmMze2Ut7T0SvuoZ
+         hs16yE5XmJu0Rz/gyvv77x9/Lr2jTcJkk91QeKAPVTBvVUmFC2306EckxsMttjcFeUF9
+         lbwT3uWWcymhMDF6VCsSPl+eHe9AYgs9L2moWLI0HDi+C+FkXQhxgM1hAYSqyE++eRoy
+         kU1kKsqz1i5GkuHyDRqZQvaxJXxRjtV6rUBvyJBwABu+BQZy3gZCx5Iv4G1p/c5TvZIe
+         Nhzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=KPJyTDsfdBAYb4kysJw7JhftNxA9CSPFTGsSIHtwfqc=;
-        b=FTbGveFlhF/xZZWthxFwxg6HWheff4oUR8Wpg1w7aeNmy0j0hfqGhF1G0kddZHEMt4
-         QI04yGckR5+XInPx5A0vHXC7KllnLnceXmeRfam6Sn5+ljkO6AB4Eaff9aUnbOL5COmT
-         uqR1ezmHGYmCcKtuubflg166pPk3373hgY3ddkgns69oUP6eBI/f5pvb73xbKk1ExeaW
-         x47c0P8l3WBjf6v231Zn8SEVoFs19wpUGJACcGJKr4XUkGIuN3WcQ9FF/pTKiqb3hFQV
-         Is0qAqEk3gQZ/DFwNrNajL2j20/tu1S35pas5y4ZFn+nhr2jG2FAcqulFOdRj61xw+Y1
-         /C/A==
-X-Gm-Message-State: APjAAAXdGb6wIsKtkDnwRGhNvpDm9J2HE+vfrLoSBXlKQosUOusL7KTV
-        AFK7xbUMKp4FgTDwt606Wvo=
-X-Google-Smtp-Source: APXvYqy3CAEZDJLmBiy07pA49i/NZUjgCiKZirHUXorJYxaPTX0oEa9V5dE9EDRhhe2lIgUJjx1aeQ==
-X-Received: by 2002:a62:164f:: with SMTP id 76mr27706174pfw.172.1557665483373;
-        Sun, 12 May 2019 05:51:23 -0700 (PDT)
+        bh=wHpKh9yZv40w8cL9famlaYd8tdLmsvVuNyVSl3VwE34=;
+        b=GbpKPEql3UpkmmnmjsKrmZf6wKZD5tiWGG++uESDix3dBnbgXeat2BXPhWMDwgQ+Fw
+         2jm3idIWnKhBXQQqk7j572qIDySt+ExBfCArV0Trcmfa0tGgvIbLVFObWa5IouvUVVs8
+         9pMv+C7Wjcy3k5jqv6QiFDkZ3SHUbGzPpSKAT4Gwms7JmPSPZfpSqVOxGwM+2tSbQwZQ
+         bSOwjBcLzUFc0MUB8wqt+SXBVwjaDk/4O5H9fTnMzuzcVwRHcrHx9acx3XSubEF6/hYj
+         tAP6TvNbCyOSefFtxWZE3kghkdMgeAJU5CTXE4z+tuBWRr6GkCHAREVA5GzUsfBny3Ea
+         oLCQ==
+X-Gm-Message-State: APjAAAX6mY6//VPokNeNUEB7aAB3nULkVIp6pek3PaHkyIA8Jt339cnX
+        Kl8bLuHjGKIVcayRWLV5qr/4bmSW
+X-Google-Smtp-Source: APXvYqyr80ubo7FVbbURSTiYd0hxX/o47fsFgrKnxys/7OPXiXw+XGg02q1f7QYy1hSpWTX3WDx8hA==
+X-Received: by 2002:a17:902:7047:: with SMTP id h7mr25535464plt.177.1557665465118;
+        Sun, 12 May 2019 05:51:05 -0700 (PDT)
 Received: from localhost.localdomain ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id n2sm146426pgp.27.2019.05.12.05.51.20
+        by smtp.gmail.com with ESMTPSA id n2sm146426pgp.27.2019.05.12.05.51.00
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Sun, 12 May 2019 05:51:22 -0700 (PDT)
+        Sun, 12 May 2019 05:51:04 -0700 (PDT)
 From:   Changbin Du <changbin.du@gmail.com>
 To:     bhelgaas@google.com, corbet@lwn.net
 Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, mchehab+samsung@kernel.org,
         Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH v4 12/12] Documentation: PCI: convert endpoint/pci-test-howto.txt to reST
-Date:   Sun, 12 May 2019 20:50:09 +0800
-Message-Id: <20190512125009.32079-13-changbin.du@gmail.com>
+Subject: [PATCH v4 07/12] Documentation: PCI: convert pci-error-recovery.txt to reST
+Date:   Sun, 12 May 2019 20:50:04 +0800
+Message-Id: <20190512125009.32079-8-changbin.du@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190512125009.32079-1-changbin.du@gmail.com>
 References: <20190512125009.32079-1-changbin.du@gmail.com>
@@ -71,199 +71,399 @@ add it to Sphinx TOC tree. No essential content change.
 
 Signed-off-by: Changbin Du <changbin.du@gmail.com>
 Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/PCI/endpoint/index.rst          |  1 +
- ...{pci-test-howto.txt => pci-test-howto.rst} | 81 +++++++++++++------
- 2 files changed, 56 insertions(+), 26 deletions(-)
- rename Documentation/PCI/endpoint/{pci-test-howto.txt => pci-test-howto.rst} (78%)
+ Documentation/PCI/index.rst                   |   1 +
+ ...or-recovery.txt => pci-error-recovery.rst} | 287 +++++++++---------
+ MAINTAINERS                                   |   2 +-
+ 3 files changed, 151 insertions(+), 139 deletions(-)
+ rename Documentation/PCI/{pci-error-recovery.txt => pci-error-recovery.rst} (67%)
 
-diff --git a/Documentation/PCI/endpoint/index.rst b/Documentation/PCI/endpoint/index.rst
-index b680a3fc4fec..d114ea74b444 100644
---- a/Documentation/PCI/endpoint/index.rst
-+++ b/Documentation/PCI/endpoint/index.rst
-@@ -10,3 +10,4 @@ PCI Endpoint Framework
-    pci-endpoint
-    pci-endpoint-cfs
-    pci-test-function
-+   pci-test-howto
-diff --git a/Documentation/PCI/endpoint/pci-test-howto.txt b/Documentation/PCI/endpoint/pci-test-howto.rst
-similarity index 78%
-rename from Documentation/PCI/endpoint/pci-test-howto.txt
-rename to Documentation/PCI/endpoint/pci-test-howto.rst
-index 040479f437a5..909f770a07d6 100644
---- a/Documentation/PCI/endpoint/pci-test-howto.txt
-+++ b/Documentation/PCI/endpoint/pci-test-howto.rst
-@@ -1,38 +1,51 @@
--			    PCI TEST USERGUIDE
--		    Kishon Vijay Abraham I <kishon@ti.com>
+diff --git a/Documentation/PCI/index.rst b/Documentation/PCI/index.rst
+index 6f573f3df993..92e62d0fc9e6 100644
+--- a/Documentation/PCI/index.rst
++++ b/Documentation/PCI/index.rst
+@@ -13,3 +13,4 @@ Linux PCI Bus Subsystem
+    pci-iov-howto
+    msi-howto
+    acpi-info
++   pci-error-recovery
+diff --git a/Documentation/PCI/pci-error-recovery.txt b/Documentation/PCI/pci-error-recovery.rst
+similarity index 67%
+rename from Documentation/PCI/pci-error-recovery.txt
+rename to Documentation/PCI/pci-error-recovery.rst
+index 0b6bb3ef449e..83db42092935 100644
+--- a/Documentation/PCI/pci-error-recovery.txt
++++ b/Documentation/PCI/pci-error-recovery.rst
+@@ -1,12 +1,13 @@
 +.. SPDX-License-Identifier: GPL-2.0
-+
-+===================
-+PCI Test User Guide
-+===================
-+
-+:Author: Kishon Vijay Abraham I <kishon@ti.com>
  
- This document is a guide to help users use pci-epf-test function driver
- and pci_endpoint_test host driver for testing PCI. The list of steps to
- be followed in the host side and EP side is given below.
- 
--1. Endpoint Device
-+Endpoint Device
-+===============
- 
--1.1 Endpoint Controller Devices
-+Endpoint Controller Devices
-+---------------------------
- 
--To find the list of endpoint controller devices in the system:
-+To find the list of endpoint controller devices in the system::
- 
- 	# ls /sys/class/pci_epc/
- 	  51000000.pcie_ep
- 
--If PCI_ENDPOINT_CONFIGFS is enabled
-+If PCI_ENDPOINT_CONFIGFS is enabled::
-+
- 	# ls /sys/kernel/config/pci_ep/controllers
- 	  51000000.pcie_ep
- 
--1.2 Endpoint Function Drivers
- 
--To find the list of endpoint function drivers in the system:
-+Endpoint Function Drivers
-+-------------------------
-+
-+To find the list of endpoint function drivers in the system::
- 
- 	# ls /sys/bus/pci-epf/drivers
- 	  pci_epf_test
- 
--If PCI_ENDPOINT_CONFIGFS is enabled
-+If PCI_ENDPOINT_CONFIGFS is enabled::
-+
- 	# ls /sys/kernel/config/pci_ep/functions
- 	  pci_epf_test
- 
--1.3 Creating pci-epf-test Device
-+
-+Creating pci-epf-test Device
-+----------------------------
- 
- PCI endpoint function device can be created using the configfs. To create
--pci-epf-test device, the following commands can be used
-+pci-epf-test device, the following commands can be used::
- 
- 	# mount -t configfs none /sys/kernel/config
- 	# cd /sys/kernel/config/pci_ep/
-@@ -42,7 +55,7 @@ The "mkdir func1" above creates the pci-epf-test function device that will
- be probed by pci_epf_test driver.
- 
- The PCI endpoint framework populates the directory with the following
--configurable fields.
-+configurable fields::
- 
- 	# ls functions/pci_epf_test/func1
- 	  baseclass_code	interrupt_pin	progif_code	subsys_id
-@@ -51,67 +64,83 @@ configurable fields.
- 
- The PCI endpoint function driver populates these entries with default values
- when the device is bound to the driver. The pci-epf-test driver populates
--vendorid with 0xffff and interrupt_pin with 0x0001
-+vendorid with 0xffff and interrupt_pin with 0x0001::
- 
- 	# cat functions/pci_epf_test/func1/vendorid
- 	  0xffff
- 	# cat functions/pci_epf_test/func1/interrupt_pin
- 	  0x0001
- 
--1.4 Configuring pci-epf-test Device
-+
-+Configuring pci-epf-test Device
-+-------------------------------
- 
- The user can configure the pci-epf-test device using configfs entry. In order
- to change the vendorid and the number of MSI interrupts used by the function
--device, the following commands can be used.
-+device, the following commands can be used::
- 
- 	# echo 0x104c > functions/pci_epf_test/func1/vendorid
- 	# echo 0xb500 > functions/pci_epf_test/func1/deviceid
- 	# echo 16 > functions/pci_epf_test/func1/msi_interrupts
- 	# echo 8 > functions/pci_epf_test/func1/msix_interrupts
- 
--1.5 Binding pci-epf-test Device to EP Controller
-+
-+Binding pci-epf-test Device to EP Controller
-+--------------------------------------------
- 
- In order for the endpoint function device to be useful, it has to be bound to
- a PCI endpoint controller driver. Use the configfs to bind the function
--device to one of the controller driver present in the system.
-+device to one of the controller driver present in the system::
- 
- 	# ln -s functions/pci_epf_test/func1 controllers/51000000.pcie_ep/
- 
- Once the above step is completed, the PCI endpoint is ready to establish a link
- with the host.
- 
--1.6 Start the Link
-+
-+Start the Link
-+--------------
- 
- In order for the endpoint device to establish a link with the host, the _start_
--field should be populated with '1'.
-+field should be populated with '1'::
- 
- 	# echo 1 > controllers/51000000.pcie_ep/start
- 
--2. RootComplex Device
- 
--2.1 lspci Output
-+RootComplex Device
+-                       PCI Error Recovery
+-                       ------------------
+-                        February 2, 2006
 +==================
++PCI Error Recovery
++==================
+ 
+-                 Current document maintainer:
+-             Linas Vepstas <linasvepstas@gmail.com>
+-          updated by Richard Lary <rlary@us.ibm.com>
+-       and Mike Mason <mmlnx@us.ibm.com> on 27-Jul-2009
 +
-+lspci Output
-+------------
++:Authors: - Linas Vepstas <linasvepstas@gmail.com>
++          - Richard Lary <rlary@us.ibm.com>
++          - Mike Mason <mmlnx@us.ibm.com>
  
--Note that the devices listed here correspond to the value populated in 1.4 above
-+Note that the devices listed here correspond to the value populated in 1.4
-+above::
  
- 	00:00.0 PCI bridge: Texas Instruments Device 8888 (rev 01)
- 	01:00.0 Unassigned class [ff00]: Texas Instruments Device b500
+ Many PCI bus controllers are able to detect a variety of hardware
+@@ -63,7 +64,8 @@ mechanisms for dealing with SCSI bus errors and SCSI bus resets.
  
--2.2 Using Endpoint Test function Device
+ 
+ Detailed Design
+----------------
++===============
 +
-+Using Endpoint Test function Device
-+-----------------------------------
+ Design and implementation details below, based on a chain of
+ public email discussions with Ben Herrenschmidt, circa 5 April 2005.
  
- pcitest.sh added in tools/pci/ can be used to run all the default PCI endpoint
--tests. To compile this tool the following commands should be used:
-+tests. To compile this tool the following commands should be used::
+@@ -73,30 +75,33 @@ pci_driver. A driver that fails to provide the structure is "non-aware",
+ and the actual recovery steps taken are platform dependent.  The
+ arch/powerpc implementation will simulate a PCI hotplug remove/add.
  
- 	# cd <kernel-dir>
- 	# make -C tools/pci
- 
--or if you desire to compile and install in your system:
-+or if you desire to compile and install in your system::
- 
- 	# cd <kernel-dir>
- 	# make -C tools/pci install
- 
- The tool and script will be located in <rootfs>/usr/bin/
- 
--2.2.1 pcitest.sh Output
+-This structure has the form:
+-struct pci_error_handlers
+-{
+-	int (*error_detected)(struct pci_dev *dev, enum pci_channel_state);
+-	int (*mmio_enabled)(struct pci_dev *dev);
+-	int (*slot_reset)(struct pci_dev *dev);
+-	void (*resume)(struct pci_dev *dev);
+-};
+-
+-The possible channel states are:
+-enum pci_channel_state {
+-	pci_channel_io_normal,  /* I/O channel is in normal state */
+-	pci_channel_io_frozen,  /* I/O to channel is blocked */
+-	pci_channel_io_perm_failure, /* PCI card is dead */
+-};
+-
+-Possible return values are:
+-enum pci_ers_result {
+-	PCI_ERS_RESULT_NONE,        /* no result/none/not supported in device driver */
+-	PCI_ERS_RESULT_CAN_RECOVER, /* Device driver can recover without slot reset */
+-	PCI_ERS_RESULT_NEED_RESET,  /* Device driver wants slot to be reset. */
+-	PCI_ERS_RESULT_DISCONNECT,  /* Device has completely failed, is unrecoverable */
+-	PCI_ERS_RESULT_RECOVERED,   /* Device driver is fully recovered and operational */
+-};
++This structure has the form::
 +
-+pcitest.sh Output
-+~~~~~~~~~~~~~~~~~
-+::
++	struct pci_error_handlers
++	{
++		int (*error_detected)(struct pci_dev *dev, enum pci_channel_state);
++		int (*mmio_enabled)(struct pci_dev *dev);
++		int (*slot_reset)(struct pci_dev *dev);
++		void (*resume)(struct pci_dev *dev);
++	};
 +
- 	# pcitest.sh
- 	BAR tests
++The possible channel states are::
++
++	enum pci_channel_state {
++		pci_channel_io_normal,  /* I/O channel is in normal state */
++		pci_channel_io_frozen,  /* I/O to channel is blocked */
++		pci_channel_io_perm_failure, /* PCI card is dead */
++	};
++
++Possible return values are::
++
++	enum pci_ers_result {
++		PCI_ERS_RESULT_NONE,        /* no result/none/not supported in device driver */
++		PCI_ERS_RESULT_CAN_RECOVER, /* Device driver can recover without slot reset */
++		PCI_ERS_RESULT_NEED_RESET,  /* Device driver wants slot to be reset. */
++		PCI_ERS_RESULT_DISCONNECT,  /* Device has completely failed, is unrecoverable */
++		PCI_ERS_RESULT_RECOVERED,   /* Device driver is fully recovered and operational */
++	};
  
+ A driver does not have to implement all of these callbacks; however,
+ if it implements any, it must implement error_detected(). If a callback
+@@ -134,16 +139,17 @@ shouldn't do any new IOs. Called in task context. This is sort of a
+ 
+ All drivers participating in this system must implement this call.
+ The driver must return one of the following result codes:
+-		- PCI_ERS_RESULT_CAN_RECOVER:
+-		  Driver returns this if it thinks it might be able to recover
+-		  the HW by just banging IOs or if it wants to be given
+-		  a chance to extract some diagnostic information (see
+-		  mmio_enable, below).
+-		- PCI_ERS_RESULT_NEED_RESET:
+-		  Driver returns this if it can't recover without a
+-		  slot reset.
+-		- PCI_ERS_RESULT_DISCONNECT:
+-		  Driver returns this if it doesn't want to recover at all.
++
++  - PCI_ERS_RESULT_CAN_RECOVER
++      Driver returns this if it thinks it might be able to recover
++      the HW by just banging IOs or if it wants to be given
++      a chance to extract some diagnostic information (see
++      mmio_enable, below).
++  - PCI_ERS_RESULT_NEED_RESET
++      Driver returns this if it can't recover without a
++      slot reset.
++  - PCI_ERS_RESULT_DISCONNECT
++      Driver returns this if it doesn't want to recover at all.
+ 
+ The next step taken will depend on the result codes returned by the
+ drivers.
+@@ -159,25 +165,27 @@ then recovery proceeds to STEP 4 (Slot Reset).
+ If the platform is unable to recover the slot, the next step
+ is STEP 6 (Permanent Failure).
+ 
+->>> The current powerpc implementation assumes that a device driver will
+->>> *not* schedule or semaphore in this routine; the current powerpc
+->>> implementation uses one kernel thread to notify all devices;
+->>> thus, if one device sleeps/schedules, all devices are affected.
+->>> Doing better requires complex multi-threaded logic in the error
+->>> recovery implementation (e.g. waiting for all notification threads
+->>> to "join" before proceeding with recovery.)  This seems excessively
+->>> complex and not worth implementing.
+-
+->>> The current powerpc implementation doesn't much care if the device
+->>> attempts I/O at this point, or not.  I/O's will fail, returning
+->>> a value of 0xff on read, and writes will be dropped. If more than
+->>> EEH_MAX_FAILS I/O's are attempted to a frozen adapter, EEH
+->>> assumes that the device driver has gone into an infinite loop
+->>> and prints an error to syslog.  A reboot is then required to
+->>> get the device working again.
++.. note::
++
++   The current powerpc implementation assumes that a device driver will
++   *not* schedule or semaphore in this routine; the current powerpc
++   implementation uses one kernel thread to notify all devices;
++   thus, if one device sleeps/schedules, all devices are affected.
++   Doing better requires complex multi-threaded logic in the error
++   recovery implementation (e.g. waiting for all notification threads
++   to "join" before proceeding with recovery.)  This seems excessively
++   complex and not worth implementing.
++
++   The current powerpc implementation doesn't much care if the device
++   attempts I/O at this point, or not.  I/O's will fail, returning
++   a value of 0xff on read, and writes will be dropped. If more than
++   EEH_MAX_FAILS I/O's are attempted to a frozen adapter, EEH
++   assumes that the device driver has gone into an infinite loop
++   and prints an error to syslog.  A reboot is then required to
++   get the device working again.
+ 
+ STEP 2: MMIO Enabled
+--------------------
++--------------------
+ The platform re-enables MMIO to the device (but typically not the
+ DMA), and then calls the mmio_enabled() callback on all affected
+ device drivers.
+@@ -192,34 +200,36 @@ link reset was performed by the HW. If the platform can't just re-enable IOs
+ without a slot reset or a link reset, it will not call this callback, and
+ instead will have gone directly to STEP 3 (Link Reset) or STEP 4 (Slot Reset)
+ 
+->>> The following is proposed; no platform implements this yet:
+->>> Proposal: All I/O's should be done _synchronously_ from within
+->>> this callback, errors triggered by them will be returned via
+->>> the normal pci_check_whatever() API, no new error_detected()
+->>> callback will be issued due to an error happening here. However,
+->>> such an error might cause IOs to be re-blocked for the whole
+->>> segment, and thus invalidate the recovery that other devices
+->>> on the same segment might have done, forcing the whole segment
+->>> into one of the next states, that is, link reset or slot reset.
++.. note::
++
++   The following is proposed; no platform implements this yet:
++   Proposal: All I/O's should be done _synchronously_ from within
++   this callback, errors triggered by them will be returned via
++   the normal pci_check_whatever() API, no new error_detected()
++   callback will be issued due to an error happening here. However,
++   such an error might cause IOs to be re-blocked for the whole
++   segment, and thus invalidate the recovery that other devices
++   on the same segment might have done, forcing the whole segment
++   into one of the next states, that is, link reset or slot reset.
+ 
+ The driver should return one of the following result codes:
+-		- PCI_ERS_RESULT_RECOVERED
+-		  Driver returns this if it thinks the device is fully
+-		  functional and thinks it is ready to start
+-		  normal driver operations again. There is no
+-		  guarantee that the driver will actually be
+-		  allowed to proceed, as another driver on the
+-		  same segment might have failed and thus triggered a
+-		  slot reset on platforms that support it.
+-
+-		- PCI_ERS_RESULT_NEED_RESET
+-		  Driver returns this if it thinks the device is not
+-		  recoverable in its current state and it needs a slot
+-		  reset to proceed.
+-
+-		- PCI_ERS_RESULT_DISCONNECT
+-		  Same as above. Total failure, no recovery even after
+-		  reset driver dead. (To be defined more precisely)
++  - PCI_ERS_RESULT_RECOVERED
++      Driver returns this if it thinks the device is fully
++      functional and thinks it is ready to start
++      normal driver operations again. There is no
++      guarantee that the driver will actually be
++      allowed to proceed, as another driver on the
++      same segment might have failed and thus triggered a
++      slot reset on platforms that support it.
++
++  - PCI_ERS_RESULT_NEED_RESET
++      Driver returns this if it thinks the device is not
++      recoverable in its current state and it needs a slot
++      reset to proceed.
++
++  - PCI_ERS_RESULT_DISCONNECT
++      Same as above. Total failure, no recovery even after
++      reset driver dead. (To be defined more precisely)
+ 
+ The next step taken depends on the results returned by the drivers.
+ If all drivers returned PCI_ERS_RESULT_RECOVERED, then the platform
+@@ -293,31 +303,33 @@ device will be considered "dead" in this case.
+ Drivers for multi-function cards will need to coordinate among
+ themselves as to which driver instance will perform any "one-shot"
+ or global device initialization. For example, the Symbios sym53cxx2
+-driver performs device init only from PCI function 0:
++driver performs device init only from PCI function 0::
+ 
+-+       if (PCI_FUNC(pdev->devfn) == 0)
+-+               sym_reset_scsi_bus(np, 0);
++	+       if (PCI_FUNC(pdev->devfn) == 0)
++	+               sym_reset_scsi_bus(np, 0);
+ 
+-	Result codes:
+-		- PCI_ERS_RESULT_DISCONNECT
+-		Same as above.
++Result codes:
++	- PCI_ERS_RESULT_DISCONNECT
++	  Same as above.
+ 
+ Drivers for PCI Express cards that require a fundamental reset must
+ set the needs_freset bit in the pci_dev structure in their probe function.
+ For example, the QLogic qla2xxx driver sets the needs_freset bit for certain
+-PCI card types:
++PCI card types::
+ 
+-+	/* Set EEH reset type to fundamental if required by hba  */
+-+	if (IS_QLA24XX(ha) || IS_QLA25XX(ha) || IS_QLA81XX(ha))
+-+		pdev->needs_freset = 1;
+-+
++	+	/* Set EEH reset type to fundamental if required by hba  */
++	+	if (IS_QLA24XX(ha) || IS_QLA25XX(ha) || IS_QLA81XX(ha))
++	+		pdev->needs_freset = 1;
++	+
+ 
+ Platform proceeds either to STEP 5 (Resume Operations) or STEP 6 (Permanent
+ Failure).
+ 
+->>> The current powerpc implementation does not try a power-cycle
+->>> reset if the driver returned PCI_ERS_RESULT_DISCONNECT.
+->>> However, it probably should.
++.. note::
++
++   The current powerpc implementation does not try a power-cycle
++   reset if the driver returned PCI_ERS_RESULT_DISCONNECT.
++   However, it probably should.
+ 
+ 
+ STEP 5: Resume Operations
+@@ -370,44 +382,43 @@ The current policy is to turn this into a platform policy.
+ That is, the recovery API only requires that:
+ 
+  - There is no guarantee that interrupt delivery can proceed from any
+-device on the segment starting from the error detection and until the
+-slot_reset callback is called, at which point interrupts are expected
+-to be fully operational.
++   device on the segment starting from the error detection and until the
++   slot_reset callback is called, at which point interrupts are expected
++   to be fully operational.
+ 
+  - There is no guarantee that interrupt delivery is stopped, that is,
+-a driver that gets an interrupt after detecting an error, or that detects
+-an error within the interrupt handler such that it prevents proper
+-ack'ing of the interrupt (and thus removal of the source) should just
+-return IRQ_NOTHANDLED. It's up to the platform to deal with that
+-condition, typically by masking the IRQ source during the duration of
+-the error handling. It is expected that the platform "knows" which
+-interrupts are routed to error-management capable slots and can deal
+-with temporarily disabling that IRQ number during error processing (this
+-isn't terribly complex). That means some IRQ latency for other devices
+-sharing the interrupt, but there is simply no other way. High end
+-platforms aren't supposed to share interrupts between many devices
+-anyway :)
+-
+->>> Implementation details for the powerpc platform are discussed in
+->>> the file Documentation/powerpc/eeh-pci-error-recovery.txt
+-
+->>> As of this writing, there is a growing list of device drivers with
+->>> patches implementing error recovery. Not all of these patches are in
+->>> mainline yet. These may be used as "examples":
+->>>
+->>> drivers/scsi/ipr
+->>> drivers/scsi/sym53c8xx_2
+->>> drivers/scsi/qla2xxx
+->>> drivers/scsi/lpfc
+->>> drivers/next/bnx2.c
+->>> drivers/next/e100.c
+->>> drivers/net/e1000
+->>> drivers/net/e1000e
+->>> drivers/net/ixgb
+->>> drivers/net/ixgbe
+->>> drivers/net/cxgb3
+->>> drivers/net/s2io.c
+->>> drivers/net/qlge
+-
+-The End
+--------
++   a driver that gets an interrupt after detecting an error, or that detects
++   an error within the interrupt handler such that it prevents proper
++   ack'ing of the interrupt (and thus removal of the source) should just
++   return IRQ_NOTHANDLED. It's up to the platform to deal with that
++   condition, typically by masking the IRQ source during the duration of
++   the error handling. It is expected that the platform "knows" which
++   interrupts are routed to error-management capable slots and can deal
++   with temporarily disabling that IRQ number during error processing (this
++   isn't terribly complex). That means some IRQ latency for other devices
++   sharing the interrupt, but there is simply no other way. High end
++   platforms aren't supposed to share interrupts between many devices
++   anyway :)
++
++.. note::
++
++   Implementation details for the powerpc platform are discussed in
++   the file Documentation/powerpc/eeh-pci-error-recovery.txt
++
++   As of this writing, there is a growing list of device drivers with
++   patches implementing error recovery. Not all of these patches are in
++   mainline yet. These may be used as "examples":
++
++   - drivers/scsi/ipr
++   - drivers/scsi/sym53c8xx_2
++   - drivers/scsi/qla2xxx
++   - drivers/scsi/lpfc
++   - drivers/next/bnx2.c
++   - drivers/next/e100.c
++   - drivers/net/e1000
++   - drivers/net/e1000e
++   - drivers/net/ixgb
++   - drivers/net/ixgbe
++   - drivers/net/cxgb3
++   - drivers/net/s2io.c
++   - drivers/net/qlge
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3c65228e93c5..9b965d5b8efa 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12100,7 +12100,7 @@ M:	Sam Bobroff <sbobroff@linux.ibm.com>
+ M:	Oliver O'Halloran <oohall@gmail.com>
+ L:	linuxppc-dev@lists.ozlabs.org
+ S:	Supported
+-F:	Documentation/PCI/pci-error-recovery.txt
++F:	Documentation/PCI/pci-error-recovery.rst
+ F:	drivers/pci/pcie/aer.c
+ F:	drivers/pci/pcie/dpc.c
+ F:	drivers/pci/pcie/err.c
 -- 
 2.20.1
 
