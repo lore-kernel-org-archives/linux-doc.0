@@ -6,56 +6,56 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5E1D37D08A
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 12 May 2019 12:51:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0F93E7D923
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 12 May 2019 12:51:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726790AbfELMuj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 12 May 2019 08:50:39 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:42220 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726586AbfELMui (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 May 2019 08:50:38 -0400
-Received: by mail-pf1-f196.google.com with SMTP id 13so5672114pfw.9;
-        Sun, 12 May 2019 05:50:37 -0700 (PDT)
+        id S1726536AbfELMvY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 12 May 2019 08:51:24 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:44592 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727009AbfELMvY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 12 May 2019 08:51:24 -0400
+Received: by mail-pg1-f195.google.com with SMTP id z16so5304540pgv.11;
+        Sun, 12 May 2019 05:51:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=UMocYiHoXzFjp5PQ5tvpk4obbHczcNC3ztzkGrlxw3Q=;
-        b=iDSYSjAQmuOop+GxeAJ7WSmydZYOR7HlKAZtNEYr4fwlQM8iGBOrxhBzyApqIYYFu3
-         d0iDiFWf02ipUvl52YmWX64N21fwCAyT3ssjPWGdz+7MQUPARGjwfl3cZlhRXzUjL6PN
-         ZfRpc693AzGEqtjQqqWWlp+fYnTnRyjR7uXXRYD8jDyxIrqJvaQIvqqundvFm4aDexnJ
-         an/92bGj7ZH5JL45RCSB3CLJjQnxP5z8O2cYjzugBXdyUqUG3hAQm1HBq4O9887tiQWD
-         hjuCAT5ak6b6m5jZgbcsyp55UYBSBFh4IfFbeQgGutfkqWo61y5iFw35N2UesArjAPEf
-         NYlg==
+        bh=KPJyTDsfdBAYb4kysJw7JhftNxA9CSPFTGsSIHtwfqc=;
+        b=SmbuGI8HMomb1ZlgKW0NXJUQAhAET3N3990vBEB91UnK4t483JzWhbQnKEE6BBMR3c
+         vLeziBBUXUpKRvVcvFcJqQE8Sutm74I5a6EXV7hqQPDZ4kl+FgXESnv2tMZQnxQT1H1k
+         XHldkLaEWwglNd4/fk7Nv2GBPnREuoP/ABTalb6pFbYWqrhDVWyxQC7AU/u8kbU8ln10
+         0tDM7XIbxoUdjcdGi9f1EuOcW8vYCxUjTI0Ddmrh5S8rDJXopZEEfHCBzl3CLRDIIU94
+         PhCjnXWINzL1JzbUxmmEZjx/FZUFp2izyN8F7PD4ZtbDm4ImBrM2+aExSLV5+llCujsh
+         NvmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=UMocYiHoXzFjp5PQ5tvpk4obbHczcNC3ztzkGrlxw3Q=;
-        b=tiVtVyRp654Z3VJ7ODsdrnVLcc6vEzPWPK1ZRiNKJlFr03pgf8posCBRNcuti4Z32g
-         8oNk4wLeqp0mI20D4UZPKxcpr1fV7ctbxVyRIYcAmAk3cDTUf9VJcTbnvfEt2Xu7f3w0
-         sUIEDt7VjTiUUuumxQUQMxslJWs9DfP0o8szx5Whpx2yp3AqjQtLX9totfHnIQeqEDiO
-         jm49RtPvawhxC0Dz+eLXyGJQem79vCibdt4nMxDiNsmQQuh1tQ3hvDKTr6IachIsZqdU
-         JcWNMuMY1pT7zstvcUFYQUveploYQGaIHSiigiSYjhOsnu8Baojvfdr/A461cU90iloE
-         gPUQ==
-X-Gm-Message-State: APjAAAWrF4Hqjo2GBSd5aGeRcLD4LmNcJBTl4QxbFh9LKIeD2oE+15IX
-        6dA5IhDX8lWwcGVuSs+3r9xJjZzw
-X-Google-Smtp-Source: APXvYqyb6DA/qsF+xhOLm65LKKh7P1G5to5hwjYp/wRetYdxvVF4q06nmwvJhJ6ZphrUEoqsYig9jw==
-X-Received: by 2002:a63:fd0c:: with SMTP id d12mr25871677pgh.391.1557665437290;
-        Sun, 12 May 2019 05:50:37 -0700 (PDT)
+        bh=KPJyTDsfdBAYb4kysJw7JhftNxA9CSPFTGsSIHtwfqc=;
+        b=FTbGveFlhF/xZZWthxFwxg6HWheff4oUR8Wpg1w7aeNmy0j0hfqGhF1G0kddZHEMt4
+         QI04yGckR5+XInPx5A0vHXC7KllnLnceXmeRfam6Sn5+ljkO6AB4Eaff9aUnbOL5COmT
+         uqR1ezmHGYmCcKtuubflg166pPk3373hgY3ddkgns69oUP6eBI/f5pvb73xbKk1ExeaW
+         x47c0P8l3WBjf6v231Zn8SEVoFs19wpUGJACcGJKr4XUkGIuN3WcQ9FF/pTKiqb3hFQV
+         Is0qAqEk3gQZ/DFwNrNajL2j20/tu1S35pas5y4ZFn+nhr2jG2FAcqulFOdRj61xw+Y1
+         /C/A==
+X-Gm-Message-State: APjAAAXdGb6wIsKtkDnwRGhNvpDm9J2HE+vfrLoSBXlKQosUOusL7KTV
+        AFK7xbUMKp4FgTDwt606Wvo=
+X-Google-Smtp-Source: APXvYqy3CAEZDJLmBiy07pA49i/NZUjgCiKZirHUXorJYxaPTX0oEa9V5dE9EDRhhe2lIgUJjx1aeQ==
+X-Received: by 2002:a62:164f:: with SMTP id 76mr27706174pfw.172.1557665483373;
+        Sun, 12 May 2019 05:51:23 -0700 (PDT)
 Received: from localhost.localdomain ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id n2sm146426pgp.27.2019.05.12.05.50.33
+        by smtp.gmail.com with ESMTPSA id n2sm146426pgp.27.2019.05.12.05.51.20
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Sun, 12 May 2019 05:50:36 -0700 (PDT)
+        Sun, 12 May 2019 05:51:22 -0700 (PDT)
 From:   Changbin Du <changbin.du@gmail.com>
 To:     bhelgaas@google.com, corbet@lwn.net
 Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, mchehab+samsung@kernel.org,
         Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH v4 03/12] Documentation: PCI: convert PCIEBUS-HOWTO.txt to reST
-Date:   Sun, 12 May 2019 20:50:00 +0800
-Message-Id: <20190512125009.32079-4-changbin.du@gmail.com>
+Subject: [PATCH v4 12/12] Documentation: PCI: convert endpoint/pci-test-howto.txt to reST
+Date:   Sun, 12 May 2019 20:50:09 +0800
+Message-Id: <20190512125009.32079-13-changbin.du@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190512125009.32079-1-changbin.du@gmail.com>
 References: <20190512125009.32079-1-changbin.du@gmail.com>
@@ -73,258 +73,197 @@ Signed-off-by: Changbin Du <changbin.du@gmail.com>
 Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/PCI/index.rst                   |   1 +
- .../{PCIEBUS-HOWTO.txt => picebus-howto.rst}  | 140 ++++++++++--------
- 2 files changed, 82 insertions(+), 59 deletions(-)
- rename Documentation/PCI/{PCIEBUS-HOWTO.txt => picebus-howto.rst} (70%)
+ Documentation/PCI/endpoint/index.rst          |  1 +
+ ...{pci-test-howto.txt => pci-test-howto.rst} | 81 +++++++++++++------
+ 2 files changed, 56 insertions(+), 26 deletions(-)
+ rename Documentation/PCI/endpoint/{pci-test-howto.txt => pci-test-howto.rst} (78%)
 
-diff --git a/Documentation/PCI/index.rst b/Documentation/PCI/index.rst
-index 7babf43709b0..79d6d75bbf28 100644
---- a/Documentation/PCI/index.rst
-+++ b/Documentation/PCI/index.rst
-@@ -9,3 +9,4 @@ Linux PCI Bus Subsystem
-    :numbered:
- 
-    pci
-+   picebus-howto
-diff --git a/Documentation/PCI/PCIEBUS-HOWTO.txt b/Documentation/PCI/picebus-howto.rst
-similarity index 70%
-rename from Documentation/PCI/PCIEBUS-HOWTO.txt
-rename to Documentation/PCI/picebus-howto.rst
-index 15f0bb3b5045..f882ff62c51f 100644
---- a/Documentation/PCI/PCIEBUS-HOWTO.txt
-+++ b/Documentation/PCI/picebus-howto.rst
-@@ -1,16 +1,23 @@
--		The PCI Express Port Bus Driver Guide HOWTO
--	Tom L Nguyen tom.l.nguyen@intel.com
--			11/03/2004
+diff --git a/Documentation/PCI/endpoint/index.rst b/Documentation/PCI/endpoint/index.rst
+index b680a3fc4fec..d114ea74b444 100644
+--- a/Documentation/PCI/endpoint/index.rst
++++ b/Documentation/PCI/endpoint/index.rst
+@@ -10,3 +10,4 @@ PCI Endpoint Framework
+    pci-endpoint
+    pci-endpoint-cfs
+    pci-test-function
++   pci-test-howto
+diff --git a/Documentation/PCI/endpoint/pci-test-howto.txt b/Documentation/PCI/endpoint/pci-test-howto.rst
+similarity index 78%
+rename from Documentation/PCI/endpoint/pci-test-howto.txt
+rename to Documentation/PCI/endpoint/pci-test-howto.rst
+index 040479f437a5..909f770a07d6 100644
+--- a/Documentation/PCI/endpoint/pci-test-howto.txt
++++ b/Documentation/PCI/endpoint/pci-test-howto.rst
+@@ -1,38 +1,51 @@
+-			    PCI TEST USERGUIDE
+-		    Kishon Vijay Abraham I <kishon@ti.com>
 +.. SPDX-License-Identifier: GPL-2.0
-+.. include:: <isonum.txt>
- 
--1. About this guide
-+===========================================
-+The PCI Express Port Bus Driver Guide HOWTO
-+===========================================
 +
-+:Author: Tom L Nguyen tom.l.nguyen@intel.com 11/03/2004
-+:Copyright: |copy| 2004 Intel Corporation
++===================
++PCI Test User Guide
++===================
 +
-+About this guide
-+================
++:Author: Kishon Vijay Abraham I <kishon@ti.com>
  
- This guide describes the basics of the PCI Express Port Bus driver
- and provides information on how to enable the service drivers to
- register/unregister with the PCI Express Port Bus Driver.
+ This document is a guide to help users use pci-epf-test function driver
+ and pci_endpoint_test host driver for testing PCI. The list of steps to
+ be followed in the host side and EP side is given below.
  
--2. Copyright 2004 Intel Corporation
+-1. Endpoint Device
++Endpoint Device
++===============
  
--3. What is the PCI Express Port Bus Driver
-+What is the PCI Express Port Bus Driver
-+=======================================
+-1.1 Endpoint Controller Devices
++Endpoint Controller Devices
++---------------------------
  
- A PCI Express Port is a logical PCI-PCI Bridge structure. There
- are two types of PCI Express Port: the Root Port and the Switch
-@@ -30,7 +37,8 @@ support (AER), and virtual channel support (VC). These services may
- be handled by a single complex driver or be individually distributed
- and handled by corresponding service drivers.
+-To find the list of endpoint controller devices in the system:
++To find the list of endpoint controller devices in the system::
  
--4. Why use the PCI Express Port Bus Driver?
-+Why use the PCI Express Port Bus Driver?
-+========================================
+ 	# ls /sys/class/pci_epc/
+ 	  51000000.pcie_ep
  
- In existing Linux kernels, the Linux Device Driver Model allows a
- physical device to be handled by only a single driver. The PCI
-@@ -51,28 +59,31 @@ PCI Express Ports and distributes all provided service requests
- to the corresponding service drivers as required. Some key
- advantages of using the PCI Express Port Bus driver are listed below:
+-If PCI_ENDPOINT_CONFIGFS is enabled
++If PCI_ENDPOINT_CONFIGFS is enabled::
++
+ 	# ls /sys/kernel/config/pci_ep/controllers
+ 	  51000000.pcie_ep
  
--	- Allow multiple service drivers to run simultaneously on
--	  a PCI-PCI Bridge Port device.
-+  - Allow multiple service drivers to run simultaneously on
-+    a PCI-PCI Bridge Port device.
+-1.2 Endpoint Function Drivers
  
--	- Allow service drivers implemented in an independent
--	  staged approach.
-+  - Allow service drivers implemented in an independent
-+    staged approach.
+-To find the list of endpoint function drivers in the system:
++Endpoint Function Drivers
++-------------------------
++
++To find the list of endpoint function drivers in the system::
  
--	- Allow one service driver to run on multiple PCI-PCI Bridge
--	  Port devices.
-+  - Allow one service driver to run on multiple PCI-PCI Bridge
-+    Port devices.
+ 	# ls /sys/bus/pci-epf/drivers
+ 	  pci_epf_test
  
--	- Manage and distribute resources of a PCI-PCI Bridge Port
--	  device to requested service drivers.
-+  - Manage and distribute resources of a PCI-PCI Bridge Port
-+    device to requested service drivers.
+-If PCI_ENDPOINT_CONFIGFS is enabled
++If PCI_ENDPOINT_CONFIGFS is enabled::
++
+ 	# ls /sys/kernel/config/pci_ep/functions
+ 	  pci_epf_test
  
--5. Configuring the PCI Express Port Bus Driver vs. Service Drivers
-+Configuring the PCI Express Port Bus Driver vs. Service Drivers
-+===============================================================
- 
--5.1 Including the PCI Express Port Bus Driver Support into the Kernel
-+Including the PCI Express Port Bus Driver Support into the Kernel
-+-----------------------------------------------------------------
- 
- Including the PCI Express Port Bus driver depends on whether the PCI
- Express support is included in the kernel config. The kernel will
- automatically include the PCI Express Port Bus driver as a kernel
- driver when the PCI Express support is enabled in the kernel.
- 
--5.2 Enabling Service Driver Support
-+Enabling Service Driver Support
-+-------------------------------
- 
- PCI device drivers are implemented based on Linux Device Driver Model.
- All service drivers are PCI device drivers. As discussed above, it is
-@@ -89,9 +100,11 @@ header file /include/linux/pcieport_if.h, before calling these APIs.
- Failure to do so will result an identity mismatch, which prevents
- the PCI Express Port Bus driver from loading a service driver.
- 
--5.2.1 pcie_port_service_register
-+pcie_port_service_register
-+~~~~~~~~~~~~~~~~~~~~~~~~~~
-+::
- 
--int pcie_port_service_register(struct pcie_port_service_driver *new)
-+  int pcie_port_service_register(struct pcie_port_service_driver *new)
- 
- This API replaces the Linux Driver Model's pci_register_driver API. A
- service driver should always calls pcie_port_service_register at
-@@ -99,69 +112,76 @@ module init. Note that after service driver being loaded, calls
- such as pci_enable_device(dev) and pci_set_master(dev) are no longer
- necessary since these calls are executed by the PCI Port Bus driver.
- 
--5.2.2 pcie_port_service_unregister
-+pcie_port_service_unregister
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+::
- 
--void pcie_port_service_unregister(struct pcie_port_service_driver *new)
-+  void pcie_port_service_unregister(struct pcie_port_service_driver *new)
- 
- pcie_port_service_unregister replaces the Linux Driver Model's
- pci_unregister_driver. It's always called by service driver when a
- module exits.
- 
--5.2.3 Sample Code
-+Sample Code
-+~~~~~~~~~~~
- 
- Below is sample service driver code to initialize the port service
- driver data structure.
-+::
- 
--static struct pcie_port_service_id service_id[] = { {
--	.vendor = PCI_ANY_ID,
--	.device = PCI_ANY_ID,
--	.port_type = PCIE_RC_PORT,
--	.service_type = PCIE_PORT_SERVICE_AER,
--	}, { /* end: all zeroes */ }
--};
-+  static struct pcie_port_service_id service_id[] = { {
-+    .vendor = PCI_ANY_ID,
-+    .device = PCI_ANY_ID,
-+    .port_type = PCIE_RC_PORT,
-+    .service_type = PCIE_PORT_SERVICE_AER,
-+    }, { /* end: all zeroes */ }
-+  };
- 
--static struct pcie_port_service_driver root_aerdrv = {
--	.name		= (char *)device_name,
--	.id_table	= &service_id[0],
-+  static struct pcie_port_service_driver root_aerdrv = {
-+    .name		= (char *)device_name,
-+    .id_table	= &service_id[0],
- 
--	.probe		= aerdrv_load,
--	.remove		= aerdrv_unload,
-+    .probe		= aerdrv_load,
-+    .remove		= aerdrv_unload,
- 
--	.suspend	= aerdrv_suspend,
--	.resume		= aerdrv_resume,
--};
-+    .suspend	= aerdrv_suspend,
-+    .resume		= aerdrv_resume,
-+  };
- 
- Below is a sample code for registering/unregistering a service
- driver.
-+::
- 
--static int __init aerdrv_service_init(void)
--{
--	int retval = 0;
-+  static int __init aerdrv_service_init(void)
-+  {
-+    int retval = 0;
- 
--	retval = pcie_port_service_register(&root_aerdrv);
--	if (!retval) {
--		/*
--		 * FIX ME
--		 */
--	}
--	return retval;
--}
-+    retval = pcie_port_service_register(&root_aerdrv);
-+    if (!retval) {
-+      /*
-+      * FIX ME
-+      */
-+    }
-+    return retval;
-+  }
- 
--static void __exit aerdrv_service_exit(void)
--{
--	pcie_port_service_unregister(&root_aerdrv);
--}
-+  static void __exit aerdrv_service_exit(void)
-+  {
-+    pcie_port_service_unregister(&root_aerdrv);
-+  }
- 
--module_init(aerdrv_service_init);
--module_exit(aerdrv_service_exit);
-+  module_init(aerdrv_service_init);
-+  module_exit(aerdrv_service_exit);
- 
--6. Possible Resource Conflicts
-+Possible Resource Conflicts
-+===========================
- 
- Since all service drivers of a PCI-PCI Bridge Port device are
- allowed to run simultaneously, below lists a few of possible resource
- conflicts with proposed solutions.
- 
--6.1 MSI and MSI-X Vector Resource
-+MSI and MSI-X Vector Resource
-+-----------------------------
- 
- Once MSI or MSI-X interrupts are enabled on a device, it stays in this
- mode until they are disabled again.  Since service drivers of the same
-@@ -179,7 +199,8 @@ driver. Service drivers should use (struct pcie_device*)dev->irq to
- call request_irq/free_irq. In addition, the interrupt mode is stored
- in the field interrupt_mode of struct pcie_device.
- 
--6.3 PCI Memory/IO Mapped Regions
-+PCI Memory/IO Mapped Regions
+-1.3 Creating pci-epf-test Device
++
++Creating pci-epf-test Device
 +----------------------------
  
- Service drivers for PCI Express Power Management (PME), Advanced
- Error Reporting (AER), Hot-Plug (HP) and Virtual Channel (VC) access
-@@ -188,7 +209,8 @@ registers accessed are independent of each other. This patch assumes
- that all service drivers will be well behaved and not overwrite
- other service driver's configuration settings.
+ PCI endpoint function device can be created using the configfs. To create
+-pci-epf-test device, the following commands can be used
++pci-epf-test device, the following commands can be used::
  
--6.4 PCI Config Registers
-+PCI Config Registers
-+--------------------
+ 	# mount -t configfs none /sys/kernel/config
+ 	# cd /sys/kernel/config/pci_ep/
+@@ -42,7 +55,7 @@ The "mkdir func1" above creates the pci-epf-test function device that will
+ be probed by pci_epf_test driver.
  
- Each service driver runs its PCI config operations on its own
- capability structure except the PCI Express capability structure, in
+ The PCI endpoint framework populates the directory with the following
+-configurable fields.
++configurable fields::
+ 
+ 	# ls functions/pci_epf_test/func1
+ 	  baseclass_code	interrupt_pin	progif_code	subsys_id
+@@ -51,67 +64,83 @@ configurable fields.
+ 
+ The PCI endpoint function driver populates these entries with default values
+ when the device is bound to the driver. The pci-epf-test driver populates
+-vendorid with 0xffff and interrupt_pin with 0x0001
++vendorid with 0xffff and interrupt_pin with 0x0001::
+ 
+ 	# cat functions/pci_epf_test/func1/vendorid
+ 	  0xffff
+ 	# cat functions/pci_epf_test/func1/interrupt_pin
+ 	  0x0001
+ 
+-1.4 Configuring pci-epf-test Device
++
++Configuring pci-epf-test Device
++-------------------------------
+ 
+ The user can configure the pci-epf-test device using configfs entry. In order
+ to change the vendorid and the number of MSI interrupts used by the function
+-device, the following commands can be used.
++device, the following commands can be used::
+ 
+ 	# echo 0x104c > functions/pci_epf_test/func1/vendorid
+ 	# echo 0xb500 > functions/pci_epf_test/func1/deviceid
+ 	# echo 16 > functions/pci_epf_test/func1/msi_interrupts
+ 	# echo 8 > functions/pci_epf_test/func1/msix_interrupts
+ 
+-1.5 Binding pci-epf-test Device to EP Controller
++
++Binding pci-epf-test Device to EP Controller
++--------------------------------------------
+ 
+ In order for the endpoint function device to be useful, it has to be bound to
+ a PCI endpoint controller driver. Use the configfs to bind the function
+-device to one of the controller driver present in the system.
++device to one of the controller driver present in the system::
+ 
+ 	# ln -s functions/pci_epf_test/func1 controllers/51000000.pcie_ep/
+ 
+ Once the above step is completed, the PCI endpoint is ready to establish a link
+ with the host.
+ 
+-1.6 Start the Link
++
++Start the Link
++--------------
+ 
+ In order for the endpoint device to establish a link with the host, the _start_
+-field should be populated with '1'.
++field should be populated with '1'::
+ 
+ 	# echo 1 > controllers/51000000.pcie_ep/start
+ 
+-2. RootComplex Device
+ 
+-2.1 lspci Output
++RootComplex Device
++==================
++
++lspci Output
++------------
+ 
+-Note that the devices listed here correspond to the value populated in 1.4 above
++Note that the devices listed here correspond to the value populated in 1.4
++above::
+ 
+ 	00:00.0 PCI bridge: Texas Instruments Device 8888 (rev 01)
+ 	01:00.0 Unassigned class [ff00]: Texas Instruments Device b500
+ 
+-2.2 Using Endpoint Test function Device
++
++Using Endpoint Test function Device
++-----------------------------------
+ 
+ pcitest.sh added in tools/pci/ can be used to run all the default PCI endpoint
+-tests. To compile this tool the following commands should be used:
++tests. To compile this tool the following commands should be used::
+ 
+ 	# cd <kernel-dir>
+ 	# make -C tools/pci
+ 
+-or if you desire to compile and install in your system:
++or if you desire to compile and install in your system::
+ 
+ 	# cd <kernel-dir>
+ 	# make -C tools/pci install
+ 
+ The tool and script will be located in <rootfs>/usr/bin/
+ 
+-2.2.1 pcitest.sh Output
++
++pcitest.sh Output
++~~~~~~~~~~~~~~~~~
++::
++
+ 	# pcitest.sh
+ 	BAR tests
+ 
 -- 
 2.20.1
 
