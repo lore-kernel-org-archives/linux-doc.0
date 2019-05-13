@@ -1,295 +1,104 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D03A07D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 13 May 2019 14:04:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B4FAD7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 13 May 2019 14:19:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730371AbfEMOEo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 13 May 2019 10:04:44 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:56534 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729875AbfEMOEo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 13 May 2019 10:04:44 -0400
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 8EB74F5C83569CF1B183;
-        Mon, 13 May 2019 22:04:40 +0800 (CST)
-Received: from [127.0.0.1] (10.177.23.164) by DGGEMS411-HUB.china.huawei.com
- (10.3.19.211) with Microsoft SMTP Server id 14.3.439.0; Mon, 13 May 2019
- 22:04:32 +0800
-Subject: Re: [PATCH v6 1/1] iommu: enhance IOMMU dma mode build options
-To:     John Garry <john.garry@huawei.com>,
-        Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        "Will Deacon" <will.deacon@arm.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Sebastian Ott <sebott@linux.ibm.com>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        "Martin Schwidefsky" <schwidefsky@de.ibm.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        "Michael Ellerman" <mpe@ellerman.id.au>,
-        Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        iommu <iommu@lists.linux-foundation.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        x86 <x86@kernel.org>, linux-ia64 <linux-ia64@vger.kernel.org>
-References: <20190418135701.24668-1-thunder.leizhen@huawei.com>
- <20190418135701.24668-2-thunder.leizhen@huawei.com>
- <ca30a698-8047-9a86-a2f1-0b3e1c8692bf@huawei.com>
-CC:     Hanjun Guo <guohanjun@huawei.com>
-From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <5CD9796E.3040000@huawei.com>
-Date:   Mon, 13 May 2019 22:04:30 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
- Thunderbird/38.5.1
+        id S1729025AbfEMOSe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 13 May 2019 10:18:34 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:44730 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728867AbfEMOSe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 13 May 2019 10:18:34 -0400
+Received: by mail-pg1-f194.google.com with SMTP id z16so6845796pgv.11;
+        Mon, 13 May 2019 07:18:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=Ketazh/cmP0KJ05p+l9m9holinNsc6KQfkPjwYogn7E=;
+        b=k3SNBBhCPxo+UDPQbsBYMaWaplh2cwDY5+U+q/nacqm7DzhLPthqsb/t8BST7LMiq1
+         ZpKc82ralzHV+mD2z9ukodEN1BZmAgxXlfsPSzzL4YMe7uYADPOkYGpUxbmHfpNybg03
+         ef9EeKAYHaMPpoveKZvQbTPY3niVaeS5fJQMUnazxqZeAbLUJJjkUPl8gAPa0EUQqy6l
+         aHRRX91mHxzdo/tI6qZvfR+yjx6J5YCURPo7E694nxBdeukeEroN0VBPcKryPpnH4AdB
+         QEYlffk39un3Av14DPNyBe1QsufWwjRiAXYLHf29pZQq7DRS2PESDcHuOZUx+5thuTXR
+         oEBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Ketazh/cmP0KJ05p+l9m9holinNsc6KQfkPjwYogn7E=;
+        b=BIDqGi9+GI9DTXg0Lw4D4GZnwDyzvotkkdz0p8iwBW3F3dy7m7IKwIpZMKzku0yTIm
+         r4e+VfdqPNpm1rAuwNgQwuarZa/jKPRZWqBQDgCySb9j+emjqF8wZOI5V79bqpzvowL+
+         PYPuVmdA/RKsmf/TcMDmbuJfjMp2ow/CEywxXa3BVJcC/8QIc3J9P2uuWKB2n68Zewo7
+         l+XOBNs1YAIzTccPZEKGOPHHJ7fPxeX9P5i86zTs9xfHMRIS86l7Wootb9IJEr8KdLg6
+         U79sWcT82qkik9b8lVEk7N4xZVrvxh/Ss/sdnw2bxQjoqj5KbiGhlAepL38OwXFb3CwE
+         SfRg==
+X-Gm-Message-State: APjAAAUWRbYjbuOKhXsvKCI54RME0EF4CnukWsUHDHcH+1JhZIPJzOVP
+        ET1Qeq7hO690oNHAQ3S60PVPl0Y5
+X-Google-Smtp-Source: APXvYqxJy2oJO6PNfU4SFtZSqltP6F4ulJZxbMCpnn7tvwR0BgpaHB/qbGEqYt0DP//JCZhtJjGiug==
+X-Received: by 2002:a63:e24c:: with SMTP id y12mr7185725pgj.276.1557757113391;
+        Mon, 13 May 2019 07:18:33 -0700 (PDT)
+Received: from mail.google.com ([104.238.181.70])
+        by smtp.gmail.com with ESMTPSA id d15sm18241516pfr.179.2019.05.13.07.18.28
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 13 May 2019 07:18:32 -0700 (PDT)
+Date:   Mon, 13 May 2019 22:18:25 +0800
+From:   Changbin Du <changbin.du@gmail.com>
+To:     Joe Perches <joe@perches.com>
+Cc:     Changbin Du <changbin.du@gmail.com>, bhelgaas@google.com,
+        corbet@lwn.net, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mchehab+samsung@kernel.org
+Subject: Re: [PATCH v4 07/12] Documentation: PCI: convert
+ pci-error-recovery.txt to reST
+Message-ID: <20190513141823.zaaq4aazpwe7egcd@mail.google.com>
+References: <20190512125009.32079-1-changbin.du@gmail.com>
+ <20190512125009.32079-8-changbin.du@gmail.com>
+ <d00c1c42689e08df0ce7cd8b2c796eee5b9f5642.camel@perches.com>
 MIME-Version: 1.0
-In-Reply-To: <ca30a698-8047-9a86-a2f1-0b3e1c8692bf@huawei.com>
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.177.23.164]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d00c1c42689e08df0ce7cd8b2c796eee5b9f5642.camel@perches.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 2019/5/8 17:42, John Garry wrote:
-> On 18/04/2019 14:57, Zhen Lei wrote:
->> First, add build option IOMMU_DEFAULT_{LAZY|STRICT}, so that we have the
->> opportunity to set {lazy|strict} mode as default at build time. Then put
->> the three config options in an choice, make people can only choose one of
->> the three at a time.
->>
->> The default IOMMU dma modes on each ARCHs have no change.
->>
->> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
->> ---
->>  arch/ia64/kernel/pci-dma.c                |  2 +-
->>  arch/powerpc/platforms/powernv/pci-ioda.c |  3 ++-
->>  arch/s390/pci/pci_dma.c                   |  2 +-
->>  arch/x86/kernel/pci-dma.c                 |  7 ++---
->>  drivers/iommu/Kconfig                     | 44 ++++++++++++++++++++++++++-----
->>  drivers/iommu/amd_iommu_init.c            |  3 ++-
->>  drivers/iommu/intel-iommu.c               |  2 +-
->>  drivers/iommu/iommu.c                     |  3 ++-
->>  8 files changed, 48 insertions(+), 18 deletions(-)
->>
->> diff --git a/arch/ia64/kernel/pci-dma.c b/arch/ia64/kernel/pci-dma.c
->> index fe988c49f01ce6a..655511dbf3c3b34 100644
->> --- a/arch/ia64/kernel/pci-dma.c
->> +++ b/arch/ia64/kernel/pci-dma.c
->> @@ -22,7 +22,7 @@
->>  int force_iommu __read_mostly;
->>  #endif
->>
->> -int iommu_pass_through;
->> +int iommu_pass_through = IS_ENABLED(CONFIG_IOMMU_DEFAULT_PASSTHROUGH);
->>
->>  static int __init pci_iommu_init(void)
->>  {
->> diff --git a/arch/powerpc/platforms/powernv/pci-ioda.c b/arch/powerpc/platforms/powernv/pci-ioda.c
->> index 3ead4c237ed0ec9..383e082a9bb985c 100644
->> --- a/arch/powerpc/platforms/powernv/pci-ioda.c
->> +++ b/arch/powerpc/platforms/powernv/pci-ioda.c
->> @@ -85,7 +85,8 @@ void pe_level_printk(const struct pnv_ioda_pe *pe, const char *level,
->>      va_end(args);
->>  }
->>
->> -static bool pnv_iommu_bypass_disabled __read_mostly;
->> +static bool pnv_iommu_bypass_disabled __read_mostly =
->> +            !IS_ENABLED(CONFIG_IOMMU_DEFAULT_PASSTHROUGH);
->>  static bool pci_reset_phbs __read_mostly;
->>
->>  static int __init iommu_setup(char *str)
->> diff --git a/arch/s390/pci/pci_dma.c b/arch/s390/pci/pci_dma.c
->> index 9e52d1527f71495..784ad1e0acecfb1 100644
->> --- a/arch/s390/pci/pci_dma.c
->> +++ b/arch/s390/pci/pci_dma.c
->> @@ -17,7 +17,7 @@
->>
->>  static struct kmem_cache *dma_region_table_cache;
->>  static struct kmem_cache *dma_page_table_cache;
->> -static int s390_iommu_strict;
->> +static int s390_iommu_strict = IS_ENABLED(CONFIG_IOMMU_DEFAULT_STRICT);
->>
->>  static int zpci_refresh_global(struct zpci_dev *zdev)
->>  {
->> diff --git a/arch/x86/kernel/pci-dma.c b/arch/x86/kernel/pci-dma.c
->> index d460998ae828514..fb2bab42a0a3173 100644
->> --- a/arch/x86/kernel/pci-dma.c
->> +++ b/arch/x86/kernel/pci-dma.c
->> @@ -43,11 +43,8 @@
->>   * It is also possible to disable by default in kernel config, and enable with
->>   * iommu=nopt at boot time.
->>   */
->> -#ifdef CONFIG_IOMMU_DEFAULT_PASSTHROUGH
->> -int iommu_pass_through __read_mostly = 1;
->> -#else
->> -int iommu_pass_through __read_mostly;
->> -#endif
->> +int iommu_pass_through __read_mostly =
->> +            IS_ENABLED(CONFIG_IOMMU_DEFAULT_PASSTHROUGH);
->>
->>  extern struct iommu_table_entry __iommu_table[], __iommu_table_end[];
->>
->> diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
->> index 6f07f3b21816c64..8a1f1793cde76b4 100644
->> --- a/drivers/iommu/Kconfig
->> +++ b/drivers/iommu/Kconfig
->> @@ -74,17 +74,47 @@ config IOMMU_DEBUGFS
->>        debug/iommu directory, and then populate a subdirectory with
->>        entries as required.
->>
->> -config IOMMU_DEFAULT_PASSTHROUGH
->> -    bool "IOMMU passthrough by default"
->> +choice
->> +    prompt "IOMMU dma mode"
+On Sun, May 12, 2019 at 07:22:13AM -0700, Joe Perches wrote:
+> On Sun, 2019-05-12 at 20:50 +0800, Changbin Du wrote:
+> > This converts the plain text documentation to reStructuredText format and
+> > add it to Sphinx TOC tree. No essential content change.
+> []
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> []
+> > @@ -12100,7 +12100,7 @@ M:	Sam Bobroff <sbobroff@linux.ibm.com>
+> >  M:	Oliver O'Halloran <oohall@gmail.com>
+> >  L:	linuxppc-dev@lists.ozlabs.org
+> >  S:	Supported
+> > -F:	Documentation/PCI/pci-error-recovery.txt
+> > +F:	Documentation/PCI/pci-error-recovery.rst
+> >  F:	drivers/pci/pcie/aer.c
+> >  F:	drivers/pci/pcie/dpc.c
+> >  F:	drivers/pci/pcie/err.c
 > 
-> /s/dma/DMA/
-OK
-
+> There is another section to update as well:
 > 
-> And how about add "default", as in "Default IOMMU DMA mode" or "IOMMU default DMA mode"?
-Yes. I prefer "IOMMU default DMA mode".
-
+> PCI ERROR RECOVERY
+> M:	Linas Vepstas <linasvepstas@gmail.com>
+> L:	linux-pci@vger.kernel.org
+> S:	Supported
+> F:	Documentation/PCI/pci-error-recovery.txt
 > 
->>      depends on IOMMU_API
->> -        help
->> -      Enable passthrough by default, removing the need to pass in
->> -      iommu.passthrough=on or iommu=pt through command line. If this
->> -      is enabled, you can still disable with iommu.passthrough=off
->> -      or iommu=nopt depending on the architecture.
->> +    default IOMMU_DEFAULT_PASSTHROUGH if (PPC_POWERNV && PCI)
->> +    default IOMMU_DEFAULT_LAZY if (AMD_IOMMU || INTEL_IOMMU || S390_IOMMU)
->> +    default IOMMU_DEFAULT_STRICT
->> +    help
->> +      This option allows IOMMU dma mode to be chose at build time, to
-> 
-> again, capitalize acronyms, i.e. /s/dma/DMA/ (more of these above and below)
-OK, I will check it all. Thanks.
-
-> 
->> +      override the default dma mode of each ARCHs, removing the need to
->> +      pass in kernel parameters through command line. You can still use
->> +      ARCHs specific boot options to override this option again.
->> +
->> +config IOMMU_DEFAULT_PASSTHROUGH
-> 
-> I think that it may need to be indented, along with the other choices
-There is no problem. I referred to mm/Kconfig.
-
-> 
->> +    bool "passthrough"
->> +    help
->> +      In this mode, the dma access through IOMMU without any addresses
->> +      transformation. That means, the wrong or illegal dma access can not
-> 
-> transformation, or translation?
-I copied from somewhere. OK, "translation" will be more clear.
-
-> 
->> +      be caught, no error information will be reported.
->>
->>        If unsure, say N here.
->>
->> +config IOMMU_DEFAULT_LAZY
->> +    bool "lazy"
->> +    help
->> +      Support lazy mode, where for every IOMMU DMA unmap operation, the
->> +      flush operation of IOTLB and the free operation of IOVA are deferred.
->> +      They are only guaranteed to be done before the related IOVA will be
->> +      reused.
->> +
->> +config IOMMU_DEFAULT_STRICT
->> +    bool "strict"
->> +    help
->> +      For every IOMMU DMA unmap operation, the flush operation of IOTLB and
->> +      the free operation of IOVA are guaranteed to be done in the unmap
->> +      function.
->> +
->> +      This mode is safer than the two above, but it maybe slow in some high
-> 
-> slow, or slower? And passthough is not safe, so anything is implicitly safer.
-OK. I will change it to "slower".
-
-> 
->> +      performace scenarios.
->> +
->> +endchoice
->> +
->>  config OF_IOMMU
->>         def_bool y
->>         depends on OF && IOMMU_API
->> diff --git a/drivers/iommu/amd_iommu_init.c b/drivers/iommu/amd_iommu_init.c
->> index ff40ba758cf365e..16c02b08adb4cb2 100644
->> --- a/drivers/iommu/amd_iommu_init.c
->> +++ b/drivers/iommu/amd_iommu_init.c
->> @@ -166,7 +166,8 @@ struct ivmd_header {
->>                         to handle */
->>  LIST_HEAD(amd_iommu_unity_map);        /* a list of required unity mappings
->>                         we find in ACPI */
->> -bool amd_iommu_unmap_flush;        /* if true, flush on every unmap */
->> +bool amd_iommu_unmap_flush = IS_ENABLED(CONFIG_IOMMU_DEFAULT_STRICT);
->> +                    /* if true, flush on every unmap */
->>
->>  LIST_HEAD(amd_iommu_list);        /* list of all AMD IOMMUs in the
->>                         system */
->> diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
->> index 28cb713d728ceef..0c3cc716210f35a 100644
->> --- a/drivers/iommu/intel-iommu.c
->> +++ b/drivers/iommu/intel-iommu.c
->> @@ -362,7 +362,7 @@ static int domain_detach_iommu(struct dmar_domain *domain,
->>
->>  static int dmar_map_gfx = 1;
->>  static int dmar_forcedac;
->> -static int intel_iommu_strict;
->> +static int intel_iommu_strict = IS_ENABLED(CONFIG_IOMMU_DEFAULT_STRICT);
->>  static int intel_iommu_superpage = 1;
->>  static int intel_iommu_sm;
->>  static int iommu_identity_mapping;
->> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
->> index 109de67d5d727c2..0ec5952ac60e2a3 100644
->> --- a/drivers/iommu/iommu.c
->> +++ b/drivers/iommu/iommu.c
->> @@ -43,7 +43,8 @@
->>  #else
->>  static unsigned int iommu_def_domain_type = IOMMU_DOMAIN_DMA;
->>  #endif
->> -static bool iommu_dma_strict __read_mostly = true;
->> +static bool iommu_dma_strict __read_mostly =
->> +            IS_ENABLED(CONFIG_IOMMU_DEFAULT_STRICT);
->>
->>  struct iommu_callback_data {
->>      const struct iommu_ops *ops;
->> -- 
->> 1.8.3
->>
->>
->>
->> .
->>
-> 
-> 
-> 
-> .
-> 
+>
+Will update it. Thanks!
 
 -- 
-Thanks!
-BestRegards
-
+Cheers,
+Changbin Du
