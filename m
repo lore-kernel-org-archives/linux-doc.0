@@ -5,110 +5,86 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 38EE67D08A
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 13 May 2019 06:32:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 070B87D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 13 May 2019 08:49:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725980AbfEMGcL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 13 May 2019 02:32:11 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:7630 "EHLO huawei.com"
+        id S1728279AbfEMIsz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 13 May 2019 04:48:55 -0400
+Received: from mx2.suse.de ([195.135.220.15]:52088 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725920AbfEMGcL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 13 May 2019 02:32:11 -0400
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id 4339F9940403AE8FA378;
-        Mon, 13 May 2019 14:32:09 +0800 (CST)
-Received: from ros.huawei.com (10.143.28.118) by
- DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.439.0; Mon, 13 May 2019 14:32:00 +0800
-From:   Dongjiu Geng <gengdongjiu@huawei.com>
-To:     <christoffer.dall@arm.com>, <marc.zyngier@arm.com>,
-        <peter.maydell@linaro.org>, <james.morse@arm.com>,
-        <rkrcmar@redhat.com>, <corbet@lwn.net>, <catalin.marinas@arm.com>,
-        <will.deacon@arm.com>, <kvm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <kvmarm@lists.cs.columbia.edu>
-CC:     <gengdongjiu@huawei.com>, <zhengxiang9@huawei.com>
-Subject: [RFC PATCH V2] kvm: arm64: export memory error recovery capability to user space
-Date:   Sun, 12 May 2019 23:28:37 -0700
-Message-ID: <1557728917-49079-1-git-send-email-gengdongjiu@huawei.com>
-X-Mailer: git-send-email 2.7.4
+        id S1726103AbfEMIsy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 13 May 2019 04:48:54 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id E4E2BAECD;
+        Mon, 13 May 2019 08:48:51 +0000 (UTC)
+From:   Andreas Schwab <schwab@suse.de>
+To:     Yury Norov <yury.norov@gmail.com>
+Cc:     Yury Norov <ynorov@caviumnetworks.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, Adam Borowski <kilobyte@angband.pl>,
+        Alexander Graf <agraf@suse.de>,
+        Alexey Klimov <klimov.linux@gmail.com>,
+        Andrew Pinski <pinskia@gmail.com>,
+        Bamvor Zhangjian <bamv2005@gmail.com>,
+        Chris Metcalf <cmetcalf@mellanox.com>,
+        Christoph Muellner <christoph.muellner@theobroma-systems.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Florian Weimer <fweimer@redhat.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        James Hogan <james.hogan@imgtec.com>,
+        James Morse <james.morse@arm.com>,
+        Joseph Myers <joseph@codesourcery.com>,
+        Lin Yongting <linyongting@huawei.com>,
+        Manuel Montezelo <manuel.montezelo@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
+        Nathan_Lynch <Nathan_Lynch@mentor.com>,
+        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
+        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
+        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
+        Steve Ellcey <sellcey@caviumnetworks.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>
+Subject: Re: [PATCH v9 00/24] ILP32 for ARM64
+References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
+        <20190508225900.GA14091@yury-thinkpad>
+X-Yow:  Is this ANYWHERE, USA?
+Date:   Mon, 13 May 2019 10:48:48 +0200
+In-Reply-To: <20190508225900.GA14091@yury-thinkpad> (Yury Norov's message of
+        "Wed, 8 May 2019 15:59:00 -0700")
+Message-ID: <mvmtvdyoi33.fsf@suse.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Originating-IP: [10.143.28.118]
-X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When user space do memory recovery, it will check whether KVM and
-guest support the error recovery, only when both of them support,
-user space will do the error recovery. This patch exports this
-capability of KVM to user space.
+There is a problem with the stack size accounting during execve when
+there is no stack limit:
 
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
----
-v1->v2:
-1. check whether host support memory failure instead of RAS capability
-   https://patchwork.kernel.org/patch/10730827/
+$ ulimit -s
+8192
+$ ./hello.ilp32 
+Hello World!
+$ ulimit -s unlimited
+$ ./hello.ilp32 
+Segmentation fault
+$ strace ./hello.ilp32 
+execve("./hello.ilp32", ["./hello.ilp32"], 0xfffff10548f0 /* 77 vars */) = -1 ENOMEM (Cannot allocate memory)
++++ killed by SIGSEGV +++
+Segmentation fault (core dumped)
 
-v1:
-1. User space needs to check this capability of host is suggested by Peter[1],
-this patch as RFC tag because user space patches are still under review,
-so this kernel patch is firstly sent out for review.
+Andreas.
 
-[1]: https://patchwork.codeaurora.org/patch/652261/
----
- Documentation/virtual/kvm/api.txt | 9 +++++++++
- arch/arm64/kvm/reset.c            | 3 +++
- include/uapi/linux/kvm.h          | 1 +
- 3 files changed, 13 insertions(+)
-
-diff --git a/Documentation/virtual/kvm/api.txt b/Documentation/virtual/kvm/api.txt
-index cd209f7..822a57b 100644
---- a/Documentation/virtual/kvm/api.txt
-+++ b/Documentation/virtual/kvm/api.txt
-@@ -4895,3 +4895,12 @@ Architectures: x86
- This capability indicates that KVM supports paravirtualized Hyper-V IPI send
- hypercalls:
- HvCallSendSyntheticClusterIpi, HvCallSendSyntheticClusterIpiEx.
-+
-+8.21 KVM_CAP_ARM_MEMORY_ERROR_RECOVERY
-+
-+Architectures: arm, arm64
-+
-+This capability indicates that guest memory error can be detected by the host which
-+supports the error recovery. When user space do recovery, such as QEMU, it will
-+check whether host and guest all support memory error recovery, only when both of them
-+support, user space will do the error recovery.
-diff --git a/arch/arm64/kvm/reset.c b/arch/arm64/kvm/reset.c
-index b72a3dd..b6e3986 100644
---- a/arch/arm64/kvm/reset.c
-+++ b/arch/arm64/kvm/reset.c
-@@ -84,6 +84,9 @@ int kvm_arch_vm_ioctl_check_extension(struct kvm *kvm, long ext)
- 	case KVM_CAP_ARM_INJECT_SERROR_ESR:
- 		r = cpus_have_const_cap(ARM64_HAS_RAS_EXTN);
- 		break;
-+	case KVM_CAP_ARM_MEMORY_ERROR_RECOVERY:
-+		r= IS_ENABLED(CONFIG_MEMORY_FAILURE);
-+		break;
- 	case KVM_CAP_SET_GUEST_DEBUG:
- 	case KVM_CAP_VCPU_ATTRIBUTES:
- 		r = 1;
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 2b7a652..3b19580 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -975,6 +975,7 @@ struct kvm_ppc_resize_hpt {
- #define KVM_CAP_HYPERV_ENLIGHTENED_VMCS 163
- #define KVM_CAP_EXCEPTION_PAYLOAD 164
- #define KVM_CAP_ARM_VM_IPA_SIZE 165
-+#define KVM_CAP_ARM_MEMORY_ERROR_RECOVERY 166
- 
- #ifdef KVM_CAP_IRQ_ROUTING
- 
 -- 
-2.7.4
-
+Andreas Schwab, SUSE Labs, schwab@suse.de
+GPG Key fingerprint = 0196 BAD8 1CE9 1970 F4BE  1748 E4D4 88E3 0EEA B9D7
+"And now for something completely different."
