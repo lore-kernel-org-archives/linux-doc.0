@@ -1,90 +1,108 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 142D77D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 14 May 2019 10:26:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 180DF7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 14 May 2019 10:43:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725892AbfENK0k (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 14 May 2019 06:26:40 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:35768 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725881AbfENK0k (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 May 2019 06:26:40 -0400
-Received: from zn.tnic (p200300EC2F29E5000DF69AC748EB6F4C.dip0.t-ipconnect.de [IPv6:2003:ec:2f29:e500:df6:9ac7:48eb:6f4c])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 91C161EC0BB1;
-        Tue, 14 May 2019 12:26:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1557829598;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=75r4LBmhsLjK7T7MiGrcymngD4KDDKnjiQu/ckjCNtM=;
-        b=kY6JfNrCjN/wWgX7Sy+irVQMMrDIiz7OfoyMptDmHIJ8rYd9/5wBg0w+1nLPwpFZ2YoH0x
-        9DzBlot19K+WJyJ56BV2zFaw49j72WiVmfV1lgADWGaYtJm7SUOfjcGUK1pwKZvZfDVz/+
-        lCvYQ37oU0G9WAcB3BKQ39geAZ7Rx+U=
-Date:   Tue, 14 May 2019 12:26:32 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Christoph Hellwig <hch@lst.de>, Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] LICENSES: Rename other to deprecated
-Message-ID: <20190514102632.GA4574@zn.tnic>
-References: <20190430105130.24500-1-hch@lst.de>
- <20190430105130.24500-4-hch@lst.de>
+        id S1726362AbfENKnQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 14 May 2019 06:43:16 -0400
+Received: from mx2.suse.de ([195.135.220.15]:39300 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725893AbfENKnQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 May 2019 06:43:16 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id D4BF7AC3F;
+        Tue, 14 May 2019 10:43:13 +0000 (UTC)
+Date:   Tue, 14 May 2019 12:43:11 +0200
+From:   Cyril Hrubis <chrubis@suse.cz>
+To:     Yuri Norov <ynorov@marvell.com>
+Cc:     Andreas Schwab <schwab@suse.de>, Yury Norov <yury.norov@gmail.com>,
+        "ltp@lists.linux.it" <ltp@lists.linux.it>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
+        Joseph Myers <joseph@codesourcery.com>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        Steve Ellcey <sellcey@caviumnetworks.com>,
+        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
+        Alexander Graf <agraf@suse.de>,
+        Bamvor Zhangjian <bamv2005@gmail.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Adam Borowski <kilobyte@angband.pl>,
+        Manuel Montezelo <manuel.montezelo@gmail.com>,
+        James Hogan <james.hogan@imgtec.com>,
+        Chris Metcalf <cmetcalf@mellanox.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrew Pinski <pinskia@gmail.com>,
+        Lin Yongting <linyongting@huawei.com>,
+        Alexey Klimov <klimov.linux@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+        Nathan_Lynch <Nathan_Lynch@mentor.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Christoph Muellner <christoph.muellner@theobroma-systems.com>
+Subject: Re: [LTP] [EXT] Re: [PATCH v9 00/24] ILP32 for ARM64
+Message-ID: <20190514104311.GA24708@rei>
+References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
+ <20190508225900.GA14091@yury-thinkpad>
+ <mvmtvdyoi33.fsf@suse.de>
+ <MN2PR18MB30865B950D85C6463EB0E1D4CB0F0@MN2PR18MB3086.namprd18.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190430105130.24500-4-hch@lst.de>
+In-Reply-To: <MN2PR18MB30865B950D85C6463EB0E1D4CB0F0@MN2PR18MB3086.namprd18.prod.outlook.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 30, 2019 at 06:51:30AM -0400, Christoph Hellwig wrote:
-> Make it clear in the directory name that these are not intended for new
-> code.
+Hi!
+> > There is a problem with the stack size accounting during execve when
+> > there is no stack limit:
+> >
+> > $ ulimit -s
+> > 8192
+> > $ ./hello.ilp32 
+> > Hello World!
+> > $ ulimit -s unlimited
+> > $ ./hello.ilp32 
+> > Segmentation fault
+> > $ strace ./hello.ilp32 
+> > execve("./hello.ilp32", ["./hello.ilp32"], 0xfffff10548f0 /* 77 vars */) = -1 ENOMEM (Cannot allocate memory)
+> > +++ killed by SIGSEGV +++
+> > Segmentation fault (core dumped)
+> >
+> > Andreas.
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  Documentation/process/license-rules.rst     | 8 ++++----
->  LICENSES/{other => deprecated}/GPL-1.0      | 0
->  LICENSES/{other => deprecated}/ISC          | 0
->  LICENSES/{other => deprecated}/Linux-OpenIB | 0
->  LICENSES/{other => deprecated}/X11          | 0
->  5 files changed, 4 insertions(+), 4 deletions(-)
->  rename LICENSES/{other => deprecated}/GPL-1.0 (100%)
->  rename LICENSES/{other => deprecated}/ISC (100%)
->  rename LICENSES/{other => deprecated}/Linux-OpenIB (100%)
->  rename LICENSES/{other => deprecated}/X11 (100%)
+> Thanks Andreas, I will take a look. Do we have such test in LTP?
 
-This breaks scripts/spdxcheck.py, it needs below hunk. Also, should
-"dual" be added to license_dirs too?
+We do have a test that we can run a binary with very small stack size
+i.e. 512kB but there does not seem to be anything that would catch this
+specific problem.
 
-diff --git a/scripts/spdxcheck.py b/scripts/spdxcheck.py
-index 4fe392e507fb..1a39b34588b7 100755
---- a/scripts/spdxcheck.py
-+++ b/scripts/spdxcheck.py
-@@ -32,7 +32,7 @@ class SPDXdata(object):
- def read_spdxdata(repo):
- 
-     # The subdirectories of LICENSES in the kernel source
--    license_dirs = [ "preferred", "other", "exceptions" ]
-+    license_dirs = [ "preferred", "deprecated", "exceptions" ]
-     lictree = repo.head.commit.tree['LICENSES']
- 
-     spdx = SPDXdata()
+Can you please open an issue and describe how to reproduce the problem
+at our github tracker:
+
+https://github.com/linux-test-project/ltp/issues
+
+Then we can create testcase based on that reproducer later on.
 
 -- 
-Regards/Gruss,
-    Boris.
-
-Good mailing practices for 400: avoid top-posting and trim the reply.
+Cyril Hrubis
+chrubis@suse.cz
