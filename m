@@ -5,121 +5,89 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 31F807D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 14 May 2019 12:09:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 17BD57D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 14 May 2019 13:34:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726286AbfENMJv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 14 May 2019 08:09:51 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:40122 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726290AbfENMJu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 May 2019 08:09:50 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x4EC47xw014526
-        for <linux-doc@vger.kernel.org>; Tue, 14 May 2019 08:09:48 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2sfu50xfye-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Tue, 14 May 2019 08:09:48 -0400
-Received: from localhost
-        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <zohar@linux.ibm.com>;
-        Tue, 14 May 2019 13:09:44 +0100
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Tue, 14 May 2019 13:09:39 +0100
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com [9.149.105.60])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x4EC9c1l55050322
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 14 May 2019 12:09:38 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 3DD0C42052;
-        Tue, 14 May 2019 12:09:38 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 175C14204B;
-        Tue, 14 May 2019 12:09:36 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.80.80.29])
-        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Tue, 14 May 2019 12:09:35 +0000 (GMT)
-Subject: Re: [PATCH v10 09/12] ima: Implement support for module-style
- appended signatures
-From:   Mimi Zohar <zohar@linux.ibm.com>
-To:     Thiago Jung Bauermann <bauerman@linux.ibm.com>,
-        linux-integrity@vger.kernel.org
-Cc:     linux-security-module@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        David Howells <dhowells@redhat.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Jessica Yu <jeyu@kernel.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "AKASHI, Takahiro" <takahiro.akashi@linaro.org>
-Date:   Tue, 14 May 2019 08:09:25 -0400
-In-Reply-To: <20190418035120.2354-10-bauerman@linux.ibm.com>
-References: <20190418035120.2354-1-bauerman@linux.ibm.com>
-         <20190418035120.2354-10-bauerman@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
-Mime-Version: 1.0
+        id S1726013AbfENNe0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 14 May 2019 09:34:26 -0400
+Received: from ms.lwn.net ([45.79.88.28]:44280 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725854AbfENNe0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 May 2019 09:34:26 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id D706B740;
+        Tue, 14 May 2019 13:34:23 +0000 (UTC)
+Date:   Tue, 14 May 2019 07:34:22 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Brendan Higgins <brendanhiggins@google.com>
+Cc:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
+        keescook@google.com, kieran.bingham@ideasonboard.com,
+        mcgrof@kernel.org, robh@kernel.org, sboyd@kernel.org,
+        shuah@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com,
+        dan.j.williams@intel.com, daniel@ffwll.ch, jdike@addtoit.com,
+        joel@jms.id.au, julia.lawall@lip6.fr, khilman@baylibre.com,
+        knut.omang@oracle.com, logang@deltatee.com, mpe@ellerman.id.au,
+        pmladek@suse.com, rdunlap@infradead.org, richard@nod.at,
+        rientjes@google.com, rostedt@goodmis.org, wfg@linux.intel.com,
+        Felix Guo <felixguoxiuping@gmail.com>
+Subject: Re: [PATCH v3 15/18] Documentation: kunit: add documentation for
+ KUnit
+Message-ID: <20190514073422.4287267c@lwn.net>
+In-Reply-To: <20190514054251.186196-16-brendanhiggins@google.com>
+References: <20190514054251.186196-1-brendanhiggins@google.com>
+        <20190514054251.186196-16-brendanhiggins@google.com>
+Organization: LWN.net
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 19051412-0020-0000-0000-0000033C871A
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19051412-0021-0000-0000-0000218F42B3
-Message-Id: <1557835765.4139.9.camel@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-14_08:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1905140089
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Thiago,
+On Mon, 13 May 2019 22:42:49 -0700
+Brendan Higgins <brendanhiggins@google.com> wrote:
 
-On Thu, 2019-04-18 at 00:51 -0300, Thiago Jung Bauermann wrote:
+> Add documentation for KUnit, the Linux kernel unit testing framework.
+> - Add intro and usage guide for KUnit
+> - Add API reference
 > 
-> @@ -326,6 +356,10 @@ int ima_appraise_measurement(enum ima_hooks func,
->         case INTEGRITY_UNKNOWN:
->                 break;
->         case INTEGRITY_NOXATTRS:        /* No EVM protected xattrs. */
-> +               /* It's fine not to have xattrs when using a modsig. */
-> +               if (try_modsig)
-> +                       break;
-> +               /* fall through */
->         case INTEGRITY_NOLABEL:         /* No security.evm xattr. */
->                 cause = "missing-HMAC";
->                 goto out;
-> @@ -340,6 +374,14 @@ int ima_appraise_measurement(enum ima_hooks func,
->                 rc = xattr_verify(func, iint, xattr_value, xattr_len, &status,
->                                   &cause);
->  
-> +       /*
-> +        * If we have a modsig and either no imasig or the imasig's key isn't
-> +        * known, then try verifying the modsig.
-> +        */
-> +       if (status != INTEGRITY_PASS && try_modsig &&
-> +           (!xattr_value || rc == -ENOKEY))
-> +               rc = modsig_verify(func, modsig, &status, &cause);
+> Signed-off-by: Felix Guo <felixguoxiuping@gmail.com>
+> Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+> ---
+> Changes Since Last Revision:
+>  - Addressed reference to incorrect number of sections, as per Randy's
+>    comment.
+>  - Make section underlines same length as the section title, as per
+>    Randy's comments.
+> ---
+>  Documentation/index.rst           |   1 +
+>  Documentation/kunit/api/index.rst |  16 +
+>  Documentation/kunit/api/test.rst  |  14 +
+>  Documentation/kunit/faq.rst       |  62 ++++
+>  Documentation/kunit/index.rst     |  79 ++++
+>  Documentation/kunit/start.rst     | 180 ++++++++++
+>  Documentation/kunit/usage.rst     | 575 ++++++++++++++++++++++++++++++
 
-EVM protects other security xattrs, not just security.ima, if they
-exist.  As a result, evm_verifyxattr() could pass based on the other
-security xattrs.
+Certainly it's great to see all this documentation coming with this
+feature!
 
-Mimi
+Naturally, though, I have one request: I'd rather not see this at the top
+level, which is more than crowded enough as it is.  Can this material
+please go into the development tools book, alongside the kselftest
+documentation?
 
-> +
->  out:
->         /*
->          * File signatures on some filesystems can not be properly verified.
+Thanks,
 
+jon
