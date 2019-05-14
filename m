@@ -1,76 +1,111 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-3.2 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	FSL_HELO_FAKE,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7FF4F7D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 14 May 2019 06:57:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E40787D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 14 May 2019 07:09:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726360AbfENG57 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 14 May 2019 02:57:59 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:53948 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726314AbfENG57 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 May 2019 02:57:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=v6APzDCScyQRGBUkB7LKS/TbLCe8zxe216BVyYqK3ns=; b=RF2Lq0gfAM4omh5yrcevmJcVC
-        ZUkrfPEy9aQM9id/jJJWAZOURvPYMFDcmoO3MoAh3BPSsiihL7g05UP5KRY3E43AcCvrGgVBL5DGM
-        GwGXgqAf8drGPoBXMbgsJcYnOKoGK/xxPPKsPdIk0q24oj68lr7LkXgBGu20PUJw8vgrMYfI0b0ai
-        0q7aIdfi+1HQBEXB/OhXVr77sKFYoIui69swPHN1UUAqUy48HssgvHEiwHZgAqjnYlMQwCIE9rTXq
-        sYqILbYIekuTXBMuFfkorK2wKBbKk82Xz5be3Su/MHXyHQRfMpWahH6khzp2m/rQ8lsL0tdiJ2UX1
-        oksjnH9/Q==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hQRMj-0002fe-RX; Tue, 14 May 2019 06:56:46 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 9F1E72029F87A; Tue, 14 May 2019 08:56:43 +0200 (CEST)
-Date:   Tue, 14 May 2019 08:56:43 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Brendan Higgins <brendanhiggins@google.com>
-Cc:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
-        keescook@google.com, kieran.bingham@ideasonboard.com,
-        mcgrof@kernel.org, robh@kernel.org, sboyd@kernel.org,
-        shuah@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
-        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
-        amir73il@gmail.com, dan.carpenter@oracle.com,
-        dan.j.williams@intel.com, daniel@ffwll.ch, jdike@addtoit.com,
-        joel@jms.id.au, julia.lawall@lip6.fr, khilman@baylibre.com,
-        knut.omang@oracle.com, logang@deltatee.com, mpe@ellerman.id.au,
-        pmladek@suse.com, rdunlap@infradead.org, richard@nod.at,
-        rientjes@google.com, rostedt@goodmis.org, wfg@linux.intel.com,
-        kbuild test robot <lkp@intel.com>
-Subject: Re: [PATCH v3 08/18] objtool: add kunit_try_catch_throw to the
- noreturn list
-Message-ID: <20190514065643.GC2589@hirez.programming.kicks-ass.net>
-References: <20190514054251.186196-1-brendanhiggins@google.com>
- <20190514054251.186196-9-brendanhiggins@google.com>
+        id S1726109AbfENHJk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 14 May 2019 03:09:40 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:41285 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725946AbfENHJk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 May 2019 03:09:40 -0400
+Received: by mail-wr1-f65.google.com with SMTP id d12so17828880wrm.8;
+        Tue, 14 May 2019 00:09:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=mdlc9MTtwlwuiFWHHDc7Cbg8Rd7zeI6w6ebTpyjJjb4=;
+        b=eqQ6JOUcpdrU3mHf/8l4OwyMi1FRiJ1u2jCZkCh3t48j+tb6i+oCFePpPC69p6n7XL
+         wcEDoD5pQH30xxN908M9mUcba4IraYCzTxqqDCicLQJ1edxIpUAhP1jH4fcEMSiKAHz0
+         9rkAap4vd+LuLCo2ES1z7yMH0/bxKI3x91rHWO9iDPFKC8WyTuzUF4RTrSGaTd4gffND
+         eAvgzzZ/owqTGvE1af+wX3GUhfr1G44VFOu4Q60whhEEpt8DhPs76cXsC/ELC3AKVb7a
+         gS9KMsiIxDeI32KcV0SjVe3TgX/JQYB0Jhz4JEXKhJB6F/AA+nf0cTunAc/AWDT2qwjx
+         CgFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=mdlc9MTtwlwuiFWHHDc7Cbg8Rd7zeI6w6ebTpyjJjb4=;
+        b=gihP3lF+sk+l8xE79ROUm54/MWpm7rexQERuop8Qh07ikkDzps1MWgNMWxhRigq0Z5
+         WMwonman1r9PX4hTkLpurpSkmVi45qA4N7pKK42RkGCSpVEXB6PrwB8KCJuA10H68XKT
+         oo3tf6XmTXCcBr+3g7ISFAxiBSGcHNHWQnK4Jj+XuDS6hI6BX41tPcCAbHlDGk0xGSLf
+         ScuAK6TgCeEmZdjFqcc1j8DnWdOqDMIA4lSgWG2zlVTZe7fsIbP7smP9vHMszJv3pRfp
+         f1C6+cIYmmcZgMcp5OKzgFcIboATrph1RM3hX4gyTz5MxGBD/1ZHIoqf1/NLwtAc76li
+         0Nrg==
+X-Gm-Message-State: APjAAAVcltVxzKYsCYnzl4R7O3eo0z3VGmYrYZmKw7BzohEO99CDrX/D
+        AyIsSrNQshCuQ6VrMkj95EE=
+X-Google-Smtp-Source: APXvYqya4yupYUE/EnzUln2j44s3nkubt/Rim3Kv0GGeWTlPYqe/xVCiF+faibvPCyUipklXseWWDA==
+X-Received: by 2002:adf:f4c5:: with SMTP id h5mr3544560wrp.268.1557817778433;
+        Tue, 14 May 2019 00:09:38 -0700 (PDT)
+Received: from gmail.com (2E8B0CD5.catv.pool.telekom.hu. [46.139.12.213])
+        by smtp.gmail.com with ESMTPSA id a10sm8539844wrm.94.2019.05.14.00.09.36
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 14 May 2019 00:09:37 -0700 (PDT)
+Date:   Tue, 14 May 2019 09:09:35 +0200
+From:   Ingo Molnar <mingo@kernel.org>
+To:     Zhenzhong Duan <zhenzhong.duan@oracle.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        paulmck@linux.ibm.com, josh@joshtriplett.org, rostedt@goodmis.org,
+        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+        joel@joelfernandes.org, corbet@lwn.net, tglx@linutronix.de,
+        gregkh@linuxfoundation.org, keescook@chromium.org,
+        srinivas.eeda@oracle.com
+Subject: Re: [PATCH v2] doc: kernel-parameters.txt: fix documentation of
+ nmi_watchdog parameter
+Message-ID: <20190514070935.GA18949@gmail.com>
+References: <1557632127-16717-1-git-send-email-zhenzhong.duan@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190514054251.186196-9-brendanhiggins@google.com>
+In-Reply-To: <1557632127-16717-1-git-send-email-zhenzhong.duan@oracle.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 13, 2019 at 10:42:42PM -0700, Brendan Higgins wrote:
-> This fixes the following warning seen on GCC 7.3:
->   kunit/test-test.o: warning: objtool: kunit_test_unsuccessful_try() falls through to next function kunit_test_catch()
-> 
 
-What is that file and function; no kernel tree near me seems to have
-that.
+* Zhenzhong Duan <zhenzhong.duan@oracle.com> wrote:
+
+> The default behavior of hardlockup depends on the config of
+> CONFIG_BOOTPARAM_HARDLOCKUP_PANIC.
+> 
+> Fix the description of nmi_watchdog to make it clear.
+> 
+> Signed-off-by: Zhenzhong Duan <zhenzhong.duan@oracle.com>
+> Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> ---
+>  v2: fix description using words suggested by Steven Rostedt
+> 
+>  Documentation/admin-guide/kernel-parameters.txt | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 08df588..b9d4358 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2805,8 +2805,9 @@
+>  			0 - turn hardlockup detector in nmi_watchdog off
+>  			1 - turn hardlockup detector in nmi_watchdog on
+>  			When panic is specified, panic when an NMI watchdog
+> -			timeout occurs (or 'nopanic' to override the opposite
+> -			default). To disable both hard and soft lockup detectors,
+> +			timeout occurs (or 'nopanic' to not panic on an NMI
+> +			watchdog, if CONFIG_BOOTPARAM_HARDLOCKUP_PANIC is set)
+> +			To disable both hard and soft lockup detectors,
+>  			please see 'nowatchdog'.
+>  			This is useful when you use a panic=... timeout and
+>  			need the box quickly up again.
+
+Acked-by: Ingo Molnar <mingo@kernel.org>
+
+Thanks,
+
+	Ingo
