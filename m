@@ -1,108 +1,180 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 180DF7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 14 May 2019 10:43:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A3C667D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 14 May 2019 12:05:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726362AbfENKnQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 14 May 2019 06:43:16 -0400
-Received: from mx2.suse.de ([195.135.220.15]:39300 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725893AbfENKnQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 14 May 2019 06:43:16 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id D4BF7AC3F;
-        Tue, 14 May 2019 10:43:13 +0000 (UTC)
-Date:   Tue, 14 May 2019 12:43:11 +0200
-From:   Cyril Hrubis <chrubis@suse.cz>
-To:     Yuri Norov <ynorov@marvell.com>
-Cc:     Andreas Schwab <schwab@suse.de>, Yury Norov <yury.norov@gmail.com>,
-        "ltp@lists.linux.it" <ltp@lists.linux.it>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        Steve Ellcey <sellcey@caviumnetworks.com>,
-        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
-        Alexander Graf <agraf@suse.de>,
-        Bamvor Zhangjian <bamv2005@gmail.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Adam Borowski <kilobyte@angband.pl>,
-        Manuel Montezelo <manuel.montezelo@gmail.com>,
-        James Hogan <james.hogan@imgtec.com>,
-        Chris Metcalf <cmetcalf@mellanox.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrew Pinski <pinskia@gmail.com>,
-        Lin Yongting <linyongting@huawei.com>,
-        Alexey Klimov <klimov.linux@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
-        Florian Weimer <fweimer@redhat.com>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Nathan_Lynch <Nathan_Lynch@mentor.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Christoph Muellner <christoph.muellner@theobroma-systems.com>
-Subject: Re: [LTP] [EXT] Re: [PATCH v9 00/24] ILP32 for ARM64
-Message-ID: <20190514104311.GA24708@rei>
-References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
- <20190508225900.GA14091@yury-thinkpad>
- <mvmtvdyoi33.fsf@suse.de>
- <MN2PR18MB30865B950D85C6463EB0E1D4CB0F0@MN2PR18MB3086.namprd18.prod.outlook.com>
+        id S1726510AbfENMFT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 14 May 2019 08:05:19 -0400
+Received: from mail-io1-f67.google.com ([209.85.166.67]:33395 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726347AbfENMFT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 May 2019 08:05:19 -0400
+Received: by mail-io1-f67.google.com with SMTP id z4so12813578iol.0
+        for <linux-doc@vger.kernel.org>; Tue, 14 May 2019 05:05:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3cCt7Fv9PrSN+POfdDA9BhvmV9/m6Z9B8cT0V9l7bcU=;
+        b=a7BcpiAa3cXS6NukeVFgCH7xf3ARmd8J6e/ULZ0a8xqTBwTNaq+N8QguChZh3uzW7f
+         kWHSY7qQUZbeMlUwXYdXunYt1ZQd2SKBDUTXd3jKW+KmrJ1DqqIRVtLYOVb1f+tEQL2N
+         W7DqiSEqrT+k9VDAEFt9iTN+c6I6bW1EG18JM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3cCt7Fv9PrSN+POfdDA9BhvmV9/m6Z9B8cT0V9l7bcU=;
+        b=NcU059cO87brX/EoCkpxib0N908D5DqrIL/pCrDQbpt8Y0nk32t4wU1vvSsC7niBAr
+         GXXL+HEOmdVdIg+qO+s8eKdx4/bucDAxzS3V9TM1l0+vvYeoWK3dUS1juvMszx12LY3N
+         s+gzF9NihYzY9rtik8Ezw7x4Dd7+p6sx+LJCRfoC98q44y4DS9+aNEy0DwXicw4z0C3m
+         hHoylhhMrxomQph6jS2y+bfvscl83Jtj+DukY9lLMCdgnHUSwJZYwQ02w5kd2uLPKi/U
+         5ZgoiPwoTk2Yuh/bK5E90WzOQPumGxRN2CbDKyVXBuZMmmXf47jeSz29A8IStikA8kKU
+         V1fw==
+X-Gm-Message-State: APjAAAV9pXdOs/UxjuEx6fVhEfh7585QIU/rRJpe2Ch2Mi0+SSoVtdgl
+        1a7N6E2tNeg/wUJfoO65ypp3TCpyqqZN28s+BQiJ1g==
+X-Google-Smtp-Source: APXvYqyhBqCsjjVPPpuo20Er/14b4Noh22uMAdPO6o3WUMvHLuILgjBTMJK3Dh0BqwvOEYcjDaa/KDS4xlT8iYcmIUQ=
+X-Received: by 2002:a6b:b654:: with SMTP id g81mr3614153iof.34.1557835518050;
+ Tue, 14 May 2019 05:05:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <MN2PR18MB30865B950D85C6463EB0E1D4CB0F0@MN2PR18MB3086.namprd18.prod.outlook.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <580e092f-fa4e-eedc-9e9a-a57dd085f0a6@gmail.com>
+ <20190509032017.GA29703@mit.edu> <7fd35df81c06f6eb319223a22e7b93f29926edb9.camel@oracle.com>
+ <20190509133551.GD29703@mit.edu> <ECADFF3FD767C149AD96A924E7EA6EAF9770D591@USCULXMSG01.am.sony.com>
+ <875c546d-9713-bb59-47e4-77a1d2c69a6d@gmail.com> <20190509214233.GA20877@mit.edu>
+ <80c72e64-2665-bd51-f78c-97f50f9a53ba@gmail.com> <20190511173344.GA8507@mit.edu>
+ <20190513144451.GQ17751@phenom.ffwll.local> <20190514060433.GA181462@google.com>
+In-Reply-To: <20190514060433.GA181462@google.com>
+From:   Daniel Vetter <daniel@ffwll.ch>
+Date:   Tue, 14 May 2019 14:05:05 +0200
+Message-ID: <CAKMK7uHqtSF_sazJTbFL+xmQJRk4iwukCKZHoDHhsKkLXk=ECQ@mail.gmail.com>
+Subject: Re: [PATCH v2 00/17] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+To:     Brendan Higgins <brendanhiggins@google.com>
+Cc:     "Theodore Ts'o" <tytso@mit.edu>,
+        Frank Rowand <frowand.list@gmail.com>, Tim.Bird@sony.com,
+        Knut Omang <knut.omang@oracle.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@google.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Rob Herring <robh@kernel.org>, sboyd@kernel.org,
+        Shuah Khan <shuah@kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>, linux-nvdimm@lists.01.org,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Dan Williams <dan.j.williams@intel.com>, jdike@addtoit.com,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Petr Mladek <pmladek@suse.com>,
+        Richard Weinberger <richard@nod.at>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi!
-> > There is a problem with the stack size accounting during execve when
-> > there is no stack limit:
+On Tue, May 14, 2019 at 8:04 AM Brendan Higgins
+<brendanhiggins@google.com> wrote:
+>
+> On Mon, May 13, 2019 at 04:44:51PM +0200, Daniel Vetter wrote:
+> > On Sat, May 11, 2019 at 01:33:44PM -0400, Theodore Ts'o wrote:
+> > > On Fri, May 10, 2019 at 02:12:40PM -0700, Frank Rowand wrote:
+> > > > However, the reply is incorrect.  Kselftest in-kernel tests (which
+> > > > is the context here) can be configured as built in instead of as
+> > > > a module, and built in a UML kernel.  The UML kernel can boot,
+> > > > running the in-kernel tests before UML attempts to invoke the
+> > > > init process.
+> > >
+> > > Um, Citation needed?
+> > >
+> > > I don't see any evidence for this in the kselftest documentation, nor
+> > > do I see any evidence of this in the kselftest Makefiles.
+> > >
+> > > There exists test modules in the kernel that run before the init
+> > > scripts run --- but that's not strictly speaking part of kselftests,
+> > > and do not have any kind of infrastructure.  As noted, the
+> > > kselftests_harness header file fundamentally assumes that you are
+> > > running test code in userspace.
 > >
-> > $ ulimit -s
-> > 8192
-> > $ ./hello.ilp32 
-> > Hello World!
-> > $ ulimit -s unlimited
-> > $ ./hello.ilp32 
-> > Segmentation fault
-> > $ strace ./hello.ilp32 
-> > execve("./hello.ilp32", ["./hello.ilp32"], 0xfffff10548f0 /* 77 vars */) = -1 ENOMEM (Cannot allocate memory)
-> > +++ killed by SIGSEGV +++
-> > Segmentation fault (core dumped)
+> > Yeah I really like the "no userspace required at all" design of kunit,
+> > while still collecting results in a well-defined way (unless the current
+> > self-test that just run when you load the module, with maybe some
+> > kselftest ad-hoc wrapper around to collect the results).
 > >
-> > Andreas.
-> 
-> Thanks Andreas, I will take a look. Do we have such test in LTP?
+> > What I want to do long-term is to run these kernel unit tests as part of
+> > the build-testing, most likely in gitlab (sooner or later, for drm.git
+>
+> Totally! This is part of the reason I have been insisting on a minimum
+> of UML compatibility for all unit tests. If you can suffiently constrain
+> the environment that is required for tests to run in, it makes it much
+> easier not only for a human to run your tests, but it also makes it a
+> lot easier for an automated service to be able to run your tests.
+>
+> I actually have a prototype presubmit already working on my
+> "stable/non-upstream" branch. You can checkout what presubmit results
+> look like here[1][2].
 
-We do have a test that we can run a binary with very small stack size
-i.e. 512kB but there does not seem to be anything that would catch this
-specific problem.
+ug gerrit :-)
 
-Can you please open an issue and describe how to reproduce the problem
-at our github tracker:
+> > only ofc). So that people get their pull requests (and patch series, we
+> > have some ideas to tie this into patchwork) automatically tested for this
+>
+> Might that be Snowpatch[3]? I talked to Russell, the creator of Snowpatch,
+> and he seemed pretty open to collaboration.
+>
+> Before I heard about Snowpatch, I had an intern write a translation
+> layer that made Prow (the presubmit service that I used in the prototype
+> above) work with LKML[4].
 
-https://github.com/linux-test-project/ltp/issues
+There's about 3-4 forks/clones of patchwork. snowpatch is one, we have
+a different one on freedesktop.org. It's a bit a mess :-/
 
-Then we can create testcase based on that reproducer later on.
+> I am not married to either approach, but I think between the two of
+> them, most of the initial legwork has been done to make presubmit on
+> LKML a reality.
+
+We do have presubmit CI working already with our freedesktop.org
+patchwork. The missing glue is just tying that into gitlab CI somehow
+(since we want to unify build testing more and make it easier for
+contributors to adjust things).
+-Daniel
+
+> > super basic stuff.
+>
+> I am really excited to hear back on what you think!
+>
+> Cheers!
+>
+> [1] https://kunit-review.googlesource.com/c/linux/+/1509/10#message-7bfa40efb132e15c8388755c273837559911425c
+> [2] https://kunit-review.googlesource.com/c/linux/+/1509/10#message-a6784496eafff442ac98fb068bf1a0f36ee73509
+> [3] https://developer.ibm.com/open/projects/snowpatch/
+> [4] https://kunit.googlesource.com/prow-lkml/
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+
 
 -- 
-Cyril Hrubis
-chrubis@suse.cz
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
