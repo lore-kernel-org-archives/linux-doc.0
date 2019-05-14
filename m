@@ -1,159 +1,174 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-11.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FSL_HELO_FAKE,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2A1767D08A
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 14 May 2019 08:23:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A1E2E7D8A4
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 14 May 2019 08:38:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726078AbfENIXn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 14 May 2019 04:23:43 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47524 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725985AbfENIXn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 May 2019 04:23:43 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x4E8MKHt081919
-        for <linux-doc@vger.kernel.org>; Tue, 14 May 2019 04:23:42 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2sfqjex4ek-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Tue, 14 May 2019 04:23:41 -0400
-Received: from localhost
-        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Tue, 14 May 2019 09:23:39 +0100
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
-        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Tue, 14 May 2019 09:23:37 +0100
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x4E8Na4951970092
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 14 May 2019 08:23:36 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 12FFF52051;
-        Tue, 14 May 2019 08:23:36 +0000 (GMT)
-Received: from rapoport-lnx (unknown [9.148.8.112])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id A12D952050;
-        Tue, 14 May 2019 08:23:34 +0000 (GMT)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Tue, 14 May 2019 11:23:34 +0300
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, Mike Rapoport <rppt@linux.ibm.com>
-Subject: [PATCH] docs: reorder memory-hotplug documentation
-Date:   Tue, 14 May 2019 11:23:33 +0300
-X-Mailer: git-send-email 2.7.4
-X-TM-AS-GCONF: 00
-x-cbid: 19051408-4275-0000-0000-000003348A71
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19051408-4276-0000-0000-00003844097D
-Message-Id: <1557822213-19058-1-git-send-email-rppt@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-14_05:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1905140062
+        id S1726220AbfENIi2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 14 May 2019 04:38:28 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:42349 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726109AbfENIi1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 May 2019 04:38:27 -0400
+Received: by mail-pf1-f195.google.com with SMTP id 13so8749701pfw.9
+        for <linux-doc@vger.kernel.org>; Tue, 14 May 2019 01:38:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=igN9DgvcsdnnQcED87MufBXYemaWzI/btuCv4zC86yk=;
+        b=GyRIMQHWrRSVtwP9IB5pyhtzqC4lPgeL0Y6beT6Qu4IZvr3gGiC9moimim+D9LkzvQ
+         MEEZopp3jLTd3NW9rr2av+zcSv5sG6yxATJxZch96iyR7Vt5O8iVVR9KeDDdv3u44RDl
+         UaYKlPaw3B25/ilDWdybyms52YrdOWkcCimnCd0rzMk7lbnW3wG7xJD+7Y1cPxm3eo8x
+         /IcHai8RyaPGpuO10KNBGL34tDo7TgLJzFqFXMzrzaYkd6OZrO9RZjsPnFXRWFxr8t0z
+         83455vvpULAaytz3l+5A0IgFjdYbPuwM+AftAn4nKNFSHLn0MwKll6hrPVQk06gNdVTQ
+         mAhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=igN9DgvcsdnnQcED87MufBXYemaWzI/btuCv4zC86yk=;
+        b=fXnBcgDOTLzFNgvD7Wb3SD47EkeNhVQoPxLi7yojiIu477nL5HQVvWSNkbls03hpb3
+         8SRJs3RiS3eVJ2P+xGIJUnl00h2eclZnipDAYHBghrYkElJyXsmoiu2atdPZ/279zrky
+         mujzsYVGfLZckZiABMP98Pjz+k7JeUuE4oFfJVGXhBpGveaN7IGvXOHiM/rGJubvRvCo
+         DUTcf60eS5OMhviNQWpl8cRxHl0ExpE44gQ50YfWyl0fp9UsrMAFFvPnpZtaYMSyt+Lm
+         +Wjc7BN7IAWifYyAmGKhw7Hh6O/mJpuI5GkSLxY/8aVJrunIpO9JzUy1F9ZO4Nuf+rb0
+         JJzQ==
+X-Gm-Message-State: APjAAAWUittoaM7QnGuDZYucCOzxzw6yM3vFFiO/1FZqHe6tGVfifG6L
+        3PO6xI7W0vfDUUlt0oRKIrC77w==
+X-Google-Smtp-Source: APXvYqyqn2NOwOEZgtTbGy9WkrWx9lpJrCvlzVQwgRZJjBLJCvhNFSg43dsH15YYKmWUEQTHx4ScMw==
+X-Received: by 2002:a65:578a:: with SMTP id b10mr20396367pgr.161.1557823106177;
+        Tue, 14 May 2019 01:38:26 -0700 (PDT)
+Received: from google.com ([2620:15c:2cd:2:d714:29b4:a56b:b23b])
+        by smtp.gmail.com with ESMTPSA id j184sm18479757pge.83.2019.05.14.01.38.24
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 14 May 2019 01:38:25 -0700 (PDT)
+Date:   Tue, 14 May 2019 01:38:19 -0700
+From:   Brendan Higgins <brendanhiggins@google.com>
+To:     Frank Rowand <frowand.list@gmail.com>
+Cc:     Logan Gunthorpe <logang@deltatee.com>,
+        Theodore Ts'o <tytso@mit.edu>, Tim.Bird@sony.com,
+        knut.omang@oracle.com, gregkh@linuxfoundation.org,
+        keescook@google.com, kieran.bingham@ideasonboard.com,
+        mcgrof@kernel.org, robh@kernel.org, sboyd@kernel.org,
+        shuah@kernel.org, devicetree@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-um@lists.infradead.org, Alexander.Levin@microsoft.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com,
+        dan.j.williams@intel.com, daniel@ffwll.ch, jdike@addtoit.com,
+        joel@jms.id.au, julia.lawall@lip6.fr, khilman@baylibre.com,
+        mpe@ellerman.id.au, pmladek@suse.com, richard@nod.at,
+        rientjes@google.com, rostedt@goodmis.org, wfg@linux.intel.com
+Subject: Re: [PATCH v2 00/17] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+Message-ID: <20190514083819.GC230665@google.com>
+References: <20190509133551.GD29703@mit.edu>
+ <ECADFF3FD767C149AD96A924E7EA6EAF9770D591@USCULXMSG01.am.sony.com>
+ <875c546d-9713-bb59-47e4-77a1d2c69a6d@gmail.com>
+ <20190509214233.GA20877@mit.edu>
+ <b09ba170-229b-fde4-3e9a-e50d6ab4c1b5@deltatee.com>
+ <20190509233043.GC20877@mit.edu>
+ <8914afef-1e66-e6e3-f891-5855768d3018@deltatee.com>
+ <6d6e91ec-33d3-830b-4895-4d7a20ba7d45@gmail.com>
+ <3faa022b-0b70-0375-aa6d-12ea83a2671f@deltatee.com>
+ <d148a554-2a71-a5a4-4bb2-d84d2c483277@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d148a554-2a71-a5a4-4bb2-d84d2c483277@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The "Locking Internals" section of the memory-hotplug documentation is
-duplicated in admin-guide and core-api. Drop the admin-guide copy as
-locking internals does not belong there.
+On Fri, May 10, 2019 at 03:13:40PM -0700, Frank Rowand wrote:
+> On 5/10/19 9:17 AM, Logan Gunthorpe wrote:
+> > 
+> > 
+> > On 2019-05-09 11:18 p.m., Frank Rowand wrote:
+> > 
+> >> YES, kselftest has in-kernel tests.  (Excuse the shouting...)
+> > 
+> > Cool. From my cursory look, in my opinion, these would be greatly
+> > improved by converting them to the framework Brendan is proposing for Kunit.
+> > 
+> >>> If they do exists, it seems like it would make sense to
+> >>> convert those to kunit and have Kunit tests run-able in a VM or
+> >>> baremetal instance.
+> >>
+> >> They already run in a VM.
+> >>
+> >> They already run on bare metal.
+> >>
+> >> They already run in UML.
+> > 
+> > Simply being able to run in UML is not the only thing here. Kunit
+> > provides the infrastructure to quickly build, run and report results for
+> > all the tests from userspace without needing to worry about the details
+> > of building and running a UML kernel, then parsing dmesg to figure out
+> > what tests were run or not.
+> 
+> Yes.  But that is not the only environment that KUnit must support to be
+> of use to me for devicetree unittests (this is not new, Brendan is quite
+> aware of my needs and is not ignoring them).
+> 
+> 
+> >> This is not to say that KUnit does not make sense.  But I'm still trying
+> >> to get a better description of the KUnit features (and there are
+> >> some).
+> > 
+> > So read the patches, or the documentation[1] or the LWN article[2]. It's
+> > pretty well described in a lot of places -- that's one of the big
+> > advantages of it. In contrast, few people seems to have any concept of
+> > what kselftests are or where they are or how to run them (I was
+> > surprised to find the in-kernel tests in the lib tree).
+> > 
+> > Logan
+> > 
+> > [1] https://google.github.io/kunit-docs/third_party/kernel/docs/
+> > [2] https://lwn.net/Articles/780985/
+> 
+> I have been following the RFC versions.  I have installed the RFC patches
+> and run them to the extent that they worked (devicetree unittests were
+> a guinea pig for test conversion in the RFC series, but the converted
+> tests did not work).  I read portions of the code while trying to
+> understand the unittests conversion.  I made review comments based on
+> the portion of the code that I did read.  I have read the documentation
+> (very nice btw, as I have said before, but should be expanded).
+> 
+> My comment is that the description to submit the patch series should
+> be fuller -- KUnit potentially has a lot of nice attributes, and I
+> still think I have only scratched the surface.  The average reviewer
+> may have even less in-depth knowledge than I do.  And as I have
+> commented before, I keep diving into areas that I had no previous
+> experience with (such as kselftest) to be able to properly judge this
+> patch series.
 
-While on it, move the "Future Work" section to the core-api part.
+Thanks for the praise! That means a lot coming from you!
 
-Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
----
- Documentation/admin-guide/mm/memory-hotplug.rst | 51 -------------------------
- Documentation/core-api/memory-hotplug.rst       | 11 ++++++
- 2 files changed, 11 insertions(+), 51 deletions(-)
+I really cannot disagree that I could use more documentation. You can
+pretty much always use more documentation. Nevertheless, is there a
+particular part of the documentation that you think it lacking?
 
-diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
-index 5c4432c..72090ba 100644
---- a/Documentation/admin-guide/mm/memory-hotplug.rst
-+++ b/Documentation/admin-guide/mm/memory-hotplug.rst
-@@ -391,54 +391,3 @@ Physical memory remove
- Need more implementation yet....
-  - Notification completion of remove works by OS to firmware.
-  - Guard from remove if not yet.
--
--
--Locking Internals
--=================
--
--When adding/removing memory that uses memory block devices (i.e. ordinary RAM),
--the device_hotplug_lock should be held to:
--
--- synchronize against online/offline requests (e.g. via sysfs). This way, memory
--  block devices can only be accessed (.online/.state attributes) by user
--  space once memory has been fully added. And when removing memory, we
--  know nobody is in critical sections.
--- synchronize against CPU hotplug and similar (e.g. relevant for ACPI and PPC)
--
--Especially, there is a possible lock inversion that is avoided using
--device_hotplug_lock when adding memory and user space tries to online that
--memory faster than expected:
--
--- device_online() will first take the device_lock(), followed by
--  mem_hotplug_lock
--- add_memory_resource() will first take the mem_hotplug_lock, followed by
--  the device_lock() (while creating the devices, during bus_add_device()).
--
--As the device is visible to user space before taking the device_lock(), this
--can result in a lock inversion.
--
--onlining/offlining of memory should be done via device_online()/
--device_offline() - to make sure it is properly synchronized to actions
--via sysfs. Holding device_hotplug_lock is advised (to e.g. protect online_type)
--
--When adding/removing/onlining/offlining memory or adding/removing
--heterogeneous/device memory, we should always hold the mem_hotplug_lock in
--write mode to serialise memory hotplug (e.g. access to global/zone
--variables).
--
--In addition, mem_hotplug_lock (in contrast to device_hotplug_lock) in read
--mode allows for a quite efficient get_online_mems/put_online_mems
--implementation, so code accessing memory can protect from that memory
--vanishing.
--
--
--Future Work
--===========
--
--  - allowing memory hot-add to ZONE_MOVABLE. maybe we need some switch like
--    sysctl or new control file.
--  - showing memory block and physical device relationship.
--  - test and make it better memory offlining.
--  - support HugeTLB page migration and offlining.
--  - memmap removing at memory offline.
--  - physical remove memory.
-diff --git a/Documentation/core-api/memory-hotplug.rst b/Documentation/core-api/memory-hotplug.rst
-index de7467e..e08be1c 100644
---- a/Documentation/core-api/memory-hotplug.rst
-+++ b/Documentation/core-api/memory-hotplug.rst
-@@ -123,3 +123,14 @@ In addition, mem_hotplug_lock (in contrast to device_hotplug_lock) in read
- mode allows for a quite efficient get_online_mems/put_online_mems
- implementation, so code accessing memory can protect from that memory
- vanishing.
-+
-+Future Work
-+===========
-+
-+  - allowing memory hot-add to ZONE_MOVABLE. maybe we need some switch like
-+    sysctl or new control file.
-+  - showing memory block and physical device relationship.
-+  - test and make it better memory offlining.
-+  - support HugeTLB page migration and offlining.
-+  - memmap removing at memory offline.
-+  - physical remove memory.
--- 
-2.7.4
+It sounds like there was a pretty long discussion here about, a number
+of different things.
 
+Do you want a better description of what unit testing is and how KUnit
+helps make it possible?
+
+Do you want more of an explanation distinguishing KUnit from kselftest?
+How so?
+
+Do you just want better documentation on how to test the kernel? What
+tools we have at our disposal and when to use what tools?
+
+Thanks!
