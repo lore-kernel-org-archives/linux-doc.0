@@ -1,163 +1,110 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+X-Spam-Status: No, score=-11.0 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FSL_HELO_FAKE,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E350B7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 14 May 2019 23:03:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7A1A57D912
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 14 May 2019 23:19:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726348AbfENXDL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 14 May 2019 19:03:11 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:44188 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726251AbfENXDL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 May 2019 19:03:11 -0400
-Received: by mail-pl1-f193.google.com with SMTP id c5so311702pll.11;
-        Tue, 14 May 2019 16:03:10 -0700 (PDT)
+        id S1726515AbfENXTJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 14 May 2019 19:19:09 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:44070 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726416AbfENXTJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 May 2019 19:19:09 -0400
+Received: by mail-pl1-f196.google.com with SMTP id c5so328177pll.11
+        for <linux-doc@vger.kernel.org>; Tue, 14 May 2019 16:19:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=google.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=4xuOhafijhTBKjPcHvwICr8fCf3XDF6k7moLbg3FXwg=;
-        b=f+iki57StuAV+FkmK28LEJUx6eRLXHSLyK478LBU5ugMCQKEKAZdX23XdU0hTop3GI
-         xGJewyrbS+bCN0qDv8n7PLgw3R8cXpE0K/wG2jRzQacmvbhYfW7oSLUF0VZeH68ddsoC
-         qCNTE4tz3BD6ag5z4FRz+GrqR1A+UYG9qKbww7xnZsjPhVhqd+6O8objP/SAgY/BQF1Q
-         ivbwlEgshLeExC9RVBfCEAUIXWs05qZfaYgSJfxqkwNiFZ85iJBc25BjSEsCaj8LJ185
-         thGVy5+SA6YMXpJunfpxoxvi7Ld/QsAGJr58tOGd2mFNOsejpsJWS0s/mxLb0Izfo4iT
-         76Gw==
+        bh=65cWsglVoepzFlykZ42+abk0YI6VmpB8isURvrndfio=;
+        b=Bg39hYCrdxq9ZvR+2i/HlXSRaq6orpc1oOB8WF33oCVFV3rNh0CexWyS1Z8QPqlm8F
+         634lbyY40ksqDjssWKmNVtGI+1F3APRXwSAL0XqoS1nJrYkqeYOkCUNp8JWFWm6ZNg2N
+         3YnG2RckdXyh7Hd/JvDkJlfyEQP3VpBJF0SPvweC+YvdIQjG/OVFu00sC5S5PmUtedb0
+         57OXt1xXLQFMEhV58WldO2KsTL77idwyKmIM1odUUjPKE4+37YyS67kBXQTSZPy0lER0
+         iehTg4wcOiUIvCRTLfByhOie4AbWZpgc/tuXOmP4dOA/iaDvGuiNcBG7UtbS06g67YaV
+         pQVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=4xuOhafijhTBKjPcHvwICr8fCf3XDF6k7moLbg3FXwg=;
-        b=b8VSCG2DEf4t8R2wEAGIfJSF4EQUNBIH/JgRKqv/Zl+I3t0bsd1Ya851h1lsGwITOn
-         Zf7cVmYtFfAW6yMeBSxi/OyThJrZeKcLCezpph7gLzIkFfNYMqqyXcCl8tzNej+B8Dyr
-         3tRGNHLd2+ajuccWRvjRsP7HEwf34iintT6MuYSPYz/DZghkb+/7z4N1+C8WLKAqyrLZ
-         C2xkpSn17MmmtmQ19DPyfQG4O1pVcFdzeKGuHYDElLsdUnz+K1GG59q0B5z7g1ntDCKy
-         2o9o1ZRF3yjuZUdyYk38/UtiXzQBbQejO+BxE5Bp9lqB32C+s/iLfgZ0J3UTKIub3sB5
-         lBsA==
-X-Gm-Message-State: APjAAAUOI13e5i5A8NB8cULdC95vGU44RKSmuHR3avVhONfM9q1m8EPI
-        YY12xSbzROj9HEBWavnflak=
-X-Google-Smtp-Source: APXvYqy3fmo7/ncm6lIHtrFpfQoSewVnPVoZDijQHrQxC4R9KBEXyV2Q9ZJU/PMMxrsLSU8w/4pXOg==
-X-Received: by 2002:a17:902:5983:: with SMTP id p3mr38930332pli.224.1557874990361;
-        Tue, 14 May 2019 16:03:10 -0700 (PDT)
-Received: from localhost ([2601:640:5:a19f:19d3:11c4:475e:3daa])
-        by smtp.gmail.com with ESMTPSA id l65sm238391pfb.7.2019.05.14.16.03.09
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 14 May 2019 16:03:09 -0700 (PDT)
-Date:   Tue, 14 May 2019 16:01:58 -0700
-From:   Yury Norov <yury.norov@gmail.com>
-To:     Cyril Hrubis <chrubis@suse.cz>
-Cc:     Yuri Norov <ynorov@marvell.com>, Andreas Schwab <schwab@suse.de>,
-        "ltp@lists.linux.it" <ltp@lists.linux.it>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Philipp Tomsich <philipp.tomsich@theobroma-systems.com>,
-        Joseph Myers <joseph@codesourcery.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        Steve Ellcey <sellcey@caviumnetworks.com>,
-        Prasun Kapoor <Prasun.Kapoor@caviumnetworks.com>,
-        Alexander Graf <agraf@suse.de>,
-        Bamvor Zhangjian <bamv2005@gmail.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Adam Borowski <kilobyte@angband.pl>,
-        Manuel Montezelo <manuel.montezelo@gmail.com>,
-        James Hogan <james.hogan@imgtec.com>,
-        Chris Metcalf <cmetcalf@mellanox.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrew Pinski <pinskia@gmail.com>,
-        Lin Yongting <linyongting@huawei.com>,
-        Alexey Klimov <klimov.linux@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
-        Florian Weimer <fweimer@redhat.com>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        Nathan_Lynch <Nathan_Lynch@mentor.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Ramana Radhakrishnan <ramana.gcc@googlemail.com>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Christoph Muellner <christoph.muellner@theobroma-systems.com>
-Subject: Re: [LTP] [EXT] Re: [PATCH v9 00/24] ILP32 for ARM64
-Message-ID: <20190514230158.GA6780@yury-thinkpad>
-References: <20180516081910.10067-1-ynorov@caviumnetworks.com>
- <20190508225900.GA14091@yury-thinkpad>
- <mvmtvdyoi33.fsf@suse.de>
- <MN2PR18MB30865B950D85C6463EB0E1D4CB0F0@MN2PR18MB3086.namprd18.prod.outlook.com>
- <20190514104311.GA24708@rei>
+        bh=65cWsglVoepzFlykZ42+abk0YI6VmpB8isURvrndfio=;
+        b=o/nXwU3W4fUy3m2YOVXn/Nz2pnIjtcA5cPb6VkDI5kIeXMPeZ/782NC1tmEOw5LKjk
+         2TkZYjV4eCmFyzDDEeXXqW9570MDBCEd9eGzsHgUWPdcdC6YQ08fCze6aghgXP/gC2aD
+         ft+tvwNHVwh6RmxZXOtq94M4NsMvllzG4NsuJe8U92A+7wmqw1g2QQ7aeAhG+8vW1jE9
+         cfwobsgCqNIRo0U2HlagINkHFdIkIczOQ8W8MvuHKi1XErHGiEDe3Pj9oikTXCwhcmT/
+         kEv6QRNTrU3tdY8VT6n/IhYT8LSRss8hvmv+SXAaZQvxAcR9VYd4HOwLBKQ8cO2diVnr
+         DodA==
+X-Gm-Message-State: APjAAAUVLaYS/R8NfFBLBFpYa4qasLLKQo49VXYgB0Oer5w+D1e5rfNH
+        WjPn6MWt1pQitOKCBKtthTnE4w==
+X-Google-Smtp-Source: APXvYqwRc6VN5ebH7uglXTpSRZvZHWA1IEE/QiHsPmobJB2SKK6EBwf8uUbYe/O8Vc0yLOYiPNp2/w==
+X-Received: by 2002:a17:902:5998:: with SMTP id p24mr23416476pli.9.1557875948193;
+        Tue, 14 May 2019 16:19:08 -0700 (PDT)
+Received: from google.com ([2620:15c:2cd:2:d714:29b4:a56b:b23b])
+        by smtp.gmail.com with ESMTPSA id p64sm253565pfp.72.2019.05.14.16.19.06
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 14 May 2019 16:19:07 -0700 (PDT)
+Date:   Tue, 14 May 2019 16:19:02 -0700
+From:   Brendan Higgins <brendanhiggins@google.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
+        keescook@google.com, kieran.bingham@ideasonboard.com,
+        mcgrof@kernel.org, robh@kernel.org, sboyd@kernel.org,
+        shuah@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com,
+        dan.j.williams@intel.com, daniel@ffwll.ch, jdike@addtoit.com,
+        joel@jms.id.au, julia.lawall@lip6.fr, khilman@baylibre.com,
+        knut.omang@oracle.com, logang@deltatee.com, mpe@ellerman.id.au,
+        pmladek@suse.com, rdunlap@infradead.org, richard@nod.at,
+        rientjes@google.com, rostedt@goodmis.org, wfg@linux.intel.com,
+        Felix Guo <felixguoxiuping@gmail.com>
+Subject: Re: [PATCH v3 15/18] Documentation: kunit: add documentation for
+ KUnit
+Message-ID: <20190514231902.GA12893@google.com>
+References: <20190514054251.186196-1-brendanhiggins@google.com>
+ <20190514054251.186196-16-brendanhiggins@google.com>
+ <20190514073422.4287267c@lwn.net>
+ <20190514180810.GA109557@google.com>
+ <20190514121623.0314bf07@lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190514104311.GA24708@rei>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20190514121623.0314bf07@lwn.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 14, 2019 at 12:43:11PM +0200, Cyril Hrubis wrote:
-> Hi!
-> > > There is a problem with the stack size accounting during execve when
-> > > there is no stack limit:
-> > >
-> > > $ ulimit -s
-> > > 8192
-> > > $ ./hello.ilp32 
-> > > Hello World!
-> > > $ ulimit -s unlimited
-> > > $ ./hello.ilp32 
-> > > Segmentation fault
-> > > $ strace ./hello.ilp32 
-> > > execve("./hello.ilp32", ["./hello.ilp32"], 0xfffff10548f0 /* 77 vars */) = -1 ENOMEM (Cannot allocate memory)
-> > > +++ killed by SIGSEGV +++
-> > > Segmentation fault (core dumped)
-> > >
-> > > Andreas.
-> > 
-> > Thanks Andreas, I will take a look. Do we have such test in LTP?
-
-So the problem was in not converting new compat-sensitive code:
-
-diff --git a/arch/arm64/include/asm/processor.h b/arch/arm64/include/asm/processor.h
-index 5bdf357169d8..c509f83fa506 100644
---- a/arch/arm64/include/asm/processor.h
-+++ b/arch/arm64/include/asm/processor.h
-@@ -63,7 +63,7 @@
- 				TASK_SIZE_32 : TASK_SIZE_64)
- #define TASK_SIZE_OF(tsk)	(is_compat_thread(tsk) ? \
- 				TASK_SIZE_32 : TASK_SIZE_64)
--#define DEFAULT_MAP_WINDOW	(test_thread_flag(TIF_32BIT) ? \
-+#define DEFAULT_MAP_WINDOW	(is_compat_task() ? \
- 				TASK_SIZE_32 : DEFAULT_MAP_WINDOW_64)
- #else
- #define TASK_SIZE		TASK_SIZE_64
-
-The fix is incorporated in ilp32-5.1.1:
-https://github.com/norov/linux/tree/ilp32-5.1.1
-
-> We do have a test that we can run a binary with very small stack size
-> i.e. 512kB but there does not seem to be anything that would catch this
-> specific problem.
+On Tue, May 14, 2019 at 12:16:23PM -0600, Jonathan Corbet wrote:
+> On Tue, 14 May 2019 11:08:10 -0700
+> Brendan Higgins <brendanhiggins@google.com> wrote:
 > 
-> Can you please open an issue and describe how to reproduce the problem
-> at our github tracker:
-> 
-> https://github.com/linux-test-project/ltp/issues
-> 
-> Then we can create testcase based on that reproducer later on.
-> 
-> -- 
-> Cyril Hrubis
-> chrubis@suse.cz
+> > > Naturally, though, I have one request: I'd rather not see this at the top
+> > > level, which is more than crowded enough as it is.  Can this material
+> > > please go into the development tools book, alongside the kselftest
+> > > documentation?
 
-OK, I'll do.
+Hmmm...probably premature to bring this up, but Documentation/dev-tools/
+is kind of thrown together.
 
-Yury
+It would be nice to provide a coherent overview, maybe provide some
+basic grouping as well.
+
+It would be nice if there was kind of a gentle introduction to the
+tools, which ones you should be looking at, when, why, etc.
+
+> > Oh yeah, that seems like the obvious home for this in hindsight. Sorry
+> > about that. Will fix in next revision!
+> 
+> No need to apologize - I have to say the same thing to everybody :)
