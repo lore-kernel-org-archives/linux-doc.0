@@ -1,132 +1,89 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AFF7E7D8A4
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 14 May 2019 14:49:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0810B7D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 14 May 2019 16:18:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726246AbfENOro (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 14 May 2019 10:47:44 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:40421 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725901AbfENOrn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 May 2019 10:47:43 -0400
-Received: by mail-pf1-f195.google.com with SMTP id u17so9258134pfn.7;
-        Tue, 14 May 2019 07:47:43 -0700 (PDT)
+        id S1726044AbfENQSV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 14 May 2019 12:18:21 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:42195 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725901AbfENQSV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 May 2019 12:18:21 -0400
+Received: by mail-wr1-f66.google.com with SMTP id l2so19886131wrb.9;
+        Tue, 14 May 2019 09:18:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=uvTVVtDZuqjWYWGv3wOfnHFg54NPDwz8Y09qcxgYGas=;
-        b=nY5b8E423/ei9n51fU7pz6LahDlN6P5pg7XmmvVpW6Kt8YIjvLAynVKwrR9dt6zoQ9
-         m3aGr/5i+rm5H+AK8kB15ksxlQkL0HwO7gXjqsbCAc/GqVqlEEc62Vs4/2kszSTpc+ob
-         475tVx7XeBFl2S5Z9P0fSgUweqKyIkz/5kL78YHdR0u3sZ2ujXt6TnthKWIYJiL6qkSW
-         7otrl7Wyzb1B52ATfbepn22cxAlW2Qx0hYN0Ylza4uHgwlRc6PEaXdkxXnRP4M/J+aAn
-         HGzqA5gj7T0H7xBNE2gMAUk1tBracDKTOyJW4d6jPbHgRwnDDFJ84CBcjbfudmfVfBOB
-         Vzkg==
+        bh=2QCo8Dha4jyH5qWVup39lkl3qNYvyEmFp/lbafcwv0g=;
+        b=M2KCHHXa9w7/0ORsFwfWWtv8dG1WOl97mnj3NEraBVfUPCaS3RJyCUsg0aDol2crMV
+         raEb9PUzHG/xhP6y6ugm6qvILLGa8UEU//4WsgOZwBDbII7z1cevZXlD4xywNq1wcR3Q
+         w0Vl+YrMkTKbMLgJp0H3HliVuCckDZBdoFKx7fzPBO/OP8Bc3AwQp6gVMUSaF7QEvZGu
+         fItLVS3WYog+yqtkIDBHgRL18EcAfR1z0ve0HPcxOTPQ28xswqyWZui5KWr/1olovf0n
+         +NHrQUziMAS0fVm1Eb/wlwZy0NNHp+wKWJ+bUCFve3NAgimjqazbg1jOtDQ4Tar7EQyR
+         Gfsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=uvTVVtDZuqjWYWGv3wOfnHFg54NPDwz8Y09qcxgYGas=;
-        b=j51rctbgbVUp6Zh7fB5xJPtR8+77lfxTs4JK2f2V1D1oH9IpAtMaqPrIQIVOYdoJn+
-         9XZlPIjSGWZuH2KQ6DCHMOJd+s1lhQml1YWkqHwf/AHItEtOPRfFPUS/PvdO9MIcaFcl
-         I3hLVhrFEyBqluEe4QkE3W3uZbLS/PEWXNdmLQBU9m45hE/XtrtpycPnY254e675K97r
-         4Nu0+kNBR4nfL3icOI5jnsrw2mZt7usmZrG+KKGBIEPOORa6gsj3LQfNx2BK471/95Z8
-         rzvaMkrJJQRg7XswDOW4u7g0NDHtLJ/JbQlRw+76LVm/PehfpK2wq75lZYCCOi6cVE/7
-         tRcA==
-X-Gm-Message-State: APjAAAXb/9OIVhIFuM6q57x+PSmaO10wPCeCDQbgZmO+dPfDuVBnCR8l
-        KQwvNJZtmaXaKKIASfv7AF4=
-X-Google-Smtp-Source: APXvYqywCPxowiffZWYrYtb+FnI/R/I4J4jSzp35jr3GmLi09Z8qkPcaSnJjmtz7YBgG2C88CIHrgg==
-X-Received: by 2002:aa7:83d4:: with SMTP id j20mr19823511pfn.90.1557845262955;
-        Tue, 14 May 2019 07:47:42 -0700 (PDT)
-Received: from localhost.localdomain ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id j12sm20461415pff.148.2019.05.14.07.47.39
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 14 May 2019 07:47:42 -0700 (PDT)
-From:   Changbin Du <changbin.du@gmail.com>
-To:     bhelgaas@google.com, corbet@lwn.net
-Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mchehab+samsung@kernel.org,
-        Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH v6 00/12] Include linux PCI docs into Sphinx TOC tree
-Date:   Tue, 14 May 2019 22:47:22 +0800
-Message-Id: <20190514144734.19760-1-changbin.du@gmail.com>
-X-Mailer: git-send-email 2.20.1
+        bh=2QCo8Dha4jyH5qWVup39lkl3qNYvyEmFp/lbafcwv0g=;
+        b=Px6Am08Sc8pZMS0XDS3UK8hu/9OZ6BfA0340oCsC0jq5L3YaxvSFx8auPLICltvILE
+         xseFaWz5AM1NX7WK4LO5MWL+b4uRAO7rKRkIN44chvvL+qCR9dhQk4aGfqyXx08tSqtN
+         Znw8we9UT9V8TxKADjYmDwvG/acKzRPpeUrFfnsVQ0dgUXaATsDDUxtKD+VsedxAaUqM
+         F+Kgcr2wb6X6rfCljMgpIAn/VJs1C4+Ei7i+M0XZzl+FjvB7BgIAdT7lLEoeWFCJobae
+         HyM9SUJ7IcI2ipepegjKDtka/9/tckE54BNKYOsdqP/yUNJqiW3tKb1lsUE7FPxVrrAF
+         Ivww==
+X-Gm-Message-State: APjAAAWdEuvntDOz5kt4AOf41L9R6Bv+gyV084MqAyaWta8HE49HkaVY
+        6+dXcPi5xuqfjkf+VKXPL3s=
+X-Google-Smtp-Source: APXvYqxYdKqSrZRWSHsMpQlKO7iixoLljsIATMn2P6fIRC02plxoPJYE12VcGiTDYRt10LFDD8Y+Wg==
+X-Received: by 2002:a5d:66c1:: with SMTP id k1mr14777198wrw.225.1557850699692;
+        Tue, 14 May 2019 09:18:19 -0700 (PDT)
+Received: from nexussix.ar.arcelik ([84.44.14.233])
+        by smtp.gmail.com with ESMTPSA id d16sm15422987wrs.68.2019.05.14.09.18.18
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 14 May 2019 09:18:19 -0700 (PDT)
+From:   Cengiz Can <cengizc@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, kexec@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        cengizc@gmail.com
+Subject: [PATCH] Documentation: kdump: fix minor typo
+Date:   Tue, 14 May 2019 19:17:25 +0300
+Message-Id: <20190514161724.16604-1-cengizc@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi all,
+kdump.txt had a minor typo.
 
-The kernel now uses Sphinx to generate intelligent and beautiful documentation
-from reStructuredText files. I converted most of the Linux PCI docs to rst
-format in this serias.
+Signed-off-by: Cengiz Can <cengizc@gmail.com>
+---
+ Documentation/kdump/kdump.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-For you to preview, please visit below url:
-http://www.bytemem.com:8080/kernel-doc/PCI/index.html
-
-Thank you!
-
-v2: trivial style update.
-v3: update titles. (Bjorn Helgaas)
-v4: fix comments from Mauro Carvalho Chehab
-v5: update MAINTAINERS (Joe Perches)
-v6: fix comments.
-
-Changbin Du (12):
-  Documentation: add Linux PCI to Sphinx TOC tree
-  Documentation: PCI: convert pci.txt to reST
-  Documentation: PCI: convert PCIEBUS-HOWTO.txt to reST
-  Documentation: PCI: convert pci-iov-howto.txt to reST
-  Documentation: PCI: convert MSI-HOWTO.txt to reST
-  Documentation: PCI: convert acpi-info.txt to reST
-  Documentation: PCI: convert pci-error-recovery.txt to reST
-  Documentation: PCI: convert pcieaer-howto.txt to reST
-  Documentation: PCI: convert endpoint/pci-endpoint.txt to reST
-  Documentation: PCI: convert endpoint/pci-endpoint-cfs.txt to reST
-  Documentation: PCI: convert endpoint/pci-test-function.txt to reST
-  Documentation: PCI: convert endpoint/pci-test-howto.txt to reST
-
- .../PCI/{acpi-info.txt => acpi-info.rst}      |  15 +-
- Documentation/PCI/endpoint/index.rst          |  13 +
- ...-endpoint-cfs.txt => pci-endpoint-cfs.rst} |  99 ++---
- .../{pci-endpoint.txt => pci-endpoint.rst}    |  92 +++--
- ...est-function.txt => pci-test-function.rst} |  84 +++--
- ...{pci-test-howto.txt => pci-test-howto.rst} |  81 ++--
- Documentation/PCI/index.rst                   |  18 +
- .../PCI/{MSI-HOWTO.txt => msi-howto.rst}      |  85 +++--
- ...or-recovery.txt => pci-error-recovery.rst} | 287 +++++++-------
- .../{pci-iov-howto.txt => pci-iov-howto.rst}  | 161 ++++----
- Documentation/PCI/{pci.txt => pci.rst}        | 356 ++++++++----------
- .../{pcieaer-howto.txt => pcieaer-howto.rst}  | 156 +++++---
- .../{PCIEBUS-HOWTO.txt => picebus-howto.rst}  | 140 ++++---
- Documentation/index.rst                       |   1 +
- MAINTAINERS                                   |   4 +-
- include/linux/mod_devicetable.h               |  19 +
- include/linux/pci.h                           |  37 ++
- 17 files changed, 938 insertions(+), 710 deletions(-)
- rename Documentation/PCI/{acpi-info.txt => acpi-info.rst} (96%)
- create mode 100644 Documentation/PCI/endpoint/index.rst
- rename Documentation/PCI/endpoint/{pci-endpoint-cfs.txt => pci-endpoint-cfs.rst} (64%)
- rename Documentation/PCI/endpoint/{pci-endpoint.txt => pci-endpoint.rst} (83%)
- rename Documentation/PCI/endpoint/{pci-test-function.txt => pci-test-function.rst} (55%)
- rename Documentation/PCI/endpoint/{pci-test-howto.txt => pci-test-howto.rst} (78%)
- create mode 100644 Documentation/PCI/index.rst
- rename Documentation/PCI/{MSI-HOWTO.txt => msi-howto.rst} (88%)
- rename Documentation/PCI/{pci-error-recovery.txt => pci-error-recovery.rst} (67%)
- rename Documentation/PCI/{pci-iov-howto.txt => pci-iov-howto.rst} (63%)
- rename Documentation/PCI/{pci.txt => pci.rst} (68%)
- rename Documentation/PCI/{pcieaer-howto.txt => pcieaer-howto.rst} (72%)
- rename Documentation/PCI/{PCIEBUS-HOWTO.txt => picebus-howto.rst} (70%)
-
+diff --git a/Documentation/kdump/kdump.txt b/Documentation/kdump/kdump.txt
+index 51814450a7f8..3162eeb8c262 100644
+--- a/Documentation/kdump/kdump.txt
++++ b/Documentation/kdump/kdump.txt
+@@ -410,7 +410,7 @@ Notes on loading the dump-capture kernel:
+ * Boot parameter "1" boots the dump-capture kernel into single-user
+   mode without networking. If you want networking, use "3".
+ 
+-* We generally don' have to bring up a SMP kernel just to capture the
++* We generally don't have to bring up a SMP kernel just to capture the
+   dump. Hence generally it is useful either to build a UP dump-capture
+   kernel or specify maxcpus=1 option while loading dump-capture kernel.
+   Note, though maxcpus always works, you had better replace it with
 -- 
-2.20.1
+2.21.0
 
