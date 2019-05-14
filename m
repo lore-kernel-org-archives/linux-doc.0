@@ -6,51 +6,51 @@ X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 81F757D8A4
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 14 May 2019 05:46:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 136547D912
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 14 May 2019 05:47:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727147AbfENFqh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 14 May 2019 01:46:37 -0400
-Received: from mail-ot1-f74.google.com ([209.85.210.74]:34479 "EHLO
+        id S1727090AbfENFq3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 14 May 2019 01:46:29 -0400
+Received: from mail-ot1-f74.google.com ([209.85.210.74]:53669 "EHLO
         mail-ot1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727139AbfENFqg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 May 2019 01:46:36 -0400
-Received: by mail-ot1-f74.google.com with SMTP id e3so8085660otk.1
-        for <linux-doc@vger.kernel.org>; Mon, 13 May 2019 22:46:35 -0700 (PDT)
+        with ESMTP id S1727087AbfENFq3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 May 2019 01:46:29 -0400
+Received: by mail-ot1-f74.google.com with SMTP id f11so8583585otl.20
+        for <linux-doc@vger.kernel.org>; Mon, 13 May 2019 22:46:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=4KJF+Ovjjzqhb4AXWhXMCXmyGdUTqkou6egxCpIxJUE=;
-        b=ufJ7R09drib1DbLFKFdm88ALal8eQ8ux+QRzX6K4qlL26VFgSz0kl9tol662N7UK53
-         yo3Qrp2QjSiBx/HhkaXBgsflKOxtGd8pTmUvQezzILtj2Nqumr00+SgSpNoM8oSka485
-         w9ZCoh4EqQXa/nD5aRK57fn6Zu3Hs8FayrCme2MHguzHWErdb406LjS6joy9XRnUZc++
-         WROJ9HibR1vbyXc6ykmogQk5MGzot89a6Pwhc27OkXQNsmaGjzWo0+UdcaTiJuIyD9RU
-         IqseNctGcX9vLU8RyjQ9/Fda+0FpTML6T+TOmMT523SSnNjRo7dMP9TxWVO29rB2oQWj
-         Fjdg==
+        bh=A9vF5ks8OoQZOvkqahZ7WGJYbSmWAhAF5wYZd8NRVmE=;
+        b=dfl8Ji6Htzz+1ddgqbnlogyfrjm/3opxZHA3nioXFl8PTmlsW/GlCrQk7EXSZMQ2Ct
+         zUjIabrobt+80se+j6Aw5fNIG3fBjvF5dCzlpWBKLq8E4lb1Yjw8KtbmHhG+X/O2e8fU
+         yJ+1pI75UJn6hB9rWQSYcQfyxbkGNCaxrLyGmnuNgd5Cct/DBhcATklrYyablesIapaN
+         HuqJonyZvw1/KZtIU7y+OvjvKhvdKk3ckXh/RyGxpJ81yctviKQ1vDdC7zbPzYkYcqp7
+         KpZypaneNMXCarWNNKMKkyUWCZ5OLDbK9Yye3gH2Td11gIY6I3FJ6EK3G3rpCoVCMyYL
+         5PHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=4KJF+Ovjjzqhb4AXWhXMCXmyGdUTqkou6egxCpIxJUE=;
-        b=iXqK0jgxsJiHKs4b6p+Pu6wWlGwdBHmyOKoH8CnJX4tqnJ/9IKW2A6ZiROD0fNg1Jt
-         pmmKpA800XKOgXE7Q64CAbNkg4k0hEpHlDAZDungKSusWcb7GXpqd4dRzc/cd91B2q/a
-         NRA0I7LMekYYDCd3omnmzt1C+FELxTofoq+I1u0WT1V3zB+5oyA+rZ4EgbJcU/7FyGTC
-         91mnRZf2hMMQ/ub9v8jVkUKRiZkz9EFUdkusOJUaBTlzc6MotzDM6g0GCNRhbxmA5W0B
-         5S4u61ufhlnlcD/JGyyIMH9rOuu0YDoOmb6Rlezg7Q53ELmhdJxSkHL9oMSaj0PCAZ7D
-         stPg==
-X-Gm-Message-State: APjAAAXZJTd2aNmI4whxgDPrlyh6oDPYi1GTk/EI/Z2ejG+gpBCCYDvg
-        GQVS1snWLOomLTzCbyCD+oSvZfeyUTW4QW9vFOKzfA==
-X-Google-Smtp-Source: APXvYqx3JDi02P47CK8QRD5+B38yuHneb/5HzpSvk7mbXolSuJPjerG6Sls3fZCAbtPUdKvr+bfDjDg7kwlcmfISQkvyaw==
-X-Received: by 2002:aca:3114:: with SMTP id x20mr1922850oix.168.1557812795309;
- Mon, 13 May 2019 22:46:35 -0700 (PDT)
-Date:   Mon, 13 May 2019 22:42:51 -0700
+        bh=A9vF5ks8OoQZOvkqahZ7WGJYbSmWAhAF5wYZd8NRVmE=;
+        b=AbWnrPlx1Auru3AbtDt7AYZlkTUDLch4GAlpTwM/NJOk0Su6viMZuDzkgKJxiHNgEQ
+         IGp2hF/otuF567V0v34BPgpHnC7ilrTM+vkOV6o3G85A1CBw35J9HFDhjZocXEPw3UNp
+         kgD2y7m/juOYT0Td6xqOuh1C1sT40YKnMbe3C5GxuRPCVOoe2pYoJPfl1BYU+7yZ9eYU
+         Sgmju6LCpmQwgMTCjXjsyrAWMgIpz28SrcMw4Yh2ANiZ3VMS/Afu0FiNnLaZhw4CdhYh
+         G/3TptB8GmeFm+0anUymsNtrEMiD0+IDoryIXHEd2CkVJd3cGj1uVUJNU5GngZI3H+d4
+         9PvA==
+X-Gm-Message-State: APjAAAXlvKrRbXNWd5QVvrj9mx+BOsrJqyKfVw3Q2WKEBuwzKzxOXLbD
+        gHlmhraHjFQSR8x+rDBQ6im5tmNITl9p6LHS0igU5Q==
+X-Google-Smtp-Source: APXvYqzoxb1c4zA0TNBr4g5Lkv5gwMc1r1zt2yfpcsMrms+cGW7RWFxNQc78oibKn6vTEyxYD9rOGeq81bKLazVpQRLWGQ==
+X-Received: by 2002:aca:f007:: with SMTP id o7mr1850976oih.59.1557812787702;
+ Mon, 13 May 2019 22:46:27 -0700 (PDT)
+Date:   Mon, 13 May 2019 22:42:48 -0700
 In-Reply-To: <20190514054251.186196-1-brendanhiggins@google.com>
-Message-Id: <20190514054251.186196-18-brendanhiggins@google.com>
+Message-Id: <20190514054251.186196-15-brendanhiggins@google.com>
 Mime-Version: 1.0
 References: <20190514054251.186196-1-brendanhiggins@google.com>
 X-Mailer: git-send-email 2.21.0.1020.gf2820cf01a-goog
-Subject: [PATCH v3 17/18] kernel/sysctl-test: Add null pointer test for sysctl.c:proc_dointvec()
+Subject: [PATCH v3 14/18] kunit: defconfig: add defconfigs for building KUnit tests
 From:   Brendan Higgins <brendanhiggins@google.com>
 To:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
         keescook@google.com, kieran.bingham@ideasonboard.com,
@@ -68,7 +68,6 @@ Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
         knut.omang@oracle.com, logang@deltatee.com, mpe@ellerman.id.au,
         pmladek@suse.com, rdunlap@infradead.org, richard@nod.at,
         rientjes@google.com, rostedt@goodmis.org, wfg@linux.intel.com,
-        Iurii Zaikin <yzaikin@google.com>,
         Brendan Higgins <brendanhiggins@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
@@ -76,355 +75,129 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Iurii Zaikin <yzaikin@google.com>
+Add defconfig for UML and a fragment that can be used to configure other
+architectures for building KUnit tests. Add option to kunit_tool to use
+a defconfig to create the kunitconfig.
 
-KUnit tests for initialized data behavior of proc_dointvec that is
-explicitly checked in the code. Includes basic parsing tests including
-int min/max overflow.
-
-Signed-off-by: Iurii Zaikin <yzaikin@google.com>
 Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
 Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
 ---
-Changes Since Last Revision:
- - Fixed integer overflow discovered by kbuild bot.
----
- kernel/Makefile      |   2 +
- kernel/sysctl-test.c | 293 +++++++++++++++++++++++++++++++++++++++++++
- lib/Kconfig.debug    |   6 +
- 3 files changed, 301 insertions(+)
- create mode 100644 kernel/sysctl-test.c
+ arch/um/configs/kunit_defconfig              |  8 ++++++++
+ tools/testing/kunit/configs/all_tests.config |  8 ++++++++
+ tools/testing/kunit/kunit.py                 | 18 ++++++++++++++++--
+ tools/testing/kunit/kunit_kernel.py          |  3 ++-
+ 4 files changed, 34 insertions(+), 3 deletions(-)
+ create mode 100644 arch/um/configs/kunit_defconfig
+ create mode 100644 tools/testing/kunit/configs/all_tests.config
 
-diff --git a/kernel/Makefile b/kernel/Makefile
-index 6c57e78817dad..c81a8976b6a4b 100644
---- a/kernel/Makefile
-+++ b/kernel/Makefile
-@@ -112,6 +112,8 @@ obj-$(CONFIG_HAS_IOMEM) += iomem.o
- obj-$(CONFIG_ZONE_DEVICE) += memremap.o
- obj-$(CONFIG_RSEQ) += rseq.o
- 
-+obj-$(CONFIG_SYSCTL_KUNIT_TEST) += sysctl-test.o
-+
- obj-$(CONFIG_GCC_PLUGIN_STACKLEAK) += stackleak.o
- KASAN_SANITIZE_stackleak.o := n
- KCOV_INSTRUMENT_stackleak.o := n
-diff --git a/kernel/sysctl-test.c b/kernel/sysctl-test.c
+diff --git a/arch/um/configs/kunit_defconfig b/arch/um/configs/kunit_defconfig
 new file mode 100644
-index 0000000000000..fe0f2bae66085
+index 0000000000000..bfe49689038f1
 --- /dev/null
-+++ b/kernel/sysctl-test.c
-@@ -0,0 +1,293 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * KUnit test of proc sysctl.
-+ */
-+
-+#include <kunit/test.h>
-+#include <linux/printk.h>
-+#include <linux/sysctl.h>
-+#include <linux/uaccess.h>
-+
-+static int i_zero;
-+static int i_one_hundred = 100;
-+
-+struct test_sysctl_data {
-+	int int_0001;
-+	int int_0002;
-+	int int_0003[4];
-+
-+	unsigned int uint_0001;
-+
-+	char string_0001[65];
-+};
-+
-+static struct test_sysctl_data test_data = {
-+	.int_0001 = 60,
-+	.int_0002 = 1,
-+
-+	.int_0003[0] = 0,
-+	.int_0003[1] = 1,
-+	.int_0003[2] = 2,
-+	.int_0003[3] = 3,
-+
-+	.uint_0001 = 314,
-+
-+	.string_0001 = "(none)",
-+};
-+
-+static void sysctl_test_dointvec_null_tbl_data(struct kunit *test)
-+{
-+	struct ctl_table table = {
-+		.procname = "foo",
-+		.data		= NULL,
-+		.maxlen		= sizeof(int),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dointvec,
-+		.extra1		= &i_zero,
-+		.extra2         = &i_one_hundred,
-+	};
-+	void  *buffer = kunit_kzalloc(test, sizeof(int), GFP_USER);
-+	size_t len;
-+	loff_t pos;
-+
-+	len = 1234;
-+	KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 0, buffer, &len, &pos));
-+	KUNIT_EXPECT_EQ(test, 0, len);
-+	len = 1234;
-+	KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 1, buffer, &len, &pos));
-+	KUNIT_EXPECT_EQ(test, 0, len);
-+}
-+
-+static void sysctl_test_dointvec_table_maxlen_unset(struct kunit *test)
-+{
-+	struct ctl_table table = {
-+		.procname = "foo",
-+		.data		= &test_data.int_0001,
-+		.maxlen		= 0,
-+		.mode		= 0644,
-+		.proc_handler	= proc_dointvec,
-+		.extra1		= &i_zero,
-+		.extra2         = &i_one_hundred,
-+	};
-+	void  *buffer = kunit_kzalloc(test, sizeof(int), GFP_USER);
-+	size_t len;
-+	loff_t pos;
-+
-+	len = 1234;
-+	KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 0, buffer, &len, &pos));
-+	KUNIT_EXPECT_EQ(test, 0, len);
-+	len = 1234;
-+	KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 1, buffer, &len, &pos));
-+	KUNIT_EXPECT_EQ(test, 0, len);
-+}
-+
-+static void sysctl_test_dointvec_table_len_is_zero(struct kunit *test)
-+{
-+	struct ctl_table table = {
-+		.procname = "foo",
-+		.data		= &test_data.int_0001,
-+		.maxlen		= sizeof(int),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dointvec,
-+		.extra1		= &i_zero,
-+		.extra2         = &i_one_hundred,
-+	};
-+	void  *buffer = kunit_kzalloc(test, sizeof(int), GFP_USER);
-+	size_t len;
-+	loff_t pos;
-+
-+	len = 0;
-+	KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 0, buffer, &len, &pos));
-+	KUNIT_EXPECT_EQ(test, 0, len);
-+	KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 1, buffer, &len, &pos));
-+	KUNIT_EXPECT_EQ(test, 0, len);
-+}
-+
-+static void sysctl_test_dointvec_table_read_but_position_set(struct kunit *test)
-+{
-+	struct ctl_table table = {
-+		.procname = "foo",
-+		.data		= &test_data.int_0001,
-+		.maxlen		= sizeof(int),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dointvec,
-+		.extra1		= &i_zero,
-+		.extra2         = &i_one_hundred,
-+	};
-+	void  *buffer = kunit_kzalloc(test, sizeof(int), GFP_USER);
-+	size_t len;
-+	loff_t pos;
-+
-+	len = 1234;
-+	pos = 1;
-+	KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 0, buffer, &len, &pos));
-+	KUNIT_EXPECT_EQ(test, 0, len);
-+}
-+
-+static void sysctl_test_dointvec_happy_single_positive(struct kunit *test)
-+{
-+	struct ctl_table table = {
-+		.procname = "foo",
-+		.data		= &test_data.int_0001,
-+		.maxlen		= sizeof(int),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dointvec,
-+		.extra1		= &i_zero,
-+		.extra2         = &i_one_hundred,
-+	};
-+	char input[] = "9";
-+	size_t len = sizeof(input) - 1;
-+	loff_t pos = 0;
-+
-+	table.data = kunit_kzalloc(test, sizeof(int), GFP_USER);
-+	KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 1, input, &len, &pos));
-+	KUNIT_EXPECT_EQ(test, sizeof(input) - 1, len);
-+	KUNIT_EXPECT_EQ(test, sizeof(input) - 1, pos);
-+	KUNIT_EXPECT_EQ(test, 9, *(int *)table.data);
-+}
-+
-+static void sysctl_test_dointvec_happy_single_negative(struct kunit *test)
-+{
-+	struct ctl_table table = {
-+		.procname = "foo",
-+		.data		= &test_data.int_0001,
-+		.maxlen		= sizeof(int),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dointvec,
-+		.extra1		= &i_zero,
-+		.extra2         = &i_one_hundred,
-+	};
-+	char input[] = "-9";
-+	size_t len = sizeof(input) - 1;
-+	loff_t pos = 0;
-+
-+	table.data = kunit_kzalloc(test, sizeof(int), GFP_USER);
-+	KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 1, input, &len, &pos));
-+	KUNIT_EXPECT_EQ(test, sizeof(input) - 1, len);
-+	KUNIT_EXPECT_EQ(test, sizeof(input) - 1, pos);
-+	KUNIT_EXPECT_EQ(test, -9, *(int *)table.data);
-+}
-+
-+static void sysctl_test_dointvec_single_less_int_min(struct kunit *test)
-+{
-+	struct ctl_table table = {
-+		.procname = "foo",
-+		.data		= &test_data.int_0001,
-+		.maxlen		= sizeof(int),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dointvec,
-+		.extra1		= &i_zero,
-+		.extra2         = &i_one_hundred,
-+	};
-+	char input[32];
-+	size_t len = sizeof(input) - 1;
-+	loff_t pos = 0;
-+	unsigned long abs_of_less_than_min = (unsigned long)INT_MAX
-+					     - (INT_MAX + INT_MIN) + 1;
-+
-+	KUNIT_EXPECT_LT(test,
-+			snprintf(input, sizeof(input), "-%lu",
-+				 abs_of_less_than_min),
-+			sizeof(input));
-+
-+	table.data = kunit_kzalloc(test, sizeof(int), GFP_USER);
-+	KUNIT_EXPECT_EQ(test, -EINVAL,
-+			proc_dointvec(&table, 1, input, &len, &pos));
-+	KUNIT_EXPECT_EQ(test, sizeof(input) - 1, len);
-+	KUNIT_EXPECT_EQ(test, 0, *(int *)table.data);
-+}
-+
-+static void sysctl_test_dointvec_single_greater_int_max(struct kunit *test)
-+{
-+	struct ctl_table table = {
-+		.procname = "foo",
-+		.data		= &test_data.int_0001,
-+		.maxlen		= sizeof(int),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dointvec,
-+		.extra1		= &i_zero,
-+		.extra2         = &i_one_hundred,
-+	};
-+	char input[32];
-+	size_t len = sizeof(input) - 1;
-+	loff_t pos = 0;
-+	unsigned long greater_than_max = (unsigned long)INT_MAX + 1;
-+
-+	KUNIT_EXPECT_GT(test, greater_than_max, INT_MAX);
-+	KUNIT_EXPECT_LT(test, snprintf(input, sizeof(input), "%lu",
-+				       greater_than_max),
-+			sizeof(input));
-+	table.data = kunit_kzalloc(test, sizeof(int), GFP_USER);
-+	KUNIT_EXPECT_EQ(test, -EINVAL,
-+			proc_dointvec(&table, 1, input, &len, &pos));
-+	KUNIT_EXPECT_EQ(test, sizeof(input) - 1, len);
-+	KUNIT_EXPECT_EQ(test, 0, *(int *)table.data);
-+}
-+
-+static int sysctl_test_init(struct kunit *test)
-+{
-+	return 0;
-+}
-+
-+/*
-+ * This is run once after each test case, see the comment on example_test_module
-+ * for more information.
-+ */
-+static void sysctl_test_exit(struct kunit *test)
-+{
-+}
-+
-+/*
-+ * Here we make a list of all the test cases we want to add to the test module
-+ * below.
-+ */
-+static struct kunit_case sysctl_test_cases[] = {
-+	/*
-+	 * This is a helper to create a test case object from a test case
-+	 * function; its exact function is not important to understand how to
-+	 * use KUnit, just know that this is how you associate test cases with a
-+	 * test module.
-+	 */
-+	KUNIT_CASE(sysctl_test_dointvec_null_tbl_data),
-+	KUNIT_CASE(sysctl_test_dointvec_table_maxlen_unset),
-+	KUNIT_CASE(sysctl_test_dointvec_table_len_is_zero),
-+	KUNIT_CASE(sysctl_test_dointvec_table_read_but_position_set),
-+	KUNIT_CASE(sysctl_test_dointvec_happy_single_positive),
-+	KUNIT_CASE(sysctl_test_dointvec_happy_single_negative),
-+	KUNIT_CASE(sysctl_test_dointvec_single_less_int_min),
-+	KUNIT_CASE(sysctl_test_dointvec_single_greater_int_max),
-+	{},
-+};
-+
-+/*
-+ * This defines a suite or grouping of tests.
-+ *
-+ * Test cases are defined as belonging to the suite by adding them to
-+ * `test_cases`.
-+ *
-+ * Often it is desirable to run some function which will set up things which
-+ * will be used by every test; this is accomplished with an `init` function
-+ * which runs before each test case is invoked. Similarly, an `exit` function
-+ * may be specified which runs after every test case and can be used to for
-+ * cleanup. For clarity, running tests in a test module would behave as follows:
-+ *
-+ * module.init(test);
-+ * module.test_case[0](test);
-+ * module.exit(test);
-+ * module.init(test);
-+ * module.test_case[1](test);
-+ * module.exit(test);
-+ * ...;
-+ */
-+static struct kunit_module sysctl_test_module = {
-+	.name = "sysctl_test",
-+	.init = sysctl_test_init,
-+	.exit = sysctl_test_exit,
-+	.test_cases = sysctl_test_cases,
-+};
-+
-+/*
-+ * This registers the above test module telling KUnit that this is a suite of
-+ * tests that need to be run.
-+ */
-+module_test(sysctl_test_module);
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index d5a4a4036d2f8..772af4ec70111 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -1908,6 +1908,12 @@ config TEST_SYSCTL
++++ b/arch/um/configs/kunit_defconfig
+@@ -0,0 +1,8 @@
++CONFIG_OF=y
++CONFIG_OF_UNITTEST=y
++CONFIG_OF_OVERLAY=y
++CONFIG_I2C=y
++CONFIG_I2C_MUX=y
++CONFIG_KUNIT=y
++CONFIG_KUNIT_TEST=y
++CONFIG_KUNIT_EXAMPLE_TEST=y
+diff --git a/tools/testing/kunit/configs/all_tests.config b/tools/testing/kunit/configs/all_tests.config
+new file mode 100644
+index 0000000000000..bfe49689038f1
+--- /dev/null
++++ b/tools/testing/kunit/configs/all_tests.config
+@@ -0,0 +1,8 @@
++CONFIG_OF=y
++CONFIG_OF_UNITTEST=y
++CONFIG_OF_OVERLAY=y
++CONFIG_I2C=y
++CONFIG_I2C_MUX=y
++CONFIG_KUNIT=y
++CONFIG_KUNIT_TEST=y
++CONFIG_KUNIT_EXAMPLE_TEST=y
+diff --git a/tools/testing/kunit/kunit.py b/tools/testing/kunit/kunit.py
+index 85ed1c32a6c48..956326f87101f 100755
+--- a/tools/testing/kunit/kunit.py
++++ b/tools/testing/kunit/kunit.py
+@@ -11,6 +11,7 @@ import argparse
+ import sys
+ import os
+ import time
++import shutil
  
- 	  If unsure, say N.
+ from collections import namedtuple
+ from enum import Enum, auto
+@@ -21,7 +22,7 @@ import kunit_parser
  
-+config SYSCTL_KUNIT_TEST
-+	bool "KUnit test for sysctl"
-+	depends on KUNIT
-+	help
-+	  Enables KUnit sysctl test.
+ KunitResult = namedtuple('KunitResult', ['status','result'])
+ 
+-KunitRequest = namedtuple('KunitRequest', ['raw_output','timeout', 'jobs', 'build_dir'])
++KunitRequest = namedtuple('KunitRequest', ['raw_output','timeout', 'jobs', 'build_dir', 'defconfig'])
+ 
+ class KunitStatus(Enum):
+ 	SUCCESS = auto()
+@@ -29,8 +30,16 @@ class KunitStatus(Enum):
+ 	BUILD_FAILURE = auto()
+ 	TEST_FAILURE = auto()
+ 
++def create_default_kunitconfig():
++	if not os.path.exists(kunit_kernel.KUNITCONFIG_PATH):
++		shutil.copyfile('arch/um/configs/kunit_defconfig',
++				kunit_kernel.KUNITCONFIG_PATH)
 +
- config TEST_UDELAY
- 	tristate "udelay test driver"
- 	help
+ def run_tests(linux: kunit_kernel.LinuxSourceTree,
+ 	      request: KunitRequest) -> KunitResult:
++	if request.defconfig:
++		create_default_kunitconfig()
++
+ 	config_start = time.time()
+ 	success = linux.build_reconfig(request.build_dir)
+ 	config_end = time.time()
+@@ -99,13 +108,18 @@ def main(argv, linux):
+ 				'directory.',
+ 				type=str, default=None, metavar='build_dir')
+ 
++	run_parser.add_argument('--defconfig',
++				help='Uses a default kunitconfig.',
++				action='store_true')
++
+ 	cli_args = parser.parse_args(argv)
+ 
+ 	if cli_args.subcommand == 'run':
+ 		request = KunitRequest(cli_args.raw_output,
+ 				       cli_args.timeout,
+ 				       cli_args.jobs,
+-				       cli_args.build_dir)
++				       cli_args.build_dir,
++				       cli_args.defconfig)
+ 		result = run_tests(linux, request)
+ 		if result.status != KunitStatus.SUCCESS:
+ 			sys.exit(1)
+diff --git a/tools/testing/kunit/kunit_kernel.py b/tools/testing/kunit/kunit_kernel.py
+index 07c0abf2f47df..bf38768353313 100644
+--- a/tools/testing/kunit/kunit_kernel.py
++++ b/tools/testing/kunit/kunit_kernel.py
+@@ -14,6 +14,7 @@ import os
+ import kunit_config
+ 
+ KCONFIG_PATH = '.config'
++KUNITCONFIG_PATH = 'kunitconfig'
+ 
+ class ConfigError(Exception):
+ 	"""Represents an error trying to configure the Linux kernel."""
+@@ -81,7 +82,7 @@ class LinuxSourceTree(object):
+ 
+ 	def __init__(self):
+ 		self._kconfig = kunit_config.Kconfig()
+-		self._kconfig.read_from_file('kunitconfig')
++		self._kconfig.read_from_file(KUNITCONFIG_PATH)
+ 		self._ops = LinuxSourceTreeOperations()
+ 
+ 	def clean(self):
 -- 
 2.21.0.1020.gf2820cf01a-goog
 
