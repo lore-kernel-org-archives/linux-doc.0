@@ -4,58 +4,58 @@ X-Spam-Level:
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 17BDD7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 14 May 2019 14:47:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 38D0E7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 14 May 2019 14:48:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726416AbfENOrs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 14 May 2019 10:47:48 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:38353 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725901AbfENOrr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 May 2019 10:47:47 -0400
-Received: by mail-pl1-f193.google.com with SMTP id f97so3285392plb.5;
-        Tue, 14 May 2019 07:47:47 -0700 (PDT)
+        id S1726801AbfENOsY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 14 May 2019 10:48:24 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:37418 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726773AbfENOsU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 May 2019 10:48:20 -0400
+Received: by mail-pf1-f193.google.com with SMTP id g3so9271258pfi.4;
+        Tue, 14 May 2019 07:48:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Ea7nruMQN3xltZvYgCBaDR2hEGB3xQK7d3rHkYgLjnc=;
-        b=Oium+gMmzkDR2We5B/z0hKCVKAbrqYaoB2WQHc90qg5fZMruPur14tFK1aYiKwh326
-         wZQi8IV4btKhQzL6gy780H8W7QGX6ybhOWSKPyQS1uxe4TN1G3p01nUp3Bv4rWmj+Uge
-         7np8BdbQU30JSMcZ3W8wlG5sGn30mjYp5HMxKUq/a2D9+xXDgZd22HxT6GCcTLxU9TQD
-         geB/Tv8lPW7LKgzc+lwfHtJkNxF9y+F+5N2hEbFedTmGNq4haxY3F5e9TIc3XRg51nwp
-         ty0HzzSTjq9w1vbN1EncyBeRKnNQHrvNjUwUY8stTOGsshCXKGkbt8n62yBlRTRbLE2h
-         Vr8Q==
+        bh=b/Y+ncH2RPQ7WPNTjKYarl28Ee8gzLuA374D+ObE5d4=;
+        b=kEihEZ2m1JXXHWsZJv9hrvglutFYYopynDOg1MVObTiBaN0y9+BwTB3+rRsoRbwsYg
+         kaw1jCejL8Sz76mj3vgxYGcPqiK9CX4+RLI6RFbgtP1OYkMOj2ftaKpbId8v0Y97YJUx
+         vNFqBNUAPKcVzWQVc2j6hVNABSrYoEKKG1eQwPFyzJXmrB40n8oaeFudTpVHa5iTaoKJ
+         GFLuMGW8keq0/MZK6oG6gyOtASK2P3NZZjYGfzZ4XXCjAfBJrnQEw+hn0Q5LwvagmvXr
+         aVEVXmbIDl1W9WmgjCGKonXoa+0YRsKwhiLy9nYlk4NYhbIjribW9DamWnWpDVr0QYYc
+         xG5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Ea7nruMQN3xltZvYgCBaDR2hEGB3xQK7d3rHkYgLjnc=;
-        b=JRhzYSNR05CXFGBCxkU02HptEoWn5az95TyUJjL5PO5WW8Y/OR3iqaN91AT/D2y3Sr
-         fS/9yglJcYdMoRcHn7ChNcSOvZdpJRJqppeghKxtsHQIjnfRW5aL9U+rk5/bhJj7t2G0
-         6GWHo8AVtTu2BikGleDvjVmapOfDBM9zvwfgD/FbCEm3gscBf+PJI7rLZh+Yd/MLYMuw
-         GigIhTImvWx/b27D6k9kfZVwQMwqklEYxGregW3GXjC2Pf04cmqXMvuECdi8tPwK8R7W
-         LUbNBT8BTnfQp10wgKaCxIpzW6UHjE+J5PpH5GqP/svyE1m//kALFWyytodz3tPduHh2
-         K0rA==
-X-Gm-Message-State: APjAAAUuIqrZyAKyXzz4sPrae4rlBIuxhezHQFzUCtY6VR7fT3V0EjfK
-        orPeOUvjXCv2B3i3oxhHl2s=
-X-Google-Smtp-Source: APXvYqweRDojunBB0G6d++cMRFo3OyV9PMyL2KaeV6iPXwT3zUaeE0u5LciqR46V9uEau19WAMrRPg==
-X-Received: by 2002:a17:902:6b8b:: with SMTP id p11mr37393091plk.225.1557845266955;
-        Tue, 14 May 2019 07:47:46 -0700 (PDT)
+        bh=b/Y+ncH2RPQ7WPNTjKYarl28Ee8gzLuA374D+ObE5d4=;
+        b=OTHZqeVMIsz/DRdORoHa0ANzwf/9rIxxOShb33lhuyuiVgxdjHnlukVkFtkO/MGQY6
+         CyRUrajBwqY2Bh6dE+AlM69GNqzMHn85TDcp5/lB+k0msbVo8UUACwfDc3AjantexDhs
+         NkzAKdbpAGFpNG+tCW2JXk9617kr/OGVZS+iUQlO4SokCVi/Sbhi++zl5IRy9m9ZzIKo
+         gAL/FW2EMyTS2xH+DeGOaX3AJQuahwlQFCzclfqdhgrWu7LwhIy3OcnFBqIS39rSBe+o
+         NcZ8kSwL+qztIGaVEyF8xq0zvpGgrHFNWwU2gbrq0hf+XyIgogYeCg+IDN00eoacLpZu
+         bcVw==
+X-Gm-Message-State: APjAAAXHphTy+aLP1D8RYiuWdR+ka7BpQKpu3jz8QGtYvmH5EauwBCXJ
+        69PAqrfylGo/fS2r4bQ2rOc=
+X-Google-Smtp-Source: APXvYqwU4XV3Sutz5JSyvs6SexvHw/fIFaOiFrCA9FZ1K7kZuugX+Gw9Xq1GswtOxXIKyTB3ZJ3ILA==
+X-Received: by 2002:a62:56c3:: with SMTP id h64mr40527393pfj.163.1557845299473;
+        Tue, 14 May 2019 07:48:19 -0700 (PDT)
 Received: from localhost.localdomain ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id j12sm20461415pff.148.2019.05.14.07.47.43
+        by smtp.gmail.com with ESMTPSA id j12sm20461415pff.148.2019.05.14.07.48.16
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 14 May 2019 07:47:46 -0700 (PDT)
+        Tue, 14 May 2019 07:48:19 -0700 (PDT)
 From:   Changbin Du <changbin.du@gmail.com>
 To:     bhelgaas@google.com, corbet@lwn.net
 Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, mchehab+samsung@kernel.org,
         Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH v6 01/12] Documentation: add Linux PCI to Sphinx TOC tree
-Date:   Tue, 14 May 2019 22:47:23 +0800
-Message-Id: <20190514144734.19760-2-changbin.du@gmail.com>
+Subject: [PATCH v6 10/12] Documentation: PCI: convert endpoint/pci-endpoint-cfs.txt to reST
+Date:   Tue, 14 May 2019 22:47:32 +0800
+Message-Id: <20190514144734.19760-11-changbin.du@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190514144734.19760-1-changbin.du@gmail.com>
 References: <20190514144734.19760-1-changbin.du@gmail.com>
@@ -66,43 +66,180 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a index.rst for PCI subsystem. More docs will be added later.
+This converts the plain text documentation to reStructuredText format and
+add it to Sphinx TOC tree. No essential content change.
 
 Signed-off-by: Changbin Du <changbin.du@gmail.com>
 Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/PCI/index.rst | 9 +++++++++
- Documentation/index.rst     | 1 +
- 2 files changed, 10 insertions(+)
- create mode 100644 Documentation/PCI/index.rst
+ Documentation/PCI/endpoint/index.rst          |  1 +
+ ...-endpoint-cfs.txt => pci-endpoint-cfs.rst} | 99 +++++++++++--------
+ 2 files changed, 57 insertions(+), 43 deletions(-)
+ rename Documentation/PCI/endpoint/{pci-endpoint-cfs.txt => pci-endpoint-cfs.rst} (64%)
 
-diff --git a/Documentation/PCI/index.rst b/Documentation/PCI/index.rst
-new file mode 100644
-index 000000000000..c2f8728d11cf
---- /dev/null
-+++ b/Documentation/PCI/index.rst
-@@ -0,0 +1,9 @@
+diff --git a/Documentation/PCI/endpoint/index.rst b/Documentation/PCI/endpoint/index.rst
+index 0db4f2fcd7f0..3951de9f923c 100644
+--- a/Documentation/PCI/endpoint/index.rst
++++ b/Documentation/PCI/endpoint/index.rst
+@@ -8,3 +8,4 @@ PCI Endpoint Framework
+    :maxdepth: 2
+ 
+    pci-endpoint
++   pci-endpoint-cfs
+diff --git a/Documentation/PCI/endpoint/pci-endpoint-cfs.txt b/Documentation/PCI/endpoint/pci-endpoint-cfs.rst
+similarity index 64%
+rename from Documentation/PCI/endpoint/pci-endpoint-cfs.txt
+rename to Documentation/PCI/endpoint/pci-endpoint-cfs.rst
+index d740f29960a4..b6d39cdec56e 100644
+--- a/Documentation/PCI/endpoint/pci-endpoint-cfs.txt
++++ b/Documentation/PCI/endpoint/pci-endpoint-cfs.rst
+@@ -1,41 +1,51 @@
+-                   CONFIGURING PCI ENDPOINT USING CONFIGFS
+-                    Kishon Vijay Abraham I <kishon@ti.com>
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+=======================
-+Linux PCI Bus Subsystem
-+=======================
++=======================================
++Configuring PCI Endpoint Using CONFIGFS
++=======================================
 +
-+.. toctree::
-+   :maxdepth: 2
-+   :numbered:
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index 9e01aace4f48..fb6477a692b8 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -101,6 +101,7 @@ needed).
-    filesystems/index
-    vm/index
-    bpf/index
-+   PCI/index
-    misc-devices/index
++:Author: Kishon Vijay Abraham I <kishon@ti.com>
  
- Architecture-specific documentation
+ The PCI Endpoint Core exposes configfs entry (pci_ep) to configure the
+ PCI endpoint function and to bind the endpoint function
+ with the endpoint controller. (For introducing other mechanisms to
+ configure the PCI Endpoint Function refer to [1]).
+ 
+-*) Mounting configfs
++Mounting configfs
++=================
+ 
+ The PCI Endpoint Core layer creates pci_ep directory in the mounted configfs
+-directory. configfs can be mounted using the following command.
++directory. configfs can be mounted using the following command::
+ 
+ 	mount -t configfs none /sys/kernel/config
+ 
+-*) Directory Structure
++Directory Structure
++===================
+ 
+ The pci_ep configfs has two directories at its root: controllers and
+ functions. Every EPC device present in the system will have an entry in
+ the *controllers* directory and and every EPF driver present in the system
+ will have an entry in the *functions* directory.
++::
+ 
+-/sys/kernel/config/pci_ep/
+-	.. controllers/
+-	.. functions/
++	/sys/kernel/config/pci_ep/
++		.. controllers/
++		.. functions/
+ 
+-*) Creating EPF Device
++Creating EPF Device
++===================
+ 
+ Every registered EPF driver will be listed in controllers directory. The
+ entries corresponding to EPF driver will be created by the EPF core.
++::
+ 
+-/sys/kernel/config/pci_ep/functions/
+-	.. <EPF Driver1>/
+-		... <EPF Device 11>/
+-		... <EPF Device 21>/
+-	.. <EPF Driver2>/
+-		... <EPF Device 12>/
+-		... <EPF Device 22>/
++	/sys/kernel/config/pci_ep/functions/
++		.. <EPF Driver1>/
++			... <EPF Device 11>/
++			... <EPF Device 21>/
++		.. <EPF Driver2>/
++			... <EPF Device 12>/
++			... <EPF Device 22>/
+ 
+ In order to create a <EPF device> of the type probed by <EPF Driver>, the
+ user has to create a directory inside <EPF DriverN>.
+@@ -44,34 +54,37 @@ Every <EPF device> directory consists of the following entries that can be
+ used to configure the standard configuration header of the endpoint function.
+ (These entries are created by the framework when any new <EPF Device> is
+ created)
+-
+-	.. <EPF Driver1>/
+-		... <EPF Device 11>/
+-			... vendorid
+-			... deviceid
+-			... revid
+-			... progif_code
+-			... subclass_code
+-			... baseclass_code
+-			... cache_line_size
+-			... subsys_vendor_id
+-			... subsys_id
+-			... interrupt_pin
+-
+-*) EPC Device
++::
++
++		.. <EPF Driver1>/
++			... <EPF Device 11>/
++				... vendorid
++				... deviceid
++				... revid
++				... progif_code
++				... subclass_code
++				... baseclass_code
++				... cache_line_size
++				... subsys_vendor_id
++				... subsys_id
++				... interrupt_pin
++
++EPC Device
++==========
+ 
+ Every registered EPC device will be listed in controllers directory. The
+ entries corresponding to EPC device will be created by the EPC core.
+-
+-/sys/kernel/config/pci_ep/controllers/
+-	.. <EPC Device1>/
+-		... <Symlink EPF Device11>/
+-		... <Symlink EPF Device12>/
+-		... start
+-	.. <EPC Device2>/
+-		... <Symlink EPF Device21>/
+-		... <Symlink EPF Device22>/
+-		... start
++::
++
++	/sys/kernel/config/pci_ep/controllers/
++		.. <EPC Device1>/
++			... <Symlink EPF Device11>/
++			... <Symlink EPF Device12>/
++			... start
++		.. <EPC Device2>/
++			... <Symlink EPF Device21>/
++			... <Symlink EPF Device22>/
++			... start
+ 
+ The <EPC Device> directory will have a list of symbolic links to
+ <EPF Device>. These symbolic links should be created by the user to
+@@ -81,7 +94,7 @@ The <EPC Device> directory will also have a *start* field. Once
+ "1" is written to this field, the endpoint device will be ready to
+ establish the link with the host. This is usually done after
+ all the EPF devices are created and linked with the EPC device.
+-
++::
+ 
+ 			 | controllers/
+ 				| <Directory: EPC name>/
+@@ -102,4 +115,4 @@ all the EPF devices are created and linked with the EPC device.
+ 						| interrupt_pin
+ 						| function
+ 
+-[1] -> Documentation/PCI/endpoint/pci-endpoint.txt
++[1] :doc:`pci-endpoint`
 -- 
 2.20.1
 
