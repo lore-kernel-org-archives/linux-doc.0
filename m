@@ -1,91 +1,35 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI
+X-Spam-Status: No, score=-4.5 required=5.0 tests=MAILING_LIST_MULTI,
+	PLING_QUERY,RCVD_IN_BL_SPAMCOP_NET,RCVD_IN_DNSWL_HI,TVD_SPACE_RATIO
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1C7467D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 14 May 2019 08:48:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A8F817D08A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 14 May 2019 09:30:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725916AbfENIsm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 14 May 2019 04:48:42 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:35050 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725985AbfENIsm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 May 2019 04:48:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=6D6XPiWXHxqHbgGlzUb4e9FTkb9mj+8eXq8zwFhMaYI=; b=gQyJ4Bn+wwRdSW9t/2bWSVmyc
-        AwkGokt1sRtEs0MFOzfvXdxNauIujIkO6DiCAA3SOTN0UFbrDi+SLIZripyW+aGfpCexFCP0BzvAH
-        IlYP9j/H30eFgvgo9ZkFb3AKPBLsupHh7y68WZsbeVhh54K9lwJtSLIvcIDJS1VEaRQGKi/fVSfGS
-        48zJdBoc3DzvL/pKKac0qDcALZBmcyi0ZeXu7FkhM4YyodyeuMGqq3ZAdBYQrpl3nrJxsVTrtSutJ
-        0YkFNQHEEV1TPeoT3CoGRRj7cYr67v35O8QkZL1uGCglGPoJ5gpayGhWwv0+XlAiPH89k4GZ/Z81C
-        usWzVhhCw==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hQT5N-0006we-E6; Tue, 14 May 2019 08:46:57 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 662E32029FD7A; Tue, 14 May 2019 10:46:55 +0200 (CEST)
-Date:   Tue, 14 May 2019 10:46:55 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Brendan Higgins <brendanhiggins@google.com>
-Cc:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
-        keescook@google.com, kieran.bingham@ideasonboard.com,
-        mcgrof@kernel.org, robh@kernel.org, sboyd@kernel.org,
-        shuah@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
-        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
-        amir73il@gmail.com, dan.carpenter@oracle.com,
-        dan.j.williams@intel.com, daniel@ffwll.ch, jdike@addtoit.com,
-        joel@jms.id.au, julia.lawall@lip6.fr, khilman@baylibre.com,
-        knut.omang@oracle.com, logang@deltatee.com, mpe@ellerman.id.au,
-        pmladek@suse.com, rdunlap@infradead.org, richard@nod.at,
-        rientjes@google.com, rostedt@goodmis.org, wfg@linux.intel.com,
-        kbuild test robot <lkp@intel.com>
-Subject: Re: [PATCH v3 08/18] objtool: add kunit_try_catch_throw to the
- noreturn list
-Message-ID: <20190514084655.GK2589@hirez.programming.kicks-ass.net>
-References: <20190514054251.186196-1-brendanhiggins@google.com>
- <20190514054251.186196-9-brendanhiggins@google.com>
- <20190514065643.GC2589@hirez.programming.kicks-ass.net>
- <20190514081223.GA230665@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190514081223.GA230665@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1726174AbfENJaK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 14 May 2019 05:30:10 -0400
+Received: from 33-70.izhnt.ru ([88.80.33.70]:60491 "EHLO gateway"
+        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725916AbfENJaK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 14 May 2019 05:30:10 -0400
+X-Greylist: delayed 771 seconds by postgrey-1.27 at vger.kernel.org; Tue, 14 May 2019 05:30:09 EDT
+Received: from 33-79.izhnt.ru (localhost [IPv6:::1])
+        by gateway (Postfix) with SMTP id 3A8BDC429E
+        for <linux-doc@vger.kernel.org>; Tue, 14 May 2019 13:16:05 +0400 (SAMT)
+From:   linux-doc@vger.kernel.org
+To:     linux-doc@vger.kernel.org
+Reply-To: prodawez@armyspy.com
+Subject: Zdravstvuyte! Vas interesuyut kliyentskiye bazy dannykh?
+Message-Id: <20190514091605.3A8BDC429E@gateway>
+Date:   Tue, 14 May 2019 13:16:05 +0400 (SAMT)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 14, 2019 at 01:12:23AM -0700, Brendan Higgins wrote:
-> On Tue, May 14, 2019 at 08:56:43AM +0200, Peter Zijlstra wrote:
-> > On Mon, May 13, 2019 at 10:42:42PM -0700, Brendan Higgins wrote:
-> > > This fixes the following warning seen on GCC 7.3:
-> > >   kunit/test-test.o: warning: objtool: kunit_test_unsuccessful_try() falls through to next function kunit_test_catch()
-> > > 
-> > 
-> > What is that file and function; no kernel tree near me seems to have
-> > that.
-> 
-> Oh, sorry about that. The function is added in the following patch,
-> "[PATCH v3 09/18] kunit: test: add support for test abort"[1].
-> 
-> My apologies if this patch is supposed to come after it in sequence, but
-> I assumed it should come before otherwise objtool would complain about
-> the symbol when it is introduced.
+Zdravstvuyte! Vas interesuyut kliyentskiye bazy dannykh?
 
-Or send me all patches such that I have context, or have a sane
-Changelog that gives me context. Just don't give me one patch with a
-crappy changelog.
+
+
