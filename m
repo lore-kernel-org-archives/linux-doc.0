@@ -6,51 +6,51 @@ X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,USER_IN_DEF_DKIM_WL
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 08EFB7D919
+	by archive.lwn.net (Postfix) with ESMTP id 4F3F47D923
 	for <lwn-linux-doc@archive.lwn.net>; Tue, 14 May 2019 05:47:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727073AbfENFq0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 14 May 2019 01:46:26 -0400
-Received: from mail-pg1-f201.google.com ([209.85.215.201]:54189 "EHLO
-        mail-pg1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727055AbfENFqX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 May 2019 01:46:23 -0400
-Received: by mail-pg1-f201.google.com with SMTP id j36so10771920pgb.20
-        for <linux-doc@vger.kernel.org>; Mon, 13 May 2019 22:46:23 -0700 (PDT)
+        id S1726968AbfENFrS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 14 May 2019 01:47:18 -0400
+Received: from mail-pg1-f202.google.com ([209.85.215.202]:33433 "EHLO
+        mail-pg1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726954AbfENFqS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 14 May 2019 01:46:18 -0400
+Received: by mail-pg1-f202.google.com with SMTP id s8so10827472pgk.0
+        for <linux-doc@vger.kernel.org>; Mon, 13 May 2019 22:46:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=tNDeMg/5pXNKXoffed92pmn5mKLyE8fJ51qEs51jHbo=;
-        b=UlwF03hfMD573CXSZKTM89cl+dGNsQlrAAcNlGkkrX75BIzdQg4aArRMoF9Bmy2Qlw
-         PXrgTSUkgnVN+bnxnLajVm05ycPVxONHbvvbTvDUTENsiu0aJklvsyiVP9j+iBMawv1g
-         FRe5k2u2rDc9MYmWej/lEeO0JpJ/fvi2ZCnyZ1nymlGEMFagxsc78jUduo/GgXdowJnf
-         66WgavGICXmbJjT7ztAy1SZxxz5kK12lWrJp9UqiqXt4ZT/xIZ+fi1NJB6D9ojukOtuR
-         tkyYIx2134H/mLbxf1sCJ8MTSPGyosGhq0HrbxI/4wkmO4LkcQgWlCRtmPYogqh4QOhf
-         B1kw==
+        bh=bLsKx2EZGy7Z5lmF6P8U1p14LxEyvmeV2AI/h0+08ao=;
+        b=trNLxnOE/IkVi+THnZC5zuzVK66Ds/zxtFcEZ0xaKOlBKZp8EVlgJdE5a41nKVLOak
+         d/C4bsIpPCZrrQGbr7dTdpPlTHcg1+x0yu5z7jRpT0GzAeWrRpR9KS+TocVYDltRzJmc
+         jYVSPDH3yv888FbEuud9oUSMxR3HEEK7gencCqXnkRTgV4oeMK6PzU1eLoTJ2Td/e6LK
+         RML00iKi0PeDqYPceyNsYxH5I0tY84VAHVkEncwEGAK2kBKAVssA6JSRbTlZ9xFXIgBg
+         XV6FLulAyLvfgBrI0hMoTprEy7GTvJxF03hJ4fSf9BZHKXOnS/gYV2JlvD2/70Rw6qEI
+         iVTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=tNDeMg/5pXNKXoffed92pmn5mKLyE8fJ51qEs51jHbo=;
-        b=pNu0b73UXHURi61V4IvM81fiIrmZO+f9yoiJkq8KQV7cJRqvni0np+8uub1OUDiDNI
-         iRf5JL3H+D9e+0RWQ5AyECEc7Ma9mZCAlGr3kuMI7fNwtM4GrwvwmnykI7Fth6TvZib9
-         rqroWOIaj8d6l5GdP3vzqL9xwFPVDKK5FVBHcvmH4qvXTXTKq3LPpeSExzVI9KOKLkp9
-         gpM9CkenHU3PrJkuK78OL3tA5ujQp0DoTbhePogRRSbqLr0CdsalZKDoDerEsnfYe5AH
-         8/EpmSEM3iRTa8L6OHScDQKrWaHFDZOU59aFVAwHY3zdFhB/80UB08HC303aNs4xxd+q
-         0lzw==
-X-Gm-Message-State: APjAAAUMIXRTL2Kkfn5CFgjdkstLwTOmt1k4lhlOmkaWe18fgg8z2CMf
-        R86FtDauTcAEPgpJQsE7vy8I1YpF848OqT1UptYGJw==
-X-Google-Smtp-Source: APXvYqyrOv4qazCxPTd56gxM/i8w2fE956x/NWO2xJ602032eHv+/2M1Zv2X7CH3OxIYsrqnxjIClL4SIX+qLSgOSaKb8A==
-X-Received: by 2002:a63:1d14:: with SMTP id d20mr21863890pgd.281.1557812782521;
- Mon, 13 May 2019 22:46:22 -0700 (PDT)
-Date:   Mon, 13 May 2019 22:42:46 -0700
+        bh=bLsKx2EZGy7Z5lmF6P8U1p14LxEyvmeV2AI/h0+08ao=;
+        b=Ywqp773/2VJwESsd40seBUXnOnvSSaFzNhSr1X3Q4hCdI4AR9PGrLYku2/nR6JJPju
+         BKP6o2lskShMKVPPgJIX60kzUrW/pb3cKxrqxJknAbxaIHp5bvalAtpo3YPIWuy+epsp
+         XP3AHExAiqcr9EgVpCIg6+K5NXAful1ikzJhTNEDmYsd2BZiM7fr9pvAM0Wrks9FjX5i
+         BZ0RgI7dHvy8YbRV6GrvwvAGUEWCCcd/VYJGP/bFt6qUiVfZMvCaRGUHHWM92JV7G5eL
+         Se5dDMgwuPrlTe3wu9il6othGdzkLRz7DUzkJePb1qHZXo4acaUiIuGeL2pX4ryfTYfk
+         Qovg==
+X-Gm-Message-State: APjAAAUERUbRxgwsFufamS96nFx3c72aZeeJdE1sTmIZzf3/4/qEOZnR
+        Cj2Nj4sc1h3VRJ/o5ubEEU+HSvP9pKDHa1no1u1hHA==
+X-Google-Smtp-Source: APXvYqxC4IZqzCkYoBdrjM/DzZZUXmpawIUOq6ue1CgSG8WZGX5uvRIf46/nWggobJ3leeRGW6XQk10jmyIQ/DrgnosBWw==
+X-Received: by 2002:a63:d252:: with SMTP id t18mr36537211pgi.131.1557812777363;
+ Mon, 13 May 2019 22:46:17 -0700 (PDT)
+Date:   Mon, 13 May 2019 22:42:44 -0700
 In-Reply-To: <20190514054251.186196-1-brendanhiggins@google.com>
-Message-Id: <20190514054251.186196-13-brendanhiggins@google.com>
+Message-Id: <20190514054251.186196-11-brendanhiggins@google.com>
 Mime-Version: 1.0
 References: <20190514054251.186196-1-brendanhiggins@google.com>
 X-Mailer: git-send-email 2.21.0.1020.gf2820cf01a-goog
-Subject: [PATCH v3 12/18] kunit: test: add tests for KUnit managed resources
+Subject: [PATCH v3 10/18] kunit: test: add tests for kunit test abort
 From:   Brendan Higgins <brendanhiggins@google.com>
 To:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
         keescook@google.com, kieran.bingham@ideasonboard.com,
@@ -68,7 +68,6 @@ Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
         knut.omang@oracle.com, logang@deltatee.com, mpe@ellerman.id.au,
         pmladek@suse.com, rdunlap@infradead.org, richard@nod.at,
         rientjes@google.com, rostedt@goodmis.org, wfg@linux.intel.com,
-        Avinash Kondareddy <akndr41@gmail.com>,
         Brendan Higgins <brendanhiggins@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
@@ -76,157 +75,139 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Avinash Kondareddy <akndr41@gmail.com>
+Add KUnit tests for the KUnit test abort mechanism (see preceding
+commit). Add tests both for general try catch mechanism as well as
+non-architecture specific mechanism.
 
-Add unit tests for KUnit managed resources. KUnit managed resources
-(struct kunit_resource) are resources that are automatically cleaned up
-at the end of a KUnit test, similar to the concept of devm_* managed
-resources.
-
-Signed-off-by: Avinash Kondareddy <akndr41@gmail.com>
 Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
 Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
 ---
-Changes Since Last Revision:
- - Added more details to change log as per Shuah's comments.
- - Made use of new EXPECT macro for pointer comparison to warning
-   reported by kbuild bot.
----
- kunit/test-test.c | 123 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 123 insertions(+)
+ kunit/Makefile    |   3 +-
+ kunit/test-test.c | 101 ++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 103 insertions(+), 1 deletion(-)
+ create mode 100644 kunit/test-test.c
 
+diff --git a/kunit/Makefile b/kunit/Makefile
+index 1f7680cfa11ad..533355867abd2 100644
+--- a/kunit/Makefile
++++ b/kunit/Makefile
+@@ -3,6 +3,7 @@ obj-$(CONFIG_KUNIT) +=			test.o \
+ 					kunit-stream.o \
+ 					try-catch.o
+ 
+-obj-$(CONFIG_KUNIT_TEST) +=		string-stream-test.o
++obj-$(CONFIG_KUNIT_TEST) +=		test-test.o \
++					string-stream-test.o
+ 
+ obj-$(CONFIG_KUNIT_EXAMPLE_TEST) +=	example-test.o
 diff --git a/kunit/test-test.c b/kunit/test-test.c
-index 7afc9bb52f7be..ee926f798b266 100644
---- a/kunit/test-test.c
+new file mode 100644
+index 0000000000000..577df5a8d309e
+--- /dev/null
 +++ b/kunit/test-test.c
-@@ -101,3 +101,126 @@ static struct kunit_module kunit_try_catch_test_module = {
- 	.test_cases = kunit_try_catch_test_cases,
- };
- module_test(kunit_try_catch_test_module);
-+
+@@ -0,0 +1,101 @@
++// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * Context for testing test managed resources
-+ * is_resource_initialized is used to test arbitrary resources
++ * KUnit test for core test infrastructure.
++ *
++ * Copyright (C) 2019, Google LLC.
++ * Author: Brendan Higgins <brendanhiggins@google.com>
 + */
-+struct kunit_test_resource_context {
-+	struct kunit test;
-+	bool is_resource_initialized;
++#include <kunit/test.h>
++
++struct kunit_try_catch_test_context {
++	struct kunit_try_catch *try_catch;
++	bool function_called;
 +};
 +
-+static int fake_resource_init(struct kunit_resource *res, void *context)
++void kunit_test_successful_try(void *data)
 +{
-+	struct kunit_test_resource_context *ctx = context;
++	struct kunit *test = data;
++	struct kunit_try_catch_test_context *ctx = test->priv;
 +
-+	res->allocation = &ctx->is_resource_initialized;
-+	ctx->is_resource_initialized = true;
-+	return 0;
++	ctx->function_called = true;
 +}
 +
-+static void fake_resource_free(struct kunit_resource *res)
++void kunit_test_no_catch(void *data)
 +{
-+	bool *is_resource_initialized = res->allocation;
++	struct kunit *test = data;
 +
-+	*is_resource_initialized = false;
++	KUNIT_FAIL(test, "Catch should not be called.\n");
 +}
 +
-+static void kunit_resource_test_init_resources(struct kunit *test)
++static void kunit_test_try_catch_successful_try_no_catch(struct kunit *test)
 +{
-+	struct kunit_test_resource_context *ctx = test->priv;
++	struct kunit_try_catch_test_context *ctx = test->priv;
++	struct kunit_try_catch *try_catch = ctx->try_catch;
 +
-+	kunit_init_test(&ctx->test, "testing_test_init_test");
++	kunit_try_catch_init(try_catch,
++			     test,
++			     kunit_test_successful_try,
++			     kunit_test_no_catch);
++	kunit_try_catch_run(try_catch, test);
 +
-+	KUNIT_EXPECT_TRUE(test, list_empty(&ctx->test.resources));
++	KUNIT_EXPECT_TRUE(test, ctx->function_called);
 +}
 +
-+static void kunit_resource_test_alloc_resource(struct kunit *test)
++void kunit_test_unsuccessful_try(void *data)
 +{
-+	struct kunit_test_resource_context *ctx = test->priv;
-+	struct kunit_resource *res;
-+	kunit_resource_free_t free = fake_resource_free;
++	struct kunit *test = data;
++	struct kunit_try_catch_test_context *ctx = test->priv;
++	struct kunit_try_catch *try_catch = ctx->try_catch;
 +
-+	res = kunit_alloc_resource(&ctx->test,
-+				   fake_resource_init,
-+				   fake_resource_free,
-+				   ctx);
-+
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, res);
-+	KUNIT_EXPECT_PTR_EQ(test,
-+			    &ctx->is_resource_initialized, res->allocation);
-+	KUNIT_EXPECT_TRUE(test, list_is_last(&res->node, &ctx->test.resources));
-+	KUNIT_EXPECT_PTR_EQ(test, free, res->free);
++	kunit_try_catch_throw(try_catch);
++	KUNIT_FAIL(test, "This line should never be reached.\n");
 +}
 +
-+static void kunit_resource_test_free_resource(struct kunit *test)
++void kunit_test_catch(void *data)
 +{
-+	struct kunit_test_resource_context *ctx = test->priv;
-+	struct kunit_resource *res = kunit_alloc_resource(&ctx->test,
-+							  fake_resource_init,
-+							  fake_resource_free,
-+							  ctx);
++	struct kunit *test = data;
++	struct kunit_try_catch_test_context *ctx = test->priv;
 +
-+	kunit_free_resource(&ctx->test, res);
-+
-+	KUNIT_EXPECT_EQ(test, false, ctx->is_resource_initialized);
-+	KUNIT_EXPECT_TRUE(test, list_empty(&ctx->test.resources));
++	ctx->function_called = true;
 +}
 +
-+static void kunit_resource_test_cleanup_resources(struct kunit *test)
++static void kunit_test_try_catch_unsuccessful_try_does_catch(struct kunit *test)
 +{
-+	int i;
-+	struct kunit_test_resource_context *ctx = test->priv;
-+	struct kunit_resource *resources[5];
++	struct kunit_try_catch_test_context *ctx = test->priv;
++	struct kunit_try_catch *try_catch = ctx->try_catch;
 +
-+	for (i = 0; i < ARRAY_SIZE(resources); i++) {
-+		resources[i] = kunit_alloc_resource(&ctx->test,
-+						    fake_resource_init,
-+						    fake_resource_free,
-+						    ctx);
-+	}
++	kunit_try_catch_init(try_catch,
++			     test,
++			     kunit_test_unsuccessful_try,
++			     kunit_test_catch);
++	kunit_try_catch_run(try_catch, test);
 +
-+	kunit_cleanup(&ctx->test);
-+
-+	KUNIT_EXPECT_TRUE(test, list_empty(&ctx->test.resources));
++	KUNIT_EXPECT_TRUE(test, ctx->function_called);
 +}
 +
-+static int kunit_resource_test_init(struct kunit *test)
++static int kunit_try_catch_test_init(struct kunit *test)
 +{
-+	struct kunit_test_resource_context *ctx =
-+			kzalloc(sizeof(*ctx), GFP_KERNEL);
++	struct kunit_try_catch_test_context *ctx;
 +
-+	if (!ctx)
-+		return -ENOMEM;
-+
++	ctx = kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
 +	test->priv = ctx;
 +
-+	kunit_init_test(&ctx->test, "test_test_context");
++	ctx->try_catch = kunit_kmalloc(test,
++				       sizeof(*ctx->try_catch),
++				       GFP_KERNEL);
 +
 +	return 0;
 +}
 +
-+static void kunit_resource_test_exit(struct kunit *test)
-+{
-+	struct kunit_test_resource_context *ctx = test->priv;
-+
-+	kunit_cleanup(&ctx->test);
-+	kfree(ctx);
-+}
-+
-+static struct kunit_case kunit_resource_test_cases[] = {
-+	KUNIT_CASE(kunit_resource_test_init_resources),
-+	KUNIT_CASE(kunit_resource_test_alloc_resource),
-+	KUNIT_CASE(kunit_resource_test_free_resource),
-+	KUNIT_CASE(kunit_resource_test_cleanup_resources),
++static struct kunit_case kunit_try_catch_test_cases[] = {
++	KUNIT_CASE(kunit_test_try_catch_successful_try_no_catch),
++	KUNIT_CASE(kunit_test_try_catch_unsuccessful_try_does_catch),
 +	{},
 +};
 +
-+static struct kunit_module kunit_resource_test_module = {
-+	.name = "kunit-resource-test",
-+	.init = kunit_resource_test_init,
-+	.exit = kunit_resource_test_exit,
-+	.test_cases = kunit_resource_test_cases,
++static struct kunit_module kunit_try_catch_test_module = {
++	.name = "kunit-try-catch-test",
++	.init = kunit_try_catch_test_init,
++	.test_cases = kunit_try_catch_test_cases,
 +};
-+module_test(kunit_resource_test_module);
++module_test(kunit_try_catch_test_module);
 -- 
 2.21.0.1020.gf2820cf01a-goog
 
