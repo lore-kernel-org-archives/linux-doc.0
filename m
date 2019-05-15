@@ -2,86 +2,59 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8A20B7D912
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 15 May 2019 13:45:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 39EEB7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 15 May 2019 16:56:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727784AbfEONpv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 15 May 2019 09:45:51 -0400
-Received: from ms.lwn.net ([45.79.88.28]:51042 "EHLO ms.lwn.net"
+        id S1726755AbfEOQ4u (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 15 May 2019 12:56:50 -0400
+Received: from ms.lwn.net ([45.79.88.28]:51964 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726794AbfEONpu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 15 May 2019 09:45:50 -0400
+        id S1726690AbfEOQ4u (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 15 May 2019 12:56:50 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id CACC1AAB;
-        Wed, 15 May 2019 13:45:47 +0000 (UTC)
-Date:   Wed, 15 May 2019 07:45:46 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 971E6316;
+        Wed, 15 May 2019 16:56:49 +0000 (UTC)
+Date:   Wed, 15 May 2019 10:56:48 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Brendan Higgins <brendanhiggins@google.com>
-Cc:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
-        keescook@google.com, kieran.bingham@ideasonboard.com,
-        mcgrof@kernel.org, robh@kernel.org, sboyd@kernel.org,
-        shuah@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com,
-        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
-        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
-        amir73il@gmail.com, dan.carpenter@oracle.com,
-        dan.j.williams@intel.com, daniel@ffwll.ch, jdike@addtoit.com,
-        joel@jms.id.au, julia.lawall@lip6.fr, khilman@baylibre.com,
-        knut.omang@oracle.com, logang@deltatee.com, mpe@ellerman.id.au,
-        pmladek@suse.com, rdunlap@infradead.org, richard@nod.at,
-        rientjes@google.com, rostedt@goodmis.org, wfg@linux.intel.com,
-        Felix Guo <felixguoxiuping@gmail.com>
-Subject: Re: [PATCH v3 15/18] Documentation: kunit: add documentation for
- KUnit
-Message-ID: <20190515074546.07700142@lwn.net>
-In-Reply-To: <20190514231902.GA12893@google.com>
-References: <20190514054251.186196-1-brendanhiggins@google.com>
-        <20190514054251.186196-16-brendanhiggins@google.com>
-        <20190514073422.4287267c@lwn.net>
-        <20190514180810.GA109557@google.com>
-        <20190514121623.0314bf07@lwn.net>
-        <20190514231902.GA12893@google.com>
+To:     "Tobin C. Harding" <me@tobin.cc>
+Cc:     "Thomas Hellstrom" <thellstrom@vmware.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "minyard@acm.org" <minyard@acm.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Tobin C. Harding" <tobin@kernel.org>
+Subject: [TRIVIA] Re: [PATCH] docs: Move kref.txt to core-api/kref.rst
+Message-ID: <20190515105648.61164eab@lwn.net>
+In-Reply-To: <f48e76f7-6b95-4cf0-82af-424119bb2eb4@www.fastmail.com>
+References: <20190510001747.8767-1-tobin@kernel.org>
+        <a3db1384695bbaa051d93c18ac30175fb95165e3.camel@vmware.com>
+        <f48e76f7-6b95-4cf0-82af-424119bb2eb4@www.fastmail.com>
 Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 14 May 2019 16:19:02 -0700
-Brendan Higgins <brendanhiggins@google.com> wrote:
+On Fri, 10 May 2019 16:45:45 -0400
+"Tobin C. Harding" <me@tobin.cc> wrote:
 
-> Hmmm...probably premature to bring this up, but Documentation/dev-tools/
-> is kind of thrown together.
+> I read once that they used 72 characters on punch cards at times because
+> the other 8 characters got mangled for some reason.
 
-Wait a minute, man... *I* created that directory, are you impugning my
-work? :)
+Those of use who worked in Fortran understand these things... columns
+73-80 were ignored by the compiler.  The normal use was to put line
+numbers in there to help recovery when you dropped your card deck on the
+floor and had to unshuffle things.  A diagonal line drawn across the
+top of deck helped a lot, but it was good to have verification for the
+marginal cases.
 
-But yes, "kind of thrown together" is a good description of much of
-Documentation/.  A number of people have been working for years to make
-that better, with some success, but there is a long way to go yet.  The
-dev-tools directory is an improvement over having that stuff scattered all
-over the place — at least it's actually thrown together — but it's not the
-end point.
-
-> It would be nice to provide a coherent overview, maybe provide some
-> basic grouping as well.
-> 
-> It would be nice if there was kind of a gentle introduction to the
-> tools, which ones you should be looking at, when, why, etc.
-
-Total agreement.  All we need is somebody to write it!  :)
-
-Thanks,
+Kids today just don't have any culture at all...:)
 
 jon
