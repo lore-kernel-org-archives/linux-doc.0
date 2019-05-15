@@ -1,115 +1,96 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	FREEMAIL_REPLYTO_END_DIGIT,HEADER_FROM_DIFFERENT_DOMAINS,HK_SCAM_N2,
+	LOTS_OF_MONEY,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,T_MONEY_PERCENT
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EE30A7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 15 May 2019 08:14:59 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 127AA7D910
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 15 May 2019 11:57:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726495AbfEOIOv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 15 May 2019 04:14:51 -0400
-Received: from mga17.intel.com ([192.55.52.151]:42327 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725876AbfEOIOv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 15 May 2019 04:14:51 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 May 2019 01:14:50 -0700
-X-ExtLoop1: 1
-Received: from jsakkine-mobl1.tm.intel.com (HELO localhost) ([10.237.50.189])
-  by orsmga002.jf.intel.com with ESMTP; 15 May 2019 01:14:46 -0700
-Date:   Wed, 15 May 2019 11:14:55 +0300
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     Sasha Levin <sashal@kernel.org>
-Cc:     peterhuewe@gmx.de, jgg@ziepe.ca, corbet@lwn.net,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-kernel@microsoft.com,
-        thiruan@microsoft.com, bryankel@microsoft.com
-Subject: Re: [PATCH v3 2/2] ftpm: add documentation for ftpm driver
-Message-ID: <20190515081455.GB7708@linux.intel.com>
-References: <20190415155636.32748-1-sashal@kernel.org>
- <20190415155636.32748-3-sashal@kernel.org>
+        id S1730443AbfEOLz6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 15 May 2019 07:55:58 -0400
+Received: from mail-it1-f194.google.com ([209.85.166.194]:36525 "EHLO
+        mail-it1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728465AbfEOLz5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 15 May 2019 07:55:57 -0400
+Received: by mail-it1-f194.google.com with SMTP id e184so4066790ite.1
+        for <linux-doc@vger.kernel.org>; Wed, 15 May 2019 04:55:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=SAoSdsefzzCmPOTzwU+Ovh/O9jS+esAN3o944dSuqEw=;
+        b=OaBhowHs6PkLzfGHZO951Ak0XLLB/IrauHdGlrDdqNycSfP0PTyvyzPp5DZHsyvKni
+         stw+vEmCcDXHE1p6Vs/69A9XvG5psiCRYJV6/rCbJsmnxEZ+ooYwimWxQiV/kHecyaJl
+         4yr4CVLhVU8mekwmefltYci8uAENKpPX8VJkDdsNCNb9G2th3YNHq+RAVZpsbY1V2I6B
+         PkGqD+SblzmbVjLuGxuJzb1VvZTSg/sPVo6WL2VFGbYobKIWTLiSj+5ZZxwySQ72iW5v
+         JsXsaLb0BXpT2GHIrrjbW0RlT7nGWcw3cLIOTtz77HZ5kllsvtaX/gSXLVtxRwdEUlYg
+         /tKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=SAoSdsefzzCmPOTzwU+Ovh/O9jS+esAN3o944dSuqEw=;
+        b=h4VuFasdRDLr2FiCIYYnAjcQehyL/tuQbFSFIKTEgxDP0Rb/xMrpbH7OWKzUgppBfW
+         HesAObpDvUEQM2tzQAo/Kftek45mK1aJYyktuCQoWJlHWPtCiVASTHqT6dmPbQdDNmnt
+         ILEKA4O8JO7QUFAsxz3WsudW8GoCIpi4+g3ktyZVqxSDdT3/uYgtvrYbuRFFSUkUBEzS
+         NgtNFzXqWCbEp2OYKAAMVmsB3B8/no5TENkKOWLneocp7nsFV7LiVPu7N84h9dNRaGzR
+         X1LBqREqckdBYYLG3hOHa36yt+VlwKCJv1V76YpbS9F9bZhZXxd9nWIW2uptMKNhKA9A
+         1anA==
+X-Gm-Message-State: APjAAAWvZlNuj4OauuFQXKGHmtHQNktgMi+DfNjvURGee27Sgx6gg6qM
+        mKFa4s2mSv6s6DvbvYtngeB78STsGSxJOAK+IYM=
+X-Google-Smtp-Source: APXvYqywLETmL4HK3hPb8PKp8o6OVD5Z/ShVVeGpYceUPaTVT0uFsxNzKHtqmcVGLnJJWOz7wCLfHT1QjGHBmn21yro=
+X-Received: by 2002:a24:67d1:: with SMTP id u200mr7345125itc.131.1557921356611;
+ Wed, 15 May 2019 04:55:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190415155636.32748-3-sashal@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Received: by 2002:a4f:f309:0:0:0:0:0 with HTTP; Wed, 15 May 2019 04:55:55
+ -0700 (PDT)
+Reply-To: eddywilliam0002@gmail.com
+From:   eddy william <kouevigathk@gmail.com>
+Date:   Wed, 15 May 2019 13:55:55 +0200
+Message-ID: <CAMpCND2KX4M0ovFKtZ-UzsDGwkcXT3Dx05W0M2Jwy2VpNrgntA@mail.gmail.com>
+Subject: hello
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 15, 2019 at 11:56:36AM -0400, Sasha Levin wrote:
-> This patch adds basic documentation to describe the new fTPM driver.
-> 
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> Signed-off-by: Sasha Levin (Microsoft) <sashal@kernel.org>
-> ---
->  Documentation/security/tpm/index.rst        |  1 +
->  Documentation/security/tpm/tpm_ftpm_tee.rst | 31 +++++++++++++++++++++
->  2 files changed, 32 insertions(+)
->  create mode 100644 Documentation/security/tpm/tpm_ftpm_tee.rst
-> 
-> diff --git a/Documentation/security/tpm/index.rst b/Documentation/security/tpm/index.rst
-> index af77a7bbb070..15783668644f 100644
-> --- a/Documentation/security/tpm/index.rst
-> +++ b/Documentation/security/tpm/index.rst
-> @@ -4,4 +4,5 @@ Trusted Platform Module documentation
->  
->  .. toctree::
->  
-> +   tpm_ftpm_tee
->     tpm_vtpm_proxy
-> diff --git a/Documentation/security/tpm/tpm_ftpm_tee.rst b/Documentation/security/tpm/tpm_ftpm_tee.rst
-> new file mode 100644
-> index 000000000000..29c2f8b5ed10
-> --- /dev/null
-> +++ b/Documentation/security/tpm/tpm_ftpm_tee.rst
-> @@ -0,0 +1,31 @@
-> +=============================================
-> +Firmware TPM Driver
-> +=============================================
-> +
-> +| Authors:
-> +| Thirupathaiah Annapureddy <thiruan@microsoft.com>
-> +| Sasha Levin <sashal@kernel.org>
-> +
-> +This document describes the firmware Trusted Platform Module (fTPM)
-> +device driver.
-> +
-> +Introduction
-> +============
-> +
-> +This driver is a shim for a firmware implemented in ARM's TrustZone
-> +environment. The driver allows programs to interact with the TPM in the same
-> +way the would interact with a hardware TPM.
-> +
-> +Design
-> +======
-> +
-> +The driver acts as a thin layer that passes commands to and from a TPM
-> +implemented in firmware. The driver itself doesn't contain much logic and is
-> +used more like a dumb pipe between firmware and kernel/userspace.
-> +
-> +The firmware itself is based on the following paper:
-> +https://www.microsoft.com/en-us/research/wp-content/uploads/2017/06/ftpm1.pdf
-> +
-> +When the driver is loaded it will expose ``/dev/tpmX`` character devices to
-> +userspace which will enable userspace to communicate with the firmware tpm
-> +through this device.
-> -- 
-> 2.19.1
-> 
+Mijn naam is Eddy William. Ik ben van beroep advocaat. Ik wil je aanbieden
+nabestaanden van mijn cli=C3=ABnt. Je ervaart de som van ($ 14,2 miljoen)
+dollars die mijn cli=C3=ABnt voor zijn overlijden op de bank heeft achterge=
+laten.
 
-Actually this would a better place at least with some words to describe
-what is TEE. I'm, for example, confused whether there is only single TEE
-in existence always used with TZ or is this some MS specific TEE.
+Mijn klant is een burger van jouw land die stierf in auto-ongeluk met zijn =
+vrouw
+en alleen zoon. Ik krijg 50% van het totale fonds en 50% wel
+voor jou zijn.
 
-Otherwise, looks legit.
+Neem hier voor meer informatie contact op met mijn priv=C3=A9mail:
+eddywilliam0002@gmail.com
 
-/Jarkko
+Bij voorbaat hartelijk dank,
+Eddy William,
+
+
+
+Hello
+
+My name is Eddy William I am a lawyer by profession. I wish to offer you
+the next of kin to my client. You will inherit the sum of ($14.2 Million)
+dollars my client left in the bank before his death.
+
+My client is a citizen of your country who died in auto crash with his wife
+and only son. I will be entitled with 50% of the total fund while 50% will
+be for you.
+
+Please contact my private email here for more details:eddywilliam0002@gmail=
+.com
+
+Many thanks in advance,
+Mr.Eddy William,
