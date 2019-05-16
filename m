@@ -1,170 +1,142 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,HTTP_ESCAPED_HOST,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 90EB67D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 16 May 2019 07:06:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 489B77D982
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 16 May 2019 11:40:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726573AbfEPHGT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 16 May 2019 03:06:19 -0400
-Received: from mail-vs1-f65.google.com ([209.85.217.65]:39150 "EHLO
-        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726277AbfEPHGS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 May 2019 03:06:18 -0400
-Received: by mail-vs1-f65.google.com with SMTP id m1so1624210vsr.6
-        for <linux-doc@vger.kernel.org>; Thu, 16 May 2019 00:06:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=3tuyRdp1kiTY23EHvc9NEBL/dfI6XqAQnryU6YgN88k=;
-        b=VXisOUaRMulel+iyFbX21Xi2jHYGI6moKFyX5kvQe7al8mpkl0q80RJl6c5kjnsh1h
-         yWGuLg1y5NZPcm7p+Cw47rCHhC+0XjiL8ZxQniuJ0M8kQmjlD3hcn2PsQw+7K/Wr92xt
-         Ym9VT+hZVUxX6HKFvEbHNWvSD5ZzczOTri+dD3Q/TaQAj+RpiCw/TJFip78oFa1mAnjw
-         eY6fVaVTm8jK+vUgj6YSwGVV5STazrNbXYDN8soNzs9QjR+a4N/WdtBXU1Sll2PyYtuz
-         qe0rorZxQjBQriGR++jFIqbXLslnfOZxl+HPeTqApkxq1TtXLr4ASaBy8bbTSaXK+evi
-         p8Ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3tuyRdp1kiTY23EHvc9NEBL/dfI6XqAQnryU6YgN88k=;
-        b=qg7elyU0ScSh5Znns4N+R/bVSiLeywre5ZovRMcvNjQNNgqEASJmBX0gz7K1x6nFWF
-         9tN+tszkA/5q4hzWqcA3vOMKnPdauB3A7JSr6R54PG7cGOc42rJ9ycd81DBUDDpQpaO7
-         x21LKmGL+g3JiwvjSjyA3AZTOPFrrq5YIGpLLzCfqoCjHDr34a7EoYJIzEqCH5a+xFcN
-         P8o3i6INirmrPNTHY2WudX9qnhUMwqlg0FoqKJHMXal3YCCCajfdBlUZuPZqyKcFqggJ
-         8V1dUSWPZHlsU10rAwyZZI9/NChfU5AR+WqZS9Ac+z6cQ0mwvx7rJkR1Z0XLdfVF96gA
-         IaEA==
-X-Gm-Message-State: APjAAAXH7YVoIQ4O8wBZgoTwmmncya5IX+jy8/W66PbIw11nujmWIwSf
-        T6NodNOdy97DBbcr3lyGnjiFK4lgAoo0FfMyoZYvcg==
-X-Google-Smtp-Source: APXvYqyViiR+25Q5khqd7QCbhk03N20cWs1hjwkUwhl4DGOsX3b3Ue0RL6+ZKESk/A7zZpAsuR5BcBvLLt4soUS7uOA=
-X-Received: by 2002:a67:2781:: with SMTP id n123mr5270839vsn.141.1557990377174;
- Thu, 16 May 2019 00:06:17 -0700 (PDT)
+        id S1727663AbfEPLkS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 16 May 2019 07:40:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48412 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726902AbfEPLkR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 May 2019 07:40:17 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id EE11721743;
+        Thu, 16 May 2019 11:40:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1558006815;
+        bh=oHQYJdQDTFgVoRjfMODasU/5xTG+IrR4w/TIqKhZhe4=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=bieknNfKO0ro6jMw3Vpvt+HhQDWD1Gc6BvL2JnojWJaYA9KJDmNer3FjjKO02ipRl
+         w/lIYKALrLCAj8jHiVnzvVy90i5H4nAHyf/UFmFMongsCvq6N1dE9vXON8YcY1aK1g
+         OQTStYOzLrDUzanzKnzbXAWiUa/oHRh1hZWvOI50=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>,
+        Sasha Levin <sashal@kernel.org>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.0 28/34] KVM: fix KVM_CLEAR_DIRTY_LOG for memory slots of unaligned size
+Date:   Thu, 16 May 2019 07:39:25 -0400
+Message-Id: <20190516113932.8348-28-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190516113932.8348-1-sashal@kernel.org>
+References: <20190516113932.8348-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <20190415155636.32748-1-sashal@kernel.org> <20190507174020.GH1747@sasha-vm>
- <20190508124436.GE7642@linux.intel.com> <20190514193056.GN11972@sasha-vm>
- <CAFA6WYM06E0y9o6+CLNPe48spiL=UDEqoGsidMbk1dBa5Rbmkg@mail.gmail.com> <CY4PR21MB0279339E8B0A15414C8F9E14BC0A0@CY4PR21MB0279.namprd21.prod.outlook.com>
-In-Reply-To: <CY4PR21MB0279339E8B0A15414C8F9E14BC0A0@CY4PR21MB0279.namprd21.prod.outlook.com>
-From:   Sumit Garg <sumit.garg@linaro.org>
-Date:   Thu, 16 May 2019 12:36:05 +0530
-Message-ID: <CAFA6WYMvuF+tAA_GmkVg=FTvuuAhMuM=um7kakq=YARaP8un5Q@mail.gmail.com>
-Subject: Re: [PATCH v3 0/2] ftpm: a firmware based TPM driver
-To:     Thirupathaiah Annapureddy <thiruan@microsoft.com>
-Cc:     Sasha Levin <sashal@kernel.org>,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        "peterhuewe@gmx.de" <peterhuewe@gmx.de>,
-        "jgg@ziepe.ca" <jgg@ziepe.ca>, "corbet@lwn.net" <corbet@lwn.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        Microsoft Linux Kernel List <linux-kernel@microsoft.com>,
-        "Bryan Kelly (CSI)" <bryankel@microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 16 May 2019 at 06:30, Thirupathaiah Annapureddy
-<thiruan@microsoft.com> wrote:
->
->
->
-> > -----Original Message-----
-> > From: Sumit Garg <sumit.garg@linaro.org>
-> > Sent: Tuesday, May 14, 2019 7:02 PM
-> > To: Sasha Levin <sashal@kernel.org>
-> > Cc: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>; peterhuewe@gmx.de;
-> > jgg@ziepe.ca; corbet@lwn.net; Linux Kernel Mailing List <linux-
-> > kernel@vger.kernel.org>; linux-doc@vger.kernel.org; linux-
-> > integrity@vger.kernel.org; Microsoft Linux Kernel List <linux-
-> > kernel@microsoft.com>; Thirupathaiah Annapureddy <thiruan@microsoft.com>;
-> > Bryan Kelly (CSI) <bryankel@microsoft.com>
-> > Subject: Re: [PATCH v3 0/2] ftpm: a firmware based TPM driver
-> >
-> > On Wed, 15 May 2019 at 01:00, Sasha Levin <sashal@kernel.org> wrote:
-> > >
-> > > On Wed, May 08, 2019 at 03:44:36PM +0300, Jarkko Sakkinen wrote:
-> > > >On Tue, May 07, 2019 at 01:40:20PM -0400, Sasha Levin wrote:
-> > > >> On Mon, Apr 15, 2019 at 11:56:34AM -0400, Sasha Levin wrote:
-> > > >> > From: "Sasha Levin (Microsoft)" <sashal@kernel.org>
-> > > >> >
-> > > >> > Changes since v2:
-> > > >> >
-> > > >> > - Drop the devicetree bindings patch (we don't add any new ones).
-> > > >> > - More code cleanups based on Jason Gunthorpe's review.
-> > > >> >
-> > > >> > Sasha Levin (2):
-> > > >> >  ftpm: firmware TPM running in TEE
-> > > >> >  ftpm: add documentation for ftpm driver
-> > > >>
-> > > >> Ping? Does anyone have any objections to this?
-> > > >
-> > > >Sorry I've been on vacation week before last week and last week
-> > > >I was extremely busy because I had been on vacation. This in
-> > > >my TODO list. Will look into it tomorrow in detail.
-> > > >
-> > > >Apologies for the delay with this!
-> > >
-> > > Hi Jarkko,
-> > >
-> > > If there aren't any big objections to this, can we get it merged in?
-> > > We'll be happy to address any comments that come up.
-> >
-> > I guess you have missed or ignored this comment [1]. Please address it.
-> >
-> > [1]
-> > https://nam06.safelinks.protection.outlook.com/?url=https%3A%2F%2Flkml.org%
-> > 2Flkml%2F2019%2F5%2F8%2F11&amp;data=01%7C01%7Cthiruan%40microsoft.com%7Cf2a
-> > 80c7b94434329eaee08d6d8d962b1%7C72f988bf86f141af91ab2d7cd011db47%7C1&amp;sd
-> > ata=hyJRc23NwEFLDuaIMkbSCGetd%2BObQWiAg%2BJtMMR6z9U%3D&amp;reserved=0
-> >
-> > -Sumit
->
-> Thanks for reviewing and adding comments.
->
-> We tried to use TEE bus framework you suggested for fTPM enumeration.
-> We were not able to pass the TCG Logs collected by the boot loaders.
->
-> Currently there are 3 ways to pass TCG Logs based on the code
-> in drivers/char/tpm/eventlog:
->
-> 1. ACPI Table
-> 2. EFI Table
-> 3. OF Device node properties
->
-> Our ARM system is booting using U-boot and Device Tree.
-> So ACPI/EFI table mechanism to pass TCG2 logs won't be applicable.
-> We needed to use OF device node properties to pass TCG2 Logs.
-> TEE bus enumeration framework does not work for our use case due to the above.
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-Firstly let me clarify that this framework is intended to communicate
-with TEE based services/devices rather than boot loader. And in this
-case fTPM being a TEE based service, so this framework should be used.
+[ Upstream commit 76d58e0f07ec203bbdfcaabd9a9fc10a5a3ed5ea ]
 
->
-> Is it possible to add flexibility in TEE bus enumeration framework to support
-> platform specific properties through OF nodes or ACPI?
->
+If a memory slot's size is not a multiple of 64 pages (256K), then
+the KVM_CLEAR_DIRTY_LOG API is unusable: clearing the final 64 pages
+either requires the requested page range to go beyond memslot->npages,
+or requires log->num_pages to be unaligned, and kvm_clear_dirty_log_protect
+requires log->num_pages to be both in range and aligned.
 
-As you mentioned above, TCG logs are collected by boot loader. So it
-should find a way to pass them to Linux.
+To allow this case, allow log->num_pages not to be a multiple of 64 if
+it ends exactly on the last page of the slot.
 
-How about if boot loader register these TCG logs with fTPM TA which
-could be fetched during fTPM driver probe or new api like
-tpm_read_log_tee()? This is something similar to what I used in
-optee-rng [1] driver to fetch RNG properties.
+Reported-by: Peter Xu <peterx@redhat.com>
+Fixes: 98938aa8edd6 ("KVM: validate userspace input in kvm_clear_dirty_log_protect()", 2019-01-02)
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Documentation/virtual/kvm/api.txt            | 5 +++--
+ tools/testing/selftests/kvm/dirty_log_test.c | 9 ++++++---
+ virt/kvm/kvm_main.c                          | 7 ++++---
+ 3 files changed, 13 insertions(+), 8 deletions(-)
 
-[1] https://github.com/torvalds/linux/blob/master/drivers/char/hw_random/optee-rng.c#L176
+diff --git a/Documentation/virtual/kvm/api.txt b/Documentation/virtual/kvm/api.txt
+index ba8927c0d45c4..a1b8e6d92298c 100644
+--- a/Documentation/virtual/kvm/api.txt
++++ b/Documentation/virtual/kvm/api.txt
+@@ -3790,8 +3790,9 @@ The ioctl clears the dirty status of pages in a memory slot, according to
+ the bitmap that is passed in struct kvm_clear_dirty_log's dirty_bitmap
+ field.  Bit 0 of the bitmap corresponds to page "first_page" in the
+ memory slot, and num_pages is the size in bits of the input bitmap.
+-Both first_page and num_pages must be a multiple of 64.  For each bit
+-that is set in the input bitmap, the corresponding page is marked "clean"
++first_page must be a multiple of 64; num_pages must also be a multiple of
++64 unless first_page + num_pages is the size of the memory slot.  For each
++bit that is set in the input bitmap, the corresponding page is marked "clean"
+ in KVM's dirty bitmap, and dirty tracking is re-enabled for that page
+ (for example via write-protection, or by clearing the dirty bit in
+ a page table entry).
+diff --git a/tools/testing/selftests/kvm/dirty_log_test.c b/tools/testing/selftests/kvm/dirty_log_test.c
+index 4715cfba20dce..93f99c6b7d79e 100644
+--- a/tools/testing/selftests/kvm/dirty_log_test.c
++++ b/tools/testing/selftests/kvm/dirty_log_test.c
+@@ -288,8 +288,11 @@ static void run_test(enum vm_guest_mode mode, unsigned long iterations,
+ #endif
+ 	max_gfn = (1ul << (guest_pa_bits - guest_page_shift)) - 1;
+ 	guest_page_size = (1ul << guest_page_shift);
+-	/* 1G of guest page sized pages */
+-	guest_num_pages = (1ul << (30 - guest_page_shift));
++	/*
++	 * A little more than 1G of guest page sized pages.  Cover the
++	 * case where the size is not aligned to 64 pages.
++	 */
++	guest_num_pages = (1ul << (30 - guest_page_shift)) + 3;
+ 	host_page_size = getpagesize();
+ 	host_num_pages = (guest_num_pages * guest_page_size) / host_page_size +
+ 			 !!((guest_num_pages * guest_page_size) % host_page_size);
+@@ -359,7 +362,7 @@ static void run_test(enum vm_guest_mode mode, unsigned long iterations,
+ 		kvm_vm_get_dirty_log(vm, TEST_MEM_SLOT_INDEX, bmap);
+ #ifdef USE_CLEAR_DIRTY_LOG
+ 		kvm_vm_clear_dirty_log(vm, TEST_MEM_SLOT_INDEX, bmap, 0,
+-				       DIV_ROUND_UP(host_num_pages, 64) * 64);
++				       host_num_pages);
+ #endif
+ 		vm_dirty_log_verify(bmap);
+ 		iteration++;
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index b4f2d892a1d36..c9b102e65a3a7 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -1241,7 +1241,7 @@ int kvm_clear_dirty_log_protect(struct kvm *kvm,
+ 	if (as_id >= KVM_ADDRESS_SPACE_NUM || id >= KVM_USER_MEM_SLOTS)
+ 		return -EINVAL;
+ 
+-	if ((log->first_page & 63) || (log->num_pages & 63))
++	if (log->first_page & 63)
+ 		return -EINVAL;
+ 
+ 	slots = __kvm_memslots(kvm, as_id);
+@@ -1254,8 +1254,9 @@ int kvm_clear_dirty_log_protect(struct kvm *kvm,
+ 	n = kvm_dirty_bitmap_bytes(memslot);
+ 
+ 	if (log->first_page > memslot->npages ||
+-	    log->num_pages > memslot->npages - log->first_page)
+-			return -EINVAL;
++	    log->num_pages > memslot->npages - log->first_page ||
++	    (log->num_pages < memslot->npages - log->first_page && (log->num_pages & 63)))
++	    return -EINVAL;
+ 
+ 	*flush = false;
+ 	dirty_bitmap_buffer = kvm_second_dirty_bitmap(memslot);
+-- 
+2.20.1
 
--Sumit
-
-> >
-> > >
-> > > --
-> > > Thanks,
-> > > Sasha
