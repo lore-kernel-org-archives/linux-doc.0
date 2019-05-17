@@ -1,86 +1,119 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 94B137D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 17 May 2019 00:30:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 409257D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 17 May 2019 00:35:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727052AbfEQAal (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 16 May 2019 20:30:41 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35604 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726910AbfEQAal (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 May 2019 20:30:41 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x4H0SP0S124632
-        for <linux-doc@vger.kernel.org>; Thu, 16 May 2019 20:30:40 -0400
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2shfgwds1w-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Thu, 16 May 2019 20:30:39 -0400
-Received: from localhost
-        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <zohar@linux.ibm.com>;
-        Fri, 17 May 2019 01:30:37 +0100
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
-        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Fri, 17 May 2019 01:30:33 +0100
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x4H0UWJM43974822
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 17 May 2019 00:30:32 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id BB9AEA4062;
-        Fri, 17 May 2019 00:30:32 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id ADCA5A4065;
-        Fri, 17 May 2019 00:30:31 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.80.80.98])
-        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Fri, 17 May 2019 00:30:31 +0000 (GMT)
-Subject: Re: [PATCH 3/4] ima: don't ignore INTEGRITY_UNKNOWN EVM status
-From:   Mimi Zohar <zohar@linux.ibm.com>
-To:     Sasha Levin <sashal@kernel.org>,
-        Roberto Sassu <roberto.sassu@huawei.com>,
-        dmitry.kasatkin@huawei.com
-Cc:     linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-        stable@vger.kernel.org
-Date:   Thu, 16 May 2019 20:30:20 -0400
-In-Reply-To: <20190517001001.9BEF620848@mail.kernel.org>
-References: <20190516161257.6640-3-roberto.sassu@huawei.com>
-         <20190517001001.9BEF620848@mail.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 19051700-0008-0000-0000-000002E786DE
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19051700-0009-0000-0000-000022542EB9
-Message-Id: <1558053020.4507.32.camel@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-16_19:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=957 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1905170002
+        id S1726566AbfEQAfY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 16 May 2019 20:35:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47334 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726241AbfEQAfX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 16 May 2019 20:35:23 -0400
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A48A7206BF;
+        Fri, 17 May 2019 00:35:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1558053322;
+        bh=7TW9YRtA+zrn9bZVhm3pRMCNMOGMBXRGC3+aYbhED+Q=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=2IVzgl9AIPO++Ch2lD+HPwvhsbPyCjqMp1srxLDmXKAwP6rd65u7Wus1PDx6ERIac
+         JgIJlEX6orOSTCbWhyMS/r6KVO9ATGZRYWIsOwLBH7NuKkS7fRkhmj+govo4YPjBBW
+         njgrIlohapBLa9e+A8WE0GpgY53wrangCoB5QG44=
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190514221711.248228-2-brendanhiggins@google.com>
+References: <20190514221711.248228-1-brendanhiggins@google.com> <20190514221711.248228-2-brendanhiggins@google.com>
+Subject: Re: [PATCH v4 01/18] kunit: test: add KUnit test runner core
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
+        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
+        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
+        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
+        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
+        wfg@linux.intel.com, Brendan Higgins <brendanhiggins@google.com>
+To:     Brendan Higgins <brendanhiggins@google.com>,
+        frowand.list@gmail.com, gregkh@linuxfoundation.org,
+        jpoimboe@redhat.com, keescook@google.com,
+        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
+        peterz@infradead.org, robh@kernel.org, shuah@kernel.org,
+        tytso@mit.edu, yamada.masahiro@socionext.com
+User-Agent: alot/0.8.1
+Date:   Thu, 16 May 2019 17:35:21 -0700
+Message-Id: <20190517003522.A48A7206BF@mail.kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2019-05-17 at 00:10 +0000, Sasha Levin wrote:
-> 
-> How should we proceed with this patch?
+Quoting Brendan Higgins (2019-05-14 15:16:54)
+> diff --git a/include/kunit/test.h b/include/kunit/test.h
+> new file mode 100644
+> index 0000000000000..e682ea0e1f9a5
+> --- /dev/null
+> +++ b/include/kunit/test.h
+> @@ -0,0 +1,162 @@
+[..]
+> +/**
+> + * struct kunit - represents a running instance of a test.
+> + * @priv: for user to store arbitrary data. Commonly used to pass data c=
+reated
+> + * in the init function (see &struct kunit_module).
+> + *
+> + * Used to store information about the current context under which the t=
+est is
+> + * running. Most of this data is private and should only be accessed ind=
+irectly
+> + * via public functions; the one exception is @priv which can be used by=
+ the
+> + * test writer to store arbitrary data.
+> + */
+> +struct kunit {
+> +       void *priv;
+> +
+> +       /* private: internal use only. */
+> +       const char *name; /* Read only after initialization! */
+> +       spinlock_t lock; /* Gaurds all mutable test state. */
+> +       bool success; /* Protected by lock. */
 
-Yikes!  This was posted earlier today.  I haven't even had a chance to
-look at it yet.  Similarly for "[PATCH 4/4] ima: only audit failed
-appraisal verifications".
+Is this all the spinlock protects? Doesn't seem useful if it's just
+protecting access to the variable being set or not because code that
+reads it will have a stale view of the value.
 
-Mimi
+> diff --git a/kunit/test.c b/kunit/test.c
+> new file mode 100644
+> index 0000000000000..86f65ba2bcf92
+> --- /dev/null
+> +++ b/kunit/test.c
+> @@ -0,0 +1,229 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Base unit test (KUnit) API.
+> + *
+> + * Copyright (C) 2019, Google LLC.
+> + * Author: Brendan Higgins <brendanhiggins@google.com>
+> + */
+> +
+> +#include <linux/sched.h>
+> +#include <linux/sched/debug.h>
+> +#include <kunit/test.h>
+> +
+[...]
+> +
+> +size_t kunit_module_counter =3D 1;
+
+static?
 
