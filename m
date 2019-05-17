@@ -1,105 +1,86 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 809187D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 16 May 2019 23:20:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 94B137D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 17 May 2019 00:30:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726697AbfEPXUc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 16 May 2019 19:20:32 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:44273 "EHLO
-        out2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726623AbfEPXUb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 May 2019 19:20:31 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id 69D6C247EE;
-        Thu, 16 May 2019 19:20:30 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Thu, 16 May 2019 19:20:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=date
-        :from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=w5gH9IZI3l53KDXLVC+HD0A+klb
-        zgt0ehnqv827jsNU=; b=kB3M0EF9ZBdRGARsMVJ4KAscJSJE+wCUzjlrkHIkdY3
-        UB89cEqpToxB1+wkbaetNrS40wn6sTZ+zF1tSb9vK6F6sLVWoldVMrfsnDCDdc6b
-        8UZEw+wl+WMDCI+uuiDbByguow/tQahBqIg+8wA8cMesyHQafGi6XyLOHFmp1xQf
-        k7EO0SMw94gtY8Z1ip+/+waOkSK1tF1X+NLDbYsiAb8GNIeKYgTuIA3I1BRQyyZP
-        8u4Pu7Cm0wQ2l8vg5NB92XUyTU+FFrCzfFGTaT1zUhd9HFEFMPJo/ZU+elnM9PRB
-        bNG5ZssTtNuCu6CQvcedx/13u8qqG7PDT5rz5WA8lxQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=w5gH9I
-        ZI3l53KDXLVC+HD0A+klbzgt0ehnqv827jsNU=; b=pMLwgH0M+MAKSzpAuSXr5n
-        0b+gj4/4v2YoTPomPlBnblBYK7tiXpRpxA8je7bCLYSJh1H0FFvbonnsUCCHhjYF
-        ay+KiNUoE/pJFAFcHaQvxg/VkbeX6uK6f+ZDzL7rNcee5btlKaTnTH9AnVMj0syu
-        rKwPBFJCuxih2b+Fw0gxdroQc8N5tcCZkyRADtZIGt5MVzd6x6cNxWgjpIKXyJIL
-        coQe4ibHU2VXM+SDDESCvkpKVwatcFP+zeEmegLb9bQjnSRRFhtNpjP5bQZ+jVn5
-        hzSF3v0mMJR63dwHoElYzp9FmHD20tq3FQUp5p4m1hXLFonBL5foHLzuFV+MouqQ
-        ==
-X-ME-Sender: <xms:PfDdXIop5RSQnLhSHi_Bb1hIm-RrsGJhaxPAIu3GFzC6U_jGTUA6rg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddruddtuddgvddtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    gfrhhlucfvnfffucdlfedtmdenucfjughrpeffhffvuffkfhggtggujgfofgesthdtredt
-    ofervdenucfhrhhomhepfdfvohgsihhnucevrdcujfgrrhguihhnghdfuceomhgvsehtoh
-    gsihhnrdgttgeqnecukfhppeduvddurdeggedrvddvuddrfeenucfrrghrrghmpehmrghi
-    lhhfrhhomhepmhgvsehtohgsihhnrdgttgenucevlhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:PfDdXD61G88coePhXXkZQLKprPgy1L8UkXAWU5ldHm0nx1QowXJ5Cw>
-    <xmx:PfDdXO5-XcUpCY-4XsQF692FCmeYgOElyKDItt2L2lyhTfna9PD7Aw>
-    <xmx:PfDdXIHViaTDzj_szUrenb5Bxy6Vf-dKpE8vbcGC4jNCunZXvCJSsA>
-    <xmx:PvDdXC_CSZSsRWzOSzQhNfMM1iu25I1RwOK3gh0YBsPZy1SPwFAInQ>
-Received: from localhost (ppp121-44-221-3.bras1.syd2.internode.on.net [121.44.221.3])
-        by mail.messagingengine.com (Postfix) with ESMTPA id E3D9F103D3;
-        Thu, 16 May 2019 19:20:28 -0400 (EDT)
-Date:   Fri, 17 May 2019 09:19:49 +1000
-From:   "Tobin C. Harding" <me@tobin.cc>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Thomas Hellstrom <thellstrom@vmware.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "minyard@acm.org" <minyard@acm.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Tobin C. Harding" <tobin@kernel.org>
-Subject: Re: [TRIVIA] Re: [PATCH] docs: Move kref.txt to core-api/kref.rst
-Message-ID: <20190516231949.GA5056@eros.localdomain>
-References: <20190510001747.8767-1-tobin@kernel.org>
- <a3db1384695bbaa051d93c18ac30175fb95165e3.camel@vmware.com>
- <f48e76f7-6b95-4cf0-82af-424119bb2eb4@www.fastmail.com>
- <20190515105648.61164eab@lwn.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190515105648.61164eab@lwn.net>
-X-Mailer: Mutt 1.11.4 (2019-03-13)
-User-Agent: Mutt/1.11.4 (2019-03-13)
+        id S1727052AbfEQAal (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 16 May 2019 20:30:41 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35604 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726910AbfEQAal (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 16 May 2019 20:30:41 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x4H0SP0S124632
+        for <linux-doc@vger.kernel.org>; Thu, 16 May 2019 20:30:40 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2shfgwds1w-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Thu, 16 May 2019 20:30:39 -0400
+Received: from localhost
+        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <zohar@linux.ibm.com>;
+        Fri, 17 May 2019 01:30:37 +0100
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Fri, 17 May 2019 01:30:33 +0100
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x4H0UWJM43974822
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 17 May 2019 00:30:32 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id BB9AEA4062;
+        Fri, 17 May 2019 00:30:32 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id ADCA5A4065;
+        Fri, 17 May 2019 00:30:31 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.80.80.98])
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Fri, 17 May 2019 00:30:31 +0000 (GMT)
+Subject: Re: [PATCH 3/4] ima: don't ignore INTEGRITY_UNKNOWN EVM status
+From:   Mimi Zohar <zohar@linux.ibm.com>
+To:     Sasha Levin <sashal@kernel.org>,
+        Roberto Sassu <roberto.sassu@huawei.com>,
+        dmitry.kasatkin@huawei.com
+Cc:     linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+        stable@vger.kernel.org
+Date:   Thu, 16 May 2019 20:30:20 -0400
+In-Reply-To: <20190517001001.9BEF620848@mail.kernel.org>
+References: <20190516161257.6640-3-roberto.sassu@huawei.com>
+         <20190517001001.9BEF620848@mail.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 19051700-0008-0000-0000-000002E786DE
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19051700-0009-0000-0000-000022542EB9
+Message-Id: <1558053020.4507.32.camel@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-16_19:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=957 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1905170002
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 15, 2019 at 10:56:48AM -0600, Jonathan Corbet wrote:
-> On Fri, 10 May 2019 16:45:45 -0400
-> "Tobin C. Harding" <me@tobin.cc> wrote:
+On Fri, 2019-05-17 at 00:10 +0000, Sasha Levin wrote:
 > 
-> > I read once that they used 72 characters on punch cards at times because
-> > the other 8 characters got mangled for some reason.
-> 
-> Those of use who worked in Fortran understand these things... columns
-> 73-80 were ignored by the compiler.  The normal use was to put line
-> numbers in there to help recovery when you dropped your card deck on the
-> floor and had to unshuffle things.  A diagonal line drawn across the
-> top of deck helped a lot, but it was good to have verification for the
-> marginal cases.
-> 
-> Kids today just don't have any culture at all...:)
+> How should we proceed with this patch?
 
-I was just going through my editors init file and I see I have default
-column width for kernel RST files set to 75.  Did you tell me that some
-time Jon, I vaguely remember?
+Yikes!  This was posted earlier today.  I haven't even had a chance to
+look at it yet.  Similarly for "[PATCH 4/4] ima: only audit failed
+appraisal verifications".
 
-+1 for the trivia
+Mimi
 
-Cheers,
-Tobin.
