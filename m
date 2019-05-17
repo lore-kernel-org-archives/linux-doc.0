@@ -1,606 +1,374 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8ED477D91A
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 17 May 2019 18:53:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DC99B7D923
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 17 May 2019 19:30:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729088AbfEQSxG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 17 May 2019 14:53:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52486 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726293AbfEQSxF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 17 May 2019 14:53:05 -0400
-Received: from kernel.org (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 24EBE20848;
-        Fri, 17 May 2019 18:53:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1558119184;
-        bh=ELb3H7Nos3RRCsfBagjPT0/HEf9aP8K/iidFcHGUGi0=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=hPXuHS3Yw2jkx/z7WQLHy5z+aUTNwq7IjL1NEH+Hh7zueqD+rMjsmUgjLj86VY/bE
-         CzAMtP82elmXLyv+VraCAMD5oYw2gArSEnPNMUm8OIaWzUg8I87XaMFnPuCNF9Nx8z
-         ZGRdmtLmWk6JbdNAba4LSdxoYMSU5LAxRfvF3Usw=
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20190514221711.248228-2-brendanhiggins@google.com>
-References: <20190514221711.248228-1-brendanhiggins@google.com> <20190514221711.248228-2-brendanhiggins@google.com>
-Subject: Re: [PATCH v4 01/18] kunit: test: add KUnit test runner core
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
-        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
-        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
-        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
-        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
-        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
-        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
-        wfg@linux.intel.com, Brendan Higgins <brendanhiggins@google.com>
-To:     Brendan Higgins <brendanhiggins@google.com>,
-        frowand.list@gmail.com, gregkh@linuxfoundation.org,
-        jpoimboe@redhat.com, keescook@google.com,
-        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
-        peterz@infradead.org, robh@kernel.org, shuah@kernel.org,
-        tytso@mit.edu, yamada.masahiro@socionext.com
-User-Agent: alot/0.8.1
-Date:   Fri, 17 May 2019 11:53:03 -0700
-Message-Id: <20190517185304.24EBE20848@mail.kernel.org>
+        id S1728637AbfEQTa0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 17 May 2019 15:30:26 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:40778 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727593AbfEQTa0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 17 May 2019 15:30:26 -0400
+Received: by mail-oi1-f196.google.com with SMTP id r136so5979173oie.7
+        for <linux-doc@vger.kernel.org>; Fri, 17 May 2019 12:30:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=indeed.com; s=google;
+        h=from:to:subject:date:message-id;
+        bh=o07nY9dfWP+zC9Cz3rhRMrIZdh7F1mKdDkQ8lc4TN8I=;
+        b=STEI1EVVgCpmWP3zyeQjp30mJxvyPu6D0nynYhx12ILOsuoy4/UyeT+NrSqBfS7Y8l
+         ZjL4CIvepqPvxw8IomlAvb+j6TpU8c6+a+63xo5EBQOvmHdBHcZXeA8+ugGj8sXRttZr
+         hOIPeYCHhy2bFLFG71jB9yjOu8yDX0WMNSiFk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=o07nY9dfWP+zC9Cz3rhRMrIZdh7F1mKdDkQ8lc4TN8I=;
+        b=H3lJC77ZGwgp+qc++35/4cIFVv1MFed6K2kRt11IC5uB4uYrNiy4bm9lSqfLypnLLc
+         OtSt6EhoGYE64jHzCS1olUsS0IdeEBXzszYKkh4VhIHj4i9obkZuj3TRdeGFkEEl+LsF
+         RERzUd6Azj3B3j8/9BvyQu8joLwkjh2VkZB+aTH0uIVbngo1xAdDe6H5Lvz6nimU80OI
+         mEoBHxk3kZGpyFzaN7IFoNDXgNHx1evn1WGEMUPxcgOslg6r4DaZUjN0ut0ggxmYGqjD
+         qWyvp8GdxqO/QW3iWC286qRCX16gsDaVJHr5LB/HUve42PGT9yvBSjcfs98zaUPH0jJs
+         2xIA==
+X-Gm-Message-State: APjAAAWiQuvImPr/cS7Q09gwTS2/7FkNnju6GahBrrprm1OjHN1AG8xS
+        ND80jEarE8b1NlMPjA25s1Fa1w==
+X-Google-Smtp-Source: APXvYqzwLpoKpZFGSKRs6z1SRvaIDZmMelQWjMoc2DQW15oxhc5Pl/yL2YE9/pRh5UeLdUn16pRArw==
+X-Received: by 2002:aca:4202:: with SMTP id p2mr2003848oia.169.1558121425246;
+        Fri, 17 May 2019 12:30:25 -0700 (PDT)
+Received: from cando.ausoff.indeed.net ([97.105.47.162])
+        by smtp.gmail.com with ESMTPSA id m8sm3122143otl.40.2019.05.17.12.30.24
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 17 May 2019 12:30:24 -0700 (PDT)
+From:   Dave Chiluk <chiluk+linux@indeed.com>
+To:     Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Brendan Gregg <bgregg@netflix.com>,
+        Kyle Anderson <kwa@yelp.com>,
+        Gabriel Munos <gmunoz@netflix.com>,
+        John Hammond <jhammond@indeed.com>,
+        Cong Wang <xiyou.wangcong@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH] sched/fair: Fix low cpu usage with high throttling by removing expiration of cpu slices
+Date:   Fri, 17 May 2019 14:30:24 -0500
+Message-Id: <1558121424-2914-1-git-send-email-chiluk+linux@indeed.com>
+X-Mailer: git-send-email 1.8.3.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Brendan Higgins (2019-05-14 15:16:54)
-> diff --git a/include/kunit/test.h b/include/kunit/test.h
-> new file mode 100644
-> index 0000000000000..e682ea0e1f9a5
-> --- /dev/null
-> +++ b/include/kunit/test.h
-> @@ -0,0 +1,162 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Base unit test (KUnit) API.
-> + *
-> + * Copyright (C) 2019, Google LLC.
-> + * Author: Brendan Higgins <brendanhiggins@google.com>
-> + */
-> +
-> +#ifndef _KUNIT_TEST_H
-> +#define _KUNIT_TEST_H
-> +
-> +#include <linux/types.h>
-> +#include <linux/slab.h>
+It has been observed, that highly-threaded, non-cpu-bound applications
+running under cpu.cfs_quota_us constraints can hit a high percentage of
+periods throttled while simultaneously not consuming the allocated
+amount of quota.  This use case is typical of user-interactive non-cpu
+bound applications, such as those running in kubernetes or mesos when
+run on multiple cpu cores.
 
-Is this include used here?
+This has been root caused to threads being allocated per cpu bandwidth
+slices, and then not fully using that slice within the period. At which
+point the slice and quota expires.  This expiration of unused slice
+results in applications not being able to utilize the quota for which
+they are allocated.
 
-> +
-> +struct kunit;
-> +
-> +/**
-> + * struct kunit_case - represents an individual test case.
-> + * @run_case: the function representing the actual test case.
-> + * @name: the name of the test case.
-> + *
-> + * A test case is a function with the signature, ``void (*)(struct kunit=
- *)``
-> + * that makes expectations (see KUNIT_EXPECT_TRUE()) about code under te=
-st. Each
-> + * test case is associated with a &struct kunit_module and will be run a=
-fter the
-> + * module's init function and followed by the module's exit function.
-> + *
-> + * A test case should be static and should only be created with the KUNI=
-T_CASE()
-> + * macro; additionally, every array of test cases should be terminated w=
-ith an
-> + * empty test case.
-> + *
-> + * Example:
-> + *
-> + * .. code-block:: c
-> + *
-> + *     void add_test_basic(struct kunit *test)
-> + *     {
-> + *             KUNIT_EXPECT_EQ(test, 1, add(1, 0));
-> + *             KUNIT_EXPECT_EQ(test, 2, add(1, 1));
-> + *             KUNIT_EXPECT_EQ(test, 0, add(-1, 1));
-> + *             KUNIT_EXPECT_EQ(test, INT_MAX, add(0, INT_MAX));
-> + *             KUNIT_EXPECT_EQ(test, -1, add(INT_MAX, INT_MIN));
-> + *     }
-> + *
-> + *     static struct kunit_case example_test_cases[] =3D {
-> + *             KUNIT_CASE(add_test_basic),
-> + *             {},
+The expiration of per-cpu slices was recently fixed by commit
+512ac999d275 ("sched/fair: Fix bandwidth timer clock drift condition").
+Prior to that it appears that this has been broken since a least commit
+51f2176d74ac ("sched/fair: Fix unlocked reads of some
+cfs_b->quota/period") which was introduced in v3.16-rc1 in 2014.  That
+commit added the following conditional which resulted in slices never
+being expired.
 
-Nitpick: Please drop the comma on the sentinel so nobody gets ideas to
-add another entry after it.
+if (cfs_rq->runtime_expires != cfs_b->runtime_expires) {
+	/* extend local deadline, drift is bounded above by 2 ticks */
+	cfs_rq->runtime_expires += TICK_NSEC;
 
-> + *     };
-> + *
-> + */
-> +struct kunit_case {
-> +       void (*run_case)(struct kunit *test);
-> +       const char name[256];
+Because this was broken for nearly 5 years, and has recently been fixed
+and is now being noticed by many users running kubernetes
+(https://github.com/kubernetes/kubernetes/issues/67577) it is my opinion
+that the mechanisms around expiring runtime should be removed
+altogether.
 
-Maybe 256 can be a #define KUNIT_NAME_MAX_LEN? Or it could just be a
-const char pointer to a literal pool? Are unit tests making up names at
-runtime?
+This allows only per-cpu slices to live longer than the period boundary.
+This allows threads on runqueues that do not use much CPU to continue to
+use their remaining slice over a longer period of time than
+cpu.cfs_period_us. However, this helps prevents the above condition of
+hitting throttling while also not fully utilizing your cpu quota.
 
-> +
-> +       /* private: internal use only. */
-> +       bool success;
-> +};
-> +
-> +/**
-> + * KUNIT_CASE - A helper for creating a &struct kunit_case
-> + * @test_name: a reference to a test case function.
-> + *
-> + * Takes a symbol for a function representing a test case and creates a
-> + * &struct kunit_case object from it. See the documentation for
-> + * &struct kunit_case for an example on how to use it.
-> + */
-> +#define KUNIT_CASE(test_name) { .run_case =3D test_name, .name =3D #test=
-_name }
-> +
-> +/**
-> + * struct kunit_module - describes a related collection of &struct kunit=
-_case s.
-> + * @name: the name of the test. Purely informational.
-> + * @init: called before every test case.
-> + * @exit: called after every test case.
-> + * @test_cases: a null terminated array of test cases.
-> + *
-> + * A kunit_module is a collection of related &struct kunit_case s, such =
-that
-> + * @init is called before every test case and @exit is called after ever=
-y test
-> + * case, similar to the notion of a *test fixture* or a *test class* in =
-other
-> + * unit testing frameworks like JUnit or Googletest.
-> + *
-> + * Every &struct kunit_case must be associated with a kunit_module for K=
-Unit to
-> + * run it.
-> + */
-> +struct kunit_module {
-> +       const char name[256];
-> +       int (*init)(struct kunit *test);
-> +       void (*exit)(struct kunit *test);
-> +       struct kunit_case *test_cases;
+This theoretically allows a machine to use slightly more than it's
+allotted quota in some periods.  This overflow would be bounded by the
+remaining per-cpu slice that was left un-used in the previous period.
+For CPU bound tasks this will change nothing, as they should
+theoretically fully utilize all of their quota and slices in each
+period. For user-interactive tasks as described above this provides a
+much better user/application experience as their cpu utilization will
+more closely match the amount they requested when they hit throttling.
 
-Can this variable be const? Or we expect test modules to adjust test_cases =
-after
-the fact?
+This greatly improves performance of high-thread-count, non-cpu bound
+applications with low cfs_quota_us allocation on high-core-count
+machines. In the case of an artificial testcase, this performance
+discrepancy has been observed to be almost 30x performance improvement,
+while still maintaining correct cpu quota restrictions albeit over
+longer time intervals than cpu.cfs_period_us.  That testcase is available
+at https://github.com/indeedeng/fibtest.
 
-> +};
-> +
-> +/**
-> + * struct kunit - represents a running instance of a test.
-> + * @priv: for user to store arbitrary data. Commonly used to pass data c=
-reated
-> + * in the init function (see &struct kunit_module).
-> + *
-> + * Used to store information about the current context under which the t=
-est is
-> + * running. Most of this data is private and should only be accessed ind=
-irectly
-> + * via public functions; the one exception is @priv which can be used by=
- the
-> + * test writer to store arbitrary data.
-> + */
-> +struct kunit {
-> +       void *priv;
-> +
-> +       /* private: internal use only. */
-> +       const char *name; /* Read only after initialization! */
-> +       spinlock_t lock; /* Gaurds all mutable test state. */
-> +       bool success; /* Protected by lock. */
-> +};
-> +
-> +void kunit_init_test(struct kunit *test, const char *name);
-> +
-> +int kunit_run_tests(struct kunit_module *module);
-> +
-> +/**
-> + * module_test() - used to register a &struct kunit_module with KUnit.
-> + * @module: a statically allocated &struct kunit_module.
-> + *
-> + * Registers @module with the test framework. See &struct kunit_module f=
-or more
-> + * information.
-> + */
-> +#define module_test(module) \
-> +               static int module_kunit_init##module(void) \
-> +               { \
-> +                       return kunit_run_tests(&module); \
-> +               } \
-> +               late_initcall(module_kunit_init##module)
+Fixes: 512ac999d275 ("sched/fair: Fix bandwidth timer clock drift condition")
+Signed-off-by: Dave Chiluk <chiluk+linux@indeed.com>
+---
+ Documentation/scheduler/sched-bwc.txt | 29 +++++++++++---
+ kernel/sched/fair.c                   | 71 +++--------------------------------
+ kernel/sched/sched.h                  |  4 --
+ 3 files changed, 29 insertions(+), 75 deletions(-)
 
-Maybe we need to introduce another initcall level after
-late_initcall_sync() for tests? I wonder if there will be tests that
-need to run after all other initcalls have run, including late sync
-initcalls.
+diff --git a/Documentation/scheduler/sched-bwc.txt b/Documentation/scheduler/sched-bwc.txt
+index f6b1873..4ded8ae 100644
+--- a/Documentation/scheduler/sched-bwc.txt
++++ b/Documentation/scheduler/sched-bwc.txt
+@@ -8,16 +8,33 @@ CFS bandwidth control is a CONFIG_FAIR_GROUP_SCHED extension which allows the
+ specification of the maximum CPU bandwidth available to a group or hierarchy.
+ 
+ The bandwidth allowed for a group is specified using a quota and period. Within
+-each given "period" (microseconds), a group is allowed to consume only up to
+-"quota" microseconds of CPU time.  When the CPU bandwidth consumption of a
+-group exceeds this limit (for that period), the tasks belonging to its
+-hierarchy will be throttled and are not allowed to run again until the next
+-period.
++each given "period" (microseconds), a task group is allocated up to "quota"
++microseconds of CPU time.  When the CPU bandwidth consumption of a group
++exceeds this limit (for that period), the tasks belonging to its hierarchy will
++be throttled and are not allowed to run again until the next period.
+ 
+ A group's unused runtime is globally tracked, being refreshed with quota units
+ above at each period boundary.  As threads consume this bandwidth it is
+ transferred to cpu-local "silos" on a demand basis.  The amount transferred
+-within each of these updates is tunable and described as the "slice".
++within each of these updates is tunable and described as the "slice".  Slices
++that are allocated to cpu-local silos do not expire at the end of the period,
++but unallocated quota does.  This doesn't affect cpu-bound applications as they
++by definition consume all of their bandwidth in each each period.
++
++However for highly-threaded user-interactive/non-cpu bound applications this
++non-expiration nuance allows applications to burst past their quota limits
++equal to the amount of unused slice per cpu that the task group is running on.
++This slight burst requires that quota had gone unused in previous periods.
++Additionally this burst amount is limited to the size of a slice for every cpu
++a task group is run on.  As a result, this mechanism still strictly limits the
++task group to quota average usage over a longer time windows.  This provides
++better more predictable user experience for highly threaded applications with
++small quota limits on high core count machines.  It also eliminates the
++propensity to throttle these applications while simultanously using less than
++quota amounts of cpu.  Another way to say this, is that by allowing the unused
++portion of a slice to be used in following periods we have decreased the
++possibility of wasting unused quota on cpu-local silos that don't need much cpu
++time.
+ 
+ Management
+ ----------
+diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+index f35930f..a675c69 100644
+--- a/kernel/sched/fair.c
++++ b/kernel/sched/fair.c
+@@ -4295,8 +4295,6 @@ void __refill_cfs_bandwidth_runtime(struct cfs_bandwidth *cfs_b)
+ 
+ 	now = sched_clock_cpu(smp_processor_id());
+ 	cfs_b->runtime = cfs_b->quota;
+-	cfs_b->runtime_expires = now + ktime_to_ns(cfs_b->period);
+-	cfs_b->expires_seq++;
+ }
+ 
+ static inline struct cfs_bandwidth *tg_cfs_bandwidth(struct task_group *tg)
+@@ -4318,8 +4316,7 @@ static int assign_cfs_rq_runtime(struct cfs_rq *cfs_rq)
+ {
+ 	struct task_group *tg = cfs_rq->tg;
+ 	struct cfs_bandwidth *cfs_b = tg_cfs_bandwidth(tg);
+-	u64 amount = 0, min_amount, expires;
+-	int expires_seq;
++	u64 amount = 0, min_amount;
+ 
+ 	/* note: this is a positive sum as runtime_remaining <= 0 */
+ 	min_amount = sched_cfs_bandwidth_slice() - cfs_rq->runtime_remaining;
+@@ -4336,61 +4333,17 @@ static int assign_cfs_rq_runtime(struct cfs_rq *cfs_rq)
+ 			cfs_b->idle = 0;
+ 		}
+ 	}
+-	expires_seq = cfs_b->expires_seq;
+-	expires = cfs_b->runtime_expires;
+ 	raw_spin_unlock(&cfs_b->lock);
+ 
+ 	cfs_rq->runtime_remaining += amount;
+-	/*
+-	 * we may have advanced our local expiration to account for allowed
+-	 * spread between our sched_clock and the one on which runtime was
+-	 * issued.
+-	 */
+-	if (cfs_rq->expires_seq != expires_seq) {
+-		cfs_rq->expires_seq = expires_seq;
+-		cfs_rq->runtime_expires = expires;
+-	}
+ 
+ 	return cfs_rq->runtime_remaining > 0;
+ }
+ 
+-/*
+- * Note: This depends on the synchronization provided by sched_clock and the
+- * fact that rq->clock snapshots this value.
+- */
+-static void expire_cfs_rq_runtime(struct cfs_rq *cfs_rq)
+-{
+-	struct cfs_bandwidth *cfs_b = tg_cfs_bandwidth(cfs_rq->tg);
+-
+-	/* if the deadline is ahead of our clock, nothing to do */
+-	if (likely((s64)(rq_clock(rq_of(cfs_rq)) - cfs_rq->runtime_expires) < 0))
+-		return;
+-
+-	if (cfs_rq->runtime_remaining < 0)
+-		return;
+-
+-	/*
+-	 * If the local deadline has passed we have to consider the
+-	 * possibility that our sched_clock is 'fast' and the global deadline
+-	 * has not truly expired.
+-	 *
+-	 * Fortunately we can check determine whether this the case by checking
+-	 * whether the global deadline(cfs_b->expires_seq) has advanced.
+-	 */
+-	if (cfs_rq->expires_seq == cfs_b->expires_seq) {
+-		/* extend local deadline, drift is bounded above by 2 ticks */
+-		cfs_rq->runtime_expires += TICK_NSEC;
+-	} else {
+-		/* global deadline is ahead, expiration has passed */
+-		cfs_rq->runtime_remaining = 0;
+-	}
+-}
+-
+ static void __account_cfs_rq_runtime(struct cfs_rq *cfs_rq, u64 delta_exec)
+ {
+ 	/* dock delta_exec before expiring quota (as it could span periods) */
+ 	cfs_rq->runtime_remaining -= delta_exec;
+-	expire_cfs_rq_runtime(cfs_rq);
+ 
+ 	if (likely(cfs_rq->runtime_remaining > 0))
+ 		return;
+@@ -4581,8 +4534,7 @@ void unthrottle_cfs_rq(struct cfs_rq *cfs_rq)
+ 		resched_curr(rq);
+ }
+ 
+-static u64 distribute_cfs_runtime(struct cfs_bandwidth *cfs_b,
+-		u64 remaining, u64 expires)
++static u64 distribute_cfs_runtime(struct cfs_bandwidth *cfs_b, u64 remaining)
+ {
+ 	struct cfs_rq *cfs_rq;
+ 	u64 runtime;
+@@ -4604,7 +4556,6 @@ static u64 distribute_cfs_runtime(struct cfs_bandwidth *cfs_b,
+ 		remaining -= runtime;
+ 
+ 		cfs_rq->runtime_remaining += runtime;
+-		cfs_rq->runtime_expires = expires;
+ 
+ 		/* we check whether we're throttled above */
+ 		if (cfs_rq->runtime_remaining > 0)
+@@ -4629,7 +4580,7 @@ static u64 distribute_cfs_runtime(struct cfs_bandwidth *cfs_b,
+  */
+ static int do_sched_cfs_period_timer(struct cfs_bandwidth *cfs_b, int overrun, unsigned long flags)
+ {
+-	u64 runtime, runtime_expires;
++	u64 runtime;
+ 	int throttled;
+ 
+ 	/* no need to continue the timer with no bandwidth constraint */
+@@ -4657,8 +4608,6 @@ static int do_sched_cfs_period_timer(struct cfs_bandwidth *cfs_b, int overrun, u
+ 	/* account preceding periods in which throttling occurred */
+ 	cfs_b->nr_throttled += overrun;
+ 
+-	runtime_expires = cfs_b->runtime_expires;
+-
+ 	/*
+ 	 * This check is repeated as we are holding onto the new bandwidth while
+ 	 * we unthrottle. This can potentially race with an unthrottled group
+@@ -4671,8 +4620,7 @@ static int do_sched_cfs_period_timer(struct cfs_bandwidth *cfs_b, int overrun, u
+ 		cfs_b->distribute_running = 1;
+ 		raw_spin_unlock_irqrestore(&cfs_b->lock, flags);
+ 		/* we can't nest cfs_b->lock while distributing bandwidth */
+-		runtime = distribute_cfs_runtime(cfs_b, runtime,
+-						 runtime_expires);
++		runtime = distribute_cfs_runtime(cfs_b, runtime);
+ 		raw_spin_lock_irqsave(&cfs_b->lock, flags);
+ 
+ 		cfs_b->distribute_running = 0;
+@@ -4749,8 +4697,7 @@ static void __return_cfs_rq_runtime(struct cfs_rq *cfs_rq)
+ 		return;
+ 
+ 	raw_spin_lock(&cfs_b->lock);
+-	if (cfs_b->quota != RUNTIME_INF &&
+-	    cfs_rq->runtime_expires == cfs_b->runtime_expires) {
++	if (cfs_b->quota != RUNTIME_INF) {
+ 		cfs_b->runtime += slack_runtime;
+ 
+ 		/* we are under rq->lock, defer unthrottling using a timer */
+@@ -4783,7 +4730,6 @@ static void do_sched_cfs_slack_timer(struct cfs_bandwidth *cfs_b)
+ {
+ 	u64 runtime = 0, slice = sched_cfs_bandwidth_slice();
+ 	unsigned long flags;
+-	u64 expires;
+ 
+ 	/* confirm we're still not at a refresh boundary */
+ 	raw_spin_lock_irqsave(&cfs_b->lock, flags);
+@@ -4800,7 +4746,6 @@ static void do_sched_cfs_slack_timer(struct cfs_bandwidth *cfs_b)
+ 	if (cfs_b->quota != RUNTIME_INF && cfs_b->runtime > slice)
+ 		runtime = cfs_b->runtime;
+ 
+-	expires = cfs_b->runtime_expires;
+ 	if (runtime)
+ 		cfs_b->distribute_running = 1;
+ 
+@@ -4809,11 +4754,9 @@ static void do_sched_cfs_slack_timer(struct cfs_bandwidth *cfs_b)
+ 	if (!runtime)
+ 		return;
+ 
+-	runtime = distribute_cfs_runtime(cfs_b, runtime, expires);
++	runtime = distribute_cfs_runtime(cfs_b, runtime);
+ 
+ 	raw_spin_lock_irqsave(&cfs_b->lock, flags);
+-	if (expires == cfs_b->runtime_expires)
+-		lsub_positive(&cfs_b->runtime, runtime);
+ 	cfs_b->distribute_running = 0;
+ 	raw_spin_unlock_irqrestore(&cfs_b->lock, flags);
+ }
+@@ -4969,8 +4912,6 @@ void start_cfs_bandwidth(struct cfs_bandwidth *cfs_b)
+ 
+ 	cfs_b->period_active = 1;
+ 	overrun = hrtimer_forward_now(&cfs_b->period_timer, cfs_b->period);
+-	cfs_b->runtime_expires += (overrun + 1) * ktime_to_ns(cfs_b->period);
+-	cfs_b->expires_seq++;
+ 	hrtimer_start_expires(&cfs_b->period_timer, HRTIMER_MODE_ABS_PINNED);
+ }
+ 
+diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
+index b52ed1a..0c0ed23 100644
+--- a/kernel/sched/sched.h
++++ b/kernel/sched/sched.h
+@@ -341,8 +341,6 @@ struct cfs_bandwidth {
+ 	u64			quota;
+ 	u64			runtime;
+ 	s64			hierarchical_quota;
+-	u64			runtime_expires;
+-	int			expires_seq;
+ 
+ 	short			idle;
+ 	short			period_active;
+@@ -562,8 +560,6 @@ struct cfs_rq {
+ 
+ #ifdef CONFIG_CFS_BANDWIDTH
+ 	int			runtime_enabled;
+-	int			expires_seq;
+-	u64			runtime_expires;
+ 	s64			runtime_remaining;
+ 
+ 	u64			throttled_clock;
+-- 
+1.8.3.1
 
-> +
-> +void __printf(3, 4) kunit_printk(const char *level,
-> +                                const struct kunit *test,
-> +                                const char *fmt, ...);
-> +
-> +/**
-> + * kunit_info() - Prints an INFO level message associated with the curre=
-nt test.
-> + * @test: The test context object.
-> + * @fmt: A printk() style format string.
-> + *
-> + * Prints an info level message associated with the test module being ru=
-n. Takes
-> + * a variable number of format parameters just like printk().
-> + */
-> +#define kunit_info(test, fmt, ...) \
-> +               kunit_printk(KERN_INFO, test, fmt, ##__VA_ARGS__)
-> +
-> +/**
-> + * kunit_warn() - Prints a WARN level message associated with the curren=
-t test.
-> + * @test: The test context object.
-> + * @fmt: A printk() style format string.
-> + *
-> + * See kunit_info().
-
-Why? Just write out that it "Prints a warning level message".
-
-> + */
-> +#define kunit_warn(test, fmt, ...) \
-> +               kunit_printk(KERN_WARNING, test, fmt, ##__VA_ARGS__)
-> +
-> +/**
-> + * kunit_err() - Prints an ERROR level message associated with the curre=
-nt test.
-> + * @test: The test context object.
-> + * @fmt: A printk() style format string.
-> + *
-> + * See kunit_info().
-
-Same comment.
-
-> + */
-> +#define kunit_err(test, fmt, ...) \
-> +               kunit_printk(KERN_ERR, test, fmt, ##__VA_ARGS__)
-> +
-> +#endif /* _KUNIT_TEST_H */
-> diff --git a/kunit/Kconfig b/kunit/Kconfig
-> new file mode 100644
-> index 0000000000000..64480092b2c24
-> --- /dev/null
-> +++ b/kunit/Kconfig
-> @@ -0,0 +1,16 @@
-> +#
-> +# KUnit base configuration
-> +#
-> +
-> +menu "KUnit support"
-> +
-> +config KUNIT
-> +       bool "Enable support for unit tests (KUnit)"
-> +       help
-> +         Enables support for kernel unit tests (KUnit), a lightweight un=
-it
-> +         testing and mocking framework for the Linux kernel. These tests=
- are
-> +         able to be run locally on a developer's workstation without a V=
-M or
-> +         special hardware. For more information, please see
-> +         Documentation/kunit/
-
-This moved and needs an update.
-
-> +
-> +endmenu
-> diff --git a/kunit/Makefile b/kunit/Makefile
-> new file mode 100644
-> index 0000000000000..5efdc4dea2c08
-> --- /dev/null
-> +++ b/kunit/Makefile
-> @@ -0,0 +1 @@
-> +obj-$(CONFIG_KUNIT) +=3D                 test.o
-> diff --git a/kunit/test.c b/kunit/test.c
-> new file mode 100644
-> index 0000000000000..86f65ba2bcf92
-> --- /dev/null
-> +++ b/kunit/test.c
-> @@ -0,0 +1,229 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Base unit test (KUnit) API.
-> + *
-> + * Copyright (C) 2019, Google LLC.
-> + * Author: Brendan Higgins <brendanhiggins@google.com>
-> + */
-> +
-> +#include <linux/sched.h>
-
-This include gets removed later in the series, was it ever needed?
-
-> +#include <linux/sched/debug.h>
-> +#include <kunit/test.h>
-> +
-> +static bool kunit_get_success(struct kunit *test)
-> +{
-> +       unsigned long flags;
-> +       bool success;
-> +
-> +       spin_lock_irqsave(&test->lock, flags);
-> +       success =3D test->success;
-> +       spin_unlock_irqrestore(&test->lock, flags);
-> +
-> +       return success;
-> +}
-> +
-> +static void kunit_set_success(struct kunit *test, bool success)
-> +{
-> +       unsigned long flags;
-> +
-> +       spin_lock_irqsave(&test->lock, flags);
-> +       test->success =3D success;
-> +       spin_unlock_irqrestore(&test->lock, flags);
-> +}
-> +
-> +static int kunit_vprintk_emit(int level, const char *fmt, va_list args)
-> +{
-> +       return vprintk_emit(0, level, NULL, 0, fmt, args);
-> +}
-> +
-> +static int kunit_printk_emit(int level, const char *fmt, ...)
-> +{
-> +       va_list args;
-> +       int ret;
-> +
-> +       va_start(args, fmt);
-> +       ret =3D kunit_vprintk_emit(level, fmt, args);
-> +       va_end(args);
-> +
-> +       return ret;
-> +}
-> +
-> +static void kunit_vprintk(const struct kunit *test,
-> +                         const char *level,
-> +                         struct va_format *vaf)
-> +{
-> +       kunit_printk_emit(level[1] - '0', "\t# %s: %pV", test->name, vaf);
-> +}
-> +
-> +static bool kunit_has_printed_tap_version;
-> +
-> +static void kunit_print_tap_version(void)
-> +{
-> +       if (!kunit_has_printed_tap_version) {
-> +               kunit_printk_emit(LOGLEVEL_INFO, "TAP version 14\n");
-> +               kunit_has_printed_tap_version =3D true;
-> +       }
-> +}
-> +
-> +static size_t kunit_test_cases_len(struct kunit_case *test_cases)
-> +{
-> +       struct kunit_case *test_case;
-> +       size_t len =3D 0;
-> +
-> +       for (test_case =3D test_cases; test_case->run_case; test_case++)
-> +               len++;
-> +
-> +       return len;
-> +}
-> +
-> +static void kunit_print_subtest_start(struct kunit_module *module)
-> +{
-> +       kunit_print_tap_version();
-> +       kunit_printk_emit(LOGLEVEL_INFO, "\t# Subtest: %s\n", module->nam=
-e);
-> +       kunit_printk_emit(LOGLEVEL_INFO,
-> +                         "\t1..%zd\n",
-> +                         kunit_test_cases_len(module->test_cases));
-> +}
-> +
-> +static void kunit_print_ok_not_ok(bool should_indent,
-> +                                 bool is_ok,
-> +                                 size_t test_number,
-> +                                 const char *description)
-> +{
-> +       const char *indent, *ok_not_ok;
-> +
-> +       if (should_indent)
-> +               indent =3D "\t";
-> +       else
-> +               indent =3D "";
-> +
-> +       if (is_ok)
-> +               ok_not_ok =3D "ok";
-> +       else
-> +               ok_not_ok =3D "not ok";
-> +
-> +       kunit_printk_emit(LOGLEVEL_INFO,
-> +                         "%s%s %zd - %s\n",
-> +                         indent, ok_not_ok, test_number, description);
-> +}
-> +
-> +static bool kunit_module_has_succeeded(struct kunit_module *module)
-> +{
-> +       struct kunit_case *test_case;
-
-This can be const?
-
-> +       bool success =3D true;
-> +
-> +       for (test_case =3D module->test_cases; test_case->run_case; test_=
-case++)
-> +               if (!test_case->success)
-> +                       success =3D false;
-
-Bail out early here on first "fail" with return false?
-
-> +
-> +       return success;
-> +}
-> +
-> +size_t kunit_module_counter =3D 1;
-> +
-> +static void kunit_print_subtest_end(struct kunit_module *module)
-> +{
-> +       kunit_print_ok_not_ok(false,
-> +                             kunit_module_has_succeeded(module),
-> +                             kunit_module_counter++,
-> +                             module->name);
-> +}
-> +
-> +static void kunit_print_test_case_ok_not_ok(struct kunit_case *test_case,
-> +                                           size_t test_number)
-> +{
-> +       kunit_print_ok_not_ok(true,
-> +                             test_case->success,
-> +                             test_number,
-> +                             test_case->name);
-> +}
-> +
-> +void kunit_init_test(struct kunit *test, const char *name)
-> +{
-> +       spin_lock_init(&test->lock);
-> +       test->name =3D name;
-> +}
-> +
-> +/*
-> + * Initializes and runs test case. Does not clean up or do post validati=
-ons.
-> + */
-> +static void kunit_run_case_internal(struct kunit *test,
-> +                                   struct kunit_module *module,
-> +                                   struct kunit_case *test_case)
-> +{
-> +       int ret;
-> +
-> +       if (module->init) {
-> +               ret =3D module->init(test);
-> +               if (ret) {
-> +                       kunit_err(test, "failed to initialize: %d\n", ret=
-);
-> +                       kunit_set_success(test, false);
-> +                       return;
-> +               }
-> +       }
-> +
-> +       test_case->run_case(test);
-> +}
-> +
-> +/*
-> + * Performs post validations and cleanup after a test case was run.
-> + * XXX: Should ONLY BE CALLED AFTER kunit_run_case_internal!
-> + */
-> +static void kunit_run_case_cleanup(struct kunit *test,
-> +                                  struct kunit_module *module,
-> +                                  struct kunit_case *test_case)
-
-But test_case isn't used?
-
-> +{
-> +       if (module->exit)
-
-Aha, so we don't need empty functions in the sysctl test.
-
-> +               module->exit(test);
-> +}
-> +
-> +/*
-> + * Performs all logic to run a test case.
-> + */
-> +static void kunit_run_case(struct kunit_module *module,
-> +                          struct kunit_case *test_case)
-> +{
-> +       struct kunit test;
-> +
-> +       kunit_init_test(&test, test_case->name);
-> +       kunit_set_success(&test, true);
-
-Can kunit_init_test() also kunit_set_success() to true or false,
-depending on what is desired as the initial state?
-
-> +
-> +       kunit_run_case_internal(&test, module, test_case);
-> +       kunit_run_case_cleanup(&test, module, test_case);
-
-I find this odd, we have run_case_internal() that does two things, init
-and run_case, while case_cleanup() does one thing, call module->exit().
-
-Can we just inline all those functions in here so that it looks like
-this:
-
-       int ret =3D 0;
-
-       if (module->init) {
-              ret =3D module->init(test);
-               if (ret) {
-                       kunit_err(test, "failed to initialize: %d\n", ret);
-                       kunit_set_success(&test, false);
-               }
-       }
-
-       if (!ret)
-               test_case->run_case(&test);
-
-       if (module->exit)
-               module->exit(&test);
-
-       return kunit_get_success(&test);
-
-Then I don't have to read two more functions to figure out the flow of
-running a test case.
-
-> +
-> +       test_case->success =3D kunit_get_success(&test);
-> +}
-> +
-> +int kunit_run_tests(struct kunit_module *module)
-> +{
-> +       struct kunit_case *test_case;
-> +       size_t test_case_count =3D 1;
-
-Might make sense to assign this to 0 first and then pre-increment so
-that test_case_count can't be 1 when there aren't any tests?
-
-> +
-> +       kunit_print_subtest_start(module);
-> +
-> +       for (test_case =3D module->test_cases; test_case->run_case; test_=
-case++) {
-> +               kunit_run_case(module, test_case);
-> +               kunit_print_test_case_ok_not_ok(test_case, test_case_coun=
-t++);
-
-Can this be pushed into kunit_run_case() and have that function take a
-test_case_count number? Maybe that would allow us to avoid storing
-test_case->success entirely? Assuming that kunit_run_case() returned a
-value like success or failure, then yes it would work.
-
-       unsigned int failed =3D 0;
-
-       for (test_case =3D module->test_cases; test_case->run_case; test_cas=
-e++) {
-               failed |=3D kunit_run_case(module, test_case, ++test_case_co=
-unt);
-
-       kunit_print_ok_not_ok(false,
-                             !failed,
-                             kunit_module_counter++,
-                             module->name);
-
-> +       kunit_print_subtest_end(module);
-> +
-> +       return 0;
-> +}
