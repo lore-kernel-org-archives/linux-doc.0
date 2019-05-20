@@ -1,83 +1,113 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4E8907D923
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 May 2019 14:49:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F1F4A7D913
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 May 2019 15:05:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731059AbfETOs5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 20 May 2019 10:48:57 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:34730 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392027AbfETOsC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 May 2019 10:48:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=hDOOAZccdv5c6TLt9OaA3W/In2V2uu5fYwLCa8yhixU=; b=aGsvDPgkRNPus1Jl/HeLv04MrW
-        /JCze1VtgQwnhNNXMU7B0SBkSnQ6xCdQBqtBBI31NU3vdmZw/V/qiaIEJCPdaqPeMZBh4o+M5yG/B
-        m9wp6eREaEKxlaWL33fnuSi1dq0vpvc1MBtl9TO8ikHIhRjEsGbeclqcNBYZ7Jn6gWoGTfSLqE+32
-        1MjQrFKMhlzgnQJ3Jys1fmToh/er0IpR0MNqliTP2fvoVYhCmKz/7gh2zErroHEAaQVSq33SFjmAi
-        VZQCJPk3oqJKBnWW8mCCg5QxsrC8PJCzZgOKukpzbonlb7wSPpAA8BB6+dGY+yu0nIEV1EGACVmYk
-        HbrqxDFg==;
-Received: from [179.176.119.151] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hSja3-0000HZ-Rg; Mon, 20 May 2019 14:47:59 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hSjZv-000119-7L; Mon, 20 May 2019 11:47:51 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        id S1733047AbfETPFP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 20 May 2019 11:05:15 -0400
+Received: from sauhun.de ([88.99.104.3]:51558 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730766AbfETPFP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 20 May 2019 11:05:15 -0400
+Received: from localhost (p54B333DA.dip0.t-ipconnect.de [84.179.51.218])
+        by pokefinder.org (Postfix) with ESMTPSA id 3853E2C2761;
+        Mon, 20 May 2019 17:05:11 +0200 (CEST)
+Date:   Mon, 20 May 2019 17:05:10 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Lee Jones <lee.jones@linaro.org>, alsa-devel@alsa-project.org,
-        patches@opensource.cirrus.com
-Subject: [PATCH 07/10] mfd: madera: point to the right pinctrl binding file
-Date:   Mon, 20 May 2019 11:47:36 -0300
-Message-Id: <fb47879d405e624374d7d4e099988296ed2af668.1558362030.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <cover.1558362030.git.mchehab+samsung@kernel.org>
+        x86@kernel.org, linux-acpi@vger.kernel.org,
+        linux-edac@vger.kernel.org, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, xen-devel@lists.xenproject.org,
+        platform-driver-x86@vger.kernel.org, devel@driverdev.osuosl.org,
+        kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
+        devel@acpica.org, linux-mm@kvack.org,
+        linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 10/10] docs: fix broken documentation links
+Message-ID: <20190520150510.GA2606@kunai>
 References: <cover.1558362030.git.mchehab+samsung@kernel.org>
+ <4fd1182b4a41feb2447c7ccde4d7f0a6b3c92686.1558362030.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="6c2NcOVqGQ03X4Wi"
+Content-Disposition: inline
+In-Reply-To: <4fd1182b4a41feb2447c7ccde4d7f0a6b3c92686.1558362030.git.mchehab+samsung@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The reference to Documentation/pinctrl.txt doesn't exist, but
-there is an specific binding for the madera driver.
 
-So, point to it.
+--6c2NcOVqGQ03X4Wi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- include/linux/mfd/madera/pdata.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On Mon, May 20, 2019 at 11:47:39AM -0300, Mauro Carvalho Chehab wrote:
+> Mostly due to x86 and acpi conversion, several documentation
+> links are still pointing to the old file. Fix them.
+>=20
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-diff --git a/include/linux/mfd/madera/pdata.h b/include/linux/mfd/madera/pdata.h
-index 8dc852402dbb..c7e0658eb74b 100644
---- a/include/linux/mfd/madera/pdata.h
-+++ b/include/linux/mfd/madera/pdata.h
-@@ -34,7 +34,8 @@ struct madera_codec_pdata;
-  * @micvdd:	    Substruct of pdata for the MICVDD regulator
-  * @irq_flags:	    Mode for primary IRQ (defaults to active low)
-  * @gpio_base:	    Base GPIO number
-- * @gpio_configs:   Array of GPIO configurations (See Documentation/pinctrl.txt)
-+ * @gpio_configs:   Array of GPIO configurations
-+ *		    (See Documentation/devicetree/bindings/pinctrl/cirrus,madera-pinctrl.txt)
-  * @n_gpio_configs: Number of entries in gpio_configs
-  * @gpsw:	    General purpose switch mode setting. Depends on the external
-  *		    hardware connected to the switch. (See the SW1_MODE field
--- 
-2.21.0
+Thanks, didn't notice that.
 
+>  Documentation/i2c/instantiating-devices          |  2 +-
+
+=2E..
+
+> diff --git a/Documentation/i2c/instantiating-devices b/Documentation/i2c/=
+instantiating-devices
+> index 0d85ac1935b7..5a3e2f331e8c 100644
+> --- a/Documentation/i2c/instantiating-devices
+> +++ b/Documentation/i2c/instantiating-devices
+> @@ -85,7 +85,7 @@ Method 1c: Declare the I2C devices via ACPI
+>  -------------------------------------------
+> =20
+>  ACPI can also describe I2C devices. There is special documentation for t=
+his
+> -which is currently located at Documentation/acpi/enumeration.txt.
+> +which is currently located at Documentation/firmware-guide/acpi/enumerat=
+ion.rst.
+> =20
+> =20
+>  Method 2: Instantiate the devices explicitly
+
+For this I2C part:
+
+Reviewed-by: Wolfram Sang <wsa@the-dreams.de>
+
+
+--6c2NcOVqGQ03X4Wi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAlziwiIACgkQFA3kzBSg
+Kbb/+hAArOEJ2RcuEqvOP7Ge80J7VxtEVTCR0sWRFg/7cpRGLnwf1qLSAUlfAJYj
+fUhZ9ANfeB4Y4ZltOPwJ34KNtZy/kYzYyoy/WgiNfJUrf+s7auOF+dMXRvBe8VyX
+v/pHpAMzTf8rtNkaESOahPExL1lgrI2dShZa3Mxofm2eb3Kam0OJRr6Cvj7mA/Rq
+PHq1QUlG+Y3hZdvAHjQ6GN6wr+pNnhqeSSAd3BZg5MZQpPRiaK+C4tPkqOD/TNwX
+9+iPJTMPhWsdei4UO1POHGCOclFatxkPOQm9JjsTD1h1lEJK7Afs1cTCd0crwpzW
+nQuj+MSjKTqcOwQ4hF1x6PwlbJm4Hq/+r6b50UsnQYai6pt7Khp9OISmYTxPQhgI
+8aXZbjsMB3k9ebYulULGdF0f3p/IPoqneTUf3yi5OxNbhJ8eyNcQ4l35MP9hEyYb
+H/9a/G4GXP7CLyCtKd53OtNeE1tTF4zGKIhe7v9OInHolA3gLx1R1rxiBeQB+XyA
+NO/4FdEIZ1QWAyl7m1aWBtYpar2uvFyEhZWG3sVhZYsA9dQNBfgzFSu60wus7hy4
+D9FxYijaEnHZvPivrTwfcp8ittAvsIrM3xANcOhWXEU6eC6w0KX15QiiyPQUbssL
+H3fPVUBxQlwicyY98Dvh7eJmnD1WEsMcDmDI5RqrAxhdD/bxbN0=
+=b4+p
+-----END PGP SIGNATURE-----
+
+--6c2NcOVqGQ03X4Wi--
