@@ -1,113 +1,115 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 112E27D2F0
+	by archive.lwn.net (Postfix) with ESMTP id 7FF8E7D923
 	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 May 2019 21:20:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727116AbfETVUo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 20 May 2019 17:20:44 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:43600 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726855AbfETVUn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 May 2019 17:20:43 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x4KL2KnG082476
-        for <linux-doc@vger.kernel.org>; Mon, 20 May 2019 17:20:42 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2sm1qbd15n-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 20 May 2019 17:20:42 -0400
-Received: from localhost
-        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <zohar@linux.ibm.com>;
-        Mon, 20 May 2019 22:20:40 +0100
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
-        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Mon, 20 May 2019 22:20:38 +0100
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x4KLKbil60686518
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 20 May 2019 21:20:37 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 24E49AE051;
-        Mon, 20 May 2019 21:20:37 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id EE5F9AE04D;
-        Mon, 20 May 2019 21:20:35 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.80.80.109])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Mon, 20 May 2019 21:20:35 +0000 (GMT)
-Subject: Re: [PATCH 4/4] ima: only audit failed appraisal verifications
-From:   Mimi Zohar <zohar@linux.ibm.com>
-To:     Roberto Sassu <roberto.sassu@huawei.com>,
-        dmitry.kasatkin@huawei.com, mjg59@google.com
-Cc:     linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kernel@vger.kernel.org, silviu.vlasceanu@huawei.com,
-        stable@vger.kernel.org
-Date:   Mon, 20 May 2019 17:20:25 -0400
-In-Reply-To: <20190516161257.6640-4-roberto.sassu@huawei.com>
-References: <20190516161257.6640-1-roberto.sassu@huawei.com>
-         <20190516161257.6640-4-roberto.sassu@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 19052021-0020-0000-0000-0000033EB794
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19052021-0021-0000-0000-00002191919C
-Message-Id: <1558387225.4039.78.camel@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-20_08:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1905200132
+        id S1727225AbfETVUs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 20 May 2019 17:20:48 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:59478 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726879AbfETVUs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 May 2019 17:20:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=FIExOJF0z6m6eKDwWBzs5DWjdKYFToe+a/7/EAJswPk=; b=S2nZgKzr/2SmlroEU2uwynzP7b
+        pF2Ovch800QutKbd95Hj8T7t1yJUdqYIpbVjzbWNq9cOY5gSQqNmwmAbTE8R0twhk6FUcmYEa9hJZ
+        bq6AjLyfP1zX9Cwnm0Lydvl4fsp2jqDPnRNp14xbsjurhLT/BhdSagWVUNaV5U1/X625YXB98WqhA
+        Snc0RMkQqOzS6dyEjOXWEVD2ePfUEqrN8eONtC/fkXGVprjz1im9DK+5L81s85g1ayNhIZUiWeG2I
+        HvD8kBKOuGO26JbH13liOGzQyRxn33OtUirDguWOcm2wdn2vd8cy38GY0cP0X1AAoa+H++s01zjkE
+        r8+ggJ9Q==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=dragon.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hSpi9-0004YN-24; Mon, 20 May 2019 21:20:45 +0000
+To:     LKML <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     George Spelvin <lkml@sdf.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH] lib/sort.c: fix kernel-doc notation warnings
+Message-ID: <60e25d3d-68d1-bde2-3b39-e4baa0b14907@infradead.org>
+Date:   Mon, 20 May 2019 14:20:43 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2019-05-16 at 18:12 +0200, Roberto Sassu wrote:
-> This patch ensures that integrity_audit_msg() is called only when the
-> status is not INTEGRITY_PASS.
-> 
-> Fixes: 8606404fa555c ("ima: digital signature verification support")
-> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
-> Cc: stable@vger.kernel.org
-> ---
->  security/integrity/ima/ima_appraise.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/security/integrity/ima/ima_appraise.c b/security/integrity/ima/ima_appraise.c
-> index a32ed5d7afd1..f5f4506bcb8e 100644
-> --- a/security/integrity/ima/ima_appraise.c
-> +++ b/security/integrity/ima/ima_appraise.c
-> @@ -359,8 +359,9 @@ int ima_appraise_measurement(enum ima_hooks func,
->  			status = INTEGRITY_PASS;
->  		}
->  
-> -		integrity_audit_msg(AUDIT_INTEGRITY_DATA, inode, filename,
-> -				    op, cause, rc, 0);
-> +		if (status != INTEGRITY_PASS)
-> +			integrity_audit_msg(AUDIT_INTEGRITY_DATA, inode,
-> +					    filename, op, cause, rc, 0);
+From: Randy Dunlap <rdunlap@infradead.org>
 
-For some reason, the integrity verification has failed.  In some
-specific cases, we'll let it pass, but do we really want to remove any
-indication that it failed in all cases?
+Fix kernel-doc notation in lib/sort.c by using correct function
+parameter names.
 
-Mimi
+../lib/sort.c:59: warning: Excess function parameter 'size' description in 'swap_words_32'
+../lib/sort.c:83: warning: Excess function parameter 'size' description in 'swap_words_64'
+../lib/sort.c:110: warning: Excess function parameter 'size' description in 'swap_bytes'
 
+Fixes: 37d0ec34d111a ("lib/sort: make swap functions more generic")
 
->  	} else {
->  		ima_cache_flags(iint, func);
->  	}
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: George Spelvin <lkml@sdf.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+---
+This patch still leaves these Sphinx warnings, which appears to be
+some kind of "feature."  :(
+
+../lib/list_sort.c:128: WARNING: Definition list ends without a blank line; unexpected unindent.
+../lib/list_sort.c:161: WARNING: Unexpected indentation.
+../lib/list_sort.c:162: WARNING: Block quote ends without a blank line; unexpected unindent.
+
+ lib/sort.c |   15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
+
+--- lnx-52-rc1.orig/lib/sort.c
++++ lnx-52-rc1/lib/sort.c
+@@ -43,8 +43,9 @@ static bool is_aligned(const void *base,
+ 
+ /**
+  * swap_words_32 - swap two elements in 32-bit chunks
+- * @a, @b: pointers to the elements
+- * @size: element size (must be a multiple of 4)
++ * @a: pointer to the first element to swap
++ * @b: pointer to the second element to swap
++ * @n: element size (must be a multiple of 4)
+  *
+  * Exchange the two objects in memory.  This exploits base+index addressing,
+  * which basically all CPUs have, to minimize loop overhead computations.
+@@ -65,8 +66,9 @@ static void swap_words_32(void *a, void
+ 
+ /**
+  * swap_words_64 - swap two elements in 64-bit chunks
+- * @a, @b: pointers to the elements
+- * @size: element size (must be a multiple of 8)
++ * @a: pointer to the first element to swap
++ * @b: pointer to the second element to swap
++ * @n: element size (must be a multiple of 8)
+  *
+  * Exchange the two objects in memory.  This exploits base+index
+  * addressing, which basically all CPUs have, to minimize loop overhead
+@@ -100,8 +102,9 @@ static void swap_words_64(void *a, void
+ 
+ /**
+  * swap_bytes - swap two elements a byte at a time
+- * @a, @b: pointers to the elements
+- * @size: element size
++ * @a: pointer to the first element to swap
++ * @b: pointer to the second element to swap
++ * @n: element size
+  *
+  * This is the fallback if alignment doesn't allow using larger chunks.
+  */
+
 
