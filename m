@@ -3,16 +3,16 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E35387D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 May 2019 14:49:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0466C7D913
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 May 2019 14:49:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391744AbfETOsB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S2391622AbfETOsB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Mon, 20 May 2019 10:48:01 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:34526 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:34508 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732544AbfETOsB (ORCPT
+        with ESMTP id S1731837AbfETOsB (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 20 May 2019 10:48:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,32 +20,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=L/KP7KtqGaaaZ8mlQ/XMLM6HWoK8YMA1PHFDlloUkgo=; b=qN4vboGNBcpE27fGJiuADf/lJy
-        C4QBGqBbzVlReSgPtteIMI/xoFEL/sW/HHvqsv0EjN0QnSEG5tgOU5OfM/U/txyaBBRvAoeUaZeK0
-        Ir8VAE8dv4vKaGUfx3439aXnGRBS1PG3OshvJh84B/s1+vx1yik9qgHAdXDPB2STe+XDp08deKpB3
-        KjfIHQCP/sb5cyY2JJ0EAODltKfRn1PBJRVN0Z07oAmGH2WkCi1DceMXOYU3u24nBqsz8HdpqbN8T
-        Jz/2tNf3YEnXobIo7ZcyLv0A0hzaoVB9n6ahFwUnO9wVdTI3MWbPIezSZXFS0iBrNDzbN/vr/TtrJ
-        W9LbTjAA==;
+        bh=Pzy7R7NMtIp0soxdacOvAtehGecGOy+zjqDf/NYYYuQ=; b=opGgamrus8/MlNcjK7Utg0Jb2d
+        v5+OiZpAbqArtyZuw3nL37J17iwVLYbHlwPSk1rdMi8+P9KvECgzceshxYCwnuf1ywAInuP4VeaXM
+        cd+/0eihRLYwuutLWVxPvCMjOUY6Nls5Pf2hYnrcP1+2ztECoxsURhXC5GBfrYQtHQGHeal320tGM
+        qF7AL9qAznzKtt5NhTYIuQCTVGEni36xWwZd6PEy/f1rIkUWLCooi+RQuPBonL2SivqcgoEipw0O/
+        cftVM4DHbilj/R42KXMqF6NVKuCpdabb9OmXst2nbUvZ+zF+Fwz8Qe2tLoBvpEIihqHU1YT0UMjHF
+        EHbI3qrA==;
 Received: from [179.176.119.151] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hSja3-0000F2-Oq; Mon, 20 May 2019 14:47:59 +0000
+        id 1hSja3-0000E5-Ou; Mon, 20 May 2019 14:47:59 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hSjZs-00010y-P8; Mon, 20 May 2019 11:47:48 -0300
+        id 1hSjZq-00010r-O7; Mon, 20 May 2019 11:47:46 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jon Masters <jcm@redhat.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Jiri Kosina <jkosina@suse.cz>
-Subject: [PATCH 05/10] ABI: sysfs-devices-system-cpu: point to the right docs
-Date:   Mon, 20 May 2019 11:47:34 -0300
-Message-Id: <6bef8de0ab627a4420b6bd0da37a19b8dc20ce00.1558362030.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 04/10] scripts/documentation-file-ref-check: teach about .txt -> .yaml renames
+Date:   Mon, 20 May 2019 11:47:33 -0300
+Message-Id: <e48361790f6c8cbf00f3e6c25bd07381b7be537d.1558362030.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1558362030.git.mchehab+samsung@kernel.org>
 References: <cover.1558362030.git.mchehab+samsung@kernel.org>
@@ -56,30 +50,46 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The cpuidle doc was split on two, one at the admin guide
-and another one at the driver API guide. Instead of pointing
-to a non-existent file, point to both (admin guide being
-the first one).
+At DT, files are being renamed to jason. Teach the script how to
+handle such renames when used in fix mode.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/ABI/testing/sysfs-devices-system-cpu | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ scripts/documentation-file-ref-check | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-devices-system-cpu b/Documentation/ABI/testing/sysfs-devices-system-cpu
-index 1528239f69b2..87478ac6c2af 100644
---- a/Documentation/ABI/testing/sysfs-devices-system-cpu
-+++ b/Documentation/ABI/testing/sysfs-devices-system-cpu
-@@ -137,7 +137,8 @@ Description:	Discover cpuidle policy and mechanism
- 		current_governor: (RW) displays current idle policy. Users can
- 		switch the governor at runtime by writing to this file.
+diff --git a/scripts/documentation-file-ref-check b/scripts/documentation-file-ref-check
+index 5d775ca7469b..ff16db269079 100755
+--- a/scripts/documentation-file-ref-check
++++ b/scripts/documentation-file-ref-check
+@@ -165,13 +165,22 @@ foreach my $ref (keys %broken_ref) {
  
--		See files in Documentation/cpuidle/ for more information.
-+		See Documentation/admin-guide/pm/cpuidle.rst and
-+		Documentation/driver-api/pm/cpuidle.rst for more information.
+ 	# usual reason for breakage: DT file moved around
+ 	if ($ref =~ /devicetree/) {
+-		my $search = $new;
+-		$search =~ s,^.*/,,;
+-		$f = qx(find Documentation/devicetree/ -iname "*$search*") if ($search);
++		# usual reason for breakage: DT file renamed to .yaml
+ 		if (!$f) {
+-			# Manufacturer name may have changed
+-			$search =~ s/^.*,//;
++			my $new_ref = $ref;
++			$new_ref =~ s/\.txt$/.yaml/;
++			$f=$new_ref if (-f $new_ref);
++		}
++
++		if (!$f) {
++			my $search = $new;
++			$search =~ s,^.*/,,;
+ 			$f = qx(find Documentation/devicetree/ -iname "*$search*") if ($search);
++			if (!$f) {
++				# Manufacturer name may have changed
++				$search =~ s/^.*,//;
++				$f = qx(find Documentation/devicetree/ -iname "*$search*") if ($search);
++			}
+ 		}
+ 	}
  
- 
- What:		/sys/devices/system/cpu/cpuX/cpuidle/stateN/name
 -- 
 2.21.0
 
