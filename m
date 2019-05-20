@@ -1,135 +1,156 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8D4D97D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 May 2019 15:09:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AB0227D910
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 May 2019 15:27:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387668AbfETPJE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 20 May 2019 11:09:04 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:49774 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733027AbfETPJE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 May 2019 11:09:04 -0400
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id x4KF8umi027391;
-        Tue, 21 May 2019 00:08:57 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x4KF8umi027391
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1558364937;
-        bh=95HwtbpMEdAllrN7F4zNPVZ+pNQZoCbwUigUV2ddKeY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=18QrCSk8G+t+XAukQYfqtvqpNID+j398DC9uzCU6kAmT0bQ4JmxnX9Zw2aDtN8EUw
-         z/xBYfXyn+DZRmfB9j8Rzt9oNI0n4SBX1RJVrseq41aTfL/VzMGIKZTrwQkcuVweX3
-         f+aKAbitf/1HlUptdjYiCwbmJo0Ur/UNZ+BsLo2VL0vnQ+P7Tc56sWOLrVkBVHfAad
-         W43Utwl8zrUrFRr9/ouHnfrsh+mjWH7KWVgPWSzeMjgKncJeTsS2bmax9vx9ZfYi5h
-         Fos+RhgWy+AkC3tu7oAzk+y+ULC4lajYp6t/kXwvu2e2Cktlj7BFoiAvt6EPjbW236
-         4EyoKuP2aMROA==
-X-Nifty-SrcIP: [209.85.217.52]
-Received: by mail-vs1-f52.google.com with SMTP id x184so8089811vsb.5;
-        Mon, 20 May 2019 08:08:57 -0700 (PDT)
-X-Gm-Message-State: APjAAAWdN0sWKe6PwZXvsfUFwCAKfFVtgX1Uo/9mV3TMK/b9geOeUnC2
-        FcfnA8YVz+JoUoBY0MJkS1VX82PwAW+kHIv9zA8=
-X-Google-Smtp-Source: APXvYqzxDQvhelDYO1GqpUaZUlQvPgAMk4p/UNpmJQRQFDak7rLxLzf7T+QCeN0IC4L32Vrt8CzBRFBSIQ6QIJk+n+o=
-X-Received: by 2002:a67:d382:: with SMTP id b2mr19939121vsj.155.1558364935894;
- Mon, 20 May 2019 08:08:55 -0700 (PDT)
+        id S2388317AbfETP1w (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 20 May 2019 11:27:52 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:46474 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1733303AbfETP1w (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 May 2019 11:27:52 -0400
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx08-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x4KFLJQj031963;
+        Mon, 20 May 2019 17:27:19 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=LkTdd7E2MxZuZ4AhmICRbNTuZ1ixfkA53WYKdrN9npk=;
+ b=Dqs5gJtazuH92by9IDSNRvPO/j/HtIJpg+wTeVFrAQF9ZLMLW+zgdbWwbrMlFlXA/hb6
+ zGAmgEHwWpyBSIah5OWEllDOVwNU0xfeHhSniDYFEGn+e3KPKGyzAvNPi2FJjwhZJMQQ
+ Fc+7gCUpyJbs+LQGhRN2UxuL6pqKL/yzTzol0v0eXwaKHACq9grjNFyZNFlUArkgjY+1
+ 4VNMmDGMvjFicm25D6Som/4o+6S/GlVMcPjNOzl/ehB6CuLAdNZ4+NNkuQjMmFd9Gt7/
+ fOQna5khAGhlly1NkTOr6pK6awl1myTR6wl5vD12cz6b8k3leDcAPRi5qiSovflVPi+Y uw== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx08-00178001.pphosted.com with ESMTP id 2sj8xg450b-1
+        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
+        Mon, 20 May 2019 17:27:19 +0200
+Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id C51AC3A;
+        Mon, 20 May 2019 15:27:16 +0000 (GMT)
+Received: from Webmail-eu.st.com (sfhdag5node3.st.com [10.75.127.15])
+        by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 955D32BAD;
+        Mon, 20 May 2019 15:27:16 +0000 (GMT)
+Received: from SFHDAG5NODE1.st.com (10.75.127.13) by SFHDAG5NODE3.st.com
+ (10.75.127.15) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Mon, 20 May
+ 2019 17:27:16 +0200
+Received: from SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6]) by
+ SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6%20]) with mapi id
+ 15.00.1347.000; Mon, 20 May 2019 17:27:16 +0200
+From:   Gerald BAEZA <gerald.baeza@st.com>
+To:     "will.deacon@arm.com" <will.deacon@arm.com>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
+        Alexandre TORGUE <alexandre.torgue@st.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+        "olof@lixom.net" <olof@lixom.net>,
+        "horms+renesas@verge.net.au" <horms+renesas@verge.net.au>,
+        "arnd@arndb.de" <arnd@arndb.de>
+CC:     "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Gerald BAEZA <gerald.baeza@st.com>
+Subject: [PATCH v2 1/5] Documentation: perf: stm32: ddrperfm support
+Thread-Topic: [PATCH v2 1/5] Documentation: perf: stm32: ddrperfm support
+Thread-Index: AQHVDyCBNdrf91E160uuVjvaW40lug==
+Date:   Mon, 20 May 2019 15:27:15 +0000
+Message-ID: <1558366019-24214-2-git-send-email-gerald.baeza@st.com>
+References: <1558366019-24214-1-git-send-email-gerald.baeza@st.com>
+In-Reply-To: <1558366019-24214-1-git-send-email-gerald.baeza@st.com>
+Accept-Language: fr-FR, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.45]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20190423212741.12219-1-ndesaulniers@google.com>
-In-Reply-To: <20190423212741.12219-1-ndesaulniers@google.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Tue, 21 May 2019 00:08:19 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARdZa16J56AxhM5bcr9oHdAw+zpa4EDjPpF8YO77==Etw@mail.gmail.com>
-Message-ID: <CAK7LNARdZa16J56AxhM5bcr9oHdAw+zpa4EDjPpF8YO77==Etw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: drop support for cc-ldoption
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-20_07:,,
+ signatures=0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 24, 2019 at 6:27 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> If you want to see if your linker supports a certain flag, then ask the
-> linker directly with ld-option (not the compiler with cc-ldoption).
-> Checking for linker flag support is an antipattern that complicates the
-> usage of various linkers other than bfd via -fuse-ld={bfd|gold|lld}.
->
-> Cc: clang-built-linux@googlegroups.com
-> Suggested-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> ---
+The DDRPERFM is the DDR Performance Monitor embedded in STM32MP1 SOC.
 
-Applied to linux-kbuild. Thanks.
+This documentation introduces the DDRPERFM, the stm32-ddr-pmu driver
+supporting it and how to use it with the perf tool.
 
+Signed-off-by: Gerald Baeza <gerald.baeza@st.com>
+---
+ Documentation/perf/stm32-ddr-pmu.txt | 41 ++++++++++++++++++++++++++++++++=
+++++
+ 1 file changed, 41 insertions(+)
+ create mode 100644 Documentation/perf/stm32-ddr-pmu.txt
 
-
-
-> This should probably wait until all of the call sites have been cleaned
-> up. Masahiro sent them for arm and arm64, while I sent cleanups for all
-> the rest.
->
->
->  Documentation/kbuild/makefiles.txt | 14 --------------
->  scripts/Kbuild.include             |  5 -----
->  2 files changed, 19 deletions(-)
->
-> diff --git a/Documentation/kbuild/makefiles.txt b/Documentation/kbuild/makefiles.txt
-> index 03c065855eaf..d65ad5746f94 100644
-> --- a/Documentation/kbuild/makefiles.txt
-> +++ b/Documentation/kbuild/makefiles.txt
-> @@ -437,20 +437,6 @@ more details, with real examples.
->         The second argument is optional, and if supplied will be used
->         if first argument is not supported.
->
-> -    cc-ldoption
-> -       cc-ldoption is used to check if $(CC) when used to link object files
-> -       supports the given option.  An optional second option may be
-> -       specified if first option are not supported.
-> -
-> -       Example:
-> -               #arch/x86/kernel/Makefile
-> -               vsyscall-flags += $(call cc-ldoption, -Wl$(comma)--hash-style=sysv)
-> -
-> -       In the above example, vsyscall-flags will be assigned the option
-> -       -Wl$(comma)--hash-style=sysv if it is supported by $(CC).
-> -       The second argument is optional, and if supplied will be used
-> -       if first argument is not supported.
-> -
->      as-instr
->         as-instr checks if the assembler reports a specific instruction
->         and then outputs either option1 or option2
-> diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-> index 7484b9d8272f..fbfb37d1bcc8 100644
-> --- a/scripts/Kbuild.include
-> +++ b/scripts/Kbuild.include
-> @@ -138,11 +138,6 @@ cc-disable-warning = $(call try-run,\
->  # Usage:  EXTRA_CFLAGS += $(call cc-ifversion, -lt, 0402, -O1)
->  cc-ifversion = $(shell [ $(CONFIG_GCC_VERSION)0 $(1) $(2)000 ] && echo $(3) || echo $(4))
->
-> -# cc-ldoption
-> -# Usage: ldflags += $(call cc-ldoption, -Wl$(comma)--hash-style=both)
-> -cc-ldoption = $(call try-run,\
-> -       $(CC) $(1) $(KBUILD_CPPFLAGS) $(CC_OPTION_CFLAGS) -nostdlib -x c /dev/null -o "$$TMP",$(1),$(2))
-> -
->  # ld-option
->  # Usage: KBUILD_LDFLAGS += $(call ld-option, -X, -Y)
->  ld-option = $(call try-run, $(LD) $(KBUILD_LDFLAGS) $(1) -v,$(1),$(2),$(3))
-> --
-> 2.21.0.593.g511ec345e18-goog
->
-
-
--- 
-Best Regards
-Masahiro Yamada
+diff --git a/Documentation/perf/stm32-ddr-pmu.txt b/Documentation/perf/stm3=
+2-ddr-pmu.txt
+new file mode 100644
+index 0000000..d5b35b3
+--- /dev/null
++++ b/Documentation/perf/stm32-ddr-pmu.txt
+@@ -0,0 +1,41 @@
++STM32 DDR Performance Monitor (DDRPERFM)
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++The DDRPERFM is the DDR Performance Monitor embedded in STM32MP1 SOC.
++See STM32MP157 reference manual RM0436 to get a description of this periph=
+eral.
++
++
++The five following counters are supported by stm32-ddr-pmu driver:
++	cnt0: read operations counters		(read_cnt)
++	cnt1: write operations counters		(write_cnt)
++	cnt2: active state counters		(activate_cnt)
++	cnt3: idle state counters		(idle_cnt)
++	tcnt: time count, present for all sets	(time_cnt)
++
++The stm32-ddr-pmu driver relies on the perf PMU framework to expose the
++counters via sysfs:
++	$ ls /sys/bus/event_source/devices/ddrperfm/events
++	activate_cnt  idle_cnt  read_cnt  time_cnt  write_cnt
++
++
++The perf PMU framework is usually invoked via the 'perf stat' tool.
++
++The DDRPERFM is a system monitor that cannot isolate the traffic coming fr=
+om a
++given thread or CPU, that is why stm32-ddr-pmu driver rejects any 'perf st=
+at'
++call that does not request a system-wide collection: the '-a, --all-cpus'
++option is mandatory!
++
++Example:
++	$ perf stat -e ddrperfm/read_cnt/,ddrperfm/time_cnt/ -a sleep 20
++	Performance counter stats for 'system wide':
++
++	         342541560      ddrperfm/read_cnt/
++	       10660011400      ddrperfm/time_cnt/
++
++	      20.021068551 seconds time elapsed
++
++
++The driver also exposes a 'bandwidth' attribute that can be used to displa=
+y
++the read/write/total bandwidth achieved during the last 'perf stat' execut=
+ion.
++	$ cat /sys/bus/event_source/devices/ddrperfm/bandwidth
++	Read =3D 403, Write =3D 239, Read & Write =3D 642 (MB/s)
+--=20
+2.7.4
