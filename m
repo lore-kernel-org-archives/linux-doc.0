@@ -1,63 +1,67 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-2.9 required=5.0 tests=DATE_IN_PAST_03_06,
+	FROM_FMBLA_NEWDOM,FROM_SUSPICIOUS_NTLD,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BF5EF7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 May 2019 19:28:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 60CC07D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 May 2019 19:33:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725941AbfETT1u (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 20 May 2019 15:27:50 -0400
-Received: from ms.lwn.net ([45.79.88.28]:35732 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725810AbfETT1u (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 20 May 2019 15:27:50 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 2172E6A2;
-        Mon, 20 May 2019 19:27:50 +0000 (UTC)
-Date:   Mon, 20 May 2019 13:27:49 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Cengiz Can <cengizc@gmail.com>
-Cc:     kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: kdump: fix minor typo
-Message-ID: <20190520132749.093c3c78@lwn.net>
-In-Reply-To: <20190514161724.16604-1-cengizc@gmail.com>
-References: <20190514161724.16604-1-cengizc@gmail.com>
-Organization: LWN.net
+        id S1726196AbfETTdJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 20 May 2019 15:33:09 -0400
+Received: from westpalmbeachmassagegroup.com ([45.35.221.60]:50956 "EHLO
+        wolfgangdigital.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726187AbfETTdJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 May 2019 15:33:09 -0400
+X-Greylist: delayed 3624 seconds by postgrey-1.27 at vger.kernel.org; Mon, 20 May 2019 15:33:09 EDT
+To:     linux-doc@vger.kernel.org
+Subject: Print your logo
+Message-ID: <5ab962e06dd2c863eeb54e877596d21f@esquire.com>
+Date:   Mon, 20 May 2019 17:02:20 +0200
+From:   "Heather" <heather@usblogo.space>
+Reply-To: flashdrive@aliyun.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; format=flowed; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 14 May 2019 19:17:25 +0300
-Cengiz Can <cengizc@gmail.com> wrote:
+Hi,
 
-> kdump.txt had a minor typo.
-> 
-> Signed-off-by: Cengiz Can <cengizc@gmail.com>
-> ---
->  Documentation/kdump/kdump.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/kdump/kdump.txt b/Documentation/kdump/kdump.txt
-> index 51814450a7f8..3162eeb8c262 100644
-> --- a/Documentation/kdump/kdump.txt
-> +++ b/Documentation/kdump/kdump.txt
-> @@ -410,7 +410,7 @@ Notes on loading the dump-capture kernel:
->  * Boot parameter "1" boots the dump-capture kernel into single-user
->    mode without networking. If you want networking, use "3".
->  
-> -* We generally don' have to bring up a SMP kernel just to capture the
-> +* We generally don't have to bring up a SMP kernel just to capture the
+I didn’t know if you had received my email from last week?
 
-Applied, thanks.
+We manufacture ALL custom LOGO and branded products – over 300,000 to
+choose from.
 
-jon
+The most asked about product that we make, is the custom printed USB flash
+drives!
+We can print your logo on them and load your digital images, videos and
+files!
+
+Here is what we include:
+-Any size memory you need: 64MB up to 128GB
+-We will print your logo on both sides, just ask!
+-Very Low Order Minimums
+-Need them quickly?  Not a problem, we offer Rush Service
+
+Email over a copy of your logo and we will create a design mock up for you
+at no cost!
+
+Our higher memory sizes are a really good option right now!
+
+Pricing is low right now, so let us know what you need and we will get you
+a quick quote.
+
+We always offer great rates for schools and nonprofits as well.
+
+Let us know what you would like quoted?
+
+Regards,
+
+Heather Millons
+Custom USB Account Manager
+
