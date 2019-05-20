@@ -6,88 +6,138 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9EE677D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 May 2019 05:23:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2410B7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 May 2019 06:10:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727413AbfETFXW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 20 May 2019 01:23:22 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:43944 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727130AbfETFXV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 May 2019 01:23:21 -0400
-Received: by mail-pg1-f195.google.com with SMTP id t22so6170432pgi.10;
-        Sun, 19 May 2019 22:23:21 -0700 (PDT)
+        id S1730532AbfETGKR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 20 May 2019 02:10:17 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:43548 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725959AbfETGKR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 May 2019 02:10:17 -0400
+Received: by mail-pg1-f194.google.com with SMTP id t22so6229662pgi.10;
+        Sun, 19 May 2019 23:10:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=Y7ZsJ7M69axo8UKSCozRvOH3tnMtWuejv94ZVramP6w=;
-        b=usm8wQMNdzjZB+l6nd/d0ORDrW+TAPL82hhxIddbmP3cYWXw9qs2wXwnzs4p6RiJw1
-         +/gdBmgJxxjOeqBHVWIXl4xfUnl6FhM7rTQkDJSR0742f2oWKFW7miKib4mYXxxAcZG7
-         fhOQ4z/CAeikHPbrTs0g5LoZ08gkPD2gTnB8qhmd+Lnrjoj9kOk+p6bNToTgMxQb8Qfs
-         8TQ8B0+NLJzhSIhJz1VJRvunWSbtjIhFaW4CaiLnRNa9q0YfcFkRETGIA9HFAN9kptj/
-         0xmUPWyvBigWxKASjjgiT1kYdPTOF050jAUXz4ffCTOe6AV5bfPuSpEpKYQ2tjdm/xfX
-         4YxA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=EtCrzdF26Only4uUvmUSQS6DqLBRvSsL0zNTScPkmCA=;
+        b=S5GgdV/JlgWXgEzAK5a6Fs1L8HVPSgtNmWwZ1fLgEQbPK6mKX2B7Qz1TybIVsdHYRj
+         PGLn5Xqc4X3qS0Y2rLNS3kZePMLn1sXbnoCVEx7NEGiWS/VAgItngZ5Yur6A/D1MhQze
+         nZ7sGQXyO/rIIvxrsCng3hjDv3Xr4m3KK/blQcZdZLXKw4+HoSktKC5t24yOnGhVHkwQ
+         kZhomS5aMVQYkPUjT+JX6/Li51j44O4p6bMQnZsl2VZ0Zrrn0aZIL7QqOmx3Aj/X3mLp
+         lh8IrYe8DU1cWuDXl5ved9UTWdeAMwGkut+DhkYcEaRoBdIXI5U0DAvF9sceuZlHiieG
+         O1KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=Y7ZsJ7M69axo8UKSCozRvOH3tnMtWuejv94ZVramP6w=;
-        b=KDJCmNl44kL7r33QIKX81mXpwd9N0khLX0cZT/vwVgZO+6yhTQypNWDX4hR6NQ5kqD
-         b/gLbbJ6C+mydAuadLt2SXYIXG8fNyFZ3bmpY68Qk6tYXVDvACJF/NSZkk+urrutoWEy
-         LBEoiZ2i7vd3BOPhWIqqo1Q3b1rW6OaMRo45dZOKkEVum4E6mXttsxGE87qKbApaGD0i
-         w1O6DWYUldF6Rn7pgKpvLO5uHNGSu5Zdo8GZm+4j1QxbedCzPS8ksUWQuMrku+zRUqux
-         RkNOxaLAvldU7t8SXglCcpFEst9EjSzdp/vUuWef2AHChTsvjafBtgaldsmNhj4AnT9F
-         9EpQ==
-X-Gm-Message-State: APjAAAWdzWr3THtwxmG7sSbuwO8KPAWYlRiX8J53s4yV2v4SG7y1H7A8
-        WE7biBFKM/uK2P48tqRzRj4=
-X-Google-Smtp-Source: APXvYqxARzCoDPWyje1XFLKlr+mnGu94stmycRegc+EF5IVhpI0UmKvFwt8hFKBOO68hK8MLV/4JYA==
-X-Received: by 2002:a63:9d83:: with SMTP id i125mr67552518pgd.229.1558329801284;
-        Sun, 19 May 2019 22:23:21 -0700 (PDT)
-Received: from localhost ([43.224.245.181])
-        by smtp.gmail.com with ESMTPSA id q27sm24714424pfg.49.2019.05.19.22.23.20
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 19 May 2019 22:23:20 -0700 (PDT)
-From:   Weitao Hou <houweitaoo@gmail.com>
-To:     davem@davemloft.net, corbet@lwn.net
-Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Weitao Hou <houweitaoo@gmail.com>
-Subject: [PATCH] networking: : fix typos in code comments
-Date:   Mon, 20 May 2019 13:23:17 +0800
-Message-Id: <20190520052317.27871-1-houweitaoo@gmail.com>
-X-Mailer: git-send-email 2.18.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=EtCrzdF26Only4uUvmUSQS6DqLBRvSsL0zNTScPkmCA=;
+        b=FgCikrgWXmFYGi214R8dAlBta2pEeuVbi0JMiSVgWqW9rPxFxyaaQVLd2hGBTBXNL5
+         rnueJDu/wmv5Fy8Rg+y5sxyMzHeQ1gDNVYkWpZM6rAjmqaRamxatCa4arO+65IcDtVbR
+         +9upj8bAyX5IQm9Pg/Sla6ZHnbwBhzFqD4jm6pBwBKBpunBoexIJWW6KI/almWb8dWvz
+         Y7Ejh0qr4VcA9Z7eDphmR2s6SqMFZNOdqPqeqAGWylEMnIiYmJreVILWxD2QaILPQKaj
+         RakLugiGYMDI7+74iIBVlx6ogKa3y8TMFqHtWLjXPQxK2i2RPDTHwSt39apXhv0xxLsj
+         165g==
+X-Gm-Message-State: APjAAAW2ZvIQWXrPjESwvcnPdCXig97Ax6FoCNA4Xhly+yc57QjNgoa9
+        nho/sD5ETSqQmIuaMq6Ii0E=
+X-Google-Smtp-Source: APXvYqx2+ES/Zm6mJG5Ui9U/ofzrn8oYSPp+hHXhmZR0UKq0PWWOZ4+HuGiv4oMvYgBzG5bsJ6oFTw==
+X-Received: by 2002:aa7:8a11:: with SMTP id m17mr55997757pfa.122.1558332616888;
+        Sun, 19 May 2019 23:10:16 -0700 (PDT)
+Received: from mail.google.com ([104.238.181.70])
+        by smtp.gmail.com with ESMTPSA id a9sm24734044pgw.72.2019.05.19.23.10.16
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 19 May 2019 23:10:16 -0700 (PDT)
+Date:   Mon, 20 May 2019 06:10:15 +0000
+From:   Changbin Du <changbin.du@gmail.com>
+To:     bhelgaas@google.com, corbet@lwn.net
+Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mchehab+samsung@kernel.org,
+        changbin.du@gmail.com
+Subject: Re: [PATCH v6 00/12] Include linux PCI docs into Sphinx TOC tree
+Message-ID: <20190520061014.qtq6tc366pnnqcio@mail.google.com>
+References: <20190514144734.19760-1-changbin.du@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190514144734.19760-1-changbin.du@gmail.com>
+User-Agent: NeoMutt/20180716-508-7c9a6d
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-fix accelleration to acceleration
+Bjorn and Jonathan,
+Could we consider to merge this serias now? Thanks.
 
-Signed-off-by: Weitao Hou <houweitaoo@gmail.com>
----
- Documentation/networking/segmentation-offloads.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Tue, May 14, 2019 at 10:47:22PM +0800, Changbin Du wrote:
+> Hi all,
+> 
+> The kernel now uses Sphinx to generate intelligent and beautiful documentation
+> from reStructuredText files. I converted most of the Linux PCI docs to rst
+> format in this serias.
+> 
+> For you to preview, please visit below url:
+> http://www.bytemem.com:8080/kernel-doc/PCI/index.html
+> 
+> Thank you!
+> 
+> v2: trivial style update.
+> v3: update titles. (Bjorn Helgaas)
+> v4: fix comments from Mauro Carvalho Chehab
+> v5: update MAINTAINERS (Joe Perches)
+> v6: fix comments.
+> 
+> Changbin Du (12):
+>   Documentation: add Linux PCI to Sphinx TOC tree
+>   Documentation: PCI: convert pci.txt to reST
+>   Documentation: PCI: convert PCIEBUS-HOWTO.txt to reST
+>   Documentation: PCI: convert pci-iov-howto.txt to reST
+>   Documentation: PCI: convert MSI-HOWTO.txt to reST
+>   Documentation: PCI: convert acpi-info.txt to reST
+>   Documentation: PCI: convert pci-error-recovery.txt to reST
+>   Documentation: PCI: convert pcieaer-howto.txt to reST
+>   Documentation: PCI: convert endpoint/pci-endpoint.txt to reST
+>   Documentation: PCI: convert endpoint/pci-endpoint-cfs.txt to reST
+>   Documentation: PCI: convert endpoint/pci-test-function.txt to reST
+>   Documentation: PCI: convert endpoint/pci-test-howto.txt to reST
+> 
+>  .../PCI/{acpi-info.txt => acpi-info.rst}      |  15 +-
+>  Documentation/PCI/endpoint/index.rst          |  13 +
+>  ...-endpoint-cfs.txt => pci-endpoint-cfs.rst} |  99 ++---
+>  .../{pci-endpoint.txt => pci-endpoint.rst}    |  92 +++--
+>  ...est-function.txt => pci-test-function.rst} |  84 +++--
+>  ...{pci-test-howto.txt => pci-test-howto.rst} |  81 ++--
+>  Documentation/PCI/index.rst                   |  18 +
+>  .../PCI/{MSI-HOWTO.txt => msi-howto.rst}      |  85 +++--
+>  ...or-recovery.txt => pci-error-recovery.rst} | 287 +++++++-------
+>  .../{pci-iov-howto.txt => pci-iov-howto.rst}  | 161 ++++----
+>  Documentation/PCI/{pci.txt => pci.rst}        | 356 ++++++++----------
+>  .../{pcieaer-howto.txt => pcieaer-howto.rst}  | 156 +++++---
+>  .../{PCIEBUS-HOWTO.txt => picebus-howto.rst}  | 140 ++++---
+>  Documentation/index.rst                       |   1 +
+>  MAINTAINERS                                   |   4 +-
+>  include/linux/mod_devicetable.h               |  19 +
+>  include/linux/pci.h                           |  37 ++
+>  17 files changed, 938 insertions(+), 710 deletions(-)
+>  rename Documentation/PCI/{acpi-info.txt => acpi-info.rst} (96%)
+>  create mode 100644 Documentation/PCI/endpoint/index.rst
+>  rename Documentation/PCI/endpoint/{pci-endpoint-cfs.txt => pci-endpoint-cfs.rst} (64%)
+>  rename Documentation/PCI/endpoint/{pci-endpoint.txt => pci-endpoint.rst} (83%)
+>  rename Documentation/PCI/endpoint/{pci-test-function.txt => pci-test-function.rst} (55%)
+>  rename Documentation/PCI/endpoint/{pci-test-howto.txt => pci-test-howto.rst} (78%)
+>  create mode 100644 Documentation/PCI/index.rst
+>  rename Documentation/PCI/{MSI-HOWTO.txt => msi-howto.rst} (88%)
+>  rename Documentation/PCI/{pci-error-recovery.txt => pci-error-recovery.rst} (67%)
+>  rename Documentation/PCI/{pci-iov-howto.txt => pci-iov-howto.rst} (63%)
+>  rename Documentation/PCI/{pci.txt => pci.rst} (68%)
+>  rename Documentation/PCI/{pcieaer-howto.txt => pcieaer-howto.rst} (72%)
+>  rename Documentation/PCI/{PCIEBUS-HOWTO.txt => picebus-howto.rst} (70%)
+> 
+> -- 
+> 2.20.1
+> 
 
-diff --git a/Documentation/networking/segmentation-offloads.rst b/Documentation/networking/segmentation-offloads.rst
-index 89d1ee933e9f..085e8fab03fd 100644
---- a/Documentation/networking/segmentation-offloads.rst
-+++ b/Documentation/networking/segmentation-offloads.rst
-@@ -18,7 +18,7 @@ The following technologies are described:
-  * Generic Segmentation Offload - GSO
-  * Generic Receive Offload - GRO
-  * Partial Generic Segmentation Offload - GSO_PARTIAL
-- * SCTP accelleration with GSO - GSO_BY_FRAGS
-+ * SCTP acceleration with GSO - GSO_BY_FRAGS
- 
- 
- TCP Segmentation Offload
-@@ -148,7 +148,7 @@ that the IPv4 ID field is incremented in the case that a given header does
- not have the DF bit set.
- 
- 
--SCTP accelleration with GSO
-+SCTP acceleration with GSO
- ===========================
- 
- SCTP - despite the lack of hardware support - can still take advantage of
 -- 
-2.18.0
-
+Cheers,
+Changbin Du
