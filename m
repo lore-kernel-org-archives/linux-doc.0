@@ -1,101 +1,59 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_NONE,URIBL_CSS,
-	URIBL_CSS_A autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 83A597D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 May 2019 09:17:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 754367D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 May 2019 11:58:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729891AbfETJRL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 20 May 2019 05:17:11 -0400
-Received: from mail.greatforyou.eu ([212.237.4.137]:40120 "EHLO
-        mail.greatforyou.eu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729598AbfETJRL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 May 2019 05:17:11 -0400
-X-Greylist: delayed 388 seconds by postgrey-1.27 at vger.kernel.org; Mon, 20 May 2019 05:17:10 EDT
-Received: by mail.greatforyou.eu (Postfix, from userid 1001)
-        id DD53187D9A; Mon, 20 May 2019 11:05:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=greatforyou.eu;
-        s=mail; t=1558343377;
-        bh=Ose1Lf6xoZyXlmyNhvfZ0PnQ3bIpVImYbP9/NlfeECg=;
-        h=Date:From:To:Subject:From;
-        b=oEv6HPrJNzSzRor2owkEVQir1FQ61n7t7KPpE/5fgAdWseKSuxmpIGF+DjwkiZ2Vk
-         Ct/TSVL8d6EbE791XfwFyYwj4SMVbcCA0ASli6Ck2NuqeIXZHQGyAOotdNOrb8etsl
-         xlB15cPUmqu9vzJzC3wIv4mTUaie6ypr/EI8yu/k=
-Received: by mail.greatforyou.eu for <linux-doc@vger.kernel.org>; Mon, 20 May 2019 09:05:03 GMT
-Message-ID: <20190520110232-0.1.6.86h.0.5bliof5he5@greatforyou.eu>
-Date:   Mon, 20 May 2019 09:05:03 GMT
-From:   "Radoslav Dobrev" <radoslav.dobrev@greatforyou.eu>
-To:     <linux-doc@vger.kernel.org>
-Subject: =?UTF-8?Q?=D0=92=D0=B5=D0=BB=D0=B8=D0=BA=D0=B4=D0=B5=D0=BD=D1=81=D0=BA=D0=B8_=D0=B1=D0=BE=D0=BD=D1=83=D1=81=D0=B8?=
-X-Mailer: mail.greatforyou.eu
+        id S1731593AbfETL6e (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 20 May 2019 07:58:34 -0400
+Received: from mga06.intel.com ([134.134.136.31]:28368 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730727AbfETL6d (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 20 May 2019 07:58:33 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 May 2019 04:58:33 -0700
+X-ExtLoop1: 1
+Received: from mhauser-mobl.ger.corp.intel.com (HELO localhost) ([10.252.47.244])
+  by fmsmga001.fm.intel.com with ESMTP; 20 May 2019 04:58:29 -0700
+Date:   Mon, 20 May 2019 14:58:27 +0300
+From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+To:     Sasha Levin <sashal@kernel.org>
+Cc:     peterhuewe@gmx.de, jgg@ziepe.ca, corbet@lwn.net,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linux-kernel@microsoft.com,
+        thiruan@microsoft.com, bryankel@microsoft.com
+Subject: Re: [PATCH v3 1/2] ftpm: firmware TPM running in TEE
+Message-ID: <20190520115827.GG27805@linux.intel.com>
+References: <20190415155636.32748-1-sashal@kernel.org>
+ <20190415155636.32748-2-sashal@kernel.org>
+ <20190515081250.GA7708@linux.intel.com>
+ <20190517132226.GB11972@sasha-vm>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190517132226.GB11972@sasha-vm>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-=D0=97=D0=B4=D1=80=D0=B0=D0=B2=D0=B5=D0=B9=D1=82=D0=B5,
+On Fri, May 17, 2019 at 09:22:26AM -0400, Sasha Levin wrote:
+> The whole TEE subsystem is already well documented in our kernel tree
+> (https://www.kernel.org/doc/Documentation/tee.txt) and beyond. I can add
+> a reference to the doc here, but I'd rather not add a bunch of TEE
+> related comments as you suggest later in your review.
+> 
+> The same way a PCI device driver doesn't describe what PCI is in it's
+> code, we shouldn't be doing the same for TEE here.
 
-=D0=A1=D1=8A=D0=B2=D1=80=D0=B5=D0=BC=D0=B5=D0=BD=D0=BD=D0=B0=D1=82=D0=B0 =
-=D1=81=D0=BE=D1=86=D0=B8=D0=B0=D0=BB=D0=BD=D0=B0 =D0=BF=D1=80=D0=B8=D0=B4=
-=D0=BE=D0=B1=D0=B8=D0=B2=D0=BA=D0=B0 =D0=B2=D0=B0=D1=83=D1=87=D0=B5=D1=80=
-=D0=B8 =D0=B7=D0=B0 =D1=85=D1=80=D0=B0=D0=BD=D0=B0, =D0=BA=D0=BE=D0=B8=D1=
-=82=D0=BE =D0=BC=D0=BE=D0=B3=D0=B0=D1=82 =D0=B4=D0=B0 =D0=B1=D1=8A=D0=B4=D0=
-=B0=D1=82 =D0=B8=D0=B7=D0=BF=D0=BE=D0=BB=D0=B7=D0=B2=D0=B0=D0=BD=D0=B8 =D0=
-=B2 =D1=88=D0=B8=D1=80=D0=BE=D0=BA=D0=B0 =D1=82=D1=8A=D1=80=D0=B3=D0=BE=D0=
-=B2=D1=81=D0=BA=D0=B0 =D0=BC=D1=80=D0=B5=D0=B6=D0=B0 =D0=BE=D1=82 =D1=81=D1=
-=83=D0=BF=D0=B5=D1=80=D0=BC=D0=B0=D1=80=D0=BA=D0=B5=D1=82=D0=B8 =D0=B8 =D0=
-=B7=D0=B0=D0=B2=D0=B5=D0=B4=D0=B5=D0=BD=D0=B8=D1=8F =D0=B7=D0=B0 =D1=85=D1=
-=80=D0=B0=D0=BD=D0=B5=D0=BD=D0=B5 =D0=B2 =D1=81=D1=82=D1=80=D0=B0=D0=BD=D0=
-=B0=D1=82=D0=B0, =D0=B5 =D0=B8=D0=BD=D1=81=D1=82=D1=80=D1=83=D0=BC=D0=B5=D0=
-=BD=D1=82, =D0=BA=D0=BE=D0=B9=D1=82=D0=BE =D0=B5=D1=84=D0=B5=D0=BA=D1=82=D0=
-=B8=D0=B2=D0=BD=D0=BE =D0=BF=D0=BE=D0=B2=D0=B8=D1=88=D0=B0=D0=B2=D0=B0 =D0=
-=B5=D1=84=D0=B8=D0=BA=D0=B0=D1=81=D0=BD=D0=BE=D1=81=D1=82=D1=82=D0=B0 =D0=
-=BD=D0=B0 =D0=BF=D0=B5=D1=80=D1=81=D0=BE=D0=BD=D0=B0=D0=BB=D0=B0.
+Thanks for pointing out the documentation! That is sufficient.
 
-=D0=98=D0=B7=D0=B1=D0=BE=D1=80=D1=8A=D1=82 =D0=BD=D0=B0 =D0=BD=D0=B0=D1=88=
-=D0=B8=D1=82=D0=B5 =D0=B2=D0=B0=D1=83=D1=87=D0=B5=D1=80=D0=B8 =D0=B7=D0=B0=
- =D1=85=D1=80=D0=B0=D0=BD=D0=B0 =D0=BA=D0=B0=D1=82=D0=BE =D1=84=D0=BE=D1=80=
-=D0=BC=D0=B0 =D0=BD=D0=B0 =D1=81=D0=BE=D1=86=D0=B8=D0=B0=D0=BB=D0=BD=D0=B0=
- =D0=BF=D1=80=D0=B8=D0=B4=D0=BE=D0=B1=D0=B8=D0=B2=D0=BA=D0=B0 =D1=81=D0=B0=
- =D0=B7=D0=B0 =D1=80=D0=B0=D0=B1=D0=BE=D1=82=D0=BE=D0=B4=D0=B0=D1=82=D0=B5=
-=D0=BB=D1=8F =D0=BD=D0=B5 =D1=81=D0=B0=D0=BC=D0=BE =D0=BF=D1=80=D0=B8=D0=B4=
-=D0=BE=D0=B1=D0=B8=D0=B2=D0=B0=D0=BD=D0=B5 =D0=BD=D0=B0 =D0=BF=D1=80=D0=BE=
-=D0=B4=D1=83=D0=BA=D1=82=D0=B8=D0=B2=D0=B5=D0=BD =D0=B8 =D0=BC=D0=BE=D1=82=
-=D0=B8=D0=B2=D0=B8=D1=80=D0=B0=D0=BD =D0=B5=D0=BA=D0=B8=D0=BF, =D0=BD=D0=BE=
- =D0=B8 =D0=BD=D0=BE=D1=81=D1=8F=D1=82 =D1=84=D0=B8=D0=BD=D0=B0=D0=BD=D1=81=
-=D0=BE=D0=B2=D0=B8 =D0=BE=D0=B1=D0=BB=D0=B0=D0=B3=D0=B8 - =D1=81=D1=82=D0=
-=BE=D0=B9=D0=BD=D0=BE=D1=81=D1=82=D1=82=D0=B0 =D0=BD=D0=B0 =D0=B8=D0=B7=D1=
-=80=D0=B0=D0=B7=D1=85=D0=BE=D0=B4=D0=B2=D0=B0=D0=BD=D0=B8=D1=82=D0=B5 =D1=
-=81=D1=80=D0=B5=D0=B4=D1=81=D1=82=D0=B2=D0=B0 =D0=BD=D0=B5 =D1=81=D0=B5 =D0=
-=BE=D0=B1=D0=BB=D0=B0=D0=B3=D0=B0=D1=82 =D1=81 =D0=B4=D0=B0=D0=BD=D1=8A=D0=
-=BA.
-
-=D0=A0=D0=B0=D0=B4=D0=B2=D0=B0=D0=BC=D0=B5 =D1=81=D0=B5 =D0=B4=D0=B0 =D0=92=
-=D0=B8 =D0=BF=D1=80=D0=B5=D0=B4=D1=81=D1=82=D0=B0=D0=B2=D0=B8=D0=BC =D0=BE=
-=D1=89=D0=B5 =D0=BF=D0=BE=D0=B2=D0=B5=D1=87=D0=B5 =D0=BF=D1=80=D0=B5=D0=B4=
-=D0=B8=D0=BC=D1=81=D1=82=D0=B2=D0=B0, =D0=BA=D0=BE=D0=B8=D1=82=D0=BE =D0=B1=
-=D0=B8=D1=85=D1=82=D0=B5 =D0=BF=D0=BE=D0=BB=D1=83=D1=87=D0=B8=D0=BB=D0=B8=
- =D1=81 =D0=BF=D0=BE=D0=BB=D0=B7=D0=B2=D0=B0=D0=BD=D0=B5=D1=82=D0=BE =D0=BD=
-=D0=B0 =D0=BD=D0=B0=D1=88=D0=B8=D1=82=D0=B5 =D0=B2=D0=B0=D1=83=D1=87=D0=B5=
-=D1=80=D0=B8, =D0=BA=D0=B0=D1=82=D0=BE =D0=BD=D0=B0=D0=BF=D1=80=D0=B8=D0=BC=
-=D0=B5=D1=80 =D0=BF=D0=BE=D0=BB=D0=B7=D0=B8=D1=82=D0=B5 =D0=B7=D0=B0 =D1=81=
-=D0=BB=D1=83=D0=B6=D0=B8=D1=82=D0=B5=D0=BB=D0=B8=D1=82=D0=B5 =D0=92=D0=B8=
- =D0=B8 =D1=89=D0=B5 =D0=92=D0=B8 =D1=80=D0=B0=D0=B7=D0=BA=D0=B0=D0=B6=D0=
-=B0 =D0=B7=D0=B0 =D0=B2=D1=8A=D0=B7=D0=BC=D0=BE=D0=B6=D0=BD=D0=BE=D1=81=D1=
-=82=D0=B8=D1=82=D0=B5 =D0=BF=D1=80=D0=B8 =D1=82=D1=8F=D1=85=D0=BD=D0=BE=D1=
-=82=D0=BE =D0=B8=D0=B7=D0=BF=D0=BE=D0=BB=D0=B7=D0=B2=D0=B0=D0=BD=D0=B5 - =
-=D0=BC=D0=BE=D0=BB=D1=8F, =D0=BE=D0=B1=D0=B0=D0=B4=D0=B5=D1=82=D0=B5 =D1=81=
-=D0=B5.
-
-
-=D0=A0=D0=B0=D0=B4=D0=BE=D1=81=D0=BB=D0=B0=D0=B2 =D0=94=D0=BE=D0=B1=D1=80=
-=D0=B5=D0=B2
-Head of HR Benefit Team
-www.greatforyou.eu
+/Jarkko
