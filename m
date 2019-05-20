@@ -1,67 +1,61 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=DATE_IN_PAST_03_06,
-	FROM_FMBLA_NEWDOM,FROM_SUSPICIOUS_NTLD,HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 60CC07D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 May 2019 19:33:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E07287D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 May 2019 20:52:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726196AbfETTdJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 20 May 2019 15:33:09 -0400
-Received: from westpalmbeachmassagegroup.com ([45.35.221.60]:50956 "EHLO
-        wolfgangdigital.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726187AbfETTdJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 May 2019 15:33:09 -0400
-X-Greylist: delayed 3624 seconds by postgrey-1.27 at vger.kernel.org; Mon, 20 May 2019 15:33:09 EDT
-To:     linux-doc@vger.kernel.org
-Subject: Print your logo
-Message-ID: <5ab962e06dd2c863eeb54e877596d21f@esquire.com>
-Date:   Mon, 20 May 2019 17:02:20 +0200
-From:   "Heather" <heather@usblogo.space>
-Reply-To: flashdrive@aliyun.com
+        id S1726074AbfETUwP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 20 May 2019 16:52:15 -0400
+Received: from mga03.intel.com ([134.134.136.65]:16868 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725763AbfETUwP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 20 May 2019 16:52:15 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 May 2019 13:52:14 -0700
+X-ExtLoop1: 1
+Received: from iweiny-desk2.sc.intel.com ([10.3.52.157])
+  by orsmga002.jf.intel.com with ESMTP; 20 May 2019 13:52:14 -0700
+From:   ira.weiny@intel.com
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     x86@kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>
+Subject: [PATCH] Documentation/x86: Fix path to entry_32.S
+Date:   Mon, 20 May 2019 13:52:53 -0700
+Message-Id: <20190520205253.23762-1-ira.weiny@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+From: Ira Weiny <ira.weiny@intel.com>
 
-I didn’t know if you had received my email from last week?
+Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+---
+ Documentation/x86/exception-tables.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-We manufacture ALL custom LOGO and branded products – over 300,000 to
-choose from.
-
-The most asked about product that we make, is the custom printed USB flash
-drives!
-We can print your logo on them and load your digital images, videos and
-files!
-
-Here is what we include:
--Any size memory you need: 64MB up to 128GB
--We will print your logo on both sides, just ask!
--Very Low Order Minimums
--Need them quickly?  Not a problem, we offer Rush Service
-
-Email over a copy of your logo and we will create a design mock up for you
-at no cost!
-
-Our higher memory sizes are a really good option right now!
-
-Pricing is low right now, so let us know what you need and we will get you
-a quick quote.
-
-We always offer great rates for schools and nonprofits as well.
-
-Let us know what you would like quoted?
-
-Regards,
-
-Heather Millons
-Custom USB Account Manager
+diff --git a/Documentation/x86/exception-tables.txt b/Documentation/x86/exception-tables.txt
+index e396bcd8d830..001c0f1ad935 100644
+--- a/Documentation/x86/exception-tables.txt
++++ b/Documentation/x86/exception-tables.txt
+@@ -30,7 +30,7 @@ page fault handler
+ void do_page_fault(struct pt_regs *regs, unsigned long error_code)
+ 
+ in arch/x86/mm/fault.c. The parameters on the stack are set up by
+-the low level assembly glue in arch/x86/kernel/entry_32.S. The parameter
++the low level assembly glue in arch/x86/entry/entry_32.S. The parameter
+ regs is a pointer to the saved registers on the stack, error_code
+ contains a reason code for the exception.
+ 
+-- 
+2.20.1
 
