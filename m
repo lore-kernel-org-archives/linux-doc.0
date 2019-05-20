@@ -1,143 +1,81 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2410B7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 May 2019 06:10:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3973E7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 May 2019 06:37:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730532AbfETGKR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 20 May 2019 02:10:17 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:43548 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725959AbfETGKR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 May 2019 02:10:17 -0400
-Received: by mail-pg1-f194.google.com with SMTP id t22so6229662pgi.10;
-        Sun, 19 May 2019 23:10:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=EtCrzdF26Only4uUvmUSQS6DqLBRvSsL0zNTScPkmCA=;
-        b=S5GgdV/JlgWXgEzAK5a6Fs1L8HVPSgtNmWwZ1fLgEQbPK6mKX2B7Qz1TybIVsdHYRj
-         PGLn5Xqc4X3qS0Y2rLNS3kZePMLn1sXbnoCVEx7NEGiWS/VAgItngZ5Yur6A/D1MhQze
-         nZ7sGQXyO/rIIvxrsCng3hjDv3Xr4m3KK/blQcZdZLXKw4+HoSktKC5t24yOnGhVHkwQ
-         kZhomS5aMVQYkPUjT+JX6/Li51j44O4p6bMQnZsl2VZ0Zrrn0aZIL7QqOmx3Aj/X3mLp
-         lh8IrYe8DU1cWuDXl5ved9UTWdeAMwGkut+DhkYcEaRoBdIXI5U0DAvF9sceuZlHiieG
-         O1KQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=EtCrzdF26Only4uUvmUSQS6DqLBRvSsL0zNTScPkmCA=;
-        b=FgCikrgWXmFYGi214R8dAlBta2pEeuVbi0JMiSVgWqW9rPxFxyaaQVLd2hGBTBXNL5
-         rnueJDu/wmv5Fy8Rg+y5sxyMzHeQ1gDNVYkWpZM6rAjmqaRamxatCa4arO+65IcDtVbR
-         +9upj8bAyX5IQm9Pg/Sla6ZHnbwBhzFqD4jm6pBwBKBpunBoexIJWW6KI/almWb8dWvz
-         Y7Ejh0qr4VcA9Z7eDphmR2s6SqMFZNOdqPqeqAGWylEMnIiYmJreVILWxD2QaILPQKaj
-         RakLugiGYMDI7+74iIBVlx6ogKa3y8TMFqHtWLjXPQxK2i2RPDTHwSt39apXhv0xxLsj
-         165g==
-X-Gm-Message-State: APjAAAW2ZvIQWXrPjESwvcnPdCXig97Ax6FoCNA4Xhly+yc57QjNgoa9
-        nho/sD5ETSqQmIuaMq6Ii0E=
-X-Google-Smtp-Source: APXvYqx2+ES/Zm6mJG5Ui9U/ofzrn8oYSPp+hHXhmZR0UKq0PWWOZ4+HuGiv4oMvYgBzG5bsJ6oFTw==
-X-Received: by 2002:aa7:8a11:: with SMTP id m17mr55997757pfa.122.1558332616888;
-        Sun, 19 May 2019 23:10:16 -0700 (PDT)
-Received: from mail.google.com ([104.238.181.70])
-        by smtp.gmail.com with ESMTPSA id a9sm24734044pgw.72.2019.05.19.23.10.16
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 19 May 2019 23:10:16 -0700 (PDT)
-Date:   Mon, 20 May 2019 06:10:15 +0000
-From:   Changbin Du <changbin.du@gmail.com>
-To:     bhelgaas@google.com, corbet@lwn.net
-Cc:     linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mchehab+samsung@kernel.org,
-        changbin.du@gmail.com
-Subject: Re: [PATCH v6 00/12] Include linux PCI docs into Sphinx TOC tree
-Message-ID: <20190520061014.qtq6tc366pnnqcio@mail.google.com>
-References: <20190514144734.19760-1-changbin.du@gmail.com>
+        id S1727281AbfETGhE convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 20 May 2019 02:37:04 -0400
+Received: from sender2-pp-o92.zoho.com.cn ([163.53.93.251]:25419 "EHLO
+        sender1.zoho.com.cn" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725372AbfETGhE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 May 2019 02:37:04 -0400
+X-Greylist: delayed 905 seconds by postgrey-1.27 at vger.kernel.org; Mon, 20 May 2019 02:37:02 EDT
+ARC-Seal: i=1; a=rsa-sha256; t=1558333310; cv=none; 
+        d=zoho.com.cn; s=zohoarc; 
+        b=Qi8Ke3hXenm7mkIFnPEXRBcsqTRg63UtE+tU1UG8TeXo2S0YUE1g3hOd++ZY2DLWyfOyR0s2qUUMgMbMHr7gn/YzqC/0/qG5BMI2h35WxYLmffzJlBNkhJ/qXvhQWE3+DaxDrAiDBwKgzvgq3fRXDvpyKQBLGbPSLpoIw7CqD9w=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com.cn; s=zohoarc; 
+        t=1558333310; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To:ARC-Authentication-Results; 
+        bh=CvNdAIFzJDVh9ev9Apw2K5bCI0w18YDmtc8wtTiOJwU=; 
+        b=hPo5S0sJCuTnewIBVJpOHMYWWJX0n38YDpBv6/Z5DK8GWireWzLQ0vIDjqVeeueDLi9rbu4iqoOuqTQ9VhbimtvXeihagAXaLfK7lOLSH/7NLjxRrz9QtK/moeo+zJYORIqt42G+7FTalQdtdThBM7m70YtZ7I9Njtt+Ig2ojH0=
+ARC-Authentication-Results: i=1; mx.zoho.com.cn;
+        dkim=pass  header.i=zoho.com.cn;
+        spf=pass  smtp.mailfrom=cgxu519@zoho.com.cn;
+        dmarc=pass header.from=<cgxu519@zoho.com.cn> header.from=<cgxu519@zoho.com.cn>
+Received: from localhost.localdomain (218.18.229.179 [218.18.229.179]) by mx.zoho.com.cn
+        with SMTPS id 1558333306062973.5440755672457; Mon, 20 May 2019 14:21:46 +0800 (CST)
+From:   Chengguang Xu <cgxu519@zoho.com.cn>
+To:     jack@suse.com, corbet@lwn.net
+Cc:     linux-ext4@vger.kernel.org, linux-doc@vger.kernel.org,
+        Chengguang Xu <cgxu519@zoho.com.cn>
+Message-ID: <20190520062116.28400-1-cgxu519@zoho.com.cn>
+Subject: [PATCH] doc: ext2: update description of quota options for ext2
+Date:   Mon, 20 May 2019 14:21:16 +0800
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190514144734.19760-1-changbin.du@gmail.com>
-User-Agent: NeoMutt/20180716-508-7c9a6d
+Content-Transfer-Encoding: 8BIT
+X-ZohoCNMailClient: External
+Content-Type: text/plain; charset=utf8
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Bjorn and Jonathan,
-Could we consider to merge this serias now? Thanks.
+ext2 support user/group disk quota by specifying
+usrquota/grpquota option on mount, so fix the
+description in the doc properly.
 
-On Tue, May 14, 2019 at 10:47:22PM +0800, Changbin Du wrote:
-> Hi all,
-> 
-> The kernel now uses Sphinx to generate intelligent and beautiful documentation
-> from reStructuredText files. I converted most of the Linux PCI docs to rst
-> format in this serias.
-> 
-> For you to preview, please visit below url:
-> http://www.bytemem.com:8080/kernel-doc/PCI/index.html
-> 
-> Thank you!
-> 
-> v2: trivial style update.
-> v3: update titles. (Bjorn Helgaas)
-> v4: fix comments from Mauro Carvalho Chehab
-> v5: update MAINTAINERS (Joe Perches)
-> v6: fix comments.
-> 
-> Changbin Du (12):
->   Documentation: add Linux PCI to Sphinx TOC tree
->   Documentation: PCI: convert pci.txt to reST
->   Documentation: PCI: convert PCIEBUS-HOWTO.txt to reST
->   Documentation: PCI: convert pci-iov-howto.txt to reST
->   Documentation: PCI: convert MSI-HOWTO.txt to reST
->   Documentation: PCI: convert acpi-info.txt to reST
->   Documentation: PCI: convert pci-error-recovery.txt to reST
->   Documentation: PCI: convert pcieaer-howto.txt to reST
->   Documentation: PCI: convert endpoint/pci-endpoint.txt to reST
->   Documentation: PCI: convert endpoint/pci-endpoint-cfs.txt to reST
->   Documentation: PCI: convert endpoint/pci-test-function.txt to reST
->   Documentation: PCI: convert endpoint/pci-test-howto.txt to reST
-> 
->  .../PCI/{acpi-info.txt => acpi-info.rst}      |  15 +-
->  Documentation/PCI/endpoint/index.rst          |  13 +
->  ...-endpoint-cfs.txt => pci-endpoint-cfs.rst} |  99 ++---
->  .../{pci-endpoint.txt => pci-endpoint.rst}    |  92 +++--
->  ...est-function.txt => pci-test-function.rst} |  84 +++--
->  ...{pci-test-howto.txt => pci-test-howto.rst} |  81 ++--
->  Documentation/PCI/index.rst                   |  18 +
->  .../PCI/{MSI-HOWTO.txt => msi-howto.rst}      |  85 +++--
->  ...or-recovery.txt => pci-error-recovery.rst} | 287 +++++++-------
->  .../{pci-iov-howto.txt => pci-iov-howto.rst}  | 161 ++++----
->  Documentation/PCI/{pci.txt => pci.rst}        | 356 ++++++++----------
->  .../{pcieaer-howto.txt => pcieaer-howto.rst}  | 156 +++++---
->  .../{PCIEBUS-HOWTO.txt => picebus-howto.rst}  | 140 ++++---
->  Documentation/index.rst                       |   1 +
->  MAINTAINERS                                   |   4 +-
->  include/linux/mod_devicetable.h               |  19 +
->  include/linux/pci.h                           |  37 ++
->  17 files changed, 938 insertions(+), 710 deletions(-)
->  rename Documentation/PCI/{acpi-info.txt => acpi-info.rst} (96%)
->  create mode 100644 Documentation/PCI/endpoint/index.rst
->  rename Documentation/PCI/endpoint/{pci-endpoint-cfs.txt => pci-endpoint-cfs.rst} (64%)
->  rename Documentation/PCI/endpoint/{pci-endpoint.txt => pci-endpoint.rst} (83%)
->  rename Documentation/PCI/endpoint/{pci-test-function.txt => pci-test-function.rst} (55%)
->  rename Documentation/PCI/endpoint/{pci-test-howto.txt => pci-test-howto.rst} (78%)
->  create mode 100644 Documentation/PCI/index.rst
->  rename Documentation/PCI/{MSI-HOWTO.txt => msi-howto.rst} (88%)
->  rename Documentation/PCI/{pci-error-recovery.txt => pci-error-recovery.rst} (67%)
->  rename Documentation/PCI/{pci-iov-howto.txt => pci-iov-howto.rst} (63%)
->  rename Documentation/PCI/{pci.txt => pci.rst} (68%)
->  rename Documentation/PCI/{pcieaer-howto.txt => pcieaer-howto.rst} (72%)
->  rename Documentation/PCI/{PCIEBUS-HOWTO.txt => picebus-howto.rst} (70%)
-> 
-> -- 
-> 2.20.1
-> 
+Signed-off-by: Chengguang Xu <cgxu519@zoho.com.cn>
+---
+ Documentation/filesystems/ext2.txt | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
+diff --git a/Documentation/filesystems/ext2.txt b/Documentation/filesystems/ext2.txt
+index a19973a4dd1e..94c2cf0292f5 100644
+--- a/Documentation/filesystems/ext2.txt
++++ b/Documentation/filesystems/ext2.txt
+@@ -57,7 +57,13 @@ noacl				Don't support POSIX ACLs.
+ 
+ nobh				Do not attach buffer_heads to file pagecache.
+ 
+-grpquota,noquota,quota,usrquota	Quota options are silently ignored by ext2.
++quota, usrquota			Enable user disk quota support
++				(requires CONFIG_QUOTA).
++
++grpquota			Enable group disk quota support
++				(requires CONFIG_QUOTA).
++
++noquota option ls silently ignored by ext2.
+ 
+ 
+ Specification
 -- 
-Cheers,
-Changbin Du
+2.20.1
+
+
+
