@@ -1,108 +1,99 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A47EA7D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 May 2019 15:43:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EF5A97D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 May 2019 15:58:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732568AbfETPnD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 20 May 2019 11:43:03 -0400
-Received: from mx0b-001ae601.pphosted.com ([67.231.152.168]:48770 "EHLO
-        mx0b-001ae601.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2388808AbfETPnD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 May 2019 11:43:03 -0400
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-        by mx0b-001ae601.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x4KFbE8c006270;
-        Mon, 20 May 2019 10:42:46 -0500
-Authentication-Results: ppops.net;
-        spf=none smtp.mailfrom=ckeepax@opensource.cirrus.com
-Received: from mail4.cirrus.com ([87.246.98.35])
-        by mx0b-001ae601.pphosted.com with ESMTP id 2sjefmtm2j-1;
-        Mon, 20 May 2019 10:42:46 -0500
-Received: from EDIEX02.ad.cirrus.com (ediex02.ad.cirrus.com [198.61.84.81])
-        by mail4.cirrus.com (Postfix) with ESMTP id B8517611C8A7;
-        Mon, 20 May 2019 10:43:52 -0500 (CDT)
-Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1591.10; Mon, 20 May
- 2019 16:42:45 +0100
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server id 15.1.1591.10 via Frontend
- Transport; Mon, 20 May 2019 16:42:45 +0100
-Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
-        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 0B02744;
-        Mon, 20 May 2019 16:42:45 +0100 (BST)
-Date:   Mon, 20 May 2019 16:42:45 +0100
-From:   Charles Keepax <ckeepax@opensource.cirrus.com>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-CC:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        <linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>
-Subject: Re: [PATCH 07/10] mfd: madera: point to the right pinctrl binding
- file
-Message-ID: <20190520154244.GA99937@ediswmail.ad.cirrus.com>
-References: <cover.1558362030.git.mchehab+samsung@kernel.org>
- <fb47879d405e624374d7d4e099988296ed2af668.1558362030.git.mchehab+samsung@kernel.org>
+        id S2389347AbfETP6B (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 20 May 2019 11:58:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35330 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388657AbfETP6B (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 20 May 2019 11:58:01 -0400
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A839F2177B;
+        Mon, 20 May 2019 15:58:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1558367880;
+        bh=nVZuwAchej3cX/jxaYPaCpxQLGe12Ikr7j7t0ajgtX4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=In/s90sCuJU2/LDfbSq/ltM7BfsjqY+JC5P2+zcho3XSeY3kl5p1Yn3dN/yqSzmu7
+         tSPr8LQB+T3vkyBSwKzWnc94WQUbQgrYEEBui8kDu+PZKCnpIJz09DTB4R9zADWXvm
+         q0axqoDMtcASUYKeiulDpEZMnuXbabQ/R2lAX+40=
+Received: by mail-qt1-f178.google.com with SMTP id z19so16814705qtz.13;
+        Mon, 20 May 2019 08:58:00 -0700 (PDT)
+X-Gm-Message-State: APjAAAXlZPlk803hMmoRBMGPOYZihMLfFDN6G6E8m6fHQRWUDyc0PuCM
+        vh/Wi0vTTVgNZLy+QZ27ktv+rCmTQmYPkRt1ug==
+X-Google-Smtp-Source: APXvYqwjPogqJnNMzhVG/Dty4EXEP0hrNsUGqneE2/2Dsx/rQulk+faBwMb9O26bpFgnUShEIqJNS7TiLLwC6XChE1Y=
+X-Received: by 2002:ac8:2d48:: with SMTP id o8mr64152978qta.136.1558367879826;
+ Mon, 20 May 2019 08:57:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <fb47879d405e624374d7d4e099988296ed2af668.1558362030.git.mchehab+samsung@kernel.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1905200101
+References: <cover.1558362030.git.mchehab+samsung@kernel.org> <66231286de0f11b45075292216a939858de8c3e5.1558362030.git.mchehab+samsung@kernel.org>
+In-Reply-To: <66231286de0f11b45075292216a939858de8c3e5.1558362030.git.mchehab+samsung@kernel.org>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Mon, 20 May 2019 10:57:47 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKGzNBjxhvY2Vq9v8SXiND+7sjmsOwKkeu+gEM=2Y-n_A@mail.gmail.com>
+Message-ID: <CAL_JsqKGzNBjxhvY2Vq9v8SXiND+7sjmsOwKkeu+gEM=2Y-n_A@mail.gmail.com>
+Subject: Re: [PATCH 08/10] dt: fix refs that were renamed to json with the
+ same file name
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        devicetree@vger.kernel.org, linux-clk <linux-clk@vger.kernel.org>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 20, 2019 at 11:47:36AM -0300, Mauro Carvalho Chehab wrote:
-> The reference to Documentation/pinctrl.txt doesn't exist, but
-> there is an specific binding for the madera driver.
-> 
-> So, point to it.
-> 
+On Mon, May 20, 2019 at 9:48 AM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
+>
+> This file was converted to json, but the references weren't
+
+Technically, converted to json-schema (the language) or yaml (the format).
+
+> renamed.
+>
+> Fixes: 66ed144f147a ("dt-bindings: interrupt-controller: Convert ARM GIC to json-schema")
+> (and other similar commits)
+>
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 > ---
->  include/linux/mfd/madera/pdata.h | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/linux/mfd/madera/pdata.h b/include/linux/mfd/madera/pdata.h
-> index 8dc852402dbb..c7e0658eb74b 100644
-> --- a/include/linux/mfd/madera/pdata.h
-> +++ b/include/linux/mfd/madera/pdata.h
-> @@ -34,7 +34,8 @@ struct madera_codec_pdata;
->   * @micvdd:	    Substruct of pdata for the MICVDD regulator
->   * @irq_flags:	    Mode for primary IRQ (defaults to active low)
->   * @gpio_base:	    Base GPIO number
-> - * @gpio_configs:   Array of GPIO configurations (See Documentation/pinctrl.txt)
-> + * @gpio_configs:   Array of GPIO configurations
-> + *		    (See Documentation/devicetree/bindings/pinctrl/cirrus,madera-pinctrl.txt)
+>  Documentation/devicetree/bindings/arm/omap/crossbar.txt       | 2 +-
+>  .../devicetree/bindings/clock/samsung,s5pv210-clock.txt       | 2 +-
+>  .../bindings/interrupt-controller/marvell,odmi-controller.txt | 2 +-
+>  Documentation/devicetree/bindings/leds/irled/spi-ir-led.txt   | 2 +-
+>  MAINTAINERS                                                   | 4 ++--
+>  5 files changed, 6 insertions(+), 6 deletions(-)
 
-I believe this is trying to point at the generic pinctrl docs
-which now live here:
+FYI, I'm actively looking for this in conversions now as we've had a
+few of these. For cases where we have a lot of references, I'm fixing
+this by keeping the .txt file with a reference to the .yaml file.
 
-Documentation/driver-api/pinctl.rst
+I'll pick up the DT patches in the series.
 
-There is a patch to do this already:
-https://lkml.org/lkml/2019/1/9/853
-With the latest resend here:
-https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg2001752.html
-
-Thanks,
-Charles
-
->   * @n_gpio_configs: Number of entries in gpio_configs
->   * @gpsw:	    General purpose switch mode setting. Depends on the external
->   *		    hardware connected to the switch. (See the SW1_MODE field
-> -- 
-> 2.21.0
-> 
+Rob
