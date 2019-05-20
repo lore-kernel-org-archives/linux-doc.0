@@ -1,98 +1,76 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 59AF87D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 May 2019 18:49:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id ECA527D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 May 2019 19:20:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726205AbfETStJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 20 May 2019 14:49:09 -0400
-Received: from casper.infradead.org ([85.118.1.10]:45804 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725536AbfETStJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 May 2019 14:49:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Wb+fGsrgFIO4zy7sbGCFYlIGC0R6uH3Db0pCCn/9dt4=; b=Zojqde4tw+V4l+BBfsSUN3yweL
-        Chr1yFIu45bzFs5tkDp64cmzL0iufOPFd3do2BO9EZmOiYzMaicaNDhkTtqnACfcuTi1ooudTQl6c
-        96K2oy9qZIWzjxrYXJAFIfc0l8SkM9NaizpnZc6XhV/9SKynE1CJuN8kiFJ+E478nu8kWA3KE5fvM
-        Qt47HecgWugA6Dzgwd0EXLlq3GfOWE+jo+yiGwImf0EO+bZcgBaZyehdwez0fRAB4R6i3q48kHvLv
-        71X8GLruich8FP6hrNNSsKJRn0Ax440FEE1AVyUmRW2MUPL9LsbIDywEBwgjvlo2hNv7wFwT8Kq/6
-        duRMfX6w==;
-Received: from 179.176.119.151.dynamic.adsl.gvt.net.br ([179.176.119.151] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hSnLM-0006ki-3Q; Mon, 20 May 2019 18:49:04 +0000
-Date:   Mon, 20 May 2019 15:48:40 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        <linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>
-Subject: Re: [PATCH 07/10] mfd: madera: point to the right pinctrl binding
- file
-Message-ID: <20190520154840.64f91ad2@coco.lan>
-In-Reply-To: <20190520154244.GA99937@ediswmail.ad.cirrus.com>
-References: <cover.1558362030.git.mchehab+samsung@kernel.org>
-        <fb47879d405e624374d7d4e099988296ed2af668.1558362030.git.mchehab+samsung@kernel.org>
-        <20190520154244.GA99937@ediswmail.ad.cirrus.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1725954AbfETTUe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 20 May 2019 15:20:34 -0400
+Received: from ms.lwn.net ([45.79.88.28]:35682 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725372AbfETTUe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 20 May 2019 15:20:34 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id C87AA6A2;
+        Mon, 20 May 2019 19:20:33 +0000 (UTC)
+Date:   Mon, 20 May 2019 13:20:32 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        linux-iio@vger.kernel.org,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH -next] counter: fix Documentation build error due to
+ incorrect source file name
+Message-ID: <20190520132032.74912949@lwn.net>
+In-Reply-To: <b6475070-f336-1093-ff0f-6bc8d5fda35e@infradead.org>
+References: <b6475070-f336-1093-ff0f-6bc8d5fda35e@infradead.org>
+Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Mon, 20 May 2019 16:42:45 +0100
-Charles Keepax <ckeepax@opensource.cirrus.com> escreveu:
+On Sat, 18 May 2019 21:29:58 -0700
+Randy Dunlap <rdunlap@infradead.org> wrote:
 
-> On Mon, May 20, 2019 at 11:47:36AM -0300, Mauro Carvalho Chehab wrote:
-> > The reference to Documentation/pinctrl.txt doesn't exist, but
-> > there is an specific binding for the madera driver.
-> > 
-> > So, point to it.
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> > ---
-> >  include/linux/mfd/madera/pdata.h | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/include/linux/mfd/madera/pdata.h b/include/linux/mfd/madera/pdata.h
-> > index 8dc852402dbb..c7e0658eb74b 100644
-> > --- a/include/linux/mfd/madera/pdata.h
-> > +++ b/include/linux/mfd/madera/pdata.h
-> > @@ -34,7 +34,8 @@ struct madera_codec_pdata;
-> >   * @micvdd:	    Substruct of pdata for the MICVDD regulator
-> >   * @irq_flags:	    Mode for primary IRQ (defaults to active low)
-> >   * @gpio_base:	    Base GPIO number
-> > - * @gpio_configs:   Array of GPIO configurations (See Documentation/pinctrl.txt)
-> > + * @gpio_configs:   Array of GPIO configurations
-> > + *		    (See Documentation/devicetree/bindings/pinctrl/cirrus,madera-pinctrl.txt)  
+> From: Randy Dunlap <rdunlap@infradead.org>
 > 
-> I believe this is trying to point at the generic pinctrl docs
-> which now live here:
+> Fix kernel-doc build error in Documentation/driver-api/generic-counter.rst
+> of incorrect source file name.
+> Fixes this warning and error:
 > 
-> Documentation/driver-api/pinctl.rst
+> Error: Cannot open file ../drivers/counter/generic-counter.c
+> WARNING: kernel-doc '../scripts/kernel-doc -rst -enable-lineno -export ../drivers/counter/generic-counter.c' failed with return code 2
 > 
-> There is a patch to do this already:
-> https://lkml.org/lkml/2019/1/9/853
-> With the latest resend here:
-> https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg2001752.html
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: William Breathitt Gray <vilhelm.gray@gmail.com>
+> Cc: linux-iio@vger.kernel.org
+> ---
+>  Documentation/driver-api/generic-counter.rst |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> --- linux-next-20190517.orig/Documentation/driver-api/generic-counter.rst
+> +++ linux-next-20190517/Documentation/driver-api/generic-counter.rst
+> @@ -251,7 +251,7 @@ for defining a counter device.
+>  .. kernel-doc:: include/linux/counter.h
+>     :internal:
+>  
+> -.. kernel-doc:: drivers/counter/generic-counter.c
+> +.. kernel-doc:: drivers/counter/counter.c
+>     :export:
+>  
+>  Implementation
 
-Ah, makes sense to me. 
+Applied, thanks.
 
-Please ignore this one.
-
-Thanks,
-Mauro
+jon
