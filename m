@@ -1,79 +1,46 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-1.6 required=5.0 tests=DATE_IN_PAST_12_24,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C67577D910
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 May 2019 07:26:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8CD8B7D910
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 May 2019 07:30:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726138AbfEUH0y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 21 May 2019 03:26:54 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:32959 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725997AbfEUH0y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 May 2019 03:26:54 -0400
-Received: from LHREML714-CAH.china.huawei.com (unknown [172.18.7.107])
-        by Forcepoint Email with ESMTP id A6F2ABF97D3015593510;
-        Tue, 21 May 2019 08:26:52 +0100 (IST)
-Received: from [10.220.96.108] (10.220.96.108) by smtpsuk.huawei.com
- (10.201.108.37) with Microsoft SMTP Server (TLS) id 14.3.408.0; Tue, 21 May
- 2019 08:26:45 +0100
-Subject: Re: [PATCH 3/4] ima: don't ignore INTEGRITY_UNKNOWN EVM status
-To:     Mimi Zohar <zohar@linux.ibm.com>, <dmitry.kasatkin@huawei.com>,
-        <mjg59@google.com>
-CC:     <linux-integrity@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-security-module@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <silviu.vlasceanu@huawei.com>,
-        <stable@vger.kernel.org>
-References: <20190516161257.6640-1-roberto.sassu@huawei.com>
- <20190516161257.6640-3-roberto.sassu@huawei.com>
- <1558387212.4039.77.camel@linux.ibm.com>
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-Message-ID: <e81b761c-9133-a432-4d06-3cfe57e29e4b@huawei.com>
-Date:   Tue, 21 May 2019 09:26:53 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.0
+        id S1725809AbfEUHai (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 21 May 2019 03:30:38 -0400
+Received: from [159.89.172.223] ([159.89.172.223]:33682 "EHLO
+        mail.boombf2am.ga" rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org
+        with ESMTP id S1725790AbfEUHai (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 May 2019 03:30:38 -0400
+Received: by mail.boombf2am.ga (Postfix, from userid 48)
+        id AC7DA56C929; Mon, 20 May 2019 13:31:00 +0000 (UTC)
+To:     linux-doc@vger.kernel.org
+Subject: Inquiry 20/May/2019
+X-PHP-Originating-Script: 0:nfhdgeds.php
+From:   Daniel Murray <sinara-group@bk.ru>
+Reply-To: sinara-group@list.ru
 MIME-Version: 1.0
-In-Reply-To: <1558387212.4039.77.camel@linux.ibm.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.220.96.108]
-X-CFilter-Loop: Reflected
+Content-Type:   text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
+Message-Id: <20190520143619.AC7DA56C929@mail.boombf2am.ga>
+Date:   Mon, 20 May 2019 13:31:00 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/20/2019 11:20 PM, Mimi Zohar wrote:
-> On Thu, 2019-05-16 at 18:12 +0200, Roberto Sassu wrote:
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->> index 52e6fbb042cc..80e1c233656b 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -1588,6 +1588,9 @@
->>   			Format: { "off" | "enforce" | "fix" | "log" }
->>   			default: "enforce"
->>   
->> +	ima_appraise_req_evm
->> +			[IMA] require EVM for appraisal with file digests.
-> 
-> As much as possible we want to limit the number of new boot command
-> line options as possible.  Is there a reason for not extending
-> "ima_appraise=" with "require-evm" or "enforce-evm"?
+Hi,friend,
 
-ima-appraise= can be disabled with CONFIG_IMA_APPRAISE_BOOTPARAM, which
-probably is done when the system is in production.
+This is Daniel Murray and i am from Sinara Group Co.Ltd in Russia.
+We are glad to know about your company from the web and we are interested in your products.
+Could you kindly send us your Latest catalog and price list for our trial order.
 
-Should I allow to use ima-appraise=require-evm even if
-CONFIG_IMA_APPRAISE_BOOTPARAM=n?
+Best Regards,
 
-Thanks
+Daniel Murray
+Purchasing Manager
 
-Roberto
 
--- 
-HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
-Managing Director: Bo PENG, Jian LI, Yanli SHI
