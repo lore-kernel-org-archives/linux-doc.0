@@ -1,46 +1,86 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.6 required=5.0 tests=DATE_IN_PAST_12_24,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8CD8B7D910
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 May 2019 07:30:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 802C17D912
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 May 2019 07:32:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725809AbfEUHai (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 21 May 2019 03:30:38 -0400
-Received: from [159.89.172.223] ([159.89.172.223]:33682 "EHLO
-        mail.boombf2am.ga" rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org
-        with ESMTP id S1725790AbfEUHai (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 May 2019 03:30:38 -0400
-Received: by mail.boombf2am.ga (Postfix, from userid 48)
-        id AC7DA56C929; Mon, 20 May 2019 13:31:00 +0000 (UTC)
-To:     linux-doc@vger.kernel.org
-Subject: Inquiry 20/May/2019
-X-PHP-Originating-Script: 0:nfhdgeds.php
-From:   Daniel Murray <sinara-group@bk.ru>
-Reply-To: sinara-group@list.ru
+        id S1725942AbfEUHc3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 21 May 2019 03:32:29 -0400
+Received: from lhrrgout.huawei.com ([185.176.76.210]:32960 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725790AbfEUHc2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 May 2019 03:32:28 -0400
+Received: from LHREML714-CAH.china.huawei.com (unknown [172.18.7.107])
+        by Forcepoint Email with ESMTP id 5A34E89645266B1E4F09;
+        Tue, 21 May 2019 08:32:27 +0100 (IST)
+Received: from [10.220.96.108] (10.220.96.108) by smtpsuk.huawei.com
+ (10.201.108.37) with Microsoft SMTP Server (TLS) id 14.3.408.0; Tue, 21 May
+ 2019 08:32:19 +0100
+Subject: Re: [PATCH 4/4] ima: only audit failed appraisal verifications
+To:     Mimi Zohar <zohar@linux.ibm.com>, <dmitry.kasatkin@huawei.com>,
+        <mjg59@google.com>
+CC:     <linux-integrity@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-security-module@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <silviu.vlasceanu@huawei.com>,
+        <stable@vger.kernel.org>
+References: <20190516161257.6640-1-roberto.sassu@huawei.com>
+ <20190516161257.6640-4-roberto.sassu@huawei.com>
+ <1558387225.4039.78.camel@linux.ibm.com>
+From:   Roberto Sassu <roberto.sassu@huawei.com>
+Message-ID: <4280cbe7-6596-1827-4358-fb45d7c13f25@huawei.com>
+Date:   Tue, 21 May 2019 09:32:26 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.3.0
 MIME-Version: 1.0
-Content-Type:   text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7BIT
-Message-Id: <20190520143619.AC7DA56C929@mail.boombf2am.ga>
-Date:   Mon, 20 May 2019 13:31:00 +0000 (UTC)
+In-Reply-To: <1558387225.4039.78.camel@linux.ibm.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.220.96.108]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,friend,
+On 5/20/2019 11:20 PM, Mimi Zohar wrote:
+> On Thu, 2019-05-16 at 18:12 +0200, Roberto Sassu wrote:
+>> This patch ensures that integrity_audit_msg() is called only when the
+>> status is not INTEGRITY_PASS.
+>>
+>> Fixes: 8606404fa555c ("ima: digital signature verification support")
+>> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+>> Cc: stable@vger.kernel.org
+>> ---
+>>   security/integrity/ima/ima_appraise.c | 5 +++--
+>>   1 file changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/security/integrity/ima/ima_appraise.c b/security/integrity/ima/ima_appraise.c
+>> index a32ed5d7afd1..f5f4506bcb8e 100644
+>> --- a/security/integrity/ima/ima_appraise.c
+>> +++ b/security/integrity/ima/ima_appraise.c
+>> @@ -359,8 +359,9 @@ int ima_appraise_measurement(enum ima_hooks func,
+>>   			status = INTEGRITY_PASS;
+>>   		}
+>>   
+>> -		integrity_audit_msg(AUDIT_INTEGRITY_DATA, inode, filename,
+>> -				    op, cause, rc, 0);
+>> +		if (status != INTEGRITY_PASS)
+>> +			integrity_audit_msg(AUDIT_INTEGRITY_DATA, inode,
+>> +					    filename, op, cause, rc, 0);
+> 
+> For some reason, the integrity verification has failed.  In some
+> specific cases, we'll let it pass, but do we really want to remove any
+> indication that it failed in all cases?
 
-This is Daniel Murray and i am from Sinara Group Co.Ltd in Russia.
-We are glad to know about your company from the web and we are interested in your products.
-Could you kindly send us your Latest catalog and price list for our trial order.
+Ok. It is fine for me to discard the patch.
 
-Best Regards,
+Roberto
 
-Daniel Murray
-Purchasing Manager
-
-
+-- 
+HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
+Managing Director: Bo PENG, Jian LI, Yanli SHI
