@@ -1,95 +1,151 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 11DE67D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 May 2019 03:41:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BCC267D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 May 2019 04:49:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727302AbfEUDlb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 20 May 2019 23:41:31 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:45626 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727078AbfEUDlb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 May 2019 23:41:31 -0400
-Received: by mail-pl1-f193.google.com with SMTP id a5so7685070pls.12;
-        Mon, 20 May 2019 20:41:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=oIMygyD3sInPQMcnYmQjxiYJQKnfeII4uM7qe57TIWY=;
-        b=OAy03SuHPZvHf9eiWYtJiWyRxvX8P7yOnlWRu6A2YcGpkcPnBT9R7OQxiZVaQQMzxS
-         jCmK/wyiIKgyihj7dSyKGNDijnO4DrhtWsFvimvIG1I88zQ6V2Jq4aAxSxeXMb/j7dPG
-         VsJ93FYEiREdwlWLXGxhv/A5IXpFJE7P5WYYUP/RaVdXsjB8AbJi/jUaxs98p3mJFK9k
-         UjB7v284fbm6dy1CKz7ktmXUNITj6pT8JzMNj1bh0jkcvCJjnFHTLpSvqTqWKjA14gnx
-         gsmPbvLTBVNx78c/DZ4K/gMci9q2UataRghBaISrLDc8OMXfSFum3/o2CbIWu7OOx80T
-         +ulg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=oIMygyD3sInPQMcnYmQjxiYJQKnfeII4uM7qe57TIWY=;
-        b=oEUlCaGp0bccS4DrXYPP67+UUCHC73oYtxdBmwgL2Gbl4MjJzs79hwZMgmqBTFfd6G
-         VgXK4L3d4dwo7aPaUR0qzFjGMZagghgzdwurTGXdgwFw73V7XuRbFBRYmvV84BnHA/rn
-         HzwlGl3bEztn6fMfiS6AWBj1NkAa63HTLzrUbydvbfvrRKGJeFWuo1zYx91yZqRbNAst
-         3K2AI/9N2ROCkzw3PizpxDn5cZkdUJVDRlJ8b2hwGg2wnV+x04ta5EQaJ4tUJe5IwcTi
-         FbsAjeCoD/4pu4VW9GMCafT7Iannrk1PTkiHzz3Atzpgpp7ZbJbXjw+4UdIoOnFeO57b
-         xLiA==
-X-Gm-Message-State: APjAAAXgPhYgcVNKD8VRX83YMgcdzRwGz8JpxU3FVf4ElyZM5H3yi/Av
-        ntyATBqBvSgvGyRL8BuXUWRrG5ZJAh8=
-X-Google-Smtp-Source: APXvYqzWjyywKwMRH7ExnVj2HvsLeLCpGjAlErCfjtV2Jt82i9xkXMi9kB0QNpru7Ak/5phso1h3Gw==
-X-Received: by 2002:a17:902:7202:: with SMTP id ba2mr25990766plb.177.1558410090897;
-        Mon, 20 May 2019 20:41:30 -0700 (PDT)
-Received: from masabert (150-66-66-201m5.mineo.jp. [150.66.66.201])
-        by smtp.gmail.com with ESMTPSA id 19sm22635975pfz.84.2019.05.20.20.41.29
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 20 May 2019 20:41:30 -0700 (PDT)
-Received: by masabert (Postfix, from userid 1000)
-        id BC43F2011A2; Tue, 21 May 2019 12:41:16 +0900 (JST)
-From:   Masanari Iida <standby24x7@gmail.com>
-To:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        davem@davemloft.net
-Cc:     Masanari Iida <standby24x7@gmail.com>
-Subject: [PATCH] net-next: net: Fix typos in ip-sysctl.txt
-Date:   Tue, 21 May 2019 12:41:15 +0900
-Message-Id: <20190521034115.18896-1-standby24x7@gmail.com>
-X-Mailer: git-send-email 2.22.0.rc1
+        id S1725982AbfEUEtL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 21 May 2019 00:49:11 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:51970 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725924AbfEUEtL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 May 2019 00:49:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=V8mmkTcdPOUO+y33qtXgZAnAqPpsnSGHe0amxp/llz8=; b=qhXKtm7HksVoG7y84/XTq0N/n
+        S5wkZlc94jA9urzEzILdHm/FzWiTacxSsX3SZAMNTa2s+xtLP2wsjM2lcHn4CdxfyVMpd8wR25uCg
+        JGp5BGfUoFoY9VoKKvpgA0ohuJmA+rPxz6SbTkToCGhjzaOAxxSjbskogtxNOyJWy2HSgxFC0is+T
+        2iaA2rjuVYvwuqBxUCFLD69NCt2jvO9UL4aIanIBDbTuzQI0nV9iFwnbrKf4Gwqz7z6CMjRfxuPBf
+        ZT64l0U/1eIDtATQvEnoSqGM1181PsIBDbCK+2HnzXS47nQEPcdf3P5Q/DjgarAE9KorRe4Xyovbe
+        T+MXYsLcQ==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=dragon.dunlab)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hSwi5-0002nv-PP; Tue, 21 May 2019 04:49:09 +0000
+Subject: Re: [kbuild:kunit 14/17] htmldocs: include/kunit/kunit-stream.h:58:
+ warning: Function parameter or member '2' not described in '__printf'
+To:     Brendan Higgins <brendanhiggins@google.com>,
+        kbuild test robot <lkp@intel.com>
+Cc:     kbuild-all@01.org, linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Felix Guo <felixguoxiuping@gmail.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <201905100945.V7PLp0za%lkp@intel.com>
+ <CAFd5g46nZ0=Djo6d6iqdSQLaLP0Qq5bC+uzyjpqp5fXnty7YOg@mail.gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <94e6e17c-e360-f56d-674c-84cc0032ca4a@infradead.org>
+Date:   Mon, 20 May 2019 21:49:07 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFd5g46nZ0=Djo6d6iqdSQLaLP0Qq5bC+uzyjpqp5fXnty7YOg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch fixes some spelling typos found in ip-sysctl.txt
+On 5/10/19 2:03 PM, Brendan Higgins wrote:
+> On Thu, May 9, 2019 at 6:23 PM kbuild test robot <lkp@intel.com> wrote:
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kunit
+>> head:   c505c0b2e6237c729634327c178f5b0094f1c958
+>> commit: c69e87665049970d1c2d6fe2fa1ae7a7c8655420 [14/17] Documentation: kunit: add documentation for KUnit
+>> reproduce: make htmldocs
+>>
+>> If you fix the issue, kindly add following tag
+>> Reported-by: kbuild test robot <lkp@intel.com>
+>>
+>> All warnings (new ones prefixed by >>):
+> < snip >
+>>    drivers/gpu/drm/i915/i915_vma.h:50: warning: cannot understand function prototype: 'struct i915_vma '
+>>    drivers/gpu/drm/i915/i915_vma.h:1: warning: no structured comments found
+>>    drivers/gpu/drm/i915/intel_guc_fwif.h:536: warning: cannot understand function prototype: 'struct guc_log_buffer_state '
+>>    drivers/gpu/drm/i915/i915_trace.h:1: warning: no structured comments found
+>>    drivers/gpu/drm/i915/i915_reg.h:156: warning: bad line:
+>>    include/linux/interconnect.h:1: warning: no structured comments found
+>>>> include/kunit/kunit-stream.h:58: warning: Function parameter or member '2' not described in '__printf'
+> 
+> This looks like a bug in the kernel-doc parser: __printf in this context is:
+> 
+>> 8dcda743 Brendan Higgins 2019-05-01  56  void __printf(2, 3) kunit_stream_add(struct kunit_stream *this,
+>> 8dcda743 Brendan Higgins 2019-05-01  57                                      const char *fmt, ...);
+> 
+> which is an attribute to tell the compiler that this is a printf style
+> function with a printf style format string; it doesn't make sense to
+> describe it's parameters.
 
-Signed-off-by: Masanari Iida <standby24x7@gmail.com>
+Yes.  I'm a little surprised that this has never come up before, but in my
+quick examination, it seems that most people put the __printf() attribute
+in a header file but not in the .c implementation file, then they document
+the function in the .c file, not in the header file, so it hasn't been needed.
+
+Ignoring __printf() could be added to scripts/kernel-doc.  I added
+kernel-doc notation to <linux/kernel.h> panic() and then tested it with
+the patch below.  ItWorksForMe.  :)
+
+
+>>    include/kunit/kunit-stream.h:58: warning: Function parameter or member '3' not described in '__printf'
+>>    include/kunit/kunit-stream.h:58: warning: Excess function parameter 'this' description in '__printf'
+>>    include/kunit/kunit-stream.h:58: warning: Excess function parameter 'fmt' description in '__printf'
+>>    include/linux/skbuff.h:897: warning: Function parameter or member 'dev_scratch' not described in 'sk_buff'
+> < snip >
+>>    fs/debugfs/file.c:439: WARNING: Inline literal start-string without end-string.
+>>
+>> vim +58 include/kunit/kunit-stream.h
+>>
+>> 8dcda743 Brendan Higgins 2019-05-01  48
+>> 8dcda743 Brendan Higgins 2019-05-01  49  /**
+>> 8dcda743 Brendan Higgins 2019-05-01  50   * kunit_stream_add(): adds the formatted input to the internal buffer.
+>> 8dcda743 Brendan Higgins 2019-05-01  51   * @this: the stream being operated on.
+>> 8dcda743 Brendan Higgins 2019-05-01  52   * @fmt: printf style format string to append to stream.
+>> 8dcda743 Brendan Higgins 2019-05-01  53   *
+>> 8dcda743 Brendan Higgins 2019-05-01  54   * Appends the formatted string, @fmt, to the internal buffer.
+>> 8dcda743 Brendan Higgins 2019-05-01  55   */
+>> 8dcda743 Brendan Higgins 2019-05-01  56  void __printf(2, 3) kunit_stream_add(struct kunit_stream *this,
+>> 8dcda743 Brendan Higgins 2019-05-01  57                                      const char *fmt, ...);
+>> 8dcda743 Brendan Higgins 2019-05-01 @58
+>>
+>> :::::: The code at line 58 was first introduced by commit
+>> :::::: 8dcda743c31c1ffc0ac13f3d23f3dd1b85b545f8 kunit: test: add kunit_stream a std::stream like logger
+> 
+> Thanks!
+
+
 ---
- Documentation/networking/ip-sysctl.txt | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+From: Randy Dunlap <rdunlap@infradead.org>
 
-diff --git a/Documentation/networking/ip-sysctl.txt b/Documentation/networking/ip-sysctl.txt
-index 725b8bea58a7..14fe93049d28 100644
---- a/Documentation/networking/ip-sysctl.txt
-+++ b/Documentation/networking/ip-sysctl.txt
-@@ -560,10 +560,10 @@ tcp_comp_sack_delay_ns - LONG INTEGER
- 	Default : 1,000,000 ns (1 ms)
- 
- tcp_comp_sack_nr - INTEGER
--	Max numer of SACK that can be compressed.
-+	Max number of SACK that can be compressed.
- 	Using 0 disables SACK compression.
- 
--	Detault : 44
-+	Default : 44
- 
- tcp_slow_start_after_idle - BOOLEAN
- 	If set, provide RFC2861 behavior and time out the congestion
--- 
-2.22.0.rc1
+Ignore __printf() function attributes just as other __attribute__
+strings are ignored.
+
+Fixes this kernel-doc warning message:
+include/kunit/kunit-stream.h:58: warning: Function parameter or member '2' not described in '__printf'
+
+Reported-by: kbuild test robot <lkp@intel.com>
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Brendan Higgins <brendanhiggins@google.com>
+---
+ scripts/kernel-doc |    1 +
+ 1 file changed, 1 insertion(+)
+
+--- linux-next-20190520.orig/scripts/kernel-doc
++++ linux-next-20190520/scripts/kernel-doc
+@@ -1580,6 +1580,7 @@ sub dump_function($$) {
+     $prototype =~ s/__must_check +//;
+     $prototype =~ s/__weak +//;
+     $prototype =~ s/__sched +//;
++    $prototype =~ s/__printf\s*\(\s*\d*\s*,\s*\d*\s*\) +//;
+     my $define = $prototype =~ s/^#\s*define\s+//; #ak added
+     $prototype =~ s/__attribute__\s*\(\(
+             (?:
+
 
