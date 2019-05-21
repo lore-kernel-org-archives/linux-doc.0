@@ -1,107 +1,93 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0B7E17D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 May 2019 14:53:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9ED4A7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 May 2019 15:39:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728664AbfEUOvx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 21 May 2019 10:51:53 -0400
-Received: from outils.crapouillou.net ([89.234.176.41]:40610 "EHLO
-        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728201AbfEUOvx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 May 2019 10:51:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1558450311; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=xkRvVGyk1GNmCW/vDy0DEseRGzJQoOFVuChfHGcTnOw=;
-        b=GChTVveWTJqBzm0hE8VNx+l2O8ujFl+ScxuBh3+Y2KdEgzsjX5NCJcFfcs7IM2JIi0+Vsl
-        bcLd3Eh+GjGKHwcBymjgOJzjNZoK2YHBz6Q1hk864k1rDmPqbMJbu2vMHYjRuBvBwDNR6a
-        kVRTfEfGf5gBKZuLZyvVp5IKwZ6x1GY=
-From:   Paul Cercueil <paul@crapouillou.net>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Lee Jones <lee.jones@linaro.org>
-Cc:     Mathieu Malaterre <malat@debian.org>, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-clk@vger.kernel.org, od@zcrc.me,
-        Paul Cercueil <paul@crapouillou.net>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v12 01/13] dt-bindings: ingenic: Add DT bindings for TCU clocks
-Date:   Tue, 21 May 2019 16:51:29 +0200
-Message-Id: <20190521145141.9813-2-paul@crapouillou.net>
-In-Reply-To: <20190521145141.9813-1-paul@crapouillou.net>
-References: <20190521145141.9813-1-paul@crapouillou.net>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1728144AbfEUPjh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 21 May 2019 11:39:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43682 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728137AbfEUPjh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 May 2019 11:39:37 -0400
+Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id ADF16208C3;
+        Tue, 21 May 2019 15:39:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1558453176;
+        bh=V6RrFwC69vaGpD6uEs9hsF3W8vWzKq46UtR2el3xg2Q=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=NmweJBMKKPipUrO/xWliYq0PkG/2OYdsLDjTVv8k0+OPHFju09ddOLrwncFVN/Vxd
+         Ye33Irohwzu07m2KuSY7kb7BVShTSMvE1ZK80k0tVHSFHyyfb+n4JGDFLsbFhGjRPY
+         apf0eeVB36OB/y9MPimGNf3g4oUvlg966FMjkErw=
+Date:   Wed, 22 May 2019 00:39:32 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Ingo Molnar <mingo@kernel.org>,
+        "Naveen N . Rao" <naveen.n.rao@linux.ibm.com>,
+        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 0/2] Enable new kprobe event at boot
+Message-Id: <20190522003932.34367dcae6d9de27e254e174@kernel.org>
+In-Reply-To: <20190521093317.7d698f79@gandalf.local.home>
+References: <155842537599.4253.14690293652007233645.stgit@devnote2>
+        <20190521093317.7d698f79@gandalf.local.home>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This header provides clock numbers for the ingenic,tcu
-DT binding.
+On Tue, 21 May 2019 09:33:17 -0400
+Steven Rostedt <rostedt@goodmis.org> wrote:
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-Reviewed-by: Rob Herring <robh@kernel.org>
-Acked-by: Stephen Boyd <sboyd@kernel.org>
----
+> On Tue, 21 May 2019 16:56:16 +0900
+> Masami Hiramatsu <mhiramat@kernel.org> wrote:
+> 
+> > Note that 'trace_event=' option enables trace event at very early
+> > timing, but the events added by 'kprobe_event=' are enabled right
+> > before enabling device drivers at this point. It is enough for
+> > tracing device driver initialization etc.
+> 
+> Nice!
+> 
+> I wonder if we can have this called before the trace_event boot is
+> analyzed. Then have the kprobe_event work more like the kprobe_events
+> file, and not enable the kprobes but only create them. If you want to
+> enable them you do a trace_event=kprobes as well.
 
-Notes:
-    v2: Use SPDX identifier for the license
-    
-    v3/v4: No change
-    
-    v5: s/JZ47*_/TCU_/ and dropped *_CLK_LAST defines
-    
-    v6-v12: No change
+Yeah, I considered that, but there are several reasons to not to do that.
+- trace_event seems enabled very early point than kprobes itself.(but this can
+  be fixable)
+- if user specifies kprobes at boot, he/she wants to enable that point at boot.
+- it is redundant to specify kprobe_event= and trace_event=, especially command
+  line size is very limited.
 
- include/dt-bindings/clock/ingenic,tcu.h | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
- create mode 100644 include/dt-bindings/clock/ingenic,tcu.h
+> Perhaps we could enable kprobes at early init?
 
-diff --git a/include/dt-bindings/clock/ingenic,tcu.h b/include/dt-bindings/clock/ingenic,tcu.h
-new file mode 100644
-index 000000000000..d569650a7945
---- /dev/null
-+++ b/include/dt-bindings/clock/ingenic,tcu.h
-@@ -0,0 +1,20 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * This header provides clock numbers for the ingenic,tcu DT binding.
-+ */
-+
-+#ifndef __DT_BINDINGS_CLOCK_INGENIC_TCU_H__
-+#define __DT_BINDINGS_CLOCK_INGENIC_TCU_H__
-+
-+#define TCU_CLK_TIMER0	0
-+#define TCU_CLK_TIMER1	1
-+#define TCU_CLK_TIMER2	2
-+#define TCU_CLK_TIMER3	3
-+#define TCU_CLK_TIMER4	4
-+#define TCU_CLK_TIMER5	5
-+#define TCU_CLK_TIMER6	6
-+#define TCU_CLK_TIMER7	7
-+#define TCU_CLK_WDT	8
-+#define TCU_CLK_OST	9
-+
-+#endif /* __DT_BINDINGS_CLOCK_INGENIC_TCU_H__ */
+It should be possible, I will try to find what blocks it. I guess after we
+switch early_text_poke() to text_poke(), we can use kprobes on x86. But
+for other archs, I need to investigate more.
+
+> What do you think? Or is there something else in kprobes that prevents
+> such an early enabling of it?
+
+As I pointed above, I think we should enable it if user specify it. That's
+less typing :). Anyway I'll recheck early kprobe availablity.
+
+Thank you,
+
+
 -- 
-2.21.0.593.g511ec345e18
-
+Masami Hiramatsu <mhiramat@kernel.org>
