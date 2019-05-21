@@ -1,105 +1,114 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.3 required=5.0 tests=DATE_IN_PAST_12_24,
+	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE,UNPARSEABLE_RELAY autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DB4F97D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 May 2019 00:26:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E5D0D7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 May 2019 02:29:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727208AbfEVA0S (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 21 May 2019 20:26:18 -0400
-Received: from casper.infradead.org ([85.118.1.10]:48806 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726083AbfEVA0S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 May 2019 20:26:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Nmrlh7dsx/2/wVkH8Y7tX3TxMB04kEyN0EjxQinsvHU=; b=oZcvfj9Levzm+W/xpO0S+jN6uF
-        WagOl2yhRkk149vA/C9+BGlOVshg4jimr5wpZUv0GTgM2xK/raj4evaCKSVxgSlep8s1ta1hmygP2
-        VMzSHJxMd4bUJvGQzi4ghv1NZyLBH18HrbxZFLhPe1EEjm3rxQh+0HWWUGZBkYk+H0qRjmu70jhM/
-        GZHyC/OKW+mGbsKQKDcAQHHN9/IOEUun+s1iXSC0qC/uxi1t6eZCm84OGzV0KbcX/Z8aMS5Ysz+nD
-        DcK3IYi+O4dG3Fu8Ql/ozGygUO/vwiSmM2PIWc+6CJMsdO7BCsX0leAjbnutUzEhsoFPexJUYLhFM
-        KbhU46zA==;
-Received: from [179.182.168.126] (helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hTF56-0006uP-QQ; Wed, 22 May 2019 00:26:09 +0000
-Date:   Tue, 21 May 2019 21:26:00 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Federico Vaga <federico.vaga@vaga.pv.it>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 00/10] Fix broken documentation references at v5.2-rc1
-Message-ID: <20190521212600.39bc341c@coco.lan>
-In-Reply-To: <51951662.QppCrsbGrr@harkonnen>
-References: <cover.1558362030.git.mchehab+samsung@kernel.org>
-        <51951662.QppCrsbGrr@harkonnen>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1727294AbfEVC34 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 21 May 2019 22:29:56 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:42324 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726466AbfEVC34 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 May 2019 22:29:56 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4M2T0FR038593;
+        Wed, 22 May 2019 02:29:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id; s=corp-2018-07-02;
+ bh=ZXUeQYgZB3O0V7HnlxDvOw49BMFt48EfbIn16aNTl/g=;
+ b=pzLjNCWji1W1SDF9Bw9C/ZEezK9tc+A83lNgJZbqCd02orKUVbRCZ6qlapXr3wUJEjWW
+ yLGMlFypDraEnHBeGQ9uzFJpoLUMciJGWWBWytfD26rCDCEcH8OtgPkLg0im6fI+cWt3
+ BqvzhIaHlvsiXoPR/KNtJt/gJM/M5STmS02611bN5GjX6Hv1LQV2EW3iIZMRQHL2irDk
+ WLTKbu8N2tA/IOBxz44m/x7nNsoV0lGg4Oe5Rs83FF9aYup0Z8N0NR0QmTUNlDDo5InV
+ +f0mDTzN3f6jUNTmvXopZ2NJCKyUsy9y39NETflGe5gjn9l1Se6pqsc/++3Mc0ZI66xL BA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2130.oracle.com with ESMTP id 2smsk58rtk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 22 May 2019 02:29:00 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4M2SDh1017840;
+        Wed, 22 May 2019 02:28:59 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by aserp3030.oracle.com with ESMTP id 2smsgsawm3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 22 May 2019 02:28:59 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x4M2SphF018805;
+        Wed, 22 May 2019 02:28:51 GMT
+Received: from z2.cn.oracle.com (/10.182.69.87)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 22 May 2019 02:28:50 +0000
+From:   Zhenzhong Duan <zhenzhong.duan@oracle.com>
+To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     paulmck@linux.ibm.com, josh@joshtriplett.org, rostedt@goodmis.org,
+        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+        joel@joelfernandes.org, corbet@lwn.net, tglx@linutronix.de,
+        mingo@kernel.org, gregkh@linuxfoundation.org,
+        keescook@chromium.org, srinivas.eeda@oracle.com,
+        Zhenzhong Duan <zhenzhong.duan@oracle.com>
+Subject: [PATCH v3] doc: kernel-parameters.txt: fix documentation of nmi_watchdog parameter
+Date:   Tue, 21 May 2019 10:32:08 +0800
+Message-Id: <1558405928-29449-1-git-send-email-zhenzhong.duan@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9264 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1905220015
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9264 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1905220015
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Frederico,
+The default behavior of hardlockup depends on the config of
+CONFIG_BOOTPARAM_HARDLOCKUP_PANIC.
 
-Em Wed, 22 May 2019 00:54:48 +0200
-Federico Vaga <federico.vaga@vaga.pv.it> escreveu:
+Fix the description of nmi_watchdog to make it clear.
 
-> On Monday, May 20, 2019 4:47:29 PM CEST Mauro Carvalho Chehab wrote:
-> > There are several broken Documentation/* references within the Kernel
-> > tree. There are some reasons for several of them:
-> > 
-> > 1. The acpi and x86 documentation files were renamed, but the
-> >    references weren't updated;
-> > 2. The DT files have been converted to JSON format, causing them
-> >    to be renamed;
-> > 3. Translated files point to future translation work still pending merge
-> >    or require some action from someone that it is fluent at the
-> >    translated language;  
-> 
-> Hi Mauro
+Suggested-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
+Signed-off-by: Zhenzhong Duan <zhenzhong.duan@oracle.com>
+Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+Acked-by: Ingo Molnar <mingo@kernel.org>
+Acked-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org
+---
+ v3: add Suggested-by and Acked-by
+ v2: fix description using words suggested by Steven Rostedt
 
-My main goal with this patchset is to get as close as possible to zero
-warnings, as this helps me on rebasing a documentation patch series
-I wrote with renames hundreds of file from .txt to .rst.
+ Documentation/admin-guide/kernel-parameters.txt | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-In the case of (3), the scripts/documentation-file-ref-check was unable to
-find some files pointed by Italian and Chinese translations. So, after
-this series, it will keep pointing for broken links there.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 08df588..b9d4358 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2805,8 +2805,9 @@
+ 			0 - turn hardlockup detector in nmi_watchdog off
+ 			1 - turn hardlockup detector in nmi_watchdog on
+ 			When panic is specified, panic when an NMI watchdog
+-			timeout occurs (or 'nopanic' to override the opposite
+-			default). To disable both hard and soft lockup detectors,
++			timeout occurs (or 'nopanic' to not panic on an NMI
++			watchdog, if CONFIG_BOOTPARAM_HARDLOCKUP_PANIC is set)
++			To disable both hard and soft lockup detectors,
+ 			please see 'nowatchdog'.
+ 			This is useful when you use a panic=... timeout and
+ 			need the box quickly up again.
+-- 
+1.8.3.1
 
-> I am not sure to get what you mean in terms of actions but I think you are 
-> referring to the "empty" files I added in the Italian translations. I added 
-> those files to avoid broken links; the alternative would have been to not 
-> write those links or to point directly to the main document, but in both 
-> cases it easy to forget to update them later.
-> I chose to have links to "empty" files so that the document does 
-> not need to be updated later.
-> 
-> If you are not referring to those files than I am not understanding, can you 
-> point to a clear example?
-
-What I meant is that I can barely read Italian and have no glue on
-Chinese. So, I can't really address those properly :-)
-So, basically, it should be up to someone else fluent on such
-languages to address those.
-
-Btw, I understand why you pointed to some non-existing files: 
-translating the Kernel's documents takes a lot of time[1].
-
-[1] If I was doing a translation, I would probably have opted to keep 
-pointing to the English doc and have a script to point me links to
-non-translated docs, but your way also works. The only drawback is that
-the script will keep pinpointing to translations with broken links,
-while the translation is not complete.
-
-Thanks,
-Mauro
