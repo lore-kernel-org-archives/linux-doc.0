@@ -5,48 +5,65 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E735C7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 May 2019 20:21:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 34F667D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 May 2019 21:17:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727362AbfEUUVi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 21 May 2019 16:21:38 -0400
-Received: from shards.monkeyblade.net ([23.128.96.9]:44736 "EHLO
-        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727046AbfEUUVi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 May 2019 16:21:38 -0400
-Received: from localhost (unknown [IPv6:2601:601:9f80:35cd::3d8])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id BEE1714C7E03D;
-        Tue, 21 May 2019 13:21:37 -0700 (PDT)
-Date:   Tue, 21 May 2019 13:21:37 -0700 (PDT)
-Message-Id: <20190521.132137.1951087110443628106.davem@davemloft.net>
-To:     standby24x7@gmail.com
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH] net-next: net: Fix typos in ip-sysctl.txt
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <20190521034115.18896-1-standby24x7@gmail.com>
-References: <20190521034115.18896-1-standby24x7@gmail.com>
-X-Mailer: Mew version 6.8 on Emacs 26.1
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Tue, 21 May 2019 13:21:38 -0700 (PDT)
+        id S1727341AbfEUVR1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 21 May 2019 17:17:27 -0400
+Received: from ms.lwn.net ([45.79.88.28]:42952 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726907AbfEUVR1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 May 2019 17:17:27 -0400
+Received: from meer.lwn.net (localhost [127.0.0.1])
+        by ms.lwn.net (Postfix) with ESMTPA id 09C8A6D9;
+        Tue, 21 May 2019 21:17:27 +0000 (UTC)
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Markus Heiser <markus.heiser@darmarit.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH RFC 0/2] docs: Deal with some Sphinx deprecation warnings
+Date:   Tue, 21 May 2019 15:17:12 -0600
+Message-Id: <20190521211714.1395-1-corbet@lwn.net>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Masanari Iida <standby24x7@gmail.com>
-Date: Tue, 21 May 2019 12:41:15 +0900
+The Sphinx folks are deprecating some interfaces in the upcoming 2.0
+release; one immediate result of that is a bunch of warnings that show up
+when building with 1.8.  These two patches make those warnings go away,
+but at a cost:
 
-> This patch fixes some spelling typos found in ip-sysctl.txt
-> 
-> Signed-off-by: Masanari Iida <standby24x7@gmail.com>
+ - It introduces a couple of Sphinx version checks, which are always
+   ugly, but the alternative would be to stop supporting versions
+   before 1.7.  For now, I think we can carry that cruft.
 
-Documentation typos and fixes are always reasonable for 'net' and
-therefore that's where I have applied this.
+ - The second patch causes the build to fail horribly on newer
+   Sphinx installations.  The change to switch_source_input() seems
+   to make the parser much more finicky, increasing warnings and
+   eventually failing the build altogether.  In particular, it will
+   scream about problems in .rst files that are not included in the
+   TOC tree at all.  The complaints appear to be legitimate, but it's
+   a bunch of stuff to clean up.
 
-Thanks.
+I've tested these with 1.4 and 1.8, but not various versions in between.
+
+Jonathan Corbet (2):
+  doc: Cope with Sphinx logging deprecations
+  doc: Cope with the deprecation of AutoReporter
+
+ Documentation/sphinx/kerneldoc.py | 48 ++++++++++++++++++++++++-------
+ Documentation/sphinx/kernellog.py | 28 ++++++++++++++++++
+ Documentation/sphinx/kfigure.py   | 38 +++++++++++++-----------
+ 3 files changed, 87 insertions(+), 27 deletions(-)
+ create mode 100644 Documentation/sphinx/kernellog.py
+
+-- 
+2.21.0
+
