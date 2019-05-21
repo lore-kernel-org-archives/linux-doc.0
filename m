@@ -1,206 +1,134 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4342B7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 May 2019 07:56:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E90DB7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 May 2019 09:43:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726242AbfEUH4n (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 21 May 2019 03:56:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56998 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725809AbfEUH4n (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 May 2019 03:56:43 -0400
-Received: from localhost.localdomain (unknown [153.145.222.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2DA3621783;
-        Tue, 21 May 2019 07:56:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1558425402;
-        bh=bJvqGYw7DNXGDmes2Ibv22SSkaA4f4/0ULWJP8zE9PQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gQvtcYoDDrjlqVPUv8EhnKsf6yitRF6LBq7FI3K16bmd1G5CVWpZt/PAPiFpjU62N
-         oMS6KMa8mzqOsCctn7NaUUBEgwFKlawXzS10n/1F7JHe22pAQ0DEhBVUZgbqA8K5lu
-         0bRx7LgW4AuVbf0+DzuBB9QnK4DigfdM7Ry5MaP8=
-From:   Masami Hiramatsu <mhiramat@kernel.org>
+        id S1726448AbfEUJnn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 21 May 2019 05:43:43 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:42014 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726417AbfEUJnn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 May 2019 05:43:43 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4L9YI0C193001;
+        Tue, 21 May 2019 09:42:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2018-07-02;
+ bh=CV3K5vVj968rbCwHTWBpou4tQEBJWFpNs+IiANmFcHs=;
+ b=BFTBWPYpwoS4xVmnzUqSvTh4pjcuOeoHhbsu63iYoeYogj5CLBo7IUbzAQDkavUt3g/b
+ H0ObpMgpXWWTSoTDX7PB3o7aoNl3AEriyF8/FPf/LYmL6N/NtS6CGaY+VT90LJP3SCOx
+ h1rmYTDfLzoufVCuOduA8CUGy4RPawyC06Y10cJuUZJv6S+IvfMjVMWQBsyn/pu//nRZ
+ 8ZzNIAsmshrGwmjWaatoGkPkQdBLq6aQwN+nC0HReEUWXXVlefL52Ff8C8i0lmga/oLS
+ 2b8wTYig5Nda0TzCY0yDB3mRXgsnCbJmIUxz4l9wycWoFiuZIzdicH/xx5tDVORmzv4g mA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2130.oracle.com with ESMTP id 2sj9ftc70n-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 21 May 2019 09:42:45 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4L9fd6W034592;
+        Tue, 21 May 2019 09:42:44 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by userp3020.oracle.com with ESMTP id 2sks1jbx6d-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 21 May 2019 09:42:44 +0000
+Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x4L9gbr9014313;
+        Tue, 21 May 2019 09:42:37 GMT
+Received: from [10.191.5.201] (/10.191.5.201)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Tue, 21 May 2019 09:42:37 +0000
+Subject: Re: [PATCH v2] doc: kernel-parameters.txt: fix documentation of
+ nmi_watchdog parameter
 To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Ingo Molnar <mingo@kernel.org>,
-        "Naveen N . Rao" <naveen.n.rao@linux.ibm.com>,
-        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH 2/2] tracing/kprobe: Add kprobe_event= boot parameter
-Date:   Tue, 21 May 2019 16:56:37 +0900
-Message-Id: <155842539720.4253.9428800909463994709.stgit@devnote2>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <155842537599.4253.14690293652007233645.stgit@devnote2>
-References: <155842537599.4253.14690293652007233645.stgit@devnote2>
-User-Agent: StGit/0.17.1-dirty
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        paulmck@linux.ibm.com, josh@joshtriplett.org,
+        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+        joel@joelfernandes.org, corbet@lwn.net, tglx@linutronix.de,
+        mingo@kernel.org, gregkh@linuxfoundation.org,
+        keescook@chromium.org, srinivas.eeda@oracle.com
+References: <1557632127-16717-1-git-send-email-zhenzhong.duan@oracle.com>
+ <20190514152113.336e6116@oasis.local.home>
+From:   Zhenzhong Duan <zhenzhong.duan@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <064f1230-be51-37ef-9283-69a7277fdd67@oracle.com>
+Date:   Tue, 21 May 2019 17:42:28 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20190514152113.336e6116@oasis.local.home>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9263 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1905210062
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9263 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1905210062
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add kprobe_event= boot parameter to define kprobe events
-at boot time.
-The definition syntax is similar to tracefs/kprobe_events
-interface, but use ',' and ';' instead of ' ' and '\n'
-respectively. e.g.
 
-  kprobe_event=p,vfs_read,$arg1,$arg2
+On 2019/5/15 3:21, Steven Rostedt wrote:
+> On Sun, 12 May 2019 11:35:27 +0800
+> Zhenzhong Duan <zhenzhong.duan@oracle.com> wrote:
+>
+>> The default behavior of hardlockup depends on the config of
+>> CONFIG_BOOTPARAM_HARDLOCKUP_PANIC.
+>>
+>> Fix the description of nmi_watchdog to make it clear.
+>>
+>> Signed-off-by: Zhenzhong Duan <zhenzhong.duan@oracle.com>
+>> Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+>> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Perhaps it should have been:
+>
+>   Suggested-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
+>
+> As the wording is what I suggested ;-)
 
-This puts a probe on vfs_read with argument1 and 2, and
-enable the new event.
+Sure, I should have done that. Just not familiar with which one is better.
 
-Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
----
- Documentation/admin-guide/kernel-parameters.txt |   13 ++++++
- Documentation/trace/kprobetrace.rst             |   14 ++++++
- kernel/trace/trace_kprobe.c                     |   54 +++++++++++++++++++++++
- 3 files changed, 81 insertions(+)
+Not clear if I should send a v3 adding Suggested-by and Acked-by?
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 2b8ee90bb644..96b22db7f763 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2002,6 +2002,19 @@
- 			Built with CONFIG_DEBUG_KMEMLEAK_DEFAULT_OFF=y,
- 			the default is off.
- 
-+	kprobe_event=[probe-list]
-+			[FTRACE] Add kprobe events and enable at boot time.
-+			The probe-list is a semicolon delimited list of probe
-+			definitions. Each definition is same as kprobe_events
-+			interface, but the parameters are comma delimited.
-+			For example, to add a kprobe event on vfs_read with
-+			arg1 and arg2, add to the command line;
-+
-+			      kprobe_event=p,vfs_read,$arg1,$arg2
-+
-+			See also Documentation/trace/kprobetrace.rst "Kernel
-+			Boot Parameter" section.
-+
- 	kpti=		[ARM64] Control page table isolation of user
- 			and kernel address spaces.
- 			Default: enabled on cores which need mitigation.
-diff --git a/Documentation/trace/kprobetrace.rst b/Documentation/trace/kprobetrace.rst
-index 235ce2ab131a..5b129215ba33 100644
---- a/Documentation/trace/kprobetrace.rst
-+++ b/Documentation/trace/kprobetrace.rst
-@@ -124,6 +124,20 @@ You can check the total number of probe hits and probe miss-hits via
- The first column is event name, the second is the number of probe hits,
- the third is the number of probe miss-hits.
- 
-+Kernel Boot Parameter
-+---------------------
-+You can add and enable new kprobe events when booting up the kernel by
-+"kprobe_event=" parameter. The parameter accepts a semicolon-delimited
-+kprobe events, which format is similar to the kprobe_events.
-+The difference is that the probe definition parameters are comma-delimited
-+instead of space. For example, adding myprobe event on do_sys_open like below
-+
-+  p:myprobe do_sys_open dfd=%ax filename=%dx flags=%cx mode=+4($stack)
-+
-+should be below for kernel boot parameter (just replace spaces with comma)
-+
-+  p:myprobe,do_sys_open,dfd=%ax,filename=%dx,flags=%cx,mode=+4($stack)
-+
- 
- Usage examples
- --------------
-diff --git a/kernel/trace/trace_kprobe.c b/kernel/trace/trace_kprobe.c
-index 7d736248a070..6983435ff017 100644
---- a/kernel/trace/trace_kprobe.c
-+++ b/kernel/trace/trace_kprobe.c
-@@ -12,6 +12,8 @@
- #include <linux/rculist.h>
- #include <linux/error-injection.h>
- 
-+#include <asm/setup.h>  /* for COMMAND_LINE_SIZE */
-+
- #include "trace_dynevent.h"
- #include "trace_kprobe_selftest.h"
- #include "trace_probe.h"
-@@ -19,6 +21,17 @@
- 
- #define KPROBE_EVENT_SYSTEM "kprobes"
- #define KRETPROBE_MAXACTIVE_MAX 4096
-+#define MAX_KPROBE_CMDLINE_SIZE 1024
-+
-+/* Kprobe early definition from command line */
-+static char kprobe_boot_events_buf[COMMAND_LINE_SIZE] __initdata;
-+
-+static int __init set_kprobe_boot_events(char *str)
-+{
-+	strlcpy(kprobe_boot_events_buf, str, COMMAND_LINE_SIZE);
-+	return 0;
-+}
-+__setup("kprobe_event=", set_kprobe_boot_events);
- 
- static int trace_kprobe_create(int argc, const char **argv);
- static int trace_kprobe_show(struct seq_file *m, struct dyn_event *ev);
-@@ -1450,6 +1463,44 @@ void destroy_local_trace_kprobe(struct trace_event_call *event_call)
- }
- #endif /* CONFIG_PERF_EVENTS */
- 
-+static __init void enable_boot_kprobe_events(void)
-+{
-+	struct trace_array *tr = top_trace_array();
-+	struct trace_event_file *file;
-+	struct trace_kprobe *tk;
-+	struct dyn_event *pos;
-+
-+	mutex_lock(&event_mutex);
-+	for_each_trace_kprobe(tk, pos) {
-+		list_for_each_entry(file, &tr->events, list)
-+			if (file->event_call == &tk->tp.call)
-+				trace_event_enable_disable(file, 1, 0);
-+	}
-+	mutex_unlock(&event_mutex);
-+}
-+
-+static __init void setup_boot_kprobe_events(void)
-+{
-+	char *p, *cmd = kprobe_boot_events_buf;
-+	int ret;
-+
-+	strreplace(kprobe_boot_events_buf, ',', ' ');
-+
-+	while (cmd && *cmd != '\0') {
-+		p = strchr(cmd, ';');
-+		if (p)
-+			*p++ = '\0';
-+
-+		ret = trace_run_command(cmd, create_or_delete_trace_kprobe);
-+		if (ret)
-+			pr_warn("Failed to add event(%d): %s\n", ret, cmd);
-+
-+		cmd = p;
-+	}
-+
-+	enable_boot_kprobe_events();
-+}
-+
- /* Make a tracefs interface for controlling probe points */
- static __init int init_kprobe_trace(void)
- {
-@@ -1481,6 +1532,9 @@ static __init int init_kprobe_trace(void)
- 
- 	if (!entry)
- 		pr_warn("Could not create tracefs 'kprobe_profile' entry\n");
-+
-+	setup_boot_kprobe_events();
-+
- 	return 0;
- }
- fs_initcall(init_kprobe_trace);
+Zhenzhong
 
+>
+> -- Steve
+>
+>> ---
+>>   v2: fix description using words suggested by Steven Rostedt
+>>
+>>   Documentation/admin-guide/kernel-parameters.txt | 5 +++--
+>>   1 file changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index 08df588..b9d4358 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -2805,8 +2805,9 @@
+>>   			0 - turn hardlockup detector in nmi_watchdog off
+>>   			1 - turn hardlockup detector in nmi_watchdog on
+>>   			When panic is specified, panic when an NMI watchdog
+>> -			timeout occurs (or 'nopanic' to override the opposite
+>> -			default). To disable both hard and soft lockup detectors,
+>> +			timeout occurs (or 'nopanic' to not panic on an NMI
+>> +			watchdog, if CONFIG_BOOTPARAM_HARDLOCKUP_PANIC is set)
+>> +			To disable both hard and soft lockup detectors,
+>>   			please see 'nowatchdog'.
+>>   			This is useful when you use a panic=... timeout and
+>>   			need the box quickly up again.
