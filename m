@@ -1,176 +1,74 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=FROM_SUSPICIOUS_NTLD,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7BA1C7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 May 2019 16:05:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A2A777D9ED
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 May 2019 16:11:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728649AbfEUQFH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 21 May 2019 12:05:07 -0400
-Received: from mailgate2.uni-hannover.de ([130.75.2.114]:53604 "EHLO
-        mailgate2.uni-hannover.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728067AbfEUQFG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 May 2019 12:05:06 -0400
-X-Greylist: delayed 558 seconds by postgrey-1.27 at vger.kernel.org; Tue, 21 May 2019 12:05:03 EDT
-Received: from kolab.sra.uni-hannover.de (kolab.sra.uni-hannover.de [130.75.33.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mailgate2.uni-hannover.de (Postfix) with ESMTPS id 6426A2087;
-        Tue, 21 May 2019 17:55:43 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at sra.uni-hannover.de
-Received: from lab.sra.uni-hannover.de (aerobus.sra.uni-hannover.de
- [130.75.33.87])
- by kolab.sra.uni-hannover.de (Postfix) with SMTP id 1984B3E027C;
- Tue, 21 May 2019 17:55:22 +0200 (CEST)
-Received: (nullmailer pid 14993 invoked by uid 20151);
- Tue, 21 May 2019 15:55:41 -0000
-From:   Lukas Prause <langspielplatte@black-mesa.xyz>
-To:     lizefan@huawei.com, tj@kernel.org, hannes@cmpxchg.org,
-        peterz@infradead.org, mingo@redhat.com, will.deacon@arm.com,
-        rjw@rjwysocki.net, len.brown@intel.com, pavel@ucw.cz,
-        rostedt@goodmis.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-pm@vger.kernel.org,
-        Lukas Prause <langspielplatte@black-mesa.xyz>,
-        Lennart Glauer <mail@lennart-glauer.de>
-Subject: [PATCH] Fix comments with paths pointing to renamed or moved files.
-Date:   Tue, 21 May 2019 17:54:30 +0200
-Message-Id: <20190521155430.14941-1-langspielplatte@black-mesa.xyz>
-X-Mailer: git-send-email 2.17.1
+        id S1727817AbfEUQLJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 21 May 2019 12:11:09 -0400
+Received: from mx2.suse.de ([195.135.220.15]:47782 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728067AbfEUQLJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 21 May 2019 12:11:09 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id D22D7ADE1;
+        Tue, 21 May 2019 16:11:07 +0000 (UTC)
+Date:   Tue, 21 May 2019 18:11:05 +0200
+From:   Oscar Salvador <osalvador@suse.de>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Mike Rapoport <rppt@linux.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: reorder memory-hotplug documentation
+Message-ID: <20190521161101.GA2372@linux>
+References: <1557822213-19058-1-git-send-email-rppt@linux.ibm.com>
+ <43092504-a95f-374d-f3db-b961dd8ac428@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <43092504-a95f-374d-f3db-b961dd8ac428@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch corrects renamed or moved paths in comments.
+On Tue, May 21, 2019 at 12:41:50PM +0200, David Hildenbrand wrote:
+> > +Future Work
+> > +===========
+> > +
+> > +  - allowing memory hot-add to ZONE_MOVABLE. maybe we need some switch like
+> > +    sysctl or new control file.
+> 
+> ... that already works if I am not completely missing the point here
 
-Signed-off-by: Lukas Prause <langspielplatte@black-mesa.xyz>
-Signed-off-by: Lennart Glauer <mail@lennart-glauer.de>
----
- kernel/cgroup/cpuset.c       |  2 +-
- kernel/locking/mutex-debug.h |  2 +-
- kernel/power/power.h         |  2 +-
- kernel/sched/core.c          |  2 +-
- kernel/trace/trace.h         | 14 +++++++-------
- 5 files changed, 11 insertions(+), 11 deletions(-)
+It does.
 
-diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index 6a1942ed781c..6381622e2f2f 100644
---- a/kernel/cgroup/cpuset.c
-+++ b/kernel/cgroup/cpuset.c
-@@ -329,7 +329,7 @@ static struct cpuset top_cpuset = {
-  * cpumasks and nodemasks.
-  *
-  * Accessing a task's cpuset should be done in accordance with the
-- * guidelines for accessing subsystem state in kernel/cgroup.c
-+ * guidelines for accessing subsystem state in kernel/cgroup/cgroup.c
-  */
- 
- static DEFINE_MUTEX(cpuset_mutex);
-diff --git a/kernel/locking/mutex-debug.h b/kernel/locking/mutex-debug.h
-index 1edd3f45a4ec..0dee0a07cd4c 100644
---- a/kernel/locking/mutex-debug.h
-+++ b/kernel/locking/mutex-debug.h
-@@ -8,7 +8,7 @@
-  *
-  * This file contains mutex debugging related internal declarations,
-  * prototypes and inline functions, for the CONFIG_DEBUG_MUTEXES case.
-- * More details are in kernel/mutex-debug.c.
-+ * More details are in kernel/locking/mutex-debug.c.
-  */
- 
- /*
-diff --git a/kernel/power/power.h b/kernel/power/power.h
-index 9e58bdc8a562..5de8b0c7f657 100644
---- a/kernel/power/power.h
-+++ b/kernel/power/power.h
-@@ -182,7 +182,7 @@ extern int swsusp_unmark(void);
- #endif
- 
- struct timeval;
--/* kernel/power/swsusp.c */
-+/* kernel/power/hibernate.c */
- extern void swsusp_show_speed(ktime_t, ktime_t, unsigned int, char *);
- 
- #ifdef CONFIG_SUSPEND
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 102dfcf0a29a..0ce0dc44ffc3 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -3334,7 +3334,7 @@ pick_next_task(struct rq *rq, struct task_struct *prev, struct rq_flags *rf)
-  *   1. Explicit blocking: mutex, semaphore, waitqueue, etc.
-  *
-  *   2. TIF_NEED_RESCHED flag is checked on interrupt and userspace return
-- *      paths. For example, see arch/x86/entry_64.S.
-+ *      paths. For example, see arch/x86/entry/entry_64.S.
-  *
-  *      To drive preemption between tasks, the scheduler sets the flag in timer
-  *      interrupt handler scheduler_tick().
-diff --git a/kernel/trace/trace.h b/kernel/trace/trace.h
-index 1974ce818ddb..0c304d6f5b31 100644
---- a/kernel/trace/trace.h
-+++ b/kernel/trace/trace.h
-@@ -1684,7 +1684,7 @@ extern int register_trigger_hist_enable_disable_cmds(void);
-  *	initialization such as incrementing a per-trigger reference
-  *	count, for instance.  This is usually implemented by the
-  *	generic utility function @event_trigger_init() (see
-- *	trace_event_triggers.c).
-+ *	trace_events_trigger.c).
-  *
-  * @free: An optional de-initialization function called for the
-  *	trigger when the trigger is unregistered (via the
-@@ -1693,12 +1693,12 @@ extern int register_trigger_hist_enable_disable_cmds(void);
-  *	per-trigger reference count and freeing corresponding trigger
-  *	data, for instance.  This is usually implemented by the
-  *	generic utility function @event_trigger_free() (see
-- *	trace_event_triggers.c).
-+ *	trace_events_trigger.c).
-  *
-  * @print: The callback function invoked to have the trigger print
-  *	itself.  This is usually implemented by a wrapper function
-  *	that calls the generic utility function @event_trigger_print()
-- *	(see trace_event_triggers.c).
-+ *	(see trace_events_trigger.c).
-  */
- struct event_trigger_ops {
- 	void			(*func)(struct event_trigger_data *data,
-@@ -1758,7 +1758,7 @@ struct event_trigger_ops {
-  *	the appropriate trace event.  It makes use of the other
-  *	event_command callback functions to orchestrate this, and is
-  *	usually implemented by the generic utility function
-- *	@event_trigger_callback() (see trace_event_triggers.c).
-+ *	@event_trigger_callback() (see trace_events_trigger.c).
-  *
-  * @reg: Adds the trigger to the list of triggers associated with the
-  *	event, and enables the event trigger itself, after
-@@ -1767,13 +1767,13 @@ struct event_trigger_ops {
-  *	make the decision as to whether or not multiple instances of
-  *	the trigger should be allowed.  This is usually implemented by
-  *	the generic utility function @register_trigger() (see
-- *	trace_event_triggers.c).
-+ *	trace_events_trigger.c).
-  *
-  * @unreg: Removes the trigger from the list of triggers associated
-  *	with the event, and disables the event trigger itself, after
-  *	initializing it (via the event_trigger_ops @free() function).
-  *	This is usually implemented by the generic utility function
-- *	@unregister_trigger() (see trace_event_triggers.c).
-+ *	@unregister_trigger() (see trace_events_trigger.c).
-  *
-  * @unreg_all: An optional function called to remove all the triggers
-  *	from the list of triggers associated with the event.  Called
-@@ -1783,7 +1783,7 @@ struct event_trigger_ops {
-  *	for the trigger.  If no @set_filter() method is set for the
-  *	event command, filters set by the user for the command will be
-  *	ignored.  This is usually implemented by the generic utility
-- *	function @set_trigger_filter() (see trace_event_triggers.c).
-+ *	function @set_trigger_filter() (see trace_events_trigger.c).
-  *
-  * @get_trigger_ops: The callback function invoked to retrieve the
-  *	event_trigger_ops implementation associated with the command.
+> > +  - support HugeTLB page migration and offlining.
+> 
+> ... I remember that Oscar was doing something in that area, Oscar?
+
+Yes, in general offlinining on hugetlb pages was already working, but we did not
+allow to offline 1GB-hugetlb pages on x86_64.
+I removed that limitation with
+("commit: 10eeadf3045c mm,memory_hotplug: unlock 1GB-hugetlb on x86_64") , so now
+offlining on hugetlb pages should be fully operative.
+
+> I'd vote for removing the future work part, this is pretty outdated.
+
+Instead of removing it, I would rather make it consistent with the present.
+E.g:
+
+- Move page handling from memory-hotremove to offline stage
+- Enable a way to allocate vmemmap pages from hot-added memory
+etc.
+
+
 -- 
-2.17.1
+Oscar Salvador
+SUSE L3
