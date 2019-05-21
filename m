@@ -1,130 +1,49 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E16167D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 20 May 2019 23:00:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C9F4F7D910
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 May 2019 00:24:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727044AbfETXAU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 20 May 2019 19:00:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38740 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725978AbfETXAU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 20 May 2019 19:00:20 -0400
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2F67D2173C;
-        Mon, 20 May 2019 23:00:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1558393219;
-        bh=WiH+/OCfcfe+4Xbn3UUb9ykwnCBy4RLUJO0aKNlzOhU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=eNYEvQaZCFxftor73AUBaBuvs5kQxBD6kNSJX0w/p30iCErC49wIk5tve4buk62JW
-         X+mRVN5Ly+zFH885gRKdBahnunIl6D9H4QxHvqw1shAB8LH5e42oiB/Gf/4NC4b8VJ
-         RKYb7FakZ5o5C5tzUQmOIMU5YxkVvlDHOKTwfGhY=
-Received: by mail-qk1-f175.google.com with SMTP id a64so9915823qkg.5;
-        Mon, 20 May 2019 16:00:19 -0700 (PDT)
-X-Gm-Message-State: APjAAAXQe9clEUbIzvQrzIhScEILDFtIRb/XyEthj0DiIVj/ZxUfIkKu
-        cyEHDC+mmcc2omeKnTM+dhhHy4v09hp5KOumbA==
-X-Google-Smtp-Source: APXvYqw0yA7/JAtvhaZQmdZCHhku9PQPnak0hyEwUTGW5yiBYyusX64Ru1hOe3bgicIVg6fnC6z7c+ozU5sQvG2tn7Q=
-X-Received: by 2002:a37:b8c:: with SMTP id 134mr61102400qkl.121.1558393218412;
- Mon, 20 May 2019 16:00:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1558362030.git.mchehab+samsung@kernel.org>
- <66231286de0f11b45075292216a939858de8c3e5.1558362030.git.mchehab+samsung@kernel.org>
- <CAL_JsqKGzNBjxhvY2Vq9v8SXiND+7sjmsOwKkeu+gEM=2Y-n_A@mail.gmail.com> <20190520131344.39635733@coco.lan>
-In-Reply-To: <20190520131344.39635733@coco.lan>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Mon, 20 May 2019 18:00:06 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJj42BR42NNFj2xkY_EF_6nQnU_D-onV4GZvortv8ptvQ@mail.gmail.com>
-Message-ID: <CAL_JsqJj42BR42NNFj2xkY_EF_6nQnU_D-onV4GZvortv8ptvQ@mail.gmail.com>
-Subject: Re: [PATCH 08/10] dt: fix refs that were renamed to json with the
- same file name
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        devicetree@vger.kernel.org, linux-clk <linux-clk@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1727047AbfEUAYr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 20 May 2019 20:24:47 -0400
+Received: from shards.monkeyblade.net ([23.128.96.9]:59874 "EHLO
+        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726370AbfEUAYq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 20 May 2019 20:24:46 -0400
+Received: from localhost (50-78-161-185-static.hfc.comcastbusiness.net [50.78.161.185])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id 671691341201F;
+        Mon, 20 May 2019 17:24:46 -0700 (PDT)
+Date:   Mon, 20 May 2019 20:24:45 -0400 (EDT)
+Message-Id: <20190520.202445.1903107535962668188.davem@davemloft.net>
+To:     houweitaoo@gmail.com
+Cc:     corbet@lwn.net, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] networking: : fix typos in code comments
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <20190520052317.27871-1-houweitaoo@gmail.com>
+References: <20190520052317.27871-1-houweitaoo@gmail.com>
+X-Mailer: Mew version 6.8 on Emacs 26.1
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Mon, 20 May 2019 17:24:46 -0700 (PDT)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 20, 2019 at 11:14 AM Mauro Carvalho Chehab
-<mchehab+samsung@kernel.org> wrote:
->
-> Em Mon, 20 May 2019 10:57:47 -0500
-> Rob Herring <robh+dt@kernel.org> escreveu:
->
-> > On Mon, May 20, 2019 at 9:48 AM Mauro Carvalho Chehab
-> > <mchehab+samsung@kernel.org> wrote:
-> > >
-> > > This file was converted to json, but the references weren't
-> >
-> > Technically, converted to json-schema (the language) or yaml (the format).
->
-> Ok. Do you want me to change it at the patch and resend?
+From: Weitao Hou <houweitaoo@gmail.com>
+Date: Mon, 20 May 2019 13:23:17 +0800
 
-No, I can fixup.
+> fix accelleration to acceleration
+> 
+> Signed-off-by: Weitao Hou <houweitaoo@gmail.com>
 
->
-> >
-> > > renamed.
-> > >
-> > > Fixes: 66ed144f147a ("dt-bindings: interrupt-controller: Convert ARM GIC to json-schema")
-> > > (and other similar commits)
-> > >
-> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> > > ---
-> > >  Documentation/devicetree/bindings/arm/omap/crossbar.txt       | 2 +-
-> > >  .../devicetree/bindings/clock/samsung,s5pv210-clock.txt       | 2 +-
-> > >  .../bindings/interrupt-controller/marvell,odmi-controller.txt | 2 +-
-> > >  Documentation/devicetree/bindings/leds/irled/spi-ir-led.txt   | 2 +-
-> > >  MAINTAINERS                                                   | 4 ++--
-> > >  5 files changed, 6 insertions(+), 6 deletions(-)
-> >
-> > FYI, I'm actively looking for this in conversions now as we've had a
-> > few of these. For cases where we have a lot of references, I'm fixing
-> > this by keeping the .txt file with a reference to the .yaml file.
->
-> If the file name remains with the same name, except for the .txt -> .yaml,
-> you can just run the "scripts/documentation-file-ref-check --fix"
-> after this patch:
->
->         Subject: [PATCH 04/10] scripts/documentation-file-ref-check: teach about .txt -> .yaml renames
->
-> and it should detect and automatically fix all the references. As any
-> auto-hint script, you need to double-check the results.
-
-Nice!
-
->
-> > I'll pick up the DT patches in the series.
->
-> OK. There are a few such fixes inside patch 10/10. Do you want me
-> to split it or can it go through Jonathan's doc tree?
-
-Jon's tree is fine.
-
-Rob
+Applied.
