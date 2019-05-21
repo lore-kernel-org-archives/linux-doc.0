@@ -1,63 +1,75 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B30947D926
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 May 2019 13:33:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DF34E7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 21 May 2019 14:51:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728292AbfEUNdV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 21 May 2019 09:33:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58876 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728053AbfEUNdV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 21 May 2019 09:33:21 -0400
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 117F9217D7;
-        Tue, 21 May 2019 13:33:19 +0000 (UTC)
-Date:   Tue, 21 May 2019 09:33:17 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     Ingo Molnar <mingo@kernel.org>,
-        "Naveen N . Rao" <naveen.n.rao@linux.ibm.com>,
-        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 0/2] Enable new kprobe event at boot
-Message-ID: <20190521093317.7d698f79@gandalf.local.home>
-In-Reply-To: <155842537599.4253.14690293652007233645.stgit@devnote2>
-References: <155842537599.4253.14690293652007233645.stgit@devnote2>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1728505AbfEUOvx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 21 May 2019 10:51:53 -0400
+Received: from outils.crapouillou.net ([89.234.176.41]:40542 "EHLO
+        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728176AbfEUOvw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 21 May 2019 10:51:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+        s=mail; t=1558450308; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:references; bh=b6cNyZTTMg6XoewfuupHh0Xe//2fA9yI3hOT3hVf6/g=;
+        b=K5Zz3WIVZN/9klmA/YfwJX9tXnR/lB1SGYiASFWOjRpC9BHydEzTeUnFW6CoVGEYWD8atn
+        SMw9BEctrNMjGn3d7SO+MeA06yLEk124HQafjCjdOvFZf1BHd9VRRBSugLJzgQCBx+/she
+        z7DJkJKrgACm1VxMmr3qKxx185k76Zg=
+From:   Paul Cercueil <paul@crapouillou.net>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Lee Jones <lee.jones@linaro.org>
+Cc:     Mathieu Malaterre <malat@debian.org>, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-clk@vger.kernel.org, od@zcrc.me
+Subject: Ingenic Timer/Counter Unit (TCU) patchset v12
+Date:   Tue, 21 May 2019 16:51:28 +0200
+Message-Id: <20190521145141.9813-1-paul@crapouillou.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 21 May 2019 16:56:16 +0900
-Masami Hiramatsu <mhiramat@kernel.org> wrote:
+Hi,
 
-> Note that 'trace_event=' option enables trace event at very early
-> timing, but the events added by 'kprobe_event=' are enabled right
-> before enabling device drivers at this point. It is enough for
-> tracing device driver initialization etc.
+Here's the V12 of my patchset to add support for the Timer/Counter Unit
+(TCU) present on the JZ47xx SoCs from Ingenic.
 
-Nice!
+This patchset is much shorter at only 13 patches vs. 27 patches in V11;
+the remaining patches will be sent in parallel (if applicable) or as a
+follow-up patchset once this one is merged.
 
-I wonder if we can have this called before the trace_event boot is
-analyzed. Then have the kprobe_event work more like the kprobe_events
-file, and not enable the kprobes but only create them. If you want to
-enable them you do a trace_event=kprobes as well.
+In V11 the clocksource maintainers weren't happy with the size of the
+ingenic-timer driver, which included clocks and irqchip setup code.
+On the other hand, devicetree maintainers wanted one single node for
+the TCU hardware since it's effectively just one hardware block.
 
-Perhaps we could enable kprobes at early init?
+In this patchset the functionality is cut in four different drivers:
+a MFD one to provide the regmap, probe the children and which provides
+several API functions; a clocks driver; a irqchip driver; a clocksource
+driver. All these drivers work with the same regmap, have the same
+compatible strings, and will probe _with the same devicetree node_.
 
-What do you think? Or is there something else in kprobes that prevents
-such an early enabling of it?
+Regards,
+-Paul
 
--- Steve
+
