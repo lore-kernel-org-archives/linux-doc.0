@@ -1,117 +1,118 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E0F4B7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 May 2019 09:49:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 737537D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 May 2019 10:19:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728602AbfEVJtI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 22 May 2019 05:49:08 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:38272 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728438AbfEVJtI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 May 2019 05:49:08 -0400
-Received: by mail-wr1-f66.google.com with SMTP id d18so1526017wrs.5
-        for <linux-doc@vger.kernel.org>; Wed, 22 May 2019 02:49:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=scX4WfC5WsPnoLs+Nl/iwg3kKLZv9A3kLQMPNHZ+zvU=;
-        b=Nl5b/GqSqwaBwgsNehjlXPZoMnrgsVc7NIDk9oPBHTEfOWoK/+CKs2nyV3iY/GVvx7
-         qOlIZn1XfmWutpOz5dt9a1aZ66naAR14YWjkELkVidv1Arwauo+E+KzAof57IEREv9HB
-         BVwrKk21gPRnGKRzqfsHij2+laBCPc+75qpFj/cgrkb+gtjMTkp/AA/gViu28lXME+Tr
-         J0IMhAIq/aSyVb6z6Crg1/dxXC7ulZMHN9exVte4dOJaj/+SHQEUU780hqYT09KZx9xM
-         NOhO9swAqTSraCNK+DNx+jhUKKNKcnxR0DmepLVMydUmOIpeSwO8NukaA9eRVXe6zi7h
-         J/GQ==
-X-Gm-Message-State: APjAAAWDombBW9tPfxP3JJXDAMiuDiPqZNX7CuTAnnu4+s0vE8dvph6U
-        n/RK6LhxDYM5zt4ZAOnR8QBgWA==
-X-Google-Smtp-Source: APXvYqwqQVOypYige44jfKRw9hc/jrC8xIL71+dWaaI4HvyYOi88cmgA1dpoQgWpagKViIpU77sPTA==
-X-Received: by 2002:a5d:6849:: with SMTP id o9mr223972wrw.196.1558518546686;
-        Wed, 22 May 2019 02:49:06 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
-        by smtp.gmail.com with ESMTPSA id u15sm44023094wru.16.2019.05.22.02.49.05
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 22 May 2019 02:49:06 -0700 (PDT)
-Date:   Wed, 22 May 2019 11:49:05 +0200
-From:   Oleksandr Natalenko <oleksandr@redhat.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Markus Heiser <markus.heiser@darmarit.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH RFC 0/2] docs: Deal with some Sphinx deprecation warnings
-Message-ID: <20190522094905.pjg3ldvvkndohryb@butterfly.localdomain>
+        id S1728693AbfEVKTW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 22 May 2019 06:19:22 -0400
+Received: from casper.infradead.org ([85.118.1.10]:51686 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728424AbfEVKTV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 May 2019 06:19:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=MNNWQkMpAeP5cdL0iBQSICJkN4ZWR11nVvJgfc6zMgU=; b=iNFlpcrN1RcMAP1iO9D+A4S/Ag
+        Zdb4xTBd5u2hyuKpRMdb1cBJ2KS3URlwrQ79ofcRaMCLyOaPEY4p1YVeTPAPSBi9QGWl1dDCnwW/O
+        /fMS7VXOzwbus5RYrWpOh9Hgtsof93tLpwnoaPUrWYh29iMHbzBh43bvqRpdzD5CAumypchvCZEXK
+        JYN8Mca7dBM+1GucZlfls2sald9v6iDlohzoERJWaj9pEn6hXF23fCstUVdRU1g2V3zA5cSv2oxT7
+        McC4bzthb3qv4iEsiVfwdhx05Nb+62YhxmAgzDZ7F41flsimsXAMMhFVsAjLlWMrX6lbn24lFqboM
+        zYHD2v9g==;
+Received: from [179.182.168.126] (helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hTOL6-00062F-7v; Wed, 22 May 2019 10:19:16 +0000
+Date:   Wed, 22 May 2019 07:19:09 -0300
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Jani Nikula <jani.nikula@linux.intel.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Markus Heiser <markus.heiser@darmarit.de>
+Subject: Re: [PATCH RFC 0/2] docs: Deal with some Sphinx deprecation
+ warnings
+Message-ID: <20190522071909.050bb227@coco.lan>
+In-Reply-To: <87d0kb7xf6.fsf@intel.com>
 References: <20190521211714.1395-1-corbet@lwn.net>
- <20190522094354.mnolo6bh6yeiza5h@butterfly.localdomain>
+        <87d0kb7xf6.fsf@intel.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190522094354.mnolo6bh6yeiza5h@butterfly.localdomain>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 22, 2019 at 11:43:54AM +0200, Oleksandr Natalenko wrote:
-> On Tue, May 21, 2019 at 03:17:12PM -0600, Jonathan Corbet wrote:
+Em Wed, 22 May 2019 10:36:45 +0300
+Jani Nikula <jani.nikula@linux.intel.com> escreveu:
+
+> On Tue, 21 May 2019, Jonathan Corbet <corbet@lwn.net> wrote:
 > > The Sphinx folks are deprecating some interfaces in the upcoming 2.0
 > > release; one immediate result of that is a bunch of warnings that show up
 > > when building with 1.8.  These two patches make those warnings go away,
 > > but at a cost:
-> 
-> A minor correction, if I may and if I understand this correctly: 2.0 is
-> not an upcoming release, but a current one (2.0.1, to be precise), and
-> this means that in some distros (like, Arch [1]) `make htmldocs` is
-> already broken for quite some time.
-> 
-> [1] https://bugs.archlinux.org/task/59688
-
-^^ this was the initial Bug for introducing the doc, but it got reverted
-in [2].
-
-[2] https://git.archlinux.org/svntogit/packages.git/commit/trunk?h=packages/linux&id=cfe52e9aa8168d9571bedf8a376e2cfbd25223fd
-
-> 
-> > 
+> >
 > >  - It introduces a couple of Sphinx version checks, which are always
 > >    ugly, but the alternative would be to stop supporting versions
-> >    before 1.7.  For now, I think we can carry that cruft.
-> > 
+> >    before 1.7.  For now, I think we can carry that cruft.  
+> 
+> Frankly, I'd just require Sphinx 1.7+, available even in Debian stable
+> through stretch-backports.
+
+We can raise the bar and force a 1.7 or even 1.8 (Fedora 30 comes
+with version 1.8.4), but I would prefer to keep support older versions,
+at least while we don't depend on some new features introduced after
+the version we're using, and while our extensions won't require a major
+rework due to a new version.
+> 
 > >  - The second patch causes the build to fail horribly on newer
 > >    Sphinx installations.  The change to switch_source_input() seems
 > >    to make the parser much more finicky, increasing warnings and
 > >    eventually failing the build altogether.  In particular, it will
 > >    scream about problems in .rst files that are not included in the
 > >    TOC tree at all.  The complaints appear to be legitimate, but it's
-> >    a bunch of stuff to clean up.
-> > 
+> >    a bunch of stuff to clean up.  
+
+There is a flag to cleanup the warning about a file not included at
+a TOC tree (:orphan:), but it will still try to parse it. There's also
+a conf.py way of doing it. For example, you can exclude an entire dir:
+
+	exclude_patterns = ['includes/*.rst']
+
+But using exclude_patterns will likely be too messy.
+
+> I can understand Sphinx complaining that a file is not included in a TOC
+> tree, but I don't understand why it goes on to parse them anyway.
+
+Yeah, this is, IMHO, a very bad behavior.
+
+> 
+> BR,
+> Jani.
+> 
+> 
+> >
 > > I've tested these with 1.4 and 1.8, but not various versions in between.
-> > 
+> >
 > > Jonathan Corbet (2):
 > >   doc: Cope with Sphinx logging deprecations
 > >   doc: Cope with the deprecation of AutoReporter
-> > 
+> >
 > >  Documentation/sphinx/kerneldoc.py | 48 ++++++++++++++++++++++++-------
 > >  Documentation/sphinx/kernellog.py | 28 ++++++++++++++++++
 > >  Documentation/sphinx/kfigure.py   | 38 +++++++++++++-----------
 > >  3 files changed, 87 insertions(+), 27 deletions(-)
-> >  create mode 100644 Documentation/sphinx/kernellog.py
-> > 
-> > -- 
-> > 2.21.0
-> > 
+> >  create mode 100644 Documentation/sphinx/kernellog.py  
 > 
-> -- 
->   Best regards,
->     Oleksandr Natalenko (post-factum)
->     Senior Software Maintenance Engineer
 
--- 
-  Best regards,
-    Oleksandr Natalenko (post-factum)
-    Senior Software Maintenance Engineer
+
+
+Thanks,
+Mauro
