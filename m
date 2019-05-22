@@ -5,18 +5,18 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E5FCF7D912
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 May 2019 20:51:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 10E127D91A
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 May 2019 20:51:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730325AbfEVUu7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1730307AbfEVUu7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Wed, 22 May 2019 16:50:59 -0400
-Received: from ms.lwn.net ([45.79.88.28]:49324 "EHLO ms.lwn.net"
+Received: from ms.lwn.net ([45.79.88.28]:49340 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730292AbfEVUu6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S1730305AbfEVUu6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 22 May 2019 16:50:58 -0400
 Received: from meer.lwn.net (localhost [127.0.0.1])
-        by ms.lwn.net (Postfix) with ESMTPA id CD9A812B3;
-        Wed, 22 May 2019 20:50:57 +0000 (UTC)
+        by ms.lwn.net (Postfix) with ESMTPA id 47B461321;
+        Wed, 22 May 2019 20:50:58 +0000 (UTC)
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     linux-doc@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
@@ -24,10 +24,11 @@ Cc:     linux-kernel@vger.kernel.org,
         Markus Heiser <markus.heiser@darmarit.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Oleksandr Natalenko <oleksandr@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, George Spelvin <lkml@sdf.org>
-Subject: [PATCH 4/8] lib/list_sort: fix kerneldoc build error
-Date:   Wed, 22 May 2019 14:50:30 -0600
-Message-Id: <20190522205034.25724-5-corbet@lwn.net>
+        Jonathan Corbet <corbet@lwn.net>,
+        Changbin Du <changbin.du@gmail.com>
+Subject: [PATCH 5/8] docs: fix multiple doc build warnings in enumeration.rst
+Date:   Wed, 22 May 2019 14:50:31 -0600
+Message-Id: <20190522205034.25724-6-corbet@lwn.net>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190522205034.25724-1-corbet@lwn.net>
 References: <20190522205034.25724-1-corbet@lwn.net>
@@ -38,37 +39,33 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit 043b3f7b6388 ("lib/list_sort: simplify and remove
-MAX_LIST_LENGTH_BITS") added some useful kerneldoc info, but also broke the
-docs build:
+The conversion of acpi/enumeration.txt to RST included one markup error,
+leading to many warnings like:
 
-  ./lib/list_sort.c:128: WARNING: Definition list ends without a blank line; unexpected unindent.
-  ./lib/list_sort.c:161: WARNING: Unexpected indentation.
-  ./lib/list_sort.c:162: WARNING: Block quote ends without a blank line; unexpected unindent.
+  .../firmware-guide/acpi/enumeration.rst:430: WARNING: Unexpected indentation.
 
-Fix the offending literal block and make the error go away.
+Add the missing colon and create some peace.
 
-Fixes: 043b3f7b6388 ("lib/list_sort: simplify and remove MAX_LIST_LENGTH_BITS")
-Cc: George Spelvin <lkml@sdf.org>
+Fixes: c24bc66e8157 ("Documentation: ACPI: move enumeration.txt to firmware-guide/acpi and convert to reST")
+Cc: Changbin Du <changbin.du@gmail.com>
 Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 ---
- lib/list_sort.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ Documentation/firmware-guide/acpi/enumeration.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/lib/list_sort.c b/lib/list_sort.c
-index 06e900c5587b..712ed1f4eb64 100644
---- a/lib/list_sort.c
-+++ b/lib/list_sort.c
-@@ -120,7 +120,8 @@ static void merge_final(void *priv, cmp_func cmp, struct list_head *head,
-  * The latter offers a chance to save a few cycles in the comparison
-  * (which is used by e.g. plug_ctx_cmp() in block/blk-mq.c).
-  *
-- * A good way to write a multi-word comparison is
-+ * A good way to write a multi-word comparison is::
-+ *
-  *	if (a->high != b->high)
-  *		return a->high > b->high;
-  *	if (a->middle != b->middle)
+diff --git a/Documentation/firmware-guide/acpi/enumeration.rst b/Documentation/firmware-guide/acpi/enumeration.rst
+index 6b32b7be8c85..850be9696931 100644
+--- a/Documentation/firmware-guide/acpi/enumeration.rst
++++ b/Documentation/firmware-guide/acpi/enumeration.rst
+@@ -423,7 +423,7 @@ will be enumerated to depends on the device ID returned by _HID.
+ 
+ For example, the following ACPI sample might be used to enumerate an lm75-type
+ I2C temperature sensor and match it to the driver using the Device Tree
+-namespace link:
++namespace link::
+ 
+ 	Device (TMP0)
+ 	{
 -- 
 2.21.0
 
