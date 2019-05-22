@@ -1,188 +1,136 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7B2A37D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 May 2019 19:00:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5DFEA7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 May 2019 20:18:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729433AbfEVTAf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 22 May 2019 15:00:35 -0400
-Received: from smtprelay0106.hostedemail.com ([216.40.44.106]:35678 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728533AbfEVTAf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 May 2019 15:00:35 -0400
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-        by smtpgrave02.hostedemail.com (Postfix) with ESMTP id 90D6E18024508;
-        Wed, 22 May 2019 18:54:36 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay06.hostedemail.com (Postfix) with ESMTP id 60240182251DF;
-        Wed, 22 May 2019 18:54:36 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: beds74_27dc26fe10b2d
-X-Filterd-Recvd-Size: 5469
-Received: from XPS-9350 (cpe-23-242-196-136.socal.res.rr.com [23.242.196.136])
-        (Authenticated sender: joe@perches.com)
-        by omf20.hostedemail.com (Postfix) with ESMTPA;
-        Wed, 22 May 2019 18:54:33 +0000 (UTC)
-Message-ID: <8ae488765c8d441dbb444adaf89e59a2afa81298.camel@perches.com>
-Subject: Re: [PATCH] Fix comments with paths pointing to renamed or moved
- files.
-From:   Joe Perches <joe@perches.com>
-To:     Pavel Machek <pavel@ucw.cz>,
-        Lukas Prause <langspielplatte@black-mesa.xyz>
-Cc:     lizefan@huawei.com, tj@kernel.org, hannes@cmpxchg.org,
-        peterz@infradead.org, mingo@redhat.com, will.deacon@arm.com,
-        rjw@rjwysocki.net, len.brown@intel.com, rostedt@goodmis.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-pm@vger.kernel.org,
-        Lennart Glauer <mail@lennart-glauer.de>
-Date:   Wed, 22 May 2019 11:54:31 -0700
-In-Reply-To: <20190522183614.GD10003@amd>
-References: <20190521155430.14941-1-langspielplatte@black-mesa.xyz>
-         <20190522183614.GD10003@amd>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.30.1-1build1 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1729619AbfEVUS3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 22 May 2019 16:18:29 -0400
+Received: from mx.kolabnow.com ([95.128.36.41]:35148 "EHLO mx.kolabnow.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729003AbfEVUS3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 22 May 2019 16:18:29 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id 2CE96A30;
+        Wed, 22 May 2019 22:18:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-type:content-type:content-transfer-encoding:mime-version
+        :references:in-reply-to:message-id:date:date:subject:subject
+        :from:from:received:received:received; s=dkim20160331; t=
+        1558556305; x=1560370706; bh=nuiAT7a+WubQ1QBLbWqHmT5WyMcVembEwR6
+        mVvVMEiY=; b=Ug8tp6XKTpZa5LJXo7fm0ycgXuCPIDeLmjkirEb7bc3BHkVcv5j
+        DxAepKV6LWi/SZl6nec2N5/F3s+8uRgecJVQQzIwG8cueywEP/HnAnKFDOtHmAkc
+        vol3RzPQBr+o+9oONkj3ghVyuWNRhkRZg+5gaILM/JFII44Y83qtDYI70Z7Zb5wj
+        f/6xqoF0WhmidWnNA8cId8/2+YOqN2Lis0Qg7EQFp63vViF4/js2DcYM2IEJS2uJ
+        06efi7XWICVfjlwRADEEdt/pD+ZLNNVOr+deiKlDQTMhIPVxB8prz+xJ3KWpWezH
+        tmRxSxGHECEMwyM/qXrSL0MlR0Bp7QSd4ww0Ci9KggYLcT/BuPaVWS0NUI9Jul8r
+        i28OAj8+2FSa1/6qClljNA9eVDszn4hQGTOF5psjPhcBtNtS0DwC+Rlw5wcRlKpM
+        EyBhu58u11p7uz5bChSS2mdRSJO+rCPue18lgNamDUvISVJqHgKqXg1IcrX1wDXb
+        i8mnKOgnUt6hspj4L/5jpUWsYOIcQmLWs6EbL8lelrkjL5h0P8fffnoE7Zaf39oT
+        mtR7IymePL4/o7H7UOMWNETe2O9v5PJ2zdYkkUB5MnGsFNz7sykeS/kCcK4iQJgE
+        uQtp9ew3Dht6FGK5+66T9KSbMB7LdhbcGfTLGVMLL9IHmctLIAizL7F8=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 7BaCIysCNlh7; Wed, 22 May 2019 22:18:25 +0200 (CEST)
+Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id 3A02B34B;
+        Wed, 22 May 2019 22:18:25 +0200 (CEST)
+Received: from ext-subm003.mykolab.com (unknown [10.9.6.3])
+        by int-mx003.mykolab.com (Postfix) with ESMTPS id C22B13D16;
+        Wed, 22 May 2019 22:18:24 +0200 (CEST)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH 00/10] Fix broken documentation references at v5.2-rc1
+Date:   Wed, 22 May 2019 22:18:23 +0200
+Message-ID: <4613410.CTphFSq3dd@harkonnen>
+In-Reply-To: <20190521212600.39bc341c@coco.lan>
+References: <cover.1558362030.git.mchehab+samsung@kernel.org> <51951662.QppCrsbGrr@harkonnen> <20190521212600.39bc341c@coco.lan>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2019-05-22 at 20:36 +0200, Pavel Machek wrote:
-> On Tue 2019-05-21 17:54:30, Lukas Prause wrote:
-> > This patch corrects renamed or moved paths in comments.
+On Wednesday, May 22, 2019 2:26:00 AM CEST Mauro Carvalho Chehab wrote:
+> Hi Frederico,
+> 
+> Em Wed, 22 May 2019 00:54:48 +0200
+> 
+> Federico Vaga <federico.vaga@vaga.pv.it> escreveu:
+> > On Monday, May 20, 2019 4:47:29 PM CEST Mauro Carvalho Chehab wrote:
+> > > There are several broken Documentation/* references within the Kernel
+> > > tree. There are some reasons for several of them:
+> > > 
+> > > 1. The acpi and x86 documentation files were renamed, but the
+> > > 
+> > >    references weren't updated;
+> > > 
+> > > 2. The DT files have been converted to JSON format, causing them
+> > > 
+> > >    to be renamed;
+> > > 
+> > > 3. Translated files point to future translation work still pending merge
+> > > 
+> > >    or require some action from someone that it is fluent at the
+> > >    translated language;
 > > 
-> > Signed-off-by: Lukas Prause <langspielplatte@black-mesa.xyz>
-> > Signed-off-by: Lennart Glauer <mail@lennart-glauer.de>
+> > Hi Mauro
 > 
-> Acked-by: Pavel Machek <pavel@ucw.cz>
+> My main goal with this patchset is to get as close as possible to zero
+> warnings, as this helps me on rebasing a documentation patch series
+> I wrote with renames hundreds of file from .txt to .rst.
 > 
-> > diff --git a/kernel/power/power.h b/kernel/power/power.h
-> > index 9e58bdc8a562..5de8b0c7f657 100644
-> > --- a/kernel/power/power.h
-> > +++ b/kernel/power/power.h
-> > @@ -182,7 +182,7 @@ extern int swsusp_unmark(void);
-> >  #endif
-> >  
-> >  struct timeval;
-> > -/* kernel/power/swsusp.c */
-> > +/* kernel/power/hibernate.c */
-> >  extern void swsusp_show_speed(ktime_t, ktime_t, unsigned int, char *);
-> >  
-> >  #ifdef CONFIG_SUSPEND
+> In the case of (3), the scripts/documentation-file-ref-check was unable to
+> find some files pointed by Italian and Chinese translations. So, after
+> this series, it will keep pointing for broken links there.
+> 
+> > I am not sure to get what you mean in terms of actions but I think you are
+> > referring to the "empty" files I added in the Italian translations. I
+> > added
+> > those files to avoid broken links; the alternative would have been to not
+> > write those links or to point directly to the main document, but in both
+> > cases it easy to forget to update them later.
+> > I chose to have links to "empty" files so that the document does
+> > not need to be updated later.
+> > 
+> > If you are not referring to those files than I am not understanding, can
+> > you point to a clear example?
+> 
+> What I meant is that I can barely read Italian and have no glue on
+> Chinese. So, I can't really address those properly :-)
+> So, basically, it should be up to someone else fluent on such
+> languages to address those.
+> 
+> Btw, I understand why you pointed to some non-existing files:
+> translating the Kernel's documents takes a lot of time[1].
 
-I think all of these markings should be removed instead.
-Why are these useful?
-It seems many of these filenames in power.h aren't correct anyway.
+More than non-existing the file *should* be there, only that it says the 
+translation is pending. So the tool should find the file without complaining.
 
-For instance power.h has:
+I did not pay enough attention; I was not aware about the existence of that 
+tool. Now that I filled my ignorance with a bit of knowledge I will use to fix 
+those documents. Thank you
 
-   /* kernel/power/hibernate.c */
-   extern int swsusp_check(void);
-   extern void swsusp_free(void);
-   extern int swsusp_read(unsigned int *flags_p);
-   extern int swsusp_write(unsigned int flags);
-   extern void swsusp_close(fmode_t);
-   #ifdef CONFIG_SUSPEND
-   extern int swsusp_unmark(void);
-   #endif
+> 
+> [1] If I was doing a translation, I would probably have opted to keep
+> pointing to the English doc and have a script to point me links to
+> non-translated docs, but your way also works. The only drawback is that
+> the script will keep pinpointing to translations with broken links,
+> while the translation is not complete.
+> 
+> Thanks,
+> Mauro
 
-but:
 
-swsusp_check is in swap.c
-swsusp_free is in snapshot.c
-swsusp_read is in swap.c
-
-etc...
-
-Perhaps:
----
- kernel/power/power.h | 10 ----------
- 1 file changed, 10 deletions(-)
-
-diff --git a/kernel/power/power.h b/kernel/power/power.h
-index 9e58bdc8a562..52bcb72564e5 100644
---- a/kernel/power/power.h
-+++ b/kernel/power/power.h
-@@ -16,7 +16,6 @@ struct swsusp_info {
- } __aligned(PAGE_SIZE);
- 
- #ifdef CONFIG_HIBERNATION
--/* kernel/power/snapshot.c */
- extern void __init hibernate_reserved_size_init(void);
- extern void __init hibernate_image_size_init(void);
- 
-@@ -55,7 +54,6 @@ extern int hibernate_resume_nonboot_cpu_disable(void);
- 
- asmlinkage int swsusp_save(void);
- 
--/* kernel/power/hibernate.c */
- extern bool freezer_test_done;
- 
- extern int hibernation_snapshot(int platform_mode);
-@@ -63,7 +61,6 @@ extern int hibernation_restore(int platform_mode);
- extern int hibernation_platform_enter(void);
- 
- #ifdef CONFIG_STRICT_KERNEL_RWX
--/* kernel/power/snapshot.c */
- extern void enable_restore_image_protection(void);
- #else
- static inline void enable_restore_image_protection(void) {}
-@@ -171,7 +168,6 @@ extern int swsusp_swap_in_use(void);
- #define SF_NOCOMPRESS_MODE	2
- #define SF_CRC32_MODE	        4
- 
--/* kernel/power/hibernate.c */
- extern int swsusp_check(void);
- extern void swsusp_free(void);
- extern int swsusp_read(unsigned int *flags_p);
-@@ -182,11 +178,9 @@ extern int swsusp_unmark(void);
- #endif
- 
- struct timeval;
--/* kernel/power/swsusp.c */
- extern void swsusp_show_speed(ktime_t, ktime_t, unsigned int, char *);
- 
- #ifdef CONFIG_SUSPEND
--/* kernel/power/suspend.c */
- extern const char * const pm_labels[];
- extern const char *pm_states[];
- extern const char *mem_sleep_states[];
-@@ -202,7 +196,6 @@ static inline int suspend_devices_and_enter(suspend_state_t state)
- #endif /* !CONFIG_SUSPEND */
- 
- #ifdef CONFIG_PM_TEST_SUSPEND
--/* kernel/power/suspend_test.c */
- extern void suspend_test_start(void);
- extern void suspend_test_finish(const char *label);
- #else /* !CONFIG_PM_TEST_SUSPEND */
-@@ -211,7 +204,6 @@ static inline void suspend_test_finish(const char *label) {}
- #endif /* !CONFIG_PM_TEST_SUSPEND */
- 
- #ifdef CONFIG_PM_SLEEP
--/* kernel/power/main.c */
- extern int __pm_notifier_call_chain(unsigned long val, int nr_to_call,
- 				    int *nr_calls);
- extern int pm_notifier_call_chain(unsigned long val);
-@@ -289,7 +281,6 @@ static inline void suspend_thaw_processes(void)
- 
- #ifdef CONFIG_PM_AUTOSLEEP
- 
--/* kernel/power/autosleep.c */
- extern int pm_autosleep_init(void);
- extern int pm_autosleep_lock(void);
- extern void pm_autosleep_unlock(void);
-@@ -307,7 +298,6 @@ static inline suspend_state_t pm_autosleep_state(void) { return PM_SUSPEND_ON; }
- 
- #ifdef CONFIG_PM_WAKELOCKS
- 
--/* kernel/power/wakelock.c */
- extern ssize_t pm_show_wakelocks(char *buf, bool show_active);
- extern int pm_wake_lock(const char *buf);
- extern int pm_wake_unlock(const char *buf);
 
 
