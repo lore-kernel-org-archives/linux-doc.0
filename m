@@ -3,135 +3,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D065F7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 May 2019 16:40:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 31C747D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 May 2019 17:28:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729862AbfEVQkO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 22 May 2019 12:40:14 -0400
-Received: from casper.infradead.org ([85.118.1.10]:57906 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729572AbfEVQkO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 May 2019 12:40:14 -0400
+        id S1729003AbfEVR26 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 22 May 2019 13:28:58 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:37448 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727499AbfEVR26 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 May 2019 13:28:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=e/DgP3y4Vc92ynbSaiYOp1/FU9ajFdFjIAj44W+6Bo0=; b=F5Snobjd0WCvUkrngZzq0c1ClG
-        hUcbzU6MedzB8kTG1UCBEiEZqHpA1LWwthSqh5OSJpt8eZoLGRmDb9p8OW5ixQl6MK5g1qKs9CmgC
-        9NH1scRSkihptXriPKvmMV26AwiuuSWz7ZtiAhe8pOVNDnD7TH8iL1Cow54A3VpO0bxkEcQrbcPL0
-        Pxaq/NaTWMfaxfLrOPR9v/nTRcVSwDCmvkqPztvDt/EyKIXqcDlruf9uP9Rzc4XlluKWJXJi6X+KW
-        pIAGMAV3gDhqD8CU7P82rq6Z1XQ67ZqnZ3j2qt9mVanVV6SqXUMHzl+nx52KxAM2t/7PzN6ANU9sF
-        UpPAzvzQ==;
-Received: from [179.182.168.126] (helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hTUHh-0003tM-SN; Wed, 22 May 2019 16:40:10 +0000
-Date:   Wed, 22 May 2019 13:40:05 -0300
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=UWF+0O1DMn3fjw5n3dlmwztB206X0RTJzr7XaVJzEJo=; b=l1k9Had6FinYJp0UHkOpnCuns
+        HcJfgtopDciAmbdkSgRDXaaamrDtj89nWniHJ1Zx0OkWJa8zG/gxTI5UWHCVPAJxs278+eeu2p4XQ
+        cFhERJHwtWS9xKQBy727xP6S9/6zcieOHlUnuiwtvGoAO1sM0ZA60mbL8tsgmqPuVljq5TL6lqnks
+        gbySJc3Yj8QaCZAaOLSQFMQ2nNie7nmebR1YxkKFsXmrDQ+mNiDdmA/jjmno5jpJIxIWia5qbrhHU
+        MBH9MhqepYOrVczUOxP4wj7VEoFudCuCCj6eKtlqJh29whiE+JxDCU+0rcJkw6r+XxDQmlA6llqN9
+        oA1xrQE4Q==;
+Received: from [179.182.168.126] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hTV2s-0002IF-Fa; Wed, 22 May 2019 17:28:54 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hTV2o-0008Of-3X; Wed, 22 May 2019 13:28:50 -0400
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Markus Heiser <markus.heiser@darmarit.de>,
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Markus Heiser <markus.heiser@darmarit.de>,
         Jani Nikula <jani.nikula@linux.intel.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC 0/2] docs: Deal with some Sphinx deprecation
- warnings
-Message-ID: <20190522134005.74d63bc3@coco.lan>
-In-Reply-To: <20190522130408.5d8258de@coco.lan>
-References: <20190521211714.1395-1-corbet@lwn.net>
-        <87d0kb7xf6.fsf@intel.com>
-        <20190522071909.050bb227@coco.lan>
-        <39b12927-9bf9-a304-4108-8f471a204f89@darmarit.de>
-        <20190522094559.5ed8021e@lwn.net>
-        <20190522130408.5d8258de@coco.lan>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Subject: [PATCH] scripts/sphinx-pre-install: make it handle Sphinx versions
+Date:   Wed, 22 May 2019 13:28:34 -0400
+Message-Id: <a741574b7081c162d200bdead35302ccac6fd116.1558545958.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 22 May 2019 13:04:08 -0300
-Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
-
-> Em Wed, 22 May 2019 09:45:59 -0600
-> Jonathan Corbet <corbet@lwn.net> escreveu:
-> 
-> > On Wed, 22 May 2019 15:25:36 +0200
-> > Markus Heiser <markus.heiser@darmarit.de> wrote:
-> >   
-> > > Lets use 1.7 :
-> > > 
-> > > - no need for Use_SSI wrapper
-> > > - new log should work with 1.7 [1] --> no need for kernellog.py and
-> > >    additional imports, instead include on top of python modules ::
-> > > 
-> > >      from sphinx.util import logging
-> > >      logger = logging.getLogger('kerneldoc')    
-> > 
-> > I think we're going to have to drag things forward at some point in the
-> > not-too-distant future, but I think I'd rather not do that quite yet.  The
-> > cost of supporting older sphinx for a few releases while we warn people is
-> > not all that high.  So I think we should:
-> > 
-> >  - Put in (a future version of) my hacks for now, plus whatever else might
-> >    be needed to make 2.0 work right.
-> > 
-> >  - Fix the fallout with regard to out-of-toctree .rst files so that we can
-> >    actually build again with current sphinx.
-> > 
-> >  - Update Documentation/sphinx/requirements.txt to ask for something a wee
-> >    bit more recent than 1.4.9.  
-> 
-> You should remember to also update conf.py (with currently points to 1.3):
-> 
-> 	# If your documentation needs a minimal Sphinx version, state it here.
-> 	needs_sphinx = '1.3'
-> 
-> Also, if you touch there, you should also touch:
-> 
-> 	./scripts/sphinx-pre-install
-> 
-> The change there won't be as trivial as just changing this line:
-> 
-> 	$virtenv_dir = "sphinx_1.4";
-> 
-> as the script should now run sphinx-build --version, in order to check
-> if the version is lower than the new minimal version. It probably makes
-> sense to make it grep the version from needs_sphinx at conf.py.
-> 
-> >  - Add a warning when building with an older version that (say) 1.7 will
-> >    be required as of (say) 5.5.  
-> 
-> It probably makes sense to add such check at the pre-install script,
-> and add a:
-> 
-> 	SPHINXOPTS="-jauto"
-> 
-> somewhere if version is 1.7 or upper.
-> 
-
-I'm meaning something like the enclosed patch.
-
-(PS.: I'm still working at the patch)
-
-
-
-Thanks,
-Mauro
-
-[RFC PATCH] scripts/sphinx-pre-install: make it handle Sphinx versions
-
 As we want to switch to a newer Sphinx version in the future,
-add some version detected logic.
+add some version detected logic, checking if the current
+version meets the requirement and suggesting upgrade it the
+version is supported but too old.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+
+ scripts/sphinx-pre-install | 81 ++++++++++++++++++++++++++++++++++----
+ 1 file changed, 74 insertions(+), 7 deletions(-)
 
 diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index f6a5c0bae31e..8835aede4c61 100755
+index f6a5c0bae31e..e667db230d0a 100755
 --- a/scripts/sphinx-pre-install
 +++ b/scripts/sphinx-pre-install
 @@ -13,7 +13,7 @@ use strict;
@@ -143,24 +73,51 @@ index f6a5c0bae31e..8835aede4c61 100755
  my $requirement_file = "Documentation/sphinx/requirements.txt";
  
  #
-@@ -27,6 +27,10 @@ my $optional = 0;
+@@ -26,7 +26,9 @@ my $need = 0;
+ my $optional = 0;
  my $need_symlink = 0;
  my $need_sphinx = 0;
++my $rec_sphinx_upgrade = 0;
  my $install = "";
-+my $min_version;
-+my $rec_version;
-+my $cur_version;
 +my $virtenv_dir = "sphinx_";
  
  #
  # Command line arguments
-@@ -76,6 +80,52 @@ my %texlive = (
- # Subroutines that checks if a feature exists
- #
+@@ -201,13 +203,15 @@ sub check_missing_tex($)
+ 	}
+ }
  
-+sub handle_sphinx_version()
+-sub check_sphinx()
++sub get_sphinx_fname()
+ {
+-	return if findprog("sphinx-build");
++	my $fname = "sphinx-build";
++	return $fname if findprog($fname);
+ 
+-	if (findprog("sphinx-build-3")) {
++	$fname = "sphinx-build-3";
++	if (findprog($fname)) {
+ 		$need_symlink = 1;
+-		return;
++		return $fname;
+ 	}
+ 
+ 	if ($virtualenv) {
+@@ -219,6 +223,68 @@ sub check_sphinx()
+ 	} else {
+ 		add_package("python-sphinx", 0);
+ 	}
++
++	return "";
++}
++
++sub check_sphinx()
 +{
-+	open IN, $conf;
++	my $min_version;
++	my $rec_version;
++	my $cur_version;
++
++	open IN, $conf or die "Can't open $conf";
 +	while (<IN>) {
 +		if (m/^\s*needs_sphinx\s*=\s*[\'\"]([\d\.]+)[\'\"]/) {
 +			$min_version=$1;
@@ -171,7 +128,7 @@ index f6a5c0bae31e..8835aede4c61 100755
 +
 +	die "Can't get needs_sphinx version from $conf" if (!$min_version);
 +
-+	open IN, $requirement_file;
++	open IN, $requirement_file or die "Can't open $requirement_file";
 +	while (<IN>) {
 +		if (m/^\s*Sphinx\s*==\s*([\d\.]+)$/) {
 +			$rec_version=$1;
@@ -180,7 +137,12 @@ index f6a5c0bae31e..8835aede4c61 100755
 +	}
 +	close IN;
 +
-+	open IN, "sphinx-build --version 2>&1 |";
++	die "Can't get recommended sphinx version from $requirement_file" if (!$min_version);
++
++	my $sphinx = get_sphinx_fname();
++	return if ($sphinx eq "");
++
++	open IN, "$sphinx --version 2>&1 |" or die "$sphinx returned an error";
 +	while (<IN>) {
 +		if (m/^\s*sphinx-build\s+([\d\.]+)$/) {
 +			$cur_version=$1;
@@ -191,30 +153,45 @@ index f6a5c0bae31e..8835aede4c61 100755
 +
 +	$virtenv_dir .= $rec_version;
 +
-+	# Sphinx is not installed
-+	return if (!$cur_version);
++	die "$sphinx didn't return its version" if (!$cur_version);
++
++	printf "Sphinx version %s (minimal: %s, recommended >= %s)\n",
++		$cur_version, $min_version, $rec_version;
 +
 +	if ($cur_version lt $min_version) {
-+		print "Sphinx version older than $min_version! We recommend at least $rec_version";
-+		exit -1;
++		print "Warning: Sphinx version should be >= $min_version\n\n";
++		$need_sphinx = 1;
++		return;
 +	}
 +
 +	if ($cur_version lt $rec_version) {
-+		print "Warning: we recommend at least Sphinx version $rec_version";
++		print "Warning: It is recommended at least Sphinx version $rec_version.\n";
++		print "         To upgrade, use:\n\n";
++		$rec_sphinx_upgrade = 1;
 +	}
-+}
-+
- sub check_missing(%)
- {
- 	my %map = %{$_[0]};
-@@ -587,6 +637,8 @@ while (@ARGV) {
- 	}
  }
  
-+handle_sphinx_version();
-+
  #
- # Determine the system type. There's no standard unique way that would
- # work with all distros with a minimal package install. So, several
+@@ -540,7 +606,7 @@ sub check_needs()
+ 		printf "\tsudo ln -sf %s /usr/bin/sphinx-build\n\n",
+ 		       which("sphinx-build-3");
+ 	}
+-	if ($need_sphinx) {
++	if ($need_sphinx || $rec_sphinx_upgrade) {
+ 		my $activate = "$virtenv_dir/bin/activate";
+ 		if (-e "$ENV{'PWD'}/$activate") {
+ 			printf "\nNeed to activate virtualenv with:\n";
+@@ -554,7 +620,8 @@ sub check_needs()
+ 			printf "\t$virtualenv $virtenv_dir\n";
+ 			printf "\t. $activate\n";
+ 			printf "\tpip install -r $requirement_file\n";
+-			$need++;
++
++			$need++ if (!$rec_sphinx_upgrade);
+ 		}
+ 	}
+ 	printf "\n";
+-- 
+2.21.0
 
 
