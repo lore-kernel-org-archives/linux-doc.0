@@ -5,197 +5,236 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B82507D910
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 May 2019 21:43:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 87C4C7D910
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 May 2019 21:44:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730223AbfEVVnx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 22 May 2019 17:43:53 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:50412 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729752AbfEVVnx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 May 2019 17:43:53 -0400
+        id S1729933AbfEVVo6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 22 May 2019 17:44:58 -0400
+Received: from casper.infradead.org ([85.118.1.10]:59638 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730466AbfEVVo5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 May 2019 17:44:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=5jh3xIWNqAQlNza6UmkdEpJiH7q4tOt6SYgL3/ss/8A=; b=k+H5OJ3yiYrXCf/4QW+qKIPzT
-        +Sdvm2jkSh1Sc/MgQvLOfTc3T6oI+GFbh8j8p2ZKLUOuGNxT3YtUr5PQwtgYWcRyNvWqRrs7uG/rK
-        Wbm6E8zealGJ8PSPk5M5jMWvYBYvXGd9qPUdW08LD++elGTw+oo/Dyc/lFwrBYZkQEQq1rkhXIZSZ
-        19a8yxu68ytiNaqhycpa1W/4dI56cLG8wUcKdOK6YyIr9AVzVXwOV+ClLoZINQeNCO8Dd88HuvICm
-        NJq7eKsPnJ3mg+SW74sshs1vAkQ/7SszyJG7RPeA0sVU+dDr3gYsHxvpVdHY+D1U70cfNyD7nmpgn
-        JTXp7jziA==;
-Received: from [179.182.168.126] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hTZ1c-0004uZ-Ei; Wed, 22 May 2019 21:43:52 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hTZ1X-0001hw-G1; Wed, 22 May 2019 18:43:47 -0300
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=3tami7/KoiX5qJprIeEIj2/gWuMiyHEFU3sYb22MUcc=; b=OX/ljvg1ykqccZhScnokDknYkW
+        bn7Rx9XCsCGMkLA94pQ1QykRj4NQSQjBtcZik/FA6KmqzbM2C++msFtBM9eKsZvUrqWzoEdi70Knz
+        b5kunNF4ZytZT16YmB2x9kDYwWqZkeroEAFkaxhcY4ON7x9uM10XYq2hdqH2mowNQaFrgCCJ8KdSo
+        w0iim2RdntoZqCnT7+rG1ACGBP1GxeZXt1jEEsHFdKFmveSEdwC3CgC3b+5Od7g88LYb8tcg+Gp0q
+        yk7YMdMzdQXI55ZZXLFYouREnQXppKOiGgftEAGV5b2v7YjC1noHtlLPQbJ3S0nNwpc56ckG47gKL
+        /txGD19A==;
+Received: from [179.182.168.126] (helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hTZ2c-00072M-KP; Wed, 22 May 2019 21:44:55 +0000
+Date:   Wed, 22 May 2019 18:44:48 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2] scripts/sphinx-pre-install: make it handle Sphinx versions
-Date:   Wed, 22 May 2019 18:43:46 -0300
-Message-Id: <ec43ec26541249eb7fd5b1fb9795c9b29e673d0a.1558561422.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Markus Heiser <markus.heiser@darmarit.de>,
+        Oleksandr Natalenko <oleksandr@redhat.com>
+Subject: Re: [PATCH 8/8] scripts/sphinx-pre-install: make it handle Sphinx
+ versions
+Message-ID: <20190522184448.57dc6e7a@coco.lan>
+In-Reply-To: <20190522182237.057d2a99@coco.lan>
+References: <20190522205034.25724-1-corbet@lwn.net>
+        <20190522205034.25724-9-corbet@lwn.net>
+        <20190522182237.057d2a99@coco.lan>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As we want to switch to a newer Sphinx version in the future,
-add some version detected logic, checking if the current
-version meets the requirement and suggesting upgrade it the
-version is supported but too old.
+Em Wed, 22 May 2019 18:22:37 -0300
+Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- scripts/sphinx-pre-install | 86 ++++++++++++++++++++++++++++++++++----
- 1 file changed, 79 insertions(+), 7 deletions(-)
+> Em Wed, 22 May 2019 14:50:34 -0600
+> Jonathan Corbet <corbet@lwn.net> escreveu:
+> 
+> > From: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> > 
+> > As we want to switch to a newer Sphinx version in the future,
+> > add some version detected logic, checking if the current
+> > version meets the requirement and suggesting upgrade it the
+> > version is supported but too old.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> > Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> > ---
+> >  scripts/sphinx-pre-install | 81 ++++++++++++++++++++++++++++++++++----
+> >  1 file changed, 74 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+> > index f6a5c0bae31e..e667db230d0a 100755
+> > --- a/scripts/sphinx-pre-install
+> > +++ b/scripts/sphinx-pre-install
+> > @@ -13,7 +13,7 @@ use strict;
+> >  # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> >  # GNU General Public License for more details.
+> >  
+> > -my $virtenv_dir = "sphinx_1.4";
+> > +my $conf = "Documentation/conf.py";
+> >  my $requirement_file = "Documentation/sphinx/requirements.txt";
+> >  
+> >  #
+> > @@ -26,7 +26,9 @@ my $need = 0;
+> >  my $optional = 0;
+> >  my $need_symlink = 0;
+> >  my $need_sphinx = 0;
+> > +my $rec_sphinx_upgrade = 0;
+> >  my $install = "";
+> > +my $virtenv_dir = "sphinx_";
+> >  
+> >  #
+> >  # Command line arguments
+> > @@ -201,13 +203,15 @@ sub check_missing_tex($)
+> >  	}
+> >  }
+> >  
+> > -sub check_sphinx()
+> > +sub get_sphinx_fname()
+> >  {
+> > -	return if findprog("sphinx-build");
+> > +	my $fname = "sphinx-build";
+> > +	return $fname if findprog($fname);
+> >  
+> > -	if (findprog("sphinx-build-3")) {
+> > +	$fname = "sphinx-build-3";
+> > +	if (findprog($fname)) {
+> >  		$need_symlink = 1;
+> > -		return;
+> > +		return $fname;
+> >  	}
+> >  
+> >  	if ($virtualenv) {
+> > @@ -219,6 +223,68 @@ sub check_sphinx()
+> >  	} else {
+> >  		add_package("python-sphinx", 0);
+> >  	}
+> > +
+> > +	return "";
+> > +}
+> > +
+> > +sub check_sphinx()
+> > +{
+> > +	my $min_version;
+> > +	my $rec_version;
+> > +	my $cur_version;
+> > +
+> > +	open IN, $conf or die "Can't open $conf";
+> > +	while (<IN>) {
+> > +		if (m/^\s*needs_sphinx\s*=\s*[\'\"]([\d\.]+)[\'\"]/) {
+> > +			$min_version=$1;
+> > +			last;
+> > +		}
+> > +	}
+> > +	close IN;
+> > +
+> > +	die "Can't get needs_sphinx version from $conf" if (!$min_version);
+> > +
+> > +	open IN, $requirement_file or die "Can't open $requirement_file";
+> > +	while (<IN>) {
+> > +		if (m/^\s*Sphinx\s*==\s*([\d\.]+)$/) {
+> > +			$rec_version=$1;
+> > +			last;
+> > +		}
+> > +	}
+> > +	close IN;
+> > +
+> > +	die "Can't get recommended sphinx version from $requirement_file" if (!$min_version);
+> > +
+> > +	my $sphinx = get_sphinx_fname();
+> > +	return if ($sphinx eq "");
+> > +
+> > +	open IN, "$sphinx --version 2>&1 |" or die "$sphinx returned an error";
+> > +	while (<IN>) {
+> > +		if (m/^\s*sphinx-build\s+([\d\.]+)$/) {
+> > +			$cur_version=$1;
+> > +			last;
+> > +		}
+> > +	}
+> > +	close IN;
+> > +
+> > +	$virtenv_dir .= $rec_version;
+> > +
+> > +	die "$sphinx didn't return its version" if (!$cur_version);
+> > +
+> > +	printf "Sphinx version %s (minimal: %s, recommended >= %s)\n",
+> > +		$cur_version, $min_version, $rec_version;
+> > +
+> > +	if ($cur_version lt $min_version) {
+> > +		print "Warning: Sphinx version should be >= $min_version\n\n";
+> > +		$need_sphinx = 1;
+> > +		return;
+> > +	}
+> > +
+> > +	if ($cur_version lt $rec_version) {
+> > +		print "Warning: It is recommended at least Sphinx version $rec_version.\n";
+> > +		print "         To upgrade, use:\n\n";
+> > +		$rec_sphinx_upgrade = 1;
+> > +	}
+> >  }
+> >  
+> >  #
+> > @@ -540,7 +606,7 @@ sub check_needs()
+> >  		printf "\tsudo ln -sf %s /usr/bin/sphinx-build\n\n",
+> >  		       which("sphinx-build-3");
+> >  	}
+> > -	if ($need_sphinx) {
+> > +	if ($need_sphinx || $rec_sphinx_upgrade) {
+> >  		my $activate = "$virtenv_dir/bin/activate";
+> >  		if (-e "$ENV{'PWD'}/$activate") {
+> >  			printf "\nNeed to activate virtualenv with:\n";
+> > @@ -554,7 +620,8 @@ sub check_needs()
+> >  			printf "\t$virtualenv $virtenv_dir\n";
+> >  			printf "\t. $activate\n";
+> >  			printf "\tpip install -r $requirement_file\n";
+> > -			$need++;
+> > +
+> > +			$need++ if (!$rec_sphinx_upgrade);
+> >  		}
+> >  	}
+> >  	printf "\n";  
+> 
+> Please fold this to the patch:
+> 
+> diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+> index e667db230d0a..45427f4289ed 100755
+> --- a/scripts/sphinx-pre-install
+> +++ b/scripts/sphinx-pre-install
+> @@ -255,6 +255,8 @@ sub check_sphinx()
+>  
+>  	die "Can't get recommended sphinx version from $requirement_file" if (!$min_version);
+>  
+> +	$virtenv_dir .= $rec_version;
+> +
+>  	my $sphinx = get_sphinx_fname();
+>  	return if ($sphinx eq "");
+>  
+> @@ -267,8 +269,6 @@ sub check_sphinx()
+>  	}
+>  	close IN;
+>  
+> -	$virtenv_dir .= $rec_version;
+> -
+>  	die "$sphinx didn't return its version" if (!$cur_version);
+>  
+>  	printf "Sphinx version %s (minimal: %s, recommended >= %s)\n",
+> 
+> 
+> Thanks,
+> Mauro
 
-diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index f6a5c0bae31e..8c2d1bcf2e02 100755
---- a/scripts/sphinx-pre-install
-+++ b/scripts/sphinx-pre-install
-@@ -13,7 +13,7 @@ use strict;
- # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- # GNU General Public License for more details.
- 
--my $virtenv_dir = "sphinx_1.4";
-+my $conf = "Documentation/conf.py";
- my $requirement_file = "Documentation/sphinx/requirements.txt";
- 
- #
-@@ -26,7 +26,9 @@ my $need = 0;
- my $optional = 0;
- my $need_symlink = 0;
- my $need_sphinx = 0;
-+my $rec_sphinx_upgrade = 0;
- my $install = "";
-+my $virtenv_dir = "sphinx_";
- 
- #
- # Command line arguments
-@@ -201,13 +203,15 @@ sub check_missing_tex($)
- 	}
- }
- 
--sub check_sphinx()
-+sub get_sphinx_fname()
- {
--	return if findprog("sphinx-build");
-+	my $fname = "sphinx-build";
-+	return $fname if findprog($fname);
- 
--	if (findprog("sphinx-build-3")) {
-+	$fname = "sphinx-build-3";
-+	if (findprog($fname)) {
- 		$need_symlink = 1;
--		return;
-+		return $fname;
- 	}
- 
- 	if ($virtualenv) {
-@@ -219,6 +223,73 @@ sub check_sphinx()
- 	} else {
- 		add_package("python-sphinx", 0);
- 	}
-+
-+	return "";
-+}
-+
-+sub check_sphinx()
-+{
-+	my $min_version;
-+	my $rec_version;
-+	my $cur_version;
-+
-+	open IN, $conf or die "Can't open $conf";
-+	while (<IN>) {
-+		if (m/^\s*needs_sphinx\s*=\s*[\'\"]([\d\.]+)[\'\"]/) {
-+			$min_version=$1;
-+			last;
-+		}
-+	}
-+	close IN;
-+
-+	die "Can't get needs_sphinx version from $conf" if (!$min_version);
-+
-+	open IN, $requirement_file or die "Can't open $requirement_file";
-+	while (<IN>) {
-+		if (m/^\s*Sphinx\s*==\s*([\d\.]+)$/) {
-+			$rec_version=$1;
-+			last;
-+		}
-+	}
-+	close IN;
-+
-+	die "Can't get recommended sphinx version from $requirement_file" if (!$min_version);
-+
-+	$virtenv_dir .= $rec_version;
-+
-+	my $sphinx = get_sphinx_fname();
-+	return if ($sphinx eq "");
-+
-+	open IN, "$sphinx --version 2>&1 |" or die "$sphinx returned an error";
-+	while (<IN>) {
-+		if (m/^\s*sphinx-build\s+([\d\.]+)$/) {
-+			$cur_version=$1;
-+			last;
-+		}
-+		# Sphinx 1.2.x uses a different format
-+		if (m/^\s*Sphinx.*\s+([\d\.]+)$/) {
-+			$cur_version=$1;
-+			last;
-+		}
-+	}
-+	close IN;
-+
-+	die "$sphinx didn't return its version" if (!$cur_version);
-+
-+	printf "Sphinx version %s (minimal: %s, recommended >= %s)\n",
-+		$cur_version, $min_version, $rec_version;
-+
-+	if ($cur_version lt $min_version) {
-+		print "Warning: Sphinx version should be >= $min_version\n\n";
-+		$need_sphinx = 1;
-+		return;
-+	}
-+
-+	if ($cur_version lt $rec_version) {
-+		print "Warning: It is recommended at least Sphinx version $rec_version.\n";
-+		print "         To upgrade, use:\n\n";
-+		$rec_sphinx_upgrade = 1;
-+	}
- }
- 
- #
-@@ -540,7 +611,7 @@ sub check_needs()
- 		printf "\tsudo ln -sf %s /usr/bin/sphinx-build\n\n",
- 		       which("sphinx-build-3");
- 	}
--	if ($need_sphinx) {
-+	if ($need_sphinx || $rec_sphinx_upgrade) {
- 		my $activate = "$virtenv_dir/bin/activate";
- 		if (-e "$ENV{'PWD'}/$activate") {
- 			printf "\nNeed to activate virtualenv with:\n";
-@@ -554,7 +625,8 @@ sub check_needs()
- 			printf "\t$virtualenv $virtenv_dir\n";
- 			printf "\t. $activate\n";
- 			printf "\tpip install -r $requirement_file\n";
--			$need++;
-+
-+			$need++ if (!$rec_sphinx_upgrade);
- 		}
- 	}
- 	printf "\n";
--- 
-2.21.0
+Found another issue when trying to run it with Sphinx 1.2. Just sent
+a version 2 with this fix, plus the version detection for very old
+Sphinx versions.
 
+Thanks,
+Mauro
