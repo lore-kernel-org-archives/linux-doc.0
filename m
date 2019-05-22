@@ -1,266 +1,230 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A19CB7D91A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 May 2019 20:51:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 28F497D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 May 2019 21:22:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729862AbfEVUvZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 22 May 2019 16:51:25 -0400
-Received: from ms.lwn.net ([45.79.88.28]:49324 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730150AbfEVUu5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 22 May 2019 16:50:57 -0400
-Received: from meer.lwn.net (localhost [127.0.0.1])
-        by ms.lwn.net (Postfix) with ESMTPA id 6B6456EC;
-        Wed, 22 May 2019 20:50:56 +0000 (UTC)
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
+        id S1729720AbfEVVWr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 22 May 2019 17:22:47 -0400
+Received: from casper.infradead.org ([85.118.1.10]:58264 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729483AbfEVVWr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 May 2019 17:22:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=UIpNpeNP8nC6MS6WTkVwKLLD+RER6JawGeArflO+TEA=; b=KjnWOaXbiU1vqTNBUDWhZ742Vs
+        lD/wy2x26to+YxMaOa7fgdm5JKMmAUP4EG9WI+2wfgERhA0bodHp4JYHyMAe3SGIzPQ1ELnnMxqlb
+        ae+d//cpoeDXONhEIHL25vC8v81Gs4KifKqQNgDL172BKMLbir0BD1FTIkGcZvIJpmsA9tOvNvlQs
+        2Em+h/Scuu3IdFl4K3IkpiL5OgfOUF/XQiLrCeXIlnXYdliVJ0NZ2Ahgel7CU7UVvI5xbz3PnlgkM
+        aA1q/+YaEPQCf1whrWMTZb6iSvNpesslMi3ax94J5znUU5CIn5EDo/SdR5HGU9dvtNSJpEXxlq6NB
+        Cxusm6kg==;
+Received: from [179.182.168.126] (helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hTYhA-0006SI-NY; Wed, 22 May 2019 21:22:45 +0000
+Date:   Wed, 22 May 2019 18:22:37 -0300
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Jani Nikula <jani.nikula@linux.intel.com>,
         Markus Heiser <markus.heiser@darmarit.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Oleksandr Natalenko <oleksandr@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 1/8] doc: Cope with Sphinx logging deprecations
-Date:   Wed, 22 May 2019 14:50:27 -0600
-Message-Id: <20190522205034.25724-2-corbet@lwn.net>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190522205034.25724-1-corbet@lwn.net>
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Subject: Re: [PATCH 8/8] scripts/sphinx-pre-install: make it handle Sphinx
+ versions
+Message-ID: <20190522182237.057d2a99@coco.lan>
+In-Reply-To: <20190522205034.25724-9-corbet@lwn.net>
 References: <20190522205034.25724-1-corbet@lwn.net>
+        <20190522205034.25724-9-corbet@lwn.net>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Recent versions of sphinx will emit messages like:
+Em Wed, 22 May 2019 14:50:34 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-  /stuff/k/git/kernel/Documentation/sphinx/kerneldoc.py:103:
-     RemovedInSphinx20Warning: app.warning() is now deprecated.
-     Use sphinx.util.logging instead.
+> From: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> 
+> As we want to switch to a newer Sphinx version in the future,
+> add some version detected logic, checking if the current
+> version meets the requirement and suggesting upgrade it the
+> version is supported but too old.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> ---
+>  scripts/sphinx-pre-install | 81 ++++++++++++++++++++++++++++++++++----
+>  1 file changed, 74 insertions(+), 7 deletions(-)
+> 
+> diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+> index f6a5c0bae31e..e667db230d0a 100755
+> --- a/scripts/sphinx-pre-install
+> +++ b/scripts/sphinx-pre-install
+> @@ -13,7 +13,7 @@ use strict;
+>  # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+>  # GNU General Public License for more details.
+>  
+> -my $virtenv_dir = "sphinx_1.4";
+> +my $conf = "Documentation/conf.py";
+>  my $requirement_file = "Documentation/sphinx/requirements.txt";
+>  
+>  #
+> @@ -26,7 +26,9 @@ my $need = 0;
+>  my $optional = 0;
+>  my $need_symlink = 0;
+>  my $need_sphinx = 0;
+> +my $rec_sphinx_upgrade = 0;
+>  my $install = "";
+> +my $virtenv_dir = "sphinx_";
+>  
+>  #
+>  # Command line arguments
+> @@ -201,13 +203,15 @@ sub check_missing_tex($)
+>  	}
+>  }
+>  
+> -sub check_sphinx()
+> +sub get_sphinx_fname()
+>  {
+> -	return if findprog("sphinx-build");
+> +	my $fname = "sphinx-build";
+> +	return $fname if findprog($fname);
+>  
+> -	if (findprog("sphinx-build-3")) {
+> +	$fname = "sphinx-build-3";
+> +	if (findprog($fname)) {
+>  		$need_symlink = 1;
+> -		return;
+> +		return $fname;
+>  	}
+>  
+>  	if ($virtualenv) {
+> @@ -219,6 +223,68 @@ sub check_sphinx()
+>  	} else {
+>  		add_package("python-sphinx", 0);
+>  	}
+> +
+> +	return "";
+> +}
+> +
+> +sub check_sphinx()
+> +{
+> +	my $min_version;
+> +	my $rec_version;
+> +	my $cur_version;
+> +
+> +	open IN, $conf or die "Can't open $conf";
+> +	while (<IN>) {
+> +		if (m/^\s*needs_sphinx\s*=\s*[\'\"]([\d\.]+)[\'\"]/) {
+> +			$min_version=$1;
+> +			last;
+> +		}
+> +	}
+> +	close IN;
+> +
+> +	die "Can't get needs_sphinx version from $conf" if (!$min_version);
+> +
+> +	open IN, $requirement_file or die "Can't open $requirement_file";
+> +	while (<IN>) {
+> +		if (m/^\s*Sphinx\s*==\s*([\d\.]+)$/) {
+> +			$rec_version=$1;
+> +			last;
+> +		}
+> +	}
+> +	close IN;
+> +
+> +	die "Can't get recommended sphinx version from $requirement_file" if (!$min_version);
+> +
+> +	my $sphinx = get_sphinx_fname();
+> +	return if ($sphinx eq "");
+> +
+> +	open IN, "$sphinx --version 2>&1 |" or die "$sphinx returned an error";
+> +	while (<IN>) {
+> +		if (m/^\s*sphinx-build\s+([\d\.]+)$/) {
+> +			$cur_version=$1;
+> +			last;
+> +		}
+> +	}
+> +	close IN;
+> +
+> +	$virtenv_dir .= $rec_version;
+> +
+> +	die "$sphinx didn't return its version" if (!$cur_version);
+> +
+> +	printf "Sphinx version %s (minimal: %s, recommended >= %s)\n",
+> +		$cur_version, $min_version, $rec_version;
+> +
+> +	if ($cur_version lt $min_version) {
+> +		print "Warning: Sphinx version should be >= $min_version\n\n";
+> +		$need_sphinx = 1;
+> +		return;
+> +	}
+> +
+> +	if ($cur_version lt $rec_version) {
+> +		print "Warning: It is recommended at least Sphinx version $rec_version.\n";
+> +		print "         To upgrade, use:\n\n";
+> +		$rec_sphinx_upgrade = 1;
+> +	}
+>  }
+>  
+>  #
+> @@ -540,7 +606,7 @@ sub check_needs()
+>  		printf "\tsudo ln -sf %s /usr/bin/sphinx-build\n\n",
+>  		       which("sphinx-build-3");
+>  	}
+> -	if ($need_sphinx) {
+> +	if ($need_sphinx || $rec_sphinx_upgrade) {
+>  		my $activate = "$virtenv_dir/bin/activate";
+>  		if (-e "$ENV{'PWD'}/$activate") {
+>  			printf "\nNeed to activate virtualenv with:\n";
+> @@ -554,7 +620,8 @@ sub check_needs()
+>  			printf "\t$virtualenv $virtenv_dir\n";
+>  			printf "\t. $activate\n";
+>  			printf "\tpip install -r $requirement_file\n";
+> -			$need++;
+> +
+> +			$need++ if (!$rec_sphinx_upgrade);
+>  		}
+>  	}
+>  	printf "\n";
 
-Switch to sphinx.util.logging to make this unsightly message go away.
-Alas, that interface was only added in version 1.6, so we have to add a
-version check to keep things working with older sphinxes.
+Please fold this to the patch:
 
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
----
- Documentation/sphinx/kerneldoc.py | 12 ++++++----
- Documentation/sphinx/kernellog.py | 28 ++++++++++++++++++++++
- Documentation/sphinx/kfigure.py   | 40 ++++++++++++++++++-------------
- 3 files changed, 59 insertions(+), 21 deletions(-)
- create mode 100644 Documentation/sphinx/kernellog.py
+diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+index e667db230d0a..45427f4289ed 100755
+--- a/scripts/sphinx-pre-install
++++ b/scripts/sphinx-pre-install
+@@ -255,6 +255,8 @@ sub check_sphinx()
+ 
+ 	die "Can't get recommended sphinx version from $requirement_file" if (!$min_version);
+ 
++	$virtenv_dir .= $rec_version;
++
+ 	my $sphinx = get_sphinx_fname();
+ 	return if ($sphinx eq "");
+ 
+@@ -267,8 +269,6 @@ sub check_sphinx()
+ 	}
+ 	close IN;
+ 
+-	$virtenv_dir .= $rec_version;
+-
+ 	die "$sphinx didn't return its version" if (!$cur_version);
+ 
+ 	printf "Sphinx version %s (minimal: %s, recommended >= %s)\n",
 
-diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
-index 9d0a7f08f93b..200c8aa4a04f 100644
---- a/Documentation/sphinx/kerneldoc.py
-+++ b/Documentation/sphinx/kerneldoc.py
-@@ -39,6 +39,8 @@ from docutils.statemachine import ViewList
- from docutils.parsers.rst import directives, Directive
- from sphinx.ext.autodoc import AutodocReporter
- 
-+import kernellog
-+
- __version__  = '1.0'
- 
- class KernelDocDirective(Directive):
-@@ -90,7 +92,8 @@ class KernelDocDirective(Directive):
-         cmd += [filename]
- 
-         try:
--            env.app.verbose('calling kernel-doc \'%s\'' % (" ".join(cmd)))
-+            kernellog.verbose(env.app,
-+                              'calling kernel-doc \'%s\'' % (" ".join(cmd)))
- 
-             p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-             out, err = p.communicate()
-@@ -100,7 +103,8 @@ class KernelDocDirective(Directive):
-             if p.returncode != 0:
-                 sys.stderr.write(err)
- 
--                env.app.warn('kernel-doc \'%s\' failed with return code %d' % (" ".join(cmd), p.returncode))
-+                kernellog.warn(env.app,
-+                               'kernel-doc \'%s\' failed with return code %d' % (" ".join(cmd), p.returncode))
-                 return [nodes.error(None, nodes.paragraph(text = "kernel-doc missing"))]
-             elif env.config.kerneldoc_verbosity > 0:
-                 sys.stderr.write(err)
-@@ -132,8 +136,8 @@ class KernelDocDirective(Directive):
-             return node.children
- 
-         except Exception as e:  # pylint: disable=W0703
--            env.app.warn('kernel-doc \'%s\' processing failed with: %s' %
--                         (" ".join(cmd), str(e)))
-+            kernellog.warn(env.app, 'kernel-doc \'%s\' processing failed with: %s' %
-+                           (" ".join(cmd), str(e)))
-             return [nodes.error(None, nodes.paragraph(text = "kernel-doc missing"))]
- 
- def setup(app):
-diff --git a/Documentation/sphinx/kernellog.py b/Documentation/sphinx/kernellog.py
-new file mode 100644
-index 000000000000..af924f51a7dc
---- /dev/null
-+++ b/Documentation/sphinx/kernellog.py
-@@ -0,0 +1,28 @@
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Sphinx has deprecated its older logging interface, but the replacement
-+# only goes back to 1.6.  So here's a wrapper layer to keep around for
-+# as long as we support 1.4.
-+#
-+import sphinx
-+
-+if sphinx.__version__[:3] >= '1.6':
-+    UseLogging = True
-+    from sphinx.util import logging
-+    logger = logging.getLogger('kerneldoc')
-+else:
-+    UseLogging = False
-+
-+def warn(app, message):
-+    if UseLogging:
-+        logger.warning(message)
-+    else:
-+        app.warn(message)
-+
-+def verbose(app, message):
-+    if UseLogging:
-+        logger.verbose(message)
-+    else:
-+        app.verbose(message)
-+
-+
-diff --git a/Documentation/sphinx/kfigure.py b/Documentation/sphinx/kfigure.py
-index b97228d2cc0e..fbfe6693bb60 100644
---- a/Documentation/sphinx/kfigure.py
-+++ b/Documentation/sphinx/kfigure.py
-@@ -60,6 +60,8 @@ import sphinx
- from sphinx.util.nodes import clean_astext
- from six import iteritems
- 
-+import kernellog
-+
- PY3 = sys.version_info[0] == 3
- 
- if PY3:
-@@ -171,20 +173,20 @@ def setupTools(app):
-     This function is called once, when the builder is initiated.
-     """
-     global dot_cmd, convert_cmd   # pylint: disable=W0603
--    app.verbose("kfigure: check installed tools ...")
-+    kernellog.verbose(app, "kfigure: check installed tools ...")
- 
-     dot_cmd = which('dot')
-     convert_cmd = which('convert')
- 
-     if dot_cmd:
--        app.verbose("use dot(1) from: " + dot_cmd)
-+        kernellog.verbose(app, "use dot(1) from: " + dot_cmd)
-     else:
--        app.warn("dot(1) not found, for better output quality install "
--                 "graphviz from http://www.graphviz.org")
-+        kernellog.warn(app, "dot(1) not found, for better output quality install "
-+                       "graphviz from http://www.graphviz.org")
-     if convert_cmd:
--        app.verbose("use convert(1) from: " + convert_cmd)
-+        kernellog.verbose(app, "use convert(1) from: " + convert_cmd)
-     else:
--        app.warn(
-+        kernellog.warn(app,
-             "convert(1) not found, for SVG to PDF conversion install "
-             "ImageMagick (https://www.imagemagick.org)")
- 
-@@ -220,12 +222,13 @@ def convert_image(img_node, translator, src_fname=None):
- 
-     # in kernel builds, use 'make SPHINXOPTS=-v' to see verbose messages
- 
--    app.verbose('assert best format for: ' + img_node['uri'])
-+    kernellog.verbose(app, 'assert best format for: ' + img_node['uri'])
- 
-     if in_ext == '.dot':
- 
-         if not dot_cmd:
--            app.verbose("dot from graphviz not available / include DOT raw.")
-+            kernellog.verbose(app,
-+                              "dot from graphviz not available / include DOT raw.")
-             img_node.replace_self(file2literal(src_fname))
- 
-         elif translator.builder.format == 'latex':
-@@ -252,7 +255,8 @@ def convert_image(img_node, translator, src_fname=None):
- 
-         if translator.builder.format == 'latex':
-             if convert_cmd is None:
--                app.verbose("no SVG to PDF conversion available / include SVG raw.")
-+                kernellog.verbose(app,
-+                                  "no SVG to PDF conversion available / include SVG raw.")
-                 img_node.replace_self(file2literal(src_fname))
-             else:
-                 dst_fname = path.join(translator.builder.outdir, fname + '.pdf')
-@@ -265,18 +269,19 @@ def convert_image(img_node, translator, src_fname=None):
-         _name = dst_fname[len(translator.builder.outdir) + 1:]
- 
-         if isNewer(dst_fname, src_fname):
--            app.verbose("convert: {out}/%s already exists and is newer" % _name)
-+            kernellog.verbose(app,
-+                              "convert: {out}/%s already exists and is newer" % _name)
- 
-         else:
-             ok = False
-             mkdir(path.dirname(dst_fname))
- 
-             if in_ext == '.dot':
--                app.verbose('convert DOT to: {out}/' + _name)
-+                kernellog.verbose(app, 'convert DOT to: {out}/' + _name)
-                 ok = dot2format(app, src_fname, dst_fname)
- 
-             elif in_ext == '.svg':
--                app.verbose('convert SVG to: {out}/' + _name)
-+                kernellog.verbose(app, 'convert SVG to: {out}/' + _name)
-                 ok = svg2pdf(app, src_fname, dst_fname)
- 
-             if not ok:
-@@ -305,7 +310,8 @@ def dot2format(app, dot_fname, out_fname):
-     with open(out_fname, "w") as out:
-         exit_code = subprocess.call(cmd, stdout = out)
-         if exit_code != 0:
--            app.warn("Error #%d when calling: %s" % (exit_code, " ".join(cmd)))
-+            kernellog.warn(app,
-+                          "Error #%d when calling: %s" % (exit_code, " ".join(cmd)))
-     return bool(exit_code == 0)
- 
- def svg2pdf(app, svg_fname, pdf_fname):
-@@ -322,7 +328,7 @@ def svg2pdf(app, svg_fname, pdf_fname):
-     # use stdout and stderr from parent
-     exit_code = subprocess.call(cmd)
-     if exit_code != 0:
--        app.warn("Error #%d when calling: %s" % (exit_code, " ".join(cmd)))
-+        kernellog.warn(app, "Error #%d when calling: %s" % (exit_code, " ".join(cmd)))
-     return bool(exit_code == 0)
- 
- 
-@@ -415,15 +421,15 @@ def visit_kernel_render(self, node):
-     app = self.builder.app
-     srclang = node.get('srclang')
- 
--    app.verbose('visit kernel-render node lang: "%s"' % (srclang))
-+    kernellog.verbose(app, 'visit kernel-render node lang: "%s"' % (srclang))
- 
-     tmp_ext = RENDER_MARKUP_EXT.get(srclang, None)
-     if tmp_ext is None:
--        app.warn('kernel-render: "%s" unknown / include raw.' % (srclang))
-+        kernellog.warn(app, 'kernel-render: "%s" unknown / include raw.' % (srclang))
-         return
- 
-     if not dot_cmd and tmp_ext == '.dot':
--        app.verbose("dot from graphviz not available / include raw.")
-+        kernellog.verbose(app, "dot from graphviz not available / include raw.")
-         return
- 
-     literal_block = node[0]
--- 
-2.21.0
 
+Thanks,
+Mauro
