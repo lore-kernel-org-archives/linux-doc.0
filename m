@@ -5,53 +5,90 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 637B27D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 May 2019 20:35:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 35FA57D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 May 2019 20:50:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729528AbfEVUfI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 22 May 2019 16:35:08 -0400
-Received: from ms.lwn.net ([45.79.88.28]:49210 "EHLO ms.lwn.net"
+        id S1729916AbfEVUu4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 22 May 2019 16:50:56 -0400
+Received: from ms.lwn.net ([45.79.88.28]:49310 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728761AbfEVUfI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 22 May 2019 16:35:08 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 58121AAB;
-        Wed, 22 May 2019 20:35:07 +0000 (UTC)
-Date:   Wed, 22 May 2019 14:35:06 -0600
+        id S1729848AbfEVUu4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 22 May 2019 16:50:56 -0400
+Received: from meer.lwn.net (localhost [127.0.0.1])
+        by ms.lwn.net (Postfix) with ESMTPA id 02180AAB;
+        Wed, 22 May 2019 20:50:55 +0000 (UTC)
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Markus Heiser <markus.heiser@darmarit.de>,
+To:     linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
         Jani Nikula <jani.nikula@linux.intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] scripts/sphinx-pre-install: make it handle Sphinx
- versions
-Message-ID: <20190522143506.34049678@lwn.net>
-In-Reply-To: <a741574b7081c162d200bdead35302ccac6fd116.1558545958.git.mchehab+samsung@kernel.org>
-References: <a741574b7081c162d200bdead35302ccac6fd116.1558545958.git.mchehab+samsung@kernel.org>
-Organization: LWN.net
+        Markus Heiser <markus.heiser@darmarit.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Oleksandr Natalenko <oleksandr@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 0/8] docs: Fixes for recent versions of Sphinx
+Date:   Wed, 22 May 2019 14:50:26 -0600
+Message-Id: <20190522205034.25724-1-corbet@lwn.net>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 22 May 2019 13:28:34 -0400
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+The Sphinx folks deprecated some interfaces in the 2.0 release; one
+immediate result of that is a bunch of warnings that show up when building
+with 1.8.  These two patches make those warnings go away, but at a cost:
 
-> As we want to switch to a newer Sphinx version in the future,
-> add some version detected logic, checking if the current
-> version meets the requirement and suggesting upgrade it the
-> version is supported but too old.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+ - It introduces a couple of Sphinx version checks, which are always
+   ugly, but the alternative would be to stop supporting versions
+   before 1.7.  For now, I think we can carry that cruft.
 
-I've applied this in the branch with my other fixes (coming soon to a
-mailing list near you), thanks.  I do think we eventually want to emit a
-warning during a normal docs build as well, and to raise the recommended
-version, but one step at a time...
+ - The second patch causes the build to fail horribly on newer
+   Sphinx installations.  The change to switch_source_input() seems
+   to make the parser much more finicky, increasing warnings and
+   eventually failing the build altogether.  In particular, it will
+   scream about problems in .rst files that are not included in the
+   TOC tree at all.
 
-jon
+This version of the patch set fixes up the worst problems (the i915 error
+in particular, which breaks the build hard).  I've tested it with versions
+1.4, 1.8, and 2.0.
+
+Given that these problems are already breaking builds on some systems, I
+think I may try to sell these changes to Linus for 5.2 still.
+
+Changes since v1:
+  - Fix up a couple of logging changes I somehow missed
+  - Don't save state when using switch_source_input()
+  - Fix a few build errors
+  - Add Mauro's sphinx-pre-install improvements
+
+Jonathan Corbet (7):
+  doc: Cope with Sphinx logging deprecations
+  doc: Cope with the deprecation of AutoReporter
+  docs: fix numaperf.rst and add it to the doc tree
+  lib/list_sort: fix kerneldoc build error
+  docs: fix multiple doc build warnings in enumeration.rst
+  docs/gpu: fix a documentation build break in i915.rst
+  docs: Fix conf.py for Sphinx 2.0
+
+Mauro Carvalho Chehab (1):
+  scripts/sphinx-pre-install: make it handle Sphinx versions
+
+ Documentation/admin-guide/mm/index.rst        |  1 +
+ Documentation/admin-guide/mm/numaperf.rst     |  2 +-
+ Documentation/conf.py                         |  2 +-
+ .../firmware-guide/acpi/enumeration.rst       |  2 +-
+ Documentation/gpu/i915.rst                    |  4 +-
+ Documentation/sphinx/kerneldoc.py             | 44 +++++++---
+ Documentation/sphinx/kernellog.py             | 28 +++++++
+ Documentation/sphinx/kfigure.py               | 40 +++++----
+ lib/list_sort.c                               |  3 +-
+ scripts/sphinx-pre-install                    | 81 +++++++++++++++++--
+ 10 files changed, 166 insertions(+), 41 deletions(-)
+ create mode 100644 Documentation/sphinx/kernellog.py
+
+-- 
+2.21.0
+
