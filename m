@@ -1,221 +1,111 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 646D17D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 May 2019 11:16:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5A6DF7D922
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 May 2019 13:26:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728690AbfEVLQI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 22 May 2019 07:16:08 -0400
-Received: from outils.crapouillou.net ([89.234.176.41]:51226 "EHLO
-        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728808AbfEVLQH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 May 2019 07:16:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1558523764; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=sQdb4SEQMtDupMwnwP5hhbNOdCtEsnxGtObeHTAK/0M=;
-        b=DTEguJ7zyqElohAzti93m/3BAwwsnCvQLJQky7KXrv4BOsGGbIYbbX06Tp0r+HHg8+gl/0
-        FWjVWlCvoR7xSo7xFjdE2/Vf6nzOrlnChOVK0p0K+iyUU2qQgbIj3fK4H0fZH9m1wQQSRw
-        6K5IwZT/5Mg1H0sT0geJn+xK/vO3ZQ0=
-Date:   Wed, 22 May 2019 13:15:56 +0200
-From:   Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v12 09/13] MIPS: jz4740: Add DTS nodes for the TCU drivers
-To:     Mathieu Malaterre <malat@debian.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, linux-mips@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-clk@vger.kernel.org, od@zcrc.me
-Message-Id: <1558523756.3066.0@crapouillou.net>
-In-Reply-To: <CA+7wUsxe4DLmAGNnnXZ3UokguMJ0cOGtu=opQpuAPvN_SH4KUw@mail.gmail.com>
-References: <20190521145141.9813-1-paul@crapouillou.net>
-        <20190521145141.9813-10-paul@crapouillou.net>
-        <CA+7wUsxe4DLmAGNnnXZ3UokguMJ0cOGtu=opQpuAPvN_SH4KUw@mail.gmail.com>
+        id S1729437AbfEVNZm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 22 May 2019 09:25:42 -0400
+Received: from smtp1.goneo.de ([85.220.129.30]:50018 "EHLO smtp1.goneo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729126AbfEVNZm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 22 May 2019 09:25:42 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by smtp1.goneo.de (Postfix) with ESMTP id 9E9E123F9C5;
+        Wed, 22 May 2019 15:25:38 +0200 (CEST)
+X-Virus-Scanned: by goneo
+Received: from smtp1.goneo.de ([127.0.0.1])
+        by localhost (smtp1.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id dK085gI_J9hg; Wed, 22 May 2019 15:25:37 +0200 (CEST)
+Received: from [192.168.1.127] (host-091-097-246-171.ewe-ip-backbone.de [91.97.246.171])
+        by smtp1.goneo.de (Postfix) with ESMTPSA id 3B50524129B;
+        Wed, 22 May 2019 15:25:37 +0200 (CEST)
+Subject: Re: [PATCH RFC 0/2] docs: Deal with some Sphinx deprecation warnings
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190521211714.1395-1-corbet@lwn.net> <87d0kb7xf6.fsf@intel.com>
+ <20190522071909.050bb227@coco.lan>
+From:   Markus Heiser <markus.heiser@darmarit.de>
+Message-ID: <39b12927-9bf9-a304-4108-8f471a204f89@darmarit.de>
+Date:   Wed, 22 May 2019 15:25:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+In-Reply-To: <20190522071909.050bb227@coco.lan>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: de-DE
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On Wed, May 22, 2019 at 11:21 AM, Mathieu Malaterre <malat@debian.org> 
-wrote:
-> On Tue, May 21, 2019 at 4:52 PM Paul Cercueil <paul@crapouillou.net> 
-> wrote:
->> 
->>  Add DTS nodes for the JZ4780, JZ4770 and JZ4740 devicetree files.
->> 
->>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
->>  ---
->> 
->>  Notes:
->>      v5: New patch
->> 
->>      v6: Fix register lengths in watchdog/pwm nodes
->> 
->>      v7: No change
->> 
->>      v8: - Fix wrong start address for PWM node
->>          - Add system timer and clocksource sub-nodes
->> 
->>      v9: Drop timer and clocksource sub-nodes
->> 
->>      v10-v11: No change
->> 
->>      v12: Drop PWM/watchdog/OST sub-nodes, for now.
->> 
->>   arch/mips/boot/dts/ingenic/jz4740.dtsi | 22 ++++++++++++++++++++++
->>   arch/mips/boot/dts/ingenic/jz4770.dtsi | 21 +++++++++++++++++++++
->>   arch/mips/boot/dts/ingenic/jz4780.dtsi | 21 +++++++++++++++++++++
->>   3 files changed, 64 insertions(+)
->> 
->>  diff --git a/arch/mips/boot/dts/ingenic/jz4740.dtsi 
->> b/arch/mips/boot/dts/ingenic/jz4740.dtsi
->>  index 2beb78a62b7d..807d9702d4cf 100644
->>  --- a/arch/mips/boot/dts/ingenic/jz4740.dtsi
->>  +++ b/arch/mips/boot/dts/ingenic/jz4740.dtsi
->>  @@ -53,6 +53,28 @@
->>                  clock-names = "rtc";
->>          };
->> 
->>  +       tcu: timer@10002000 {
->>  +               compatible = "ingenic,jz4740-tcu";
->>  +               reg = <0x10002000 0x1000>;
->>  +               #address-cells = <1>;
->>  +               #size-cells = <1>;
->>  +               ranges = <0x0 0x10002000 0x1000>;
->>  +
->>  +               #clock-cells = <1>;
->>  +
->>  +               clocks = <&cgu JZ4740_CLK_RTC
->>  +                         &cgu JZ4740_CLK_EXT
->>  +                         &cgu JZ4740_CLK_PCLK
->>  +                         &cgu JZ4740_CLK_TCU>;
->>  +               clock-names = "rtc", "ext", "pclk", "tcu";
->>  +
->>  +               interrupt-controller;
->>  +               #interrupt-cells = <1>;
->>  +
->>  +               interrupt-parent = <&intc>;
->>  +               interrupts = <23 22 21>;
->>  +       };
->>  +
->>          rtc_dev: rtc@10003000 {
->>                  compatible = "ingenic,jz4740-rtc";
->>                  reg = <0x10003000 0x40>;
->>  diff --git a/arch/mips/boot/dts/ingenic/jz4770.dtsi 
->> b/arch/mips/boot/dts/ingenic/jz4770.dtsi
->>  index 49ede6c14ff3..70932fd90902 100644
->>  --- a/arch/mips/boot/dts/ingenic/jz4770.dtsi
->>  +++ b/arch/mips/boot/dts/ingenic/jz4770.dtsi
->>  @@ -46,6 +46,27 @@
->>                  #clock-cells = <1>;
->>          };
->> 
->>  +       tcu: timer@10002000 {
->>  +               compatible = "ingenic,jz4770-tcu";
->>  +               reg = <0x10002000 0x1000>;
->>  +               #address-cells = <1>;
->>  +               #size-cells = <1>;
->>  +               ranges = <0x0 0x10002000 0x1000>;
->>  +
->>  +               #clock-cells = <1>;
->>  +
->>  +               clocks = <&cgu JZ4770_CLK_RTC
->>  +                         &cgu JZ4770_CLK_EXT
->>  +                         &cgu JZ4770_CLK_PCLK>;
->>  +               clock-names = "rtc", "ext", "pclk";
->>  +
->>  +               interrupt-controller;
->>  +               #interrupt-cells = <1>;
->>  +
->>  +               interrupt-parent = <&intc>;
->>  +               interrupts = <27 26 25>;
->>  +       };
->>  +
->>          pinctrl: pin-controller@10010000 {
->>                  compatible = "ingenic,jz4770-pinctrl";
->>                  reg = <0x10010000 0x600>;
->>  diff --git a/arch/mips/boot/dts/ingenic/jz4780.dtsi 
->> b/arch/mips/boot/dts/ingenic/jz4780.dtsi
->>  index b03cdec56de9..495082ce7fc5 100644
->>  --- a/arch/mips/boot/dts/ingenic/jz4780.dtsi
->>  +++ b/arch/mips/boot/dts/ingenic/jz4780.dtsi
->>  @@ -46,6 +46,27 @@
->>                  #clock-cells = <1>;
->>          };
->> 
->>  +       tcu: timer@10002000 {
+22.05.19 um 12:19 schrieb Mauro Carvalho Chehab:
+> Em Wed, 22 May 2019 10:36:45 +0300
+> Jani Nikula <jani.nikula@linux.intel.com> escreveu:
 > 
-> With W=1, I see:
+>> On Tue, 21 May 2019, Jonathan Corbet <corbet@lwn.net> wrote:
+>>> The Sphinx folks are deprecating some interfaces in the upcoming 2.0
+>>> release; one immediate result of that is a bunch of warnings that show up
+>>> when building with 1.8.  These two patches make those warnings go away,
+>>> but at a cost:
+>>>
+>>>   - It introduces a couple of Sphinx version checks, which are always
+>>>     ugly, but the alternative would be to stop supporting versions
+>>>     before 1.7.  For now, I think we can carry that cruft.
+>>
+>> Frankly, I'd just require Sphinx 1.7+, available even in Debian stable
+>> through stretch-backports.
 > 
-> ../arch/mips/boot/dts/ingenic/jz4780.dtsi:64.22-83.4: Warning
-> (unique_unit_address): /timer@10002000: duplicate unit-address (also
-> used in node /watchdog@1000
-> 2000)
+> We can raise the bar and force a 1.7 or even 1.8 (Fedora 30 comes
+> with version 1.8.4), but I would prefer to keep support older versions,
+> at least while we don't depend on some new features introduced after
+> the version we're using, and while our extensions won't require a major
+> rework due to a new version.
 
-That didn't happen in V11 because there I was also migrating the
-watchdog and PWM drivers to children nodes of the TCU. It was more
-atomic, but it also was a 27-patches bomb touching a lot of
-subsystems that nobody was ever going to merge.
+Lets use 1.7 :
 
-Is the address conflict OK, knowing that the watchdog node will
-move out of the way as soon as this patchset is merged?
+- no need for Use_SSI wrapper
+- new log should work with 1.7 [1] --> no need for kernellog.py and
+   additional imports, instead include on top of python modules ::
 
-Should I add an extra patch to remove the watchdog node instead?
+     from sphinx.util import logging
+     logger = logging.getLogger('kerneldoc')
 
-(and yes, devicetree ABI will break, which is sort-of OK in this
-case - as on Ingenic boards the devicetree blobs are always
-compiled within the kernel, so I think we should make this
-much-needed change while we still can).
+[1] 
+https://github.com/sphinx-doc/sphinx/commit/6d4e6454093953943e79d4db6efeb17390870e62
 
 
->>  +               compatible = "ingenic,jz4770-tcu";
->>  +               reg = <0x10002000 0x1000>;
->>  +               #address-cells = <1>;
->>  +               #size-cells = <1>;
->>  +               ranges = <0x0 0x10002000 0x1000>;
->>  +
->>  +               #clock-cells = <1>;
->>  +
->>  +               clocks = <&cgu JZ4780_CLK_RTCLK
->>  +                         &cgu JZ4780_CLK_EXCLK
->>  +                         &cgu JZ4780_CLK_PCLK>;
->>  +               clock-names = "rtc", "ext", "pclk";
->>  +
->>  +               interrupt-controller;
->>  +               #interrupt-cells = <1>;
->>  +
->>  +               interrupt-parent = <&intc>;
->>  +               interrupts = <27 26 25>;
->>  +       };
->>  +
->>          rtc_dev: rtc@10003000 {
->>                  compatible = "ingenic,jz4780-rtc";
->>                  reg = <0x10003000 0x4c>;
->>  --
->>  2.21.0.593.g511ec345e18
->> 
+BTW we can drop other (old) sphinx-version issues e.g.
+Documentation/conf.py  which fails with version 2.0:
 
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 72647a38b5c2..ba82715b6715 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -34,13 +34,7 @@ needs_sphinx = '1.3'
+  # Add any Sphinx extension module names here, as strings. They can be
+  # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
+  # ones.
+-extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include', 'cdomain', 
+'kfigure', 'sphinx.ext.ifconfig']
+-
+-# The name of the math extension changed on Sphinx 1.4
+-if major == 1 and minor > 3:
+-    extensions.append("sphinx.ext.imgmath")
+-else:
+-    extensions.append("sphinx.ext.pngmath")
++extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include', 'cdomain', 
+'kfigure', 'sphinx.ext.ifconfig', 'sphinx.ext.imgmath']
+
+  # Add any paths that contain templates here, relative to this directory.
+  templates_path = ['_templates']
+
+-- Markus --
 
