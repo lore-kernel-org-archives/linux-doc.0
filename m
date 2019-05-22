@@ -3,20 +3,20 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 86D427D92A
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 May 2019 20:51:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6E5547D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 May 2019 20:51:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729528AbfEVUvP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 22 May 2019 16:51:15 -0400
-Received: from ms.lwn.net ([45.79.88.28]:49388 "EHLO ms.lwn.net"
+        id S1730242AbfEVUu5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 22 May 2019 16:50:57 -0400
+Received: from ms.lwn.net ([45.79.88.28]:49340 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730327AbfEVUu7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 22 May 2019 16:50:59 -0400
+        id S1729848AbfEVUu5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 22 May 2019 16:50:57 -0400
 Received: from meer.lwn.net (localhost [127.0.0.1])
-        by ms.lwn.net (Postfix) with ESMTPA id 292AD1427;
-        Wed, 22 May 2019 20:50:59 +0000 (UTC)
+        by ms.lwn.net (Postfix) with ESMTPA id D9DC0128A;
+        Wed, 22 May 2019 20:50:56 +0000 (UTC)
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     linux-doc@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
@@ -25,9 +25,9 @@ Cc:     linux-kernel@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Oleksandr Natalenko <oleksandr@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 7/8] docs: Fix conf.py for Sphinx 2.0
-Date:   Wed, 22 May 2019 14:50:33 -0600
-Message-Id: <20190522205034.25724-8-corbet@lwn.net>
+Subject: [PATCH 2/8] doc: Cope with the deprecation of AutoReporter
+Date:   Wed, 22 May 2019 14:50:28 -0600
+Message-Id: <20190522205034.25724-3-corbet@lwn.net>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190522205034.25724-1-corbet@lwn.net>
 References: <20190522205034.25724-1-corbet@lwn.net>
@@ -38,28 +38,79 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Our version check in Documentation/conf.py never envisioned a world where
-Sphinx moved beyond 1.x.  Now that the unthinkable has happened, fix our
-version check to handle higher version numbers correctly.
+AutoReporter is going away; recent versions of sphinx emit a warning like:
+
+  /stuff/k/git/kernel/Documentation/sphinx/kerneldoc.py:125:
+      RemovedInSphinx20Warning: AutodocReporter is now deprecated.
+      Use sphinx.util.docutils.switch_source_input() instead.
+
+Make the switch.  But switch_source_input() only showed up in 1.7, so we
+have to do ugly version checks to keep things working in older versions.
 
 Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 ---
- Documentation/conf.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/sphinx/kerneldoc.py | 34 +++++++++++++++++++++++--------
+ 1 file changed, 26 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 72647a38b5c2..7ace3f8852bd 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -37,7 +37,7 @@ needs_sphinx = '1.3'
- extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include', 'cdomain', 'kfigure', 'sphinx.ext.ifconfig']
+diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
+index 200c8aa4a04f..1159405cb920 100644
+--- a/Documentation/sphinx/kerneldoc.py
++++ b/Documentation/sphinx/kerneldoc.py
+@@ -37,7 +37,17 @@ import glob
+ from docutils import nodes, statemachine
+ from docutils.statemachine import ViewList
+ from docutils.parsers.rst import directives, Directive
+-from sphinx.ext.autodoc import AutodocReporter
++
++#
++# AutodocReporter is only good up to Sphinx 1.7
++#
++import sphinx
++
++Use_SSI = sphinx.__version__[:3] >= '1.7'
++if Use_SSI:
++    from sphinx.util.docutils import switch_source_input
++else:
++    from sphinx.ext.autodoc import AutodocReporter
  
- # The name of the math extension changed on Sphinx 1.4
--if major == 1 and minor > 3:
-+if (major == 1 and minor > 3) or (major > 1):
-     extensions.append("sphinx.ext.imgmath")
- else:
-     extensions.append("sphinx.ext.pngmath")
+ import kernellog
+ 
+@@ -125,13 +135,7 @@ class KernelDocDirective(Directive):
+                     lineoffset += 1
+ 
+             node = nodes.section()
+-            buf = self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter
+-            self.state.memo.reporter = AutodocReporter(result, self.state.memo.reporter)
+-            self.state.memo.title_styles, self.state.memo.section_level = [], 0
+-            try:
+-                self.state.nested_parse(result, 0, node, match_titles=1)
+-            finally:
+-                self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter = buf
++            self.do_parse(result, node)
+ 
+             return node.children
+ 
+@@ -140,6 +144,20 @@ class KernelDocDirective(Directive):
+                            (" ".join(cmd), str(e)))
+             return [nodes.error(None, nodes.paragraph(text = "kernel-doc missing"))]
+ 
++    def do_parse(self, result, node):
++        if Use_SSI:
++            with switch_source_input(self.state, result):
++                self.state.nested_parse(result, 0, node, match_titles=1)
++        else:
++            save = self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter
++            self.state.memo.reporter = AutodocReporter(result, self.state.memo.reporter)
++            self.state.memo.title_styles, self.state.memo.section_level = [], 0
++            try:
++                self.state.nested_parse(result, 0, node, match_titles=1)
++            finally:
++                self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter = save
++
++
+ def setup(app):
+     app.add_config_value('kerneldoc_bin', None, 'env')
+     app.add_config_value('kerneldoc_srctree', None, 'env')
 -- 
 2.21.0
 
