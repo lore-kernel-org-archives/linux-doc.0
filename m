@@ -6,102 +6,87 @@ X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B8C4C7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 May 2019 08:02:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 232127D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 May 2019 08:32:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726552AbfEVICv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 22 May 2019 04:02:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36390 "EHLO mail.kernel.org"
+        id S1728538AbfEVIcW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 22 May 2019 04:32:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51156 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725850AbfEVICv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 22 May 2019 04:02:51 -0400
-Received: from devnote2 (unknown [103.5.140.153])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1728502AbfEVIcW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 22 May 2019 04:32:22 -0400
+Received: from devnote2.wi2.ne.jp (unknown [103.5.140.153])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A38F620675;
-        Wed, 22 May 2019 08:02:48 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 14948204EC;
+        Wed, 22 May 2019 08:32:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1558512170;
-        bh=gTRI1Bg4lUob35KpxtT/5afpOlFMrO+atplmEw7kLO4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=lIheQecSSeJysne56ux1DlRA34GOEN+h8/Ix5eKHJnz2843/pXa2AxD/trcWm8myw
-         /wpPOETQWHLQWnzGZTPoEYk2RCSilWGpy0nygDeOyBns6ugTxvEx4dPXJm5t1wSAiL
-         +/UqW89k5Jr3glkAL5f1Nd/Vz334SdiQf+ifBJQo=
-Date:   Wed, 22 May 2019 17:02:46 +0900
+        s=default; t=1558513942;
+        bh=mT1FPfvdr/dGkIr4pBgWEXh274KkM+Hil9nvHfQ4kkY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=fY1Z2KvIe+a82afaN9oe4kqH1gG6/zYIZva5MJHULmVbLBw6WFIZw6bd0jaZpWFyT
+         FAviYyzJQpe7Wi1fZVy/U1PWK3kiBCiwy3b6xDsY5OxQixyCOAuXJTUWriJ3Jncuem
+         muRo3b0ZpXlpS65VVE/pqebhTugD3hFx4S4CPDJ8=
 From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@kernel.org>,
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Ingo Molnar <mingo@kernel.org>,
         "Naveen N . Rao" <naveen.n.rao@linux.ibm.com>,
         Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
         "David S . Miller" <davem@davemloft.net>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 0/2] Enable new kprobe event at boot
-Message-Id: <20190522170246.1746819966139953deed1a03@kernel.org>
-In-Reply-To: <20190522163021.b8d08103dd5df01b2e472e46@kernel.org>
-References: <155842537599.4253.14690293652007233645.stgit@devnote2>
-        <20190521093317.7d698f79@gandalf.local.home>
-        <20190522003932.34367dcae6d9de27e254e174@kernel.org>
-        <20190522163021.b8d08103dd5df01b2e472e46@kernel.org>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Subject: [PATCH v2 0/2] Enable new kprobe event at boot
+Date:   Wed, 22 May 2019 17:32:18 +0900
+Message-Id: <155851393823.15728.9489409117921369593.stgit@devnote2>
+X-Mailer: git-send-email 2.17.1
+User-Agent: StGit/0.17.1-dirty
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 22 May 2019 16:30:21 +0900
-Masami Hiramatsu <mhiramat@kernel.org> wrote:
+Hi,
 
-> On Wed, 22 May 2019 00:39:32 +0900
-> Masami Hiramatsu <mhiramat@kernel.org> wrote:
-> 
-> > > Perhaps we could enable kprobes at early init?
-> > 
-> > It should be possible, I will try to find what blocks it. I guess after we
-> > switch early_text_poke() to text_poke(), we can use kprobes on x86. But
-> > for other archs, I need to investigate more.
-> 
-> OK, I just follow the kernel init related to kprobes
-> 
-> start_kernel()
->  -> trace_init()
->  -> rcu_init_nohz()
->  -> perf_event_init()
->  -> arch_call_rest_init()
->    -> rest_init()
->      -> rcu_scheduler_starting()
->      -> kernel_thread(kernel_init)
-> kernel_init()
->  -> kernel_init_freeable()
->    -> wait_for_completion(&kthreadd_done);
->    -> workqueue_init()
->    -> smp_init()
->    -> do_basic_setup()
->      -> do_initcalls()
->        -> do_initcall_level()
->          (in subsys-level)
->          -> init_kprobes()
-> 
-> Since optprobe uses workqueue, we can not move it before workqueue_init().
-> (but maybe we can disable it in early stage)
-> Also, since kprobes depends on rcu, I guess we can not move it before
-> rcu_scheduler_starting().
+This v2 series adds a kernel parameter, 'kprobe_event=' to add and enable
+new kprobe events at boot time.
 
-It seems rcu is not initialized yet at this point. It is initialized fully
-at core_initcall.
+In this version, I changed to use postcore_initcall() instead of
+subsys_initcall() for kprobes initialization.
 
-> for kretprobe, we need to get the possible cpus, we need a fix if we move
-> it before before smp_init().
-> However, there is no reason we need to run it in subsys level. We can
-> move init_kprobes() in core or pure level safely.
+Currently ftrace can enable some existing trace events at boot time.
+This also allows admin/developer to add new kprobe-events at boot
+time to debug device drivers etc.
 
-Also, I missed ftrace (function tracer) is initialized at core_initcall().
-So we can move init_kprobes() at postcore_initcall() safely.
+The syntax is similar to tracing/kprobe_events interface, but
+uses ',' and ';' instead of ' ' and '\n' respectively. e.g.
+
+  kprobe_event=p,func1,$arg1,$arg2;p,func2,$arg1
+
+will add probes on func1 with the 1st and the 2nd arguments and on
+func2 with the 1st argument.
+
+Note that 'trace_event=' option enables trace event at very early
+timing, but the events added by 'kprobe_event=' are enabled right
+before enabling device drivers at this point. It is enough for
+tracing device driver initialization etc.
 
 Thank you,
 
--- 
-Masami Hiramatsu <mhiramat@kernel.org>
+---
+
+Masami Hiramatsu (2):
+      kprobes: Initialize kprobes at postcore_initcall
+      tracing/kprobe: Add kprobe_event= boot parameter
+
+
+ Documentation/admin-guide/kernel-parameters.txt |   13 ++++++
+ Documentation/trace/kprobetrace.rst             |   14 ++++++
+ kernel/kprobes.c                                |    3 -
+ kernel/trace/trace_kprobe.c                     |   54 +++++++++++++++++++++++
+ 4 files changed, 82 insertions(+), 2 deletions(-)
+
+--
+Masami Hiramatsu (Linaro)
