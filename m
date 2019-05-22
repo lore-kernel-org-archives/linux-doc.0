@@ -5,18 +5,18 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 35FA57D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 May 2019 20:50:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0D7B57D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 May 2019 20:51:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729916AbfEVUu4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 22 May 2019 16:50:56 -0400
-Received: from ms.lwn.net ([45.79.88.28]:49310 "EHLO ms.lwn.net"
+        id S1730336AbfEVUu7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 22 May 2019 16:50:59 -0400
+Received: from ms.lwn.net ([45.79.88.28]:49324 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729848AbfEVUu4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 22 May 2019 16:50:56 -0400
+        id S1729848AbfEVUu7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 22 May 2019 16:50:59 -0400
 Received: from meer.lwn.net (localhost [127.0.0.1])
-        by ms.lwn.net (Postfix) with ESMTPA id 02180AAB;
-        Wed, 22 May 2019 20:50:55 +0000 (UTC)
+        by ms.lwn.net (Postfix) with ESMTPA id B83CA130D;
+        Wed, 22 May 2019 20:50:58 +0000 (UTC)
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     linux-doc@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
@@ -25,10 +25,12 @@ Cc:     linux-kernel@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Oleksandr Natalenko <oleksandr@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 0/8] docs: Fixes for recent versions of Sphinx
-Date:   Wed, 22 May 2019 14:50:26 -0600
-Message-Id: <20190522205034.25724-1-corbet@lwn.net>
+Subject: [PATCH 6/8] docs/gpu: fix a documentation build break in i915.rst
+Date:   Wed, 22 May 2019 14:50:32 -0600
+Message-Id: <20190522205034.25724-7-corbet@lwn.net>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190522205034.25724-1-corbet@lwn.net>
+References: <20190522205034.25724-1-corbet@lwn.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -36,59 +38,42 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The Sphinx folks deprecated some interfaces in the 2.0 release; one
-immediate result of that is a bunch of warnings that show up when building
-with 1.8.  These two patches make those warnings go away, but at a cost:
+Documentation/gpu/i915.rst is not included in the TOC tree, but newer
+versions of sphinx parse it anyway.  That leads to this hard build failure:
 
- - It introduces a couple of Sphinx version checks, which are always
-   ugly, but the alternative would be to stop supporting versions
-   before 1.7.  For now, I think we can carry that cruft.
+> Global GTT Fence Handling
+> ~~~~~~~~~~~~~~~~~~~~~~~~~
+>
+> reST markup error:
+> /stuff/k/git/kernel/Documentation/gpu/i915.rst:403: (SEVERE/4) Title level inconsistent:
 
- - The second patch causes the build to fail horribly on newer
-   Sphinx installations.  The change to switch_source_input() seems
-   to make the parser much more finicky, increasing warnings and
-   eventually failing the build altogether.  In particular, it will
-   scream about problems in .rst files that are not included in the
-   TOC tree at all.
+Make the underlining consistent and restore a working docs build.
 
-This version of the patch set fixes up the worst problems (the i915 error
-in particular, which breaks the build hard).  I've tested it with versions
-1.4, 1.8, and 2.0.
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+---
+ Documentation/gpu/i915.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Given that these problems are already breaking builds on some systems, I
-think I may try to sell these changes to Linus for 5.2 still.
-
-Changes since v1:
-  - Fix up a couple of logging changes I somehow missed
-  - Don't save state when using switch_source_input()
-  - Fix a few build errors
-  - Add Mauro's sphinx-pre-install improvements
-
-Jonathan Corbet (7):
-  doc: Cope with Sphinx logging deprecations
-  doc: Cope with the deprecation of AutoReporter
-  docs: fix numaperf.rst and add it to the doc tree
-  lib/list_sort: fix kerneldoc build error
-  docs: fix multiple doc build warnings in enumeration.rst
-  docs/gpu: fix a documentation build break in i915.rst
-  docs: Fix conf.py for Sphinx 2.0
-
-Mauro Carvalho Chehab (1):
-  scripts/sphinx-pre-install: make it handle Sphinx versions
-
- Documentation/admin-guide/mm/index.rst        |  1 +
- Documentation/admin-guide/mm/numaperf.rst     |  2 +-
- Documentation/conf.py                         |  2 +-
- .../firmware-guide/acpi/enumeration.rst       |  2 +-
- Documentation/gpu/i915.rst                    |  4 +-
- Documentation/sphinx/kerneldoc.py             | 44 +++++++---
- Documentation/sphinx/kernellog.py             | 28 +++++++
- Documentation/sphinx/kfigure.py               | 40 +++++----
- lib/list_sort.c                               |  3 +-
- scripts/sphinx-pre-install                    | 81 +++++++++++++++++--
- 10 files changed, 166 insertions(+), 41 deletions(-)
- create mode 100644 Documentation/sphinx/kernellog.py
-
+diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
+index 055df45596c1..cf9ff64753cc 100644
+--- a/Documentation/gpu/i915.rst
++++ b/Documentation/gpu/i915.rst
+@@ -401,13 +401,13 @@ GTT Fences and Swizzling
+    :internal:
+ 
+ Global GTT Fence Handling
+-~~~~~~~~~~~~~~~~~~~~~~~~~
++-------------------------
+ 
+ .. kernel-doc:: drivers/gpu/drm/i915/i915_gem_fence_reg.c
+    :doc: fence register handling
+ 
+ Hardware Tiling and Swizzling Details
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++-------------------------------------
+ 
+ .. kernel-doc:: drivers/gpu/drm/i915/i915_gem_fence_reg.c
+    :doc: tiling swizzling details
 -- 
 2.21.0
 
