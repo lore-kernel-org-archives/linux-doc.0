@@ -1,206 +1,202 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 59CF07D910
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 May 2019 08:32:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 42CB37D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 May 2019 09:21:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728847AbfEVIci (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 22 May 2019 04:32:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51392 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728784AbfEVIci (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 22 May 2019 04:32:38 -0400
-Received: from devnote2.wi2.ne.jp (unknown [103.5.140.153])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9027D2173C;
-        Wed, 22 May 2019 08:32:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1558513957;
-        bh=bJvqGYw7DNXGDmes2Ibv22SSkaA4f4/0ULWJP8zE9PQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=toKG0L/wd7qRZePBRwvrj3pZFUep0wwi6r2obWchrG5n9Em4fQhvk+n0Kstmi3WrI
-         UGfj0dVqFtGfN13EwHpN0t11NNgEf+fIhkd2WakuXhiTPGnj3WEScGZvAFflvZnH5E
-         vsOmv6fksI4s3nCUvhru+4kfnSVReHrU363p5v30=
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Ingo Molnar <mingo@kernel.org>,
-        "Naveen N . Rao" <naveen.n.rao@linux.ibm.com>,
-        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH v2 2/2] tracing/kprobe: Add kprobe_event= boot parameter
-Date:   Wed, 22 May 2019 17:32:35 +0900
-Message-Id: <155851395498.15728.830529496248543583.stgit@devnote2>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <155851393823.15728.9489409117921369593.stgit@devnote2>
-References: <155851393823.15728.9489409117921369593.stgit@devnote2>
-User-Agent: StGit/0.17.1-dirty
+        id S1728584AbfEVJVN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 22 May 2019 05:21:13 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:35226 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728547AbfEVJVN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 May 2019 05:21:13 -0400
+Received: by mail-ot1-f65.google.com with SMTP id n14so1448065otk.2;
+        Wed, 22 May 2019 02:21:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=p/fnSZedKvA8Iqi6ZZvsXLPVwAkY8qUX0ojVQgRr2ec=;
+        b=B4nCp9iwVFmDlnlJC3mpp9Nenucc4SJmlDyRV13lkG5kBZSrddXzsrURuvUQIeThZY
+         Ehr3MLMmqeImqAVXm4MVg0w+eWo9Vbs/sZQtaZxZqpoe1koxkysbIkrSQNECIM6dhiR1
+         fPDWm+O1vLzIkp7SM/gQTHak4gmNG++ugA69j6+h0mykjcXAdT+0wfLmGIQkbfJL1ZLY
+         lSrceY8mHFRckl2VDgcEnKlVGibVKvsbCKciGAT+h2MWb4aDM0maoW/w3UCOIpRNMAHP
+         6IlquCcvhUtV8EmXlQirw1K9rFuLYoItJjR3xubziMDu4IQKBebuob/lMpClAq6MK/3x
+         ruyw==
+X-Gm-Message-State: APjAAAVwfxxPYnQ0T+NNzYp61+mgMiw/KoaLOtEw7UuaE9M+ITn2zuta
+        Y4RyMgMaYU2kayeYYgAZZd0n/YjBPU4NAfCFuUk=
+X-Google-Smtp-Source: APXvYqyobpJ63a1iTpV/Vmzl3T4jPFpgqUHVdSsARI3lZgekWUpzNXifpDBaSAjDG4knVag0MFU8Mr62nKwVypF3Ci8=
+X-Received: by 2002:a9d:6195:: with SMTP id g21mr4768otk.179.1558516871479;
+ Wed, 22 May 2019 02:21:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+References: <20190521145141.9813-1-paul@crapouillou.net> <20190521145141.9813-10-paul@crapouillou.net>
+In-Reply-To: <20190521145141.9813-10-paul@crapouillou.net>
+From:   Mathieu Malaterre <malat@debian.org>
+Date:   Wed, 22 May 2019 11:21:00 +0200
+Message-ID: <CA+7wUsxe4DLmAGNnnXZ3UokguMJ0cOGtu=opQpuAPvN_SH4KUw@mail.gmail.com>
+Subject: Re: [PATCH v12 09/13] MIPS: jz4740: Add DTS nodes for the TCU drivers
+To:     Paul Cercueil <paul@crapouillou.net>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, linux-mips@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-clk@vger.kernel.org, od@zcrc.me
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add kprobe_event= boot parameter to define kprobe events
-at boot time.
-The definition syntax is similar to tracefs/kprobe_events
-interface, but use ',' and ';' instead of ' ' and '\n'
-respectively. e.g.
+On Tue, May 21, 2019 at 4:52 PM Paul Cercueil <paul@crapouillou.net> wrote:
+>
+> Add DTS nodes for the JZ4780, JZ4770 and JZ4740 devicetree files.
+>
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> ---
+>
+> Notes:
+>     v5: New patch
+>
+>     v6: Fix register lengths in watchdog/pwm nodes
+>
+>     v7: No change
+>
+>     v8: - Fix wrong start address for PWM node
+>         - Add system timer and clocksource sub-nodes
+>
+>     v9: Drop timer and clocksource sub-nodes
+>
+>     v10-v11: No change
+>
+>     v12: Drop PWM/watchdog/OST sub-nodes, for now.
+>
+>  arch/mips/boot/dts/ingenic/jz4740.dtsi | 22 ++++++++++++++++++++++
+>  arch/mips/boot/dts/ingenic/jz4770.dtsi | 21 +++++++++++++++++++++
+>  arch/mips/boot/dts/ingenic/jz4780.dtsi | 21 +++++++++++++++++++++
+>  3 files changed, 64 insertions(+)
+>
+> diff --git a/arch/mips/boot/dts/ingenic/jz4740.dtsi b/arch/mips/boot/dts/ingenic/jz4740.dtsi
+> index 2beb78a62b7d..807d9702d4cf 100644
+> --- a/arch/mips/boot/dts/ingenic/jz4740.dtsi
+> +++ b/arch/mips/boot/dts/ingenic/jz4740.dtsi
+> @@ -53,6 +53,28 @@
+>                 clock-names = "rtc";
+>         };
+>
+> +       tcu: timer@10002000 {
+> +               compatible = "ingenic,jz4740-tcu";
+> +               reg = <0x10002000 0x1000>;
+> +               #address-cells = <1>;
+> +               #size-cells = <1>;
+> +               ranges = <0x0 0x10002000 0x1000>;
+> +
+> +               #clock-cells = <1>;
+> +
+> +               clocks = <&cgu JZ4740_CLK_RTC
+> +                         &cgu JZ4740_CLK_EXT
+> +                         &cgu JZ4740_CLK_PCLK
+> +                         &cgu JZ4740_CLK_TCU>;
+> +               clock-names = "rtc", "ext", "pclk", "tcu";
+> +
+> +               interrupt-controller;
+> +               #interrupt-cells = <1>;
+> +
+> +               interrupt-parent = <&intc>;
+> +               interrupts = <23 22 21>;
+> +       };
+> +
+>         rtc_dev: rtc@10003000 {
+>                 compatible = "ingenic,jz4740-rtc";
+>                 reg = <0x10003000 0x40>;
+> diff --git a/arch/mips/boot/dts/ingenic/jz4770.dtsi b/arch/mips/boot/dts/ingenic/jz4770.dtsi
+> index 49ede6c14ff3..70932fd90902 100644
+> --- a/arch/mips/boot/dts/ingenic/jz4770.dtsi
+> +++ b/arch/mips/boot/dts/ingenic/jz4770.dtsi
+> @@ -46,6 +46,27 @@
+>                 #clock-cells = <1>;
+>         };
+>
+> +       tcu: timer@10002000 {
+> +               compatible = "ingenic,jz4770-tcu";
+> +               reg = <0x10002000 0x1000>;
+> +               #address-cells = <1>;
+> +               #size-cells = <1>;
+> +               ranges = <0x0 0x10002000 0x1000>;
+> +
+> +               #clock-cells = <1>;
+> +
+> +               clocks = <&cgu JZ4770_CLK_RTC
+> +                         &cgu JZ4770_CLK_EXT
+> +                         &cgu JZ4770_CLK_PCLK>;
+> +               clock-names = "rtc", "ext", "pclk";
+> +
+> +               interrupt-controller;
+> +               #interrupt-cells = <1>;
+> +
+> +               interrupt-parent = <&intc>;
+> +               interrupts = <27 26 25>;
+> +       };
+> +
+>         pinctrl: pin-controller@10010000 {
+>                 compatible = "ingenic,jz4770-pinctrl";
+>                 reg = <0x10010000 0x600>;
+> diff --git a/arch/mips/boot/dts/ingenic/jz4780.dtsi b/arch/mips/boot/dts/ingenic/jz4780.dtsi
+> index b03cdec56de9..495082ce7fc5 100644
+> --- a/arch/mips/boot/dts/ingenic/jz4780.dtsi
+> +++ b/arch/mips/boot/dts/ingenic/jz4780.dtsi
+> @@ -46,6 +46,27 @@
+>                 #clock-cells = <1>;
+>         };
+>
+> +       tcu: timer@10002000 {
 
-  kprobe_event=p,vfs_read,$arg1,$arg2
+With W=1, I see:
 
-This puts a probe on vfs_read with argument1 and 2, and
-enable the new event.
+../arch/mips/boot/dts/ingenic/jz4780.dtsi:64.22-83.4: Warning
+(unique_unit_address): /timer@10002000: duplicate unit-address (also
+used in node /watchdog@1000
+2000)
 
-Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
----
- Documentation/admin-guide/kernel-parameters.txt |   13 ++++++
- Documentation/trace/kprobetrace.rst             |   14 ++++++
- kernel/trace/trace_kprobe.c                     |   54 +++++++++++++++++++++++
- 3 files changed, 81 insertions(+)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 2b8ee90bb644..96b22db7f763 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2002,6 +2002,19 @@
- 			Built with CONFIG_DEBUG_KMEMLEAK_DEFAULT_OFF=y,
- 			the default is off.
- 
-+	kprobe_event=[probe-list]
-+			[FTRACE] Add kprobe events and enable at boot time.
-+			The probe-list is a semicolon delimited list of probe
-+			definitions. Each definition is same as kprobe_events
-+			interface, but the parameters are comma delimited.
-+			For example, to add a kprobe event on vfs_read with
-+			arg1 and arg2, add to the command line;
-+
-+			      kprobe_event=p,vfs_read,$arg1,$arg2
-+
-+			See also Documentation/trace/kprobetrace.rst "Kernel
-+			Boot Parameter" section.
-+
- 	kpti=		[ARM64] Control page table isolation of user
- 			and kernel address spaces.
- 			Default: enabled on cores which need mitigation.
-diff --git a/Documentation/trace/kprobetrace.rst b/Documentation/trace/kprobetrace.rst
-index 235ce2ab131a..5b129215ba33 100644
---- a/Documentation/trace/kprobetrace.rst
-+++ b/Documentation/trace/kprobetrace.rst
-@@ -124,6 +124,20 @@ You can check the total number of probe hits and probe miss-hits via
- The first column is event name, the second is the number of probe hits,
- the third is the number of probe miss-hits.
- 
-+Kernel Boot Parameter
-+---------------------
-+You can add and enable new kprobe events when booting up the kernel by
-+"kprobe_event=" parameter. The parameter accepts a semicolon-delimited
-+kprobe events, which format is similar to the kprobe_events.
-+The difference is that the probe definition parameters are comma-delimited
-+instead of space. For example, adding myprobe event on do_sys_open like below
-+
-+  p:myprobe do_sys_open dfd=%ax filename=%dx flags=%cx mode=+4($stack)
-+
-+should be below for kernel boot parameter (just replace spaces with comma)
-+
-+  p:myprobe,do_sys_open,dfd=%ax,filename=%dx,flags=%cx,mode=+4($stack)
-+
- 
- Usage examples
- --------------
-diff --git a/kernel/trace/trace_kprobe.c b/kernel/trace/trace_kprobe.c
-index 7d736248a070..6983435ff017 100644
---- a/kernel/trace/trace_kprobe.c
-+++ b/kernel/trace/trace_kprobe.c
-@@ -12,6 +12,8 @@
- #include <linux/rculist.h>
- #include <linux/error-injection.h>
- 
-+#include <asm/setup.h>  /* for COMMAND_LINE_SIZE */
-+
- #include "trace_dynevent.h"
- #include "trace_kprobe_selftest.h"
- #include "trace_probe.h"
-@@ -19,6 +21,17 @@
- 
- #define KPROBE_EVENT_SYSTEM "kprobes"
- #define KRETPROBE_MAXACTIVE_MAX 4096
-+#define MAX_KPROBE_CMDLINE_SIZE 1024
-+
-+/* Kprobe early definition from command line */
-+static char kprobe_boot_events_buf[COMMAND_LINE_SIZE] __initdata;
-+
-+static int __init set_kprobe_boot_events(char *str)
-+{
-+	strlcpy(kprobe_boot_events_buf, str, COMMAND_LINE_SIZE);
-+	return 0;
-+}
-+__setup("kprobe_event=", set_kprobe_boot_events);
- 
- static int trace_kprobe_create(int argc, const char **argv);
- static int trace_kprobe_show(struct seq_file *m, struct dyn_event *ev);
-@@ -1450,6 +1463,44 @@ void destroy_local_trace_kprobe(struct trace_event_call *event_call)
- }
- #endif /* CONFIG_PERF_EVENTS */
- 
-+static __init void enable_boot_kprobe_events(void)
-+{
-+	struct trace_array *tr = top_trace_array();
-+	struct trace_event_file *file;
-+	struct trace_kprobe *tk;
-+	struct dyn_event *pos;
-+
-+	mutex_lock(&event_mutex);
-+	for_each_trace_kprobe(tk, pos) {
-+		list_for_each_entry(file, &tr->events, list)
-+			if (file->event_call == &tk->tp.call)
-+				trace_event_enable_disable(file, 1, 0);
-+	}
-+	mutex_unlock(&event_mutex);
-+}
-+
-+static __init void setup_boot_kprobe_events(void)
-+{
-+	char *p, *cmd = kprobe_boot_events_buf;
-+	int ret;
-+
-+	strreplace(kprobe_boot_events_buf, ',', ' ');
-+
-+	while (cmd && *cmd != '\0') {
-+		p = strchr(cmd, ';');
-+		if (p)
-+			*p++ = '\0';
-+
-+		ret = trace_run_command(cmd, create_or_delete_trace_kprobe);
-+		if (ret)
-+			pr_warn("Failed to add event(%d): %s\n", ret, cmd);
-+
-+		cmd = p;
-+	}
-+
-+	enable_boot_kprobe_events();
-+}
-+
- /* Make a tracefs interface for controlling probe points */
- static __init int init_kprobe_trace(void)
- {
-@@ -1481,6 +1532,9 @@ static __init int init_kprobe_trace(void)
- 
- 	if (!entry)
- 		pr_warn("Could not create tracefs 'kprobe_profile' entry\n");
-+
-+	setup_boot_kprobe_events();
-+
- 	return 0;
- }
- fs_initcall(init_kprobe_trace);
-
+> +               compatible = "ingenic,jz4770-tcu";
+> +               reg = <0x10002000 0x1000>;
+> +               #address-cells = <1>;
+> +               #size-cells = <1>;
+> +               ranges = <0x0 0x10002000 0x1000>;
+> +
+> +               #clock-cells = <1>;
+> +
+> +               clocks = <&cgu JZ4780_CLK_RTCLK
+> +                         &cgu JZ4780_CLK_EXCLK
+> +                         &cgu JZ4780_CLK_PCLK>;
+> +               clock-names = "rtc", "ext", "pclk";
+> +
+> +               interrupt-controller;
+> +               #interrupt-cells = <1>;
+> +
+> +               interrupt-parent = <&intc>;
+> +               interrupts = <27 26 25>;
+> +       };
+> +
+>         rtc_dev: rtc@10003000 {
+>                 compatible = "ingenic,jz4780-rtc";
+>                 reg = <0x10003000 0x4c>;
+> --
+> 2.21.0.593.g511ec345e18
+>
