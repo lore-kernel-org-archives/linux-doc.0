@@ -2,117 +2,220 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 737537D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 May 2019 10:19:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 646D17D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 22 May 2019 11:16:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728693AbfEVKTW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 22 May 2019 06:19:22 -0400
-Received: from casper.infradead.org ([85.118.1.10]:51686 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728424AbfEVKTV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 May 2019 06:19:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=MNNWQkMpAeP5cdL0iBQSICJkN4ZWR11nVvJgfc6zMgU=; b=iNFlpcrN1RcMAP1iO9D+A4S/Ag
-        Zdb4xTBd5u2hyuKpRMdb1cBJ2KS3URlwrQ79ofcRaMCLyOaPEY4p1YVeTPAPSBi9QGWl1dDCnwW/O
-        /fMS7VXOzwbus5RYrWpOh9Hgtsof93tLpwnoaPUrWYh29iMHbzBh43bvqRpdzD5CAumypchvCZEXK
-        JYN8Mca7dBM+1GucZlfls2sald9v6iDlohzoERJWaj9pEn6hXF23fCstUVdRU1g2V3zA5cSv2oxT7
-        McC4bzthb3qv4iEsiVfwdhx05Nb+62YhxmAgzDZ7F41flsimsXAMMhFVsAjLlWMrX6lbn24lFqboM
-        zYHD2v9g==;
-Received: from [179.182.168.126] (helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hTOL6-00062F-7v; Wed, 22 May 2019 10:19:16 +0000
-Date:   Wed, 22 May 2019 07:19:09 -0300
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Markus Heiser <markus.heiser@darmarit.de>
-Subject: Re: [PATCH RFC 0/2] docs: Deal with some Sphinx deprecation
- warnings
-Message-ID: <20190522071909.050bb227@coco.lan>
-In-Reply-To: <87d0kb7xf6.fsf@intel.com>
-References: <20190521211714.1395-1-corbet@lwn.net>
-        <87d0kb7xf6.fsf@intel.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1728690AbfEVLQI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 22 May 2019 07:16:08 -0400
+Received: from outils.crapouillou.net ([89.234.176.41]:51226 "EHLO
+        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728808AbfEVLQH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 22 May 2019 07:16:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+        s=mail; t=1558523764; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=sQdb4SEQMtDupMwnwP5hhbNOdCtEsnxGtObeHTAK/0M=;
+        b=DTEguJ7zyqElohAzti93m/3BAwwsnCvQLJQky7KXrv4BOsGGbIYbbX06Tp0r+HHg8+gl/0
+        FWjVWlCvoR7xSo7xFjdE2/Vf6nzOrlnChOVK0p0K+iyUU2qQgbIj3fK4H0fZH9m1wQQSRw
+        6K5IwZT/5Mg1H0sT0geJn+xK/vO3ZQ0=
+Date:   Wed, 22 May 2019 13:15:56 +0200
+From:   Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v12 09/13] MIPS: jz4740: Add DTS nodes for the TCU drivers
+To:     Mathieu Malaterre <malat@debian.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, linux-mips@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-clk@vger.kernel.org, od@zcrc.me
+Message-Id: <1558523756.3066.0@crapouillou.net>
+In-Reply-To: <CA+7wUsxe4DLmAGNnnXZ3UokguMJ0cOGtu=opQpuAPvN_SH4KUw@mail.gmail.com>
+References: <20190521145141.9813-1-paul@crapouillou.net>
+        <20190521145141.9813-10-paul@crapouillou.net>
+        <CA+7wUsxe4DLmAGNnnXZ3UokguMJ0cOGtu=opQpuAPvN_SH4KUw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 22 May 2019 10:36:45 +0300
-Jani Nikula <jani.nikula@linux.intel.com> escreveu:
 
-> On Tue, 21 May 2019, Jonathan Corbet <corbet@lwn.net> wrote:
-> > The Sphinx folks are deprecating some interfaces in the upcoming 2.0
-> > release; one immediate result of that is a bunch of warnings that show up
-> > when building with 1.8.  These two patches make those warnings go away,
-> > but at a cost:
-> >
-> >  - It introduces a couple of Sphinx version checks, which are always
-> >    ugly, but the alternative would be to stop supporting versions
-> >    before 1.7.  For now, I think we can carry that cruft.  
+
+On Wed, May 22, 2019 at 11:21 AM, Mathieu Malaterre <malat@debian.org> 
+wrote:
+> On Tue, May 21, 2019 at 4:52 PM Paul Cercueil <paul@crapouillou.net> 
+> wrote:
+>> 
+>>  Add DTS nodes for the JZ4780, JZ4770 and JZ4740 devicetree files.
+>> 
+>>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+>>  ---
+>> 
+>>  Notes:
+>>      v5: New patch
+>> 
+>>      v6: Fix register lengths in watchdog/pwm nodes
+>> 
+>>      v7: No change
+>> 
+>>      v8: - Fix wrong start address for PWM node
+>>          - Add system timer and clocksource sub-nodes
+>> 
+>>      v9: Drop timer and clocksource sub-nodes
+>> 
+>>      v10-v11: No change
+>> 
+>>      v12: Drop PWM/watchdog/OST sub-nodes, for now.
+>> 
+>>   arch/mips/boot/dts/ingenic/jz4740.dtsi | 22 ++++++++++++++++++++++
+>>   arch/mips/boot/dts/ingenic/jz4770.dtsi | 21 +++++++++++++++++++++
+>>   arch/mips/boot/dts/ingenic/jz4780.dtsi | 21 +++++++++++++++++++++
+>>   3 files changed, 64 insertions(+)
+>> 
+>>  diff --git a/arch/mips/boot/dts/ingenic/jz4740.dtsi 
+>> b/arch/mips/boot/dts/ingenic/jz4740.dtsi
+>>  index 2beb78a62b7d..807d9702d4cf 100644
+>>  --- a/arch/mips/boot/dts/ingenic/jz4740.dtsi
+>>  +++ b/arch/mips/boot/dts/ingenic/jz4740.dtsi
+>>  @@ -53,6 +53,28 @@
+>>                  clock-names = "rtc";
+>>          };
+>> 
+>>  +       tcu: timer@10002000 {
+>>  +               compatible = "ingenic,jz4740-tcu";
+>>  +               reg = <0x10002000 0x1000>;
+>>  +               #address-cells = <1>;
+>>  +               #size-cells = <1>;
+>>  +               ranges = <0x0 0x10002000 0x1000>;
+>>  +
+>>  +               #clock-cells = <1>;
+>>  +
+>>  +               clocks = <&cgu JZ4740_CLK_RTC
+>>  +                         &cgu JZ4740_CLK_EXT
+>>  +                         &cgu JZ4740_CLK_PCLK
+>>  +                         &cgu JZ4740_CLK_TCU>;
+>>  +               clock-names = "rtc", "ext", "pclk", "tcu";
+>>  +
+>>  +               interrupt-controller;
+>>  +               #interrupt-cells = <1>;
+>>  +
+>>  +               interrupt-parent = <&intc>;
+>>  +               interrupts = <23 22 21>;
+>>  +       };
+>>  +
+>>          rtc_dev: rtc@10003000 {
+>>                  compatible = "ingenic,jz4740-rtc";
+>>                  reg = <0x10003000 0x40>;
+>>  diff --git a/arch/mips/boot/dts/ingenic/jz4770.dtsi 
+>> b/arch/mips/boot/dts/ingenic/jz4770.dtsi
+>>  index 49ede6c14ff3..70932fd90902 100644
+>>  --- a/arch/mips/boot/dts/ingenic/jz4770.dtsi
+>>  +++ b/arch/mips/boot/dts/ingenic/jz4770.dtsi
+>>  @@ -46,6 +46,27 @@
+>>                  #clock-cells = <1>;
+>>          };
+>> 
+>>  +       tcu: timer@10002000 {
+>>  +               compatible = "ingenic,jz4770-tcu";
+>>  +               reg = <0x10002000 0x1000>;
+>>  +               #address-cells = <1>;
+>>  +               #size-cells = <1>;
+>>  +               ranges = <0x0 0x10002000 0x1000>;
+>>  +
+>>  +               #clock-cells = <1>;
+>>  +
+>>  +               clocks = <&cgu JZ4770_CLK_RTC
+>>  +                         &cgu JZ4770_CLK_EXT
+>>  +                         &cgu JZ4770_CLK_PCLK>;
+>>  +               clock-names = "rtc", "ext", "pclk";
+>>  +
+>>  +               interrupt-controller;
+>>  +               #interrupt-cells = <1>;
+>>  +
+>>  +               interrupt-parent = <&intc>;
+>>  +               interrupts = <27 26 25>;
+>>  +       };
+>>  +
+>>          pinctrl: pin-controller@10010000 {
+>>                  compatible = "ingenic,jz4770-pinctrl";
+>>                  reg = <0x10010000 0x600>;
+>>  diff --git a/arch/mips/boot/dts/ingenic/jz4780.dtsi 
+>> b/arch/mips/boot/dts/ingenic/jz4780.dtsi
+>>  index b03cdec56de9..495082ce7fc5 100644
+>>  --- a/arch/mips/boot/dts/ingenic/jz4780.dtsi
+>>  +++ b/arch/mips/boot/dts/ingenic/jz4780.dtsi
+>>  @@ -46,6 +46,27 @@
+>>                  #clock-cells = <1>;
+>>          };
+>> 
+>>  +       tcu: timer@10002000 {
 > 
-> Frankly, I'd just require Sphinx 1.7+, available even in Debian stable
-> through stretch-backports.
-
-We can raise the bar and force a 1.7 or even 1.8 (Fedora 30 comes
-with version 1.8.4), but I would prefer to keep support older versions,
-at least while we don't depend on some new features introduced after
-the version we're using, and while our extensions won't require a major
-rework due to a new version.
+> With W=1, I see:
 > 
-> >  - The second patch causes the build to fail horribly on newer
-> >    Sphinx installations.  The change to switch_source_input() seems
-> >    to make the parser much more finicky, increasing warnings and
-> >    eventually failing the build altogether.  In particular, it will
-> >    scream about problems in .rst files that are not included in the
-> >    TOC tree at all.  The complaints appear to be legitimate, but it's
-> >    a bunch of stuff to clean up.  
+> ../arch/mips/boot/dts/ingenic/jz4780.dtsi:64.22-83.4: Warning
+> (unique_unit_address): /timer@10002000: duplicate unit-address (also
+> used in node /watchdog@1000
+> 2000)
 
-There is a flag to cleanup the warning about a file not included at
-a TOC tree (:orphan:), but it will still try to parse it. There's also
-a conf.py way of doing it. For example, you can exclude an entire dir:
+That didn't happen in V11 because there I was also migrating the
+watchdog and PWM drivers to children nodes of the TCU. It was more
+atomic, but it also was a 27-patches bomb touching a lot of
+subsystems that nobody was ever going to merge.
 
-	exclude_patterns = ['includes/*.rst']
+Is the address conflict OK, knowing that the watchdog node will
+move out of the way as soon as this patchset is merged?
 
-But using exclude_patterns will likely be too messy.
+Should I add an extra patch to remove the watchdog node instead?
 
-> I can understand Sphinx complaining that a file is not included in a TOC
-> tree, but I don't understand why it goes on to parse them anyway.
-
-Yeah, this is, IMHO, a very bad behavior.
-
-> 
-> BR,
-> Jani.
-> 
-> 
-> >
-> > I've tested these with 1.4 and 1.8, but not various versions in between.
-> >
-> > Jonathan Corbet (2):
-> >   doc: Cope with Sphinx logging deprecations
-> >   doc: Cope with the deprecation of AutoReporter
-> >
-> >  Documentation/sphinx/kerneldoc.py | 48 ++++++++++++++++++++++++-------
-> >  Documentation/sphinx/kernellog.py | 28 ++++++++++++++++++
-> >  Documentation/sphinx/kfigure.py   | 38 +++++++++++++-----------
-> >  3 files changed, 87 insertions(+), 27 deletions(-)
-> >  create mode 100644 Documentation/sphinx/kernellog.py  
-> 
+(and yes, devicetree ABI will break, which is sort-of OK in this
+case - as on Ingenic boards the devicetree blobs are always
+compiled within the kernel, so I think we should make this
+much-needed change while we still can).
 
 
+>>  +               compatible = "ingenic,jz4770-tcu";
+>>  +               reg = <0x10002000 0x1000>;
+>>  +               #address-cells = <1>;
+>>  +               #size-cells = <1>;
+>>  +               ranges = <0x0 0x10002000 0x1000>;
+>>  +
+>>  +               #clock-cells = <1>;
+>>  +
+>>  +               clocks = <&cgu JZ4780_CLK_RTCLK
+>>  +                         &cgu JZ4780_CLK_EXCLK
+>>  +                         &cgu JZ4780_CLK_PCLK>;
+>>  +               clock-names = "rtc", "ext", "pclk";
+>>  +
+>>  +               interrupt-controller;
+>>  +               #interrupt-cells = <1>;
+>>  +
+>>  +               interrupt-parent = <&intc>;
+>>  +               interrupts = <27 26 25>;
+>>  +       };
+>>  +
+>>          rtc_dev: rtc@10003000 {
+>>                  compatible = "ingenic,jz4780-rtc";
+>>                  reg = <0x10003000 0x4c>;
+>>  --
+>>  2.21.0.593.g511ec345e18
+>> 
 
-Thanks,
-Mauro
+
