@@ -1,134 +1,331 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 32D5D7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 23 May 2019 05:45:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1C96C7D910
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 23 May 2019 08:40:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728184AbfEWFpp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 23 May 2019 01:45:45 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60754 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725848AbfEWFpp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 May 2019 01:45:45 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x4N5aXXB021008
-        for <linux-doc@vger.kernel.org>; Thu, 23 May 2019 01:45:44 -0400
-Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2snkcqvnbx-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Thu, 23 May 2019 01:45:44 -0400
-Received: from localhost
-        by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Thu, 23 May 2019 06:45:41 +0100
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
-        by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Thu, 23 May 2019 06:45:37 +0100
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x4N5jaJJ45351160
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 23 May 2019 05:45:36 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id B149911C052;
-        Thu, 23 May 2019 05:45:36 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 0FAD311C05B;
-        Thu, 23 May 2019 05:45:36 +0000 (GMT)
-Received: from rapoport-lnx (unknown [9.148.8.112])
-        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Thu, 23 May 2019 05:45:35 +0000 (GMT)
-Date:   Thu, 23 May 2019 08:45:34 +0300
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Markus Heiser <markus.heiser@darmarit.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Oleksandr Natalenko <oleksandr@redhat.com>,
-        Keith Busch <keith.busch@intel.com>
-Subject: Re: [PATCH 3/8] docs: fix numaperf.rst and add it to the doc tree
-References: <20190522205034.25724-1-corbet@lwn.net>
- <20190522205034.25724-4-corbet@lwn.net>
+        id S1730014AbfEWIkO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 23 May 2019 04:40:14 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:43867 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729976AbfEWIkN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 May 2019 04:40:13 -0400
+Received: by mail-ed1-f67.google.com with SMTP id w33so4702141edb.10
+        for <linux-doc@vger.kernel.org>; Thu, 23 May 2019 01:40:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=sender:date:from:to:cc:subject:message-id:mail-followup-to
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=OtO3pn3g+W5AJ1zDc3bZ1Gi7BUopJKS5bXtOM69PFV0=;
+        b=lq0MyFEeRcjMOqOeV3+f0i+TJjbwdAlfr6V7mYhQGHiFiyqULL6S2+Syj4bf4Ap+X1
+         LTiy/HFPl8cYz36rVJ8eFk1gpYRLbr8SuDawjh76uT+RILl5tWpijdVhlyN7ntHtzA3K
+         PNyVHRqlLgXqxpA59M9A3TUICNOzB/ZluRNqA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=OtO3pn3g+W5AJ1zDc3bZ1Gi7BUopJKS5bXtOM69PFV0=;
+        b=jSK3bRhtkUpXrY3Ea9qJ1oxqNxmgt/KIMx/ZMUm1396f9/FnRmNbVs709grkbICzUW
+         D/OjxwYz9YysjhYN4MVfdMsRIsNiKF1zKRkfkOXUOyN4S2UF8BYT7cmeuw7jPxRd8jpX
+         /HHBK30A7cyFw+OJWZ6CfGzkST6ZsMy5JuOUrMi4iWKPfR2c28CV5pY6UwjKK0kYWMjU
+         51jQfGRjn6ar+4fewrs8FhuyjjfoPnn5PhiI3P2AeIiwYcfwn9c8ndD7B985DMac37nx
+         YoAovlNq/aLfytHamtWU0IpiLxYNj/hU0rmDvaDTqmOhx94ZkAuap2aEHanAt6Rt2RvI
+         sCbA==
+X-Gm-Message-State: APjAAAVB0wWGTE9DO7Yw8c+yxkqNjd44uYZ+5imx8VrAw037MbK9cjBv
+        ILbbWY8/cOqmj9rcwaaayEKTGQ==
+X-Google-Smtp-Source: APXvYqz8Y+bfkGbAgCjaoic1YwZ2Mzn/1QL4hnOd08WL9imIzBVyErPfVOS7r/O39NeU8f+1ffyFzw==
+X-Received: by 2002:a17:906:4995:: with SMTP id p21mr47837157eju.140.1558600810787;
+        Thu, 23 May 2019 01:40:10 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
+        by smtp.gmail.com with ESMTPSA id a40sm7754430edd.1.2019.05.23.01.40.08
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 23 May 2019 01:40:09 -0700 (PDT)
+Date:   Thu, 23 May 2019 10:40:06 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Brendan Higgins <brendanhiggins@google.com>
+Cc:     Theodore Ts'o <tytso@mit.edu>,
+        Frank Rowand <frowand.list@gmail.com>,
+        "Bird, Timothy" <Tim.Bird@sony.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@google.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        Shuah Khan <shuah@kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Jeff Dike <jdike@addtoit.com>, Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Petr Mladek <pmladek@suse.com>,
+        Richard Weinberger <richard@nod.at>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v2 00/17] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+Message-ID: <20190523084006.GW21222@phenom.ffwll.local>
+Mail-Followup-To: Brendan Higgins <brendanhiggins@google.com>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Frank Rowand <frowand.list@gmail.com>,
+        "Bird, Timothy" <Tim.Bird@sony.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@google.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        Shuah Khan <shuah@kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Jeff Dike <jdike@addtoit.com>, Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Petr Mladek <pmladek@suse.com>, Richard Weinberger <richard@nod.at>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com,
+        Bjorn Helgaas <bhelgaas@google.com>
+References: <875c546d-9713-bb59-47e4-77a1d2c69a6d@gmail.com>
+ <20190509214233.GA20877@mit.edu>
+ <80c72e64-2665-bd51-f78c-97f50f9a53ba@gmail.com>
+ <20190511173344.GA8507@mit.edu>
+ <20190513144451.GQ17751@phenom.ffwll.local>
+ <20190514060433.GA181462@google.com>
+ <CAKMK7uHqtSF_sazJTbFL+xmQJRk4iwukCKZHoDHhsKkLXk=ECQ@mail.gmail.com>
+ <20190514183618.GC109557@google.com>
+ <20190515074141.GY17751@phenom.ffwll.local>
+ <CAFd5g476Hc+6jL5sV=VJamXCbqGebwHqqN9N9RppQYMCoo052Q@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190522205034.25724-4-corbet@lwn.net>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 19052305-0012-0000-0000-0000031E8977
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19052305-0013-0000-0000-0000215740D9
-Message-Id: <20190523054534.GB23850@rapoport-lnx>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-23_05:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1905230040
+In-Reply-To: <CAFd5g476Hc+6jL5sV=VJamXCbqGebwHqqN9N9RppQYMCoo052Q@mail.gmail.com>
+X-Operating-System: Linux phenom 4.14.0-3-amd64 
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 22, 2019 at 02:50:29PM -0600, Jonathan Corbet wrote:
-> Commit 13bac55ef7ae ("doc/mm: New documentation for memory performance")
-> added numaperf.rst, but did not add it to the TOC tree.  There was also an
-> incorrectly marked literal block leading to this warning sequence:
+On Wed, May 22, 2019 at 02:38:48PM -0700, Brendan Higgins wrote:
+> +Bjorn Helgaas
 > 
->   numaperf.rst:24: WARNING: Unexpected indentation.
->   numaperf.rst:24: WARNING: Inline substitution_reference start-string without end-string.
->   numaperf.rst:25: WARNING: Block quote ends without a blank line; unexpected unindent.
+> On Wed, May 15, 2019 at 12:41 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Tue, May 14, 2019 at 11:36:18AM -0700, Brendan Higgins wrote:
+> > > On Tue, May 14, 2019 at 02:05:05PM +0200, Daniel Vetter wrote:
+> > > > On Tue, May 14, 2019 at 8:04 AM Brendan Higgins
+> > > > <brendanhiggins@google.com> wrote:
+> > > > >
+> > > > > On Mon, May 13, 2019 at 04:44:51PM +0200, Daniel Vetter wrote:
+> > > > > > On Sat, May 11, 2019 at 01:33:44PM -0400, Theodore Ts'o wrote:
+> > > > > > > On Fri, May 10, 2019 at 02:12:40PM -0700, Frank Rowand wrote:
+> > > > > > > > However, the reply is incorrect.  Kselftest in-kernel tests (which
+> > > > > > > > is the context here) can be configured as built in instead of as
+> > > > > > > > a module, and built in a UML kernel.  The UML kernel can boot,
+> > > > > > > > running the in-kernel tests before UML attempts to invoke the
+> > > > > > > > init process.
+> > > > > > >
+> > > > > > > Um, Citation needed?
+> > > > > > >
+> > > > > > > I don't see any evidence for this in the kselftest documentation, nor
+> > > > > > > do I see any evidence of this in the kselftest Makefiles.
+> > > > > > >
+> > > > > > > There exists test modules in the kernel that run before the init
+> > > > > > > scripts run --- but that's not strictly speaking part of kselftests,
+> > > > > > > and do not have any kind of infrastructure.  As noted, the
+> > > > > > > kselftests_harness header file fundamentally assumes that you are
+> > > > > > > running test code in userspace.
+> > > > > >
+> > > > > > Yeah I really like the "no userspace required at all" design of kunit,
+> > > > > > while still collecting results in a well-defined way (unless the current
+> > > > > > self-test that just run when you load the module, with maybe some
+> > > > > > kselftest ad-hoc wrapper around to collect the results).
+> > > > > >
+> > > > > > What I want to do long-term is to run these kernel unit tests as part of
+> > > > > > the build-testing, most likely in gitlab (sooner or later, for drm.git
+> > > > >
+> > > > > Totally! This is part of the reason I have been insisting on a minimum
+> > > > > of UML compatibility for all unit tests. If you can suffiently constrain
+> > > > > the environment that is required for tests to run in, it makes it much
+> > > > > easier not only for a human to run your tests, but it also makes it a
+> > > > > lot easier for an automated service to be able to run your tests.
+> > > > >
+> > > > > I actually have a prototype presubmit already working on my
+> > > > > "stable/non-upstream" branch. You can checkout what presubmit results
+> > > > > look like here[1][2].
+> > > >
+> > > > ug gerrit :-)
+> > >
+> > > Yeah, yeah, I know, but it is a lot easier for me to get a project set
+> > > up here using Gerrit, when we already use that for a lot of other
+> > > projects.
+> > >
+> > > Also, Gerrit has gotten a lot better over the last two years or so. Two
+> > > years ago, I wouldn't touch it with a ten foot pole. It's not so bad
+> > > anymore, at least if you are used to using a web UI to review code.
+> >
+> > I was somewhat joking, I'm just not used to gerrit ... And seems to indeed
+> > be a lot more polished than last time I looked at it seriously.
 > 
-> Fix the block and add the file to the document tree.
+> I mean, it is still not perfect, but I think it has finally gotten to
+> the point where I prefer it over reviewing by email for high context
+> patches where you don't expect a lot of deep discussion.
 > 
-> Fixes: 13bac55ef7ae ("doc/mm: New documentation for memory performance")
-> Cc: Keith Busch <keith.busch@intel.com>
-> Cc: Mike Rapoport <rppt@linux.ibm.com>
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> Still not great for patches where you want to have a lot of discussion.
+> 
+> > > > > > only ofc). So that people get their pull requests (and patch series, we
+> > > > > > have some ideas to tie this into patchwork) automatically tested for this
+> > > > >
+> > > > > Might that be Snowpatch[3]? I talked to Russell, the creator of Snowpatch,
+> > > > > and he seemed pretty open to collaboration.
+> > > > >
+> > > > > Before I heard about Snowpatch, I had an intern write a translation
+> > > > > layer that made Prow (the presubmit service that I used in the prototype
+> > > > > above) work with LKML[4].
+> > > >
+> > > > There's about 3-4 forks/clones of patchwork. snowpatch is one, we have
+> > > > a different one on freedesktop.org. It's a bit a mess :-/
+> 
+> I think Snowpatch is an ozlabs project; at least the maintainer works at IBM.
+> 
+> Patchwork originally was a ozlabs project, right?
 
-Reviewed-by: Mike Rapoport <rppt@linux.ibm.com>
+So there's two patchworks (snowpatch makes the 3rd): the one on
+freedesktop is another fork.
 
-> ---
->  Documentation/admin-guide/mm/index.rst    | 1 +
->  Documentation/admin-guide/mm/numaperf.rst | 2 +-
->  2 files changed, 2 insertions(+), 1 deletion(-)
+> Has any discussion taken place trying to consolidate some of the forks?
+
+Yup, but didn't lead anywhere unfortunately :-/ At least between patchwork
+and patchwork-fdo, I think snowpatch happened in parallel and once it was
+done it's kinda too late. The trouble is that they all have slightly
+different REST api and functionality, so for CI integration you can't just
+switch one for the other.
+
+> Presubmit clearly seems like a feature that a number of people want.
 > 
-> diff --git a/Documentation/admin-guide/mm/index.rst b/Documentation/admin-guide/mm/index.rst
-> index 8edb35f11317..ddf8d8d33377 100644
-> --- a/Documentation/admin-guide/mm/index.rst
-> +++ b/Documentation/admin-guide/mm/index.rst
-> @@ -31,6 +31,7 @@ the Linux memory management.
->     ksm
->     memory-hotplug
->     numa_memory_policy
-> +   numaperf
->     pagemap
->     soft-dirty
->     transhuge
-> diff --git a/Documentation/admin-guide/mm/numaperf.rst b/Documentation/admin-guide/mm/numaperf.rst
-> index b79f70c04397..c067ed145158 100644
-> --- a/Documentation/admin-guide/mm/numaperf.rst
-> +++ b/Documentation/admin-guide/mm/numaperf.rst
-> @@ -15,7 +15,7 @@ characteristics.  Some memory may share the same node as a CPU, and others
->  are provided as memory only nodes. While memory only nodes do not provide
->  CPUs, they may still be local to one or more compute nodes relative to
->  other nodes. The following diagram shows one such example of two compute
-> -nodes with local memory and a memory only node for each of compute node:
-> +nodes with local memory and a memory only node for each of compute node::
->  
->   +------------------+     +------------------+
->   | Compute Node 0   +-----+ Compute Node 1   |
-> -- 
-> 2.21.0
+> > > Oh, I didn't realize that. I found your patchwork instance here[5], but
+> > > do you have a place where I can see the changes you have added to
+> > > support presubmit?
+> >
+> > Ok here's a few links. Aside from the usual patch view we've also added a
+> > series view:
+> >
+> > https://patchwork.freedesktop.org/project/intel-gfx/series/?ordering=-last_updated
+> >
+> > This ties the patches + cover letter together, and it even (tries to at
+> > least) track revisions. Here's an example which is currently at revision
+> > 9:
+> >
+> > https://patchwork.freedesktop.org/series/57232/
 > 
+> Oooh, nice! That looks awesome! Looks like you have a number of presubmits too.
+
+We have a pretty big farm of machines that mostly just crunch through
+premerge patch series. postmerge is mostly just for statistics (so we can
+find the sporadic failures and better characterize them).
+
+> > Below the patch list for each revision we also have the test result list.
+> > If you click on the grey bar it'll expand with the summary from CI, the
+> > "See full logs" is link to the full results from our CI. This is driven
+> > with some REST api from our jenkins.
+> >
+> > Patchwork also sends out mails for these results.
+> 
+> Nice! There are obviously a lot of other bots on various kernel
+> mailing lists. Do you think people would object to sending presubmit
+> results to the mailing lists by default?
+> 
+> > Source is on gitlab: https://gitlab.freedesktop.org/patchwork-fdo
+> 
+> Err, looks like you forked from the ozlab's repo a good while ago.
+
+Yeah see above, it's a bit a complicated story. I think there's a total of
+3 patchworks now :-/
+
+> Still, this all looks great!
+
+Cheers, Daniel
+
+> 
+> > > > > I am not married to either approach, but I think between the two of
+> > > > > them, most of the initial legwork has been done to make presubmit on
+> > > > > LKML a reality.
+> > > >
+> > > > We do have presubmit CI working already with our freedesktop.org
+> > > > patchwork. The missing glue is just tying that into gitlab CI somehow
+> > > > (since we want to unify build testing more and make it easier for
+> > > > contributors to adjust things).
+> > >
+> > > I checked out a couple of your projects on your patchwork instance: AMD
+> > > X.Org drivers, DRI devel, and Wayland. I saw the tab you added for
+> > > tests, but none of them actually had any test results. Can you point me
+> > > at one that does?
+> >
+> > Atm we use the CI stuff only on intel-gfx, with the our gpu CI farm, see
+> > links above.
+> >
+> > Cheers, Daniel
+> >
+> > >
+> > > Cheers!
+> > >
+> > > [5] https://patchwork.freedesktop.org/
+> > >
+> > > > > > super basic stuff.
+> > > > >
+> > > > > I am really excited to hear back on what you think!
+> > > > >
+> > > > > Cheers!
+> > > > >
+> > > > > [1] https://kunit-review.googlesource.com/c/linux/+/1509/10#message-7bfa40efb132e15c8388755c273837559911425c
+> > > > > [2] https://kunit-review.googlesource.com/c/linux/+/1509/10#message-a6784496eafff442ac98fb068bf1a0f36ee73509
+> > > > > [3] https://developer.ibm.com/open/projects/snowpatch/
+> > > > > [4] https://kunit.googlesource.com/prow-lkml/
+> > > > > _______________________________________________
+> > > > > dri-devel mailing list
+> > > > > dri-devel@lists.freedesktop.org
+> > > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> 
+> Cheers!
 
 -- 
-Sincerely yours,
-Mike.
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
