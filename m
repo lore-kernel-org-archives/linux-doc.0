@@ -5,85 +5,73 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B96E37D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 23 May 2019 10:38:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8BB647D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 23 May 2019 10:43:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728109AbfEWKiq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 23 May 2019 06:38:46 -0400
-Received: from casper.infradead.org ([85.118.1.10]:43136 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727434AbfEWKiq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 May 2019 06:38:46 -0400
+        id S1730277AbfEWKnt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 23 May 2019 06:43:49 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:33574 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727434AbfEWKnt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 May 2019 06:43:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=HW7kkCxLjbPF73Er62cEjl0sh5kfeFThig0TQRbVBDY=; b=XkQ6ahiZnLge7o52UrZ33qvHP8
-        EKq+CIuywgun5hSSyfs4MKaDcFUR+wnLQi4M8Nl01d3IwELqlacpAgm7VqpHc4afeyx9kQPhlVZCC
-        66QrPMLM0FPcuMt1cVP5Tg638kUW3AwbV7tkya84+7SMLRFZ+78r8v9uk4JrXHpH3RHWMgsnBgzRC
-        mn8gYNmHX2ZIfelUgODrYgd6LWbNtBijQo6myXv1Q9t8EbHn55o72nCkYCO6NQRk4qbbZFY3xQCLh
-        OvVWC0rbDk46hCRT/6W0ddgeFwOsLd7HOAJBx8g+AWQuTayyxk0u26lQ2TaWvUX+pESIuc/3TFVT7
-        1nln2t5g==;
-Received: from [179.182.168.126] (helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hTl7M-0001gk-AL; Thu, 23 May 2019 10:38:36 +0000
-Date:   Thu, 23 May 2019 07:38:30 -0300
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Oleksandr Natalenko <oleksandr@redhat.com>
-Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Markus Heiser <markus.heiser@darmarit.de>
-Subject: Re: [PATCH 0/8] docs: Fixes for recent versions of Sphinx
-Message-ID: <20190523073830.388b4868@coco.lan>
-In-Reply-To: <20190523101534.cenmf7rexa7gerot@butterfly.localdomain>
-References: <20190522205034.25724-1-corbet@lwn.net>
-        <20190523093944.mylk5l3ginkpelfi@butterfly.localdomain>
-        <877eah7a2k.fsf@intel.com>
-        <20190523101534.cenmf7rexa7gerot@butterfly.localdomain>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=QvOd/fJjXFPdnBle2fe0Q+QGkQ9sPITwaJ/QwVHAAQc=; b=WOPe066LjGPPjgHOGdhYNNG1/
+        DhfVtOPIlIw34+3TEYQ7jEnqmcPjn9Evi5RiSOj2s5BwgVX0fW3PVoYjtRTEuFY+oNcOYah+g6LmV
+        p/BChW8y9p+AVytHNDj59D6zZ5vNMCfo59T690RSAX94yzd5/hTC4EUMRkHXnjDdmH6JicXqIxYiv
+        jMdAVDiyly7/t3LVMSPsyoioIAYuDtEAxqMu2D4h+lj5/aazGZnb10IWtrPh0oTg0dXYzfB6XZl1Z
+        tf49cBau0kwGcuJi/5oGTSbjkGIBDtILGuZDdzOxS0L9YXfG+bBs3C3PWrWaxvmglhQ1w4IZymZJZ
+        gjtcbQkFQ==;
+Received: from [179.182.168.126] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hTlCO-0007Os-OE; Thu, 23 May 2019 10:43:48 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hTlCL-0006Bw-7s; Thu, 23 May 2019 07:43:45 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH] docs: cdomain.py: get rid of a warning since version 1.8
+Date:   Thu, 23 May 2019 07:43:43 -0300
+Message-Id: <b38a9fdfdcda49b2c6118072afac564e96406800.1558608217.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 23 May 2019 12:15:34 +0200
-Oleksandr Natalenko <oleksandr@redhat.com> escreveu:
+There's a new warning about a deprecation function. Add a
+logic at cdomain.py to avoid that.
 
-> On Thu, May 23, 2019 at 01:13:23PM +0300, Jani Nikula wrote:
-> > On Thu, 23 May 2019, Oleksandr Natalenko <oleksandr@redhat.com> wrote:  
-> > > Thanks for the efforts. I've run this on top of Linus' tree, and the
-> > > only sphinx-related deprecation warning I've spotted is this one:
-> > >
-> > > /home/onatalen/work/src/linux/Documentation/sphinx/cdomain.py:51: RemovedInSphinx30Warning: app.override_domain() is deprecated. Use app.add_domain() with override option instead.
-> > >   app.override_domain(CDomain)
-> > >
-> > > Otherwise, it builds.  
-> > 
-> > Please share your Sphinx version (sphinx-build --version).  
-> 
-> [~]$ sphinx-build --version
-> sphinx-build 2.0.1
-> 
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ Documentation/sphinx/cdomain.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Same here with vanilla 2.0.0 (installed via pip3):
+diff --git a/Documentation/sphinx/cdomain.py b/Documentation/sphinx/cdomain.py
+index cf13ff3a656c..cbac8e608dc4 100644
+--- a/Documentation/sphinx/cdomain.py
++++ b/Documentation/sphinx/cdomain.py
+@@ -48,7 +48,10 @@ major, minor, patch = sphinx.version_info[:3]
+ 
+ def setup(app):
+ 
+-    app.override_domain(CDomain)
++    if (major == 1 and minor < 8):
++        app.override_domain(CDomain)
++    else:
++        app.add_domain(CDomain, override=True)
+ 
+     return dict(
+         version = __version__,
+-- 
+2.21.0
 
-Running Sphinx v2.0.0
-/devel/v4l/docs/Documentation/sphinx/cdomain.py:51: RemovedInSphinx30Warning: app.override_domain() is deprecated. Use app.add_domain() with override option instead.
-  app.override_domain(CDomain)
-
-It seems that this message is there since 1.8:
-
-	https://www.sphinx-doc.org/en/1.8/_modules/sphinx/application.html
-
-The fix seems to be trivial: just replace it to:
-
-	app.add_domain(domain, override=True)
-
-Thanks,
-Mauro
