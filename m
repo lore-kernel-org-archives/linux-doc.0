@@ -6,386 +6,312 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 53A1C7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 23 May 2019 21:02:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DF5BC7D913
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 23 May 2019 21:09:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726222AbfEWVCO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 23 May 2019 17:02:14 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:36869 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729797AbfEWVCL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 May 2019 17:02:11 -0400
-Received: by mail-ed1-f67.google.com with SMTP id w37so11122963edw.4
-        for <linux-doc@vger.kernel.org>; Thu, 23 May 2019 14:02:09 -0700 (PDT)
+        id S2388244AbfEWVJV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 23 May 2019 17:09:21 -0400
+Received: from mail-it1-f195.google.com ([209.85.166.195]:40686 "EHLO
+        mail-it1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388241AbfEWVJU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 May 2019 17:09:20 -0400
+Received: by mail-it1-f195.google.com with SMTP id h11so10636852itf.5
+        for <linux-doc@vger.kernel.org>; Thu, 23 May 2019 14:09:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=posk.io; s=google;
+        d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=r1lKMCcJEP0JaWbSAwsLaWxaEf5UMVzQQOLAUDu+uuo=;
-        b=aNpohfpBiV8iO87p6Pt6ssotsxN8h0GH7oNSKj0h8hoHVSy1ruVV9/4Izsu1e2V7po
-         tiODw/KbMQNyQtLN+BdH6TjY1zcCSyixthBhAYn1SWHfTL3U6Az0n2kQeh8kxfJkpFBI
-         2186GYu1xzghsOzJEgKDOIH/Fq4KW0P7P0FgE4ZhQax17cINfdpgXQ0nDXjVtMduNrBe
-         ONrQhx3EZMWv/lNgkNKaON7MYTLRpbHJnFQFDQmceu7MYFJ+embyDcqblGHluqTgdvAf
-         1jTOVf7/dokmrp08lT7L6j5ahss8mD7yg8a6EuDp78iBR2nWpxRAIt8LIruMxUm1roze
-         UueA==
+        bh=DCdWUqMVpGTE6FqZCHfMHY8K5wiZoy6gpaWqmgZjo4s=;
+        b=A32rhnYX6zCMNDKeqhQiABgAOnCOQWdaexJX6FwyOkdYchKnAuxlqk7fFydjLWIfwd
+         5AL4B1MBOM8xJUzsYXX0MDDHYGCj+BX8IhSizIVp0oE/HV4ki28OTw22gTR5CHppV8gW
+         j8C6DfTJj1qs7EwaDfVk+X7H5X2mNL9HEDgmXCcg5R74Nxa4IBevjKLQrlXrc5EfEXIH
+         fcr840UeQuRHSIo3WLAUDl8qxtZLa8nqGeSkXCUg7+TmHlklab6S5JaTQ8WCCXvm0CU2
+         +MpJsvgPOGHvG5VK1A1c5iGS512iirBrxfSlpidenHDCtoogusqgsacKCQCzxDle9mfQ
+         IilQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=r1lKMCcJEP0JaWbSAwsLaWxaEf5UMVzQQOLAUDu+uuo=;
-        b=O/vtsK3wuxK6JnPT7sBSogsva5fnMm/wZqFx9n1tMZ5uwWtw68Q/Yqla/XHB2C8Uel
-         mIBmCnkXo0uNRRc0Xs/B+W2gh4Akozh8anRqb+69QoRurM6VSYu50nHRFUiZkXu92yNN
-         hDr33OmYHOZE4HzyNtB5Hiqy2D3UH92q3jjkO2p/2fL8dJ7O4vLpv5Td4TL9dEHcsfBD
-         Tk1ZKMe/kS0bzStDe2X81g45gIwF7Ak+tpDEFEWZ6RbcMXoCPzmsRhOVv7MUfJnXzj1e
-         gLzIgub4PP5D9/q9tjkbV6J3uxy6sbXiUgZgG4ykQBB9VeeInC+sumoMAZMoveBBR4zb
-         BMSw==
-X-Gm-Message-State: APjAAAVVGxov+cYTDZ3+lNDFhCGrzJmMwbUQKhSZ51EYW1om0kOjLXoH
-        frO/nwAxpzATvwXJw9KJy4LRVPUTBSACZoEAw52rQw==
-X-Google-Smtp-Source: APXvYqxS5oF0GqTGdLCu14UTevksyl+kRa1VJ+ve+iJnZmwSNAwukSl67ebQcvhi4qQWEcMtJNKhBDUtBHk5/nF9f9Y=
-X-Received: by 2002:a50:ce5b:: with SMTP id k27mr47384816edj.48.1558645328946;
- Thu, 23 May 2019 14:02:08 -0700 (PDT)
+        bh=DCdWUqMVpGTE6FqZCHfMHY8K5wiZoy6gpaWqmgZjo4s=;
+        b=GoytmL1QyhGYk0L8x6HxpC/WCGXcbuV/g3nE9dqI/hK6254nfRdeMC/XjudndtQOTZ
+         CNuSVIYq+VvNBNeFZXXhIb91oWQU8SC7u8/2QDOo9xqLNFjKafpCgXyPlef8KArCBJLy
+         bpdVTZhCNG/fzdOD0gmDeOxBlJmfnscsxe6FZNnYS8tqCgcxVgQd8CURAET33mS+EGvj
+         13lz+12520WGlE6LD9B/J2JUmkUgVUbkN3bNy8C9bV85dvDKJTWLU8/FyyNM0lSqkUUX
+         1a2Lk0imBASKArgIwXsOgA6alIyeTw4IDc7JJ0Yv3pOjTuPDO2AsK/+PwrHZ9JinmKh6
+         f9sg==
+X-Gm-Message-State: APjAAAXM9HVKPIWl7JgdTYID9N6YQw0o0qHzOcehYo9Ng3B5ImxVsZAI
+        Vm+Cn58ALWcMj+aDnkRwhY7OZRXrECK3K8haW5ndQg==
+X-Google-Smtp-Source: APXvYqwJ+zx4+qJM/ykMGiFXVMSxdwVig7XuiPEKAOIX54Fi4grVYi4iqYEc2jlFZ/7AXf5nPrtmp2W9RJuL1g/PESI=
+X-Received: by 2002:a24:ca84:: with SMTP id k126mr14174410itg.104.1558645759476;
+ Thu, 23 May 2019 14:09:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <1558121424-2914-1-git-send-email-chiluk+linux@indeed.com>
- <1558637087-20283-1-git-send-email-chiluk+linux@indeed.com> <1558637087-20283-2-git-send-email-chiluk+linux@indeed.com>
-In-Reply-To: <1558637087-20283-2-git-send-email-chiluk+linux@indeed.com>
-From:   Peter Oskolkov <posk@posk.io>
-Date:   Thu, 23 May 2019 14:01:58 -0700
-Message-ID: <CAFTs51W0KdK4nw6wydn2HjNYvFRC8DYMmVeKX9FAe+4YUGEAZg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] sched/fair: Fix low cpu usage with high throttling
- by removing expiration of cpu-local slices
-To:     Dave Chiluk <chiluk+linux@indeed.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Kyle Anderson <kwa@yelp.com>,
-        Gabriel Munos <gmunoz@netflix.com>,
-        John Hammond <jhammond@indeed.com>,
-        Cong Wang <xiyou.wangcong@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+References: <20190523183516.583-1-atish.patra@wdc.com>
+In-Reply-To: <20190523183516.583-1-atish.patra@wdc.com>
+From:   Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Date:   Thu, 23 May 2019 22:09:06 +0100
+Message-ID: <CAKv+Gu9VnjtgdkqfJJ1qQQ0W=z+uYN9Y-1n3Md3tV+d6a63wZA@mail.gmail.com>
+Subject: Re: [v3 PATCH] RISC-V: Add a PE/COFF compliant Image header.
+To:     Atish Patra <atish.patra@wdc.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Anup Patel <Anup.Patel@wdc.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Zong Li <zong@andestech.com>,
+        Palmer Dabbelt <palmer@sifive.com>,
+        Tom Rini <trini@konsulko.com>, paul.walmsley@sifive.com,
+        Nick Kossifidis <mick@ics.forth.gr>,
+        linux-riscv@lists.infradead.org, marek.vasut@gmail.com,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 23, 2019 at 11:44 AM Dave Chiluk <chiluk+linux@indeed.com> wrote:
+On Thu, 23 May 2019 at 19:35, Atish Patra <atish.patra@wdc.com> wrote:
 >
-> It has been observed, that highly-threaded, non-cpu-bound applications
-> running under cpu.cfs_quota_us constraints can hit a high percentage of
-> periods throttled while simultaneously not consuming the allocated
-> amount of quota.  This use case is typical of user-interactive non-cpu
-> bound applications, such as those running in kubernetes or mesos when
-> run on multiple cpu cores.
+> Currently, last stage boot loaders such as U-Boot can accept only
+> uImage which is an unnecessary additional step in automating boot flows.
 >
-> This has been root caused to threads being allocated per cpu bandwidth
-> slices, and then not fully using that slice within the period. At which
-> point the slice and quota expires.  This expiration of unused slice
-> results in applications not being able to utilize the quota for which
-> they are allocated.
+> Add a PE/COFF compliant image header that boot loaders can parse and
+> directly load kernel flat Image. The existing booting methods will continue
+> to work as it is.
 >
-> The expiration of per-cpu slices was recently fixed by
-> 'commit 512ac999d275 ("sched/fair: Fix bandwidth timer clock drift
-> condition")'.  Prior to that it appears that this has been broken since
-> at least 'commit 51f2176d74ac ("sched/fair: Fix unlocked reads of some
-> cfs_b->quota/period")' which was introduced in v3.16-rc1 in 2014.  That
-> added the following conditional which resulted in slices never being
-> expired.
->
-> if (cfs_rq->runtime_expires != cfs_b->runtime_expires) {
->         /* extend local deadline, drift is bounded above by 2 ticks */
->         cfs_rq->runtime_expires += TICK_NSEC;
->
-> Because this was broken for nearly 5 years, and has recently been fixed
-> and is now being noticed by many users running kubernetes
-> (https://github.com/kubernetes/kubernetes/issues/67577) it is my opinion
-> that the mechanisms around expiring runtime should be removed
-> altogether.
->
-> This allows only per-cpu slices to live longer than the period boundary.
-> This allows threads on runqueues that do not use much CPU to continue to
-> use their remaining slice over a longer period of time than
-> cpu.cfs_period_us. However, this helps prevents the above condition of
-> hitting throttling while also not fully utilizing your cpu quota.
->
-> This theoretically allows a machine to use slightly more than it's
-> allotted quota in some periods.  This overflow would be bounded by the
-> remaining per-cpu slice that was left un-used in the previous period.
-> For CPU bound tasks this will change nothing, as they should
-> theoretically fully utilize all of their quota and slices in each
-> period. For user-interactive tasks as described above this provides a
-> much better user/application experience as their cpu utilization will
-> more closely match the amount they requested when they hit throttling.
->
-> This greatly improves performance of high-thread-count, non-cpu bound
-> applications with low cfs_quota_us allocation on high-core-count
-> machines. In the case of an artificial testcase, this performance
-> discrepancy has been observed to be almost 30x performance improvement,
-> while still maintaining correct cpu quota restrictions albeit over
-> longer time intervals than cpu.cfs_period_us.
 
-If the machine runs at/close to capacity, won't the overallocation
-of the quota to bursty tasks necessarily negatively impact every other
-task? Should the "unused" quota be available only on idle CPUs?
-(Or maybe this is the behavior achieved here, and only the comment and
-the commit message should be fixed...)
+This statement does not make sense. This patch does not implement a
+single one of the various elements that make up a valid PE/COFF
+header.
 
->  That testcase is
-> available at https://github.com/indeedeng/fibtest.
+The arm64 Image header has been designed in a way so that it can
+co-exist with a PE/COFF header in the same image, and this is what
+this patch duplicates. The arm64 Image header has nothing to do with
+PE/COFF.
+
+A PE/COFF executable header consists of
+- the letters MZ at offset 0x0 (the MS-DOS header)
+- the offset to the PE header at offset 0x3c
+- the characters PE\0\0 at the offset mentioned above, followed by the
+standard COFF header fields
+- a PE32 or PE32+ (depending on the bitness) optional* header,
+followed by a set of section headers.
+
+
+
+
+> Another goal of this header is to support EFI stub for RISC-V in future.
+> EFI specification needs PE/COFF image header in the beginning of the kernel
+> image in order to load it as an EFI application. In order to support
+> EFI stub, code0 should be replaced with "MZ" magic string and res5(at
+> offset 0x3c) should point to the rest of the PE/COFF header (which will
+> be added during EFI support).
 >
-> Fixes: 512ac999d275 ("sched/fair: Fix bandwidth timer clock drift condition")
-> Signed-off-by: Dave Chiluk <chiluk+linux@indeed.com>
+> This patch is based on ARM64 boot image header and provides an opprtunity
+> to combine both ARM64 & RISC-V image headers.
+>
+> Tested on both QEMU and HiFive Unleashed using OpenSBI + U-Boot + Linux.
+>
+> Signed-off-by: Atish Patra <atish.patra@wdc.com>
+>
 > ---
->  Documentation/scheduler/sched-bwc.txt | 29 +++++++++++---
->  kernel/sched/fair.c                   | 71 +++--------------------------------
->  kernel/sched/sched.h                  |  4 --
->  3 files changed, 29 insertions(+), 75 deletions(-)
+> I have not sent out corresponding U-Boot patch as all the changes are
+> compatible with current u-boot support. Once, the kernel header format
+> is agreed upon, I will update the U-Boot patch.
 >
-> diff --git a/Documentation/scheduler/sched-bwc.txt b/Documentation/scheduler/sched-bwc.txt
-> index f6b1873..4ded8ae 100644
-> --- a/Documentation/scheduler/sched-bwc.txt
-> +++ b/Documentation/scheduler/sched-bwc.txt
-> @@ -8,16 +8,33 @@ CFS bandwidth control is a CONFIG_FAIR_GROUP_SCHED extension which allows the
->  specification of the maximum CPU bandwidth available to a group or hierarchy.
+> Changes from v2->v3
+> 1. Modified reserved fields to define a header version.
+> 2. Added header documentation.
 >
->  The bandwidth allowed for a group is specified using a quota and period. Within
-> -each given "period" (microseconds), a group is allowed to consume only up to
-> -"quota" microseconds of CPU time.  When the CPU bandwidth consumption of a
-> -group exceeds this limit (for that period), the tasks belonging to its
-> -hierarchy will be throttled and are not allowed to run again until the next
-> -period.
-> +each given "period" (microseconds), a task group is allocated up to "quota"
-> +microseconds of CPU time.  When the CPU bandwidth consumption of a group
-> +exceeds this limit (for that period), the tasks belonging to its hierarchy will
-> +be throttled and are not allowed to run again until the next period.
+> Changes from v1-v2:
+> 1. Added additional reserved elements to make it fully PE compatible.
+> ---
+>  Documentation/riscv/boot-image-header.txt | 50 ++++++++++++++++++
+>  arch/riscv/include/asm/image.h            | 64 +++++++++++++++++++++++
+>  arch/riscv/kernel/head.S                  | 32 ++++++++++++
+>  3 files changed, 146 insertions(+)
+>  create mode 100644 Documentation/riscv/boot-image-header.txt
+>  create mode 100644 arch/riscv/include/asm/image.h
 >
->  A group's unused runtime is globally tracked, being refreshed with quota units
->  above at each period boundary.  As threads consume this bandwidth it is
->  transferred to cpu-local "silos" on a demand basis.  The amount transferred
-> -within each of these updates is tunable and described as the "slice".
-> +within each of these updates is tunable and described as the "slice".  Slices
-> +that are allocated to cpu-local silos do not expire at the end of the period,
-> +but unallocated quota does.  This doesn't affect cpu-bound applications as they
-> +by definition consume all of their bandwidth in each each period.
+> diff --git a/Documentation/riscv/boot-image-header.txt b/Documentation/riscv/boot-image-header.txt
+> new file mode 100644
+> index 000000000000..68abc2353cec
+> --- /dev/null
+> +++ b/Documentation/riscv/boot-image-header.txt
+> @@ -0,0 +1,50 @@
+> +                               Boot image header in RISC-V Linux
+> +                       =============================================
 > +
-> +However for highly-threaded user-interactive/non-cpu bound applications this
-> +non-expiration nuance allows applications to burst past their quota limits
-> +equal to the amount of unused slice per cpu that the task group is running on.
-> +This slight burst requires that quota had gone unused in previous periods.
-> +Additionally this burst amount is limited to the size of a slice for every cpu
-> +a task group is run on.  As a result, this mechanism still strictly limits the
-> +task group to quota average usage over a longer time windows.  This provides
-> +better more predictable user experience for highly threaded applications with
-> +small quota limits on high core count machines.  It also eliminates the
-> +propensity to throttle these applications while simultanously using less than
-> +quota amounts of cpu.  Another way to say this, is that by allowing the unused
-> +portion of a slice to be used in following periods we have decreased the
-> +possibility of wasting unused quota on cpu-local silos that don't need much cpu
-> +time.
+> +Author: Atish Patra <atish.patra@wdc.com>
+> +Date  : 20 May 2019
+> +
+> +This document only describes the boot image header details for RISC-V Linux.
+> +The complete booting guide will be available at Documentation/riscv/booting.txt.
+> +
+> +The following 64-byte header is present in decompressed Linux kernel image.
+> +
+> +       u32 code0;                /* Executable code */
+> +       u32 code1;                /* Executable code */
+> +       u64 text_offset;          /* Image load offset, little endian */
+> +       u64 image_size;           /* Effective Image size, little endian */
+> +       u64 flags;                /* kernel flags, little endian */
+> +       u32 version;              /* Version of this header */
+> +       u32 res1  = 0;            /* Reserved */
+> +       u64 res2  = 0;            /* Reserved */
+> +       u64 magic = 0x5643534952; /* Magic number, little endian, "RISCV" */
+> +       u32 res3;                 /* Reserved for additional RISC-V specific header */
+> +       u32 res4;                 /* Reserved for PE COFF offset */
+> +
+> +This header format is compliant with PE/COFF header and largely inspired from
+> +ARM64 header. Thus, both ARM64 & RISC-V header can be combined into one common
+> +header in future.
+> +
+> +Notes:
+> +- This header can also be reused to support EFI stub for RISC-V in future. EFI
+> +  specification needs PE/COFF image header in the beginning of the kernel image
+> +  in order to load it as an EFI application. In order to support EFI stub,
+> +  code0 should be replaced with "MZ" magic string and res5(at offset 0x3c) should
+> +  point to the rest of the PE/COFF header.
+> +
+> +- version field indicate header version number.
+> +       Bits 0:15  - Minor version
+> +       Bits 16:31 - Major version
+> +
+> +  This preserves compatibility across newer and older version of the header.
+> +  The current version is defined as 0.1.
+> +
+> +- res3 is reserved for offset to any other additional fields. This makes the
+> +  header extendible in future. One example would be to accommodate ISA
+> +  extension for RISC-V in future. For current version, it is set to be zero.
+> +
+> +- In current header, the flag field has only one field.
+> +       Bit 0: Kernel endianness. 1 if BE, 0 if LE.
+> +
+> +- Image size is mandatory for boot loader to load kernel image. Booting will
+> +  fail otherwise.
+> diff --git a/arch/riscv/include/asm/image.h b/arch/riscv/include/asm/image.h
+> new file mode 100644
+> index 000000000000..61c9f20d2f19
+> --- /dev/null
+> +++ b/arch/riscv/include/asm/image.h
+> @@ -0,0 +1,64 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +
+> +#ifndef __ASM_IMAGE_H
+> +#define __ASM_IMAGE_H
+> +
+> +#define RISCV_IMAGE_MAGIC      "RISCV"
+> +
+> +
+> +#define RISCV_IMAGE_FLAG_BE_SHIFT      0
+> +#define RISCV_IMAGE_FLAG_BE_MASK       0x1
+> +
+> +#define RISCV_IMAGE_FLAG_LE            0
+> +#define RISCV_IMAGE_FLAG_BE            1
+> +
+> +
+> +#ifdef CONFIG_CPU_BIG_ENDIAN
+> +#define __HEAD_FLAG_BE         RISCV_IMAGE_FLAG_BE
+> +#else
+> +#define __HEAD_FLAG_BE         RISCV_IMAGE_FLAG_LE
+> +#endif
+> +
+> +#define __HEAD_FLAG(field)     (__HEAD_FLAG_##field << \
+> +                               RISCV_IMAGE_FLAG_##field##_SHIFT)
+> +
+> +#define __HEAD_FLAGS           (__HEAD_FLAG(BE))
+> +
+> +#define RISCV_HEADER_VERSION_MAJOR 0
+> +#define RISCV_HEADER_VERSION_MINOR 1
+> +
+> +#define RISCV_HEADER_VERSION (RISCV_HEADER_VERSION_MAJOR << 16 | \
+> +                             RISCV_HEADER_VERSION_MINOR)
+> +
+> +#ifndef __ASSEMBLY__
+> +/*
+> + * struct riscv_image_header - riscv kernel image header
+> + *
+> + * @code0:             Executable code
+> + * @code1:             Executable code
+> + * @text_offset:       Image load offset
+> + * @image_size:                Effective Image size
+> + * @flags:             kernel flags
+> + * @version:           version
+> + * @reserved:          reserved
+> + * @reserved:          reserved
+> + * @magic:             Magic number
+> + * @reserved:          reserved (will be used for additional RISC-V specific header)
+> + * @reserved:          reserved (will be used for PE COFF offset)
+> + */
+> +
+> +struct riscv_image_header {
+> +       u32 code0;
+> +       u32 code1;
+> +       u64 text_offset;
+> +       u64 image_size;
+> +       u64 flags;
+> +       u32 version;
+> +       u32 res1;
+> +       u64 res2;
+> +       u64 magic;
+> +       u32 res3;
+> +       u32 res4;
+> +};
+> +#endif /* __ASSEMBLY__ */
+> +#endif /* __ASM_IMAGE_H */
+> diff --git a/arch/riscv/kernel/head.S b/arch/riscv/kernel/head.S
+> index 370c66ce187a..577893bb150d 100644
+> --- a/arch/riscv/kernel/head.S
+> +++ b/arch/riscv/kernel/head.S
+> @@ -19,9 +19,41 @@
+>  #include <asm/thread_info.h>
+>  #include <asm/page.h>
+>  #include <asm/csr.h>
+> +#include <asm/image.h>
 >
->  Management
->  ----------
-> diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-> index f35930f..a675c69 100644
-> --- a/kernel/sched/fair.c
-> +++ b/kernel/sched/fair.c
-> @@ -4295,8 +4295,6 @@ void __refill_cfs_bandwidth_runtime(struct cfs_bandwidth *cfs_b)
->
->         now = sched_clock_cpu(smp_processor_id());
->         cfs_b->runtime = cfs_b->quota;
-> -       cfs_b->runtime_expires = now + ktime_to_ns(cfs_b->period);
-> -       cfs_b->expires_seq++;
->  }
->
->  static inline struct cfs_bandwidth *tg_cfs_bandwidth(struct task_group *tg)
-> @@ -4318,8 +4316,7 @@ static int assign_cfs_rq_runtime(struct cfs_rq *cfs_rq)
->  {
->         struct task_group *tg = cfs_rq->tg;
->         struct cfs_bandwidth *cfs_b = tg_cfs_bandwidth(tg);
-> -       u64 amount = 0, min_amount, expires;
-> -       int expires_seq;
-> +       u64 amount = 0, min_amount;
->
->         /* note: this is a positive sum as runtime_remaining <= 0 */
->         min_amount = sched_cfs_bandwidth_slice() - cfs_rq->runtime_remaining;
-> @@ -4336,61 +4333,17 @@ static int assign_cfs_rq_runtime(struct cfs_rq *cfs_rq)
->                         cfs_b->idle = 0;
->                 }
->         }
-> -       expires_seq = cfs_b->expires_seq;
-> -       expires = cfs_b->runtime_expires;
->         raw_spin_unlock(&cfs_b->lock);
->
->         cfs_rq->runtime_remaining += amount;
-> -       /*
-> -        * we may have advanced our local expiration to account for allowed
-> -        * spread between our sched_clock and the one on which runtime was
-> -        * issued.
-> -        */
-> -       if (cfs_rq->expires_seq != expires_seq) {
-> -               cfs_rq->expires_seq = expires_seq;
-> -               cfs_rq->runtime_expires = expires;
-> -       }
->
->         return cfs_rq->runtime_remaining > 0;
->  }
->
-> -/*
-> - * Note: This depends on the synchronization provided by sched_clock and the
-> - * fact that rq->clock snapshots this value.
-> - */
-> -static void expire_cfs_rq_runtime(struct cfs_rq *cfs_rq)
-> -{
-> -       struct cfs_bandwidth *cfs_b = tg_cfs_bandwidth(cfs_rq->tg);
-> -
-> -       /* if the deadline is ahead of our clock, nothing to do */
-> -       if (likely((s64)(rq_clock(rq_of(cfs_rq)) - cfs_rq->runtime_expires) < 0))
-> -               return;
-> -
-> -       if (cfs_rq->runtime_remaining < 0)
-> -               return;
-> -
-> -       /*
-> -        * If the local deadline has passed we have to consider the
-> -        * possibility that our sched_clock is 'fast' and the global deadline
-> -        * has not truly expired.
-> -        *
-> -        * Fortunately we can check determine whether this the case by checking
-> -        * whether the global deadline(cfs_b->expires_seq) has advanced.
-> -        */
-> -       if (cfs_rq->expires_seq == cfs_b->expires_seq) {
-> -               /* extend local deadline, drift is bounded above by 2 ticks */
-> -               cfs_rq->runtime_expires += TICK_NSEC;
-> -       } else {
-> -               /* global deadline is ahead, expiration has passed */
-> -               cfs_rq->runtime_remaining = 0;
-> -       }
-> -}
-> -
->  static void __account_cfs_rq_runtime(struct cfs_rq *cfs_rq, u64 delta_exec)
->  {
->         /* dock delta_exec before expiring quota (as it could span periods) */
->         cfs_rq->runtime_remaining -= delta_exec;
-> -       expire_cfs_rq_runtime(cfs_rq);
->
->         if (likely(cfs_rq->runtime_remaining > 0))
->                 return;
-> @@ -4581,8 +4534,7 @@ void unthrottle_cfs_rq(struct cfs_rq *cfs_rq)
->                 resched_curr(rq);
->  }
->
-> -static u64 distribute_cfs_runtime(struct cfs_bandwidth *cfs_b,
-> -               u64 remaining, u64 expires)
-> +static u64 distribute_cfs_runtime(struct cfs_bandwidth *cfs_b, u64 remaining)
->  {
->         struct cfs_rq *cfs_rq;
->         u64 runtime;
-> @@ -4604,7 +4556,6 @@ static u64 distribute_cfs_runtime(struct cfs_bandwidth *cfs_b,
->                 remaining -= runtime;
->
->                 cfs_rq->runtime_remaining += runtime;
-> -               cfs_rq->runtime_expires = expires;
->
->                 /* we check whether we're throttled above */
->                 if (cfs_rq->runtime_remaining > 0)
-> @@ -4629,7 +4580,7 @@ static u64 distribute_cfs_runtime(struct cfs_bandwidth *cfs_b,
->   */
->  static int do_sched_cfs_period_timer(struct cfs_bandwidth *cfs_b, int overrun, unsigned long flags)
->  {
-> -       u64 runtime, runtime_expires;
-> +       u64 runtime;
->         int throttled;
->
->         /* no need to continue the timer with no bandwidth constraint */
-> @@ -4657,8 +4608,6 @@ static int do_sched_cfs_period_timer(struct cfs_bandwidth *cfs_b, int overrun, u
->         /* account preceding periods in which throttling occurred */
->         cfs_b->nr_throttled += overrun;
->
-> -       runtime_expires = cfs_b->runtime_expires;
-> -
->         /*
->          * This check is repeated as we are holding onto the new bandwidth while
->          * we unthrottle. This can potentially race with an unthrottled group
-> @@ -4671,8 +4620,7 @@ static int do_sched_cfs_period_timer(struct cfs_bandwidth *cfs_b, int overrun, u
->                 cfs_b->distribute_running = 1;
->                 raw_spin_unlock_irqrestore(&cfs_b->lock, flags);
->                 /* we can't nest cfs_b->lock while distributing bandwidth */
-> -               runtime = distribute_cfs_runtime(cfs_b, runtime,
-> -                                                runtime_expires);
-> +               runtime = distribute_cfs_runtime(cfs_b, runtime);
->                 raw_spin_lock_irqsave(&cfs_b->lock, flags);
->
->                 cfs_b->distribute_running = 0;
-> @@ -4749,8 +4697,7 @@ static void __return_cfs_rq_runtime(struct cfs_rq *cfs_rq)
->                 return;
->
->         raw_spin_lock(&cfs_b->lock);
-> -       if (cfs_b->quota != RUNTIME_INF &&
-> -           cfs_rq->runtime_expires == cfs_b->runtime_expires) {
-> +       if (cfs_b->quota != RUNTIME_INF) {
->                 cfs_b->runtime += slack_runtime;
->
->                 /* we are under rq->lock, defer unthrottling using a timer */
-> @@ -4783,7 +4730,6 @@ static void do_sched_cfs_slack_timer(struct cfs_bandwidth *cfs_b)
->  {
->         u64 runtime = 0, slice = sched_cfs_bandwidth_slice();
->         unsigned long flags;
-> -       u64 expires;
->
->         /* confirm we're still not at a refresh boundary */
->         raw_spin_lock_irqsave(&cfs_b->lock, flags);
-> @@ -4800,7 +4746,6 @@ static void do_sched_cfs_slack_timer(struct cfs_bandwidth *cfs_b)
->         if (cfs_b->quota != RUNTIME_INF && cfs_b->runtime > slice)
->                 runtime = cfs_b->runtime;
->
-> -       expires = cfs_b->runtime_expires;
->         if (runtime)
->                 cfs_b->distribute_running = 1;
->
-> @@ -4809,11 +4754,9 @@ static void do_sched_cfs_slack_timer(struct cfs_bandwidth *cfs_b)
->         if (!runtime)
->                 return;
->
-> -       runtime = distribute_cfs_runtime(cfs_b, runtime, expires);
-> +       runtime = distribute_cfs_runtime(cfs_b, runtime);
->
->         raw_spin_lock_irqsave(&cfs_b->lock, flags);
-> -       if (expires == cfs_b->runtime_expires)
-> -               lsub_positive(&cfs_b->runtime, runtime);
->         cfs_b->distribute_running = 0;
->         raw_spin_unlock_irqrestore(&cfs_b->lock, flags);
->  }
-> @@ -4969,8 +4912,6 @@ void start_cfs_bandwidth(struct cfs_bandwidth *cfs_b)
->
->         cfs_b->period_active = 1;
->         overrun = hrtimer_forward_now(&cfs_b->period_timer, cfs_b->period);
-> -       cfs_b->runtime_expires += (overrun + 1) * ktime_to_ns(cfs_b->period);
-> -       cfs_b->expires_seq++;
->         hrtimer_start_expires(&cfs_b->period_timer, HRTIMER_MODE_ABS_PINNED);
->  }
->
-> diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-> index b52ed1a..0c0ed23 100644
-> --- a/kernel/sched/sched.h
-> +++ b/kernel/sched/sched.h
-> @@ -341,8 +341,6 @@ struct cfs_bandwidth {
->         u64                     quota;
->         u64                     runtime;
->         s64                     hierarchical_quota;
-> -       u64                     runtime_expires;
-> -       int                     expires_seq;
->
->         short                   idle;
->         short                   period_active;
-> @@ -562,8 +560,6 @@ struct cfs_rq {
->
->  #ifdef CONFIG_CFS_BANDWIDTH
->         int                     runtime_enabled;
-> -       int                     expires_seq;
-> -       u64                     runtime_expires;
->         s64                     runtime_remaining;
->
->         u64                     throttled_clock;
+>  __INIT
+>  ENTRY(_start)
+> +       /*
+> +        * Image header expected by Linux boot-loaders. The image header data
+> +        * structure is described in asm/image.h.
+> +        * Do not modify it without modifying the structure and all bootloaders
+> +        * that expects this header format!!
+> +        */
+> +       /* jump to start kernel */
+> +       j _start_kernel
+> +       /* reserved */
+> +       .word 0
+> +       .balign 8
+> +#if __riscv_xlen == 64
+> +       /* Image load offset(2MB) from start of RAM */
+> +       .dword 0x200000
+> +#else
+> +       /* Image load offset(4MB) from start of RAM */
+> +       .dword 0x400000
+> +#endif
+> +       /* Effective size of kernel image */
+> +       .dword _end - _start
+> +       .dword __HEAD_FLAGS
+> +       .word RISCV_HEADER_VERSION
+> +       .word 0
+> +       .dword 0
+> +       .asciz RISCV_IMAGE_MAGIC
+> +       .word 0
+> +       .balign 4
+> +       .word 0
+> +
+> +.global _start_kernel
+> +_start_kernel:
+>         /* Mask all interrupts */
+>         csrw CSR_SIE, zero
+>         csrw CSR_SIP, zero
 > --
-> 1.8.3.1
+> 2.21.0
 >
+>
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
