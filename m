@@ -1,138 +1,148 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2FE197D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 23 May 2019 11:14:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C84497D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 23 May 2019 11:22:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729762AbfEWLOG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 23 May 2019 07:14:06 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:40390 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727466AbfEWLOG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 May 2019 07:14:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=xdMf4hb49NfuLIvwvlurkRXqs+h2lkzb21P6JrueUX8=; b=E4mKAz/wlARBwiBzcJxiim61Q
-        Lp1euNrhQBlqijcFzYYwbc2Cqc1rje7VHGEZ0gQ1fi+I4KgzBaEYMuzbnwPzQEiJHBTUKBvAQm+Z/
-        25mtkbUt4x13xnlXDWm4/eHutOD0W3xme0bS4w4uUnXNfGu6f7uHLEhlO5wr7aZfzW4MMXPlsdnqj
-        /2AmY7FNkwq7f+XWWTGy7PT7/RHezDP84nboNRprgCtG2gzjoFndlcWlA3QaZg4PDHhJVPGEK+zuB
-        iwQuzO4NpGMXQ4wtkjyD5ecDsr1gcxNBHAuLvQtYZcipgSBmp4GJ8mXGFeGO07ieskLdjVKpFraQn
-        mGOyiuiJg==;
-Received: from [179.182.168.126] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hTlfi-0000m0-CT; Thu, 23 May 2019 11:14:06 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hTlff-0007NY-PR; Thu, 23 May 2019 08:14:03 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] scripts/sphinx-pre-install: make activate hint smarter
-Date:   Thu, 23 May 2019 08:14:02 -0300
-Message-Id: <582e6b7351f619d92035db8cfe24ecec5d95a489.1558610037.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
+        id S1728309AbfEWLWr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 23 May 2019 07:22:47 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:34467 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729361AbfEWLWr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 May 2019 07:22:47 -0400
+Received: by mail-wm1-f66.google.com with SMTP id j187so6865569wma.1
+        for <linux-doc@vger.kernel.org>; Thu, 23 May 2019 04:22:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=o5spxOia4/6GDV/owf0hUE+Yl+KqSq8ES+CEbG5WZlY=;
+        b=Xi5BojHaw6MWBnr2E3gx7Ov3pg/5gToIf5QvNJV+CNFNGmmOFCAwODT4m8Wbb824no
+         cqljBSK+RkJUkkReYqIXDbqX/5nOzspSJk5rdIw58JJnnjeVcy/1ho01+p6qtMq2OvRk
+         a/UE/mQFJLAQIsk8KWWTaxRnB8vEqFO0wKqjPiUTxV2bJn58tYX5bli3toNMdMJsPHD4
+         V510MPKEYTjUSRNq20EVafBQkd5LESO2LUT3OOux/ITKZGOquWJ6QBK/sbuPt6eHc4zc
+         3tUVYItTreXd3JWDIL7bhW6Hjqa7tRNjlmD82v+0BhRPDriYtL8BNM12JMRxkda8skJq
+         2voA==
+X-Gm-Message-State: APjAAAXy/t1BlvB953ZO1PRQyj8zM0P15q/AzAYnTVok3XkkczJG0N2S
+        g651m3Mr/U9YM72YwOga3/q+MOZMbAE=
+X-Google-Smtp-Source: APXvYqx9Gn6HemSAZ87ApeaJsnDwTZFfySah89pYCZ120z3yhNqY4R//xB9J5AhiGRciFCsdYI81dw==
+X-Received: by 2002:a7b:c549:: with SMTP id j9mr11007052wmk.122.1558610564990;
+        Thu, 23 May 2019 04:22:44 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+        by smtp.gmail.com with ESMTPSA id h8sm16765707wmf.5.2019.05.23.04.22.43
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 23 May 2019 04:22:43 -0700 (PDT)
+Date:   Thu, 23 May 2019 13:22:42 +0200
+From:   Oleksandr Natalenko <oleksandr@redhat.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Markus Heiser <markus.heiser@darmarit.de>
+Subject: Re: [PATCH 0/8] docs: Fixes for recent versions of Sphinx
+Message-ID: <20190523112240.7hv4ufwknwbaviv2@butterfly.localdomain>
+References: <20190522205034.25724-1-corbet@lwn.net>
+ <20190523093944.mylk5l3ginkpelfi@butterfly.localdomain>
+ <20190523074545.65642eac@coco.lan>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190523074545.65642eac@coco.lan>
+User-Agent: NeoMutt/20180716
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It is possible that multiple Sphinx virtualenvs are installed
-on a given kernel tree. Change the logic to get the latest
-version of those, as this is probably what the user wants.
+On Thu, May 23, 2019 at 07:45:45AM -0300, Mauro Carvalho Chehab wrote:
+> Em Thu, 23 May 2019 11:39:44 +0200
+> Oleksandr Natalenko <oleksandr@redhat.com> escreveu:
+> 
+> > Hi.
+> > 
+> > On Wed, May 22, 2019 at 02:50:26PM -0600, Jonathan Corbet wrote:
+> > > The Sphinx folks deprecated some interfaces in the 2.0 release; one
+> > > immediate result of that is a bunch of warnings that show up when building
+> > > with 1.8.  These two patches make those warnings go away, but at a cost:
+> > > 
+> > >  - It introduces a couple of Sphinx version checks, which are always
+> > >    ugly, but the alternative would be to stop supporting versions
+> > >    before 1.7.  For now, I think we can carry that cruft.
+> > > 
+> > >  - The second patch causes the build to fail horribly on newer
+> > >    Sphinx installations.  The change to switch_source_input() seems
+> > >    to make the parser much more finicky, increasing warnings and
+> > >    eventually failing the build altogether.  In particular, it will
+> > >    scream about problems in .rst files that are not included in the
+> > >    TOC tree at all.
+> > > 
+> > > This version of the patch set fixes up the worst problems (the i915 error
+> > > in particular, which breaks the build hard).  I've tested it with versions
+> > > 1.4, 1.8, and 2.0.
+> > > 
+> > > Given that these problems are already breaking builds on some systems, I
+> > > think I may try to sell these changes to Linus for 5.2 still.
+> > > 
+> > > Changes since v1:
+> > >   - Fix up a couple of logging changes I somehow missed
+> > >   - Don't save state when using switch_source_input()
+> > >   - Fix a few build errors
+> > >   - Add Mauro's sphinx-pre-install improvements
+> > > 
+> > > Jonathan Corbet (7):
+> > >   doc: Cope with Sphinx logging deprecations
+> > >   doc: Cope with the deprecation of AutoReporter
+> > >   docs: fix numaperf.rst and add it to the doc tree
+> > >   lib/list_sort: fix kerneldoc build error
+> > >   docs: fix multiple doc build warnings in enumeration.rst
+> > >   docs/gpu: fix a documentation build break in i915.rst
+> > >   docs: Fix conf.py for Sphinx 2.0
+> > > 
+> > > Mauro Carvalho Chehab (1):
+> > >   scripts/sphinx-pre-install: make it handle Sphinx versions
+> > > 
+> > >  Documentation/admin-guide/mm/index.rst        |  1 +
+> > >  Documentation/admin-guide/mm/numaperf.rst     |  2 +-
+> > >  Documentation/conf.py                         |  2 +-
+> > >  .../firmware-guide/acpi/enumeration.rst       |  2 +-
+> > >  Documentation/gpu/i915.rst                    |  4 +-
+> > >  Documentation/sphinx/kerneldoc.py             | 44 +++++++---
+> > >  Documentation/sphinx/kernellog.py             | 28 +++++++
+> > >  Documentation/sphinx/kfigure.py               | 40 +++++----
+> > >  lib/list_sort.c                               |  3 +-
+> > >  scripts/sphinx-pre-install                    | 81 +++++++++++++++++--
+> > >  10 files changed, 166 insertions(+), 41 deletions(-)
+> > >  create mode 100644 Documentation/sphinx/kernellog.py
+> > > 
+> > > -- 
+> > > 2.21.0
+> > >   
+> > 
+> > Thanks for the efforts. I've run this on top of Linus' tree, and the
+> > only sphinx-related deprecation warning I've spotted is this one:
+> > 
+> > /home/onatalen/work/src/linux/Documentation/sphinx/cdomain.py:51: RemovedInSphinx30Warning: app.override_domain() is deprecated. Use app.add_domain() with override option instead.
+> >   app.override_domain(CDomain)
+> > 
+> > Otherwise, it builds.
+> > 
+> 
+> Just sent a fix. Could you please test?
+> 
+> 
+> https://lore.kernel.org/lkml/b38a9fdfdcda49b2c6118072afac564e96406800.1558608217.git.mchehab+samsung@kernel.org/T/#u
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- scripts/sphinx-pre-install | 22 ++++++++++++++--------
- 1 file changed, 14 insertions(+), 8 deletions(-)
+Yes, now it's fine. Thanks.
 
-diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index 8c2d1bcf2e02..11239eb29695 100755
---- a/scripts/sphinx-pre-install
-+++ b/scripts/sphinx-pre-install
-@@ -1,7 +1,7 @@
- #!/usr/bin/perl
- use strict;
- 
--# Copyright (c) 2017 Mauro Carvalho Chehab <mchehab@kernel.org>
-+# Copyright (c) 2017-2019 Mauro Carvalho Chehab <mchehab@kernel.org>
- #
- # This program is free software; you can redistribute it and/or
- # modify it under the terms of the GNU General Public License
-@@ -15,6 +15,7 @@ use strict;
- 
- my $conf = "Documentation/conf.py";
- my $requirement_file = "Documentation/sphinx/requirements.txt";
-+my $virtenv_prefix = "sphinx_";
- 
- #
- # Static vars
-@@ -28,7 +29,8 @@ my $need_symlink = 0;
- my $need_sphinx = 0;
- my $rec_sphinx_upgrade = 0;
- my $install = "";
--my $virtenv_dir = "sphinx_";
-+my $virtenv_dir = "";
-+my $min_version;
- 
- #
- # Command line arguments
-@@ -229,7 +231,6 @@ sub get_sphinx_fname()
- 
- sub check_sphinx()
- {
--	my $min_version;
- 	my $rec_version;
- 	my $cur_version;
- 
-@@ -255,7 +256,7 @@ sub check_sphinx()
- 
- 	die "Can't get recommended sphinx version from $requirement_file" if (!$min_version);
- 
--	$virtenv_dir .= $rec_version;
-+	$virtenv_dir = $virtenv_prefix . $rec_version;
- 
- 	my $sphinx = get_sphinx_fname();
- 	return if ($sphinx eq "");
-@@ -612,18 +613,23 @@ sub check_needs()
- 		       which("sphinx-build-3");
- 	}
- 	if ($need_sphinx || $rec_sphinx_upgrade) {
--		my $activate = "$virtenv_dir/bin/activate";
--		if (-e "$ENV{'PWD'}/$activate") {
-+		my $min_activate = "$ENV{'PWD'}/${virtenv_prefix}${min_version}/bin/activate";
-+                my @activates = glob "$ENV{'PWD'}/${virtenv_prefix}*/bin/activate";
-+
-+                @activates = sort {$b cmp $a} @activates;
-+
-+		if (scalar @activates > 0 && $activates[0] ge $min_activate) {
- 			printf "\nNeed to activate virtualenv with:\n";
--			printf "\t. $activate\n";
-+			printf "\t. $activates[0]\n";
- 		} else {
-+			my $rec_activate = "$virtenv_dir/bin/activate";
- 			my $virtualenv = findprog("virtualenv-3");
- 			$virtualenv = findprog("virtualenv-3.5") if (!$virtualenv);
- 			$virtualenv = findprog("virtualenv") if (!$virtualenv);
- 			$virtualenv = "virtualenv" if (!$virtualenv);
- 
- 			printf "\t$virtualenv $virtenv_dir\n";
--			printf "\t. $activate\n";
-+			printf "\t. $rec_activate\n";
- 			printf "\tpip install -r $requirement_file\n";
- 
- 			$need++ if (!$rec_sphinx_upgrade);
+> 
+> Thanks,
+> Mauro
+
 -- 
-2.21.0
-
+  Best regards,
+    Oleksandr Natalenko (post-factum)
+    Senior Software Maintenance Engineer
