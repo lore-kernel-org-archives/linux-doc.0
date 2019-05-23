@@ -1,68 +1,57 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EF8F47D912
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 23 May 2019 14:48:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D4CF17D912
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 23 May 2019 15:15:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730757AbfEWOsG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 23 May 2019 10:48:06 -0400
-Received: from ms.lwn.net ([45.79.88.28]:34698 "EHLO ms.lwn.net"
+        id S1730818AbfEWPPT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 23 May 2019 11:15:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33454 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730710AbfEWOsG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 23 May 2019 10:48:06 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id EBB7EAB5;
-        Thu, 23 May 2019 14:48:05 +0000 (UTC)
-Date:   Thu, 23 May 2019 08:48:05 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] Documentation fixes for 5.2
-Message-ID: <20190523084805.63901c65@lwn.net>
-Organization: LWN.net
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+        id S1730796AbfEWPPT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 23 May 2019 11:15:19 -0400
+Subject: Re: [GIT PULL] Documentation fixes for 5.2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1558624518;
+        bh=g18uDpN4wjNgqWZ6HoSbbuJ6T1Hz8FXR2qoD0WcFl0g=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=XbKG0mjszbHIHyRlXMoDmk7qW+q8q5WuHvwXJyiQwwyTGbeOUQaJXaMn5Yu2RtgOo
+         zFOJsH/rgjuNVW/4FdglTsIMmqLtQkGMeiqEFc6NwfDHUPjLszzWkjn7zRXHKpLTdn
+         zmzPwtJAU4b7KrUwIA/TEF40cWY56ntEBqoUthXk=
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20190523084805.63901c65@lwn.net>
+References: <20190523084805.63901c65@lwn.net>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20190523084805.63901c65@lwn.net>
+X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-5.2-fixes
+X-PR-Tracked-Commit-Id: a65fd4f0def56f59822b2c49522d36319bc8da8b
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 61686afe1ff378021da4e5509d081fb5196212d5
+Message-Id: <155862451883.19073.5953586668759128539.pr-tracker-bot@kernel.org>
+Date:   Thu, 23 May 2019 15:15:18 +0000
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following changes since commit
-a188339ca5a396acc588e5851ed7e19f66b0ebd9:
+The pull request you sent on Thu, 23 May 2019 08:48:05 -0600:
 
-  Linux 5.2-rc1 (2019-05-19 15:47:09 -0700)
+> git://git.lwn.net/linux.git tags/docs-5.2-fixes
 
-are available in the Git repository at:
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/61686afe1ff378021da4e5509d081fb5196212d5
 
-  git://git.lwn.net/linux.git tags/docs-5.2-fixes
+Thank you!
 
-for you to fetch changes up to a65fd4f0def56f59822b2c49522d36319bc8da8b:
-
-  Documentation: kdump: fix minor typo (2019-05-21 09:31:28 -0600)
-
-----------------------------------------------------------------
-A handful of fixes for a docs build problem, along with catching the
-spdxcheck.py script up with the current state of affairs.
-
-----------------------------------------------------------------
-Cengiz Can (1):
-      Documentation: kdump: fix minor typo
-
-Randy Dunlap (1):
-      counter: fix Documentation build error due to incorrect source file name
-
-Sven Eckelmann (2):
-      scripts/spdxcheck.py: Fix path to deprecated licenses
-      scripts/spdxcheck.py: Add dual license subdirectory
-
- Documentation/driver-api/generic-counter.rst | 2 +-
- Documentation/kdump/kdump.txt                | 2 +-
- scripts/spdxcheck.py                         | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
