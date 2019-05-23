@@ -1,79 +1,89 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A9B967D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 23 May 2019 10:15:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B96E37D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 23 May 2019 10:38:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729797AbfEWKPi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 23 May 2019 06:15:38 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:54315 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726429AbfEWKPi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 May 2019 06:15:38 -0400
-Received: by mail-wm1-f65.google.com with SMTP id i3so5178779wml.4
-        for <linux-doc@vger.kernel.org>; Thu, 23 May 2019 03:15:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=fOiVgoN82KE8hZ6hb2y3oHBGCVTmpcagcUclcAWOin4=;
-        b=LBHp/9h702G4i8S/oj4Hnu6m+pNAjq9sheSoLtX9xigReIQRcuIB1408TO0q8dFaf3
-         6yVo/PWyL7hGUz2R2FJs4gZSNNjvixhwgL6OgpFe3ZPMrKI9ecutnwbtHwHPEm2S0Sxh
-         ykerDsAQOI9CVIdwhfp1AEjGHEYfdUqrd3bOMCTFOWPy3Vbz0N6MQOxq9pu/UHwkkRjm
-         cgPgdjFOeQlcnFHTMcptH6isjpKj9BcSr4J6JGCc+9vOmmefCtK0V+04Qs8cmmodO9d4
-         4lpD/ta7CzYfyV6h3FqoA1J+EksjO/mDi5LDuHftJsKa9lXsA5+WXKkKmn019fRz7Plf
-         Fk/w==
-X-Gm-Message-State: APjAAAW4jbL2Z+EViMzEn0a1DP5RA78/gfBStliv+lyOmAF5lZx5qVMd
-        CmFFF5tUMQiimMyOjdd7d56XAw==
-X-Google-Smtp-Source: APXvYqzBOZoHAw42kYYHFQfMTllL8gg9KY4gD1CnZ1zx61rB5Sk4JjLHT3/hnl/FXagEWu53NtIsIA==
-X-Received: by 2002:a1c:1d16:: with SMTP id d22mr11613624wmd.110.1558606536551;
-        Thu, 23 May 2019 03:15:36 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
-        by smtp.gmail.com with ESMTPSA id c14sm23252213wrt.45.2019.05.23.03.15.35
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 23 May 2019 03:15:35 -0700 (PDT)
-Date:   Thu, 23 May 2019 12:15:34 +0200
-From:   Oleksandr Natalenko <oleksandr@redhat.com>
-To:     Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        id S1728109AbfEWKiq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 23 May 2019 06:38:46 -0400
+Received: from casper.infradead.org ([85.118.1.10]:43136 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727434AbfEWKiq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 23 May 2019 06:38:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=HW7kkCxLjbPF73Er62cEjl0sh5kfeFThig0TQRbVBDY=; b=XkQ6ahiZnLge7o52UrZ33qvHP8
+        EKq+CIuywgun5hSSyfs4MKaDcFUR+wnLQi4M8Nl01d3IwELqlacpAgm7VqpHc4afeyx9kQPhlVZCC
+        66QrPMLM0FPcuMt1cVP5Tg638kUW3AwbV7tkya84+7SMLRFZ+78r8v9uk4JrXHpH3RHWMgsnBgzRC
+        mn8gYNmHX2ZIfelUgODrYgd6LWbNtBijQo6myXv1Q9t8EbHn55o72nCkYCO6NQRk4qbbZFY3xQCLh
+        OvVWC0rbDk46hCRT/6W0ddgeFwOsLd7HOAJBx8g+AWQuTayyxk0u26lQ2TaWvUX+pESIuc/3TFVT7
+        1nln2t5g==;
+Received: from [179.182.168.126] (helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hTl7M-0001gk-AL; Thu, 23 May 2019 10:38:36 +0000
+Date:   Thu, 23 May 2019 07:38:30 -0300
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Oleksandr Natalenko <oleksandr@redhat.com>
+Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
-        Markus Heiser <markus.heiser@darmarit.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
+        Markus Heiser <markus.heiser@darmarit.de>
 Subject: Re: [PATCH 0/8] docs: Fixes for recent versions of Sphinx
-Message-ID: <20190523101534.cenmf7rexa7gerot@butterfly.localdomain>
+Message-ID: <20190523073830.388b4868@coco.lan>
+In-Reply-To: <20190523101534.cenmf7rexa7gerot@butterfly.localdomain>
 References: <20190522205034.25724-1-corbet@lwn.net>
- <20190523093944.mylk5l3ginkpelfi@butterfly.localdomain>
- <877eah7a2k.fsf@intel.com>
+        <20190523093944.mylk5l3ginkpelfi@butterfly.localdomain>
+        <877eah7a2k.fsf@intel.com>
+        <20190523101534.cenmf7rexa7gerot@butterfly.localdomain>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <877eah7a2k.fsf@intel.com>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 23, 2019 at 01:13:23PM +0300, Jani Nikula wrote:
-> On Thu, 23 May 2019, Oleksandr Natalenko <oleksandr@redhat.com> wrote:
-> > Thanks for the efforts. I've run this on top of Linus' tree, and the
-> > only sphinx-related deprecation warning I've spotted is this one:
-> >
-> > /home/onatalen/work/src/linux/Documentation/sphinx/cdomain.py:51: RemovedInSphinx30Warning: app.override_domain() is deprecated. Use app.add_domain() with override option instead.
-> >   app.override_domain(CDomain)
-> >
-> > Otherwise, it builds.
+Em Thu, 23 May 2019 12:15:34 +0200
+Oleksandr Natalenko <oleksandr@redhat.com> escreveu:
+
+> On Thu, May 23, 2019 at 01:13:23PM +0300, Jani Nikula wrote:
+> > On Thu, 23 May 2019, Oleksandr Natalenko <oleksandr@redhat.com> wrote:  
+> > > Thanks for the efforts. I've run this on top of Linus' tree, and the
+> > > only sphinx-related deprecation warning I've spotted is this one:
+> > >
+> > > /home/onatalen/work/src/linux/Documentation/sphinx/cdomain.py:51: RemovedInSphinx30Warning: app.override_domain() is deprecated. Use app.add_domain() with override option instead.
+> > >   app.override_domain(CDomain)
+> > >
+> > > Otherwise, it builds.  
+> > 
+> > Please share your Sphinx version (sphinx-build --version).  
 > 
-> Please share your Sphinx version (sphinx-build --version).
+> [~]$ sphinx-build --version
+> sphinx-build 2.0.1
+> 
 
-[~]$ sphinx-build --version
-sphinx-build 2.0.1
+Same here with vanilla 2.0.0 (installed via pip3):
 
--- 
-  Best regards,
-    Oleksandr Natalenko (post-factum)
-    Senior Software Maintenance Engineer
+Running Sphinx v2.0.0
+/devel/v4l/docs/Documentation/sphinx/cdomain.py:51: RemovedInSphinx30Warning: app.override_domain() is deprecated. Use app.add_domain() with override option instead.
+  app.override_domain(CDomain)
+
+It seems that this message is there since 1.8:
+
+	https://www.sphinx-doc.org/en/1.8/_modules/sphinx/application.html
+
+The fix seems to be trivial: just replace it to:
+
+	app.add_domain(domain, override=True)
+
+Thanks,
+Mauro
