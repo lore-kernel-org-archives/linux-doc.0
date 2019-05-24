@@ -3,183 +3,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 597067D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 24 May 2019 22:07:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 646F07D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 24 May 2019 23:49:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732116AbfEXWHY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 24 May 2019 18:07:24 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:44186 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729974AbfEXWHY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 May 2019 18:07:24 -0400
-Received: by mail-ed1-f65.google.com with SMTP id b8so16215986edm.11
-        for <linux-doc@vger.kernel.org>; Fri, 24 May 2019 15:07:22 -0700 (PDT)
+        id S1726030AbfEXXtx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 24 May 2019 19:49:53 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:34525 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725920AbfEXXtw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 May 2019 19:49:52 -0400
+Received: by mail-pf1-f194.google.com with SMTP id n19so6209326pfa.1
+        for <linux-doc@vger.kernel.org>; Fri, 24 May 2019 16:49:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=posk.io; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=aqOH77AFv2fQ8WuNNOzGfaD62FQFznjbgv+BXyATBoQ=;
-        b=L92ErfkuKLNpSCuWOJZZYzzlKOxrRVdqgQOBcjLPbFUroWQMmZvZtNA6dAB+17Wp41
-         TsoWakbK40NRsG9ef9j62ZTdS7xdavC+K/GMFLsgIqhT5cQwUFhyoj1NnjH+LjGJrsVH
-         HetgkYR02HOFa1rwZRMQjk+Ko62kS32RL5MPtPpnF4g8GH7EB2lQvXKB6GXnmsAFtmOo
-         mAioyfEYLn/Jhgp/OG/syHn2KTY47nYNyLDMGNa4IPECUm79DRux4xABUByvt8Ltc23W
-         izpv+UC8EJNqgiKju3Z8eKxd8rGxXsWyUAQKoubEVoRhQqB7ELWwWq4Qqi7MhaQzdrVT
-         G9KQ==
+        d=joelfernandes.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bXWjSqu/FFDZjQmYhe/qCEvEUInVu4DGSKgcOvRdwjk=;
+        b=SSXTBiyMSX/oc9HkyPWBiENbVB5RnisYOqxhJCIZctnnw4EmW8cl8FzFFjAH+4NrfU
+         ycGfsE5BYbGlQVqUDXG2lz9tDP3wyv961R0l1Ds9cgmFUTBciKFz4usoD8uCV/iZ1yXu
+         0zf3fcT+r3UfqasFzvYgNdH1NARFxk7hru+xU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=aqOH77AFv2fQ8WuNNOzGfaD62FQFznjbgv+BXyATBoQ=;
-        b=Aq6r0Iog2wCFK/tmtqLnBgPnlM0ZFyX3e0273zoQkYRIp+vMb97T5+SO3BH6FNEW+v
-         nAn+5twEe5SWDvU1bMa5iWNjoWPng5Jb4iKjfWPaU22B30BjmWeiM1sjYingd4ZVJXEy
-         yOhE63gCFwJwEwv0A/rVeLyI9c4RsLpUj0QxDDXruOhp9Jye3RrcYqCF+cuQtFeLCluc
-         kJu8agKlknPHYm5lHqpR8coRVPjoKdAUT9PWhAepjbLlcOuFZJsmoQ4rxR8q/kNqbAlk
-         o/zjYvppjZiXRvwUcZ06PDv/gKQt2YmhrrmcYpI7XNalUiHY4WSOVPut7Squi7EpNY9f
-         +y1Q==
-X-Gm-Message-State: APjAAAXL4tgEr6zAa87WQaY7l6qC1U+Qjg+H/vDQbZ/QJ/TcIER9/d6/
-        9NOAWOAmv17vVXA1WUApes1K+tEiMcsZlG8zTTzNpw==
-X-Google-Smtp-Source: APXvYqwm0syJ2uvbnJzuayuTIzucKMGjLKTBqqb04IwuxhvLNtPc31ycK/h5Y88aVdOST0pL3yfJjj5rxMjP2l6qA9E=
-X-Received: by 2002:a17:906:4e87:: with SMTP id v7mr78014607eju.150.1558735641658;
- Fri, 24 May 2019 15:07:21 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bXWjSqu/FFDZjQmYhe/qCEvEUInVu4DGSKgcOvRdwjk=;
+        b=Vs3Tb1mT/EHacS9hAGZumgqa/8xc5MAAPom89GALOB47bOA9bz2l7u4kYU7ISh4O0Q
+         cU0WcrEmdZsEm6fV5TxfMU+SElN1cJ3Lsp3i6+Kn8EpmHOIFDX0FhbTFW/aJOZplPXwm
+         NwF/Uh8+NFY/SU+E1Ikq4zh3U+F4ia3bT1laSAYFBUqOUHuc2czk+jz4yYMwwhUdxBOF
+         FC5WW25hjeoMnc+YxmctYewCyKjKSesC8RjgNBbQFhNc7ncDtTHXPtbCOxH4lmv+NrWK
+         QyjCsDC2it+PtHK0JtdClDj6QSYgUhedbI8/yH1N7S8cN9orhFQJ9Xi659W85u/pRHK3
+         dLhA==
+X-Gm-Message-State: APjAAAVWYQ6fw26z88F1l2t/A6PMuXbETRmK9CwBNtYFvEFp3HbZIV1z
+        AEQ9ayoe3wQIh36B9OcpkSSLYg==
+X-Google-Smtp-Source: APXvYqwYPAfpLOZID2qY5FFKB8wspcViNi7JQIMMdziXW7MOAadx9VfLL1DAMlFCYOxsbuu8c0vHmg==
+X-Received: by 2002:a62:7d10:: with SMTP id y16mr116480258pfc.116.1558741792000;
+        Fri, 24 May 2019 16:49:52 -0700 (PDT)
+Received: from joelaf.cam.corp.google.com ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id q4sm3297595pgb.39.2019.05.24.16.49.49
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 24 May 2019 16:49:50 -0700 (PDT)
+From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>, kvm-ppc@vger.kernel.org,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Paul Mackerras <paulus@ozlabs.org>, rcu@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>
+Subject: [PATCH RFC 0/5] Remove some notrace RCU APIs
+Date:   Fri, 24 May 2019 19:49:28 -0400
+Message-Id: <20190524234933.5133-1-joel@joelfernandes.org>
+X-Mailer: git-send-email 2.22.0.rc1.257.g3120a18244-goog
 MIME-Version: 1.0
-References: <1558121424-2914-1-git-send-email-chiluk+linux@indeed.com>
- <1558637087-20283-1-git-send-email-chiluk+linux@indeed.com>
- <1558637087-20283-2-git-send-email-chiluk+linux@indeed.com>
- <CAFTs51W0KdK4nw6wydn2HjNYvFRC8DYMmVeKX9FAe+4YUGEAZg@mail.gmail.com>
- <20190524143204.GB4684@lorien.usersys.redhat.com> <CAC=E7cXxsyMLw1PR+8QchTH8FYL7WX6_8LBVdqueR1yjW+VVkQ@mail.gmail.com>
- <CAFTs51Vm258CkDXi_Jj_cGOMotTvhdYR_VW8aUwAUvgistZOFQ@mail.gmail.com> <CAC=E7cXVrGRKMNkJPhd4fJi7wgdYk=YcXPV7B8GVNL5M69BarQ@mail.gmail.com>
-In-Reply-To: <CAC=E7cXVrGRKMNkJPhd4fJi7wgdYk=YcXPV7B8GVNL5M69BarQ@mail.gmail.com>
-From:   Peter Oskolkov <posk@posk.io>
-Date:   Fri, 24 May 2019 15:07:10 -0700
-Message-ID: <CAFTs51VhpDk9iW5UT62CkPCN3SjgUHHO1nVqhe+ssHMYqou6Bg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] sched/fair: Fix low cpu usage with high throttling
- by removing expiration of cpu-local slices
-To:     Dave Chiluk <chiluk+linux@indeed.com>
-Cc:     Phil Auld <pauld@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Brendan Gregg <bgregg@netflix.com>,
-        Kyle Anderson <kwa@yelp.com>,
-        Gabriel Munos <gmunoz@netflix.com>,
-        John Hammond <jhammond@indeed.com>,
-        Cong Wang <xiyou.wangcong@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Ben Segall <bsegall@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 24, 2019 at 2:35 PM Dave Chiluk <chiluk+linux@indeed.com> wrote:
->
-> On Fri, May 24, 2019 at 11:28 AM Peter Oskolkov <posk@posk.io> wrote:
-> >
-> > On Fri, May 24, 2019 at 8:15 AM Dave Chiluk <chiluk+linux@indeed.com> wrote:
-> > >
-> > > On Fri, May 24, 2019 at 9:32 AM Phil Auld <pauld@redhat.com> wrote:
-> > > > On Thu, May 23, 2019 at 02:01:58PM -0700 Peter Oskolkov wrote:
-> > >
-> > > > > If the machine runs at/close to capacity, won't the overallocation
-> > > > > of the quota to bursty tasks necessarily negatively impact every other
-> > > > > task? Should the "unused" quota be available only on idle CPUs?
-> > > > > (Or maybe this is the behavior achieved here, and only the comment and
-> > > > > the commit message should be fixed...)
-> > > > >
-> > > >
-> > > > It's bounded by the amount left unused from the previous period. So
-> > > > theoretically a process could use almost twice its quota. But then it
-> > > > would have nothing left over in the next period. To repeat it would have
-> > > > to not use any that next period. Over a longer number of periods it's the
-> > > > same amount of CPU usage.
-> > > >
-> > > > I think that is more fair than throttling a process that has never used
-> > > > its full quota.
-> > > >
-> > > > And it removes complexity.
-> > > >
-> > > > Cheers,
-> > > > Phil
-> > >
-> > > Actually it's not even that bad.  The overallocation of quota to a
-> > > bursty task in a period is limited to at most one slice per cpu, and
-> > > that slice must not have been used in the previous periods.  The slice
-> > > size is set with /proc/sys/kernel/sched_cfs_bandwidth_slice_us and
-> > > defaults to 5ms.  If a bursty task goes from underutilizing quota to
-> > > using it's entire quota, it will not be able to burst in the
-> > > subsequent periods.  Therefore in an absolute worst case contrived
-> > > scenario, a bursty task can add at most 5ms to the latency of other
-> > > threads on the same CPU.  I think this worst case 5ms tradeoff is
-> > > entirely worth it.
-> > >
-> > > This does mean that a theoretically a poorly written massively
-> > > threaded application on an 80 core box, that spreads itself onto 80
-> > > cpu run queues, can overutilize it's quota in a period by at most 5ms
-> > > * 80 CPUs in a sincle period (slice * number of runqueues the
-> > > application is running on).  But that means that each of those threads
-> > >  would have had to not be use their quota in a previous period, and it
-> > > also means that the application would have to be carefully written to
-> > > exacerbate this behavior.
-> > >
-> > > Additionally if cpu bound threads underutilize a slice of their quota
-> > > in a period due to the cfs choosing a bursty task to run, they should
-> > > theoretically be able to make it up in the following periods when the
-> > > bursty task is unable to "burst".
-> >
-> > OK, so it is indeed possible that CPU bound threads will underutilize a slice
-> > of their quota in a period as a result of this patch. This should probably
-> > be clearly stated in the code comments and in the commit message.
-> >
-> > In addition, I believe that although many workloads will indeed be
-> > indifferent to getting their fair share "later", some latency-sensitive
-> > workloads will definitely be negatively affected by this temporary
-> > CPU quota stealing by bursty antagonists. So there should probably be
-> > a way to limit this behavior; for example, by making it tunable
-> > per cgroup.
-> >
-> This patch restores the behavior that existed from at least
-> v3.16..v4.18, and the current Redhat 7 kernels.  So you are kind of
-> championing a moot point as no one has noticed this "bursting"
-> behavior in over 5 years.  By removing this slice expiration
-> altogether we restore the behavior and also solve the root issue of
-> 'commit 512ac999d275 ("sched/fair: Fix bandwidth timer clock drift
-> condition")'.
->
-> Since 512ac999d275, many people are now noticing the slice expiration
-> and very displeased with the behavior change.
-> see: https://github.com/kubernetes/kubernetes/issues/67577
->
-> I would love to hear if you know of a single complaint during that 5
-> year time window, where someone noticed this bursting and reported
-> that it negatively affected their application.
+The series removes users of the following APIs, and the APIs themselves, since
+the regular non - _notrace variants don't do any tracing anyway.
+ * hlist_for_each_entry_rcu_notrace
+ * rcu_dereference_raw_notrace
 
-Linux CPU scheduling tail latency is a well-known issue and a major
-pain point in some workloads:
-https://www.google.com/search?q=linux+cpu+scheduling+tail+latency
+Joel Fernandes (Google) (5):
+powerpc: Use regular rcu_dereference_raw API
+trace: Use regular rcu_dereference_raw API
+hashtable: Use the regular hlist_for_each_entry_rcu API
+rculist: Remove hlist_for_each_entry_rcu_notrace since no users
+rcu: Remove rcu_dereference_raw_notrace since no users
 
-Even assuming that nobody noticed this particular cause
-of CPU scheduling latencies, it does not mean the problem should be waved
-away. At least it should be documented, if at this point it decided that
-it is difficult to address it in a meaningful way. And, preferably, a way
-to address the issue later on should be discussed and hopefully agreed to.
+.clang-format                                 |  1 -
+.../RCU/Design/Requirements/Requirements.html |  6 +++---
+arch/powerpc/include/asm/kvm_book3s_64.h      |  2 +-
+include/linux/hashtable.h                     |  2 +-
+include/linux/rculist.h                       | 20 -------------------
+include/linux/rcupdate.h                      |  9 ---------
+kernel/trace/ftrace.c                         |  4 ++--
+kernel/trace/ftrace_internal.h                |  8 ++++----
+kernel/trace/trace.c                          |  4 ++--
+9 files changed, 13 insertions(+), 43 deletions(-)
 
->
-> As for the documentation, I thought about documenting the possible
-> adverse side-effect, but I didn't feel it was worthwhile since no one
-> had noticed that corner case in the 5 years.  I also could not figure
-> out a concise way of describing the slight corner case issue without
-> overly complicating the documentation.  I felt that adding that corner
-> case would have detracted rather than added to the documentation's
-> usefulness.  As far as commenting in code, considering most of this
-> commit removes lines, there's not a really great place for it.  That's
-> why I did my best to describe the behavior in the documentation.
-> Smart people can draw conclusions from there as you have done.  Please
-> keep in mind that this "bursting" is again limited to a single slice
-> on each per-cpu run-queue.
->
-> Thank you,
-> Dave
+--
+2.22.0.rc1.257.g3120a18244-goog
+
