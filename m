@@ -1,190 +1,169 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_HIGH,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2E3697D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 24 May 2019 20:21:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C77C17D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 24 May 2019 21:35:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404054AbfEXUVG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 24 May 2019 16:21:06 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:40465 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2403845AbfEXUVF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 May 2019 16:21:05 -0400
-Received: by mail-oi1-f193.google.com with SMTP id r136so7954673oie.7;
-        Fri, 24 May 2019 13:21:05 -0700 (PDT)
+        id S2404239AbfEXVfa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 24 May 2019 17:35:30 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:39024 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404219AbfEXVfa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 May 2019 17:35:30 -0400
+Received: by mail-io1-f66.google.com with SMTP id r185so3978831iod.6
+        for <linux-doc@vger.kernel.org>; Fri, 24 May 2019 14:35:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=indeed.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=noDnUncx7v00BxHdUohQoEvRvQhcGRS8pbc3im08Y6w=;
+        b=XkGCSwkf+gvLn+XdjFi6oK3HPEzI0RUs4ZqtQ0lOHGrQKFa0hwHkkjkQDO+7jwA6gC
+         WYWPee8sG9gbw27iFQteMwZ78ZN7XW9kKpMa23LGy1HbSfZblj4tEItFv0nC1wtzn8XL
+         0pfiZab5hvshimfRZ1ThgNinG45tn30mJAPM8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=1Pcvpx47Lgpkklh1dUYuXUVnYLV0UOVqnAMU1ZWlfNU=;
-        b=cSZbacRLT3THI/o2Eb0csGK2Iq6Chyy1j2hI6Y5EvKZFlhH/yICikCMVcwx+3yAmci
-         kBI7cNLZp1+vDsWXz3KkwXkUy5XLO/NDZgNE4+E2AfdreShNqymnGRvMGP+TPlfE1kFU
-         Brlfy/Gr0eYAzPzH8MSN18pJBmEuH1ILaDg3BhWI9G9ywz5S+q93cVC7oCI00oRnorvf
-         0O9Zw1brafdYIipJtS6AGBPrbJRa5uzT35lHkS2zDi20k/izrCTZaM0quisrxrzDKbuI
-         eiUdJqL8EScDza1pfwcDsLIQa39eBxcDY+I4qxActCp/WmmGGDKBlNwcH+9kSkruWLlO
-         wq6g==
-X-Gm-Message-State: APjAAAWoDE/y7UwrXdMYbrf9RrHchZhqFaUnAgNC+91PNutzyQxWe2lm
-        vF+M4OSAcj9yL9P5ygStsA==
-X-Google-Smtp-Source: APXvYqwiWbsmY0AvPIsFqEy9d5xnA4ACojgqv5dnCssQgQucS6H+KMlf712EdwupMRYpX8zpqeZlIw==
-X-Received: by 2002:aca:fd45:: with SMTP id b66mr7646303oii.157.1558729264891;
-        Fri, 24 May 2019 13:21:04 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id 19sm1241172otf.72.2019.05.24.13.21.03
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 24 May 2019 13:21:04 -0700 (PDT)
-Date:   Fri, 24 May 2019 15:21:03 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Paul Cercueil <paul@crapouillou.net>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        James Hogan <jhogan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mathieu Malaterre <malat@debian.org>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-clk@vger.kernel.org, od@zcrc.me
-Subject: Re: [PATCH v12 03/13] dt-bindings: Add doc for the Ingenic TCU
- drivers
-Message-ID: <20190524202103.GA15650@bogus>
-References: <20190521145141.9813-1-paul@crapouillou.net>
- <20190521145141.9813-4-paul@crapouillou.net>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=noDnUncx7v00BxHdUohQoEvRvQhcGRS8pbc3im08Y6w=;
+        b=ngyksL4th5S+3tzcMJ9QiRSyqUgSN35ca0Qw6UTEal3mLmTSD6Rlu0rDYqpflE68fb
+         lnmQh9fFaFD/AsJ11BtHP5QcpIkUyKYU0pMQ7NwXe7AZlcMCbarmCqQRSwN8pwe/VsUk
+         wKM2O5uUsRKFjXNRxDPBuFrs4iqiKIKItumeNHTLcqUWqfhaqMDAzfbkSp+I8tlfNlS8
+         kEasbsxAs9pM52sSZtgXAOnDvWIaUXlWb90YACq2YlWRvitqZEUsqsY6R7zxKUcpdy7v
+         UdqG8k1g+TQk7gVPMt6SDtIREMK2bCHaCR+qN4sKoF8rML6e4qOc9lLAv8S70SMRtllV
+         nn+w==
+X-Gm-Message-State: APjAAAXYzLQMtPXtUi3uU3wBrYPxs4qMSlHoI3DOdUytsSxdiro8xX/K
+        TgsTOguspiPxVb+Irwz2Y6smf/31gv2T8983sj/pFg==
+X-Google-Smtp-Source: APXvYqwXlEws9qaOfIVvBaoZGOZu72Hu818IkDE74Ow2/24+Q2FfYTdCzpHB2Gq57suTYF9vMHF8CBjqBuFn6VHf7ws=
+X-Received: by 2002:a05:6602:4f:: with SMTP id z15mr20771387ioz.108.1558733728840;
+ Fri, 24 May 2019 14:35:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190521145141.9813-4-paul@crapouillou.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <1558121424-2914-1-git-send-email-chiluk+linux@indeed.com>
+ <1558637087-20283-1-git-send-email-chiluk+linux@indeed.com>
+ <1558637087-20283-2-git-send-email-chiluk+linux@indeed.com>
+ <CAFTs51W0KdK4nw6wydn2HjNYvFRC8DYMmVeKX9FAe+4YUGEAZg@mail.gmail.com>
+ <20190524143204.GB4684@lorien.usersys.redhat.com> <CAC=E7cXxsyMLw1PR+8QchTH8FYL7WX6_8LBVdqueR1yjW+VVkQ@mail.gmail.com>
+ <CAFTs51Vm258CkDXi_Jj_cGOMotTvhdYR_VW8aUwAUvgistZOFQ@mail.gmail.com>
+In-Reply-To: <CAFTs51Vm258CkDXi_Jj_cGOMotTvhdYR_VW8aUwAUvgistZOFQ@mail.gmail.com>
+From:   Dave Chiluk <chiluk+linux@indeed.com>
+Date:   Fri, 24 May 2019 16:35:02 -0500
+Message-ID: <CAC=E7cXVrGRKMNkJPhd4fJi7wgdYk=YcXPV7B8GVNL5M69BarQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] sched/fair: Fix low cpu usage with high throttling
+ by removing expiration of cpu-local slices
+To:     Peter Oskolkov <posk@posk.io>
+Cc:     Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Brendan Gregg <bgregg@netflix.com>,
+        Kyle Anderson <kwa@yelp.com>,
+        Gabriel Munos <gmunoz@netflix.com>,
+        John Hammond <jhammond@indeed.com>,
+        Cong Wang <xiyou.wangcong@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Ben Segall <bsegall@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 21, 2019 at 04:51:31PM +0200, Paul Cercueil wrote:
-> Add documentation about how to properly use the Ingenic TCU
-> (Timer/Counter Unit) drivers from devicetree.
-> 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> ---
-> 
-> Notes:
->     v4: New patch in this series. Corresponds to V2 patches 3-4-5 with
->      added content.
->     
->     v5: - Edited PWM/watchdog DT bindings documentation to point to the new
->        document.
->      - Moved main document to
->        Documentation/devicetree/bindings/timer/ingenic,tcu.txt
->      - Updated documentation to reflect the new devicetree bindings.
->     
->     v6: - Removed PWM/watchdog documentation files as asked by upstream
->      - Removed doc about properties that should be implicit
->      - Removed doc about ingenic,timer-channel /
->        ingenic,clocksource-channel as they are gone
->      - Fix WDT clock name in the binding doc
->      - Fix lengths of register areas in watchdog/pwm nodes
->     
->     v7: No change
->     
->     v8: - Fix address of the PWM node
->      - Added doc about system timer and clocksource children nodes
->     
->     v9: - Remove doc about system timer and clocksource children
->        nodes...
->     - Add doc about ingenic,pwm-channels-mask property
->     
->     v10: No change
->     
->     v11: Fix info about default value of ingenic,pwm-channels-mask
->     
->     v12: Drop sub-nodes for now; they will be introduced in a follow-up
->     	 patchset.
+On Fri, May 24, 2019 at 11:28 AM Peter Oskolkov <posk@posk.io> wrote:
+>
+> On Fri, May 24, 2019 at 8:15 AM Dave Chiluk <chiluk+linux@indeed.com> wrote:
+> >
+> > On Fri, May 24, 2019 at 9:32 AM Phil Auld <pauld@redhat.com> wrote:
+> > > On Thu, May 23, 2019 at 02:01:58PM -0700 Peter Oskolkov wrote:
+> >
+> > > > If the machine runs at/close to capacity, won't the overallocation
+> > > > of the quota to bursty tasks necessarily negatively impact every other
+> > > > task? Should the "unused" quota be available only on idle CPUs?
+> > > > (Or maybe this is the behavior achieved here, and only the comment and
+> > > > the commit message should be fixed...)
+> > > >
+> > >
+> > > It's bounded by the amount left unused from the previous period. So
+> > > theoretically a process could use almost twice its quota. But then it
+> > > would have nothing left over in the next period. To repeat it would have
+> > > to not use any that next period. Over a longer number of periods it's the
+> > > same amount of CPU usage.
+> > >
+> > > I think that is more fair than throttling a process that has never used
+> > > its full quota.
+> > >
+> > > And it removes complexity.
+> > >
+> > > Cheers,
+> > > Phil
+> >
+> > Actually it's not even that bad.  The overallocation of quota to a
+> > bursty task in a period is limited to at most one slice per cpu, and
+> > that slice must not have been used in the previous periods.  The slice
+> > size is set with /proc/sys/kernel/sched_cfs_bandwidth_slice_us and
+> > defaults to 5ms.  If a bursty task goes from underutilizing quota to
+> > using it's entire quota, it will not be able to burst in the
+> > subsequent periods.  Therefore in an absolute worst case contrived
+> > scenario, a bursty task can add at most 5ms to the latency of other
+> > threads on the same CPU.  I think this worst case 5ms tradeoff is
+> > entirely worth it.
+> >
+> > This does mean that a theoretically a poorly written massively
+> > threaded application on an 80 core box, that spreads itself onto 80
+> > cpu run queues, can overutilize it's quota in a period by at most 5ms
+> > * 80 CPUs in a sincle period (slice * number of runqueues the
+> > application is running on).  But that means that each of those threads
+> >  would have had to not be use their quota in a previous period, and it
+> > also means that the application would have to be carefully written to
+> > exacerbate this behavior.
+> >
+> > Additionally if cpu bound threads underutilize a slice of their quota
+> > in a period due to the cfs choosing a bursty task to run, they should
+> > theoretically be able to make it up in the following periods when the
+> > bursty task is unable to "burst".
+>
+> OK, so it is indeed possible that CPU bound threads will underutilize a slice
+> of their quota in a period as a result of this patch. This should probably
+> be clearly stated in the code comments and in the commit message.
+>
+> In addition, I believe that although many workloads will indeed be
+> indifferent to getting their fair share "later", some latency-sensitive
+> workloads will definitely be negatively affected by this temporary
+> CPU quota stealing by bursty antagonists. So there should probably be
+> a way to limit this behavior; for example, by making it tunable
+> per cgroup.
+>
+This patch restores the behavior that existed from at least
+v3.16..v4.18, and the current Redhat 7 kernels.  So you are kind of
+championing a moot point as no one has noticed this "bursting"
+behavior in over 5 years.  By removing this slice expiration
+altogether we restore the behavior and also solve the root issue of
+'commit 512ac999d275 ("sched/fair: Fix bandwidth timer clock drift
+condition")'.
 
-Why? I believe I acked them.
+Since 512ac999d275, many people are now noticing the slice expiration
+and very displeased with the behavior change.
+see: https://github.com/kubernetes/kubernetes/issues/67577
 
-> 
->  .../devicetree/bindings/timer/ingenic,tcu.txt | 59 +++++++++++++++++++
->  1 file changed, 59 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/timer/ingenic,tcu.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/timer/ingenic,tcu.txt b/Documentation/devicetree/bindings/timer/ingenic,tcu.txt
-> new file mode 100644
-> index 000000000000..d101cd72c9b0
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/timer/ingenic,tcu.txt
-> @@ -0,0 +1,59 @@
-> +Ingenic JZ47xx SoCs Timer/Counter Unit devicetree bindings
-> +==========================================================
-> +
-> +For a description of the TCU hardware and drivers, have a look at
-> +Documentation/mips/ingenic-tcu.txt.
-> +
-> +Required properties:
-> +
-> +- compatible: Must be one of:
-> +  * "ingenic,jz4740-tcu"
-> +  * "ingenic,jz4725b-tcu"
-> +  * "ingenic,jz4770-tcu"
-> +- reg: Should be the offset/length value corresponding to the TCU registers
-> +- clocks: List of phandle & clock specifiers for clocks external to the TCU.
-> +  The "pclk", "rtc" and "ext" clocks should be provided. The "tcu" clock
-> +  should be provided if the SoC has it.
-> +- clock-names: List of name strings for the external clocks.
-> +- #clock-cells: Should be <1>;
-> +  Clock consumers specify this argument to identify a clock. The valid values
-> +  may be found in <dt-bindings/clock/ingenic,tcu.h>.
-> +- interrupt-controller : Identifies the node as an interrupt controller
-> +- #interrupt-cells : Specifies the number of cells needed to encode an
-> +  interrupt source. The value should be 1.
-> +- interrupt-parent : phandle of the interrupt controller.
+I would love to hear if you know of a single complaint during that 5
+year time window, where someone noticed this bursting and reported
+that it negatively affected their application.
 
-Drop this 'interrupt-parent' is implied and could be in a parent node.
+As for the documentation, I thought about documenting the possible
+adverse side-effect, but I didn't feel it was worthwhile since no one
+had noticed that corner case in the 5 years.  I also could not figure
+out a concise way of describing the slight corner case issue without
+overly complicating the documentation.  I felt that adding that corner
+case would have detracted rather than added to the documentation's
+usefulness.  As far as commenting in code, considering most of this
+commit removes lines, there's not a really great place for it.  That's
+why I did my best to describe the behavior in the documentation.
+Smart people can draw conclusions from there as you have done.  Please
+keep in mind that this "bursting" is again limited to a single slice
+on each per-cpu run-queue.
 
-> +- interrupts : Specifies the interrupt the controller is connected to.
-> +
-> +Optional properties:
-> +
-> +- ingenic,pwm-channels-mask: Bitmask of TCU channels reserved for PWM use.
-> +  Default value is 0xfc.
-> +
-> +
-> +Example
-> +==========================================================
-> +
-> +#include <dt-bindings/clock/jz4770-cgu.h>
-> +
-> +/ {
-> +	tcu: timer@10002000 {
-> +		compatible = "ingenic,jz4770-tcu";
-> +		reg = <0x10002000 0x1000>;
-> +		#address-cells = <1>;
-> +		#size-cells = <1>;
-> +		ranges = <0x0 0x10002000 0x1000>;
-> +
-> +		#clock-cells = <1>;
-> +
-> +		clocks = <&cgu JZ4770_CLK_RTC
-> +			  &cgu JZ4770_CLK_EXT
-> +			  &cgu JZ4770_CLK_PCLK>;
-> +		clock-names = "rtc", "ext", "pclk";
-> +
-> +		interrupt-controller;
-> +		#interrupt-cells = <1>;
-> +
-> +		interrupt-parent = <&intc>;
-> +		interrupts = <27 26 25>;
-> +	};
-> +};
-> -- 
-> 2.21.0.593.g511ec345e18
-> 
+Thank you,
+Dave
