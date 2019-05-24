@@ -1,31 +1,63 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2F27E7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 24 May 2019 15:59:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B9CA77D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 24 May 2019 16:28:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389706AbfEXP7T (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 24 May 2019 11:59:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41150 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389385AbfEXP7T (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 24 May 2019 11:59:19 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id D8C84F9E7B;
-        Fri, 24 May 2019 15:59:09 +0000 (UTC)
-Received: from lorien.usersys.redhat.com (ovpn-116-199.phx2.redhat.com [10.3.116.199])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 5026917CCB;
-        Fri, 24 May 2019 15:59:06 +0000 (UTC)
-Date:   Fri, 24 May 2019 11:59:04 -0400
-From:   Phil Auld <pauld@redhat.com>
+        id S2390210AbfEXQ2n (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 24 May 2019 12:28:43 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:44292 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390308AbfEXQ2n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 May 2019 12:28:43 -0400
+Received: by mail-ed1-f65.google.com with SMTP id b8so15134593edm.11
+        for <linux-doc@vger.kernel.org>; Fri, 24 May 2019 09:28:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=posk.io; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=yDvF8ijGMjXKswBaAKmkx4e+4Hw2+kdouMbMASjbcVw=;
+        b=DGIG2OEHCcGy9pFLL1EUTPA4Q4CAVvRVSxI5Oc+ftogN0WouSQiw4CkW6FvYzATM9u
+         ClIQ91EObEDk5+xk+Db1HLIcdXFFuMPIOsZi/ynjLiGlVMhl/kbGGjgRky/TkxKY4Me2
+         xzYJrKIvRKLbKNaP3qqpHmAoTJ/JQ3d4sPq89OYTaG8owOhepVzXN66yjaaer9Izy2SS
+         qTjH3H89y+/LJtOFvkdN9jSUNZgTpFEtjOu6eNz0lxbTe9KFPvtRTt8b/UUnKJ5oytwz
+         kThh1ZhyaTdMQlFifrR5G9Ks9tDDGJ0bwgMNbCiWtD+vY9hAX4TzdC6W3zgBBEwwWNqT
+         ljEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yDvF8ijGMjXKswBaAKmkx4e+4Hw2+kdouMbMASjbcVw=;
+        b=tzqARZJTpP/D/2uXCW+9br3JfJ/ZpIOI7bxiR+B2kajxhIJ8vH64RCKvV7iFk/Yf+Y
+         uUE4sySb3PoQv/EDnZGgh1svDXPV/RyycvUdGi7Oe/QV5MeAz1zvTvqFLfnO9iPRiRyW
+         HOGXPbPYo+CjxG3xXJnBu/Z05t0ZQXNb9UN8jeQo8kmf6kNCohG4+8bDxd6/sfLSXzWc
+         F5l6HLmIfZYvNayJEG8cpgAQCOqWKeG3q1NA1/OoHJwQsUlooZYL2kULtWa8rSfrag19
+         239EwQ/KrcP2yBUWfsJkGdI2IXlLqKkC4vKg24aHAvsafIRC7QF53abruMZEl6SW36d6
+         tztg==
+X-Gm-Message-State: APjAAAV/DGhyLocYI9/9SJZsk0C8oXt84SP5CRoVs8puo74kSBeC4T/t
+        Sz0Ak+UhVm2FByjnIy2AT87nIQYEOvnU0zeGkGJPlw==
+X-Google-Smtp-Source: APXvYqxGzwVO1ZkMJIM3Mnc1FEnNtAkwAMMiTeH+RINJrdbRUCyXo6u4j5F2/YpAI/m4f9JnvvvTDSL73V4y4hQty84=
+X-Received: by 2002:aa7:c44e:: with SMTP id n14mr32345338edr.203.1558715321234;
+ Fri, 24 May 2019 09:28:41 -0700 (PDT)
+MIME-Version: 1.0
+References: <1558121424-2914-1-git-send-email-chiluk+linux@indeed.com>
+ <1558637087-20283-1-git-send-email-chiluk+linux@indeed.com>
+ <1558637087-20283-2-git-send-email-chiluk+linux@indeed.com>
+ <CAFTs51W0KdK4nw6wydn2HjNYvFRC8DYMmVeKX9FAe+4YUGEAZg@mail.gmail.com>
+ <20190524143204.GB4684@lorien.usersys.redhat.com> <CAC=E7cXxsyMLw1PR+8QchTH8FYL7WX6_8LBVdqueR1yjW+VVkQ@mail.gmail.com>
+In-Reply-To: <CAC=E7cXxsyMLw1PR+8QchTH8FYL7WX6_8LBVdqueR1yjW+VVkQ@mail.gmail.com>
+From:   Peter Oskolkov <posk@posk.io>
+Date:   Fri, 24 May 2019 09:28:30 -0700
+Message-ID: <CAFTs51Vm258CkDXi_Jj_cGOMotTvhdYR_VW8aUwAUvgistZOFQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] sched/fair: Fix low cpu usage with high throttling
+ by removing expiration of cpu-local slices
 To:     Dave Chiluk <chiluk+linux@indeed.com>
-Cc:     Peter Oskolkov <posk@posk.io>,
+Cc:     Phil Auld <pauld@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
         Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -36,31 +68,17 @@ Cc:     Peter Oskolkov <posk@posk.io>,
         Cong Wang <xiyou.wangcong@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         Ben Segall <bsegall@google.com>
-Subject: Re: [PATCH v2 1/1] sched/fair: Fix low cpu usage with high
- throttling by removing expiration of cpu-local slices
-Message-ID: <20190524155904.GE4684@lorien.usersys.redhat.com>
-References: <1558121424-2914-1-git-send-email-chiluk+linux@indeed.com>
- <1558637087-20283-1-git-send-email-chiluk+linux@indeed.com>
- <1558637087-20283-2-git-send-email-chiluk+linux@indeed.com>
- <CAFTs51W0KdK4nw6wydn2HjNYvFRC8DYMmVeKX9FAe+4YUGEAZg@mail.gmail.com>
- <20190524143204.GB4684@lorien.usersys.redhat.com>
- <CAC=E7cXxsyMLw1PR+8QchTH8FYL7WX6_8LBVdqueR1yjW+VVkQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAC=E7cXxsyMLw1PR+8QchTH8FYL7WX6_8LBVdqueR1yjW+VVkQ@mail.gmail.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.38]); Fri, 24 May 2019 15:59:18 +0000 (UTC)
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 24, 2019 at 10:14:36AM -0500 Dave Chiluk wrote:
+On Fri, May 24, 2019 at 8:15 AM Dave Chiluk <chiluk+linux@indeed.com> wrote:
+>
 > On Fri, May 24, 2019 at 9:32 AM Phil Auld <pauld@redhat.com> wrote:
 > > On Thu, May 23, 2019 at 02:01:58PM -0700 Peter Oskolkov wrote:
-> 
+>
 > > > If the machine runs at/close to capacity, won't the overallocation
 > > > of the quota to bursty tasks necessarily negatively impact every other
 > > > task? Should the "unused" quota be available only on idle CPUs?
@@ -81,7 +99,7 @@ On Fri, May 24, 2019 at 10:14:36AM -0500 Dave Chiluk wrote:
 > >
 > > Cheers,
 > > Phil
-> 
+>
 > Actually it's not even that bad.  The overallocation of quota to a
 > bursty task in a period is limited to at most one slice per cpu, and
 > that slice must not have been used in the previous periods.  The slice
@@ -92,7 +110,7 @@ On Fri, May 24, 2019 at 10:14:36AM -0500 Dave Chiluk wrote:
 > scenario, a bursty task can add at most 5ms to the latency of other
 > threads on the same CPU.  I think this worst case 5ms tradeoff is
 > entirely worth it.
-> 
+>
 > This does mean that a theoretically a poorly written massively
 > threaded application on an 80 core box, that spreads itself onto 80
 > cpu run queues, can overutilize it's quota in a period by at most 5ms
@@ -101,19 +119,31 @@ On Fri, May 24, 2019 at 10:14:36AM -0500 Dave Chiluk wrote:
 >  would have had to not be use their quota in a previous period, and it
 > also means that the application would have to be carefully written to
 > exacerbate this behavior.
-> 
+>
 > Additionally if cpu bound threads underutilize a slice of their quota
 > in a period due to the cfs choosing a bursty task to run, they should
 > theoretically be able to make it up in the following periods when the
 > bursty task is unable to "burst".
-> 
+
+OK, so it is indeed possible that CPU bound threads will underutilize a slice
+of their quota in a period as a result of this patch. This should probably
+be clearly stated in the code comments and in the commit message.
+
+In addition, I believe that although many workloads will indeed be
+indifferent to getting their fair share "later", some latency-sensitive
+workloads will definitely be negatively affected by this temporary
+CPU quota stealing by bursty antagonists. So there should probably be
+a way to limit this behavior; for example, by making it tunable
+per cgroup.
+
+>
 > Please be careful here quota and slice are being treated differently.
 > Quota does not roll-over between periods, only slices of quota that
 > has already been allocated to per cpu run queues. If you allocate
 > 100ms of quota per period to an application, but it only spreads onto
 > 3 cpu run queues that means it can in the worst case use 3 x slice
 > size = 15ms in periods following underutilization.
-> 
+>
 > So why does this matter.  Well applications that use thread pools
 > *(*cough* java *cough*) with lots of tiny little worker threads, tend
 > to spread themselves out onto a lot of run queues.  These worker
@@ -128,7 +158,7 @@ On Fri, May 24, 2019 at 10:14:36AM -0500 Dave Chiluk wrote:
 > slice in following periods these worker threads do not need to be
 > allocated additional slice, and thereby the main threads are actually
 > able to use the allocated cpu quota.
-> 
+>
 > This can be experienced by running fibtest available at
 > https://github.com/indeedeng/fibtest/.
 > $ runfibtest 1
@@ -138,18 +168,6 @@ On Fri, May 24, 2019 at 10:14:36AM -0500 Dave Chiluk wrote:
 > to cpus 1-7.  This run is expected to show less iterations, but the
 > worse problem is that the cpu usage is far less than the 500ms that it
 > should have received.
-> 
+>
 > Thanks for the engagement on this,
 > Dave Chiluk
-
-Thanks for the clarification. This is an even better explanation. 
-
-Fwiw, I ran some of my cfs throttling tests with this, none of which are
-designed to measure or hit this particular issue. They are more focused
-on starvation and hard lockups that I've hit. But I did not see any issues
-or oddities with this patch. 
-
-Cheers,
-Phil
-
--- 
