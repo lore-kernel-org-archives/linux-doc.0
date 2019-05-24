@@ -6,45 +6,45 @@ X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 15BB07D923
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 24 May 2019 23:50:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 171627D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 24 May 2019 23:50:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726397AbfEXXuD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 24 May 2019 19:50:03 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:46431 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726408AbfEXXuD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 May 2019 19:50:03 -0400
-Received: by mail-pf1-f196.google.com with SMTP id y11so1340901pfm.13
-        for <linux-doc@vger.kernel.org>; Fri, 24 May 2019 16:50:02 -0700 (PDT)
+        id S1726209AbfEXXt4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 24 May 2019 19:49:56 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:39346 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726015AbfEXXtz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 May 2019 19:49:55 -0400
+Received: by mail-pf1-f194.google.com with SMTP id z26so6194955pfg.6
+        for <linux-doc@vger.kernel.org>; Fri, 24 May 2019 16:49:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=joelfernandes.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=eaayBc92IMmJypjY+VABsd2ojMmm1ZzkUdujrOQbc5g=;
-        b=bKtwgdrkqRsODjat6ojYHyBKdVvveA/eZWmIfkN9EasXwK9Os8rI42a213oMZywyrJ
-         uQqACXEmiJkk4pse9iu30fuVl4njrGuVeGY+qNGodI9qLCrR7wmHRld8PBOzHPJpRXLn
-         hVJS0T152ByGYPSSVahtJqoeq8R8jylKj9qpc=
+        bh=JWprfXxnZYwrSMlSa8B0jYY+Kk48KO4t7l+blfnMKTI=;
+        b=FtBgIcfyzP/9kJsM+zqDbKcy6VZwEKAANCQ1/eZQrD6rviA4awDDcac9F6JHAeC8Ww
+         /QISOXT5+haCwcCXiDtBTzmrbvUPQt/eQFfssAfxoublccYDf4cZJhSHGojIabZd0IPc
+         VxKmmE96CtJBAuxlrRyraOLObouJSFe2WI5dc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=eaayBc92IMmJypjY+VABsd2ojMmm1ZzkUdujrOQbc5g=;
-        b=KKeTmOylWKfEcLXPwpKFkcQoNCBk2sm7OSZ2UH6NbbICdA9o6+t08YR3fLih2yJEpo
-         0oGyGbn/ww2A88iY863P1NrvA3xjVAIVVeGoVpgR+ZYwlw83o2mGh89+iOjqHCImKxgg
-         w7dw22Yw0y0duAT3u7exgqgUGBicUVsABNP6mYAcWlDEt7uEIUexgzqSk2VU8LkQkkpN
-         NePYngPRTXZeSyR56A+0XiKEubh6m5u/czjYVohzWeBeTYJeRtSHTd3BBAVTxos1u2s7
-         VLSLKbHyE9452eBoFLK4Gk4RbkAxKc+b4dfQqde15RVNGvxVMDSn1M+7lRcqqYbJZ50d
-         E9ig==
-X-Gm-Message-State: APjAAAWfGigQuXrF4n0YzDZsQ/MWlwynSaRPeOhFgQteUzLltVNrCtmm
-        /9AfOds5n/RUHSPz1iRn9wbpOA==
-X-Google-Smtp-Source: APXvYqxnwdALM9KRFwXLedWKJxMEgotFtqy5TZBUssjnizX6ClUg18TxOqEWpFQcyOGvp5/8X0oLPg==
-X-Received: by 2002:a17:90a:b296:: with SMTP id c22mr13322972pjr.28.1558741802356;
-        Fri, 24 May 2019 16:50:02 -0700 (PDT)
+        bh=JWprfXxnZYwrSMlSa8B0jYY+Kk48KO4t7l+blfnMKTI=;
+        b=B1O/maSh8qHatJMStbPwWg8Jx0uz9qFTaxt302Z5oSaqAuPGJlAcmk+0TVrGDmEa9Z
+         xiA3Bxj8f372N7TKmebeSYind2QmHa838B0MjVE7bSQpEGbijrBs+61tfMhOTAJ1u3Uc
+         3NdJAOz63u8nJFSigOw8csq4tb2769Djfd0vcMNTM8DVrOdS3maHtWg6TWJYsaHOQ3zv
+         feVfrD7xrmGdyPjaosuiZukGdE7uL9BsSOkY+YLgH0VWwOEOLhoA5mrcgsyH+flt9ejK
+         eMqNAJCJ1ZnVjLcPDuQPkPZt3Z0FuXT2iE148KhBbsgd9FPcR35FqQNFJqUqopN02gX8
+         XT4A==
+X-Gm-Message-State: APjAAAUBizvRxluHiL7/8nbN//wBQNNlGR+UIlM4pFZbxEIHPrF7+5B4
+        RBg9zeoafB4YyHB8PjLpDX34xQ==
+X-Google-Smtp-Source: APXvYqz7Pfyyr4nOlV734fVH1bvjX4jHzTMPj1aZT0g/Pt0V2GglxzMFOH0INg1fPuB6UlDmRBFhmw==
+X-Received: by 2002:a63:495e:: with SMTP id y30mr65431636pgk.185.1558741794604;
+        Fri, 24 May 2019 16:49:54 -0700 (PDT)
 Received: from joelaf.cam.corp.google.com ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id q4sm3297595pgb.39.2019.05.24.16.49.59
+        by smtp.gmail.com with ESMTPSA id q4sm3297595pgb.39.2019.05.24.16.49.52
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 24 May 2019 16:50:01 -0700 (PDT)
+        Fri, 24 May 2019 16:49:53 -0700 (PDT)
 From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
@@ -60,9 +60,9 @@ Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
         "Paul E. McKenney" <paulmck@linux.ibm.com>,
         Paul Mackerras <paulus@ozlabs.org>, rcu@vger.kernel.org,
         Steven Rostedt <rostedt@goodmis.org>
-Subject: [PATCH RFC 4/5] rculist: Remove hlist_for_each_entry_rcu_notrace since no users
-Date:   Fri, 24 May 2019 19:49:32 -0400
-Message-Id: <20190524234933.5133-5-joel@joelfernandes.org>
+Subject: [PATCH RFC 1/5] powerpc: Use regular rcu_dereference_raw API
+Date:   Fri, 24 May 2019 19:49:29 -0400
+Message-Id: <20190524234933.5133-2-joel@joelfernandes.org>
 X-Mailer: git-send-email 2.22.0.rc1.257.g3120a18244-goog
 In-Reply-To: <20190524234933.5133-1-joel@joelfernandes.org>
 References: <20190524234933.5133-1-joel@joelfernandes.org>
@@ -73,58 +73,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The series removes all users of the API and with this patch, the API
-itself.
+rcu_dereference_raw already does not do any tracing. There is no need to
+use the _notrace variant of it and this series removes that API, so let us
+use the regular variant here.
 
 Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 ---
- .clang-format           |  1 -
- include/linux/rculist.h | 20 --------------------
- 2 files changed, 21 deletions(-)
+ arch/powerpc/include/asm/kvm_book3s_64.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/.clang-format b/.clang-format
-index 2ffd69afc1a8..aa935923f5cb 100644
---- a/.clang-format
-+++ b/.clang-format
-@@ -287,7 +287,6 @@ ForEachMacros:
-   - 'hlist_for_each_entry_from_rcu'
-   - 'hlist_for_each_entry_rcu'
-   - 'hlist_for_each_entry_rcu_bh'
--  - 'hlist_for_each_entry_rcu_notrace'
-   - 'hlist_for_each_entry_safe'
-   - '__hlist_for_each_rcu'
-   - 'hlist_for_each_safe'
-diff --git a/include/linux/rculist.h b/include/linux/rculist.h
-index e91ec9ddcd30..0d3d77cf4f07 100644
---- a/include/linux/rculist.h
-+++ b/include/linux/rculist.h
-@@ -628,26 +628,6 @@ static inline void hlist_add_behind_rcu(struct hlist_node *n,
- 		pos = hlist_entry_safe(rcu_dereference_raw(hlist_next_rcu(\
- 			&(pos)->member)), typeof(*(pos)), member))
+diff --git a/arch/powerpc/include/asm/kvm_book3s_64.h b/arch/powerpc/include/asm/kvm_book3s_64.h
+index 21b1ed5df888..c15c9bbf0206 100644
+--- a/arch/powerpc/include/asm/kvm_book3s_64.h
++++ b/arch/powerpc/include/asm/kvm_book3s_64.h
+@@ -546,7 +546,7 @@ static inline void note_hpte_modification(struct kvm *kvm,
+  */
+ static inline struct kvm_memslots *kvm_memslots_raw(struct kvm *kvm)
+ {
+-	return rcu_dereference_raw_notrace(kvm->memslots[0]);
++	return rcu_dereference_raw(kvm->memslots[0]);
+ }
  
--/**
-- * hlist_for_each_entry_rcu_notrace - iterate over rcu list of given type (for tracing)
-- * @pos:	the type * to use as a loop cursor.
-- * @head:	the head for your list.
-- * @member:	the name of the hlist_node within the struct.
-- *
-- * This list-traversal primitive may safely run concurrently with
-- * the _rcu list-mutation primitives such as hlist_add_head_rcu()
-- * as long as the traversal is guarded by rcu_read_lock().
-- *
-- * This is the same as hlist_for_each_entry_rcu() except that it does
-- * not do any RCU debugging or tracing.
-- */
--#define hlist_for_each_entry_rcu_notrace(pos, head, member)			\
--	for (pos = hlist_entry_safe (rcu_dereference_raw_notrace(hlist_first_rcu(head)),\
--			typeof(*(pos)), member);			\
--		pos;							\
--		pos = hlist_entry_safe(rcu_dereference_raw_notrace(hlist_next_rcu(\
--			&(pos)->member)), typeof(*(pos)), member))
--
- /**
-  * hlist_for_each_entry_rcu_bh - iterate over rcu list of given type
-  * @pos:	the type * to use as a loop cursor.
+ extern void kvmppc_mmu_debugfs_init(struct kvm *kvm);
 -- 
 2.22.0.rc1.257.g3120a18244-goog
 
