@@ -3,48 +3,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 171627D2EF
+	by archive.lwn.net (Postfix) with ESMTP id 424187D91B
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 24 May 2019 23:50:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726209AbfEXXt4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 24 May 2019 19:49:56 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:39346 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726015AbfEXXtz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 May 2019 19:49:55 -0400
-Received: by mail-pf1-f194.google.com with SMTP id z26so6194955pfg.6
-        for <linux-doc@vger.kernel.org>; Fri, 24 May 2019 16:49:55 -0700 (PDT)
+        id S1726372AbfEXXuA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 24 May 2019 19:50:00 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:46168 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726334AbfEXXuA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 May 2019 19:50:00 -0400
+Received: by mail-pl1-f193.google.com with SMTP id r18so4737448pls.13
+        for <linux-doc@vger.kernel.org>; Fri, 24 May 2019 16:50:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=joelfernandes.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=JWprfXxnZYwrSMlSa8B0jYY+Kk48KO4t7l+blfnMKTI=;
-        b=FtBgIcfyzP/9kJsM+zqDbKcy6VZwEKAANCQ1/eZQrD6rviA4awDDcac9F6JHAeC8Ww
-         /QISOXT5+haCwcCXiDtBTzmrbvUPQt/eQFfssAfxoublccYDf4cZJhSHGojIabZd0IPc
-         VxKmmE96CtJBAuxlrRyraOLObouJSFe2WI5dc=
+        bh=T411oidtPZE/SyBXnA5xe/v4182CyfqCsIw7xcrtw7w=;
+        b=h1Yfyhrm1FED0jxfY2I/NspMxRT5TIJwzEmWWjpN49QToxU9ZGZbpFbhec3ZLORRCd
+         jpV/RHW2DQVuQ6REsHLluVgcp8J/8f7MfNBg8yuFJKeM4vTFRi3l37IN4VY1lkR3I9qd
+         ZWKxvmGD+ntgFm02ZtggbTrE3nvbMGZd9Jwq8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=JWprfXxnZYwrSMlSa8B0jYY+Kk48KO4t7l+blfnMKTI=;
-        b=B1O/maSh8qHatJMStbPwWg8Jx0uz9qFTaxt302Z5oSaqAuPGJlAcmk+0TVrGDmEa9Z
-         xiA3Bxj8f372N7TKmebeSYind2QmHa838B0MjVE7bSQpEGbijrBs+61tfMhOTAJ1u3Uc
-         3NdJAOz63u8nJFSigOw8csq4tb2769Djfd0vcMNTM8DVrOdS3maHtWg6TWJYsaHOQ3zv
-         feVfrD7xrmGdyPjaosuiZukGdE7uL9BsSOkY+YLgH0VWwOEOLhoA5mrcgsyH+flt9ejK
-         eMqNAJCJ1ZnVjLcPDuQPkPZt3Z0FuXT2iE148KhBbsgd9FPcR35FqQNFJqUqopN02gX8
-         XT4A==
-X-Gm-Message-State: APjAAAUBizvRxluHiL7/8nbN//wBQNNlGR+UIlM4pFZbxEIHPrF7+5B4
-        RBg9zeoafB4YyHB8PjLpDX34xQ==
-X-Google-Smtp-Source: APXvYqz7Pfyyr4nOlV734fVH1bvjX4jHzTMPj1aZT0g/Pt0V2GglxzMFOH0INg1fPuB6UlDmRBFhmw==
-X-Received: by 2002:a63:495e:: with SMTP id y30mr65431636pgk.185.1558741794604;
-        Fri, 24 May 2019 16:49:54 -0700 (PDT)
+        bh=T411oidtPZE/SyBXnA5xe/v4182CyfqCsIw7xcrtw7w=;
+        b=LzZG3LzY6ydLXEKjMpDrk4wdpUiSlEf8qfH8GJRGulbsWsf+rGRdNAAWSRVl4cdXB1
+         6Gp8NUpboVDI7SvjLZ39EvPpkvNtOJxEscf909g22Xuy+8emC3NJH3dpuXBXkLNPEOoq
+         Aj+jA790HN03wAyGjBW40PuNMTMx3hkE21k5IcncwsrP6ID7/rIbQOzUqK2DsFSe2+Gq
+         QmhrOH5AG5FQ9uA/iCaOCkhT6CJ27IoIo1bn38QRCiP3tX3y4shtOHTcGWjA9rYol3DX
+         PfnMX5bNoyOOOUX8vJzX/puZB4vHCZS5nap6jlTAby0xNRgWqfBRkc7QHqYhAChpL8WO
+         +dGw==
+X-Gm-Message-State: APjAAAXqxp1mIyjUZQXcGJCKlrIei5n4XsQVJEiGuA1KuY+3zN6PnIY+
+        9AGG+9bHVbXCxnZJ2nzm9BqjmA==
+X-Google-Smtp-Source: APXvYqxwZl/5ewT5nmPHvDNF3PVcRdSTyjHQUf1i/UtDMZkPW0EhWp82Y0t5mSMFBjTrA/fFj21Rqg==
+X-Received: by 2002:a17:902:4181:: with SMTP id f1mr87153377pld.22.1558741799771;
+        Fri, 24 May 2019 16:49:59 -0700 (PDT)
 Received: from joelaf.cam.corp.google.com ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id q4sm3297595pgb.39.2019.05.24.16.49.52
+        by smtp.gmail.com with ESMTPSA id q4sm3297595pgb.39.2019.05.24.16.49.57
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 24 May 2019 16:49:53 -0700 (PDT)
+        Fri, 24 May 2019 16:49:59 -0700 (PDT)
 From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
@@ -60,9 +60,9 @@ Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
         "Paul E. McKenney" <paulmck@linux.ibm.com>,
         Paul Mackerras <paulus@ozlabs.org>, rcu@vger.kernel.org,
         Steven Rostedt <rostedt@goodmis.org>
-Subject: [PATCH RFC 1/5] powerpc: Use regular rcu_dereference_raw API
-Date:   Fri, 24 May 2019 19:49:29 -0400
-Message-Id: <20190524234933.5133-2-joel@joelfernandes.org>
+Subject: [PATCH RFC 3/5] hashtable: Use the regular hlist_for_each_entry_rcu API
+Date:   Fri, 24 May 2019 19:49:31 -0400
+Message-Id: <20190524234933.5133-4-joel@joelfernandes.org>
 X-Mailer: git-send-email 2.22.0.rc1.257.g3120a18244-goog
 In-Reply-To: <20190524234933.5133-1-joel@joelfernandes.org>
 References: <20190524234933.5133-1-joel@joelfernandes.org>
@@ -73,28 +73,30 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-rcu_dereference_raw already does not do any tracing. There is no need to
-use the _notrace variant of it and this series removes that API, so let us
-use the regular variant here.
+hlist_for_each_entry_rcu already does not do any tracing. This series
+removes the notrace variant of it, so let us just use the regular API.
+
+In a future patch, we can also remove the
+hash_for_each_possible_rcu_notrace API that this patch touches.
 
 Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 ---
- arch/powerpc/include/asm/kvm_book3s_64.h | 2 +-
+ include/linux/hashtable.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/powerpc/include/asm/kvm_book3s_64.h b/arch/powerpc/include/asm/kvm_book3s_64.h
-index 21b1ed5df888..c15c9bbf0206 100644
---- a/arch/powerpc/include/asm/kvm_book3s_64.h
-+++ b/arch/powerpc/include/asm/kvm_book3s_64.h
-@@ -546,7 +546,7 @@ static inline void note_hpte_modification(struct kvm *kvm,
+diff --git a/include/linux/hashtable.h b/include/linux/hashtable.h
+index 417d2c4bc60d..47fa7b673c1b 100644
+--- a/include/linux/hashtable.h
++++ b/include/linux/hashtable.h
+@@ -189,7 +189,7 @@ static inline void hash_del_rcu(struct hlist_node *node)
+  * not do any RCU debugging or tracing.
   */
- static inline struct kvm_memslots *kvm_memslots_raw(struct kvm *kvm)
- {
--	return rcu_dereference_raw_notrace(kvm->memslots[0]);
-+	return rcu_dereference_raw(kvm->memslots[0]);
- }
+ #define hash_for_each_possible_rcu_notrace(name, obj, member, key) \
+-	hlist_for_each_entry_rcu_notrace(obj, \
++	hlist_for_each_entry_rcu(obj, \
+ 		&name[hash_min(key, HASH_BITS(name))], member)
  
- extern void kvmppc_mmu_debugfs_init(struct kvm *kvm);
+ /**
 -- 
 2.22.0.rc1.257.g3120a18244-goog
 
