@@ -1,105 +1,210 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 75B4A7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 25 May 2019 18:18:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A0C707D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 25 May 2019 19:13:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727085AbfEYSSW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 25 May 2019 14:18:22 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:35956 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727334AbfEYSSV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 May 2019 14:18:21 -0400
-Received: by mail-pg1-f196.google.com with SMTP id a3so6817139pgb.3
-        for <linux-doc@vger.kernel.org>; Sat, 25 May 2019 11:18:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=pwUwT3IH5HpGo/L8sP6//cCZtClp5/ip6vUnZdkkz+4=;
-        b=kkcebdlaAxI4tg4ycJmEqrzHnyewgh+jjzD8JuWykQMD1lxIZbs14DxRaS3JzJWrkx
-         D3zUk40qEzDf9b4/+3m3e4ZQvAeZltgNBFxxlJjzMPDywJcvPdcoFqhPgZYDwqU6gPKo
-         ZKBP/5ISTo1G00dTfWL1Nmxp2HkYKifVw8IVU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=pwUwT3IH5HpGo/L8sP6//cCZtClp5/ip6vUnZdkkz+4=;
-        b=qYj0Pf/LUkv6BPchU3U4w1DU0WeWqQVOxKC1KVEBUATPdvyIoivKQaa+E2MadQJZvw
-         7lj2IAZe20WO34UinU8QQsUx6Qegkh4BNSVseVD3WfxFqG4d0n66gCpplxcsojFHCF7D
-         4oDg4ZZRa7abhjr/W2ek2i+kWkoo/ktralXXVepxp34FCRGtB1GSUmWCjiqPAJ2IbCAL
-         l2I682gP+XILjb/RKC4TJWkDsazrmeaHh7OrDpdLT5F5AnrLSjum8+e+Ldl2MH6RGHdm
-         9oMA7xeP2KSgejIWPaI4NqnmmisXMmu9gW6dsnPnd0ht06S+xaEkHm1LLQqrZY220rxH
-         PmFQ==
-X-Gm-Message-State: APjAAAUYLGIRvk3A74JJgeslB6rd4USYGjTsCl0qxHP/Vxg04fbVJhmA
-        /6ZK9Sc0ZVK2ByIkcyXGyCA6Sw==
-X-Google-Smtp-Source: APXvYqx/tYCXEdllU2F4/1JetbgrhH8TFsHxXRye9Amlmvbkp4RD4ve2+88VYqD+upEJsBYYCIqDXw==
-X-Received: by 2002:aa7:8554:: with SMTP id y20mr121952964pfn.258.1558808300867;
-        Sat, 25 May 2019 11:18:20 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id s24sm6537148pfe.57.2019.05.25.11.18.19
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sat, 25 May 2019 11:18:20 -0700 (PDT)
-Date:   Sat, 25 May 2019 14:18:18 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
-Cc:     Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Ingo Molnar <mingo@redhat.com>,
+        id S1727196AbfEYTNb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 25 May 2019 15:13:31 -0400
+Received: from outils.crapouillou.net ([89.234.176.41]:48590 "EHLO
+        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725791AbfEYTNb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 May 2019 15:13:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+        s=mail; t=1558811606; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=vnk800G1JVnIKGZ4wjv2ZwB3JURC8YSA1aiWxwD8qPY=;
+        b=AH5if3JPmyCbQgwcfuJeUGYe6Pj4ZsMs3TLhc1G/Jx0jb4IMDepAHoFWjclTE168W2rvzu
+        mSbk8Qdcc68fs/w9N8TkKHbSmp0licq6b0R55TSdQc+0Zbit4TVFzMBzqx2rwgRYjjggzj
+        5Mwz2vff2kCChadmRWi0X2pm358VaP8=
+Date:   Sat, 25 May 2019 21:13:16 +0200
+From:   Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v12 03/13] dt-bindings: Add doc for the Ingenic TCU
+ drivers
+To:     Rob Herring <robh@kernel.org>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>, kvm-ppc@vger.kernel.org,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Paul Mackerras <paulus@ozlabs.org>, rcu@vger.kernel.org
-Subject: Re: [PATCH RFC 0/5] Remove some notrace RCU APIs
-Message-ID: <20190525181818.GA225569@google.com>
-References: <20190524234933.5133-1-joel@joelfernandes.org>
- <20190524232458.4bcf4eb4@gandalf.local.home>
- <20190525081444.GC197789@google.com>
- <20190525070826.16f76ee7@gandalf.local.home>
- <20190525141954.GA176647@google.com>
- <20190525155035.GE28207@linux.ibm.com>
- <20190525181407.GA220326@google.com>
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mathieu Malaterre <malat@debian.org>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-clk@vger.kernel.org, od@zcrc.me
+Message-Id: <1558811596.2016.1@crapouillou.net>
+In-Reply-To: <20190524202103.GA15650@bogus>
+References: <20190521145141.9813-1-paul@crapouillou.net>
+        <20190521145141.9813-4-paul@crapouillou.net> <20190524202103.GA15650@bogus>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190525181407.GA220326@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, May 25, 2019 at 02:14:07PM -0400, Joel Fernandes wrote:
-[snip]
-> > That aside, if we are going to change the name of an API that is
-> > used 160 places throughout the tree, we would need to have a pretty
-> > good justification.  Without such a justification, it will just look
-> > like pointless churn to the various developers and maintainers on the
-> > receiving end of the patches.
-> 
-> Actually, the API name change is not something I want to do, it is Steven
-> suggestion. My suggestion is let us just delete _raw_notrace and just use the
-> _raw API for tracing, since _raw doesn't do any tracing anyway. Steve pointed
-> that _raw_notrace does sparse checking unlike _raw, but I think that isn't an
-> issue since _raw doesn't do such checking at the moment anyway.. (if possible
-> check my cover letter again for details/motivation of this series).
 
-Come to think of it, if we/I succeed in adding lockdep checking in _raw, then
-we can just keep the current APIs and not delete anything. And we can have
-_raw_notrace skip the lockdep checks. The sparse check question would still
-be an open one though, since _raw doesn't do sparse checks at the moment
-unlike _raw_notrace as Steve pointed.
 
-Thanks,
+Le ven. 24 mai 2019 =E0 22:21, Rob Herring <robh@kernel.org> a =E9crit :
+> On Tue, May 21, 2019 at 04:51:31PM +0200, Paul Cercueil wrote:
+>>  Add documentation about how to properly use the Ingenic TCU
+>>  (Timer/Counter Unit) drivers from devicetree.
+>>=20
+>>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+>>  ---
+>>=20
+>>  Notes:
+>>      v4: New patch in this series. Corresponds to V2 patches 3-4-5=20
+>> with
+>>       added content.
+>>=20
+>>      v5: - Edited PWM/watchdog DT bindings documentation to point to=20
+>> the new
+>>         document.
+>>       - Moved main document to
+>>         Documentation/devicetree/bindings/timer/ingenic,tcu.txt
+>>       - Updated documentation to reflect the new devicetree bindings.
+>>=20
+>>      v6: - Removed PWM/watchdog documentation files as asked by=20
+>> upstream
+>>       - Removed doc about properties that should be implicit
+>>       - Removed doc about ingenic,timer-channel /
+>>         ingenic,clocksource-channel as they are gone
+>>       - Fix WDT clock name in the binding doc
+>>       - Fix lengths of register areas in watchdog/pwm nodes
+>>=20
+>>      v7: No change
+>>=20
+>>      v8: - Fix address of the PWM node
+>>       - Added doc about system timer and clocksource children nodes
+>>=20
+>>      v9: - Remove doc about system timer and clocksource children
+>>         nodes...
+>>      - Add doc about ingenic,pwm-channels-mask property
+>>=20
+>>      v10: No change
+>>=20
+>>      v11: Fix info about default value of ingenic,pwm-channels-mask
+>>=20
+>>      v12: Drop sub-nodes for now; they will be introduced in a=20
+>> follow-up
+>>      	 patchset.
+>=20
+> Why? I believe I acked them.
 
- - Joel
+The patchset was too big, and I've already been trying to get it=20
+upstream for
+more than one year now. So I cut it in half in hope that it'll be=20
+easier to
+upstream it that way.
+
+>>=20
+>>   .../devicetree/bindings/timer/ingenic,tcu.txt | 59=20
+>> +++++++++++++++++++
+>>   1 file changed, 59 insertions(+)
+>>   create mode 100644=20
+>> Documentation/devicetree/bindings/timer/ingenic,tcu.txt
+>>=20
+>>  diff --git=20
+>> a/Documentation/devicetree/bindings/timer/ingenic,tcu.txt=20
+>> b/Documentation/devicetree/bindings/timer/ingenic,tcu.txt
+>>  new file mode 100644
+>>  index 000000000000..d101cd72c9b0
+>>  --- /dev/null
+>>  +++ b/Documentation/devicetree/bindings/timer/ingenic,tcu.txt
+>>  @@ -0,0 +1,59 @@
+>>  +Ingenic JZ47xx SoCs Timer/Counter Unit devicetree bindings
+>>  +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>  +
+>>  +For a description of the TCU hardware and drivers, have a look at
+>>  +Documentation/mips/ingenic-tcu.txt.
+>>  +
+>>  +Required properties:
+>>  +
+>>  +- compatible: Must be one of:
+>>  +  * "ingenic,jz4740-tcu"
+>>  +  * "ingenic,jz4725b-tcu"
+>>  +  * "ingenic,jz4770-tcu"
+>>  +- reg: Should be the offset/length value corresponding to the TCU=20
+>> registers
+>>  +- clocks: List of phandle & clock specifiers for clocks external=20
+>> to the TCU.
+>>  +  The "pclk", "rtc" and "ext" clocks should be provided. The "tcu"=20
+>> clock
+>>  +  should be provided if the SoC has it.
+>>  +- clock-names: List of name strings for the external clocks.
+>>  +- #clock-cells: Should be <1>;
+>>  +  Clock consumers specify this argument to identify a clock. The=20
+>> valid values
+>>  +  may be found in <dt-bindings/clock/ingenic,tcu.h>.
+>>  +- interrupt-controller : Identifies the node as an interrupt=20
+>> controller
+>>  +- #interrupt-cells : Specifies the number of cells needed to=20
+>> encode an
+>>  +  interrupt source. The value should be 1.
+>>  +- interrupt-parent : phandle of the interrupt controller.
+>=20
+> Drop this 'interrupt-parent' is implied and could be in a parent node.
+>=20
+>>  +- interrupts : Specifies the interrupt the controller is connected=20
+>> to.
+>>  +
+>>  +Optional properties:
+>>  +
+>>  +- ingenic,pwm-channels-mask: Bitmask of TCU channels reserved for=20
+>> PWM use.
+>>  +  Default value is 0xfc.
+>>  +
+>>  +
+>>  +Example
+>>  +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>  +
+>>  +#include <dt-bindings/clock/jz4770-cgu.h>
+>>  +
+>>  +/ {
+>>  +	tcu: timer@10002000 {
+>>  +		compatible =3D "ingenic,jz4770-tcu";
+>>  +		reg =3D <0x10002000 0x1000>;
+>>  +		#address-cells =3D <1>;
+>>  +		#size-cells =3D <1>;
+>>  +		ranges =3D <0x0 0x10002000 0x1000>;
+>>  +
+>>  +		#clock-cells =3D <1>;
+>>  +
+>>  +		clocks =3D <&cgu JZ4770_CLK_RTC
+>>  +			  &cgu JZ4770_CLK_EXT
+>>  +			  &cgu JZ4770_CLK_PCLK>;
+>>  +		clock-names =3D "rtc", "ext", "pclk";
+>>  +
+>>  +		interrupt-controller;
+>>  +		#interrupt-cells =3D <1>;
+>>  +
+>>  +		interrupt-parent =3D <&intc>;
+>>  +		interrupts =3D <27 26 25>;
+>>  +	};
+>>  +};
+>>  --
+>>  2.21.0.593.g511ec345e18
+>>=20
+
+=
 
