@@ -3,90 +3,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 935FD7D923
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 27 May 2019 13:09:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B7C767D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 27 May 2019 14:21:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726184AbfE0NJv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 27 May 2019 09:09:51 -0400
-Received: from mx2.suse.de ([195.135.220.15]:56612 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726183AbfE0NJv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 27 May 2019 09:09:51 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id E70CBAEBB;
-        Mon, 27 May 2019 13:09:48 +0000 (UTC)
-Received: by ds.suse.cz (Postfix, from userid 10065)
-        id 7E694DA85C; Mon, 27 May 2019 15:10:42 +0200 (CEST)
-Date:   Mon, 27 May 2019 15:10:41 +0200
-From:   David Sterba <dsterba@suse.cz>
-To:     Juergen Gross <jgross@suse.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-erofs@lists.ozlabs.org, devel@driverdev.osuosl.org,
-        linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-mm@kvack.org, Jonathan Corbet <corbet@lwn.net>,
-        Gao Xiang <gaoxiang25@huawei.com>,
-        Chao Yu <yuchao0@huawei.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
-        David Sterba <dsterba@suse.com>, Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        Mark Fasheh <mark@fasheh.com>,
-        Joel Becker <jlbec@evilplan.org>,
-        Joseph Qi <joseph.qi@linux.alibaba.com>,
-        ocfs2-devel@oss.oracle.com
-Subject: Re: [PATCH 2/3] mm: remove cleancache.c
-Message-ID: <20190527131041.GH15290@twin.jikos.cz>
-Reply-To: dsterba@suse.cz
-Mail-Followup-To: dsterba@suse.cz, Juergen Gross <jgross@suse.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-erofs@lists.ozlabs.org, devel@driverdev.osuosl.org,
-        linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-mm@kvack.org, Jonathan Corbet <corbet@lwn.net>,
-        Gao Xiang <gaoxiang25@huawei.com>, Chao Yu <yuchao0@huawei.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>, Chris Mason <clm@fb.com>,
-        Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jaegeuk Kim <jaegeuk@kernel.org>, Mark Fasheh <mark@fasheh.com>,
-        Joel Becker <jlbec@evilplan.org>,
-        Joseph Qi <joseph.qi@linux.alibaba.com>, ocfs2-devel@oss.oracle.com
-References: <20190527103207.13287-1-jgross@suse.com>
- <20190527103207.13287-3-jgross@suse.com>
+        id S1726302AbfE0OVq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 27 May 2019 10:21:46 -0400
+Received: from 8bytes.org ([81.169.241.247]:40300 "EHLO theia.8bytes.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726115AbfE0OVq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 27 May 2019 10:21:46 -0400
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+        id 46D282AF; Mon, 27 May 2019 16:21:44 +0200 (CEST)
+Date:   Mon, 27 May 2019 16:21:40 +0200
+From:   Joerg Roedel <joro@8bytes.org>
+To:     Zhen Lei <thunder.leizhen@huawei.com>
+Cc:     Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
+        John Garry <john.garry@huawei.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        Sebastian Ott <sebott@linux.ibm.com>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        iommu <iommu@lists.linux-foundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        x86 <x86@kernel.org>, linux-ia64 <linux-ia64@vger.kernel.org>,
+        Hanjun Guo <guohanjun@huawei.com>
+Subject: Re: [PATCH v7 1/1] iommu: enhance IOMMU dma mode build options
+Message-ID: <20190527142140.GH8420@8bytes.org>
+References: <20190520135947.14960-1-thunder.leizhen@huawei.com>
+ <20190520135947.14960-2-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190527103207.13287-3-jgross@suse.com>
-User-Agent: Mutt/1.5.23.1 (2014-03-12)
+In-Reply-To: <20190520135947.14960-2-thunder.leizhen@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 27, 2019 at 12:32:06PM +0200, Juergen Gross wrote:
-> With the removal of tmem and xen-selfballoon the only user of
-> cleancache is gone. Remove it, too.
-> 
-> Signed-off-by: Juergen Gross <jgross@suse.com>
-> ---
->  Documentation/vm/cleancache.rst  | 296 ------------------------------------
->  Documentation/vm/frontswap.rst   |  10 +-
->  Documentation/vm/index.rst       |   1 -
->  MAINTAINERS                      |   7 -
->  drivers/staging/erofs/data.c     |   6 -
->  drivers/staging/erofs/internal.h |   1 -
->  fs/block_dev.c                   |   5 -
+Hi Zhen Lei,
 
-For the btrfs part:
+On Mon, May 20, 2019 at 09:59:47PM +0800, Zhen Lei wrote:
+>  arch/ia64/kernel/pci-dma.c                |  2 +-
+>  arch/powerpc/platforms/powernv/pci-ioda.c |  3 ++-
+>  arch/s390/pci/pci_dma.c                   |  2 +-
+>  arch/x86/kernel/pci-dma.c                 |  7 ++---
+>  drivers/iommu/Kconfig                     | 44 ++++++++++++++++++++++++++-----
+>  drivers/iommu/amd_iommu_init.c            |  3 ++-
+>  drivers/iommu/intel-iommu.c               |  2 +-
+>  drivers/iommu/iommu.c                     |  3 ++-
+>  8 files changed, 48 insertions(+), 18 deletions(-)
 
->  fs/btrfs/extent_io.c             |   9 --
->  fs/btrfs/super.c                 |   2 -
+This needs Acks from the arch maintainers of ia64, powerpc, s390 and
+x86, at least.
 
-Acked-by: David Sterba <dsterba@suse.com>
+It is easier for them if you split it up into the Kconfig change and
+separete patches per arch and per iommu driver. Then collect the Acks on
+the individual patches.
+
+Thanks,
+
+	Joerg
