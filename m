@@ -1,88 +1,100 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 01D727D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 26 May 2019 16:20:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3F8DD7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 27 May 2019 08:06:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727880AbfEZQUw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 26 May 2019 12:20:52 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:39463 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726622AbfEZQUw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 May 2019 12:20:52 -0400
-Received: by mail-lf1-f68.google.com with SMTP id f1so10349915lfl.6;
-        Sun, 26 May 2019 09:20:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=01nMFHopGBCZI/oY5AFsKMqNsMt7+AjmjgP0ZjkgZD0=;
-        b=H9kOov7CMbdB+pTxe0jciE/0X9oGCvFwZWDK1QndljD3nCAkXWhPqQrhRAkQi59WA+
-         d1eMVPPgA648vZfajLaltDW4PpoUB4pt83MyTL8K46y+UiuRDyXY5HNuTOJif87Lqecv
-         kL+pn979wtoM5zsiZjVxsKyorZ5fDMvXc5EYdLwfb29E7UMtLbbi6SY6+B9EjVK9V9N9
-         jppYbzw6fnq8W4DKmTORjKAQGOTgjdVW0TITDNwUDfmzZIQ2GHdOG9eZLBAnZ2U1JIpK
-         oZea98ME0YjW6/g1Ch8EirFC6vsAF2YeXFVxSa5XzAQMHPBzbwOOEGdLWTiIgXY9fDAt
-         gF9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=01nMFHopGBCZI/oY5AFsKMqNsMt7+AjmjgP0ZjkgZD0=;
-        b=d+AT28OZkvToROcSkbKH5jDUExZ2jL1zqXBWcbMzoaO5CnNKnVwB4Bdnv/W9KjTRCj
-         LtlVH9zLz1zZpsECumMdLbQtQPydUVjZ1DJSGiiGjbqKCz316yY1s1DHHpGls2UBrZKr
-         70XoB052Ee96vNxu3VhyGszjCIu9cHaG1T+l0kV831yzStmRS1azl4oaS7xwX9fesJNN
-         kC4oWA5SZ98+J6gUY78k+Dz51z5EN01n2QMNAv2DinP0MhSyYnigXOH/kESj5qemSyVP
-         OMNu3YFRAOLJx1txpji9nm1pU2hnV0lfrfprdNodnK0C/qEtUGW1r8vKtb2w83gi6h9R
-         VL8Q==
-X-Gm-Message-State: APjAAAWE8sW+PDz2rv9j219t4UDEqbUKp3r4ucW1/rFp753PEqoinbW2
-        +HLac4dosE5i5QcANESRCNwOqGu5BeI41VXG1Pw=
-X-Google-Smtp-Source: APXvYqwxMEk0IUeAy9UBTsg3h8S+c0X1iydUjhxKYRUIOzNVGYIXzMI1MwgnfY73XGd4ekjkgDqWVxxMzKH40Taah+c=
-X-Received: by 2002:ac2:4213:: with SMTP id y19mr4505084lfh.66.1558887650127;
- Sun, 26 May 2019 09:20:50 -0700 (PDT)
+        id S1726298AbfE0IGh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 27 May 2019 04:06:37 -0400
+Received: from mail.eatforyou.eu ([80.211.90.82]:41716 "EHLO mail.eatforyou.eu"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726046AbfE0IGh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 27 May 2019 04:06:37 -0400
+X-Greylist: delayed 667 seconds by postgrey-1.27 at vger.kernel.org; Mon, 27 May 2019 04:06:36 EDT
+Received: by mail.eatforyou.eu (Postfix, from userid 1001)
+        id CC02E875BA; Mon, 27 May 2019 09:54:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=eatforyou.eu; s=mail;
+        t=1558943719; bh=vyeMfvM9p5OpBZcpaixj7OR3/HmtYFl6oOgS3h1qK0U=;
+        h=Date:From:To:Subject:From;
+        b=UVKinhnuKprUEkaiFAVmOdwlZ4gOY9rcNK8xVwu7QS0ALcQbrTeYIsWy5I24cHmgl
+         GeIPgSeqNfiByXxy/rvqjnklwOYi6a2DlJNXo1/90Hp3bIYnzfajPu05pZdYVgBRAJ
+         JGkmuFoBnkyAb2rMsG0xy2+jjevX2nH7Y6t+oZBE=
+Received: by mail.eatforyou.eu for <linux-doc@vger.kernel.org>; Mon, 27 May 2019 07:54:19 GMT
+Message-ID: <20190527095339-0.1.a.mlo.0.2h1ide9fzh@eatforyou.eu>
+Date:   Mon, 27 May 2019 07:54:19 GMT
+From:   "Radoslav Dobrev" <radoslav.dobrev@eatforyou.eu>
+To:     <linux-doc@vger.kernel.org>
+Subject: =?UTF-8?Q?=D0=92=D0=B5=D0=BB=D0=B8=D0=BA=D0=B4=D0=B5=D0=BD=D1=81=D0=BA=D0=B8_=D0=B1=D0=BE=D0=BD=D1=83=D1=81=D0=B8?=
+X-Mailer: mail.eatforyou.eu
 MIME-Version: 1.0
-References: <20190524234933.5133-1-joel@joelfernandes.org> <20190524234933.5133-5-joel@joelfernandes.org>
-In-Reply-To: <20190524234933.5133-5-joel@joelfernandes.org>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Sun, 26 May 2019 18:20:39 +0200
-Message-ID: <CANiq72noLXGXo7iarC1vCYX3X5L4fXq1DASK9gMtD_25-VEuHA@mail.gmail.com>
-Subject: Re: [PATCH RFC 4/5] rculist: Remove hlist_for_each_entry_rcu_notrace
- since no users
-To:     "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Triplett <josh@joshtriplett.org>, kvm-ppc@vger.kernel.org,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linuxppc-dev@lists.ozlabs.org,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Paul Mackerras <paulus@ozlabs.org>, rcu@vger.kernel.org,
-        Steven Rostedt <rostedt@goodmis.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, May 25, 2019 at 1:50 AM Joel Fernandes (Google)
-<joel@joelfernandes.org> wrote:
->
-> The series removes all users of the API and with this patch, the API
-> itself.
->
-> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-> ---
->  .clang-format           |  1 -
+=D0=97=D0=B4=D1=80=D0=B0=D0=B2=D0=B5=D0=B9=D1=82=D0=B5,
 
-Ack for clang-format, and thanks for removing it there too! :-)
+=D1=81=D1=8A=D0=B2=D1=80=D0=B5=D0=BC=D0=B5=D0=BD=D0=BD=D0=BE=D1=82=D0=BE =
+=D0=B4=D0=BE=D0=BF=D0=BB=D0=B0=D1=89=D0=B0=D0=BD=D0=B5 =D0=BD=D0=B0 =D1=85=
+=D1=80=D0=B0=D0=BD=D0=B0 =D0=BF=D0=BE=D0=B4 =D1=84=D0=BE=D1=80=D0=BC=D0=B0=
+=D1=82=D0=B0 =D0=BD=D0=B0 =D0=B2=D0=B0=D1=83=D1=87=D0=B5=D1=80=D0=B8 =D0=B7=
+=D0=B0 =D1=85=D1=80=D0=B0=D0=BD=D0=B0, =D0=BA=D0=BE=D0=B8=D1=82=D0=BE =D0=
+=BC=D0=BE=D0=B3=D0=B0=D1=82 =D0=B4=D0=B0 =D0=B1=D1=8A=D0=B4=D0=B0=D1=82 =D0=
+=B8=D0=B7=D0=BF=D0=BE=D0=BB=D0=B7=D0=B2=D0=B0=D0=BD=D0=B8 =D0=B2 =D0=BD=D0=
+=B0=D0=B9-=D0=B3=D0=BE=D0=BB=D1=8F=D0=BC=D0=B0=D1=82=D0=B0 =D0=BC=D1=80=D0=
+=B5=D0=B6=D0=B0 =D0=BE=D1=82 =D0=B7=D0=B0=D0=B2=D0=B5=D0=B4=D0=B5=D0=BD=D0=
+=B8=D1=8F =D0=B7=D0=B0 =D1=85=D1=80=D0=B0=D0=BD=D0=B5=D0=BD=D0=B5 =D0=B2 =
+=D1=81=D1=82=D1=80=D0=B0=D0=BD=D0=B0=D1=82=D0=B0, =D0=B5 =D0=B8=D0=BD=D1=81=
+=D1=82=D1=80=D1=83=D0=BC=D0=B5=D0=BD=D1=82, =D0=BA=D0=BE=D0=B9=D1=82=D0=BE=
+ =D0=B5=D1=84=D0=B5=D0=BA=D1=82=D0=B8=D0=B2=D0=BD=D0=BE =D0=BF=D0=BE=D0=B2=
+=D0=B8=D1=88=D0=B0=D0=B2=D0=B0 =D0=B5=D1=84=D0=B5=D0=BA=D1=82=D0=B8=D0=B2=
+=D0=BD=D0=BE=D1=81=D1=82=D1=82=D0=B0 =D0=BD=D0=B0 =D0=BF=D0=B5=D1=80=D1=81=
+=D0=BE=D0=BD=D0=B0=D0=BB=D0=B0.
 
-Cheers,
-Miguel
+=D0=98=D0=B7=D0=B1=D0=BE=D1=80=D1=8A=D1=82 =D0=BD=D0=B0 =D0=BD=D0=B0=D1=88=
+=D0=B8=D1=82=D0=B5 =D0=B2=D0=B0=D1=83=D1=87=D0=B5=D1=80=D0=B8 =D0=B7=D0=B0=
+ =D1=85=D1=80=D0=B0=D0=BD=D0=B0 =D0=BA=D0=B0=D1=82=D0=BE =D1=84=D0=BE=D1=80=
+=D0=BC=D0=B0 =D0=BD=D0=B0 =D1=81=D0=BE=D1=86=D0=B8=D0=B0=D0=BB=D0=BD=D0=B0=
+ =D0=BF=D1=80=D0=B8=D0=B4=D0=BE=D0=B1=D0=B8=D0=B2=D0=BA=D0=B0 =D1=81=D0=B0=
+ =D0=B7=D0=B0 =D1=80=D0=B0=D0=B1=D0=BE=D1=82=D0=BE=D0=B4=D0=B0=D1=82=D0=B5=
+=D0=BB=D1=8F =D0=BD=D0=B5 =D1=81=D0=B0=D0=BC=D0=BE =D0=BF=D1=80=D0=B8=D0=B4=
+=D0=BE=D0=B1=D0=B8=D0=B2=D0=B0=D0=BD=D0=B5 =D0=BD=D0=B0 =D0=BF=D1=80=D0=BE=
+=D0=B4=D1=83=D0=BA=D1=82=D0=B8=D0=B2=D0=B5=D0=BD =D0=B8 =D0=BC=D0=BE=D1=82=
+=D0=B8=D0=B2=D0=B8=D1=80=D0=B0=D0=BD =D0=B5=D0=BA=D0=B8=D0=BF, =D0=BD=D0=BE=
+ =D0=B8 =D0=BD=D0=BE=D1=81=D1=8F=D1=82 =D1=84=D0=B8=D0=BD=D0=B0=D0=BD=D1=81=
+=D0=BE=D0=B2=D0=B8 =D0=BE=D0=B1=D0=BB=D0=B0=D0=B3=D0=B8 - =D1=81=D1=82=D0=
+=BE=D0=B9=D0=BD=D0=BE=D1=81=D1=82=D1=82=D0=B0 =D0=BD=D0=B0 =D0=B8=D0=B7=D1=
+=80=D0=B0=D0=B7=D1=85=D0=BE=D0=B4=D0=B2=D0=B0=D0=BD=D0=B8=D1=82=D0=B5 =D1=
+=81=D1=80=D0=B5=D0=B4=D1=81=D1=82=D0=B2=D0=B0 =D0=BD=D0=B5 =D1=81=D0=B5 =D0=
+=BE=D0=B1=D0=BB=D0=B0=D0=B3=D0=B0=D1=82 =D1=81 =D0=B4=D0=B0=D0=BD=D1=8A=D0=
+=BA.
+
+=D0=A0=D0=B0=D0=B4=D0=B2=D0=B0=D0=BC=D0=B5 =D1=81=D0=B5 =D0=B4=D0=B0 =D0=92=
+=D0=B8 =D0=BF=D1=80=D0=B5=D0=B4=D1=81=D1=82=D0=B0=D0=B2=D0=B8=D0=BC =D0=BE=
+=D1=89=D0=B5 =D0=BF=D0=BE=D0=B2=D0=B5=D1=87=D0=B5 =D0=BF=D1=80=D0=B5=D0=B4=
+=D0=B8=D0=BC=D1=81=D1=82=D0=B2=D0=B0, =D0=BA=D0=BE=D0=B8=D1=82=D0=BE =D0=B1=
+=D0=B8=D1=85=D1=82=D0=B5 =D0=BF=D0=BE=D0=BB=D1=83=D1=87=D0=B8=D0=BB=D0=B8=
+ =D1=81 =D0=BF=D0=BE=D0=BB=D0=B7=D0=B2=D0=B0=D0=BD=D0=B5=D1=82=D0=BE =D0=BD=
+=D0=B0 =D0=BD=D0=B0=D1=88=D0=B8=D1=82=D0=B5 =D0=B2=D0=B0=D1=83=D1=87=D0=B5=
+=D1=80=D0=B8, =D0=BA=D0=B0=D1=82=D0=BE =D0=BD=D0=B0=D0=BF=D1=80=D0=B8=D0=BC=
+=D0=B5=D1=80 =D0=BF=D0=BE=D0=BB=D0=B7=D0=B8=D1=82=D0=B5 =D0=B7=D0=B0 =D1=81=
+=D0=BB=D1=83=D0=B6=D0=B8=D1=82=D0=B5=D0=BB=D0=B8=D1=82=D0=B5 =D0=92=D0=B8=
+ =D0=B8 =D1=89=D0=B5 =D0=92=D0=B8 =D1=80=D0=B0=D0=B7=D0=BA=D0=B0=D0=B6=D0=
+=B0 =D0=B7=D0=B0 =D0=B2=D1=8A=D0=B7=D0=BC=D0=BE=D0=B6=D0=BD=D0=BE=D1=81=D1=
+=82=D0=B8=D1=82=D0=B5 =D0=BF=D1=80=D0=B8 =D1=82=D1=8F=D1=85=D0=BD=D0=BE=D1=
+=82=D0=BE =D0=B8=D0=B7=D0=BF=D0=BE=D0=BB=D0=B7=D0=B2=D0=B0=D0=BD=D0=B5 - =
+=D0=BC=D0=BE=D0=BB=D1=8F, =D0=BE=D0=B1=D0=B0=D0=B4=D0=B5=D1=82=D0=B5 =D1=81=
+=D0=B5.
+
+
+=D0=A0=D0=B0=D0=B4=D0=BE=D1=81=D0=BB=D0=B0=D0=B2 =D0=94=D0=BE=D0=B1=D1=80=
+=D0=B5=D0=B2
+Head of HR Benefit Team
+www.eatforyou.eu
