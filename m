@@ -1,94 +1,87 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-4.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_ILLEGAL_IP,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+	SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DA1A17D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 28 May 2019 01:24:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 610877D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 28 May 2019 05:14:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727810AbfE1BYg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 27 May 2019 21:24:36 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:17168 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727018AbfE1BYg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 27 May 2019 21:24:36 -0400
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id CDBE6741DB59E7908D31;
-        Tue, 28 May 2019 09:24:33 +0800 (CST)
-Received: from [10.134.22.195] (10.134.22.195) by smtp.huawei.com
- (10.3.19.213) with Microsoft SMTP Server (TLS) id 14.3.439.0; Tue, 28 May
- 2019 09:24:26 +0800
-Subject: Re: [PATCH 2/3] mm: remove cleancache.c
-To:     Juergen Gross <jgross@suse.com>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-erofs@lists.ozlabs.org>,
-        <devel@driverdev.osuosl.org>, <linux-fsdevel@vger.kernel.org>,
-        <linux-btrfs@vger.kernel.org>, <linux-ext4@vger.kernel.org>,
-        <linux-f2fs-devel@lists.sourceforge.net>, <linux-mm@kvack.org>
-CC:     Jonathan Corbet <corbet@lwn.net>,
-        Gao Xiang <gaoxiang25@huawei.com>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
-        David Sterba <dsterba@suse.com>, Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        Mark Fasheh <mark@fasheh.com>,
-        Joel Becker <jlbec@evilplan.org>,
-        Joseph Qi <joseph.qi@linux.alibaba.com>,
-        <ocfs2-devel@oss.oracle.com>
-References: <20190527103207.13287-1-jgross@suse.com>
- <20190527103207.13287-3-jgross@suse.com>
-From:   Chao Yu <yuchao0@huawei.com>
-Message-ID: <8f69d56d-3fdd-a160-9574-f81bd066e5ac@huawei.com>
-Date:   Tue, 28 May 2019 09:24:45 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+        id S1726657AbfE1FOO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 28 May 2019 01:14:14 -0400
+Received: from mga07.intel.com ([134.134.136.100]:35832 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726269AbfE1FON (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 28 May 2019 01:14:13 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 May 2019 22:14:13 -0700
+X-ExtLoop1: 1
+Received: from shzintpr02.sh.intel.com (HELO [0.0.0.0]) ([10.239.4.160])
+  by orsmga001.jf.intel.com with ESMTP; 27 May 2019 22:14:07 -0700
+Subject: Re: [PATCH v2 1/3] KVM: x86: add support for user wait instructions
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     pbonzini@redhat.com, rkrcmar@redhat.com, corbet@lwn.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        sean.j.christopherson@intel.com, x86@kernel.org,
+        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, jingqi.liu@intel.com
+References: <20190524075637.29496-1-tao3.xu@intel.com>
+ <20190524075637.29496-2-tao3.xu@intel.com>
+ <20190527103003.GX2623@hirez.programming.kicks-ass.net>
+From:   Tao Xu <tao3.xu@intel.com>
+Message-ID: <43e2a62a-e992-2138-f038-1e4b2fb79ad1@intel.com>
+Date:   Tue, 28 May 2019 13:11:49 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190527103207.13287-3-jgross@suse.com>
-Content-Type: text/plain; charset="windows-1252"
+In-Reply-To: <20190527103003.GX2623@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.134.22.195]
-X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2019/5/27 18:32, Juergen Gross wrote:
-> With the removal of tmem and xen-selfballoon the only user of
-> cleancache is gone. Remove it, too.
+
+On 27/05/2019 18:30, Peter Zijlstra wrote:
+> On Fri, May 24, 2019 at 03:56:35PM +0800, Tao Xu wrote:
+>> This patch adds support for UMONITOR, UMWAIT and TPAUSE instructions
+>> in kvm, and by default dont't expose it to kvm and provide a capability
+>> to enable it.
 > 
-> Signed-off-by: Juergen Gross <jgross@suse.com>
-> ---
->  Documentation/vm/cleancache.rst  | 296 ------------------------------------
->  Documentation/vm/frontswap.rst   |  10 +-
->  Documentation/vm/index.rst       |   1 -
->  MAINTAINERS                      |   7 -
->  drivers/staging/erofs/data.c     |   6 -
->  drivers/staging/erofs/internal.h |   1 -
->  fs/block_dev.c                   |   5 -
->  fs/btrfs/extent_io.c             |   9 --
->  fs/btrfs/super.c                 |   2 -
->  fs/ext4/readpage.c               |   6 -
->  fs/ext4/super.c                  |   2 -
->  fs/f2fs/data.c                   |   3 +-
+> I'm thinking this should be conditional on the guest being a 1:1 guest,
+> and I also seem to remember we have bits for that already -- they were
+> used to disable paravirt spinlocks for example.
+> 
 
-For erofs and f2fs part,
+Hi Peter,
 
-Acked-by: Chao Yu <yuchao0@huawei.com>
+I am wondering if "1:1 guest" means different guests in the same host 
+should have different settings on user wait instructions?
 
-Thanks,
+User wait instructions(UMONITOR, UMWAIT and TPAUSE) can use in guest 
+only when the VMCS Secondary Processor-Based VM-Execution Control bit 26 
+is 1, otherwise any execution of TPAUSE, UMONITOR, or UMWAIT causes a #UD.
 
->  fs/mpage.c                       |   7 -
->  fs/ocfs2/super.c                 |   2 -
->  fs/super.c                       |   3 -
->  include/linux/cleancache.h       | 124 ---------------
->  include/linux/fs.h               |   5 -
->  mm/Kconfig                       |  22 ---
->  mm/Makefile                      |   1 -
->  mm/cleancache.c                  | 317 ---------------------------------------
->  mm/filemap.c                     |  11 --
->  mm/truncate.c                    |  15 +-
+So with a capability to enable it, we use qemu kvm_vm_ioctl_enable_cap() 
+to enable it. The qemu link is blew:
+https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg05810.html
+
+By using different QEMU parameters, different guests in the same host 
+would have different features with or without user wait instructions.
+
+About "disable paravirt spinlocks" case, I am wondering if it uses 
+kernel parameters? If it uses kernel parameters, different guests in the 
+same host may have same settings on user wait instructions.
+
+Or when we uses kernel parameters to disable user wait instructions, for 
+a host chooses to enable user wait instructions, we should do some work 
+on QEMU to choose disable or enable user wait instructions?
+
+Thanks
+
+Tao
