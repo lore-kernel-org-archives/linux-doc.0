@@ -1,101 +1,124 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_ILLEGAL_IP,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-	SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DCA9C7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 28 May 2019 07:21:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 22F087D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 28 May 2019 12:23:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726937AbfE1HVw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 28 May 2019 03:21:52 -0400
-Received: from mga02.intel.com ([134.134.136.20]:57195 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726879AbfE1HVw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 28 May 2019 03:21:52 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 28 May 2019 00:21:51 -0700
-X-ExtLoop1: 1
-Received: from shzintpr03.sh.intel.com (HELO [0.0.0.0]) ([10.239.4.100])
-  by orsmga001.jf.intel.com with ESMTP; 28 May 2019 00:21:48 -0700
-Subject: Re: [PATCH v2 1/3] KVM: x86: add support for user wait instructions
-To:     Wanpeng Li <kernellwp@gmail.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Radim Krcmar <rkrcmar@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Sean Christopherson <sean.j.christopherson@intel.com>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        kvm <kvm@vger.kernel.org>, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>, jingqi.liu@intel.com
-References: <20190524075637.29496-1-tao3.xu@intel.com>
- <20190524075637.29496-2-tao3.xu@intel.com>
- <20190527103003.GX2623@hirez.programming.kicks-ass.net>
- <43e2a62a-e992-2138-f038-1e4b2fb79ad1@intel.com>
- <CANRm+CwnJoj0EwWoFC44SXVUTLdE+iFGovaMr4Yf=OzbaW36sA@mail.gmail.com>
-From:   Tao Xu <tao3.xu@intel.com>
-Message-ID: <072dd34e-0361-5a06-4d0b-d04e8150a3bb@intel.com>
-Date:   Tue, 28 May 2019 15:19:30 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726885AbfE1MXz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 28 May 2019 08:23:55 -0400
+Received: from mail-yw1-f68.google.com ([209.85.161.68]:39347 "EHLO
+        mail-yw1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726580AbfE1MXz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 May 2019 08:23:55 -0400
+Received: by mail-yw1-f68.google.com with SMTP id w21so7807523ywd.6
+        for <linux-doc@vger.kernel.org>; Tue, 28 May 2019 05:23:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ho63X/oK4cACFoOG/qxpAshfZBqM2QPX+6fVvcv9ihw=;
+        b=agS45cUeZCvr1i9MlBes4VkX+m6c9gZS+PscFCoOEvsHVnOEan8JoTPkq8S+W3/mB7
+         hukgtdcCw5aaOQvs15XB5pE0A4m0DQbeAQ9p0eKMRf6/DAVhuflQF9KJy6I4UqkUnY88
+         6MsvzH8wMD0DW/IwzHvrdfIhS9jlauRsLIObyWI5j4HTimfEeWoypiW9d3I6mHOLIwdz
+         4BkzOFO/A5pnfGWHiZq+a2NxbOPrbiY9F5g/4DpKajBLoeqOy7NpsHjgrMLGUxEYD4n6
+         O18r6qMWQmAqbgcBRGQoEyJfrJIG4beUlSK1e0N8qX4oTadQhhiIz9swyyjwUrHwTKMK
+         j/7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ho63X/oK4cACFoOG/qxpAshfZBqM2QPX+6fVvcv9ihw=;
+        b=tPboAST3mmXofTmQEfrD8W6tH4q2bn4EsIw5bok7ajXEBaW5Sdgaj4SmrAsDMM4iAI
+         Sh2h9jpd5lf4b9rssmAOv63xvgMocHKV6lXkqTfTlLshkiKqX2JvoI0Q0JfJgPkDoo2r
+         d0hfmoMhIekVywRcjTqK7k9lVKKHT4MddWKH/5IL9YloFL8YOPoUxjqlEG1Ln+OqwTul
+         1x7+iHmh0trXbcrYrTVc9bZan9ZExhB/O/K/hkdOdouaF9e4N+EuWd66eVNVwlvQHnb4
+         cdkcQUh7rRdcFjwss0EL71xGkL/GPhhP0Bt8/phvD5DmcYb57Gh5LXJLHSdkYrBar8aV
+         CkGA==
+X-Gm-Message-State: APjAAAWJCp9cr0qY4LtbRHnDwFi+GOnogcgIdp4+t1CNjoalputJvTKu
+        Y6cqxrtuGiaxaEXNEp3q0MD5pFPbnS97gHoeswUoOA==
+X-Google-Smtp-Source: APXvYqwduV3IQwIaAUuhgLCx3ag2nDNLD1N4v+jP3NKxsqHNn/DI7yLI6o3ddZu1/cbPyxR/LHvKSRm6GVDKjHivIeM=
+X-Received: by 2002:a81:4ecc:: with SMTP id c195mr58339348ywb.31.1559046234749;
+ Tue, 28 May 2019 05:23:54 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CANRm+CwnJoj0EwWoFC44SXVUTLdE+iFGovaMr4Yf=OzbaW36sA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <155851393823.15728.9489409117921369593.stgit@devnote2> <155851395498.15728.830529496248543583.stgit@devnote2>
+In-Reply-To: <155851395498.15728.830529496248543583.stgit@devnote2>
+From:   Anders Roxell <anders.roxell@linaro.org>
+Date:   Tue, 28 May 2019 14:23:43 +0200
+Message-ID: <CADYN=9KHQPQTgy==TYZ5iD_zViPbHq4hgOUwuX69aQWV6vZOQg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] tracing/kprobe: Add kprobe_event= boot parameter
+To:     Masami Hiramatsu <mhiramat@kernel.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Naveen N . Rao" <naveen.n.rao@linux.ibm.com>,
+        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, 22 May 2019 at 10:32, Masami Hiramatsu <mhiramat@kernel.org> wrote:
+>
+> Add kprobe_event= boot parameter to define kprobe events
+> at boot time.
+> The definition syntax is similar to tracefs/kprobe_events
+> interface, but use ',' and ';' instead of ' ' and '\n'
+> respectively. e.g.
+>
+>   kprobe_event=p,vfs_read,$arg1,$arg2
+>
+> This puts a probe on vfs_read with argument1 and 2, and
+> enable the new event.
+>
+> Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
 
-On 28/05/2019 14:11, Wanpeng Li wrote:
-> On Tue, 28 May 2019 at 13:16, Tao Xu <tao3.xu@intel.com> wrote:
->>
->>
->> On 27/05/2019 18:30, Peter Zijlstra wrote:
->>> On Fri, May 24, 2019 at 03:56:35PM +0800, Tao Xu wrote:
->>>> This patch adds support for UMONITOR, UMWAIT and TPAUSE instructions
->>>> in kvm, and by default dont't expose it to kvm and provide a capability
->>>> to enable it.
->>>
->>> I'm thinking this should be conditional on the guest being a 1:1 guest,
->>> and I also seem to remember we have bits for that already -- they were
->>> used to disable paravirt spinlocks for example.
->>>
->>
->> Hi Peter,
->>
->> I am wondering if "1:1 guest" means different guests in the same host
->> should have different settings on user wait instructions?
->>
->> User wait instructions(UMONITOR, UMWAIT and TPAUSE) can use in guest
->> only when the VMCS Secondary Processor-Based VM-Execution Control bit 26
->> is 1, otherwise any execution of TPAUSE, UMONITOR, or UMWAIT causes a #UD.
->>
->> So with a capability to enable it, we use qemu kvm_vm_ioctl_enable_cap()
->> to enable it. The qemu link is blew:
->> https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg05810.html
->>
->> By using different QEMU parameters, different guests in the same host
->> would have different features with or without user wait instructions.
->>
->> About "disable paravirt spinlocks" case, I am wondering if it uses
-> 
-> Please refer to a4429e53c9 (KVM: Introduce paravirtualization hints
-> and KVM_HINTS_DEDICATED) and b2798ba0b87 (KVM: X86: Choose qspinlock
-> when dedicated physical CPUs are available)
-Hi Wanpeng,
+I built an arm64 kernel from todays linux-next tag next-20190528 and
+ran in to this issue when I booted it up in qemu:
 
-Thank you! This information really helped me. After I read the code in 
-KVM/QEMU, I was wondering that with qemu command-line "-cpu 
-host,+kvm-hint-dedicated", then in KVM, 
-"kvm_hint_has_feature(KVM_HINTS_DEDICATED)" will be true, am I right?
+[    9.068772][    T1] CPU: 0 PID: 1 Comm: swapper/0 Not tainted
+5.2.0-rc2-next-20190528-00019-g9a6008710716 #8
+[    9.072893][    T1] Hardware name: linux,dummy-virt (DT)
+[    9.075143][    T1] pstate: 80400005 (Nzcv daif +PAN -UAO)
+[    9.077528][    T1] pc : kprobe_target+0x0/0x30
+[    9.079479][    T1] lr : init_test_probes+0x134/0x540
+[    9.081611][    T1] sp : ffff80003f51fbe0
+[    9.083331][    T1] x29: ffff80003f51fbe0 x28: ffff200013c17820
+[    9.085906][    T1] x27: ffff200015d3ab40 x26: ffff2000122bb120
+[    9.088491][    T1] x25: 0000000000000000 x24: ffff200013c08ae0
+[    9.091068][    T1] x23: ffff200015d39000 x22: ffff200013a15ac8
+[    9.093667][    T1] x21: 1ffff00007ea3f86 x20: ffff200015d39420
+[    9.096214][    T1] x19: ffff2000122bad20 x18: 0000000000001400
+[    9.098831][    T1] x17: 0000000000000000 x16: ffff80003f510040
+[    9.101410][    T1] x15: 0000000000001480 x14: 1ffff00007ea3ea2
+[    9.103963][    T1] x13: 00000000f1f1f1f1 x12: ffff040002782e0d
+[    9.106549][    T1] x11: 1fffe40002782e0c x10: ffff040002782e0c
+[    9.109120][    T1] x9 : 1fffe40002782e0c x8 : dfff200000000000
+[    9.111676][    T1] x7 : ffff040002782e0d x6 : ffff200013c17067
+[    9.114234][    T1] x5 : ffff80003f510040 x4 : 0000000000000000
+[    9.116843][    T1] x3 : ffff200010427508 x2 : 0000000000000000
+[    9.119409][    T1] x1 : ffff200010426e10 x0 : 0000000000a6326b
+[    9.121980][    T1] Call trace:
+[    9.123380][    T1]  kprobe_target+0x0/0x30
+[    9.125205][    T1]  init_kprobes+0x2b8/0x300
+[    9.127074][    T1]  do_one_initcall+0x4c0/0xa68
+[    9.129076][    T1]  kernel_init_freeable+0x3c4/0x4e4
+[    9.131234][    T1]  kernel_init+0x14/0x1fc
+[    9.133032][    T1]  ret_from_fork+0x10/0x18
+[    9.134908][    T1] Code: a9446bf9 f9402bfb a8d87bfd d65f03c0 (d4200080)
+[    9.137845][    T1] ---[ end trace 49243ee03446b072 ]---
+[    9.140114][    T1] Kernel panic - not syncing: Fatal exception
+[    9.142684][    T1] ---[ end Kernel panic - not syncing: Fatal exception ]---
 
-Tao
+I bisected down to this commit as the one that introduces this issue.
+I'm unsure why this causes the call trace though, any ideas?
+
+Cheers,
+Anders
