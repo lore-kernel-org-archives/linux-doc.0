@@ -1,86 +1,204 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 625037D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 28 May 2019 17:20:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C1D3D7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 28 May 2019 19:00:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726820AbfE1RUD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 28 May 2019 13:20:03 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:52878 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726236AbfE1RUC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 May 2019 13:20:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=qsxG6nrZHIG6W3Utol1ADoMvGd1Fu++xoBrnNWF+g6w=; b=1Supj4ahiukX6UPbvHZyF03YR
-        JO7bTjVrRlpg3pXBYsQwJVeAlQKNYjDNcrxz6LxCL3NRIKiPGHN86GcNMarsgpOe/yDDBOX+qd9HX
-        t0eDk7tmUTTGVo4y4ZvvSj8c6dogbCtG2WZleFI/klu1NQNWDS816bL2y3mQre1xbSbEaWoDlWP4H
-        yW47YPj0WIH/Cd4jIA4hLnLjXOmbAglKlOPTM0RRRilh+UWVC6ci3C6Dsu0qMsAqe0uJ7nDyOEsxO
-        QfA362ClWXh1pOCLsldHPuSlnzWnbtzrTpe5ei0+3SKvxsnQfR4EVUrpMJnrLgHwFrsoJ8juDVKfd
-        guKqq55Eg==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hVflI-0005pf-Tr; Tue, 28 May 2019 17:19:45 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 4AAD52007CDEA; Tue, 28 May 2019 19:19:42 +0200 (CEST)
-Date:   Tue, 28 May 2019 19:19:42 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Marco Elver <elver@google.com>
-Cc:     aryabinin@virtuozzo.com, dvyukov@google.com, glider@google.com,
-        andreyknvl@google.com, corbet@lwn.net, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, hpa@zytor.com, x86@kernel.org,
-        arnd@arndb.de, jpoimboe@redhat.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        kasan-dev@googlegroups.com
-Subject: Re: [PATCH 2/3] tools/objtool: add kasan_check_* to uaccess whitelist
-Message-ID: <20190528171942.GV2623@hirez.programming.kicks-ass.net>
-References: <20190528163258.260144-1-elver@google.com>
- <20190528163258.260144-2-elver@google.com>
+        id S1726512AbfE1TAL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 28 May 2019 15:00:11 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:36076 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727182AbfE1TAL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 May 2019 15:00:11 -0400
+Received: by mail-pf1-f196.google.com with SMTP id u22so4742010pfm.3
+        for <linux-doc@vger.kernel.org>; Tue, 28 May 2019 12:00:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=CZU9rfW8nSOc4u3WOwnTVIA3CZHkFWB1l1BBXho+t1E=;
+        b=FzPaGIqytxNT9NZViSpOmKVdl43I/21qdH/XEJADRxqiPUmFgFNy39u6WxcswLTBGy
+         K+vsCbgHOaP7qUNzE6C4Fj/tvaTKPTM185KhjLV+BAv6HAbPzauWOPcsW6lrAG1Kdrpj
+         3WaNK0LBsCsiCRknaUJOFjgk1xpIOYEEQ9ly4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=CZU9rfW8nSOc4u3WOwnTVIA3CZHkFWB1l1BBXho+t1E=;
+        b=aFk+41oOxZrd3Kizxo/j1Qh9TbiLI+8lrz+0fWcTC7MD75geHPEuQfXw/9VUdXb38W
+         BimOEOd5kQ7xxu+Smd1ibysosaZVe6bu04p9fH3mywZYenGYOLuCm03AWNUycfIS8ZA2
+         TAD6q0boGW8J8mDhcVDc3junXBHZBxEgaFjCk26dN4K7oCFXZvDoGdEusPGWTg5BKIyZ
+         xdSwPF7ff31TAgbnb9D9/73f6LrgYkHjCn0V8UR6sE3TpFFXdkYwxCSHXbb1MnQe88fO
+         kH82I43eW2CAUDpc/PErSQC/ymVPZMtEQtlMua8uVdaPwL5WU15PIJ8xs27pmN1DvCf+
+         QF1A==
+X-Gm-Message-State: APjAAAVJxTbJl3tS50lT/az44kcpRDDOuoyrIYXVp+lamSR/wnoRHAat
+        9JsqQeh2EEy3F3YN+P8hlQGt/w==
+X-Google-Smtp-Source: APXvYqxspO7cUxx1NQf2GJHqZGcCk4fhMupGqSyyqjhO+mREbCifd0mCwiZRtxg5Qy/t3TlJwpO7jw==
+X-Received: by 2002:a63:4d0b:: with SMTP id a11mr46097351pgb.74.1559070009971;
+        Tue, 28 May 2019 12:00:09 -0700 (PDT)
+Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id c17sm14847688pfi.116.2019.05.28.12.00.08
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 28 May 2019 12:00:08 -0700 (PDT)
+Date:   Tue, 28 May 2019 15:00:07 -0400
+From:   Joel Fernandes <joel@joelfernandes.org>
+To:     "Paul E. McKenney" <paulmck@linux.ibm.com>
+Cc:     Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>, kvm-ppc@vger.kernel.org,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Paul Mackerras <paulus@ozlabs.org>, rcu@vger.kernel.org
+Subject: Re: [PATCH RFC 0/5] Remove some notrace RCU APIs
+Message-ID: <20190528190007.GC252809@google.com>
+References: <20190524234933.5133-1-joel@joelfernandes.org>
+ <20190524232458.4bcf4eb4@gandalf.local.home>
+ <20190525081444.GC197789@google.com>
+ <20190525070826.16f76ee7@gandalf.local.home>
+ <20190525141954.GA176647@google.com>
+ <20190525155035.GE28207@linux.ibm.com>
+ <20190525181407.GA220326@google.com>
+ <20190528122447.GS28207@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190528163258.260144-2-elver@google.com>
+In-Reply-To: <20190528122447.GS28207@linux.ibm.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 28, 2019 at 06:32:57PM +0200, Marco Elver wrote:
-> This is a pre-requisite for enabling bitops instrumentation. Some bitops
-> may safely be used with instrumentation in uaccess regions.
+On Tue, May 28, 2019 at 05:24:47AM -0700, Paul E. McKenney wrote:
+> On Sat, May 25, 2019 at 02:14:07PM -0400, Joel Fernandes wrote:
+> > On Sat, May 25, 2019 at 08:50:35AM -0700, Paul E. McKenney wrote:
+> > > On Sat, May 25, 2019 at 10:19:54AM -0400, Joel Fernandes wrote:
+> > > > On Sat, May 25, 2019 at 07:08:26AM -0400, Steven Rostedt wrote:
+> > > > > On Sat, 25 May 2019 04:14:44 -0400
+> > > > > Joel Fernandes <joel@joelfernandes.org> wrote:
+> > > > > 
+> > > > > > > I guess the difference between the _raw_notrace and just _raw variants
+> > > > > > > is that _notrace ones do a rcu_check_sparse(). Don't we want to keep
+> > > > > > > that check?  
+> > > > > > 
+> > > > > > This is true.
+> > > > > > 
+> > > > > > Since the users of _raw_notrace are very few, is it worth keeping this API
+> > > > > > just for sparse checking? The API naming is also confusing. I was expecting
+> > > > > > _raw_notrace to do fewer checks than _raw, instead of more. Honestly, I just
+> > > > > > want to nuke _raw_notrace as done in this series and later we can introduce a
+> > > > > > sparse checking version of _raw if need-be. The other option could be to
+> > > > > > always do sparse checking for _raw however that used to be the case and got
+> > > > > > changed in http://lists.infradead.org/pipermail/linux-afs/2016-July/001016.html
+> > > > > 
+> > > > > What if we just rename _raw to _raw_nocheck, and _raw_notrace to _raw ?
+> > > > 
+> > > > That would also mean changing 160 usages of _raw to _raw_nocheck in the
+> > > > kernel :-/.
+> > > > 
+> > > > The tracing usage of _raw_notrace is only like 2 or 3 users. Can we just call
+> > > > rcu_check_sparse directly in the calling code for those and eliminate the APIs?
+> > > > 
+> > > > I wonder what Paul thinks about the matter as well.
+> > > 
+> > > My thought is that it is likely that a goodly number of the current uses
+> > > of _raw should really be some form of _check, with lockdep expressions
+> > > spelled out.  Not that working out what exactly those lockdep expressions
+> > > should be is necessarily a trivial undertaking.  ;-)
+> > 
+> > Yes, currently where I am a bit stuck is the rcu_dereference_raw()
+> > cannot possibly know what SRCU domain it is under, so lockdep cannot check if
+> > an SRCU lock is held without the user also passing along the SRCU domain. I
+> > am trying to change lockdep to see if it can check if *any* srcu domain lock
+> > is held (regardless of which one) and complain if none are. This is at least
+> > better than no check at all.
+> > 
+> > However, I think it gets tricky for mutexes. If you have something like:
+> > mutex_lock(some_mutex);
+> > p = rcu_dereference_raw(gp);
+> > mutex_unlock(some_mutex);
+> > 
+> > This might be a perfectly valid invocation of _raw, however my checks (patch
+> > is still cooking) trigger a lockdep warning becase _raw cannot know that this
+> > is Ok. lockdep thinks it is not in a reader section. This then gets into the
+> > territory of a new rcu_derference_raw_protected(gp, assert_held(some_mutex))
+> > which sucks because its yet another API. To circumvent this issue, can we
+> > just have callers of rcu_dereference_raw ensure that they call
+> > rcu_read_lock() if they are protecting dereferences by a mutex? That would
+> > make things a lot easier and also may be Ok since rcu_read_lock is quite
+> > cheap.
 > 
-> For example, on x86, `test_bit` is used to test a CPU-feature in a
-> uaccess region:   arch/x86/ia32/ia32_signal.c:361
+> Why not just rcu_dereference_protected(lockdep_is_held(some_mutex))?
+> The API is already there, and no need for spurious readers.
 
-That one can easily be moved out of the uaccess region. Any else?
+Hmm, so I gave a bad example, here is a better example:
 
-> Signed-off-by: Marco Elver <elver@google.com>
-> ---
->  tools/objtool/check.c | 2 ++
->  1 file changed, 2 insertions(+)
+fib_get_table calls hlist_for_each_entry_rcu()
+hlist_for_each_entry_rcu calls rcu_dereference_raw().
+
+This is perfectly Ok to be called under rtnl_mutex. However rcu_dererence_raw
+in hlist_for_each_entry_rcu has no way of knowing that the rtnl_mutex held is
+sufficient for the protection since it is not directly called by the caller.
+
+I am almost sure I saw other examples of rcu_dereference_raw being called
+this way as well.
+
+I was trying to make an "automatic" lockdep check for all this, but it is
+quite hard to do so without passing down lockdep experessions down a call
+chain thus complicating all such callchains.
+
+Further I don't think code can trivially be converted from
+rcu_dereference_raw to rcu_dereference_protected even if the protection being
+offered is known, since the former does not do sparse checking and the latter
+might trigger false sparse checks in case the pointer in concern is protected
+both by RCU and non-RCU methods. I believe this is why you removed sparse
+checking from rcu_dereference_raw as well:
+
+http://lists.infradead.org/pipermail/linux-afs/2016-July/001016.html
+
+> > > That aside, if we are going to change the name of an API that is
+> > > used 160 places throughout the tree, we would need to have a pretty
+> > > good justification.  Without such a justification, it will just look
+> > > like pointless churn to the various developers and maintainers on the
+> > > receiving end of the patches.
+> > 
+> > Actually, the API name change is not something I want to do, it is Steven
+> > suggestion. My suggestion is let us just delete _raw_notrace and just use the
+> > _raw API for tracing, since _raw doesn't do any tracing anyway. Steve pointed
+> > that _raw_notrace does sparse checking unlike _raw, but I think that isn't an
+> > issue since _raw doesn't do such checking at the moment anyway.. (if possible
+> > check my cover letter again for details/motivation of this series).
 > 
-> diff --git a/tools/objtool/check.c b/tools/objtool/check.c
-> index 172f99195726..eff0e5209402 100644
-> --- a/tools/objtool/check.c
-> +++ b/tools/objtool/check.c
-> @@ -443,6 +443,8 @@ static void add_ignores(struct objtool_file *file)
->  static const char *uaccess_safe_builtin[] = {
->  	/* KASAN */
->  	"kasan_report",
-> +	"kasan_check_read",
-> +	"kasan_check_write",
->  	"check_memory_region",
->  	/* KASAN out-of-line */
->  	"__asan_loadN_noabort",
-> -- 
-> 2.22.0.rc1.257.g3120a18244-goog
-> 
+> Understood, but regardless of who suggested it, if we are to go through
+> with it, good justification will be required.  ;-)
+
+Ok ;-). About the names of the APIs, I thought of leaving rcu_dereference_raw
+and its callers intact, and just rename:
+
+ * hlist_for_each_entry_rcu_notrace
+ * rcu_dereference_raw_notrace
+
+to:
+ * hlist_for_each_entry_rcu_sparse
+ * rcu_dereference_raw_sparse
+
+The _sparse would stand for "sparse checking". However I am open to better
+names..
+
+Such renaming would avoid confusion and keep the fact about sparse checking
+less ambiguous.
+
+thanks!
+
+ - Joel
+
