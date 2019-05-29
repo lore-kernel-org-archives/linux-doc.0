@@ -3,62 +3,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_ILLEGAL_IP,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-	SPF_NONE autolearn=unavailable autolearn_force=no version=3.4.2
+	SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 063837D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 May 2019 01:40:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A5E9B7D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 May 2019 02:07:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725872AbfE2Bkg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 28 May 2019 21:40:36 -0400
-Received: from mga18.intel.com ([134.134.136.126]:31292 "EHLO mga18.intel.com"
+        id S1725832AbfE2CHl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 28 May 2019 22:07:41 -0400
+Received: from mga07.intel.com ([134.134.136.100]:46297 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725828AbfE2Bkg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 28 May 2019 21:40:36 -0400
+        id S1725816AbfE2CHl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 28 May 2019 22:07:41 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 28 May 2019 18:40:34 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 28 May 2019 19:07:40 -0700
 X-ExtLoop1: 1
-Received: from shzintpr02.sh.intel.com (HELO [0.0.0.0]) ([10.239.4.160])
-  by orsmga001.jf.intel.com with ESMTP; 28 May 2019 18:40:32 -0700
-Subject: Re: [PATCH v2 2/3] KVM: vmx: Emulate MSR IA32_UMWAIT_CONTROL
-To:     Paolo Bonzini <pbonzini@redhat.com>, rkrcmar@redhat.com,
-        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        hpa@zytor.com, sean.j.christopherson@intel.com
-Cc:     x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+Received: from shzintpr04.sh.intel.com (HELO [0.0.0.0]) ([10.239.4.101])
+  by orsmga001.jf.intel.com with ESMTP; 28 May 2019 19:07:37 -0700
+Subject: Re: [PATCH v2 1/3] KVM: x86: add support for user wait instructions
+To:     Paolo Bonzini <pbonzini@redhat.com>
+Cc:     rkrcmar@redhat.com, corbet@lwn.net, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        sean.j.christopherson@intel.com, x86@kernel.org,
+        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, jingqi.liu@intel.com
 References: <20190524075637.29496-1-tao3.xu@intel.com>
- <20190524075637.29496-3-tao3.xu@intel.com>
- <c9f5050a-6144-adbc-25ef-8a7543176ac6@redhat.com>
+ <20190524075637.29496-2-tao3.xu@intel.com>
+ <419f62f3-69a8-7ec0-5eeb-20bed69925f2@redhat.com>
 From:   Tao Xu <tao3.xu@intel.com>
-Message-ID: <2922ac60-a22e-e22c-363a-04f3a2bb6838@intel.com>
-Date:   Wed, 29 May 2019 09:38:13 +0800
+Message-ID: <c1b27714-2eb8-055e-f26c-e17787d83bb6@intel.com>
+Date:   Wed, 29 May 2019 10:05:19 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <c9f5050a-6144-adbc-25ef-8a7543176ac6@redhat.com>
+In-Reply-To: <419f62f3-69a8-7ec0-5eeb-20bed69925f2@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 29/05/2019 09:29, Paolo Bonzini wrote:
+
+On 29/05/2019 09:24, Paolo Bonzini wrote:
 > On 24/05/19 09:56, Tao Xu wrote:
+>> +7.19 KVM_CAP_ENABLE_USR_WAIT_PAUSE
 >> +
->> +	if (rdmsrl_safe(MSR_IA32_UMWAIT_CONTROL, &host_umwait_control))
->> +		return;
+>> +Architectures: x86
+>> +Parameters: args[0] whether feature should be enabled or not
+>> +
+>> +With this capability enabled, a VM can use UMONITOR, UMWAIT and TPAUSE
+>> +instructions. If the instruction causes a delay, the amount of
+>> +time delayed is called here the physical delay. The physical delay is
+>> +first computed by determining the virtual delay (the time to delay
+>> +relative to the VM’s timestamp counter). Otherwise, UMONITOR, UMWAIT
+>> +and TPAUSE cause an invalid-opcode exception(#UD).
 >> +
 > 
-> Does the host value ever change?  If not, this can perhaps be read once
-> when kvm_intel is loaded.  And if it changes often, it should be
-> shadowed into a percpu variable.
+> There is no need to make it a capability.  You can just check the guest
+> CPUID and see if it includes X86_FEATURE_WAITPKG.
 > 
 > Paolo
 > 
 
-Yes, the host value may change, we contact the host patch author Fenghua 
-to add the shadow in host when the host msr value change. And we will 
-improve this in the next version of patch.
+Thank you Paolo, but I have another question. I was wondering if it is 
+appropriate to enable X86_FEATURE_WAITPKG when QEMU uses "-overcommit 
+cpu-pm=on"? Or just enable X86_FEATURE_WAITPKG when QEMU add the feature 
+"-cpu host,+waitpkg"? User wait instructions is the wait or pause 
+instructions may be executed at any privilege level, but can use 
+IA32_UMWAIT_CONTROL to set the maximum time.
