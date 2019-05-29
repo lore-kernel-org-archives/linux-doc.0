@@ -1,65 +1,120 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 495577D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 May 2019 03:12:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 269657D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 May 2019 06:54:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726304AbfE2DMR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 28 May 2019 23:12:17 -0400
-Received: from mga17.intel.com ([192.55.52.151]:41169 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725816AbfE2DMQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 28 May 2019 23:12:16 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 28 May 2019 20:12:16 -0700
-X-ExtLoop1: 1
-Received: from txu2-mobl.ccr.corp.intel.com (HELO [10.239.196.245]) ([10.239.196.245])
-  by orsmga003.jf.intel.com with ESMTP; 28 May 2019 20:12:13 -0700
-Subject: Re: [PATCH v2 1/3] KVM: x86: add support for user wait instructions
-To:     Paolo Bonzini <pbonzini@redhat.com>
-Cc:     rkrcmar@redhat.com, corbet@lwn.net, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        sean.j.christopherson@intel.com, x86@kernel.org,
-        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, jingqi.liu@intel.com
-References: <20190524075637.29496-1-tao3.xu@intel.com>
- <20190524075637.29496-2-tao3.xu@intel.com>
- <419f62f3-69a8-7ec0-5eeb-20bed69925f2@redhat.com>
- <c1b27714-2eb8-055e-f26c-e17787d83bb6@intel.com>
- <b5daf72d-d764-baa4-8e7f-b09dff417786@redhat.com>
-From:   Tao Xu <tao3.xu@intel.com>
-Message-ID: <daf8ebd7-47bb-e4d8-fc67-38af8811000c@intel.com>
-Date:   Wed, 29 May 2019 11:12:12 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1726005AbfE2Gy2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 29 May 2019 02:54:28 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:40819 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725992AbfE2Gy2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 May 2019 02:54:28 -0400
+Received: by mail-oi1-f194.google.com with SMTP id r136so1150734oie.7
+        for <linux-doc@vger.kernel.org>; Tue, 28 May 2019 23:54:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=pChoKwIWurLwR+JcSuU1NNjyDM3j/trzD6X0wFNY0n4=;
+        b=aRSV8+6iSGxARgcHjqu+worAprAztrfzegvwvu1xeYjMWRbmUICvgJ7FsEXWylX7hP
+         MzephQNOCnMMUT1Egx1mwD4RPi9Qp4Lg9dANyWFRT1XICfOmX0E4ytSxoQ+84hOygtpo
+         ChMNoXihqGT5C1eoF7EuG9MBKljOAjrFwWvYY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=pChoKwIWurLwR+JcSuU1NNjyDM3j/trzD6X0wFNY0n4=;
+        b=ToNvi2ewIyIOQ2AiyuhPZnqUkKqoNX9Qi8cSRka4ZAlmJqI8tVoj7JSz2gT8UlyB1h
+         M2N3spXV+kqEHROaBAxP2xtK7IrjmfUt5gFuR/7x/oZtraqGa/BQ3qDJ5p3M2p3uFHWS
+         DDiBErHYLKi/mKG7nsWSN78XSynEJTKp9Y/4MUTkyhKTGV1smbqB3F+P0E2Mxmxix0sv
+         XSH0spFrlnl6tUYLznICMQKNtQvtOmBYqWg/p6wjinxITAjEixBId6K9djdsgyGxKg56
+         IiJzmAuPpVt2bAuKqjpMScRQGM+hfViy+dREbWQzoJtULF5jsxlEJdDYlWd6gyI4Nutg
+         nP+Q==
+X-Gm-Message-State: APjAAAVqpI0rY6ktq99WNx/Bq2lQMVtD59Z4Pay5VmczzyACSlcEQFab
+        ZOODr3Fw5X6rPXaUru+RaoifQkW6D8qMyZ3y57ubFw==
+X-Google-Smtp-Source: APXvYqxEFm7alRLONi7G8F6YaFxfCuYNB3CbojO+n4bQcOMY76gCc9bWruq40KNBeXkP9IsGt/WbcXln11o+AWenJIY=
+X-Received: by 2002:aca:6208:: with SMTP id w8mr5374548oib.128.1559112867588;
+ Tue, 28 May 2019 23:54:27 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <b5daf72d-d764-baa4-8e7f-b09dff417786@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20190522205034.25724-1-corbet@lwn.net> <20190522205034.25724-7-corbet@lwn.net>
+In-Reply-To: <20190522205034.25724-7-corbet@lwn.net>
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Wed, 29 May 2019 08:54:16 +0200
+Message-ID: <CAKMK7uFVP6o5jU_cEPshYXwWN39ohybid52yBj567dGBiejzTg@mail.gmail.com>
+Subject: Re: [PATCH 6/8] docs/gpu: fix a documentation build break in i915.rst
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Markus Heiser <markus.heiser@darmarit.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Oleksandr Natalenko <oleksandr@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/29/2019 10:38 AM, Paolo Bonzini wrote:
-> On 29/05/19 04:05, Tao Xu wrote:
->>>
->>
->> Thank you Paolo, but I have another question. I was wondering if it is
->> appropriate to enable X86_FEATURE_WAITPKG when QEMU uses "-overcommit
->> cpu-pm=on"?
-> 
-> "-overcommit" only establishes the behavior of KVM, it doesn't change
-> the cpuid bits.  So you'd need "-cpu" as well.
-> 
-> Paolo
-> 
-OK I got it. Thank you for your review.
+On Wed, May 22, 2019 at 10:51 PM Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> Documentation/gpu/i915.rst is not included in the TOC tree, but newer
+> versions of sphinx parse it anyway.  That leads to this hard build failure:
 
+It is included I think: Documentation/gpu/index.rst -> drivers.rst ->
+i915.rst. With that corrected A-b: me.
+
+btw this patch didn't go to intel-gfx and all i915 maintainers, I
+think per get_maintainers.pl it should have. Just asking since I had a
+few patches of my own where get_maintainers.pl didn't seem to do the
+right thing somehow.
+-Daniel
+
+>
+> > Global GTT Fence Handling
+> > ~~~~~~~~~~~~~~~~~~~~~~~~~
+> >
+> > reST markup error:
+> > /stuff/k/git/kernel/Documentation/gpu/i915.rst:403: (SEVERE/4) Title level inconsistent:
+>
+> Make the underlining consistent and restore a working docs build.
+>
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> ---
+>  Documentation/gpu/i915.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
+> index 055df45596c1..cf9ff64753cc 100644
+> --- a/Documentation/gpu/i915.rst
+> +++ b/Documentation/gpu/i915.rst
+> @@ -401,13 +401,13 @@ GTT Fences and Swizzling
+>     :internal:
+>
+>  Global GTT Fence Handling
+> -~~~~~~~~~~~~~~~~~~~~~~~~~
+> +-------------------------
+>
+>  .. kernel-doc:: drivers/gpu/drm/i915/i915_gem_fence_reg.c
+>     :doc: fence register handling
+>
+>  Hardware Tiling and Swizzling Details
+> -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +-------------------------------------
+>
+>  .. kernel-doc:: drivers/gpu/drm/i915/i915_gem_fence_reg.c
+>     :doc: tiling swizzling details
+> --
+> 2.21.0
+>
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
