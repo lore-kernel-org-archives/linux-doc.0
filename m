@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 112D77E2D1
+	by archive.lwn.net (Postfix) with ESMTP id 59D5E7E2D7
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 May 2019 23:26:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726840AbfE2XZn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 29 May 2019 19:25:43 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:49114 "EHLO
+        id S1726774AbfE2XZw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 29 May 2019 19:25:52 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:49072 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726489AbfE2XYA (ORCPT
+        with ESMTP id S1726399AbfE2XYA (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 29 May 2019 19:24:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,33 +20,30 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=L/KP7KtqGaaaZ8mlQ/XMLM6HWoK8YMA1PHFDlloUkgo=; b=MOOKPUeO+LTuutF6OVA+jK9SHX
-        6P4dAHjIordM9yPqhEbOp6QAbSTEyWSs5JBx59FZHOxoNqFRhpxA7GLPamO1N4ZfBJS9xCIP1N2Rt
-        6qWDQMo4SpWawPWUfZ8E0yJl/mteYkPZcwY3hDr/R35ddvYPqFV0zhrKkx2bGQu8ZkHfGbEHMQ6/l
-        Zevs3KdSkY1PXCgam3SVor1plwIUqOVmRL6smq1AxU5W+G9z3bg3hHzmSFeTrgI0iHfNSCtYbZ1gP
-        aPST8V1jEXmbH9LYehX+lFG8FEZZTwBCuS20HibMza5ypwg/nSuzUHgAmnBDyD0j+mI1xvCNCzI7q
-        CxaLecNA==;
+        bh=grIpI6sxpoTAJV0Ncwe3KE3Pkp6elLo09FG9+ha8eR4=; b=HLp+W6HDYkZ5BG3pl/MVxdnwMl
+        Qsyp6pfk8TrwCFQMXmy5KjlbYNXb/HkmyrqRM1+XLtrvCwN8l1bRlaO/ROsYGa6WYqPuYLbyvtDLY
+        IYXq6aDUMNjOH1KjrS4A2bjbpkA4HItDYZRalS8ZgwenJhceREiJZQ/YesUSPo9VH8uzQzzjQSlKC
+        rqekLYgF8KyZwu7cayzFE5H8DDA3im/F5JbNyB7gpX1X7uREfbhb3JGterJ2pWbisXboGM9RI/oUL
+        2H0myDUyJXOQEoehlkLawqapDSjTByDXVnTbQaTlK7vhezMmW7g2owyPChj7R3xy4l1nL2VyXpvYg
+        5gBKpV5Q==;
 Received: from 177.132.232.81.dynamic.adsl.gvt.net.br ([177.132.232.81] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hW7vL-0005Rl-3t; Wed, 29 May 2019 23:23:59 +0000
+        id 1hW7vL-0005Rs-Dp; Wed, 29 May 2019 23:23:59 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hW7vI-0007wj-Go; Wed, 29 May 2019 20:23:56 -0300
+        id 1hW7vI-0007xu-Um; Wed, 29 May 2019 20:23:56 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jon Masters <jcm@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Borislav Petkov <bp@suse.de>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Jiri Kosina <jkosina@suse.cz>
-Subject: [PATCH 01/22] ABI: sysfs-devices-system-cpu: point to the right docs
-Date:   Wed, 29 May 2019 20:23:32 -0300
-Message-Id: <557b33a4ed53fb1cd5da927c533e7fe283629869.1559171394.git.mchehab+samsung@kernel.org>
+        Mimi Zohar <zohar@linux.ibm.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        linux-integrity@vger.kernel.org, keyrings@vger.kernel.org
+Subject: [PATCH 18/22] docs: security: trusted-encrypted.rst: fix code-block tag
+Date:   Wed, 29 May 2019 20:23:49 -0300
+Message-Id: <9c8e63bba3c3735573ab107ffd65131db10e1d2e.1559171394.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1559171394.git.mchehab+samsung@kernel.org>
 References: <cover.1559171394.git.mchehab+samsung@kernel.org>
@@ -57,30 +54,39 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The cpuidle doc was split on two, one at the admin guide
-and another one at the driver API guide. Instead of pointing
-to a non-existent file, point to both (admin guide being
-the first one).
+The code-block tag is at the wrong place, causing those
+warnings:
+
+    Documentation/security/keys/trusted-encrypted.rst:112: WARNING: Literal block expected; none found.
+    Documentation/security/keys/trusted-encrypted.rst:121: WARNING: Unexpected indentation.
+    Documentation/security/keys/trusted-encrypted.rst:122: WARNING: Block quote ends without a blank line; unexpected unindent.
+    Documentation/security/keys/trusted-encrypted.rst:123: WARNING: Block quote ends without a blank line; unexpected unindent.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/ABI/testing/sysfs-devices-system-cpu | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ Documentation/security/keys/trusted-encrypted.rst | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-devices-system-cpu b/Documentation/ABI/testing/sysfs-devices-system-cpu
-index 1528239f69b2..87478ac6c2af 100644
---- a/Documentation/ABI/testing/sysfs-devices-system-cpu
-+++ b/Documentation/ABI/testing/sysfs-devices-system-cpu
-@@ -137,7 +137,8 @@ Description:	Discover cpuidle policy and mechanism
- 		current_governor: (RW) displays current idle policy. Users can
- 		switch the governor at runtime by writing to this file.
+diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentation/security/keys/trusted-encrypted.rst
+index 7b35fcb58933..50ac8bcd6970 100644
+--- a/Documentation/security/keys/trusted-encrypted.rst
++++ b/Documentation/security/keys/trusted-encrypted.rst
+@@ -107,12 +107,14 @@ Where::
  
--		See files in Documentation/cpuidle/ for more information.
-+		See Documentation/admin-guide/pm/cpuidle.rst and
-+		Documentation/driver-api/pm/cpuidle.rst for more information.
+ Examples of trusted and encrypted key usage:
  
+-Create and save a trusted key named "kmk" of length 32 bytes::
++Create and save a trusted key named "kmk" of length 32 bytes.
  
- What:		/sys/devices/system/cpu/cpuX/cpuidle/stateN/name
+ Note: When using a TPM 2.0 with a persistent key with handle 0x81000001,
+ append 'keyhandle=0x81000001' to statements between quotes, such as
+ "new 32 keyhandle=0x81000001".
+ 
++::
++
+     $ keyctl add trusted kmk "new 32" @u
+     440502848
+ 
 -- 
 2.21.0
 
