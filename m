@@ -1,116 +1,71 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7F1497D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 May 2019 14:30:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 56CCA7D910
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 May 2019 14:45:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726118AbfE2OaZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 29 May 2019 10:30:25 -0400
-Received: from terminus.zytor.com ([198.137.202.136]:33709 "EHLO
-        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726012AbfE2OaY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 29 May 2019 10:30:24 -0400
-Received: from [172.20.5.109] (207-225-69-115.dia.static.qwest.net [207.225.69.115] (may be forged))
-        (authenticated bits=0)
-        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id x4TET5Ip2561081
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
-        Wed, 29 May 2019 07:29:05 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com x4TET5Ip2561081
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-        s=2019051801; t=1559140147;
-        bh=0QBCMhL0UtNfpa1/nHPwY54RLtb1R1cG9r3yArQfJtw=;
-        h=Date:In-Reply-To:References:Subject:To:CC:From:From;
-        b=JzlSyO5eP+ZYLQHrdvCzaFyQ8yV9k74Kwz9U3ZBRjGi+VZ2tnTPD79icUl023IVaa
-         lorhYOOJ39lVimV25yC8m2dMXeg0m03X5EGPWuJ6QzpjHbUcuWphp4BFY7sIrz4FgP
-         TT9aVIxbcqZR5INiHae7timA+hTN2S6EkuNTGTj9j10QfOQA1Zm/XchNd7ZDZPeTkx
-         EFwSJMe3MEfRQ9KoN1PHX3oJZFhRT7M0C8qaTRhDfALGrRbpwmV6xNHrucaWs+HEIg
-         x3oclNc0c4VudCFk50ebDNaxcIoemxYdHIzudfM9TPcv//LgFBeKs0qxuOyvB2RC6f
-         KoMPScX/VGQxA==
-Date:   Wed, 29 May 2019 07:29:01 -0700
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20190529141500.193390-3-elver@google.com>
-References: <20190529141500.193390-1-elver@google.com> <20190529141500.193390-3-elver@google.com>
+        id S1726087AbfE2Op4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 29 May 2019 10:45:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34118 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726068AbfE2Opz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 29 May 2019 10:45:55 -0400
+Received: from oasis.local.home (unknown [12.156.218.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 03D9A23A78;
+        Wed, 29 May 2019 14:45:54 +0000 (UTC)
+Date:   Wed, 29 May 2019 10:45:52 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Thomas Preisner <linux@tpreisner.de>
+Cc:     Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ftrace: add simple oneshot function tracer
+Message-ID: <20190529104552.146fa97c@oasis.local.home>
+In-Reply-To: <20190529093124.2872-1-linux@tpreisner.de>
+References: <20190529093124.2872-1-linux@tpreisner.de>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 2/3] x86: Move CPU feature test out of uaccess region
-To:     Marco Elver <elver@google.com>, peterz@infradead.org,
-        aryabinin@virtuozzo.com, dvyukov@google.com, glider@google.com,
-        andreyknvl@google.com, mark.rutland@arm.com
-CC:     corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        x86@kernel.org, arnd@arndb.de, jpoimboe@redhat.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org, kasan-dev@googlegroups.com
-From:   hpa@zytor.com
-Message-ID: <EE911EC6-344B-4EB2-90A4-B11E8D96BEDC@zytor.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On May 29, 2019 7:15:00 AM PDT, Marco Elver <elver@google=2Ecom> wrote:
->This patch is a pre-requisite for enabling KASAN bitops
->instrumentation:
->moves boot_cpu_has feature test out of the uaccess region, as
->boot_cpu_has uses test_bit=2E With instrumentation, the KASAN check would
->otherwise be flagged by objtool=2E
->
->This approach is preferred over adding the explicit kasan_check_*
->functions to the uaccess whitelist of objtool, as the case here appears
->to be the only one=2E
->
->Signed-off-by: Marco Elver <elver@google=2Ecom>
->---
->v1:
->* This patch replaces patch: 'tools/objtool: add kasan_check_* to
->  uaccess whitelist'
->---
-> arch/x86/ia32/ia32_signal=2Ec | 9 ++++++++-
-> 1 file changed, 8 insertions(+), 1 deletion(-)
->
->diff --git a/arch/x86/ia32/ia32_signal=2Ec b/arch/x86/ia32/ia32_signal=2E=
-c
->index 629d1ee05599=2E=2E12264e3c9c43 100644
->--- a/arch/x86/ia32/ia32_signal=2Ec
->+++ b/arch/x86/ia32/ia32_signal=2Ec
->@@ -333,6 +333,7 @@ int ia32_setup_rt_frame(int sig, struct ksignal
->*ksig,
-> 	void __user *restorer;
-> 	int err =3D 0;
-> 	void __user *fpstate =3D NULL;
->+	bool has_xsave;
->=20
-> 	/* __copy_to_user optimizes that into a single 8 byte store */
-> 	static const struct {
->@@ -352,13 +353,19 @@ int ia32_setup_rt_frame(int sig, struct ksignal
->*ksig,
-> 	if (!access_ok(frame, sizeof(*frame)))
-> 		return -EFAULT;
->=20
->+	/*
->+	 * Move non-uaccess accesses out of uaccess region if not strictly
->+	 * required; this also helps avoid objtool flagging these accesses
->with
->+	 * instrumentation enabled=2E
->+	 */
->+	has_xsave =3D boot_cpu_has(X86_FEATURE_XSAVE);
-> 	put_user_try {
-> 		put_user_ex(sig, &frame->sig);
-> 		put_user_ex(ptr_to_compat(&frame->info), &frame->pinfo);
-> 		put_user_ex(ptr_to_compat(&frame->uc), &frame->puc);
->=20
-> 		/* Create the ucontext=2E  */
->-		if (boot_cpu_has(X86_FEATURE_XSAVE))
->+		if (has_xsave)
-> 			put_user_ex(UC_FP_XSTATE, &frame->uc=2Euc_flags);
-> 		else
-> 			put_user_ex(0, &frame->uc=2Euc_flags);
+On Wed, 29 May 2019 11:31:23 +0200
+Thomas Preisner <linux@tpreisner.de> wrote:
 
-This was meant to use static_cpu_has()=2E Why did that get dropped?
---=20
-Sent from my Android device with K-9 Mail=2E Please excuse my brevity=2E
+> The "oneshot" tracer records every address (ip, parent_ip) exactly once.
+> As a result, "oneshot" can be used to efficiently create kernel function
+> coverage/usage reports such as in undertaker-tailor[0].
+> 
+> In order to provide this functionality, "oneshot" uses a
+> configurable hashset for blacklisting already recorded addresses. This
+> way, no user space application is required to parse the function
+> tracer's output and to deactivate functions after they have been
+> recorded once. Additionally, the tracer's output is reduced to a bare
+> mininum so that it can be passed directly to undertaker-tailor.
+> 
+> Further information regarding this oneshot function tracer can also be
+> found at [1].
+> 
+> [0]: https://undertaker.cs.fau.de
+> [1]: https://tpreisner.de/pub/ba-thesis.pdf
+> 
+> Signed-off-by: Thomas Preisner <linux@tpreisner.de>
+>
+
+Hi,
+
+If you are only interested in seeing what functions are called (and
+don't care about the order), why not just make another function
+profiler (see register_ftrace_profiler and friends)? Then you could
+just list the hash table entries instead of having to record into the
+ftrace ring buffer.
+
+-- Steve
