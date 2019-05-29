@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1CD157DE71
+	by archive.lwn.net (Postfix) with ESMTP id 5066D7DE79
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 May 2019 23:26:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726689AbfE2XYv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 29 May 2019 19:24:51 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:49212 "EHLO
+        id S1726652AbfE2XY5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 29 May 2019 19:24:57 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:49204 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726652AbfE2XYB (ORCPT
+        with ESMTP id S1726635AbfE2XYB (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 29 May 2019 19:24:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,29 +20,30 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=RLKg26AY56vhgjviUN+0RLoRrM3fQBLJXacmkSsY8Z0=; b=rZ83Rxai/Vc/NoHL4JyaS5WfYT
-        m7l2fM4Bp6SX11WYXWgT8GyRcG9qVRPRSGSuLKFwbPFwGikhftFzHrC8rcESgBAWewfqRlEYLAe3C
-        Iq2OGxyKU1PdtCQNG8bEc1Fa250ckWruJB1YQbLjcB2oK5waSy3PTar8eyMrst6zbAUIe4rMe/Alk
-        xZEdwH+a1wvS+ZgQ4IiGzKm7Z6B7TNcDdQjbYCkFs1HGX/qjyA9JYYu4be4qDA/+jp5+1zPBoX/kJ
-        iaP15p4mhKiMzdyB7JfGeDOsZnT6rxJdlYEH/djdZGDUUkLdtn8OUq8e0v4PyYhYJxD6Lz2i4pk1n
-        NIP26BTQ==;
+        bh=86CajaIHJg8+BksH0RmyeOvwTcywacFuhQ+inbaD7cg=; b=NrCxhwQ11L1nDZZSZVSHwbjCS/
+        kr5Sb9j+nl6IJEd0NsxEhhzNIL3FRCISgo13IN/d6PGTygPo5KIRw4C/friX06Sm0ry07CEGIXR3D
+        hFQMguSHDcuq0iLp51B8+nBYKUp3dsEqYHM/jK/R5v9uWQHoT8AfFOziPNAEPQ0DI6/eVCLAFCox9
+        Q1tyHsBsIbq14Es0q3oXoRvM2qFg5KkhvelJ5YXfq7Qy1uo/sSF8CNUTAzfswO+ICbq60iFsTcu5m
+        A1CfGB/Qp6VI0hIMD6aWm3hLAuzJvB1hE5T+D/RhtIbooNqrNHkBHH83imDQG3Xxkt6tbYrJKa1gj
+        Qv24v5eg==;
 Received: from 177.132.232.81.dynamic.adsl.gvt.net.br ([177.132.232.81] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hW7vL-0005Rh-3v; Wed, 29 May 2019 23:23:59 +0000
+        id 1hW7vL-0005Rn-AH; Wed, 29 May 2019 23:23:59 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hW7vI-0007xA-Lq; Wed, 29 May 2019 20:23:56 -0300
+        id 1hW7vI-0007xp-Tw; Wed, 29 May 2019 20:23:56 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Keith Busch <keith.busch@intel.com>
-Subject: [PATCH 07/22] docs: mm: numaperf.rst: get rid of a build warning
-Date:   Wed, 29 May 2019 20:23:38 -0300
-Message-Id: <4c511096bf40d7433cf215236e7de7d44a96b520.1559171394.git.mchehab+samsung@kernel.org>
+        Vinod Koul <vkoul@kernel.org>,
+        Sanyog Kale <sanyog.r.kale@intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        alsa-devel@alsa-project.org
+Subject: [PATCH 17/22] docs: soundwire: locking: fix tags for a code-block
+Date:   Wed, 29 May 2019 20:23:48 -0300
+Message-Id: <e27b6a1699b366feb03d50cc1bc0cbbc15c881a2.1559171394.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1559171394.git.mchehab+samsung@kernel.org>
 References: <cover.1559171394.git.mchehab+samsung@kernel.org>
@@ -53,31 +54,34 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When building it, it gets this warning:
+There's an ascii artwork at Example 1 whose code-block is not properly
+idented, causing those warnings.
 
-	Documentation/admin-guide/mm/numaperf.rst:168: WARNING: Footnote [1] is not referenced.
-
-The problem is that this is not really a reference, as it is not
-mentioned within the documentation.
+    Documentation/driver-api/soundwire/locking.rst:50: WARNING: Inconsistent literal block quoting.
+    Documentation/driver-api/soundwire/locking.rst:51: WARNING: Line block ends without a blank line.
+    Documentation/driver-api/soundwire/locking.rst:55: WARNING: Inline substitution_reference start-string without end-string.
+    Documentation/driver-api/soundwire/locking.rst:56: WARNING: Line block ends without a blank line.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/admin-guide/mm/numaperf.rst | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ Documentation/driver-api/soundwire/locking.rst | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/mm/numaperf.rst b/Documentation/admin-guide/mm/numaperf.rst
-index c067ed145158..a80c3c37226e 100644
---- a/Documentation/admin-guide/mm/numaperf.rst
-+++ b/Documentation/admin-guide/mm/numaperf.rst
-@@ -165,5 +165,6 @@ write-through caching.
- ========
- See Also
- ========
--.. [1] https://www.uefi.org/sites/default/files/resources/ACPI_6_2.pdf
--       Section 5.2.27
+diff --git a/Documentation/driver-api/soundwire/locking.rst b/Documentation/driver-api/soundwire/locking.rst
+index 253f73555255..3a7ffb3d87f3 100644
+--- a/Documentation/driver-api/soundwire/locking.rst
++++ b/Documentation/driver-api/soundwire/locking.rst
+@@ -44,7 +44,9 @@ Message transfer.
+      b. Transfer message (Read/Write) to Slave1 or broadcast message on
+         Bus in case of bank switch.
+ 
+-     c. Release Message lock ::
++     c. Release Message lock
 +
-+[1] https://www.uefi.org/sites/default/files/resources/ACPI_6_2.pdf
-+- Section 5.2.27
++     ::
+ 
+ 	+----------+                    +---------+
+ 	|          |                    |         |
 -- 
 2.21.0
 
