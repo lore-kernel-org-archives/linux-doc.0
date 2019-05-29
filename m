@@ -4,57 +4,57 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_MED,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 695E87D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 May 2019 08:53:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F38767D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 May 2019 08:55:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725935AbfE2Ixp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 29 May 2019 04:53:45 -0400
-Received: from mail-it1-f194.google.com ([209.85.166.194]:37766 "EHLO
-        mail-it1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725911AbfE2Ixo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 May 2019 04:53:44 -0400
-Received: by mail-it1-f194.google.com with SMTP id s16so2290222ita.2
-        for <linux-doc@vger.kernel.org>; Wed, 29 May 2019 01:53:44 -0700 (PDT)
+        id S1725957AbfE2IzQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 29 May 2019 04:55:16 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:46025 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725874AbfE2IzQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 May 2019 04:55:16 -0400
+Received: by mail-io1-f68.google.com with SMTP id e3so1115399ioc.12
+        for <linux-doc@vger.kernel.org>; Wed, 29 May 2019 01:55:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=fk93ITL8R4mrLU9REN4UKK4IhmKV6EO0365BfuSaHXw=;
-        b=iag1iqklG59C7CBe1Q1yLiAwrdIea1ur40jUv0F6T5dEfMY0jxy+j++u5JmUBuntoa
-         EwUGR6EkVeDx7XcFiDHZsKB495YcnzJoAArBNdkNW4RU2DfJ77hULVO9OsQhthuc2j18
-         R/bC8O07j3uVjmmzTeABEZZIjNCjaC95M+bimnrGjlhNPegpFdCacpo8SW5INIF0Isog
-         hMAuYUUq10E3RD5FJL6QV5ovsTZePNTA0Z25SfUIKy1eCMeM7oWOZyAHr7X4gSVs6NRX
-         KLhadZKjYWWkGnCpOLSTt6DCK+sMm5rQpAswy1Gn0wiuv4Tg2Tv6I1FZuLC3fEdSklSe
-         zleA==
+        bh=7KeoID3DEJVvd72x+oB2aXFD3P3WMkCRwLmanrhFSes=;
+        b=PNQZe4nwyBz/Q5jFW+yNJR7Zpv2BrGObFMkzwU5x9+lM1YlZhRfVrwD4EpflKAQODF
+         Sw1D7FK+s8qknqR33G4GLfXcYDymOvaVTUpEqi/9ul/qk/OijWjqMmEEurCD4YVmfpn+
+         zx/wKkx67KgkZj9CyTWEqBMxipsqLMuAVFsY5qun7aCs8a2MT2VlseJMet2S8dvqCry+
+         vZxGsC5eAg7wOX1/7bFnu/dxxFI5zaLj0bKipwoTHkYAH6+4Lm8AxXSh11jfQwQgj9la
+         qNW3SEIXeLImeaXqW0VziX28L+JsxriaT410Dh3L7a/Gh53qm6e5ewjKD03ntgGDM/F5
+         uzBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=fk93ITL8R4mrLU9REN4UKK4IhmKV6EO0365BfuSaHXw=;
-        b=K34PcGCJ5uVhNSUc4IhqY/ewcqYSCHdge57fCq1vkvkmniBTA4AtmDOQWaoRDxXM4H
-         yy1v8TIru9bzaWmE3puVeuR8SP9Znfs8jwvPBqgJ+WT+AY0YuXSiZ/0Zn//JTa+k+l5M
-         +m62MDcfdDNMmcqTJ9Qm/ZFS+zlvyJDymCXp0ig71A+8iRuwOMRBdyPiSMCCdKCxI1U0
-         ogOu/68LOEYm/ErWHY0/g7Y9D/WPOcIVM8zd5Ob6Yy6Tq+rIqCpsg+dVLSMW4f0cOP2q
-         kJbesQyi+Y4nXQ/koJd+JchEkc9/jlgPRmuXTxvL7zmuhUTlAB4IvgfzBwh7Uf53t67Z
-         ErhQ==
-X-Gm-Message-State: APjAAAUKUAcyDR76IIv6jg0GhEjSoW9OdolcX8qrntu81qIyPIJ/Od8p
-        MVizms95/Xvwf2YOc/UxdCrm6tg7foofcZkPixk5Aw==
-X-Google-Smtp-Source: APXvYqwRV1Ecj1ZeYKU14oETte/gMkEfiRo03ta+hp/7w0IznzXuOVxdCcfxGLTebV18JF/VozM9amvKpyRnIkPc1M4=
-X-Received: by 2002:a24:91d2:: with SMTP id i201mr6764834ite.88.1559120023781;
- Wed, 29 May 2019 01:53:43 -0700 (PDT)
+        bh=7KeoID3DEJVvd72x+oB2aXFD3P3WMkCRwLmanrhFSes=;
+        b=kKXaRHSj0R5PG2LMT2aw3o+qKoSobdZf5SdYEJUpyVbhzhtJCCz0qT5Kzzal4/4MXZ
+         DlH6LIXTGKmPuzvK/owgm+J9gtpAnwQ0b11xjWc6b12TxZxGJvqeKOtPxPkv8vvmIkTv
+         TUdVeO34JDfx2/vBQv3aX7d78YvJqZUf0fO8Xdf4vVzJqFLN7iaqMMzs2hUa89lbAOkZ
+         QxrF6qJLQsFV6bbS3sH2rfdc9CjOuMvn2QzpMrC/35hhznX4rtNPpDTdQt1pQppZaFd2
+         TloM79peGfoqxKVSYCwSPwualdbzhu3LGAvR8JbEADx/TdcTP02TWy34O6UGooWDrZ7p
+         L0qA==
+X-Gm-Message-State: APjAAAUwDjhUFkAbJcURvpow8y6Htc4Ben/FGXLc0a1vyXC58jYcPTX8
+        gtPcwMShDF2CipL1ZdHdzouxE36QW52SC/O1iMnAHg==
+X-Google-Smtp-Source: APXvYqzwiYPajeo477fLW7FKEc1f5mZbnuutDqmH4h7fz9/6ZJHsA2E1qqcl3+9B5i32HgcDRU1zvSBCqTz0hmsFCFg=
+X-Received: by 2002:a6b:e711:: with SMTP id b17mr12474897ioh.3.1559120109961;
+ Wed, 29 May 2019 01:55:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190528163258.260144-1-elver@google.com> <20190528163258.260144-3-elver@google.com>
- <20190528165036.GC28492@lakrids.cambridge.arm.com>
-In-Reply-To: <20190528165036.GC28492@lakrids.cambridge.arm.com>
+References: <20190528163258.260144-1-elver@google.com> <20190528163258.260144-2-elver@google.com>
+ <20190528171942.GV2623@hirez.programming.kicks-ass.net>
+In-Reply-To: <20190528171942.GV2623@hirez.programming.kicks-ass.net>
 From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Wed, 29 May 2019 10:53:32 +0200
-Message-ID: <CACT4Y+bV0CczjRWgHQq3kvioLaaKgN+hnYEKCe5wkbdngrm+8g@mail.gmail.com>
-Subject: Re: [PATCH 3/3] asm-generic, x86: Add bitops instrumentation for KASAN
-To:     Mark Rutland <mark.rutland@arm.com>
+Date:   Wed, 29 May 2019 10:54:58 +0200
+Message-ID: <CACT4Y+ZK5i0r0GSZUOBGGOE0bzumNor1d89W8fvphF6EDqKqHg@mail.gmail.com>
+Subject: Re: [PATCH 2/3] tools/objtool: add kasan_check_* to uaccess whitelist
+To:     Peter Zijlstra <peterz@infradead.org>
 Cc:     Marco Elver <elver@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
         Andrey Ryabinin <aryabinin@virtuozzo.com>,
         Alexander Potapenko <glider@google.com>,
         Andrey Konovalov <andreyknvl@google.com>,
@@ -75,60 +75,39 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, May 28, 2019 at 6:50 PM Mark Rutland <mark.rutland@arm.com> wrote:
+On Tue, May 28, 2019 at 7:19 PM Peter Zijlstra <peterz@infradead.org> wrote:
 >
-> On Tue, May 28, 2019 at 06:32:58PM +0200, Marco Elver wrote:
-> > This adds a new header to asm-generic to allow optionally instrumenting
-> > architecture-specific asm implementations of bitops.
+> On Tue, May 28, 2019 at 06:32:57PM +0200, Marco Elver wrote:
+> > This is a pre-requisite for enabling bitops instrumentation. Some bitops
+> > may safely be used with instrumentation in uaccess regions.
 > >
-> > This change includes the required change for x86 as reference and
-> > changes the kernel API doc to point to bitops-instrumented.h instead.
-> > Rationale: the functions in x86's bitops.h are no longer the kernel API
-> > functions, but instead the arch_ prefixed functions, which are then
-> > instrumented via bitops-instrumented.h.
-> >
-> > Other architectures can similarly add support for asm implementations of
-> > bitops.
-> >
-> > The documentation text has been copied/moved, and *no* changes to it
-> > have been made in this patch.
-> >
-> > Tested: using lib/test_kasan with bitops tests (pre-requisite patch).
-> >
-> > Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=198439
+> > For example, on x86, `test_bit` is used to test a CPU-feature in a
+> > uaccess region:   arch/x86/ia32/ia32_signal.c:361
+>
+> That one can easily be moved out of the uaccess region. Any else?
+
+Marco, try to update config with "make allyesconfig" and then build
+the kernel without this change.
+
+>
 > > Signed-off-by: Marco Elver <elver@google.com>
 > > ---
-> >  Documentation/core-api/kernel-api.rst     |   2 +-
-> >  arch/x86/include/asm/bitops.h             | 210 ++++----------
-> >  include/asm-generic/bitops-instrumented.h | 327 ++++++++++++++++++++++
-> >  3 files changed, 380 insertions(+), 159 deletions(-)
-> >  create mode 100644 include/asm-generic/bitops-instrumented.h
->
-> [...]
->
-> > +#if !defined(BITOPS_INSTRUMENT_RANGE)
-> > +/*
-> > + * This may be defined by an arch's bitops.h, in case bitops do not operate on
-> > + * single bytes only. The default version here is conservative and assumes that
-> > + * bitops operate only on the byte with the target bit.
-> > + */
-> > +#define BITOPS_INSTRUMENT_RANGE(addr, nr)                                  \
-> > +     (const volatile char *)(addr) + ((nr) / BITS_PER_BYTE), 1
-> > +#endif
->
-> I was under the impression that logically, all the bitops operated on
-> the entire long the bit happend to be contained in, so checking the
-> entire long would make more sense to me.
->
-> FWIW, arm64's atomic bit ops are all implemented atop of atomic_long_*
-> functions, which are instrumented, and always checks at the granularity
-> of a long. I haven't seen splats from that when fuzzing with Syzkaller.
->
-> Are you seeing bugs without this?
-
-bitops are not instrumented on x86 at all at the moment, so we have
-not seen any splats. What we've seen are assorted crashes caused by
-previous silent memory corruptions by incorrect bitops :)
-
-Good point. If arm already does this, I guess we also need to check
-whole long's.
+> >  tools/objtool/check.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/tools/objtool/check.c b/tools/objtool/check.c
+> > index 172f99195726..eff0e5209402 100644
+> > --- a/tools/objtool/check.c
+> > +++ b/tools/objtool/check.c
+> > @@ -443,6 +443,8 @@ static void add_ignores(struct objtool_file *file)
+> >  static const char *uaccess_safe_builtin[] = {
+> >       /* KASAN */
+> >       "kasan_report",
+> > +     "kasan_check_read",
+> > +     "kasan_check_write",
+> >       "check_memory_region",
+> >       /* KASAN out-of-line */
+> >       "__asan_loadN_noabort",
+> > --
+> > 2.22.0.rc1.257.g3120a18244-goog
+> >
