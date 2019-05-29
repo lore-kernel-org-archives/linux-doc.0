@@ -1,167 +1,86 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_MED,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5202D7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 May 2019 22:43:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 158077D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 May 2019 23:02:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726439AbfE2Wn4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 29 May 2019 18:43:56 -0400
-Received: from mail-ot1-f73.google.com ([209.85.210.73]:44448 "EHLO
-        mail-ot1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726408AbfE2Wnz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 May 2019 18:43:55 -0400
-Received: by mail-ot1-f73.google.com with SMTP id o98so1846932ota.11
-        for <linux-doc@vger.kernel.org>; Wed, 29 May 2019 15:43:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=nIbdDpuiUQjZb4OOVtvUELzofH+r331C0gYmQQjTD8s=;
-        b=HNJdtYlRXOacnDqZhFy07seNksTSHxkHLKaCslX7zj6rNoT61Fe3agZ9GMweLxm4k1
-         KUFhb8uxfLZd6zpKnu5nfY+N5Gcg8QqPi4CmM7CHHCCdK11GbDIuHO7v7Ph8fSjl2vKk
-         oSrUC7+UAUj1nIDVX/A0Mr1uB/4SSmSN0UMODku96Eof0v8EvLCyBS3BqeprcAM9s2Q7
-         Bki5cgH8N3S4m+el+INbFHbEV80SD9bAh1oiuxG7EWu/XvInbZgyLCZT77qoRCGsh/rs
-         Th93kSlraPYtinNoWgj6RXL4YweWmGRqJYAucOHDeUWPd9KjPaBGUgxSpmbPKM45YVkb
-         JK4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=nIbdDpuiUQjZb4OOVtvUELzofH+r331C0gYmQQjTD8s=;
-        b=pYSeoIcdnB9zKLgH5aqpgaqesKqFz9vNI7o3b23tEkpaRp4YGAoMpGAaqvz9BWtqjq
-         XtrJis+z2kygdhqGJw768RLoirMYALnEL8ihwIKg8K02Y2hAvWSp3plcsiqhP844cv14
-         /LgCkcnlm50DZ8HM7sahsvl39+b5P9z2V8veEcTsKH9dUcB0gr0UosIGB/weW+QLYet8
-         oQB/G+y2JZTgxGOfTWYKahCXWsWMi1aHoY3mAhAxsRr/ck0WfSYge8X2CZR63u9Dogs9
-         +fvAxzrSnnYEYz4wX79OCDCSMnEhgaJT059XozQ+p1BWZQSmiyd51nBTboRe4V+0OqfS
-         ZFrA==
-X-Gm-Message-State: APjAAAWq5ns9Tc6au155aACwi8kaElmGTKXLyOZi9kHXJU38YRcBwHlY
-        gkw0blvPqmVQHoOs1Sv08DVyt29boCg=
-X-Google-Smtp-Source: APXvYqzcHO7uG6P+zg1K9CqC2JHSf3+xaWgVWc+e+9Xnzfzz5jFVoGyxdER7ys0iGExAmYRdjroxX3SMGsY=
-X-Received: by 2002:aca:4208:: with SMTP id p8mr479023oia.105.1559169834858;
- Wed, 29 May 2019 15:43:54 -0700 (PDT)
-Date:   Wed, 29 May 2019 15:43:50 -0700
-Message-Id: <20190529224350.6460-1-mikewu@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.22.0.rc1.257.g3120a18244-goog
-Subject: [PATCH] Allow to exclude specific file types in LoadPin
-From:   Ke Wu <mikewu@google.com>
-To:     Kees Cook <keescook@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org, Ke Wu <mikewu@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726311AbfE2XCE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 29 May 2019 19:02:04 -0400
+Received: from ms.lwn.net ([45.79.88.28]:43954 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726189AbfE2XCE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 29 May 2019 19:02:04 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id E8E952B4;
+        Wed, 29 May 2019 23:02:03 +0000 (UTC)
+Date:   Wed, 29 May 2019 17:02:02 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/5] docs: by default, build docs a lot faster with
+ Sphinx >= 1.7
+Message-ID: <20190529170202.65c7f9ca@lwn.net>
+In-Reply-To: <baf19095789f2b2ed0c7a940703037a00cd77850.1558955082.git.mchehab+samsung@kernel.org>
+References: <cover.1558955082.git.mchehab+samsung@kernel.org>
+        <baf19095789f2b2ed0c7a940703037a00cd77850.1558955082.git.mchehab+samsung@kernel.org>
+Organization: LWN.net
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Linux kernel already provide MODULE_SIG and KEXEC_VERIFY_SIG to
-make sure loaded kernel module and kernel image are trusted. This
-patch adds a kernel command line option "loadpin.exclude" which
-allows to exclude specific file types from LoadPin. This is useful
-when people want to use different mechanisms to verify module and
-kernel image while still use LoadPin to protect the integrity of
-other files kernel loads.
+On Mon, 27 May 2019 08:07:40 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-Signed-off-by: Ke Wu <mikewu@google.com>
----
- Documentation/admin-guide/LSM/LoadPin.rst | 10 ++++++
- security/loadpin/loadpin.c                | 37 +++++++++++++++++++++++
- 2 files changed, 47 insertions(+)
+> Since Sphinx version 1.7, it is possible to use "-jauto" in
+> order to speedup documentation builds. On older versions,
+> while -j was already supported, one would need to set the
+> number of threads manually.
+> 
+> So, if SPHINXOPTS is not provided, add -jauto, in order to
+> speed up the build. That makes it *a lot* times faster than
+> without -j.
+> 
+> If one really wants to slow things down, it can just use:
+> 
+> 	make SPHINXOPTS=-j1 htmldocs
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+>  Documentation/Makefile | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/Documentation/Makefile b/Documentation/Makefile
+> index 380e24053d6f..794233d05789 100644
+> --- a/Documentation/Makefile
+> +++ b/Documentation/Makefile
+> @@ -28,6 +28,8 @@ ifeq ($(HAVE_SPHINX),0)
+>  
+>  else # HAVE_SPHINX
+>  
+> +SPHINXOPTS = $(shell perl -e 'open IN,"sphinx-build --version |"; while (<IN>) { if (m/([\d\.]+)/) { print "-jauto" if ($$1 >= "1.7") } ;} close IN')
+> +
 
-diff --git a/Documentation/admin-guide/LSM/LoadPin.rst b/Documentation/admin-guide/LSM/LoadPin.rst
-index 32070762d24c..716ad9b23c9a 100644
---- a/Documentation/admin-guide/LSM/LoadPin.rst
-+++ b/Documentation/admin-guide/LSM/LoadPin.rst
-@@ -19,3 +19,13 @@ block device backing the filesystem is not read-only, a sysctl is
- created to toggle pinning: ``/proc/sys/kernel/loadpin/enabled``. (Having
- a mutable filesystem means pinning is mutable too, but having the
- sysctl allows for easy testing on systems with a mutable filesystem.)
-+
-+It's also possible to exclude specific file types from LoadPin using kernel
-+command line option "``loadpin.exclude``". By default, all files are
-+included, but they can be excluded using kernel command line option such
-+as "``loadpin.exclude=kernel-module,kexec-image``". This allows to use
-+different mechanisms such as ``CONFIG_MODULE_SIG`` and
-+``CONFIG_KEXEC_VERIFY_SIG`` to verify kernel module and kernel image while
-+still use LoadPin to protect the integrity of other files kernel loads. The
-+full list of valid file types can be found in ``kernel_read_file_str``
-+defined in ``include/linux/fs.h``.
-diff --git a/security/loadpin/loadpin.c b/security/loadpin/loadpin.c
-index 055fb0a64169..8ee0c58fea40 100644
---- a/security/loadpin/loadpin.c
-+++ b/security/loadpin/loadpin.c
-@@ -45,6 +45,8 @@ static void report_load(const char *origin, struct file *file, char *operation)
- }
- 
- static int enforce = IS_ENABLED(CONFIG_SECURITY_LOADPIN_ENFORCE);
-+static char *exclude_read_files[READING_MAX_ID];
-+static int ignore_read_file_id[READING_MAX_ID];
- static struct super_block *pinned_root;
- static DEFINE_SPINLOCK(pinned_root_spinlock);
- 
-@@ -129,6 +131,12 @@ static int loadpin_read_file(struct file *file, enum kernel_read_file_id id)
- 	struct super_block *load_root;
- 	const char *origin = kernel_read_file_id_str(id);
- 
-+	/* If the file id is excluded, ignore the pinning. */
-+	if ((unsigned int)id < READING_MAX_ID && ignore_read_file_id[id]) {
-+		report_load(origin, file, "pinning-excluded");
-+		return 0;
-+	}
-+
- 	/* This handles the older init_module API that has a NULL file. */
- 	if (!file) {
- 		if (!enforce) {
-@@ -187,10 +195,37 @@ static struct security_hook_list loadpin_hooks[] __lsm_ro_after_init = {
- 	LSM_HOOK_INIT(kernel_load_data, loadpin_load_data),
- };
- 
-+static void parse_exclude(void)
-+{
-+	int i, j;
-+	char *cur;
-+
-+	for (i = 0; i < ARRAY_SIZE(exclude_read_files); i++) {
-+		cur = exclude_read_files[i];
-+		if (!cur)
-+			break;
-+		if (*cur == '\0')
-+			continue;
-+
-+		for (j = 0; j < ARRAY_SIZE(kernel_read_file_str); j++) {
-+			if (strcmp(cur, kernel_read_file_str[j]) == 0) {
-+				pr_info("excluding: %s\n",
-+					kernel_read_file_str[j]);
-+				ignore_read_file_id[j] = 1;
-+				/*
-+				 * Can not break, because one read_file_str
-+				 * may map to more than on read_file_id.
-+				 */
-+			}
-+		}
-+	}
-+}
-+
- static int __init loadpin_init(void)
- {
- 	pr_info("ready to pin (currently %senforcing)\n",
- 		enforce ? "" : "not ");
-+	parse_exclude();
- 	security_add_hooks(loadpin_hooks, ARRAY_SIZE(loadpin_hooks), "loadpin");
- 	return 0;
- }
-@@ -203,3 +238,5 @@ DEFINE_LSM(loadpin) = {
- /* Should not be mutable after boot, so not listed in sysfs (perm == 0). */
- module_param(enforce, int, 0);
- MODULE_PARM_DESC(enforce, "Enforce module/firmware pinning");
-+module_param_array_named(exclude, exclude_read_files, charp, NULL, 0);
-+MODULE_PARM_DESC(exclude, "Exclude pinning specific read file types");
--- 
-2.22.0.rc1.257.g3120a18244-goog
+So this totally fails to work for me with any version of sphinx, and I'm
+not enough of a Perl person to figure it out.  Sometimes I'll see the
+sphinx-build output, i.e.:
 
+    sphinx-build 1.8.4
+
+and sometimes (like with 2.0) I don't, but I never get -jauto regardless.
+Not sure what's going on here?
+
+Thanks,
+
+jon
