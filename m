@@ -1,191 +1,95 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_HIGH autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ECB097D90F
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 May 2019 23:07:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BB8FD7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 May 2019 23:09:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726535AbfE2XHI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 29 May 2019 19:07:08 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:36408 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726462AbfE2XHI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 May 2019 19:07:08 -0400
-Received: by mail-pl1-f195.google.com with SMTP id d21so1704764plr.3
-        for <linux-doc@vger.kernel.org>; Wed, 29 May 2019 16:07:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=cHc2YTBvQPZwfTjTz43ky1S888tNMPBORRZD8lnR7YM=;
-        b=X5qiSpfFhOhnN5GDVn1McWzB0dQzD5Qt2zEfLg5mazfaZ2rg9g4iTATjHySrV3yMhU
-         GWQpD69Ef7loobz/h9NMEpLZgCf8MArR4F1Es7v7A2wheL3E1ZWNFP6xnkhXDlZ0ypCW
-         6cRCmx2Zd2xEBox7PrtQJqzZYow9OkorDhbLs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=cHc2YTBvQPZwfTjTz43ky1S888tNMPBORRZD8lnR7YM=;
-        b=eJHIv0kXa1V7l1nROM6eKkO9Hb62R4L5sAnZ12jW1E7McTVBxXE+SppCZxaLIgjCqt
-         NW4syBfnlfBIBPkXQYWeBVj9N/OY5fIP3dkr3e6oMQXWNUECqG/DMUtU8DKD5ieCKJ2t
-         uzTwmh5a/xHCHSHb5jEqEZ1zPzG6tG1Hfy8UpvZBqjXoqpm+laQFysmeZUklbwb9x/vn
-         2n8Ylif0i4mlSu19/+TkiUMWM6P7edl1J9WzRHWbrSXXQr1hnw0NU08GfByDKux9MudW
-         BpdQDrxDuix1r529+03UUQpiTzoySoygv2o52mN5mGgZY0GLD+c7OcYA25vqptdvcLMt
-         XqJQ==
-X-Gm-Message-State: APjAAAWuqCQ6ZZ4oyeKu4Szf732m439QUSmmeYcgZapPdxeJ7Msq0mOX
-        SR0iKgLZC55mkUzWdIs366WmWw==
-X-Google-Smtp-Source: APXvYqzpHemm5im64Z9RDUqEyfWlkHU/x2ydoNw5npFZRLwyAQPfRTCJd5MXKewYwSKw28FFh3MbGQ==
-X-Received: by 2002:a17:902:6bcb:: with SMTP id m11mr503243plt.318.1559171227361;
-        Wed, 29 May 2019 16:07:07 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id p63sm735617pfb.70.2019.05.29.16.07.06
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 29 May 2019 16:07:06 -0700 (PDT)
-Date:   Wed, 29 May 2019 16:07:05 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Ke Wu <mikewu@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
-Subject: Re: [PATCH] Allow to exclude specific file types in LoadPin
-Message-ID: <201905291602.D303FCD@keescook>
-References: <20190529224350.6460-1-mikewu@google.com>
+        id S1726508AbfE2XJh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 29 May 2019 19:09:37 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:47586 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726408AbfE2XJh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 May 2019 19:09:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=Pzy7R7NMtIp0soxdacOvAtehGecGOy+zjqDf/NYYYuQ=; b=ox5BvDxZ/jy4+sN4uLv8yqRD44
+        XESlSqsqcaZEBuY3CmAeXrFTq7oW+fwCkUQdNtbYKmx/y3rv7ROk/C6P/0D8sKTLp6+qElFtOS/j1
+        x8+xS12gxsGFcWXNWtmHr4nOomFrnXUS4LVv3Nv0w/cY/2Gx7JPe0sUmXnS9+KhpslITowcGW2l22
+        gC3R3/j5njBxKCZeBnPSYIz0uQAYS4aKUp34Yosr1udeR7gsFr5MoN0NPwlp1ZFyLKtzcLwZX1Vyf
+        ylb2X4m8uCwpZpurJDSAnh5++ME70oF5oG/EzVmWV6mMR1/5aPtu1kNGXqgh3s6ehf9JXfxZzE9sa
+        2GqMI9Rw==;
+Received: from 177.132.232.81.dynamic.adsl.gvt.net.br ([177.132.232.81] helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hW7hQ-0000lB-Fv; Wed, 29 May 2019 23:09:36 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hW7hN-0007Tl-NR; Wed, 29 May 2019 20:09:33 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 08/10] scripts/documentation-file-ref-check: teach about .txt -> .yaml renames
+Date:   Wed, 29 May 2019 20:09:30 -0300
+Message-Id: <a301b6e922407c12279d7ca51b70156673e66ddc.1559170790.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <cover.1559170790.git.mchehab+samsung@kernel.org>
+References: <cover.1559170790.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190529224350.6460-1-mikewu@google.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 29, 2019 at 03:43:50PM -0700, Ke Wu wrote:
-> Linux kernel already provide MODULE_SIG and KEXEC_VERIFY_SIG to
-> make sure loaded kernel module and kernel image are trusted. This
-> patch adds a kernel command line option "loadpin.exclude" which
-> allows to exclude specific file types from LoadPin. This is useful
-> when people want to use different mechanisms to verify module and
-> kernel image while still use LoadPin to protect the integrity of
-> other files kernel loads.
+At DT, files are being renamed to jason. Teach the script how to
+handle such renames when used in fix mode.
 
-Cool; I like this. A few thoughts below...
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ scripts/documentation-file-ref-check | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
-> 
-> Signed-off-by: Ke Wu <mikewu@google.com>
-> ---
->  Documentation/admin-guide/LSM/LoadPin.rst | 10 ++++++
->  security/loadpin/loadpin.c                | 37 +++++++++++++++++++++++
->  2 files changed, 47 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/LSM/LoadPin.rst b/Documentation/admin-guide/LSM/LoadPin.rst
-> index 32070762d24c..716ad9b23c9a 100644
-> --- a/Documentation/admin-guide/LSM/LoadPin.rst
-> +++ b/Documentation/admin-guide/LSM/LoadPin.rst
-> @@ -19,3 +19,13 @@ block device backing the filesystem is not read-only, a sysctl is
->  created to toggle pinning: ``/proc/sys/kernel/loadpin/enabled``. (Having
->  a mutable filesystem means pinning is mutable too, but having the
->  sysctl allows for easy testing on systems with a mutable filesystem.)
-> +
-> +It's also possible to exclude specific file types from LoadPin using kernel
-> +command line option "``loadpin.exclude``". By default, all files are
-> +included, but they can be excluded using kernel command line option such
-> +as "``loadpin.exclude=kernel-module,kexec-image``". This allows to use
-> +different mechanisms such as ``CONFIG_MODULE_SIG`` and
-> +``CONFIG_KEXEC_VERIFY_SIG`` to verify kernel module and kernel image while
-> +still use LoadPin to protect the integrity of other files kernel loads. The
-> +full list of valid file types can be found in ``kernel_read_file_str``
-> +defined in ``include/linux/fs.h``.
-> diff --git a/security/loadpin/loadpin.c b/security/loadpin/loadpin.c
-> index 055fb0a64169..8ee0c58fea40 100644
-> --- a/security/loadpin/loadpin.c
-> +++ b/security/loadpin/loadpin.c
-> @@ -45,6 +45,8 @@ static void report_load(const char *origin, struct file *file, char *operation)
->  }
->  
->  static int enforce = IS_ENABLED(CONFIG_SECURITY_LOADPIN_ENFORCE);
-> +static char *exclude_read_files[READING_MAX_ID];
-> +static int ignore_read_file_id[READING_MAX_ID];
-
-Since this is set up at init, let's mark ignore_read_file_id with
-__ro_after_init.
-
->  static struct super_block *pinned_root;
->  static DEFINE_SPINLOCK(pinned_root_spinlock);
->  
-> @@ -129,6 +131,12 @@ static int loadpin_read_file(struct file *file, enum kernel_read_file_id id)
->  	struct super_block *load_root;
->  	const char *origin = kernel_read_file_id_str(id);
->  
-> +	/* If the file id is excluded, ignore the pinning. */
-> +	if ((unsigned int)id < READING_MAX_ID && ignore_read_file_id[id]) {
-
-Can you use ARRAY_SIZE(ignore_read_file_id) here instead of
-READING_MAX_ID?
-
-> +		report_load(origin, file, "pinning-excluded");
-> +		return 0;
-> +	}
-> +
->  	/* This handles the older init_module API that has a NULL file. */
->  	if (!file) {
->  		if (!enforce) {
-> @@ -187,10 +195,37 @@ static struct security_hook_list loadpin_hooks[] __lsm_ro_after_init = {
->  	LSM_HOOK_INIT(kernel_load_data, loadpin_load_data),
->  };
->  
-> +static void parse_exclude(void)
-
-Please mark this __init (since it's called from another __init
-function).
-
-> +{
-> +	int i, j;
-> +	char *cur;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(exclude_read_files); i++) {
-> +		cur = exclude_read_files[i];
-> +		if (!cur)
-> +			break;
-> +		if (*cur == '\0')
-> +			continue;
-> +
-> +		for (j = 0; j < ARRAY_SIZE(kernel_read_file_str); j++) {
-> +			if (strcmp(cur, kernel_read_file_str[j]) == 0) {
-> +				pr_info("excluding: %s\n",
-> +					kernel_read_file_str[j]);
-> +				ignore_read_file_id[j] = 1;
-> +				/*
-> +				 * Can not break, because one read_file_str
-> +				 * may map to more than on read_file_id.
-> +				 */
-> +			}
-> +		}
-> +	}
-> +}
-> +
->  static int __init loadpin_init(void)
->  {
->  	pr_info("ready to pin (currently %senforcing)\n",
->  		enforce ? "" : "not ");
-> +	parse_exclude();
->  	security_add_hooks(loadpin_hooks, ARRAY_SIZE(loadpin_hooks), "loadpin");
->  	return 0;
->  }
-> @@ -203,3 +238,5 @@ DEFINE_LSM(loadpin) = {
->  /* Should not be mutable after boot, so not listed in sysfs (perm == 0). */
->  module_param(enforce, int, 0);
->  MODULE_PARM_DESC(enforce, "Enforce module/firmware pinning");
-> +module_param_array_named(exclude, exclude_read_files, charp, NULL, 0);
-> +MODULE_PARM_DESC(exclude, "Exclude pinning specific read file types");
-> -- 
-> 2.22.0.rc1.257.g3120a18244-goog
-> 
-
-Everything else looks good; thanks!
-
+diff --git a/scripts/documentation-file-ref-check b/scripts/documentation-file-ref-check
+index 5d775ca7469b..ff16db269079 100755
+--- a/scripts/documentation-file-ref-check
++++ b/scripts/documentation-file-ref-check
+@@ -165,13 +165,22 @@ foreach my $ref (keys %broken_ref) {
+ 
+ 	# usual reason for breakage: DT file moved around
+ 	if ($ref =~ /devicetree/) {
+-		my $search = $new;
+-		$search =~ s,^.*/,,;
+-		$f = qx(find Documentation/devicetree/ -iname "*$search*") if ($search);
++		# usual reason for breakage: DT file renamed to .yaml
+ 		if (!$f) {
+-			# Manufacturer name may have changed
+-			$search =~ s/^.*,//;
++			my $new_ref = $ref;
++			$new_ref =~ s/\.txt$/.yaml/;
++			$f=$new_ref if (-f $new_ref);
++		}
++
++		if (!$f) {
++			my $search = $new;
++			$search =~ s,^.*/,,;
+ 			$f = qx(find Documentation/devicetree/ -iname "*$search*") if ($search);
++			if (!$f) {
++				# Manufacturer name may have changed
++				$search =~ s/^.*,//;
++				$f = qx(find Documentation/devicetree/ -iname "*$search*") if ($search);
++			}
+ 		}
+ 	}
+ 
 -- 
-Kees Cook
+2.21.0
+
