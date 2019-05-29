@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DC5317D92A
+	by archive.lwn.net (Postfix) with ESMTP id F1D0A7D981
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 May 2019 23:26:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726604AbfE2XYB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1726546AbfE2XYB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Wed, 29 May 2019 19:24:01 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:49090 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:49076 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726454AbfE2XYA (ORCPT
+        with ESMTP id S1726408AbfE2XYA (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 29 May 2019 19:24:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,28 +20,29 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=uegJiDhnQxQaXlYd/KXlqxqemOhHfM+yEvioj3JsN+U=; b=Vy03dE/fJC/z0esPCU5AkbkHF3
-        iycmVoQXfI5JtgYWXdqkS/XOFIeUCCHZQloefUcIwvw/F9RID6w9JNTPlWLHVEAZMTcvhCuRDSlbG
-        cTKg4kpk3xo67RR7YBdbuKoBzgMGnuR2OveRkdoAYSHL4SbPOEViLAvVOqGYPNB8S3srQBohoTvSM
-        7Fln1mBeg7rufpwrymh3qF3m1/5FvbK0JOe5icvAQjJhqkZ0vr+mdRhWzeQoMLcd8cGZkrc4KiMBN
-        r90mkuns5FaOpxt6Hy6mjCY2ZpaLtj6iqi2cI8edLXWL8UDTwQRKhd7t0VjpUbp2NerkecL5xH6H0
-        Y190lk7A==;
+        bh=jgwcv0yUHJkpC0RNxq8/GXr5590Xomrjfw0h2lyU8s8=; b=UX+BH7bxAGdPpgRPr+4Wfi/M/e
+        gUSN0HtZRbzmEj3iknWkmt0iORwa9zyNrEnXdwCtLrrcjnsUf5e+vA3O5pL97m9ZGf7f6lHHb0seC
+        /XJeuCtLfypo+nEl9jU3C5UFizNf4j7JgVug8TSApXwhbC4AgXFo53E3Ytu8POzgXkKwu1JSX5YYx
+        vQ25Q+8KBN+TjFuEh77/K4SD9SKaHtbg0ov05JumZjNlyR5PKOIbdk/bRvIX4dzokj8NZXJ2L9e9W
+        ZIGW1qVla9egUirg2uT6CbA5GTpCNhCxhEs37dRWCu9xtr9ZbPubyZlTngPQtIoyQBF0HwougulxC
+        SerXiH2g==;
 Received: from 177.132.232.81.dynamic.adsl.gvt.net.br ([177.132.232.81] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hW7vL-0005Rm-7i; Wed, 29 May 2019 23:23:59 +0000
+        id 1hW7vL-0005Rp-Ah; Wed, 29 May 2019 23:23:59 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hW7vI-0007xc-Rb; Wed, 29 May 2019 20:23:56 -0300
+        id 1hW7vI-0007xk-T9; Wed, 29 May 2019 20:23:56 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
-        linux-mm@kvack.org
-Subject: [PATCH 14/22] docs: vm: hmm.rst: fix some warnings
-Date:   Wed, 29 May 2019 20:23:45 -0300
-Message-Id: <59ddc30af749c0123af8b0dc04d3670133af5f8d.1559171394.git.mchehab+samsung@kernel.org>
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        linux-gpio@vger.kernel.org
+Subject: [PATCH 16/22] docs: gpio: driver.rst: fix a bad tag
+Date:   Wed, 29 May 2019 20:23:47 -0300
+Message-Id: <ab694e03ba6de8908d0a19a58408180eee3f795b.1559171394.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1559171394.git.mchehab+samsung@kernel.org>
 References: <cover.1559171394.git.mchehab+samsung@kernel.org>
@@ -52,45 +53,30 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-    Documentation/vm/hmm.rst:292: WARNING: Unexpected indentation.
-    Documentation/vm/hmm.rst:300: WARNING: Unexpected indentation.
+With ReST, [foo]_ means a reference to foo, causing this warning:
+
+    Documentation/driver-api/gpio/driver.rst:419: WARNING: Unknown target name: "devm".
+
+Fix it by using a literal for the name.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/vm/hmm.rst | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ Documentation/driver-api/gpio/driver.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/vm/hmm.rst b/Documentation/vm/hmm.rst
-index ec1efa32af3c..1ab609ca7835 100644
---- a/Documentation/vm/hmm.rst
-+++ b/Documentation/vm/hmm.rst
-@@ -283,12 +283,14 @@ The hmm_range struct has 2 fields default_flags and pfn_flags_mask that allows
- to set fault or snapshot policy for a whole range instead of having to set them
- for each entries in the range.
+diff --git a/Documentation/driver-api/gpio/driver.rst b/Documentation/driver-api/gpio/driver.rst
+index 1ce7fcd0f989..25e2ddeb4f31 100644
+--- a/Documentation/driver-api/gpio/driver.rst
++++ b/Documentation/driver-api/gpio/driver.rst
+@@ -418,7 +418,7 @@ symbol:
  
--For instance if the device flags for device entries are:
-+For instance if the device flags for device entries are::
-+
-     VALID (1 << 63)
-     WRITE (1 << 62)
- 
- Now let say that device driver wants to fault with at least read a range then
--it does set:
-+it does set::
-+
-     range->default_flags = (1 << 63)
-     range->pfn_flags_mask = 0;
- 
-@@ -296,7 +298,8 @@ and calls hmm_range_fault() as described above. This will fill fault all page
- in the range with at least read permission.
- 
- Now let say driver wants to do the same except for one page in the range for
--which its want to have write. Now driver set:
-+which its want to have write. Now driver set::
-+
-     range->default_flags = (1 << 63);
-     range->pfn_flags_mask = (1 << 62);
-     range->pfns[index_of_write] = (1 << 62);
+ If there is a need to exclude certain GPIO lines from the IRQ domain handled by
+ these helpers, we can set .irq.need_valid_mask of the gpiochip before
+-[devm_]gpiochip_add_data() is called. This allocates an .irq.valid_mask with as
++``[devm_]gpiochip_add_data()`` is called. This allocates an .irq.valid_mask with as
+ many bits set as there are GPIO lines in the chip, each bit representing line
+ 0..n-1. Drivers can exclude GPIO lines by clearing bits from this mask. The mask
+ must be filled in before gpiochip_irqchip_add() or gpiochip_irqchip_add_nested()
 -- 
 2.21.0
 
