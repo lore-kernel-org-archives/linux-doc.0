@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AEB627E2CC
+	by archive.lwn.net (Postfix) with ESMTP id F04007E2CF
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 May 2019 23:26:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726535AbfE2XZd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 29 May 2019 19:25:33 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:49096 "EHLO
+        id S1726831AbfE2XZm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 29 May 2019 19:25:42 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:49102 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726476AbfE2XYA (ORCPT
+        with ESMTP id S1726462AbfE2XYA (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 29 May 2019 19:24:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,29 +20,27 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Kn5wMqWy3JTU4pX5ypphe5EsBomce7cXwt2fz91hoN0=; b=GOIrKYFnz8bubQ1Qmo+Xfh4G3i
-        XpoOuYZYAJHaRhwPaSLZLDanj/a0yRVt1XpoTL6k1inyUu4XbIMo28E3nGykAF/1btwSDBousVY13
-        1dgmxiqvL7L+yUYR1k2fGmsEdHVBh31xcpKBXQEcWdp4NPTrRjuHQVjEpjBCDGEExpX4l1/+SNOxK
-        YKXhbORECPHiODD9m9KGdBn9DlkHP9nHdFwryrue76j5rvY+Yy23VE2BZM5XoP6mhYBiNcbWERxUe
-        hSOC435+IKMttTqWMyUZx620sih4ge+EVcQdKQK9Y9vhYGGRJU49LJ/uiDaRnziTQ6o4zjypW+p8Q
-        i21s2msw==;
+        bh=uax00MhLlFpYA5SZzOVY82diwalzYA3SNqGmlnWlanE=; b=kTZaNgY8IS2WUGMaubq5OAkUu/
+        X0J9LlW6SLqlGP2ppYMrJxEGCMkUD/nt6WP/QhcunA8ADrNtE0lcMI6SITWRC3ogZqToggXLlBy9z
+        AiTp9S29KGtIWe3NwmcexCP6szLGKWKmXN+GkkxGPB9Ki/JrbNrA10MmmfupUVg/2D77YciHxMQlp
+        9gPMsmaiUNK5MnqU5Ng96bAC+kSKHv9cEJFafbS4XlbWdIGpAKN2oygtRtqFj6079B3COGE5wON7y
+        vYuwxFVip49GBfSN3bkieTRn3vHGg31CFPmMmZXZDn29QavKd3fGsoeoLECGxCcHOOP/U2dfUSKjn
+        wYnsj8XA==;
 Received: from 177.132.232.81.dynamic.adsl.gvt.net.br ([177.132.232.81] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hW7vL-0005Rf-4n; Wed, 29 May 2019 23:23:59 +0000
+        id 1hW7vL-0005Rr-BP; Wed, 29 May 2019 23:23:59 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hW7vI-0007xM-OL; Wed, 29 May 2019 20:23:56 -0300
+        id 1hW7vI-0007xz-Vg; Wed, 29 May 2019 20:23:56 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        =?UTF-8?q?Radim=20Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@redhat.com>,
-        kvm@vger.kernel.org
-Subject: [PATCH 10/22] docs: amd-memory-encryption.rst get rid of warnings
-Date:   Wed, 29 May 2019 20:23:41 -0300
-Message-Id: <76b7a2990edd771aa1708862d0c6644a6b2d795d.1559171394.git.mchehab+samsung@kernel.org>
+        David Howells <dhowells@redhat.com>, keyrings@vger.kernel.org
+Subject: [PATCH 19/22] docs: security: core.rst: Fix several warnings
+Date:   Wed, 29 May 2019 20:23:50 -0300
+Message-Id: <6543f70a5b8d53ef59614a42ef09b0b3d85ba4f7.1559171394.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1559171394.git.mchehab+samsung@kernel.org>
 References: <cover.1559171394.git.mchehab+samsung@kernel.org>
@@ -53,34 +51,65 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Get rid of those warnings:
+Multi-line literal markups only work when they're idented at the
+same level, with is not the case here:
 
-    Documentation/virtual/kvm/amd-memory-encryption.rst:244: WARNING: Citation [white-paper] is not referenced.
-    Documentation/virtual/kvm/amd-memory-encryption.rst:246: WARNING: Citation [amd-apm] is not referenced.
-    Documentation/virtual/kvm/amd-memory-encryption.rst:247: WARNING: Citation [kvm-forum] is not referenced.
+   Documentation/security/keys/core.rst:1597: WARNING: Inline literal start-string without end-string.
+   Documentation/security/keys/core.rst:1597: WARNING: Inline emphasis start-string without end-string.
+   Documentation/security/keys/core.rst:1597: WARNING: Inline emphasis start-string without end-string.
+   Documentation/security/keys/core.rst:1598: WARNING: Inline emphasis start-string without end-string.
+   Documentation/security/keys/core.rst:1598: WARNING: Inline emphasis start-string without end-string.
+   Documentation/security/keys/core.rst:1600: WARNING: Inline literal start-string without end-string.
+   Documentation/security/keys/core.rst:1600: WARNING: Inline emphasis start-string without end-string.
+   Documentation/security/keys/core.rst:1600: WARNING: Inline emphasis start-string without end-string.
+   Documentation/security/keys/core.rst:1600: WARNING: Inline emphasis start-string without end-string.
+   Documentation/security/keys/core.rst:1600: WARNING: Inline emphasis start-string without end-string.
+   Documentation/security/keys/core.rst:1666: WARNING: Inline literal start-string without end-string.
+   Documentation/security/keys/core.rst:1666: WARNING: Inline emphasis start-string without end-string.
+   Documentation/security/keys/core.rst:1666: WARNING: Inline emphasis start-string without end-string.
+   Documentation/security/keys/core.rst:1666: WARNING: Inline emphasis start-string without end-string.
 
-For references that aren't mentioned at the text by adding an
-explicit reference to them.
+Fix it by using a code-block instead.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/virtual/kvm/amd-memory-encryption.rst | 3 +++
- 1 file changed, 3 insertions(+)
+ Documentation/security/keys/core.rst | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/virtual/kvm/amd-memory-encryption.rst b/Documentation/virtual/kvm/amd-memory-encryption.rst
-index 33d697ab8a58..6c37ff9a0a3c 100644
---- a/Documentation/virtual/kvm/amd-memory-encryption.rst
-+++ b/Documentation/virtual/kvm/amd-memory-encryption.rst
-@@ -243,6 +243,9 @@ Returns: 0 on success, -negative on error
- References
- ==========
+diff --git a/Documentation/security/keys/core.rst b/Documentation/security/keys/core.rst
+index 9521c4207f01..3fd60dcb2dc6 100644
+--- a/Documentation/security/keys/core.rst
++++ b/Documentation/security/keys/core.rst
+@@ -1594,10 +1594,12 @@ The structure has a number of fields, some of which are mandatory:
+      attempted key link operation. If there is no match, -EINVAL is returned.
  
+ 
+-  *  ``int (*asym_eds_op)(struct kernel_pkey_params *params,
+-			  const void *in, void *out);``
+-     ``int (*asym_verify_signature)(struct kernel_pkey_params *params,
+-				    const void *in, const void *in2);``
++  *  ``asym_eds_op`` and ``asym_verify_signature``::
 +
-+See [white-paper]_, [api-spec]_, [amd-apm]_ and [kvm-forum]_ for more info.
++       int (*asym_eds_op)(struct kernel_pkey_params *params,
++			  const void *in, void *out);
++       int (*asym_verify_signature)(struct kernel_pkey_params *params,
++				    const void *in, const void *in2);
+ 
+      These methods are optional.  If provided the first allows a key to be
+      used to encrypt, decrypt or sign a blob of data, and the second allows a
+@@ -1662,8 +1664,10 @@ The structure has a number of fields, some of which are mandatory:
+      required crypto isn't available.
+ 
+ 
+-  *  ``int (*asym_query)(const struct kernel_pkey_params *params,
+-			 struct kernel_pkey_query *info);``
++  *  ``asym_query``::
 +
- .. [white-paper] http://amd-dev.wpengine.netdna-cdn.com/wordpress/media/2013/12/AMD_Memory_Encryption_Whitepaper_v7-Public.pdf
- .. [api-spec] http://support.amd.com/TechDocs/55766_SEV-KM_API_Specification.pdf
- .. [amd-apm] http://support.amd.com/TechDocs/24593.pdf (section 15.34)
++       int (*asym_query)(const struct kernel_pkey_params *params,
++			 struct kernel_pkey_query *info);
+ 
+      This method is optional.  If provided it allows information about the
+      public or asymmetric key held in the key to be determined.
 -- 
 2.21.0
 
