@@ -5,67 +5,177 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 56CCA7D910
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 May 2019 14:45:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3C0737D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 May 2019 15:15:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726087AbfE2Op4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 29 May 2019 10:45:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34118 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726068AbfE2Opz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 29 May 2019 10:45:55 -0400
-Received: from oasis.local.home (unknown [12.156.218.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 03D9A23A78;
-        Wed, 29 May 2019 14:45:54 +0000 (UTC)
-Date:   Wed, 29 May 2019 10:45:52 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Thomas Preisner <linux@tpreisner.de>
-Cc:     Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ftrace: add simple oneshot function tracer
-Message-ID: <20190529104552.146fa97c@oasis.local.home>
-In-Reply-To: <20190529093124.2872-1-linux@tpreisner.de>
-References: <20190529093124.2872-1-linux@tpreisner.de>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1726628AbfE2PPN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 29 May 2019 11:15:13 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:47994 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726012AbfE2PPN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 29 May 2019 11:15:13 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D7737341;
+        Wed, 29 May 2019 08:15:12 -0700 (PDT)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E0F0A3F5AF;
+        Wed, 29 May 2019 08:15:09 -0700 (PDT)
+Date:   Wed, 29 May 2019 16:15:07 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Marco Elver <elver@google.com>
+Cc:     peterz@infradead.org, aryabinin@virtuozzo.com, dvyukov@google.com,
+        glider@google.com, andreyknvl@google.com, corbet@lwn.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        x86@kernel.org, arnd@arndb.de, jpoimboe@redhat.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arch@vger.kernel.org, kasan-dev@googlegroups.com
+Subject: Re: [PATCH v2 1/3] lib/test_kasan: Add bitops tests
+Message-ID: <20190529151507.GI31777@lakrids.cambridge.arm.com>
+References: <20190529141500.193390-1-elver@google.com>
+ <20190529141500.193390-2-elver@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190529141500.193390-2-elver@google.com>
+User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 29 May 2019 11:31:23 +0200
-Thomas Preisner <linux@tpreisner.de> wrote:
-
-> The "oneshot" tracer records every address (ip, parent_ip) exactly once.
-> As a result, "oneshot" can be used to efficiently create kernel function
-> coverage/usage reports such as in undertaker-tailor[0].
+On Wed, May 29, 2019 at 04:14:59PM +0200, Marco Elver wrote:
+> This adds bitops tests to the test_kasan module. In a follow-up patch,
+> support for bitops instrumentation will be added.
 > 
-> In order to provide this functionality, "oneshot" uses a
-> configurable hashset for blacklisting already recorded addresses. This
-> way, no user space application is required to parse the function
-> tracer's output and to deactivate functions after they have been
-> recorded once. Additionally, the tracer's output is reduced to a bare
-> mininum so that it can be passed directly to undertaker-tailor.
+> Signed-off-by: Marco Elver <elver@google.com>
+> ---
+> Changes in v2:
+> * Use BITS_PER_LONG.
+> * Use heap allocated memory for test, as newer compilers (correctly)
+>   warn on OOB stack access.
+> ---
+>  lib/test_kasan.c | 75 ++++++++++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 72 insertions(+), 3 deletions(-)
 > 
-> Further information regarding this oneshot function tracer can also be
-> found at [1].
+> diff --git a/lib/test_kasan.c b/lib/test_kasan.c
+> index 7de2702621dc..6562df0ca30d 100644
+> --- a/lib/test_kasan.c
+> +++ b/lib/test_kasan.c
+> @@ -11,16 +11,17 @@
+>  
+>  #define pr_fmt(fmt) "kasan test: %s " fmt, __func__
+>  
+> +#include <linux/bitops.h>
+>  #include <linux/delay.h>
+> +#include <linux/kasan.h>
+>  #include <linux/kernel.h>
+> -#include <linux/mman.h>
+>  #include <linux/mm.h>
+> +#include <linux/mman.h>
+> +#include <linux/module.h>
+>  #include <linux/printk.h>
+>  #include <linux/slab.h>
+>  #include <linux/string.h>
+>  #include <linux/uaccess.h>
+> -#include <linux/module.h>
+> -#include <linux/kasan.h>
+>  
+>  /*
+>   * Note: test functions are marked noinline so that their names appear in
+> @@ -623,6 +624,73 @@ static noinline void __init kasan_strings(void)
+>  	strnlen(ptr, 1);
+>  }
+>  
+> +static noinline void __init kasan_bitops(void)
+> +{
+> +	long *bits = kmalloc(sizeof(long), GFP_KERNEL | __GFP_ZERO);
+
+Trivial nit, but this can/should be:
+
+	long *bits = kzalloc(sizeof(*bits), GFP_KERNEL);
+
+
+... which is the usual style for sizeof() to keep the LHS and RHS types
+the same, and using kzalloc avoids the need to explicitly pass
+__GFP_ZERO.
+
+Otherwise, this looks good to me.
+
+> +	if (!bits)
+> +		return;
+> +
+> +	pr_info("within-bounds in set_bit");
+> +	set_bit(0, bits);
+> +
+> +	pr_info("within-bounds in set_bit");
+> +	set_bit(BITS_PER_LONG - 1, bits);
+> +
+> +	pr_info("out-of-bounds in set_bit\n");
+> +	set_bit(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in __set_bit\n");
+> +	__set_bit(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in clear_bit\n");
+> +	clear_bit(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in __clear_bit\n");
+> +	__clear_bit(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in clear_bit_unlock\n");
+> +	clear_bit_unlock(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in __clear_bit_unlock\n");
+> +	__clear_bit_unlock(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in change_bit\n");
+> +	change_bit(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in __change_bit\n");
+> +	__change_bit(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in test_and_set_bit\n");
+> +	test_and_set_bit(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in __test_and_set_bit\n");
+> +	__test_and_set_bit(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in test_and_set_bit_lock\n");
+> +	test_and_set_bit_lock(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in test_and_clear_bit\n");
+> +	test_and_clear_bit(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in __test_and_clear_bit\n");
+> +	__test_and_clear_bit(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in test_and_change_bit\n");
+> +	test_and_change_bit(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in __test_and_change_bit\n");
+> +	__test_and_change_bit(BITS_PER_LONG, bits);
+> +
+> +	pr_info("out-of-bounds in test_bit\n");
+> +	(void)test_bit(BITS_PER_LONG, bits);
+> +
+> +#if defined(clear_bit_unlock_is_negative_byte)
+> +	pr_info("out-of-bounds in clear_bit_unlock_is_negative_byte\n");
+> +	clear_bit_unlock_is_negative_byte(BITS_PER_LONG, bits);
+> +#endif
+> +	kfree(bits);
+> +}
+> +
+>  static int __init kmalloc_tests_init(void)
+>  {
+>  	/*
+> @@ -664,6 +732,7 @@ static int __init kmalloc_tests_init(void)
+>  	kasan_memchr();
+>  	kasan_memcmp();
+>  	kasan_strings();
+> +	kasan_bitops();
+>  
+>  	kasan_restore_multi_shot(multishot);
+>  
+> -- 
+> 2.22.0.rc1.257.g3120a18244-goog
 > 
-> [0]: https://undertaker.cs.fau.de
-> [1]: https://tpreisner.de/pub/ba-thesis.pdf
-> 
-> Signed-off-by: Thomas Preisner <linux@tpreisner.de>
->
-
-Hi,
-
-If you are only interested in seeing what functions are called (and
-don't care about the order), why not just make another function
-profiler (see register_ftrace_profiler and friends)? Then you could
-just list the hash table entries instead of having to record into the
-ftrace ring buffer.
-
--- Steve
