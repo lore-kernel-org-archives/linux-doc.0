@@ -3,16 +3,16 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 786267D9ED
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 May 2019 23:10:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4E3037DE71
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 May 2019 23:10:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726694AbfE2XJi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 29 May 2019 19:09:38 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:47600 "EHLO
+        id S1726411AbfE2XKU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 29 May 2019 19:10:20 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:47634 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726489AbfE2XJh (ORCPT
+        with ESMTP id S1726673AbfE2XJh (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 29 May 2019 19:09:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,26 +20,30 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=M5AYSXE7Y2LngfbsJ/DojP/iVd7EdymmZUqfay+8Wow=; b=StuhuTjhMvOAiFhs0ch3NTd6a8
-        BLQGgL1+v4o0HI5fPhs2RB4p2QfnHl1k4QGhBmCxFH32mla5jWly+9Xw+Dqrh6J/Lk5yKr+d8MJ/v
-        ZYYXNBG0nx2RHI7lnKJmgUMEYGAhJ2L5zbkn8NlT1vi6j4UTchxCg0lHbejRCbIxmByvzsrjBsfTY
-        bp+ByvZIVquF3ynm8kuAw8YkaRZdA5iZWuhry0WkTzV9nSUmbsy9PbuwzVMA/+z6DW2i3wxQ0Kquu
-        blWsap7mGUzTx3d5Q4I4haqkKFDWmCFJ97wD1EFZ7ef2gOkkicqhgdjvufljS7bbStkiM4RSlVyQA
-        IrfU28bQ==;
+        bh=tS6RAB6sVg+kJ3U+MKfWQpKGE8UFNU5HfgzkbdPGAmk=; b=DY723L1SVURiF1RxxMu67JEPU8
+        sOnmm/V2LW5VVq0b3tPMBaff70qGg4rmlldRv4Yhzgz+bkNtsgDlu4otE4AjugsLzGQ7PNCRYFJQK
+        /IxM1+xa6Fy18mm2HJgW8BtjMqP/1TPoW7ohhXGifT1jVVa9GuXnzE/+2TXngwxWezlpNxf/rxGeg
+        kEdS+T/15qp08ZAKpQN0gQ7lYyk5VU4GWj6KODkcI41Hftq/70Ki4sKgMWYtWCPCjCiH+q1Y3Y49Y
+        3xaRkApKqMF4V5uWhEWWmhZ1+RtlEPTS3IfOByzkfGu6Wd7PyWGIcqDeUTlNeXWSu3A6Mlp54GN5w
+        Uc2EbUaA==;
 Received: from 177.132.232.81.dynamic.adsl.gvt.net.br ([177.132.232.81] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hW7hQ-0000lD-Go; Wed, 29 May 2019 23:09:36 +0000
+        id 1hW7hQ-0000lL-FV; Wed, 29 May 2019 23:09:36 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hW7hN-0007TZ-Kz; Wed, 29 May 2019 20:09:33 -0300
+        id 1hW7hN-0007Tt-Oy; Wed, 29 May 2019 20:09:33 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 05/10] scripts/documentation-file-ref-check: better handle translations
-Date:   Wed, 29 May 2019 20:09:27 -0300
-Message-Id: <0f7e9a81fccac06225a2a8277957c99d7678d9e6.1559170790.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Joel Nider <joeln@il.ibm.com>
+Subject: [PATCH 10/10] docs: requirements.txt: recommend Sphinx 1.7.9
+Date:   Wed, 29 May 2019 20:09:32 -0300
+Message-Id: <08e7f5227b4e79d37e0e9afe7fba7cbc8476e4a2.1559170790.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1559170790.git.mchehab+samsung@kernel.org>
 References: <cover.1559170790.git.mchehab+samsung@kernel.org>
@@ -50,51 +54,73 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Only seek for translation renames inside the translation
-directory.
+As discussed at the linux-doc ML, while we'll still support
+version 1.3, it is time to recommend a more modern version.
+
+So, let's switch the minimal requirements to Sphinx 1.7.9,
+as it has the "-jauto" flag, with makes a lot faster when
+building documentation.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- scripts/documentation-file-ref-check | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ Documentation/doc-guide/sphinx.rst    | 17 ++++++++---------
+ Documentation/sphinx/requirements.txt |  4 ++--
+ 2 files changed, 10 insertions(+), 11 deletions(-)
 
-diff --git a/scripts/documentation-file-ref-check b/scripts/documentation-file-ref-check
-index 63e9542656f1..6b622b88f4cf 100755
---- a/scripts/documentation-file-ref-check
-+++ b/scripts/documentation-file-ref-check
-@@ -141,6 +141,10 @@ print "Auto-fixing broken references. Please double-check the results\n";
- foreach my $ref (keys %broken_ref) {
- 	my $new =$ref;
+diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
+index c039224b404e..4ba081f43e98 100644
+--- a/Documentation/doc-guide/sphinx.rst
++++ b/Documentation/doc-guide/sphinx.rst
+@@ -27,8 +27,7 @@ Sphinx Install
+ ==============
  
-+	my $basedir = ".";
-+	# On translations, only seek inside the translations directory
-+	$basedir  = $1 if ($ref =~ m,(Documentation/translations/[^/]+),);
-+
- 	# get just the basename
- 	$new =~ s,.*/,,;
+ The ReST markups currently used by the Documentation/ files are meant to be
+-built with ``Sphinx`` version 1.3 or higher. If you desire to build
+-PDF output, it is recommended to use version 1.4.6 or higher.
++built with ``Sphinx`` version 1.3 or higher.
  
-@@ -161,18 +165,18 @@ foreach my $ref (keys %broken_ref) {
- 	# usual reason for breakage: file renamed to .rst
- 	if (!$f) {
- 		$new =~ s/\.txt$/.rst/;
--		$f=qx(find . -iname $new) if ($new);
-+		$f=qx(find $basedir -iname $new) if ($new);
- 	}
+ There's a script that checks for the Sphinx requirements. Please see
+ :ref:`sphinx-pre-install` for further details.
+@@ -56,13 +55,13 @@ or ``virtualenv``, depending on how your distribution packaged Python 3.
+       those expressions are written using LaTeX notation. It needs texlive
+       installed with amdfonts and amsmath in order to evaluate them.
  
- 	# usual reason for breakage: use dash or underline
- 	if (!$f) {
- 		$new =~ s/[-_]/[-_]/g;
--		$f=qx(find . -iname $new) if ($new);
-+		$f=qx(find $basedir -iname $new) if ($new);
- 	}
+-In summary, if you want to install Sphinx version 1.4.9, you should do::
++In summary, if you want to install Sphinx version 1.7.9, you should do::
  
- 	# Wild guess: seek for the same name on another place
- 	if (!$f) {
--		$f = qx(find . -iname $new) if ($new);
-+		$f = qx(find $basedir -iname $new) if ($new);
- 	}
+-       $ virtualenv sphinx_1.4
+-       $ . sphinx_1.4/bin/activate
+-       (sphinx_1.4) $ pip install -r Documentation/sphinx/requirements.txt
++       $ virtualenv sphinx_1.7.9
++       $ . sphinx_1.7.9/bin/activate
++       (sphinx_1.7.9) $ pip install -r Documentation/sphinx/requirements.txt
  
- 	my @find = split /\s+/, $f;
+-After running ``. sphinx_1.4/bin/activate``, the prompt will change,
++After running ``. sphinx_1.7.9/bin/activate``, the prompt will change,
+ in order to indicate that you're using the new environment. If you
+ open a new shell, you need to rerun this command to enter again at
+ the virtual environment before building the documentation.
+@@ -105,8 +104,8 @@ command line options for your distro::
+ 	You should run:
+ 
+ 		sudo dnf install -y texlive-luatex85
+-		/usr/bin/virtualenv sphinx_1.4
+-		. sphinx_1.4/bin/activate
++		/usr/bin/virtualenv sphinx_1.7.9
++		. sphinx_1.7.9/bin/activate
+ 		pip install -r Documentation/sphinx/requirements.txt
+ 
+ 	Can't build as 1 mandatory dependency is missing at ./scripts/sphinx-pre-install line 468.
+diff --git a/Documentation/sphinx/requirements.txt b/Documentation/sphinx/requirements.txt
+index 742be3e12619..14e29a0ae480 100644
+--- a/Documentation/sphinx/requirements.txt
++++ b/Documentation/sphinx/requirements.txt
+@@ -1,3 +1,3 @@
+-docutils==0.12
+-Sphinx==1.4.9
++docutils
++Sphinx==1.7.9
+ sphinx_rtd_theme
 -- 
 2.21.0
 
