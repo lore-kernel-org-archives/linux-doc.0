@@ -3,16 +3,16 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E39AD7E285
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 May 2019 23:26:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2EECD7E288
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 May 2019 23:26:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726635AbfE2XZQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 29 May 2019 19:25:16 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:49170 "EHLO
+        id S1726626AbfE2XZV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 29 May 2019 19:25:21 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:49136 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726540AbfE2XYB (ORCPT
+        with ESMTP id S1726512AbfE2XYB (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 29 May 2019 19:24:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,35 +20,31 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=101NUubdgdQ5XTreIrPkh1wQNPvLvYeTkirlA9vazw4=; b=cKuo/zXENJygACfL65gsogn05p
-        6dIGhbpUvFYawarAVSJsma9Vw6fOxOHyu/mwvi/d2ZVecEoeeaXAA68FOLsQFeeOV7XdYvxNjX0mG
-        cJWjhDNATPJktdkHX7JOxE9x+5obzsy0G37bhR67isEeziusXUCWAsMW5xJYOvnmCWIKtX3YX0nFG
-        +uOIVLVbZWtqA5XFmDCrA2mzsR0DEPFuIK2HxD5Su9WXdseaROor5JXldCnoQ27RF6+oYgEbM4+vl
-        jYF/RlcmyGsWvbMuxWI9Yeqrfic+T2ivdtVfxO8KlfDTkuM+xWP7oK+BX2V1mKaeooKXxyw+SEx0m
-        nK53Q09w==;
+        bh=GuRApsTHKHRm35pYDPJVOOpxLQPAfK9zSYMx81HUKXE=; b=MbDfc3XdcpZjOoZSr+ZRM1zxYz
+        lZGU489ttKjY+QRV4zlBaMZrDhQwHYdNiMRNezRDKxh8aXYsaSXtIEJx79iUMbc7oPPk9IWG0Rfm4
+        3/YaBAEkXDQozUp9eyCxfR+iqfNapR/9MBCE1GV0ti1E3aBzeZwr7bKlLxm6IDyj+dEM0SltjW6f1
+        bfqhJmJqn17Vf2ehOFhaCfL/G638neZQpNK0go4gR0nGuOzB8uYDW9RZS3kzOpW8AvZB5dAR/GvR5
+        YmJxKgcWOHUov4djDnKrMEAEkpKc3ZffrNE3Vils2X9JSVu8FmkkGTzWZm3cPSkAf4GAsiZdJa+AK
+        8SXiXF6Q==;
 Received: from 177.132.232.81.dynamic.adsl.gvt.net.br ([177.132.232.81] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hW7vL-0005Rq-9i; Wed, 29 May 2019 23:23:59 +0000
+        id 1hW7vL-0005Rg-3g; Wed, 29 May 2019 23:23:59 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hW7vI-0007xU-Pz; Wed, 29 May 2019 20:23:56 -0300
+        id 1hW7vI-0007xE-Mh; Wed, 29 May 2019 20:23:56 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, intel-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org
-Subject: [PATCH 12/22] gpu: i915.rst: Fix references to renamed files
-Date:   Wed, 29 May 2019 20:23:43 -0300
-Message-Id: <5ecde05364284f6845b651297fd9ce8225af2bcd.1559171394.git.mchehab+samsung@kernel.org>
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        netdev@vger.kernel.org, bpf@vger.kernel.org
+Subject: [PATCH 08/22] docs: bpf: get rid of two warnings
+Date:   Wed, 29 May 2019 20:23:39 -0300
+Message-Id: <f2f40f306acbd3d834746fe9acb607052e82a1ee.1559171394.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1559171394.git.mchehab+samsung@kernel.org>
 References: <cover.1559171394.git.mchehab+samsung@kernel.org>
@@ -59,42 +55,34 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -function Hardware workarounds ./drivers/gpu/drm/i915/intel_workarounds.c' failed with return code 1
-WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -function Logical Rings, Logical Ring Contexts and Execlists ./drivers/gpu/drm/i915/intel_lrc.c' failed with return code 1
-WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -internal ./drivers/gpu/drm/i915/intel_lrc.c' failed with return code 2
+Documentation/bpf/btf.rst:154: WARNING: Unexpected indentation.
+Documentation/bpf/btf.rst:163: WARNING: Unexpected indentation.
 
-Fixes: 112ed2d31a46 ("drm/i915: Move GraphicsTechnology files under gt/")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/gpu/i915.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ Documentation/bpf/btf.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
-index 055df45596c1..38fefeb99bba 100644
---- a/Documentation/gpu/i915.rst
-+++ b/Documentation/gpu/i915.rst
-@@ -61,7 +61,7 @@ Intel GVT-g Host Support(vGPU device model)
- Workarounds
- -----------
+diff --git a/Documentation/bpf/btf.rst b/Documentation/bpf/btf.rst
+index 8820360d00da..4ae022d274ab 100644
+--- a/Documentation/bpf/btf.rst
++++ b/Documentation/bpf/btf.rst
+@@ -151,6 +151,7 @@ for the type. The maximum value of ``BTF_INT_BITS()`` is 128.
  
--.. kernel-doc:: drivers/gpu/drm/i915/intel_workarounds.c
-+.. kernel-doc:: drivers/gpu/drm/i915/gt/selftest_workarounds.c
-    :doc: Hardware workarounds
+ The ``BTF_INT_OFFSET()`` specifies the starting bit offset to calculate values
+ for this int. For example, a bitfield struct member has:
++
+  * btf member bit offset 100 from the start of the structure,
+  * btf member pointing to an int type,
+  * the int type has ``BTF_INT_OFFSET() = 2`` and ``BTF_INT_BITS() = 4``
+@@ -160,6 +161,7 @@ from bits ``100 + 2 = 102``.
  
- Display Hardware Handling
-@@ -379,10 +379,10 @@ User Batchbuffer Execution
- Logical Rings, Logical Ring Contexts and Execlists
- --------------------------------------------------
- 
--.. kernel-doc:: drivers/gpu/drm/i915/intel_lrc.c
-+.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_lrc.c
-    :doc: Logical Rings, Logical Ring Contexts and Execlists
- 
--.. kernel-doc:: drivers/gpu/drm/i915/intel_lrc.c
-+.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_lrc.c
-    :internal:
- 
- Global GTT views
+ Alternatively, the bitfield struct member can be the following to access the
+ same bits as the above:
++
+  * btf member bit offset 102,
+  * btf member pointing to an int type,
+  * the int type has ``BTF_INT_OFFSET() = 0`` and ``BTF_INT_BITS() = 4``
 -- 
 2.21.0
 
