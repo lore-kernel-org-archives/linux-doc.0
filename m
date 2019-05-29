@@ -1,114 +1,96 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4CB2E7D912
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 May 2019 23:27:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3421B7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 May 2019 23:47:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726547AbfE2X05 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 29 May 2019 19:26:57 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:38113 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726189AbfE2X05 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 May 2019 19:26:57 -0400
-Received: by mail-ed1-f66.google.com with SMTP id g13so6235343edu.5;
-        Wed, 29 May 2019 16:26:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4MYDvvkcBMpD3vTFCGd0htlT0GxbUehOqYVwE/XNQ9w=;
-        b=r9y1ILosMv1HdLnsdsAP+MOj8XoPRuEhpX+827w9xBOQ4atic97Pj5M57pj7RqdciP
-         o4NSSKU+sBsW+S00Z3Q9wK2lJpFLwI9hObrUubudDFxx5f2aH6wKfZv71g1B4NB8Ijg7
-         wVbYcgqIUIUm2gMwMYvxncCQqmVzUIrGYMRGSmHJiKOn0Bv1nNYKwRm1laaQkp2lNxxR
-         hOr02yrpjt7u07lHY5gfV0YLdBNIRb6c3uS4t3npWort/GbChtnyUMV0Ta0DSNqK/lvf
-         hCrjWka+iETsxPTS106cV3W4ZLjeOJSzoQUXpTqOdDwWcIXp6nK7DYoPtDHHPc4Yx2hf
-         cuLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4MYDvvkcBMpD3vTFCGd0htlT0GxbUehOqYVwE/XNQ9w=;
-        b=RF6GwOPDuvuQ8Nz58geNBG2Ra68mpikEV6G4KXgOBBJXZIvAFhezUNrjO97YBKDJWU
-         pbpu2MZLKnUXSjXFcXG4+0MSfrbVuX/XIwQWZwm/eXGVo8dUxqtndmfVTgjYdSEAu6r3
-         gOCDI3zsyIYh9Baork7LD4zVkJemrBeEaK7eUSfF6+fAQ3gehn7q284CoXeCdKWVBS72
-         uhZe8Bq0R+RrIuWImletxYL3/czdtCwPKUiy20vRJ4Ana9q2qtblIAtELefxYDKKQy1i
-         fvzmvf+KZAah7kw60AhqzaebQWGfr0vrJudq0OmHjuQkvBw07TT8e2QkFSIWcUuVOupX
-         1qGQ==
-X-Gm-Message-State: APjAAAWu8LPQmjBZCiVZlyki8D1xDRsu7UuYysAAAta3OzXqf7i6Wr9y
-        fg/Qlw969ijK6040R12JlSFrGedbSJQAZgwR45w=
-X-Google-Smtp-Source: APXvYqwnheto+zYvIaHfRrjE+flVSb0ynWBD4Kqor0qxUvVvN3xWwpreCuaWW1NOsE9qA9ag86vzCURZDstGO6tJSe8=
-X-Received: by 2002:a05:6402:1543:: with SMTP id p3mr1047442edx.108.1559172415592;
- Wed, 29 May 2019 16:26:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1559171394.git.mchehab+samsung@kernel.org> <c8f6ddd2d538e36f6036681f5756f6ea9499039f.1559171394.git.mchehab+samsung@kernel.org>
-In-Reply-To: <c8f6ddd2d538e36f6036681f5756f6ea9499039f.1559171394.git.mchehab+samsung@kernel.org>
-From:   Vladimir Oltean <olteanv@gmail.com>
-Date:   Thu, 30 May 2019 02:26:44 +0300
-Message-ID: <CA+h21hqtfh1KTZXXC+Hmf7JUkXpWwjtJU_KS_u-wcjnWA3pLZA@mail.gmail.com>
-Subject: Re: [PATCH 21/22] docs: net: sja1105.rst: fix table format
+        id S1726532AbfE2XrR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 29 May 2019 19:47:17 -0400
+Received: from ms.lwn.net ([45.79.88.28]:44142 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726428AbfE2XrR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 29 May 2019 19:47:17 -0400
+Received: from localhost.localdomain (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 0A0CD6D9;
+        Wed, 29 May 2019 23:47:17 +0000 (UTC)
+Date:   Wed, 29 May 2019 17:47:16 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
 To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        netdev <netdev@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/5] docs: by default, build docs a lot faster with
+ Sphinx >= 1.7
+Message-ID: <20190529174716.4f0e21ad@lwn.net>
+In-Reply-To: <20190529202005.04dcd4a0@coco.lan>
+References: <cover.1558955082.git.mchehab+samsung@kernel.org>
+        <baf19095789f2b2ed0c7a940703037a00cd77850.1558955082.git.mchehab+samsung@kernel.org>
+        <20190529170202.65c7f9ca@lwn.net>
+        <20190529202005.04dcd4a0@coco.lan>
+Organization: LWN.net
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 30 May 2019 at 02:24, Mauro Carvalho Chehab
-<mchehab+samsung@kernel.org> wrote:
->
-> There's a table there with produces two warnings when built
-> with Sphinx:
->
->     Documentation/networking/dsa/sja1105.rst:91: WARNING: Block quote ends without a blank line; unexpected unindent.
->     Documentation/networking/dsa/sja1105.rst:91: WARNING: Block quote ends without a blank line; unexpected unindent.
->
-> It will still produce a table, but the html output is wrong, as
-> it won't interpret the second line as the continuation for the
-> first ones, because identation doesn't match.
->
-> After the change, the output looks a way better and we got rid
-> of two warnings.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
->  Documentation/networking/dsa/sja1105.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/networking/dsa/sja1105.rst b/Documentation/networking/dsa/sja1105.rst
-> index ea7bac438cfd..cb2858dece93 100644
-> --- a/Documentation/networking/dsa/sja1105.rst
-> +++ b/Documentation/networking/dsa/sja1105.rst
-> @@ -86,13 +86,13 @@ functionality.
->  The following traffic modes are supported over the switch netdevices:
->
->  +--------------------+------------+------------------+------------------+
-> -|                    | Standalone |   Bridged with   |   Bridged with   |
-> -|                    |    ports   | vlan_filtering 0 | vlan_filtering 1 |
-> +|                    | Standalone | Bridged with     | Bridged with     |
-> +|                    | ports      | vlan_filtering 0 | vlan_filtering 1 |
->  +====================+============+==================+==================+
->  | Regular traffic    |     Yes    |       Yes        |  No (use master) |
->  +--------------------+------------+------------------+------------------+
->  | Management traffic |     Yes    |       Yes        |       Yes        |
-> -|    (BPDU, PTP)     |            |                  |                  |
-> +| (BPDU, PTP)        |            |                  |                  |
->  +--------------------+------------+------------------+------------------+
->
->  Switching features
-> --
-> 2.21.0
->
+On Wed, 29 May 2019 20:20:05 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-Acked-by: Vladimir Oltean <olteanv@gmail.com>
+> > So this totally fails to work for me with any version of sphinx, and I'm
+> > not enough of a Perl person to figure it out.  Sometimes I'll see the
+> > sphinx-build output, i.e.:
+> > 
+> >     sphinx-build 1.8.4
+> > 
+> > and sometimes (like with 2.0) I don't, but I never get -jauto regardless.  
+> 
+> Hmm... with 2.0.0 --version prints the version.
+> 
+> 	$ sphinx-build --version
+> 	sphinx-build 2.0.0
+
+Yup.  The point is that I see the sphinx-build output *in the docs-build
+output", not when I run it standalone (where it does the expected thing). 
+
+> > Not sure what's going on here?  
+> 
+> Do you have SPHINXOPTS already set on your environment? If so, Makefile
+> will not override the existing environment.
+
+Yeah, I had it set to -j1 because I want to wait as long as possible for my
+docs builds :)
+
+No, I didn't have it set separately, made a point of that.
+
+> Here, if I call it by hand (replacing $$1 by $1), it does the right
+> thing. For example:
+> 
+> 1.8.4:
+> 
+> 	$ sphinx-build --version
+> 	sphinx-build 1.8.4
+> 	$ perl -e 'open IN,"sphinx-build --version |"; while (<IN>) { if (m/([\d\.]+)/) { print "-jauto\n" if ($1 >= "1.7") } ;} close IN'
+> 	-jauto
+
+$ perl -e 'open IN,"sphinx-build --version |"; while (<IN>) { if (m/([\d\.]+)/) { print "-jauto\n" if ($1 >= "1.7") } ;} close IN'
+sphinx-build 1.8.4
+$
+
+It works properly with 2.0.1 - but only on the command line; I still don't
+get the right behavior in a docs build.
+
+Most weird.
+
+This is an Fedora 30 system, FWIW.
+
+jon
