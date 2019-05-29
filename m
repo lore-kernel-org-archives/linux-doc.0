@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BBE4A7D90F
+	by archive.lwn.net (Postfix) with ESMTP id DAC557D912
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 May 2019 23:10:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726408AbfE2XJh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1726643AbfE2XJh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Wed, 29 May 2019 19:09:37 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:47596 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:47594 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726483AbfE2XJh (ORCPT
+        with ESMTP id S1726462AbfE2XJh (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 29 May 2019 19:09:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,26 +20,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=xdMf4hb49NfuLIvwvlurkRXqs+h2lkzb21P6JrueUX8=; b=RmafWUK6coqVpisPg0JiTm7cP5
-        yFpfgV3Zqpf3K/rk+6cVxdpxJXze/oxJhrPF8w9d81JSjdSgCb/nDJrmh0Xyq6K+JgJ9RDiGekm+l
-        UPkmBQ6DNrI6EzE6hY9tV7WTPuftWggExOxib1cnc7SG0mdLXGn0k1tW2kaAGfecOQy63qiX30h6u
-        iY8dMcWFm8eYsP9/yuwMrTNFoHEtxnq7wVOGbmtpnHrgqONq5zD0rWtgAVVZCsdPPvmlwVL4HcLs+
-        5cWctPe08alhG9LyS4kyQtUxsWIw6PxgYteaK4BO1H975FedghjACq3Ok6Bv5UvZ2xIa++Vu1PKgA
-        cEbwxJWg==;
+        bh=wCq8wzGw72uiJf8YTianNOUvn6pWVH3JtoQXOBTmG7c=; b=KZCCgVwN4/7fZXkfXyahTcPfB5
+        3vhvf4VTIFFeMlZJwPJfA1oZnu5+f5FuDlqP0g0ygvsdXV94pvM5B8GtuA0wpT3P+TDBhYOAVqhcm
+        QEjo0whAHRLFsap3aLw2XaqO8yecfweB28Px+qnx10+yX7H+aTXt5C1pYejj3gyf8EHNirKzwD8IA
+        GYQ0cG+IAs1XUgrCatNeRDdkrmakdWI3S/+S0TOh+tlRy9N4EokGZ0s79/r6g7JS8AFpfWdlwvckb
+        xrjQrozrcnGrrUZmEuJTqmfAv12NlVc6BN4nSXaAy62c+XdD18O67UAVSB47tYj3zCscfvUOs9qDG
+        dUG04c0Q==;
 Received: from 177.132.232.81.dynamic.adsl.gvt.net.br ([177.132.232.81] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hW7hQ-0000lG-GM; Wed, 29 May 2019 23:09:36 +0000
+        id 1hW7hQ-0000lF-GZ; Wed, 29 May 2019 23:09:36 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hW7hN-0007TN-IG; Wed, 29 May 2019 20:09:33 -0300
+        id 1hW7hN-0007Td-Lw; Wed, 29 May 2019 20:09:33 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 02/10] scripts/sphinx-pre-install: make activate hint smarter
-Date:   Wed, 29 May 2019 20:09:24 -0300
-Message-Id: <6126c0d83d8526afa930093c5cdeb49dedbd53d2.1559170790.git.mchehab+samsung@kernel.org>
+Subject: [PATCH 06/10] scripts/documentation-file-ref-check: exclude false-positives
+Date:   Wed, 29 May 2019 20:09:28 -0300
+Message-Id: <cfc75c5e965884d64579e99e2189a94bf3f30ce4.1559170790.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1559170790.git.mchehab+samsung@kernel.org>
 References: <cover.1559170790.git.mchehab+samsung@kernel.org>
@@ -50,91 +50,57 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It is possible that multiple Sphinx virtualenvs are installed
-on a given kernel tree. Change the logic to get the latest
-version of those, as this is probably what the user wants.
+There are at least two cases where a documentation file was gone
+for good, but the text still mentions it:
+
+1) drivers/vhost/vhost.c:
+   the reference for Documentation/virtual/lguest/lguest.c is just
+   to give credits to the original work that vhost replaced;
+
+2) Documentation/scsi/scsi_mid_low_api.txt:
+   It gives credit and mentions the old Documentation/Configure.help
+   file that used to be part of Kernel 2.4.x
+
+As we don't want to keep the script to keep pinpoint to those
+every time, let's add a logic at the script to allow it to ignore
+valid false-positives like the above.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- scripts/sphinx-pre-install | 22 ++++++++++++++--------
- 1 file changed, 14 insertions(+), 8 deletions(-)
+ scripts/documentation-file-ref-check | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index 8c2d1bcf2e02..11239eb29695 100755
---- a/scripts/sphinx-pre-install
-+++ b/scripts/sphinx-pre-install
-@@ -1,7 +1,7 @@
- #!/usr/bin/perl
+diff --git a/scripts/documentation-file-ref-check b/scripts/documentation-file-ref-check
+index 6b622b88f4cf..05235775cc71 100755
+--- a/scripts/documentation-file-ref-check
++++ b/scripts/documentation-file-ref-check
+@@ -8,6 +8,14 @@ use warnings;
  use strict;
+ use Getopt::Long qw(:config no_auto_abbrev);
  
--# Copyright (c) 2017 Mauro Carvalho Chehab <mchehab@kernel.org>
-+# Copyright (c) 2017-2019 Mauro Carvalho Chehab <mchehab@kernel.org>
- #
- # This program is free software; you can redistribute it and/or
- # modify it under the terms of the GNU General Public License
-@@ -15,6 +15,7 @@ use strict;
- 
- my $conf = "Documentation/conf.py";
- my $requirement_file = "Documentation/sphinx/requirements.txt";
-+my $virtenv_prefix = "sphinx_";
- 
- #
- # Static vars
-@@ -28,7 +29,8 @@ my $need_symlink = 0;
- my $need_sphinx = 0;
- my $rec_sphinx_upgrade = 0;
- my $install = "";
--my $virtenv_dir = "sphinx_";
-+my $virtenv_dir = "";
-+my $min_version;
- 
- #
- # Command line arguments
-@@ -229,7 +231,6 @@ sub get_sphinx_fname()
- 
- sub check_sphinx()
- {
--	my $min_version;
- 	my $rec_version;
- 	my $cur_version;
- 
-@@ -255,7 +256,7 @@ sub check_sphinx()
- 
- 	die "Can't get recommended sphinx version from $requirement_file" if (!$min_version);
- 
--	$virtenv_dir .= $rec_version;
-+	$virtenv_dir = $virtenv_prefix . $rec_version;
- 
- 	my $sphinx = get_sphinx_fname();
- 	return if ($sphinx eq "");
-@@ -612,18 +613,23 @@ sub check_needs()
- 		       which("sphinx-build-3");
- 	}
- 	if ($need_sphinx || $rec_sphinx_upgrade) {
--		my $activate = "$virtenv_dir/bin/activate";
--		if (-e "$ENV{'PWD'}/$activate") {
-+		my $min_activate = "$ENV{'PWD'}/${virtenv_prefix}${min_version}/bin/activate";
-+                my @activates = glob "$ENV{'PWD'}/${virtenv_prefix}*/bin/activate";
++# NOTE: only add things here when the file was gone, but the text wants
++# to mention a past documentation file, for example, to give credits for
++# the original work.
++my %false_positives = (
++	"Documentation/scsi/scsi_mid_low_api.txt" => "Documentation/Configure.help",
++	"drivers/vhost/vhost.c" => "Documentation/virtual/lguest/lguest.c",
++);
 +
-+                @activates = sort {$b cmp $a} @activates;
+ my $scriptname = $0;
+ $scriptname =~ s,.*/([^/]+/),$1,;
+ 
+@@ -122,6 +130,11 @@ while (<IN>) {
+ 			next if (grep -e, glob("$path/$ref $path/$fulref"));
+ 		}
+ 
++		# Discard known false-positives
++		if (defined($false_positives{$f})) {
++			next if ($false_positives{$f} eq $fulref);
++		}
 +
-+		if (scalar @activates > 0 && $activates[0] ge $min_activate) {
- 			printf "\nNeed to activate virtualenv with:\n";
--			printf "\t. $activate\n";
-+			printf "\t. $activates[0]\n";
- 		} else {
-+			my $rec_activate = "$virtenv_dir/bin/activate";
- 			my $virtualenv = findprog("virtualenv-3");
- 			$virtualenv = findprog("virtualenv-3.5") if (!$virtualenv);
- 			$virtualenv = findprog("virtualenv") if (!$virtualenv);
- 			$virtualenv = "virtualenv" if (!$virtualenv);
- 
- 			printf "\t$virtualenv $virtenv_dir\n";
--			printf "\t. $activate\n";
-+			printf "\t. $rec_activate\n";
- 			printf "\tpip install -r $requirement_file\n";
- 
- 			$need++ if (!$rec_sphinx_upgrade);
+ 		if ($fix) {
+ 			if (!($ref =~ m/(scripts|Kconfig|Kbuild)/)) {
+ 				$broken_ref{$ref}++;
 -- 
 2.21.0
 
