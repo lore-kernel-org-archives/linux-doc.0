@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 59B427D982
+	by archive.lwn.net (Postfix) with ESMTP id 786267D9ED
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 May 2019 23:10:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726701AbfE2XJi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1726694AbfE2XJi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Wed, 29 May 2019 19:09:38 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:47606 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:47600 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726498AbfE2XJh (ORCPT
+        with ESMTP id S1726489AbfE2XJh (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 29 May 2019 19:09:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,26 +20,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=uQCGkdMpLup5seR2eOGZrEj83EK7R6BAf5CrYNPT128=; b=ORQRZbh30e09Ci7Cw02tPJuxD9
-        9HCxjjdooDE1c73SruFsxM2n9djvXkdRZ3NKbVornEe8sq7BUafWrMZqhNarcezJojpmhTDbCJl3L
-        Hb2m7iPvCQ/tjBRQKDkjRVaaENEir0ZZKj/bDHNQYBY7gJEIZRIbUNItmDI587HCHTlO5LyGGREXY
-        qfUU/QqHyG6O9CbVCiza5CrnpAIZdgduts9ZocvtmPoSjWpW2RdqqPOb/RZhPNY1q/JIQIOjoJzt7
-        9eiMTGOuuCXxl9Bnz1FP34fmbUpQ/qW6v+00jR78spWl/I9+YeMZqnxucpSQfH5aBtK8d3VJWXyUg
-        CjetgcsQ==;
+        bh=M5AYSXE7Y2LngfbsJ/DojP/iVd7EdymmZUqfay+8Wow=; b=StuhuTjhMvOAiFhs0ch3NTd6a8
+        BLQGgL1+v4o0HI5fPhs2RB4p2QfnHl1k4QGhBmCxFH32mla5jWly+9Xw+Dqrh6J/Lk5yKr+d8MJ/v
+        ZYYXNBG0nx2RHI7lnKJmgUMEYGAhJ2L5zbkn8NlT1vi6j4UTchxCg0lHbejRCbIxmByvzsrjBsfTY
+        bp+ByvZIVquF3ynm8kuAw8YkaRZdA5iZWuhry0WkTzV9nSUmbsy9PbuwzVMA/+z6DW2i3wxQ0Kquu
+        blWsap7mGUzTx3d5Q4I4haqkKFDWmCFJ97wD1EFZ7ef2gOkkicqhgdjvufljS7bbStkiM4RSlVyQA
+        IrfU28bQ==;
 Received: from 177.132.232.81.dynamic.adsl.gvt.net.br ([177.132.232.81] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hW7hQ-0000lK-Ia; Wed, 29 May 2019 23:09:36 +0000
+        id 1hW7hQ-0000lD-Go; Wed, 29 May 2019 23:09:36 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hW7hN-0007Tp-OC; Wed, 29 May 2019 20:09:33 -0300
+        id 1hW7hN-0007TZ-Kz; Wed, 29 May 2019 20:09:33 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 09/10] docs: by default, build docs a lot faster with Sphinx >= 1.7
-Date:   Wed, 29 May 2019 20:09:31 -0300
-Message-Id: <46c958ec4e460f138c0d087bdff40ec60d060b83.1559170790.git.mchehab+samsung@kernel.org>
+Subject: [PATCH 05/10] scripts/documentation-file-ref-check: better handle translations
+Date:   Wed, 29 May 2019 20:09:27 -0300
+Message-Id: <0f7e9a81fccac06225a2a8277957c99d7678d9e6.1559170790.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1559170790.git.mchehab+samsung@kernel.org>
 References: <cover.1559170790.git.mchehab+samsung@kernel.org>
@@ -50,37 +50,51 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since Sphinx version 1.7, it is possible to use "-jauto" in
-order to speedup documentation builds. On older versions,
-while -j was already supported, one would need to set the
-number of threads manually.
-
-So, if SPHINXOPTS is not provided, add -jauto, in order to
-speed up the build. That makes it *a lot* times faster than
-without -j.
-
-If one really wants to slow things down, it can just use:
-
-	make SPHINXOPTS=-j1 htmldocs
+Only seek for translation renames inside the translation
+directory.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/Makefile | 2 ++
- 1 file changed, 2 insertions(+)
+ scripts/documentation-file-ref-check | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 380e24053d6f..794233d05789 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -28,6 +28,8 @@ ifeq ($(HAVE_SPHINX),0)
+diff --git a/scripts/documentation-file-ref-check b/scripts/documentation-file-ref-check
+index 63e9542656f1..6b622b88f4cf 100755
+--- a/scripts/documentation-file-ref-check
++++ b/scripts/documentation-file-ref-check
+@@ -141,6 +141,10 @@ print "Auto-fixing broken references. Please double-check the results\n";
+ foreach my $ref (keys %broken_ref) {
+ 	my $new =$ref;
  
- else # HAVE_SPHINX
- 
-+SPHINXOPTS = $(shell perl -e 'open IN,"sphinx-build --version |"; while (<IN>) { if (m/([\d\.]+)/) { print "-jauto" if ($$1 >= "1.7") } ;} close IN')
++	my $basedir = ".";
++	# On translations, only seek inside the translations directory
++	$basedir  = $1 if ($ref =~ m,(Documentation/translations/[^/]+),);
 +
- # User-friendly check for pdflatex and latexmk
- HAVE_PDFLATEX := $(shell if which $(PDFLATEX) >/dev/null 2>&1; then echo 1; else echo 0; fi)
- HAVE_LATEXMK := $(shell if which latexmk >/dev/null 2>&1; then echo 1; else echo 0; fi)
+ 	# get just the basename
+ 	$new =~ s,.*/,,;
+ 
+@@ -161,18 +165,18 @@ foreach my $ref (keys %broken_ref) {
+ 	# usual reason for breakage: file renamed to .rst
+ 	if (!$f) {
+ 		$new =~ s/\.txt$/.rst/;
+-		$f=qx(find . -iname $new) if ($new);
++		$f=qx(find $basedir -iname $new) if ($new);
+ 	}
+ 
+ 	# usual reason for breakage: use dash or underline
+ 	if (!$f) {
+ 		$new =~ s/[-_]/[-_]/g;
+-		$f=qx(find . -iname $new) if ($new);
++		$f=qx(find $basedir -iname $new) if ($new);
+ 	}
+ 
+ 	# Wild guess: seek for the same name on another place
+ 	if (!$f) {
+-		$f = qx(find . -iname $new) if ($new);
++		$f = qx(find $basedir -iname $new) if ($new);
+ 	}
+ 
+ 	my @find = split /\s+/, $f;
 -- 
 2.21.0
 
