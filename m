@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5066D7DE79
+	by archive.lwn.net (Postfix) with ESMTP id 7A4A27DE7B
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 29 May 2019 23:26:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726652AbfE2XY5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 29 May 2019 19:24:57 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:49204 "EHLO
+        id S1726986AbfE2XZE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 29 May 2019 19:25:04 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:49190 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726635AbfE2XYB (ORCPT
+        with ESMTP id S1726605AbfE2XYB (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 29 May 2019 19:24:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,30 +20,32 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=86CajaIHJg8+BksH0RmyeOvwTcywacFuhQ+inbaD7cg=; b=NrCxhwQ11L1nDZZSZVSHwbjCS/
-        kr5Sb9j+nl6IJEd0NsxEhhzNIL3FRCISgo13IN/d6PGTygPo5KIRw4C/friX06Sm0ry07CEGIXR3D
-        hFQMguSHDcuq0iLp51B8+nBYKUp3dsEqYHM/jK/R5v9uWQHoT8AfFOziPNAEPQ0DI6/eVCLAFCox9
-        Q1tyHsBsIbq14Es0q3oXoRvM2qFg5KkhvelJ5YXfq7Qy1uo/sSF8CNUTAzfswO+ICbq60iFsTcu5m
-        A1CfGB/Qp6VI0hIMD6aWm3hLAuzJvB1hE5T+D/RhtIbooNqrNHkBHH83imDQG3Xxkt6tbYrJKa1gj
-        Qv24v5eg==;
+        bh=WyA/RRUzEMCNSDUX0J/2kOmsPoE/y5/FaiFLeEY8Z7g=; b=aYTl3npF4LlQZKeDyPRwLg34H0
+        G8e5U7nggFTMGsoNcVKt31YDcsS6nLfFNUrdrdpSkpvGsaz6xCYElTpoHg1tarxew76Tp7ud4N2eB
+        oSgAWYBenTJRB6NzX82lQyjt9023+kI5ZmM/QiI6+/urjq4jOcow7Q7HGgqHrLv1nC4yU/dHFJqc9
+        6N+WeUZCjTJSvWqYrFLivTgbE1EFwdh7pv/DroKFnjDiTwF80nRUBJAAuJHD5eqv2mj34IFoVjeWW
+        UAaqwExS0j3bq9Pm3FRPwpRxPrf/WwMxfiBfOiJnTeyqaa+igxSrdRdrj1i8B8o55g8eKtDroR93Q
+        6VlxSrow==;
 Received: from 177.132.232.81.dynamic.adsl.gvt.net.br ([177.132.232.81] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hW7vL-0005Rn-AH; Wed, 29 May 2019 23:23:59 +0000
+        id 1hW7vL-0005Rv-I7; Wed, 29 May 2019 23:23:59 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hW7vI-0007xp-Tw; Wed, 29 May 2019 20:23:56 -0300
+        id 1hW7vJ-0007y3-0E; Wed, 29 May 2019 20:23:57 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Vinod Koul <vkoul@kernel.org>,
-        Sanyog Kale <sanyog.r.kale@intel.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        alsa-devel@alsa-project.org
-Subject: [PATCH 17/22] docs: soundwire: locking: fix tags for a code-block
-Date:   Wed, 29 May 2019 20:23:48 -0300
-Message-Id: <e27b6a1699b366feb03d50cc1bc0cbbc15c881a2.1559171394.git.mchehab+samsung@kernel.org>
+        "David S. Miller" <davem@davemloft.net>,
+        Ioana Radulescu <ruxandra.radulescu@nxp.com>,
+        Roy Pledge <roy.pledge@nxp.com>,
+        =?UTF-8?q?Horia=20Geant=C4=83?= <horia.geanta@nxp.com>,
+        Jakub Kicinski <jakub.kicinski@netronome.com>,
+        Randy Dunlap <rdunlap@infradead.org>, netdev@vger.kernel.org
+Subject: [PATCH 20/22] docs: net: dpio-driver.rst: fix two codeblock warnings
+Date:   Wed, 29 May 2019 20:23:51 -0300
+Message-Id: <204c59d60da045c82d7a1a9a318fc437dbcb44ed.1559171394.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1559171394.git.mchehab+samsung@kernel.org>
 References: <cover.1559171394.git.mchehab+samsung@kernel.org>
@@ -54,34 +56,36 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There's an ascii artwork at Example 1 whose code-block is not properly
-idented, causing those warnings.
-
-    Documentation/driver-api/soundwire/locking.rst:50: WARNING: Inconsistent literal block quoting.
-    Documentation/driver-api/soundwire/locking.rst:51: WARNING: Line block ends without a blank line.
-    Documentation/driver-api/soundwire/locking.rst:55: WARNING: Inline substitution_reference start-string without end-string.
-    Documentation/driver-api/soundwire/locking.rst:56: WARNING: Line block ends without a blank line.
+    Documentation/networking/device_drivers/freescale/dpaa2/dpio-driver.rst:43: WARNING: Definition list ends without a blank line; unexpected unindent.
+    Documentation/networking/device_drivers/freescale/dpaa2/dpio-driver.rst:63: WARNING: Unexpected indentation. looking for now-outdated files... none found
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/driver-api/soundwire/locking.rst | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ .../networking/device_drivers/freescale/dpaa2/dpio-driver.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/driver-api/soundwire/locking.rst b/Documentation/driver-api/soundwire/locking.rst
-index 253f73555255..3a7ffb3d87f3 100644
---- a/Documentation/driver-api/soundwire/locking.rst
-+++ b/Documentation/driver-api/soundwire/locking.rst
-@@ -44,7 +44,9 @@ Message transfer.
-      b. Transfer message (Read/Write) to Slave1 or broadcast message on
-         Bus in case of bank switch.
+diff --git a/Documentation/networking/device_drivers/freescale/dpaa2/dpio-driver.rst b/Documentation/networking/device_drivers/freescale/dpaa2/dpio-driver.rst
+index 5045df990a4c..17dbee1ac53e 100644
+--- a/Documentation/networking/device_drivers/freescale/dpaa2/dpio-driver.rst
++++ b/Documentation/networking/device_drivers/freescale/dpaa2/dpio-driver.rst
+@@ -39,8 +39,7 @@ The Linux DPIO driver consists of 3 primary components--
  
--     c. Release Message lock ::
-+     c. Release Message lock
+    DPIO service-- provides APIs to other Linux drivers for services
+ 
+-   QBman portal interface-- sends portal commands, gets responses
+-::
++   QBman portal interface-- sends portal commands, gets responses::
+ 
+           fsl-mc          other
+            bus           drivers
+@@ -60,6 +59,7 @@ The Linux DPIO driver consists of 3 primary components--
+ 
+ The diagram below shows how the DPIO driver components fit with the other
+ DPAA2 Linux driver components::
 +
-+     ::
- 
- 	+----------+                    +---------+
- 	|          |                    |         |
+                                                    +------------+
+                                                    | OS Network |
+                                                    |   Stack    |
 -- 
 2.21.0
 
