@@ -1,208 +1,167 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_MED,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3584E7D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 May 2019 20:20:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F22307D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 May 2019 20:45:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726285AbfE3UUA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 May 2019 16:20:00 -0400
-Received: from mga04.intel.com ([192.55.52.120]:35822 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726045AbfE3UUA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 30 May 2019 16:20:00 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 May 2019 13:19:59 -0700
-X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 30 May 2019 13:19:58 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1hWRWn-000BW4-Po; Fri, 31 May 2019 04:19:57 +0800
-Date:   Fri, 31 May 2019 04:19:29 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     kbuild-all@01.org, linux-doc@vger.kernel.org,
-        linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [lwn:docs-next 25/31] htmldocs: /bin/bash:
- ./scripts/sphinx-pre-install: No such file or directory
-Message-ID: <201905310424.Zhlxo3ky%lkp@intel.com>
+        id S1726518AbfE3Uo7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 May 2019 16:44:59 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:45130 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726487AbfE3Uo7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 May 2019 16:44:59 -0400
+Received: by mail-pf1-f195.google.com with SMTP id s11so4679603pfm.12
+        for <linux-doc@vger.kernel.org>; Thu, 30 May 2019 13:44:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=from:to:cc:subject:references:date:in-reply-to:message-id
+         :user-agent:mime-version;
+        bh=q6AUBPvqyat2bLNM++F9NloXkkCwBt3/tItx63cMlpE=;
+        b=C2e/JzbpUueBW6GWiWsrwQbKeGbHeV+0umj6fYHo//SnFeP6ktUlkhrM4ciCTH1r01
+         GiqRMuwhQC4PFGeU4JtJ0cJmEDB1GcL+fEV+5ReV0/OX84vu6QQipYF9IhWRIseSCwye
+         Yd6Ny28KV9jXxKId1cKev/qx2qjNT0bNlIcUcOqT0gSzZOqgBx5CcDyj9XKs/HG3tl2u
+         A+9dmAt0jbXOjWnMgRSXENvJAGGJ+s8n42XCpdvtVEegDqVRT4irnQKFTlL8YP4C6XFA
+         m7/G009ugSO8iFwOfoNeeFB2/YjQO5yA7UBg1McHFypCDaz91MGXSxTYKuZtMWd09wdF
+         2lsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:references:date:in-reply-to
+         :message-id:user-agent:mime-version;
+        bh=q6AUBPvqyat2bLNM++F9NloXkkCwBt3/tItx63cMlpE=;
+        b=WhgGIq1S17G9AbWSXzfE3JUcStOJ3zxudk4uvclPxUUYd2EXd6+Tm+yVc3ELuSYNaV
+         atwOFzT+9DCgpQj7wOBHZIh1XP9RcqGTjse/iXqhADZfOsW2iTnlN41tgSuzXdSQ47m4
+         9JtSMxHckUjVfPENVkdUDKFS4BiUVtp8g1lafuZ3T8622rjXLpDyxmuHMMUpkzQEkakA
+         X5FVhcpoyMOeJoyT+M027sI/F5u82ofhXFtsGIP6Ycqbv8oSK1RbO06YKKsLIs2Ex6Vj
+         FH6iDqG5pbmLogsqwze5A971Ob5rOqZWWVMA/skqHinTBNB6rbl6IW99GcFzc/CDLayk
+         SzNA==
+X-Gm-Message-State: APjAAAWDlP/N2GHKaS8/z514vHkHcR2dCmW4T74jMh+AOnGi/nWu8m3Q
+        PH890FlA+1L1cbj780iIySwj7g==
+X-Google-Smtp-Source: APXvYqwupWORAT9iyn5M2LRuwVXU+wPnlXfdJiuevQ15iB/9Mq30VTKY+wUMHcd1Nm1Mx7YzW8V9nQ==
+X-Received: by 2002:a17:90a:2a09:: with SMTP id i9mr5287388pjd.103.1559249097503;
+        Thu, 30 May 2019 13:44:57 -0700 (PDT)
+Received: from bsegall-linux.svl.corp.google.com.localhost ([2620:15c:2cd:202:39d7:98b3:2536:e93f])
+        by smtp.gmail.com with ESMTPSA id k22sm4021024pfk.54.2019.05.30.13.44.55
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 30 May 2019 13:44:56 -0700 (PDT)
+From:   bsegall@google.com
+To:     Dave Chiluk <chiluk+linux@indeed.com>
+Cc:     Phil Auld <pauld@redhat.com>, Peter Oskolkov <posk@posk.io>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Brendan Gregg <bgregg@netflix.com>,
+        Kyle Anderson <kwa@yelp.com>,
+        Gabriel Munos <gmunoz@netflix.com>,
+        John Hammond <jhammond@indeed.com>,
+        Cong Wang <xiyou.wangcong@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        pjt@google.com
+Subject: Re: [PATCH v3 1/1] sched/fair: Fix low cpu usage with high throttling by removing expiration of cpu-local slices
+References: <1558121424-2914-1-git-send-email-chiluk+linux@indeed.com>
+        <1559156926-31336-1-git-send-email-chiluk+linux@indeed.com>
+        <1559156926-31336-2-git-send-email-chiluk+linux@indeed.com>
+        <xm264l5dynrg.fsf@bsegall-linux.svl.corp.google.com>
+        <CAC=E7cU9GetuKVQE1HxXsSuOKgyxezXUmSH2ZDHOrLio_YZi1g@mail.gmail.com>
+Date:   Thu, 30 May 2019 13:44:55 -0700
+In-Reply-To: <CAC=E7cU9GetuKVQE1HxXsSuOKgyxezXUmSH2ZDHOrLio_YZi1g@mail.gmail.com>
+        (Dave Chiluk's message of "Thu, 30 May 2019 12:53:37 -0500")
+Message-ID: <xm26zhn3y8mw.fsf@bsegall-linux.svl.corp.google.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="sdtB3X0nJg68CQEu"
-Content-Disposition: inline
-X-Patchwork-Hint: ignore
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Dave Chiluk <chiluk+linux@indeed.com> writes:
 
---sdtB3X0nJg68CQEu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> On Wed, May 29, 2019 at 02:05:55PM -0700, bsegall@google.com wrote:
+>> Dave Chiluk <chiluk+linux@indeed.com> writes:
+>>
+>> Yeah, having run the test, stranding only 1 ms per cpu rather than 5
+>> doesn't help if you only have 10 ms of quota and even 10 threads/cpus.
+>> The slack timer isn't important in this test, though I think it probably
+>> should be changed.
+> My min_cfs_rq_runtime was already set to 1ms.
 
-tree:   git://git.lwn.net/linux-2.6 docs-next
-head:   a700767a7682d9bd237e927253274859aee075e7
-commit: 9b88ad5464af1bf7228991f1c46a9a13484790a4 [25/31] scripts/sphinx-pre-install: always check if version is compatible with build
-reproduce: make htmldocs
+Yeah, I meant min_cfs_rq_runtime vs the 5ms if the slack stuff was
+broken.
 
-If you fix the issue, kindly add following tag
-Reported-by: kbuild test robot <lkp@intel.com>
+>
+> Additionally raising the amount of quota from 10ms to 50ms or even
+> 100ms, still results in throttling without full quota usage.
+>
+>> Decreasing min_cfs_rq_runtime helps, but would mean that we have to pull
+>> quota more often / always. The worst case here I think is where you
+>> run/sleep for ~1ns, so you wind up taking the lock twice every
+>> min_cfs_rq_runtime: once for assign and once to return all but min,
+>> which you then use up doing short run/sleep. I suppose that determines
+>> how much we care about this overhead at all.
+> I'm not so concerned about how inefficiently the user-space application
+> runs, as that's up to the invidual developer.
 
-All errors (new ones prefixed by >>):
+Increasing scheduler overhead is something we generally try to prevent
+is what I was worried about.
 
->> /bin/bash: ./scripts/sphinx-pre-install: No such file or directory
+> The fibtest testcase, is
+> purely my approximation of what a java application with lots of worker
+> threads might do, as I didn't have a great deterministic java
+> reproducer, and I feared posting java to LKML.  I'm more concerned with
+> the fact that the user requested 10ms/period or 100ms/period and they
+> hit throttling while simultaneously not seeing that amount of cpu usage.
+> i.e. on an 8 core machine if I
+> $ ./runfibtest 1
+> Iterations Completed(M): 1886
+> Throttled for: 51
+> CPU Usage (msecs) = 507
+> $ ./runfibtest 8
+> Iterations Completed(M): 1274
+> Throttled for: 52
+> CPU Usage (msecs) = 380
+>
+> You see that in the 8 core case where we have 7 do nothing threads on
+> cpu's 1-7, we see only 380 ms of usage, and 52 periods of throttling
+> when we should have received ~500ms of cpu usage.
+>
+> Looking more closely at the __return_cfs_rq_runtime logic I noticed
+>         if (cfs_b->quota != RUNTIME_INF &&
+>             cfs_rq->runtime_expires == cfs_b->runtime_expires) {
+>
+> Which is awfully similar to the logic that was fixed by 512ac999.  Is it
+> possible that we are just not ever returning runtime back to the cfs_b
+> because of the runtime_expires comparison here?
 
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+The relevant issue that patch fixes is that the old conditional was
+backwards. Also lowering min_cfs_rq_runtime to 0 fixes your testcase, so
+it's working.
 
---sdtB3X0nJg68CQEu
-Content-Type: application/gzip
-Content-Disposition: attachment; filename=".config.gz"
-Content-Transfer-Encoding: base64
+>
+>> Removing expiration means that in the worst case period and quota can be
+>> effectively twice what the user specified, but only on very particular
+>> workloads.
+> I'm only removing expiration of slices that have already been assigned
+> to individual cfs_rq.  My understanding is that there is at most one
+> cfs_rq per cpu, and each of those can have at most one slice of
+> available runtime.  So the worst case burst is slice_ms * cpus.  Please
+> help me understand how you get to twice user specified quota and period
+> as it's not obvious to me *(I've only been looking at this for a few
+> months).
 
-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
-lmgAAA==
+The reason that this effect is so significant is because slice_ms * cpus
+is roughly 100% of the quota. So yes, it's roughly the same thing.
+Unfortunately if there are more spare cpus on the system just doubling
+quota and period (keeping the same ratio) would not fix your issue,
+while removing expiration does while also potentially having that effect.
 
---sdtB3X0nJg68CQEu--
+>
+>> I think we should at least think about instead lowering
+>> min_cfs_rq_runtime to some smaller value
+> Do you mean lower than 1ms?
+
+Yes
