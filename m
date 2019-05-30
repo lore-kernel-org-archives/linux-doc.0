@@ -5,164 +5,169 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 963327D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 May 2019 12:01:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 986A17D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 May 2019 12:20:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727015AbfE3MAo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 May 2019 08:00:44 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35414 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727109AbfE3MAn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 May 2019 08:00:43 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x4UBv9sT145570
-        for <linux-doc@vger.kernel.org>; Thu, 30 May 2019 08:00:42 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2stcebqjca-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Thu, 30 May 2019 08:00:41 -0400
-Received: from localhost
-        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <zohar@linux.ibm.com>;
-        Thu, 30 May 2019 13:00:37 +0100
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Thu, 30 May 2019 13:00:34 +0100
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x4UC0Yn961341902
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 30 May 2019 12:00:34 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 0C9EE52071;
-        Thu, 30 May 2019 12:00:33 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.80.80.109])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id E8D9952050;
-        Thu, 30 May 2019 12:00:31 +0000 (GMT)
-Subject: Re: [PATCH v2 2/3] ima: don't ignore INTEGRITY_UNKNOWN EVM status
-From:   Mimi Zohar <zohar@linux.ibm.com>
-To:     Roberto Sassu <roberto.sassu@huawei.com>,
-        dmitry.kasatkin@huawei.com, mjg59@google.com
-Cc:     linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, silviu.vlasceanu@huawei.com,
-        stable@vger.kernel.org
-Date:   Thu, 30 May 2019 08:00:21 -0400
-In-Reply-To: <20190529133035.28724-3-roberto.sassu@huawei.com>
-References: <20190529133035.28724-1-roberto.sassu@huawei.com>
-         <20190529133035.28724-3-roberto.sassu@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 19053012-0020-0000-0000-00000341F4A4
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19053012-0021-0000-0000-00002194F9B8
-Message-Id: <1559217621.4008.7.camel@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-30_06:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1905300091
+        id S1727059AbfE3MUr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 May 2019 08:20:47 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:17628 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726065AbfE3MUr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 30 May 2019 08:20:47 -0400
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 2BC0084B9352ECE62CBB;
+        Thu, 30 May 2019 20:20:41 +0800 (CST)
+Received: from [127.0.0.1] (10.202.227.238) by DGGEMS414-HUB.china.huawei.com
+ (10.3.19.214) with Microsoft SMTP Server id 14.3.439.0; Thu, 30 May 2019
+ 20:20:31 +0800
+Subject: Re: [PATCH v8 1/7] iommu: enhance IOMMU default DMA mode build
+ options
+To:     Zhen Lei <thunder.leizhen@huawei.com>,
+        Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "Will Deacon" <will.deacon@arm.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        Sebastian Ott <sebott@linux.ibm.com>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        "Martin Schwidefsky" <schwidefsky@de.ibm.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        "Michael Ellerman" <mpe@ellerman.id.au>,
+        Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        iommu <iommu@lists.linux-foundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        x86 <x86@kernel.org>, linux-ia64 <linux-ia64@vger.kernel.org>
+References: <20190530034831.4184-1-thunder.leizhen@huawei.com>
+ <20190530034831.4184-2-thunder.leizhen@huawei.com>
+CC:     Hanjun Guo <guohanjun@huawei.com>, Linuxarm <linuxarm@huawei.com>
+From:   John Garry <john.garry@huawei.com>
+Message-ID: <645bd526-4eb0-4a36-2dda-023f009247ab@huawei.com>
+Date:   Thu, 30 May 2019 13:20:16 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.3.0
+MIME-Version: 1.0
+In-Reply-To: <20190530034831.4184-2-thunder.leizhen@huawei.com>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.227.238]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2019-05-29 at 15:30 +0200, Roberto Sassu wrote:
-> Currently, ima_appraise_measurement() ignores the EVM status when
-> evm_verifyxattr() returns INTEGRITY_UNKNOWN. If a file has a valid
-> security.ima xattr with type IMA_XATTR_DIGEST or IMA_XATTR_DIGEST_NG,
-> ima_appraise_measurement() returns INTEGRITY_PASS regardless of the EVM
-> status. The problem is that the EVM status is overwritten with the
-> > appraisal statu
+On 30/05/2019 04:48, Zhen Lei wrote:
+> First, add build option IOMMU_DEFAULT_{LAZY|STRICT}, so that we have the
+> opportunity to set {lazy|strict} mode as default at build time. Then put
+> the three config options in an choice, make people can only choose one of
+> the three at a time.
+>
 
-Roberto, your framing of this problem is harsh and misleading.  IMA
-and EVM are intentionally independent of each other and can be
-configured independently of each other.  The intersection of the two
-is the call to evm_verifyxattr().  INTEGRITY_UNKNOWN is returned for a
-number of reasons - when EVM is not configured, the EVM hmac key has
-not yet been loaded, the protected security attribute is unknown, or
-the file is not in policy.
+Since this was not picked up, but modulo (somtimes same) comments below:
 
-This patch does not differentiate between any of the above cases,
-requiring mutable files to always be protected by EVM, when specified
-as an "ima_appraise=" option on the boot command line.
+Reviewed-by: John Garry <john.garry@huawei.com>
 
-IMA could be extended to require EVM on a per IMA policy rule basis.  
-Instead of framing allowing IMA file hashes without EVM as a bug that
-has existed from the very beginning, now that IMA/EVM have matured and
-is being used, you could frame it as extending IMA or hardening.
-
-> 
-> This patch mitigates the issue by selecting signature verification as the
-> only method allowed for appraisal when EVM is not initialized. Since the
-> new behavior might break user space, it must be turned on by adding the
-> '-evm' suffix to the value of the ima_appraise= kernel option.
-> 
-> Fixes: 2fe5d6def1672 ("ima: integrity appraisal extension")
-> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
-> Cc: stable@vger.kernel.org
+> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 > ---
->  Documentation/admin-guide/kernel-parameters.txt | 3 ++-
->  security/integrity/ima/ima_appraise.c           | 8 ++++++++
->  2 files changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 138f6664b2e2..d84a2e612b93 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -1585,7 +1585,8 @@
->  			Set number of hash buckets for inode cache.
->  
->  	ima_appraise=	[IMA] appraise integrity measurements
-> -			Format: { "off" | "enforce" | "fix" | "log" }
-> +			Format: { "off" | "enforce" | "fix" | "log" |
-> +				  "enforce-evm" | "log-evm" } 
+>  drivers/iommu/Kconfig | 42 +++++++++++++++++++++++++++++++++++-------
+>  drivers/iommu/iommu.c |  3 ++-
+>  2 files changed, 37 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
+> index 83664db5221df02..d6a1a45f80ffbf5 100644
+> --- a/drivers/iommu/Kconfig
+> +++ b/drivers/iommu/Kconfig
+> @@ -75,17 +75,45 @@ config IOMMU_DEBUGFS
+>  	  debug/iommu directory, and then populate a subdirectory with
+>  	  entries as required.
+>
+> -config IOMMU_DEFAULT_PASSTHROUGH
+> -	bool "IOMMU passthrough by default"
+> +choice
+> +	prompt "IOMMU default DMA mode"
+>  	depends on IOMMU_API
+> -        help
+> -	  Enable passthrough by default, removing the need to pass in
+> -	  iommu.passthrough=on or iommu=pt through command line. If this
+> -	  is enabled, you can still disable with iommu.passthrough=off
+> -	  or iommu=nopt depending on the architecture.
+> +	default IOMMU_DEFAULT_STRICT
+> +	help
+> +	  This option allows IOMMU DMA mode to be chose at build time, to
 
-Is it necessary to define both "enforce-evm" and "log-evm"?  Perhaps
-defining "require-evm" is sufficient.
+As before:
+/s/chose/chosen/, /s/allows IOMMU/allows an IOMMU/
 
-Mimi
+> +	  override the default DMA mode of each ARCHs, removing the need to
 
->  			default: "enforce"
->  
->  	ima_appraise_tcb [IMA] Deprecated.  Use ima_policy= instead.
-> diff --git a/security/integrity/ima/ima_appraise.c b/security/integrity/ima/ima_appraise.c
-> index 5fb7127bbe68..afef06e10fb9 100644
-> --- a/security/integrity/ima/ima_appraise.c
-> +++ b/security/integrity/ima/ima_appraise.c
-> @@ -18,6 +18,7 @@
->  
->  #include "ima.h"
->  
-> +static bool ima_appraise_req_evm __ro_after_init;
->  static int __init default_appraise_setup(char *str)
->  {
->  #ifdef CONFIG_IMA_APPRAISE_BOOTPARAM
-> @@ -28,6 +29,9 @@ static int __init default_appraise_setup(char *str)
->  	else if (strncmp(str, "fix", 3) == 0)
->  		ima_appraise = IMA_APPRAISE_FIX;
+Again, as before:
+ARCHs should be singular
+
+> +	  pass in kernel parameters through command line. You can still use
+> +	  ARCHs specific boot options to override this option again.
+> +
+> +config IOMMU_DEFAULT_PASSTHROUGH
+> +	bool "passthrough"
+> +	help
+> +	  In this mode, the DMA access through IOMMU without any addresses
+> +	  translation. That means, the wrong or illegal DMA access can not
+> +	  be caught, no error information will be reported.
+>
+>  	  If unsure, say N here.
+>
+> +config IOMMU_DEFAULT_LAZY
+> +	bool "lazy"
+> +	help
+> +	  Support lazy mode, where for every IOMMU DMA unmap operation, the
+> +	  flush operation of IOTLB and the free operation of IOVA are deferred.
+> +	  They are only guaranteed to be done before the related IOVA will be
+> +	  reused.
+
+why no advisory on how to set if unsure?
+
+> +
+> +config IOMMU_DEFAULT_STRICT
+> +	bool "strict"
+> +	help
+> +	  For every IOMMU DMA unmap operation, the flush operation of IOTLB and
+> +	  the free operation of IOVA are guaranteed to be done in the unmap
+> +	  function.
+> +
+> +	  This mode is safer than the two above, but it maybe slower in some
+> +	  high performace scenarios.
+
+and here?
+
+> +
+> +endchoice
+> +
+>  config OF_IOMMU
+>         def_bool y
+>         depends on OF && IOMMU_API
+> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+> index 67ee6623f9b2a4d..56bce221285b15f 100644
+> --- a/drivers/iommu/iommu.c
+> +++ b/drivers/iommu/iommu.c
+> @@ -43,7 +43,8 @@
+>  #else
+>  static unsigned int iommu_def_domain_type = IOMMU_DOMAIN_DMA;
 >  #endif
-> +	if (strcmp(str, "enforce-evm") == 0 ||
-> +	    strcmp(str, "log-evm") == 0)
-> +		ima_appraise_req_evm = true;
->  	return 1;
->  }
->  
-> @@ -245,7 +249,11 @@ int ima_appraise_measurement(enum ima_hooks func,
->  	switch (status) {
->  	case INTEGRITY_PASS:
->  	case INTEGRITY_PASS_IMMUTABLE:
-> +		break;
->  	case INTEGRITY_UNKNOWN:
-> +		if (ima_appraise_req_evm &&
-> +		    xattr_value->type != EVM_IMA_XATTR_DIGSIG)
-> +			goto out;
->  		break;
->  	case INTEGRITY_NOXATTRS:	/* No EVM protected xattrs. */
->  	case INTEGRITY_NOLABEL:		/* No security.evm xattr. */
+> -static bool iommu_dma_strict __read_mostly = true;
+> +static bool iommu_dma_strict __read_mostly =
+> +			IS_ENABLED(CONFIG_IOMMU_DEFAULT_STRICT);
+>
+>  struct iommu_group {
+>  	struct kobject kobj;
+>
+
 
