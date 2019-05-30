@@ -1,95 +1,72 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3B9387D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 May 2019 13:08:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 49C467D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 May 2019 13:13:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726399AbfE3NIC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 May 2019 09:08:02 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:33174 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726328AbfE3NIB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 May 2019 09:08:01 -0400
-Received: by mail-lf1-f66.google.com with SMTP id y17so4987175lfe.0
-        for <linux-doc@vger.kernel.org>; Thu, 30 May 2019 06:08:01 -0700 (PDT)
+        id S1725919AbfE3NNG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 May 2019 09:13:06 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:46589 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726005AbfE3NNG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 May 2019 09:13:06 -0400
+Received: by mail-oi1-f193.google.com with SMTP id 203so4840063oid.13;
+        Thu, 30 May 2019 06:13:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=sVw41Ow1r6jG1wObyyoJYpkoAAUD3t3fN+eCufiqrBY=;
+        b=a1+eTlYv5fCUSXqzjFtmUWsuwOMbcLioJ1dPAn+yY+KKo6e1UMFzErx78it3OCuOvU
+         gfNOPhVQb59uvkiIAOmJScz5KQrytbjbZzyxPuhbpnv9phXTgf2yB1rNE1d/pyxNv+cS
+         Jvhf9X1BLF5F89JKIfRLEvkPY2iMVQpuCqHSeO1frm373XOdoPhuyUL9I+5RYrfUAAB9
+         coqSXyn1e1gewR9bHIIIrP5KV+UTiJJEqkLm23YJe63o7qG5U3/f5rzzovZXGcXnRad9
+         UfzdJI/Z6aRmH+R6ul6/VKulH8iI03kRAuHPl1woek5MdLHYSEYrOXXbKS9VwnXoOzfD
+         oGEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=lo8Pf5qQPzDgv3LbnRe5hAmhzj8l8zc5AuLXNn3lbXo=;
-        b=tJXbcDUI6uXa4wiQvb2dJKNDhigRLA/uo/QHo44h32Ufgb3SfUINYWqAXn4jzF74ai
-         tpC6+dTq5KXAqjgIaVOoJUG4QINPAcHy+uCGwxYLg6c/P62J2bPJ6M6AZN1sHKvWM3sX
-         3xJGaNKxvTFXf206B+qQc2jNJWl+amqJUqlu7oSUCH/NESGCKRFx0ZsUm5QaebfyeabB
-         HaSQpUqdPi/RQXxpwguIkjMI7xNFlkKiJqpsP4Url8y62+XEbz5oIY8xx/Rl9EwBX3EA
-         9Xk8c/8NwgTwrMqqeQ3BuY2K7hFrgkq1s7208SvDmKSCQDIalygSoRK2zde26Do3vOdH
-         Qixg==
-X-Gm-Message-State: APjAAAVLV7GyGtE8/o/PMXJFNMC8zQmGhtoH3aQOM5BFS14GyUNSrayS
-        /E1V8tXGc3rf37WMg6wb4qD+Zak7mkQqtBSp4m3slg==
-X-Google-Smtp-Source: APXvYqyavwnJULw4Wz7Yg0S3xURZgWHWuSrHKVYFeYqBmDka5ggDKKE/RR5194S1GfsiIfocaRV06vuTWRje8VGjYSQ=
-X-Received: by 2002:a19:ec12:: with SMTP id b18mr2020933lfa.149.1559221680444;
- Thu, 30 May 2019 06:08:00 -0700 (PDT)
+        bh=sVw41Ow1r6jG1wObyyoJYpkoAAUD3t3fN+eCufiqrBY=;
+        b=nkrgU8Emby2vqmx+eTvMXCEDC/zzUvCxs9Eg9fFkWRUsCqnekVMseCXOTL9+iFev2q
+         VzmWO8k+4ZFhsUvV8urRrUoLKz2WUP2wl4ztOXmXgzDhqu2Hcin+6c9OJ0Xm22V+q3yx
+         w94LdiL+z2vdJ71grggLBD2REAcwUkVTokjXww9cgx50c35XYJwiwhjH/VV+2p4LMXSA
+         Tw1CPBoRD87j16lwwBSBEc6mK5sp6ZJAQ9qSxNnn/CgeyDIiMVF6MX50va7I2TAgJQvP
+         deib5WLGXpfTxvTvuBj+f0v/Kqxr/6HFLPlBEA8bzS0mS/w7R5tFuNBtMgwVJ8HhiBWO
+         169g==
+X-Gm-Message-State: APjAAAVHvBlR9w2MDGZGg9AWMl0X5uFn4nxacx6Mvd7u6/mF0zlRv+yS
+        7V90KYhNXneiByIWZ+mv9GVKFR55PJs5IhiHgX8=
+X-Google-Smtp-Source: APXvYqxFsOY6Adco5hfS1UmkDb8pDszZbtE71IqHD45Squ3aAOVUAvmuYZ2Rt3zKJDQ1J/FREc2FFRQiPN7QRUy2CqI=
+X-Received: by 2002:aca:ad8f:: with SMTP id w137mr2509131oie.77.1559221985587;
+ Thu, 30 May 2019 06:13:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <1559212177-7072-1-git-send-email-bhsharma@redhat.com> <87v9xsnlu9.fsf@concordia.ellerman.id.au>
-In-Reply-To: <87v9xsnlu9.fsf@concordia.ellerman.id.au>
-From:   Bhupesh Sharma <bhsharma@redhat.com>
-Date:   Thu, 30 May 2019 18:37:46 +0530
-Message-ID: <CACi5LpM9v1YC_6HhA-uKghawzkEu=TTPVkomMmv2i-LGi8X7+g@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/stackprotector: powerpc supports stack protector
-To:     Michael Ellerman <mpe@ellerman.id.au>
-Cc:     linuxppc-dev@lists.ozlabs.org, Arnd Bergmann <arnd@arndb.de>,
-        Bhupesh SHARMA <bhupesh.linux@gmail.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
+References: <cover.1559171394.git.mchehab+samsung@kernel.org> <f9fecacbe4ce0b2b3aed38d71ae3753f2daf3ce3.1559171394.git.mchehab+samsung@kernel.org>
+In-Reply-To: <f9fecacbe4ce0b2b3aed38d71ae3753f2daf3ce3.1559171394.git.mchehab+samsung@kernel.org>
+From:   Sven Van Asbroeck <thesven73@gmail.com>
+Date:   Thu, 30 May 2019 09:12:54 -0400
+Message-ID: <CAGngYiWMSwjQ2jGH6cbUzdPWpg6RAk1A8+Nh4Ljc=R8L_xB=fQ@mail.gmail.com>
+Subject: Re: [PATCH 22/22] docs: fix broken documentation links
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        corbet@lwn.net, linux-doc@vger.kernel.org
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 30, 2019 at 6:25 PM Michael Ellerman <mpe@ellerman.id.au> wrote:
+On Wed, May 29, 2019 at 7:24 PM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
 >
-> Bhupesh Sharma <bhsharma@redhat.com> writes:
-> > powerpc architecture (both 64-bit and 32-bit) supports stack protector
-> > mechanism since some time now [see commit 06ec27aea9fc ("powerpc/64:
-> > add stack protector support")].
-> >
-> > Update stackprotector arch support documentation to reflect the same.
-> >
-> > Signed-off-by: Bhupesh Sharma <bhsharma@redhat.com>
-> > ---
-> >  Documentation/features/debug/stackprotector/arch-support.txt | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/features/debug/stackprotector/arch-support.txt b/Documentation/features/debug/stackprotector/arch-support.txt
-> > index 9999ea521f3e..32bbdfc64c32 100644
-> > --- a/Documentation/features/debug/stackprotector/arch-support.txt
-> > +++ b/Documentation/features/debug/stackprotector/arch-support.txt
-> > @@ -22,7 +22,7 @@
-> >      |       nios2: | TODO |
-> >      |    openrisc: | TODO |
-> >      |      parisc: | TODO |
-> > -    |     powerpc: | TODO |
-> > +    |     powerpc: |  ok  |
-> >      |       riscv: | TODO |
-> >      |        s390: | TODO |
-> >      |          sh: |  ok  |
-> > --
-> > 2.7.4
->
-> Thanks.
->
-> This should probably go via the documentation tree?
->
-> Acked-by: Michael Ellerman <mpe@ellerman.id.au>
+> Mostly due to x86 and acpi conversion, several documentation
+> links are still pointing to the old file. Fix them.
 
-Thanks for the review Michael.
-I am ok with this going through the documentation tree as well.
+For drivers/staging/fieldbus/Documentation/fieldbus_dev.txt:
 
-Regards,
-Bhupesh
+Reviewed-by: Sven Van Asbroeck <TheSven73@gmail.com>
