@@ -1,80 +1,116 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4E95A7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 May 2019 14:54:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0F6657D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 May 2019 15:08:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727225AbfE3OyG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 May 2019 10:54:06 -0400
-Received: from ms.lwn.net ([45.79.88.28]:57006 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725934AbfE3OyF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 30 May 2019 10:54:05 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 5DD576D9;
-        Thu, 30 May 2019 14:54:05 +0000 (UTC)
-Date:   Thu, 30 May 2019 08:54:04 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+        id S1727219AbfE3PIc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 May 2019 11:08:32 -0400
+Received: from casper.infradead.org ([85.118.1.10]:43944 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725934AbfE3PIc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 May 2019 11:08:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=1+pzj3s0zzfo7hTFiNb297cHY2u6PGyfMetnDFPkAiU=; b=Ru3PJ70jwGsXP69VmpOtylbB6j
+        CAyjE5jRFU4OiGcPm+xCn1w/6OZ7lhUvoRQYqZZjOoCCkekUZSc93AG3CAgFaXgoHgTNWVvIssA9K
+        UU7/wg5dCYzwMxJBEH+DYtGFbpPJe/9c//H4T4U+t38z9yRdQq1bh2fGrZ7Ut3hKHbC8OP3ZFCGd6
+        PMAGEslsSPz+faXcnAaccOCwpyy6sLXQrL+X4pQOKVCX74xp9+l6nWN+MOvkSywEQOrGu4twJKcg3
+        fsZO2t5pGAi9ryOrTLSBTAfrdOmtHIoegB5GrymF9oHFKRMxfi6H8g/gZpZ6a6Vbb6iGEWJI5+ckc
+        E4OnCiQw==;
+Received: from 177.132.232.81.dynamic.adsl.gvt.net.br ([177.132.232.81] helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hWMfN-0000UD-69; Thu, 30 May 2019 15:08:29 +0000
+Date:   Thu, 30 May 2019 12:08:24 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 4/5] docs: by default, build docs a lot faster with
  Sphinx >= 1.7
-Message-ID: <20190530085404.54973d02@lwn.net>
-In-Reply-To: <20190529225305.213d8c36@coco.lan>
+Message-ID: <20190530120824.6bc5594c@coco.lan>
+In-Reply-To: <20190530085404.54973d02@lwn.net>
 References: <cover.1558955082.git.mchehab+samsung@kernel.org>
         <baf19095789f2b2ed0c7a940703037a00cd77850.1558955082.git.mchehab+samsung@kernel.org>
         <20190529170202.65c7f9ca@lwn.net>
         <20190529202005.04dcd4a0@coco.lan>
         <20190529174716.4f0e21ad@lwn.net>
         <20190529225305.213d8c36@coco.lan>
-Organization: LWN.net
+        <20190530085404.54973d02@lwn.net>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 29 May 2019 22:53:05 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+Em Thu, 30 May 2019 08:54:04 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> > Yup.  The point is that I see the sphinx-build output *in the docs-build
-> > output", not when I run it standalone (where it does the expected thing).  
+> On Wed, 29 May 2019 22:53:05 -0300
+> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 > 
-> Weird... could some versions of Sphinx be redirecting the output of
-> --version to stderr instead of stdout?
+> > > Yup.  The point is that I see the sphinx-build output *in the docs-build
+> > > output", not when I run it standalone (where it does the expected thing).    
+> > 
+> > Weird... could some versions of Sphinx be redirecting the output of
+> > --version to stderr instead of stdout?
+> > 
+> > If so, something like:
+> > 
+> > 	perl -e 'open IN,"sphinx-build --version 2>&1 |"; while (<IN>) { if (m/([\d\.]+)/) { print "-jauto\n" if ($1 >= "1.7") } ;} close IN'
+> > 
+> > would make it print "-jauto" with those other versions you're trying.  
 > 
-> If so, something like:
+> That does improve the behavior from the command line; it seems that
+> sphinx-build is indeed writing to stderr.  BUT that still doesn't fix the
+> docs build!  To get the option to take effect, I also have to explicitly
+> export SPHINXOPTS.  So the winning combination is:
 > 
-> 	perl -e 'open IN,"sphinx-build --version 2>&1 |"; while (<IN>) { if (m/([\d\.]+)/) { print "-jauto\n" if ($1 >= "1.7") } ;} close IN'
+>   export SPHINXOPTS = $(shell perl -e 'open IN,"sphinx-build --version
+>   2>&1 |"; while (<IN>) { if (m/([\d\.]+)/) { print "-jauto" if ($$1 >= "1.7") } ;} close IN')  
 > 
-> would make it print "-jauto" with those other versions you're trying.
+> I don't have any weird version of make, so I'm not sure why you see
+> different results than I do here.
+> 
+> I can apply those tweaks to your patch if it's OK with you.
 
-That does improve the behavior from the command line; it seems that
-sphinx-build is indeed writing to stderr.  BUT that still doesn't fix the
-docs build!  To get the option to take effect, I also have to explicitly
-export SPHINXOPTS.  So the winning combination is:
+Yeah, sure! With those changes it work fine here too.
 
-  export SPHINXOPTS = $(shell perl -e 'open IN,"sphinx-build --version
-  2>&1 |"; while (<IN>) { if (m/([\d\.]+)/) { print "-jauto" if ($$1 >= "1.7") } ;} close IN')
+So, feel free to apply the changes.
 
-I don't have any weird version of make, so I'm not sure why you see
-different results than I do here.
+> 
+> > I didn't try the python2 versions, though.  
+> 
+> Interestingly, I would appear to have both versions installed, with
+> python2 winning in $PATH.
 
-I can apply those tweaks to your patch if it's OK with you.
+It sounds that Fedora 30 is conservative with regards to python :-)
 
-> I didn't try the python2 versions, though.
+The Sphinx version detection script takes it into account,
+suggesting pip3 instead of pip - or when called like:
 
-Interestingly, I would appear to have both versions installed, with
-python2 winning in $PATH.
+	$ ./scripts/sphinx-pre-install --no-virtualenv
+	Detected OS: Fedora release 30 (Thirty).
 
-jon
+	ERROR: please install "python-sphinx", otherwise, build won't work.
+	Warning: better to also install "sphinx_rtd_theme".
+	You should run:
+
+		sudo dnf install -y python3-sphinx python3-sphinx_rtd_theme
+
+It seeks for the python3 packages on Fedora.
+
+Regards,
+Mauro
