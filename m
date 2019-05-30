@@ -1,128 +1,258 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 96ECD7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 May 2019 06:01:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AF6A87D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 May 2019 08:30:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726643AbfE3GBi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 May 2019 02:01:38 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:39903 "EHLO
-        out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725961AbfE3GBh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 May 2019 02:01:37 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id B2ABE220C3;
-        Thu, 30 May 2019 02:01:36 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Thu, 30 May 2019 02:01:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=date
-        :from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=eCakL384zMTCpVZkURCZ5qsUo9h
-        k+pUOlpeRS6gbT+U=; b=TN/YiQjQWUsoQU0Ha08Nx01TZQhDPqY4mOo08RR3wKL
-        14s9bOMTOOAUcLSR9X5MNwkhrucp921SgYt8eKIlPpvoARbRjLSQfencP+c0Kv0e
-        HTfP1aMUZggm4zPrbd3Qyli58WikqV8Dsu+MqIE5Xd8481jUx/4eNaDaejPdIvM7
-        /HL2GzL6nZWp6nr2lWe5GfmgK3S0YV2LiIH7naZcf3pr+BxJ5Qv2cqEYHNtlVunn
-        7rc0+BaePmGZyY7E68wVYJBnCOEa/PqbrzSxz2KIyEgMpJgX7qPRFZUt7dnZCYGo
-        Xcd7YeB1k2tIWZRN4mITb61wny8b90bZtt2uXCuFgaw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=eCakL3
-        84zMTCpVZkURCZ5qsUo9hk+pUOlpeRS6gbT+U=; b=py0C4DD0GGD8+o80IIh4uo
-        IgLnWHuzqpiNJWiZICIAW/ZZ3LLUnCYeiM8zsxwItBc7/+7sxcKQmbms64CFzmka
-        X0SCSUk/NAE1f8a01KMjYsDKIGDlWIsYg5qN4Dfv860bmA2D1jtZqxF/U/AQjo9a
-        kc7RsDDXoVSoNveVRKPsHS+f8Hplv52aQx2a0ZGp4SyJCne5pKjBI3unScFwkZut
-        FFySNOtUd20q3OL/QxosrODigq35dClXGSqhmIX55Aql+CQjBvIPBLEiG3nIIxxq
-        F0pSix0+p/pQnIWC/ZV/K0UKVZ8oePtzePDrFJhkFMEMWvLYKFGNSkvPYNuLPL4w
-        ==
-X-ME-Sender: <xms:v3HvXKLfe7nhbx7utOcf5lvo3wQXgHRhBPyJT-pv_1vGXu_S-r1MzQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddruddvkedguddtudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enfghrlhcuvffnffculdduhedmnecujfgurhepfffhvffukfhfgggtuggjofgfsehttder
-    tdforedvnecuhfhrohhmpedfvfhosghinhcuvedrucfjrghrughinhhgfdcuoehmvgesth
-    hosghinhdrtggtqeenucfkphepuddvgedrudejuddrfedurddugeegnecurfgrrhgrmhep
-    mhgrihhlfhhrohhmpehmvgesthhosghinhdrtggtnecuvehluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:v3HvXKQBKsR03OmxOLM97vnrKFC1ITG7c-hWGZLSDhhCVoFZsR6oIg>
-    <xmx:v3HvXDRuJsPWMYIjrpe62IUEgbLL2WCT-qkS5EmxkEsOaF00rv-OrQ>
-    <xmx:v3HvXK4cRJ1jMdSJTqBJEUKXuiViDyLuEFXcU4c56N5sOLvJSb2VYQ>
-    <xmx:wHHvXAnGM5HD9n3U86goR9McOHwIl9nJwZzGvyQ-7Rrjd7fXa2Y6-w>
-Received: from localhost (124-171-31-144.dyn.iinet.net.au [124.171.31.144])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 4EF6F8005B;
-        Thu, 30 May 2019 02:01:34 -0400 (EDT)
-Date:   Thu, 30 May 2019 16:01:30 +1000
-From:   "Tobin C. Harding" <me@tobin.cc>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     "Tobin C. Harding" <tobin@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Mauro Carvalho Chehab <mchehab@s-opensource.com>,
-        Neil Brown <neilb@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 0/9] docs: Convert VFS doc to RST
-Message-ID: <20190530060130.GB11021@caerus>
-References: <20190515002913.12586-1-tobin@kernel.org>
- <20190529163052.6ce91581@lwn.net>
+        id S1726509AbfE3IaU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 May 2019 04:30:20 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:36040 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726326AbfE3IaT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 May 2019 04:30:19 -0400
+Received: by mail-wm1-f66.google.com with SMTP id v22so3245706wml.1
+        for <linux-doc@vger.kernel.org>; Thu, 30 May 2019 01:30:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=pIqrbsE6/Nv/138vVdlcEQnoXvw/3uCQiUSd/l1oIaY=;
+        b=Aw4B+m6ujno7zBqXfrJTltp/gSpn7lpeLv8FCGr/91MWeCZtmHb5x25RdQ/1aRg9YU
+         70xlNToQuOQgy6Svq7g8CGKEFPJwhQ3693KZ0k3qE4JXu8jDl5zc1LYk+KA3NeTdU5MG
+         07vK31XLRIXBqB7LJM9+z3vWDBFyQrI/++SYtwAS82LhCyBiZa5/5Mp3ziCA73IlNe4P
+         IKrEq+NCtoH9ENuheDF9av3hSh0IgBLiuzb4pM6xI0Ge4ppUmP29D3X2vc1h/TZxtgtL
+         25kQtOa3BBx1eM73rKf/RFm1os2dKbT1odXQQ4HrL42CGAoFRccJAJdU82IgobjWkVbW
+         mVGQ==
+X-Gm-Message-State: APjAAAWwW5/Q0/RkzipCtQ/HslX/LGMYUoG7h1xfUxWzWpaZ8/Ahyp2e
+        uAhglhDsHOAat7kzY/lG/gIYwA==
+X-Google-Smtp-Source: APXvYqxguQuxTuphnJ9ISpnJqaH4xcMLu4CCyeeLtDHqpdu4VJX+hsaHIz6Atqsiq1kkBiYITPXGpg==
+X-Received: by 2002:a7b:c043:: with SMTP id u3mr910083wmc.56.1559205017089;
+        Thu, 30 May 2019 01:30:17 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:3da1:318a:275c:408? ([2001:b07:6468:f312:3da1:318a:275c:408])
+        by smtp.gmail.com with ESMTPSA id y8sm1688765wmi.8.2019.05.30.01.30.15
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Thu, 30 May 2019 01:30:16 -0700 (PDT)
+Subject: Re: [PATCH 09/22] docs: mark orphan documents as such
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Frederic Barrat <fbarrat@linux.ibm.com>,
+        Andrew Donnellan <ajd@linux.ibm.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Georgi Djakov <georgi.djakov@linaro.org>,
+        Matan Ziv-Av <matan@svgalib.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
+        linuxppc-dev@lists.ozlabs.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org,
+        dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, kvm@vger.kernel.org
+References: <cover.1559171394.git.mchehab+samsung@kernel.org>
+ <e0bf4e767dd5de9189e5993fbec2f4b1bafd2064.1559171394.git.mchehab+samsung@kernel.org>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <ea534992-07ff-15d8-e48b-5fde37c88f73@redhat.com>
+Date:   Thu, 30 May 2019 10:30:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190529163052.6ce91581@lwn.net>
-X-Mailer: Mutt 1.9.4 (2018-02-28)
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <e0bf4e767dd5de9189e5993fbec2f4b1bafd2064.1559171394.git.mchehab+samsung@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 29, 2019 at 04:30:52PM -0600, Jonathan Corbet wrote:
-> On Wed, 15 May 2019 10:29:04 +1000
-> "Tobin C. Harding" <tobin@kernel.org> wrote:
+On 30/05/19 01:23, Mauro Carvalho Chehab wrote:
+> Sphinx doesn't like orphan documents:
 > 
-> > Here is an updated version of the VFS doc conversion.  This series in no
-> > way represents a final point for the VFS documentation rather it is a
-> > small step towards getting VFS docs updated.  This series does not
-> > update the content of vfs.txt, only does formatting.
+>     Documentation/accelerators/ocxl.rst: WARNING: document isn't included in any toctree
+>     Documentation/arm/stm32/overview.rst: WARNING: document isn't included in any toctree
+>     Documentation/arm/stm32/stm32f429-overview.rst: WARNING: document isn't included in any toctree
+>     Documentation/arm/stm32/stm32f746-overview.rst: WARNING: document isn't included in any toctree
+>     Documentation/arm/stm32/stm32f769-overview.rst: WARNING: document isn't included in any toctree
+>     Documentation/arm/stm32/stm32h743-overview.rst: WARNING: document isn't included in any toctree
+>     Documentation/arm/stm32/stm32mp157-overview.rst: WARNING: document isn't included in any toctree
+>     Documentation/gpu/msm-crash-dump.rst: WARNING: document isn't included in any toctree
+>     Documentation/interconnect/interconnect.rst: WARNING: document isn't included in any toctree
+>     Documentation/laptops/lg-laptop.rst: WARNING: document isn't included in any toctree
+>     Documentation/powerpc/isa-versions.rst: WARNING: document isn't included in any toctree
+>     Documentation/virtual/kvm/amd-memory-encryption.rst: WARNING: document isn't included in any toctree
+>     Documentation/virtual/kvm/vcpu-requests.rst: WARNING: document isn't included in any toctree
 > 
-> I've finally gotten to this, sorry for taking so long.  Applying it to
-> docs-next turned out to be a bit of a chore; there have been intervening
-> changes to vfs.txt that we didn't want to lose.  But I did it.
+> So, while they aren't on any toctree, add :orphan: to them, in order
+> to silent this warning.
 > 
-> Unfortunately, there's still a remaining issue.  You did a lot of list
-> conversions like this:
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+
+Please leave out KVM, I'll fix that instead.  Thanks for the report!
+
+Paolo
+
+> ---
+>  Documentation/accelerators/ocxl.rst                 | 2 ++
+>  Documentation/arm/stm32/overview.rst                | 2 ++
+>  Documentation/arm/stm32/stm32f429-overview.rst      | 2 ++
+>  Documentation/arm/stm32/stm32f746-overview.rst      | 2 ++
+>  Documentation/arm/stm32/stm32f769-overview.rst      | 2 ++
+>  Documentation/arm/stm32/stm32h743-overview.rst      | 2 ++
+>  Documentation/arm/stm32/stm32mp157-overview.rst     | 2 ++
+>  Documentation/gpu/msm-crash-dump.rst                | 2 ++
+>  Documentation/interconnect/interconnect.rst         | 2 ++
+>  Documentation/laptops/lg-laptop.rst                 | 2 ++
+>  Documentation/powerpc/isa-versions.rst              | 2 ++
+>  Documentation/virtual/kvm/amd-memory-encryption.rst | 2 ++
+>  Documentation/virtual/kvm/vcpu-requests.rst         | 2 ++
+>  13 files changed, 26 insertions(+)
 > 
-> > -  struct file_system_type *fs_type: describes the filesystem, partly initialized
-> > +``struct file_system_type *fs_type``: describes the filesystem, partly initialized
-> >  	by the specific filesystem code
+> diff --git a/Documentation/accelerators/ocxl.rst b/Documentation/accelerators/ocxl.rst
+> index 14cefc020e2d..b1cea19a90f5 100644
+> --- a/Documentation/accelerators/ocxl.rst
+> +++ b/Documentation/accelerators/ocxl.rst
+> @@ -1,3 +1,5 @@
+> +:orphan:
+> +
+>  ========================================================
+>  OpenCAPI (Open Coherent Accelerator Processor Interface)
+>  ========================================================
+> diff --git a/Documentation/arm/stm32/overview.rst b/Documentation/arm/stm32/overview.rst
+> index 85cfc8410798..f7e734153860 100644
+> --- a/Documentation/arm/stm32/overview.rst
+> +++ b/Documentation/arm/stm32/overview.rst
+> @@ -1,3 +1,5 @@
+> +:orphan:
+> +
+>  ========================
+>  STM32 ARM Linux Overview
+>  ========================
+> diff --git a/Documentation/arm/stm32/stm32f429-overview.rst b/Documentation/arm/stm32/stm32f429-overview.rst
+> index 18feda97f483..65bbb1c3b423 100644
+> --- a/Documentation/arm/stm32/stm32f429-overview.rst
+> +++ b/Documentation/arm/stm32/stm32f429-overview.rst
+> @@ -1,3 +1,5 @@
+> +:orphan:
+> +
+>  STM32F429 Overview
+>  ==================
+>  
+> diff --git a/Documentation/arm/stm32/stm32f746-overview.rst b/Documentation/arm/stm32/stm32f746-overview.rst
+> index b5f4b6ce7656..42d593085015 100644
+> --- a/Documentation/arm/stm32/stm32f746-overview.rst
+> +++ b/Documentation/arm/stm32/stm32f746-overview.rst
+> @@ -1,3 +1,5 @@
+> +:orphan:
+> +
+>  STM32F746 Overview
+>  ==================
+>  
+> diff --git a/Documentation/arm/stm32/stm32f769-overview.rst b/Documentation/arm/stm32/stm32f769-overview.rst
+> index 228656ced2fe..f6adac862b17 100644
+> --- a/Documentation/arm/stm32/stm32f769-overview.rst
+> +++ b/Documentation/arm/stm32/stm32f769-overview.rst
+> @@ -1,3 +1,5 @@
+> +:orphan:
+> +
+>  STM32F769 Overview
+>  ==================
+>  
+> diff --git a/Documentation/arm/stm32/stm32h743-overview.rst b/Documentation/arm/stm32/stm32h743-overview.rst
+> index 3458dc00095d..c525835e7473 100644
+> --- a/Documentation/arm/stm32/stm32h743-overview.rst
+> +++ b/Documentation/arm/stm32/stm32h743-overview.rst
+> @@ -1,3 +1,5 @@
+> +:orphan:
+> +
+>  STM32H743 Overview
+>  ==================
+>  
+> diff --git a/Documentation/arm/stm32/stm32mp157-overview.rst b/Documentation/arm/stm32/stm32mp157-overview.rst
+> index 62e176d47ca7..2c52cd020601 100644
+> --- a/Documentation/arm/stm32/stm32mp157-overview.rst
+> +++ b/Documentation/arm/stm32/stm32mp157-overview.rst
+> @@ -1,3 +1,5 @@
+> +:orphan:
+> +
+>  STM32MP157 Overview
+>  ===================
+>  
+> diff --git a/Documentation/gpu/msm-crash-dump.rst b/Documentation/gpu/msm-crash-dump.rst
+> index 757cd257e0d8..240ef200f76c 100644
+> --- a/Documentation/gpu/msm-crash-dump.rst
+> +++ b/Documentation/gpu/msm-crash-dump.rst
+> @@ -1,3 +1,5 @@
+> +:orphan:
+> +
+>  =====================
+>  MSM Crash Dump Format
+>  =====================
+> diff --git a/Documentation/interconnect/interconnect.rst b/Documentation/interconnect/interconnect.rst
+> index c3e004893796..56e331dab70e 100644
+> --- a/Documentation/interconnect/interconnect.rst
+> +++ b/Documentation/interconnect/interconnect.rst
+> @@ -1,5 +1,7 @@
+>  .. SPDX-License-Identifier: GPL-2.0
+>  
+> +:orphan:
+> +
+>  =====================================
+>  GENERIC SYSTEM INTERCONNECT SUBSYSTEM
+>  =====================================
+> diff --git a/Documentation/laptops/lg-laptop.rst b/Documentation/laptops/lg-laptop.rst
+> index aa503ee9b3bc..f2c2ffe31101 100644
+> --- a/Documentation/laptops/lg-laptop.rst
+> +++ b/Documentation/laptops/lg-laptop.rst
+> @@ -1,5 +1,7 @@
+>  .. SPDX-License-Identifier: GPL-2.0+
+>  
+> +:orphan:
+> +
+>  LG Gram laptop extra features
+>  =============================
+>  
+> diff --git a/Documentation/powerpc/isa-versions.rst b/Documentation/powerpc/isa-versions.rst
+> index 812e20cc898c..66c24140ebf1 100644
+> --- a/Documentation/powerpc/isa-versions.rst
+> +++ b/Documentation/powerpc/isa-versions.rst
+> @@ -1,3 +1,5 @@
+> +:orphan:
+> +
+>  CPU to ISA Version Mapping
+>  ==========================
+>  
+> diff --git a/Documentation/virtual/kvm/amd-memory-encryption.rst b/Documentation/virtual/kvm/amd-memory-encryption.rst
+> index 659bbc093b52..33d697ab8a58 100644
+> --- a/Documentation/virtual/kvm/amd-memory-encryption.rst
+> +++ b/Documentation/virtual/kvm/amd-memory-encryption.rst
+> @@ -1,3 +1,5 @@
+> +:orphan:
+> +
+>  ======================================
+>  Secure Encrypted Virtualization (SEV)
+>  ======================================
+> diff --git a/Documentation/virtual/kvm/vcpu-requests.rst b/Documentation/virtual/kvm/vcpu-requests.rst
+> index 5feb3706a7ae..c1807a1b92e6 100644
+> --- a/Documentation/virtual/kvm/vcpu-requests.rst
+> +++ b/Documentation/virtual/kvm/vcpu-requests.rst
+> @@ -1,3 +1,5 @@
+> +:orphan:
+> +
+>  =================
+>  KVM VCPU Requests
+>  =================
 > 
-> but that does not render the way you would like, trust me.  You really
-> want to use the list format, something like:
-> 
->     ``struct file_system_type *fs_type``
-> 	 describes the filesystem, partly initialized by the specific
-> 	 filesystem code
 
-Ouch!  Yes I knew this was sub-optimal, I thought the HTML looked ok.
-I'll fix them up as suggested.
-
-> There are, unfortunately, a lot of these to fix...  I bet it could be done
-> with an elisp function, but I don't have time to beat my head against that
-> wall right now.
-
-oh really?  That would actually make doing this much more enticing, I've
-already done all these multiple times manually - learning nothing, some
-elisp games would actually teach me something.  Cheers.
-
-> Any chance you would have time to send me a followup patch fixing these
-> up?  I'll keep my branch with this set for now so there's no need to
-> rebase those.
-
-Sure thing, patches to come.
-
-Cheers,
-Tobin.
