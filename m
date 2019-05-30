@@ -1,135 +1,65 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_HIGH autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 67E0C7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 May 2019 01:53:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5B6187D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 May 2019 02:56:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727267AbfE3BxO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 29 May 2019 21:53:14 -0400
-Received: from casper.infradead.org ([85.118.1.10]:44700 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726527AbfE3BxN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 May 2019 21:53:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=fCwm8alnbwX/xB7Ci+E1tlPcE/UJ0YinibQMNsn2oSg=; b=ChtggQYj5MM4I6juXBtPd++rCK
-        47zXILgRY3zNl9Lm3pXFKS7GrhYSV3bLmN2+og291ofYdP/gltHagZLC/xksZteOwkgRhiJyl33+d
-        9+3vXhZSi7rckEZCFRvn6cj5INFtLA3f9Uz+kkkzJT8KG0zM6/EZE3wQfOO5s3e2mjh4t6VgUH4OX
-        ZFfwkbxKcjQ8fTCibEYF0MCUJZADsCSQVeKIur7oCVHA4c6BI5HjwCIYGf4cl28W5FXaK/2TVLpB/
-        k8jpGUfnko3+78q/U9g1C0K63cq6fJVYX37CVlyr8NcQrEgxbkZi+D5nULJjf/UqJQa6Q1t/JW7js
-        AclIn1MA==;
-Received: from 177.132.232.81.dynamic.adsl.gvt.net.br ([177.132.232.81] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hWAFi-000846-4c; Thu, 30 May 2019 01:53:10 +0000
-Date:   Wed, 29 May 2019 22:53:05 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+        id S1727503AbfE3C4v (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 29 May 2019 22:56:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39042 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727382AbfE3C4u (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 29 May 2019 22:56:50 -0400
+Received: from localhost (15.sub-174-234-174.myvzw.com [174.234.174.15])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E784324451;
+        Thu, 30 May 2019 02:56:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1559185010;
+        bh=CW7CTMKWriQ7bvjQGyXm+qun++joMFi9uYzYhbLg1Ag=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=DrnNcbykDBG2QPD7dQcntt41q6Jgzr/5IsmeoJp0JnQAa+8YFhOfAFPj4V+WmEsdg
+         fG6if8u5Ql+oZySjqu7WQm6SlTBGyxfPe8i/pbhJTfjbuemm9H1jTdEfXNRiQWYrOZ
+         WLqUB85b4wWdr5dyc1T/VgdIQEHbdS1opfBCbkFc=
+Date:   Wed, 29 May 2019 21:56:48 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
 To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/5] docs: by default, build docs a lot faster with
- Sphinx >= 1.7
-Message-ID: <20190529225305.213d8c36@coco.lan>
-In-Reply-To: <20190529174716.4f0e21ad@lwn.net>
-References: <cover.1558955082.git.mchehab+samsung@kernel.org>
-        <baf19095789f2b2ed0c7a940703037a00cd77850.1558955082.git.mchehab+samsung@kernel.org>
-        <20190529170202.65c7f9ca@lwn.net>
-        <20190529202005.04dcd4a0@coco.lan>
-        <20190529174716.4f0e21ad@lwn.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Cc:     Changbin Du <changbin.du@gmail.com>, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mchehab+samsung@kernel.org
+Subject: Re: [PATCH v6 00/12] Include linux PCI docs into Sphinx TOC tree
+Message-ID: <20190530025648.GH28250@google.com>
+References: <20190514144734.19760-1-changbin.du@gmail.com>
+ <20190520061014.qtq6tc366pnnqcio@mail.google.com>
+ <20190529163510.3dd4dc2d@lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190529163510.3dd4dc2d@lwn.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 29 May 2019 17:47:16 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
-
-> On Wed, 29 May 2019 20:20:05 -0300
-> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+On Wed, May 29, 2019 at 04:35:10PM -0600, Jonathan Corbet wrote:
+> On Mon, 20 May 2019 06:10:15 +0000
+> Changbin Du <changbin.du@gmail.com> wrote:
 > 
-> > > So this totally fails to work for me with any version of sphinx, and I'm
-> > > not enough of a Perl person to figure it out.  Sometimes I'll see the
-> > > sphinx-build output, i.e.:
-> > > 
-> > >     sphinx-build 1.8.4
-> > > 
-> > > and sometimes (like with 2.0) I don't, but I never get -jauto regardless.    
-> > 
-> > Hmm... with 2.0.0 --version prints the version.
-> > 
-> > 	$ sphinx-build --version
-> > 	sphinx-build 2.0.0  
+> > Bjorn and Jonathan,
+> > Could we consider to merge this serias now? Thanks.
 > 
-> Yup.  The point is that I see the sphinx-build output *in the docs-build
-> output", not when I run it standalone (where it does the expected thing).
+> Somewhat belatedly, but I think we could.  Bjorn, do you have a preference
+> for which tree this goes through?  I don't remember if we'd come to an
+> agreement on that or not, sorry...
 
-Weird... could some versions of Sphinx be redirecting the output of
---version to stderr instead of stdout?
+I don't have a preference.  I somehow had the impression it would go
+through your tree, but I'd be happy to merge it if you'd prefer.
 
-If so, something like:
-
-	perl -e 'open IN,"sphinx-build --version 2>&1 |"; while (<IN>) { if (m/([\d\.]+)/) { print "-jauto\n" if ($1 >= "1.7") } ;} close IN'
-
-would make it print "-jauto" with those other versions you're trying.
- 
-> 
-> > > Not sure what's going on here?    
-> > 
-> > Do you have SPHINXOPTS already set on your environment? If so, Makefile
-> > will not override the existing environment.  
-> 
-> Yeah, I had it set to -j1 because I want to wait as long as possible for my
-> docs builds :)
-> 
-> No, I didn't have it set separately, made a point of that.
-> 
-> > Here, if I call it by hand (replacing $$1 by $1), it does the right
-> > thing. For example:
-> > 
-> > 1.8.4:
-> > 
-> > 	$ sphinx-build --version
-> > 	sphinx-build 1.8.4
-> > 	$ perl -e 'open IN,"sphinx-build --version |"; while (<IN>) { if (m/([\d\.]+)/) { print "-jauto\n" if ($1 >= "1.7") } ;} close IN'
-> > 	-jauto  
-> 
-> $ perl -e 'open IN,"sphinx-build --version |"; while (<IN>) { if (m/([\d\.]+)/) { print "-jauto\n" if ($1 >= "1.7") } ;} close IN'
-> sphinx-build 1.8.4
-> $
-> 
-> It works properly with 2.0.1 - but only on the command line; I still don't
-> get the right behavior in a docs build.
-> 
-> Most weird.
-> 
-> This is an Fedora 30 system, FWIW.
-
-Yeah, really weird. Here I'm using Fedora 30 too:
-
-	python3-sphinx_rtd_theme-0.4.3-1.fc30.noarch
-	python3-sphinx-1.8.4-1.fc30.noarch
-
-It works with both installed version and pip3 virtualenvs.
-
-I didn't try the python2 versions, though.
-
-
-> 
-> jon
-
-
-
-Thanks,
-Mauro
+Bjorn
