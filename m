@@ -5,37 +5,30 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 41F8C7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 May 2019 14:14:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BCD697D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 May 2019 14:40:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726536AbfE3OOA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 May 2019 10:14:00 -0400
-Received: from ms.lwn.net ([45.79.88.28]:56814 "EHLO ms.lwn.net"
+        id S1726079AbfE3Oku (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 May 2019 10:40:50 -0400
+Received: from ms.lwn.net ([45.79.88.28]:56918 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725870AbfE3OOA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 30 May 2019 10:14:00 -0400
+        id S1725961AbfE3Oku (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 30 May 2019 10:40:50 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id CDA636D9;
-        Thu, 30 May 2019 14:13:59 +0000 (UTC)
-Date:   Thu, 30 May 2019 08:13:58 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 9981B72D;
+        Thu, 30 May 2019 14:40:49 +0000 (UTC)
+Date:   Thu, 30 May 2019 08:40:48 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Bhupesh Sharma <bhsharma@redhat.com>
-Cc:     Michael Ellerman <mpe@ellerman.id.au>,
-        linuxppc-dev@lists.ozlabs.org, Arnd Bergmann <arnd@arndb.de>,
-        Bhupesh SHARMA <bhupesh.linux@gmail.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation/stackprotector: powerpc supports stack
- protector
-Message-ID: <20190530081358.650930ad@lwn.net>
-In-Reply-To: <CACi5LpM9v1YC_6HhA-uKghawzkEu=TTPVkomMmv2i-LGi8X7+g@mail.gmail.com>
-References: <1559212177-7072-1-git-send-email-bhsharma@redhat.com>
-        <87v9xsnlu9.fsf@concordia.ellerman.id.au>
-        <CACi5LpM9v1YC_6HhA-uKghawzkEu=TTPVkomMmv2i-LGi8X7+g@mail.gmail.com>
+To:     kbuild test robot <lkp@intel.com>
+Cc:     kbuild-all@01.org, linux-doc@vger.kernel.org
+Subject: Re: [lwn:docs-next 19/19] htmldocs:
+ include/linux/generic-radix-tree.h:1: warning: 'Generic radix trees/sparse
+ arrays' not found
+Message-ID: <20190530084048.7f5fbcf4@lwn.net>
+In-Reply-To: <201905301152.nK61DkP1%lkp@intel.com>
+References: <201905301152.nK61DkP1%lkp@intel.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -45,18 +38,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 30 May 2019 18:37:46 +0530
-Bhupesh Sharma <bhsharma@redhat.com> wrote:
+On Thu, 30 May 2019 11:14:54 +0800
+kbuild test robot <lkp@intel.com> wrote:
 
-> > This should probably go via the documentation tree?
-> >
-> > Acked-by: Michael Ellerman <mpe@ellerman.id.au>  
+> tree:   git://git.lwn.net/linux-2.6 docs-next
+> head:   b0d60bfbb60cef1efd699a65e29a94487f8c7b1f
+> commit: b0d60bfbb60cef1efd699a65e29a94487f8c7b1f [19/19] kernel-doc: always name missing kerneldoc sections
+> reproduce: make htmldocs
 > 
-> Thanks for the review Michael.
-> I am ok with this going through the documentation tree as well.
+> If you fix the issue, kindly add following tag
+> Reported-by: kbuild test robot <lkp@intel.com>
+> 
+> All warnings (new ones prefixed by >>):
 
-Works for me too, but I don't seem to find the actual patch anywhere I
-look.  Can you send me a copy?
+So, for anybody watching at home, the issue is stuff like this:
+
+> >> include/linux/generic-radix-tree.h:1: warning: 'Generic radix trees/sparse arrays' not found  
+[...]
+> >> drivers/usb/typec/bus.c:1: warning: 'typec_altmode_unregister_driver' not found
+> >> drivers/usb/typec/bus.c:1: warning: 'typec_altmode_register_driver' not found
+> >> drivers/usb/typec/class.c:1: warning: 'typec_altmode_register_notifier' not found
+> >> drivers/usb/typec/class.c:1: warning: 'typec_altmode_unregister_notifier' not found  
+
+These warnings are not new, but the text has changed.  They all used to
+just read "no structured comments found"; now we know exactly what
+kernel-doc was told to look for and didn't find.
 
 Thanks,
 
