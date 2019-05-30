@@ -2,184 +2,134 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9120B7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 May 2019 01:05:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 67E0C7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 May 2019 01:53:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727217AbfE3BFM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 29 May 2019 21:05:12 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:42100 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727146AbfE3BFM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 May 2019 21:05:12 -0400
-Received: by mail-pf1-f193.google.com with SMTP id r22so2776764pfh.9;
-        Wed, 29 May 2019 18:05:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=beZsP/rjfL8EXcX60xBuuJ47HiagG33HBKhM1gI7z7o=;
-        b=IPrIlAtXr2FDMSjX0/bzIEMw/DD91kRI7Kyd2nGYNcDCqviqF1yxJsKXacq5gSvR4M
-         mBMuI9tFBSVxJtViMOKIdFfjPHDOCjrob7YTUQIobPby9v3cBSKt/FkrhY8i3ptyz54Z
-         SJMLgYl/OVIWGJsq/YfN4ueGa2+iEX3UCeyVg5Jp1Tes3SZMJjw/iPyA/J1TxkwjhnTY
-         XaT1Um7uoW+VB7utBeyzIeMfgNu3aQg57D5D/K+wcsh+k0nZyodje++7T7/JYXBVld/k
-         +lMCKSyD7OuPJ4KapoZjFyaRryz8wNedo4iha6ZtqqF2vAeSqMW0Fi/9+N2OWe/gURNP
-         QiZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=beZsP/rjfL8EXcX60xBuuJ47HiagG33HBKhM1gI7z7o=;
-        b=hrE/F3JFe2VqzBTm+lLMrZKhsGL8RPn1vl4UqE+KKMGVsCogQmknof+LrKEBHhgWDh
-         vZCdQfUBnenr2ur+4WlmjnYQQs7PvGXx61c2+x+5MjdmmpXq2ts45WlVFosexM0bCzvT
-         PzUPxu7X1MDLxjOyz1ccBpMjMDChR+NI9u7wGJUJ8+yOsdSIA8sUVVW4O4AiYny8UFEO
-         YtwgnrZ26ASSFEpBfTrJu8+JuwpFnxB44Da2uXtRzvp/KeKExOF8y5oXgnA7u7FR3XQm
-         JG2WR3DHAjeWXESHTw6zSba/LrMDwpuTzLxdnVVpWRyc4Q0phsOwPtjT2sIA5ycma3jG
-         S4yg==
-X-Gm-Message-State: APjAAAX3Aw+7jjuYWfei6rXEXg5pB0tNu3DusCtCrYDnrp96bl3V3z2m
-        O3LyEwjT3mCrJjh7ypxMP3Q=
-X-Google-Smtp-Source: APXvYqwhXINGpYIe3fien1AMYupfuhGAODKoz3EA3gp4YnMJViJP2gBaJ4YnyeKQZhwk32gigQp88g==
-X-Received: by 2002:a17:90a:bf0d:: with SMTP id c13mr675233pjs.88.1559178311313;
-        Wed, 29 May 2019 18:05:11 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id s42sm799092pjc.5.2019.05.29.18.05.09
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 29 May 2019 18:05:10 -0700 (PDT)
-Subject: Re: [PATCH 2/2] Docs: hwmon: pmbus: Add PXE1610 driver
-To:     Vijay Khemka <vijaykhemka@fb.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     joel@jms.id.au, linux-aspeed@lists.ozlabs.org, sdasari@fb.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20190529223511.4059120-1-vijaykhemka@fb.com>
- <20190529223511.4059120-2-vijaykhemka@fb.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Message-ID: <0a94e784-41a0-4f2d-f9f8-6b365a1e755e@roeck-us.net>
-Date:   Wed, 29 May 2019 18:05:09 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1727267AbfE3BxO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 29 May 2019 21:53:14 -0400
+Received: from casper.infradead.org ([85.118.1.10]:44700 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726527AbfE3BxN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 May 2019 21:53:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=fCwm8alnbwX/xB7Ci+E1tlPcE/UJ0YinibQMNsn2oSg=; b=ChtggQYj5MM4I6juXBtPd++rCK
+        47zXILgRY3zNl9Lm3pXFKS7GrhYSV3bLmN2+og291ofYdP/gltHagZLC/xksZteOwkgRhiJyl33+d
+        9+3vXhZSi7rckEZCFRvn6cj5INFtLA3f9Uz+kkkzJT8KG0zM6/EZE3wQfOO5s3e2mjh4t6VgUH4OX
+        ZFfwkbxKcjQ8fTCibEYF0MCUJZADsCSQVeKIur7oCVHA4c6BI5HjwCIYGf4cl28W5FXaK/2TVLpB/
+        k8jpGUfnko3+78q/U9g1C0K63cq6fJVYX37CVlyr8NcQrEgxbkZi+D5nULJjf/UqJQa6Q1t/JW7js
+        AclIn1MA==;
+Received: from 177.132.232.81.dynamic.adsl.gvt.net.br ([177.132.232.81] helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hWAFi-000846-4c; Thu, 30 May 2019 01:53:10 +0000
+Date:   Wed, 29 May 2019 22:53:05 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/5] docs: by default, build docs a lot faster with
+ Sphinx >= 1.7
+Message-ID: <20190529225305.213d8c36@coco.lan>
+In-Reply-To: <20190529174716.4f0e21ad@lwn.net>
+References: <cover.1558955082.git.mchehab+samsung@kernel.org>
+        <baf19095789f2b2ed0c7a940703037a00cd77850.1558955082.git.mchehab+samsung@kernel.org>
+        <20190529170202.65c7f9ca@lwn.net>
+        <20190529202005.04dcd4a0@coco.lan>
+        <20190529174716.4f0e21ad@lwn.net>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20190529223511.4059120-2-vijaykhemka@fb.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/29/19 3:35 PM, Vijay Khemka wrote:
-> Added support for Infenion PXE1610 driver
+Em Wed, 29 May 2019 17:47:16 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
+
+> On Wed, 29 May 2019 20:20:05 -0300
+> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 > 
-> Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
-> ---
->   Documentation/hwmon/pxe1610 | 84 +++++++++++++++++++++++++++++++++++++
->   1 file changed, 84 insertions(+)
->   create mode 100644 Documentation/hwmon/pxe1610
+> > > So this totally fails to work for me with any version of sphinx, and I'm
+> > > not enough of a Perl person to figure it out.  Sometimes I'll see the
+> > > sphinx-build output, i.e.:
+> > > 
+> > >     sphinx-build 1.8.4
+> > > 
+> > > and sometimes (like with 2.0) I don't, but I never get -jauto regardless.    
+> > 
+> > Hmm... with 2.0.0 --version prints the version.
+> > 
+> > 	$ sphinx-build --version
+> > 	sphinx-build 2.0.0  
 > 
-> diff --git a/Documentation/hwmon/pxe1610 b/Documentation/hwmon/pxe1610
-> new file mode 100644
-> index 000000000000..b5c83edf027a
-> --- /dev/null
-> +++ b/Documentation/hwmon/pxe1610
-> @@ -0,0 +1,84 @@
-> +Kernel driver pxe1610
-> +=====================
-> +
-> +Supported chips:
-> +  * Infinion PXE1610
-> +    Prefix: 'pxe1610'
-> +    Addresses scanned: -
-> +    Datasheet: Datasheet is not publicly available.
-> +
-> +  * Infinion PXE1110
-> +    Prefix: 'pxe1110'
-> +    Addresses scanned: -
-> +    Datasheet: Datasheet is not publicly available.
-> +
-> +  * Infinion PXM1310
-> +    Prefix: 'pxm1310'
-> +    Addresses scanned: -
-> +    Datasheet: Datasheet is not publicly available.
-> +
-> +Author: Vijay Khemka <vijaykhemka@fb.com>
-> +
-> +
-> +Description
-> +-----------
-> +
-> +PXE1610 is a Multi-rail/Multiphase Digital Controllers and
-> +it is compliant to Intel VR13 DC-DC converter specifications.
-> +
+> Yup.  The point is that I see the sphinx-build output *in the docs-build
+> output", not when I run it standalone (where it does the expected thing).
 
-And the others ?
+Weird... could some versions of Sphinx be redirecting the output of
+--version to stderr instead of stdout?
 
-> +
-> +Usage Notes
-> +-----------
-> +
-> +This driver can be enabled with kernel config CONFIG_SENSORS_PXE1610
-> +set to 'y' or 'm'(for module).
-> +
-The above does not really add value.
+If so, something like:
 
-> +This driver does not probe for PMBus devices. You will have
-> +to instantiate devices explicitly.
-> +
-> +Example: the following commands will load the driver for an PXE1610
-> +at address 0x70 on I2C bus #4:
-> +
-> +# modprobe pxe1610
-> +# echo pxe1610 0x70 > /sys/bus/i2c/devices/i2c-4/new_device
-> +
-> +It can also be instantiated by declaring in device tree if it is
-> +built as a kernel not as a module.
-> +
+	perl -e 'open IN,"sphinx-build --version 2>&1 |"; while (<IN>) { if (m/([\d\.]+)/) { print "-jauto\n" if ($1 >= "1.7") } ;} close IN'
 
-I assume you mean "built into the kernel".
-Why would devicetree based instantiation not work if the driver is built
-as module ?
-
-> +
-> +Sysfs attributes
-> +----------------
-> +
-> +curr1_label		"iin"
-> +curr1_input		Measured input current
-> +curr1_alarm		Current high alarm
-> +
-> +curr[2-4]_label		"iout[1-3]"
-> +curr[2-4]_input		Measured output current
-> +curr[2-4]_crit		Critical maximum current
-> +curr[2-4]_crit_alarm	Current critical high alarm
-> +
-> +in1_label		"vin"
-> +in1_input		Measured input voltage
-> +in1_crit		Critical maximum input voltage
-> +in1_crit_alarm		Input voltage critical high alarm
-> +
-> +in[2-4]_label		"vout[1-3]"
-> +in[2-4]_input		Measured output voltage
-> +in[2-4]_lcrit		Critical minimum output voltage
-> +in[2-4]_lcrit_alarm	Output voltage critical low alarm
-> +in[2-4]_crit		Critical maximum output voltage
-> +in[2-4]_crit_alarm	Output voltage critical high alarm
-> +
-> +power1_label		"pin"
-> +power1_input		Measured input power
-> +power1_alarm		Input power high alarm
-> +
-> +power[2-4]_label	"pout[1-3]"
-> +power[2-4]_input	Measured output power
-> +
-> +temp[1-3]_input		Measured temperature
-> +temp[1-3]_crit		Critical high temperature
-> +temp[1-3]_crit_alarm	Chip temperature critical high alarm
-> +temp[1-3]_max		Maximum temperature
-> +temp[1-3]_max_alarm	Chip temperature high alarm
+would make it print "-jauto" with those other versions you're trying.
+ 
 > 
+> > > Not sure what's going on here?    
+> > 
+> > Do you have SPHINXOPTS already set on your environment? If so, Makefile
+> > will not override the existing environment.  
+> 
+> Yeah, I had it set to -j1 because I want to wait as long as possible for my
+> docs builds :)
+> 
+> No, I didn't have it set separately, made a point of that.
+> 
+> > Here, if I call it by hand (replacing $$1 by $1), it does the right
+> > thing. For example:
+> > 
+> > 1.8.4:
+> > 
+> > 	$ sphinx-build --version
+> > 	sphinx-build 1.8.4
+> > 	$ perl -e 'open IN,"sphinx-build --version |"; while (<IN>) { if (m/([\d\.]+)/) { print "-jauto\n" if ($1 >= "1.7") } ;} close IN'
+> > 	-jauto  
+> 
+> $ perl -e 'open IN,"sphinx-build --version |"; while (<IN>) { if (m/([\d\.]+)/) { print "-jauto\n" if ($1 >= "1.7") } ;} close IN'
+> sphinx-build 1.8.4
+> $
+> 
+> It works properly with 2.0.1 - but only on the command line; I still don't
+> get the right behavior in a docs build.
+> 
+> Most weird.
+> 
+> This is an Fedora 30 system, FWIW.
 
+Yeah, really weird. Here I'm using Fedora 30 too:
+
+	python3-sphinx_rtd_theme-0.4.3-1.fc30.noarch
+	python3-sphinx-1.8.4-1.fc30.noarch
+
+It works with both installed version and pip3 virtualenvs.
+
+I didn't try the python2 versions, though.
+
+
+> 
+> jon
+
+
+
+Thanks,
+Mauro
