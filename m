@@ -1,69 +1,95 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_HIGH autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0DC007D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 May 2019 13:04:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3B9387D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 May 2019 13:08:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726693AbfE3NEJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 May 2019 09:04:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34526 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725919AbfE3NEI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 30 May 2019 09:04:08 -0400
-Received: from localhost (173-25-83-245.client.mchsi.com [173.25.83.245])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 14EC425945;
-        Thu, 30 May 2019 13:04:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1559221448;
-        bh=k3Go0/VjoRePfOIkwYY5BwatXzbg2FsH2u8FcDlRKFM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FhO5mVtSSmTcf9VNmJ7aR+BQE7/uJc2lpymo3nie3NH0Cs1EO13BbnIROZqR2OAi6
-         pZv5R0G5PbCzF9k9VlnqrjMMtc9pRtHxVGzmlBlG67yssp04MQVS0tL5A+/Rhcsl5J
-         92u2eBIAnTLY6DvjwAEH6/fbARJhYgFdxfG7WuMw=
-Date:   Thu, 30 May 2019 08:04:07 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Changbin Du <changbin.du@gmail.com>, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mchehab+samsung@kernel.org
-Subject: Re: [PATCH v6 00/12] Include linux PCI docs into Sphinx TOC tree
-Message-ID: <20190530130407.GJ28250@google.com>
-References: <20190514144734.19760-1-changbin.du@gmail.com>
- <20190520061014.qtq6tc366pnnqcio@mail.google.com>
- <20190529163510.3dd4dc2d@lwn.net>
- <20190530030139.GI28250@google.com>
+        id S1726399AbfE3NIC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 May 2019 09:08:02 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:33174 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726328AbfE3NIB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 May 2019 09:08:01 -0400
+Received: by mail-lf1-f66.google.com with SMTP id y17so4987175lfe.0
+        for <linux-doc@vger.kernel.org>; Thu, 30 May 2019 06:08:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lo8Pf5qQPzDgv3LbnRe5hAmhzj8l8zc5AuLXNn3lbXo=;
+        b=tJXbcDUI6uXa4wiQvb2dJKNDhigRLA/uo/QHo44h32Ufgb3SfUINYWqAXn4jzF74ai
+         tpC6+dTq5KXAqjgIaVOoJUG4QINPAcHy+uCGwxYLg6c/P62J2bPJ6M6AZN1sHKvWM3sX
+         3xJGaNKxvTFXf206B+qQc2jNJWl+amqJUqlu7oSUCH/NESGCKRFx0ZsUm5QaebfyeabB
+         HaSQpUqdPi/RQXxpwguIkjMI7xNFlkKiJqpsP4Url8y62+XEbz5oIY8xx/Rl9EwBX3EA
+         9Xk8c/8NwgTwrMqqeQ3BuY2K7hFrgkq1s7208SvDmKSCQDIalygSoRK2zde26Do3vOdH
+         Qixg==
+X-Gm-Message-State: APjAAAVLV7GyGtE8/o/PMXJFNMC8zQmGhtoH3aQOM5BFS14GyUNSrayS
+        /E1V8tXGc3rf37WMg6wb4qD+Zak7mkQqtBSp4m3slg==
+X-Google-Smtp-Source: APXvYqyavwnJULw4Wz7Yg0S3xURZgWHWuSrHKVYFeYqBmDka5ggDKKE/RR5194S1GfsiIfocaRV06vuTWRje8VGjYSQ=
+X-Received: by 2002:a19:ec12:: with SMTP id b18mr2020933lfa.149.1559221680444;
+ Thu, 30 May 2019 06:08:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190530030139.GI28250@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <1559212177-7072-1-git-send-email-bhsharma@redhat.com> <87v9xsnlu9.fsf@concordia.ellerman.id.au>
+In-Reply-To: <87v9xsnlu9.fsf@concordia.ellerman.id.au>
+From:   Bhupesh Sharma <bhsharma@redhat.com>
+Date:   Thu, 30 May 2019 18:37:46 +0530
+Message-ID: <CACi5LpM9v1YC_6HhA-uKghawzkEu=TTPVkomMmv2i-LGi8X7+g@mail.gmail.com>
+Subject: Re: [PATCH] Documentation/stackprotector: powerpc supports stack protector
+To:     Michael Ellerman <mpe@ellerman.id.au>
+Cc:     linuxppc-dev@lists.ozlabs.org, Arnd Bergmann <arnd@arndb.de>,
+        Bhupesh SHARMA <bhupesh.linux@gmail.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        corbet@lwn.net, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 29, 2019 at 10:01:39PM -0500, Bjorn Helgaas wrote:
-> On Wed, May 29, 2019 at 04:35:10PM -0600, Jonathan Corbet wrote:
-> > On Mon, 20 May 2019 06:10:15 +0000
-> > Changbin Du <changbin.du@gmail.com> wrote:
-> > 
-> > > Bjorn and Jonathan,
-> > > Could we consider to merge this serias now? Thanks.
-> > 
-> > Somewhat belatedly, but I think we could.  Bjorn, do you have a preference
-> > for which tree this goes through?  I don't remember if we'd come to an
-> > agreement on that or not, sorry...
-> 
-> Actually, let me at least take a look at these.  I noticed that
-> renames caused some of the ACPI docs to end up with lines >80 columns,
-> and I'd prefer to avoid that.  So maybe I'll take these after all if
-> that's OK.
+On Thu, May 30, 2019 at 6:25 PM Michael Ellerman <mpe@ellerman.id.au> wrote:
+>
+> Bhupesh Sharma <bhsharma@redhat.com> writes:
+> > powerpc architecture (both 64-bit and 32-bit) supports stack protector
+> > mechanism since some time now [see commit 06ec27aea9fc ("powerpc/64:
+> > add stack protector support")].
+> >
+> > Update stackprotector arch support documentation to reflect the same.
+> >
+> > Signed-off-by: Bhupesh Sharma <bhsharma@redhat.com>
+> > ---
+> >  Documentation/features/debug/stackprotector/arch-support.txt | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/features/debug/stackprotector/arch-support.txt b/Documentation/features/debug/stackprotector/arch-support.txt
+> > index 9999ea521f3e..32bbdfc64c32 100644
+> > --- a/Documentation/features/debug/stackprotector/arch-support.txt
+> > +++ b/Documentation/features/debug/stackprotector/arch-support.txt
+> > @@ -22,7 +22,7 @@
+> >      |       nios2: | TODO |
+> >      |    openrisc: | TODO |
+> >      |      parisc: | TODO |
+> > -    |     powerpc: | TODO |
+> > +    |     powerpc: |  ok  |
+> >      |       riscv: | TODO |
+> >      |        s390: | TODO |
+> >      |          sh: |  ok  |
+> > --
+> > 2.7.4
+>
+> Thanks.
+>
+> This should probably go via the documentation tree?
+>
+> Acked-by: Michael Ellerman <mpe@ellerman.id.au>
 
-I applied these to pci/docs for v5.3, thanks!
+Thanks for the review Michael.
+I am ok with this going through the documentation tree as well.
+
+Regards,
+Bhupesh
