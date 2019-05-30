@@ -5,21 +5,21 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9D4A07D981
+	by archive.lwn.net (Postfix) with ESMTP id BC52C7D982
 	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 May 2019 03:50:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387730AbfE3Dta (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S2387647AbfE3Dta (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Wed, 29 May 2019 23:49:30 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:53280 "EHLO huawei.com"
+Received: from szxga07-in.huawei.com ([45.249.212.35]:53302 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2387710AbfE3Dta (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S2387711AbfE3Dta (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 29 May 2019 23:49:30 -0400
 Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id BC38EA36FC591233E71A;
+        by Forcepoint Email with ESMTP id D27FD9252FECB80D3628;
         Thu, 30 May 2019 11:49:27 +0800 (CST)
 Received: from HGHY4L002753561.china.huawei.com (10.133.215.186) by
  DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
- 14.3.439.0; Thu, 30 May 2019 11:49:20 +0800
+ 14.3.439.0; Thu, 30 May 2019 11:49:17 +0800
 From:   Zhen Lei <thunder.leizhen@huawei.com>
 To:     Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
         John Garry <john.garry@huawei.com>,
@@ -48,9 +48,9 @@ To:     Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
         x86 <x86@kernel.org>, linux-ia64 <linux-ia64@vger.kernel.org>
 CC:     Zhen Lei <thunder.leizhen@huawei.com>,
         Hanjun Guo <guohanjun@huawei.com>
-Subject: [PATCH v8 7/7] ia64: hide build option IOMMU_DEFAULT_PASSTHROUGH
-Date:   Thu, 30 May 2019 11:48:31 +0800
-Message-ID: <20190530034831.4184-8-thunder.leizhen@huawei.com>
+Subject: [PATCH v8 5/7] iommu/vt-d: add support for IOMMU default DMA mode build options
+Date:   Thu, 30 May 2019 11:48:29 +0800
+Message-ID: <20190530034831.4184-6-thunder.leizhen@huawei.com>
 X-Mailer: git-send-email 2.21.0.windows.1
 In-Reply-To: <20190530034831.4184-1-thunder.leizhen@huawei.com>
 References: <20190530034831.4184-1-thunder.leizhen@huawei.com>
@@ -64,26 +64,43 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The DMA mode PASSTHROUGH is not used on ia64.
+The default DMA mode of INTEL IOMMU is LAZY, this patch make it can be
+set to STRICT at build time. It can be overridden by boot option.
+
+There is no functional change.
 
 Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 ---
- drivers/iommu/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/iommu/Kconfig       | 2 +-
+ drivers/iommu/intel-iommu.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-index f6c030433d38048..f7400e35628dce4 100644
+index b5af859956c4fda..af580274b7c5270 100644
 --- a/drivers/iommu/Kconfig
 +++ b/drivers/iommu/Kconfig
-@@ -89,7 +89,7 @@ choice
- 
- config IOMMU_DEFAULT_PASSTHROUGH
- 	bool "passthrough"
--	depends on !S390_IOMMU
-+	depends on (!S390_IOMMU && !IA64)
+@@ -79,7 +79,7 @@ choice
+ 	prompt "IOMMU default DMA mode"
+ 	depends on IOMMU_API
+ 	default IOMMU_DEFAULT_PASSTHROUGH if (PPC_POWERNV && PCI)
+-	default IOMMU_DEFAULT_LAZY if S390_IOMMU
++	default IOMMU_DEFAULT_LAZY if (INTEL_IOMMU || S390_IOMMU)
+ 	default IOMMU_DEFAULT_STRICT
  	help
- 	  In this mode, the DMA access through IOMMU without any addresses
- 	  translation. That means, the wrong or illegal DMA access can not
+ 	  This option allows IOMMU DMA mode to be chose at build time, to
+diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+index a209199f3af6460..50d74ea0acdbdca 100644
+--- a/drivers/iommu/intel-iommu.c
++++ b/drivers/iommu/intel-iommu.c
+@@ -362,7 +362,7 @@ static int domain_detach_iommu(struct dmar_domain *domain,
+ 
+ static int dmar_map_gfx = 1;
+ static int dmar_forcedac;
+-static int intel_iommu_strict;
++static int intel_iommu_strict = IS_ENABLED(CONFIG_IOMMU_DEFAULT_STRICT);
+ static int intel_iommu_superpage = 1;
+ static int intel_iommu_sm;
+ static int iommu_identity_mapping;
 -- 
 1.8.3
 
