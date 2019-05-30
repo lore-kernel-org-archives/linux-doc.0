@@ -1,95 +1,95 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B83BB7D910
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 May 2019 08:30:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A617B7D910
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 May 2019 10:15:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725440AbfE3Ia3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 May 2019 04:30:29 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:55881 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726837AbfE3Ia3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 May 2019 04:30:29 -0400
-Received: by mail-wm1-f66.google.com with SMTP id u78so3344650wmu.5
-        for <linux-doc@vger.kernel.org>; Thu, 30 May 2019 01:30:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=cakd6yX8spRcWU62BwvHvcKXUNux0T+n4hdvHWSmHRI=;
-        b=mEJ6CQeq1/BVHFZMAYa0f1ZcQw1ks1wOmoWQcvS+533GG/09ajDKmg1QO2jzkh3VXR
-         qIMKZHeG9mvw3hJRfUD50b0U2Nk8HoIrB6J2xgTdEk0rdJryLAPdpv97tTYPrLBY8ngt
-         NPO2UFjuAmkyHrS5HXcfmWxwc4L1TBIHemrsCMJLmX8ytgRuCDJ4LelRy4EEDu7lukps
-         ko2YV9rb/s0MY8yNm+4Ozw/PCBtas30mvEfNvmVNQrWW+D6zUN+/hkeQxhEP27iSRfXk
-         IOxFD35JV7XN6wsGFfkomxty28HEhoSNGJOCjdq2wdy4r60wuj8QiCR9IOKwSSezSeYe
-         +iQA==
-X-Gm-Message-State: APjAAAVQd4XfKw8V9frlVefQWJaixpELHoPtgdNeqsHpaPMTNV0vzFaG
-        SDjzvrsWZTuBh7Q4CLu8qnqiFA==
-X-Google-Smtp-Source: APXvYqz9aBCV+UXQLk4e6KAbVOE20yVgNpoWGimmvRkY5cIZlAJKv+oW03Lf2HhxmWLaaw8t1GScjw==
-X-Received: by 2002:a1c:8049:: with SMTP id b70mr1424865wmd.33.1559205027447;
-        Thu, 30 May 2019 01:30:27 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:3da1:318a:275c:408? ([2001:b07:6468:f312:3da1:318a:275c:408])
-        by smtp.gmail.com with ESMTPSA id y8sm1688948wmi.8.2019.05.30.01.30.26
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Thu, 30 May 2019 01:30:26 -0700 (PDT)
-Subject: Re: [PATCH 10/22] docs: amd-memory-encryption.rst get rid of warnings
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
-        kvm@vger.kernel.org
-References: <cover.1559171394.git.mchehab+samsung@kernel.org>
- <76b7a2990edd771aa1708862d0c6644a6b2d795d.1559171394.git.mchehab+samsung@kernel.org>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <f9f66434-19b5-b219-f719-6dba2e4e363b@redhat.com>
-Date:   Thu, 30 May 2019 10:30:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1727676AbfE3KPD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 May 2019 06:15:03 -0400
+Received: from mail.originalcard.eu ([80.211.22.181]:33679 "EHLO
+        mail.originalcard.eu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727105AbfE3KPC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 May 2019 06:15:02 -0400
+Received: by mail.originalcard.eu (Postfix, from userid 1001)
+        id 36A0988095; Thu, 30 May 2019 12:07:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=originalcard.eu;
+        s=mail; t=1559210841;
+        bh=pU1Ykvzl3adJBZV7imduP50iKN5NTUdr3w+tN5tXtoc=;
+        h=Date:From:To:Subject:From;
+        b=uxaMeMtxhtRB+KYQBtyzlGRxspq9Z52JFYs+enOXFjF00Wnf8vanDhAXwC8gN43m3
+         5B6GJSvz0I8KsWJoet+6saNHOD12F3nQI43gxb52uc+QDTyZKidGRpP7pZIDd4nd5W
+         u2j2HBPb5pErWEwIjuT4TkzoZk+YeXfNV3UYDVKg=
+Received: by mail.originalcard.eu for <linux-doc@vger.kernel.org>; Thu, 30 May 2019 10:07:05 GMT
+Message-ID: <20190530100644-0.1.d.165k.0.hm4ra6idc2@originalcard.eu>
+Date:   Thu, 30 May 2019 10:07:05 GMT
+From:   "Radoslav Dobrev" <radoslav.dobrev@originalcard.eu>
+To:     <linux-doc@vger.kernel.org>
+Subject: =?UTF-8?Q?=D0=92=D0=B5=D0=BB=D0=B8=D0=BA=D0=B4=D0=B5=D0=BD=D1=81=D0=BA=D0=B8_=D0=B1=D0=BE=D0=BD=D1=83=D1=81=D0=B8?=
+X-Mailer: mail.originalcard.eu
 MIME-Version: 1.0
-In-Reply-To: <76b7a2990edd771aa1708862d0c6644a6b2d795d.1559171394.git.mchehab+samsung@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 30/05/19 01:23, Mauro Carvalho Chehab wrote:
-> Get rid of those warnings:
-> 
->     Documentation/virtual/kvm/amd-memory-encryption.rst:244: WARNING: Citation [white-paper] is not referenced.
->     Documentation/virtual/kvm/amd-memory-encryption.rst:246: WARNING: Citation [amd-apm] is not referenced.
->     Documentation/virtual/kvm/amd-memory-encryption.rst:247: WARNING: Citation [kvm-forum] is not referenced.
-> 
-> For references that aren't mentioned at the text by adding an
-> explicit reference to them.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
->  Documentation/virtual/kvm/amd-memory-encryption.rst | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/Documentation/virtual/kvm/amd-memory-encryption.rst b/Documentation/virtual/kvm/amd-memory-encryption.rst
-> index 33d697ab8a58..6c37ff9a0a3c 100644
-> --- a/Documentation/virtual/kvm/amd-memory-encryption.rst
-> +++ b/Documentation/virtual/kvm/amd-memory-encryption.rst
-> @@ -243,6 +243,9 @@ Returns: 0 on success, -negative on error
->  References
->  ==========
->  
-> +
-> +See [white-paper]_, [api-spec]_, [amd-apm]_ and [kvm-forum]_ for more info.
-> +
->  .. [white-paper] http://amd-dev.wpengine.netdna-cdn.com/wordpress/media/2013/12/AMD_Memory_Encryption_Whitepaper_v7-Public.pdf
->  .. [api-spec] http://support.amd.com/TechDocs/55766_SEV-KM_API_Specification.pdf
->  .. [amd-apm] http://support.amd.com/TechDocs/24593.pdf (section 15.34)
-> 
+=D0=97=D0=B4=D1=80=D0=B0=D0=B2=D0=B5=D0=B9=D1=82=D0=B5!
 
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+=D0=92=D0=B0=D1=83=D1=87=D0=B5=D1=80=D0=B8=D1=82=D0=B5 =D0=B7=D0=B0 =D1=85=
+=D1=80=D0=B0=D0=BD=D0=B0 =D1=81=D0=B5 =D0=BD=D0=B0=D1=80=D0=B5=D0=B6=D0=B4=
+=D0=B0=D1=82 =D1=81=D1=80=D0=B5=D0=B4 =D0=BB=D1=8E=D0=B1=D0=B8=D0=BC=D0=B8=
+=D1=82=D0=B5 =D1=81=D0=BE=D1=86=D0=B8=D0=B0=D0=BB=D0=BD=D0=B8 =D0=BF=D1=80=
+=D0=B8=D0=B4=D0=BE=D0=B1=D0=B8=D0=B2=D0=BA=D0=B8 =D0=BD=D0=B0 =D1=80=D0=B0=
+=D0=B1=D0=BE=D1=82=D0=B5=D1=89=D0=B8=D1=82=D0=B5 =D1=85=D0=BE=D1=80=D0=B0=
+ =D0=B8 =D1=81=D1=80=D0=B5=D0=B4 =D0=BD=D0=B0=D0=B9-=D0=BF=D1=80=D0=B5=D0=
+=B4=D0=BF=D0=BE=D1=87=D0=B8=D1=82=D0=B0=D0=BD=D0=B8=D1=82=D0=B5 =D0=BD=D0=
+=B0=D1=87=D0=B8=D0=BD=D0=B8 =D0=B7=D0=B0 =D1=81=D1=82=D0=B8=D0=BC=D1=83=D0=
+=BB=D0=B8=D1=80=D0=B0=D0=BD=D0=B5 =D0=BE=D1=82 =D1=80=D0=B0=D0=B1=D0=BE=D1=
+=82=D0=BE=D0=B4=D0=B0=D1=82=D0=B5=D0=BB=D0=B8=D1=82=D0=B5. =D0=A2=D0=B5 =D0=
+=BF=D0=BE=D0=B4=D0=BE=D0=B1=D1=80=D1=8F=D0=B2=D0=B0=D1=82 =D0=B5=D1=84=D0=
+=B5=D0=BA=D1=82=D0=B8=D0=B2=D0=BD=D0=BE=D1=81=D1=82=D1=82=D0=B0 =D0=B8 =D0=
+=BF=D1=80=D0=BE=D0=B8=D0=B7=D0=B2=D0=BE=D0=B4=D0=B8=D1=82=D0=B5=D0=BB=D0=BD=
+=D0=BE=D1=81=D1=82=D1=82=D0=B0 =D0=BD=D0=B0 =D0=92=D0=B0=D1=88=D0=B8=D1=82=
+=D0=B5 =D1=81=D0=BB=D1=83=D0=B6=D0=B8=D1=82=D0=B5=D0=BB=D0=B8.
+
+=D0=91=D0=BB=D0=B0=D0=B3=D0=BE=D0=B4=D0=B0=D1=80=D0=B5=D0=BD=D0=B8=D0=B5 =
+=D0=BD=D0=B0 =D0=B2=D0=B0=D1=83=D1=87=D0=B5=D1=80=D0=B8=D1=82=D0=B5 =D0=B7=
+=D0=B0 =D1=85=D1=80=D0=B0=D0=BD=D0=B0 =D1=80=D0=B5=D0=B0=D0=BB=D0=B8=D0=B7=
+=D0=B8=D1=80=D0=B0=D1=82=D0=B5 =D1=81=D0=BF=D0=B5=D1=81=D1=82=D1=8F=D0=B2=
+=D0=B0=D0=BD=D0=B8=D1=8F =E2=80=93 =D1=81=D1=82=D0=BE=D0=B9=D0=BD=D0=BE=D1=
+=81=D1=82=D1=82=D0=B0 =D0=BD=D0=B0 =D0=B2=D0=B0=D1=83=D1=87=D0=B5=D1=80=D0=
+=B8=D1=82=D0=B5 =D0=BD=D0=B5 =D1=81=D0=B5 =D0=BE=D0=B1=D0=BB=D0=B0=D0=B3=D0=
+=B0 =D1=81 =D0=B4=D0=B0=D0=BD=D1=8A=D1=86=D0=B8 =D0=B8 =D0=BE=D1=81=D0=B8=
+=D0=B3=D1=83=D1=80=D0=BE=D0=B2=D0=BA=D0=B8 =D0=B4=D0=BE 60=D0=BB=D0=B2 =D0=
+=BC=D0=B5=D1=81=D0=B5=D1=87=D0=BD=D0=BE =D0=B7=D0=B0 =D0=B2=D1=81=D0=B5=D0=
+=BA=D0=B8 =D1=80=D0=B0=D0=B1=D0=BE=D1=82=D0=BD=D0=B8=D0=BA, =D0=B0 =D0=B2=
+ =D1=81=D1=8A=D1=89=D0=BE=D1=82=D0=BE =D0=B2=D1=80=D0=B5=D0=BC=D0=B5 =D0=BC=
+=D0=BE=D1=82=D0=B8=D0=B2=D0=B0=D1=86=D0=B8=D1=8F=D1=82=D0=B0 =D0=B8 =D0=BF=
+=D0=BE=D0=BA=D1=83=D0=BF=D0=B0=D1=82=D0=B5=D0=BB=D0=BD=D0=B0=D1=82=D0=B0 =
+=D1=81=D0=BF=D0=BE=D1=81=D0=BE=D0=B1=D0=BD=D0=BE=D1=81=D1=82 =D0=BD=D0=B0=
+ =D1=81=D0=BB=D1=83=D0=B6=D0=B8=D1=82=D0=B5=D0=BB=D0=B8=D1=82=D0=B5 =D0=BD=
+=D0=B0=D1=80=D0=B0=D1=81=D1=82=D0=B2=D0=B0.
+
+=D0=90=D0=BA=D0=BE =D0=BF=D1=80=D0=BE=D1=8F=D0=B2=D1=8F=D0=B2=D0=B0=D1=82=
+=D0=B5 =D0=B8=D0=BD=D1=82=D0=B5=D1=80=D0=B5=D1=81 =D0=BA=D1=8A=D0=BC =D0=B2=
+=D1=8A=D0=B7=D0=BC=D0=BE=D0=B6=D0=BD=D0=BE=D1=81=D1=82=D0=B8=D1=82=D0=B5 =
+=D0=B7=D0=B0 =D0=B2=D1=8A=D0=B2=D0=B5=D0=B6=D0=B4=D0=B0=D0=BD=D0=B5 =D0=BD=
+=D0=B0 =D0=B2=D0=B0=D1=83=D1=87=D0=B5=D1=80=D0=B8 =D0=B7=D0=B0 =D1=85=D1=80=
+=D0=B0=D0=BD=D0=B0 =D0=B2=D1=8A=D0=B2 =D0=92=D0=B0=D1=88=D0=B0=D1=82=D0=B0=
+ =D1=84=D0=B8=D1=80=D0=BC=D0=B0 =D0=B8 =D0=B6=D0=B5=D0=BB=D0=B0=D0=B5=D1=82=
+=D0=B5 =D0=BF=D0=BE-=D0=BF=D0=BE=D0=B4=D1=80=D0=BE=D0=B1=D0=BD=D0=B0 =D0=B8=
+=D0=BD=D1=84=D0=BE=D1=80=D0=BC=D0=B0=D1=86=D0=B8=D1=8F, =D0=B8=D0=B7=D0=BF=
+=D1=80=D0=B0=D1=82=D0=B5=D1=82=D0=B5 =D0=BC=D0=B8 =D1=81=D1=8A=D0=BE=D0=B1=
+=D1=89=D0=B5=D0=BD=D0=B8=D0=B5.
+
+
+=D0=A0=D0=B0=D0=B4=D0=BE=D1=81=D0=BB=D0=B0=D0=B2 =D0=94=D0=BE=D0=B1=D1=80=
+=D0=B5=D0=B2
+Head of HR Benefit Team
+www.originalcard.eu
