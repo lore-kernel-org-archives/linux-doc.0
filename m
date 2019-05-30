@@ -1,109 +1,76 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_HIGH autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 709EC7D981
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 May 2019 15:30:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 301B07D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 May 2019 16:43:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727631AbfE3P2G (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 May 2019 11:28:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58202 "EHLO mail.kernel.org"
+        id S1726527AbfE3Qnr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 May 2019 12:43:47 -0400
+Received: from ms.lwn.net ([45.79.88.28]:57494 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727536AbfE3P2F (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 30 May 2019 11:28:05 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1725961AbfE3Qnr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 30 May 2019 12:43:47 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9D19224422;
-        Thu, 30 May 2019 15:28:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1559230084;
-        bh=2SeuYcgtjv8C1XOomtfxNINKkXjgtPt1eZWnSUpjXP0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ezz2PrC0nPT+sN4uG9SM5ee7Oe4C1+FTh40Oq9Bw7vcBGx1xLHBHttq8zF5r9Ta0V
-         pkzE6KlDUpLEOtZRNy4NPGmAvgBNVTSnCkhCmmggnnBr0yzsB2Mvq+JuuM4+58fI06
-         L07z/t7jV3RfjPoGcfxfFRCoxzDFgfrjkqQukyrY=
-From:   Sasha Levin <sashal@kernel.org>
-To:     peterhuewe@gmx.de, jarkko.sakkinen@linux.intel.com, jgg@ziepe.ca
-Cc:     corbet@lwn.net, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-kernel@microsoft.com, thiruan@microsoft.com,
-        bryankel@microsoft.com, tee-dev@lists.linaro.org,
-        Sasha Levin <sashal@kernel.org>
-Subject: [PATCH v4 2/2] fTPM: add documentation for ftpm driver
-Date:   Thu, 30 May 2019 11:27:58 -0400
-Message-Id: <20190530152758.16628-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190530152758.16628-1-sashal@kernel.org>
-References: <20190530152758.16628-1-sashal@kernel.org>
+        by ms.lwn.net (Postfix) with ESMTPSA id E1D58728;
+        Thu, 30 May 2019 16:43:46 +0000 (UTC)
+Date:   Thu, 30 May 2019 10:43:45 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Joel Nider <joeln@il.ibm.com>,
+        Mike Rapoport <rppt@linux.ibm.com>
+Subject: Re: [PATCH 00/10] Improvements to the documentation build system
+Message-ID: <20190530104345.6c7184fe@lwn.net>
+In-Reply-To: <cover.1559170790.git.mchehab+samsung@kernel.org>
+References: <cover.1559170790.git.mchehab+samsung@kernel.org>
+Organization: LWN.net
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch adds basic documentation to describe the new fTPM driver.
+On Wed, 29 May 2019 20:09:22 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-Signed-off-by: Sasha Levin <sashal@kernel.org>
-Signed-off-by: Sasha Levin (Microsoft) <sashal@kernel.org>
----
- Documentation/security/tpm/index.rst        |  1 +
- Documentation/security/tpm/tpm_ftpm_tee.rst | 31 +++++++++++++++++++++
- 2 files changed, 32 insertions(+)
- create mode 100644 Documentation/security/tpm/tpm_ftpm_tee.rst
+> This series contain some improvements for the building system.
+> 
+> I sent already several of the patches here. They're rebased on the
+> top of your docs-next tree:
 
-diff --git a/Documentation/security/tpm/index.rst b/Documentation/security/tpm/index.rst
-index af77a7bbb0700..15783668644f2 100644
---- a/Documentation/security/tpm/index.rst
-+++ b/Documentation/security/tpm/index.rst
-@@ -4,4 +4,5 @@ Trusted Platform Module documentation
- 
- .. toctree::
- 
-+   tpm_ftpm_tee
-    tpm_vtpm_proxy
-diff --git a/Documentation/security/tpm/tpm_ftpm_tee.rst b/Documentation/security/tpm/tpm_ftpm_tee.rst
-new file mode 100644
-index 0000000000000..29c2f8b5ed100
---- /dev/null
-+++ b/Documentation/security/tpm/tpm_ftpm_tee.rst
-@@ -0,0 +1,31 @@
-+=============================================
-+Firmware TPM Driver
-+=============================================
-+
-+| Authors:
-+| Thirupathaiah Annapureddy <thiruan@microsoft.com>
-+| Sasha Levin <sashal@kernel.org>
-+
-+This document describes the firmware Trusted Platform Module (fTPM)
-+device driver.
-+
-+Introduction
-+============
-+
-+This driver is a shim for a firmware implemented in ARM's TrustZone
-+environment. The driver allows programs to interact with the TPM in the same
-+way the would interact with a hardware TPM.
-+
-+Design
-+======
-+
-+The driver acts as a thin layer that passes commands to and from a TPM
-+implemented in firmware. The driver itself doesn't contain much logic and is
-+used more like a dumb pipe between firmware and kernel/userspace.
-+
-+The firmware itself is based on the following paper:
-+https://www.microsoft.com/en-us/research/wp-content/uploads/2017/06/ftpm1.pdf
-+
-+When the driver is loaded it will expose ``/dev/tpmX`` character devices to
-+userspace which will enable userspace to communicate with the firmware tpm
-+through this device.
--- 
-2.20.1
+The set is now applied...
 
+> patch 1: gets rid of a warning since version 1.8 (I guess it starts
+> appearing with 1.8.6);
+
+This one I'd already picked up before.
+
+> patches 2 to 4: improve the pre-install script;
+> 
+> patches 5 to 8: improve the script with checks broken doc references;
+> 
+> patch 9: by default, use "-jauto" with Sphinx 1.7 or upper, in order
+> to speed up the build.
+
+I put in the tweak we discussed here.
+
+> patch 10 changes the recommended Sphinx version to 1.7.9. It keeps
+> the minimal supported version to 1.3.
+> 
+> Patch 4 contains a good description of the improvements made at
+> the build system. 
+
+Thanks,
+
+jon
