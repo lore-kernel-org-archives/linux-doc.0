@@ -5,30 +5,36 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BCD697D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 May 2019 14:40:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4E95A7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 30 May 2019 14:54:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726079AbfE3Oku (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 30 May 2019 10:40:50 -0400
-Received: from ms.lwn.net ([45.79.88.28]:56918 "EHLO ms.lwn.net"
+        id S1727225AbfE3OyG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 30 May 2019 10:54:06 -0400
+Received: from ms.lwn.net ([45.79.88.28]:57006 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725961AbfE3Oku (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 30 May 2019 10:40:50 -0400
+        id S1725934AbfE3OyF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 30 May 2019 10:54:05 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 9981B72D;
-        Thu, 30 May 2019 14:40:49 +0000 (UTC)
-Date:   Thu, 30 May 2019 08:40:48 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 5DD576D9;
+        Thu, 30 May 2019 14:54:05 +0000 (UTC)
+Date:   Thu, 30 May 2019 08:54:04 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     kbuild test robot <lkp@intel.com>
-Cc:     kbuild-all@01.org, linux-doc@vger.kernel.org
-Subject: Re: [lwn:docs-next 19/19] htmldocs:
- include/linux/generic-radix-tree.h:1: warning: 'Generic radix trees/sparse
- arrays' not found
-Message-ID: <20190530084048.7f5fbcf4@lwn.net>
-In-Reply-To: <201905301152.nK61DkP1%lkp@intel.com>
-References: <201905301152.nK61DkP1%lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/5] docs: by default, build docs a lot faster with
+ Sphinx >= 1.7
+Message-ID: <20190530085404.54973d02@lwn.net>
+In-Reply-To: <20190529225305.213d8c36@coco.lan>
+References: <cover.1558955082.git.mchehab+samsung@kernel.org>
+        <baf19095789f2b2ed0c7a940703037a00cd77850.1558955082.git.mchehab+samsung@kernel.org>
+        <20190529170202.65c7f9ca@lwn.net>
+        <20190529202005.04dcd4a0@coco.lan>
+        <20190529174716.4f0e21ad@lwn.net>
+        <20190529225305.213d8c36@coco.lan>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -38,32 +44,37 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 30 May 2019 11:14:54 +0800
-kbuild test robot <lkp@intel.com> wrote:
+On Wed, 29 May 2019 22:53:05 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-> tree:   git://git.lwn.net/linux-2.6 docs-next
-> head:   b0d60bfbb60cef1efd699a65e29a94487f8c7b1f
-> commit: b0d60bfbb60cef1efd699a65e29a94487f8c7b1f [19/19] kernel-doc: always name missing kerneldoc sections
-> reproduce: make htmldocs
+> > Yup.  The point is that I see the sphinx-build output *in the docs-build
+> > output", not when I run it standalone (where it does the expected thing).  
 > 
-> If you fix the issue, kindly add following tag
-> Reported-by: kbuild test robot <lkp@intel.com>
+> Weird... could some versions of Sphinx be redirecting the output of
+> --version to stderr instead of stdout?
 > 
-> All warnings (new ones prefixed by >>):
+> If so, something like:
+> 
+> 	perl -e 'open IN,"sphinx-build --version 2>&1 |"; while (<IN>) { if (m/([\d\.]+)/) { print "-jauto\n" if ($1 >= "1.7") } ;} close IN'
+> 
+> would make it print "-jauto" with those other versions you're trying.
 
-So, for anybody watching at home, the issue is stuff like this:
+That does improve the behavior from the command line; it seems that
+sphinx-build is indeed writing to stderr.  BUT that still doesn't fix the
+docs build!  To get the option to take effect, I also have to explicitly
+export SPHINXOPTS.  So the winning combination is:
 
-> >> include/linux/generic-radix-tree.h:1: warning: 'Generic radix trees/sparse arrays' not found  
-[...]
-> >> drivers/usb/typec/bus.c:1: warning: 'typec_altmode_unregister_driver' not found
-> >> drivers/usb/typec/bus.c:1: warning: 'typec_altmode_register_driver' not found
-> >> drivers/usb/typec/class.c:1: warning: 'typec_altmode_register_notifier' not found
-> >> drivers/usb/typec/class.c:1: warning: 'typec_altmode_unregister_notifier' not found  
+  export SPHINXOPTS = $(shell perl -e 'open IN,"sphinx-build --version
+  2>&1 |"; while (<IN>) { if (m/([\d\.]+)/) { print "-jauto" if ($$1 >= "1.7") } ;} close IN')
 
-These warnings are not new, but the text has changed.  They all used to
-just read "no structured comments found"; now we know exactly what
-kernel-doc was told to look for and didn't find.
+I don't have any weird version of make, so I'm not sure why you see
+different results than I do here.
 
-Thanks,
+I can apply those tweaks to your patch if it's OK with you.
+
+> I didn't try the python2 versions, though.
+
+Interestingly, I would appear to have both versions installed, with
+python2 winning in $PATH.
 
 jon
