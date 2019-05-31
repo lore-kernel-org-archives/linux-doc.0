@@ -1,150 +1,190 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_MED,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E7BA17D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 May 2019 09:57:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C99F37D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 May 2019 10:03:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726724AbfEaJ5s (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 31 May 2019 05:57:48 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:41520 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726280AbfEaJ5s (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 May 2019 05:57:48 -0400
-Received: by mail-oi1-f193.google.com with SMTP id b21so3314921oic.8
-        for <linux-doc@vger.kernel.org>; Fri, 31 May 2019 02:57:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=t/dabiI1+zXohN0XPJPWZWWtcKfqB2v/nUShweQXWc0=;
-        b=e32JUU3PfkhWWkA3PguBCXaJsg7lPEFltaK4JUSnF6IbCO9/3/VgXrN9kHh3T04HLU
-         cc4gQFNRfzpdnn3Zlkl3O/QinrY8vWDnieuJJwrqkt0dvkzgU7PDufYQXYPqEMNesADO
-         JVaQC2W7ZHVecGYxyIF1y9IjnOSSWo9uVr8tnjnGR/TrX7YhkC2+GmF2tE5qi7m3/FYn
-         BfTdJ9JkODL+hIo8f7g/TB0zWHG/iD4uzthFPjhkMd1kviqjgSmtvoJPj1I2+Rb2A3IN
-         KPSBDVByMZKy33HHr8kFjSobFkI5QhXEmahv2OcciHPwIGZXWvZ6+fRFSfkNx/Xuce6j
-         T5LQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=t/dabiI1+zXohN0XPJPWZWWtcKfqB2v/nUShweQXWc0=;
-        b=n5N0s/Fl1PuC+8KU8f3RLNnXWY+YR7HroVzdWTXBa/LkEOOd1TJgWkkvnl3ZneRH0J
-         I4jtzyScE0pwuwoKR91r3rn2RzpZTwapvOofceTmCV+L73Xf/dhicCTlMFgRXanpf7RK
-         BAMF+6tSPyFPofCcsqqkTBwKIMbk5U7FlR8ogLX7DkOlSD4uAMOnjqqkO5XnIYlbDkWC
-         X0TQbxf78ppEhnzeKKAbD4W9I+HcNigNxcrQiWDfeGkDoT2BhKorAdy7iBM3HHQ+e5p4
-         dDQH3vshvk3HDV6aIC4bZeNgWFkwPD0hTIBc6iv83n8Whzh3mcZY1XSl4LUJ0CNg1XLA
-         WSVg==
-X-Gm-Message-State: APjAAAUOTR5oGuHJMIKs9R4qd0dtW5kmVanqDCH07yoLMPdZrPd8j+Ik
-        kUdq66EcEtQ1ZN0mySALTcQud93DNCHgbhfhdPxyAg==
-X-Google-Smtp-Source: APXvYqxTrzMK8mZublRee/EYe0PadumD22Hhgu5bTyuirvM1rEu/qvQvgb6zLiAISTocJYvBThR/Q2W5owRyw3GKgfY=
-X-Received: by 2002:aca:bfc6:: with SMTP id p189mr5781082oif.121.1559296667221;
- Fri, 31 May 2019 02:57:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190529141500.193390-1-elver@google.com> <20190529141500.193390-3-elver@google.com>
- <EE911EC6-344B-4EB2-90A4-B11E8D96BEDC@zytor.com>
-In-Reply-To: <EE911EC6-344B-4EB2-90A4-B11E8D96BEDC@zytor.com>
-From:   Marco Elver <elver@google.com>
-Date:   Fri, 31 May 2019 11:57:36 +0200
-Message-ID: <CANpmjNOsPnVd50cTzUW8UYXPGqpSnRLcjj=JbZraTYVq1n18Fw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] x86: Move CPU feature test out of uaccess region
-To:     "H. Peter Anvin" <hpa@zytor.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Alexander Potapenko <glider@google.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Mark Rutland <mark.rutland@arm.com>,
+        id S1726240AbfEaKDj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 31 May 2019 06:03:39 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:58086 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726002AbfEaKDj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 31 May 2019 06:03:39 -0400
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 9BBDB1EFB9AB272BF3AF;
+        Fri, 31 May 2019 18:03:36 +0800 (CST)
+Received: from [127.0.0.1] (10.133.215.186) by DGGEMS414-HUB.china.huawei.com
+ (10.3.19.214) with Microsoft SMTP Server id 14.3.439.0; Fri, 31 May 2019
+ 18:03:29 +0800
+Subject: Re: [PATCH v8 1/7] iommu: enhance IOMMU default DMA mode build
+ options
+To:     John Garry <john.garry@huawei.com>,
+        Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "Will Deacon" <will.deacon@arm.com>,
+        Joerg Roedel <joro@8bytes.org>,
         Jonathan Corbet <corbet@lwn.net>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        Sebastian Ott <sebott@linux.ibm.com>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        "Martin Schwidefsky" <schwidefsky@de.ibm.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        "Michael Ellerman" <mpe@ellerman.id.au>,
+        Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>
+        "H . Peter Anvin" <hpa@zytor.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        iommu <iommu@lists.linux-foundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        x86 <x86@kernel.org>, linux-ia64 <linux-ia64@vger.kernel.org>
+CC:     Hanjun Guo <guohanjun@huawei.com>, Linuxarm <linuxarm@huawei.com>
+References: <20190530034831.4184-1-thunder.leizhen@huawei.com>
+ <20190530034831.4184-2-thunder.leizhen@huawei.com>
+ <645bd526-4eb0-4a36-2dda-023f009247ab@huawei.com>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <030bafab-58f5-8bb1-0533-2977d6e138b2@huawei.com>
+Date:   Fri, 31 May 2019 18:03:16 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <645bd526-4eb0-4a36-2dda-023f009247ab@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.133.215.186]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 29 May 2019 at 16:29, <hpa@zytor.com> wrote:
->
-> On May 29, 2019 7:15:00 AM PDT, Marco Elver <elver@google.com> wrote:
-> >This patch is a pre-requisite for enabling KASAN bitops
-> >instrumentation:
-> >moves boot_cpu_has feature test out of the uaccess region, as
-> >boot_cpu_has uses test_bit. With instrumentation, the KASAN check would
-> >otherwise be flagged by objtool.
-> >
-> >This approach is preferred over adding the explicit kasan_check_*
-> >functions to the uaccess whitelist of objtool, as the case here appears
-> >to be the only one.
-> >
-> >Signed-off-by: Marco Elver <elver@google.com>
-> >---
-> >v1:
-> >* This patch replaces patch: 'tools/objtool: add kasan_check_* to
-> >  uaccess whitelist'
-> >---
-> > arch/x86/ia32/ia32_signal.c | 9 ++++++++-
-> > 1 file changed, 8 insertions(+), 1 deletion(-)
-> >
-> >diff --git a/arch/x86/ia32/ia32_signal.c b/arch/x86/ia32/ia32_signal.c
-> >index 629d1ee05599..12264e3c9c43 100644
-> >--- a/arch/x86/ia32/ia32_signal.c
-> >+++ b/arch/x86/ia32/ia32_signal.c
-> >@@ -333,6 +333,7 @@ int ia32_setup_rt_frame(int sig, struct ksignal
-> >*ksig,
-> >       void __user *restorer;
-> >       int err = 0;
-> >       void __user *fpstate = NULL;
-> >+      bool has_xsave;
-> >
-> >       /* __copy_to_user optimizes that into a single 8 byte store */
-> >       static const struct {
-> >@@ -352,13 +353,19 @@ int ia32_setup_rt_frame(int sig, struct ksignal
-> >*ksig,
-> >       if (!access_ok(frame, sizeof(*frame)))
-> >               return -EFAULT;
-> >
-> >+      /*
-> >+       * Move non-uaccess accesses out of uaccess region if not strictly
-> >+       * required; this also helps avoid objtool flagging these accesses
-> >with
-> >+       * instrumentation enabled.
-> >+       */
-> >+      has_xsave = boot_cpu_has(X86_FEATURE_XSAVE);
-> >       put_user_try {
-> >               put_user_ex(sig, &frame->sig);
-> >               put_user_ex(ptr_to_compat(&frame->info), &frame->pinfo);
-> >               put_user_ex(ptr_to_compat(&frame->uc), &frame->puc);
-> >
-> >               /* Create the ucontext.  */
-> >-              if (boot_cpu_has(X86_FEATURE_XSAVE))
-> >+              if (has_xsave)
-> >                       put_user_ex(UC_FP_XSTATE, &frame->uc.uc_flags);
-> >               else
-> >                       put_user_ex(0, &frame->uc.uc_flags);
->
-> This was meant to use static_cpu_has(). Why did that get dropped?
 
-I couldn't find any mailing list thread referring to why this doesn't
-use static_cpu_has, do you have any background?
 
-static_cpu_has also solves the UACCESS warning.
+On 2019/5/30 20:20, John Garry wrote:
+> On 30/05/2019 04:48, Zhen Lei wrote:
+>> First, add build option IOMMU_DEFAULT_{LAZY|STRICT}, so that we have the
+>> opportunity to set {lazy|strict} mode as default at build time. Then put
+>> the three config options in an choice, make people can only choose one of
+>> the three at a time.
+>>
+> 
+> Since this was not picked up, but modulo (somtimes same) comments below:
+> 
+> Reviewed-by: John Garry <john.garry@huawei.com>
+> 
+>> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+>> ---
+>>  drivers/iommu/Kconfig | 42 +++++++++++++++++++++++++++++++++++-------
+>>  drivers/iommu/iommu.c |  3 ++-
+>>  2 files changed, 37 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
+>> index 83664db5221df02..d6a1a45f80ffbf5 100644
+>> --- a/drivers/iommu/Kconfig
+>> +++ b/drivers/iommu/Kconfig
+>> @@ -75,17 +75,45 @@ config IOMMU_DEBUGFS
+>>        debug/iommu directory, and then populate a subdirectory with
+>>        entries as required.
+>>
+>> -config IOMMU_DEFAULT_PASSTHROUGH
+>> -    bool "IOMMU passthrough by default"
+>> +choice
+>> +    prompt "IOMMU default DMA mode"
+>>      depends on IOMMU_API
+>> -        help
+>> -      Enable passthrough by default, removing the need to pass in
+>> -      iommu.passthrough=on or iommu=pt through command line. If this
+>> -      is enabled, you can still disable with iommu.passthrough=off
+>> -      or iommu=nopt depending on the architecture.
+>> +    default IOMMU_DEFAULT_STRICT
+>> +    help
+>> +      This option allows IOMMU DMA mode to be chose at build time, to
+> 
+> As before:
+> /s/chose/chosen/, /s/allows IOMMU/allows an IOMMU/
+I'm sorry that the previous version was not modified.
 
-If you confirm it is safe to change to static_cpu_has(), I will change
-this patch. Note that I should then also change
-arch/x86/kernel/signal.c to mirror the change for 32bit  (although
-KASAN is not supported for 32bit x86).
+> 
+>> +      override the default DMA mode of each ARCHs, removing the need to
+> 
+> Again, as before:
+> ARCHs should be singular
+OK
 
-Thanks,
--- Marco
+> 
+>> +      pass in kernel parameters through command line. You can still use
+>> +      ARCHs specific boot options to override this option again.
+>> +
+>> +config IOMMU_DEFAULT_PASSTHROUGH
+>> +    bool "passthrough"
+>> +    help
+>> +      In this mode, the DMA access through IOMMU without any addresses
+>> +      translation. That means, the wrong or illegal DMA access can not
+>> +      be caught, no error information will be reported.
+>>
+>>        If unsure, say N here.
+>>
+>> +config IOMMU_DEFAULT_LAZY
+>> +    bool "lazy"
+>> +    help
+>> +      Support lazy mode, where for every IOMMU DMA unmap operation, the
+>> +      flush operation of IOTLB and the free operation of IOVA are deferred.
+>> +      They are only guaranteed to be done before the related IOVA will be
+>> +      reused.
+> 
+> why no advisory on how to set if unsure?
+Because the LAZY and STRICT have their own advantages and disadvantages.
+
+Should I say: If unsure, keep the default。
+
+> 
+>> +
+>> +config IOMMU_DEFAULT_STRICT
+>> +    bool "strict"
+>> +    help
+>> +      For every IOMMU DMA unmap operation, the flush operation of IOTLB and
+>> +      the free operation of IOVA are guaranteed to be done in the unmap
+>> +      function.
+>> +
+>> +      This mode is safer than the two above, but it maybe slower in some
+>> +      high performace scenarios.
+> 
+> and here?
+> 
+>> +
+>> +endchoice
+>> +
+>>  config OF_IOMMU
+>>         def_bool y
+>>         depends on OF && IOMMU_API
+>> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+>> index 67ee6623f9b2a4d..56bce221285b15f 100644
+>> --- a/drivers/iommu/iommu.c
+>> +++ b/drivers/iommu/iommu.c
+>> @@ -43,7 +43,8 @@
+>>  #else
+>>  static unsigned int iommu_def_domain_type = IOMMU_DOMAIN_DMA;
+>>  #endif
+>> -static bool iommu_dma_strict __read_mostly = true;
+>> +static bool iommu_dma_strict __read_mostly =
+>> +            IS_ENABLED(CONFIG_IOMMU_DEFAULT_STRICT);
+>>
+>>  struct iommu_group {
+>>      struct kobject kobj;
+>>
+> 
+> 
+> 
+> .
+> 
+
