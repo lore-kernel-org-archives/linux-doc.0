@@ -1,195 +1,83 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_HIGH
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_MED,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BED397D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 May 2019 21:01:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1BC647D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 May 2019 21:14:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726695AbfEaVB2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 31 May 2019 17:01:28 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:35475 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726744AbfEaVB2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 May 2019 17:01:28 -0400
-Received: by mail-pf1-f196.google.com with SMTP id d126so6920737pfd.2
-        for <linux-doc@vger.kernel.org>; Fri, 31 May 2019 14:01:27 -0700 (PDT)
+        id S1727087AbfEaVOT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 31 May 2019 17:14:19 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:36912 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727005AbfEaVOT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 May 2019 17:14:19 -0400
+Received: by mail-pl1-f195.google.com with SMTP id e7so4005315pln.4
+        for <linux-doc@vger.kernel.org>; Fri, 31 May 2019 14:14:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=DP3CVXmE/gQtGlfYoS276lusULFV6LiuuJ2eL+PXPcY=;
-        b=g0KB+6Y259/gkduT0X6uIFUG9lC7gD3Q1U+W533KEOeKWeobAR50VIM3TvOHj9GiHM
-         Nl6hPUSHweKNSJzMYfX8x6nGtcpSiLmfFOnrIN72DAukb/OTHqlOabjAh14XD6YEupKQ
-         G7YvLGB2N1PdwpzkldAcCZPtF2lhuO20XAVq4=
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:in-reply-to:message-id:references
+         :user-agent:mime-version;
+        bh=N5VBbSDZXCG+FOI8GYS2ku3sBeJ+EZTRC3ZX2yAfkRQ=;
+        b=fj3dqAqvGIC2JeWNLeqwvsSGzDYdILD9Tsteak9wAz2iwFC+WPLXoePw4kAuOE7IdS
+         43W00Wn1BlP/h5RanltBT7IsUEBe7CtzthCb8h5rG5Eoc7+EJC8dKTkHRTF2TCZjwXb5
+         EMqg6jfah9ulpADLvgg1kXKbnXTtgbKful5KQb4HSoTFdlU4NzLi3D1OXjuwrybO7DCS
+         nUUmSyIpuper88cWMmvVkdO4XSB5u5jfs+l6wBn6E0rDJP7QdSmO/w9Jz4yL1a5dNNHx
+         IW7Es+TAMuoJ8ZwsMIn97UzbuXY3sy+/GO+3cqS4RNGUP8ZyNfSDc2s/RYfLhx5AZCqo
+         SJtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=DP3CVXmE/gQtGlfYoS276lusULFV6LiuuJ2eL+PXPcY=;
-        b=pCPFlRiW37rDahB5UH4QxxLuvwfUNkaI4hfqIWk+K0NzToDSv7eZZFyZru7ZoH1XwC
-         P2GP4JsZanDuAfvqAU5efJdwSUk2HHm1NXFj9dALukYrdhS4wX/9FGhHsdwa6DsGMBbL
-         wzWYjtmzMHQXh20zNdSsSPRPLL8o+2Srwc5wWfczA9/j53xZtbko8wQcOFJo18Bt/lYH
-         ZgnjHqV4o3RoMbPAU/e6DnailS2drevULTBieT3TXETg+ZlImfvNt6bYngnf5ps2mzMp
-         zgn7TErO8N/NbjiZ2lz4ZKhVYewVZnXC8BSt/+WQh99LO5Is0WJnlVN7/9/ZQQHqSj41
-         TAuA==
-X-Gm-Message-State: APjAAAU3tu4kBlWjcLyEwMHPniM772aIpHK4DPOEMdeNl0UcuMS95K00
-        Cqc4hJsE59fqAaZzRmvWE5qcxjoDcTo=
-X-Google-Smtp-Source: APXvYqwHmXlU73kVEk1sQ3xJWtgs11NZZc6SvuB9jjhv/3EVfBjo6WZriCxvHE7y9nFkYaV+gWmPIA==
-X-Received: by 2002:a63:5d45:: with SMTP id o5mr11709981pgm.40.1559336486946;
-        Fri, 31 May 2019 14:01:26 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id u123sm7509820pfu.67.2019.05.31.14.01.25
+        h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
+         :references:user-agent:mime-version;
+        bh=N5VBbSDZXCG+FOI8GYS2ku3sBeJ+EZTRC3ZX2yAfkRQ=;
+        b=c2GbQ5do1HCo7A6uQGzEcN0szW8etTZkjz+88pLZCdZBImvRENfC7VIT3LHa2KIkZw
+         Q+74o36olkvSiZVgppu7Ddk0wdKxRhe4w0uTK97sS9aVj3DRTddbxYdDO/MN8jIa60Rj
+         kJAs2OHQgPSUkpvP0nB8SVHW+L+pwyw6krA6BIcgL468JpRm9f9dtKw1ihVbsHL2WZzY
+         wgkYUHKFNNOzrkMGg1c+UU4885yPLSogjoG7FpYG86MbJqgvffA6h22f76G5mq3kJhWc
+         pMowelsbJVrsvtxddX/GrRM35p7mdSQyPu4AU122tcy3qxFEx4+yNrawtARXbVLHeHcl
+         xj0A==
+X-Gm-Message-State: APjAAAX9R6uvtc4oHbAaFM2BSLfKhiufOQMjxoyMGP4H4N3UdilCHe1T
+        1wp7PIm0nhx488m4S8a2OhyCTnWjIQ8=
+X-Google-Smtp-Source: APXvYqwv+jZp8UCB4UL+JeIxlGPnPgk6wAfg5gBTl9hII57RjtxDKJiNGgCX1CAeTwZzlCkTlcFgiQ==
+X-Received: by 2002:a17:902:9a4c:: with SMTP id x12mr11295810plv.298.1559337258592;
+        Fri, 31 May 2019 14:14:18 -0700 (PDT)
+Received: from [2620:15c:17:3:3a5:23a7:5e32:4598] ([2620:15c:17:3:3a5:23a7:5e32:4598])
+        by smtp.gmail.com with ESMTPSA id u4sm51903pfn.144.2019.05.31.14.14.17
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 31 May 2019 14:01:26 -0700 (PDT)
-Date:   Fri, 31 May 2019 14:01:24 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Ke Wu <mikewu@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v3] Allow to exclude specific file types in LoadPin
-Message-ID: <201905311401.6CB27923@keescook>
-References: <20190529224350.6460-1-mikewu@google.com>
- <20190531182553.51721-1-mikewu@google.com>
+        Fri, 31 May 2019 14:14:17 -0700 (PDT)
+Date:   Fri, 31 May 2019 14:14:17 -0700 (PDT)
+From:   David Rientjes <rientjes@google.com>
+X-X-Sender: rientjes@chino.kir.corp.google.com
+To:     Jonathan Corbet <corbet@lwn.net>
+cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH RFC] Rough draft document on merging and rebasing
+In-Reply-To: <20190530135317.3c8d0d7b@lwn.net>
+Message-ID: <alpine.DEB.2.21.1905311412310.81065@chino.kir.corp.google.com>
+References: <20190530135317.3c8d0d7b@lwn.net>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190531182553.51721-1-mikewu@google.com>
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 31, 2019 at 11:25:53AM -0700, Ke Wu wrote:
-> Linux kernel already provide MODULE_SIG and KEXEC_VERIFY_SIG to
-> make sure loaded kernel module and kernel image are trusted. This
-> patch adds a kernel command line option "loadpin.exclude" which
-> allows to exclude specific file types from LoadPin. This is useful
-> when people want to use different mechanisms to verify module and
-> kernel image while still use LoadPin to protect the integrity of
-> other files kernel loads.
-> 
-> Signed-off-by: Ke Wu <mikewu@google.com>
-> ---
-> Changelog since v2:
-> - Make size of exclude_read_files and ignore_read_file_id to be
->   equal to the size of kernel_read_file_str.
+On Thu, 30 May 2019, Jonathan Corbet wrote:
 
-Thanks! I've fixed this differently and it should be visible shortly.
+> docs: Add a document on repository management
+> 
+> Every merge window seems to involve at least one episode where subsystem
+> maintainers don't manage their trees as Linus would like.  Document the
+> expectations so that at least he has something to point people to.
+> 
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 
--Kees
+We're in the process of defining the pros and cons of merging vs rebasing 
+as part of our workflows internally and this is a great doc that does that 
+with less words and more clarity than I did it, so very happy to add
 
-> 
-> Changelog since v1:
-> - Mark ignore_read_file_id with __ro_after_init.
-> - Mark parse_exclude() with __init.
-> - Use ARRAY_SIZE(ignore_read_file_id) instead of READING_MAX_ID.
-> 
-> 
->  Documentation/admin-guide/LSM/LoadPin.rst | 10 ++++++
->  security/loadpin/loadpin.c                | 42 +++++++++++++++++++++++
->  2 files changed, 52 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/LSM/LoadPin.rst b/Documentation/admin-guide/LSM/LoadPin.rst
-> index 32070762d24c..716ad9b23c9a 100644
-> --- a/Documentation/admin-guide/LSM/LoadPin.rst
-> +++ b/Documentation/admin-guide/LSM/LoadPin.rst
-> @@ -19,3 +19,13 @@ block device backing the filesystem is not read-only, a sysctl is
->  created to toggle pinning: ``/proc/sys/kernel/loadpin/enabled``. (Having
->  a mutable filesystem means pinning is mutable too, but having the
->  sysctl allows for easy testing on systems with a mutable filesystem.)
-> +
-> +It's also possible to exclude specific file types from LoadPin using kernel
-> +command line option "``loadpin.exclude``". By default, all files are
-> +included, but they can be excluded using kernel command line option such
-> +as "``loadpin.exclude=kernel-module,kexec-image``". This allows to use
-> +different mechanisms such as ``CONFIG_MODULE_SIG`` and
-> +``CONFIG_KEXEC_VERIFY_SIG`` to verify kernel module and kernel image while
-> +still use LoadPin to protect the integrity of other files kernel loads. The
-> +full list of valid file types can be found in ``kernel_read_file_str``
-> +defined in ``include/linux/fs.h``.
-> diff --git a/security/loadpin/loadpin.c b/security/loadpin/loadpin.c
-> index 055fb0a64169..baa8a5b08c53 100644
-> --- a/security/loadpin/loadpin.c
-> +++ b/security/loadpin/loadpin.c
-> @@ -45,6 +45,12 @@ static void report_load(const char *origin, struct file *file, char *operation)
->  }
->  
->  static int enforce = IS_ENABLED(CONFIG_SECURITY_LOADPIN_ENFORCE);
-> +/*
-> + * The size should be READING_MAX_ID + 1 to be equal to the size of
-> + * kernel_read_file_str.
-> + */
-> +static char *exclude_read_files[READING_MAX_ID + 1];
-> +static int ignore_read_file_id[READING_MAX_ID + 1] __ro_after_init;
->  static struct super_block *pinned_root;
->  static DEFINE_SPINLOCK(pinned_root_spinlock);
->  
-> @@ -129,6 +135,13 @@ static int loadpin_read_file(struct file *file, enum kernel_read_file_id id)
->  	struct super_block *load_root;
->  	const char *origin = kernel_read_file_id_str(id);
->  
-> +	/* If the file id is excluded, ignore the pinning. */
-> +	if ((unsigned int)id < ARRAY_SIZE(ignore_read_file_id) &&
-> +	    ignore_read_file_id[id]) {
-> +		report_load(origin, file, "pinning-excluded");
-> +		return 0;
-> +	}
-> +
->  	/* This handles the older init_module API that has a NULL file. */
->  	if (!file) {
->  		if (!enforce) {
-> @@ -187,10 +200,37 @@ static struct security_hook_list loadpin_hooks[] __lsm_ro_after_init = {
->  	LSM_HOOK_INIT(kernel_load_data, loadpin_load_data),
->  };
->  
-> +static void __init parse_exclude(void)
-> +{
-> +	int i, j;
-> +	char *cur;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(exclude_read_files); i++) {
-> +		cur = exclude_read_files[i];
-> +		if (!cur)
-> +			break;
-> +		if (*cur == '\0')
-> +			continue;
-> +
-> +		for (j = 0; j < ARRAY_SIZE(kernel_read_file_str); j++) {
-> +			if (strcmp(cur, kernel_read_file_str[j]) == 0) {
-> +				pr_info("excluding: %s\n",
-> +					kernel_read_file_str[j]);
-> +				ignore_read_file_id[j] = 1;
-> +				/*
-> +				 * Can not break, because one read_file_str
-> +				 * may map to more than on read_file_id.
-> +				 */
-> +			}
-> +		}
-> +	}
-> +}
-> +
->  static int __init loadpin_init(void)
->  {
->  	pr_info("ready to pin (currently %senforcing)\n",
->  		enforce ? "" : "not ");
-> +	parse_exclude();
->  	security_add_hooks(loadpin_hooks, ARRAY_SIZE(loadpin_hooks), "loadpin");
->  	return 0;
->  }
-> @@ -203,3 +243,5 @@ DEFINE_LSM(loadpin) = {
->  /* Should not be mutable after boot, so not listed in sysfs (perm == 0). */
->  module_param(enforce, int, 0);
->  MODULE_PARM_DESC(enforce, "Enforce module/firmware pinning");
-> +module_param_array_named(exclude, exclude_read_files, charp, NULL, 0);
-> +MODULE_PARM_DESC(exclude, "Exclude pinning specific read file types");
-> -- 
-> 2.22.0.rc1.257.g3120a18244-goog
-> 
-
--- 
-Kees Cook
+Acked-by: David Rientjes <rientjes@google.com>
