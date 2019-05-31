@@ -4,53 +4,50 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_MED,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9D3DE7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 May 2019 15:11:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8F9D97D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 May 2019 15:12:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726902AbfEaPLn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 31 May 2019 11:11:43 -0400
-Received: from mail-vs1-f73.google.com ([209.85.217.73]:40815 "EHLO
-        mail-vs1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726896AbfEaPLm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 May 2019 11:11:42 -0400
-Received: by mail-vs1-f73.google.com with SMTP id s124so1858876vsb.7
-        for <linux-doc@vger.kernel.org>; Fri, 31 May 2019 08:11:42 -0700 (PDT)
+        id S1726724AbfEaPLg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 31 May 2019 11:11:36 -0400
+Received: from mail-qk1-f201.google.com ([209.85.222.201]:46072 "EHLO
+        mail-qk1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726693AbfEaPLg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 May 2019 11:11:36 -0400
+Received: by mail-qk1-f201.google.com with SMTP id u129so8102523qkd.12
+        for <linux-doc@vger.kernel.org>; Fri, 31 May 2019 08:11:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=LNEghw4B+GvmCMDyCJlZQOSF0gWgpI6UWg+d86gG2mc=;
-        b=ozkPZplAJd4r//3+vEEoJahNvXQO1X4ZigVyEubSdIpqctPhuNZLdlWXMYpzn67h0X
-         JreDTRTgDzX6i2a85Ia9Q+9zBKklei2FPPQbxVrT8uDoUQNOpsN/p8+BkJ1SU3yDiMNw
-         1KJBsS9Szx7t+Z3QsoD17P8MBZba3PqICFgjsntr0+BzPLbSbFLUzxrI2rNF4WXbIr6B
-         NjlRCy5ykAL5B1aiDgvaccG0XHNZwMHu3r2aBEaZOLLrreJ9CrY7Ieugpp59+Z5NF2U0
-         xuVrgPGdqr3vuv5BoBXZKO31zh2+kuZ3KqXUUmM1Uym7mHKx3LiZMdKIk+7MQPDnNV1p
-         ikKw==
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=DHrqTUytQArIdQz1xxPzRVqqz8q7l/i/jn+bESY1v40=;
+        b=VT0VhU5diy4D7S+PBFYFmWJZM3wQFT034TEzFtXa79nkY7mFiZqAq66rqbZ2BEasQY
+         5qvLyitDkcYkM3+HCUZP4WUEQoxkk7wsTF9szzHwKRKaG30oy4uWB2jkUBQ3lwq8+0N5
+         G8EH4PAeV0fONz/+Z99fpGrpxrRrGs8huirgP5uF4ArUup/88PAiT4olJKtbbuw6XDYi
+         nwbs/PxRd0NEru5t9bQoAW57/dXGO4cj3DPuM3ZdtDwZu+oOdHGeC3zI2yNeJpJYuOC1
+         o7KL7K3LHGmWoU1HEWi4ZvKAHB+dAXmVd0U8GDVMwggw6HqBTqvEMS3ig3GxdlYf5aCi
+         /0dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=LNEghw4B+GvmCMDyCJlZQOSF0gWgpI6UWg+d86gG2mc=;
-        b=ItxvRIX883as4cwelXWrKiMwKaQv9Xz5FhIDL3MCBqgSRGVnKQRsbDgq5INiuYmOuj
-         k2viYfserYK2N0Db3iG5PfRkNIz9x9laV4KUqzcDrT3gUKq2yiKm2mwudL5A7BD5xFP/
-         Vsw+w5lw4yktOsYiBuTm6CmJA2FO8zdLecDho6TV1MuKE0yOU21sZPuHPTBEcJSl3Y0T
-         YZ/VwaLGmXAKDvph3ijSf/dPPcSYxPZuyNfGY7Jvt6PzbAVHic8G9mEJwfW0L6ZYtggv
-         fXidvk37ktpMqTjXg+NfntQ7/EEtFVSXW0Majm01Pd/7PPyqtIJrebGwYwOTmG8Sc4Dy
-         YnKw==
-X-Gm-Message-State: APjAAAWXyh8BltfmH9F50Mz0JTAr/65MEWLW8HI5rs8O9uCd63Hp58uj
-        OUpEfOIJqbJcvgQ1JnbVb4B0VbEBMQ==
-X-Google-Smtp-Source: APXvYqxMRxD/zc6HiE9yfl3teIOaD5ernl+4NfEmJo1Hwn7xZzxHUm1PC8Ix91D9Z/1irN8QwfsHq9covg==
-X-Received: by 2002:ac5:c215:: with SMTP id m21mr4221628vkk.84.1559315501278;
- Fri, 31 May 2019 08:11:41 -0700 (PDT)
-Date:   Fri, 31 May 2019 17:08:30 +0200
-In-Reply-To: <20190531150828.157832-1-elver@google.com>
-Message-Id: <20190531150828.157832-3-elver@google.com>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=DHrqTUytQArIdQz1xxPzRVqqz8q7l/i/jn+bESY1v40=;
+        b=aEOuI1/5pGYJsPvRbNta10DPy8FN7Xzo/LF8az3kBh/ZSzoOqiSmOlPGdNVHBcJogV
+         EXmki567YvIGUSj4lZN1Erclrc0pRplehqbb1IS8rbGzemyI+h+/js69jNxTl0+cqIHq
+         hwzEwk4oJyYkAtFe7PS9ePfCrSQKKf/BSLNDIYw7CV6OV4+wOVuAk7EbR/wHruNPOFtW
+         LQwORSMqr+JLPysigCnuyr/SdNwT/UBZeJ1KeG/FXOtU4UCuQ93fp0ypuyL0gYEJoLyz
+         N/V/nu270BwnTPC59uAJKLm1Z6ymcMi6wdRn0y6lWI65WCsueLRe+Z4FVyugTM0bjwYz
+         7z2w==
+X-Gm-Message-State: APjAAAXECrFUmqobdjgaswvDbZv/ilsKYcEfYhy7Kw96MFhNn65Moktv
+        Nx67XVnKZqVjE/hMxyES09Qbst68ug==
+X-Google-Smtp-Source: APXvYqyege0R4wshcAYIiWymm6vQUMPjgKiKC5GhEGj/WkXa+ttPqmEB8FQ7p/IStQzHMpf7y+eHFZsQDg==
+X-Received: by 2002:a37:af03:: with SMTP id y3mr9056184qke.296.1559315495561;
+ Fri, 31 May 2019 08:11:35 -0700 (PDT)
+Date:   Fri, 31 May 2019 17:08:28 +0200
+Message-Id: <20190531150828.157832-1-elver@google.com>
 Mime-Version: 1.0
-References: <20190531150828.157832-1-elver@google.com>
 X-Mailer: git-send-email 2.22.0.rc1.257.g3120a18244-goog
-Subject: [PATCH v3 2/3] x86: Use static_cpu_has in uaccess region to avoid instrumentation
+Subject: [PATCH v3 0/3] Bitops instrumentation for KASAN
 From:   Marco Elver <elver@google.com>
 To:     peterz@infradead.org, aryabinin@virtuozzo.com, dvyukov@google.com,
         glider@google.com, andreyknvl@google.com, mark.rutland@arm.com,
@@ -66,56 +63,23 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch is a pre-requisite for enabling KASAN bitops instrumentation;
-using static_cpu_has instead of boot_cpu_has avoids instrumentation of
-test_bit inside the uaccess region. With instrumentation, the KASAN
-check would otherwise be flagged by objtool.
+Previous version of this patch series and discussion can be found here:
+http://lkml.kernel.org/r/20190529141500.193390-1-elver@google.com
 
-For consistency, kernel/signal.c was changed to mirror this change,
-however, is never instrumented with KASAN (currently unsupported under
-x86 32bit).
+Marco Elver (3):
+  lib/test_kasan: Add bitops tests
+  x86: Use static_cpu_has in uaccess region to avoid instrumentation
+  asm-generic, x86: Add bitops instrumentation for KASAN
 
-Signed-off-by: Marco Elver <elver@google.com>
-Suggested-by: H. Peter Anvin <hpa@zytor.com>
----
-Changes in v3:
-* Use static_cpu_has instead of moving boot_cpu_has outside uaccess
-  region.
+ Documentation/core-api/kernel-api.rst     |   2 +-
+ arch/x86/ia32/ia32_signal.c               |   2 +-
+ arch/x86/include/asm/bitops.h             | 189 ++++------------
+ arch/x86/kernel/signal.c                  |   2 +-
+ include/asm-generic/bitops-instrumented.h | 263 ++++++++++++++++++++++
+ lib/test_kasan.c                          |  75 +++++-
+ 6 files changed, 376 insertions(+), 157 deletions(-)
+ create mode 100644 include/asm-generic/bitops-instrumented.h
 
-Changes in v2:
-* Replaces patch: 'tools/objtool: add kasan_check_* to uaccess
-  whitelist'
----
- arch/x86/ia32/ia32_signal.c | 2 +-
- arch/x86/kernel/signal.c    | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/arch/x86/ia32/ia32_signal.c b/arch/x86/ia32/ia32_signal.c
-index 629d1ee05599..1cee10091b9f 100644
---- a/arch/x86/ia32/ia32_signal.c
-+++ b/arch/x86/ia32/ia32_signal.c
-@@ -358,7 +358,7 @@ int ia32_setup_rt_frame(int sig, struct ksignal *ksig,
- 		put_user_ex(ptr_to_compat(&frame->uc), &frame->puc);
- 
- 		/* Create the ucontext.  */
--		if (boot_cpu_has(X86_FEATURE_XSAVE))
-+		if (static_cpu_has(X86_FEATURE_XSAVE))
- 			put_user_ex(UC_FP_XSTATE, &frame->uc.uc_flags);
- 		else
- 			put_user_ex(0, &frame->uc.uc_flags);
-diff --git a/arch/x86/kernel/signal.c b/arch/x86/kernel/signal.c
-index 364813cea647..52eb1d551aed 100644
---- a/arch/x86/kernel/signal.c
-+++ b/arch/x86/kernel/signal.c
-@@ -391,7 +391,7 @@ static int __setup_rt_frame(int sig, struct ksignal *ksig,
- 		put_user_ex(&frame->uc, &frame->puc);
- 
- 		/* Create the ucontext.  */
--		if (boot_cpu_has(X86_FEATURE_XSAVE))
-+		if (static_cpu_has(X86_FEATURE_XSAVE))
- 			put_user_ex(UC_FP_XSTATE, &frame->uc.uc_flags);
- 		else
- 			put_user_ex(0, &frame->uc.uc_flags);
 -- 
 2.22.0.rc1.257.g3120a18244-goog
 
