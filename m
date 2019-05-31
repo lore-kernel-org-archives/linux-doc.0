@@ -1,110 +1,195 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_HIGH
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8BE2C7D91B
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 May 2019 19:50:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BED397D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 May 2019 21:01:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727266AbfEaTua (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 31 May 2019 15:50:30 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:38208 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727199AbfEaTu1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 May 2019 15:50:27 -0400
-Received: by mail-wr1-f66.google.com with SMTP id d18so7245079wrs.5;
-        Fri, 31 May 2019 12:50:26 -0700 (PDT)
+        id S1726695AbfEaVB2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 31 May 2019 17:01:28 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:35475 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726744AbfEaVB2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 May 2019 17:01:28 -0400
+Received: by mail-pf1-f196.google.com with SMTP id d126so6920737pfd.2
+        for <linux-doc@vger.kernel.org>; Fri, 31 May 2019 14:01:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=RVkr0XInUNyl73v5Q20EHBEIvHgWD0JChBEkwLcMlCU=;
-        b=JR1AMqG+gsNO6iUVE9pphCh47QKqXSCYN0IjqRX5/+KgaVtfK81iDB5c3Z3zNBt3MF
-         y2UGPZT38xPel/Ce7mzrpSADLEQbBcbi0Q+45dHgPwbf9WG7VH9EjOhvQ1auCCkDoOzi
-         DB+h1uQfNrPq30KPXK1w3JlNdh4aCpmoBblrUX8A5Y7vJ/LZkOrqUbD7QQ4dOPWrKvIy
-         oO8h5jGGY3cNRjtXWWO0tk/qAxYL2ubzf1z8OOgZnyuJidlUQsgGCfYguArKw4zJ1UJf
-         ALOdKTnUsGTVurCpcgUlOUlwVntLPfGjgRidYF9s9GpOoMZ1fhXyU+ERx8pMdgTRF2l3
-         FB0A==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=DP3CVXmE/gQtGlfYoS276lusULFV6LiuuJ2eL+PXPcY=;
+        b=g0KB+6Y259/gkduT0X6uIFUG9lC7gD3Q1U+W533KEOeKWeobAR50VIM3TvOHj9GiHM
+         Nl6hPUSHweKNSJzMYfX8x6nGtcpSiLmfFOnrIN72DAukb/OTHqlOabjAh14XD6YEupKQ
+         G7YvLGB2N1PdwpzkldAcCZPtF2lhuO20XAVq4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=RVkr0XInUNyl73v5Q20EHBEIvHgWD0JChBEkwLcMlCU=;
-        b=PuZD0bCqylW/XZPBngF2R5gmntzxBe7vYhSAUfPqv3ke9vt/8bJN1F1BNjGQuDSIHN
-         TyRfHKHhrOdYilFm7f9wwvL/7Zg28Z+KMtQCvn5jwHwo/zD6PVK8Q2rzrqyXF+gtFnx7
-         k/4apD2ii4Qin64+nvsBcCD8ojvwRqG9+8FTGTfD4BqMo0b64oWykdfxjwdvb/yMlSU/
-         G7TPFaupS0DMHwSPhZqr6GfuxM3zDF/V8ch+Kz7YOaXpc3K5zsJcluEYIhAFubpVT2ll
-         LAm28Yh8CnzsjK4H5POztUhMvAfEIVLqotU8eHpWb2A2FTh1ff997S88DxzQNYPD8cil
-         9x5w==
-X-Gm-Message-State: APjAAAWiFWtkUjW2/rLUj11LJpKbSLWLKFlTKu9L0iYn8j+xst0Ilzae
-        1Vc1g2/JOZT32RnwDvjq0gc=
-X-Google-Smtp-Source: APXvYqxUDh2jM8Hk8W5ZA3ySnBjYUfvxJ8bKkV8tPpVjwyasAXZcuqS0jVWOwC7DNv7oDH6tzZAQmA==
-X-Received: by 2002:adf:c606:: with SMTP id n6mr7619911wrg.62.1559332225543;
-        Fri, 31 May 2019 12:50:25 -0700 (PDT)
-Received: from Thor.lan (89.red-2-139-173.staticip.rima-tde.net. [2.139.173.89])
-        by smtp.gmail.com with ESMTPSA id y1sm4716107wma.14.2019.05.31.12.50.24
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 31 May 2019 12:50:24 -0700 (PDT)
-From:   Albert Vaca Cintora <albertvaka@gmail.com>
-To:     albertvaka@gmail.com, akpm@linux-foundation.org,
-        rdunlap@infradead.org, mingo@kernel.org, jack@suse.cz,
-        ebiederm@xmission.com, nsaenzjulienne@suse.de,
-        linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, mbrugger@suse.com
-Subject: [PATCH v3 3/3] Documentation for /proc/sys/user/*_inotify_*
-Date:   Fri, 31 May 2019 21:50:16 +0200
-Message-Id: <20190531195016.4430-3-albertvaka@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190531195016.4430-1-albertvaka@gmail.com>
-References: <20190531195016.4430-1-albertvaka@gmail.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=DP3CVXmE/gQtGlfYoS276lusULFV6LiuuJ2eL+PXPcY=;
+        b=pCPFlRiW37rDahB5UH4QxxLuvwfUNkaI4hfqIWk+K0NzToDSv7eZZFyZru7ZoH1XwC
+         P2GP4JsZanDuAfvqAU5efJdwSUk2HHm1NXFj9dALukYrdhS4wX/9FGhHsdwa6DsGMBbL
+         wzWYjtmzMHQXh20zNdSsSPRPLL8o+2Srwc5wWfczA9/j53xZtbko8wQcOFJo18Bt/lYH
+         ZgnjHqV4o3RoMbPAU/e6DnailS2drevULTBieT3TXETg+ZlImfvNt6bYngnf5ps2mzMp
+         zgn7TErO8N/NbjiZ2lz4ZKhVYewVZnXC8BSt/+WQh99LO5Is0WJnlVN7/9/ZQQHqSj41
+         TAuA==
+X-Gm-Message-State: APjAAAU3tu4kBlWjcLyEwMHPniM772aIpHK4DPOEMdeNl0UcuMS95K00
+        Cqc4hJsE59fqAaZzRmvWE5qcxjoDcTo=
+X-Google-Smtp-Source: APXvYqwHmXlU73kVEk1sQ3xJWtgs11NZZc6SvuB9jjhv/3EVfBjo6WZriCxvHE7y9nFkYaV+gWmPIA==
+X-Received: by 2002:a63:5d45:: with SMTP id o5mr11709981pgm.40.1559336486946;
+        Fri, 31 May 2019 14:01:26 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id u123sm7509820pfu.67.2019.05.31.14.01.25
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 31 May 2019 14:01:26 -0700 (PDT)
+Date:   Fri, 31 May 2019 14:01:24 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Ke Wu <mikewu@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v3] Allow to exclude specific file types in LoadPin
+Message-ID: <201905311401.6CB27923@keescook>
+References: <20190529224350.6460-1-mikewu@google.com>
+ <20190531182553.51721-1-mikewu@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190531182553.51721-1-mikewu@google.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Added docs for the existing and new inotify-related files
+On Fri, May 31, 2019 at 11:25:53AM -0700, Ke Wu wrote:
+> Linux kernel already provide MODULE_SIG and KEXEC_VERIFY_SIG to
+> make sure loaded kernel module and kernel image are trusted. This
+> patch adds a kernel command line option "loadpin.exclude" which
+> allows to exclude specific file types from LoadPin. This is useful
+> when people want to use different mechanisms to verify module and
+> kernel image while still use LoadPin to protect the integrity of
+> other files kernel loads.
+> 
+> Signed-off-by: Ke Wu <mikewu@google.com>
+> ---
+> Changelog since v2:
+> - Make size of exclude_read_files and ignore_read_file_id to be
+>   equal to the size of kernel_read_file_str.
 
-Signed-off-by: Albert Vaca Cintora <albertvaka@gmail.com>
----
- Documentation/sysctl/user.txt | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+Thanks! I've fixed this differently and it should be visible shortly.
 
-diff --git a/Documentation/sysctl/user.txt b/Documentation/sysctl/user.txt
-index a5882865836e..99c288d39cf6 100644
---- a/Documentation/sysctl/user.txt
-+++ b/Documentation/sysctl/user.txt
-@@ -30,11 +30,26 @@ user namespace does not allow a user to escape their current limits.
- 
- Currently, these files are in /proc/sys/user:
- 
-+- current_inotify_watches
-+
-+  The number of inotify watches in use in the current user namespace.
-+  Calling inotify_add_watch() increases this.
-+
- - max_cgroup_namespaces
- 
-   The maximum number of cgroup namespaces that any user in the current
-   user namespace may create.
- 
-+- max_inotify_instances
-+
-+  The maximum number of inotify instances that any user in the current
-+  user namespace may create. Calling inotify_init() uses an instance.
-+
-+- max_inotify_watches
-+
-+  The maximum number of inotify watches that any user in the current
-+  user namespace may create. Calling inotify_add_watch() uses a watch.
-+
- - max_ipc_namespaces
- 
-   The maximum number of ipc namespaces that any user in the current
+-Kees
+
+> 
+> Changelog since v1:
+> - Mark ignore_read_file_id with __ro_after_init.
+> - Mark parse_exclude() with __init.
+> - Use ARRAY_SIZE(ignore_read_file_id) instead of READING_MAX_ID.
+> 
+> 
+>  Documentation/admin-guide/LSM/LoadPin.rst | 10 ++++++
+>  security/loadpin/loadpin.c                | 42 +++++++++++++++++++++++
+>  2 files changed, 52 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/LSM/LoadPin.rst b/Documentation/admin-guide/LSM/LoadPin.rst
+> index 32070762d24c..716ad9b23c9a 100644
+> --- a/Documentation/admin-guide/LSM/LoadPin.rst
+> +++ b/Documentation/admin-guide/LSM/LoadPin.rst
+> @@ -19,3 +19,13 @@ block device backing the filesystem is not read-only, a sysctl is
+>  created to toggle pinning: ``/proc/sys/kernel/loadpin/enabled``. (Having
+>  a mutable filesystem means pinning is mutable too, but having the
+>  sysctl allows for easy testing on systems with a mutable filesystem.)
+> +
+> +It's also possible to exclude specific file types from LoadPin using kernel
+> +command line option "``loadpin.exclude``". By default, all files are
+> +included, but they can be excluded using kernel command line option such
+> +as "``loadpin.exclude=kernel-module,kexec-image``". This allows to use
+> +different mechanisms such as ``CONFIG_MODULE_SIG`` and
+> +``CONFIG_KEXEC_VERIFY_SIG`` to verify kernel module and kernel image while
+> +still use LoadPin to protect the integrity of other files kernel loads. The
+> +full list of valid file types can be found in ``kernel_read_file_str``
+> +defined in ``include/linux/fs.h``.
+> diff --git a/security/loadpin/loadpin.c b/security/loadpin/loadpin.c
+> index 055fb0a64169..baa8a5b08c53 100644
+> --- a/security/loadpin/loadpin.c
+> +++ b/security/loadpin/loadpin.c
+> @@ -45,6 +45,12 @@ static void report_load(const char *origin, struct file *file, char *operation)
+>  }
+>  
+>  static int enforce = IS_ENABLED(CONFIG_SECURITY_LOADPIN_ENFORCE);
+> +/*
+> + * The size should be READING_MAX_ID + 1 to be equal to the size of
+> + * kernel_read_file_str.
+> + */
+> +static char *exclude_read_files[READING_MAX_ID + 1];
+> +static int ignore_read_file_id[READING_MAX_ID + 1] __ro_after_init;
+>  static struct super_block *pinned_root;
+>  static DEFINE_SPINLOCK(pinned_root_spinlock);
+>  
+> @@ -129,6 +135,13 @@ static int loadpin_read_file(struct file *file, enum kernel_read_file_id id)
+>  	struct super_block *load_root;
+>  	const char *origin = kernel_read_file_id_str(id);
+>  
+> +	/* If the file id is excluded, ignore the pinning. */
+> +	if ((unsigned int)id < ARRAY_SIZE(ignore_read_file_id) &&
+> +	    ignore_read_file_id[id]) {
+> +		report_load(origin, file, "pinning-excluded");
+> +		return 0;
+> +	}
+> +
+>  	/* This handles the older init_module API that has a NULL file. */
+>  	if (!file) {
+>  		if (!enforce) {
+> @@ -187,10 +200,37 @@ static struct security_hook_list loadpin_hooks[] __lsm_ro_after_init = {
+>  	LSM_HOOK_INIT(kernel_load_data, loadpin_load_data),
+>  };
+>  
+> +static void __init parse_exclude(void)
+> +{
+> +	int i, j;
+> +	char *cur;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(exclude_read_files); i++) {
+> +		cur = exclude_read_files[i];
+> +		if (!cur)
+> +			break;
+> +		if (*cur == '\0')
+> +			continue;
+> +
+> +		for (j = 0; j < ARRAY_SIZE(kernel_read_file_str); j++) {
+> +			if (strcmp(cur, kernel_read_file_str[j]) == 0) {
+> +				pr_info("excluding: %s\n",
+> +					kernel_read_file_str[j]);
+> +				ignore_read_file_id[j] = 1;
+> +				/*
+> +				 * Can not break, because one read_file_str
+> +				 * may map to more than on read_file_id.
+> +				 */
+> +			}
+> +		}
+> +	}
+> +}
+> +
+>  static int __init loadpin_init(void)
+>  {
+>  	pr_info("ready to pin (currently %senforcing)\n",
+>  		enforce ? "" : "not ");
+> +	parse_exclude();
+>  	security_add_hooks(loadpin_hooks, ARRAY_SIZE(loadpin_hooks), "loadpin");
+>  	return 0;
+>  }
+> @@ -203,3 +243,5 @@ DEFINE_LSM(loadpin) = {
+>  /* Should not be mutable after boot, so not listed in sysfs (perm == 0). */
+>  module_param(enforce, int, 0);
+>  MODULE_PARM_DESC(enforce, "Enforce module/firmware pinning");
+> +module_param_array_named(exclude, exclude_read_files, charp, NULL, 0);
+> +MODULE_PARM_DESC(exclude, "Exclude pinning specific read file types");
+> -- 
+> 2.22.0.rc1.257.g3120a18244-goog
+> 
+
 -- 
-2.21.0
-
+Kees Cook
