@@ -1,148 +1,110 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 849787D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 May 2019 10:43:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CF78B7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 May 2019 14:00:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726330AbfEaKnP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 31 May 2019 06:43:15 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:43848 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726158AbfEaKnO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 31 May 2019 06:43:14 -0400
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 9228C33A72539724796A;
-        Fri, 31 May 2019 18:43:10 +0800 (CST)
-Received: from [127.0.0.1] (10.202.227.238) by DGGEMS409-HUB.china.huawei.com
- (10.3.19.209) with Microsoft SMTP Server id 14.3.439.0; Fri, 31 May 2019
- 18:42:59 +0800
-Subject: Re: [PATCH v8 1/7] iommu: enhance IOMMU default DMA mode build
- options
-To:     "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>,
-        "Jean-Philippe Brucker" <jean-philippe.brucker@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Sebastian Ott <sebott@linux.ibm.com>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        "Martin Schwidefsky" <schwidefsky@de.ibm.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        "Michael Ellerman" <mpe@ellerman.id.au>,
-        Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        iommu <iommu@lists.linux-foundation.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        x86 <x86@kernel.org>, linux-ia64 <linux-ia64@vger.kernel.org>
-References: <20190530034831.4184-1-thunder.leizhen@huawei.com>
- <20190530034831.4184-2-thunder.leizhen@huawei.com>
- <645bd526-4eb0-4a36-2dda-023f009247ab@huawei.com>
- <030bafab-58f5-8bb1-0533-2977d6e138b2@huawei.com>
-CC:     Hanjun Guo <guohanjun@huawei.com>, Linuxarm <linuxarm@huawei.com>
-From:   John Garry <john.garry@huawei.com>
-Message-ID: <55d0e30c-5bca-41fc-5bf0-4366dc387afd@huawei.com>
-Date:   Fri, 31 May 2019 11:42:45 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.3.0
+        id S1726501AbfEaOAS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 31 May 2019 10:00:18 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:40656 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726386AbfEaOAS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 May 2019 10:00:18 -0400
+Received: by mail-wm1-f66.google.com with SMTP id u16so779485wmc.5;
+        Fri, 31 May 2019 07:00:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=NOwlld2o61g53ikPgtNne2HrK56iyMC4CudXWPFjlEI=;
+        b=qveRJQgkceN4UUmgq0oCfgIJbTH/rwzmiKyj6+6zZ+Z/+INOpKfHZtlqrMuwzYWNEr
+         yuDOcjIp+yL3QACa5tvGJBfnFbIv2026MCLU0lvV/NUSg2V9wIpAO+5uFv3CI50k6Zsy
+         wTjh1Ad6538/Uvph9MtBwzFXJRNCAx+zgnqHlQsLdhnH7Nsqgd7r6vm6H83g9mDE3FDU
+         H43egHgKX7QO75MZT5w+PDvZssLHmpR+WGzTqcQlE0+zZCa0iBSYMwB6JqJvR7bxYTVE
+         sGj3/Z3Nbe1IASdWqBWRMoLI186S0LiHV+xtpldRQYOigYphkmoat/FdD+/CV/TG4Hl7
+         8VhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:reply-to:subject:to:cc:references:from
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-transfer-encoding:content-language;
+        bh=NOwlld2o61g53ikPgtNne2HrK56iyMC4CudXWPFjlEI=;
+        b=O2yAzuCuIJ6xx90QrHFsKZr6M2CzVv2jVSo7Hx4PX22ufWjiZ/niEyuDG1bf0hfhWT
+         EJwMt/WWmxMORZE6zDX4XnyvqgM+iOhn7bkRt8o+KTYhQ+eqtTBi4vKhwKo9JwiGI09a
+         2+pcpvB1U/lLQJCbiQ0dIZbbQKG1H3xDKJyrpsM8nnX36ea0OMTdpwxwWOlDaAXjHFNe
+         mwVInUOUhlVsYg8DbPg/o+v+9YvBqksy1xzXF6YQJQSYZgQ9sCkBKOYbqAmq/kW+QNTT
+         EktTwOPNdkElXq+tCVOAMULDvWv3KaATM5F7UluGHDPu0HpPmulwYFnZhDEmMBn2ERMT
+         hk1w==
+X-Gm-Message-State: APjAAAVcFMADlVXXft8JT2j/i5dSWzTB96wXsxj3cAWCGSQeuOEFjZ4x
+        pKUvrA6PCZdtiqVrQ+TqbKs=
+X-Google-Smtp-Source: APXvYqzfNlf2DdFt2bxxDUMP+V68qs+JPCXOL1YaLFWxOZHmPbWlk1oJQADBFWBwjnMzpnbK4bKxyg==
+X-Received: by 2002:a05:600c:506:: with SMTP id i6mr5968967wmc.57.1559311216221;
+        Fri, 31 May 2019 07:00:16 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7? ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+        by smtp.gmail.com with ESMTPSA id p3sm3387244wrd.47.2019.05.31.07.00.14
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 31 May 2019 07:00:15 -0700 (PDT)
+Reply-To: christian.koenig@amd.com
+Subject: Re: [PATCH 11/22] gpu: amdgpu: fix broken amdgpu_dma_buf.c references
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>
+References: <cover.1559171394.git.mchehab+samsung@kernel.org>
+ <f7378a751557277eab6f37f3f5692cf5f1aff8c6.1559171394.git.mchehab+samsung@kernel.org>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <bf8163be-eb1f-f060-1c5a-405bc6d4c8c5@gmail.com>
+Date:   Fri, 31 May 2019 16:00:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <030bafab-58f5-8bb1-0533-2977d6e138b2@huawei.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+In-Reply-To: <f7378a751557277eab6f37f3f5692cf5f1aff8c6.1559171394.git.mchehab+samsung@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.202.227.238]
-X-CFilter-Loop: Reflected
+Content-Language: en-US
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
->>> -config IOMMU_DEFAULT_PASSTHROUGH
->>> -    bool "IOMMU passthrough by default"
->>> +choice
->>> +    prompt "IOMMU default DMA mode"
->>>      depends on IOMMU_API
->>> -        help
->>> -      Enable passthrough by default, removing the need to pass in
->>> -      iommu.passthrough=on or iommu=pt through command line. If this
->>> -      is enabled, you can still disable with iommu.passthrough=off
->>> -      or iommu=nopt depending on the architecture.
->>> +    default IOMMU_DEFAULT_STRICT
->>> +    help
->>> +      This option allows IOMMU DMA mode to be chose at build time, to
->>
->> As before:
->> /s/chose/chosen/, /s/allows IOMMU/allows an IOMMU/
-> I'm sorry that the previous version was not modified.
+Am 30.05.19 um 01:23 schrieb Mauro Carvalho Chehab:
+> This file was renamed, but docs weren't updated accordingly.
 >
->>
->>> +      override the default DMA mode of each ARCHs, removing the need to
->>
->> Again, as before:
->> ARCHs should be singular
-> OK
+> 	WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -function PRIME Buffer Sharing ./drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c' failed with return code 1
+> 	WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -internal ./drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c' failed with return code 2
 >
->>
->>> +      pass in kernel parameters through command line. You can still use
->>> +      ARCHs specific boot options to override this option again.
+> Fixes: 988076cd8c5c ("drm/amdgpu: rename amdgpu_prime.[ch] into amdgpu_dma_buf.[ch]")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-*
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
->>> +
->>> +config IOMMU_DEFAULT_PASSTHROUGH
->>> +    bool "passthrough"
->>> +    help
->>> +      In this mode, the DMA access through IOMMU without any addresses
->>> +      translation. That means, the wrong or illegal DMA access can not
->>> +      be caught, no error information will be reported.
->>>
->>>        If unsure, say N here.
->>>
->>> +config IOMMU_DEFAULT_LAZY
->>> +    bool "lazy"
->>> +    help
->>> +      Support lazy mode, where for every IOMMU DMA unmap operation, the
->>> +      flush operation of IOTLB and the free operation of IOVA are deferred.
->>> +      They are only guaranteed to be done before the related IOVA will be
->>> +      reused.
->>
->> why no advisory on how to set if unsure?
-> Because the LAZY and STRICT have their own advantages and disadvantages.
+> ---
+>   Documentation/gpu/amdgpu.rst | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> Should I say: If unsure, keep the default。
-
-Maybe. So you could put this in the help for the choice, * above, and 
-remove the advisory on IOMMU_DEFAULT_PASSTHROUGH.
-
-However the maintainer may have a different view.
-
-Thanks,
-John
-
->
->>
->>> +
->>> +config IOMMU_DEFAULT_STRICT
->>> +    bool "strict"
->>> +    help
->>> +      For every IOMMU DMA unmap operation, the flush operation of IOTLB and
->>> +      the free operation of IOVA are guaranteed to be done in the unmap
->>> +      function.
->>> +
->>> +      This mode is safer than the two above, but it maybe slower in some
->>> +      high performace scenarios.
->>
->> and here?
+> diff --git a/Documentation/gpu/amdgpu.rst b/Documentation/gpu/amdgpu.rst
+> index a740e491dfcc..a15199b1b02e 100644
+> --- a/Documentation/gpu/amdgpu.rst
+> +++ b/Documentation/gpu/amdgpu.rst
+> @@ -37,10 +37,10 @@ Buffer Objects
+>   PRIME Buffer Sharing
+>   --------------------
+>   
+> -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c
+> +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+>      :doc: PRIME Buffer Sharing
+>   
+> -.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_prime.c
+> +.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+>      :internal:
+>   
+>   MMU Notifier
 
