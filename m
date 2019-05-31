@@ -1,103 +1,99 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_MED,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 788217D910
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 May 2019 05:54:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 133547D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 May 2019 07:37:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725955AbfEaFyu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 31 May 2019 01:54:50 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:37307 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726668AbfEaFyu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 May 2019 01:54:50 -0400
-Received: by mail-lj1-f195.google.com with SMTP id h19so8372327ljj.4
-        for <linux-doc@vger.kernel.org>; Thu, 30 May 2019 22:54:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=GllCVJwBmSJ5xm+XHz/j+wcFQRvZuHF7tMv6o6dZGIk=;
-        b=mjoJn31R+qYwPa3s/SdgvH564zjFYyLEr/g9MbeCd9OXUDomc8c8QPyKC6p+oLf6VD
-         dTZZM6Kx7Wcj5ziRyiCXUAkB4YGnjauwKdwnAKNeFt33o/bA+CMBPHOUJllIhMyxO2HI
-         W8S/exYTZf1wc6/vlkjohmhBFF5gWZzuU0Ee9OF5rN0272fybN76znLWnRyCLTA+tSLR
-         rO/YAjJ0wMyMtKApbulldIBA+IgjaW447dq/ObfVdKrny+UAeRST69WdyCgn2X9E4BCm
-         FJsIQZUINV9ZUBNfg9p4dsDhX44x5fJc+ma1g3VqkQgoApaN7UXT+40dj0EhGGQYEYlr
-         ZGLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GllCVJwBmSJ5xm+XHz/j+wcFQRvZuHF7tMv6o6dZGIk=;
-        b=Dn01QHRLwQQ5L0IlycCqEHGZLoKapkem2gJMnKYlcBpS95ybD2+vjmADKwldqqnUUM
-         o/eh4yrxZE0RvBQ9lpqMSkbvw7tYmVSpxexx1HiJRvu2yjKyfspqpH6Tdy4P/r2SLcT7
-         DQ3vfjHjbGcxuWpwcpVffIqpXBOnZ5vhWmSkbcba2zsAOCl0G5QEGeyrQDIAnDSVlIli
-         myUoXgefyZX6hLAqcmO9zN3vptfrC8rjaDwuYNIrUwCsC+fY4tW4t+AGE3cTwPcDI5nN
-         yKCl0qH6b2SFEzme7xYtrHtVmfBYTH5dBZR0Cw8xSVsL9vItNSrNyYS0zusjCSM32Zha
-         6nPA==
-X-Gm-Message-State: APjAAAWTLJ3U0bEsSCTaoNAaP0Q9EmrFzeA0ciTKkgSjRz3Zz1/qRTJ3
-        UL2KqQMMaixU54Jsm80tf+Sn0nbryyhs733a1VvZ/A==
-X-Google-Smtp-Source: APXvYqxMB0mEi9bZJgUS4OWjsOD8NP3QGbTE7NULcHFSyr+5IJY05+d21P9f5CRoq8WqrMPe26DeI1GoU1EgDnOxXbI=
-X-Received: by 2002:a2e:92cc:: with SMTP id k12mr4531794ljh.16.1559282087733;
- Thu, 30 May 2019 22:54:47 -0700 (PDT)
+        id S1725963AbfEaHhi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 31 May 2019 03:37:38 -0400
+Received: from mga11.intel.com ([192.55.52.93]:41428 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725955AbfEaHhi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 31 May 2019 03:37:38 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 31 May 2019 00:37:38 -0700
+X-ExtLoop1: 1
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.150])
+  by fmsmga001.fm.intel.com with ESMTP; 31 May 2019 00:37:34 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>, intel-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 12/22] gpu: i915.rst: Fix references to renamed files
+In-Reply-To: <5ecde05364284f6845b651297fd9ce8225af2bcd.1559171394.git.mchehab+samsung@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1559171394.git.mchehab+samsung@kernel.org> <5ecde05364284f6845b651297fd9ce8225af2bcd.1559171394.git.mchehab+samsung@kernel.org>
+Date:   Fri, 31 May 2019 10:40:44 +0300
+Message-ID: <87ftov3wcj.fsf@intel.com>
 MIME-Version: 1.0
-References: <20190529224350.6460-1-mikewu@google.com> <20190530192208.99773-1-mikewu@google.com>
- <alpine.LRH.2.21.1905310611190.26428@namei.org> <201905301921.AE6D8D1@keescook>
-In-Reply-To: <201905301921.AE6D8D1@keescook>
-From:   Ke Wu <mikewu@google.com>
-Date:   Thu, 30 May 2019 22:54:36 -0700
-Message-ID: <CANRnR9TTCnyfCJ0bFu9F1m_J=31bE30=DASUUKAJByEDWbD4nQ@mail.gmail.com>
-Subject: Re: [PATCH v2] Allow to exclude specific file types in LoadPin
-To:     Kees Cook <keescook@chromium.org>
-Cc:     James Morris <jmorris@namei.org>, Jonathan Corbet <corbet@lwn.net>,
-        "Serge E. Hallyn" <serge@hallyn.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks for pushing the patch!
-
-
-On Thu, May 30, 2019 at 7:23 PM Kees Cook <keescook@chromium.org> wrote:
+On Wed, 29 May 2019, Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+> WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -function Hardware workarounds ./drivers/gpu/drm/i915/intel_workarounds.c' failed with return code 1
+> WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -function Logical Rings, Logical Ring Contexts and Execlists ./drivers/gpu/drm/i915/intel_lrc.c' failed with return code 1
+> WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -internal ./drivers/gpu/drm/i915/intel_lrc.c' failed with return code 2
 >
-> On Fri, May 31, 2019 at 06:11:44AM +1000, James Morris wrote:
-> > On Thu, 30 May 2019, Ke Wu wrote:
-> >
-> > > Linux kernel already provide MODULE_SIG and KEXEC_VERIFY_SIG to
-> > > make sure loaded kernel module and kernel image are trusted. This
-> > > patch adds a kernel command line option "loadpin.exclude" which
-> > > allows to exclude specific file types from LoadPin. This is useful
-> > > when people want to use different mechanisms to verify module and
-> > > kernel image while still use LoadPin to protect the integrity of
-> > > other files kernel loads.
-> > >
-> > > Signed-off-by: Ke Wu <mikewu@google.com>
-> > > ---
-> > > Changelog since v1:
-> > > - Mark ignore_read_file_id with __ro_after_init.
-> > > - Mark parse_exclude() with __init.
-> > > - Use ARRAY_SIZE(ignore_read_file_id) instead of READING_MAX_ID.
-> >
-> > Looks good!
-> >
-> > Reviewed-by: James Morris <jamorris@linux.microsoft.com>
+> Fixes: 112ed2d31a46 ("drm/i915: Move GraphicsTechnology files under gt/")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+>  Documentation/gpu/i915.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> Thanks! Applied to my for-next/loadpin branch at
-> git://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git
-> and should be visible in linux-next in a few days.
->
-> --
-> Kees Cook
+> diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
+> index 055df45596c1..38fefeb99bba 100644
+> --- a/Documentation/gpu/i915.rst
+> +++ b/Documentation/gpu/i915.rst
+> @@ -61,7 +61,7 @@ Intel GVT-g Host Support(vGPU device model)
+>  Workarounds
+>  -----------
+>  
+> -.. kernel-doc:: drivers/gpu/drm/i915/intel_workarounds.c
+> +.. kernel-doc:: drivers/gpu/drm/i915/gt/selftest_workarounds.c
+>     :doc: Hardware workarounds
+
+Thanks for the patch. The basename should remain the same here.
+
+I can pick up the updated version via drm-intel.
+
+BR,
+Jani.
 
 
+>  
+>  Display Hardware Handling
+> @@ -379,10 +379,10 @@ User Batchbuffer Execution
+>  Logical Rings, Logical Ring Contexts and Execlists
+>  --------------------------------------------------
+>  
+> -.. kernel-doc:: drivers/gpu/drm/i915/intel_lrc.c
+> +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_lrc.c
+>     :doc: Logical Rings, Logical Ring Contexts and Execlists
+>  
+> -.. kernel-doc:: drivers/gpu/drm/i915/intel_lrc.c
+> +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_lrc.c
+>     :internal:
+>  
+>  Global GTT views
 
 -- 
-Ke Wu | Software Engineer | mikewu@google.com | Google Inc.
+Jani Nikula, Intel Open Source Graphics Center
