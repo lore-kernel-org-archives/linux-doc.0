@@ -1,123 +1,154 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_HIGH autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7186F7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  1 Jun 2019 00:00:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 522047D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  1 Jun 2019 01:14:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726842AbfFAAAs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 31 May 2019 20:00:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48304 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726610AbfFAAAr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 31 May 2019 20:00:47 -0400
-Received: from localhost.localdomain (c-73-223-200-170.hsd1.ca.comcast.net [73.223.200.170])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 96A9F27044;
-        Sat,  1 Jun 2019 00:00:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1559347247;
-        bh=4BNWIjdigKxKDogULYqYoz0tNzxPsCrWNp7S7A4jrRA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=i5SKVxIKwWz9x+xpHiX88TxAWiNaAXjJwtUcL5B9qRjmOPOaSo5fKCYr32jO3uJKu
-         vjrVaS23xnmTy6YsjQ2s6sd2W7wi8Jze6nYHOgEZYloPkPYcO0sOXrM6auM8c24NGB
-         0WnkltjQJxUK6yvEUl41l/c1kR1zx27ga/mxrSSQ=
-Date:   Fri, 31 May 2019 17:00:46 -0700
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Albert Vaca Cintora <albertvaka@gmail.com>
-Cc:     rdunlap@infradead.org, mingo@kernel.org, jack@suse.cz,
-        ebiederm@xmission.com, nsaenzjulienne@suse.de,
-        linux-kernel@vger.kernel.org, corbet@lwn.net,
-        linux-doc@vger.kernel.org, mbrugger@suse.com
-Subject: Re: [PATCH v3 2/3] kernel/ucounts: expose count of inotify watches
- in use
-Message-Id: <20190531170046.ac2b52d8c4923fdeedf943cc@linux-foundation.org>
-In-Reply-To: <20190531195016.4430-2-albertvaka@gmail.com>
-References: <20190531195016.4430-1-albertvaka@gmail.com>
-        <20190531195016.4430-2-albertvaka@gmail.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1726916AbfFABOT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 31 May 2019 21:14:19 -0400
+Received: from terminus.zytor.com ([198.137.202.136]:33931 "EHLO
+        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726901AbfFABOS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 31 May 2019 21:14:18 -0400
+Received: from [IPv6:2607:fb90:3627:8679:c06a:8bb1:5a73:12ff] ([IPv6:2607:fb90:3627:8679:c06a:8bb1:5a73:12ff])
+        (authenticated bits=0)
+        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id x511DX2t3668045
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+        Fri, 31 May 2019 18:13:34 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com x511DX2t3668045
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+        s=2019051801; t=1559351616;
+        bh=CuGVe8YH5AlNt8m91Od8n8Cr+8ORd3+2zjg1HKvHIqA=;
+        h=Date:In-Reply-To:References:Subject:To:CC:From:From;
+        b=Afsfgv0m4+6nQxKJuvaCREopIJhg9RquRuWXyShM9f4gSzVKBGcGZjyzmgEfgFlj0
+         mcUniwOsDbu16hpWSYQUE1wK1C58Mh/WrErLuP5lijCcS5KLiY/22+XUHVQH+PJgch
+         VoA+Le5ADa09H73d4upQ2g41TzL8LBvO0bPI2T/wE0exTFdyxnMVoe8ihAAvJj/72X
+         klPaRjEsJ2LR5SsmHXzLqqfm3kx3F1N+7awmYfLl0FvbrypOXDvP+mPx5sVFdlFEn7
+         pSE5cWaKyAOabuY+3m0gKKaWSBp6W1hTGm3c82BukTCNJl+4snoq0aPDBsF8sguVM9
+         ZUnpB7cZS/vkA==
+Date:   Fri, 31 May 2019 16:41:46 -0700
+User-Agent: K-9 Mail for Android
+In-Reply-To: <CANpmjNOsPnVd50cTzUW8UYXPGqpSnRLcjj=JbZraTYVq1n18Fw@mail.gmail.com>
+References: <20190529141500.193390-1-elver@google.com> <20190529141500.193390-3-elver@google.com> <EE911EC6-344B-4EB2-90A4-B11E8D96BEDC@zytor.com> <CANpmjNOsPnVd50cTzUW8UYXPGqpSnRLcjj=JbZraTYVq1n18Fw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 2/3] x86: Move CPU feature test out of uaccess region
+To:     Marco Elver <elver@google.com>
+CC:     Peter Zijlstra <peterz@infradead.org>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Alexander Potapenko <glider@google.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>
+From:   hpa@zytor.com
+Message-ID: <3B49EF08-147F-451C-AA5B-FC4E1B8568EE@zytor.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 31 May 2019 21:50:15 +0200 Albert Vaca Cintora <albertvaka@gmail.com> wrote:
-
-> Adds a readonly 'current_inotify_watches' entry to the user sysctl table.
-> The handler for this entry is a custom function that ends up calling
-> proc_dointvec. Said sysctl table already contains 'max_inotify_watches'
-> and it gets mounted under /proc/sys/user/.
-> 
-> Inotify watches are a finite resource, in a similar way to available file
-> descriptors. The motivation for this patch is to be able to set up
-> monitoring and alerting before an application starts failing because
-> it runs out of inotify watches.
-> 
-> ...
+On May 31, 2019 2:57:36 AM PDT, Marco Elver <elver@google=2Ecom> wrote:
+>On Wed, 29 May 2019 at 16:29, <hpa@zytor=2Ecom> wrote:
+>>
+>> On May 29, 2019 7:15:00 AM PDT, Marco Elver <elver@google=2Ecom> wrote:
+>> >This patch is a pre-requisite for enabling KASAN bitops
+>> >instrumentation:
+>> >moves boot_cpu_has feature test out of the uaccess region, as
+>> >boot_cpu_has uses test_bit=2E With instrumentation, the KASAN check
+>would
+>> >otherwise be flagged by objtool=2E
+>> >
+>> >This approach is preferred over adding the explicit kasan_check_*
+>> >functions to the uaccess whitelist of objtool, as the case here
+>appears
+>> >to be the only one=2E
+>> >
+>> >Signed-off-by: Marco Elver <elver@google=2Ecom>
+>> >---
+>> >v1:
+>> >* This patch replaces patch: 'tools/objtool: add kasan_check_* to
+>> >  uaccess whitelist'
+>> >---
+>> > arch/x86/ia32/ia32_signal=2Ec | 9 ++++++++-
+>> > 1 file changed, 8 insertions(+), 1 deletion(-)
+>> >
+>> >diff --git a/arch/x86/ia32/ia32_signal=2Ec
+>b/arch/x86/ia32/ia32_signal=2Ec
+>> >index 629d1ee05599=2E=2E12264e3c9c43 100644
+>> >--- a/arch/x86/ia32/ia32_signal=2Ec
+>> >+++ b/arch/x86/ia32/ia32_signal=2Ec
+>> >@@ -333,6 +333,7 @@ int ia32_setup_rt_frame(int sig, struct ksignal
+>> >*ksig,
+>> >       void __user *restorer;
+>> >       int err =3D 0;
+>> >       void __user *fpstate =3D NULL;
+>> >+      bool has_xsave;
+>> >
+>> >       /* __copy_to_user optimizes that into a single 8 byte store
+>*/
+>> >       static const struct {
+>> >@@ -352,13 +353,19 @@ int ia32_setup_rt_frame(int sig, struct
+>ksignal
+>> >*ksig,
+>> >       if (!access_ok(frame, sizeof(*frame)))
+>> >               return -EFAULT;
+>> >
+>> >+      /*
+>> >+       * Move non-uaccess accesses out of uaccess region if not
+>strictly
+>> >+       * required; this also helps avoid objtool flagging these
+>accesses
+>> >with
+>> >+       * instrumentation enabled=2E
+>> >+       */
+>> >+      has_xsave =3D boot_cpu_has(X86_FEATURE_XSAVE);
+>> >       put_user_try {
+>> >               put_user_ex(sig, &frame->sig);
+>> >               put_user_ex(ptr_to_compat(&frame->info),
+>&frame->pinfo);
+>> >               put_user_ex(ptr_to_compat(&frame->uc), &frame->puc);
+>> >
+>> >               /* Create the ucontext=2E  */
+>> >-              if (boot_cpu_has(X86_FEATURE_XSAVE))
+>> >+              if (has_xsave)
+>> >                       put_user_ex(UC_FP_XSTATE,
+>&frame->uc=2Euc_flags);
+>> >               else
+>> >                       put_user_ex(0, &frame->uc=2Euc_flags);
+>>
+>> This was meant to use static_cpu_has()=2E Why did that get dropped?
 >
-> --- a/kernel/ucount.c
-> +++ b/kernel/ucount.c
-> @@ -118,6 +118,26 @@ static void put_ucounts(struct ucounts *ucounts)
->  	kfree(ucounts);
->  }
->  
-> +#ifdef CONFIG_INOTIFY_USER
-> +int proc_read_inotify_watches(struct ctl_table *table, int write,
-> +		     void __user *buffer, size_t *lenp, loff_t *ppos)
-> +{
-> +	struct ucounts *ucounts;
-> +	struct ctl_table fake_table;
+>I couldn't find any mailing list thread referring to why this doesn't
+>use static_cpu_has, do you have any background?
+>
+>static_cpu_has also solves the UACCESS warning=2E
+>
+>If you confirm it is safe to change to static_cpu_has(), I will change
+>this patch=2E Note that I should then also change
+>arch/x86/kernel/signal=2Ec to mirror the change for 32bit  (although
+>KASAN is not supported for 32bit x86)=2E
+>
+>Thanks,
+>-- Marco
 
-hmm.
-
-> +	int count = -1;
-> +
-> +	ucounts = get_ucounts(current_user_ns(), current_euid());
-> +	if (ucounts != NULL) {
-> +		count = atomic_read(&ucounts->ucount[UCOUNT_INOTIFY_WATCHES]);
-> +		put_ucounts(ucounts);
-> +	}
-> +
-> +	fake_table.data = &count;
-> +	fake_table.maxlen = sizeof(count);
-> +	return proc_dointvec(&fake_table, write, buffer, lenp, ppos);
-
-proc_dointvec
-->do_proc_dointvec
-  ->__do_proc_dointvec
-    ->proc_first_pos_non_zero_ignore
-      ->warn_sysctl_write
-        ->pr_warn_once(..., table->procname)
-
-and I think ->procname is uninitialized.
-
-That's from a cursory check.  Perhaps other uninitialized members of
-fake_table are accessed, dunno.
-
-we could do
-
-	{
-		struct ctl_table fake_table = {
-			.data = &count,
-			.maxlen = sizeof(count),
-		};
-
-		return proc_dointvec(&fake_table, write, buffer, lenp, ppos);
-	}
-
-or whatever.  That will cause the pr_warn_once to print "(null)" but
-that's OK I guess.
-
-Are there other places in the kernel which do this temp ctl_table
-trick?  If so, what do they do?  If not, what is special about this
-code?
-
-
+I believe at some point the intent was that boot_cpu_has() was safer and c=
+ould be used everywhere=2E
+--=20
+Sent from my Android device with K-9 Mail=2E Please excuse my brevity=2E
