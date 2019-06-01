@@ -1,77 +1,123 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_HIGH autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5BC277D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 31 May 2019 23:52:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7186F7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  1 Jun 2019 00:00:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726693AbfEaXwI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 31 May 2019 19:52:08 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:38708 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726643AbfEaXwH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 31 May 2019 19:52:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=3wGlX09ThV78ZhwRXZYCSXCtvWFVlgTZB4/+Smzd1UY=; b=nFZDBs8VSLFtmN7+y341PHMEW
-        7eyIuFiANsukXA+F0eH7xtfVBPBEZdimy2HJtX5nsqjIoqUsj+VrJX2s4yYvsAeQsCFMNDPoPGIaE
-        k58RHPCRyiEl2OPMHhawhT9ZAP9MZUFphQ4iUGgPXViGtIu+gtMp96geL+2DCaDr73aYOmtZv5wIq
-        fqKbMz/o/iuu840hoRRcmJX79DfUrd2KeoHGC4lAwvQEV+iGraVjSH2bzkr578rU+ZBN7ikYOQk2u
-        40vvKNWgmAeHvW7LJmOay4jwwQFIGqCyCdDjS4DH76Ynzt6XXeGAKwPMtqqk1beqK5KV3NDCLChC1
-        vLguXCTlw==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hWrJf-0006CE-6Y; Fri, 31 May 2019 23:52:07 +0000
-Subject: Re: [PATCH RFC] Rough draft document on merging and rebasing
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
-References: <20190530135317.3c8d0d7b@lwn.net>
- <7979b995-6b03-783b-e3d7-0023fabc43bc@infradead.org>
- <20190531173618.465ae659@lwn.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <90525060-9c28-6110-9bdd-b0a4a850ab05@infradead.org>
-Date:   Fri, 31 May 2019 16:52:06 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <20190531173618.465ae659@lwn.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+        id S1726842AbfFAAAs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 31 May 2019 20:00:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48304 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726610AbfFAAAr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 31 May 2019 20:00:47 -0400
+Received: from localhost.localdomain (c-73-223-200-170.hsd1.ca.comcast.net [73.223.200.170])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 96A9F27044;
+        Sat,  1 Jun 2019 00:00:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1559347247;
+        bh=4BNWIjdigKxKDogULYqYoz0tNzxPsCrWNp7S7A4jrRA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=i5SKVxIKwWz9x+xpHiX88TxAWiNaAXjJwtUcL5B9qRjmOPOaSo5fKCYr32jO3uJKu
+         vjrVaS23xnmTy6YsjQ2s6sd2W7wi8Jze6nYHOgEZYloPkPYcO0sOXrM6auM8c24NGB
+         0WnkltjQJxUK6yvEUl41l/c1kR1zx27ga/mxrSSQ=
+Date:   Fri, 31 May 2019 17:00:46 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Albert Vaca Cintora <albertvaka@gmail.com>
+Cc:     rdunlap@infradead.org, mingo@kernel.org, jack@suse.cz,
+        ebiederm@xmission.com, nsaenzjulienne@suse.de,
+        linux-kernel@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org, mbrugger@suse.com
+Subject: Re: [PATCH v3 2/3] kernel/ucounts: expose count of inotify watches
+ in use
+Message-Id: <20190531170046.ac2b52d8c4923fdeedf943cc@linux-foundation.org>
+In-Reply-To: <20190531195016.4430-2-albertvaka@gmail.com>
+References: <20190531195016.4430-1-albertvaka@gmail.com>
+        <20190531195016.4430-2-albertvaka@gmail.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/31/19 4:36 PM, Jonathan Corbet wrote:
-> On Thu, 30 May 2019 17:45:23 -0700
-> Randy Dunlap <rdunlap@infradead.org> wrote:
-> 
->> On 5/30/19 12:53 PM, Jonathan Corbet wrote:
->>> +  git merge v5.2-rc1^0  
->>
->> That line is presented in my email client (Thunderbird) as
->>
->>      git merge v5.2-rc1{superscript 0}
->>
->> Could you escape/quote it to prevent that?
-> 
-> So I'm a wee bit confused.  That's a literal string that one needs to
-> type to obtain the needed effect; if thunderbird is doing weird things
-> with it, I think that the problem does not lie with the document...?  What
-> change would you have me make here?
+On Fri, 31 May 2019 21:50:15 +0200 Albert Vaca Cintora <albertvaka@gmail.com> wrote:
 
-I dunno.  I just won't depend on my email client.
-I'll read it some other way (like a text editor).
+> Adds a readonly 'current_inotify_watches' entry to the user sysctl table.
+> The handler for this entry is a custom function that ends up calling
+> proc_dointvec. Said sysctl table already contains 'max_inotify_watches'
+> and it gets mounted under /proc/sys/user/.
+> 
+> Inotify watches are a finite resource, in a similar way to available file
+> descriptors. The motivation for this patch is to be able to set up
+> monitoring and alerting before an application starts failing because
+> it runs out of inotify watches.
+> 
+> ...
+>
+> --- a/kernel/ucount.c
+> +++ b/kernel/ucount.c
+> @@ -118,6 +118,26 @@ static void put_ucounts(struct ucounts *ucounts)
+>  	kfree(ucounts);
+>  }
+>  
+> +#ifdef CONFIG_INOTIFY_USER
+> +int proc_read_inotify_watches(struct ctl_table *table, int write,
+> +		     void __user *buffer, size_t *lenp, loff_t *ppos)
+> +{
+> +	struct ucounts *ucounts;
+> +	struct ctl_table fake_table;
 
-cheers.
--- 
-~Randy
+hmm.
+
+> +	int count = -1;
+> +
+> +	ucounts = get_ucounts(current_user_ns(), current_euid());
+> +	if (ucounts != NULL) {
+> +		count = atomic_read(&ucounts->ucount[UCOUNT_INOTIFY_WATCHES]);
+> +		put_ucounts(ucounts);
+> +	}
+> +
+> +	fake_table.data = &count;
+> +	fake_table.maxlen = sizeof(count);
+> +	return proc_dointvec(&fake_table, write, buffer, lenp, ppos);
+
+proc_dointvec
+->do_proc_dointvec
+  ->__do_proc_dointvec
+    ->proc_first_pos_non_zero_ignore
+      ->warn_sysctl_write
+        ->pr_warn_once(..., table->procname)
+
+and I think ->procname is uninitialized.
+
+That's from a cursory check.  Perhaps other uninitialized members of
+fake_table are accessed, dunno.
+
+we could do
+
+	{
+		struct ctl_table fake_table = {
+			.data = &count,
+			.maxlen = sizeof(count),
+		};
+
+		return proc_dointvec(&fake_table, write, buffer, lenp, ppos);
+	}
+
+or whatever.  That will cause the pr_warn_once to print "(null)" but
+that's OK I guess.
+
+Are there other places in the kernel which do this temp ctl_table
+trick?  If so, what do they do?  If not, what is special about this
+code?
+
+
