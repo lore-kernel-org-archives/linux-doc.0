@@ -1,154 +1,299 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 522047D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  1 Jun 2019 01:14:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 19F847D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  1 Jun 2019 09:39:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726916AbfFABOT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 31 May 2019 21:14:19 -0400
-Received: from terminus.zytor.com ([198.137.202.136]:33931 "EHLO
-        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726901AbfFABOS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 31 May 2019 21:14:18 -0400
-Received: from [IPv6:2607:fb90:3627:8679:c06a:8bb1:5a73:12ff] ([IPv6:2607:fb90:3627:8679:c06a:8bb1:5a73:12ff])
-        (authenticated bits=0)
-        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id x511DX2t3668045
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
-        Fri, 31 May 2019 18:13:34 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com x511DX2t3668045
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-        s=2019051801; t=1559351616;
-        bh=CuGVe8YH5AlNt8m91Od8n8Cr+8ORd3+2zjg1HKvHIqA=;
-        h=Date:In-Reply-To:References:Subject:To:CC:From:From;
-        b=Afsfgv0m4+6nQxKJuvaCREopIJhg9RquRuWXyShM9f4gSzVKBGcGZjyzmgEfgFlj0
-         mcUniwOsDbu16hpWSYQUE1wK1C58Mh/WrErLuP5lijCcS5KLiY/22+XUHVQH+PJgch
-         VoA+Le5ADa09H73d4upQ2g41TzL8LBvO0bPI2T/wE0exTFdyxnMVoe8ihAAvJj/72X
-         klPaRjEsJ2LR5SsmHXzLqqfm3kx3F1N+7awmYfLl0FvbrypOXDvP+mPx5sVFdlFEn7
-         pSE5cWaKyAOabuY+3m0gKKaWSBp6W1hTGm3c82BukTCNJl+4snoq0aPDBsF8sguVM9
-         ZUnpB7cZS/vkA==
-Date:   Fri, 31 May 2019 16:41:46 -0700
-User-Agent: K-9 Mail for Android
-In-Reply-To: <CANpmjNOsPnVd50cTzUW8UYXPGqpSnRLcjj=JbZraTYVq1n18Fw@mail.gmail.com>
-References: <20190529141500.193390-1-elver@google.com> <20190529141500.193390-3-elver@google.com> <EE911EC6-344B-4EB2-90A4-B11E8D96BEDC@zytor.com> <CANpmjNOsPnVd50cTzUW8UYXPGqpSnRLcjj=JbZraTYVq1n18Fw@mail.gmail.com>
+        id S1726180AbfFAJjh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 1 Jun 2019 05:39:37 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:39194 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726089AbfFAJjh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 1 Jun 2019 05:39:37 -0400
+Received: by mail-pf1-f194.google.com with SMTP id j2so7687667pfe.6
+        for <linux-doc@vger.kernel.org>; Sat, 01 Jun 2019 02:39:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kHU9WDsTuxeYxZqszC75DA7d1d2AxdYUJeB/AV9RVdI=;
+        b=WJe9Z5Oqvk1lOQYuWRaRqPP1AF5jrxYEe2dIx4oKVOpkJxcoRWJ6iW9q7c9K8qsPwR
+         D2Vaf1TR2GVlOkh93ALqQF28W+GRJQwwWHMcVMrjDUHGwsDnFRfPhPtlU6W+tI+sjbE0
+         2Y4waZ4Z3Fl1g2qQpgZkJToE38WOJq48147mE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kHU9WDsTuxeYxZqszC75DA7d1d2AxdYUJeB/AV9RVdI=;
+        b=ubxvozJtzDZ2FPHiq7JXLy48AvCVb3s4lM7elpj1wPiWPSgiV5BJ5ZCgChzSMv2NgM
+         rc6yFb5HIVzquV8jbJppEbPzWoeegJfS+8o87rvbAyS6YJflYvbWYvx2j1489rIYWxVx
+         GTegQ7BGSKdKXQ3ReuSZboRLdp3ksX3eRcfK27TuTEkwocnDVcTw/4xN+rvvPLLXN6mh
+         u/1DIkFqxzwGIlxEfZZaRRb+ESZPj5UZl+gp32NCgHenuJHGWb1bYU8iTv8rTCmtFLlk
+         rdVjrtvXy133g0AxSFydM3Sd+7U47iEkO4OQ/I/E9QIZ/yebDcpUgGoLTTQzlxLEPhqn
+         SFJA==
+X-Gm-Message-State: APjAAAUiuTDv+bqaP6uVygdVNBvWJ8kqZgo8HXQI6ADEqoing1PsU4kU
+        OtokwrP7QEPWH4wOiHLpS47y8w==
+X-Google-Smtp-Source: APXvYqwAfaNg4d36lXjAEpQpSz860HWdVWlQp/oJJUWsZ3Ib871kokjq3xoLMuV9e50WZTFwX1TYBg==
+X-Received: by 2002:a63:fd4a:: with SMTP id m10mr12937734pgj.302.1559381976288;
+        Sat, 01 Jun 2019 02:39:36 -0700 (PDT)
+Received: from joelaf.cam.corp.google.com ([2620:15c:6:12:9c46:e0da:efbf:69cc])
+        by smtp.gmail.com with ESMTPSA id o192sm1593046pgo.74.2019.06.01.02.39.34
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Sat, 01 Jun 2019 02:39:35 -0700 (PDT)
+From:   "Joel Fernandes (Google)" <joel@joelfernandes.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        rcu@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Josh Triplett <josh@joshtriplett.org>, kernel-team@android.com,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        linux-doc@vger.kernel.org,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Steven Rostedt <rostedt@goodmis.org>, peterz@infradead.org
+Subject: [PATCH RFC 1/1] doc/rcu: Add some more listRCU patterns in the kernel
+Date:   Sat,  1 Jun 2019 05:39:26 -0400
+Message-Id: <20190601093926.28158-1-joel@joelfernandes.org>
+X-Mailer: git-send-email 2.22.0.rc1.311.g5d7573a151-goog
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 2/3] x86: Move CPU feature test out of uaccess region
-To:     Marco Elver <elver@google.com>
-CC:     Peter Zijlstra <peterz@infradead.org>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Alexander Potapenko <glider@google.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>
-From:   hpa@zytor.com
-Message-ID: <3B49EF08-147F-451C-AA5B-FC4E1B8568EE@zytor.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On May 31, 2019 2:57:36 AM PDT, Marco Elver <elver@google=2Ecom> wrote:
->On Wed, 29 May 2019 at 16:29, <hpa@zytor=2Ecom> wrote:
->>
->> On May 29, 2019 7:15:00 AM PDT, Marco Elver <elver@google=2Ecom> wrote:
->> >This patch is a pre-requisite for enabling KASAN bitops
->> >instrumentation:
->> >moves boot_cpu_has feature test out of the uaccess region, as
->> >boot_cpu_has uses test_bit=2E With instrumentation, the KASAN check
->would
->> >otherwise be flagged by objtool=2E
->> >
->> >This approach is preferred over adding the explicit kasan_check_*
->> >functions to the uaccess whitelist of objtool, as the case here
->appears
->> >to be the only one=2E
->> >
->> >Signed-off-by: Marco Elver <elver@google=2Ecom>
->> >---
->> >v1:
->> >* This patch replaces patch: 'tools/objtool: add kasan_check_* to
->> >  uaccess whitelist'
->> >---
->> > arch/x86/ia32/ia32_signal=2Ec | 9 ++++++++-
->> > 1 file changed, 8 insertions(+), 1 deletion(-)
->> >
->> >diff --git a/arch/x86/ia32/ia32_signal=2Ec
->b/arch/x86/ia32/ia32_signal=2Ec
->> >index 629d1ee05599=2E=2E12264e3c9c43 100644
->> >--- a/arch/x86/ia32/ia32_signal=2Ec
->> >+++ b/arch/x86/ia32/ia32_signal=2Ec
->> >@@ -333,6 +333,7 @@ int ia32_setup_rt_frame(int sig, struct ksignal
->> >*ksig,
->> >       void __user *restorer;
->> >       int err =3D 0;
->> >       void __user *fpstate =3D NULL;
->> >+      bool has_xsave;
->> >
->> >       /* __copy_to_user optimizes that into a single 8 byte store
->*/
->> >       static const struct {
->> >@@ -352,13 +353,19 @@ int ia32_setup_rt_frame(int sig, struct
->ksignal
->> >*ksig,
->> >       if (!access_ok(frame, sizeof(*frame)))
->> >               return -EFAULT;
->> >
->> >+      /*
->> >+       * Move non-uaccess accesses out of uaccess region if not
->strictly
->> >+       * required; this also helps avoid objtool flagging these
->accesses
->> >with
->> >+       * instrumentation enabled=2E
->> >+       */
->> >+      has_xsave =3D boot_cpu_has(X86_FEATURE_XSAVE);
->> >       put_user_try {
->> >               put_user_ex(sig, &frame->sig);
->> >               put_user_ex(ptr_to_compat(&frame->info),
->&frame->pinfo);
->> >               put_user_ex(ptr_to_compat(&frame->uc), &frame->puc);
->> >
->> >               /* Create the ucontext=2E  */
->> >-              if (boot_cpu_has(X86_FEATURE_XSAVE))
->> >+              if (has_xsave)
->> >                       put_user_ex(UC_FP_XSTATE,
->&frame->uc=2Euc_flags);
->> >               else
->> >                       put_user_ex(0, &frame->uc=2Euc_flags);
->>
->> This was meant to use static_cpu_has()=2E Why did that get dropped?
->
->I couldn't find any mailing list thread referring to why this doesn't
->use static_cpu_has, do you have any background?
->
->static_cpu_has also solves the UACCESS warning=2E
->
->If you confirm it is safe to change to static_cpu_has(), I will change
->this patch=2E Note that I should then also change
->arch/x86/kernel/signal=2Ec to mirror the change for 32bit  (although
->KASAN is not supported for 32bit x86)=2E
->
->Thanks,
->-- Marco
+We keep the initially written audit examples and add to it, since the
+code that audit has is still relevant even though slightly different in
+the kernel.
 
-I believe at some point the intent was that boot_cpu_has() was safer and c=
-ould be used everywhere=2E
---=20
-Sent from my Android device with K-9 Mail=2E Please excuse my brevity=2E
+Cc: rcu@vger.kernel.org
+Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+---
+ Documentation/RCU/listRCU.txt | 154 +++++++++++++++++++++++++++++++---
+ 1 file changed, 144 insertions(+), 10 deletions(-)
+
+diff --git a/Documentation/RCU/listRCU.txt b/Documentation/RCU/listRCU.txt
+index adb5a3782846..af5bf1bd689c 100644
+--- a/Documentation/RCU/listRCU.txt
++++ b/Documentation/RCU/listRCU.txt
+@@ -7,8 +7,54 @@ is that all of the required memory barriers are included for you in
+ the list macros.  This document describes several applications of RCU,
+ with the best fits first.
+ 
+-
+-Example 1: Read-Side Action Taken Outside of Lock, No In-Place Updates
++Example 1: Read-mostly list: Deferred Destruction
++
++A widely used usecase for RCU lists in the kernel is lockless iteration over
++all processes in the system. task_struct::tasks represents the list node that
++links all the processes. The list can be traversed in parallel to any list
++additions or removals.
++
++The traversal of the list is done using for_each_process() which is defined by
++the 2 macros:
++
++#define next_task(p) \
++	list_entry_rcu((p)->tasks.next, struct task_struct, tasks)
++
++#define for_each_process(p) \
++	for (p = &init_task ; (p = next_task(p)) != &init_task ; )
++
++The code traversing the list of all processes typically looks like:
++rcu_read_lock();
++for_each_process(p) {
++	/* Do something with p */
++}
++rcu_read_unlock();
++
++Thes code (simplified) removing a process from the task lists is in
++release_task():
++
++void release_task(struct task_struct *p)
++{
++	write_lock(&tasklist_lock);
++	list_del_rcu(&p->tasks);
++	write_unlock(&tasklist_lock);
++	call_rcu(&p->rcu, delayed_put_task_struct);
++}
++
++When a process exits, release_task() calls list_del_rcu(&p->tasks) to remove
++the task from the list of all tasks, under tasklist_lock writer lock
++protection. The tasklist_lock prevents concurrent list adds/removes from
++corrupting the list. Readers using for_each_process() are not protected with
++the tasklist_lock. To prevent readers from appearing to notice changes in the
++list pointers, the task_struct object is freed only after one more more grace
++periods elapse (with the help of call_rcu). This deferring of destruction
++ensures that any readers traversing the list will see valid p->tasks.next
++pointers and deletion/freeing can happen in parallel to traversal of the list.
++This pattern is also called an "existence lock" sometimes, since RCU makes sure
++the object exists in memory as long as readers exist, that are traversing.
++
++
++Example 2: Read-Side Action Taken Outside of Lock, No In-Place Updates
+ 
+ The best applications are cases where, if reader-writer locking were
+ used, the read-side lock would be dropped before taking any action
+@@ -32,7 +78,7 @@ implementation of audit_filter_task() might be as follows:
+ 		enum audit_state   state;
+ 
+ 		read_lock(&auditsc_lock);
+-		/* Note: audit_netlink_sem held by caller. */
++		/* Note: audit_filter_mutex held by caller. */
+ 		list_for_each_entry(e, &audit_tsklist, list) {
+ 			if (audit_filter_rules(tsk, &e->rule, NULL, &state)) {
+ 				read_unlock(&auditsc_lock);
+@@ -56,7 +102,7 @@ This means that RCU can be easily applied to the read side, as follows:
+ 		enum audit_state   state;
+ 
+ 		rcu_read_lock();
+-		/* Note: audit_netlink_sem held by caller. */
++		/* Note: audit_filter_mutex held by caller. */
+ 		list_for_each_entry_rcu(e, &audit_tsklist, list) {
+ 			if (audit_filter_rules(tsk, &e->rule, NULL, &state)) {
+ 				rcu_read_unlock();
+@@ -139,7 +185,7 @@ Following are the RCU equivalents for these two functions:
+ 
+ Normally, the write_lock() and write_unlock() would be replaced by
+ a spin_lock() and a spin_unlock(), but in this case, all callers hold
+-audit_netlink_sem, so no additional locking is required.  The auditsc_lock
++audit_filter_mutex, so no additional locking is required.  The auditsc_lock
+ can therefore be eliminated, since use of RCU eliminates the need for
+ writers to exclude readers.  Normally, the write_lock() calls would
+ be converted into spin_lock() calls.
+@@ -155,7 +201,7 @@ So, when readers can tolerate stale data and when entries are either added
+ or deleted, without in-place modification, it is very easy to use RCU!
+ 
+ 
+-Example 2: Handling In-Place Updates
++Example 3: Handling In-Place Updates
+ 
+ The system-call auditing code does not update auditing rules in place.
+ However, if it did, reader-writer-locked code to do so might look as
+@@ -171,7 +217,7 @@ otherwise, the added fields would need to be filled in):
+ 		struct audit_newentry *ne;
+ 
+ 		write_lock(&auditsc_lock);
+-		/* Note: audit_netlink_sem held by caller. */
++		/* Note: audit_filter_mutex held by caller. */
+ 		list_for_each_entry(e, list, list) {
+ 			if (!audit_compare_rule(rule, &e->rule)) {
+ 				e->rule.action = newaction;
+@@ -213,13 +259,23 @@ RCU ("read-copy update") its name.  The RCU code is as follows:
+ 		return -EFAULT;		/* No matching rule */
+ 	}
+ 
+-Again, this assumes that the caller holds audit_netlink_sem.  Normally,
++Again, this assumes that the caller holds audit_filter_mutex.  Normally,
+ the reader-writer lock would become a spinlock in this sort of code.
+ 
++Another use of this pattern can be found in the openswitch driver's "connection
++tracking table" code (ct_limit_set()). The table holds connection tracking
++entries and has a limit on the maximum entries. There is one such table
++per-zone and hence one "limit" per zone. The zones are mapped to their limits
++through a hashtable using an RCU-managed hlist for the hash chains. When a new
++limit is to be set, a new limit object is allocated and ct_limit_set() is
++called to replace the old limit object with the new one using
++list_replace_rcu(). The old limit object is then freed after a grace period
++using kfree_rcu().
++
+ 
+-Example 3: Eliminating Stale Data
++Example 4: Eliminating Stale Data
+ 
+-The auditing examples above tolerate stale data, as do most algorithms
++The auditing exampes above tolerates stale data, as do most algorithms
+ that are tracking external state.  Because there is a delay from the
+ time the external state changes before Linux becomes aware of the change,
+ additional RCU-induced staleness is normally not a problem.
+@@ -291,6 +347,84 @@ flag under the spinlock as follows:
+ 	}
+ 
+ 
++EXAMPLE 5: Skipping Stale Objects
++
++Stale data can also be eliminated for performance reasons since it is pointless
++to process items in a list, if the object is being destroyed.  One such example
++can be found in the timerfd subsystem. When a CLOCK_REALTIME clock is
++reprogrammed - for example due to setting of the system time, then all programmed
++timerfds that depend on this clock get triggered and processes waiting on them
++to expire are woken up in advance of their scheduled expiry. To facilitate
++this, all such timers are added to a 'cancel_list' when they are setup in
++timerfd_setup_cancel:
++
++static void timerfd_setup_cancel(struct timerfd_ctx *ctx, int flags)
++{
++	spin_lock(&ctx->cancel_lock);
++	if ((ctx->clockid == CLOCK_REALTIME &&
++	    (flags & TFD_TIMER_ABSTIME) && (flags & TFD_TIMER_CANCEL_ON_SET)) {
++		if (!ctx->might_cancel) {
++			ctx->might_cancel = true;
++			spin_lock(&cancel_lock);
++			list_add_rcu(&ctx->clist, &cancel_list);
++			spin_unlock(&cancel_lock);
++		}
++	}
++	spin_unlock(&ctx->cancel_lock);
++}
++
++When a timerfd is freed (fd is closed), then the might_cancel flag of the
++timerfd object is cleared, the object removed from the cancel_list and destroyed:
++
++int timerfd_release(struct inode *inode, struct file *file)
++{
++	struct timerfd_ctx *ctx = file->private_data;
++
++	spin_lock(&ctx->cancel_lock);
++	if (ctx->might_cancel) {
++		ctx->might_cancel = false;
++		spin_lock(&cancel_lock);
++		list_del_rcu(&ctx->clist);
++		spin_unlock(&cancel_lock);
++	}
++	spin_unlock(&ctx->cancel_lock);
++
++	hrtimer_cancel(&ctx->t.tmr);
++	kfree_rcu(ctx, rcu);
++	return 0;
++}
++
++If the CLOCK_REALTIME clock is set, for example by a time server, the hrtimer
++framework calls timerfd_clock_was_set() which walks the cancel_list and wakes
++up processes waiting on the timerfd. While iterating the cancel list, the
++might_cancel flag is consulted to skip stale objects:
++
++void timerfd_clock_was_set(void)
++{
++	struct timerfd_ctx *ctx;
++	unsigned long flags;
++
++	rcu_read_lock();
++	list_for_each_entry_rcu(ctx, &cancel_list, clist) {
++		if (!ctx->might_cancel)
++			continue;
++		spin_lock_irqsave(&ctx->wqh.lock, flags);
++		if (ctx->moffs != ktime_mono_to_real(0)) {
++			ctx->moffs = KTIME_MAX;
++			ctx->ticks++;
++			wake_up_locked_poll(&ctx->wqh, EPOLLIN);
++		}
++		spin_unlock_irqrestore(&ctx->wqh.lock, flags);
++	}
++	rcu_read_unlock();
++}
++
++The key point here is, because RCU-traversal of the cancel_list happens while
++objects are being added and removed to the list, sometimes the traversal can
++step on an object that has been removed from the list. In this example, it is
++seen that it is better to skip such objects using a flag.
++
++
+ Summary
+ 
+ Read-mostly list-based data structures that can tolerate stale data are
+-- 
+2.22.0.rc1.311.g5d7573a151-goog
+
