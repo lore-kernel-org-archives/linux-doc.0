@@ -5,118 +5,79 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C92317DE78
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Jun 2019 09:26:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1B4067D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Jun 2019 10:33:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727107AbfFCJZQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Jun 2019 05:25:16 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:32977 "EHLO huawei.com"
+        id S1726349AbfFCKdi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Jun 2019 06:33:38 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:17658 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726684AbfFCJZQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 3 Jun 2019 05:25:16 -0400
-Received: from LHREML712-CAH.china.huawei.com (unknown [172.18.7.106])
-        by Forcepoint Email with ESMTP id DAD2985DF29930B44972;
-        Mon,  3 Jun 2019 10:25:13 +0100 (IST)
-Received: from [10.220.96.108] (10.220.96.108) by smtpsuk.huawei.com
- (10.201.108.35) with Microsoft SMTP Server (TLS) id 14.3.408.0; Mon, 3 Jun
- 2019 10:25:06 +0100
-Subject: Re: [PATCH v2 2/3] ima: don't ignore INTEGRITY_UNKNOWN EVM status
-To:     Mimi Zohar <zohar@linux.ibm.com>, <dmitry.kasatkin@huawei.com>,
-        <mjg59@google.com>
-CC:     <linux-integrity@vger.kernel.org>,
-        <linux-security-module@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <silviu.vlasceanu@huawei.com>, <stable@vger.kernel.org>
-References: <20190529133035.28724-1-roberto.sassu@huawei.com>
- <20190529133035.28724-3-roberto.sassu@huawei.com>
- <1559217621.4008.7.camel@linux.ibm.com>
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-Message-ID: <e6b31aa9-0319-1805-bdfc-3ddde5884494@huawei.com>
-Date:   Mon, 3 Jun 2019 11:25:13 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.0
+        id S1726880AbfFCKdi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 3 Jun 2019 06:33:38 -0400
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 6AC133B6A349DDDE4E72;
+        Mon,  3 Jun 2019 18:33:35 +0800 (CST)
+Received: from [10.134.22.195] (10.134.22.195) by smtp.huawei.com
+ (10.3.19.213) with Microsoft SMTP Server (TLS) id 14.3.439.0; Mon, 3 Jun 2019
+ 18:33:31 +0800
+Subject: Re: [PATCH v3 1/4] f2fs: Lower threshold for disable_cp_again
+To:     Daniel Rosenberg <drosen@google.com>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        <linux-f2fs-devel@lists.sourceforge.net>
+CC:     <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <kernel-team@android.com>
+References: <20190530004906.261170-1-drosen@google.com>
+ <20190530004906.261170-2-drosen@google.com>
+From:   Chao Yu <yuchao0@huawei.com>
+Message-ID: <1246dcc9-800a-ef0e-7cd0-199a0a6d77d4@huawei.com>
+Date:   Mon, 3 Jun 2019 18:33:30 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <1559217621.4008.7.camel@linux.ibm.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+In-Reply-To: <20190530004906.261170-2-drosen@google.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.220.96.108]
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.134.22.195]
 X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/30/2019 2:00 PM, Mimi Zohar wrote:
-> On Wed, 2019-05-29 at 15:30 +0200, Roberto Sassu wrote:
->> Currently, ima_appraise_measurement() ignores the EVM status when
->> evm_verifyxattr() returns INTEGRITY_UNKNOWN. If a file has a valid
->> security.ima xattr with type IMA_XATTR_DIGEST or IMA_XATTR_DIGEST_NG,
->> ima_appraise_measurement() returns INTEGRITY_PASS regardless of the EVM
->> status. The problem is that the EVM status is overwritten with the
->>> appraisal statu
+On 2019/5/30 8:49, Daniel Rosenberg wrote:
+> The existing threshold for allowable holes at checkpoint=disable time is
+> too high. The OVP space contains reserved segments, which are always in
+> the form of free segments. These must be subtracted from the OVP value.
 > 
-> Roberto, your framing of this problem is harsh and misleading.  IMA
-> and EVM are intentionally independent of each other and can be
-> configured independently of each other.  The intersection of the two
-> is the call to evm_verifyxattr().  INTEGRITY_UNKNOWN is returned for a
-> number of reasons - when EVM is not configured, the EVM hmac key has
-> not yet been loaded, the protected security attribute is unknown, or
-> the file is not in policy.
+> The current threshold is meant to be the maximum value of holes of a
+> single type we can have and still guarantee that we can fill the disk
+> without failing to find space for a block of a given type.
 > 
-> This patch does not differentiate between any of the above cases,
-> requiring mutable files to always be protected by EVM, when specified
-> as an "ima_appraise=" option on the boot command line.
+> If the disk is full, ignoring current reserved, which only helps us,
+> the amount of unused blocks is equal to the OVP area. Of that, there
+> are reserved segments, which must be free segments, and the rest of the
+> ovp area, which can come from either free segments or holes. The maximum
+> possible amount of holes is OVP-reserved.
 > 
-> IMA could be extended to require EVM on a per IMA policy rule basis.
-> Instead of framing allowing IMA file hashes without EVM as a bug that
-> has existed from the very beginning, now that IMA/EVM have matured and
-> is being used, you could frame it as extending IMA or hardening.
-
-I'm seeing it from the perspective of an administrator that manages an
-already hardened system, and expects that the system only grants access
-to files with a valid signature/HMAC. That system would not enforce this
-behavior if EVM keys are removed and the digest in security.ima is set
-to the actual file digest.
-
-Framing it as a bug rather than an extension would in my opinion help to
-convince people about the necessity to switch to the safe mode, if their
-system is already hardened.
-
-
->> This patch mitigates the issue by selecting signature verification as the
->> only method allowed for appraisal when EVM is not initialized. Since the
->> new behavior might break user space, it must be turned on by adding the
->> '-evm' suffix to the value of the ima_appraise= kernel option.
->>
->> Fixes: 2fe5d6def1672 ("ima: integrity appraisal extension")
->> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
->> Cc: stable@vger.kernel.org
->> ---
->>   Documentation/admin-guide/kernel-parameters.txt | 3 ++-
->>   security/integrity/ima/ima_appraise.c           | 8 ++++++++
->>   2 files changed, 10 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->> index 138f6664b2e2..d84a2e612b93 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -1585,7 +1585,8 @@
->>   			Set number of hash buckets for inode cache.
->>   
->>   	ima_appraise=	[IMA] appraise integrity measurements
->> -			Format: { "off" | "enforce" | "fix" | "log" }
->> +			Format: { "off" | "enforce" | "fix" | "log" |
->> +				  "enforce-evm" | "log-evm" }
+> Now, consider the disk when mounting with checkpoint=disable.
+> We must be able to fill all available free space with either data or
+> node blocks. When we start with checkpoint=disable, holes are locked to
+> their current type. Say we have H of one type of hole, and H+X of the
+> other. We can fill H of that space with arbitrary typed blocks via SSR.
+> For the remaining H+X blocks, we may not have any of a given block type
+> left at all. For instance, if we were to fill the disk entirely with
+> blocks of the type with fewer holes, the H+X blocks of the opposite type
+> would not be used. If H+X > OVP-reserved, there would be more holes than
+> could possibly exist, and we would have failed to find a suitable block
+> earlier on, leading to a crash in update_sit_entry.
 > 
-> Is it necessary to define both "enforce-evm" and "log-evm"?  Perhaps
-> defining "require-evm" is sufficient.
+> If H+X <= OVP-reserved, then the holes end up effectively masked by the OVP
+> region in this case.
+> 
+> Signed-off-by: Daniel Rosenberg <drosen@google.com>
 
-ima_appraise= accepts as values modes of operation. I consider the -evm
-suffix as a modifier of already defined modes.
+Reviewed-by: Chao Yu <yuchao0@huawei.com>
 
-Roberto
-
--- 
-HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
-Managing Director: Bo PENG, Jian LI, Yanli SHI
+Thanks,
