@@ -1,122 +1,71 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_HIGH autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F15257D923
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Jun 2019 14:44:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EDB0D7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Jun 2019 15:15:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729374AbfFCOoS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Jun 2019 10:44:18 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:32980 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729238AbfFCOoS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 3 Jun 2019 10:44:18 -0400
-Received: from LHREML712-CAH.china.huawei.com (unknown [172.18.7.106])
-        by Forcepoint Email with ESMTP id 970C97DED53F5CEC1E01;
-        Mon,  3 Jun 2019 15:44:14 +0100 (IST)
-Received: from [10.220.96.108] (10.220.96.108) by smtpsuk.huawei.com
- (10.201.108.35) with Microsoft SMTP Server (TLS) id 14.3.408.0; Mon, 3 Jun
- 2019 15:44:04 +0100
-Subject: Re: [PATCH v2 2/3] ima: don't ignore INTEGRITY_UNKNOWN EVM status
-To:     James Bottomley <James.Bottomley@HansenPartnership.com>,
-        Mimi Zohar <zohar@linux.ibm.com>, <dmitry.kasatkin@huawei.com>,
-        <mjg59@google.com>
-CC:     <linux-integrity@vger.kernel.org>,
-        <linux-security-module@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <silviu.vlasceanu@huawei.com>, <stable@vger.kernel.org>
-References: <20190529133035.28724-1-roberto.sassu@huawei.com>
- <20190529133035.28724-3-roberto.sassu@huawei.com>
- <1559217621.4008.7.camel@linux.ibm.com>
- <e6b31aa9-0319-1805-bdfc-3ddde5884494@huawei.com>
- <1559569401.5052.17.camel@HansenPartnership.com>
- <3667fbd4-b6ed-6a76-9ff4-84ec3c2dda12@huawei.com>
- <1559572305.5052.19.camel@HansenPartnership.com>
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-Message-ID: <b38d75b1-873a-1630-0148-41c49571531a@huawei.com>
-Date:   Mon, 3 Jun 2019 16:44:12 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.0
+        id S1729208AbfFCPPu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Jun 2019 11:15:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57318 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729081AbfFCPPt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 3 Jun 2019 11:15:49 -0400
+Received: from [192.168.0.101] (unknown [58.212.135.189])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 296B524CF1;
+        Mon,  3 Jun 2019 15:15:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1559574949;
+        bh=54oATYsXXJ8P2M14fItKq+XktmeWUBPg/oIseVIgycE=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=TpgLbiVsdpdF49lOLEgS3pAq5qsVYM50r0Mf7QmMNRzjzT8t79qh6m4Fskm/t1uYo
+         r1bBMKVQe/rmg2KBYIAKSwupUWc1XTvQ+PDNJhfTfzkQpaI1dEC/Plups1LVSK0PPR
+         dZ1+o65toz9AvGiaT+4WjOIPD47zO+vVeIiX0Bc4=
+Subject: Re: [f2fs-dev] [PATCH v3 4/4] f2fs: Add option to limit required GC
+ for checkpoint=disable
+To:     Daniel Rosenberg <drosen@google.com>,
+        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <yuchao0@huawei.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-f2fs-devel@lists.sourceforge.net
+Cc:     linux-fsdevel@vger.kernel.org, kernel-team@android.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20190530004906.261170-1-drosen@google.com>
+ <20190530004906.261170-5-drosen@google.com>
+From:   Chao Yu <chao@kernel.org>
+Message-ID: <cbd6e561-66c3-da63-d5b4-e81da990bd15@kernel.org>
+Date:   Mon, 3 Jun 2019 23:15:37 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <1559572305.5052.19.camel@HansenPartnership.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+In-Reply-To: <20190530004906.261170-5-drosen@google.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.220.96.108]
-X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/3/2019 4:31 PM, James Bottomley wrote:
-> On Mon, 2019-06-03 at 16:29 +0200, Roberto Sassu wrote:
->> On 6/3/2019 3:43 PM, James Bottomley wrote:
->>> On Mon, 2019-06-03 at 11:25 +0200, Roberto Sassu wrote:
->>>> On 5/30/2019 2:00 PM, Mimi Zohar wrote:
->>>>> On Wed, 2019-05-29 at 15:30 +0200, Roberto Sassu wrote:
->>>>>> Currently, ima_appraise_measurement() ignores the EVM status
->>>>>> when evm_verifyxattr() returns INTEGRITY_UNKNOWN. If a file
->>>>>> has a valid security.ima xattr with type IMA_XATTR_DIGEST or
->>>>>> IMA_XATTR_DIGEST_NG, ima_appraise_measurement() returns
->>>>>> INTEGRITY_PASS regardless of the EVM status. The problem is
->>>>>> that the EVM status is overwritten with the appraisal statu
->>>>>
->>>>> Roberto, your framing of this problem is harsh and
->>>>> misleading.  IMA and EVM are intentionally independent of each
->>>>> other and can be configured independently of each other.  The
->>>>> intersection of the two is the call to
->>>>> evm_verifyxattr().  INTEGRITY_UNKNOWN is
->>>>> returned for a number of reasons - when EVM is not configured,
->>>>> the EVM hmac key has not yet been loaded, the protected
->>>>> security attribute is unknown, or the file is not in policy.
->>>>>
->>>>> This patch does not differentiate between any of the above
->>>>> cases, requiring mutable files to always be protected by EVM,
->>>>> when specified as an "ima_appraise=" option on the boot command
->>>>> line.
->>>>>
->>>>> IMA could be extended to require EVM on a per IMA policy rule
->>>>> basis. Instead of framing allowing IMA file hashes without EVM
->>>>> as a bug that has existed from the very beginning, now that
->>>>> IMA/EVM have matured and is being used, you could frame it as
->>>>> extending IMA or hardening.
->>>>
->>>> I'm seeing it from the perspective of an administrator that
->>>> manages an already hardened system, and expects that the system
->>>> only grants access to files with a valid signature/HMAC. That
->>>> system would not enforce this behavior if EVM keys are removed
->>>> and the digest in security.ima is set to the actual file digest.
->>>>
->>>> Framing it as a bug rather than an extension would in my opinion
->>>> help to convince people about the necessity to switch to the safe
->>>> mode, if their system is already hardened.
->>>
->>> I have a use case for IMA where I use it to enforce immutability of
->>> containers.  In this use case, the cluster admin places hashes on
->>> executables as the image is unpacked so that if an executable file
->>> is changed, IMA will cause an execution failure.  For this use
->>> case, I don't care about the EVM, in fact we don't use it, because
->>> the only object is to fail execution if a binary is mutated.
->>
->> How would you prevent root in the container from updating
->> security.ima?
+On 2019-5-30 8:49, Daniel Rosenberg via Linux-f2fs-devel wrote:
+> This extends the checkpoint option to allow checkpoint=disable:%u[%]
+> This allows you to specify what how much of the disk you are willing
+> to lose access to while mounting with checkpoint=disable. If the amount
+> lost would be higher, the mount will return -EAGAIN. This can be given
+> as a percent of total space, or in blocks.
 > 
-> We don't.  We only guarantee immutability for unprivileged containers,
-> so root can't be inside.
+> Currently, we need to run garbage collection until the amount of holes
+> is smaller than the OVP space. With the new option, f2fs can mark
+> space as unusable up front instead of requiring garbage collection until
+> the number of holes is small enough.
+> 
+> Signed-off-by: Daniel Rosenberg <drosen@google.com>
 
-Ok.
+Reviewed-by: Chao Yu <yuchao0@huawei.com>
 
-Regarding the new behavior, this must be explicitly enabled by adding
-ima_appraise=enforce-evm or log-evm to the kernel command line.
-Otherwise, the current behavior is preserved with this patch. Would this
-be ok?
-
-Roberto
-
--- 
-HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
-Managing Director: Bo PENG, Jian LI, Yanli SHI
+Thanks,
