@@ -1,270 +1,179 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_MED,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B00AA7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Jun 2019 07:32:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 08AC57D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Jun 2019 09:03:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726528AbfFCHc6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Jun 2019 03:32:58 -0400
-Received: from pegase1.c-s.fr ([93.17.236.30]:8090 "EHLO pegase1.c-s.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725975AbfFCHc5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 3 Jun 2019 03:32:57 -0400
-Received: from localhost (mailhub1-int [192.168.12.234])
-        by localhost (Postfix) with ESMTP id 45HRbj0L33z9tyqk;
-        Mon,  3 Jun 2019 09:32:49 +0200 (CEST)
-Authentication-Results: localhost; dkim=pass
-        reason="1024-bit key; insecure key"
-        header.d=c-s.fr header.i=@c-s.fr header.b=KCHA/+I2; dkim-adsp=pass;
-        dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
-        by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
-        with ESMTP id f1ZXWwP5lEd5; Mon,  3 Jun 2019 09:32:48 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-        by pegase1.c-s.fr (Postfix) with ESMTP id 45HRbh6GzZz9tyqD;
-        Mon,  3 Jun 2019 09:32:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=c-s.fr; s=mail;
-        t=1559547168; bh=mFSnLp9SecdoefqVAi+zrsx7gCUNrqDDhzeAm7hNfcA=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=KCHA/+I2NHjkZkiR233EwpdRJt5jFkb7BB5WvTUHNfzd/oweFVHs6D+raJnJ4JYpd
-         J+KQ8vTwYSp7XV7FCrl9nJmeWCQH+EPqi/mxK+DlAKOo2fjx8cf6H7S04ezRTgUM5E
-         wPjjz8mFCLKIrimihcCu7Fs69Nna3fpjCg3CfU9w=
-Received: from localhost (localhost [127.0.0.1])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id 704308B7B1;
-        Mon,  3 Jun 2019 09:32:53 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-        with ESMTP id eaNrRzoQGBQV; Mon,  3 Jun 2019 09:32:53 +0200 (CEST)
-Received: from PO15451 (po15451.idsi0.si.c-s.fr [172.25.231.1])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id 1C9028B7A1;
-        Mon,  3 Jun 2019 09:32:53 +0200 (CEST)
-Subject: Re: [PATCH 09/22] docs: mark orphan documents as such
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     kvm@vger.kernel.org,
-        =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        dri-devel@lists.freedesktop.org,
-        platform-driver-x86@vger.kernel.org,
-        Paul Mackerras <paulus@samba.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Airlie <airlied@linux.ie>,
-        Andrew Donnellan <ajd@linux.ibm.com>, linux-pm@vger.kernel.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Matan Ziv-Av <matan@svgalib.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Daniel Vetter <daniel@ffwll.ch>, Sean Paul <sean@poorly.run>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Frederic Barrat <fbarrat@linux.ibm.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        linuxppc-dev@lists.ozlabs.org,
-        Georgi Djakov <georgi.djakov@linaro.org>
-References: <cover.1559171394.git.mchehab+samsung@kernel.org>
- <e0bf4e767dd5de9189e5993fbec2f4b1bafd2064.1559171394.git.mchehab+samsung@kernel.org>
-From:   Christophe Leroy <christophe.leroy@c-s.fr>
-Message-ID: <2891a08c-50b1-db33-0e96-740d45c5235f@c-s.fr>
-Date:   Mon, 3 Jun 2019 09:32:54 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1727126AbfFCJDn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Jun 2019 05:03:43 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:36883 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726708AbfFCJDn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jun 2019 05:03:43 -0400
+Received: by mail-ot1-f65.google.com with SMTP id r10so15365603otd.4
+        for <linux-doc@vger.kernel.org>; Mon, 03 Jun 2019 02:03:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/VCvRg4+mMJ/yKzCQebn8clHJnLDYyzYIHqLnBJ4zrI=;
+        b=H/dToC9rVgyO60IieVWtYVTFQ1+mQqRSqm7v+uDMC1JFRW6hoq3rdcMjJGt9aQAIaH
+         mvwyuRkWbUoNOyCBYn6MwVr6/BdJhcTk06MVITyowa6mOgyUH9nBiAvZtjtGzy2TTkda
+         EAF67zsrU7hR7HeHdu/j+sq2s3b8F9Icz0URNmQ1Rh17LYo05PTttkSfR1u2coSXZRtQ
+         tqZZJCE1G1U4VD7OF+rDL6FcRsoI1FklrQXZiMF2/4vOHdaaiTaGerKo7Cs+Inh712v9
+         uB61H8IfL5Wmv7x9BdPISh8Mu7FAQiQ8nbHfWItpIqQV08wnaeX6MA4FCit0UuEXiTwb
+         8j4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/VCvRg4+mMJ/yKzCQebn8clHJnLDYyzYIHqLnBJ4zrI=;
+        b=t6D9GEt/EXmyyN0BvHrTAFDna05E8mzvnfnuwfgaRpXq7nQFxzLn4/uoPB+FEwxQ6P
+         RTx9vguHqOrtHDWNpqX9YposO9QwVPvY2c8xG5FtMHjHV1hcKFIHnm79cpdfLb33EUI4
+         /Tc9XYshYShs8BUSme3fAJqzqQrERmmmsx1JXtPdl3dd4ZADBc+78wxTAcl9QC3nwvBG
+         KaanlObwCbnmYYXX3+PWlpgTtaVzYtQOm3SSopN0MYPZJiJ6OPRNLebICOeHzS7vul07
+         sPZgHTm54Omg0DoXLZoSqFoFWqRPqMEw5Gic7DNcHOds/B9rabNRRGIyaNQUzsZ6Z8RO
+         GqAg==
+X-Gm-Message-State: APjAAAU5sgo1QaN4gdAQwM7Bl1wBNokSQRIHAMacLApBRZo8t41+m6cn
+        Yu6rIKDKSvPsYVZtHiLC8LuHstbC+6valiW7mT16Dg==
+X-Google-Smtp-Source: APXvYqzgegu9IcBC8sASS/9V/OPbAvth7UyhRrha31CWInyM6XSL4/wuA+jy2xZziSKYavPoDOqnLF4KhOatOj4Biuw=
+X-Received: by 2002:a05:6830:1688:: with SMTP id k8mr378583otr.233.1559552622037;
+ Mon, 03 Jun 2019 02:03:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <e0bf4e767dd5de9189e5993fbec2f4b1bafd2064.1559171394.git.mchehab+samsung@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
+References: <20190529141500.193390-1-elver@google.com> <20190529141500.193390-3-elver@google.com>
+ <EE911EC6-344B-4EB2-90A4-B11E8D96BEDC@zytor.com> <CANpmjNOsPnVd50cTzUW8UYXPGqpSnRLcjj=JbZraTYVq1n18Fw@mail.gmail.com>
+ <3B49EF08-147F-451C-AA5B-FC4E1B8568EE@zytor.com>
+In-Reply-To: <3B49EF08-147F-451C-AA5B-FC4E1B8568EE@zytor.com>
+From:   Marco Elver <elver@google.com>
+Date:   Mon, 3 Jun 2019 11:03:30 +0200
+Message-ID: <CANpmjNMt8QK+j6yo8ut1UNe0wS3_B4iqG5N_eTmJcWj4TpZaDQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] x86: Move CPU feature test out of uaccess region
+To:     "H. Peter Anvin" <hpa@zytor.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Alexander Potapenko <glider@google.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Thanks for the clarification.
 
+I found that static_cpu_has was replaced by static_cpu_has_safe:
+https://lkml.org/lkml/2016/1/24/29 -- so is it fair to assume that
+both are equally safe at this point?
 
-Le 30/05/2019 à 01:23, Mauro Carvalho Chehab a écrit :
-> Sphinx doesn't like orphan documents:
-> 
->      Documentation/accelerators/ocxl.rst: WARNING: document isn't included in any toctree
->      Documentation/arm/stm32/overview.rst: WARNING: document isn't included in any toctree
->      Documentation/arm/stm32/stm32f429-overview.rst: WARNING: document isn't included in any toctree
->      Documentation/arm/stm32/stm32f746-overview.rst: WARNING: document isn't included in any toctree
->      Documentation/arm/stm32/stm32f769-overview.rst: WARNING: document isn't included in any toctree
->      Documentation/arm/stm32/stm32h743-overview.rst: WARNING: document isn't included in any toctree
->      Documentation/arm/stm32/stm32mp157-overview.rst: WARNING: document isn't included in any toctree
->      Documentation/gpu/msm-crash-dump.rst: WARNING: document isn't included in any toctree
->      Documentation/interconnect/interconnect.rst: WARNING: document isn't included in any toctree
->      Documentation/laptops/lg-laptop.rst: WARNING: document isn't included in any toctree
->      Documentation/powerpc/isa-versions.rst: WARNING: document isn't included in any toctree
->      Documentation/virtual/kvm/amd-memory-encryption.rst: WARNING: document isn't included in any toctree
->      Documentation/virtual/kvm/vcpu-requests.rst: WARNING: document isn't included in any toctree
-> 
-> So, while they aren't on any toctree, add :orphan: to them, in order
-> to silent this warning.
+I have sent a follow-up patch which uses static_cpu_has:
+http://lkml.kernel.org/r/20190531150828.157832-3-elver@google.com
 
-Are those files really not meant to be included in a toctree ?
+Many thanks!
+-- Marco
 
-Shouldn't we include them in the relevant toctree instead of just 
-shutting up Sphinx warnings ?
-
-Christophe
-
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
->   Documentation/accelerators/ocxl.rst                 | 2 ++
->   Documentation/arm/stm32/overview.rst                | 2 ++
->   Documentation/arm/stm32/stm32f429-overview.rst      | 2 ++
->   Documentation/arm/stm32/stm32f746-overview.rst      | 2 ++
->   Documentation/arm/stm32/stm32f769-overview.rst      | 2 ++
->   Documentation/arm/stm32/stm32h743-overview.rst      | 2 ++
->   Documentation/arm/stm32/stm32mp157-overview.rst     | 2 ++
->   Documentation/gpu/msm-crash-dump.rst                | 2 ++
->   Documentation/interconnect/interconnect.rst         | 2 ++
->   Documentation/laptops/lg-laptop.rst                 | 2 ++
->   Documentation/powerpc/isa-versions.rst              | 2 ++
->   Documentation/virtual/kvm/amd-memory-encryption.rst | 2 ++
->   Documentation/virtual/kvm/vcpu-requests.rst         | 2 ++
->   13 files changed, 26 insertions(+)
-> 
-> diff --git a/Documentation/accelerators/ocxl.rst b/Documentation/accelerators/ocxl.rst
-> index 14cefc020e2d..b1cea19a90f5 100644
-> --- a/Documentation/accelerators/ocxl.rst
-> +++ b/Documentation/accelerators/ocxl.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   ========================================================
->   OpenCAPI (Open Coherent Accelerator Processor Interface)
->   ========================================================
-> diff --git a/Documentation/arm/stm32/overview.rst b/Documentation/arm/stm32/overview.rst
-> index 85cfc8410798..f7e734153860 100644
-> --- a/Documentation/arm/stm32/overview.rst
-> +++ b/Documentation/arm/stm32/overview.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   ========================
->   STM32 ARM Linux Overview
->   ========================
-> diff --git a/Documentation/arm/stm32/stm32f429-overview.rst b/Documentation/arm/stm32/stm32f429-overview.rst
-> index 18feda97f483..65bbb1c3b423 100644
-> --- a/Documentation/arm/stm32/stm32f429-overview.rst
-> +++ b/Documentation/arm/stm32/stm32f429-overview.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   STM32F429 Overview
->   ==================
->   
-> diff --git a/Documentation/arm/stm32/stm32f746-overview.rst b/Documentation/arm/stm32/stm32f746-overview.rst
-> index b5f4b6ce7656..42d593085015 100644
-> --- a/Documentation/arm/stm32/stm32f746-overview.rst
-> +++ b/Documentation/arm/stm32/stm32f746-overview.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   STM32F746 Overview
->   ==================
->   
-> diff --git a/Documentation/arm/stm32/stm32f769-overview.rst b/Documentation/arm/stm32/stm32f769-overview.rst
-> index 228656ced2fe..f6adac862b17 100644
-> --- a/Documentation/arm/stm32/stm32f769-overview.rst
-> +++ b/Documentation/arm/stm32/stm32f769-overview.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   STM32F769 Overview
->   ==================
->   
-> diff --git a/Documentation/arm/stm32/stm32h743-overview.rst b/Documentation/arm/stm32/stm32h743-overview.rst
-> index 3458dc00095d..c525835e7473 100644
-> --- a/Documentation/arm/stm32/stm32h743-overview.rst
-> +++ b/Documentation/arm/stm32/stm32h743-overview.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   STM32H743 Overview
->   ==================
->   
-> diff --git a/Documentation/arm/stm32/stm32mp157-overview.rst b/Documentation/arm/stm32/stm32mp157-overview.rst
-> index 62e176d47ca7..2c52cd020601 100644
-> --- a/Documentation/arm/stm32/stm32mp157-overview.rst
-> +++ b/Documentation/arm/stm32/stm32mp157-overview.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   STM32MP157 Overview
->   ===================
->   
-> diff --git a/Documentation/gpu/msm-crash-dump.rst b/Documentation/gpu/msm-crash-dump.rst
-> index 757cd257e0d8..240ef200f76c 100644
-> --- a/Documentation/gpu/msm-crash-dump.rst
-> +++ b/Documentation/gpu/msm-crash-dump.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   =====================
->   MSM Crash Dump Format
->   =====================
-> diff --git a/Documentation/interconnect/interconnect.rst b/Documentation/interconnect/interconnect.rst
-> index c3e004893796..56e331dab70e 100644
-> --- a/Documentation/interconnect/interconnect.rst
-> +++ b/Documentation/interconnect/interconnect.rst
-> @@ -1,5 +1,7 @@
->   .. SPDX-License-Identifier: GPL-2.0
->   
-> +:orphan:
-> +
->   =====================================
->   GENERIC SYSTEM INTERCONNECT SUBSYSTEM
->   =====================================
-> diff --git a/Documentation/laptops/lg-laptop.rst b/Documentation/laptops/lg-laptop.rst
-> index aa503ee9b3bc..f2c2ffe31101 100644
-> --- a/Documentation/laptops/lg-laptop.rst
-> +++ b/Documentation/laptops/lg-laptop.rst
-> @@ -1,5 +1,7 @@
->   .. SPDX-License-Identifier: GPL-2.0+
->   
-> +:orphan:
-> +
->   LG Gram laptop extra features
->   =============================
->   
-> diff --git a/Documentation/powerpc/isa-versions.rst b/Documentation/powerpc/isa-versions.rst
-> index 812e20cc898c..66c24140ebf1 100644
-> --- a/Documentation/powerpc/isa-versions.rst
-> +++ b/Documentation/powerpc/isa-versions.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   CPU to ISA Version Mapping
->   ==========================
->   
-> diff --git a/Documentation/virtual/kvm/amd-memory-encryption.rst b/Documentation/virtual/kvm/amd-memory-encryption.rst
-> index 659bbc093b52..33d697ab8a58 100644
-> --- a/Documentation/virtual/kvm/amd-memory-encryption.rst
-> +++ b/Documentation/virtual/kvm/amd-memory-encryption.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   ======================================
->   Secure Encrypted Virtualization (SEV)
->   ======================================
-> diff --git a/Documentation/virtual/kvm/vcpu-requests.rst b/Documentation/virtual/kvm/vcpu-requests.rst
-> index 5feb3706a7ae..c1807a1b92e6 100644
-> --- a/Documentation/virtual/kvm/vcpu-requests.rst
-> +++ b/Documentation/virtual/kvm/vcpu-requests.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   =================
->   KVM VCPU Requests
->   =================
-> 
+On Sat, 1 Jun 2019 at 03:13, <hpa@zytor.com> wrote:
+>
+> On May 31, 2019 2:57:36 AM PDT, Marco Elver <elver@google.com> wrote:
+> >On Wed, 29 May 2019 at 16:29, <hpa@zytor.com> wrote:
+> >>
+> >> On May 29, 2019 7:15:00 AM PDT, Marco Elver <elver@google.com> wrote:
+> >> >This patch is a pre-requisite for enabling KASAN bitops
+> >> >instrumentation:
+> >> >moves boot_cpu_has feature test out of the uaccess region, as
+> >> >boot_cpu_has uses test_bit. With instrumentation, the KASAN check
+> >would
+> >> >otherwise be flagged by objtool.
+> >> >
+> >> >This approach is preferred over adding the explicit kasan_check_*
+> >> >functions to the uaccess whitelist of objtool, as the case here
+> >appears
+> >> >to be the only one.
+> >> >
+> >> >Signed-off-by: Marco Elver <elver@google.com>
+> >> >---
+> >> >v1:
+> >> >* This patch replaces patch: 'tools/objtool: add kasan_check_* to
+> >> >  uaccess whitelist'
+> >> >---
+> >> > arch/x86/ia32/ia32_signal.c | 9 ++++++++-
+> >> > 1 file changed, 8 insertions(+), 1 deletion(-)
+> >> >
+> >> >diff --git a/arch/x86/ia32/ia32_signal.c
+> >b/arch/x86/ia32/ia32_signal.c
+> >> >index 629d1ee05599..12264e3c9c43 100644
+> >> >--- a/arch/x86/ia32/ia32_signal.c
+> >> >+++ b/arch/x86/ia32/ia32_signal.c
+> >> >@@ -333,6 +333,7 @@ int ia32_setup_rt_frame(int sig, struct ksignal
+> >> >*ksig,
+> >> >       void __user *restorer;
+> >> >       int err = 0;
+> >> >       void __user *fpstate = NULL;
+> >> >+      bool has_xsave;
+> >> >
+> >> >       /* __copy_to_user optimizes that into a single 8 byte store
+> >*/
+> >> >       static const struct {
+> >> >@@ -352,13 +353,19 @@ int ia32_setup_rt_frame(int sig, struct
+> >ksignal
+> >> >*ksig,
+> >> >       if (!access_ok(frame, sizeof(*frame)))
+> >> >               return -EFAULT;
+> >> >
+> >> >+      /*
+> >> >+       * Move non-uaccess accesses out of uaccess region if not
+> >strictly
+> >> >+       * required; this also helps avoid objtool flagging these
+> >accesses
+> >> >with
+> >> >+       * instrumentation enabled.
+> >> >+       */
+> >> >+      has_xsave = boot_cpu_has(X86_FEATURE_XSAVE);
+> >> >       put_user_try {
+> >> >               put_user_ex(sig, &frame->sig);
+> >> >               put_user_ex(ptr_to_compat(&frame->info),
+> >&frame->pinfo);
+> >> >               put_user_ex(ptr_to_compat(&frame->uc), &frame->puc);
+> >> >
+> >> >               /* Create the ucontext.  */
+> >> >-              if (boot_cpu_has(X86_FEATURE_XSAVE))
+> >> >+              if (has_xsave)
+> >> >                       put_user_ex(UC_FP_XSTATE,
+> >&frame->uc.uc_flags);
+> >> >               else
+> >> >                       put_user_ex(0, &frame->uc.uc_flags);
+> >>
+> >> This was meant to use static_cpu_has(). Why did that get dropped?
+> >
+> >I couldn't find any mailing list thread referring to why this doesn't
+> >use static_cpu_has, do you have any background?
+> >
+> >static_cpu_has also solves the UACCESS warning.
+> >
+> >If you confirm it is safe to change to static_cpu_has(), I will change
+> >this patch. Note that I should then also change
+> >arch/x86/kernel/signal.c to mirror the change for 32bit  (although
+> >KASAN is not supported for 32bit x86).
+> >
+> >Thanks,
+> >-- Marco
+>
+> I believe at some point the intent was that boot_cpu_has() was safer and could be used everywhere.
+> --
+> Sent from my Android device with K-9 Mail. Please excuse my brevity.
