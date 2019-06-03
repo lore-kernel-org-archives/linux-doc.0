@@ -1,143 +1,136 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_HIGH autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E2A847D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Jun 2019 12:41:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AB4327D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Jun 2019 12:49:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726791AbfFCMlM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Jun 2019 08:41:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54392 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726137AbfFCMlM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 3 Jun 2019 08:41:12 -0400
-Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2A2D425FCC;
-        Mon,  3 Jun 2019 12:41:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1559565670;
-        bh=purKlpevxX3/NR3bDCz6o1xMW5szM0zAXaiUthXoA0U=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=oIZuSZQ3HNjdYL9Uax26ZKlLqdFY7cxDE9izwPcPzn2ztTWZIitCGV2cG+R/V6pjJ
-         ZCEL/kr8yiiclHuZpXrYEwPjl0XjWFuPx8kCMZ3qTYzUwqX3ZBHVaJKuJnxVP0fhxN
-         ieA70HfpZDhxDPP8uKjnGBl1lWvqfWrkQYucpfl8=
-Date:   Mon, 3 Jun 2019 21:41:05 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     Anders Roxell <anders.roxell@linaro.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Naveen N . Rao" <naveen.n.rao@linux.ibm.com>,
-        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] tracing/kprobe: Add kprobe_event= boot parameter
-Message-Id: <20190603214105.715a4072472ef4946123dc20@kernel.org>
-In-Reply-To: <20190603205238.3cef1ef724bda35d11369ea7@kernel.org>
-References: <155851393823.15728.9489409117921369593.stgit@devnote2>
-        <155851395498.15728.830529496248543583.stgit@devnote2>
-        <CADYN=9KHQPQTgy==TYZ5iD_zViPbHq4hgOUwuX69aQWV6vZOQg@mail.gmail.com>
-        <20190528083629.3c100256@gandalf.local.home>
-        <CADYN=9L2Lz9xgsP7jn3UNMOtAYtg6fAb1hbv=OJ_Xi4dA0Z5NQ@mail.gmail.com>
-        <20190603205238.3cef1ef724bda35d11369ea7@kernel.org>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1727248AbfFCMtF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Jun 2019 08:49:05 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:53478 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726635AbfFCMtF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jun 2019 08:49:05 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x53CZ8BA048828
+        for <linux-doc@vger.kernel.org>; Mon, 3 Jun 2019 08:49:04 -0400
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2sw2dhv3sr-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Mon, 03 Jun 2019 08:49:03 -0400
+Received: from localhost
+        by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <zohar@linux.ibm.com>;
+        Mon, 3 Jun 2019 13:49:01 +0100
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+        by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Mon, 3 Jun 2019 13:48:57 +0100
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x53Cmu2F50856002
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 3 Jun 2019 12:48:56 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 9421BAE051;
+        Mon,  3 Jun 2019 12:48:56 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 45E87AE04D;
+        Mon,  3 Jun 2019 12:48:55 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.80.80.245])
+        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Mon,  3 Jun 2019 12:48:55 +0000 (GMT)
+Subject: Re: [PATCH v2 2/3] ima: don't ignore INTEGRITY_UNKNOWN EVM status
+From:   Mimi Zohar <zohar@linux.ibm.com>
+To:     Roberto Sassu <roberto.sassu@huawei.com>,
+        dmitry.kasatkin@huawei.com, mjg59@google.com
+Cc:     linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, silviu.vlasceanu@huawei.com,
+        stable@vger.kernel.org
+Date:   Mon, 03 Jun 2019 08:48:44 -0400
+In-Reply-To: <e6b31aa9-0319-1805-bdfc-3ddde5884494@huawei.com>
+References: <20190529133035.28724-1-roberto.sassu@huawei.com>
+         <20190529133035.28724-3-roberto.sassu@huawei.com>
+         <1559217621.4008.7.camel@linux.ibm.com>
+         <e6b31aa9-0319-1805-bdfc-3ddde5884494@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 19060312-0012-0000-0000-0000032257A7
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19060312-0013-0000-0000-0000215B31B6
+Message-Id: <1559566124.4365.65.camel@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-06-03_10:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1906030091
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 3 Jun 2019 20:52:38 +0900
-Masami Hiramatsu <mhiramat@kernel.org> wrote:
+On Mon, 2019-06-03 at 11:25 +0200, Roberto Sassu wrote:
+> On 5/30/2019 2:00 PM, Mimi Zohar wrote:
+> > On Wed, 2019-05-29 at 15:30 +0200, Roberto Sassu wrote:
+> >> Currently, ima_appraise_measurement() ignores the EVM status when
+> >> evm_verifyxattr() returns INTEGRITY_UNKNOWN. If a file has a valid
+> >> security.ima xattr with type IMA_XATTR_DIGEST or IMA_XATTR_DIGEST_NG,
+> >> ima_appraise_measurement() returns INTEGRITY_PASS regardless of the EVM
+> >> status. The problem is that the EVM status is overwritten with the
+> >>> appraisal status
+> > 
+> > Roberto, your framing of this problem is harsh and misleading.  IMA
+> > and EVM are intentionally independent of each other and can be
+> > configured independently of each other.  The intersection of the two
+> > is the call to evm_verifyxattr().  INTEGRITY_UNKNOWN is returned for a
+> > number of reasons - when EVM is not configured, the EVM hmac key has
+> > not yet been loaded, the protected security attribute is unknown, or
+> > the file is not in policy.
+> > 
+> > This patch does not differentiate between any of the above cases,
+> > requiring mutable files to always be protected by EVM, when specified
+> > as an "ima_appraise=" option on the boot command line.
+> > 
+> > IMA could be extended to require EVM on a per IMA policy rule basis.
+> > Instead of framing allowing IMA file hashes without EVM as a bug that
+> > has existed from the very beginning, now that IMA/EVM have matured and
+> > is being used, you could frame it as extending IMA or hardening.
+> 
+> I'm seeing it from the perspective of an administrator that manages an
+> already hardened system, and expects that the system only grants access
+> to files with a valid signature/HMAC. That system would not enforce this
+> behavior if EVM keys are removed and the digest in security.ima is set
+> to the actual file digest.
+> 
+> Framing it as a bug rather than an extension would in my opinion help to
+> convince people about the necessity to switch to the safe mode, if their
+> system is already hardened.
 
-> Hi Anders,
-> 
-> Sorry for replying later.
-> 
-> On Tue, 28 May 2019 15:39:15 +0200
-> Anders Roxell <anders.roxell@linaro.org> wrote:
-> 
-> > On Tue, 28 May 2019 at 14:36, Steven Rostedt <rostedt@goodmis.org> wrote:
-> > >
-> > > On Tue, 28 May 2019 14:23:43 +0200
-> > > Anders Roxell <anders.roxell@linaro.org> wrote:
-> > >
-> > > > On Wed, 22 May 2019 at 10:32, Masami Hiramatsu <mhiramat@kernel.org> wrote:
-> > > > >
-> > > > > Add kprobe_event= boot parameter to define kprobe events
-> > > > > at boot time.
-> > > > > The definition syntax is similar to tracefs/kprobe_events
-> > > > > interface, but use ',' and ';' instead of ' ' and '\n'
-> > > > > respectively. e.g.
-> > > > >
-> > > > >   kprobe_event=p,vfs_read,$arg1,$arg2
-> > > > >
-> > > > > This puts a probe on vfs_read with argument1 and 2, and
-> > > > > enable the new event.
-> > > > >
-> > > > > Signed-off-by: Masami Hiramatsu <mhiramat@kernel.org>
-> > > >
-> > > > I built an arm64 kernel from todays linux-next tag next-20190528 and
-> > > > ran in to this issue when I booted it up in qemu:
-> 
-> Thank you for reporting!
-> 
-> 
-> > [    9.020354][    T1] Kprobe smoke test: started
-> > [    9.064132][    T1] Internal error: aarch64 BRK: f2000004 [#1] PREEMPT SMP
-> > [    9.067084][    T1] Modules linked in:
-> > [    9.068772][    T1] CPU: 0 PID: 1 Comm: swapper/0 Not tainted
-> > 5.2.0-rc2-next-20190528-00019-g9a6008710716 #8
-> > [    9.072893][    T1] Hardware name: linux,dummy-virt (DT)
-> > [    9.075143][    T1] pstate: 80400005 (Nzcv daif +PAN -UAO)
-> > [    9.077528][    T1] pc : kprobe_target+0x0/0x30
-> > [    9.079479][    T1] lr : init_test_probes+0x134/0x540
-> > [    9.081611][    T1] sp : ffff80003f51fbe0
-> > [    9.083331][    T1] x29: ffff80003f51fbe0 x28: ffff200013c17820
-> > [    9.085906][    T1] x27: ffff200015d3ab40 x26: ffff2000122bb120
-> > [    9.088491][    T1] x25: 0000000000000000 x24: ffff200013c08ae0
-> > [    9.091068][    T1] x23: ffff200015d39000 x22: ffff200013a15ac8
-> > [    9.093667][    T1] x21: 1ffff00007ea3f86 x20: ffff200015d39420
-> > [    9.096214][    T1] x19: ffff2000122bad20 x18: 0000000000001400
-> > [    9.098831][    T1] x17: 0000000000000000 x16: ffff80003f510040
-> > [    9.101410][    T1] x15: 0000000000001480 x14: 1ffff00007ea3ea2
-> > [    9.103963][    T1] x13: 00000000f1f1f1f1 x12: ffff040002782e0d
-> > [    9.106549][    T1] x11: 1fffe40002782e0c x10: ffff040002782e0c
-> > [    9.109120][    T1] x9 : 1fffe40002782e0c x8 : dfff200000000000
-> > [    9.111676][    T1] x7 : ffff040002782e0d x6 : ffff200013c17067
-> > [    9.114234][    T1] x5 : ffff80003f510040 x4 : 0000000000000000
-> > [    9.116843][    T1] x3 : ffff200010427508 x2 : 0000000000000000
-> > [    9.119409][    T1] x1 : ffff200010426e10 x0 : 0000000000a6326b
-> > [    9.121980][    T1] Call trace:
-> > [    9.123380][    T1]  kprobe_target+0x0/0x30
-> > [    9.125205][    T1]  init_kprobes+0x2b8/0x300
-> > [    9.127074][    T1]  do_one_initcall+0x4c0/0xa68
-> > [    9.129076][    T1]  kernel_init_freeable+0x3c4/0x4e4
-> > [    9.131234][    T1]  kernel_init+0x14/0x1fc
-> > [    9.133032][    T1]  ret_from_fork+0x10/0x18
-> > [    9.134908][    T1] Code: a9446bf9 f9402bfb a8d87bfd d65f03c0 (d4200080)
-> > [    9.137845][    T1] ---[ end trace 49243ee03446b072 ]---
-> > [    9.140114][    T1] Kernel panic - not syncing: Fatal exception
-> > [    9.142684][    T1] ---[ end Kernel panic - not syncing: Fatal exception ]---
-> 
-> Ah, I think you hit this in [1/2], not this change. 
-> 
-> I guess arm64's breakpoint handler is not initialized at postcore_initcall().
-> I have to check the arch depend implementation on arm64.
+I don't disagree with you that people should be using EVM to protect
+IMA hashes.  If you claim this is a bug in the design from the very
+beginning, then there needs some explanation as to why it was
+upstreamed as it was.  My review of this patch provided that
+context/background.
 
-Yes, for some reason, arm64 breakpoint handler vector is initalized in arch_initcall().
-Let's move init_kprobes to subsys_initcall, which is called before fs_initcall.
+Mimi
 
-Thank you,
+> 
+> 
+> >> This patch mitigates the issue by selecting signature verification as the
+> >> only method allowed for appraisal when EVM is not initialized. Since the
+> >> new behavior might break user space, it must be turned on by adding the
+> >> '-evm' suffix to the value of the ima_appraise= kernel option.
+> >>
+> >> Fixes: 2fe5d6def1672 ("ima: integrity appraisal extension")
+> >> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+> >> Cc: stable@vger.kernel.org
+> 
 
--- 
-Masami Hiramatsu <mhiramat@kernel.org>
