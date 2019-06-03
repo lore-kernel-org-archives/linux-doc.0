@@ -1,179 +1,79 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_MED,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 08AC57D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Jun 2019 09:03:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3B35E7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Jun 2019 09:26:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727126AbfFCJDn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Jun 2019 05:03:43 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:36883 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726708AbfFCJDn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jun 2019 05:03:43 -0400
-Received: by mail-ot1-f65.google.com with SMTP id r10so15365603otd.4
-        for <linux-doc@vger.kernel.org>; Mon, 03 Jun 2019 02:03:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/VCvRg4+mMJ/yKzCQebn8clHJnLDYyzYIHqLnBJ4zrI=;
-        b=H/dToC9rVgyO60IieVWtYVTFQ1+mQqRSqm7v+uDMC1JFRW6hoq3rdcMjJGt9aQAIaH
-         mvwyuRkWbUoNOyCBYn6MwVr6/BdJhcTk06MVITyowa6mOgyUH9nBiAvZtjtGzy2TTkda
-         EAF67zsrU7hR7HeHdu/j+sq2s3b8F9Icz0URNmQ1Rh17LYo05PTttkSfR1u2coSXZRtQ
-         tqZZJCE1G1U4VD7OF+rDL6FcRsoI1FklrQXZiMF2/4vOHdaaiTaGerKo7Cs+Inh712v9
-         uB61H8IfL5Wmv7x9BdPISh8Mu7FAQiQ8nbHfWItpIqQV08wnaeX6MA4FCit0UuEXiTwb
-         8j4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/VCvRg4+mMJ/yKzCQebn8clHJnLDYyzYIHqLnBJ4zrI=;
-        b=t6D9GEt/EXmyyN0BvHrTAFDna05E8mzvnfnuwfgaRpXq7nQFxzLn4/uoPB+FEwxQ6P
-         RTx9vguHqOrtHDWNpqX9YposO9QwVPvY2c8xG5FtMHjHV1hcKFIHnm79cpdfLb33EUI4
-         /Tc9XYshYShs8BUSme3fAJqzqQrERmmmsx1JXtPdl3dd4ZADBc+78wxTAcl9QC3nwvBG
-         KaanlObwCbnmYYXX3+PWlpgTtaVzYtQOm3SSopN0MYPZJiJ6OPRNLebICOeHzS7vul07
-         sPZgHTm54Omg0DoXLZoSqFoFWqRPqMEw5Gic7DNcHOds/B9rabNRRGIyaNQUzsZ6Z8RO
-         GqAg==
-X-Gm-Message-State: APjAAAU5sgo1QaN4gdAQwM7Bl1wBNokSQRIHAMacLApBRZo8t41+m6cn
-        Yu6rIKDKSvPsYVZtHiLC8LuHstbC+6valiW7mT16Dg==
-X-Google-Smtp-Source: APXvYqzgegu9IcBC8sASS/9V/OPbAvth7UyhRrha31CWInyM6XSL4/wuA+jy2xZziSKYavPoDOqnLF4KhOatOj4Biuw=
-X-Received: by 2002:a05:6830:1688:: with SMTP id k8mr378583otr.233.1559552622037;
- Mon, 03 Jun 2019 02:03:42 -0700 (PDT)
+        id S1727144AbfFCJYJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Jun 2019 05:24:09 -0400
+Received: from mga14.intel.com ([192.55.52.115]:54536 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726684AbfFCJYJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 3 Jun 2019 05:24:09 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 03 Jun 2019 02:24:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,546,1549958400"; 
+   d="scan'208";a="181096317"
+Received: from twinkler-lnx.jer.intel.com ([10.12.91.48])
+  by fmsmga002.fm.intel.com with ESMTP; 03 Jun 2019 02:24:07 -0700
+From:   Tomas Winkler <tomas.winkler@intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Alexander Usyskin <alexander.usyskin@intel.com>,
+        linux-kernel@vger.kernel.org,
+        Tomas Winkler <tomas.winkler@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [char-misc-next 0/7] mei: docs: move documentation under driver-api
+Date:   Mon,  3 Jun 2019 12:13:59 +0300
+Message-Id: <20190603091406.28915-1-tomas.winkler@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190529141500.193390-1-elver@google.com> <20190529141500.193390-3-elver@google.com>
- <EE911EC6-344B-4EB2-90A4-B11E8D96BEDC@zytor.com> <CANpmjNOsPnVd50cTzUW8UYXPGqpSnRLcjj=JbZraTYVq1n18Fw@mail.gmail.com>
- <3B49EF08-147F-451C-AA5B-FC4E1B8568EE@zytor.com>
-In-Reply-To: <3B49EF08-147F-451C-AA5B-FC4E1B8568EE@zytor.com>
-From:   Marco Elver <elver@google.com>
-Date:   Mon, 3 Jun 2019 11:03:30 +0200
-Message-ID: <CANpmjNMt8QK+j6yo8ut1UNe0wS3_B4iqG5N_eTmJcWj4TpZaDQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] x86: Move CPU feature test out of uaccess region
-To:     "H. Peter Anvin" <hpa@zytor.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Alexander Potapenko <glider@google.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks for the clarification.
+Move mei documentation under driver-api, convert the docs to rst,
+fix the outdated information, update broken links, and add new docs.
 
-I found that static_cpu_has was replaced by static_cpu_has_safe:
-https://lkml.org/lkml/2016/1/24/29 -- so is it fair to assume that
-both are equally safe at this point?
 
-I have sent a follow-up patch which uses static_cpu_has:
-http://lkml.kernel.org/r/20190531150828.157832-3-elver@google.com
+Tomas Winkler (7):
+  mei: docs: move documentation under driver-api
+  mei: docs: move iamt docs to a iamt.rst file
+  mei: docs: update mei documentation
+  mei: docs: update mei client bus documentation.
+  mei: docs: add a short description for nfc behind mei
+  mei: docs: add hdcp documentation
+  mei: docs: fix broken links in iamt documentation.
 
-Many thanks!
--- Marco
+ Documentation/driver-api/index.rst            |   1 +
+ Documentation/driver-api/mei/hdcp.rst         |  32 +++
+ Documentation/driver-api/mei/iamt.rst         | 101 +++++++
+ Documentation/driver-api/mei/index.rst        |  23 ++
+ .../driver-api/mei/mei-client-bus.rst         | 168 +++++++++++
+ Documentation/driver-api/mei/mei.rst          | 176 ++++++++++++
+ Documentation/driver-api/mei/nfc.rst          |  28 ++
+ .../misc-devices/mei/mei-client-bus.txt       | 141 ----------
+ Documentation/misc-devices/mei/mei.txt        | 266 ------------------
+ MAINTAINERS                                   |   2 +-
+ drivers/misc/mei/hdcp/mei_hdcp.c              |  11 +-
+ 11 files changed, 534 insertions(+), 415 deletions(-)
+ create mode 100644 Documentation/driver-api/mei/hdcp.rst
+ create mode 100644 Documentation/driver-api/mei/iamt.rst
+ create mode 100644 Documentation/driver-api/mei/index.rst
+ create mode 100644 Documentation/driver-api/mei/mei-client-bus.rst
+ create mode 100644 Documentation/driver-api/mei/mei.rst
+ create mode 100644 Documentation/driver-api/mei/nfc.rst
+ delete mode 100644 Documentation/misc-devices/mei/mei-client-bus.txt
+ delete mode 100644 Documentation/misc-devices/mei/mei.txt
 
-On Sat, 1 Jun 2019 at 03:13, <hpa@zytor.com> wrote:
->
-> On May 31, 2019 2:57:36 AM PDT, Marco Elver <elver@google.com> wrote:
-> >On Wed, 29 May 2019 at 16:29, <hpa@zytor.com> wrote:
-> >>
-> >> On May 29, 2019 7:15:00 AM PDT, Marco Elver <elver@google.com> wrote:
-> >> >This patch is a pre-requisite for enabling KASAN bitops
-> >> >instrumentation:
-> >> >moves boot_cpu_has feature test out of the uaccess region, as
-> >> >boot_cpu_has uses test_bit. With instrumentation, the KASAN check
-> >would
-> >> >otherwise be flagged by objtool.
-> >> >
-> >> >This approach is preferred over adding the explicit kasan_check_*
-> >> >functions to the uaccess whitelist of objtool, as the case here
-> >appears
-> >> >to be the only one.
-> >> >
-> >> >Signed-off-by: Marco Elver <elver@google.com>
-> >> >---
-> >> >v1:
-> >> >* This patch replaces patch: 'tools/objtool: add kasan_check_* to
-> >> >  uaccess whitelist'
-> >> >---
-> >> > arch/x86/ia32/ia32_signal.c | 9 ++++++++-
-> >> > 1 file changed, 8 insertions(+), 1 deletion(-)
-> >> >
-> >> >diff --git a/arch/x86/ia32/ia32_signal.c
-> >b/arch/x86/ia32/ia32_signal.c
-> >> >index 629d1ee05599..12264e3c9c43 100644
-> >> >--- a/arch/x86/ia32/ia32_signal.c
-> >> >+++ b/arch/x86/ia32/ia32_signal.c
-> >> >@@ -333,6 +333,7 @@ int ia32_setup_rt_frame(int sig, struct ksignal
-> >> >*ksig,
-> >> >       void __user *restorer;
-> >> >       int err = 0;
-> >> >       void __user *fpstate = NULL;
-> >> >+      bool has_xsave;
-> >> >
-> >> >       /* __copy_to_user optimizes that into a single 8 byte store
-> >*/
-> >> >       static const struct {
-> >> >@@ -352,13 +353,19 @@ int ia32_setup_rt_frame(int sig, struct
-> >ksignal
-> >> >*ksig,
-> >> >       if (!access_ok(frame, sizeof(*frame)))
-> >> >               return -EFAULT;
-> >> >
-> >> >+      /*
-> >> >+       * Move non-uaccess accesses out of uaccess region if not
-> >strictly
-> >> >+       * required; this also helps avoid objtool flagging these
-> >accesses
-> >> >with
-> >> >+       * instrumentation enabled.
-> >> >+       */
-> >> >+      has_xsave = boot_cpu_has(X86_FEATURE_XSAVE);
-> >> >       put_user_try {
-> >> >               put_user_ex(sig, &frame->sig);
-> >> >               put_user_ex(ptr_to_compat(&frame->info),
-> >&frame->pinfo);
-> >> >               put_user_ex(ptr_to_compat(&frame->uc), &frame->puc);
-> >> >
-> >> >               /* Create the ucontext.  */
-> >> >-              if (boot_cpu_has(X86_FEATURE_XSAVE))
-> >> >+              if (has_xsave)
-> >> >                       put_user_ex(UC_FP_XSTATE,
-> >&frame->uc.uc_flags);
-> >> >               else
-> >> >                       put_user_ex(0, &frame->uc.uc_flags);
-> >>
-> >> This was meant to use static_cpu_has(). Why did that get dropped?
-> >
-> >I couldn't find any mailing list thread referring to why this doesn't
-> >use static_cpu_has, do you have any background?
-> >
-> >static_cpu_has also solves the UACCESS warning.
-> >
-> >If you confirm it is safe to change to static_cpu_has(), I will change
-> >this patch. Note that I should then also change
-> >arch/x86/kernel/signal.c to mirror the change for 32bit  (although
-> >KASAN is not supported for 32bit x86).
-> >
-> >Thanks,
-> >-- Marco
->
-> I believe at some point the intent was that boot_cpu_has() was safer and could be used everywhere.
-> --
-> Sent from my Android device with K-9 Mail. Please excuse my brevity.
+-- 
+2.20.1
+
