@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 01BBE7D2EF
+	by archive.lwn.net (Postfix) with ESMTP id 2C2B67D912
 	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 14:19:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727667AbfFDOTj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Jun 2019 10:19:39 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:52490 "EHLO
+        id S1727450AbfFDOTt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Jun 2019 10:19:49 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:52484 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727408AbfFDOSC (ORCPT
+        with ESMTP id S1727404AbfFDOSC (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jun 2019 10:18:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,28 +20,27 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=iin/rdSO0fH26p9LlU038nNL9Jh7a8Qf/HGkBqoFdvo=; b=XgN7w3B42kFk+jBxuEN+zaNJMv
-        LwUzSxEeX3iaiIhuMKPlDVHB7aHJrFFOAD3EkLQTAnprmAnSFMMvDH6PjOIeSB2VqiHabPCCgUXBa
-        jcaCFh23Znibn7aP8/l7vnOxSH+CkQ/jbZW0RXrHNMzkCupSyqiTzlnBRnMDg1HMoDBtJrpxvJCz5
-        3m5qfZP6+O1kSuYwYVQgAAPclyTjvTVxKercof2Ss9qqgTkQr/O+OU2pzUms+5regIjePb2EuIFbq
-        y6zIf7N2clssAUPFtxFC7p3Fh8WkGwJ8vrjwdMzE1dw5iV5lx3lv1Y2f9Dgvu54wcfRmrxz20mvMf
-        dqYmiMyA==;
+        bh=uax00MhLlFpYA5SZzOVY82diwalzYA3SNqGmlnWlanE=; b=rWg2aqJgOjMzW/83fP7ArscMmH
+        J8fnYCZxolbjo3Cc39M2+rC4GbXGG2l0e/uy7/nc95qm9OC7GC017Xa2VC84CTVi2Boa8R2+rEc0l
+        Vg75wTOW07VCcL8fXafq/a2X508hOAQMWC3FOIk0ulDZ0x4Sss6lM0coeO0Er3PibuHYCmjU/HPmZ
+        10Ji0hK6+rPvI1zYm6C/k18EKQkVnOJ+H/Ndw4Nd03/fRi7I9z1H9jwB04bhE0TgzI/tnrzAd/R8K
+        6EYXIxWHZVCvHovrKyt9a9hhx2sxPvXDSF9Rphgja3mIyza+CdtLUnhIP2g1Yc/c/forOea8dLV8w
+        S5KyO17w==;
 Received: from [179.182.172.34] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hYAGH-0001Rx-U6; Tue, 04 Jun 2019 14:18:01 +0000
+        id 1hYAGH-0001Rr-V2; Tue, 04 Jun 2019 14:18:01 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hYAGF-0002mK-2i; Tue, 04 Jun 2019 11:17:59 -0300
+        id 1hYAGE-0002la-ST; Tue, 04 Jun 2019 11:17:58 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v2 22/22] docs: Kbuild/Makefile: allow check for missing docs at build time
-Date:   Tue,  4 Jun 2019 11:17:56 -0300
-Message-Id: <a092d6340a59425593355fb456435208389bc9b0.1559656538.git.mchehab+samsung@kernel.org>
+        David Howells <dhowells@redhat.com>, keyrings@vger.kernel.org
+Subject: [PATCH v2 15/22] docs: security: core.rst: Fix several warnings
+Date:   Tue,  4 Jun 2019 11:17:49 -0300
+Message-Id: <21350864823e07cc951e1dc7f0601baa09920ac4.1559656538.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1559656538.git.mchehab+samsung@kernel.org>
 References: <cover.1559656538.git.mchehab+samsung@kernel.org>
@@ -52,97 +51,65 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-While this doesn't make sense for production Kernels, in order to
-avoid regressions when new documents are added, let's add a
-check target at the make file.
+Multi-line literal markups only work when they're idented at the
+same level, with is not the case here:
 
-For now, the only check it does is to verify if there isn't
-any documents with a broken link.
+   Documentation/security/keys/core.rst:1597: WARNING: Inline literal start-string without end-string.
+   Documentation/security/keys/core.rst:1597: WARNING: Inline emphasis start-string without end-string.
+   Documentation/security/keys/core.rst:1597: WARNING: Inline emphasis start-string without end-string.
+   Documentation/security/keys/core.rst:1598: WARNING: Inline emphasis start-string without end-string.
+   Documentation/security/keys/core.rst:1598: WARNING: Inline emphasis start-string without end-string.
+   Documentation/security/keys/core.rst:1600: WARNING: Inline literal start-string without end-string.
+   Documentation/security/keys/core.rst:1600: WARNING: Inline emphasis start-string without end-string.
+   Documentation/security/keys/core.rst:1600: WARNING: Inline emphasis start-string without end-string.
+   Documentation/security/keys/core.rst:1600: WARNING: Inline emphasis start-string without end-string.
+   Documentation/security/keys/core.rst:1600: WARNING: Inline emphasis start-string without end-string.
+   Documentation/security/keys/core.rst:1666: WARNING: Inline literal start-string without end-string.
+   Documentation/security/keys/core.rst:1666: WARNING: Inline emphasis start-string without end-string.
+   Documentation/security/keys/core.rst:1666: WARNING: Inline emphasis start-string without end-string.
+   Documentation/security/keys/core.rst:1666: WARNING: Inline emphasis start-string without end-string.
+
+Fix it by using a code-block instead.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/Kconfig                | 13 +++++++++++++
- Documentation/Makefile               |  5 +++++
- Kconfig                              |  2 ++
- scripts/documentation-file-ref-check |  9 +++++++++
- 4 files changed, 29 insertions(+)
- create mode 100644 Documentation/Kconfig
+ Documentation/security/keys/core.rst | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/Kconfig b/Documentation/Kconfig
-new file mode 100644
-index 000000000000..66046fa1c341
---- /dev/null
-+++ b/Documentation/Kconfig
-@@ -0,0 +1,13 @@
-+config WARN_MISSING_DOCUMENTS
-+
-+	bool "Warn if there's a missing documentation file"
-+	depends on COMPILE_TEST
-+	help
-+	   It is not uncommon that a document gets renamed.
-+	   This option makes the Kernel to check for missing dependencies,
-+	   warning when something is missing. Works only if the Kernel
-+	   is built from a git tree.
-+
-+	   If unsure, select 'N'.
-+
-+
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 2edd03b1dad6..89857285a024 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -4,6 +4,11 @@
+diff --git a/Documentation/security/keys/core.rst b/Documentation/security/keys/core.rst
+index 9521c4207f01..3fd60dcb2dc6 100644
+--- a/Documentation/security/keys/core.rst
++++ b/Documentation/security/keys/core.rst
+@@ -1594,10 +1594,12 @@ The structure has a number of fields, some of which are mandatory:
+      attempted key link operation. If there is no match, -EINVAL is returned.
  
- subdir-y := devicetree/bindings/
  
-+# Check for broken documentation file references
-+ifeq ($(CONFIG_WARN_MISSING_DOCUMENTS),y)
-+$(shell $(srctree)/scripts/documentation-file-ref-check --warn)
-+endif
+-  *  ``int (*asym_eds_op)(struct kernel_pkey_params *params,
+-			  const void *in, void *out);``
+-     ``int (*asym_verify_signature)(struct kernel_pkey_params *params,
+-				    const void *in, const void *in2);``
++  *  ``asym_eds_op`` and ``asym_verify_signature``::
 +
- # You can set these variables from the command line.
- SPHINXBUILD   = sphinx-build
- SPHINXOPTS    =
-diff --git a/Kconfig b/Kconfig
-index 48a80beab685..990b0c390dfc 100644
---- a/Kconfig
-+++ b/Kconfig
-@@ -30,3 +30,5 @@ source "crypto/Kconfig"
- source "lib/Kconfig"
++       int (*asym_eds_op)(struct kernel_pkey_params *params,
++			  const void *in, void *out);
++       int (*asym_verify_signature)(struct kernel_pkey_params *params,
++				    const void *in, const void *in2);
  
- source "lib/Kconfig.debug"
+      These methods are optional.  If provided the first allows a key to be
+      used to encrypt, decrypt or sign a blob of data, and the second allows a
+@@ -1662,8 +1664,10 @@ The structure has a number of fields, some of which are mandatory:
+      required crypto isn't available.
+ 
+ 
+-  *  ``int (*asym_query)(const struct kernel_pkey_params *params,
+-			 struct kernel_pkey_query *info);``
++  *  ``asym_query``::
 +
-+source "Documentation/Kconfig"
-diff --git a/scripts/documentation-file-ref-check b/scripts/documentation-file-ref-check
-index ff16db269079..440227bb55a9 100755
---- a/scripts/documentation-file-ref-check
-+++ b/scripts/documentation-file-ref-check
-@@ -22,9 +22,16 @@ $scriptname =~ s,.*/([^/]+/),$1,;
- # Parse arguments
- my $help = 0;
- my $fix = 0;
-+my $warn = 0;
-+
-+if (! -d ".git") {
-+	printf "Warning: can't check if file exists, as this is not a git tree";
-+	exit 0;
-+}
++       int (*asym_query)(const struct kernel_pkey_params *params,
++			 struct kernel_pkey_query *info);
  
- GetOptions(
- 	'fix' => \$fix,
-+	'warn' => \$warn,
- 	'h|help|usage' => \$help,
- );
- 
-@@ -139,6 +146,8 @@ while (<IN>) {
- 			if (!($ref =~ m/(scripts|Kconfig|Kbuild)/)) {
- 				$broken_ref{$ref}++;
- 			}
-+		} elsif ($warn) {
-+			print STDERR "Warning: $f references a file that doesn't exist: $fulref\n";
- 		} else {
- 			print STDERR "$f: $fulref\n";
- 		}
+      This method is optional.  If provided it allows information about the
+      public or asymmetric key held in the key to be determined.
 -- 
 2.21.0
 
