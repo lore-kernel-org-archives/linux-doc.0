@@ -1,412 +1,163 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 13F1B7D910
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 10:43:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 489D47D910
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 11:30:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727189AbfFDKnc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Jun 2019 06:43:32 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:58770 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727188AbfFDKnc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jun 2019 06:43:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=PexTtozTv2hc82+uoM71WOlQnJLPYsYDcwzqdvCWY9s=; b=pXrddZRqdjgtqwGkzbev8LOZL
-        /DdY2xxfkLiOlLlK+CzwfksQeWjCtm/Y+C82ainkY6P4RIpXrihZloBuRLoT2pFPdh5yXg6kyDYBt
-        8d7KALVYPWQDT2QeOJI3WxKGpe2DCSB0f+LpBWxi9ru8YjuDwaYFEo90mzakba1RvgT2Uu0Omt+tS
-        XgWmgGJgJ9mOtb7/0jCIw/hEbcze2QQc1RuA5YkDW4fkwPfr9WOnVuAlBUUsMjbe7shKWvR9V0Z2e
-        O3Tao0ANFsir5ffPnxR9Ken3qwSFWuFNDImQjilrJb9/G7tz3bO5epTWAGQ/GeeoW1xnj9Ln2oiad
-        U45eXjIKw==;
-Received: from [187.113.6.249] (helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hY6uh-0007fi-Cf; Tue, 04 Jun 2019 10:43:31 +0000
-Date:   Tue, 4 Jun 2019 07:43:28 -0300
-From:   Mauro Carvalho Chehab <mchehab@infradead.org>
-To:     Alex Shi <alex.shi@linux.alibaba.com>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Harry Wei <harryxiyou@gmail.com>
-Subject: Re: [PATCH 13/22] docs: zh_CN: avoid duplicate citation references
-Message-ID: <20190604074328.7e3e7973@coco.lan>
-In-Reply-To: <20190604072057.47d2f6f8@coco.lan>
-References: <cover.1559171394.git.mchehab+samsung@kernel.org>
-        <9d3b9729663f75249b514dd3910309eb418d9e46.1559171394.git.mchehab+samsung@kernel.org>
-        <04bca27d-3c59-5cc7-576b-44e399fa893f@linux.alibaba.com>
-        <20190604072057.47d2f6f8@coco.lan>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727180AbfFDLaH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Jun 2019 07:30:07 -0400
+Received: from mout.web.de ([212.227.15.14]:44311 "EHLO mout.web.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726508AbfFDLaH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 4 Jun 2019 07:30:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+        s=dbaedf251592; t=1559647786;
+        bh=NnHgDDxEaUqkSvPWPX+0oQ/+pSBWZGwitzJheluK2Mw=;
+        h=X-UI-Sender-Class:Subject:Cc:References:To:From:Date:In-Reply-To;
+        b=mPDSv7WSZFG8dhLHsSyw5pOwaTEFX5bb+TIZqiSlb93aa5e4GTSotYzYIh2oVKQY0
+         AB75V8//fOmU/r9+gFs9Lx2u0kKrAJ1Annv+uMEAvAev0meV+O9b3Y/8qys7Ta4rxw
+         W+LcIpvp//hijcAPN6GDXX8a/+V5Ewyuug7PkV18=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.4] ([78.49.105.210]) by smtp.web.de (mrweb001
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MRl2f-1hAAfj0ha5-00SzDt; Tue, 04
+ Jun 2019 13:28:42 +0200
+Subject: Re: Coccinelle: semantic patch for missing of_node_put
+Cc:     linux-doc@vger.kernel.org, cocci@systeme.lip6.fr,
+        linux-kernel@vger.kernel.org, Gilles.Muller@lip6.fr,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nicolas Palix <nicolas.palix@imag.fr>,
+        Julia Lawall <julia.lawall@lip6.fr>
+References: <201906041350002807147@zte.com.cn>
+To:     Wen Yang <wen.yang99@zte.com.cn>
+From:   Markus Elfring <Markus.Elfring@web.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ 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 FEE=
+Message-ID: <9169c754-17ef-f820-8335-2015e3c37782@web.de>
+Date:   Tue, 4 Jun 2019 13:28:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <201906041350002807147@zte.com.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-X-SRS-Rewrite: SMTP reverse-path rewritten from <mchehab@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+X-Provags-ID: V03:K1:AiQPmN/SaFFLT7vE/A+qNDQ75f3MT8Xf8s0QSGsW51uUcsctr5P
+ SFtxL3BMfLgv0QA9zqRFBxJ7/ijqKItmloPfrNL3Aj8jFbMoG7ViNS9KcWuXILwyqA1Rxmo
+ dQnG1nAhRyxLekLiP7wN9HgVuzWmShDiTg/ELctb2T6IJ6hb/r8SP1TS8Af1SvaCEp+Fv+t
+ ZkuFBieoP6YTbX9TazkXw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:JNG5G7F1lIY=:nWNYDV9VqBWdcg43nH/OOC
+ 5qfOVYDPL4wUjs1Q9/OWEm9wCvoJFQHFjnEv20vFd6X9Gt82l3zSCW51SazqlS4xrZU7rCBEm
+ WEECGC26PWF3XhqrizgVhv/EM2lWUmXzHNNKyJG2vCnWA2BLyZ1UTCeS+1kq+n9a2q09XmAwv
+ 6SoZ6YTnZlR4vU0sH5ab81h4lSRZKIIa0QqS3pQCOT6z+v3LW4IpN+3/6ZaZFA75XVgu1ZtCk
+ MRkB350kQ4H9AxpGqaR2K7vXHJkGqO8L/3Od74GV4tZvzqWX7rKrvl6rnE968ITghI6ZuiEA8
+ ea4bmWajVMTAXcYzo3D1qjSCe0hqDlmImRdkBBRK9kAmF8py8TyH+/uLN8mKwg1Zgot9qCrqf
+ Lg/mAZjfUmff2+35NL1YIbTTe+0X4T5cbcbgfGsXXr7Czi0DVY1YXZcE4k4C7yJB7uan5b1qt
+ hulbKK2MKMmhuZjF0vmqz+hAq6/s5uKRF8myqWxBTPQ1UukspQsYnTAju4WQFKeSXVxgKbdwY
+ 8zqkYJdQqqvZFGeL6nE+J7EUGRvlm+N/rgx3bz6RDUl3VhugPgqM4iB2JSiaFBui5ml3rJ87I
+ CS5ZtByqlnoVY3VNxlflxxIV0YpdqQ+cQYJt47AqyY8iGPjEKsbrPP+SL5J2GwuGkN2XrhBon
+ 0KuhO9p86EDpZMitGJm/umSGGnkAniONXQGEPAW4N1FNw2XJkVwM+Bvg6DRh3sZenjvs0WIyf
+ oeCYXamF8+/TOD4ESQNqrBiUjFwjuFTrB3DHBdLL7GWbn6+7iBPG/g6sOO+SEyGlzIb2rLTOB
+ wYpQZ4JvX3cinFzbOAflWnIwrPfoKv+5/jMI/lctwsFhicF4sCqvZ4zXuuq7Vro0DGfQKQkvX
+ I5VsNZjdQEowYkKEs1AzQA+HsuYDlOAX2VJ8RYmUWiEKhR2w73c+zZXQ0Lsr3LXBY3l1q59As
+ MLpQfGke7po5sNW7HlHCywxGt8B0aNgptelys/159rjwswm2LVIc0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 4 Jun 2019 07:20:57 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> escreveu:
+> let add_function f c =3D
+>     if not (List.mem f !relevant_functions)
+>     then
+>       begin
+>         let s =3D String.concat " "
+>           (
+>             (List.map String.lowercase_ascii
+> 	     (List.filter
+> 	       (function x ->
+> 	         Str.string_match
+> 	         (Str.regexp "[a-zA-Z_\\(\\)][-a-zA-Z0-9_\\(\\)]*$")
+> 	       x 0) (Str.split (Str.regexp "[ .;\t\n]+") c)))) in
 
-> Em Sun, 2 Jun 2019 23:01:21 +0800
-> Alex Shi <alex.shi@linux.alibaba.com> escreveu:
->=20
-> > On 2019/5/30 7:23 =E4=B8=8A=E5=8D=88, Mauro Carvalho Chehab wrote: =20
-> > >     Documentation/process/management-style.rst:35: WARNING: duplicate=
- label decisions, other instance in     Documentation/translations/zh_CN/pr=
-ocess/management-style.rst
-> > >     Documentation/process/programming-language.rst:37: WARNING: dupli=
-cate citation c-language, other instance in     Documentation/translations/=
-zh_CN/process/programming-language.rst
-> > >     Documentation/process/programming-language.rst:38: WARNING: dupli=
-cate citation gcc, other instance in     Documentation/translations/zh_CN/p=
-rocess/programming-language.rst
-> > >     Documentation/process/programming-language.rst:39: WARNING: dupli=
-cate citation clang, other instance in     Documentation/translations/zh_CN=
-/process/programming-language.rst
-> > >     Documentation/process/programming-language.rst:40: WARNING: dupli=
-cate citation icc, other instance in     Documentation/translations/zh_CN/p=
-rocess/programming-language.rst
-> > >     Documentation/process/programming-language.rst:41: WARNING: dupli=
-cate citation gcc-c-dialect-options, other instance in     Documentation/tr=
-anslations/zh_CN/process/programming-language.rst
-> > >     Documentation/process/programming-language.rst:42: WARNING: dupli=
-cate citation gnu-extensions, other instance in     Documentation/translati=
-ons/zh_CN/process/programming-language.rst
-> > >     Documentation/process/programming-language.rst:43: WARNING: dupli=
-cate citation gcc-attribute-syntax, other instance in     Documentation/tra=
-nslations/zh_CN/process/programming-language.rst
-> > >     Documentation/process/programming-language.rst:44: WARNING: dupli=
-cate citation n2049, other instance in     Documentation/translations/zh_CN=
-/process/programming-language.rst
-> > >=20
-> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> > > ---
-> > >  .../zh_CN/process/management-style.rst        |  4 +--
-> > >  .../zh_CN/process/programming-language.rst    | 28 +++++++++--------=
---
-> > >  2 files changed, 16 insertions(+), 16 deletions(-)
-> > >=20
-> > > diff --git a/Documentation/translations/zh_CN/process/management-styl=
-e.rst b/Documentation/translations/zh_CN/process/management-style.rst
-> > > index a181fa56d19e..c6a5bb285797 100644
-> > > --- a/Documentation/translations/zh_CN/process/management-style.rst
-> > > +++ b/Documentation/translations/zh_CN/process/management-style.rst
-> > > @@ -28,7 +28,7 @@ Linux=E5=86=85=E6=A0=B8=E7=AE=A1=E7=90=86=E9=A3=8E=
-=E6=A0=BC
-> > > =20
-> > >  =E4=B8=8D=E7=AE=A1=E6=80=8E=E6=A0=B7=EF=BC=8C=E8=BF=99=E9=87=8C=E6=
-=98=AF=EF=BC=9A
-> > > =20
-> > > -.. _decisions:
-> > > +.. _cn_decisions:
-> > > =20
-> > >  1=EF=BC=89=E5=86=B3=E7=AD=96
-> > >  -------
-> > > @@ -108,7 +108,7 @@ Linux=E5=86=85=E6=A0=B8=E7=AE=A1=E7=90=86=E9=A3=
-=8E=E6=A0=BC
-> > >  =E4=BD=86=E6=98=AF=EF=BC=8C=E4=B8=BA=E4=BA=86=E5=81=9A=E5=A5=BD=E4=
-=BD=9C=E4=B8=BA=E5=86=85=E6=A0=B8=E7=AE=A1=E7=90=86=E8=80=85=E7=9A=84=E5=87=
-=86=E5=A4=87=EF=BC=8C=E6=9C=80=E5=A5=BD=E8=AE=B0=E4=BD=8F=E4=B8=8D=E8=A6=81=
-=E7=83=A7=E6=8E=89=E4=BB=BB=E4=BD=95=E6=A1=A5=E6=A2=81=EF=BC=8C=E4=B8=8D=E8=
-=A6=81=E8=BD=B0=E7=82=B8=E4=BB=BB=E4=BD=95
-> > >  =E6=97=A0=E8=BE=9C=E7=9A=84=E6=9D=91=E6=B0=91=EF=BC=8C=E4=B9=9F=E4=
-=B8=8D=E8=A6=81=E7=96=8F=E8=BF=9C=E5=A4=AA=E5=A4=9A=E7=9A=84=E5=86=85=E6=A0=
-=B8=E5=BC=80=E5=8F=91=E4=BA=BA=E5=91=98=E3=80=82=E4=BA=8B=E5=AE=9E=E8=AF=81=
-=E6=98=8E=EF=BC=8C=E7=96=8F=E8=BF=9C=E4=BA=BA=E6=98=AF=E7=9B=B8=E5=BD=93=E5=
-=AE=B9=E6=98=93=E7=9A=84=EF=BC=8C=E8=80=8C
-> > >  =E4=BA=B2=E8=BF=91=E4=B8=80=E4=B8=AA=E7=96=8F=E8=BF=9C=E7=9A=84=E4=
-=BA=BA=E6=98=AF=E5=BE=88=E9=9A=BE=E7=9A=84=E3=80=82=E5=9B=A0=E6=AD=A4=EF=BC=
-=8C=E2=80=9C=E7=96=8F=E8=BF=9C=E2=80=9D=E7=AB=8B=E5=8D=B3=E5=B1=9E=E4=BA=8E=
-=E2=80=9C=E4=B8=8D=E5=8F=AF=E9=80=86=E2=80=9D=E7=9A=84=E8=8C=83=E7=95=B4=EF=
-=BC=8C=E5=B9=B6=E6=A0=B9=E6=8D=AE
-> > > -:ref:`decisions` =E6=88=90=E4=B8=BA=E7=BB=9D=E4=B8=8D=E5=8F=AF=E4=BB=
-=A5=E5=81=9A=E7=9A=84=E4=BA=8B=E6=83=85=E3=80=82
-> > > +:ref:`cn_decisions` =E6=88=90=E4=B8=BA=E7=BB=9D=E4=B8=8D=E5=8F=AF=E4=
-=BB=A5=E5=81=9A=E7=9A=84=E4=BA=8B=E6=83=85=E3=80=82   =20
-> >=20
-> > It's good to have.
-> >  =20
-> > > =20
-> > >  =E8=BF=99=E9=87=8C=E5=8F=AA=E6=9C=89=E5=87=A0=E4=B8=AA=E7=AE=80=E5=
-=8D=95=E7=9A=84=E8=A7=84=E5=88=99=EF=BC=9A
-> > > =20
-> > > diff --git a/Documentation/translations/zh_CN/process/programming-lan=
-guage.rst b/Documentation/translations/zh_CN/process/programming-language.r=
-st
-> > > index 51fd4ef48ea1..9de9a3108c4d 100644
-> > > --- a/Documentation/translations/zh_CN/process/programming-language.r=
-st
-> > > +++ b/Documentation/translations/zh_CN/process/programming-language.r=
-st
-> > > @@ -8,21 +8,21 @@
-> > >  =E7=A8=8B=E5=BA=8F=E8=AE=BE=E8=AE=A1=E8=AF=AD=E8=A8=80
-> > >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > =20
-> > > -=E5=86=85=E6=A0=B8=E6=98=AF=E7=94=A8C=E8=AF=AD=E8=A8=80 [c-language]=
-_ =E7=BC=96=E5=86=99=E7=9A=84=E3=80=82=E6=9B=B4=E5=87=86=E7=A1=AE=E5=9C=B0=
-=E8=AF=B4=EF=BC=8C=E5=86=85=E6=A0=B8=E9=80=9A=E5=B8=B8=E6=98=AF=E7=94=A8 ``=
-gcc`` [gcc]_
-> > > -=E5=9C=A8 ``-std=3Dgnu89`` [gcc-c-dialect-options]_ =E4=B8=8B=E7=BC=
-=96=E8=AF=91=E7=9A=84=EF=BC=9AISO C90=E7=9A=84 GNU =E6=96=B9=E8=A8=80=EF=BC=
-=88
-> > > +=E5=86=85=E6=A0=B8=E6=98=AF=E7=94=A8C=E8=AF=AD=E8=A8=80 [cn_c-langua=
-ge]_ =E7=BC=96=E5=86=99=E7=9A=84=E3=80=82=E6=9B=B4=E5=87=86=E7=A1=AE=E5=9C=
-=B0=E8=AF=B4=EF=BC=8C=E5=86=85=E6=A0=B8=E9=80=9A=E5=B8=B8=E6=98=AF=E7=94=A8=
- ``gcc`` [cn_gcc]_   =20
-> >=20
-> > this change isn't good. cn_gcc will show in docs, it looks wired and co=
-nfusing for peoples. other changes have the same issue. Could you find othe=
-r way to fix the warning? or I'd rather tolerant it. =20
->=20
-> Well, Sphinx has a way to do that, like, for example:
->=20
-> diff --git a/Documentation/translations/zh_CN/process/programming-languag=
-e.rst b/Documentation/translations/zh_CN/process/programming-language.rst
-> index 9de9a3108c4d..353fb8eaf4b5 100644
-> --- a/Documentation/translations/zh_CN/process/programming-language.rst
-> +++ b/Documentation/translations/zh_CN/process/programming-language.rst
-> @@ -9,7 +9,7 @@
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =20
->  =E5=86=85=E6=A0=B8=E6=98=AF=E7=94=A8C=E8=AF=AD=E8=A8=80 [cn_c-language]_=
- =E7=BC=96=E5=86=99=E7=9A=84=E3=80=82=E6=9B=B4=E5=87=86=E7=A1=AE=E5=9C=B0=
-=E8=AF=B4=EF=BC=8C=E5=86=85=E6=A0=B8=E9=80=9A=E5=B8=B8=E6=98=AF=E7=94=A8 ``=
-gcc`` [cn_gcc]_
-> -=E5=9C=A8 ``-std=3Dgnu89`` [cn_gcc-c-dialect-options]_ =E4=B8=8B=E7=BC=
-=96=E8=AF=91=E7=9A=84=EF=BC=9AISO C90=E7=9A=84 GNU =E6=96=B9=E8=A8=80=EF=BC=
-=88
-> +=E5=9C=A8 ``-std=3Dgnu89`` :ref:`gcc C dialect options <cn_gcc-c-dialect=
--options>` =E4=B8=8B=E7=BC=96=E8=AF=91=E7=9A=84=EF=BC=9AISO C90=E7=9A=84 GN=
-U =E6=96=B9=E8=A8=80=EF=BC=88
->  =E5=8C=85=E6=8B=AC=E4=B8=80=E4=BA=9BC99=E7=89=B9=E6=80=A7=EF=BC=89
-> =20
->  =E8=BF=99=E7=A7=8D=E6=96=B9=E8=A8=80=E5=8C=85=E5=90=AB=E5=AF=B9=E8=AF=AD=
-=E8=A8=80 [cn_gnu-extensions]_ =E7=9A=84=E8=AE=B8=E5=A4=9A=E6=89=A9=E5=B1=
-=95=EF=BC=8C=E5=BD=93=E7=84=B6=EF=BC=8C=E5=AE=83=E4=BB=AC=E8=AE=B8=E5=A4=9A=
-=E9=83=BD=E5=9C=A8=E5=86=85=E6=A0=B8=E4=B8=AD=E4=BD=BF=E7=94=A8=E3=80=82
->=20
-> If we use that, at least for some of those references, it would probably
-> be better to translate "dialect-options" (and similar terms) to Chinese.
->=20
-> Thanks,
-> Mauro
+I would interpret one of these function calls in the way
+that text splitting is performed here also for space characters
+after a concatenation was performed.
 
-Thanks,
-Mauro
 
-This should do the work:
+>              Printf.printf "comments: %s\n" s;
+>              if contains s relevant_str
+>              then
+>                Printf.printf "Found relevant function: %s\n" f;
+>                relevant_functions :=3D f :: !relevant_functions;
+>       end
+>
+> @r@
+> identifier fn;
+> comments c;
+> type T =3D struct device_node *;
+> @@
+>
+> T@c fn(...) {
+> ...
+> }
+>
+> @script:ocaml@
+> f << r.fn;
+> c << r.c;
+> @@
+>
+> let (cb,cm,ca) =3D List.hd c in
+> let c =3D String.concat " " cb in
+> add_function f c
 
-[PATCH] docs: zh_CN: avoid duplicate citation references
+Can an other data processing variant be more reasonable?
 
-    Documentation/process/management-style.rst:35: WARNING: duplicate label=
- decisions, other instance in     Documentation/translations/zh_CN/process/=
-management-style.rst
-    Documentation/process/programming-language.rst:37: WARNING: duplicate c=
-itation c-language, other instance in     Documentation/translations/zh_CN/=
-process/programming-language.rst
-    Documentation/process/programming-language.rst:38: WARNING: duplicate c=
-itation gcc, other instance in     Documentation/translations/zh_CN/process=
-/programming-language.rst
-    Documentation/process/programming-language.rst:39: WARNING: duplicate c=
-itation clang, other instance in     Documentation/translations/zh_CN/proce=
-ss/programming-language.rst
-    Documentation/process/programming-language.rst:40: WARNING: duplicate c=
-itation icc, other instance in     Documentation/translations/zh_CN/process=
-/programming-language.rst
-    Documentation/process/programming-language.rst:41: WARNING: duplicate c=
-itation gcc-c-dialect-options, other instance in     Documentation/translat=
-ions/zh_CN/process/programming-language.rst
-    Documentation/process/programming-language.rst:42: WARNING: duplicate c=
-itation gnu-extensions, other instance in     Documentation/translations/zh=
-_CN/process/programming-language.rst
-    Documentation/process/programming-language.rst:43: WARNING: duplicate c=
-itation gcc-attribute-syntax, other instance in     Documentation/translati=
-ons/zh_CN/process/programming-language.rst
-    Documentation/process/programming-language.rst:44: WARNING: duplicate c=
-itation n2049, other instance in     Documentation/translations/zh_CN/proce=
-ss/programming-language.rst
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-
-diff --git a/Documentation/translations/zh_CN/process/management-style.rst =
-b/Documentation/translations/zh_CN/process/management-style.rst
-index a181fa56d19e..c6a5bb285797 100644
---- a/Documentation/translations/zh_CN/process/management-style.rst
-+++ b/Documentation/translations/zh_CN/process/management-style.rst
-@@ -28,7 +28,7 @@ Linux=E5=86=85=E6=A0=B8=E7=AE=A1=E7=90=86=E9=A3=8E=E6=A0=
-=BC
-=20
- =E4=B8=8D=E7=AE=A1=E6=80=8E=E6=A0=B7=EF=BC=8C=E8=BF=99=E9=87=8C=E6=98=AF=
-=EF=BC=9A
-=20
--.. _decisions:
-+.. _cn_decisions:
-=20
- 1=EF=BC=89=E5=86=B3=E7=AD=96
- -------
-@@ -108,7 +108,7 @@ Linux=E5=86=85=E6=A0=B8=E7=AE=A1=E7=90=86=E9=A3=8E=E6=
-=A0=BC
- =E4=BD=86=E6=98=AF=EF=BC=8C=E4=B8=BA=E4=BA=86=E5=81=9A=E5=A5=BD=E4=BD=9C=
-=E4=B8=BA=E5=86=85=E6=A0=B8=E7=AE=A1=E7=90=86=E8=80=85=E7=9A=84=E5=87=86=E5=
-=A4=87=EF=BC=8C=E6=9C=80=E5=A5=BD=E8=AE=B0=E4=BD=8F=E4=B8=8D=E8=A6=81=E7=83=
-=A7=E6=8E=89=E4=BB=BB=E4=BD=95=E6=A1=A5=E6=A2=81=EF=BC=8C=E4=B8=8D=E8=A6=81=
-=E8=BD=B0=E7=82=B8=E4=BB=BB=E4=BD=95
- =E6=97=A0=E8=BE=9C=E7=9A=84=E6=9D=91=E6=B0=91=EF=BC=8C=E4=B9=9F=E4=B8=8D=
-=E8=A6=81=E7=96=8F=E8=BF=9C=E5=A4=AA=E5=A4=9A=E7=9A=84=E5=86=85=E6=A0=B8=E5=
-=BC=80=E5=8F=91=E4=BA=BA=E5=91=98=E3=80=82=E4=BA=8B=E5=AE=9E=E8=AF=81=E6=98=
-=8E=EF=BC=8C=E7=96=8F=E8=BF=9C=E4=BA=BA=E6=98=AF=E7=9B=B8=E5=BD=93=E5=AE=B9=
-=E6=98=93=E7=9A=84=EF=BC=8C=E8=80=8C
- =E4=BA=B2=E8=BF=91=E4=B8=80=E4=B8=AA=E7=96=8F=E8=BF=9C=E7=9A=84=E4=BA=BA=
-=E6=98=AF=E5=BE=88=E9=9A=BE=E7=9A=84=E3=80=82=E5=9B=A0=E6=AD=A4=EF=BC=8C=E2=
-=80=9C=E7=96=8F=E8=BF=9C=E2=80=9D=E7=AB=8B=E5=8D=B3=E5=B1=9E=E4=BA=8E=E2=80=
-=9C=E4=B8=8D=E5=8F=AF=E9=80=86=E2=80=9D=E7=9A=84=E8=8C=83=E7=95=B4=EF=BC=8C=
-=E5=B9=B6=E6=A0=B9=E6=8D=AE
--:ref:`decisions` =E6=88=90=E4=B8=BA=E7=BB=9D=E4=B8=8D=E5=8F=AF=E4=BB=A5=E5=
-=81=9A=E7=9A=84=E4=BA=8B=E6=83=85=E3=80=82
-+:ref:`cn_decisions` =E6=88=90=E4=B8=BA=E7=BB=9D=E4=B8=8D=E5=8F=AF=E4=BB=A5=
-=E5=81=9A=E7=9A=84=E4=BA=8B=E6=83=85=E3=80=82
-=20
- =E8=BF=99=E9=87=8C=E5=8F=AA=E6=9C=89=E5=87=A0=E4=B8=AA=E7=AE=80=E5=8D=95=
-=E7=9A=84=E8=A7=84=E5=88=99=EF=BC=9A
-=20
-diff --git a/Documentation/translations/zh_CN/process/programming-language.=
-rst b/Documentation/translations/zh_CN/process/programming-language.rst
-index 51fd4ef48ea1..22b0e68c8360 100644
---- a/Documentation/translations/zh_CN/process/programming-language.rst
-+++ b/Documentation/translations/zh_CN/process/programming-language.rst
-@@ -8,21 +8,21 @@
- =E7=A8=8B=E5=BA=8F=E8=AE=BE=E8=AE=A1=E8=AF=AD=E8=A8=80
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
--=E5=86=85=E6=A0=B8=E6=98=AF=E7=94=A8C=E8=AF=AD=E8=A8=80 [c-language]_ =E7=
-=BC=96=E5=86=99=E7=9A=84=E3=80=82=E6=9B=B4=E5=87=86=E7=A1=AE=E5=9C=B0=E8=AF=
-=B4=EF=BC=8C=E5=86=85=E6=A0=B8=E9=80=9A=E5=B8=B8=E6=98=AF=E7=94=A8 ``gcc`` =
-[gcc]_
--=E5=9C=A8 ``-std=3Dgnu89`` [gcc-c-dialect-options]_ =E4=B8=8B=E7=BC=96=E8=
-=AF=91=E7=9A=84=EF=BC=9AISO C90=E7=9A=84 GNU =E6=96=B9=E8=A8=80=EF=BC=88
-+=E5=86=85=E6=A0=B8=E6=98=AF=E7=94=A8C=E8=AF=AD=E8=A8=80 :ref:`c-language <=
-cn_c-language>` =E7=BC=96=E5=86=99=E7=9A=84=E3=80=82=E6=9B=B4=E5=87=86=E7=
-=A1=AE=E5=9C=B0=E8=AF=B4=EF=BC=8C=E5=86=85=E6=A0=B8=E9=80=9A=E5=B8=B8=E6=98=
-=AF=E7=94=A8 ``gcc`` :ref:`gcc <cn_gcc>`
-+=E5=9C=A8 ``-std=3Dgnu89`` :ref:`gcc-c-dialect-options <cn_gcc-c-dialect-o=
-ptions>` =E4=B8=8B=E7=BC=96=E8=AF=91=E7=9A=84=EF=BC=9AISO C90=E7=9A=84 GNU =
-=E6=96=B9=E8=A8=80=EF=BC=88
- =E5=8C=85=E6=8B=AC=E4=B8=80=E4=BA=9BC99=E7=89=B9=E6=80=A7=EF=BC=89
-=20
--=E8=BF=99=E7=A7=8D=E6=96=B9=E8=A8=80=E5=8C=85=E5=90=AB=E5=AF=B9=E8=AF=AD=
-=E8=A8=80 [gnu-extensions]_ =E7=9A=84=E8=AE=B8=E5=A4=9A=E6=89=A9=E5=B1=95=
-=EF=BC=8C=E5=BD=93=E7=84=B6=EF=BC=8C=E5=AE=83=E4=BB=AC=E8=AE=B8=E5=A4=9A=E9=
-=83=BD=E5=9C=A8=E5=86=85=E6=A0=B8=E4=B8=AD=E4=BD=BF=E7=94=A8=E3=80=82
-+=E8=BF=99=E7=A7=8D=E6=96=B9=E8=A8=80=E5=8C=85=E5=90=AB=E5=AF=B9=E8=AF=AD=
-=E8=A8=80 :ref:`gnu-extensions <cn_gnu-extensions>` =E7=9A=84=E8=AE=B8=E5=
-=A4=9A=E6=89=A9=E5=B1=95=EF=BC=8C=E5=BD=93=E7=84=B6=EF=BC=8C=E5=AE=83=E4=BB=
-=AC=E8=AE=B8=E5=A4=9A=E9=83=BD=E5=9C=A8=E5=86=85=E6=A0=B8=E4=B8=AD=E4=BD=BF=
-=E7=94=A8=E3=80=82
-=20
--=E5=AF=B9=E4=BA=8E=E4=B8=80=E4=BA=9B=E4=BD=93=E7=B3=BB=E7=BB=93=E6=9E=84=
-=EF=BC=8C=E6=9C=89=E4=B8=80=E4=BA=9B=E4=BD=BF=E7=94=A8 ``clang`` [clang]_ =
-=E5=92=8C ``icc`` [icc]_ =E7=BC=96=E8=AF=91=E5=86=85=E6=A0=B8
-+=E5=AF=B9=E4=BA=8E=E4=B8=80=E4=BA=9B=E4=BD=93=E7=B3=BB=E7=BB=93=E6=9E=84=
-=EF=BC=8C=E6=9C=89=E4=B8=80=E4=BA=9B=E4=BD=BF=E7=94=A8 ``clang`` :ref:`clan=
-g <cn_clang>` =E5=92=8C ``icc`` :ref:`icc <cn_icc>` =E7=BC=96=E8=AF=91=E5=
-=86=85=E6=A0=B8
- =E7=9A=84=E6=94=AF=E6=8C=81=EF=BC=8C=E5=B0=BD=E7=AE=A1=E5=9C=A8=E7=BC=96=
-=E5=86=99=E6=AD=A4=E6=96=87=E6=A1=A3=E6=97=B6=E8=BF=98=E6=B2=A1=E6=9C=89=E5=
-=AE=8C=E6=88=90=EF=BC=8C=E4=BB=8D=E9=9C=80=E8=A6=81=E7=AC=AC=E4=B8=89=E6=96=
-=B9=E8=A1=A5=E4=B8=81=E3=80=82
-=20
- =E5=B1=9E=E6=80=A7
- ----
-=20
--=E5=9C=A8=E6=95=B4=E4=B8=AA=E5=86=85=E6=A0=B8=E4=B8=AD=E4=BD=BF=E7=94=A8=
-=E7=9A=84=E4=B8=80=E4=B8=AA=E5=B8=B8=E8=A7=81=E6=89=A9=E5=B1=95=E6=98=AF=E5=
-=B1=9E=E6=80=A7=EF=BC=88attributes=EF=BC=89 [gcc-attribute-syntax]_
-+=E5=9C=A8=E6=95=B4=E4=B8=AA=E5=86=85=E6=A0=B8=E4=B8=AD=E4=BD=BF=E7=94=A8=
-=E7=9A=84=E4=B8=80=E4=B8=AA=E5=B8=B8=E8=A7=81=E6=89=A9=E5=B1=95=E6=98=AF=E5=
-=B1=9E=E6=80=A7=EF=BC=88attributes=EF=BC=89 :ref:`gcc-attribute-syntax <cn_=
-gcc-attribute-syntax>`
- =E5=B1=9E=E6=80=A7=E5=85=81=E8=AE=B8=E5=B0=86=E5=AE=9E=E7=8E=B0=E5=AE=9A=
-=E4=B9=89=E7=9A=84=E8=AF=AD=E4=B9=89=E5=BC=95=E5=85=A5=E8=AF=AD=E8=A8=80=E5=
-=AE=9E=E4=BD=93=EF=BC=88=E5=A6=82=E5=8F=98=E9=87=8F=E3=80=81=E5=87=BD=E6=95=
-=B0=E6=88=96=E7=B1=BB=E5=9E=8B=EF=BC=89=EF=BC=8C=E8=80=8C=E6=97=A0=E9=9C=80=
-=E5=AF=B9=E8=AF=AD=E8=A8=80=E8=BF=9B=E8=A1=8C
--=E9=87=8D=E5=A4=A7=E7=9A=84=E8=AF=AD=E6=B3=95=E6=9B=B4=E6=94=B9=EF=BC=88=
-=E4=BE=8B=E5=A6=82=E6=B7=BB=E5=8A=A0=E6=96=B0=E5=85=B3=E9=94=AE=E5=AD=97=EF=
-=BC=89 [n2049]_
-+=E9=87=8D=E5=A4=A7=E7=9A=84=E8=AF=AD=E6=B3=95=E6=9B=B4=E6=94=B9=EF=BC=88=
-=E4=BE=8B=E5=A6=82=E6=B7=BB=E5=8A=A0=E6=96=B0=E5=85=B3=E9=94=AE=E5=AD=97=EF=
-=BC=89 :ref:`n2049 <cn_n2049>`
-=20
- =E5=9C=A8=E6=9F=90=E4=BA=9B=E6=83=85=E5=86=B5=E4=B8=8B=EF=BC=8C=E5=B1=9E=
-=E6=80=A7=E6=98=AF=E5=8F=AF=E9=80=89=E7=9A=84=EF=BC=88=E5=8D=B3=E4=B8=8D=E6=
-=94=AF=E6=8C=81=E8=BF=99=E4=BA=9B=E5=B1=9E=E6=80=A7=E7=9A=84=E7=BC=96=E8=AF=
-=91=E5=99=A8=E4=BB=8D=E7=84=B6=E5=BA=94=E8=AF=A5=E7=94=9F=E6=88=90=E6=AD=A3=
-=E7=A1=AE=E7=9A=84=E4=BB=A3=E7=A0=81=EF=BC=8C
- =E5=8D=B3=E4=BD=BF=E5=85=B6=E9=80=9F=E5=BA=A6=E8=BE=83=E6=85=A2=E6=88=96=
-=E6=89=A7=E8=A1=8C=E7=9A=84=E7=BC=96=E8=AF=91=E6=97=B6=E6=A3=80=E6=9F=A5/=
-=E8=AF=8A=E6=96=AD=E6=AC=A1=E6=95=B0=E4=B8=8D=E5=A4=9F=EF=BC=89
-@@ -31,11 +31,42 @@
- ``__attribute__((__pure__))`` =EF=BC=89=EF=BC=8C=E4=BB=A5=E6=A3=80=E6=B5=
-=8B=E5=8F=AF=E4=BB=A5=E4=BD=BF=E7=94=A8=E5=93=AA=E4=BA=9B=E5=85=B3=E9=94=AE=
-=E5=AD=97=E5=92=8C/=E6=88=96=E7=BC=A9=E7=9F=AD=E4=BB=A3=E7=A0=81, =E5=85=B7=
-=E4=BD=93
- =E8=AF=B7=E5=8F=82=E9=98=85 ``include/linux/compiler_attributes.h``
-=20
--.. [c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
--.. [gcc] https://gcc.gnu.org
--.. [clang] https://clang.llvm.org
--.. [icc] https://software.intel.com/en-us/c-compilers
--.. [gcc-c-dialect-options] https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Op=
-tions.html
--.. [gnu-extensions] https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html
--.. [gcc-attribute-syntax] https://gcc.gnu.org/onlinedocs/gcc/Attribute-Syn=
-tax.html
--.. [n2049] http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2049.pdf
-+.. _cn_c-language:
-+
-+c-language
-+   http://www.open-std.org/jtc1/sc22/wg14/www/standards
-+
-+.. _cn_gcc:
-+
-+gcc
-+   https://gcc.gnu.org
-+
-+.. _cn_clang:
-+
-+clang
-+   https://clang.llvm.org
-+
-+.. _cn_icc:
-+
-+icc
-+   https://software.intel.com/en-us/c-compilers
-+
-+.. _cn_gcc-c-dialect-options:
-+
-+c-dialect-options
-+   https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Options.html
-+
-+.. _cn_gnu-extensions:
-+
-+gnu-extensions
-+   https://gcc.gnu.org/onlinedocs/gcc/C-Extensions.html
-+
-+.. _cn_gcc-attribute-syntax:
-+
-+gcc-attribute-syntax
-+   https://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html
-+
-+.. _cn_n2049:
-+
-+n2049
-+   http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2049.pdf
-
+Regards,
+Markus
