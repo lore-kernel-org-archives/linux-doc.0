@@ -2,127 +2,81 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9EB427D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 19:21:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 37B037D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 19:32:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726211AbfFDTVX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Jun 2019 15:21:23 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:44130 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726179AbfFDTVX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jun 2019 15:21:23 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 7052C281D9F
-Message-ID: <9460817290d5846a34b81470b15ac36d88a08aad.camel@collabora.com>
-Subject: Re: [PATCH v12] dm: add support to directly boot to a mapped device
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Helen Koike <helen.koike@collabora.com>,
-        Stephen Boyd <swboyd@chromium.org>, dm-devel@redhat.com
-Cc:     wad@chromium.org, keescook@chromium.org, snitzer@redhat.com,
-        linux-doc@vger.kernel.org, richard.weinberger@gmail.com,
-        linux-kernel@vger.kernel.org, linux-lvm@redhat.com,
-        enric.balletbo@collabora.com, kernel@collabora.com, agk@redhat.com
-Date:   Tue, 04 Jun 2019 16:21:10 -0300
-In-Reply-To: <d6b4fb26-9a1b-0acd-ce4a-e48322a17e7d@collabora.com>
-References: <20190221203334.24504-1-helen.koike@collabora.com>
-         <5cf5a724.1c69fb81.1e8f0.08fb@mx.google.com>
-         <d6b4fb26-9a1b-0acd-ce4a-e48322a17e7d@collabora.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1 
+        id S1726295AbfFDTcU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Jun 2019 15:32:20 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:37670 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726293AbfFDTcU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jun 2019 15:32:20 -0400
+Received: by mail-oi1-f193.google.com with SMTP id t76so1445476oih.4;
+        Tue, 04 Jun 2019 12:32:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+foDqFARTHSWTyodVanz5MQ4oguv8cWe5Ge3BJ5pUps=;
+        b=IKyTOOdx6AiEkq9QoYeUzziUBw/H3y3aLFqpdtD1EZ6xGS5BDYMgZ/bwIOSmz2RXJ0
+         k77AtPtwsooitG2iKu6lKnYtK2rp5H660dNtYwIcub6GtNPFC4E7U0hLZI5ZsJE6vhfo
+         +j+l9OVRZ4pWL2kp0UVgsuomDKcYNG1qFa2QMF1gylq+r/iBbNg//UBoRSqC0w9pRQsA
+         Vvn0iwZldoknan/rC7aHk4fLvRAa8aOY5BRPj4bXSY1PsAU+rWUwQLjNdHHcfQ97zOlS
+         SCc3VSmO5gvhrEo1VZVcK0qB+6cWjfSsGKiTMmGLyGRLGs/9pE9ld+uyyBaocvV57Zd0
+         lgKg==
+X-Gm-Message-State: APjAAAV44L1N7t79wWDA5dgK4KblTdBZfT0N2GqaayPro+p9ewaOV7EI
+        uU9RDGomokQ1XLMmRvDEMK9GUgcu32H7lyx5GwN7iz3D
+X-Google-Smtp-Source: APXvYqyCzxuBdnnN0GJKre76sfBrLX65clPn4InKFS4WmGhnfe8Fh4gjLbZCDE9PVdnG/NHS22bCsJxD8Ldfrmr/bW8=
+X-Received: by 2002:aca:c4d5:: with SMTP id u204mr5175689oif.131.1559676739766;
+ Tue, 04 Jun 2019 12:32:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20190530135317.3c8d0d7b@lwn.net> <20190601154248.GA17800@mit.edu> <20190604130837.24ea1d7b@lwn.net>
+In-Reply-To: <20190604130837.24ea1d7b@lwn.net>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 4 Jun 2019 21:32:07 +0200
+Message-ID: <CAMuHMdW3ChMmeFY2cK0R61sc90BBArytdzMP4nscqCOpf56f1Q@mail.gmail.com>
+Subject: Re: [PATCH RFC] Rough draft document on merging and rebasing
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     "Theodore Ts'o" <tytso@mit.edu>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Stephen,
+Hi Jon,
 
-On Tue, 2019-06-04 at 14:38 -0300, Helen Koike wrote:
-> Hi Stephen,
-> 
-> On 6/3/19 8:02 PM, Stephen Boyd wrote:
-> > Quoting Helen Koike (2019-02-21 12:33:34)
-> > > Add a "create" module parameter, which allows device-mapper targets to be
-> > > configured at boot time. This enables early use of dm targets in the boot
-> > > process (as the root device or otherwise) without the need of an initramfs.
-> > > 
-> > > The syntax used in the boot param is based on the concise format from the
-> > > dmsetup tool to follow the rule of least surprise:
-> > > 
-> > >         sudo dmsetup table --concise /dev/mapper/lroot
-> > > 
-> > > Which is:
-> > >         dm-mod.create=<name>,<uuid>,<minor>,<flags>,<table>[,<table>+][;<name>,<uuid>,<minor>,<flags>,<table>[,<table>+]+]
-> > > 
-> > > Where,
-> > >         <name>          ::= The device name.
-> > >         <uuid>          ::= xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx | ""
-> > >         <minor>         ::= The device minor number | ""
-> > >         <flags>         ::= "ro" | "rw"
-> > >         <table>         ::= <start_sector> <num_sectors> <target_type> <target_args>
-> > >         <target_type>   ::= "verity" | "linear" | ...
-> > > 
-> > > For example, the following could be added in the boot parameters:
-> > > dm-mod.create="lroot,,,rw, 0 4096 linear 98:16 0, 4096 4096 linear 98:32 0" root=/dev/dm-0
-> > > 
-> > > Only the targets that were tested are allowed and the ones that doesn't
-> > > change any block device when the dm is create as read-only. For example,
-> > > mirror and cache targets are not allowed. The rationale behind this is
-> > > that if the user makes a mistake, choosing the wrong device to be the
-> > > mirror or the cache can corrupt data.
-> > > 
-> > > The only targets allowed are:
-> > > * crypt
-> > > * delay
-> > > * linear
-> > > * snapshot-origin
-> > > * striped
-> > > * verity
-> > > 
-> > > Co-developed-by: Will Drewry <wad@chromium.org>
-> > > Co-developed-by: Kees Cook <keescook@chromium.org>
-> > > Co-developed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> > > Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> > > 
-> > > ---
-> > > 
-> > 
-> > I'm trying to boot a mainline linux kernel on a chromeos device with dm
-> > verity and a USB stick but it's not working for me even with this patch.
-> > I've had to hack around two problems:
-> > 
-> >  1) rootwait isn't considered
-> > 
-> >  2) verity doesn't seem to accept UUID for <hash_dev> or <dev>
-> > 
-> > For the first problem, it happens every boot for me because I'm trying
-> > to boot off of a USB stick and it's behind a hub that takes a few
-> > seconds to enumerate. If I hack up the code to call dm_init_init() after
-> > the 'rootdelay' cmdline parameter is used then I can make this work. It
-> > would be much nicer if the whole mechanism didn't use a late initcall
-> > though. If it used a hook from prepare_namespace() and then looped
-> > waiting for devices to create when rootwait was specified it would work.
-> 
-> The patch was implemented with late initcall partially to be contained
-> in drivers/md/*, but to support rootwait, adding a hook from
-> prepare_namespace seems the way to go indeed.
-> 
+On Tue, Jun 4, 2019 at 9:09 PM Jonathan Corbet <corbet@lwn.net> wrote:
+> On Sat, 1 Jun 2019 11:42:48 -0400
+> "Theodore Ts'o" <tytso@mit.edu> wrote:
+> > Finally, I'm bit concerned about anything which states absolutes,
+> > because there are people who tend to be real stickler for the rules,
+> > and if they see something stated in absolute terms, they fail to
+> > understand that there are exceptions that are well understood, and in
+> > use for years before the existence of the document which is trying to
+> > codify best practices.
+>
+> Hence the "there are exceptions" text at the bottom of the document :)
+>
+> Anyway, I'll rework it to try to take your comments into account.  Maybe
+> we should consistently say "rebasing" for changing the parent commit of a
+> patch set, and "history modification" for the other tricks...?
 
-Thanks for bringing this up.
+Or just "reworking a branch" for the other tricks?
 
-Helen and I have been looking at this code, and we think it's possible
-to move things around and add some helpers, so we can implement rootwait
-behavior, without actually cluttering init/do_mounts.c.
+Gr{oetje,eeting}s,
 
-And along the way, we might get the chance to clean-up this code even
-further.
+                        Geert
 
-Regards,
-Eze
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
