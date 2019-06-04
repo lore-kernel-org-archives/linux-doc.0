@@ -2,99 +2,73 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F40077D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 16:58:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B27D27D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 17:26:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727795AbfFDQ65 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Jun 2019 12:58:57 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:43570 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727715AbfFDQ65 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jun 2019 12:58:57 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 39DB028533D
-Message-ID: <beaf3554bb85974eb118d7722ca55f1823b1850c.camel@collabora.com>
-Subject: Re: [PATCH 03/10] mfd / platform: cros_ec: Miscellaneous character
- device to talk with the EC
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Cc:     linux-kernel@vger.kernel.org, gwendal@chromium.org,
-        Guenter Roeck <groeck@chromium.org>,
-        Benson Leung <bleung@chromium.org>,
-        Lee Jones <lee.jones@linaro.org>, kernel@collabora.com,
-        dtor@chromium.org,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        linux-doc@vger.kernel.org, Enno Luebbers <enno.luebbers@intel.com>,
-        Guido Kiener <guido@kiener-muenchen.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Jonathan Corbet <corbet@lwn.net>, Wu Hao <hao.wu@intel.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Tycho Andersen <tycho@tycho.ws>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Jilayne Lovejoy <opensource@jilayne.com>
-Date:   Tue, 04 Jun 2019 13:58:38 -0300
-In-Reply-To: <20190604155228.GB9981@kroah.com>
-References: <20190604152019.16100-1-enric.balletbo@collabora.com>
-         <20190604152019.16100-4-enric.balletbo@collabora.com>
-         <20190604155228.GB9981@kroah.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1 
+        id S1726261AbfFDR0B (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Jun 2019 13:26:01 -0400
+Received: from asavdk3.altibox.net ([109.247.116.14]:34819 "EHLO
+        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725929AbfFDR0B (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jun 2019 13:26:01 -0400
+Received: from ravnborg.org (unknown [158.248.194.18])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk3.altibox.net (Postfix) with ESMTPS id 48212200B5;
+        Tue,  4 Jun 2019 19:25:55 +0200 (CEST)
+Date:   Tue, 4 Jun 2019 19:25:53 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Jani Nikula <jani.nikula@intel.com>
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-kbuild@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Howells <dhowells@redhat.com>,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v2] kbuild: add support for ensuring headers are
+ self-contained
+Message-ID: <20190604172553.GA2383@ravnborg.org>
+References: <20190604101409.2078-14-yamada.masahiro@socionext.com>
+ <20190604124248.5564-1-jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190604124248.5564-1-jani.nikula@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
+        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=taGs_qngAAAA:8
+        a=c-n4J4-pAAAA:8 a=NZ-89VFvAAAA:8 a=7gkXJVJtAAAA:8 a=QyXUC8HyAAAA:8
+        a=92KSPt4HXbW4kmdNYy0A:9 a=CjuIK1q_8ugA:10 a=DM_PlaNYpjARcMQr2apF:22
+        a=L0NDqeB7ZLmQzAogN4cw:22 a=pm31WBKQz9GEXVZSZ1ft:22
+        a=E9Po1WZjFZOl8hwRPBS3:22
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hey Greg,
-
-> > +	dev_info(&pdev->dev, "Created misc device /dev/%s\n",
-> > +		 data->misc.name);
+On Tue, Jun 04, 2019 at 03:42:48PM +0300, Jani Nikula wrote:
+> Sometimes it's useful to be able to explicitly ensure certain headers
+> remain self-contained, i.e. that they are compilable as standalone
+> units, by including and/or forward declaring everything they depend on.
 > 
-> No need to be noisy, if all goes well, your code should be quiet.
+> Add special target header-test-y where individual Makefiles can add
+> headers to be tested if CONFIG_HEADER_TEST is enabled. This will
+> generate a dummy C file per header that gets built as part of extra-y.
 > 
+> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+> Cc: Michal Marek <michal.lkml@markovi.net>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-I sometimes wonder about this being noise or not, so I will slightly
-hijack this thread for this discussion.
+Looks good, thanks.
 
-From a kernel developer point-of-view, or even from a platform
-developer or user with a debugging hat point-of-view, having
-a "device created" or "device registered" message is often very useful.
-
-In fact, I wish people would do this more often, so I don't have to
-deal with dynamic debug, or hack my way:
-
-diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-index 4589631798c9..473549b26bb2 100644
---- a/drivers/media/i2c/ov5647.c
-+++ b/drivers/media/i2c/ov5647.c
-@@ -603,7 +603,7 @@ static int ov5647_probe(struct i2c_client *client,
-        if (ret < 0)
-                goto error;
- 
--       dev_dbg(dev, "OmniVision OV5647 camera driver probed\n");
-+       dev_info(dev, "OmniVision OV5647 camera driver probed\n");
-        return 0;
- error:
-        media_entity_cleanup(&sd->entity);
-
-In some subsystems, it's even a behavior I'm more or less relying on:
-
-$ git grep v4l2_info.*registered drivers/media/ | wc -l
-26
-
-And on the downsides, I can't find much. It's just one little line,
-that is not even noticed unless you have logging turned on.
-
-Thanks,
-Ezequiel
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 
