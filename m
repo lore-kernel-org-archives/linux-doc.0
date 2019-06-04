@@ -5,47 +5,61 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 286F27D912
+	by archive.lwn.net (Postfix) with ESMTP id 7CCA37D981
 	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 14:18:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727791AbfFDOSE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1727785AbfFDOSE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Tue, 4 Jun 2019 10:18:04 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:52572 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:52560 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727729AbfFDOSD (ORCPT
+        with ESMTP id S1727725AbfFDOSD (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jun 2019 10:18:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=5pILMQXKeyLYh5ydaNJLoPQY2CsjJ232NGCECQ6ieOU=; b=QLUJW3Xy70Q2w9OUNVuRZY0o4
-        yWEYAcj9wsEw/WCH3Ev2mmzFxcX3nSL4HEiIv6hp/loWiN4uF7rzQIqHqcU7ri65t0K8wXd2HAu32
-        2qao64KVRLpHeaks4KHMJG0MEhxr4/9evrll3GcDcTV8HO/nsABvymJIdTvw0UDffzz0uUe/RWTxq
-        ZK/VHAgrMxMZA/7JVdt8Xq59mnyk5F8VKB64zj6NS8ZVedxbkIR1tg3EaCh7nTghyuOfPODuStkaL
-        BMYE86ezcmk7k/DZmlS1YAx9pXLecloginxyygBPabhwPbkn78TFuiL2uXY5h2thVba5HWy/RmD7c
-        bFRQzyRtQ==;
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=fnKal4vlAfnEhHiZ62MpoW51VyknnUeB4tHqDSZ7yb0=; b=QGB5fTPS0Y1QbkDcmoH+UkgrxA
+        1pMk8z+7aPIz0M+LOllnD+yAWo2PKijhU9Of83jsAWaNOGHbvnhM2IQck3GnEi+acdgX4PFfjXX1W
+        8dYMp+e54crQ0CzwiC48jwbmrELFhJ/gciYLAQXJe7mP/wV/+2HI55UusjHY/V6bFASKi5HgkPP8Q
+        /bkB7ouKvrGMio/R1G2oLILaMq7yd6Ah+rImQZ6uCGXSZrYPpd7QLN9erf94Abeheb/CCJfEZt9RB
+        qRJj+GdOJUVq+4w4bfEshAGOm9wTPo4f9yMhKZrNIpSOMQmMnojudwXZzDT8MIJIASC6ZhOHf4clg
+        y0SDma1Q==;
 Received: from [179.182.172.34] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hYAGH-0001Rn-U6; Tue, 04 Jun 2019 14:18:02 +0000
+        id 1hYAGH-0001Rz-VM; Tue, 04 Jun 2019 14:18:01 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hYAGE-0002kc-G7; Tue, 04 Jun 2019 11:17:58 -0300
+        id 1hYAGE-0002lw-V3; Tue, 04 Jun 2019 11:17:58 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        netdev@vger.kernel.org, bpf@vger.kernel.org
-Subject: [PATCH v2 00/22] Some documentation fixes
-Date:   Tue,  4 Jun 2019 11:17:34 -0300
-Message-Id: <cover.1559656538.git.mchehab+samsung@kernel.org>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Shuah Khan <shuah@kernel.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Michal Hocko <mhocko@suse.com>, Arnd Bergmann <arnd@arndb.de>,
+        Matthew Wilcox <willy@infradead.org>,
+        Kent Overstreet <kent.overstreet@gmail.com>,
+        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Changbin Du <changbin.du@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        linuxppc-dev@lists.ozlabs.org, linux-kselftest@vger.kernel.org
+Subject: [PATCH v2 18/22] docs: move protection-keys.rst to the core-api book
+Date:   Tue,  4 Jun 2019 11:17:52 -0300
+Message-Id: <07193510c4ce4be2332ec03e5232779c36e7bb4c.1559656538.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <cover.1559656538.git.mchehab+samsung@kernel.org>
+References: <cover.1559656538.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -53,151 +67,91 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+This document is used by multiple architectures:
 
-Fix several warnings and broken links.
+	$ echo $(git grep -l  pkey_mprotect arch|cut -d'/' -f 2|sort|uniq)
+	alpha arm arm64 ia64 m68k microblaze mips parisc powerpc s390 sh sparc x86 xtensa
 
-This series was generated against linux-next, but was rebased to be applied at
-docs-next. It should apply cleanly on either tree.
+So, let's move it to the core book and adjust the links to it
+accordingly.
 
-There's a git tree with all of them applied on the top of docs/docs-next
-at:
-
-https://git.linuxtv.org/mchehab/experimental.git/log/?h=fix_doc_links_v2
-
--
-
-v2:
-
-- added received acks/reviewed-by tags
-- removed patches that got merged at linux-next
-- Removed it_IT patches, as a different version was already submitted;
-- removed mfd: madera: patch, assuming that it will be merged via
-  some other tree;
-- Removed the :orphan:  markups for KVM patches, as those are fixed
-  at -next;
-- zh_CN: use a different approach to fix duplicate references;
-- added a patch moving protection-keys.rst to the core-api book;
-- added 3 patches fixing new broken stuff:
-
-	docs: isdn: remove hisax references from kernel-parameters.txt
-	dt: bindings: fix some broken links from txt->yaml conversion
-	docs: fix broken documentation links
-
-
-Mauro Carvalho Chehab (22):
-  ABI: sysfs-devices-system-cpu: point to the right docs
-  isdn: mISDN: remove a bogus reference to a non-existing doc
-  docs: zh_CN: get rid of basic_profiling.txt
-  docs: mm: numaperf.rst: get rid of a build warning
-  docs: bpf: get rid of two warnings
-  docs: mark orphan documents as such
-  docs: amd-memory-encryption.rst get rid of warnings
-  gpu: i915.rst: Fix references to renamed files
-  docs: zh_CN: avoid duplicate citation references
-  docs: vm: hmm.rst: fix some warnings
-  docs: it: license-rules.rst: get rid of warnings
-  docs: gpio: driver.rst: fix a bad tag
-  docs: soundwire: locking: fix tags for a code-block
-  docs: security: trusted-encrypted.rst: fix code-block tag
-  docs: security: core.rst: Fix several warnings
-  docs: net: dpio-driver.rst: fix two codeblock warnings
-  docs: net: sja1105.rst: fix table format
-  docs: move protection-keys.rst to the core-api book
-  docs: fix broken documentation links
-  dt: bindings: fix some broken links from txt->yaml conversion
-  docs: isdn: remove hisax references from kernel-parameters.txt
-  docs: Kbuild/Makefile: allow check for missing docs at build time
-
- .../ABI/testing/sysfs-devices-system-cpu      |  3 +-
- Documentation/Kconfig                         | 13 ++++
- Documentation/Makefile                        |  5 ++
- Documentation/accelerators/ocxl.rst           |  2 +
- Documentation/acpi/dsd/leds.txt               |  2 +-
- .../admin-guide/kernel-parameters.rst         |  6 +-
- .../admin-guide/kernel-parameters.txt         | 19 +++--
- Documentation/admin-guide/mm/numaperf.rst     |  5 +-
- Documentation/admin-guide/ras.rst             |  2 +-
- Documentation/arm/stm32/overview.rst          |  2 +
- .../arm/stm32/stm32f429-overview.rst          |  2 +
- .../arm/stm32/stm32f746-overview.rst          |  2 +
- .../arm/stm32/stm32f769-overview.rst          |  2 +
- .../arm/stm32/stm32h743-overview.rst          |  2 +
- .../arm/stm32/stm32mp157-overview.rst         |  2 +
- Documentation/bpf/btf.rst                     |  2 +
- Documentation/core-api/index.rst              |  1 +
- .../{x86 => core-api}/protection-keys.rst     |  0
- .../bindings/media/st,stm32-dcmi.txt          |  2 +-
- .../devicetree/bindings/net/fsl-enetc.txt     |  7 +-
- .../bindings/pci/amlogic,meson-pcie.txt       |  2 +-
- .../regulator/qcom,rpmh-regulator.txt         |  2 +-
- .../bindings/sound/st,stm32-i2s.txt           |  2 +-
- .../bindings/sound/st,stm32-sai.txt           |  2 +-
- .../devicetree/booting-without-of.txt         |  2 +-
- Documentation/driver-api/gpio/board.rst       |  2 +-
- Documentation/driver-api/gpio/consumer.rst    |  2 +-
- Documentation/driver-api/gpio/driver.rst      |  2 +-
- .../driver-api/soundwire/locking.rst          |  4 +-
- .../firmware-guide/acpi/enumeration.rst       |  2 +-
- .../firmware-guide/acpi/method-tracing.rst    |  2 +-
- Documentation/gpu/i915.rst                    |  6 +-
- Documentation/gpu/msm-crash-dump.rst          |  2 +
- Documentation/i2c/instantiating-devices       |  2 +-
- Documentation/interconnect/interconnect.rst   |  2 +
- Documentation/laptops/lg-laptop.rst           |  2 +
- .../freescale/dpaa2/dpio-driver.rst           |  4 +-
- Documentation/networking/dsa/sja1105.rst      |  6 +-
- Documentation/powerpc/isa-versions.rst        |  2 +
- Documentation/security/keys/core.rst          | 16 +++--
- .../security/keys/trusted-encrypted.rst       |  4 +-
- Documentation/sysctl/kernel.txt               |  4 +-
- .../it_IT/process/license-rules.rst           | 28 ++++----
- .../translations/zh_CN/basic_profiling.txt    | 71 -------------------
- .../translations/zh_CN/process/4.Coding.rst   |  2 +-
- .../zh_CN/process/management-style.rst        |  4 +-
- .../zh_CN/process/programming-language.rst    | 59 +++++++++++----
- .../virtual/kvm/amd-memory-encryption.rst     |  3 +
- Documentation/vm/hmm.rst                      |  3 +-
- Documentation/x86/index.rst                   |  1 -
- Documentation/x86/x86_64/5level-paging.rst    |  2 +-
- Documentation/x86/x86_64/boot-options.rst     |  4 +-
- .../x86/x86_64/fake-numa-for-cpusets.rst      |  2 +-
- Kconfig                                       |  2 +
- MAINTAINERS                                   |  6 +-
- arch/arm/Kconfig                              |  2 +-
- arch/arm64/kernel/kexec_image.c               |  2 +-
- arch/powerpc/Kconfig                          |  2 +-
- arch/x86/Kconfig                              | 16 ++---
- arch/x86/Kconfig.debug                        |  2 +-
- arch/x86/boot/header.S                        |  2 +-
- arch/x86/entry/entry_64.S                     |  2 +-
- arch/x86/include/asm/bootparam_utils.h        |  2 +-
- arch/x86/include/asm/page_64_types.h          |  2 +-
- arch/x86/include/asm/pgtable_64_types.h       |  2 +-
- arch/x86/kernel/cpu/microcode/amd.c           |  2 +-
- arch/x86/kernel/kexec-bzimage64.c             |  2 +-
- arch/x86/kernel/pci-dma.c                     |  2 +-
- arch/x86/mm/tlb.c                             |  2 +-
- arch/x86/platform/pvh/enlighten.c             |  2 +-
- drivers/acpi/Kconfig                          | 10 +--
- drivers/isdn/mISDN/dsp_core.c                 |  2 -
- drivers/net/ethernet/faraday/ftgmac100.c      |  2 +-
- .../fieldbus/Documentation/fieldbus_dev.txt   |  4 +-
- drivers/vhost/vhost.c                         |  2 +-
- include/acpi/acpi_drivers.h                   |  2 +-
- include/linux/fs_context.h                    |  2 +-
- include/linux/lsm_hooks.h                     |  2 +-
- mm/Kconfig                                    |  2 +-
- scripts/documentation-file-ref-check          |  9 +++
- security/Kconfig                              |  2 +-
- tools/include/linux/err.h                     |  2 +-
- .../Documentation/stack-validation.txt        |  4 +-
- tools/testing/selftests/x86/protection_keys.c |  2 +-
- 84 files changed, 227 insertions(+), 206 deletions(-)
- create mode 100644 Documentation/Kconfig
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ Documentation/core-api/index.rst                    | 1 +
+ Documentation/{x86 => core-api}/protection-keys.rst | 0
+ Documentation/x86/index.rst                         | 1 -
+ arch/powerpc/Kconfig                                | 2 +-
+ arch/x86/Kconfig                                    | 2 +-
+ tools/testing/selftests/x86/protection_keys.c       | 2 +-
+ 6 files changed, 4 insertions(+), 4 deletions(-)
  rename Documentation/{x86 => core-api}/protection-keys.rst (100%)
- delete mode 100644 Documentation/translations/zh_CN/basic_profiling.txt
 
+diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
+index ee1bb8983a88..2466a4c51031 100644
+--- a/Documentation/core-api/index.rst
++++ b/Documentation/core-api/index.rst
+@@ -34,6 +34,7 @@ Core utilities
+    timekeeping
+    boot-time-mm
+    memory-hotplug
++   protection-keys
+ 
+ 
+ Interfaces for kernel debugging
+diff --git a/Documentation/x86/protection-keys.rst b/Documentation/core-api/protection-keys.rst
+similarity index 100%
+rename from Documentation/x86/protection-keys.rst
+rename to Documentation/core-api/protection-keys.rst
+diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
+index ae36fc5fc649..f2de1b2d3ac7 100644
+--- a/Documentation/x86/index.rst
++++ b/Documentation/x86/index.rst
+@@ -19,7 +19,6 @@ x86-specific Documentation
+    tlb
+    mtrr
+    pat
+-   protection-keys
+    intel_mpx
+    amd-memory-encryption
+    pti
+diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
+index 1120ff8ac715..e437aa3e78b4 100644
+--- a/arch/powerpc/Kconfig
++++ b/arch/powerpc/Kconfig
+@@ -898,7 +898,7 @@ config PPC_MEM_KEYS
+ 	  page-based protections, but without requiring modification of the
+ 	  page tables when an application changes protection domains.
+ 
+-	  For details, see Documentation/vm/protection-keys.rst
++	  For details, see Documentation/core-api/protection-keys.rst
+ 
+ 	  If unsure, say y.
+ 
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 23de3b9da480..61244bdb886f 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -1911,7 +1911,7 @@ config X86_INTEL_MEMORY_PROTECTION_KEYS
+ 	  page-based protections, but without requiring modification of the
+ 	  page tables when an application changes protection domains.
+ 
+-	  For details, see Documentation/x86/protection-keys.txt
++	  For details, see Documentation/core-api/protection-keys.rst
+ 
+ 	  If unsure, say y.
+ 
+diff --git a/tools/testing/selftests/x86/protection_keys.c b/tools/testing/selftests/x86/protection_keys.c
+index 5d546dcdbc80..480995bceefa 100644
+--- a/tools/testing/selftests/x86/protection_keys.c
++++ b/tools/testing/selftests/x86/protection_keys.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /*
+- * Tests x86 Memory Protection Keys (see Documentation/x86/protection-keys.txt)
++ * Tests x86 Memory Protection Keys (see Documentation/core-api/protection-keys.rst)
+  *
+  * There are examples in here of:
+  *  * how to set protection keys on memory
 -- 
 2.21.0
-
 
