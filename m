@@ -1,159 +1,189 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1976D7D910
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 12:26:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D64867D910
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 12:39:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727693AbfFDM0d (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Jun 2019 08:26:33 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:60454 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726994AbfFDM0d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jun 2019 08:26:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=S4Pz7TRu5Lcq2yQdR4kxNmctJu60r/vgdLSlDc7rPg0=; b=eiJuW/BajBOBAudFTNG/cNt5a
-        LupcpeNZRNJyKXf4PQEQBYvCelsX0tWh7MJQKqm8D4c3+W6Bd91f0bvq2YrQcp9rpMnPfL/d7wKjg
-        01E2RaVCrVT1tDzZDM2lS8tqt805U0W6FEZE8lDOFoXI7hPv6hpqz7VDNRWjXvVGYwwsgm1PzuLhU
-        NVxGuSisF6dMxjRDKI8dwiVM8WBwwEg8lbskmgEbmOQrDF9w4DOHvy+PXoJL7CpJFHsA83C+3RRo5
-        2irH7anFq7WNHUOI99LRjjOe/yZK5KW55SIofR+zqhTbefHWW+sO/aBox0n17zSdNY+p23AATvYGi
-        cF5OhO08w==;
-Received: from [187.113.6.249] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hY8WO-000464-B3; Tue, 04 Jun 2019 12:26:32 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hY8WK-000213-FZ; Tue, 04 Jun 2019 09:26:28 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S1727654AbfFDMjv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Jun 2019 08:39:51 -0400
+Received: from mga02.intel.com ([134.134.136.20]:34824 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727580AbfFDMjv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 4 Jun 2019 08:39:51 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Jun 2019 05:39:50 -0700
+X-ExtLoop1: 1
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.150])
+  by fmsmga001.fm.intel.com with ESMTP; 04 Jun 2019 05:39:46 -0700
+From:   Jani Nikula <jani.nikula@intel.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-kbuild@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Howells <dhowells@redhat.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Jani Nikula <jani.nikula@intel.com>,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] docs: Kbuild/Makefile: allow check for missing docs at build time
-Date:   Tue,  4 Jun 2019 09:26:27 -0300
-Message-Id: <8ac254a7cf0569f1eeced9c9263cd7b0bfe4ed78.1559651025.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
+Subject: [PATCH v2] kbuild: add support for ensuring headers are self-contained
+Date:   Tue,  4 Jun 2019 15:42:48 +0300
+Message-Id: <20190604124248.5564-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190604101409.2078-14-yamada.masahiro@socionext.com>
+References: <20190604101409.2078-14-yamada.masahiro@socionext.com>
 MIME-Version: 1.0
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-While this doesn't make sense for production Kernels, in order to
-avoid regressions when documents are touched, let's add a
-check target at the make file.
+Sometimes it's useful to be able to explicitly ensure certain headers
+remain self-contained, i.e. that they are compilable as standalone
+units, by including and/or forward declaring everything they depend on.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Add special target header-test-y where individual Makefiles can add
+headers to be tested if CONFIG_HEADER_TEST is enabled. This will
+generate a dummy C file per header that gets built as part of extra-y.
+
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc: Michal Marek <michal.lkml@markovi.net>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+
 ---
 
-Jon,
+v2: changes suggested by Masahiro:
 
-It is very common for people to shift things around and forget to rename
-the documentation files. 
+http://mid.mail-archive.com/CAK7LNAT=nB0=at0X4OnHVKB=y7WwHGm4LXkrQnCw9HpjB5LooA@mail.gmail.com
+---
+ .gitignore                         | 1 +
+ Documentation/dontdiff             | 1 +
+ Documentation/kbuild/makefiles.txt | 7 +++++++
+ Makefile                           | 1 +
+ init/Kconfig                       | 9 +++++++++
+ scripts/Makefile.build             | 9 +++++++++
+ scripts/Makefile.lib               | 3 +++
+ 7 files changed, 31 insertions(+)
 
-Just on this new Kernel cycle, every time I update from linux-next I get more
-broken stuff.
-
-IMO, the best is to run the check script with COMPILE_TEST, as this will make
-build robots to warn people about such breakages, with will hopefully help
-to avoid regressions due to broken documentation references.
-
-
- Documentation/Kconfig                | 13 +++++++++++++
- Documentation/Makefile               |  5 +++++
- Kconfig                              |  2 ++
- scripts/documentation-file-ref-check |  9 +++++++++
- 4 files changed, 29 insertions(+)
- create mode 100644 Documentation/Kconfig
-
-diff --git a/Documentation/Kconfig b/Documentation/Kconfig
-new file mode 100644
-index 000000000000..66046fa1c341
---- /dev/null
-+++ b/Documentation/Kconfig
-@@ -0,0 +1,13 @@
-+config WARN_MISSING_DOCUMENTS
+diff --git a/.gitignore b/.gitignore
+index 7587ef56b92d..4bb60f0fa23b 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -22,6 +22,7 @@
+ *.elf
+ *.gcno
+ *.gz
++*.hdrtest.c
+ *.i
+ *.ko
+ *.lex.c
+diff --git a/Documentation/dontdiff b/Documentation/dontdiff
+index 5eba889ea84d..554dfe4883d2 100644
+--- a/Documentation/dontdiff
++++ b/Documentation/dontdiff
+@@ -19,6 +19,7 @@
+ *.grep
+ *.grp
+ *.gz
++*.hdrtest.c
+ *.html
+ *.i
+ *.jpeg
+diff --git a/Documentation/kbuild/makefiles.txt b/Documentation/kbuild/makefiles.txt
+index d65ad5746f94..a31e54bd9ddd 100644
+--- a/Documentation/kbuild/makefiles.txt
++++ b/Documentation/kbuild/makefiles.txt
+@@ -1022,6 +1022,13 @@ When kbuild executes, the following steps are followed (roughly):
+ 	In this example, extra-y is used to list object files that
+ 	shall be built, but shall not be linked as part of built-in.a.
+ 
++    header-test-y
 +
-+	bool "Warn if there's a missing documentation file"
-+	depends on COMPILE_TEST
++	header-test-y specifies headers (*.h) in the current directory that
++	should be compile tested to ensure they are self-contained,
++	i.e. compilable as standalone units. If CONFIG_HEADER_TEST is enabled,
++	this autogenerates dummy sources to include the headers, and builds them
++	as part of extra-y.
+ 
+ --- 6.7 Commands useful for building a boot image
+ 
+diff --git a/Makefile b/Makefile
+index 11358153d8f2..b347be697fbb 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1646,6 +1646,7 @@ clean: $(clean-dirs)
+ 		-o -name '*.dwo' -o -name '*.lst' \
+ 		-o -name '*.su'  \
+ 		-o -name '.*.d' -o -name '.*.tmp' -o -name '*.mod.c' \
++		-o -name '*.hdrtest.c' \
+ 		-o -name '*.lex.c' -o -name '*.tab.[ch]' \
+ 		-o -name '*.asn1.[ch]' \
+ 		-o -name '*.symtypes' -o -name 'modules.order' \
+diff --git a/init/Kconfig b/init/Kconfig
+index 36894c9fb420..02d8897b91fb 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -96,6 +96,15 @@ config COMPILE_TEST
+ 	  here. If you are a user/distributor, say N here to exclude useless
+ 	  drivers to be distributed.
+ 
++config HEADER_TEST
++	bool "Compile test headers that should be standalone compilable"
 +	help
-+	   It is not uncommon that a document gets renamed.
-+	   This option makes the Kernel to check for missing dependencies,
-+	   warning when something is missing. Works only if the Kernel
-+	   is built from a git tree.
++	  Compile test headers listed in header-test-y target to ensure they are
++	  self-contained, i.e. compilable as standalone units.
 +
-+	   If unsure, select 'N'.
++	  If you are a developer or tester and want to ensure the requested
++	  headers are self-contained, say Y here. Otherwise, choose N.
 +
-+
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 2edd03b1dad6..89857285a024 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -4,6 +4,11 @@
+ config LOCALVERSION
+ 	string "Local version - append to kernel release"
+ 	help
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index ae9cf740633e..ee0319560513 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -294,6 +294,15 @@ quiet_cmd_cc_lst_c = MKLST   $@
+ $(obj)/%.lst: $(src)/%.c FORCE
+ 	$(call if_changed_dep,cc_lst_c)
  
- subdir-y := devicetree/bindings/
- 
-+# Check for broken documentation file references
-+ifeq ($(CONFIG_WARN_MISSING_DOCUMENTS),y)
-+$(shell $(srctree)/scripts/documentation-file-ref-check --warn)
-+endif
++# Dummy C sources for header test (header-test-y target)
++# ---------------------------------------------------------------------------
 +
- # You can set these variables from the command line.
- SPHINXBUILD   = sphinx-build
- SPHINXOPTS    =
-diff --git a/Kconfig b/Kconfig
-index 48a80beab685..990b0c390dfc 100644
---- a/Kconfig
-+++ b/Kconfig
-@@ -30,3 +30,5 @@ source "crypto/Kconfig"
- source "lib/Kconfig"
- 
- source "lib/Kconfig.debug"
++quiet_cmd_header_test = HDRTEST $@
++      cmd_header_test = echo "\#include \"$*.h\"" > $@
 +
-+source "Documentation/Kconfig"
-diff --git a/scripts/documentation-file-ref-check b/scripts/documentation-file-ref-check
-index ff16db269079..440227bb55a9 100755
---- a/scripts/documentation-file-ref-check
-+++ b/scripts/documentation-file-ref-check
-@@ -22,9 +22,16 @@ $scriptname =~ s,.*/([^/]+/),$1,;
- # Parse arguments
- my $help = 0;
- my $fix = 0;
-+my $warn = 0;
++$(obj)/%.hdrtest.c:
++	$(call cmd,header_test)
 +
-+if (! -d ".git") {
-+	printf "Warning: can't check if file exists, as this is not a git tree";
-+	exit 0;
-+}
+ # Compile assembler sources (.S)
+ # ---------------------------------------------------------------------------
  
- GetOptions(
- 	'fix' => \$fix,
-+	'warn' => \$warn,
- 	'h|help|usage' => \$help,
- );
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index f1f38c8cdc74..3e630fcaffd1 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -66,6 +66,9 @@ extra-y += $(patsubst %.dtb,%.dt.yaml, $(dtb-y))
+ extra-$(CONFIG_OF_ALL_DTBS) += $(patsubst %.dtb,%.dt.yaml, $(dtb-))
+ endif
  
-@@ -139,6 +146,8 @@ while (<IN>) {
- 			if (!($ref =~ m/(scripts|Kconfig|Kbuild)/)) {
- 				$broken_ref{$ref}++;
- 			}
-+		} elsif ($warn) {
-+			print STDERR "Warning: $f references a file that doesn't exist: $fulref\n";
- 		} else {
- 			print STDERR "$f: $fulref\n";
- 		}
++# Test self-contained headers
++extra-$(CONFIG_HEADER_TEST) += $(patsubst %.h,%.hdrtest.o,$(header-test-y))
++
+ # Add subdir path
+ 
+ extra-y		:= $(addprefix $(obj)/,$(extra-y))
 -- 
-2.21.0
-
+2.20.1
 
