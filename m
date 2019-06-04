@@ -5,29 +5,29 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CFE3C7D981
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 10:16:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 23D857DBD4
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 10:16:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727415AbfFDKPv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Jun 2019 06:15:51 -0400
-Received: from conuserg-08.nifty.com ([210.131.2.75]:39514 "EHLO
+        id S1727247AbfFDKP6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Jun 2019 06:15:58 -0400
+Received: from conuserg-08.nifty.com ([210.131.2.75]:39732 "EHLO
         conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727139AbfFDKPu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jun 2019 06:15:50 -0400
+        with ESMTP id S1727110AbfFDKP6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jun 2019 06:15:58 -0400
 Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-08.nifty.com with ESMTP id x54AEC77032511;
-        Tue, 4 Jun 2019 19:14:14 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com x54AEC77032511
+        by conuserg-08.nifty.com with ESMTP id x54AEC7J032511;
+        Tue, 4 Jun 2019 19:14:25 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com x54AEC7J032511
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1559643255;
-        bh=pUquGiN6xNeDHSibS2E6fCO5H4gfpfVcs2A9RbnL/14=;
+        s=dec2015msa; t=1559643266;
+        bh=BnyOCSyE+CGMxDknrCFwRpFRPhO2lG/Y/shoIrbI5AY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=AblFESWR5OlGEncv08R8Lc2lsYWxIVUQcbeaUgKG0cPSzPHOn0qLs/Ti1OaBxUsqu
-         VdmsFA5lxplHPlDHqHnCSWqMPGmItXfMZfK17mHav7GDD0pUwOt0sTRC/I4gAmFYdP
-         dDtT+DbuklcVZff3lNDn8os+44DqasROkKb/XGxtdy0LLiGqJLGPEgmBzOoGnq9tkF
-         Md4Aqfd92wCJ+zvQzTPiEY3Yk0Au9tRE5z/aqLw8/NkbZ0RtTYbzdvc5Ks95hvl08q
-         zTXIYtrtS+6+M5A/pB97Zgnpxd6uO1wEGOyUWut5M5kCjIIdiUKvUBMhiD4ItfkUP9
-         K50zQWy9tn69A==
+        b=Z5/reEbeHi70KbQtAaW59xxuhoN5CJ6vi0zTzUweFozO6GDDLJBeAGOt0HbBxdGYs
+         kmnBi+G4qTPRlpvorbsKGV4myGYjxSVZF9yHS55WzeKcH13aYk9/cS2UuOW+A6U6aZ
+         /f5GshStK0NXon6uCqj3GinWBcgr25RsSNDCWQXKlTBZ97N9mxffeQvL3rd5WoLYGa
+         izMngyoSmA5ZkdN3JvlFeOHitJlzQ4eiTJeUUasTdqPNdfAWGSchXUCFEgU0oUZFlM
+         SZ9cV3kw61ijSECWdmpFdOLvbCYuVlhModjQaNe7WJUU+jGrifFNh4HnHvf6H1lo40
+         4S3RsAwPlADag==
 X-Nifty-SrcIP: [153.142.97.92]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
 To:     linux-kbuild@vger.kernel.org
@@ -36,13 +36,14 @@ Cc:     Randy Dunlap <rdunlap@infradead.org>,
         David Howells <dhowells@redhat.com>,
         Sam Ravnborg <sam@ravnborg.org>,
         Jani Nikula <jani.nikula@intel.com>,
+        Chris Wilson <chris@chris-wilson.co.uk>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>
-Subject: [PATCH 01/15] kbuild: remove headers_{install,check}_all
-Date:   Tue,  4 Jun 2019 19:13:55 +0900
-Message-Id: <20190604101409.2078-2-yamada.masahiro@socionext.com>
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 13/15] kbuild: add support for ensuring headers are self-contained
+Date:   Tue,  4 Jun 2019 19:14:07 +0900
+Message-Id: <20190604101409.2078-14-yamada.masahiro@socionext.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190604101409.2078-1-yamada.masahiro@socionext.com>
 References: <20190604101409.2078-1-yamada.masahiro@socionext.com>
@@ -51,136 +52,102 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-headers_install_all does not make much sense any more because different
-architectures export different set of uapi/linux/ headers. As you see
-in include/uapi/linux/Kbuild, the installation of a.out.h, kvm.h, and
-kvm_para.h is arch-dependent. So, headers_install_all repeats the
-installation/removal of them.
+From: Jani Nikula <jani.nikula@intel.com>
 
-If somebody really thinks it is useful to do headers_install for all
-architectures, it would be possible by small shell-scripting, but the
-top Makefile do not have to provide entry targets just for that purpose.
+Sometimes it's useful to be able to explicitly ensure certain headers
+remain self-contained, i.e. that they are compilable as standalone
+units, by including and/or forward declaring everything they depend on.
 
+Add special target header-test-y where individual Makefiles can add
+headers to be tested if CONFIG_HEADER_TEST is enabled. This will
+generate a dummy C file per header that gets built as part of extra-y.
+
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc: Michal Marek <michal.lkml@markovi.net>
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 ---
 
- Documentation/kbuild/headers_install.txt |  7 ------
- Documentation/kbuild/makefiles.txt       |  6 +----
- Makefile                                 | 15 ++----------
- scripts/headers.sh                       | 29 ------------------------
- 4 files changed, 3 insertions(+), 54 deletions(-)
- delete mode 100755 scripts/headers.sh
+ Documentation/kbuild/makefiles.txt |  7 +++++++
+ init/Kconfig                       |  9 +++++++++
+ scripts/Makefile.build             | 10 ++++++++++
+ scripts/Makefile.lib               |  3 +++
+ 4 files changed, 29 insertions(+)
 
-diff --git a/Documentation/kbuild/headers_install.txt b/Documentation/kbuild/headers_install.txt
-index f0153adb95e2..f07e34eab70b 100644
---- a/Documentation/kbuild/headers_install.txt
-+++ b/Documentation/kbuild/headers_install.txt
-@@ -39,12 +39,5 @@ INSTALL_HDR_PATH indicates where to install the headers. It defaults to
- An 'include' directory is automatically created inside INSTALL_HDR_PATH and
- headers are installed in 'INSTALL_HDR_PATH/include'.
- 
--The command "make headers_install_all" exports headers for all architectures
--simultaneously.  (This is mostly of interest to distribution maintainers,
--who create an architecture-independent tarball from the resulting include
--directory.)  You also can use HDR_ARCH_LIST to specify list of architectures.
--Remember to provide the appropriate linux/asm directory via "mv" or "ln -s"
--before building a C library with headers exported this way.
--
- The kernel header export infrastructure is maintained by David Woodhouse
- <dwmw2@infradead.org>.
 diff --git a/Documentation/kbuild/makefiles.txt b/Documentation/kbuild/makefiles.txt
-index d65ad5746f94..bac301a73a86 100644
+index bac301a73a86..ca4b24ec0399 100644
 --- a/Documentation/kbuild/makefiles.txt
 +++ b/Documentation/kbuild/makefiles.txt
-@@ -897,11 +897,7 @@ When kbuild executes, the following steps are followed (roughly):
- --- 6.2 Add prerequisites to archheaders:
+@@ -1018,6 +1018,13 @@ When kbuild executes, the following steps are followed (roughly):
+ 	In this example, extra-y is used to list object files that
+ 	shall be built, but shall not be linked as part of built-in.a.
  
- 	The archheaders: rule is used to generate header files that
--	may be installed into user space by "make header_install" or
--	"make headers_install_all".  In order to support
--	"make headers_install_all", this target has to be able to run
--	on an unconfigured tree, or a tree configured for another
--	architecture.
-+	may be installed into user space by "make header_install".
++    header-test-y
++
++	header-test-y specifies headers (*.h) in the current directory that
++	should be compile tested to ensure they are self-contained,
++	i.e. compilable as standalone units. If CONFIG_HEADER_TEST is enabled,
++	this autogenerates dummy sources to include the headers, and builds them
++	as part of extra-y.
  
- 	It is run before "make archprepare" when run on the
- 	architecture itself.
-diff --git a/Makefile b/Makefile
-index 004d67a4405f..7745bdd84861 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1181,34 +1181,23 @@ headerdep:
- #Default location for installed headers
- export INSTALL_HDR_PATH = $(objtree)/usr
+ --- 6.7 Commands useful for building a boot image
  
--# If we do an all arch process set dst to include/arch-$(SRCARCH)
--hdr-dst = $(if $(KBUILD_HEADERS), dst=include/arch-$(SRCARCH), dst=include)
--
- PHONY += archheaders archscripts
+diff --git a/init/Kconfig b/init/Kconfig
+index 36894c9fb420..02d8897b91fb 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -96,6 +96,15 @@ config COMPILE_TEST
+ 	  here. If you are a user/distributor, say N here to exclude useless
+ 	  drivers to be distributed.
  
- PHONY += __headers
- __headers: $(version_h) scripts_basic uapi-asm-generic archheaders archscripts
- 	$(Q)$(MAKE) $(build)=scripts build_unifdef
++config HEADER_TEST
++	bool "Compile test headers that should be standalone compilable"
++	help
++	  Compile test headers listed in header-test-y target to ensure they are
++	  self-contained, i.e. compilable as standalone units.
++
++	  If you are a developer or tester and want to ensure the requested
++	  headers are self-contained, say Y here. Otherwise, choose N.
++
+ config LOCALVERSION
+ 	string "Local version - append to kernel release"
+ 	help
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index ae9cf740633e..2b4d56483c2e 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -294,6 +294,16 @@ quiet_cmd_cc_lst_c = MKLST   $@
+ $(obj)/%.lst: $(src)/%.c FORCE
+ 	$(call if_changed_dep,cc_lst_c)
  
--PHONY += headers_install_all
--headers_install_all:
--	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/headers.sh install
--
- PHONY += headers_install
- headers_install: __headers
- 	$(if $(wildcard $(srctree)/arch/$(SRCARCH)/include/uapi/asm/Kbuild),, \
- 	  $(error Headers not exportable for the $(SRCARCH) architecture))
- 	$(Q)$(MAKE) $(hdr-inst)=include/uapi dst=include
--	$(Q)$(MAKE) $(hdr-inst)=arch/$(SRCARCH)/include/uapi $(hdr-dst)
--
--PHONY += headers_check_all
--headers_check_all: headers_install_all
--	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/headers.sh check
-+	$(Q)$(MAKE) $(hdr-inst)=arch/$(SRCARCH)/include/uapi dst=include
++# Dummy C sources for header test (header-test-y target)
++# ---------------------------------------------------------------------------
++
++quiet_cmd_header_test = HDRTEST $@
++      cmd_header_test = echo "\#include \"$(<F)\"" > $@
++
++# FIXME: would be nice to be able to limit this implicit rule to header-test-y
++$(obj)/%.header_test.c: $(src)/%.h FORCE
++	$(call if_changed,header_test)
++
+ # Compile assembler sources (.S)
+ # ---------------------------------------------------------------------------
  
- PHONY += headers_check
- headers_check: headers_install
- 	$(Q)$(MAKE) $(hdr-inst)=include/uapi dst=include HDRCHECK=1
--	$(Q)$(MAKE) $(hdr-inst)=arch/$(SRCARCH)/include/uapi $(hdr-dst) HDRCHECK=1
-+	$(Q)$(MAKE) $(hdr-inst)=arch/$(SRCARCH)/include/uapi dst=include HDRCHECK=1
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index f1f38c8cdc74..60a739a22b9c 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -66,6 +66,9 @@ extra-y += $(patsubst %.dtb,%.dt.yaml, $(dtb-y))
+ extra-$(CONFIG_OF_ALL_DTBS) += $(patsubst %.dtb,%.dt.yaml, $(dtb-))
+ endif
  
- ifdef CONFIG_HEADERS_CHECK
- all: headers_check
-diff --git a/scripts/headers.sh b/scripts/headers.sh
-deleted file mode 100755
-index e0f883eb39a2..000000000000
---- a/scripts/headers.sh
-+++ /dev/null
-@@ -1,29 +0,0 @@
--#!/bin/sh
--# SPDX-License-Identifier: GPL-2.0
--# Run headers_$1 command for all suitable architectures
--
--# Stop on error
--set -e
--
--do_command()
--{
--	if [ -f ${srctree}/arch/$2/include/asm/Kbuild ]; then
--		make ARCH=$2 KBUILD_HEADERS=$1 headers_$1
--	else
--		printf "Ignoring arch: %s\n" ${arch}
--	fi
--}
--
--archs=${HDR_ARCH_LIST:-$(ls ${srctree}/arch)}
--
--for arch in ${archs}; do
--	case ${arch} in
--	um)        # no userspace export
--		;;
--	*)
--		if [ -d ${srctree}/arch/${arch} ]; then
--			do_command $1 ${arch}
--		fi
--		;;
--	esac
--done
++# Test self-contained headers
++extra-$(CONFIG_HEADER_TEST) += $(patsubst %.h,%.header_test.o,$(header-test-y))
++
+ # Add subdir path
+ 
+ extra-y		:= $(addprefix $(obj)/,$(extra-y))
 -- 
 2.17.1
 
