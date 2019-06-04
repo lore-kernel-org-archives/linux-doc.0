@@ -1,86 +1,94 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B45C37D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 08:11:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8A3F37D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 08:57:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726855AbfFDILX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Jun 2019 04:11:23 -0400
-Received: from mga18.intel.com ([134.134.136.126]:26955 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726828AbfFDILX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 4 Jun 2019 04:11:23 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Jun 2019 01:11:21 -0700
-X-ExtLoop1: 1
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.150])
-  by fmsmga001.fm.intel.com with ESMTP; 04 Jun 2019 01:11:20 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 09/10] docs: by default, build docs a lot faster with Sphinx >= 1.7
-In-Reply-To: <46c958ec4e460f138c0d087bdff40ec60d060b83.1559170790.git.mchehab+samsung@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1559170790.git.mchehab+samsung@kernel.org> <46c958ec4e460f138c0d087bdff40ec60d060b83.1559170790.git.mchehab+samsung@kernel.org>
-Date:   Tue, 04 Jun 2019 11:14:27 +0300
-Message-ID: <877ea14vj0.fsf@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain
+        id S1727007AbfFDI5Y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Jun 2019 04:57:24 -0400
+Received: from bedivere.hansenpartnership.com ([66.63.167.143]:48840 "EHLO
+        bedivere.hansenpartnership.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726927AbfFDI5Y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jun 2019 04:57:24 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by bedivere.hansenpartnership.com (Postfix) with ESMTP id 1ABE08EE1D8;
+        Tue,  4 Jun 2019 01:57:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
+        s=20151216; t=1559638644;
+        bh=wI/8+wiijGgOqLSYHFzdmNaGRkSygv9a+oR+A5uQbEQ=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=rfb3INXuVy4qOBudIOjCKyAXVMI684m+PxHEGeKwMGmp8gEHXGZRA6JyeEUZ9c0/H
+         e5CXWketma7GjLRupwrcYJuK0Nxl5pnqMZPaALWCUjCi1h3sMe7r/PfGIwTfBtzB5W
+         b2aD8n3OoevNwekKzuL3YRh6eZ3F2lB83HOGoqEI=
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id vVbUH0cOyB66; Tue,  4 Jun 2019 01:57:23 -0700 (PDT)
+Received: from jarvis.guest.haifa.ibm.com (unknown [195.110.41.42])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 8921B8EE101;
+        Tue,  4 Jun 2019 01:57:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
+        s=20151216; t=1559638643;
+        bh=wI/8+wiijGgOqLSYHFzdmNaGRkSygv9a+oR+A5uQbEQ=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=xUN9j1ybZGq/0Fl2pBKJHXRrazk9uYYwC16X//yILiBdGZMFtElgxzDbIW10F1dGI
+         EPTJZ1M2kM6L9rgoiph1CxRKJoIr2ylDIAJE3kej12ObHS2hd/gghg2HghWz8WO5bW
+         WhQt5hGy8hYOjB3EkU8u9iFo2QeiMmgNL4x3WP4Q=
+Message-ID: <1559638637.3410.3.camel@HansenPartnership.com>
+Subject: Re: [PATCH v2 2/3] ima: don't ignore INTEGRITY_UNKNOWN EVM status
+From:   James Bottomley <James.Bottomley@HansenPartnership.com>
+To:     Roberto Sassu <roberto.sassu@huawei.com>,
+        Mimi Zohar <zohar@linux.ibm.com>, dmitry.kasatkin@huawei.com,
+        mjg59@google.com
+Cc:     linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, silviu.vlasceanu@huawei.com,
+        stable@vger.kernel.org
+Date:   Tue, 04 Jun 2019 11:57:17 +0300
+In-Reply-To: <b38d75b1-873a-1630-0148-41c49571531a@huawei.com>
+References: <20190529133035.28724-1-roberto.sassu@huawei.com>
+         <20190529133035.28724-3-roberto.sassu@huawei.com>
+         <1559217621.4008.7.camel@linux.ibm.com>
+         <e6b31aa9-0319-1805-bdfc-3ddde5884494@huawei.com>
+         <1559569401.5052.17.camel@HansenPartnership.com>
+         <3667fbd4-b6ed-6a76-9ff4-84ec3c2dda12@huawei.com>
+         <1559572305.5052.19.camel@HansenPartnership.com>
+         <b38d75b1-873a-1630-0148-41c49571531a@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 29 May 2019, Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
-> Since Sphinx version 1.7, it is possible to use "-jauto" in
-> order to speedup documentation builds. On older versions,
-> while -j was already supported, one would need to set the
-> number of threads manually.
->
-> So, if SPHINXOPTS is not provided, add -jauto, in order to
-> speed up the build. That makes it *a lot* times faster than
-> without -j.
->
-> If one really wants to slow things down, it can just use:
->
-> 	make SPHINXOPTS=-j1 htmldocs
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
->  Documentation/Makefile | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/Documentation/Makefile b/Documentation/Makefile
-> index 380e24053d6f..794233d05789 100644
-> --- a/Documentation/Makefile
-> +++ b/Documentation/Makefile
-> @@ -28,6 +28,8 @@ ifeq ($(HAVE_SPHINX),0)
->  
->  else # HAVE_SPHINX
->  
-> +SPHINXOPTS = $(shell perl -e 'open IN,"sphinx-build --version |"; while (<IN>) { if (m/([\d\.]+)/) { print "-jauto" if ($$1 >= "1.7") } ;} close IN')
-> +
+On Mon, 2019-06-03 at 16:44 +0200, Roberto Sassu wrote:
+> On 6/3/2019 4:31 PM, James Bottomley wrote:
+> > On Mon, 2019-06-03 at 16:29 +0200, Roberto Sassu wrote:
+[...]
+> > > How would you prevent root in the container from updating
+> > > security.ima?
+> > 
+> > We don't.  We only guarantee immutability for unprivileged
+> > containers, so root can't be inside.
+> 
+> Ok.
+> 
+> Regarding the new behavior, this must be explicitly enabled by adding
+> ima_appraise=enforce-evm or log-evm to the kernel command line.
+> Otherwise, the current behavior is preserved with this patch. Would
+> this be ok?
 
-Setting SPHINXOPTS like this means you can't pass additional Sphinx
-options without also dropping -jauto. Which means whenever you want to
-use SPHINXOPTS for what it's meant for, you also need to provide -jauto
-to get the same result.
+Sure, as long as it's an opt-in flag, meaning the behaviour of my
+kernels on physical cloud systems doesn't change as I upgrade them, I'm
+fine with that.
 
-BR,
-Jani.
+James
 
->  # User-friendly check for pdflatex and latexmk
->  HAVE_PDFLATEX := $(shell if which $(PDFLATEX) >/dev/null 2>&1; then echo 1; else echo 0; fi)
->  HAVE_LATEXMK := $(shell if which latexmk >/dev/null 2>&1; then echo 1; else echo 0; fi)
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
