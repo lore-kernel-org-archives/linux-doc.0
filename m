@@ -1,60 +1,35 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_MED,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_HIGH autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 93EB17D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 18:39:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C0EF87D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 18:59:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726399AbfFDSje (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Jun 2019 14:39:34 -0400
-Received: from mail-yb1-f194.google.com ([209.85.219.194]:40251 "EHLO
-        mail-yb1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726261AbfFDSjd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jun 2019 14:39:33 -0400
-Received: by mail-yb1-f194.google.com with SMTP id g62so8338447ybg.7
-        for <linux-doc@vger.kernel.org>; Tue, 04 Jun 2019 11:39:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QEYFHkQ0mazxlXM0U85DazJ5Q/aJSXrrU//QANYnijI=;
-        b=tbwBBogWv+4rI4JsFgo28vMCfZalzhmDVZs0LDLiSBLk6pw11drlmm4rBeaXPYEyOn
-         4LGg3mq/GYNCRN8TRQAfeBf/tLlcWG2fgZqMqGPbd1QsdCSnQkL8xgeA2bU8clXBtRO4
-         YnTE3TM6f+HsZtulx4owmzsm3Tf+z1tqKY4uVlvRSdb6oDKj0vTZMVVRXfxVzk988Jzq
-         J9uYSNpYt1nGwuIGXkRSudBotMF5J5reVGWpvB/I4kXWVZRMBADfe9KLAbkZ40H1HNhF
-         nA8Al2vhwp3TD0rcRExjMGOq7hXFGNdgENIe7DQvK0nRQH/h7Nt9RykvEjIKYFUBimUk
-         dnDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QEYFHkQ0mazxlXM0U85DazJ5Q/aJSXrrU//QANYnijI=;
-        b=PuAmLbG1k+JP6VsEk+fWw/qKTFLpVSDzSrPto2hNNZL1dCXHfxq2yNfIunJsxFJBS5
-         Tgzgf3cVh2C5spYK8Z/DMUtLDIi6yYL3yKv+dUY+G0SNXS9S4nV7JT3JkPHsN1vPM24s
-         zPM5VH1NEDTFjWmER2jdiv6bjj27Jt2FZybxS6xVHbfBO6Bir4Fkn4Zi5UmN9dpBe/iI
-         8ZPsY/cUBRghjqTnYgi4z9vzTTrEhtHHd2n2KDGLI3qFi7PT7EP8bAOXU81H3zUfr5or
-         LRP3+hR8wC8GHykhGYIdIvwTh6/fkq5QzlP5LXdrsS2wrbW2tMNHkzRPPwaed0mXOZp6
-         WcUA==
-X-Gm-Message-State: APjAAAW46g1cgDknx3Nf1zCRFbMAP0kzSXLtZrKuDZC8eHKr4drdGngv
-        13gOrreY75lkNTMyCe/D00BwCISWIQW9okhlO03qaA==
-X-Google-Smtp-Source: APXvYqzR6MhUaMTsP9QSNF2LgKsm8ly0cDW1u/W7ke3pXwdYq6TaZ1NByyiBJfUm88s+zklDeqLqOdVT3kCjdwmQyFM=
-X-Received: by 2002:a25:a562:: with SMTP id h89mr4257101ybi.208.1559673572837;
- Tue, 04 Jun 2019 11:39:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190604152019.16100-1-enric.balletbo@collabora.com>
- <20190604152019.16100-4-enric.balletbo@collabora.com> <20190604155228.GB9981@kroah.com>
- <beaf3554bb85974eb118d7722ca55f1823b1850c.camel@collabora.com> <20190604183527.GA20098@kroah.com>
-In-Reply-To: <20190604183527.GA20098@kroah.com>
-From:   Guenter Roeck <groeck@google.com>
-Date:   Tue, 4 Jun 2019 11:39:21 -0700
-Message-ID: <CABXOdTfU9KaBDhQcwvBGWCmVfnd02_ZFmPGtJsCtGQ-iO9A3Qw@mail.gmail.com>
-Subject: Re: [PATCH 03/10] mfd / platform: cros_ec: Miscellaneous character
- device to talk with the EC
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        id S1726454AbfFDS76 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Jun 2019 14:59:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55642 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725933AbfFDS76 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 4 Jun 2019 14:59:58 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 458772075C;
+        Tue,  4 Jun 2019 18:59:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1559674796;
+        bh=uvYr9y795CB2JbwLDOLLSFyo7CtJ+vrRxdMfI4yHzG4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=xmvwFQZpyLqjD98Fwe1XolN33As8tCJH1wc3K0RgCqxD2bX5JANLRJirJWgB3YKLN
+         zp1mKSdVQ5BYt7Y/MSV94KS8/bZQQ5C4uEamwbfEXbtFJZqTVwzgDhtJMr3AxOsYRk
+         fv1cM/fWZvBzCnbym/V0wH08jlNFTW8Fm5V89eIw=
+Date:   Tue, 4 Jun 2019 20:59:53 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Guenter Roeck <groeck@google.com>
 Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
         Enric Balletbo i Serra <enric.balletbo@collabora.com>,
         linux-kernel <linux-kernel@vger.kernel.org>,
@@ -75,72 +50,92 @@ Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
         Tycho Andersen <tycho@tycho.ws>,
         Gerd Hoffmann <kraxel@redhat.com>,
         Jilayne Lovejoy <opensource@jilayne.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 03/10] mfd / platform: cros_ec: Miscellaneous character
+ device to talk with the EC
+Message-ID: <20190604185953.GA2061@kroah.com>
+References: <20190604152019.16100-1-enric.balletbo@collabora.com>
+ <20190604152019.16100-4-enric.balletbo@collabora.com>
+ <20190604155228.GB9981@kroah.com>
+ <beaf3554bb85974eb118d7722ca55f1823b1850c.camel@collabora.com>
+ <20190604183527.GA20098@kroah.com>
+ <CABXOdTfU9KaBDhQcwvBGWCmVfnd02_ZFmPGtJsCtGQ-iO9A3Qw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABXOdTfU9KaBDhQcwvBGWCmVfnd02_ZFmPGtJsCtGQ-iO9A3Qw@mail.gmail.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 4, 2019 at 11:35 AM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Tue, Jun 04, 2019 at 01:58:38PM -0300, Ezequiel Garcia wrote:
-> > Hey Greg,
+On Tue, Jun 04, 2019 at 11:39:21AM -0700, Guenter Roeck wrote:
+> On Tue, Jun 4, 2019 at 11:35 AM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
 > >
-> > > > + dev_info(&pdev->dev, "Created misc device /dev/%s\n",
-> > > > +          data->misc.name);
+> > On Tue, Jun 04, 2019 at 01:58:38PM -0300, Ezequiel Garcia wrote:
+> > > Hey Greg,
 > > >
-> > > No need to be noisy, if all goes well, your code should be quiet.
+> > > > > + dev_info(&pdev->dev, "Created misc device /dev/%s\n",
+> > > > > +          data->misc.name);
+> > > >
+> > > > No need to be noisy, if all goes well, your code should be quiet.
+> > > >
 > > >
+> > > I sometimes wonder about this being noise or not, so I will slightly
+> > > hijack this thread for this discussion.
+> > >
+> > > >From a kernel developer point-of-view, or even from a platform
+> > > developer or user with a debugging hat point-of-view, having
+> > > a "device created" or "device registered" message is often very useful.
 > >
-> > I sometimes wonder about this being noise or not, so I will slightly
-> > hijack this thread for this discussion.
+> > For you, yes.  For someone with 30000 devices attached to their system,
+> > it is not, and causes booting to take longer than it should be.
 > >
-> > >From a kernel developer point-of-view, or even from a platform
-> > developer or user with a debugging hat point-of-view, having
-> > a "device created" or "device registered" message is often very useful.
->
-> For you, yes.  For someone with 30000 devices attached to their system,
-> it is not, and causes booting to take longer than it should be.
->
-> > In fact, I wish people would do this more often, so I don't have to
-> > deal with dynamic debug, or hack my way:
+> > > In fact, I wish people would do this more often, so I don't have to
+> > > deal with dynamic debug, or hack my way:
+> > >
+> > > diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+> > > index 4589631798c9..473549b26bb2 100644
+> > > --- a/drivers/media/i2c/ov5647.c
+> > > +++ b/drivers/media/i2c/ov5647.c
+> > > @@ -603,7 +603,7 @@ static int ov5647_probe(struct i2c_client *client,
+> > >         if (ret < 0)
+> > >                 goto error;
+> > >
+> > > -       dev_dbg(dev, "OmniVision OV5647 camera driver probed\n");
+> > > +       dev_info(dev, "OmniVision OV5647 camera driver probed\n");
+> > >         return 0;
+> > >  error:
+> > >         media_entity_cleanup(&sd->entity);
+> > >
+> > > In some subsystems, it's even a behavior I'm more or less relying on:
+> > >
+> > > $ git grep v4l2_info.*registered drivers/media/ | wc -l
+> > > 26
+> > >
+> > > And on the downsides, I can't find much. It's just one little line,
+> > > that is not even noticed unless you have logging turned on.
 > >
-> > diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-> > index 4589631798c9..473549b26bb2 100644
-> > --- a/drivers/media/i2c/ov5647.c
-> > +++ b/drivers/media/i2c/ov5647.c
-> > @@ -603,7 +603,7 @@ static int ov5647_probe(struct i2c_client *client,
-> >         if (ret < 0)
-> >                 goto error;
+> > Its better to be quiet, which is why the "default driver registration"
+> > macros do not have any printk messages in them.  When converting drivers
+> > over to it, we made the boot process much more sane, don't try to go and
+> > add messages for no good reason back in please.
 > >
-> > -       dev_dbg(dev, "OmniVision OV5647 camera driver probed\n");
-> > +       dev_info(dev, "OmniVision OV5647 camera driver probed\n");
-> >         return 0;
-> >  error:
-> >         media_entity_cleanup(&sd->entity);
+> > dynamic debugging can be enabled on a module and line-by-line basis,
+> > even from the boot command line.  So if you need debugging, you can
+> > always ask someone to just reboot or unload/load the module and get the
+> > message that way.
 > >
-> > In some subsystems, it's even a behavior I'm more or less relying on:
-> >
-> > $ git grep v4l2_info.*registered drivers/media/ | wc -l
-> > 26
-> >
-> > And on the downsides, I can't find much. It's just one little line,
-> > that is not even noticed unless you have logging turned on.
->
-> Its better to be quiet, which is why the "default driver registration"
-> macros do not have any printk messages in them.  When converting drivers
-> over to it, we made the boot process much more sane, don't try to go and
-> add messages for no good reason back in please.
->
-> dynamic debugging can be enabled on a module and line-by-line basis,
-> even from the boot command line.  So if you need debugging, you can
-> always ask someone to just reboot or unload/load the module and get the
-> message that way.
->
+> 
+> Can we by any chance make this an official policy ? I am kind of tired
+> having to argue about this over and over again.
 
-Can we by any chance make this an official policy ? I am kind of tired
-having to argue about this over and over again.
+Sure, but how does anyone make any "official policy" in the kernel?  :)
 
-Thanks,
-Guenter
+I could just go through and delete all "look ma, a new driver/device!"
+messages, but that might be annoying...
+
+thanks,
+
+greg k-h
