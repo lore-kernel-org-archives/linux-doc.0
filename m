@@ -3,49 +3,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2452F7D2EF
+	by archive.lwn.net (Postfix) with ESMTP id 634A47D923
 	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 14:18:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727815AbfFDOSE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Jun 2019 10:18:04 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:52526 "EHLO
+        id S1727456AbfFDOS3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Jun 2019 10:18:29 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:52812 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727602AbfFDOSD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jun 2019 10:18:03 -0400
+        with ESMTP id S1727848AbfFDOSH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jun 2019 10:18:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=WyA/RRUzEMCNSDUX0J/2kOmsPoE/y5/FaiFLeEY8Z7g=; b=b+jGFR+FqWUUKyYHiwJnW2zNxG
-        AQHjUBqohGyiKmiM8QJtfzgadwn5knHuqTTQyOI4jg71iS/obQc6K16soiuTxMaam488022zBsNI9
-        MnZeXMnsxG7Vo1gPsRqFv2yTOck32RwAe2pknIhnS3T5PhujxscxysQ1vUF/grkkg7CnaHGlHo2wT
-        AxbMWEV4mLaVmjGUnydXYeARNse9IeDmMNbMyw6Urfs7bz+3TEd2WOiC2gGEi+tjBStnpHX21AjoQ
-        u1K/LJ9CSk/wkGLTjQ1yNYMOur/rpovICKiqjLKFlwZFUDF4zvN5jU+4Fzk2BCq1dCWRSWQpHhIwr
-        MDP4MUmg==;
+        bh=fQNjrRRG0JXmnC2bc/oI9ttAVWkiwCnUOXEY32vBUqw=; b=hxTpvHzDzRk4jCcpTyHRD1soUM
+        pDpjEkszOABmHjhyE0Xp9N8Kfpj3ZwcRfVqPmTqXCgAO2FY1gDO8Bpjsl7GNioH/PN+ibxxhNF9VM
+        vM4eB/XzOO8qnRpW0qCwg/dd/NnPQ1a+gQzgkPmoL/IRzYBzmssI6Euwk8kOBbRop0P+PLj/Qfsu/
+        6Iji+LxM484O7xq/40mk93wkoZAoJEDxQoHooXRdUaeDr1QMBS0tKeiqjKBGWpO0WdeLTZv1UjYTJ
+        PH92FDF+sUzmMtJVXbNy36MaDNKRM0pbkn4F6QN8pJxNgeQBqxr414cTIiMIJEtr7IyYqHYprJ66J
+        KnN1VW0w==;
 Received: from [179.182.172.34] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hYAGH-0001Rv-Um; Tue, 04 Jun 2019 14:18:01 +0000
+        id 1hYAGM-0001Ry-Av; Tue, 04 Jun 2019 14:18:06 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hYAGE-0002lg-TI; Tue, 04 Jun 2019 11:17:58 -0300
+        id 1hYAGF-0002mF-1u; Tue, 04 Jun 2019 11:17:59 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        =?UTF-8?q?Horia=20Geant=C4=83?= <horia.geanta@nxp.com>,
-        Roy Pledge <roy.pledge@nxp.com>,
-        Ioana Radulescu <ruxandra.radulescu@nxp.com>,
-        Jakub Kicinski <jakub.kicinski@netronome.com>,
-        Randy Dunlap <rdunlap@infradead.org>, netdev@vger.kernel.org
-Subject: [PATCH v2 16/22] docs: net: dpio-driver.rst: fix two codeblock warnings
-Date:   Tue,  4 Jun 2019 11:17:50 -0300
-Message-Id: <f5e4bcdb6cc89c270d4ec8ae6cfb932146a834ca.1559656538.git.mchehab+samsung@kernel.org>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Jiri Kosina <jkosina@suse.cz>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Lu Baolu <baolu.lu@linux.intel.com>
+Subject: [PATCH v2 21/22] docs: isdn: remove hisax references from kernel-parameters.txt
+Date:   Tue,  4 Jun 2019 11:17:55 -0300
+Message-Id: <a02ca3104dd0613c104e0df86d76edcde802dd66.1559656538.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1559656538.git.mchehab+samsung@kernel.org>
 References: <cover.1559656538.git.mchehab+samsung@kernel.org>
@@ -56,36 +59,30 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-    Documentation/networking/device_drivers/freescale/dpaa2/dpio-driver.rst:43: WARNING: Definition list ends without a blank line; unexpected unindent.
-    Documentation/networking/device_drivers/freescale/dpaa2/dpio-driver.rst:63: WARNING: Unexpected indentation. looking for now-outdated files... none found
+The hisax driver got removed on 85993b8c9786 ("isdn: remove hisax driver"),
+but a left-over was kept at kernel-parameters.txt.
+
+Fixes: 85993b8c9786 ("isdn: remove hisax driver")
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- .../networking/device_drivers/freescale/dpaa2/dpio-driver.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/Documentation/networking/device_drivers/freescale/dpaa2/dpio-driver.rst b/Documentation/networking/device_drivers/freescale/dpaa2/dpio-driver.rst
-index 5045df990a4c..17dbee1ac53e 100644
---- a/Documentation/networking/device_drivers/freescale/dpaa2/dpio-driver.rst
-+++ b/Documentation/networking/device_drivers/freescale/dpaa2/dpio-driver.rst
-@@ -39,8 +39,7 @@ The Linux DPIO driver consists of 3 primary components--
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index ab29adb55d18..ef03220fdf8f 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1388,9 +1388,6 @@
+ 			Valid parameters: "on", "off"
+ 			Default: "on"
  
-    DPIO service-- provides APIs to other Linux drivers for services
+-	hisax=		[HW,ISDN]
+-			See Documentation/isdn/README.HiSax.
+-
+ 	hlt		[BUGS=ARM,SH]
  
--   QBman portal interface-- sends portal commands, gets responses
--::
-+   QBman portal interface-- sends portal commands, gets responses::
- 
-           fsl-mc          other
-            bus           drivers
-@@ -60,6 +59,7 @@ The Linux DPIO driver consists of 3 primary components--
- 
- The diagram below shows how the DPIO driver components fit with the other
- DPAA2 Linux driver components::
-+
-                                                    +------------+
-                                                    | OS Network |
-                                                    |   Stack    |
+ 	hpet=		[X86-32,HPET] option to control HPET usage
 -- 
 2.21.0
 
