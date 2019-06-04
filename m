@@ -2,60 +2,78 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 915B67D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 17:57:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BBC967D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 18:27:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726245AbfFDR5L (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Jun 2019 13:57:11 -0400
-Received: from asavdk3.altibox.net ([109.247.116.14]:35511 "EHLO
-        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726162AbfFDR5L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jun 2019 13:57:11 -0400
-Received: from ravnborg.org (unknown [158.248.194.18])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by asavdk3.altibox.net (Postfix) with ESMTPS id 187922004D;
-        Tue,  4 Jun 2019 19:57:08 +0200 (CEST)
-Date:   Tue, 4 Jun 2019 19:57:06 +0200
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     linux-kbuild@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        David Howells <dhowells@redhat.com>,
-        Jani Nikula <jani.nikula@intel.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>
-Subject: Re: [PATCH 01/15] kbuild: remove headers_{install,check}_all
-Message-ID: <20190604175706.GA4093@ravnborg.org>
-References: <20190604101409.2078-1-yamada.masahiro@socionext.com>
- <20190604101409.2078-2-yamada.masahiro@socionext.com>
+        id S1726352AbfFDS1d (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Jun 2019 14:27:33 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:43914 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726179AbfFDS1d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jun 2019 14:27:33 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id 6F0C326B37F
+From:   Helen Koike <helen.koike@collabora.com>
+To:     dm-devel@redhat.com, swboyd@chromium.org
+Cc:     wad@chromium.org, keescook@chromium.org, snitzer@redhat.com,
+        linux-doc@vger.kernel.org, richard.weinberger@gmail.com,
+        linux-kernel@vger.kernel.org, linux-lvm@redhat.com,
+        enric.balletbo@collabora.com, kernel@collabora.com, agk@redhat.com,
+        Helen Koike <helen.koike@collabora.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH] Documentation/dm-init: fix multi device example
+Date:   Tue,  4 Jun 2019 15:27:19 -0300
+Message-Id: <20190604182719.15944-1-helen.koike@collabora.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190604101409.2078-2-yamada.masahiro@socionext.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
-        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
-        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
-        a=A-kqMh_e01oG-bl_YbUA:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 04, 2019 at 07:13:55PM +0900, Masahiro Yamada wrote:
-> headers_install_all does not make much sense any more because different
-> architectures export different set of uapi/linux/ headers. As you see
-> in include/uapi/linux/Kbuild, the installation of a.out.h, kvm.h, and
-> kvm_para.h is arch-dependent. So, headers_install_all repeats the
-> installation/removal of them.
-> 
-> If somebody really thinks it is useful to do headers_install for all
-> architectures, it would be possible by small shell-scripting, but the
-> top Makefile do not have to provide entry targets just for that purpose.
-Agreed, good to see this be dropped.
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+The example in the docs regarding multiple device-mappers is invalid (it
+has a wrong number of arguments), it's a left over from previous
+versions of the patch.
+Replace the example with an valid and tested one.
+
+Signed-off-by: Helen Koike <helen.koike@collabora.com>
+
+---
+
+ Documentation/device-mapper/dm-init.txt | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/Documentation/device-mapper/dm-init.txt b/Documentation/device-mapper/dm-init.txt
+index 8464ee7c01b8..130b3c3679c5 100644
+--- a/Documentation/device-mapper/dm-init.txt
++++ b/Documentation/device-mapper/dm-init.txt
+@@ -74,13 +74,13 @@ this target to /dev/mapper/lroot (depending on the rules). No uuid was assigned.
+ An example of multiple device-mappers, with the dm-mod.create="..." contents is shown here
+ split on multiple lines for readability:
+ 
+-  vroot,,,ro,
+-    0 1740800 verity 254:0 254:0 1740800 sha1
+-      76e9be054b15884a9fa85973e9cb274c93afadb6
+-      5b3549d54d6c7a3837b9b81ed72e49463a64c03680c47835bef94d768e5646fe;
+-  vram,,,rw,
+-    0 32768 linear 1:0 0,
+-    32768 32768 linear 1:1 0
++  dm-linear,,1,rw,
++    0 32768 linear 8:1 0,
++    32768 1024000 linear 8:2 0;
++  dm-verity,,3,ro,
++    0 1638400 verity 1 /dev/sdc1 /dev/sdc2 4096 4096 204800 1 sha256
++    ac87db56303c9c1da433d7209b5a6ef3e4779df141200cbd7c157dcb8dd89c42
++    5ebfe87f7df3235b80a117ebc4078e44f55045487ad4a96581d1adb564615b51
+ 
+ Other examples (per target):
+ 
+-- 
+2.20.1
+
