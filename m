@@ -3,59 +3,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E61797D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Mon,  3 Jun 2019 23:49:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 397F27D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 00:07:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726521AbfFCXtU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 3 Jun 2019 19:49:20 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:56259 "EHLO
-        out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726101AbfFCXtU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jun 2019 19:49:20 -0400
+        id S1726216AbfFDAHP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 3 Jun 2019 20:07:15 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:34533 "EHLO
+        out4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726102AbfFDAHP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 3 Jun 2019 20:07:15 -0400
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id CB32C2208A;
-        Mon,  3 Jun 2019 19:49:18 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Mon, 03 Jun 2019 19:49:18 -0400
+        by mailout.nyi.internal (Postfix) with ESMTP id 577242226D;
+        Mon,  3 Jun 2019 20:07:14 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Mon, 03 Jun 2019 20:07:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=date
         :from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=Jim7BdHYS9RK8KAODKzQVSAg1fZ
-        oNCKTLGYojHFLSlM=; b=n/MGNySPj2d2OHVK8uoH4PFT57rO9SEcQhHCyxP0Xog
-        3YPfXBo01tfTywzzpAuJYrAPEyhHFBy2e2jwz4XyZm2lDPv7URIXl/XS0l5Tl6A7
-        hc2TbiW2gF0PXDcQiYO18gJ/CORFMxMYb0YeJypwlpSSDA9KDNLBaz0enHtZE9mj
-        LUNF4l/aWcpPbczXs3LvSlaaEjh4OwB7BB9l3ZHIsHMughwJQhl6bEAFyrpMtG0+
-        P31zJfKP7P8kelfy4iRowZxVWvAYWk3lSm26oiPWoUBjRt32XDkJnSa15pW6YJwf
-        aW57zUIrJG8Z4Hnomg8vx6WE6EJsvPkKNZsNmeE5ShQ==
+        :content-type:in-reply-to; s=fm3; bh=EN4T2pbClCMyoiYhMs2a/McIgLH
+        XpYnfzzLo8H03ZDU=; b=FsY5axEOzebsP3UUQlR6D2B+6dzE/Bw3N8eXYS0JEa2
+        MvxyCxMNudMU5DsV6pqHeMacej8+1sLLsOnPwL0R2Wrexdh72TfS6P7hZtAzEtfM
+        jpIO2pOuoAagYOamYfsD8/McGhbDuLKFw0jnF9ZH0zh3E2oCGcDUfo1XWNT7H8Gr
+        t5pC0TEB/1uYYAmQKe8LIXVFFSVKPKGfr5Zsl8UxyIRSyckcUNmtEy8srMqj78sX
+        OIopNde3Cszszxqpx1D+AruO4lZ++O883jEuai7wv8uWiScm9Z6XJbvbDorn1B95
+        iAk+JH5IuPE2mzY0QFzDLeS7mnG70MwTVkit497/2CQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-type:date:from:in-reply-to
         :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=Jim7Bd
-        HYS9RK8KAODKzQVSAg1fZoNCKTLGYojHFLSlM=; b=RD9n5fuHzdInhhKTz/0l/q
-        0OO+yr4axwpReb0AhNvj8yefpEf0gwD1x7IQiTCeu7OGQ3G6rtHhZXDMj8CanRSI
-        BTcPuBY5flm5H0uYwjMotp9y2hQ9hc1HXW8rJjeOABsvaifHAFrYLW0+dabzTIym
-        ohCnJiZHYNWpipUD8frb/fUW90XdEubCC8VdX5zweqCtHQ+uUB6zAVMLx2KPJzpn
-        iR5sEOOJGEnnsri3lY8zuOdm8byJ1rGPFe1pL+KT/feK3iDKo5MySFgdqxE2HHfq
-        zqJtQ/AnHh8W3ne2Gyfl0iXdthG30F3eqes8FUyiL6ovcP2gmXbJ1rUvktR2lPNQ
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=EN4T2p
+        bClCMyoiYhMs2a/McIgLHXpYnfzzLo8H03ZDU=; b=Zf3zWqtiUfLVdN4aqeqUOl
+        Om6hXruGxzy6hwhMcXNDgjgmv11zu34J7NO1ozdQ/7+fSNFUTqHbB20ACZJxuCMN
+        9f1meig9O0Q506V31mBX8bKcuLlarNV+sxzvnFQaG129R0awEJMw+mG8VBZqK4pv
+        LH7LsAHt+7QCJywj/1BI8Frg0GTs8UsEpInbQ7p7VqXacYZNZC20DBRJ8QENqcry
+        RhlUWMgr44ZHKjUo/m7j1FnCxU8NO3HGFzTXKmIl/R/NcqRMuubNR4ygr8ZoE4QX
+        x8pUdGwqxgwrdzbvOmGhqxlFrzyW3zGqts//dQ6xkAXgRNFVi+nP1lSdWNJqvH3w
         ==
-X-ME-Sender: <xms:_rH1XKra4TaHORNbY6PM5cilPcKjXtyz_imakGvyF5onQ5LoZ520pw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrudefkedgvdejucetufdoteggodetrfdotf
+X-ME-Sender: <xms:Mbb1XOHjdFB9m2D3HOK1DR9CGrcc33WaPS8nrCBm1RYyzIY7rgnwgw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrudefkedgfedtucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     gfrhhlucfvnfffucdludehmdenucfjughrpeffhffvuffkfhggtggujgfofgesthdtredt
     ofervdenucfhrhhomhepfdfvohgsihhnucevrdcujfgrrhguihhnghdfuceomhgvsehtoh
     gsihhnrdgttgeqnecukfhppeduvddurdeggedrvdeffedrvdeggeenucfrrghrrghmpehm
     rghilhhfrhhomhepmhgvsehtohgsihhnrdgttgenucevlhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:_rH1XIkXuEjKzWT4lowVRy-KT65nQGBISqeotW1tEpEawV4SCws_iA>
-    <xmx:_rH1XKw51OuieiddDEwnkcn1wI6kKw8xrTxps23omkBJzMGskHkb6Q>
-    <xmx:_rH1XO1qhcRN_i3qE1EDbi2O9SMDSDZba3NFKYjnhCVMnmXBSAVkFA>
-    <xmx:_rH1XDI7CWQc3o6uheK_fNyD4vpzhnRUbzMzuyZbNz1Z6dNyYvGP2Q>
+X-ME-Proxy: <xmx:Mbb1XLmHA4z56axMCyDnaPbHYhun95pOlzX4HUyC4dCmY1hZa8InFw>
+    <xmx:Mbb1XOa9lCNqpJ8XybNZf5-5Lx5Kdj8GEGkltnr073ip02CB0FkymA>
+    <xmx:Mbb1XFsgrap7H5cUlWvSpOGvZfLOTnuyrf1-K-56yFQsRnHSwqKBRg>
+    <xmx:Mrb1XHBIW5oE_Fa8juiYI2lwONwHo7v5VWlcdrUA69SetBDnBIbz8w>
 Received: from localhost (ppp121-44-233-244.bras2.syd2.internode.on.net [121.44.233.244])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 9EC18380088;
-        Mon,  3 Jun 2019 19:49:17 -0400 (EDT)
-Date:   Tue, 4 Jun 2019 09:48:34 +1000
+        by mail.messagingengine.com (Postfix) with ESMTPA id AAAF680059;
+        Mon,  3 Jun 2019 20:07:12 -0400 (EDT)
+Date:   Tue, 4 Jun 2019 10:06:30 +1000
 From:   "Tobin C. Harding" <me@tobin.cc>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     "Tobin C. Harding" <tobin@kernel.org>,
@@ -66,7 +66,7 @@ Cc:     "Tobin C. Harding" <tobin@kernel.org>,
         linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v4 0/9] docs: Convert VFS doc to RST
-Message-ID: <20190603234834.GB13575@eros.localdomain>
+Message-ID: <20190604000630.GD13575@eros.localdomain>
 References: <20190515002913.12586-1-tobin@kernel.org>
  <20190529163052.6ce91581@lwn.net>
 MIME-Version: 1.0
@@ -106,17 +106,8 @@ On Wed, May 29, 2019 at 04:30:52PM -0600, Jonathan Corbet wrote:
 >     ``struct file_system_type *fs_type``
 > 	 describes the filesystem, partly initialized by the specific
 > 	 filesystem code
-> 
-> There are, unfortunately, a lot of these to fix...  I bet it could be done
-> with an elisp function, but I don't have time to beat my head against that
-> wall right now.
-> 
-> Any chance you would have time to send me a followup patch fixing these
-> up?  I'll keep my branch with this set for now so there's no need to
-> rebase those.
 
-Is this branch public Jon?  I'll work on top of this series but if the
-branch is public then I can check it applies, save you having problems.
+I was doubting you at first, this renders **way** better :)
 
-Cheers,
-Tobin.
+
+	Tobin
