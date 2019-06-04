@@ -5,29 +5,29 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 23D857DBD4
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 10:16:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id F246C7D910
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 10:18:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727247AbfFDKP6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Jun 2019 06:15:58 -0400
-Received: from conuserg-08.nifty.com ([210.131.2.75]:39732 "EHLO
+        id S1727148AbfFDKSj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Jun 2019 06:18:39 -0400
+Received: from conuserg-08.nifty.com ([210.131.2.75]:44024 "EHLO
         conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727110AbfFDKP6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jun 2019 06:15:58 -0400
+        with ESMTP id S1727139AbfFDKSj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jun 2019 06:18:39 -0400
 Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-08.nifty.com with ESMTP id x54AEC7J032511;
-        Tue, 4 Jun 2019 19:14:25 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com x54AEC7J032511
+        by conuserg-08.nifty.com with ESMTP id x54AEC76032511;
+        Tue, 4 Jun 2019 19:14:12 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com x54AEC76032511
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1559643266;
-        bh=BnyOCSyE+CGMxDknrCFwRpFRPhO2lG/Y/shoIrbI5AY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Z5/reEbeHi70KbQtAaW59xxuhoN5CJ6vi0zTzUweFozO6GDDLJBeAGOt0HbBxdGYs
-         kmnBi+G4qTPRlpvorbsKGV4myGYjxSVZF9yHS55WzeKcH13aYk9/cS2UuOW+A6U6aZ
-         /f5GshStK0NXon6uCqj3GinWBcgr25RsSNDCWQXKlTBZ97N9mxffeQvL3rd5WoLYGa
-         izMngyoSmA5ZkdN3JvlFeOHitJlzQ4eiTJeUUasTdqPNdfAWGSchXUCFEgU0oUZFlM
-         SZ9cV3kw61ijSECWdmpFdOLvbCYuVlhModjQaNe7WJUU+jGrifFNh4HnHvf6H1lo40
-         4S3RsAwPlADag==
+        s=dec2015msa; t=1559643254;
+        bh=2Cnt75TjD0TucqN65Zm4F4aK2FsJEMupPn4+qQfaomQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=T4jvQ0G6x7AI4kdGX5qwlpK7HOvTaBPAv/cRO5t4X32Dcs0uPZAvSErXh4DSjGB31
+         HcpKj3d7GK+dEJgeRDnlb3IgG5M1SUitGYK8fWYBHTStYwEem3M/mbalLmPcf7FXff
+         2NyynthHyJ0CxXthF++gCaIlODh+BwsYOnM6Vm7DKEJGoJYT3haZXkmHOejQU4htdI
+         qbLlQa5xUwjLEMB8M7yoUoLHvQw77TZmiZ2m1IsbGjpX7v+Ox9dBMBaEmddSnnMqUe
+         FudqJKtGFxDLUHkFG12GbiN4Ma4TLji3PyPSof/DKDCjFWY8qenZH14JVAqU6EKQqf
+         rZdDvtK1Yi38A==
 X-Nifty-SrcIP: [153.142.97.92]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
 To:     linux-kbuild@vger.kernel.org
@@ -36,118 +36,150 @@ Cc:     Randy Dunlap <rdunlap@infradead.org>,
         David Howells <dhowells@redhat.com>,
         Sam Ravnborg <sam@ravnborg.org>,
         Jani Nikula <jani.nikula@intel.com>,
-        Chris Wilson <chris@chris-wilson.co.uk>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-riscv@lists.infradead.org,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        linux-s390@vger.kernel.org, Greentime Hu <green.hu@gmail.com>,
+        Helge Deller <deller@gmx.de>,
+        Vineet Gupta <vgupta@synopsys.com>,
+        Palmer Dabbelt <palmer@sifive.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        linux-snps-arc@lists.infradead.org,
+        Song Liu <songliubraving@fb.com>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Yonghong Song <yhs@fb.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 13/15] kbuild: add support for ensuring headers are self-contained
-Date:   Tue,  4 Jun 2019 19:14:07 +0900
-Message-Id: <20190604101409.2078-14-yamada.masahiro@socionext.com>
+        Paul Mackerras <paulus@samba.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        linux-parisc@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        linux-kernel@vger.kernel.org, Vincent Chen <deanbo422@gmail.com>,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org
+Subject: [PATCH 00/15] kbuild: refactor headers_install and support compile-test of UAPI headers
+Date:   Tue,  4 Jun 2019 19:13:54 +0900
+Message-Id: <20190604101409.2078-1-yamada.masahiro@socionext.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190604101409.2078-1-yamada.masahiro@socionext.com>
-References: <20190604101409.2078-1-yamada.masahiro@socionext.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Jani Nikula <jani.nikula@intel.com>
 
-Sometimes it's useful to be able to explicitly ensure certain headers
-remain self-contained, i.e. that they are compilable as standalone
-units, by including and/or forward declaring everything they depend on.
+Multiple people have suggested to compile-test UAPI headers.
 
-Add special target header-test-y where individual Makefiles can add
-headers to be tested if CONFIG_HEADER_TEST is enabled. This will
-generate a dummy C file per header that gets built as part of extra-y.
+Currently, Kbuild provides simple sanity checks by headers_check
+but they are not enough to catch bugs.
 
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc: Michal Marek <michal.lkml@markovi.net>
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
+The most recent patch I know is David Howells' work:
+https://patchwork.kernel.org/patch/10590203/
 
- Documentation/kbuild/makefiles.txt |  7 +++++++
- init/Kconfig                       |  9 +++++++++
- scripts/Makefile.build             | 10 ++++++++++
- scripts/Makefile.lib               |  3 +++
- 4 files changed, 29 insertions(+)
+I agree that we need better tests for UAPI headers,
+but I want to integrate it in a clean way.
 
-diff --git a/Documentation/kbuild/makefiles.txt b/Documentation/kbuild/makefiles.txt
-index bac301a73a86..ca4b24ec0399 100644
---- a/Documentation/kbuild/makefiles.txt
-+++ b/Documentation/kbuild/makefiles.txt
-@@ -1018,6 +1018,13 @@ When kbuild executes, the following steps are followed (roughly):
- 	In this example, extra-y is used to list object files that
- 	shall be built, but shall not be linked as part of built-in.a.
- 
-+    header-test-y
-+
-+	header-test-y specifies headers (*.h) in the current directory that
-+	should be compile tested to ensure they are self-contained,
-+	i.e. compilable as standalone units. If CONFIG_HEADER_TEST is enabled,
-+	this autogenerates dummy sources to include the headers, and builds them
-+	as part of extra-y.
- 
- --- 6.7 Commands useful for building a boot image
- 
-diff --git a/init/Kconfig b/init/Kconfig
-index 36894c9fb420..02d8897b91fb 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -96,6 +96,15 @@ config COMPILE_TEST
- 	  here. If you are a user/distributor, say N here to exclude useless
- 	  drivers to be distributed.
- 
-+config HEADER_TEST
-+	bool "Compile test headers that should be standalone compilable"
-+	help
-+	  Compile test headers listed in header-test-y target to ensure they are
-+	  self-contained, i.e. compilable as standalone units.
-+
-+	  If you are a developer or tester and want to ensure the requested
-+	  headers are self-contained, say Y here. Otherwise, choose N.
-+
- config LOCALVERSION
- 	string "Local version - append to kernel release"
- 	help
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index ae9cf740633e..2b4d56483c2e 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -294,6 +294,16 @@ quiet_cmd_cc_lst_c = MKLST   $@
- $(obj)/%.lst: $(src)/%.c FORCE
- 	$(call if_changed_dep,cc_lst_c)
- 
-+# Dummy C sources for header test (header-test-y target)
-+# ---------------------------------------------------------------------------
-+
-+quiet_cmd_header_test = HDRTEST $@
-+      cmd_header_test = echo "\#include \"$(<F)\"" > $@
-+
-+# FIXME: would be nice to be able to limit this implicit rule to header-test-y
-+$(obj)/%.header_test.c: $(src)/%.h FORCE
-+	$(call if_changed,header_test)
-+
- # Compile assembler sources (.S)
- # ---------------------------------------------------------------------------
- 
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index f1f38c8cdc74..60a739a22b9c 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -66,6 +66,9 @@ extra-y += $(patsubst %.dtb,%.dt.yaml, $(dtb-y))
- extra-$(CONFIG_OF_ALL_DTBS) += $(patsubst %.dtb,%.dt.yaml, $(dtb-))
- endif
- 
-+# Test self-contained headers
-+extra-$(CONFIG_HEADER_TEST) += $(patsubst %.h,%.header_test.o,$(header-test-y))
-+
- # Add subdir path
- 
- extra-y		:= $(addprefix $(obj)/,$(extra-y))
+The idea that has been in my mind is to compile each header
+to make sure the selfcontainedness.
+
+Recently, Jani Nikula proposed a new syntax 'header-test-y'.
+https://patchwork.kernel.org/patch/10947005/
+
+So, I implemented UAPI compile-testing on top of that.
+
+When adding a new feature, cleaning the code first is a
+good practice.
+
+[1] Remove headers_install_all
+
+This target installs UAPI headers of all architectures
+in a single tree.
+It does not make sense to compile test of headers from
+multiple arches at the same time. Hence, removed.
+
+[2] Split header installation into 'make headers' and 'make headers_install'
+
+To compile-test UAPI headers, we need a work-directory somewhere
+to save objects and .*.cmd files.
+
+usr/include/ will be the work-directory.
+
+Since we cannot pollute the final destination of headers_install,
+
+I split the header installation into two stages.
+
+'make headers' will build up
+the ready-to-install headers in usr/include,
+which will be also used as a work-directory for the compile-test.
+
+'make headers_install' will copy headers
+from usr/include to $(INSTALL_HDR_PATH)/include.
+
+[3] Support compile-test of UAPI headers
+
+This is implemented in usr/include/Makefile
+
+
+Jani Nikula (1):
+  kbuild: add support for ensuring headers are self-contained
+
+Masahiro Yamada (14):
+  kbuild: remove headers_{install,check}_all
+  kbuild: remove stale dependency between Documentation/ and
+    headers_install
+  kbuild: make gdb_script depend on prepare0 instead of prepare
+  kbuild: fix Kconfig prompt of CONFIG_HEADERS_CHECK
+  kbuild: add CONFIG_HEADERS_INSTALL and loosen the dependency of
+    samples
+  kbuild: remove build_unifdef target in scripts/Makefile
+  kbuild: build all prerequisite of headers_install simultaneously
+  kbuild: add 'headers' target to build up ready-to-install uapi headers
+  kbuild: re-implement Makefile.headersinst without directory descending
+  kbuild: move hdr-inst shorthand to top Makefile
+  kbuild: simplify scripts/headers_install.sh
+  kbuild: deb-pkg: do not run headers_check
+  fixup: kbuild: add support for ensuring headers are self-contained
+  kbuild: compile test UAPI headers to ensure they are self-contained
+
+ Documentation/kbuild/headers_install.txt |   7 --
+ Documentation/kbuild/makefiles.txt       |  13 ++-
+ Makefile                                 |  56 +++++-----
+ arch/arc/configs/tb10x_defconfig         |   1 +
+ arch/nds32/configs/defconfig             |   1 +
+ arch/parisc/configs/a500_defconfig       |   1 +
+ arch/parisc/configs/b180_defconfig       |   1 +
+ arch/parisc/configs/c3000_defconfig      |   1 +
+ arch/parisc/configs/default_defconfig    |   1 +
+ arch/powerpc/configs/ppc6xx_defconfig    |   1 +
+ arch/s390/configs/debug_defconfig        |   1 +
+ include/uapi/{linux => }/Kbuild          |   6 +-
+ init/Kconfig                             |  20 ++++
+ lib/Kconfig.debug                        |  25 +++--
+ samples/Kconfig                          |  14 ++-
+ samples/Makefile                         |   4 +-
+ scripts/Kbuild.include                   |   6 --
+ scripts/Makefile                         |   5 -
+ scripts/Makefile.build                   |   9 ++
+ scripts/Makefile.headersinst             | 132 ++++++++++-------------
+ scripts/Makefile.lib                     |   3 +
+ scripts/cc-system-headers.sh             |   8 ++
+ scripts/headers.sh                       |  29 -----
+ scripts/headers_install.sh               |  48 ++++-----
+ scripts/package/builddeb                 |   2 +-
+ usr/.gitignore                           |   1 -
+ usr/Makefile                             |   2 +
+ usr/include/.gitignore                   |   3 +
+ usr/include/Makefile                     | 132 +++++++++++++++++++++++
+ 29 files changed, 329 insertions(+), 204 deletions(-)
+ rename include/uapi/{linux => }/Kbuild (77%)
+ create mode 100755 scripts/cc-system-headers.sh
+ delete mode 100755 scripts/headers.sh
+ create mode 100644 usr/include/.gitignore
+ create mode 100644 usr/include/Makefile
+
 -- 
 2.17.1
 
