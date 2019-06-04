@@ -1,163 +1,159 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 489D47D910
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 11:30:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1976D7D910
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 12:26:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727180AbfFDLaH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Jun 2019 07:30:07 -0400
-Received: from mout.web.de ([212.227.15.14]:44311 "EHLO mout.web.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726508AbfFDLaH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 4 Jun 2019 07:30:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1559647786;
-        bh=NnHgDDxEaUqkSvPWPX+0oQ/+pSBWZGwitzJheluK2Mw=;
-        h=X-UI-Sender-Class:Subject:Cc:References:To:From:Date:In-Reply-To;
-        b=mPDSv7WSZFG8dhLHsSyw5pOwaTEFX5bb+TIZqiSlb93aa5e4GTSotYzYIh2oVKQY0
-         AB75V8//fOmU/r9+gFs9Lx2u0kKrAJ1Annv+uMEAvAev0meV+O9b3Y/8qys7Ta4rxw
-         W+LcIpvp//hijcAPN6GDXX8a/+V5Ewyuug7PkV18=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.4] ([78.49.105.210]) by smtp.web.de (mrweb001
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MRl2f-1hAAfj0ha5-00SzDt; Tue, 04
- Jun 2019 13:28:42 +0200
-Subject: Re: Coccinelle: semantic patch for missing of_node_put
-Cc:     linux-doc@vger.kernel.org, cocci@systeme.lip6.fr,
-        linux-kernel@vger.kernel.org, Gilles.Muller@lip6.fr,
+        id S1727693AbfFDM0d (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Jun 2019 08:26:33 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:60454 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726994AbfFDM0d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jun 2019 08:26:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=S4Pz7TRu5Lcq2yQdR4kxNmctJu60r/vgdLSlDc7rPg0=; b=eiJuW/BajBOBAudFTNG/cNt5a
+        LupcpeNZRNJyKXf4PQEQBYvCelsX0tWh7MJQKqm8D4c3+W6Bd91f0bvq2YrQcp9rpMnPfL/d7wKjg
+        01E2RaVCrVT1tDzZDM2lS8tqt805U0W6FEZE8lDOFoXI7hPv6hpqz7VDNRWjXvVGYwwsgm1PzuLhU
+        NVxGuSisF6dMxjRDKI8dwiVM8WBwwEg8lbskmgEbmOQrDF9w4DOHvy+PXoJL7CpJFHsA83C+3RRo5
+        2irH7anFq7WNHUOI99LRjjOe/yZK5KW55SIofR+zqhTbefHWW+sO/aBox0n17zSdNY+p23AATvYGi
+        cF5OhO08w==;
+Received: from [187.113.6.249] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hY8WO-000464-B3; Tue, 04 Jun 2019 12:26:32 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hY8WK-000213-FZ; Tue, 04 Jun 2019 09:26:28 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nicolas Palix <nicolas.palix@imag.fr>,
-        Julia Lawall <julia.lawall@lip6.fr>
-References: <201906041350002807147@zte.com.cn>
-To:     Wen Yang <wen.yang99@zte.com.cn>
-From:   Markus Elfring <Markus.Elfring@web.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- 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 FEE=
-Message-ID: <9169c754-17ef-f820-8335-2015e3c37782@web.de>
-Date:   Tue, 4 Jun 2019 13:28:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH] docs: Kbuild/Makefile: allow check for missing docs at build time
+Date:   Tue,  4 Jun 2019 09:26:27 -0300
+Message-Id: <8ac254a7cf0569f1eeced9c9263cd7b0bfe4ed78.1559651025.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <201906041350002807147@zte.com.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:AiQPmN/SaFFLT7vE/A+qNDQ75f3MT8Xf8s0QSGsW51uUcsctr5P
- SFtxL3BMfLgv0QA9zqRFBxJ7/ijqKItmloPfrNL3Aj8jFbMoG7ViNS9KcWuXILwyqA1Rxmo
- dQnG1nAhRyxLekLiP7wN9HgVuzWmShDiTg/ELctb2T6IJ6hb/r8SP1TS8Af1SvaCEp+Fv+t
- ZkuFBieoP6YTbX9TazkXw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:JNG5G7F1lIY=:nWNYDV9VqBWdcg43nH/OOC
- 5qfOVYDPL4wUjs1Q9/OWEm9wCvoJFQHFjnEv20vFd6X9Gt82l3zSCW51SazqlS4xrZU7rCBEm
- WEECGC26PWF3XhqrizgVhv/EM2lWUmXzHNNKyJG2vCnWA2BLyZ1UTCeS+1kq+n9a2q09XmAwv
- 6SoZ6YTnZlR4vU0sH5ab81h4lSRZKIIa0QqS3pQCOT6z+v3LW4IpN+3/6ZaZFA75XVgu1ZtCk
- MRkB350kQ4H9AxpGqaR2K7vXHJkGqO8L/3Od74GV4tZvzqWX7rKrvl6rnE968ITghI6ZuiEA8
- ea4bmWajVMTAXcYzo3D1qjSCe0hqDlmImRdkBBRK9kAmF8py8TyH+/uLN8mKwg1Zgot9qCrqf
- Lg/mAZjfUmff2+35NL1YIbTTe+0X4T5cbcbgfGsXXr7Czi0DVY1YXZcE4k4C7yJB7uan5b1qt
- hulbKK2MKMmhuZjF0vmqz+hAq6/s5uKRF8myqWxBTPQ1UukspQsYnTAju4WQFKeSXVxgKbdwY
- 8zqkYJdQqqvZFGeL6nE+J7EUGRvlm+N/rgx3bz6RDUl3VhugPgqM4iB2JSiaFBui5ml3rJ87I
- CS5ZtByqlnoVY3VNxlflxxIV0YpdqQ+cQYJt47AqyY8iGPjEKsbrPP+SL5J2GwuGkN2XrhBon
- 0KuhO9p86EDpZMitGJm/umSGGnkAniONXQGEPAW4N1FNw2XJkVwM+Bvg6DRh3sZenjvs0WIyf
- oeCYXamF8+/TOD4ESQNqrBiUjFwjuFTrB3DHBdLL7GWbn6+7iBPG/g6sOO+SEyGlzIb2rLTOB
- wYpQZ4JvX3cinFzbOAflWnIwrPfoKv+5/jMI/lctwsFhicF4sCqvZ4zXuuq7Vro0DGfQKQkvX
- I5VsNZjdQEowYkKEs1AzQA+HsuYDlOAX2VJ8RYmUWiEKhR2w73c+zZXQ0Lsr3LXBY3l1q59As
- MLpQfGke7po5sNW7HlHCywxGt8B0aNgptelys/159rjwswm2LVIc0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> let add_function f c =3D
->     if not (List.mem f !relevant_functions)
->     then
->       begin
->         let s =3D String.concat " "
->           (
->             (List.map String.lowercase_ascii
-> 	     (List.filter
-> 	       (function x ->
-> 	         Str.string_match
-> 	         (Str.regexp "[a-zA-Z_\\(\\)][-a-zA-Z0-9_\\(\\)]*$")
-> 	       x 0) (Str.split (Str.regexp "[ .;\t\n]+") c)))) in
+While this doesn't make sense for production Kernels, in order to
+avoid regressions when documents are touched, let's add a
+check target at the make file.
 
-I would interpret one of these function calls in the way
-that text splitting is performed here also for space characters
-after a concatenation was performed.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+
+Jon,
+
+It is very common for people to shift things around and forget to rename
+the documentation files. 
+
+Just on this new Kernel cycle, every time I update from linux-next I get more
+broken stuff.
+
+IMO, the best is to run the check script with COMPILE_TEST, as this will make
+build robots to warn people about such breakages, with will hopefully help
+to avoid regressions due to broken documentation references.
 
 
->              Printf.printf "comments: %s\n" s;
->              if contains s relevant_str
->              then
->                Printf.printf "Found relevant function: %s\n" f;
->                relevant_functions :=3D f :: !relevant_functions;
->       end
->
-> @r@
-> identifier fn;
-> comments c;
-> type T =3D struct device_node *;
-> @@
->
-> T@c fn(...) {
-> ...
-> }
->
-> @script:ocaml@
-> f << r.fn;
-> c << r.c;
-> @@
->
-> let (cb,cm,ca) =3D List.hd c in
-> let c =3D String.concat " " cb in
-> add_function f c
+ Documentation/Kconfig                | 13 +++++++++++++
+ Documentation/Makefile               |  5 +++++
+ Kconfig                              |  2 ++
+ scripts/documentation-file-ref-check |  9 +++++++++
+ 4 files changed, 29 insertions(+)
+ create mode 100644 Documentation/Kconfig
 
-Can an other data processing variant be more reasonable?
+diff --git a/Documentation/Kconfig b/Documentation/Kconfig
+new file mode 100644
+index 000000000000..66046fa1c341
+--- /dev/null
++++ b/Documentation/Kconfig
+@@ -0,0 +1,13 @@
++config WARN_MISSING_DOCUMENTS
++
++	bool "Warn if there's a missing documentation file"
++	depends on COMPILE_TEST
++	help
++	   It is not uncommon that a document gets renamed.
++	   This option makes the Kernel to check for missing dependencies,
++	   warning when something is missing. Works only if the Kernel
++	   is built from a git tree.
++
++	   If unsure, select 'N'.
++
++
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 2edd03b1dad6..89857285a024 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -4,6 +4,11 @@
+ 
+ subdir-y := devicetree/bindings/
+ 
++# Check for broken documentation file references
++ifeq ($(CONFIG_WARN_MISSING_DOCUMENTS),y)
++$(shell $(srctree)/scripts/documentation-file-ref-check --warn)
++endif
++
+ # You can set these variables from the command line.
+ SPHINXBUILD   = sphinx-build
+ SPHINXOPTS    =
+diff --git a/Kconfig b/Kconfig
+index 48a80beab685..990b0c390dfc 100644
+--- a/Kconfig
++++ b/Kconfig
+@@ -30,3 +30,5 @@ source "crypto/Kconfig"
+ source "lib/Kconfig"
+ 
+ source "lib/Kconfig.debug"
++
++source "Documentation/Kconfig"
+diff --git a/scripts/documentation-file-ref-check b/scripts/documentation-file-ref-check
+index ff16db269079..440227bb55a9 100755
+--- a/scripts/documentation-file-ref-check
++++ b/scripts/documentation-file-ref-check
+@@ -22,9 +22,16 @@ $scriptname =~ s,.*/([^/]+/),$1,;
+ # Parse arguments
+ my $help = 0;
+ my $fix = 0;
++my $warn = 0;
++
++if (! -d ".git") {
++	printf "Warning: can't check if file exists, as this is not a git tree";
++	exit 0;
++}
+ 
+ GetOptions(
+ 	'fix' => \$fix,
++	'warn' => \$warn,
+ 	'h|help|usage' => \$help,
+ );
+ 
+@@ -139,6 +146,8 @@ while (<IN>) {
+ 			if (!($ref =~ m/(scripts|Kconfig|Kbuild)/)) {
+ 				$broken_ref{$ref}++;
+ 			}
++		} elsif ($warn) {
++			print STDERR "Warning: $f references a file that doesn't exist: $fulref\n";
+ 		} else {
+ 			print STDERR "$f: $fulref\n";
+ 		}
+-- 
+2.21.0
 
-Regards,
-Markus
+
