@@ -1,115 +1,88 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2C2B67D912
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 14:19:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 58C327D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 15:12:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727450AbfFDOTt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Jun 2019 10:19:49 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:52484 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727404AbfFDOSC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jun 2019 10:18:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=uax00MhLlFpYA5SZzOVY82diwalzYA3SNqGmlnWlanE=; b=rWg2aqJgOjMzW/83fP7ArscMmH
-        J8fnYCZxolbjo3Cc39M2+rC4GbXGG2l0e/uy7/nc95qm9OC7GC017Xa2VC84CTVi2Boa8R2+rEc0l
-        Vg75wTOW07VCcL8fXafq/a2X508hOAQMWC3FOIk0ulDZ0x4Sss6lM0coeO0Er3PibuHYCmjU/HPmZ
-        10Ji0hK6+rPvI1zYm6C/k18EKQkVnOJ+H/Ndw4Nd03/fRi7I9z1H9jwB04bhE0TgzI/tnrzAd/R8K
-        6EYXIxWHZVCvHovrKyt9a9hhx2sxPvXDSF9Rphgja3mIyza+CdtLUnhIP2g1Yc/c/forOea8dLV8w
-        S5KyO17w==;
-Received: from [179.182.172.34] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hYAGH-0001Rr-V2; Tue, 04 Jun 2019 14:18:01 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hYAGE-0002la-ST; Tue, 04 Jun 2019 11:17:58 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        id S1727928AbfFDPMy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Jun 2019 11:12:54 -0400
+Received: from mga03.intel.com ([134.134.136.65]:11667 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727790AbfFDPMx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 4 Jun 2019 11:12:53 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Jun 2019 08:12:53 -0700
+X-ExtLoop1: 1
+Received: from linux.intel.com ([10.54.29.200])
+  by orsmga007.jf.intel.com with ESMTP; 04 Jun 2019 08:12:53 -0700
+Received: from kwong4-mobl.amr.corp.intel.com (unknown [10.252.203.122])
+        by linux.intel.com (Postfix) with ESMTP id 43E185800BD;
+        Tue,  4 Jun 2019 08:12:52 -0700 (PDT)
+Subject: Re: [alsa-devel] [PATCH v2 13/22] docs: soundwire: locking: fix tags
+ for a code-block
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     alsa-devel@alsa-project.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-kernel@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        David Howells <dhowells@redhat.com>, keyrings@vger.kernel.org
-Subject: [PATCH v2 15/22] docs: security: core.rst: Fix several warnings
-Date:   Tue,  4 Jun 2019 11:17:49 -0300
-Message-Id: <21350864823e07cc951e1dc7f0601baa09920ac4.1559656538.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <cover.1559656538.git.mchehab+samsung@kernel.org>
+        Vinod Koul <vkoul@kernel.org>,
+        Sanyog Kale <sanyog.r.kale@intel.com>
 References: <cover.1559656538.git.mchehab+samsung@kernel.org>
+ <0ea9c284f8db3867985c410d2764a2b68e5b35c1.1559656538.git.mchehab+samsung@kernel.org>
+From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Message-ID: <50782689-9cc1-9f4e-c2c0-23e6229cd2be@linux.intel.com>
+Date:   Tue, 4 Jun 2019 10:12:52 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
+ Gecko/20100101 Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <0ea9c284f8db3867985c410d2764a2b68e5b35c1.1559656538.git.mchehab+samsung@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Multi-line literal markups only work when they're idented at the
-same level, with is not the case here:
+On 6/4/19 9:17 AM, Mauro Carvalho Chehab wrote:
+> There's an ascii artwork at Example 1 whose code-block is not properly
+> idented, causing those warnings.
+> 
+>      Documentation/driver-api/soundwire/locking.rst:50: WARNING: Inconsistent literal block quoting.
+>      Documentation/driver-api/soundwire/locking.rst:51: WARNING: Line block ends without a blank line.
+>      Documentation/driver-api/soundwire/locking.rst:55: WARNING: Inline substitution_reference start-string without end-string.
+>      Documentation/driver-api/soundwire/locking.rst:56: WARNING: Line block ends without a blank line.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-   Documentation/security/keys/core.rst:1597: WARNING: Inline literal start-string without end-string.
-   Documentation/security/keys/core.rst:1597: WARNING: Inline emphasis start-string without end-string.
-   Documentation/security/keys/core.rst:1597: WARNING: Inline emphasis start-string without end-string.
-   Documentation/security/keys/core.rst:1598: WARNING: Inline emphasis start-string without end-string.
-   Documentation/security/keys/core.rst:1598: WARNING: Inline emphasis start-string without end-string.
-   Documentation/security/keys/core.rst:1600: WARNING: Inline literal start-string without end-string.
-   Documentation/security/keys/core.rst:1600: WARNING: Inline emphasis start-string without end-string.
-   Documentation/security/keys/core.rst:1600: WARNING: Inline emphasis start-string without end-string.
-   Documentation/security/keys/core.rst:1600: WARNING: Inline emphasis start-string without end-string.
-   Documentation/security/keys/core.rst:1600: WARNING: Inline emphasis start-string without end-string.
-   Documentation/security/keys/core.rst:1666: WARNING: Inline literal start-string without end-string.
-   Documentation/security/keys/core.rst:1666: WARNING: Inline emphasis start-string without end-string.
-   Documentation/security/keys/core.rst:1666: WARNING: Inline emphasis start-string without end-string.
-   Documentation/security/keys/core.rst:1666: WARNING: Inline emphasis start-string without end-string.
+Acked-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 
-Fix it by using a code-block instead.
+Thanks for fixing this.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- Documentation/security/keys/core.rst | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/security/keys/core.rst b/Documentation/security/keys/core.rst
-index 9521c4207f01..3fd60dcb2dc6 100644
---- a/Documentation/security/keys/core.rst
-+++ b/Documentation/security/keys/core.rst
-@@ -1594,10 +1594,12 @@ The structure has a number of fields, some of which are mandatory:
-      attempted key link operation. If there is no match, -EINVAL is returned.
- 
- 
--  *  ``int (*asym_eds_op)(struct kernel_pkey_params *params,
--			  const void *in, void *out);``
--     ``int (*asym_verify_signature)(struct kernel_pkey_params *params,
--				    const void *in, const void *in2);``
-+  *  ``asym_eds_op`` and ``asym_verify_signature``::
-+
-+       int (*asym_eds_op)(struct kernel_pkey_params *params,
-+			  const void *in, void *out);
-+       int (*asym_verify_signature)(struct kernel_pkey_params *params,
-+				    const void *in, const void *in2);
- 
-      These methods are optional.  If provided the first allows a key to be
-      used to encrypt, decrypt or sign a blob of data, and the second allows a
-@@ -1662,8 +1664,10 @@ The structure has a number of fields, some of which are mandatory:
-      required crypto isn't available.
- 
- 
--  *  ``int (*asym_query)(const struct kernel_pkey_params *params,
--			 struct kernel_pkey_query *info);``
-+  *  ``asym_query``::
-+
-+       int (*asym_query)(const struct kernel_pkey_params *params,
-+			 struct kernel_pkey_query *info);
- 
-      This method is optional.  If provided it allows information about the
-      public or asymmetric key held in the key to be determined.
--- 
-2.21.0
+> ---
+>   Documentation/driver-api/soundwire/locking.rst | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/driver-api/soundwire/locking.rst b/Documentation/driver-api/soundwire/locking.rst
+> index 253f73555255..3a7ffb3d87f3 100644
+> --- a/Documentation/driver-api/soundwire/locking.rst
+> +++ b/Documentation/driver-api/soundwire/locking.rst
+> @@ -44,7 +44,9 @@ Message transfer.
+>        b. Transfer message (Read/Write) to Slave1 or broadcast message on
+>           Bus in case of bank switch.
+>   
+> -     c. Release Message lock ::
+> +     c. Release Message lock
+> +
+> +     ::
+>   
+>   	+----------+                    +---------+
+>   	|          |                    |         |
+> 
 
