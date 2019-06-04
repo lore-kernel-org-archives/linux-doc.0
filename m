@@ -1,153 +1,470 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_MED,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C06977D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 15:15:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1965E7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 15:20:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727976AbfFDPPU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Jun 2019 11:15:20 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:34362 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727854AbfFDPPU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jun 2019 11:15:20 -0400
-Received: by mail-lf1-f67.google.com with SMTP id y198so6257905lfa.1
-        for <linux-doc@vger.kernel.org>; Tue, 04 Jun 2019 08:15:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vxNixpl3Pq1z+74RTrX6cWSIacBqU77a29xsqP6QNvI=;
-        b=JLl6HYWQi0kUYxM/8x7Fk6q3BbDyQGOii2WE8cm+zsUg4RFl3HdyQW62HIl5VRyh7S
-         Qsa0c2SNi+olQ21VyhSM7bFyvwlz17G9d5w9XKaTdU1jIjVpcXsNmFrPDsH7d3Xk9ldF
-         NOnTP5zX5zfVg0ahC0Yqd9hRQEW91qFCvMSSVbNEjlJvIwV1t7g32LUkzmwUZbcebnxT
-         c6xEt+iOvbSg9co9fsNG+s/BvuOBkHfEoYRznJpkyvXMhuJqjPuba80YmP7Jhey396hX
-         hlTr25H6GLrxhJ/W/SiIGpz9KfUU4ws+DOFrBX9XvryWvktYZTYB6PTjZpoWCm8v7U/A
-         EV0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vxNixpl3Pq1z+74RTrX6cWSIacBqU77a29xsqP6QNvI=;
-        b=XQv6Fk1zofGNHBTdzJqYr97b0QnkYSUUnoznwONcvjFek8XSrEy3b+El+2uCcBaZt/
-         U/UsUdcHWGMVJpoUqTY790+WeXkdH3OC8xq2A2mqvGViuyhU6byHRKKjf+qN4il4zQ5t
-         G/XmNk2zZ/Cn8HD30gwb46Mi+LgfJNYuR8fFQB/F4SqqS2TGOtBUqNuPZbwWl3KPf7+N
-         D0T7r6KGgJn8cRhonmDu9Omh0Z5vs2lHuw73/B7pGaYr36bmdnuxfCrc/i0iPnJkBgCs
-         CH4IlP9yB1tjfOtcCM7So9BxjjVovgJQ8CKsZ8OFAx0/fWLc4ciyL5pMYFhouQ/fwfjM
-         64Sg==
-X-Gm-Message-State: APjAAAW0TzjhMPLjEco8aPnfhv6zoAp39dEQe36pPh80gWLjAhbjGL80
-        thy8NJdZ1b2+1ZFELMUfUSyphaTEXCjx9a+MtisSXw==
-X-Google-Smtp-Source: APXvYqxALvtdAFJHIBCgBqS+SOyaqoJFeh6LpcFxpL7+kqkdVczgEFylHDcBJOZP6hfhNH00/h6rmZKUutqhLzaclII=
-X-Received: by 2002:ac2:546a:: with SMTP id e10mr17091935lfn.75.1559661316679;
- Tue, 04 Jun 2019 08:15:16 -0700 (PDT)
+        id S1728070AbfFDPUl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Jun 2019 11:20:41 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:42980 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727947AbfFDPUl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jun 2019 11:20:41 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: eballetbo)
+        with ESMTPSA id 5CC4026C9C8
+From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     gwendal@chromium.org, Guenter Roeck <groeck@chromium.org>,
+        Benson Leung <bleung@chromium.org>,
+        Lee Jones <lee.jones@linaro.org>, kernel@collabora.com,
+        dtor@chromium.org,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        linux-doc@vger.kernel.org, Enno Luebbers <enno.luebbers@intel.com>,
+        Guido Kiener <guido@kiener-muenchen.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Jonathan Corbet <corbet@lwn.net>, Wu Hao <hao.wu@intel.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tycho Andersen <tycho@tycho.ws>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Jilayne Lovejoy <opensource@jilayne.com>
+Subject: [PATCH 03/10] mfd / platform: cros_ec: Miscellaneous character device to talk with the EC
+Date:   Tue,  4 Jun 2019 17:20:12 +0200
+Message-Id: <20190604152019.16100-4-enric.balletbo@collabora.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190604152019.16100-1-enric.balletbo@collabora.com>
+References: <20190604152019.16100-1-enric.balletbo@collabora.com>
 MIME-Version: 1.0
-References: <201905100945.V7PLp0za%lkp@intel.com> <CAFd5g46nZ0=Djo6d6iqdSQLaLP0Qq5bC+uzyjpqp5fXnty7YOg@mail.gmail.com>
- <94e6e17c-e360-f56d-674c-84cc0032ca4a@infradead.org>
-In-Reply-To: <94e6e17c-e360-f56d-674c-84cc0032ca4a@infradead.org>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Tue, 4 Jun 2019 08:15:02 -0700
-Message-ID: <CAFd5g47tTXnRvaE_XX4cNuOA-YuR92Xab7BaU2Ce+dr6GXo3_Q@mail.gmail.com>
-Subject: Re: [kbuild:kunit 14/17] htmldocs: include/kunit/kunit-stream.h:58:
- warning: Function parameter or member '2' not described in '__printf'
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     kbuild test robot <lkp@intel.com>, kbuild-all@01.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Felix Guo <felixguoxiuping@gmail.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, May 20, 2019 at 9:49 PM Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> On 5/10/19 2:03 PM, Brendan Higgins wrote:
-> > On Thu, May 9, 2019 at 6:23 PM kbuild test robot <lkp@intel.com> wrote:
-> >> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kunit
-> >> head:   c505c0b2e6237c729634327c178f5b0094f1c958
-> >> commit: c69e87665049970d1c2d6fe2fa1ae7a7c8655420 [14/17] Documentation: kunit: add documentation for KUnit
-> >> reproduce: make htmldocs
-> >>
-> >> If you fix the issue, kindly add following tag
-> >> Reported-by: kbuild test robot <lkp@intel.com>
-> >>
-> >> All warnings (new ones prefixed by >>):
-> > < snip >
-> >>    drivers/gpu/drm/i915/i915_vma.h:50: warning: cannot understand function prototype: 'struct i915_vma '
-> >>    drivers/gpu/drm/i915/i915_vma.h:1: warning: no structured comments found
-> >>    drivers/gpu/drm/i915/intel_guc_fwif.h:536: warning: cannot understand function prototype: 'struct guc_log_buffer_state '
-> >>    drivers/gpu/drm/i915/i915_trace.h:1: warning: no structured comments found
-> >>    drivers/gpu/drm/i915/i915_reg.h:156: warning: bad line:
-> >>    include/linux/interconnect.h:1: warning: no structured comments found
-> >>>> include/kunit/kunit-stream.h:58: warning: Function parameter or member '2' not described in '__printf'
-> >
-> > This looks like a bug in the kernel-doc parser: __printf in this context is:
-> >
-> >> 8dcda743 Brendan Higgins 2019-05-01  56  void __printf(2, 3) kunit_stream_add(struct kunit_stream *this,
-> >> 8dcda743 Brendan Higgins 2019-05-01  57                                      const char *fmt, ...);
-> >
-> > which is an attribute to tell the compiler that this is a printf style
-> > function with a printf style format string; it doesn't make sense to
-> > describe it's parameters.
->
-> Yes.  I'm a little surprised that this has never come up before, but in my
-> quick examination, it seems that most people put the __printf() attribute
-> in a header file but not in the .c implementation file, then they document
-> the function in the .c file, not in the header file, so it hasn't been needed.
->
-> Ignoring __printf() could be added to scripts/kernel-doc.  I added
-> kernel-doc notation to <linux/kernel.h> panic() and then tested it with
-> the patch below.  ItWorksForMe.  :)
->
->
-> >>    include/kunit/kunit-stream.h:58: warning: Function parameter or member '3' not described in '__printf'
-> >>    include/kunit/kunit-stream.h:58: warning: Excess function parameter 'this' description in '__printf'
-> >>    include/kunit/kunit-stream.h:58: warning: Excess function parameter 'fmt' description in '__printf'
-> >>    include/linux/skbuff.h:897: warning: Function parameter or member 'dev_scratch' not described in 'sk_buff'
-> > < snip >
-> >>    fs/debugfs/file.c:439: WARNING: Inline literal start-string without end-string.
-> >>
-> >> vim +58 include/kunit/kunit-stream.h
-> >>
-> >> 8dcda743 Brendan Higgins 2019-05-01  48
-> >> 8dcda743 Brendan Higgins 2019-05-01  49  /**
-> >> 8dcda743 Brendan Higgins 2019-05-01  50   * kunit_stream_add(): adds the formatted input to the internal buffer.
-> >> 8dcda743 Brendan Higgins 2019-05-01  51   * @this: the stream being operated on.
-> >> 8dcda743 Brendan Higgins 2019-05-01  52   * @fmt: printf style format string to append to stream.
-> >> 8dcda743 Brendan Higgins 2019-05-01  53   *
-> >> 8dcda743 Brendan Higgins 2019-05-01  54   * Appends the formatted string, @fmt, to the internal buffer.
-> >> 8dcda743 Brendan Higgins 2019-05-01  55   */
-> >> 8dcda743 Brendan Higgins 2019-05-01  56  void __printf(2, 3) kunit_stream_add(struct kunit_stream *this,
-> >> 8dcda743 Brendan Higgins 2019-05-01  57                                      const char *fmt, ...);
-> >> 8dcda743 Brendan Higgins 2019-05-01 @58
-> >>
-> >> :::::: The code at line 58 was first introduced by commit
-> >> :::::: 8dcda743c31c1ffc0ac13f3d23f3dd1b85b545f8 kunit: test: add kunit_stream a std::stream like logger
-> >
-> > Thanks!
->
->
-> ---
-> From: Randy Dunlap <rdunlap@infradead.org>
->
-> Ignore __printf() function attributes just as other __attribute__
-> strings are ignored.
->
-> Fixes this kernel-doc warning message:
-> include/kunit/kunit-stream.h:58: warning: Function parameter or member '2' not described in '__printf'
->
-> Reported-by: kbuild test robot <lkp@intel.com>
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Brendan Higgins <brendanhiggins@google.com>
-> ---
+That's a driver to talk with the ChromeOS Embedded Controller via a
+miscellaneous character device, it creates an entry in /dev for every
+instance and implements basic file operations for communicating with the
+Embedded Controller with an userspace application. The API is moved to
+the uapi folder, which is supposed to contain the user space API of the
+kernel.
 
-Thanks! I just tried out your patch and it looks like it works.
+Note that this will replace current character device interface
+implemented in the cros-ec-dev driver in the MFD subsystem. The idea is
+to move all the functionality that extends the bounds of what MFD was
+designed to platform/chrome subsystem.
 
-Tested-by: Brendan Higgins <brendanhiggins@google.com>
+Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+---
+
+ Documentation/ioctl/ioctl-number.txt          |   2 +-
+ drivers/mfd/cros_ec_dev.c                     |   2 +-
+ drivers/platform/chrome/Kconfig               |  11 +
+ drivers/platform/chrome/Makefile              |   1 +
+ drivers/platform/chrome/cros_ec_chardev.c     | 279 ++++++++++++++++++
+ .../uapi/linux/cros_ec_chardev.h              |  18 +-
+ 6 files changed, 302 insertions(+), 11 deletions(-)
+ create mode 100644 drivers/platform/chrome/cros_ec_chardev.c
+ rename drivers/mfd/cros_ec_dev.h => include/uapi/linux/cros_ec_chardev.h (70%)
+
+diff --git a/Documentation/ioctl/ioctl-number.txt b/Documentation/ioctl/ioctl-number.txt
+index c9558146ac58..8bd7907ee36d 100644
+--- a/Documentation/ioctl/ioctl-number.txt
++++ b/Documentation/ioctl/ioctl-number.txt
+@@ -340,7 +340,7 @@ Code  Seq#(hex)	Include File		Comments
+ 0xDD	00-3F	ZFCP device driver	see drivers/s390/scsi/
+ 					<mailto:aherrman@de.ibm.com>
+ 0xE5	00-3F	linux/fuse.h
+-0xEC	00-01	drivers/platform/chrome/cros_ec_dev.h	ChromeOS EC driver
++0xEC	00-01	include/uapi/linux/cros_ec_chardev.h	ChromeOS EC driver
+ 0xF3	00-3F	drivers/usb/misc/sisusbvga/sisusb.h	sisfb (in development)
+ 					<mailto:thomas@winischhofer.net>
+ 0xF4	00-1F	video/mbxfb.h		mbxfb
+diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
+index 607383b67cf1..11b791c28f84 100644
+--- a/drivers/mfd/cros_ec_dev.c
++++ b/drivers/mfd/cros_ec_dev.c
+@@ -15,7 +15,7 @@
+ #include <linux/slab.h>
+ #include <linux/uaccess.h>
+ 
+-#include "cros_ec_dev.h"
++#include <uapi/linux/cros_ec_chardev.h>
+ 
+ #define DRV_NAME "cros-ec-dev"
+ 
+diff --git a/drivers/platform/chrome/Kconfig b/drivers/platform/chrome/Kconfig
+index 9417b982ad92..3a9ad001838a 100644
+--- a/drivers/platform/chrome/Kconfig
++++ b/drivers/platform/chrome/Kconfig
+@@ -147,6 +147,17 @@ config CROS_KBD_LED_BACKLIGHT
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called cros_kbd_led_backlight.
+ 
++config CROS_EC_CHARDEV
++	tristate "ChromeOS EC miscdevice"
++	depends on MFD_CROS_EC_CHARDEV
++	default MFD_CROS_EC_CHARDEV
++	help
++	  This driver adds file operations support to talk with the
++	  ChromeOS EC from userspace via a character device.
++
++	  To compile this driver as a module, choose M here: the
++	  module will be called cros_ec_chardev.
++
+ config CROS_EC_LIGHTBAR
+ 	tristate "Chromebook Pixel's lightbar support"
+ 	depends on MFD_CROS_EC_CHARDEV
+diff --git a/drivers/platform/chrome/Makefile b/drivers/platform/chrome/Makefile
+index ebb57e21923b..d47a7e1097ee 100644
+--- a/drivers/platform/chrome/Makefile
++++ b/drivers/platform/chrome/Makefile
+@@ -16,6 +16,7 @@ cros_ec_lpcs-$(CONFIG_CROS_EC_LPC_MEC)	+= cros_ec_lpc_mec.o
+ obj-$(CONFIG_CROS_EC_LPC)		+= cros_ec_lpcs.o
+ obj-$(CONFIG_CROS_EC_PROTO)		+= cros_ec_proto.o cros_ec_trace.o
+ obj-$(CONFIG_CROS_KBD_LED_BACKLIGHT)	+= cros_kbd_led_backlight.o
++obj-$(CONFIG_CROS_EC_CHARDEV)		+= cros_ec_chardev.o
+ obj-$(CONFIG_CROS_EC_LIGHTBAR)		+= cros_ec_lightbar.o
+ obj-$(CONFIG_CROS_EC_VBC)		+= cros_ec_vbc.o
+ obj-$(CONFIG_CROS_EC_DEBUGFS)		+= cros_ec_debugfs.o
+diff --git a/drivers/platform/chrome/cros_ec_chardev.c b/drivers/platform/chrome/cros_ec_chardev.c
+new file mode 100644
+index 000000000000..1a0a27080026
+--- /dev/null
++++ b/drivers/platform/chrome/cros_ec_chardev.c
+@@ -0,0 +1,279 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Miscellaneous character driver for ChromeOS Embedded Controller
++ *
++ * Copyright 2019 Google LLC
++ */
++
++#include <linux/init.h>
++#include <linux/device.h>
++#include <linux/fs.h>
++#include <linux/list.h>
++#include <linux/mfd/cros_ec.h>
++#include <linux/mfd/cros_ec_commands.h>
++#include <linux/miscdevice.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/slab.h>
++#include <linux/spinlock.h>
++#include <linux/types.h>
++#include <linux/uaccess.h>
++
++#include <uapi/linux/cros_ec_chardev.h>
++
++#define DRV_NAME	"cros-ec-chardev"
++
++static LIST_HEAD(chardev_devices);
++static DEFINE_SPINLOCK(chardev_lock);
++
++struct chardev_data {
++	struct list_head list;
++	struct cros_ec_dev *ec_dev;
++	struct miscdevice misc;
++};
++
++static int ec_get_version(struct cros_ec_dev *ec, char *str, int maxlen)
++{
++	static const char * const current_image_name[] = {
++		"unknown", "read-only", "read-write", "invalid",
++	};
++	struct ec_response_get_version *resp;
++	struct cros_ec_command *msg;
++	int ret;
++
++	msg = kzalloc(sizeof(*msg) + sizeof(*resp), GFP_KERNEL);
++	if (!msg)
++		return -ENOMEM;
++
++	msg->command = EC_CMD_GET_VERSION + ec->cmd_offset;
++	msg->insize = sizeof(*resp);
++
++	ret = cros_ec_cmd_xfer_status(ec->ec_dev, msg);
++	if (ret < 0) {
++		snprintf(str, maxlen,
++			 "Unknown EC version, returned error: %d\n",
++			 msg->result);
++		goto exit;
++	}
++
++	resp = (struct ec_response_get_version *)msg->data;
++	if (resp->current_image >= ARRAY_SIZE(current_image_name))
++		resp->current_image = 3; /* invalid */
++
++	snprintf(str, maxlen, "%s\n%s\n%s\n",
++		 resp->version_string_ro,
++		 resp->version_string_rw,
++		 current_image_name[resp->current_image]);
++
++	ret = 0;
++exit:
++	kfree(msg);
++	return ret;
++}
++
++/*
++ * Device file ops
++ */
++static int cros_ec_chardev_open(struct inode *inode, struct file *filp)
++{
++	struct miscdevice *mdev = filp->private_data;
++	struct cros_ec_dev *ec_dev = dev_get_drvdata(mdev->parent);
++
++	filp->private_data = ec_dev;
++	nonseekable_open(inode, filp);
++
++	return 0;
++}
++
++static ssize_t cros_ec_chardev_read(struct file *filp, char __user *buffer,
++				     size_t length, loff_t *offset)
++{
++	char msg[sizeof(struct ec_response_get_version) +
++		 sizeof(CROS_EC_DEV_VERSION)];
++	struct cros_ec_dev *ec = filp->private_data;
++	size_t count;
++	int ret;
++
++	if (*offset != 0)
++		return 0;
++
++	ret = ec_get_version(ec, msg, sizeof(msg));
++	if (ret)
++		return ret;
++
++	count = min(length, strlen(msg));
++
++	if (copy_to_user(buffer, msg, count))
++		return -EFAULT;
++
++	*offset = count;
++	return count;
++}
++
++/*
++ * Ioctls
++ */
++static long cros_ec_chardev_ioctl_xcmd(struct cros_ec_dev *ec, void __user *arg)
++{
++	struct cros_ec_command *s_cmd;
++	struct cros_ec_command u_cmd;
++	long ret;
++
++	if (copy_from_user(&u_cmd, arg, sizeof(u_cmd)))
++		return -EFAULT;
++
++	if (u_cmd.outsize > EC_MAX_MSG_BYTES ||
++	    u_cmd.insize > EC_MAX_MSG_BYTES)
++		return -EINVAL;
++
++	s_cmd = kmalloc(sizeof(*s_cmd) + max(u_cmd.outsize, u_cmd.insize),
++			GFP_KERNEL);
++	if (!s_cmd)
++		return -ENOMEM;
++
++	if (copy_from_user(s_cmd, arg, sizeof(*s_cmd) + u_cmd.outsize)) {
++		ret = -EFAULT;
++		goto exit;
++	}
++
++	if (u_cmd.outsize != s_cmd->outsize ||
++	    u_cmd.insize != s_cmd->insize) {
++		ret = -EINVAL;
++		goto exit;
++	}
++
++	s_cmd->command += ec->cmd_offset;
++	ret = cros_ec_cmd_xfer(ec->ec_dev, s_cmd);
++	/* Only copy data to userland if data was received. */
++	if (ret < 0)
++		goto exit;
++
++	if (copy_to_user(arg, s_cmd, sizeof(*s_cmd) + s_cmd->insize))
++		ret = -EFAULT;
++exit:
++	kfree(s_cmd);
++	return ret;
++}
++
++static long cros_ec_chardev_ioctl_readmem(struct cros_ec_dev *ec,
++					   void __user *arg)
++{
++	struct cros_ec_device *ec_dev = ec->ec_dev;
++	struct cros_ec_readmem s_mem = { };
++	long num;
++
++	/* Not every platform supports direct reads */
++	if (!ec_dev->cmd_readmem)
++		return -ENOTTY;
++
++	if (copy_from_user(&s_mem, arg, sizeof(s_mem)))
++		return -EFAULT;
++
++	num = ec_dev->cmd_readmem(ec_dev, s_mem.offset, s_mem.bytes,
++				  s_mem.buffer);
++	if (num <= 0)
++		return num;
++
++	if (copy_to_user((void __user *)arg, &s_mem, sizeof(s_mem)))
++		return -EFAULT;
++
++	return num;
++}
++
++static long cros_ec_chardev_ioctl(struct file *filp, unsigned int cmd,
++				   unsigned long arg)
++{
++	struct cros_ec_dev *ec = filp->private_data;
++
++	if (_IOC_TYPE(cmd) != CROS_EC_DEV_IOC)
++		return -ENOTTY;
++
++	switch (cmd) {
++	case CROS_EC_DEV_IOCXCMD:
++		return cros_ec_chardev_ioctl_xcmd(ec, (void __user *)arg);
++	case CROS_EC_DEV_IOCRDMEM:
++		return cros_ec_chardev_ioctl_readmem(ec, (void __user *)arg);
++	}
++
++	return -ENOTTY;
++}
++
++static const struct file_operations chardev_fops = {
++	.open		= cros_ec_chardev_open,
++	.read		= cros_ec_chardev_read,
++	.unlocked_ioctl	= cros_ec_chardev_ioctl,
++#ifdef CONFIG_COMPAT
++	.compat_ioctl	= cros_ec_chardev_ioctl,
++#endif
++};
++
++static int cros_ec_chardev_probe(struct platform_device *pdev)
++{
++	struct cros_ec_dev *ec_dev = dev_get_drvdata(pdev->dev.parent);
++	struct cros_ec_platform *ec_platform = dev_get_platdata(ec_dev->dev);
++	struct chardev_data *data;
++	int ret;
++
++	/* Create a char device: we want to create it anew */
++	data = devm_kzalloc(&pdev->dev, sizeof(*data), GFP_KERNEL);
++	if (!data)
++		return -ENOMEM;
++
++	data->ec_dev = ec_dev;
++	data->misc.minor = MISC_DYNAMIC_MINOR;
++	data->misc.fops = &chardev_fops;
++	data->misc.name = ec_platform->ec_name;
++	data->misc.parent = pdev->dev.parent;
++
++	ret = misc_register(&data->misc);
++	if (ret)
++		return ret;
++
++	spin_lock(&chardev_lock);
++	list_add(&data->list, &chardev_devices);
++	spin_unlock(&chardev_lock);
++
++	dev_info(&pdev->dev, "Created misc device /dev/%s\n",
++		 data->misc.name);
++
++	return 0;
++}
++
++static int cros_ec_chardev_remove(struct platform_device *pdev)
++{
++	struct cros_ec_dev *ec_dev = dev_get_drvdata(pdev->dev.parent);
++	struct chardev_data *data;
++
++	list_for_each_entry(data, &chardev_devices, list)
++		if (data->ec_dev == ec_dev)
++			break;
++
++	if (data->ec_dev != ec_dev) {
++		dev_err(&pdev->dev,
++			"remove called but miscdevice %s not found\n",
++			data->misc.name);
++		return -ENODEV;
++	}
++
++	spin_lock(&chardev_lock);
++	list_del(&data->list);
++	spin_unlock(&chardev_lock);
++	misc_deregister(&data->misc);
++
++	return 0;
++}
++
++static struct platform_driver cros_ec_chardev_driver = {
++	.driver = {
++		.name = DRV_NAME,
++	},
++	.probe = cros_ec_chardev_probe,
++	.remove = cros_ec_chardev_remove,
++};
++
++module_platform_driver(cros_ec_chardev_driver);
++
++MODULE_ALIAS("platform:" DRV_NAME);
++MODULE_AUTHOR("Enric Balletbo i Serra <enric.balletbo@collabora.com>");
++MODULE_DESCRIPTION("ChromeOS EC Miscellaneous Character Driver");
++MODULE_LICENSE("GPL");
+diff --git a/drivers/mfd/cros_ec_dev.h b/include/uapi/linux/cros_ec_chardev.h
+similarity index 70%
+rename from drivers/mfd/cros_ec_dev.h
+rename to include/uapi/linux/cros_ec_chardev.h
+index 7a42c3ef50e4..c6dd2549a2a5 100644
+--- a/drivers/mfd/cros_ec_dev.h
++++ b/include/uapi/linux/cros_ec_chardev.h
+@@ -1,12 +1,12 @@
+-/* SPDX-License-Identifier: GPL-2.0-or-later */
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+ /*
+- * cros_ec_dev - expose the Chrome OS Embedded Controller to userspace
++ * ChromeOS EC device interface.
+  *
+  * Copyright (C) 2014 Google, Inc.
+  */
+ 
+-#ifndef _CROS_EC_DEV_H_
+-#define _CROS_EC_DEV_H_
++#ifndef _UAPI_LINUX_CROS_EC_DEV_H_
++#define _UAPI_LINUX_CROS_EC_DEV_H_
+ 
+ #include <linux/ioctl.h>
+ #include <linux/types.h>
+@@ -20,16 +20,16 @@
+  * @bytes: Number of bytes to read. Zero means "read a string" (including '\0')
+  *         At most only EC_MEMMAP_SIZE bytes can be read.
+  * @buffer: Where to store the result. The ioctl returns the number of bytes
+- *         read or negative on error.
++ *          read or negative on error.
+  */
+ struct cros_ec_readmem {
+-	uint32_t offset;
+-	uint32_t bytes;
+-	uint8_t buffer[EC_MEMMAP_SIZE];
++	__u32	offset;
++	__u32	bytes;
++	__u8	buffer[EC_MEMMAP_SIZE];
+ };
+ 
+ #define CROS_EC_DEV_IOC       0xEC
+ #define CROS_EC_DEV_IOCXCMD   _IOWR(CROS_EC_DEV_IOC, 0, struct cros_ec_command)
+ #define CROS_EC_DEV_IOCRDMEM  _IOWR(CROS_EC_DEV_IOC, 1, struct cros_ec_readmem)
+ 
+-#endif /* _CROS_EC_DEV_H_ */
++#endif /* _UAPI_LINUX_CROS_EC_DEV_H_ */
+-- 
+2.20.1
+
