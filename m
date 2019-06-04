@@ -5,187 +5,112 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1AC667D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 13:52:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 28FDD7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 14:18:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727516AbfFDNwW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Jun 2019 09:52:22 -0400
-Received: from casper.infradead.org ([85.118.1.10]:58336 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727033AbfFDNwW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jun 2019 09:52:22 -0400
+        id S1727735AbfFDOSD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Jun 2019 10:18:03 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:52538 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727718AbfFDOSD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jun 2019 10:18:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=xkJ5K7Ry3R0EMrSoSiHpEbxAEhSIrvb7VZ7JEOL85Ok=; b=gQgFCO+3VWDKckP/yDem/hmd8W
-        f+84aEoA9L9dJ6ru/secQk5HrwhgCLqw4K/PuvIHQcJfmaQQJAXSlPL7fWh6EScsSx3gPRR7XRH5J
-        Zu1NCXREruA0Roft/Rk/O1My0YmI+rVTNUHF2sY6Xe+uu/rMI0AyhCddvO4B5LMPkdLXFU3qsAR9K
-        Q16GECVfENkx8u9BuUCDie6+rm8yXQZMxxxH6WxzyNC8XuyLA9xlaV7Th5mcKN/3S+fS16HSlLK3S
-        eqq77bsIrSL9hQXSc2Z7y43O3bLNxjNvCGFXcQMryqdpEvMyXNgaYTTDJVWpTyIt2NU8IOK1cTUAI
-        epFRUExw==;
-Received: from [179.182.172.34] (helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hY9rO-0006JT-P3; Tue, 04 Jun 2019 13:52:19 +0000
-Date:   Tue, 4 Jun 2019 10:52:14 -0300
+        bh=VCZG76F1HMdmo0ADdNu78x95s6CEjH1DNcxwfGs+eM8=; b=j+C0tMNDBGV57XYtGvw6OWyFUt
+        /KaXEE9W6hLLDQCTQGh5NENbnqv1ytsTJh77tZhl2xPDruGUwtXCdEzD0WbWU/k6fq/V2+1Z1oogB
+        BwRs4BimYm2JGWgj54GBbykBdkrzTtLycvzPTvKK4mrDfq0hfAcAmFHaxG92j2IvBIIDUdfDGJUhi
+        8pkpQaHYQza5O4k/0LJl1Jh0apY26fDW28l7LlyqSsn2o0OzevOCdA79ldnGlP+LYwo6GdIJOj8SP
+        xg9nt7ovDXMqAuq9iE/psPu2UhcG1hlBtUhXzDcLa9kngArVwjnx40rUciEZsKZ0J0BrCy6vdYaMz
+        HXoP9SsA==;
+Received: from [179.182.172.34] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hYAGH-0001Rl-UQ; Tue, 04 Jun 2019 14:18:01 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hYAGE-0002lJ-PF; Tue, 04 Jun 2019 11:17:58 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Federico Vaga <federico.vaga@vaga.pv.it>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] doc:it_IT: fix file references
-Message-ID: <20190604105214.36147c02@coco.lan>
-In-Reply-To: <20190530201455.12412-1-federico.vaga@vaga.pv.it>
-References: <20190530201455.12412-1-federico.vaga@vaga.pv.it>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Federico Vaga <federico.vaga@vaga.pv.it>
+Subject: [PATCH v2 11/22] docs: it: license-rules.rst: get rid of warnings
+Date:   Tue,  4 Jun 2019 11:17:45 -0300
+Message-Id: <6a7cfac6d9a2f14475c8b9baef0f55e4996b9210.1559656538.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <cover.1559656538.git.mchehab+samsung@kernel.org>
+References: <cover.1559656538.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 30 May 2019 22:14:54 +0200
-Federico Vaga <federico.vaga@vaga.pv.it> escreveu:
+There's a wrong identation on a code block, and it tries to use
+a reference that was not defined at the Italian translation.
 
-> Fix italian translation file references based on
-> `scripts/documentation-file-ref-check` output.
->=20
-> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+    Documentation/translations/it_IT/process/license-rules.rst:329: WARNING: Literal block expected; none found.
+    Documentation/translations/it_IT/process/license-rules.rst:332: WARNING: Unexpected indentation.
+    Documentation/translations/it_IT/process/license-rules.rst:339: WARNING: Block quote ends without a blank line; unexpected unindent.
+    Documentation/translations/it_IT/process/license-rules.rst:341: WARNING: Unexpected indentation.
+    Documentation/translations/it_IT/process/license-rules.rst:305: WARNING: Unknown target name: "metatags".
 
-Reviewed-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ .../it_IT/process/license-rules.rst           | 28 +++++++++----------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-> ---
->  .../it_IT/admin-guide/kernel-parameters.rst          | 12 ++++++++++++
->  .../translations/it_IT/process/adding-syscalls.rst   |  2 +-
->  .../translations/it_IT/process/coding-style.rst      |  2 +-
->  Documentation/translations/it_IT/process/howto.rst   |  2 +-
->  .../translations/it_IT/process/magic-number.rst      |  2 +-
->  .../it_IT/process/stable-kernel-rules.rst            |  4 ++--
->  6 files changed, 18 insertions(+), 6 deletions(-)
->  create mode 100644 Documentation/translations/it_IT/admin-guide/kernel-p=
-arameters.rst
->=20
-> diff --git a/Documentation/translations/it_IT/admin-guide/kernel-paramete=
-rs.rst b/Documentation/translations/it_IT/admin-guide/kernel-parameters.rst
-> new file mode 100644
-> index 000000000000..0e36d82a92be
-> --- /dev/null
-> +++ b/Documentation/translations/it_IT/admin-guide/kernel-parameters.rst
-> @@ -0,0 +1,12 @@
-> +.. include:: ../disclaimer-ita.rst
-> +
-> +:Original: :ref:`Documentation/admin-guide/kernel-parameters.rst <kernel=
-parameters>`
-> +
-> +.. _it_kernelparameters:
-> +
-> +I parametri da linea di comando del kernel
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +.. warning::
-> +
-> +    TODO ancora da tradurre
-> diff --git a/Documentation/translations/it_IT/process/adding-syscalls.rst=
- b/Documentation/translations/it_IT/process/adding-syscalls.rst
-> index e0a64b0688a7..c3a3439595a6 100644
-> --- a/Documentation/translations/it_IT/process/adding-syscalls.rst
-> +++ b/Documentation/translations/it_IT/process/adding-syscalls.rst
-> @@ -39,7 +39,7 @@ vostra interfaccia.
->         un qualche modo opaca.
-> =20
->   - Se dovete esporre solo delle informazioni sul sistema, un nuovo nodo =
-in
-> -   sysfs (vedere ``Documentation/translations/it_IT/filesystems/sysfs.tx=
-t``) o
-> +   sysfs (vedere ``Documentation/filesystems/sysfs.txt``) o
->     in procfs potrebbe essere sufficiente.  Tuttavia, l'accesso a questi
->     meccanismi richiede che il filesystem sia montato, il che potrebbe non
->     essere sempre vero (per esempio, in ambienti come namespace/sandbox/c=
-hroot).
-> diff --git a/Documentation/translations/it_IT/process/coding-style.rst b/=
-Documentation/translations/it_IT/process/coding-style.rst
-> index 5ef534c95e69..a6559d25a23d 100644
-> --- a/Documentation/translations/it_IT/process/coding-style.rst
-> +++ b/Documentation/translations/it_IT/process/coding-style.rst
-> @@ -696,7 +696,7 @@ nella stringa di titolo::
->  	...
-> =20
->  Per la documentazione completa sui file di configurazione, consultate
-> -il documento Documentation/translations/it_IT/kbuild/kconfig-language.txt
-> +il documento Documentation/kbuild/kconfig-language.txt
-> =20
-> =20
->  11) Strutture dati
-> diff --git a/Documentation/translations/it_IT/process/howto.rst b/Documen=
-tation/translations/it_IT/process/howto.rst
-> index 9903ac7c566b..44e6077730e8 100644
-> --- a/Documentation/translations/it_IT/process/howto.rst
-> +++ b/Documentation/translations/it_IT/process/howto.rst
-> @@ -131,7 +131,7 @@ Di seguito una lista di file che sono presenti nei so=
-rgente del kernel e che
->  	"Linux kernel patch submission format"
->  		http://linux.yyz.us/patch-format.html
-> =20
-> -  :ref:`Documentation/process/translations/it_IT/stable-api-nonsense.rst=
- <it_stable_api_nonsense>`
-> +  :ref:`Documentation/translations/it_IT/process/stable-api-nonsense.rst=
- <it_stable_api_nonsense>`
-> =20
->      Questo file descrive la motivazioni sottostanti la conscia decisione=
- di
->      non avere un API stabile all'interno del kernel, incluso cose come:
-> diff --git a/Documentation/translations/it_IT/process/magic-number.rst b/=
-Documentation/translations/it_IT/process/magic-number.rst
-> index 5281d53e57ee..ed1121d0ba84 100644
-> --- a/Documentation/translations/it_IT/process/magic-number.rst
-> +++ b/Documentation/translations/it_IT/process/magic-number.rst
-> @@ -1,6 +1,6 @@
->  .. include:: ../disclaimer-ita.rst
-> =20
-> -:Original: :ref:`Documentation/process/magic-numbers.rst <magicnumbers>`
-> +:Original: :ref:`Documentation/process/magic-number.rst <magicnumbers>`
->  :Translator: Federico Vaga <federico.vaga@vaga.pv.it>
-> =20
->  .. _it_magicnumbers:
-> diff --git a/Documentation/translations/it_IT/process/stable-kernel-rules=
-.rst b/Documentation/translations/it_IT/process/stable-kernel-rules.rst
-> index 48e88e5ad2c5..4f206cee31a7 100644
-> --- a/Documentation/translations/it_IT/process/stable-kernel-rules.rst
-> +++ b/Documentation/translations/it_IT/process/stable-kernel-rules.rst
-> @@ -33,7 +33,7 @@ Regole sul tipo di patch che vengono o non vengono acce=
-ttate nei sorgenti
->   - Non deve includere alcuna correzione "banale" (correzioni grammatical=
-i,
->     pulizia dagli spazi bianchi, eccetera).
->   - Deve rispettare le regole scritte in
-> -   :ref:`Documentation/translation/it_IT/process/submitting-patches.rst =
-<it_submittingpatches>`
-> +   :ref:`Documentation/translations/it_IT/process/submitting-patches.rst=
- <it_submittingpatches>`
->   - Questa patch o una equivalente deve esistere gi=C3=A0 nei sorgenti pr=
-incipali di
->     Linux
-> =20
-> @@ -43,7 +43,7 @@ Procedura per sottomettere patch per i sorgenti -stable
-> =20
->   - Se la patch contiene modifiche a dei file nelle cartelle net/ o drive=
-rs/net,
->     allora seguite le linee guida descritte in
-> -   :ref:`Documentation/translation/it_IT/networking/netdev-FAQ.rst <it_n=
-etdev-FAQ>`;
-> +   :ref:`Documentation/translations/it_IT/networking/netdev-FAQ.rst <it_=
-netdev-FAQ>`;
->     ma solo dopo aver verificato al seguente indirizzo che la patch non s=
-ia
->     gi=C3=A0 in coda:
->     https://patchwork.ozlabs.org/bundle/davem/stable/?series=3D&submitter=
-=3D&state=3D*&q=3D&archive=3D
+diff --git a/Documentation/translations/it_IT/process/license-rules.rst b/Documentation/translations/it_IT/process/license-rules.rst
+index f058e06996dc..4cd87a3a7bf9 100644
+--- a/Documentation/translations/it_IT/process/license-rules.rst
++++ b/Documentation/translations/it_IT/process/license-rules.rst
+@@ -303,7 +303,7 @@ essere categorizzate in:
+      LICENSES/dual
+ 
+    I file in questa cartella contengono il testo completo della rispettiva
+-   licenza e i suoi `Metatags`_.  I nomi dei file sono identici agli
++   licenza e i suoi `Metatag`_.  I nomi dei file sono identici agli
+    identificatori di licenza SPDX che dovrebbero essere usati nei file
+    sorgenti.
+ 
+@@ -326,19 +326,19 @@ essere categorizzate in:
+ 
+    Esempio del formato del file::
+ 
+-   Valid-License-Identifier: MPL-1.1
+-   SPDX-URL: https://spdx.org/licenses/MPL-1.1.html
+-   Usage-Guide:
+-     Do NOT use. The MPL-1.1 is not GPL2 compatible. It may only be used for
+-     dual-licensed files where the other license is GPL2 compatible.
+-     If you end up using this it MUST be used together with a GPL2 compatible
+-     license using "OR".
+-     To use the Mozilla Public License version 1.1 put the following SPDX
+-     tag/value pair into a comment according to the placement guidelines in
+-     the licensing rules documentation:
+-   SPDX-License-Identifier: MPL-1.1
+-   License-Text:
+-     Full license text
++    Valid-License-Identifier: MPL-1.1
++    SPDX-URL: https://spdx.org/licenses/MPL-1.1.html
++    Usage-Guide:
++      Do NOT use. The MPL-1.1 is not GPL2 compatible. It may only be used for
++      dual-licensed files where the other license is GPL2 compatible.
++      If you end up using this it MUST be used together with a GPL2 compatible
++      license using "OR".
++      To use the Mozilla Public License version 1.1 put the following SPDX
++      tag/value pair into a comment according to the placement guidelines in
++      the licensing rules documentation:
++    SPDX-License-Identifier: MPL-1.1
++    License-Text:
++      Full license text
+ 
+ |
+ 
+-- 
+2.21.0
 
-
-
-Thanks,
-Mauro
