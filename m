@@ -1,186 +1,116 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8439E7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Jun 2019 20:48:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6047E7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Jun 2019 21:39:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726543AbfFEUsP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Jun 2019 16:48:15 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:33857 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726464AbfFEUsP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jun 2019 16:48:15 -0400
-Received: by mail-pf1-f195.google.com with SMTP id c85so51725pfc.1;
-        Wed, 05 Jun 2019 13:48:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Du+0bbuODHKY++qb0cbQwd0FfOUyQQ1ecgU3jGLOTGg=;
-        b=GBnc+VxaycEV8LoEJ1r8HyAudDX+mOEZkIjNkbqWn4+jiKHCaFAGK3s7nvzmPhASZL
-         4wr4Gp4QaaYqAaTkhLRKbJkPXarMdPfzDWAQK4nqp/ZXMDKtqsayRM5VnlBYiGWaTiHO
-         41Jp8E5EHr06q2z0R3qKRlchNlvxrrL/K0rVJXzhXqvEAGq+KzGARNzjOEOKKUW0OMf0
-         gogNNJO4hJOpSPyt44rK2vlSI2SiBlybfnC+L7BMJvm1cPCyPCZ9hMdEYjym68Oh3qjF
-         uq21T8xpRoyN6QTZ00I+jde4KZVuQlg1XYzVq0cPqmXhcyKXIFUx9vu21oV7i0hAqaJO
-         InZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Du+0bbuODHKY++qb0cbQwd0FfOUyQQ1ecgU3jGLOTGg=;
-        b=Iqkx2/dVM1k1onTqrLfh0+fWndTgJg5XcUCjTxkrYu9cVuLkyHUr6YG97KS0FToig8
-         xb7q7mfZFEPmfbIvOiVvMNxgjJFMVCnrkX5hs+1ksP0I2667COKpZNQJ4UxQ6ib0qDsi
-         1+nmnLAGAaJXI5XQKJI3yf5qW4e60CBDoonUkhxdjMolQMxHX9/MdMkPyAduac8fN3cD
-         yOd/efq9cvSbNpum79Dbp+Oz2JdOnRW91j9w/VnSOLXTQw4oAPIDLKYCp3xCFEosj3Zd
-         ENgo+MWUv4ZeTnCC/bdR5/A+fuF0IRJ5odqS5+2HH1Osx7ci3mp2BnW746O7LiffyrTm
-         ZnqQ==
-X-Gm-Message-State: APjAAAWsAbh4+EOhNfOcLRk2E3agtE1MVisfMxdTnwCKv3FamMopZCE/
-        qN+5Z6l9NE+YSkjc1ugb1NM=
-X-Google-Smtp-Source: APXvYqyQEyylARTcVGEVHqrWdPFSo3XEN3WJWVsYQ1m9KaMLN5RvfVM3nXPiK8CqcHgf+SRezDe/mQ==
-X-Received: by 2002:a63:d008:: with SMTP id z8mr853667pgf.335.1559767694208;
-        Wed, 05 Jun 2019 13:48:14 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id v9sm20297166pfm.34.2019.06.05.13.48.12
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 05 Jun 2019 13:48:13 -0700 (PDT)
-Date:   Wed, 5 Jun 2019 13:48:11 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Vijay Khemka <vijaykhemka@fb.com>
-Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, joel@jms.id.au,
-        linux-aspeed@lists.ozlabs.org, sdasari@fb.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v2 2/2] Docs: hwmon: pmbus: Add PXE1610 driver
-Message-ID: <20190605204811.GA32379@roeck-us.net>
-References: <20190530231159.222188-1-vijaykhemka@fb.com>
- <20190530231159.222188-2-vijaykhemka@fb.com>
+        id S1726510AbfFEVjV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Jun 2019 17:39:21 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37984 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726305AbfFEVjU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jun 2019 17:39:20 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x55LWCjf077940
+        for <linux-doc@vger.kernel.org>; Wed, 5 Jun 2019 17:39:19 -0400
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2sxmg0ukx7-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Wed, 05 Jun 2019 17:39:19 -0400
+Received: from localhost
+        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
+        Wed, 5 Jun 2019 22:39:17 +0100
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Wed, 5 Jun 2019 22:39:15 +0100
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x55LdEB460096726
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 5 Jun 2019 21:39:14 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 9D3C0A405F;
+        Wed,  5 Jun 2019 21:39:14 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 085D4A405C;
+        Wed,  5 Jun 2019 21:39:14 +0000 (GMT)
+Received: from rapoport-lnx (unknown [9.148.207.19])
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Wed,  5 Jun 2019 21:39:13 +0000 (GMT)
+Date:   Thu, 6 Jun 2019 00:39:12 +0300
+From:   Mike Rapoport <rppt@linux.ibm.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>
+Subject: Re: [PATCH v1] docs/core-api: Add integer power functions to the list
+References: <20190605165113.50972-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190530231159.222188-2-vijaykhemka@fb.com>
+In-Reply-To: <20190605165113.50972-1-andriy.shevchenko@linux.intel.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
+X-TM-AS-GCONF: 00
+x-cbid: 19060521-0016-0000-0000-000002858B3A
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19060521-0017-0000-0000-000032E2A27E
+Message-Id: <20190605213911.GB7023@rapoport-lnx>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-06-05_13:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1906050136
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 30, 2019 at 04:11:57PM -0700, Vijay Khemka wrote:
-> Added support for Infenion PXE1610 driver
+On Wed, Jun 05, 2019 at 07:51:13PM +0300, Andy Shevchenko wrote:
+> Some times integer power functions, such as int_sqrt(), are needed, but
+> there is nothing about them in the generated documentation.
 > 
-Applied, after fixing
-	s/Infenion/Infineon/
-	s/Infinion/Infineon/
+> Fill the gap by adding a reference to the corresponding exported functions.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Guenter
+Acked-by: Mike Rapoport <rppt@linux.ibm.com>
 
-> Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
 > ---
-> Changes in v2:
-> incorporated all the feedback from Guenter Roeck <linux@roeck-us.net>
+>  Documentation/core-api/kernel-api.rst | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 > 
->  Documentation/hwmon/pxe1610 | 90 +++++++++++++++++++++++++++++++++++++
->  1 file changed, 90 insertions(+)
->  create mode 100644 Documentation/hwmon/pxe1610
+> diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
+> index 65ae2bf1f86d..824f24ccf401 100644
+> --- a/Documentation/core-api/kernel-api.rst
+> +++ b/Documentation/core-api/kernel-api.rst
+> @@ -141,6 +141,15 @@ Base 2 log and power Functions
+>  .. kernel-doc:: include/linux/log2.h
+>     :internal:
 > 
-> diff --git a/Documentation/hwmon/pxe1610 b/Documentation/hwmon/pxe1610
-> new file mode 100644
-> index 000000000000..24825db8736f
-> --- /dev/null
-> +++ b/Documentation/hwmon/pxe1610
-> @@ -0,0 +1,90 @@
-> +Kernel driver pxe1610
-> +=====================
+> +Integer power Functions
+> +-----------------------
 > +
-> +Supported chips:
-> +  * Infinion PXE1610
-> +    Prefix: 'pxe1610'
-> +    Addresses scanned: -
-> +    Datasheet: Datasheet is not publicly available.
+> +.. kernel-doc:: lib/math/int_pow.c
+> +   :export:
 > +
-> +  * Infinion PXE1110
-> +    Prefix: 'pxe1110'
-> +    Addresses scanned: -
-> +    Datasheet: Datasheet is not publicly available.
+> +.. kernel-doc:: lib/math/int_sqrt.c
+> +   :export:
 > +
-> +  * Infinion PXM1310
-> +    Prefix: 'pxm1310'
-> +    Addresses scanned: -
-> +    Datasheet: Datasheet is not publicly available.
-> +
-> +Author: Vijay Khemka <vijaykhemka@fb.com>
-> +
-> +
-> +Description
-> +-----------
-> +
-> +PXE1610/PXE1110 are Multi-rail/Multiphase Digital Controllers
-> +and compliant to
-> +	-- Intel VR13 DC-DC converter specifications.
-> +	-- Intel SVID protocol.
-> +Used for Vcore power regulation for Intel VR13 based microprocessors
-> +	-- Servers, Workstations, and High-end desktops
-> +
-> +PXM1310 is a Multi-rail Controllers and it is compliant to
-> +	-- Intel VR13 DC-DC converter specifications.
-> +	-- Intel SVID protocol.
-> +Used for DDR3/DDR4 Memory power regulation for Intel VR13 and
-> +IMVP8 based systems
-> +
-> +
-> +Usage Notes
-> +-----------
-> +
-> +This driver does not probe for PMBus devices. You will have
-> +to instantiate devices explicitly.
-> +
-> +Example: the following commands will load the driver for an PXE1610
-> +at address 0x70 on I2C bus #4:
-> +
-> +# modprobe pxe1610
-> +# echo pxe1610 0x70 > /sys/bus/i2c/devices/i2c-4/new_device
-> +
-> +It can also be instantiated by declaring in device tree
-> +
-> +
-> +Sysfs attributes
-> +----------------
-> +
-> +curr1_label		"iin"
-> +curr1_input		Measured input current
-> +curr1_alarm		Current high alarm
-> +
-> +curr[2-4]_label		"iout[1-3]"
-> +curr[2-4]_input		Measured output current
-> +curr[2-4]_crit		Critical maximum current
-> +curr[2-4]_crit_alarm	Current critical high alarm
-> +
-> +in1_label		"vin"
-> +in1_input		Measured input voltage
-> +in1_crit		Critical maximum input voltage
-> +in1_crit_alarm		Input voltage critical high alarm
-> +
-> +in[2-4]_label		"vout[1-3]"
-> +in[2-4]_input		Measured output voltage
-> +in[2-4]_lcrit		Critical minimum output voltage
-> +in[2-4]_lcrit_alarm	Output voltage critical low alarm
-> +in[2-4]_crit		Critical maximum output voltage
-> +in[2-4]_crit_alarm	Output voltage critical high alarm
-> +
-> +power1_label		"pin"
-> +power1_input		Measured input power
-> +power1_alarm		Input power high alarm
-> +
-> +power[2-4]_label	"pout[1-3]"
-> +power[2-4]_input	Measured output power
-> +
-> +temp[1-3]_input		Measured temperature
-> +temp[1-3]_crit		Critical high temperature
-> +temp[1-3]_crit_alarm	Chip temperature critical high alarm
-> +temp[1-3]_max		Maximum temperature
-> +temp[1-3]_max_alarm	Chip temperature high alarm
+>  Division Functions
+>  ------------------
+> 
+> -- 
+> 2.20.1
+> 
+
+-- 
+Sincerely yours,
+Mike.
+
