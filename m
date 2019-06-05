@@ -1,68 +1,129 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_HIGH
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 077CE7D912
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Jun 2019 07:56:25 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 01FE77D912
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Jun 2019 08:02:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725294AbfFEH4Y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Jun 2019 03:56:24 -0400
-Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:57545 "EHLO
-        out30-57.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726502AbfFEH4Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jun 2019 03:56:24 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R421e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04394;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0TTTzviS_1559721376;
-Received: from Alexs-MacBook-Pro.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0TTTzviS_1559721376)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 05 Jun 2019 15:56:16 +0800
-Subject: Re: [PATCH v2 09/22] docs: zh_CN: avoid duplicate citation references
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Harry Wei <harryxiyou@gmail.com>
-References: <cover.1559656538.git.mchehab+samsung@kernel.org>
- <caf96b7ac3c4a3db66b6d6d2651849d2a70e3e76.1559656538.git.mchehab+samsung@kernel.org>
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-Message-ID: <826d06c8-8c41-166d-f821-0a457a11ed0b@linux.alibaba.com>
-Date:   Wed, 5 Jun 2019 15:56:16 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
- Gecko/20100101 Thunderbird/60.6.1
+        id S1726773AbfFEICq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Jun 2019 04:02:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34236 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726667AbfFEICq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 Jun 2019 04:02:46 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6ECA32083E;
+        Wed,  5 Jun 2019 08:02:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1559721764;
+        bh=LwRQOHtpKX9zl3Ma2xTZzw3nDRco9+SY8EUjzp0UTD0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Pp9JlNNoqPiFdhiBlFUz5dnRgyoXrk+c8wyx1obeuoH6pzd0+ewihSrjy2sOv3sa1
+         VvxARSlxSFMe1IktEnbPDGsOVeBtRzqHunGXXITMPPTQDHGLuFEChS9rGoPPr2WICQ
+         O3aSI4V50URh+N/hfjgB8Gsp+p3w166yoc4IjX/0=
+Date:   Wed, 5 Jun 2019 10:02:41 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     Guenter Roeck <groeck@google.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Benson Leung <bleung@chromium.org>, kernel@collabora.com,
+        Dmitry Torokhov <dtor@chromium.org>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        linux-doc@vger.kernel.org, Enno Luebbers <enno.luebbers@intel.com>,
+        Guido Kiener <guido@kiener-muenchen.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Jonathan Corbet <corbet@lwn.net>, Wu Hao <hao.wu@intel.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Tycho Andersen <tycho@tycho.ws>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Jilayne Lovejoy <opensource@jilayne.com>
+Subject: Re: [PATCH 03/10] mfd / platform: cros_ec: Miscellaneous character
+ device to talk with the EC
+Message-ID: <20190605080241.GC9693@kroah.com>
+References: <20190604152019.16100-1-enric.balletbo@collabora.com>
+ <20190604152019.16100-4-enric.balletbo@collabora.com>
+ <20190604155228.GB9981@kroah.com>
+ <beaf3554bb85974eb118d7722ca55f1823b1850c.camel@collabora.com>
+ <20190604183527.GA20098@kroah.com>
+ <CABXOdTfU9KaBDhQcwvBGWCmVfnd02_ZFmPGtJsCtGQ-iO9A3Qw@mail.gmail.com>
+ <20190604185953.GA2061@kroah.com>
+ <20190605064839.GH4797@dell>
 MIME-Version: 1.0
-In-Reply-To: <caf96b7ac3c4a3db66b6d6d2651849d2a70e3e76.1559656538.git.mchehab+samsung@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190605064839.GH4797@dell>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Jun 05, 2019 at 07:48:39AM +0100, Lee Jones wrote:
+> On Tue, 04 Jun 2019, Greg Kroah-Hartman wrote:
+> > On Tue, Jun 04, 2019 at 11:39:21AM -0700, Guenter Roeck wrote:
+> > > On Tue, Jun 4, 2019 at 11:35 AM Greg Kroah-Hartman
+> > > <gregkh@linuxfoundation.org> wrote:
+> > > >
+> > > > On Tue, Jun 04, 2019 at 01:58:38PM -0300, Ezequiel Garcia wrote:
+> > > > > Hey Greg,
+> > > > >
+> > > > > > > + dev_info(&pdev->dev, "Created misc device /dev/%s\n",
+> > > > > > > +          data->misc.name);
+> > > > > >
+> > > > > > No need to be noisy, if all goes well, your code should be quiet.
+> > > > > >
+> > > > >
+> > > > > I sometimes wonder about this being noise or not, so I will slightly
+> > > > > hijack this thread for this discussion.
+> > > > >
+> > > > > >From a kernel developer point-of-view, or even from a platform
+> > > > > developer or user with a debugging hat point-of-view, having
+> > > > > a "device created" or "device registered" message is often very useful.
+> > > >
+> > > > For you, yes.  For someone with 30000 devices attached to their system,
+> > > > it is not, and causes booting to take longer than it should be.
+> 
+> Who has 30,000 devices attached to their systems?
 
+More than you might imagine.
 
-On 2019/6/4 10:17 下午, Mauro Carvalho Chehab wrote:
-> -内核是用C语言 [c-language]_ 编写的。更准确地说，内核通常是用 ``gcc`` [gcc]_
-> -在 ``-std=gnu89`` [gcc-c-dialect-options]_ 下编译的：ISO C90的 GNU 方言（
-> +内核是用C语言 :ref:`c-language <cn_c-language>` 编写的。更准确地说，内核通常是用 ``gcc`` :ref:`gcc <cn_gcc>`
+> I would argue that
+> in these special corner-cases, they should knock the log-level *down*
+> a notch.  For the rest of us who run normal platforms, an extra second
+> of boot time renders a more forthcoming/useful system than if each of
+> our devices initialised silently.
+> 
+> Personally I like to know what devices I have on my system, and the
+> kernel log is the first place I look.  As far as I'm concerned, for
+> the most part, if it's not in the kernel log, I don't have it.
 
-It looks better to remove ``gcc`` here. otherwise 2 'gcc' words show here is weird. 
+Then you "do not have" lots of devices, as we have been removing these
+messages for a number of years now :)
 
-> +在 ``-std=gnu89`` :ref:`gcc-c-dialect-options <cn_gcc-c-dialect-options>` 下编译的：ISO C90的 GNU 方言（
->  包括一些C99特性）
->  
-> -这种方言包含对语言 [gnu-extensions]_ 的许多扩展，当然，它们许多都在内核中使用。
-> +这种方言包含对语言 :ref:`gnu-extensions <cn_gnu-extensions>` 的许多扩展，当然，它们许多都在内核中使用。
->  
-> -对于一些体系结构，有一些使用 ``clang`` [clang]_ 和 ``icc`` [icc]_ 编译内核
-> +对于一些体系结构，有一些使用 ``clang`` :ref:`clang <cn_clang>` 和 ``icc`` :ref:`icc <cn_icc>` 编译内核
+>  "Oh wow, I didn't know I had XXX functionality on this platform."
+> 
+> In my real job, I am currently enabling some newly released AArch64
+> based laptops for booting with ACPI.  I must have wasted a day whilst
+> enabling some of the devices the system relies upon, just to find
+> out that 90% of them were actually probing semi-fine (at least probe()
+> was succeeding), just silently. *grumble*
 
-and remove ``clang``, ``icc`` too.
+Yup, that's normal.  If you want to see what devices are in the system,
+look in /sys/devices/ as that is what it is for, not the kernel log.
 
->  的支持，尽管在编写此文档时还没有完成，仍需要第三方补丁。
->  
+thanks,
 
-Thanks
-Alex
+greg k-h
