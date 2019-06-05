@@ -5,93 +5,86 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 529077D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Jun 2019 09:32:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 43DFB7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Jun 2019 09:42:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726787AbfFEJcE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Jun 2019 05:32:04 -0400
-Received: from mga11.intel.com ([192.55.52.93]:61614 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726785AbfFEJcD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 5 Jun 2019 05:32:03 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Jun 2019 02:32:03 -0700
-X-ExtLoop1: 1
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.150])
-  by fmsmga001.fm.intel.com with ESMTP; 05 Jun 2019 02:31:59 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 08/22] gpu: i915.rst: Fix references to renamed files
-In-Reply-To: <bd7dd29b9fb2101c954c8cfb2c3b4efc7d277045.1559656538.git.mchehab+samsung@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1559656538.git.mchehab+samsung@kernel.org> <bd7dd29b9fb2101c954c8cfb2c3b4efc7d277045.1559656538.git.mchehab+samsung@kernel.org>
-Date:   Wed, 05 Jun 2019 12:35:05 +0300
-Message-ID: <87woi02x4m.fsf@intel.com>
+        id S1727013AbfFEJlf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Jun 2019 05:41:35 -0400
+Received: from mail-lf1-f54.google.com ([209.85.167.54]:33902 "EHLO
+        mail-lf1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726690AbfFEJlf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jun 2019 05:41:35 -0400
+Received: by mail-lf1-f54.google.com with SMTP id y198so8095114lfa.1
+        for <linux-doc@vger.kernel.org>; Wed, 05 Jun 2019 02:41:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mD5POnGi96vhsSTDzK5VPlMWzvJ6ZNYJN2YLUROjSiE=;
+        b=sqBLv0fFsjC/BFzhDj61AUu2nE6JFRpFp0/9pZEEYcTCYnLLMEVtlt4I337eYYoWCC
+         wRuwPxv/D3OPI17g+/UnyrRNY7BqOEGCPIKUdT2PWPM9woSovo9rccsHsSPFvHw9EbEt
+         9xpKmJKcxliVbKAFfuv8TNM4xbZ7JESbz3Bw9E5KIMX7X/NozM01FRMQh/hu9BryxruX
+         3JXQFQaXSm3tDocca8yG5m/D1zrsvdTeICbULOlAazseTfrNhlWD6E2SWbipQ+L0aokS
+         WhCjgFjhedTekNiKKK+//B/Qj0CUBCJ3+gqJwRoyLwMrj8NqVBKVnwuAGIsPerrWNCF5
+         msKQ==
+X-Gm-Message-State: APjAAAVjAIB/LxS/LWF/HGXjtxIQZ3DpI/AZ/WTjYnuHqEu3BoyZuMkD
+        Ft9R5EjJP/lwWFV+KyuPGAuxU+t8Zr8qY74h/xHQg83pfeQ=
+X-Google-Smtp-Source: APXvYqzwcglkITd7H0Ft0gMprdTFjTSYUv+hAGVBAfXR4UQk7GiuIytvLKV7ZVoazrmJaPI65LZkXlelTZSIlO32llE=
+X-Received: by 2002:ac2:46ef:: with SMTP id q15mr19765640lfo.63.1559727693337;
+ Wed, 05 Jun 2019 02:41:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <1559212177-7072-1-git-send-email-bhsharma@redhat.com>
+ <87v9xsnlu9.fsf@concordia.ellerman.id.au> <CACi5LpM9v1YC_6HhA-uKghawzkEu=TTPVkomMmv2i-LGi8X7+g@mail.gmail.com>
+ <20190530081358.650930ad@lwn.net> <87ef4eodwf.fsf@concordia.ellerman.id.au>
+In-Reply-To: <87ef4eodwf.fsf@concordia.ellerman.id.au>
+From:   Bhupesh Sharma <bhsharma@redhat.com>
+Date:   Wed, 5 Jun 2019 15:11:20 +0530
+Message-ID: <CACi5LpMTSu0PuZhLDnQv_bFD42vFnX_LMQvse4ERPfFiquSriw@mail.gmail.com>
+Subject: Re: [PATCH] Documentation/stackprotector: powerpc supports stack protector
+To:     Michael Ellerman <mpe@ellerman.id.au>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linuxppc-dev@lists.ozlabs.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Bhupesh SHARMA <bhupesh.linux@gmail.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 04 Jun 2019, Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
-> WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -function Hardware workarounds ./drivers/gpu/drm/i915/intel_workarounds.c' failed with return code 1
-> WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -function Logical Rings, Logical Ring Contexts and Execlists ./drivers/gpu/drm/i915/intel_lrc.c' failed with return code 1
-> WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -internal ./drivers/gpu/drm/i915/intel_lrc.c' failed with return code 2
+Hi Jonathan,
+
+On Fri, May 31, 2019 at 8:44 PM Michael Ellerman <mpe@ellerman.id.au> wrote:
 >
-> Fixes: 112ed2d31a46 ("drm/i915: Move GraphicsTechnology files under gt/")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-
-Thanks for the patch, I picked this via drm-intel because the commit
-being fixed is not in Linus' tree yet.
-
-BR,
-Jani.
-
-
-> ---
->  Documentation/gpu/i915.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> Jonathan Corbet <corbet@lwn.net> writes:
+> > On Thu, 30 May 2019 18:37:46 +0530
+> > Bhupesh Sharma <bhsharma@redhat.com> wrote:
+> >
+> >> > This should probably go via the documentation tree?
+> >> >
+> >> > Acked-by: Michael Ellerman <mpe@ellerman.id.au>
+> >>
+> >> Thanks for the review Michael.
+> >> I am ok with this going through the documentation tree as well.
+> >
+> > Works for me too, but I don't seem to find the actual patch anywhere I
+> > look.  Can you send me a copy?
 >
-> diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
-> index 055df45596c1..6c75380b2928 100644
-> --- a/Documentation/gpu/i915.rst
-> +++ b/Documentation/gpu/i915.rst
-> @@ -61,7 +61,7 @@ Intel GVT-g Host Support(vGPU device model)
->  Workarounds
->  -----------
->  
-> -.. kernel-doc:: drivers/gpu/drm/i915/intel_workarounds.c
-> +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_workarounds.c
->     :doc: Hardware workarounds
->  
->  Display Hardware Handling
-> @@ -379,10 +379,10 @@ User Batchbuffer Execution
->  Logical Rings, Logical Ring Contexts and Execlists
->  --------------------------------------------------
->  
-> -.. kernel-doc:: drivers/gpu/drm/i915/intel_lrc.c
-> +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_lrc.c
->     :doc: Logical Rings, Logical Ring Contexts and Execlists
->  
-> -.. kernel-doc:: drivers/gpu/drm/i915/intel_lrc.c
-> +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_lrc.c
->     :internal:
->  
->  Global GTT views
+> You can get it from lore:
+>
+>   https://lore.kernel.org/linuxppc-dev/1559212177-7072-1-git-send-email-bhsharma@redhat.com/raw
+>
+> Or patchwork (automatically adds my ack):
+>
+>   https://patchwork.ozlabs.org/patch/1107706/mbox/
+>
+> Or Bhupesh can send it to you :)
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Please let me know if I should send out the patch again, this time
+Cc'ing you and the doc-list.
+
+Thanks,
+Bhupesh
