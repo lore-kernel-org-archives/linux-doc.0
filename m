@@ -5,47 +5,70 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3869D7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Jun 2019 12:35:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D0CC67D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Jun 2019 14:06:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727373AbfFEMfH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Jun 2019 08:35:07 -0400
-Received: from mga18.intel.com ([134.134.136.126]:37444 "EHLO mga18.intel.com"
+        id S1728146AbfFEOGK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Jun 2019 10:06:10 -0400
+Received: from mga05.intel.com ([192.55.52.43]:53436 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727273AbfFEMfH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 5 Jun 2019 08:35:07 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
+        id S1726442AbfFEOGK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 Jun 2019 10:06:10 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Jun 2019 05:35:06 -0700
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Jun 2019 07:06:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,550,1549958400"; 
-   d="scan'208";a="181915768"
-Received: from gaia.fi.intel.com ([10.237.72.169])
-  by fmsmga002.fm.intel.com with ESMTP; 05 Jun 2019 05:35:05 -0700
-Received: by gaia.fi.intel.com (Postfix, from userid 1000)
-        id 98FF25C1F3A; Wed,  5 Jun 2019 15:35:04 +0300 (EEST)
-From:   Mika Kuoppala <mika.kuoppala@linux.intel.com>
-To:     Jani Nikula <jani.nikula@intel.com>,
-        intel-gfx@lists.freedesktop.org
-Cc:     jani.nikula@intel.com, linux-doc@vger.kernel.org
-Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915: fix documentation build warnings
-In-Reply-To: <20190605095657.23601-2-jani.nikula@intel.com>
-References: <20190605095657.23601-1-jani.nikula@intel.com> <20190605095657.23601-2-jani.nikula@intel.com>
-Date:   Wed, 05 Jun 2019 15:35:04 +0300
-Message-ID: <877ea0rz0n.fsf@gaia.fi.intel.com>
+Received: from araresx-wtg1.ger.corp.intel.com (HELO localhost) ([10.252.46.102])
+  by fmsmga001.fm.intel.com with ESMTP; 05 Jun 2019 07:06:06 -0700
+Date:   Wed, 5 Jun 2019 17:06:01 +0300
+From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+To:     Sasha Levin <sashal@kernel.org>
+Cc:     peterhuewe@gmx.de, jgg@ziepe.ca, corbet@lwn.net,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linux-kernel@microsoft.com,
+        thiruan@microsoft.com, bryankel@microsoft.com,
+        tee-dev@lists.linaro.org
+Subject: Re: [PATCH v4 0/2] fTPM: firmware TPM running in TEE
+Message-ID: <20190605140539.GA11331@linux.intel.com>
+References: <20190530152758.16628-1-sashal@kernel.org>
+ <20190603202815.GA4894@linux.intel.com>
+ <20190603211648.GV12898@sasha-vm>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190603211648.GV12898@sasha-vm>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jani Nikula <jani.nikula@intel.com> writes:
+On Mon, Jun 03, 2019 at 05:16:48PM -0400, Sasha Levin wrote:
+> On Mon, Jun 03, 2019 at 11:28:15PM +0300, Jarkko Sakkinen wrote:
+> > On Thu, May 30, 2019 at 11:27:56AM -0400, Sasha Levin wrote:
+> > > Changes since v3:
+> > > 
+> > >  - Address comments by Jarkko Sakkinen
+> > >  - Address comments by Igor Opaniuk
+> > > 
+> > > Sasha Levin (2):
+> > >   fTPM: firmware TPM running in TEE
+> > >   fTPM: add documentation for ftpm driver
+> > 
+> > I think patches start to look proper but I wonder can anyone test
+> > these? I don't think before that I can merge these.
+> 
+> They're all functionally tested by us on actual hardware before being
+> sent out.
+> 
+> The reference implementation is open and being kept updated, and an
+> interested third party should be able to verify the correctness of these
+> patches. However, it doesn't look like there's an interested third party
+> given that these patches have been out for a few months now.
 
-> Just a straightforward bag of fixes for a clean htmldocs build.
->
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+So can they be tagged with your tested-by?
 
-Reviewed-by: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-
+/Jarkko
