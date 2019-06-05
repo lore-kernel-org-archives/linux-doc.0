@@ -1,172 +1,97 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C07327D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Jun 2019 09:21:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 529077D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Jun 2019 09:32:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726945AbfFEJVw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Jun 2019 05:21:52 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:35149 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726841AbfFEJVw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jun 2019 05:21:52 -0400
-Received: by mail-wr1-f66.google.com with SMTP id m3so2860888wrv.2
-        for <linux-doc@vger.kernel.org>; Wed, 05 Jun 2019 02:21:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=HkLrjitg6lVmSSsN339H7rE/QKTw75t3z9ac6zp7EjU=;
-        b=nZB7ow7AXRjSr4qoR4f1Dsl4WnuTsh3fvyjw161LZtjSwz/pSxMbXTt26WoA5HDI1P
-         LbUh0dYE5eGeTFe1jAta6TMaTpOo0VwOSLzl/lko7lO+reF8XZbuesjvR8pv0qdV9b78
-         1+iir5kvR09goxeok2nf1n+ktNwtVeKq4YW5wd90Z/toDEVZNz3DhmqzhmdWlWXBv+Ir
-         2CVvRCgkgA/U3LIufzMtSJ4hzvOA8iOnJUl+JfPaf62th2YCjEVlFfQgM1Q92YT6/6A6
-         fw3xbd8kyH86itHgB+xO/tSRmiZ+2D8j368pXtZlbrIpHdLWTi/bVx56BfKgNqN11Wde
-         fEEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=HkLrjitg6lVmSSsN339H7rE/QKTw75t3z9ac6zp7EjU=;
-        b=pnKDkUuNWaEld5V2T8+PhSfuZBo5B4quj/hfnF+fIfh0WU030kevTYFfR1rTKziAVJ
-         EBkO6U3gnsQLiFTlVEXsJTWIhiJzmFQcsHObtzjNzojJSZ1jwUrqIsgzTlZc7fU9cxDK
-         QjQxmzwyrwPMHHibayOIqfaprFi2zqeLXUSmaFhVMissej084kWvYwQymdX33K9a6fOA
-         Bak4LLgwtPx3ASJzb8pdQhHNirTAHJIGrzcyVsUO+yLdU1KY5ZYzWDZTpCgXABxvRC3q
-         uYzV3L2UvkDhbZpYBf4G3TyPgnSfodKN8B3OYj7jyjWi2PfvwdVYbeVdImNK98JECG8C
-         BVWA==
-X-Gm-Message-State: APjAAAW0SRLX4FpJmaw8koK1Q1jGpUCFOimCENePYV4UbSXIGmTUg//p
-        6PVboxmXsWeIYoSBT6+IiPxBVbse6Wk=
-X-Google-Smtp-Source: APXvYqzQyu7iRiNMClS/A791P+up2dhjhpkSl89DWahEDcK/qdpMbigxSNW0TCIdZjeV5mmHlyo7OQ==
-X-Received: by 2002:adf:fd0f:: with SMTP id e15mr24479182wrr.104.1559726509998;
-        Wed, 05 Jun 2019 02:21:49 -0700 (PDT)
-Received: from dell ([2.27.167.43])
-        by smtp.gmail.com with ESMTPSA id o14sm19377907wrp.77.2019.06.05.02.21.47
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 05 Jun 2019 02:21:48 -0700 (PDT)
-Date:   Wed, 5 Jun 2019 10:21:46 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Guenter Roeck <groeck@google.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Benson Leung <bleung@chromium.org>, kernel@collabora.com,
-        Dmitry Torokhov <dtor@chromium.org>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        linux-doc@vger.kernel.org, Enno Luebbers <enno.luebbers@intel.com>,
-        Guido Kiener <guido@kiener-muenchen.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Jonathan Corbet <corbet@lwn.net>, Wu Hao <hao.wu@intel.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Tycho Andersen <tycho@tycho.ws>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Jilayne Lovejoy <opensource@jilayne.com>
-Subject: Re: [PATCH 03/10] mfd / platform: cros_ec: Miscellaneous character
- device to talk with the EC
-Message-ID: <20190605092146.GR4797@dell>
-References: <20190604152019.16100-4-enric.balletbo@collabora.com>
- <20190604155228.GB9981@kroah.com>
- <beaf3554bb85974eb118d7722ca55f1823b1850c.camel@collabora.com>
- <20190604183527.GA20098@kroah.com>
- <CABXOdTfU9KaBDhQcwvBGWCmVfnd02_ZFmPGtJsCtGQ-iO9A3Qw@mail.gmail.com>
- <20190604185953.GA2061@kroah.com>
- <20190605064839.GH4797@dell>
- <20190605080241.GC9693@kroah.com>
- <20190605084002.GP4797@dell>
- <20190605084813.GA26984@kroah.com>
+        id S1726787AbfFEJcE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Jun 2019 05:32:04 -0400
+Received: from mga11.intel.com ([192.55.52.93]:61614 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726785AbfFEJcD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 Jun 2019 05:32:03 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Jun 2019 02:32:03 -0700
+X-ExtLoop1: 1
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.150])
+  by fmsmga001.fm.intel.com with ESMTP; 05 Jun 2019 02:31:59 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 08/22] gpu: i915.rst: Fix references to renamed files
+In-Reply-To: <bd7dd29b9fb2101c954c8cfb2c3b4efc7d277045.1559656538.git.mchehab+samsung@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1559656538.git.mchehab+samsung@kernel.org> <bd7dd29b9fb2101c954c8cfb2c3b4efc7d277045.1559656538.git.mchehab+samsung@kernel.org>
+Date:   Wed, 05 Jun 2019 12:35:05 +0300
+Message-ID: <87woi02x4m.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190605084813.GA26984@kroah.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 05 Jun 2019, Greg Kroah-Hartman wrote:
+On Tue, 04 Jun 2019, Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+> WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -function Hardware workarounds ./drivers/gpu/drm/i915/intel_workarounds.c' failed with return code 1
+> WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -function Logical Rings, Logical Ring Contexts and Execlists ./drivers/gpu/drm/i915/intel_lrc.c' failed with return code 1
+> WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -internal ./drivers/gpu/drm/i915/intel_lrc.c' failed with return code 2
+>
+> Fixes: 112ed2d31a46 ("drm/i915: Move GraphicsTechnology files under gt/")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-> On Wed, Jun 05, 2019 at 09:40:02AM +0100, Lee Jones wrote:
-> > On Wed, 05 Jun 2019, Greg Kroah-Hartman wrote:
-> > 
-> > > On Wed, Jun 05, 2019 at 07:48:39AM +0100, Lee Jones wrote:
-> > > > On Tue, 04 Jun 2019, Greg Kroah-Hartman wrote:
-> > > > > On Tue, Jun 04, 2019 at 11:39:21AM -0700, Guenter Roeck wrote:
-> > > > > > On Tue, Jun 4, 2019 at 11:35 AM Greg Kroah-Hartman
-> > > > > > <gregkh@linuxfoundation.org> wrote:
-> > > > > > >
-> > > > > > > On Tue, Jun 04, 2019 at 01:58:38PM -0300, Ezequiel Garcia wrote:
-> > > > > > > > Hey Greg,
-> > > > > > > >
-> > > > > > > > > > + dev_info(&pdev->dev, "Created misc device /dev/%s\n",
-> > > > > > > > > > +          data->misc.name);
-> > > > > > > > >
-> > > > > > > > > No need to be noisy, if all goes well, your code should be quiet.
-> > > > > > > > >
-> > > > > > > >
-> > > > > > > > I sometimes wonder about this being noise or not, so I will slightly
-> > > > > > > > hijack this thread for this discussion.
-> > > > > > > >
-> > > > > > > > >From a kernel developer point-of-view, or even from a platform
-> > > > > > > > developer or user with a debugging hat point-of-view, having
-> > > > > > > > a "device created" or "device registered" message is often very useful.
-> > > > > > >
-> > > > > > > For you, yes.  For someone with 30000 devices attached to their system,
-> > > > > > > it is not, and causes booting to take longer than it should be.
-> > > > 
-> > > > Who has 30,000 devices attached to their systems?
-> > > 
-> > > More than you might imagine.
-> > > 
-> > > > I would argue that
-> > > > in these special corner-cases, they should knock the log-level *down*
-> > > > a notch.  For the rest of us who run normal platforms, an extra second
-> > > > of boot time renders a more forthcoming/useful system than if each of
-> > > > our devices initialised silently.
-> > > > 
-> > > > Personally I like to know what devices I have on my system, and the
-> > > > kernel log is the first place I look.  As far as I'm concerned, for
-> > > > the most part, if it's not in the kernel log, I don't have it.
-> > > 
-> > > Then you "do not have" lots of devices, as we have been removing these
-> > > messages for a number of years now :)
-> > > 
-> > > >  "Oh wow, I didn't know I had XXX functionality on this platform."
-> > > > 
-> > > > In my real job, I am currently enabling some newly released AArch64
-> > > > based laptops for booting with ACPI.  I must have wasted a day whilst
-> > > > enabling some of the devices the system relies upon, just to find
-> > > > out that 90% of them were actually probing semi-fine (at least probe()
-> > > > was succeeding), just silently. *grumble*
-> > > 
-> > > Yup, that's normal.  If you want to see what devices are in the system,
-> > > look in /sys/devices/ as that is what it is for, not the kernel log.
-> > 
-> > My guess is that less than 1% of Linux users use /sys/devices in this
-> > way.  It's a very unfriendly interface.  Besides, when enabling a new
-> > platform, access to sysfs comes too far down the line to be useful in
-> > the majority of cases.
-> 
-> `lshw` is your friend :)
+Thanks for the patch, I picked this via drm-intel because the commit
+being fixed is not in Linus' tree yet.
 
-Provided you have a command line (with `lshw` installed) and a
-working keyboard.  ;)
+BR,
+Jani.
+
+
+> ---
+>  Documentation/gpu/i915.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
+> index 055df45596c1..6c75380b2928 100644
+> --- a/Documentation/gpu/i915.rst
+> +++ b/Documentation/gpu/i915.rst
+> @@ -61,7 +61,7 @@ Intel GVT-g Host Support(vGPU device model)
+>  Workarounds
+>  -----------
+>  
+> -.. kernel-doc:: drivers/gpu/drm/i915/intel_workarounds.c
+> +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_workarounds.c
+>     :doc: Hardware workarounds
+>  
+>  Display Hardware Handling
+> @@ -379,10 +379,10 @@ User Batchbuffer Execution
+>  Logical Rings, Logical Ring Contexts and Execlists
+>  --------------------------------------------------
+>  
+> -.. kernel-doc:: drivers/gpu/drm/i915/intel_lrc.c
+> +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_lrc.c
+>     :doc: Logical Rings, Logical Ring Contexts and Execlists
+>  
+> -.. kernel-doc:: drivers/gpu/drm/i915/intel_lrc.c
+> +.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_lrc.c
+>     :internal:
+>  
+>  Global GTT views
 
 -- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Jani Nikula, Intel Open Source Graphics Center
