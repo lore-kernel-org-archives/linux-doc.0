@@ -1,84 +1,118 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2CD937D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Jun 2019 10:19:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 956557D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Jun 2019 10:29:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727104AbfFEKTh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Jun 2019 06:19:37 -0400
-Received: from casper.infradead.org ([85.118.1.10]:43968 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727083AbfFEKTh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jun 2019 06:19:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=NdzflC4Gr8040iG9lX4cUUuc9anxbj+Ahlf/+7okbes=; b=EL3kHoOVTXGy+KW2xPo+W+a2QU
-        uNEpWKc3YYCfEzzNwBmnkjaUEttxGHoMoogxPxFwnynlct5+azuC6t/BW70DZ5sXuF/1OCSn4XWEb
-        H+fNvzbooSlncqfb8H5gUhgfzfobMHIEN7MHMrqBLvkgjz8rlfv9fdxMc2VUkMbX4S7Fr76aviirI
-        gWkSgh5CkSqr4iCOv4MHlh7O1+R9CAzUD79Y6PnTNbBiRXvXV/aPN91NHqeOKmKkFAQaM7imMpPWn
-        NkxRQug79Ozu4qoIH7VJwtLYq2qqE2qsZIW5jZczyj/RgMGr8OFHd5q9tbG/TXpC4CmDKUMNB/64Z
-        AUONcWCg==;
-Received: from [179.182.172.34] (helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hYT13-00021g-8L; Wed, 05 Jun 2019 10:19:33 +0000
-Date:   Wed, 5 Jun 2019 07:19:28 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     David Howells <dhowells@redhat.com>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        keyrings@vger.kernel.org
-Subject: Re: [PATCH v2 15/22] docs: security: core.rst: Fix several warnings
-Message-ID: <20190605071928.704558cf@coco.lan>
-In-Reply-To: <26617.1559728436@warthog.procyon.org.uk>
-References: <21350864823e07cc951e1dc7f0601baa09920ac4.1559656538.git.mchehab+samsung@kernel.org>
-        <cover.1559656538.git.mchehab+samsung@kernel.org>
-        <26617.1559728436@warthog.procyon.org.uk>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727097AbfFEK3G (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Jun 2019 06:29:06 -0400
+Received: from mga01.intel.com ([192.55.52.88]:29785 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726502AbfFEK3G (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 Jun 2019 06:29:06 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Jun 2019 03:29:05 -0700
+X-ExtLoop1: 1
+Received: from gaia.fi.intel.com ([10.237.72.169])
+  by fmsmga005.fm.intel.com with ESMTP; 05 Jun 2019 03:29:04 -0700
+Received: by gaia.fi.intel.com (Postfix, from userid 1000)
+        id 253875C1F3A; Wed,  5 Jun 2019 13:29:03 +0300 (EEST)
+From:   Mika Kuoppala <mika.kuoppala@linux.intel.com>
+To:     Jani Nikula <jani.nikula@intel.com>,
+        intel-gfx@lists.freedesktop.org
+Cc:     linux-doc@vger.kernel.org, jani.nikula@intel.com,
+        Chris Wilson <chris@chris-wilson.co.uk>
+Subject: Re: [PATCH 1/2] Documentation/i915: Fix kernel-doc references to moved gem files
+In-Reply-To: <20190605095657.23601-1-jani.nikula@intel.com>
+References: <20190605095657.23601-1-jani.nikula@intel.com>
+Date:   Wed, 05 Jun 2019 13:29:03 +0300
+Message-ID: <87d0jss4uo.fsf@gaia.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 05 Jun 2019 10:53:56 +0100
-David Howells <dhowells@redhat.com> escreveu:
+Jani Nikula <jani.nikula@intel.com> writes:
 
-> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
-> 
-> > +  *  ``asym_eds_op`` and ``asym_verify_signature``::
-> > +
-> > +       int (*asym_eds_op)(struct kernel_pkey_params *params,
-> > +			  const void *in, void *out);
-> > +       int (*asym_verify_signature)(struct kernel_pkey_params *params,
-> > +				    const void *in, const void *in2);  
-> 
-> That's redundant and shouldn't be necessary.
+> The error messages could be more descriptive, but fix these caused by
+> file moves:
+>
+> WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -internal
+>     ./drivers/gpu/drm/i915/i915_gem_shrinker.c' failed with return code 2
+> WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -function
+>     User command execution ./drivers/gpu/drm/i915/i915_gem_execbuffer.c'
+>     failed with return code 1
+> WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -internal
+>     ./drivers/gpu/drm/i915/i915_gem_tiling.c' failed with return code 2
+> WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -function
+>     buffer object tiling ./drivers/gpu/drm/i915/i915_gem_tiling.c'
+>     failed with return code 1
+>
+> Fixes: 10be98a77c55 ("drm/i915: Move more GEM objects under gem/")
+> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-This should equally fix it:
+/o\
 
-  * ::
+Reviewed-by: Mika Kuoppala <mika.kuoppala@linux.intel.com>
 
-       int (*asym_eds_op)(struct kernel_pkey_params *params,
-			  const void *in, void *out);
-       int (*asym_verify_signature)(struct kernel_pkey_params *params,
-				    const void *in, const void *in2);  
-
-The thing is that we need to teach Sphinx somehow that it should not
-try to interpret '*' (with is used there to identify bold/italy blocks)
-
-Using a '::' seems better than escaping all asterisks with a backslash.
-
-
-Thanks,
-Mauro
+> ---
+>  Documentation/gpu/i915.rst | 11 ++++-------
+>  1 file changed, 4 insertions(+), 7 deletions(-)
+>
+> diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
+> index 6c75380b2928..f98ee95da90f 100644
+> --- a/Documentation/gpu/i915.rst
+> +++ b/Documentation/gpu/i915.rst
+> @@ -349,7 +349,7 @@ of buffer object caches. Shrinking is used to make main memory
+>  available. Note that this is mostly orthogonal to evicting buffer
+>  objects, which has the goal to make space in gpu virtual address spaces.
+>  
+> -.. kernel-doc:: drivers/gpu/drm/i915/i915_gem_shrinker.c
+> +.. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+>     :internal:
+>  
+>  Batchbuffer Parsing
+> @@ -373,7 +373,7 @@ Batchbuffer Pools
+>  User Batchbuffer Execution
+>  --------------------------
+>  
+> -.. kernel-doc:: drivers/gpu/drm/i915/i915_gem_execbuffer.c
+> +.. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+>     :doc: User command execution
+>  
+>  Logical Rings, Logical Ring Contexts and Execlists
+> @@ -382,9 +382,6 @@ Logical Rings, Logical Ring Contexts and Execlists
+>  .. kernel-doc:: drivers/gpu/drm/i915/gt/intel_lrc.c
+>     :doc: Logical Rings, Logical Ring Contexts and Execlists
+>  
+> -.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_lrc.c
+> -   :internal:
+> -
+>  Global GTT views
+>  ----------------
+>  
+> @@ -415,10 +412,10 @@ Hardware Tiling and Swizzling Details
+>  Object Tiling IOCTLs
+>  --------------------
+>  
+> -.. kernel-doc:: drivers/gpu/drm/i915/i915_gem_tiling.c
+> +.. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_tiling.c
+>     :internal:
+>  
+> -.. kernel-doc:: drivers/gpu/drm/i915/i915_gem_tiling.c
+> +.. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_tiling.c
+>     :doc: buffer object tiling
+>  
+>  WOPCM
+> -- 
+> 2.20.1
