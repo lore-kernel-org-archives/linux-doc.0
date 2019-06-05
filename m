@@ -3,84 +3,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C4B467D90F
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Jun 2019 20:30:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 665837D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Jun 2019 20:32:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726636AbfFEUac (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Jun 2019 16:30:32 -0400
-Received: from relay1.mentorg.com ([192.94.38.131]:58296 "EHLO
-        relay1.mentorg.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726305AbfFEUac (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jun 2019 16:30:32 -0400
-Received: from svr-orw-mbx-01.mgc.mentorg.com ([147.34.90.201])
-        by relay1.mentorg.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-SHA384:256)
-        id 1hYcYB-0007fT-CH from George_Davis@mentor.com ; Wed, 05 Jun 2019 13:30:23 -0700
-Received: from localhost (147.34.91.1) by svr-orw-mbx-01.mgc.mentorg.com
- (147.34.90.201) with Microsoft SMTP Server (TLS) id 15.0.1320.4; Wed, 5 Jun
- 2019 13:30:21 -0700
-From:   "George G. Davis" <george_davis@mentor.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Jiri Kosina <trivial@kernel.org>,
-        "George G. Davis" <george_davis@mentor.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Andi Kleen <ak@linux.intel.com>, Jann Horn <jannh@google.com>,
-        Nadav Amit <namit@vmware.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: [PATCH 2/3] treewide: trivial: fix s/poped/popped/ typo
-Date:   Wed, 5 Jun 2019 16:30:10 -0400
-Message-ID: <1559766612-12178-2-git-send-email-george_davis@mentor.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1559766612-12178-1-git-send-email-george_davis@mentor.com>
-References: <1559766612-12178-1-git-send-email-george_davis@mentor.com>
+        id S1726554AbfFEUcw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Jun 2019 16:32:52 -0400
+Received: from ms.lwn.net ([45.79.88.28]:35696 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726305AbfFEUcv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 Jun 2019 16:32:51 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 0D9FC2E6;
+        Wed,  5 Jun 2019 20:32:51 +0000 (UTC)
+Date:   Wed, 5 Jun 2019 14:32:49 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     "Theodore Ts'o" <tytso@mit.edu>
+Cc:     linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        David Rientjes <rientjes@google.com>
+Subject: Re: [PATCH v2] Add a document on rebasing and merging
+Message-ID: <20190605143249.768d4b36@lwn.net>
+In-Reply-To: <20190605015456.GA2710@mit.edu>
+References: <20190604134835.16fc6bfa@lwn.net>
+        <20190605015456.GA2710@mit.edu>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: SVR-ORW-MBX-05.mgc.mentorg.com (147.34.90.205) To
- svr-orw-mbx-01.mgc.mentorg.com (147.34.90.201)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix a couple of s/poped/popped/ typos.
+On Tue, 4 Jun 2019 21:54:56 -0400
+"Theodore Ts'o" <tytso@mit.edu> wrote:
 
-Cc: Jiri Kosina <trivial@kernel.org>
-Signed-off-by: George G. Davis <george_davis@mentor.com>
----
- Documentation/arm/mem_alignment | 2 +-
- arch/x86/kernel/kprobes/core.c  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+> FYI, it looks like your patch somehow got hit by your text editor (or
+> MUA's) line wrapping...
 
-diff --git a/Documentation/arm/mem_alignment b/Documentation/arm/mem_alignment
-index 6335fcacbba9..e110e2781039 100644
---- a/Documentation/arm/mem_alignment
-+++ b/Documentation/arm/mem_alignment
-@@ -1,4 +1,4 @@
--Too many problems poped up because of unnoticed misaligned memory access in
-+Too many problems popped up because of unnoticed misaligned memory access in
- kernel code lately.  Therefore the alignment fixup is now unconditionally
- configured in for SA11x0 based targets.  According to Alan Cox, this is a
- bad idea to configure it out, but Russell King has some good reasons for
-diff --git a/arch/x86/kernel/kprobes/core.c b/arch/x86/kernel/kprobes/core.c
-index 6afd8061dbae..d3243d93daf4 100644
---- a/arch/x86/kernel/kprobes/core.c
-+++ b/arch/x86/kernel/kprobes/core.c
-@@ -813,7 +813,7 @@ __used __visible void *trampoline_handler(struct pt_regs *regs)
- 			continue;
- 		/*
- 		 * Return probes must be pushed on this hash list correct
--		 * order (same as return order) so that it can be poped
-+		 * order (same as return order) so that it can be popped
- 		 * correctly. However, if we find it is pushed it incorrect
- 		 * order, this means we find a function which should not be
- 		 * probed, because the wrong order entry is pushed on the
--- 
-2.7.4
+Weird, I haven't had a problem like that in decades.  No idea what
+happened here...
 
+> > +
+> > + - Realize that the rebasing a patch series changes the environment in
+> > +   which it was developed and, likely, invalidates much of the testing
+> > that
+> > +   was done.  A rebased patch series should, as a general rule, be treated
+> > +   like new code and retested from the beginning.  
+> 
+> Shouldn't "reparenting" be used in this paragraph?
+> 
+> I suppose if a patch is getting dropped or modified that can
+> invalidate some of the testing (although it really depends on the
+> nature of what's being dropped or modified).  And if it's just adding
+> a Tested-by tag or a CVE number in the commit description, it's not
+> going to invalidate any testing.
+
+I had thought about it and chosen "rebasing", but I can change it.
+
+> > +Another reason for doing merges of upstream or another subsystem tree is
+> > to +resolve dependencies.  These dependency issues do happen at times, and
+> > +sometimes a cross-merge with another tree is the best way to resolve them;
+> > +as always, in such situations, the merge commit should explain why the
+> > +merge has been done.  Take a momehnt to do it right; people will read those
+> > +changelogs.  
+> 
+> It might also be useful to mention it might be useful to put the
+> commits which are needed to solve the dependency problem on its own
+> separate branch, based off of something like -rc2, and then each of
+> the trees which need the prerequisite commits can merge in that
+> branch.
+
+That is (I think) in the following paragraph:
+
+> Possible alternatives include agreeing with the maintainer to carry
+> both sets of changes in one of the trees or creating a special branch
+> dedicated to the dependent commits.
+
+Perhaps that last line should read "...dedicated to the prerequisite
+commits, which can then be merged into both trees" ?
+
+Then perhaps I can finally declare victory on this thing? :)
+
+Thanks,
+
+jon
