@@ -1,95 +1,270 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 665837D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Jun 2019 20:32:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 034D07D90F
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Jun 2019 20:47:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726554AbfFEUcw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Jun 2019 16:32:52 -0400
-Received: from ms.lwn.net ([45.79.88.28]:35696 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726305AbfFEUcv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 5 Jun 2019 16:32:51 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 0D9FC2E6;
-        Wed,  5 Jun 2019 20:32:51 +0000 (UTC)
-Date:   Wed, 5 Jun 2019 14:32:49 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     "Theodore Ts'o" <tytso@mit.edu>
-Cc:     linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        David Rientjes <rientjes@google.com>
-Subject: Re: [PATCH v2] Add a document on rebasing and merging
-Message-ID: <20190605143249.768d4b36@lwn.net>
-In-Reply-To: <20190605015456.GA2710@mit.edu>
-References: <20190604134835.16fc6bfa@lwn.net>
-        <20190605015456.GA2710@mit.edu>
-Organization: LWN.net
+        id S1726633AbfFEUrC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Jun 2019 16:47:02 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:35024 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726631AbfFEUrC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jun 2019 16:47:02 -0400
+Received: by mail-pg1-f193.google.com with SMTP id s27so3936pgl.2;
+        Wed, 05 Jun 2019 13:47:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=Pf7vPUzXpmgu5ei4EbOnej2WlhVpMVJ8oO94zCYVA9Y=;
+        b=c5zJZ28hntFAhYITAkzJjEVb/JbeG1+VN1xcgeFdtlNZwxPdicl0NzqXYqwEu4SFD7
+         mjC/oROFVvkT/sIgcvkF2QtDjy5JwHcsFuJrsIz3p/Hz6lrelpQLrI2Rn3iwFbIVDYYv
+         lOeX63ILGjtYPu4janob7FQyJjcm7RVyOPfAd2pWrCHRlzZS7GWUinrWpFL+vF1BBZ2O
+         4imux6ak5VkGp6p8WMBi65H3ty1UqOnC8ffScgg3JyXs07DfesS0XXxTkKDFILNB/2/A
+         rX71Tx/howsUFlshYoKl9xWRUHoC4iizLDaOu46A9ymWXfpHKbf1+OdiU4rvZlowg7fz
+         cK7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Pf7vPUzXpmgu5ei4EbOnej2WlhVpMVJ8oO94zCYVA9Y=;
+        b=cLSuCa8FczvaXxVLUxRmYDwZf8ml8swQ9+E9wGQ9U2NBC3Xt/N+QsNox0ePPV4XSMg
+         eO8UBaWrRDfVu1H3JS8aHfFOOg/8DYdmsj0hBUIqdi5JCgG2nLqnPONPTmB7/oY31K+m
+         GIusvi4oKA7ggOnu8zVICHMzSrAKY6OmEAvHYhNDTA69nAqvX+z3YAiXIBotmrym1+YE
+         gnRJS45FFvh51Bxo3E0F+wI+l2cMvpkecQafTptqqorjdC7+ccsk6shszqdbvuufgXEj
+         B+lJsK4yS/jECKdw54GGHsW3J2AmCP6YKfqPTj5TGNNp7SIorA+vgTtDGkrz48JevoC7
+         WMfA==
+X-Gm-Message-State: APjAAAUB92HjZimR4NlsxmMnsmz3Sq3yKx+SEpfKjePXc5LdnSR7HVx6
+        69tOLo8PygOe0eqDoRBbF8o=
+X-Google-Smtp-Source: APXvYqwKpoprMbfDbxnxKrHvF6PC2uoXfdniniHVdUn8GZPManC7NmfAiGrJRFJD+7K3w3fw2afeDg==
+X-Received: by 2002:a65:5684:: with SMTP id v4mr934114pgs.160.1559767621254;
+        Wed, 05 Jun 2019 13:47:01 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id n1sm22150021pgv.15.2019.06.05.13.47.00
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 05 Jun 2019 13:47:00 -0700 (PDT)
+Date:   Wed, 5 Jun 2019 13:46:59 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Vijay Khemka <vijaykhemka@fb.com>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, joel@jms.id.au,
+        linux-aspeed@lists.ozlabs.org, sdasari@fb.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v2 1/2] hwmon: pmbus: Add Infineon PXE1610 VR driver
+Message-ID: <20190605204659.GA32329@roeck-us.net>
+References: <20190530231159.222188-1-vijaykhemka@fb.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190530231159.222188-1-vijaykhemka@fb.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 4 Jun 2019 21:54:56 -0400
-"Theodore Ts'o" <tytso@mit.edu> wrote:
-
-> FYI, it looks like your patch somehow got hit by your text editor (or
-> MUA's) line wrapping...
-
-Weird, I haven't had a problem like that in decades.  No idea what
-happened here...
-
-> > +
-> > + - Realize that the rebasing a patch series changes the environment in
-> > +   which it was developed and, likely, invalidates much of the testing
-> > that
-> > +   was done.  A rebased patch series should, as a general rule, be treated
-> > +   like new code and retested from the beginning.  
+On Thu, May 30, 2019 at 04:11:56PM -0700, Vijay Khemka wrote:
+> Added pmbus driver for the new device Infineon pxe1610
+> voltage regulator. It also supports similar family device
+> PXE1110 and PXM1310.
 > 
-> Shouldn't "reparenting" be used in this paragraph?
-> 
-> I suppose if a patch is getting dropped or modified that can
-> invalidate some of the testing (although it really depends on the
-> nature of what's being dropped or modified).  And if it's just adding
-> a Tested-by tag or a CVE number in the commit description, it's not
-> going to invalidate any testing.
+> Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
 
-I had thought about it and chosen "rebasing", but I can change it.
-
-> > +Another reason for doing merges of upstream or another subsystem tree is
-> > to +resolve dependencies.  These dependency issues do happen at times, and
-> > +sometimes a cross-merge with another tree is the best way to resolve them;
-> > +as always, in such situations, the merge commit should explain why the
-> > +merge has been done.  Take a momehnt to do it right; people will read those
-> > +changelogs.  
-> 
-> It might also be useful to mention it might be useful to put the
-> commits which are needed to solve the dependency problem on its own
-> separate branch, based off of something like -rc2, and then each of
-> the trees which need the prerequisite commits can merge in that
-> branch.
-
-That is (I think) in the following paragraph:
-
-> Possible alternatives include agreeing with the maintainer to carry
-> both sets of changes in one of the trees or creating a special branch
-> dedicated to the dependent commits.
-
-Perhaps that last line should read "...dedicated to the prerequisite
-commits, which can then be merged into both trees" ?
-
-Then perhaps I can finally declare victory on this thing? :)
+Applied.
 
 Thanks,
+Guenter
 
-jon
+> ---
+> Changes in v2:
+> incorporated all the feedback from Guenter Roeck <linux@roeck-us.net>
+> 
+>  drivers/hwmon/pmbus/Kconfig   |   9 +++
+>  drivers/hwmon/pmbus/Makefile  |   1 +
+>  drivers/hwmon/pmbus/pxe1610.c | 139 ++++++++++++++++++++++++++++++++++
+>  3 files changed, 149 insertions(+)
+>  create mode 100644 drivers/hwmon/pmbus/pxe1610.c
+> 
+> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+> index 30751eb9550a..338ef9b5a395 100644
+> --- a/drivers/hwmon/pmbus/Kconfig
+> +++ b/drivers/hwmon/pmbus/Kconfig
+> @@ -154,6 +154,15 @@ config SENSORS_MAX8688
+>  	  This driver can also be built as a module. If so, the module will
+>  	  be called max8688.
+>  
+> +config SENSORS_PXE1610
+> +	tristate "Infineon PXE1610"
+> +	help
+> +	  If you say yes here you get hardware monitoring support for Infineon
+> +	  PXE1610.
+> +
+> +	  This driver can also be built as a module. If so, the module will
+> +	  be called pxe1610.
+> +
+>  config SENSORS_TPS40422
+>  	tristate "TI TPS40422"
+>  	help
+> diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+> index 2219b9300316..b0fbd017a91a 100644
+> --- a/drivers/hwmon/pmbus/Makefile
+> +++ b/drivers/hwmon/pmbus/Makefile
+> @@ -18,6 +18,7 @@ obj-$(CONFIG_SENSORS_MAX20751)	+= max20751.o
+>  obj-$(CONFIG_SENSORS_MAX31785)	+= max31785.o
+>  obj-$(CONFIG_SENSORS_MAX34440)	+= max34440.o
+>  obj-$(CONFIG_SENSORS_MAX8688)	+= max8688.o
+> +obj-$(CONFIG_SENSORS_PXE1610)	+= pxe1610.o
+>  obj-$(CONFIG_SENSORS_TPS40422)	+= tps40422.o
+>  obj-$(CONFIG_SENSORS_TPS53679)	+= tps53679.o
+>  obj-$(CONFIG_SENSORS_UCD9000)	+= ucd9000.o
+> diff --git a/drivers/hwmon/pmbus/pxe1610.c b/drivers/hwmon/pmbus/pxe1610.c
+> new file mode 100644
+> index 000000000000..ebe3f023f840
+> --- /dev/null
+> +++ b/drivers/hwmon/pmbus/pxe1610.c
+> @@ -0,0 +1,139 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Hardware monitoring driver for Infineon PXE1610
+> + *
+> + * Copyright (c) 2019 Facebook Inc
+> + *
+> + */
+> +
+> +#include <linux/err.h>
+> +#include <linux/i2c.h>
+> +#include <linux/init.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include "pmbus.h"
+> +
+> +#define PXE1610_NUM_PAGES 3
+> +
+> +/* Identify chip parameters. */
+> +static int pxe1610_identify(struct i2c_client *client,
+> +			     struct pmbus_driver_info *info)
+> +{
+> +	if (pmbus_check_byte_register(client, 0, PMBUS_VOUT_MODE)) {
+> +		u8 vout_mode;
+> +		int ret;
+> +
+> +		/* Read the register with VOUT scaling value.*/
+> +		ret = pmbus_read_byte_data(client, 0, PMBUS_VOUT_MODE);
+> +		if (ret < 0)
+> +			return ret;
+> +
+> +		vout_mode = ret & GENMASK(4, 0);
+> +
+> +		switch (vout_mode) {
+> +		case 1:
+> +			info->vrm_version = vr12;
+> +			break;
+> +		case 2:
+> +			info->vrm_version = vr13;
+> +			break;
+> +		default:
+> +			return -ENODEV;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static struct pmbus_driver_info pxe1610_info = {
+> +	.pages = PXE1610_NUM_PAGES,
+> +	.format[PSC_VOLTAGE_IN] = linear,
+> +	.format[PSC_VOLTAGE_OUT] = vid,
+> +	.format[PSC_CURRENT_IN] = linear,
+> +	.format[PSC_CURRENT_OUT] = linear,
+> +	.format[PSC_TEMPERATURE] = linear,
+> +	.format[PSC_POWER] = linear,
+> +	.func[0] = PMBUS_HAVE_VIN
+> +		| PMBUS_HAVE_VOUT | PMBUS_HAVE_IIN
+> +		| PMBUS_HAVE_IOUT | PMBUS_HAVE_PIN
+> +		| PMBUS_HAVE_POUT | PMBUS_HAVE_TEMP
+> +		| PMBUS_HAVE_STATUS_VOUT | PMBUS_HAVE_STATUS_IOUT
+> +		| PMBUS_HAVE_STATUS_INPUT | PMBUS_HAVE_STATUS_TEMP,
+> +	.func[1] = PMBUS_HAVE_VIN
+> +		| PMBUS_HAVE_VOUT | PMBUS_HAVE_IIN
+> +		| PMBUS_HAVE_IOUT | PMBUS_HAVE_PIN
+> +		| PMBUS_HAVE_POUT | PMBUS_HAVE_TEMP
+> +		| PMBUS_HAVE_STATUS_VOUT | PMBUS_HAVE_STATUS_IOUT
+> +		| PMBUS_HAVE_STATUS_INPUT | PMBUS_HAVE_STATUS_TEMP,
+> +	.func[2] = PMBUS_HAVE_VIN
+> +		| PMBUS_HAVE_VOUT | PMBUS_HAVE_IIN
+> +		| PMBUS_HAVE_IOUT | PMBUS_HAVE_PIN
+> +		| PMBUS_HAVE_POUT | PMBUS_HAVE_TEMP
+> +		| PMBUS_HAVE_STATUS_VOUT | PMBUS_HAVE_STATUS_IOUT
+> +		| PMBUS_HAVE_STATUS_INPUT | PMBUS_HAVE_STATUS_TEMP,
+> +	.identify = pxe1610_identify,
+> +};
+> +
+> +static int pxe1610_probe(struct i2c_client *client,
+> +			  const struct i2c_device_id *id)
+> +{
+> +	struct pmbus_driver_info *info;
+> +	u8 buf[I2C_SMBUS_BLOCK_MAX];
+> +	int ret;
+> +
+> +	if (!i2c_check_functionality(
+> +			client->adapter,
+> +			I2C_FUNC_SMBUS_READ_BYTE_DATA
+> +			| I2C_FUNC_SMBUS_READ_WORD_DATA
+> +			| I2C_FUNC_SMBUS_READ_BLOCK_DATA))
+> +		return -ENODEV;
+> +
+> +	/*
+> +	 * By default this device doesn't boot to page 0, so set page 0
+> +	 * to access all pmbus registers.
+> +	 */
+> +	i2c_smbus_write_byte_data(client, PMBUS_PAGE, 0);
+> +
+> +	/* Read Manufacturer id */
+> +	ret = i2c_smbus_read_block_data(client, PMBUS_MFR_ID, buf);
+> +	if (ret < 0) {
+> +		dev_err(&client->dev, "Failed to read PMBUS_MFR_ID\n");
+> +		return ret;
+> +	}
+> +	if (ret != 2 || strncmp(buf, "XP", 2)) {
+> +		dev_err(&client->dev, "MFR_ID unrecognized\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	info = devm_kmemdup(&client->dev, &pxe1610_info,
+> +			    sizeof(struct pmbus_driver_info),
+> +			    GFP_KERNEL);
+> +	if (!info)
+> +		return -ENOMEM;
+> +
+> +	return pmbus_do_probe(client, id, info);
+> +}
+> +
+> +static const struct i2c_device_id pxe1610_id[] = {
+> +	{"pxe1610", 0},
+> +	{"pxe1110", 0},
+> +	{"pxm1310", 0},
+> +	{}
+> +};
+> +
+> +MODULE_DEVICE_TABLE(i2c, pxe1610_id);
+> +
+> +static struct i2c_driver pxe1610_driver = {
+> +	.driver = {
+> +			.name = "pxe1610",
+> +			},
+> +	.probe = pxe1610_probe,
+> +	.remove = pmbus_do_remove,
+> +	.id_table = pxe1610_id,
+> +};
+> +
+> +module_i2c_driver(pxe1610_driver);
+> +
+> +MODULE_AUTHOR("Vijay Khemka <vijaykhemka@fb.com>");
+> +MODULE_DESCRIPTION("PMBus driver for Infineon PXE1610, PXE1110 and PXM1310");
+> +MODULE_LICENSE("GPL");
