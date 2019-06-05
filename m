@@ -5,119 +5,58 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6EB6A7D2F0
+	by archive.lwn.net (Postfix) with ESMTP id 837F47D912
 	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Jun 2019 09:54:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727093AbfFEJyA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1727120AbfFEJyA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Wed, 5 Jun 2019 05:54:00 -0400
-Received: from mga07.intel.com ([134.134.136.100]:10368 "EHLO mga07.intel.com"
+Received: from mx1.redhat.com ([209.132.183.28]:60524 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726690AbfFEJx7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 5 Jun 2019 05:53:59 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Jun 2019 02:53:59 -0700
-X-ExtLoop1: 1
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.150])
-  by fmsmga001.fm.intel.com with ESMTP; 05 Jun 2019 02:53:57 -0700
-From:   Jani Nikula <jani.nikula@intel.com>
-To:     intel-gfx@lists.freedesktop.org
-Cc:     linux-doc@vger.kernel.org, jani.nikula@intel.com
-Subject: [PATCH 2/2] drm/i915: fix documentation build warnings
-Date:   Wed,  5 Jun 2019 12:56:57 +0300
-Message-Id: <20190605095657.23601-2-jani.nikula@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190605095657.23601-1-jani.nikula@intel.com>
-References: <20190605095657.23601-1-jani.nikula@intel.com>
+        id S1726690AbfFEJyA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 Jun 2019 05:54:00 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 4A76F85360;
+        Wed,  5 Jun 2019 09:54:00 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-173.rdu2.redhat.com [10.10.120.173])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id DA7832C8CA;
+        Wed,  5 Jun 2019 09:53:56 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <21350864823e07cc951e1dc7f0601baa09920ac4.1559656538.git.mchehab+samsung@kernel.org>
+References: <21350864823e07cc951e1dc7f0601baa09920ac4.1559656538.git.mchehab+samsung@kernel.org> <cover.1559656538.git.mchehab+samsung@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     dhowells@redhat.com,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        keyrings@vger.kernel.org
+Subject: Re: [PATCH v2 15/22] docs: security: core.rst: Fix several warnings
 MIME-Version: 1.0
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <26616.1559728436.1@warthog.procyon.org.uk>
+Date:   Wed, 05 Jun 2019 10:53:56 +0100
+Message-ID: <26617.1559728436@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.25]); Wed, 05 Jun 2019 09:54:00 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Just a straightforward bag of fixes for a clean htmldocs build.
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- Documentation/gpu/i915.rst              | 6 ------
- drivers/gpu/drm/i915/i915_reg.h         | 2 +-
- drivers/gpu/drm/i915/i915_vma.h         | 2 ++
- drivers/gpu/drm/i915/intel_guc_fwif.h   | 2 ++
- drivers/gpu/drm/i915/intel_runtime_pm.c | 2 --
- 5 files changed, 5 insertions(+), 9 deletions(-)
+> +  *  ``asym_eds_op`` and ``asym_verify_signature``::
+> +
+> +       int (*asym_eds_op)(struct kernel_pkey_params *params,
+> +			  const void *in, void *out);
+> +       int (*asym_verify_signature)(struct kernel_pkey_params *params,
+> +				    const void *in, const void *in2);
 
-diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
-index f98ee95da90f..300220c4b498 100644
---- a/Documentation/gpu/i915.rst
-+++ b/Documentation/gpu/i915.rst
-@@ -475,12 +475,6 @@ i915_context_create and i915_context_free
- .. kernel-doc:: drivers/gpu/drm/i915/i915_trace.h
-    :doc: i915_context_create and i915_context_free tracepoints
- 
--switch_mm
-----------
--
--.. kernel-doc:: drivers/gpu/drm/i915/i915_trace.h
--   :doc: switch_mm tracepoint
--
- Perf
- ====
- 
-diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-index 07e3f861a92e..b7c13d5deb15 100644
---- a/drivers/gpu/drm/i915/i915_reg.h
-+++ b/drivers/gpu/drm/i915/i915_reg.h
-@@ -153,7 +153,7 @@
-  * REG_FIELD_PREP() - Prepare a u32 bitfield value
-  * @__mask: shifted mask defining the field's length and position
-  * @__val: value to put in the field
--
-+ *
-  * Local copy of FIELD_PREP() to generate an integer constant expression, force
-  * u32 and for consistency with REG_FIELD_GET(), REG_BIT() and REG_GENMASK().
-  *
-diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
-index 2657c99fe187..bc15083bd479 100644
---- a/drivers/gpu/drm/i915/i915_vma.h
-+++ b/drivers/gpu/drm/i915/i915_vma.h
-@@ -40,6 +40,8 @@
- enum i915_cache_level;
- 
- /**
-+ * DOC: Virtual Memory Address
-+ *
-  * A VMA represents a GEM BO that is bound into an address space. Therefore, a
-  * VMA's presence cannot be guaranteed before binding, or after unbinding the
-  * object into/from the address space.
-diff --git a/drivers/gpu/drm/i915/intel_guc_fwif.h b/drivers/gpu/drm/i915/intel_guc_fwif.h
-index 3d1de288d96c..f55f3bc8524d 100644
---- a/drivers/gpu/drm/i915/intel_guc_fwif.h
-+++ b/drivers/gpu/drm/i915/intel_guc_fwif.h
-@@ -500,6 +500,8 @@ enum guc_log_buffer_type {
- };
- 
- /**
-+ * struct guc_log_buffer_state - GuC log buffer state
-+ *
-  * Below state structure is used for coordination of retrieval of GuC firmware
-  * logs. Separate state is maintained for each log buffer type.
-  * read_ptr points to the location where i915 read last in log buffer and
-diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.c b/drivers/gpu/drm/i915/intel_runtime_pm.c
-index 3bdeea596ad5..af3c1ada1b2e 100644
---- a/drivers/gpu/drm/i915/intel_runtime_pm.c
-+++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
-@@ -391,8 +391,6 @@ static intel_wakeref_t __intel_runtime_pm_get(struct drm_i915_private *i915,
-  * asynchronous PM management from display code) and ensures that it is powered
-  * up. Raw references are not considered during wakelock assert checks.
-  *
-- * Returns:
-- * True when the power domain is enabled, false otherwise.
-  * Any runtime pm reference obtained by this function must have a symmetric
-  * call to intel_runtime_pm_put_raw() to release the reference again.
-  *
--- 
-2.20.1
+That's redundant and shouldn't be necessary.
 
+David
