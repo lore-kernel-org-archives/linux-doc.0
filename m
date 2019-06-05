@@ -4,55 +4,55 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_MED,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 833177D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Tue,  4 Jun 2019 23:35:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 477227D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Jun 2019 00:19:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726693AbfFDXfN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 4 Jun 2019 19:35:13 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:45332 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726354AbfFDXfN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jun 2019 19:35:13 -0400
-Received: by mail-lf1-f65.google.com with SMTP id u10so10684893lfm.12
-        for <linux-doc@vger.kernel.org>; Tue, 04 Jun 2019 16:35:12 -0700 (PDT)
+        id S1726608AbfFEATm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 4 Jun 2019 20:19:42 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:40976 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726606AbfFEATm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 4 Jun 2019 20:19:42 -0400
+Received: by mail-lj1-f193.google.com with SMTP id s21so10832586lji.8
+        for <linux-doc@vger.kernel.org>; Tue, 04 Jun 2019 17:19:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=yUmGpFNz6fygF8JqTGIH7xCmXTGijTn5zshzVeIRyeU=;
-        b=n7729tdVd3jiiQzxyuAeBqRs5Gxta2lFj3c+5zHccv1uoJt2AmyWyIDUmg3JxWlagm
-         M7C85QUZ1yXvYp4uRNAObTU5YeMqh3a1wo5N9AJPUoMbdbPZFo/1bO/N1rShEEWiWI/v
-         Q5BI60V/NuZ52yrsR6VbaGcuc0c695fmqthfBEC0S0U3y4gF1Q08eneEUDigrRf9hMyB
-         iQhbHsK661Yo5QjuEON5MQg+g2Pkp/H8jIb/fz9zGMrFKEuNEFNEvKupY/jJ8Vu91CzS
-         9bZX4E1E7GESuDjTm/u2NlMe8YNUYbmht0QRBeMkkioK7eHniavWPW592kDJkctLp/+R
-         YphA==
+        bh=wdmJ9l6dKN/M8KJKaReWlFRx3EElIyLoR59kmGQ0ajY=;
+        b=mWp51IFY9ldz1n3pj1fKrjbn8ZSGPWgwyelkcW6/s7v+y0e0DR/V8GR1ZxM1BsBeAX
+         mqVaa/tfXDd/6MEO1OGM22zX0t4jPSi2d71oCngZuhbWkZxio6+sFzeQvWqDrIYIpJuw
+         nH2s7y3MrUSzM3dAVIORTn4j8f2hTE4FKXFXiB6vbyOyWM+8sm7qnuJAdZe0dYu2FmQB
+         G/4Hd50+HcTF52V70z6ii5Z+BoWQp+0M49tLLSAs+EJ/ROKxeK9GHDSjTGCoNxZTB406
+         eMV8PQsiA3EH2MFRRpS50GYwQWxdJ7xN9x1Gd1qekPsZCFSmXsLb0mvz92xMWF6zHTLn
+         it2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=yUmGpFNz6fygF8JqTGIH7xCmXTGijTn5zshzVeIRyeU=;
-        b=Tn3S2b3omcGETdiVozLOCLMSFWhk1iDNQ2aBTFRB+nKwkcUGI49rGMKbIHC8k4C6KY
-         F8XwjJkypkDY1d4IifHR4/12mnmAwbudJEVVzIoMvMVaVVKhka6zHfLJTk+IxsmI5bsu
-         SZ2FRkZodGlGoihvGKczm1VKPjqDlVRZMG0WSVmC7LZRZkRK937sxCIojW852SxnJgzV
-         AEB8frOuhx7QSxSupN0eemCQD8esMlRBECIIM9jMw2QiAqfbgU8fN7FtN1hHBRuLolXc
-         52O7pjdTxn7KmjW7UemE89O0qeU+y6Kr2jfaZGee24a/Q1h1qfSlSIlN44DzErWrIl0X
-         4qDg==
-X-Gm-Message-State: APjAAAXNfpO0Z94tPsEKaCxar1VxRgMjPnc83vGi512biuOyg3PaNJb5
-        36Cr+O0E4h2o1chPY4vSvcl17VvoR46oFPvfyelDxA==
-X-Google-Smtp-Source: APXvYqxFVfsY2uUyOvHDHQWsWPz6JVCPCIp44WWY+H6aJDJ/TaoNNgHz4dGto/MoXWH1ptk3ODVootrUgExaXb/yDLQ=
-X-Received: by 2002:a19:7110:: with SMTP id m16mr18059760lfc.4.1559691310771;
- Tue, 04 Jun 2019 16:35:10 -0700 (PDT)
+        bh=wdmJ9l6dKN/M8KJKaReWlFRx3EElIyLoR59kmGQ0ajY=;
+        b=cHmJP79hDTtW8XAkq2cRgeK/KIf2b47wuZIlAJdMFSJqaTa5udOzbpuv0SaFtqj5mL
+         aoFzJUINta5545qV29ton7r6jY72rrIqRzM3H9wQ0mmmgxh4GT6F47LPiFq+uZ7Ggjme
+         7BW4lRzF67rnvtan7v8LTniaIQiZvxznwdwVgdTXVWUrDJRUCpZZpeFpluiWY2yo0KTL
+         DSwwhe1EOnZJ29K/iOt649qVYn3EmRZLLUJGAw4YAQtrxl/ECp8rR8/YnPdEJ8TAJykN
+         vDy6lx/4LQN3Ajou5IWMzSy7bS2w29PIW6MyvpNQS+S1UF/5yXZuvKkdLGmSf2PiwOrH
+         7lYA==
+X-Gm-Message-State: APjAAAUu0iz/DjIUSvJwQgz7+JvNHLBhvs/9p9EaqbbJLD6Zj7lUol7E
+        Xj1z9lH/zhWi0vr1MvKU2CPoJmOvZU80HbJuFNgGjw==
+X-Google-Smtp-Source: APXvYqz12ZqA7QhRnSs7NCGRounbiJim0N2d6mvCnGBaDXvxAiRpIwE1RpZWUzCT4YdYhAmjp6wliW9IQj3YJNSuaRI=
+X-Received: by 2002:a2e:9e8e:: with SMTP id f14mr3500ljk.120.1559693980056;
+ Tue, 04 Jun 2019 17:19:40 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190514221711.248228-1-brendanhiggins@google.com>
- <20190514221711.248228-3-brendanhiggins@google.com> <20190517003847.0962F2082E@mail.kernel.org>
-In-Reply-To: <20190517003847.0962F2082E@mail.kernel.org>
+ <20190514221711.248228-4-brendanhiggins@google.com> <20190517174300.7949F20848@mail.kernel.org>
+In-Reply-To: <20190517174300.7949F20848@mail.kernel.org>
 From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Tue, 4 Jun 2019 16:34:58 -0700
-Message-ID: <CAFd5g45taSVNXSQJrXnHLG_Rtum650vFw1zccqv1Tyru5A5d8w@mail.gmail.com>
-Subject: Re: [PATCH v4 02/18] kunit: test: add test resource management API
+Date:   Tue, 4 Jun 2019 17:19:28 -0700
+Message-ID: <CAFd5g45WrARi7eXsVKyq2eJH5j+wSrCCaHHSHrMptG7+MnNiTg@mail.gmail.com>
+Subject: Re: [PATCH v4 03/18] kunit: test: add string_stream a std::stream
+ like string builder
 To:     Stephen Boyd <sboyd@kernel.org>
 Cc:     Frank Rowand <frowand.list@gmail.com>,
         Greg KH <gregkh@linuxfoundation.org>,
@@ -97,65 +97,40 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, May 16, 2019 at 5:38 PM Stephen Boyd <sboyd@kernel.org> wrote:
+On Fri, May 17, 2019 at 10:43 AM Stephen Boyd <sboyd@kernel.org> wrote:
 >
-> Quoting Brendan Higgins (2019-05-14 15:16:55)
-> > diff --git a/kunit/test.c b/kunit/test.c
-> > index 86f65ba2bcf92..a15e6f8c41582 100644
-> > --- a/kunit/test.c
-> > +++ b/kunit/test.c
-> [..]
-> > +
-> > +void *kunit_kmalloc(struct kunit *test, size_t size, gfp_t gfp)
-> > +{
-> > +       struct kunit_kmalloc_params params;
-> > +       struct kunit_resource *res;
-> > +
-> > +       params.size = size;
-> > +       params.gfp = gfp;
-> > +
-> > +       res = kunit_alloc_resource(test,
-> > +                                  kunit_kmalloc_init,
-> > +                                  kunit_kmalloc_free,
-> > +                                  &params);
-> > +
-> > +       if (res)
-> > +               return res->allocation;
-> > +       else
-> > +               return NULL;
+> Quoting Brendan Higgins (2019-05-14 15:16:56)
+> > A number of test features need to do pretty complicated string printing
+> > where it may not be possible to rely on a single preallocated string
+> > with parameters.
+> >
+> > So provide a library for constructing the string as you go similar to
+> > C++'s std::string.
+> >
+> > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+> > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
 >
-> Can be written as
->
->         if (res)
->                 return ....
->         return
->
-> and some static analysis tools prefer this.
+> Is there any reason why we can't use the seqfile API for this? These
+> both share a similar goal, formatting strings into a buffer to be read
+> later. Maybe some new APIs would be needed to extract the buffer
+> differently, but I hope we could share the code.
 
-Sounds reasonable, will fix in next revision.
+I can see why you are asking. It seems as though they are trying to do
+*similar* things, and it seems possible that we might be able to
+extract some common functionality out of seq_file that could replace
+this; however, it looks like it would be require a significant
+refactoring of seq_file to separate out the file system specific bits
+from the more general stringbuilder functionality.
 
-> > +}
-> > +
-> > +void kunit_cleanup(struct kunit *test)
-> > +{
-> > +       struct kunit_resource *resource, *resource_safe;
-> > +       unsigned long flags;
-> > +
-> > +       spin_lock_irqsave(&test->lock, flags);
->
-> Ah ok, test->lock is protecting everything now? Does it need to be a
-> spinlock, or can it be a mutex?
+In my opinion, a refactoring like this makes no sense in this
+patchset; it probably belongs in its own patchset (preferably as a
+follow on). I also am not sure if the FS people would appreciate
+indirection that serves them no benefit, but I can ask if you like.
 
-No it needs to be a spin lock. There are some conceivable
-circumstances where the test object can be accessed by code in which
-it isn't safe to sleep.
+> If it can't be used, can you please add the reasoning to the commit text
+> here?
 
-> > +       list_for_each_entry_safe(resource,
-> > +                                resource_safe,
-> > +                                &test->resources,
-> > +                                node) {
-> > +               kunit_free_resource(test, resource);
-> > +       }
-> > +       spin_unlock_irqrestore(&test->lock, flags);
-> > +}
-> > +
+Will do.
+
+Thanks!
