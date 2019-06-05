@@ -1,129 +1,112 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_HIGH
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 01FE77D912
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Jun 2019 08:02:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C4A2B7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Jun 2019 08:36:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726773AbfFEICq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Jun 2019 04:02:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34236 "EHLO mail.kernel.org"
+        id S1726604AbfFEIgB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Jun 2019 04:36:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42310 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726667AbfFEICq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 5 Jun 2019 04:02:46 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1726537AbfFEIgB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 Jun 2019 04:36:01 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6ECA32083E;
-        Wed,  5 Jun 2019 08:02:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1559721764;
-        bh=LwRQOHtpKX9zl3Ma2xTZzw3nDRco9+SY8EUjzp0UTD0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Pp9JlNNoqPiFdhiBlFUz5dnRgyoXrk+c8wyx1obeuoH6pzd0+ewihSrjy2sOv3sa1
-         VvxARSlxSFMe1IktEnbPDGsOVeBtRzqHunGXXITMPPTQDHGLuFEChS9rGoPPr2WICQ
-         O3aSI4V50URh+N/hfjgB8Gsp+p3w166yoc4IjX/0=
-Date:   Wed, 5 Jun 2019 10:02:41 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     Guenter Roeck <groeck@google.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Benson Leung <bleung@chromium.org>, kernel@collabora.com,
-        Dmitry Torokhov <dtor@chromium.org>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        linux-doc@vger.kernel.org, Enno Luebbers <enno.luebbers@intel.com>,
-        Guido Kiener <guido@kiener-muenchen.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Jonathan Corbet <corbet@lwn.net>, Wu Hao <hao.wu@intel.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Tycho Andersen <tycho@tycho.ws>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Jilayne Lovejoy <opensource@jilayne.com>
-Subject: Re: [PATCH 03/10] mfd / platform: cros_ec: Miscellaneous character
- device to talk with the EC
-Message-ID: <20190605080241.GC9693@kroah.com>
-References: <20190604152019.16100-1-enric.balletbo@collabora.com>
- <20190604152019.16100-4-enric.balletbo@collabora.com>
- <20190604155228.GB9981@kroah.com>
- <beaf3554bb85974eb118d7722ca55f1823b1850c.camel@collabora.com>
- <20190604183527.GA20098@kroah.com>
- <CABXOdTfU9KaBDhQcwvBGWCmVfnd02_ZFmPGtJsCtGQ-iO9A3Qw@mail.gmail.com>
- <20190604185953.GA2061@kroah.com>
- <20190605064839.GH4797@dell>
+        by mx1.redhat.com (Postfix) with ESMTPS id D65E830860BD;
+        Wed,  5 Jun 2019 08:36:00 +0000 (UTC)
+Received: from [10.43.17.112] (unknown [10.43.17.112])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id AFD045F7C2;
+        Wed,  5 Jun 2019 08:35:50 +0000 (UTC)
+Subject: Re: [dm-devel] [PATCH v12] dm: add support to directly boot to a
+ mapped device
+To:     Stephen Boyd <swboyd@chromium.org>,
+        Helen Koike <helen.koike@collabora.com>, dm-devel@redhat.com
+Cc:     wad@chromium.org, keescook@chromium.org, snitzer@redhat.com,
+        linux-doc@vger.kernel.org, richard.weinberger@gmail.com,
+        linux-kernel@vger.kernel.org, linux-lvm@redhat.com,
+        enric.balletbo@collabora.com, kernel@collabora.com, agk@redhat.com
+References: <20190221203334.24504-1-helen.koike@collabora.com>
+ <5cf5a724.1c69fb81.1e8f0.08fb@mx.google.com>
+ <d6b4fb26-9a1b-0acd-ce4a-e48322a17e7d@collabora.com>
+ <5cf6c7e6.1c69fb81.e1551.8ac4@mx.google.com>
+From:   Zdenek Kabelac <zkabelac@redhat.com>
+Organization: Red Hat
+Message-ID: <c5eae05c-f209-8578-f7fd-cd2feabb309c@redhat.com>
+Date:   Wed, 5 Jun 2019 10:35:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190605064839.GH4797@dell>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+In-Reply-To: <5cf6c7e6.1c69fb81.e1551.8ac4@mx.google.com>
+Content-Type: text/plain; charset=iso-8859-2; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.44]); Wed, 05 Jun 2019 08:36:01 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 05, 2019 at 07:48:39AM +0100, Lee Jones wrote:
-> On Tue, 04 Jun 2019, Greg Kroah-Hartman wrote:
-> > On Tue, Jun 04, 2019 at 11:39:21AM -0700, Guenter Roeck wrote:
-> > > On Tue, Jun 4, 2019 at 11:35 AM Greg Kroah-Hartman
-> > > <gregkh@linuxfoundation.org> wrote:
-> > > >
-> > > > On Tue, Jun 04, 2019 at 01:58:38PM -0300, Ezequiel Garcia wrote:
-> > > > > Hey Greg,
-> > > > >
-> > > > > > > + dev_info(&pdev->dev, "Created misc device /dev/%s\n",
-> > > > > > > +          data->misc.name);
-> > > > > >
-> > > > > > No need to be noisy, if all goes well, your code should be quiet.
-> > > > > >
-> > > > >
-> > > > > I sometimes wonder about this being noise or not, so I will slightly
-> > > > > hijack this thread for this discussion.
-> > > > >
-> > > > > >From a kernel developer point-of-view, or even from a platform
-> > > > > developer or user with a debugging hat point-of-view, having
-> > > > > a "device created" or "device registered" message is often very useful.
-> > > >
-> > > > For you, yes.  For someone with 30000 devices attached to their system,
-> > > > it is not, and causes booting to take longer than it should be.
+Dne 04. 06. 19 v 21:35 Stephen Boyd napsal(a):
+> Quoting Helen Koike (2019-06-04 10:38:59)
+>> On 6/3/19 8:02 PM, Stephen Boyd wrote:
+>>>
+>>> I'm trying to boot a mainline linux kernel on a chromeos device with dm
+>>> verity and a USB stick but it's not working for me even with this patch.
+>>> I've had to hack around two problems:
+>>>
+>>>   1) rootwait isn't considered
+>>>
+>>>   2) verity doesn't seem to accept UUID for <hash_dev> or <dev>
+>>>
+>>> For the first problem, it happens every boot for me because I'm trying
+>>> to boot off of a USB stick and it's behind a hub that takes a few
+>>> seconds to enumerate. If I hack up the code to call dm_init_init() after
+>>> the 'rootdelay' cmdline parameter is used then I can make this work. It
+>>> would be much nicer if the whole mechanism didn't use a late initcall
+>>> though. If it used a hook from prepare_namespace() and then looped
+>>> waiting for devices to create when rootwait was specified it would work.
+>>
+>> The patch was implemented with late initcall partially to be contained
+>> in drivers/md/*, but to support rootwait, adding a hook from
+>> prepare_namespace seems the way to go indeed.
 > 
-> Who has 30,000 devices attached to their systems?
-
-More than you might imagine.
-
-> I would argue that
-> in these special corner-cases, they should knock the log-level *down*
-> a notch.  For the rest of us who run normal platforms, an extra second
-> of boot time renders a more forthcoming/useful system than if each of
-> our devices initialised silently.
+> Alright, great.
 > 
-> Personally I like to know what devices I have on my system, and the
-> kernel log is the first place I look.  As far as I'm concerned, for
-> the most part, if it's not in the kernel log, I don't have it.
+>>
+>>>
+>>> The second problem is that in chromeos we have the bootloader fill out
+>>> the UUID of the kernel partition (%U) and then we have another parameter
+>>> that indicates the offset from that kernel partition to add to the
+>>> kernel partition (typically 1, i.e. PARTNROFF=1) to find the root
+>>> filesystem partition. The way verity seems to work here is that we need
+>>> to specify a path like /dev/sda3 or the major:minor number of the device
 
-Then you "do not have" lots of devices, as we have been removing these
-messages for a number of years now :)
 
->  "Oh wow, I didn't know I had XXX functionality on this platform."
-> 
-> In my real job, I am currently enabling some newly released AArch64
-> based laptops for booting with ACPI.  I must have wasted a day whilst
-> enabling some of the devices the system relies upon, just to find
-> out that 90% of them were actually probing semi-fine (at least probe()
-> was succeeding), just silently. *grumble*
+Hi
 
-Yup, that's normal.  If you want to see what devices are in the system,
-look in /sys/devices/ as that is what it is for, not the kernel log.
+As not a direct dm developer - isn't this going a bit too far ? -
+This way you will need to soon move halve of the userspace functionality into 
+kernel space.
 
-thanks,
+IMHO would be way more progressive to start using initramdisk and let 
+userspace resolve all the issue.
 
-greg k-h
+Clearly once you start to wait for some 'devices' to appear - then you will 
+need to way for CORRECT device as well - since sda,sdb... goes in random 
+order, so you would need to parse disk headers and so on.
+
+What you are effectively doing at this moment is you are shifting/ballooning 
+'ramdisk' code into kernel image - just to be named a kernel.
+
+So why it is so big deal to start to use ramdisk on ChromeOS?
+That would have solved most of problems you have or you will have instantly.
+
+Regards
+
+Zdenek
