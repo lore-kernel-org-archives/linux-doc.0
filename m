@@ -1,258 +1,143 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 944AC7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Jun 2019 06:17:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8BF3B7D910
+	for <lwn-linux-doc@archive.lwn.net>; Wed,  5 Jun 2019 06:48:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726699AbfFEGRI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Jun 2019 02:17:08 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42248 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726701AbfFEGRI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jun 2019 02:17:08 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x556D1aw041128
-        for <linux-doc@vger.kernel.org>; Wed, 5 Jun 2019 02:17:08 -0400
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2sx5shmusv-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Wed, 05 Jun 2019 02:17:07 -0400
-Received: from localhost
-        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <ajd@linux.ibm.com>;
-        Wed, 5 Jun 2019 07:17:04 +0100
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
-        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Wed, 5 Jun 2019 07:16:58 +0100
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x556Gvcn42533004
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 5 Jun 2019 06:16:57 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id BC6B95204E;
-        Wed,  5 Jun 2019 06:16:57 +0000 (GMT)
-Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 27FF352050;
-        Wed,  5 Jun 2019 06:16:57 +0000 (GMT)
-Received: from [10.61.2.125] (haven.au.ibm.com [9.192.254.114])
-        (using TLSv1.2 with cipher AES128-SHA (128/128 bits))
-        (No client certificate requested)
-        by ozlabs.au.ibm.com (Postfix) with ESMTPSA id 110F4A01BD;
-        Wed,  5 Jun 2019 16:16:56 +1000 (AEST)
-Subject: Re: [PATCH v2 06/22] docs: mark orphan documents as such
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Frederic Barrat <fbarrat@linux.ibm.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Georgi Djakov <georgi.djakov@linaro.org>,
-        Matan Ziv-Av <matan@svgalib.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        linuxppc-dev@lists.ozlabs.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org,
-        dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-References: <cover.1559656538.git.mchehab+samsung@kernel.org>
- <4afa83787acec906c383978dc01f286940e28616.1559656538.git.mchehab+samsung@kernel.org>
-From:   Andrew Donnellan <ajd@linux.ibm.com>
-Date:   Wed, 5 Jun 2019 16:16:55 +1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1726595AbfFEGso (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Jun 2019 02:48:44 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:33697 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726050AbfFEGsn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jun 2019 02:48:43 -0400
+Received: by mail-wr1-f65.google.com with SMTP id n9so5780557wru.0
+        for <linux-doc@vger.kernel.org>; Tue, 04 Jun 2019 23:48:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=W5TWY3xUWmyojqlHiseZupOW72dJuoI59Q3NcPm8hCw=;
+        b=crhUFX5XRcg8XMuiXovWdKrby4iZ6ka7l5XuzpjWsH+FaIIMX3VE8SU14DdE1ABhGx
+         n3MNuBTrTJABc6TyVvp0zxXeuk4Sh8m02mz0C8kfLuHIShEtxEebxnAyReniJKeAMfSu
+         PwEdukfO29TTJNh6nfWqNZR2wYSOtQlCnChP7RoqPo4Y7riA19vkx05OP3fHtA8isgdd
+         r3EECVmM+qz8NwBUjr5Ivv+T3Woj/98Lc8n6CrzH2KowTqAqI3kvYG28+dYxu1u5hj0/
+         YyF33PhYMVpwphfL2YdxF7ZvaAzJl+SlGMmoX4Z8eGfER4shOfoU9NnbKXNkLMiKZ47N
+         eRrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=W5TWY3xUWmyojqlHiseZupOW72dJuoI59Q3NcPm8hCw=;
+        b=rNRCh7Y9Jky5AZXr7vQ1NKnZ59BFfwRbANETqRGpIUAOiA+oFoQKRPKJRi2TMJ4p+B
+         wnfjPQIwDCxMYtqJlZR1sgYgWN+ejZ737RLFf9KlRzFvZhu0SJawIxHVH4LNOIxMeg1S
+         tSd1p+ydxEC3bNwNljBsw9mK4k08u6jllc4H7YO4OmbL/EmS9sQ1fjZCZk9cd6DvhmUN
+         GpFe3HgIupL8mFoUm4TmoypTzjBSetASSNq4be3dxaGSzo+vVIopS6ndQillZysCtHoB
+         kRICaLqObtpdVw77UHZAFeDioZGO1SGuILCx/DNMF1mzU9r93atQHLlbFwItfIUvlqm6
+         bPNA==
+X-Gm-Message-State: APjAAAXynFyvGbdQ8vuxMGb6NkBe1iBs5CRe3hb5UoArcczCqesu6vqX
+        5lQyilVfTswygiMFXa6JhEzEdA==
+X-Google-Smtp-Source: APXvYqxfoyrq9ifabub4X4wof+1Er2oF20iwQEKwJ1norepUGBPvtiFM7uN0lntWIFsHUufUAwbL1w==
+X-Received: by 2002:a5d:424f:: with SMTP id s15mr5388490wrr.37.1559717321800;
+        Tue, 04 Jun 2019 23:48:41 -0700 (PDT)
+Received: from dell ([2.27.167.43])
+        by smtp.gmail.com with ESMTPSA id y17sm43465891wrg.18.2019.06.04.23.48.40
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 04 Jun 2019 23:48:41 -0700 (PDT)
+Date:   Wed, 5 Jun 2019 07:48:39 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Guenter Roeck <groeck@google.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Benson Leung <bleung@chromium.org>, kernel@collabora.com,
+        Dmitry Torokhov <dtor@chromium.org>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        linux-doc@vger.kernel.org, Enno Luebbers <enno.luebbers@intel.com>,
+        Guido Kiener <guido@kiener-muenchen.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Jonathan Corbet <corbet@lwn.net>, Wu Hao <hao.wu@intel.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Tycho Andersen <tycho@tycho.ws>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Jilayne Lovejoy <opensource@jilayne.com>
+Subject: Re: [PATCH 03/10] mfd / platform: cros_ec: Miscellaneous character
+ device to talk with the EC
+Message-ID: <20190605064839.GH4797@dell>
+References: <20190604152019.16100-1-enric.balletbo@collabora.com>
+ <20190604152019.16100-4-enric.balletbo@collabora.com>
+ <20190604155228.GB9981@kroah.com>
+ <beaf3554bb85974eb118d7722ca55f1823b1850c.camel@collabora.com>
+ <20190604183527.GA20098@kroah.com>
+ <CABXOdTfU9KaBDhQcwvBGWCmVfnd02_ZFmPGtJsCtGQ-iO9A3Qw@mail.gmail.com>
+ <20190604185953.GA2061@kroah.com>
 MIME-Version: 1.0
-In-Reply-To: <4afa83787acec906c383978dc01f286940e28616.1559656538.git.mchehab+samsung@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-AU
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19060506-0016-0000-0000-00000284C794
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19060506-0017-0000-0000-000032E1DAC1
-Message-Id: <65ffdb35-1179-be57-6258-991a02a67a66@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-06-05_05:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1906050039
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190604185953.GA2061@kroah.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/6/19 12:17 am, Mauro Carvalho Chehab wrote:
-> Sphinx doesn't like orphan documents:
-> 
->      Documentation/accelerators/ocxl.rst: WARNING: document isn't included in any toctree
->      Documentation/arm/stm32/overview.rst: WARNING: document isn't included in any toctree
->      Documentation/arm/stm32/stm32f429-overview.rst: WARNING: document isn't included in any toctree
->      Documentation/arm/stm32/stm32f746-overview.rst: WARNING: document isn't included in any toctree
->      Documentation/arm/stm32/stm32f769-overview.rst: WARNING: document isn't included in any toctree
->      Documentation/arm/stm32/stm32h743-overview.rst: WARNING: document isn't included in any toctree
->      Documentation/arm/stm32/stm32mp157-overview.rst: WARNING: document isn't included in any toctree
->      Documentation/gpu/msm-crash-dump.rst: WARNING: document isn't included in any toctree
->      Documentation/interconnect/interconnect.rst: WARNING: document isn't included in any toctree
->      Documentation/laptops/lg-laptop.rst: WARNING: document isn't included in any toctree
->      Documentation/powerpc/isa-versions.rst: WARNING: document isn't included in any toctree
->      Documentation/virtual/kvm/amd-memory-encryption.rst: WARNING: document isn't included in any toctree
->      Documentation/virtual/kvm/vcpu-requests.rst: WARNING: document isn't included in any toctree
-> 
-> So, while they aren't on any toctree, add :orphan: to them, in order
-> to silent this warning.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+On Tue, 04 Jun 2019, Greg Kroah-Hartman wrote:
+> On Tue, Jun 04, 2019 at 11:39:21AM -0700, Guenter Roeck wrote:
+> > On Tue, Jun 4, 2019 at 11:35 AM Greg Kroah-Hartman
+> > <gregkh@linuxfoundation.org> wrote:
+> > >
+> > > On Tue, Jun 04, 2019 at 01:58:38PM -0300, Ezequiel Garcia wrote:
+> > > > Hey Greg,
+> > > >
+> > > > > > + dev_info(&pdev->dev, "Created misc device /dev/%s\n",
+> > > > > > +          data->misc.name);
+> > > > >
+> > > > > No need to be noisy, if all goes well, your code should be quiet.
+> > > > >
+> > > >
+> > > > I sometimes wonder about this being noise or not, so I will slightly
+> > > > hijack this thread for this discussion.
+> > > >
+> > > > >From a kernel developer point-of-view, or even from a platform
+> > > > developer or user with a debugging hat point-of-view, having
+> > > > a "device created" or "device registered" message is often very useful.
+> > >
+> > > For you, yes.  For someone with 30000 devices attached to their system,
+> > > it is not, and causes booting to take longer than it should be.
 
-ocxl:
+Who has 30,000 devices attached to their systems?  I would argue that
+in these special corner-cases, they should knock the log-level *down*
+a notch.  For the rest of us who run normal platforms, an extra second
+of boot time renders a more forthcoming/useful system than if each of
+our devices initialised silently.
 
-Acked-by: Andrew Donnellan <ajd@linux.ibm.com>
+Personally I like to know what devices I have on my system, and the
+kernel log is the first place I look.  As far as I'm concerned, for
+the most part, if it's not in the kernel log, I don't have it.
 
-We should find somewhere to put it...
+ "Oh wow, I didn't know I had XXX functionality on this platform."
 
-> ---
->   Documentation/accelerators/ocxl.rst             | 2 ++
->   Documentation/arm/stm32/overview.rst            | 2 ++
->   Documentation/arm/stm32/stm32f429-overview.rst  | 2 ++
->   Documentation/arm/stm32/stm32f746-overview.rst  | 2 ++
->   Documentation/arm/stm32/stm32f769-overview.rst  | 2 ++
->   Documentation/arm/stm32/stm32h743-overview.rst  | 2 ++
->   Documentation/arm/stm32/stm32mp157-overview.rst | 2 ++
->   Documentation/gpu/msm-crash-dump.rst            | 2 ++
->   Documentation/interconnect/interconnect.rst     | 2 ++
->   Documentation/laptops/lg-laptop.rst             | 2 ++
->   Documentation/powerpc/isa-versions.rst          | 2 ++
->   11 files changed, 22 insertions(+)
-> 
-> diff --git a/Documentation/accelerators/ocxl.rst b/Documentation/accelerators/ocxl.rst
-> index 14cefc020e2d..b1cea19a90f5 100644
-> --- a/Documentation/accelerators/ocxl.rst
-> +++ b/Documentation/accelerators/ocxl.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   ========================================================
->   OpenCAPI (Open Coherent Accelerator Processor Interface)
->   ========================================================
-> diff --git a/Documentation/arm/stm32/overview.rst b/Documentation/arm/stm32/overview.rst
-> index 85cfc8410798..f7e734153860 100644
-> --- a/Documentation/arm/stm32/overview.rst
-> +++ b/Documentation/arm/stm32/overview.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   ========================
->   STM32 ARM Linux Overview
->   ========================
-> diff --git a/Documentation/arm/stm32/stm32f429-overview.rst b/Documentation/arm/stm32/stm32f429-overview.rst
-> index 18feda97f483..65bbb1c3b423 100644
-> --- a/Documentation/arm/stm32/stm32f429-overview.rst
-> +++ b/Documentation/arm/stm32/stm32f429-overview.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   STM32F429 Overview
->   ==================
->   
-> diff --git a/Documentation/arm/stm32/stm32f746-overview.rst b/Documentation/arm/stm32/stm32f746-overview.rst
-> index b5f4b6ce7656..42d593085015 100644
-> --- a/Documentation/arm/stm32/stm32f746-overview.rst
-> +++ b/Documentation/arm/stm32/stm32f746-overview.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   STM32F746 Overview
->   ==================
->   
-> diff --git a/Documentation/arm/stm32/stm32f769-overview.rst b/Documentation/arm/stm32/stm32f769-overview.rst
-> index 228656ced2fe..f6adac862b17 100644
-> --- a/Documentation/arm/stm32/stm32f769-overview.rst
-> +++ b/Documentation/arm/stm32/stm32f769-overview.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   STM32F769 Overview
->   ==================
->   
-> diff --git a/Documentation/arm/stm32/stm32h743-overview.rst b/Documentation/arm/stm32/stm32h743-overview.rst
-> index 3458dc00095d..c525835e7473 100644
-> --- a/Documentation/arm/stm32/stm32h743-overview.rst
-> +++ b/Documentation/arm/stm32/stm32h743-overview.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   STM32H743 Overview
->   ==================
->   
-> diff --git a/Documentation/arm/stm32/stm32mp157-overview.rst b/Documentation/arm/stm32/stm32mp157-overview.rst
-> index 62e176d47ca7..2c52cd020601 100644
-> --- a/Documentation/arm/stm32/stm32mp157-overview.rst
-> +++ b/Documentation/arm/stm32/stm32mp157-overview.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   STM32MP157 Overview
->   ===================
->   
-> diff --git a/Documentation/gpu/msm-crash-dump.rst b/Documentation/gpu/msm-crash-dump.rst
-> index 757cd257e0d8..240ef200f76c 100644
-> --- a/Documentation/gpu/msm-crash-dump.rst
-> +++ b/Documentation/gpu/msm-crash-dump.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   =====================
->   MSM Crash Dump Format
->   =====================
-> diff --git a/Documentation/interconnect/interconnect.rst b/Documentation/interconnect/interconnect.rst
-> index c3e004893796..56e331dab70e 100644
-> --- a/Documentation/interconnect/interconnect.rst
-> +++ b/Documentation/interconnect/interconnect.rst
-> @@ -1,5 +1,7 @@
->   .. SPDX-License-Identifier: GPL-2.0
->   
-> +:orphan:
-> +
->   =====================================
->   GENERIC SYSTEM INTERCONNECT SUBSYSTEM
->   =====================================
-> diff --git a/Documentation/laptops/lg-laptop.rst b/Documentation/laptops/lg-laptop.rst
-> index aa503ee9b3bc..f2c2ffe31101 100644
-> --- a/Documentation/laptops/lg-laptop.rst
-> +++ b/Documentation/laptops/lg-laptop.rst
-> @@ -1,5 +1,7 @@
->   .. SPDX-License-Identifier: GPL-2.0+
->   
-> +:orphan:
-> +
->   LG Gram laptop extra features
->   =============================
->   
-> diff --git a/Documentation/powerpc/isa-versions.rst b/Documentation/powerpc/isa-versions.rst
-> index 812e20cc898c..66c24140ebf1 100644
-> --- a/Documentation/powerpc/isa-versions.rst
-> +++ b/Documentation/powerpc/isa-versions.rst
-> @@ -1,3 +1,5 @@
-> +:orphan:
-> +
->   CPU to ISA Version Mapping
->   ==========================
->   
-> 
+In my real job, I am currently enabling some newly released AArch64
+based laptops for booting with ACPI.  I must have wasted a day whilst
+enabling some of the devices the system relies upon, just to find
+out that 90% of them were actually probing semi-fine (at least probe()
+was succeeding), just silently. *grumble*
 
 -- 
-Andrew Donnellan              OzLabs, ADL Canberra
-ajd@linux.ibm.com             IBM Australia Limited
-
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
