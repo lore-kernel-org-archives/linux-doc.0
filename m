@@ -3,24 +3,24 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A68437D912
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Jun 2019 20:15:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 835137D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Jun 2019 20:15:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729119AbfFFUPV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Jun 2019 16:15:21 -0400
+        id S1729400AbfFFUPd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 6 Jun 2019 16:15:33 -0400
 Received: from mga17.intel.com ([192.55.52.151]:47825 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729089AbfFFUPU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 6 Jun 2019 16:15:20 -0400
+        id S1729389AbfFFUPc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 Jun 2019 16:15:32 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Jun 2019 13:15:20 -0700
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Jun 2019 13:15:32 -0700
 X-ExtLoop1: 1
 Received: from yyu32-desk1.sc.intel.com ([143.183.136.147])
-  by orsmga002.jf.intel.com with ESMTP; 06 Jun 2019 13:15:18 -0700
+  by orsmga002.jf.intel.com with ESMTP; 06 Jun 2019 13:15:30 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -47,9 +47,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v7 09/27] mm/mmap: Prevent Shadow Stack VMA merges
-Date:   Thu,  6 Jun 2019 13:06:28 -0700
-Message-Id: <20190606200646.3951-10-yu-cheng.yu@intel.com>
+Subject: [PATCH v7 18/27] mm: Introduce do_mmap_locked()
+Date:   Thu,  6 Jun 2019 13:06:37 -0700
+Message-Id: <20190606200646.3951-19-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190606200646.3951-1-yu-cheng.yu@intel.com>
 References: <20190606200646.3951-1-yu-cheng.yu@intel.com>
@@ -58,31 +58,43 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-To prevent function call/return spills into the next shadow stack
-area, do not merge shadow stack areas.
+There are a few places that need do_mmap() with mm->mmap_sem held.
+Create an in-line function for that.
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- mm/mmap.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ include/linux/mm.h | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/mm/mmap.c b/mm/mmap.c
-index 7e8c3e8ae75f..b1a921c0de63 100644
---- a/mm/mmap.c
-+++ b/mm/mmap.c
-@@ -1149,6 +1149,12 @@ struct vm_area_struct *vma_merge(struct mm_struct *mm,
- 	if (vm_flags & VM_SPECIAL)
- 		return NULL;
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 398f1e1c35e5..7cf014604848 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -2411,6 +2411,24 @@ static inline void mm_populate(unsigned long addr, unsigned long len)
+ static inline void mm_populate(unsigned long addr, unsigned long len) {}
+ #endif
  
-+	/*
-+	 * Do not merge shadow stack areas.
-+	 */
-+	if (vm_flags & VM_SHSTK)
-+		return NULL;
++static inline unsigned long do_mmap_locked(unsigned long addr,
++	unsigned long len, unsigned long prot, unsigned long flags,
++	vm_flags_t vm_flags)
++{
++	struct mm_struct *mm = current->mm;
++	unsigned long populate;
 +
- 	if (prev)
- 		next = prev->vm_next;
- 	else
++	down_write(&mm->mmap_sem);
++	addr = do_mmap(NULL, addr, len, prot, flags, vm_flags, 0,
++		       &populate, NULL);
++	up_write(&mm->mmap_sem);
++
++	if (populate)
++		mm_populate(addr, populate);
++
++	return addr;
++}
++
+ /* These take the mm semaphore themselves */
+ extern int __must_check vm_brk(unsigned long, unsigned long);
+ extern int __must_check vm_brk_flags(unsigned long, unsigned long, unsigned long);
 -- 
 2.17.1
 
