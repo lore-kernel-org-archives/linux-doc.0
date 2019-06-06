@@ -1,237 +1,193 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BB5BE7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Jun 2019 18:50:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A66B67D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Jun 2019 20:15:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727255AbfFFStz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Jun 2019 14:49:55 -0400
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:55776 "EHLO
-        mx0a-00082601.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727646AbfFFStz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jun 2019 14:49:55 -0400
-Received: from pps.filterd (m0001255.ppops.net [127.0.0.1])
-        by mx0b-00082601.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x56Ig4NM002242;
-        Thu, 6 Jun 2019 11:49:26 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=facebook;
- bh=9rahwqHX+lQmZ3f4g2QCh9o6ganUFUAgvH0DeRsLmFs=;
- b=AuDZVrBYuxI0JUwHHpGCjDf+oAvFKScxhmJgv+qZbgOOlyWXOHvBAy2OyktAh+V6RGpe
- 34CKlUq9Ql5NOKZxlE7wrlF5VnpdPWgRff7JV6PjbX+WiYfbpGobcS41Z2ZR10s4iAM6
- kTtRWnqB8sd28/Tod82IfhuKS6kI6LCmreg= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
-        by mx0b-00082601.pphosted.com with ESMTP id 2sy2kp9fcf-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Thu, 06 Jun 2019 11:49:26 -0700
-Received: from ash-exhub201.TheFacebook.com (2620:10d:c0a8:83::7) by
- ash-exhub201.TheFacebook.com (2620:10d:c0a8:83::7) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 6 Jun 2019 11:49:24 -0700
-Received: from NAM04-SN1-obe.outbound.protection.outlook.com (100.104.31.183)
- by o365-in.thefacebook.com (100.104.36.101) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Thu, 6 Jun 2019 11:49:24 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
- s=selector1-fb-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9rahwqHX+lQmZ3f4g2QCh9o6ganUFUAgvH0DeRsLmFs=;
- b=CbYSNSPVDM0YWr7EZVeaH62rksNlkb2iZzxmSq/dNUaM3cJHVBtaKLHfhZyjYgMp3xM4BgsrRMLM1/dEOTCgwclIOQb/IGY1NxCRqSclCN4xIO57lRM5SaQ55WrkMVzw8nqmDFO6AzLfbZOK8pclpSkUmyWYIRNvsFE6SGnu2M0=
-Received: from CY4PR15MB1269.namprd15.prod.outlook.com (10.172.177.11) by
- CY4PR15MB1815.namprd15.prod.outlook.com (10.174.54.12) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1965.14; Thu, 6 Jun 2019 18:49:23 +0000
-Received: from CY4PR15MB1269.namprd15.prod.outlook.com
- ([fe80::c026:bca5:3f4e:9b1f]) by CY4PR15MB1269.namprd15.prod.outlook.com
- ([fe80::c026:bca5:3f4e:9b1f%3]) with mapi id 15.20.1943.018; Thu, 6 Jun 2019
- 18:49:23 +0000
-From:   Vijay Khemka <vijaykhemka@fb.com>
-To:     Guenter Roeck <linux@roeck-us.net>
-CC:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "joel@jms.id.au" <joel@jms.id.au>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        Sai Dasari <sdasari@fb.com>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v2 1/2] hwmon: pmbus: Add Infineon PXE1610 VR driver
-Thread-Topic: [PATCH v2 1/2] hwmon: pmbus: Add Infineon PXE1610 VR driver
-Thread-Index: AQHVFz0mfbcjc0BylEeA/UB5fafmVKaNkSmAgAD8HwA=
-Date:   Thu, 6 Jun 2019 18:49:23 +0000
-Message-ID: <75FAE0E3-DE09-416A-90A4-D0AEC0684FC9@fb.com>
-References: <20190530231159.222188-1-vijaykhemka@fb.com>
- <20190605204659.GA32329@roeck-us.net>
-In-Reply-To: <20190605204659.GA32329@roeck-us.net>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [2620:10d:c090:200::3607]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: fcd83ed0-c814-4f4f-727a-08d6eaafb159
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:CY4PR15MB1815;
-x-ms-traffictypediagnostic: CY4PR15MB1815:
-x-microsoft-antispam-prvs: <CY4PR15MB18159FE51760F086D7F3BE52DD170@CY4PR15MB1815.namprd15.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 00603B7EEF
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(39860400002)(136003)(396003)(346002)(366004)(376002)(199004)(189003)(66556008)(5660300002)(478600001)(54906003)(66446008)(66476007)(64756008)(486006)(76176011)(6436002)(102836004)(6506007)(99286004)(6486002)(8676002)(91956017)(305945005)(76116006)(73956011)(46003)(7736002)(66946007)(81166006)(81156014)(68736007)(316002)(8936002)(14454004)(229853002)(11346002)(82746002)(36756003)(71200400001)(71190400001)(83716004)(476003)(14444005)(86362001)(256004)(186003)(6512007)(4326008)(6116002)(25786009)(33656002)(2616005)(446003)(53936002)(6246003)(2906002)(6916009);DIR:OUT;SFP:1102;SCL:1;SRVR:CY4PR15MB1815;H:CY4PR15MB1269.namprd15.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: fb.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: R1l0y5h3DS7TmJsjhaqw453goiwm+TLr7FHG/sRk3PczPd0yodW7HsR48wC9QIDRhBulzt/XnBZII76PQgO/Eb3znnvM6i1RxiowAuKmGxsO2ftl8zNcJAxso6mggkPyMWrkyd7IQTl7IjK0VzkJgC0bTCJsGeSMiKtkPVcbifCXHtY4gZ5KJZ4XkJg3DP+uOyoJ5weYxs2gXGzPWed7LdYuIuDKfiH9TfbN8jGvT30+VJ9xG3uqhZMOlbyCr6bjDSmb/fqLLwjo5HNZiFRFUi1LKdp3vXfyqCDqwd5zu0WMc/BCDrbpWC2rtcFOTLykU0EOjHD6UjAvBfki2nrGJdrh9FAZOmvaZNMhqeo2RSSxnm2JW3e1Oo2fTA3azTFq7Py8pqbLavxSuSGLmZvaJc/uVOwMtzQaNYNhK55YKGY=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <68918BD56B88674F9979C748F0A6D968@namprd15.prod.outlook.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: fcd83ed0-c814-4f4f-727a-08d6eaafb159
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jun 2019 18:49:23.4378
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vijaykhemka@fb.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR15MB1815
-X-OriginatorOrg: fb.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-06-06_13:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1906060126
-X-FB-Internal: deliver
+        id S1728627AbfFFUPJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 6 Jun 2019 16:15:09 -0400
+Received: from mga17.intel.com ([192.55.52.151]:47825 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726674AbfFFUPJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 Jun 2019 16:15:09 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Jun 2019 13:15:08 -0700
+X-ExtLoop1: 1
+Received: from yyu32-desk1.sc.intel.com ([143.183.136.147])
+  by orsmga002.jf.intel.com with ESMTP; 06 Jun 2019 13:15:07 -0700
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v7 00/27] Control-flow Enforcement: Shadow Stack
+Date:   Thu,  6 Jun 2019 13:06:19 -0700
+Message-Id: <20190606200646.3951-1-yu-cheng.yu@intel.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-DQoNCu+7v09uIDYvNS8xOSwgMTo0NyBQTSwgIkd1ZW50ZXIgUm9lY2siIDxncm9lY2s3QGdtYWls
-LmNvbSBvbiBiZWhhbGYgb2YgbGludXhAcm9lY2stdXMubmV0PiB3cm90ZToNCg0KICAgIE9uIFRo
-dSwgTWF5IDMwLCAyMDE5IGF0IDA0OjExOjU2UE0gLTA3MDAsIFZpamF5IEtoZW1rYSB3cm90ZToN
-CiAgICA+IEFkZGVkIHBtYnVzIGRyaXZlciBmb3IgdGhlIG5ldyBkZXZpY2UgSW5maW5lb24gcHhl
-MTYxMA0KICAgID4gdm9sdGFnZSByZWd1bGF0b3IuIEl0IGFsc28gc3VwcG9ydHMgc2ltaWxhciBm
-YW1pbHkgZGV2aWNlDQogICAgPiBQWEUxMTEwIGFuZCBQWE0xMzEwLg0KICAgID4gDQogICAgPiBT
-aWduZWQtb2ZmLWJ5OiBWaWpheSBLaGVta2EgPHZpamF5a2hlbWthQGZiLmNvbT4NCiAgICANCiAg
-ICBBcHBsaWVkLg0KVGhhbmtzDQogICAgDQogICAgVGhhbmtzLA0KICAgIEd1ZW50ZXINCiAgICAN
-CiAgICA+IC0tLQ0KICAgID4gQ2hhbmdlcyBpbiB2MjoNCiAgICA+IGluY29ycG9yYXRlZCBhbGwg
-dGhlIGZlZWRiYWNrIGZyb20gR3VlbnRlciBSb2VjayA8bGludXhAcm9lY2stdXMubmV0Pg0KICAg
-ID4gDQogICAgPiAgZHJpdmVycy9od21vbi9wbWJ1cy9LY29uZmlnICAgfCAgIDkgKysrDQogICAg
-PiAgZHJpdmVycy9od21vbi9wbWJ1cy9NYWtlZmlsZSAgfCAgIDEgKw0KICAgID4gIGRyaXZlcnMv
-aHdtb24vcG1idXMvcHhlMTYxMC5jIHwgMTM5ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysNCiAgICA+ICAzIGZpbGVzIGNoYW5nZWQsIDE0OSBpbnNlcnRpb25zKCspDQogICAgPiAg
-Y3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvaHdtb24vcG1idXMvcHhlMTYxMC5jDQogICAgPiAN
-CiAgICA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2h3bW9uL3BtYnVzL0tjb25maWcgYi9kcml2ZXJz
-L2h3bW9uL3BtYnVzL0tjb25maWcNCiAgICA+IGluZGV4IDMwNzUxZWI5NTUwYS4uMzM4ZWY5YjVh
-Mzk1IDEwMDY0NA0KICAgID4gLS0tIGEvZHJpdmVycy9od21vbi9wbWJ1cy9LY29uZmlnDQogICAg
-PiArKysgYi9kcml2ZXJzL2h3bW9uL3BtYnVzL0tjb25maWcNCiAgICA+IEBAIC0xNTQsNiArMTU0
-LDE1IEBAIGNvbmZpZyBTRU5TT1JTX01BWDg2ODgNCiAgICA+ICAJICBUaGlzIGRyaXZlciBjYW4g
-YWxzbyBiZSBidWlsdCBhcyBhIG1vZHVsZS4gSWYgc28sIHRoZSBtb2R1bGUgd2lsbA0KICAgID4g
-IAkgIGJlIGNhbGxlZCBtYXg4Njg4Lg0KICAgID4gIA0KICAgID4gK2NvbmZpZyBTRU5TT1JTX1BY
-RTE2MTANCiAgICA+ICsJdHJpc3RhdGUgIkluZmluZW9uIFBYRTE2MTAiDQogICAgPiArCWhlbHAN
-CiAgICA+ICsJICBJZiB5b3Ugc2F5IHllcyBoZXJlIHlvdSBnZXQgaGFyZHdhcmUgbW9uaXRvcmlu
-ZyBzdXBwb3J0IGZvciBJbmZpbmVvbg0KICAgID4gKwkgIFBYRTE2MTAuDQogICAgPiArDQogICAg
-PiArCSAgVGhpcyBkcml2ZXIgY2FuIGFsc28gYmUgYnVpbHQgYXMgYSBtb2R1bGUuIElmIHNvLCB0
-aGUgbW9kdWxlIHdpbGwNCiAgICA+ICsJICBiZSBjYWxsZWQgcHhlMTYxMC4NCiAgICA+ICsNCiAg
-ICA+ICBjb25maWcgU0VOU09SU19UUFM0MDQyMg0KICAgID4gIAl0cmlzdGF0ZSAiVEkgVFBTNDA0
-MjIiDQogICAgPiAgCWhlbHANCiAgICA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2h3bW9uL3BtYnVz
-L01ha2VmaWxlIGIvZHJpdmVycy9od21vbi9wbWJ1cy9NYWtlZmlsZQ0KICAgID4gaW5kZXggMjIx
-OWI5MzAwMzE2Li5iMGZiZDAxN2E5MWEgMTAwNjQ0DQogICAgPiAtLS0gYS9kcml2ZXJzL2h3bW9u
-L3BtYnVzL01ha2VmaWxlDQogICAgPiArKysgYi9kcml2ZXJzL2h3bW9uL3BtYnVzL01ha2VmaWxl
-DQogICAgPiBAQCAtMTgsNiArMTgsNyBAQCBvYmotJChDT05GSUdfU0VOU09SU19NQVgyMDc1MSkJ
-Kz0gbWF4MjA3NTEubw0KICAgID4gIG9iai0kKENPTkZJR19TRU5TT1JTX01BWDMxNzg1KQkrPSBt
-YXgzMTc4NS5vDQogICAgPiAgb2JqLSQoQ09ORklHX1NFTlNPUlNfTUFYMzQ0NDApCSs9IG1heDM0
-NDQwLm8NCiAgICA+ICBvYmotJChDT05GSUdfU0VOU09SU19NQVg4Njg4KQkrPSBtYXg4Njg4Lm8N
-CiAgICA+ICtvYmotJChDT05GSUdfU0VOU09SU19QWEUxNjEwKQkrPSBweGUxNjEwLm8NCiAgICA+
-ICBvYmotJChDT05GSUdfU0VOU09SU19UUFM0MDQyMikJKz0gdHBzNDA0MjIubw0KICAgID4gIG9i
-ai0kKENPTkZJR19TRU5TT1JTX1RQUzUzNjc5KQkrPSB0cHM1MzY3OS5vDQogICAgPiAgb2JqLSQo
-Q09ORklHX1NFTlNPUlNfVUNEOTAwMCkJKz0gdWNkOTAwMC5vDQogICAgPiBkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9od21vbi9wbWJ1cy9weGUxNjEwLmMgYi9kcml2ZXJzL2h3bW9uL3BtYnVzL3B4ZTE2
-MTAuYw0KICAgID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCiAgICA+IGluZGV4IDAwMDAwMDAwMDAw
-MC4uZWJlM2YwMjNmODQwDQogICAgPiAtLS0gL2Rldi9udWxsDQogICAgPiArKysgYi9kcml2ZXJz
-L2h3bW9uL3BtYnVzL3B4ZTE2MTAuYw0KICAgID4gQEAgLTAsMCArMSwxMzkgQEANCiAgICA+ICsv
-LyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMCsNCiAgICA+ICsvKg0KICAgID4gKyAq
-IEhhcmR3YXJlIG1vbml0b3JpbmcgZHJpdmVyIGZvciBJbmZpbmVvbiBQWEUxNjEwDQogICAgPiAr
-ICoNCiAgICA+ICsgKiBDb3B5cmlnaHQgKGMpIDIwMTkgRmFjZWJvb2sgSW5jDQogICAgPiArICoN
-CiAgICA+ICsgKi8NCiAgICA+ICsNCiAgICA+ICsjaW5jbHVkZSA8bGludXgvZXJyLmg+DQogICAg
-PiArI2luY2x1ZGUgPGxpbnV4L2kyYy5oPg0KICAgID4gKyNpbmNsdWRlIDxsaW51eC9pbml0Lmg+
-DQogICAgPiArI2luY2x1ZGUgPGxpbnV4L2tlcm5lbC5oPg0KICAgID4gKyNpbmNsdWRlIDxsaW51
-eC9tb2R1bGUuaD4NCiAgICA+ICsjaW5jbHVkZSAicG1idXMuaCINCiAgICA+ICsNCiAgICA+ICsj
-ZGVmaW5lIFBYRTE2MTBfTlVNX1BBR0VTIDMNCiAgICA+ICsNCiAgICA+ICsvKiBJZGVudGlmeSBj
-aGlwIHBhcmFtZXRlcnMuICovDQogICAgPiArc3RhdGljIGludCBweGUxNjEwX2lkZW50aWZ5KHN0
-cnVjdCBpMmNfY2xpZW50ICpjbGllbnQsDQogICAgPiArCQkJICAgICBzdHJ1Y3QgcG1idXNfZHJp
-dmVyX2luZm8gKmluZm8pDQogICAgPiArew0KICAgID4gKwlpZiAocG1idXNfY2hlY2tfYnl0ZV9y
-ZWdpc3RlcihjbGllbnQsIDAsIFBNQlVTX1ZPVVRfTU9ERSkpIHsNCiAgICA+ICsJCXU4IHZvdXRf
-bW9kZTsNCiAgICA+ICsJCWludCByZXQ7DQogICAgPiArDQogICAgPiArCQkvKiBSZWFkIHRoZSBy
-ZWdpc3RlciB3aXRoIFZPVVQgc2NhbGluZyB2YWx1ZS4qLw0KICAgID4gKwkJcmV0ID0gcG1idXNf
-cmVhZF9ieXRlX2RhdGEoY2xpZW50LCAwLCBQTUJVU19WT1VUX01PREUpOw0KICAgID4gKwkJaWYg
-KHJldCA8IDApDQogICAgPiArCQkJcmV0dXJuIHJldDsNCiAgICA+ICsNCiAgICA+ICsJCXZvdXRf
-bW9kZSA9IHJldCAmIEdFTk1BU0soNCwgMCk7DQogICAgPiArDQogICAgPiArCQlzd2l0Y2ggKHZv
-dXRfbW9kZSkgew0KICAgID4gKwkJY2FzZSAxOg0KICAgID4gKwkJCWluZm8tPnZybV92ZXJzaW9u
-ID0gdnIxMjsNCiAgICA+ICsJCQlicmVhazsNCiAgICA+ICsJCWNhc2UgMjoNCiAgICA+ICsJCQlp
-bmZvLT52cm1fdmVyc2lvbiA9IHZyMTM7DQogICAgPiArCQkJYnJlYWs7DQogICAgPiArCQlkZWZh
-dWx0Og0KICAgID4gKwkJCXJldHVybiAtRU5PREVWOw0KICAgID4gKwkJfQ0KICAgID4gKwl9DQog
-ICAgPiArDQogICAgPiArCXJldHVybiAwOw0KICAgID4gK30NCiAgICA+ICsNCiAgICA+ICtzdGF0
-aWMgc3RydWN0IHBtYnVzX2RyaXZlcl9pbmZvIHB4ZTE2MTBfaW5mbyA9IHsNCiAgICA+ICsJLnBh
-Z2VzID0gUFhFMTYxMF9OVU1fUEFHRVMsDQogICAgPiArCS5mb3JtYXRbUFNDX1ZPTFRBR0VfSU5d
-ID0gbGluZWFyLA0KICAgID4gKwkuZm9ybWF0W1BTQ19WT0xUQUdFX09VVF0gPSB2aWQsDQogICAg
-PiArCS5mb3JtYXRbUFNDX0NVUlJFTlRfSU5dID0gbGluZWFyLA0KICAgID4gKwkuZm9ybWF0W1BT
-Q19DVVJSRU5UX09VVF0gPSBsaW5lYXIsDQogICAgPiArCS5mb3JtYXRbUFNDX1RFTVBFUkFUVVJF
-XSA9IGxpbmVhciwNCiAgICA+ICsJLmZvcm1hdFtQU0NfUE9XRVJdID0gbGluZWFyLA0KICAgID4g
-KwkuZnVuY1swXSA9IFBNQlVTX0hBVkVfVklODQogICAgPiArCQl8IFBNQlVTX0hBVkVfVk9VVCB8
-IFBNQlVTX0hBVkVfSUlODQogICAgPiArCQl8IFBNQlVTX0hBVkVfSU9VVCB8IFBNQlVTX0hBVkVf
-UElODQogICAgPiArCQl8IFBNQlVTX0hBVkVfUE9VVCB8IFBNQlVTX0hBVkVfVEVNUA0KICAgID4g
-KwkJfCBQTUJVU19IQVZFX1NUQVRVU19WT1VUIHwgUE1CVVNfSEFWRV9TVEFUVVNfSU9VVA0KICAg
-ID4gKwkJfCBQTUJVU19IQVZFX1NUQVRVU19JTlBVVCB8IFBNQlVTX0hBVkVfU1RBVFVTX1RFTVAs
-DQogICAgPiArCS5mdW5jWzFdID0gUE1CVVNfSEFWRV9WSU4NCiAgICA+ICsJCXwgUE1CVVNfSEFW
-RV9WT1VUIHwgUE1CVVNfSEFWRV9JSU4NCiAgICA+ICsJCXwgUE1CVVNfSEFWRV9JT1VUIHwgUE1C
-VVNfSEFWRV9QSU4NCiAgICA+ICsJCXwgUE1CVVNfSEFWRV9QT1VUIHwgUE1CVVNfSEFWRV9URU1Q
-DQogICAgPiArCQl8IFBNQlVTX0hBVkVfU1RBVFVTX1ZPVVQgfCBQTUJVU19IQVZFX1NUQVRVU19J
-T1VUDQogICAgPiArCQl8IFBNQlVTX0hBVkVfU1RBVFVTX0lOUFVUIHwgUE1CVVNfSEFWRV9TVEFU
-VVNfVEVNUCwNCiAgICA+ICsJLmZ1bmNbMl0gPSBQTUJVU19IQVZFX1ZJTg0KICAgID4gKwkJfCBQ
-TUJVU19IQVZFX1ZPVVQgfCBQTUJVU19IQVZFX0lJTg0KICAgID4gKwkJfCBQTUJVU19IQVZFX0lP
-VVQgfCBQTUJVU19IQVZFX1BJTg0KICAgID4gKwkJfCBQTUJVU19IQVZFX1BPVVQgfCBQTUJVU19I
-QVZFX1RFTVANCiAgICA+ICsJCXwgUE1CVVNfSEFWRV9TVEFUVVNfVk9VVCB8IFBNQlVTX0hBVkVf
-U1RBVFVTX0lPVVQNCiAgICA+ICsJCXwgUE1CVVNfSEFWRV9TVEFUVVNfSU5QVVQgfCBQTUJVU19I
-QVZFX1NUQVRVU19URU1QLA0KICAgID4gKwkuaWRlbnRpZnkgPSBweGUxNjEwX2lkZW50aWZ5LA0K
-ICAgID4gK307DQogICAgPiArDQogICAgPiArc3RhdGljIGludCBweGUxNjEwX3Byb2JlKHN0cnVj
-dCBpMmNfY2xpZW50ICpjbGllbnQsDQogICAgPiArCQkJICBjb25zdCBzdHJ1Y3QgaTJjX2Rldmlj
-ZV9pZCAqaWQpDQogICAgPiArew0KICAgID4gKwlzdHJ1Y3QgcG1idXNfZHJpdmVyX2luZm8gKmlu
-Zm87DQogICAgPiArCXU4IGJ1ZltJMkNfU01CVVNfQkxPQ0tfTUFYXTsNCiAgICA+ICsJaW50IHJl
-dDsNCiAgICA+ICsNCiAgICA+ICsJaWYgKCFpMmNfY2hlY2tfZnVuY3Rpb25hbGl0eSgNCiAgICA+
-ICsJCQljbGllbnQtPmFkYXB0ZXIsDQogICAgPiArCQkJSTJDX0ZVTkNfU01CVVNfUkVBRF9CWVRF
-X0RBVEENCiAgICA+ICsJCQl8IEkyQ19GVU5DX1NNQlVTX1JFQURfV09SRF9EQVRBDQogICAgPiAr
-CQkJfCBJMkNfRlVOQ19TTUJVU19SRUFEX0JMT0NLX0RBVEEpKQ0KICAgID4gKwkJcmV0dXJuIC1F
-Tk9ERVY7DQogICAgPiArDQogICAgPiArCS8qDQogICAgPiArCSAqIEJ5IGRlZmF1bHQgdGhpcyBk
-ZXZpY2UgZG9lc24ndCBib290IHRvIHBhZ2UgMCwgc28gc2V0IHBhZ2UgMA0KICAgID4gKwkgKiB0
-byBhY2Nlc3MgYWxsIHBtYnVzIHJlZ2lzdGVycy4NCiAgICA+ICsJICovDQogICAgPiArCWkyY19z
-bWJ1c193cml0ZV9ieXRlX2RhdGEoY2xpZW50LCBQTUJVU19QQUdFLCAwKTsNCiAgICA+ICsNCiAg
-ICA+ICsJLyogUmVhZCBNYW51ZmFjdHVyZXIgaWQgKi8NCiAgICA+ICsJcmV0ID0gaTJjX3NtYnVz
-X3JlYWRfYmxvY2tfZGF0YShjbGllbnQsIFBNQlVTX01GUl9JRCwgYnVmKTsNCiAgICA+ICsJaWYg
-KHJldCA8IDApIHsNCiAgICA+ICsJCWRldl9lcnIoJmNsaWVudC0+ZGV2LCAiRmFpbGVkIHRvIHJl
-YWQgUE1CVVNfTUZSX0lEXG4iKTsNCiAgICA+ICsJCXJldHVybiByZXQ7DQogICAgPiArCX0NCiAg
-ICA+ICsJaWYgKHJldCAhPSAyIHx8IHN0cm5jbXAoYnVmLCAiWFAiLCAyKSkgew0KICAgID4gKwkJ
-ZGV2X2VycigmY2xpZW50LT5kZXYsICJNRlJfSUQgdW5yZWNvZ25pemVkXG4iKTsNCiAgICA+ICsJ
-CXJldHVybiAtRU5PREVWOw0KICAgID4gKwl9DQogICAgPiArDQogICAgPiArCWluZm8gPSBkZXZt
-X2ttZW1kdXAoJmNsaWVudC0+ZGV2LCAmcHhlMTYxMF9pbmZvLA0KICAgID4gKwkJCSAgICBzaXpl
-b2Yoc3RydWN0IHBtYnVzX2RyaXZlcl9pbmZvKSwNCiAgICA+ICsJCQkgICAgR0ZQX0tFUk5FTCk7
-DQogICAgPiArCWlmICghaW5mbykNCiAgICA+ICsJCXJldHVybiAtRU5PTUVNOw0KICAgID4gKw0K
-ICAgID4gKwlyZXR1cm4gcG1idXNfZG9fcHJvYmUoY2xpZW50LCBpZCwgaW5mbyk7DQogICAgPiAr
-fQ0KICAgID4gKw0KICAgID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgaTJjX2RldmljZV9pZCBweGUx
-NjEwX2lkW10gPSB7DQogICAgPiArCXsicHhlMTYxMCIsIDB9LA0KICAgID4gKwl7InB4ZTExMTAi
-LCAwfSwNCiAgICA+ICsJeyJweG0xMzEwIiwgMH0sDQogICAgPiArCXt9DQogICAgPiArfTsNCiAg
-ICA+ICsNCiAgICA+ICtNT0RVTEVfREVWSUNFX1RBQkxFKGkyYywgcHhlMTYxMF9pZCk7DQogICAg
-PiArDQogICAgPiArc3RhdGljIHN0cnVjdCBpMmNfZHJpdmVyIHB4ZTE2MTBfZHJpdmVyID0gew0K
-ICAgID4gKwkuZHJpdmVyID0gew0KICAgID4gKwkJCS5uYW1lID0gInB4ZTE2MTAiLA0KICAgID4g
-KwkJCX0sDQogICAgPiArCS5wcm9iZSA9IHB4ZTE2MTBfcHJvYmUsDQogICAgPiArCS5yZW1vdmUg
-PSBwbWJ1c19kb19yZW1vdmUsDQogICAgPiArCS5pZF90YWJsZSA9IHB4ZTE2MTBfaWQsDQogICAg
-PiArfTsNCiAgICA+ICsNCiAgICA+ICttb2R1bGVfaTJjX2RyaXZlcihweGUxNjEwX2RyaXZlcik7
-DQogICAgPiArDQogICAgPiArTU9EVUxFX0FVVEhPUigiVmlqYXkgS2hlbWthIDx2aWpheWtoZW1r
-YUBmYi5jb20+Iik7DQogICAgPiArTU9EVUxFX0RFU0NSSVBUSU9OKCJQTUJ1cyBkcml2ZXIgZm9y
-IEluZmluZW9uIFBYRTE2MTAsIFBYRTExMTAgYW5kIFBYTTEzMTAiKTsNCiAgICA+ICtNT0RVTEVf
-TElDRU5TRSgiR1BMIik7DQogICAgDQoNCg==
+Intel has published Control-flow Enforcement (CET) in the Architecture
+Instruction Set Extensions Programming Reference:
+
+  https://software.intel.com/en-us/download/intel-architecture-instruction-set-
+  extensions-programming-reference
+
+The previous version (v6) of CET Shadow Stack patches is here:
+
+  https://lkml.org/lkml/2018/11/20/225
+
+Summary of changes from v6:
+
+  Rebase to v5.2-rc3.
+
+  Adapt XSAVES system state changes to the recent FPU changes:
+    - Add modify_fpu_regs_begin(), modify_fpu_regs_end() to protect
+      CET MSR changes.
+    - Update signal handling.
+
+  Move ELF header-parsing out of x86.
+
+  Other small fixes in response to comments.
+
+This version passed GLIBC built-in tests.
+
+Hi Maintainers,
+
+What else is needed before this series can be merged?
+
+Thanks,
+Yu-cheng
+
+
+Yu-cheng Yu (27):
+  Documentation/x86: Add CET description
+  x86/cpufeatures: Add CET CPU feature flags for Control-flow
+    Enforcement Technology (CET)
+  x86/fpu/xstate: Change names to separate XSAVES system and user states
+  x86/fpu/xstate: Introduce XSAVES system states
+  x86/fpu/xstate: Add XSAVES system states for shadow stack
+  x86/cet: Add control protection exception handler
+  x86/cet/shstk: Add Kconfig option for user-mode shadow stack
+  mm: Introduce VM_SHSTK for shadow stack memory
+  mm/mmap: Prevent Shadow Stack VMA merges
+  x86/mm: Change _PAGE_DIRTY to _PAGE_DIRTY_HW
+  x86/mm: Introduce _PAGE_DIRTY_SW
+  drm/i915/gvt: Update _PAGE_DIRTY to _PAGE_DIRTY_BITS
+  x86/mm: Modify ptep_set_wrprotect and pmdp_set_wrprotect for
+    _PAGE_DIRTY_SW
+  x86/mm: Shadow stack page fault error checking
+  mm: Handle shadow stack page fault
+  mm: Handle THP/HugeTLB shadow stack page fault
+  mm: Update can_follow_write_pte/pmd for shadow stack
+  mm: Introduce do_mmap_locked()
+  x86/cet/shstk: User-mode shadow stack support
+  x86/cet/shstk: Introduce WRUSS instruction
+  x86/cet/shstk: Handle signals for shadow stack
+  binfmt_elf: Extract .note.gnu.property from an ELF file
+  x86/cet/shstk: ELF header parsing of Shadow Stack
+  x86/cet/shstk: Handle thread shadow stack
+  mm/mmap: Add Shadow stack pages to memory accounting
+  x86/cet/shstk: Add arch_prctl functions for Shadow Stack
+  x86/cet/shstk: Add Shadow Stack instructions to opcode map
+
+ .../admin-guide/kernel-parameters.txt         |   6 +
+ Documentation/x86/index.rst                   |   1 +
+ Documentation/x86/intel_cet.rst               | 268 +++++++++++++
+ arch/x86/Kconfig                              |  26 ++
+ arch/x86/Makefile                             |   7 +
+ arch/x86/entry/entry_64.S                     |   2 +-
+ arch/x86/ia32/ia32_signal.c                   |   8 +
+ arch/x86/include/asm/cet.h                    |  48 +++
+ arch/x86/include/asm/cpufeatures.h            |   2 +
+ arch/x86/include/asm/disabled-features.h      |   8 +-
+ arch/x86/include/asm/fpu/internal.h           |  25 +-
+ arch/x86/include/asm/fpu/signal.h             |   2 +
+ arch/x86/include/asm/fpu/types.h              |  22 ++
+ arch/x86/include/asm/fpu/xstate.h             |  26 +-
+ arch/x86/include/asm/mmu_context.h            |   3 +
+ arch/x86/include/asm/msr-index.h              |  18 +
+ arch/x86/include/asm/pgtable.h                | 191 ++++++++--
+ arch/x86/include/asm/pgtable_types.h          |  38 +-
+ arch/x86/include/asm/processor.h              |   5 +
+ arch/x86/include/asm/special_insns.h          |  32 ++
+ arch/x86/include/asm/traps.h                  |   5 +
+ arch/x86/include/uapi/asm/prctl.h             |   5 +
+ arch/x86/include/uapi/asm/processor-flags.h   |   2 +
+ arch/x86/include/uapi/asm/sigcontext.h        |  15 +
+ arch/x86/kernel/Makefile                      |   2 +
+ arch/x86/kernel/cet.c                         | 327 ++++++++++++++++
+ arch/x86/kernel/cet_prctl.c                   |  85 +++++
+ arch/x86/kernel/cpu/common.c                  |  25 ++
+ arch/x86/kernel/cpu/cpuid-deps.c              |   2 +
+ arch/x86/kernel/fpu/core.c                    |  26 +-
+ arch/x86/kernel/fpu/init.c                    |  10 -
+ arch/x86/kernel/fpu/signal.c                  |  81 +++-
+ arch/x86/kernel/fpu/xstate.c                  | 156 +++++---
+ arch/x86/kernel/idt.c                         |   4 +
+ arch/x86/kernel/process.c                     |   8 +-
+ arch/x86/kernel/process_64.c                  |  31 ++
+ arch/x86/kernel/relocate_kernel_64.S          |   2 +-
+ arch/x86/kernel/signal.c                      |  10 +-
+ arch/x86/kernel/signal_compat.c               |   2 +-
+ arch/x86/kernel/traps.c                       |  57 +++
+ arch/x86/kvm/vmx/vmx.c                        |   2 +-
+ arch/x86/lib/x86-opcode-map.txt               |  26 +-
+ arch/x86/mm/fault.c                           |  18 +
+ arch/x86/mm/pgtable.c                         |  41 ++
+ drivers/gpu/drm/i915/gvt/gtt.c                |   2 +-
+ fs/Kconfig.binfmt                             |   3 +
+ fs/Makefile                                   |   1 +
+ fs/binfmt_elf.c                               |  13 +
+ fs/gnu_property.c                             | 351 ++++++++++++++++++
+ fs/proc/task_mmu.c                            |   3 +
+ include/asm-generic/pgtable.h                 |  14 +
+ include/linux/elf.h                           |  12 +
+ include/linux/mm.h                            |  26 ++
+ include/uapi/asm-generic/siginfo.h            |   3 +-
+ include/uapi/linux/elf.h                      |  14 +
+ mm/gup.c                                      |   8 +-
+ mm/huge_memory.c                              |  12 +-
+ mm/memory.c                                   |   7 +-
+ mm/mmap.c                                     |  11 +
+ .../arch/x86/include/asm/disabled-features.h  |   8 +-
+ tools/objtool/arch/x86/lib/x86-opcode-map.txt |  26 +-
+ 61 files changed, 2029 insertions(+), 165 deletions(-)
+ create mode 100644 Documentation/x86/intel_cet.rst
+ create mode 100644 arch/x86/include/asm/cet.h
+ create mode 100644 arch/x86/kernel/cet.c
+ create mode 100644 arch/x86/kernel/cet_prctl.c
+ create mode 100644 fs/gnu_property.c
+
+-- 
+2.17.1
+
