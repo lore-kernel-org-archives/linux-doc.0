@@ -3,24 +3,24 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4CA3D7D2F0
+	by archive.lwn.net (Postfix) with ESMTP id 846DA7D91B
 	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Jun 2019 20:17:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729055AbfFFUPS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Jun 2019 16:15:18 -0400
+        id S1727184AbfFFURH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 6 Jun 2019 16:17:07 -0400
 Received: from mga17.intel.com ([192.55.52.151]:47825 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726674AbfFFUPR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 6 Jun 2019 16:15:17 -0400
+        id S1729062AbfFFUPT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 Jun 2019 16:15:19 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Jun 2019 13:15:16 -0700
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Jun 2019 13:15:18 -0700
 X-ExtLoop1: 1
 Received: from yyu32-desk1.sc.intel.com ([143.183.136.147])
-  by orsmga002.jf.intel.com with ESMTP; 06 Jun 2019 13:15:15 -0700
+  by orsmga002.jf.intel.com with ESMTP; 06 Jun 2019 13:15:17 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -47,9 +47,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v7 06/27] x86/cet: Add control protection exception handler
-Date:   Thu,  6 Jun 2019 13:06:25 -0700
-Message-Id: <20190606200646.3951-7-yu-cheng.yu@intel.com>
+Subject: [PATCH v7 08/27] mm: Introduce VM_SHSTK for shadow stack memory
+Date:   Thu,  6 Jun 2019 13:06:27 -0700
+Message-Id: <20190606200646.3951-9-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190606200646.3951-1-yu-cheng.yu@intel.com>
 References: <20190606200646.3951-1-yu-cheng.yu@intel.com>
@@ -58,176 +58,60 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A control protection exception is triggered when a control flow transfer
-attempt violated shadow stack or indirect branch tracking constraints.
-For example, the return address for a RET instruction differs from the
-safe copy on the shadow stack; or a JMP instruction arrives at a non-
-ENDBR instruction.
-
-The control protection exception handler works in a similar way as the
-general protection fault handler.
+VM_SHSTK indicates a shadow stack memory area.
+The shadow stack is implemented only for the 64-bit kernel.
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 ---
- arch/x86/entry/entry_64.S          |  2 +-
- arch/x86/include/asm/traps.h       |  3 ++
- arch/x86/kernel/idt.c              |  4 +++
- arch/x86/kernel/signal_compat.c    |  2 +-
- arch/x86/kernel/traps.c            | 57 ++++++++++++++++++++++++++++++
- include/uapi/asm-generic/siginfo.h |  3 +-
- 6 files changed, 68 insertions(+), 3 deletions(-)
+ fs/proc/task_mmu.c | 3 +++
+ include/linux/mm.h | 8 ++++++++
+ 2 files changed, 11 insertions(+)
 
-diff --git a/arch/x86/entry/entry_64.S b/arch/x86/entry/entry_64.S
-index 11aa3b2afa4d..595c2efbb893 100644
---- a/arch/x86/entry/entry_64.S
-+++ b/arch/x86/entry/entry_64.S
-@@ -993,7 +993,7 @@ idtentry spurious_interrupt_bug		do_spurious_interrupt_bug	has_error_code=0
- idtentry coprocessor_error		do_coprocessor_error		has_error_code=0
- idtentry alignment_check		do_alignment_check		has_error_code=1
- idtentry simd_coprocessor_error		do_simd_coprocessor_error	has_error_code=0
--
-+idtentry control_protection		do_control_protection		has_error_code=1
- 
- 	/*
- 	 * Reload gs selector with exception handling
-diff --git a/arch/x86/include/asm/traps.h b/arch/x86/include/asm/traps.h
-index 7d6f3f3fad78..5906a22796b6 100644
---- a/arch/x86/include/asm/traps.h
-+++ b/arch/x86/include/asm/traps.h
-@@ -26,6 +26,7 @@ asmlinkage void invalid_TSS(void);
- asmlinkage void segment_not_present(void);
- asmlinkage void stack_segment(void);
- asmlinkage void general_protection(void);
-+asmlinkage void control_protection(void);
- asmlinkage void page_fault(void);
- asmlinkage void async_page_fault(void);
- asmlinkage void spurious_interrupt_bug(void);
-@@ -81,6 +82,7 @@ struct bad_iret_stack *fixup_bad_iret(struct bad_iret_stack *s);
- void __init trap_init(void);
+diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+index 01d4eb0e6bd1..dd8b0cd1ea36 100644
+--- a/fs/proc/task_mmu.c
++++ b/fs/proc/task_mmu.c
+@@ -661,6 +661,9 @@ static void show_smap_vma_flags(struct seq_file *m, struct vm_area_struct *vma)
+ 		[ilog2(VM_PKEY_BIT4)]	= "",
  #endif
- dotraplinkage void do_general_protection(struct pt_regs *regs, long error_code);
-+dotraplinkage void do_control_protection(struct pt_regs *regs, long error_code);
- dotraplinkage void do_page_fault(struct pt_regs *regs, unsigned long error_code);
- dotraplinkage void do_spurious_interrupt_bug(struct pt_regs *regs, long error_code);
- dotraplinkage void do_coprocessor_error(struct pt_regs *regs, long error_code);
-@@ -151,6 +153,7 @@ enum {
- 	X86_TRAP_AC,		/* 17, Alignment Check */
- 	X86_TRAP_MC,		/* 18, Machine Check */
- 	X86_TRAP_XF,		/* 19, SIMD Floating-Point Exception */
-+	X86_TRAP_CP = 21,	/* 21 Control Protection Fault */
- 	X86_TRAP_IRET = 32,	/* 32, IRET Exception */
- };
- 
-diff --git a/arch/x86/kernel/idt.c b/arch/x86/kernel/idt.c
-index 6d8917875f44..588848d00fff 100644
---- a/arch/x86/kernel/idt.c
-+++ b/arch/x86/kernel/idt.c
-@@ -103,6 +103,10 @@ static const __initconst struct idt_data def_idts[] = {
- #elif defined(CONFIG_X86_32)
- 	SYSG(IA32_SYSCALL_VECTOR,	entry_INT80_32),
- #endif
-+
-+#ifdef CONFIG_X86_64
-+	INTG(X86_TRAP_CP,		control_protection),
+ #endif /* CONFIG_ARCH_HAS_PKEYS */
++#ifdef CONFIG_X86_INTEL_SHADOW_STACK_USER
++		[ilog2(VM_SHSTK)]	= "ss"
 +#endif
- };
+ 	};
+ 	size_t i;
  
- /*
-diff --git a/arch/x86/kernel/signal_compat.c b/arch/x86/kernel/signal_compat.c
-index 9ccbf0576cd0..c572a3de1037 100644
---- a/arch/x86/kernel/signal_compat.c
-+++ b/arch/x86/kernel/signal_compat.c
-@@ -27,7 +27,7 @@ static inline void signal_compat_build_tests(void)
- 	 */
- 	BUILD_BUG_ON(NSIGILL  != 11);
- 	BUILD_BUG_ON(NSIGFPE  != 15);
--	BUILD_BUG_ON(NSIGSEGV != 7);
-+	BUILD_BUG_ON(NSIGSEGV != 8);
- 	BUILD_BUG_ON(NSIGBUS  != 5);
- 	BUILD_BUG_ON(NSIGTRAP != 5);
- 	BUILD_BUG_ON(NSIGCHLD != 6);
-diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
-index 8b6d03e55d2f..db143d447bba 100644
---- a/arch/x86/kernel/traps.c
-+++ b/arch/x86/kernel/traps.c
-@@ -570,6 +570,63 @@ do_general_protection(struct pt_regs *regs, long error_code)
- }
- NOKPROBE_SYMBOL(do_general_protection);
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 0e8834ac32b7..398f1e1c35e5 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -287,11 +287,13 @@ extern unsigned int kobjsize(const void *objp);
+ #define VM_HIGH_ARCH_BIT_2	34	/* bit only usable on 64-bit architectures */
+ #define VM_HIGH_ARCH_BIT_3	35	/* bit only usable on 64-bit architectures */
+ #define VM_HIGH_ARCH_BIT_4	36	/* bit only usable on 64-bit architectures */
++#define VM_HIGH_ARCH_BIT_5	37	/* bit only usable on 64-bit architectures */
+ #define VM_HIGH_ARCH_0	BIT(VM_HIGH_ARCH_BIT_0)
+ #define VM_HIGH_ARCH_1	BIT(VM_HIGH_ARCH_BIT_1)
+ #define VM_HIGH_ARCH_2	BIT(VM_HIGH_ARCH_BIT_2)
+ #define VM_HIGH_ARCH_3	BIT(VM_HIGH_ARCH_BIT_3)
+ #define VM_HIGH_ARCH_4	BIT(VM_HIGH_ARCH_BIT_4)
++#define VM_HIGH_ARCH_5	BIT(VM_HIGH_ARCH_BIT_5)
+ #endif /* CONFIG_ARCH_USES_HIGH_VMA_FLAGS */
  
-+static const char *control_protection_err[] = {
-+	"unknown",
-+	"near-ret",
-+	"far-ret/iret",
-+	"endbranch",
-+	"rstorssp",
-+	"setssbsy",
-+};
-+
-+/*
-+ * When a control protection exception occurs, send a signal
-+ * to the responsible application.  Currently, control
-+ * protection is only enabled for the user mode.  This
-+ * exception should not come from the kernel mode.
-+ */
-+dotraplinkage void
-+do_control_protection(struct pt_regs *regs, long error_code)
-+{
-+	struct task_struct *tsk;
-+
-+	RCU_LOCKDEP_WARN(!rcu_is_watching(), "entry code didn't wake RCU");
-+	if (notify_die(DIE_TRAP, "control protection fault", regs,
-+		       error_code, X86_TRAP_CP, SIGSEGV) == NOTIFY_STOP)
-+		return;
-+	cond_local_irq_enable(regs);
-+
-+	if (!user_mode(regs))
-+		die("kernel control protection fault", regs, error_code);
-+
-+	if (!static_cpu_has(X86_FEATURE_SHSTK) &&
-+	    !static_cpu_has(X86_FEATURE_IBT))
-+		WARN_ONCE(1, "CET is disabled but got control protection fault\n");
-+
-+	tsk = current;
-+	tsk->thread.error_code = error_code;
-+	tsk->thread.trap_nr = X86_TRAP_CP;
-+
-+	if (show_unhandled_signals && unhandled_signal(tsk, SIGSEGV) &&
-+	    printk_ratelimit()) {
-+		unsigned int max_err;
-+
-+		max_err = ARRAY_SIZE(control_protection_err) - 1;
-+		if ((error_code < 0) || (error_code > max_err))
-+			error_code = 0;
-+		pr_info("%s[%d] control protection ip:%lx sp:%lx error:%lx(%s)",
-+			tsk->comm, task_pid_nr(tsk),
-+			regs->ip, regs->sp, error_code,
-+			control_protection_err[error_code]);
-+		print_vma_addr(KERN_CONT " in ", regs->ip);
-+		pr_cont("\n");
-+	}
-+
-+	force_sig_fault(SIGSEGV, SEGV_CPERR,
-+			(void __user *)uprobe_get_trap_addr(regs), tsk);
-+}
-+NOKPROBE_SYMBOL(do_control_protection);
-+
- dotraplinkage void notrace do_int3(struct pt_regs *regs, long error_code)
- {
- #ifdef CONFIG_DYNAMIC_FTRACE
-diff --git a/include/uapi/asm-generic/siginfo.h b/include/uapi/asm-generic/siginfo.h
-index cb3d6c267181..693071dbe641 100644
---- a/include/uapi/asm-generic/siginfo.h
-+++ b/include/uapi/asm-generic/siginfo.h
-@@ -229,7 +229,8 @@ typedef struct siginfo {
- #define SEGV_ACCADI	5	/* ADI not enabled for mapped object */
- #define SEGV_ADIDERR	6	/* Disrupting MCD error */
- #define SEGV_ADIPERR	7	/* Precise MCD exception */
--#define NSIGSEGV	7
-+#define SEGV_CPERR	8
-+#define NSIGSEGV	8
+ #ifdef CONFIG_ARCH_HAS_PKEYS
+@@ -329,6 +331,12 @@ extern unsigned int kobjsize(const void *objp);
+ # define VM_MPX		VM_NONE
+ #endif
  
- /*
-  * SIGBUS si_codes
++#ifdef CONFIG_X86_INTEL_SHADOW_STACK_USER
++# define VM_SHSTK	VM_HIGH_ARCH_5
++#else
++# define VM_SHSTK	VM_NONE
++#endif
++
+ #ifndef VM_GROWSUP
+ # define VM_GROWSUP	VM_NONE
+ #endif
 -- 
 2.17.1
 
