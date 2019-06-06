@@ -3,33 +3,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EBE097D90F
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Jun 2019 15:46:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C1ADE7D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Jun 2019 16:02:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729373AbfFFPqa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Jun 2019 11:46:30 -0400
-Received: from ms.lwn.net ([45.79.88.28]:50162 "EHLO ms.lwn.net"
+        id S1729477AbfFFQCA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 6 Jun 2019 12:02:00 -0400
+Received: from ms.lwn.net ([45.79.88.28]:50248 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729344AbfFFPqa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 6 Jun 2019 11:46:30 -0400
+        id S1729306AbfFFQCA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 Jun 2019 12:02:00 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 0CCF9737;
-        Thu,  6 Jun 2019 15:46:30 +0000 (UTC)
-Date:   Thu, 6 Jun 2019 09:46:28 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id BCC84737;
+        Thu,  6 Jun 2019 16:01:59 +0000 (UTC)
+Date:   Thu, 6 Jun 2019 10:01:58 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     "Tobin C. Harding" <tobin@kernel.org>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>, Neil Brown <neilb@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: filesystems: vfs: Render method descriptions
-Message-ID: <20190606094628.0e8775f7@lwn.net>
-In-Reply-To: <20190604002656.30925-1-tobin@kernel.org>
-References: <20190604002656.30925-1-tobin@kernel.org>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     linux-doc@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@linux.vnet.ibm.com>
+Subject: Re: [PATCH v1] docs/core-api: Add string helpers API to the list
+Message-ID: <20190606100158.76df3cb5@lwn.net>
+In-Reply-To: <20190605163944.50803-1-andriy.shevchenko@linux.intel.com>
+References: <20190605163944.50803-1-andriy.shevchenko@linux.intel.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -39,27 +38,36 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue,  4 Jun 2019 10:26:56 +1000
-"Tobin C. Harding" <tobin@kernel.org> wrote:
+On Wed,  5 Jun 2019 19:39:44 +0300
+Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
 
-> Currently vfs.rst does not render well into HTML the method descriptions
-> for VFS data structures.  We can improve the HTML output by putting the
-> description string on a new line following the method name.
+> Some times string helpers are needed, but there is nothing about them
+> in the generated documentation.
 > 
-> Suggested-by: Jonathan Corbet <corbet@lwn.net>
-> Signed-off-by: Tobin C. Harding <tobin@kernel.org>
-> ---
+> Fill the gap by adding a reference to string_helpers.c exported functions.
 > 
-> Jon,
-> 
-> As discussed on LKML; this patch applies on top of the series
-> 
-> 	[PATCH v4 0/9] docs: Convert VFS doc to RST
-> 
-> If it does not apply cleanly to your branch please feel free to ask me
-> to fix it.
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-There was one merge conflict, but nothing too serious.  I've applied it,
-and things look a lot better - thanks!
+So I've applied this (and the integer power functions one too), but let me
+grumble for just a moment...
+
+This patch adds a set of new warnings to the docs build:
+
+> +./lib/string_helpers.c:236: WARNING: Unexpected indentation.
+> +./lib/string_helpers.c:241: WARNING: Block quote ends without a blank line; unexpected unindent.
+> +./lib/string_helpers.c:446: WARNING: Unexpected indentation.
+> +./lib/string_helpers.c:451: WARNING: Block quote ends without a blank line; unexpected unindent.
+> +./lib/string_helpers.c:474: WARNING: Unexpected indentation.
+
+It would be *really* nice if folks would check for these things and fix
+them when they arise.  The docs build is a horrific mess of warnings that
+will never get better if we keep adding more.  This one is an easy fix;
+I'll toss together a patch to do it.
+
+Beyond that (and this is in no way your fault, I'm just whining)
+kernel-api.rst has become a huge dumping ground.  Someday it would sure be
+nice if we could create a bit more order there...
+
+Thanks,
 
 jon
