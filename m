@@ -1,295 +1,79 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_MED,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EEBEA7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Jun 2019 01:30:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0A1C97D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Jun 2019 03:34:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726600AbfFFBaX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 5 Jun 2019 21:30:23 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:45856 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726581AbfFFBaX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 5 Jun 2019 21:30:23 -0400
-Received: by mail-wr1-f67.google.com with SMTP id f9so583962wre.12
-        for <linux-doc@vger.kernel.org>; Wed, 05 Jun 2019 18:30:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZpGCO041Tg4SdQTzukwjDvK5uvTmFYR2PFl3r1dL9b8=;
-        b=ejvHIsk4euV0ppc0epTzvVzKP6ja3YamlfuEnsYOlwGiRDpcKsu5blj9KswKc1lmHk
-         FlHNai9oKCPDuqXa7TJVSlPeiKK3R0r+zHaoc0/vO+KgoYHspMWlx28mglyIxvgpaPHe
-         hzizJY3TdPzpNMvRO3GLuNa2Z3bBIyLELT3tU3Ha3njuSlNB+l7YFoEZJGWDICks22rP
-         Qed1+wFLqO11s+sVV1ovH/1qQeWozeg+0PR8715Yw5GgkDw0trU7l6zXsnXOhVJDNEMj
-         aMz3quLWYhYCfEO9JKtWdOPTQc+vfT1SWWx3gQh089h7Li6omjAeHLZGPGCeWfbJrYgP
-         eqUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZpGCO041Tg4SdQTzukwjDvK5uvTmFYR2PFl3r1dL9b8=;
-        b=KHVsKqQhhflXMuqBNdysnXiwp72ibQlA4QCw/Ff76Keq1J14P9j2MZUE1HTeXuX/pJ
-         DE7p0jNhzX2ucLY600MftUwYyf4KaoswM6GL2zizvX9SOEHULo57XyJ/xqSUwOsg1f3q
-         wkrpbaxHCqomAPQh7J6QChD+mB0jCPvvEBjkaTmPaM4Z93sVBrtCYTCyJqU3Mnssy1pv
-         RrbQVjKTJGDLWL5kuuWTwPuDXIZm+ldfwnJZ5mOQomMSG4/ZfNcZ1DtoYDXlaCcgCTOR
-         71NOlHXdRV5papmpRF+DtDwRXz4YV4AYT4Bza9uRvqQWTPGFKJj2XfdcXuAl5zflNpIa
-         vfXg==
-X-Gm-Message-State: APjAAAWu7t25dpY//ZNqZOHa1yG5Nx8nk/SaRKmneiHbI+mqf9OUBP32
-        5fX7Lqilsm3YEC6pXWQYdu6d70qR7J5AY0WA5zIo
-X-Google-Smtp-Source: APXvYqwxpKa2J21eVqy9vuAUqWSndFyq+8Hj5f1fxZf/oyQGr75L3YoqW8zROuipuK2Zrr7VCYmxZRrq/mq2BI+GwQw=
-X-Received: by 2002:adf:e352:: with SMTP id n18mr4855529wrj.82.1559784619871;
- Wed, 05 Jun 2019 18:30:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190514221711.248228-1-brendanhiggins@google.com>
- <20190514221711.248228-18-brendanhiggins@google.com> <20190517182254.548EA20815@mail.kernel.org>
-In-Reply-To: <20190517182254.548EA20815@mail.kernel.org>
-From:   Iurii Zaikin <yzaikin@google.com>
-Date:   Wed, 5 Jun 2019 18:29:42 -0700
-Message-ID: <CAAXuY3p4qhKVsSpQ44_kQeGDMfg7OuFLgFyxhcFWS3yf-5A_7g@mail.gmail.com>
-Subject: Re: [PATCH v4 17/18] kernel/sysctl-test: Add null pointer test for sysctl.c:proc_dointvec()
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
-        frowand.list@gmail.com, gregkh@linuxfoundation.org,
-        jpoimboe@redhat.com, keescook@google.com,
-        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
-        peterz@infradead.org, robh@kernel.org, shuah@kernel.org,
-        tytso@mit.edu, yamada.masahiro@socionext.com,
-        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
-        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
-        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
-        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
-        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
-        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
-        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
-        wfg@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
+        id S1726519AbfFFDee (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 5 Jun 2019 23:34:34 -0400
+Received: from ozlabs.ru ([107.173.13.209]:53092 "EHLO ozlabs.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726331AbfFFDee (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 5 Jun 2019 23:34:34 -0400
+X-Greylist: delayed 514 seconds by postgrey-1.27 at vger.kernel.org; Wed, 05 Jun 2019 23:34:34 EDT
+Received: from fstn1-p1.ozlabs.ibm.com (localhost [IPv6:::1])
+        by ozlabs.ru (Postfix) with ESMTP id 4315FAE80017;
+        Wed,  5 Jun 2019 23:25:59 -0400 (EDT)
+From:   Alexey Kardashevskiy <aik@ozlabs.ru>
+To:     linux-kernel@vger.kernel.org
+Cc:     Alexey Kardashevskiy <aik@ozlabs.ru>, linux-doc@vger.kernel.org,
+        Bjorn Helgaas <helgaas@kernel.org>, linux-pci@vger.kernel.org
+Subject: PCI: Correct the resource_alignment parameter example
+Date:   Thu,  6 Jun 2019 13:25:57 +1000
+Message-Id: <20190606032557.107542-1-aik@ozlabs.ru>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, May 17, 2019 at 11:22 AM Stephen Boyd <sboyd@kernel.org> wrote:
->
-> Quoting Brendan Higgins (2019-05-14 15:17:10)
-> > diff --git a/kernel/sysctl-test.c b/kernel/sysctl-test.c
-> > new file mode 100644
-> > index 0000000000000..fe0f2bae66085
-> > --- /dev/null
-> > +++ b/kernel/sysctl-test.c
-> > @@ -0,0 +1,293 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * KUnit test of proc sysctl.
-> > + */
-> > +
-> > +#include <kunit/test.h>
-> > +#include <linux/printk.h>
->
-> Is this include used?
-  Deleted.
->
-> > +#include <linux/sysctl.h>
-> > +#include <linux/uaccess.h>
->
-> Is this include used?
-Deleted.
->
-> > +
-> > +
-> > +static void sysctl_test_dointvec_happy_single_negative(struct kunit *test)
-> > +{
-> > +       struct ctl_table table = {
-> > +               .procname = "foo",
-> > +               .data           = &test_data.int_0001,
-> > +               .maxlen         = sizeof(int),
-> > +               .mode           = 0644,
-> > +               .proc_handler   = proc_dointvec,
-> > +               .extra1         = &i_zero,
-> > +               .extra2         = &i_one_hundred,
-> > +       };
-> > +       char input[] = "-9";
-> > +       size_t len = sizeof(input) - 1;
-> > +       loff_t pos = 0;
-> > +
-> > +       table.data = kunit_kzalloc(test, sizeof(int), GFP_USER);
-> > +       KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 1, input, &len, &pos));
-> > +       KUNIT_EXPECT_EQ(test, sizeof(input) - 1, len);
-> > +       KUNIT_EXPECT_EQ(test, sizeof(input) - 1, pos);
-> > +       KUNIT_EXPECT_EQ(test, -9, *(int *)table.data);
->
-> Is the casting necessary? Or can the macro do a type coercion of the
-> second parameter based on the first type?
- Data field is defined as void* so I believe casting is necessary to
-dereference it as a pointer to an array of ints. I don't think the
-macro should do any type coercion that == operator wouldn't do.
- I did change the cast to make it more clear that it's a pointer to an
-array of ints being dereferenced.
->
-> > +}
-> > +
-> > +static void sysctl_test_dointvec_single_less_int_min(struct kunit *test)
-> > +{
-> > +       struct ctl_table table = {
-> > +               .procname = "foo",
-> > +               .data           = &test_data.int_0001,
-> > +               .maxlen         = sizeof(int),
-> > +               .mode           = 0644,
-> > +               .proc_handler   = proc_dointvec,
-> > +               .extra1         = &i_zero,
-> > +               .extra2         = &i_one_hundred,
-> > +       };
-> > +       char input[32];
-> > +       size_t len = sizeof(input) - 1;
-> > +       loff_t pos = 0;
-> > +       unsigned long abs_of_less_than_min = (unsigned long)INT_MAX
-> > +                                            - (INT_MAX + INT_MIN) + 1;
-> > +
-> > +       KUNIT_EXPECT_LT(test,
-> > +                       snprintf(input, sizeof(input), "-%lu",
-> > +                                abs_of_less_than_min),
-> > +                       sizeof(input));
-> > +
-> > +       table.data = kunit_kzalloc(test, sizeof(int), GFP_USER);
-> > +       KUNIT_EXPECT_EQ(test, -EINVAL,
-> > +                       proc_dointvec(&table, 1, input, &len, &pos));
-> > +       KUNIT_EXPECT_EQ(test, sizeof(input) - 1, len);
-> > +       KUNIT_EXPECT_EQ(test, 0, *(int *)table.data);
-> > +}
-> > +
-> > +static void sysctl_test_dointvec_single_greater_int_max(struct kunit *test)
-> > +{
-> > +       struct ctl_table table = {
-> > +               .procname = "foo",
-> > +               .data           = &test_data.int_0001,
-> > +               .maxlen         = sizeof(int),
-> > +               .mode           = 0644,
-> > +               .proc_handler   = proc_dointvec,
-> > +               .extra1         = &i_zero,
-> > +               .extra2         = &i_one_hundred,
-> > +       };
-> > +       char input[32];
-> > +       size_t len = sizeof(input) - 1;
-> > +       loff_t pos = 0;
-> > +       unsigned long greater_than_max = (unsigned long)INT_MAX + 1;
-> > +
-> > +       KUNIT_EXPECT_GT(test, greater_than_max, INT_MAX);
-> > +       KUNIT_EXPECT_LT(test, snprintf(input, sizeof(input), "%lu",
-> > +                                      greater_than_max),
-> > +                       sizeof(input));
-> > +       table.data = kunit_kzalloc(test, sizeof(int), GFP_USER);
-> > +       KUNIT_EXPECT_EQ(test, -EINVAL,
-> > +                       proc_dointvec(&table, 1, input, &len, &pos));
-> > +       KUNIT_EXPECT_EQ(test, sizeof(input) - 1, len);
-> > +       KUNIT_EXPECT_EQ(test, 0, *(int *)table.data);
-> > +}
-> > +
-> > +static int sysctl_test_init(struct kunit *test)
-> > +{
-> > +       return 0;
-> > +}
-> > +
-> > +/*
-> > + * This is run once after each test case, see the comment on example_test_module
-> > + * for more information.
-> > + */
-> > +static void sysctl_test_exit(struct kunit *test)
-> > +{
-> > +}
-> Can the above two be omitted? If they can be empty sometimes it would be
-> nice to avoid the extra symbols and code by letting them be assigned to
-> NULL in the kunit_module.
- Deleted.
->
-> > +
-> > +/*
-> > + * Here we make a list of all the test cases we want to add to the test module
-> > + * below.
-> > + */
-> > +static struct kunit_case sysctl_test_cases[] = {
-> > +       /*
-> > +        * This is a helper to create a test case object from a test case
-> > +        * function; its exact function is not important to understand how to
-> > +        * use KUnit, just know that this is how you associate test cases with a
-> > +        * test module.
-> > +        */
-> > +       KUNIT_CASE(sysctl_test_dointvec_null_tbl_data),
-> > +       KUNIT_CASE(sysctl_test_dointvec_table_maxlen_unset),
-> > +       KUNIT_CASE(sysctl_test_dointvec_table_len_is_zero),
-> > +       KUNIT_CASE(sysctl_test_dointvec_table_read_but_position_set),
-> > +       KUNIT_CASE(sysctl_test_dointvec_happy_single_positive),
-> > +       KUNIT_CASE(sysctl_test_dointvec_happy_single_negative),
-> > +       KUNIT_CASE(sysctl_test_dointvec_single_less_int_min),
-> > +       KUNIT_CASE(sysctl_test_dointvec_single_greater_int_max),
-> > +       {},
-> > +};
-> > +
-> > +/*
-> > + * This defines a suite or grouping of tests.
-> > + *
-> > + * Test cases are defined as belonging to the suite by adding them to
-> > + * `test_cases`.
-> > + *
-> > + * Often it is desirable to run some function which will set up things which
-> > + * will be used by every test; this is accomplished with an `init` function
-> > + * which runs before each test case is invoked. Similarly, an `exit` function
-> > + * may be specified which runs after every test case and can be used to for
-> > + * cleanup. For clarity, running tests in a test module would behave as follows:
-> > + *
-> > + * module.init(test);
-> > + * module.test_case[0](test);
-> > + * module.exit(test);
-> > + * module.init(test);
-> > + * module.test_case[1](test);
-> > + * module.exit(test);
-> > + * ...;
->
-> This comment (and the one above for "this is a helper") looks generic
-> and should probably only be in some documentation somewhere and not for
-> a sysctl test?
->
-Deleted.
-> > + */
-> > +static struct kunit_module sysctl_test_module = {
-> > +       .name = "sysctl_test",
-> > +       .init = sysctl_test_init,
-> > +       .exit = sysctl_test_exit,
-> > +       .test_cases = sysctl_test_cases,
-> > +};
-> > +
-> > +/*
-> > + * This registers the above test module telling KUnit that this is a suite of
-> > + * tests that need to be run.
-> > + */
->
-> Same comment about generic comment.
->
-Deleted.
-> > +module_test(sysctl_test_module);
-> > diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> > index d5a4a4036d2f8..772af4ec70111 100644
-> > --- a/lib/Kconfig.debug
-> > +++ b/lib/Kconfig.debug
-> > @@ -1908,6 +1908,12 @@ config TEST_SYSCTL
-> >
-> >           If unsure, say N.
-> >
-> > +config SYSCTL_KUNIT_TEST
-> > +       bool "KUnit test for sysctl"
->
-> Why not tristate?
->
-I don't believe KUnit as a module is currently supported.
-> > +       depends on KUNIT
-> > +       help
-> > +         Enables KUnit sysctl test.
-> > +
+The option description requires an order and so does the option
+parsing code, however the example uses a size, fix this.
+
+Fixes: 8b078c603249 ("PCI: Update "pci=resource_alignment" documentation")
+Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 2b8ee90bb644..dcb53d64ad74 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3340,27 +3340,28 @@
+ 		resource_alignment=
+ 				Format:
+ 				[<order of align>@]<pci_dev>[; ...]
+ 				Specifies alignment and device to reassign
+ 				aligned memory resources. How to
+ 				specify the device is described above.
+ 				If <order of align> is not specified,
+ 				PAGE_SIZE is used as alignment.
+ 				PCI-PCI bridge can be specified, if resource
+ 				windows need to be expanded.
+ 				To specify the alignment for several
+ 				instances of a device, the PCI vendor,
+ 				device, subvendor, and subdevice may be
+-				specified, e.g., 4096@pci:8086:9c22:103c:198f
++				specified, e.g., 12@pci:8086:9c22:103c:198f
++				for the 4096 alignment.
+ 		ecrc=		Enable/disable PCIe ECRC (transaction layer
+ 				end-to-end CRC checking).
+ 				bios: Use BIOS/firmware settings. This is the
+ 				the default.
+ 				off: Turn ECRC off
+ 				on: Turn ECRC on.
+ 		hpiosize=nn[KMG]	The fixed amount of bus space which is
+ 				reserved for hotplug bridge's IO window.
+ 				Default size is 256 bytes.
+ 		hpmemsize=nn[KMG]	The fixed amount of bus space which is
+ 				reserved for hotplug bridge's memory window.
+ 				Default size is 2 megabytes.
+ 		hpbussize=nn	The minimum amount of additional bus numbers
+-- 
+2.17.1
+
