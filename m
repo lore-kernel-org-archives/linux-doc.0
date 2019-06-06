@@ -5,22 +5,22 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 318F57D926
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Jun 2019 20:18:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BE5637D912
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Jun 2019 20:18:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728259AbfFFURf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Jun 2019 16:17:35 -0400
-Received: from mga14.intel.com ([192.55.52.115]:51133 "EHLO mga14.intel.com"
+        id S1726608AbfFFUSb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 6 Jun 2019 16:18:31 -0400
+Received: from mga14.intel.com ([192.55.52.115]:51127 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727716AbfFFURe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 6 Jun 2019 16:17:34 -0400
+        id S1728093AbfFFURf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 Jun 2019 16:17:35 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Jun 2019 13:17:32 -0700
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Jun 2019 13:17:33 -0700
 X-ExtLoop1: 1
 Received: from yyu32-desk1.sc.intel.com ([143.183.136.147])
-  by fmsmga001.fm.intel.com with ESMTP; 06 Jun 2019 13:17:31 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 06 Jun 2019 13:17:33 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -46,9 +46,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>
-Subject: [PATCH v7 09/14] x86/vdso: Insert endbr32/endbr64 to vDSO
-Date:   Thu,  6 Jun 2019 13:09:21 -0700
-Message-Id: <20190606200926.4029-10-yu-cheng.yu@intel.com>
+Subject: [PATCH v7 14/14] x86: Discard .note.gnu.property sections
+Date:   Thu,  6 Jun 2019 13:09:26 -0700
+Message-Id: <20190606200926.4029-15-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190606200926.4029-1-yu-cheng.yu@intel.com>
 References: <20190606200926.4029-1-yu-cheng.yu@intel.com>
@@ -59,65 +59,72 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: "H.J. Lu" <hjl.tools@gmail.com>
 
-When Intel indirect branch tracking is enabled, functions in vDSO which
-may be called indirectly must have endbr32 or endbr64 as the first
-instruction.  Compiler must support -fcf-protection=branch so that it
-can be used to compile vDSO.
+With the command-line option, -mx86-used-note=yes, the x86 assembler
+in binutils 2.32 and above generates a program property note in a note
+section, .note.gnu.property, to encode used x86 ISAs and features.
+To exclude .note.gnu.property sections from NOTE segment in x86 kernel
+linker script:
+
+PHDRS {
+ text PT_LOAD FLAGS(5);
+ data PT_LOAD FLAGS(6);
+ percpu PT_LOAD FLAGS(6);
+ init PT_LOAD FLAGS(7);
+ note PT_NOTE FLAGS(0);
+}
+SECTIONS
+{
+...
+ .notes : AT(ADDR(.notes) - 0xffffffff80000000) { __start_notes = .; KEEP(*(.not
+e.*)) __stop_notes = .; } :text :note
+...
+}
+
+this patch discards .note.gnu.property sections in kernel linker script
+by adding
+
+ /DISCARD/ : {
+  *(.note.gnu.property)
+ }
+
+before .notes sections.  Since .exit.text and .exit.data sections are
+discarded at runtime, it undefines EXIT_TEXT and EXIT_DATA to exclude
+.exit.text and .exit.data sections from default discarded sections.
 
 Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
 ---
- arch/x86/entry/vdso/Makefile          | 12 +++++++++++-
- arch/x86/entry/vdso/vdso-layout.lds.S |  1 +
- 2 files changed, 12 insertions(+), 1 deletion(-)
+ arch/x86/kernel/vmlinux.lds.S | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/arch/x86/entry/vdso/Makefile b/arch/x86/entry/vdso/Makefile
-index 42fe42e82baf..718fc17b0d67 100644
---- a/arch/x86/entry/vdso/Makefile
-+++ b/arch/x86/entry/vdso/Makefile
-@@ -108,13 +108,17 @@ vobjx32s := $(foreach F,$(vobjx32s-y),$(obj)/$F)
+diff --git a/arch/x86/kernel/vmlinux.lds.S b/arch/x86/kernel/vmlinux.lds.S
+index 0850b5149345..d2594b482c09 100644
+--- a/arch/x86/kernel/vmlinux.lds.S
++++ b/arch/x86/kernel/vmlinux.lds.S
+@@ -146,6 +146,10 @@ SECTIONS
+ 	/* End of text section */
+ 	_etext = .;
  
- # Convert 64bit object file to x32 for x32 vDSO.
- quiet_cmd_x32 = X32     $@
--      cmd_x32 = $(OBJCOPY) -O elf32-x86-64 $< $@
-+      cmd_x32 = $(OBJCOPY) -R .note.gnu.property -O elf32-x86-64 $< $@
++	/* .note.gnu.property sections should be discarded */
++	/DISCARD/ : {
++		*(.note.gnu.property)
++	}
+ 	NOTES :text :note
  
- $(obj)/%-x32.o: $(obj)/%.o FORCE
- 	$(call if_changed,x32)
+ 	EXCEPTION_TABLE(16) :text = 0x9090
+@@ -382,7 +386,12 @@ SECTIONS
+ 	STABS_DEBUG
+ 	DWARF_DEBUG
  
- targets += vdsox32.lds $(vobjx32s-y)
- 
-+ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
-+    $(obj)/vclock_gettime.o $(obj)/vgetcpu.o $(obj)/vdso32/vclock_gettime.o: KBUILD_CFLAGS += -fcf-protection=branch
-+endif
-+
- $(obj)/%.so: OBJCOPYFLAGS := -S
- $(obj)/%.so: $(obj)/%.so.dbg FORCE
- 	$(call if_changed,objcopy)
-@@ -173,6 +177,12 @@ quiet_cmd_vdso = VDSO    $@
- VDSO_LDFLAGS = -shared $(call ld-option, --hash-style=both) \
- 	$(call ld-option, --build-id) $(call ld-option, --eh-frame-hdr) \
- 	-Bsymbolic
-+ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
-+  VDSO_LDFLAGS += $(call ldoption, -z$(comma)ibt)
-+endif
-+ifdef CONFIG_X86_INTEL_SHADOW_STACK_USER
-+  VDSO_LDFLAGS += $(call ldoption, -z$(comma)shstk)
-+endif
- GCOV_PROFILE := n
- 
- #
-diff --git a/arch/x86/entry/vdso/vdso-layout.lds.S b/arch/x86/entry/vdso/vdso-layout.lds.S
-index 93c6dc7812d0..3fea2ce318bc 100644
---- a/arch/x86/entry/vdso/vdso-layout.lds.S
-+++ b/arch/x86/entry/vdso/vdso-layout.lds.S
-@@ -52,6 +52,7 @@ SECTIONS
- 		*(.gnu.linkonce.b.*)
- 	}						:text
- 
-+	.note.gnu.property : { *(.note.gnu.property) }	:text	:note
- 	.note		: { *(.note.*) }		:text	:note
- 
- 	.eh_frame_hdr	: { *(.eh_frame_hdr) }		:text	:eh_frame_hdr
+-	/* Sections to be discarded */
++	/* Sections to be discarded.  EXIT_TEXT and EXIT_DATA discard at runtime.
++	 * not link time.  */
++#undef EXIT_TEXT
++#define EXIT_TEXT
++#undef EXIT_DATA
++#define EXIT_DATA
+ 	DISCARDS
+ 	/DISCARD/ : {
+ 		*(.eh_frame)
 -- 
 2.17.1
 
