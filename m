@@ -1,87 +1,188 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_HIGH autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4E8AA7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Jun 2019 20:28:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5E9187D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Jun 2019 21:11:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727091AbfFFU2n (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Jun 2019 16:28:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60652 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727081AbfFFU2m (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 6 Jun 2019 16:28:42 -0400
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2C65C214DA
-        for <linux-doc@vger.kernel.org>; Thu,  6 Jun 2019 20:28:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1559852922;
-        bh=7dtJJy+tpf1euG0sliaeXpcZWtPy4t0cTCPj40HG3Gc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=t2yJVjGScNVAceTq64NgeNXeja0FCFjw2J41UevfqpsJ6YUmmYc3K+axFdZgrqoNG
-         C2AFooBLHsfBQPFkZFLDhZOpkV8pWCqBrBk+Gm5E0fJSf8nVZ02y7HDywrc4PNgA0e
-         TOjlgx5CqdRDt/Fp31naUp8cvXov8xmEnxZSVXlM=
-Received: by mail-wr1-f53.google.com with SMTP id e16so3773701wrn.1
-        for <linux-doc@vger.kernel.org>; Thu, 06 Jun 2019 13:28:42 -0700 (PDT)
-X-Gm-Message-State: APjAAAVFRFEG44hRoBNjEG126tzVtTYCwXx37WaD2bKZcBPMG4X0Kp30
-        PY/1/DleMU4GfnVWATjnnz2+vyrdi5R8mtucDvjk7w==
-X-Google-Smtp-Source: APXvYqx3f5u5Y/rrwHdW2awhxgUt4xQ4wEw0oHwPvy7YsU0l9vHaF//oE/ev6LAssDbkzIcjGWy/PjsLduMkPyZyoyU=
-X-Received: by 2002:adf:f2c8:: with SMTP id d8mr4520549wrp.221.1559852920790;
- Thu, 06 Jun 2019 13:28:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190606200926.4029-1-yu-cheng.yu@intel.com> <20190606200926.4029-12-yu-cheng.yu@intel.com>
-In-Reply-To: <20190606200926.4029-12-yu-cheng.yu@intel.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Thu, 6 Jun 2019 13:28:29 -0700
-X-Gmail-Original-Message-ID: <CALCETrXWehe=s4i+VkjxJBLh2AVWRioybpY0nbEWXZjvY_rFeQ@mail.gmail.com>
-Message-ID: <CALCETrXWehe=s4i+VkjxJBLh2AVWRioybpY0nbEWXZjvY_rFeQ@mail.gmail.com>
-Subject: Re: [PATCH v7 11/14] x86/vsyscall/64: Add ENDBR64 to vsyscall entry points
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        id S1727922AbfFFVLm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 6 Jun 2019 17:11:42 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:42186 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725267AbfFFVLl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jun 2019 17:11:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=0ut4YjnRsAbKvSUoR/ii92dovZhOptemNBKQari9Qhk=; b=A2nULxYVaPNiHW0dryiOZdmMXH
+        kvf1HcByP2wFmionA4GjDMff/pbPpzBQSUWnVspw3/lbLfAE4kFBbHbDKdZBXOyBJpWrEoSHB8wCa
+        cfqkwc5gnVPwFzwLeTkmlpFu90kMiJyx+l6BrscwuFeoz3blwF0gXqGjt8TuaUR3CGU5FCQ1m3myq
+        NDO4fpYZU4kOWsGN2s0j3NWR1edCLcFTdOn6T8mRF5S6yX5EWwd2zValRO1IJetkZBx9UaKV83clp
+        L1tJYGAf5vawviDBW56oIdiHtjhRGc4h0gf2/zoFgabNVRvEnmhg9horOivhdA4C4in5ZA8/hyQoP
+        Gh5weo2g==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hYzf5-0006BU-D3; Thu, 06 Jun 2019 21:11:03 +0000
+Subject: Re: [PATCH 03/10] mfd / platform: cros_ec: Miscellaneous character
+ device to talk with the EC
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Guenter Roeck <groeck@google.com>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Benson Leung <bleung@chromium.org>,
+        Lee Jones <lee.jones@linaro.org>, kernel@collabora.com,
+        Dmitry Torokhov <dtor@chromium.org>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        linux-doc@vger.kernel.org, Enno Luebbers <enno.luebbers@intel.com>,
+        Guido Kiener <guido@kiener-muenchen.de>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Jonathan Corbet <corbet@lwn.net>, Wu Hao <hao.wu@intel.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Tycho Andersen <tycho@tycho.ws>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Jilayne Lovejoy <opensource@jilayne.com>
+References: <20190604152019.16100-1-enric.balletbo@collabora.com>
+ <20190604152019.16100-4-enric.balletbo@collabora.com>
+ <20190604155228.GB9981@kroah.com>
+ <beaf3554bb85974eb118d7722ca55f1823b1850c.camel@collabora.com>
+ <20190604183527.GA20098@kroah.com>
+ <CABXOdTfU9KaBDhQcwvBGWCmVfnd02_ZFmPGtJsCtGQ-iO9A3Qw@mail.gmail.com>
+ <20190604185953.GA2061@kroah.com>
+ <bda48bf80add26153e531912fbfca25071934c94.camel@collabora.com>
+ <20190606145121.GA13048@kroah.com>
+ <1cfc4bfab8d9d8a47e5dacaca88a7fe30ae83076.camel@collabora.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <c577a7f8-b4d6-0574-bc0e-993637ced41f@infradead.org>
+Date:   Thu, 6 Jun 2019 14:11:00 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <1cfc4bfab8d9d8a47e5dacaca88a7fe30ae83076.camel@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 6, 2019 at 1:17 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->
-> From: "H.J. Lu" <hjl.tools@gmail.com>
->
-> Add ENDBR64 to vsyscall entry points.
+On 6/6/19 8:12 AM, Ezequiel Garcia wrote:
+> On Thu, 2019-06-06 at 16:51 +0200, Greg Kroah-Hartman wrote:
+>> On Thu, Jun 06, 2019 at 11:01:17AM -0300, Ezequiel Garcia wrote:
+>>> On Tue, 2019-06-04 at 20:59 +0200, Greg Kroah-Hartman wrote:
+>>>> On Tue, Jun 04, 2019 at 11:39:21AM -0700, Guenter Roeck wrote:
+>>>>> On Tue, Jun 4, 2019 at 11:35 AM Greg Kroah-Hartman
+>>>>> <gregkh@linuxfoundation.org> wrote:
+>>>>>> On Tue, Jun 04, 2019 at 01:58:38PM -0300, Ezequiel Garcia wrote:
+>>>>>>> Hey Greg,
+>>>>>>>
+>>>>>>>>> + dev_info(&pdev->dev, "Created misc device /dev/%s\n",
+>>>>>>>>> +          data->misc.name);
+>>>>>>>>
+>>>>>>>> No need to be noisy, if all goes well, your code should be quiet.
+>>>>>>>>
+>>>>>>>
+>>>>>>> I sometimes wonder about this being noise or not, so I will slightly
+>>>>>>> hijack this thread for this discussion.
+>>>>>>>
+>>>>>>>> From a kernel developer point-of-view, or even from a platform
+>>>>>>> developer or user with a debugging hat point-of-view, having
+>>>>>>> a "device created" or "device registered" message is often very useful.
+>>>>>>
+>>>>>> For you, yes.  For someone with 30000 devices attached to their system,
+>>>>>> it is not, and causes booting to take longer than it should be.
+>>>>>>
+>>>>>>> In fact, I wish people would do this more often, so I don't have to
+>>>>>>> deal with dynamic debug, or hack my way:
+>>>>>>>
+>>>>>>> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+>>>>>>> index 4589631798c9..473549b26bb2 100644
+>>>>>>> --- a/drivers/media/i2c/ov5647.c
+>>>>>>> +++ b/drivers/media/i2c/ov5647.c
+>>>>>>> @@ -603,7 +603,7 @@ static int ov5647_probe(struct i2c_client *client,
+>>>>>>>         if (ret < 0)
+>>>>>>>                 goto error;
+>>>>>>>
+>>>>>>> -       dev_dbg(dev, "OmniVision OV5647 camera driver probed\n");
+>>>>>>> +       dev_info(dev, "OmniVision OV5647 camera driver probed\n");
+>>>>>>>         return 0;
+>>>>>>>  error:
+>>>>>>>         media_entity_cleanup(&sd->entity);
+>>>>>>>
+>>>>>>> In some subsystems, it's even a behavior I'm more or less relying on:
+>>>>>>>
+>>>>>>> $ git grep v4l2_info.*registered drivers/media/ | wc -l
+>>>>>>> 26
+>>>>>>>
+>>>>>>> And on the downsides, I can't find much. It's just one little line,
+>>>>>>> that is not even noticed unless you have logging turned on.
+>>>>>>
+>>>>>> Its better to be quiet, which is why the "default driver registration"
+>>>>>> macros do not have any printk messages in them.  When converting drivers
+>>>>>> over to it, we made the boot process much more sane, don't try to go and
+>>>>>> add messages for no good reason back in please.
+>>>>>>
+>>>>>> dynamic debugging can be enabled on a module and line-by-line basis,
+>>>>>> even from the boot command line.  So if you need debugging, you can
+>>>>>> always ask someone to just reboot or unload/load the module and get the
+>>>>>> message that way.
+>>>>>>
+>>>>>
+>>>>> Can we by any chance make this an official policy ? I am kind of tired
+>>>>> having to argue about this over and over again.
+>>>>
+>>>> Sure, but how does anyone make any "official policy" in the kernel?  :)
+>>>>
+>>>> I could just go through and delete all "look ma, a new driver/device!"
+>>>> messages, but that might be annoying...
+>>>>
+>>>
+>>> Well, I really need to task.
+>>
+>> ???
+>>
+> 
+> Oops, typo: s/task/ask :-)
+> 
+>>> If it's not an official policy (and won't be anytime soon?),
+>>
+>> The ":)" there was that we really have very few "official" policies,
+>> only things that we all strongly encourage to happen.  And get grumpy if
+>> we see them in code reviews.  Like I did here.
+>>
+> 
+> Well, not everyone gets grumpy. As I pointed out, we use this "registered"
+> messages (messages or noise, seems this lie in the eye of the beholder),
+> consistently across entire subsystems.
 
-I'm still okay with this patch, but this is rather silly.  If anyone
-actually executes this code, they're doing it wrong.
+:(
 
---Andy
+>>> then what's preventing Enric from pushing this print on this driver,
+>>> given he is the one maintaining the code?
+>>
+>> Given that he wants people to review his code, why would you tell him to
+>> ignore what people are trying to tell him?
+>>
+> 
+> I'm not suggesting to ignore anyone, rather to consider all voices
+> involved in each review comment.
+> 
+>> Again, don't be noisy, it's not hard, and is how things have been
+>> trending for many years now.
+
+Ack that.
+
+
+-- 
+~Randy
