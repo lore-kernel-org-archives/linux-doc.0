@@ -5,15 +5,15 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8517B7D923
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Jun 2019 20:18:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 976C77D92A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Jun 2019 20:18:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726667AbfFFUSi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Jun 2019 16:18:38 -0400
+        id S1726286AbfFFUSw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 6 Jun 2019 16:18:52 -0400
 Received: from mga14.intel.com ([192.55.52.115]:51127 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727765AbfFFURf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 6 Jun 2019 16:17:35 -0400
+        id S1726906AbfFFURe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 Jun 2019 16:17:34 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
@@ -46,10 +46,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v7 12/14] x86/vsyscall/64: Fixup shadow stack and branch tracking for vsyscall
-Date:   Thu,  6 Jun 2019 13:09:24 -0700
-Message-Id: <20190606200926.4029-13-yu-cheng.yu@intel.com>
+Subject: [PATCH v7 10/14] x86/vdso/32: Add ENDBR32 to __kernel_vsyscall entry point
+Date:   Thu,  6 Jun 2019 13:09:22 -0700
+Message-Id: <20190606200926.4029-11-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190606200926.4029-1-yu-cheng.yu@intel.com>
 References: <20190606200926.4029-1-yu-cheng.yu@intel.com>
@@ -58,67 +57,29 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When emulating a RET, also unwind the task's shadow stack and cancel
-the current branch tracking status.
+From: "H.J. Lu" <hjl.tools@gmail.com>
 
-Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+Add ENDBR32 to __kernel_vsyscall entry point.
+
+Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
 ---
- arch/x86/entry/vsyscall/vsyscall_64.c | 28 +++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ arch/x86/entry/vdso/vdso32/system_call.S | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/arch/x86/entry/vsyscall/vsyscall_64.c b/arch/x86/entry/vsyscall/vsyscall_64.c
-index d9d81ad7a400..6869ef9d1e8b 100644
---- a/arch/x86/entry/vsyscall/vsyscall_64.c
-+++ b/arch/x86/entry/vsyscall/vsyscall_64.c
-@@ -38,6 +38,8 @@
- #include <asm/fixmap.h>
- #include <asm/traps.h>
- #include <asm/paravirt.h>
-+#include <asm/fpu/xstate.h>
-+#include <asm/fpu/types.h>
- 
- #define CREATE_TRACE_POINTS
- #include "vsyscall_trace.h"
-@@ -92,6 +94,30 @@ static int addr_to_vsyscall_nr(unsigned long addr)
- 	return nr;
- }
- 
-+void fixup_shstk(void)
-+{
-+#ifdef CONFIG_X86_INTEL_SHADOW_STACK_USER
-+	u64 r;
-+
-+	if (current->thread.cet.shstk_enabled) {
-+		rdmsrl(MSR_IA32_PL3_SSP, r);
-+		wrmsrl(MSR_IA32_PL3_SSP, r + 8);
-+	}
-+#endif
-+}
-+
-+void fixup_ibt(void)
-+{
+diff --git a/arch/x86/entry/vdso/vdso32/system_call.S b/arch/x86/entry/vdso/vdso32/system_call.S
+index 263d7433dea8..2fc8141fff4e 100644
+--- a/arch/x86/entry/vdso/vdso32/system_call.S
++++ b/arch/x86/entry/vdso/vdso32/system_call.S
+@@ -14,6 +14,9 @@
+ 	ALIGN
+ __kernel_vsyscall:
+ 	CFI_STARTPROC
 +#ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
-+	u64 r;
-+
-+	if (current->thread.cet.ibt_enabled) {
-+		rdmsrl(MSR_IA32_U_CET, r);
-+		wrmsrl(MSR_IA32_U_CET, r & ~MSR_IA32_CET_WAIT_ENDBR);
-+	}
++	endbr32
 +#endif
-+}
-+
- static bool write_ok_or_segv(unsigned long ptr, size_t size)
- {
  	/*
-@@ -265,6 +291,8 @@ bool emulate_vsyscall(struct pt_regs *regs, unsigned long address)
- 	/* Emulate a ret instruction. */
- 	regs->ip = caller;
- 	regs->sp += 8;
-+	fixup_shstk();
-+	fixup_ibt();
- 	return true;
- 
- sigsegv:
+ 	 * Reshuffle regs so that all of any of the entry instructions
+ 	 * will preserve enough state.
 -- 
 2.17.1
 
