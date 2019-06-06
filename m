@@ -5,22 +5,22 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4971E7D912
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Jun 2019 20:17:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 376137D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Jun 2019 20:18:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727855AbfFFURf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Jun 2019 16:17:35 -0400
-Received: from mga14.intel.com ([192.55.52.115]:51127 "EHLO mga14.intel.com"
+        id S1729641AbfFFURj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 6 Jun 2019 16:17:39 -0400
+Received: from mga07.intel.com ([134.134.136.100]:42894 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727705AbfFFURd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 6 Jun 2019 16:17:33 -0400
+        id S1729512AbfFFURj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 Jun 2019 16:17:39 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Jun 2019 13:17:31 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Jun 2019 13:17:30 -0700
 X-ExtLoop1: 1
 Received: from yyu32-desk1.sc.intel.com ([143.183.136.147])
-  by fmsmga001.fm.intel.com with ESMTP; 06 Jun 2019 13:17:31 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 06 Jun 2019 13:17:29 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -47,102 +47,74 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v7 07/14] x86/cet/ibt: Add arch_prctl functions for IBT
-Date:   Thu,  6 Jun 2019 13:09:19 -0700
-Message-Id: <20190606200926.4029-8-yu-cheng.yu@intel.com>
+Subject: [PATCH v7 00/14] Control-flow Enforcement: Branch Tracking, PTRACE
+Date:   Thu,  6 Jun 2019 13:09:12 -0700
+Message-Id: <20190606200926.4029-1-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190606200926.4029-1-yu-cheng.yu@intel.com>
-References: <20190606200926.4029-1-yu-cheng.yu@intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update ARCH_X86_CET_STATUS and ARCH_X86_CET_DISABLE to include
-Indirect Branch Tracking features.
+The previous version of CET Branch Tracking/PTRACE patches is here:
 
-Introduce:
+  https://lkml.org/lkml/2018/11/20/203
 
-arch_prctl(ARCH_X86_CET_SET_LEGACY_BITMAP, unsigned long *addr)
-    Enable the Indirect Branch Tracking legacy code bitmap.
+Summary of changes from v6:
 
-    The parameter 'addr' is a pointer to a user buffer that has:
+  Rebase to v5.2-rc3.
 
-    *addr = IBT bitmap base address
-    *(addr + 1) = IBT bitmap size
+  Add Branch Tracking in the signal handling routines.
 
-Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
-Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
----
- arch/x86/include/uapi/asm/prctl.h |  2 ++
- arch/x86/kernel/cet_prctl.c       | 21 +++++++++++++++++++++
- 2 files changed, 23 insertions(+)
+  Fix Branch Tracking (and Shadow Stack) for vsyscall (patch #12):
+    This patch can be dropped if we expect CET blocking vsyscall.
 
-diff --git a/arch/x86/include/uapi/asm/prctl.h b/arch/x86/include/uapi/asm/prctl.h
-index d962f0ec9ccf..5eb9aeb5c662 100644
---- a/arch/x86/include/uapi/asm/prctl.h
-+++ b/arch/x86/include/uapi/asm/prctl.h
-@@ -18,5 +18,7 @@
- #define ARCH_X86_CET_DISABLE		0x3002
- #define ARCH_X86_CET_LOCK		0x3003
- #define ARCH_X86_CET_ALLOC_SHSTK	0x3004
-+#define ARCH_X86_CET_GET_LEGACY_BITMAP	0x3005 /* deprecated */
-+#define ARCH_X86_CET_SET_LEGACY_BITMAP	0x3006
- 
- #endif /* _ASM_X86_PRCTL_H */
-diff --git a/arch/x86/kernel/cet_prctl.c b/arch/x86/kernel/cet_prctl.c
-index 9c9d4262b07e..b7f37bbc0dd3 100644
---- a/arch/x86/kernel/cet_prctl.c
-+++ b/arch/x86/kernel/cet_prctl.c
-@@ -20,6 +20,8 @@ static int handle_get_status(unsigned long arg2)
- 
- 	if (current->thread.cet.shstk_enabled)
- 		features |= GNU_PROPERTY_X86_FEATURE_1_SHSTK;
-+	if (current->thread.cet.ibt_enabled)
-+		features |= GNU_PROPERTY_X86_FEATURE_1_IBT;
- 
- 	shstk_base = current->thread.cet.shstk_base;
- 	shstk_size = current->thread.cet.shstk_size;
-@@ -55,6 +57,17 @@ static int handle_alloc_shstk(unsigned long arg2)
- 	return 0;
- }
- 
-+static int handle_bitmap(unsigned long arg2)
-+{
-+	unsigned long addr, size;
-+
-+	if (get_user(addr, (unsigned long __user *)arg2) ||
-+	    get_user(size, (unsigned long __user *)arg2 + 1))
-+		return -EFAULT;
-+
-+	return cet_setup_ibt_bitmap(addr, size);
-+}
-+
- int prctl_cet(int option, unsigned long arg2)
- {
- 	if (!cpu_x86_cet_enabled())
-@@ -69,6 +82,8 @@ int prctl_cet(int option, unsigned long arg2)
- 			return -EPERM;
- 		if (arg2 & GNU_PROPERTY_X86_FEATURE_1_SHSTK)
- 			cet_disable_free_shstk(current);
-+		if (arg2 & GNU_PROPERTY_X86_FEATURE_1_IBT)
-+			cet_disable_ibt();
- 
- 		return 0;
- 
-@@ -79,6 +94,12 @@ int prctl_cet(int option, unsigned long arg2)
- 	case ARCH_X86_CET_ALLOC_SHSTK:
- 		return handle_alloc_shstk(arg2);
- 
-+	/*
-+	 * Allocate legacy bitmap and return address & size to user.
-+	 */
-+	case ARCH_X86_CET_SET_LEGACY_BITMAP:
-+		return handle_bitmap(arg2);
-+
- 	default:
- 		return -EINVAL;
- 	}
+  Include H.J. Lu's patch to discard .note.gnu.property in the kernel.
+
+H.J. Lu (4):
+  x86/vdso: Insert endbr32/endbr64 to vDSO
+  x86/vdso/32: Add ENDBR32 to __kernel_vsyscall entry point
+  x86/vsyscall/64: Add ENDBR64 to vsyscall entry points
+  x86: Discard .note.gnu.property sections
+
+Yu-cheng Yu (10):
+  x86/cet/ibt: Add Kconfig option for user-mode Indirect Branch Tracking
+  x86/cet/ibt: User-mode indirect branch tracking support
+  x86/cet/ibt: Add IBT legacy code bitmap setup function
+  x86/cet/ibt: Handle signals for IBT
+  mm/mmap: Add IBT bitmap size to address space limit check
+  x86/cet/ibt: ELF header parsing for IBT
+  x86/cet/ibt: Add arch_prctl functions for IBT
+  x86/cet/ibt: Add ENDBR to op-code-map
+  x86/vsyscall/64: Fixup shadow stack and branch tracking for vsyscall
+  x86/cet: Add PTRACE interface for CET
+
+ arch/x86/Kconfig                              | 16 ++++
+ arch/x86/Makefile                             |  7 ++
+ arch/x86/entry/vdso/Makefile                  | 12 ++-
+ arch/x86/entry/vdso/vdso-layout.lds.S         |  1 +
+ arch/x86/entry/vdso/vdso32/system_call.S      |  3 +
+ arch/x86/entry/vsyscall/vsyscall_64.c         | 28 +++++++
+ arch/x86/entry/vsyscall/vsyscall_emu_64.S     |  9 +++
+ arch/x86/include/asm/cet.h                    |  8 ++
+ arch/x86/include/asm/disabled-features.h      |  8 +-
+ arch/x86/include/asm/fpu/regset.h             |  7 +-
+ arch/x86/include/asm/mmu_context.h            | 10 +++
+ arch/x86/include/uapi/asm/prctl.h             |  2 +
+ arch/x86/kernel/cet.c                         | 80 +++++++++++++++++++
+ arch/x86/kernel/cet_prctl.c                   | 21 +++++
+ arch/x86/kernel/cpu/common.c                  | 17 ++++
+ arch/x86/kernel/fpu/regset.c                  | 41 ++++++++++
+ arch/x86/kernel/process_64.c                  |  6 ++
+ arch/x86/kernel/ptrace.c                      | 16 ++++
+ arch/x86/kernel/vmlinux.lds.S                 | 11 ++-
+ arch/x86/lib/x86-opcode-map.txt               | 13 ++-
+ include/uapi/linux/elf.h                      |  1 +
+ mm/mmap.c                                     | 19 ++++-
+ .../arch/x86/include/asm/disabled-features.h  |  8 +-
+ tools/objtool/arch/x86/lib/x86-opcode-map.txt | 13 ++-
+ 24 files changed, 345 insertions(+), 12 deletions(-)
+
 -- 
 2.17.1
 
