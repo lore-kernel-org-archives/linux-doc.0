@@ -6,42 +6,43 @@ X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_HIGH autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 655ED7D91B
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Jun 2019 20:26:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D3BBA7D912
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Jun 2019 20:27:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726795AbfFFU0s (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Jun 2019 16:26:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59042 "EHLO mail.kernel.org"
+        id S1726762AbfFFU16 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 6 Jun 2019 16:27:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59870 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726744AbfFFU0r (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 6 Jun 2019 16:26:47 -0400
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+        id S1726728AbfFFU16 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 Jun 2019 16:27:58 -0400
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CC08F2083E
-        for <linux-doc@vger.kernel.org>; Thu,  6 Jun 2019 20:26:46 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6294E2147A
+        for <linux-doc@vger.kernel.org>; Thu,  6 Jun 2019 20:27:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1559852807;
-        bh=KPzI+YwSmOs28yM0mu03w5J/5AGDUhBeJx6OEeWoVX4=;
+        s=default; t=1559852876;
+        bh=V7Uq2AYQOlpquEHSKTkBWDviou8MRCFEnqb/lAamoAk=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=sQw0Lu9CAjfPFLxj0f4izZgbct9wON3UkoluMWtqqvnVZi7LX6+PqbRKcUNtGFPRC
-         VwSx/IwIvxNRl/Eh2ce4stDlwhsMthuxOUrJ/gpf6YOh6guy7TBeQP/aoPkMh3L+/v
-         d2/JTlzLlzvCzvUELTMuYV1T3nAUPyJwHIqwc0MM=
-Received: by mail-wm1-f54.google.com with SMTP id t5so1219686wmh.3
-        for <linux-doc@vger.kernel.org>; Thu, 06 Jun 2019 13:26:46 -0700 (PDT)
-X-Gm-Message-State: APjAAAVkE/R6SctdcX/+OayDmS7jVM4FL0bOTfXKLy5e7WDdUQmf3GV7
-        8Vc0AwyKyj84D154xv2vcmHP5Sz+3C+gqNBbTy7HVQ==
-X-Google-Smtp-Source: APXvYqwZv50PloUZATpBbGT4OO6zXzFDR47DeJkyJO1yLg4R1WCRiHzDw51jl+w40n+V1KyBop2vJW/Rtz8YXJjW/A4=
-X-Received: by 2002:a1c:6242:: with SMTP id w63mr1265538wmb.161.1559852805470;
- Thu, 06 Jun 2019 13:26:45 -0700 (PDT)
+        b=Ci44e+1HjYkBXHk1NXaSKaCK1CuA9I7JHv13wyv1lEnO/sidJI4tB6xS6yrL8RyS4
+         u1c38WXLlfjZOrTvgSqTEJ1fe0gBzGjB9GSQBqk9RYWMj7SGnOV8OTBZSJy9XfJr6z
+         mc+nJ+Htrap+uCUHep75lsy4tzge8nmCXsv3MFek=
+Received: by mail-wm1-f41.google.com with SMTP id v19so1213223wmj.5
+        for <linux-doc@vger.kernel.org>; Thu, 06 Jun 2019 13:27:56 -0700 (PDT)
+X-Gm-Message-State: APjAAAXWlqr5At0p66PyISw3pnaxGtK1c0s57R30T1PdZpFhZYtKbd3g
+        p+QuSUjhokmVHRR1lUPUbBnHaHh0/sfJjs0mMIn0RA==
+X-Google-Smtp-Source: APXvYqw4QxWNcnpeIW5dyukxUpCDU5vd9HJGUulP8KUyfEWWyRle1lYXjWBak+DMiNxJGFv5DZOd/i/pJ6NTOXQuXA4=
+X-Received: by 2002:a7b:cd84:: with SMTP id y4mr1192848wmj.79.1559852874993;
+ Thu, 06 Jun 2019 13:27:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190606200926.4029-1-yu-cheng.yu@intel.com> <20190606200926.4029-10-yu-cheng.yu@intel.com>
-In-Reply-To: <20190606200926.4029-10-yu-cheng.yu@intel.com>
+References: <20190606200926.4029-1-yu-cheng.yu@intel.com> <20190606200926.4029-13-yu-cheng.yu@intel.com>
+In-Reply-To: <20190606200926.4029-13-yu-cheng.yu@intel.com>
 From:   Andy Lutomirski <luto@kernel.org>
-Date:   Thu, 6 Jun 2019 13:26:34 -0700
-X-Gmail-Original-Message-ID: <CALCETrVhw4U939E2RorUMorxx8VqLyg2Zm8qEMUSM5pX+cc2FQ@mail.gmail.com>
-Message-ID: <CALCETrVhw4U939E2RorUMorxx8VqLyg2Zm8qEMUSM5pX+cc2FQ@mail.gmail.com>
-Subject: Re: [PATCH v7 09/14] x86/vdso: Insert endbr32/endbr64 to vDSO
+Date:   Thu, 6 Jun 2019 13:27:43 -0700
+X-Gmail-Original-Message-ID: <CALCETrXfBCFKB2SwhEngABPCkAfgmb+YkRL3Xx3-=haN9H+V_g@mail.gmail.com>
+Message-ID: <CALCETrXfBCFKB2SwhEngABPCkAfgmb+YkRL3Xx3-=haN9H+V_g@mail.gmail.com>
+Subject: Re: [PATCH v7 12/14] x86/vsyscall/64: Fixup shadow stack and branch
+ tracking for vsyscall
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -77,16 +78,58 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Thu, Jun 6, 2019 at 1:17 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
 >
-> From: "H.J. Lu" <hjl.tools@gmail.com>
+> When emulating a RET, also unwind the task's shadow stack and cancel
+> the current branch tracking status.
 >
-> When Intel indirect branch tracking is enabled, functions in vDSO which
-> may be called indirectly must have endbr32 or endbr64 as the first
-> instruction.  Compiler must support -fcf-protection=branch so that it
-> can be used to compile vDSO.
-
-Acked-by: Andy Lutomirski <luto@kernel.org>
-
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> ---
+>  arch/x86/entry/vsyscall/vsyscall_64.c | 28 +++++++++++++++++++++++++++
+>  1 file changed, 28 insertions(+)
 >
-> Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
+> diff --git a/arch/x86/entry/vsyscall/vsyscall_64.c b/arch/x86/entry/vsyscall/vsyscall_64.c
+> index d9d81ad7a400..6869ef9d1e8b 100644
+> --- a/arch/x86/entry/vsyscall/vsyscall_64.c
+> +++ b/arch/x86/entry/vsyscall/vsyscall_64.c
+> @@ -38,6 +38,8 @@
+>  #include <asm/fixmap.h>
+>  #include <asm/traps.h>
+>  #include <asm/paravirt.h>
+> +#include <asm/fpu/xstate.h>
+> +#include <asm/fpu/types.h>
+>
+>  #define CREATE_TRACE_POINTS
+>  #include "vsyscall_trace.h"
+> @@ -92,6 +94,30 @@ static int addr_to_vsyscall_nr(unsigned long addr)
+>         return nr;
+>  }
+>
+> +void fixup_shstk(void)
+> +{
+> +#ifdef CONFIG_X86_INTEL_SHADOW_STACK_USER
+> +       u64 r;
+> +
+> +       if (current->thread.cet.shstk_enabled) {
+> +               rdmsrl(MSR_IA32_PL3_SSP, r);
+> +               wrmsrl(MSR_IA32_PL3_SSP, r + 8);
+> +       }
+> +#endif
+> +}
+> +
+> +void fixup_ibt(void)
+> +{
+> +#ifdef CONFIG_X86_INTEL_BRANCH_TRACKING_USER
+> +       u64 r;
+> +
+> +       if (current->thread.cet.ibt_enabled) {
+> +               rdmsrl(MSR_IA32_U_CET, r);
+> +               wrmsrl(MSR_IA32_U_CET, r & ~MSR_IA32_CET_WAIT_ENDBR);
+> +       }
+> +#endif
+> +}
 
-You're still missing your Signed-off-by.
+These should be static.
+
+But please just inline them directly in their one call site.  The code
+will be a lot easier to understand.
+
+--Andy
