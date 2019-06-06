@@ -3,97 +3,63 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AB4957D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Jun 2019 15:23:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EBE097D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Jun 2019 15:46:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729086AbfFFPXA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Jun 2019 11:23:00 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:32991 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727309AbfFFPXA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 6 Jun 2019 11:23:00 -0400
-Received: from LHREML712-CAH.china.huawei.com (unknown [172.18.7.106])
-        by Forcepoint Email with ESMTP id 2DBB8E100CBDDB9E06CD;
-        Thu,  6 Jun 2019 16:22:58 +0100 (IST)
-Received: from [10.220.96.108] (10.220.96.108) by smtpsuk.huawei.com
- (10.201.108.35) with Microsoft SMTP Server (TLS) id 14.3.408.0; Thu, 6 Jun
- 2019 16:22:48 +0100
-Subject: Re: [PATCH v3 0/2] ima/evm fixes for v5.2
-To:     Mimi Zohar <zohar@linux.ibm.com>, <dmitry.kasatkin@huawei.com>,
-        <mjg59@google.com>
-CC:     <linux-integrity@vger.kernel.org>,
-        <linux-security-module@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <stable@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <silviu.vlasceanu@huawei.com>
-References: <20190606112620.26488-1-roberto.sassu@huawei.com>
- <3711f387-3aef-9fbb-1bb4-dded6807b033@huawei.com>
- <1559832596.4278.124.camel@linux.ibm.com>
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-Message-ID: <e5bc45e0-dd61-c2ef-ba51-2bccb7a07676@huawei.com>
-Date:   Thu, 6 Jun 2019 17:22:56 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.3.0
+        id S1729373AbfFFPqa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 6 Jun 2019 11:46:30 -0400
+Received: from ms.lwn.net ([45.79.88.28]:50162 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729344AbfFFPqa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 Jun 2019 11:46:30 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 0CCF9737;
+        Thu,  6 Jun 2019 15:46:30 +0000 (UTC)
+Date:   Thu, 6 Jun 2019 09:46:28 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     "Tobin C. Harding" <tobin@kernel.org>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>, Neil Brown <neilb@suse.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: filesystems: vfs: Render method descriptions
+Message-ID: <20190606094628.0e8775f7@lwn.net>
+In-Reply-To: <20190604002656.30925-1-tobin@kernel.org>
+References: <20190604002656.30925-1-tobin@kernel.org>
+Organization: LWN.net
 MIME-Version: 1.0
-In-Reply-To: <1559832596.4278.124.camel@linux.ibm.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.220.96.108]
-X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/6/2019 4:49 PM, Mimi Zohar wrote:
-> On Thu, 2019-06-06 at 13:43 +0200, Roberto Sassu wrote:
->> On 6/6/2019 1:26 PM, Roberto Sassu wrote:
->>> Previous versions included the patch 'ima: don't ignore INTEGRITY_UNKNOWN
->>> EVM status'. However, I realized that this patch cannot be accepted alone
->>> because IMA-Appraisal would deny access to new files created during the
->>> boot. With the current behavior, those files are accessible because they
->>> have a valid security.ima (not protected by EVM) created after the first
->>> write.
->>>
->>> A solution for this problem is to initialize EVM very early with a random
->>> key. Access to created files will be granted, even with the strict
->>> appraisal, because after the first write those files will have both
->>> security.ima and security.evm (HMAC calculated with the random key).
->>>
->>> Strict appraisal will work only if it is done with signatures until the
->>> persistent HMAC key is loaded.
->>
->> Changelog
->>
->> v2:
->> - remove patch 1/3 (evm: check hash algorithm passed to init_desc());
->>     already accepted
->> - remove patch 3/3 (ima: show rules with IMA_INMASK correctly);
->>     already accepted
->> - add new patch (evm: add option to set a random HMAC key at early boot)
->> - patch 2/3: modify patch description
+On Tue,  4 Jun 2019 10:26:56 +1000
+"Tobin C. Harding" <tobin@kernel.org> wrote:
+
+> Currently vfs.rst does not render well into HTML the method descriptions
+> for VFS data structures.  We can improve the HTML output by putting the
+> description string on a new line following the method name.
 > 
-> Roberto, as I tried explaining previously, this feature is not a
-> simple bug fix.  These patches, if upstreamed, will be upstreamed the
-> normal way, during an open window.  Whether they are classified as a
-> bug fix has yet to be decided.
-
-Sorry, I understood that I can claim that there is a bug. I provided a
-motivation in patch 2/2.
-
-
-> Please stop Cc'ing stable.  If I don't Cc stable before sending the pull request, then Greg and Sasha have been really good about deciding which patches should be backported.  (Please refer to the comment on "Cc'ing stable" in section "5) Select the recipients for your patch" in Documentation/process/submitting-patches.rst.)
+> Suggested-by: Jonathan Corbet <corbet@lwn.net>
+> Signed-off-by: Tobin C. Harding <tobin@kernel.org>
+> ---
 > 
-> I'll review these patches, but in the future please use an appropriate patch set cover letter title in the subject line.
+> Jon,
+> 
+> As discussed on LKML; this patch applies on top of the series
+> 
+> 	[PATCH v4 0/9] docs: Convert VFS doc to RST
+> 
+> If it does not apply cleanly to your branch please feel free to ask me
+> to fix it.
 
-Ok.
+There was one merge conflict, but nothing too serious.  I've applied it,
+and things look a lot better - thanks!
 
-Thanks
-
-Roberto
-
--- 
-HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
-Managing Director: Bo PENG, Jian LI, Yanli SHI
+jon
