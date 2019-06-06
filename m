@@ -2,240 +2,139 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1FA227D923
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Jun 2019 13:41:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8E9CA7D910
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Jun 2019 14:01:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728480AbfFFNlh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Jun 2019 09:41:37 -0400
-Received: from mga06.intel.com ([134.134.136.31]:13555 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728385AbfFFNlh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 6 Jun 2019 09:41:37 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Jun 2019 06:41:36 -0700
-X-ExtLoop1: 1
-Received: from twinkler-lnx.jer.intel.com ([10.12.91.48])
-  by orsmga003.jf.intel.com with ESMTP; 06 Jun 2019 06:41:34 -0700
-From:   Tomas Winkler <tomas.winkler@intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Alexander Usyskin <alexander.usyskin@intel.com>,
-        linux-kernel@vger.kernel.org,
-        Tomas Winkler <tomas.winkler@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [char-misc-next 3/7 RESEND] mei: docs: update mei documentation
-Date:   Thu,  6 Jun 2019 16:31:08 +0300
-Message-Id: <20190606133108.26964-1-tomas.winkler@intel.com>
-X-Mailer: git-send-email 2.20.1
+        id S1727133AbfFFOBa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 6 Jun 2019 10:01:30 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:58438 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726924AbfFFOBa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jun 2019 10:01:30 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id D318E28471A
+Message-ID: <bda48bf80add26153e531912fbfca25071934c94.camel@collabora.com>
+Subject: Re: [PATCH 03/10] mfd / platform: cros_ec: Miscellaneous character
+ device to talk with the EC
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <groeck@google.com>
+Cc:     Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Benson Leung <bleung@chromium.org>,
+        Lee Jones <lee.jones@linaro.org>, kernel@collabora.com,
+        Dmitry Torokhov <dtor@chromium.org>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        linux-doc@vger.kernel.org, Enno Luebbers <enno.luebbers@intel.com>,
+        Guido Kiener <guido@kiener-muenchen.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Jonathan Corbet <corbet@lwn.net>, Wu Hao <hao.wu@intel.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Tycho Andersen <tycho@tycho.ws>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Jilayne Lovejoy <opensource@jilayne.com>
+Date:   Thu, 06 Jun 2019 11:01:17 -0300
+In-Reply-To: <20190604185953.GA2061@kroah.com>
+References: <20190604152019.16100-1-enric.balletbo@collabora.com>
+         <20190604152019.16100-4-enric.balletbo@collabora.com>
+         <20190604155228.GB9981@kroah.com>
+         <beaf3554bb85974eb118d7722ca55f1823b1850c.camel@collabora.com>
+         <20190604183527.GA20098@kroah.com>
+         <CABXOdTfU9KaBDhQcwvBGWCmVfnd02_ZFmPGtJsCtGQ-iO9A3Qw@mail.gmail.com>
+         <20190604185953.GA2061@kroah.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The mei driver went via multiple changes, update
-the documentation and fix formatting.
+On Tue, 2019-06-04 at 20:59 +0200, Greg Kroah-Hartman wrote:
+> On Tue, Jun 04, 2019 at 11:39:21AM -0700, Guenter Roeck wrote:
+> > On Tue, Jun 4, 2019 at 11:35 AM Greg Kroah-Hartman
+> > <gregkh@linuxfoundation.org> wrote:
+> > > On Tue, Jun 04, 2019 at 01:58:38PM -0300, Ezequiel Garcia wrote:
+> > > > Hey Greg,
+> > > > 
+> > > > > > + dev_info(&pdev->dev, "Created misc device /dev/%s\n",
+> > > > > > +          data->misc.name);
+> > > > > 
+> > > > > No need to be noisy, if all goes well, your code should be quiet.
+> > > > > 
+> > > > 
+> > > > I sometimes wonder about this being noise or not, so I will slightly
+> > > > hijack this thread for this discussion.
+> > > > 
+> > > > > From a kernel developer point-of-view, or even from a platform
+> > > > developer or user with a debugging hat point-of-view, having
+> > > > a "device created" or "device registered" message is often very useful.
+> > > 
+> > > For you, yes.  For someone with 30000 devices attached to their system,
+> > > it is not, and causes booting to take longer than it should be.
+> > > 
+> > > > In fact, I wish people would do this more often, so I don't have to
+> > > > deal with dynamic debug, or hack my way:
+> > > > 
+> > > > diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+> > > > index 4589631798c9..473549b26bb2 100644
+> > > > --- a/drivers/media/i2c/ov5647.c
+> > > > +++ b/drivers/media/i2c/ov5647.c
+> > > > @@ -603,7 +603,7 @@ static int ov5647_probe(struct i2c_client *client,
+> > > >         if (ret < 0)
+> > > >                 goto error;
+> > > > 
+> > > > -       dev_dbg(dev, "OmniVision OV5647 camera driver probed\n");
+> > > > +       dev_info(dev, "OmniVision OV5647 camera driver probed\n");
+> > > >         return 0;
+> > > >  error:
+> > > >         media_entity_cleanup(&sd->entity);
+> > > > 
+> > > > In some subsystems, it's even a behavior I'm more or less relying on:
+> > > > 
+> > > > $ git grep v4l2_info.*registered drivers/media/ | wc -l
+> > > > 26
+> > > > 
+> > > > And on the downsides, I can't find much. It's just one little line,
+> > > > that is not even noticed unless you have logging turned on.
+> > > 
+> > > Its better to be quiet, which is why the "default driver registration"
+> > > macros do not have any printk messages in them.  When converting drivers
+> > > over to it, we made the boot process much more sane, don't try to go and
+> > > add messages for no good reason back in please.
+> > > 
+> > > dynamic debugging can be enabled on a module and line-by-line basis,
+> > > even from the boot command line.  So if you need debugging, you can
+> > > always ask someone to just reboot or unload/load the module and get the
+> > > message that way.
+> > > 
+> > 
+> > Can we by any chance make this an official policy ? I am kind of tired
+> > having to argue about this over and over again.
+> 
+> Sure, but how does anyone make any "official policy" in the kernel?  :)
+> 
+> I could just go through and delete all "look ma, a new driver/device!"
+> messages, but that might be annoying...
+> 
 
-Signed-off-by: Tomas Winkler <tomas.winkler@intel.com>
----
- Documentation/driver-api/mei/mei.rst | 96 ++++++++++++++++++----------
- 1 file changed, 61 insertions(+), 35 deletions(-)
+Well, I really need to task.
 
-diff --git a/Documentation/driver-api/mei/mei.rst b/Documentation/driver-api/mei/mei.rst
-index c7f10a4b46ff..c800d8e5f422 100644
---- a/Documentation/driver-api/mei/mei.rst
-+++ b/Documentation/driver-api/mei/mei.rst
-@@ -5,34 +5,32 @@ Introduction
- 
- The Intel Management Engine (Intel ME) is an isolated and protected computing
- resource (Co-processor) residing inside certain Intel chipsets. The Intel ME
--provides support for computer/IT management features. The feature set
--depends on the Intel chipset SKU.
-+provides support for computer/IT management and security features.
-+The actual feature set depends on the Intel chipset SKU.
- 
- The Intel Management Engine Interface (Intel MEI, previously known as HECI)
- is the interface between the Host and Intel ME. This interface is exposed
--to the host as a PCI device. The Intel MEI Driver is in charge of the
--communication channel between a host application and the Intel ME feature.
-+to the host as a PCI device, actually multiple PCI devices might be exposed.
-+The Intel MEI Driver is in charge of the communication channel between
-+a host application and the Intel ME features.
- 
--Each Intel ME feature (Intel ME Client) is addressed by a GUID/UUID and
-+Each Intel ME feature, or Intel ME Client is addressed by a unique GUID and
- each client has its own protocol. The protocol is message-based with a
--header and payload up to 512 bytes.
-+header and payload up to maximal number of bytes advertised by the client,
-+upon connection.
- 
- Intel MEI Driver
- ================
- 
--The driver exposes a misc device called /dev/mei.
-+The driver exposes a character device with device nodes /dev/meiX.
- 
- An application maintains communication with an Intel ME feature while
--/dev/mei is open. The binding to a specific feature is performed by calling
--MEI_CONNECT_CLIENT_IOCTL, which passes the desired UUID.
-+/dev/meiX is open. The binding to a specific feature is performed by calling
-+:c:macro:`MEI_CONNECT_CLIENT_IOCTL`, which passes the desired GUID.
- The number of instances of an Intel ME feature that can be opened
- at the same time depends on the Intel ME feature, but most of the
- features allow only a single instance.
- 
--The Intel AMT Host Interface (Intel AMTHI) feature supports multiple
--simultaneous user connected applications. The Intel MEI driver
--handles this internally by maintaining request queues for the applications.
--
- The driver is transparent to data that are passed between firmware feature
- and host application.
- 
-@@ -40,6 +38,8 @@ Because some of the Intel ME features can change the system
- configuration, the driver by default allows only a privileged
- user to access it.
- 
-+The session is terminated calling :c:func:`close(int fd)`.
-+
- A code snippet for an application communicating with Intel AMTHI client:
- 
- .. code-block:: C
-@@ -47,13 +47,13 @@ A code snippet for an application communicating with Intel AMTHI client:
- 	struct mei_connect_client_data data;
- 	fd = open(MEI_DEVICE);
- 
--	data.d.in_client_uuid = AMTHI_UUID;
-+	data.d.in_client_uuid = AMTHI_GUID;
- 
- 	ioctl(fd, IOCTL_MEI_CONNECT_CLIENT, &data);
- 
- 	printf("Ver=%d, MaxLen=%ld\n",
--			data.d.in_client_uuid.protocol_version,
--			data.d.in_client_uuid.max_msg_length);
-+	       data.d.in_client_uuid.protocol_version,
-+	       data.d.in_client_uuid.max_msg_length);
- 
- 	[...]
- 
-@@ -67,60 +67,86 @@ A code snippet for an application communicating with Intel AMTHI client:
- 	close(fd);
- 
- 
--IOCTLs
--======
-+User space API
-+
-+IOCTLs:
-+=======
- 
- The Intel MEI Driver supports the following IOCTL commands:
--	IOCTL_MEI_CONNECT_CLIENT	Connect to firmware Feature (client).
- 
--	usage:
--		struct mei_connect_client_data clientData;
--		ioctl(fd, IOCTL_MEI_CONNECT_CLIENT, &clientData);
-+IOCTL_MEI_CONNECT_CLIENT
-+-------------------------
-+Connect to firmware Feature/Client.
-+
-+.. code-block:: none
-+
-+	Usage:
- 
--	inputs:
--		mei_connect_client_data struct contain the following
--		input field:
-+        struct mei_connect_client_data client_data;
- 
--		in_client_uuid -	UUID of the FW Feature that needs
-+        ioctl(fd, IOCTL_MEI_CONNECT_CLIENT, &client_data);
-+
-+	Inputs:
-+
-+        struct mei_connect_client_data - contain the following
-+	Input field:
-+
-+		in_client_uuid -	GUID of the FW Feature that needs
- 					to connect to.
--	outputs:
-+         Outputs:
- 		out_client_properties - Client Properties: MTU and Protocol Version.
- 
--	error returns:
-+         Error returns:
-+
-+                ENOTTY  No such client (i.e. wrong GUID) or connection is not allowed.
- 		EINVAL	Wrong IOCTL Number
--		ENODEV	Device or Connection is not initialized or ready. (e.g. Wrong UUID)
-+		ENODEV	Device or Connection is not initialized or ready.
- 		ENOMEM	Unable to allocate memory to client internal data.
- 		EFAULT	Fatal Error (e.g. Unable to access user input data)
- 		EBUSY	Connection Already Open
- 
--	Notes:
-+:Note:
-         max_msg_length (MTU) in client properties describes the maximum
-         data that can be sent or received. (e.g. if MTU=2K, can send
-         requests up to bytes 2k and received responses up to 2k bytes).
- 
--	IOCTL_MEI_NOTIFY_SET: enable or disable event notifications
-+
-+IOCTL_MEI_NOTIFY_SET
-+---------------------
-+Enable or disable event notifications.
-+
-+
-+.. code-block:: none
- 
- 	Usage:
-+
- 		uint32_t enable;
-+
- 		ioctl(fd, IOCTL_MEI_NOTIFY_SET, &enable);
- 
--	Inputs:
-+
- 		uint32_t enable = 1;
- 		or
- 		uint32_t enable[disable] = 0;
- 
- 	Error returns:
-+
-+
- 		EINVAL	Wrong IOCTL Number
- 		ENODEV	Device  is not initialized or the client not connected
- 		ENOMEM	Unable to allocate memory to client internal data.
- 		EFAULT	Fatal Error (e.g. Unable to access user input data)
- 		EOPNOTSUPP if the device doesn't support the feature
- 
--	Notes:
-+:Note:
- 	The client must be connected in order to enable notification events
- 
- 
--	IOCTL_MEI_NOTIFY_GET : retrieve event
-+IOCTL_MEI_NOTIFY_GET
-+--------------------
-+Retrieve event
-+
-+.. code-block:: none
- 
- 	Usage:
- 		uint32_t event;
-@@ -137,7 +163,7 @@ The Intel MEI Driver supports the following IOCTL commands:
- 		EFAULT	Fatal Error (e.g. Unable to access user input data)
- 		EOPNOTSUPP if the device doesn't support the feature
- 
--	Notes:
-+:Note:
- 	The client must be connected and event notification has to be enabled
- 	in order to receive an event
- 
--- 
-2.20.1
+If it's not an official policy (and won't be anytime soon?), then
+what's preventing Enric from pushing this print on this driver,
+given he is the one maintaining the code?
+
+Thanks,
+Eze
 
