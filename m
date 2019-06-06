@@ -1,188 +1,141 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5E9187D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Jun 2019 21:11:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DBE6B7D91A
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Jun 2019 21:18:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727922AbfFFVLm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Jun 2019 17:11:42 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:42186 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725267AbfFFVLl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jun 2019 17:11:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=0ut4YjnRsAbKvSUoR/ii92dovZhOptemNBKQari9Qhk=; b=A2nULxYVaPNiHW0dryiOZdmMXH
-        kvf1HcByP2wFmionA4GjDMff/pbPpzBQSUWnVspw3/lbLfAE4kFBbHbDKdZBXOyBJpWrEoSHB8wCa
-        cfqkwc5gnVPwFzwLeTkmlpFu90kMiJyx+l6BrscwuFeoz3blwF0gXqGjt8TuaUR3CGU5FCQ1m3myq
-        NDO4fpYZU4kOWsGN2s0j3NWR1edCLcFTdOn6T8mRF5S6yX5EWwd2zValRO1IJetkZBx9UaKV83clp
-        L1tJYGAf5vawviDBW56oIdiHtjhRGc4h0gf2/zoFgabNVRvEnmhg9horOivhdA4C4in5ZA8/hyQoP
-        Gh5weo2g==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hYzf5-0006BU-D3; Thu, 06 Jun 2019 21:11:03 +0000
-Subject: Re: [PATCH 03/10] mfd / platform: cros_ec: Miscellaneous character
- device to talk with the EC
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Guenter Roeck <groeck@google.com>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Benson Leung <bleung@chromium.org>,
-        Lee Jones <lee.jones@linaro.org>, kernel@collabora.com,
-        Dmitry Torokhov <dtor@chromium.org>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        linux-doc@vger.kernel.org, Enno Luebbers <enno.luebbers@intel.com>,
-        Guido Kiener <guido@kiener-muenchen.de>,
+        id S1728216AbfFFVSf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 6 Jun 2019 17:18:35 -0400
+Received: from mga11.intel.com ([192.55.52.93]:43323 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726961AbfFFVSd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 Jun 2019 17:18:33 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Jun 2019 14:18:32 -0700
+X-ExtLoop1: 1
+Received: from ray.jf.intel.com (HELO [10.7.198.156]) ([10.7.198.156])
+  by orsmga006.jf.intel.com with ESMTP; 06 Jun 2019 14:18:31 -0700
+Subject: Re: [PATCH v7 04/27] x86/fpu/xstate: Introduce XSAVES system states
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Jonathan Corbet <corbet@lwn.net>, Wu Hao <hao.wu@intel.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Tycho Andersen <tycho@tycho.ws>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Jilayne Lovejoy <opensource@jilayne.com>
-References: <20190604152019.16100-1-enric.balletbo@collabora.com>
- <20190604152019.16100-4-enric.balletbo@collabora.com>
- <20190604155228.GB9981@kroah.com>
- <beaf3554bb85974eb118d7722ca55f1823b1850c.camel@collabora.com>
- <20190604183527.GA20098@kroah.com>
- <CABXOdTfU9KaBDhQcwvBGWCmVfnd02_ZFmPGtJsCtGQ-iO9A3Qw@mail.gmail.com>
- <20190604185953.GA2061@kroah.com>
- <bda48bf80add26153e531912fbfca25071934c94.camel@collabora.com>
- <20190606145121.GA13048@kroah.com>
- <1cfc4bfab8d9d8a47e5dacaca88a7fe30ae83076.camel@collabora.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <c577a7f8-b4d6-0574-bc0e-993637ced41f@infradead.org>
-Date:   Thu, 6 Jun 2019 14:11:00 -0700
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+References: <20190606200646.3951-1-yu-cheng.yu@intel.com>
+ <20190606200646.3951-5-yu-cheng.yu@intel.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+Message-ID: <0a2f8b9b-b96b-06c8-bae0-b78b2ca3b727@intel.com>
+Date:   Thu, 6 Jun 2019 14:18:29 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <1cfc4bfab8d9d8a47e5dacaca88a7fe30ae83076.camel@collabora.com>
+In-Reply-To: <20190606200646.3951-5-yu-cheng.yu@intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/6/19 8:12 AM, Ezequiel Garcia wrote:
-> On Thu, 2019-06-06 at 16:51 +0200, Greg Kroah-Hartman wrote:
->> On Thu, Jun 06, 2019 at 11:01:17AM -0300, Ezequiel Garcia wrote:
->>> On Tue, 2019-06-04 at 20:59 +0200, Greg Kroah-Hartman wrote:
->>>> On Tue, Jun 04, 2019 at 11:39:21AM -0700, Guenter Roeck wrote:
->>>>> On Tue, Jun 4, 2019 at 11:35 AM Greg Kroah-Hartman
->>>>> <gregkh@linuxfoundation.org> wrote:
->>>>>> On Tue, Jun 04, 2019 at 01:58:38PM -0300, Ezequiel Garcia wrote:
->>>>>>> Hey Greg,
->>>>>>>
->>>>>>>>> + dev_info(&pdev->dev, "Created misc device /dev/%s\n",
->>>>>>>>> +          data->misc.name);
->>>>>>>>
->>>>>>>> No need to be noisy, if all goes well, your code should be quiet.
->>>>>>>>
->>>>>>>
->>>>>>> I sometimes wonder about this being noise or not, so I will slightly
->>>>>>> hijack this thread for this discussion.
->>>>>>>
->>>>>>>> From a kernel developer point-of-view, or even from a platform
->>>>>>> developer or user with a debugging hat point-of-view, having
->>>>>>> a "device created" or "device registered" message is often very useful.
->>>>>>
->>>>>> For you, yes.  For someone with 30000 devices attached to their system,
->>>>>> it is not, and causes booting to take longer than it should be.
->>>>>>
->>>>>>> In fact, I wish people would do this more often, so I don't have to
->>>>>>> deal with dynamic debug, or hack my way:
->>>>>>>
->>>>>>> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
->>>>>>> index 4589631798c9..473549b26bb2 100644
->>>>>>> --- a/drivers/media/i2c/ov5647.c
->>>>>>> +++ b/drivers/media/i2c/ov5647.c
->>>>>>> @@ -603,7 +603,7 @@ static int ov5647_probe(struct i2c_client *client,
->>>>>>>         if (ret < 0)
->>>>>>>                 goto error;
->>>>>>>
->>>>>>> -       dev_dbg(dev, "OmniVision OV5647 camera driver probed\n");
->>>>>>> +       dev_info(dev, "OmniVision OV5647 camera driver probed\n");
->>>>>>>         return 0;
->>>>>>>  error:
->>>>>>>         media_entity_cleanup(&sd->entity);
->>>>>>>
->>>>>>> In some subsystems, it's even a behavior I'm more or less relying on:
->>>>>>>
->>>>>>> $ git grep v4l2_info.*registered drivers/media/ | wc -l
->>>>>>> 26
->>>>>>>
->>>>>>> And on the downsides, I can't find much. It's just one little line,
->>>>>>> that is not even noticed unless you have logging turned on.
->>>>>>
->>>>>> Its better to be quiet, which is why the "default driver registration"
->>>>>> macros do not have any printk messages in them.  When converting drivers
->>>>>> over to it, we made the boot process much more sane, don't try to go and
->>>>>> add messages for no good reason back in please.
->>>>>>
->>>>>> dynamic debugging can be enabled on a module and line-by-line basis,
->>>>>> even from the boot command line.  So if you need debugging, you can
->>>>>> always ask someone to just reboot or unload/load the module and get the
->>>>>> message that way.
->>>>>>
->>>>>
->>>>> Can we by any chance make this an official policy ? I am kind of tired
->>>>> having to argue about this over and over again.
->>>>
->>>> Sure, but how does anyone make any "official policy" in the kernel?  :)
->>>>
->>>> I could just go through and delete all "look ma, a new driver/device!"
->>>> messages, but that might be annoying...
->>>>
->>>
->>> Well, I really need to task.
->>
->> ???
->>
-> 
-> Oops, typo: s/task/ask :-)
-> 
->>> If it's not an official policy (and won't be anytime soon?),
->>
->> The ":)" there was that we really have very few "official" policies,
->> only things that we all strongly encourage to happen.  And get grumpy if
->> we see them in code reviews.  Like I did here.
->>
-> 
-> Well, not everyone gets grumpy. As I pointed out, we use this "registered"
-> messages (messages or noise, seems this lie in the eye of the beholder),
-> consistently across entire subsystems.
+> +/*
+> + * Helpers for changing XSAVES system states.
+> + */
+> +static inline void modify_fpu_regs_begin(void)
+> +{
+> +	fpregs_lock();
+> +	if (test_thread_flag(TIF_NEED_FPU_LOAD))
+> +		__fpregs_load_activate();
+> +}
+> +
+> +static inline void modify_fpu_regs_end(void)
+> +{
+> +	fpregs_unlock();
+> +}
 
-:(
+These are massively under-commented and under-changelogged.  This looks
+like it's intended to ensure that we have supervisor FPU state for this
+task loaded before we go and run the MSRs that might be modifying it.
 
->>> then what's preventing Enric from pushing this print on this driver,
->>> given he is the one maintaining the code?
->>
->> Given that he wants people to review his code, why would you tell him to
->> ignore what people are trying to tell him?
->>
-> 
-> I'm not suggesting to ignore anyone, rather to consider all voices
-> involved in each review comment.
-> 
->> Again, don't be noisy, it's not hard, and is how things have been
->> trending for many years now.
+But, that seems broken.  If we have supervisor state, we can't always
+defer the load until return to userspace, so we'll never?? have
+TIF_NEED_FPU_LOAD.  That would certainly be true for cet_kernel_state.
 
-Ack that.
+It seems like we actually need three classes of XSAVE states:
+1. User state
+2. Supervisor state that affects user mode
+3. Supervisor state that affects kernel mode
 
+We can delay the load of 1 and 2, but not 3.
 
--- 
-~Randy
+But I don't see any infrastructure for this.
