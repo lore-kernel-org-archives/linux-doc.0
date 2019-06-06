@@ -2,170 +2,98 @@ Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no
-	version=3.4.2
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ED9D37D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Jun 2019 15:13:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id AB4957D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu,  6 Jun 2019 15:23:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728871AbfFFPNE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 6 Jun 2019 11:13:04 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:58822 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728812AbfFFPNE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 6 Jun 2019 11:13:04 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 8B4DD260D74
-Message-ID: <1cfc4bfab8d9d8a47e5dacaca88a7fe30ae83076.camel@collabora.com>
-Subject: Re: [PATCH 03/10] mfd / platform: cros_ec: Miscellaneous character
- device to talk with the EC
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Guenter Roeck <groeck@google.com>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Benson Leung <bleung@chromium.org>,
-        Lee Jones <lee.jones@linaro.org>, kernel@collabora.com,
-        Dmitry Torokhov <dtor@chromium.org>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        linux-doc@vger.kernel.org, Enno Luebbers <enno.luebbers@intel.com>,
-        Guido Kiener <guido@kiener-muenchen.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Jonathan Corbet <corbet@lwn.net>, Wu Hao <hao.wu@intel.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Tycho Andersen <tycho@tycho.ws>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Jilayne Lovejoy <opensource@jilayne.com>
-Date:   Thu, 06 Jun 2019 12:12:50 -0300
-In-Reply-To: <20190606145121.GA13048@kroah.com>
-References: <20190604152019.16100-1-enric.balletbo@collabora.com>
-         <20190604152019.16100-4-enric.balletbo@collabora.com>
-         <20190604155228.GB9981@kroah.com>
-         <beaf3554bb85974eb118d7722ca55f1823b1850c.camel@collabora.com>
-         <20190604183527.GA20098@kroah.com>
-         <CABXOdTfU9KaBDhQcwvBGWCmVfnd02_ZFmPGtJsCtGQ-iO9A3Qw@mail.gmail.com>
-         <20190604185953.GA2061@kroah.com>
-         <bda48bf80add26153e531912fbfca25071934c94.camel@collabora.com>
-         <20190606145121.GA13048@kroah.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1 
+        id S1729086AbfFFPXA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 6 Jun 2019 11:23:00 -0400
+Received: from lhrrgout.huawei.com ([185.176.76.210]:32991 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727309AbfFFPXA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 6 Jun 2019 11:23:00 -0400
+Received: from LHREML712-CAH.china.huawei.com (unknown [172.18.7.106])
+        by Forcepoint Email with ESMTP id 2DBB8E100CBDDB9E06CD;
+        Thu,  6 Jun 2019 16:22:58 +0100 (IST)
+Received: from [10.220.96.108] (10.220.96.108) by smtpsuk.huawei.com
+ (10.201.108.35) with Microsoft SMTP Server (TLS) id 14.3.408.0; Thu, 6 Jun
+ 2019 16:22:48 +0100
+Subject: Re: [PATCH v3 0/2] ima/evm fixes for v5.2
+To:     Mimi Zohar <zohar@linux.ibm.com>, <dmitry.kasatkin@huawei.com>,
+        <mjg59@google.com>
+CC:     <linux-integrity@vger.kernel.org>,
+        <linux-security-module@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <stable@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <silviu.vlasceanu@huawei.com>
+References: <20190606112620.26488-1-roberto.sassu@huawei.com>
+ <3711f387-3aef-9fbb-1bb4-dded6807b033@huawei.com>
+ <1559832596.4278.124.camel@linux.ibm.com>
+From:   Roberto Sassu <roberto.sassu@huawei.com>
+Message-ID: <e5bc45e0-dd61-c2ef-ba51-2bccb7a07676@huawei.com>
+Date:   Thu, 6 Jun 2019 17:22:56 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.3.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <1559832596.4278.124.camel@linux.ibm.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.220.96.108]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2019-06-06 at 16:51 +0200, Greg Kroah-Hartman wrote:
-> On Thu, Jun 06, 2019 at 11:01:17AM -0300, Ezequiel Garcia wrote:
-> > On Tue, 2019-06-04 at 20:59 +0200, Greg Kroah-Hartman wrote:
-> > > On Tue, Jun 04, 2019 at 11:39:21AM -0700, Guenter Roeck wrote:
-> > > > On Tue, Jun 4, 2019 at 11:35 AM Greg Kroah-Hartman
-> > > > <gregkh@linuxfoundation.org> wrote:
-> > > > > On Tue, Jun 04, 2019 at 01:58:38PM -0300, Ezequiel Garcia wrote:
-> > > > > > Hey Greg,
-> > > > > > 
-> > > > > > > > + dev_info(&pdev->dev, "Created misc device /dev/%s\n",
-> > > > > > > > +          data->misc.name);
-> > > > > > > 
-> > > > > > > No need to be noisy, if all goes well, your code should be quiet.
-> > > > > > > 
-> > > > > > 
-> > > > > > I sometimes wonder about this being noise or not, so I will slightly
-> > > > > > hijack this thread for this discussion.
-> > > > > > 
-> > > > > > > From a kernel developer point-of-view, or even from a platform
-> > > > > > developer or user with a debugging hat point-of-view, having
-> > > > > > a "device created" or "device registered" message is often very useful.
-> > > > > 
-> > > > > For you, yes.  For someone with 30000 devices attached to their system,
-> > > > > it is not, and causes booting to take longer than it should be.
-> > > > > 
-> > > > > > In fact, I wish people would do this more often, so I don't have to
-> > > > > > deal with dynamic debug, or hack my way:
-> > > > > > 
-> > > > > > diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-> > > > > > index 4589631798c9..473549b26bb2 100644
-> > > > > > --- a/drivers/media/i2c/ov5647.c
-> > > > > > +++ b/drivers/media/i2c/ov5647.c
-> > > > > > @@ -603,7 +603,7 @@ static int ov5647_probe(struct i2c_client *client,
-> > > > > >         if (ret < 0)
-> > > > > >                 goto error;
-> > > > > > 
-> > > > > > -       dev_dbg(dev, "OmniVision OV5647 camera driver probed\n");
-> > > > > > +       dev_info(dev, "OmniVision OV5647 camera driver probed\n");
-> > > > > >         return 0;
-> > > > > >  error:
-> > > > > >         media_entity_cleanup(&sd->entity);
-> > > > > > 
-> > > > > > In some subsystems, it's even a behavior I'm more or less relying on:
-> > > > > > 
-> > > > > > $ git grep v4l2_info.*registered drivers/media/ | wc -l
-> > > > > > 26
-> > > > > > 
-> > > > > > And on the downsides, I can't find much. It's just one little line,
-> > > > > > that is not even noticed unless you have logging turned on.
-> > > > > 
-> > > > > Its better to be quiet, which is why the "default driver registration"
-> > > > > macros do not have any printk messages in them.  When converting drivers
-> > > > > over to it, we made the boot process much more sane, don't try to go and
-> > > > > add messages for no good reason back in please.
-> > > > > 
-> > > > > dynamic debugging can be enabled on a module and line-by-line basis,
-> > > > > even from the boot command line.  So if you need debugging, you can
-> > > > > always ask someone to just reboot or unload/load the module and get the
-> > > > > message that way.
-> > > > > 
-> > > > 
-> > > > Can we by any chance make this an official policy ? I am kind of tired
-> > > > having to argue about this over and over again.
-> > > 
-> > > Sure, but how does anyone make any "official policy" in the kernel?  :)
-> > > 
-> > > I could just go through and delete all "look ma, a new driver/device!"
-> > > messages, but that might be annoying...
-> > > 
-> > 
-> > Well, I really need to task.
+On 6/6/2019 4:49 PM, Mimi Zohar wrote:
+> On Thu, 2019-06-06 at 13:43 +0200, Roberto Sassu wrote:
+>> On 6/6/2019 1:26 PM, Roberto Sassu wrote:
+>>> Previous versions included the patch 'ima: don't ignore INTEGRITY_UNKNOWN
+>>> EVM status'. However, I realized that this patch cannot be accepted alone
+>>> because IMA-Appraisal would deny access to new files created during the
+>>> boot. With the current behavior, those files are accessible because they
+>>> have a valid security.ima (not protected by EVM) created after the first
+>>> write.
+>>>
+>>> A solution for this problem is to initialize EVM very early with a random
+>>> key. Access to created files will be granted, even with the strict
+>>> appraisal, because after the first write those files will have both
+>>> security.ima and security.evm (HMAC calculated with the random key).
+>>>
+>>> Strict appraisal will work only if it is done with signatures until the
+>>> persistent HMAC key is loaded.
+>>
+>> Changelog
+>>
+>> v2:
+>> - remove patch 1/3 (evm: check hash algorithm passed to init_desc());
+>>     already accepted
+>> - remove patch 3/3 (ima: show rules with IMA_INMASK correctly);
+>>     already accepted
+>> - add new patch (evm: add option to set a random HMAC key at early boot)
+>> - patch 2/3: modify patch description
 > 
-> ???
+> Roberto, as I tried explaining previously, this feature is not a
+> simple bug fix.  These patches, if upstreamed, will be upstreamed the
+> normal way, during an open window.  Whether they are classified as a
+> bug fix has yet to be decided.
+
+Sorry, I understood that I can claim that there is a bug. I provided a
+motivation in patch 2/2.
+
+
+> Please stop Cc'ing stable.  If I don't Cc stable before sending the pull request, then Greg and Sasha have been really good about deciding which patches should be backported.  (Please refer to the comment on "Cc'ing stable" in section "5) Select the recipients for your patch" in Documentation/process/submitting-patches.rst.)
 > 
+> I'll review these patches, but in the future please use an appropriate patch set cover letter title in the subject line.
 
-Oops, typo: s/task/ask :-)
+Ok.
 
-> > If it's not an official policy (and won't be anytime soon?),
-> 
-> The ":)" there was that we really have very few "official" policies,
-> only things that we all strongly encourage to happen.  And get grumpy if
-> we see them in code reviews.  Like I did here.
-> 
+Thanks
 
-Well, not everyone gets grumpy. As I pointed out, we use this "registered"
-messages (messages or noise, seems this lie in the eye of the beholder),
-consistently across entire subsystems.
+Roberto
 
-> > then what's preventing Enric from pushing this print on this driver,
-> > given he is the one maintaining the code?
-> 
-> Given that he wants people to review his code, why would you tell him to
-> ignore what people are trying to tell him?
-> 
-
-I'm not suggesting to ignore anyone, rather to consider all voices
-involved in each review comment.
-
-> Again, don't be noisy, it's not hard, and is how things have been
-> trending for many years now.
-> 
-
-Thanks,
-Eze
-
+-- 
+HUAWEI TECHNOLOGIES Duesseldorf GmbH, HRB 56063
+Managing Director: Bo PENG, Jian LI, Yanli SHI
