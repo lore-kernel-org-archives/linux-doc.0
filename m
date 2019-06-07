@@ -1,99 +1,95 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6B5837D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 06:00:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D8ACC7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 07:07:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726066AbfFGGAB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 02:00:01 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:37295 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726010AbfFGGAB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 02:00:01 -0400
-Received: by mail-qt1-f195.google.com with SMTP id y57so996711qtk.4;
-        Thu, 06 Jun 2019 23:00:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6RGX8KhKka8Pl3+vesfNXkUWjRHHCXob324mKOkGT88=;
-        b=bUZCsqP/Sagr0KrlVefrP0TctKD/wlxJRaimMtzcra7i7QXt4srnpJoAQR/xeT1Zw+
-         LtQXFxhCKA6IDuVG8n6XK+XsF9NbR+NSVR26URuDLVYzhWWB1ewqxPSuVQr31xnB1rUI
-         /YP+Abij3eTBFdvliLfQMtfSyimhJE4++fUxGonWODAPE5QSzfGs01uieCU89UUxyrGk
-         XdShapx4V/x6tExDCaK77VF2CfRRuCDJ+uku4IziMMjs5N61uel4XrzAO4kDxl3es+IY
-         wsjzFjvfzIQhLGjFxQJeFdJdBXt+eJwB6/kgsrMz5xyVHz3F6vZJVAEdD+4wvOHO611t
-         RUzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6RGX8KhKka8Pl3+vesfNXkUWjRHHCXob324mKOkGT88=;
-        b=HlsPyeUQHcSGSC7Mei9HRvRIpXJuKUEP+hQ6KSFVoJ02JLzuC0y0m/B1gLLQMpdr2T
-         QRZh5VKIMX4JCVoibXhs7kE7RfdSGelirOhvfVa09h9lsL9OCvsfVdCyLv1EOTvXOsX4
-         QAbWNL6nbIZzGCUe7DIclSGJwUUCQxloOEM3FC+oEgkjjrMuaXQu54gnlGw/N7d2Rl0F
-         DSLB7hatkys4ZEA/Xgo9XY6NctazQNe7QM8jOnV9HmeiHgc5u8H9RTOEGOd3Rx/vJX7h
-         /3ix70YTWpgkt1AwtWUQ5KJ+OFPshGaynaG/UzawFQrTHOPZFc1NjMEEACMGDabPI8et
-         RxHg==
-X-Gm-Message-State: APjAAAU2ow8tQy+ge+4jKmHFDLMbqEaCelLAwzEjjgRls8ctb+n0/Kui
-        +XcLNtoao0evotk5O9I3IAdyPUepSgw=
-X-Google-Smtp-Source: APXvYqy8QDCpgyjSYGbTWJE4qnK8J6n3snKXl+ZrIb/6YBsg25FMqGwRbBXgM7nSbyXjj0bb/WiANA==
-X-Received: by 2002:ac8:38c5:: with SMTP id g5mr45162827qtc.299.1559887199834;
-        Thu, 06 Jun 2019 22:59:59 -0700 (PDT)
-Received: from localhost.localdomain (pool-108-45-70-22.washdc.fios.verizon.net. [108.45.70.22])
-        by smtp.gmail.com with ESMTPSA id u26sm775134qtc.33.2019.06.06.22.59.59
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 06 Jun 2019 22:59:59 -0700 (PDT)
-From:   Alex <awaitingvictory@gmail.com>
-To:     paulmck@linux.vnet.ibm.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        trivial@kernel.org, Alex <awaitingvictory@gmail.com>,
-        Aaron A Montoya <aaron.a.montoya@gmail.com>
-Subject: [PATCH] linux: README: reduced README size by 1 byte by removing unnecessary space character
-Date:   Fri,  7 Jun 2019 01:59:18 -0400
-Message-Id: <20190607055917.17040-1-awaitingvictory@gmail.com>
-X-Mailer: git-send-email 2.21.0.windows.1
+        id S1726923AbfFGHHz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 03:07:55 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:44026 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726711AbfFGHHz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 03:07:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=3xG2gB2u3ltC4ECXHzkfqk/Rf8Lzs9XYnPxSdw9Djq4=; b=gBrTD1ywQqnghTyPb+u8oUuO1
+        n92Hi8a/rdgmVIhQ/moKpSzpN7IRYERjWycGLMqob6ui4vuJ0Lrag517vzAbE44qxJdkCSgxPKLT1
+        TPDM9DMcOeTrROrwysz2WUqaSu0h22M6pU9hi1I9cmfvloI+w1dJxzU3J6rnF+OWy4rCb0aDGY2of
+        b8kFhR/J3YJz62PeRqL2pk7arp5DAGDnFJX9NMH/Cj3Y2VoHWyDyUjEx/zl3iOjcEreXchO/Uxps0
+        vF2ga+x78jDgquKaiphXwBrUEmKnjdaG5QpFvxY68BuCmEZlEwI1DNDpMN8q58R1DKQ6b2F5Av84v
+        oC93ptfaw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hZ8yG-00069g-2e; Fri, 07 Jun 2019 07:07:28 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 7C8E4202CD6B2; Fri,  7 Jun 2019 09:07:25 +0200 (CEST)
+Date:   Fri, 7 Jun 2019 09:07:25 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+Subject: Re: [PATCH v7 05/27] x86/fpu/xstate: Add XSAVES system states for
+ shadow stack
+Message-ID: <20190607070725.GN3419@hirez.programming.kicks-ass.net>
+References: <20190606200646.3951-1-yu-cheng.yu@intel.com>
+ <20190606200646.3951-6-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190606200646.3951-6-yu-cheng.yu@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Aaron A Montoya <aaron.a.montoya@gmail.com>
+On Thu, Jun 06, 2019 at 01:06:24PM -0700, Yu-cheng Yu wrote:
+> Intel Control-flow Enforcement Technology (CET) introduces the
+> following MSRs.
+> 
+>     MSR_IA32_U_CET (user-mode CET settings),
+>     MSR_IA32_PL3_SSP (user-mode shadow stack),
+>     MSR_IA32_PL0_SSP (kernel-mode shadow stack),
+>     MSR_IA32_PL1_SSP (Privilege Level 1 shadow stack),
+>     MSR_IA32_PL2_SSP (Privilege Level 2 shadow stack).
+> 
+> Introduce them into XSAVES system states.
+> 
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> ---
+>  arch/x86/include/asm/fpu/types.h            | 22 +++++++++++++++++++++
+>  arch/x86/include/asm/fpu/xstate.h           |  4 +++-
+>  arch/x86/include/uapi/asm/processor-flags.h |  2 ++
+>  arch/x86/kernel/fpu/xstate.c                | 10 ++++++++++
+>  4 files changed, 37 insertions(+), 1 deletion(-)
 
-On line 9 of the README there is an unnecessary extra space character, 
-after the period, that adds 1 byte of size to the file. By removing the 
-unnecessary space, Linux downloads will be 1 byte smaller and therefor be 
-faster to download and take up less space on a user's system, all while 
-correcting a sentence structure issue. This change is one of the few 
-optimizations with practically no downsides, besides taking time out 
-of the hardworking Linux maintainers day to implement the change.
-Remove extra space after the period on line 9 of the README.
-Commit 0619770a02a30834 ("Removed unnecessary space character from README")
-
-Signed-off-by: Aaron A Montoya <aaron.a.montoya@gmail.com>
----
- README | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/README b/README
-index 669ac7c32292..0b05d700637f 100644
---- a/README
-+++ b/README
-@@ -6,7 +6,7 @@ be rendered in a number of formats, like HTML and PDF. Please read
- Documentation/admin-guide/README.rst first.
- 
- In order to build the documentation, use ``make htmldocs`` or
--``make pdfdocs``.  The formatted documentation can also be read online at:
-+``make pdfdocs``. The formatted documentation can also be read online at:
- 
-     https://www.kernel.org/doc/html/latest/
- 
--- 
-2.21.0.windows.1
-
+And yet, no changes to msr-index.h !?
