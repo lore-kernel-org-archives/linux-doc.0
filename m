@@ -3,27 +3,25 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 08FC27D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 20:04:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 637B77D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 20:14:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729841AbfFGUEn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 16:04:43 -0400
-Received: from mga07.intel.com ([134.134.136.100]:16835 "EHLO mga07.intel.com"
+        id S1730141AbfFGUOO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 16:14:14 -0400
+Received: from mga11.intel.com ([192.55.52.93]:41728 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729342AbfFGUEn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 Jun 2019 16:04:43 -0400
+        id S1729353AbfFGUOO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 7 Jun 2019 16:14:14 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Jun 2019 13:04:42 -0700
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Jun 2019 13:14:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,564,1557212400"; 
-   d="scan'208";a="182781141"
 Received: from yyu32-desk1.sc.intel.com ([143.183.136.147])
-  by fmsmga002.fm.intel.com with ESMTP; 07 Jun 2019 13:04:42 -0700
-Message-ID: <9d3cedc83c236ee7a109325113fd1c1f9d849f25.camel@intel.com>
+  by orsmga002.jf.intel.com with ESMTP; 07 Jun 2019 13:14:12 -0700
+Message-ID: <0e505563f7dae3849b57fb327f578f41b760b6f7.camel@intel.com>
 Subject: Re: [PATCH v7 03/14] x86/cet/ibt: Add IBT legacy code bitmap setup
  function
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
@@ -52,8 +50,8 @@ Cc:     Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>
-Date:   Fri, 07 Jun 2019 12:56:40 -0700
-In-Reply-To: <352e6172-938d-f8e4-c195-9fd1b881bdee@intel.com>
+Date:   Fri, 07 Jun 2019 13:06:10 -0700
+In-Reply-To: <4b448cde-ee4e-1c95-0f7f-4fe694be7db6@intel.com>
 References: <20190606200926.4029-1-yu-cheng.yu@intel.com>
          <20190606200926.4029-4-yu-cheng.yu@intel.com>
          <20190607080832.GT3419@hirez.programming.kicks-ass.net>
@@ -61,41 +59,39 @@ References: <20190606200926.4029-1-yu-cheng.yu@intel.com>
          <20190607174336.GM3436@hirez.programming.kicks-ass.net>
          <b3de4110-5366-fdc7-a960-71dea543a42f@intel.com>
          <34E0D316-552A-401C-ABAA-5584B5BC98C5@amacapital.net>
-         <352e6172-938d-f8e4-c195-9fd1b881bdee@intel.com>
+         <7e0b97bf1fbe6ff20653a8e4e147c6285cc5552d.camel@intel.com>
+         <4b448cde-ee4e-1c95-0f7f-4fe694be7db6@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.1-2 
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2019-06-07 at 11:58 -0700, Dave Hansen wrote:
-> On 6/7/19 11:29 AM, Andy Lutomirski wrote:
-> ...
-> > > I think this new MSR probably needs to get included in oops output when
-> > > CET is enabled.
+On Fri, 2019-06-07 at 13:00 -0700, Dave Hansen wrote:
+> On 6/7/19 12:49 PM, Yu-cheng Yu wrote:
+> > > 
+> > > This also gives us an excellent opportunity to make it read-only as seen
+> > > from
+> > > userspace to prevent exploits from just poking it full of ones before
+> > > redirecting execution.
 > > 
-> > This shouldn’t be able to OOPS because it only happens at CPL 3,
-> > right?  We should put it into core dumps, though.
+> > GLIBC sets bits only for legacy code, and then makes the bitmap read-
+> > only.  That
+> > avoids most issues:
+> > 
+> >   To populate bitmap pages, mprotect() is required.
+> >   Reading zero bitmap pages would not waste more physical memory, right?
 > 
-> Good point.
-> 
-> Yu-cheng, can you just confirm that the bitmap can't be referenced in
-> ring-0, no matter what?  We should also make sure that no funny business
-> happens if we put an address in the bitmap that faults, or is
-> non-canonical.  Do we have any self-tests for that?
+> Huh, how does glibc know about all possible past and future legacy code
+> in the application?
 
-Yes, the bitmap is user memory, but the kernel can still get to it (e.g.
-copy_from_user()).  We can do more check on the address.
+When dlopen() gets a legacy binary and the policy allows that, it will manage
+the bitmap:
 
-> 
-> Let's say userspace gets a fault on this.  Do they have the
-> introspection capability to figure out why they faulted, say in their
-> signal handler?
+  If a bitmap has not been created, create one.
+  Set bits for the legacy code being loaded.
 
-The bitmap address is kept by the application; the kernel won't provide it again
-to user-space.  In the signal handler, the app can find out from its own record.
-
-[...]
+Yu-cheng
