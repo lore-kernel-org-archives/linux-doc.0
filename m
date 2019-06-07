@@ -1,144 +1,132 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_HIGH,
+	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2E3D17D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 18:29:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 27A607D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 18:34:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730348AbfFGS3y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 14:29:54 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:36610 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730656AbfFGS3y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 14:29:54 -0400
-Received: by mail-pf1-f196.google.com with SMTP id u22so1658769pfm.3
-        for <linux-doc@vger.kernel.org>; Fri, 07 Jun 2019 11:29:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=iPuLGydOavIYd0+wELWGKM4fGfit4THzqki57BPPV4U=;
-        b=lg7aoPtqp9Hb92R8oH6RAUOmupz6mJN7bNCFgiizfRjRxEHrih+BHeECksF/ofFo+d
-         Gca1+QdVmTh/8SL4feJ1/2529qt+bY7R4DNbVPsSnXMwFEHbMKCAJeDfe5oyP784L847
-         zI5icl4CBjsxAnmXBxZOgOJkC67xHD5guteumdR+SzGRAqs+zcoxpcGYvNXrcj0Kg/KR
-         t0RpPZcx8kewURUpcoeCa6Q9p/SCpI/AeBa72cgZYDOsIbMIEQuIVI08rJY/7o80AFHB
-         IEXTdyNxMrTM0/BtMGFhILWDJk6/oALcRhTA/U9DE1OnXw5xwpv1vVb7lzhXy22LvO+I
-         cMvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=iPuLGydOavIYd0+wELWGKM4fGfit4THzqki57BPPV4U=;
-        b=XsavFxNMRSYv40jU/vRD67NaQATRazUYfSNBO0GwVXH/F8XXv/baMGMtt9XbGzIw0C
-         ajPoQSkJiz1bl3OKF4+B87aKURHyVm0OAeqhf7cW648ZYbBR2yZyEeN0XY6ufS1zCKVh
-         mkxPIedxECloeBQkXhJcJcav8AYvT8Lfg78BF4IaokiU26lp0xEAwLdsnfsdOAvUCVZ0
-         mNkV9RFJspQFwMGZ55FCACDT7yPvT2YBil41v1lR7us1qs2j4YP8XuNtBzxYlTzZASjl
-         NMBbXCwiwgowija+W297j42EgvhkzaJHMshNavA3S2Qi0OKjPI5yJ1Xh+BLtL4vApNKE
-         bF9g==
-X-Gm-Message-State: APjAAAVM9UTMWpT2DGQujZk4XCv0OyF4oPWEqVAWsVmQ0UHQCsiQXgWb
-        KbmLQRw/DEU70rRvD7iuwxAYlw==
-X-Google-Smtp-Source: APXvYqzvhAzsKyCtFsLkEsrBKKf0SyVY50xd6UzRSykGMq36ETMdxZgn9Qk9tfswhyyV5VdxrKxgCg==
-X-Received: by 2002:a17:90a:cb0a:: with SMTP id z10mr7463663pjt.101.1559932193640;
-        Fri, 07 Jun 2019 11:29:53 -0700 (PDT)
-Received: from ?IPv6:2600:1012:b044:6f30:60ea:7662:8055:2cca? ([2600:1012:b044:6f30:60ea:7662:8055:2cca])
-        by smtp.gmail.com with ESMTPSA id 139sm3061757pfw.152.2019.06.07.11.29.52
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 07 Jun 2019 11:29:52 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v7 03/14] x86/cet/ibt: Add IBT legacy code bitmap setup function
-From:   Andy Lutomirski <luto@amacapital.net>
-X-Mailer: iPhone Mail (16F203)
-In-Reply-To: <b3de4110-5366-fdc7-a960-71dea543a42f@intel.com>
-Date:   Fri, 7 Jun 2019 11:29:50 -0700
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <34E0D316-552A-401C-ABAA-5584B5BC98C5@amacapital.net>
-References: <20190606200926.4029-1-yu-cheng.yu@intel.com> <20190606200926.4029-4-yu-cheng.yu@intel.com> <20190607080832.GT3419@hirez.programming.kicks-ass.net> <aa8a92ef231d512b5c9855ef416db050b5ab59a6.camel@intel.com> <20190607174336.GM3436@hirez.programming.kicks-ass.net> <b3de4110-5366-fdc7-a960-71dea543a42f@intel.com>
-To:     Dave Hansen <dave.hansen@intel.com>
+        id S1731853AbfFGSeW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 14:34:22 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:46316 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730978AbfFGSeW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 14:34:22 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x57ITMNN031647;
+        Fri, 7 Jun 2019 18:34:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ content-transfer-encoding : in-reply-to; s=corp-2018-07-02;
+ bh=QolDy22uOLtBFa3YAasmOe69CPUw0iodu68OQSiZ4/I=;
+ b=EL5NpsBTmOzBK4E1TTYSBNZF7Fboir2lPBs3P9MB4V6Y3256Qpzxxnr4BOFbyOiMzcUZ
+ CwqkHii0C92he+/EbdutialG4GKTZmUW4oRRIJ/lPjlzcJgPcKL+Cifhtqf6IVvUgmpk
+ hvp7wIHAFB6YKYW0ZatlB++vzVLP+VOkjJ4HJ1/9Q0QkhKtA5yju32rU52FCj3UuO/1R
+ j6h4KtcEFibA1RFLcaHJaDES9I03Dzc8ZpiEfor1GRQnUX87RLCTs7MJBGn7d2+1h8sd
+ OzIwQcwBAu17liXQGF03DhAhVrH825UM4tiPJlDrcLdccLNRLN06eTaFAI59rlPQRk7a Tg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by userp2130.oracle.com with ESMTP id 2sugstyxkr-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 07 Jun 2019 18:34:12 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x57IXxrm045999;
+        Fri, 7 Jun 2019 18:34:12 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3020.oracle.com with ESMTP id 2swngk5pdp-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 07 Jun 2019 18:34:11 +0000
+Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x57IYB8s001900;
+        Fri, 7 Jun 2019 18:34:11 GMT
+Received: from localhost (/67.169.218.210)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Fri, 07 Jun 2019 11:34:11 -0700
+Date:   Fri, 7 Jun 2019 11:34:10 -0700
+From:   "Darrick J. Wong" <darrick.wong@oracle.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Shiyang Ruan <ruansy.fnst@cn.fujitsu.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-xfs@vger.kernel.org
+Subject: Re: [PATCH] Documentation: xfs: Fix typo
+Message-ID: <20190607183410.GF1871505@magnolia>
+References: <20190509030549.2253-1-ruansy.fnst@cn.fujitsu.com>
+ <20190607114415.32cb32dd@lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190607114415.32cb32dd@lwn.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9281 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1906070123
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9281 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906070123
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Jun 07, 2019 at 11:44:15AM -0600, Jonathan Corbet wrote:
+> On Thu, 9 May 2019 11:05:49 +0800
+> Shiyang Ruan <ruansy.fnst@cn.fujitsu.com> wrote:
+> 
+> > In "Y+P" of this line, there are two non-ASCII characters(0xd9 0x8d)
+> > following behind the 'Y'.  Shown as a small '=' under the '+' in VIM
+> > and a '賺' in webpage[1].
+> > 
+> > I think it's a mistake and remove these strange characters.
+> > 
+> > [1]: https://www.kernel.org/doc/Documentation/filesystems/xfs-delayed-logging-design.txt
+> > 
+> > Signed-off-by: Shiyang Ruan <ruansy.fnst@cn.fujitsu.com>
+> > ---
+> >  Documentation/filesystems/xfs-delayed-logging-design.txt | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/filesystems/xfs-delayed-logging-design.txt b/Documentation/filesystems/xfs-delayed-logging-design.txt
+> > index 2ce36439c09f..9a6dd289b17b 100644
+> > --- a/Documentation/filesystems/xfs-delayed-logging-design.txt
+> > +++ b/Documentation/filesystems/xfs-delayed-logging-design.txt
+> > @@ -34,7 +34,7 @@ transaction:
+> >  	   D			A+B+C+D		X+n+m+o
+> >  	    <object written to disk>
+> >  	   E			   E		   Y (> X+n+m+o)
+> > -	   F			  E+F		  Yٍ+p
+> > +	   F			  E+F		  Y+p
+> 
+> OK, that does look funky, applied.
+> 
+> This patch probably should have been copied to the XFS list (added), even
+> though get_maintainer.pl doesn't know that.
 
+Yeah, it's "Y+p" not "Y<weird plusequals thing>p" in the xfs
+documentation repo:
 
-> On Jun 7, 2019, at 10:59 AM, Dave Hansen <dave.hansen@intel.com> wrote:
->=20
->> On 6/7/19 10:43 AM, Peter Zijlstra wrote:
->> I've no idea what the kernel should do; since you failed to answer the
->> question what happens when you point this to garbage.
->>=20
->> Does it then fault or what?
->=20
-> Yeah, I think you'll fault with a rather mysterious CR2 value since
-> you'll go look at the instruction that faulted and not see any
-> references to the CR2 value.
->=20
-> I think this new MSR probably needs to get included in oops output when
-> CET is enabled.
+https://git.kernel.org/pub/scm/fs/xfs/xfs-documentation.git/tree/design/XFS_Filesystem_Structure/delayed_logging.asciidoc
 
-This shouldn=E2=80=99t be able to OOPS because it only happens at CPL 3, rig=
-ht?  We should put it into core dumps, though.
+Reviewed-by: Darrick J. Wong <darrick.wong@oracle.com>
 
->=20
-> Why don't we require that a VMA be in place for the entire bitmap?
-> Don't we need a "get" prctl function too in case something like a JIT is
-> running and needs to find the location of this bitmap to set bits itself?
->=20
-> Or, do we just go whole-hog and have the kernel manage the bitmap
-> itself. Our interface here could be:
->=20
->    prctl(PR_MARK_CODE_AS_LEGACY, start, size);
->=20
-> and then have the kernel allocate and set the bitmap for those code
-> locations.
+I doubt the value of maintaining duplicate copies of this document in
+the kernel and the xfs documentation repo, and since the xfs docs and
+kernel licences aren't compatible maybe we should withdraw one...
 
-Given that the format depends on the VA size, this might be a good idea.  I b=
-et we can reuse the special mapping infrastructure for this =E2=80=94 the VM=
-A could
-be a MAP_PRIVATE special mapping named [cet_legacy_bitmap] or similar, and w=
-e can even make special rules to core dump it intelligently if needed.  And w=
-e can make mremap() on it work correctly if anyone (CRIU?) cares.
+...but since Dave is the author I'm gonna punt to him.  IMHO either we
+should claim responsibility for those files in MAINTAINERS or drop them.
+:)
 
-Hmm.  Can we be creative and skip populating it with zeros?  The CPU should o=
-nly ever touch a page if we miss an ENDBR on it, so, in normal operation, we=
- don=E2=80=99t need anything to be there.  We could try to prevent anyone fr=
-om *reading* it outside of ENDBR tracking if we want to avoid people acciden=
-tally wasting lots of memory by forcing it to be fully populated when the re=
-ad it.
+Thanks for the heads-up,
+--D
 
-The one downside is this forces it to be per-mm, but that seems like a gener=
-ally reasonable model anyway.
-
-This also gives us an excellent opportunity to make it read-only as seen fro=
-m userspace to prevent exploits from just poking it full of ones before redi=
-recting execution.=
+> Thanks,
+> 
+> jon
