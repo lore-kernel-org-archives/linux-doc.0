@@ -5,65 +5,67 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 81CFA7D910
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 17:39:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 856687D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 17:43:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729379AbfFGRjt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 13:39:49 -0400
-Received: from ms.lwn.net ([45.79.88.28]:57896 "EHLO ms.lwn.net"
+        id S1730029AbfFGRn0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 13:43:26 -0400
+Received: from smtp2-4.goneo.de ([85.220.129.36]:55093 "EHLO smtp2-4.goneo.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728998AbfFGRjs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 Jun 2019 13:39:48 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 5779C2CD;
-        Fri,  7 Jun 2019 17:39:48 +0000 (UTC)
-Date:   Fri, 7 Jun 2019 11:39:47 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Shiyang Ruan <ruansy.fnst@cn.fujitsu.com>
-Cc:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-nvdimm@lists.01.org>
-Subject: Re: [PATCH v2] Documentation: nvdimm: Fix typo
-Message-ID: <20190607113947.604b5ba0@lwn.net>
-In-Reply-To: <20190509074049.12192-1-ruansy.fnst@cn.fujitsu.com>
-References: <20190509023744.4936-1-ruansy.fnst@cn.fujitsu.com>
-        <20190509074049.12192-1-ruansy.fnst@cn.fujitsu.com>
-Organization: LWN.net
+        id S1728684AbfFGRn0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 7 Jun 2019 13:43:26 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by smtp2.goneo.de (Postfix) with ESMTP id 589D023F6F6;
+        Fri,  7 Jun 2019 19:43:23 +0200 (CEST)
+X-Virus-Scanned: by goneo
+Received: from smtp2.goneo.de ([127.0.0.1])
+        by localhost (smtp2.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id D8uN15LMcBEP; Fri,  7 Jun 2019 19:43:22 +0200 (CEST)
+Received: from [192.168.1.127] (dyndsl-091-096-214-241.ewe-ip-backbone.de [91.96.214.241])
+        by smtp2.goneo.de (Postfix) with ESMTPSA id 13FE923F6EE;
+        Fri,  7 Jun 2019 19:43:22 +0200 (CEST)
+Subject: Re: [PATCH] linux: README: reduced README size by 1 byte by removing
+ unnecessary space character
+To:     Alex <awaitingvictory@gmail.com>, paulmck@linux.vnet.ibm.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        trivial@kernel.org, Aaron A Montoya <aaron.a.montoya@gmail.com>
+References: <20190607055917.17040-1-awaitingvictory@gmail.com>
+From:   Markus Heiser <markus.heiser@darmarit.de>
+Message-ID: <d210b4ec-eacf-b521-9e9b-e3d61a70a5fa@darmarit.de>
+Date:   Fri, 7 Jun 2019 19:43:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190607055917.17040-1-awaitingvictory@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: de-DE
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 9 May 2019 15:40:49 +0800
-Shiyang Ruan <ruansy.fnst@cn.fujitsu.com> wrote:
 
-> Remove the extra 'we '.
+Am 07.06.19 um 07:59 schrieb Alex:
+> From: Aaron A Montoya <aaron.a.montoya@gmail.com>
 > 
-> Signed-off-by: Shiyang Ruan <ruansy.fnst@cn.fujitsu.com>
-> ---
->  Documentation/nvdimm/nvdimm.txt | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> On line 9 of the README there is an unnecessary extra space character,
+> after the period, that adds 1 byte of size to the file. By removing the
+> unnecessary space, Linux downloads will be 1 byte smaller and therefor be
+> faster to download and take up less space on a user's system, all while
+> correcting a sentence structure issue. This change is one of the few
+> optimizations with practically no downsides, besides taking time out
+> of the hardworking Linux maintainers day to implement the change.
+> Remove extra space after the period on line 9 of the README.
+> Commit 0619770a02a30834 ("Removed unnecessary space character from README")
 > 
-> diff --git a/Documentation/nvdimm/nvdimm.txt b/Documentation/nvdimm/nvdimm.txt
-> index e894de69915a..1669f626b037 100644
-> --- a/Documentation/nvdimm/nvdimm.txt
-> +++ b/Documentation/nvdimm/nvdimm.txt
-> @@ -284,8 +284,8 @@ A bus has a 1:1 relationship with an NFIT.  The current expectation for
->  ACPI based systems is that there is only ever one platform-global NFIT.
->  That said, it is trivial to register multiple NFITs, the specification
->  does not preclude it.  The infrastructure supports multiple busses and
-> -we we use this capability to test multiple NFIT configurations in the
-> -unit test.
-> +we use this capability to test multiple NFIT configurations in the unit
-> +test.
 
-Applied, thanks.
+best joke today but wrong in two ways ;)
 
-I note this has languished for a bit; please don't hesitate to ping after
-a week or so if you don't get a response on a patch posting.
+1. size matter? The commit (-message) adds to more bytes to the repo ;)
+2. Be correct formated?  The extra Space is for 'sentence spacing' [1]
+    e.g. emacs text modes are formating such spacing.
 
-jon
+[1] https://en.wikipedia.org/wiki/Sentence_spacing
+
+-- Markus --
