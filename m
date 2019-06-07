@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 06ED77D922
+	by archive.lwn.net (Postfix) with ESMTP id 3A8F47D926
 	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 18:55:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732113AbfFGSyl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1732107AbfFGSyl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Fri, 7 Jun 2019 14:54:41 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:42312 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:42278 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732072AbfFGSyk (ORCPT
+        with ESMTP id S1732020AbfFGSyk (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 14:54:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,28 +20,27 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=mHEm7r32i41wuvh2vJqP9wlH6DungDTiNI9w2Kuzi+E=; b=bBC3KuFZL7+EMxxGJvhoEUBOaH
-        V2Bhc3nD6r0vlzs2t7fLzSLuJ1Uf52VIbvI7yOjGxokp/VOes/rGIFvxcgpNTHrHheSybr+59ELSY
-        5SoAomcb8l43sOrKfrajCf1G4V4kOvgx1o0LKJZv9clSGzzCG4BdcE2hxxWku2jgrVBHYdsWTqcEl
-        tj4HCHdwCID3ZXuClr1ucV7DYb3sYzMQX5vURoZWgB5Mzhf7TaZHmrwtX2h3joHCgwFRMyxhX6C+z
-        ETI62aFY9Kox8e1IKXHu3MICyP4z5n5KR84Sd3UtQgKtmjr+ohTAhpdlqtnN1HNOCGVTxK+/0DFZs
-        wlFb50dA==;
+        bh=1DGih5hxjM3hCpgxfZAZGkcczMEB+Oahf4kiHIhmR2E=; b=SXK57easNH7SfIUqyKz4xhMsU5
+        udP2ES3k6OtlzMX8JGKA8bhEh3+dBs1+L+pPAapcSmJ1A81chR4p8/ygQuuSix2NfhcyJHsbv4VNm
+        HfekxYamdvW9ifZuxrIW27hLlbmhlFv8ZPJ4z3cR0zQ3xNjj0jhz3xnr0LPi/G7qwYL07j8KNti2e
+        2inHVFGxUkuanWm0uFB1gyezmncCwmYZ3obYDBUG7KArD57WZ6NX+MyqAHSPafTj08e3cHXN8j08v
+        33zQZKkO1727F6dTtJBxaeDFzUbWGbsdsZCRymKYzJ0+AwGF2WeSm8i+3oqM1Q7WV9+/6C+tDhX6o
+        Mm95osdA==;
 Received: from [179.181.119.115] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hZK0d-0005sa-Ja; Fri, 07 Jun 2019 18:54:39 +0000
+        id 1hZK0d-0005sc-K4; Fri, 07 Jun 2019 18:54:39 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hZK0b-0007FN-IJ; Fri, 07 Jun 2019 15:54:37 -0300
+        id 1hZK0b-0007EW-84; Fri, 07 Jun 2019 15:54:37 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
-        Vladimir Oltean <olteanv@gmail.com>
-Subject: [PATCH v3 14/20] docs: net: sja1105.rst: fix table format
-Date:   Fri,  7 Jun 2019 15:54:30 -0300
-Message-Id: <a2417b1817f946ea56fc944646fba3137037a390.1559933665.git.mchehab+samsung@kernel.org>
+        Karsten Keil <isdn@linux-pingi.de>, netdev@vger.kernel.org
+Subject: [PATCH v3 02/20] isdn: mISDN: remove a bogus reference to a non-existing doc
+Date:   Fri,  7 Jun 2019 15:54:18 -0300
+Message-Id: <299de18e779eef2eed678d799568d65464f45903.1559933665.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <ff457774d46d96e8fe56b45409aba39d87a8672a.1559933665.git.mchehab+samsung@kernel.org>
 References: <ff457774d46d96e8fe56b45409aba39d87a8672a.1559933665.git.mchehab+samsung@kernel.org>
@@ -52,46 +51,39 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There's a table there with produces two warnings when built
-with Sphinx:
+The mISDN driver was added on those commits:
 
-    Documentation/networking/dsa/sja1105.rst:91: WARNING: Block quote ends without a blank line; unexpected unindent.
-    Documentation/networking/dsa/sja1105.rst:91: WARNING: Block quote ends without a blank line; unexpected unindent.
+	960366cf8dbb ("Add mISDN DSP")
+	1b2b03f8e514 ("Add mISDN core files")
+	04578dd330f1 ("Define AF_ISDN and PF_ISDN")
+	e4ac9bc1f668 ("Add mISDN driver")
 
-It will still produce a table, but the html output is wrong, as
-it won't interpret the second line as the continuation for the
-first ones, because identation doesn't match.
+None of them added a Documentation/isdn/mISDN.cert file.
+Also, whatever were supposed to be written there on that time,
+probably doesn't make any sense nowadays, as I doubt isdn would
+have any massive changes.
 
-After the change, the output looks a way better and we got rid
-of two warnings.
+So, let's just get rid of the broken reference, in order to
+shut up a warning produced by ./scripts/documentation-file-ref-check.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Acked-by: Vladimir Oltean <olteanv@gmail.com>
 ---
- Documentation/networking/dsa/sja1105.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/isdn/mISDN/dsp_core.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/Documentation/networking/dsa/sja1105.rst b/Documentation/networking/dsa/sja1105.rst
-index ea7bac438cfd..cb2858dece93 100644
---- a/Documentation/networking/dsa/sja1105.rst
-+++ b/Documentation/networking/dsa/sja1105.rst
-@@ -86,13 +86,13 @@ functionality.
- The following traffic modes are supported over the switch netdevices:
- 
- +--------------------+------------+------------------+------------------+
--|                    | Standalone |   Bridged with   |   Bridged with   |
--|                    |    ports   | vlan_filtering 0 | vlan_filtering 1 |
-+|                    | Standalone | Bridged with     | Bridged with     |
-+|                    | ports      | vlan_filtering 0 | vlan_filtering 1 |
- +====================+============+==================+==================+
- | Regular traffic    |     Yes    |       Yes        |  No (use master) |
- +--------------------+------------+------------------+------------------+
- | Management traffic |     Yes    |       Yes        |       Yes        |
--|    (BPDU, PTP)     |            |                  |                  |
-+| (BPDU, PTP)        |            |                  |                  |
- +--------------------+------------+------------------+------------------+
- 
- Switching features
+diff --git a/drivers/isdn/mISDN/dsp_core.c b/drivers/isdn/mISDN/dsp_core.c
+index cd036e87335a..038e72a84b33 100644
+--- a/drivers/isdn/mISDN/dsp_core.c
++++ b/drivers/isdn/mISDN/dsp_core.c
+@@ -4,8 +4,6 @@
+  *		Karsten Keil (keil@isdn4linux.de)
+  *
+  *		This file is (c) under GNU PUBLIC LICENSE
+- *		For changes and modifications please read
+- *		../../../Documentation/isdn/mISDN.cert
+  *
+  * Thanks to    Karsten Keil (great drivers)
+  *              Cologne Chip (great chips)
 -- 
 2.21.0
 
