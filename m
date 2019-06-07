@@ -5,127 +5,125 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 23DEE7D923
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 18:55:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 21AD57D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 18:55:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730969AbfFGSym (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 14:54:42 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:42418 "EHLO
+        id S1732256AbfFGSzO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 14:55:14 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:42400 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732138AbfFGSym (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 14:54:42 -0400
+        with ESMTP id S1732134AbfFGSyl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 14:54:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-        To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=a08/7CnmoGCvdW3fg/j064hE6wBqrv1dsgLNs5Wzg9M=; b=g77KJxiYIq13fiIKP/xmovj1mc
-        JT2c8zGqMbdABpI0A3hLILbYAVz+2X/PXxEtlv9XKERhElZwyFcxEx05Ph1GEByYy10mr0xg1HtmB
-        YX/f4IFpn75jIyGlC+J7TAtlhqeK5Sl25dU5Z2ocCI6JFx8k5Nu4dOZErYtTUzJ5QkOSZfM69kktY
-        /qEeGeavT4+ij55UZR5aSM3FJW6/o+ogRzkMzlFchNt4U73T+czaVcxlpYEpwjSmMBK9bhcqX0iL5
-        YOOYzjBmHd0eIooZF9eVHYkXv4PwG/+t55sznxE5/hcLV2Wx2aj+66K6o+9LgF3+ocDltkCmoNk0b
-        f4mdUxSA==;
+        bh=Fy9rF9RpNG9Tzq2bFPU01SLbuTEWDgUCmh+nNGA+nTA=; b=a9ylbGfShQaDtnV6h4ATphHstp
+        w6Nj9fTJOH31CRuTzmEgO2ZzPzGopKmSX0rED/5oUPDRCCqEz3wyjT6VXmfM9xokizpu4HOYhmDis
+        rf+56qqgOcxN0dYvzTsqS89ClOXbtq0qw0rNRZVouD4vMoCBO8bVy5UM9LHVFkrwmLNmddGKFlify
+        kt3F6yRgs1q//UsQGpOA+S1oBhcT2zSRyCBUMAQfJuybbwpdMtEhTcflvY4Y0ucUjGybpKfrggrC9
+        wZ2BQcDhSCJvry+i0LhrO0N1Y2hE6ZoZcdSAYAeOidVl6orXtQO7W+hShIPrCNiIhuFbcSRjpHIg1
+        tFCnUgpQ==;
 Received: from [179.181.119.115] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hZK0d-0005sp-QE; Fri, 07 Jun 2019 18:54:39 +0000
+        id 1hZK0d-0005so-Pg; Fri, 07 Jun 2019 18:54:39 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hZK0b-0007Fp-NV; Fri, 07 Jun 2019 15:54:37 -0300
+        id 1hZK0b-0007Fa-L4; Fri, 07 Jun 2019 15:54:37 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <andrea.parri@amarulasolutions.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Don Brace <don.brace@microsemi.com>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        linux-arch@vger.kernel.org, esc.storagedev@microsemi.com,
-        linux-scsi@vger.kernel.org
-Subject: [PATCH v3 20/20] docs: pci: fix broken links due to conversion from pci.txt to pci.rst
-Date:   Fri,  7 Jun 2019 15:54:36 -0300
-Message-Id: <780cb6c2dfe860873394675df6580765ea5a2680.1559933665.git.mchehab+samsung@kernel.org>
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Olivier Moysan <olivier.moysan@st.com>,
+        Arnaud Pouliquen <arnaud.pouliquen@st.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>, devicetree@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org
+Subject: [PATCH v3 17/20] dt: bindings: fix some broken links from txt->yaml conversion
+Date:   Fri,  7 Jun 2019 15:54:33 -0300
+Message-Id: <effeafed3023d8dc5f2440c8d5637ea31c02a533.1559933665.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <ff457774d46d96e8fe56b45409aba39d87a8672a.1559933665.git.mchehab+samsung@kernel.org>
 References: <ff457774d46d96e8fe56b45409aba39d87a8672a.1559933665.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some documentation files were still pointing to the old place.
+Some new files got converted to yaml, but references weren't
+updated accordingly.
 
-Fixes: 229b4e0728e0 ("Documentation: PCI: convert pci.txt to reST")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/memory-barriers.txt                    | 2 +-
- Documentation/translations/ko_KR/memory-barriers.txt | 2 +-
- drivers/scsi/hpsa.c                                  | 4 ++--
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ Documentation/devicetree/bindings/media/st,stm32-dcmi.txt | 2 +-
+ Documentation/devicetree/bindings/sound/st,stm32-i2s.txt  | 2 +-
+ Documentation/devicetree/bindings/sound/st,stm32-sai.txt  | 2 +-
+ MAINTAINERS                                               | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
-index f70ebcdfe592..f4170aae1d75 100644
---- a/Documentation/memory-barriers.txt
-+++ b/Documentation/memory-barriers.txt
-@@ -548,7 +548,7 @@ There are certain things that the Linux kernel memory barriers do not guarantee:
+diff --git a/Documentation/devicetree/bindings/media/st,stm32-dcmi.txt b/Documentation/devicetree/bindings/media/st,stm32-dcmi.txt
+index 249790a93017..3122ded82eb4 100644
+--- a/Documentation/devicetree/bindings/media/st,stm32-dcmi.txt
++++ b/Documentation/devicetree/bindings/media/st,stm32-dcmi.txt
+@@ -11,7 +11,7 @@ Required properties:
+ - clock-names: must contain "mclk", which is the DCMI peripherial clock
+ - pinctrl: the pincontrol settings to configure muxing properly
+            for pins that connect to DCMI device.
+-           See Documentation/devicetree/bindings/pinctrl/st,stm32-pinctrl.txt.
++           See Documentation/devicetree/bindings/pinctrl/st,stm32-pinctrl.yaml.
+ - dmas: phandle to DMA controller node,
+         see Documentation/devicetree/bindings/dma/stm32-dma.txt
+ - dma-names: must contain "tx", which is the transmit channel from DCMI to DMA
+diff --git a/Documentation/devicetree/bindings/sound/st,stm32-i2s.txt b/Documentation/devicetree/bindings/sound/st,stm32-i2s.txt
+index 58c341300552..cbf24bcd1b8d 100644
+--- a/Documentation/devicetree/bindings/sound/st,stm32-i2s.txt
++++ b/Documentation/devicetree/bindings/sound/st,stm32-i2s.txt
+@@ -18,7 +18,7 @@ Required properties:
+     See Documentation/devicetree/bindings/dma/stm32-dma.txt.
+   - dma-names: Identifier for each DMA request line. Must be "tx" and "rx".
+   - pinctrl-names: should contain only value "default"
+-  - pinctrl-0: see Documentation/devicetree/bindings/pinctrl/st,stm32-pinctrl.txt
++  - pinctrl-0: see Documentation/devicetree/bindings/pinctrl/st,stm32-pinctrl.yaml
  
- 	[*] For information on bus mastering DMA and coherency please read:
+ Optional properties:
+   - resets: Reference to a reset controller asserting the reset controller
+diff --git a/Documentation/devicetree/bindings/sound/st,stm32-sai.txt b/Documentation/devicetree/bindings/sound/st,stm32-sai.txt
+index 3f4467ff0aa2..944743dd9212 100644
+--- a/Documentation/devicetree/bindings/sound/st,stm32-sai.txt
++++ b/Documentation/devicetree/bindings/sound/st,stm32-sai.txt
+@@ -41,7 +41,7 @@ SAI subnodes required properties:
+ 	"tx": if sai sub-block is configured as playback DAI
+ 	"rx": if sai sub-block is configured as capture DAI
+   - pinctrl-names: should contain only value "default"
+-  - pinctrl-0: see Documentation/devicetree/bindings/pinctrl/st,stm32-pinctrl.txt
++  - pinctrl-0: see Documentation/devicetree/bindings/pinctrl/st,stm32-pinctrl.yaml
  
--	    Documentation/PCI/pci.txt
-+	    Documentation/PCI/pci.rst
- 	    Documentation/DMA-API-HOWTO.txt
- 	    Documentation/DMA-API.txt
+ SAI subnodes Optional properties:
+   - st,sync: specify synchronization mode.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 26e0369c1641..07a1f8af9e39 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1288,7 +1288,7 @@ ARM PRIMECELL SSP PL022 SPI DRIVER
+ M:	Linus Walleij <linus.walleij@linaro.org>
+ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/spi/spi_pl022.txt
++F:	Documentation/devicetree/bindings/spi/spi-pl022.yaml
+ F:	drivers/spi/spi-pl022.c
  
-diff --git a/Documentation/translations/ko_KR/memory-barriers.txt b/Documentation/translations/ko_KR/memory-barriers.txt
-index db0b9d8619f1..07725b1df002 100644
---- a/Documentation/translations/ko_KR/memory-barriers.txt
-+++ b/Documentation/translations/ko_KR/memory-barriers.txt
-@@ -569,7 +569,7 @@ ACQUIRE 는 해당 오퍼레이션의 로드 부분에만 적용되고 RELEASE 
- 
- 	[*] 버스 마스터링 DMA 와 일관성에 대해서는 다음을 참고하시기 바랍니다:
- 
--	    Documentation/PCI/pci.txt
-+	    Documentation/PCI/pci.rst
- 	    Documentation/DMA-API-HOWTO.txt
- 	    Documentation/DMA-API.txt
- 
-diff --git a/drivers/scsi/hpsa.c b/drivers/scsi/hpsa.c
-index 1bef1da273c2..53df6f7dd3f9 100644
---- a/drivers/scsi/hpsa.c
-+++ b/drivers/scsi/hpsa.c
-@@ -7760,7 +7760,7 @@ static void hpsa_free_pci_init(struct ctlr_info *h)
- 	hpsa_disable_interrupt_mode(h);		/* pci_init 2 */
- 	/*
- 	 * call pci_disable_device before pci_release_regions per
--	 * Documentation/PCI/pci.txt
-+	 * Documentation/PCI/pci.rst
- 	 */
- 	pci_disable_device(h->pdev);		/* pci_init 1 */
- 	pci_release_regions(h->pdev);		/* pci_init 2 */
-@@ -7843,7 +7843,7 @@ static int hpsa_pci_init(struct ctlr_info *h)
- clean1:
- 	/*
- 	 * call pci_disable_device before pci_release_regions per
--	 * Documentation/PCI/pci.txt
-+	 * Documentation/PCI/pci.rst
- 	 */
- 	pci_disable_device(h->pdev);
- 	pci_release_regions(h->pdev);
+ ARM PRIMECELL UART PL010 AND PL011 DRIVERS
 -- 
 2.21.0
 
