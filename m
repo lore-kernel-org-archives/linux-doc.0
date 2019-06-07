@@ -5,28 +5,29 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0E31F7D910
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 17:35:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BD4767D910
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 17:36:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730045AbfFGRf1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 13:35:27 -0400
-Received: from ms.lwn.net ([45.79.88.28]:57852 "EHLO ms.lwn.net"
+        id S1729325AbfFGRgj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 13:36:39 -0400
+Received: from ms.lwn.net ([45.79.88.28]:57876 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728998AbfFGRf1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 Jun 2019 13:35:27 -0400
+        id S1728998AbfFGRgj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 7 Jun 2019 13:36:39 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 2391C7DA;
-        Fri,  7 Jun 2019 17:35:27 +0000 (UTC)
-Date:   Fri, 7 Jun 2019 11:35:26 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id D2403737;
+        Fri,  7 Jun 2019 17:36:38 +0000 (UTC)
+Date:   Fri, 7 Jun 2019 11:36:37 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Luca Ceresoli <luca@lucaceresoli.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: clk: fix struct syntax
-Message-ID: <20190607113526.26e8b274@lwn.net>
-In-Reply-To: <20190531143016.23185-1-luca@lucaceresoli.net>
-References: <20190531143016.23185-1-luca@lucaceresoli.net>
+To:     Federico Vaga <federico.vaga@vaga.pv.it>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Subject: Re: [PATCH] doc:it_IT: fix file references
+Message-ID: <20190607113637.6619e846@lwn.net>
+In-Reply-To: <20190530201455.12412-1-federico.vaga@vaga.pv.it>
+References: <20190530201455.12412-1-federico.vaga@vaga.pv.it>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -36,13 +37,13 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 31 May 2019 16:30:16 +0200
-Luca Ceresoli <luca@lucaceresoli.net> wrote:
+On Thu, 30 May 2019 22:14:54 +0200
+Federico Vaga <federico.vaga@vaga.pv.it> wrote:
 
-> The clk_foo_ops struct example has syntax errors. Fix it so it can be
-> copy-pasted and used more easily.
+> Fix italian translation file references based on
+> `scripts/documentation-file-ref-check` output.
 > 
-> Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
+> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
 
 Applied, thanks.
 
