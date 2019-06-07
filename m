@@ -5,75 +5,145 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CACC77D8AB
+	by archive.lwn.net (Postfix) with ESMTP id DFBB07D90F
 	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 18:56:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729539AbfFGS4N (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1730608AbfFGS4N (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Fri, 7 Jun 2019 14:56:13 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:42298 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:42300 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732069AbfFGSyk (ORCPT
+        with ESMTP id S1732071AbfFGSyk (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 14:54:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=nUtpajCtj97wPHuOj/zKTNziiUpSH4053jytFacwfJk=; b=qTmeSmP8ZrwkerYDhguEpvn8r
-        09iCwGCNZCkzgj4abN/3J6dyS98uWzYJRNWYrz2gCjjA+jDbU20B/Iqu3hf7jnolgRpmRdJiYZKRt
-        BnFnj3/G5Q5WBB/TFvXq/k6jzdWk5bPa5LDO3QcdAU1PmPucZdgsH3b9lykHBdvOmDMTo0FJ46EHh
-        ++NBxkWwp9QVCyRa9euoTExUA1pVZ3TJAAeT5XfHmNy6URCB6ht68r2MRlHuBcJm3dWMFYExnk28K
-        R9w6+LcrCfpdxqC9jZQnBquqrw00BSy14paWoU1qVW2UuiBzzZyHOzngCAiwFqojjGgbH+RYg7AVj
-        wMEnRagVw==;
+        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+        To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=78L7zd88IqXfMHKxzazz3S43SQAX6wKuWyWb6jrb4ew=; b=q7aY4MVborpafsU7iQgHjHtkE6
+        nKvF1RG43TkIakvK3tqiv9jzPrSU6bdLzVsqRTI8VSG8XBdHX3TQM2JPpY9fVoIwa9r4AgWUg8tYI
+        Xd0h1f757oVGPwY9nGms8KQzEEcU7K8miOIhDfq5b2dcjVdkAf/TGfGlgsQoUv9/BGA/+frttZUfv
+        Sjs/qHB574OjEscU8USL4AwDmyrLZUjdiYu5hV/C8oiueNpxQS2jUnvzfUA9dfnDkyT6xoQyo0FQX
+        P6BCyONO2QA6kTPhgV8xDvgbdneuiVkGhiPwcdsBoa/zQFX+57fs2ZC643MvK27LCxnT1DoM0uz+d
+        SWPEueBw==;
 Received: from [179.181.119.115] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hZK0d-0005sd-Jx; Fri, 07 Jun 2019 18:54:39 +0000
+        id 1hZK0d-0005se-JN; Fri, 07 Jun 2019 18:54:39 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hZK0b-0007ET-7C; Fri, 07 Jun 2019 15:54:37 -0300
+        id 1hZK0b-0007Ea-8r; Fri, 07 Jun 2019 15:54:37 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
-Subject: [PATCH v3 01/20] ABI: sysfs-devices-system-cpu: point to the right docs
-Date:   Fri,  7 Jun 2019 15:54:17 -0300
-Message-Id: <ff457774d46d96e8fe56b45409aba39d87a8672a.1559933665.git.mchehab+samsung@kernel.org>
+        Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>
+Subject: [PATCH v3 03/20] docs: zh_CN: get rid of basic_profiling.txt
+Date:   Fri,  7 Jun 2019 15:54:19 -0300
+Message-Id: <5763c80f208b4943cf487d2224f8fd32fb1c9bc9.1559933665.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <ff457774d46d96e8fe56b45409aba39d87a8672a.1559933665.git.mchehab+samsung@kernel.org>
+References: <ff457774d46d96e8fe56b45409aba39d87a8672a.1559933665.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The cpuidle doc was split on two, one at the admin guide
-and another one at the driver API guide. Instead of pointing
-to a non-existent file, point to both (admin guide being
-the first one).
+Changeset 5700d1974818 ("docs: Get rid of the "basic profiling" guide")
+removed an old basic-profiling.txt file that was not updated over
+the last 11 years and won't reflect the post-perf era.
 
+It makes no sense to keep its translation, so get rid of it too.
+
+Fixes: 5700d1974818 ("docs: Get rid of the "basic profiling" guide")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Acked-by: Alex Shi <alex.shi@linux.alibaba.com>
 ---
- Documentation/ABI/testing/sysfs-devices-system-cpu | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../translations/zh_CN/basic_profiling.txt    | 71 -------------------
+ 1 file changed, 71 deletions(-)
+ delete mode 100644 Documentation/translations/zh_CN/basic_profiling.txt
 
-diff --git a/Documentation/ABI/testing/sysfs-devices-system-cpu b/Documentation/ABI/testing/sysfs-devices-system-cpu
-index 1528239f69b2..87478ac6c2af 100644
---- a/Documentation/ABI/testing/sysfs-devices-system-cpu
-+++ b/Documentation/ABI/testing/sysfs-devices-system-cpu
-@@ -137,7 +137,8 @@ Description:	Discover cpuidle policy and mechanism
- 		current_governor: (RW) displays current idle policy. Users can
- 		switch the governor at runtime by writing to this file.
- 
--		See files in Documentation/cpuidle/ for more information.
-+		See Documentation/admin-guide/pm/cpuidle.rst and
-+		Documentation/driver-api/pm/cpuidle.rst for more information.
- 
- 
- What:		/sys/devices/system/cpu/cpuX/cpuidle/stateN/name
+diff --git a/Documentation/translations/zh_CN/basic_profiling.txt b/Documentation/translations/zh_CN/basic_profiling.txt
+deleted file mode 100644
+index 1e6bf0bdf8f5..000000000000
+--- a/Documentation/translations/zh_CN/basic_profiling.txt
++++ /dev/null
+@@ -1,71 +0,0 @@
+-Chinese translated version of Documentation/basic_profiling
+-
+-If you have any comment or update to the content, please post to LKML directly.
+-However, if you have problem communicating in English you can also ask the
+-Chinese maintainer for help.  Contact the Chinese maintainer, if this
+-translation is outdated or there is problem with translation.
+-
+-Chinese maintainer: Liang Xie <xieliang@xiaomi.com>
+----------------------------------------------------------------------
+-Documentation/basic_profiling的中文翻译
+-
+-如果想评论或更新本文的内容，请直接发信到LKML。如果你使用英文交流有困难的话，也可
+-以向中文版维护者求助。如果本翻译更新不及时或者翻译存在问题，请联系中文版维护者。
+-
+-中文版维护者： 谢良 Liang Xie <xieliang007@gmail.com>
+-中文版翻译者： 谢良 Liang Xie <xieliang007@gmail.com>
+-中文版校译者：
+-以下为正文
+----------------------------------------------------------------------
+-
+-下面这些说明指令都是非常基础的，如果你想进一步了解请阅读相关专业文档：）
+-请不要再在本文档增加新的内容，但可以修复文档中的错误：）(mbligh@aracnet.com)
+-感谢John Levon，Dave Hansen等在撰写时的帮助
+-
+-<test> 用于表示要测量的目标
+-请先确保您已经有正确的System.map / vmlinux配置！
+-
+-对于linux系统来说，配置vmlinuz最容易的方法可能就是使用“make install”，然后修改
+-/sbin/installkernel将vmlinux拷贝到/boot目录，而System.map通常是默认安装好的
+-
+-Readprofile
+------------
+-2.6系列内核需要版本相对较新的readprofile，比如util-linux 2.12a中包含的，可以从:
+-
+-http://www.kernel.org/pub/linux/utils/util-linux/ 下载
+-
+-大部分linux发行版已经包含了.
+-
+-启用readprofile需要在kernel启动命令行增加”profile=2“
+-
+-clear		readprofile -r
+-		<test>
+-dump output	readprofile -m /boot/System.map > captured_profile
+-
+-Oprofile
+---------
+-
+-从http://oprofile.sourceforge.net/获取源代码（请参考Changes以获取匹配的版本）
+-在kernel启动命令行增加“idle=poll”
+-
+-配置CONFIG_PROFILING=y和CONFIG_OPROFILE=y然后重启进入新kernel
+-
+-./configure --with-kernel-support
+-make install
+-
+-想得到好的测量结果，请确保启用了本地APIC特性。如果opreport显示有0Hz CPU，
+-说明APIC特性没有开启。另外注意idle=poll选项可能有损性能。
+-
+-One time setup:
+-		opcontrol --setup --vmlinux=/boot/vmlinux
+-
+-clear		opcontrol --reset
+-start		opcontrol --start
+-		<test>
+-stop		opcontrol --stop
+-dump output	opreport >  output_file
+-
+-如果只看kernel相关的报告结果，请运行命令 opreport -l /boot/vmlinux > output_file
+-
+-通过reset选项可以清理过期统计数据，相当于重启的效果。
+-
 -- 
 2.21.0
 
