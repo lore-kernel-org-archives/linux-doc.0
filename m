@@ -5,30 +5,32 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 94A8B7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 17:10:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8EA3F7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 17:13:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731091AbfFGRKu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 13:10:50 -0400
-Received: from ms.lwn.net ([45.79.88.28]:57686 "EHLO ms.lwn.net"
+        id S1729723AbfFGRNH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 13:13:07 -0400
+Received: from ms.lwn.net ([45.79.88.28]:57710 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729947AbfFGRKu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 Jun 2019 13:10:50 -0400
+        id S1729632AbfFGRNH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 7 Jun 2019 13:13:07 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 7693C2CD;
-        Fri,  7 Jun 2019 17:10:49 +0000 (UTC)
-Date:   Fri, 7 Jun 2019 11:10:48 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id E30212CD;
+        Fri,  7 Jun 2019 17:13:05 +0000 (UTC)
+Date:   Fri, 7 Jun 2019 11:13:04 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     jroedel@suse.de, hch@lst.de, m.szyprowski@samsung.com,
-        linux-doc@vger.kernel.org, iommu@lists.linux-foundation.org
-Subject: Re: [PATCH] Documentation: DMA-API: fix a function name of
- max_mapping_size
-Message-ID: <20190607111048.7a492feb@lwn.net>
-In-Reply-To: <1559893633-6852-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-References: <1559893633-6852-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+To:     Helen Koike <helen.koike@collabora.com>
+Cc:     dm-devel@redhat.com, swboyd@chromium.org, wad@chromium.org,
+        keescook@chromium.org, snitzer@redhat.com,
+        linux-doc@vger.kernel.org, richard.weinberger@gmail.com,
+        linux-kernel@vger.kernel.org, linux-lvm@redhat.com,
+        enric.balletbo@collabora.com, kernel@collabora.com, agk@redhat.com
+Subject: Re: [PATCH] Documentation/dm-init: fix multi device example
+Message-ID: <20190607111304.767fb038@lwn.net>
+In-Reply-To: <20190604182719.15944-1-helen.koike@collabora.com>
+References: <20190604182719.15944-1-helen.koike@collabora.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -38,32 +40,15 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri,  7 Jun 2019 16:47:13 +0900
-Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com> wrote:
+On Tue,  4 Jun 2019 15:27:19 -0300
+Helen Koike <helen.koike@collabora.com> wrote:
 
-> The exported function name is dma_max_mapping_size(), not
-> dma_direct_max_mapping_size() so that this patch fixes
-> the function name in the documentation.
+> The example in the docs regarding multiple device-mappers is invalid (it
+> has a wrong number of arguments), it's a left over from previous
+> versions of the patch.
+> Replace the example with an valid and tested one.
 > 
-> Fixes: 133d624b1cee ("dma: Introduce dma_max_mapping_size()")
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
->  Documentation/DMA-API.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/DMA-API.txt b/Documentation/DMA-API.txt
-> index 0076150..e47c63b 100644
-> --- a/Documentation/DMA-API.txt
-> +++ b/Documentation/DMA-API.txt
-> @@ -198,7 +198,7 @@ call to set the mask to the value returned.
->  ::
->  
->  	size_t
-> -	dma_direct_max_mapping_size(struct device *dev);
-> +	dma_max_mapping_size(struct device *dev);
->  
->  Returns the maximum size of a mapping for the device. The size parameter
->  of the mapping functions like dma_map_single(), dma_map_page() and
+> Signed-off-by: Helen Koike <helen.koike@collabora.com>
 
 Applied, thanks.
 
