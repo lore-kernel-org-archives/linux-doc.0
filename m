@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E77C07D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 18:54:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E410A7D922
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 18:54:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732081AbfFGSyk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 14:54:40 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:42276 "EHLO
+        id S1732120AbfFGSyl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 14:54:41 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:42294 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730969AbfFGSyk (ORCPT
+        with ESMTP id S1732068AbfFGSyk (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 14:54:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,29 +20,27 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=NXx6PmnhUtUTm/ybGqV0WKQy6usM3ULP72To5/hYtqI=; b=G6awMd3Pb/sgDUCaFMGFadoXXC
-        FZIN/fwRwa6G71lnq01psWhTZk0HEZfYjNFQPkoRfopv5oOjk/80akMAR0l6VZyGzWE9kQnFBXBLu
-        /nxC2FlmRAe+tCtWLHrCvPepe4jtFysQ6aPKzwVDTRyvyF5Imy1YgF5py3pO1mTKHLNBA0Sfdn84p
-        lZAwzuS4FYkrnquHBo8j0QOxJicw2MSWgNu8Sgu/7DnZpm64mRVG5lAgj6bO1MLT6h9Z8M6n8nzhc
-        RKKLO4Q7XIAorOZqEnp3lv7VY6H390B7KlQkuVIcTQAYt972yDSJPuEjT8GIvWZZd8wDQ1v3eJZQV
-        GxAV0n1g==;
+        bh=WyA/RRUzEMCNSDUX0J/2kOmsPoE/y5/FaiFLeEY8Z7g=; b=iWSQ0qusvOUDaZsZnfA5nWGq0M
+        h8gnnaAG8NiL0zNkjhdC9PMv4V7jMXzPKAXCaR1sP2kClosffVEFnRCmsAsRrsO1WR7luVoEzh6tY
+        GXzCqnP2Zf3kGR/7SfE7vqvjIHPMc5iEVKJzqRobCZZ1rkJUZn2XflQWFnh4fqRInJj5KJOOEZ5At
+        2SjPg2/Esd+7jiK5Pv+rbWe/IQodTPyFkfYmwYDFN5+5iRlidSKjc6Sh/1NSZnaupiRUnSdI2JEYc
+        CIKqi5s3S5lrVQDu07XROMXpl86lxtWClns2Ubx2FndE1Ai1DorsjqbCeZKfTWYIG6YsG+a3KVfnk
+        a79sm00Q==;
 Received: from [179.181.119.115] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hZK0d-0005sZ-Ji; Fri, 07 Jun 2019 18:54:39 +0000
+        id 1hZK0d-0005sh-Kv; Fri, 07 Jun 2019 18:54:39 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hZK0b-0007Eq-CG; Fri, 07 Jun 2019 15:54:37 -0300
+        id 1hZK0b-0007FI-HT; Fri, 07 Jun 2019 15:54:37 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        =?UTF-8?q?Radim=20Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@redhat.com>,
-        kvm@vger.kernel.org
-Subject: [PATCH v3 07/20] docs: amd-memory-encryption.rst get rid of warnings
-Date:   Fri,  7 Jun 2019 15:54:23 -0300
-Message-Id: <53b10d30d1341e4d4b6cbe8e49f96afe15e54693.1559933665.git.mchehab+samsung@kernel.org>
+        "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org
+Subject: [PATCH v3 13/20] docs: net: dpio-driver.rst: fix two codeblock warnings
+Date:   Fri,  7 Jun 2019 15:54:29 -0300
+Message-Id: <111b55be881577bcf6516a572a6e44d64f84a05d.1559933665.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <ff457774d46d96e8fe56b45409aba39d87a8672a.1559933665.git.mchehab+samsung@kernel.org>
 References: <ff457774d46d96e8fe56b45409aba39d87a8672a.1559933665.git.mchehab+samsung@kernel.org>
@@ -53,35 +51,36 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Get rid of those warnings:
-
-    Documentation/virtual/kvm/amd-memory-encryption.rst:244: WARNING: Citation [white-paper] is not referenced.
-    Documentation/virtual/kvm/amd-memory-encryption.rst:246: WARNING: Citation [amd-apm] is not referenced.
-    Documentation/virtual/kvm/amd-memory-encryption.rst:247: WARNING: Citation [kvm-forum] is not referenced.
-
-For references that aren't mentioned at the text by adding an
-explicit reference to them.
+    Documentation/networking/device_drivers/freescale/dpaa2/dpio-driver.rst:43: WARNING: Definition list ends without a blank line; unexpected unindent.
+    Documentation/networking/device_drivers/freescale/dpaa2/dpio-driver.rst:63: WARNING: Unexpected indentation. looking for now-outdated files... none found
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Documentation/virtual/kvm/amd-memory-encryption.rst | 3 +++
- 1 file changed, 3 insertions(+)
+ .../networking/device_drivers/freescale/dpaa2/dpio-driver.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/virtual/kvm/amd-memory-encryption.rst b/Documentation/virtual/kvm/amd-memory-encryption.rst
-index 659bbc093b52..d18c97b4e140 100644
---- a/Documentation/virtual/kvm/amd-memory-encryption.rst
-+++ b/Documentation/virtual/kvm/amd-memory-encryption.rst
-@@ -241,6 +241,9 @@ Returns: 0 on success, -negative on error
- References
- ==========
+diff --git a/Documentation/networking/device_drivers/freescale/dpaa2/dpio-driver.rst b/Documentation/networking/device_drivers/freescale/dpaa2/dpio-driver.rst
+index 5045df990a4c..17dbee1ac53e 100644
+--- a/Documentation/networking/device_drivers/freescale/dpaa2/dpio-driver.rst
++++ b/Documentation/networking/device_drivers/freescale/dpaa2/dpio-driver.rst
+@@ -39,8 +39,7 @@ The Linux DPIO driver consists of 3 primary components--
  
+    DPIO service-- provides APIs to other Linux drivers for services
+ 
+-   QBman portal interface-- sends portal commands, gets responses
+-::
++   QBman portal interface-- sends portal commands, gets responses::
+ 
+           fsl-mc          other
+            bus           drivers
+@@ -60,6 +59,7 @@ The Linux DPIO driver consists of 3 primary components--
+ 
+ The diagram below shows how the DPIO driver components fit with the other
+ DPAA2 Linux driver components::
 +
-+See [white-paper]_, [api-spec]_, [amd-apm]_ and [kvm-forum]_ for more info.
-+
- .. [white-paper] http://amd-dev.wpengine.netdna-cdn.com/wordpress/media/2013/12/AMD_Memory_Encryption_Whitepaper_v7-Public.pdf
- .. [api-spec] http://support.amd.com/TechDocs/55766_SEV-KM_API_Specification.pdf
- .. [amd-apm] http://support.amd.com/TechDocs/24593.pdf (section 15.34)
+                                                    +------------+
+                                                    | OS Network |
+                                                    |   Stack    |
 -- 
 2.21.0
 
