@@ -1,163 +1,81 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 53B2D7D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 20:46:55 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 350827D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 20:57:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730399AbfFGUqy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 16:46:54 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:45580 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729640AbfFGUqy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 16:46:54 -0400
-Received: by mail-pg1-f195.google.com with SMTP id w34so1734981pga.12
-        for <linux-doc@vger.kernel.org>; Fri, 07 Jun 2019 13:46:53 -0700 (PDT)
+        id S1730251AbfFGU50 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 16:57:26 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:42961 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730233AbfFGU5Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 16:57:25 -0400
+Received: by mail-lf1-f68.google.com with SMTP id y13so2589559lfh.9
+        for <linux-doc@vger.kernel.org>; Fri, 07 Jun 2019 13:57:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=content-transfer-encoding:from:mime-version:subject:date:message-id
-         :references:cc:in-reply-to:to;
-        bh=XukHmQruicw8IlfF6jJ6jVCYF0PSAeCd61ALsjzTSpY=;
-        b=VWI7VCl5285LdP7wOr87pA6+IQYIq/ZxhBxJbF1/nckLiWb00yMLQlkMSFh4MCmFIq
-         /dqJBvYXqKj4YcUgfT3KURvRXmso7VPKa0tgm8V0RDBhXkf0XYt6MYFS8iutMKKpfXs1
-         J2m1rqQfTl0vttXXt7TvR91asPuMao/Avd04hxQKWY3DGbO6e9kqdOSNRzrBeSbR421E
-         Rf9Al37d+zkA1bJ2NtyUgJkERotLKfbY8cpTiNFxW3h5PvRE0rml/0f46+ey+IgUyxqM
-         XOCqZ7ORzhd+wlc9aCrEgSryqbXOT4+W665Z56TP/EMr2yUjbSDUZKj9n9UphV69nzc1
-         Elxw==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=lYNEKon6hw5ozLF7/eHiScGkoKPZ0mKYiX3PiahFBLw=;
+        b=F7Wmh3q5hTHJ7+8NfKn3Q9mrsjs4JGeQZci0PL3H7hbu3GM5K9yUsz+Y0lgGRdBSdw
+         +328NWNP6IM8aUm8EjN2Pd17RWK8NOdSUoO5S7ntn/z5g5RWrIZMcumaXQai6X3CXyEz
+         BTphLGtLKEzrV1gZxidM73Z5KN4zHh5E2v5y5RfDYyS3RAVcE44ehACnh+yYBOTkI6ex
+         GAIvwDGuBk7jbRANq1zYREobgsZOOPeA3mYAQ+avOz6ivrRpqghggPfxfWeNmfqmhXz+
+         mLgdz2EccWQ3t0kUo3VrJ9H6siVLFsY94ENBceRRT/iSvi2sqKJcgKc2W3kMsgQBPqQN
+         zHNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:from:mime-version
-         :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=XukHmQruicw8IlfF6jJ6jVCYF0PSAeCd61ALsjzTSpY=;
-        b=El6YxGOodGGFiEk7vJmI+QVO7/Nz8ed57UlYhkltTQd/bcnbuZgfnlHWe13z+PWtA9
-         32ZisK7tz0EzujOpY1dAQ/9Y+40uXde4N70x1JhkvP2hQNgsaiiRuUIeABqs9iOEWHdK
-         wVkRvBYiA7roHpKiR+FzYWhPz3dQ2DpmjuznBYx34RPiHgDA46ZWHSq2qPptuTUuClNs
-         y0YKvGUCnb9DBPs+CyVJj/35zJ4HvjAHQwVh1nWdwnZuiihO3fDA5NvLNHmukCxkpKf0
-         PtL7C+cU5EJa4AdFHrJ/DgVCQf8Yjj2JO6JfQq3ZesUNxbPqN634mP2ycMQOIiwkiaE7
-         V+MA==
-X-Gm-Message-State: APjAAAUOrQXj7jXLD7tz+6JlI8NsxtqqXnqaNKXr7UEswsreJttukcrO
-        mAfm0CE5/KITzTzjZumLa6KjrFO5WI0=
-X-Google-Smtp-Source: APXvYqxhFk60QtRVzTldpmH+7yv8QONLVQH+CovTP9/QHWOvUlZZE4M5xtzQoodB8aOtHfr02eU7Pw==
-X-Received: by 2002:aa7:808d:: with SMTP id v13mr60783415pff.198.1559940413359;
-        Fri, 07 Jun 2019 13:46:53 -0700 (PDT)
-Received: from ?IPv6:2600:1012:b018:c314:403f:c95d:60d3:b732? ([2600:1012:b018:c314:403f:c95d:60d3:b732])
-        by smtp.gmail.com with ESMTPSA id 14sm3068901pgp.37.2019.06.07.13.46.41
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 07 Jun 2019 13:46:52 -0700 (PDT)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Andy Lutomirski <luto@amacapital.net>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v7 03/14] x86/cet/ibt: Add IBT legacy code bitmap setup function
-Date:   Fri, 7 Jun 2019 13:43:15 -0700
-Message-Id: <25281DB3-FCE4-40C2-BADB-B3B05C5F8DD3@amacapital.net>
-References: <20190606200926.4029-1-yu-cheng.yu@intel.com> <20190606200926.4029-4-yu-cheng.yu@intel.com> <20190607080832.GT3419@hirez.programming.kicks-ass.net> <aa8a92ef231d512b5c9855ef416db050b5ab59a6.camel@intel.com> <20190607174336.GM3436@hirez.programming.kicks-ass.net> <b3de4110-5366-fdc7-a960-71dea543a42f@intel.com> <34E0D316-552A-401C-ABAA-5584B5BC98C5@amacapital.net> <7e0b97bf1fbe6ff20653a8e4e147c6285cc5552d.camel@intel.com>
-Cc:     Dave Hansen <dave.hansen@intel.com>,
-        Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lYNEKon6hw5ozLF7/eHiScGkoKPZ0mKYiX3PiahFBLw=;
+        b=hoT9nuw6NEeqOqyqcCsiBSiY2DFhaEMHRRYW/ZXcjbRQJlImVhfXkklAzy8Yh5kFJ7
+         s1B0UWSkFDXgF7/atH5TbGSMt5vCpk+XnbtGuWAJfsMDDGapTJK4Bnt6Gi+Y8ZlpZAvI
+         0917fNKCuxIONp2VjFS9PWcCXkqxYY+qO57+wBLqZsNendHi1A7o/8ZL8aTiJeBYuW97
+         zNtALeNcvDK7Q5RYGJHXli8PrYSu2GtVQNEbABjQ0qDMR2fLk9U+43AMa3wTzISFOSS0
+         O11z01MedA6z50fqG8sH3H78H0nhzwC8eez3x/r2dV4BCC6M5yF7e+J5ugEL//cL8jwW
+         OmvQ==
+X-Gm-Message-State: APjAAAWPxYVxwuhGff/d/rdX0WCmzKlD1AL2WS3AvfWeKDt13HinbxgA
+        Gcgn9lv7N0fs3gWGgpCc684GRq15yQXbyy1iu8Cv7A==
+X-Google-Smtp-Source: APXvYqxKaiD6kl9h8t32IOzlBaDqaa1v0jAvUNt4RxTlRdfOHLS4WOZr4SjmaRPEIRLtKJJjaaIYIUpiBZDJGi0LUrA=
+X-Received: by 2002:ac2:4891:: with SMTP id x17mr15902022lfc.60.1559941044041;
+ Fri, 07 Jun 2019 13:57:24 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1559171394.git.mchehab+samsung@kernel.org> <ab694e03ba6de8908d0a19a58408180eee3f795b.1559171394.git.mchehab+samsung@kernel.org>
+In-Reply-To: <ab694e03ba6de8908d0a19a58408180eee3f795b.1559171394.git.mchehab+samsung@kernel.org>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 7 Jun 2019 22:57:16 +0200
+Message-ID: <CACRpkdYmqGj3PC1firW2awWyi4OuzHwSrYo7n3Ph8j0==824qA@mail.gmail.com>
+Subject: Re: [PATCH 16/22] docs: gpio: driver.rst: fix a bad tag
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
-In-Reply-To: <7e0b97bf1fbe6ff20653a8e4e147c6285cc5552d.camel@intel.com>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-X-Mailer: iPhone Mail (16F203)
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, May 30, 2019 at 1:24 AM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
 
+> With ReST, [foo]_ means a reference to foo, causing this warning:
+>
+>     Documentation/driver-api/gpio/driver.rst:419: WARNING: Unknown target name: "devm".
+>
+> Fix it by using a literal for the name.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-> On Jun 7, 2019, at 12:49 PM, Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->=20
-> On Fri, 2019-06-07 at 11:29 -0700, Andy Lutomirski wrote:
->>> On Jun 7, 2019, at 10:59 AM, Dave Hansen <dave.hansen@intel.com> wrote:
->>>=20
->>>> On 6/7/19 10:43 AM, Peter Zijlstra wrote:
->>>> I've no idea what the kernel should do; since you failed to answer the
->>>> question what happens when you point this to garbage.
->>>>=20
->>>> Does it then fault or what?
->>>=20
->>> Yeah, I think you'll fault with a rather mysterious CR2 value since
->>> you'll go look at the instruction that faulted and not see any
->>> references to the CR2 value.
->>>=20
->>> I think this new MSR probably needs to get included in oops output when
->>> CET is enabled.
->>=20
->> This shouldn=E2=80=99t be able to OOPS because it only happens at CPL 3, r=
-ight?  We
->> should put it into core dumps, though.
->>=20
->>>=20
->>> Why don't we require that a VMA be in place for the entire bitmap?
->>> Don't we need a "get" prctl function too in case something like a JIT is=
+Patch applied to the GPIO tree.
 
->>> running and needs to find the location of this bitmap to set bits itself=
-?
->>>=20
->>> Or, do we just go whole-hog and have the kernel manage the bitmap
->>> itself. Our interface here could be:
->>>=20
->>>   prctl(PR_MARK_CODE_AS_LEGACY, start, size);
->>>=20
->>> and then have the kernel allocate and set the bitmap for those code
->>> locations.
->>=20
->> Given that the format depends on the VA size, this might be a good idea. =
- I
->> bet we can reuse the special mapping infrastructure for this =E2=80=94 th=
-e VMA could
->> be a MAP_PRIVATE special mapping named [cet_legacy_bitmap] or similar, an=
-d we
->> can even make special rules to core dump it intelligently if needed.  And=
- we
->> can make mremap() on it work correctly if anyone (CRIU?) cares.
->>=20
->> Hmm.  Can we be creative and skip populating it with zeros?  The CPU shou=
-ld
->> only ever touch a page if we miss an ENDBR on it, so, in normal operation=
-, we
->> don=E2=80=99t need anything to be there.  We could try to prevent anyone f=
-rom
->> *reading* it outside of ENDBR tracking if we want to avoid people acciden=
-tally
->> wasting lots of memory by forcing it to be fully populated when the read i=
-t.
->>=20
->> The one downside is this forces it to be per-mm, but that seems like a
->> generally reasonable model anyway.
->>=20
->> This also gives us an excellent opportunity to make it read-only as seen f=
-rom
->> userspace to prevent exploits from just poking it full of ones before
->> redirecting execution.
->=20
-> GLIBC sets bits only for legacy code, and then makes the bitmap read-only.=
-  That
-> avoids most issues:
-
-How does glibc know the linear address space size?  We don=E2=80=99t want LA=
-64 to break old binaries because the address calculation changed.
+Yours,
+Linus Walleij
