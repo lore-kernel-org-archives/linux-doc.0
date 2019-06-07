@@ -1,40 +1,68 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DFFBF7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 16:31:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A30D67D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 16:35:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730526AbfFGQbp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 12:31:45 -0400
-Received: from mga17.intel.com ([192.55.52.151]:57251 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728595AbfFGQbp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 Jun 2019 12:31:45 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Jun 2019 09:31:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,563,1557212400"; 
-   d="scan'208";a="182722617"
-Received: from yyu32-desk1.sc.intel.com ([143.183.136.147])
-  by fmsmga002.fm.intel.com with ESMTP; 07 Jun 2019 09:31:44 -0700
-Message-ID: <aa8a92ef231d512b5c9855ef416db050b5ab59a6.camel@intel.com>
-Subject: Re: [PATCH v7 03/14] x86/cet/ibt: Add IBT legacy code bitmap setup
- function
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        id S1730816AbfFGQfb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 12:35:31 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:42474 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728595AbfFGQfb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 12:35:31 -0400
+Received: by mail-pl1-f193.google.com with SMTP id go2so1020280plb.9
+        for <linux-doc@vger.kernel.org>; Fri, 07 Jun 2019 09:35:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=0wvMqjnLfHeibHfnd5Vo60J3T+kOUBskArwKAN9PGMQ=;
+        b=Z1ujcUSObY84r0pQw1gBEgavn3UDkEJ73l7OoeuHJ7dTxxtAWA5cFzGd2tv+bDLXFZ
+         ZUSH8lkopmuRZXxnqwLbFKFylazXfmK1Yd06ZaFH3sphoqD6YxdLCXKJjTeZ/46olgLw
+         cLkrGYT/rNrgSGRUpMNUrvuX5u7UwSAvEWwn4hAgbhrWtbQEXPMkYf5cSf3rXHCCI2yO
+         oxKvbLtHVB4ymsJqzauKbObHwXVJGq0nRHyzLloNX1EQW9P9evaYW8zYcNjTEP4aI/WM
+         V69MI12MFr6S0MbwLenZ5QYptjGPavTIFQ1xi2XagjAAyleNVcloUFwKXdfWiK7WVJUO
+         LbUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=0wvMqjnLfHeibHfnd5Vo60J3T+kOUBskArwKAN9PGMQ=;
+        b=Do/690k7dU0AKd2QbhwTqDnj/Kbb26w5v9MNWhR80yTPUa4YDrJxF28sy5aCO9GLAN
+         x3S0ePiBP76X90WmeUTianH9/4QSKRWUUyMIVK72YlnnXxJ9X4FTxM2kcz8h5NKWD56P
+         ScWhyTS81y5xxKMDbvPzuUqHNsGvcuL/dPsE/ggN51hSAuGmBMmV7xi+kLIPiD+o0Zwn
+         AYCf00akSA1Ks30RMcnbPSeFm1CPv8X3d3HCXqAbG6HJiiUOCVlP9AVGPwpbJj4R5JdF
+         Ws4KwJEGzzWVGvnOCXw/ZZHf/dV8pDiTSl0HPsoJ9mTx6Br7NWrXG3SeXuodZdUJPDVZ
+         KDVg==
+X-Gm-Message-State: APjAAAVH+Dny96GDbvL4OJrwGE0LOD/oelKSAlK3gegA6n5d1XmYT3aR
+        HrziW9qA62OS1JXaxiuE1PeloQ==
+X-Google-Smtp-Source: APXvYqxYfU9YVziUJO0vNHvuNseZrHbxK2V0LHuxNzSafUXNPN+YeoYV3SImF7zgnh5F5HqBc8Gomg==
+X-Received: by 2002:a17:902:7e0f:: with SMTP id b15mr48583188plm.237.1559925330160;
+        Fri, 07 Jun 2019 09:35:30 -0700 (PDT)
+Received: from ?IPv6:2600:1012:b044:6f30:60ea:7662:8055:2cca? ([2600:1012:b044:6f30:60ea:7662:8055:2cca])
+        by smtp.gmail.com with ESMTPSA id f2sm2240019pgs.83.2019.06.07.09.35.28
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 07 Jun 2019 09:35:29 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH v7 03/14] x86/cet/ibt: Add IBT legacy code bitmap setup function
+From:   Andy Lutomirski <luto@amacapital.net>
+X-Mailer: iPhone Mail (16F203)
+In-Reply-To: <aa8a92ef231d512b5c9855ef416db050b5ab59a6.camel@intel.com>
+Date:   Fri, 7 Jun 2019 09:35:27 -0700
+Cc:     Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-mm@kvack.org,
         linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
         Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
         Balbir Singh <bsingharora@gmail.com>,
         Borislav Petkov <bp@alien8.de>,
         Cyrill Gorcunov <gorcunov@gmail.com>,
@@ -51,58 +79,63 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>
-Date:   Fri, 07 Jun 2019 09:23:43 -0700
-In-Reply-To: <20190607080832.GT3419@hirez.programming.kicks-ass.net>
-References: <20190606200926.4029-1-yu-cheng.yu@intel.com>
-         <20190606200926.4029-4-yu-cheng.yu@intel.com>
-         <20190607080832.GT3419@hirez.programming.kicks-ass.net>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <76B7B1AE-3AEA-4162-B539-990EF3CCE2C2@amacapital.net>
+References: <20190606200926.4029-1-yu-cheng.yu@intel.com> <20190606200926.4029-4-yu-cheng.yu@intel.com> <20190607080832.GT3419@hirez.programming.kicks-ass.net> <aa8a92ef231d512b5c9855ef416db050b5ab59a6.camel@intel.com>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2019-06-07 at 10:08 +0200, Peter Zijlstra wrote:
-> On Thu, Jun 06, 2019 at 01:09:15PM -0700, Yu-cheng Yu wrote:
-> > Indirect Branch Tracking (IBT) provides an optional legacy code bitmap
-> > that allows execution of legacy, non-IBT compatible library by an
-> > IBT-enabled application.  When set, each bit in the bitmap indicates
-> > one page of legacy code.
-> > 
-> > The bitmap is allocated and setup from the application.
-> > +int cet_setup_ibt_bitmap(unsigned long bitmap, unsigned long size)
-> > +{
-> > +	u64 r;
-> > +
-> > +	if (!current->thread.cet.ibt_enabled)
-> > +		return -EINVAL;
-> > +
-> > +	if (!PAGE_ALIGNED(bitmap) || (size > TASK_SIZE_MAX))
-> > +		return -EINVAL;
-> > +
-> > +	current->thread.cet.ibt_bitmap_addr = bitmap;
-> > +	current->thread.cet.ibt_bitmap_size = size;
-> > +
-> > +	/*
-> > +	 * Turn on IBT legacy bitmap.
-> > +	 */
-> > +	modify_fpu_regs_begin();
-> > +	rdmsrl(MSR_IA32_U_CET, r);
-> > +	r |= (MSR_IA32_CET_LEG_IW_EN | bitmap);
-> > +	wrmsrl(MSR_IA32_U_CET, r);
-> > +	modify_fpu_regs_end();
-> > +
-> > +	return 0;
-> > +}
-> 
-> So you just program a random user supplied address into the hardware.
-> What happens if there's not actually anything at that address or the
-> user munmap()s the data after doing this?
 
-This function checks the bitmap's alignment and size, and anything else is the
-app's responsibility.  What else do you think the kernel should check?
 
-Yu-cheng
+> On Jun 7, 2019, at 9:23 AM, Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+>=20
+>> On Fri, 2019-06-07 at 10:08 +0200, Peter Zijlstra wrote:
+>>> On Thu, Jun 06, 2019 at 01:09:15PM -0700, Yu-cheng Yu wrote:
+>>> Indirect Branch Tracking (IBT) provides an optional legacy code bitmap
+>>> that allows execution of legacy, non-IBT compatible library by an
+>>> IBT-enabled application.  When set, each bit in the bitmap indicates
+>>> one page of legacy code.
+>>>=20
+>>> The bitmap is allocated and setup from the application.
+>>> +int cet_setup_ibt_bitmap(unsigned long bitmap, unsigned long size)
+>>> +{
+>>> +    u64 r;
+>>> +
+>>> +    if (!current->thread.cet.ibt_enabled)
+>>> +        return -EINVAL;
+>>> +
+>>> +    if (!PAGE_ALIGNED(bitmap) || (size > TASK_SIZE_MAX))
+>>> +        return -EINVAL;
+>>> +
+>>> +    current->thread.cet.ibt_bitmap_addr =3D bitmap;
+>>> +    current->thread.cet.ibt_bitmap_size =3D size;
+>>> +
+>>> +    /*
+>>> +     * Turn on IBT legacy bitmap.
+>>> +     */
+>>> +    modify_fpu_regs_begin();
+>>> +    rdmsrl(MSR_IA32_U_CET, r);
+>>> +    r |=3D (MSR_IA32_CET_LEG_IW_EN | bitmap);
+>>> +    wrmsrl(MSR_IA32_U_CET, r);
+>>> +    modify_fpu_regs_end();
+>>> +
+>>> +    return 0;
+>>> +}
+>>=20
+>> So you just program a random user supplied address into the hardware.
+>> What happens if there's not actually anything at that address or the
+>> user munmap()s the data after doing this?
+>=20
+> This function checks the bitmap's alignment and size, and anything else is=
+ the
+> app's responsibility.  What else do you think the kernel should check?
+>=20
+
+One might reasonably wonder why this state is privileged in the first place a=
+nd, given that, why we=E2=80=99re allowing it to be written like this.
+
+Arguably we should have another prctl to lock these values (until exec) as a=
+ gardening measure.=
