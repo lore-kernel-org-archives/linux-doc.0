@@ -5,60 +5,42 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 677B57D922
+	by archive.lwn.net (Postfix) with ESMTP id A5FFE7D92A
 	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 18:55:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732253AbfFGSzO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 14:55:14 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:42394 "EHLO
+        id S1732126AbfFGSyl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 14:54:41 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:42358 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732131AbfFGSyl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 14:54:41 -0400
+        with ESMTP id S1732085AbfFGSyk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 14:54:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=2J2gC9Vs88UenWpiQZnFm6PaAxca9INOF19LE67/S2I=; b=aNhl8dacQHaQT8ZWBlETCijC8Y
-        lg1YPVn8DDjHbLyWw+r8yZBYDGye95GZmFRXwYSibTcBF0fZOmeKblvMuYhGxXBEZ2yshGFyeC5rg
-        AcMvZuiJ1NryVFqZCchbDpGTq8Y/o9os+EZkOTbizFgqvG1JG+yW2Jzyjkn9ZsXOR66jrsDiO0W7b
-        huDodtsOQYzZhbYLFDi6k4PhhzQU+g43uhYWXZqj0C46A5hVQ6ddU4OGu6+cXuG2g2S1bfTm9BApU
-        qNe8G1pW4/N1nG2SDTivv0NafqWQ5dR2qYUQtARfji3bYp8K931C+ZTlCho5lklVmvXebTm4T3keb
-        R8eBrTmg==;
+        bh=oE+GNlmDu8q5Yz9TSmplcEGH+jqeK1fLcabYCON6QNs=; b=ahr20MSu+PF2orAGaUAkAtfEer
+        M8kNNGl5djhUIHXVnl73B/q9YO6j6S2/TW6pImjtB6fbC72TV69OEITJ6Aslwk88uCytB5MDlGDgH
+        nv8+isLkaThIy8nxbW2sG2YgE0yV/f+dWBQ3hTAoKmoXNkJnAyDxP0kKqUYfv6qHXjNmbAk2ncsJJ
+        SB8nxz5cqpeUxt3BeVs+GZG82VXAeFcw7JOmhFd1OYbbfl5YDKJ89ol5n7acMrfkYePGsAZXo85N6
+        fSK/1qk3Byf2kExTa3AnpPo8fJLC7wnvu9FgM10WH9rC5CkZj9UiPdisQ4xWsCktzA8JrOZseWzt9
+        3eyI6xiw==;
 Received: from [179.181.119.115] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hZK0d-0005sm-Nx; Fri, 07 Jun 2019 18:54:39 +0000
+        id 1hZK0d-0005sf-Kt; Fri, 07 Jun 2019 18:54:39 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hZK0b-0007Em-BH; Fri, 07 Jun 2019 15:54:37 -0300
+        id 1hZK0b-0007Ey-E3; Fri, 07 Jun 2019 15:54:37 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Frederic Barrat <fbarrat@linux.ibm.com>,
-        Andrew Donnellan <ajd@linux.ibm.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>,
-        Georgi Djakov <georgi.djakov@linaro.org>,
-        Matan Ziv-Av <matan@svgalib.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        linuxppc-dev@lists.ozlabs.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org,
-        dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH v3 06/20] docs: mark orphan documents as such
-Date:   Fri,  7 Jun 2019 15:54:22 -0300
-Message-Id: <0bea1c7c4fc06c7edabbf3185c0cbbc6e85eafd0.1559933665.git.mchehab+samsung@kernel.org>
+        Federico Vaga <federico.vaga@vaga.pv.it>
+Subject: [PATCH v3 09/20] docs: it: license-rules.rst: get rid of warnings
+Date:   Fri,  7 Jun 2019 15:54:25 -0300
+Message-Id: <f05516b6e91d312c6ea87134ffa836d1f574e6d1.1559933665.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <ff457774d46d96e8fe56b45409aba39d87a8672a.1559933665.git.mchehab+samsung@kernel.org>
 References: <ff457774d46d96e8fe56b45409aba39d87a8672a.1559933665.git.mchehab+samsung@kernel.org>
@@ -69,154 +51,66 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sphinx doesn't like orphan documents:
+There's a wrong identation on a code block, and it tries to use
+a reference that was not defined at the Italian translation.
 
-    Documentation/accelerators/ocxl.rst: WARNING: document isn't included in any toctree
-    Documentation/arm/stm32/overview.rst: WARNING: document isn't included in any toctree
-    Documentation/arm/stm32/stm32f429-overview.rst: WARNING: document isn't included in any toctree
-    Documentation/arm/stm32/stm32f746-overview.rst: WARNING: document isn't included in any toctree
-    Documentation/arm/stm32/stm32f769-overview.rst: WARNING: document isn't included in any toctree
-    Documentation/arm/stm32/stm32h743-overview.rst: WARNING: document isn't included in any toctree
-    Documentation/arm/stm32/stm32mp157-overview.rst: WARNING: document isn't included in any toctree
-    Documentation/gpu/msm-crash-dump.rst: WARNING: document isn't included in any toctree
-    Documentation/interconnect/interconnect.rst: WARNING: document isn't included in any toctree
-    Documentation/laptops/lg-laptop.rst: WARNING: document isn't included in any toctree
-    Documentation/powerpc/isa-versions.rst: WARNING: document isn't included in any toctree
-    Documentation/virtual/kvm/amd-memory-encryption.rst: WARNING: document isn't included in any toctree
-    Documentation/virtual/kvm/vcpu-requests.rst: WARNING: document isn't included in any toctree
-
-So, while they aren't on any toctree, add :orphan: to them, in order
-to silent this warning.
+    Documentation/translations/it_IT/process/license-rules.rst:329: WARNING: Literal block expected; none found.
+    Documentation/translations/it_IT/process/license-rules.rst:332: WARNING: Unexpected indentation.
+    Documentation/translations/it_IT/process/license-rules.rst:339: WARNING: Block quote ends without a blank line; unexpected unindent.
+    Documentation/translations/it_IT/process/license-rules.rst:341: WARNING: Unexpected indentation.
+    Documentation/translations/it_IT/process/license-rules.rst:305: WARNING: Unknown target name: "metatags".
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Acked-by: Andrew Donnellan <ajd@linux.ibm.com>
+Reviewed-by: Federico Vaga <federico.vaga@vaga.pv.it>
 ---
- Documentation/accelerators/ocxl.rst             | 2 ++
- Documentation/arm/stm32/overview.rst            | 2 ++
- Documentation/arm/stm32/stm32f429-overview.rst  | 2 ++
- Documentation/arm/stm32/stm32f746-overview.rst  | 2 ++
- Documentation/arm/stm32/stm32f769-overview.rst  | 2 ++
- Documentation/arm/stm32/stm32h743-overview.rst  | 2 ++
- Documentation/arm/stm32/stm32mp157-overview.rst | 2 ++
- Documentation/gpu/msm-crash-dump.rst            | 2 ++
- Documentation/interconnect/interconnect.rst     | 2 ++
- Documentation/laptops/lg-laptop.rst             | 2 ++
- Documentation/powerpc/isa-versions.rst          | 2 ++
- 11 files changed, 22 insertions(+)
+ .../it_IT/process/license-rules.rst           | 28 +++++++++----------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/Documentation/accelerators/ocxl.rst b/Documentation/accelerators/ocxl.rst
-index 14cefc020e2d..b1cea19a90f5 100644
---- a/Documentation/accelerators/ocxl.rst
-+++ b/Documentation/accelerators/ocxl.rst
-@@ -1,3 +1,5 @@
-+:orphan:
-+
- ========================================================
- OpenCAPI (Open Coherent Accelerator Processor Interface)
- ========================================================
-diff --git a/Documentation/arm/stm32/overview.rst b/Documentation/arm/stm32/overview.rst
-index 85cfc8410798..f7e734153860 100644
---- a/Documentation/arm/stm32/overview.rst
-+++ b/Documentation/arm/stm32/overview.rst
-@@ -1,3 +1,5 @@
-+:orphan:
-+
- ========================
- STM32 ARM Linux Overview
- ========================
-diff --git a/Documentation/arm/stm32/stm32f429-overview.rst b/Documentation/arm/stm32/stm32f429-overview.rst
-index 18feda97f483..65bbb1c3b423 100644
---- a/Documentation/arm/stm32/stm32f429-overview.rst
-+++ b/Documentation/arm/stm32/stm32f429-overview.rst
-@@ -1,3 +1,5 @@
-+:orphan:
-+
- STM32F429 Overview
- ==================
+diff --git a/Documentation/translations/it_IT/process/license-rules.rst b/Documentation/translations/it_IT/process/license-rules.rst
+index f058e06996dc..4cd87a3a7bf9 100644
+--- a/Documentation/translations/it_IT/process/license-rules.rst
++++ b/Documentation/translations/it_IT/process/license-rules.rst
+@@ -303,7 +303,7 @@ essere categorizzate in:
+      LICENSES/dual
  
-diff --git a/Documentation/arm/stm32/stm32f746-overview.rst b/Documentation/arm/stm32/stm32f746-overview.rst
-index b5f4b6ce7656..42d593085015 100644
---- a/Documentation/arm/stm32/stm32f746-overview.rst
-+++ b/Documentation/arm/stm32/stm32f746-overview.rst
-@@ -1,3 +1,5 @@
-+:orphan:
-+
- STM32F746 Overview
- ==================
+    I file in questa cartella contengono il testo completo della rispettiva
+-   licenza e i suoi `Metatags`_.  I nomi dei file sono identici agli
++   licenza e i suoi `Metatag`_.  I nomi dei file sono identici agli
+    identificatori di licenza SPDX che dovrebbero essere usati nei file
+    sorgenti.
  
-diff --git a/Documentation/arm/stm32/stm32f769-overview.rst b/Documentation/arm/stm32/stm32f769-overview.rst
-index 228656ced2fe..f6adac862b17 100644
---- a/Documentation/arm/stm32/stm32f769-overview.rst
-+++ b/Documentation/arm/stm32/stm32f769-overview.rst
-@@ -1,3 +1,5 @@
-+:orphan:
-+
- STM32F769 Overview
- ==================
+@@ -326,19 +326,19 @@ essere categorizzate in:
  
-diff --git a/Documentation/arm/stm32/stm32h743-overview.rst b/Documentation/arm/stm32/stm32h743-overview.rst
-index 3458dc00095d..c525835e7473 100644
---- a/Documentation/arm/stm32/stm32h743-overview.rst
-+++ b/Documentation/arm/stm32/stm32h743-overview.rst
-@@ -1,3 +1,5 @@
-+:orphan:
-+
- STM32H743 Overview
- ==================
+    Esempio del formato del file::
  
-diff --git a/Documentation/arm/stm32/stm32mp157-overview.rst b/Documentation/arm/stm32/stm32mp157-overview.rst
-index 62e176d47ca7..2c52cd020601 100644
---- a/Documentation/arm/stm32/stm32mp157-overview.rst
-+++ b/Documentation/arm/stm32/stm32mp157-overview.rst
-@@ -1,3 +1,5 @@
-+:orphan:
-+
- STM32MP157 Overview
- ===================
+-   Valid-License-Identifier: MPL-1.1
+-   SPDX-URL: https://spdx.org/licenses/MPL-1.1.html
+-   Usage-Guide:
+-     Do NOT use. The MPL-1.1 is not GPL2 compatible. It may only be used for
+-     dual-licensed files where the other license is GPL2 compatible.
+-     If you end up using this it MUST be used together with a GPL2 compatible
+-     license using "OR".
+-     To use the Mozilla Public License version 1.1 put the following SPDX
+-     tag/value pair into a comment according to the placement guidelines in
+-     the licensing rules documentation:
+-   SPDX-License-Identifier: MPL-1.1
+-   License-Text:
+-     Full license text
++    Valid-License-Identifier: MPL-1.1
++    SPDX-URL: https://spdx.org/licenses/MPL-1.1.html
++    Usage-Guide:
++      Do NOT use. The MPL-1.1 is not GPL2 compatible. It may only be used for
++      dual-licensed files where the other license is GPL2 compatible.
++      If you end up using this it MUST be used together with a GPL2 compatible
++      license using "OR".
++      To use the Mozilla Public License version 1.1 put the following SPDX
++      tag/value pair into a comment according to the placement guidelines in
++      the licensing rules documentation:
++    SPDX-License-Identifier: MPL-1.1
++    License-Text:
++      Full license text
  
-diff --git a/Documentation/gpu/msm-crash-dump.rst b/Documentation/gpu/msm-crash-dump.rst
-index 757cd257e0d8..240ef200f76c 100644
---- a/Documentation/gpu/msm-crash-dump.rst
-+++ b/Documentation/gpu/msm-crash-dump.rst
-@@ -1,3 +1,5 @@
-+:orphan:
-+
- =====================
- MSM Crash Dump Format
- =====================
-diff --git a/Documentation/interconnect/interconnect.rst b/Documentation/interconnect/interconnect.rst
-index c3e004893796..56e331dab70e 100644
---- a/Documentation/interconnect/interconnect.rst
-+++ b/Documentation/interconnect/interconnect.rst
-@@ -1,5 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
-+:orphan:
-+
- =====================================
- GENERIC SYSTEM INTERCONNECT SUBSYSTEM
- =====================================
-diff --git a/Documentation/laptops/lg-laptop.rst b/Documentation/laptops/lg-laptop.rst
-index aa503ee9b3bc..f2c2ffe31101 100644
---- a/Documentation/laptops/lg-laptop.rst
-+++ b/Documentation/laptops/lg-laptop.rst
-@@ -1,5 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0+
- 
-+:orphan:
-+
- LG Gram laptop extra features
- =============================
- 
-diff --git a/Documentation/powerpc/isa-versions.rst b/Documentation/powerpc/isa-versions.rst
-index 812e20cc898c..66c24140ebf1 100644
---- a/Documentation/powerpc/isa-versions.rst
-+++ b/Documentation/powerpc/isa-versions.rst
-@@ -1,3 +1,5 @@
-+:orphan:
-+
- CPU to ISA Version Mapping
- ==========================
+ |
  
 -- 
 2.21.0
