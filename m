@@ -1,63 +1,116 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 13BF07D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 07:52:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0803E7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 07:54:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726878AbfFGHwc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 03:52:32 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:28863 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726668AbfFGHwc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 03:52:32 -0400
-X-IronPort-AV: E=Sophos;i="5.60,562,1549897200"; 
-   d="scan'208";a="17860181"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 07 Jun 2019 16:52:31 +0900
-Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id CDCBC400B9C0;
-        Fri,  7 Jun 2019 16:52:30 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     corbet@lwn.net
-Cc:     jroedel@suse.de, hch@lst.de, m.szyprowski@samsung.com,
-        linux-doc@vger.kernel.org, iommu@lists.linux-foundation.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH] Documentation: DMA-API: fix a function name of max_mapping_size
-Date:   Fri,  7 Jun 2019 16:47:13 +0900
-Message-Id: <1559893633-6852-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
+        id S1727166AbfFGHyl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 03:54:41 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:54990 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727158AbfFGHyl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 03:54:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=xvljMUbhfLfotrIrCrjLlY8mPPXR4L/80hig3F5dpFs=; b=UuIzSHZ9YwR97SKzqkrVCQI+v
+        GffCOVEUdSut0lgJr1DyKcWI+cWHHzHrMXcEBJ2OpppuG/N80JVQSOEK+VzI712E7KCva3L3Oj+f0
+        wHJc1XpVbUaW20zGOy62EuE8N+ZKgZisPSwfMvDlnRyAKYVLc9t6OeD58tvZxg7MCJ/s95lkMdrbb
+        jWQGX9wKVnrA6sUspkFQIWtCU6de6Wab9dRrjqza83D+MCJoGEBn0S7xBdDsQTlGZuimzmU6t4rYQ
+        OJgCbv6CW3/40aaEa3b8cdd0nZXt4jIAWjlMKAyoxsqKGKU+7jceUr/GN7egWsIPxqBBh2iFtOch4
+        liJ2fFuFA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hZ9hl-0004MJ-Nx; Fri, 07 Jun 2019 07:54:29 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 37DA4205663B2; Fri,  7 Jun 2019 09:54:28 +0200 (CEST)
+Date:   Fri, 7 Jun 2019 09:54:28 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+Subject: Re: [PATCH v7 23/27] x86/cet/shstk: ELF header parsing of Shadow
+ Stack
+Message-ID: <20190607075428.GQ3419@hirez.programming.kicks-ass.net>
+References: <20190606200646.3951-1-yu-cheng.yu@intel.com>
+ <20190606200646.3951-24-yu-cheng.yu@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190606200646.3951-24-yu-cheng.yu@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The exported function name is dma_max_mapping_size(), not
-dma_direct_max_mapping_size() so that this patch fixes
-the function name in the documentation.
+On Thu, Jun 06, 2019 at 01:06:42PM -0700, Yu-cheng Yu wrote:
 
-Fixes: 133d624b1cee ("dma: Introduce dma_max_mapping_size()")
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- Documentation/DMA-API.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> +#ifdef CONFIG_ARCH_USE_GNU_PROPERTY
+> +int arch_setup_property(void *ehdr, void *phdr, struct file *f, bool inter)
+> +{
+> +	int r;
+> +	uint32_t property;
 
-diff --git a/Documentation/DMA-API.txt b/Documentation/DMA-API.txt
-index 0076150..e47c63b 100644
---- a/Documentation/DMA-API.txt
-+++ b/Documentation/DMA-API.txt
-@@ -198,7 +198,7 @@ call to set the mask to the value returned.
- ::
- 
- 	size_t
--	dma_direct_max_mapping_size(struct device *dev);
-+	dma_max_mapping_size(struct device *dev);
- 
- Returns the maximum size of a mapping for the device. The size parameter
- of the mapping functions like dma_map_single(), dma_map_page() and
--- 
-2.7.4
+Flip those two lines around.
 
+> +
+> +	r = get_gnu_property(ehdr, phdr, f, GNU_PROPERTY_X86_FEATURE_1_AND,
+> +			     &property);
+> +
+> +	memset(&current->thread.cet, 0, sizeof(struct cet_status));
+
+It seems to me that memset would be better placed before
+get_gnu_property().
+
+> +	if (r)
+> +		return r;
+> +
+> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
+
+	if (r || !cpu_feature_enabled())
+		return r;
+
+> +		if (property & GNU_PROPERTY_X86_FEATURE_1_SHSTK)
+> +			r = cet_setup_shstk();
+> +		if (r < 0)
+> +			return r;
+> +	}
+> +	return r;
+
+and loose the indent.
+
+> +}
+> +#endif
+> -- 
+> 2.17.1
+> 
