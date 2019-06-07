@@ -1,153 +1,170 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 22DDE7D910
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 17:05:19 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D52D67D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 17:10:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729972AbfFGRFS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 13:05:18 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:42291 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728942AbfFGRFS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 13:05:18 -0400
-Received: by mail-pf1-f193.google.com with SMTP id q10so1523523pff.9
-        for <linux-doc@vger.kernel.org>; Fri, 07 Jun 2019 10:05:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=DgtSX/H6NfPgrhihV60ypaHNzH2XLKDDtBMwkkXJEQM=;
-        b=K15lDwrHU+QByMLUcGsPxdOnNlJhavwl5vzG6kxYPkx7YmYvZeW1ck5JO0OoObB5Xa
-         bYOzIyKVQ7hz1tKrFJw+d10DsxIcYUogKFKziY6bC49Z4sqMZGz+GKrut1kqgjD9iqnD
-         Iy7yuXdRlEQo1JJypK02SCFJ3fiU6aXucnVYHIUhOl0FC0rrAuLNGfNaBUSjjY0SJP0O
-         g+9/YMoWXJmfYyZUowSn5eE6XZng5m+uDKaxwLeh1WtwbitTB4KCIgvTiJtDprK4A3Nl
-         yGxKspKE+tdnIrdwE1lKLqeXOSavRevLlFIkM3wUJcLjFBoUe06Q+MLv/g4yKH03/nvj
-         qypA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=DgtSX/H6NfPgrhihV60ypaHNzH2XLKDDtBMwkkXJEQM=;
-        b=AzsvUNPhu5UlLp7tNOKdRBVydLTgW2n7VuS90o80co/jZoW9qr98u6gIQQxQFDZzDV
-         kh1wJ1+eTIkfIfd43hZD/FgPGcyujpEJOO4Yed1FotRdVfJzBCTAWfPnrSwX6ZMcwJ7Q
-         UWttLA6SE+aqB8rudmV8JW0sGK2+V/dG1MMqT7ycRu11x+F8BudU/vzqxyV2a7j7N3xX
-         OJXVm149Cb6YMxTEeP2acuTF36TmpY2yS1hngeOpbnYTNgLrWnjZxc2Ix5y7JOCzakVT
-         nzhvfiOX+FwP74boN144MUrsJ2JaLKlyagwev38irnH5WWdApcceV8PpJxE4cboT6beC
-         ff7w==
-X-Gm-Message-State: APjAAAVrdtWCBEZgwEX/n2jyDWYoVzFu83Rnw6cEmm0/mw/WeRQSpJQV
-        kJXNrE+JskJ1z7HjWrUGdskAiw==
-X-Google-Smtp-Source: APXvYqxpIAgK6uMLd/KqHPohBW13L8/VruBdBF59jsPIJ7TQYnlh4WNEPsdSIs+GfxOtnM3FSmF/iQ==
-X-Received: by 2002:a17:90a:24e4:: with SMTP id i91mr7053557pje.9.1559927117889;
-        Fri, 07 Jun 2019 10:05:17 -0700 (PDT)
-Received: from ?IPv6:2600:1012:b044:6f30:60ea:7662:8055:2cca? ([2600:1012:b044:6f30:60ea:7662:8055:2cca])
-        by smtp.gmail.com with ESMTPSA id b2sm2609638pgk.50.2019.06.07.10.05.15
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 07 Jun 2019 10:05:15 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v7 03/14] x86/cet/ibt: Add IBT legacy code bitmap setup function
-From:   Andy Lutomirski <luto@amacapital.net>
-X-Mailer: iPhone Mail (16F203)
-In-Reply-To: <ac8827d7b516f4b58e1df20f45b94998d36c418c.camel@intel.com>
-Date:   Fri, 7 Jun 2019 10:05:13 -0700
-Cc:     Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <A495EEB4-F05F-4AB3-831A-0F15B912A7EC@amacapital.net>
-References: <20190606200926.4029-1-yu-cheng.yu@intel.com> <20190606200926.4029-4-yu-cheng.yu@intel.com> <20190607080832.GT3419@hirez.programming.kicks-ass.net> <aa8a92ef231d512b5c9855ef416db050b5ab59a6.camel@intel.com> <76B7B1AE-3AEA-4162-B539-990EF3CCE2C2@amacapital.net> <ac8827d7b516f4b58e1df20f45b94998d36c418c.camel@intel.com>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+        id S1731229AbfFGRJz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 13:09:55 -0400
+Received: from ms.lwn.net ([45.79.88.28]:57672 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730196AbfFGRJy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 7 Jun 2019 13:09:54 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id C756A737;
+        Fri,  7 Jun 2019 17:09:53 +0000 (UTC)
+Date:   Fri, 7 Jun 2019 11:09:52 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org
+Subject: [PATCH] lib/string_helpers: fix some kerneldoc warnings
+Message-ID: <20190607110952.409011ba@lwn.net>
+Organization: LWN.net
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Due to some sad limitations in how kerneldoc comments are parsed, the
+documentation in lib/string_helpers.c generates these warnings:
 
+./lib/string_helpers.c:236: WARNING: Unexpected indentation.
+./lib/string_helpers.c:241: WARNING: Block quote ends without a blank line; unexpected unindent.
+./lib/string_helpers.c:446: WARNING: Unexpected indentation.
+./lib/string_helpers.c:451: WARNING: Block quote ends without a blank line; unexpected unindent.
+./lib/string_helpers.c:474: WARNING: Unexpected indentation.
 
+Rework the comments to obtain something like the desired result.
 
-> On Jun 7, 2019, at 9:45 AM, Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->=20
-> On Fri, 2019-06-07 at 09:35 -0700, Andy Lutomirski wrote:
->>> On Jun 7, 2019, at 9:23 AM, Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->>>=20
->>>>> On Fri, 2019-06-07 at 10:08 +0200, Peter Zijlstra wrote:
->>>>> On Thu, Jun 06, 2019 at 01:09:15PM -0700, Yu-cheng Yu wrote:
->>>>> Indirect Branch Tracking (IBT) provides an optional legacy code bitmap=
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+---
+ lib/string_helpers.c | 77 +++++++++++++++++++++++---------------------
+ 1 file changed, 40 insertions(+), 37 deletions(-)
 
->>>>> that allows execution of legacy, non-IBT compatible library by an
->>>>> IBT-enabled application.  When set, each bit in the bitmap indicates
->>>>> one page of legacy code.
->>>>>=20
->>>>> The bitmap is allocated and setup from the application.
->>>>> +int cet_setup_ibt_bitmap(unsigned long bitmap, unsigned long size)
->>>>> +{
->>>>> +    u64 r;
->>>>> +
->>>>> +    if (!current->thread.cet.ibt_enabled)
->>>>> +        return -EINVAL;
->>>>> +
->>>>> +    if (!PAGE_ALIGNED(bitmap) || (size > TASK_SIZE_MAX))
->>>>> +        return -EINVAL;
->>>>> +
->>>>> +    current->thread.cet.ibt_bitmap_addr =3D bitmap;
->>>>> +    current->thread.cet.ibt_bitmap_size =3D size;
->>>>> +
->>>>> +    /*
->>>>> +     * Turn on IBT legacy bitmap.
->>>>> +     */
->>>>> +    modify_fpu_regs_begin();
->>>>> +    rdmsrl(MSR_IA32_U_CET, r);
->>>>> +    r |=3D (MSR_IA32_CET_LEG_IW_EN | bitmap);
->>>>> +    wrmsrl(MSR_IA32_U_CET, r);
->>>>> +    modify_fpu_regs_end();
->>>>> +
->>>>> +    return 0;
->>>>> +}
->>>>=20
->>>> So you just program a random user supplied address into the hardware.
->>>> What happens if there's not actually anything at that address or the
->>>> user munmap()s the data after doing this?
->>>=20
->>> This function checks the bitmap's alignment and size, and anything else i=
-s
->>> the
->>> app's responsibility.  What else do you think the kernel should check?
->>>=20
->>=20
->> One might reasonably wonder why this state is privileged in the first pla=
-ce
->> and, given that, why we=E2=80=99re allowing it to be written like this.
->>=20
->> Arguably we should have another prctl to lock these values (until exec) a=
-s a
->> gardening measure.
->=20
-> We can prevent the bitmap from being set more than once.  I will test it.
->=20
+diff --git a/lib/string_helpers.c b/lib/string_helpers.c
+index 29c490e5d478..a9f5ef9289e6 100644
+--- a/lib/string_helpers.c
++++ b/lib/string_helpers.c
+@@ -230,35 +230,36 @@ static bool unescape_special(char **src, char **dst)
+  * @src:	source buffer (escaped)
+  * @dst:	destination buffer (unescaped)
+  * @size:	size of the destination buffer (0 to unlimit)
+- * @flags:	combination of the flags (bitwise OR):
+- *	%UNESCAPE_SPACE:
++ * @flags:	combination of the flags.
++ *
++ * Description:
++ * The function unquotes characters in the given string.
++ *
++ * Because the size of the output will be the same as or less than the size of
++ * the input, the transformation may be performed in place.
++ *
++ * Caller must provide valid source and destination pointers. Be aware that
++ * destination buffer will always be NULL-terminated. Source string must be
++ * NULL-terminated as well.  The supported flags are::
++ *
++ *	UNESCAPE_SPACE:
+  *		'\f' - form feed
+  *		'\n' - new line
+  *		'\r' - carriage return
+  *		'\t' - horizontal tab
+  *		'\v' - vertical tab
+- *	%UNESCAPE_OCTAL:
++ *	UNESCAPE_OCTAL:
+  *		'\NNN' - byte with octal value NNN (1 to 3 digits)
+- *	%UNESCAPE_HEX:
++ *	UNESCAPE_HEX:
+  *		'\xHH' - byte with hexadecimal value HH (1 to 2 digits)
+- *	%UNESCAPE_SPECIAL:
++ *	UNESCAPE_SPECIAL:
+  *		'\"' - double quote
+  *		'\\' - backslash
+  *		'\a' - alert (BEL)
+  *		'\e' - escape
+- *	%UNESCAPE_ANY:
++ *	UNESCAPE_ANY:
+  *		all previous together
+  *
+- * Description:
+- * The function unquotes characters in the given string.
+- *
+- * Because the size of the output will be the same as or less than the size of
+- * the input, the transformation may be performed in place.
+- *
+- * Caller must provide valid source and destination pointers. Be aware that
+- * destination buffer will always be NULL-terminated. Source string must be
+- * NULL-terminated as well.
+- *
+  * Return:
+  * The amount of the characters processed to the destination buffer excluding
+  * trailing '\0' is returned.
+@@ -440,7 +441,29 @@ static bool escape_hex(unsigned char c, char **dst, char *end)
+  * @isz:	source buffer size
+  * @dst:	destination buffer (escaped)
+  * @osz:	destination buffer size
+- * @flags:	combination of the flags (bitwise OR):
++ * @flags:	combination of the flags
++ * @only:	NULL-terminated string containing characters used to limit
++ *		the selected escape class. If characters are included in @only
++ *		that would not normally be escaped by the classes selected
++ *		in @flags, they will be copied to @dst unescaped.
++ *
++ * Description:
++ * The process of escaping byte buffer includes several parts. They are applied
++ * in the following sequence.
++ *
++ *	1. The character is matched to the printable class, if asked, and in
++ *	   case of match it passes through to the output.
++ *	2. The character is not matched to the one from @only string and thus
++ *	   must go as-is to the output.
++ *	3. The character is checked if it falls into the class given by @flags.
++ *	   %ESCAPE_OCTAL and %ESCAPE_HEX are going last since they cover any
++ *	   character. Note that they actually can't go together, otherwise
++ *	   %ESCAPE_HEX will be ignored.
++ *
++ * Caller must provide valid source and destination pointers. Be aware that
++ * destination buffer will not be NULL-terminated, thus caller have to append
++ * it if needs.   The supported flags are::
++ *
+  *	%ESCAPE_SPACE: (special white space, not space itself)
+  *		'\f' - form feed
+  *		'\n' - new line
+@@ -463,26 +486,6 @@ static bool escape_hex(unsigned char c, char **dst, char *end)
+  *		all previous together
+  *	%ESCAPE_HEX:
+  *		'\xHH' - byte with hexadecimal value HH (2 digits)
+- * @only:	NULL-terminated string containing characters used to limit
+- *		the selected escape class. If characters are included in @only
+- *		that would not normally be escaped by the classes selected
+- *		in @flags, they will be copied to @dst unescaped.
+- *
+- * Description:
+- * The process of escaping byte buffer includes several parts. They are applied
+- * in the following sequence.
+- *	1. The character is matched to the printable class, if asked, and in
+- *	   case of match it passes through to the output.
+- *	2. The character is not matched to the one from @only string and thus
+- *	   must go as-is to the output.
+- *	3. The character is checked if it falls into the class given by @flags.
+- *	   %ESCAPE_OCTAL and %ESCAPE_HEX are going last since they cover any
+- *	   character. Note that they actually can't go together, otherwise
+- *	   %ESCAPE_HEX will be ignored.
+- *
+- * Caller must provide valid source and destination pointers. Be aware that
+- * destination buffer will not be NULL-terminated, thus caller have to append
+- * it if needs.
+  *
+  * Return:
+  * The total size of the escaped output that would be generated for
+-- 
+2.21.0
 
-I think it would be better to make locking an explicit opt-in.=
