@@ -1,91 +1,104 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 24A7A7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 07:29:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C7E647D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 07:31:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727036AbfFGH27 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 03:28:59 -0400
-Received: from smtp1.iitb.ac.in ([103.21.127.13]:60568 "EHLO smtp1.iitb.ac.in"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726116AbfFGH26 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 Jun 2019 03:28:58 -0400
-X-Greylist: delayed 3061 seconds by postgrey-1.27 at vger.kernel.org; Fri, 07 Jun 2019 03:28:57 EDT
-Received: from ldns2.iitb.ac.in (ldns2.iitb.ac.in [10.200.12.2])
-        by smtp1.iitb.ac.in (Postfix) with SMTP id 158D5103DF53
-        for <linux-doc@vger.kernel.org>; Fri,  7 Jun 2019 12:01:54 +0530 (IST)
-Received: (qmail 29995 invoked by uid 510); 7 Jun 2019 12:01:34 +0530
-X-Qmail-Scanner-Diagnostics: from 10.200.1.25 by ldns2 (envelope-from <rws@aero.iitb.ac.in>, uid 501) with qmail-scanner-2.11
- spamassassin: 3.4.1. mhr: 1.0. {clamdscan: 0.100.0/25472} 
- Clear:RC:1(10.200.1.25):SA:0(1.5/7.0):. Processed in 3.224183 secs; 07 Jun 2019 12:01:34 +0530
-X-Envelope-From: rws@aero.iitb.ac.in
-X-Qmail-Scanner-Mime-Attachments: |
-X-Qmail-Scanner-Zip-Files: |
-Received: from unknown (HELO ldns2.iitb.ac.in) (10.200.1.25)
-  by ldns2.iitb.ac.in with SMTP; 7 Jun 2019 12:01:31 +0530
-Received: from vayu.aero.iitb.ac.in (vayu.aero.iitb.ac.in [10.101.1.1])
-        by ldns2.iitb.ac.in (Postfix) with ESMTP id CB958341965;
-        Fri,  7 Jun 2019 12:01:17 +0530 (IST)
-Received: from localhost (localhost [127.0.0.1])
-        by vayu.aero.iitb.ac.in (Postfix) with ESMTP id 9509A8902E52F;
-        Fri,  7 Jun 2019 12:01:17 +0530 (IST)
-Received: from vayu.aero.iitb.ac.in ([127.0.0.1])
-        by localhost (vayu.aero.iitb.ac.in [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id 3VnK-_U7b-vs; Fri,  7 Jun 2019 12:01:17 +0530 (IST)
-Received: from localhost (localhost [127.0.0.1])
-        by vayu.aero.iitb.ac.in (Postfix) with ESMTP id 5DAB88902E54D;
-        Fri,  7 Jun 2019 12:01:14 +0530 (IST)
-X-Virus-Scanned: amavisd-new at aero.iitb.ac.in
-Received: from vayu.aero.iitb.ac.in ([127.0.0.1])
-        by localhost (vayu.aero.iitb.ac.in [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id TgJiwoMo_EHZ; Fri,  7 Jun 2019 12:01:14 +0530 (IST)
-Received: from vayu.aero.iitb.ac.in (vayu.aero.iitb.ac.in [10.101.1.1])
-        by vayu.aero.iitb.ac.in (Postfix) with ESMTP id 0EEE684310111;
-        Fri,  7 Jun 2019 12:01:10 +0530 (IST)
-Date:   Fri, 7 Jun 2019 12:01:09 +0530 (IST)
-From:   Martins Henry <rws@aero.iitb.ac.in>
-Message-ID: <412557711.60336.1559889069980.JavaMail.zimbra@aero.iitb.ac.in>
-Subject: Thanks and I wait for your answer
+        id S1727716AbfFGHbb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 03:31:31 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:47234 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725497AbfFGHbb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 03:31:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=Z4s1HU+Ta9EFcVv62Up/dxFFdolam58FxKGBkLAELZE=; b=PrfN5Q8zV0PMbJwOh2nSW0qEu
+        whA3bMeZqjYW6FVebCOMZ+jOWcBf+KwA1YjMeNgOsUt0oXjsFsVtbgVjMkkSB2lXZiVsntQd5nIpO
+        GW/QhqhGfYGi3P0N9Kz2wphjaFQrHbOZos1aDDyNXV9IIbRjza8ZimXKp7rc3KXCR2qUaIUDiJx4D
+        5rSOUPZEafMrNVJUJROE8lISqEQD1e32yciSw6rgIUWvfgxL1u89OkOz+Hdjo60eCuPyV4oJuq5ZI
+        jCvlk67LYXzyPmh1q9o9aYoPPzyR0KFRwE/m9d1Eb5wGETSQGDQ/SGHQzPTldrqSlG+aLohd+cQ4E
+        nfdyfn8hA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hZ9Kx-0002HQ-Ah; Fri, 07 Jun 2019 07:30:55 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id E4942202CD6B2; Fri,  7 Jun 2019 09:30:52 +0200 (CEST)
+Date:   Fri, 7 Jun 2019 09:30:52 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+Subject: Re: [PATCH v7 15/27] mm: Handle shadow stack page fault
+Message-ID: <20190607073052.GO3419@hirez.programming.kicks-ass.net>
+References: <20190606200646.3951-1-yu-cheng.yu@intel.com>
+ <20190606200646.3951-16-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.101.1.5]
-X-Mailer: Zimbra 8.8.12_GA_3803 (ZimbraWebClient - FF11 (Win)/8.8.12_GA_3794)
-Thread-Index: SsslhYkcLNFU69da/wYft5cO9/ZYnA==
-Thread-Topic: Thanks and I wait for your answer
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190606200646.3951-16-yu-cheng.yu@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+On Thu, Jun 06, 2019 at 01:06:34PM -0700, Yu-cheng Yu wrote:
 
-I am Martin Henry, An American Citizen; I am the personal secretary to
-Mr. Donald Railton, the controller of a Lottery Company. Please I am
-having big problem now, I have a 6yrs old daughter who has leukemia, a
-disease of the blood, and she needs a bone marrow transplant or she
-will die.
+> diff --git a/include/asm-generic/pgtable.h b/include/asm-generic/pgtable.h
+> index 75d9d68a6de7..ffcc0be7cadc 100644
+> --- a/include/asm-generic/pgtable.h
+> +++ b/include/asm-generic/pgtable.h
+> @@ -1188,4 +1188,12 @@ static inline bool arch_has_pfn_modify_check(void)
+>  #define mm_pmd_folded(mm)	__is_defined(__PAGETABLE_PMD_FOLDED)
+>  #endif
+>  
+> +#ifndef CONFIG_ARCH_HAS_SHSTK
+> +#define pte_set_vma_features(pte, vma) pte
+> +#define arch_copy_pte_mapping(vma_flags) false
 
-Please I am only asking for your help and you will benefit from it
-also. As an insider with Lottery Firm, working as the personal
-secretary to the controller, I want you to send me your name to play,
-I have some numbers that are going to win, stored in his secret data
-system in the office. The Lottery is an online entry with credit card
-anywhere with a name and address. All I want you to do is to send your
-name to play it and I will send confirmation to you.
+static inline pte_t pte_set_vma_features(pte_t pte, struct vm_area_struct *vma)
+{
+	return pte;
+}
 
-I will play with my card on your name and the Prize will be shared
-equally between us. Immediately the results are released they will
-contact you for payment as the oversea winner. The lotto can be played
-with 9.00 dollars, or 50 dollars but the prize will be Millions.
-Remember that I am playing on your name with my card; I just want to
-front you for this, because I need this money to save the life of my
-little daughter.
+static inline bool arch_copy_pte_mapping(unsigned long vm_flags)
+{
+	return false;
+}
 
-Thanks and I wait for your answer
-Martin Henry.
+Please, this way we retain function prototype checking.
+
+> +#else
+> +pte_t pte_set_vma_features(pte_t pte, struct vm_area_struct *vma);
+> +bool arch_copy_pte_mapping(vm_flags_t vm_flags);
+> +#endif
