@@ -1,105 +1,127 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_HIGH autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 626D67D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 14:22:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 43FE57D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 14:24:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728311AbfFGOWv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 10:22:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44512 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728257AbfFGOWv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 Jun 2019 10:22:51 -0400
-Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 14E7A20657;
-        Fri,  7 Jun 2019 14:22:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1559917370;
-        bh=Eyu/n0ZHyMK1sy0bHcbERacQ9hcPM1ufLV2YluFIe14=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=cH2jmj+dw0yoGAJob2p6WymUKekGA30lyB4dB9m16PZcgQYc6L3HhvgB/rxpCScBP
-         F/Iliw8zVPIJDW93ev8PoD3tNUsRJcaSAia0Mkpvu3Zd433YXdEdJGIdZ6c02Ru/3f
-         53VfI41c9LGbYl5Gt12OOMAWiD7ZKa0dANFeLd8U=
-Date:   Fri, 7 Jun 2019 23:22:44 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     "George G. Davis" <george_davis@mentor.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Jiri Kosina <trivial@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Andi Kleen <ak@linux.intel.com>, Jann Horn <jannh@google.com>,
-        Nadav Amit <namit@vmware.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/3] treewide: trivial: fix s/poped/popped/ typo
-Message-Id: <20190607232244.bd7b152dbcd7e5e60952ec18@kernel.org>
-In-Reply-To: <1559766612-12178-2-git-send-email-george_davis@mentor.com>
-References: <1559766612-12178-1-git-send-email-george_davis@mentor.com>
-        <1559766612-12178-2-git-send-email-george_davis@mentor.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1729195AbfFGOYm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 10:24:42 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:58186 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728311AbfFGOYm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 10:24:42 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x57EOJb0115366
+        for <linux-doc@vger.kernel.org>; Fri, 7 Jun 2019 10:24:40 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2syqmbx9ra-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Fri, 07 Jun 2019 10:24:40 -0400
+Received: from localhost
+        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <zohar@linux.ibm.com>;
+        Fri, 7 Jun 2019 15:24:38 +0100
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Fri, 7 Jun 2019 15:24:35 +0100
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x57EOYvB58261520
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 7 Jun 2019 14:24:34 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 5674A11C05C;
+        Fri,  7 Jun 2019 14:24:34 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 0E46E11C052;
+        Fri,  7 Jun 2019 14:24:33 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.80.81.48])
+        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Fri,  7 Jun 2019 14:24:32 +0000 (GMT)
+Subject: Re: [PATCH v3 2/2] ima: add enforce-evm and log-evm modes to
+ strictly check EVM status
+From:   Mimi Zohar <zohar@linux.ibm.com>
+To:     Roberto Sassu <roberto.sassu@huawei.com>,
+        dmitry.kasatkin@huawei.com, mjg59@google.com
+Cc:     linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+        stable@vger.kernel.org, linux-kernel@vger.kernel.org,
+        silviu.vlasceanu@huawei.com
+Date:   Fri, 07 Jun 2019 10:24:22 -0400
+In-Reply-To: <20190606112620.26488-3-roberto.sassu@huawei.com>
+References: <20190606112620.26488-1-roberto.sassu@huawei.com>
+         <20190606112620.26488-3-roberto.sassu@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 19060714-4275-0000-0000-000003404A76
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19060714-4276-0000-0000-0000385052FF
+Message-Id: <1559917462.4278.253.camel@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-06-07_06:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1906070102
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 5 Jun 2019 16:30:10 -0400
-"George G. Davis" <george_davis@mentor.com> wrote:
+Hi Roberto,
 
-> Fix a couple of s/poped/popped/ typos.
+Thank you for updating the patch description.
+
+On Thu, 2019-06-06 at 13:26 +0200, Roberto Sassu wrote:
+> IMA and EVM have been designed as two independent subsystems: the first for
+> checking the integrity of file data; the second for checking file metadata.
+> Making them independent allows users to adopt them incrementally.
 > 
-> Cc: Jiri Kosina <trivial@kernel.org>
-> Signed-off-by: George G. Davis <george_davis@mentor.com>
-
-Acked-by: Masami Hiramatsu <mhiramat@kernel.org>
-
-Thanks,
-
-
-> ---
->  Documentation/arm/mem_alignment | 2 +-
->  arch/x86/kernel/kprobes/core.c  | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+> The point of intersection is in IMA-Appraisal, which calls
+> evm_verifyxattr() to ensure that security.ima wasn't modified during an
+> offline attack. The design choice, to ensure incremental adoption, was to
+> continue appraisal verification if evm_verifyxattr() returns
+> INTEGRITY_UNKNOWN. This value is returned when EVM is not enabled in the
+> kernel configuration, or if the HMAC key has not been loaded yet.
 > 
-> diff --git a/Documentation/arm/mem_alignment b/Documentation/arm/mem_alignment
-> index 6335fcacbba9..e110e2781039 100644
-> --- a/Documentation/arm/mem_alignment
-> +++ b/Documentation/arm/mem_alignment
-> @@ -1,4 +1,4 @@
-> -Too many problems poped up because of unnoticed misaligned memory access in
-> +Too many problems popped up because of unnoticed misaligned memory access in
->  kernel code lately.  Therefore the alignment fixup is now unconditionally
->  configured in for SA11x0 based targets.  According to Alan Cox, this is a
->  bad idea to configure it out, but Russell King has some good reasons for
-> diff --git a/arch/x86/kernel/kprobes/core.c b/arch/x86/kernel/kprobes/core.c
-> index 6afd8061dbae..d3243d93daf4 100644
-> --- a/arch/x86/kernel/kprobes/core.c
-> +++ b/arch/x86/kernel/kprobes/core.c
-> @@ -813,7 +813,7 @@ __used __visible void *trampoline_handler(struct pt_regs *regs)
->  			continue;
->  		/*
->  		 * Return probes must be pushed on this hash list correct
-> -		 * order (same as return order) so that it can be poped
-> +		 * order (same as return order) so that it can be popped
->  		 * correctly. However, if we find it is pushed it incorrect
->  		 * order, this means we find a function which should not be
->  		 * probed, because the wrong order entry is pushed on the
-> -- 
-> 2.7.4
+> Although this choice appears legitimate, it might not be suitable for
+> hardened systems, where the administrator expects that access is denied if
+> there is any error. An attacker could intentionally delete the EVM keys
+> from the system and set the file digest in security.ima to the actual file
+> digest so that the final appraisal status is INTEGRITY_PASS.
+
+Assuming that the EVM HMAC key is stored in the initramfs, not on some
+other file system, and the initramfs is signed, INTEGRITY_UNKNOWN
+would be limited to the rootfs filesystem.
+
+> 
+> This patch allows such hardened systems to strictly enforce an access
+> control policy based on the validity of signatures/HMACs, by introducing
+> two new values for the ima_appraise= kernel option: enforce-evm and
+> log-evm.
 > 
 
+This patch defines a global policy requiring EVM on all filesystems.
+I've previously suggested extending the IMA policy to support
+enforcing or maybe exempting EVM on a per IMA policy rule basis.  As
+seen by the need for an additional patch, included in this patch set,
+which defines a temporary random number HMAC key to address
+INTEGRITY_UNKNOWN on the rootfs filesystem, exempting certain
+filesystems on a per policy rule basis might be simpler and achieve
+similar results.
 
--- 
-Masami Hiramatsu <mhiramat@kernel.org>
+I'd like to hear other people's thoughts on defining a temporary,
+random number HMAC key.
+
+thanks,
+
+Mimi
+
