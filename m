@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A5FFE7D92A
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 18:55:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D00FB7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 18:55:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732126AbfFGSyl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 14:54:41 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:42358 "EHLO
+        id S1732097AbfFGSyk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 14:54:40 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:42286 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732085AbfFGSyk (ORCPT
+        with ESMTP id S1732040AbfFGSyk (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 14:54:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,27 +20,31 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=oE+GNlmDu8q5Yz9TSmplcEGH+jqeK1fLcabYCON6QNs=; b=ahr20MSu+PF2orAGaUAkAtfEer
-        M8kNNGl5djhUIHXVnl73B/q9YO6j6S2/TW6pImjtB6fbC72TV69OEITJ6Aslwk88uCytB5MDlGDgH
-        nv8+isLkaThIy8nxbW2sG2YgE0yV/f+dWBQ3hTAoKmoXNkJnAyDxP0kKqUYfv6qHXjNmbAk2ncsJJ
-        SB8nxz5cqpeUxt3BeVs+GZG82VXAeFcw7JOmhFd1OYbbfl5YDKJ89ol5n7acMrfkYePGsAZXo85N6
-        fSK/1qk3Byf2kExTa3AnpPo8fJLC7wnvu9FgM10WH9rC5CkZj9UiPdisQ4xWsCktzA8JrOZseWzt9
-        3eyI6xiw==;
+        bh=mN9SlMwFezZ1ZPB+c4+XXB+0uQsuZLbIqjOavdIdlqw=; b=HTM+//NTshmY11VPp3W2zCC0AV
+        AnxnJl/5QTXQPkKrFfbo5L9QXQ+NWhQXx55Bzov9saX3KqjAdGWO5e9rYIJj+km9BAG0LXoJj0bap
+        q1I+rt94/+kmxxLnj2fVapCr8TgoRYqK/dxt0UrHQAIQcESZ2UnEA/WxAiDB5UMaYTYAgxAWYgQCB
+        Vm3QYFxZNeS4ooSrsMJqSGEl3lsWf6/E4fGKje0zAmxn2wJaGnYVVFjT3o+oeayKdH1SYHQUxPh6a
+        I+x+Tv3yFEYYuZItw1vXMeLhh3KzKn8fLI0a4cU45VsOQDmju23QkXlJrpu7dSWxgJVfYKUJk1Bw3
+        S69+bYTg==;
 Received: from [179.181.119.115] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hZK0d-0005sf-Kt; Fri, 07 Jun 2019 18:54:39 +0000
+        id 1hZK0d-0005sj-LB; Fri, 07 Jun 2019 18:54:39 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hZK0b-0007Ey-E3; Fri, 07 Jun 2019 15:54:37 -0300
+        id 1hZK0b-0007F6-Fo; Fri, 07 Jun 2019 15:54:37 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Federico Vaga <federico.vaga@vaga.pv.it>
-Subject: [PATCH v3 09/20] docs: it: license-rules.rst: get rid of warnings
-Date:   Fri,  7 Jun 2019 15:54:25 -0300
-Message-Id: <f05516b6e91d312c6ea87134ffa836d1f574e6d1.1559933665.git.mchehab+samsung@kernel.org>
+        Mimi Zohar <zohar@linux.ibm.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
+        James Morris <jamorris@linux.microsoft.com>
+Subject: [PATCH v3 11/20] docs: security: trusted-encrypted.rst: fix code-block tag
+Date:   Fri,  7 Jun 2019 15:54:27 -0300
+Message-Id: <d9063d11a7690c91a61938d0bb1f92e8669be95a.1559933665.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <ff457774d46d96e8fe56b45409aba39d87a8672a.1559933665.git.mchehab+samsung@kernel.org>
 References: <ff457774d46d96e8fe56b45409aba39d87a8672a.1559933665.git.mchehab+samsung@kernel.org>
@@ -51,66 +55,40 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There's a wrong identation on a code block, and it tries to use
-a reference that was not defined at the Italian translation.
+The code-block tag is at the wrong place, causing those
+warnings:
 
-    Documentation/translations/it_IT/process/license-rules.rst:329: WARNING: Literal block expected; none found.
-    Documentation/translations/it_IT/process/license-rules.rst:332: WARNING: Unexpected indentation.
-    Documentation/translations/it_IT/process/license-rules.rst:339: WARNING: Block quote ends without a blank line; unexpected unindent.
-    Documentation/translations/it_IT/process/license-rules.rst:341: WARNING: Unexpected indentation.
-    Documentation/translations/it_IT/process/license-rules.rst:305: WARNING: Unknown target name: "metatags".
+    Documentation/security/keys/trusted-encrypted.rst:112: WARNING: Literal block expected; none found.
+    Documentation/security/keys/trusted-encrypted.rst:121: WARNING: Unexpected indentation.
+    Documentation/security/keys/trusted-encrypted.rst:122: WARNING: Block quote ends without a blank line; unexpected unindent.
+    Documentation/security/keys/trusted-encrypted.rst:123: WARNING: Block quote ends without a blank line; unexpected unindent.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Reviewed-by: Federico Vaga <federico.vaga@vaga.pv.it>
+Acked-by: James Morris <jamorris@linux.microsoft.com>
+Acked-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
 ---
- .../it_IT/process/license-rules.rst           | 28 +++++++++----------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ Documentation/security/keys/trusted-encrypted.rst | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/translations/it_IT/process/license-rules.rst b/Documentation/translations/it_IT/process/license-rules.rst
-index f058e06996dc..4cd87a3a7bf9 100644
---- a/Documentation/translations/it_IT/process/license-rules.rst
-+++ b/Documentation/translations/it_IT/process/license-rules.rst
-@@ -303,7 +303,7 @@ essere categorizzate in:
-      LICENSES/dual
+diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentation/security/keys/trusted-encrypted.rst
+index 7b35fcb58933..50ac8bcd6970 100644
+--- a/Documentation/security/keys/trusted-encrypted.rst
++++ b/Documentation/security/keys/trusted-encrypted.rst
+@@ -107,12 +107,14 @@ Where::
  
-    I file in questa cartella contengono il testo completo della rispettiva
--   licenza e i suoi `Metatags`_.  I nomi dei file sono identici agli
-+   licenza e i suoi `Metatag`_.  I nomi dei file sono identici agli
-    identificatori di licenza SPDX che dovrebbero essere usati nei file
-    sorgenti.
+ Examples of trusted and encrypted key usage:
  
-@@ -326,19 +326,19 @@ essere categorizzate in:
+-Create and save a trusted key named "kmk" of length 32 bytes::
++Create and save a trusted key named "kmk" of length 32 bytes.
  
-    Esempio del formato del file::
+ Note: When using a TPM 2.0 with a persistent key with handle 0x81000001,
+ append 'keyhandle=0x81000001' to statements between quotes, such as
+ "new 32 keyhandle=0x81000001".
  
--   Valid-License-Identifier: MPL-1.1
--   SPDX-URL: https://spdx.org/licenses/MPL-1.1.html
--   Usage-Guide:
--     Do NOT use. The MPL-1.1 is not GPL2 compatible. It may only be used for
--     dual-licensed files where the other license is GPL2 compatible.
--     If you end up using this it MUST be used together with a GPL2 compatible
--     license using "OR".
--     To use the Mozilla Public License version 1.1 put the following SPDX
--     tag/value pair into a comment according to the placement guidelines in
--     the licensing rules documentation:
--   SPDX-License-Identifier: MPL-1.1
--   License-Text:
--     Full license text
-+    Valid-License-Identifier: MPL-1.1
-+    SPDX-URL: https://spdx.org/licenses/MPL-1.1.html
-+    Usage-Guide:
-+      Do NOT use. The MPL-1.1 is not GPL2 compatible. It may only be used for
-+      dual-licensed files where the other license is GPL2 compatible.
-+      If you end up using this it MUST be used together with a GPL2 compatible
-+      license using "OR".
-+      To use the Mozilla Public License version 1.1 put the following SPDX
-+      tag/value pair into a comment according to the placement guidelines in
-+      the licensing rules documentation:
-+    SPDX-License-Identifier: MPL-1.1
-+    License-Text:
-+      Full license text
- 
- |
++::
++
+     $ keyctl add trusted kmk "new 32" @u
+     440502848
  
 -- 
 2.21.0
