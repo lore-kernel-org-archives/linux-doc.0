@@ -5,97 +5,76 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 05D647D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 18:44:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C851F7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 18:54:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729920AbfFGSon (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 14:44:43 -0400
-Received: from casper.infradead.org ([85.118.1.10]:55408 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728873AbfFGSon (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 14:44:43 -0400
+        id S1732074AbfFGSyk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 14:54:40 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:42272 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730935AbfFGSyk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 14:54:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=okj69MZGvSUR6PKRM1mo76QwPQAo0KpBD3JOl7izOGQ=; b=tkvWPXolFrV5gC6B/5s5iq8MdS
-        71AqKowXyuv3bN8SkI+l2hm+nntwA7kf9Vp1BZbYZ7a0zstKeUuQK4lQC4lL7Hf/lc9Qnhq/nADyG
-        oZpW6Uvw7OAz13o5FduofHVYHVUtVImMNlJ082ilSm5zr5jpHf0z+vlpbgt2oDx/I4RcAQym43m5b
-        /rAepyYSek6lQnoC10I5TM/3wYS5L00RHVmJ+gp+qSRzJhGgsVMWutpTVH0ns9VVtodda92tav6RA
-        eeqwTIvWGagPvmBIBDHO/e0ogkZerSFtXxQWrFNw9IdUifKf6NcumiewyU6UVX+vIx6FuKNMcCpa7
-        qorGd03g==;
-Received: from [179.181.119.115] (helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hZJqw-0006VH-9M; Fri, 07 Jun 2019 18:44:38 +0000
-Date:   Fri, 7 Jun 2019 15:44:30 -0300
+        bh=RLKg26AY56vhgjviUN+0RLoRrM3fQBLJXacmkSsY8Z0=; b=aFvCSWHC6QO8+iuQo+XKMDOrjg
+        mvxnI9C1r3xDguz8kRAW0TeiP5CPMRkbyaA2V6Qx6F5hyLulH5gaGUBH5E5tvB/Eke5rM41uY++Bo
+        ysNd98ljVFSvoYjmEi6v9s53aNRBqUYzWXF/lJZQlDaXh7lG+ct1FTPlfpyQ9IBWTZ7lYL8H+XjXR
+        38jPFAoDQmaCKvkjm9IYFl0KFiaM0khndspET1h6k14mAxdMhk0D/4j1qwyJh7NFQQHYo1JnQ0Bqu
+        fjw9n/TKc3BJGn9S4DWOnT0Ub6rAYUDKn2NiEaH3sK05FHFdrkymFkpVMhXArwLLIy4eqNUQOSSpb
+        3DKWq+xw==;
+Received: from [179.181.119.115] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hZK0d-0005sX-Kf; Fri, 07 Jun 2019 18:54:39 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hZK0b-0007Ee-9d; Fri, 07 Jun 2019 15:54:37 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        netdev@vger.kernel.org, bpf@vger.kernel.org
-Subject: Re: [PATCH v2 00/22] Some documentation fixes
-Message-ID: <20190607154430.4879976d@coco.lan>
-In-Reply-To: <20190607115521.6bf39030@lwn.net>
-References: <cover.1559656538.git.mchehab+samsung@kernel.org>
-        <20190607115521.6bf39030@lwn.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v3 04/20] docs: mm: numaperf.rst: get rid of a build warning
+Date:   Fri,  7 Jun 2019 15:54:20 -0300
+Message-Id: <d919a4086be55e0d93fea5164916e393c35efb3b.1559933665.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <ff457774d46d96e8fe56b45409aba39d87a8672a.1559933665.git.mchehab+samsung@kernel.org>
+References: <ff457774d46d96e8fe56b45409aba39d87a8672a.1559933665.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Fri, 7 Jun 2019 11:55:21 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+When building it, it gets this warning:
 
-> On Tue,  4 Jun 2019 11:17:34 -0300
-> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
-> 
-> > Fix several warnings and broken links.
-> > 
-> > This series was generated against linux-next, but was rebased to be applied at
-> > docs-next. It should apply cleanly on either tree.
-> > 
-> > There's a git tree with all of them applied on the top of docs/docs-next
-> > at:
-> > 
-> > https://git.linuxtv.org/mchehab/experimental.git/log/?h=fix_doc_links_v2  
-> 
-> So I'll admit I've kind of lost track of which of these are applied, which
-> have comments, etc.  When you feel things have settled, can you get me an
-> updated set and I'll get them applied?
+	Documentation/admin-guide/mm/numaperf.rst:168: WARNING: Footnote [1] is not referenced.
 
-What I usually do here to check what was already applied (besides
-looking e-mails) is to reset my tree against yours, then pull from
-linux-next and pull from my old branch with those patches.
+The problem is that this is not really a reference, as it is not
+mentioned within the documentation.
 
-Then, I reset again to your tree, in order to make easier for you
-to apply. It should be noticed that, due to this, you might actually
-see a few more warnings on your tree, if a patch on this series
-fix an issue that it is at linux next but didn't arrive your
-tree.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ Documentation/admin-guide/mm/numaperf.rst | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Yet, all patches apply cleanly on your tree.
+diff --git a/Documentation/admin-guide/mm/numaperf.rst b/Documentation/admin-guide/mm/numaperf.rst
+index c067ed145158..a80c3c37226e 100644
+--- a/Documentation/admin-guide/mm/numaperf.rst
++++ b/Documentation/admin-guide/mm/numaperf.rst
+@@ -165,5 +165,6 @@ write-through caching.
+ ========
+ See Also
+ ========
+-.. [1] https://www.uefi.org/sites/default/files/resources/ACPI_6_2.pdf
+-       Section 5.2.27
++
++[1] https://www.uefi.org/sites/default/files/resources/ACPI_6_2.pdf
++- Section 5.2.27
+-- 
+2.21.0
 
-After doing that, there are 17 patches yet to be applied. Two new
-patches are now needed too, due to vfs.txt -> vfs.rst and
-pci.txt -> pci.rst renames.
-
-The patches against your tree are at:
-
-	https://git.linuxtv.org/mchehab/experimental.git/log/?h=fix_doc_links_v3.3
-
-For convenience, I'm sending them again as a new patch series
-(with the two extra patches fixing the recent issues).
-
-
-Thanks,
-Mauro
