@@ -1,55 +1,105 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_HIGH autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1E85D7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 13:08:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 626D67D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 14:22:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728523AbfFGNIT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 09:08:19 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:35820 "EHLO vps0.lunn.ch"
+        id S1728311AbfFGOWv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 10:22:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44512 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727566AbfFGNIT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 Jun 2019 09:08:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=AU9CcQAqmC/YppEjljtNOsJ27fN6/IKTULF1R4894yw=; b=Buu3R7rRDIiFEPIECppM9KaKBX
-        eRs94YSGG7yORtRRLOC3o3MatZzxnrZZvZYgWtqloIeom1bMzKaYV2/hTI/ZYPP42ltkJMEKpTiJb
-        SIAhE+8Ch9jRVyFN1pk8iKy8K2tNDQyMTX1XIwGhDVmgXotnoTe7hgT2ghXpp6AZiDpM=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.89)
-        (envelope-from <andrew@lunn.ch>)
-        id 1hZEbM-0007JX-Is; Fri, 07 Jun 2019 15:08:12 +0200
-Date:   Fri, 7 Jun 2019 15:08:12 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     "David S . Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jiri Kosina <trivial@kernel.org>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH trivial] Documentation: net: dsa: Grammar s/the its/its/
-Message-ID: <20190607130812.GA27291@lunn.ch>
-References: <20190607110842.12876-1-geert+renesas@glider.be>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190607110842.12876-1-geert+renesas@glider.be>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+        id S1728257AbfFGOWv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 7 Jun 2019 10:22:51 -0400
+Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 14E7A20657;
+        Fri,  7 Jun 2019 14:22:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1559917370;
+        bh=Eyu/n0ZHyMK1sy0bHcbERacQ9hcPM1ufLV2YluFIe14=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=cH2jmj+dw0yoGAJob2p6WymUKekGA30lyB4dB9m16PZcgQYc6L3HhvgB/rxpCScBP
+         F/Iliw8zVPIJDW93ev8PoD3tNUsRJcaSAia0Mkpvu3Zd433YXdEdJGIdZ6c02Ru/3f
+         53VfI41c9LGbYl5Gt12OOMAWiD7ZKa0dANFeLd8U=
+Date:   Fri, 7 Jun 2019 23:22:44 +0900
+From:   Masami Hiramatsu <mhiramat@kernel.org>
+To:     "George G. Davis" <george_davis@mentor.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Jiri Kosina <trivial@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Andi Kleen <ak@linux.intel.com>, Jann Horn <jannh@google.com>,
+        Nadav Amit <namit@vmware.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 2/3] treewide: trivial: fix s/poped/popped/ typo
+Message-Id: <20190607232244.bd7b152dbcd7e5e60952ec18@kernel.org>
+In-Reply-To: <1559766612-12178-2-git-send-email-george_davis@mentor.com>
+References: <1559766612-12178-1-git-send-email-george_davis@mentor.com>
+        <1559766612-12178-2-git-send-email-george_davis@mentor.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 07, 2019 at 01:08:42PM +0200, Geert Uytterhoeven wrote:
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Wed, 5 Jun 2019 16:30:10 -0400
+"George G. Davis" <george_davis@mentor.com> wrote:
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+> Fix a couple of s/poped/popped/ typos.
+> 
+> Cc: Jiri Kosina <trivial@kernel.org>
+> Signed-off-by: George G. Davis <george_davis@mentor.com>
 
-    Andrew
+Acked-by: Masami Hiramatsu <mhiramat@kernel.org>
+
+Thanks,
+
+
+> ---
+>  Documentation/arm/mem_alignment | 2 +-
+>  arch/x86/kernel/kprobes/core.c  | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/arm/mem_alignment b/Documentation/arm/mem_alignment
+> index 6335fcacbba9..e110e2781039 100644
+> --- a/Documentation/arm/mem_alignment
+> +++ b/Documentation/arm/mem_alignment
+> @@ -1,4 +1,4 @@
+> -Too many problems poped up because of unnoticed misaligned memory access in
+> +Too many problems popped up because of unnoticed misaligned memory access in
+>  kernel code lately.  Therefore the alignment fixup is now unconditionally
+>  configured in for SA11x0 based targets.  According to Alan Cox, this is a
+>  bad idea to configure it out, but Russell King has some good reasons for
+> diff --git a/arch/x86/kernel/kprobes/core.c b/arch/x86/kernel/kprobes/core.c
+> index 6afd8061dbae..d3243d93daf4 100644
+> --- a/arch/x86/kernel/kprobes/core.c
+> +++ b/arch/x86/kernel/kprobes/core.c
+> @@ -813,7 +813,7 @@ __used __visible void *trampoline_handler(struct pt_regs *regs)
+>  			continue;
+>  		/*
+>  		 * Return probes must be pushed on this hash list correct
+> -		 * order (same as return order) so that it can be poped
+> +		 * order (same as return order) so that it can be popped
+>  		 * correctly. However, if we find it is pushed it incorrect
+>  		 * order, this means we find a function which should not be
+>  		 * probed, because the wrong order entry is pushed on the
+> -- 
+> 2.7.4
+> 
+
+
+-- 
+Masami Hiramatsu <mhiramat@kernel.org>
