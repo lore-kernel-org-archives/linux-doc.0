@@ -5,88 +5,72 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D07CC7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 21:36:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 683497D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 21:37:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730786AbfFGVgB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 17:36:01 -0400
-Received: from mga06.intel.com ([134.134.136.31]:56868 "EHLO mga06.intel.com"
+        id S1730919AbfFGVh0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 17:37:26 -0400
+Received: from mga06.intel.com ([134.134.136.31]:56948 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729731AbfFGVgB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 Jun 2019 17:36:01 -0400
+        id S1729731AbfFGVh0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 7 Jun 2019 17:37:26 -0400
 X-Amp-Result: UNSCANNABLE
 X-Amp-File-Uploaded: False
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Jun 2019 14:36:00 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Jun 2019 14:37:25 -0700
 X-ExtLoop1: 1
 Received: from romley-ivt3.sc.intel.com ([172.25.110.60])
-  by orsmga007.jf.intel.com with ESMTP; 07 Jun 2019 14:36:00 -0700
-Date:   Fri, 7 Jun 2019 14:26:45 -0700
+  by orsmga007.jf.intel.com with ESMTP; 07 Jun 2019 14:37:25 -0700
+Date:   Fri, 7 Jun 2019 14:28:10 -0700
 From:   Fenghua Yu <fenghua.yu@intel.com>
 To:     James Morse <james.morse@arm.com>
 Cc:     linux-doc@vger.kernel.org, x86@kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
         Reinette Chatre <reinette.chatre@intel.com>,
         Babu Moger <Babu.Moger@amd.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/4] Documentation: x86: Remove cdpl2 unspported
- statement and fix capitalisation
-Message-ID: <20190607212645.GB143433@romley-ivt3.sc.intel.com>
+Subject: Re: [PATCH 3/4] Documentation: x86: Clarify MBA takes MB as
+ referring to mba_sc
+Message-ID: <20190607212809.GC143433@romley-ivt3.sc.intel.com>
 References: <20190607151409.15476-1-james.morse@arm.com>
- <20190607151409.15476-3-james.morse@arm.com>
+ <20190607151409.15476-4-james.morse@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190607151409.15476-3-james.morse@arm.com>
+In-Reply-To: <20190607151409.15476-4-james.morse@arm.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 07, 2019 at 04:14:07PM +0100, James Morse wrote:
-> "L2 cache does not support code and data prioritization". This isn't
-> true, elsewhere the document says it can be enabled with the cdpl2
-> mount option.
+On Fri, Jun 07, 2019 at 04:14:08PM +0100, James Morse wrote:
+> "If the MBA is specified in MB then user can enter the max b/w in MB"
+> is a tautology. How can the user know if the schemata takes a percentage
+> or a MB/s value?
 > 
-> While we're here, these sample strings have lower-case code/data,
-> which isn't how the kernel exports them.
+> This is referring to whether the software controller is interpreting
+> the schemata's value. Make this clear.
 > 
 > Signed-off-by: James Morse <james.morse@arm.com>
 > ---
->  Documentation/x86/resctrl_ui.rst | 14 ++++++++++----
->  1 file changed, 10 insertions(+), 4 deletions(-)
+>  Documentation/x86/resctrl_ui.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
 > diff --git a/Documentation/x86/resctrl_ui.rst b/Documentation/x86/resctrl_ui.rst
-> index 066f94e53418..638cd987937d 100644
+> index 638cd987937d..866b66aa289b 100644
 > --- a/Documentation/x86/resctrl_ui.rst
 > +++ b/Documentation/x86/resctrl_ui.rst
-> @@ -418,16 +418,22 @@ L3 schemata file details (CDP enabled via mount option to resctrl)
->  When CDP is enabled L3 control is split into two separate resources
->  so you can specify independent masks for code and data like this::
+> @@ -677,8 +677,8 @@ allocations can overlap or not. The allocations specifies the maximum
+>  b/w that the group may be able to use and the system admin can configure
+>  the b/w accordingly.
 >  
-> -	L3data:<cache_id0>=<cbm>;<cache_id1>=<cbm>;...
-> -	L3code:<cache_id0>=<cbm>;<cache_id1>=<cbm>;...
-> +	L3DATA:<cache_id0>=<cbm>;<cache_id1>=<cbm>;...
-> +	L3CODE:<cache_id0>=<cbm>;<cache_id1>=<cbm>;...
+> -If the MBA is specified in MB(megabytes) then user can enter the max b/w in MB
+> -rather than the percentage values.
+> +If resctrl is using the software controller (mba_sc) then user can enter the
+> +max b/w in MB rather than the percentage values.
+>  ::
 >  
->  L2 schemata file details
->  ------------------------
-> -L2 cache does not support code and data prioritization, so the
-> -schemata format is always::
-> +CDP is supported at L2 using the 'cdpl2' mount option. The schemata
-> +format is either::
->  
->  	L2:<cache_id0>=<cbm>;<cache_id1>=<cbm>;...
->  
-> +or
-> +
-> +	L2DATA:<cache_id0>=<cbm>;<cache_id1>=<cbm>;...
-> +	L2CODE:<cache_id0>=<cbm>;<cache_id1>=<cbm>;...
-> +
-> +
->  Memory bandwidth Allocation (default mode)
->  ------------------------------------------
->  
+>    # echo "L3:0=3;1=c\nMB:0=1024;1=500" > /sys/fs/resctrl/p0/schemata
 > -- 
 > 2.20.1
 > 
