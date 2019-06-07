@@ -1,107 +1,113 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_HIGH autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BBD367D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 22:27:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 716F87D910
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 22:50:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731398AbfFGW1U (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 18:27:20 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:42275 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731266AbfFGW1U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 18:27:20 -0400
-Received: by mail-pg1-f195.google.com with SMTP id e6so1848810pgd.9
-        for <linux-doc@vger.kernel.org>; Fri, 07 Jun 2019 15:27:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=hraLxNELwM1NZ3lrrobGX779u9y1WVgm2X9KZ6MnzVU=;
-        b=fAQwIxWx36GcX9oIEt7f+jVMHginM+LONwFdfMNqwIhko+8c0QHYbEF8bNlyIqbI9j
-         NQNEvOKC/rk/tH80WaLOxYfIeLrNuLs39w+NLcIj3q54Q271veY67rrkNFKpfdqfZfj7
-         zJroDKjRWmVDQ90XGnNScGmFaTzL9du1I7zDspqbrM6NsrWdM1i+JbmO4PVz/elLIgeu
-         6BrmpgiXUF9dz/S6HaFuV5ThOeSRhvAkGNBoMZMOPzaVaIgbNw2niqpkC+G9ce07EdDH
-         qP3J8OITji6PPDgyiEOb7pbi42mIE/z0MQOvU/LZER5Na/CvkkoUFll6uwuMASm3splg
-         LFTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=hraLxNELwM1NZ3lrrobGX779u9y1WVgm2X9KZ6MnzVU=;
-        b=CVdrepkc1cysZ/z/BJANNpJe+vcrci6zMw4unJDWGPviX+ttlDkBLTcvR3PsjoenEG
-         NXoqx+UrNVUIRaajMrJ877v3bjxR0mKIsPmOqiZ7Ft3vphErFQ9oZORG6Xiyr+5oDg88
-         CYILabqMzT1C+o4TvFhKIKTXJZQdzbqQOekybOJ/0Bwt9iNCFKLkYmKbJPgcKmGRB0OP
-         mcURVtNLazK365VLSyNHQk+bFBTBENj0oP4aU1UApuNlhX5I/eVGxox4MYAAlFDJCFuK
-         hd4MyAFTSEqNserQZrodJZBhroXo202UvS1nMWxxEKWf/qpChVtsOFIfUPE5HEb/leqt
-         vYpg==
-X-Gm-Message-State: APjAAAXvBQMEwcm3IxpFoWvKgRkd3v/qj+RJNqBUaD5NZsCWnhaR6M1K
-        yaJ2S7z0tK7GATT2QrzWlarpUA==
-X-Google-Smtp-Source: APXvYqwFO3Q0DLnvBTYrA6mi0dVS8BZ1iVqUNQ4tJLNaZqwnxT+p/ehoHtcdu1qHh/Y6c+cHQmyQLA==
-X-Received: by 2002:a62:3287:: with SMTP id y129mr55579697pfy.101.1559946439420;
-        Fri, 07 Jun 2019 15:27:19 -0700 (PDT)
-Received: from ?IPv6:2600:1012:b018:c314:403f:c95d:60d3:b732? ([2600:1012:b018:c314:403f:c95d:60d3:b732])
-        by smtp.gmail.com with ESMTPSA id 2sm3147331pfo.41.2019.06.07.15.27.18
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 07 Jun 2019 15:27:18 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v7 03/14] x86/cet/ibt: Add IBT legacy code bitmap setup function
-From:   Andy Lutomirski <luto@amacapital.net>
-X-Mailer: iPhone Mail (16F203)
-In-Reply-To: <f6de9073-9939-a20d-2196-25fa223cf3fc@intel.com>
-Date:   Fri, 7 Jun 2019 15:27:16 -0700
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
+        id S1730280AbfFGWuj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 18:50:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59794 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728756AbfFGWui (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 7 Jun 2019 18:50:38 -0400
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 02A5D20868;
+        Fri,  7 Jun 2019 22:50:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1559947838;
+        bh=ApxVfHs8JnkHiww93//1LZR4TXbvN/4IO2MtYEzl9mo=;
+        h=In-Reply-To:References:To:From:Cc:Subject:Date:From;
+        b=xfujo2GLbkIM+KKtYFuiV81Iew3/QJfwEMbo2anGI8s4SiwI07Ah1j2/ciUOhTDOO
+         q3goGaFH8UPTc3Ej7pzCV+vxygsPZnRYStoVowZC3Jxm6bRTeQ9ni5Ny2lOQ1txxv7
+         PtMvH0dcM+c/REo3Y1kZ5cZB/lRKUS2wrJhduqGA=
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <4F7D0C3C-F239-4B67-BB05-31350F809293@amacapital.net>
-References: <20190606200926.4029-1-yu-cheng.yu@intel.com> <20190606200926.4029-4-yu-cheng.yu@intel.com> <20190607080832.GT3419@hirez.programming.kicks-ass.net> <aa8a92ef231d512b5c9855ef416db050b5ab59a6.camel@intel.com> <20190607174336.GM3436@hirez.programming.kicks-ass.net> <b3de4110-5366-fdc7-a960-71dea543a42f@intel.com> <34E0D316-552A-401C-ABAA-5584B5BC98C5@amacapital.net> <7e0b97bf1fbe6ff20653a8e4e147c6285cc5552d.camel@intel.com> <4b448cde-ee4e-1c95-0f7f-4fe694be7db6@intel.com> <0e505563f7dae3849b57fb327f578f41b760b6f7.camel@intel.com> <f6de9073-9939-a20d-2196-25fa223cf3fc@intel.com>
-To:     Dave Hansen <dave.hansen@intel.com>
+In-Reply-To: <1559944794.11351.0@crapouillou.net>
+References: <20190521145141.9813-1-paul@crapouillou.net> <20190521145141.9813-6-paul@crapouillou.net> <20190607212819.A5FAE208C3@mail.kernel.org> <1559944794.11351.0@crapouillou.net>
+To:     Paul Cercueil <paul@crapouillou.net>
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        James Hogan <jhogan@kernel.org>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lee Jones <lee.jones@linaro.org>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Paul Burton <paul.burton@mips.com>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Mathieu Malaterre <malat@debian.org>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-clk@vger.kernel.org, od@zcrc.me
+Subject: Re: [PATCH v12 05/13] clk: ingenic: Add driver for the TCU clocks
+User-Agent: alot/0.8.1
+Date:   Fri, 07 Jun 2019 15:50:37 -0700
+Message-Id: <20190607225038.02A5D20868@mail.kernel.org>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-> On Jun 7, 2019, at 2:09 PM, Dave Hansen <dave.hansen@intel.com> wrote:
+Quoting Paul Cercueil (2019-06-07 14:59:54)
+> Hi Stephen, thanks for the review.
+> > Quoting Paul Cercueil (2019-05-21 07:51:33)
+> >>  diff --git a/drivers/clk/ingenic/tcu.c b/drivers/clk/ingenic/tcu.c
+> >>  new file mode 100644
+> >>  index 000000000000..7249225a6994
+> >>  --- /dev/null
+> >>  +++ b/drivers/clk/ingenic/tcu.c
+> >>  @@ -0,0 +1,458 @@
+> >>  +// SPDX-License-Identifier: GPL-2.0
+> >>  +/*
+> >>  + * JZ47xx SoCs TCU clocks driver
+> >>  + * Copyright (C) 2019 Paul Cercueil <paul@crapouillou.net>
+> >>  + */
+> >>  +
+> >>  +#include <linux/clk.h>
+> >>  +#include <linux/clk-provider.h>
+> >>  +#include <linux/clkdev.h>
+> >>  +#include <linux/clockchips.h>
+> >>  +#include <linux/mfd/ingenic-tcu.h>
+> >>  +#include <linux/regmap.h>
+> >>  +
+> >>  +#include <dt-bindings/clock/ingenic,tcu.h>
+> >>  +
+> >>  +/* 8 channels max + watchdog + OST */
+> >>  +#define TCU_CLK_COUNT  10
+> >>  +
+> >>  +#define TCU_ERR(...) pr_crit("ingenic-tcu-clk: " __VA_ARGS__)
+> >=20
+> > Why is it pr_crit instead of pr_err()?
 >=20
-> On 6/7/19 1:06 PM, Yu-cheng Yu wrote:
->>> Huh, how does glibc know about all possible past and future legacy code
->>> in the application?
->> When dlopen() gets a legacy binary and the policy allows that, it will ma=
-nage
->> the bitmap:
->>=20
->>  If a bitmap has not been created, create one.
->>  Set bits for the legacy code being loaded.
->=20
-> I was thinking about code that doesn't go through GLIBC like JITs.
+> If the TCU timer clocks are not provided for any reason, the system
+> will have no timer, and the kernel will hang very early in the init
+> process. That's why I chose pr_crit().
 
-CRIU is another consideration: it would be rather annoying if CET programs c=
-an=E2=80=99t migrate between LA57 and normal machines.=
+HMm. So maybe it should be TCU_CRIT() then? Or just drop the wrapper
+macro and define a pr_fmt for this file that has ingenic-tcu-clk: for
+it?
+
+>=20
+> Most of the code here works without a struct device, it wouldn't be=20
+> easy to
+> get it to work with runtime PM.
+>=20
+> I can enable the "tcu" clock in the probe and just gate/ungate it in the
+> suspend/resume callbacks, that would work just fine. We don't need=20
+> anything
+> fancy here.
+
+OK. That sounds like a better approach to gate and ungate in
+suspend/resume.
+
