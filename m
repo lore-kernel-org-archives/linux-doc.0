@@ -3,41 +3,36 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 941467D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 17:50:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1EEF67D910
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 17:55:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728684AbfFGRuu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 13:50:50 -0400
-Received: from ms.lwn.net ([45.79.88.28]:57950 "EHLO ms.lwn.net"
+        id S1730141AbfFGRzX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 13:55:23 -0400
+Received: from ms.lwn.net ([45.79.88.28]:57982 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728595AbfFGRuu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 Jun 2019 13:50:50 -0400
+        id S1727391AbfFGRzX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 7 Jun 2019 13:55:23 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id CB8C9737;
-        Fri,  7 Jun 2019 17:50:48 +0000 (UTC)
-Date:   Fri, 7 Jun 2019 11:50:47 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 6B1AB737;
+        Fri,  7 Jun 2019 17:55:22 +0000 (UTC)
+Date:   Fri, 7 Jun 2019 11:55:21 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     "George G. Davis" <george_davis@mentor.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Jiri Kosina <trivial@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Andi Kleen <ak@linux.intel.com>, Jann Horn <jannh@google.com>,
-        Nadav Amit <namit@vmware.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/3] treewide: trivial: fix s/poped/popped/ typo
-Message-ID: <20190607115047.2d6e1eb5@lwn.net>
-In-Reply-To: <1559766612-12178-2-git-send-email-george_davis@mentor.com>
-References: <1559766612-12178-1-git-send-email-george_davis@mentor.com>
-        <1559766612-12178-2-git-send-email-george_davis@mentor.com>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        netdev@vger.kernel.org, bpf@vger.kernel.org
+Subject: Re: [PATCH v2 00/22] Some documentation fixes
+Message-ID: <20190607115521.6bf39030@lwn.net>
+In-Reply-To: <cover.1559656538.git.mchehab+samsung@kernel.org>
+References: <cover.1559656538.git.mchehab+samsung@kernel.org>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -47,14 +42,23 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 5 Jun 2019 16:30:10 -0400
-"George G. Davis" <george_davis@mentor.com> wrote:
+On Tue,  4 Jun 2019 11:17:34 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-> Fix a couple of s/poped/popped/ typos.
+> Fix several warnings and broken links.
 > 
-> Cc: Jiri Kosina <trivial@kernel.org>
-> Signed-off-by: George G. Davis <george_davis@mentor.com>
+> This series was generated against linux-next, but was rebased to be applied at
+> docs-next. It should apply cleanly on either tree.
+> 
+> There's a git tree with all of them applied on the top of docs/docs-next
+> at:
+> 
+> https://git.linuxtv.org/mchehab/experimental.git/log/?h=fix_doc_links_v2
 
-I've applied this one, thanks.
+So I'll admit I've kind of lost track of which of these are applied, which
+have comments, etc.  When you feel things have settled, can you get me an
+updated set and I'll get them applied?
+
+Thanks,
 
 jon
