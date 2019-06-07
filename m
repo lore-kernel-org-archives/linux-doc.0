@@ -5,30 +5,30 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B3AB57D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 17:23:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1C7F27D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 17:24:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729587AbfFGRXx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 13:23:53 -0400
-Received: from ms.lwn.net ([45.79.88.28]:57764 "EHLO ms.lwn.net"
+        id S1731302AbfFGRYe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 13:24:34 -0400
+Received: from ms.lwn.net ([45.79.88.28]:57778 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730717AbfFGRXx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 Jun 2019 13:23:53 -0400
+        id S1729551AbfFGRYe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 7 Jun 2019 13:24:34 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 8DB582CD;
-        Fri,  7 Jun 2019 17:23:52 +0000 (UTC)
-Date:   Fri, 7 Jun 2019 11:23:51 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id EFAC07DA;
+        Fri,  7 Jun 2019 17:24:33 +0000 (UTC)
+Date:   Fri, 7 Jun 2019 11:24:33 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Jens Wiklander <jens.wiklander@linaro.org>,
-        Jiri Kosina <trivial@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH trivial] Documentation: tee: Grammar s/the its/its/
-Message-ID: <20190607112351.0b093cf2@lwn.net>
-In-Reply-To: <20190607110729.12734-1-geert+renesas@glider.be>
-References: <20190607110729.12734-1-geert+renesas@glider.be>
+Cc:     "David S . Miller" <davem@davemloft.net>,
+        Jiri Kosina <trivial@kernel.org>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH trivial] Documentation: net: dsa: Grammar s/the its/its/
+Message-ID: <20190607112433.182eb3ff@lwn.net>
+In-Reply-To: <20190607110842.12876-1-geert+renesas@glider.be>
+References: <20190607110842.12876-1-geert+renesas@glider.be>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -38,26 +38,33 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri,  7 Jun 2019 13:07:29 +0200
+On Fri,  7 Jun 2019 13:08:42 +0200
 Geert Uytterhoeven <geert+renesas@glider.be> wrote:
 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->  Documentation/tee.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  Documentation/networking/dsa/dsa.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/tee.txt b/Documentation/tee.txt
-> index 56ea85ffebf24545..afacdf2fd1de5455 100644
-> --- a/Documentation/tee.txt
-> +++ b/Documentation/tee.txt
-> @@ -32,7 +32,7 @@ User space (the client) connects to the driver by opening /dev/tee[0-9]* or
->    memory.
+> diff --git a/Documentation/networking/dsa/dsa.rst b/Documentation/networking/dsa/dsa.rst
+> index ca87068b9ab904a9..563d56c6a25c924e 100644
+> --- a/Documentation/networking/dsa/dsa.rst
+> +++ b/Documentation/networking/dsa/dsa.rst
+> @@ -531,7 +531,7 @@ Bridge VLAN filtering
+>    a software implementation.
 >  
->  - TEE_IOC_VERSION lets user space know which TEE this driver handles and
-> -  the its capabilities.
-> +  its capabilities.
+>  .. note:: VLAN ID 0 corresponds to the port private database, which, in the context
+> -        of DSA, would be the its port-based VLAN, used by the associated bridge device.
+> +        of DSA, would be its port-based VLAN, used by the associated bridge device.
 >  
->  - TEE_IOC_OPEN_SESSION opens a new session to a Trusted Application.
+>  - ``port_fdb_del``: bridge layer function invoked when the bridge wants to remove a
+>    Forwarding Database entry, the switch hardware should be programmed to delete
+> @@ -554,7 +554,7 @@ Bridge VLAN filtering
+>    associated with this VLAN ID.
+>  
+>  .. note:: VLAN ID 0 corresponds to the port private database, which, in the context
+> -        of DSA, would be the its port-based VLAN, used by the associated bridge device.
+> +        of DSA, would be its port-based VLAN, used by the associated bridge device.
 
 Applied, thanks.
 
