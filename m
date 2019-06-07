@@ -3,99 +3,112 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C98757D926
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 15:14:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1EBD37D919
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 15:26:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729731AbfFGPOh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 11:14:37 -0400
-Received: from foss.arm.com ([217.140.110.172]:42450 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728486AbfFGPOe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 Jun 2019 11:14:34 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9F439367;
-        Fri,  7 Jun 2019 08:14:33 -0700 (PDT)
-Received: from eglon.cambridge.arm.com (eglon.cambridge.arm.com [10.1.196.105])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7D5323F718;
-        Fri,  7 Jun 2019 08:14:32 -0700 (PDT)
-From:   James Morse <james.morse@arm.com>
-To:     linux-doc@vger.kernel.org, x86@kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Reinette Chatre <reinette.chatre@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Babu Moger <Babu.Moger@amd.com>, linux-kernel@vger.kernel.org,
-        James Morse <james.morse@arm.com>
-Subject: [PATCH 4/4] Documentation: x86: fix some typos
-Date:   Fri,  7 Jun 2019 16:14:09 +0100
-Message-Id: <20190607151409.15476-5-james.morse@arm.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190607151409.15476-1-james.morse@arm.com>
-References: <20190607151409.15476-1-james.morse@arm.com>
-MIME-Version: 1.0
+        id S1729877AbfFGP0X (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 11:26:23 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47828 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729118AbfFGP0P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 11:26:15 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x57FPGCe029461
+        for <linux-doc@vger.kernel.org>; Fri, 7 Jun 2019 11:26:13 -0400
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2sytj5r1ru-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Fri, 07 Jun 2019 11:26:13 -0400
+Received: from localhost
+        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <zohar@linux.ibm.com>;
+        Fri, 7 Jun 2019 16:26:11 +0100
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Fri, 7 Jun 2019 16:26:09 +0100
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x57FQ89940304766
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 7 Jun 2019 15:26:08 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 1B397A4062;
+        Fri,  7 Jun 2019 15:26:08 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 066E1A405B;
+        Fri,  7 Jun 2019 15:26:07 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.80.81.48])
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Fri,  7 Jun 2019 15:26:06 +0000 (GMT)
+Subject: Re: [PATCH v3 2/2] ima: add enforce-evm and log-evm modes to
+ strictly check EVM status
+From:   Mimi Zohar <zohar@linux.ibm.com>
+To:     Roberto Sassu <roberto.sassu@huawei.com>,
+        dmitry.kasatkin@huawei.com, mjg59@google.com
+Cc:     linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, silviu.vlasceanu@huawei.com
+Date:   Fri, 07 Jun 2019 11:25:56 -0400
+In-Reply-To: <773c3301-7861-f28b-813a-1f2ff657bae8@huawei.com>
+References: <20190606112620.26488-1-roberto.sassu@huawei.com>
+         <20190606112620.26488-3-roberto.sassu@huawei.com>
+         <1559917462.4278.253.camel@linux.ibm.com>
+         <93459fe8-f9b6-fe45-1ca7-2efb8854dc8b@huawei.com>
+         <1559920112.4278.264.camel@linux.ibm.com>
+         <773c3301-7861-f28b-813a-1f2ff657bae8@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 19060715-0020-0000-0000-000003481BC5
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19060715-0021-0000-0000-0000219B3678
+Message-Id: <1559921156.4278.276.camel@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-06-07_07:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1906070107
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-These are all obvious typos.
+On Fri, 2019-06-07 at 17:14 +0200, Roberto Sassu wrote:
+> On 6/7/2019 5:08 PM, Mimi Zohar wrote:
+> > On Fri, 2019-06-07 at 16:40 +0200, Roberto Sassu wrote:
+> >>> On Thu, 2019-06-06 at 13:26 +0200, Roberto Sassu wrote:
+> > 
+> >>>> Although this choice appears legitimate, it might not be suitable for
+> >>>> hardened systems, where the administrator expects that access is denied if
+> >>>> there is any error. An attacker could intentionally delete the EVM keys
+> >>>> from the system and set the file digest in security.ima to the actual file
+> >>>> digest so that the final appraisal status is INTEGRITY_PASS.
+> >>>
+> >>> Assuming that the EVM HMAC key is stored in the initramfs, not on some
+> >>> other file system, and the initramfs is signed, INTEGRITY_UNKNOWN
+> >>> would be limited to the rootfs filesystem.
+> >>
+> >> There is another issue. The HMAC key, like the public keys, should be
+> >> loaded when appraisal is disabled. This means that we have to create a
+> >> trusted key at early boot and defer the unsealing.
+> > 
+> > There is no need for IMA to appraise the public key file signature,
+> > since the certificate is signed by a key on the builtin/secondary
+> > trusted keyring.  With CONFIG_IMA_LOAD_X509 enabled, the public key
+> > can be loaded onto the IMA keyring with IMA-appraisal enabled, but
+> > without verifying the file signature.
+> 
+> Yes, but access to the files containing the master key and the EVM key
+> is denied if appraisal is enabled.
 
-Signed-off-by: James Morse <james.morse@arm.com>
----
- Documentation/x86/resctrl_ui.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+This is a key loading ordering issue.  Assuming you load the IMA key
+first, you should be able to verify the master and EVM keys.
 
-diff --git a/Documentation/x86/resctrl_ui.rst b/Documentation/x86/resctrl_ui.rst
-index 866b66aa289b..5368cedfb530 100644
---- a/Documentation/x86/resctrl_ui.rst
-+++ b/Documentation/x86/resctrl_ui.rst
-@@ -40,7 +40,7 @@ mount options are:
- 	Enable the MBA Software Controller(mba_sc) to specify MBA
- 	bandwidth in MBps
- 
--L2 and L3 CDP are controlled seperately.
-+L2 and L3 CDP are controlled separately.
- 
- RDT features are orthogonal. A particular system may support only
- monitoring, only control, or both monitoring and control.  Cache
-@@ -118,7 +118,7 @@ related to allocation:
- 			      Corresponding region is pseudo-locked. No
- 			      sharing allowed.
- 
--Memory bandwitdh(MB) subdirectory contains the following files
-+Memory bandwidth(MB) subdirectory contains the following files
- with respect to allocation:
- 
- "min_bandwidth":
-@@ -209,7 +209,7 @@ All groups contain the following files:
- 	CPUs to/from this group. As with the tasks file a hierarchy is
- 	maintained where MON groups may only include CPUs owned by the
- 	parent CTRL_MON group.
--	When the resouce group is in pseudo-locked mode this file will
-+	When the resource group is in pseudo-locked mode this file will
- 	only be readable, reflecting the CPUs associated with the
- 	pseudo-locked region.
- 
-@@ -380,7 +380,7 @@ where L2 external  is 10GBps (hence aggregate L2 external bandwidth is
- 240GBps) and L3 external bandwidth is 100GBps. Now a workload with '20
- threads, having 50% bandwidth, each consuming 5GBps' consumes the max L3
- bandwidth of 100GBps although the percentage value specified is only 50%
--<< 100%. Hence increasing the bandwidth percentage will not yeild any
-+<< 100%. Hence increasing the bandwidth percentage will not yield any
- more bandwidth. This is because although the L2 external bandwidth still
- has capacity, the L3 external bandwidth is fully used. Also note that
- this would be dependent on number of cores the benchmark is run on.
-@@ -398,7 +398,7 @@ In order to mitigate this and make the interface more user friendly,
- resctrl added support for specifying the bandwidth in MBps as well.  The
- kernel underneath would use a software feedback mechanism or a "Software
- Controller(mba_sc)" which reads the actual bandwidth using MBM counters
--and adjust the memowy bandwidth percentages to ensure::
-+and adjust the memory bandwidth percentages to ensure::
- 
- 	"actual bandwidth < user specified bandwidth".
- 
--- 
-2.20.1
+Mimi
 
