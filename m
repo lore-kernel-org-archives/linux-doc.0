@@ -1,159 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_MED,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 90FE77D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 22:23:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BBD367D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 22:27:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730445AbfFGWXK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 18:23:10 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:37192 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731098AbfFGWXG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 18:23:06 -0400
-Received: by mail-pl1-f196.google.com with SMTP id bh12so1331471plb.4
-        for <linux-doc@vger.kernel.org>; Fri, 07 Jun 2019 15:23:05 -0700 (PDT)
+        id S1731398AbfFGW1U (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 18:27:20 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:42275 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731266AbfFGW1U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 18:27:20 -0400
+Received: by mail-pg1-f195.google.com with SMTP id e6so1848810pgd.9
+        for <linux-doc@vger.kernel.org>; Fri, 07 Jun 2019 15:27:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OscIWC1H8BYVUTSTRMLtHcpa3RbQBWs93JhulNsk+jk=;
-        b=kdR49OFNsFx7GSx/8YCa4OAXnuGm9wR3mA3FGM2j9z9kYOvNzqrt6gDMUmNTCF4V83
-         UuY0GuaC7cU7suXulXpVOn5N4HicehNGLM2Gv1N1iXUCkOIxaL4tP0q7CFg3Zr0ELRoH
-         c1K2fAfx/OZnoqY6EocLtP4K2Gyk7fJHcbAd5+nbSwsumoNC9uZdy1ZbqRPl2ZGb2KR0
-         5790YANxN6yo4XDpToutn8HtDWJ9qc4x2RtxrkIe4yf2ys4A7CKPGFlNlR6vaeXcDbDI
-         eCRkI67w15jEuFPGTFzQI8EIXARxKyvN1+GR9F9Qoev+vDDjbBqEj+ZoKNPmKxLF0J5U
-         DgLQ==
+        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=hraLxNELwM1NZ3lrrobGX779u9y1WVgm2X9KZ6MnzVU=;
+        b=fAQwIxWx36GcX9oIEt7f+jVMHginM+LONwFdfMNqwIhko+8c0QHYbEF8bNlyIqbI9j
+         NQNEvOKC/rk/tH80WaLOxYfIeLrNuLs39w+NLcIj3q54Q271veY67rrkNFKpfdqfZfj7
+         zJroDKjRWmVDQ90XGnNScGmFaTzL9du1I7zDspqbrM6NsrWdM1i+JbmO4PVz/elLIgeu
+         6BrmpgiXUF9dz/S6HaFuV5ThOeSRhvAkGNBoMZMOPzaVaIgbNw2niqpkC+G9ce07EdDH
+         qP3J8OITji6PPDgyiEOb7pbi42mIE/z0MQOvU/LZER5Na/CvkkoUFll6uwuMASm3splg
+         LFTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OscIWC1H8BYVUTSTRMLtHcpa3RbQBWs93JhulNsk+jk=;
-        b=X/RPDDlLrFvH/3Mw9Usw6q6hGRM5Z53lAd/UMHgw0iB/EEq+O3fEddRjWOH5e5QZM2
-         Z5WvhfYsBP8AgDn1im+oDQkof8h1YOezs8ZxHEjPcfOPLu++R8nhI36ikvSoNBS9ZS1/
-         9v/q/KkocvFuNsyq0dv9mZZSY4ysG8ZKLhNpEmkH3Lreu583LDyp8scidnVq18AmWHuL
-         4AaAQv0HQeBxqUK8Ma/4gDfQ+3DHiNuKaT5aefoPnaKZpCKW/mGEba58OLvFcVBXCGQL
-         YA+V3jAriz+uRbdOxbMq9rUoMm18vZDlPRBsHPUN7PLZ3cTWDw87fCh6lPIwLTl/viDg
-         DFEw==
-X-Gm-Message-State: APjAAAUpOa46znl9Q9Km1pXEWJU5IAIuy13JczrTqlZHfWIFksI/8Ql0
-        rmmS63r3M46T8sdggFlJMZOk5W0Usc0fgwmdPZx0Pw==
-X-Google-Smtp-Source: APXvYqxqRVfuyQEdyfJNNkPVX/y1rXYgnEMZVKj/CtJa0Fm8bihW1BebEYmymKIH0C8/tAoxb6DpKUorgA1wvW4QAXM=
-X-Received: by 2002:a17:902:624:: with SMTP id 33mr59045206plg.325.1559946184199;
- Fri, 07 Jun 2019 15:23:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190514221711.248228-1-brendanhiggins@google.com>
- <20190514221711.248228-18-brendanhiggins@google.com> <20190517182254.548EA20815@mail.kernel.org>
- <CAAXuY3p4qhKVsSpQ44_kQeGDMfg7OuFLgFyxhcFWS3yf-5A_7g@mail.gmail.com> <20190607190047.C3E7A20868@mail.kernel.org>
-In-Reply-To: <20190607190047.C3E7A20868@mail.kernel.org>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Fri, 7 Jun 2019 15:22:53 -0700
-Message-ID: <CAFd5g475eUKnpNM3kDe_9PboCyZ=aanPeV2gTuzuJXRp-xbsWg@mail.gmail.com>
-Subject: Re: [PATCH v4 17/18] kernel/sysctl-test: Add null pointer test for sysctl.c:proc_dointvec()
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Iurii Zaikin <yzaikin@google.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, shuah <shuah@kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=hraLxNELwM1NZ3lrrobGX779u9y1WVgm2X9KZ6MnzVU=;
+        b=CVdrepkc1cysZ/z/BJANNpJe+vcrci6zMw4unJDWGPviX+ttlDkBLTcvR3PsjoenEG
+         NXoqx+UrNVUIRaajMrJ877v3bjxR0mKIsPmOqiZ7Ft3vphErFQ9oZORG6Xiyr+5oDg88
+         CYILabqMzT1C+o4TvFhKIKTXJZQdzbqQOekybOJ/0Bwt9iNCFKLkYmKbJPgcKmGRB0OP
+         mcURVtNLazK365VLSyNHQk+bFBTBENj0oP4aU1UApuNlhX5I/eVGxox4MYAAlFDJCFuK
+         hd4MyAFTSEqNserQZrodJZBhroXo202UvS1nMWxxEKWf/qpChVtsOFIfUPE5HEb/leqt
+         vYpg==
+X-Gm-Message-State: APjAAAXvBQMEwcm3IxpFoWvKgRkd3v/qj+RJNqBUaD5NZsCWnhaR6M1K
+        yaJ2S7z0tK7GATT2QrzWlarpUA==
+X-Google-Smtp-Source: APXvYqwFO3Q0DLnvBTYrA6mi0dVS8BZ1iVqUNQ4tJLNaZqwnxT+p/ehoHtcdu1qHh/Y6c+cHQmyQLA==
+X-Received: by 2002:a62:3287:: with SMTP id y129mr55579697pfy.101.1559946439420;
+        Fri, 07 Jun 2019 15:27:19 -0700 (PDT)
+Received: from ?IPv6:2600:1012:b018:c314:403f:c95d:60d3:b732? ([2600:1012:b018:c314:403f:c95d:60d3:b732])
+        by smtp.gmail.com with ESMTPSA id 2sm3147331pfo.41.2019.06.07.15.27.18
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 07 Jun 2019 15:27:18 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH v7 03/14] x86/cet/ibt: Add IBT legacy code bitmap setup function
+From:   Andy Lutomirski <luto@amacapital.net>
+X-Mailer: iPhone Mail (16F203)
+In-Reply-To: <f6de9073-9939-a20d-2196-25fa223cf3fc@intel.com>
+Date:   Fri, 7 Jun 2019 15:27:16 -0700
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <4F7D0C3C-F239-4B67-BB05-31350F809293@amacapital.net>
+References: <20190606200926.4029-1-yu-cheng.yu@intel.com> <20190606200926.4029-4-yu-cheng.yu@intel.com> <20190607080832.GT3419@hirez.programming.kicks-ass.net> <aa8a92ef231d512b5c9855ef416db050b5ab59a6.camel@intel.com> <20190607174336.GM3436@hirez.programming.kicks-ass.net> <b3de4110-5366-fdc7-a960-71dea543a42f@intel.com> <34E0D316-552A-401C-ABAA-5584B5BC98C5@amacapital.net> <7e0b97bf1fbe6ff20653a8e4e147c6285cc5552d.camel@intel.com> <4b448cde-ee4e-1c95-0f7f-4fe694be7db6@intel.com> <0e505563f7dae3849b57fb327f578f41b760b6f7.camel@intel.com> <f6de9073-9939-a20d-2196-25fa223cf3fc@intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 7, 2019 at 12:00 PM Stephen Boyd <sboyd@kernel.org> wrote:
->
-> Quoting Iurii Zaikin (2019-06-05 18:29:42)
-> > On Fri, May 17, 2019 at 11:22 AM Stephen Boyd <sboyd@kernel.org> wrote:
-> > >
-> > > Quoting Brendan Higgins (2019-05-14 15:17:10)
-> > > > diff --git a/kernel/sysctl-test.c b/kernel/sysctl-test.c
-> > > > new file mode 100644
-> > > > index 0000000000000..fe0f2bae66085
-> > > > --- /dev/null
-> > > > +++ b/kernel/sysctl-test.c
-> > > > +
-> > > > +
-> > > > +static void sysctl_test_dointvec_happy_single_negative(struct kunit *test)
-> > > > +{
-> > > > +       struct ctl_table table = {
-> > > > +               .procname = "foo",
-> > > > +               .data           = &test_data.int_0001,
-> > > > +               .maxlen         = sizeof(int),
-> > > > +               .mode           = 0644,
-> > > > +               .proc_handler   = proc_dointvec,
-> > > > +               .extra1         = &i_zero,
-> > > > +               .extra2         = &i_one_hundred,
-> > > > +       };
-> > > > +       char input[] = "-9";
-> > > > +       size_t len = sizeof(input) - 1;
-> > > > +       loff_t pos = 0;
-> > > > +
-> > > > +       table.data = kunit_kzalloc(test, sizeof(int), GFP_USER);
-> > > > +       KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 1, input, &len, &pos));
-> > > > +       KUNIT_EXPECT_EQ(test, sizeof(input) - 1, len);
-> > > > +       KUNIT_EXPECT_EQ(test, sizeof(input) - 1, pos);
-> > > > +       KUNIT_EXPECT_EQ(test, -9, *(int *)table.data);
-> > >
-> > > Is the casting necessary? Or can the macro do a type coercion of the
-> > > second parameter based on the first type?
-> >  Data field is defined as void* so I believe casting is necessary to
-> > dereference it as a pointer to an array of ints. I don't think the
-> > macro should do any type coercion that == operator wouldn't do.
-> >  I did change the cast to make it more clear that it's a pointer to an
-> > array of ints being dereferenced.
->
-> Ok, I still wonder if we should make KUNIT_EXPECT_EQ check the types on
-> both sides and cause a build warning/error if the types aren't the same.
-> This would be similar to our min/max macros that complain about
-> mismatched types in the comparisons. Then if a test developer needs to
-> convert one type or the other they could do so with a
-> KUNIT_EXPECT_EQ_T() macro that lists the types to coerce both sides to
-> explicitly.
 
-Good point. I would definitely like to do this, for me it is only a
-question of how difficult it would be to make all that happen.
+> On Jun 7, 2019, at 2:09 PM, Dave Hansen <dave.hansen@intel.com> wrote:
+>=20
+> On 6/7/19 1:06 PM, Yu-cheng Yu wrote:
+>>> Huh, how does glibc know about all possible past and future legacy code
+>>> in the application?
+>> When dlopen() gets a legacy binary and the policy allows that, it will ma=
+nage
+>> the bitmap:
+>>=20
+>>  If a bitmap has not been created, create one.
+>>  Set bits for the legacy code being loaded.
+>=20
+> I was thinking about code that doesn't go through GLIBC like JITs.
 
-We will investigate and report back on it.
-
-Thanks for the suggestion! It's a really good idea!
-
-Cheers
+CRIU is another consideration: it would be rather annoying if CET programs c=
+an=E2=80=99t migrate between LA57 and normal machines.=
