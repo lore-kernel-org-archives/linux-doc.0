@@ -1,83 +1,62 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	SUSPICIOUS_RECIPS autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BF41E7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 09:52:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DA3657D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 11:07:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727118AbfFGJwm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 05:52:42 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:42886 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726996AbfFGJwm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 Jun 2019 05:52:42 -0400
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id AC461D2F7002C7D59082;
-        Fri,  7 Jun 2019 17:52:39 +0800 (CST)
-Received: from localhost (10.202.226.61) by DGGEMS408-HUB.china.huawei.com
- (10.3.19.208) with Microsoft SMTP Server id 14.3.439.0; Fri, 7 Jun 2019
- 17:52:28 +0800
-Date:   Fri, 7 Jun 2019 10:52:20 +0100
-From:   Jonathan Cameron <jonathan.cameron@huawei.com>
-To:     <linux-acpi@vger.kernel.org>, <linux-mm@kvack.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linuxarm@huawei.com>
-Subject: [RFC] NUMA Description Under ACPI 6.3 White Paper (v0.93)
-Message-ID: <20190607105220.0000134e@huawei.com>
-Organization: Huawei
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; i686-w64-mingw32)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.226.61]
-X-CFilter-Loop: Reflected
+        id S1728339AbfFGLHd (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 07:07:33 -0400
+Received: from baptiste.telenet-ops.be ([195.130.132.51]:41830 "EHLO
+        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728332AbfFGLHd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 07:07:33 -0400
+Received: from ramsan ([84.194.111.163])
+        by baptiste.telenet-ops.be with bizsmtp
+        id Mn7X200043XaVaC01n7XMQ; Fri, 07 Jun 2019 13:07:31 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hZCiZ-00048u-1d; Fri, 07 Jun 2019 13:07:31 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hZCiZ-0003K7-04; Fri, 07 Jun 2019 13:07:31 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Jens Wiklander <jens.wiklander@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jiri Kosina <trivial@kernel.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH trivial] Documentation: tee: Grammar s/the its/its/
+Date:   Fri,  7 Jun 2019 13:07:29 +0200
+Message-Id: <20190607110729.12734-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi all,
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ Documentation/tee.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This is a request for comment / review on a white paper, intended to
-provide an example lead guide on how to describe NUMA systems in ACPI 6.3.
-
-https://github.com/hisilicon/acpi-numa-whitepaper
-https://github.com/hisilicon/acpi-numa-whitepaper/releases/download/v0.93/NUMA_Description_Under_ACPI_6.3_v0.93.pdf
-
-It was prepared in conjunction with the Heterogeneous Memory Sub Team (HMST) of
-the UEFI forum which has a mix of firmware and OS people (Linux and others). 
-
-The original motivation for this was that we were writing some docs for a
-more specific project (to appear shortly) and realized that only reason
-some sections were necessary was because we couldn't find anything
-bridging the gap between the ACPI specification and docs like those in
-the kernel tree.  Hence this document targeting that hole which is hopefully
-of more general use.
-
-Exactly how this will be officially 'released' is yet to be resolved, but 
-however that happens we will be maintaining a public source repository,
-hopefully allowing this to be a living document, tracking future specs
-and also being updated to account for how OS usage of the provided information
-changes.
-
-The document is under Creative Commons Attribution 4.0 International License.
-It is a Sphinx document. Only output to pdf has been tested and
-the build scripts are a bit of a mess.
-
-Thanks to all those who have already given feedback on earlier drafts!
-Additional thanks to the members of HMST for some very interesting discussions,
-clarifying both my understanding and highlighting areas to focus on in this
-guide.
-
-I'm looking for all types of feedback including suggestions for
-missing content (as a patch is ideal of course - I'm more than happy
-to have some coauthors on this).
-
-Jonathan
-
-p.s. Please share with anyone you think may be interested!
-
+diff --git a/Documentation/tee.txt b/Documentation/tee.txt
+index 56ea85ffebf24545..afacdf2fd1de5455 100644
+--- a/Documentation/tee.txt
++++ b/Documentation/tee.txt
+@@ -32,7 +32,7 @@ User space (the client) connects to the driver by opening /dev/tee[0-9]* or
+   memory.
+ 
+ - TEE_IOC_VERSION lets user space know which TEE this driver handles and
+-  the its capabilities.
++  its capabilities.
+ 
+ - TEE_IOC_OPEN_SESSION opens a new session to a Trusted Application.
+ 
+-- 
+2.17.1
 
