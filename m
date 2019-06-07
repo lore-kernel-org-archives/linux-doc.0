@@ -1,132 +1,138 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_HIGH,
-	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 27A607D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 18:34:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id ED52B7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 18:38:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731853AbfFGSeW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 14:34:22 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:46316 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730978AbfFGSeW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 14:34:22 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x57ITMNN031647;
-        Fri, 7 Jun 2019 18:34:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- content-transfer-encoding : in-reply-to; s=corp-2018-07-02;
- bh=QolDy22uOLtBFa3YAasmOe69CPUw0iodu68OQSiZ4/I=;
- b=EL5NpsBTmOzBK4E1TTYSBNZF7Fboir2lPBs3P9MB4V6Y3256Qpzxxnr4BOFbyOiMzcUZ
- CwqkHii0C92he+/EbdutialG4GKTZmUW4oRRIJ/lPjlzcJgPcKL+Cifhtqf6IVvUgmpk
- hvp7wIHAFB6YKYW0ZatlB++vzVLP+VOkjJ4HJ1/9Q0QkhKtA5yju32rU52FCj3UuO/1R
- j6h4KtcEFibA1RFLcaHJaDES9I03Dzc8ZpiEfor1GRQnUX87RLCTs7MJBGn7d2+1h8sd
- OzIwQcwBAu17liXQGF03DhAhVrH825UM4tiPJlDrcLdccLNRLN06eTaFAI59rlPQRk7a Tg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by userp2130.oracle.com with ESMTP id 2sugstyxkr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 07 Jun 2019 18:34:12 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x57IXxrm045999;
-        Fri, 7 Jun 2019 18:34:12 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by aserp3020.oracle.com with ESMTP id 2swngk5pdp-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 07 Jun 2019 18:34:11 +0000
-Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x57IYB8s001900;
-        Fri, 7 Jun 2019 18:34:11 GMT
-Received: from localhost (/67.169.218.210)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Fri, 07 Jun 2019 11:34:11 -0700
-Date:   Fri, 7 Jun 2019 11:34:10 -0700
-From:   "Darrick J. Wong" <darrick.wong@oracle.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Shiyang Ruan <ruansy.fnst@cn.fujitsu.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-xfs@vger.kernel.org
-Subject: Re: [PATCH] Documentation: xfs: Fix typo
-Message-ID: <20190607183410.GF1871505@magnolia>
-References: <20190509030549.2253-1-ruansy.fnst@cn.fujitsu.com>
- <20190607114415.32cb32dd@lwn.net>
+        id S1731931AbfFGSis (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 14:38:48 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:44271 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731882AbfFGSia (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 14:38:30 -0400
+Received: by mail-pl1-f196.google.com with SMTP id c5so1135066pll.11;
+        Fri, 07 Jun 2019 11:38:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=smqIezHVRd7kEI3m36ux9yMwz7BuscuDTK7XuCHo/dU=;
+        b=WS5b+10Cd3QJGj/XPVx7KtuIVoIcmLeOh0vV19LlG6G8bF+47Px2I+Z+iEG9/CSs5K
+         wjIqEPcIV6eHxee0a3yh5hwfu64yh/y0flZ3aGDIAMhzK5IXzbXBF2jyczzUcN3RYhha
+         Em0aPZte+JSc847kL345RBDVfhwGLvWVMHSTb7UltebQhAUj/+5d4Lh2g3ODIMcRO+wM
+         JMiK8BCSX/p/ie1AT1EePrqZw+T15PKTbwDlC1rog1j709x25YMzSmjk9CRPEVzO6Gzl
+         ThEUI3Q3AEm2XvfkBFRj91s7Q9BzTWjQhIDrd7Vwqh5UaPBZIeOQ5JyEy+jNCnTZOYyP
+         ZlWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=smqIezHVRd7kEI3m36ux9yMwz7BuscuDTK7XuCHo/dU=;
+        b=AuJUS3t3Aq9yBW18Twkn9iY+IWawUhf0m4e7W4fuXzsmFg481WRG+r6ztbQn6/a6WJ
+         xqnQNqp9L7kktFTE9NVKB27mxGXezYoWjpnuETPY6iL370czz88RPfzvQtjuMwwxcROJ
+         Yri4+qlilM00daM5FRS3vXISeYZB3ppPIdG9G+Y5QKFSqjIiMnDot1+a53YHkw+8LAGt
+         yY1/VMKh40Fsa8l5Xp0NXIJw17IAT1lEHSG3qTT+2z2AMMgzgxNTeR5fArXXOp4JSj/a
+         nx4YPZjlrDz/45LObvCeni89nn0wMx8zmZHGQOxhDo4sMiPHjGVReNjIvK5sqaDXmTPo
+         lEcA==
+X-Gm-Message-State: APjAAAV0FX89LVqgMgNsOlCULU5OwUENr7qK/+nSiFrDpaBsKO1hnks4
+        arGkni6Oj1cWvGPmZYpEUrc=
+X-Google-Smtp-Source: APXvYqyW7HBscCoIeGySmLbZWFy2qsFZp7KEZQ5VtLx8s3dNzmnqaLYM7bHW/YrxlyliL2dWSp/+YQ==
+X-Received: by 2002:a17:902:9b85:: with SMTP id y5mr56768955plp.313.1559932709648;
+        Fri, 07 Jun 2019 11:38:29 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id s4sm2765916pgg.55.2019.06.07.11.38.27
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 07 Jun 2019 11:38:28 -0700 (PDT)
+Date:   Fri, 7 Jun 2019 11:38:27 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Cc:     "linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Esben Haabendal <esben@haabendal.dk>,
+        Jerry Hoemann <jerry.hoemann@hpe.com>,
+        Rasmus Villemoes <Rasmus.Villemoes@prevas.se>
+Subject: Re: [PATCH v10 3/3] watchdog: make the device time out at
+ open_deadline when open_timeout is used
+Message-ID: <20190607183827.GA32475@roeck-us.net>
+References: <20190605140628.618-1-rasmus.villemoes@prevas.dk>
+ <20190605140628.618-4-rasmus.villemoes@prevas.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190607114415.32cb32dd@lwn.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9281 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1906070123
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9281 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1906070123
+In-Reply-To: <20190605140628.618-4-rasmus.villemoes@prevas.dk>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 07, 2019 at 11:44:15AM -0600, Jonathan Corbet wrote:
-> On Thu, 9 May 2019 11:05:49 +0800
-> Shiyang Ruan <ruansy.fnst@cn.fujitsu.com> wrote:
+On Wed, Jun 05, 2019 at 02:06:44PM +0000, Rasmus Villemoes wrote:
+> When the watchdog device is not open by userspace, the kernel takes
+> care of pinging it. When the open_timeout feature is in use, we should
+> ensure that the hardware fires close to open_timeout seconds after the
+> kernel has assumed responsibility for the device.
 > 
-> > In "Y+P" of this line, there are two non-ASCII characters(0xd9 0x8d)
-> > following behind the 'Y'.  Shown as a small '=' under the '+' in VIM
-> > and a '賺' in webpage[1].
-> > 
-> > I think it's a mistake and remove these strange characters.
-> > 
-> > [1]: https://www.kernel.org/doc/Documentation/filesystems/xfs-delayed-logging-design.txt
-> > 
-> > Signed-off-by: Shiyang Ruan <ruansy.fnst@cn.fujitsu.com>
-> > ---
-> >  Documentation/filesystems/xfs-delayed-logging-design.txt | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/filesystems/xfs-delayed-logging-design.txt b/Documentation/filesystems/xfs-delayed-logging-design.txt
-> > index 2ce36439c09f..9a6dd289b17b 100644
-> > --- a/Documentation/filesystems/xfs-delayed-logging-design.txt
-> > +++ b/Documentation/filesystems/xfs-delayed-logging-design.txt
-> > @@ -34,7 +34,7 @@ transaction:
-> >  	   D			A+B+C+D		X+n+m+o
-> >  	    <object written to disk>
-> >  	   E			   E		   Y (> X+n+m+o)
-> > -	   F			  E+F		  Yٍ+p
-> > +	   F			  E+F		  Y+p
+> To do this, simply reuse the logic that is already in place for
+> ensuring the same thing when userspace is responsible for regularly
+> pinging the device:
 > 
-> OK, that does look funky, applied.
+> - When watchdog_active(wdd), this patch doesn't change anything.
 > 
-> This patch probably should have been copied to the XFS list (added), even
-> though get_maintainer.pl doesn't know that.
+> - When !watchdoc_active(wdd), the "virtual timeout" should be taken to
 
-Yeah, it's "Y+p" not "Y<weird plusequals thing>p" in the xfs
-documentation repo:
+s/watchdoc_active/watchdog_active/
 
-https://git.kernel.org/pub/scm/fs/xfs/xfs-documentation.git/tree/design/XFS_Filesystem_Structure/delayed_logging.asciidoc
+otherwise
 
-Reviewed-by: Darrick J. Wong <darrick.wong@oracle.com>
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
-I doubt the value of maintaining duplicate copies of this document in
-the kernel and the xfs documentation repo, and since the xfs docs and
-kernel licences aren't compatible maybe we should withdraw one...
-
-...but since Dave is the author I'm gonna punt to him.  IMHO either we
-should claim responsibility for those files in MAINTAINERS or drop them.
-:)
-
-Thanks for the heads-up,
---D
-
-> Thanks,
+> be ->open_deadline". When the open_timeout feature is not used or the
+> device has been opened at least once, ->open_deadline is KTIME_MAX,
+> and the arithmetic ends up returning keepalive_interval as we used to.
 > 
-> jon
+> This has been tested on a Wandboard with various combinations of
+> open_timeout and timeout-sec properties for the on-board watchdog by
+> booting with 'init=/bin/sh', timestamping the lines on the serial
+> console, and comparing the timestamp of the 'imx2-wdt 20bc000.wdog:
+> timeout nnn sec' line with the timestamp of the 'U-Boot SPL ...'
+> line (which appears just after reset).
+> 
+> Suggested-by: Guenter Roeck <linux@roeck-us.net>
+> Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+> ---
+>  drivers/watchdog/watchdog_dev.c | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/watchdog/watchdog_dev.c b/drivers/watchdog/watchdog_dev.c
+> index 334b810db2cf..edfb884044e0 100644
+> --- a/drivers/watchdog/watchdog_dev.c
+> +++ b/drivers/watchdog/watchdog_dev.c
+> @@ -133,14 +133,15 @@ static ktime_t watchdog_next_keepalive(struct watchdog_device *wdd)
+>  	ktime_t virt_timeout;
+>  	unsigned int hw_heartbeat_ms;
+>  
+> -	virt_timeout = ktime_add(wd_data->last_keepalive,
+> -				 ms_to_ktime(timeout_ms));
+> +	if (watchdog_active(wdd))
+> +		virt_timeout = ktime_add(wd_data->last_keepalive,
+> +					 ms_to_ktime(timeout_ms));
+> +	else
+> +		virt_timeout = wd_data->open_deadline;
+> +
+>  	hw_heartbeat_ms = min_not_zero(timeout_ms, wdd->max_hw_heartbeat_ms);
+>  	keepalive_interval = ms_to_ktime(hw_heartbeat_ms / 2);
+>  
+> -	if (!watchdog_active(wdd))
+> -		return keepalive_interval;
+> -
+>  	/*
+>  	 * To ensure that the watchdog times out wdd->timeout seconds
+>  	 * after the most recent ping from userspace, the last
