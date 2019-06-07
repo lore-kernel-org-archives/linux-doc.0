@@ -5,110 +5,89 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1EBD37D919
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 15:26:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B251D7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 16:22:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729877AbfFGP0X (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 11:26:23 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47828 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729118AbfFGP0P (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 11:26:15 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x57FPGCe029461
-        for <linux-doc@vger.kernel.org>; Fri, 7 Jun 2019 11:26:13 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2sytj5r1ru-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Fri, 07 Jun 2019 11:26:13 -0400
-Received: from localhost
-        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <zohar@linux.ibm.com>;
-        Fri, 7 Jun 2019 16:26:11 +0100
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
-        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Fri, 7 Jun 2019 16:26:09 +0100
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x57FQ89940304766
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 7 Jun 2019 15:26:08 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 1B397A4062;
-        Fri,  7 Jun 2019 15:26:08 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 066E1A405B;
-        Fri,  7 Jun 2019 15:26:07 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.80.81.48])
-        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Fri,  7 Jun 2019 15:26:06 +0000 (GMT)
-Subject: Re: [PATCH v3 2/2] ima: add enforce-evm and log-evm modes to
- strictly check EVM status
-From:   Mimi Zohar <zohar@linux.ibm.com>
-To:     Roberto Sassu <roberto.sassu@huawei.com>,
-        dmitry.kasatkin@huawei.com, mjg59@google.com
-Cc:     linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, silviu.vlasceanu@huawei.com
-Date:   Fri, 07 Jun 2019 11:25:56 -0400
-In-Reply-To: <773c3301-7861-f28b-813a-1f2ff657bae8@huawei.com>
-References: <20190606112620.26488-1-roberto.sassu@huawei.com>
-         <20190606112620.26488-3-roberto.sassu@huawei.com>
-         <1559917462.4278.253.camel@linux.ibm.com>
-         <93459fe8-f9b6-fe45-1ca7-2efb8854dc8b@huawei.com>
-         <1559920112.4278.264.camel@linux.ibm.com>
-         <773c3301-7861-f28b-813a-1f2ff657bae8@huawei.com>
+        id S1729676AbfFGQWx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 12:22:53 -0400
+Received: from mga12.intel.com ([192.55.52.136]:57740 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728486AbfFGQWx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 7 Jun 2019 12:22:53 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Jun 2019 09:22:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,563,1557212400"; 
+   d="scan'208";a="182719233"
+Received: from yyu32-desk1.sc.intel.com ([143.183.136.147])
+  by fmsmga002.fm.intel.com with ESMTP; 07 Jun 2019 09:22:52 -0700
+Message-ID: <388e702bfa4ed38f460327ae09ebc9b18b582bb5.camel@intel.com>
+Subject: Re: [PATCH v7 05/27] x86/fpu/xstate: Add XSAVES system states for
+ shadow stack
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+Date:   Fri, 07 Jun 2019 09:14:50 -0700
+In-Reply-To: <20190607070725.GN3419@hirez.programming.kicks-ass.net>
+References: <20190606200646.3951-1-yu-cheng.yu@intel.com>
+         <20190606200646.3951-6-yu-cheng.yu@intel.com>
+         <20190607070725.GN3419@hirez.programming.kicks-ass.net>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+X-Mailer: Evolution 3.28.1-2 
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 19060715-0020-0000-0000-000003481BC5
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19060715-0021-0000-0000-0000219B3678
-Message-Id: <1559921156.4278.276.camel@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-06-07_07:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1906070107
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2019-06-07 at 17:14 +0200, Roberto Sassu wrote:
-> On 6/7/2019 5:08 PM, Mimi Zohar wrote:
-> > On Fri, 2019-06-07 at 16:40 +0200, Roberto Sassu wrote:
-> >>> On Thu, 2019-06-06 at 13:26 +0200, Roberto Sassu wrote:
+On Fri, 2019-06-07 at 09:07 +0200, Peter Zijlstra wrote:
+> On Thu, Jun 06, 2019 at 01:06:24PM -0700, Yu-cheng Yu wrote:
+> > Intel Control-flow Enforcement Technology (CET) introduces the
+> > following MSRs.
 > > 
-> >>>> Although this choice appears legitimate, it might not be suitable for
-> >>>> hardened systems, where the administrator expects that access is denied if
-> >>>> there is any error. An attacker could intentionally delete the EVM keys
-> >>>> from the system and set the file digest in security.ima to the actual file
-> >>>> digest so that the final appraisal status is INTEGRITY_PASS.
-> >>>
-> >>> Assuming that the EVM HMAC key is stored in the initramfs, not on some
-> >>> other file system, and the initramfs is signed, INTEGRITY_UNKNOWN
-> >>> would be limited to the rootfs filesystem.
-> >>
-> >> There is another issue. The HMAC key, like the public keys, should be
-> >> loaded when appraisal is disabled. This means that we have to create a
-> >> trusted key at early boot and defer the unsealing.
+> >     MSR_IA32_U_CET (user-mode CET settings),
+> >     MSR_IA32_PL3_SSP (user-mode shadow stack),
+> >     MSR_IA32_PL0_SSP (kernel-mode shadow stack),
+> >     MSR_IA32_PL1_SSP (Privilege Level 1 shadow stack),
+> >     MSR_IA32_PL2_SSP (Privilege Level 2 shadow stack).
 > > 
-> > There is no need for IMA to appraise the public key file signature,
-> > since the certificate is signed by a key on the builtin/secondary
-> > trusted keyring.  With CONFIG_IMA_LOAD_X509 enabled, the public key
-> > can be loaded onto the IMA keyring with IMA-appraisal enabled, but
-> > without verifying the file signature.
+> > Introduce them into XSAVES system states.
+> > 
+> > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> > ---
+> >  arch/x86/include/asm/fpu/types.h            | 22 +++++++++++++++++++++
+> >  arch/x86/include/asm/fpu/xstate.h           |  4 +++-
+> >  arch/x86/include/uapi/asm/processor-flags.h |  2 ++
+> >  arch/x86/kernel/fpu/xstate.c                | 10 ++++++++++
+> >  4 files changed, 37 insertions(+), 1 deletion(-)
 > 
-> Yes, but access to the files containing the master key and the EVM key
-> is denied if appraisal is enabled.
+> And yet, no changes to msr-index.h !?
 
-This is a key loading ordering issue.  Assuming you load the IMA key
-first, you should be able to verify the master and EVM keys.
+You are right.  I will move msr-index.h changes to here.
 
-Mimi
-
+Yu-cheng
