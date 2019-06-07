@@ -3,61 +3,60 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5CD3D7D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 20:40:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 53B2D7D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 20:46:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730128AbfFGUkK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 16:40:10 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:34687 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729809AbfFGUkJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 16:40:09 -0400
-Received: by mail-pg1-f194.google.com with SMTP id h2so1753288pgg.1
-        for <linux-doc@vger.kernel.org>; Fri, 07 Jun 2019 13:40:09 -0700 (PDT)
+        id S1730399AbfFGUqy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 16:46:54 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:45580 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729640AbfFGUqy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 16:46:54 -0400
+Received: by mail-pg1-f195.google.com with SMTP id w34so1734981pga.12
+        for <linux-doc@vger.kernel.org>; Fri, 07 Jun 2019 13:46:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=/zXZ0PAO7hrTuftMmJADCccAFJNVvLuJoT5zW483dm4=;
-        b=xrvdgiwgMy+n6sUxDDjF6GbcFmqZ9IbL4LqbaOlUjeE8uqFUu4xLwLCn5TySJGkcHl
-         fXPiABlcfNSCw9bl0NwfmBnfApC4fAM1xXXJDZ27D9KyYVvW3Pd4X+nasECUMC2LBZEJ
-         fKA5BQIw1BcsTounoXppfOwxaeXfpEVX0HyHm3x1KFjINzS4PCb6c6IaljqNaSCBm7Od
-         drrmRGWCxY710x1mQlxy/KRBEo0C1hie/MUbVm5jM/+AlavFNb6N+fUr8V+MNbUOPbuC
-         xC4rbQBCWUzb43kM79GQ/pk24o4zNJi31I1dPZeQMzNZkLkM+wXFQ8x1bMx3nK65vvQb
-         mnNQ==
+        h=content-transfer-encoding:from:mime-version:subject:date:message-id
+         :references:cc:in-reply-to:to;
+        bh=XukHmQruicw8IlfF6jJ6jVCYF0PSAeCd61ALsjzTSpY=;
+        b=VWI7VCl5285LdP7wOr87pA6+IQYIq/ZxhBxJbF1/nckLiWb00yMLQlkMSFh4MCmFIq
+         /dqJBvYXqKj4YcUgfT3KURvRXmso7VPKa0tgm8V0RDBhXkf0XYt6MYFS8iutMKKpfXs1
+         J2m1rqQfTl0vttXXt7TvR91asPuMao/Avd04hxQKWY3DGbO6e9kqdOSNRzrBeSbR421E
+         Rf9Al37d+zkA1bJ2NtyUgJkERotLKfbY8cpTiNFxW3h5PvRE0rml/0f46+ey+IgUyxqM
+         XOCqZ7ORzhd+wlc9aCrEgSryqbXOT4+W665Z56TP/EMr2yUjbSDUZKj9n9UphV69nzc1
+         Elxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=/zXZ0PAO7hrTuftMmJADCccAFJNVvLuJoT5zW483dm4=;
-        b=WTkhjhlJ4/rfcFwaTb74SlLReVcmMqv7u/KWHIeIb1P4AB3Cxi+YsiQqBthDH2KKjI
-         bNrNkGhLaAKRHhv1ECoMrC55dnG4Qvn137TrumebdA9GD9s+f8BLDzgMs9vFsmE4OZ5R
-         ERjJMx0mmi9JpylSrenLOfcNmC01e0MUh3x/NqxcA3+sQ/7RYDMTGIuzp5dvuisK3Vng
-         kbazzV1OqqRZXQUx6IF7LJ8EEuTHqJPW5RZHNQC3uP/2MTmVtbJX3PgetqTdI9jFd+PW
-         hDFlvXwhfmod02/WmwkkO29F2XhgvSmZtUiQggJ00B2pxEO84pk35oYiIUws+McgE37Y
-         /eRw==
-X-Gm-Message-State: APjAAAWZm7aYmCjfN7fDm93kVSrQSKzLlG14EeYZP+xERpEmPt3okCGI
-        w4KC0Dgl1Qztl6yHZqN/dJarJv81oG0=
-X-Google-Smtp-Source: APXvYqw9CMgTx+uPCBp2eShznieLWxzWHpVNj71rqNoWul6wN77odT5+ocrO71ob0NcUvASo3obsmg==
-X-Received: by 2002:a63:490a:: with SMTP id w10mr4721938pga.6.1559940008694;
-        Fri, 07 Jun 2019 13:40:08 -0700 (PDT)
-Received: from ?IPv6:2600:1012:b044:6f30:60ea:7662:8055:2cca? ([2600:1012:b044:6f30:60ea:7662:8055:2cca])
-        by smtp.gmail.com with ESMTPSA id 128sm3433146pff.16.2019.06.07.13.40.07
+        h=x-gm-message-state:content-transfer-encoding:from:mime-version
+         :subject:date:message-id:references:cc:in-reply-to:to;
+        bh=XukHmQruicw8IlfF6jJ6jVCYF0PSAeCd61ALsjzTSpY=;
+        b=El6YxGOodGGFiEk7vJmI+QVO7/Nz8ed57UlYhkltTQd/bcnbuZgfnlHWe13z+PWtA9
+         32ZisK7tz0EzujOpY1dAQ/9Y+40uXde4N70x1JhkvP2hQNgsaiiRuUIeABqs9iOEWHdK
+         wVkRvBYiA7roHpKiR+FzYWhPz3dQ2DpmjuznBYx34RPiHgDA46ZWHSq2qPptuTUuClNs
+         y0YKvGUCnb9DBPs+CyVJj/35zJ4HvjAHQwVh1nWdwnZuiihO3fDA5NvLNHmukCxkpKf0
+         PtL7C+cU5EJa4AdFHrJ/DgVCQf8Yjj2JO6JfQq3ZesUNxbPqN634mP2ycMQOIiwkiaE7
+         V+MA==
+X-Gm-Message-State: APjAAAUOrQXj7jXLD7tz+6JlI8NsxtqqXnqaNKXr7UEswsreJttukcrO
+        mAfm0CE5/KITzTzjZumLa6KjrFO5WI0=
+X-Google-Smtp-Source: APXvYqxhFk60QtRVzTldpmH+7yv8QONLVQH+CovTP9/QHWOvUlZZE4M5xtzQoodB8aOtHfr02eU7Pw==
+X-Received: by 2002:aa7:808d:: with SMTP id v13mr60783415pff.198.1559940413359;
+        Fri, 07 Jun 2019 13:46:53 -0700 (PDT)
+Received: from ?IPv6:2600:1012:b018:c314:403f:c95d:60d3:b732? ([2600:1012:b018:c314:403f:c95d:60d3:b732])
+        by smtp.gmail.com with ESMTPSA id 14sm3068901pgp.37.2019.06.07.13.46.41
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 07 Jun 2019 13:40:07 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
+        Fri, 07 Jun 2019 13:46:52 -0700 (PDT)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From:   Andy Lutomirski <luto@amacapital.net>
 Mime-Version: 1.0 (1.0)
 Subject: Re: [PATCH v7 03/14] x86/cet/ibt: Add IBT legacy code bitmap setup function
-From:   Andy Lutomirski <luto@amacapital.net>
-X-Mailer: iPhone Mail (16F203)
-In-Reply-To: <352e6172-938d-f8e4-c195-9fd1b881bdee@intel.com>
-Date:   Fri, 7 Jun 2019 13:40:06 -0700
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+Date:   Fri, 7 Jun 2019 13:43:15 -0700
+Message-Id: <25281DB3-FCE4-40C2-BADB-B3B05C5F8DD3@amacapital.net>
+References: <20190606200926.4029-1-yu-cheng.yu@intel.com> <20190606200926.4029-4-yu-cheng.yu@intel.com> <20190607080832.GT3419@hirez.programming.kicks-ass.net> <aa8a92ef231d512b5c9855ef416db050b5ab59a6.camel@intel.com> <20190607174336.GM3436@hirez.programming.kicks-ass.net> <b3de4110-5366-fdc7-a960-71dea543a42f@intel.com> <34E0D316-552A-401C-ABAA-5584B5BC98C5@amacapital.net> <7e0b97bf1fbe6ff20653a8e4e147c6285cc5552d.camel@intel.com>
+Cc:     Dave Hansen <dave.hansen@intel.com>,
+        Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
         "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
@@ -80,10 +79,9 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
         Dave Martin <Dave.Martin@arm.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <D10B5B59-1BE7-44DC-8E91-C8E4292DC6FB@amacapital.net>
-References: <20190606200926.4029-1-yu-cheng.yu@intel.com> <20190606200926.4029-4-yu-cheng.yu@intel.com> <20190607080832.GT3419@hirez.programming.kicks-ass.net> <aa8a92ef231d512b5c9855ef416db050b5ab59a6.camel@intel.com> <20190607174336.GM3436@hirez.programming.kicks-ass.net> <b3de4110-5366-fdc7-a960-71dea543a42f@intel.com> <34E0D316-552A-401C-ABAA-5584B5BC98C5@amacapital.net> <352e6172-938d-f8e4-c195-9fd1b881bdee@intel.com>
-To:     Dave Hansen <dave.hansen@intel.com>
+In-Reply-To: <7e0b97bf1fbe6ff20653a8e4e147c6285cc5552d.camel@intel.com>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+X-Mailer: iPhone Mail (16F203)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -91,32 +89,29 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-> On Jun 7, 2019, at 11:58 AM, Dave Hansen <dave.hansen@intel.com> wrote:
+> On Jun 7, 2019, at 12:49 PM, Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
 >=20
-> On 6/7/19 11:29 AM, Andy Lutomirski wrote:
-> ...
+> On Fri, 2019-06-07 at 11:29 -0700, Andy Lutomirski wrote:
+>>> On Jun 7, 2019, at 10:59 AM, Dave Hansen <dave.hansen@intel.com> wrote:
+>>>=20
+>>>> On 6/7/19 10:43 AM, Peter Zijlstra wrote:
+>>>> I've no idea what the kernel should do; since you failed to answer the
+>>>> question what happens when you point this to garbage.
+>>>>=20
+>>>> Does it then fault or what?
+>>>=20
+>>> Yeah, I think you'll fault with a rather mysterious CR2 value since
+>>> you'll go look at the instruction that faulted and not see any
+>>> references to the CR2 value.
+>>>=20
 >>> I think this new MSR probably needs to get included in oops output when
 >>> CET is enabled.
 >>=20
->> This shouldn=E2=80=99t be able to OOPS because it only happens at CPL 3,
->> right?  We should put it into core dumps, though.
->=20
-> Good point.
->=20
-> Yu-cheng, can you just confirm that the bitmap can't be referenced in
-> ring-0, no matter what?  We should also make sure that no funny business
-> happens if we put an address in the bitmap that faults, or is
-> non-canonical.  Do we have any self-tests for that?
->=20
-> Let's say userspace gets a fault on this.  Do they have the
-> introspection capability to figure out why they faulted, say in their
-> signal handler?
-
-We need to stick the tracker state in the sigcontext somewhere.
-
-Did we end up defining a signal frame shadow stack token?
-
->=20
+>> This shouldn=E2=80=99t be able to OOPS because it only happens at CPL 3, r=
+ight?  We
+>> should put it into core dumps, though.
+>>=20
+>>>=20
 >>> Why don't we require that a VMA be in place for the entire bitmap?
 >>> Don't we need a "get" prctl function too in case something like a JIT is=
 
@@ -131,40 +126,38 @@ Did we end up defining a signal frame shadow stack token?
 >>> and then have the kernel allocate and set the bitmap for those code
 >>> locations.
 >>=20
->> Given that the format depends on the VA size, this might be a good
->> idea.
+>> Given that the format depends on the VA size, this might be a good idea. =
+ I
+>> bet we can reuse the special mapping infrastructure for this =E2=80=94 th=
+e VMA could
+>> be a MAP_PRIVATE special mapping named [cet_legacy_bitmap] or similar, an=
+d we
+>> can even make special rules to core dump it intelligently if needed.  And=
+ we
+>> can make mremap() on it work correctly if anyone (CRIU?) cares.
+>>=20
+>> Hmm.  Can we be creative and skip populating it with zeros?  The CPU shou=
+ld
+>> only ever touch a page if we miss an ENDBR on it, so, in normal operation=
+, we
+>> don=E2=80=99t need anything to be there.  We could try to prevent anyone f=
+rom
+>> *reading* it outside of ENDBR tracking if we want to avoid people acciden=
+tally
+>> wasting lots of memory by forcing it to be fully populated when the read i=
+t.
+>>=20
+>> The one downside is this forces it to be per-mm, but that seems like a
+>> generally reasonable model anyway.
+>>=20
+>> This also gives us an excellent opportunity to make it read-only as seen f=
+rom
+>> userspace to prevent exploits from just poking it full of ones before
+>> redirecting execution.
 >=20
-> Yeah, making userspace know how large the address space is or could be
-> is rather nasty, especially if we ever get any fancy CPU features that
-> eat up address bits (a la ARM top-byte-ignore or SPARC ADI).
+> GLIBC sets bits only for legacy code, and then makes the bitmap read-only.=
+  That
+> avoids most issues:
 
-That gets extra bad if we ever grow user code that uses it but is unaware. I=
-t could poke the wrong part of the bitmap.
-
->=20
->> Hmm.  Can we be creative and skip populating it with zeros?  The CPU
-> should only ever touch a page if we miss an ENDBR on it, so, in normal
-> operation, we don=E2=80=99t need anything to be there.  We could try to pr=
-event
-> anyone from *reading* it outside of ENDBR tracking if we want to avoid
-> people accidentally wasting lots of memory by forcing it to be fully
-> populated when the read it.
->=20
-> Won't reads on a big, contiguous private mapping get the huge zero page
-> anyway?
-
-The zero pages may be free, but the page tables could be decently large.  Do=
-es the core mm code use huge, immense, etc huge zero pages?  Or can it synth=
-esize them by reusing page table pages that map zeros?
-
->=20
->> The one downside is this forces it to be per-mm, but that seems like
->> a generally reasonable model anyway.
->=20
-> Yeah, practically, you could only make it shared if you shared the
-> layout of all code in the address space.  I'm sure the big database(s)
-> do that cross-process, but I bet nobody else does.  User ASLR
-> practically guarantees that nobody can do this.
-
-I meant per-mm instead of per-task.
-
+How does glibc know the linear address space size?  We don=E2=80=99t want LA=
+64 to break old binaries because the address calculation changed.
