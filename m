@@ -5,30 +5,30 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 10AE67D910
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 17:37:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 81CFA7D910
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 17:39:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731610AbfFGRhT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 13:37:19 -0400
-Received: from ms.lwn.net ([45.79.88.28]:57886 "EHLO ms.lwn.net"
+        id S1729379AbfFGRjt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 13:39:49 -0400
+Received: from ms.lwn.net ([45.79.88.28]:57896 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730259AbfFGRhT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 7 Jun 2019 13:37:19 -0400
+        id S1728998AbfFGRjs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 7 Jun 2019 13:39:48 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 065252CD;
-        Fri,  7 Jun 2019 17:37:18 +0000 (UTC)
-Date:   Fri, 7 Jun 2019 11:37:18 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 5779C2CD;
+        Fri,  7 Jun 2019 17:39:48 +0000 (UTC)
+Date:   Fri, 7 Jun 2019 11:39:47 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Federico Vaga <federico.vaga@vaga.pv.it>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Subject: Re: [PATCH] doc:it_IT: documentation alignment
-Message-ID: <20190607113718.0be0cd8b@lwn.net>
-In-Reply-To: <20190530201455.12412-2-federico.vaga@vaga.pv.it>
-References: <20190530201455.12412-1-federico.vaga@vaga.pv.it>
-        <20190530201455.12412-2-federico.vaga@vaga.pv.it>
+To:     Shiyang Ruan <ruansy.fnst@cn.fujitsu.com>
+Cc:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-nvdimm@lists.01.org>
+Subject: Re: [PATCH v2] Documentation: nvdimm: Fix typo
+Message-ID: <20190607113947.604b5ba0@lwn.net>
+In-Reply-To: <20190509074049.12192-1-ruansy.fnst@cn.fujitsu.com>
+References: <20190509023744.4936-1-ruansy.fnst@cn.fujitsu.com>
+        <20190509074049.12192-1-ruansy.fnst@cn.fujitsu.com>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -38,14 +38,32 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 30 May 2019 22:14:55 +0200
-Federico Vaga <federico.vaga@vaga.pv.it> wrote:
+On Thu, 9 May 2019 15:40:49 +0800
+Shiyang Ruan <ruansy.fnst@cn.fujitsu.com> wrote:
 
-> Documentation alignment for the following changes:
-> a700767a7682 (doc/docs-next) docs: requirements.txt: recommend Sphinx 1.7.9
+> Remove the extra 'we '.
 > 
-> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+> Signed-off-by: Shiyang Ruan <ruansy.fnst@cn.fujitsu.com>
+> ---
+>  Documentation/nvdimm/nvdimm.txt | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/nvdimm/nvdimm.txt b/Documentation/nvdimm/nvdimm.txt
+> index e894de69915a..1669f626b037 100644
+> --- a/Documentation/nvdimm/nvdimm.txt
+> +++ b/Documentation/nvdimm/nvdimm.txt
+> @@ -284,8 +284,8 @@ A bus has a 1:1 relationship with an NFIT.  The current expectation for
+>  ACPI based systems is that there is only ever one platform-global NFIT.
+>  That said, it is trivial to register multiple NFITs, the specification
+>  does not preclude it.  The infrastructure supports multiple busses and
+> -we we use this capability to test multiple NFIT configurations in the
+> -unit test.
+> +we use this capability to test multiple NFIT configurations in the unit
+> +test.
 
 Applied, thanks.
+
+I note this has languished for a bit; please don't hesitate to ping after
+a week or so if you don't get a response on a patch posting.
 
 jon
