@@ -5,68 +5,62 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CFDBF7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 11:08:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 381C27D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri,  7 Jun 2019 11:29:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728405AbfFGLIp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 7 Jun 2019 07:08:45 -0400
-Received: from laurent.telenet-ops.be ([195.130.137.89]:42190 "EHLO
-        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728321AbfFGLIp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 07:08:45 -0400
+        id S1727917AbfFGL3y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 7 Jun 2019 07:29:54 -0400
+Received: from albert.telenet-ops.be ([195.130.137.90]:50504 "EHLO
+        albert.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727102AbfFGL3y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 7 Jun 2019 07:29:54 -0400
 Received: from ramsan ([84.194.111.163])
-        by laurent.telenet-ops.be with bizsmtp
-        id Mn8j2000m3XaVaC01n8jYw; Fri, 07 Jun 2019 13:08:44 +0200
+        by albert.telenet-ops.be with bizsmtp
+        id MnVs200033XaVaC06nVsHX; Fri, 07 Jun 2019 13:29:52 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1hZCjj-000497-Qk; Fri, 07 Jun 2019 13:08:43 +0200
+        id 1hZD4C-0004FN-4d; Fri, 07 Jun 2019 13:29:52 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1hZCjj-0003MQ-PI; Fri, 07 Jun 2019 13:08:43 +0200
+        id 1hZD4C-0003lH-38; Fri, 07 Jun 2019 13:29:52 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     "David S . Miller" <davem@davemloft.net>,
+To:     Paolo Bonzini <pbonzini@redhat.com>,
+        =?UTF-8?q?Radim=20Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Jiri Kosina <trivial@kernel.org>
-Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+Cc:     kvm@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH trivial] Documentation: net: dsa: Grammar s/the its/its/
-Date:   Fri,  7 Jun 2019 13:08:42 +0200
-Message-Id: <20190607110842.12876-1-geert+renesas@glider.be>
+Subject: [PATCH trivial] KVM: arm/arm64: Always capitalize ITS
+Date:   Fri,  7 Jun 2019 13:29:51 +0200
+Message-Id: <20190607112951.14418-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+All but one reference is capitalized.  Fix the remaining one.
+
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- Documentation/networking/dsa/dsa.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/virtual/kvm/devices/arm-vgic-its.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/networking/dsa/dsa.rst b/Documentation/networking/dsa/dsa.rst
-index ca87068b9ab904a9..563d56c6a25c924e 100644
---- a/Documentation/networking/dsa/dsa.rst
-+++ b/Documentation/networking/dsa/dsa.rst
-@@ -531,7 +531,7 @@ Bridge VLAN filtering
-   a software implementation.
- 
- .. note:: VLAN ID 0 corresponds to the port private database, which, in the context
--        of DSA, would be the its port-based VLAN, used by the associated bridge device.
-+        of DSA, would be its port-based VLAN, used by the associated bridge device.
- 
- - ``port_fdb_del``: bridge layer function invoked when the bridge wants to remove a
-   Forwarding Database entry, the switch hardware should be programmed to delete
-@@ -554,7 +554,7 @@ Bridge VLAN filtering
-   associated with this VLAN ID.
- 
- .. note:: VLAN ID 0 corresponds to the port private database, which, in the context
--        of DSA, would be the its port-based VLAN, used by the associated bridge device.
-+        of DSA, would be its port-based VLAN, used by the associated bridge device.
- 
- - ``port_mdb_del``: bridge layer function invoked when the bridge wants to remove a
-   multicast database entry, the switch hardware should be programmed to delete
+diff --git a/Documentation/virtual/kvm/devices/arm-vgic-its.txt b/Documentation/virtual/kvm/devices/arm-vgic-its.txt
+index 4f0c9fc403656d29..eeaa95b893a89b7a 100644
+--- a/Documentation/virtual/kvm/devices/arm-vgic-its.txt
++++ b/Documentation/virtual/kvm/devices/arm-vgic-its.txt
+@@ -103,7 +103,7 @@ Groups:
+ The following ordering must be followed when restoring the GIC and the ITS:
+ a) restore all guest memory and create vcpus
+ b) restore all redistributors
+-c) provide the its base address
++c) provide the ITS base address
+    (KVM_DEV_ARM_VGIC_GRP_ADDR)
+ d) restore the ITS in the following order:
+    1. Restore GITS_CBASER
 -- 
 2.17.1
 
