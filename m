@@ -5,45 +5,54 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 296547D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  8 Jun 2019 09:42:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BA0917D910
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  8 Jun 2019 10:51:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726729AbfFHJmR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 8 Jun 2019 05:42:17 -0400
-Received: from casper.infradead.org ([85.118.1.10]:36002 "EHLO
+        id S1726828AbfFHKv3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 8 Jun 2019 06:51:29 -0400
+Received: from casper.infradead.org ([85.118.1.10]:37456 "EHLO
         casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726719AbfFHJmR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Jun 2019 05:42:17 -0400
+        with ESMTP id S1726692AbfFHKv3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Jun 2019 06:51:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
         MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
         :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=L6aKzlUkWy+OfHCVOhU+Gs2YnJQVaK61S0nVMkufido=; b=IfhkF06RWiZRh8TccdsDPqJ8E8
-        BzHA6r6xGh+PKE0l9y7k3YCJvjia7GMMLlhYj5r4aWc3jsFOzNWjIGNZmlxFXOp8stdj1EguJcWXi
-        iCLJcyQY3fd/SVz3TxGnsqBPdFtvqlh96XzKKfmYiiZfRCMqgnrGofIozJhaH7VdaE7aQ2MSoOgxs
-        3CwxBVLYqrABCIZevjMMQsOoz3K9UvDHg6eoq9V/QAVHRtRUlts5qbob/aeO4i+HAOnpp1fcF2+KP
-        OfLRyxTGkZHu/+XkHZJTifUfsZB75n6c6Cc875smWbCG2n1xSk/La1qa7n+TzXibY6i2N/1tCydeh
-        shGb2EAA==;
+        bh=mgeScMz6rj/dz5CujtnU7v335CfKeHECqxwDNtzgkgY=; b=GyrjwBj00gZE9eaLRKHfky58Co
+        YsT7v1zKxGTRvz3OUQxC2wRK3KGwYNzVaJd373H4vT21rbQ+uXfQf4Fbu1PcDWukxtxDdy4EW14F/
+        jFrRYnMRazPXuy3XfTL0BR39hlBuk5CA1M0gb8F4nCw4LMsdqfsVJAibH+ocVsdtyBqxlznRDB68R
+        7dqTfCETv2iBfVGkcAVSH85f5+Dd1+4flbQ+VBoWD6GJSXFYBHPZ7rnCcXLlObMLw84xH332yK0G9
+        vxf9/2dI2KqhBMn8sWr67PA1PKVI2eFqEOQy0vU6C0DXIcf+ptS4nvZ6myRKE0bfWnXL9BkXQT2FN
+        I5k5Swcg==;
 Received: from [179.181.119.115] (helo=coco.lan)
         by casper.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hZXra-000178-D8; Sat, 08 Jun 2019 09:42:14 +0000
-Date:   Sat, 8 Jun 2019 06:42:08 -0300
+        id 1hZYwS-0002D7-9q; Sat, 08 Jun 2019 10:51:20 +0000
+Date:   Sat, 8 Jun 2019 07:51:13 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linus Walleij <linus.walleij@linaro.org>
+To:     Mark Brown <broonie@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Subject: Re: [PATCH v2 12/22] docs: gpio: driver.rst: fix a bad tag
-Message-ID: <20190608064208.12e0e145@coco.lan>
-In-Reply-To: <CACRpkdayQdrtqO3aygY1uDG0LCX_9rVnSnxP5F_C-KMZURTAYA@mail.gmail.com>
-References: <cover.1559656538.git.mchehab+samsung@kernel.org>
-        <ee8f4f56658247a0ab0d9e2c16a9afafefe38da0.1559656538.git.mchehab+samsung@kernel.org>
-        <CACRpkdayQdrtqO3aygY1uDG0LCX_9rVnSnxP5F_C-KMZURTAYA@mail.gmail.com>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Olivier Moysan <olivier.moysan@st.com>,
+        Arnaud Pouliquen <arnaud.pouliquen@st.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        devicetree@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org
+Subject: Re: [PATCH v3 17/20] dt: bindings: fix some broken links from
+ txt->yaml conversion
+Message-ID: <20190608075113.32f2c7bb@coco.lan>
+In-Reply-To: <20190607185728.GJ2456@sirena.org.uk>
+References: <ff457774d46d96e8fe56b45409aba39d87a8672a.1559933665.git.mchehab+samsung@kernel.org>
+        <effeafed3023d8dc5f2440c8d5637ea31c02a533.1559933665.git.mchehab+samsung@kernel.org>
+        <20190607185728.GJ2456@sirena.org.uk>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -53,30 +62,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Linus,
+Em Fri, 7 Jun 2019 19:57:28 +0100
+Mark Brown <broonie@kernel.org> escreveu:
 
-Em Sat, 8 Jun 2019 00:08:10 +0200
-Linus Walleij <linus.walleij@linaro.org> escreveu:
-
-> On Tue, Jun 4, 2019 at 4:18 PM Mauro Carvalho Chehab
-> <mchehab+samsung@kernel.org> wrote:
+> On Fri, Jun 07, 2019 at 03:54:33PM -0300, Mauro Carvalho Chehab wrote:
+> > Some new files got converted to yaml, but references weren't
+> > updated accordingly.  
 > 
-> > With ReST, [foo]_ means a reference to foo, causing this warning:
-> >
-> >     Documentation/driver-api/gpio/driver.rst:419: WARNING: Unknown target name: "devm".
-> >
-> > Fix it by using a literal for the name.
-> >
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>  
-> 
-> Looks identical to the v1 I already applied, so keeping
-> that one.
+> These should probably just be sent as normal patches rather than tied in
+> with the rest of this series...
 
-Thanks for applying it.
+Thanks for applying it!
 
-Yeah, it should be identical (and so it should be the v3 I sent yesterday).
+Yeah, but the problem with documentation patches is that sometimes
+the patches are merged via docs tree, and sometimes via maintainer's
+tree, depending on the subsystem.
 
-v2 and v3 are just rebases on the top of linux-next.
+Anyway, Jon merged this week a patch that should produce warnings
+on COMPILE_TEST builds when a file has a broken link.
+
+Hopefully, this will help a lot to warn people against regressions
+related to it.
+
 
 Thanks,
 Mauro
