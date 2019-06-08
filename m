@@ -5,54 +5,93 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4643E7D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Sat,  8 Jun 2019 19:44:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 621287D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Sat,  8 Jun 2019 20:52:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727370AbfFHToJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 8 Jun 2019 15:44:09 -0400
-Received: from ms.lwn.net ([45.79.88.28]:36348 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727215AbfFHToJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 8 Jun 2019 15:44:09 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id BEB8E2CD;
-        Sat,  8 Jun 2019 19:44:08 +0000 (UTC)
-Date:   Sat, 8 Jun 2019 13:44:07 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        netdev@vger.kernel.org, bpf@vger.kernel.org
-Subject: Re: [PATCH v2 00/22] Some documentation fixes
-Message-ID: <20190608134407.580f8bb5@lwn.net>
-In-Reply-To: <20190607154430.4879976d@coco.lan>
-References: <cover.1559656538.git.mchehab+samsung@kernel.org>
-        <20190607115521.6bf39030@lwn.net>
-        <20190607154430.4879976d@coco.lan>
-Organization: LWN.net
+        id S1727444AbfFHUwa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 8 Jun 2019 16:52:30 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:38279 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727372AbfFHUw3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Jun 2019 16:52:29 -0400
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id BFAAC801E8; Sat,  8 Jun 2019 22:52:15 +0200 (CEST)
+Date:   Sat, 8 Jun 2019 22:52:18 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+Subject: Re: [PATCH v7 03/14] x86/cet/ibt: Add IBT legacy code bitmap setup
+ function
+Message-ID: <20190608205218.GA2359@xo-6d-61-c0.localdomain>
+References: <20190606200926.4029-1-yu-cheng.yu@intel.com>
+ <20190606200926.4029-4-yu-cheng.yu@intel.com>
+ <20190607080832.GT3419@hirez.programming.kicks-ass.net>
+ <aa8a92ef231d512b5c9855ef416db050b5ab59a6.camel@intel.com>
+ <20190607174336.GM3436@hirez.programming.kicks-ass.net>
+ <b3de4110-5366-fdc7-a960-71dea543a42f@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b3de4110-5366-fdc7-a960-71dea543a42f@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 7 Jun 2019 15:44:30 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+Hi!
 
-> After doing that, there are 17 patches yet to be applied. Two new
-> patches are now needed too, due to vfs.txt -> vfs.rst and
-> pci.txt -> pci.rst renames.
+> > I've no idea what the kernel should do; since you failed to answer the
+> > question what happens when you point this to garbage.
+> > 
+> > Does it then fault or what?
+> 
+> Yeah, I think you'll fault with a rather mysterious CR2 value since
+> you'll go look at the instruction that faulted and not see any
+> references to the CR2 value.
+> 
+> I think this new MSR probably needs to get included in oops output when
+> CET is enabled.
+> 
+> Why don't we require that a VMA be in place for the entire bitmap?
+> Don't we need a "get" prctl function too in case something like a JIT is
+> running and needs to find the location of this bitmap to set bits itself?
+> 
+> Or, do we just go whole-hog and have the kernel manage the bitmap
+> itself. Our interface here could be:
+> 
+> 	prctl(PR_MARK_CODE_AS_LEGACY, start, size);
+> 
+> and then have the kernel allocate and set the bitmap for those code
+> locations.
 
-OK, I've applied the set, minus those that had been picked up elsewhere.
-
-Thanks,
-
-jon
+For the record, that sounds like a better interface than userspace knowing
+about the bitmap formats...
+									Pavel
+-- 
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
