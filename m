@@ -1,83 +1,62 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F10577D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Jun 2019 02:33:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 59F0B7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Jun 2019 07:01:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727522AbfFICdl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 8 Jun 2019 22:33:41 -0400
-Received: from casper.infradead.org ([85.118.1.10]:37438 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727485AbfFICdl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Jun 2019 22:33:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=3Fp1yuwwbOTbYdEqsZgF9iklbrQHl3f9VYC9FtEc6kI=; b=QklMMOA9CGj+eXx0W9MvmFE0by
-        0aQedeNfBMWna6CYprMFaEI2qA4kPeOnRyOEvn2aWyVBRVrFxHsJhJT4y8j8WRET4/OuncElTGcKY
-        1kXcQ0a8VlI2NwrvtTMO2cQ3q7h1Jn66qeukXioB6/N9vSPhV0EgdPWi9n/gC+9fmyNydhA9BXiNo
-        9yKbfd0o7rTBHQVpNnQx4TQOlFVXinBGdjSGKt7RUOGCGI+/dbrJnHDzL0AkB20um1bet10+OzDMq
-        dP0ath70zmmP8wrAoVRXdoywUNkrUudR2U+ifiamGNlWhAtXUpuSrxNwDl+xdQy39vJRKkx3vlkf3
-        aQ09AIQw==;
-Received: from 179.176.115.133.dynamic.adsl.gvt.net.br ([179.176.115.133] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hZneK-0004xW-3Q; Sun, 09 Jun 2019 02:33:36 +0000
-Date:   Sat, 8 Jun 2019 23:33:31 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
+        id S1726770AbfFIHBX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 9 Jun 2019 03:01:23 -0400
+Received: from isilmar-4.linta.de ([136.243.71.142]:39746 "EHLO
+        isilmar-4.linta.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725850AbfFIHBW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Jun 2019 03:01:22 -0400
+Received: from light.dominikbrodowski.net (isilmar.linta [10.0.0.1])
+        by isilmar-4.linta.de (Postfix) with ESMTPS id 32BDE200700;
+        Sun,  9 Jun 2019 07:01:21 +0000 (UTC)
+Received: by light.dominikbrodowski.net (Postfix, from userid 1000)
+        id D587021831; Sun,  9 Jun 2019 08:59:48 +0200 (CEST)
+Date:   Sun, 9 Jun 2019 08:59:48 +0200
+From:   Dominik Brodowski <linux@dominikbrodowski.net>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        netdev@vger.kernel.org, bpf@vger.kernel.org
-Subject: Re: [PATCH v2 00/22] Some documentation fixes
-Message-ID: <20190608233149.6a35bee9@coco.lan>
-In-Reply-To: <20190608134407.580f8bb5@lwn.net>
-References: <cover.1559656538.git.mchehab+samsung@kernel.org>
-        <20190607115521.6bf39030@lwn.net>
-        <20190607154430.4879976d@coco.lan>
-        <20190608134407.580f8bb5@lwn.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v3 19/33] docs: pcmcia: convert docs to ReST and rename
+ to *.rst
+Message-ID: <20190609065948.GA25429@light.dominikbrodowski.net>
+References: <cover.1560045490.git.mchehab+samsung@kernel.org>
+ <d1b05720154bdbc4b75f5583cd4d1740e58b4cde.1560045490.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d1b05720154bdbc4b75f5583cd4d1740e58b4cde.1560045490.git.mchehab+samsung@kernel.org>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
-Message-ID: <20190609023331.Y0JPzvPCBAzpYh1_lckfmChMDwWLOj4SUlYd1tgheEg@z>
 
-Em Sat, 8 Jun 2019 13:44:07 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
-
-> On Fri, 7 Jun 2019 15:44:30 -0300
-> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+On Sat, Jun 08, 2019 at 11:27:09PM -0300, Mauro Carvalho Chehab wrote:
+> Convert the pcmcia docs to ReST format. Most of the changes here
+> are trivial.
 > 
-> > After doing that, there are 17 patches yet to be applied. Two new
-> > patches are now needed too, due to vfs.txt -> vfs.rst and
-> > pci.txt -> pci.rst renames.  
+> The conversion is actually:
+>   - add blank lines and identation in order to identify paragraphs;
+>   - fix tables markups;
+>   - add some lists markups;
+>   - mark literal blocks;
+>   - adjust title markups.
 > 
-> OK, I've applied the set, minus those that had been picked up elsewhere.
+> At its new index.rst, let's add a :orphan: while this is not linked to
+> the main index.rst file, in order to avoid build warnings.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-Thank you!
-
-I'm sending the conversion patches based after your tree + linux-next.
-
-I opted to split it on a few series, as I have already 85 patches
-here (and still several new "orphan" index files that I need to work
-in order to find them a place).
-
-Sending right now the first 33 patches.
-
+Acked-by: Dominik Brodowski <linux@dominikbrodowski.net>
 
 Thanks,
-Mauro
+	Dominik
