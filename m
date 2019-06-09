@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1A47E7DE71
+	by archive.lwn.net (Postfix) with ESMTP id 5990D7DE79
 	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Jun 2019 02:29:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728081AbfFIC3R (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 8 Jun 2019 22:29:17 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:55684 "EHLO
+        id S1728691AbfFIC31 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 8 Jun 2019 22:29:27 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:55714 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727991AbfFIC1e (ORCPT
+        with ESMTP id S1728049AbfFIC1e (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Jun 2019 22:27:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,30 +20,30 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=CctnbIWR2D1VdRF69Ad466ercVKUsw+mKLT81sQau5M=; b=hz9pGqZCxlaeZG4SYt4tzQW21y
-        GBU3z87hpQpVfVJaA1wapOY7XhDBllPLKTza84Dyy0RpU0g9dv7AD9eKufqdbnJCPTmBaSQcXLCwV
-        CjxSzxI0RQ1xPUXKQMMOajh6R5q/6SeOD06NdklUFaIFh+Fa8BpGV0MMra6wWKgXr5QLfVd/kSB14
-        xilsAxCZ2zde7Guj5AUefHMznP/zYNxojZOZYBdaeLVVBENS01sqCjw3OF07Q/rkrgU0FQgb9kCoN
-        HQrHKVQc36kUbvI0fwG4ICnEL4bi1PdJlqxiUdvN5vZuLaXv6VfUyFr7J2/fv5DWpgk8AFpT99k1K
-        VC873PEQ==;
+        bh=vUVvPhgY3HStQJXKa9hZ5gppJ73rUubxOp7B6iovUmA=; b=XCnB3DDiDjfYm5lkkdIIxzivm9
+        UQ4gzL+85OMGr40rbdjC0qwXREF+4LV4gGZKPADi4RvI3ghfnIek/qZ+OcZHWdmObQ/KlLhRrUjyB
+        ypahmBN5qmsTUSve3HP3HJMIku4bEJ/jh1KqBgWdgkVPYI2qeN9BeUzSytAKNJzyfcwsyXQaQbV4H
+        /wpUjEUH/9uEeykdIyM+xjrmNN0suZPBEnsNs5RxZep4bwda2YoZ3WOR9fkJtzFdRh+bobwdm/iP8
+        MoyhyvC9gCLEQKm3KyWx8zHtxMSeOUr7hT9uvRUFLYolZFw9aI2Yd+4alx1RvQ4tkm/3KOSJCaYZe
+        D2Q73mUw==;
 Received: from 179.176.115.133.dynamic.adsl.gvt.net.br ([179.176.115.133] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hZnYS-0001ms-3Y; Sun, 09 Jun 2019 02:27:32 +0000
+        id 1hZnYS-0001n4-IV; Sun, 09 Jun 2019 02:27:33 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hZnYL-0000Iy-3h; Sat, 08 Jun 2019 23:27:25 -0300
+        id 1hZnYL-0000KH-Iu; Sat, 08 Jun 2019 23:27:25 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Borislav Petkov <bp@alien8.de>, Jens Axboe <axboe@kernel.dk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-ide@vger.kernel.org, linux-m68k@lists.linux-m68k.org
-Subject: [PATCH v3 12/33] docs: ide: convert docs to ReST and rename to *.rst
-Date:   Sat,  8 Jun 2019 23:27:02 -0300
-Message-Id: <472757a7481a8645837092f0f257f37996af6299.1560045490.git.mchehab+samsung@kernel.org>
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        linux-s390@vger.kernel.org
+Subject: [PATCH v3 27/33] s390: include/asm/debug.h add kerneldoc markups
+Date:   Sat,  8 Jun 2019 23:27:17 -0300
+Message-Id: <62625860db165cead495ceae80239d122a6ea762.1560045490.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1560045490.git.mchehab+samsung@kernel.org>
 References: <cover.1560045490.git.mchehab+samsung@kernel.org>
@@ -54,606 +54,1155 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The conversion is actually:
-  - add blank lines and identation in order to identify paragraphs;
-  - fix tables markups;
-  - add some lists markups;
-  - mark literal blocks;
-  - adjust title markups.
+Instead of keeping the documentation inside s390dbf.rst,
+move them to arch/s390/include/asm/debug.h, using standard
+kernel-doc markups.
 
-At its new index.rst, let's add a :orphan: while this is not linked to
-the main index.rst file, in order to avoid build warnings.
+Keeping the documentation close to the code helps to keep it
+updated. It also makes easier to document other stuff inside
+debug.h, as all it needs is to add kernel-doc markups inside
+it, as the file will be already be included at the produced
+documentation.
+
+-
+
+Those were converted to kerneldoc using this script specially
+designed to parse ths file, and manually editted:
+
+<script>
+use strict;
+
+my $mode = "";
+my $parameter = "";
+my $ret = "";
+my $descr = "";
+
+sub add_var($)
+{
+	my $ln = shift;
+
+	$ln =~ s/^\s+//;
+	$ln =~ s/\s+$//;
+
+	return if ($ln eq "");
+
+	$ln =~ s/^(\S+)\s+/$1\t/;
+
+	print " * \@$ln\n";
+}
+
+sub add_return($)
+{
+	my $ln = shift;
+
+	print " *\n * Return:\n" if ($mode ne "Return Value:");
+
+	$ln =~ s/^\s+//;
+	$ln =~ s/\s+$//;
+
+	return if ($ln eq "");
+
+	print " * -   $ln\n";
+}
+
+sub add_description($)
+{
+	my $ln = shift;
+
+	print " *\n * \n" if ($mode ne "Description:");
+
+	$ln =~ s/^\s+//;
+	$ln =~ s/\s+$//;
+
+	return if ($ln eq "");
+
+	print " * $ln\n";
+}
+
+sub flush_results()
+{
+	print " */\n\n";
+}
+
+while (<>) {
+	if (m/^[\-]+$/) {
+		flush_results();
+		$mode = "";
+		$parameter = "";
+		$ret = "";
+		$descr = "";
+		next;
+	}
+	if (m/(Parameter:)(.*)/) {
+		print " *\n" if ($mode eq "func");
+		add_var($2);
+		$mode = $1;
+		next;
+	}
+	if (m/(Return Value:)(.*)/) {
+		add_return($2);
+		$mode = $1;
+		next;
+	}
+	if (m/(Description:)(.*)/) {
+		add_description($2);
+		$mode = $1;
+		next;
+	}
+	if ($mode eq "Parameter:") {
+		add_var($_);
+		next;
+	}
+	if ($mode eq "Return Value:") {
+		add_return($_);
+		next;
+	}
+	if ($mode eq "Description:") {
+		add_description($_);
+		next;
+	}
+	next if (m/^\s*$/);
+
+	if (m/^\S+.*\s\*?(\S+)\s*\(/) {
+		if ($mode eq "") {
+			print "/**\n * $1()\n";
+		} else {
+			print " * $1()\n";
+		}
+		$mode="func";
+	}
+}
+flush_results();
+</script>
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- .../admin-guide/kernel-parameters.txt         |   2 +-
- Documentation/cdrom/ide-cd.rst                |  18 +--
- Documentation/ide/changelogs.rst              |  17 ++
- .../ide/{ide-tape.txt => ide-tape.rst}        |  23 +--
- Documentation/ide/{ide.txt => ide.rst}        | 147 ++++++++++--------
- Documentation/ide/index.rst                   |  21 +++
- ...arm-plug-howto.txt => warm-plug-howto.rst} |  10 +-
- arch/m68k/q40/README                          |   2 +-
- drivers/ide/Kconfig                           |  20 +--
- 9 files changed, 155 insertions(+), 105 deletions(-)
- create mode 100644 Documentation/ide/changelogs.rst
- rename Documentation/ide/{ide-tape.txt => ide-tape.rst} (83%)
- rename Documentation/ide/{ide.txt => ide.rst} (72%)
- create mode 100644 Documentation/ide/index.rst
- rename Documentation/ide/{warm-plug-howto.txt => warm-plug-howto.rst} (61%)
+ Documentation/s390/s390dbf.rst | 672 +--------------------------------
+ arch/s390/include/asm/debug.h  | 231 ++++++++++++
+ 2 files changed, 232 insertions(+), 671 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index d5f01f7eb5ca..e4544f0335e3 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1502,7 +1502,7 @@
- 			Format: =0.0 to prevent dma on hda, =0.1 hdb =1.0 hdc
- 			.vlb_clock .pci_clock .noflush .nohpa .noprobe .nowerr
- 			.cdrom .chs .ignore_cable are additional options
--			See Documentation/ide/ide.txt.
-+			See Documentation/ide/ide.rst.
+diff --git a/Documentation/s390/s390dbf.rst b/Documentation/s390/s390dbf.rst
+index ec2a1faa414b..d2595b548879 100644
+--- a/Documentation/s390/s390dbf.rst
++++ b/Documentation/s390/s390dbf.rst
+@@ -104,684 +104,14 @@ the "debug_stoppable" sysctl. If you set "debug_stoppable" to 0 the debug
+ feature cannot be stopped. If the debug feature is already stopped, it
+ will stay deactivated.
  
- 	ide-generic.probe-mask= [HW] (E)IDE subsystem
- 			Format: <int>
-diff --git a/Documentation/cdrom/ide-cd.rst b/Documentation/cdrom/ide-cd.rst
-index dadc94ef6b6c..bdccb74fc92d 100644
---- a/Documentation/cdrom/ide-cd.rst
-+++ b/Documentation/cdrom/ide-cd.rst
-@@ -47,7 +47,7 @@ This driver provides the following features:
- ---------------
- 
- 0. The ide-cd relies on the ide disk driver.  See
--   Documentation/ide/ide.txt for up-to-date information on the ide
-+   Documentation/ide/ide.rst for up-to-date information on the ide
-    driver.
- 
- 1. Make sure that the ide and ide-cd drivers are compiled into the
-@@ -62,7 +62,7 @@ This driver provides the following features:
- 
-    Depending on what type of IDE interface you have, you may need to
-    specify additional configuration options.  See
--   Documentation/ide/ide.txt.
-+   Documentation/ide/ide.rst.
- 
- 2. You should also ensure that the iso9660 filesystem is either
-    compiled into the kernel or available as a loadable module.  You
-@@ -82,7 +82,7 @@ This driver provides the following features:
-    on the primary IDE interface are called `hda` and `hdb`,
-    respectively.  The drives on the secondary interface are called
-    `hdc` and `hdd`.  (Interfaces at other locations get other letters
--   in the third position; see Documentation/ide/ide.txt.)
-+   in the third position; see Documentation/ide/ide.rst.)
- 
-    If you want your CDROM drive to be found automatically by the
-    driver, you should make sure your IDE interface uses either the
-@@ -91,7 +91,7 @@ This driver provides the following features:
-    be jumpered as `master`.  (If for some reason you cannot configure
-    your system in this manner, you can probably still use the driver.
-    You may have to pass extra configuration information to the kernel
--   when you boot, however.  See Documentation/ide/ide.txt for more
-+   when you boot, however.  See Documentation/ide/ide.rst for more
-    information.)
- 
- 4. Boot the system.  If the drive is recognized, you should see a
-@@ -163,7 +163,7 @@ to change.  If the slot number is -1, the drive is unloaded.
- This section discusses some common problems encountered when trying to
- use the driver, and some possible solutions.  Note that if you are
- experiencing problems, you should probably also review
--Documentation/ide/ide.txt for current information about the underlying
-+Documentation/ide/ide.rst for current information about the underlying
- IDE support code.  Some of these items apply only to earlier versions
- of the driver, but are mentioned here for completeness.
- 
-@@ -173,7 +173,7 @@ from the driver.
- a. Drive is not detected during booting.
- 
-    - Review the configuration instructions above and in
--     Documentation/ide/ide.txt, and check how your hardware is
-+     Documentation/ide/ide.rst, and check how your hardware is
-      configured.
- 
-    - If your drive is the only device on an IDE interface, it should
-@@ -181,7 +181,7 @@ a. Drive is not detected during booting.
- 
-    - If your IDE interface is not at the standard addresses of 0x170
-      or 0x1f0, you'll need to explicitly inform the driver using a
--     lilo option.  See Documentation/ide/ide.txt.  (This feature was
-+     lilo option.  See Documentation/ide/ide.rst.  (This feature was
-      added around kernel version 1.3.30.)
- 
-    - If the autoprobing is not finding your drive, you can tell the
-@@ -207,7 +207,7 @@ a. Drive is not detected during booting.
-      Support for some interfaces needing extra initialization is
-      provided in later 1.3.x kernels.  You may need to turn on
-      additional kernel configuration options to get them to work;
--     see Documentation/ide/ide.txt.
-+     see Documentation/ide/ide.rst.
- 
-      Even if support is not available for your interface, you may be
-      able to get it to work with the following procedure.  First boot
-@@ -261,7 +261,7 @@ c. System hangups.
-     be worked around by specifying the `serialize` option when
-     booting.  Recent kernels should be able to detect the need for
-     this automatically in most cases, but the detection is not
--    foolproof.  See Documentation/ide/ide.txt for more information
-+    foolproof.  See Documentation/ide/ide.rst for more information
-     about the `serialize` option and the CMD640B.
- 
-   - Note that many MS-DOS CDROM drivers will work with such buggy
-diff --git a/Documentation/ide/changelogs.rst b/Documentation/ide/changelogs.rst
-new file mode 100644
-index 000000000000..fdf9d0fb8027
---- /dev/null
-+++ b/Documentation/ide/changelogs.rst
-@@ -0,0 +1,17 @@
-+Changelog for ide cd
-+--------------------
-+
-+ .. include:: ChangeLog.ide-cd.1994-2004
-+    :literal:
-+
-+Changelog for ide floppy
-+------------------------
-+
-+ .. include:: ChangeLog.ide-floppy.1996-2002
-+    :literal:
-+
-+Changelog for ide tape
-+----------------------
-+
-+ .. include:: ChangeLog.ide-tape.1995-2002
-+    :literal:
-diff --git a/Documentation/ide/ide-tape.txt b/Documentation/ide/ide-tape.rst
-similarity index 83%
-rename from Documentation/ide/ide-tape.txt
-rename to Documentation/ide/ide-tape.rst
-index 3f348a0b21d8..3e061d9c0e38 100644
---- a/Documentation/ide/ide-tape.txt
-+++ b/Documentation/ide/ide-tape.rst
-@@ -1,4 +1,6 @@
--IDE ATAPI streaming tape driver.
-+===============================
-+IDE ATAPI streaming tape driver
-+===============================
- 
- This driver is a part of the Linux ide driver.
- 
-@@ -10,14 +12,14 @@ to the request-list of the block device, and waits for their completion.
- The block device major and minor numbers are determined from the
- tape's relative position in the ide interfaces, as explained in ide.c.
- 
--The character device interface consists of the following devices:
-+The character device interface consists of the following devices::
- 
--ht0		major 37, minor 0	first  IDE tape, rewind on close.
--ht1		major 37, minor 1	second IDE tape, rewind on close.
--...
--nht0		major 37, minor 128	first  IDE tape, no rewind on close.
--nht1		major 37, minor 129	second IDE tape, no rewind on close.
--...
-+  ht0		major 37, minor 0	first  IDE tape, rewind on close.
-+  ht1		major 37, minor 1	second IDE tape, rewind on close.
-+  ...
-+  nht0		major 37, minor 128	first  IDE tape, no rewind on close.
-+  nht1		major 37, minor 129	second IDE tape, no rewind on close.
-+  ...
- 
- The general magnetic tape commands compatible interface, as defined by
- include/linux/mtio.h, is accessible through the character device.
-@@ -40,9 +42,10 @@ Testing was done with a 2 GB CONNER CTMA 4000 IDE ATAPI Streaming Tape Drive.
- Here are some words from the first releases of hd.c, which are quoted
- in ide.c and apply here as well:
- 
--| Special care is recommended.  Have Fun!
-+* Special care is recommended.  Have Fun!
- 
--Possible improvements:
-+Possible improvements
-+=====================
- 
- 1. Support for the ATAPI overlap protocol.
- 
-diff --git a/Documentation/ide/ide.txt b/Documentation/ide/ide.rst
-similarity index 72%
-rename from Documentation/ide/ide.txt
-rename to Documentation/ide/ide.rst
-index 7aca987c23d9..88bdcba92f7d 100644
---- a/Documentation/ide/ide.txt
-+++ b/Documentation/ide/ide.rst
-@@ -1,41 +1,43 @@
+-----------------------------------------------------------------------------
 -
--	Information regarding the Enhanced IDE drive in Linux 2.6
+ Kernel Interfaces:
+ ------------------
+ 
+-::
 -
--==============================================================================
+-  debug_info_t *debug_register(char *name, int pages, int nr_areas,
+-			       int buf_size);
 -
-+============================================
-+Information regarding the Enhanced IDE drive
-+============================================
- 
-    The hdparm utility can be used to control various IDE features on a
-    running system. It is packaged separately.  Please Look for it on popular
-    linux FTP sites.
- 
-+-------------------------------------------------------------------------------
- 
-+.. important::
- 
--***  IMPORTANT NOTICES:  BUGGY IDE CHIPSETS CAN CORRUPT DATA!!
--***  =================
--***  PCI versions of the CMD640 and RZ1000 interfaces are now detected
--***  automatically at startup when PCI BIOS support is configured.
--***
--***  Linux disables the "prefetch" ("readahead") mode of the RZ1000
--***  to prevent data corruption possible due to hardware design flaws.
--***
--***  For the CMD640, linux disables "IRQ unmasking" (hdparm -u1) on any
--***  drive for which the "prefetch" mode of the CMD640 is turned on.
--***  If "prefetch" is disabled (hdparm -p8), then "IRQ unmasking" can be
--***  used again.
--***
--***  For the CMD640, linux disables "32bit I/O" (hdparm -c1) on any drive
--***  for which the "prefetch" mode of the CMD640 is turned off.
--***  If "prefetch" is enabled (hdparm -p9), then "32bit I/O" can be
--***  used again.
--***
--***  The CMD640 is also used on some Vesa Local Bus (VLB) cards, and is *NOT*
--***  automatically detected by Linux.  For safe, reliable operation with such
--***  interfaces, one *MUST* use the "cmd640.probe_vlb" kernel option.
--***
--***  Use of the "serialize" option is no longer necessary.
+-Parameter:
+-	      name:
+-			   Name of debug log (e.g. used for debugfs entry)
+-	      pages:
+-			   Number of pages, which will be allocated per area
+-	      nr_areas:
+-			   Number of debug areas
+-	      buf_size:
+-			   Size of data area in each debug entry
 -
--================================================================================
--Common pitfalls:
-+   BUGGY IDE CHIPSETS CAN CORRUPT DATA!!
-+
-+    PCI versions of the CMD640 and RZ1000 interfaces are now detected
-+    automatically at startup when PCI BIOS support is configured.
-+
-+    Linux disables the "prefetch" ("readahead") mode of the RZ1000
-+    to prevent data corruption possible due to hardware design flaws.
-+
-+    For the CMD640, linux disables "IRQ unmasking" (hdparm -u1) on any
-+    drive for which the "prefetch" mode of the CMD640 is turned on.
-+    If "prefetch" is disabled (hdparm -p8), then "IRQ unmasking" can be
-+    used again.
-+
-+    For the CMD640, linux disables "32bit I/O" (hdparm -c1) on any drive
-+    for which the "prefetch" mode of the CMD640 is turned off.
-+    If "prefetch" is enabled (hdparm -p9), then "32bit I/O" can be
-+    used again.
-+
-+    The CMD640 is also used on some Vesa Local Bus (VLB) cards, and is *NOT*
-+    automatically detected by Linux.  For safe, reliable operation with such
-+    interfaces, one *MUST* use the "cmd640.probe_vlb" kernel option.
-+
-+    Use of the "serialize" option is no longer necessary.
-+
-+-------------------------------------------------------------------------------
-+
-+Common pitfalls
-+===============
- 
- - 40-conductor IDE cables are capable of transferring data in DMA modes up to
-   udma2, but no faster.
-@@ -49,19 +51,18 @@ Common pitfalls:
- - Even better try to stick to the same vendor and device type on the same
-   cable.
- 
--================================================================================
+-Return Value:
+-	Handle for generated debug area
 -
--This is the multiple IDE interface driver, as evolved from hd.c.
-+This is the multiple IDE interface driver, as evolved from hd.c
-+===============================================================
- 
- It supports up to 9 IDE interfaces per default, on one or more IRQs (usually
--14 & 15).  There can be up to two drives per interface, as per the ATA-6 spec.
-+14 & 15).  There can be up to two drives per interface, as per the ATA-6 spec.::
- 
--Primary:    ide0, port 0x1f0; major=3;  hda is minor=0; hdb is minor=64
--Secondary:  ide1, port 0x170; major=22; hdc is minor=0; hdd is minor=64
--Tertiary:   ide2, port 0x1e8; major=33; hde is minor=0; hdf is minor=64
--Quaternary: ide3, port 0x168; major=34; hdg is minor=0; hdh is minor=64
--fifth..     ide4, usually PCI, probed
--sixth..     ide5, usually PCI, probed
-+  Primary:    ide0, port 0x1f0; major=3;  hda is minor=0; hdb is minor=64
-+  Secondary:  ide1, port 0x170; major=22; hdc is minor=0; hdd is minor=64
-+  Tertiary:   ide2, port 0x1e8; major=33; hde is minor=0; hdf is minor=64
-+  Quaternary: ide3, port 0x168; major=34; hdg is minor=0; hdh is minor=64
-+  fifth..     ide4, usually PCI, probed
-+  sixth..     ide5, usually PCI, probed
- 
- To access devices on interfaces > ide0, device entries please make sure that
- device files for them are present in /dev.  If not, please create such
-@@ -80,12 +81,15 @@ seldom occurs.  Be careful, and if in doubt, don't do it!
- 
- Drives are normally found by auto-probing and/or examining the CMOS/BIOS data.
- For really weird situations, the apparent (fdisk) geometry can also be specified
--on the kernel "command line" using LILO.  The format of such lines is:
-+on the kernel "command line" using LILO.  The format of such lines is::
- 
- 	ide_core.chs=[interface_number.device_number]:cyls,heads,sects
--or	ide_core.cdrom=[interface_number.device_number]
- 
--For example:
-+or::
-+
-+	ide_core.cdrom=[interface_number.device_number]
-+
-+For example::
- 
- 	ide_core.chs=1.0:1050,32,64  ide_core.cdrom=1.1
- 
-@@ -96,10 +100,12 @@ geometry for partitioning purposes (fdisk).
- If the auto-probing during boot time confuses a drive (ie. the drive works
- with hd.c but not with ide.c), then an command line option may be specified
- for each drive for which you'd like the drive to skip the hardware
--probe/identification sequence.  For example:
-+probe/identification sequence.  For example::
- 
- 	ide_core.noprobe=0.1
--or
-+
-+or::
-+
- 	ide_core.chs=1.0:768,16,32
- 	ide_core.noprobe=1.0
- 
-@@ -115,22 +121,24 @@ Such drives will be identified at boot time, just like a hard disk.
- 
- If for some reason your cdrom drive is *not* found at boot time, you can force
- the probe to look harder by supplying a kernel command line parameter
--via LILO, such as:
-+via LILO, such as:::
- 
- 	ide_core.cdrom=1.0	/* "master" on second interface (hdc) */
--or
-+
-+or::
-+
- 	ide_core.cdrom=1.1	/* "slave" on second interface (hdd) */
- 
- For example, a GW2000 system might have a hard drive on the primary
- interface (/dev/hda) and an IDE cdrom drive on the secondary interface
--(/dev/hdc).  To mount a CD in the cdrom drive, one would use something like:
-+(/dev/hdc).  To mount a CD in the cdrom drive, one would use something like::
- 
- 	ln -sf /dev/hdc /dev/cdrom
- 	mkdir /mnt/cdrom
- 	mount /dev/cdrom /mnt/cdrom -t iso9660 -o ro
- 
- If, after doing all of the above, mount doesn't work and you see
--errors from the driver (with dmesg) complaining about `status=0xff',
-+errors from the driver (with dmesg) complaining about `status=0xff`,
- this means that the hardware is not responding to the driver's attempts
- to read it.  One of the following is probably the problem:
- 
-@@ -165,7 +173,7 @@ drivers can always be compiled as loadable modules, the chipset drivers
- can only be compiled into the kernel, and the core code (ide.c) can be
- compiled as a loadable module provided no chipset support is needed.
- 
--When using ide.c as a module in combination with kmod, add:
-+When using ide.c as a module in combination with kmod, add::
- 
- 	alias block-major-3 ide-probe
- 
-@@ -176,10 +184,8 @@ driver using the "options=" keyword to insmod, while replacing any ',' with
- ';'.
- 
- 
--================================================================================
+-	  NULL if register failed
 -
- Summary of ide driver parameters for kernel command line
----------------------------------------------------------
-+========================================================
+-Description:  Allocates memory for a debug log
+-	      Must not be called within an interrupt handler
+-
+-----------------------------------------------------------------------------
+-
+-::
+-
+-  debug_info_t *debug_register_mode(char *name, int pages, int nr_areas,
+-				    int buf_size, mode_t mode, uid_t uid,
+-				    gid_t gid);
+-
+-Parameter:
+-	      name:
+-			   Name of debug log (e.g. used for debugfs entry)
+-	      pages:
+-			   Number of pages, which will be allocated per area
+-	      nr_areas:
+-			   Number of debug areas
+-	      buf_size:
+-			   Size of data area in each debug entry
+-	      mode:
+-			   File mode for debugfs files. E.g. S_IRWXUGO
+-	      uid:
+-			   User ID for debugfs files. Currently only 0 is
+-			   supported.
+-	      gid:
+-			   Group ID for debugfs files. Currently only 0 is
+-			   supported.
+-
+-Return Value:
+-	      Handle for generated debug area
+-
+-		NULL if register failed
+-
+-Description:
+-	      Allocates memory for a debug log
+-	      Must not be called within an interrupt handler
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  void debug_unregister (debug_info_t * id);
+-
+-Parameter:
+-	       id:
+-		    handle for debug log
+-
+-Return Value:
+-	       none
+-
+-Description:
+-	       frees memory for a debug log and removes all registered debug
+-	       views.
+-
+-	       Must not be called within an interrupt handler
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  void debug_set_level (debug_info_t * id, int new_level);
+-
+-Parameter:     id:        handle for debug log
+-	       new_level: new debug level
+-
+-Return Value:
+-	       none
+-
+-Description:
+-	       Sets new actual debug level if new_level is valid.
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  bool debug_level_enabled (debug_info_t * id, int level);
+-
+-Parameter:
+-	      id:
+-			  handle for debug log
+-	      level:
+-			  debug level
+-
+-Return Value:
+-	      True if level is less or equal to the current debug level.
+-
+-Description:
+-	      Returns true if debug events for the specified level would be
+-	      logged. Otherwise returns false.
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  void debug_stop_all(void);
+-
+-Parameter:
+-	       none
+-
+-Return Value:
+-	       none
+-
+-Description:
+-	       stops the debug feature if stopping is allowed. Currently
+-	       used in case of a kernel oops.
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  debug_entry_t* debug_event (debug_info_t* id, int level, void* data,
+-			      int length);
+-
+-Parameter:
+-	       id:
+-		       handle for debug log
+-	       level:
+-		       debug level
+-	       data:
+-		       pointer to data for debug entry
+-	       length:
+-		       length of data in bytes
+-
+-Return Value:
+-	       Address of written debug entry
+-
+-Description:
+-	       writes debug entry to active debug area (if level <= actual
+-	       debug level)
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  debug_entry_t* debug_int_event (debug_info_t * id, int level,
+-				  unsigned int data);
+-  debug_entry_t* debug_long_event(debug_info_t * id, int level,
+-				  unsigned long data);
+-
+-Parameter:
+-	       id:
+-		       handle for debug log
+-	       level:
+-		       debug level
+-	       data:
+-		       integer value for debug entry
+-
+-Return Value:
+-	       Address of written debug entry
+-
+-Description:
+-	       writes debug entry to active debug area (if level <= actual
+-	       debug level)
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  debug_entry_t* debug_text_event (debug_info_t * id, int level,
+-				   const char* data);
+-
+-Parameter:
+-	       id:
+-		       handle for debug log
+-	       level:
+-		       debug level
+-	       data:
+-		       string for debug entry
+-
+-Return Value:
+-	       Address of written debug entry
+-
+-Description:
+-	       writes debug entry in ascii format to active debug area
+-	       (if level <= actual debug level)
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  debug_entry_t* debug_sprintf_event (debug_info_t * id, int level,
+-				      char* string,...);
+-
+-Parameter:
+-	       id:
+-		      handle for debug log
+-	       level:
+-		      debug level
+-	       string:
+-		      format string for debug entry
+-	       ...:
+-		      varargs used as in sprintf()
+-
+-Return Value:  Address of written debug entry
+-
+-Description:
+-	       writes debug entry with format string and varargs (longs) to
+-	       active debug area (if level $<=$ actual debug level).
+-	       floats and long long datatypes cannot be used as varargs.
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  debug_entry_t* debug_exception (debug_info_t* id, int level, void* data,
+-				  int length);
+-
+-Parameter:
+-	       id:
+-		       handle for debug log
+-	       level:
+-		       debug level
+-	       data:
+-		       pointer to data for debug entry
+-	       length:
+-		       length of data in bytes
+-
+-Return Value:
+-	       Address of written debug entry
+-
+-Description:
+-	       writes debug entry to active debug area (if level <= actual
+-	       debug level) and switches to next debug area
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  debug_entry_t* debug_int_exception (debug_info_t * id, int level,
+-				      unsigned int data);
+-  debug_entry_t* debug_long_exception(debug_info_t * id, int level,
+-				      unsigned long data);
+-
+-Parameter:     id:     handle for debug log
+-	       level:  debug level
+-	       data:   integer value for debug entry
+-
+-Return Value:  Address of written debug entry
+-
+-Description:   writes debug entry to active debug area (if level <= actual
+-	       debug level) and switches to next debug area
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  debug_entry_t* debug_text_exception (debug_info_t * id, int level,
+-				       const char* data);
+-
+-Parameter:     id:     handle for debug log
+-	       level:  debug level
+-	       data:   string for debug entry
+-
+-Return Value:  Address of written debug entry
+-
+-Description:   writes debug entry in ascii format to active debug area
+-	       (if level <= actual debug level) and switches to next debug
+-	       area
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  debug_entry_t* debug_sprintf_exception (debug_info_t * id, int level,
+-					  char* string,...);
+-
+-Parameter:     id:    handle for debug log
+-	       level: debug level
+-	       string: format string for debug entry
+-	       ...: varargs used as in sprintf()
+-
+-Return Value:  Address of written debug entry
+-
+-Description:   writes debug entry with format string and varargs (longs) to
+-	       active debug area (if level $<=$ actual debug level) and
+-	       switches to next debug area.
+-	       floats and long long datatypes cannot be used as varargs.
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  int debug_register_view (debug_info_t * id, struct debug_view *view);
+-
+-Parameter:     id:    handle for debug log
+-	       view:  pointer to debug view struct
+-
+-Return Value:  0  : ok
+-	       < 0: Error
+-
+-Description:   registers new debug view and creates debugfs dir entry
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  int debug_unregister_view (debug_info_t * id, struct debug_view *view);
+-
+-Parameter:     id:    handle for debug log
+-	       view:  pointer to debug view struct
+-
+-Return Value:  0  : ok
+-	       < 0: Error
+-
+-Description:   unregisters debug view and removes debugfs dir entry
+-
+-
++.. kernel-doc:: arch/s390/include/asm/debug.h
  
- For legacy IDE VLB host drivers (ali14xx/dtc2278/ht6560b/qd65xx/umc8672)
- you need to explicitly enable probing by using "probe" kernel parameter,
-@@ -226,28 +232,31 @@ Other kernel parameters for ide_core are:
+ Predefined views:
+ -----------------
  
- * "chs=[interface_number.device_number]" to force device as a disk (using CHS)
- 
--================================================================================
- 
- Some Terminology
+-extern struct debug_view debug_hex_ascii_view;
+-
+-extern struct debug_view debug_raw_view;
+-
+-extern struct debug_view debug_sprintf_view;
+-
+-Examples
+---------
+-
+-::
+-
+-  /*
+-   * hex_ascii- + raw-view Example
+-   */
+-
+-  #include <linux/init.h>
+-  #include <asm/debug.h>
+-
+-  static debug_info_t* debug_info;
+-
+-  static int init(void)
+-  {
+-      /* register 4 debug areas with one page each and 4 byte data field */
+-
+-      debug_info = debug_register ("test", 1, 4, 4 );
+-      debug_register_view(debug_info,&debug_hex_ascii_view);
+-      debug_register_view(debug_info,&debug_raw_view);
+-
+-      debug_text_event(debug_info, 4 , "one ");
+-      debug_int_exception(debug_info, 4, 4711);
+-      debug_event(debug_info, 3, &debug_info, 4);
+-
+-      return 0;
+-  }
+-
+-  static void cleanup(void)
+-  {
+-      debug_unregister (debug_info);
+-  }
+-
+-  module_init(init);
+-  module_exit(cleanup);
+-
+----------------------------------------------------------------------------
+-
+-::
+-
+-  /*
+-   * sprintf-view Example
+-   */
+-
+-  #include <linux/init.h>
+-  #include <asm/debug.h>
+-
+-  static debug_info_t* debug_info;
+-
+-  static int init(void)
+-  {
+-      /* register 4 debug areas with one page each and data field for */
+-      /* format string pointer + 2 varargs (= 3 * sizeof(long))       */
+-
+-      debug_info = debug_register ("test", 1, 4, sizeof(long) * 3);
+-      debug_register_view(debug_info,&debug_sprintf_view);
+-
+-      debug_sprintf_event(debug_info, 2 , "first event in %s:%i\n",__FILE__,__LINE__);
+-      debug_sprintf_exception(debug_info, 1, "pointer to debug info: %p\n",&debug_info);
+-
+-      return 0;
+-  }
+-
+-  static void cleanup(void)
+-  {
+-      debug_unregister (debug_info);
+-  }
+-
+-  module_init(init);
+-  module_exit(cleanup);
+-
+-Debugfs Interface
+------------------
+-Views to the debug logs can be investigated through reading the corresponding
+-debugfs-files:
+-
+-Example::
+-
+-  > ls /sys/kernel/debug/s390dbf/dasd
+-  flush  hex_ascii  level pages raw
+-  > cat /sys/kernel/debug/s390dbf/dasd/hex_ascii | sort -k2,2 -s
+-  00 00974733272:680099 2 - 02 0006ad7e  07 ea 4a 90 | ....
+-  00 00974733272:682210 2 - 02 0006ade6  46 52 45 45 | FREE
+-  00 00974733272:682213 2 - 02 0006adf6  07 ea 4a 90 | ....
+-  00 00974733272:682281 1 * 02 0006ab08  41 4c 4c 43 | EXCP
+-  01 00974733272:682284 2 - 02 0006ab16  45 43 4b 44 | ECKD
+-  01 00974733272:682287 2 - 02 0006ab28  00 00 00 04 | ....
+-  01 00974733272:682289 2 - 02 0006ab3e  00 00 00 20 | ...
+-  01 00974733272:682297 2 - 02 0006ad7e  07 ea 4a 90 | ....
+-  01 00974733272:684384 2 - 00 0006ade6  46 52 45 45 | FREE
+-  01 00974733272:684388 2 - 00 0006adf6  07 ea 4a 90 | ....
+-
+-See section about predefined views for explanation of the above output!
+-
+-Changing the debug level
+-------------------------
+-
+-Example::
+-
+-
+-  > cat /sys/kernel/debug/s390dbf/dasd/level
+-  3
+-  > echo "5" > /sys/kernel/debug/s390dbf/dasd/level
+-  > cat /sys/kernel/debug/s390dbf/dasd/level
+-  5
+-
+-Flushing debug areas
+---------------------
+-Debug areas can be flushed with piping the number of the desired
+-area (0...n) to the debugfs file "flush". When using "-" all debug areas
+-are flushed.
+-
+-Examples:
+-
+-1. Flush debug area 0::
+-
+-     > echo "0" > /sys/kernel/debug/s390dbf/dasd/flush
+-
+-2. Flush all debug areas::
+-
+-     > echo "-" > /sys/kernel/debug/s390dbf/dasd/flush
+-
+-Changing the size of debug areas
+-------------------------------------
+-It is possible the change the size of debug areas through piping
+-the number of pages to the debugfs file "pages". The resize request will
+-also flush the debug areas.
+-
+-Example:
+-
+-Define 4 pages for the debug areas of debug feature "dasd"::
+-
+-  > echo "4" > /sys/kernel/debug/s390dbf/dasd/pages
+-
+-Stooping the debug feature
+---------------------------
+-Example:
+-
+-1. Check if stopping is allowed::
+-
+-     > cat /proc/sys/s390dbf/debug_stoppable
+-
+-2. Stop debug feature::
+-
+-     > echo 0 > /proc/sys/s390dbf/debug_active
+-
+-lcrash Interface
 -----------------
--IDE = Integrated Drive Electronics, meaning that each drive has a built-in
--controller, which is why an "IDE interface card" is not a "controller card".
-+================
- 
--ATA = AT (the old IBM 286 computer) Attachment Interface, a draft American
--National Standard for connecting hard drives to PCs.  This is the official
--name for "IDE".
-+IDE
-+  Integrated Drive Electronics, meaning that each drive has a built-in
-+  controller, which is why an "IDE interface card" is not a "controller card".
- 
--The latest standards define some enhancements, known as the ATA-6 spec,
--which grew out of vendor-specific "Enhanced IDE" (EIDE) implementations.
-+ATA
-+  AT (the old IBM 286 computer) Attachment Interface, a draft American
-+  National Standard for connecting hard drives to PCs.  This is the official
-+  name for "IDE".
- 
--ATAPI = ATA Packet Interface, a new protocol for controlling the drives,
--similar to SCSI protocols, created at the same time as the ATA2 standard.
--ATAPI is currently used for controlling CDROM, TAPE and FLOPPY (ZIP or
--LS120/240) devices, removable R/W cartridges, and for high capacity hard disk
--drives.
-+  The latest standards define some enhancements, known as the ATA-6 spec,
-+  which grew out of vendor-specific "Enhanced IDE" (EIDE) implementations.
-+
-+ATAPI
-+  ATA Packet Interface, a new protocol for controlling the drives,
-+  similar to SCSI protocols, created at the same time as the ATA2 standard.
-+  ATAPI is currently used for controlling CDROM, TAPE and FLOPPY (ZIP or
-+  LS120/240) devices, removable R/W cartridges, and for high capacity hard disk
-+  drives.
- 
- mlord@pobox.com
----
-+
- 
- Wed Apr 17 22:52:44 CEST 2002 edited by Marcin Dalecki, the current
- maintainer.
-diff --git a/Documentation/ide/index.rst b/Documentation/ide/index.rst
-new file mode 100644
-index 000000000000..45bc12d3957f
---- /dev/null
-+++ b/Documentation/ide/index.rst
-@@ -0,0 +1,21 @@
-+:orphan:
-+
-+==================================
-+Integrated Drive Electronics (IDE)
-+==================================
-+
-+.. toctree::
-+    :maxdepth: 1
-+
-+    ide
-+    ide-tape
-+    warm-plug-howto
-+
-+    changelogs
-+
-+.. only::  subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
-diff --git a/Documentation/ide/warm-plug-howto.txt b/Documentation/ide/warm-plug-howto.rst
-similarity index 61%
-rename from Documentation/ide/warm-plug-howto.txt
-rename to Documentation/ide/warm-plug-howto.rst
-index 98152bcd515a..c245242ef2f1 100644
---- a/Documentation/ide/warm-plug-howto.txt
-+++ b/Documentation/ide/warm-plug-howto.rst
-@@ -1,14 +1,14 @@
+-It is planned that the dump analysis tool lcrash gets an additional command
+-'s390dbf' to display all the debug logs. With this tool it will be possible
+-to investigate the debug logs on a live system and with a memory dump after
+-a system crash.
 -
-+===================
- IDE warm-plug HOWTO
- ===================
+-Investigating raw memory
+-------------------------
+-One last possibility to investigate the debug logs at a live
+-system and after a system crash is to look at the raw memory
+-under VM or at the Service Element.
+-It is possible to find the anker of the debug-logs through
+-the 'debug_area_first' symbol in the System map. Then one has
+-to follow the correct pointers of the data-structures defined
+-in debug.h and find the debug-areas in memory.
+-Normally modules which use the debug feature will also have
+-a global variable with the pointer to the debug-logs. Following
+-this pointer it will also be possible to find the debug logs in
+-memory.
+-
+-For this method it is recommended to use '16 * x + 4' byte (x = 0..n)
+-for the length of the data field in debug_register() in
+-order to see the debug entries well formatted.
+-
+-
+-Predefined Views
+-----------------
+-
+-There are three predefined views: hex_ascii, raw and sprintf.
+-The hex_ascii view shows the data field in hex and ascii representation
+-(e.g. '45 43 4b 44 | ECKD').
+-The raw view returns a bytestream as the debug areas are stored in memory.
+-
+-The sprintf view formats the debug entries in the same way as the sprintf
+-function would do. The sprintf event/exception functions write to the
+-debug entry a pointer to the format string (size = sizeof(long))
+-and for each vararg a long value. So e.g. for a debug entry with a format
+-string plus two varargs one would need to allocate a (3 * sizeof(long))
+-byte data area in the debug_register() function.
+-
+-IMPORTANT:
+-  Using "%s" in sprintf event functions is dangerous. You can only
+-  use "%s" in the sprintf event functions, if the memory for the passed string
+-  is available as long as the debug feature exists. The reason behind this is
+-  that due to performance considerations only a pointer to the string is stored
+-  in  the debug feature. If you log a string that is freed afterwards, you will
+-  get an OOPS when inspecting the debug feature, because then the debug feature
+-  will access the already freed memory.
+-
+-NOTE:
+-  If using the sprintf view do NOT use other event/exception functions
+-  than the sprintf-event and -exception functions.
+-
+-The format of the hex_ascii and sprintf view is as follows:
+-
+-- Number of area
+-- Timestamp (formatted as seconds and microseconds since 00:00:00 Coordinated
+-  Universal Time (UTC), January 1, 1970)
+-- level of debug entry
+-- Exception flag (* = Exception)
+-- Cpu-Number of calling task
+-- Return Address to caller
+-- data field
+-
+-The format of the raw view is:
+-
+-- Header as described in debug.h
+-- datafield
+-
+-A typical line of the hex_ascii view will look like the following (first line
+-is only for explanation and will not be displayed when 'cating' the view):
+-
+-area  time           level exception cpu caller    data (hex + ascii)
+---------------------------------------------------------------------------
+-00    00964419409:440690 1 -         00  88023fe
+-
+-
+-Defining views
+---------------
+-
+-Views are specified with the 'debug_view' structure. There are defined
+-callback functions which are used for reading and writing the debugfs files::
+-
+-  struct debug_view {
+-	char name[DEBUG_MAX_PROCF_LEN];
+-	debug_prolog_proc_t* prolog_proc;
+-	debug_header_proc_t* header_proc;
+-	debug_format_proc_t* format_proc;
+-	debug_input_proc_t*  input_proc;
+-	void*                private_data;
+-  };
+-
+-where::
+-
+-  typedef int (debug_header_proc_t) (debug_info_t* id,
+-				     struct debug_view* view,
+-				     int area,
+-				     debug_entry_t* entry,
+-				     char* out_buf);
+-
+-  typedef int (debug_format_proc_t) (debug_info_t* id,
+-				     struct debug_view* view, char* out_buf,
+-				     const char* in_buf);
+-  typedef int (debug_prolog_proc_t) (debug_info_t* id,
+-				     struct debug_view* view,
+-				     char* out_buf);
+-  typedef int (debug_input_proc_t) (debug_info_t* id,
+-				    struct debug_view* view,
+-				    struct file* file, const char* user_buf,
+-				    size_t in_buf_size, loff_t* offset);
+-
+-
+-The "private_data" member can be used as pointer to view specific data.
+-It is not used by the debug feature itself.
+-
+-The output when reading a debugfs file is structured like this::
+-
+-  "prolog_proc output"
+-
+-  "header_proc output 1"  "format_proc output 1"
+-  "header_proc output 2"  "format_proc output 2"
+-  "header_proc output 3"  "format_proc output 3"
+-  ...
+-
+-When a view is read from the debugfs, the Debug Feature calls the
+-'prolog_proc' once for writing the prolog.
+-Then 'header_proc' and 'format_proc' are called for each
+-existing debug entry.
+-
+-The input_proc can be used to implement functionality when it is written to
+-the view (e.g. like with 'echo "0" > /sys/kernel/debug/s390dbf/dasd/level).
+-
+-For header_proc there can be used the default function
+-debug_dflt_header_fn() which is defined in debug.h.
+-and which produces the same header output as the predefined views.
+-E.g::
+-
+-  00 00964419409:440761 2 - 00 88023ec
+-
+-In order to see how to use the callback functions check the implementation
+-of the default views!
+-
+-Example::
+-
+-  #include <asm/debug.h>
+-
+-  #define UNKNOWNSTR "data: %08x"
+-
+-  const char* messages[] =
+-  {"This error...........\n",
+-   "That error...........\n",
+-   "Problem..............\n",
+-   "Something went wrong.\n",
+-   "Everything ok........\n",
+-   NULL
+-  };
+-
+-  static int debug_test_format_fn(
+-     debug_info_t * id, struct debug_view *view,
+-     char *out_buf, const char *in_buf
+-  )
+-  {
+-    int i, rc = 0;
+-
+-    if(id->buf_size >= 4) {
+-       int msg_nr = *((int*)in_buf);
+-       if(msg_nr < sizeof(messages)/sizeof(char*) - 1)
+-	  rc += sprintf(out_buf, "%s", messages[msg_nr]);
+-       else
+-	  rc += sprintf(out_buf, UNKNOWNSTR, msg_nr);
+-    }
+-   out:
+-     return rc;
+-  }
+-
+-  struct debug_view debug_test_view = {
+-    "myview",                 /* name of view */
+-    NULL,                     /* no prolog */
+-    &debug_dflt_header_fn,    /* default header for each entry */
+-    &debug_test_format_fn,    /* our own format function */
+-    NULL,                     /* no input function */
+-    NULL                      /* no private data */
+-  };
+-
+-test:
+-=====
+-
+ ::
  
--To warm-plug devices on a port 'idex':
-+To warm-plug devices on a port 'idex'::
+   debug_info_t *debug_info;
+diff --git a/arch/s390/include/asm/debug.h b/arch/s390/include/asm/debug.h
+index b94783f71322..b55486f70deb 100644
+--- a/arch/s390/include/asm/debug.h
++++ b/arch/s390/include/asm/debug.h
+@@ -95,25 +95,106 @@ debug_entry_t *debug_exception_common(debug_info_t *id, int level,
  
--# echo -n "1" > /sys/class/ide_port/idex/delete_devices
-+	# echo -n "1" > /sys/class/ide_port/idex/delete_devices
+ /* Debug Feature API: */
  
--unplug old device(s) and plug new device(s)
-+unplug old device(s) and plug new device(s)::
++/**
++ * debug_register() - allocates memory for a debug log.
++ *
++ * @name:        Name of debug log (e.g. used for debugfs entry)
++ * @pages:       Number of pages, which will be allocated per area
++ * @nr_areas:    Number of debug areas
++ * @buf_size:    Size of data area in each debug entry
++ *
++ * Return:
++ * - Handler for generated debug area
++ * - %NULL if register failed
++ *
++ * Must not be called within an interrupt handler.
++ */
+ debug_info_t *debug_register(const char *name, int pages, int nr_areas,
+ 			     int buf_size);
  
--# echo -n "1" > /sys/class/ide_port/idex/scan
-+	# echo -n "1" > /sys/class/ide_port/idex/scan
++/**
++ * debug_register_mode() - allocates memory for a debug log.
++ *
++ * @name:	Name of debug log (e.g. used for debugfs entry)
++ * @pages:	Number of pages, which will be allocated per area
++ * @nr_areas:	Number of debug areas
++ * @buf_size:	Size of data area in each debug entry
++ * @mode:	File mode for debugfs files. E.g. S_IRWXUGO
++ * @uid:	User ID for debugfs files. Currently only 0 is supported.
++ * @gid:	Group ID for debugfs files. Currently only 0 is supported.
++ *
++ * Return:
++ * - Handler for generated debug area
++ * - %NULL if register failed
++ *
++ * Must not be called within an interrupt handler
++ */
+ debug_info_t *debug_register_mode(const char *name, int pages, int nr_areas,
+ 				  int buf_size, umode_t mode, uid_t uid,
+ 				  gid_t gid);
  
- done
++/**
++ * debug_unregister() - frees memory for a debug log and removes all
++ *			registered debug
++ * views.
++ *
++ * @id:		handle for debug log
++ *
++ * Return:
++ *    none
++ *
++ * Must not be called within an interrupt handler
++ */
+ void debug_unregister(debug_info_t *id);
  
-diff --git a/arch/m68k/q40/README b/arch/m68k/q40/README
-index 93f4c4cd3c45..a4991d2d8af6 100644
---- a/arch/m68k/q40/README
-+++ b/arch/m68k/q40/README
-@@ -31,7 +31,7 @@ drivers used by the Q40, apart from the very obvious (console etc.):
- 		char/joystick/*		# most of this should work, not
- 				        # in default config.in
- 	        block/q40ide.c		# startup for ide
--		      ide*		# see Documentation/ide/ide.txt
-+		      ide*		# see Documentation/ide/ide.rst
- 		      floppy.c		# normal PC driver, DMA emu in asm/floppy.h
- 					# and arch/m68k/kernel/entry.S
- 					# see drivers/block/README.fd
-diff --git a/drivers/ide/Kconfig b/drivers/ide/Kconfig
-index fdd2a62f9d52..9eada392df15 100644
---- a/drivers/ide/Kconfig
-+++ b/drivers/ide/Kconfig
-@@ -25,13 +25,13 @@ menuconfig IDE
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called ide-core.
++/**
++ * debug_set_level() -  Sets new actual debug level if new_level is valid.
++ *
++ * @id:		handle for debug log
++ * @new_level:	new debug level
++ *
++ * Return:
++ *    none
++ */
+ void debug_set_level(debug_info_t *id, int new_level);
  
--	  For further information, please read <file:Documentation/ide/ide.txt>.
-+	  For further information, please read <file:Documentation/ide/ide.rst>.
+ void debug_set_critical(void);
++
++/**
++ * debug_stop_all() - stops the debug feature if stopping is allowed.
++ *
++ * Return:
++ * -   none
++ */
+ void debug_stop_all(void);
  
- 	  If unsure, say N.
++/**
++ * debug_level_enabled() - Returns true if debug events for the specified
++ *			   level would be logged. Otherwise returns false.
++ *
++ * @id:		handle for debug log
++ * @level:	debug level
++ *
++ * Return:
++ * - %true if level is less or equal to the current debug level.
++ */
+ static inline bool debug_level_enabled(debug_info_t *id, int level)
+ {
+ 	return level <= id->level;
+ }
  
- if IDE
++/**
++ * debug_event() - writes debug entry to active debug area
++ *		   (if level <= actual debug level)
++ *
++ * @id:		handle for debug log
++ * @level:	debug level
++ * @data:	pointer to data for debug entry
++ * @length:	length of data in bytes
++ *
++ * Return:
++ * - Address of written debug entry
++ */
+ static inline debug_entry_t *debug_event(debug_info_t *id, int level,
+ 					 void *data, int length)
+ {
+@@ -122,6 +203,18 @@ static inline debug_entry_t *debug_event(debug_info_t *id, int level,
+ 	return debug_event_common(id, level, data, length);
+ }
  
--comment "Please see Documentation/ide/ide.txt for help/info on IDE drives"
-+comment "Please see Documentation/ide/ide.rst for help/info on IDE drives"
++/**
++ * debug_int_event() - writes debug entry to active debug area
++ * 		       (if level <= actual debug level)
++ *
++ * @id:		handle for debug log
++ * @level:	debug level
++ * @tag:	integer value for debug entry
++ *
++ * Return:
++ * - Address of written debug entry
++ * - %NULL if error
++ */
+ static inline debug_entry_t *debug_int_event(debug_info_t *id, int level,
+ 					     unsigned int tag)
+ {
+@@ -132,6 +225,18 @@ static inline debug_entry_t *debug_int_event(debug_info_t *id, int level,
+ 	return debug_event_common(id, level, &t, sizeof(unsigned int));
+ }
  
- config IDE_XFER_MODE
- 	bool
-@@ -163,7 +163,7 @@ config BLK_DEV_IDETAPE
- 	  along with other IDE devices, as "hdb" or "hdc", or something
- 	  similar, and will be mapped to a character device such as "ht0"
- 	  (check the boot messages with dmesg).  Be sure to consult the
--	  <file:drivers/ide/ide-tape.c> and <file:Documentation/ide/ide.txt>
-+	  <file:drivers/ide/ide-tape.c> and <file:Documentation/ide/ide.rst>
- 	  files for usage information.
++/**
++ * debug_long_event() - writes debug entry to active debug area
++ * 		       (if level <= actual debug level)
++ *
++ * @id:		handle for debug log
++ * @level:	debug level
++ * @tag:	integer value for debug entry
++ *
++ * Return:
++ * - Address of written debug entry
++ * - %NULL if error
++ */
+ static inline debug_entry_t *debug_long_event(debug_info_t *id, int level,
+ 					      unsigned long tag)
+ {
+@@ -142,6 +247,18 @@ static inline debug_entry_t *debug_long_event(debug_info_t *id, int level,
+ 	return debug_event_common(id, level, &t, sizeof(unsigned long));
+ }
  
- 	  To compile this driver as a module, choose M here: the
-@@ -251,7 +251,7 @@ config BLK_DEV_CMD640
++/**
++ * debug_text_event() - writes debug entry in ascii format to active
++ *			debug area (if level <= actual debug level)
++ *
++ * @id:		handle for debug log
++ * @level:	debug level
++ * @txt:	string for debug entry
++ *
++ * Return:
++ * - Address of written debug entry
++ * - %NULL if error
++ */
+ static inline debug_entry_t *debug_text_event(debug_info_t *id, int level,
+ 					      const char *txt)
+ {
+@@ -158,6 +275,22 @@ extern debug_entry_t *
+ __debug_sprintf_event(debug_info_t *id, int level, char *string, ...)
+ 	__attribute__ ((format(printf, 3, 4)));
  
- 	  The CMD640 chip is also used on add-in cards by Acculogic, and on
- 	  the "CSA-6400E PCI to IDE controller" that some people have. For
--	  details, read <file:Documentation/ide/ide.txt>.
-+	  details, read <file:Documentation/ide/ide.rst>.
++/**
++ * debug_sprintf_event() - writes debug entry with format string
++ *			   and varargs (longs) to active debug area
++ *			   (if level $<=$ actual debug level).
++ *
++ * @_id:	handle for debug log
++ * @_level:	debug level
++ * @_fmt:	format string for debug entry
++ * @...:	varargs used as in sprintf()
++ *
++ * Return:
++ * - Address of written debug entry
++ * - %NULL if error
++ *
++ * floats and long long datatypes cannot be used as varargs.
++ */
+ #define debug_sprintf_event(_id, _level, _fmt, ...)			\
+ ({									\
+ 	debug_entry_t *__ret;						\
+@@ -172,6 +305,20 @@ __debug_sprintf_event(debug_info_t *id, int level, char *string, ...)
+ 	__ret;								\
+ })
  
- config BLK_DEV_CMD640_ENHANCED
- 	bool "CMD640 enhanced support"
-@@ -259,7 +259,7 @@ config BLK_DEV_CMD640_ENHANCED
- 	help
- 	  This option includes support for setting/autotuning PIO modes and
- 	  prefetch on CMD640 IDE interfaces.  For details, read
--	  <file:Documentation/ide/ide.txt>. If you have a CMD640 IDE interface
-+	  <file:Documentation/ide/ide.rst>. If you have a CMD640 IDE interface
- 	  and your BIOS does not already do this for you, then say Y here.
- 	  Otherwise say N.
++/**
++ * debug_exception() - writes debug entry to active debug area
++ *		       (if level <= actual debug level) and switches
++ *		       to next debug area
++ *
++ * @id:		handle for debug log
++ * @level:	debug level
++ * @data:	pointer to data for debug entry
++ * @length:	length of data in bytes
++ *
++ * Return:
++ * - Address of written debug entry
++ * - %NULL if error
++ */
+ static inline debug_entry_t *debug_exception(debug_info_t *id, int level,
+ 					     void *data, int length)
+ {
+@@ -180,6 +327,19 @@ static inline debug_entry_t *debug_exception(debug_info_t *id, int level,
+ 	return debug_exception_common(id, level, data, length);
+ }
  
-@@ -819,7 +819,7 @@ config BLK_DEV_ALI14XX
- 	  boot parameter.  It enables support for the secondary IDE interface
- 	  of the ALI M1439/1443/1445/1487/1489 chipsets, and permits faster
- 	  I/O speeds to be set as well.
--	  See the files <file:Documentation/ide/ide.txt> and
-+	  See the files <file:Documentation/ide/ide.rst> and
- 	  <file:drivers/ide/ali14xx.c> for more info.
++/**
++ * debug_int_exception() - writes debug entry to active debug area
++ *			   (if level <= actual debug level)
++ *			   and switches to next debug area
++ *
++ * @id:		handle for debug log
++ * @level:	debug level
++ * @tag:	integer value for debug entry
++ *
++ * Return:
++ * - Address of written debug entry
++ * - %NULL if error
++ */
+ static inline debug_entry_t *debug_int_exception(debug_info_t *id, int level,
+ 						 unsigned int tag)
+ {
+@@ -190,6 +350,19 @@ static inline debug_entry_t *debug_int_exception(debug_info_t *id, int level,
+ 	return debug_exception_common(id, level, &t, sizeof(unsigned int));
+ }
  
- config BLK_DEV_DTC2278
-@@ -830,7 +830,7 @@ config BLK_DEV_DTC2278
- 	  This driver is enabled at runtime using the "dtc2278.probe" kernel
- 	  boot parameter. It enables support for the secondary IDE interface
- 	  of the DTC-2278 card, and permits faster I/O speeds to be set as
--	  well. See the <file:Documentation/ide/ide.txt> and
-+	  well. See the <file:Documentation/ide/ide.rst> and
- 	  <file:drivers/ide/dtc2278.c> files for more info.
++/**
++ * debug_long_exception() - writes debug entry to active debug area
++ *			   (if level <= actual debug level)
++ *			   and switches to next debug area
++ *
++ * @id:		handle for debug log
++ * @level:	debug level
++ * @tag:	integer value for debug entry
++ *
++ * Return:
++ * - Address of written debug entry
++ * - %NULL if error
++ */
+ static inline debug_entry_t *debug_long_exception (debug_info_t *id, int level,
+ 						   unsigned long tag)
+ {
+@@ -200,6 +373,20 @@ static inline debug_entry_t *debug_long_exception (debug_info_t *id, int level,
+ 	return debug_exception_common(id, level, &t, sizeof(unsigned long));
+ }
  
- config BLK_DEV_HT6560B
-@@ -841,7 +841,7 @@ config BLK_DEV_HT6560B
- 	  This driver is enabled at runtime using the "ht6560b.probe" kernel
- 	  boot parameter. It enables support for the secondary IDE interface
- 	  of the Holtek card, and permits faster I/O speeds to be set as well.
--	  See the <file:Documentation/ide/ide.txt> and
-+	  See the <file:Documentation/ide/ide.rst> and
- 	  <file:drivers/ide/ht6560b.c> files for more info.
++/**
++ * debug_text_exception() - writes debug entry in ascii format to active
++ *			    debug area (if level <= actual debug level)
++ *			    and switches to next debug
++ * area
++ *
++ * @id:	handle for debug log
++ * @level:	debug level
++ * @txt:	string for debug entry
++ *
++ * Return:
++ * - Address of written debug entry
++ * - %NULL if error
++ */
+ static inline debug_entry_t *debug_text_exception(debug_info_t *id, int level,
+ 						  const char *txt)
+ {
+@@ -216,6 +403,24 @@ extern debug_entry_t *
+ __debug_sprintf_exception(debug_info_t *id, int level, char *string, ...)
+ 	__attribute__ ((format(printf, 3, 4)));
  
- config BLK_DEV_QD65XX
-@@ -851,7 +851,7 @@ config BLK_DEV_QD65XX
- 	help
- 	  This driver is enabled at runtime using the "qd65xx.probe" kernel
- 	  boot parameter.  It permits faster I/O speeds to be set.  See the
--	  <file:Documentation/ide/ide.txt> and <file:drivers/ide/qd65xx.c>
-+	  <file:Documentation/ide/ide.rst> and <file:drivers/ide/qd65xx.c>
- 	  for more info.
++
++/**
++ * debug_sprintf_exception() - writes debug entry with format string and
++ *			       varargs (longs) to active debug area
++ * 			       (if level $<=$ actual debug level)
++ *			       and switches to next debug area.
++ *
++ * @_id:	handle for debug log
++ * @_level:	debug level
++ * @_fmt:	format string for debug entry
++ * @...:	varargs used as in sprintf()
++ *
++ * Return:
++ * - Address of written debug entry
++ * - %NULL if error
++ *
++ * floats and long long datatypes cannot be used as varargs.
++ */
+ #define debug_sprintf_exception(_id, _level, _fmt, ...)			\
+ ({									\
+ 	debug_entry_t *__ret;						\
+@@ -230,7 +435,33 @@ __debug_sprintf_exception(debug_info_t *id, int level, char *string, ...)
+ 	__ret;								\
+ })
  
- config BLK_DEV_UMC8672
-@@ -862,7 +862,7 @@ config BLK_DEV_UMC8672
- 	  This driver is enabled at runtime using the "umc8672.probe" kernel
- 	  boot parameter. It enables support for the secondary IDE interface
- 	  of the UMC-8672, and permits faster I/O speeds to be set as well.
--	  See the files <file:Documentation/ide/ide.txt> and
-+	  See the files <file:Documentation/ide/ide.rst> and
- 	  <file:drivers/ide/umc8672.c> for more info.
++/**
++ * debug_register_view() - registers new debug view and creates debugfs
++ *			   dir entry
++ *
++ * @id:	handle for debug log
++ * @view:	pointer to debug view struct
++ *
++ * Return:
++ * -   0  : ok
++ * -   < 0: Error
++ */
+ int debug_register_view(debug_info_t *id, struct debug_view *view);
++
++/**
++ * debug_unregister_view()
++ *
++ * @id:	handle for debug log
++ * @view:	pointer to debug view struct
++ *
++ * Return:
++ * -   0  : ok
++ * -   < 0: Error
++ *
++ *
++ * unregisters debug view and removes debugfs dir entry
++ */
++
+ int debug_unregister_view(debug_info_t *id, struct debug_view *view);
  
- endif
+ /*
 -- 
 2.21.0
 
