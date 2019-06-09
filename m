@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F04EC7D981
+	by archive.lwn.net (Postfix) with ESMTP id C7B2F7D92A
 	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Jun 2019 02:29:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728484AbfFIC2m (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1728473AbfFIC2m (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Sat, 8 Jun 2019 22:28:42 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:55718 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:55706 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728061AbfFIC1f (ORCPT
+        with ESMTP id S1728043AbfFIC1f (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Jun 2019 22:27:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,28 +20,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=abL5ZX7qmzeE/2L66oNqI3If9VXSAUhO3BltLAiDXwM=; b=cZtgnzTHzUon82ySY5KXTS+GzN
-        tKLznw8nqKGb8nWU3RCFMatltNANlRmgtk4S5uWo4nRlgGqV7EJQJpj+gMTVX/1ng6L/jDiuUelEG
-        8iYj6qBqDxu2N7Lj1meh/JQAxZUnEa5CZ97EQRXyO/E5/t5ivC7K9mHgBzLk/aanbOThZhoCGg22K
-        /y/J8kC7Ax3uB3c9MqoKZUpM1iNe7QB9fpRsP4q7SW9w/ocRfF60ssSRQv57YXmzILgggRKITvIp7
-        q3Ud0LI2GGasnKOEOJzDsEEdFatIMrGAedQe3IY2XyV3s+79r0vodtSeH7l0i9UtraA+Itarwx/6Z
-        OFfoAZfQ==;
+        bh=/Ehp6C+bRXth2QXDGbAPV4Ux1KmCAFQEV6Wj1hCloQE=; b=Y0ICbg00s7Q40jJlwLkA8iLDDc
+        ZTPwYxtcNeG3aQmGKQId3jqKB/Rx3fcnbKVl2IvUbLCqjahOWqwAL/vPQc0ER/92CB1r/2WBb8Z5L
+        d1159U+Fns2ZPy6aiz2oXHYq+JyPeUmZL/e67YpN9uOoVzc4w3ADjSNy9hBHtLnprQvtTGqd/lwW/
+        rdiPU8mABZeCW4GtCCUK3ndEEwgfmukN7/sJeG0xK+XRQZSS013EXNVf6o/EfQbrd0OVWrxxGZyZ6
+        ISXgqMIB29GW8JhzZDbofODZ5rhj1eBAVNGWR5RVR89M/TcV+4RNHhmiEwWUgJoFJ32p/buPCuGTd
+        O8Ef9f2A==;
 Received: from 179.176.115.133.dynamic.adsl.gvt.net.br ([179.176.115.133] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hZnYS-0001nC-N3; Sun, 09 Jun 2019 02:27:33 +0000
+        id 1hZnYO-0001mn-1l; Sun, 09 Jun 2019 02:27:29 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hZnYL-0000Ki-Oa; Sat, 08 Jun 2019 23:27:25 -0300
+        id 1hZnYK-0000IF-Qb; Sat, 08 Jun 2019 23:27:24 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>
-Subject: [PATCH v3 32/33] docs: scheduler: convert docs to ReST and rename to *.rst
-Date:   Sat,  8 Jun 2019 23:27:22 -0300
-Message-Id: <7a14f11920a8b23ef76a6e1d06e0b8df41997be9.1560045490.git.mchehab+samsung@kernel.org>
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        =?UTF-8?q?Radim=20Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@redhat.com>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, kvm@vger.kernel.org,
+        linux-efi@vger.kernel.org
+Subject: [PATCH v3 02/33] docs: arm64: convert docs to ReST and rename to .rst
+Date:   Sat,  8 Jun 2019 23:26:52 -0300
+Message-Id: <06bb329a0c9b5f70c77159d4d4e87db4efa41327.1560045490.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1560045490.git.mchehab+samsung@kernel.org>
 References: <cover.1560045490.git.mchehab+samsung@kernel.org>
@@ -53,248 +60,1732 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In order to prepare to add them to the Kernel API book,
-convert the files to ReST format.
+The documentation is in a format that is very close to ReST format.
 
 The conversion is actually:
-  - add blank lines and identation in order to identify paragraphs;
-  - fix tables markups;
-  - add some lists markups;
-  - mark literal blocks;
-  - adjust title markups.
+  - add blank lines in order to identify paragraphs;
+  - fixing tables markups;
+  - adding some lists markups;
+  - marking literal blocks;
+  - adjust some title markups.
 
 At its new index.rst, let's add a :orphan: while this is not linked to
 the main index.rst file, in order to avoid build warnings.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/ABI/testing/sysfs-kernel-uids   |   2 +-
- .../{completion.txt => completion.rst}        |  38 +--
- Documentation/scheduler/index.rst             |  29 ++
- .../{sched-arch.txt => sched-arch.rst}        |  18 +-
- .../{sched-bwc.txt => sched-bwc.rst}          |  30 +-
- ...{sched-deadline.txt => sched-deadline.rst} | 295 +++++++++---------
- ...ed-design-CFS.txt => sched-design-CFS.rst} |  15 +-
- .../{sched-domains.txt => sched-domains.rst}  |   8 +-
- .../{sched-energy.txt => sched-energy.rst}    |  47 +--
- ...-nice-design.txt => sched-nice-design.rst} |   6 +-
- ...{sched-rt-group.txt => sched-rt-group.rst} |  28 +-
- .../{sched-stats.txt => sched-stats.rst}      |  35 ++-
- Documentation/scheduler/text_files.rst        |   5 +
- Documentation/vm/numa.rst                     |   2 +-
- init/Kconfig                                  |   6 +-
- kernel/sched/deadline.c                       |   2 +-
- 16 files changed, 332 insertions(+), 234 deletions(-)
- rename Documentation/scheduler/{completion.txt => completion.rst} (94%)
- create mode 100644 Documentation/scheduler/index.rst
- rename Documentation/scheduler/{sched-arch.txt => sched-arch.rst} (81%)
- rename Documentation/scheduler/{sched-bwc.txt => sched-bwc.rst} (90%)
- rename Documentation/scheduler/{sched-deadline.txt => sched-deadline.rst} (88%)
- rename Documentation/scheduler/{sched-design-CFS.txt => sched-design-CFS.rst} (97%)
- rename Documentation/scheduler/{sched-domains.txt => sched-domains.rst} (97%)
- rename Documentation/scheduler/{sched-energy.txt => sched-energy.rst} (96%)
- rename Documentation/scheduler/{sched-nice-design.txt => sched-nice-design.rst} (98%)
- rename Documentation/scheduler/{sched-rt-group.txt => sched-rt-group.rst} (95%)
- rename Documentation/scheduler/{sched-stats.txt => sched-stats.rst} (91%)
- create mode 100644 Documentation/scheduler/text_files.rst
+ ...object_usage.txt => acpi_object_usage.rst} | 288 ++++++++++++------
+ .../arm64/{arm-acpi.txt => arm-acpi.rst}      | 155 +++++-----
+ .../arm64/{booting.txt => booting.rst}        |  91 ++++--
+ ...egisters.txt => cpu-feature-registers.rst} | 204 +++++++------
+ .../arm64/{elf_hwcaps.txt => elf_hwcaps.rst}  |  56 +---
+ .../{hugetlbpage.txt => hugetlbpage.rst}      |   7 +-
+ Documentation/arm64/index.rst                 |  28 ++
+ ...structions.txt => legacy_instructions.rst} |  43 ++-
+ .../arm64/{memory.txt => memory.rst}          |  91 +++---
+ ...ication.txt => pointer-authentication.rst} |   2 +
+ ...{silicon-errata.txt => silicon-errata.rst} |  65 +++-
+ Documentation/arm64/{sve.txt => sve.rst}      |  12 +-
+ ...agged-pointers.txt => tagged-pointers.rst} |   6 +-
+ .../translations/zh_CN/arm64/booting.txt      |   4 +-
+ .../zh_CN/arm64/legacy_instructions.txt       |   4 +-
+ .../translations/zh_CN/arm64/memory.txt       |   4 +-
+ .../zh_CN/arm64/silicon-errata.txt            |   4 +-
+ .../zh_CN/arm64/tagged-pointers.txt           |   4 +-
+ Documentation/virtual/kvm/api.txt             |   2 +-
+ arch/arm64/include/asm/efi.h                  |   2 +-
+ arch/arm64/include/asm/image.h                |   2 +-
+ arch/arm64/include/uapi/asm/sigcontext.h      |   2 +-
+ arch/arm64/kernel/kexec_image.c               |   2 +-
+ 23 files changed, 651 insertions(+), 427 deletions(-)
+ rename Documentation/arm64/{acpi_object_usage.txt => acpi_object_usage.rst} (84%)
+ rename Documentation/arm64/{arm-acpi.txt => arm-acpi.rst} (86%)
+ rename Documentation/arm64/{booting.txt => booting.rst} (86%)
+ rename Documentation/arm64/{cpu-feature-registers.txt => cpu-feature-registers.rst} (65%)
+ rename Documentation/arm64/{elf_hwcaps.txt => elf_hwcaps.rst} (92%)
+ rename Documentation/arm64/{hugetlbpage.txt => hugetlbpage.rst} (86%)
+ create mode 100644 Documentation/arm64/index.rst
+ rename Documentation/arm64/{legacy_instructions.txt => legacy_instructions.rst} (73%)
+ rename Documentation/arm64/{memory.txt => memory.rst} (36%)
+ rename Documentation/arm64/{pointer-authentication.txt => pointer-authentication.rst} (99%)
+ rename Documentation/arm64/{silicon-errata.txt => silicon-errata.rst} (55%)
+ rename Documentation/arm64/{sve.txt => sve.rst} (98%)
+ rename Documentation/arm64/{tagged-pointers.txt => tagged-pointers.rst} (94%)
 
-diff --git a/Documentation/ABI/testing/sysfs-kernel-uids b/Documentation/ABI/testing/sysfs-kernel-uids
-index 28f14695a852..4182b7061816 100644
---- a/Documentation/ABI/testing/sysfs-kernel-uids
-+++ b/Documentation/ABI/testing/sysfs-kernel-uids
-@@ -11,4 +11,4 @@ Description:
- 		example would be, if User A has shares = 1024 and user
- 		B has shares = 2048, User B will get twice the CPU
- 		bandwidth user A will. For more details refer
--		Documentation/scheduler/sched-design-CFS.txt
-+		Documentation/scheduler/sched-design-CFS.rst
-diff --git a/Documentation/scheduler/completion.txt b/Documentation/scheduler/completion.rst
-similarity index 94%
-rename from Documentation/scheduler/completion.txt
-rename to Documentation/scheduler/completion.rst
-index e5b9df4d8078..9f039b4f4b09 100644
---- a/Documentation/scheduler/completion.txt
-+++ b/Documentation/scheduler/completion.rst
+diff --git a/Documentation/arm64/acpi_object_usage.txt b/Documentation/arm64/acpi_object_usage.rst
+similarity index 84%
+rename from Documentation/arm64/acpi_object_usage.txt
+rename to Documentation/arm64/acpi_object_usage.rst
+index c77010c5c1f0..d51b69dc624d 100644
+--- a/Documentation/arm64/acpi_object_usage.txt
++++ b/Documentation/arm64/acpi_object_usage.rst
+@@ -1,5 +1,7 @@
++===========
+ ACPI Tables
+------------
++===========
++
+ The expectations of individual ACPI tables are discussed in the list that
+ follows.
+ 
+@@ -11,54 +13,71 @@ outside of the UEFI Forum (see Section 5.2.6 of the specification).
+ 
+ For ACPI on arm64, tables also fall into the following categories:
+ 
+-       -- Required: DSDT, FADT, GTDT, MADT, MCFG, RSDP, SPCR, XSDT
++       -  Required: DSDT, FADT, GTDT, MADT, MCFG, RSDP, SPCR, XSDT
+ 
+-       -- Recommended: BERT, EINJ, ERST, HEST, PCCT, SSDT
++       -  Recommended: BERT, EINJ, ERST, HEST, PCCT, SSDT
+ 
+-       -- Optional: BGRT, CPEP, CSRT, DBG2, DRTM, ECDT, FACS, FPDT, IORT,
++       -  Optional: BGRT, CPEP, CSRT, DBG2, DRTM, ECDT, FACS, FPDT, IORT,
+           MCHI, MPST, MSCT, NFIT, PMTT, RASF, SBST, SLIT, SPMI, SRAT, STAO,
+ 	  TCPA, TPM2, UEFI, XENV
+ 
+-       -- Not supported: BOOT, DBGP, DMAR, ETDT, HPET, IBFT, IVRS, LPIT,
++       -  Not supported: BOOT, DBGP, DMAR, ETDT, HPET, IBFT, IVRS, LPIT,
+           MSDM, OEMx, PSDT, RSDT, SLIC, WAET, WDAT, WDRT, WPBT
+ 
++====== ========================================================================
+ Table  Usage for ARMv8 Linux
+------  ----------------------------------------------------------------
++====== ========================================================================
+ BERT   Section 18.3 (signature == "BERT")
+-       == Boot Error Record Table ==
++
++       **Boot Error Record Table**
++
+        Must be supplied if RAS support is provided by the platform.  It
+        is recommended this table be supplied.
+ 
+ BOOT   Signature Reserved (signature == "BOOT")
+-       == simple BOOT flag table ==
++
++       **simple BOOT flag table**
++
+        Microsoft only table, will not be supported.
+ 
+ BGRT   Section 5.2.22 (signature == "BGRT")
+-       == Boot Graphics Resource Table ==
++
++       **Boot Graphics Resource Table**
++
+        Optional, not currently supported, with no real use-case for an
+        ARM server.
+ 
+ CPEP   Section 5.2.18 (signature == "CPEP")
+-       == Corrected Platform Error Polling table ==
++
++       **Corrected Platform Error Polling table**
++
+        Optional, not currently supported, and not recommended until such
+        time as ARM-compatible hardware is available, and the specification
+        suitably modified.
+ 
+ CSRT   Signature Reserved (signature == "CSRT")
+-       == Core System Resources Table ==
++
++       **Core System Resources Table**
++
+        Optional, not currently supported.
+ 
+ DBG2   Signature Reserved (signature == "DBG2")
+-       == DeBuG port table 2 ==
++
++       **DeBuG port table 2**
++
+        License has changed and should be usable.  Optional if used instead
+        of earlycon=<device> on the command line.
+ 
+ DBGP   Signature Reserved (signature == "DBGP")
+-       == DeBuG Port table ==
++
++       **DeBuG Port table**
++
+        Microsoft only table, will not be supported.
+ 
+ DSDT   Section 5.2.11.1 (signature == "DSDT")
+-       == Differentiated System Description Table ==
++
++       **Differentiated System Description Table**
++
+        A DSDT is required; see also SSDT.
+ 
+        ACPI tables contain only one DSDT but can contain one or more SSDTs,
+@@ -66,22 +85,30 @@ DSDT   Section 5.2.11.1 (signature == "DSDT")
+        but cannot modify or replace anything in the DSDT.
+ 
+ DMAR   Signature Reserved (signature == "DMAR")
+-       == DMA Remapping table ==
++
++       **DMA Remapping table**
++
+        x86 only table, will not be supported.
+ 
+ DRTM   Signature Reserved (signature == "DRTM")
+-       == Dynamic Root of Trust for Measurement table ==
++
++       **Dynamic Root of Trust for Measurement table**
++
+        Optional, not currently supported.
+ 
+ ECDT   Section 5.2.16 (signature == "ECDT")
+-       == Embedded Controller Description Table ==
++
++       **Embedded Controller Description Table**
++
+        Optional, not currently supported, but could be used on ARM if and
+        only if one uses the GPE_BIT field to represent an IRQ number, since
+        there are no GPE blocks defined in hardware reduced mode.  This would
+        need to be modified in the ACPI specification.
+ 
+ EINJ   Section 18.6 (signature == "EINJ")
+-       == Error Injection table ==
++
++       **Error Injection table**
++
+        This table is very useful for testing platform response to error
+        conditions; it allows one to inject an error into the system as
+        if it had actually occurred.  However, this table should not be
+@@ -89,27 +116,35 @@ EINJ   Section 18.6 (signature == "EINJ")
+        and executed with the ACPICA tools only during testing.
+ 
+ ERST   Section 18.5 (signature == "ERST")
+-       == Error Record Serialization Table ==
++
++       **Error Record Serialization Table**
++
+        On a platform supports RAS, this table must be supplied if it is not
+        UEFI-based; if it is UEFI-based, this table may be supplied. When this
+        table is not present, UEFI run time service will be utilized to save
+        and retrieve hardware error information to and from a persistent store.
+ 
+ ETDT   Signature Reserved (signature == "ETDT")
+-       == Event Timer Description Table ==
++
++       **Event Timer Description Table**
++
+        Obsolete table, will not be supported.
+ 
+ FACS   Section 5.2.10 (signature == "FACS")
+-       == Firmware ACPI Control Structure ==
++
++       **Firmware ACPI Control Structure**
++
+        It is unlikely that this table will be terribly useful.  If it is
+        provided, the Global Lock will NOT be used since it is not part of
+        the hardware reduced profile, and only 64-bit address fields will
+        be considered valid.
+ 
+ FADT   Section 5.2.9 (signature == "FACP")
+-       == Fixed ACPI Description Table ==
++
++       **Fixed ACPI Description Table**
+        Required for arm64.
+ 
++
+        The HW_REDUCED_ACPI flag must be set.  All of the fields that are
+        to be ignored when HW_REDUCED_ACPI is set are expected to be set to
+        zero.
+@@ -118,22 +153,28 @@ FADT   Section 5.2.9 (signature == "FACP")
+        used, not FIRMWARE_CTRL.
+ 
+        If PSCI is used (as is recommended), make sure that ARM_BOOT_ARCH is
+-       filled in properly -- that the PSCI_COMPLIANT flag is set and that
++       filled in properly - that the PSCI_COMPLIANT flag is set and that
+        PSCI_USE_HVC is set or unset as needed (see table 5-37).
+ 
+        For the DSDT that is also required, the X_DSDT field is to be used,
+        not the DSDT field.
+ 
+ FPDT   Section 5.2.23 (signature == "FPDT")
+-       == Firmware Performance Data Table ==
++
++       **Firmware Performance Data Table**
++
+        Optional, not currently supported.
+ 
+ GTDT   Section 5.2.24 (signature == "GTDT")
+-       == Generic Timer Description Table ==
++
++       **Generic Timer Description Table**
++
+        Required for arm64.
+ 
+ HEST   Section 18.3.2 (signature == "HEST")
+-       == Hardware Error Source Table ==
++
++       **Hardware Error Source Table**
++
+        ARM-specific error sources have been defined; please use those or the
+        PCI types such as type 6 (AER Root Port), 7 (AER Endpoint), or 8 (AER
+        Bridge), or use type 9 (Generic Hardware Error Source).  Firmware first
+@@ -144,122 +185,174 @@ HEST   Section 18.3.2 (signature == "HEST")
+        is recommended this table be supplied.
+ 
+ HPET   Signature Reserved (signature == "HPET")
+-       == High Precision Event timer Table ==
++
++       **High Precision Event timer Table**
++
+        x86 only table, will not be supported.
+ 
+ IBFT   Signature Reserved (signature == "IBFT")
+-       == iSCSI Boot Firmware Table ==
++
++       **iSCSI Boot Firmware Table**
++
+        Microsoft defined table, support TBD.
+ 
+ IORT   Signature Reserved (signature == "IORT")
+-       == Input Output Remapping Table ==
++
++       **Input Output Remapping Table**
++
+        arm64 only table, required in order to describe IO topology, SMMUs,
+        and GIC ITSs, and how those various components are connected together,
+        such as identifying which components are behind which SMMUs/ITSs.
+        This table will only be required on certain SBSA platforms (e.g.,
+-       when using GICv3-ITS and an SMMU); on SBSA Level 0 platforms, it 
++       when using GICv3-ITS and an SMMU); on SBSA Level 0 platforms, it
+        remains optional.
+ 
+ IVRS   Signature Reserved (signature == "IVRS")
+-       == I/O Virtualization Reporting Structure ==
++
++       **I/O Virtualization Reporting Structure**
++
+        x86_64 (AMD) only table, will not be supported.
+ 
+ LPIT   Signature Reserved (signature == "LPIT")
+-       == Low Power Idle Table ==
++
++       **Low Power Idle Table**
++
+        x86 only table as of ACPI 5.1; starting with ACPI 6.0, processor
+        descriptions and power states on ARM platforms should use the DSDT
+        and define processor container devices (_HID ACPI0010, Section 8.4,
+        and more specifically 8.4.3 and and 8.4.4).
+ 
+ MADT   Section 5.2.12 (signature == "APIC")
+-       == Multiple APIC Description Table ==
++
++       **Multiple APIC Description Table**
++
+        Required for arm64.  Only the GIC interrupt controller structures
+        should be used (types 0xA - 0xF).
+ 
+ MCFG   Signature Reserved (signature == "MCFG")
+-       == Memory-mapped ConFiGuration space ==
++
++       **Memory-mapped ConFiGuration space**
++
+        If the platform supports PCI/PCIe, an MCFG table is required.
+ 
+ MCHI   Signature Reserved (signature == "MCHI")
+-       == Management Controller Host Interface table ==
++
++       **Management Controller Host Interface table**
++
+        Optional, not currently supported.
+ 
+ MPST   Section 5.2.21 (signature == "MPST")
+-       == Memory Power State Table ==
++
++       **Memory Power State Table**
++
+        Optional, not currently supported.
+ 
+ MSCT   Section 5.2.19 (signature == "MSCT")
+-       == Maximum System Characteristic Table ==
++
++       **Maximum System Characteristic Table**
++
+        Optional, not currently supported.
+ 
+ MSDM   Signature Reserved (signature == "MSDM")
+-       == Microsoft Data Management table ==
++
++       **Microsoft Data Management table**
++
+        Microsoft only table, will not be supported.
+ 
+ NFIT   Section 5.2.25 (signature == "NFIT")
+-       == NVDIMM Firmware Interface Table ==
++
++       **NVDIMM Firmware Interface Table**
++
+        Optional, not currently supported.
+ 
+ OEMx   Signature of "OEMx" only
+-       == OEM Specific Tables ==
++
++       **OEM Specific Tables**
++
+        All tables starting with a signature of "OEM" are reserved for OEM
+        use.  Since these are not meant to be of general use but are limited
+        to very specific end users, they are not recommended for use and are
+        not supported by the kernel for arm64.
+ 
+ PCCT   Section 14.1 (signature == "PCCT)
+-       == Platform Communications Channel Table ==
++
++       **Platform Communications Channel Table**
++
+        Recommend for use on arm64; use of PCC is recommended when using CPPC
+        to control performance and power for platform processors.
+ 
+ PMTT   Section 5.2.21.12 (signature == "PMTT")
+-       == Platform Memory Topology Table ==
++
++       **Platform Memory Topology Table**
++
+        Optional, not currently supported.
+ 
+ PSDT   Section 5.2.11.3 (signature == "PSDT")
+-       == Persistent System Description Table ==
++
++       **Persistent System Description Table**
++
+        Obsolete table, will not be supported.
+ 
+ RASF   Section 5.2.20 (signature == "RASF")
+-       == RAS Feature table ==
++
++       **RAS Feature table**
++
+        Optional, not currently supported.
+ 
+ RSDP   Section 5.2.5 (signature == "RSD PTR")
+-       == Root System Description PoinTeR ==
++
++       **Root System Description PoinTeR**
++
+        Required for arm64.
+ 
+ RSDT   Section 5.2.7 (signature == "RSDT")
+-       == Root System Description Table ==
++
++       **Root System Description Table**
++
+        Since this table can only provide 32-bit addresses, it is deprecated
+        on arm64, and will not be used.  If provided, it will be ignored.
+ 
+ SBST   Section 5.2.14 (signature == "SBST")
+-       == Smart Battery Subsystem Table ==
++
++       **Smart Battery Subsystem Table**
++
+        Optional, not currently supported.
+ 
+ SLIC   Signature Reserved (signature == "SLIC")
+-       == Software LIcensing table ==
++
++       **Software LIcensing table**
++
+        Microsoft only table, will not be supported.
+ 
+ SLIT   Section 5.2.17 (signature == "SLIT")
+-       == System Locality distance Information Table ==
++
++       **System Locality distance Information Table**
++
+        Optional in general, but required for NUMA systems.
+ 
+ SPCR   Signature Reserved (signature == "SPCR")
+-       == Serial Port Console Redirection table ==
++
++       **Serial Port Console Redirection table**
++
+        Required for arm64.
+ 
+ SPMI   Signature Reserved (signature == "SPMI")
+-       == Server Platform Management Interface table ==
++
++       **Server Platform Management Interface table**
++
+        Optional, not currently supported.
+ 
+ SRAT   Section 5.2.16 (signature == "SRAT")
+-       == System Resource Affinity Table ==
++
++       **System Resource Affinity Table**
++
+        Optional, but if used, only the GICC Affinity structures are read.
+        To support arm64 NUMA, this table is required.
+ 
+ SSDT   Section 5.2.11.2 (signature == "SSDT")
+-       == Secondary System Description Table ==
++
++       **Secondary System Description Table**
++
+        These tables are a continuation of the DSDT; these are recommended
+        for use with devices that can be added to a running system, but can
+        also serve the purpose of dividing up device descriptions into more
+@@ -272,49 +365,69 @@ SSDT   Section 5.2.11.2 (signature == "SSDT")
+        one DSDT but can contain many SSDTs.
+ 
+ STAO   Signature Reserved (signature == "STAO")
+-       == _STA Override table ==
++
++       **_STA Override table**
++
+        Optional, but only necessary in virtualized environments in order to
+        hide devices from guest OSs.
+ 
+ TCPA   Signature Reserved (signature == "TCPA")
+-       == Trusted Computing Platform Alliance table ==
++
++       **Trusted Computing Platform Alliance table**
++
+        Optional, not currently supported, and may need changes to fully
+        interoperate with arm64.
+ 
+ TPM2   Signature Reserved (signature == "TPM2")
+-       == Trusted Platform Module 2 table ==
++
++       **Trusted Platform Module 2 table**
++
+        Optional, not currently supported, and may need changes to fully
+        interoperate with arm64.
+ 
+ UEFI   Signature Reserved (signature == "UEFI")
+-       == UEFI ACPI data table ==
++
++       **UEFI ACPI data table**
++
+        Optional, not currently supported.  No known use case for arm64,
+        at present.
+ 
+ WAET   Signature Reserved (signature == "WAET")
+-       == Windows ACPI Emulated devices Table ==
++
++       **Windows ACPI Emulated devices Table**
++
+        Microsoft only table, will not be supported.
+ 
+ WDAT   Signature Reserved (signature == "WDAT")
+-       == Watch Dog Action Table ==
++
++       **Watch Dog Action Table**
++
+        Microsoft only table, will not be supported.
+ 
+ WDRT   Signature Reserved (signature == "WDRT")
+-       == Watch Dog Resource Table ==
++
++       **Watch Dog Resource Table**
++
+        Microsoft only table, will not be supported.
+ 
+ WPBT   Signature Reserved (signature == "WPBT")
+-       == Windows Platform Binary Table ==
++
++       **Windows Platform Binary Table**
++
+        Microsoft only table, will not be supported.
+ 
+ XENV   Signature Reserved (signature == "XENV")
+-       == Xen project table ==
++
++       **Xen project table**
++
+        Optional, used only by Xen at present.
+ 
+ XSDT   Section 5.2.8 (signature == "XSDT")
+-       == eXtended System Description Table ==
++
++       **eXtended System Description Table**
++
+        Required for arm64.
+-
++====== ========================================================================
+ 
+ ACPI Objects
+ ------------
+@@ -323,10 +436,11 @@ shown in the list that follows; any object not explicitly mentioned below
+ should be used as needed for a particular platform or particular subsystem,
+ such as power management or PCI.
+ 
++===== ================ ========================================================
+ Name   Section         Usage for ARMv8 Linux
+-----   ------------    -------------------------------------------------
++===== ================ ========================================================
+ _CCA   6.2.17          This method must be defined for all bus masters
+-                       on arm64 -- there are no assumptions made about
++                       on arm64 - there are no assumptions made about
+                        whether such devices are cache coherent or not.
+                        The _CCA value is inherited by all descendants of
+                        these devices so it does not need to be repeated.
+@@ -422,8 +536,8 @@ _OSC   6.2.11          This method can be a global method in ACPI (i.e.,
+                        by the kernel community, then register it with the
+                        UEFI Forum.
+ 
+-\_OSI  5.7.2           Deprecated on ARM64.  As far as ACPI firmware is 
+-		       concerned, _OSI is not to be used to determine what 
++\_OSI  5.7.2           Deprecated on ARM64.  As far as ACPI firmware is
++		       concerned, _OSI is not to be used to determine what
+ 		       sort of system is being used or what functionality
+ 		       is provided.  The _OSC method is to be used instead.
+ 
+@@ -447,7 +561,7 @@ _PSx   7.3.2-5         Use as needed; power management specific.  If _PS0 is
+                        usage, change them in these methods.
+ 
+ _RDI   8.4.4.4         Recommended for use with processor definitions (_HID
+-		       ACPI0010) on arm64.  This should only be used in 
++		       ACPI0010) on arm64.  This should only be used in
+ 		       conjunction with _LPI.
+ 
+ \_REV  5.7.4           Always returns the latest version of ACPI supported.
+@@ -476,6 +590,7 @@ _SWS   7.4.3           Use as needed; power management specific; this may
+ 
+ _UID   6.1.12          Recommended for distinguishing devices of the same
+                        class; define it if at all possible.
++===== ================ ========================================================
+ 
+ 
+ 
+@@ -488,7 +603,7 @@ platforms, ACPI events must be signaled differently.
+ 
+ There are two options: GPIO-signaled interrupts (Section 5.6.5), and
+ interrupt-signaled events (Section 5.6.9).  Interrupt-signaled events are a
+-new feature in the ACPI 6.1 specification.  Either -- or both -- can be used
++new feature in the ACPI 6.1 specification.  Either - or both - can be used
+ on a given platform, and which to use may be dependent of limitations in any
+ given SoC.  If possible, interrupt-signaled events are recommended.
+ 
+@@ -564,39 +679,40 @@ supported.
+ 
+ The following classes of objects are not supported:
+ 
+-       -- Section 9.2: ambient light sensor devices
++       -  Section 9.2: ambient light sensor devices
+ 
+-       -- Section 9.3: battery devices
++       -  Section 9.3: battery devices
+ 
+-       -- Section 9.4: lids (e.g., laptop lids)
++       -  Section 9.4: lids (e.g., laptop lids)
+ 
+-       -- Section 9.8.2: IDE controllers
++       -  Section 9.8.2: IDE controllers
+ 
+-       -- Section 9.9: floppy controllers
++       -  Section 9.9: floppy controllers
+ 
+-       -- Section 9.10: GPE block devices
++       -  Section 9.10: GPE block devices
+ 
+-       -- Section 9.15: PC/AT RTC/CMOS devices
++       -  Section 9.15: PC/AT RTC/CMOS devices
+ 
+-       -- Section 9.16: user presence detection devices
++       -  Section 9.16: user presence detection devices
+ 
+-       -- Section 9.17: I/O APIC devices; all GICs must be enumerable via MADT
++       -  Section 9.17: I/O APIC devices; all GICs must be enumerable via MADT
+ 
+-       -- Section 9.18: time and alarm devices (see 9.15)
++       -  Section 9.18: time and alarm devices (see 9.15)
+ 
+-       -- Section 10: power source and power meter devices
++       -  Section 10: power source and power meter devices
+ 
+-       -- Section 11: thermal management
++       -  Section 11: thermal management
+ 
+-       -- Section 12: embedded controllers interface
++       -  Section 12: embedded controllers interface
+ 
+-       -- Section 13: SMBus interfaces
++       -  Section 13: SMBus interfaces
+ 
+ 
+ This also means that there is no support for the following objects:
+ 
++====   =========================== ====   ==========
+ Name   Section                     Name   Section
+-----   ------------                ----   ------------
++====   =========================== ====   ==========
+ _ALC   9.3.4                       _FDM   9.10.3
+ _ALI   9.3.2                       _FIX   6.2.7
+ _ALP   9.3.6                       _GAI   10.4.5
+@@ -619,4 +735,4 @@ _DCK   6.5.2                       _UPD   9.16.1
+ _EC    12.12                       _UPP   9.16.2
+ _FDE   9.10.1                      _WPC   10.5.2
+ _FDI   9.10.2                      _WPP   10.5.3
+-
++====   =========================== ====   ==========
+diff --git a/Documentation/arm64/arm-acpi.txt b/Documentation/arm64/arm-acpi.rst
+similarity index 86%
+rename from Documentation/arm64/arm-acpi.txt
+rename to Documentation/arm64/arm-acpi.rst
+index 1a74a041a443..872dbbc73d4a 100644
+--- a/Documentation/arm64/arm-acpi.txt
++++ b/Documentation/arm64/arm-acpi.rst
+@@ -1,5 +1,7 @@
++=====================
+ ACPI on ARMv8 Servers
+----------------------
++=====================
++
+ ACPI can be used for ARMv8 general purpose servers designed to follow
+ the ARM SBSA (Server Base System Architecture) [0] and SBBR (Server
+ Base Boot Requirements) [1] specifications.  Please note that the SBBR
+@@ -34,28 +36,28 @@ of the summary text almost directly, to be honest.
+ 
+ The short form of the rationale for ACPI on ARM is:
+ 
+--- ACPI’s byte code (AML) allows the platform to encode hardware behavior,
++-  ACPI’s byte code (AML) allows the platform to encode hardware behavior,
+    while DT explicitly does not support this.  For hardware vendors, being
+    able to encode behavior is a key tool used in supporting operating
+    system releases on new hardware.
+ 
+--- ACPI’s OSPM defines a power management model that constrains what the
++-  ACPI’s OSPM defines a power management model that constrains what the
+    platform is allowed to do into a specific model, while still providing
+    flexibility in hardware design.
+ 
+--- In the enterprise server environment, ACPI has established bindings (such
++-  In the enterprise server environment, ACPI has established bindings (such
+    as for RAS) which are currently used in production systems.  DT does not.
+    Such bindings could be defined in DT at some point, but doing so means ARM
+    and x86 would end up using completely different code paths in both firmware
+    and the kernel.
+ 
+--- Choosing a single interface to describe the abstraction between a platform
++-  Choosing a single interface to describe the abstraction between a platform
+    and an OS is important.  Hardware vendors would not be required to implement
+    both DT and ACPI if they want to support multiple operating systems.  And,
+    agreeing on a single interface instead of being fragmented into per OS
+    interfaces makes for better interoperability overall.
+ 
+--- The new ACPI governance process works well and Linux is now at the same
++-  The new ACPI governance process works well and Linux is now at the same
+    table as hardware vendors and other OS vendors.  In fact, there is no
+    longer any reason to feel that ACPI only belongs to Windows or that
+    Linux is in any way secondary to Microsoft in this arena.  The move of
+@@ -169,31 +171,31 @@ For the ACPI core to operate properly, and in turn provide the information
+ the kernel needs to configure devices, it expects to find the following
+ tables (all section numbers refer to the ACPI 6.1 specification):
+ 
+-    -- RSDP (Root System Description Pointer), section 5.2.5
++    -  RSDP (Root System Description Pointer), section 5.2.5
+ 
+-    -- XSDT (eXtended System Description Table), section 5.2.8
++    -  XSDT (eXtended System Description Table), section 5.2.8
+ 
+-    -- FADT (Fixed ACPI Description Table), section 5.2.9
++    -  FADT (Fixed ACPI Description Table), section 5.2.9
+ 
+-    -- DSDT (Differentiated System Description Table), section
++    -  DSDT (Differentiated System Description Table), section
+        5.2.11.1
+ 
+-    -- MADT (Multiple APIC Description Table), section 5.2.12
++    -  MADT (Multiple APIC Description Table), section 5.2.12
+ 
+-    -- GTDT (Generic Timer Description Table), section 5.2.24
++    -  GTDT (Generic Timer Description Table), section 5.2.24
+ 
+-    -- If PCI is supported, the MCFG (Memory mapped ConFiGuration
++    -  If PCI is supported, the MCFG (Memory mapped ConFiGuration
+        Table), section 5.2.6, specifically Table 5-31.
+ 
+-    -- If booting without a console=<device> kernel parameter is
++    -  If booting without a console=<device> kernel parameter is
+        supported, the SPCR (Serial Port Console Redirection table),
+        section 5.2.6, specifically Table 5-31.
+ 
+-    -- If necessary to describe the I/O topology, SMMUs and GIC ITSs,
++    -  If necessary to describe the I/O topology, SMMUs and GIC ITSs,
+        the IORT (Input Output Remapping Table, section 5.2.6, specifically
+        Table 5-31).
+ 
+-    -- If NUMA is supported, the SRAT (System Resource Affinity Table)
++    -  If NUMA is supported, the SRAT (System Resource Affinity Table)
+        and SLIT (System Locality distance Information Table), sections
+        5.2.16 and 5.2.17, respectively.
+ 
+@@ -269,9 +271,9 @@ describes how to define the structure of an object returned via _DSD, and
+ how specific data structures are defined by specific UUIDs.  Linux should
+ only use the _DSD Device Properties UUID [5]:
+ 
+-   -- UUID: daffd814-6eba-4d8c-8a91-bc9bbf4aa301
++   - UUID: daffd814-6eba-4d8c-8a91-bc9bbf4aa301
+ 
+-   -- http://www.uefi.org/sites/default/files/resources/_DSD-device-properties-UUID.pdf
++   - http://www.uefi.org/sites/default/files/resources/_DSD-device-properties-UUID.pdf
+ 
+ The UEFI Forum provides a mechanism for registering device properties [4]
+ so that they may be used across all operating systems supporting ACPI.
+@@ -327,10 +329,10 @@ turning a device full off.
+ 
+ There are two options for using those Power Resources.  They can:
+ 
+-   -- be managed in a _PSx method which gets called on entry to power
++   -  be managed in a _PSx method which gets called on entry to power
+       state Dx.
+ 
+-   -- be declared separately as power resources with their own _ON and _OFF
++   -  be declared separately as power resources with their own _ON and _OFF
+       methods.  They are then tied back to D-states for a particular device
+       via _PRx which specifies which power resources a device needs to be on
+       while in Dx.  Kernel then tracks number of devices using a power resource
+@@ -339,16 +341,16 @@ There are two options for using those Power Resources.  They can:
+ The kernel ACPI code will also assume that the _PSx methods follow the normal
+ ACPI rules for such methods:
+ 
+-   -- If either _PS0 or _PS3 is implemented, then the other method must also
++   -  If either _PS0 or _PS3 is implemented, then the other method must also
+       be implemented.
+ 
+-   -- If a device requires usage or setup of a power resource when on, the ASL
++   -  If a device requires usage or setup of a power resource when on, the ASL
+       should organize that it is allocated/enabled using the _PS0 method.
+ 
+-   -- Resources allocated or enabled in the _PS0 method should be disabled
++   -  Resources allocated or enabled in the _PS0 method should be disabled
+       or de-allocated in the _PS3 method.
+ 
+-   -- Firmware will leave the resources in a reasonable state before handing
++   -  Firmware will leave the resources in a reasonable state before handing
+       over control to the kernel.
+ 
+ Such code in _PSx methods will of course be very platform specific.  But,
+@@ -394,52 +396,52 @@ else must be discovered by the driver probe function.  Then, have the rest
+ of the driver operate off of the contents of that struct.  Doing so should
+ allow most divergence between ACPI and DT functionality to be kept local to
+ the probe function instead of being scattered throughout the driver.  For
+-example:
++example::
+ 
+-static int device_probe_dt(struct platform_device *pdev)
+-{
+-       /* DT specific functionality */
+-       ...
+-}
++  static int device_probe_dt(struct platform_device *pdev)
++  {
++         /* DT specific functionality */
++         ...
++  }
+ 
+-static int device_probe_acpi(struct platform_device *pdev)
+-{
+-       /* ACPI specific functionality */
+-       ...
+-}
++  static int device_probe_acpi(struct platform_device *pdev)
++  {
++         /* ACPI specific functionality */
++         ...
++  }
+ 
+-static int device_probe(struct platform_device *pdev)
+-{
+-       ...
+-       struct device_node node = pdev->dev.of_node;
+-       ...
++  static int device_probe(struct platform_device *pdev)
++  {
++         ...
++         struct device_node node = pdev->dev.of_node;
++         ...
+ 
+-       if (node)
+-               ret = device_probe_dt(pdev);
+-       else if (ACPI_HANDLE(&pdev->dev))
+-               ret = device_probe_acpi(pdev);
+-       else
+-               /* other initialization */
+-               ...
+-       /* Continue with any generic probe operations */
+-       ...
+-}
++         if (node)
++                 ret = device_probe_dt(pdev);
++         else if (ACPI_HANDLE(&pdev->dev))
++                 ret = device_probe_acpi(pdev);
++         else
++                 /* other initialization */
++                 ...
++         /* Continue with any generic probe operations */
++         ...
++  }
+ 
+ DO keep the MODULE_DEVICE_TABLE entries together in the driver to make it
+ clear the different names the driver is probed for, both from DT and from
+-ACPI:
++ACPI::
+ 
+-static struct of_device_id virtio_mmio_match[] = {
+-        { .compatible = "virtio,mmio", },
+-        { }
+-};
+-MODULE_DEVICE_TABLE(of, virtio_mmio_match);
++  static struct of_device_id virtio_mmio_match[] = {
++          { .compatible = "virtio,mmio", },
++          { }
++  };
++  MODULE_DEVICE_TABLE(of, virtio_mmio_match);
+ 
+-static const struct acpi_device_id virtio_mmio_acpi_match[] = {
+-        { "LNRO0005", },
+-        { }
+-};
+-MODULE_DEVICE_TABLE(acpi, virtio_mmio_acpi_match);
++  static const struct acpi_device_id virtio_mmio_acpi_match[] = {
++          { "LNRO0005", },
++          { }
++  };
++  MODULE_DEVICE_TABLE(acpi, virtio_mmio_acpi_match);
+ 
+ 
+ ASWG
+@@ -471,7 +473,8 @@ Linux Code
+ Individual items specific to Linux on ARM, contained in the the Linux
+ source code, are in the list that follows:
+ 
+-ACPI_OS_NAME           This macro defines the string to be returned when
++ACPI_OS_NAME
++                       This macro defines the string to be returned when
+                        an ACPI method invokes the _OS method.  On ARM64
+                        systems, this macro will be "Linux" by default.
+                        The command line parameter acpi_os=<string>
+@@ -482,38 +485,44 @@ ACPI_OS_NAME           This macro defines the string to be returned when
+ ACPI Objects
+ ------------
+ Detailed expectations for ACPI tables and object are listed in the file
+-Documentation/arm64/acpi_object_usage.txt.
++Documentation/arm64/acpi_object_usage.rst.
+ 
+ 
+ References
+ ----------
+-[0] http://silver.arm.com -- document ARM-DEN-0029, or newer
++[0] http://silver.arm.com
++    document ARM-DEN-0029, or newer:
+     "Server Base System Architecture", version 2.3, dated 27 Mar 2014
+ 
+ [1] http://infocenter.arm.com/help/topic/com.arm.doc.den0044a/Server_Base_Boot_Requirements.pdf
+     Document ARM-DEN-0044A, or newer: "Server Base Boot Requirements, System
+     Software on ARM Platforms", dated 16 Aug 2014
+ 
+-[2] http://www.secretlab.ca/archives/151, 10 Jan 2015, Copyright (c) 2015,
++[2] http://www.secretlab.ca/archives/151,
++    10 Jan 2015, Copyright (c) 2015,
+     Linaro Ltd., written by Grant Likely.
+ 
+-[3] AMD ACPI for Seattle platform documentation:
++[3] AMD ACPI for Seattle platform documentation
+     http://amd-dev.wpengine.netdna-cdn.com/wordpress/media/2012/10/Seattle_ACPI_Guide.pdf
+ 
+-[4] http://www.uefi.org/acpi -- please see the link for the "ACPI _DSD Device
++
++[4] http://www.uefi.org/acpi
++    please see the link for the "ACPI _DSD Device
+     Property Registry Instructions"
+ 
+-[5] http://www.uefi.org/acpi -- please see the link for the "_DSD (Device
++[5] http://www.uefi.org/acpi
++    please see the link for the "_DSD (Device
+     Specific Data) Implementation Guide"
+ 
+-[6] Kernel code for the unified device property interface can be found in
++[6] Kernel code for the unified device
++    property interface can be found in
+     include/linux/property.h and drivers/base/property.c.
+ 
+ 
+ Authors
+ -------
+-Al Stone <al.stone@linaro.org>
+-Graeme Gregory <graeme.gregory@linaro.org>
+-Hanjun Guo <hanjun.guo@linaro.org>
++- Al Stone <al.stone@linaro.org>
++- Graeme Gregory <graeme.gregory@linaro.org>
++- Hanjun Guo <hanjun.guo@linaro.org>
+ 
+-Grant Likely <grant.likely@linaro.org>, for the "Why ACPI on ARM?" section
++- Grant Likely <grant.likely@linaro.org>, for the "Why ACPI on ARM?" section
+diff --git a/Documentation/arm64/booting.txt b/Documentation/arm64/booting.rst
+similarity index 86%
+rename from Documentation/arm64/booting.txt
+rename to Documentation/arm64/booting.rst
+index fbab7e21d116..3d041d0d16e8 100644
+--- a/Documentation/arm64/booting.txt
++++ b/Documentation/arm64/booting.rst
+@@ -1,7 +1,9 @@
+-			Booting AArch64 Linux
+-			=====================
++=====================
++Booting AArch64 Linux
++=====================
+ 
+ Author: Will Deacon <will.deacon@arm.com>
++
+ Date  : 07 September 2012
+ 
+ This document is based on the ARM booting document by Russell King and
+@@ -12,7 +14,7 @@ The AArch64 exception model is made up of a number of exception levels
+ counterpart.  EL2 is the hypervisor level and exists only in non-secure
+ mode. EL3 is the highest priority level and exists only in secure mode.
+ 
+-For the purposes of this document, we will use the term `boot loader'
++For the purposes of this document, we will use the term `boot loader`
+ simply to define all software that executes on the CPU(s) before control
+ is passed to the Linux kernel.  This may include secure monitor and
+ hypervisor code, or it may just be a handful of instructions for
+@@ -70,7 +72,7 @@ Image target is available instead.
+ 
+ Requirement: MANDATORY
+ 
+-The decompressed kernel image contains a 64-byte header as follows:
++The decompressed kernel image contains a 64-byte header as follows::
+ 
+   u32 code0;			/* Executable code */
+   u32 code1;			/* Executable code */
+@@ -103,19 +105,26 @@ Header notes:
+ 
+ - The flags field (introduced in v3.17) is a little-endian 64-bit field
+   composed as follows:
+-  Bit 0:	Kernel endianness.  1 if BE, 0 if LE.
+-  Bit 1-2:	Kernel Page size.
+-			0 - Unspecified.
+-			1 - 4K
+-			2 - 16K
+-			3 - 64K
+-  Bit 3:	Kernel physical placement
+-			0 - 2MB aligned base should be as close as possible
+-			    to the base of DRAM, since memory below it is not
+-			    accessible via the linear mapping
+-			1 - 2MB aligned base may be anywhere in physical
+-			    memory
+-  Bits 4-63:	Reserved.
++
++  ============= ===============================================================
++  Bit 0		Kernel endianness.  1 if BE, 0 if LE.
++  Bit 1-2	Kernel Page size.
++
++			* 0 - Unspecified.
++			* 1 - 4K
++			* 2 - 16K
++			* 3 - 64K
++  Bit 3		Kernel physical placement
++
++			0
++			  2MB aligned base should be as close as possible
++			  to the base of DRAM, since memory below it is not
++			  accessible via the linear mapping
++			1
++			  2MB aligned base may be anywhere in physical
++			  memory
++  Bits 4-63	Reserved.
++  ============= ===============================================================
+ 
+ - When image_size is zero, a bootloader should attempt to keep as much
+   memory as possible free for use by the kernel immediately after the
+@@ -147,19 +156,22 @@ Before jumping into the kernel, the following conditions must be met:
+   corrupted by bogus network packets or disk data.  This will save
+   you many hours of debug.
+ 
+-- Primary CPU general-purpose register settings
+-  x0 = physical address of device tree blob (dtb) in system RAM.
+-  x1 = 0 (reserved for future use)
+-  x2 = 0 (reserved for future use)
+-  x3 = 0 (reserved for future use)
++- Primary CPU general-purpose register settings:
++
++    - x0 = physical address of device tree blob (dtb) in system RAM.
++    - x1 = 0 (reserved for future use)
++    - x2 = 0 (reserved for future use)
++    - x3 = 0 (reserved for future use)
+ 
+ - CPU mode
++
+   All forms of interrupts must be masked in PSTATE.DAIF (Debug, SError,
+   IRQ and FIQ).
+   The CPU must be in either EL2 (RECOMMENDED in order to have access to
+   the virtualisation extensions) or non-secure EL1.
+ 
+ - Caches, MMUs
++
+   The MMU must be off.
+   Instruction cache may be on or off.
+   The address range corresponding to the loaded kernel image must be
+@@ -172,18 +184,21 @@ Before jumping into the kernel, the following conditions must be met:
+   operations (not recommended) must be configured and disabled.
+ 
+ - Architected timers
++
+   CNTFRQ must be programmed with the timer frequency and CNTVOFF must
+   be programmed with a consistent value on all CPUs.  If entering the
+   kernel at EL1, CNTHCTL_EL2 must have EL1PCTEN (bit 0) set where
+   available.
+ 
+ - Coherency
++
+   All CPUs to be booted by the kernel must be part of the same coherency
+   domain on entry to the kernel.  This may require IMPLEMENTATION DEFINED
+   initialisation to enable the receiving of maintenance operations on
+   each CPU.
+ 
+ - System registers
++
+   All writable architected system registers at the exception level where
+   the kernel image will be entered must be initialised by software at a
+   higher exception level to prevent execution in an UNKNOWN state.
+@@ -195,28 +210,40 @@ Before jumping into the kernel, the following conditions must be met:
+ 
+   For systems with a GICv3 interrupt controller to be used in v3 mode:
+   - If EL3 is present:
+-    ICC_SRE_EL3.Enable (bit 3) must be initialiased to 0b1.
+-    ICC_SRE_EL3.SRE (bit 0) must be initialised to 0b1.
++
++      - ICC_SRE_EL3.Enable (bit 3) must be initialiased to 0b1.
++      - ICC_SRE_EL3.SRE (bit 0) must be initialised to 0b1.
++
+   - If the kernel is entered at EL1:
+-    ICC.SRE_EL2.Enable (bit 3) must be initialised to 0b1
+-    ICC_SRE_EL2.SRE (bit 0) must be initialised to 0b1.
++
++      - ICC.SRE_EL2.Enable (bit 3) must be initialised to 0b1
++      - ICC_SRE_EL2.SRE (bit 0) must be initialised to 0b1.
++
+   - The DT or ACPI tables must describe a GICv3 interrupt controller.
+ 
+   For systems with a GICv3 interrupt controller to be used in
+   compatibility (v2) mode:
++
+   - If EL3 is present:
+-    ICC_SRE_EL3.SRE (bit 0) must be initialised to 0b0.
++
++      ICC_SRE_EL3.SRE (bit 0) must be initialised to 0b0.
++
+   - If the kernel is entered at EL1:
+-    ICC_SRE_EL2.SRE (bit 0) must be initialised to 0b0.
++
++      ICC_SRE_EL2.SRE (bit 0) must be initialised to 0b0.
++
+   - The DT or ACPI tables must describe a GICv2 interrupt controller.
+ 
+   For CPUs with pointer authentication functionality:
+   - If EL3 is present:
+-    SCR_EL3.APK (bit 16) must be initialised to 0b1
+-    SCR_EL3.API (bit 17) must be initialised to 0b1
++
++    - SCR_EL3.APK (bit 16) must be initialised to 0b1
++    - SCR_EL3.API (bit 17) must be initialised to 0b1
++
+   - If the kernel is entered at EL1:
+-    HCR_EL2.APK (bit 40) must be initialised to 0b1
+-    HCR_EL2.API (bit 41) must be initialised to 0b1
++
++    - HCR_EL2.APK (bit 40) must be initialised to 0b1
++    - HCR_EL2.API (bit 41) must be initialised to 0b1
+ 
+ The requirements described above for CPU mode, caches, MMUs, architected
+ timers, coherency and system registers apply to all CPUs.  All CPUs must
+diff --git a/Documentation/arm64/cpu-feature-registers.txt b/Documentation/arm64/cpu-feature-registers.rst
+similarity index 65%
+rename from Documentation/arm64/cpu-feature-registers.txt
+rename to Documentation/arm64/cpu-feature-registers.rst
+index 684a0da39378..2955287e9acc 100644
+--- a/Documentation/arm64/cpu-feature-registers.txt
++++ b/Documentation/arm64/cpu-feature-registers.rst
+@@ -1,5 +1,6 @@
+-		ARM64 CPU Feature Registers
+-		===========================
++===========================
++ARM64 CPU Feature Registers
++===========================
+ 
+ Author: Suzuki K Poulose <suzuki.poulose@arm.com>
+ 
+@@ -9,7 +10,7 @@ registers to userspace. The availability of this ABI is advertised
+ via the HWCAP_CPUID in HWCAPs.
+ 
+ 1. Motivation
+----------------
++-------------
+ 
+ The ARM architecture defines a set of feature registers, which describe
+ the capabilities of the CPU/system. Access to these system registers is
+@@ -33,9 +34,10 @@ there are some issues with their usage.
+ 
+ 
+ 2. Requirements
+------------------
++---------------
++
++ a) Safety:
+ 
+- a) Safety :
+     Applications should be able to use the information provided by the
+     infrastructure to run safely across the system. This has greater
+     implications on a system with heterogeneous CPUs.
+@@ -47,7 +49,8 @@ there are some issues with their usage.
+     Otherwise an application could crash when scheduled on the CPU
+     which doesn't support CRC32.
+ 
+- b) Security :
++ b) Security:
++
+     Applications should only be able to receive information that is
+     relevant to the normal operation in userspace. Hence, some of the
+     fields are masked out(i.e, made invisible) and their values are set to
+@@ -58,10 +61,12 @@ there are some issues with their usage.
+     (even when the CPU provides it).
+ 
+  c) Implementation Defined Features
++
+     The infrastructure doesn't expose any register which is
+     IMPLEMENTATION DEFINED as per ARMv8-A Architecture.
+ 
+- d) CPU Identification :
++ d) CPU Identification:
++
+     MIDR_EL1 is exposed to help identify the processor. On a
+     heterogeneous system, this could be racy (just like getcpu()). The
+     process could be migrated to another CPU by the time it uses the
+@@ -70,7 +75,7 @@ there are some issues with their usage.
+     currently executing on. The REVIDR is not exposed due to this
+     constraint, as REVIDR makes sense only in conjunction with the
+     MIDR. Alternately, MIDR_EL1 and REVIDR_EL1 are exposed via sysfs
+-    at:
++    at::
+ 
+ 	/sys/devices/system/cpu/cpu$ID/regs/identification/
+ 	                                              \- midr
+@@ -85,7 +90,8 @@ exception and ends up in SIGILL being delivered to the process.
+ The infrastructure hooks into the exception handler and emulates the
+ operation if the source belongs to the supported system register space.
+ 
+-The infrastructure emulates only the following system register space:
++The infrastructure emulates only the following system register space::
++
+ 	Op0=3, Op1=0, CRn=0, CRm=0,4,5,6,7
+ 
+ (See Table C5-6 'System instruction encodings for non-Debug System
+@@ -107,73 +113,76 @@ infrastructure:
+ -------------------------------------------
+ 
+   1) ID_AA64ISAR0_EL1 - Instruction Set Attribute Register 0
+-     x--------------------------------------------------x
++
++     +------------------------------+---------+---------+
+      | Name                         |  bits   | visible |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | TS                           | [55-52] |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | FHM                          | [51-48] |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | DP                           | [47-44] |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | SM4                          | [43-40] |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | SM3                          | [39-36] |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | SHA3                         | [35-32] |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | RDM                          | [31-28] |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | ATOMICS                      | [23-20] |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | CRC32                        | [19-16] |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | SHA2                         | [15-12] |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | SHA1                         | [11-8]  |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | AES                          | [7-4]   |    y    |
+-     x--------------------------------------------------x
++     +------------------------------+---------+---------+
+ 
+ 
+   2) ID_AA64PFR0_EL1 - Processor Feature Register 0
+-     x--------------------------------------------------x
++
++     +------------------------------+---------+---------+
+      | Name                         |  bits   | visible |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | DIT                          | [51-48] |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | SVE                          | [35-32] |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | GIC                          | [27-24] |    n    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | AdvSIMD                      | [23-20] |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | FP                           | [19-16] |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | EL3                          | [15-12] |    n    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | EL2                          | [11-8]  |    n    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | EL1                          | [7-4]   |    n    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | EL0                          | [3-0]   |    n    |
+-     x--------------------------------------------------x
++     +------------------------------+---------+---------+
+ 
+ 
+   3) MIDR_EL1 - Main ID Register
+-     x--------------------------------------------------x
++
++     +------------------------------+---------+---------+
+      | Name                         |  bits   | visible |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | Implementer                  | [31-24] |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | Variant                      | [23-20] |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | Architecture                 | [19-16] |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | PartNum                      | [15-4]  |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | Revision                     | [3-0]   |    y    |
+-     x--------------------------------------------------x
++     +------------------------------+---------+---------+
+ 
+    NOTE: The 'visible' fields of MIDR_EL1 will contain the value
+    as available on the CPU where it is fetched and is not a system
+@@ -181,90 +190,92 @@ infrastructure:
+ 
+   4) ID_AA64ISAR1_EL1 - Instruction set attribute register 1
+ 
+-     x--------------------------------------------------x
++     +------------------------------+---------+---------+
+      | Name                         |  bits   | visible |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | GPI                          | [31-28] |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | GPA                          | [27-24] |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | LRCPC                        | [23-20] |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | FCMA                         | [19-16] |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | JSCVT                        | [15-12] |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | API                          | [11-8]  |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | APA                          | [7-4]   |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | DPB                          | [3-0]   |    y    |
+-     x--------------------------------------------------x
++     +------------------------------+---------+---------+
+ 
+   5) ID_AA64MMFR2_EL1 - Memory model feature register 2
+ 
+-     x--------------------------------------------------x
++     +------------------------------+---------+---------+
+      | Name                         |  bits   | visible |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | AT                           | [35-32] |    y    |
+-     x--------------------------------------------------x
++     +------------------------------+---------+---------+
+ 
+   6) ID_AA64ZFR0_EL1 - SVE feature ID register 0
+ 
+-     x--------------------------------------------------x
++     +------------------------------+---------+---------+
+      | Name                         |  bits   | visible |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | SM4                          | [43-40] |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | SHA3                         | [35-32] |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | BitPerm                      | [19-16] |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | AES                          | [7-4]   |    y    |
+-     |--------------------------------------------------|
++     +------------------------------+---------+---------+
+      | SVEVer                       | [3-0]   |    y    |
+-     x--------------------------------------------------x
++     +------------------------------+---------+---------+
+ 
+ Appendix I: Example
+----------------------------
++-------------------
+ 
+-/*
+- * Sample program to demonstrate the MRS emulation ABI.
+- *
+- * Copyright (C) 2015-2016, ARM Ltd
+- *
+- * Author: Suzuki K Poulose <suzuki.poulose@arm.com>
+- *
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License version 2 as
+- * published by the Free Software Foundation.
+- *
+- * This program is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- * GNU General Public License for more details.
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License version 2 as
+- * published by the Free Software Foundation.
+- *
+- * This program is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- * GNU General Public License for more details.
+- */
++::
+ 
+-#include <asm/hwcap.h>
+-#include <stdio.h>
+-#include <sys/auxv.h>
++  /*
++   * Sample program to demonstrate the MRS emulation ABI.
++   *
++   * Copyright (C) 2015-2016, ARM Ltd
++   *
++   * Author: Suzuki K Poulose <suzuki.poulose@arm.com>
++   *
++   * This program is free software; you can redistribute it and/or modify
++   * it under the terms of the GNU General Public License version 2 as
++   * published by the Free Software Foundation.
++   *
++   * This program is distributed in the hope that it will be useful,
++   * but WITHOUT ANY WARRANTY; without even the implied warranty of
++   * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++   * GNU General Public License for more details.
++   * This program is free software; you can redistribute it and/or modify
++   * it under the terms of the GNU General Public License version 2 as
++   * published by the Free Software Foundation.
++   *
++   * This program is distributed in the hope that it will be useful,
++   * but WITHOUT ANY WARRANTY; without even the implied warranty of
++   * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++   * GNU General Public License for more details.
++   */
+ 
+-#define get_cpu_ftr(id) ({					\
++  #include <asm/hwcap.h>
++  #include <stdio.h>
++  #include <sys/auxv.h>
++
++  #define get_cpu_ftr(id) ({					\
+ 		unsigned long __val;				\
+ 		asm("mrs %0, "#id : "=r" (__val));		\
+ 		printf("%-20s: 0x%016lx\n", #id, __val);	\
+ 	})
+ 
+-int main(void)
+-{
++  int main(void)
++  {
+ 
+ 	if (!(getauxval(AT_HWCAP) & HWCAP_CPUID)) {
+ 		fputs("CPUID registers unavailable\n", stderr);
+@@ -284,13 +295,10 @@ int main(void)
+ 	get_cpu_ftr(MPIDR_EL1);
+ 	get_cpu_ftr(REVIDR_EL1);
+ 
+-#if 0
++  #if 0
+ 	/* Unexposed register access causes SIGILL */
+ 	get_cpu_ftr(ID_MMFR0_EL1);
+-#endif
++  #endif
+ 
+ 	return 0;
+-}
+-
+-
+-
++  }
+diff --git a/Documentation/arm64/elf_hwcaps.txt b/Documentation/arm64/elf_hwcaps.rst
+similarity index 92%
+rename from Documentation/arm64/elf_hwcaps.txt
+rename to Documentation/arm64/elf_hwcaps.rst
+index b73a2519ecf2..c7cbf4b571c0 100644
+--- a/Documentation/arm64/elf_hwcaps.txt
++++ b/Documentation/arm64/elf_hwcaps.rst
 @@ -1,3 +1,4 @@
-+================================================
- Completions - "wait for completion" barrier APIs
- ================================================
++================
+ ARM64 ELF hwcaps
+ ================
  
-@@ -46,7 +47,7 @@ it has to wait for it.
+@@ -15,16 +16,16 @@ of flags called hwcaps, exposed in the auxilliary vector.
  
- To use completions you need to #include <linux/completion.h> and
- create a static or dynamic variable of type 'struct completion',
--which has only two fields:
-+which has only two fields::
+ Userspace software can test for features by acquiring the AT_HWCAP or
+ AT_HWCAP2 entry of the auxiliary vector, and testing whether the relevant
+-flags are set, e.g.
++flags are set, e.g.::
  
- 	struct completion {
- 		unsigned int done;
-@@ -57,7 +58,7 @@ This provides the ->wait waitqueue to place tasks on for waiting (if any), and
- the ->done completion flag for indicating whether it's completed or not.
+-bool floating_point_is_present(void)
+-{
+-	unsigned long hwcaps = getauxval(AT_HWCAP);
+-	if (hwcaps & HWCAP_FP)
+-		return true;
++	bool floating_point_is_present(void)
++	{
++		unsigned long hwcaps = getauxval(AT_HWCAP);
++		if (hwcaps & HWCAP_FP)
++			return true;
  
- Completions should be named to refer to the event that is being synchronized on.
--A good example is:
-+A good example is::
+-	return false;
+-}
++		return false;
++	}
  
- 	wait_for_completion(&early_console_added);
+ Where software relies on a feature described by a hwcap, it should check
+ the relevant hwcap flag to verify that the feature is present before
+@@ -45,7 +46,7 @@ userspace code at EL0. These hwcaps are defined in terms of ID register
+ fields, and should be interpreted with reference to the definition of
+ these fields in the ARM Architecture Reference Manual (ARM ARM).
  
-@@ -81,7 +82,7 @@ have taken place, even if these wait functions return prematurely due to a timeo
- or a signal triggering.
+-Such hwcaps are described below in the form:
++Such hwcaps are described below in the form::
  
- Initializing of dynamically allocated completion objects is done via a call to
--init_completion():
-+init_completion()::
+     Functionality implied by idreg.field == val.
  
- 	init_completion(&dynamic_object->done);
+@@ -64,75 +65,58 @@ reference to ID registers, and may refer to other documentation.
+ ---------------------------------
  
-@@ -100,7 +101,8 @@ but be aware of other races.
+ HWCAP_FP
+-
+     Functionality implied by ID_AA64PFR0_EL1.FP == 0b0000.
  
- For static declaration and initialization, macros are available.
+ HWCAP_ASIMD
+-
+     Functionality implied by ID_AA64PFR0_EL1.AdvSIMD == 0b0000.
  
--For static (or global) declarations in file scope you can use DECLARE_COMPLETION():
-+For static (or global) declarations in file scope you can use
-+DECLARE_COMPLETION()::
+ HWCAP_EVTSTRM
+-
+     The generic timer is configured to generate events at a frequency of
+     approximately 100KHz.
  
- 	static DECLARE_COMPLETION(setup_done);
- 	DECLARE_COMPLETION(setup_done);
-@@ -111,7 +113,7 @@ initialized to 'not done' and doesn't require an init_completion() call.
- When a completion is declared as a local variable within a function,
- then the initialization should always use DECLARE_COMPLETION_ONSTACK()
- explicitly, not just to make lockdep happy, but also to make it clear
--that limited scope had been considered and is intentional:
-+that limited scope had been considered and is intentional::
+ HWCAP_AES
+-
+     Functionality implied by ID_AA64ISAR0_EL1.AES == 0b0001.
  
- 	DECLARE_COMPLETION_ONSTACK(setup_done)
+ HWCAP_PMULL
+-
+     Functionality implied by ID_AA64ISAR0_EL1.AES == 0b0010.
  
-@@ -140,11 +142,11 @@ Waiting for completions:
- ------------------------
+ HWCAP_SHA1
+-
+     Functionality implied by ID_AA64ISAR0_EL1.SHA1 == 0b0001.
  
- For a thread to wait for some concurrent activity to finish, it
--calls wait_for_completion() on the initialized completion structure:
-+calls wait_for_completion() on the initialized completion structure::
+ HWCAP_SHA2
+-
+     Functionality implied by ID_AA64ISAR0_EL1.SHA2 == 0b0001.
  
- 	void wait_for_completion(struct completion *done)
+ HWCAP_CRC32
+-
+     Functionality implied by ID_AA64ISAR0_EL1.CRC32 == 0b0001.
  
--A typical usage scenario is:
-+A typical usage scenario is::
+ HWCAP_ATOMICS
+-
+     Functionality implied by ID_AA64ISAR0_EL1.Atomic == 0b0010.
  
- 	CPU#1					CPU#2
+ HWCAP_FPHP
+-
+     Functionality implied by ID_AA64PFR0_EL1.FP == 0b0001.
  
-@@ -192,17 +194,17 @@ A common problem that occurs is to have unclean assignment of return types,
- so take care to assign return-values to variables of the proper type.
+ HWCAP_ASIMDHP
+-
+     Functionality implied by ID_AA64PFR0_EL1.AdvSIMD == 0b0001.
  
- Checking for the specific meaning of return values also has been found
--to be quite inaccurate, e.g. constructs like:
-+to be quite inaccurate, e.g. constructs like::
+ HWCAP_CPUID
+-
+     EL0 access to certain ID registers is available, to the extent
+-    described by Documentation/arm64/cpu-feature-registers.txt.
++    described by Documentation/arm64/cpu-feature-registers.rst.
  
- 	if (!wait_for_completion_interruptible_timeout(...))
+     These ID registers may imply the availability of features.
  
- ... would execute the same code path for successful completion and for the
--interrupted case - which is probably not what you want.
-+interrupted case - which is probably not what you want::
+ HWCAP_ASIMDRDM
+-
+     Functionality implied by ID_AA64ISAR0_EL1.RDM == 0b0001.
  
- 	int wait_for_completion_interruptible(struct completion *done)
+ HWCAP_JSCVT
+-
+     Functionality implied by ID_AA64ISAR1_EL1.JSCVT == 0b0001.
  
- This function marks the task TASK_INTERRUPTIBLE while it is waiting.
--If a signal was received while waiting it will return -ERESTARTSYS; 0 otherwise.
-+If a signal was received while waiting it will return -ERESTARTSYS; 0 otherwise::
+ HWCAP_FCMA
+-
+     Functionality implied by ID_AA64ISAR1_EL1.FCMA == 0b0001.
  
- 	unsigned long wait_for_completion_timeout(struct completion *done, unsigned long timeout)
+ HWCAP_LRCPC
+-
+     Functionality implied by ID_AA64ISAR1_EL1.LRCPC == 0b0001.
  
-@@ -214,7 +216,7 @@ Timeouts are preferably calculated with msecs_to_jiffies() or usecs_to_jiffies()
- to make the code largely HZ-invariant.
+ HWCAP_DCPOP
+-
+     Functionality implied by ID_AA64ISAR1_EL1.DPB == 0b0001.
  
- If the returned timeout value is deliberately ignored a comment should probably explain
--why (e.g. see drivers/mfd/wm8350-core.c wm8350_read_auxadc()).
-+why (e.g. see drivers/mfd/wm8350-core.c wm8350_read_auxadc())::
+ HWCAP2_DCPODP
+@@ -140,27 +124,21 @@ HWCAP2_DCPODP
+     Functionality implied by ID_AA64ISAR1_EL1.DPB == 0b0010.
  
- 	long wait_for_completion_interruptible_timeout(struct completion *done, unsigned long timeout)
+ HWCAP_SHA3
+-
+     Functionality implied by ID_AA64ISAR0_EL1.SHA3 == 0b0001.
  
-@@ -225,14 +227,14 @@ jiffies if completion occurred.
+ HWCAP_SM3
+-
+     Functionality implied by ID_AA64ISAR0_EL1.SM3 == 0b0001.
  
- Further variants include _killable which uses TASK_KILLABLE as the
- designated tasks state and will return -ERESTARTSYS if it is interrupted,
--or 0 if completion was achieved.  There is a _timeout variant as well:
-+or 0 if completion was achieved.  There is a _timeout variant as well::
+ HWCAP_SM4
+-
+     Functionality implied by ID_AA64ISAR0_EL1.SM4 == 0b0001.
  
- 	long wait_for_completion_killable(struct completion *done)
- 	long wait_for_completion_killable_timeout(struct completion *done, unsigned long timeout)
+ HWCAP_ASIMDDP
+-
+     Functionality implied by ID_AA64ISAR0_EL1.DP == 0b0001.
  
- The _io variants wait_for_completion_io() behave the same as the non-_io
- variants, except for accounting waiting time as 'waiting on IO', which has
--an impact on how the task is accounted in scheduling/IO stats:
-+an impact on how the task is accounted in scheduling/IO stats::
+ HWCAP_SHA512
+-
+     Functionality implied by ID_AA64ISAR0_EL1.SHA2 == 0b0010.
  
- 	void wait_for_completion_io(struct completion *done)
- 	unsigned long wait_for_completion_io_timeout(struct completion *done, unsigned long timeout)
-@@ -243,11 +245,11 @@ Signaling completions:
+ HWCAP_SVE
+-
+     Functionality implied by ID_AA64PFR0_EL1.SVE == 0b0001.
  
- A thread that wants to signal that the conditions for continuation have been
- achieved calls complete() to signal exactly one of the waiters that it can
--continue:
-+continue::
+ HWCAP2_SVE2
+@@ -188,40 +166,32 @@ HWCAP2_SVESM4
+     Functionality implied by ID_AA64ZFR0_EL1.SM4 == 0b0001.
  
- 	void complete(struct completion *done)
+ HWCAP_ASIMDFHM
+-
+    Functionality implied by ID_AA64ISAR0_EL1.FHM == 0b0001.
  
--... or calls complete_all() to signal all current and future waiters:
-+... or calls complete_all() to signal all current and future waiters::
+ HWCAP_DIT
+-
+     Functionality implied by ID_AA64PFR0_EL1.DIT == 0b0001.
  
- 	void complete_all(struct completion *done)
+ HWCAP_USCAT
+-
+     Functionality implied by ID_AA64MMFR2_EL1.AT == 0b0001.
  
-@@ -268,7 +270,7 @@ probably are a design bug.
+ HWCAP_ILRCPC
+-
+     Functionality implied by ID_AA64ISAR1_EL1.LRCPC == 0b0010.
  
- Signaling completion from IRQ context is fine as it will appropriately
- lock with spin_lock_irqsave()/spin_unlock_irqrestore() and it will never
--sleep. 
-+sleep.
+ HWCAP_FLAGM
+-
+     Functionality implied by ID_AA64ISAR0_EL1.TS == 0b0001.
+ 
+ HWCAP_SSBS
+-
+     Functionality implied by ID_AA64PFR1_EL1.SSBS == 0b0010.
+ 
+ HWCAP_PACA
+-
+     Functionality implied by ID_AA64ISAR1_EL1.APA == 0b0001 or
+     ID_AA64ISAR1_EL1.API == 0b0001, as described by
+-    Documentation/arm64/pointer-authentication.txt.
++    Documentation/arm64/pointer-authentication.rst.
+ 
+ HWCAP_PACG
+-
+     Functionality implied by ID_AA64ISAR1_EL1.GPA == 0b0001 or
+     ID_AA64ISAR1_EL1.GPI == 0b0001, as described by
+-    Documentation/arm64/pointer-authentication.txt.
++    Documentation/arm64/pointer-authentication.rst.
  
  
- try_wait_for_completion()/completion_done():
-@@ -276,14 +278,14 @@ try_wait_for_completion()/completion_done():
+ 4. Unused AT_HWCAP bits
+diff --git a/Documentation/arm64/hugetlbpage.txt b/Documentation/arm64/hugetlbpage.rst
+similarity index 86%
+rename from Documentation/arm64/hugetlbpage.txt
+rename to Documentation/arm64/hugetlbpage.rst
+index cfae87dc653b..b44f939e5210 100644
+--- a/Documentation/arm64/hugetlbpage.txt
++++ b/Documentation/arm64/hugetlbpage.rst
+@@ -1,3 +1,4 @@
++====================
+ HugeTLBpage on ARM64
+ ====================
  
- The try_wait_for_completion() function will not put the thread on the wait
- queue but rather returns false if it would need to enqueue (block) the thread,
--else it consumes one posted completion and returns true.
-+else it consumes one posted completion and returns true::
+@@ -31,8 +32,10 @@ and level of the page table.
  
- 	bool try_wait_for_completion(struct completion *done)
+ The following hugepage sizes are supported -
  
- Finally, to check the state of a completion without changing it in any way,
- call completion_done(), which returns false if there are no posted
- completions that were not yet consumed by waiters (implying that there are
--waiters) and true otherwise;
-+waiters) and true otherwise::
- 
- 	bool completion_done(struct completion *done)
- 
-diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
+-         CONT PTE    PMD    CONT PMD    PUD
+-         --------    ---    --------    ---
++  ====== ========   ====    ========    ===
++  -      CONT PTE    PMD    CONT PMD    PUD
++  ====== ========   ====    ========    ===
+   4K:         64K     2M         32M     1G
+   16K:         2M    32M          1G
+   64K:         2M   512M         16G
++  ====== ========   ====    ========    ===
+diff --git a/Documentation/arm64/index.rst b/Documentation/arm64/index.rst
 new file mode 100644
-index 000000000000..058be77a4c34
+index 000000000000..018b7836ecb7
 --- /dev/null
-+++ b/Documentation/scheduler/index.rst
-@@ -0,0 +1,29 @@
++++ b/Documentation/arm64/index.rst
+@@ -0,0 +1,28 @@
 +:orphan:
 +
-+===============
-+Linux Scheduler
-+===============
++==================
++ARM64 Architecture
++==================
 +
 +.. toctree::
 +    :maxdepth: 1
 +
-+
-+    completion
-+    sched-arch
-+    sched-bwc
-+    sched-deadline
-+    sched-design-CFS
-+    sched-domains
-+    sched-energy
-+    sched-nice-design
-+    sched-rt-group
-+    sched-stats
-+
-+    text_files
++    acpi_object_usage
++    arm-acpi
++    booting
++    cpu-feature-registers
++    elf_hwcaps
++    hugetlbpage
++    legacy_instructions
++    memory
++    pointer-authentication
++    silicon-errata
++    sve
++    tagged-pointers
 +
 +.. only::  subproject and html
 +
@@ -302,1224 +1793,585 @@ index 000000000000..058be77a4c34
 +   =======
 +
 +   * :ref:`genindex`
-diff --git a/Documentation/scheduler/sched-arch.txt b/Documentation/scheduler/sched-arch.rst
-similarity index 81%
-rename from Documentation/scheduler/sched-arch.txt
-rename to Documentation/scheduler/sched-arch.rst
-index a2f27bbf2cba..0eaec669790a 100644
---- a/Documentation/scheduler/sched-arch.txt
-+++ b/Documentation/scheduler/sched-arch.rst
-@@ -1,4 +1,6 @@
--	CPU Scheduler implementation hints for architecture specific code
-+=================================================================
-+CPU Scheduler implementation hints for architecture specific code
-+=================================================================
- 
- 	Nick Piggin, 2005
- 
-@@ -35,9 +37,10 @@ Your cpu_idle routines need to obey the following rules:
- 4. The only time interrupts need to be disabled when checking
-    need_resched is if we are about to sleep the processor until
-    the next interrupt (this doesn't provide any protection of
--   need_resched, it prevents losing an interrupt).
-+   need_resched, it prevents losing an interrupt):
+diff --git a/Documentation/arm64/legacy_instructions.txt b/Documentation/arm64/legacy_instructions.rst
+similarity index 73%
+rename from Documentation/arm64/legacy_instructions.txt
+rename to Documentation/arm64/legacy_instructions.rst
+index 01bf3d9fac85..54401b22cb8f 100644
+--- a/Documentation/arm64/legacy_instructions.txt
++++ b/Documentation/arm64/legacy_instructions.rst
+@@ -1,3 +1,7 @@
++===================
++Legacy instructions
++===================
 +
-+	4a. Common problem with this type of sleep appears to be::
+ The arm64 port of the Linux kernel provides infrastructure to support
+ emulation of instructions which have been deprecated, or obsoleted in
+ the architecture. The infrastructure code uses undefined instruction
+@@ -9,19 +13,22 @@ The emulation mode can be controlled by writing to sysctl nodes
+ behaviours and the corresponding values of the sysctl nodes -
  
--	4a. Common problem with this type of sleep appears to be:
- 	        local_irq_disable();
- 	        if (!need_resched()) {
- 	                local_irq_enable();
-@@ -51,10 +54,10 @@ Your cpu_idle routines need to obey the following rules:
-    although it may be reasonable to do some background work or enter
-    a low CPU priority.
- 
--   	5a. If TIF_POLLING_NRFLAG is set, and we do decide to enter
--	    an interrupt sleep, it needs to be cleared then a memory
--	    barrier issued (followed by a test of need_resched with
--	    interrupts disabled, as explained in 3).
-+      - 5a. If TIF_POLLING_NRFLAG is set, and we do decide to enter
-+	an interrupt sleep, it needs to be cleared then a memory
-+	barrier issued (followed by a test of need_resched with
-+	interrupts disabled, as explained in 3).
- 
- arch/x86/kernel/process.c has examples of both polling and
- sleeping idle functions.
-@@ -71,4 +74,3 @@ sh64 - Is sleeping racy vs interrupts? (See #4a)
- 
- sparc - IRQs on at this point(?), change local_irq_save to _disable.
-       - TODO: needs secondary CPUs to disable preempt (See #1)
--
-diff --git a/Documentation/scheduler/sched-bwc.txt b/Documentation/scheduler/sched-bwc.rst
-similarity index 90%
-rename from Documentation/scheduler/sched-bwc.txt
-rename to Documentation/scheduler/sched-bwc.rst
-index f6b1873f68ab..3a9064219656 100644
---- a/Documentation/scheduler/sched-bwc.txt
-+++ b/Documentation/scheduler/sched-bwc.rst
-@@ -1,8 +1,9 @@
-+=====================
- CFS Bandwidth Control
- =====================
- 
- [ This document only discusses CPU bandwidth control for SCHED_NORMAL.
--  The SCHED_RT case is covered in Documentation/scheduler/sched-rt-group.txt ]
-+  The SCHED_RT case is covered in Documentation/scheduler/sched-rt-group.rst ]
- 
- CFS bandwidth control is a CONFIG_FAIR_GROUP_SCHED extension which allows the
- specification of the maximum CPU bandwidth available to a group or hierarchy.
-@@ -27,7 +28,8 @@ cpu.cfs_quota_us: the total available run-time within a period (in microseconds)
- cpu.cfs_period_us: the length of a period (in microseconds)
- cpu.stat: exports throttling statistics [explained further below]
- 
--The default values are:
-+The default values are::
+ * Undef
+-  Value: 0
++    Value: 0
 +
- 	cpu.cfs_period_us=100ms
- 	cpu.cfs_quota=-1
+   Generates undefined instruction abort. Default for instructions that
+   have been obsoleted in the architecture, e.g., SWP
  
-@@ -55,7 +57,8 @@ For efficiency run-time is transferred between the global pool and CPU local
- on large systems.  The amount transferred each time such an update is required
- is described as the "slice".
- 
--This is tunable via procfs:
-+This is tunable via procfs::
+ * Emulate
+-  Value: 1
++    Value: 1
 +
- 	/proc/sys/kernel/sched_cfs_bandwidth_slice_us (default=5ms)
+   Uses software emulation. To aid migration of software, in this mode
+   usage of emulated instruction is traced as well as rate limited
+   warnings are issued. This is the default for deprecated
+   instructions, .e.g., CP15 barriers
  
- Larger slice values will reduce transfer overheads, while smaller values allow
-@@ -66,6 +69,7 @@ Statistics
- A group's bandwidth statistics are exported via 3 fields in cpu.stat.
- 
- cpu.stat:
+ * Hardware Execution
+-  Value: 2
++    Value: 2
 +
- - nr_periods: Number of enforcement intervals that have elapsed.
- - nr_throttled: Number of times the group has been throttled/limited.
- - throttled_time: The total time duration (in nanoseconds) for which entities
-@@ -78,12 +82,15 @@ Hierarchical considerations
- The interface enforces that an individual entity's bandwidth is always
- attainable, that is: max(c_i) <= C. However, over-subscription in the
- aggregate case is explicitly allowed to enable work-conserving semantics
--within a hierarchy.
-+within a hierarchy:
+   Although marked as deprecated, some implementations may support the
+   enabling/disabling of hardware support for the execution of these
+   instructions. Using hardware execution generally provides better
+@@ -38,20 +45,24 @@ individual instruction notes for further information.
+ Supported legacy instructions
+ -----------------------------
+ * SWP{B}
+-Node: /proc/sys/abi/swp
+-Status: Obsolete
+-Default: Undef (0)
 +
-   e.g. \Sum (c_i) may exceed C
++:Node: /proc/sys/abi/swp
++:Status: Obsolete
++:Default: Undef (0)
+ 
+ * CP15 Barriers
+-Node: /proc/sys/abi/cp15_barrier
+-Status: Deprecated
+-Default: Emulate (1)
 +
- [ Where C is the parent's bandwidth, and c_i its children ]
++:Node: /proc/sys/abi/cp15_barrier
++:Status: Deprecated
++:Default: Emulate (1)
  
- 
- There are two ways in which a group may become throttled:
+ * SETEND
+-Node: /proc/sys/abi/setend
+-Status: Deprecated
+-Default: Emulate (1)*
+-Note: All the cpus on the system must have mixed endian support at EL0
+-for this feature to be enabled. If a new CPU - which doesn't support mixed
+-endian - is hotplugged in after this feature has been enabled, there could
+-be unexpected results in the application.
 +
- 	a. it fully consumes its own quota within a period
- 	b. a parent's quota is fully consumed within its period
- 
-@@ -92,7 +99,7 @@ be allowed to until the parent's runtime is refreshed.
- 
- Examples
- --------
--1. Limit a group to 1 CPU worth of runtime.
-+1. Limit a group to 1 CPU worth of runtime::
- 
- 	If period is 250ms and quota is also 250ms, the group will get
- 	1 CPU worth of runtime every 250ms.
-@@ -100,10 +107,10 @@ Examples
- 	# echo 250000 > cpu.cfs_quota_us /* quota = 250ms */
- 	# echo 250000 > cpu.cfs_period_us /* period = 250ms */
- 
--2. Limit a group to 2 CPUs worth of runtime on a multi-CPU machine.
-+2. Limit a group to 2 CPUs worth of runtime on a multi-CPU machine
- 
--	With 500ms period and 1000ms quota, the group can get 2 CPUs worth of
--	runtime every 500ms.
-+   With 500ms period and 1000ms quota, the group can get 2 CPUs worth of
-+   runtime every 500ms::
- 
- 	# echo 1000000 > cpu.cfs_quota_us /* quota = 1000ms */
- 	# echo 500000 > cpu.cfs_period_us /* period = 500ms */
-@@ -112,11 +119,10 @@ Examples
- 
- 3. Limit a group to 20% of 1 CPU.
- 
--	With 50ms period, 10ms quota will be equivalent to 20% of 1 CPU.
-+   With 50ms period, 10ms quota will be equivalent to 20% of 1 CPU::
- 
- 	# echo 10000 > cpu.cfs_quota_us /* quota = 10ms */
- 	# echo 50000 > cpu.cfs_period_us /* period = 50ms */
- 
--	By using a small period here we are ensuring a consistent latency
--	response at the expense of burst capacity.
--
-+   By using a small period here we are ensuring a consistent latency
-+   response at the expense of burst capacity.
-diff --git a/Documentation/scheduler/sched-deadline.txt b/Documentation/scheduler/sched-deadline.rst
-similarity index 88%
-rename from Documentation/scheduler/sched-deadline.txt
-rename to Documentation/scheduler/sched-deadline.rst
-index a7514343b660..3391e86d810c 100644
---- a/Documentation/scheduler/sched-deadline.txt
-+++ b/Documentation/scheduler/sched-deadline.rst
-@@ -1,29 +1,29 @@
--			  Deadline Task Scheduling
--			  ------------------------
-+========================
-+Deadline Task Scheduling
-+========================
- 
--CONTENTS
--========
-+.. CONTENTS
- 
-- 0. WARNING
-- 1. Overview
-- 2. Scheduling algorithm
--   2.1 Main algorithm
--   2.2 Bandwidth reclaiming
-- 3. Scheduling Real-Time Tasks
--   3.1 Definitions
--   3.2 Schedulability Analysis for Uniprocessor Systems
--   3.3 Schedulability Analysis for Multiprocessor Systems
--   3.4 Relationship with SCHED_DEADLINE Parameters
-- 4. Bandwidth management
--   4.1 System-wide settings
--   4.2 Task interface
--   4.3 Default behavior
--   4.4 Behavior of sched_yield()
-- 5. Tasks CPU affinity
--   5.1 SCHED_DEADLINE and cpusets HOWTO
-- 6. Future plans
-- A. Test suite
-- B. Minimal main()
-+    0. WARNING
-+    1. Overview
-+    2. Scheduling algorithm
-+      2.1 Main algorithm
-+      2.2 Bandwidth reclaiming
-+    3. Scheduling Real-Time Tasks
-+      3.1 Definitions
-+      3.2 Schedulability Analysis for Uniprocessor Systems
-+      3.3 Schedulability Analysis for Multiprocessor Systems
-+      3.4 Relationship with SCHED_DEADLINE Parameters
-+    4. Bandwidth management
-+      4.1 System-wide settings
-+      4.2 Task interface
-+      4.3 Default behavior
-+      4.4 Behavior of sched_yield()
-+    5. Tasks CPU affinity
-+      5.1 SCHED_DEADLINE and cpusets HOWTO
-+    6. Future plans
-+    A. Test suite
-+    B. Minimal main()
- 
- 
- 0. WARNING
-@@ -44,7 +44,7 @@ CONTENTS
- 
- 
- 2. Scheduling algorithm
--==================
-+=======================
- 
- 2.1 Main algorithm
- ------------------
-@@ -80,7 +80,7 @@ CONTENTS
-     a "remaining runtime". These two parameters are initially set to 0;
- 
-   - When a SCHED_DEADLINE task wakes up (becomes ready for execution),
--    the scheduler checks if
-+    the scheduler checks if::
- 
-                  remaining runtime                  runtime
-         ----------------------------------    >    ---------
-@@ -97,7 +97,7 @@ CONTENTS
-     left unchanged;
- 
-   - When a SCHED_DEADLINE task executes for an amount of time t, its
--    remaining runtime is decreased as
-+    remaining runtime is decreased as::
- 
-          remaining runtime = remaining runtime - t
- 
-@@ -112,7 +112,7 @@ CONTENTS
- 
-   - When the current time is equal to the replenishment time of a
-     throttled task, the scheduling deadline and the remaining runtime are
--    updated as
-+    updated as::
- 
-          scheduling deadline = scheduling deadline + period
-          remaining runtime = remaining runtime + runtime
-@@ -129,7 +129,7 @@ CONTENTS
-  Reclamation of Unused Bandwidth) algorithm [15, 16, 17] and it is enabled
-  when flag SCHED_FLAG_RECLAIM is set.
- 
-- The following diagram illustrates the state names for tasks handled by GRUB:
-+ The following diagram illustrates the state names for tasks handled by GRUB::
- 
-                              ------------
-                  (d)        |   Active   |
-@@ -168,7 +168,7 @@ CONTENTS
-       breaking the real-time guarantees.
- 
-       The 0-lag time for a task entering the ActiveNonContending state is
--      computed as
-+      computed as::
- 
-                         (runtime * dl_period)
-              deadline - ---------------------
-@@ -183,7 +183,7 @@ CONTENTS
-       the task's utilization must be removed from the previous runqueue's active
-       utilization and must be added to the new runqueue's active utilization.
-       In order to avoid races between a task waking up on a runqueue while the
--       "inactive timer" is running on a different CPU, the "dl_non_contending"
-+      "inactive timer" is running on a different CPU, the "dl_non_contending"
-       flag is used to indicate that a task is not on a runqueue but is active
-       (so, the flag is set when the task blocks and is cleared when the
-       "inactive timer" fires or when the task  wakes up).
-@@ -222,36 +222,36 @@ CONTENTS
- 
- 
-  Let's now see a trivial example of two deadline tasks with runtime equal
-- to 4 and period equal to 8 (i.e., bandwidth equal to 0.5):
-+ to 4 and period equal to 8 (i.e., bandwidth equal to 0.5)::
- 
--     A            Task T1
--     |
--     |                               |
--     |                               |
--     |--------                       |----
--     |       |                       V
--     |---|---|---|---|---|---|---|---|--------->t
--     0   1   2   3   4   5   6   7   8
-+         A            Task T1
-+         |
-+         |                               |
-+         |                               |
-+         |--------                       |----
-+         |       |                       V
-+         |---|---|---|---|---|---|---|---|--------->t
-+         0   1   2   3   4   5   6   7   8
- 
- 
--     A            Task T2
--     |
--     |                               |
--     |                               |
--     |       ------------------------|
--     |       |                       V
--     |---|---|---|---|---|---|---|---|--------->t
--     0   1   2   3   4   5   6   7   8
-+         A            Task T2
-+         |
-+         |                               |
-+         |                               |
-+         |       ------------------------|
-+         |       |                       V
-+         |---|---|---|---|---|---|---|---|--------->t
-+         0   1   2   3   4   5   6   7   8
- 
- 
--     A            running_bw
--     |
--   1 -----------------               ------
--     |               |               |
--  0.5-               -----------------
--     |                               |
--     |---|---|---|---|---|---|---|---|--------->t
--     0   1   2   3   4   5   6   7   8
-+         A            running_bw
-+         |
-+       1 -----------------               ------
-+         |               |               |
-+      0.5-               -----------------
-+         |                               |
-+         |---|---|---|---|---|---|---|---|--------->t
-+         0   1   2   3   4   5   6   7   8
- 
- 
-   - Time t = 0:
-@@ -284,7 +284,7 @@ CONTENTS
- 
- 
- 2.3 Energy-aware scheduling
--------------------------
-+---------------------------
- 
-  When cpufreq's schedutil governor is selected, SCHED_DEADLINE implements the
-  GRUB-PA [19] algorithm, reducing the CPU operating frequency to the minimum
-@@ -299,15 +299,20 @@ CONTENTS
- 3. Scheduling Real-Time Tasks
- =============================
- 
-- * BIG FAT WARNING ******************************************************
-- *
-- * This section contains a (not-thorough) summary on classical deadline
-- * scheduling theory, and how it applies to SCHED_DEADLINE.
-- * The reader can "safely" skip to Section 4 if only interested in seeing
-- * how the scheduling policy can be used. Anyway, we strongly recommend
-- * to come back here and continue reading (once the urge for testing is
-- * satisfied :P) to be sure of fully understanding all technical details.
-- ************************************************************************
++:Node: /proc/sys/abi/setend
++:Status: Deprecated
++:Default: Emulate (1)*
 +
-+
-+ ..  BIG FAT WARNING ******************************************************
-+
-+ .. warning::
-+
-+   This section contains a (not-thorough) summary on classical deadline
-+   scheduling theory, and how it applies to SCHED_DEADLINE.
-+   The reader can "safely" skip to Section 4 if only interested in seeing
-+   how the scheduling policy can be used. Anyway, we strongly recommend
-+   to come back here and continue reading (once the urge for testing is
-+   satisfied :P) to be sure of fully understanding all technical details.
-+
-+ .. ************************************************************************
- 
-  There are no limitations on what kind of task can exploit this new
-  scheduling discipline, even if it must be said that it is particularly
-@@ -329,6 +334,7 @@ CONTENTS
-  sporadic with minimum inter-arrival time P is r_{j+1} >= r_j + P. Finally,
-  d_j = r_j + D, where D is the task's relative deadline.
-  Summing up, a real-time task can be described as
-+
- 	Task = (WCET, D, P)
- 
-  The utilization of a real-time task is defined as the ratio between its
-@@ -352,13 +358,15 @@ CONTENTS
-  between the finishing time of a job and its absolute deadline).
-  More precisely, it can be proven that using a global EDF scheduler the
-  maximum tardiness of each task is smaller or equal than
-+
- 	((M − 1) · WCET_max − WCET_min)/(M − (M − 2) · U_max) + WCET_max
-+
-  where WCET_max = max{WCET_i} is the maximum WCET, WCET_min=min{WCET_i}
-  is the minimum WCET, and U_max = max{WCET_i/P_i} is the maximum
-  utilization[12].
- 
- 3.2 Schedulability Analysis for Uniprocessor Systems
--------------------------
-+----------------------------------------------------
- 
-  If M=1 (uniprocessor system), or in case of partitioned scheduling (each
-  real-time task is statically assigned to one and only one CPU), it is
-@@ -370,7 +378,9 @@ CONTENTS
-  a task as WCET_i/min{D_i,P_i}, and EDF is able to respect all the deadlines
-  of all the tasks running on a CPU if the sum of the densities of the tasks
-  running on such a CPU is smaller or equal than 1:
-+
- 	sum(WCET_i / min{D_i, P_i}) <= 1
-+
-  It is important to notice that this condition is only sufficient, and not
-  necessary: there are task sets that are schedulable, but do not respect the
-  condition. For example, consider the task set {Task_1,Task_2} composed by
-@@ -379,7 +389,9 @@ CONTENTS
-  (Task_1 is scheduled as soon as it is released, and finishes just in time
-  to respect its deadline; Task_2 is scheduled immediately after Task_1, hence
-  its response time cannot be larger than 50ms + 10ms = 60ms) even if
-+
- 	50 / min{50,100} + 10 / min{100, 100} = 50 / 50 + 10 / 100 = 1.1
-+
-  Of course it is possible to test the exact schedulability of tasks with
-  D_i != P_i (checking a condition that is both sufficient and necessary),
-  but this cannot be done by comparing the total utilization or density with
-@@ -399,7 +411,7 @@ CONTENTS
-  4 Linux uses an admission test based on the tasks' utilizations.
- 
- 3.3 Schedulability Analysis for Multiprocessor Systems
--------------------------
-+------------------------------------------------------
- 
-  On multiprocessor systems with global EDF scheduling (non partitioned
-  systems), a sufficient test for schedulability can not be based on the
-@@ -428,7 +440,9 @@ CONTENTS
-  between total utilization (or density) and a fixed constant. If all tasks
-  have D_i = P_i, a sufficient schedulability condition can be expressed in
-  a simple way:
-+
- 	sum(WCET_i / P_i) <= M - (M - 1) · U_max
-+
-  where U_max = max{WCET_i / P_i}[10]. Notice that for U_max = 1,
-  M - (M - 1) · U_max becomes M - M + 1 = 1 and this schedulability condition
-  just confirms the Dhall's effect. A more complete survey of the literature
-@@ -447,7 +461,7 @@ CONTENTS
-  the tasks are limited.
- 
- 3.4 Relationship with SCHED_DEADLINE Parameters
--------------------------
-+-----------------------------------------------
- 
-  Finally, it is important to understand the relationship between the
-  SCHED_DEADLINE scheduling parameters described in Section 2 (runtime,
-@@ -473,6 +487,7 @@ CONTENTS
-  this task, as it is not possible to respect its temporal constraints.
- 
-  References:
-+
-   1 - C. L. Liu and J. W. Layland. Scheduling algorithms for multiprogram-
-       ming in a hard-real-time environment. Journal of the Association for
-       Computing Machinery, 20(1), 1973.
-@@ -550,7 +565,7 @@ CONTENTS
-  The interface used to control the CPU bandwidth that can be allocated
-  to -deadline tasks is similar to the one already used for -rt
-  tasks with real-time group scheduling (a.k.a. RT-throttling - see
-- Documentation/scheduler/sched-rt-group.txt), and is based on readable/
-+ Documentation/scheduler/sched-rt-group.rst), and is based on readable/
-  writable control files located in procfs (for system wide settings).
-  Notice that per-group settings (controlled through cgroupfs) are still not
-  defined for -deadline tasks, because more discussion is needed in order to
-@@ -596,11 +611,13 @@ CONTENTS
-  Specifying a periodic/sporadic task that executes for a given amount of
-  runtime at each instance, and that is scheduled according to the urgency of
-  its own timing constraints needs, in general, a way of declaring:
-+
-   - a (maximum/typical) instance execution time,
-   - a minimum interval between consecutive instances,
-   - a time constraint by which each instance must be completed.
- 
-  Therefore:
-+
-   * a new struct sched_attr, containing all the necessary fields is
-     provided;
-   * the new scheduling related syscalls that manipulate it, i.e.,
-@@ -658,21 +675,21 @@ CONTENTS
- ------------------------------------
- 
-  An example of a simple configuration (pin a -deadline task to CPU0)
-- follows (rt-app is used to create a -deadline task).
-+ follows (rt-app is used to create a -deadline task)::
- 
-- mkdir /dev/cpuset
-- mount -t cgroup -o cpuset cpuset /dev/cpuset
-- cd /dev/cpuset
-- mkdir cpu0
-- echo 0 > cpu0/cpuset.cpus
-- echo 0 > cpu0/cpuset.mems
-- echo 1 > cpuset.cpu_exclusive
-- echo 0 > cpuset.sched_load_balance
-- echo 1 > cpu0/cpuset.cpu_exclusive
-- echo 1 > cpu0/cpuset.mem_exclusive
-- echo $$ > cpu0/tasks
-- rt-app -t 100000:10000:d:0 -D5 (it is now actually superfluous to specify
-- task affinity)
-+   mkdir /dev/cpuset
-+   mount -t cgroup -o cpuset cpuset /dev/cpuset
-+   cd /dev/cpuset
-+   mkdir cpu0
-+   echo 0 > cpu0/cpuset.cpus
-+   echo 0 > cpu0/cpuset.mems
-+   echo 1 > cpuset.cpu_exclusive
-+   echo 0 > cpuset.sched_load_balance
-+   echo 1 > cpu0/cpuset.cpu_exclusive
-+   echo 1 > cpu0/cpuset.mem_exclusive
-+   echo $$ > cpu0/tasks
-+   rt-app -t 100000:10000:d:0 -D5 # it is now actually superfluous to specify
-+				  # task affinity
- 
- 6. Future plans
- ===============
-@@ -711,7 +728,7 @@ Appendix A. Test suite
-  rt-app is available at: https://github.com/scheduler-tools/rt-app.
- 
-  Thread parameters can be specified from the command line, with something like
-- this:
-+ this::
- 
-   # rt-app -t 100000:10000:d -t 150000:20000:f:10 -D5
- 
-@@ -721,27 +738,27 @@ Appendix A. Test suite
-  of 5 seconds.
- 
-  More interestingly, configurations can be described with a json file that
-- can be passed as input to rt-app with something like this:
-+ can be passed as input to rt-app with something like this::
- 
-   # rt-app my_config.json
- 
-  The parameters that can be specified with the second method are a superset
-  of the command line options. Please refer to rt-app documentation for more
-- details (<rt-app-sources>/doc/*.json).
-+ details (`<rt-app-sources>/doc/*.json`).
- 
-  The second testing application is a modification of schedtool, called
-  schedtool-dl, which can be used to setup SCHED_DEADLINE parameters for a
-  certain pid/application. schedtool-dl is available at:
-  https://github.com/scheduler-tools/schedtool-dl.git.
- 
-- The usage is straightforward:
-+ The usage is straightforward::
- 
-   # schedtool -E -t 10000000:100000000 -e ./my_cpuhog_app
- 
-  With this, my_cpuhog_app is put to run inside a SCHED_DEADLINE reservation
-  of 10ms every 100ms (note that parameters are expressed in microseconds).
-  You can also use schedtool to create a reservation for an already running
-- application, given that you know its pid:
-+ application, given that you know its pid::
- 
-   # schedtool -E -t 10000000:100000000 my_app_pid
- 
-@@ -750,43 +767,43 @@ Appendix B. Minimal main()
- 
-  We provide in what follows a simple (ugly) self-contained code snippet
-  showing how SCHED_DEADLINE reservations can be created by a real-time
-- application developer.
--
-- #define _GNU_SOURCE
-- #include <unistd.h>
-- #include <stdio.h>
-- #include <stdlib.h>
-- #include <string.h>
-- #include <time.h>
-- #include <linux/unistd.h>
-- #include <linux/kernel.h>
-- #include <linux/types.h>
-- #include <sys/syscall.h>
-- #include <pthread.h>
--
-- #define gettid() syscall(__NR_gettid)
--
-- #define SCHED_DEADLINE	6
--
-- /* XXX use the proper syscall numbers */
-- #ifdef __x86_64__
-- #define __NR_sched_setattr		314
-- #define __NR_sched_getattr		315
-- #endif
--
-- #ifdef __i386__
-- #define __NR_sched_setattr		351
-- #define __NR_sched_getattr		352
-- #endif
--
-- #ifdef __arm__
-- #define __NR_sched_setattr		380
-- #define __NR_sched_getattr		381
-- #endif
--
-- static volatile int done;
--
-- struct sched_attr {
-+ application developer::
-+
-+   #define _GNU_SOURCE
-+   #include <unistd.h>
-+   #include <stdio.h>
-+   #include <stdlib.h>
-+   #include <string.h>
-+   #include <time.h>
-+   #include <linux/unistd.h>
-+   #include <linux/kernel.h>
-+   #include <linux/types.h>
-+   #include <sys/syscall.h>
-+   #include <pthread.h>
-+
-+   #define gettid() syscall(__NR_gettid)
-+
-+   #define SCHED_DEADLINE	6
-+
-+   /* XXX use the proper syscall numbers */
-+   #ifdef __x86_64__
-+   #define __NR_sched_setattr		314
-+   #define __NR_sched_getattr		315
-+   #endif
-+
-+   #ifdef __i386__
-+   #define __NR_sched_setattr		351
-+   #define __NR_sched_getattr		352
-+   #endif
-+
-+   #ifdef __arm__
-+   #define __NR_sched_setattr		380
-+   #define __NR_sched_getattr		381
-+   #endif
-+
-+   static volatile int done;
-+
-+   struct sched_attr {
- 	__u32 size;
- 
- 	__u32 sched_policy;
-@@ -802,25 +819,25 @@ Appendix B. Minimal main()
- 	__u64 sched_runtime;
- 	__u64 sched_deadline;
- 	__u64 sched_period;
-- };
-+   };
- 
-- int sched_setattr(pid_t pid,
-+   int sched_setattr(pid_t pid,
- 		  const struct sched_attr *attr,
- 		  unsigned int flags)
-- {
-+   {
- 	return syscall(__NR_sched_setattr, pid, attr, flags);
-- }
-+   }
- 
-- int sched_getattr(pid_t pid,
-+   int sched_getattr(pid_t pid,
- 		  struct sched_attr *attr,
- 		  unsigned int size,
- 		  unsigned int flags)
-- {
-+   {
- 	return syscall(__NR_sched_getattr, pid, attr, size, flags);
-- }
-+   }
- 
-- void *run_deadline(void *data)
-- {
-+   void *run_deadline(void *data)
-+   {
- 	struct sched_attr attr;
- 	int x = 0;
- 	int ret;
-@@ -851,10 +868,10 @@ Appendix B. Minimal main()
- 
- 	printf("deadline thread dies [%ld]\n", gettid());
- 	return NULL;
-- }
-+   }
- 
-- int main (int argc, char **argv)
-- {
-+   int main (int argc, char **argv)
-+   {
- 	pthread_t thread;
- 
- 	printf("main thread [%ld]\n", gettid());
-@@ -868,4 +885,4 @@ Appendix B. Minimal main()
- 
- 	printf("main dies [%ld]\n", gettid());
- 	return 0;
-- }
-+   }
-diff --git a/Documentation/scheduler/sched-design-CFS.txt b/Documentation/scheduler/sched-design-CFS.rst
-similarity index 97%
-rename from Documentation/scheduler/sched-design-CFS.txt
-rename to Documentation/scheduler/sched-design-CFS.rst
-index d1328890ef28..53b30d1967cf 100644
---- a/Documentation/scheduler/sched-design-CFS.txt
-+++ b/Documentation/scheduler/sched-design-CFS.rst
-@@ -1,9 +1,10 @@
--                      =============
--                      CFS Scheduler
--                      =============
-+=============
-+CFS Scheduler
-+=============
- 
- 
- 1.  OVERVIEW
-+============
- 
- CFS stands for "Completely Fair Scheduler," and is the new "desktop" process
- scheduler implemented by Ingo Molnar and merged in Linux 2.6.23.  It is the
-@@ -27,6 +28,7 @@ is its actual runtime normalized to the total number of running tasks.
- 
- 
- 2.  FEW IMPLEMENTATION DETAILS
++  Note: All the cpus on the system must have mixed endian support at EL0
++  for this feature to be enabled. If a new CPU - which doesn't support mixed
++  endian - is hotplugged in after this feature has been enabled, there could
++  be unexpected results in the application.
+diff --git a/Documentation/arm64/memory.txt b/Documentation/arm64/memory.rst
+similarity index 36%
+rename from Documentation/arm64/memory.txt
+rename to Documentation/arm64/memory.rst
+index c5dab30d3389..464b880fc4b7 100644
+--- a/Documentation/arm64/memory.txt
++++ b/Documentation/arm64/memory.rst
+@@ -1,5 +1,6 @@
+-		     Memory Layout on AArch64 Linux
+-		     ==============================
++==============================
++Memory Layout on AArch64 Linux
 +==============================
  
- In CFS the virtual runtime is expressed and tracked via the per-task
- p->se.vruntime (nanosec-unit) value.  This way, it's possible to accurately
-@@ -49,6 +51,7 @@ algorithm variants to recognize sleepers.
+ Author: Catalin Marinas <catalin.marinas@arm.com>
+ 
+@@ -21,69 +22,69 @@ The swapper_pg_dir address is written to TTBR1 and never written to
+ TTBR0.
  
  
- 3.  THE RBTREE
-+==============
+-AArch64 Linux memory layout with 4KB pages + 3 levels:
++AArch64 Linux memory layout with 4KB pages + 3 levels::
  
- CFS's design is quite radical: it does not use the old data structures for the
- runqueues, but it uses a time-ordered rbtree to build a "timeline" of future
-@@ -84,6 +87,7 @@ picked and the current task is preempted.
- 
- 
- 4.  SOME FEATURES OF CFS
-+========================
- 
- CFS uses nanosecond granularity accounting and does not rely on any jiffies or
- other HZ detail.  Thus the CFS scheduler has no notion of "timeslices" in the
-@@ -113,6 +117,7 @@ result.
+-Start			End			Size		Use
+------------------------------------------------------------------------
+-0000000000000000	0000007fffffffff	 512GB		user
+-ffffff8000000000	ffffffffffffffff	 512GB		kernel
++  Start			End			Size		Use
++  -----------------------------------------------------------------------
++  0000000000000000	0000007fffffffff	 512GB		user
++  ffffff8000000000	ffffffffffffffff	 512GB		kernel
  
  
- 5. Scheduling policies
-+======================
+-AArch64 Linux memory layout with 4KB pages + 4 levels:
++AArch64 Linux memory layout with 4KB pages + 4 levels::
  
- CFS implements three scheduling policies:
- 
-@@ -137,6 +142,7 @@ SCHED_IDLE.
- 
- 
- 6.  SCHEDULING CLASSES
-+======================
- 
- The new CFS scheduler has been designed in such a way to introduce "Scheduling
- Classes," an extensible hierarchy of scheduler modules.  These modules
-@@ -197,6 +203,7 @@ This is the (partial) list of the hooks:
+-Start			End			Size		Use
+------------------------------------------------------------------------
+-0000000000000000	0000ffffffffffff	 256TB		user
+-ffff000000000000	ffffffffffffffff	 256TB		kernel
++  Start			End			Size		Use
++  -----------------------------------------------------------------------
++  0000000000000000	0000ffffffffffff	 256TB		user
++  ffff000000000000	ffffffffffffffff	 256TB		kernel
  
  
- 7.  GROUP SCHEDULER EXTENSIONS TO CFS
-+=====================================
+-AArch64 Linux memory layout with 64KB pages + 2 levels:
++AArch64 Linux memory layout with 64KB pages + 2 levels::
  
- Normally, the scheduler operates on individual tasks and strives to provide
- fair CPU time to each task.  Sometimes, it may be desirable to group tasks and
-@@ -219,7 +226,7 @@ SCHED_BATCH) tasks.
+-Start			End			Size		Use
+------------------------------------------------------------------------
+-0000000000000000	000003ffffffffff	   4TB		user
+-fffffc0000000000	ffffffffffffffff	   4TB		kernel
++  Start			End			Size		Use
++  -----------------------------------------------------------------------
++  0000000000000000	000003ffffffffff	   4TB		user
++  fffffc0000000000	ffffffffffffffff	   4TB		kernel
  
- When CONFIG_FAIR_GROUP_SCHED is defined, a "cpu.shares" file is created for each
- group created using the pseudo filesystem.  See example steps below to create
--task groups and modify their CPU share using the "cgroups" pseudo filesystem.
-+task groups and modify their CPU share using the "cgroups" pseudo filesystem::
  
- 	# mount -t tmpfs cgroup_root /sys/fs/cgroup
- 	# mkdir /sys/fs/cgroup/cpu
-diff --git a/Documentation/scheduler/sched-domains.txt b/Documentation/scheduler/sched-domains.rst
-similarity index 97%
-rename from Documentation/scheduler/sched-domains.txt
-rename to Documentation/scheduler/sched-domains.rst
-index 4af80b1c05aa..f7504226f445 100644
---- a/Documentation/scheduler/sched-domains.txt
-+++ b/Documentation/scheduler/sched-domains.rst
-@@ -1,3 +1,7 @@
-+=================
-+Scheduler Domains
-+=================
+-AArch64 Linux memory layout with 64KB pages + 3 levels:
++AArch64 Linux memory layout with 64KB pages + 3 levels::
+ 
+-Start			End			Size		Use
+------------------------------------------------------------------------
+-0000000000000000	0000ffffffffffff	 256TB		user
+-ffff000000000000	ffffffffffffffff	 256TB		kernel
++  Start			End			Size		Use
++  -----------------------------------------------------------------------
++  0000000000000000	0000ffffffffffff	 256TB		user
++  ffff000000000000	ffffffffffffffff	 256TB		kernel
+ 
+ 
+ For details of the virtual kernel memory layout please see the kernel
+ booting log.
+ 
+ 
+-Translation table lookup with 4KB pages:
++Translation table lookup with 4KB pages::
+ 
+-+--------+--------+--------+--------+--------+--------+--------+--------+
+-|63    56|55    48|47    40|39    32|31    24|23    16|15     8|7      0|
+-+--------+--------+--------+--------+--------+--------+--------+--------+
+- |                 |         |         |         |         |
+- |                 |         |         |         |         v
+- |                 |         |         |         |   [11:0]  in-page offset
+- |                 |         |         |         +-> [20:12] L3 index
+- |                 |         |         +-----------> [29:21] L2 index
+- |                 |         +---------------------> [38:30] L1 index
+- |                 +-------------------------------> [47:39] L0 index
+- +-------------------------------------------------> [63] TTBR0/1
++  +--------+--------+--------+--------+--------+--------+--------+--------+
++  |63    56|55    48|47    40|39    32|31    24|23    16|15     8|7      0|
++  +--------+--------+--------+--------+--------+--------+--------+--------+
++   |                 |         |         |         |         |
++   |                 |         |         |         |         v
++   |                 |         |         |         |   [11:0]  in-page offset
++   |                 |         |         |         +-> [20:12] L3 index
++   |                 |         |         +-----------> [29:21] L2 index
++   |                 |         +---------------------> [38:30] L1 index
++   |                 +-------------------------------> [47:39] L0 index
++   +-------------------------------------------------> [63] TTBR0/1
+ 
+ 
+-Translation table lookup with 64KB pages:
++Translation table lookup with 64KB pages::
+ 
+-+--------+--------+--------+--------+--------+--------+--------+--------+
+-|63    56|55    48|47    40|39    32|31    24|23    16|15     8|7      0|
+-+--------+--------+--------+--------+--------+--------+--------+--------+
+- |                 |    |               |              |
+- |                 |    |               |              v
+- |                 |    |               |            [15:0]  in-page offset
+- |                 |    |               +----------> [28:16] L3 index
+- |                 |    +--------------------------> [41:29] L2 index
+- |                 +-------------------------------> [47:42] L1 index
+- +-------------------------------------------------> [63] TTBR0/1
++  +--------+--------+--------+--------+--------+--------+--------+--------+
++  |63    56|55    48|47    40|39    32|31    24|23    16|15     8|7      0|
++  +--------+--------+--------+--------+--------+--------+--------+--------+
++   |                 |    |               |              |
++   |                 |    |               |              v
++   |                 |    |               |            [15:0]  in-page offset
++   |                 |    |               +----------> [28:16] L3 index
++   |                 |    +--------------------------> [41:29] L2 index
++   |                 +-------------------------------> [47:42] L1 index
++   +-------------------------------------------------> [63] TTBR0/1
+ 
+ 
+ When using KVM without the Virtualization Host Extensions, the
+diff --git a/Documentation/arm64/pointer-authentication.txt b/Documentation/arm64/pointer-authentication.rst
+similarity index 99%
+rename from Documentation/arm64/pointer-authentication.txt
+rename to Documentation/arm64/pointer-authentication.rst
+index fc71b33de87e..30b2ab06526b 100644
+--- a/Documentation/arm64/pointer-authentication.txt
++++ b/Documentation/arm64/pointer-authentication.rst
+@@ -1,7 +1,9 @@
++=======================================
+ Pointer authentication in AArch64 Linux
+ =======================================
+ 
+ Author: Mark Rutland <mark.rutland@arm.com>
 +
- Each CPU has a "base" scheduling domain (struct sched_domain). The domain
- hierarchy is built from these base domains via the ->parent pointer. ->parent
- MUST be NULL terminated, and domain structures should be per-CPU as they are
-@@ -46,7 +50,9 @@ CPU's runqueue and the newly found busiest one and starts moving tasks from it
- to our runqueue. The exact number of tasks amounts to an imbalance previously
- computed while iterating over this sched domain's groups.
+ Date: 2017-07-19
  
--*** Implementing sched domains ***
-+Implementing sched domains
-+==========================
+ This document briefly describes the provision of pointer authentication
+diff --git a/Documentation/arm64/silicon-errata.txt b/Documentation/arm64/silicon-errata.rst
+similarity index 55%
+rename from Documentation/arm64/silicon-errata.txt
+rename to Documentation/arm64/silicon-errata.rst
+index 2735462d5958..c792774be59e 100644
+--- a/Documentation/arm64/silicon-errata.txt
++++ b/Documentation/arm64/silicon-errata.rst
+@@ -1,7 +1,9 @@
+-                Silicon Errata and Software Workarounds
+-                =======================================
++=======================================
++Silicon Errata and Software Workarounds
++=======================================
+ 
+ Author: Will Deacon <will.deacon@arm.com>
 +
- The "base" domain will "span" the first level of the hierarchy. In the case
- of SMT, you'll span all siblings of the physical CPU, with each group being
- a single virtual CPU.
-diff --git a/Documentation/scheduler/sched-energy.txt b/Documentation/scheduler/sched-energy.rst
-similarity index 96%
-rename from Documentation/scheduler/sched-energy.txt
-rename to Documentation/scheduler/sched-energy.rst
-index d97207b9accb..9580c57a52bc 100644
---- a/Documentation/scheduler/sched-energy.txt
-+++ b/Documentation/scheduler/sched-energy.rst
-@@ -1,6 +1,6 @@
--			   =======================
--			   Energy Aware Scheduling
--			   =======================
-+=======================
-+Energy Aware Scheduling
-+=======================
+ Date  : 27 November 2015
  
- 1. Introduction
- ---------------
-@@ -12,7 +12,7 @@ with a minimal impact on throughput. This document aims at providing an
- introduction on how EAS works, what are the main design decisions behind it, and
- details what is needed to get it to run.
+ It is an unfortunate fact of life that hardware is often produced with
+@@ -9,11 +11,13 @@ so-called "errata", which can cause it to deviate from the architecture
+ under specific circumstances.  For hardware produced by ARM, these
+ errata are broadly classified into the following categories:
  
--Before going any further, please note that at the time of writing:
-+Before going any further, please note that at the time of writing::
+-  Category A: A critical error without a viable workaround.
+-  Category B: A significant or critical error with an acceptable
++  ==========  ========================================================
++  Category A  A critical error without a viable workaround.
++  Category B  A significant or critical error with an acceptable
+               workaround.
+-  Category C: A minor error that is not expected to occur under normal
++  Category C  A minor error that is not expected to occur under normal
+               operation.
++  ==========  ========================================================
  
-    /!\ EAS does not support platforms with symmetric CPU topologies /!\
+ For more information, consult one of the "Software Developers Errata
+ Notice" documents available on infocenter.arm.com (registration
+@@ -42,47 +46,86 @@ file acts as a registry of software workarounds in the Linux Kernel and
+ will be updated when new workarounds are committed and backported to
+ stable kernels.
  
-@@ -33,13 +33,13 @@ To make it clear from the start:
-  - power = energy/time = [joule/second] = [watt]
- 
- The goal of EAS is to minimize energy, while still getting the job done. That
--is, we want to maximize:
-+is, we want to maximize::
- 
- 	performance [inst/s]
- 	--------------------
- 	    power [W]
- 
--which is equivalent to minimizing:
-+which is equivalent to minimizing::
- 
- 	energy [J]
- 	-----------
-@@ -97,7 +97,7 @@ domains can contain duplicate elements.
- 
- Example 1.
-     Let us consider a platform with 12 CPUs, split in 3 performance domains
--    (pd0, pd4 and pd8), organized as follows:
-+    (pd0, pd4 and pd8), organized as follows::
- 
- 	          CPUs:   0 1 2 3 4 5 6 7 8 9 10 11
- 	          PDs:   |--pd0--|--pd4--|---pd8---|
-@@ -108,6 +108,7 @@ Example 1.
-     containing 6 CPUs. The two root domains are denoted rd1 and rd2 in the
-     above figure. Since pd4 intersects with both rd1 and rd2, it will be
-     present in the linked list '->pd' attached to each of them:
-+
-        * rd1->pd: pd0 -> pd4
-        * rd2->pd: pd4 -> pd8
- 
-@@ -159,9 +160,9 @@ Example 2.
-     Each performance domain has three Operating Performance Points (OPPs).
-     The CPU capacity and power cost associated with each OPP is listed in
-     the Energy Model table. The util_avg of P is shown on the figures
--    below as 'PP'.
-+    below as 'PP'::
- 
--    CPU util.
-+     CPU util.
-       1024                 - - - - - - -              Energy Model
-                                                +-----------+-------------+
-                                                |  Little   |     Big     |
-@@ -188,8 +189,7 @@ Example 2.
-     (which is coherent with the behaviour of the schedutil CPUFreq
-     governor, see Section 6. for more details on this topic).
- 
--    Case 1. P is migrated to CPU1
--    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+    **Case 1. P is migrated to CPU1**::
- 
-       1024                 - - - - - - -
- 
-@@ -207,8 +207,7 @@ Example 2.
-             CPU0   CPU1     CPU2   CPU3
- 
- 
--    Case 2. P is migrated to CPU3
--    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+    **Case 2. P is migrated to CPU3**::
- 
-       1024                 - - - - - - -
- 
-@@ -226,8 +225,7 @@ Example 2.
-             CPU0   CPU1     CPU2   CPU3
- 
- 
--    Case 3. P stays on prev_cpu / CPU 0
--    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+    **Case 3. P stays on prev_cpu / CPU 0**::
- 
-       1024                 - - - - - - -
- 
-@@ -324,7 +322,9 @@ hardware properties and on other features of the kernel being enabled. This
- section lists these dependencies and provides hints as to how they can be met.
- 
- 
--  6.1 - Asymmetric CPU topology
-+6.1 - Asymmetric CPU topology
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
- 
- As mentioned in the introduction, EAS is only supported on platforms with
- asymmetric CPU topologies for now. This requirement is checked at run-time by
-@@ -347,7 +347,8 @@ significant savings on SMP platforms have been observed yet. This restriction
- could be amended in the future if proven otherwise.
- 
- 
--  6.2 - Energy Model presence
-+6.2 - Energy Model presence
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
- EAS uses the EM of a platform to estimate the impact of scheduling decisions on
- energy. So, your platform must provide power cost tables to the EM framework in
-@@ -358,7 +359,8 @@ Please also note that the scheduling domains need to be re-built after the
- EM has been registered in order to start EAS.
- 
- 
--  6.3 - Energy Model complexity
-+6.3 - Energy Model complexity
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
- The task wake-up path is very latency-sensitive. When the EM of a platform is
- too complex (too many CPUs, too many performance domains, too many performance
-@@ -388,7 +390,8 @@ two possible options:
-        hence enabling it to cope with larger EMs in reasonable time.
- 
- 
--  6.4 - Schedutil governor
-+6.4 - Schedutil governor
-+^^^^^^^^^^^^^^^^^^^^^^^^
- 
- EAS tries to predict at which OPP will the CPUs be running in the close future
- in order to estimate their energy consumption. To do so, it is assumed that OPPs
-@@ -405,7 +408,8 @@ frequency requests and energy predictions.
- Using EAS with any other governor than schedutil is not supported.
- 
- 
--  6.5 Scale-invariant utilization signals
-+6.5 Scale-invariant utilization signals
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
- In order to make accurate prediction across CPUs and for all performance
- states, EAS needs frequency-invariant and CPU-invariant PELT signals. These can
-@@ -416,7 +420,8 @@ Using EAS on a platform that doesn't implement these two callbacks is not
- supported.
- 
- 
--  6.6 Multithreading (SMT)
-+6.6 Multithreading (SMT)
-+^^^^^^^^^^^^^^^^^^^^^^^^
- 
- EAS in its current form is SMT unaware and is not able to leverage
- multithreaded hardware to save energy. EAS considers threads as independent
-diff --git a/Documentation/scheduler/sched-nice-design.txt b/Documentation/scheduler/sched-nice-design.rst
+++----------------+-----------------+-----------------+-----------------------------+
+ | Implementor    | Component       | Erratum ID      | Kconfig                     |
+-+----------------+-----------------+-----------------+-----------------------------+
+++================+=================+=================+=============================+
+ | Allwinner      | A64/R18         | UNKNOWN1        | SUN50I_ERRATUM_UNKNOWN1     |
+-|                |                 |                 |                             |
+++----------------+-----------------+-----------------+-----------------------------+
+++----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Cortex-A53      | #826319         | ARM64_ERRATUM_826319        |
+++----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Cortex-A53      | #827319         | ARM64_ERRATUM_827319        |
+++----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Cortex-A53      | #824069         | ARM64_ERRATUM_824069        |
+++----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Cortex-A53      | #819472         | ARM64_ERRATUM_819472        |
+++----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Cortex-A53      | #845719         | ARM64_ERRATUM_845719        |
+++----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Cortex-A53      | #843419         | ARM64_ERRATUM_843419        |
+++----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Cortex-A57      | #832075         | ARM64_ERRATUM_832075        |
+++----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Cortex-A57      | #852523         | N/A                         |
+++----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Cortex-A57      | #834220         | ARM64_ERRATUM_834220        |
+++----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Cortex-A72      | #853709         | N/A                         |
+++----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Cortex-A73      | #858921         | ARM64_ERRATUM_858921        |
+++----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Cortex-A55      | #1024718        | ARM64_ERRATUM_1024718       |
+++----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Cortex-A76      | #1188873,1418040| ARM64_ERRATUM_1418040       |
+++----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Cortex-A76      | #1165522        | ARM64_ERRATUM_1165522       |
+++----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Cortex-A76      | #1286807        | ARM64_ERRATUM_1286807       |
+++----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Cortex-A76      | #1463225        | ARM64_ERRATUM_1463225       |
+++----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Neoverse-N1     | #1188873,1418040| ARM64_ERRATUM_1418040       |
+++----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | MMU-500         | #841119,826419  | N/A                         |
+-|                |                 |                 |                             |
+++----------------+-----------------+-----------------+-----------------------------+
+++----------------+-----------------+-----------------+-----------------------------+
+ | Cavium         | ThunderX ITS    | #22375,24313    | CAVIUM_ERRATUM_22375        |
+++----------------+-----------------+-----------------+-----------------------------+
+ | Cavium         | ThunderX ITS    | #23144          | CAVIUM_ERRATUM_23144        |
+++----------------+-----------------+-----------------+-----------------------------+
+ | Cavium         | ThunderX GICv3  | #23154          | CAVIUM_ERRATUM_23154        |
+++----------------+-----------------+-----------------+-----------------------------+
+ | Cavium         | ThunderX Core   | #27456          | CAVIUM_ERRATUM_27456        |
+++----------------+-----------------+-----------------+-----------------------------+
+ | Cavium         | ThunderX Core   | #30115          | CAVIUM_ERRATUM_30115        |
+++----------------+-----------------+-----------------+-----------------------------+
+ | Cavium         | ThunderX SMMUv2 | #27704          | N/A                         |
+++----------------+-----------------+-----------------+-----------------------------+
+ | Cavium         | ThunderX2 SMMUv3| #74             | N/A                         |
+++----------------+-----------------+-----------------+-----------------------------+
+ | Cavium         | ThunderX2 SMMUv3| #126            | N/A                         |
+-|                |                 |                 |                             |
+++----------------+-----------------+-----------------+-----------------------------+
+++----------------+-----------------+-----------------+-----------------------------+
+ | Freescale/NXP  | LS2080A/LS1043A | A-008585        | FSL_ERRATUM_A008585         |
+-|                |                 |                 |                             |
+++----------------+-----------------+-----------------+-----------------------------+
+++----------------+-----------------+-----------------+-----------------------------+
+ | Hisilicon      | Hip0{5,6,7}     | #161010101      | HISILICON_ERRATUM_161010101 |
+++----------------+-----------------+-----------------+-----------------------------+
+ | Hisilicon      | Hip0{6,7}       | #161010701      | N/A                         |
+++----------------+-----------------+-----------------+-----------------------------+
+ | Hisilicon      | Hip07           | #161600802      | HISILICON_ERRATUM_161600802 |
+++----------------+-----------------+-----------------+-----------------------------+
+ | Hisilicon      | Hip08 SMMU PMCG | #162001800      | N/A                         |
+-|                |                 |                 |                             |
+++----------------+-----------------+-----------------+-----------------------------+
+++----------------+-----------------+-----------------+-----------------------------+
+ | Qualcomm Tech. | Kryo/Falkor v1  | E1003           | QCOM_FALKOR_ERRATUM_1003    |
+++----------------+-----------------+-----------------+-----------------------------+
+ | Qualcomm Tech. | Falkor v1       | E1009           | QCOM_FALKOR_ERRATUM_1009    |
+++----------------+-----------------+-----------------+-----------------------------+
+ | Qualcomm Tech. | QDF2400 ITS     | E0065           | QCOM_QDF2400_ERRATUM_0065   |
+++----------------+-----------------+-----------------+-----------------------------+
+ | Qualcomm Tech. | Falkor v{1,2}   | E1041           | QCOM_FALKOR_ERRATUM_1041    |
+++----------------+-----------------+-----------------+-----------------------------+
+++----------------+-----------------+-----------------+-----------------------------+
+ | Fujitsu        | A64FX           | E#010001        | FUJITSU_ERRATUM_010001      |
+++----------------+-----------------+-----------------+-----------------------------+
+diff --git a/Documentation/arm64/sve.txt b/Documentation/arm64/sve.rst
 similarity index 98%
-rename from Documentation/scheduler/sched-nice-design.txt
-rename to Documentation/scheduler/sched-nice-design.rst
-index 3ac1e46d5365..0571f1b47e64 100644
---- a/Documentation/scheduler/sched-nice-design.txt
-+++ b/Documentation/scheduler/sched-nice-design.rst
-@@ -1,3 +1,7 @@
-+=====================
-+Scheduler Nice Design
-+=====================
+rename from Documentation/arm64/sve.txt
+rename to Documentation/arm64/sve.rst
+index 9940e924a47e..38422ab249dd 100644
+--- a/Documentation/arm64/sve.txt
++++ b/Documentation/arm64/sve.rst
+@@ -1,7 +1,9 @@
+-            Scalable Vector Extension support for AArch64 Linux
+-            ===================================================
++===================================================
++Scalable Vector Extension support for AArch64 Linux
++===================================================
+ 
+ Author: Dave Martin <Dave.Martin@arm.com>
 +
- This document explains the thinking about the revamped and streamlined
- nice-levels implementation in the new Linux scheduler.
+ Date:   4 August 2017
  
-@@ -14,7 +18,7 @@ much stronger than they were before in 2.4 (and people were happy about
- that change), and we also intentionally calibrated the linear timeslice
- rule so that nice +19 level would be _exactly_ 1 jiffy. To better
- understand it, the timeslice graph went like this (cheesy ASCII art
--alert!):
-+alert!)::
+ This document outlines briefly the interface provided to userspace by Linux in
+@@ -426,7 +428,7 @@ In A64 state, SVE adds the following:
  
+ * FPSR and FPCR are retained from ARMv8-A, and interact with SVE floating-point
+   operations in a similar way to the way in which they interact with ARMv8
+-  floating-point operations.
++  floating-point operations::
  
-                    A
-diff --git a/Documentation/scheduler/sched-rt-group.txt b/Documentation/scheduler/sched-rt-group.rst
-similarity index 95%
-rename from Documentation/scheduler/sched-rt-group.txt
-rename to Documentation/scheduler/sched-rt-group.rst
-index c09f7a3fee66..d27d3f3712fd 100644
---- a/Documentation/scheduler/sched-rt-group.txt
-+++ b/Documentation/scheduler/sched-rt-group.rst
-@@ -1,18 +1,18 @@
--				Real-Time group scheduling
--				--------------------------
-+==========================
-+Real-Time group scheduling
-+==========================
+          8VL-1                       128               0  bit index
+         +----          ////            -----------------+
+@@ -483,6 +485,8 @@ ARMv8-A defines the following floating-point / SIMD register state:
+ * 32 128-bit vector registers V0..V31
+ * 2 32-bit status/control registers FPSR, FPCR
  
--CONTENTS
--========
-+.. CONTENTS
- 
--0. WARNING
--1. Overview
--  1.1 The problem
--  1.2 The solution
--2. The interface
--  2.1 System-wide settings
--  2.2 Default behaviour
--  2.3 Basis for grouping tasks
--3. Future plans
-+   0. WARNING
-+   1. Overview
-+     1.1 The problem
-+     1.2 The solution
-+   2. The interface
-+     2.1 System-wide settings
-+     2.2 Default behaviour
-+     2.3 Basis for grouping tasks
-+   3. Future plans
- 
- 
- 0. WARNING
-@@ -159,9 +159,11 @@ Consider two sibling groups A and B; both have 50% bandwidth, but A's
- period is twice the length of B's.
- 
- * group A: period=100000us, runtime=50000us
++::
 +
- 	- this runs for 0.05s once every 0.1s
+          127           0  bit index
+         +---------------+
+      V0 |               |
+@@ -517,7 +521,7 @@ References
+ [2] arch/arm64/include/uapi/asm/ptrace.h
+     AArch64 Linux ptrace ABI definitions
  
- * group B: period= 50000us, runtime=25000us
+-[3] Documentation/arm64/cpu-feature-registers.txt
++[3] Documentation/arm64/cpu-feature-registers.rst
+ 
+ [4] ARM IHI0055C
+     http://infocenter.arm.com/help/topic/com.arm.doc.ihi0055c/IHI0055C_beta_aapcs64.pdf
+diff --git a/Documentation/arm64/tagged-pointers.txt b/Documentation/arm64/tagged-pointers.rst
+similarity index 94%
+rename from Documentation/arm64/tagged-pointers.txt
+rename to Documentation/arm64/tagged-pointers.rst
+index a25a99e82bb1..2acdec3ebbeb 100644
+--- a/Documentation/arm64/tagged-pointers.txt
++++ b/Documentation/arm64/tagged-pointers.rst
+@@ -1,7 +1,9 @@
+-		Tagged virtual addresses in AArch64 Linux
+-		=========================================
++=========================================
++Tagged virtual addresses in AArch64 Linux
++=========================================
+ 
+ Author: Will Deacon <will.deacon@arm.com>
 +
- 	- this runs for 0.025s twice every 0.1s (or once every 0.05 sec).
+ Date  : 12 June 2013
  
- This means that currently a while (1) loop in A will run for the full period of
-diff --git a/Documentation/scheduler/sched-stats.txt b/Documentation/scheduler/sched-stats.rst
-similarity index 91%
-rename from Documentation/scheduler/sched-stats.txt
-rename to Documentation/scheduler/sched-stats.rst
-index 8259b34a66ae..0cb0aa714545 100644
---- a/Documentation/scheduler/sched-stats.txt
-+++ b/Documentation/scheduler/sched-stats.rst
-@@ -1,3 +1,7 @@
-+====================
-+Scheduler Statistics
-+====================
-+
- Version 15 of schedstats dropped counters for some sched_yield:
- yld_exp_empty, yld_act_empty and yld_both_empty. Otherwise, it is
- identical to version 14.
-@@ -35,19 +39,23 @@ CPU statistics
- cpu<N> 1 2 3 4 5 6 7 8 9
+ This document briefly describes the provision of tagged virtual
+diff --git a/Documentation/translations/zh_CN/arm64/booting.txt b/Documentation/translations/zh_CN/arm64/booting.txt
+index c1dd968c5ee9..3bfbf66e5a5e 100644
+--- a/Documentation/translations/zh_CN/arm64/booting.txt
++++ b/Documentation/translations/zh_CN/arm64/booting.txt
+@@ -1,4 +1,4 @@
+-Chinese translated version of Documentation/arm64/booting.txt
++Chinese translated version of Documentation/arm64/booting.rst
  
- First field is a sched_yield() statistic:
-+
-      1) # of times sched_yield() was called
+ If you have any comment or update to the content, please contact the
+ original document maintainer directly.  However, if you have a problem
+@@ -10,7 +10,7 @@ M:	Will Deacon <will.deacon@arm.com>
+ zh_CN:	Fu Wei <wefu@redhat.com>
+ C:	55f058e7574c3615dea4615573a19bdb258696c6
+ ---------------------------------------------------------------------
+-Documentation/arm64/booting.txt 的中文翻译
++Documentation/arm64/booting.rst 的中文翻译
  
- Next three are schedule() statistics:
-+
-      2) This field is a legacy array expiration count field used in the O(1)
- 	scheduler. We kept it for ABI compatibility, but it is always set to zero.
-      3) # of times schedule() was called
-      4) # of times schedule() left the processor idle
+ 如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
+ 交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
+diff --git a/Documentation/translations/zh_CN/arm64/legacy_instructions.txt b/Documentation/translations/zh_CN/arm64/legacy_instructions.txt
+index 68362a1ab717..e295cf75f606 100644
+--- a/Documentation/translations/zh_CN/arm64/legacy_instructions.txt
++++ b/Documentation/translations/zh_CN/arm64/legacy_instructions.txt
+@@ -1,4 +1,4 @@
+-Chinese translated version of Documentation/arm64/legacy_instructions.txt
++Chinese translated version of Documentation/arm64/legacy_instructions.rst
  
- Next two are try_to_wake_up() statistics:
-+
-      5) # of times try_to_wake_up() was called
-      6) # of times try_to_wake_up() was called to wake up the local cpu
+ If you have any comment or update to the content, please contact the
+ original document maintainer directly.  However, if you have a problem
+@@ -10,7 +10,7 @@ Maintainer: Punit Agrawal <punit.agrawal@arm.com>
+             Suzuki K. Poulose <suzuki.poulose@arm.com>
+ Chinese maintainer: Fu Wei <wefu@redhat.com>
+ ---------------------------------------------------------------------
+-Documentation/arm64/legacy_instructions.txt 的中文翻译
++Documentation/arm64/legacy_instructions.rst 的中文翻译
  
- Next three are statistics describing scheduling latency:
-+
-      7) sum of all time spent running by tasks on this processor (in jiffies)
-      8) sum of all time spent waiting to run by tasks on this processor (in
-         jiffies)
-@@ -67,24 +75,23 @@ The first field is a bit mask indicating what cpus this domain operates over.
- The next 24 are a variety of load_balance() statistics in grouped into types
- of idleness (idle, busy, and newly idle):
+ 如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
+ 交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
+diff --git a/Documentation/translations/zh_CN/arm64/memory.txt b/Documentation/translations/zh_CN/arm64/memory.txt
+index 19b3a52d5d94..be20f8228b91 100644
+--- a/Documentation/translations/zh_CN/arm64/memory.txt
++++ b/Documentation/translations/zh_CN/arm64/memory.txt
+@@ -1,4 +1,4 @@
+-Chinese translated version of Documentation/arm64/memory.txt
++Chinese translated version of Documentation/arm64/memory.rst
  
--     1) # of times in this domain load_balance() was called when the
-+    1)  # of times in this domain load_balance() was called when the
-         cpu was idle
--     2) # of times in this domain load_balance() checked but found
-+    2)  # of times in this domain load_balance() checked but found
-         the load did not require balancing when the cpu was idle
--     3) # of times in this domain load_balance() tried to move one or
-+    3)  # of times in this domain load_balance() tried to move one or
-         more tasks and failed, when the cpu was idle
--     4) sum of imbalances discovered (if any) with each call to
-+    4)  sum of imbalances discovered (if any) with each call to
-         load_balance() in this domain when the cpu was idle
--     5) # of times in this domain pull_task() was called when the cpu
-+    5)  # of times in this domain pull_task() was called when the cpu
-         was idle
--     6) # of times in this domain pull_task() was called even though
-+    6)  # of times in this domain pull_task() was called even though
-         the target task was cache-hot when idle
--     7) # of times in this domain load_balance() was called but did
-+    7)  # of times in this domain load_balance() was called but did
-         not find a busier queue while the cpu was idle
--     8) # of times in this domain a busier queue was found while the
-+    8)  # of times in this domain a busier queue was found while the
-         cpu was idle but no busier group was found
--
--     9) # of times in this domain load_balance() was called when the
-+    9)  # of times in this domain load_balance() was called when the
-         cpu was busy
-     10) # of times in this domain load_balance() checked but found the
-         load did not require balancing when busy
-@@ -117,21 +124,25 @@ of idleness (idle, busy, and newly idle):
-         was just becoming idle but no busier group was found
+ If you have any comment or update to the content, please contact the
+ original document maintainer directly.  However, if you have a problem
+@@ -9,7 +9,7 @@ or if there is a problem with the translation.
+ Maintainer: Catalin Marinas <catalin.marinas@arm.com>
+ Chinese maintainer: Fu Wei <wefu@redhat.com>
+ ---------------------------------------------------------------------
+-Documentation/arm64/memory.txt 的中文翻译
++Documentation/arm64/memory.rst 的中文翻译
  
-    Next three are active_load_balance() statistics:
-+
-     25) # of times active_load_balance() was called
-     26) # of times active_load_balance() tried to move a task and failed
-     27) # of times active_load_balance() successfully moved a task
+ 如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
+ 交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
+diff --git a/Documentation/translations/zh_CN/arm64/silicon-errata.txt b/Documentation/translations/zh_CN/arm64/silicon-errata.txt
+index 39477c75c4a4..440c59ac7dce 100644
+--- a/Documentation/translations/zh_CN/arm64/silicon-errata.txt
++++ b/Documentation/translations/zh_CN/arm64/silicon-errata.txt
+@@ -1,4 +1,4 @@
+-Chinese translated version of Documentation/arm64/silicon-errata.txt
++Chinese translated version of Documentation/arm64/silicon-errata.rst
  
-    Next three are sched_balance_exec() statistics:
-+
-     28) sbe_cnt is not used
-     29) sbe_balanced is not used
-     30) sbe_pushed is not used
+ If you have any comment or update to the content, please contact the
+ original document maintainer directly.  However, if you have a problem
+@@ -10,7 +10,7 @@ M:	Will Deacon <will.deacon@arm.com>
+ zh_CN:	Fu Wei <wefu@redhat.com>
+ C:	1926e54f115725a9248d0c4c65c22acaf94de4c4
+ ---------------------------------------------------------------------
+-Documentation/arm64/silicon-errata.txt 的中文翻译
++Documentation/arm64/silicon-errata.rst 的中文翻译
  
-    Next three are sched_balance_fork() statistics:
-+
-     31) sbf_cnt is not used
-     32) sbf_balanced is not used
-     33) sbf_pushed is not used
+ 如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
+ 交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
+diff --git a/Documentation/translations/zh_CN/arm64/tagged-pointers.txt b/Documentation/translations/zh_CN/arm64/tagged-pointers.txt
+index 2664d1bd5a1c..77ac3548a16d 100644
+--- a/Documentation/translations/zh_CN/arm64/tagged-pointers.txt
++++ b/Documentation/translations/zh_CN/arm64/tagged-pointers.txt
+@@ -1,4 +1,4 @@
+-Chinese translated version of Documentation/arm64/tagged-pointers.txt
++Chinese translated version of Documentation/arm64/tagged-pointers.rst
  
-    Next three are try_to_wake_up() statistics:
-+
-     34) # of times in this domain try_to_wake_up() awoke a task that
-         last ran on a different cpu in this domain
-     35) # of times in this domain try_to_wake_up() moved a task to the
-@@ -139,10 +150,11 @@ of idleness (idle, busy, and newly idle):
-     36) # of times in this domain try_to_wake_up() started passive balancing
+ If you have any comment or update to the content, please contact the
+ original document maintainer directly.  However, if you have a problem
+@@ -9,7 +9,7 @@ or if there is a problem with the translation.
+ Maintainer: Will Deacon <will.deacon@arm.com>
+ Chinese maintainer: Fu Wei <wefu@redhat.com>
+ ---------------------------------------------------------------------
+-Documentation/arm64/tagged-pointers.txt 的中文翻译
++Documentation/arm64/tagged-pointers.rst 的中文翻译
  
- /proc/<pid>/schedstat
------------------
-+---------------------
- schedstats also adds a new /proc/<pid>/schedstat file to include some of
- the same information on a per-process level.  There are three fields in
- this file correlating for that process to:
-+
-      1) time spent on the cpu
-      2) time spent waiting on a runqueue
-      3) # of timeslices run on this cpu
-@@ -151,4 +163,5 @@ A program could be easily written to make use of these extra fields to
- report on how well a particular process or set of processes is faring
- under the scheduler's policies.  A simple version of such a program is
- available at
-+
-     http://eaglet.rain.com/rick/linux/schedstat/v12/latency.c
-diff --git a/Documentation/scheduler/text_files.rst b/Documentation/scheduler/text_files.rst
-new file mode 100644
-index 000000000000..0bc50307b241
---- /dev/null
-+++ b/Documentation/scheduler/text_files.rst
-@@ -0,0 +1,5 @@
-+Scheduler pelt c program
-+------------------------
-+
-+.. literalinclude:: sched-pelt.c
-+    :language: c
-diff --git a/Documentation/vm/numa.rst b/Documentation/vm/numa.rst
-index 0d830edae8fe..130f3cfa1c19 100644
---- a/Documentation/vm/numa.rst
-+++ b/Documentation/vm/numa.rst
-@@ -99,7 +99,7 @@ Local allocation will tend to keep subsequent access to the allocated memory
- as long as the task on whose behalf the kernel allocated some memory does not
- later migrate away from that memory.  The Linux scheduler is aware of the
- NUMA topology of the platform--embodied in the "scheduling domains" data
--structures [see Documentation/scheduler/sched-domains.txt]--and the scheduler
-+structures [see Documentation/scheduler/sched-domains.rst]--and the scheduler
- attempts to minimize task migration to distant scheduling domains.  However,
- the scheduler does not take a task's NUMA footprint into account directly.
- Thus, under sufficient imbalance, tasks can migrate between nodes, remote
-diff --git a/init/Kconfig b/init/Kconfig
-index ab41ffa08d79..6db89d4155d8 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -734,7 +734,7 @@ menuconfig CGROUPS
- 	  use with process control subsystems such as Cpusets, CFS, memory
- 	  controls or device isolation.
- 	  See
--		- Documentation/scheduler/sched-design-CFS.txt	(CFS)
-+		- Documentation/scheduler/sched-design-CFS.rst	(CFS)
- 		- Documentation/cgroup-v1/ (features for grouping, isolation
- 					  and resource control)
+ 如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
+ 交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
+diff --git a/Documentation/virtual/kvm/api.txt b/Documentation/virtual/kvm/api.txt
+index ba6c42c576dd..68984c284c40 100644
+--- a/Documentation/virtual/kvm/api.txt
++++ b/Documentation/virtual/kvm/api.txt
+@@ -2205,7 +2205,7 @@ max_vq.  This is the maximum vector length available to the guest on
+ this vcpu, and determines which register slices are visible through
+ this ioctl interface.
  
-@@ -835,7 +835,7 @@ config CFS_BANDWIDTH
- 	  tasks running within the fair group scheduler.  Groups with no limit
- 	  set are considered to be unconstrained and will run with no
- 	  restriction.
--	  See Documentation/scheduler/sched-bwc.txt for more information.
-+	  See Documentation/scheduler/sched-bwc.rst for more information.
+-(See Documentation/arm64/sve.txt for an explanation of the "vq"
++(See Documentation/arm64/sve.rst for an explanation of the "vq"
+ nomenclature.)
  
- config RT_GROUP_SCHED
- 	bool "Group scheduling for SCHED_RR/FIFO"
-@@ -846,7 +846,7 @@ config RT_GROUP_SCHED
- 	  to task groups. If enabled, it will also make it impossible to
- 	  schedule realtime tasks for non-root users until you allocate
- 	  realtime bandwidth for them.
--	  See Documentation/scheduler/sched-rt-group.txt for more information.
-+	  See Documentation/scheduler/sched-rt-group.rst for more information.
- 
- endif #CGROUP_SCHED
- 
-diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-index c1ef30861068..2df20e15b576 100644
---- a/kernel/sched/deadline.c
-+++ b/kernel/sched/deadline.c
-@@ -726,7 +726,7 @@ static void replenish_dl_entity(struct sched_dl_entity *dl_se,
-  * refill the runtime and set the deadline a period in the future,
-  * because keeping the current (absolute) deadline of the task would
-  * result in breaking guarantees promised to other tasks (refer to
-- * Documentation/scheduler/sched-deadline.txt for more information).
-+ * Documentation/scheduler/sched-deadline.rst for more information).
+ KVM_REG_ARM64_SVE_VLS is only accessible after KVM_ARM_VCPU_INIT.
+diff --git a/arch/arm64/include/asm/efi.h b/arch/arm64/include/asm/efi.h
+index c9e9a6978e73..8e79ce9c3f5c 100644
+--- a/arch/arm64/include/asm/efi.h
++++ b/arch/arm64/include/asm/efi.h
+@@ -83,7 +83,7 @@ static inline unsigned long efi_get_max_fdt_addr(unsigned long dram_base)
+  * guaranteed to cover the kernel Image.
   *
-  * This function returns true if:
+  * Since the EFI stub is part of the kernel Image, we can relax the
+- * usual requirements in Documentation/arm64/booting.txt, which still
++ * usual requirements in Documentation/arm64/booting.rst, which still
+  * apply to other bootloaders, and are required for some kernel
+  * configurations.
+  */
+diff --git a/arch/arm64/include/asm/image.h b/arch/arm64/include/asm/image.h
+index e2c27a2278e9..c2b13213c720 100644
+--- a/arch/arm64/include/asm/image.h
++++ b/arch/arm64/include/asm/image.h
+@@ -27,7 +27,7 @@
+ 
+ /*
+  * struct arm64_image_header - arm64 kernel image header
+- * See Documentation/arm64/booting.txt for details
++ * See Documentation/arm64/booting.rst for details
   *
+  * @code0:		Executable code, or
+  *   @mz_header		  alternatively used for part of MZ header
+diff --git a/arch/arm64/include/uapi/asm/sigcontext.h b/arch/arm64/include/uapi/asm/sigcontext.h
+index 5f3c0cec5af9..a61f89ddbf34 100644
+--- a/arch/arm64/include/uapi/asm/sigcontext.h
++++ b/arch/arm64/include/uapi/asm/sigcontext.h
+@@ -137,7 +137,7 @@ struct sve_context {
+  * vector length beyond its initial architectural limit of 2048 bits
+  * (16 quadwords).
+  *
+- * See linux/Documentation/arm64/sve.txt for a description of the VL/VQ
++ * See linux/Documentation/arm64/sve.rst for a description of the VL/VQ
+  * terminology.
+  */
+ #define SVE_VQ_BYTES		__SVE_VQ_BYTES	/* bytes per quadword */
+diff --git a/arch/arm64/kernel/kexec_image.c b/arch/arm64/kernel/kexec_image.c
+index 31cc2f423aa8..2514fd6f12cb 100644
+--- a/arch/arm64/kernel/kexec_image.c
++++ b/arch/arm64/kernel/kexec_image.c
+@@ -53,7 +53,7 @@ static void *image_load(struct kimage *image,
+ 
+ 	/*
+ 	 * We require a kernel with an unambiguous Image header. Per
+-	 * Documentation/arm64/booting.txt, this is the case when image_size
++	 * Documentation/arm64/booting.rst, this is the case when image_size
+ 	 * is non-zero (practically speaking, since v3.17).
+ 	 */
+ 	h = (struct arm64_image_header *)kernel;
 -- 
 2.21.0
 
