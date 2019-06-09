@@ -1,76 +1,98 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_MED autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F08D57D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Jun 2019 09:27:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 53BF97D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Jun 2019 09:27:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727984AbfFIJ1k (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 9 Jun 2019 05:27:40 -0400
-Received: from smtpcmd0756.aruba.it ([62.149.156.56]:45829 "EHLO
-        smtpcmd0756.aruba.it" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727978AbfFIJ1k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Jun 2019 05:27:40 -0400
-X-Greylist: delayed 426 seconds by postgrey-1.27 at vger.kernel.org; Sun, 09 Jun 2019 05:27:39 EDT
-Received: from [192.168.1.40] ([93.146.66.165])
-        by smtpcmd07.ad.aruba.it with bizsmtp
-        id NZLW2000a3Zw7e501ZLWhl; Sun, 09 Jun 2019 11:20:31 +0200
-Subject: Re: [PATCH v3 22/33] docs: pps.txt: convert to ReST and rename to
- pps.rst
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+        id S1728080AbfFIJ1u (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 9 Jun 2019 05:27:50 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:55188 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728072AbfFIJ1t (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Jun 2019 05:27:49 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x599QnuB133921
+        for <linux-doc@vger.kernel.org>; Sun, 9 Jun 2019 05:27:49 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2t0t4cg24p-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Sun, 09 Jun 2019 05:27:49 -0400
+Received: from localhost
+        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <heiko.carstens@de.ibm.com>;
+        Sun, 9 Jun 2019 10:27:46 +0100
+Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
+        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Sun, 9 Jun 2019 10:27:41 +0100
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
+        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x599ReFd35979690
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Sun, 9 Jun 2019 09:27:40 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 7404011C04A;
+        Sun,  9 Jun 2019 09:27:40 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id C4A7B11C050;
+        Sun,  9 Jun 2019 09:27:39 +0000 (GMT)
+Received: from osiris (unknown [9.145.173.81])
+        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Sun,  9 Jun 2019 09:27:39 +0000 (GMT)
+Date:   Sun, 9 Jun 2019 11:27:38 +0200
+From:   Heiko Carstens <heiko.carstens@de.ibm.com>
+To:     Markus Heiser <markus.heiser@darmarit.de>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Palmer Dabbelt <palmer@sifive.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        Greentime Hu <green.hu@gmail.com>,
+        Vincent Chen <deanbo422@gmail.com>,
+        linux-riscv@lists.infradead.org, netdev@vger.kernel.org,
+        bpf@vger.kernel.org
+Subject: Re: [PATCH v3 00/33] Convert files to ReST - part 1
 References: <cover.1560045490.git.mchehab+samsung@kernel.org>
- <cb9274c1d5e94a74c5922c04d99b90554f2d804b.1560045490.git.mchehab+samsung@kernel.org>
-From:   Rodolfo Giometti <giometti@enneenne.com>
-Message-ID: <8079a463-1d39-e5c5-1c51-51bf37269f61@enneenne.com>
-Date:   Sun, 9 Jun 2019 11:20:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ <20190609091642.GA3705@osiris>
+ <56cd597a-9db8-b6ea-eed1-51d3bdf0e6e0@darmarit.de>
 MIME-Version: 1.0
-In-Reply-To: <cb9274c1d5e94a74c5922c04d99b90554f2d804b.1560045490.git.mchehab+samsung@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aruba.it; s=a1;
-        t=1560072031; bh=paXthY9PTzj607n6DkR2m8vML/ZyJnsHXYh6cM4sxeo=;
-        h=Subject:To:From:Date:MIME-Version:Content-Type;
-        b=HzDjhuQmewrFZf4LRDYi96rkWLpznV0QNZKYFvC94rGXNOQ1tydAjkFvPswZmUpR6
-         JaSr26DgHWY2iKVGGeLYNwHyeVeklEge15AqUX+4RpAaTEFM2FlJKOS3k/2Q9awu9/
-         Cl7gTEf4rArzG59UuzVSjE0kX1YEBC47TupUJFj82TK4b9FwPYFpsuxunZslK9kPCs
-         0ISjyHQ2L+CP4OhhQ7X3YtGwg+RtezWDCrrh8Vy3H6hdNiRNpopWDyr0IMIWMbaNaX
-         mWkso3QwjmEP7pYhaFMydAGWhQbUjuCnXJZ3g8m4qaA3BX28VIIIgEDkGUJtD+wOLy
-         WaPeAVxrYSZAQ==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <56cd597a-9db8-b6ea-eed1-51d3bdf0e6e0@darmarit.de>
+X-TM-AS-GCONF: 00
+x-cbid: 19060909-0008-0000-0000-000002F1A5FB
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19060909-0009-0000-0000-0000225E99D8
+Message-Id: <20190609092738.GB3705@osiris>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-06-09_02:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1906090070
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 09/06/2019 04:27, Mauro Carvalho Chehab wrote:
-> This file is already in a good shape: just its title and
-> adding some literal block markups is needed for it to be
-> part of the document.
+On Sun, Jun 09, 2019 at 11:22:36AM +0200, Markus Heiser wrote:
 > 
-> While it has a small chapter with sysfs stuff, most of
-> the document is focused on driver development.
+> Am 09.06.19 um 11:16 schrieb Heiko Carstens:
+> >Will there be a web page (e.g. kernel.org), which contains always the
+> >latest upstream version?
 > 
-> As it describes a kernel API, move it to the driver-api
-> directory.
+> You are looking for the HTML docs on kernel.org?
 > 
-> In order to avoid conflicts, let's add an :orphan: tag
-> to it, to be removed when added to the driver-api book.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+>   https://www.kernel.org/doc/html/latest/
 
-Acked-by: Rodolfo Giometti <giometti@enneenne.com>
+Yes, thanks!
 
--- 
-GNU/Linux Solutions                  e-mail: giometti@enneenne.com
-Linux Device Driver                          giometti@linux.it
-Embedded Systems                     phone:  +39 349 2432127
-UNIX programming                     skype:  rodolfo.giometti
