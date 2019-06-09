@@ -5,48 +5,42 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C72DA7DE70
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Jun 2019 02:30:42 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1FE687D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Jun 2019 02:30:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727771AbfFICaE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 8 Jun 2019 22:30:04 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:55614 "EHLO
+        id S1727614AbfFICaR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 8 Jun 2019 22:30:17 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:55588 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727750AbfFIC1c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Jun 2019 22:27:32 -0400
+        with ESMTP id S1727690AbfFIC1b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 8 Jun 2019 22:27:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
         To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=fEBloR9OTG75rzYbqefBDPurRQQ+p3d4DZRq71jBjVA=; b=esHtpAk2AP4LlWwunzUZPdVeHT
-        REf7Nl/3C00r1GGOL4KIueSV6HeO8/M6ii3akuV6OOBrs7ONZv2cHZgF5zX2f9LotHCz2c8R0qv47
-        kfONZsXu5KF08lEzDvhHbUGD9/YZGz2hDCY56Z25jsOLAiEVxtfDNlON8Pd+ALpWQYZCGlY2CartX
-        2WqrN/C6aaKeWa5Mq3/oBrlZTtV2rDosTSKp3Z5scxk8JQbkZ0rb5EpjUIFfV2K4tBy+GqIEi407X
-        EXN+ALY7CX/pSsqPG2GsslDBGNRKyIC87XWuDNwlz3OIytEXw99vh6QqcBltf/fAsraa/9NyuR4eI
-        J1kgEEoQ==;
+        bh=4fXolxansebNggLo2OyXQXzb6nSnYxuaa6sfzq2mef8=; b=p16tyLQEwZsOQOuC/GRg49zE8X
+        pHizEj49amlVAVry6YiyxdM0Eawhz6F2Md7ZaKkg9TPCHJ3YfAueGVGUFI11EJeKlu50FRiKtiwMi
+        cfTytBFyr/CFYsqs7BlJKbxxwuwSOyauzPSbRQLJJIXYr0sHiHRJ2OgZezvpba95v0S+69E08ruWz
+        bE94NS/hqMYWohxX2C/a1SWzfaLVoKxjazBR2tAU8rYlaQcUyCsgPj1EE+zemII4+CFWISa+nLYxQ
+        7csRS9cE39lxwJ+l/y9w4Mldmxe1FmpO3+jq3LK3ThPDH2ZLuaP+y6Ja3mRCqn5iY/xke86OzJeZA
+        N91Hm3eQ==;
 Received: from 179.176.115.133.dynamic.adsl.gvt.net.br ([179.176.115.133] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hZnYO-0001mm-1f; Sun, 09 Jun 2019 02:27:28 +0000
+        id 1hZnYO-0001mg-23; Sun, 09 Jun 2019 02:27:29 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hZnYL-0000Ig-0l; Sat, 08 Jun 2019 23:27:25 -0300
+        id 1hZnYK-0000IJ-RZ; Sat, 08 Jun 2019 23:27:24 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Kees Cook <keescook@chromium.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v3 09/33] docs: fault-injection: convert docs to ReST and rename to *.rst
-Date:   Sat,  8 Jun 2019 23:26:59 -0300
-Message-Id: <5bbdd14f23a8fa66164ac38d84662091b90adddc.1560045490.git.mchehab+samsung@kernel.org>
+        Jens Axboe <axboe@kernel.dk>
+Subject: [PATCH v3 03/33] docs: cdrom-standard.tex: convert from LaTeX to ReST
+Date:   Sat,  8 Jun 2019 23:26:53 -0300
+Message-Id: <dd7d0a2ade51d6b02fdc668c2e8b37aa79a085de.1560045490.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1560045490.git.mchehab+samsung@kernel.org>
 References: <cover.1560045490.git.mchehab+samsung@kernel.org>
@@ -58,977 +52,1863 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The conversion is actually:
-  - add blank lines and identation in order to identify paragraphs;
-  - fix tables markups;
-  - add some lists markups;
-  - mark literal blocks;
-  - adjust title markups.
+This is the only LaTeX documentation file inside the documentation.
 
-At its new index.rst, let's add a :orphan: while this is not linked to
-the main index.rst file, in order to avoid build warnings.
+Instead of having a Latex document directly there, convert
+it to ReST format, as this is the format we're using for docs.
+
+For now, let's keep the extension as .txt in order to avoid
+warnings when building the documentation with Sphinx.
+
+The next patch patch will rename it to .rst and add it to the
+building system.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- ...ault-injection.txt => fault-injection.rst} | 265 +++++++++---------
- Documentation/fault-injection/index.rst       |  20 ++
- ...r-inject.txt => notifier-error-inject.rst} |  18 +-
- ...injection.txt => nvme-fault-injection.rst} | 174 ++++++------
- ...rovoke-crashes.txt => provoke-crashes.rst} |  40 ++-
- Documentation/process/4.Coding.rst            |   2 +-
- .../translations/it_IT/process/4.Coding.rst   |   2 +-
- .../translations/zh_CN/process/4.Coding.rst   |   2 +-
- drivers/misc/lkdtm/core.c                     |   2 +-
- include/linux/fault-inject.h                  |   2 +-
- lib/Kconfig.debug                             |   2 +-
- tools/testing/fault-injection/failcmd.sh      |   2 +-
- 12 files changed, 290 insertions(+), 241 deletions(-)
- rename Documentation/fault-injection/{fault-injection.txt => fault-injection.rst} (68%)
- create mode 100644 Documentation/fault-injection/index.rst
- rename Documentation/fault-injection/{notifier-error-inject.txt => notifier-error-inject.rst} (83%)
- rename Documentation/fault-injection/{nvme-fault-injection.txt => nvme-fault-injection.rst} (19%)
- rename Documentation/fault-injection/{provoke-crashes.txt => provoke-crashes.rst} (45%)
+ Documentation/cdrom/Makefile                  |   21 -
+ ...{cdrom-standard.tex => cdrom-standard.txt} | 1491 +++++++++--------
+ drivers/cdrom/cdrom.c                         |    2 +-
+ 3 files changed, 765 insertions(+), 749 deletions(-)
+ delete mode 100644 Documentation/cdrom/Makefile
+ rename Documentation/cdrom/{cdrom-standard.tex => cdrom-standard.txt} (26%)
 
-diff --git a/Documentation/fault-injection/fault-injection.txt b/Documentation/fault-injection/fault-injection.rst
-similarity index 68%
-rename from Documentation/fault-injection/fault-injection.txt
-rename to Documentation/fault-injection/fault-injection.rst
-index a17517a083c3..f51bb21d20e4 100644
---- a/Documentation/fault-injection/fault-injection.txt
-+++ b/Documentation/fault-injection/fault-injection.rst
-@@ -1,3 +1,4 @@
-+===========================================
- Fault injection capabilities infrastructure
- ===========================================
+diff --git a/Documentation/cdrom/Makefile b/Documentation/cdrom/Makefile
+deleted file mode 100644
+index a19e321928e1..000000000000
+--- a/Documentation/cdrom/Makefile
++++ /dev/null
+@@ -1,21 +0,0 @@
+-LATEXFILE = cdrom-standard
+-
+-all:
+-	make clean
+-	latex $(LATEXFILE)
+-	latex $(LATEXFILE)
+-	@if [ -x `which gv` ]; then \
+-		`dvips -q -t letter -o $(LATEXFILE).ps $(LATEXFILE).dvi` ;\
+-		`gv -antialias -media letter -nocenter $(LATEXFILE).ps` ;\
+-	else \
+-		`xdvi $(LATEXFILE).dvi &` ;\
+-	fi
+-	make sortofclean
+-
+-clean:
+-	rm -f $(LATEXFILE).ps $(LATEXFILE).dvi $(LATEXFILE).aux $(LATEXFILE).log 
+-
+-sortofclean:
+-	rm -f $(LATEXFILE).aux $(LATEXFILE).log 
+-
+-
+diff --git a/Documentation/cdrom/cdrom-standard.tex b/Documentation/cdrom/cdrom-standard.txt
+similarity index 26%
+rename from Documentation/cdrom/cdrom-standard.tex
+rename to Documentation/cdrom/cdrom-standard.txt
+index f7cd455973f7..dde4f7f7fdbf 100644
+--- a/Documentation/cdrom/cdrom-standard.tex
++++ b/Documentation/cdrom/cdrom-standard.txt
+@@ -1,488 +1,480 @@
+-\documentclass{article}
+-\def\version{$Id: cdrom-standard.tex,v 1.9 1997/12/28 15:42:49 david Exp $}
+-\newcommand{\newsection}[1]{\newpage\section{#1}}
++=======================
++A Linux CD-ROM standard
++=======================
  
-@@ -7,36 +8,36 @@ See also drivers/md/md-faulty.c and "every_nth" module option for scsi_debug.
- Available fault injection capabilities
- --------------------------------------
+-\evensidemargin=0pt
+-\oddsidemargin=0pt
+-\topmargin=-\headheight \advance\topmargin by -\headsep
+-\textwidth=15.99cm \textheight=24.62cm % normal A4, 1'' margin
++:Author: David van Leeuwen <david@ElseWare.cistron.nl>
++:Date: 12 March 1999
++:Updated by: Erik Andersen (andersee@debian.org)
++:Updated by: Jens Axboe (axboe@image.dk)
  
--o failslab
-+- failslab
+-\def\linux{{\sc Linux}}
+-\def\cdrom{{\sc cd-rom}}
+-\def\UCD{{\sc Uniform cd-rom Driver}}
+-\def\cdromc{{\tt {cdrom.c}}}
+-\def\cdromh{{\tt {cdrom.h}}}
+-\def\fo{\sl}                    % foreign words
+-\def\ie{{\fo i.e.}}
+-\def\eg{{\fo e.g.}}
  
-   injects slab allocation failures. (kmalloc(), kmem_cache_alloc(), ...)
+-\everymath{\it} \everydisplay{\it}
+-\catcode `\_=\active \def_{\_\penalty100 }
+-\catcode`\<=\active \def<#1>{{\langle\hbox{\rm#1}\rangle}}
++Introduction
++============
  
--o fail_page_alloc
-+- fail_page_alloc
- 
-   injects page allocation failures. (alloc_pages(), get_free_pages(), ...)
- 
--o fail_futex
-+- fail_futex
- 
-   injects futex deadlock and uaddr fault errors.
- 
--o fail_make_request
-+- fail_make_request
- 
-   injects disk IO errors on devices permitted by setting
-   /sys/block/<device>/make-it-fail or
-   /sys/block/<device>/<partition>/make-it-fail. (generic_make_request())
- 
--o fail_mmc_request
-+- fail_mmc_request
- 
-   injects MMC data errors on devices permitted by setting
-   debugfs entries under /sys/kernel/debug/mmc0/fail_mmc_request
- 
--o fail_function
-+- fail_function
- 
-   injects error return on specific functions, which are marked by
-   ALLOW_ERROR_INJECTION() macro, by setting debugfs entries
-   under /sys/kernel/debug/fail_function. No boot option supported.
- 
--o NVMe fault injection
-+- NVMe fault injection
- 
-   inject NVMe status code and retry flag on devices permitted by setting
-   debugfs entries under /sys/kernel/debug/nvme*/fault_inject. The default
-@@ -47,7 +48,8 @@ o NVMe fault injection
- Configure fault-injection capabilities behavior
- -----------------------------------------------
- 
--o debugfs entries
-+debugfs entries
-+^^^^^^^^^^^^^^^
- 
- fault-inject-debugfs kernel module provides some debugfs entries for runtime
- configuration of fault-injection capabilities.
-@@ -55,6 +57,7 @@ configuration of fault-injection capabilities.
- - /sys/kernel/debug/fail*/probability:
- 
- 	likelihood of failure injection, in percent.
+-\begin{document}
+-\title{A \linux\ \cdrom\ standard}
+-\author{David van Leeuwen\\{\normalsize\tt david@ElseWare.cistron.nl}
+-\\{\footnotesize updated by Erik Andersen {\tt(andersee@debian.org)}}
+-\\{\footnotesize updated by Jens Axboe {\tt(axboe@image.dk)}}}
+-\date{12 March 1999}
+-
+-\maketitle
+-
+-\newsection{Introduction}
+-
+-\linux\ is probably the Unix-like operating system that supports
++Linux is probably the Unix-like operating system that supports
+ the widest variety of hardware devices. The reasons for this are
+-presumably 
+-\begin{itemize} 
+-\item 
+-  The large list of hardware devices available for the many platforms
+-  that \linux\ now supports (\ie, i386-PCs, Sparc Suns, etc.)
+-\item 
+-  The open design of the operating system, such that anybody can write a
+-  driver for \linux.
+-\item 
+-  There is plenty of source code around as examples of how to write a driver.
+-\end{itemize}
+-The openness of \linux, and the many different types of available
+-hardware has allowed \linux\ to support many different hardware devices.
+-Unfortunately, the very openness that has allowed \linux\ to support
++presumably
 +
- 	Format: <percent>
- 
- 	Note that one-failure-per-hundred is a very high error rate
-@@ -83,6 +86,7 @@ configuration of fault-injection capabilities.
- - /sys/kernel/debug/fail*/verbose
- 
- 	Format: { 0 | 1 | 2 }
++- The large list of hardware devices available for the many platforms
++  that Linux now supports (i.e., i386-PCs, Sparc Suns, etc.)
++- The open design of the operating system, such that anybody can write a
++  driver for Linux.
++- There is plenty of source code around as examples of how to write a driver.
 +
- 	specifies the verbosity of the messages when failure is
- 	injected.  '0' means no messages; '1' will print only a single
- 	log line per failure; '2' will print a call trace too -- useful
-@@ -91,14 +95,15 @@ configuration of fault-injection capabilities.
- - /sys/kernel/debug/fail*/task-filter:
++The openness of Linux, and the many different types of available
++hardware has allowed Linux to support many different hardware devices.
++Unfortunately, the very openness that has allowed Linux to support
+ all these different devices has also allowed the behavior of each
+ device driver to differ significantly from one device to another.
+-This divergence of behavior has been very significant for \cdrom\
+-devices; the way a particular drive reacts to a `standard' $ioctl()$
++This divergence of behavior has been very significant for CD-ROM
++devices; the way a particular drive reacts to a `standard` *ioctl()*
+ call varies greatly from one device driver to another. To avoid making
+-their drivers totally inconsistent, the writers of \linux\ \cdrom\
++their drivers totally inconsistent, the writers of Linux CD-ROM
+ drivers generally created new device drivers by understanding, copying,
+ and then changing an existing one. Unfortunately, this practice did not
+-maintain uniform behavior across all the \linux\ \cdrom\ drivers. 
++maintain uniform behavior across all the Linux CD-ROM drivers.
  
- 	Format: { 'Y' | 'N' }
+ This document describes an effort to establish Uniform behavior across
+-all the different \cdrom\ device drivers for \linux. This document also
+-defines the various $ioctl$s, and how the low-level \cdrom\ device
+-drivers should implement them. Currently (as of the \linux\ 2.1.$x$
+-development kernels) several low-level \cdrom\ device drivers, including
++all the different CD-ROM device drivers for Linux. This document also
++defines the various *ioctl()'s*, and how the low-level CD-ROM device
++drivers should implement them. Currently (as of the Linux 2.1.\ *x*
++development kernels) several low-level CD-ROM device drivers, including
+ both IDE/ATAPI and SCSI, now use this Uniform interface.
+ 
+-When the \cdrom\ was developed, the interface between the \cdrom\ drive
++When the CD-ROM was developed, the interface between the CD-ROM drive
+ and the computer was not specified in the standards. As a result, many
+-different \cdrom\ interfaces were developed. Some of them had their
++different CD-ROM interfaces were developed. Some of them had their
+ own proprietary design (Sony, Mitsumi, Panasonic, Philips), other
+ manufacturers adopted an existing electrical interface and changed
+ the functionality (CreativeLabs/SoundBlaster, Teac, Funai) or simply
+ adapted their drives to one or more of the already existing electrical
+ interfaces (Aztech, Sanyo, Funai, Vertos, Longshine, Optics Storage and
+-most of the `NoName' manufacturers). In cases where a new drive really
++most of the `NoName` manufacturers). In cases where a new drive really
+ brought its own interface or used its own command set and flow control
+ scheme, either a separate driver had to be written, or an existing
+-driver had to be enhanced. History has delivered us \cdrom\ support for
+-many of these different interfaces. Nowadays, almost all new \cdrom\
++driver had to be enhanced. History has delivered us CD-ROM support for
++many of these different interfaces. Nowadays, almost all new CD-ROM
+ drives are either IDE/ATAPI or SCSI, and it is very unlikely that any
+ manufacturer will create a new interface. Even finding drives for the
+ old proprietary interfaces is getting difficult.
+ 
+ When (in the 1.3.70's) I looked at the existing software interface,
+-which was expressed through \cdromh, it appeared to be a rather wild
+-set of commands and data formats.\footnote{I cannot recollect what
+-kernel version I looked at, then, presumably 1.2.13 and 1.3.34---the
+-latest kernel that I was indirectly involved in.} It seemed that many
++which was expressed through `cdrom.h`, it appeared to be a rather wild
++set of commands and data formats [#f1]_. It seemed that many
+ features of the software interface had been added to accommodate the
+-capabilities of a particular drive, in an {\fo ad hoc\/} manner. More
+-importantly, it appeared that the behavior of the `standard' commands
+-was different for most of the different drivers: \eg, some drivers
+-close the tray if an $open()$ call occurs when the tray is open, while
++capabilities of a particular drive, in an *ad hoc* manner. More
++importantly, it appeared that the behavior of the `standard` commands
++was different for most of the different drivers: e. g., some drivers
++close the tray if an *open()* call occurs when the tray is open, while
+ others do not. Some drivers lock the door upon opening the device, to
+ prevent an incoherent file system, but others don't, to allow software
+ ejection. Undoubtedly, the capabilities of the different drives vary,
+ but even when two drives have the same capability their drivers'
+ behavior was usually different.
+ 
+-I decided to start a discussion on how to make all the \linux\ \cdrom\
++.. [#f1]
++   I cannot recollect what kernel version I looked at, then,
++   presumably 1.2.13 and 1.3.34 --- the latest kernel that I was
++   indirectly involved in.
 +
- 	A value of 'N' disables filtering by process (default).
- 	Any positive value limits failures to only processes indicated by
- 	/proc/<pid>/make-it-fail==1.
++I decided to start a discussion on how to make all the Linux CD-ROM
+ drivers behave more uniformly. I began by contacting the developers of
+-the many \cdrom\ drivers found in the \linux\ kernel. Their reactions
+-encouraged me to write the \UCD\ which this document is intended to
+-describe. The implementation of the \UCD\ is in the file \cdromc. This
+-driver is intended to be an additional software layer that sits on top
+-of the low-level device drivers for each \cdrom\ drive. By adding this
+-additional layer, it is possible to have all the different \cdrom\
+-devices behave {\em exactly\/} the same (insofar as the underlying
++the many CD-ROM drivers found in the Linux kernel. Their reactions
++encouraged me to write the Uniform CD-ROM Driver which this document is
++intended to describe. The implementation of the Uniform CD-ROM Driver is
++in the file `cdrom.c`. This driver is intended to be an additional software
++layer that sits on top of the low-level device drivers for each CD-ROM drive.
++By adding this additional layer, it is possible to have all the different
++CD-ROM devices behave **exactly** the same (insofar as the underlying
+ hardware will allow).
  
--- /sys/kernel/debug/fail*/require-start:
--- /sys/kernel/debug/fail*/require-end:
--- /sys/kernel/debug/fail*/reject-start:
--- /sys/kernel/debug/fail*/reject-end:
-+- /sys/kernel/debug/fail*/require-start,
-+  /sys/kernel/debug/fail*/require-end,
-+  /sys/kernel/debug/fail*/reject-start,
-+  /sys/kernel/debug/fail*/reject-end:
+-The goal of the \UCD\ is {\em not\/} to alienate driver developers who
+-have not yet taken steps to support this effort. The goal of \UCD\ is
+-simply to give people writing application programs for \cdrom\ drives
+-{\em one\/} \linux\ \cdrom\ interface with consistent behavior for all
+-\cdrom\ devices. In addition, this also provides a consistent interface
+-between the low-level device driver code and the \linux\ kernel. Care
+-is taken that 100\,\% compatibility exists with the data structures and
+-programmer's interface defined in \cdromh. This guide was written to
+-help \cdrom\ driver developers adapt their code to use the \UCD\ code
+-defined in \cdromc.
++The goal of the Uniform CD-ROM Driver is **not** to alienate driver developers
++whohave not yet taken steps to support this effort. The goal of Uniform CD-ROM
++Driver is simply to give people writing application programs for CD-ROM drives
++**one** Linux CD-ROM interface with consistent behavior for all
++CD-ROM devices. In addition, this also provides a consistent interface
++between the low-level device driver code and the Linux kernel. Care
++is taken that 100% compatibility exists with the data structures and
++programmer's interface defined in `cdrom.h`. This guide was written to
++help CD-ROM driver developers adapt their code to use the Uniform CD-ROM
++Driver code defined in `cdrom.c`.
  
- 	specifies the range of virtual addresses tested during
- 	stacktrace walking.  Failure is injected only if some caller
-@@ -116,6 +121,7 @@ configuration of fault-injection capabilities.
- - /sys/kernel/debug/fail_page_alloc/ignore-gfp-highmem:
+ Personally, I think that the most important hardware interfaces are
+ the IDE/ATAPI drives and, of course, the SCSI drives, but as prices
+ of hardware drop continuously, it is also likely that people may have
+-more than one \cdrom\ drive, possibly of mixed types. It is important
++more than one CD-ROM drive, possibly of mixed types. It is important
+ that these drives behave in the same way. In December 1994, one of the
+-cheapest \cdrom\ drives was a Philips cm206, a double-speed proprietary
+-drive. In the months that I was busy writing a \linux\ driver for it,
++cheapest CD-ROM drives was a Philips cm206, a double-speed proprietary
++drive. In the months that I was busy writing a Linux driver for it,
+ proprietary drives became obsolete and IDE/ATAPI drives became the
+ standard. At the time of the last update to this document (November
+-1997) it is becoming difficult to even {\em find} anything less than a
+-16 speed \cdrom\ drive, and 24 speed drives are common.
++1997) it is becoming difficult to even **find** anything less than a
++16 speed CD-ROM drive, and 24 speed drives are common.
  
- 	Format: { 'Y' | 'N' }
+-\newsection{Standardizing through another software level}
+-\label{cdrom.c}
++.. _cdrom_api:
 +
- 	default is 'N', setting it to 'Y' won't inject failures into
- 	highmem/user allocations.
++Standardizing through another software level
++============================================
  
-@@ -123,6 +129,7 @@ configuration of fault-injection capabilities.
- - /sys/kernel/debug/fail_page_alloc/ignore-gfp-wait:
+ At the time this document was conceived, all drivers directly
+-implemented the \cdrom\ $ioctl()$ calls through their own routines. This
++implemented the CD-ROM *ioctl()* calls through their own routines. This
+ led to the danger of different drivers forgetting to do important things
+ like checking that the user was giving the driver valid data. More
+ importantly, this led to the divergence of behavior, which has already
+ been discussed.
  
- 	Format: { 'Y' | 'N' }
-+
- 	default is 'N', setting it to 'Y' will inject failures
- 	only into non-sleep allocations (GFP_ATOMIC allocations).
+-For this reason, the \UCD\ was created to enforce consistent \cdrom\
+-drive behavior, and to provide a common set of services to the various
+-low-level \cdrom\ device drivers. The \UCD\ now provides another
+-software-level, that separates the $ioctl()$ and $open()$ implementation
++For this reason, the Uniform CD-ROM Driver was created to enforce consistent
++CD-ROM drive behavior, and to provide a common set of services to the various
++low-level CD-ROM device drivers. The Uniform CD-ROM Driver now provides another
++software-level, that separates the *ioctl()* and *open()* implementation
+ from the actual hardware implementation. Note that this effort has
+ made few changes which will affect a user's application programs. The
+ greatest change involved moving the contents of the various low-level
+-\cdrom\ drivers' header files to the kernel's cdrom directory. This was
++CD-ROM drivers\' header files to the kernel's cdrom directory. This was
+ done to help ensure that the user is only presented with only one cdrom
+-interface, the interface defined in \cdromh.
++interface, the interface defined in `cdrom.h`.
  
-@@ -134,12 +141,14 @@ configuration of fault-injection capabilities.
- - /sys/kernel/debug/fail_futex/ignore-private:
+-\cdrom\ drives are specific enough (\ie, different from other
++CD-ROM drives are specific enough (i. e., different from other
+ block-devices such as floppy or hard disc drives), to define a set
+-of common {\em \cdrom\ device operations}, $<cdrom-device>_dops$.
++of common **CD-ROM device operations**, *<cdrom-device>_dops*.
+ These operations are different from the classical block-device file
+-operations, $<block-device>_fops$.
++operations, *<block-device>_fops*.
  
- 	Format: { 'Y' | 'N' }
-+
- 	default is 'N', setting it to 'Y' will disable failure injections
- 	when dealing with private (address space) futexes.
- 
- - /sys/kernel/debug/fail_function/inject:
- 
- 	Format: { 'function-name' | '!function-name' | '' }
-+
- 	specifies the target function of error injection by name.
- 	If the function name leads '!' prefix, given function is
- 	removed from injection list. If nothing specified ('')
-@@ -160,10 +169,11 @@ configuration of fault-injection capabilities.
- 	function for given function. This will be created when
- 	user specifies new injection entry.
- 
--o Boot option
-+Boot option
-+^^^^^^^^^^^
- 
- In order to inject faults while debugfs is not available (early boot time),
--use the boot option:
-+use the boot option::
- 
- 	failslab=
- 	fail_page_alloc=
-@@ -171,10 +181,11 @@ use the boot option:
- 	fail_futex=
- 	mmc_core.fail_request=<interval>,<probability>,<space>,<times>
- 
--o proc entries
-+proc entries
-+^^^^^^^^^^^^
- 
--- /proc/<pid>/fail-nth:
--- /proc/self/task/<tid>/fail-nth:
-+- /proc/<pid>/fail-nth,
-+  /proc/self/task/<tid>/fail-nth:
- 
- 	Write to this file of integer N makes N-th call in the task fail.
- 	Read from this file returns a integer value. A value of '0' indicates
-@@ -191,16 +202,16 @@ o proc entries
- How to add new fault injection capability
- -----------------------------------------
- 
--o #include <linux/fault-inject.h>
-+- #include <linux/fault-inject.h>
- 
--o define the fault attributes
-+- define the fault attributes
- 
-   DECLARE_FAULT_ATTR(name);
- 
-   Please see the definition of struct fault_attr in fault-inject.h
-   for details.
- 
--o provide a way to configure fault attributes
-+- provide a way to configure fault attributes
- 
- - boot option
- 
-@@ -222,126 +233,126 @@ o provide a way to configure fault attributes
-   single kernel module, it is better to provide module parameters to
-   configure the fault attributes.
- 
--o add a hook to insert failures
-+- add a hook to insert failures
- 
--  Upon should_fail() returning true, client code should inject a failure.
-+  Upon should_fail() returning true, client code should inject a failure:
- 
- 	should_fail(attr, size);
- 
- Application Examples
- --------------------
- 
--o Inject slab allocation failures into module init/exit code
-+- Inject slab allocation failures into module init/exit code::
- 
--#!/bin/bash
-+    #!/bin/bash
- 
--FAILTYPE=failslab
--echo Y > /sys/kernel/debug/$FAILTYPE/task-filter
--echo 10 > /sys/kernel/debug/$FAILTYPE/probability
--echo 100 > /sys/kernel/debug/$FAILTYPE/interval
--echo -1 > /sys/kernel/debug/$FAILTYPE/times
--echo 0 > /sys/kernel/debug/$FAILTYPE/space
--echo 2 > /sys/kernel/debug/$FAILTYPE/verbose
--echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-wait
-+    FAILTYPE=failslab
-+    echo Y > /sys/kernel/debug/$FAILTYPE/task-filter
-+    echo 10 > /sys/kernel/debug/$FAILTYPE/probability
-+    echo 100 > /sys/kernel/debug/$FAILTYPE/interval
-+    echo -1 > /sys/kernel/debug/$FAILTYPE/times
-+    echo 0 > /sys/kernel/debug/$FAILTYPE/space
-+    echo 2 > /sys/kernel/debug/$FAILTYPE/verbose
-+    echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-wait
- 
--faulty_system()
--{
-+    faulty_system()
-+    {
- 	bash -c "echo 1 > /proc/self/make-it-fail && exec $*"
+-The routines for the \UCD\ interface level are implemented in the file
+-\cdromc. In this file, the \UCD\ interfaces with the kernel as a block
+-device by registering the following general $struct\ file_operations$:
+-$$
+-\halign{$#$\ \hfil&$#$\ \hfil&$/*$ \rm# $*/$\hfil\cr
+-struct& file_operations\ cdrom_fops = \{\hidewidth\cr
+-        &NULL,                  & lseek \cr
+-        &block_read,            & read---general block-dev read \cr
+-        &block_write,           & write---general block-dev write \cr
+-        &NULL,                  & readdir \cr
+-        &NULL,                  & select \cr
+-        &cdrom_ioctl,           & ioctl \cr
+-        &NULL,                  & mmap \cr
+-        &cdrom_open,            & open \cr
+-        &cdrom_release,         & release \cr
+-        &NULL,                  & fsync \cr
+-        &NULL,                  & fasync \cr
+-        &cdrom_media_changed,   & media change \cr
+-        &NULL                   & revalidate \cr
+-\};\cr
 -}
-+    }
+-$$ 
++The routines for the Uniform CD-ROM Driver interface level are implemented
++in the file `cdrom.c`. In this file, the Uniform CD-ROM Driver interfaces
++with the kernel as a block device by registering the following general
++*struct file_operations*::
  
--if [ $# -eq 0 ]
--then
-+    if [ $# -eq 0 ]
-+    then
- 	echo "Usage: $0 modulename [ modulename ... ]"
- 	exit 1
--fi
-+    fi
+-Every active \cdrom\ device shares this $struct$. The routines
+-declared above are all implemented in \cdromc, since this file is the
+-place where the behavior of all \cdrom-devices is defined and
+-standardized. The actual interface to the various types of \cdrom\ 
+-hardware is still performed by various low-level \cdrom-device
+-drivers. These routines simply implement certain {\em capabilities\/}
+-that are common to all \cdrom\ (and really, all removable-media
++	struct file_operations cdrom_fops = {
++		NULL,			/∗ lseek ∗/
++		block _read ,		/∗ read—general block-dev read ∗/
++		block _write,		/∗ write—general block-dev write ∗/
++		NULL,			/∗ readdir ∗/
++		NULL,			/∗ select ∗/
++		cdrom_ioctl,		/∗ ioctl ∗/
++		NULL,			/∗ mmap ∗/
++		cdrom_open,		/∗ open ∗/
++		cdrom_release,		/∗ release ∗/
++		NULL,			/∗ fsync ∗/
++		NULL,			/∗ fasync ∗/
++		cdrom_media_changed,	/∗ media change ∗/
++		NULL			/∗ revalidate ∗/
++	};
++
++Every active CD-ROM device shares this *struct*. The routines
++declared above are all implemented in `cdrom.c`, since this file is the
++place where the behavior of all CD-ROM-devices is defined and
++standardized. The actual interface to the various types of CD-ROM
++hardware is still performed by various low-level CD-ROM-device
++drivers. These routines simply implement certain **capabilities**
++that are common to all CD-ROM (and really, all removable-media
+ devices).
  
--for m in $*
--do
-+    for m in $*
-+    do
- 	echo inserting $m...
- 	faulty_system modprobe $m
+-Registration of a low-level \cdrom\ device driver is now done through
+-the general routines in \cdromc, not through the Virtual File System
+-(VFS) any more. The interface implemented in \cdromc\ is carried out
++Registration of a low-level CD-ROM device driver is now done through
++the general routines in `cdrom.c`, not through the Virtual File System
++(VFS) any more. The interface implemented in `cdrom.c` is carried out
+ through two general structures that contain information about the
+ capabilities of the driver, and the specific drives on which the
+ driver operates. The structures are:
+-\begin{description}
+-\item[$cdrom_device_ops$] 
++
++cdrom_device_ops
+   This structure contains information about the low-level driver for a
+-  \cdrom\ device. This structure is conceptually connected to the major
++  CD-ROM device. This structure is conceptually connected to the major
+   number of the device (although some drivers may have different
+   major numbers, as is the case for the IDE driver).
+-\item[$cdrom_device_info$] 
+-  This structure contains information about a particular \cdrom\ drive,
++
++cdrom_device_info
++  This structure contains information about a particular CD-ROM drive,
+   such as its device name, speed, etc. This structure is conceptually
+   connected to the minor number of the device.
+-\end{description}
  
- 	echo removing $m...
- 	faulty_system modprobe -r $m
--done
-+    done
+-Registering a particular \cdrom\ drive with the \UCD\ is done by the
+-low-level device driver though a call to:
+-$$register_cdrom(struct\ cdrom_device_info * <device>_info)  
+-$$
+-The device information structure, $<device>_info$, contains all the
++Registering a particular CD-ROM drive with the Uniform CD-ROM Driver
++is done by the low-level device driver though a call to::
++
++	register_cdrom(struct cdrom_device_info * <device>_info)
++
++The device information structure, *<device>_info*, contains all the
+ information needed for the kernel to interface with the low-level
+-\cdrom\ device driver. One of the most important entries in this
+-structure is a pointer to the $cdrom_device_ops$ structure of the
++CD-ROM device driver. One of the most important entries in this
++structure is a pointer to the *cdrom_device_ops* structure of the
+ low-level driver.
  
- ------------------------------------------------------------------------------
- 
--o Inject page allocation failures only for a specific module
-+- Inject page allocation failures only for a specific module::
- 
--#!/bin/bash
-+    #!/bin/bash
- 
--FAILTYPE=fail_page_alloc
--module=$1
-+    FAILTYPE=fail_page_alloc
-+    module=$1
- 
--if [ -z $module ]
--then
-+    if [ -z $module ]
-+    then
- 	echo "Usage: $0 <modulename>"
- 	exit 1
--fi
-+    fi
- 
--modprobe $module
-+    modprobe $module
- 
--if [ ! -d /sys/module/$module/sections ]
--then
-+    if [ ! -d /sys/module/$module/sections ]
-+    then
- 	echo Module $module is not loaded
- 	exit 1
--fi
-+    fi
- 
--cat /sys/module/$module/sections/.text > /sys/kernel/debug/$FAILTYPE/require-start
--cat /sys/module/$module/sections/.data > /sys/kernel/debug/$FAILTYPE/require-end
-+    cat /sys/module/$module/sections/.text > /sys/kernel/debug/$FAILTYPE/require-start
-+    cat /sys/module/$module/sections/.data > /sys/kernel/debug/$FAILTYPE/require-end
- 
--echo N > /sys/kernel/debug/$FAILTYPE/task-filter
--echo 10 > /sys/kernel/debug/$FAILTYPE/probability
--echo 100 > /sys/kernel/debug/$FAILTYPE/interval
--echo -1 > /sys/kernel/debug/$FAILTYPE/times
--echo 0 > /sys/kernel/debug/$FAILTYPE/space
--echo 2 > /sys/kernel/debug/$FAILTYPE/verbose
--echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-wait
--echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-highmem
--echo 10 > /sys/kernel/debug/$FAILTYPE/stacktrace-depth
-+    echo N > /sys/kernel/debug/$FAILTYPE/task-filter
-+    echo 10 > /sys/kernel/debug/$FAILTYPE/probability
-+    echo 100 > /sys/kernel/debug/$FAILTYPE/interval
-+    echo -1 > /sys/kernel/debug/$FAILTYPE/times
-+    echo 0 > /sys/kernel/debug/$FAILTYPE/space
-+    echo 2 > /sys/kernel/debug/$FAILTYPE/verbose
-+    echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-wait
-+    echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-highmem
-+    echo 10 > /sys/kernel/debug/$FAILTYPE/stacktrace-depth
- 
--trap "echo 0 > /sys/kernel/debug/$FAILTYPE/probability" SIGINT SIGTERM EXIT
-+    trap "echo 0 > /sys/kernel/debug/$FAILTYPE/probability" SIGINT SIGTERM EXIT
- 
--echo "Injecting errors into the module $module... (interrupt to stop)"
--sleep 1000000
-+    echo "Injecting errors into the module $module... (interrupt to stop)"
-+    sleep 1000000
- 
- ------------------------------------------------------------------------------
- 
--o Inject open_ctree error while btrfs mount
-+- Inject open_ctree error while btrfs mount::
- 
--#!/bin/bash
-+    #!/bin/bash
- 
--rm -f testfile.img
--dd if=/dev/zero of=testfile.img bs=1M seek=1000 count=1
--DEVICE=$(losetup --show -f testfile.img)
--mkfs.btrfs -f $DEVICE
--mkdir -p tmpmnt
-+    rm -f testfile.img
-+    dd if=/dev/zero of=testfile.img bs=1M seek=1000 count=1
-+    DEVICE=$(losetup --show -f testfile.img)
-+    mkfs.btrfs -f $DEVICE
-+    mkdir -p tmpmnt
- 
--FAILTYPE=fail_function
--FAILFUNC=open_ctree
--echo $FAILFUNC > /sys/kernel/debug/$FAILTYPE/inject
--echo -12 > /sys/kernel/debug/$FAILTYPE/$FAILFUNC/retval
--echo N > /sys/kernel/debug/$FAILTYPE/task-filter
--echo 100 > /sys/kernel/debug/$FAILTYPE/probability
--echo 0 > /sys/kernel/debug/$FAILTYPE/interval
--echo -1 > /sys/kernel/debug/$FAILTYPE/times
--echo 0 > /sys/kernel/debug/$FAILTYPE/space
--echo 1 > /sys/kernel/debug/$FAILTYPE/verbose
-+    FAILTYPE=fail_function
-+    FAILFUNC=open_ctree
-+    echo $FAILFUNC > /sys/kernel/debug/$FAILTYPE/inject
-+    echo -12 > /sys/kernel/debug/$FAILTYPE/$FAILFUNC/retval
-+    echo N > /sys/kernel/debug/$FAILTYPE/task-filter
-+    echo 100 > /sys/kernel/debug/$FAILTYPE/probability
-+    echo 0 > /sys/kernel/debug/$FAILTYPE/interval
-+    echo -1 > /sys/kernel/debug/$FAILTYPE/times
-+    echo 0 > /sys/kernel/debug/$FAILTYPE/space
-+    echo 1 > /sys/kernel/debug/$FAILTYPE/verbose
- 
--mount -t btrfs $DEVICE tmpmnt
--if [ $? -ne 0 ]
--then
-+    mount -t btrfs $DEVICE tmpmnt
-+    if [ $? -ne 0 ]
-+    then
- 	echo "SUCCESS!"
--else
-+    else
- 	echo "FAILED!"
- 	umount tmpmnt
--fi
-+    fi
- 
--echo > /sys/kernel/debug/$FAILTYPE/inject
-+    echo > /sys/kernel/debug/$FAILTYPE/inject
- 
--rmdir tmpmnt
--losetup -d $DEVICE
--rm testfile.img
-+    rmdir tmpmnt
-+    losetup -d $DEVICE
-+    rm testfile.img
- 
- 
- Tool to run command with failslab or fail_page_alloc
-@@ -354,43 +365,43 @@ see the following examples.
- Examples:
- 
- Run a command "make -C tools/testing/selftests/ run_tests" with injecting slab
--allocation failure.
-+allocation failure::
- 
- 	# ./tools/testing/fault-injection/failcmd.sh \
- 		-- make -C tools/testing/selftests/ run_tests
- 
- Same as above except to specify 100 times failures at most instead of one time
--at most by default.
-+at most by default::
- 
- 	# ./tools/testing/fault-injection/failcmd.sh --times=100 \
- 		-- make -C tools/testing/selftests/ run_tests
- 
- Same as above except to inject page allocation failure instead of slab
--allocation failure.
-+allocation failure::
- 
- 	# env FAILCMD_TYPE=fail_page_alloc \
- 		./tools/testing/fault-injection/failcmd.sh --times=100 \
--                -- make -C tools/testing/selftests/ run_tests
-+		-- make -C tools/testing/selftests/ run_tests
- 
- Systematic faults using fail-nth
- ---------------------------------
- 
- The following code systematically faults 0-th, 1-st, 2-nd and so on
--capabilities in the socketpair() system call.
-+capabilities in the socketpair() system call::
- 
--#include <sys/types.h>
--#include <sys/stat.h>
--#include <sys/socket.h>
--#include <sys/syscall.h>
--#include <fcntl.h>
--#include <unistd.h>
--#include <string.h>
--#include <stdlib.h>
--#include <stdio.h>
--#include <errno.h>
-+  #include <sys/types.h>
-+  #include <sys/stat.h>
-+  #include <sys/socket.h>
-+  #include <sys/syscall.h>
-+  #include <fcntl.h>
-+  #include <unistd.h>
-+  #include <string.h>
-+  #include <stdlib.h>
-+  #include <stdio.h>
-+  #include <errno.h>
- 
--int main()
--{
-+  int main()
-+  {
- 	int i, err, res, fail_nth, fds[2];
- 	char buf[128];
- 
-@@ -413,23 +424,23 @@ int main()
- 			break;
- 	}
- 	return 0;
+-The device operations structure, $cdrom_device_ops$, contains a list
++The device operations structure, *cdrom_device_ops*, contains a list
+ of pointers to the functions which are implemented in the low-level
+-device driver. When \cdromc\ accesses a \cdrom\ device, it does it
++device driver. When `cdrom.c` accesses a CD-ROM device, it does it
+ through the functions in this structure. It is impossible to know all
+-the capabilities of future \cdrom\ drives, so it is expected that this
++the capabilities of future CD-ROM drives, so it is expected that this
+ list may need to be expanded from time to time as new technologies are
+ developed. For example, CD-R and CD-R/W drives are beginning to become
+ popular, and support will soon need to be added for them. For now, the
+-current $struct$ is:
+-$$
+-\halign{$#$\ \hfil&$#$\ \hfil&\hbox to 10em{$#$\hss}&
+-  $/*$ \rm# $*/$\hfil\cr
+-struct& cdrom_device_ops\ \{ \hidewidth\cr
+-  &int& (* open)(struct\ cdrom_device_info *, int)\cr
+-  &void& (* release)(struct\ cdrom_device_info *);\cr 
+-  &int& (* drive_status)(struct\ cdrom_device_info *, int);\cr     
+-  &unsigned\ int& (* check_events)(struct\ cdrom_device_info *, unsigned\ int, int);\cr
+-  &int& (* media_changed)(struct\ cdrom_device_info *, int);\cr 
+-  &int& (* tray_move)(struct\ cdrom_device_info *, int);\cr
+-  &int& (* lock_door)(struct\ cdrom_device_info *, int);\cr
+-  &int& (* select_speed)(struct\ cdrom_device_info *, int);\cr
+-  &int& (* select_disc)(struct\ cdrom_device_info *, int);\cr
+-  &int& (* get_last_session) (struct\ cdrom_device_info *, 
+-        struct\ cdrom_multisession *{});\cr
+-  &int& (* get_mcn)(struct\ cdrom_device_info *, struct\ cdrom_mcn *{});\cr
+-  &int& (* reset)(struct\ cdrom_device_info *);\cr
+-  &int& (* audio_ioctl)(struct\ cdrom_device_info *, unsigned\ int, 
+-        void *{});\cr 
+-\noalign{\medskip}
+-  &const\ int& capability;& capability flags \cr
+-  &int& (* generic_packet)(struct\ cdrom_device_info *, struct\ packet_command *{});\cr
+-\};\cr
 -}
-+  }
- 
--An example output:
-+An example output::
- 
--1-th fault Y: res=-1/23
--2-th fault Y: res=-1/23
--3-th fault Y: res=-1/12
--4-th fault Y: res=-1/12
--5-th fault Y: res=-1/23
--6-th fault Y: res=-1/23
--7-th fault Y: res=-1/23
--8-th fault Y: res=-1/12
--9-th fault Y: res=-1/12
--10-th fault Y: res=-1/12
--11-th fault Y: res=-1/12
--12-th fault Y: res=-1/12
--13-th fault Y: res=-1/12
--14-th fault Y: res=-1/12
--15-th fault Y: res=-1/12
--16-th fault N: res=0/12
-+	1-th fault Y: res=-1/23
-+	2-th fault Y: res=-1/23
-+	3-th fault Y: res=-1/12
-+	4-th fault Y: res=-1/12
-+	5-th fault Y: res=-1/23
-+	6-th fault Y: res=-1/23
-+	7-th fault Y: res=-1/23
-+	8-th fault Y: res=-1/12
-+	9-th fault Y: res=-1/12
-+	10-th fault Y: res=-1/12
-+	11-th fault Y: res=-1/12
-+	12-th fault Y: res=-1/12
-+	13-th fault Y: res=-1/12
-+	14-th fault Y: res=-1/12
-+	15-th fault Y: res=-1/12
-+	16-th fault N: res=0/12
-diff --git a/Documentation/fault-injection/index.rst b/Documentation/fault-injection/index.rst
-new file mode 100644
-index 000000000000..92b5639ed07a
---- /dev/null
-+++ b/Documentation/fault-injection/index.rst
-@@ -0,0 +1,20 @@
-+:orphan:
+-$$
++current *struct* is::
 +
-+===============
-+fault-injection
-+===============
++	struct cdrom_device_ops {
++		int (*open)(struct cdrom_device_info *, int)
++		void (*release)(struct cdrom_device_info *);
++		int (*drive_status)(struct cdrom_device_info *, int);
++		unsigned int (*check_events)(struct cdrom_device_info *,
++					     unsigned int, int);
++		int (*media_changed)(struct cdrom_device_info *, int);
++		int (*tray_move)(struct cdrom_device_info *, int);
++		int (*lock_door)(struct cdrom_device_info *, int);
++		int (*select_speed)(struct cdrom_device_info *, int);
++		int (*select_disc)(struct cdrom_device_info *, int);
++		int (*get_last_session) (struct cdrom_device_info *,
++					 struct cdrom_multisession *);
++		int (*get_mcn)(struct cdrom_device_info *, struct cdrom_mcn *);
++		int (*reset)(struct cdrom_device_info *);
++		int (*audio_ioctl)(struct cdrom_device_info *,
++				   unsigned int, void *);
++		const int capability;		/* capability flags */
++		int (*generic_packet)(struct cdrom_device_info *,
++				      struct packet_command *);
++	};
 +
-+.. toctree::
-+    :maxdepth: 1
+ When a low-level device driver implements one of these capabilities,
+-it should add a function pointer to this $struct$. When a particular
+-function is not implemented, however, this $struct$ should contain a
+-NULL instead. The $capability$ flags specify the capabilities of the
+-\cdrom\ hardware and/or low-level \cdrom\ driver when a \cdrom\ drive
+-is registered with the \UCD.
++it should add a function pointer to this *struct*. When a particular
++function is not implemented, however, this *struct* should contain a
++NULL instead. The *capability* flags specify the capabilities of the
++CD-ROM hardware and/or low-level CD-ROM driver when a CD-ROM drive
++is registered with the Uniform CD-ROM Driver.
+ 
+ Note that most functions have fewer parameters than their
+-$blkdev_fops$ counterparts. This is because very little of the
+-information in the structures $inode$ and $file$ is used. For most
+-drivers, the main parameter is the $struct$ $cdrom_device_info$, from
++*blkdev_fops* counterparts. This is because very little of the
++information in the structures *inode* and *file* is used. For most
++drivers, the main parameter is the *struct* *cdrom_device_info*, from
+ which the major and minor number can be extracted. (Most low-level
+-\cdrom\ drivers don't even look at the major and minor number though,
++CD-ROM drivers don't even look at the major and minor number though,
+ since many of them only support one device.) This will be available
+-through $dev$ in $cdrom_device_info$ described below.
++through *dev* in *cdrom_device_info* described below.
+ 
+ The drive-specific, minor-like information that is registered with
+-\cdromc, currently contains the following fields:
+-$$
+-\halign{$#$\ \hfil&$#$\ \hfil&\hbox to 10em{$#$\hss}&
+-  $/*$ \rm# $*/$\hfil\cr
+-struct& cdrom_device_info\ \{ \hidewidth\cr
+-  & const\ struct\ cdrom_device_ops *& ops;& device operations for this major\cr
+-  & struct\ list_head& list;& linked list of all device_info\cr
+-  & struct\ gendisk *& disk;& matching block layer disk\cr
+-  & void *&  handle;& driver-dependent data\cr
+-\noalign{\medskip}
+-  & int& mask;& mask of capability: disables them \cr
+-  & int& speed;& maximum speed for reading data \cr
+-  & int& capacity;& number of discs in a jukebox \cr
+-\noalign{\medskip}
+-  &unsigned\ int& options : 30;& options flags \cr
+-  &unsigned& mc_flags : 2;& media-change buffer flags \cr
+-  &unsigned\ int& vfs_events;& cached events for vfs path\cr
+-  &unsigned\ int& ioctl_events;& cached events for ioctl path\cr
+-  & int& use_count;& number of times device is opened\cr
+-  & char& name[20];& name of the device type\cr
+-\noalign{\medskip}
+-  &__u8& sanyo_slot : 2;& Sanyo 3-CD changer support\cr
+-  &__u8& keeplocked : 1;& CDROM_LOCKDOOR status\cr
+-  &__u8& reserved : 5;& not used yet\cr
+-  & int& cdda_method;& see CDDA_* flags\cr
+-  &__u8& last_sense;& saves last sense key\cr
+-  &__u8& media_written;& dirty flag, DVD+RW bookkeeping\cr
+-  &unsigned\ short& mmc3_profile;& current MMC3 profile\cr
+-  & int& for_data;& unknown:TBD\cr
+-  & int\ (* exit)\ (struct\ cdrom_device_info *);&& unknown:TBD\cr
+-  & int& mrw_mode_page;& which MRW mode page is in use\cr
+-\}\cr
+-}$$
+-Using this $struct$, a linked list of the registered minor devices is
+-built, using the $next$ field. The device number, the device operations
++`cdrom.c`, currently contains the following fields::
 +
-+    fault-injection
-+    notifier-error-inject
-+    nvme-fault-injection
-+    provoke-crashes
++  struct cdrom_device_info {
++	const struct cdrom_device_ops * ops; 	/* device operations for this major */
++	struct list_head list;			/* linked list of all device_info */
++	struct gendisk * disk;			/* matching block layer disk */
++	void *  handle;				/* driver-dependent data */
 +
-+.. only::  subproject and html
++	int mask; 				/* mask of capability: disables them */
++	int speed;				/* maximum speed for reading data */
++	int capacity;				/* number of discs in a jukebox */
 +
-+   Indices
-+   =======
++	unsigned int options:30;		/* options flags */
++	unsigned mc_flags:2;			/*  media-change buffer flags */
++	unsigned int vfs_events;		/*  cached events for vfs path */
++	unsigned int ioctl_events;		/*  cached events for ioctl path */
++	int use_count;				/*  number of times device is opened */
++	char name[20];				/*  name of the device type */
 +
-+   * :ref:`genindex`
-diff --git a/Documentation/fault-injection/notifier-error-inject.txt b/Documentation/fault-injection/notifier-error-inject.rst
-similarity index 83%
-rename from Documentation/fault-injection/notifier-error-inject.txt
-rename to Documentation/fault-injection/notifier-error-inject.rst
-index e861d761de24..1668b6e48d3a 100644
---- a/Documentation/fault-injection/notifier-error-inject.txt
-+++ b/Documentation/fault-injection/notifier-error-inject.rst
-@@ -14,7 +14,8 @@ modules that can be used to test the following notifiers.
- PM notifier error injection module
- ----------------------------------
- This feature is controlled through debugfs interface
--/sys/kernel/debug/notifier-error-inject/pm/actions/<notifier event>/error
++	__u8 sanyo_slot : 2;			/*  Sanyo 3-CD changer support */
++	__u8 keeplocked : 1;			/*  CDROM_LOCKDOOR status */
++	__u8 reserved : 5;			/*  not used yet */
++	int cdda_method;			/*  see CDDA_* flags */
++	__u8 last_sense;			/*  saves last sense key */
++	__u8 media_written;			/*  dirty flag, DVD+RW bookkeeping */
++	unsigned short mmc3_profile;		/*  current MMC3 profile */
++	int for_data;				/*  unknown:TBD */
++	int (*exit)(struct cdrom_device_info *);/*  unknown:TBD */
++	int mrw_mode_page;			/*  which MRW mode page is in use */
++  };
 +
-+  /sys/kernel/debug/notifier-error-inject/pm/actions/<notifier event>/error
++Using this *struct*, a linked list of the registered minor devices is
++built, using the *next* field. The device number, the device operations
+ struct and specifications of properties of the drive are stored in this
+ structure.
  
- Possible PM notifier events to be failed are:
+-The $mask$ flags can be used to mask out some of the capabilities listed
+-in $ops\to capability$, if a specific drive doesn't support a feature
+-of the driver. The value $speed$ specifies the maximum head-rate of the
+-drive, measured in units of normal audio speed (176\,kB/sec raw data or
+-150\,kB/sec file system data).  The parameters are declared $const$
++The *mask* flags can be used to mask out some of the capabilities listed
++in *ops->capability*, if a specific drive doesn't support a feature
++of the driver. The value *speed* specifies the maximum head-rate of the
++drive, measured in units of normal audio speed (176kB/sec raw data or
++150kB/sec file system data). The parameters are declared *const*
+ because they describe properties of the drive, which don't change after
+ registration.
  
-@@ -22,7 +23,7 @@ Possible PM notifier events to be failed are:
-  * PM_SUSPEND_PREPARE
-  * PM_RESTORE_PREPARE
+-A few registers contain variables local to the \cdrom\ drive. The
+-flags $options$ are used to specify how the general \cdrom\ routines
++A few registers contain variables local to the CD-ROM drive. The
++flags *options* are used to specify how the general CD-ROM routines
+ should behave. These various flags registers should provide enough
+-flexibility to adapt to the different users' wishes (and {\em not\/} the
+-`arbitrary' wishes of the author of the low-level device driver, as is
+-the case in the old scheme). The register $mc_flags$ is used to buffer
+-the information from $media_changed()$ to two separate queues. Other
+-data that is specific to a minor drive, can be accessed through $handle$,
++flexibility to adapt to the different users' wishes (and **not** the
++`arbitrary` wishes of the author of the low-level device driver, as is
++the case in the old scheme). The register *mc_flags* is used to buffer
++the information from *media_changed()* to two separate queues. Other
++data that is specific to a minor drive, can be accessed through *handle*,
+ which can point to a data structure specific to the low-level driver.
+-The fields $use_count$, $next$, $options$ and $mc_flags$ need not be
++The fields *use_count*, *next*, *options* and *mc_flags* need not be
+ initialized.
  
--Example: Inject PM suspend error (-12 = -ENOMEM)
-+Example: Inject PM suspend error (-12 = -ENOMEM)::
+-The intermediate software layer that \cdromc\ forms will perform some
++The intermediate software layer that `cdrom.c` forms will perform some
+ additional bookkeeping. The use count of the device (the number of
+-processes that have the device opened) is registered in $use_count$. The
+-function $cdrom_ioctl()$ will verify the appropriate user-memory regions
++processes that have the device opened) is registered in *use_count*. The
++function *cdrom_ioctl()* will verify the appropriate user-memory regions
+ for read and write, and in case a location on the CD is transferred,
+-it will `sanitize' the format by making requests to the low-level
++it will `sanitize` the format by making requests to the low-level
+ drivers in a standard format, and translating all formats between the
+ user-software and low level drivers. This relieves much of the drivers'
+ memory checking and format checking and translation. Also, the necessary
+ structures will be declared on the program stack.
  
- 	# cd /sys/kernel/debug/notifier-error-inject/pm/
- 	# echo -12 > actions/PM_SUSPEND_PREPARE/error
-@@ -32,14 +33,15 @@ Example: Inject PM suspend error (-12 = -ENOMEM)
- Memory hotplug notifier error injection module
- ----------------------------------------------
- This feature is controlled through debugfs interface
--/sys/kernel/debug/notifier-error-inject/memory/actions/<notifier event>/error
-+
-+  /sys/kernel/debug/notifier-error-inject/memory/actions/<notifier event>/error
+ The implementation of the functions should be as defined in the
+-following sections. Two functions {\em must\/} be implemented, namely
+-$open()$ and $release()$. Other functions may be omitted, their
++following sections. Two functions **must** be implemented, namely
++*open()* and *release()*. Other functions may be omitted, their
+ corresponding capability flags will be cleared upon registration.
+ Generally, a function returns zero on success and negative on error. A
+ function call should return only after the command has completed, but of
+ course waiting for the device should not use processor time.
  
- Possible memory notifier events to be failed are:
- 
-  * MEM_GOING_ONLINE
-  * MEM_GOING_OFFLINE
- 
--Example: Inject memory hotplug offline error (-12 == -ENOMEM)
-+Example: Inject memory hotplug offline error (-12 == -ENOMEM)::
- 
- 	# cd /sys/kernel/debug/notifier-error-inject/memory
- 	# echo -12 > actions/MEM_GOING_OFFLINE/error
-@@ -49,7 +51,8 @@ Example: Inject memory hotplug offline error (-12 == -ENOMEM)
- powerpc pSeries reconfig notifier error injection module
- --------------------------------------------------------
- This feature is controlled through debugfs interface
--/sys/kernel/debug/notifier-error-inject/pSeries-reconfig/actions/<notifier event>/error
-+
-+  /sys/kernel/debug/notifier-error-inject/pSeries-reconfig/actions/<notifier event>/error
- 
- Possible pSeries reconfig notifier events to be failed are:
- 
-@@ -61,7 +64,8 @@ Possible pSeries reconfig notifier events to be failed are:
- Netdevice notifier error injection module
- ----------------------------------------------
- This feature is controlled through debugfs interface
--/sys/kernel/debug/notifier-error-inject/netdev/actions/<notifier event>/error
-+
-+  /sys/kernel/debug/notifier-error-inject/netdev/actions/<notifier event>/error
- 
- Netdevice notifier events which can be failed are:
- 
-@@ -75,7 +79,7 @@ Netdevice notifier events which can be failed are:
-  * NETDEV_PRECHANGEUPPER
-  * NETDEV_CHANGEUPPER
- 
--Example: Inject netdevice mtu change error (-22 == -EINVAL)
-+Example: Inject netdevice mtu change error (-22 == -EINVAL)::
- 
- 	# cd /sys/kernel/debug/notifier-error-inject/netdev
- 	# echo -22 > actions/NETDEV_CHANGEMTU/error
-diff --git a/Documentation/fault-injection/nvme-fault-injection.txt b/Documentation/fault-injection/nvme-fault-injection.rst
-similarity index 19%
-rename from Documentation/fault-injection/nvme-fault-injection.txt
-rename to Documentation/fault-injection/nvme-fault-injection.rst
-index 8fbf3bf60b62..bbb1bf3e8650 100644
---- a/Documentation/fault-injection/nvme-fault-injection.txt
-+++ b/Documentation/fault-injection/nvme-fault-injection.rst
-@@ -16,101 +16,105 @@ following.
- Example 1: Inject default status code with no retry
- ---------------------------------------------------
- 
--mount /dev/nvme0n1 /mnt
--echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/times
--echo 100 > /sys/kernel/debug/nvme0n1/fault_inject/probability
--cp a.file /mnt
+-\subsection{$Int\ open(struct\ cdrom_device_info * cdi, int\ purpose)$}
 +::
  
--Expected Result:
-+  mount /dev/nvme0n1 /mnt
-+  echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/times
-+  echo 100 > /sys/kernel/debug/nvme0n1/fault_inject/probability
-+  cp a.file /mnt
- 
--cp: cannot stat ‘/mnt/a.file’: Input/output error
-+Expected Result::
- 
--Message from dmesg:
-+  cp: cannot stat ‘/mnt/a.file’: Input/output error
- 
--FAULT_INJECTION: forcing a failure.
--name fault_inject, interval 1, probability 100, space 0, times 1
--CPU: 0 PID: 0 Comm: swapper/0 Not tainted 4.15.0-rc8+ #2
--Hardware name: innotek GmbH VirtualBox/VirtualBox,
--BIOS VirtualBox 12/01/2006
--Call Trace:
--  <IRQ>
--  dump_stack+0x5c/0x7d
--  should_fail+0x148/0x170
--  nvme_should_fail+0x2f/0x50 [nvme_core]
--  nvme_process_cq+0xe7/0x1d0 [nvme]
--  nvme_irq+0x1e/0x40 [nvme]
--  __handle_irq_event_percpu+0x3a/0x190
--  handle_irq_event_percpu+0x30/0x70
--  handle_irq_event+0x36/0x60
--  handle_fasteoi_irq+0x78/0x120
--  handle_irq+0xa7/0x130
--  ? tick_irq_enter+0xa8/0xc0
--  do_IRQ+0x43/0xc0
--  common_interrupt+0xa2/0xa2
--  </IRQ>
--RIP: 0010:native_safe_halt+0x2/0x10
--RSP: 0018:ffffffff82003e90 EFLAGS: 00000246 ORIG_RAX: ffffffffffffffdd
--RAX: ffffffff817a10c0 RBX: ffffffff82012480 RCX: 0000000000000000
--RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
--RBP: 0000000000000000 R08: 000000008e38ce64 R09: 0000000000000000
--R10: 0000000000000000 R11: 0000000000000000 R12: ffffffff82012480
--R13: ffffffff82012480 R14: 0000000000000000 R15: 0000000000000000
--  ? __sched_text_end+0x4/0x4
--  default_idle+0x18/0xf0
--  do_idle+0x150/0x1d0
--  cpu_startup_entry+0x6f/0x80
--  start_kernel+0x4c4/0x4e4
--  ? set_init_arg+0x55/0x55
--  secondary_startup_64+0xa5/0xb0
--  print_req_error: I/O error, dev nvme0n1, sector 9240
--EXT4-fs error (device nvme0n1): ext4_find_entry:1436:
--inode #2: comm cp: reading directory lblock 0
-+Message from dmesg::
+-$Open()$ should try to open the device for a specific $purpose$, which
++	int open(struct cdrom_device_info *cdi, int purpose)
 +
-+  FAULT_INJECTION: forcing a failure.
-+  name fault_inject, interval 1, probability 100, space 0, times 1
-+  CPU: 0 PID: 0 Comm: swapper/0 Not tainted 4.15.0-rc8+ #2
-+  Hardware name: innotek GmbH VirtualBox/VirtualBox,
-+  BIOS VirtualBox 12/01/2006
-+  Call Trace:
-+    <IRQ>
-+    dump_stack+0x5c/0x7d
-+    should_fail+0x148/0x170
-+    nvme_should_fail+0x2f/0x50 [nvme_core]
-+    nvme_process_cq+0xe7/0x1d0 [nvme]
-+    nvme_irq+0x1e/0x40 [nvme]
-+    __handle_irq_event_percpu+0x3a/0x190
-+    handle_irq_event_percpu+0x30/0x70
-+    handle_irq_event+0x36/0x60
-+    handle_fasteoi_irq+0x78/0x120
-+    handle_irq+0xa7/0x130
-+    ? tick_irq_enter+0xa8/0xc0
-+    do_IRQ+0x43/0xc0
-+    common_interrupt+0xa2/0xa2
-+    </IRQ>
-+  RIP: 0010:native_safe_halt+0x2/0x10
-+  RSP: 0018:ffffffff82003e90 EFLAGS: 00000246 ORIG_RAX: ffffffffffffffdd
-+  RAX: ffffffff817a10c0 RBX: ffffffff82012480 RCX: 0000000000000000
-+  RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-+  RBP: 0000000000000000 R08: 000000008e38ce64 R09: 0000000000000000
-+  R10: 0000000000000000 R11: 0000000000000000 R12: ffffffff82012480
-+  R13: ffffffff82012480 R14: 0000000000000000 R15: 0000000000000000
-+    ? __sched_text_end+0x4/0x4
-+    default_idle+0x18/0xf0
-+    do_idle+0x150/0x1d0
-+    cpu_startup_entry+0x6f/0x80
-+    start_kernel+0x4c4/0x4e4
-+    ? set_init_arg+0x55/0x55
-+    secondary_startup_64+0xa5/0xb0
-+    print_req_error: I/O error, dev nvme0n1, sector 9240
-+  EXT4-fs error (device nvme0n1): ext4_find_entry:1436:
-+  inode #2: comm cp: reading directory lblock 0
++*Open()* should try to open the device for a specific *purpose*, which
+ can be either:
+-\begin{itemize}
+-\item[0] Open for reading data, as done by {\tt {mount()}} (2), or the
+-user commands {\tt {dd}} or {\tt {cat}}.  
+-\item[1] Open for $ioctl$ commands, as done by audio-CD playing
+-programs.
+-\end{itemize}
+-Notice that any strategic code (closing tray upon $open()$, etc.)\ is
+-done by the calling routine in \cdromc, so the low-level routine
++
++- Open for reading data, as done by `mount()` (2), or the
++  user commands `dd` or `cat`.
++- Open for *ioctl* commands, as done by audio-CD playing programs.
++
++Notice that any strategic code (closing tray upon *open()*, etc.) is
++done by the calling routine in `cdrom.c`, so the low-level routine
+ should only be concerned with proper initialization, such as spinning
+-up the disc, etc. % and device-use count
++up the disc, etc.
  
- Example 2: Inject default status code with retry
- ------------------------------------------------
- 
--mount /dev/nvme0n1 /mnt
--echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/times
--echo 100 > /sys/kernel/debug/nvme0n1/fault_inject/probability
--echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/status
--echo 0 > /sys/kernel/debug/nvme0n1/fault_inject/dont_retry
 +::
  
--cp a.file /mnt
-+  mount /dev/nvme0n1 /mnt
-+  echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/times
-+  echo 100 > /sys/kernel/debug/nvme0n1/fault_inject/probability
-+  echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/status
-+  echo 0 > /sys/kernel/debug/nvme0n1/fault_inject/dont_retry
+-\subsection{$Void\ release(struct\ cdrom_device_info * cdi)$}
+-
++	void release(struct cdrom_device_info *cdi)
  
--Expected Result:
-+  cp a.file /mnt
+ Device-specific actions should be taken such as spinning down the device.
+ However, strategic actions such as ejection of the tray, or unlocking
+-the door, should be left over to the general routine $cdrom_release()$.
+-This is the only function returning type $void$.
++the door, should be left over to the general routine *cdrom_release()*.
++This is the only function returning type *void*.
  
--command success without error
-+Expected Result::
+-\subsection{$Int\ drive_status(struct\ cdrom_device_info * cdi, int\ slot_nr)$}
+-\label{drive status}
++.. _cdrom_drive_status:
  
--Message from dmesg:
-+  command success without error
- 
--FAULT_INJECTION: forcing a failure.
--name fault_inject, interval 1, probability 100, space 0, times 1
--CPU: 1 PID: 0 Comm: swapper/1 Not tainted 4.15.0-rc8+ #4
--Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
--Call Trace:
--  <IRQ>
--  dump_stack+0x5c/0x7d
--  should_fail+0x148/0x170
--  nvme_should_fail+0x30/0x60 [nvme_core]
--  nvme_loop_queue_response+0x84/0x110 [nvme_loop]
--  nvmet_req_complete+0x11/0x40 [nvmet]
--  nvmet_bio_done+0x28/0x40 [nvmet]
--  blk_update_request+0xb0/0x310
--  blk_mq_end_request+0x18/0x60
--  flush_smp_call_function_queue+0x3d/0xf0
--  smp_call_function_single_interrupt+0x2c/0xc0
--  call_function_single_interrupt+0xa2/0xb0
--  </IRQ>
--RIP: 0010:native_safe_halt+0x2/0x10
--RSP: 0018:ffffc9000068bec0 EFLAGS: 00000246 ORIG_RAX: ffffffffffffff04
--RAX: ffffffff817a10c0 RBX: ffff88011a3c9680 RCX: 0000000000000000
--RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
--RBP: 0000000000000001 R08: 000000008e38c131 R09: 0000000000000000
--R10: 0000000000000000 R11: 0000000000000000 R12: ffff88011a3c9680
--R13: ffff88011a3c9680 R14: 0000000000000000 R15: 0000000000000000
--  ? __sched_text_end+0x4/0x4
--  default_idle+0x18/0xf0
--  do_idle+0x150/0x1d0
--  cpu_startup_entry+0x6f/0x80
--  start_secondary+0x187/0x1e0
--  secondary_startup_64+0xa5/0xb0
-+Message from dmesg::
+-The function $drive_status$, if implemented, should provide
++::
 +
-+  FAULT_INJECTION: forcing a failure.
-+  name fault_inject, interval 1, probability 100, space 0, times 1
-+  CPU: 1 PID: 0 Comm: swapper/1 Not tainted 4.15.0-rc8+ #4
-+  Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
-+  Call Trace:
-+    <IRQ>
-+    dump_stack+0x5c/0x7d
-+    should_fail+0x148/0x170
-+    nvme_should_fail+0x30/0x60 [nvme_core]
-+    nvme_loop_queue_response+0x84/0x110 [nvme_loop]
-+    nvmet_req_complete+0x11/0x40 [nvmet]
-+    nvmet_bio_done+0x28/0x40 [nvmet]
-+    blk_update_request+0xb0/0x310
-+    blk_mq_end_request+0x18/0x60
-+    flush_smp_call_function_queue+0x3d/0xf0
-+    smp_call_function_single_interrupt+0x2c/0xc0
-+    call_function_single_interrupt+0xa2/0xb0
-+    </IRQ>
-+  RIP: 0010:native_safe_halt+0x2/0x10
-+  RSP: 0018:ffffc9000068bec0 EFLAGS: 00000246 ORIG_RAX: ffffffffffffff04
-+  RAX: ffffffff817a10c0 RBX: ffff88011a3c9680 RCX: 0000000000000000
-+  RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-+  RBP: 0000000000000001 R08: 000000008e38c131 R09: 0000000000000000
-+  R10: 0000000000000000 R11: 0000000000000000 R12: ffff88011a3c9680
-+  R13: ffff88011a3c9680 R14: 0000000000000000 R15: 0000000000000000
-+    ? __sched_text_end+0x4/0x4
-+    default_idle+0x18/0xf0
-+    do_idle+0x150/0x1d0
-+    cpu_startup_entry+0x6f/0x80
-+    start_secondary+0x187/0x1e0
-+    secondary_startup_64+0xa5/0xb0
-diff --git a/Documentation/fault-injection/provoke-crashes.txt b/Documentation/fault-injection/provoke-crashes.rst
-similarity index 45%
-rename from Documentation/fault-injection/provoke-crashes.txt
-rename to Documentation/fault-injection/provoke-crashes.rst
-index 7a9d3d81525b..9279a3e12278 100644
---- a/Documentation/fault-injection/provoke-crashes.txt
-+++ b/Documentation/fault-injection/provoke-crashes.rst
-@@ -1,3 +1,7 @@
-+===============
-+Provoke crashes
-+===============
++	int drive_status(struct cdrom_device_info *cdi, int slot_nr)
 +
- The lkdtm module provides an interface to crash or injure the kernel at
- predefined crashpoints to evaluate the reliability of crash dumps obtained
- using different dumping solutions. The module uses KPROBEs to instrument
-@@ -8,31 +12,37 @@ support.
- You can provide the way either through module arguments when inserting
- the module, or through a debugfs interface.
++The function *drive_status*, if implemented, should provide
+ information on the status of the drive (not the status of the disc,
+ which may or may not be in the drive). If the drive is not a changer,
+-$slot_nr$ should be ignored. In \cdromh\ the possibilities are listed: 
+-$$
+-\halign{$#$\ \hfil&$/*$ \rm# $*/$\hfil\cr
+-CDS_NO_INFO& no information available\cr
+-CDS_NO_DISC& no disc is inserted, tray is closed\cr
+-CDS_TRAY_OPEN& tray is opened\cr
+-CDS_DRIVE_NOT_READY& something is wrong, tray is moving?\cr
+-CDS_DISC_OK& a disc is loaded and everything is fine\cr
+-}
+-$$
++*slot_nr* should be ignored. In `cdrom.h` the possibilities are listed::
  
--Usage: insmod lkdtm.ko [recur_count={>0}] cpoint_name=<> cpoint_type=<>
--				[cpoint_count={>0}]
-+Usage::
+-\subsection{$Int\ media_changed(struct\ cdrom_device_info * cdi, int\ disc_nr)$}
  
--  recur_count : Recursion level for the stack overflow test. Default is 10.
-+	insmod lkdtm.ko [recur_count={>0}] cpoint_name=<> cpoint_type=<>
-+			[cpoint_count={>0}]
+-This function is very similar to the original function in $struct\ 
+-file_operations$. It returns 1 if the medium of the device $cdi\to
+-dev$ has changed since the last call, and 0 otherwise. The parameter
+-$disc_nr$ identifies a specific slot in a juke-box, it should be
+-ignored for single-disc drives.  Note that by `re-routing' this
+-function through $cdrom_media_changed()$, we can implement separate
+-queues for the VFS and a new $ioctl()$ function that can report device
+-changes to software (\eg, an auto-mounting daemon).
++	CDS_NO_INFO		/* no information available */
++	CDS_NO_DISC		/* no disc is inserted, tray is closed */
++	CDS_TRAY_OPEN		/* tray is opened */
++	CDS_DRIVE_NOT_READY	/* something is wrong, tray is moving? */
++	CDS_DISC_OK		/* a disc is loaded and everything is fine */
  
--  cpoint_name : Crash point where the kernel is to be crashed. It can be
--	 one of INT_HARDWARE_ENTRY, INT_HW_IRQ_EN, INT_TASKLET_ENTRY,
--	 FS_DEVRW, MEM_SWAPOUT, TIMERADD, SCSI_DISPATCH_CMD,
--	 IDE_CORE_CP, DIRECT
-+recur_count
-+	Recursion level for the stack overflow test. Default is 10.
- 
--  cpoint_type : Indicates the action to be taken on hitting the crash point.
--     It can be one of PANIC, BUG, EXCEPTION, LOOP, OVERFLOW,
--     CORRUPT_STACK, UNALIGNED_LOAD_STORE_WRITE, OVERWRITE_ALLOCATION,
--     WRITE_AFTER_FREE,
-+cpoint_name
-+	Crash point where the kernel is to be crashed. It can be
-+	one of INT_HARDWARE_ENTRY, INT_HW_IRQ_EN, INT_TASKLET_ENTRY,
-+	FS_DEVRW, MEM_SWAPOUT, TIMERADD, SCSI_DISPATCH_CMD,
-+	IDE_CORE_CP, DIRECT
- 
--  cpoint_count : Indicates the number of times the crash point is to be hit
--    to trigger an action. The default is 10.
-+cpoint_type
-+	Indicates the action to be taken on hitting the crash point.
-+	It can be one of PANIC, BUG, EXCEPTION, LOOP, OVERFLOW,
-+	CORRUPT_STACK, UNALIGNED_LOAD_STORE_WRITE, OVERWRITE_ALLOCATION,
-+	WRITE_AFTER_FREE,
+-\subsection{$Int\ tray_move(struct\ cdrom_device_info * cdi, int\ position)$}
++::
 +
-+cpoint_count
-+	Indicates the number of times the crash point is to be hit
-+	to trigger an action. The default is 10.
++	int media_changed(struct cdrom_device_info *cdi, int disc_nr)
++
++This function is very similar to the original function in $struct
++file_operations*. It returns 1 if the medium of the device *cdi->dev*
++has changed since the last call, and 0 otherwise. The parameter
++*disc_nr* identifies a specific slot in a juke-box, it should be
++ignored for single-disc drives. Note that by `re-routing` this
++function through *cdrom_media_changed()*, we can implement separate
++queues for the VFS and a new *ioctl()* function that can report device
++changes to software (e. g., an auto-mounting daemon).
++
++::
++
++	int tray_move(struct cdrom_device_info *cdi, int position)
  
- You can also induce failures by mounting debugfs and writing the type to
--<mountpoint>/provoke-crash/<crashpoint>. E.g.,
-+<mountpoint>/provoke-crash/<crashpoint>. E.g.::
+ This function, if implemented, should control the tray movement. (No
+-other function should control this.) The parameter $position$ controls
++other function should control this.) The parameter *position* controls
+ the desired direction of movement:
+-\begin{itemize}
+-\item[0] Close tray
+-\item[1] Open tray
+-\end{itemize}
++
++- 0 Close tray
++- 1 Open tray
++
+ This function returns 0 upon success, and a non-zero value upon
+ error. Note that if the tray is already in the desired position, no
+-action need be taken, and the return value should be 0. 
++action need be taken, and the return value should be 0.
  
-   mount -t debugfs debugfs /mnt
-   echo EXCEPTION > /mnt/provoke-crash/INT_HARDWARE_ENTRY
+-\subsection{$Int\ lock_door(struct\ cdrom_device_info * cdi, int\ lock)$}
++::
++
++	int lock_door(struct cdrom_device_info *cdi, int lock)
  
+ This function (and no other code) controls locking of the door, if the
+-drive allows this. The value of $lock$ controls the desired locking
++drive allows this. The value of *lock* controls the desired locking
+ state:
+-\begin{itemize}
+-\item[0] Unlock door, manual opening is allowed
+-\item[1] Lock door, tray cannot be ejected manually
+-\end{itemize}
++
++- 0 Unlock door, manual opening is allowed
++- 1 Lock door, tray cannot be ejected manually
++
+ This function returns 0 upon success, and a non-zero value upon
+ error. Note that if the door is already in the requested state, no
+-action need be taken, and the return value should be 0. 
++action need be taken, and the return value should be 0.
  
--A special file is `DIRECT' which will induce the crash directly without
-+A special file is `DIRECT` which will induce the crash directly without
- KPROBE instrumentation. This mode is the only one available when the module
- is built on a kernel without KPROBEs support.
-diff --git a/Documentation/process/4.Coding.rst b/Documentation/process/4.Coding.rst
-index 4b7a5ab3cec1..13dd893c9f88 100644
---- a/Documentation/process/4.Coding.rst
-+++ b/Documentation/process/4.Coding.rst
-@@ -298,7 +298,7 @@ enabled, a configurable percentage of memory allocations will be made to
- fail; these failures can be restricted to a specific range of code.
- Running with fault injection enabled allows the programmer to see how the
- code responds when things go badly.  See
--Documentation/fault-injection/fault-injection.txt for more information on
-+Documentation/fault-injection/fault-injection.rst for more information on
- how to use this facility.
+-\subsection{$Int\ select_speed(struct\ cdrom_device_info * cdi, int\ speed)$}
++::
  
- Other kinds of errors can be found with the "sparse" static analysis tool.
-diff --git a/Documentation/translations/it_IT/process/4.Coding.rst b/Documentation/translations/it_IT/process/4.Coding.rst
-index c05b89e616dd..a5e36aa60448 100644
---- a/Documentation/translations/it_IT/process/4.Coding.rst
-+++ b/Documentation/translations/it_IT/process/4.Coding.rst
-@@ -314,7 +314,7 @@ di allocazione di memoria sarà destinata al fallimento; questi fallimenti
- possono essere ridotti ad uno specifico pezzo di codice.  Procedere con
- l'inserimento dei fallimenti attivo permette al programmatore di verificare
- come il codice risponde quando le cose vanno male.  Consultate:
--Documentation/fault-injection/fault-injection.txt per avere maggiori
-+Documentation/fault-injection/fault-injection.rst per avere maggiori
- informazioni su come utilizzare questo strumento.
+-Some \cdrom\ drives are capable of changing their head-speed. There
+-are several reasons for changing the speed of a \cdrom\ drive. Badly
+-pressed \cdrom s may benefit from less-than-maximum head rate. Modern
+-\cdrom\ drives can obtain very high head rates (up to $24\times$ is
+-common).  It has been reported that these drives can make reading
++	int select_speed(struct cdrom_device_info *cdi, int speed)
++
++Some CD-ROM drives are capable of changing their head-speed. There
++are several reasons for changing the speed of a CD-ROM drive. Badly
++pressed CD-ROM s may benefit from less-than-maximum head rate. Modern
++CD-ROM drives can obtain very high head rates (up to *24x* is
++common). It has been reported that these drives can make reading
+ errors at these high speeds, reducing the speed can prevent data loss
+-in these circumstances.  Finally, some of these drives can
+-make an annoyingly loud noise, which a lower speed may reduce. %Finally,
+-%although the audio-low-pass filters probably aren't designed for it,
+-%more than real-time playback of audio might be used for high-speed
+-%copying of audio tracks.
++in these circumstances. Finally, some of these drives can
++make an annoyingly loud noise, which a lower speed may reduce.
  
- Altre tipologie di errori possono essere riscontrati con lo strumento di
-diff --git a/Documentation/translations/zh_CN/process/4.Coding.rst b/Documentation/translations/zh_CN/process/4.Coding.rst
-index 8bb777941394..b82b1dde3122 100644
---- a/Documentation/translations/zh_CN/process/4.Coding.rst
-+++ b/Documentation/translations/zh_CN/process/4.Coding.rst
-@@ -205,7 +205,7 @@ Linus对这个问题给出了最佳答案:
- 启用故障注入后，内存分配的可配置百分比将失败；这些失败可以限制在特定的代码
- 范围内。在启用了故障注入的情况下运行，程序员可以看到当情况恶化时代码如何响
- 应。有关如何使用此工具的详细信息，请参阅
--Documentation/fault-injection/fault-injection.txt。
-+Documentation/fault-injection/fault-injection.rst。
+ This function specifies the speed at which data is read or audio is
+-played back. The value of $speed$ specifies the head-speed of the
+-drive, measured in units of standard cdrom speed (176\,kB/sec raw data
+-or 150\,kB/sec file system data). So to request that a \cdrom\ drive
+-operate at 300\,kB/sec you would call the CDROM_SELECT_SPEED $ioctl$
+-with $speed=2$. The special value `0' means `auto-selection', \ie,
++played back. The value of *speed* specifies the head-speed of the
++drive, measured in units of standard cdrom speed (176kB/sec raw data
++or 150kB/sec file system data). So to request that a CD-ROM drive
++operate at 300kB/sec you would call the CDROM_SELECT_SPEED *ioctl*
++with *speed=2*. The special value `0` means `auto-selection`, i. e.,
+ maximum data-rate or real-time audio rate. If the drive doesn't have
+-this `auto-selection' capability, the decision should be made on the
++this `auto-selection` capability, the decision should be made on the
+ current disc loaded and the return value should be positive. A negative
+ return value indicates an error.
  
- 使用“sparse”静态分析工具可以发现其他类型的错误。对于sparse，可以警告程序员
- 用户空间和内核空间地址之间的混淆、big endian和small endian数量的混合、在需
-diff --git a/drivers/misc/lkdtm/core.c b/drivers/misc/lkdtm/core.c
-index df9429e3fd3a..c7a507482051 100644
---- a/drivers/misc/lkdtm/core.c
-+++ b/drivers/misc/lkdtm/core.c
-@@ -15,7 +15,7 @@
-  *
-  * Debugfs support added by Simon Kagstrom <simon.kagstrom@netinsight.net>
-  *
-- * See Documentation/fault-injection/provoke-crashes.txt for instructions
-+ * See Documentation/fault-injection/provoke-crashes.rst for instructions
-  */
- #include "lkdtm.h"
- #include <linux/fs.h>
-diff --git a/include/linux/fault-inject.h b/include/linux/fault-inject.h
-index 7e6c77740413..e525f6957c49 100644
---- a/include/linux/fault-inject.h
-+++ b/include/linux/fault-inject.h
-@@ -11,7 +11,7 @@
+-\subsection{$Int\ select_disc(struct\ cdrom_device_info * cdi, int\ number)$}
++::
++
++	int select_disc(struct cdrom_device_info *cdi, int number)
  
- /*
-  * For explanation of the elements of this struct, see
-- * Documentation/fault-injection/fault-injection.txt
-+ * Documentation/fault-injection/fault-injection.rst
-  */
- struct fault_attr {
- 	unsigned long probability;
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index d08f5848958e..3a3554e8ca0f 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -1701,7 +1701,7 @@ config LKDTM
- 	called lkdtm.
+ If the drive can store multiple discs (a juke-box) this function
+ will perform disc selection. It should return the number of the
+ selected disc on success, a negative value on error. Currently, only
+ the ide-cd driver supports this functionality.
  
- 	Documentation on how to use the module can be found in
--	Documentation/fault-injection/provoke-crashes.txt
-+	Documentation/fault-injection/provoke-crashes.rst
+-\subsection{$Int\ get_last_session(struct\ cdrom_device_info * cdi, struct\
+-  cdrom_multisession * ms_info)$}
++::
  
- config TEST_LIST_SORT
- 	tristate "Linked list sorting test"
-diff --git a/tools/testing/fault-injection/failcmd.sh b/tools/testing/fault-injection/failcmd.sh
-index 29a6c63c5a15..78dac34264be 100644
---- a/tools/testing/fault-injection/failcmd.sh
-+++ b/tools/testing/fault-injection/failcmd.sh
-@@ -42,7 +42,7 @@ OPTIONS
- 	--interval=value, --space=value, --verbose=value, --task-filter=value,
- 	--stacktrace-depth=value, --require-start=value, --require-end=value,
- 	--reject-start=value, --reject-end=value, --ignore-gfp-wait=value
--		See Documentation/fault-injection/fault-injection.txt for more
-+		See Documentation/fault-injection/fault-injection.rst for more
- 		information
+-This function should implement the old corresponding $ioctl()$. For
+-device $cdi\to dev$, the start of the last session of the current disc
+-should be returned in the pointer argument $ms_info$. Note that
+-routines in \cdromc\ have sanitized this argument: its requested
+-format will {\em always\/} be of the type $CDROM_LBA$ (linear block
++	int get_last_session(struct cdrom_device_info *cdi,
++			     struct cdrom_multisession *ms_info)
++
++This function should implement the old corresponding *ioctl()*. For
++device *cdi->dev*, the start of the last session of the current disc
++should be returned in the pointer argument *ms_info*. Note that
++routines in `cdrom.c` have sanitized this argument: its requested
++format will **always** be of the type *CDROM_LBA* (linear block
+ addressing mode), whatever the calling software requested. But
+ sanitization goes even further: the low-level implementation may
+-return the requested information in $CDROM_MSF$ format if it wishes so
+-(setting the $ms_info\rightarrow addr_format$ field appropriately, of
+-course) and the routines in \cdromc\ will make the transformation if
++return the requested information in *CDROM_MSF* format if it wishes so
++(setting the *ms_info->addr_format* field appropriately, of
++course) and the routines in `cdrom.c` will make the transformation if
+ necessary. The return value is 0 upon success.
  
- 	failslab options:
+-\subsection{$Int\ get_mcn(struct\ cdrom_device_info * cdi, struct\
+-  cdrom_mcn * mcn)$}
++::
+ 
+-Some discs carry a `Media Catalog Number' (MCN), also called
+-`Universal Product Code' (UPC). This number should reflect the number
++	int get_mcn(struct cdrom_device_info *cdi,
++		    struct cdrom_mcn *mcn)
++
++Some discs carry a `Media Catalog Number` (MCN), also called
++`Universal Product Code` (UPC). This number should reflect the number
+ that is generally found in the bar-code on the product. Unfortunately,
+ the few discs that carry such a number on the disc don't even use the
+ same format. The return argument to this function is a pointer to a
+-pre-declared memory region of type $struct\ cdrom_mcn$. The MCN is
++pre-declared memory region of type *struct cdrom_mcn*. The MCN is
+ expected as a 13-character string, terminated by a null-character.
+ 
+-\subsection{$Int\ reset(struct\ cdrom_device_info * cdi)$}
++::
++
++	int reset(struct cdrom_device_info *cdi)
+ 
+ This call should perform a hard-reset on the drive (although in
+ circumstances that a hard-reset is necessary, a drive may very well not
+@@ -491,536 +483,581 @@ caller only after the drive has finished resetting. If the drive is no
+ longer listening, it may be wise for the underlying low-level cdrom
+ driver to time out.
+ 
+-\subsection{$Int\ audio_ioctl(struct\ cdrom_device_info * cdi, unsigned\
+-  int\ cmd, void * arg)$}
++::
+ 
+-Some of the \cdrom-$ioctl$s defined in \cdromh\ can be
++	int audio_ioctl(struct cdrom_device_info *cdi,
++			unsigned int cmd, void *arg)
++
++Some of the CD-ROM-\ *ioctl()*\ 's defined in `cdrom.h` can be
+ implemented by the routines described above, and hence the function
+-$cdrom_ioctl$ will use those. However, most $ioctl$s deal with
++*cdrom_ioctl* will use those. However, most *ioctl()*\ 's deal with
+ audio-control. We have decided to leave these to be accessed through a
+-single function, repeating the arguments $cmd$ and $arg$. Note that
+-the latter is of type $void*{}$, rather than $unsigned\ long\
+-int$. The routine $cdrom_ioctl()$ does do some useful things,
+-though. It sanitizes the address format type to $CDROM_MSF$ (Minutes,
++single function, repeating the arguments *cmd* and *arg*. Note that
++the latter is of type *void*, rather than *unsigned long int*.
++The routine *cdrom_ioctl()* does do some useful things,
++though. It sanitizes the address format type to *CDROM_MSF* (Minutes,
+ Seconds, Frames) for all audio calls. It also verifies the memory
+-location of $arg$, and reserves stack-memory for the argument. This
+-makes implementation of the $audio_ioctl()$ much simpler than in the
++location of *arg*, and reserves stack-memory for the argument. This
++makes implementation of the *audio_ioctl()* much simpler than in the
+ old driver scheme. For example, you may look up the function
+-$cm206_audio_ioctl()$ in {\tt {cm206.c}} that should be updated with
+-this documentation. 
++*cm206_audio_ioctl()* `cm206.c` that should be updated with
++this documentation.
+ 
+-An unimplemented ioctl should return $-ENOSYS$, but a harmless request
+-(\eg, $CDROMSTART$) may be ignored by returning 0 (success). Other
++An unimplemented ioctl should return *-ENOSYS*, but a harmless request
++(e. g., *CDROMSTART*) may be ignored by returning 0 (success). Other
+ errors should be according to the standards, whatever they are. When
+-an error is returned by the low-level driver, the \UCD\ tries whenever
+-possible to return the error code to the calling program. (We may decide
+-to sanitize the return value in $cdrom_ioctl()$ though, in order to
+-guarantee a uniform interface to the audio-player software.)
++an error is returned by the low-level driver, the Uniform CD-ROM Driver
++tries whenever possible to return the error code to the calling program.
++(We may decide to sanitize the return value in *cdrom_ioctl()* though, in
++order to guarantee a uniform interface to the audio-player software.)
+ 
+-\subsection{$Int\ dev_ioctl(struct\ cdrom_device_info * cdi, unsigned\ int\
+-  cmd, unsigned\ long\ arg)$}
++::
+ 
+-Some $ioctl$s seem to be specific to certain \cdrom\ drives. That is,
++	int dev_ioctl(struct cdrom_device_info *cdi,
++		      unsigned int cmd, unsigned long arg)
++
++Some *ioctl()'s* seem to be specific to certain CD-ROM drives. That is,
+ they are introduced to service some capabilities of certain drives. In
+-fact, there are 6 different $ioctl$s for reading data, either in some
++fact, there are 6 different *ioctl()'s* for reading data, either in some
+ particular kind of format, or audio data. Not many drives support
+ reading audio tracks as data, I believe this is because of protection
+ of copyrights of artists. Moreover, I think that if audio-tracks are
+-supported, it should be done through the VFS and not via $ioctl$s. A
++supported, it should be done through the VFS and not via *ioctl()'s*. A
+ problem here could be the fact that audio-frames are 2352 bytes long,
+ so either the audio-file-system should ask for 75264 bytes at once
+ (the least common multiple of 512 and 2352), or the drivers should
+ bend their backs to cope with this incoherence (to which I would be
+-opposed).  Furthermore, it is very difficult for the hardware to find
++opposed). Furthermore, it is very difficult for the hardware to find
+ the exact frame boundaries, since there are no synchronization headers
+-in audio frames.  Once these issues are resolved, this code should be
+-standardized in \cdromc.
+-
+-Because there are so many $ioctl$s that seem to be introduced to
+-satisfy certain drivers,\footnote{Is there software around that
+-  actually uses these? I'd be interested!} any `non-standard' $ioctl$s
+-are routed through the call $dev_ioctl()$. In principle, `private'
+-$ioctl$s should be numbered after the device's major number, and not
+-the general \cdrom\ $ioctl$ number, {\tt {0x53}}. Currently the
+-non-supported $ioctl$s are: {\it CDROMREADMODE1, CDROMREADMODE2,
+-  CDROMREADAUDIO, CDROMREADRAW, CDROMREADCOOKED, CDROMSEEK,
+-  CDROMPLAY\-BLK and CDROM\-READALL}.
+-
+-
+-\subsection{\cdrom\ capabilities}
+-\label{capability}
+-
+-Instead of just implementing some $ioctl$ calls, the interface in
+-\cdromc\ supplies the possibility to indicate the {\em capabilities\/}
+-of a \cdrom\ drive. This can be done by ORing any number of
+-capability-constants that are defined in \cdromh\ at the registration
+-phase. Currently, the capabilities are any of:
+-$$
+-\halign{$#$\ \hfil&$/*$ \rm# $*/$\hfil\cr
+-CDC_CLOSE_TRAY& can close tray by software control\cr
+-CDC_OPEN_TRAY& can open tray\cr
+-CDC_LOCK& can lock and unlock the door\cr
+-CDC_SELECT_SPEED& can select speed, in units of $\sim$150\,kB/s\cr
+-CDC_SELECT_DISC& drive is juke-box\cr
+-CDC_MULTI_SESSION& can read sessions $>\rm1$\cr
+-CDC_MCN& can read Media Catalog Number\cr
+-CDC_MEDIA_CHANGED& can report if disc has changed\cr
+-CDC_PLAY_AUDIO& can perform audio-functions (play, pause, etc)\cr
+-CDC_RESET& hard reset device\cr
+-CDC_IOCTLS& driver has non-standard ioctls\cr
+-CDC_DRIVE_STATUS& driver implements drive status\cr
+-}
+-$$
+-The capability flag is declared $const$, to prevent drivers from
++in audio frames. Once these issues are resolved, this code should be
++standardized in `cdrom.c`.
++
++Because there are so many *ioctl()'s* that seem to be introduced to
++satisfy certain drivers [#f2]_, any non-standard *ioctl()*\ s
++are routed through the call *dev_ioctl()*. In principle, `private`
++*ioctl()*\ 's should be numbered after the device's major number, and not
++the general CD-ROM *ioctl* number, `0x53`. Currently the
++non-supported *ioctl()'s* are:
++
++	CDROMREADMODE1, CDROMREADMODE2, CDROMREADAUDIO, CDROMREADRAW,
++	CDROMREADCOOKED, CDROMSEEK, CDROMPLAY-BLK and CDROM-READALL
++
++.. [#f2]
++
++   Is there software around that actually uses these? I'd be interested!
++
++.. _cdrom_capabilities:
++
++CD-ROM capabilities
++-------------------
++
++Instead of just implementing some *ioctl* calls, the interface in
++`cdrom.c` supplies the possibility to indicate the **capabilities**
++of a CD-ROM drive. This can be done by ORing any number of
++capability-constants that are defined in `cdrom.h` at the registration
++phase. Currently, the capabilities are any of::
++
++	CDC_CLOSE_TRAY		/* can close tray by software control */
++	CDC_OPEN_TRAY		/* can open tray */
++	CDC_LOCK		/* can lock and unlock the door */
++	CDC_SELECT_SPEED	/* can select speed, in units of * sim*150 ,kB/s */
++	CDC_SELECT_DISC		/* drive is juke-box */
++	CDC_MULTI_SESSION	/* can read sessions *> rm1* */
++	CDC_MCN			/* can read Media Catalog Number */
++	CDC_MEDIA_CHANGED	/* can report if disc has changed */
++	CDC_PLAY_AUDIO		/* can perform audio-functions (play, pause, etc) */
++	CDC_RESET		/* hard reset device */
++	CDC_IOCTLS		/* driver has non-standard ioctls */
++	CDC_DRIVE_STATUS	/* driver implements drive status */
++
++The capability flag is declared *const*, to prevent drivers from
+ accidentally tampering with the contents. The capability fags actually
+-inform \cdromc\ of what the driver can do. If the drive found
++inform `cdrom.c` of what the driver can do. If the drive found
+ by the driver does not have the capability, is can be masked out by
+-the $cdrom_device_info$ variable $mask$. For instance, the SCSI \cdrom\
+-driver has implemented the code for loading and ejecting \cdrom's, and
+-hence its corresponding flags in $capability$ will be set. But a SCSI
+-\cdrom\ drive might be a caddy system, which can't load the tray, and
+-hence for this drive the $cdrom_device_info$ struct will have set
+-the $CDC_CLOSE_TRAY$ bit in $mask$.
++the *cdrom_device_info* variable *mask*. For instance, the SCSI CD-ROM
++driver has implemented the code for loading and ejecting CD-ROM's, and
++hence its corresponding flags in *capability* will be set. But a SCSI
++CD-ROM drive might be a caddy system, which can't load the tray, and
++hence for this drive the *cdrom_device_info* struct will have set
++the *CDC_CLOSE_TRAY* bit in *mask*.
+ 
+-In the file \cdromc\ you will encounter many constructions of the type
+-$$\it
+-if\ (cdo\rightarrow capability \mathrel\& \mathord{\sim} cdi\rightarrow mask 
+-   \mathrel{\&} CDC_<capability>) \ldots
+-$$
+-There is no $ioctl$ to set the mask\dots The reason is that
+-I think it is better to control the {\em behavior\/} rather than the
+-{\em capabilities}.
++In the file `cdrom.c` you will encounter many constructions of the type::
+ 
+-\subsection{Options}
++	if (cdo->capability & ∼cdi->mask & CDC _⟨capability⟩) ...
+ 
+-A final flag register controls the {\em behavior\/} of the \cdrom\
++There is no *ioctl* to set the mask... The reason is that
++I think it is better to control the **behavior** rather than the
++**capabilities**.
++
++Options
++-------
++
++A final flag register controls the **behavior** of the CD-ROM
+ drives, in order to satisfy different users' wishes, hopefully
+ independently of the ideas of the respective author who happened to
+-have made the drive's support available to the \linux\ community. The
+-current behavior options are:
+-$$
+-\halign{$#$\ \hfil&$/*$ \rm# $*/$\hfil\cr
+-CDO_AUTO_CLOSE& try to close tray upon device $open()$\cr
+-CDO_AUTO_EJECT& try to open tray on last device $close()$\cr
+-CDO_USE_FFLAGS& use $file_pointer\rightarrow f_flags$ to indicate
+- purpose for $open()$\cr
+-CDO_LOCK& try to lock door if device is opened\cr
+-CDO_CHECK_TYPE& ensure disc type is data if opened for data\cr
+-}
+-$$
++have made the drive's support available to the Linux community. The
++current behavior options are::
+ 
+-The initial value of this register is $CDO_AUTO_CLOSE \mathrel|
+-CDO_USE_FFLAGS \mathrel| CDO_LOCK$, reflecting my own view on user
++	CDO_AUTO_CLOSE	/* try to close tray upon device open() */
++	CDO_AUTO_EJECT	/* try to open tray on last device close() */
++	CDO_USE_FFLAGS	/* use file_pointer->f_flags to indicate purpose for open() */
++	CDO_LOCK	/* try to lock door if device is opened */
++	CDO_CHECK_TYPE	/* ensure disc type is data if opened for data */
++
++The initial value of this register is
++`CDO_AUTO_CLOSE | CDO_USE_FFLAGS | CDO_LOCK`, reflecting my own view on user
+ interface and software standards. Before you protest, there are two
+-new $ioctl$s implemented in \cdromc, that allow you to control the
+-behavior by software. These are:
+-$$
+-\halign{$#$\ \hfil&$/*$ \rm# $*/$\hfil\cr
+-CDROM_SET_OPTIONS& set options specified in $(int)\ arg$\cr
+-CDROM_CLEAR_OPTIONS& clear options specified in $(int)\ arg$\cr
+-}
+-$$
+-One option needs some more explanation: $CDO_USE_FFLAGS$. In the next
++new *ioctl()'s* implemented in `cdrom.c`, that allow you to control the
++behavior by software. These are::
++
++	CDROM_SET_OPTIONS	/* set options specified in (int)arg */
++	CDROM_CLEAR_OPTIONS	/* clear options specified in (int)arg */
++
++One option needs some more explanation: *CDO_USE_FFLAGS*. In the next
+ newsection we explain what the need for this option is.
+ 
+-A software package {\tt setcd}, available from the Debian distribution
+-and {\tt sunsite.unc.edu}, allows user level control of these flags. 
++A software package `setcd`, available from the Debian distribution
++and `sunsite.unc.edu`, allows user level control of these flags.
+ 
+-\newsection{The need to know the purpose of opening the \cdrom\ device}
+ 
+-Traditionally, Unix devices can be used in two different `modes',
++The need to know the purpose of opening the CD-ROM device
++=========================================================
++
++Traditionally, Unix devices can be used in two different `modes`,
+ either by reading/writing to the device file, or by issuing
+-controlling commands to the device, by the device's $ioctl()$
+-call. The problem with \cdrom\ drives, is that they can be used for
++controlling commands to the device, by the device's *ioctl()*
++call. The problem with CD-ROM drives, is that they can be used for
+ two entirely different purposes. One is to mount removable
+-file systems, \cdrom s, the other is to play audio CD's. Audio commands
+-are implemented entirely through $ioctl$s, presumably because the
++file systems, CD-ROM's, the other is to play audio CD's. Audio commands
++are implemented entirely through *ioctl()\'s*, presumably because the
+ first implementation (SUN?) has been such. In principle there is
+-nothing wrong with this, but a good control of the `CD player' demands
+-that the device can {\em always\/} be opened in order to give the
+-$ioctl$ commands, regardless of the state the drive is in. 
++nothing wrong with this, but a good control of the `CD player` demands
++that the device can **always** be opened in order to give the
++*ioctl* commands, regardless of the state the drive is in.
+ 
+ On the other hand, when used as a removable-media disc drive (what the
+-original purpose of \cdrom s is) we would like to make sure that the
++original purpose of CD-ROM s is) we would like to make sure that the
+ disc drive is ready for operation upon opening the device. In the old
+-scheme, some \cdrom\ drivers don't do any integrity checking, resulting
++scheme, some CD-ROM drivers don't do any integrity checking, resulting
+ in a number of i/o errors reported by the VFS to the kernel when an
+-attempt for mounting a \cdrom\ on an empty drive occurs. This is not a
+-particularly elegant way to find out that there is no \cdrom\ inserted;
++attempt for mounting a CD-ROM on an empty drive occurs. This is not a
++particularly elegant way to find out that there is no CD-ROM inserted;
+ it more-or-less looks like the old IBM-PC trying to read an empty floppy
+ drive for a couple of seconds, after which the system complains it
+-can't read from it. Nowadays we can {\em sense\/} the existence of a
++can't read from it. Nowadays we can **sense** the existence of a
+ removable medium in a drive, and we believe we should exploit that
+ fact. An integrity check on opening of the device, that verifies the
+-availability of a \cdrom\ and its correct type (data), would be
++availability of a CD-ROM and its correct type (data), would be
+ desirable.
+ 
+-These two ways of using a \cdrom\ drive, principally for data and
++These two ways of using a CD-ROM drive, principally for data and
+ secondarily for playing audio discs, have different demands for the
+-behavior of the $open()$ call. Audio use simply wants to open the
++behavior of the *open()* call. Audio use simply wants to open the
+ device in order to get a file handle which is needed for issuing
+-$ioctl$ commands, while data use wants to open for correct and
++*ioctl* commands, while data use wants to open for correct and
+ reliable data transfer. The only way user programs can indicate what
+-their {\em purpose\/} of opening the device is, is through the $flags$
+-parameter (see {\tt {open(2)}}). For \cdrom\ devices, these flags aren't
++their *purpose* of opening the device is, is through the *flags*
++parameter (see `open(2)`). For CD-ROM devices, these flags aren't
+ implemented (some drivers implement checking for write-related flags,
+ but this is not strictly necessary if the device file has correct
+ permission flags). Most option flags simply don't make sense to
+-\cdrom\ devices: $O_CREAT$, $O_NOCTTY$, $O_TRUNC$, $O_APPEND$, and
+-$O_SYNC$ have no meaning to a \cdrom. 
++CD-ROM devices: *O_CREAT*, *O_NOCTTY*, *O_TRUNC*, *O_APPEND*, and
++*O_SYNC* have no meaning to a CD-ROM.
+ 
+-We therefore propose to use the flag $O_NONBLOCK$ to indicate
+-that the device is opened just for issuing $ioctl$
+-commands. Strictly, the meaning of $O_NONBLOCK$ is that opening and
++We therefore propose to use the flag *O_NONBLOCK* to indicate
++that the device is opened just for issuing *ioctl*
++commands. Strictly, the meaning of *O_NONBLOCK* is that opening and
+ subsequent calls to the device don't cause the calling process to
+-wait. We could interpret this as ``don't wait until someone has
+-inserted some valid data-\cdrom.'' Thus, our proposal of the
+-implementation for the $open()$ call for \cdrom s is:
+-\begin{itemize}
+-\item If no other flags are set than $O_RDONLY$, the device is opened
+-for data transfer, and the return value will be 0 only upon successful
+-initialization of the transfer. The call may even induce some actions
+-on the \cdrom, such as closing the tray.  
+-\item If the option flag $O_NONBLOCK$ is set, opening will always be
+-successful, unless the whole device doesn't exist. The drive will take
+-no actions whatsoever. 
+-\end{itemize}
++wait. We could interpret this as don't wait until someone has
++inserted some valid data-CD-ROM. Thus, our proposal of the
++implementation for the *open()* call for CD-ROM s is:
+ 
+-\subsection{And what about standards?}
++- If no other flags are set than *O_RDONLY*, the device is opened
++  for data transfer, and the return value will be 0 only upon successful
++  initialization of the transfer. The call may even induce some actions
++  on the CD-ROM, such as closing the tray.
++- If the option flag *O_NONBLOCK* is set, opening will always be
++  successful, unless the whole device doesn't exist. The drive will take
++  no actions whatsoever.
++
++And what about standards?
++-------------------------
+ 
+ You might hesitate to accept this proposal as it comes from the
+-\linux\ community, and not from some standardizing institute. What
++Linux community, and not from some standardizing institute. What
+ about SUN, SGI, HP and all those other Unix and hardware vendors?
+ Well, these companies are in the lucky position that they generally
+ control both the hardware and software of their supported products,
+ and are large enough to set their own standard. They do not have to
+ deal with a dozen or more different, competing hardware
+-configurations.\footnote{Incidentally, I think that SUN's approach to
+-mounting \cdrom s is very good in origin: under Solaris a
+-volume-daemon automatically mounts a newly inserted \cdrom\ under {\tt
+-{/cdrom/$<volume-name>$/}}. In my opinion they should have pushed this
+-further and have {\em every\/} \cdrom\ on the local area network be
+-mounted at the similar location, \ie, no matter in which particular
+-machine you insert a \cdrom, it will always appear at the same
+-position in the directory tree, on every system. When I wanted to
+-implement such a user-program for \linux, I came across the
+-differences in behavior of the various drivers, and the need for an
+-$ioctl$ informing about media changes.}
+-
+-We believe that using $O_NONBLOCK$ to indicate that a device is being opened
+-for $ioctl$ commands only can be easily introduced in the \linux\
++configurations\ [#f3]_.
++
++.. [#f3]
++
++   Incidentally, I think that SUN's approach to mounting CD-ROM s is very
++   good in origin: under Solaris a volume-daemon automatically mounts a
++   newly inserted CD-ROM under `/cdrom/*<volume-name>*`.
++
++   In my opinion they should have pushed this
++   further and have **every** CD-ROM on the local area network be
++   mounted at the similar location, i. e., no matter in which particular
++   machine you insert a CD-ROM, it will always appear at the same
++   position in the directory tree, on every system. When I wanted to
++   implement such a user-program for Linux, I came across the
++   differences in behavior of the various drivers, and the need for an
++   *ioctl* informing about media changes.
++
++We believe that using *O_NONBLOCK* to indicate that a device is being opened
++for *ioctl* commands only can be easily introduced in the Linux
+ community. All the CD-player authors will have to be informed, we can
+-even send in our own patches to the programs. The use of $O_NONBLOCK$
++even send in our own patches to the programs. The use of *O_NONBLOCK*
+ has most likely no influence on the behavior of the CD-players on
+-other operating systems than \linux. Finally, a user can always revert
+-to old behavior by a call to $ioctl(file_descriptor, CDROM_CLEAR_OPTIONS,
+-CDO_USE_FFLAGS)$. 
++other operating systems than Linux. Finally, a user can always revert
++to old behavior by a call to
++*ioctl(file_descriptor, CDROM_CLEAR_OPTIONS, CDO_USE_FFLAGS)*.
+ 
+-\subsection{The preferred strategy of $open()$}
++The preferred strategy of *open()*
++----------------------------------
+ 
+-The routines in \cdromc\ are designed in such a way that run-time
+-configuration of the behavior of \cdrom\ devices (of {\em any\/} type)
+-can be carried out, by the $CDROM_SET/CLEAR_OPTIONS$ $ioctls$. Thus, various
++The routines in `cdrom.c` are designed in such a way that run-time
++configuration of the behavior of CD-ROM devices (of **any** type)
++can be carried out, by the *CDROM_SET/CLEAR_OPTIONS* *ioctls*. Thus, various
+ modes of operation can be set:
+-\begin{description}
+-\item[$CDO_AUTO_CLOSE \mathrel| CDO_USE_FFLAGS \mathrel| CDO_LOCK$] This
+-is the default setting. (With $CDO_CHECK_TYPE$ it will be better, in the
+-future.) If the device is not yet opened by any other process, and if
+-the device is being opened for data ($O_NONBLOCK$ is not set) and the
+-tray is found to be open, an attempt to close the tray is made. Then,
+-it is verified that a disc is in the drive and, if $CDO_CHECK_TYPE$ is
+-set, that it contains tracks of type `data mode 1.' Only if all tests
+-are passed is the return value zero. The door is locked to prevent file
+-system corruption. If the drive is opened for audio ($O_NONBLOCK$ is
+-set), no actions are taken and a value of 0 will be returned. 
+-\item[$CDO_AUTO_CLOSE \mathrel| CDO_AUTO_EJECT \mathrel| CDO_LOCK$] This
+-mimics the behavior of the current sbpcd-driver. The option flags are
+-ignored, the tray is closed on the first open, if necessary. Similarly,
+-the tray is opened on the last release, \ie, if a \cdrom\ is unmounted,
+-it is automatically ejected, such that the user can replace it.
+-\end{description} 
++
++`CDO_AUTO_CLOSE | CDO_USE_FFLAGS | CDO_LOCK`
++   This is the default setting. (With *CDO_CHECK_TYPE* it will be better, in
++   the future.) If the device is not yet opened by any other process, and if
++   the device is being opened for data (*O_NONBLOCK* is not set) and the
++   tray is found to be open, an attempt to close the tray is made. Then,
++   it is verified that a disc is in the drive and, if *CDO_CHECK_TYPE* is
++   set, that it contains tracks of type `data mode 1`. Only if all tests
++   are passed is the return value zero. The door is locked to prevent file
++   system corruption. If the drive is opened for audio (*O_NONBLOCK* is
++   set), no actions are taken and a value of 0 will be returned.
++
++`CDO_AUTO_CLOSE | CDO_AUTO_EJECT | CDO_LOCK`
++   This mimics the behavior of the current sbpcd-driver. The option flags are
++   ignored, the tray is closed on the first open, if necessary. Similarly,
++   the tray is opened on the last release, i. e., if a CD-ROM is unmounted,
++   it is automatically ejected, such that the user can replace it.
++
+ We hope that these option can convince everybody (both driver
+-maintainers and user program developers) to adopt the new \cdrom\
++maintainers and user program developers) to adopt the new CD-ROM
+ driver scheme and option flag interpretation.
+ 
+-\newsection{Description of routines in \cdromc}
++Description of routines in `cdrom.c`
++====================================
+ 
+-Only a few routines in \cdromc\ are exported to the drivers. In this
++Only a few routines in `cdrom.c` are exported to the drivers. In this
+ new section we will discuss these, as well as the functions that `take
+-over' the \cdrom\ interface to the kernel. The header file belonging
+-to \cdromc\ is called \cdromh. Formerly, some of the contents of this
+-file were placed in the file {\tt {ucdrom.h}}, but this file has now been
+-merged back into \cdromh.
++over' the CD-ROM interface to the kernel. The header file belonging
++to `cdrom.c` is called `cdrom.h`. Formerly, some of the contents of this
++file were placed in the file `ucdrom.h`, but this file has now been
++merged back into `cdrom.h`.
+ 
+-\subsection{$Struct\ file_operations\ cdrom_fops$}
++::
+ 
+-The contents of this structure were described in section~\ref{cdrom.c}.
+-A pointer to this structure is assigned to the $fops$ field
+-of the $struct gendisk$.
++	struct file_operations cdrom_fops
+ 
+-\subsection{$Int\ register_cdrom( struct\ cdrom_device_info\ * cdi)$}
++The contents of this structure were described in cdrom_api_.
++A pointer to this structure is assigned to the *fops* field
++of the *struct gendisk*.
+ 
+-This function is used in about the same way one registers $cdrom_fops$
++::
++
++	int register_cdrom(struct cdrom_device_info *cdi)
++
++This function is used in about the same way one registers *cdrom_fops*
+ with the kernel, the device operations and information structures,
+-as described in section~\ref{cdrom.c}, should be registered with the
+-\UCD:
+-$$
+-register_cdrom(\&<device>_info));
+-$$
++as described in cdrom_api_, should be registered with the
++Uniform CD-ROM Driver::
++
++	register_cdrom(&<device>_info);
++
++
+ This function returns zero upon success, and non-zero upon
+-failure. The structure $<device>_info$ should have a pointer to the
+-driver's $<device>_dops$, as in 
+-$$
+-\vbox{\halign{&$#$\hfil\cr
+-struct\ &cdrom_device_info\ <device>_info = \{\cr
+-& <device>_dops;\cr
+-&\ldots\cr
+-\}\cr
+-}}$$
+-Note that a driver must have one static structure, $<device>_dops$, while
+-it may have as many structures $<device>_info$ as there are minor devices
+-active. $Register_cdrom()$ builds a linked list from these. 
++failure. The structure *<device>_info* should have a pointer to the
++driver's *<device>_dops*, as in::
+ 
+-\subsection{$Void\ unregister_cdrom(struct\ cdrom_device_info * cdi)$}
++	struct cdrom_device_info <device>_info = {
++		<device>_dops;
++		...
++	}
+ 
+-Unregistering device $cdi$ with minor number $MINOR(cdi\to dev)$ removes
++Note that a driver must have one static structure, *<device>_dops*, while
++it may have as many structures *<device>_info* as there are minor devices
++active. *Register_cdrom()* builds a linked list from these.
++
++
++::
++
++	void unregister_cdrom(struct cdrom_device_info *cdi)
++
++Unregistering device *cdi* with minor number *MINOR(cdi->dev)* removes
+ the minor device from the list. If it was the last registered minor for
+ the low-level driver, this disconnects the registered device-operation
+-routines from the \cdrom\ interface. This function returns zero upon
++routines from the CD-ROM interface. This function returns zero upon
+ success, and non-zero upon failure.
+ 
+-\subsection{$Int\ cdrom_open(struct\ inode * ip, struct\ file * fp)$}
++::
++
++	int cdrom_open(struct inode * ip, struct file * fp)
+ 
+ This function is not called directly by the low-level drivers, it is
+-listed in the standard $cdrom_fops$. If the VFS opens a file, this
++listed in the standard *cdrom_fops*. If the VFS opens a file, this
+ function becomes active. A strategy is implemented in this routine,
+ taking care of all capabilities and options that are set in the
+-$cdrom_device_ops$ connected to the device. Then, the program flow is
+-transferred to the device_dependent $open()$ call.
++*cdrom_device_ops* connected to the device. Then, the program flow is
++transferred to the device_dependent *open()* call.
+ 
+-\subsection{$Void\ cdrom_release(struct\ inode *ip, struct\ file
+-*fp)$}
++::
+ 
+-This function implements the reverse-logic of $cdrom_open()$, and then
+-calls the device-dependent $release()$ routine. When the use-count has
+-reached 0, the allocated buffers are flushed by calls to $sync_dev(dev)$
+-and $invalidate_buffers(dev)$.
++	void cdrom_release(struct inode *ip, struct file *fp)
+ 
++This function implements the reverse-logic of *cdrom_open()*, and then
++calls the device-dependent *release()* routine. When the use-count has
++reached 0, the allocated buffers are flushed by calls to *sync_dev(dev)*
++and *invalidate_buffers(dev)*.
+ 
+-\subsection{$Int\ cdrom_ioctl(struct\ inode *ip, struct\ file *fp,
+-unsigned\ int\ cmd, unsigned\ long\ arg)$}
+-\label{cdrom-ioctl}
+ 
+-This function handles all the standard $ioctl$ requests for \cdrom\
++.. _cdrom_ioctl:
++
++::
++
++	int cdrom_ioctl(struct inode *ip, struct file *fp,
++			unsigned int cmd, unsigned long arg)
++
++This function handles all the standard *ioctl* requests for CD-ROM
+ devices in a uniform way. The different calls fall into three
+-categories: $ioctl$s that can be directly implemented by device
+-operations, ones that are routed through the call $audio_ioctl()$, and
++categories: *ioctl()'s* that can be directly implemented by device
++operations, ones that are routed through the call *audio_ioctl()*, and
+ the remaining ones, that are presumable device-dependent. Generally, a
+ negative return value indicates an error.
+ 
+-\subsubsection{Directly implemented $ioctl$s}
+-\label{ioctl-direct}
++Directly implemented *ioctl()'s*
++--------------------------------
+ 
+-The following `old' \cdrom-$ioctl$s are implemented by directly
+-calling device-operations in $cdrom_device_ops$, if implemented and
++The following `old` CD-ROM *ioctl()*\ 's are implemented by directly
++calling device-operations in *cdrom_device_ops*, if implemented and
+ not masked:
+-\begin{description}
+-\item[CDROMMULTISESSION] Requests the last session on a \cdrom.
+-\item[CDROMEJECT] Open tray. 
+-\item[CDROMCLOSETRAY] Close tray.
+-\item[CDROMEJECT_SW] If $arg\not=0$, set behavior to auto-close (close
+-tray on first open) and auto-eject (eject on last release), otherwise
+-set behavior to non-moving on $open()$ and $release()$ calls.
+-\item[CDROM_GET_MCN] Get the Media Catalog Number from a CD.
+-\end{description}
+ 
+-\subsubsection{$Ioctl$s routed through $audio_ioctl()$}
+-\label{ioctl-audio}
++`CDROMMULTISESSION`
++	Requests the last session on a CD-ROM.
++`CDROMEJECT`
++	Open tray.
++`CDROMCLOSETRAY`
++	Close tray.
++`CDROMEJECT_SW`
++	If *arg\not=0*, set behavior to auto-close (close
++	tray on first open) and auto-eject (eject on last release), otherwise
++	set behavior to non-moving on *open()* and *release()* calls.
++`CDROM_GET_MCN`
++	Get the Media Catalog Number from a CD.
+ 
+-The following set of $ioctl$s are all implemented through a call to
+-the $cdrom_fops$ function $audio_ioctl()$. Memory checks and
+-allocation are performed in $cdrom_ioctl()$, and also sanitization of
+-address format ($CDROM_LBA$/$CDROM_MSF$) is done.
+-\begin{description}
+-\item[CDROMSUBCHNL] Get sub-channel data in argument $arg$ of type $struct\
+-cdrom_subchnl *{}$.
+-\item[CDROMREADTOCHDR] Read Table of Contents header, in $arg$ of type
+-$struct\ cdrom_tochdr *{}$. 
+-\item[CDROMREADTOCENTRY] Read a Table of Contents entry in $arg$ and
+-specified by $arg$ of type $struct\ cdrom_tocentry *{}$.
+-\item[CDROMPLAYMSF] Play audio fragment specified in Minute, Second,
+-Frame format, delimited by $arg$ of type $struct\ cdrom_msf *{}$.
+-\item[CDROMPLAYTRKIND] Play audio fragment in track-index format
+-delimited by $arg$ of type $struct\ \penalty-1000 cdrom_ti *{}$.
+-\item[CDROMVOLCTRL] Set volume specified by $arg$ of type $struct\
+-cdrom_volctrl *{}$.
+-\item[CDROMVOLREAD] Read volume into by $arg$ of type $struct\
+-cdrom_volctrl *{}$.
+-\item[CDROMSTART] Spin up disc.
+-\item[CDROMSTOP] Stop playback of audio fragment.
+-\item[CDROMPAUSE] Pause playback of audio fragment.
+-\item[CDROMRESUME] Resume playing.
+-\end{description}
++*Ioctl*s routed through *audio_ioctl()*
++---------------------------------------
+ 
+-\subsubsection{New $ioctl$s in \cdromc}
++The following set of *ioctl()'s* are all implemented through a call to
++the *cdrom_fops* function *audio_ioctl()*. Memory checks and
++allocation are performed in *cdrom_ioctl()*, and also sanitization of
++address format (*CDROM_LBA*/*CDROM_MSF*) is done.
+ 
+-The following $ioctl$s have been introduced to allow user programs to
+-control the behavior of individual \cdrom\ devices. New $ioctl$
++`CDROMSUBCHNL`
++	Get sub-channel data in argument *arg* of type
++	`struct cdrom_subchnl *`.
++`CDROMREADTOCHDR`
++	Read Table of Contents header, in *arg* of type
++	`struct cdrom_tochdr *`.
++`CDROMREADTOCENTRY`
++	Read a Table of Contents entry in *arg* and specified by *arg*
++	of type `struct cdrom_tocentry *`.
++`CDROMPLAYMSF`
++	Play audio fragment specified in Minute, Second, Frame format,
++	delimited by *arg* of type `struct cdrom_msf *`.
++`CDROMPLAYTRKIND`
++	Play audio fragment in track-index format delimited by *arg*
++	of type `struct cdrom_ti *`.
++`CDROMVOLCTRL`
++	Set volume specified by *arg* of type `struct cdrom_volctrl *`.
++`CDROMVOLREAD`
++	Read volume into by *arg* of type `struct cdrom_volctrl *`.
++`CDROMSTART`
++	Spin up disc.
++`CDROMSTOP`
++	Stop playback of audio fragment.
++`CDROMPAUSE`
++	Pause playback of audio fragment.
++`CDROMRESUME`
++	Resume playing.
++
++New *ioctl()'s* in `cdrom.c`
++----------------------------
++
++The following *ioctl()'s* have been introduced to allow user programs to
++control the behavior of individual CD-ROM devices. New *ioctl*
+ commands can be identified by the underscores in their names.
+-\begin{description}
+-\item[CDROM_SET_OPTIONS] Set options specified by $arg$. Returns the
+-option flag register after modification. Use  $arg = \rm0$ for reading
+-the current flags.
+-\item[CDROM_CLEAR_OPTIONS] Clear options specified by $arg$. Returns
+-  the option flag register after modification.
+-\item[CDROM_SELECT_SPEED] Select head-rate speed of disc specified as
+-  by $arg$ in units of standard cdrom speed (176\,kB/sec raw data or
+-  150\,kB/sec file system data). The value 0 means `auto-select', \ie,
+-  play audio discs at real time and data discs at maximum speed. The value
+-  $arg$ is checked against the maximum head rate of the drive found in the
+-  $cdrom_dops$.
+-\item[CDROM_SELECT_DISC] Select disc numbered $arg$ from a juke-box.
+-  First disc is numbered 0. The number $arg$ is checked against the
+-  maximum number of discs in the juke-box found in the $cdrom_dops$.
+-\item[CDROM_MEDIA_CHANGED] Returns 1 if a disc has been changed since
+-  the last call. Note that calls to $cdrom_media_changed$ by the VFS
+-  are treated by an independent queue, so both mechanisms will detect
+-  a media change once. For juke-boxes, an extra argument $arg$
+-  specifies the slot for which the information is given. The special
+-  value $CDSL_CURRENT$ requests that information about the currently
+-  selected slot be returned.
+-\item[CDROM_DRIVE_STATUS] Returns the status of the drive by a call to
+-  $drive_status()$. Return values are defined in section~\ref{drive
+-   status}. Note that this call doesn't return information on the
+-  current playing activity of the drive; this can be polled through an
+-  $ioctl$ call to $CDROMSUBCHNL$. For juke-boxes, an extra argument
+-  $arg$ specifies the slot for which (possibly limited) information is
+-  given. The special value $CDSL_CURRENT$ requests that information
+-  about the currently selected slot be returned.
+-\item[CDROM_DISC_STATUS] Returns the type of the disc currently in the
+-  drive.  It should be viewed as a complement to $CDROM_DRIVE_STATUS$.
+-  This $ioctl$ can provide \emph {some} information about the current
+-  disc that is inserted in the drive.  This functionality used to be
+-  implemented in the low level drivers, but is now carried out
+-  entirely in \UCD.
+-  
+-  The history of development of the CD's use as a carrier medium for
+-  various digital information has lead to many different disc types.
+-  This $ioctl$ is useful only in the case that CDs have \emph {only
+-    one} type of data on them.  While this is often the case, it is
+-  also very common for CDs to have some tracks with data, and some
+-  tracks with audio.  Because this is an existing interface, rather
+-  than fixing this interface by changing the assumptions it was made
+-  under, thereby breaking all user applications that use this
+-  function, the \UCD\ implements this $ioctl$ as follows: If the CD in
+-  question has audio tracks on it, and it has absolutely no CD-I, XA,
+-  or data tracks on it, it will be reported as $CDS_AUDIO$.  If it has
+-  both audio and data tracks, it will return $CDS_MIXED$.  If there
+-  are no audio tracks on the disc, and if the CD in question has any
+-  CD-I tracks on it, it will be reported as $CDS_XA_2_2$.  Failing
+-  that, if the CD in question has any XA tracks on it, it will be
+-  reported as $CDS_XA_2_1$.  Finally, if the CD in question has any
+-  data tracks on it, it will be reported as a data CD ($CDS_DATA_1$).
+ 
+-  This $ioctl$ can return:
+-  $$
+-  \halign{$#$\ \hfil&$/*$ \rm# $*/$\hfil\cr
+-    CDS_NO_INFO& no information available\cr
+-    CDS_NO_DISC& no disc is inserted, or tray is opened\cr
+-    CDS_AUDIO& Audio disc (2352 audio bytes/frame)\cr
+-    CDS_DATA_1& data disc, mode 1 (2048 user bytes/frame)\cr
+-    CDS_XA_2_1& mixed data (XA), mode 2, form 1 (2048 user bytes)\cr
+-    CDS_XA_2_2& mixed data (XA), mode 2, form 1 (2324  user bytes)\cr
+-    CDS_MIXED& mixed audio/data disc\cr
+-    }
+-  $$
+-  For some information concerning frame layout of the various disc
+-  types, see a recent version of \cdromh.
++`CDROM_SET_OPTIONS`
++	Set options specified by *arg*. Returns the option flag register
++	after modification. Use *arg = \rm0* for reading the current flags.
++`CDROM_CLEAR_OPTIONS`
++	Clear options specified by *arg*. Returns the option flag register
++	after modification.
++`CDROM_SELECT_SPEED`
++	Select head-rate speed of disc specified as by *arg* in units
++	of standard cdrom speed (176\,kB/sec raw data or
++	150kB/sec file system data). The value 0 means `auto-select`,
++	i. e., play audio discs at real time and data discs at maximum speed.
++	The value *arg* is checked against the maximum head rate of the
++	drive found in the *cdrom_dops*.
++`CDROM_SELECT_DISC`
++	Select disc numbered *arg* from a juke-box.
+ 
+-\item[CDROM_CHANGER_NSLOTS] Returns the number of slots in a
+-  juke-box. 
+-\item[CDROMRESET] Reset the drive. 
+-\item[CDROM_GET_CAPABILITY] Returns the $capability$ flags for the
+-  drive. Refer to section \ref{capability} for more information on
+-  these flags.
+-\item[CDROM_LOCKDOOR] Locks the door of the drive. $arg == \rm0$
+-  unlocks the door, any other value locks it.
+-\item[CDROM_DEBUG] Turns on debugging info. Only root is allowed
+-  to do this. Same semantics as CDROM_LOCKDOOR.
+-\end{description}
++	First disc is numbered 0. The number *arg* is checked against the
++	maximum number of discs in the juke-box found in the *cdrom_dops*.
++`CDROM_MEDIA_CHANGED`
++	Returns 1 if a disc has been changed since the last call.
++	Note that calls to *cdrom_media_changed* by the VFS are treated
++	by an independent queue, so both mechanisms will detect a
++	media change once. For juke-boxes, an extra argument *arg*
++	specifies the slot for which the information is given. The special
++	value *CDSL_CURRENT* requests that information about the currently
++	selected slot be returned.
++`CDROM_DRIVE_STATUS`
++	Returns the status of the drive by a call to
++	*drive_status()*. Return values are defined in cdrom_drive_status_.
++	Note that this call doesn't return information on the
++	current playing activity of the drive; this can be polled through
++	an *ioctl* call to *CDROMSUBCHNL*. For juke-boxes, an extra argument
++	*arg* specifies the slot for which (possibly limited) information is
++	given. The special value *CDSL_CURRENT* requests that information
++	about the currently selected slot be returned.
++`CDROM_DISC_STATUS`
++	Returns the type of the disc currently in the drive.
++	It should be viewed as a complement to *CDROM_DRIVE_STATUS*.
++	This *ioctl* can provide *some* information about the current
++	disc that is inserted in the drive. This functionality used to be
++	implemented in the low level drivers, but is now carried out
++	entirely in Uniform CD-ROM Driver.
+ 
+-\subsubsection{Device dependent $ioctl$s}
++	The history of development of the CD's use as a carrier medium for
++	various digital information has lead to many different disc types.
++	This *ioctl* is useful only in the case that CDs have \emph {only
++	one} type of data on them. While this is often the case, it is
++	also very common for CDs to have some tracks with data, and some
++	tracks with audio. Because this is an existing interface, rather
++	than fixing this interface by changing the assumptions it was made
++	under, thereby breaking all user applications that use this
++	function, the Uniform CD-ROM Driver implements this *ioctl* as
++	follows: If the CD in question has audio tracks on it, and it has
++	absolutely no CD-I, XA, or data tracks on it, it will be reported
++	as *CDS_AUDIO*. If it has both audio and data tracks, it will
++	return *CDS_MIXED*. If there are no audio tracks on the disc, and
++	if the CD in question has any CD-I tracks on it, it will be
++	reported as *CDS_XA_2_2*. Failing that, if the CD in question
++	has any XA tracks on it, it will be reported as *CDS_XA_2_1*.
++	Finally, if the CD in question has any data tracks on it,
++	it will be reported as a data CD (*CDS_DATA_1*).
+ 
+-Finally, all other $ioctl$s are passed to the function $dev_ioctl()$,
+-if implemented. No memory allocation or verification is carried out. 
++	This *ioctl* can return::
+ 
+-\newsection{How to update your driver}
++		CDS_NO_INFO	/* no information available */
++		CDS_NO_DISC	/* no disc is inserted, or tray is opened */
++		CDS_AUDIO	/* Audio disc (2352 audio bytes/frame) */
++		CDS_DATA_1	/* data disc, mode 1 (2048 user bytes/frame) */
++		CDS_XA_2_1	/* mixed data (XA), mode 2, form 1 (2048 user bytes) */
++		CDS_XA_2_2	/* mixed data (XA), mode 2, form 1 (2324 user bytes) */
++		CDS_MIXED	/* mixed audio/data disc */
+ 
+-\begin{enumerate}
+-\item Make a backup of your current driver. 
+-\item Get hold of the files \cdromc\ and \cdromh, they should be in
++	For some information concerning frame layout of the various disc
++	types, see a recent version of `cdrom.h`.
++
++`CDROM_CHANGER_NSLOTS`
++	Returns the number of slots in a juke-box.
++`CDROMRESET`
++	Reset the drive.
++`CDROM_GET_CAPABILITY`
++	Returns the *capability* flags for the drive. Refer to section
++	cdrom_capabilities_ for more information on these flags.
++`CDROM_LOCKDOOR`
++	 Locks the door of the drive. `arg == 0` unlocks the door,
++	 any other value locks it.
++`CDROM_DEBUG`
++	 Turns on debugging info. Only root is allowed to do this.
++	 Same semantics as CDROM_LOCKDOOR.
++
++
++Device dependent *ioctl()'s*
++----------------------------
++
++Finally, all other *ioctl()'s* are passed to the function *dev_ioctl()*,
++if implemented. No memory allocation or verification is carried out.
++
++How to update your driver
++=========================
++
++- Make a backup of your current driver.
++- Get hold of the files `cdrom.c` and `cdrom.h`, they should be in
+   the directory tree that came with this documentation.
+-\item Make sure you include \cdromh.
+-\item Change the 3rd argument of $register_blkdev$ from
+-$\&<your-drive>_fops$ to $\&cdrom_fops$. 
+-\item Just after that line, add the following to register with the \UCD:
+-  $$register_cdrom(\&<your-drive>_info);$$
+-  Similarly, add a call to $unregister_cdrom()$ at the appropriate place.
+-\item Copy an example of the device-operations $struct$ to your
+-  source, \eg, from {\tt {cm206.c}} $cm206_dops$, and change all
++- Make sure you include `cdrom.h`.
++- Change the 3rd argument of *register_blkdev* from `&<your-drive>_fops`
++  to `&cdrom_fops`.
++- Just after that line, add the following to register with the Uniform
++  CD-ROM Driver::
++
++	register_cdrom(&<your-drive>_info);*
++
++  Similarly, add a call to *unregister_cdrom()* at the appropriate place.
++- Copy an example of the device-operations *struct* to your
++  source, e. g., from `cm206.c` *cm206_dops*, and change all
+   entries to names corresponding to your driver, or names you just
+   happen to like. If your driver doesn't support a certain function,
+-  make the entry $NULL$. At the entry $capability$ you should list all
++  make the entry *NULL*. At the entry *capability* you should list all
+   capabilities your driver currently supports. If your driver
+   has a capability that is not listed, please send me a message.
+-\item Copy the $cdrom_device_info$ declaration from the same example
++- Copy the *cdrom_device_info* declaration from the same example
+   driver, and modify the entries according to your needs. If your
+   driver dynamically determines the capabilities of the hardware, this
+-  structure should also be declared dynamically. 
+-\item Implement all functions in your $<device>_dops$ structure,
+-  according to prototypes listed in \cdromh, and specifications given
+-  in section~\ref{cdrom.c}. Most likely you have already implemented
++  structure should also be declared dynamically.
++- Implement all functions in your `<device>_dops` structure,
++  according to prototypes listed in  `cdrom.h`, and specifications given
++  in cdrom_api_. Most likely you have already implemented
+   the code in a large part, and you will almost certainly need to adapt the
+   prototype and return values.
+-\item Rename your $<device>_ioctl()$ function to $audio_ioctl$ and
++- Rename your `<device>_ioctl()` function to *audio_ioctl* and
+   change the prototype a little. Remove entries listed in the first
+-  part in section~\ref{cdrom-ioctl}, if your code was OK, these are
++  part in cdrom_ioctl_, if your code was OK, these are
+   just calls to the routines you adapted in the previous step.
+-\item You may remove all remaining memory checking code in the
+-  $audio_ioctl()$ function that deals with audio commands (these are
+-  listed in the second part of section~\ref{cdrom-ioctl}). There is no
+-  need for memory allocation either, so most $case$s in the $switch$
+-  statement look similar to:
+-  $$
+-  case\ CDROMREADTOCENTRY\colon get_toc_entry\bigl((struct\ 
+-  cdrom_tocentry *{})\ arg\bigr);
+-  $$
+-\item All remaining $ioctl$ cases must be moved to a separate
+-  function, $<device>_ioctl$, the device-dependent $ioctl$s. Note that
++- You may remove all remaining memory checking code in the
++  *audio_ioctl()* function that deals with audio commands (these are
++  listed in the second part of cdrom_ioctl_. There is no
++  need for memory allocation either, so most *case*s in the *switch*
++  statement look similar to::
++
++	case CDROMREADTOCENTRY:
++		get_toc_entry\bigl((struct cdrom_tocentry *) arg);
++
++- All remaining *ioctl* cases must be moved to a separate
++  function, *<device>_ioctl*, the device-dependent *ioctl()'s*. Note that
+   memory checking and allocation must be kept in this code!
+-\item Change the prototypes of $<device>_open()$ and
+-  $<device>_release()$, and remove any strategic code (\ie, tray
++- Change the prototypes of *<device>_open()* and
++  *<device>_release()*, and remove any strategic code (i. e., tray
+   movement, door locking, etc.).
+-\item Try to recompile the drivers. We advise you to use modules, both
+-  for {\tt {cdrom.o}} and your driver, as debugging is much easier this
++- Try to recompile the drivers. We advise you to use modules, both
++  for `cdrom.o` and your driver, as debugging is much easier this
+   way.
+-\end{enumerate} 
+ 
+-\newsection{Thanks}
++Thanks
++======
+ 
+-Thanks to all the people involved.  First, Erik Andersen, who has
+-taken over the torch in maintaining \cdromc\ and integrating much
+-\cdrom-related code in the 2.1-kernel.  Thanks to Scott Snyder and
++Thanks to all the people involved. First, Erik Andersen, who has
++taken over the torch in maintaining `cdrom.c` and integrating much
++CD-ROM-related code in the 2.1-kernel. Thanks to Scott Snyder and
+ Gerd Knorr, who were the first to implement this interface for SCSI
+ and IDE-CD drivers and added many ideas for extension of the data
+-structures relative to kernel~2.0.  Further thanks to Heiko Ei{\ss}feldt,
+-Thomas Quinot, Jon Tombs, Ken Pizzini, Eberhard M\"onkeberg and Andrew
+-Kroll, the \linux\ \cdrom\ device driver developers who were kind
++structures relative to kernel~2.0. Further thanks to Heiko Eißfeldt,
++Thomas Quinot, Jon Tombs, Ken Pizzini, Eberhard Mönkeberg and Andrew Kroll,
++the Linux CD-ROM device driver developers who were kind
+ enough to give suggestions and criticisms during the writing. Finally
+ of course, I want to thank Linus Torvalds for making this possible in
+ the first place.
+-
+-\vfill
+-$ \version\ $
+-\eject
+-\end{document}
+diff --git a/drivers/cdrom/cdrom.c b/drivers/cdrom/cdrom.c
+index 933268b8d6a5..5d1e0a4a7d84 100644
+--- a/drivers/cdrom/cdrom.c
++++ b/drivers/cdrom/cdrom.c
+@@ -7,7 +7,7 @@
+    License.  See linux/COPYING for more information.
+ 
+    Uniform CD-ROM driver for Linux.
+-   See Documentation/cdrom/cdrom-standard.tex for usage information.
++   See Documentation/cdrom/cdrom-standard.txt for usage information.
+ 
+    The routines in the file provide a uniform interface between the
+    software that uses CD-ROMs and the various low-level drivers that
 -- 
 2.21.0
 
