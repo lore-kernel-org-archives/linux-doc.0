@@ -3,105 +3,120 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B3C307D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Jun 2019 07:54:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D57B87D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Jun 2019 09:16:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727432AbfFIHyo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 9 Jun 2019 03:54:44 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:44321 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725850AbfFIHyo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Jun 2019 03:54:44 -0400
-Received: by mail-lf1-f65.google.com with SMTP id r15so4500821lfm.11;
-        Sun, 09 Jun 2019 00:54:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/Qx4/qdUcALjIorcXjs7AxmiMGoinkmfGOdHptpmwpU=;
-        b=VnzhNd6w7mHyqWKZiqP7zGC4ONUcth8yhbe0Lo90zLDFCwzJhrLUZo05SR4S44EuWy
-         wlABAZfEcB+gwGXPPGaVpP/Yrv6+3l7c2DqoQTeqFmGPs+gdOJZ93sNzROR8cSmWoJo+
-         5IIzrQHR8M5tj9D2fJAPYiT0N90UZike0AHTHYDoEHRsqREudfpy/V7mctr/tnI93R/T
-         esG2bVjT5/dzfokupaehnxuO+ePdfcW8MMuoyuDJg5NKnD36yk+tDCM4CRrG9wx6nCqV
-         ZpPSBiQdbcuSQplQO1KVJ14Tgzq5lwj5avVhIbKN8A71EAPPIhauw2ML8pjSFMLYknZk
-         j65w==
-X-Gm-Message-State: APjAAAWkWw6Ab6aDE7UnNc2a/HEzGa5HmTnHkPe84Xpu0F0t4FhgEYMr
-        QZszusJh8ovp0mZZFM+cHbSm4Vstcc0KsOoa0V0=
-X-Google-Smtp-Source: APXvYqwAkUTnyc4orITPqql8Dcq/2FZxVHDXSWXEX68+M70BfTiu1lPz3E0qFz5+GRtrzFsL1+dJET1c4NH3BB9tQiI=
-X-Received: by 2002:ac2:5467:: with SMTP id e7mr7954978lfn.23.1560066881888;
- Sun, 09 Jun 2019 00:54:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1560045490.git.mchehab+samsung@kernel.org> <f7f9c692a870f836e5657b8a763d751b6ac0e86e.1560045490.git.mchehab+samsung@kernel.org>
-In-Reply-To: <f7f9c692a870f836e5657b8a763d751b6ac0e86e.1560045490.git.mchehab+samsung@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Sun, 9 Jun 2019 09:54:29 +0200
-Message-ID: <CAMuHMdUyvZ89=P4GOY-BkyS45cj66STgZe9gN3q0L+sj-Wc+wg@mail.gmail.com>
-Subject: Re: [PATCH v3 10/33] docs: fb: convert docs to ReST and rename to *.rst
+        id S1728014AbfFIJQz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 9 Jun 2019 05:16:55 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:56966 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726686AbfFIJQz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Jun 2019 05:16:55 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x5997Ugt174506
+        for <linux-doc@vger.kernel.org>; Sun, 9 Jun 2019 05:16:53 -0400
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2t0tpgesyg-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Sun, 09 Jun 2019 05:16:53 -0400
+Received: from localhost
+        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <heiko.carstens@de.ibm.com>;
+        Sun, 9 Jun 2019 10:16:51 +0100
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Sun, 9 Jun 2019 10:16:46 +0100
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x599Gj1v56492118
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Sun, 9 Jun 2019 09:16:45 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 15AA4A4053;
+        Sun,  9 Jun 2019 09:16:45 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 6CDE1A404D;
+        Sun,  9 Jun 2019 09:16:44 +0000 (GMT)
+Received: from osiris (unknown [9.145.173.81])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Sun,  9 Jun 2019 09:16:44 +0000 (GMT)
+Date:   Sun, 9 Jun 2019 11:16:43 +0200
+From:   Heiko Carstens <heiko.carstens@de.ibm.com>
 To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Maik Broemme <mbroemme@libmpq.org>,
-        Thomas Winischhofer <thomas@winischhofer.net>,
-        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-        Teddy Wang <teddy.wang@siliconmotion.com>,
-        Bernie Thompson <bernie@plugable.com>,
-        Michal Januszewski <spock@gentoo.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Palmer Dabbelt <palmer@sifive.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        Greentime Hu <green.hu@gmail.com>,
+        Vincent Chen <deanbo422@gmail.com>,
+        linux-riscv@lists.infradead.org, netdev@vger.kernel.org,
+        bpf@vger.kernel.org
+Subject: Re: [PATCH v3 00/33] Convert files to ReST - part 1
+References: <cover.1560045490.git.mchehab+samsung@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1560045490.git.mchehab+samsung@kernel.org>
+X-TM-AS-GCONF: 00
+x-cbid: 19060909-0020-0000-0000-0000034878F1
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19060909-0021-0000-0000-0000219B9744
+Message-Id: <20190609091642.GA3705@osiris>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-06-09_02:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1906090069
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mauro,
+On Sat, Jun 08, 2019 at 11:26:50PM -0300, Mauro Carvalho Chehab wrote:
+> This is the first part of a series I wrote sometime ago where I manually
+> convert lots of files to be properly parsed by Sphinx as ReST files.
+> 
+> As it touches on lot of stuff, this series is based on today's docs-next
+> + linux-next, at tag next-20190607.
+> 
+> I have right now about 85 patches with this undergoing work. That's
+> because I opted to do ~1 patch per converted directory.
+> 
+> That sounds too much to be send on a single round. So, I'm opting to split
+> it on 3 parts. Those patches should probably be good to be merged
+> either by subsystem maintainers or via the docs tree.
+> 
+> I opted to mark new files not included yet to the main index.rst (directly or
+> indirectly ) with the :orphan: tag, in order to avoid adding warnings to the
+> build system. This should be removed after we find a "home" for all
+> the converted files within the new document tree arrangement.
+> 
+> Both this series and  the next parts are on my devel git tree,
+> at:
+> 
+> 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=convert_rst_renames_v4
+> 
+> The final output in html (after all patches I currently have, including 
+> the upcoming series) can be seen at:
+> 
+> 	https://www.infradead.org/~mchehab/rst_conversion/
 
-On Sun, Jun 9, 2019 at 4:29 AM Mauro Carvalho Chehab
-<mchehab+samsung@kernel.org> wrote:
-> The conversion is actually:
->   - add blank lines and identation in order to identify paragraphs;
->   - fix tables markups;
->   - add some lists markups;
->   - mark literal blocks;
->   - adjust title markups.
->
-> At its new index.rst, let's add a :orphan: while this is not linked to
-> the main index.rst file, in order to avoid build warnings.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Will there be a web page (e.g. kernel.org), which contains always the
+latest upstream version?
 
-Thanks!
+>   docs: Debugging390.txt: convert table to ascii artwork
+>   docs: s390: convert docs to ReST and rename to *.rst
+>   s390: include/asm/debug.h add kerneldoc markups
 
-> --- a/Documentation/fb/framebuffer.txt
-> +++ b/Documentation/fb/framebuffer.rst
-> @@ -1,5 +1,6 @@
-> -                       The Frame Buffer Device
-> -                       -----------------------
-> +=======================
-> +The Frame Buffer Device
-> +=======================
->
->  Maintained by Geert Uytterhoeven <geert@linux-m68k.org>
+I can pick these up for s390. Or do you want to send the whole series
+in one go upstream?
 
-I'm happy to see this line dropped ;-)
-
->  Last revised: May 10, 2001
-
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
