@@ -1,86 +1,134 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A13EF7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Jun 2019 11:22:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7C90A7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sun,  9 Jun 2019 12:29:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728122AbfFILWQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 9 Jun 2019 07:22:16 -0400
-Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:51702 "EHLO
-        forwardcorp1p.mail.yandex.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728095AbfFILWQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Jun 2019 07:22:16 -0400
-X-Greylist: delayed 455 seconds by postgrey-1.27 at vger.kernel.org; Sun, 09 Jun 2019 07:22:14 EDT
-Received: from mxbackcorp2j.mail.yandex.net (mxbackcorp2j.mail.yandex.net [IPv6:2a02:6b8:0:1619::119])
-        by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 451B02E146A;
-        Sun,  9 Jun 2019 14:14:38 +0300 (MSK)
-Received: from smtpcorp1o.mail.yandex.net (smtpcorp1o.mail.yandex.net [2a02:6b8:0:1a2d::30])
-        by mxbackcorp2j.mail.yandex.net (nwsmtp/Yandex) with ESMTP id FIM6OTx6EE-EbdGO4lJ;
-        Sun, 09 Jun 2019 14:14:38 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru; s=default;
-        t=1560078878; bh=fs8nBfb3ds7H31icSADDLPErvh+7dua0F9p+22pSX7g=;
-        h=Message-ID:Date:To:From:Subject:Cc;
-        b=Ct+rZJOX4WGI8YQKjpH3ii9RvoN6KJhvouJJcnmN5Mc2iwej8axIJoD1TZJGtp3Vb
-         S/YLSYJ1q2EjICM7T78VTIjEinHx3v6Tv239k/JhQqVXp4bRzD1QykE7daeGSxxKX3
-         +dwKLLlKXPP6BKx7wJuCja8D2+NjPVrIKPnVGXZ4=
-Authentication-Results: mxbackcorp2j.mail.yandex.net; dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-red.dhcp.yndx.net (dynamic-red.dhcp.yndx.net [2a02:6b8:0:40c:3d25:9e27:4f75:a150])
-        by smtpcorp1o.mail.yandex.net (nwsmtp/Yandex) with ESMTPSA id rLRpdRuFBw-EbYSeoAF;
-        Sun, 09 Jun 2019 14:14:37 +0300
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (Client certificate not present)
-Subject: [PATCH] block: document iostat changes for disk busy time accounting
-From:   Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
-To:     linux-block@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-        linux-kernel@vger.kernel.org
-Cc:     Alan Jenkins <alan.christopher.jenkins@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mikulas Patocka <mpatocka@redhat.com>,
-        Mike Snitzer <snitzer@redhat.com>, linux-doc@vger.kernel.org
-Date:   Sun, 09 Jun 2019 14:14:36 +0300
-Message-ID: <156007887680.2438.10285329550436435242.stgit@buzz>
-User-Agent: StGit/0.17.1-dirty
+        id S1728489AbfFIM3w (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 9 Jun 2019 08:29:52 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:47188 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726874AbfFIM3v (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Jun 2019 08:29:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=IuqsoxISFrOZKKS3BhELU3uFgb2g53uAyNxYwZgCHEU=; b=DyEjWJ7vQLo8VkwXgyJHdBfxK
+        GXjBapuN3ZK4cyYsNPgwtUt1PuGj2p1y4RKHqrLUVRgytFyHZPaeutkBpamadM5HQ2WZbx+0w0eBT
+        hP1ZPe18WIxTRmIr7mzU6BkDpUDmqKwWWHXDMGhJn29QS+iAa5SRaoVvxOIsEg2gYqhhtGmA12xcI
+        3zsWJF7ZJ5C8SGXK2oQOuJrUQMFxQEqomlUY/lV8HR3Hb/1GoZ2NRafLYwtlBlj4QMywNtmHRvBoG
+        SK4ufeZwOR6U8cJAB8e51GrzYN93/+3zpxzJIANm0n5cAqgkmLQLuv/KIsysCMJwlFNegGmuTOcn8
+        3H35bjE5A==;
+Received: from 179.176.115.133.dynamic.adsl.gvt.net.br ([179.176.115.133] helo=recife.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hZwxI-0002Wx-RD; Sun, 09 Jun 2019 12:29:49 +0000
+Date:   Sun, 9 Jun 2019 09:29:40 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Heiko Carstens <heiko.carstens@de.ibm.com>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Palmer Dabbelt <palmer@sifive.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        Greentime Hu <green.hu@gmail.com>,
+        Vincent Chen <deanbo422@gmail.com>,
+        linux-riscv@lists.infradead.org, netdev@vger.kernel.org,
+        bpf@vger.kernel.org
+Subject: Re: [PATCH v3 00/33] Convert files to ReST - part 1
+Message-ID: <20190609092940.5e34e3b0@recife.lan>
+In-Reply-To: <20190609091642.GA3705@osiris>
+References: <cover.1560045490.git.mchehab+samsung@kernel.org>
+        <20190609091642.GA3705@osiris>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since commit 5b18b5a73760 ("block: delete part_round_stats and switch to
-less precise counting") io_ticks is approximated by adding one at each
-start and end of requests if jiffies has changed.
+Em Sun, 9 Jun 2019 11:16:43 +0200
+Heiko Carstens <heiko.carstens@de.ibm.com> escreveu:
 
-This works perfectly for requests shorter than a jiffy. If requests runs
-more than 2 jiffies some I/O time will not be accounted unless there are
-other reuqests.
+> On Sat, Jun 08, 2019 at 11:26:50PM -0300, Mauro Carvalho Chehab wrote:
+> > This is the first part of a series I wrote sometime ago where I manually
+> > convert lots of files to be properly parsed by Sphinx as ReST files.
+> > 
+> > As it touches on lot of stuff, this series is based on today's docs-next
+> > + linux-next, at tag next-20190607.
+> > 
+> > I have right now about 85 patches with this undergoing work. That's
+> > because I opted to do ~1 patch per converted directory.
+> > 
+> > That sounds too much to be send on a single round. So, I'm opting to split
+> > it on 3 parts. Those patches should probably be good to be merged
+> > either by subsystem maintainers or via the docs tree.
+> > 
+> > I opted to mark new files not included yet to the main index.rst (directly or
+> > indirectly ) with the :orphan: tag, in order to avoid adding warnings to the
+> > build system. This should be removed after we find a "home" for all
+> > the converted files within the new document tree arrangement.
+> > 
+> > Both this series and  the next parts are on my devel git tree,
+> > at:
+> > 
+> > 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=convert_rst_renames_v4
+> > 
+> > The final output in html (after all patches I currently have, including 
+> > the upcoming series) can be seen at:
+> > 
+> > 	https://www.infradead.org/~mchehab/rst_conversion/  
+> 
+> Will there be a web page (e.g. kernel.org), which contains always the
+> latest upstream version?
 
-Fixes: 5b18b5a73760 ("block: delete part_round_stats and switch to less precise counting")
-Signed-off-by: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
-Links: https://lore.kernel.org/lkml/155413438824.3201.15254568091182734151.stgit@buzz/
----
- Documentation/iostats.txt |    4 ++++
- 1 file changed, 4 insertions(+)
+Yes:
 
-diff --git a/Documentation/iostats.txt b/Documentation/iostats.txt
-index 49df45f90e8a..5d63b18bd6d1 100644
---- a/Documentation/iostats.txt
-+++ b/Documentation/iostats.txt
-@@ -97,6 +97,10 @@ Field  9 -- # of I/Os currently in progress
- Field 10 -- # of milliseconds spent doing I/Os
-     This field increases so long as field 9 is nonzero.
- 
-+    Since 5.0 this field counts jiffies when at least one request was
-+    started or completed. If request runs more than 2 jiffies then some
-+    I/O time will not be accounted unless there are other requests.
-+
- Field 11 -- weighted # of milliseconds spent doing I/Os
-     This field is incremented at each I/O start, I/O completion, I/O
-     merge, or read of these stats by the number of I/Os in progress
+	https://www.kernel.org/doc/html/latest/
 
+I guess this one is based on Linus tree.
+
+Jon also maintains a version at:
+
+	https://static.lwn.net/kerneldoc/
+
+I guess that one is based on docs-next branch from the Docs tree.
+
+Btw, if you want to build it for yourself, you could use:
+
+	make htmldocs
+
+If your system doesn't have all dependencies, it will give the
+hints about how to install them.
+
+> 
+> >   docs: Debugging390.txt: convert table to ascii artwork
+> >   docs: s390: convert docs to ReST and rename to *.rst
+> >   s390: include/asm/debug.h add kerneldoc markups  
+> 
+> I can pick these up for s390. Or do you want to send the whole series
+> in one go upstream?
+
+Yeah, feel free to pick them via the s390 tree.
+
+Regards,
+Mauro
+
+Thanks,
+Mauro
+
+
+Thanks,
+Mauro
