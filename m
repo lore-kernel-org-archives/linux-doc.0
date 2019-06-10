@@ -1,132 +1,137 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C13247D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Jun 2019 21:13:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 324C67D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Jun 2019 22:02:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389636AbfFJVNR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Jun 2019 17:13:17 -0400
-Received: from mx.kolabnow.com ([95.128.36.41]:9204 "EHLO mx.kolabnow.com"
+        id S1728778AbfFJWCs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Jun 2019 18:02:48 -0400
+Received: from mga11.intel.com ([192.55.52.93]:63430 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726663AbfFJVNR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 Jun 2019 17:13:17 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id B4F99844;
-        Mon, 10 Jun 2019 23:13:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-type:content-type:content-transfer-encoding:mime-version
-        :references:in-reply-to:message-id:date:date:subject:subject
-        :from:from:received:received:received; s=dkim20160331; t=
-        1560201194; x=1562015595; bh=ARkpqDw6hh5K+0monDK5QS19Np6XwBxbJQx
-        bed0bnp0=; b=DNscEI5WOdOU5DBDL0y/wOTaHbSZ35U80+dkOcNWgqOc8N5oV+e
-        weGSxcGuvJ1g0S0GiDNMxDmoVtN/WSHgTkoWvhDzfzPLnBDey1CsxJH7h1jl7p+O
-        aMnUrztGihiusjsxMNuh47zI6p/1+/O2+o3yl5TPHns45w6lyVU46PeElDVuLXWF
-        zRVqvI/tHLR4Gkg4pli4+GHg/gkfMQv6LsWwBRV2dbPCGIPkwXlCqG+Idaa+oKoU
-        z7gTrCPRSjF0CTvUs7P2Tm5iPtlp9LVL6gDUKmSVE54pSH22NPuZYUtQcOKrx7Ga
-        LEwHOd7+ZTRnVOKKfK7N6c/982FTmjigQOyvFGt4GSFmTE2NTUBj4zQddDOASoS6
-        U3JMgL7StJuqdgEwSxb4sg2TySbwgtRi8Rd6rJTXonRXdfKaly05yKKYpp3qKh3r
-        6ggayiLNtfYY7ygRZZH624JRVeRO5+eULJM5psD1SgLCYAdR3sHO7BDSDH0zKcQf
-        4grQrVlHzupIxFnoEwFhRrzWUMdsIuSbDeRMMGunW5SyZ+ikMuqyqq8WsGLcOdMs
-        5Lxa5au4jfSpcO7A0RzMlD0Ehz034xV7/w4ewF4M6ysy0GpiaMi2PybK9M1XsxRG
-        mpjIi4RgMNGAu489QCg37P1XWOdoW3ivw7oniGbgnk8H3i2CzN0RKmGE=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id M5isNbMaxBm5; Mon, 10 Jun 2019 23:13:14 +0200 (CEST)
-Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
-        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id 346D111C;
-        Mon, 10 Jun 2019 23:13:14 +0200 (CEST)
-Received: from ext-subm003.mykolab.com (unknown [10.9.6.3])
-        by int-mx003.mykolab.com (Postfix) with ESMTPS id 1A3F82023;
-        Mon, 10 Jun 2019 18:26:39 +0200 (CEST)
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 16/33] docs: locking: convert docs to ReST and rename to *.rst
-Date:   Mon, 10 Jun 2019 18:26:37 +0200
-Message-ID: <2479388.eidelHUoWk@harkonnen>
-In-Reply-To: <d5a915447d63fce96cbf463a512cce89423776c3.1560045490.git.mchehab+samsung@kernel.org>
-References: <cover.1560045490.git.mchehab+samsung@kernel.org> <d5a915447d63fce96cbf463a512cce89423776c3.1560045490.git.mchehab+samsung@kernel.org>
+        id S1728651AbfFJWCs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 Jun 2019 18:02:48 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jun 2019 15:02:48 -0700
+X-ExtLoop1: 1
+Received: from jkboswor-mobl1.amr.corp.intel.com (HELO [10.252.141.223]) ([10.252.141.223])
+  by fmsmga008.fm.intel.com with ESMTP; 10 Jun 2019 15:02:46 -0700
+Subject: Re: [PATCH v7 03/14] x86/cet/ibt: Add IBT legacy code bitmap setup
+ function
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        Andy Lutomirski <luto@amacapital.net>
+Cc:     Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+References: <20190606200926.4029-1-yu-cheng.yu@intel.com>
+ <20190606200926.4029-4-yu-cheng.yu@intel.com>
+ <20190607080832.GT3419@hirez.programming.kicks-ass.net>
+ <aa8a92ef231d512b5c9855ef416db050b5ab59a6.camel@intel.com>
+ <20190607174336.GM3436@hirez.programming.kicks-ass.net>
+ <b3de4110-5366-fdc7-a960-71dea543a42f@intel.com>
+ <34E0D316-552A-401C-ABAA-5584B5BC98C5@amacapital.net>
+ <7e0b97bf1fbe6ff20653a8e4e147c6285cc5552d.camel@intel.com>
+ <25281DB3-FCE4-40C2-BADB-B3B05C5F8DD3@amacapital.net>
+ <e26f7d09376740a5f7e8360fac4805488b2c0a4f.camel@intel.com>
+ <3f19582d-78b1-5849-ffd0-53e8ca747c0d@intel.com>
+ <5aa98999b1343f34828414b74261201886ec4591.camel@intel.com>
+ <0665416d-9999-b394-df17-f2a5e1408130@intel.com>
+ <5c8727dde9653402eea97bfdd030c479d1e8dd99.camel@intel.com>
+ <ac9a20a6-170a-694e-beeb-605a17195034@intel.com>
+ <328275c9b43c06809c9937c83d25126a6e3efcbd.camel@intel.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+Message-ID: <92e56b28-0cd4-e3f4-867b-639d9b98b86c@intel.com>
+Date:   Mon, 10 Jun 2019 15:02:45 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <328275c9b43c06809c9937c83d25126a6e3efcbd.camel@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In data Sunday, June 9, 2019 4:27:06 AM CEST, Mauro Carvalho Chehab ha 
-scritto:
-> Convert the locking documents to ReST and add them to the
-> kernel development book where it belongs.
-> 
-> Most of the stuff here is just to make Sphinx to properly
-> parse the text file, as they're already in good shape,
-> not requiring massive changes in order to be parsed.
-> 
-> The conversion is actually:
->   - add blank lines and identation in order to identify paragraphs;
->   - fix tables markups;
->   - add some lists markups;
->   - mark literal blocks;
->   - adjust title markups.
-> 
-> At its new index.rst, let's add a :orphan: while this is not linked to
-> the main index.rst file, in order to avoid build warnings.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
->  Documentation/kernel-hacking/locking.rst      |   2 +-
->  Documentation/locking/index.rst               |  24 ++
->  ...{lockdep-design.txt => lockdep-design.rst} |  51 ++--
->  .../locking/{lockstat.txt => lockstat.rst}    | 221 ++++++++++--------
->  .../{locktorture.txt => locktorture.rst}      | 105 +++++----
->  .../{mutex-design.txt => mutex-design.rst}    |  26 ++-
->  ...t-mutex-design.txt => rt-mutex-design.rst} | 139 ++++++-----
->  .../locking/{rt-mutex.txt => rt-mutex.rst}    |  30 +--
->  .../locking/{spinlocks.txt => spinlocks.rst}  |  32 ++-
->  ...w-mutex-design.txt => ww-mutex-design.rst} |  82 ++++---
->  Documentation/pi-futex.txt                    |   2 +-
->  .../it_IT/kernel-hacking/locking.rst          |   2 +-
+On 6/10/19 1:58 PM, Yu-cheng Yu wrote:
+>>> On each memory request, the kernel then must consider a percentage of
+>>> allocated space in its calculation, and on systems with less memory
+>>> this quickly becomes a problem.
+>> I'm not sure what you're referring to here?  Are you referring to our
+>> overcommit limits?
+> Yes.
 
-Limited to translations/it_IT
-
-Acked-by: Federico Vaga <federico.vaga@vaga.pv.it>
-
->  drivers/gpu/drm/drm_modeset_lock.c            |   2 +-
->  include/linux/lockdep.h                       |   2 +-
->  include/linux/mutex.h                         |   2 +-
->  include/linux/rwsem.h                         |   2 +-
->  kernel/locking/mutex.c                        |   2 +-
->  kernel/locking/rtmutex.c                      |   2 +-
->  lib/Kconfig.debug                             |   4 +-
->  19 files changed, 428 insertions(+), 304 deletions(-)
->  create mode 100644 Documentation/locking/index.rst
->  rename Documentation/locking/{lockdep-design.txt => lockdep-design.rst}
-> (93%) rename Documentation/locking/{lockstat.txt => lockstat.rst} (41%)
-> rename Documentation/locking/{locktorture.txt => locktorture.rst} (57%)
-> rename Documentation/locking/{mutex-design.txt => mutex-design.rst} (94%)
-> rename Documentation/locking/{rt-mutex-design.txt => rt-mutex-design.rst}
-> (91%) rename Documentation/locking/{rt-mutex.txt => rt-mutex.rst} (71%)
-> rename Documentation/locking/{spinlocks.txt => spinlocks.rst} (89%) rename
-> Documentation/locking/{ww-mutex-design.txt => ww-mutex-design.rst} (93%)
-> 
-
-
-
-
+My assumption has always been that these large, potentially sparse
+hardware tables *must* be mmap()'d with MAP_NORESERVE specified.  That
+should keep them from being problematic with respect to overcommit.
 
