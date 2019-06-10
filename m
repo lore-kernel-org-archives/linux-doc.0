@@ -1,92 +1,115 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9B3077D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Jun 2019 16:13:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A894B7D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Jun 2019 16:24:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389255AbfFJQNV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Jun 2019 12:13:21 -0400
-Received: from mga09.intel.com ([134.134.136.24]:55102 "EHLO mga09.intel.com"
+        id S2389293AbfFJQYR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Jun 2019 12:24:17 -0400
+Received: from mx.kolabnow.com ([95.128.36.42]:48560 "EHLO mx.kolabnow.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388850AbfFJQNV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 Jun 2019 12:13:21 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jun 2019 09:13:20 -0700
-X-ExtLoop1: 1
-Received: from yyu32-desk1.sc.intel.com ([143.183.136.147])
-  by FMSMGA003.fm.intel.com with ESMTP; 10 Jun 2019 09:13:19 -0700
-Message-ID: <5dc357f5858f8036cad5847cfe214401bb9138bf.camel@intel.com>
-Subject: Re: [PATCH v7 03/14] x86/cet/ibt: Add IBT legacy code bitmap setup
- function
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Dave Hansen <dave.hansen@intel.com>,
-        Andy Lutomirski <luto@amacapital.net>
-Cc:     Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S2389927AbfFJQYR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 Jun 2019 12:24:17 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id A05BC403C9;
+        Mon, 10 Jun 2019 18:24:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-type:content-type:content-transfer-encoding:mime-version
+        :references:in-reply-to:message-id:date:date:subject:subject
+        :from:from:received:received:received; s=dkim20160331; t=
+        1560183854; x=1561998255; bh=4bpS8XQNGbDvLWL5Tu0rslp1K0w4sKNibrp
+        rpGYwGH4=; b=Lbfc/E8mnx4qr/xRVmvwpJNjreFxLBG1J9En/UscbACfH5ewC4o
+        fdM5vNL18CAajaJ3rwNnqKg5Pecm49ZPpbgDv0r0bFBXrMeE/eFFXPNCC66mE4tE
+        LYLpjzXakF4sFhYEt4OAuBsWaSYkdplWpf1PwVaouLYQt0/1/wV005H8ABcKd6+x
+        L7cinuwe6q2Hctbwv42ZlPY0qSJueKXegUniFnNieutN4CspU6qTaeNn6TGYSf35
+        BfblhDncQCJFkGpt7Kk92bBNvDpVwmQYsaH/sGO9ukCZYNMMfnKU/TyZkDa5iZuo
+        LPZlROLxBzlImuJrhW3J7+5KZA5Xd5uk3F1jzr8lTRX2EB7cJq4SzH2ANG/S/fE+
+        5ju2DrIRELuGL9TmsppNoNL0nF0/1rwrTVvI0EhnYkVNkBok/mXMm/2x9MZPuIhb
+        W0d5WXmGs1DQEOEqSkYE05tJEWA4Nu2/pukwymh1Kv7Ce9I44DMgVeqw03TdEVkw
+        T+JXxAUuO4uRM/+pwXANQa6p/DkJ0UoATw2v8Kb97t7+tP1J2nL4A7hRZgxVwCmk
+        I5wgnyTpg8whQpZ+jx+L2IrDjr0/zXhgZ52pgI+N74z17+8yWAmXnV7LsoiszXIn
+        ahEq2dSpCjh1nU5gSy5q7Xf9FtRBlHKzHghVvaEpnqo4VfnAshoMcebg=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id lIboWi3tIZq2; Mon, 10 Jun 2019 18:24:14 +0200 (CEST)
+Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id 0847E402AB;
+        Mon, 10 Jun 2019 18:24:12 +0200 (CEST)
+Received: from ext-subm003.mykolab.com (unknown [10.9.6.3])
+        by int-mx001.mykolab.com (Postfix) with ESMTPS id 58491439;
+        Mon, 10 Jun 2019 18:24:12 +0200 (CEST)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
         Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
-Date:   Mon, 10 Jun 2019 09:05:13 -0700
-In-Reply-To: <f6de9073-9939-a20d-2196-25fa223cf3fc@intel.com>
-References: <20190606200926.4029-1-yu-cheng.yu@intel.com>
-         <20190606200926.4029-4-yu-cheng.yu@intel.com>
-         <20190607080832.GT3419@hirez.programming.kicks-ass.net>
-         <aa8a92ef231d512b5c9855ef416db050b5ab59a6.camel@intel.com>
-         <20190607174336.GM3436@hirez.programming.kicks-ass.net>
-         <b3de4110-5366-fdc7-a960-71dea543a42f@intel.com>
-         <34E0D316-552A-401C-ABAA-5584B5BC98C5@amacapital.net>
-         <7e0b97bf1fbe6ff20653a8e4e147c6285cc5552d.camel@intel.com>
-         <4b448cde-ee4e-1c95-0f7f-4fe694be7db6@intel.com>
-         <0e505563f7dae3849b57fb327f578f41b760b6f7.camel@intel.com>
-         <f6de9073-9939-a20d-2196-25fa223cf3fc@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v3 09/33] docs: fault-injection: convert docs to ReST and rename to *.rst
+Date:   Mon, 10 Jun 2019 18:24:10 +0200
+Message-ID: <1693516.ET8j6nyPp2@harkonnen>
+In-Reply-To: <5bbdd14f23a8fa66164ac38d84662091b90adddc.1560045490.git.mchehab+samsung@kernel.org>
+References: <cover.1560045490.git.mchehab+samsung@kernel.org> <5bbdd14f23a8fa66164ac38d84662091b90adddc.1560045490.git.mchehab+samsung@kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2019-06-07 at 14:09 -0700, Dave Hansen wrote:
-> On 6/7/19 1:06 PM, Yu-cheng Yu wrote:
-> > > Huh, how does glibc know about all possible past and future legacy code
-> > > in the application?
-> > 
-> > When dlopen() gets a legacy binary and the policy allows that, it will
-> > manage
-> > the bitmap:
-> > 
-> >   If a bitmap has not been created, create one.
-> >   Set bits for the legacy code being loaded.
+In data Sunday, June 9, 2019 4:26:59 AM CEST, Mauro Carvalho Chehab ha 
+scritto:
+> The conversion is actually:
+>   - add blank lines and identation in order to identify paragraphs;
+>   - fix tables markups;
+>   - add some lists markups;
+>   - mark literal blocks;
+>   - adjust title markups.
 > 
-> I was thinking about code that doesn't go through GLIBC like JITs.
+> At its new index.rst, let's add a :orphan: while this is not linked to
+> the main index.rst file, in order to avoid build warnings.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+>  ...ault-injection.txt => fault-injection.rst} | 265 +++++++++---------
+>  Documentation/fault-injection/index.rst       |  20 ++
+>  ...r-inject.txt => notifier-error-inject.rst} |  18 +-
+>  ...injection.txt => nvme-fault-injection.rst} | 174 ++++++------
+>  ...rovoke-crashes.txt => provoke-crashes.rst} |  40 ++-
+>  Documentation/process/4.Coding.rst            |   2 +-
+>  .../translations/it_IT/process/4.Coding.rst   |   2 +-
 
-If JIT manages the bitmap, it knows where it is.
-It can always read the bitmap again, right?
+Limited to translations/it_IT
 
-Yu-cheng
+Acked-by: Federico Vaga <federico.vaga@vaga.pv.it>
+
+>  .../translations/zh_CN/process/4.Coding.rst   |   2 +-
+>  drivers/misc/lkdtm/core.c                     |   2 +-
+>  include/linux/fault-inject.h                  |   2 +-
+>  lib/Kconfig.debug                             |   2 +-
+>  tools/testing/fault-injection/failcmd.sh      |   2 +-
+>  12 files changed, 290 insertions(+), 241 deletions(-)
+>  rename Documentation/fault-injection/{fault-injection.txt =>
+> fault-injection.rst} (68%) create mode 100644
+> Documentation/fault-injection/index.rst
+>  rename Documentation/fault-injection/{notifier-error-inject.txt =>
+> notifier-error-inject.rst} (83%) rename
+> Documentation/fault-injection/{nvme-fault-injection.txt =>
+> nvme-fault-injection.rst} (19%) rename
+> Documentation/fault-injection/{provoke-crashes.txt => provoke-crashes.rst}
+> (45%)
+> 
+
+
+
