@@ -1,92 +1,114 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4FB797D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Jun 2019 17:25:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id ADF057D912
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Jun 2019 17:27:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728065AbfFJRZS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Jun 2019 13:25:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35490 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727977AbfFJRZR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 Jun 2019 13:25:17 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 31DE23EDBF;
-        Mon, 10 Jun 2019 17:25:01 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (ovpn-117-27.ams2.redhat.com [10.36.117.27])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 7AE095B681;
-        Mon, 10 Jun 2019 17:24:45 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     Dave Martin <Dave.Martin@arm.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Subject: Re: [PATCH v7 22/27] binfmt_elf: Extract .note.gnu.property from an ELF file
-References: <20190606200646.3951-1-yu-cheng.yu@intel.com>
-        <20190606200646.3951-23-yu-cheng.yu@intel.com>
-        <20190607180115.GJ28398@e103592.cambridge.arm.com>
-        <94b9c55b3b874825fda485af40ab2a6bc3dad171.camel@intel.com>
-Date:   Mon, 10 Jun 2019 19:24:43 +0200
-In-Reply-To: <94b9c55b3b874825fda485af40ab2a6bc3dad171.camel@intel.com>
-        (Yu-cheng Yu's message of "Mon, 10 Jun 2019 09:29:04 -0700")
-Message-ID: <87lfy9cq04.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+        id S2387415AbfFJR1P (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Jun 2019 13:27:15 -0400
+Received: from mail-ua1-f65.google.com ([209.85.222.65]:43766 "EHLO
+        mail-ua1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728250AbfFJR1O (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jun 2019 13:27:14 -0400
+Received: by mail-ua1-f65.google.com with SMTP id o2so2854487uae.10
+        for <linux-doc@vger.kernel.org>; Mon, 10 Jun 2019 10:27:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=DWQqcRf25bxZ70yE81nwepgbf101hBdf3laz0rjRo/E=;
+        b=dY+hZk+1sXqFyBZ/kCyAfR/TE0/L7YI/W3F22WM780uWwVvlhahc4tD3fPJvc2nVvP
+         qixzLJ718KmoUqyXVk48IRU5/1fzBhcftWZTltvD2ErlQOp0gbxSTjF68rTGp0acNFvY
+         tmc45CbUWL+biKVmW2kb71RzXXmctVEYwWEACbMJp5Yk6EMIDbIMaLWC0IV8juw2yM+g
+         fsAwSrgUY1kzu46sxSl6AJdOQsohrMFL3BgThWUZxijXayzRWRhG/ibpyI7MtzuVjxVh
+         DTHNHeyCjvohcDuhk5XkfHdozzxgFcM02LbN+nOQzE32E/3eB9mJ0CWtT71EjkLFRBuZ
+         E/dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=DWQqcRf25bxZ70yE81nwepgbf101hBdf3laz0rjRo/E=;
+        b=ZCiedKNu0a0A+PK0IvrhpncI5SHF099Bm7pjIeNKaflrlUGzDdC00aPKIiOvGmJHQ9
+         JETHiSJTk20Afe9CJbbBgcdaMtciGuaG2mWoymqXpOJgx5ZRp23w425+bY56lbcpMRs6
+         MMx7T8EMANYhT7vx1YSfXFdM4si1zxoU4uNkzEE/0Tcc4FFVBdsqkSuUKP4OMjM4dA2E
+         W8g4qtKpl9uBdTNgxLl7wRDYxyuRFPqp/qxPhsIIO2Qp9OZkGfcI3Q6DMSJXP2JGPkvd
+         WhVj5c2ggZxJvJK4+Y1TFyOpbuyWASySTSH2YIz2ZEOkafyzsqt5X7tZOtnQpXuv6th5
+         HzDQ==
+X-Gm-Message-State: APjAAAUVt/JcTWkysKN8kQGy5P5ADUazFzfxRB50tKco3DEgRZqCTb0f
+        D+E6mbwAzYryqJeEhzU8LZMnFg==
+X-Google-Smtp-Source: APXvYqy3N5pogkPzqAYXI5ISuNS396Bf5IYoRhpef5JO5okHEacgVPEjT8l7OFDCTer38zTjRBzVsQ==
+X-Received: by 2002:ab0:628d:: with SMTP id z13mr16231434uao.39.1560187633916;
+        Mon, 10 Jun 2019 10:27:13 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-156-34-55-100.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.55.100])
+        by smtp.gmail.com with ESMTPSA id v142sm3201988vke.38.2019.06.10.10.27.13
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 10 Jun 2019 10:27:13 -0700 (PDT)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1haO4e-0000NU-RQ; Mon, 10 Jun 2019 14:27:12 -0300
+Date:   Mon, 10 Jun 2019 14:27:12 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Doug Ledford <dledford@redhat.com>, linux-rdma@vger.kernel.org
+Subject: Re: [PATCH v3 13/33] docs: infiniband: convert docs to ReST and
+ rename to *.rst
+Message-ID: <20190610172712.GG18468@ziepe.ca>
+References: <cover.1560045490.git.mchehab+samsung@kernel.org>
+ <09036fdb89c4bec94cb92d25398c026afdb134e7.1560045490.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.39]); Mon, 10 Jun 2019 17:25:17 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <09036fdb89c4bec94cb92d25398c026afdb134e7.1560045490.git.mchehab+samsung@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Yu-cheng Yu:
+On Sat, Jun 08, 2019 at 11:27:03PM -0300, Mauro Carvalho Chehab wrote:
+> The InfiniBand docs are plain text with no markups.
+> So, all we needed to do were to add the title markups and
+> some markup sequences in order to properly parse tables,
+> lists and literal blocks.
+> 
+> At its new index.rst, let's add a :orphan: while this is not linked to
+> the main index.rst file, in order to avoid build warnings.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+>  .../{core_locking.txt => core_locking.rst}    |  64 ++++++-----
+>  Documentation/infiniband/index.rst            |  23 ++++
+>  .../infiniband/{ipoib.txt => ipoib.rst}       |  24 ++--
+>  .../infiniband/{opa_vnic.txt => opa_vnic.rst} | 108 +++++++++---------
+>  .../infiniband/{sysfs.txt => sysfs.rst}       |   4 +-
+>  .../{tag_matching.txt => tag_matching.rst}    |   5 +
+>  .../infiniband/{user_mad.txt => user_mad.rst} |  33 ++++--
+>  .../{user_verbs.txt => user_verbs.rst}        |  12 +-
+>  drivers/infiniband/core/user_mad.c            |   2 +-
+>  drivers/infiniband/ulp/ipoib/Kconfig          |   2 +-
+>  10 files changed, 174 insertions(+), 103 deletions(-)
+>  rename Documentation/infiniband/{core_locking.txt => core_locking.rst} (78%)
+>  create mode 100644 Documentation/infiniband/index.rst
+>  rename Documentation/infiniband/{ipoib.txt => ipoib.rst} (90%)
+>  rename Documentation/infiniband/{opa_vnic.txt => opa_vnic.rst} (63%)
+>  rename Documentation/infiniband/{sysfs.txt => sysfs.rst} (69%)
+>  rename Documentation/infiniband/{tag_matching.txt => tag_matching.rst} (98%)
+>  rename Documentation/infiniband/{user_mad.txt => user_mad.rst} (90%)
+>  rename Documentation/infiniband/{user_verbs.txt => user_verbs.rst} (93%)
 
-> To me, looking at PT_GNU_PROPERTY and not trying to support anything is a
-> logical choice.  And it breaks only a limited set of toolchains.
->
-> I will simplify the parser and leave this patch as-is for anyone who wants to
-> back-port.  Are there any objections or concerns?
+Looks OK to me, do you want to run these patches through the docs tree
+or through RDMA?
 
-Red Hat Enterprise Linux 8 does not use PT_GNU_PROPERTY and is probably
-the largest collection of CET-enabled binaries that exists today.
-
-My hope was that we would backport the upstream kernel patches for CET,
-port the glibc dynamic loader to the new kernel interface, and be ready
-to run with CET enabled in principle (except that porting userspace
-libraries such as OpenSSL has not really started upstream, so many
-processes where CET is particularly desirable will still run without
-it).
-
-I'm not sure if it is a good idea to port the legacy support if it's not
-part of the mainline kernel because it comes awfully close to creating
-our own private ABI.
+Given that we've generally pushed doc updates through rdma, I think
+I'd prefer the latter? Jonathan?
 
 Thanks,
-Florian
+Jason
