@@ -1,107 +1,105 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0D8027D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Jun 2019 01:12:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3D7477D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Jun 2019 02:51:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730071AbfFJBMD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 9 Jun 2019 21:12:03 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:43221 "EHLO
-        wout5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725933AbfFJBMD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 9 Jun 2019 21:12:03 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.west.internal (Postfix) with ESMTP id D905444A;
-        Sun,  9 Jun 2019 21:12:01 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Sun, 09 Jun 2019 21:12:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tobin.cc; h=date
-        :from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=fe120Davi0T3Sjl5YLfPWyocg7C
-        ao7t/LQjsjCRH0lU=; b=d6t8jFSZevacgPIZUzoP50IQXqsA55IR0OudGjTn3lm
-        hDUlRxV/3cdMiN4nLp5Z967BrAUt5Ud3jcA7VKV4lx1eBuAHiChgHM4+To+OoSON
-        r5b0ANqXHUGHxokQskqp9lFjIzn4wcEXdg5P/JSkAr3CqaoR6I94RTg2y7/oEr/i
-        Ai0G7tfZEsSIJId3QuZYdosvqpeK7VK1uYj2wbGW/xMGA4JAuoaVYAuUuK0rQruD
-        UxwU1d2NmigbgLJk2r5FHiZFck/h/yIhcrw2DWhIzO2/NE+P69n8A+Cq/fyg9+WZ
-        LTnwwr3c1EJ8VnbJH9wwcXQBqqgXHbrSJzM9j17CzPQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=fe120D
-        avi0T3Sjl5YLfPWyocg7Cao7t/LQjsjCRH0lU=; b=H1IZduQRvo0WIm/CU1Mz/i
-        7BudZwbDvx5M7oJe7sPwy9IY4kvjH/4aJPXE2+tGoZBkqN2pTN8TuozXtrcmgZDC
-        Nv/pvNwJP7fnu0mwjkL7+B3o0Tm3Wa9apgkUybGxqMURUppPrGBTM5PPTeJmWmDT
-        mCbMbMviuT0MOTrSQe49JPSG/u8mnmgNvD5niaFTOaT2bxYZg8GaaO0dXpJv4jDK
-        VoBdoBpTr/cCzzsuvH78W6sOh3jGYm90UfeVfLUvgTDMwp7QYNchdjTL11PbcFe3
-        i+0zOR2kxHfDVs/620EyZrWlu98muHaWDD+0MZmuO+b0TBwsnQyVe9Bi6cCJARHw
-        ==
-X-ME-Sender: <xms:YK79XNTKxStsUgsqyZBtk-QZzbz5HitfbyVxpCW6Qf5aRlKFiVwBPQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrudehuddggedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    gfrhhlucfvnfffucdluddtmdenucfjughrpeffhffvuffkfhggtggujgfofgesthdtredt
-    ofervdenucfhrhhomhepfdfvohgsihhnucevrdcujfgrrhguihhnghdfuceomhgvsehtoh
-    gsihhnrdgttgeqnecukfhppedvuddtrddvfedrfedrleenucfrrghrrghmpehmrghilhhf
-    rhhomhepmhgvsehtohgsihhnrdgttgenucevlhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:YK79XAmZQVccUpEAxclDJ-hf66vneQBtvQIiY88vdg7TheWrGXY-Sg>
-    <xmx:YK79XPbGGQWeuyPHG9hZccOyz3dudVlQJSpP9OSa6eodnt-3VZaVgw>
-    <xmx:YK79XCY1yyvMDSgBSOuqEzdQTfpTQB-qZzeD26N38MOJ-c6SbT2osg>
-    <xmx:Ya79XI18SokR_XETjHXhVy01npYJIOJ8i5qlPvo1WqHwx4wmPMHbUw>
-Received: from localhost (unknown [210.23.3.9])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 52E768005C;
-        Sun,  9 Jun 2019 21:11:59 -0400 (EDT)
-Date:   Mon, 10 Jun 2019 11:11:55 +1000
-From:   "Tobin C. Harding" <me@tobin.cc>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     "Tobin C. Harding" <tobin@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>, Neil Brown <neilb@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: filesystems: vfs: Render method descriptions
-Message-ID: <20190610011155.GB2469@caerus>
-References: <20190604002656.30925-1-tobin@kernel.org>
- <20190606094628.0e8775f7@lwn.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190606094628.0e8775f7@lwn.net>
-X-Mailer: Mutt 1.9.4 (2018-02-28)
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        id S1730245AbfFJCvk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 9 Jun 2019 22:51:40 -0400
+Received: from inva021.nxp.com ([92.121.34.21]:53068 "EHLO inva021.nxp.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726566AbfFJCvj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 9 Jun 2019 22:51:39 -0400
+Received: from inva021.nxp.com (localhost [127.0.0.1])
+        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 191492006CC;
+        Mon, 10 Jun 2019 04:51:37 +0200 (CEST)
+Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com [165.114.16.14])
+        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 1B551200186;
+        Mon, 10 Jun 2019 04:51:21 +0200 (CEST)
+Received: from localhost.localdomain (mega.ap.freescale.net [10.192.208.232])
+        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id C3EAA402C0;
+        Mon, 10 Jun 2019 10:51:07 +0800 (SGT)
+From:   Anson.Huang@nxp.com
+To:     robh+dt@kernel.org, mark.rutland@arm.com, corbet@lwn.net,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, catalin.marinas@arm.com, will.deacon@arm.com,
+        rui.zhang@intel.com, edubezval@gmail.com,
+        daniel.lezcano@linaro.org, aisheng.dong@nxp.com,
+        ulf.hansson@linaro.org, peng.fan@nxp.com,
+        mchehab+samsung@kernel.org, linux@roeck-us.net,
+        daniel.baluta@nxp.com, maxime.ripard@bootlin.com, olof@lixom.net,
+        jagan@amarulasolutions.com, horms+renesas@verge.net.au,
+        leonard.crestez@nxp.com, bjorn.andersson@linaro.org,
+        dinguyen@kernel.org, enric.balletbo@collabora.com,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-pm@vger.kernel.org
+Cc:     Linux-imx@nxp.com
+Subject: [PATCH V14 1/5] dt-bindings: fsl: scu: add thermal binding
+Date:   Mon, 10 Jun 2019 10:52:50 +0800
+Message-Id: <20190610025254.23940-1-Anson.Huang@nxp.com>
+X-Mailer: git-send-email 2.17.1
+X-Virus-Scanned: ClamAV using ClamSMTP
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 06, 2019 at 09:46:28AM -0600, Jonathan Corbet wrote:
-> On Tue,  4 Jun 2019 10:26:56 +1000
-> "Tobin C. Harding" <tobin@kernel.org> wrote:
-> 
-> > Currently vfs.rst does not render well into HTML the method descriptions
-> > for VFS data structures.  We can improve the HTML output by putting the
-> > description string on a new line following the method name.
-> > 
-> > Suggested-by: Jonathan Corbet <corbet@lwn.net>
-> > Signed-off-by: Tobin C. Harding <tobin@kernel.org>
-> > ---
-> > 
-> > Jon,
-> > 
-> > As discussed on LKML; this patch applies on top of the series
-> > 
-> > 	[PATCH v4 0/9] docs: Convert VFS doc to RST
-> > 
-> > If it does not apply cleanly to your branch please feel free to ask me
-> > to fix it.
-> 
-> There was one merge conflict, but nothing too serious.  I've applied it,
-> and things look a lot better - thanks!
+From: Anson Huang <Anson.Huang@nxp.com>
 
-Awesome, cheers mate.
+NXP i.MX8QXP is an ARMv8 SoC with a Cortex-M4 core inside as
+system controller, the system controller is in charge of system
+power, clock and thermal sensors etc. management, Linux kernel
+has to communicate with system controller via MU (message unit)
+IPC to get temperature from thermal sensors, this patch adds
+binding doc for i.MX system controller thermal driver.
 
-	Tobin
+Signed-off-by: Anson Huang <Anson.Huang@nxp.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+No change.
+---
+ .../devicetree/bindings/arm/freescale/fsl,scu.txt        | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt b/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt
+index a575e42..fc3844e 100644
+--- a/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt
++++ b/Documentation/devicetree/bindings/arm/freescale/fsl,scu.txt
+@@ -155,6 +155,17 @@ Required properties:
+ Optional properties:
+ - timeout-sec: contains the watchdog timeout in seconds.
+ 
++Thermal bindings based on SCU Message Protocol
++------------------------------------------------------------
++
++Required properties:
++- compatible:			Should be :
++				  "fsl,imx8qxp-sc-thermal"
++				followed by "fsl,imx-sc-thermal";
++
++- #thermal-sensor-cells:	See Documentation/devicetree/bindings/thermal/thermal.txt
++				for a description.
++
+ Example (imx8qxp):
+ -------------
+ aliases {
+@@ -222,6 +233,11 @@ firmware {
+ 			compatible = "fsl,imx8qxp-sc-wdt", "fsl,imx-sc-wdt";
+ 			timeout-sec = <60>;
+ 		};
++
++		tsens: thermal-sensor {
++			compatible = "fsl,imx8qxp-sc-thermal", "fsl,imx-sc-thermal";
++			#thermal-sensor-cells = <1>;
++		};
+ 	};
+ };
+ 
+-- 
+2.7.4
+
