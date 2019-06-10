@@ -1,110 +1,132 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 60A177D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Jun 2019 21:06:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C13247D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Jun 2019 21:13:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389736AbfFJVGL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Jun 2019 17:06:11 -0400
-Received: from mga04.intel.com ([192.55.52.120]:38294 "EHLO mga04.intel.com"
+        id S2389636AbfFJVNR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Jun 2019 17:13:17 -0400
+Received: from mx.kolabnow.com ([95.128.36.41]:9204 "EHLO mx.kolabnow.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388342AbfFJVGK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 10 Jun 2019 17:06:10 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jun 2019 14:06:10 -0700
-X-ExtLoop1: 1
-Received: from yyu32-desk1.sc.intel.com ([143.183.136.147])
-  by orsmga002.jf.intel.com with ESMTP; 10 Jun 2019 14:06:08 -0700
-Message-ID: <328275c9b43c06809c9937c83d25126a6e3efcbd.camel@intel.com>
-Subject: Re: [PATCH v7 03/14] x86/cet/ibt: Add IBT legacy code bitmap setup
- function
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Dave Hansen <dave.hansen@intel.com>,
-        Andy Lutomirski <luto@amacapital.net>
-Cc:     Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
-Date:   Mon, 10 Jun 2019 13:58:01 -0700
-In-Reply-To: <ac9a20a6-170a-694e-beeb-605a17195034@intel.com>
-References: <20190606200926.4029-1-yu-cheng.yu@intel.com>
-         <20190606200926.4029-4-yu-cheng.yu@intel.com>
-         <20190607080832.GT3419@hirez.programming.kicks-ass.net>
-         <aa8a92ef231d512b5c9855ef416db050b5ab59a6.camel@intel.com>
-         <20190607174336.GM3436@hirez.programming.kicks-ass.net>
-         <b3de4110-5366-fdc7-a960-71dea543a42f@intel.com>
-         <34E0D316-552A-401C-ABAA-5584B5BC98C5@amacapital.net>
-         <7e0b97bf1fbe6ff20653a8e4e147c6285cc5552d.camel@intel.com>
-         <25281DB3-FCE4-40C2-BADB-B3B05C5F8DD3@amacapital.net>
-         <e26f7d09376740a5f7e8360fac4805488b2c0a4f.camel@intel.com>
-         <3f19582d-78b1-5849-ffd0-53e8ca747c0d@intel.com>
-         <5aa98999b1343f34828414b74261201886ec4591.camel@intel.com>
-         <0665416d-9999-b394-df17-f2a5e1408130@intel.com>
-         <5c8727dde9653402eea97bfdd030c479d1e8dd99.camel@intel.com>
-         <ac9a20a6-170a-694e-beeb-605a17195034@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1726663AbfFJVNR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 Jun 2019 17:13:17 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id B4F99844;
+        Mon, 10 Jun 2019 23:13:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-type:content-type:content-transfer-encoding:mime-version
+        :references:in-reply-to:message-id:date:date:subject:subject
+        :from:from:received:received:received; s=dkim20160331; t=
+        1560201194; x=1562015595; bh=ARkpqDw6hh5K+0monDK5QS19Np6XwBxbJQx
+        bed0bnp0=; b=DNscEI5WOdOU5DBDL0y/wOTaHbSZ35U80+dkOcNWgqOc8N5oV+e
+        weGSxcGuvJ1g0S0GiDNMxDmoVtN/WSHgTkoWvhDzfzPLnBDey1CsxJH7h1jl7p+O
+        aMnUrztGihiusjsxMNuh47zI6p/1+/O2+o3yl5TPHns45w6lyVU46PeElDVuLXWF
+        zRVqvI/tHLR4Gkg4pli4+GHg/gkfMQv6LsWwBRV2dbPCGIPkwXlCqG+Idaa+oKoU
+        z7gTrCPRSjF0CTvUs7P2Tm5iPtlp9LVL6gDUKmSVE54pSH22NPuZYUtQcOKrx7Ga
+        LEwHOd7+ZTRnVOKKfK7N6c/982FTmjigQOyvFGt4GSFmTE2NTUBj4zQddDOASoS6
+        U3JMgL7StJuqdgEwSxb4sg2TySbwgtRi8Rd6rJTXonRXdfKaly05yKKYpp3qKh3r
+        6ggayiLNtfYY7ygRZZH624JRVeRO5+eULJM5psD1SgLCYAdR3sHO7BDSDH0zKcQf
+        4grQrVlHzupIxFnoEwFhRrzWUMdsIuSbDeRMMGunW5SyZ+ikMuqyqq8WsGLcOdMs
+        5Lxa5au4jfSpcO7A0RzMlD0Ehz034xV7/w4ewF4M6ysy0GpiaMi2PybK9M1XsxRG
+        mpjIi4RgMNGAu489QCg37P1XWOdoW3ivw7oniGbgnk8H3i2CzN0RKmGE=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id M5isNbMaxBm5; Mon, 10 Jun 2019 23:13:14 +0200 (CEST)
+Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id 346D111C;
+        Mon, 10 Jun 2019 23:13:14 +0200 (CEST)
+Received: from ext-subm003.mykolab.com (unknown [10.9.6.3])
+        by int-mx003.mykolab.com (Postfix) with ESMTPS id 1A3F82023;
+        Mon, 10 Jun 2019 18:26:39 +0200 (CEST)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 16/33] docs: locking: convert docs to ReST and rename to *.rst
+Date:   Mon, 10 Jun 2019 18:26:37 +0200
+Message-ID: <2479388.eidelHUoWk@harkonnen>
+In-Reply-To: <d5a915447d63fce96cbf463a512cce89423776c3.1560045490.git.mchehab+samsung@kernel.org>
+References: <cover.1560045490.git.mchehab+samsung@kernel.org> <d5a915447d63fce96cbf463a512cce89423776c3.1560045490.git.mchehab+samsung@kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2019-06-10 at 13:43 -0700, Dave Hansen wrote:
-> On 6/10/19 1:27 PM, Yu-cheng Yu wrote:
-> > > > If the loader cannot allocate a big bitmap to cover all 5-level
-> > > > address space (the bitmap will be large), it can put all legacy lib's
-> > > > at lower address.  We cannot do these easily in the kernel.
-> > > 
-> > > This is actually an argument to do it in the kernel.  The kernel can
-> > > always allocate the virtual space however it wants, no matter how large.
-> > >  If we hide the bitmap behind a kernel API then we can put it at high
-> > > 5-level user addresses because we also don't have to worry about the
-> > > high bits confusing userspace.
-> > 
-> > We actually tried this.  The kernel needs to reserve the bitmap space in the
-> > beginning for every CET-enabled app, regardless of actual needs. 
+In data Sunday, June 9, 2019 4:27:06 AM CEST, Mauro Carvalho Chehab ha 
+scritto:
+> Convert the locking documents to ReST and add them to the
+> kernel development book where it belongs.
 > 
-> I don't think this is a problem.  In fact, I think reserving the space
-> is actually the only sane behavior.  If you don't reserve it, you
-> fundamentally limit where future legacy instructions can go.
+> Most of the stuff here is just to make Sphinx to properly
+> parse the text file, as they're already in good shape,
+> not requiring massive changes in order to be parsed.
 > 
-> One idea is that we always size the bitmap for the 48-bit addressing
-> systems.  Legacy code probably doesn't _need_ to go in the new address
-> space, and if we do this we don't have to worry about the gigantic
-> 57-bit address space bitmap.
+> The conversion is actually:
+>   - add blank lines and identation in order to identify paragraphs;
+>   - fix tables markups;
+>   - add some lists markups;
+>   - mark literal blocks;
+>   - adjust title markups.
 > 
-> > On each memory request, the kernel then must consider a percentage of
-> > allocated space in its calculation, and on systems with less memory
-> > this quickly becomes a problem.
+> At its new index.rst, let's add a :orphan: while this is not linked to
+> the main index.rst file, in order to avoid build warnings.
 > 
-> I'm not sure what you're referring to here?  Are you referring to our
-> overcommit limits?
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+>  Documentation/kernel-hacking/locking.rst      |   2 +-
+>  Documentation/locking/index.rst               |  24 ++
+>  ...{lockdep-design.txt => lockdep-design.rst} |  51 ++--
+>  .../locking/{lockstat.txt => lockstat.rst}    | 221 ++++++++++--------
+>  .../{locktorture.txt => locktorture.rst}      | 105 +++++----
+>  .../{mutex-design.txt => mutex-design.rst}    |  26 ++-
+>  ...t-mutex-design.txt => rt-mutex-design.rst} | 139 ++++++-----
+>  .../locking/{rt-mutex.txt => rt-mutex.rst}    |  30 +--
+>  .../locking/{spinlocks.txt => spinlocks.rst}  |  32 ++-
+>  ...w-mutex-design.txt => ww-mutex-design.rst} |  82 ++++---
+>  Documentation/pi-futex.txt                    |   2 +-
+>  .../it_IT/kernel-hacking/locking.rst          |   2 +-
 
-Yes.
+Limited to translations/it_IT
+
+Acked-by: Federico Vaga <federico.vaga@vaga.pv.it>
+
+>  drivers/gpu/drm/drm_modeset_lock.c            |   2 +-
+>  include/linux/lockdep.h                       |   2 +-
+>  include/linux/mutex.h                         |   2 +-
+>  include/linux/rwsem.h                         |   2 +-
+>  kernel/locking/mutex.c                        |   2 +-
+>  kernel/locking/rtmutex.c                      |   2 +-
+>  lib/Kconfig.debug                             |   4 +-
+>  19 files changed, 428 insertions(+), 304 deletions(-)
+>  create mode 100644 Documentation/locking/index.rst
+>  rename Documentation/locking/{lockdep-design.txt => lockdep-design.rst}
+> (93%) rename Documentation/locking/{lockstat.txt => lockstat.rst} (41%)
+> rename Documentation/locking/{locktorture.txt => locktorture.rst} (57%)
+> rename Documentation/locking/{mutex-design.txt => mutex-design.rst} (94%)
+> rename Documentation/locking/{rt-mutex-design.txt => rt-mutex-design.rst}
+> (91%) rename Documentation/locking/{rt-mutex.txt => rt-mutex.rst} (71%)
+> rename Documentation/locking/{spinlocks.txt => spinlocks.rst} (89%) rename
+> Documentation/locking/{ww-mutex-design.txt => ww-mutex-design.rst} (93%)
+> 
+
+
+
+
+
