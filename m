@@ -5,110 +5,105 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 674097D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Jun 2019 15:55:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 789367D913
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 10 Jun 2019 15:56:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391357AbfFJPzn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 10 Jun 2019 11:55:43 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:52982 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2403995AbfFJPzm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 10 Jun 2019 11:55:42 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x5AFlcT7064252
-        for <linux-doc@vger.kernel.org>; Mon, 10 Jun 2019 11:55:41 -0400
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2t1sse1d3u-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 10 Jun 2019 11:55:41 -0400
-Received: from localhost
-        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <heiko.carstens@de.ibm.com>;
-        Mon, 10 Jun 2019 16:55:39 +0100
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Mon, 10 Jun 2019 16:55:34 +0100
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x5AFtXs559965666
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 10 Jun 2019 15:55:33 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id CE8A1AE051;
-        Mon, 10 Jun 2019 15:55:33 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 34469AE055;
-        Mon, 10 Jun 2019 15:55:33 +0000 (GMT)
-Received: from osiris (unknown [9.145.162.214])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Mon, 10 Jun 2019 15:55:33 +0000 (GMT)
-Date:   Mon, 10 Jun 2019 17:55:31 +0200
-From:   Heiko Carstens <heiko.carstens@de.ibm.com>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Palmer Dabbelt <palmer@sifive.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        Greentime Hu <green.hu@gmail.com>,
-        Vincent Chen <deanbo422@gmail.com>,
-        linux-riscv@lists.infradead.org, netdev@vger.kernel.org,
-        bpf@vger.kernel.org
-Subject: Re: [PATCH v3 00/33] Convert files to ReST - part 1
-References: <cover.1560045490.git.mchehab+samsung@kernel.org>
- <20190609091642.GA3705@osiris>
- <20190609092940.5e34e3b0@recife.lan>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190609092940.5e34e3b0@recife.lan>
-X-TM-AS-GCONF: 00
-x-cbid: 19061015-0008-0000-0000-000002F1FB8D
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19061015-0009-0000-0000-0000225EF2D2
-Message-Id: <20190610155531.GC4031@osiris>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-06-10_07:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1906100108
+        id S2404039AbfFJPzy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 10 Jun 2019 11:55:54 -0400
+Received: from mga12.intel.com ([192.55.52.136]:5731 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2403791AbfFJPzx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 10 Jun 2019 11:55:53 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Jun 2019 08:55:52 -0700
+X-ExtLoop1: 1
+Received: from yyu32-desk1.sc.intel.com ([143.183.136.147])
+  by orsmga004.jf.intel.com with ESMTP; 10 Jun 2019 08:55:51 -0700
+Message-ID: <e1543e7beb0eb55d6febcd847ccab9b219e60338.camel@intel.com>
+Subject: Re: [PATCH v7 03/14] x86/cet/ibt: Add IBT legacy code bitmap setup
+ function
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Pavel Machek <pavel@ucw.cz>, Dave Hansen <dave.hansen@intel.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+Date:   Mon, 10 Jun 2019 08:47:45 -0700
+In-Reply-To: <20190608205218.GA2359@xo-6d-61-c0.localdomain>
+References: <20190606200926.4029-1-yu-cheng.yu@intel.com>
+         <20190606200926.4029-4-yu-cheng.yu@intel.com>
+         <20190607080832.GT3419@hirez.programming.kicks-ass.net>
+         <aa8a92ef231d512b5c9855ef416db050b5ab59a6.camel@intel.com>
+         <20190607174336.GM3436@hirez.programming.kicks-ass.net>
+         <b3de4110-5366-fdc7-a960-71dea543a42f@intel.com>
+         <20190608205218.GA2359@xo-6d-61-c0.localdomain>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jun 09, 2019 at 09:29:40AM -0300, Mauro Carvalho Chehab wrote:
-> Em Sun, 9 Jun 2019 11:16:43 +0200
-> > Will there be a web page (e.g. kernel.org), which contains always the
-> > latest upstream version?
+On Sat, 2019-06-08 at 22:52 +0200, Pavel Machek wrote:
+> Hi!
 > 
-> Yes:
+> > > I've no idea what the kernel should do; since you failed to answer the
+> > > question what happens when you point this to garbage.
+> > > 
+> > > Does it then fault or what?
+> > 
+> > Yeah, I think you'll fault with a rather mysterious CR2 value since
+> > you'll go look at the instruction that faulted and not see any
+> > references to the CR2 value.
+> > 
+> > I think this new MSR probably needs to get included in oops output when
+> > CET is enabled.
+> > 
+> > Why don't we require that a VMA be in place for the entire bitmap?
+> > Don't we need a "get" prctl function too in case something like a JIT is
+> > running and needs to find the location of this bitmap to set bits itself?
+> > 
+> > Or, do we just go whole-hog and have the kernel manage the bitmap
+> > itself. Our interface here could be:
+> > 
+> > 	prctl(PR_MARK_CODE_AS_LEGACY, start, size);
+> > 
+> > and then have the kernel allocate and set the bitmap for those code
+> > locations.
 > 
-> 	https://www.kernel.org/doc/html/latest/
-> 
-> I guess this one is based on Linus tree.
-> 
-> Jon also maintains a version at:
-> 
-> 	https://static.lwn.net/kerneldoc/
-> 
-> I guess that one is based on docs-next branch from the Docs tree.
-> 
-> Btw, if you want to build it for yourself, you could use:
-> 
-> 	make htmldocs
+> For the record, that sounds like a better interface than userspace knowing
+> about the bitmap formats...
+> 									Pavel
 
-Thanks a lot!
+Initially we implemented the bitmap that way.  To manage the bitmap, every time
+the application issues a syscall for a .so it loads, and the kernel does
+copy_from_user() & copy_to_user() (or similar things).  If a system has a few
+legacy .so files and every application does the same, it can take a long time to
+boot up.
 
-> > I can pick these up for s390. Or do you want to send the whole series
-> > in one go upstream?
-> 
-> Yeah, feel free to pick them via the s390 tree.
-
-Ok, applied! :)
+Yu-cheng
 
