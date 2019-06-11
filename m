@@ -1,246 +1,141 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4F6D17D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Jun 2019 09:40:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B62107D91A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Jun 2019 10:33:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404539AbfFKJkP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 11 Jun 2019 05:40:15 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:33126 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404521AbfFKJkP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jun 2019 05:40:15 -0400
-Received: by mail-ed1-f67.google.com with SMTP id h9so19104619edr.0
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2019 02:40:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=sender:date:from:to:cc:subject:message-id:mail-followup-to
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=TV3qoPI3CybT3ZOiICpyVzHhXX/g/RYRK8tbjgl4RHM=;
-        b=bWW0yqPBDAcwXw6OB2vqqN5OwZnKDdnjN5PWudyV7Y//pEOBD/U7VnGsyzT/2J4smR
-         7duPRZnNFn8cWSFWoxGe73UcLjeEYajEh59HeRCOEYMgnPMwVphP0jmG1q6yxJs+tubc
-         GjmEqDMtEtmFNnlQKg5gDVIlwgt2q/W0hrljk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=TV3qoPI3CybT3ZOiICpyVzHhXX/g/RYRK8tbjgl4RHM=;
-        b=MUiz2BQJe5KzBG9kB2ahxt7hdhBEWzwnPoe0tE3nMKrz1rTBlYR29AIYZ5zCMHF9TH
-         km2n+shzI2NbixZtg1qCYvK+71Yk9SRSXxb2OQEZkdjjCx/LLSOzNNWqZNJzvF7miHfP
-         G2iifi0zUMS4sqUROilu0dV1Hbp84M3iT20NEY2VLEiPlYIfT26saHTTfSbZmeDqqcQn
-         clQFkzCqKZ+WLZqgyejNPgFuGusUMjFI0ps3x13eIwbg3TrGNS8FwJtuRwhrWaGEdZDv
-         xeQ8x1/MK24qRHgF4dKX3G+hGDccBHOuAIfBeUuGC3ICrIVEXstIdawpDK73JTwkLTYD
-         35VQ==
-X-Gm-Message-State: APjAAAUxqkWTwMrZSFhz4zPgm6US8AiLK0nniitSCB8MMN5gBcNwBpav
-        XwkseHeh3/Ym/Pt8OsifocD/hg==
-X-Google-Smtp-Source: APXvYqwHogsRH9fZfw5U5Fdv1dXg6iOF4lQ+mvx9xPLpYS/mg3rptWV1Xk3ElpWq9cPEH4dBd+KClg==
-X-Received: by 2002:a17:906:784c:: with SMTP id p12mr57702204ejm.159.1560246013358;
-        Tue, 11 Jun 2019 02:40:13 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
-        by smtp.gmail.com with ESMTPSA id x98sm2712021ede.89.2019.06.11.02.40.12
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 11 Jun 2019 02:40:12 -0700 (PDT)
-Date:   Tue, 11 Jun 2019 11:40:10 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
-        dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 33/33] docs: EDID/HOWTO.txt: convert it and rename to
- howto.rst
-Message-ID: <20190611094010.GZ21222@phenom.ffwll.local>
-Mail-Followup-To: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
-        dri-devel@lists.freedesktop.org
-References: <cover.1560045490.git.mchehab+samsung@kernel.org>
- <74bec0b5b7c32c8d84adbaf9ff208803475198e5.1560045490.git.mchehab+samsung@kernel.org>
- <20190611083731.GS21222@phenom.ffwll.local>
- <20190611060215.232af2bb@coco.lan>
+        id S1727390AbfFKKdT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 11 Jun 2019 06:33:19 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:33330 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725947AbfFKKdT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jun 2019 06:33:19 -0400
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id 21FC68023C; Tue, 11 Jun 2019 12:33:06 +0200 (CEST)
+Date:   Tue, 11 Jun 2019 12:33:16 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     Dave Hansen <dave.hansen@intel.com>,
+        Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+Subject: Re: [PATCH v7 03/14] x86/cet/ibt: Add IBT legacy code bitmap setup
+ function
+Message-ID: <20190611103316.GA20775@amd>
+References: <20190606200926.4029-1-yu-cheng.yu@intel.com>
+ <20190606200926.4029-4-yu-cheng.yu@intel.com>
+ <20190607080832.GT3419@hirez.programming.kicks-ass.net>
+ <aa8a92ef231d512b5c9855ef416db050b5ab59a6.camel@intel.com>
+ <20190607174336.GM3436@hirez.programming.kicks-ass.net>
+ <b3de4110-5366-fdc7-a960-71dea543a42f@intel.com>
+ <20190608205218.GA2359@xo-6d-61-c0.localdomain>
+ <e1543e7beb0eb55d6febcd847ccab9b219e60338.camel@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="AhhlLboLdkugWU4S"
 Content-Disposition: inline
-In-Reply-To: <20190611060215.232af2bb@coco.lan>
-X-Operating-System: Linux phenom 4.14.0-3-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <e1543e7beb0eb55d6febcd847ccab9b219e60338.camel@intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 11, 2019 at 06:02:15AM -0300, Mauro Carvalho Chehab wrote:
-> Em Tue, 11 Jun 2019 10:37:31 +0200
-> Daniel Vetter <daniel@ffwll.ch> escreveu:
-> 
-> > On Sat, Jun 08, 2019 at 11:27:23PM -0300, Mauro Carvalho Chehab wrote:
-> > > Sphinx need to know when a paragraph ends. So, do some adjustments
-> > > at the file for it to be properly parsed.
-> > > 
-> > > At its new index.rst, let's add a :orphan: while this is not linked to
-> > > the main index.rst file, in order to avoid build warnings.
-> > > 
-> > > that's said, I believe that this file should be moved to the
-> > > GPU/DRM documentation.  
-> > 
-> > Yes, but there's a bit a twist: This is definitely end-user documentation,
-> > so maybe should be in admin-guide?
-> > 
-> > Atm all we have in Documentation/gpu/ is internals for drivers + some
-> > beginnings of uapi documentation for userspace developers.
-> 
-> On media, we have several different types of documents:
-> 
-> - uAPI - consumed by both userspace and kernelspace developers;
-> - kAPI - consumed by Kernel hackers;
-> - driver-specific information. Those are usually messy, as some contain
->   specific internal details, while others are pure end-user documentation.
-> 
-> there are several cross-references between uAPI and kAPI parts.
-> 
-> I've seem similar patterns on several other driver subsystems.
-> 
-> I agree with Jon's principle that the best is to focus the book per
-> audience. Yet, trying to rearrange the documentation means a lot of work,
-> specially on those cases where a single file contain different types of
-> documentation, like on media driver docs.
 
-Yeah atm we're doing a bad job of keeping the kapi and uapi parts
-separate. But the plan at least is to move all the gpu related uapi stuff
-into Documentation/gpu/drm-uapi.rst. Not sure there's value in moving that
-out of the gpu folder ...
+--AhhlLboLdkugWU4S
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > Jon, what's your recommendation here for subsystem specific
-> > end-user/adming docs?
-> 
-> Jon, please correct me if I' wrong, bu I guess the plan is to place them 
-> somewhere under Documentation/admin-guide/.
-> 
-> If so, perhaps creating a Documentation/admin-guide/drm dir there and 
-> place docs like EDID/HOWTO.txt, svga.txt, etc would work.
-> 
-> Btw, that's one of the reasons[1] why I opted to keep the files where they
-> are: properly organizing the converted documents call for such kind
-> of discussions. On my experience, discussing names and directory locations
-> can generate warm discussions and take a lot of time to reach consensus.
-> 
-> [1] The other one is to avoid/simplify merge conflicts.
+On Mon 2019-06-10 08:47:45, Yu-cheng Yu wrote:
+> On Sat, 2019-06-08 at 22:52 +0200, Pavel Machek wrote:
+> > Hi!
+> >=20
+> > > > I've no idea what the kernel should do; since you failed to answer =
+the
+> > > > question what happens when you point this to garbage.
+> > > >=20
+> > > > Does it then fault or what?
+> > >=20
+> > > Yeah, I think you'll fault with a rather mysterious CR2 value since
+> > > you'll go look at the instruction that faulted and not see any
+> > > references to the CR2 value.
+> > >=20
+> > > I think this new MSR probably needs to get included in oops output wh=
+en
+> > > CET is enabled.
+> > >=20
+> > > Why don't we require that a VMA be in place for the entire bitmap?
+> > > Don't we need a "get" prctl function too in case something like a JIT=
+ is
+> > > running and needs to find the location of this bitmap to set bits its=
+elf?
+> > >=20
+> > > Or, do we just go whole-hog and have the kernel manage the bitmap
+> > > itself. Our interface here could be:
+> > >=20
+> > > 	prctl(PR_MARK_CODE_AS_LEGACY, start, size);
+> > >=20
+> > > and then have the kernel allocate and set the bitmap for those code
+> > > locations.
+> >=20
+> > For the record, that sounds like a better interface than userspace know=
+ing
+> > about the bitmap formats...
+> > 									Pavel
+>=20
+> Initially we implemented the bitmap that way.  To manage the bitmap, ever=
+y time
+> the application issues a syscall for a .so it loads, and the kernel does
+> copy_from_user() & copy_to_user() (or similar things).  If a system has a=
+ few
+> legacy .so files and every application does the same, it can take a long =
+time to
+> boot up.
 
-Oh definitely not asking for moving them at the same time, just wondering
-how this should be solved properly.
--Daniel
+Loading .so is already many syscalls, I'd not expect measurable
+performance there. Are you sure?
+								Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
 
-> 
-> > 
-> > Thanks, Daniel
-> > 
-> > > 
-> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> > > ---
-> > >  Documentation/EDID/{HOWTO.txt => howto.rst}   | 31 ++++++++++++-------
-> > >  .../admin-guide/kernel-parameters.txt         |  2 +-
-> > >  drivers/gpu/drm/Kconfig                       |  2 +-
-> > >  3 files changed, 22 insertions(+), 13 deletions(-)
-> > >  rename Documentation/EDID/{HOWTO.txt => howto.rst} (83%)
-> > > 
-> > > diff --git a/Documentation/EDID/HOWTO.txt b/Documentation/EDID/howto.rst
-> > > similarity index 83%
-> > > rename from Documentation/EDID/HOWTO.txt
-> > > rename to Documentation/EDID/howto.rst
-> > > index 539871c3b785..725fd49a88ca 100644
-> > > --- a/Documentation/EDID/HOWTO.txt
-> > > +++ b/Documentation/EDID/howto.rst
-> > > @@ -1,3 +1,9 @@
-> > > +:orphan:
-> > > +
-> > > +====
-> > > +EDID
-> > > +====
-> > > +
-> > >  In the good old days when graphics parameters were configured explicitly
-> > >  in a file called xorg.conf, even broken hardware could be managed.
-> > >  
-> > > @@ -34,16 +40,19 @@ Makefile. Please note that the EDID data structure expects the timing
-> > >  values in a different way as compared to the standard X11 format.
-> > >  
-> > >  X11:
-> > > -HTimings:  hdisp hsyncstart hsyncend htotal
-> > > -VTimings:  vdisp vsyncstart vsyncend vtotal
-> > > +  HTimings:
-> > > +    hdisp hsyncstart hsyncend htotal
-> > > +  VTimings:
-> > > +    vdisp vsyncstart vsyncend vtotal
-> > >  
-> > > -EDID:
-> > > -#define XPIX hdisp
-> > > -#define XBLANK htotal-hdisp
-> > > -#define XOFFSET hsyncstart-hdisp
-> > > -#define XPULSE hsyncend-hsyncstart
-> > > +EDID::
-> > >  
-> > > -#define YPIX vdisp
-> > > -#define YBLANK vtotal-vdisp
-> > > -#define YOFFSET vsyncstart-vdisp
-> > > -#define YPULSE vsyncend-vsyncstart
-> > > +  #define XPIX hdisp
-> > > +  #define XBLANK htotal-hdisp
-> > > +  #define XOFFSET hsyncstart-hdisp
-> > > +  #define XPULSE hsyncend-hsyncstart
-> > > +
-> > > +  #define YPIX vdisp
-> > > +  #define YBLANK vtotal-vdisp
-> > > +  #define YOFFSET vsyncstart-vdisp
-> > > +  #define YPULSE vsyncend-vsyncstart
-> > > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > > index 3d072ca532bb..3faf37b8b001 100644
-> > > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > > @@ -930,7 +930,7 @@
-> > >  			edid/1680x1050.bin, or edid/1920x1080.bin is given
-> > >  			and no file with the same name exists. Details and
-> > >  			instructions how to build your own EDID data are
-> > > -			available in Documentation/EDID/HOWTO.txt. An EDID
-> > > +			available in Documentation/EDID/howto.rst. An EDID
-> > >  			data set will only be used for a particular connector,
-> > >  			if its name and a colon are prepended to the EDID
-> > >  			name. Each connector may use a unique EDID data
-> > > diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> > > index 6b34949416b1..c3a6dd284c91 100644
-> > > --- a/drivers/gpu/drm/Kconfig
-> > > +++ b/drivers/gpu/drm/Kconfig
-> > > @@ -141,7 +141,7 @@ config DRM_LOAD_EDID_FIRMWARE
-> > >  	  monitor are unable to provide appropriate EDID data. Since this
-> > >  	  feature is provided as a workaround for broken hardware, the
-> > >  	  default case is N. Details and instructions how to build your own
-> > > -	  EDID data are given in Documentation/EDID/HOWTO.txt.
-> > > +	  EDID data are given in Documentation/EDID/howto.rst.
-> > >  
-> > >  config DRM_DP_CEC
-> > >  	bool "Enable DisplayPort CEC-Tunneling-over-AUX HDMI support"
-> > > -- 
-> > > 2.21.0
-> > >   
-> > 
-> 
-> 
-> 
-> Thanks,
-> Mauro
+--AhhlLboLdkugWU4S
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAlz/g2wACgkQMOfwapXb+vIj7QCfRkp2CAAYHfFjIjZpoiuF3QSp
+XOcAn2kbcxPiUdvqncAD5H23uN2WhHP1
+=j3lF
+-----END PGP SIGNATURE-----
+
+--AhhlLboLdkugWU4S--
