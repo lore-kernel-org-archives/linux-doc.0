@@ -1,147 +1,108 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_HIGH autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D16F07D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Jun 2019 18:52:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9B12D7DE57
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Jun 2019 19:12:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392083AbfFKSuT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 11 Jun 2019 14:50:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33122 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389470AbfFKSuT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 11 Jun 2019 14:50:19 -0400
-Received: from kernel.org (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2E1C021744;
-        Tue, 11 Jun 2019 18:50:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560279018;
-        bh=KSPugbVcFVjo2LRDUR30DOGlfU301RbHfc51FMakphQ=;
-        h=In-Reply-To:References:To:From:Cc:Subject:Date:From;
-        b=eUcQmeuoyqCS292prTem1gEJTNrE/i4/3mRNGwiqnO3Tx9yQumA1yteW7iEE4JN1g
-         eh2ADC167gKmUCTbEgDbjScSG5xLnIHWi5uWk5SVDUlKT9arAGeIY6q58Nsi/mtoWM
-         Sissolu8Hy/cpsaYhChLTjhjFekH7GFD9BeulHFI=
-Content-Type: text/plain; charset="utf-8"
+        id S2392573AbfFKTDi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 11 Jun 2019 15:03:38 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:44563 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2392561AbfFKTDh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jun 2019 15:03:37 -0400
+Received: by mail-pf1-f196.google.com with SMTP id t16so7999645pfe.11;
+        Tue, 11 Jun 2019 12:03:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=TINH5Zv9sdfI5yGkKfukd7zEs5gc5SFmFE6Rm33jogw=;
+        b=sTbvzg1IBs2bb8cjreY5cBasSaH+2pFI5pjQ35wagL+18kPnXLznCC9TyL/tH+M4hP
+         q8EzAGJHmuFs3cTKR1D9zefrPRRKJAU8/AOrhIRoejq49CWhnsGswe/IoyW+3pLcVrZA
+         idoBHD6D/SGQjCHVkxMcAuSa0qZ0UYf6PuryCCl6KxGiUpZO9zLoZB/vD1r7/EDrA+xH
+         AVkmXuIzCTP0+FrXVOmES1ohd6KLAjLFxCArXYNa/4QqLSZCec9i31IIvqj3lneR3rck
+         uR0BMYPVVBv3BGDTkrSUVMI/X2O/9KCPcGFl11pf9di+5Ug8qf/qOIO7Nn2RveaTofno
+         9dig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=TINH5Zv9sdfI5yGkKfukd7zEs5gc5SFmFE6Rm33jogw=;
+        b=kJdY8QEZIURUZo4HI1IMAJ31YHhLhQOT0JyIu/z4oYMmnbIh1Ilp/5D9gBJ2+bbLqB
+         5Q22m9UZxg/2wjx18KoAlemA0HzDVaq3nVT+9VyDgdSYq1SK5N7ebdKeg+Rt1lMZzobi
+         hGcB+RMX6DktW7sarEbF71v5XQAxCVDAH8yz5fQK69APpzVbgkbK/ZA1O6BNM9zoRs6+
+         0hcoCcEr1vSsYC71cLuW5tIRcPV5oDbmICNsHFaZ0bez9YuMImM5ODYQz4uKJyzSb+ag
+         r5jSLR6nG3BjIJuDbVMpdpvVAzkhAyUntQu9wtLj+V1Fh3ZBp5SWZ7sANUrMk91gklD7
+         gzrA==
+X-Gm-Message-State: APjAAAVS0gNjm+B+VuYHMOfqp2tgCNkDmwHjfOTQ+qEzcxJQyzMSOBVO
+        WBXvuDv6lyEDMAXDFqdXWXg=
+X-Google-Smtp-Source: APXvYqyurkJYg+ONU24NoQH+aOpKIHaCcBkqNsSi7eK6I99H2KHZq5aZwOzTKoSX9JiYUzkROPsUWw==
+X-Received: by 2002:a62:6d47:: with SMTP id i68mr82880905pfc.189.1560279816496;
+        Tue, 11 Jun 2019 12:03:36 -0700 (PDT)
+Received: from localhost ([2620:10d:c091:500::2:1677])
+        by smtp.gmail.com with ESMTPSA id y22sm12843821pgj.38.2019.06.11.12.03.35
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 11 Jun 2019 12:03:35 -0700 (PDT)
+Date:   Tue, 11 Jun 2019 12:03:32 -0700
+From:   Tejun Heo <tj@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        Jens Axboe <axboe@kernel.dk>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>, linux-block@vger.kernel.org,
+        cgroups@vger.kernel.org, netdev@vger.kernel.org,
+        bpf@vger.kernel.org, linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v3 05/33] docs: cgroup-v1: convert docs to ReST and
+ rename to *.rst
+Message-ID: <20190611190332.GI3341036@devbig004.ftw2.facebook.com>
+References: <cover.1560045490.git.mchehab+samsung@kernel.org>
+ <79865a4248ce5b042106e5ec69bb493292a8d392.1560045490.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20190611175830.GA236872@google.com>
-References: <20190514221711.248228-1-brendanhiggins@google.com> <20190514221711.248228-18-brendanhiggins@google.com> <20190517182254.548EA20815@mail.kernel.org> <CAAXuY3p4qhKVsSpQ44_kQeGDMfg7OuFLgFyxhcFWS3yf-5A_7g@mail.gmail.com> <20190607190047.C3E7A20868@mail.kernel.org> <20190611175830.GA236872@google.com>
-To:     Brendan Higgins <brendanhiggins@google.com>
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     Iurii Zaikin <yzaikin@google.com>, frowand.list@gmail.com,
-        gregkh@linuxfoundation.org, jpoimboe@redhat.com,
-        keescook@google.com, kieran.bingham@ideasonboard.com,
-        mcgrof@kernel.org, peterz@infradead.org, robh@kernel.org,
-        shuah@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com,
-        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
-        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
-        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
-        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
-        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
-        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
-        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
-        wfg@linux.intel.com
-Subject: Re: [PATCH v4 17/18] kernel/sysctl-test: Add null pointer test for sysctl.c:proc_dointvec()
-User-Agent: alot/0.8.1
-Date:   Tue, 11 Jun 2019 11:50:17 -0700
-Message-Id: <20190611185018.2E1C021744@mail.kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <79865a4248ce5b042106e5ec69bb493292a8d392.1560045490.git.mchehab+samsung@kernel.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Brendan Higgins (2019-06-11 10:58:30)
-> On Fri, Jun 07, 2019 at 12:00:47PM -0700, Stephen Boyd wrote:
-> > Quoting Iurii Zaikin (2019-06-05 18:29:42)
-> > > On Fri, May 17, 2019 at 11:22 AM Stephen Boyd <sboyd@kernel.org> wrot=
-e:
-> > > >
-> > > > Quoting Brendan Higgins (2019-05-14 15:17:10)
-> > > > > diff --git a/kernel/sysctl-test.c b/kernel/sysctl-test.c
-> > > > > new file mode 100644
-> > > > > index 0000000000000..fe0f2bae66085
-> > > > > --- /dev/null
-> > > > > +++ b/kernel/sysctl-test.c
-> > > > > +
-> > > > > +
-> > > > > +static void sysctl_test_dointvec_happy_single_negative(struct ku=
-nit *test)
-> > > > > +{
-> > > > > +       struct ctl_table table =3D {
-> > > > > +               .procname =3D "foo",
-> > > > > +               .data           =3D &test_data.int_0001,
-> > > > > +               .maxlen         =3D sizeof(int),
-> > > > > +               .mode           =3D 0644,
-> > > > > +               .proc_handler   =3D proc_dointvec,
-> > > > > +               .extra1         =3D &i_zero,
-> > > > > +               .extra2         =3D &i_one_hundred,
-> > > > > +       };
-> > > > > +       char input[] =3D "-9";
-> > > > > +       size_t len =3D sizeof(input) - 1;
-> > > > > +       loff_t pos =3D 0;
-> > > > > +
-> > > > > +       table.data =3D kunit_kzalloc(test, sizeof(int), GFP_USER);
-> > > > > +       KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 1, input, =
-&len, &pos));
-> > > > > +       KUNIT_EXPECT_EQ(test, sizeof(input) - 1, len);
-> > > > > +       KUNIT_EXPECT_EQ(test, sizeof(input) - 1, pos);
-> > > > > +       KUNIT_EXPECT_EQ(test, -9, *(int *)table.data);
-> > > >
-> > > > Is the casting necessary? Or can the macro do a type coercion of the
-> > > > second parameter based on the first type?
-> > >  Data field is defined as void* so I believe casting is necessary to
-> > > dereference it as a pointer to an array of ints. I don't think the
-> > > macro should do any type coercion that =3D=3D operator wouldn't do.
-> > >  I did change the cast to make it more clear that it's a pointer to an
-> > > array of ints being dereferenced.
-> >=20
-> > Ok, I still wonder if we should make KUNIT_EXPECT_EQ check the types on
-> > both sides and cause a build warning/error if the types aren't the same.
-> > This would be similar to our min/max macros that complain about
-> > mismatched types in the comparisons. Then if a test developer needs to
-> > convert one type or the other they could do so with a
-> > KUNIT_EXPECT_EQ_T() macro that lists the types to coerce both sides to
-> > explicitly.
->=20
-> Do you think it would be better to do a phony compare similar to how
-> min/max used to work prior to 4.17, or to use the new __typecheck(...)
-> macro? This might seem like a dumb question (and maybe it is), but Iurii
-> and I thought the former created an error message that was a bit easier
-> to understand, whereas __typecheck is obviously superior in terms of
-> code reuse.
->=20
-> This is what we are thinking right now; if you don't have any complaints
-> I will squash it into the relevant commits on the next revision:
+On Sat, Jun 08, 2019 at 11:26:55PM -0300, Mauro Carvalho Chehab wrote:
+> Convert the cgroup-v1 files to ReST format, in order to
+> allow a later addition to the admin-guide.
+> 
+> The conversion is actually:
+>   - add blank lines and identation in order to identify paragraphs;
+>   - fix tables markups;
+>   - add some lists markups;
+>   - mark literal blocks;
+>   - adjust title markups.
+> 
+> At its new index.rst, let's add a :orphan: while this is not linked to
+> the main index.rst file, in order to avoid build warnings.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-Can you provide the difference in error messages and describe that in
-the commit text? The commit message is where you "sell" the patch, so
-being able to compare the tradeoff of having another macro to do type
-comparisons vs. reusing the one that's there in kernel.h would be useful
-to allay concerns that we're duplicating logic for better error
-messages.
+Acked-by: Tejun Heo <tj@kernel.org>
 
-Honestly, I'd prefer we just use the macros that we've developed in
-kernel.h to do comparisons here so that we can get code reuse, but more
-importantly so that we don't trip over problems that caused those macros
-to be created in the first place. If the error message is bad, perhaps
-that can be fixed with some sort of compiler directive to make the error
-message a little more useful, i.e. compiletime_warning() thrown into
-__typecheck() or something.
+Please feel free to route with the rest of the series.  If you want
+the patch to be routed through the cgroup tree, please let me know.
 
-> ---
-> From: Iurii Zaikin <yzaikin@google.com>
->=20
-> Adds a warning message when comparing values of different types similar
-> to what min() / max() macros do.
->=20
-> Signed-off-by: Iurii Zaikin <yzaikin@google.com>
+Thanks.
+
+-- 
+tejun
