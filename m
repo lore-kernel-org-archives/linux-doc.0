@@ -1,108 +1,97 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9B12D7DE57
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Jun 2019 19:12:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E93F07D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Jun 2019 19:31:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392573AbfFKTDi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 11 Jun 2019 15:03:38 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:44563 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392561AbfFKTDh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jun 2019 15:03:37 -0400
-Received: by mail-pf1-f196.google.com with SMTP id t16so7999645pfe.11;
-        Tue, 11 Jun 2019 12:03:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=TINH5Zv9sdfI5yGkKfukd7zEs5gc5SFmFE6Rm33jogw=;
-        b=sTbvzg1IBs2bb8cjreY5cBasSaH+2pFI5pjQ35wagL+18kPnXLznCC9TyL/tH+M4hP
-         q8EzAGJHmuFs3cTKR1D9zefrPRRKJAU8/AOrhIRoejq49CWhnsGswe/IoyW+3pLcVrZA
-         idoBHD6D/SGQjCHVkxMcAuSa0qZ0UYf6PuryCCl6KxGiUpZO9zLoZB/vD1r7/EDrA+xH
-         AVkmXuIzCTP0+FrXVOmES1ohd6KLAjLFxCArXYNa/4QqLSZCec9i31IIvqj3lneR3rck
-         uR0BMYPVVBv3BGDTkrSUVMI/X2O/9KCPcGFl11pf9di+5Ug8qf/qOIO7Nn2RveaTofno
-         9dig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=TINH5Zv9sdfI5yGkKfukd7zEs5gc5SFmFE6Rm33jogw=;
-        b=kJdY8QEZIURUZo4HI1IMAJ31YHhLhQOT0JyIu/z4oYMmnbIh1Ilp/5D9gBJ2+bbLqB
-         5Q22m9UZxg/2wjx18KoAlemA0HzDVaq3nVT+9VyDgdSYq1SK5N7ebdKeg+Rt1lMZzobi
-         hGcB+RMX6DktW7sarEbF71v5XQAxCVDAH8yz5fQK69APpzVbgkbK/ZA1O6BNM9zoRs6+
-         0hcoCcEr1vSsYC71cLuW5tIRcPV5oDbmICNsHFaZ0bez9YuMImM5ODYQz4uKJyzSb+ag
-         r5jSLR6nG3BjIJuDbVMpdpvVAzkhAyUntQu9wtLj+V1Fh3ZBp5SWZ7sANUrMk91gklD7
-         gzrA==
-X-Gm-Message-State: APjAAAVS0gNjm+B+VuYHMOfqp2tgCNkDmwHjfOTQ+qEzcxJQyzMSOBVO
-        WBXvuDv6lyEDMAXDFqdXWXg=
-X-Google-Smtp-Source: APXvYqyurkJYg+ONU24NoQH+aOpKIHaCcBkqNsSi7eK6I99H2KHZq5aZwOzTKoSX9JiYUzkROPsUWw==
-X-Received: by 2002:a62:6d47:: with SMTP id i68mr82880905pfc.189.1560279816496;
-        Tue, 11 Jun 2019 12:03:36 -0700 (PDT)
-Received: from localhost ([2620:10d:c091:500::2:1677])
-        by smtp.gmail.com with ESMTPSA id y22sm12843821pgj.38.2019.06.11.12.03.35
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 11 Jun 2019 12:03:35 -0700 (PDT)
-Date:   Tue, 11 Jun 2019 12:03:32 -0700
-From:   Tejun Heo <tj@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        id S2404926AbfFKTa6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 11 Jun 2019 15:30:58 -0400
+Received: from mga14.intel.com ([192.55.52.115]:2866 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2404808AbfFKTa6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 11 Jun 2019 15:30:58 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Jun 2019 12:30:57 -0700
+X-ExtLoop1: 1
+Received: from yyu32-desk1.sc.intel.com ([143.183.136.147])
+  by orsmga007.jf.intel.com with ESMTP; 11 Jun 2019 12:30:56 -0700
+Message-ID: <d3d027a903524729454efa235155e5db75216e66.camel@intel.com>
+Subject: Re: [PATCH v7 25/27] mm/mmap: Add Shadow stack pages to memory
+ accounting
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        Jens Axboe <axboe@kernel.dk>, Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>, linux-block@vger.kernel.org,
-        cgroups@vger.kernel.org, netdev@vger.kernel.org,
-        bpf@vger.kernel.org, linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v3 05/33] docs: cgroup-v1: convert docs to ReST and
- rename to *.rst
-Message-ID: <20190611190332.GI3341036@devbig004.ftw2.facebook.com>
-References: <cover.1560045490.git.mchehab+samsung@kernel.org>
- <79865a4248ce5b042106e5ec69bb493292a8d392.1560045490.git.mchehab+samsung@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <79865a4248ce5b042106e5ec69bb493292a8d392.1560045490.git.mchehab+samsung@kernel.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+Date:   Tue, 11 Jun 2019 12:22:48 -0700
+In-Reply-To: <1cfc7396-ca90-1933-34ad-b3d43ae52e08@intel.com>
+References: <20190606200646.3951-1-yu-cheng.yu@intel.com>
+         <20190606200646.3951-26-yu-cheng.yu@intel.com>
+         <1cfc7396-ca90-1933-34ad-b3d43ae52e08@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jun 08, 2019 at 11:26:55PM -0300, Mauro Carvalho Chehab wrote:
-> Convert the cgroup-v1 files to ReST format, in order to
-> allow a later addition to the admin-guide.
+On Tue, 2019-06-11 at 10:55 -0700, Dave Hansen wrote:
+> On 6/6/19 1:06 PM, Yu-cheng Yu wrote:
+> > --- a/mm/mmap.c
+> > +++ b/mm/mmap.c
+> > @@ -1703,6 +1703,9 @@ static inline int accountable_mapping(struct file
+> > *file, vm_flags_t vm_flags)
+> >  	if (file && is_file_hugepages(file))
+> >  		return 0;
+> >  
+> > +	if (arch_copy_pte_mapping(vm_flags))
+> > +		return 1;
+> > +
+> >  	return (vm_flags & (VM_NORESERVE | VM_SHARED | VM_WRITE)) ==
+> > VM_WRITE;
+> >  }
+> >  
+> > @@ -3319,6 +3322,8 @@ void vm_stat_account(struct mm_struct *mm, vm_flags_t
+> > flags, long npages)
+> >  		mm->stack_vm += npages;
+> >  	else if (is_data_mapping(flags))
+> >  		mm->data_vm += npages;
+> > +	else if (arch_copy_pte_mapping(flags))
+> > +		mm->data_vm += npages;
+> >  }
 > 
-> The conversion is actually:
->   - add blank lines and identation in order to identify paragraphs;
->   - fix tables markups;
->   - add some lists markups;
->   - mark literal blocks;
->   - adjust title markups.
-> 
-> At its new index.rst, let's add a :orphan: while this is not linked to
-> the main index.rst file, in order to avoid build warnings.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> This classifies shadow stack as data instead of stack.  That seems a wee
+> bit counterintuitive.  Why did you make this choice?
 
-Acked-by: Tejun Heo <tj@kernel.org>
+I don't recall the reason; I will change it to stack and test it out.
 
-Please feel free to route with the rest of the series.  If you want
-the patch to be routed through the cgroup tree, please let me know.
-
-Thanks.
-
--- 
-tejun
+Yu-cheng
