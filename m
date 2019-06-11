@@ -1,134 +1,243 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-9.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FSL_HELO_FAKE,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 22BC77D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Jun 2019 17:55:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5EDE17D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Jun 2019 17:58:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406651AbfFKRzj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 11 Jun 2019 13:55:39 -0400
-Received: from mga18.intel.com ([134.134.136.126]:28719 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2406649AbfFKRzj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 11 Jun 2019 13:55:39 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Jun 2019 10:55:38 -0700
-X-ExtLoop1: 1
-Received: from ray.jf.intel.com (HELO [10.7.198.151]) ([10.7.198.151])
-  by orsmga004.jf.intel.com with ESMTP; 11 Jun 2019 10:55:38 -0700
-Subject: Re: [PATCH v7 25/27] mm/mmap: Add Shadow stack pages to memory
- accounting
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
-References: <20190606200646.3951-1-yu-cheng.yu@intel.com>
- <20190606200646.3951-26-yu-cheng.yu@intel.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-Message-ID: <1cfc7396-ca90-1933-34ad-b3d43ae52e08@intel.com>
-Date:   Tue, 11 Jun 2019 10:55:38 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S2406717AbfFKR6i (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 11 Jun 2019 13:58:38 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:44816 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2406713AbfFKR6h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jun 2019 13:58:37 -0400
+Received: by mail-pl1-f193.google.com with SMTP id t7so2822581plr.11
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2019 10:58:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ezWWyHmFr3D52R1hMjM3lFqjTF5qDUt/Gz8+w6Ybeeg=;
+        b=NXabX8VKhqlLINuoMQHbinmJIUbVH0BN+gV3EBZfeU2WCiSZGaL5z1BBk/58lNpSLk
+         6OZS/QBr9Xcqp8FLP0aoFzarQalnNz5o/W4LmU3plkkiz8px1w/b14QGZtx/LpELMViT
+         Cq0zGOdkG0bUXDxO/omwJpd2ykSJkUq6SnLNsOdyke4UAJxvvy6sJ2KCrvAjbWxYUAfv
+         mNi2NE/pq7hdDfUErhLVHQrN935jeqQID0v5d+Q6AZHeXiOFfmRa4pwDvFIRPShgom9k
+         +iiaBa56wRxxqOBXtYUg69RYV0vztcjvfpfAUcRMjGUqaocx9uX+ixG798K/4fglHZBe
+         neug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ezWWyHmFr3D52R1hMjM3lFqjTF5qDUt/Gz8+w6Ybeeg=;
+        b=nQGJfgq34dvScrE/zdwI1XFRRubWt/CaYu51PrnTj463+yehfO5Z54Id7EVde3x+5y
+         QkiZSfiiH/rMMIU9fe8b3E7zBDuQzjtu5Frmo4VcAyDBTq45V0Uerno62Q6CTNoB5SnR
+         aHQIotmvVPqIuaakHrmBmApwqLH7wxxGvKah2evz3RSgqv6wo392PN4FxpvW50YEO1wg
+         Daenh8izkKoHtiCEF+iV6J6JbF4zOAx/r4XhlH0QJXTyzDwcIEEZsJ2KRNXKBZ6Jcn8H
+         2W/g4VQKyoapg50QHw6TzOlF92XlwbWEJrzvLqmbhTM1426lJ8Hco9m6mfNp7HHRnxoQ
+         LzBg==
+X-Gm-Message-State: APjAAAXHmTPKyYfZWOQ1pP2EmjyUw+Mc/q+i1EtJ42IdVWtz/1CO4faP
+        C8+hcAUj0FawnMc4UiehjH0ybA==
+X-Google-Smtp-Source: APXvYqxLhXRMoy3niXLUf+3yjcR+oYOqDZdO4IrAaXbVjtaTgohrWX6P7B3Tnf00xa75XTTIUTknBA==
+X-Received: by 2002:a17:902:3341:: with SMTP id a59mr47725400plc.186.1560275916197;
+        Tue, 11 Jun 2019 10:58:36 -0700 (PDT)
+Received: from google.com ([2620:15c:2cd:2:d714:29b4:a56b:b23b])
+        by smtp.gmail.com with ESMTPSA id s64sm13222982pfb.160.2019.06.11.10.58.34
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 11 Jun 2019 10:58:35 -0700 (PDT)
+Date:   Tue, 11 Jun 2019 10:58:30 -0700
+From:   Brendan Higgins <brendanhiggins@google.com>
+To:     Stephen Boyd <sboyd@kernel.org>
+Cc:     Iurii Zaikin <yzaikin@google.com>, frowand.list@gmail.com,
+        gregkh@linuxfoundation.org, jpoimboe@redhat.com,
+        keescook@google.com, kieran.bingham@ideasonboard.com,
+        mcgrof@kernel.org, peterz@infradead.org, robh@kernel.org,
+        shuah@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
+        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
+        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
+        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
+        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
+        wfg@linux.intel.com
+Subject: Re: [PATCH v4 17/18] kernel/sysctl-test: Add null pointer test for
+ sysctl.c:proc_dointvec()
+Message-ID: <20190611175830.GA236872@google.com>
+References: <20190514221711.248228-1-brendanhiggins@google.com>
+ <20190514221711.248228-18-brendanhiggins@google.com>
+ <20190517182254.548EA20815@mail.kernel.org>
+ <CAAXuY3p4qhKVsSpQ44_kQeGDMfg7OuFLgFyxhcFWS3yf-5A_7g@mail.gmail.com>
+ <20190607190047.C3E7A20868@mail.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20190606200646.3951-26-yu-cheng.yu@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190607190047.C3E7A20868@mail.kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/6/19 1:06 PM, Yu-cheng Yu wrote:
-> --- a/mm/mmap.c
-> +++ b/mm/mmap.c
-> @@ -1703,6 +1703,9 @@ static inline int accountable_mapping(struct file *file, vm_flags_t vm_flags)
->  	if (file && is_file_hugepages(file))
->  		return 0;
->  
-> +	if (arch_copy_pte_mapping(vm_flags))
-> +		return 1;
-> +
->  	return (vm_flags & (VM_NORESERVE | VM_SHARED | VM_WRITE)) == VM_WRITE;
->  }
->  
-> @@ -3319,6 +3322,8 @@ void vm_stat_account(struct mm_struct *mm, vm_flags_t flags, long npages)
->  		mm->stack_vm += npages;
->  	else if (is_data_mapping(flags))
->  		mm->data_vm += npages;
-> +	else if (arch_copy_pte_mapping(flags))
-> +		mm->data_vm += npages;
->  }
+On Fri, Jun 07, 2019 at 12:00:47PM -0700, Stephen Boyd wrote:
+> Quoting Iurii Zaikin (2019-06-05 18:29:42)
+> > On Fri, May 17, 2019 at 11:22 AM Stephen Boyd <sboyd@kernel.org> wrote:
+> > >
+> > > Quoting Brendan Higgins (2019-05-14 15:17:10)
+> > > > diff --git a/kernel/sysctl-test.c b/kernel/sysctl-test.c
+> > > > new file mode 100644
+> > > > index 0000000000000..fe0f2bae66085
+> > > > --- /dev/null
+> > > > +++ b/kernel/sysctl-test.c
+> > > > +
+> > > > +
+> > > > +static void sysctl_test_dointvec_happy_single_negative(struct kunit *test)
+> > > > +{
+> > > > +       struct ctl_table table = {
+> > > > +               .procname = "foo",
+> > > > +               .data           = &test_data.int_0001,
+> > > > +               .maxlen         = sizeof(int),
+> > > > +               .mode           = 0644,
+> > > > +               .proc_handler   = proc_dointvec,
+> > > > +               .extra1         = &i_zero,
+> > > > +               .extra2         = &i_one_hundred,
+> > > > +       };
+> > > > +       char input[] = "-9";
+> > > > +       size_t len = sizeof(input) - 1;
+> > > > +       loff_t pos = 0;
+> > > > +
+> > > > +       table.data = kunit_kzalloc(test, sizeof(int), GFP_USER);
+> > > > +       KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 1, input, &len, &pos));
+> > > > +       KUNIT_EXPECT_EQ(test, sizeof(input) - 1, len);
+> > > > +       KUNIT_EXPECT_EQ(test, sizeof(input) - 1, pos);
+> > > > +       KUNIT_EXPECT_EQ(test, -9, *(int *)table.data);
+> > >
+> > > Is the casting necessary? Or can the macro do a type coercion of the
+> > > second parameter based on the first type?
+> >  Data field is defined as void* so I believe casting is necessary to
+> > dereference it as a pointer to an array of ints. I don't think the
+> > macro should do any type coercion that == operator wouldn't do.
+> >  I did change the cast to make it more clear that it's a pointer to an
+> > array of ints being dereferenced.
+> 
+> Ok, I still wonder if we should make KUNIT_EXPECT_EQ check the types on
+> both sides and cause a build warning/error if the types aren't the same.
+> This would be similar to our min/max macros that complain about
+> mismatched types in the comparisons. Then if a test developer needs to
+> convert one type or the other they could do so with a
+> KUNIT_EXPECT_EQ_T() macro that lists the types to coerce both sides to
+> explicitly.
 
-This classifies shadow stack as data instead of stack.  That seems a wee
-bit counterintuitive.  Why did you make this choice?
+Do you think it would be better to do a phony compare similar to how
+min/max used to work prior to 4.17, or to use the new __typecheck(...)
+macro? This might seem like a dumb question (and maybe it is), but Iurii
+and I thought the former created an error message that was a bit easier
+to understand, whereas __typecheck is obviously superior in terms of
+code reuse.
+
+This is what we are thinking right now; if you don't have any complaints
+I will squash it into the relevant commits on the next revision:
+---
+From: Iurii Zaikin <yzaikin@google.com>
+
+Adds a warning message when comparing values of different types similar
+to what min() / max() macros do.
+
+Signed-off-by: Iurii Zaikin <yzaikin@google.com>
+---
+ include/kunit/test.h | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/include/kunit/test.h b/include/kunit/test.h
+index 511c9e85401a6..791e22fba5620 100644
+--- a/include/kunit/test.h
++++ b/include/kunit/test.h
+@@ -335,6 +335,13 @@ void __printf(3, 4) kunit_printk(const char *level,
+ #define kunit_err(test, fmt, ...) \
+ 		kunit_printk(KERN_ERR, test, fmt, ##__VA_ARGS__)
+ 
++/*
++ * 'Unnecessary' cast serves to generate a compile-time warning in case
++ * of comparing incompatible types. Inspired by include/linux/kernel.h
++ */
++#define __kunit_typecheck(lhs, rhs) \
++	((void) (&(lhs) == &(rhs)))
++
+ static inline struct kunit_stream *kunit_expect_start(struct kunit *test,
+ 						      const char *file,
+ 						      const char *line)
+@@ -514,6 +521,7 @@ static inline void kunit_expect_ptr_binary(struct kunit *test,
+ #define KUNIT_EXPECT_BINARY(test, left, condition, right) do {		       \
+ 	typeof(left) __left = (left);					       \
+ 	typeof(right) __right = (right);				       \
++	__kunit_typecheck(__left, __right);				       \
+ 	kunit_expect_binary(test,					       \
+ 			    (long long) __left, #left,			       \
+ 			    (long long) __right, #right,		       \
+@@ -524,6 +532,7 @@ static inline void kunit_expect_ptr_binary(struct kunit *test,
+ #define KUNIT_EXPECT_BINARY_MSG(test, left, condition, right, fmt, ...) do {   \
+ 	typeof(left) __left = (left);					       \
+ 	typeof(right) __right = (right);				       \
++	__kunit_typecheck(__left, __right);				       \
+ 	kunit_expect_binary_msg(test,					       \
+ 				(long long) __left, #left,		       \
+ 				(long long) __right, #right,		       \
+@@ -538,6 +547,7 @@ static inline void kunit_expect_ptr_binary(struct kunit *test,
+ #define KUNIT_EXPECT_PTR_BINARY(test, left, condition, right) do {	       \
+ 	typeof(left) __left = (left);					       \
+ 	typeof(right) __right = (right);				       \
++	__kunit_typecheck(__left, __right);				       \
+ 	kunit_expect_ptr_binary(test,					       \
+ 			    (void *) __left, #left,			       \
+ 			    (void *) __right, #right,			       \
+@@ -553,6 +563,7 @@ static inline void kunit_expect_ptr_binary(struct kunit *test,
+ 				    ...) do {				       \
+ 	typeof(left) __left = (left);					       \
+ 	typeof(right) __right = (right);				       \
++	__kunit_typecheck(__left, __right);				       \
+ 	kunit_expect_ptr_binary_msg(test,				       \
+ 				    (void *) __left, #left,		       \
+ 				    (void *) __right, #right,		       \
+@@ -1013,6 +1024,7 @@ static inline void kunit_assert_ptr_binary(struct kunit *test,
+ #define KUNIT_ASSERT_BINARY(test, left, condition, right) do {		       \
+ 	typeof(left) __left = (left);					       \
+ 	typeof(right) __right = (right);				       \
++	__kunit_typecheck(__left, __right);				       \
+ 	kunit_assert_binary(test,					       \
+ 			    (long long) __left, #left,			       \
+ 			    (long long) __right, #right,		       \
+@@ -1023,6 +1035,7 @@ static inline void kunit_assert_ptr_binary(struct kunit *test,
+ #define KUNIT_ASSERT_BINARY_MSG(test, left, condition, right, fmt, ...) do {   \
+ 	typeof(left) __left = (left);					       \
+ 	typeof(right) __right = (right);				       \
++	__kunit_typecheck(__left, __right);				       \
+ 	kunit_assert_binary_msg(test,					       \
+ 				(long long) __left, #left,		       \
+ 				(long long) __right, #right,		       \
+@@ -1037,6 +1050,7 @@ static inline void kunit_assert_ptr_binary(struct kunit *test,
+ #define KUNIT_ASSERT_PTR_BINARY(test, left, condition, right) do {	       \
+ 	typeof(left) __left = (left);					       \
+ 	typeof(right) __right = (right);				       \
++	__kunit_typecheck(__left, __right);				       \
+ 	kunit_assert_ptr_binary(test,					       \
+ 				(void *) __left, #left,			       \
+ 				(void *) __right, #right,		       \
+@@ -1051,6 +1065,7 @@ static inline void kunit_assert_ptr_binary(struct kunit *test,
+ 				    fmt, ...) do {			       \
+ 	typeof(left) __left = (left);					       \
+ 	typeof(right) __right = (right);				       \
++	__kunit_typecheck(__left, __right);				       \
+ 	kunit_assert_ptr_binary_msg(test,				       \
+ 				    (void *) __left, #left,		       \
+ 				    (void *) __right, #right,		       \
+-- 
+2.22.0.rc2.383.gf4fbbf30c2-goog
+
