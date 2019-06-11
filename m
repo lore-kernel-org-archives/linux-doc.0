@@ -1,199 +1,307 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.4 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_DKIMWL_WL_MED,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0D1587D919
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Jun 2019 20:29:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7EC287D913
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Jun 2019 20:56:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406503AbfFKU3O (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 11 Jun 2019 16:29:14 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:39285 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406240AbfFKU3N (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jun 2019 16:29:13 -0400
-Received: by mail-pg1-f194.google.com with SMTP id 196so7594588pgc.6
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2019 13:29:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dhnwSrdCPnvzoEVfuuVGqE83p7TnkQ5Modn2BNCoQD0=;
-        b=Pp0Hq+hd8QA6syECahlCWtYv82jhOxBm0sr+fZ9Dkk8nXtHe7nrSiSj+V8u0FaITQ7
-         84fXuzNXkrhzDQgkHPp26EjnsIzrDKXg48+xvOTrPv1gFdJxgRLOvcs0dwgoU2BGvzqE
-         Liz3+gL3rcT7wqBUJosubNY4aHZAru2eeUFG6CtPZ2mbKIzTjquHFKUIQcWXvVk4hMLI
-         7UB1amIr3aRGarnBUHse/35CwxBlRRF3qifo7BnhaOJV61RWbVqr0wA4GIowlDaA6gfT
-         pWINRb5VwbD/mtNfms9GrZfwha/4G8tSCCTtYnHFhjTrLaOGAdTroClIT1QeFCWuqloy
-         NJbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dhnwSrdCPnvzoEVfuuVGqE83p7TnkQ5Modn2BNCoQD0=;
-        b=HU2ls8nJsE50eXj6ufGHMA8hpTxV3+XLJHipCdbgLvRqIYoqspJW+xHbyvE7Mu6gWX
-         0dP/JbDdfRkFGAoCRXVHfOl+Qlu+zb7jwB3kna1E/S2QuoWydQyFLHSmKh08q9B6kTJU
-         aHxpK4KCvZPdJZ/6XiVul1ZpiiceP61y+1l2FixZe4M9AP0I8xRR0/0bUmPQMhS1n6nX
-         xwGfeV4sSHS0SOzWPMDmHqlt7JR8oUIVTdQuYdRjMT/CTJqJF4NkJ9jA0zudWRGjH+fI
-         IWlco4cewu6iF01gWVJwZ4GtMkPuXSklHBCo8r3ffq4Fs+QNvt31m0Oc1NlXNz5P09ni
-         WBRA==
-X-Gm-Message-State: APjAAAVE9b/C9sqKLbP/w48jPGMemzk77UDjn5s36uWLIHLCclWlvHhZ
-        Glf75wYOS4XsvO8sJbl67Eg1Tsb8jbaSgtxgN43AhA==
-X-Google-Smtp-Source: APXvYqycBtJ32qbIn8pTyxMIAID5Xv7JTruAR7oTyIED4r622bu9rIlLgVdk0eekxjLa2OE4wVYL1Pw8y64Cqw0kRwU=
-X-Received: by 2002:a17:90a:2e89:: with SMTP id r9mr28553830pjd.117.1560284952085;
- Tue, 11 Jun 2019 13:29:12 -0700 (PDT)
+        id S2406688AbfFKU4w (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 11 Jun 2019 16:56:52 -0400
+Received: from asavdk3.altibox.net ([109.247.116.14]:55809 "EHLO
+        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2406036AbfFKU4w (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jun 2019 16:56:52 -0400
+Received: from ravnborg.org (unknown [158.248.194.18])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk3.altibox.net (Postfix) with ESMTPS id 9DCDE2003C;
+        Tue, 11 Jun 2019 22:56:46 +0200 (CEST)
+Date:   Tue, 11 Jun 2019 22:56:45 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Sean Paul <sean@poorly.run>
+Cc:     dri-devel@lists.freedesktop.org, Zain Wang <wzz@rock-chips.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Airlie <airlied@linux.ie>, linux-doc@vger.kernel.org,
+        Jose Souza <jose.souza@intel.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <seanpaul@chromium.org>
+Subject: Re: [PATCH v5 05/11] drm: Add helpers to kick off self refresh mode
+ in drivers
+Message-ID: <20190611205645.GB18315@ravnborg.org>
+References: <20190611160844.257498-1-sean@poorly.run>
+ <20190611160844.257498-6-sean@poorly.run>
 MIME-Version: 1.0
-References: <20190514221711.248228-1-brendanhiggins@google.com>
- <20190514221711.248228-18-brendanhiggins@google.com> <20190517182254.548EA20815@mail.kernel.org>
- <CAAXuY3p4qhKVsSpQ44_kQeGDMfg7OuFLgFyxhcFWS3yf-5A_7g@mail.gmail.com>
- <20190607190047.C3E7A20868@mail.kernel.org> <20190611175830.GA236872@google.com>
- <20190611185018.2E1C021744@mail.kernel.org>
-In-Reply-To: <20190611185018.2E1C021744@mail.kernel.org>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Tue, 11 Jun 2019 13:29:01 -0700
-Message-ID: <CAFd5g47dmcHOCX41cr2v9Kaj3xa_5-PoqUPX_1=AoQLUG90NkQ@mail.gmail.com>
-Subject: Re: [PATCH v4 17/18] kernel/sysctl-test: Add null pointer test for sysctl.c:proc_dointvec()
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Iurii Zaikin <yzaikin@google.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, shuah <shuah@kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190611160844.257498-6-sean@poorly.run>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
+        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=cm27Pg_UAAAA:8
+        a=e5mUnYsNAAAA:8 a=XvEOI8gEYBJ6QEm4CnUA:9 a=CjuIK1q_8ugA:10
+        a=xmb-EsYY8bH0VWELuYED:22 a=Vxmtnl_E_bksehYqCbjh:22
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 11, 2019 at 11:50 AM Stephen Boyd <sboyd@kernel.org> wrote:
->
-> Quoting Brendan Higgins (2019-06-11 10:58:30)
-> > On Fri, Jun 07, 2019 at 12:00:47PM -0700, Stephen Boyd wrote:
-> > > Quoting Iurii Zaikin (2019-06-05 18:29:42)
-> > > > On Fri, May 17, 2019 at 11:22 AM Stephen Boyd <sboyd@kernel.org> wrote:
-> > > > >
-> > > > > Quoting Brendan Higgins (2019-05-14 15:17:10)
-> > > > > > diff --git a/kernel/sysctl-test.c b/kernel/sysctl-test.c
-> > > > > > new file mode 100644
-> > > > > > index 0000000000000..fe0f2bae66085
-> > > > > > --- /dev/null
-> > > > > > +++ b/kernel/sysctl-test.c
-> > > > > > +
-> > > > > > +
-> > > > > > +static void sysctl_test_dointvec_happy_single_negative(struct kunit *test)
-> > > > > > +{
-> > > > > > +       struct ctl_table table = {
-> > > > > > +               .procname = "foo",
-> > > > > > +               .data           = &test_data.int_0001,
-> > > > > > +               .maxlen         = sizeof(int),
-> > > > > > +               .mode           = 0644,
-> > > > > > +               .proc_handler   = proc_dointvec,
-> > > > > > +               .extra1         = &i_zero,
-> > > > > > +               .extra2         = &i_one_hundred,
-> > > > > > +       };
-> > > > > > +       char input[] = "-9";
-> > > > > > +       size_t len = sizeof(input) - 1;
-> > > > > > +       loff_t pos = 0;
-> > > > > > +
-> > > > > > +       table.data = kunit_kzalloc(test, sizeof(int), GFP_USER);
-> > > > > > +       KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 1, input, &len, &pos));
-> > > > > > +       KUNIT_EXPECT_EQ(test, sizeof(input) - 1, len);
-> > > > > > +       KUNIT_EXPECT_EQ(test, sizeof(input) - 1, pos);
-> > > > > > +       KUNIT_EXPECT_EQ(test, -9, *(int *)table.data);
-> > > > >
-> > > > > Is the casting necessary? Or can the macro do a type coercion of the
-> > > > > second parameter based on the first type?
-> > > >  Data field is defined as void* so I believe casting is necessary to
-> > > > dereference it as a pointer to an array of ints. I don't think the
-> > > > macro should do any type coercion that == operator wouldn't do.
-> > > >  I did change the cast to make it more clear that it's a pointer to an
-> > > > array of ints being dereferenced.
-> > >
-> > > Ok, I still wonder if we should make KUNIT_EXPECT_EQ check the types on
-> > > both sides and cause a build warning/error if the types aren't the same.
-> > > This would be similar to our min/max macros that complain about
-> > > mismatched types in the comparisons. Then if a test developer needs to
-> > > convert one type or the other they could do so with a
-> > > KUNIT_EXPECT_EQ_T() macro that lists the types to coerce both sides to
-> > > explicitly.
-> >
-> > Do you think it would be better to do a phony compare similar to how
-> > min/max used to work prior to 4.17, or to use the new __typecheck(...)
-> > macro? This might seem like a dumb question (and maybe it is), but Iurii
-> > and I thought the former created an error message that was a bit easier
-> > to understand, whereas __typecheck is obviously superior in terms of
-> > code reuse.
-> >
-> > This is what we are thinking right now; if you don't have any complaints
-> > I will squash it into the relevant commits on the next revision:
->
-> Can you provide the difference in error messages and describe that in
-> the commit text? The commit message is where you "sell" the patch, so
-> being able to compare the tradeoff of having another macro to do type
-> comparisons vs. reusing the one that's there in kernel.h would be useful
-> to allay concerns that we're duplicating logic for better error
-> messages.
+Hi Sean.
 
-Oh sorry, I didn't think too hard about the commit message since I
-figured it would get split up and squashed into the existing commits.
-I just wanted to get it out sooner to discuss this before I post the
-next revision (probably later this week).
+Small things here and there. Did not stare at this long enough to
+understand the code, but added some feedback anyway.
 
-> Honestly, I'd prefer we just use the macros that we've developed in
-> kernel.h to do comparisons here so that we can get code reuse, but more
-> importantly so that we don't trip over problems that caused those macros
-> to be created in the first place. If the error message is bad, perhaps
-> that can be fixed with some sort of compiler directive to make the error
-> message a little more useful, i.e. compiletime_warning() thrown into
-> __typecheck() or something.
+	Sam
+>  
+> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> index d36feb4a62330..9d630a28a7880 100644
+> --- a/drivers/gpu/drm/Makefile
+> +++ b/drivers/gpu/drm/Makefile
+> @@ -43,7 +43,7 @@ drm_kms_helper-y := drm_crtc_helper.o drm_dp_helper.o drm_dsc.o drm_probe_helper
+>  		drm_simple_kms_helper.o drm_modeset_helper.o \
+>  		drm_scdc_helper.o drm_gem_framebuffer_helper.o \
+>  		drm_atomic_state_helper.o drm_damage_helper.o \
+> -		drm_format_helper.o
+> +		drm_format_helper.o drm_self_refresh_helper.o
 
-That's a good point. I have no qualms sticking with __typecheck(...)
-for now; if we later feel that it is causing problems, we can always
-fix it later by supplying our own warning in the manner you suggest.
+We really should have only one .o file per line and sort them.
+The current way to do things is asking for conflicts.
+Anyway, that battle is for another day.
 
-Iurii, do you have any additional thoughts on this?
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index e58be69960692..bc43cc08cdc11 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -33,6 +33,7 @@
+>  #include <drm/drm_damage_helper.h>
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_plane_helper.h>
+> +#include <drm/drm_self_refresh_helper.h>
+>  #include <drm/drm_print.h>
+>  #include <drm/drm_vblank.h>
+>  #include <drm/drm_writeback.h>
+Please add header file in alphabetic order.
+It goes below drm_print.h
 
->
-> > ---
-> > From: Iurii Zaikin <yzaikin@google.com>
-> >
-> > Adds a warning message when comparing values of different types similar
-> > to what min() / max() macros do.
-> >
-> > Signed-off-by: Iurii Zaikin <yzaikin@google.com>
+> --- /dev/null
+> +++ b/drivers/gpu/drm/drm_self_refresh_helper.c
+> @@ -0,0 +1,213 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Copyright (C) 2019 Google, Inc.
+> + *
+> + * Authors:
+> + * Sean Paul <seanpaul@chromium.org>
+> + */
+> +#include <drm/drm_atomic.h>
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_connector.h>
+> +#include <drm/drm_crtc.h>
+> +#include <drm/drm_device.h>
+> +#include <drm/drm_mode_config.h>
+> +#include <drm/drm_modeset_lock.h>
+> +#include <drm/drm_print.h>
+> +#include <drm/drm_self_refresh_helper.h>
+> +#include <linux/bitops.h>
+> +#include <linux/slab.h>
+> +#include <linux/workqueue.h>
+
+Nit:
+Typical include order is:
+
+#include <linux/*>
+
+#include <drm/*>
+
+#include "*"
+
+With an empty lines between the blocks.
+And sorted within the block.
+
+> +
+> +/**
+> + * DOC: overview
+> + *
+> + * This helper library provides an easy way for drivers to leverage the atomic
+> + * framework to implement panel self refresh (SR) support. Drivers are
+> + * responsible for initializing and cleaning up the SR helpers on load/unload
+> + * (see &drm_self_refresh_helper_init/&drm_self_refresh_helper_cleanup).
+> + * The connector is responsible for setting
+> + * &drm_connector_state.self_refresh_aware to true at runtime if it is SR-aware
+> + * (meaning it knows how to initiate self refresh on the panel).
+> + *
+> + * Once a crtc has enabled SR using &drm_self_refresh_helper_init, the
+> + * helpers will monitor activity and call back into the driver to enable/disable
+> + * SR as appropriate. The best way to think about this is that it's a DPMS
+> + * on/off request with &drm_crtc_state.self_refresh_active set in crtc state
+> + * that tells you to disable/enable SR on the panel instead of power-cycling it.
+> + *
+> + * During SR, drivers may choose to fully disable their crtc/encoder/bridge
+> + * hardware (in which case no driver changes are necessary), or they can inspect
+> + * &drm_crtc_state.self_refresh_active if they want to enter low power mode
+> + * without full disable (in case full disable/enable is too slow).
+> + *
+> + * SR will be deactivated if there are any atomic updates affecting the
+> + * pipe that is in SR mode. If a crtc is driving multiple connectors, all
+> + * connectors must be SR aware and all will enter/exit SR mode at the same time.
+> + *
+> + * If the crtc and connector are SR aware, but the panel connected does not
+> + * support it (or is otherwise unable to enter SR), the driver should fail
+> + * atomic_check when &drm_crtc_state.self_refresh_active is true.
+> + */
+> +
+> +struct drm_self_refresh_data {
+> +	struct drm_crtc *crtc;
+> +	struct delayed_work entry_work;
+> +	struct drm_atomic_state *save_state;
+> +	unsigned int entry_delay_ms;
+> +};
+> +
+> +static void drm_self_refresh_helper_entry_work(struct work_struct *work)
+> +{
+> +	struct drm_self_refresh_data *sr_data = container_of(
+> +				to_delayed_work(work),
+> +				struct drm_self_refresh_data, entry_work);
+> +	struct drm_crtc *crtc = sr_data->crtc;
+> +	struct drm_device *dev = crtc->dev;
+> +	struct drm_modeset_acquire_ctx ctx;
+> +	struct drm_atomic_state *state;
+> +	struct drm_connector *conn;
+> +	struct drm_connector_state *conn_state;
+> +	struct drm_crtc_state *crtc_state;
+> +	int i, ret;
+This function is called from a workqueue.
+Just wondering if this require any locking?
+(Maybe I missed it, browsed the code without a detailed review)
+
+> +
+> +	drm_modeset_acquire_init(&ctx, 0);
+> +
+> +	state = drm_atomic_state_alloc(dev);
+> +	if (!state) {
+> +		ret = -ENOMEM;
+> +		goto out;
+> +	}
+> +
+> +retry:
+> +	state->acquire_ctx = &ctx;
+> +
+> +	crtc_state = drm_atomic_get_crtc_state(state, crtc);
+> +	if (IS_ERR(crtc_state)) {
+> +		ret = PTR_ERR(crtc_state);
+> +		goto out;
+> +	}
+> +
+> +	if (!crtc_state->enable)
+> +		goto out;
+> +
+> +	ret = drm_atomic_add_affected_connectors(state, crtc);
+> +	if (ret)
+> +		goto out;
+> +
+> +	for_each_new_connector_in_state(state, conn, conn_state, i) {
+> +		if (!conn_state->self_refresh_aware)
+> +			goto out;
+> +	}
+> +
+> +	crtc_state->active = false;
+> +	crtc_state->self_refresh_active = true;
+> +
+> +	ret = drm_atomic_commit(state);
+> +	if (ret)
+> +		goto out;
+> +
+> +out:
+> +	if (ret == -EDEADLK) {
+> +		drm_atomic_state_clear(state);
+> +		ret = drm_modeset_backoff(&ctx);
+> +		if (!ret)
+> +			goto retry;
+> +	}
+> +
+> +	drm_atomic_state_put(state);
+> +	drm_modeset_drop_locks(&ctx);
+> +	drm_modeset_acquire_fini(&ctx);
+> +}
+> +
+
+> +
+> +/**
+> + * drm_self_refresh_helper_init - Initializes self refresh helpers for a crtc
+> + * @crtc: the crtc which supports self refresh supported displays
+> + * @entry_delay_ms: amount of inactivity to wait before entering self refresh
+> + */
+> +int drm_self_refresh_helper_init(struct drm_crtc *crtc,
+> +				 unsigned int entry_delay_ms)
+
+Missing documentation of return code.
+
+> +{
+> +	struct drm_self_refresh_data *sr_data = crtc->self_refresh_data;
+> +
+> +	/* Helper is already initialized */
+> +	if (WARN_ON(sr_data))
+> +		return -EINVAL;
+> +
+> +	sr_data = kzalloc(sizeof(*sr_data), GFP_KERNEL);
+> +	if (!sr_data)
+> +		return -ENOMEM;
+> +
+> +	INIT_DELAYED_WORK(&sr_data->entry_work,
+> +			  drm_self_refresh_helper_entry_work);
+> +	sr_data->entry_delay_ms = entry_delay_ms;
+> +	sr_data->crtc = crtc;
+> +
+> +	crtc->self_refresh_data = sr_data;
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_self_refresh_helper_init);
+> +
+>  
+>  /**
+> diff --git a/include/drm/drm_self_refresh_helper.h b/include/drm/drm_self_refresh_helper.h
+> new file mode 100644
+> index 0000000000000..405e86fb8461e
+> --- /dev/null
+> +++ b/include/drm/drm_self_refresh_helper.h
+> @@ -0,0 +1,22 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Copyright (C) 2019 Google, Inc.
+> + *
+> + * Authors:
+> + * Sean Paul <seanpaul@chromium.org>
+> + */
+> +#ifndef DRM_SELF_REFRESH_HELPER_H_
+> +#define DRM_SELF_REFRESH_HELPER_H_
+> +
+> +struct drm_atomic_state;
+OK
+
+> +struct drm_connector;
+> +struct drm_device;
+> +struct drm_modeset_acquire_ctx;
+The three above are not needed.
+
+struct drm_crtc;
+Missing
+
+> +
+> +void drm_self_refresh_helper_alter_state(struct drm_atomic_state *state);
+> +
+> +int drm_self_refresh_helper_init(struct drm_crtc *crtc,
+> +				     unsigned int entry_delay_ms);
+> +
+> +void drm_self_refresh_helper_cleanup(struct drm_crtc *crtc);
+> +#endif
+> -- 
+> Sean Paul, Software Engineer, Google / Chromium OS
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
