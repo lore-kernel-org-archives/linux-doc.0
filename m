@@ -1,243 +1,134 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FSL_HELO_FAKE,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5EDE17D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Jun 2019 17:58:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C49F97DC63
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Jun 2019 18:32:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406717AbfFKR6i (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 11 Jun 2019 13:58:38 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:44816 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406713AbfFKR6h (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jun 2019 13:58:37 -0400
-Received: by mail-pl1-f193.google.com with SMTP id t7so2822581plr.11
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2019 10:58:37 -0700 (PDT)
+        id S2407006AbfFKSXo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 11 Jun 2019 14:23:44 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:45888 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405802AbfFKSXo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jun 2019 14:23:44 -0400
+Received: by mail-pg1-f196.google.com with SMTP id w34so7408384pga.12;
+        Tue, 11 Jun 2019 11:23:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ezWWyHmFr3D52R1hMjM3lFqjTF5qDUt/Gz8+w6Ybeeg=;
-        b=NXabX8VKhqlLINuoMQHbinmJIUbVH0BN+gV3EBZfeU2WCiSZGaL5z1BBk/58lNpSLk
-         6OZS/QBr9Xcqp8FLP0aoFzarQalnNz5o/W4LmU3plkkiz8px1w/b14QGZtx/LpELMViT
-         Cq0zGOdkG0bUXDxO/omwJpd2ykSJkUq6SnLNsOdyke4UAJxvvy6sJ2KCrvAjbWxYUAfv
-         mNi2NE/pq7hdDfUErhLVHQrN935jeqQID0v5d+Q6AZHeXiOFfmRa4pwDvFIRPShgom9k
-         +iiaBa56wRxxqOBXtYUg69RYV0vztcjvfpfAUcRMjGUqaocx9uX+ixG798K/4fglHZBe
-         neug==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=RUaqGS6QUgdTDoLllogq970LN7Ava4NDdFpVFqXYY/M=;
+        b=GiGCJBrmLCcwdoXR/hfEWhxRxVXP0yUu9sUUZqvg4wVFwA5vVS81R3w7B/Hws02GBs
+         bQf5m5LzSY2evhzZIaPcrTxdlRnOKG6JcgzyoPlFQaOBfdx4zG/zxciv5YgK+lrLTrxM
+         cYO9J/gPwcAT2TpewnRYZ31E6KAMbCy2diEh13IEFyvzxVtxzxo7VvptCqzuA/hlCovh
+         ZjKXMOGRmPvdeF+5XJnjjjFZqUja5TFKSjRPTAWJT6DPCrYdGGCmiq3H5dJ2O/MfvLXb
+         zKyrSiVi+o3Z7jKpHKP2VcOUjPmBH9gPMgDgTzpANCDXfrsR2Ml+cEgzRas33f/OlAYk
+         2KbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ezWWyHmFr3D52R1hMjM3lFqjTF5qDUt/Gz8+w6Ybeeg=;
-        b=nQGJfgq34dvScrE/zdwI1XFRRubWt/CaYu51PrnTj463+yehfO5Z54Id7EVde3x+5y
-         QkiZSfiiH/rMMIU9fe8b3E7zBDuQzjtu5Frmo4VcAyDBTq45V0Uerno62Q6CTNoB5SnR
-         aHQIotmvVPqIuaakHrmBmApwqLH7wxxGvKah2evz3RSgqv6wo392PN4FxpvW50YEO1wg
-         Daenh8izkKoHtiCEF+iV6J6JbF4zOAx/r4XhlH0QJXTyzDwcIEEZsJ2KRNXKBZ6Jcn8H
-         2W/g4VQKyoapg50QHw6TzOlF92XlwbWEJrzvLqmbhTM1426lJ8Hco9m6mfNp7HHRnxoQ
-         LzBg==
-X-Gm-Message-State: APjAAAXHmTPKyYfZWOQ1pP2EmjyUw+Mc/q+i1EtJ42IdVWtz/1CO4faP
-        C8+hcAUj0FawnMc4UiehjH0ybA==
-X-Google-Smtp-Source: APXvYqxLhXRMoy3niXLUf+3yjcR+oYOqDZdO4IrAaXbVjtaTgohrWX6P7B3Tnf00xa75XTTIUTknBA==
-X-Received: by 2002:a17:902:3341:: with SMTP id a59mr47725400plc.186.1560275916197;
-        Tue, 11 Jun 2019 10:58:36 -0700 (PDT)
-Received: from google.com ([2620:15c:2cd:2:d714:29b4:a56b:b23b])
-        by smtp.gmail.com with ESMTPSA id s64sm13222982pfb.160.2019.06.11.10.58.34
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 11 Jun 2019 10:58:35 -0700 (PDT)
-Date:   Tue, 11 Jun 2019 10:58:30 -0700
-From:   Brendan Higgins <brendanhiggins@google.com>
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Iurii Zaikin <yzaikin@google.com>, frowand.list@gmail.com,
-        gregkh@linuxfoundation.org, jpoimboe@redhat.com,
-        keescook@google.com, kieran.bingham@ideasonboard.com,
-        mcgrof@kernel.org, peterz@infradead.org, robh@kernel.org,
-        shuah@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com,
-        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
-        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
-        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
-        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
-        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
-        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
-        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
-        wfg@linux.intel.com
-Subject: Re: [PATCH v4 17/18] kernel/sysctl-test: Add null pointer test for
- sysctl.c:proc_dointvec()
-Message-ID: <20190611175830.GA236872@google.com>
-References: <20190514221711.248228-1-brendanhiggins@google.com>
- <20190514221711.248228-18-brendanhiggins@google.com>
- <20190517182254.548EA20815@mail.kernel.org>
- <CAAXuY3p4qhKVsSpQ44_kQeGDMfg7OuFLgFyxhcFWS3yf-5A_7g@mail.gmail.com>
- <20190607190047.C3E7A20868@mail.kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RUaqGS6QUgdTDoLllogq970LN7Ava4NDdFpVFqXYY/M=;
+        b=a4rfAAxg0jllo/QKU8pgoIIbLO0XeL21wlXCWdXccyzINLgktHVvPeNPIAbYHo0NqZ
+         RMEkXkRKdmbad1TNtQ2+xis082vNVg/TEmpVUSYP+Md5a7ePy4KFbkvgfLg1D765cToC
+         o3g+b0ICuvopsCQ99//TegC2LRF1xdqNi3cHDQVI/1+nMaBkk7ZCM+A/EXVrRHGOTaaI
+         dMtTR9tywTiE0vlIEtdxKlV43poEuqAKUcXdowj8z12C5mHaK6UuAkYiUZIC5q2MbkxX
+         2uyM6hRswjexKiR8I0sYvqL0L52blMsEBfweHXHHQVA0Rh5j9Vx0B4ezxWeBYxeVusrp
+         zcSA==
+X-Gm-Message-State: APjAAAUf/AE30PGBwe+HkthjSMwyzaW2o8+0iRKG1/rV22F+mPPBCjJ9
+        0Oz71rQZz8u7wm1Vyb140WqPiUlYZ1L0EbQo0Hg=
+X-Google-Smtp-Source: APXvYqz0tqszhCDpzjSzH68sStNjjm2tLdRCgCOXbFIcDIoXYykPNvT0ZevAXzhMLOzrGgeFEbCuT5n6tl8XXCDe+dk=
+X-Received: by 2002:a17:90b:d8b:: with SMTP id bg11mr28168554pjb.30.1560277423232;
+ Tue, 11 Jun 2019 11:23:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190607190047.C3E7A20868@mail.kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <ff457774d46d96e8fe56b45409aba39d87a8672a.1559933665.git.mchehab+samsung@kernel.org>
+ <0bea1c7c4fc06c7edabbf3185c0cbbc6e85eafd0.1559933665.git.mchehab+samsung@kernel.org>
+ <CAHp75VfTNJOGZx-PoUXLRvzghqf6bVUdJ+yFjE9hNtDLCQ1=UA@mail.gmail.com> <20190611140501.11ba091b@coco.lan>
+In-Reply-To: <20190611140501.11ba091b@coco.lan>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Tue, 11 Jun 2019 21:23:32 +0300
+Message-ID: <CAHp75VcdMXHf=hz_m5ySZ-=fBU=qkFxry9Q-Dos9Jx0qoyHCXQ@mail.gmail.com>
+Subject: Re: [PATCH v3 06/20] docs: mark orphan documents as such
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Frederic Barrat <fbarrat@linux.ibm.com>,
+        Andrew Donnellan <ajd@linux.ibm.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>,
+        Georgi Djakov <georgi.djakov@linaro.org>,
+        Matan Ziv-Av <matan@svgalib.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        "open list:LINUX FOR POWERPC PA SEMI PWRFICIENT" 
+        <linuxppc-dev@lists.ozlabs.org>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        dri-devel@lists.freedesktop.org,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 07, 2019 at 12:00:47PM -0700, Stephen Boyd wrote:
-> Quoting Iurii Zaikin (2019-06-05 18:29:42)
-> > On Fri, May 17, 2019 at 11:22 AM Stephen Boyd <sboyd@kernel.org> wrote:
+On Tue, Jun 11, 2019 at 8:05 PM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
+>
+> Em Tue, 11 Jun 2019 19:52:04 +0300
+> Andy Shevchenko <andy.shevchenko@gmail.com> escreveu:
+>
+> > On Fri, Jun 7, 2019 at 10:04 PM Mauro Carvalho Chehab
+> > <mchehab+samsung@kernel.org> wrote:
+> > > Sphinx doesn't like orphan documents:
+> >
+> > >     Documentation/laptops/lg-laptop.rst: WARNING: document isn't included in any toctree
+> >
+> > >  Documentation/laptops/lg-laptop.rst             | 2 ++
+> >
+> > > diff --git a/Documentation/laptops/lg-laptop.rst b/Documentation/laptops/lg-laptop.rst
+> > > index aa503ee9b3bc..f2c2ffe31101 100644
+> > > --- a/Documentation/laptops/lg-laptop.rst
+> > > +++ b/Documentation/laptops/lg-laptop.rst
+> > > @@ -1,5 +1,7 @@
+> > >  .. SPDX-License-Identifier: GPL-2.0+
 > > >
-> > > Quoting Brendan Higgins (2019-05-14 15:17:10)
-> > > > diff --git a/kernel/sysctl-test.c b/kernel/sysctl-test.c
-> > > > new file mode 100644
-> > > > index 0000000000000..fe0f2bae66085
-> > > > --- /dev/null
-> > > > +++ b/kernel/sysctl-test.c
-> > > > +
-> > > > +
-> > > > +static void sysctl_test_dointvec_happy_single_negative(struct kunit *test)
-> > > > +{
-> > > > +       struct ctl_table table = {
-> > > > +               .procname = "foo",
-> > > > +               .data           = &test_data.int_0001,
-> > > > +               .maxlen         = sizeof(int),
-> > > > +               .mode           = 0644,
-> > > > +               .proc_handler   = proc_dointvec,
-> > > > +               .extra1         = &i_zero,
-> > > > +               .extra2         = &i_one_hundred,
-> > > > +       };
-> > > > +       char input[] = "-9";
-> > > > +       size_t len = sizeof(input) - 1;
-> > > > +       loff_t pos = 0;
-> > > > +
-> > > > +       table.data = kunit_kzalloc(test, sizeof(int), GFP_USER);
-> > > > +       KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 1, input, &len, &pos));
-> > > > +       KUNIT_EXPECT_EQ(test, sizeof(input) - 1, len);
-> > > > +       KUNIT_EXPECT_EQ(test, sizeof(input) - 1, pos);
-> > > > +       KUNIT_EXPECT_EQ(test, -9, *(int *)table.data);
+> > > +:orphan:
+> > > +
+> > >  LG Gram laptop extra features
+> > >  =============================
 > > >
-> > > Is the casting necessary? Or can the macro do a type coercion of the
-> > > second parameter based on the first type?
-> >  Data field is defined as void* so I believe casting is necessary to
-> > dereference it as a pointer to an array of ints. I don't think the
-> > macro should do any type coercion that == operator wouldn't do.
-> >  I did change the cast to make it more clear that it's a pointer to an
-> > array of ints being dereferenced.
-> 
-> Ok, I still wonder if we should make KUNIT_EXPECT_EQ check the types on
-> both sides and cause a build warning/error if the types aren't the same.
-> This would be similar to our min/max macros that complain about
-> mismatched types in the comparisons. Then if a test developer needs to
-> convert one type or the other they could do so with a
-> KUNIT_EXPECT_EQ_T() macro that lists the types to coerce both sides to
-> explicitly.
+> >
+> > Can we rather create a toc tree there?
+> > It was a first document in reST format in that folder.
+>
+> Sure, but:
+>
+> 1) I have a patch converting the other files on this dir to rst:
+>
+>         https://git.linuxtv.org/mchehab/experimental.git/commit/?h=convert_rst_renames_v4.1&id=abc13233035fdfdbc5ef2f2fbd3d127a1ab15530
+>
+> 2) It probably makes sense to move the entire dir to
+> Documentation/admin-guide.
+>
+> So, I would prefer to have the :orphan: here while (1) is not merged.
 
-Do you think it would be better to do a phony compare similar to how
-min/max used to work prior to 4.17, or to use the new __typecheck(...)
-macro? This might seem like a dumb question (and maybe it is), but Iurii
-and I thought the former created an error message that was a bit easier
-to understand, whereas __typecheck is obviously superior in terms of
-code reuse.
+Fine to me as long as you will drop it by the mentioned effort.
 
-This is what we are thinking right now; if you don't have any complaints
-I will squash it into the relevant commits on the next revision:
----
-From: Iurii Zaikin <yzaikin@google.com>
-
-Adds a warning message when comparing values of different types similar
-to what min() / max() macros do.
-
-Signed-off-by: Iurii Zaikin <yzaikin@google.com>
----
- include/kunit/test.h | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
-
-diff --git a/include/kunit/test.h b/include/kunit/test.h
-index 511c9e85401a6..791e22fba5620 100644
---- a/include/kunit/test.h
-+++ b/include/kunit/test.h
-@@ -335,6 +335,13 @@ void __printf(3, 4) kunit_printk(const char *level,
- #define kunit_err(test, fmt, ...) \
- 		kunit_printk(KERN_ERR, test, fmt, ##__VA_ARGS__)
- 
-+/*
-+ * 'Unnecessary' cast serves to generate a compile-time warning in case
-+ * of comparing incompatible types. Inspired by include/linux/kernel.h
-+ */
-+#define __kunit_typecheck(lhs, rhs) \
-+	((void) (&(lhs) == &(rhs)))
-+
- static inline struct kunit_stream *kunit_expect_start(struct kunit *test,
- 						      const char *file,
- 						      const char *line)
-@@ -514,6 +521,7 @@ static inline void kunit_expect_ptr_binary(struct kunit *test,
- #define KUNIT_EXPECT_BINARY(test, left, condition, right) do {		       \
- 	typeof(left) __left = (left);					       \
- 	typeof(right) __right = (right);				       \
-+	__kunit_typecheck(__left, __right);				       \
- 	kunit_expect_binary(test,					       \
- 			    (long long) __left, #left,			       \
- 			    (long long) __right, #right,		       \
-@@ -524,6 +532,7 @@ static inline void kunit_expect_ptr_binary(struct kunit *test,
- #define KUNIT_EXPECT_BINARY_MSG(test, left, condition, right, fmt, ...) do {   \
- 	typeof(left) __left = (left);					       \
- 	typeof(right) __right = (right);				       \
-+	__kunit_typecheck(__left, __right);				       \
- 	kunit_expect_binary_msg(test,					       \
- 				(long long) __left, #left,		       \
- 				(long long) __right, #right,		       \
-@@ -538,6 +547,7 @@ static inline void kunit_expect_ptr_binary(struct kunit *test,
- #define KUNIT_EXPECT_PTR_BINARY(test, left, condition, right) do {	       \
- 	typeof(left) __left = (left);					       \
- 	typeof(right) __right = (right);				       \
-+	__kunit_typecheck(__left, __right);				       \
- 	kunit_expect_ptr_binary(test,					       \
- 			    (void *) __left, #left,			       \
- 			    (void *) __right, #right,			       \
-@@ -553,6 +563,7 @@ static inline void kunit_expect_ptr_binary(struct kunit *test,
- 				    ...) do {				       \
- 	typeof(left) __left = (left);					       \
- 	typeof(right) __right = (right);				       \
-+	__kunit_typecheck(__left, __right);				       \
- 	kunit_expect_ptr_binary_msg(test,				       \
- 				    (void *) __left, #left,		       \
- 				    (void *) __right, #right,		       \
-@@ -1013,6 +1024,7 @@ static inline void kunit_assert_ptr_binary(struct kunit *test,
- #define KUNIT_ASSERT_BINARY(test, left, condition, right) do {		       \
- 	typeof(left) __left = (left);					       \
- 	typeof(right) __right = (right);				       \
-+	__kunit_typecheck(__left, __right);				       \
- 	kunit_assert_binary(test,					       \
- 			    (long long) __left, #left,			       \
- 			    (long long) __right, #right,		       \
-@@ -1023,6 +1035,7 @@ static inline void kunit_assert_ptr_binary(struct kunit *test,
- #define KUNIT_ASSERT_BINARY_MSG(test, left, condition, right, fmt, ...) do {   \
- 	typeof(left) __left = (left);					       \
- 	typeof(right) __right = (right);				       \
-+	__kunit_typecheck(__left, __right);				       \
- 	kunit_assert_binary_msg(test,					       \
- 				(long long) __left, #left,		       \
- 				(long long) __right, #right,		       \
-@@ -1037,6 +1050,7 @@ static inline void kunit_assert_ptr_binary(struct kunit *test,
- #define KUNIT_ASSERT_PTR_BINARY(test, left, condition, right) do {	       \
- 	typeof(left) __left = (left);					       \
- 	typeof(right) __right = (right);				       \
-+	__kunit_typecheck(__left, __right);				       \
- 	kunit_assert_ptr_binary(test,					       \
- 				(void *) __left, #left,			       \
- 				(void *) __right, #right,		       \
-@@ -1051,6 +1065,7 @@ static inline void kunit_assert_ptr_binary(struct kunit *test,
- 				    fmt, ...) do {			       \
- 	typeof(left) __left = (left);					       \
- 	typeof(right) __right = (right);				       \
-+	__kunit_typecheck(__left, __right);				       \
- 	kunit_assert_ptr_binary_msg(test,				       \
- 				    (void *) __left, #left,		       \
- 				    (void *) __right, #right,		       \
 -- 
-2.22.0.rc2.383.gf4fbbf30c2-goog
-
+With Best Regards,
+Andy Shevchenko
