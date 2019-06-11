@@ -1,97 +1,194 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4CB6C7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Jun 2019 07:24:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8D2ED7D910
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 11 Jun 2019 08:37:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404294AbfFKHY1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 11 Jun 2019 03:24:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39522 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404260AbfFKHY0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 11 Jun 2019 03:24:26 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 425D6C18B2F3;
-        Tue, 11 Jun 2019 07:24:20 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (ovpn-116-118.ams2.redhat.com [10.36.116.118])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 4F4B05D721;
-        Tue, 11 Jun 2019 07:24:04 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Dave Hansen <dave.hansen@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
-Subject: Re: [PATCH v7 03/14] x86/cet/ibt: Add IBT legacy code bitmap setup function
-References: <20190606200926.4029-1-yu-cheng.yu@intel.com>
-        <20190606200926.4029-4-yu-cheng.yu@intel.com>
-        <20190607080832.GT3419@hirez.programming.kicks-ass.net>
-        <aa8a92ef231d512b5c9855ef416db050b5ab59a6.camel@intel.com>
-        <20190607174336.GM3436@hirez.programming.kicks-ass.net>
-        <b3de4110-5366-fdc7-a960-71dea543a42f@intel.com>
-        <34E0D316-552A-401C-ABAA-5584B5BC98C5@amacapital.net>
-        <7e0b97bf1fbe6ff20653a8e4e147c6285cc5552d.camel@intel.com>
-        <25281DB3-FCE4-40C2-BADB-B3B05C5F8DD3@amacapital.net>
-        <e26f7d09376740a5f7e8360fac4805488b2c0a4f.camel@intel.com>
-        <3f19582d-78b1-5849-ffd0-53e8ca747c0d@intel.com>
-        <5aa98999b1343f34828414b74261201886ec4591.camel@intel.com>
-        <0665416d-9999-b394-df17-f2a5e1408130@intel.com>
-        <5c8727dde9653402eea97bfdd030c479d1e8dd99.camel@intel.com>
-        <ac9a20a6-170a-694e-beeb-605a17195034@intel.com>
-        <328275c9b43c06809c9937c83d25126a6e3efcbd.camel@intel.com>
-        <92e56b28-0cd4-e3f4-867b-639d9b98b86c@intel.com>
-Date:   Tue, 11 Jun 2019 09:24:03 +0200
-In-Reply-To: <92e56b28-0cd4-e3f4-867b-639d9b98b86c@intel.com> (Dave Hansen's
-        message of "Mon, 10 Jun 2019 15:02:45 -0700")
-Message-ID: <8736kgd1po.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+        id S2391365AbfFKIhh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 11 Jun 2019 04:37:37 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:41249 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391359AbfFKIhg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 11 Jun 2019 04:37:36 -0400
+Received: by mail-ed1-f65.google.com with SMTP id p15so18775381eds.8
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2019 01:37:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=sender:date:from:to:cc:subject:message-id:mail-followup-to
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=TbZbC+Sp2SPAwZltpEl7T+4dxXkbBpcXlsNbpfrSndo=;
+        b=FaR8YuUFdDSfIP8hmPLLVMQ6SPKxLejrbqP75LhgLkqsJQOK4tyqQ4OY8OHSmc2+cB
+         qk7BbUbMljJQAhtPYJlgu8QH+ZCqtwPvKyEGtNhlWgCsdAEL2j0M3nlmPgsiknjOvajc
+         HorK2f0x9ImvVUoOoyFCMD1ZLZA0vQYfD4fSI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=TbZbC+Sp2SPAwZltpEl7T+4dxXkbBpcXlsNbpfrSndo=;
+        b=CTCNlXnxMRvDmAGQO/0zRaqUqWjEtHnatZh+g/KImwAXAN0/MHG/aEVZkN5hoi2vaL
+         42UKtHnaXmas/+mp1XqTOPyNbgD42RF1VjMmHPJC1cJB0QgeLEQSCcBN3MeDX3wfOL1g
+         rnlTfzxbk4ZMK8aT7WUrZIOm+DhwMIqKqbPj+csGXcLF7e8aLKVSVX6HEkzK/z8oP2s3
+         AojzIT8FQIRM48VSK/8l0bwTneisMVfHxo4X2A17MIT2XLTIjSYEgk2f0CMUX8fNuJFd
+         JQ3EMqLGrVwcu0V5J4VV0rEwac56LoSSfwQcR50I9QPVIw9zsSbuM2sNs10LSvwJ4ruL
+         JM2g==
+X-Gm-Message-State: APjAAAUtXdvAn+wRcdwUXCMY/KRJrbIV1Da9mf3RZco3cYNyO33FopZ2
+        PumFNjgJcXH6q5UIgDi7nTrrbw==
+X-Google-Smtp-Source: APXvYqwoHe+yWqlwWu+bfE6C9rrYPikgvhQ9xXtuj59UwLinYDko2BQBXR4dv1ZhUliGJnvW+jDHcg==
+X-Received: by 2002:a17:906:45d7:: with SMTP id z23mr12879082ejq.54.1560242254472;
+        Tue, 11 Jun 2019 01:37:34 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
+        by smtp.gmail.com with ESMTPSA id i21sm2162159ejd.76.2019.06.11.01.37.33
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 11 Jun 2019 01:37:33 -0700 (PDT)
+Date:   Tue, 11 Jun 2019 10:37:31 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 33/33] docs: EDID/HOWTO.txt: convert it and rename to
+ howto.rst
+Message-ID: <20190611083731.GS21222@phenom.ffwll.local>
+Mail-Followup-To: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+        dri-devel@lists.freedesktop.org
+References: <cover.1560045490.git.mchehab+samsung@kernel.org>
+ <74bec0b5b7c32c8d84adbaf9ff208803475198e5.1560045490.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.31]); Tue, 11 Jun 2019 07:24:26 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <74bec0b5b7c32c8d84adbaf9ff208803475198e5.1560045490.git.mchehab+samsung@kernel.org>
+X-Operating-System: Linux phenom 4.14.0-3-amd64 
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Dave Hansen:
+On Sat, Jun 08, 2019 at 11:27:23PM -0300, Mauro Carvalho Chehab wrote:
+> Sphinx need to know when a paragraph ends. So, do some adjustments
+> at the file for it to be properly parsed.
+> 
+> At its new index.rst, let's add a :orphan: while this is not linked to
+> the main index.rst file, in order to avoid build warnings.
+> 
+> that's said, I believe that this file should be moved to the
+> GPU/DRM documentation.
 
-> My assumption has always been that these large, potentially sparse
-> hardware tables *must* be mmap()'d with MAP_NORESERVE specified.  That
-> should keep them from being problematic with respect to overcommit.
+Yes, but there's a bit a twist: This is definitely end-user documentation,
+so maybe should be in admin-guide?
 
-MAP_NORESERVE pages still count towards the commit limit.  The flag only
-disables checks at allocation time, for this particular allocation.  (At
-least this was the behavior the last time I looked into this, I
-believe.)
+Atm all we have in Documentation/gpu/ is internals for drivers + some
+beginnings of uapi documentation for userspace developers.
 
-Not sure if this makes a difference here.
+Jon, what's your recommendation here for subsystem specific
+end-user/adming docs?
 
-Thanks,
-Florian
+Thanks, Daniel
+
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+>  Documentation/EDID/{HOWTO.txt => howto.rst}   | 31 ++++++++++++-------
+>  .../admin-guide/kernel-parameters.txt         |  2 +-
+>  drivers/gpu/drm/Kconfig                       |  2 +-
+>  3 files changed, 22 insertions(+), 13 deletions(-)
+>  rename Documentation/EDID/{HOWTO.txt => howto.rst} (83%)
+> 
+> diff --git a/Documentation/EDID/HOWTO.txt b/Documentation/EDID/howto.rst
+> similarity index 83%
+> rename from Documentation/EDID/HOWTO.txt
+> rename to Documentation/EDID/howto.rst
+> index 539871c3b785..725fd49a88ca 100644
+> --- a/Documentation/EDID/HOWTO.txt
+> +++ b/Documentation/EDID/howto.rst
+> @@ -1,3 +1,9 @@
+> +:orphan:
+> +
+> +====
+> +EDID
+> +====
+> +
+>  In the good old days when graphics parameters were configured explicitly
+>  in a file called xorg.conf, even broken hardware could be managed.
+>  
+> @@ -34,16 +40,19 @@ Makefile. Please note that the EDID data structure expects the timing
+>  values in a different way as compared to the standard X11 format.
+>  
+>  X11:
+> -HTimings:  hdisp hsyncstart hsyncend htotal
+> -VTimings:  vdisp vsyncstart vsyncend vtotal
+> +  HTimings:
+> +    hdisp hsyncstart hsyncend htotal
+> +  VTimings:
+> +    vdisp vsyncstart vsyncend vtotal
+>  
+> -EDID:
+> -#define XPIX hdisp
+> -#define XBLANK htotal-hdisp
+> -#define XOFFSET hsyncstart-hdisp
+> -#define XPULSE hsyncend-hsyncstart
+> +EDID::
+>  
+> -#define YPIX vdisp
+> -#define YBLANK vtotal-vdisp
+> -#define YOFFSET vsyncstart-vdisp
+> -#define YPULSE vsyncend-vsyncstart
+> +  #define XPIX hdisp
+> +  #define XBLANK htotal-hdisp
+> +  #define XOFFSET hsyncstart-hdisp
+> +  #define XPULSE hsyncend-hsyncstart
+> +
+> +  #define YPIX vdisp
+> +  #define YBLANK vtotal-vdisp
+> +  #define YOFFSET vsyncstart-vdisp
+> +  #define YPULSE vsyncend-vsyncstart
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 3d072ca532bb..3faf37b8b001 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -930,7 +930,7 @@
+>  			edid/1680x1050.bin, or edid/1920x1080.bin is given
+>  			and no file with the same name exists. Details and
+>  			instructions how to build your own EDID data are
+> -			available in Documentation/EDID/HOWTO.txt. An EDID
+> +			available in Documentation/EDID/howto.rst. An EDID
+>  			data set will only be used for a particular connector,
+>  			if its name and a colon are prepended to the EDID
+>  			name. Each connector may use a unique EDID data
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index 6b34949416b1..c3a6dd284c91 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -141,7 +141,7 @@ config DRM_LOAD_EDID_FIRMWARE
+>  	  monitor are unable to provide appropriate EDID data. Since this
+>  	  feature is provided as a workaround for broken hardware, the
+>  	  default case is N. Details and instructions how to build your own
+> -	  EDID data are given in Documentation/EDID/HOWTO.txt.
+> +	  EDID data are given in Documentation/EDID/howto.rst.
+>  
+>  config DRM_DP_CEC
+>  	bool "Enable DisplayPort CEC-Tunneling-over-AUX HDMI support"
+> -- 
+> 2.21.0
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
