@@ -3,54 +3,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 16E5D7DE57
+	by archive.lwn.net (Postfix) with ESMTP id 41D777DE70
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 18:07:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726167AbfFLRzg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Jun 2019 13:55:36 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:40526 "EHLO
+        id S2403886AbfFLRzh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Jun 2019 13:55:37 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:40478 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388857AbfFLRxP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jun 2019 13:53:15 -0400
+        with ESMTP id S2388722AbfFLRxO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jun 2019 13:53:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=LWHw/mHRS2Jnv5F3QjbBvx/TSqLmKvi4509nvq3fdcQ=; b=d4Lg5NzDiplkj29PWJgJzVUTE
-        c7ZIJI2ctzioxG8KYD2QKVzIo+RbBHHUDI0qh90hAJU80MFB2vONoAHpumDlilSHXXZdvDHdvvpC7
-        ID6ABFSmR3Szq+xUWmfpM9UEZ2S+jV6c3ViHJB9rzKAdtflrx+0e6QPK70CbOuKeNwypDnj56m2Ls
-        UATpPRG/JngZYwEaSa3m3nVRPlbob/1ZEKSewyzSFO6N6o//jsuyMCEIobYtS16TnbHHLZIMy3KFy
-        563Hugj1ue/ZItOO3nFXFtGJ4khaV6LKNuhjECWBGOLRT03YYXIgG6oS7cl9O48ZLEJ628KfDVggE
-        Dnu0bIk6Q==;
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=Zt3xoMrxZU+L1IqkBU/DdgxjyhNGin3s3jVYlUtGi7w=; b=KZbejZKoEgJtow9o5a7n7Xm31r
+        uL7HeN0o/NrRjMOd4hp7+au7j/xc/3NPYkc/2YiFhdiFf1b5lbgtEFfkNjqm5l5WA2DSUIMurUpCu
+        Rixsw1xpv1Hl1R6aqu4PJ9+ki7C2tvJMTuwPyiL+l3rav2rxOGI5jadFy6YedPOZUpYzbSYhXeZn+
+        fPu5T6m2mh9VhBCyuEszurKErXMDOLzRTywxcdHYZwDTsFCJrKszI9PwEmqV7Lb28JNf/43sBms+n
+        hQ8x86uZ6p7qoR9ytLObSaHbeQ2ySX6N0h8zJZjR6hlkOt0I3KXkKUDqd9DC6eD0VONAw9O6RLll1
+        qFEuesWQ==;
 Received: from 201.86.169.251.dynamic.adsl.gvt.net.br ([201.86.169.251] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hb7Qt-0002Db-3D; Wed, 12 Jun 2019 17:53:12 +0000
+        id 1hb7Qt-0002Dd-2K; Wed, 12 Jun 2019 17:53:11 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hb7Qp-0001fd-Tv; Wed, 12 Jun 2019 14:53:07 -0300
+        id 1hb7Qq-0001gN-8y; Wed, 12 Jun 2019 14:53:08 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@sifive.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        Greentime Hu <green.hu@gmail.com>,
-        Vincent Chen <deanbo422@gmail.com>,
-        linux-riscv@lists.infradead.org, netdev@vger.kernel.org,
-        bpf@vger.kernel.org
-Subject: [PATCH v4 00/28] Convert files to ReST - part 1
-Date:   Wed, 12 Jun 2019 14:52:36 -0300
-Message-Id: <cover.1560361364.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Borislav Petkov <bp@alien8.de>, Jens Axboe <axboe@kernel.dk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-ide@vger.kernel.org, linux-m68k@lists.linux-m68k.org
+Subject: [PATCH v4 11/28] docs: ide: convert docs to ReST and rename to *.rst
+Date:   Wed, 12 Jun 2019 14:52:47 -0300
+Message-Id: <c8d81e59f9d7d6611531086b59e26ee399ade3a8.1560361364.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <cover.1560361364.git.mchehab+samsung@kernel.org>
+References: <cover.1560361364.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -58,734 +54,607 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is mostly a rebase of the /33 series v3 I sent, on the top of the latest
-linux-next  (next-20190612).
+The conversion is actually:
+  - add blank lines and identation in order to identify paragraphs;
+  - fix tables markups;
+  - add some lists markups;
+  - mark literal blocks;
+  - adjust title markups.
 
-Changes from v3:
+At its new index.rst, let's add a :orphan: while this is not linked to
+the main index.rst file, in order to avoid build warnings.
 
-- dropped cpufreq conversion - documents are too outdated;
-- infiniband patch is not here anymore - as it should be merged via RDMA;
-- s390 patches were already merged;
-- Dropped Geert as Maintainer from fb/framebuffer.rst, as per his request;
-- Did a minor editorial change at popwerpc/cxl.rst per Andrew Donellan
-  request;
-- Added acks/reviews;
-- trivial rebase fixups.
-
-Jon, 
-
-the first version of this series was sent back on April, 15. So, I
-suspect it should be fine to merge those patches via docs tree.
-
-I should be sending soon the next part of this conversion series.
-
--
-
-This is the first part of a series I wrote sometime ago where I manually
-convert lots of files to be properly parsed by Sphinx as ReST files.
-
-As it touches on lot of stuff, this series is based on today's docs-next
-+ linux-next, at tag next-20190607.
-
-I have right now about 85 patches with this undergoing work. That's
-because I opted to do ~1 patch per converted directory.
-
-That sounds too much to be send on a single round. So, I'm opting to split
-it on 3 parts. Those patches should probably be good to be merged
-either by subsystem maintainers or via the docs tree.
-
-I opted to mark new files not included yet to the main index.rst (directly or
-indirectly ) with the :orphan: tag, in order to avoid adding warnings to the
-build system. This should be removed after we find a "home" for all
-the converted files within the new document tree arrangement.
-
-Both this series and  the next parts are on my devel git tree,
-at:
-
-	https://git.linuxtv.org/mchehab/experimental.git/log/?h=convert_rst_renames_v4.2
-
-The final output in html (after all patches I currently have, including 
-the upcoming series) can be seen at:
-
-	https://www.infradead.org/~mchehab/rst_conversion/
-
-Mauro Carvalho Chehab (28):
-  docs: aoe: convert docs to ReST and rename to *.rst
-  docs: arm64: convert docs to ReST and rename to .rst
-  docs: cdrom-standard.tex: convert from LaTeX to ReST
-  docs: cdrom: convert docs to ReST and rename to *.rst
-  docs: cgroup-v1: convert docs to ReST and rename to *.rst
-  docs: cgroup-v1/blkio-controller.rst: add a note about CFQ scheduler
-  docs: convert docs to ReST and rename to *.rst
-  docs: fault-injection: convert docs to ReST and rename to *.rst
-  docs: fb: convert docs to ReST and rename to *.rst
-  docs: fpga: convert docs to ReST and rename to *.rst
-  docs: ide: convert docs to ReST and rename to *.rst
-  docs: kbuild: convert docs to ReST and rename to *.rst
-  docs: kdump: convert docs to ReST and rename to *.rst
-  docs: locking: convert docs to ReST and rename to *.rst
-  docs: mic: convert docs to ReST and rename to *.rst
-  docs: netlabel: convert docs to ReST and rename to *.rst
-  docs: pcmcia: convert docs to ReST and rename to *.rst
-  docs: convert docs to ReST and rename to *.rst
-  docs: powerpc: convert docs to ReST and rename to *.rst
-  docs: pps.txt: convert to ReST and rename to pps.rst
-  docs: ptp.txt: convert to ReST and move to driver-api
-  docs: riscv: convert docs to ReST and rename to *.rst
-  docs: target: convert docs to ReST and rename to *.rst
-  docs: timers: convert docs to ReST and rename to *.rst
-  docs: watchdog: convert docs to ReST and rename to *.rst
-  docs: xilinx: convert eemi.txt to eemi.rst
-  docs: scheduler: convert docs to ReST and rename to *.rst
-  docs: EDID/HOWTO.txt: convert it and rename to howto.rst
-
- .../ABI/testing/sysfs-class-powercap          |    2 +-
- Documentation/ABI/testing/sysfs-kernel-uids   |    2 +-
- Documentation/EDID/{HOWTO.txt => howto.rst}   |   31 +-
- Documentation/PCI/pci-error-recovery.rst      |   23 +-
- Documentation/admin-guide/README.rst          |    2 +-
- Documentation/admin-guide/bug-hunting.rst     |    2 +-
- Documentation/admin-guide/hw-vuln/l1tf.rst    |    2 +-
- .../admin-guide/kernel-parameters.txt         |   24 +-
- .../admin-guide/mm/numa_memory_policy.rst     |    2 +-
- Documentation/aoe/{aoe.txt => aoe.rst}        |   63 +-
- Documentation/aoe/examples.rst                |   23 +
- Documentation/aoe/index.rst                   |   19 +
- Documentation/aoe/{todo.txt => todo.rst}      |    3 +
- Documentation/aoe/udev.txt                    |    2 +-
- ...object_usage.txt => acpi_object_usage.rst} |  288 +++--
- .../arm64/{arm-acpi.txt => arm-acpi.rst}      |  155 +--
- .../arm64/{booting.txt => booting.rst}        |   91 +-
- ...egisters.txt => cpu-feature-registers.rst} |  204 ++--
- .../arm64/{elf_hwcaps.txt => elf_hwcaps.rst}  |   56 +-
- .../{hugetlbpage.txt => hugetlbpage.rst}      |    7 +-
- Documentation/arm64/index.rst                 |   28 +
- ...structions.txt => legacy_instructions.rst} |   43 +-
- Documentation/arm64/memory.rst                |   98 ++
- Documentation/arm64/memory.txt                |   97 --
- ...ication.txt => pointer-authentication.rst} |    2 +
- ...{silicon-errata.txt => silicon-errata.rst} |   65 +-
- Documentation/arm64/{sve.txt => sve.rst}      |   12 +-
- ...agged-pointers.txt => tagged-pointers.rst} |    6 +-
- Documentation/block/bfq-iosched.txt           |    2 +-
- Documentation/cdrom/Makefile                  |   21 -
- Documentation/cdrom/cdrom-standard.rst        | 1063 +++++++++++++++++
- Documentation/cdrom/cdrom-standard.tex        | 1026 ----------------
- Documentation/cdrom/{ide-cd => ide-cd.rst}    |  196 +--
- Documentation/cdrom/index.rst                 |   19 +
- ...{packet-writing.txt => packet-writing.rst} |   27 +-
- ...io-controller.txt => blkio-controller.rst} |  103 +-
- .../cgroup-v1/{cgroups.txt => cgroups.rst}    |  184 +--
- .../cgroup-v1/{cpuacct.txt => cpuacct.rst}    |   15 +-
- .../cgroup-v1/{cpusets.txt => cpusets.rst}    |  205 ++--
- .../cgroup-v1/{devices.txt => devices.rst}    |   40 +-
- ...er-subsystem.txt => freezer-subsystem.rst} |   14 +-
- .../cgroup-v1/{hugetlb.txt => hugetlb.rst}    |   39 +-
- Documentation/cgroup-v1/index.rst             |   30 +
- .../{memcg_test.txt => memcg_test.rst}        |  263 ++--
- .../cgroup-v1/{memory.txt => memory.rst}      |  449 ++++---
- .../cgroup-v1/{net_cls.txt => net_cls.rst}    |   37 +-
- .../cgroup-v1/{net_prio.txt => net_prio.rst}  |   24 +-
- .../cgroup-v1/{pids.txt => pids.rst}          |   78 +-
- .../cgroup-v1/{rdma.txt => rdma.rst}          |   66 +-
- Documentation/cpu-freq/core.txt               |    2 +-
- ...{cache-policies.txt => cache-policies.rst} |   24 +-
- .../device-mapper/{cache.txt => cache.rst}    |  206 ++--
- .../device-mapper/{delay.txt => delay.rst}    |   29 +-
- .../{dm-crypt.txt => dm-crypt.rst}            |   57 +-
- .../{dm-flakey.txt => dm-flakey.rst}          |   45 +-
- .../{dm-init.txt => dm-init.rst}              |   75 +-
- .../{dm-integrity.txt => dm-integrity.rst}    |   62 +-
- .../device-mapper/{dm-io.txt => dm-io.rst}    |   14 +-
- .../device-mapper/{dm-log.txt => dm-log.rst}  |    5 +-
- ...m-queue-length.txt => dm-queue-length.rst} |   25 +-
- .../{dm-raid.txt => dm-raid.rst}              |  225 ++--
- ...m-service-time.txt => dm-service-time.rst} |   68 +-
- Documentation/device-mapper/dm-uevent.rst     |  110 ++
- Documentation/device-mapper/dm-uevent.txt     |   97 --
- .../{dm-zoned.txt => dm-zoned.rst}            |   10 +-
- .../device-mapper/{era.txt => era.rst}        |   36 +-
- Documentation/device-mapper/index.rst         |   44 +
- .../device-mapper/{kcopyd.txt => kcopyd.rst}  |   10 +-
- Documentation/device-mapper/linear.rst        |   63 +
- Documentation/device-mapper/linear.txt        |   61 -
- .../{log-writes.txt => log-writes.rst}        |   91 +-
- ...ersistent-data.txt => persistent-data.rst} |    4 +
- .../{snapshot.txt => snapshot.rst}            |  116 +-
- .../{statistics.txt => statistics.rst}        |   62 +-
- Documentation/device-mapper/striped.rst       |   61 +
- Documentation/device-mapper/striped.txt       |   57 -
- .../device-mapper/{switch.txt => switch.rst}  |   47 +-
- ...provisioning.txt => thin-provisioning.rst} |   68 +-
- .../{unstriped.txt => unstriped.rst}          |  111 +-
- .../device-mapper/{verity.txt => verity.rst}  |   20 +-
- .../{writecache.txt => writecache.rst}        |   13 +-
- .../device-mapper/{zero.txt => zero.rst}      |   14 +-
- Documentation/driver-api/pm/devices.rst       |    6 +-
- .../{pps/pps.txt => driver-api/pps.rst}       |   67 +-
- .../{ptp/ptp.txt => driver-api/ptp.rst}       |   26 +-
- .../driver-api/usb/power-management.rst       |    2 +-
- ...ault-injection.txt => fault-injection.rst} |  265 ++--
- Documentation/fault-injection/index.rst       |   20 +
- ...r-inject.txt => notifier-error-inject.rst} |   18 +-
- .../fault-injection/nvme-fault-injection.rst  |  120 ++
- .../fault-injection/nvme-fault-injection.txt  |  116 --
- .../fault-injection/provoke-crashes.rst       |   48 +
- .../fault-injection/provoke-crashes.txt       |   38 -
- Documentation/fb/{api.txt => api.rst}         |   29 +-
- Documentation/fb/{arkfb.txt => arkfb.rst}     |    8 +-
- .../fb/{aty128fb.txt => aty128fb.rst}         |   35 +-
- .../fb/{cirrusfb.txt => cirrusfb.rst}         |   47 +-
- .../fb/{cmap_xfbdev.txt => cmap_xfbdev.rst}   |   57 +-
- .../fb/{deferred_io.txt => deferred_io.rst}   |   28 +-
- Documentation/fb/{efifb.txt => efifb.rst}     |   18 +-
- .../fb/{ep93xx-fb.txt => ep93xx-fb.rst}       |   27 +-
- Documentation/fb/{fbcon.txt => fbcon.rst}     |  177 +--
- .../fb/{framebuffer.txt => framebuffer.rst}   |   80 +-
- Documentation/fb/{gxfb.txt => gxfb.rst}       |   24 +-
- Documentation/fb/index.rst                    |   50 +
- .../fb/{intel810.txt => intel810.rst}         |   79 +-
- Documentation/fb/{intelfb.txt => intelfb.rst} |   62 +-
- .../fb/{internals.txt => internals.rst}       |   24 +-
- Documentation/fb/{lxfb.txt => lxfb.rst}       |   25 +-
- Documentation/fb/matroxfb.rst                 |  443 +++++++
- Documentation/fb/matroxfb.txt                 |  413 -------
- .../fb/{metronomefb.txt => metronomefb.rst}   |    8 +-
- Documentation/fb/{modedb.txt => modedb.rst}   |   44 +-
- Documentation/fb/pvr2fb.rst                   |   66 +
- Documentation/fb/pvr2fb.txt                   |   65 -
- Documentation/fb/{pxafb.txt => pxafb.rst}     |   81 +-
- Documentation/fb/{s3fb.txt => s3fb.rst}       |    8 +-
- .../fb/{sa1100fb.txt => sa1100fb.rst}         |   23 +-
- Documentation/fb/sh7760fb.rst                 |  130 ++
- Documentation/fb/sh7760fb.txt                 |  131 --
- Documentation/fb/{sisfb.txt => sisfb.rst}     |   40 +-
- Documentation/fb/{sm501.txt => sm501.rst}     |    7 +-
- Documentation/fb/{sm712fb.txt => sm712fb.rst} |   18 +-
- Documentation/fb/sstfb.rst                    |  207 ++++
- Documentation/fb/sstfb.txt                    |  174 ---
- Documentation/fb/{tgafb.txt => tgafb.rst}     |   30 +-
- .../fb/{tridentfb.txt => tridentfb.rst}       |   36 +-
- Documentation/fb/{udlfb.txt => udlfb.rst}     |   55 +-
- Documentation/fb/{uvesafb.txt => uvesafb.rst} |  128 +-
- Documentation/fb/{vesafb.txt => vesafb.rst}   |  121 +-
- Documentation/fb/viafb.rst                    |  297 +++++
- Documentation/fb/viafb.txt                    |  252 ----
- .../fb/{vt8623fb.txt => vt8623fb.rst}         |   10 +-
- Documentation/filesystems/tmpfs.txt           |    2 +-
- .../filesystems/ubifs-authentication.md       |    4 +-
- Documentation/fpga/{dfl.txt => dfl.rst}       |   58 +-
- Documentation/fpga/index.rst                  |   17 +
- Documentation/ide/changelogs.rst              |   17 +
- .../ide/{ide-tape.txt => ide-tape.rst}        |   23 +-
- Documentation/ide/{ide.txt => ide.rst}        |  147 +--
- Documentation/ide/index.rst                   |   21 +
- ...arm-plug-howto.txt => warm-plug-howto.rst} |   10 +-
- ...eaders_install.txt => headers_install.rst} |    5 +-
- Documentation/kbuild/index.rst                |   27 +
- Documentation/kbuild/issues.rst               |   11 +
- .../kbuild/{kbuild.txt => kbuild.rst}         |  119 +-
- ...nfig-language.txt => kconfig-language.rst} |  232 ++--
- ...anguage.txt => kconfig-macro-language.rst} |   37 +-
- .../kbuild/{kconfig.txt => kconfig.rst}       |  136 ++-
- .../kbuild/{makefiles.txt => makefiles.rst}   |  530 +++++---
- .../kbuild/{modules.txt => modules.rst}       |  168 +--
- Documentation/kdump/index.rst                 |   21 +
- Documentation/kdump/{kdump.txt => kdump.rst}  |  131 +-
- .../kdump/{vmcoreinfo.txt => vmcoreinfo.rst}  |   59 +-
- Documentation/kernel-hacking/hacking.rst      |    4 +-
- Documentation/kernel-hacking/locking.rst      |    2 +-
- Documentation/kernel-per-CPU-kthreads.txt     |    2 +-
- Documentation/locking/index.rst               |   24 +
- ...{lockdep-design.txt => lockdep-design.rst} |   51 +-
- Documentation/locking/lockstat.rst            |  204 ++++
- Documentation/locking/lockstat.txt            |  183 ---
- .../{locktorture.txt => locktorture.rst}      |  105 +-
- .../{mutex-design.txt => mutex-design.rst}    |   26 +-
- ...t-mutex-design.txt => rt-mutex-design.rst} |  139 ++-
- .../locking/{rt-mutex.txt => rt-mutex.rst}    |   30 +-
- .../locking/{spinlocks.txt => spinlocks.rst}  |   32 +-
- ...w-mutex-design.txt => ww-mutex-design.rst} |   82 +-
- Documentation/mic/index.rst                   |   18 +
- .../{mic_overview.txt => mic_overview.rst}    |    6 +-
- .../{scif_overview.txt => scif_overview.rst}  |   58 +-
- .../{cipso_ipv4.txt => cipso_ipv4.rst}        |   19 +-
- Documentation/netlabel/draft_ietf.rst         |    5 +
- Documentation/netlabel/index.rst              |   21 +
- .../{introduction.txt => introduction.rst}    |   16 +-
- .../{lsm_interface.txt => lsm_interface.rst}  |   16 +-
- Documentation/networking/timestamping.txt     |    2 +-
- .../{devicetable.txt => devicetable.rst}      |    4 +
- ...{driver-changes.txt => driver-changes.rst} |   35 +-
- .../pcmcia/{driver.txt => driver.rst}         |   18 +-
- Documentation/pcmcia/index.rst                |   20 +
- .../pcmcia/{locking.txt => locking.rst}       |   39 +-
- Documentation/pi-futex.txt                    |    2 +-
- .../power/{apm-acpi.txt => apm-acpi.rst}      |   10 +-
- ...m-debugging.txt => basic-pm-debugging.rst} |   79 +-
- ...harger-manager.txt => charger-manager.rst} |  101 +-
- ...rivers-testing.txt => drivers-testing.rst} |   15 +-
- .../{energy-model.txt => energy-model.rst}    |  101 +-
- ...ing-of-tasks.txt => freezing-of-tasks.rst} |   91 +-
- Documentation/power/index.rst                 |   46 +
- .../power/{interface.txt => interface.rst}    |   24 +-
- Documentation/power/{opp.txt => opp.rst}      |  175 +--
- Documentation/power/{pci.txt => pci.rst}      |   87 +-
- ...qos_interface.txt => pm_qos_interface.rst} |  127 +-
- Documentation/power/power_supply_class.rst    |  282 +++++
- Documentation/power/power_supply_class.txt    |  231 ----
- Documentation/power/powercap/powercap.rst     |  257 ++++
- Documentation/power/powercap/powercap.txt     |  236 ----
- .../regulator/{consumer.txt => consumer.rst}  |  141 ++-
- .../regulator/{design.txt => design.rst}      |    9 +-
- .../regulator/{machine.txt => machine.rst}    |   47 +-
- .../regulator/{overview.txt => overview.rst}  |   57 +-
- Documentation/power/regulator/regulator.rst   |   32 +
- Documentation/power/regulator/regulator.txt   |   30 -
- .../power/{runtime_pm.txt => runtime_pm.rst}  |  234 ++--
- Documentation/power/{s2ram.txt => s2ram.rst}  |   20 +-
- ...hotplug.txt => suspend-and-cpuhotplug.rst} |   42 +-
- ...errupts.txt => suspend-and-interrupts.rst} |    2 +
- ...ap-files.txt => swsusp-and-swap-files.rst} |   17 +-
- ...{swsusp-dmcrypt.txt => swsusp-dmcrypt.rst} |  120 +-
- Documentation/power/swsusp.rst                |  501 ++++++++
- Documentation/power/swsusp.txt                |  446 -------
- .../power/{tricks.txt => tricks.rst}          |    6 +-
- ...serland-swsusp.txt => userland-swsusp.rst} |   55 +-
- Documentation/power/{video.txt => video.rst}  |  156 ++-
- .../{bootwrapper.txt => bootwrapper.rst}      |   28 +-
- .../{cpu_families.txt => cpu_families.rst}    |   23 +-
- .../{cpu_features.txt => cpu_features.rst}    |    6 +-
- Documentation/powerpc/{cxl.txt => cxl.rst}    |   46 +-
- .../powerpc/{cxlflash.txt => cxlflash.rst}    |   10 +-
- .../{DAWR-POWER9.txt => dawr-power9.rst}      |   15 +-
- Documentation/powerpc/{dscr.txt => dscr.rst}  |   18 +-
- ...ecovery.txt => eeh-pci-error-recovery.rst} |  108 +-
- ...ed-dump.txt => firmware-assisted-dump.rst} |  119 +-
- Documentation/powerpc/{hvcs.txt => hvcs.rst}  |  108 +-
- Documentation/powerpc/index.rst               |   34 +
- Documentation/powerpc/isa-versions.rst        |   15 +-
- .../powerpc/{mpc52xx.txt => mpc52xx.rst}      |   12 +-
- ...nv.txt => pci_iov_resource_on_powernv.rst} |   15 +-
- .../powerpc/{pmu-ebb.txt => pmu-ebb.rst}      |    1 +
- Documentation/powerpc/ptrace.rst              |  156 +++
- Documentation/powerpc/ptrace.txt              |  151 ---
- .../{qe_firmware.txt => qe_firmware.rst}      |   37 +-
- .../{syscall64-abi.txt => syscall64-abi.rst}  |   29 +-
- ...al_memory.txt => transactional_memory.rst} |   45 +-
- Documentation/process/4.Coding.rst            |    2 +-
- Documentation/process/coding-style.rst        |    2 +-
- Documentation/process/submit-checklist.rst    |    2 +-
- Documentation/process/submitting-drivers.rst  |    2 +-
- Documentation/riscv/index.rst                 |   17 +
- Documentation/riscv/{pmu.txt => pmu.rst}      |   98 +-
- .../{completion.txt => completion.rst}        |   38 +-
- Documentation/scheduler/index.rst             |   29 +
- .../{sched-arch.txt => sched-arch.rst}        |   18 +-
- .../{sched-bwc.txt => sched-bwc.rst}          |   30 +-
- ...{sched-deadline.txt => sched-deadline.rst} |  297 ++---
- ...ed-design-CFS.txt => sched-design-CFS.rst} |   17 +-
- .../{sched-domains.txt => sched-domains.rst}  |    8 +-
- .../{sched-energy.txt => sched-energy.rst}    |   53 +-
- ...-nice-design.txt => sched-nice-design.rst} |    6 +-
- ...{sched-rt-group.txt => sched-rt-group.rst} |   30 +-
- .../{sched-stats.txt => sched-stats.rst}      |   35 +-
- Documentation/scheduler/text_files.rst        |    5 +
- Documentation/target/index.rst                |   19 +
- Documentation/target/scripts.rst              |   11 +
- Documentation/target/tcm_mod_builder.rst      |  149 +++
- Documentation/target/tcm_mod_builder.txt      |  145 ---
- .../{tcmu-design.txt => tcmu-design.rst}      |  268 +++--
- .../timers/{highres.txt => highres.rst}       |   13 +-
- Documentation/timers/{hpet.txt => hpet.rst}   |    4 +-
- .../timers/{hrtimers.txt => hrtimers.rst}     |    6 +-
- Documentation/timers/index.rst                |   22 +
- Documentation/timers/{NO_HZ.txt => no_hz.rst} |   40 +-
- .../{timekeeping.txt => timekeeping.rst}      |    3 +-
- .../{timers-howto.txt => timers-howto.rst}    |   15 +-
- Documentation/trace/coresight-cpu-debug.txt   |    2 +-
- .../it_IT/kernel-hacking/hacking.rst          |    4 +-
- .../it_IT/kernel-hacking/locking.rst          |    2 +-
- .../translations/it_IT/process/4.Coding.rst   |    2 +-
- .../it_IT/process/coding-style.rst            |    2 +-
- .../it_IT/process/submit-checklist.rst        |    2 +-
- .../translations/zh_CN/arm64/booting.txt      |    4 +-
- .../zh_CN/arm64/legacy_instructions.txt       |    4 +-
- .../translations/zh_CN/arm64/memory.txt       |    4 +-
- .../zh_CN/arm64/silicon-errata.txt            |    4 +-
- .../zh_CN/arm64/tagged-pointers.txt           |    4 +-
- .../translations/zh_CN/oops-tracing.txt       |    2 +-
- .../translations/zh_CN/process/4.Coding.rst   |    2 +-
- .../zh_CN/process/coding-style.rst            |    2 +-
- .../zh_CN/process/submit-checklist.rst        |    2 +-
- .../zh_CN/process/submitting-drivers.rst      |    2 +-
- Documentation/virtual/kvm/api.txt             |    2 +-
- Documentation/vm/numa.rst                     |    6 +-
- Documentation/vm/page_migration.rst           |    2 +-
- Documentation/vm/unevictable-lru.rst          |    2 +-
- ....txt => convert_drivers_to_kernel_api.rst} |  109 +-
- .../watchdog/{hpwdt.txt => hpwdt.rst}         |   27 +-
- Documentation/watchdog/index.rst              |   25 +
- .../watchdog/{mlx-wdt.txt => mlx-wdt.rst}     |   24 +-
- .../{pcwd-watchdog.txt => pcwd-watchdog.rst}  |   13 +-
- .../{watchdog-api.txt => watchdog-api.rst}    |   76 +-
- ...kernel-api.txt => watchdog-kernel-api.rst} |   91 +-
- .../watchdog/watchdog-parameters.rst          |  736 ++++++++++++
- .../watchdog/watchdog-parameters.txt          |  410 -------
- .../{watchdog-pm.txt => watchdog-pm.rst}      |    3 +
- Documentation/watchdog/{wdt.txt => wdt.rst}   |   31 +-
- .../x86/x86_64/fake-numa-for-cpusets.rst      |    4 +-
- Documentation/xilinx/{eemi.txt => eemi.rst}   |    8 +-
- Documentation/xilinx/index.rst                |   17 +
- Kconfig                                       |    2 +-
- MAINTAINERS                                   |   34 +-
- arch/arc/plat-eznps/Kconfig                   |    2 +-
- arch/arm/Kconfig                              |    2 +-
- arch/arm64/Kconfig                            |    2 +-
- arch/arm64/include/asm/efi.h                  |    2 +-
- arch/arm64/include/asm/image.h                |    2 +-
- arch/arm64/include/uapi/asm/sigcontext.h      |    2 +-
- arch/arm64/kernel/kexec_image.c               |    2 +-
- arch/c6x/Kconfig                              |    2 +-
- arch/m68k/q40/README                          |    2 +-
- arch/microblaze/Kconfig.debug                 |    2 +-
- arch/microblaze/Kconfig.platform              |    2 +-
- arch/nds32/Kconfig                            |    2 +-
- arch/openrisc/Kconfig                         |    2 +-
- arch/powerpc/kernel/exceptions-64s.S          |    2 +-
- arch/powerpc/sysdev/Kconfig                   |    2 +-
- arch/riscv/Kconfig                            |    2 +-
- arch/sh/Kconfig                               |    2 +-
- arch/x86/Kconfig                              |    6 +-
- block/Kconfig                                 |    2 +-
- drivers/auxdisplay/Kconfig                    |    2 +-
- drivers/block/Kconfig                         |    2 +-
- drivers/cdrom/cdrom.c                         |    2 +-
- drivers/firmware/Kconfig                      |    2 +-
- drivers/gpu/drm/Kconfig                       |    2 +-
- drivers/gpu/drm/drm_modeset_lock.c            |    2 +-
- drivers/gpu/drm/i915/i915_drv.h               |    2 +-
- drivers/ide/Kconfig                           |   20 +-
- drivers/ide/ide-cd.c                          |    2 +-
- drivers/md/Kconfig                            |    2 +-
- drivers/md/dm-init.c                          |    2 +-
- drivers/md/dm-raid.c                          |    2 +-
- drivers/media/usb/dvb-usb-v2/anysee.c         |    2 +-
- drivers/misc/lkdtm/core.c                     |    2 +-
- drivers/mtd/devices/Kconfig                   |    2 +-
- drivers/net/ethernet/smsc/Kconfig             |    6 +-
- drivers/net/wireless/intel/iwlegacy/Kconfig   |    4 +-
- drivers/net/wireless/intel/iwlwifi/Kconfig    |    2 +-
- drivers/opp/Kconfig                           |    2 +-
- drivers/parport/Kconfig                       |    2 +-
- drivers/pcmcia/ds.c                           |    2 +-
- drivers/power/supply/power_supply_core.c      |    2 +-
- drivers/regulator/core.c                      |    2 +-
- drivers/scsi/Kconfig                          |    4 +-
- drivers/soc/fsl/qe/qe.c                       |    2 +-
- drivers/staging/sm750fb/Kconfig               |    2 +-
- drivers/tty/Kconfig                           |    2 +-
- drivers/tty/hvc/hvcs.c                        |    2 +-
- drivers/usb/misc/Kconfig                      |    4 +-
- drivers/video/fbdev/Kconfig                   |   38 +-
- drivers/video/fbdev/matrox/matroxfb_base.c    |    2 +-
- drivers/video/fbdev/pxafb.c                   |    2 +-
- drivers/video/fbdev/sh7760fb.c                |    2 +-
- drivers/watchdog/Kconfig                      |    6 +-
- drivers/watchdog/smsc37b787_wdt.c             |    2 +-
- include/linux/cgroup-defs.h                   |    2 +-
- include/linux/fault-inject.h                  |    2 +-
- include/linux/interrupt.h                     |    2 +-
- include/linux/iopoll.h                        |    4 +-
- include/linux/lockdep.h                       |    2 +-
- include/linux/mutex.h                         |    2 +-
- include/linux/pci.h                           |    2 +-
- include/linux/pm.h                            |    2 +-
- include/linux/regmap.h                        |    4 +-
- include/linux/rwsem.h                         |    2 +-
- include/pcmcia/ds.h                           |    2 +-
- include/pcmcia/ss.h                           |    2 +-
- include/soc/fsl/qe/qe.h                       |    2 +-
- include/uapi/linux/bpf.h                      |    2 +-
- init/Kconfig                                  |    8 +-
- kernel/cgroup/cpuset.c                        |    2 +-
- kernel/locking/mutex.c                        |    2 +-
- kernel/locking/rtmutex.c                      |    2 +-
- kernel/power/Kconfig                          |    6 +-
- kernel/sched/deadline.c                       |    2 +-
- lib/Kconfig.debug                             |    6 +-
- net/bridge/netfilter/Kconfig                  |    2 +-
- net/ipv4/netfilter/Kconfig                    |    2 +-
- net/ipv6/netfilter/Kconfig                    |    2 +-
- net/netfilter/Kconfig                         |   16 +-
- net/tipc/Kconfig                              |    2 +-
- net/wireless/Kconfig                          |    2 +-
- scripts/Kbuild.include                        |    4 +-
- scripts/Makefile.host                         |    2 +-
- scripts/checkpatch.pl                         |    8 +-
- scripts/documentation-file-ref-check          |    2 +-
- scripts/kconfig/symbol.c                      |    2 +-
- .../tests/err_recursive_dep/expected_stderr   |   14 +-
- security/device_cgroup.c                      |    2 +-
- sound/oss/dmasound/Kconfig                    |    6 +-
- sound/soc/sof/ops.h                           |    2 +-
- tools/include/uapi/linux/bpf.h                |    2 +-
- tools/testing/fault-injection/failcmd.sh      |    2 +-
- 392 files changed, 12880 insertions(+), 9641 deletions(-)
- rename Documentation/EDID/{HOWTO.txt => howto.rst} (83%)
- rename Documentation/aoe/{aoe.txt => aoe.rst} (79%)
- create mode 100644 Documentation/aoe/examples.rst
- create mode 100644 Documentation/aoe/index.rst
- rename Documentation/aoe/{todo.txt => todo.rst} (98%)
- rename Documentation/arm64/{acpi_object_usage.txt => acpi_object_usage.rst} (84%)
- rename Documentation/arm64/{arm-acpi.txt => arm-acpi.rst} (86%)
- rename Documentation/arm64/{booting.txt => booting.rst} (86%)
- rename Documentation/arm64/{cpu-feature-registers.txt => cpu-feature-registers.rst} (65%)
- rename Documentation/arm64/{elf_hwcaps.txt => elf_hwcaps.rst} (92%)
- rename Documentation/arm64/{hugetlbpage.txt => hugetlbpage.rst} (86%)
- create mode 100644 Documentation/arm64/index.rst
- rename Documentation/arm64/{legacy_instructions.txt => legacy_instructions.rst} (73%)
- create mode 100644 Documentation/arm64/memory.rst
- delete mode 100644 Documentation/arm64/memory.txt
- rename Documentation/arm64/{pointer-authentication.txt => pointer-authentication.rst} (99%)
- rename Documentation/arm64/{silicon-errata.txt => silicon-errata.rst} (55%)
- rename Documentation/arm64/{sve.txt => sve.rst} (98%)
- rename Documentation/arm64/{tagged-pointers.txt => tagged-pointers.rst} (94%)
- delete mode 100644 Documentation/cdrom/Makefile
- create mode 100644 Documentation/cdrom/cdrom-standard.rst
- delete mode 100644 Documentation/cdrom/cdrom-standard.tex
- rename Documentation/cdrom/{ide-cd => ide-cd.rst} (82%)
- create mode 100644 Documentation/cdrom/index.rst
- rename Documentation/cdrom/{packet-writing.txt => packet-writing.rst} (91%)
- rename Documentation/cgroup-v1/{blkio-controller.txt => blkio-controller.rst} (89%)
- rename Documentation/cgroup-v1/{cgroups.txt => cgroups.rst} (88%)
- rename Documentation/cgroup-v1/{cpuacct.txt => cpuacct.rst} (90%)
- rename Documentation/cgroup-v1/{cpusets.txt => cpusets.rst} (90%)
- rename Documentation/cgroup-v1/{devices.txt => devices.rst} (88%)
- rename Documentation/cgroup-v1/{freezer-subsystem.txt => freezer-subsystem.rst} (95%)
- rename Documentation/cgroup-v1/{hugetlb.txt => hugetlb.rst} (70%)
- create mode 100644 Documentation/cgroup-v1/index.rst
- rename Documentation/cgroup-v1/{memcg_test.txt => memcg_test.rst} (62%)
- rename Documentation/cgroup-v1/{memory.txt => memory.rst} (71%)
- rename Documentation/cgroup-v1/{net_cls.txt => net_cls.rst} (50%)
- rename Documentation/cgroup-v1/{net_prio.txt => net_prio.rst} (71%)
- rename Documentation/cgroup-v1/{pids.txt => pids.rst} (62%)
- rename Documentation/cgroup-v1/{rdma.txt => rdma.rst} (79%)
- rename Documentation/device-mapper/{cache-policies.txt => cache-policies.rst} (94%)
- rename Documentation/device-mapper/{cache.txt => cache.rst} (61%)
- rename Documentation/device-mapper/{delay.txt => delay.rst} (53%)
- rename Documentation/device-mapper/{dm-crypt.txt => dm-crypt.rst} (87%)
- rename Documentation/device-mapper/{dm-flakey.txt => dm-flakey.rst} (60%)
- rename Documentation/device-mapper/{dm-init.txt => dm-init.rst} (69%)
- rename Documentation/device-mapper/{dm-integrity.txt => dm-integrity.rst} (90%)
- rename Documentation/device-mapper/{dm-io.txt => dm-io.rst} (92%)
- rename Documentation/device-mapper/{dm-log.txt => dm-log.rst} (90%)
- rename Documentation/device-mapper/{dm-queue-length.txt => dm-queue-length.rst} (76%)
- rename Documentation/device-mapper/{dm-raid.txt => dm-raid.rst} (71%)
- rename Documentation/device-mapper/{dm-service-time.txt => dm-service-time.rst} (60%)
- create mode 100644 Documentation/device-mapper/dm-uevent.rst
- delete mode 100644 Documentation/device-mapper/dm-uevent.txt
- rename Documentation/device-mapper/{dm-zoned.txt => dm-zoned.rst} (97%)
- rename Documentation/device-mapper/{era.txt => era.rst} (70%)
- create mode 100644 Documentation/device-mapper/index.rst
- rename Documentation/device-mapper/{kcopyd.txt => kcopyd.rst} (93%)
- create mode 100644 Documentation/device-mapper/linear.rst
- delete mode 100644 Documentation/device-mapper/linear.txt
- rename Documentation/device-mapper/{log-writes.txt => log-writes.rst} (61%)
- rename Documentation/device-mapper/{persistent-data.txt => persistent-data.rst} (98%)
- rename Documentation/device-mapper/{snapshot.txt => snapshot.rst} (62%)
- rename Documentation/device-mapper/{statistics.txt => statistics.rst} (87%)
- create mode 100644 Documentation/device-mapper/striped.rst
- delete mode 100644 Documentation/device-mapper/striped.txt
- rename Documentation/device-mapper/{switch.txt => switch.rst} (84%)
- rename Documentation/device-mapper/{thin-provisioning.txt => thin-provisioning.rst} (92%)
- rename Documentation/device-mapper/{unstriped.txt => unstriped.rst} (60%)
- rename Documentation/device-mapper/{verity.txt => verity.rst} (98%)
- rename Documentation/device-mapper/{writecache.txt => writecache.rst} (96%)
- rename Documentation/device-mapper/{zero.txt => zero.rst} (83%)
- rename Documentation/{pps/pps.txt => driver-api/pps.rst} (89%)
- rename Documentation/{ptp/ptp.txt => driver-api/ptp.rst} (88%)
- rename Documentation/fault-injection/{fault-injection.txt => fault-injection.rst} (68%)
- create mode 100644 Documentation/fault-injection/index.rst
- rename Documentation/fault-injection/{notifier-error-inject.txt => notifier-error-inject.rst} (83%)
- create mode 100644 Documentation/fault-injection/nvme-fault-injection.rst
- delete mode 100644 Documentation/fault-injection/nvme-fault-injection.txt
- create mode 100644 Documentation/fault-injection/provoke-crashes.rst
- delete mode 100644 Documentation/fault-injection/provoke-crashes.txt
- rename Documentation/fb/{api.txt => api.rst} (97%)
- rename Documentation/fb/{arkfb.txt => arkfb.rst} (92%)
- rename Documentation/fb/{aty128fb.txt => aty128fb.rst} (61%)
- rename Documentation/fb/{cirrusfb.txt => cirrusfb.rst} (75%)
- rename Documentation/fb/{cmap_xfbdev.txt => cmap_xfbdev.rst} (50%)
- rename Documentation/fb/{deferred_io.txt => deferred_io.rst} (86%)
- rename Documentation/fb/{efifb.txt => efifb.rst} (75%)
- rename Documentation/fb/{ep93xx-fb.txt => ep93xx-fb.rst} (85%)
- rename Documentation/fb/{fbcon.txt => fbcon.rst} (69%)
- rename Documentation/fb/{framebuffer.txt => framebuffer.rst} (92%)
- rename Documentation/fb/{gxfb.txt => gxfb.rst} (60%)
- create mode 100644 Documentation/fb/index.rst
- rename Documentation/fb/{intel810.txt => intel810.rst} (83%)
- rename Documentation/fb/{intelfb.txt => intelfb.rst} (73%)
- rename Documentation/fb/{internals.txt => internals.rst} (82%)
- rename Documentation/fb/{lxfb.txt => lxfb.rst} (60%)
- create mode 100644 Documentation/fb/matroxfb.rst
- delete mode 100644 Documentation/fb/matroxfb.txt
- rename Documentation/fb/{metronomefb.txt => metronomefb.rst} (98%)
- rename Documentation/fb/{modedb.txt => modedb.rst} (87%)
- create mode 100644 Documentation/fb/pvr2fb.rst
- delete mode 100644 Documentation/fb/pvr2fb.txt
- rename Documentation/fb/{pxafb.txt => pxafb.rst} (78%)
- rename Documentation/fb/{s3fb.txt => s3fb.rst} (94%)
- rename Documentation/fb/{sa1100fb.txt => sa1100fb.rst} (64%)
- create mode 100644 Documentation/fb/sh7760fb.rst
- delete mode 100644 Documentation/fb/sh7760fb.txt
- rename Documentation/fb/{sisfb.txt => sisfb.rst} (85%)
- rename Documentation/fb/{sm501.txt => sm501.rst} (65%)
- rename Documentation/fb/{sm712fb.txt => sm712fb.rst} (59%)
- create mode 100644 Documentation/fb/sstfb.rst
- delete mode 100644 Documentation/fb/sstfb.txt
- rename Documentation/fb/{tgafb.txt => tgafb.rst} (71%)
- rename Documentation/fb/{tridentfb.txt => tridentfb.rst} (70%)
- rename Documentation/fb/{udlfb.txt => udlfb.rst} (77%)
- rename Documentation/fb/{uvesafb.txt => uvesafb.rst} (52%)
- rename Documentation/fb/{vesafb.txt => vesafb.rst} (57%)
- create mode 100644 Documentation/fb/viafb.rst
- delete mode 100644 Documentation/fb/viafb.txt
- rename Documentation/fb/{vt8623fb.txt => vt8623fb.rst} (85%)
- rename Documentation/fpga/{dfl.txt => dfl.rst} (89%)
- create mode 100644 Documentation/fpga/index.rst
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+---
+ .../admin-guide/kernel-parameters.txt         |   2 +-
+ Documentation/cdrom/ide-cd.rst                |  18 +--
+ Documentation/ide/changelogs.rst              |  17 ++
+ .../ide/{ide-tape.txt => ide-tape.rst}        |  23 +--
+ Documentation/ide/{ide.txt => ide.rst}        | 147 ++++++++++--------
+ Documentation/ide/index.rst                   |  21 +++
+ ...arm-plug-howto.txt => warm-plug-howto.rst} |  10 +-
+ arch/m68k/q40/README                          |   2 +-
+ drivers/ide/Kconfig                           |  20 +--
+ 9 files changed, 155 insertions(+), 105 deletions(-)
  create mode 100644 Documentation/ide/changelogs.rst
  rename Documentation/ide/{ide-tape.txt => ide-tape.rst} (83%)
  rename Documentation/ide/{ide.txt => ide.rst} (72%)
  create mode 100644 Documentation/ide/index.rst
  rename Documentation/ide/{warm-plug-howto.txt => warm-plug-howto.rst} (61%)
- rename Documentation/kbuild/{headers_install.txt => headers_install.rst} (96%)
- create mode 100644 Documentation/kbuild/index.rst
- create mode 100644 Documentation/kbuild/issues.rst
- rename Documentation/kbuild/{kbuild.txt => kbuild.rst} (72%)
- rename Documentation/kbuild/{kconfig-language.txt => kconfig-language.rst} (85%)
- rename Documentation/kbuild/{kconfig-macro-language.txt => kconfig-macro-language.rst} (94%)
- rename Documentation/kbuild/{kconfig.txt => kconfig.rst} (80%)
- rename Documentation/kbuild/{makefiles.txt => makefiles.rst} (83%)
- rename Documentation/kbuild/{modules.txt => modules.rst} (84%)
- create mode 100644 Documentation/kdump/index.rst
- rename Documentation/kdump/{kdump.txt => kdump.rst} (91%)
- rename Documentation/kdump/{vmcoreinfo.txt => vmcoreinfo.rst} (95%)
- create mode 100644 Documentation/locking/index.rst
- rename Documentation/locking/{lockdep-design.txt => lockdep-design.rst} (93%)
- create mode 100644 Documentation/locking/lockstat.rst
- delete mode 100644 Documentation/locking/lockstat.txt
- rename Documentation/locking/{locktorture.txt => locktorture.rst} (57%)
- rename Documentation/locking/{mutex-design.txt => mutex-design.rst} (94%)
- rename Documentation/locking/{rt-mutex-design.txt => rt-mutex-design.rst} (91%)
- rename Documentation/locking/{rt-mutex.txt => rt-mutex.rst} (71%)
- rename Documentation/locking/{spinlocks.txt => spinlocks.rst} (89%)
- rename Documentation/locking/{ww-mutex-design.txt => ww-mutex-design.rst} (93%)
- create mode 100644 Documentation/mic/index.rst
- rename Documentation/mic/{mic_overview.txt => mic_overview.rst} (96%)
- rename Documentation/mic/{scif_overview.txt => scif_overview.rst} (76%)
- rename Documentation/netlabel/{cipso_ipv4.txt => cipso_ipv4.rst} (87%)
- create mode 100644 Documentation/netlabel/draft_ietf.rst
- create mode 100644 Documentation/netlabel/index.rst
- rename Documentation/netlabel/{introduction.txt => introduction.rst} (91%)
- rename Documentation/netlabel/{lsm_interface.txt => lsm_interface.rst} (88%)
- rename Documentation/pcmcia/{devicetable.txt => devicetable.rst} (97%)
- rename Documentation/pcmcia/{driver-changes.txt => driver-changes.rst} (90%)
- rename Documentation/pcmcia/{driver.txt => driver.rst} (66%)
- create mode 100644 Documentation/pcmcia/index.rst
- rename Documentation/pcmcia/{locking.txt => locking.rst} (81%)
- rename Documentation/power/{apm-acpi.txt => apm-acpi.rst} (87%)
- rename Documentation/power/{basic-pm-debugging.txt => basic-pm-debugging.rst} (87%)
- rename Documentation/power/{charger-manager.txt => charger-manager.rst} (78%)
- rename Documentation/power/{drivers-testing.txt => drivers-testing.rst} (86%)
- rename Documentation/power/{energy-model.txt => energy-model.rst} (74%)
- rename Documentation/power/{freezing-of-tasks.txt => freezing-of-tasks.rst} (75%)
- create mode 100644 Documentation/power/index.rst
- rename Documentation/power/{interface.txt => interface.rst} (84%)
- rename Documentation/power/{opp.txt => opp.rst} (78%)
- rename Documentation/power/{pci.txt => pci.rst} (97%)
- rename Documentation/power/{pm_qos_interface.txt => pm_qos_interface.rst} (62%)
- create mode 100644 Documentation/power/power_supply_class.rst
- delete mode 100644 Documentation/power/power_supply_class.txt
- create mode 100644 Documentation/power/powercap/powercap.rst
- delete mode 100644 Documentation/power/powercap/powercap.txt
- rename Documentation/power/regulator/{consumer.txt => consumer.rst} (61%)
- rename Documentation/power/regulator/{design.txt => design.rst} (86%)
- rename Documentation/power/regulator/{machine.txt => machine.rst} (75%)
- rename Documentation/power/regulator/{overview.txt => overview.rst} (79%)
- create mode 100644 Documentation/power/regulator/regulator.rst
- delete mode 100644 Documentation/power/regulator/regulator.txt
- rename Documentation/power/{runtime_pm.txt => runtime_pm.rst} (89%)
- rename Documentation/power/{s2ram.txt => s2ram.rst} (92%)
- rename Documentation/power/{suspend-and-cpuhotplug.txt => suspend-and-cpuhotplug.rst} (90%)
- rename Documentation/power/{suspend-and-interrupts.txt => suspend-and-interrupts.rst} (98%)
- rename Documentation/power/{swsusp-and-swap-files.txt => swsusp-and-swap-files.rst} (83%)
- rename Documentation/power/{swsusp-dmcrypt.txt => swsusp-dmcrypt.rst} (67%)
- create mode 100644 Documentation/power/swsusp.rst
- delete mode 100644 Documentation/power/swsusp.txt
- rename Documentation/power/{tricks.txt => tricks.rst} (93%)
- rename Documentation/power/{userland-swsusp.txt => userland-swsusp.rst} (85%)
- rename Documentation/power/{video.txt => video.rst} (56%)
- rename Documentation/powerpc/{bootwrapper.txt => bootwrapper.rst} (93%)
- rename Documentation/powerpc/{cpu_families.txt => cpu_families.rst} (95%)
- rename Documentation/powerpc/{cpu_features.txt => cpu_features.rst} (97%)
- rename Documentation/powerpc/{cxl.txt => cxl.rst} (95%)
- rename Documentation/powerpc/{cxlflash.txt => cxlflash.rst} (98%)
- rename Documentation/powerpc/{DAWR-POWER9.txt => dawr-power9.rst} (95%)
- rename Documentation/powerpc/{dscr.txt => dscr.rst} (91%)
- rename Documentation/powerpc/{eeh-pci-error-recovery.txt => eeh-pci-error-recovery.rst} (82%)
- rename Documentation/powerpc/{firmware-assisted-dump.txt => firmware-assisted-dump.rst} (80%)
- rename Documentation/powerpc/{hvcs.txt => hvcs.rst} (91%)
- create mode 100644 Documentation/powerpc/index.rst
- rename Documentation/powerpc/{mpc52xx.txt => mpc52xx.rst} (91%)
- rename Documentation/powerpc/{pci_iov_resource_on_powernv.txt => pci_iov_resource_on_powernv.rst} (97%)
- rename Documentation/powerpc/{pmu-ebb.txt => pmu-ebb.rst} (99%)
- create mode 100644 Documentation/powerpc/ptrace.rst
- delete mode 100644 Documentation/powerpc/ptrace.txt
- rename Documentation/powerpc/{qe_firmware.txt => qe_firmware.rst} (95%)
- rename Documentation/powerpc/{syscall64-abi.txt => syscall64-abi.rst} (82%)
- rename Documentation/powerpc/{transactional_memory.txt => transactional_memory.rst} (93%)
- create mode 100644 Documentation/riscv/index.rst
- rename Documentation/riscv/{pmu.txt => pmu.rst} (77%)
- rename Documentation/scheduler/{completion.txt => completion.rst} (94%)
- create mode 100644 Documentation/scheduler/index.rst
- rename Documentation/scheduler/{sched-arch.txt => sched-arch.rst} (81%)
- rename Documentation/scheduler/{sched-bwc.txt => sched-bwc.rst} (90%)
- rename Documentation/scheduler/{sched-deadline.txt => sched-deadline.rst} (88%)
- rename Documentation/scheduler/{sched-design-CFS.txt => sched-design-CFS.rst} (97%)
- rename Documentation/scheduler/{sched-domains.txt => sched-domains.rst} (97%)
- rename Documentation/scheduler/{sched-energy.txt => sched-energy.rst} (96%)
- rename Documentation/scheduler/{sched-nice-design.txt => sched-nice-design.rst} (98%)
- rename Documentation/scheduler/{sched-rt-group.txt => sched-rt-group.rst} (95%)
- rename Documentation/scheduler/{sched-stats.txt => sched-stats.rst} (91%)
- create mode 100644 Documentation/scheduler/text_files.rst
- create mode 100644 Documentation/target/index.rst
- create mode 100644 Documentation/target/scripts.rst
- create mode 100644 Documentation/target/tcm_mod_builder.rst
- delete mode 100644 Documentation/target/tcm_mod_builder.txt
- rename Documentation/target/{tcmu-design.txt => tcmu-design.rst} (69%)
- rename Documentation/timers/{highres.txt => highres.rst} (98%)
- rename Documentation/timers/{hpet.txt => hpet.rst} (91%)
- rename Documentation/timers/{hrtimers.txt => hrtimers.rst} (98%)
- create mode 100644 Documentation/timers/index.rst
- rename Documentation/timers/{NO_HZ.txt => no_hz.rst} (93%)
- rename Documentation/timers/{timekeeping.txt => timekeeping.rst} (98%)
- rename Documentation/timers/{timers-howto.txt => timers-howto.rst} (93%)
- rename Documentation/watchdog/{convert_drivers_to_kernel_api.txt => convert_drivers_to_kernel_api.rst} (75%)
- rename Documentation/watchdog/{hpwdt.txt => hpwdt.rst} (78%)
- create mode 100644 Documentation/watchdog/index.rst
- rename Documentation/watchdog/{mlx-wdt.txt => mlx-wdt.rst} (78%)
- rename Documentation/watchdog/{pcwd-watchdog.txt => pcwd-watchdog.rst} (89%)
- rename Documentation/watchdog/{watchdog-api.txt => watchdog-api.rst} (80%)
- rename Documentation/watchdog/{watchdog-kernel-api.txt => watchdog-kernel-api.rst} (90%)
- create mode 100644 Documentation/watchdog/watchdog-parameters.rst
- delete mode 100644 Documentation/watchdog/watchdog-parameters.txt
- rename Documentation/watchdog/{watchdog-pm.txt => watchdog-pm.rst} (92%)
- rename Documentation/watchdog/{wdt.txt => wdt.rst} (68%)
- rename Documentation/xilinx/{eemi.txt => eemi.rst} (92%)
- create mode 100644 Documentation/xilinx/index.rst
 
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 581d8888e829..affed5d447de 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1502,7 +1502,7 @@
+ 			Format: =0.0 to prevent dma on hda, =0.1 hdb =1.0 hdc
+ 			.vlb_clock .pci_clock .noflush .nohpa .noprobe .nowerr
+ 			.cdrom .chs .ignore_cable are additional options
+-			See Documentation/ide/ide.txt.
++			See Documentation/ide/ide.rst.
+ 
+ 	ide-generic.probe-mask= [HW] (E)IDE subsystem
+ 			Format: <int>
+diff --git a/Documentation/cdrom/ide-cd.rst b/Documentation/cdrom/ide-cd.rst
+index dadc94ef6b6c..bdccb74fc92d 100644
+--- a/Documentation/cdrom/ide-cd.rst
++++ b/Documentation/cdrom/ide-cd.rst
+@@ -47,7 +47,7 @@ This driver provides the following features:
+ ---------------
+ 
+ 0. The ide-cd relies on the ide disk driver.  See
+-   Documentation/ide/ide.txt for up-to-date information on the ide
++   Documentation/ide/ide.rst for up-to-date information on the ide
+    driver.
+ 
+ 1. Make sure that the ide and ide-cd drivers are compiled into the
+@@ -62,7 +62,7 @@ This driver provides the following features:
+ 
+    Depending on what type of IDE interface you have, you may need to
+    specify additional configuration options.  See
+-   Documentation/ide/ide.txt.
++   Documentation/ide/ide.rst.
+ 
+ 2. You should also ensure that the iso9660 filesystem is either
+    compiled into the kernel or available as a loadable module.  You
+@@ -82,7 +82,7 @@ This driver provides the following features:
+    on the primary IDE interface are called `hda` and `hdb`,
+    respectively.  The drives on the secondary interface are called
+    `hdc` and `hdd`.  (Interfaces at other locations get other letters
+-   in the third position; see Documentation/ide/ide.txt.)
++   in the third position; see Documentation/ide/ide.rst.)
+ 
+    If you want your CDROM drive to be found automatically by the
+    driver, you should make sure your IDE interface uses either the
+@@ -91,7 +91,7 @@ This driver provides the following features:
+    be jumpered as `master`.  (If for some reason you cannot configure
+    your system in this manner, you can probably still use the driver.
+    You may have to pass extra configuration information to the kernel
+-   when you boot, however.  See Documentation/ide/ide.txt for more
++   when you boot, however.  See Documentation/ide/ide.rst for more
+    information.)
+ 
+ 4. Boot the system.  If the drive is recognized, you should see a
+@@ -163,7 +163,7 @@ to change.  If the slot number is -1, the drive is unloaded.
+ This section discusses some common problems encountered when trying to
+ use the driver, and some possible solutions.  Note that if you are
+ experiencing problems, you should probably also review
+-Documentation/ide/ide.txt for current information about the underlying
++Documentation/ide/ide.rst for current information about the underlying
+ IDE support code.  Some of these items apply only to earlier versions
+ of the driver, but are mentioned here for completeness.
+ 
+@@ -173,7 +173,7 @@ from the driver.
+ a. Drive is not detected during booting.
+ 
+    - Review the configuration instructions above and in
+-     Documentation/ide/ide.txt, and check how your hardware is
++     Documentation/ide/ide.rst, and check how your hardware is
+      configured.
+ 
+    - If your drive is the only device on an IDE interface, it should
+@@ -181,7 +181,7 @@ a. Drive is not detected during booting.
+ 
+    - If your IDE interface is not at the standard addresses of 0x170
+      or 0x1f0, you'll need to explicitly inform the driver using a
+-     lilo option.  See Documentation/ide/ide.txt.  (This feature was
++     lilo option.  See Documentation/ide/ide.rst.  (This feature was
+      added around kernel version 1.3.30.)
+ 
+    - If the autoprobing is not finding your drive, you can tell the
+@@ -207,7 +207,7 @@ a. Drive is not detected during booting.
+      Support for some interfaces needing extra initialization is
+      provided in later 1.3.x kernels.  You may need to turn on
+      additional kernel configuration options to get them to work;
+-     see Documentation/ide/ide.txt.
++     see Documentation/ide/ide.rst.
+ 
+      Even if support is not available for your interface, you may be
+      able to get it to work with the following procedure.  First boot
+@@ -261,7 +261,7 @@ c. System hangups.
+     be worked around by specifying the `serialize` option when
+     booting.  Recent kernels should be able to detect the need for
+     this automatically in most cases, but the detection is not
+-    foolproof.  See Documentation/ide/ide.txt for more information
++    foolproof.  See Documentation/ide/ide.rst for more information
+     about the `serialize` option and the CMD640B.
+ 
+   - Note that many MS-DOS CDROM drivers will work with such buggy
+diff --git a/Documentation/ide/changelogs.rst b/Documentation/ide/changelogs.rst
+new file mode 100644
+index 000000000000..fdf9d0fb8027
+--- /dev/null
++++ b/Documentation/ide/changelogs.rst
+@@ -0,0 +1,17 @@
++Changelog for ide cd
++--------------------
++
++ .. include:: ChangeLog.ide-cd.1994-2004
++    :literal:
++
++Changelog for ide floppy
++------------------------
++
++ .. include:: ChangeLog.ide-floppy.1996-2002
++    :literal:
++
++Changelog for ide tape
++----------------------
++
++ .. include:: ChangeLog.ide-tape.1995-2002
++    :literal:
+diff --git a/Documentation/ide/ide-tape.txt b/Documentation/ide/ide-tape.rst
+similarity index 83%
+rename from Documentation/ide/ide-tape.txt
+rename to Documentation/ide/ide-tape.rst
+index 3f348a0b21d8..3e061d9c0e38 100644
+--- a/Documentation/ide/ide-tape.txt
++++ b/Documentation/ide/ide-tape.rst
+@@ -1,4 +1,6 @@
+-IDE ATAPI streaming tape driver.
++===============================
++IDE ATAPI streaming tape driver
++===============================
+ 
+ This driver is a part of the Linux ide driver.
+ 
+@@ -10,14 +12,14 @@ to the request-list of the block device, and waits for their completion.
+ The block device major and minor numbers are determined from the
+ tape's relative position in the ide interfaces, as explained in ide.c.
+ 
+-The character device interface consists of the following devices:
++The character device interface consists of the following devices::
+ 
+-ht0		major 37, minor 0	first  IDE tape, rewind on close.
+-ht1		major 37, minor 1	second IDE tape, rewind on close.
+-...
+-nht0		major 37, minor 128	first  IDE tape, no rewind on close.
+-nht1		major 37, minor 129	second IDE tape, no rewind on close.
+-...
++  ht0		major 37, minor 0	first  IDE tape, rewind on close.
++  ht1		major 37, minor 1	second IDE tape, rewind on close.
++  ...
++  nht0		major 37, minor 128	first  IDE tape, no rewind on close.
++  nht1		major 37, minor 129	second IDE tape, no rewind on close.
++  ...
+ 
+ The general magnetic tape commands compatible interface, as defined by
+ include/linux/mtio.h, is accessible through the character device.
+@@ -40,9 +42,10 @@ Testing was done with a 2 GB CONNER CTMA 4000 IDE ATAPI Streaming Tape Drive.
+ Here are some words from the first releases of hd.c, which are quoted
+ in ide.c and apply here as well:
+ 
+-| Special care is recommended.  Have Fun!
++* Special care is recommended.  Have Fun!
+ 
+-Possible improvements:
++Possible improvements
++=====================
+ 
+ 1. Support for the ATAPI overlap protocol.
+ 
+diff --git a/Documentation/ide/ide.txt b/Documentation/ide/ide.rst
+similarity index 72%
+rename from Documentation/ide/ide.txt
+rename to Documentation/ide/ide.rst
+index 7aca987c23d9..88bdcba92f7d 100644
+--- a/Documentation/ide/ide.txt
++++ b/Documentation/ide/ide.rst
+@@ -1,41 +1,43 @@
+-
+-	Information regarding the Enhanced IDE drive in Linux 2.6
+-
+-==============================================================================
+-
++============================================
++Information regarding the Enhanced IDE drive
++============================================
+ 
+    The hdparm utility can be used to control various IDE features on a
+    running system. It is packaged separately.  Please Look for it on popular
+    linux FTP sites.
+ 
++-------------------------------------------------------------------------------
+ 
++.. important::
+ 
+-***  IMPORTANT NOTICES:  BUGGY IDE CHIPSETS CAN CORRUPT DATA!!
+-***  =================
+-***  PCI versions of the CMD640 and RZ1000 interfaces are now detected
+-***  automatically at startup when PCI BIOS support is configured.
+-***
+-***  Linux disables the "prefetch" ("readahead") mode of the RZ1000
+-***  to prevent data corruption possible due to hardware design flaws.
+-***
+-***  For the CMD640, linux disables "IRQ unmasking" (hdparm -u1) on any
+-***  drive for which the "prefetch" mode of the CMD640 is turned on.
+-***  If "prefetch" is disabled (hdparm -p8), then "IRQ unmasking" can be
+-***  used again.
+-***
+-***  For the CMD640, linux disables "32bit I/O" (hdparm -c1) on any drive
+-***  for which the "prefetch" mode of the CMD640 is turned off.
+-***  If "prefetch" is enabled (hdparm -p9), then "32bit I/O" can be
+-***  used again.
+-***
+-***  The CMD640 is also used on some Vesa Local Bus (VLB) cards, and is *NOT*
+-***  automatically detected by Linux.  For safe, reliable operation with such
+-***  interfaces, one *MUST* use the "cmd640.probe_vlb" kernel option.
+-***
+-***  Use of the "serialize" option is no longer necessary.
+-
+-================================================================================
+-Common pitfalls:
++   BUGGY IDE CHIPSETS CAN CORRUPT DATA!!
++
++    PCI versions of the CMD640 and RZ1000 interfaces are now detected
++    automatically at startup when PCI BIOS support is configured.
++
++    Linux disables the "prefetch" ("readahead") mode of the RZ1000
++    to prevent data corruption possible due to hardware design flaws.
++
++    For the CMD640, linux disables "IRQ unmasking" (hdparm -u1) on any
++    drive for which the "prefetch" mode of the CMD640 is turned on.
++    If "prefetch" is disabled (hdparm -p8), then "IRQ unmasking" can be
++    used again.
++
++    For the CMD640, linux disables "32bit I/O" (hdparm -c1) on any drive
++    for which the "prefetch" mode of the CMD640 is turned off.
++    If "prefetch" is enabled (hdparm -p9), then "32bit I/O" can be
++    used again.
++
++    The CMD640 is also used on some Vesa Local Bus (VLB) cards, and is *NOT*
++    automatically detected by Linux.  For safe, reliable operation with such
++    interfaces, one *MUST* use the "cmd640.probe_vlb" kernel option.
++
++    Use of the "serialize" option is no longer necessary.
++
++-------------------------------------------------------------------------------
++
++Common pitfalls
++===============
+ 
+ - 40-conductor IDE cables are capable of transferring data in DMA modes up to
+   udma2, but no faster.
+@@ -49,19 +51,18 @@ Common pitfalls:
+ - Even better try to stick to the same vendor and device type on the same
+   cable.
+ 
+-================================================================================
+-
+-This is the multiple IDE interface driver, as evolved from hd.c.
++This is the multiple IDE interface driver, as evolved from hd.c
++===============================================================
+ 
+ It supports up to 9 IDE interfaces per default, on one or more IRQs (usually
+-14 & 15).  There can be up to two drives per interface, as per the ATA-6 spec.
++14 & 15).  There can be up to two drives per interface, as per the ATA-6 spec.::
+ 
+-Primary:    ide0, port 0x1f0; major=3;  hda is minor=0; hdb is minor=64
+-Secondary:  ide1, port 0x170; major=22; hdc is minor=0; hdd is minor=64
+-Tertiary:   ide2, port 0x1e8; major=33; hde is minor=0; hdf is minor=64
+-Quaternary: ide3, port 0x168; major=34; hdg is minor=0; hdh is minor=64
+-fifth..     ide4, usually PCI, probed
+-sixth..     ide5, usually PCI, probed
++  Primary:    ide0, port 0x1f0; major=3;  hda is minor=0; hdb is minor=64
++  Secondary:  ide1, port 0x170; major=22; hdc is minor=0; hdd is minor=64
++  Tertiary:   ide2, port 0x1e8; major=33; hde is minor=0; hdf is minor=64
++  Quaternary: ide3, port 0x168; major=34; hdg is minor=0; hdh is minor=64
++  fifth..     ide4, usually PCI, probed
++  sixth..     ide5, usually PCI, probed
+ 
+ To access devices on interfaces > ide0, device entries please make sure that
+ device files for them are present in /dev.  If not, please create such
+@@ -80,12 +81,15 @@ seldom occurs.  Be careful, and if in doubt, don't do it!
+ 
+ Drives are normally found by auto-probing and/or examining the CMOS/BIOS data.
+ For really weird situations, the apparent (fdisk) geometry can also be specified
+-on the kernel "command line" using LILO.  The format of such lines is:
++on the kernel "command line" using LILO.  The format of such lines is::
+ 
+ 	ide_core.chs=[interface_number.device_number]:cyls,heads,sects
+-or	ide_core.cdrom=[interface_number.device_number]
+ 
+-For example:
++or::
++
++	ide_core.cdrom=[interface_number.device_number]
++
++For example::
+ 
+ 	ide_core.chs=1.0:1050,32,64  ide_core.cdrom=1.1
+ 
+@@ -96,10 +100,12 @@ geometry for partitioning purposes (fdisk).
+ If the auto-probing during boot time confuses a drive (ie. the drive works
+ with hd.c but not with ide.c), then an command line option may be specified
+ for each drive for which you'd like the drive to skip the hardware
+-probe/identification sequence.  For example:
++probe/identification sequence.  For example::
+ 
+ 	ide_core.noprobe=0.1
+-or
++
++or::
++
+ 	ide_core.chs=1.0:768,16,32
+ 	ide_core.noprobe=1.0
+ 
+@@ -115,22 +121,24 @@ Such drives will be identified at boot time, just like a hard disk.
+ 
+ If for some reason your cdrom drive is *not* found at boot time, you can force
+ the probe to look harder by supplying a kernel command line parameter
+-via LILO, such as:
++via LILO, such as:::
+ 
+ 	ide_core.cdrom=1.0	/* "master" on second interface (hdc) */
+-or
++
++or::
++
+ 	ide_core.cdrom=1.1	/* "slave" on second interface (hdd) */
+ 
+ For example, a GW2000 system might have a hard drive on the primary
+ interface (/dev/hda) and an IDE cdrom drive on the secondary interface
+-(/dev/hdc).  To mount a CD in the cdrom drive, one would use something like:
++(/dev/hdc).  To mount a CD in the cdrom drive, one would use something like::
+ 
+ 	ln -sf /dev/hdc /dev/cdrom
+ 	mkdir /mnt/cdrom
+ 	mount /dev/cdrom /mnt/cdrom -t iso9660 -o ro
+ 
+ If, after doing all of the above, mount doesn't work and you see
+-errors from the driver (with dmesg) complaining about `status=0xff',
++errors from the driver (with dmesg) complaining about `status=0xff`,
+ this means that the hardware is not responding to the driver's attempts
+ to read it.  One of the following is probably the problem:
+ 
+@@ -165,7 +173,7 @@ drivers can always be compiled as loadable modules, the chipset drivers
+ can only be compiled into the kernel, and the core code (ide.c) can be
+ compiled as a loadable module provided no chipset support is needed.
+ 
+-When using ide.c as a module in combination with kmod, add:
++When using ide.c as a module in combination with kmod, add::
+ 
+ 	alias block-major-3 ide-probe
+ 
+@@ -176,10 +184,8 @@ driver using the "options=" keyword to insmod, while replacing any ',' with
+ ';'.
+ 
+ 
+-================================================================================
+-
+ Summary of ide driver parameters for kernel command line
+---------------------------------------------------------
++========================================================
+ 
+ For legacy IDE VLB host drivers (ali14xx/dtc2278/ht6560b/qd65xx/umc8672)
+ you need to explicitly enable probing by using "probe" kernel parameter,
+@@ -226,28 +232,31 @@ Other kernel parameters for ide_core are:
+ 
+ * "chs=[interface_number.device_number]" to force device as a disk (using CHS)
+ 
+-================================================================================
+ 
+ Some Terminology
+-----------------
+-IDE = Integrated Drive Electronics, meaning that each drive has a built-in
+-controller, which is why an "IDE interface card" is not a "controller card".
++================
+ 
+-ATA = AT (the old IBM 286 computer) Attachment Interface, a draft American
+-National Standard for connecting hard drives to PCs.  This is the official
+-name for "IDE".
++IDE
++  Integrated Drive Electronics, meaning that each drive has a built-in
++  controller, which is why an "IDE interface card" is not a "controller card".
+ 
+-The latest standards define some enhancements, known as the ATA-6 spec,
+-which grew out of vendor-specific "Enhanced IDE" (EIDE) implementations.
++ATA
++  AT (the old IBM 286 computer) Attachment Interface, a draft American
++  National Standard for connecting hard drives to PCs.  This is the official
++  name for "IDE".
+ 
+-ATAPI = ATA Packet Interface, a new protocol for controlling the drives,
+-similar to SCSI protocols, created at the same time as the ATA2 standard.
+-ATAPI is currently used for controlling CDROM, TAPE and FLOPPY (ZIP or
+-LS120/240) devices, removable R/W cartridges, and for high capacity hard disk
+-drives.
++  The latest standards define some enhancements, known as the ATA-6 spec,
++  which grew out of vendor-specific "Enhanced IDE" (EIDE) implementations.
++
++ATAPI
++  ATA Packet Interface, a new protocol for controlling the drives,
++  similar to SCSI protocols, created at the same time as the ATA2 standard.
++  ATAPI is currently used for controlling CDROM, TAPE and FLOPPY (ZIP or
++  LS120/240) devices, removable R/W cartridges, and for high capacity hard disk
++  drives.
+ 
+ mlord@pobox.com
+---
++
+ 
+ Wed Apr 17 22:52:44 CEST 2002 edited by Marcin Dalecki, the current
+ maintainer.
+diff --git a/Documentation/ide/index.rst b/Documentation/ide/index.rst
+new file mode 100644
+index 000000000000..45bc12d3957f
+--- /dev/null
++++ b/Documentation/ide/index.rst
+@@ -0,0 +1,21 @@
++:orphan:
++
++==================================
++Integrated Drive Electronics (IDE)
++==================================
++
++.. toctree::
++    :maxdepth: 1
++
++    ide
++    ide-tape
++    warm-plug-howto
++
++    changelogs
++
++.. only::  subproject and html
++
++   Indices
++   =======
++
++   * :ref:`genindex`
+diff --git a/Documentation/ide/warm-plug-howto.txt b/Documentation/ide/warm-plug-howto.rst
+similarity index 61%
+rename from Documentation/ide/warm-plug-howto.txt
+rename to Documentation/ide/warm-plug-howto.rst
+index 98152bcd515a..c245242ef2f1 100644
+--- a/Documentation/ide/warm-plug-howto.txt
++++ b/Documentation/ide/warm-plug-howto.rst
+@@ -1,14 +1,14 @@
+-
++===================
+ IDE warm-plug HOWTO
+ ===================
+ 
+-To warm-plug devices on a port 'idex':
++To warm-plug devices on a port 'idex'::
+ 
+-# echo -n "1" > /sys/class/ide_port/idex/delete_devices
++	# echo -n "1" > /sys/class/ide_port/idex/delete_devices
+ 
+-unplug old device(s) and plug new device(s)
++unplug old device(s) and plug new device(s)::
+ 
+-# echo -n "1" > /sys/class/ide_port/idex/scan
++	# echo -n "1" > /sys/class/ide_port/idex/scan
+ 
+ done
+ 
+diff --git a/arch/m68k/q40/README b/arch/m68k/q40/README
+index 93f4c4cd3c45..a4991d2d8af6 100644
+--- a/arch/m68k/q40/README
++++ b/arch/m68k/q40/README
+@@ -31,7 +31,7 @@ drivers used by the Q40, apart from the very obvious (console etc.):
+ 		char/joystick/*		# most of this should work, not
+ 				        # in default config.in
+ 	        block/q40ide.c		# startup for ide
+-		      ide*		# see Documentation/ide/ide.txt
++		      ide*		# see Documentation/ide/ide.rst
+ 		      floppy.c		# normal PC driver, DMA emu in asm/floppy.h
+ 					# and arch/m68k/kernel/entry.S
+ 					# see drivers/block/README.fd
+diff --git a/drivers/ide/Kconfig b/drivers/ide/Kconfig
+index fdd2a62f9d52..9eada392df15 100644
+--- a/drivers/ide/Kconfig
++++ b/drivers/ide/Kconfig
+@@ -25,13 +25,13 @@ menuconfig IDE
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called ide-core.
+ 
+-	  For further information, please read <file:Documentation/ide/ide.txt>.
++	  For further information, please read <file:Documentation/ide/ide.rst>.
+ 
+ 	  If unsure, say N.
+ 
+ if IDE
+ 
+-comment "Please see Documentation/ide/ide.txt for help/info on IDE drives"
++comment "Please see Documentation/ide/ide.rst for help/info on IDE drives"
+ 
+ config IDE_XFER_MODE
+ 	bool
+@@ -163,7 +163,7 @@ config BLK_DEV_IDETAPE
+ 	  along with other IDE devices, as "hdb" or "hdc", or something
+ 	  similar, and will be mapped to a character device such as "ht0"
+ 	  (check the boot messages with dmesg).  Be sure to consult the
+-	  <file:drivers/ide/ide-tape.c> and <file:Documentation/ide/ide.txt>
++	  <file:drivers/ide/ide-tape.c> and <file:Documentation/ide/ide.rst>
+ 	  files for usage information.
+ 
+ 	  To compile this driver as a module, choose M here: the
+@@ -251,7 +251,7 @@ config BLK_DEV_CMD640
+ 
+ 	  The CMD640 chip is also used on add-in cards by Acculogic, and on
+ 	  the "CSA-6400E PCI to IDE controller" that some people have. For
+-	  details, read <file:Documentation/ide/ide.txt>.
++	  details, read <file:Documentation/ide/ide.rst>.
+ 
+ config BLK_DEV_CMD640_ENHANCED
+ 	bool "CMD640 enhanced support"
+@@ -259,7 +259,7 @@ config BLK_DEV_CMD640_ENHANCED
+ 	help
+ 	  This option includes support for setting/autotuning PIO modes and
+ 	  prefetch on CMD640 IDE interfaces.  For details, read
+-	  <file:Documentation/ide/ide.txt>. If you have a CMD640 IDE interface
++	  <file:Documentation/ide/ide.rst>. If you have a CMD640 IDE interface
+ 	  and your BIOS does not already do this for you, then say Y here.
+ 	  Otherwise say N.
+ 
+@@ -819,7 +819,7 @@ config BLK_DEV_ALI14XX
+ 	  boot parameter.  It enables support for the secondary IDE interface
+ 	  of the ALI M1439/1443/1445/1487/1489 chipsets, and permits faster
+ 	  I/O speeds to be set as well.
+-	  See the files <file:Documentation/ide/ide.txt> and
++	  See the files <file:Documentation/ide/ide.rst> and
+ 	  <file:drivers/ide/ali14xx.c> for more info.
+ 
+ config BLK_DEV_DTC2278
+@@ -830,7 +830,7 @@ config BLK_DEV_DTC2278
+ 	  This driver is enabled at runtime using the "dtc2278.probe" kernel
+ 	  boot parameter. It enables support for the secondary IDE interface
+ 	  of the DTC-2278 card, and permits faster I/O speeds to be set as
+-	  well. See the <file:Documentation/ide/ide.txt> and
++	  well. See the <file:Documentation/ide/ide.rst> and
+ 	  <file:drivers/ide/dtc2278.c> files for more info.
+ 
+ config BLK_DEV_HT6560B
+@@ -841,7 +841,7 @@ config BLK_DEV_HT6560B
+ 	  This driver is enabled at runtime using the "ht6560b.probe" kernel
+ 	  boot parameter. It enables support for the secondary IDE interface
+ 	  of the Holtek card, and permits faster I/O speeds to be set as well.
+-	  See the <file:Documentation/ide/ide.txt> and
++	  See the <file:Documentation/ide/ide.rst> and
+ 	  <file:drivers/ide/ht6560b.c> files for more info.
+ 
+ config BLK_DEV_QD65XX
+@@ -851,7 +851,7 @@ config BLK_DEV_QD65XX
+ 	help
+ 	  This driver is enabled at runtime using the "qd65xx.probe" kernel
+ 	  boot parameter.  It permits faster I/O speeds to be set.  See the
+-	  <file:Documentation/ide/ide.txt> and <file:drivers/ide/qd65xx.c>
++	  <file:Documentation/ide/ide.rst> and <file:drivers/ide/qd65xx.c>
+ 	  for more info.
+ 
+ config BLK_DEV_UMC8672
+@@ -862,7 +862,7 @@ config BLK_DEV_UMC8672
+ 	  This driver is enabled at runtime using the "umc8672.probe" kernel
+ 	  boot parameter. It enables support for the secondary IDE interface
+ 	  of the UMC-8672, and permits faster I/O speeds to be set as well.
+-	  See the files <file:Documentation/ide/ide.txt> and
++	  See the files <file:Documentation/ide/ide.rst> and
+ 	  <file:drivers/ide/umc8672.c> for more info.
+ 
+ endif
 -- 
 2.21.0
-
 
