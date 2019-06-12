@@ -1,142 +1,108 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 48F807D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 20:21:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 72DD37D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 20:41:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387935AbfFLUVk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Jun 2019 16:21:40 -0400
-Received: from mga04.intel.com ([192.55.52.120]:3337 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727924AbfFLUVk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 12 Jun 2019 16:21:40 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Jun 2019 13:21:39 -0700
-X-ExtLoop1: 1
-Received: from lcarlos-mobl.amr.corp.intel.com ([10.252.140.234])
-  by orsmga007.jf.intel.com with ESMTP; 12 Jun 2019 13:21:39 -0700
-Message-ID: <5e818fb4bf253fc69259093e7ff68122e4a4044c.camel@intel.com>
-Subject: Re: [PATCH v1 09/31] docs: driver-model: convert docs to ReST and
- rename to *.rst
-From:   Jeff Kirsher <jeffrey.t.kirsher@intel.com>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Julia Lawall <Julia.Lawall@lip6.fr>,
-        Gilles Muller <Gilles.Muller@lip6.fr>,
-        Nicolas Palix <nicolas.palix@imag.fr>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
-        cocci@systeme.lip6.fr
-Date:   Wed, 12 Jun 2019 13:21:38 -0700
-In-Reply-To: <c90bb60d65aaba4ce5957894cc6890ebe5048d95.1560364494.git.mchehab+samsung@kernel.org>
+        id S2388658AbfFLUl3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Jun 2019 16:41:29 -0400
+Received: from casper.infradead.org ([85.118.1.10]:53322 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388336AbfFLUl3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jun 2019 16:41:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=sI6gwiLkCC9ffzJ87+8NB0VxnCIPAyu/GIglnrwK0WM=; b=FP23l7y8EJ6iZDJ5fph+HSAolj
+        trkiU2x7HtkKhSRGUZyZpIiKm15P0rgkbNNalIYFxFuCbDnfS1nokePZq2tTbs0fffUHrAyc3pS+c
+        6o69mFfbo/DUz7YUDpimkjmKqFyr8Cd2tsfMOpfUpoxfIs2MqRpLJfuqIZBBmbVG+qgXyMdl1pOCI
+        s52wsFUQmJgnSQx78VVQVkbTICGtkN6hXgve34sWqdCW9wf+50/KBu4GnF+R64MbP7IgjDdH6VwYb
+        G65VlIyRP2OqJGEUC3TzQ7egPskq0AdIUUTA+VAKbvKJQIMbBN7/rvv12Cwe+T9KDmOVLIxesunR1
+        cd20LcJQ==;
+Received: from 201.86.169.251.dynamic.adsl.gvt.net.br ([201.86.169.251] helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hbA3f-00072C-TH; Wed, 12 Jun 2019 20:41:24 +0000
+Date:   Wed, 12 Jun 2019 17:41:19 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Dan Williams <dan.j.williams@intel.com>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Keith Busch <keith.busch@intel.com>,
+        Ira Weiny <ira.weiny@intel.com>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>
+Subject: Re: [PATCH v1 29/31] docs: nvdimm: convert to ReST
+Message-ID: <20190612174119.7c0d94bd@coco.lan>
+In-Reply-To: <CAPcyv4g08r6bK_SyTjzKFRM7=wpTQLdmHqRSGh7r-e9YD4tq5Q@mail.gmail.com>
 References: <cover.1560364493.git.mchehab+samsung@kernel.org>
-         <c90bb60d65aaba4ce5957894cc6890ebe5048d95.1560364494.git.mchehab+samsung@kernel.org>
-Content-Type: multipart/signed; micalg="pgp-sha512";
-        protocol="application/pgp-signature"; boundary="=-ty+pfSLvRBl9i77r2BhF"
-User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
+        <075d5879142ff1b7ad16f5eccf4759d35ca02fd4.1560364494.git.mchehab+samsung@kernel.org>
+        <CAPcyv4g08r6bK_SyTjzKFRM7=wpTQLdmHqRSGh7r-e9YD4tq5Q@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Em Wed, 12 Jun 2019 12:04:12 -0700
+Dan Williams <dan.j.williams@intel.com> escreveu:
 
---=-ty+pfSLvRBl9i77r2BhF
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> Hi Mauro,
+> 
+> On Wed, Jun 12, 2019 at 11:38 AM Mauro Carvalho Chehab
+> <mchehab+samsung@kernel.org> wrote:
+> >
+> > Rename the mtd documentation files to ReST, add an  
+> 
+> s/mtd/nvdimm/
 
-On Wed, 2019-06-12 at 15:38 -0300, Mauro Carvalho Chehab wrote:
-> Convert the various documents at the driver-model, preparing
-> them to be part of the driver-api book.
->=20
-> The conversion is actually:
->   - add blank lines and identation in order to identify paragraphs;
->   - fix tables markups;
->   - add some lists markups;
->   - mark literal blocks;
->   - adjust title markups.
->=20
-> At its new index.rst, let's add a :orphan: while this is not linked to
-> the main index.rst file, in order to avoid build warnings.
->=20
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Sorry, cut and paste issue :-)
 
-Acked-by: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
+> 
+> > index for them and adjust in order to produce a nice html
+> > output via the Sphinx build system.
+> >
+> > At its new index.rst, let's add a :orphan: while this is not linked to
+> > the main index.rst file, in order to avoid build warnings.  
+> 
+> Looks ok, but I was not able to apply this one in isolation to give it
+> a try. Am I missing some pre-reqs compared to v5.2-rc4?
 
-For the ice driver comment change.
+I wrote the patch before v5.2-rc1, but, as this series touches a lot
+of stuff, it was rebased against today's linux-next (next-20190612).
 
-> ---
->  Documentation/driver-api/gpio/driver.rst      |   2 +-
->  .../driver-model/{binding.txt =3D> binding.rst} |  20 +-
->  .../driver-model/{bus.txt =3D> bus.rst}         |  69 ++--
->  .../driver-model/{class.txt =3D> class.rst}     |  74 ++--
->  ...esign-patterns.txt =3D> design-patterns.rst} | 106 +++---
->  .../driver-model/{device.txt =3D> device.rst}   |  57 +--
->  .../driver-model/{devres.txt =3D> devres.rst}   |  50 +--
->  .../driver-model/{driver.txt =3D> driver.rst}   | 112 +++---
->  Documentation/driver-model/index.rst          |  26 ++
->  .../{overview.txt =3D> overview.rst}            |  37 +-
->  .../{platform.txt =3D> platform.rst}            |  30 +-
->  .../driver-model/{porting.txt =3D> porting.rst} | 333 +++++++++---------
->  Documentation/eisa.txt                        |   4 +-
->  Documentation/hwmon/submitting-patches.rst    |   2 +-
->  drivers/base/platform.c                       |   2 +-
->  drivers/gpio/gpio-cs5535.c                    |   2 +-
->  drivers/net/ethernet/intel/ice/ice_main.c     |   2 +-
->  scripts/coccinelle/free/devm_free.cocci       |   2 +-
->  18 files changed, 489 insertions(+), 441 deletions(-)
->  rename Documentation/driver-model/{binding.txt =3D> binding.rst} (92%)
->  rename Documentation/driver-model/{bus.txt =3D> bus.rst} (76%)
->  rename Documentation/driver-model/{class.txt =3D> class.rst} (75%)
->  rename Documentation/driver-model/{design-patterns.txt =3D> design-
-> patterns.rst} (59%)
->  rename Documentation/driver-model/{device.txt =3D> device.rst} (71%)
->  rename Documentation/driver-model/{devres.txt =3D> devres.rst} (93%)
->  rename Documentation/driver-model/{driver.txt =3D> driver.rst} (75%)
->  create mode 100644 Documentation/driver-model/index.rst
->  rename Documentation/driver-model/{overview.txt =3D> overview.rst} (90%)
->  rename Documentation/driver-model/{platform.txt =3D> platform.rst} (95%)
->  rename Documentation/driver-model/{porting.txt =3D> porting.rst} (62%)
+I didn't notice an conflict on this specific file during the rebases
+though. 
 
+There is a simple patch applied on linux-next after v5.2-rc4:
 
---=-ty+pfSLvRBl9i77r2BhF
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
+commit 3d9cf48b2ca257f1a249b347236098c3cf9d54f1
+Author: Shiyang Ruan <ruansy.fnst@cn.fujitsu.com>
+Date:   Thu May 9 15:40:49 2019 +0800
 
------BEGIN PGP SIGNATURE-----
+    Documentation: nvdimm: Fix typo
+    
+    Remove the extra 'we '.
+    
+    Signed-off-by: Shiyang Ruan <ruansy.fnst@cn.fujitsu.com>
+    Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 
-iQIzBAABCgAdFiEEiTyZWz+nnTrOJ1LZ5W/vlVpL7c4FAl0BXtIACgkQ5W/vlVpL
-7c4pqBAAjI5ICv0jNPfnf/dx8MCYTQgnqe5o0zbkpxSHIeNyftE7ga/fAa4J66pK
-yJP9+EJIO8IGMCFSZxybwq9AxxQOK2fzpm2zrm3AGZ3MFesW3u/zxqGzp88XgqBY
-uaqSUJIuYPlDkVay8iLBiUKm5StnPJ25soquD3pRqHCStCU5HPM7ML9AFbK4UgSA
-OMbmXcdKoJubrdWd/CPIgMdGwRBzHl0L072QPnapJLJBNfn8OwkeoO67N7mCvitG
-o/I05rRyNIeunWTmiqmwVe6j+DQ8QzKPvXSKGGBM3Dl7QxP+fcV9jXkVulrjlpa6
-HDOQMLdRX6T5+6JPGHDTnY5PfWXf/hsMIF+szh+iI9+ZaetLbA/OQYm12foIxcbr
-2qu1iOn6RrRS4COcCFq6oTUEXRBBrlTI9iPVImuRF2Jt2+g/dQvfwK9U4XWCd0vG
-s0BFVM5A4CGFCBMGI6jYrSm+Q8Z3IpvMC/l7CmzZW5YPhplS8mPud5eqllLmFfr/
-8y0YyBAxXFpm9ajncxSc6m3TyBAmSevKYdvoL31TfZKLDN+W6ZyM47U1z1baDJBu
-3RBxzmVNXxu+DScqKTxYKsW5UY06Grs3HuDWGthqSztzc2+H6gK7s7YfT2S2diKe
-4vi2AzHXn4ghgp0OW4Kcg1YC5aeP7xdjVYDhaIeLEaaYaB6IiGw=
-=Uy44
------END PGP SIGNATURE-----
+Could this be the cause of the issue you're noticing when
+trying to apply it?
 
---=-ty+pfSLvRBl9i77r2BhF--
+As this is signed-off by Jon, I suspect it went via docs-next.
 
+Thanks,
+Mauro
