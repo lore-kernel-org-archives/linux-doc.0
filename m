@@ -5,181 +5,111 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8EE0F7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 09:20:14 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 257E87D90F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 09:32:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407442AbfFLJUO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Jun 2019 05:20:14 -0400
-Received: from smtp.nue.novell.com ([195.135.221.5]:49861 "EHLO
-        smtp.nue.novell.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406714AbfFLJUO (ORCPT
-        <rfc822;groupwise-linux-doc@vger.kernel.org:0:0>);
-        Wed, 12 Jun 2019 05:20:14 -0400
-Received: from emea4-mta.ukb.novell.com ([10.120.13.87])
-        by smtp.nue.novell.com with ESMTP (TLS encrypted); Wed, 12 Jun 2019 11:20:11 +0200
-Received: from suselix (nwb-a10-snat.microfocus.com [10.120.13.202])
-        by emea4-mta.ukb.novell.com with ESMTP (TLS encrypted); Wed, 12 Jun 2019 07:17:35 +0100
-Date:   Wed, 12 Jun 2019 08:17:32 +0200
-From:   Andreas Herrmann <aherrmann@suse.com>
-To:     Tejun Heo <tj@kernel.org>
-Cc:     Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-block@vger.kernel.org
-Subject: [PATCH] blkio-controller.txt: Remove references to CFQ
-Message-ID: <20190612061732.GA3711@suselix>
+        id S2408779AbfFLJcp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Jun 2019 05:32:45 -0400
+Received: from foss.arm.com ([217.140.110.172]:48554 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2408577AbfFLJcp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 12 Jun 2019 05:32:45 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 871CE337;
+        Wed, 12 Jun 2019 02:32:44 -0700 (PDT)
+Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EEAC83F246;
+        Wed, 12 Jun 2019 02:32:40 -0700 (PDT)
+Date:   Wed, 12 Jun 2019 10:32:38 +0100
+From:   Dave Martin <Dave.Martin@arm.com>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     Florian Weimer <fweimer@redhat.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Subject: Re: [PATCH v7 22/27] binfmt_elf: Extract .note.gnu.property from an
+ ELF file
+Message-ID: <20190612093238.GQ28398@e103592.cambridge.arm.com>
+References: <20190606200646.3951-1-yu-cheng.yu@intel.com>
+ <20190606200646.3951-23-yu-cheng.yu@intel.com>
+ <20190607180115.GJ28398@e103592.cambridge.arm.com>
+ <94b9c55b3b874825fda485af40ab2a6bc3dad171.camel@intel.com>
+ <87lfy9cq04.fsf@oldenburg2.str.redhat.com>
+ <20190611114109.GN28398@e103592.cambridge.arm.com>
+ <031bc55d8dcdcf4f031e6ff27c33fd52c61d33a5.camel@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <031bc55d8dcdcf4f031e6ff27c33fd52c61d33a5.camel@intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-CFQ is gone. No need anymore to document its "proportional weight time
-based division of disk policy".
+On Tue, Jun 11, 2019 at 12:31:34PM -0700, Yu-cheng Yu wrote:
+> On Tue, 2019-06-11 at 12:41 +0100, Dave Martin wrote:
+> > On Mon, Jun 10, 2019 at 07:24:43PM +0200, Florian Weimer wrote:
+> > > * Yu-cheng Yu:
+> > > 
+> > > > To me, looking at PT_GNU_PROPERTY and not trying to support anything is a
+> > > > logical choice.  And it breaks only a limited set of toolchains.
+> > > > 
+> > > > I will simplify the parser and leave this patch as-is for anyone who wants
+> > > > to
+> > > > back-port.  Are there any objections or concerns?
+> > > 
+> > > Red Hat Enterprise Linux 8 does not use PT_GNU_PROPERTY and is probably
+> > > the largest collection of CET-enabled binaries that exists today.
+> > 
+> > For clarity, RHEL is actively parsing these properties today?
+> > 
+> > > My hope was that we would backport the upstream kernel patches for CET,
+> > > port the glibc dynamic loader to the new kernel interface, and be ready
+> > > to run with CET enabled in principle (except that porting userspace
+> > > libraries such as OpenSSL has not really started upstream, so many
+> > > processes where CET is particularly desirable will still run without
+> > > it).
+> > > 
+> > > I'm not sure if it is a good idea to port the legacy support if it's not
+> > > part of the mainline kernel because it comes awfully close to creating
+> > > our own private ABI.
+> > 
+> > I guess we can aim to factor things so that PT_NOTE scanning is
+> > available as a fallback on arches for which the absence of
+> > PT_GNU_PROPERTY is not authoritative.
+> 
+> We can probably check PT_GNU_PROPERTY first, and fallback (based on ld-linux
+> version?) to PT_NOTE scanning?
 
-Signed-off-by: Andreas Herrmann <aherrmann@suse.com>
----
- Documentation/cgroup-v1/blkio-controller.txt | 96 ++--------------------------
- 1 file changed, 7 insertions(+), 89 deletions(-)
+For arm64, we can check for PT_GNU_PROPERTY and then give up
+unconditionally.
 
-diff --git a/Documentation/cgroup-v1/blkio-controller.txt b/Documentation/cgroup-v1/blkio-controller.txt
-index 673dc34d3f78..d1a1b7bdd03a 100644
---- a/Documentation/cgroup-v1/blkio-controller.txt
-+++ b/Documentation/cgroup-v1/blkio-controller.txt
-@@ -8,61 +8,13 @@ both at leaf nodes as well as at intermediate nodes in a storage hierarchy.
- Plan is to use the same cgroup based management interface for blkio controller
- and based on user options switch IO policies in the background.
- 
--Currently two IO control policies are implemented. First one is proportional
--weight time based division of disk policy. It is implemented in CFQ. Hence
--this policy takes effect only on leaf nodes when CFQ is being used. The second
--one is throttling policy which can be used to specify upper IO rate limits
--on devices. This policy is implemented in generic block layer and can be
--used on leaf nodes as well as higher level logical devices like device mapper.
-+One IO control policy is throttling policy which can be used to
-+specify upper IO rate limits on devices. This policy is implemented in
-+generic block layer and can be used on leaf nodes as well as higher
-+level logical devices like device mapper.
- 
- HOWTO
- =====
--Proportional Weight division of bandwidth
-------------------------------------------
--You can do a very simple testing of running two dd threads in two different
--cgroups. Here is what you can do.
--
--- Enable Block IO controller
--	CONFIG_BLK_CGROUP=y
--
--- Enable group scheduling in CFQ
--	CONFIG_CFQ_GROUP_IOSCHED=y
--
--- Compile and boot into kernel and mount IO controller (blkio); see
--  cgroups.txt, Why are cgroups needed?.
--
--	mount -t tmpfs cgroup_root /sys/fs/cgroup
--	mkdir /sys/fs/cgroup/blkio
--	mount -t cgroup -o blkio none /sys/fs/cgroup/blkio
--
--- Create two cgroups
--	mkdir -p /sys/fs/cgroup/blkio/test1/ /sys/fs/cgroup/blkio/test2
--
--- Set weights of group test1 and test2
--	echo 1000 > /sys/fs/cgroup/blkio/test1/blkio.weight
--	echo 500 > /sys/fs/cgroup/blkio/test2/blkio.weight
--
--- Create two same size files (say 512MB each) on same disk (file1, file2) and
--  launch two dd threads in different cgroup to read those files.
--
--	sync
--	echo 3 > /proc/sys/vm/drop_caches
--
--	dd if=/mnt/sdb/zerofile1 of=/dev/null &
--	echo $! > /sys/fs/cgroup/blkio/test1/tasks
--	cat /sys/fs/cgroup/blkio/test1/tasks
--
--	dd if=/mnt/sdb/zerofile2 of=/dev/null &
--	echo $! > /sys/fs/cgroup/blkio/test2/tasks
--	cat /sys/fs/cgroup/blkio/test2/tasks
--
--- At macro level, first dd should finish first. To get more precise data, keep
--  on looking at (with the help of script), at blkio.disk_time and
--  blkio.disk_sectors files of both test1 and test2 groups. This will tell how
--  much disk time (in milliseconds), each group got and how many sectors each
--  group dispatched to the disk. We provide fairness in terms of disk time, so
--  ideally io.disk_time of cgroups should be in proportion to the weight.
--
- Throttling/Upper Limit policy
- -----------------------------
- - Enable Block IO controller
-@@ -94,7 +46,7 @@ Throttling/Upper Limit policy
- Hierarchical Cgroups
- ====================
- 
--Both CFQ and throttling implement hierarchy support; however,
-+Throttling implements hierarchy support; however,
- throttling's hierarchy support is enabled iff "sane_behavior" is
- enabled from cgroup side, which currently is a development option and
- not publicly available.
-@@ -107,9 +59,8 @@ If somebody created a hierarchy like as follows.
- 			|
- 		     test3
- 
--CFQ by default and throttling with "sane_behavior" will handle the
--hierarchy correctly.  For details on CFQ hierarchy support, refer to
--Documentation/block/cfq-iosched.txt.  For throttling, all limits apply
-+Throttling with "sane_behavior" will handle the
-+hierarchy correctly. For throttling, all limits apply
- to the whole subtree while all statistics are local to the IOs
- directly generated by tasks in that cgroup.
- 
-@@ -130,10 +81,6 @@ CONFIG_DEBUG_BLK_CGROUP
- 	- Debug help. Right now some additional stats file show up in cgroup
- 	  if this option is enabled.
- 
--CONFIG_CFQ_GROUP_IOSCHED
--	- Enables group scheduling in CFQ. Currently only 1 level of group
--	  creation is allowed.
--
- CONFIG_BLK_DEV_THROTTLING
- 	- Enable block device throttling support in block layer.
- 
-@@ -344,32 +291,3 @@ Common files among various policies
- - blkio.reset_stats
- 	- Writing an int to this file will result in resetting all the stats
- 	  for that cgroup.
--
--CFQ sysfs tunable
--=================
--/sys/block/<disk>/queue/iosched/slice_idle
--------------------------------------------
--On a faster hardware CFQ can be slow, especially with sequential workload.
--This happens because CFQ idles on a single queue and single queue might not
--drive deeper request queue depths to keep the storage busy. In such scenarios
--one can try setting slice_idle=0 and that would switch CFQ to IOPS
--(IO operations per second) mode on NCQ supporting hardware.
--
--That means CFQ will not idle between cfq queues of a cfq group and hence be
--able to driver higher queue depth and achieve better throughput. That also
--means that cfq provides fairness among groups in terms of IOPS and not in
--terms of disk time.
--
--/sys/block/<disk>/queue/iosched/group_idle
--------------------------------------------
--If one disables idling on individual cfq queues and cfq service trees by
--setting slice_idle=0, group_idle kicks in. That means CFQ will still idle
--on the group in an attempt to provide fairness among groups.
--
--By default group_idle is same as slice_idle and does not do anything if
--slice_idle is enabled.
--
--One can experience an overall throughput drop if you have created multiple
--groups and put applications in that group which are not driving enough
--IO to keep disk busy. In that case set group_idle=0, and CFQ will not idle
--on individual groups and throughput should improve.
--- 
-2.13.7
+For x86, we would fall back to PT_NOTE scanning, but this will add a bit
+of cost to binaries that don't have NT_GNU_PROPERTY_TYPE_0.  The ld.so
+version doesn't tell you what ELF ABI a given executable conforms to.
+
+Since this sounds like it's largely a distro-specific issue, maybe there
+could be a Kconfig option to turn the fallback PT_NOTE scanning on?
+
+Cheers
+---Dave
