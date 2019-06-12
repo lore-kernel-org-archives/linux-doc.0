@@ -1,121 +1,309 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B2B457D926
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 14:21:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5AA777D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 14:48:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2409307AbfFLOVb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Jun 2019 10:21:31 -0400
-Received: from foss.arm.com ([217.140.110.172]:53934 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2409290AbfFLOV3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 12 Jun 2019 10:21:29 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 03225A78;
-        Wed, 12 Jun 2019 07:21:29 -0700 (PDT)
-Received: from e119884-lin.cambridge.arm.com (e119884-lin.cambridge.arm.com [10.1.196.72])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A12863F557;
-        Wed, 12 Jun 2019 07:21:27 -0700 (PDT)
-From:   Vincenzo Frascino <vincenzo.frascino@arm.com>
-To:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>
-Subject: [PATCH v4 2/2] arm64: Relax Documentation/arm64/tagged-pointers.txt
-Date:   Wed, 12 Jun 2019 15:21:11 +0100
-Message-Id: <20190612142111.28161-3-vincenzo.frascino@arm.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190612142111.28161-1-vincenzo.frascino@arm.com>
-References: <cover.1560339705.git.andreyknvl@google.com>
- <20190612142111.28161-1-vincenzo.frascino@arm.com>
+        id S1732598AbfFLOsY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Jun 2019 10:48:24 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:36620 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732557AbfFLOsY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jun 2019 10:48:24 -0400
+Received: by mail-lf1-f67.google.com with SMTP id q26so12369253lfc.3
+        for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2019 07:48:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=f2yfUh1O6xtSFOnykYthqxzvFKLH7PYK37VBbjd8PEs=;
+        b=W22AUT/iwP/Se+tpsaHDuqiGIC/Iu8AJyRmR9dkDH0d/svPWDPzmrp5a9d86jSMslV
+         lrMn8IqLBgEUxHY3dA3/ILa1MKBLiAhmvdL3vNwWQkIsbVcZo0SHX+AWyf9dELM5Jczf
+         xydRn0b5Mvv8g5S6jySHFZTn+TeEaEXpJa7DABBfvZQQAq3hRi+RuBZcmKByma21km5p
+         pauHVXPxErAaymoSmG0as3TZwMdqnZmA5D5mMRtbOYbXxe9r/46lGccdTFwaOiGmYk2j
+         9ruB6X4s2wdlpBAPX0GNFfvUiPMzQHNG47dLF2nfH/JOsQmecTVPa++g+nEykqmfRuuK
+         0giA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=f2yfUh1O6xtSFOnykYthqxzvFKLH7PYK37VBbjd8PEs=;
+        b=L8YebUl5QNUgNRYWTI0mRIEloK7vkFZu6YD6SgVED5jEn63j2MiJvjsJMlpEAZNyXv
+         n+rdIkt52vmKDJAElr9IAYlHyLW99tUuikc9mF6p3v6Jr7nbLG4TEA7ZX0OuJFQHv/tW
+         s1JJoM0BiT0O2Y6MywVWosNUJrNE3Vj1hA69qOayYH5guUaGkp217IlAPhXu5zWj6xtQ
+         p84jJ8VmJ6chflgLD2rxHkdH4tD/K7G79r84exXtBL8TAJAVQvdSRyMWbETGCFdxBWjG
+         8QoSLA4SEhvQ8FlbMKjO7FY5y2F6bqXPlAbCtprV+rk1fXX2Po/3/OFPUyhYLg/C4bIj
+         Ft0A==
+X-Gm-Message-State: APjAAAV5p8ckHhuecWCoISs+HQmuVMP0MYY5GfvTfEM5wJ6ZbQeMML5d
+        v3UomNL4m8rxE17LVw9Ei3M+QQYOaUdVLRLIr1vn
+X-Google-Smtp-Source: APXvYqzpBS7bekI/fIBvEsHuxDNV0EHnY2eBbkyJCY0LjpU6o3j296IhADIDMfyEZWaqtuPg5kloXXQOqCJVLYxcwOE=
+X-Received: by 2002:a19:230e:: with SMTP id j14mr2013079lfj.13.1560350900633;
+ Wed, 12 Jun 2019 07:48:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1560045490.git.mchehab+samsung@kernel.org> <6094c48c791a28a0d28f9854e8f198625cc524f4.1560045490.git.mchehab+samsung@kernel.org>
+In-Reply-To: <6094c48c791a28a0d28f9854e8f198625cc524f4.1560045490.git.mchehab+samsung@kernel.org>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Wed, 12 Jun 2019 10:48:09 -0400
+Message-ID: <CAHC9VhTf0yrNuBj2h_P+=55z8c5p5B9Wto_h-yhYKuEzS9535w@mail.gmail.com>
+Subject: Re: [PATCH v3 18/33] docs: netlabel: convert docs to ReST and rename
+ to *.rst
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        netdev@vger.kernel.org, linux-security-module@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On arm64 the TCR_EL1.TBI0 bit has been always enabled hence
-the userspace (EL0) is allowed to set a non-zero value in the
-top byte but the resulting pointers are not allowed at the
-user-kernel syscall ABI boundary.
+On Sat, Jun 8, 2019 at 10:27 PM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
+>
+> Convert netlabel documentation to ReST.
+>
+> This was trivial: just add proper title markups.
+>
+> At its new index.rst, let's add a :orphan: while this is not linked to
+> the main index.rst file, in order to avoid build warnings.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+>  .../{cipso_ipv4.txt => cipso_ipv4.rst}        | 19 +++++++++++------
+>  Documentation/netlabel/draft_ietf.rst         |  5 +++++
+>  Documentation/netlabel/index.rst              | 21 +++++++++++++++++++
+>  .../{introduction.txt => introduction.rst}    | 16 +++++++++-----
+>  .../{lsm_interface.txt => lsm_interface.rst}  | 16 +++++++++-----
+>  5 files changed, 61 insertions(+), 16 deletions(-)
+>  rename Documentation/netlabel/{cipso_ipv4.txt => cipso_ipv4.rst} (87%)
+>  create mode 100644 Documentation/netlabel/draft_ietf.rst
+>  create mode 100644 Documentation/netlabel/index.rst
+>  rename Documentation/netlabel/{introduction.txt => introduction.rst} (91%)
+>  rename Documentation/netlabel/{lsm_interface.txt => lsm_interface.rst} (88%)
 
-With the relaxed ABI proposed in this set, it is now possible to pass
-tagged pointers to the syscalls, when these pointers are in memory
-ranges obtained by an anonymous (MAP_ANONYMOUS) mmap().
+I'm fairly confident I've already acked this at least once, but here
+it is again:
 
-Relax the requirements described in tagged-pointers.txt to be compliant
-with the behaviours guaranteed by the ARM64 Tagged Address ABI.
+Acked-by: Paul Moore <paul@paul-moore.com>
 
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will.deacon@arm.com>
-CC: Andrey Konovalov <andreyknvl@google.com>
-Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
----
- Documentation/arm64/tagged-pointers.txt | 23 ++++++++++++++++-------
- 1 file changed, 16 insertions(+), 7 deletions(-)
+> diff --git a/Documentation/netlabel/cipso_ipv4.txt b/Documentation/netlabel/cipso_ipv4.rst
+> similarity index 87%
+> rename from Documentation/netlabel/cipso_ipv4.txt
+> rename to Documentation/netlabel/cipso_ipv4.rst
+> index a6075481fd60..cbd3f3231221 100644
+> --- a/Documentation/netlabel/cipso_ipv4.txt
+> +++ b/Documentation/netlabel/cipso_ipv4.rst
+> @@ -1,10 +1,13 @@
+> +===================================
+>  NetLabel CIPSO/IPv4 Protocol Engine
+> -==============================================================================
+> +===================================
+> +
+>  Paul Moore, paul.moore@hp.com
+>
+>  May 17, 2006
+>
+> - * Overview
+> +Overview
+> +========
+>
+>  The NetLabel CIPSO/IPv4 protocol engine is based on the IETF Commercial
+>  IP Security Option (CIPSO) draft from July 16, 1992.  A copy of this
+> @@ -13,7 +16,8 @@ draft can be found in this directory
+>  it to an RFC standard it has become a de-facto standard for labeled
+>  networking and is used in many trusted operating systems.
+>
+> - * Outbound Packet Processing
+> +Outbound Packet Processing
+> +==========================
+>
+>  The CIPSO/IPv4 protocol engine applies the CIPSO IP option to packets by
+>  adding the CIPSO label to the socket.  This causes all packets leaving the
+> @@ -24,7 +28,8 @@ label by using the NetLabel security module API; if the NetLabel "domain" is
+>  configured to use CIPSO for packet labeling then a CIPSO IP option will be
+>  generated and attached to the socket.
+>
+> - * Inbound Packet Processing
+> +Inbound Packet Processing
+> +=========================
+>
+>  The CIPSO/IPv4 protocol engine validates every CIPSO IP option it finds at the
+>  IP layer without any special handling required by the LSM.  However, in order
+> @@ -33,7 +38,8 @@ NetLabel security module API to extract the security attributes of the packet.
+>  This is typically done at the socket layer using the 'socket_sock_rcv_skb()'
+>  LSM hook.
+>
+> - * Label Translation
+> +Label Translation
+> +=================
+>
+>  The CIPSO/IPv4 protocol engine contains a mechanism to translate CIPSO security
+>  attributes such as sensitivity level and category to values which are
+> @@ -42,7 +48,8 @@ Domain Of Interpretation (DOI) definition and are configured through the
+>  NetLabel user space communication layer.  Each DOI definition can have a
+>  different security attribute mapping table.
+>
+> - * Label Translation Cache
+> +Label Translation Cache
+> +=======================
+>
+>  The NetLabel system provides a framework for caching security attribute
+>  mappings from the network labels to the corresponding LSM identifiers.  The
+> diff --git a/Documentation/netlabel/draft_ietf.rst b/Documentation/netlabel/draft_ietf.rst
+> new file mode 100644
+> index 000000000000..5ed39ab8234b
+> --- /dev/null
+> +++ b/Documentation/netlabel/draft_ietf.rst
+> @@ -0,0 +1,5 @@
+> +Draft IETF CIPSO IP Security
+> +----------------------------
+> +
+> + .. include:: draft-ietf-cipso-ipsecurity-01.txt
+> +    :literal:
+> diff --git a/Documentation/netlabel/index.rst b/Documentation/netlabel/index.rst
+> new file mode 100644
+> index 000000000000..47f1e0e5acd1
+> --- /dev/null
+> +++ b/Documentation/netlabel/index.rst
+> @@ -0,0 +1,21 @@
+> +:orphan:
+> +
+> +========
+> +NetLabel
+> +========
+> +
+> +.. toctree::
+> +    :maxdepth: 1
+> +
+> +    introduction
+> +    cipso_ipv4
+> +    lsm_interface
+> +
+> +    draft_ietf
+> +
+> +.. only::  subproject and html
+> +
+> +   Indices
+> +   =======
+> +
+> +   * :ref:`genindex`
+> diff --git a/Documentation/netlabel/introduction.txt b/Documentation/netlabel/introduction.rst
+> similarity index 91%
+> rename from Documentation/netlabel/introduction.txt
+> rename to Documentation/netlabel/introduction.rst
+> index 3caf77bcff0f..9333bbb0adc1 100644
+> --- a/Documentation/netlabel/introduction.txt
+> +++ b/Documentation/netlabel/introduction.rst
+> @@ -1,10 +1,13 @@
+> +=====================
+>  NetLabel Introduction
+> -==============================================================================
+> +=====================
+> +
+>  Paul Moore, paul.moore@hp.com
+>
+>  August 2, 2006
+>
+> - * Overview
+> +Overview
+> +========
+>
+>  NetLabel is a mechanism which can be used by kernel security modules to attach
+>  security attributes to outgoing network packets generated from user space
+> @@ -12,7 +15,8 @@ applications and read security attributes from incoming network packets.  It
+>  is composed of three main components, the protocol engines, the communication
+>  layer, and the kernel security module API.
+>
+> - * Protocol Engines
+> +Protocol Engines
+> +================
+>
+>  The protocol engines are responsible for both applying and retrieving the
+>  network packet's security attributes.  If any translation between the network
+> @@ -24,7 +28,8 @@ the NetLabel kernel security module API described below.
+>  Detailed information about each NetLabel protocol engine can be found in this
+>  directory.
+>
+> - * Communication Layer
+> +Communication Layer
+> +===================
+>
+>  The communication layer exists to allow NetLabel configuration and monitoring
+>  from user space.  The NetLabel communication layer uses a message based
+> @@ -33,7 +38,8 @@ formatting of these NetLabel messages as well as the Generic NETLINK family
+>  names can be found in the 'net/netlabel/' directory as comments in the
+>  header files as well as in 'include/net/netlabel.h'.
+>
+> - * Security Module API
+> +Security Module API
+> +===================
+>
+>  The purpose of the NetLabel security module API is to provide a protocol
+>  independent interface to the underlying NetLabel protocol engines.  In addition
+> diff --git a/Documentation/netlabel/lsm_interface.txt b/Documentation/netlabel/lsm_interface.rst
+> similarity index 88%
+> rename from Documentation/netlabel/lsm_interface.txt
+> rename to Documentation/netlabel/lsm_interface.rst
+> index 638c74f7de7f..026fc267f798 100644
+> --- a/Documentation/netlabel/lsm_interface.txt
+> +++ b/Documentation/netlabel/lsm_interface.rst
+> @@ -1,10 +1,13 @@
+> +========================================
+>  NetLabel Linux Security Module Interface
+> -==============================================================================
+> +========================================
+> +
+>  Paul Moore, paul.moore@hp.com
+>
+>  May 17, 2006
+>
+> - * Overview
+> +Overview
+> +========
+>
+>  NetLabel is a mechanism which can set and retrieve security attributes from
+>  network packets.  It is intended to be used by LSM developers who want to make
+> @@ -12,7 +15,8 @@ use of a common code base for several different packet labeling protocols.
+>  The NetLabel security module API is defined in 'include/net/netlabel.h' but a
+>  brief overview is given below.
+>
+> - * NetLabel Security Attributes
+> +NetLabel Security Attributes
+> +============================
+>
+>  Since NetLabel supports multiple different packet labeling protocols and LSMs
+>  it uses the concept of security attributes to refer to the packet's security
+> @@ -24,7 +28,8 @@ configuration.  It is up to the LSM developer to translate the NetLabel
+>  security attributes into whatever security identifiers are in use for their
+>  particular LSM.
+>
+> - * NetLabel LSM Protocol Operations
+> +NetLabel LSM Protocol Operations
+> +================================
+>
+>  These are the functions which allow the LSM developer to manipulate the labels
+>  on outgoing packets as well as read the labels on incoming packets.  Functions
+> @@ -32,7 +37,8 @@ exist to operate both on sockets as well as the sk_buffs directly.  These high
+>  level functions are translated into low level protocol operations based on how
+>  the administrator has configured the NetLabel subsystem.
+>
+> - * NetLabel Label Mapping Cache Operations
+> +NetLabel Label Mapping Cache Operations
+> +=======================================
+>
+>  Depending on the exact configuration, translation between the network packet
+>  label and the internal LSM security identifier can be time consuming.  The
+> --
+> 2.21.0
+>
 
-diff --git a/Documentation/arm64/tagged-pointers.txt b/Documentation/arm64/tagged-pointers.txt
-index a25a99e82bb1..db58a7e95805 100644
---- a/Documentation/arm64/tagged-pointers.txt
-+++ b/Documentation/arm64/tagged-pointers.txt
-@@ -18,7 +18,8 @@ Passing tagged addresses to the kernel
- --------------------------------------
- 
- All interpretation of userspace memory addresses by the kernel assumes
--an address tag of 0x00.
-+an address tag of 0x00, unless the userspace opts-in the ARM64 Tagged
-+Address ABI via the PR_SET_TAGGED_ADDR_CTRL prctl().
- 
- This includes, but is not limited to, addresses found in:
- 
-@@ -31,18 +32,23 @@ This includes, but is not limited to, addresses found in:
-  - the frame pointer (x29) and frame records, e.g. when interpreting
-    them to generate a backtrace or call graph.
- 
--Using non-zero address tags in any of these locations may result in an
--error code being returned, a (fatal) signal being raised, or other modes
--of failure.
-+Using non-zero address tags in any of these locations when the
-+userspace application did not opt-in to the ARM64 Tagged Address ABI,
-+may result in an error code being returned, a (fatal) signal being raised,
-+or other modes of failure.
- 
--For these reasons, passing non-zero address tags to the kernel via
--system calls is forbidden, and using a non-zero address tag for sp is
--strongly discouraged.
-+For these reasons, when the userspace application did not opt-in, passing
-+non-zero address tags to the kernel via system calls is forbidden, and using
-+a non-zero address tag for sp is strongly discouraged.
- 
- Programs maintaining a frame pointer and frame records that use non-zero
- address tags may suffer impaired or inaccurate debug and profiling
- visibility.
- 
-+A definition of the meaning of ARM64 Tagged Address ABI and of the
-+guarantees that the ABI provides when the userspace opts-in via prctl()
-+can be found in: Documentation/arm64/tagged-address-abi.txt.
-+
- 
- Preserving tags
- ---------------
-@@ -57,6 +63,9 @@ be preserved.
- The architecture prevents the use of a tagged PC, so the upper byte will
- be set to a sign-extension of bit 55 on exception return.
- 
-+This behaviours are preserved even when the the userspace opts-in the ARM64
-+Tagged Address ABI via the PR_SET_TAGGED_ADDR_CTRL prctl().
-+
- 
- Other considerations
- --------------------
+
 -- 
-2.21.0
-
+paul moore
+www.paul-moore.com
