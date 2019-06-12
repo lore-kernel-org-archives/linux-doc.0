@@ -1,167 +1,188 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 475FB7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 14:19:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7376F7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 14:21:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439575AbfFLOT2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Jun 2019 10:19:28 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:38615 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2437249AbfFLOT2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jun 2019 10:19:28 -0400
-Received: by mail-qt1-f193.google.com with SMTP id n11so16553464qtl.5
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2019 07:19:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=poorly.run; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=VBW9vmo77p3uLkUSqiglfgJ/6BFkwzlCcG5DBVSwVk4=;
-        b=NIkqoQMvmm51unkBwbIgwaVH7hKHcigtxEq672vVrHrdNyAMzYxJg6TPMqR8uSeC/h
-         Rh+A5o+S1FYGefXStqm4ss5tgeYr9+g0FzBFlmzop3EDlFezfwQbGzEXr9unW+nkwEyQ
-         1DzZKJwbCR1nSa1CtFJn+4UyM8OJFepN3kqNWx/ZQe4qP/e2Jfv8eOxcaefLnqiBj5O4
-         ho2686264YHBvvEvecVU3JChoRoyyZYIX3ZQkA+CymIS3hVlFWoSxpVBjZVPyTM5Rnz9
-         Da+m8UA4qLO4Ycl08IQuJBzFXCmSXXOwnuhr23KapLTOHqffLU1Jsu8uchFU0w57l15S
-         3j7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=VBW9vmo77p3uLkUSqiglfgJ/6BFkwzlCcG5DBVSwVk4=;
-        b=fPsTX7QQfI7rVdH+yqyK2jiU1XktjCQW4pSHvKiQSBrRAHP28o2+AJ1vZpT4xrWQvl
-         /wR3azBi10eJlIs6G6FAkLSJLi+FBtrtvliLkOxpxbIQbS2wkpCHSKRsuQN7GhlI3tJ4
-         L0BmXoS4Y7MXYzc9PUqpqhxm7O9xUYEoJMx77aGxGSPLxugUbgusOd2bqxjM63iU9pox
-         DnncpVLAE2/di2brN9U/EeJU4/DTt6mzXfl4AEdJz18uCSLOVg5Y+O1aseHraXEnZ75J
-         BhFK+FEBIwiMLrLf63y5TAbShWChnLM42qaUtAP6IDl4KD6nKx1yIoo6lN2dJDzz0RZ/
-         /iHg==
-X-Gm-Message-State: APjAAAVXWuoKHm86Pfh/53qXkuQah3kPLwD0egwGrahHWh6YaKgbU4FB
-        ijADowUhwJUNvqYHhbvMy/opuw==
-X-Google-Smtp-Source: APXvYqzmBih8YIGa/FSIbOUZP+1o9aN/lNdBOYnAZ28k9Eh/9q5pvN/EsGR+IygHVljOs9OXqA1Sjw==
-X-Received: by 2002:ac8:2edc:: with SMTP id i28mr50486256qta.77.1560349167731;
-        Wed, 12 Jun 2019 07:19:27 -0700 (PDT)
-Received: from localhost ([2620:0:1013:11:89c6:2139:5435:371d])
-        by smtp.gmail.com with ESMTPSA id m21sm7594995qtp.92.2019.06.12.07.19.27
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 12 Jun 2019 07:19:27 -0700 (PDT)
-Date:   Wed, 12 Jun 2019 10:19:26 -0400
-From:   Sean Paul <sean@poorly.run>
-To:     Sam Ravnborg <sam@ravnborg.org>
-Cc:     Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
-        Zain Wang <wzz@rock-chips.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Airlie <airlied@linux.ie>, linux-doc@vger.kernel.org,
-        Jose Souza <jose.souza@intel.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <seanpaul@chromium.org>
-Subject: Re: [PATCH v5 05/11] drm: Add helpers to kick off self refresh mode
- in drivers
-Message-ID: <20190612141926.GE179831@art_vandelay>
-References: <20190611160844.257498-1-sean@poorly.run>
- <20190611160844.257498-6-sean@poorly.run>
- <20190611205645.GB18315@ravnborg.org>
+        id S2409287AbfFLOV2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Jun 2019 10:21:28 -0400
+Received: from foss.arm.com ([217.140.110.172]:53922 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2409269AbfFLOV2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 12 Jun 2019 10:21:28 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6C827337;
+        Wed, 12 Jun 2019 07:21:27 -0700 (PDT)
+Received: from e119884-lin.cambridge.arm.com (e119884-lin.cambridge.arm.com [10.1.196.72])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 184D13F557;
+        Wed, 12 Jun 2019 07:21:25 -0700 (PDT)
+From:   Vincenzo Frascino <vincenzo.frascino@arm.com>
+To:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-arch@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH v4 1/2] arm64: Define Documentation/arm64/tagged-address-abi.txt
+Date:   Wed, 12 Jun 2019 15:21:10 +0100
+Message-Id: <20190612142111.28161-2-vincenzo.frascino@arm.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190612142111.28161-1-vincenzo.frascino@arm.com>
+References: <cover.1560339705.git.andreyknvl@google.com>
+ <20190612142111.28161-1-vincenzo.frascino@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190611205645.GB18315@ravnborg.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 11, 2019 at 10:56:45PM +0200, Sam Ravnborg wrote:
-> Hi Sean.
-> 
-> Small things here and there. Did not stare at this long enough to
-> understand the code, but added some feedback anyway.
+On arm64 the TCR_EL1.TBI0 bit has been always enabled hence
+the userspace (EL0) is allowed to set a non-zero value in the
+top byte but the resulting pointers are not allowed at the
+user-kernel syscall ABI boundary.
 
-Thanks for the comments, Sam, I'll send a revision shortly
+With the relaxed ABI proposed through this document, it is now possible
+to pass tagged pointers to the syscalls, when these pointers are in
+memory ranges obtained by an anonymous (MAP_ANONYMOUS) mmap().
 
-> 
-> 	Sam
-> >  
+This change in the ABI requires a mechanism to requires the userspace
+to opt-in to such an option.
 
-/snip
+Specify and document the way in which sysctl and prctl() can be used
+in combination to allow the userspace to opt-in this feature.
 
-> > +static void drm_self_refresh_helper_entry_work(struct work_struct *work)
-> > +{
-> > +	struct drm_self_refresh_data *sr_data = container_of(
-> > +				to_delayed_work(work),
-> > +				struct drm_self_refresh_data, entry_work);
-> > +	struct drm_crtc *crtc = sr_data->crtc;
-> > +	struct drm_device *dev = crtc->dev;
-> > +	struct drm_modeset_acquire_ctx ctx;
-> > +	struct drm_atomic_state *state;
-> > +	struct drm_connector *conn;
-> > +	struct drm_connector_state *conn_state;
-> > +	struct drm_crtc_state *crtc_state;
-> > +	int i, ret;
-> This function is called from a workqueue.
-> Just wondering if this require any locking?
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will.deacon@arm.com>
+CC: Andrey Konovalov <andreyknvl@google.com>
+Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+---
+ Documentation/arm64/tagged-address-abi.txt | 111 +++++++++++++++++++++
+ 1 file changed, 111 insertions(+)
+ create mode 100644 Documentation/arm64/tagged-address-abi.txt
 
-Yes, it does. The locks are acquired in the various drm_atomic_get_*_state()
-function calls and dropped below in the out label (drm_modeset_drop_locks).
-
-> (Maybe I missed it, browsed the code without a detailed review)
-> 
-> > +
-> > +	drm_modeset_acquire_init(&ctx, 0);
-> > +
-> > +	state = drm_atomic_state_alloc(dev);
-> > +	if (!state) {
-> > +		ret = -ENOMEM;
-> > +		goto out;
-> > +	}
-> > +
-> > +retry:
-> > +	state->acquire_ctx = &ctx;
-> > +
-> > +	crtc_state = drm_atomic_get_crtc_state(state, crtc);
-> > +	if (IS_ERR(crtc_state)) {
-> > +		ret = PTR_ERR(crtc_state);
-> > +		goto out;
-> > +	}
-> > +
-> > +	if (!crtc_state->enable)
-> > +		goto out;
-> > +
-> > +	ret = drm_atomic_add_affected_connectors(state, crtc);
-> > +	if (ret)
-> > +		goto out;
-> > +
-> > +	for_each_new_connector_in_state(state, conn, conn_state, i) {
-> > +		if (!conn_state->self_refresh_aware)
-> > +			goto out;
-> > +	}
-> > +
-> > +	crtc_state->active = false;
-> > +	crtc_state->self_refresh_active = true;
-> > +
-> > +	ret = drm_atomic_commit(state);
-> > +	if (ret)
-> > +		goto out;
-> > +
-> > +out:
-> > +	if (ret == -EDEADLK) {
-> > +		drm_atomic_state_clear(state);
-> > +		ret = drm_modeset_backoff(&ctx);
-> > +		if (!ret)
-> > +			goto retry;
-> > +	}
-> > +
-> > +	drm_atomic_state_put(state);
-> > +	drm_modeset_drop_locks(&ctx);
-> > +	drm_modeset_acquire_fini(&ctx);
-> > +}
-> > +
-
-/snip
-
+diff --git a/Documentation/arm64/tagged-address-abi.txt b/Documentation/arm64/tagged-address-abi.txt
+new file mode 100644
+index 000000000000..96e149e2c55c
+--- /dev/null
++++ b/Documentation/arm64/tagged-address-abi.txt
+@@ -0,0 +1,111 @@
++ARM64 TAGGED ADDRESS ABI
++========================
++
++This document describes the usage and semantics of the Tagged Address
++ABI on arm64.
++
++1. Introduction
++---------------
++
++On arm64 the TCR_EL1.TBI0 bit has been always enabled on the arm64 kernel,
++hence the userspace (EL0) is allowed to set a non-zero value in the top
++byte but the resulting pointers are not allowed at the user-kernel syscall
++ABI boundary.
++
++This document describes a relaxation of the ABI with which it is possible
++to pass tagged tagged pointers to the syscalls, when these pointers are in
++memory ranges obtained as described in paragraph 2.
++
++Since it is not desirable to relax the ABI to allow tagged user addresses
++into the kernel indiscriminately, arm64 provides a new sysctl interface
++(/proc/sys/abi/tagged_addr) that is used to prevent the applications from
++enabling the relaxed ABI and a new prctl() interface that can be used to
++enable or disable the relaxed ABI.
++
++The sysctl is meant also for testing purposes in order to provide a simple
++way for the userspace to verify the return error checking of the prctl()
++command without having to reconfigure the kernel.
++
++The ABI properties are inherited by threads of the same application and
++fork()'ed children but cleared when a new process is spawn (execve()).
++
++2. ARM64 Tagged Address ABI
++---------------------------
++
++From the kernel syscall interface prospective, we define, for the purposes
++of this document, a "valid tagged pointer" as a pointer that either it has
++a zero value set in the top byte or it has a non-zero value, it is in memory
++ranges privately owned by a userspace process and it is obtained in one of
++the following ways:
++  - mmap() done by the process itself, where either:
++    * flags = MAP_PRIVATE | MAP_ANONYMOUS
++    * flags = MAP_PRIVATE and the file descriptor refers to a regular
++      file or "/dev/zero"
++  - a mapping below sbrk(0) done by the process itself
++  - any memory mapped by the kernel in the process's address space during
++    creation and following the restrictions presented above (i.e. data, bss,
++    stack).
++
++The ARM64 Tagged Address ABI is an opt-in feature, and an application can
++control it using the following prctl()s:
++  - PR_SET_TAGGED_ADDR_CTRL: can be used to enable the Tagged Address ABI.
++  - PR_GET_TAGGED_ADDR_CTRL: can be used to check the status of the Tagged
++                             Address ABI.
++
++As a consequence of invoking PR_SET_TAGGED_ADDR_CTRL prctl() by an applications,
++the ABI guarantees the following behaviours:
++
++  - Every current or newly introduced syscall can accept any valid tagged
++    pointers.
++
++  - If a non valid tagged pointer is passed to a syscall then the behaviour
++    is undefined.
++
++  - Every valid tagged pointer is expected to work as an untagged one.
++
++  - The kernel preserves any valid tagged pointers and returns them to the
++    userspace unchanged in all the cases except the ones documented in the
++    "Preserving tags" paragraph of tagged-pointers.txt.
++
++A definition of the meaning of tagged pointers on arm64 can be found in:
++Documentation/arm64/tagged-pointers.txt.
++
++3. ARM64 Tagged Address ABI Exceptions
++--------------------------------------
++
++The behaviours described in paragraph 2, with particular reference to the
++acceptance by the syscalls of any valid tagged pointer are not applicable
++to the following cases:
++  - mmap() addr parameter.
++  - mremap() new_address parameter.
++  - prctl_set_mm() struct prctl_map fields.
++  - prctl_set_mm_map() struct prctl_map fields.
++
++4. Example of correct usage
++---------------------------
++
++void main(void)
++{
++	static int tbi_enabled = 0;
++	unsigned long tag = 0;
++
++	char *ptr = mmap(NULL, PAGE_SIZE, PROT_READ | PROT_WRITE,
++			 MAP_ANONYMOUS, -1, 0);
++
++	if (prctl(PR_SET_TAGGED_ADDR_CTRL, PR_TAGGED_ADDR_ENABLE,
++		  0, 0, 0) == 0)
++		tbi_enabled = 1;
++
++	if (!ptr)
++		return -1;
++
++	if (tbi_enabled)
++		tag = rand() & 0xff;
++
++	ptr = (char *)((unsigned long)ptr | (tag << TAG_SHIFT));
++
++	*ptr = 'a';
++
++	...
++}
++
 -- 
-Sean Paul, Software Engineer, Google / Chromium OS
+2.21.0
+
