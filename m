@@ -5,42 +5,44 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ADDB47D92A
+	by archive.lwn.net (Postfix) with ESMTP id D89E37E322
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 18:41:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726735AbfFLSk7 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Jun 2019 14:40:59 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:45620 "EHLO
+        id S1727321AbfFLSlF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Jun 2019 14:41:05 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:45612 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727321AbfFLSik (ORCPT
+        with ESMTP id S1727263AbfFLSik (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jun 2019 14:38:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=AE6lyATh4gNT0qcHssTkV//EpEH8ShZCkf5EpjV2wX8=; b=G9z7oEMwS3D/RzbRkq3f78Eh9
-        j4neGiajlOsYzy8ZXT8PaDrvwjcXrt79wEztZB6f5FhBl+5Dsgj0tSh97YTBditPrsrS2o/ydtp5x
-        01zfz2JDXobqF6h9C00Lxb8kl2R37I+NJjPDjx1ozRAYVpfMMDbp7tqNue+ErJHr1WHyK68+rFx7u
-        OM/9pGfahyYVh7p+vZRlDd5/JmCe26xP5lX15t72k4Tq9eYsn1dchjMXh1tp+9c8CNKvK709mK3sH
-        sGUxPqBUKOL0/gRP6ajd9RI7UEicbUj7xxoQbEyPnOuLG+wO46RmGu3r3q+ewO4OJ//wdckJV3vZv
-        4kP2JzyHQ==;
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=21Zv7eTq00CIh0lzgZDFvEV5UnuZ7mj2qLRpatUknN0=; b=ufmXc2HvjIRpMeyVf2MT+z2j/b
+        FGyft2v0lWR862VVX7Hy+9n1e4FMRjCDvoPAN9sYStXNvAi+m7ALqkH5KUfSKhlVvBDAVbHeX+J+J
+        q2+A0JBb39ouu7Mpy9oCps+yaEf/8BdWl9QO/FwLwCnW5Zvl6ouMhEuRp0/8/VxUe+DO5jsUqupWd
+        /obZ8yZeiizoA9KbAPTz5rqQlq4RXuR5h9BH7Wsn/xvW32n6jKLTwhrpDmRLTs1g3meO7x3v7tKoN
+        IZiBajcltA8NT5LDDV8hLit9lUeSiiLDJCKcXJa2y6tpE8tnkTTbgt7X8Axl2a86bI1UtIcsf9AFb
+        TxwPdcIA==;
 Received: from 201.86.169.251.dynamic.adsl.gvt.net.br ([201.86.169.251] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hb88s-0006YC-JJ; Wed, 12 Jun 2019 18:38:39 +0000
+        id 1hb88s-0006YE-HS; Wed, 12 Jun 2019 18:38:38 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hb88p-0002AG-OX; Wed, 12 Jun 2019 15:38:35 -0300
+        id 1hb88q-0002Bz-Gf; Wed, 12 Jun 2019 15:38:36 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v1 00/31] Convert files to ReST - part 2
-Date:   Wed, 12 Jun 2019 15:38:03 -0300
-Message-Id: <cover.1560364493.git.mchehab+samsung@kernel.org>
+Subject: [PATCH v1 27/31] docs: md: convert to ReST
+Date:   Wed, 12 Jun 2019 15:38:30 -0300
+Message-Id: <8ad074b04ffa71938dcaf97a1e60c054f68b2fa8.1560364494.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <cover.1560364493.git.mchehab+samsung@kernel.org>
+References: <cover.1560364493.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -48,556 +50,541 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is the second part of a series I wrote sometime ago where I manually
-convert lots of files to be properly parsed by Sphinx as ReST files.
+Rename the md documentation files to ReST, add an
+index for them and adjust in order to produce a nice html
+output via the Sphinx build system.
 
-As it touches on lot of stuff, this series is based on today's linux-next, 
-at tag next-20190612.
+At its new index.rst, let's add a :orphan: while this is not linked to
+the main index.rst file, in order to avoid build warnings.
 
-The first version of this series had 57 patches. Right now, there are ~80 
-patches pending applying on this undergoing work. That's because I opted
-to do ~1 patch per converted directory.
-
-That sounds too much to be send on a single round. So, I'm opting to split
-it on 3 parts. That's the second part.
-
-Those patches should probably be good to be merged either by subsystem
-maintainers or via the docs tree.
-
-I opted to mark new files not included yet to the main index.rst (directly or
-indirectly) with the :orphan: tag, in order to avoid adding warnings to the
-build system. This should be removed after we find a "home" for all
-the converted files within the new document tree arrangement.
-
-Both this series and  the other parts of this work are on my devel git tree,
-at:
-
-	https://git.linuxtv.org/mchehab/experimental.git/log/?h=convert_rst_renames_v4.3
-
-The final output in html (after all patches I currently have, including 
-the upcoming series) can be seen at:
-
-	https://www.infradead.org/~mchehab/rst_conversion/
-
-Mauro Carvalho Chehab (31):
-  docs: connector: convert to ReST and rename to connector.rst
-  docs: lcd-panel-cgram.txt: convert docs to ReST and rename to *.rst
-  docs: lp855x-driver.txt: convert to ReST and move to kernel-api
-  docs: m68k: convert docs to ReST and rename to *.rst
-  docs: cma/debugfs.txt: convert docs to ReST and rename to *.rst
-  docs: console.txt: convert docs to ReST and rename to *.rst
-  docs: pti_intel_mid.txt: convert it to pti_intel_mid.rst
-  docs: early-userspace: convert docs to ReST and rename to *.rst
-  docs: driver-model: convert docs to ReST and rename to *.rst
-  docs: arm: convert docs to ReST and rename to *.rst
-  docs: memory-devices: convert ti-emif.txt to ReST
-  docs: xen-tpmfront.txt: convert it to .rst
-  docs: bus-devices: ti-gpmc.rst: convert it to ReST
-  docs: nvmem: convert docs to ReST and rename to *.rst
-  docs: phy: convert samsung-usb2.txt to ReST format
-  docs: rbtree.txt: fix Sphinx build warnings
-  docs: DMA-API-HOWTO.txt: fix an unmarked code block
-  docs: accounting: convert to ReST
-  docs: fmc: convert to ReST
-  docs: hid: convert to ReST
-  docs: ia64: convert to ReST
-  docs: leds: convert to ReST
-  docs: laptops: convert to ReST
-  docs: iio: convert to ReST
-  docs: namespaces: convert to ReST
-  docs: nfc: convert to ReST
-  docs: md: convert to ReST
-  docs: mtd: convert to ReST
-  docs: nvdimm: convert to ReST
-  docs: xtensa: convert to ReST
-  docs: mmc: convert to ReST
-
- Documentation/ABI/testing/sysfs-block-device  |   2 +-
- .../ABI/testing/sysfs-platform-asus-laptop    |   2 +-
- Documentation/DMA-API-HOWTO.txt               |   2 +-
- .../{cgroupstats.txt => cgroupstats.rst}      |  14 +-
- ...ay-accounting.txt => delay-accounting.rst} |  61 ++-
- Documentation/accounting/index.rst            |  14 +
- Documentation/accounting/{psi.txt => psi.rst} |  40 +-
- ...kstats-struct.txt => taskstats-struct.rst} |  79 ++-
- .../{taskstats.txt => taskstats.rst}          |  15 +-
- Documentation/admin-guide/cgroup-v2.rst       |   6 +-
- .../admin-guide/kernel-parameters.rst         |   2 +-
- .../admin-guide/kernel-parameters.txt         |   2 +-
- Documentation/arm/Marvell/README              | 395 -------------
- Documentation/arm/Netwinder                   |  78 ---
- Documentation/arm/SA1100/FreeBird             |  21 -
- Documentation/arm/SA1100/empeg                |   2 -
- Documentation/arm/SA1100/serial_UART          |  47 --
- Documentation/arm/{README => arm.rst}         |  50 +-
- Documentation/arm/{Booting => booting.rst}    |  71 ++-
- ...ance.txt => cluster-pm-race-avoidance.rst} | 177 +++---
- .../arm/{firmware.txt => firmware.rst}        |  14 +-
- Documentation/arm/index.rst                   |  80 +++
- .../arm/{Interrupts => interrupts.rst}        |  86 +--
- Documentation/arm/{IXP4xx => ixp4xx.rst}      |  61 ++-
- ...nel_mode_neon.txt => kernel_mode_neon.rst} |   3 +
- ...er_helpers.txt => kernel_user_helpers.rst} |  79 +--
- .../keystone/{knav-qmss.txt => knav-qmss.rst} |   6 +-
- .../keystone/{Overview.txt => overview.rst}   |  47 +-
- Documentation/arm/marvel.rst                  | 488 +++++++++++++++++
- .../arm/{mem_alignment => mem_alignment.rst}  |  11 +-
- Documentation/arm/{memory.txt => memory.rst}  |   9 +-
- .../arm/{Microchip/README => microchip.rst}   |  63 ++-
- Documentation/arm/netwinder.rst               |  85 +++
- Documentation/arm/nwfpe/index.rst             |  11 +
- .../nwfpe/{README.FPE => netwinder-fpe.rst}   |  24 +-
- Documentation/arm/nwfpe/{NOTES => notes.rst}  |   3 +
- Documentation/arm/nwfpe/{README => nwfpe.rst} |  10 +-
- Documentation/arm/nwfpe/{TODO => todo.rst}    |  47 +-
- Documentation/arm/{OMAP/DSS => omap/dss.rst}  | 112 ++--
- Documentation/arm/omap/index.rst              |  10 +
- .../arm/{OMAP/README => omap/omap.rst}        |   7 +
- .../arm/{OMAP/omap_pm => omap/omap_pm.rst}    |  55 +-
- Documentation/arm/{Porting => porting.rst}    |  14 +-
- Documentation/arm/pxa/{mfp.txt => mfp.rst}    | 106 ++--
- .../{SA1100/ADSBitsy => sa1100/adsbitsy.rst}  |  14 +-
- .../{SA1100/Assabet => sa1100/assabet.rst}    | 185 +++----
- .../arm/{SA1100/Brutus => sa1100/brutus.rst}  |  45 +-
- .../arm/{SA1100/CERF => sa1100/cerf.rst}      |  10 +-
- Documentation/arm/sa1100/freebird.rst         |  25 +
- .../graphicsclient.rst}                       |  46 +-
- .../graphicsmaster.rst}                       |  13 +-
- .../HUW_WEBPANEL => sa1100/huw_webpanel.rst}  |   8 +-
- Documentation/arm/sa1100/index.rst            |  23 +
- .../arm/{SA1100/Itsy => sa1100/itsy.rst}      |  14 +-
- .../arm/{SA1100/LART => sa1100/lart.rst}      |   3 +-
- .../nanoEngine => sa1100/nanoengine.rst}      |   6 +-
- .../{SA1100/Pangolin => sa1100/pangolin.rst}  |  10 +-
- .../arm/{SA1100/PLEB => sa1100/pleb.rst}      |   6 +-
- Documentation/arm/sa1100/serial_uart.rst      |  51 ++
- .../arm/{SA1100/Tifon => sa1100/tifon.rst}    |   4 +-
- .../arm/{SA1100/Yopy => sa1100/yopy.rst}      |   5 +-
- .../cpufreq.rst}                              |   5 +-
- .../eb2410itx.rst}                            |   5 +-
- .../GPIO.txt => samsung-s3c24xx/gpio.rst}     |  23 +-
- .../H1940.txt => samsung-s3c24xx/h1940.rst}   |   5 +-
- Documentation/arm/samsung-s3c24xx/index.rst   |  18 +
- .../NAND.txt => samsung-s3c24xx/nand.rst}     |   6 +-
- .../overview.rst}                             |  21 +-
- .../s3c2412.rst}                              |   5 +-
- .../s3c2413.rst}                              |   7 +-
- .../smdk2440.rst}                             |   5 +-
- .../suspend.rst}                              |  20 +-
- .../usb-host.rst}                             |  16 +-
- .../bootloader-interface.rst}                 |  27 +-
- .../clksrc-change-registers.awk               |   0
- .../{Samsung/GPIO.txt => samsung/gpio.rst}    |   7 +-
- Documentation/arm/samsung/index.rst           |  10 +
- .../Overview.txt => samsung/overview.rst}     |  15 +-
- Documentation/arm/{Setup => setup.rst}        |  49 +-
- .../arm/{SH-Mobile => sh-mobile}/.gitignore   |   0
- .../overview.txt => spear/overview.rst}       |  20 +-
- .../arm/sti/{overview.txt => overview.rst}    |  21 +-
- ...h407-overview.txt => stih407-overview.rst} |   9 +-
- ...h415-overview.txt => stih415-overview.rst} |   8 +-
- ...h416-overview.txt => stih416-overview.rst} |   5 +-
- ...h418-overview.txt => stih418-overview.rst} |   9 +-
- .../arm/stm32/stm32f429-overview.rst          |   7 +-
- .../arm/stm32/stm32f746-overview.rst          |   7 +-
- .../arm/stm32/stm32f769-overview.rst          |   7 +-
- .../arm/stm32/stm32h743-overview.rst          |   7 +-
- .../arm/stm32/stm32mp157-overview.rst         |   3 +-
- Documentation/arm/{sunxi/README => sunxi.rst} |  98 +++-
- .../arm/sunxi/{clocks.txt => clocks.rst}      |   7 +-
- .../arm/{swp_emulation => swp_emulation.rst}  |  24 +-
- Documentation/arm/{tcm.txt => tcm.rst}        |  54 +-
- Documentation/arm/{uefi.txt => uefi.rst}      |  39 +-
- .../release-notes.rst}                        |   4 +-
- Documentation/arm/{vlocks.txt => vlocks.rst}  |   9 +-
- ...cd-panel-cgram.txt => lcd-panel-cgram.rst} |   9 +-
- Documentation/backlight/lp855x-driver.rst     |  83 +++
- Documentation/backlight/lp855x-driver.txt     |  66 ---
- .../bus-devices/{ti-gpmc.txt => ti-gpmc.rst}  | 159 ++++--
- .../cma/{debugfs.txt => debugfs.rst}          |   8 +-
- .../{connector.txt => connector.rst}          | 130 ++---
- .../console/{console.txt => console.rst}      |  63 ++-
- Documentation/devicetree/bindings/arm/xen.txt |   2 +-
- .../devicetree/booting-without-of.txt         |   4 +-
- Documentation/driver-api/gpio/driver.rst      |   2 +-
- .../driver-model/{binding.txt => binding.rst} |  20 +-
- .../driver-model/{bus.txt => bus.rst}         |  69 +--
- .../driver-model/{class.txt => class.rst}     |  74 +--
- ...esign-patterns.txt => design-patterns.rst} | 106 ++--
- .../driver-model/{device.txt => device.rst}   |  57 +-
- .../driver-model/{devres.txt => devres.rst}   |  50 +-
- .../driver-model/{driver.txt => driver.rst}   | 112 ++--
- Documentation/driver-model/index.rst          |  26 +
- .../{overview.txt => overview.rst}            |  37 +-
- .../{platform.txt => platform.rst}            |  30 +-
- .../driver-model/{porting.txt => porting.rst} | 333 +++++------
- .../{buffer-format.txt => buffer-format.rst}  |  19 +-
- .../{README => early_userspace_support.rst}   |   3 +
- Documentation/early-userspace/index.rst       |  18 +
- Documentation/eisa.txt                        |   4 +-
- Documentation/fb/fbcon.rst                    |   4 +-
- Documentation/filesystems/nfs/nfsroot.txt     |   2 +-
- .../filesystems/ramfs-rootfs-initramfs.txt    |   4 +-
- Documentation/fmc/{API.txt => api.rst}        |  10 +-
- .../fmc/{carrier.txt => carrier.rst}          |  65 +--
- .../fmc/{FMC-and-SDB.txt => fmc-and-sdb.rst}  |  19 +-
- .../fmc/{fmc-chardev.txt => fmc-chardev.rst}  |   9 +-
- .../fmc/{fmc-fakedev.txt => fmc-fakedev.rst}  |  13 +-
- .../fmc/{fmc-trivial.txt => fmc-trivial.rst}  |  11 +-
- ...-write-eeprom.txt => fmc-write-eeprom.rst} |  36 +-
- .../fmc/{identifiers.txt => identifiers.rst}  |  20 +-
- Documentation/fmc/index.rst                   |  21 +
- .../fmc/{mezzanine.txt => mezzanine.rst}      |  34 +-
- .../fmc/{parameters.txt => parameters.rst}    |  11 +-
- .../hid/{hid-alps.txt => hid-alps.rst}        |  85 ++-
- .../hid/{hid-sensor.txt => hid-sensor.rst}    | 192 ++++---
- .../{hid-transport.txt => hid-transport.rst}  |  82 ++-
- Documentation/hid/{hiddev.txt => hiddev.rst}  | 154 ++++--
- Documentation/hid/{hidraw.txt => hidraw.rst}  |  53 +-
- Documentation/hid/index.rst                   |  18 +
- Documentation/hid/intel-ish-hid.rst           | 485 ++++++++++++++++
- Documentation/hid/intel-ish-hid.txt           | 454 ---------------
- Documentation/hid/{uhid.txt => uhid.rst}      |  46 +-
- Documentation/hwmon/submitting-patches.rst    |   2 +-
- .../ia64/{aliasing.txt => aliasing.rst}       |  73 ++-
- Documentation/ia64/{efirtc.txt => efirtc.rst} | 118 ++--
- .../ia64/{err_inject.txt => err_inject.rst}   | 349 ++++++------
- Documentation/ia64/{fsys.txt => fsys.rst}     | 127 +++--
- Documentation/ia64/{README => ia64.rst}       |  26 +-
- Documentation/ia64/index.rst                  |  18 +
- .../ia64/{IRQ-redir.txt => irq-redir.rst}     |  31 +-
- Documentation/ia64/{mca.txt => mca.rst}       |  10 +-
- Documentation/ia64/{serial.txt => serial.rst} |  36 +-
- Documentation/ia64/xen.rst                    | 206 +++++++
- Documentation/ia64/xen.txt                    | 183 -------
- .../iio/{ep93xx_adc.txt => ep93xx_adc.rst}    |  15 +-
- .../{iio_configfs.txt => iio_configfs.rst}    |  52 +-
- Documentation/iio/index.rst                   |  12 +
- Documentation/index.rst                       |   1 +
- Documentation/input/input.rst                 |   2 +-
- .../{asus-laptop.txt => asus-laptop.rst}      |  92 ++--
- ...otection.txt => disk-shock-protection.rst} |  32 +-
- Documentation/laptops/index.rst               |  17 +
- .../{laptop-mode.txt => laptop-mode.rst}      | 509 +++++++++--------
- .../{sony-laptop.txt => sony-laptop.rst}      |  58 +-
- .../laptops/{sonypi.txt => sonypi.rst}        |  28 +-
- .../{thinkpad-acpi.txt => thinkpad-acpi.rst}  | 367 ++++++++-----
- .../{toshiba_haps.txt => toshiba_haps.rst}    |  47 +-
- Documentation/leds/index.rst                  |  25 +
- .../leds/{leds-blinkm.txt => leds-blinkm.rst} |  64 ++-
- ...s-class-flash.txt => leds-class-flash.rst} |  49 +-
- .../leds/{leds-class.txt => leds-class.rst}   |  15 +-
- .../leds/{leds-lm3556.txt => leds-lm3556.rst} | 100 +++-
- .../leds/{leds-lp3944.txt => leds-lp3944.rst} |  23 +-
- Documentation/leds/leds-lp5521.rst            | 115 ++++
- Documentation/leds/leds-lp5521.txt            | 101 ----
- Documentation/leds/leds-lp5523.rst            | 147 +++++
- Documentation/leds/leds-lp5523.txt            | 130 -----
- Documentation/leds/leds-lp5562.rst            | 137 +++++
- Documentation/leds/leds-lp5562.txt            | 120 ----
- Documentation/leds/leds-lp55xx.rst            | 224 ++++++++
- Documentation/leds/leds-lp55xx.txt            | 194 -------
- Documentation/leds/leds-mlxcpld.rst           | 118 ++++
- Documentation/leds/leds-mlxcpld.txt           | 110 ----
- ...edtrig-oneshot.txt => ledtrig-oneshot.rst} |  11 +-
- ...ig-transient.txt => ledtrig-transient.rst} |  63 ++-
- ...edtrig-usbport.txt => ledtrig-usbport.rst} |  11 +-
- Documentation/leds/{uleds.txt => uleds.rst}   |   5 +-
- Documentation/m68k/index.rst                  |  17 +
- ...{kernel-options.txt => kernel-options.rst} | 319 ++++++-----
- Documentation/md/index.rst                    |  12 +
- .../md/{md-cluster.txt => md-cluster.rst}     | 188 ++++---
- .../md/{raid5-cache.txt => raid5-cache.rst}   |  28 +-
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ Documentation/md/index.rst                    |  12 ++
+ .../md/{md-cluster.txt => md-cluster.rst}     | 188 ++++++++++++------
+ .../md/{raid5-cache.txt => raid5-cache.rst}   |  28 +--
  .../md/{raid5-ppl.txt => raid5-ppl.rst}       |   2 +
- .../{ti-emif.txt => ti-emif.rst}              |  27 +-
- Documentation/mmc/index.rst                   |  13 +
- .../{mmc-async-req.txt => mmc-async-req.rst}  |  53 +-
- .../{mmc-dev-attrs.txt => mmc-dev-attrs.rst}  |  32 +-
- .../{mmc-dev-parts.txt => mmc-dev-parts.rst}  |  13 +-
- .../mmc/{mmc-tools.txt => mmc-tools.rst}      |   5 +-
- Documentation/mtd/index.rst                   |  12 +
- .../mtd/{intel-spi.txt => intel-spi.rst}      |  46 +-
- .../mtd/{nand_ecc.txt => nand_ecc.rst}        | 481 ++++++++--------
- .../mtd/{spi-nor.txt => spi-nor.rst}          |   7 +-
- ...bility-list.txt => compatibility-list.rst} |  10 +-
- Documentation/namespaces/index.rst            |  11 +
- ...ource-control.txt => resource-control.rst} |   4 +
- Documentation/nfc/index.rst                   |  11 +
- .../nfc/{nfc-hci.txt => nfc-hci.rst}          | 163 +++---
- .../nfc/{nfc-pn544.txt => nfc-pn544.rst}      |   6 +-
- Documentation/nvdimm/{btt.txt => btt.rst}     | 140 ++---
- Documentation/nvdimm/index.rst                |  12 +
- .../nvdimm/{nvdimm.txt => nvdimm.rst}         | 518 ++++++++++--------
- .../nvdimm/{security.txt => security.rst}     |   4 +-
- Documentation/nvmem/{nvmem.txt => nvmem.rst}  | 112 ++--
- .../{samsung-usb2.txt => samsung-usb2.rst}    |  62 ++-
- Documentation/pti/pti_intel_mid.rst           | 106 ++++
- Documentation/pti/pti_intel_mid.txt           |  99 ----
- Documentation/rbtree.txt                      |   6 +-
- .../{xen-tpmfront.txt => xen-tpmfront.rst}    | 103 ++--
- Documentation/sysctl/vm.txt                   |   4 +-
- Documentation/translations/zh_CN/arm/Booting  |   4 +-
- .../zh_CN/arm/kernel_user_helpers.txt         |   4 +-
- .../xtensa/{atomctl.txt => atomctl.rst}       |  13 +-
- .../xtensa/{booting.txt => booting.rst}       |   5 +-
- Documentation/xtensa/index.rst                |  12 +
- Documentation/xtensa/mmu.rst                  | 195 +++++++
- Documentation/xtensa/mmu.txt                  | 189 -------
- MAINTAINERS                                   |  18 +-
- arch/arm/Kconfig                              |   2 +-
- arch/arm/common/mcpm_entry.c                  |   2 +-
- arch/arm/common/mcpm_head.S                   |   2 +-
- arch/arm/common/vlock.S                       |   2 +-
- arch/arm/include/asm/setup.h                  |   2 +-
- arch/arm/include/uapi/asm/setup.h             |   2 +-
- arch/arm/kernel/entry-armv.S                  |   2 +-
- arch/arm/mach-exynos/common.h                 |   2 +-
- arch/arm/mach-ixp4xx/Kconfig                  |  14 +-
- arch/arm/mach-s3c24xx/pm.c                    |   2 +-
- arch/arm/mm/Kconfig                           |   4 +-
- arch/arm/plat-samsung/Kconfig                 |   6 +-
- arch/arm/tools/mach-types                     |   2 +-
- arch/arm64/Kconfig                            |   2 +-
- arch/arm64/kernel/kuser32.S                   |   2 +-
- arch/ia64/kernel/efi.c                        |   2 +-
- arch/ia64/kernel/fsys.S                       |   2 +-
- arch/ia64/mm/ioremap.c                        |   2 +-
- arch/ia64/pci/pci.c                           |   2 +-
- arch/mips/bmips/setup.c                       |   2 +-
- arch/xtensa/include/asm/initialize_mmu.h      |   2 +-
- drivers/base/platform.c                       |   2 +-
- drivers/char/Kconfig                          |   2 +-
- drivers/crypto/sunxi-ss/sun4i-ss-cipher.c     |   2 +-
- drivers/crypto/sunxi-ss/sun4i-ss-core.c       |   2 +-
- drivers/crypto/sunxi-ss/sun4i-ss-hash.c       |   2 +-
- drivers/crypto/sunxi-ss/sun4i-ss.h            |   2 +-
- drivers/gpio/gpio-cs5535.c                    |   2 +-
- drivers/iio/Kconfig                           |   2 +-
- drivers/input/touchscreen/sun4i-ts.c          |   2 +-
- drivers/leds/trigger/Kconfig                  |   2 +-
- drivers/leds/trigger/ledtrig-transient.c      |   2 +-
- drivers/mtd/nand/raw/nand_ecc.c               |   2 +-
- drivers/net/ethernet/intel/ice/ice_main.c     |   2 +-
- drivers/nvdimm/Kconfig                        |   2 +-
- drivers/platform/x86/Kconfig                  |   4 +-
- drivers/tty/Kconfig                           |   2 +-
- drivers/tty/serial/Kconfig                    |   2 +-
- drivers/w1/Kconfig                            |   2 +-
- include/linux/connector.h                     |  63 ++-
- init/Kconfig                                  |   2 +-
- net/netfilter/Kconfig                         |   2 +-
- samples/Kconfig                               |   2 +-
- scripts/coccinelle/free/devm_free.cocci       |   2 +-
- usr/Kconfig                                   |   2 +-
- 277 files changed, 8166 insertions(+), 6117 deletions(-)
- rename Documentation/accounting/{cgroupstats.txt => cgroupstats.rst} (77%)
- rename Documentation/accounting/{delay-accounting.txt => delay-accounting.rst} (77%)
- create mode 100644 Documentation/accounting/index.rst
- rename Documentation/accounting/{psi.txt => psi.rst} (91%)
- rename Documentation/accounting/{taskstats-struct.txt => taskstats-struct.rst} (78%)
- rename Documentation/accounting/{taskstats.txt => taskstats.rst} (95%)
- delete mode 100644 Documentation/arm/Marvell/README
- delete mode 100644 Documentation/arm/Netwinder
- delete mode 100644 Documentation/arm/SA1100/FreeBird
- delete mode 100644 Documentation/arm/SA1100/empeg
- delete mode 100644 Documentation/arm/SA1100/serial_UART
- rename Documentation/arm/{README => arm.rst} (88%)
- rename Documentation/arm/{Booting => booting.rst} (89%)
- rename Documentation/arm/{cluster-pm-race-avoidance.txt => cluster-pm-race-avoidance.rst} (84%)
- rename Documentation/arm/{firmware.txt => firmware.rst} (86%)
- create mode 100644 Documentation/arm/index.rst
- rename Documentation/arm/{Interrupts => interrupts.rst} (81%)
- rename Documentation/arm/{IXP4xx => ixp4xx.rst} (84%)
- rename Documentation/arm/{kernel_mode_neon.txt => kernel_mode_neon.rst} (99%)
- rename Documentation/arm/{kernel_user_helpers.txt => kernel_user_helpers.rst} (78%)
- rename Documentation/arm/keystone/{knav-qmss.txt => knav-qmss.rst} (92%)
- rename Documentation/arm/keystone/{Overview.txt => overview.rst} (59%)
- create mode 100644 Documentation/arm/marvel.rst
- rename Documentation/arm/{mem_alignment => mem_alignment.rst} (89%)
- rename Documentation/arm/{memory.txt => memory.rst} (90%)
- rename Documentation/arm/{Microchip/README => microchip.rst} (92%)
- create mode 100644 Documentation/arm/netwinder.rst
- create mode 100644 Documentation/arm/nwfpe/index.rst
- rename Documentation/arm/nwfpe/{README.FPE => netwinder-fpe.rst} (94%)
- rename Documentation/arm/nwfpe/{NOTES => notes.rst} (99%)
- rename Documentation/arm/nwfpe/{README => nwfpe.rst} (98%)
- rename Documentation/arm/nwfpe/{TODO => todo.rst} (75%)
- rename Documentation/arm/{OMAP/DSS => omap/dss.rst} (86%)
- create mode 100644 Documentation/arm/omap/index.rst
- rename Documentation/arm/{OMAP/README => omap/omap.rst} (62%)
- rename Documentation/arm/{OMAP/omap_pm => omap/omap_pm.rst} (83%)
- rename Documentation/arm/{Porting => porting.rst} (94%)
- rename Documentation/arm/pxa/{mfp.txt => mfp.rst} (83%)
- rename Documentation/arm/{SA1100/ADSBitsy => sa1100/adsbitsy.rst} (90%)
- rename Documentation/arm/{SA1100/Assabet => sa1100/assabet.rst} (62%)
- rename Documentation/arm/{SA1100/Brutus => sa1100/brutus.rst} (75%)
- rename Documentation/arm/{SA1100/CERF => sa1100/cerf.rst} (91%)
- create mode 100644 Documentation/arm/sa1100/freebird.rst
- rename Documentation/arm/{SA1100/GraphicsClient => sa1100/graphicsclient.rst} (87%)
- rename Documentation/arm/{SA1100/GraphicsMaster => sa1100/graphicsmaster.rst} (92%)
- rename Documentation/arm/{SA1100/HUW_WEBPANEL => sa1100/huw_webpanel.rst} (78%)
- create mode 100644 Documentation/arm/sa1100/index.rst
- rename Documentation/arm/{SA1100/Itsy => sa1100/itsy.rst} (88%)
- rename Documentation/arm/{SA1100/LART => sa1100/lart.rst} (90%)
- rename Documentation/arm/{SA1100/nanoEngine => sa1100/nanoengine.rst} (74%)
- rename Documentation/arm/{SA1100/Pangolin => sa1100/pangolin.rst} (81%)
- rename Documentation/arm/{SA1100/PLEB => sa1100/pleb.rst} (95%)
- create mode 100644 Documentation/arm/sa1100/serial_uart.rst
- rename Documentation/arm/{SA1100/Tifon => sa1100/tifon.rst} (88%)
- rename Documentation/arm/{SA1100/Yopy => sa1100/yopy.rst} (74%)
- rename Documentation/arm/{Samsung-S3C24XX/CPUfreq.txt => samsung-s3c24xx/cpufreq.rst} (96%)
- rename Documentation/arm/{Samsung-S3C24XX/EB2410ITX.txt => samsung-s3c24xx/eb2410itx.rst} (92%)
- rename Documentation/arm/{Samsung-S3C24XX/GPIO.txt => samsung-s3c24xx/gpio.rst} (89%)
- rename Documentation/arm/{Samsung-S3C24XX/H1940.txt => samsung-s3c24xx/h1940.rst} (94%)
- create mode 100644 Documentation/arm/samsung-s3c24xx/index.rst
- rename Documentation/arm/{Samsung-S3C24XX/NAND.txt => samsung-s3c24xx/nand.rst} (92%)
- rename Documentation/arm/{Samsung-S3C24XX/Overview.txt => samsung-s3c24xx/overview.rst} (94%)
- rename Documentation/arm/{Samsung-S3C24XX/S3C2412.txt => samsung-s3c24xx/s3c2412.rst} (96%)
- rename Documentation/arm/{Samsung-S3C24XX/S3C2413.txt => samsung-s3c24xx/s3c2413.rst} (77%)
- rename Documentation/arm/{Samsung-S3C24XX/SMDK2440.txt => samsung-s3c24xx/smdk2440.rst} (94%)
- rename Documentation/arm/{Samsung-S3C24XX/Suspend.txt => samsung-s3c24xx/suspend.rst} (94%)
- rename Documentation/arm/{Samsung-S3C24XX/USB-Host.txt => samsung-s3c24xx/usb-host.rst} (94%)
- rename Documentation/arm/{Samsung/Bootloader-interface.txt => samsung/bootloader-interface.rst} (72%)
- rename Documentation/arm/{Samsung => samsung}/clksrc-change-registers.awk (100%)
- rename Documentation/arm/{Samsung/GPIO.txt => samsung/gpio.rst} (87%)
- create mode 100644 Documentation/arm/samsung/index.rst
- rename Documentation/arm/{Samsung/Overview.txt => samsung/overview.rst} (86%)
- rename Documentation/arm/{Setup => setup.rst} (87%)
- rename Documentation/arm/{SH-Mobile => sh-mobile}/.gitignore (100%)
- rename Documentation/arm/{SPEAr/overview.txt => spear/overview.rst} (91%)
- rename Documentation/arm/sti/{overview.txt => overview.rst} (82%)
- rename Documentation/arm/sti/{stih407-overview.txt => stih407-overview.rst} (82%)
- rename Documentation/arm/sti/{stih415-overview.txt => stih415-overview.rst} (79%)
- rename Documentation/arm/sti/{stih416-overview.txt => stih416-overview.rst} (83%)
- rename Documentation/arm/sti/{stih418-overview.txt => stih418-overview.rst} (83%)
- rename Documentation/arm/{sunxi/README => sunxi.rst} (83%)
- rename Documentation/arm/sunxi/{clocks.txt => clocks.rst} (92%)
- rename Documentation/arm/{swp_emulation => swp_emulation.rst} (63%)
- rename Documentation/arm/{tcm.txt => tcm.rst} (86%)
- rename Documentation/arm/{uefi.txt => uefi.rst} (63%)
- rename Documentation/arm/{VFP/release-notes.txt => vfp/release-notes.rst} (92%)
- rename Documentation/arm/{vlocks.txt => vlocks.rst} (98%)
- rename Documentation/auxdisplay/{lcd-panel-cgram.txt => lcd-panel-cgram.rst} (88%)
- create mode 100644 Documentation/backlight/lp855x-driver.rst
- delete mode 100644 Documentation/backlight/lp855x-driver.txt
- rename Documentation/bus-devices/{ti-gpmc.txt => ti-gpmc.rst} (58%)
- rename Documentation/cma/{debugfs.txt => debugfs.rst} (91%)
- rename Documentation/connector/{connector.txt => connector.rst} (57%)
- rename Documentation/console/{console.txt => console.rst} (80%)
- rename Documentation/driver-model/{binding.txt => binding.rst} (92%)
- rename Documentation/driver-model/{bus.txt => bus.rst} (76%)
- rename Documentation/driver-model/{class.txt => class.rst} (75%)
- rename Documentation/driver-model/{design-patterns.txt => design-patterns.rst} (59%)
- rename Documentation/driver-model/{device.txt => device.rst} (71%)
- rename Documentation/driver-model/{devres.txt => devres.rst} (93%)
- rename Documentation/driver-model/{driver.txt => driver.rst} (75%)
- create mode 100644 Documentation/driver-model/index.rst
- rename Documentation/driver-model/{overview.txt => overview.rst} (90%)
- rename Documentation/driver-model/{platform.txt => platform.rst} (95%)
- rename Documentation/driver-model/{porting.txt => porting.rst} (62%)
- rename Documentation/early-userspace/{buffer-format.txt => buffer-format.rst} (91%)
- rename Documentation/early-userspace/{README => early_userspace_support.rst} (99%)
- create mode 100644 Documentation/early-userspace/index.rst
- rename Documentation/fmc/{API.txt => api.rst} (87%)
- rename Documentation/fmc/{carrier.txt => carrier.rst} (91%)
- rename Documentation/fmc/{FMC-and-SDB.txt => fmc-and-sdb.rst} (88%)
- rename Documentation/fmc/{fmc-chardev.txt => fmc-chardev.rst} (96%)
- rename Documentation/fmc/{fmc-fakedev.txt => fmc-fakedev.rst} (85%)
- rename Documentation/fmc/{fmc-trivial.txt => fmc-trivial.rst} (69%)
- rename Documentation/fmc/{fmc-write-eeprom.txt => fmc-write-eeprom.rst} (79%)
- rename Documentation/fmc/{identifiers.txt => identifiers.rst} (93%)
- create mode 100644 Documentation/fmc/index.rst
- rename Documentation/fmc/{mezzanine.txt => mezzanine.rst} (87%)
- rename Documentation/fmc/{parameters.txt => parameters.rst} (96%)
- rename Documentation/hid/{hid-alps.txt => hid-alps.rst} (64%)
- rename Documentation/hid/{hid-sensor.txt => hid-sensor.rst} (61%)
- rename Documentation/hid/{hid-transport.txt => hid-transport.rst} (93%)
- rename Documentation/hid/{hiddev.txt => hiddev.rst} (77%)
- rename Documentation/hid/{hidraw.txt => hidraw.rst} (89%)
- create mode 100644 Documentation/hid/index.rst
- create mode 100644 Documentation/hid/intel-ish-hid.rst
- delete mode 100644 Documentation/hid/intel-ish-hid.txt
- rename Documentation/hid/{uhid.txt => uhid.rst} (94%)
- rename Documentation/ia64/{aliasing.txt => aliasing.rst} (83%)
- rename Documentation/ia64/{efirtc.txt => efirtc.rst} (70%)
- rename Documentation/ia64/{err_inject.txt => err_inject.rst} (82%)
- rename Documentation/ia64/{fsys.txt => fsys.rst} (76%)
- rename Documentation/ia64/{README => ia64.rst} (61%)
- create mode 100644 Documentation/ia64/index.rst
- rename Documentation/ia64/{IRQ-redir.txt => irq-redir.rst} (86%)
- rename Documentation/ia64/{mca.txt => mca.rst} (96%)
- rename Documentation/ia64/{serial.txt => serial.rst} (87%)
- create mode 100644 Documentation/ia64/xen.rst
- delete mode 100644 Documentation/ia64/xen.txt
- rename Documentation/iio/{ep93xx_adc.txt => ep93xx_adc.rst} (71%)
- rename Documentation/iio/{iio_configfs.txt => iio_configfs.rst} (73%)
- create mode 100644 Documentation/iio/index.rst
- rename Documentation/laptops/{asus-laptop.txt => asus-laptop.rst} (84%)
- rename Documentation/laptops/{disk-shock-protection.txt => disk-shock-protection.rst} (91%)
- create mode 100644 Documentation/laptops/index.rst
- rename Documentation/laptops/{laptop-mode.txt => laptop-mode.rst} (62%)
- rename Documentation/laptops/{sony-laptop.txt => sony-laptop.rst} (85%)
- rename Documentation/laptops/{sonypi.txt => sonypi.rst} (87%)
- rename Documentation/laptops/{thinkpad-acpi.txt => thinkpad-acpi.rst} (89%)
- rename Documentation/laptops/{toshiba_haps.txt => toshiba_haps.rst} (60%)
- create mode 100644 Documentation/leds/index.rst
- rename Documentation/leds/{leds-blinkm.txt => leds-blinkm.rst} (57%)
- rename Documentation/leds/{leds-class-flash.txt => leds-class-flash.rst} (74%)
- rename Documentation/leds/{leds-class.txt => leds-class.rst} (92%)
- rename Documentation/leds/{leds-lm3556.txt => leds-lm3556.rst} (70%)
- rename Documentation/leds/{leds-lp3944.txt => leds-lp3944.rst} (78%)
- create mode 100644 Documentation/leds/leds-lp5521.rst
- delete mode 100644 Documentation/leds/leds-lp5521.txt
- create mode 100644 Documentation/leds/leds-lp5523.rst
- delete mode 100644 Documentation/leds/leds-lp5523.txt
- create mode 100644 Documentation/leds/leds-lp5562.rst
- delete mode 100644 Documentation/leds/leds-lp5562.txt
- create mode 100644 Documentation/leds/leds-lp55xx.rst
- delete mode 100644 Documentation/leds/leds-lp55xx.txt
- create mode 100644 Documentation/leds/leds-mlxcpld.rst
- delete mode 100644 Documentation/leds/leds-mlxcpld.txt
- rename Documentation/leds/{ledtrig-oneshot.txt => ledtrig-oneshot.rst} (90%)
- rename Documentation/leds/{ledtrig-transient.txt => ledtrig-transient.rst} (81%)
- rename Documentation/leds/{ledtrig-usbport.txt => ledtrig-usbport.rst} (86%)
- rename Documentation/leds/{uleds.txt => uleds.rst} (95%)
- create mode 100644 Documentation/m68k/index.rst
- rename Documentation/m68k/{kernel-options.txt => kernel-options.rst} (78%)
+ 4 files changed, 153 insertions(+), 77 deletions(-)
  create mode 100644 Documentation/md/index.rst
  rename Documentation/md/{md-cluster.txt => md-cluster.rst} (68%)
  rename Documentation/md/{raid5-cache.txt => raid5-cache.rst} (92%)
  rename Documentation/md/{raid5-ppl.txt => raid5-ppl.rst} (98%)
- rename Documentation/memory-devices/{ti-emif.txt => ti-emif.rst} (81%)
- create mode 100644 Documentation/mmc/index.rst
- rename Documentation/mmc/{mmc-async-req.txt => mmc-async-req.rst} (75%)
- rename Documentation/mmc/{mmc-dev-attrs.txt => mmc-dev-attrs.rst} (73%)
- rename Documentation/mmc/{mmc-dev-parts.txt => mmc-dev-parts.rst} (83%)
- rename Documentation/mmc/{mmc-tools.txt => mmc-tools.rst} (92%)
- create mode 100644 Documentation/mtd/index.rst
- rename Documentation/mtd/{intel-spi.txt => intel-spi.rst} (71%)
- rename Documentation/mtd/{nand_ecc.txt => nand_ecc.rst} (67%)
- rename Documentation/mtd/{spi-nor.txt => spi-nor.rst} (94%)
- rename Documentation/namespaces/{compatibility-list.txt => compatibility-list.rst} (86%)
- create mode 100644 Documentation/namespaces/index.rst
- rename Documentation/namespaces/{resource-control.txt => resource-control.rst} (89%)
- create mode 100644 Documentation/nfc/index.rst
- rename Documentation/nfc/{nfc-hci.txt => nfc-hci.rst} (71%)
- rename Documentation/nfc/{nfc-pn544.txt => nfc-pn544.rst} (82%)
- rename Documentation/nvdimm/{btt.txt => btt.rst} (71%)
- create mode 100644 Documentation/nvdimm/index.rst
- rename Documentation/nvdimm/{nvdimm.txt => nvdimm.rst} (60%)
- rename Documentation/nvdimm/{security.txt => security.rst} (99%)
- rename Documentation/nvmem/{nvmem.txt => nvmem.rst} (62%)
- rename Documentation/phy/{samsung-usb2.txt => samsung-usb2.rst} (77%)
- create mode 100644 Documentation/pti/pti_intel_mid.rst
- delete mode 100644 Documentation/pti/pti_intel_mid.txt
- rename Documentation/security/tpm/{xen-tpmfront.txt => xen-tpmfront.rst} (66%)
- rename Documentation/xtensa/{atomctl.txt => atomctl.rst} (81%)
- rename Documentation/xtensa/{booting.txt => booting.rst} (91%)
- create mode 100644 Documentation/xtensa/index.rst
- create mode 100644 Documentation/xtensa/mmu.rst
- delete mode 100644 Documentation/xtensa/mmu.txt
 
+diff --git a/Documentation/md/index.rst b/Documentation/md/index.rst
+new file mode 100644
+index 000000000000..c4db34ed327d
+--- /dev/null
++++ b/Documentation/md/index.rst
+@@ -0,0 +1,12 @@
++:orphan:
++
++====
++RAID
++====
++
++.. toctree::
++   :maxdepth: 1
++
++   md-cluster
++   raid5-cache
++   raid5-ppl
+diff --git a/Documentation/md/md-cluster.txt b/Documentation/md/md-cluster.rst
+similarity index 68%
+rename from Documentation/md/md-cluster.txt
+rename to Documentation/md/md-cluster.rst
+index e1055f105cf5..96eb52cec7eb 100644
+--- a/Documentation/md/md-cluster.txt
++++ b/Documentation/md/md-cluster.rst
+@@ -1,19 +1,24 @@
++==========
++MD Cluster
++==========
++
+ The cluster MD is a shared-device RAID for a cluster, it supports
+ two levels: raid1 and raid10 (limited support).
+ 
+ 
+ 1. On-disk format
++=================
+ 
+ Separate write-intent-bitmaps are used for each cluster node.
+ The bitmaps record all writes that may have been started on that node,
+-and may not yet have finished. The on-disk layout is:
++and may not yet have finished. The on-disk layout is::
+ 
+-0                    4k                     8k                    12k
+--------------------------------------------------------------------
+-| idle                | md super            | bm super [0] + bits |
+-| bm bits[0, contd]   | bm super[1] + bits  | bm bits[1, contd]   |
+-| bm super[2] + bits  | bm bits [2, contd]  | bm super[3] + bits  |
+-| bm bits [3, contd]  |                     |                     |
++  0                    4k                     8k                    12k
++  -------------------------------------------------------------------
++  | idle                | md super            | bm super [0] + bits |
++  | bm bits[0, contd]   | bm super[1] + bits  | bm bits[1, contd]   |
++  | bm super[2] + bits  | bm bits [2, contd]  | bm super[3] + bits  |
++  | bm bits [3, contd]  |                     |                     |
+ 
+ During "normal" functioning we assume the filesystem ensures that only
+ one node writes to any given block at a time, so a write request will
+@@ -28,10 +33,12 @@ node) is writing.
+ 
+ 
+ 2. DLM Locks for management
++===========================
+ 
+ There are three groups of locks for managing the device:
+ 
+ 2.1 Bitmap lock resource (bm_lockres)
++-------------------------------------
+ 
+  The bm_lockres protects individual node bitmaps. They are named in
+  the form bitmap000 for node 1, bitmap001 for node 2 and so on. When a
+@@ -48,6 +55,7 @@ There are three groups of locks for managing the device:
+  joins the cluster.
+ 
+ 2.2 Message passing locks
++-------------------------
+ 
+  Each node has to communicate with other nodes when starting or ending
+  resync, and for metadata superblock updates.  This communication is
+@@ -55,116 +63,155 @@ There are three groups of locks for managing the device:
+  with the Lock Value Block (LVB) of one of the "message" lock.
+ 
+ 2.3 new-device management
++-------------------------
+ 
+  A single lock: "no-new-dev" is used to co-ordinate the addition of
+  new devices - this must be synchronized across the array.
+  Normally all nodes hold a concurrent-read lock on this device.
+ 
+ 3. Communication
++================
+ 
+  Messages can be broadcast to all nodes, and the sender waits for all
+  other nodes to acknowledge the message before proceeding.  Only one
+  message can be processed at a time.
+ 
+ 3.1 Message Types
++-----------------
+ 
+  There are six types of messages which are passed:
+ 
+- 3.1.1 METADATA_UPDATED: informs other nodes that the metadata has
++3.1.1 METADATA_UPDATED
++^^^^^^^^^^^^^^^^^^^^^^
++
++   informs other nodes that the metadata has
+    been updated, and the node must re-read the md superblock. This is
+    performed synchronously. It is primarily used to signal device
+    failure.
+ 
+- 3.1.2 RESYNCING: informs other nodes that a resync is initiated or
++3.1.2 RESYNCING
++^^^^^^^^^^^^^^^
++   informs other nodes that a resync is initiated or
+    ended so that each node may suspend or resume the region.  Each
+    RESYNCING message identifies a range of the devices that the
+    sending node is about to resync. This overrides any previous
+    notification from that node: only one ranged can be resynced at a
+    time per-node.
+ 
+- 3.1.3 NEWDISK: informs other nodes that a device is being added to
++3.1.3 NEWDISK
++^^^^^^^^^^^^^
++
++   informs other nodes that a device is being added to
+    the array. Message contains an identifier for that device.  See
+    below for further details.
+ 
+- 3.1.4 REMOVE: A failed or spare device is being removed from the
++3.1.4 REMOVE
++^^^^^^^^^^^^
++
++   A failed or spare device is being removed from the
+    array. The slot-number of the device is included in the message.
+ 
+- 3.1.5 RE_ADD: A failed device is being re-activated - the assumption
++ 3.1.5 RE_ADD:
++
++   A failed device is being re-activated - the assumption
+    is that it has been determined to be working again.
+ 
+- 3.1.6 BITMAP_NEEDS_SYNC: if a node is stopped locally but the bitmap
++ 3.1.6 BITMAP_NEEDS_SYNC:
++
++   If a node is stopped locally but the bitmap
+    isn't clean, then another node is informed to take the ownership of
+    resync.
+ 
+ 3.2 Communication mechanism
++---------------------------
+ 
+  The DLM LVB is used to communicate within nodes of the cluster. There
+  are three resources used for the purpose:
+ 
+-  3.2.1 token: The resource which protects the entire communication
++3.2.1 token
++^^^^^^^^^^^
++   The resource which protects the entire communication
+    system. The node having the token resource is allowed to
+    communicate.
+ 
+-  3.2.2 message: The lock resource which carries the data to
+-   communicate.
++3.2.2 message
++^^^^^^^^^^^^^
++   The lock resource which carries the data to communicate.
+ 
+-  3.2.3 ack: The resource, acquiring which means the message has been
++3.2.3 ack
++^^^^^^^^^
++
++   The resource, acquiring which means the message has been
+    acknowledged by all nodes in the cluster. The BAST of the resource
+    is used to inform the receiving node that a node wants to
+    communicate.
+ 
+ The algorithm is:
+ 
+- 1. receive status - all nodes have concurrent-reader lock on "ack".
++ 1. receive status - all nodes have concurrent-reader lock on "ack"::
+ 
+-   sender                         receiver                 receiver
+-   "ack":CR                       "ack":CR                 "ack":CR
++	sender                         receiver                 receiver
++	"ack":CR                       "ack":CR                 "ack":CR
+ 
+- 2. sender get EX on "token"
+-    sender get EX on "message"
+-    sender                        receiver                 receiver
+-    "token":EX                    "ack":CR                 "ack":CR
+-    "message":EX
+-    "ack":CR
++ 2. sender get EX on "token",
++    sender get EX on "message"::
++
++	sender                        receiver                 receiver
++	"token":EX                    "ack":CR                 "ack":CR
++	"message":EX
++	"ack":CR
+ 
+     Sender checks that it still needs to send a message. Messages
+     received or other events that happened while waiting for the
+     "token" may have made this message inappropriate or redundant.
+ 
+- 3. sender writes LVB.
++ 3. sender writes LVB
++
+     sender down-convert "message" from EX to CW
++
+     sender try to get EX of "ack"
+-    [ wait until all receivers have *processed* the "message" ]
+-
+-                                     [ triggered by bast of "ack" ]
+-                                     receiver get CR on "message"
+-                                     receiver read LVB
+-                                     receiver processes the message
+-                                     [ wait finish ]
+-                                     receiver releases "ack"
+-                                     receiver tries to get PR on "message"
+-
+-   sender                         receiver                  receiver
+-   "token":EX                     "message":CR              "message":CR
+-   "message":CW
+-   "ack":EX
++
++    ::
++
++      [ wait until all receivers have *processed* the "message" ]
++
++                                       [ triggered by bast of "ack" ]
++                                       receiver get CR on "message"
++                                       receiver read LVB
++                                       receiver processes the message
++                                       [ wait finish ]
++                                       receiver releases "ack"
++                                       receiver tries to get PR on "message"
++
++     sender                         receiver                  receiver
++     "token":EX                     "message":CR              "message":CR
++     "message":CW
++     "ack":EX
+ 
+  4. triggered by grant of EX on "ack" (indicating all receivers
+     have processed message)
++
+     sender down-converts "ack" from EX to CR
++
+     sender releases "message"
++
+     sender releases "token"
+-                               receiver upconvert to PR on "message"
+-                               receiver get CR of "ack"
+-                               receiver release "message"
+ 
+-   sender                      receiver                   receiver
+-   "ack":CR                    "ack":CR                   "ack":CR
++    ::
++
++                                 receiver upconvert to PR on "message"
++                                 receiver get CR of "ack"
++                                 receiver release "message"
++
++     sender                      receiver                   receiver
++     "ack":CR                    "ack":CR                   "ack":CR
+ 
+ 
+ 4. Handling Failures
++====================
+ 
+ 4.1 Node Failure
++----------------
+ 
+  When a node fails, the DLM informs the cluster with the slot
+  number. The node starts a cluster recovery thread. The cluster
+@@ -177,11 +224,11 @@ The algorithm is:
+ 	- cleans the bitmap of the failed node
+ 	- releases bitmap<number> lock of the failed node
+ 	- initiates resync of the bitmap on the current node
+-		md_check_recovery is invoked within recover_bitmaps,
+-		then md_check_recovery -> metadata_update_start/finish,
+-		it will lock the communication by lock_comm.
+-		Which means when one node is resyncing it blocks all
+-		other nodes from writing anywhere on the array.
++	  md_check_recovery is invoked within recover_bitmaps,
++	  then md_check_recovery -> metadata_update_start/finish,
++	  it will lock the communication by lock_comm.
++	  Which means when one node is resyncing it blocks all
++	  other nodes from writing anywhere on the array.
+ 
+  The resync process is the regular md resync. However, in a clustered
+  environment when a resync is performed, it needs to tell other nodes
+@@ -198,6 +245,7 @@ The algorithm is:
+  particular I/O range should be suspended or not.
+ 
+ 4.2 Device Failure
++==================
+ 
+  Device failures are handled and communicated with the metadata update
+  routine.  When a node detects a device failure it does not allow
+@@ -205,38 +253,41 @@ The algorithm is:
+  acknowledged by all other nodes.
+ 
+ 5. Adding a new Device
++----------------------
+ 
+  For adding a new device, it is necessary that all nodes "see" the new
+  device to be added. For this, the following algorithm is used:
+ 
+-    1. Node 1 issues mdadm --manage /dev/mdX --add /dev/sdYY which issues
++   1.  Node 1 issues mdadm --manage /dev/mdX --add /dev/sdYY which issues
+        ioctl(ADD_NEW_DISK with disc.state set to MD_DISK_CLUSTER_ADD)
+-    2. Node 1 sends a NEWDISK message with uuid and slot number
+-    3. Other nodes issue kobject_uevent_env with uuid and slot number
++   2.  Node 1 sends a NEWDISK message with uuid and slot number
++   3.  Other nodes issue kobject_uevent_env with uuid and slot number
+        (Steps 4,5 could be a udev rule)
+-    4. In userspace, the node searches for the disk, perhaps
++   4.  In userspace, the node searches for the disk, perhaps
+        using blkid -t SUB_UUID=""
+-    5. Other nodes issue either of the following depending on whether
++   5.  Other nodes issue either of the following depending on whether
+        the disk was found:
+        ioctl(ADD_NEW_DISK with disc.state set to MD_DISK_CANDIDATE and
+-             disc.number set to slot number)
++       disc.number set to slot number)
+        ioctl(CLUSTERED_DISK_NACK)
+-    6. Other nodes drop lock on "no-new-devs" (CR) if device is found
+-    7. Node 1 attempts EX lock on "no-new-dev"
+-    8. If node 1 gets the lock, it sends METADATA_UPDATED after
++   6.  Other nodes drop lock on "no-new-devs" (CR) if device is found
++   7.  Node 1 attempts EX lock on "no-new-dev"
++   8.  If node 1 gets the lock, it sends METADATA_UPDATED after
+        unmarking the disk as SpareLocal
+-    9. If not (get "no-new-dev" lock), it fails the operation and sends
++   9.  If not (get "no-new-dev" lock), it fails the operation and sends
+        METADATA_UPDATED.
+    10. Other nodes get the information whether a disk is added or not
+        by the following METADATA_UPDATED.
+ 
+-6. Module interface.
++6. Module interface
++===================
+ 
+  There are 17 call-backs which the md core can make to the cluster
+  module.  Understanding these can give a good overview of the whole
+  process.
+ 
+ 6.1 join(nodes) and leave()
++---------------------------
+ 
+  These are called when an array is started with a clustered bitmap,
+  and when the array is stopped.  join() ensures the cluster is
+@@ -244,11 +295,13 @@ The algorithm is:
+  Only the first 'nodes' nodes in the cluster can use the array.
+ 
+ 6.2 slot_number()
++-----------------
+ 
+  Reports the slot number advised by the cluster infrastructure.
+  Range is from 0 to nodes-1.
+ 
+ 6.3 resync_info_update()
++------------------------
+ 
+  This updates the resync range that is stored in the bitmap lock.
+  The starting point is updated as the resync progresses.  The
+@@ -256,6 +309,7 @@ The algorithm is:
+  It does *not* send a RESYNCING message.
+ 
+ 6.4 resync_start(), resync_finish()
++-----------------------------------
+ 
+  These are called when resync/recovery/reshape starts or stops.
+  They update the resyncing range in the bitmap lock and also
+@@ -265,8 +319,8 @@ The algorithm is:
+  resync_finish() also sends a BITMAP_NEEDS_SYNC message which
+  allows some other node to take over.
+ 
+-6.5 metadata_update_start(), metadata_update_finish(),
+-    metadata_update_cancel().
++6.5 metadata_update_start(), metadata_update_finish(), metadata_update_cancel()
++-------------------------------------------------------------------------------
+ 
+  metadata_update_start is used to get exclusive access to
+  the metadata.  If a change is still needed once that access is
+@@ -275,6 +329,7 @@ The algorithm is:
+  can be used to release the lock.
+ 
+ 6.6 area_resyncing()
++--------------------
+ 
+  This combines two elements of functionality.
+ 
+@@ -289,6 +344,7 @@ The algorithm is:
+  a node failure.
+ 
+ 6.7 add_new_disk_start(), add_new_disk_finish(), new_disk_ack()
++---------------------------------------------------------------
+ 
+  These are used to manage the new-disk protocol described above.
+  When a new device is added, add_new_disk_start() is called before
+@@ -300,17 +356,20 @@ The algorithm is:
+  new_disk_ack() is called.
+ 
+ 6.8 remove_disk()
++-----------------
+ 
+  This is called when a spare or failed device is removed from
+  the array.  It causes a REMOVE message to be send to other nodes.
+ 
+ 6.9 gather_bitmaps()
++--------------------
+ 
+  This sends a RE_ADD message to all other nodes and then
+  gathers bitmap information from all bitmaps.  This combined
+  bitmap is then used to recovery the re-added device.
+ 
+ 6.10 lock_all_bitmaps() and unlock_all_bitmaps()
++------------------------------------------------
+ 
+  These are called when change bitmap to none. If a node plans
+  to clear the cluster raid's bitmap, it need to make sure no other
+@@ -319,6 +378,7 @@ The algorithm is:
+  accordingly.
+ 
+ 7. Unsupported features
++=======================
+ 
+ There are somethings which are not supported by cluster MD yet.
+ 
+diff --git a/Documentation/md/raid5-cache.txt b/Documentation/md/raid5-cache.rst
+similarity index 92%
+rename from Documentation/md/raid5-cache.txt
+rename to Documentation/md/raid5-cache.rst
+index 2b210f295786..d7a15f44a7c3 100644
+--- a/Documentation/md/raid5-cache.txt
++++ b/Documentation/md/raid5-cache.rst
+@@ -1,4 +1,6 @@
+-RAID5 cache
++================
++RAID 4/5/6 cache
++================
+ 
+ Raid 4/5/6 could include an extra disk for data cache besides normal RAID
+ disks. The role of RAID disks isn't changed with the cache disk. The cache disk
+@@ -6,19 +8,19 @@ caches data to the RAID disks. The cache can be in write-through (supported
+ since 4.4) or write-back mode (supported since 4.10). mdadm (supported since
+ 3.4) has a new option '--write-journal' to create array with cache. Please
+ refer to mdadm manual for details. By default (RAID array starts), the cache is
+-in write-through mode. A user can switch it to write-back mode by:
++in write-through mode. A user can switch it to write-back mode by::
+ 
+-echo "write-back" > /sys/block/md0/md/journal_mode
++	echo "write-back" > /sys/block/md0/md/journal_mode
+ 
+-And switch it back to write-through mode by:
++And switch it back to write-through mode by::
+ 
+-echo "write-through" > /sys/block/md0/md/journal_mode
++	echo "write-through" > /sys/block/md0/md/journal_mode
+ 
+ In both modes, all writes to the array will hit cache disk first. This means
+ the cache disk must be fast and sustainable.
+ 
+--------------------------------------
+-write-through mode:
++write-through mode
++==================
+ 
+ This mode mainly fixes the 'write hole' issue. For RAID 4/5/6 array, an unclean
+ shutdown can cause data in some stripes to not be in consistent state, eg, data
+@@ -42,8 +44,8 @@ exposed to 'write hole' again.
+ In write-through mode, the cache disk isn't required to be big. Several
+ hundreds megabytes are enough.
+ 
+---------------------------------------
+-write-back mode:
++write-back mode
++===============
+ 
+ write-back mode fixes the 'write hole' issue too, since all write data is
+ cached on cache disk. But the main goal of 'write-back' cache is to speed up
+@@ -64,16 +66,16 @@ data loss.
+ In write-back mode, MD also caches data in memory. The memory cache includes
+ the same data stored on cache disk, so a power loss doesn't cause data loss.
+ The memory cache size has performance impact for the array. It's recommended
+-the size is big. A user can configure the size by:
++the size is big. A user can configure the size by::
+ 
+-echo "2048" > /sys/block/md0/md/stripe_cache_size
++	echo "2048" > /sys/block/md0/md/stripe_cache_size
+ 
+ Too small cache disk will make the write aggregation less efficient in this
+ mode depending on the workloads. It's recommended to use a cache disk with at
+ least several gigabytes size in write-back mode.
+ 
+---------------------------------------
+-The implementation:
++The implementation
++==================
+ 
+ The write-through and write-back cache use the same disk format. The cache disk
+ is organized as a simple write log. The log consists of 'meta data' and 'data'
+diff --git a/Documentation/md/raid5-ppl.txt b/Documentation/md/raid5-ppl.rst
+similarity index 98%
+rename from Documentation/md/raid5-ppl.txt
+rename to Documentation/md/raid5-ppl.rst
+index bfa092589e00..357e5515bc55 100644
+--- a/Documentation/md/raid5-ppl.txt
++++ b/Documentation/md/raid5-ppl.rst
+@@ -1,4 +1,6 @@
++==================
+ Partial Parity Log
++==================
+ 
+ Partial Parity Log (PPL) is a feature available for RAID5 arrays. The issue
+ addressed by PPL is that after a dirty shutdown, parity of a particular stripe
 -- 
 2.21.0
-
 
