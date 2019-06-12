@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 828827D923
+	by archive.lwn.net (Postfix) with ESMTP id 6CADF7D919
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 18:41:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727357AbfFLSik (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1727443AbfFLSik (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Wed, 12 Jun 2019 14:38:40 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:45580 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:45578 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726778AbfFLSij (ORCPT
+        with ESMTP id S1726774AbfFLSij (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jun 2019 14:38:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,26 +20,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=XybHKlaRWzbSGlu8K7TS9Q7Y/OmFmTKD4x+hIonIz/Y=; b=ow1Fmud8AxtZf9u693hRtt80Es
-        SGMqTYmlP7OP5C+add2F2LmnK80vX7ePOXcdNxSKb9o/nj+q4QKHQmx6K/0Isac316egD7BCu4LUr
-        I5rW61XPUG78fOb+SbkdaD1MRus841njhqIHRPd9ThSFR4XE/YqcmaQbYpF83xi42q/BYnO0eR0Qg
-        HFTUmIvlJBqIXYpNLGfXeV87tDXB2f+RK3UnAS6dn2DE49kPbCx02t9yw7V+2OFLp0RSa93Z0WSsz
-        2rL2z5qC7tjIaxA4rIwXC6OjT59V7Vrn262HdHxc5OgV401zuAy81X7kMmv680uGfZ1LF83Bzloir
-        xtmExswg==;
+        bh=FPmhq6OXB0RygPdeF4/P0ZK5H7ymzhVGQYICPZhGGng=; b=Hnh70PTW2VAauerodeF/nBx//e
+        k30iyisOk5Qh7W0WZgPv4W+tWHovspgrQ0xxvXp9rX5LfPGwSfPjVS3m6IFa2HIx6DTbnju6nckLK
+        lS9jJnVPaumoM6k3KloUpLEm5G9XDIS4jyhqtU2q9k/giJu2bnzwLGq5ZEH/YZEhUs4Tb0O+2Q4CG
+        r5wLCCJM+HJlLlpye5iI4uQ9QYpBpUepZUla+zW4dQdXRcDYapKf8D0M4wkXc10D76bbaa4EF0AnV
+        O+9fgfURYdQpcmEn+udUOfN+9MxOaYTOMtiWNF37wjk3InkWYaY0gwm7LnDxyhWu3f30+w78Mx200
+        Yakw3Kvg==;
 Received: from 201.86.169.251.dynamic.adsl.gvt.net.br ([201.86.169.251] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hb88s-0006YN-QE; Wed, 12 Jun 2019 18:38:38 +0000
+        id 1hb88s-0006YB-JM; Wed, 12 Jun 2019 18:38:38 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hb88q-0002Br-F4; Wed, 12 Jun 2019 15:38:36 -0300
+        id 1hb88p-0002Al-Vl; Wed, 12 Jun 2019 15:38:35 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v1 25/31] docs: namespaces: convert to ReST
-Date:   Wed, 12 Jun 2019 15:38:28 -0300
-Message-Id: <01885b98cbf7616677365d81ea80a6733f37ebf5.1560364494.git.mchehab+samsung@kernel.org>
+Subject: [PATCH v1 08/31] docs: early-userspace: convert docs to ReST and rename to *.rst
+Date:   Wed, 12 Jun 2019 15:38:11 -0300
+Message-Id: <182446badea28ce0d058ef43dc941e347a33e457.1560364494.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1560364493.git.mchehab+samsung@kernel.org>
 References: <cover.1560364493.git.mchehab+samsung@kernel.org>
@@ -50,97 +50,190 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rename the namespaces documentation files to ReST, add an
-index for them and adjust in order to produce a nice html
-output via the Sphinx build system.
+The two files there describes a Kernel API feature, used to
+support early userspace stuff. Prepare for moving them to
+the kernel API book by converting to ReST format.
 
-There are two upper case file names. Rename them to
-lower case, as we're working to avoid upper case file
-names at Documentation.
+The conversion itself was quite trivial: just add/mark a few
+titles as such, add a literal block markup, add a table markup
+and a few blank lines, in order to make Sphinx to properly parse it.
 
 At its new index.rst, let's add a :orphan: while this is not linked to
 the main index.rst file, in order to avoid build warnings.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- ...{compatibility-list.txt => compatibility-list.rst} | 10 +++++++---
- Documentation/namespaces/index.rst                    | 11 +++++++++++
- .../{resource-control.txt => resource-control.rst}    |  4 ++++
- 3 files changed, 22 insertions(+), 3 deletions(-)
- rename Documentation/namespaces/{compatibility-list.txt => compatibility-list.rst} (86%)
- create mode 100644 Documentation/namespaces/index.rst
- rename Documentation/namespaces/{resource-control.txt => resource-control.rst} (89%)
+ .../{buffer-format.txt => buffer-format.rst}  | 19 +++++++++++++------
+ .../{README => early_userspace_support.rst}   |  3 +++
+ Documentation/early-userspace/index.rst       | 18 ++++++++++++++++++
+ Documentation/filesystems/nfs/nfsroot.txt     |  2 +-
+ .../filesystems/ramfs-rootfs-initramfs.txt    |  4 ++--
+ usr/Kconfig                                   |  2 +-
+ 6 files changed, 38 insertions(+), 10 deletions(-)
+ rename Documentation/early-userspace/{buffer-format.txt => buffer-format.rst} (91%)
+ rename Documentation/early-userspace/{README => early_userspace_support.rst} (99%)
+ create mode 100644 Documentation/early-userspace/index.rst
 
-diff --git a/Documentation/namespaces/compatibility-list.txt b/Documentation/namespaces/compatibility-list.rst
-similarity index 86%
-rename from Documentation/namespaces/compatibility-list.txt
-rename to Documentation/namespaces/compatibility-list.rst
-index defc5589bfcd..318800b2a943 100644
---- a/Documentation/namespaces/compatibility-list.txt
-+++ b/Documentation/namespaces/compatibility-list.rst
-@@ -1,4 +1,6 @@
--	Namespaces compatibility list
-+=============================
-+Namespaces compatibility list
-+=============================
+diff --git a/Documentation/early-userspace/buffer-format.txt b/Documentation/early-userspace/buffer-format.rst
+similarity index 91%
+rename from Documentation/early-userspace/buffer-format.txt
+rename to Documentation/early-userspace/buffer-format.rst
+index e1fd7f9dad16..7f74e301fdf3 100644
+--- a/Documentation/early-userspace/buffer-format.txt
++++ b/Documentation/early-userspace/buffer-format.rst
+@@ -1,8 +1,10 @@
+-		       initramfs buffer format
+-		       -----------------------
++=======================
++initramfs buffer format
++=======================
  
- This document contains the information about the problems user
- may have when creating tasks living in different namespaces.
-@@ -7,13 +9,16 @@ Here's the summary. This matrix shows the known problems, that
- occur when tasks share some namespace (the columns) while living
- in different other namespaces (the rows):
+-		       Al Viro, H. Peter Anvin
+-		      Last revision: 2002-01-13
++Al Viro, H. Peter Anvin
++
++Last revision: 2002-01-13
  
--	UTS	IPC	VFS	PID	User	Net
-+====	===	===	===	===	====	===
-+-	UTS	IPC	VFS	PID	User	Net
-+====	===	===	===	===	====	===
- UTS	 X
- IPC		 X	 1
- VFS			 X
- PID		 1	 1	 X
- User		 2	 2		 X
- Net						 X
-+====	===	===	===	===	====	===
+ Starting with kernel 2.5.x, the old "initial ramdisk" protocol is
+ getting {replaced/complemented} with the new "initial ramfs"
+@@ -18,7 +20,8 @@ archive can be compressed using gzip(1).  One valid version of an
+ initramfs buffer is thus a single .cpio.gz file.
  
- 1. Both the IPC and the PID namespaces provide IDs to address
-    object inside the kernel. E.g. semaphore with IPCID or
-@@ -36,4 +41,3 @@ Net						 X
-    even having equal UIDs.
+ The full format of the initramfs buffer is defined by the following
+-grammar, where:
++grammar, where::
++
+ 	*	is used to indicate "0 or more occurrences of"
+ 	(|)	indicates alternatives
+ 	+	indicates concatenation
+@@ -49,7 +52,9 @@ hexadecimal ASCII numbers fully padded with '0' on the left to the
+ full width of the field, for example, the integer 4780 is represented
+ by the ASCII string "000012ac"):
  
-    But currently this is not so.
--
-diff --git a/Documentation/namespaces/index.rst b/Documentation/namespaces/index.rst
++============= ================== ==============================================
+ Field name    Field size	 Meaning
++============= ================== ==============================================
+ c_magic	      6 bytes		 The string "070701" or "070702"
+ c_ino	      8 bytes		 File inode number
+ c_mode	      8 bytes		 File mode and permissions
+@@ -65,6 +70,7 @@ c_rmin	      8 bytes		 Minor part of device node reference
+ c_namesize    8 bytes		 Length of filename, including final \0
+ c_chksum      8 bytes		 Checksum of data field if c_magic is 070702;
+ 				 otherwise zero
++============= ================== ==============================================
+ 
+ The c_mode field matches the contents of st_mode returned by stat(2)
+ on Linux, and encodes the file type and file permissions.
+@@ -82,7 +88,8 @@ If the filename is "TRAILER!!!" this is actually an end-of-archive
+ marker; the c_filesize for an end-of-archive marker must be zero.
+ 
+ 
+-*** Handling of hard links
++Handling of hard links
++======================
+ 
+ When a nondirectory with c_nlink > 1 is seen, the (c_maj,c_min,c_ino)
+ tuple is looked up in a tuple buffer.  If not found, it is entered in
+diff --git a/Documentation/early-userspace/README b/Documentation/early-userspace/early_userspace_support.rst
+similarity index 99%
+rename from Documentation/early-userspace/README
+rename to Documentation/early-userspace/early_userspace_support.rst
+index 955d667dc87e..3deefb34046b 100644
+--- a/Documentation/early-userspace/README
++++ b/Documentation/early-userspace/early_userspace_support.rst
+@@ -1,3 +1,4 @@
++=======================
+ Early userspace support
+ =======================
+ 
+@@ -26,6 +27,7 @@ archive to be used as the image or have the kernel build process build
+ the image from specifications.
+ 
+ CPIO ARCHIVE method
++-------------------
+ 
+ You can create a cpio archive that contains the early userspace image.
+ Your cpio archive should be specified in CONFIG_INITRAMFS_SOURCE and it
+@@ -34,6 +36,7 @@ CONFIG_INITRAMFS_SOURCE and directory and file names are not allowed in
+ combination with a cpio archive.
+ 
+ IMAGE BUILDING method
++---------------------
+ 
+ The kernel build process can also build an early userspace image from
+ source parts rather than supplying a cpio archive.  This method provides
+diff --git a/Documentation/early-userspace/index.rst b/Documentation/early-userspace/index.rst
 new file mode 100644
-index 000000000000..bf40625dd11a
+index 000000000000..2b8eb6132058
 --- /dev/null
-+++ b/Documentation/namespaces/index.rst
-@@ -0,0 +1,11 @@
++++ b/Documentation/early-userspace/index.rst
+@@ -0,0 +1,18 @@
 +:orphan:
 +
-+==========
-+Namespaces
-+==========
++===============
++Early Userspace
++===============
 +
 +.. toctree::
-+   :maxdepth: 1
++    :maxdepth: 1
 +
-+   compatibility-list
-+   resource-control
-diff --git a/Documentation/namespaces/resource-control.txt b/Documentation/namespaces/resource-control.rst
-similarity index 89%
-rename from Documentation/namespaces/resource-control.txt
-rename to Documentation/namespaces/resource-control.rst
-index abc13c394738..369556e00f0c 100644
---- a/Documentation/namespaces/resource-control.txt
-+++ b/Documentation/namespaces/resource-control.rst
-@@ -1,3 +1,7 @@
-+===========================
-+Namespaces research control
-+===========================
++    early_userspace_support
++    buffer-format
 +
- There are a lot of kinds of objects in the kernel that don't have
- individual limits or that have limits that are ineffective when a set
- of processes is allowed to switch user ids.  With user namespaces
++.. only::  subproject and html
++
++   Indices
++   =======
++
++   * :ref:`genindex`
+diff --git a/Documentation/filesystems/nfs/nfsroot.txt b/Documentation/filesystems/nfs/nfsroot.txt
+index d2963123eb1c..4862d3d77e27 100644
+--- a/Documentation/filesystems/nfs/nfsroot.txt
++++ b/Documentation/filesystems/nfs/nfsroot.txt
+@@ -239,7 +239,7 @@ rdinit=<executable file>
+   A description of the process of mounting the root file system can be
+   found in:
+ 
+-    Documentation/early-userspace/README
++    Documentation/early-userspace/early_userspace_support.rst
+ 
+ 
+ 
+diff --git a/Documentation/filesystems/ramfs-rootfs-initramfs.txt b/Documentation/filesystems/ramfs-rootfs-initramfs.txt
+index 79637d227e85..fa985909dbca 100644
+--- a/Documentation/filesystems/ramfs-rootfs-initramfs.txt
++++ b/Documentation/filesystems/ramfs-rootfs-initramfs.txt
+@@ -105,7 +105,7 @@ All this differs from the old initrd in several ways:
+   - The old initrd file was a gzipped filesystem image (in some file format,
+     such as ext2, that needed a driver built into the kernel), while the new
+     initramfs archive is a gzipped cpio archive (like tar only simpler,
+-    see cpio(1) and Documentation/early-userspace/buffer-format.txt).  The
++    see cpio(1) and Documentation/early-userspace/buffer-format.rst).  The
+     kernel's cpio extraction code is not only extremely small, it's also
+     __init text and data that can be discarded during the boot process.
+ 
+@@ -159,7 +159,7 @@ One advantage of the configuration file is that root access is not required to
+ set permissions or create device nodes in the new archive.  (Note that those
+ two example "file" entries expect to find files named "init.sh" and "busybox" in
+ a directory called "initramfs", under the linux-2.6.* directory.  See
+-Documentation/early-userspace/README for more details.)
++Documentation/early-userspace/early_userspace_support.rst for more details.)
+ 
+ The kernel does not depend on external cpio tools.  If you specify a
+ directory instead of a configuration file, the kernel's build infrastructure
+diff --git a/usr/Kconfig b/usr/Kconfig
+index 43658b8a975e..86e37e297278 100644
+--- a/usr/Kconfig
++++ b/usr/Kconfig
+@@ -18,7 +18,7 @@ config INITRAMFS_SOURCE
+ 	  When multiple directories and files are specified then the
+ 	  initramfs image will be the aggregate of all of them.
+ 
+-	  See <file:Documentation/early-userspace/README> for more details.
++	  See <file:Documentation/early-userspace/early_userspace_support.rst> for more details.
+ 
+ 	  If you are not sure, leave it blank.
+ 
 -- 
 2.21.0
 
