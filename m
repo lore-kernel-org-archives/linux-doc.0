@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B46F57D90F
+	by archive.lwn.net (Postfix) with ESMTP id C91EA7D923
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 17:55:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388464AbfFLRxM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S2388390AbfFLRxM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Wed, 12 Jun 2019 13:53:12 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:40396 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:40388 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388144AbfFLRxL (ORCPT
+        with ESMTP id S2388122AbfFLRxL (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jun 2019 13:53:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,26 +20,28 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=1uNdQk2Zc5fugs3exEfsPSxkpKZNR2G+lru/IzqYl5E=; b=kMXo9QUMN6FwEauVoxGuOWWY+U
-        wm1tRk86G4ZW171EHWFm5XCjDr+GWYseIdTxFRiA5X5pzCVRFeu9YHDItJKwxUw5hgQnDU/G5BZZe
-        jWb04mzOqT1PE6d9A9kvcGBY62n3V6Gzw4DBhL265eaUO/jhN53b+GstZ6ju9b54ouAbME2UCyPGC
-        9pZXuf9hoHHHoLwBIm1lDV66EOxc6cbc6SdwHCgdtOrjaGclofluwlKHkC2q3j3qVpARtb0lYJPAm
-        18fy1h4zhJUewF+vwatVjsUAn9019X1pymgO2bsbjm1IyrN/LTEGJHI7wj+Msex7gM0R/v+yO0ZEy
-        HSe+UiXw==;
+        bh=I4JuIzfBUKUzNhsVN5Ij21Ostvd2xi3sgD9JCY82Obs=; b=Uy/YnzP945rTVuULQmRk4bjreI
+        Zt4OZUdCtWZQ2W3LbDJJp9kzXuuAY7eYMvHBVFL5lSMtjXj3uvLzEnvc57Y4/iG0O4KnM4fQ/RGX7
+        0iEX7D8kBivnici32NUshPCs9skghoA6FY20DI9biYD+kn3o0NZKgtBS1YRxy9ED1qDFcFwfXGkO9
+        bscV903PoVjYnjCgrhWiV+argE3HESuiszTdF9TygMFH6hKghXLlwqwtTRbjyVkMcskmS2GqBHc7M
+        tpIEhy8Avhvs5HXJ3xxn/yGYiRHXw1PD/gDT2RHWdUgbXK/IuwsO/dbT5Y/DFYZCVzxd/24L7mirJ
+        0chrKflw==;
 Received: from 201.86.169.251.dynamic.adsl.gvt.net.br ([201.86.169.251] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hb7Qs-0002DT-Rj; Wed, 12 Jun 2019 17:53:11 +0000
+        id 1hb7Qs-0002Dh-Qr; Wed, 12 Jun 2019 17:53:11 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hb7Qp-0001fg-Um; Wed, 12 Jun 2019 14:53:07 -0300
+        id 1hb7Qq-0001gq-ET; Wed, 12 Jun 2019 14:53:08 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v4 01/28] docs: aoe: convert docs to ReST and rename to *.rst
-Date:   Wed, 12 Jun 2019 14:52:37 -0300
-Message-Id: <fae5f80310ae2e0ef2d623a7439916e8cef68959.1560361364.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Paul Moore <paul@paul-moore.com>, netdev@vger.kernel.org,
+        linux-security-module@vger.kernel.org
+Subject: [PATCH v4 16/28] docs: netlabel: convert docs to ReST and rename to *.rst
+Date:   Wed, 12 Jun 2019 14:52:52 -0300
+Message-Id: <873f41ab07225b8f6cef5d13cc19a387227817ec.1560361364.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1560361364.git.mchehab+samsung@kernel.org>
 References: <cover.1560361364.git.mchehab+samsung@kernel.org>
@@ -50,197 +52,122 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are only two files within Documentation/aoe dir that are
-documentation. The remaining ones are examples and shell
-scripts.
+Convert netlabel documentation to ReST.
 
-Convert the two AoE files to ReST format, and add the others
-as literal, as they're part of the documentation.
+This was trivial: just add proper title markups.
 
 At its new index.rst, let's add a :orphan: while this is not linked to
 the main index.rst file, in order to avoid build warnings.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Acked-by: Paul Moore <paul@paul-moore.com>
 ---
- Documentation/aoe/{aoe.txt => aoe.rst}   | 63 +++++++++++++-----------
- Documentation/aoe/examples.rst           | 23 +++++++++
- Documentation/aoe/index.rst              | 19 +++++++
- Documentation/aoe/{todo.txt => todo.rst} |  3 ++
- Documentation/aoe/udev.txt               |  2 +-
- 5 files changed, 81 insertions(+), 29 deletions(-)
- rename Documentation/aoe/{aoe.txt => aoe.rst} (79%)
- create mode 100644 Documentation/aoe/examples.rst
- create mode 100644 Documentation/aoe/index.rst
- rename Documentation/aoe/{todo.txt => todo.rst} (98%)
+ .../{cipso_ipv4.txt => cipso_ipv4.rst}        | 19 +++++++++++------
+ Documentation/netlabel/draft_ietf.rst         |  5 +++++
+ Documentation/netlabel/index.rst              | 21 +++++++++++++++++++
+ .../{introduction.txt => introduction.rst}    | 16 +++++++++-----
+ .../{lsm_interface.txt => lsm_interface.rst}  | 16 +++++++++-----
+ 5 files changed, 61 insertions(+), 16 deletions(-)
+ rename Documentation/netlabel/{cipso_ipv4.txt => cipso_ipv4.rst} (87%)
+ create mode 100644 Documentation/netlabel/draft_ietf.rst
+ create mode 100644 Documentation/netlabel/index.rst
+ rename Documentation/netlabel/{introduction.txt => introduction.rst} (91%)
+ rename Documentation/netlabel/{lsm_interface.txt => lsm_interface.rst} (88%)
 
-diff --git a/Documentation/aoe/aoe.txt b/Documentation/aoe/aoe.rst
-similarity index 79%
-rename from Documentation/aoe/aoe.txt
-rename to Documentation/aoe/aoe.rst
-index c71487d399d1..58747ecec71d 100644
---- a/Documentation/aoe/aoe.txt
-+++ b/Documentation/aoe/aoe.rst
-@@ -1,3 +1,6 @@
-+Introduction
-+============
+diff --git a/Documentation/netlabel/cipso_ipv4.txt b/Documentation/netlabel/cipso_ipv4.rst
+similarity index 87%
+rename from Documentation/netlabel/cipso_ipv4.txt
+rename to Documentation/netlabel/cipso_ipv4.rst
+index a6075481fd60..cbd3f3231221 100644
+--- a/Documentation/netlabel/cipso_ipv4.txt
++++ b/Documentation/netlabel/cipso_ipv4.rst
+@@ -1,10 +1,13 @@
++===================================
+ NetLabel CIPSO/IPv4 Protocol Engine
+-==============================================================================
++===================================
 +
- ATA over Ethernet is a network protocol that provides simple access to
- block storage on the LAN.
+ Paul Moore, paul.moore@hp.com
  
-@@ -22,7 +25,8 @@ document the use of the driver and are not necessary if you install
- the aoetools.
+ May 17, 2006
  
+- * Overview
++Overview
++========
  
--CREATING DEVICE NODES
-+Creating Device Nodes
-+=====================
+ The NetLabel CIPSO/IPv4 protocol engine is based on the IETF Commercial
+ IP Security Option (CIPSO) draft from July 16, 1992.  A copy of this
+@@ -13,7 +16,8 @@ draft can be found in this directory
+ it to an RFC standard it has become a de-facto standard for labeled
+ networking and is used in many trusted operating systems.
  
-   Users of udev should find the block device nodes created
-   automatically, but to create all the necessary device nodes, use the
-@@ -38,7 +42,8 @@ CREATING DEVICE NODES
-   confusing when an AoE device is not present the first time the a
-   command is run but appears a second later.
+- * Outbound Packet Processing
++Outbound Packet Processing
++==========================
  
--USING DEVICE NODES
-+Using Device Nodes
-+==================
+ The CIPSO/IPv4 protocol engine applies the CIPSO IP option to packets by
+ adding the CIPSO label to the socket.  This causes all packets leaving the
+@@ -24,7 +28,8 @@ label by using the NetLabel security module API; if the NetLabel "domain" is
+ configured to use CIPSO for packet labeling then a CIPSO IP option will be
+ generated and attached to the socket.
  
-   "cat /dev/etherd/err" blocks, waiting for error diagnostic output,
-   like any retransmitted packets.
-@@ -55,7 +60,7 @@ USING DEVICE NODES
-   by sysfs counterparts.  Using the commands in aoetools insulates
-   users from these implementation details.
+- * Inbound Packet Processing
++Inbound Packet Processing
++=========================
  
--  The block devices are named like this:
-+  The block devices are named like this::
+ The CIPSO/IPv4 protocol engine validates every CIPSO IP option it finds at the
+ IP layer without any special handling required by the LSM.  However, in order
+@@ -33,7 +38,8 @@ NetLabel security module API to extract the security attributes of the packet.
+ This is typically done at the socket layer using the 'socket_sock_rcv_skb()'
+ LSM hook.
  
- 	e{shelf}.{slot}
- 	e{shelf}.{slot}p{part}
-@@ -64,7 +69,8 @@ USING DEVICE NODES
-   first shelf (shelf address zero).  That's the whole disk.  The first
-   partition on that disk would be "e0.2p1".
+- * Label Translation
++Label Translation
++=================
  
--USING SYSFS
-+Using sysfs
-+===========
+ The CIPSO/IPv4 protocol engine contains a mechanism to translate CIPSO security
+ attributes such as sensitivity level and category to values which are
+@@ -42,7 +48,8 @@ Domain Of Interpretation (DOI) definition and are configured through the
+ NetLabel user space communication layer.  Each DOI definition can have a
+ different security attribute mapping table.
  
-   Each aoe block device in /sys/block has the extra attributes of
-   state, mac, and netif.  The state attribute is "up" when the device
-@@ -78,29 +84,29 @@ USING SYSFS
+- * Label Translation Cache
++Label Translation Cache
++=======================
  
-   There is a script in this directory that formats this information in
-   a convenient way.  Users with aoetools should use the aoe-stat
--  command.
-+  command::
- 
--  root@makki root# sh Documentation/aoe/status.sh 
--     e10.0            eth3              up
--     e10.1            eth3              up
--     e10.2            eth3              up
--     e10.3            eth3              up
--     e10.4            eth3              up
--     e10.5            eth3              up
--     e10.6            eth3              up
--     e10.7            eth3              up
--     e10.8            eth3              up
--     e10.9            eth3              up
--      e4.0            eth1              up
--      e4.1            eth1              up
--      e4.2            eth1              up
--      e4.3            eth1              up
--      e4.4            eth1              up
--      e4.5            eth1              up
--      e4.6            eth1              up
--      e4.7            eth1              up
--      e4.8            eth1              up
--      e4.9            eth1              up
-+    root@makki root# sh Documentation/aoe/status.sh
-+       e10.0            eth3              up
-+       e10.1            eth3              up
-+       e10.2            eth3              up
-+       e10.3            eth3              up
-+       e10.4            eth3              up
-+       e10.5            eth3              up
-+       e10.6            eth3              up
-+       e10.7            eth3              up
-+       e10.8            eth3              up
-+       e10.9            eth3              up
-+        e4.0            eth1              up
-+        e4.1            eth1              up
-+        e4.2            eth1              up
-+        e4.3            eth1              up
-+        e4.4            eth1              up
-+        e4.5            eth1              up
-+        e4.6            eth1              up
-+        e4.7            eth1              up
-+        e4.8            eth1              up
-+        e4.9            eth1              up
- 
-   Use /sys/module/aoe/parameters/aoe_iflist (or better, the driver
-   option discussed below) instead of /dev/etherd/interfaces to limit
-@@ -113,12 +119,13 @@ USING SYSFS
-   for this purpose.  You can also directly use the
-   /dev/etherd/discover special file described above.
- 
--DRIVER OPTIONS
-+Driver Options
-+==============
- 
-   There is a boot option for the built-in aoe driver and a
-   corresponding module parameter, aoe_iflist.  Without this option,
-   all network interfaces may be used for ATA over Ethernet.  Here is a
--  usage example for the module parameter.
-+  usage example for the module parameter::
- 
-     modprobe aoe_iflist="eth1 eth3"
- 
-diff --git a/Documentation/aoe/examples.rst b/Documentation/aoe/examples.rst
+ The NetLabel system provides a framework for caching security attribute
+ mappings from the network labels to the corresponding LSM identifiers.  The
+diff --git a/Documentation/netlabel/draft_ietf.rst b/Documentation/netlabel/draft_ietf.rst
 new file mode 100644
-index 000000000000..91f3198e52c1
+index 000000000000..5ed39ab8234b
 --- /dev/null
-+++ b/Documentation/aoe/examples.rst
-@@ -0,0 +1,23 @@
-+Example of udev rules
-+---------------------
-+
-+ .. include:: udev.txt
-+    :literal:
-+
-+Example of udev install rules script
-+------------------------------------
-+
-+ .. literalinclude:: udev-install.sh
-+    :language: shell
-+
-+Example script to get status
++++ b/Documentation/netlabel/draft_ietf.rst
+@@ -0,0 +1,5 @@
++Draft IETF CIPSO IP Security
 +----------------------------
 +
-+ .. literalinclude:: status.sh
-+    :language: shell
-+
-+Example of AoE autoload script
-+------------------------------
-+
-+ .. literalinclude:: autoload.sh
-+    :language: shell
-diff --git a/Documentation/aoe/index.rst b/Documentation/aoe/index.rst
++ .. include:: draft-ietf-cipso-ipsecurity-01.txt
++    :literal:
+diff --git a/Documentation/netlabel/index.rst b/Documentation/netlabel/index.rst
 new file mode 100644
-index 000000000000..4394b9b7913c
+index 000000000000..47f1e0e5acd1
 --- /dev/null
-+++ b/Documentation/aoe/index.rst
-@@ -0,0 +1,19 @@
++++ b/Documentation/netlabel/index.rst
+@@ -0,0 +1,21 @@
 +:orphan:
 +
-+=======================
-+ATA over Ethernet (AoE)
-+=======================
++========
++NetLabel
++========
 +
 +.. toctree::
 +    :maxdepth: 1
 +
-+    aoe
-+    todo
-+    examples
++    introduction
++    cipso_ipv4
++    lsm_interface
++
++    draft_ietf
 +
 +.. only::  subproject and html
 +
@@ -248,33 +175,112 @@ index 000000000000..4394b9b7913c
 +   =======
 +
 +   * :ref:`genindex`
-diff --git a/Documentation/aoe/todo.txt b/Documentation/aoe/todo.rst
-similarity index 98%
-rename from Documentation/aoe/todo.txt
-rename to Documentation/aoe/todo.rst
-index c09dfad4aed8..dea8db5a33e1 100644
---- a/Documentation/aoe/todo.txt
-+++ b/Documentation/aoe/todo.rst
-@@ -1,3 +1,6 @@
-+TODO
-+====
+diff --git a/Documentation/netlabel/introduction.txt b/Documentation/netlabel/introduction.rst
+similarity index 91%
+rename from Documentation/netlabel/introduction.txt
+rename to Documentation/netlabel/introduction.rst
+index 3caf77bcff0f..9333bbb0adc1 100644
+--- a/Documentation/netlabel/introduction.txt
++++ b/Documentation/netlabel/introduction.rst
+@@ -1,10 +1,13 @@
++=====================
+ NetLabel Introduction
+-==============================================================================
++=====================
 +
- There is a potential for deadlock when allocating a struct sk_buff for
- data that needs to be written out to aoe storage.  If the data is
- being written from a dirty page in order to free that page, and if
-diff --git a/Documentation/aoe/udev.txt b/Documentation/aoe/udev.txt
-index 1f06daf03f5b..54feda5a0772 100644
---- a/Documentation/aoe/udev.txt
-+++ b/Documentation/aoe/udev.txt
-@@ -11,7 +11,7 @@
- #   udev_rules="/etc/udev/rules.d/"
- #   bash# ls /etc/udev/rules.d/
- #   10-wacom.rules  50-udev.rules
--#   bash# cp /path/to/linux-2.6.xx/Documentation/aoe/udev.txt \
-+#   bash# cp /path/to/linux/Documentation/aoe/udev.txt \
- #           /etc/udev/rules.d/60-aoe.rules
- #  
+ Paul Moore, paul.moore@hp.com
  
+ August 2, 2006
+ 
+- * Overview
++Overview
++========
+ 
+ NetLabel is a mechanism which can be used by kernel security modules to attach
+ security attributes to outgoing network packets generated from user space
+@@ -12,7 +15,8 @@ applications and read security attributes from incoming network packets.  It
+ is composed of three main components, the protocol engines, the communication
+ layer, and the kernel security module API.
+ 
+- * Protocol Engines
++Protocol Engines
++================
+ 
+ The protocol engines are responsible for both applying and retrieving the
+ network packet's security attributes.  If any translation between the network
+@@ -24,7 +28,8 @@ the NetLabel kernel security module API described below.
+ Detailed information about each NetLabel protocol engine can be found in this
+ directory.
+ 
+- * Communication Layer
++Communication Layer
++===================
+ 
+ The communication layer exists to allow NetLabel configuration and monitoring
+ from user space.  The NetLabel communication layer uses a message based
+@@ -33,7 +38,8 @@ formatting of these NetLabel messages as well as the Generic NETLINK family
+ names can be found in the 'net/netlabel/' directory as comments in the
+ header files as well as in 'include/net/netlabel.h'.
+ 
+- * Security Module API
++Security Module API
++===================
+ 
+ The purpose of the NetLabel security module API is to provide a protocol
+ independent interface to the underlying NetLabel protocol engines.  In addition
+diff --git a/Documentation/netlabel/lsm_interface.txt b/Documentation/netlabel/lsm_interface.rst
+similarity index 88%
+rename from Documentation/netlabel/lsm_interface.txt
+rename to Documentation/netlabel/lsm_interface.rst
+index 638c74f7de7f..026fc267f798 100644
+--- a/Documentation/netlabel/lsm_interface.txt
++++ b/Documentation/netlabel/lsm_interface.rst
+@@ -1,10 +1,13 @@
++========================================
+ NetLabel Linux Security Module Interface
+-==============================================================================
++========================================
++
+ Paul Moore, paul.moore@hp.com
+ 
+ May 17, 2006
+ 
+- * Overview
++Overview
++========
+ 
+ NetLabel is a mechanism which can set and retrieve security attributes from
+ network packets.  It is intended to be used by LSM developers who want to make
+@@ -12,7 +15,8 @@ use of a common code base for several different packet labeling protocols.
+ The NetLabel security module API is defined in 'include/net/netlabel.h' but a
+ brief overview is given below.
+ 
+- * NetLabel Security Attributes
++NetLabel Security Attributes
++============================
+ 
+ Since NetLabel supports multiple different packet labeling protocols and LSMs
+ it uses the concept of security attributes to refer to the packet's security
+@@ -24,7 +28,8 @@ configuration.  It is up to the LSM developer to translate the NetLabel
+ security attributes into whatever security identifiers are in use for their
+ particular LSM.
+ 
+- * NetLabel LSM Protocol Operations
++NetLabel LSM Protocol Operations
++================================
+ 
+ These are the functions which allow the LSM developer to manipulate the labels
+ on outgoing packets as well as read the labels on incoming packets.  Functions
+@@ -32,7 +37,8 @@ exist to operate both on sockets as well as the sk_buffs directly.  These high
+ level functions are translated into low level protocol operations based on how
+ the administrator has configured the NetLabel subsystem.
+ 
+- * NetLabel Label Mapping Cache Operations
++NetLabel Label Mapping Cache Operations
++=======================================
+ 
+ Depending on the exact configuration, translation between the network packet
+ label and the internal LSM security identifier can be time consuming.  The
 -- 
 2.21.0
 
