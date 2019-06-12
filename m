@@ -5,127 +5,171 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8C3EB7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 17:40:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 825587D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 17:55:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726378AbfFLRk0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Jun 2019 13:40:26 -0400
-Received: from casper.infradead.org ([85.118.1.10]:37624 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725878AbfFLRkZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jun 2019 13:40:25 -0400
+        id S2388188AbfFLRxM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Jun 2019 13:53:12 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:40390 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387793AbfFLRxL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jun 2019 13:53:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=QttHRjHJ7MdlFs6psyes3YVzvNlpLf2MWMHYPysLwuw=; b=QddYO1C9EJA++Jit0trZp/JUNF
-        3wVeuwLM40EQ05IVR/ZKCgmmPouY6r5zSG+wmAaz1KZ5W5tzKVwYSr0Sa2M/r5RGDbAUMyWFebE51
-        yUdq8Cevmj2flA/1vVfKKTtjyWhpFG/F+mk7tba3WWhkJ39a3kKwoxJ/Si70HAjOFrvOAbbwxKbOG
-        sHKz4WruU56R1I4yQ+aDgF1epxWJUU/4Fi6IiwSL+HFDUMlbw055MCsq2e+Te1UTA9/dlCvQLbmZr
-        zLdQ31mezeTlD2m8JCZ4WmNrfzKeg3e3Hl5RmZArBYmv2kVUs0v/Q29KZE+KZPnOxyIxgAA3ZJ6Rb
-        IioY5hIQ==;
-Received: from 201.86.169.251.dynamic.adsl.gvt.net.br ([201.86.169.251] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hb7ER-0000RS-UF; Wed, 12 Jun 2019 17:40:20 +0000
-Date:   Wed, 12 Jun 2019 14:40:15 -0300
+        bh=vL4lOYobBwCnYeVEKz9+S+U0qDj+pEo1Zutn3iMRF3w=; b=bVniTSEq3eGp3ZnjsE6pnPwGL6
+        TZk9luV9nGuNHvWkeiNmoA45pY9qIt75u0NyaHokBpcoDAU70f5Ghs70gmPhejltHdwbg9+IPhgT9
+        9tp3TFsK5WA/8SQ0y50q6yinOZYKyD2sth38rRfA8b6w6u4t5mjrDBjFbm3G2cYz/tNLA5fAdAMap
+        F2bdJFSgzgz+6l0eyb276DrHYeKnBt9PfhFw+0ZQIFMA77sdJsr2oyBJy4GVPNwu6JuLdppSWI9tw
+        RRFOwqTlyEpZy/OGQQRL4wh2MouDUfxf54Moc9U5oOL5bKxgPEiq2Y5KPG4bwwy772T3bnabxLL6l
+        19ZRnPnw==;
+Received: from 201.86.169.251.dynamic.adsl.gvt.net.br ([201.86.169.251] helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hb7Qs-0002Dm-R9; Wed, 12 Jun 2019 17:53:10 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hb7Qq-0001hF-JY; Wed, 12 Jun 2019 14:53:08 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
-        dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 33/33] docs: EDID/HOWTO.txt: convert it and rename to
- howto.rst
-Message-ID: <20190612144015.033247db@coco.lan>
-In-Reply-To: <20190611093701.44344d00@lwn.net>
-References: <cover.1560045490.git.mchehab+samsung@kernel.org>
-        <74bec0b5b7c32c8d84adbaf9ff208803475198e5.1560045490.git.mchehab+samsung@kernel.org>
-        <20190611083731.GS21222@phenom.ffwll.local>
-        <20190611060215.232af2bb@coco.lan>
-        <20190611093701.44344d00@lwn.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Richard Cochran <richardcochran@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org
+Subject: [PATCH v4 21/28] docs: ptp.txt: convert to ReST and move to driver-api
+Date:   Wed, 12 Jun 2019 14:52:57 -0300
+Message-Id: <7855f0fd13e76718a182f877927f4cbd690a4a38.1560361364.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <cover.1560361364.git.mchehab+samsung@kernel.org>
+References: <cover.1560361364.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 11 Jun 2019 09:37:01 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+The conversion is trivial: just adjust title markups.
 
-> On Tue, 11 Jun 2019 06:02:15 -0300
-> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
->=20
-> > Jon, please correct me if I' wrong, bu I guess the plan is to place the=
-m=20
-> > somewhere under Documentation/admin-guide/. =20
->=20
-> That makes sense to me.
->=20
-> > If so, perhaps creating a Documentation/admin-guide/drm dir there and=20
-> > place docs like EDID/HOWTO.txt, svga.txt, etc would work. =20
->=20
-> Maybe "graphics" or "display" rather than "drm", which may not entirely
-> applicable to all of those docs or as familiar to all admins?
+In order to avoid conflicts, let's add an :orphan: tag
+to it, to be removed when this file gets added to the
+driver-api book.
 
-It is up to Daniel/David to decide. Personally, I agree with you that
-either "graphics" or "display" would be better at the admin guide.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Acked-by: Richard Cochran <richardcochran@gmail.com>
+---
+ .../{ptp/ptp.txt => driver-api/ptp.rst}       | 26 +++++++++++++------
+ Documentation/networking/timestamping.txt     |  2 +-
+ MAINTAINERS                                   |  2 +-
+ 3 files changed, 20 insertions(+), 10 deletions(-)
+ rename Documentation/{ptp/ptp.txt => driver-api/ptp.rst} (88%)
 
->=20
-> > Btw, that's one of the reasons[1] why I opted to keep the files where t=
-hey
-> > are: properly organizing the converted documents call for such kind
-> > of discussions. On my experience, discussing names and directory locati=
-ons
-> > can generate warm discussions and take a lot of time to reach consensus=
-. =20
->=20
-> Moving docs is a pain; my life would certainly be easier if I were happy
-> to just let everything lie where it fell :)  But it's far from the hardest
-> problem we solve in kernel development, I assume we can figure it out.
+diff --git a/Documentation/ptp/ptp.txt b/Documentation/driver-api/ptp.rst
+similarity index 88%
+rename from Documentation/ptp/ptp.txt
+rename to Documentation/driver-api/ptp.rst
+index 11e904ee073f..b6e65d66d37a 100644
+--- a/Documentation/ptp/ptp.txt
++++ b/Documentation/driver-api/ptp.rst
+@@ -1,5 +1,8 @@
++:orphan:
+ 
+-* PTP hardware clock infrastructure for Linux
++===========================================
++PTP hardware clock infrastructure for Linux
++===========================================
+ 
+   This patch set introduces support for IEEE 1588 PTP clocks in
+   Linux. Together with the SO_TIMESTAMPING socket options, this
+@@ -22,7 +25,8 @@
+     - Period output signals configurable from user space
+     - Synchronization of the Linux system time via the PPS subsystem
+ 
+-** PTP hardware clock kernel API
++PTP hardware clock kernel API
++=============================
+ 
+    A PTP clock driver registers itself with the class driver. The
+    class driver handles all of the dealings with user space. The
+@@ -36,7 +40,8 @@
+    development, it can be useful to have more than one clock in a
+    single system, in order to allow performance comparisons.
+ 
+-** PTP hardware clock user space API
++PTP hardware clock user space API
++=================================
+ 
+    The class driver also creates a character device for each
+    registered clock. User space can use an open file descriptor from
+@@ -49,7 +54,8 @@
+    ancillary clock features. User space can receive time stamped
+    events via blocking read() and poll().
+ 
+-** Writing clock drivers
++Writing clock drivers
++=====================
+ 
+    Clock drivers include include/linux/ptp_clock_kernel.h and register
+    themselves by presenting a 'struct ptp_clock_info' to the
+@@ -66,14 +72,17 @@
+    class driver, since the lock may also be needed by the clock
+    driver's interrupt service routine.
+ 
+-** Supported hardware
++Supported hardware
++==================
++
++   * Freescale eTSEC gianfar
+ 
+-   + Freescale eTSEC gianfar
+      - 2 Time stamp external triggers, programmable polarity (opt. interrupt)
+      - 2 Alarm registers (optional interrupt)
+      - 3 Periodic signals (optional interrupt)
+ 
+-   + National DP83640
++   * National DP83640
++
+      - 6 GPIOs programmable as inputs or outputs
+      - 6 GPIOs with dedicated functions (LED/JTAG/clock) can also be
+        used as general inputs or outputs
+@@ -81,6 +90,7 @@
+      - GPIO outputs can produce periodic signals
+      - 1 interrupt pin
+ 
+-   + Intel IXP465
++   * Intel IXP465
++
+      - Auxiliary Slave/Master Mode Snapshot (optional interrupt)
+      - Target Time (optional interrupt)
+diff --git a/Documentation/networking/timestamping.txt b/Documentation/networking/timestamping.txt
+index bbdaf8990031..8dd6333c3270 100644
+--- a/Documentation/networking/timestamping.txt
++++ b/Documentation/networking/timestamping.txt
+@@ -368,7 +368,7 @@ ts[1] used to hold hardware timestamps converted to system time.
+ Instead, expose the hardware clock device on the NIC directly as
+ a HW PTP clock source, to allow time conversion in userspace and
+ optionally synchronize system time with a userspace PTP stack such
+-as linuxptp. For the PTP clock API, see Documentation/ptp/ptp.txt.
++as linuxptp. For the PTP clock API, see Documentation/driver-api/ptp.rst.
+ 
+ Note that if the SO_TIMESTAMP or SO_TIMESTAMPNS option is enabled
+ together with SO_TIMESTAMPING using SOF_TIMESTAMPING_SOFTWARE, a false
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5c5714eddde4..9d9399c9cf47 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12815,7 +12815,7 @@ L:	netdev@vger.kernel.org
+ S:	Maintained
+ W:	http://linuxptp.sourceforge.net/
+ F:	Documentation/ABI/testing/sysfs-ptp
+-F:	Documentation/ptp/*
++F:	Documentation/driver-api/ptp.rst
+ F:	drivers/net/phy/dp83640*
+ F:	drivers/ptp/*
+ F:	include/linux/ptp_cl*
+-- 
+2.21.0
 
-Yeah, it is doable. I'm happy to write the rename patches and even try
-to split some documents at the places I'm more familiar with, but, IMHO,
-we should do some discussions before some of such renames.
-
-For example, Daniel said that:
-
-> > > Yeah atm we're doing a bad job of keeping the kapi and uapi parts
-> > > separate. But the plan at least is to move all the gpu related uapi s=
-tuff
-> > > into Documentation/gpu/drm-uapi.rst. Not sure there's value in moving=
- that
-> > > out of the gpu folder ...
-
-=46rom the conversions I've made so far, almost all driver subsystems
-put everything under Documentation/<subsystem: kAPI, uAPI, admin info,
-driver-specific technical info.
-
-It should be doable to place kAPI and uAPI on different books, but there
-will be lots of cross-reference links between them, on properly-written
-docs.
-
-However, other admin-guide stuff under drivers are usually in the middle
-of the documents. For example, on media, we have some at the uAPI guide,
-like the Device Naming item:
-
-	https://linuxtv.org/downloads/v4l-dvb-apis-new/uapi/v4l/open.html#device-n=
-aming
-
-But splitting it from uAPI guide is not an easy task.
-
-At the driver's specific documentation is even messier.
-
-Ok, splitting is doable, but require lots of dedication, and I'm not
-convinced if it would make much difference in practice.
-
-Thanks,
-Mauro
