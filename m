@@ -3,45 +3,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6C9D37E285
+	by archive.lwn.net (Postfix) with ESMTP id F22257E29D
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 18:07:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404080AbfFLR4S (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Jun 2019 13:56:18 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:40438 "EHLO
+        id S1728524AbfFLR4p (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Jun 2019 13:56:45 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:40414 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388573AbfFLRxN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jun 2019 13:53:13 -0400
+        with ESMTP id S2388381AbfFLRxM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jun 2019 13:53:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=DNT4HC2oamf5BF6+A8t/xa7Ebz2eP36+qkwouv0KvWM=; b=l2jlA1IZlIikpNZsQjLIDk+Bnp
-        /s93GkOFrkn7jULZ85gpYa7c9t+biGNQBewKRN2Nvly9xw7g6W7zPvW8ssIZHRKuXCNiHXpzPrjsY
-        9B1elhc04p5I+fu5g03FcXqknXYxt9dQykLM/8w4Y93IdOIvxDg9U/ig2mCdx501apFHdJo7rjrOe
-        1Xvkt5dUsFeYkqplbjBLm5x4nre+uF03JcEho4uRyiee5rVYjE353QJ/WBpHgMPFsmf7ImA1RXo2g
-        AMlh1Jm+97kILf27EfWqfW152ykeIe685uKh8shOGUrY39UnkSg3nmsBDcY7OEgs05Bkv1elmQf+6
-        YQ61sPHA==;
+        bh=HSCm9fmHq45iKXWvH1z71kgLM8Zr/K08UPBWZ48G3rQ=; b=kJCrYJnNRG+T/i8p0SFrwjrMkr
+        19SZQRfn+IMOssbbwMr8p9eTJLbxQlE0CzEkxNP3MDXn4axwXKcIf7ZdtmsZmvd8UDdorMizZQ2+o
+        5Rj6PaL+4gFRZ7u0/uaVsAWLvbuhA3GOf1+1zB8sPlBcWfuPL0JyiUeIMU+1IXtvQRQxtzCm+p8m4
+        QCTAmLTM3n/h9lC+xGRm279b/s8RELcGxSL4O/B2FyCmN/bf2CaJUgrt9tO6dUHt/N9o77ZWrGn/I
+        C26XwUhNCztYHr2ma86mt2WbUMhmhnKhTLNRp+OK5mhc9oJ2jcDnm4397XlflfOcy4E9bq0fBqP9l
+        YWRznc0w==;
 Received: from 201.86.169.251.dynamic.adsl.gvt.net.br ([201.86.169.251] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hb7Qt-0002Do-16; Wed, 12 Jun 2019 17:53:11 +0000
+        id 1hb7Qt-0002Dg-23; Wed, 12 Jun 2019 17:53:11 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hb7Qq-0001hO-LA; Wed, 12 Jun 2019 14:53:08 -0300
+        id 1hb7Qq-0001gm-De; Wed, 12 Jun 2019 14:53:08 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        linux-scsi@vger.kernel.org, target-devel@vger.kernel.org
-Subject: [PATCH v4 23/28] docs: target: convert docs to ReST and rename to *.rst
-Date:   Wed, 12 Jun 2019 14:52:59 -0300
-Message-Id: <9c58d2f3478126736e69b688a7dbf0da26ba2285.1560361364.git.mchehab+samsung@kernel.org>
+        Sudeep Dutt <sudeep.dutt@intel.com>,
+        Ashutosh Dixit <ashutosh.dixit@intel.com>
+Subject: [PATCH v4 15/28] docs: mic: convert docs to ReST and rename to *.rst
+Date:   Wed, 12 Jun 2019 14:52:51 -0300
+Message-Id: <b2e5b38de65402453e48c6e0aa5cc362f1824e13.1560361364.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1560361364.git.mchehab+samsung@kernel.org>
 References: <cover.1560361364.git.mchehab+samsung@kernel.org>
@@ -52,56 +52,41 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Convert the TCM docs to ReST format and add them to the
-bookset.
+Convert Intel Many Integrated Core architecture docs to ReST.
 
-This has a mix of userspace-faced and Kernelspace faced
-docs. Still, it sounds a better candidate to be added at
-the kernel API set of docs.
-
-The conversion is actually:
-  - add blank lines and identation in order to identify paragraphs;
-  - fix tables markups;
-  - add some lists markups;
-  - mark literal blocks;
-  - adjust title markups.
+The conversion is trivial: just add title and literal block
+markups, and adjust some identation.
 
 At its new index.rst, let's add a :orphan: while this is not linked to
 the main index.rst file, in order to avoid build warnings.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/target/index.rst                |  19 ++
- Documentation/target/scripts.rst              |  11 +
- Documentation/target/tcm_mod_builder.rst      | 149 ++++++++++
- Documentation/target/tcm_mod_builder.txt      | 145 ----------
- .../{tcmu-design.txt => tcmu-design.rst}      | 268 ++++++++++--------
- scripts/documentation-file-ref-check          |   2 +-
- 6 files changed, 326 insertions(+), 268 deletions(-)
- create mode 100644 Documentation/target/index.rst
- create mode 100644 Documentation/target/scripts.rst
- create mode 100644 Documentation/target/tcm_mod_builder.rst
- delete mode 100644 Documentation/target/tcm_mod_builder.txt
- rename Documentation/target/{tcmu-design.txt => tcmu-design.rst} (69%)
+ Documentation/mic/index.rst                   | 18 ++++++
+ .../{mic_overview.txt => mic_overview.rst}    |  6 +-
+ .../{scif_overview.txt => scif_overview.rst}  | 58 +++++++++++--------
+ 3 files changed, 57 insertions(+), 25 deletions(-)
+ create mode 100644 Documentation/mic/index.rst
+ rename Documentation/mic/{mic_overview.txt => mic_overview.rst} (96%)
+ rename Documentation/mic/{scif_overview.txt => scif_overview.rst} (76%)
 
-diff --git a/Documentation/target/index.rst b/Documentation/target/index.rst
+diff --git a/Documentation/mic/index.rst b/Documentation/mic/index.rst
 new file mode 100644
-index 000000000000..b68f48982392
+index 000000000000..082fa8f6a260
 --- /dev/null
-+++ b/Documentation/target/index.rst
-@@ -0,0 +1,19 @@
++++ b/Documentation/mic/index.rst
+@@ -0,0 +1,18 @@
 +:orphan:
 +
-+==================
-+TCM Virtual Device
-+==================
++=============================================
++Intel Many Integrated Core (MIC) architecture
++=============================================
 +
 +.. toctree::
 +    :maxdepth: 1
 +
-+    tcmu-design
-+    tcm_mod_builder
-+    scripts
++    mic_overview
++    scif_overview
 +
 +.. only::  subproject and html
 +
@@ -109,753 +94,128 @@ index 000000000000..b68f48982392
 +   =======
 +
 +   * :ref:`genindex`
-diff --git a/Documentation/target/scripts.rst b/Documentation/target/scripts.rst
-new file mode 100644
-index 000000000000..172d42b522e4
---- /dev/null
-+++ b/Documentation/target/scripts.rst
-@@ -0,0 +1,11 @@
-+TCM mod builder script
-+----------------------
+diff --git a/Documentation/mic/mic_overview.txt b/Documentation/mic/mic_overview.rst
+similarity index 96%
+rename from Documentation/mic/mic_overview.txt
+rename to Documentation/mic/mic_overview.rst
+index 074adbdf83a4..17d956bdaf7c 100644
+--- a/Documentation/mic/mic_overview.txt
++++ b/Documentation/mic/mic_overview.rst
+@@ -1,3 +1,7 @@
++======================================================
++Intel Many Integrated Core (MIC) architecture overview
++======================================================
 +
-+.. literalinclude:: tcm_mod_builder.py
-+    :language: perl
+ An Intel MIC X100 device is a PCIe form factor add-in coprocessor
+ card based on the Intel Many Integrated Core (MIC) architecture
+ that runs a Linux OS. It is a PCIe endpoint in a platform and therefore
+@@ -45,7 +49,7 @@ Here is a block diagram of the various components described above. The
+ virtio backends are situated on the host rather than the card given better
+ single threaded performance for the host compared to MIC, the ability of
+ the host to initiate DMA's to/from the card using the MIC DMA engine and
+-the fact that the virtio block storage backend can only be on the host.
++the fact that the virtio block storage backend can only be on the host::
+ 
+                +----------+           |             +----------+
+                | Card OS  |           |             | Host OS  |
+diff --git a/Documentation/mic/scif_overview.txt b/Documentation/mic/scif_overview.rst
+similarity index 76%
+rename from Documentation/mic/scif_overview.txt
+rename to Documentation/mic/scif_overview.rst
+index 0a280d986731..4c8ad9e43706 100644
+--- a/Documentation/mic/scif_overview.txt
++++ b/Documentation/mic/scif_overview.rst
+@@ -1,3 +1,7 @@
++========================================
++Symmetric Communication Interface (SCIF)
++========================================
 +
-+Target export device script
-+---------------------------
+ The Symmetric Communication Interface (SCIF (pronounced as skiff)) is a low
+ level communications API across PCIe currently implemented for MIC. Currently
+ SCIF provides inter-node communication within a single host platform, where a
+@@ -8,8 +12,11 @@ is to deliver the maximum possible performance given the communication
+ abilities of the hardware. SCIF has been used to implement an offload compiler
+ runtime and OFED support for MPI implementations for MIC coprocessors.
+ 
+-==== SCIF API Components ====
++SCIF API Components
++===================
 +
-+.. literalinclude:: target-export-device
-+    :language: shell
-diff --git a/Documentation/target/tcm_mod_builder.rst b/Documentation/target/tcm_mod_builder.rst
-new file mode 100644
-index 000000000000..9bfc9822e2bd
---- /dev/null
-+++ b/Documentation/target/tcm_mod_builder.rst
-@@ -0,0 +1,149 @@
-+=========================================
-+The TCM v4 fabric module script generator
-+=========================================
+ The SCIF API has the following parts:
 +
-+Greetings all,
+ 1. Connection establishment using a client server model
+ 2. Byte stream messaging intended for short messages
+ 3. Node enumeration to determine online nodes
+@@ -28,9 +35,12 @@ can also register local memory which is followed by data transfer using either
+ DMA, CPU copies or remote memory mapping via mmap. SCIF supports both user and
+ kernel mode clients which are functionally equivalent.
+ 
+-==== SCIF Performance for MIC ====
++SCIF Performance for MIC
++========================
 +
-+This document is intended to be a mini-HOWTO for using the tcm_mod_builder.py
-+script to generate a brand new functional TCM v4 fabric .ko module of your very own,
-+that once built can be immediately be loaded to start access the new TCM/ConfigFS
-+fabric skeleton, by simply using::
-+
-+	modprobe $TCM_NEW_MOD
-+	mkdir -p /sys/kernel/config/target/$TCM_NEW_MOD
-+
-+This script will create a new drivers/target/$TCM_NEW_MOD/, and will do the following
-+
-+	1) Generate new API callers for drivers/target/target_core_fabric_configs.c logic
-+	   ->make_tpg(), ->drop_tpg(), ->make_wwn(), ->drop_wwn().  These are created
-+	   into $TCM_NEW_MOD/$TCM_NEW_MOD_configfs.c
-+	2) Generate basic infrastructure for loading/unloading LKMs and TCM/ConfigFS fabric module
-+	   using a skeleton struct target_core_fabric_ops API template.
-+	3) Based on user defined T10 Proto_Ident for the new fabric module being built,
-+	   the TransportID / Initiator and Target WWPN related handlers for
-+	   SPC-3 persistent reservation are automatically generated in $TCM_NEW_MOD/$TCM_NEW_MOD_fabric.c
-+	   using drivers/target/target_core_fabric_lib.c logic.
-+	4) NOP API calls for all other Data I/O path and fabric dependent attribute logic
-+	   in $TCM_NEW_MOD/$TCM_NEW_MOD_fabric.c
-+
-+tcm_mod_builder.py depends upon the mandatory '-p $PROTO_IDENT' and '-m
-+$FABRIC_MOD_name' parameters, and actually running the script looks like::
-+
-+  target:/mnt/sdb/lio-core-2.6.git/Documentation/target# python tcm_mod_builder.py -p iSCSI -m tcm_nab5000
-+  tcm_dir: /mnt/sdb/lio-core-2.6.git/Documentation/target/../../
-+  Set fabric_mod_name: tcm_nab5000
-+  Set fabric_mod_dir:
-+  /mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000
-+  Using proto_ident: iSCSI
-+  Creating fabric_mod_dir:
-+  /mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000
-+  Writing file:
-+  /mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000/tcm_nab5000_base.h
-+  Using tcm_mod_scan_fabric_ops:
-+  /mnt/sdb/lio-core-2.6.git/Documentation/target/../../include/target/target_core_fabric_ops.h
-+  Writing file:
-+  /mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000/tcm_nab5000_fabric.c
-+  Writing file:
-+  /mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000/tcm_nab5000_fabric.h
-+  Writing file:
-+  /mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000/tcm_nab5000_configfs.c
-+  Writing file:
-+  /mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000/Kbuild
-+  Writing file:
-+  /mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000/Kconfig
-+  Would you like to add tcm_nab5000to drivers/target/Kbuild..? [yes,no]: yes
-+  Would you like to add tcm_nab5000to drivers/target/Kconfig..? [yes,no]: yes
-+
-+At the end of tcm_mod_builder.py. the script will ask to add the following
-+line to drivers/target/Kbuild::
-+
-+	obj-$(CONFIG_TCM_NAB5000)       += tcm_nab5000/
-+
-+and the same for drivers/target/Kconfig::
-+
-+	source "drivers/target/tcm_nab5000/Kconfig"
-+
-+#) Run 'make menuconfig' and select the new CONFIG_TCM_NAB5000 item::
-+
-+	<M>   TCM_NAB5000 fabric module
-+
-+#) Build using 'make modules', once completed you will have::
-+
-+    target:/mnt/sdb/lio-core-2.6.git# ls -la drivers/target/tcm_nab5000/
-+    total 1348
-+    drwxr-xr-x 2 root root   4096 2010-10-05 03:23 .
-+    drwxr-xr-x 9 root root   4096 2010-10-05 03:22 ..
-+    -rw-r--r-- 1 root root    282 2010-10-05 03:22 Kbuild
-+    -rw-r--r-- 1 root root    171 2010-10-05 03:22 Kconfig
-+    -rw-r--r-- 1 root root     49 2010-10-05 03:23 modules.order
-+    -rw-r--r-- 1 root root    738 2010-10-05 03:22 tcm_nab5000_base.h
-+    -rw-r--r-- 1 root root   9096 2010-10-05 03:22 tcm_nab5000_configfs.c
-+    -rw-r--r-- 1 root root 191200 2010-10-05 03:23 tcm_nab5000_configfs.o
-+    -rw-r--r-- 1 root root  40504 2010-10-05 03:23 .tcm_nab5000_configfs.o.cmd
-+    -rw-r--r-- 1 root root   5414 2010-10-05 03:22 tcm_nab5000_fabric.c
-+    -rw-r--r-- 1 root root   2016 2010-10-05 03:22 tcm_nab5000_fabric.h
-+    -rw-r--r-- 1 root root 190932 2010-10-05 03:23 tcm_nab5000_fabric.o
-+    -rw-r--r-- 1 root root  40713 2010-10-05 03:23 .tcm_nab5000_fabric.o.cmd
-+    -rw-r--r-- 1 root root 401861 2010-10-05 03:23 tcm_nab5000.ko
-+    -rw-r--r-- 1 root root    265 2010-10-05 03:23 .tcm_nab5000.ko.cmd
-+    -rw-r--r-- 1 root root    459 2010-10-05 03:23 tcm_nab5000.mod.c
-+    -rw-r--r-- 1 root root  23896 2010-10-05 03:23 tcm_nab5000.mod.o
-+    -rw-r--r-- 1 root root  22655 2010-10-05 03:23 .tcm_nab5000.mod.o.cmd
-+    -rw-r--r-- 1 root root 379022 2010-10-05 03:23 tcm_nab5000.o
-+    -rw-r--r-- 1 root root    211 2010-10-05 03:23 .tcm_nab5000.o.cmd
-+
-+#) Load the new module, create a lun_0 configfs group, and add new TCM Core
-+   IBLOCK backstore symlink to port::
-+
-+    target:/mnt/sdb/lio-core-2.6.git# insmod drivers/target/tcm_nab5000.ko
-+    target:/mnt/sdb/lio-core-2.6.git# mkdir -p /sys/kernel/config/target/nab5000/iqn.foo/tpgt_1/lun/lun_0
-+    target:/mnt/sdb/lio-core-2.6.git# cd /sys/kernel/config/target/nab5000/iqn.foo/tpgt_1/lun/lun_0/
-+    target:/sys/kernel/config/target/nab5000/iqn.foo/tpgt_1/lun/lun_0# ln -s /sys/kernel/config/target/core/iblock_0/lvm_test0 nab5000_port
-+
-+    target:/sys/kernel/config/target/nab5000/iqn.foo/tpgt_1/lun/lun_0# cd -
-+    target:/mnt/sdb/lio-core-2.6.git# tree /sys/kernel/config/target/nab5000/
-+    /sys/kernel/config/target/nab5000/
-+    |-- discovery_auth
-+    |-- iqn.foo
-+    |   `-- tpgt_1
-+    |       |-- acls
-+    |       |-- attrib
-+    |       |-- lun
-+    |       |   `-- lun_0
-+    |       |       |-- alua_tg_pt_gp
-+    |       |       |-- alua_tg_pt_offline
-+    |       |       |-- alua_tg_pt_status
-+    |       |       |-- alua_tg_pt_write_md
-+    |	|	`-- nab5000_port -> ../../../../../../target/core/iblock_0/lvm_test0
-+    |       |-- np
-+    |       `-- param
-+    `-- version
-+
-+    target:/mnt/sdb/lio-core-2.6.git# lsmod
-+    Module                  Size  Used by
-+    tcm_nab5000             3935  4
-+    iscsi_target_mod      193211  0
-+    target_core_stgt        8090  0
-+    target_core_pscsi      11122  1
-+    target_core_file        9172  2
-+    target_core_iblock      9280  1
-+    target_core_mod       228575  31
-+    tcm_nab5000,iscsi_target_mod,target_core_stgt,target_core_pscsi,target_core_file,target_core_iblock
-+    libfc                  73681  0
-+    scsi_debug             56265  0
-+    scsi_tgt                8666  1 target_core_stgt
-+    configfs               20644  2 target_core_mod
-+
-+----------------------------------------------------------------------
-+
-+Future TODO items
-+=================
-+
-+	1) Add more T10 proto_idents
-+	2) Make tcm_mod_dump_fabric_ops() smarter and generate function pointer
-+	   defs directly from include/target/target_core_fabric_ops.h:struct target_core_fabric_ops
-+	   structure members.
-+
-+October 5th, 2010
-+
-+Nicholas A. Bellinger <nab@linux-iscsi.org>
-diff --git a/Documentation/target/tcm_mod_builder.txt b/Documentation/target/tcm_mod_builder.txt
-deleted file mode 100644
-index ae22f7005540..000000000000
---- a/Documentation/target/tcm_mod_builder.txt
-+++ /dev/null
-@@ -1,145 +0,0 @@
-->>>>>>>>>> The TCM v4 fabric module script generator <<<<<<<<<<
--
--Greetings all,
--
--This document is intended to be a mini-HOWTO for using the tcm_mod_builder.py
--script to generate a brand new functional TCM v4 fabric .ko module of your very own,
--that once built can be immediately be loaded to start access the new TCM/ConfigFS
--fabric skeleton, by simply using:
--
--	modprobe $TCM_NEW_MOD
--	mkdir -p /sys/kernel/config/target/$TCM_NEW_MOD
--
--This script will create a new drivers/target/$TCM_NEW_MOD/, and will do the following
--
--	*) Generate new API callers for drivers/target/target_core_fabric_configs.c logic
--	   ->make_tpg(), ->drop_tpg(), ->make_wwn(), ->drop_wwn().  These are created
--	   into $TCM_NEW_MOD/$TCM_NEW_MOD_configfs.c
--	*) Generate basic infrastructure for loading/unloading LKMs and TCM/ConfigFS fabric module
--	   using a skeleton struct target_core_fabric_ops API template.
--	*) Based on user defined T10 Proto_Ident for the new fabric module being built,
--	   the TransportID / Initiator and Target WWPN related handlers for
--	   SPC-3 persistent reservation are automatically generated in $TCM_NEW_MOD/$TCM_NEW_MOD_fabric.c
--	   using drivers/target/target_core_fabric_lib.c logic.
--	*) NOP API calls for all other Data I/O path and fabric dependent attribute logic
--	   in $TCM_NEW_MOD/$TCM_NEW_MOD_fabric.c
--
--tcm_mod_builder.py depends upon the mandatory '-p $PROTO_IDENT' and '-m
--$FABRIC_MOD_name' parameters, and actually running the script looks like:
--
--target:/mnt/sdb/lio-core-2.6.git/Documentation/target# python tcm_mod_builder.py -p iSCSI -m tcm_nab5000
--tcm_dir: /mnt/sdb/lio-core-2.6.git/Documentation/target/../../
--Set fabric_mod_name: tcm_nab5000
--Set fabric_mod_dir:
--/mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000
--Using proto_ident: iSCSI
--Creating fabric_mod_dir:
--/mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000
--Writing file:
--/mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000/tcm_nab5000_base.h
--Using tcm_mod_scan_fabric_ops:
--/mnt/sdb/lio-core-2.6.git/Documentation/target/../../include/target/target_core_fabric_ops.h
--Writing file:
--/mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000/tcm_nab5000_fabric.c
--Writing file:
--/mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000/tcm_nab5000_fabric.h
--Writing file:
--/mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000/tcm_nab5000_configfs.c
--Writing file:
--/mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000/Kbuild
--Writing file:
--/mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000/Kconfig
--Would you like to add tcm_nab5000to drivers/target/Kbuild..? [yes,no]: yes
--Would you like to add tcm_nab5000to drivers/target/Kconfig..? [yes,no]: yes
--
--At the end of tcm_mod_builder.py. the script will ask to add the following
--line to drivers/target/Kbuild:
--
--	obj-$(CONFIG_TCM_NAB5000)       += tcm_nab5000/
--
--and the same for drivers/target/Kconfig:
--
--	source "drivers/target/tcm_nab5000/Kconfig"
--
--*) Run 'make menuconfig' and select the new CONFIG_TCM_NAB5000 item:
--
--	<M>   TCM_NAB5000 fabric module
--
--*) Build using 'make modules', once completed you will have:
--
--target:/mnt/sdb/lio-core-2.6.git# ls -la drivers/target/tcm_nab5000/
--total 1348
--drwxr-xr-x 2 root root   4096 2010-10-05 03:23 .
--drwxr-xr-x 9 root root   4096 2010-10-05 03:22 ..
---rw-r--r-- 1 root root    282 2010-10-05 03:22 Kbuild
---rw-r--r-- 1 root root    171 2010-10-05 03:22 Kconfig
---rw-r--r-- 1 root root     49 2010-10-05 03:23 modules.order
---rw-r--r-- 1 root root    738 2010-10-05 03:22 tcm_nab5000_base.h
---rw-r--r-- 1 root root   9096 2010-10-05 03:22 tcm_nab5000_configfs.c
---rw-r--r-- 1 root root 191200 2010-10-05 03:23 tcm_nab5000_configfs.o
---rw-r--r-- 1 root root  40504 2010-10-05 03:23 .tcm_nab5000_configfs.o.cmd
---rw-r--r-- 1 root root   5414 2010-10-05 03:22 tcm_nab5000_fabric.c
---rw-r--r-- 1 root root   2016 2010-10-05 03:22 tcm_nab5000_fabric.h
---rw-r--r-- 1 root root 190932 2010-10-05 03:23 tcm_nab5000_fabric.o
---rw-r--r-- 1 root root  40713 2010-10-05 03:23 .tcm_nab5000_fabric.o.cmd
---rw-r--r-- 1 root root 401861 2010-10-05 03:23 tcm_nab5000.ko
---rw-r--r-- 1 root root    265 2010-10-05 03:23 .tcm_nab5000.ko.cmd
---rw-r--r-- 1 root root    459 2010-10-05 03:23 tcm_nab5000.mod.c
---rw-r--r-- 1 root root  23896 2010-10-05 03:23 tcm_nab5000.mod.o
---rw-r--r-- 1 root root  22655 2010-10-05 03:23 .tcm_nab5000.mod.o.cmd
---rw-r--r-- 1 root root 379022 2010-10-05 03:23 tcm_nab5000.o
---rw-r--r-- 1 root root    211 2010-10-05 03:23 .tcm_nab5000.o.cmd
--
--*) Load the new module, create a lun_0 configfs group, and add new TCM Core
--   IBLOCK backstore symlink to port:
--
--target:/mnt/sdb/lio-core-2.6.git# insmod drivers/target/tcm_nab5000.ko
--target:/mnt/sdb/lio-core-2.6.git# mkdir -p /sys/kernel/config/target/nab5000/iqn.foo/tpgt_1/lun/lun_0
--target:/mnt/sdb/lio-core-2.6.git# cd /sys/kernel/config/target/nab5000/iqn.foo/tpgt_1/lun/lun_0/
--target:/sys/kernel/config/target/nab5000/iqn.foo/tpgt_1/lun/lun_0# ln -s /sys/kernel/config/target/core/iblock_0/lvm_test0 nab5000_port
--
--target:/sys/kernel/config/target/nab5000/iqn.foo/tpgt_1/lun/lun_0# cd -
--target:/mnt/sdb/lio-core-2.6.git# tree /sys/kernel/config/target/nab5000/
--/sys/kernel/config/target/nab5000/
--|-- discovery_auth
--|-- iqn.foo
--|   `-- tpgt_1
--|       |-- acls
--|       |-- attrib
--|       |-- lun
--|       |   `-- lun_0
--|       |       |-- alua_tg_pt_gp
--|       |       |-- alua_tg_pt_offline
--|       |       |-- alua_tg_pt_status
--|       |       |-- alua_tg_pt_write_md
--|	|	`-- nab5000_port -> ../../../../../../target/core/iblock_0/lvm_test0
--|       |-- np
--|       `-- param
--`-- version
--
--target:/mnt/sdb/lio-core-2.6.git# lsmod
--Module                  Size  Used by
--tcm_nab5000             3935  4
--iscsi_target_mod      193211  0
--target_core_stgt        8090  0
--target_core_pscsi      11122  1
--target_core_file        9172  2
--target_core_iblock      9280  1
--target_core_mod       228575  31
--tcm_nab5000,iscsi_target_mod,target_core_stgt,target_core_pscsi,target_core_file,target_core_iblock
--libfc                  73681  0
--scsi_debug             56265  0
--scsi_tgt                8666  1 target_core_stgt
--configfs               20644  2 target_core_mod
--
------------------------------------------------------------------------
--
--Future TODO items:
--
--	*) Add more T10 proto_idents
--	*) Make tcm_mod_dump_fabric_ops() smarter and generate function pointer
--	   defs directly from include/target/target_core_fabric_ops.h:struct target_core_fabric_ops
--	   structure members.
--
--October 5th, 2010
--Nicholas A. Bellinger <nab@linux-iscsi.org>
-diff --git a/Documentation/target/tcmu-design.txt b/Documentation/target/tcmu-design.rst
-similarity index 69%
-rename from Documentation/target/tcmu-design.txt
-rename to Documentation/target/tcmu-design.rst
-index 4cebc1ebf99a..a7b426707bf6 100644
---- a/Documentation/target/tcmu-design.txt
-+++ b/Documentation/target/tcmu-design.rst
-@@ -1,25 +1,30 @@
--Contents:
-+====================
-+TCM Userspace Design
-+====================
-+
-+
-+.. Contents:
- 
--1) TCM Userspace Design
--  a) Background
--  b) Benefits
--  c) Design constraints
--  d) Implementation overview
--     i. Mailbox
--     ii. Command ring
--     iii. Data Area
--  e) Device discovery
--  f) Device events
--  g) Other contingencies
--2) Writing a user pass-through handler
--  a) Discovering and configuring TCMU uio devices
--  b) Waiting for events on the device(s)
--  c) Managing the command ring
--3) A final note
-+   1) TCM Userspace Design
-+     a) Background
-+     b) Benefits
-+     c) Design constraints
-+     d) Implementation overview
-+        i. Mailbox
-+        ii. Command ring
-+        iii. Data Area
-+     e) Device discovery
-+     f) Device events
-+     g) Other contingencies
-+   2) Writing a user pass-through handler
-+     a) Discovering and configuring TCMU uio devices
-+     b) Waiting for events on the device(s)
-+     c) Managing the command ring
-+   3) A final note
- 
- 
- TCM Userspace Design
----------------------
-+====================
- 
- TCM is another name for LIO, an in-kernel iSCSI target (server).
- Existing TCM targets run in the kernel.  TCMU (TCM in Userspace)
-@@ -32,7 +37,8 @@ modules for file, block device, RAM or using another SCSI device as
- storage.  These are called "backstores" or "storage engines".  These
- built-in modules are implemented entirely as kernel code.
- 
--Background:
-+Background
-+----------
- 
- In addition to modularizing the transport protocol used for carrying
- SCSI commands ("fabrics"), the Linux kernel target, LIO, also modularizes
-@@ -60,7 +66,8 @@ kernel, another approach is to create a userspace pass-through
- backstore for LIO, "TCMU".
- 
- 
--Benefits:
-+Benefits
-+--------
- 
- In addition to allowing relatively easy support for RBD and GLFS, TCMU
- will also allow easier development of new backstores. TCMU combines
-@@ -72,21 +79,25 @@ The disadvantage is there are more distinct components to configure, and
- potentially to malfunction. This is unavoidable, but hopefully not
- fatal if we're careful to keep things as simple as possible.
- 
--Design constraints:
-+Design constraints
-+------------------
- 
- - Good performance: high throughput, low latency
- - Cleanly handle if userspace:
-+
-    1) never attaches
-    2) hangs
-    3) dies
-    4) misbehaves
-+
- - Allow future flexibility in user & kernel implementations
- - Be reasonably memory-efficient
- - Simple to configure & run
- - Simple to write a userspace backend
- 
- 
--Implementation overview:
-+Implementation overview
-+-----------------------
- 
- The core of the TCMU interface is a memory region that is shared
- between kernel and userspace. Within this region is: a control area
-@@ -108,7 +119,8 @@ the region mapped at a different virtual address.
- 
- See target_core_user.h for the struct definitions.
- 
--The Mailbox:
-+The Mailbox
-+-----------
- 
- The mailbox is always at the start of the shared memory region, and
- contains a version, details about the starting offset and size of the
-@@ -117,19 +129,27 @@ userspace (respectively) to put commands on the ring, and indicate
- when the commands are completed.
- 
- version - 1 (userspace should abort if otherwise)
-+
- flags:
--- TCMU_MAILBOX_FLAG_CAP_OOOC: indicates out-of-order completion is
--  supported.  See "The Command Ring" for details.
--cmdr_off - The offset of the start of the command ring from the start
--of the memory region, to account for the mailbox size.
--cmdr_size - The size of the command ring. This does *not* need to be a
--power of two.
--cmd_head - Modified by the kernel to indicate when a command has been
--placed on the ring.
--cmd_tail - Modified by userspace to indicate when it has completed
--processing of a command.
-+    - TCMU_MAILBOX_FLAG_CAP_OOOC:
-+	indicates out-of-order completion is supported.
-+	See "The Command Ring" for details.
- 
--The Command Ring:
-+cmdr_off
-+	The offset of the start of the command ring from the start
-+	of the memory region, to account for the mailbox size.
-+cmdr_size
-+	The size of the command ring. This does *not* need to be a
-+	power of two.
-+cmd_head
-+	Modified by the kernel to indicate when a command has been
-+	placed on the ring.
-+cmd_tail
-+	Modified by userspace to indicate when it has completed
-+	processing of a command.
-+
-+The Command Ring
-+----------------
- 
- Commands are placed on the ring by the kernel incrementing
- mailbox.cmd_head by the size of the command, modulo cmdr_size, and
-@@ -180,29 +200,31 @@ opcode it does not handle, it must set UNKNOWN_OP bit (bit 0) in
- hdr.uflags, update cmd_tail, and proceed with processing additional
- commands, if any.
- 
--The Data Area:
-+The Data Area
-+-------------
- 
- This is shared-memory space after the command ring. The organization
- of this area is not defined in the TCMU interface, and userspace
- should access only the parts referenced by pending iovs.
- 
- 
--Device Discovery:
-+Device Discovery
-+----------------
- 
- Other devices may be using UIO besides TCMU. Unrelated user processes
- may also be handling different sets of TCMU devices. TCMU userspace
- processes must find their devices by scanning sysfs
- class/uio/uio*/name. For TCMU devices, these names will be of the
--format:
-+format::
- 
--tcm-user/<hba_num>/<device_name>/<subtype>/<path>
-+	tcm-user/<hba_num>/<device_name>/<subtype>/<path>
- 
- where "tcm-user" is common for all TCMU-backed UIO devices. <hba_num>
- and <device_name> allow userspace to find the device's path in the
- kernel target's configfs tree. Assuming the usual mount point, it is
--found at:
-+found at::
- 
--/sys/kernel/config/target/core/user_<hba_num>/<device_name>
-+	/sys/kernel/config/target/core/user_<hba_num>/<device_name>
- 
- This location contains attributes such as "hw_block_size", that
- userspace needs to know for correct operation.
-@@ -214,15 +236,16 @@ configure the device, if needed. The name cannot contain ':', due to
- LIO limitations.
- 
- For all devices so discovered, the user handler opens /dev/uioX and
--calls mmap():
-+calls mmap()::
- 
--mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0)
-+	mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0)
- 
- where size must be equal to the value read from
- /sys/class/uio/uioX/maps/map0/size.
- 
- 
--Device Events:
-+Device Events
-+-------------
- 
- If a new device is added or removed, a notification will be broadcast
- over netlink, using a generic netlink family name of "TCM-USER" and a
-@@ -233,7 +256,8 @@ the LIO device, so that after determining the device is supported
- (based on subtype) it can take the appropriate action.
- 
- 
--Other contingencies:
-+Other contingencies
-+-------------------
- 
- Userspace handler process never attaches:
- 
-@@ -258,7 +282,7 @@ Userspace handler process is malicious:
- 
- 
- Writing a user pass-through handler (with example code)
---------------------------------------------------------
-+=======================================================
- 
- A user process handing a TCMU device must support the following:
- 
-@@ -277,103 +301,103 @@ TCMU is designed so that multiple unrelated processes can manage TCMU
- devices separately. All handlers should make sure to only open their
- devices, based opon a known subtype string.
- 
--a) Discovering and configuring TCMU UIO devices:
-+a) Discovering and configuring TCMU UIO devices::
- 
--(error checking omitted for brevity)
-+      /* error checking omitted for brevity */
- 
--int fd, dev_fd;
--char buf[256];
--unsigned long long map_len;
--void *map;
-+      int fd, dev_fd;
-+      char buf[256];
-+      unsigned long long map_len;
-+      void *map;
- 
--fd = open("/sys/class/uio/uio0/name", O_RDONLY);
--ret = read(fd, buf, sizeof(buf));
--close(fd);
--buf[ret-1] = '\0'; /* null-terminate and chop off the \n */
-+      fd = open("/sys/class/uio/uio0/name", O_RDONLY);
-+      ret = read(fd, buf, sizeof(buf));
-+      close(fd);
-+      buf[ret-1] = '\0'; /* null-terminate and chop off the \n */
- 
--/* we only want uio devices whose name is a format we expect */
--if (strncmp(buf, "tcm-user", 8))
-+      /* we only want uio devices whose name is a format we expect */
-+      if (strncmp(buf, "tcm-user", 8))
- 	exit(-1);
- 
--/* Further checking for subtype also needed here */
-+      /* Further checking for subtype also needed here */
- 
--fd = open(/sys/class/uio/%s/maps/map0/size, O_RDONLY);
--ret = read(fd, buf, sizeof(buf));
--close(fd);
--str_buf[ret-1] = '\0'; /* null-terminate and chop off the \n */
-+      fd = open(/sys/class/uio/%s/maps/map0/size, O_RDONLY);
-+      ret = read(fd, buf, sizeof(buf));
-+      close(fd);
-+      str_buf[ret-1] = '\0'; /* null-terminate and chop off the \n */
- 
--map_len = strtoull(buf, NULL, 0);
-+      map_len = strtoull(buf, NULL, 0);
- 
--dev_fd = open("/dev/uio0", O_RDWR);
--map = mmap(NULL, map_len, PROT_READ|PROT_WRITE, MAP_SHARED, dev_fd, 0);
-+      dev_fd = open("/dev/uio0", O_RDWR);
-+      map = mmap(NULL, map_len, PROT_READ|PROT_WRITE, MAP_SHARED, dev_fd, 0);
- 
- 
--b) Waiting for events on the device(s)
-+      b) Waiting for events on the device(s)
- 
--while (1) {
--  char buf[4];
-+      while (1) {
-+        char buf[4];
- 
--  int ret = read(dev_fd, buf, 4); /* will block */
-+        int ret = read(dev_fd, buf, 4); /* will block */
- 
--  handle_device_events(dev_fd, map);
--}
--
--
--c) Managing the command ring
--
--#include <linux/target_core_user.h>
--
--int handle_device_events(int fd, void *map)
--{
--  struct tcmu_mailbox *mb = map;
--  struct tcmu_cmd_entry *ent = (void *) mb + mb->cmdr_off + mb->cmd_tail;
--  int did_some_work = 0;
--
--  /* Process events from cmd ring until we catch up with cmd_head */
--  while (ent != (void *)mb + mb->cmdr_off + mb->cmd_head) {
--
--    if (tcmu_hdr_get_op(ent->hdr.len_op) == TCMU_OP_CMD) {
--      uint8_t *cdb = (void *)mb + ent->req.cdb_off;
--      bool success = true;
-+        handle_device_events(dev_fd, map);
-+      }
- 
--      /* Handle command here. */
--      printf("SCSI opcode: 0x%x\n", cdb[0]);
- 
--      /* Set response fields */
--      if (success)
--        ent->rsp.scsi_status = SCSI_NO_SENSE;
--      else {
--        /* Also fill in rsp->sense_buffer here */
--        ent->rsp.scsi_status = SCSI_CHECK_CONDITION;
-+c) Managing the command ring::
-+
-+      #include <linux/target_core_user.h>
-+
-+      int handle_device_events(int fd, void *map)
-+      {
-+        struct tcmu_mailbox *mb = map;
-+        struct tcmu_cmd_entry *ent = (void *) mb + mb->cmdr_off + mb->cmd_tail;
-+        int did_some_work = 0;
-+
-+        /* Process events from cmd ring until we catch up with cmd_head */
-+        while (ent != (void *)mb + mb->cmdr_off + mb->cmd_head) {
-+
-+          if (tcmu_hdr_get_op(ent->hdr.len_op) == TCMU_OP_CMD) {
-+            uint8_t *cdb = (void *)mb + ent->req.cdb_off;
-+            bool success = true;
-+
-+            /* Handle command here. */
-+            printf("SCSI opcode: 0x%x\n", cdb[0]);
-+
-+            /* Set response fields */
-+            if (success)
-+              ent->rsp.scsi_status = SCSI_NO_SENSE;
-+            else {
-+              /* Also fill in rsp->sense_buffer here */
-+              ent->rsp.scsi_status = SCSI_CHECK_CONDITION;
-+            }
-+          }
-+          else if (tcmu_hdr_get_op(ent->hdr.len_op) != TCMU_OP_PAD) {
-+            /* Tell the kernel we didn't handle unknown opcodes */
-+            ent->hdr.uflags |= TCMU_UFLAG_UNKNOWN_OP;
-+          }
-+          else {
-+            /* Do nothing for PAD entries except update cmd_tail */
-+          }
-+
-+          /* update cmd_tail */
-+          mb->cmd_tail = (mb->cmd_tail + tcmu_hdr_get_len(&ent->hdr)) % mb->cmdr_size;
-+          ent = (void *) mb + mb->cmdr_off + mb->cmd_tail;
-+          did_some_work = 1;
-+        }
-+
-+        /* Notify the kernel that work has been finished */
-+        if (did_some_work) {
-+          uint32_t buf = 0;
-+
-+          write(fd, &buf, 4);
-+        }
-+
-+        return 0;
-       }
--    }
--    else if (tcmu_hdr_get_op(ent->hdr.len_op) != TCMU_OP_PAD) {
--      /* Tell the kernel we didn't handle unknown opcodes */
--      ent->hdr.uflags |= TCMU_UFLAG_UNKNOWN_OP;
--    }
--    else {
--      /* Do nothing for PAD entries except update cmd_tail */
--    }
--
--    /* update cmd_tail */
--    mb->cmd_tail = (mb->cmd_tail + tcmu_hdr_get_len(&ent->hdr)) % mb->cmdr_size;
--    ent = (void *) mb + mb->cmdr_off + mb->cmd_tail;
--    did_some_work = 1;
--  }
--
--  /* Notify the kernel that work has been finished */
--  if (did_some_work) {
--    uint32_t buf = 0;
--
--    write(fd, &buf, 4);
--  }
--
--  return 0;
--}
- 
- 
- A final note
--------------
-+============
- 
- Please be careful to return codes as defined by the SCSI
- specifications. These are different than some values defined in the
-diff --git a/scripts/documentation-file-ref-check b/scripts/documentation-file-ref-check
-index 440227bb55a9..a4139a576726 100755
---- a/scripts/documentation-file-ref-check
-+++ b/scripts/documentation-file-ref-check
-@@ -124,7 +124,7 @@ while (<IN>) {
- 		# Remove sched-pelt false-positive
- 		next if ($fulref =~ m,^Documentation/scheduler/sched-pelt$,);
- 
--		# Discard some build examples from Documentation/target/tcm_mod_builder.txt
-+		# Discard some build examples from Documentation/target/tcm_mod_builder.rst
- 		next if ($fulref =~ m,mnt/sdb/lio-core-2.6.git/Documentation/target,);
- 
- 		# Check if exists, evaluating wildcards
+ DMA bandwidth comparison between the TCP (over ethernet over PCIe) stack versus
+-SCIF shows the performance advantages of SCIF for HPC applications and runtimes.
++SCIF shows the performance advantages of SCIF for HPC applications and
++runtimes::
+ 
+              Comparison of TCP and SCIF based BW
+ 
+@@ -66,33 +76,33 @@ space API similar to the kernel API in scif.h. The SCIF user space library
+ is distributed @ https://software.intel.com/en-us/mic-developer
+ 
+ Here is some pseudo code for an example of how two applications on two PCIe
+-nodes would typically use the SCIF API:
++nodes would typically use the SCIF API::
+ 
+-Process A (on node A)			Process B (on node B)
++  Process A (on node A)			Process B (on node B)
+ 
+-/* get online node information */
+-scif_get_node_ids(..)			scif_get_node_ids(..)
+-scif_open(..)				scif_open(..)
+-scif_bind(..)				scif_bind(..)
+-scif_listen(..)
+-scif_accept(..)				scif_connect(..)
+-/* SCIF connection established */
++  /* get online node information */
++  scif_get_node_ids(..)			scif_get_node_ids(..)
++  scif_open(..)				scif_open(..)
++  scif_bind(..)				scif_bind(..)
++  scif_listen(..)
++  scif_accept(..)				scif_connect(..)
++  /* SCIF connection established */
+ 
+-/* Send and receive short messages */
+-scif_send(..)/scif_recv(..)		scif_send(..)/scif_recv(..)
++  /* Send and receive short messages */
++  scif_send(..)/scif_recv(..)		scif_send(..)/scif_recv(..)
+ 
+-/* Register memory */
+-scif_register(..)			scif_register(..)
++  /* Register memory */
++  scif_register(..)			scif_register(..)
+ 
+-/* RDMA */
+-scif_readfrom(..)/scif_writeto(..)	scif_readfrom(..)/scif_writeto(..)
++  /* RDMA */
++  scif_readfrom(..)/scif_writeto(..)	scif_readfrom(..)/scif_writeto(..)
+ 
+-/* Fence DMAs */
+-scif_fence_signal(..)			scif_fence_signal(..)
++  /* Fence DMAs */
++  scif_fence_signal(..)			scif_fence_signal(..)
+ 
+-mmap(..)				mmap(..)
++  mmap(..)				mmap(..)
+ 
+-/* Access remote registered memory */
++  /* Access remote registered memory */
+ 
+-/* Close the endpoints */
+-scif_close(..)				scif_close(..)
++  /* Close the endpoints */
++  scif_close(..)				scif_close(..)
 -- 
 2.21.0
 
