@@ -5,93 +5,224 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 870857D919
+	by archive.lwn.net (Postfix) with ESMTP id 9BD627D922
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 18:48:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726739AbfFLSij (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1726589AbfFLSij (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Wed, 12 Jun 2019 14:38:39 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:45542 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:45534 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726301AbfFLSii (ORCPT
+        with ESMTP id S1726167AbfFLSii (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jun 2019 14:38:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+        To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=8Y1nlnSVVHDrFk8myKIM30kznMDor9jOwj/L8T5CzXg=; b=ksgkJeqEDssKkqMqy3+CJnoTHR
-        ZgYvdKq6oxobKGac6dNnGoIXsmSp+NVeinxxxWZJMGHj/HKfNE3tEO7V3iaheU9LCuXIaVXsPKypb
-        j730Sf4i6rR2h4X2FDHlkC25Dbxnq2p6IsOkXeBkKwfiwuKblkxzJsIpmxtgsgnnjtdSMd7CO0U7l
-        XP0+aOOW/Q48ypbOie6WDBuq+K7vbS3MiEirhBmN+qc5/LHr63O0kxcJTH9yjigTZ5VHzY0Ykxzem
-        BDJ/UQie7Q6/VMSITSe02YtoogAKvdqchuODHNhl8RobOtXWwIURW059eJASbftOJRPaZ+cTa3/hN
-        DnEI0ekQ==;
+        bh=LvMZCNqyjGCYorMHMnZsk1Wxffwcw4B9xSPUy6NpG7A=; b=c9JbDLf3c3uOxQ7Dq2GrjBPa2j
+        OHHAR6cixPlZFhc4jad5gctIARzujfBkPCL9CPCGnE0QtGlopg7uyWI4X8CUktAmstk4wU+KsGfZf
+        0YdwMUscmK5ZmuiCtd/89QmN0cHuKZgltWcoIVhAfecgmtvUAonlqGkY8hLVolACCBm+M1NmGZE48
+        dfu1p9FJJeVfUNXAJrtUsED7G8Z5bmijQU1FVruXzk9Ylwj12f3iCP5ORZpDpjzPS9Kzwg9Hl9X/n
+        D64Xzjfbh6YhOB82ZFJFDNsoOOLFGNaDLMO5Y8Gr9amyn9lxMnrR1Z/HObf3IcQGpzg1NygqaXPvF
+        uAMuSm2w==;
 Received: from 201.86.169.251.dynamic.adsl.gvt.net.br ([201.86.169.251] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hb88s-0006YI-Jb; Wed, 12 Jun 2019 18:38:38 +0000
+        id 1hb88s-0006Y8-GS; Wed, 12 Jun 2019 18:38:38 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hb88q-0002BH-6u; Wed, 12 Jun 2019 15:38:36 -0300
+        id 1hb88q-0002B1-3a; Wed, 12 Jun 2019 15:38:36 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v1 16/31] docs: rbtree.txt: fix Sphinx build warnings
-Date:   Wed, 12 Jun 2019 15:38:19 -0300
-Message-Id: <c4774c673745b441f37a29d6734a49f0772cf2d5.1560364494.git.mchehab+samsung@kernel.org>
+Subject: [PATCH v1 12/31] docs: xen-tpmfront.txt: convert it to .rst
+Date:   Wed, 12 Jun 2019 15:38:15 -0300
+Message-Id: <5725f4a1e80540c820a031bc21ae769297d8b32b.1560364494.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1560364493.git.mchehab+samsung@kernel.org>
 References: <cover.1560364493.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Ths file is already at ReST format. Yet, some recent changes
-made it to produce a few warnings when building it with
-Sphinx.
+In order to be able to add this file to the security book,
+we need first to convert it to reST.
 
-Those are trivially fixed by marking some literal blocks.
-
-Fix them before adding it to the docs building system.
+While this is not part of any book, mark it as :orphan:, in order
+to avoid build warnings.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/rbtree.txt | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ .../{xen-tpmfront.txt => xen-tpmfront.rst}    | 103 ++++++++++--------
+ 1 file changed, 58 insertions(+), 45 deletions(-)
+ rename Documentation/security/tpm/{xen-tpmfront.txt => xen-tpmfront.rst} (66%)
 
-diff --git a/Documentation/rbtree.txt b/Documentation/rbtree.txt
-index c42a21b99046..523d54b60087 100644
---- a/Documentation/rbtree.txt
-+++ b/Documentation/rbtree.txt
-@@ -204,21 +204,21 @@ potentially expensive tree iterations. This is done at negligible runtime
- overhead for maintanence; albeit larger memory footprint.
+diff --git a/Documentation/security/tpm/xen-tpmfront.txt b/Documentation/security/tpm/xen-tpmfront.rst
+similarity index 66%
+rename from Documentation/security/tpm/xen-tpmfront.txt
+rename to Documentation/security/tpm/xen-tpmfront.rst
+index 69346de87ff3..98a16ab87360 100644
+--- a/Documentation/security/tpm/xen-tpmfront.txt
++++ b/Documentation/security/tpm/xen-tpmfront.rst
+@@ -1,4 +1,8 @@
++:orphan:
++
++﻿=============================
+ Virtual TPM interface for Xen
++=============================
  
- Similar to the rb_root structure, cached rbtrees are initialized to be
--empty via:
-+empty via::
+ Authors: Matthew Fioravante (JHUAPL), Daniel De Graaf (NSA)
  
-   struct rb_root_cached mytree = RB_ROOT_CACHED;
+@@ -6,7 +10,8 @@ This document describes the virtual Trusted Platform Module (vTPM) subsystem for
+ Xen. The reader is assumed to have familiarity with building and installing Xen,
+ Linux, and a basic understanding of the TPM and vTPM concepts.
  
- Cached rbtree is simply a regular rb_root with an extra pointer to cache the
- leftmost node. This allows rb_root_cached to exist wherever rb_root does,
- which permits augmented trees to be supported as well as only a few extra
--interfaces:
-+interfaces::
+-INTRODUCTION
++Introduction
++------------
  
-   struct rb_node *rb_first_cached(struct rb_root_cached *tree);
-   void rb_insert_color_cached(struct rb_node *, struct rb_root_cached *, bool);
-   void rb_erase_cached(struct rb_node *node, struct rb_root_cached *);
+ The goal of this work is to provide a TPM functionality to a virtual guest
+ operating system (in Xen terms, a DomU).  This allows programs to interact with
+@@ -24,81 +29,89 @@ This mini-os vTPM subsystem was built on top of the previous vTPM work done by
+ IBM and Intel corporation.
  
- Both insert and erase calls have their respective counterpart of augmented
--trees:
-+trees::
  
-   void rb_insert_augmented_cached(struct rb_node *node, struct rb_root_cached *,
- 				  bool, struct rb_augment_callbacks *);
+-DESIGN OVERVIEW
++Design Overview
+ ---------------
+ 
+-The architecture of vTPM is described below:
++The architecture of vTPM is described below::
+ 
+-+------------------+
+-|    Linux DomU    | ...
+-|       |  ^       |
+-|       v  |       |
+-|   xen-tpmfront   |
+-+------------------+
+-        |  ^
+-        v  |
+-+------------------+
+-| mini-os/tpmback  |
+-|       |  ^       |
+-|       v  |       |
+-|  vtpm-stubdom    | ...
+-|       |  ^       |
+-|       v  |       |
+-| mini-os/tpmfront |
+-+------------------+
+-        |  ^
+-        v  |
+-+------------------+
+-| mini-os/tpmback  |
+-|       |  ^       |
+-|       v  |       |
+-| vtpmmgr-stubdom  |
+-|       |  ^       |
+-|       v  |       |
+-| mini-os/tpm_tis  |
+-+------------------+
+-        |  ^
+-        v  |
+-+------------------+
+-|   Hardware TPM   |
+-+------------------+
++  +------------------+
++  |    Linux DomU    | ...
++  |       |  ^       |
++  |       v  |       |
++  |   xen-tpmfront   |
++  +------------------+
++          |  ^
++          v  |
++  +------------------+
++  | mini-os/tpmback  |
++  |       |  ^       |
++  |       v  |       |
++  |  vtpm-stubdom    | ...
++  |       |  ^       |
++  |       v  |       |
++  | mini-os/tpmfront |
++  +------------------+
++          |  ^
++          v  |
++  +------------------+
++  | mini-os/tpmback  |
++  |       |  ^       |
++  |       v  |       |
++  | vtpmmgr-stubdom  |
++  |       |  ^       |
++  |       v  |       |
++  | mini-os/tpm_tis  |
++  +------------------+
++          |  ^
++          v  |
++  +------------------+
++  |   Hardware TPM   |
++  +------------------+
+ 
+- * Linux DomU: The Linux based guest that wants to use a vTPM. There may be
++* Linux DomU:
++	       The Linux based guest that wants to use a vTPM. There may be
+ 	       more than one of these.
+ 
+- * xen-tpmfront.ko: Linux kernel virtual TPM frontend driver. This driver
++* xen-tpmfront.ko:
++		    Linux kernel virtual TPM frontend driver. This driver
+                     provides vTPM access to a Linux-based DomU.
+ 
+- * mini-os/tpmback: Mini-os TPM backend driver. The Linux frontend driver
++* mini-os/tpmback:
++		    Mini-os TPM backend driver. The Linux frontend driver
+ 		    connects to this backend driver to facilitate communications
+ 		    between the Linux DomU and its vTPM. This driver is also
+ 		    used by vtpmmgr-stubdom to communicate with vtpm-stubdom.
+ 
+- * vtpm-stubdom: A mini-os stub domain that implements a vTPM. There is a
++* vtpm-stubdom:
++		 A mini-os stub domain that implements a vTPM. There is a
+ 		 one to one mapping between running vtpm-stubdom instances and
+                  logical vtpms on the system. The vTPM Platform Configuration
+                  Registers (PCRs) are normally all initialized to zero.
+ 
+- * mini-os/tpmfront: Mini-os TPM frontend driver. The vTPM mini-os domain
++* mini-os/tpmfront:
++		     Mini-os TPM frontend driver. The vTPM mini-os domain
+ 		     vtpm-stubdom uses this driver to communicate with
+ 		     vtpmmgr-stubdom. This driver is also used in mini-os
+ 		     domains such as pv-grub that talk to the vTPM domain.
+ 
+- * vtpmmgr-stubdom: A mini-os domain that implements the vTPM manager. There is
++* vtpmmgr-stubdom:
++		    A mini-os domain that implements the vTPM manager. There is
+ 		    only one vTPM manager and it should be running during the
+ 		    entire lifetime of the machine.  This domain regulates
+ 		    access to the physical TPM on the system and secures the
+ 		    persistent state of each vTPM.
+ 
+- * mini-os/tpm_tis: Mini-os TPM version 1.2 TPM Interface Specification (TIS)
++* mini-os/tpm_tis:
++		    Mini-os TPM version 1.2 TPM Interface Specification (TIS)
+                     driver. This driver used by vtpmmgr-stubdom to talk directly to
+                     the hardware TPM. Communication is facilitated by mapping
+                     hardware memory pages into vtpmmgr-stubdom.
+ 
+- * Hardware TPM: The physical TPM that is soldered onto the motherboard.
++* Hardware TPM:
++		The physical TPM that is soldered onto the motherboard.
+ 
+ 
+-INTEGRATION WITH XEN
++Integration With Xen
+ --------------------
+ 
+ Support for the vTPM driver was added in Xen using the libxl toolstack in Xen
 -- 
 2.21.0
 
