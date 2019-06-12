@@ -1,1562 +1,300 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.1 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,URIBL_SBL,
-	URIBL_SBL_A autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8FD117DBEB
+	by archive.lwn.net (Postfix) with ESMTP id AC1B67DC63
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 17:55:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388144AbfFLRxU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S2389363AbfFLRxU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Wed, 12 Jun 2019 13:53:20 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:40642 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:40680 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389187AbfFLRxT (ORCPT
+        with ESMTP id S2389262AbfFLRxT (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jun 2019 13:53:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+        To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=FXiwkOAwaJfcHJc7XsDauqgSOqhNDxz1ro+zu1oyRxc=; b=iWuZohEqVlRkWkIKfTTwmJa4x+
-        7Ewx3fcr0hMMghfQ4HyLUfOtAFfkOFT5YjBUN8WRPE3R7kHOS1w9NF9zYmA2INclUaSz48D599x/G
-        yRvX2CPaJ793gUyGlBobD3zpajiMu1oKKtms95RUit0bzOijyg9538w+/SNc2r2U8zEifTUl4kGZT
-        nXPNCv0zVs5inOfF7Ur94nisKXABDWYI6sPfTgCUT0Kz2KrLfVkxzI133EtEsFb2cK3XwhYAyyErZ
-        OSNwPvVJ1LGTmbv9QzqODDNo6vfaACh0CeNjnkdgASsPKHrd8a6dBlV+Zq/moUHSNsSyRy7w3DgPI
-        jZfAg22Q==;
+        bh=abL5ZX7qmzeE/2L66oNqI3If9VXSAUhO3BltLAiDXwM=; b=DSR2QRp92Rq6fBOxjlP2ROSTNn
+        Crn8OthJzyYcooKy0O7jDykzd7revUosVS+MxG4JDN4efdGAHRzVUXBePEKCCxNWTkOtz2vRb0KQn
+        ahBDvx9mKnTMzqrJGqwvJJd8bd4/2aNdx5YO3HABM6knOX1KcH6PYUX7Dqq5/vXEjBmEcf3lAUwOC
+        mH5TFbCe1wZtDiEJotM6xFCWhtavdxfWmmbQ7891qtcNj+me7JpBWQe/0jNJdvRlMZ4wkG7jP+yft
+        D4vtsCQFwoClkhlPf931CIKt0A4Xie+RQUSSEG082cvT4U78J01HeN6+uavg5KvyMNffJSiSKOCdf
+        +Sw7ylUg==;
 Received: from 201.86.169.251.dynamic.adsl.gvt.net.br ([201.86.169.251] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hb7Qt-0002Dp-30; Wed, 12 Jun 2019 17:53:12 +0000
+        id 1hb7Qx-0002Dq-Ne; Wed, 12 Jun 2019 17:53:17 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hb7Qq-0001h7-Ht; Wed, 12 Jun 2019 14:53:08 -0300
+        id 1hb7Qq-0001hi-Oy; Wed, 12 Jun 2019 14:53:08 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Linas Vepstas <linasvepstas@gmail.com>,
-        Russell Currey <ruscur@russell.cc>,
-        Sam Bobroff <sbobroff@linux.ibm.com>,
-        "Oliver O'Halloran" <oohall@gmail.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Frederic Barrat <fbarrat@linux.ibm.com>,
-        Andrew Donnellan <ajd@linux.ibm.com>,
-        "Manoj N. Kumar" <manoj@linux.ibm.com>,
-        "Matthew R. Ochs" <mrochs@linux.ibm.com>,
-        Uma Krishnan <ukrishn@linux.ibm.com>,
-        Qiang Zhao <qiang.zhao@nxp.com>, Li Yang <leoyang.li@nxp.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>, linux-pci@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-scsi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Andrew Donnellan <andrew.donnellan@au1.ibm.com>
-Subject: [PATCH v4 19/28] docs: powerpc: convert docs to ReST and rename to *.rst
-Date:   Wed, 12 Jun 2019 14:52:55 -0300
-Message-Id: <63560c1ee7174952e148a353840a17969fe0be2d.1560361364.git.mchehab+samsung@kernel.org>
+        Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>
+Subject: [PATCH v4 27/28] docs: scheduler: convert docs to ReST and rename to *.rst
+Date:   Wed, 12 Jun 2019 14:53:03 -0300
+Message-Id: <ce9ca0101ef402821bb7b69e500b8662b87ca725.1560361364.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1560361364.git.mchehab+samsung@kernel.org>
 References: <cover.1560361364.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Convert docs to ReST and add them to the arch-specific
-book.
+In order to prepare to add them to the Kernel API book,
+convert the files to ReST format.
 
-The conversion here was trivial, as almost every file there
-was already using an elegant format close to ReST standard.
-
-The changes were mostly to mark literal blocks and add a few
-missing section title identifiers.
-
-One note with regards to "--": on Sphinx, this can't be used
-to identify a list, as it will format it badly. This can be
-used, however, to identify a long hyphen - and "---" is an
-even longer one.
+The conversion is actually:
+  - add blank lines and identation in order to identify paragraphs;
+  - fix tables markups;
+  - add some lists markups;
+  - mark literal blocks;
+  - adjust title markups.
 
 At its new index.rst, let's add a :orphan: while this is not linked to
 the main index.rst file, in order to avoid build warnings.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Acked-by: Andrew Donnellan <andrew.donnellan@au1.ibm.com> # cxl
 ---
- Documentation/PCI/pci-error-recovery.rst      |  23 ++-
- .../{bootwrapper.txt => bootwrapper.rst}      |  28 +++-
- .../{cpu_families.txt => cpu_families.rst}    |  23 +--
- .../{cpu_features.txt => cpu_features.rst}    |   6 +-
- Documentation/powerpc/{cxl.txt => cxl.rst}    |  46 ++++--
- .../powerpc/{cxlflash.txt => cxlflash.rst}    |  10 +-
- .../{DAWR-POWER9.txt => dawr-power9.rst}      |  15 +-
- Documentation/powerpc/{dscr.txt => dscr.rst}  |  18 +-
- ...ecovery.txt => eeh-pci-error-recovery.rst} | 108 ++++++------
- ...ed-dump.txt => firmware-assisted-dump.rst} | 117 +++++++------
- Documentation/powerpc/{hvcs.txt => hvcs.rst}  | 108 ++++++------
- Documentation/powerpc/index.rst               |  34 ++++
- Documentation/powerpc/isa-versions.rst        |  15 +-
- .../powerpc/{mpc52xx.txt => mpc52xx.rst}      |  12 +-
- ...nv.txt => pci_iov_resource_on_powernv.rst} |  15 +-
- .../powerpc/{pmu-ebb.txt => pmu-ebb.rst}      |   1 +
- Documentation/powerpc/ptrace.rst              | 156 ++++++++++++++++++
- Documentation/powerpc/ptrace.txt              | 151 -----------------
- .../{qe_firmware.txt => qe_firmware.rst}      |  37 +++--
- .../{syscall64-abi.txt => syscall64-abi.rst}  |  29 ++--
- ...al_memory.txt => transactional_memory.rst} |  45 ++---
- MAINTAINERS                                   |   6 +-
- arch/powerpc/kernel/exceptions-64s.S          |   2 +-
- drivers/soc/fsl/qe/qe.c                       |   2 +-
- drivers/tty/hvc/hvcs.c                        |   2 +-
- include/soc/fsl/qe/qe.h                       |   2 +-
- 26 files changed, 584 insertions(+), 427 deletions(-)
- rename Documentation/powerpc/{bootwrapper.txt => bootwrapper.rst} (93%)
- rename Documentation/powerpc/{cpu_families.txt => cpu_families.rst} (95%)
- rename Documentation/powerpc/{cpu_features.txt => cpu_features.rst} (97%)
- rename Documentation/powerpc/{cxl.txt => cxl.rst} (95%)
- rename Documentation/powerpc/{cxlflash.txt => cxlflash.rst} (98%)
- rename Documentation/powerpc/{DAWR-POWER9.txt => dawr-power9.rst} (95%)
- rename Documentation/powerpc/{dscr.txt => dscr.rst} (91%)
- rename Documentation/powerpc/{eeh-pci-error-recovery.txt => eeh-pci-error-recovery.rst} (82%)
- rename Documentation/powerpc/{firmware-assisted-dump.txt => firmware-assisted-dump.rst} (80%)
- rename Documentation/powerpc/{hvcs.txt => hvcs.rst} (91%)
- create mode 100644 Documentation/powerpc/index.rst
- rename Documentation/powerpc/{mpc52xx.txt => mpc52xx.rst} (91%)
- rename Documentation/powerpc/{pci_iov_resource_on_powernv.txt => pci_iov_resource_on_powernv.rst} (97%)
- rename Documentation/powerpc/{pmu-ebb.txt => pmu-ebb.rst} (99%)
- create mode 100644 Documentation/powerpc/ptrace.rst
- delete mode 100644 Documentation/powerpc/ptrace.txt
- rename Documentation/powerpc/{qe_firmware.txt => qe_firmware.rst} (95%)
- rename Documentation/powerpc/{syscall64-abi.txt => syscall64-abi.rst} (82%)
- rename Documentation/powerpc/{transactional_memory.txt => transactional_memory.rst} (93%)
+ Documentation/ABI/testing/sysfs-kernel-uids   |   2 +-
+ .../{completion.txt => completion.rst}        |  38 +--
+ Documentation/scheduler/index.rst             |  29 ++
+ .../{sched-arch.txt => sched-arch.rst}        |  18 +-
+ .../{sched-bwc.txt => sched-bwc.rst}          |  30 +-
+ ...{sched-deadline.txt => sched-deadline.rst} | 295 +++++++++---------
+ ...ed-design-CFS.txt => sched-design-CFS.rst} |  15 +-
+ .../{sched-domains.txt => sched-domains.rst}  |   8 +-
+ .../{sched-energy.txt => sched-energy.rst}    |  47 +--
+ ...-nice-design.txt => sched-nice-design.rst} |   6 +-
+ ...{sched-rt-group.txt => sched-rt-group.rst} |  28 +-
+ .../{sched-stats.txt => sched-stats.rst}      |  35 ++-
+ Documentation/scheduler/text_files.rst        |   5 +
+ Documentation/vm/numa.rst                     |   2 +-
+ init/Kconfig                                  |   6 +-
+ kernel/sched/deadline.c                       |   2 +-
+ 16 files changed, 332 insertions(+), 234 deletions(-)
+ rename Documentation/scheduler/{completion.txt => completion.rst} (94%)
+ create mode 100644 Documentation/scheduler/index.rst
+ rename Documentation/scheduler/{sched-arch.txt => sched-arch.rst} (81%)
+ rename Documentation/scheduler/{sched-bwc.txt => sched-bwc.rst} (90%)
+ rename Documentation/scheduler/{sched-deadline.txt => sched-deadline.rst} (88%)
+ rename Documentation/scheduler/{sched-design-CFS.txt => sched-design-CFS.rst} (97%)
+ rename Documentation/scheduler/{sched-domains.txt => sched-domains.rst} (97%)
+ rename Documentation/scheduler/{sched-energy.txt => sched-energy.rst} (96%)
+ rename Documentation/scheduler/{sched-nice-design.txt => sched-nice-design.rst} (98%)
+ rename Documentation/scheduler/{sched-rt-group.txt => sched-rt-group.rst} (95%)
+ rename Documentation/scheduler/{sched-stats.txt => sched-stats.rst} (91%)
+ create mode 100644 Documentation/scheduler/text_files.rst
 
-diff --git a/Documentation/PCI/pci-error-recovery.rst b/Documentation/PCI/pci-error-recovery.rst
-index 83db42092935..acc21ecca322 100644
---- a/Documentation/PCI/pci-error-recovery.rst
-+++ b/Documentation/PCI/pci-error-recovery.rst
-@@ -403,7 +403,7 @@ That is, the recovery API only requires that:
- .. note::
- 
-    Implementation details for the powerpc platform are discussed in
--   the file Documentation/powerpc/eeh-pci-error-recovery.txt
-+   the file Documentation/powerpc/eeh-pci-error-recovery.rst
- 
-    As of this writing, there is a growing list of device drivers with
-    patches implementing error recovery. Not all of these patches are in
-@@ -422,3 +422,24 @@ That is, the recovery API only requires that:
-    - drivers/net/cxgb3
-    - drivers/net/s2io.c
-    - drivers/net/qlge
-+
-+>>> As of this writing, there is a growing list of device drivers with
-+>>> patches implementing error recovery. Not all of these patches are in
-+>>> mainline yet. These may be used as "examples":
-+>>>
-+>>> drivers/scsi/ipr
-+>>> drivers/scsi/sym53c8xx_2
-+>>> drivers/scsi/qla2xxx
-+>>> drivers/scsi/lpfc
-+>>> drivers/next/bnx2.c
-+>>> drivers/next/e100.c
-+>>> drivers/net/e1000
-+>>> drivers/net/e1000e
-+>>> drivers/net/ixgb
-+>>> drivers/net/ixgbe
-+>>> drivers/net/cxgb3
-+>>> drivers/net/s2io.c
-+>>> drivers/net/qlge
-+
-+The End
-+-------
-diff --git a/Documentation/powerpc/bootwrapper.txt b/Documentation/powerpc/bootwrapper.rst
-similarity index 93%
-rename from Documentation/powerpc/bootwrapper.txt
-rename to Documentation/powerpc/bootwrapper.rst
-index d60fced5e1cc..a6292afba573 100644
---- a/Documentation/powerpc/bootwrapper.txt
-+++ b/Documentation/powerpc/bootwrapper.rst
-@@ -1,5 +1,7 @@
-+========================
- The PowerPC boot wrapper
--------------------------
-+========================
-+
- Copyright (C) Secret Lab Technologies Ltd.
- 
- PowerPC image targets compresses and wraps the kernel image (vmlinux) with
-@@ -21,6 +23,7 @@ it uses the wrapper script (arch/powerpc/boot/wrapper) to generate target
- image.  The details of the build system is discussed in the next section.
- Currently, the following image format targets exist:
- 
-+   ==================== ========================================================
-    cuImage.%:		Backwards compatible uImage for older version of
- 			U-Boot (for versions that don't understand the device
- 			tree).  This image embeds a device tree blob inside
-@@ -29,31 +32,36 @@ Currently, the following image format targets exist:
- 			with boot wrapper code that extracts data from the old
- 			bd_info structure and loads the data into the device
- 			tree before jumping into the kernel.
--			  Because of the series of #ifdefs found in the
-+
-+			Because of the series of #ifdefs found in the
- 			bd_info structure used in the old U-Boot interfaces,
- 			cuImages are platform specific.  Each specific
- 			U-Boot platform has a different platform init file
- 			which populates the embedded device tree with data
- 			from the platform specific bd_info file.  The platform
- 			specific cuImage platform init code can be found in
--			arch/powerpc/boot/cuboot.*.c.  Selection of the correct
-+			`arch/powerpc/boot/cuboot.*.c`. Selection of the correct
- 			cuImage init code for a specific board can be found in
- 			the wrapper structure.
-+
-    dtbImage.%:		Similar to zImage, except device tree blob is embedded
- 			inside the image instead of provided by firmware.  The
- 			output image file can be either an elf file or a flat
- 			binary depending on the platform.
--			  dtbImages are used on systems which do not have an
-+
-+			dtbImages are used on systems which do not have an
- 			interface for passing a device tree directly.
- 			dtbImages are similar to simpleImages except that
- 			dtbImages have platform specific code for extracting
- 			data from the board firmware, but simpleImages do not
- 			talk to the firmware at all.
--			  PlayStation 3 support uses dtbImage.  So do Embedded
-+
-+			PlayStation 3 support uses dtbImage.  So do Embedded
- 			Planet boards using the PlanetCore firmware.  Board
- 			specific initialization code is typically found in a
- 			file named arch/powerpc/boot/<platform>.c; but this
- 			can be overridden by the wrapper script.
-+
-    simpleImage.%:	Firmware independent compressed image that does not
- 			depend on any particular firmware interface and embeds
- 			a device tree blob.  This image is a flat binary that
-@@ -61,14 +69,16 @@ Currently, the following image format targets exist:
- 			Firmware cannot pass any configuration data to the
- 			kernel with this image type and it depends entirely on
- 			the embedded device tree for all information.
--			  The simpleImage is useful for booting systems with
-+
-+			The simpleImage is useful for booting systems with
- 			an unknown firmware interface or for booting from
- 			a debugger when no firmware is present (such as on
- 			the Xilinx Virtex platform).  The only assumption that
- 			simpleImage makes is that RAM is correctly initialized
- 			and that the MMU is either off or has RAM mapped to
- 			base address 0.
--			  simpleImage also supports inserting special platform
-+
-+			simpleImage also supports inserting special platform
- 			specific initialization code to the start of the bootup
- 			sequence.  The virtex405 platform uses this feature to
- 			ensure that the cache is invalidated before caching
-@@ -81,9 +91,11 @@ Currently, the following image format targets exist:
- 			named (virtex405-<board>.dts).  Search the wrapper
- 			script for 'virtex405' and see the file
- 			arch/powerpc/boot/virtex405-head.S for details.
-+
-    treeImage.%;		Image format for used with OpenBIOS firmware found
- 			on some ppc4xx hardware.  This image embeds a device
- 			tree blob inside the image.
-+
-    uImage:		Native image format used by U-Boot.  The uImage target
- 			does not add any boot code.  It just wraps a compressed
- 			vmlinux in the uImage data structure.  This image
-@@ -91,12 +103,14 @@ Currently, the following image format targets exist:
- 			a device tree to the kernel at boot.  If using an older
- 			version of U-Boot, then you need to use a cuImage
- 			instead.
-+
-    zImage.%:		Image format which does not embed a device tree.
- 			Used by OpenFirmware and other firmware interfaces
- 			which are able to supply a device tree.  This image
- 			expects firmware to provide the device tree at boot.
- 			Typically, if you have general purpose PowerPC
- 			hardware then you want this image format.
-+   ==================== ========================================================
- 
- Image types which embed a device tree blob (simpleImage, dtbImage, treeImage,
- and cuImage) all generate the device tree blob from a file in the
-diff --git a/Documentation/powerpc/cpu_families.txt b/Documentation/powerpc/cpu_families.rst
-similarity index 95%
-rename from Documentation/powerpc/cpu_families.txt
-rename to Documentation/powerpc/cpu_families.rst
-index fc08e22feb1a..1e063c5440c3 100644
---- a/Documentation/powerpc/cpu_families.txt
-+++ b/Documentation/powerpc/cpu_families.rst
+diff --git a/Documentation/ABI/testing/sysfs-kernel-uids b/Documentation/ABI/testing/sysfs-kernel-uids
+index 28f14695a852..4182b7061816 100644
+--- a/Documentation/ABI/testing/sysfs-kernel-uids
++++ b/Documentation/ABI/testing/sysfs-kernel-uids
+@@ -11,4 +11,4 @@ Description:
+ 		example would be, if User A has shares = 1024 and user
+ 		B has shares = 2048, User B will get twice the CPU
+ 		bandwidth user A will. For more details refer
+-		Documentation/scheduler/sched-design-CFS.txt
++		Documentation/scheduler/sched-design-CFS.rst
+diff --git a/Documentation/scheduler/completion.txt b/Documentation/scheduler/completion.rst
+similarity index 94%
+rename from Documentation/scheduler/completion.txt
+rename to Documentation/scheduler/completion.rst
+index e5b9df4d8078..9f039b4f4b09 100644
+--- a/Documentation/scheduler/completion.txt
++++ b/Documentation/scheduler/completion.rst
 @@ -1,3 +1,4 @@
-+============
- CPU Families
- ============
- 
-@@ -8,8 +9,8 @@ and are supported by arch/powerpc.
- Book3S (aka sPAPR)
- ------------------
- 
-- - Hash MMU
-- - Mix of 32 & 64 bit
-+- Hash MMU
-+- Mix of 32 & 64 bit::
- 
-    +--------------+                 +----------------+
-    |  Old POWER   | --------------> | RS64 (threads) |
-@@ -108,8 +109,8 @@ Book3S (aka sPAPR)
- IBM BookE
- ---------
- 
-- - Software loaded TLB.
-- - All 32 bit
-+- Software loaded TLB.
-+- All 32 bit::
- 
-    +--------------+
-    |     401      |
-@@ -155,8 +156,8 @@ IBM BookE
- Motorola/Freescale 8xx
- ----------------------
- 
-- - Software loaded with hardware assist.
-- - All 32 bit
-+- Software loaded with hardware assist.
-+- All 32 bit::
- 
-    +-------------+
-    | MPC8xx Core |
-@@ -166,9 +167,9 @@ Motorola/Freescale 8xx
- Freescale BookE
- ---------------
- 
-- - Software loaded TLB.
-- - e6500 adds HW loaded indirect TLB entries.
-- - Mix of 32 & 64 bit
-+- Software loaded TLB.
-+- e6500 adds HW loaded indirect TLB entries.
-+- Mix of 32 & 64 bit::
- 
-    +--------------+
-    |     e200     |
-@@ -207,8 +208,8 @@ Freescale BookE
- IBM A2 core
- -----------
- 
-- - Book3E, software loaded TLB + HW loaded indirect TLB entries.
-- - 64 bit
-+- Book3E, software loaded TLB + HW loaded indirect TLB entries.
-+- 64 bit::
- 
-    +--------------+     +----------------+
-    |   A2 core    | --> |      WSP       |
-diff --git a/Documentation/powerpc/cpu_features.txt b/Documentation/powerpc/cpu_features.rst
-similarity index 97%
-rename from Documentation/powerpc/cpu_features.txt
-rename to Documentation/powerpc/cpu_features.rst
-index ae09df8722c8..b7bcdd2f41bb 100644
---- a/Documentation/powerpc/cpu_features.txt
-+++ b/Documentation/powerpc/cpu_features.rst
-@@ -1,3 +1,7 @@
-+============
-+CPU Features
-+============
-+
- Hollis Blanchard <hollis@austin.ibm.com>
- 5 Jun 2002
- 
-@@ -32,7 +36,7 @@ anyways).
- After detecting the processor type, the kernel patches out sections of code
- that shouldn't be used by writing nop's over it. Using cpufeatures requires
- just 2 macros (found in arch/powerpc/include/asm/cputable.h), as seen in head.S
--transfer_to_handler:
-+transfer_to_handler::
- 
- 	#ifdef CONFIG_ALTIVEC
- 	BEGIN_FTR_SECTION
-diff --git a/Documentation/powerpc/cxl.txt b/Documentation/powerpc/cxl.rst
-similarity index 95%
-rename from Documentation/powerpc/cxl.txt
-rename to Documentation/powerpc/cxl.rst
-index c5e8d5098ed3..920546d81326 100644
---- a/Documentation/powerpc/cxl.txt
-+++ b/Documentation/powerpc/cxl.rst
-@@ -1,3 +1,4 @@
-+====================================
- Coherent Accelerator Interface (CXL)
- ====================================
- 
-@@ -21,6 +22,8 @@ Introduction
- Hardware overview
- =================
- 
-+    ::
-+
-          POWER8/9             FPGA
-        +----------+        +---------+
-        |          |        |         |
-@@ -59,14 +62,16 @@ Hardware overview
-     the fault. The context to which this fault is serviced is based on
-     who owns that acceleration function.
- 
--    POWER8 <-----> PSL Version 8 is compliant to the CAIA Version 1.0.
--    POWER9 <-----> PSL Version 9 is compliant to the CAIA Version 2.0.
-+    - POWER8 and PSL Version 8 are compliant to the CAIA Version 1.0.
-+    - POWER9 and PSL Version 9 are compliant to the CAIA Version 2.0.
-+
-     This PSL Version 9 provides new features such as:
-+
-     * Interaction with the nest MMU on the P9 chip.
-     * Native DMA support.
-     * Supports sending ASB_Notify messages for host thread wakeup.
-     * Supports Atomic operations.
--    * ....
-+    * etc.
- 
-     Cards with a PSL9 won't work on a POWER8 system and cards with a
-     PSL8 won't work on a POWER9 system.
-@@ -147,7 +152,9 @@ User API
-     master devices.
- 
-     A userspace library libcxl is available here:
-+
- 	https://github.com/ibm-capi/libcxl
-+
-     This provides a C interface to this kernel API.
- 
- open
-@@ -165,7 +172,8 @@ open
-     When all available contexts are allocated the open call will fail
-     and return -ENOSPC.
- 
--    Note: IRQs need to be allocated for each context, which may limit
-+    Note:
-+	  IRQs need to be allocated for each context, which may limit
-           the number of contexts that can be created, and therefore
-           how many times the device can be opened. The POWER8 CAPP
-           supports 2040 IRQs and 3 are used by the kernel, so 2037 are
-@@ -186,7 +194,9 @@ ioctl
-         updated as userspace allocates and frees memory. This ioctl
-         returns once the AFU context is started.
- 
--        Takes a pointer to a struct cxl_ioctl_start_work:
-+        Takes a pointer to a struct cxl_ioctl_start_work
-+
-+            ::
- 
-                 struct cxl_ioctl_start_work {
-                         __u64 flags;
-@@ -269,7 +279,7 @@ read
-     The buffer passed to read() must be at least 4K bytes.
- 
-     The result of the read will be a buffer of one or more events,
--    each event is of type struct cxl_event, of varying size.
-+    each event is of type struct cxl_event, of varying size::
- 
-             struct cxl_event {
-                     struct cxl_event_header header;
-@@ -280,7 +290,9 @@ read
-                     };
-             };
- 
--    The struct cxl_event_header is defined as:
-+    The struct cxl_event_header is defined as
-+
-+        ::
- 
-             struct cxl_event_header {
-                     __u16 type;
-@@ -307,7 +319,9 @@ read
-             For future extensions and padding.
- 
-     If the event type is CXL_EVENT_AFU_INTERRUPT then the event
--    structure is defined as:
-+    structure is defined as
-+
-+        ::
- 
-             struct cxl_event_afu_interrupt {
-                     __u16 flags;
-@@ -326,7 +340,9 @@ read
-             For future extensions and padding.
- 
-     If the event type is CXL_EVENT_DATA_STORAGE then the event
--    structure is defined as:
-+    structure is defined as
-+
-+        ::
- 
-             struct cxl_event_data_storage {
-                     __u16 flags;
-@@ -356,7 +372,9 @@ read
-             For future extensions
- 
-     If the event type is CXL_EVENT_AFU_ERROR then the event structure
--    is defined as:
-+    is defined as
-+
-+        ::
- 
-             struct cxl_event_afu_error {
-                     __u16 flags;
-@@ -393,15 +411,15 @@ open
- ioctl
- -----
- 
--CXL_IOCTL_DOWNLOAD_IMAGE:
--CXL_IOCTL_VALIDATE_IMAGE:
-+CXL_IOCTL_DOWNLOAD_IMAGE / CXL_IOCTL_VALIDATE_IMAGE:
-     Starts and controls flashing a new FPGA image. Partial
-     reconfiguration is not supported (yet), so the image must contain
-     a copy of the PSL and AFU(s). Since an image can be quite large,
-     the caller may have to iterate, splitting the image in smaller
-     chunks.
- 
--    Takes a pointer to a struct cxl_adapter_image:
-+    Takes a pointer to a struct cxl_adapter_image::
-+
-         struct cxl_adapter_image {
-             __u64 flags;
-             __u64 data;
-@@ -442,7 +460,7 @@ Udev rules
-     The following udev rules could be used to create a symlink to the
-     most logical chardev to use in any programming mode (afuX.Yd for
-     dedicated, afuX.Ys for afu directed), since the API is virtually
--    identical for each:
-+    identical for each::
- 
- 	SUBSYSTEM=="cxl", ATTRS{mode}=="dedicated_process", SYMLINK="cxl/%b"
- 	SUBSYSTEM=="cxl", ATTRS{mode}=="afu_directed", \
-diff --git a/Documentation/powerpc/cxlflash.txt b/Documentation/powerpc/cxlflash.rst
-similarity index 98%
-rename from Documentation/powerpc/cxlflash.txt
-rename to Documentation/powerpc/cxlflash.rst
-index a64bdaa0a1cf..cea67931b3b9 100644
---- a/Documentation/powerpc/cxlflash.txt
-+++ b/Documentation/powerpc/cxlflash.rst
-@@ -1,3 +1,7 @@
-+================================
-+Coherent Accelerator (CXL) Flash
-+================================
-+
- Introduction
- ============
- 
-@@ -28,7 +32,7 @@ Introduction
-     responsible for the initialization of the adapter, setting up the
-     special path for user space access, and performing error recovery. It
-     communicates directly the Flash Accelerator Functional Unit (AFU)
--    as described in Documentation/powerpc/cxl.txt.
-+    as described in Documentation/powerpc/cxl.rst.
- 
-     The cxlflash driver supports two, mutually exclusive, modes of
-     operation at the device (LUN) level:
-@@ -58,7 +62,7 @@ Overview
- 
-     The CXL Flash Adapter Driver establishes a master context with the
-     AFU. It uses memory mapped I/O (MMIO) for this control and setup. The
--    Adapter Problem Space Memory Map looks like this:
-+    Adapter Problem Space Memory Map looks like this::
- 
-                      +-------------------------------+
-                      |    512 * 64 KB User MMIO      |
-@@ -375,7 +379,7 @@ CXL Flash Driver Host IOCTLs
-     Each host adapter instance that is supported by the cxlflash driver
-     has a special character device associated with it to enable a set of
-     host management function. These character devices are hosted in a
--    class dedicated for cxlflash and can be accessed via /dev/cxlflash/*.
-+    class dedicated for cxlflash and can be accessed via `/dev/cxlflash/*`.
- 
-     Applications can be written to perform various functions using the
-     host ioctl APIs below.
-diff --git a/Documentation/powerpc/DAWR-POWER9.txt b/Documentation/powerpc/dawr-power9.rst
-similarity index 95%
-rename from Documentation/powerpc/DAWR-POWER9.txt
-rename to Documentation/powerpc/dawr-power9.rst
-index ecdbb076438c..c96ab6befd9c 100644
---- a/Documentation/powerpc/DAWR-POWER9.txt
-+++ b/Documentation/powerpc/dawr-power9.rst
-@@ -1,10 +1,11 @@
-+=====================
- DAWR issues on POWER9
--============================
-+=====================
- 
- On POWER9 the Data Address Watchpoint Register (DAWR) can cause a checkstop
- if it points to cache inhibited (CI) memory. Currently Linux has no way to
- disinguish CI memory when configuring the DAWR, so (for now) the DAWR is
--disabled by this commit:
-+disabled by this commit::
- 
-     commit 9654153158d3e0684a1bdb76dbababdb7111d5a0
-     Author: Michael Neuling <mikey@neuling.org>
-@@ -12,7 +13,7 @@ disabled by this commit:
-     powerpc: Disable DAWR in the base POWER9 CPU features
- 
- Technical Details:
--============================
-+==================
- 
- DAWR has 6 different ways of being set.
- 1) ptrace
-@@ -37,7 +38,7 @@ DAWR on the migration.
- For xmon, the 'bd' command will return an error on P9.
- 
- Consequences for users
--============================
-+======================
- 
- For GDB watchpoints (ie 'watch' command) on POWER9 bare metal , GDB
- will accept the command. Unfortunately since there is no hardware
-@@ -57,8 +58,8 @@ trapped in GDB. The watchpoint is remembered, so if the guest is
- migrated back to the POWER8 host, it will start working again.
- 
- Force enabling the DAWR
--=============================
--Kernels (since ~v5.2) have an option to force enable the DAWR via:
-+=======================
-+Kernels (since ~v5.2) have an option to force enable the DAWR via::
- 
-   echo Y > /sys/kernel/debug/powerpc/dawr_enable_dangerous
- 
-@@ -86,5 +87,7 @@ dawr_enable_dangerous file will fail if the hypervisor doesn't support
- writing the DAWR.
- 
- To double check the DAWR is working, run this kernel selftest:
-+
-   tools/testing/selftests/powerpc/ptrace/ptrace-hwbreak.c
-+
- Any errors/failures/skips mean something is wrong.
-diff --git a/Documentation/powerpc/dscr.txt b/Documentation/powerpc/dscr.rst
-similarity index 91%
-rename from Documentation/powerpc/dscr.txt
-rename to Documentation/powerpc/dscr.rst
-index ece300c64f76..2ab99006014c 100644
---- a/Documentation/powerpc/dscr.txt
-+++ b/Documentation/powerpc/dscr.rst
-@@ -1,5 +1,6 @@
--			DSCR (Data Stream Control Register)
--		================================================
-+===================================
-+DSCR (Data Stream Control Register)
-+===================================
- 
- DSCR register in powerpc allows user to have some control of prefetch of data
- stream in the processor. Please refer to the ISA documents or related manual
-@@ -10,14 +11,17 @@ user interface.
- 
- (A) Data Structures:
- 
--	(1) thread_struct:
-+	(1) thread_struct::
-+
- 		dscr		/* Thread DSCR value */
- 		dscr_inherit	/* Thread has changed default DSCR */
- 
--	(2) PACA:
-+	(2) PACA::
-+
- 		dscr_default	/* per-CPU DSCR default value */
- 
--	(3) sysfs.c:
-+	(3) sysfs.c::
-+
- 		dscr_default	/* System DSCR default value */
- 
- (B) Scheduler Changes:
-@@ -35,8 +39,8 @@ user interface.
- 
- (C) SYSFS Interface:
- 
--	Global DSCR default:		/sys/devices/system/cpu/dscr_default
--	CPU specific DSCR default:	/sys/devices/system/cpu/cpuN/dscr
-+	- Global DSCR default:		/sys/devices/system/cpu/dscr_default
-+	- CPU specific DSCR default:	/sys/devices/system/cpu/cpuN/dscr
- 
- 	Changing the global DSCR default in the sysfs will change all the CPU
- 	specific DSCR defaults immediately in their PACA structures. Again if
-diff --git a/Documentation/powerpc/eeh-pci-error-recovery.txt b/Documentation/powerpc/eeh-pci-error-recovery.rst
-similarity index 82%
-rename from Documentation/powerpc/eeh-pci-error-recovery.txt
-rename to Documentation/powerpc/eeh-pci-error-recovery.rst
-index 678189280bb4..438a87ebc095 100644
---- a/Documentation/powerpc/eeh-pci-error-recovery.txt
-+++ b/Documentation/powerpc/eeh-pci-error-recovery.rst
-@@ -1,10 +1,10 @@
-+==========================
-+PCI Bus EEH Error Recovery
-+==========================
- 
-+Linas Vepstas <linas@austin.ibm.com>
- 
--                      PCI Bus EEH Error Recovery
--                      --------------------------
--                           Linas Vepstas
--                       <linas@austin.ibm.com>
--                          12 January 2005
-+12 January 2005
- 
- 
- Overview:
-@@ -143,17 +143,17 @@ seen in /proc/ppc64/eeh (subject to change).  Normally, almost
- all of these occur during boot, when the PCI bus is scanned, where
- a large number of 0xff reads are part of the bus scan procedure.
- 
--If a frozen slot is detected, code in 
--arch/powerpc/platforms/pseries/eeh.c will print a stack trace to 
--syslog (/var/log/messages).  This stack trace has proven to be very 
--useful to device-driver authors for finding out at what point the EEH 
--error was detected, as the error itself usually occurs slightly 
-+If a frozen slot is detected, code in
-+arch/powerpc/platforms/pseries/eeh.c will print a stack trace to
-+syslog (/var/log/messages).  This stack trace has proven to be very
-+useful to device-driver authors for finding out at what point the EEH
-+error was detected, as the error itself usually occurs slightly
- beforehand.
- 
- Next, it uses the Linux kernel notifier chain/work queue mechanism to
- allow any interested parties to find out about the failure.  Device
- drivers, or other parts of the kernel, can use
--eeh_register_notifier(struct notifier_block *) to find out about EEH
-+`eeh_register_notifier(struct notifier_block *)` to find out about EEH
- events.  The event will include a pointer to the pci device, the
- device node and some state info.  Receivers of the event can "do as
- they wish"; the default handler will be described further in this
-@@ -162,10 +162,13 @@ section.
- To assist in the recovery of the device, eeh.c exports the
- following functions:
- 
--rtas_set_slot_reset() -- assert the  PCI #RST line for 1/8th of a second
--rtas_configure_bridge() -- ask firmware to configure any PCI bridges
-+rtas_set_slot_reset()
-+   assert the  PCI #RST line for 1/8th of a second
-+rtas_configure_bridge()
-+   ask firmware to configure any PCI bridges
-    located topologically under the pci slot.
--eeh_save_bars() and eeh_restore_bars(): save and restore the PCI
-+eeh_save_bars() and eeh_restore_bars():
-+   save and restore the PCI
-    config-space info for a device and any devices under it.
- 
- 
-@@ -191,7 +194,7 @@ events get delivered to user-space scripts.
- 
- Following is an example sequence of events that cause a device driver
- close function to be called during the first phase of an EEH reset.
--The following sequence is an example of the pcnet32 device driver.
-+The following sequence is an example of the pcnet32 device driver::
- 
-     rpa_php_unconfig_pci_adapter (struct slot *)  // in rpaphp_pci.c
-     {
-@@ -241,53 +244,54 @@ The following sequence is an example of the pcnet32 device driver.
-      }}}}}}
- 
- 
--    in drivers/pci/pci_driver.c,
--    struct device_driver->remove() is just pci_device_remove()
--    which calls struct pci_driver->remove() which is pcnet32_remove_one()
--    which calls unregister_netdev()  (in net/core/dev.c)
--    which calls dev_close()  (in net/core/dev.c)
--    which calls dev->stop() which is pcnet32_close()
--    which then does the appropriate shutdown.
-+in drivers/pci/pci_driver.c,
-+struct device_driver->remove() is just pci_device_remove()
-+which calls struct pci_driver->remove() which is pcnet32_remove_one()
-+which calls unregister_netdev()  (in net/core/dev.c)
-+which calls dev_close()  (in net/core/dev.c)
-+which calls dev->stop() which is pcnet32_close()
-+which then does the appropriate shutdown.
- 
- ---
-+
- Following is the analogous stack trace for events sent to user-space
--when the pci device is unconfigured.
-+when the pci device is unconfigured::
- 
--rpa_php_unconfig_pci_adapter() {             // in rpaphp_pci.c
--  calls
--  pci_remove_bus_device (struct pci_dev *) { // in /drivers/pci/remove.c
-+  rpa_php_unconfig_pci_adapter() {             // in rpaphp_pci.c
-     calls
--    pci_destroy_dev (struct pci_dev *) {
-+    pci_remove_bus_device (struct pci_dev *) { // in /drivers/pci/remove.c
-       calls
--      device_unregister (&dev->dev) {        // in /drivers/base/core.c
-+      pci_destroy_dev (struct pci_dev *) {
-         calls
--        device_del(struct device * dev) {    // in /drivers/base/core.c
-+        device_unregister (&dev->dev) {        // in /drivers/base/core.c
-           calls
--          kobject_del() {                    //in /libs/kobject.c
-+          device_del(struct device * dev) {    // in /drivers/base/core.c
-             calls
--            kobject_uevent() {               // in /libs/kobject.c
-+            kobject_del() {                    //in /libs/kobject.c
-               calls
--              kset_uevent() {                // in /lib/kobject.c
-+              kobject_uevent() {               // in /libs/kobject.c
-                 calls
--                kset->uevent_ops->uevent()   // which is really just
--                a call to
--                dev_uevent() {               // in /drivers/base/core.c
-+                kset_uevent() {                // in /lib/kobject.c
-                   calls
--                  dev->bus->uevent() which is really just a call to
--                  pci_uevent () {            // in drivers/pci/hotplug.c
--                    which prints device name, etc....
-+                  kset->uevent_ops->uevent()   // which is really just
-+                  a call to
-+                  dev_uevent() {               // in /drivers/base/core.c
-+                    calls
-+                    dev->bus->uevent() which is really just a call to
-+                    pci_uevent () {            // in drivers/pci/hotplug.c
-+                      which prints device name, etc....
-+                   }
-                  }
--               }
--               then kobject_uevent() sends a netlink uevent to userspace
--               --> userspace uevent
--               (during early boot, nobody listens to netlink events and
--               kobject_uevent() executes uevent_helper[], which runs the
--               event process /sbin/hotplug)
-+                 then kobject_uevent() sends a netlink uevent to userspace
-+                 --> userspace uevent
-+                 (during early boot, nobody listens to netlink events and
-+                 kobject_uevent() executes uevent_helper[], which runs the
-+                 event process /sbin/hotplug)
-+             }
-            }
--         }
--         kobject_del() then calls sysfs_remove_dir(), which would
--         trigger any user-space daemon that was watching /sysfs,
--         and notice the delete event.
-+           kobject_del() then calls sysfs_remove_dir(), which would
-+           trigger any user-space daemon that was watching /sysfs,
-+           and notice the delete event.
- 
- 
- Pro's and Con's of the Current Design
-@@ -299,12 +303,12 @@ individual device drivers, so that the current design throws a wide net.
- The biggest negative of the design is that it potentially disturbs
- network daemons and file systems that didn't need to be disturbed.
- 
---- A minor complaint is that resetting the network card causes
-+-  A minor complaint is that resetting the network card causes
-    user-space back-to-back ifdown/ifup burps that potentially disturb
-    network daemons, that didn't need to even know that the pci
-    card was being rebooted.
- 
---- A more serious concern is that the same reset, for SCSI devices,
-+-  A more serious concern is that the same reset, for SCSI devices,
-    causes havoc to mounted file systems.  Scripts cannot post-facto
-    unmount a file system without flushing pending buffers, but this
-    is impossible, because I/O has already been stopped.  Thus,
-@@ -322,7 +326,7 @@ network daemons and file systems that didn't need to be disturbed.
-    from the block layer.  It would be very natural to add an EEH
-    reset into this chain of events.
- 
---- If a SCSI error occurs for the root device, all is lost unless
-+-  If a SCSI error occurs for the root device, all is lost unless
-    the sysadmin had the foresight to run /bin, /sbin, /etc, /var
-    and so on, out of ramdisk/tmpfs.
- 
-@@ -330,5 +334,3 @@ network daemons and file systems that didn't need to be disturbed.
- Conclusions
- -----------
- There's forward progress ...
--
--
-diff --git a/Documentation/powerpc/firmware-assisted-dump.txt b/Documentation/powerpc/firmware-assisted-dump.rst
-similarity index 80%
-rename from Documentation/powerpc/firmware-assisted-dump.txt
-rename to Documentation/powerpc/firmware-assisted-dump.rst
-index 0c41d6d463f3..d7fa7c35dd12 100644
---- a/Documentation/powerpc/firmware-assisted-dump.txt
-+++ b/Documentation/powerpc/firmware-assisted-dump.rst
-@@ -1,7 +1,8 @@
-+======================
-+Firmware-Assisted Dump
-+======================
- 
--                   Firmware-Assisted Dump
--                   ------------------------
--                       July 2011
-+July 2011
- 
- The goal of firmware-assisted dump is to enable the dump of
- a crashed system, and to do so from a fully-reset system, and
-@@ -27,11 +28,11 @@ in production use.
- Comparing with kdump or other strategies, firmware-assisted
- dump offers several strong, practical advantages:
- 
---- Unlike kdump, the system has been reset, and loaded
-+-  Unlike kdump, the system has been reset, and loaded
-    with a fresh copy of the kernel.  In particular,
-    PCI and I/O devices have been reinitialized and are
-    in a clean, consistent state.
---- Once the dump is copied out, the memory that held the dump
-+-  Once the dump is copied out, the memory that held the dump
-    is immediately available to the running kernel. And therefore,
-    unlike kdump, fadump doesn't need a 2nd reboot to get back
-    the system to the production configuration.
-@@ -40,17 +41,18 @@ The above can only be accomplished by coordination with,
- and assistance from the Power firmware. The procedure is
- as follows:
- 
---- The first kernel registers the sections of memory with the
-+-  The first kernel registers the sections of memory with the
-    Power firmware for dump preservation during OS initialization.
-    These registered sections of memory are reserved by the first
-    kernel during early boot.
- 
---- When a system crashes, the Power firmware will save
-+-  When a system crashes, the Power firmware will save
-    the low memory (boot memory of size larger of 5% of system RAM
-    or 256MB) of RAM to the previous registered region. It will
-    also save system registers, and hardware PTE's.
- 
--   NOTE: The term 'boot memory' means size of the low memory chunk
-+   NOTE:
-+         The term 'boot memory' means size of the low memory chunk
-          that is required for a kernel to boot successfully when
-          booted with restricted memory. By default, the boot memory
-          size will be the larger of 5% of system RAM or 256MB.
-@@ -64,12 +66,12 @@ as follows:
-          as fadump uses a predefined offset to reserve memory
-          for boot memory dump preservation in case of a crash.
- 
---- After the low memory (boot memory) area has been saved, the
-+-  After the low memory (boot memory) area has been saved, the
-    firmware will reset PCI and other hardware state.  It will
-    *not* clear the RAM. It will then launch the bootloader, as
-    normal.
- 
---- The freshly booted kernel will notice that there is a new
-+-  The freshly booted kernel will notice that there is a new
-    node (ibm,dump-kernel) in the device tree, indicating that
-    there is crash data available from a previous boot. During
-    the early boot OS will reserve rest of the memory above
-@@ -77,17 +79,18 @@ as follows:
-    size. This will make sure that the second kernel will not
-    touch any of the dump memory area.
- 
---- User-space tools will read /proc/vmcore to obtain the contents
-+-  User-space tools will read /proc/vmcore to obtain the contents
-    of memory, which holds the previous crashed kernel dump in ELF
-    format. The userspace tools may copy this info to disk, or
-    network, nas, san, iscsi, etc. as desired.
- 
---- Once the userspace tool is done saving dump, it will echo
-+-  Once the userspace tool is done saving dump, it will echo
-    '1' to /sys/kernel/fadump_release_mem to release the reserved
-    memory back to general use, except the memory required for
-    next firmware-assisted dump registration.
- 
--   e.g.
-+   e.g.::
-+
-      # echo 1 > /sys/kernel/fadump_release_mem
- 
- Please note that the firmware-assisted dump feature
-@@ -95,7 +98,7 @@ is only available on Power6 and above systems with recent
- firmware versions.
- 
- Implementation details:
------------------------
-+-----------------------
- 
- During boot, a check is made to see if firmware supports
- this feature on that particular machine. If it does, then
-@@ -121,7 +124,7 @@ Allocator (CMA) for memory reservation if CMA is configured for kernel.
- With CMA reservation this memory will be available for applications to
- use it, while kernel is prevented from using it. With this fadump will
- still be able to capture all of the kernel memory and most of the user
--space memory except the user pages that were present in CMA region.
-+space memory except the user pages that were present in CMA region::
- 
-   o Memory Reservation during first kernel
- 
-@@ -166,7 +169,7 @@ The tools to examine the dump will be same as the ones
- used for kdump.
- 
- How to enable firmware-assisted dump (fadump):
---------------------------------------
-+----------------------------------------------
- 
- 1. Set config option CONFIG_FA_DUMP=y and build kernel.
- 2. Boot into linux kernel with 'fadump=on' kernel cmdline option.
-@@ -177,19 +180,20 @@ How to enable firmware-assisted dump (fadump):
-    to specify size of the memory to reserve for boot memory dump
-    preservation.
- 
--NOTE: 1. 'fadump_reserve_mem=' parameter has been deprecated. Instead
--         use 'crashkernel=' to specify size of the memory to reserve
--         for boot memory dump preservation.
--      2. If firmware-assisted dump fails to reserve memory then it
--         will fallback to existing kdump mechanism if 'crashkernel='
--         option is set at kernel cmdline.
--      3. if user wants to capture all of user space memory and ok with
--         reserved memory not available to production system, then
--         'fadump=nocma' kernel parameter can be used to fallback to
--         old behaviour.
-+NOTE:
-+     1. 'fadump_reserve_mem=' parameter has been deprecated. Instead
-+        use 'crashkernel=' to specify size of the memory to reserve
-+        for boot memory dump preservation.
-+     2. If firmware-assisted dump fails to reserve memory then it
-+        will fallback to existing kdump mechanism if 'crashkernel='
-+        option is set at kernel cmdline.
-+     3. if user wants to capture all of user space memory and ok with
-+        reserved memory not available to production system, then
-+        'fadump=nocma' kernel parameter can be used to fallback to
-+        old behaviour.
- 
- Sysfs/debugfs files:
--------------
-+--------------------
- 
- Firmware-assisted dump feature uses sysfs file system to hold
- the control files and debugfs file to display memory reserved region.
-@@ -197,20 +201,20 @@ the control files and debugfs file to display memory reserved region.
- Here is the list of files under kernel sysfs:
- 
-  /sys/kernel/fadump_enabled
--
-     This is used to display the fadump status.
--    0 = fadump is disabled
--    1 = fadump is enabled
-+
-+    - 0 = fadump is disabled
-+    - 1 = fadump is enabled
- 
-     This interface can be used by kdump init scripts to identify if
-     fadump is enabled in the kernel and act accordingly.
- 
-  /sys/kernel/fadump_registered
--
-     This is used to display the fadump registration status as well
-     as to control (start/stop) the fadump registration.
--    0 = fadump is not registered.
--    1 = fadump is registered and ready to handle system crash.
-+
-+    - 0 = fadump is not registered.
-+    - 1 = fadump is registered and ready to handle system crash.
- 
-     To register fadump echo 1 > /sys/kernel/fadump_registered and
-     echo 0 > /sys/kernel/fadump_registered for un-register and stop the
-@@ -219,13 +223,12 @@ Here is the list of files under kernel sysfs:
-     easily integrated with kdump service start/stop.
- 
-  /sys/kernel/fadump_release_mem
--
-     This file is available only when fadump is active during
-     second kernel. This is used to release the reserved memory
-     region that are held for saving crash dump. To release the
--    reserved memory echo 1 to it:
-+    reserved memory echo 1 to it::
- 
--    echo 1  > /sys/kernel/fadump_release_mem
-+	echo 1  > /sys/kernel/fadump_release_mem
- 
-     After echo 1, the content of the /sys/kernel/debug/powerpc/fadump_region
-     file will change to reflect the new memory reservations.
-@@ -238,38 +241,39 @@ Here is the list of files under powerpc debugfs:
- (Assuming debugfs is mounted on /sys/kernel/debug directory.)
- 
-  /sys/kernel/debug/powerpc/fadump_region
--
-     This file shows the reserved memory regions if fadump is
-     enabled otherwise this file is empty. The output format
--    is:
--    <region>: [<start>-<end>] <reserved-size> bytes, Dumped: <dump-size>
-+    is::
-+
-+      <region>: [<start>-<end>] <reserved-size> bytes, Dumped: <dump-size>
- 
-     e.g.
--    Contents when fadump is registered during first kernel
-+    Contents when fadump is registered during first kernel::
- 
--    # cat /sys/kernel/debug/powerpc/fadump_region
--    CPU : [0x0000006ffb0000-0x0000006fff001f] 0x40020 bytes, Dumped: 0x0
--    HPTE: [0x0000006fff0020-0x0000006fff101f] 0x1000 bytes, Dumped: 0x0
--    DUMP: [0x0000006fff1020-0x0000007fff101f] 0x10000000 bytes, Dumped: 0x0
-+      # cat /sys/kernel/debug/powerpc/fadump_region
-+      CPU : [0x0000006ffb0000-0x0000006fff001f] 0x40020 bytes, Dumped: 0x0
-+      HPTE: [0x0000006fff0020-0x0000006fff101f] 0x1000 bytes, Dumped: 0x0
-+      DUMP: [0x0000006fff1020-0x0000007fff101f] 0x10000000 bytes, Dumped: 0x0
- 
--    Contents when fadump is active during second kernel
-+    Contents when fadump is active during second kernel::
- 
--    # cat /sys/kernel/debug/powerpc/fadump_region
--    CPU : [0x0000006ffb0000-0x0000006fff001f] 0x40020 bytes, Dumped: 0x40020
--    HPTE: [0x0000006fff0020-0x0000006fff101f] 0x1000 bytes, Dumped: 0x1000
--    DUMP: [0x0000006fff1020-0x0000007fff101f] 0x10000000 bytes, Dumped: 0x10000000
--        : [0x00000010000000-0x0000006ffaffff] 0x5ffb0000 bytes, Dumped: 0x5ffb0000
-+      # cat /sys/kernel/debug/powerpc/fadump_region
-+      CPU : [0x0000006ffb0000-0x0000006fff001f] 0x40020 bytes, Dumped: 0x40020
-+      HPTE: [0x0000006fff0020-0x0000006fff101f] 0x1000 bytes, Dumped: 0x1000
-+      DUMP: [0x0000006fff1020-0x0000007fff101f] 0x10000000 bytes, Dumped: 0x10000000
-+          : [0x00000010000000-0x0000006ffaffff] 0x5ffb0000 bytes, Dumped: 0x5ffb0000
- 
--NOTE: Please refer to Documentation/filesystems/debugfs.txt on
-+NOTE:
-+      Please refer to Documentation/filesystems/debugfs.txt on
-       how to mount the debugfs filesystem.
- 
- 
- TODO:
- -----
-- o Need to come up with the better approach to find out more
-+ - Need to come up with the better approach to find out more
-    accurate boot memory size that is required for a kernel to
-    boot successfully when booted with restricted memory.
-- o The fadump implementation introduces a fadump crash info structure
-+ - The fadump implementation introduces a fadump crash info structure
-    in the scratch area before the ELF core header. The idea of introducing
-    this structure is to pass some important crash info data to the second
-    kernel which will help second kernel to populate ELF core header with
-@@ -277,7 +281,9 @@ TODO:
-    design implementation does not address a possibility of introducing
-    additional fields (in future) to this structure without affecting
-    compatibility. Need to come up with the better approach to address this.
-+
-    The possible approaches are:
-+
- 	1. Introduce version field for version tracking, bump up the version
- 	whenever a new field is added to the structure in future. The version
- 	field can be used to find out what fields are valid for the current
-@@ -285,8 +291,11 @@ TODO:
- 	2. Reserve the area of predefined size (say PAGE_SIZE) for this
- 	structure and have unused area as reserved (initialized to zero)
- 	for future field additions.
-+
-    The advantage of approach 1 over 2 is we don't need to reserve extra space.
-----
-+
- Author: Mahesh Salgaonkar <mahesh@linux.vnet.ibm.com>
-+
- This document is based on the original documentation written for phyp
-+
- assisted dump by Linas Vepstas and Manish Ahuja.
-diff --git a/Documentation/powerpc/hvcs.txt b/Documentation/powerpc/hvcs.rst
-similarity index 91%
-rename from Documentation/powerpc/hvcs.txt
-rename to Documentation/powerpc/hvcs.rst
-index a730ca5a07f8..6808acde672f 100644
---- a/Documentation/powerpc/hvcs.txt
-+++ b/Documentation/powerpc/hvcs.rst
-@@ -1,19 +1,22 @@
--===========================================================================
--				   HVCS
--	IBM "Hypervisor Virtual Console Server" Installation Guide
--			  for Linux Kernel 2.6.4+
--		    Copyright (C) 2004 IBM Corporation
-+===============================================================
-+HVCS IBM "Hypervisor Virtual Console Server" Installation Guide
-+===============================================================
- 
--===========================================================================
--NOTE:Eight space tabs are the optimum editor setting for reading this file.
--===========================================================================
-+for Linux Kernel 2.6.4+
- 
--	       Author(s) :  Ryan S. Arnold <rsa@us.ibm.com>
--		       Date Created: March, 02, 2004
--		       Last Changed: August, 24, 2004
-+Copyright (C) 2004 IBM Corporation
- 
-----------------------------------------------------------------------------
--Table of contents:
-+.. ===========================================================================
-+.. NOTE:Eight space tabs are the optimum editor setting for reading this file.
-+.. ===========================================================================
-+
-+
-+Author(s): Ryan S. Arnold <rsa@us.ibm.com>
-+
-+Date Created: March, 02, 2004
-+Last Changed: August, 24, 2004
-+
-+.. Table of contents:
- 
- 	1.  Driver Introduction:
- 	2.  System Requirements
-@@ -27,8 +30,8 @@ Table of contents:
- 	8.  Questions & Answers:
- 	9.  Reporting Bugs:
- 
-----------------------------------------------------------------------------
- 1. Driver Introduction:
-+=======================
- 
- This is the device driver for the IBM Hypervisor Virtual Console Server,
- "hvcs".  The IBM hvcs provides a tty driver interface to allow Linux user
-@@ -38,8 +41,8 @@ ppc64 system.  Physical hardware consoles per partition are not practical
- on this hardware so system consoles are accessed by this driver using
- firmware interfaces to virtual terminal devices.
- 
-----------------------------------------------------------------------------
- 2. System Requirements:
-+=======================
- 
- This device driver was written using 2.6.4 Linux kernel APIs and will only
- build and run on kernels of this version or later.
-@@ -52,8 +55,8 @@ Sysfs must be mounted on the system so that the user can determine which
- major and minor numbers are associated with each vty-server.  Directions
- for sysfs mounting are outside the scope of this document.
- 
-----------------------------------------------------------------------------
- 3. Build Options:
-+=================
- 
- The hvcs driver registers itself as a tty driver.  The tty layer
- dynamically allocates a block of major and minor numbers in a quantity
-@@ -65,11 +68,11 @@ If the default number of device entries is adequate then this driver can be
- built into the kernel.  If not, the default can be over-ridden by inserting
- the driver as a module with insmod parameters.
- 
-----------------------------------------------------------------------------
- 3.1 Built-in:
-+-------------
- 
- The following menuconfig example demonstrates selecting to build this
--driver into the kernel.
-+driver into the kernel::
- 
- 	Device Drivers  --->
- 		Character devices  --->
-@@ -77,11 +80,11 @@ driver into the kernel.
- 
- Begin the kernel make process.
- 
-----------------------------------------------------------------------------
- 3.2 Module:
-+-----------
- 
- The following menuconfig example demonstrates selecting to build this
--driver as a kernel module.
-+driver as a kernel module::
- 
- 	Device Drivers  --->
- 		Character devices  --->
-@@ -89,11 +92,11 @@ driver as a kernel module.
- 
- The make process will build the following kernel modules:
- 
--	hvcs.ko
--	hvcserver.ko
-+	- hvcs.ko
-+	- hvcserver.ko
- 
- To insert the module with the default allocation execute the following
--commands in the order they appear:
-+commands in the order they appear::
- 
- 	insmod hvcserver.ko
- 	insmod hvcs.ko
-@@ -103,7 +106,7 @@ be inserted first, otherwise the hvcs module will not find some of the
- symbols it expects.
- 
- To override the default use an insmod parameter as follows (requesting 4
--tty devices as an example):
-+tty devices as an example)::
- 
- 	insmod hvcs.ko hvcs_parm_num_devs=4
- 
-@@ -115,31 +118,31 @@ source file before building.
- NOTE: The length of time it takes to insmod the driver seems to be related
- to the number of tty interfaces the registering driver requests.
- 
--In order to remove the driver module execute the following command:
-+In order to remove the driver module execute the following command::
- 
- 	rmmod hvcs.ko
- 
- The recommended method for installing hvcs as a module is to use depmod to
- build a current modules.dep file in /lib/modules/`uname -r` and then
--execute:
-+execute::
- 
--modprobe hvcs hvcs_parm_num_devs=4
-+	modprobe hvcs hvcs_parm_num_devs=4
- 
- The modules.dep file indicates that hvcserver.ko needs to be inserted
- before hvcs.ko and modprobe uses this file to smartly insert the modules in
- the proper order.
- 
- The following modprobe command is used to remove hvcs and hvcserver in the
--proper order:
-+proper order::
- 
--modprobe -r hvcs
-+	modprobe -r hvcs
- 
-----------------------------------------------------------------------------
- 4. Installation:
-+================
- 
- The tty layer creates sysfs entries which contain the major and minor
- numbers allocated for the hvcs driver.  The following snippet of "tree"
--output of the sysfs directory shows where these numbers are presented:
-+output of the sysfs directory shows where these numbers are presented::
- 
- 	sys/
- 	|-- *other sysfs base dirs*
-@@ -164,7 +167,7 @@ output of the sysfs directory shows where these numbers are presented:
- 	|-- *other sysfs base dirs*
- 
- For the above examples the following output is a result of cat'ing the
--"dev" entry in the hvcs directory:
-+"dev" entry in the hvcs directory::
- 
- 	Pow5:/sys/class/tty/hvcs0/ # cat dev
- 	254:0
-@@ -184,7 +187,7 @@ systems running hvcs will already have the device entries created or udev
- will do it automatically.
- 
- Given the example output above, to manually create a /dev/hvcs* node entry
--mknod can be used as follows:
-+mknod can be used as follows::
- 
- 	mknod /dev/hvcs0 c 254 0
- 	mknod /dev/hvcs1 c 254 1
-@@ -195,15 +198,15 @@ Using mknod to manually create the device entries makes these device nodes
- persistent.  Once created they will exist prior to the driver insmod.
- 
- Attempting to connect an application to /dev/hvcs* prior to insertion of
--the hvcs module will result in an error message similar to the following:
-+the hvcs module will result in an error message similar to the following::
- 
- 	"/dev/hvcs*: No such device".
- 
- NOTE: Just because there is a device node present doesn't mean that there
- is a vty-server device configured for that node.
- 
-----------------------------------------------------------------------------
- 5. Connection
-+=============
- 
- Since this driver controls devices that provide a tty interface a user can
- interact with the device node entries using any standard tty-interactive
-@@ -249,7 +252,7 @@ vty-server adapter is associated with which /dev/hvcs* node a special sysfs
- attribute has been added to each vty-server sysfs entry.  This entry is
- called "index" and showing it reveals an integer that refers to the
- /dev/hvcs* entry to use to connect to that device.  For instance cating the
--index attribute of vty-server adapter 30000004 shows the following.
-+index attribute of vty-server adapter 30000004 shows the following::
- 
- 	Pow5:/sys/bus/vio/drivers/hvcs/30000004 # cat index
- 	2
-@@ -262,8 +265,8 @@ system the /dev/hvcs* entry that interacts with a particular vty-server
- adapter is not guaranteed to remain the same across system reboots.  Look
- in the Q & A section for more on this issue.
- 
-----------------------------------------------------------------------------
- 6. Disconnection
-+================
- 
- As a security feature to prevent the delivery of stale data to an
- unintended target the Power5 system firmware disables the fetching of data
-@@ -305,7 +308,7 @@ connection between the vty-server and target vty ONLY if the vterm_state
- previously read '1'.  The write directive is ignored if the vterm_state
- read '0' or if any value other than '0' was written to the vterm_state
- attribute.  The following example will show the method used for verifying
--the vty-server connection status and disconnecting a vty-server connection.
-+the vty-server connection status and disconnecting a vty-server connection::
- 
- 	Pow5:/sys/bus/vio/drivers/hvcs/30000004 # cat vterm_state
- 	1
-@@ -318,12 +321,12 @@ the vty-server connection status and disconnecting a vty-server connection.
- All vty-server connections are automatically terminated when the device is
- hotplug removed and when the module is removed.
- 
-----------------------------------------------------------------------------
- 7. Configuration
-+================
- 
- Each vty-server has a sysfs entry in the /sys/devices/vio directory, which
- is symlinked in several other sysfs tree directories, notably under the
--hvcs driver entry, which looks like the following example:
-+hvcs driver entry, which looks like the following example::
- 
- 	Pow5:/sys/bus/vio/drivers/hvcs # ls
- 	.  ..  30000003  30000004  rescan
-@@ -344,7 +347,7 @@ completed or was never executed.
- 
- Vty-server entries in this directory are a 32 bit partition unique unit
- address that is created by firmware.  An example vty-server sysfs entry
--looks like the following:
-+looks like the following::
- 
- 	Pow5:/sys/bus/vio/drivers/hvcs/30000004 # ls
- 	.   current_vty   devspec       name          partner_vtys
-@@ -352,21 +355,21 @@ looks like the following:
- 
- Each entry is provided, by default with a "name" attribute.  Reading the
- "name" attribute will reveal the device type as shown in the following
--example:
-+example::
- 
- 	Pow5:/sys/bus/vio/drivers/hvcs/30000003 # cat name
- 	vty-server
- 
- Each entry is also provided, by default, with a "devspec" attribute which
- reveals the full device specification when read, as shown in the following
--example:
-+example::
- 
- 	Pow5:/sys/bus/vio/drivers/hvcs/30000004 # cat devspec
- 	/vdevice/vty-server@30000004
- 
- Each vty-server sysfs dir is provided with two read-only attributes that
- provide lists of easily parsed partner vty data: "partner_vtys" and
--"partner_clcs".
-+"partner_clcs"::
- 
- 	Pow5:/sys/bus/vio/drivers/hvcs/30000004 # cat partner_vtys
- 	30000000
-@@ -396,7 +399,7 @@ A vty-server can only be connected to a single vty at a time.  The entry,
- read.
- 
- The current_vty can be changed by writing a valid partner clc to the entry
--as in the following example:
-+as in the following example::
- 
- 	Pow5:/sys/bus/vio/drivers/hvcs/30000004 # echo U5112.428.10304
- 	8A-V4-C0 > current_vty
-@@ -408,9 +411,9 @@ currently open connection is freed.
- Information on the "vterm_state" attribute was covered earlier on the
- chapter entitled "disconnection".
- 
-----------------------------------------------------------------------------
- 8. Questions & Answers:
--===========================================================================
-+=======================
-+
- Q: What are the security concerns involving hvcs?
- 
- A: There are three main security concerns:
-@@ -429,6 +432,7 @@ A: There are three main security concerns:
- 	partition) will experience the previously logged in session.
- 
- ---------------------------------------------------------------------------
-+
- Q: How do I multiplex a console that I grab through hvcs so that other
- people can see it:
- 
-@@ -440,6 +444,7 @@ term type "screen" to others.  This means that curses based programs may
- not display properly in screen sessions.
- 
- ---------------------------------------------------------------------------
-+
- Q: Why are the colors all messed up?
- Q: Why are the control characters acting strange or not working?
- Q: Why is the console output all strange and unintelligible?
-@@ -455,6 +460,7 @@ disconnect from the console.  This will ensure that the next user gets
- their own TERM type set when they login.
- 
- ---------------------------------------------------------------------------
-+
- Q: When I try to CONNECT kermit to an hvcs device I get:
- "Sorry, can't open connection: /dev/hvcs*"What is happening?
- 
-@@ -490,6 +496,7 @@ A: There is not a corresponding vty-server device that maps to an existing
- /dev/hvcs* entry.
- 
- ---------------------------------------------------------------------------
-+
- Q: When I try to CONNECT kermit to an hvcs device I get:
- "Sorry, write access to UUCP lockfile directory denied."
- 
-@@ -497,6 +504,7 @@ A: The /dev/hvcs* entry you have specified doesn't exist where you said it
- does?  Maybe you haven't inserted the module (on systems with udev).
- 
- ---------------------------------------------------------------------------
-+
- Q: If I already have one Linux partition installed can I use hvcs on said
- partition to provide the console for the install of a second Linux
- partition?
-@@ -505,6 +513,7 @@ A: Yes granted that your are connected to the /dev/hvcs* device using
- kermit or cu or some other program that doesn't provide terminal emulation.
- 
- ---------------------------------------------------------------------------
-+
- Q: Can I connect to more than one partition's console at a time using this
- driver?
- 
-@@ -512,6 +521,7 @@ A: Yes.  Of course this means that there must be more than one vty-server
- configured for this partition and each must point to a disconnected vty.
- 
- ---------------------------------------------------------------------------
-+
- Q: Does the hvcs driver support dynamic (hotplug) addition of devices?
- 
- A: Yes, if you have dlpar and hotplug enabled for your system and it has
-@@ -519,6 +529,7 @@ been built into the kernel the hvcs drivers is configured to dynamically
- handle additions of new devices and removals of unused devices.
- 
- ---------------------------------------------------------------------------
-+
- Q: For some reason /dev/hvcs* doesn't map to the same vty-server adapter
- after a reboot.  What happened?
- 
-@@ -533,6 +544,7 @@ on how to determine which vty-server goes with which /dev/hvcs* node.
- Hint; look at the sysfs "index" attribute for the vty-server.
- 
- ---------------------------------------------------------------------------
-+
- Q: Can I use /dev/hvcs* as a conduit to another partition and use a tty
- device on that partition as the other end of the pipe?
- 
-@@ -554,7 +566,9 @@ read or write to /dev/hvcs*.  Now you have a tty conduit between two
- partitions.
- 
- ---------------------------------------------------------------------------
-+
- 9. Reporting Bugs:
-+==================
- 
- The proper channel for reporting bugs is either through the Linux OS
- distribution company that provided your OS or by posting issues to the
-diff --git a/Documentation/powerpc/index.rst b/Documentation/powerpc/index.rst
++================================================
+ Completions - "wait for completion" barrier APIs
+ ================================================
+ 
+@@ -46,7 +47,7 @@ it has to wait for it.
+ 
+ To use completions you need to #include <linux/completion.h> and
+ create a static or dynamic variable of type 'struct completion',
+-which has only two fields:
++which has only two fields::
+ 
+ 	struct completion {
+ 		unsigned int done;
+@@ -57,7 +58,7 @@ This provides the ->wait waitqueue to place tasks on for waiting (if any), and
+ the ->done completion flag for indicating whether it's completed or not.
+ 
+ Completions should be named to refer to the event that is being synchronized on.
+-A good example is:
++A good example is::
+ 
+ 	wait_for_completion(&early_console_added);
+ 
+@@ -81,7 +82,7 @@ have taken place, even if these wait functions return prematurely due to a timeo
+ or a signal triggering.
+ 
+ Initializing of dynamically allocated completion objects is done via a call to
+-init_completion():
++init_completion()::
+ 
+ 	init_completion(&dynamic_object->done);
+ 
+@@ -100,7 +101,8 @@ but be aware of other races.
+ 
+ For static declaration and initialization, macros are available.
+ 
+-For static (or global) declarations in file scope you can use DECLARE_COMPLETION():
++For static (or global) declarations in file scope you can use
++DECLARE_COMPLETION()::
+ 
+ 	static DECLARE_COMPLETION(setup_done);
+ 	DECLARE_COMPLETION(setup_done);
+@@ -111,7 +113,7 @@ initialized to 'not done' and doesn't require an init_completion() call.
+ When a completion is declared as a local variable within a function,
+ then the initialization should always use DECLARE_COMPLETION_ONSTACK()
+ explicitly, not just to make lockdep happy, but also to make it clear
+-that limited scope had been considered and is intentional:
++that limited scope had been considered and is intentional::
+ 
+ 	DECLARE_COMPLETION_ONSTACK(setup_done)
+ 
+@@ -140,11 +142,11 @@ Waiting for completions:
+ ------------------------
+ 
+ For a thread to wait for some concurrent activity to finish, it
+-calls wait_for_completion() on the initialized completion structure:
++calls wait_for_completion() on the initialized completion structure::
+ 
+ 	void wait_for_completion(struct completion *done)
+ 
+-A typical usage scenario is:
++A typical usage scenario is::
+ 
+ 	CPU#1					CPU#2
+ 
+@@ -192,17 +194,17 @@ A common problem that occurs is to have unclean assignment of return types,
+ so take care to assign return-values to variables of the proper type.
+ 
+ Checking for the specific meaning of return values also has been found
+-to be quite inaccurate, e.g. constructs like:
++to be quite inaccurate, e.g. constructs like::
+ 
+ 	if (!wait_for_completion_interruptible_timeout(...))
+ 
+ ... would execute the same code path for successful completion and for the
+-interrupted case - which is probably not what you want.
++interrupted case - which is probably not what you want::
+ 
+ 	int wait_for_completion_interruptible(struct completion *done)
+ 
+ This function marks the task TASK_INTERRUPTIBLE while it is waiting.
+-If a signal was received while waiting it will return -ERESTARTSYS; 0 otherwise.
++If a signal was received while waiting it will return -ERESTARTSYS; 0 otherwise::
+ 
+ 	unsigned long wait_for_completion_timeout(struct completion *done, unsigned long timeout)
+ 
+@@ -214,7 +216,7 @@ Timeouts are preferably calculated with msecs_to_jiffies() or usecs_to_jiffies()
+ to make the code largely HZ-invariant.
+ 
+ If the returned timeout value is deliberately ignored a comment should probably explain
+-why (e.g. see drivers/mfd/wm8350-core.c wm8350_read_auxadc()).
++why (e.g. see drivers/mfd/wm8350-core.c wm8350_read_auxadc())::
+ 
+ 	long wait_for_completion_interruptible_timeout(struct completion *done, unsigned long timeout)
+ 
+@@ -225,14 +227,14 @@ jiffies if completion occurred.
+ 
+ Further variants include _killable which uses TASK_KILLABLE as the
+ designated tasks state and will return -ERESTARTSYS if it is interrupted,
+-or 0 if completion was achieved.  There is a _timeout variant as well:
++or 0 if completion was achieved.  There is a _timeout variant as well::
+ 
+ 	long wait_for_completion_killable(struct completion *done)
+ 	long wait_for_completion_killable_timeout(struct completion *done, unsigned long timeout)
+ 
+ The _io variants wait_for_completion_io() behave the same as the non-_io
+ variants, except for accounting waiting time as 'waiting on IO', which has
+-an impact on how the task is accounted in scheduling/IO stats:
++an impact on how the task is accounted in scheduling/IO stats::
+ 
+ 	void wait_for_completion_io(struct completion *done)
+ 	unsigned long wait_for_completion_io_timeout(struct completion *done, unsigned long timeout)
+@@ -243,11 +245,11 @@ Signaling completions:
+ 
+ A thread that wants to signal that the conditions for continuation have been
+ achieved calls complete() to signal exactly one of the waiters that it can
+-continue:
++continue::
+ 
+ 	void complete(struct completion *done)
+ 
+-... or calls complete_all() to signal all current and future waiters:
++... or calls complete_all() to signal all current and future waiters::
+ 
+ 	void complete_all(struct completion *done)
+ 
+@@ -268,7 +270,7 @@ probably are a design bug.
+ 
+ Signaling completion from IRQ context is fine as it will appropriately
+ lock with spin_lock_irqsave()/spin_unlock_irqrestore() and it will never
+-sleep. 
++sleep.
+ 
+ 
+ try_wait_for_completion()/completion_done():
+@@ -276,14 +278,14 @@ try_wait_for_completion()/completion_done():
+ 
+ The try_wait_for_completion() function will not put the thread on the wait
+ queue but rather returns false if it would need to enqueue (block) the thread,
+-else it consumes one posted completion and returns true.
++else it consumes one posted completion and returns true::
+ 
+ 	bool try_wait_for_completion(struct completion *done)
+ 
+ Finally, to check the state of a completion without changing it in any way,
+ call completion_done(), which returns false if there are no posted
+ completions that were not yet consumed by waiters (implying that there are
+-waiters) and true otherwise;
++waiters) and true otherwise::
+ 
+ 	bool completion_done(struct completion *done)
+ 
+diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
 new file mode 100644
-index 000000000000..1ff17268db46
+index 000000000000..058be77a4c34
 --- /dev/null
-+++ b/Documentation/powerpc/index.rst
-@@ -0,0 +1,34 @@
++++ b/Documentation/scheduler/index.rst
+@@ -0,0 +1,29 @@
 +:orphan:
 +
-+=======
-+powerpc
-+=======
++===============
++Linux Scheduler
++===============
 +
 +.. toctree::
 +    :maxdepth: 1
 +
-+    bootwrapper
-+    cpu_families
-+    cpu_features
-+    cxl
-+    cxlflash
-+    dawr-power9
-+    dscr
-+    eeh-pci-error-recovery
-+    firmware-assisted-dump
-+    hvcs
-+    isa-versions
-+    mpc52xx
-+    pci_iov_resource_on_powernv
-+    pmu-ebb
-+    ptrace
-+    qe_firmware
-+    syscall64-abi
-+    transactional_memory
++
++    completion
++    sched-arch
++    sched-bwc
++    sched-deadline
++    sched-design-CFS
++    sched-domains
++    sched-energy
++    sched-nice-design
++    sched-rt-group
++    sched-stats
++
++    text_files
 +
 +.. only::  subproject and html
 +
@@ -1564,848 +302,1224 @@ index 000000000000..1ff17268db46
 +   =======
 +
 +   * :ref:`genindex`
-diff --git a/Documentation/powerpc/isa-versions.rst b/Documentation/powerpc/isa-versions.rst
-index 66c24140ebf1..a363d8c1603c 100644
---- a/Documentation/powerpc/isa-versions.rst
-+++ b/Documentation/powerpc/isa-versions.rst
-@@ -1,13 +1,12 @@
--:orphan:
+diff --git a/Documentation/scheduler/sched-arch.txt b/Documentation/scheduler/sched-arch.rst
+similarity index 81%
+rename from Documentation/scheduler/sched-arch.txt
+rename to Documentation/scheduler/sched-arch.rst
+index a2f27bbf2cba..0eaec669790a 100644
+--- a/Documentation/scheduler/sched-arch.txt
++++ b/Documentation/scheduler/sched-arch.rst
+@@ -1,4 +1,6 @@
+-	CPU Scheduler implementation hints for architecture specific code
++=================================================================
++CPU Scheduler implementation hints for architecture specific code
++=================================================================
+ 
+ 	Nick Piggin, 2005
+ 
+@@ -35,9 +37,10 @@ Your cpu_idle routines need to obey the following rules:
+ 4. The only time interrupts need to be disabled when checking
+    need_resched is if we are about to sleep the processor until
+    the next interrupt (this doesn't provide any protection of
+-   need_resched, it prevents losing an interrupt).
++   need_resched, it prevents losing an interrupt):
++
++	4a. Common problem with this type of sleep appears to be::
+ 
+-	4a. Common problem with this type of sleep appears to be:
+ 	        local_irq_disable();
+ 	        if (!need_resched()) {
+ 	                local_irq_enable();
+@@ -51,10 +54,10 @@ Your cpu_idle routines need to obey the following rules:
+    although it may be reasonable to do some background work or enter
+    a low CPU priority.
+ 
+-   	5a. If TIF_POLLING_NRFLAG is set, and we do decide to enter
+-	    an interrupt sleep, it needs to be cleared then a memory
+-	    barrier issued (followed by a test of need_resched with
+-	    interrupts disabled, as explained in 3).
++      - 5a. If TIF_POLLING_NRFLAG is set, and we do decide to enter
++	an interrupt sleep, it needs to be cleared then a memory
++	barrier issued (followed by a test of need_resched with
++	interrupts disabled, as explained in 3).
+ 
+ arch/x86/kernel/process.c has examples of both polling and
+ sleeping idle functions.
+@@ -71,4 +74,3 @@ sh64 - Is sleeping racy vs interrupts? (See #4a)
+ 
+ sparc - IRQs on at this point(?), change local_irq_save to _disable.
+       - TODO: needs secondary CPUs to disable preempt (See #1)
 -
-+==========================
- CPU to ISA Version Mapping
- ==========================
+diff --git a/Documentation/scheduler/sched-bwc.txt b/Documentation/scheduler/sched-bwc.rst
+similarity index 90%
+rename from Documentation/scheduler/sched-bwc.txt
+rename to Documentation/scheduler/sched-bwc.rst
+index f6b1873f68ab..3a9064219656 100644
+--- a/Documentation/scheduler/sched-bwc.txt
++++ b/Documentation/scheduler/sched-bwc.rst
+@@ -1,8 +1,9 @@
++=====================
+ CFS Bandwidth Control
+ =====================
  
- Mapping of some CPU versions to relevant ISA versions.
+ [ This document only discusses CPU bandwidth control for SCHED_NORMAL.
+-  The SCHED_RT case is covered in Documentation/scheduler/sched-rt-group.txt ]
++  The SCHED_RT case is covered in Documentation/scheduler/sched-rt-group.rst ]
  
--========= ====================
-+========= ====================================================================
- CPU       Architecture version
--========= ====================
-+========= ====================================================================
- Power9    Power ISA v3.0B
- Power8    Power ISA v2.07
- Power7    Power ISA v2.06
-@@ -24,7 +23,7 @@ PPC970    - PowerPC User Instruction Set Architecture Book I v2.01
-           - PowerPC Virtual Environment Architecture Book II v2.01
-           - PowerPC Operating Environment Architecture Book III v2.01
-           - Plus Altivec/VMX ~= 2.03
--========= ====================
-+========= ====================================================================
+ CFS bandwidth control is a CONFIG_FAIR_GROUP_SCHED extension which allows the
+ specification of the maximum CPU bandwidth available to a group or hierarchy.
+@@ -27,7 +28,8 @@ cpu.cfs_quota_us: the total available run-time within a period (in microseconds)
+ cpu.cfs_period_us: the length of a period (in microseconds)
+ cpu.stat: exports throttling statistics [explained further below]
  
- 
- Key Features
-@@ -60,9 +59,9 @@ Power5     No
- PPC970     No
- ========== ====
- 
--========== ====================
-+========== ====================================
- CPU        Transactional Memory
--========== ====================
-+========== ====================================
- Power9     Yes (* see transactional_memory.txt)
- Power8     Yes
- Power7     No
-@@ -73,4 +72,4 @@ Power5++   No
- Power5+    No
- Power5     No
- PPC970     No
--========== ====================
-+========== ====================================
-diff --git a/Documentation/powerpc/mpc52xx.txt b/Documentation/powerpc/mpc52xx.rst
-similarity index 91%
-rename from Documentation/powerpc/mpc52xx.txt
-rename to Documentation/powerpc/mpc52xx.rst
-index 0d540a31ea1a..8676ac63e077 100644
---- a/Documentation/powerpc/mpc52xx.txt
-+++ b/Documentation/powerpc/mpc52xx.rst
-@@ -1,11 +1,13 @@
-+=============================
- Linux 2.6.x on MPC52xx family
-------------------------------
-+=============================
- 
- For the latest info, go to http://www.246tNt.com/mpc52xx/
- 
- To compile/use :
- 
--  - U-Boot:
-+  - U-Boot::
+-The default values are:
++The default values are::
 +
-      # <edit Makefile to set ARCH=ppc & CROSS_COMPILE=... ( also EXTRAVERSION
-         if you wish to ).
-      # make lite5200_defconfig
-@@ -16,7 +18,8 @@ To compile/use :
-      => tftpboot 400000 pRamdisk
-      => bootm 200000 400000
+ 	cpu.cfs_period_us=100ms
+ 	cpu.cfs_quota=-1
  
--  - DBug:
-+  - DBug::
+@@ -55,7 +57,8 @@ For efficiency run-time is transferred between the global pool and CPU local
+ on large systems.  The amount transferred each time such an update is required
+ is described as the "slice".
+ 
+-This is tunable via procfs:
++This is tunable via procfs::
 +
-      # <edit Makefile to set ARCH=ppc & CROSS_COMPILE=... ( also EXTRAVERSION
-         if you wish to ).
-      # make lite5200_defconfig
-@@ -28,7 +31,8 @@ To compile/use :
-      DBug> dn -i zImage.initrd.lite5200
+ 	/proc/sys/kernel/sched_cfs_bandwidth_slice_us (default=5ms)
  
+ Larger slice values will reduce transfer overheads, while smaller values allow
+@@ -66,6 +69,7 @@ Statistics
+ A group's bandwidth statistics are exported via 3 fields in cpu.stat.
  
--Some remarks :
-+Some remarks:
+ cpu.stat:
 +
-  - The port is named mpc52xxx, and config options are PPC_MPC52xx. The MGT5100
-    is not supported, and I'm not sure anyone is interesting in working on it
-    so. I didn't took 5xxx because there's apparently a lot of 5xxx that have
-diff --git a/Documentation/powerpc/pci_iov_resource_on_powernv.txt b/Documentation/powerpc/pci_iov_resource_on_powernv.rst
-similarity index 97%
-rename from Documentation/powerpc/pci_iov_resource_on_powernv.txt
-rename to Documentation/powerpc/pci_iov_resource_on_powernv.rst
-index b55c5cd83f8d..f5a5793e1613 100644
---- a/Documentation/powerpc/pci_iov_resource_on_powernv.txt
-+++ b/Documentation/powerpc/pci_iov_resource_on_powernv.rst
-@@ -1,6 +1,13 @@
-+===================================================
-+PCI Express I/O Virtualization Resource on Powerenv
-+===================================================
+ - nr_periods: Number of enforcement intervals that have elapsed.
+ - nr_throttled: Number of times the group has been throttled/limited.
+ - throttled_time: The total time duration (in nanoseconds) for which entities
+@@ -78,12 +82,15 @@ Hierarchical considerations
+ The interface enforces that an individual entity's bandwidth is always
+ attainable, that is: max(c_i) <= C. However, over-subscription in the
+ aggregate case is explicitly allowed to enable work-conserving semantics
+-within a hierarchy.
++within a hierarchy:
 +
- Wei Yang <weiyang@linux.vnet.ibm.com>
+   e.g. \Sum (c_i) may exceed C
 +
- Benjamin Herrenschmidt <benh@au1.ibm.com>
+ [ Where C is the parent's bandwidth, and c_i its children ]
+ 
+ 
+ There are two ways in which a group may become throttled:
 +
- Bjorn Helgaas <bhelgaas@google.com>
-+
- 26 Aug 2014
+ 	a. it fully consumes its own quota within a period
+ 	b. a parent's quota is fully consumed within its period
  
- This document describes the requirement from hardware for PCI MMIO resource
-@@ -10,6 +17,7 @@ Endpoints and the implementation on P8 (IODA2). The next two sections talks
- about considerations on enabling SRIOV on IODA2.
+@@ -92,7 +99,7 @@ be allowed to until the parent's runtime is refreshed.
  
- 1. Introduction to Partitionable Endpoints
-+==========================================
+ Examples
+ --------
+-1. Limit a group to 1 CPU worth of runtime.
++1. Limit a group to 1 CPU worth of runtime::
  
- A Partitionable Endpoint (PE) is a way to group the various resources
- associated with a device or a set of devices to provide isolation between
-@@ -35,6 +43,7 @@ is a completely separate HW entity that replicates the entire logic, so has
- its own set of PEs, etc.
+ 	If period is 250ms and quota is also 250ms, the group will get
+ 	1 CPU worth of runtime every 250ms.
+@@ -100,10 +107,10 @@ Examples
+ 	# echo 250000 > cpu.cfs_quota_us /* quota = 250ms */
+ 	# echo 250000 > cpu.cfs_period_us /* period = 250ms */
  
- 2. Implementation of Partitionable Endpoints on P8 (IODA2)
-+==========================================================
+-2. Limit a group to 2 CPUs worth of runtime on a multi-CPU machine.
++2. Limit a group to 2 CPUs worth of runtime on a multi-CPU machine
  
- P8 supports up to 256 Partitionable Endpoints per PHB.
+-	With 500ms period and 1000ms quota, the group can get 2 CPUs worth of
+-	runtime every 500ms.
++   With 500ms period and 1000ms quota, the group can get 2 CPUs worth of
++   runtime every 500ms::
  
-@@ -149,6 +158,7 @@ P8 supports up to 256 Partitionable Endpoints per PHB.
-     sense, but we haven't done it yet.
+ 	# echo 1000000 > cpu.cfs_quota_us /* quota = 1000ms */
+ 	# echo 500000 > cpu.cfs_period_us /* period = 500ms */
+@@ -112,11 +119,10 @@ Examples
  
- 3. Considerations for SR-IOV on PowerKVM
-+========================================
+ 3. Limit a group to 20% of 1 CPU.
  
-   * SR-IOV Background
+-	With 50ms period, 10ms quota will be equivalent to 20% of 1 CPU.
++   With 50ms period, 10ms quota will be equivalent to 20% of 1 CPU::
  
-@@ -224,7 +234,7 @@ P8 supports up to 256 Partitionable Endpoints per PHB.
-   IODA supports 256 PEs, so segmented windows contain 256 segments, so if
-   total_VFs is less than 256, we have the situation in Figure 1.0, where
-   segments [total_VFs, 255] of the M64 window may map to some MMIO range on
--  other devices:
-+  other devices::
+ 	# echo 10000 > cpu.cfs_quota_us /* quota = 10ms */
+ 	# echo 50000 > cpu.cfs_period_us /* period = 50ms */
  
-      0      1                     total_VFs - 1
-      +------+------+-     -+------+------+
-@@ -243,7 +253,7 @@ P8 supports up to 256 Partitionable Endpoints per PHB.
- 		Figure 1.0 Direct map VF(n) BAR space
- 
-   Our current solution is to allocate 256 segments even if the VF(n) BAR
--  space doesn't need that much, as shown in Figure 1.1:
-+  space doesn't need that much, as shown in Figure 1.1::
- 
-      0      1                     total_VFs - 1                255
-      +------+------+-     -+------+------+-      -+------+------+
-@@ -269,6 +279,7 @@ P8 supports up to 256 Partitionable Endpoints per PHB.
-   responds to segments [total_VFs, 255].
- 
- 4. Implications for the Generic PCI Code
-+========================================
- 
- The PCIe SR-IOV spec requires that the base of the VF(n) BAR space be
- aligned to the size of an individual VF BAR.
-diff --git a/Documentation/powerpc/pmu-ebb.txt b/Documentation/powerpc/pmu-ebb.rst
-similarity index 99%
-rename from Documentation/powerpc/pmu-ebb.txt
-rename to Documentation/powerpc/pmu-ebb.rst
-index 73cd163dbfb8..4f474758eb55 100644
---- a/Documentation/powerpc/pmu-ebb.txt
-+++ b/Documentation/powerpc/pmu-ebb.rst
-@@ -1,3 +1,4 @@
+-	By using a small period here we are ensuring a consistent latency
+-	response at the expense of burst capacity.
+-
++   By using a small period here we are ensuring a consistent latency
++   response at the expense of burst capacity.
+diff --git a/Documentation/scheduler/sched-deadline.txt b/Documentation/scheduler/sched-deadline.rst
+similarity index 88%
+rename from Documentation/scheduler/sched-deadline.txt
+rename to Documentation/scheduler/sched-deadline.rst
+index a7514343b660..3391e86d810c 100644
+--- a/Documentation/scheduler/sched-deadline.txt
++++ b/Documentation/scheduler/sched-deadline.rst
+@@ -1,29 +1,29 @@
+-			  Deadline Task Scheduling
+-			  ------------------------
 +========================
- PMU Event Based Branches
- ========================
++Deadline Task Scheduling
++========================
  
-diff --git a/Documentation/powerpc/ptrace.rst b/Documentation/powerpc/ptrace.rst
-new file mode 100644
-index 000000000000..864d4b6dddd1
---- /dev/null
-+++ b/Documentation/powerpc/ptrace.rst
-@@ -0,0 +1,156 @@
-+======
-+Ptrace
-+======
+-CONTENTS
+-========
++.. CONTENTS
+ 
+- 0. WARNING
+- 1. Overview
+- 2. Scheduling algorithm
+-   2.1 Main algorithm
+-   2.2 Bandwidth reclaiming
+- 3. Scheduling Real-Time Tasks
+-   3.1 Definitions
+-   3.2 Schedulability Analysis for Uniprocessor Systems
+-   3.3 Schedulability Analysis for Multiprocessor Systems
+-   3.4 Relationship with SCHED_DEADLINE Parameters
+- 4. Bandwidth management
+-   4.1 System-wide settings
+-   4.2 Task interface
+-   4.3 Default behavior
+-   4.4 Behavior of sched_yield()
+- 5. Tasks CPU affinity
+-   5.1 SCHED_DEADLINE and cpusets HOWTO
+- 6. Future plans
+- A. Test suite
+- B. Minimal main()
++    0. WARNING
++    1. Overview
++    2. Scheduling algorithm
++      2.1 Main algorithm
++      2.2 Bandwidth reclaiming
++    3. Scheduling Real-Time Tasks
++      3.1 Definitions
++      3.2 Schedulability Analysis for Uniprocessor Systems
++      3.3 Schedulability Analysis for Multiprocessor Systems
++      3.4 Relationship with SCHED_DEADLINE Parameters
++    4. Bandwidth management
++      4.1 System-wide settings
++      4.2 Task interface
++      4.3 Default behavior
++      4.4 Behavior of sched_yield()
++    5. Tasks CPU affinity
++      5.1 SCHED_DEADLINE and cpusets HOWTO
++    6. Future plans
++    A. Test suite
++    B. Minimal main()
+ 
+ 
+ 0. WARNING
+@@ -44,7 +44,7 @@ CONTENTS
+ 
+ 
+ 2. Scheduling algorithm
+-==================
++=======================
+ 
+ 2.1 Main algorithm
+ ------------------
+@@ -80,7 +80,7 @@ CONTENTS
+     a "remaining runtime". These two parameters are initially set to 0;
+ 
+   - When a SCHED_DEADLINE task wakes up (becomes ready for execution),
+-    the scheduler checks if
++    the scheduler checks if::
+ 
+                  remaining runtime                  runtime
+         ----------------------------------    >    ---------
+@@ -97,7 +97,7 @@ CONTENTS
+     left unchanged;
+ 
+   - When a SCHED_DEADLINE task executes for an amount of time t, its
+-    remaining runtime is decreased as
++    remaining runtime is decreased as::
+ 
+          remaining runtime = remaining runtime - t
+ 
+@@ -112,7 +112,7 @@ CONTENTS
+ 
+   - When the current time is equal to the replenishment time of a
+     throttled task, the scheduling deadline and the remaining runtime are
+-    updated as
++    updated as::
+ 
+          scheduling deadline = scheduling deadline + period
+          remaining runtime = remaining runtime + runtime
+@@ -129,7 +129,7 @@ CONTENTS
+  Reclamation of Unused Bandwidth) algorithm [15, 16, 17] and it is enabled
+  when flag SCHED_FLAG_RECLAIM is set.
+ 
+- The following diagram illustrates the state names for tasks handled by GRUB:
++ The following diagram illustrates the state names for tasks handled by GRUB::
+ 
+                              ------------
+                  (d)        |   Active   |
+@@ -168,7 +168,7 @@ CONTENTS
+       breaking the real-time guarantees.
+ 
+       The 0-lag time for a task entering the ActiveNonContending state is
+-      computed as
++      computed as::
+ 
+                         (runtime * dl_period)
+              deadline - ---------------------
+@@ -183,7 +183,7 @@ CONTENTS
+       the task's utilization must be removed from the previous runqueue's active
+       utilization and must be added to the new runqueue's active utilization.
+       In order to avoid races between a task waking up on a runqueue while the
+-       "inactive timer" is running on a different CPU, the "dl_non_contending"
++      "inactive timer" is running on a different CPU, the "dl_non_contending"
+       flag is used to indicate that a task is not on a runqueue but is active
+       (so, the flag is set when the task blocks and is cleared when the
+       "inactive timer" fires or when the task  wakes up).
+@@ -222,36 +222,36 @@ CONTENTS
+ 
+ 
+  Let's now see a trivial example of two deadline tasks with runtime equal
+- to 4 and period equal to 8 (i.e., bandwidth equal to 0.5):
++ to 4 and period equal to 8 (i.e., bandwidth equal to 0.5)::
+ 
+-     A            Task T1
+-     |
+-     |                               |
+-     |                               |
+-     |--------                       |----
+-     |       |                       V
+-     |---|---|---|---|---|---|---|---|--------->t
+-     0   1   2   3   4   5   6   7   8
++         A            Task T1
++         |
++         |                               |
++         |                               |
++         |--------                       |----
++         |       |                       V
++         |---|---|---|---|---|---|---|---|--------->t
++         0   1   2   3   4   5   6   7   8
+ 
+ 
+-     A            Task T2
+-     |
+-     |                               |
+-     |                               |
+-     |       ------------------------|
+-     |       |                       V
+-     |---|---|---|---|---|---|---|---|--------->t
+-     0   1   2   3   4   5   6   7   8
++         A            Task T2
++         |
++         |                               |
++         |                               |
++         |       ------------------------|
++         |       |                       V
++         |---|---|---|---|---|---|---|---|--------->t
++         0   1   2   3   4   5   6   7   8
+ 
+ 
+-     A            running_bw
+-     |
+-   1 -----------------               ------
+-     |               |               |
+-  0.5-               -----------------
+-     |                               |
+-     |---|---|---|---|---|---|---|---|--------->t
+-     0   1   2   3   4   5   6   7   8
++         A            running_bw
++         |
++       1 -----------------               ------
++         |               |               |
++      0.5-               -----------------
++         |                               |
++         |---|---|---|---|---|---|---|---|--------->t
++         0   1   2   3   4   5   6   7   8
+ 
+ 
+   - Time t = 0:
+@@ -284,7 +284,7 @@ CONTENTS
+ 
+ 
+ 2.3 Energy-aware scheduling
+-------------------------
++---------------------------
+ 
+  When cpufreq's schedutil governor is selected, SCHED_DEADLINE implements the
+  GRUB-PA [19] algorithm, reducing the CPU operating frequency to the minimum
+@@ -299,15 +299,20 @@ CONTENTS
+ 3. Scheduling Real-Time Tasks
+ =============================
+ 
+- * BIG FAT WARNING ******************************************************
+- *
+- * This section contains a (not-thorough) summary on classical deadline
+- * scheduling theory, and how it applies to SCHED_DEADLINE.
+- * The reader can "safely" skip to Section 4 if only interested in seeing
+- * how the scheduling policy can be used. Anyway, we strongly recommend
+- * to come back here and continue reading (once the urge for testing is
+- * satisfied :P) to be sure of fully understanding all technical details.
+- ************************************************************************
 +
-+GDB intends to support the following hardware debug features of BookE
-+processors:
 +
-+4 hardware breakpoints (IAC)
-+2 hardware watchpoints (read, write and read-write) (DAC)
-+2 value conditions for the hardware watchpoints (DVC)
++ ..  BIG FAT WARNING ******************************************************
 +
-+For that, we need to extend ptrace so that GDB can query and set these
-+resources. Since we're extending, we're trying to create an interface
-+that's extendable and that covers both BookE and server processors, so
-+that GDB doesn't need to special-case each of them. We added the
-+following 3 new ptrace requests.
++ .. warning::
 +
-+1. PTRACE_PPC_GETHWDEBUGINFO
-+============================
++   This section contains a (not-thorough) summary on classical deadline
++   scheduling theory, and how it applies to SCHED_DEADLINE.
++   The reader can "safely" skip to Section 4 if only interested in seeing
++   how the scheduling policy can be used. Anyway, we strongly recommend
++   to come back here and continue reading (once the urge for testing is
++   satisfied :P) to be sure of fully understanding all technical details.
 +
-+Query for GDB to discover the hardware debug features. The main info to
-+be returned here is the minimum alignment for the hardware watchpoints.
-+BookE processors don't have restrictions here, but server processors have
-+an 8-byte alignment restriction for hardware watchpoints. We'd like to avoid
-+adding special cases to GDB based on what it sees in AUXV.
++ .. ************************************************************************
+ 
+  There are no limitations on what kind of task can exploit this new
+  scheduling discipline, even if it must be said that it is particularly
+@@ -329,6 +334,7 @@ CONTENTS
+  sporadic with minimum inter-arrival time P is r_{j+1} >= r_j + P. Finally,
+  d_j = r_j + D, where D is the task's relative deadline.
+  Summing up, a real-time task can be described as
 +
-+Since we're at it, we added other useful info that the kernel can return to
-+GDB: this query will return the number of hardware breakpoints, hardware
-+watchpoints and whether it supports a range of addresses and a condition.
-+The query will fill the following structure provided by the requesting process::
+ 	Task = (WCET, D, P)
+ 
+  The utilization of a real-time task is defined as the ratio between its
+@@ -352,13 +358,15 @@ CONTENTS
+  between the finishing time of a job and its absolute deadline).
+  More precisely, it can be proven that using a global EDF scheduler the
+  maximum tardiness of each task is smaller or equal than
 +
-+  struct ppc_debug_info {
-+       unit32_t version;
-+       unit32_t num_instruction_bps;
-+       unit32_t num_data_bps;
-+       unit32_t num_condition_regs;
-+       unit32_t data_bp_alignment;
-+       unit32_t sizeof_condition; /* size of the DVC register */
-+       uint64_t features; /* bitmask of the individual flags */
-+  };
+ 	((M − 1) · WCET_max − WCET_min)/(M − (M − 2) · U_max) + WCET_max
 +
-+features will have bits indicating whether there is support for::
+  where WCET_max = max{WCET_i} is the maximum WCET, WCET_min=min{WCET_i}
+  is the minimum WCET, and U_max = max{WCET_i/P_i} is the maximum
+  utilization[12].
+ 
+ 3.2 Schedulability Analysis for Uniprocessor Systems
+-------------------------
++----------------------------------------------------
+ 
+  If M=1 (uniprocessor system), or in case of partitioned scheduling (each
+  real-time task is statically assigned to one and only one CPU), it is
+@@ -370,7 +378,9 @@ CONTENTS
+  a task as WCET_i/min{D_i,P_i}, and EDF is able to respect all the deadlines
+  of all the tasks running on a CPU if the sum of the densities of the tasks
+  running on such a CPU is smaller or equal than 1:
 +
-+  #define PPC_DEBUG_FEATURE_INSN_BP_RANGE		0x1
-+  #define PPC_DEBUG_FEATURE_INSN_BP_MASK		0x2
-+  #define PPC_DEBUG_FEATURE_DATA_BP_RANGE		0x4
-+  #define PPC_DEBUG_FEATURE_DATA_BP_MASK		0x8
-+  #define PPC_DEBUG_FEATURE_DATA_BP_DAWR		0x10
+ 	sum(WCET_i / min{D_i, P_i}) <= 1
 +
-+2. PTRACE_SETHWDEBUG
+  It is important to notice that this condition is only sufficient, and not
+  necessary: there are task sets that are schedulable, but do not respect the
+  condition. For example, consider the task set {Task_1,Task_2} composed by
+@@ -379,7 +389,9 @@ CONTENTS
+  (Task_1 is scheduled as soon as it is released, and finishes just in time
+  to respect its deadline; Task_2 is scheduled immediately after Task_1, hence
+  its response time cannot be larger than 50ms + 10ms = 60ms) even if
 +
-+Sets a hardware breakpoint or watchpoint, according to the provided structure::
+ 	50 / min{50,100} + 10 / min{100, 100} = 50 / 50 + 10 / 100 = 1.1
 +
-+  struct ppc_hw_breakpoint {
-+        uint32_t version;
-+  #define PPC_BREAKPOINT_TRIGGER_EXECUTE  0x1
-+  #define PPC_BREAKPOINT_TRIGGER_READ     0x2
-+ #define PPC_BREAKPOINT_TRIGGER_WRITE    0x4
-+        uint32_t trigger_type;       /* only some combinations allowed */
-+  #define PPC_BREAKPOINT_MODE_EXACT               0x0
-+  #define PPC_BREAKPOINT_MODE_RANGE_INCLUSIVE     0x1
-+  #define PPC_BREAKPOINT_MODE_RANGE_EXCLUSIVE     0x2
-+  #define PPC_BREAKPOINT_MODE_MASK                0x3
-+        uint32_t addr_mode;          /* address match mode */
+  Of course it is possible to test the exact schedulability of tasks with
+  D_i != P_i (checking a condition that is both sufficient and necessary),
+  but this cannot be done by comparing the total utilization or density with
+@@ -399,7 +411,7 @@ CONTENTS
+  4 Linux uses an admission test based on the tasks' utilizations.
+ 
+ 3.3 Schedulability Analysis for Multiprocessor Systems
+-------------------------
++------------------------------------------------------
+ 
+  On multiprocessor systems with global EDF scheduling (non partitioned
+  systems), a sufficient test for schedulability can not be based on the
+@@ -428,7 +440,9 @@ CONTENTS
+  between total utilization (or density) and a fixed constant. If all tasks
+  have D_i = P_i, a sufficient schedulability condition can be expressed in
+  a simple way:
 +
-+  #define PPC_BREAKPOINT_CONDITION_MODE   0x3
-+  #define PPC_BREAKPOINT_CONDITION_NONE   0x0
-+  #define PPC_BREAKPOINT_CONDITION_AND    0x1
-+  #define PPC_BREAKPOINT_CONDITION_EXACT  0x1	/* different name for the same thing as above */
-+  #define PPC_BREAKPOINT_CONDITION_OR     0x2
-+  #define PPC_BREAKPOINT_CONDITION_AND_OR 0x3
-+  #define PPC_BREAKPOINT_CONDITION_BE_ALL 0x00ff0000	/* byte enable bits */
-+  #define PPC_BREAKPOINT_CONDITION_BE(n)  (1<<((n)+16))
-+        uint32_t condition_mode;     /* break/watchpoint condition flags */
+ 	sum(WCET_i / P_i) <= M - (M - 1) · U_max
 +
-+        uint64_t addr;
-+        uint64_t addr2;
-+        uint64_t condition_value;
-+  };
+  where U_max = max{WCET_i / P_i}[10]. Notice that for U_max = 1,
+  M - (M - 1) · U_max becomes M - M + 1 = 1 and this schedulability condition
+  just confirms the Dhall's effect. A more complete survey of the literature
+@@ -447,7 +461,7 @@ CONTENTS
+  the tasks are limited.
+ 
+ 3.4 Relationship with SCHED_DEADLINE Parameters
+-------------------------
++-----------------------------------------------
+ 
+  Finally, it is important to understand the relationship between the
+  SCHED_DEADLINE scheduling parameters described in Section 2 (runtime,
+@@ -473,6 +487,7 @@ CONTENTS
+  this task, as it is not possible to respect its temporal constraints.
+ 
+  References:
 +
-+A request specifies one event, not necessarily just one register to be set.
-+For instance, if the request is for a watchpoint with a condition, both the
-+DAC and DVC registers will be set in the same request.
+   1 - C. L. Liu and J. W. Layland. Scheduling algorithms for multiprogram-
+       ming in a hard-real-time environment. Journal of the Association for
+       Computing Machinery, 20(1), 1973.
+@@ -550,7 +565,7 @@ CONTENTS
+  The interface used to control the CPU bandwidth that can be allocated
+  to -deadline tasks is similar to the one already used for -rt
+  tasks with real-time group scheduling (a.k.a. RT-throttling - see
+- Documentation/scheduler/sched-rt-group.txt), and is based on readable/
++ Documentation/scheduler/sched-rt-group.rst), and is based on readable/
+  writable control files located in procfs (for system wide settings).
+  Notice that per-group settings (controlled through cgroupfs) are still not
+  defined for -deadline tasks, because more discussion is needed in order to
+@@ -596,11 +611,13 @@ CONTENTS
+  Specifying a periodic/sporadic task that executes for a given amount of
+  runtime at each instance, and that is scheduled according to the urgency of
+  its own timing constraints needs, in general, a way of declaring:
 +
-+With this GDB can ask for all kinds of hardware breakpoints and watchpoints
-+that the BookE supports. COMEFROM breakpoints available in server processors
-+are not contemplated, but that is out of the scope of this work.
+   - a (maximum/typical) instance execution time,
+   - a minimum interval between consecutive instances,
+   - a time constraint by which each instance must be completed.
+ 
+  Therefore:
 +
-+ptrace will return an integer (handle) uniquely identifying the breakpoint or
-+watchpoint just created. This integer will be used in the PTRACE_DELHWDEBUG
-+request to ask for its removal. Return -ENOSPC if the requested breakpoint
-+can't be allocated on the registers.
-+
-+Some examples of using the structure to:
-+
-+- set a breakpoint in the first breakpoint register::
-+
-+    p.version         = PPC_DEBUG_CURRENT_VERSION;
-+    p.trigger_type    = PPC_BREAKPOINT_TRIGGER_EXECUTE;
-+    p.addr_mode       = PPC_BREAKPOINT_MODE_EXACT;
-+    p.condition_mode  = PPC_BREAKPOINT_CONDITION_NONE;
-+    p.addr            = (uint64_t) address;
-+    p.addr2           = 0;
-+    p.condition_value = 0;
-+
-+- set a watchpoint which triggers on reads in the second watchpoint register::
-+
-+    p.version         = PPC_DEBUG_CURRENT_VERSION;
-+    p.trigger_type    = PPC_BREAKPOINT_TRIGGER_READ;
-+    p.addr_mode       = PPC_BREAKPOINT_MODE_EXACT;
-+    p.condition_mode  = PPC_BREAKPOINT_CONDITION_NONE;
-+    p.addr            = (uint64_t) address;
-+    p.addr2           = 0;
-+    p.condition_value = 0;
-+
-+- set a watchpoint which triggers only with a specific value::
-+
-+    p.version         = PPC_DEBUG_CURRENT_VERSION;
-+    p.trigger_type    = PPC_BREAKPOINT_TRIGGER_READ;
-+    p.addr_mode       = PPC_BREAKPOINT_MODE_EXACT;
-+    p.condition_mode  = PPC_BREAKPOINT_CONDITION_AND | PPC_BREAKPOINT_CONDITION_BE_ALL;
-+    p.addr            = (uint64_t) address;
-+    p.addr2           = 0;
-+    p.condition_value = (uint64_t) condition;
-+
-+- set a ranged hardware breakpoint::
-+
-+    p.version         = PPC_DEBUG_CURRENT_VERSION;
-+    p.trigger_type    = PPC_BREAKPOINT_TRIGGER_EXECUTE;
-+    p.addr_mode       = PPC_BREAKPOINT_MODE_RANGE_INCLUSIVE;
-+    p.condition_mode  = PPC_BREAKPOINT_CONDITION_NONE;
-+    p.addr            = (uint64_t) begin_range;
-+    p.addr2           = (uint64_t) end_range;
-+    p.condition_value = 0;
-+
-+- set a watchpoint in server processors (BookS)::
-+
-+    p.version         = 1;
-+    p.trigger_type    = PPC_BREAKPOINT_TRIGGER_RW;
-+    p.addr_mode       = PPC_BREAKPOINT_MODE_RANGE_INCLUSIVE;
-+    or
-+    p.addr_mode       = PPC_BREAKPOINT_MODE_EXACT;
-+
-+    p.condition_mode  = PPC_BREAKPOINT_CONDITION_NONE;
-+    p.addr            = (uint64_t) begin_range;
-+    /* For PPC_BREAKPOINT_MODE_RANGE_INCLUSIVE addr2 needs to be specified, where
-+     * addr2 - addr <= 8 Bytes.
-+     */
-+    p.addr2           = (uint64_t) end_range;
-+    p.condition_value = 0;
-+
-+3. PTRACE_DELHWDEBUG
-+
-+Takes an integer which identifies an existing breakpoint or watchpoint
-+(i.e., the value returned from PTRACE_SETHWDEBUG), and deletes the
-+corresponding breakpoint or watchpoint..
-diff --git a/Documentation/powerpc/ptrace.txt b/Documentation/powerpc/ptrace.txt
-deleted file mode 100644
-index 99c5ce88d0fe..000000000000
---- a/Documentation/powerpc/ptrace.txt
-+++ /dev/null
-@@ -1,151 +0,0 @@
--GDB intends to support the following hardware debug features of BookE
--processors:
+   * a new struct sched_attr, containing all the necessary fields is
+     provided;
+   * the new scheduling related syscalls that manipulate it, i.e.,
+@@ -658,21 +675,21 @@ CONTENTS
+ ------------------------------------
+ 
+  An example of a simple configuration (pin a -deadline task to CPU0)
+- follows (rt-app is used to create a -deadline task).
++ follows (rt-app is used to create a -deadline task)::
+ 
+- mkdir /dev/cpuset
+- mount -t cgroup -o cpuset cpuset /dev/cpuset
+- cd /dev/cpuset
+- mkdir cpu0
+- echo 0 > cpu0/cpuset.cpus
+- echo 0 > cpu0/cpuset.mems
+- echo 1 > cpuset.cpu_exclusive
+- echo 0 > cpuset.sched_load_balance
+- echo 1 > cpu0/cpuset.cpu_exclusive
+- echo 1 > cpu0/cpuset.mem_exclusive
+- echo $$ > cpu0/tasks
+- rt-app -t 100000:10000:d:0 -D5 (it is now actually superfluous to specify
+- task affinity)
++   mkdir /dev/cpuset
++   mount -t cgroup -o cpuset cpuset /dev/cpuset
++   cd /dev/cpuset
++   mkdir cpu0
++   echo 0 > cpu0/cpuset.cpus
++   echo 0 > cpu0/cpuset.mems
++   echo 1 > cpuset.cpu_exclusive
++   echo 0 > cpuset.sched_load_balance
++   echo 1 > cpu0/cpuset.cpu_exclusive
++   echo 1 > cpu0/cpuset.mem_exclusive
++   echo $$ > cpu0/tasks
++   rt-app -t 100000:10000:d:0 -D5 # it is now actually superfluous to specify
++				  # task affinity
+ 
+ 6. Future plans
+ ===============
+@@ -711,7 +728,7 @@ Appendix A. Test suite
+  rt-app is available at: https://github.com/scheduler-tools/rt-app.
+ 
+  Thread parameters can be specified from the command line, with something like
+- this:
++ this::
+ 
+   # rt-app -t 100000:10000:d -t 150000:20000:f:10 -D5
+ 
+@@ -721,27 +738,27 @@ Appendix A. Test suite
+  of 5 seconds.
+ 
+  More interestingly, configurations can be described with a json file that
+- can be passed as input to rt-app with something like this:
++ can be passed as input to rt-app with something like this::
+ 
+   # rt-app my_config.json
+ 
+  The parameters that can be specified with the second method are a superset
+  of the command line options. Please refer to rt-app documentation for more
+- details (<rt-app-sources>/doc/*.json).
++ details (`<rt-app-sources>/doc/*.json`).
+ 
+  The second testing application is a modification of schedtool, called
+  schedtool-dl, which can be used to setup SCHED_DEADLINE parameters for a
+  certain pid/application. schedtool-dl is available at:
+  https://github.com/scheduler-tools/schedtool-dl.git.
+ 
+- The usage is straightforward:
++ The usage is straightforward::
+ 
+   # schedtool -E -t 10000000:100000000 -e ./my_cpuhog_app
+ 
+  With this, my_cpuhog_app is put to run inside a SCHED_DEADLINE reservation
+  of 10ms every 100ms (note that parameters are expressed in microseconds).
+  You can also use schedtool to create a reservation for an already running
+- application, given that you know its pid:
++ application, given that you know its pid::
+ 
+   # schedtool -E -t 10000000:100000000 my_app_pid
+ 
+@@ -750,43 +767,43 @@ Appendix B. Minimal main()
+ 
+  We provide in what follows a simple (ugly) self-contained code snippet
+  showing how SCHED_DEADLINE reservations can be created by a real-time
+- application developer.
 -
--4 hardware breakpoints (IAC)
--2 hardware watchpoints (read, write and read-write) (DAC)
--2 value conditions for the hardware watchpoints (DVC)
+- #define _GNU_SOURCE
+- #include <unistd.h>
+- #include <stdio.h>
+- #include <stdlib.h>
+- #include <string.h>
+- #include <time.h>
+- #include <linux/unistd.h>
+- #include <linux/kernel.h>
+- #include <linux/types.h>
+- #include <sys/syscall.h>
+- #include <pthread.h>
 -
--For that, we need to extend ptrace so that GDB can query and set these
--resources. Since we're extending, we're trying to create an interface
--that's extendable and that covers both BookE and server processors, so
--that GDB doesn't need to special-case each of them. We added the
--following 3 new ptrace requests.
+- #define gettid() syscall(__NR_gettid)
 -
--1. PTRACE_PPC_GETHWDEBUGINFO
+- #define SCHED_DEADLINE	6
 -
--Query for GDB to discover the hardware debug features. The main info to
--be returned here is the minimum alignment for the hardware watchpoints.
--BookE processors don't have restrictions here, but server processors have
--an 8-byte alignment restriction for hardware watchpoints. We'd like to avoid
--adding special cases to GDB based on what it sees in AUXV.
+- /* XXX use the proper syscall numbers */
+- #ifdef __x86_64__
+- #define __NR_sched_setattr		314
+- #define __NR_sched_getattr		315
+- #endif
 -
--Since we're at it, we added other useful info that the kernel can return to
--GDB: this query will return the number of hardware breakpoints, hardware
--watchpoints and whether it supports a range of addresses and a condition.
--The query will fill the following structure provided by the requesting process:
+- #ifdef __i386__
+- #define __NR_sched_setattr		351
+- #define __NR_sched_getattr		352
+- #endif
 -
--struct ppc_debug_info {
--       unit32_t version;
--       unit32_t num_instruction_bps;
--       unit32_t num_data_bps;
--       unit32_t num_condition_regs;
--       unit32_t data_bp_alignment;
--       unit32_t sizeof_condition; /* size of the DVC register */
--       uint64_t features; /* bitmask of the individual flags */
--};
+- #ifdef __arm__
+- #define __NR_sched_setattr		380
+- #define __NR_sched_getattr		381
+- #endif
 -
--features will have bits indicating whether there is support for:
+- static volatile int done;
 -
--#define PPC_DEBUG_FEATURE_INSN_BP_RANGE		0x1
--#define PPC_DEBUG_FEATURE_INSN_BP_MASK		0x2
--#define PPC_DEBUG_FEATURE_DATA_BP_RANGE		0x4
--#define PPC_DEBUG_FEATURE_DATA_BP_MASK		0x8
--#define PPC_DEBUG_FEATURE_DATA_BP_DAWR		0x10
--
--2. PTRACE_SETHWDEBUG
--
--Sets a hardware breakpoint or watchpoint, according to the provided structure:
--
--struct ppc_hw_breakpoint {
--        uint32_t version;
--#define PPC_BREAKPOINT_TRIGGER_EXECUTE  0x1
--#define PPC_BREAKPOINT_TRIGGER_READ     0x2
--#define PPC_BREAKPOINT_TRIGGER_WRITE    0x4
--        uint32_t trigger_type;       /* only some combinations allowed */
--#define PPC_BREAKPOINT_MODE_EXACT               0x0
--#define PPC_BREAKPOINT_MODE_RANGE_INCLUSIVE     0x1
--#define PPC_BREAKPOINT_MODE_RANGE_EXCLUSIVE     0x2
--#define PPC_BREAKPOINT_MODE_MASK                0x3
--        uint32_t addr_mode;          /* address match mode */
--
--#define PPC_BREAKPOINT_CONDITION_MODE   0x3
--#define PPC_BREAKPOINT_CONDITION_NONE   0x0
--#define PPC_BREAKPOINT_CONDITION_AND    0x1
--#define PPC_BREAKPOINT_CONDITION_EXACT  0x1	/* different name for the same thing as above */
--#define PPC_BREAKPOINT_CONDITION_OR     0x2
--#define PPC_BREAKPOINT_CONDITION_AND_OR 0x3
--#define PPC_BREAKPOINT_CONDITION_BE_ALL 0x00ff0000	/* byte enable bits */
--#define PPC_BREAKPOINT_CONDITION_BE(n)  (1<<((n)+16))
--        uint32_t condition_mode;     /* break/watchpoint condition flags */
--
--        uint64_t addr;
--        uint64_t addr2;
--        uint64_t condition_value;
--};
--
--A request specifies one event, not necessarily just one register to be set.
--For instance, if the request is for a watchpoint with a condition, both the
--DAC and DVC registers will be set in the same request.
--
--With this GDB can ask for all kinds of hardware breakpoints and watchpoints
--that the BookE supports. COMEFROM breakpoints available in server processors
--are not contemplated, but that is out of the scope of this work.
--
--ptrace will return an integer (handle) uniquely identifying the breakpoint or
--watchpoint just created. This integer will be used in the PTRACE_DELHWDEBUG
--request to ask for its removal. Return -ENOSPC if the requested breakpoint
--can't be allocated on the registers.
--
--Some examples of using the structure to:
--
--- set a breakpoint in the first breakpoint register
--
--  p.version         = PPC_DEBUG_CURRENT_VERSION;
--  p.trigger_type    = PPC_BREAKPOINT_TRIGGER_EXECUTE;
--  p.addr_mode       = PPC_BREAKPOINT_MODE_EXACT;
--  p.condition_mode  = PPC_BREAKPOINT_CONDITION_NONE;
--  p.addr            = (uint64_t) address;
--  p.addr2           = 0;
--  p.condition_value = 0;
--
--- set a watchpoint which triggers on reads in the second watchpoint register
--
--  p.version         = PPC_DEBUG_CURRENT_VERSION;
--  p.trigger_type    = PPC_BREAKPOINT_TRIGGER_READ;
--  p.addr_mode       = PPC_BREAKPOINT_MODE_EXACT;
--  p.condition_mode  = PPC_BREAKPOINT_CONDITION_NONE;
--  p.addr            = (uint64_t) address;
--  p.addr2           = 0;
--  p.condition_value = 0;
--
--- set a watchpoint which triggers only with a specific value
--
--  p.version         = PPC_DEBUG_CURRENT_VERSION;
--  p.trigger_type    = PPC_BREAKPOINT_TRIGGER_READ;
--  p.addr_mode       = PPC_BREAKPOINT_MODE_EXACT;
--  p.condition_mode  = PPC_BREAKPOINT_CONDITION_AND | PPC_BREAKPOINT_CONDITION_BE_ALL;
--  p.addr            = (uint64_t) address;
--  p.addr2           = 0;
--  p.condition_value = (uint64_t) condition;
--
--- set a ranged hardware breakpoint
--
--  p.version         = PPC_DEBUG_CURRENT_VERSION;
--  p.trigger_type    = PPC_BREAKPOINT_TRIGGER_EXECUTE;
--  p.addr_mode       = PPC_BREAKPOINT_MODE_RANGE_INCLUSIVE;
--  p.condition_mode  = PPC_BREAKPOINT_CONDITION_NONE;
--  p.addr            = (uint64_t) begin_range;
--  p.addr2           = (uint64_t) end_range;
--  p.condition_value = 0;
--
--- set a watchpoint in server processors (BookS)
--
--  p.version         = 1;
--  p.trigger_type    = PPC_BREAKPOINT_TRIGGER_RW;
--  p.addr_mode       = PPC_BREAKPOINT_MODE_RANGE_INCLUSIVE;
--  or
--  p.addr_mode       = PPC_BREAKPOINT_MODE_EXACT;
--
--  p.condition_mode  = PPC_BREAKPOINT_CONDITION_NONE;
--  p.addr            = (uint64_t) begin_range;
--  /* For PPC_BREAKPOINT_MODE_RANGE_INCLUSIVE addr2 needs to be specified, where
--   * addr2 - addr <= 8 Bytes.
--   */
--  p.addr2           = (uint64_t) end_range;
--  p.condition_value = 0;
--
--3. PTRACE_DELHWDEBUG
--
--Takes an integer which identifies an existing breakpoint or watchpoint
--(i.e., the value returned from PTRACE_SETHWDEBUG), and deletes the
--corresponding breakpoint or watchpoint..
-diff --git a/Documentation/powerpc/qe_firmware.txt b/Documentation/powerpc/qe_firmware.rst
+- struct sched_attr {
++ application developer::
++
++   #define _GNU_SOURCE
++   #include <unistd.h>
++   #include <stdio.h>
++   #include <stdlib.h>
++   #include <string.h>
++   #include <time.h>
++   #include <linux/unistd.h>
++   #include <linux/kernel.h>
++   #include <linux/types.h>
++   #include <sys/syscall.h>
++   #include <pthread.h>
++
++   #define gettid() syscall(__NR_gettid)
++
++   #define SCHED_DEADLINE	6
++
++   /* XXX use the proper syscall numbers */
++   #ifdef __x86_64__
++   #define __NR_sched_setattr		314
++   #define __NR_sched_getattr		315
++   #endif
++
++   #ifdef __i386__
++   #define __NR_sched_setattr		351
++   #define __NR_sched_getattr		352
++   #endif
++
++   #ifdef __arm__
++   #define __NR_sched_setattr		380
++   #define __NR_sched_getattr		381
++   #endif
++
++   static volatile int done;
++
++   struct sched_attr {
+ 	__u32 size;
+ 
+ 	__u32 sched_policy;
+@@ -802,25 +819,25 @@ Appendix B. Minimal main()
+ 	__u64 sched_runtime;
+ 	__u64 sched_deadline;
+ 	__u64 sched_period;
+- };
++   };
+ 
+- int sched_setattr(pid_t pid,
++   int sched_setattr(pid_t pid,
+ 		  const struct sched_attr *attr,
+ 		  unsigned int flags)
+- {
++   {
+ 	return syscall(__NR_sched_setattr, pid, attr, flags);
+- }
++   }
+ 
+- int sched_getattr(pid_t pid,
++   int sched_getattr(pid_t pid,
+ 		  struct sched_attr *attr,
+ 		  unsigned int size,
+ 		  unsigned int flags)
+- {
++   {
+ 	return syscall(__NR_sched_getattr, pid, attr, size, flags);
+- }
++   }
+ 
+- void *run_deadline(void *data)
+- {
++   void *run_deadline(void *data)
++   {
+ 	struct sched_attr attr;
+ 	int x = 0;
+ 	int ret;
+@@ -851,10 +868,10 @@ Appendix B. Minimal main()
+ 
+ 	printf("deadline thread dies [%ld]\n", gettid());
+ 	return NULL;
+- }
++   }
+ 
+- int main (int argc, char **argv)
+- {
++   int main (int argc, char **argv)
++   {
+ 	pthread_t thread;
+ 
+ 	printf("main thread [%ld]\n", gettid());
+@@ -868,4 +885,4 @@ Appendix B. Minimal main()
+ 
+ 	printf("main dies [%ld]\n", gettid());
+ 	return 0;
+- }
++   }
+diff --git a/Documentation/scheduler/sched-design-CFS.txt b/Documentation/scheduler/sched-design-CFS.rst
+similarity index 97%
+rename from Documentation/scheduler/sched-design-CFS.txt
+rename to Documentation/scheduler/sched-design-CFS.rst
+index d1328890ef28..53b30d1967cf 100644
+--- a/Documentation/scheduler/sched-design-CFS.txt
++++ b/Documentation/scheduler/sched-design-CFS.rst
+@@ -1,9 +1,10 @@
+-                      =============
+-                      CFS Scheduler
+-                      =============
++=============
++CFS Scheduler
++=============
+ 
+ 
+ 1.  OVERVIEW
++============
+ 
+ CFS stands for "Completely Fair Scheduler," and is the new "desktop" process
+ scheduler implemented by Ingo Molnar and merged in Linux 2.6.23.  It is the
+@@ -27,6 +28,7 @@ is its actual runtime normalized to the total number of running tasks.
+ 
+ 
+ 2.  FEW IMPLEMENTATION DETAILS
++==============================
+ 
+ In CFS the virtual runtime is expressed and tracked via the per-task
+ p->se.vruntime (nanosec-unit) value.  This way, it's possible to accurately
+@@ -49,6 +51,7 @@ algorithm variants to recognize sleepers.
+ 
+ 
+ 3.  THE RBTREE
++==============
+ 
+ CFS's design is quite radical: it does not use the old data structures for the
+ runqueues, but it uses a time-ordered rbtree to build a "timeline" of future
+@@ -84,6 +87,7 @@ picked and the current task is preempted.
+ 
+ 
+ 4.  SOME FEATURES OF CFS
++========================
+ 
+ CFS uses nanosecond granularity accounting and does not rely on any jiffies or
+ other HZ detail.  Thus the CFS scheduler has no notion of "timeslices" in the
+@@ -113,6 +117,7 @@ result.
+ 
+ 
+ 5. Scheduling policies
++======================
+ 
+ CFS implements three scheduling policies:
+ 
+@@ -137,6 +142,7 @@ SCHED_IDLE.
+ 
+ 
+ 6.  SCHEDULING CLASSES
++======================
+ 
+ The new CFS scheduler has been designed in such a way to introduce "Scheduling
+ Classes," an extensible hierarchy of scheduler modules.  These modules
+@@ -197,6 +203,7 @@ This is the (partial) list of the hooks:
+ 
+ 
+ 7.  GROUP SCHEDULER EXTENSIONS TO CFS
++=====================================
+ 
+ Normally, the scheduler operates on individual tasks and strives to provide
+ fair CPU time to each task.  Sometimes, it may be desirable to group tasks and
+@@ -219,7 +226,7 @@ SCHED_BATCH) tasks.
+ 
+ When CONFIG_FAIR_GROUP_SCHED is defined, a "cpu.shares" file is created for each
+ group created using the pseudo filesystem.  See example steps below to create
+-task groups and modify their CPU share using the "cgroups" pseudo filesystem.
++task groups and modify their CPU share using the "cgroups" pseudo filesystem::
+ 
+ 	# mount -t tmpfs cgroup_root /sys/fs/cgroup
+ 	# mkdir /sys/fs/cgroup/cpu
+diff --git a/Documentation/scheduler/sched-domains.txt b/Documentation/scheduler/sched-domains.rst
+similarity index 97%
+rename from Documentation/scheduler/sched-domains.txt
+rename to Documentation/scheduler/sched-domains.rst
+index 4af80b1c05aa..f7504226f445 100644
+--- a/Documentation/scheduler/sched-domains.txt
++++ b/Documentation/scheduler/sched-domains.rst
+@@ -1,3 +1,7 @@
++=================
++Scheduler Domains
++=================
++
+ Each CPU has a "base" scheduling domain (struct sched_domain). The domain
+ hierarchy is built from these base domains via the ->parent pointer. ->parent
+ MUST be NULL terminated, and domain structures should be per-CPU as they are
+@@ -46,7 +50,9 @@ CPU's runqueue and the newly found busiest one and starts moving tasks from it
+ to our runqueue. The exact number of tasks amounts to an imbalance previously
+ computed while iterating over this sched domain's groups.
+ 
+-*** Implementing sched domains ***
++Implementing sched domains
++==========================
++
+ The "base" domain will "span" the first level of the hierarchy. In the case
+ of SMT, you'll span all siblings of the physical CPU, with each group being
+ a single virtual CPU.
+diff --git a/Documentation/scheduler/sched-energy.txt b/Documentation/scheduler/sched-energy.rst
+similarity index 96%
+rename from Documentation/scheduler/sched-energy.txt
+rename to Documentation/scheduler/sched-energy.rst
+index d97207b9accb..9580c57a52bc 100644
+--- a/Documentation/scheduler/sched-energy.txt
++++ b/Documentation/scheduler/sched-energy.rst
+@@ -1,6 +1,6 @@
+-			   =======================
+-			   Energy Aware Scheduling
+-			   =======================
++=======================
++Energy Aware Scheduling
++=======================
+ 
+ 1. Introduction
+ ---------------
+@@ -12,7 +12,7 @@ with a minimal impact on throughput. This document aims at providing an
+ introduction on how EAS works, what are the main design decisions behind it, and
+ details what is needed to get it to run.
+ 
+-Before going any further, please note that at the time of writing:
++Before going any further, please note that at the time of writing::
+ 
+    /!\ EAS does not support platforms with symmetric CPU topologies /!\
+ 
+@@ -33,13 +33,13 @@ To make it clear from the start:
+  - power = energy/time = [joule/second] = [watt]
+ 
+ The goal of EAS is to minimize energy, while still getting the job done. That
+-is, we want to maximize:
++is, we want to maximize::
+ 
+ 	performance [inst/s]
+ 	--------------------
+ 	    power [W]
+ 
+-which is equivalent to minimizing:
++which is equivalent to minimizing::
+ 
+ 	energy [J]
+ 	-----------
+@@ -97,7 +97,7 @@ domains can contain duplicate elements.
+ 
+ Example 1.
+     Let us consider a platform with 12 CPUs, split in 3 performance domains
+-    (pd0, pd4 and pd8), organized as follows:
++    (pd0, pd4 and pd8), organized as follows::
+ 
+ 	          CPUs:   0 1 2 3 4 5 6 7 8 9 10 11
+ 	          PDs:   |--pd0--|--pd4--|---pd8---|
+@@ -108,6 +108,7 @@ Example 1.
+     containing 6 CPUs. The two root domains are denoted rd1 and rd2 in the
+     above figure. Since pd4 intersects with both rd1 and rd2, it will be
+     present in the linked list '->pd' attached to each of them:
++
+        * rd1->pd: pd0 -> pd4
+        * rd2->pd: pd4 -> pd8
+ 
+@@ -159,9 +160,9 @@ Example 2.
+     Each performance domain has three Operating Performance Points (OPPs).
+     The CPU capacity and power cost associated with each OPP is listed in
+     the Energy Model table. The util_avg of P is shown on the figures
+-    below as 'PP'.
++    below as 'PP'::
+ 
+-    CPU util.
++     CPU util.
+       1024                 - - - - - - -              Energy Model
+                                                +-----------+-------------+
+                                                |  Little   |     Big     |
+@@ -188,8 +189,7 @@ Example 2.
+     (which is coherent with the behaviour of the schedutil CPUFreq
+     governor, see Section 6. for more details on this topic).
+ 
+-    Case 1. P is migrated to CPU1
+-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++    **Case 1. P is migrated to CPU1**::
+ 
+       1024                 - - - - - - -
+ 
+@@ -207,8 +207,7 @@ Example 2.
+             CPU0   CPU1     CPU2   CPU3
+ 
+ 
+-    Case 2. P is migrated to CPU3
+-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++    **Case 2. P is migrated to CPU3**::
+ 
+       1024                 - - - - - - -
+ 
+@@ -226,8 +225,7 @@ Example 2.
+             CPU0   CPU1     CPU2   CPU3
+ 
+ 
+-    Case 3. P stays on prev_cpu / CPU 0
+-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++    **Case 3. P stays on prev_cpu / CPU 0**::
+ 
+       1024                 - - - - - - -
+ 
+@@ -324,7 +322,9 @@ hardware properties and on other features of the kernel being enabled. This
+ section lists these dependencies and provides hints as to how they can be met.
+ 
+ 
+-  6.1 - Asymmetric CPU topology
++6.1 - Asymmetric CPU topology
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
+ 
+ As mentioned in the introduction, EAS is only supported on platforms with
+ asymmetric CPU topologies for now. This requirement is checked at run-time by
+@@ -347,7 +347,8 @@ significant savings on SMP platforms have been observed yet. This restriction
+ could be amended in the future if proven otherwise.
+ 
+ 
+-  6.2 - Energy Model presence
++6.2 - Energy Model presence
++^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+ EAS uses the EM of a platform to estimate the impact of scheduling decisions on
+ energy. So, your platform must provide power cost tables to the EM framework in
+@@ -358,7 +359,8 @@ Please also note that the scheduling domains need to be re-built after the
+ EM has been registered in order to start EAS.
+ 
+ 
+-  6.3 - Energy Model complexity
++6.3 - Energy Model complexity
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+ The task wake-up path is very latency-sensitive. When the EM of a platform is
+ too complex (too many CPUs, too many performance domains, too many performance
+@@ -388,7 +390,8 @@ two possible options:
+        hence enabling it to cope with larger EMs in reasonable time.
+ 
+ 
+-  6.4 - Schedutil governor
++6.4 - Schedutil governor
++^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+ EAS tries to predict at which OPP will the CPUs be running in the close future
+ in order to estimate their energy consumption. To do so, it is assumed that OPPs
+@@ -405,7 +408,8 @@ frequency requests and energy predictions.
+ Using EAS with any other governor than schedutil is not supported.
+ 
+ 
+-  6.5 Scale-invariant utilization signals
++6.5 Scale-invariant utilization signals
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+ In order to make accurate prediction across CPUs and for all performance
+ states, EAS needs frequency-invariant and CPU-invariant PELT signals. These can
+@@ -416,7 +420,8 @@ Using EAS on a platform that doesn't implement these two callbacks is not
+ supported.
+ 
+ 
+-  6.6 Multithreading (SMT)
++6.6 Multithreading (SMT)
++^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+ EAS in its current form is SMT unaware and is not able to leverage
+ multithreaded hardware to save energy. EAS considers threads as independent
+diff --git a/Documentation/scheduler/sched-nice-design.txt b/Documentation/scheduler/sched-nice-design.rst
+similarity index 98%
+rename from Documentation/scheduler/sched-nice-design.txt
+rename to Documentation/scheduler/sched-nice-design.rst
+index 3ac1e46d5365..0571f1b47e64 100644
+--- a/Documentation/scheduler/sched-nice-design.txt
++++ b/Documentation/scheduler/sched-nice-design.rst
+@@ -1,3 +1,7 @@
++=====================
++Scheduler Nice Design
++=====================
++
+ This document explains the thinking about the revamped and streamlined
+ nice-levels implementation in the new Linux scheduler.
+ 
+@@ -14,7 +18,7 @@ much stronger than they were before in 2.4 (and people were happy about
+ that change), and we also intentionally calibrated the linear timeslice
+ rule so that nice +19 level would be _exactly_ 1 jiffy. To better
+ understand it, the timeslice graph went like this (cheesy ASCII art
+-alert!):
++alert!)::
+ 
+ 
+                    A
+diff --git a/Documentation/scheduler/sched-rt-group.txt b/Documentation/scheduler/sched-rt-group.rst
 similarity index 95%
-rename from Documentation/powerpc/qe_firmware.txt
-rename to Documentation/powerpc/qe_firmware.rst
-index e7ac24aec4ff..42f5103140c9 100644
---- a/Documentation/powerpc/qe_firmware.txt
-+++ b/Documentation/powerpc/qe_firmware.rst
-@@ -1,23 +1,23 @@
--	   Freescale QUICC Engine Firmware Uploading
--	   -----------------------------------------
-+=========================================
-+Freescale QUICC Engine Firmware Uploading
-+=========================================
+rename from Documentation/scheduler/sched-rt-group.txt
+rename to Documentation/scheduler/sched-rt-group.rst
+index c09f7a3fee66..d27d3f3712fd 100644
+--- a/Documentation/scheduler/sched-rt-group.txt
++++ b/Documentation/scheduler/sched-rt-group.rst
+@@ -1,18 +1,18 @@
+-				Real-Time group scheduling
+-				--------------------------
++==========================
++Real-Time group scheduling
++==========================
  
- (c) 2007 Timur Tabi <timur at freescale.com>,
-     Freescale Semiconductor
+-CONTENTS
+-========
++.. CONTENTS
  
--Table of Contents
--=================
-+.. Table of Contents
+-0. WARNING
+-1. Overview
+-  1.1 The problem
+-  1.2 The solution
+-2. The interface
+-  2.1 System-wide settings
+-  2.2 Default behaviour
+-  2.3 Basis for grouping tasks
+-3. Future plans
++   0. WARNING
++   1. Overview
++     1.1 The problem
++     1.2 The solution
++   2. The interface
++     2.1 System-wide settings
++     2.2 Default behaviour
++     2.3 Basis for grouping tasks
++   3. Future plans
  
--  I - Software License for Firmware
-+   I - Software License for Firmware
  
--  II - Microcode Availability
-+   II - Microcode Availability
+ 0. WARNING
+@@ -159,9 +159,11 @@ Consider two sibling groups A and B; both have 50% bandwidth, but A's
+ period is twice the length of B's.
  
--  III - Description and Terminology
-+   III - Description and Terminology
- 
--  IV - Microcode Programming Details
-+   IV - Microcode Programming Details
- 
--  V - Firmware Structure Layout
-+   V - Firmware Structure Layout
- 
--  VI - Sample Code for Creating Firmware Files
-+   VI - Sample Code for Creating Firmware Files
- 
- Revision Information
- ====================
-@@ -39,7 +39,7 @@ http://opensource.freescale.com.  For other firmware files, please contact
- your Freescale representative or your operating system vendor.
- 
- III - Description and Terminology
--================================
-+=================================
- 
- In this document, the term 'microcode' refers to the sequence of 32-bit
- integers that compose the actual QE microcode.
-@@ -89,7 +89,7 @@ being fixed in the RAM package utilizing they should be activated.  This data
- structure signals the microcode which of these virtual traps is active.
- 
- This structure contains 6 words that the application should copy to some
--specific been defined.  This table describes the structure.
-+specific been defined.  This table describes the structure::
- 
- 	---------------------------------------------------------------
- 	| Offset in |                  | Destination Offset | Size of |
-@@ -119,7 +119,7 @@ Extended Modes
- This is a double word bit array (64 bits) that defines special functionality
- which has an impact on the software drivers.  Each bit has its own impact
- and has special instructions for the s/w associated with it.  This structure is
--described in this table:
-+described in this table::
- 
- 	-----------------------------------------------------------------------
- 	| Bit #  |     Name     |   Description                               |
-@@ -220,7 +220,8 @@ The 'model' field is a 16-bit number that matches the actual SOC. The
- 'major' and 'minor' fields are the major and minor revision numbers,
- respectively, of the SOC.
- 
--For example, to match the 8323, revision 1.0:
-+For example, to match the 8323, revision 1.0::
+ * group A: period=100000us, runtime=50000us
 +
-      soc.model = 8323
-      soc.major = 1
-      soc.minor = 0
-@@ -273,10 +274,10 @@ library and available to any driver that calles qe_get_firmware_info().
- 	'reserved'.
+ 	- this runs for 0.05s once every 0.1s
  
- After the last microcode is a 32-bit CRC.  It can be calculated using
--this algorithm:
-+this algorithm::
- 
--u32 crc32(const u8 *p, unsigned int len)
--{
-+  u32 crc32(const u8 *p, unsigned int len)
-+  {
- 	unsigned int i;
- 	u32 crc = 0;
- 
-@@ -286,7 +287,7 @@ u32 crc32(const u8 *p, unsigned int len)
- 		   crc = (crc >> 1) ^ ((crc & 1) ? 0xedb88320 : 0);
- 	}
- 	return crc;
--}
-+  }
- 
- VI - Sample Code for Creating Firmware Files
- ============================================
-diff --git a/Documentation/powerpc/syscall64-abi.txt b/Documentation/powerpc/syscall64-abi.rst
-similarity index 82%
-rename from Documentation/powerpc/syscall64-abi.txt
-rename to Documentation/powerpc/syscall64-abi.rst
-index fa716a0d88bd..e49f69f941b9 100644
---- a/Documentation/powerpc/syscall64-abi.txt
-+++ b/Documentation/powerpc/syscall64-abi.rst
-@@ -5,12 +5,12 @@ Power Architecture 64-bit Linux system call ABI
- syscall
- =======
- 
--syscall calling sequence[*] matches the Power Architecture 64-bit ELF ABI
-+syscall calling sequence\ [1]_ matches the Power Architecture 64-bit ELF ABI
- specification C function calling sequence, including register preservation
- rules, with the following differences.
- 
--[*] Some syscalls (typically low-level management functions) may have
--    different calling sequences (e.g., rt_sigreturn).
-+.. [1] Some syscalls (typically low-level management functions) may have
-+       different calling sequences (e.g., rt_sigreturn).
- 
- Parameters and return value
- ---------------------------
-@@ -33,12 +33,14 @@ Register preservation rules
- Register preservation rules match the ELF ABI calling sequence with the
- following differences:
- 
--r0:         Volatile.   (System call number.)
--r3:         Volatile.   (Parameter 1, and return value.)
--r4-r8:      Volatile.   (Parameters 2-6.)
--cr0:        Volatile    (cr0.SO is the return error condition)
--cr1, cr5-7: Nonvolatile.
--lr:         Nonvolatile.
-+=========== ============= ========================================
-+r0          Volatile      (System call number.)
-+r3          Volatile      (Parameter 1, and return value.)
-+r4-r8       Volatile      (Parameters 2-6.)
-+cr0         Volatile      (cr0.SO is the return error condition)
-+cr1, cr5-7  Nonvolatile
-+lr          Nonvolatile
-+=========== ============= ========================================
- 
- All floating point and vector data registers as well as control and status
- registers are nonvolatile.
-@@ -90,9 +92,12 @@ The vsyscall may or may not use the caller's stack frame save areas.
- 
- Register preservation rules
- ---------------------------
--r0: Volatile.
--cr1, cr5-7: Volatile.
--lr: Volatile.
+ * group B: period= 50000us, runtime=25000us
 +
-+=========== ========
-+r0          Volatile
-+cr1, cr5-7  Volatile
-+lr          Volatile
-+=========== ========
+ 	- this runs for 0.025s twice every 0.1s (or once every 0.05 sec).
  
- Invocation
- ----------
-diff --git a/Documentation/powerpc/transactional_memory.txt b/Documentation/powerpc/transactional_memory.rst
-similarity index 93%
-rename from Documentation/powerpc/transactional_memory.txt
-rename to Documentation/powerpc/transactional_memory.rst
-index 52c023e14f26..09955103acb4 100644
---- a/Documentation/powerpc/transactional_memory.txt
-+++ b/Documentation/powerpc/transactional_memory.rst
-@@ -1,3 +1,4 @@
-+============================
- Transactional Memory support
- ============================
+ This means that currently a while (1) loop in A will run for the full period of
+diff --git a/Documentation/scheduler/sched-stats.txt b/Documentation/scheduler/sched-stats.rst
+similarity index 91%
+rename from Documentation/scheduler/sched-stats.txt
+rename to Documentation/scheduler/sched-stats.rst
+index 8259b34a66ae..0cb0aa714545 100644
+--- a/Documentation/scheduler/sched-stats.txt
++++ b/Documentation/scheduler/sched-stats.rst
+@@ -1,3 +1,7 @@
++====================
++Scheduler Statistics
++====================
++
+ Version 15 of schedstats dropped counters for some sched_yield:
+ yld_exp_empty, yld_act_empty and yld_both_empty. Otherwise, it is
+ identical to version 14.
+@@ -35,19 +39,23 @@ CPU statistics
+ cpu<N> 1 2 3 4 5 6 7 8 9
  
-@@ -17,29 +18,29 @@ instructions are presented to delimit transactions; transactions are
- guaranteed to either complete atomically or roll back and undo any partial
- changes.
+ First field is a sched_yield() statistic:
++
+      1) # of times sched_yield() was called
  
--A simple transaction looks like this:
-+A simple transaction looks like this::
+ Next three are schedule() statistics:
++
+      2) This field is a legacy array expiration count field used in the O(1)
+ 	scheduler. We kept it for ABI compatibility, but it is always set to zero.
+      3) # of times schedule() was called
+      4) # of times schedule() left the processor idle
  
--begin_move_money:
--  tbegin
--  beq   abort_handler
-+  begin_move_money:
-+    tbegin
-+    beq   abort_handler
+ Next two are try_to_wake_up() statistics:
++
+      5) # of times try_to_wake_up() was called
+      6) # of times try_to_wake_up() was called to wake up the local cpu
  
--  ld    r4, SAVINGS_ACCT(r3)
--  ld    r5, CURRENT_ACCT(r3)
--  subi  r5, r5, 1
--  addi  r4, r4, 1
--  std   r4, SAVINGS_ACCT(r3)
--  std   r5, CURRENT_ACCT(r3)
-+    ld    r4, SAVINGS_ACCT(r3)
-+    ld    r5, CURRENT_ACCT(r3)
-+    subi  r5, r5, 1
-+    addi  r4, r4, 1
-+    std   r4, SAVINGS_ACCT(r3)
-+    std   r5, CURRENT_ACCT(r3)
+ Next three are statistics describing scheduling latency:
++
+      7) sum of all time spent running by tasks on this processor (in jiffies)
+      8) sum of all time spent waiting to run by tasks on this processor (in
+         jiffies)
+@@ -67,24 +75,23 @@ The first field is a bit mask indicating what cpus this domain operates over.
+ The next 24 are a variety of load_balance() statistics in grouped into types
+ of idleness (idle, busy, and newly idle):
  
--  tend
-+    tend
+-     1) # of times in this domain load_balance() was called when the
++    1)  # of times in this domain load_balance() was called when the
+         cpu was idle
+-     2) # of times in this domain load_balance() checked but found
++    2)  # of times in this domain load_balance() checked but found
+         the load did not require balancing when the cpu was idle
+-     3) # of times in this domain load_balance() tried to move one or
++    3)  # of times in this domain load_balance() tried to move one or
+         more tasks and failed, when the cpu was idle
+-     4) sum of imbalances discovered (if any) with each call to
++    4)  sum of imbalances discovered (if any) with each call to
+         load_balance() in this domain when the cpu was idle
+-     5) # of times in this domain pull_task() was called when the cpu
++    5)  # of times in this domain pull_task() was called when the cpu
+         was idle
+-     6) # of times in this domain pull_task() was called even though
++    6)  # of times in this domain pull_task() was called even though
+         the target task was cache-hot when idle
+-     7) # of times in this domain load_balance() was called but did
++    7)  # of times in this domain load_balance() was called but did
+         not find a busier queue while the cpu was idle
+-     8) # of times in this domain a busier queue was found while the
++    8)  # of times in this domain a busier queue was found while the
+         cpu was idle but no busier group was found
+-
+-     9) # of times in this domain load_balance() was called when the
++    9)  # of times in this domain load_balance() was called when the
+         cpu was busy
+     10) # of times in this domain load_balance() checked but found the
+         load did not require balancing when busy
+@@ -117,21 +124,25 @@ of idleness (idle, busy, and newly idle):
+         was just becoming idle but no busier group was found
  
--  b     continue
-+    b     continue
+    Next three are active_load_balance() statistics:
++
+     25) # of times active_load_balance() was called
+     26) # of times active_load_balance() tried to move a task and failed
+     27) # of times active_load_balance() successfully moved a task
  
--abort_handler:
--  ... test for odd failures ...
-+  abort_handler:
-+    ... test for odd failures ...
+    Next three are sched_balance_exec() statistics:
++
+     28) sbe_cnt is not used
+     29) sbe_balanced is not used
+     30) sbe_pushed is not used
  
--  /* Retry the transaction if it failed because it conflicted with
--   * someone else: */
--  b     begin_move_money
-+    /* Retry the transaction if it failed because it conflicted with
-+     * someone else: */
-+    b     begin_move_money
+    Next three are sched_balance_fork() statistics:
++
+     31) sbf_cnt is not used
+     32) sbf_balanced is not used
+     33) sbf_pushed is not used
  
+    Next three are try_to_wake_up() statistics:
++
+     34) # of times in this domain try_to_wake_up() awoke a task that
+         last ran on a different cpu in this domain
+     35) # of times in this domain try_to_wake_up() moved a task to the
+@@ -139,10 +150,11 @@ of idleness (idle, busy, and newly idle):
+     36) # of times in this domain try_to_wake_up() started passive balancing
  
- The 'tbegin' instruction denotes the start point, and 'tend' the end point.
-@@ -123,7 +124,7 @@ Transaction-aware signal handlers can read the transactional register state
- from the second ucontext.  This will be necessary for crash handlers to
- determine, for example, the address of the instruction causing the SIGSEGV.
+ /proc/<pid>/schedstat
+-----------------
++---------------------
+ schedstats also adds a new /proc/<pid>/schedstat file to include some of
+ the same information on a per-process level.  There are three fields in
+ this file correlating for that process to:
++
+      1) time spent on the cpu
+      2) time spent waiting on a runqueue
+      3) # of timeslices run on this cpu
+@@ -151,4 +163,5 @@ A program could be easily written to make use of these extra fields to
+ report on how well a particular process or set of processes is faring
+ under the scheduler's policies.  A simple version of such a program is
+ available at
++
+     http://eaglet.rain.com/rick/linux/schedstat/v12/latency.c
+diff --git a/Documentation/scheduler/text_files.rst b/Documentation/scheduler/text_files.rst
+new file mode 100644
+index 000000000000..0bc50307b241
+--- /dev/null
++++ b/Documentation/scheduler/text_files.rst
+@@ -0,0 +1,5 @@
++Scheduler pelt c program
++------------------------
++
++.. literalinclude:: sched-pelt.c
++    :language: c
+diff --git a/Documentation/vm/numa.rst b/Documentation/vm/numa.rst
+index 0d830edae8fe..130f3cfa1c19 100644
+--- a/Documentation/vm/numa.rst
++++ b/Documentation/vm/numa.rst
+@@ -99,7 +99,7 @@ Local allocation will tend to keep subsequent access to the allocated memory
+ as long as the task on whose behalf the kernel allocated some memory does not
+ later migrate away from that memory.  The Linux scheduler is aware of the
+ NUMA topology of the platform--embodied in the "scheduling domains" data
+-structures [see Documentation/scheduler/sched-domains.txt]--and the scheduler
++structures [see Documentation/scheduler/sched-domains.rst]--and the scheduler
+ attempts to minimize task migration to distant scheduling domains.  However,
+ the scheduler does not take a task's NUMA footprint into account directly.
+ Thus, under sufficient imbalance, tasks can migrate between nodes, remote
+diff --git a/init/Kconfig b/init/Kconfig
+index ab41ffa08d79..6db89d4155d8 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -734,7 +734,7 @@ menuconfig CGROUPS
+ 	  use with process control subsystems such as Cpusets, CFS, memory
+ 	  controls or device isolation.
+ 	  See
+-		- Documentation/scheduler/sched-design-CFS.txt	(CFS)
++		- Documentation/scheduler/sched-design-CFS.rst	(CFS)
+ 		- Documentation/cgroup-v1/ (features for grouping, isolation
+ 					  and resource control)
  
--Example signal handler:
-+Example signal handler::
+@@ -835,7 +835,7 @@ config CFS_BANDWIDTH
+ 	  tasks running within the fair group scheduler.  Groups with no limit
+ 	  set are considered to be unconstrained and will run with no
+ 	  restriction.
+-	  See Documentation/scheduler/sched-bwc.txt for more information.
++	  See Documentation/scheduler/sched-bwc.rst for more information.
  
-     void crash_handler(int sig, siginfo_t *si, void *uc)
-     {
-@@ -133,9 +134,9 @@ Example signal handler:
-       if (ucp_link) {
-         u64 msr = ucp->uc_mcontext.regs->msr;
-         /* May have transactional ucontext! */
--#ifndef __powerpc64__
-+  #ifndef __powerpc64__
-         msr |= ((u64)transactional_ucp->uc_mcontext.regs->msr) << 32;
--#endif
-+  #endif
-         if (MSR_TM_ACTIVE(msr)) {
-            /* Yes, we crashed during a transaction.  Oops. */
-    fprintf(stderr, "Transaction to be restarted at 0x%llx, but "
-@@ -176,6 +177,7 @@ Failure cause codes used by kernel
- These are defined in <asm/reg.h>, and distinguish different reasons why the
- kernel aborted a transaction:
+ config RT_GROUP_SCHED
+ 	bool "Group scheduling for SCHED_RR/FIFO"
+@@ -846,7 +846,7 @@ config RT_GROUP_SCHED
+ 	  to task groups. If enabled, it will also make it impossible to
+ 	  schedule realtime tasks for non-root users until you allocate
+ 	  realtime bandwidth for them.
+-	  See Documentation/scheduler/sched-rt-group.txt for more information.
++	  See Documentation/scheduler/sched-rt-group.rst for more information.
  
-+ ====================== ================================
-  TM_CAUSE_RESCHED       Thread was rescheduled.
-  TM_CAUSE_TLBI          Software TLB invalid.
-  TM_CAUSE_FAC_UNAV      FP/VEC/VSX unavailable trap.
-@@ -184,6 +186,7 @@ kernel aborted a transaction:
-  TM_CAUSE_MISC          Currently unused.
-  TM_CAUSE_ALIGNMENT     Alignment fault.
-  TM_CAUSE_EMULATE       Emulation that touched memory.
-+ ====================== ================================
+ endif #CGROUP_SCHED
  
- These can be checked by the user program's abort handler as TEXASR[0:7].  If
- bit 7 is set, it indicates that the error is consider persistent.  For example
-@@ -203,7 +206,7 @@ POWER9
- ======
- 
- TM on POWER9 has issues with storing the complete register state. This
--is described in this commit:
-+is described in this commit::
- 
-     commit 4bb3c7a0208fc13ca70598efd109901a7cd45ae7
-     Author: Paul Mackerras <paulus@ozlabs.org>
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1c9ed0a5a9df..b3746e7b5652 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4401,7 +4401,7 @@ F:	arch/powerpc/platforms/powernv/pci-cxl.c
- F:	drivers/misc/cxl/
- F:	include/misc/cxl*
- F:	include/uapi/misc/cxl.h
--F:	Documentation/powerpc/cxl.txt
-+F:	Documentation/powerpc/cxl.rst
- F:	Documentation/ABI/testing/sysfs-class-cxl
- 
- CXLFLASH (IBM Coherent Accelerator Processor Interface CAPI Flash) SCSI DRIVER
-@@ -4412,7 +4412,7 @@ L:	linux-scsi@vger.kernel.org
- S:	Supported
- F:	drivers/scsi/cxlflash/
- F:	include/uapi/scsi/cxlflash_ioctl.h
--F:	Documentation/powerpc/cxlflash.txt
-+F:	Documentation/powerpc/cxlflash.rst
- 
- CYBERPRO FB DRIVER
- M:	Russell King <linux@armlinux.org.uk>
-@@ -12208,7 +12208,7 @@ F:	Documentation/PCI/pci-error-recovery.rst
- F:	drivers/pci/pcie/aer.c
- F:	drivers/pci/pcie/dpc.c
- F:	drivers/pci/pcie/err.c
--F:	Documentation/powerpc/eeh-pci-error-recovery.txt
-+F:	Documentation/powerpc/eeh-pci-error-recovery.rst
- F:	arch/powerpc/kernel/eeh*.c
- F:	arch/powerpc/platforms/*/eeh*.c
- F:	arch/powerpc/include/*/eeh*.h
-diff --git a/arch/powerpc/kernel/exceptions-64s.S b/arch/powerpc/kernel/exceptions-64s.S
-index 6b86055e5251..aaf2a56bb012 100644
---- a/arch/powerpc/kernel/exceptions-64s.S
-+++ b/arch/powerpc/kernel/exceptions-64s.S
-@@ -910,7 +910,7 @@ EXC_COMMON(trap_0b_common, 0xb00, unknown_exception)
+diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+index c1ef30861068..2df20e15b576 100644
+--- a/kernel/sched/deadline.c
++++ b/kernel/sched/deadline.c
+@@ -726,7 +726,7 @@ static void replenish_dl_entity(struct sched_dl_entity *dl_se,
+  * refill the runtime and set the deadline a period in the future,
+  * because keeping the current (absolute) deadline of the task would
+  * result in breaking guarantees promised to other tasks (refer to
+- * Documentation/scheduler/sched-deadline.txt for more information).
++ * Documentation/scheduler/sched-deadline.rst for more information).
   *
-  * Call convention:
+  * This function returns true if:
   *
-- * syscall register convention is in Documentation/powerpc/syscall64-abi.txt
-+ * syscall register convention is in Documentation/powerpc/syscall64-abi.rst
-  *
-  * For hypercalls, the register convention is as follows:
-  * r0 volatile
-diff --git a/drivers/soc/fsl/qe/qe.c b/drivers/soc/fsl/qe/qe.c
-index ba38c4bb2a88..417df7e19281 100644
---- a/drivers/soc/fsl/qe/qe.c
-+++ b/drivers/soc/fsl/qe/qe.c
-@@ -430,7 +430,7 @@ static void qe_upload_microcode(const void *base,
- /*
-  * Upload a microcode to the I-RAM at a specific address.
-  *
-- * See Documentation/powerpc/qe_firmware.txt for information on QE microcode
-+ * See Documentation/powerpc/qe_firmware.rst for information on QE microcode
-  * uploading.
-  *
-  * Currently, only version 1 is supported, so the 'version' field must be
-diff --git a/drivers/tty/hvc/hvcs.c b/drivers/tty/hvc/hvcs.c
-index cb4db1b3ca3c..5fb214e67d73 100644
---- a/drivers/tty/hvc/hvcs.c
-+++ b/drivers/tty/hvc/hvcs.c
-@@ -47,7 +47,7 @@
-  * using the 2.6 Linux kernel kref construct.
-  *
-  * For direction on installation and usage of this driver please reference
-- * Documentation/powerpc/hvcs.txt.
-+ * Documentation/powerpc/hvcs.rst.
-  */
- 
- #include <linux/device.h>
-diff --git a/include/soc/fsl/qe/qe.h b/include/soc/fsl/qe/qe.h
-index 3f9d6b6a5691..c1036d16ed03 100644
---- a/include/soc/fsl/qe/qe.h
-+++ b/include/soc/fsl/qe/qe.h
-@@ -259,7 +259,7 @@ static inline int qe_alive_during_sleep(void)
- 
- /* Structure that defines QE firmware binary files.
-  *
-- * See Documentation/powerpc/qe_firmware.txt for a description of these
-+ * See Documentation/powerpc/qe_firmware.rst for a description of these
-  * fields.
-  */
- struct qe_firmware {
 -- 
 2.21.0
 
