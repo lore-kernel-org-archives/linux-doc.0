@@ -1,122 +1,162 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 827097D923
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 19:12:41 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A13AA7D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 19:45:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727233AbfFLTMD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Jun 2019 15:12:03 -0400
-Received: from mga07.intel.com ([134.134.136.100]:25328 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727120AbfFLTMD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 12 Jun 2019 15:12:03 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Jun 2019 12:12:02 -0700
-X-ExtLoop1: 1
-Received: from yyu32-desk1.sc.intel.com ([10.144.153.205])
-  by orsmga005.jf.intel.com with ESMTP; 12 Jun 2019 12:12:00 -0700
-Message-ID: <b8fb6626a6ae415fac4d5daa86225e4c68d56673.camel@intel.com>
-Subject: Re: [PATCH v7 22/27] binfmt_elf: Extract .note.gnu.property from an
- ELF file
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Dave Martin <Dave.Martin@arm.com>
-Cc:     Florian Weimer <fweimer@redhat.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Date:   Wed, 12 Jun 2019 12:04:01 -0700
-In-Reply-To: <20190612093238.GQ28398@e103592.cambridge.arm.com>
-References: <20190606200646.3951-1-yu-cheng.yu@intel.com>
-         <20190606200646.3951-23-yu-cheng.yu@intel.com>
-         <20190607180115.GJ28398@e103592.cambridge.arm.com>
-         <94b9c55b3b874825fda485af40ab2a6bc3dad171.camel@intel.com>
-         <87lfy9cq04.fsf@oldenburg2.str.redhat.com>
-         <20190611114109.GN28398@e103592.cambridge.arm.com>
-         <031bc55d8dcdcf4f031e6ff27c33fd52c61d33a5.camel@intel.com>
-         <20190612093238.GQ28398@e103592.cambridge.arm.com>
+        id S1728364AbfFLTp3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Jun 2019 15:45:29 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:32864 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727496AbfFLTp3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jun 2019 15:45:29 -0400
+Received: by mail-ot1-f66.google.com with SMTP id p4so13402035oti.0
+        for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2019 12:45:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=rj0s/EnHCttAHmB4nljz2hfrd5qtQGBo4NYtuSwcw5A=;
+        b=a4hg/gVG/xxaXGY9ZBgWhrY96dlM4oWC9BUFBqIEBpVfG+bXS/j7ywvfVN/fyCLeGG
+         n7JfWsNT9YTK3Whb+uNl8wgiDTTfieLPrazLiumTRNsMSb7vVwSNpsrmJ1WaDcAN9Oo7
+         zVNqOZnpTJtO1GAZmbhC6S9TDPgdmyNGpLKv4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rj0s/EnHCttAHmB4nljz2hfrd5qtQGBo4NYtuSwcw5A=;
+        b=M/EpYxjfLUBhN/eMyXhTtBxUUS8NWSehuk075NpWmN6osaxdlEXVMyUpWb4NzjBVUE
+         ipEuJ1wsOqioYEbvR23YvRShNGeoG31jWdHFU9SQSwOpC1NCJTcGO3BFGettAJwgvXcy
+         2bQBTspRCp4zp9Zi5RVDDNUGnZG7lCjVvd4vqiO5GGYZxZ30atDRjB4KnwSJ7JQc9mh4
+         tQ4TRJ1J7KZBTyoQ7q5PR38+PxhS7gBuaQ3YdPh1zoplBFnWw427Uij3Bqt5WHgo55/1
+         EODy6q+L6Waa3MDZLsHZPnnS1vU1ZKFmi3ED5v8yPUxXaiXdR+feT2uj3r+Aa6RKQN/U
+         jomg==
+X-Gm-Message-State: APjAAAUs92djAvX3dkvFMMHHONTihxruf20/bfiaw4kDaaWwJvTfVWr5
+        JMPiJlrDVQPEmDM7j2uJgm7TmstdbdSGKzf3stSHYg==
+X-Google-Smtp-Source: APXvYqyQyAKmu73QFcy5o66I6HzVh0Qi5BTY0gz/EM37hRMxnkSU0DiySLBn1Lt5c6phm65GHhJg7bCOYJcr0PJ+uzk=
+X-Received: by 2002:a05:6830:ce:: with SMTP id x14mr22478851oto.188.1560368727932;
+ Wed, 12 Jun 2019 12:45:27 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1560045490.git.mchehab+samsung@kernel.org>
+ <74bec0b5b7c32c8d84adbaf9ff208803475198e5.1560045490.git.mchehab+samsung@kernel.org>
+ <20190611083731.GS21222@phenom.ffwll.local> <20190611060215.232af2bb@coco.lan>
+ <20190611093701.44344d00@lwn.net> <20190612144015.033247db@coco.lan>
+In-Reply-To: <20190612144015.033247db@coco.lan>
+From:   Daniel Vetter <daniel@ffwll.ch>
+Date:   Wed, 12 Jun 2019 21:45:15 +0200
+Message-ID: <CAKMK7uFhPKbpQj1Y2+C1zW0SdRcezHYDA4h=Ri_eV2xB7HtVig@mail.gmail.com>
+Subject: Re: [PATCH v3 33/33] docs: EDID/HOWTO.txt: convert it and rename to howto.rst
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+        dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2019-06-12 at 10:32 +0100, Dave Martin wrote:
-> On Tue, Jun 11, 2019 at 12:31:34PM -0700, Yu-cheng Yu wrote:
-> > On Tue, 2019-06-11 at 12:41 +0100, Dave Martin wrote:
-> > > On Mon, Jun 10, 2019 at 07:24:43PM +0200, Florian Weimer wrote:
-> > > > * Yu-cheng Yu:
-> > > > 
-> > > > > To me, looking at PT_GNU_PROPERTY and not trying to support anything
-> > > > > is a
-> > > > > logical choice.  And it breaks only a limited set of toolchains.
-> > > > > 
-> > > > > I will simplify the parser and leave this patch as-is for anyone who
-> > > > > wants
-> > > > > to
-> > > > > back-port.  Are there any objections or concerns?
-> > > > 
-> > > > Red Hat Enterprise Linux 8 does not use PT_GNU_PROPERTY and is probably
-> > > > the largest collection of CET-enabled binaries that exists today.
-> > > 
-> > > For clarity, RHEL is actively parsing these properties today?
-> > > 
-> > > > My hope was that we would backport the upstream kernel patches for CET,
-> > > > port the glibc dynamic loader to the new kernel interface, and be ready
-> > > > to run with CET enabled in principle (except that porting userspace
-> > > > libraries such as OpenSSL has not really started upstream, so many
-> > > > processes where CET is particularly desirable will still run without
-> > > > it).
-> > > > 
-> > > > I'm not sure if it is a good idea to port the legacy support if it's not
-> > > > part of the mainline kernel because it comes awfully close to creating
-> > > > our own private ABI.
-> > > 
-> > > I guess we can aim to factor things so that PT_NOTE scanning is
-> > > available as a fallback on arches for which the absence of
-> > > PT_GNU_PROPERTY is not authoritative.
-> > 
-> > We can probably check PT_GNU_PROPERTY first, and fallback (based on ld-linux
-> > version?) to PT_NOTE scanning?
-> 
-> For arm64, we can check for PT_GNU_PROPERTY and then give up
-> unconditionally.
-> 
-> For x86, we would fall back to PT_NOTE scanning, but this will add a bit
-> of cost to binaries that don't have NT_GNU_PROPERTY_TYPE_0.  The ld.so
-> version doesn't tell you what ELF ABI a given executable conforms to.
-> 
-> Since this sounds like it's largely a distro-specific issue, maybe there
-> could be a Kconfig option to turn the fallback PT_NOTE scanning on?
+On Wed, Jun 12, 2019 at 7:40 PM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
+>
+> Em Tue, 11 Jun 2019 09:37:01 -0600
+> Jonathan Corbet <corbet@lwn.net> escreveu:
+>
+> > On Tue, 11 Jun 2019 06:02:15 -0300
+> > Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+> >
+> > > Jon, please correct me if I' wrong, bu I guess the plan is to place them
+> > > somewhere under Documentation/admin-guide/.
+> >
+> > That makes sense to me.
+> >
+> > > If so, perhaps creating a Documentation/admin-guide/drm dir there and
+> > > place docs like EDID/HOWTO.txt, svga.txt, etc would work.
+> >
+> > Maybe "graphics" or "display" rather than "drm", which may not entirely
+> > applicable to all of those docs or as familiar to all admins?
+>
+> It is up to Daniel/David to decide. Personally, I agree with you that
+> either "graphics" or "display" would be better at the admin guide.
 
-Yes, I will make it a Kconfig option.
+We use Documentation/gpu already for the developer guide, I think
+going with "gpu" on the admin guide for consistency would be good. I
+do personally think that splitting out the admin guide makes sense, we
+could also put some recommendations about access rights for drm device
+nodes and stuff like that in there.
 
-Yu-cheng
+> > > Btw, that's one of the reasons[1] why I opted to keep the files where they
+> > > are: properly organizing the converted documents call for such kind
+> > > of discussions. On my experience, discussing names and directory locations
+> > > can generate warm discussions and take a lot of time to reach consensus.
+> >
+> > Moving docs is a pain; my life would certainly be easier if I were happy
+> > to just let everything lie where it fell :)  But it's far from the hardest
+> > problem we solve in kernel development, I assume we can figure it out.
+>
+> Yeah, it is doable. I'm happy to write the rename patches and even try
+> to split some documents at the places I'm more familiar with, but, IMHO,
+> we should do some discussions before some of such renames.
+>
+> For example, Daniel said that:
+>
+> > > > Yeah atm we're doing a bad job of keeping the kapi and uapi parts
+> > > > separate. But the plan at least is to move all the gpu related uapi stuff
+> > > > into Documentation/gpu/drm-uapi.rst. Not sure there's value in moving that
+> > > > out of the gpu folder ...
+>
+> From the conversions I've made so far, almost all driver subsystems
+> put everything under Documentation/<subsystem: kAPI, uAPI, admin info,
+> driver-specific technical info.
+>
+> It should be doable to place kAPI and uAPI on different books, but there
+> will be lots of cross-reference links between them, on properly-written
+> docs.
 
+I'm not sure it makes sense to split out the kapi and uapi sides of
+the docs complete. For the admin guide I think one overall book
+covering all subsystems is good. But someone creating a drm/kms
+compositor is not going to be interested much into some special
+options for networking protocol I think. For those I think focusing
+more on the specific subsystem makes more sense (and easier to share
+common concepts/diagrams between uapi and kapi of a given subsystem).
+
+I do think for a given subsystem the uapi side should be clearly split
+out (otherwise it's impossible to find for non-kernel people). And
+currently drm falls short really badly on this. So maybe a good
+argument for a uapi kernel directory would be to force that, but not
+sure that's good enough of a reason.
+-Daniel
+
+> However, other admin-guide stuff under drivers are usually in the middle
+> of the documents. For example, on media, we have some at the uAPI guide,
+> like the Device Naming item:
+>
+>         https://linuxtv.org/downloads/v4l-dvb-apis-new/uapi/v4l/open.html#device-naming
+>
+> But splitting it from uAPI guide is not an easy task.
+>
+> At the driver's specific documentation is even messier.
+>
+> Ok, splitting is doable, but require lots of dedication, and I'm not
+> convinced if it would make much difference in practice.
+>
+> Thanks,
+> Mauro
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
