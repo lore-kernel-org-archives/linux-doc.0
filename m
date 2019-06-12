@@ -3,60 +3,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8D4997D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 18:07:38 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6C9D37E285
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 18:07:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403919AbfFLRzi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Jun 2019 13:55:38 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:40476 "EHLO
+        id S2404080AbfFLR4S (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Jun 2019 13:56:18 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:40438 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388764AbfFLRxO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jun 2019 13:53:14 -0400
+        with ESMTP id S2388573AbfFLRxN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jun 2019 13:53:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-        To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=7uC8MkSQLkpozYmSTHz8U3r2JAtr1DHpd7E4+aF7sdg=; b=KnuBOyzFyuqbgudTus5G8ZJvN9
-        NbyWtYI5zSDP6Z2G9pH+zsfp82WwgJkgJncLy1EI0XQypwCS5EfhKVnxOsdAyg9fVh0FoarYHRj/J
-        g+qVL4jRcFI/FqXVLPen3n69s62arndyEwipF4fRXQtD9Tu1Nw5/dowTsjwb/QMTMDRwhp48ekpLA
-        JS2htfOwDjn9tuvznKrQ8SzWMLrtBU1ZDTu6NpZoC1D268gjoQ0RqSQ721OZj/fxwSGT96OyYp6Uo
-        ESWGHyhG9qkeduuf8TZ0aCHtdIFmuTTbUTS9BuGmodpC7eIVZjH+ie+y6iZMPO4MqC6lQ+fC8SJ4G
-        Pj5EI06g==;
+        bh=DNT4HC2oamf5BF6+A8t/xa7Ebz2eP36+qkwouv0KvWM=; b=l2jlA1IZlIikpNZsQjLIDk+Bnp
+        /s93GkOFrkn7jULZ85gpYa7c9t+biGNQBewKRN2Nvly9xw7g6W7zPvW8ssIZHRKuXCNiHXpzPrjsY
+        9B1elhc04p5I+fu5g03FcXqknXYxt9dQykLM/8w4Y93IdOIvxDg9U/ig2mCdx501apFHdJo7rjrOe
+        1Xvkt5dUsFeYkqplbjBLm5x4nre+uF03JcEho4uRyiee5rVYjE353QJ/WBpHgMPFsmf7ImA1RXo2g
+        AMlh1Jm+97kILf27EfWqfW152ykeIe685uKh8shOGUrY39UnkSg3nmsBDcY7OEgs05Bkv1elmQf+6
+        YQ61sPHA==;
 Received: from 201.86.169.251.dynamic.adsl.gvt.net.br ([201.86.169.251] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hb7Qt-0002DY-0E; Wed, 12 Jun 2019 17:53:11 +0000
+        id 1hb7Qt-0002Do-16; Wed, 12 Jun 2019 17:53:11 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hb7Qq-0001g8-60; Wed, 12 Jun 2019 14:53:08 -0300
+        id 1hb7Qq-0001hO-LA; Wed, 12 Jun 2019 14:53:08 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Kees Cook <keescook@chromium.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v4 08/28] docs: fault-injection: convert docs to ReST and rename to *.rst
-Date:   Wed, 12 Jun 2019 14:52:44 -0300
-Message-Id: <0c1da1fda6f0bf400338c906b78dba217adda517.1560361364.git.mchehab+samsung@kernel.org>
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        linux-scsi@vger.kernel.org, target-devel@vger.kernel.org
+Subject: [PATCH v4 23/28] docs: target: convert docs to ReST and rename to *.rst
+Date:   Wed, 12 Jun 2019 14:52:59 -0300
+Message-Id: <9c58d2f3478126736e69b688a7dbf0da26ba2285.1560361364.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1560361364.git.mchehab+samsung@kernel.org>
 References: <cover.1560361364.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
+
+Convert the TCM docs to ReST format and add them to the
+bookset.
+
+This has a mix of userspace-faced and Kernelspace faced
+docs. Still, it sounds a better candidate to be added at
+the kernel API set of docs.
 
 The conversion is actually:
   - add blank lines and identation in order to identify paragraphs;
@@ -69,534 +70,38 @@ At its new index.rst, let's add a :orphan: while this is not linked to
 the main index.rst file, in order to avoid build warnings.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Acked-by: Federico Vaga <federico.vaga@vaga.pv.it>
 ---
- ...ault-injection.txt => fault-injection.rst} | 265 +++++++++---------
- Documentation/fault-injection/index.rst       |  20 ++
- ...r-inject.txt => notifier-error-inject.rst} |  18 +-
- .../fault-injection/nvme-fault-injection.rst  | 120 ++++++++
- .../fault-injection/nvme-fault-injection.txt  | 116 --------
- .../fault-injection/provoke-crashes.rst       |  48 ++++
- .../fault-injection/provoke-crashes.txt       |  38 ---
- Documentation/process/4.Coding.rst            |   2 +-
- .../translations/it_IT/process/4.Coding.rst   |   2 +-
- .../translations/zh_CN/process/4.Coding.rst   |   2 +-
- drivers/misc/lkdtm/core.c                     |   2 +-
- include/linux/fault-inject.h                  |   2 +-
- lib/Kconfig.debug                             |   2 +-
- tools/testing/fault-injection/failcmd.sh      |   2 +-
- 14 files changed, 344 insertions(+), 295 deletions(-)
- rename Documentation/fault-injection/{fault-injection.txt => fault-injection.rst} (68%)
- create mode 100644 Documentation/fault-injection/index.rst
- rename Documentation/fault-injection/{notifier-error-inject.txt => notifier-error-inject.rst} (83%)
- create mode 100644 Documentation/fault-injection/nvme-fault-injection.rst
- delete mode 100644 Documentation/fault-injection/nvme-fault-injection.txt
- create mode 100644 Documentation/fault-injection/provoke-crashes.rst
- delete mode 100644 Documentation/fault-injection/provoke-crashes.txt
+ Documentation/target/index.rst                |  19 ++
+ Documentation/target/scripts.rst              |  11 +
+ Documentation/target/tcm_mod_builder.rst      | 149 ++++++++++
+ Documentation/target/tcm_mod_builder.txt      | 145 ----------
+ .../{tcmu-design.txt => tcmu-design.rst}      | 268 ++++++++++--------
+ scripts/documentation-file-ref-check          |   2 +-
+ 6 files changed, 326 insertions(+), 268 deletions(-)
+ create mode 100644 Documentation/target/index.rst
+ create mode 100644 Documentation/target/scripts.rst
+ create mode 100644 Documentation/target/tcm_mod_builder.rst
+ delete mode 100644 Documentation/target/tcm_mod_builder.txt
+ rename Documentation/target/{tcmu-design.txt => tcmu-design.rst} (69%)
 
-diff --git a/Documentation/fault-injection/fault-injection.txt b/Documentation/fault-injection/fault-injection.rst
-similarity index 68%
-rename from Documentation/fault-injection/fault-injection.txt
-rename to Documentation/fault-injection/fault-injection.rst
-index a17517a083c3..f51bb21d20e4 100644
---- a/Documentation/fault-injection/fault-injection.txt
-+++ b/Documentation/fault-injection/fault-injection.rst
-@@ -1,3 +1,4 @@
-+===========================================
- Fault injection capabilities infrastructure
- ===========================================
- 
-@@ -7,36 +8,36 @@ See also drivers/md/md-faulty.c and "every_nth" module option for scsi_debug.
- Available fault injection capabilities
- --------------------------------------
- 
--o failslab
-+- failslab
- 
-   injects slab allocation failures. (kmalloc(), kmem_cache_alloc(), ...)
- 
--o fail_page_alloc
-+- fail_page_alloc
- 
-   injects page allocation failures. (alloc_pages(), get_free_pages(), ...)
- 
--o fail_futex
-+- fail_futex
- 
-   injects futex deadlock and uaddr fault errors.
- 
--o fail_make_request
-+- fail_make_request
- 
-   injects disk IO errors on devices permitted by setting
-   /sys/block/<device>/make-it-fail or
-   /sys/block/<device>/<partition>/make-it-fail. (generic_make_request())
- 
--o fail_mmc_request
-+- fail_mmc_request
- 
-   injects MMC data errors on devices permitted by setting
-   debugfs entries under /sys/kernel/debug/mmc0/fail_mmc_request
- 
--o fail_function
-+- fail_function
- 
-   injects error return on specific functions, which are marked by
-   ALLOW_ERROR_INJECTION() macro, by setting debugfs entries
-   under /sys/kernel/debug/fail_function. No boot option supported.
- 
--o NVMe fault injection
-+- NVMe fault injection
- 
-   inject NVMe status code and retry flag on devices permitted by setting
-   debugfs entries under /sys/kernel/debug/nvme*/fault_inject. The default
-@@ -47,7 +48,8 @@ o NVMe fault injection
- Configure fault-injection capabilities behavior
- -----------------------------------------------
- 
--o debugfs entries
-+debugfs entries
-+^^^^^^^^^^^^^^^
- 
- fault-inject-debugfs kernel module provides some debugfs entries for runtime
- configuration of fault-injection capabilities.
-@@ -55,6 +57,7 @@ configuration of fault-injection capabilities.
- - /sys/kernel/debug/fail*/probability:
- 
- 	likelihood of failure injection, in percent.
-+
- 	Format: <percent>
- 
- 	Note that one-failure-per-hundred is a very high error rate
-@@ -83,6 +86,7 @@ configuration of fault-injection capabilities.
- - /sys/kernel/debug/fail*/verbose
- 
- 	Format: { 0 | 1 | 2 }
-+
- 	specifies the verbosity of the messages when failure is
- 	injected.  '0' means no messages; '1' will print only a single
- 	log line per failure; '2' will print a call trace too -- useful
-@@ -91,14 +95,15 @@ configuration of fault-injection capabilities.
- - /sys/kernel/debug/fail*/task-filter:
- 
- 	Format: { 'Y' | 'N' }
-+
- 	A value of 'N' disables filtering by process (default).
- 	Any positive value limits failures to only processes indicated by
- 	/proc/<pid>/make-it-fail==1.
- 
--- /sys/kernel/debug/fail*/require-start:
--- /sys/kernel/debug/fail*/require-end:
--- /sys/kernel/debug/fail*/reject-start:
--- /sys/kernel/debug/fail*/reject-end:
-+- /sys/kernel/debug/fail*/require-start,
-+  /sys/kernel/debug/fail*/require-end,
-+  /sys/kernel/debug/fail*/reject-start,
-+  /sys/kernel/debug/fail*/reject-end:
- 
- 	specifies the range of virtual addresses tested during
- 	stacktrace walking.  Failure is injected only if some caller
-@@ -116,6 +121,7 @@ configuration of fault-injection capabilities.
- - /sys/kernel/debug/fail_page_alloc/ignore-gfp-highmem:
- 
- 	Format: { 'Y' | 'N' }
-+
- 	default is 'N', setting it to 'Y' won't inject failures into
- 	highmem/user allocations.
- 
-@@ -123,6 +129,7 @@ configuration of fault-injection capabilities.
- - /sys/kernel/debug/fail_page_alloc/ignore-gfp-wait:
- 
- 	Format: { 'Y' | 'N' }
-+
- 	default is 'N', setting it to 'Y' will inject failures
- 	only into non-sleep allocations (GFP_ATOMIC allocations).
- 
-@@ -134,12 +141,14 @@ configuration of fault-injection capabilities.
- - /sys/kernel/debug/fail_futex/ignore-private:
- 
- 	Format: { 'Y' | 'N' }
-+
- 	default is 'N', setting it to 'Y' will disable failure injections
- 	when dealing with private (address space) futexes.
- 
- - /sys/kernel/debug/fail_function/inject:
- 
- 	Format: { 'function-name' | '!function-name' | '' }
-+
- 	specifies the target function of error injection by name.
- 	If the function name leads '!' prefix, given function is
- 	removed from injection list. If nothing specified ('')
-@@ -160,10 +169,11 @@ configuration of fault-injection capabilities.
- 	function for given function. This will be created when
- 	user specifies new injection entry.
- 
--o Boot option
-+Boot option
-+^^^^^^^^^^^
- 
- In order to inject faults while debugfs is not available (early boot time),
--use the boot option:
-+use the boot option::
- 
- 	failslab=
- 	fail_page_alloc=
-@@ -171,10 +181,11 @@ use the boot option:
- 	fail_futex=
- 	mmc_core.fail_request=<interval>,<probability>,<space>,<times>
- 
--o proc entries
-+proc entries
-+^^^^^^^^^^^^
- 
--- /proc/<pid>/fail-nth:
--- /proc/self/task/<tid>/fail-nth:
-+- /proc/<pid>/fail-nth,
-+  /proc/self/task/<tid>/fail-nth:
- 
- 	Write to this file of integer N makes N-th call in the task fail.
- 	Read from this file returns a integer value. A value of '0' indicates
-@@ -191,16 +202,16 @@ o proc entries
- How to add new fault injection capability
- -----------------------------------------
- 
--o #include <linux/fault-inject.h>
-+- #include <linux/fault-inject.h>
- 
--o define the fault attributes
-+- define the fault attributes
- 
-   DECLARE_FAULT_ATTR(name);
- 
-   Please see the definition of struct fault_attr in fault-inject.h
-   for details.
- 
--o provide a way to configure fault attributes
-+- provide a way to configure fault attributes
- 
- - boot option
- 
-@@ -222,126 +233,126 @@ o provide a way to configure fault attributes
-   single kernel module, it is better to provide module parameters to
-   configure the fault attributes.
- 
--o add a hook to insert failures
-+- add a hook to insert failures
- 
--  Upon should_fail() returning true, client code should inject a failure.
-+  Upon should_fail() returning true, client code should inject a failure:
- 
- 	should_fail(attr, size);
- 
- Application Examples
- --------------------
- 
--o Inject slab allocation failures into module init/exit code
-+- Inject slab allocation failures into module init/exit code::
- 
--#!/bin/bash
-+    #!/bin/bash
- 
--FAILTYPE=failslab
--echo Y > /sys/kernel/debug/$FAILTYPE/task-filter
--echo 10 > /sys/kernel/debug/$FAILTYPE/probability
--echo 100 > /sys/kernel/debug/$FAILTYPE/interval
--echo -1 > /sys/kernel/debug/$FAILTYPE/times
--echo 0 > /sys/kernel/debug/$FAILTYPE/space
--echo 2 > /sys/kernel/debug/$FAILTYPE/verbose
--echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-wait
-+    FAILTYPE=failslab
-+    echo Y > /sys/kernel/debug/$FAILTYPE/task-filter
-+    echo 10 > /sys/kernel/debug/$FAILTYPE/probability
-+    echo 100 > /sys/kernel/debug/$FAILTYPE/interval
-+    echo -1 > /sys/kernel/debug/$FAILTYPE/times
-+    echo 0 > /sys/kernel/debug/$FAILTYPE/space
-+    echo 2 > /sys/kernel/debug/$FAILTYPE/verbose
-+    echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-wait
- 
--faulty_system()
--{
-+    faulty_system()
-+    {
- 	bash -c "echo 1 > /proc/self/make-it-fail && exec $*"
--}
-+    }
- 
--if [ $# -eq 0 ]
--then
-+    if [ $# -eq 0 ]
-+    then
- 	echo "Usage: $0 modulename [ modulename ... ]"
- 	exit 1
--fi
-+    fi
- 
--for m in $*
--do
-+    for m in $*
-+    do
- 	echo inserting $m...
- 	faulty_system modprobe $m
- 
- 	echo removing $m...
- 	faulty_system modprobe -r $m
--done
-+    done
- 
- ------------------------------------------------------------------------------
- 
--o Inject page allocation failures only for a specific module
-+- Inject page allocation failures only for a specific module::
- 
--#!/bin/bash
-+    #!/bin/bash
- 
--FAILTYPE=fail_page_alloc
--module=$1
-+    FAILTYPE=fail_page_alloc
-+    module=$1
- 
--if [ -z $module ]
--then
-+    if [ -z $module ]
-+    then
- 	echo "Usage: $0 <modulename>"
- 	exit 1
--fi
-+    fi
- 
--modprobe $module
-+    modprobe $module
- 
--if [ ! -d /sys/module/$module/sections ]
--then
-+    if [ ! -d /sys/module/$module/sections ]
-+    then
- 	echo Module $module is not loaded
- 	exit 1
--fi
-+    fi
- 
--cat /sys/module/$module/sections/.text > /sys/kernel/debug/$FAILTYPE/require-start
--cat /sys/module/$module/sections/.data > /sys/kernel/debug/$FAILTYPE/require-end
-+    cat /sys/module/$module/sections/.text > /sys/kernel/debug/$FAILTYPE/require-start
-+    cat /sys/module/$module/sections/.data > /sys/kernel/debug/$FAILTYPE/require-end
- 
--echo N > /sys/kernel/debug/$FAILTYPE/task-filter
--echo 10 > /sys/kernel/debug/$FAILTYPE/probability
--echo 100 > /sys/kernel/debug/$FAILTYPE/interval
--echo -1 > /sys/kernel/debug/$FAILTYPE/times
--echo 0 > /sys/kernel/debug/$FAILTYPE/space
--echo 2 > /sys/kernel/debug/$FAILTYPE/verbose
--echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-wait
--echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-highmem
--echo 10 > /sys/kernel/debug/$FAILTYPE/stacktrace-depth
-+    echo N > /sys/kernel/debug/$FAILTYPE/task-filter
-+    echo 10 > /sys/kernel/debug/$FAILTYPE/probability
-+    echo 100 > /sys/kernel/debug/$FAILTYPE/interval
-+    echo -1 > /sys/kernel/debug/$FAILTYPE/times
-+    echo 0 > /sys/kernel/debug/$FAILTYPE/space
-+    echo 2 > /sys/kernel/debug/$FAILTYPE/verbose
-+    echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-wait
-+    echo 1 > /sys/kernel/debug/$FAILTYPE/ignore-gfp-highmem
-+    echo 10 > /sys/kernel/debug/$FAILTYPE/stacktrace-depth
- 
--trap "echo 0 > /sys/kernel/debug/$FAILTYPE/probability" SIGINT SIGTERM EXIT
-+    trap "echo 0 > /sys/kernel/debug/$FAILTYPE/probability" SIGINT SIGTERM EXIT
- 
--echo "Injecting errors into the module $module... (interrupt to stop)"
--sleep 1000000
-+    echo "Injecting errors into the module $module... (interrupt to stop)"
-+    sleep 1000000
- 
- ------------------------------------------------------------------------------
- 
--o Inject open_ctree error while btrfs mount
-+- Inject open_ctree error while btrfs mount::
- 
--#!/bin/bash
-+    #!/bin/bash
- 
--rm -f testfile.img
--dd if=/dev/zero of=testfile.img bs=1M seek=1000 count=1
--DEVICE=$(losetup --show -f testfile.img)
--mkfs.btrfs -f $DEVICE
--mkdir -p tmpmnt
-+    rm -f testfile.img
-+    dd if=/dev/zero of=testfile.img bs=1M seek=1000 count=1
-+    DEVICE=$(losetup --show -f testfile.img)
-+    mkfs.btrfs -f $DEVICE
-+    mkdir -p tmpmnt
- 
--FAILTYPE=fail_function
--FAILFUNC=open_ctree
--echo $FAILFUNC > /sys/kernel/debug/$FAILTYPE/inject
--echo -12 > /sys/kernel/debug/$FAILTYPE/$FAILFUNC/retval
--echo N > /sys/kernel/debug/$FAILTYPE/task-filter
--echo 100 > /sys/kernel/debug/$FAILTYPE/probability
--echo 0 > /sys/kernel/debug/$FAILTYPE/interval
--echo -1 > /sys/kernel/debug/$FAILTYPE/times
--echo 0 > /sys/kernel/debug/$FAILTYPE/space
--echo 1 > /sys/kernel/debug/$FAILTYPE/verbose
-+    FAILTYPE=fail_function
-+    FAILFUNC=open_ctree
-+    echo $FAILFUNC > /sys/kernel/debug/$FAILTYPE/inject
-+    echo -12 > /sys/kernel/debug/$FAILTYPE/$FAILFUNC/retval
-+    echo N > /sys/kernel/debug/$FAILTYPE/task-filter
-+    echo 100 > /sys/kernel/debug/$FAILTYPE/probability
-+    echo 0 > /sys/kernel/debug/$FAILTYPE/interval
-+    echo -1 > /sys/kernel/debug/$FAILTYPE/times
-+    echo 0 > /sys/kernel/debug/$FAILTYPE/space
-+    echo 1 > /sys/kernel/debug/$FAILTYPE/verbose
- 
--mount -t btrfs $DEVICE tmpmnt
--if [ $? -ne 0 ]
--then
-+    mount -t btrfs $DEVICE tmpmnt
-+    if [ $? -ne 0 ]
-+    then
- 	echo "SUCCESS!"
--else
-+    else
- 	echo "FAILED!"
- 	umount tmpmnt
--fi
-+    fi
- 
--echo > /sys/kernel/debug/$FAILTYPE/inject
-+    echo > /sys/kernel/debug/$FAILTYPE/inject
- 
--rmdir tmpmnt
--losetup -d $DEVICE
--rm testfile.img
-+    rmdir tmpmnt
-+    losetup -d $DEVICE
-+    rm testfile.img
- 
- 
- Tool to run command with failslab or fail_page_alloc
-@@ -354,43 +365,43 @@ see the following examples.
- Examples:
- 
- Run a command "make -C tools/testing/selftests/ run_tests" with injecting slab
--allocation failure.
-+allocation failure::
- 
- 	# ./tools/testing/fault-injection/failcmd.sh \
- 		-- make -C tools/testing/selftests/ run_tests
- 
- Same as above except to specify 100 times failures at most instead of one time
--at most by default.
-+at most by default::
- 
- 	# ./tools/testing/fault-injection/failcmd.sh --times=100 \
- 		-- make -C tools/testing/selftests/ run_tests
- 
- Same as above except to inject page allocation failure instead of slab
--allocation failure.
-+allocation failure::
- 
- 	# env FAILCMD_TYPE=fail_page_alloc \
- 		./tools/testing/fault-injection/failcmd.sh --times=100 \
--                -- make -C tools/testing/selftests/ run_tests
-+		-- make -C tools/testing/selftests/ run_tests
- 
- Systematic faults using fail-nth
- ---------------------------------
- 
- The following code systematically faults 0-th, 1-st, 2-nd and so on
--capabilities in the socketpair() system call.
-+capabilities in the socketpair() system call::
- 
--#include <sys/types.h>
--#include <sys/stat.h>
--#include <sys/socket.h>
--#include <sys/syscall.h>
--#include <fcntl.h>
--#include <unistd.h>
--#include <string.h>
--#include <stdlib.h>
--#include <stdio.h>
--#include <errno.h>
-+  #include <sys/types.h>
-+  #include <sys/stat.h>
-+  #include <sys/socket.h>
-+  #include <sys/syscall.h>
-+  #include <fcntl.h>
-+  #include <unistd.h>
-+  #include <string.h>
-+  #include <stdlib.h>
-+  #include <stdio.h>
-+  #include <errno.h>
- 
--int main()
--{
-+  int main()
-+  {
- 	int i, err, res, fail_nth, fds[2];
- 	char buf[128];
- 
-@@ -413,23 +424,23 @@ int main()
- 			break;
- 	}
- 	return 0;
--}
-+  }
- 
--An example output:
-+An example output::
- 
--1-th fault Y: res=-1/23
--2-th fault Y: res=-1/23
--3-th fault Y: res=-1/12
--4-th fault Y: res=-1/12
--5-th fault Y: res=-1/23
--6-th fault Y: res=-1/23
--7-th fault Y: res=-1/23
--8-th fault Y: res=-1/12
--9-th fault Y: res=-1/12
--10-th fault Y: res=-1/12
--11-th fault Y: res=-1/12
--12-th fault Y: res=-1/12
--13-th fault Y: res=-1/12
--14-th fault Y: res=-1/12
--15-th fault Y: res=-1/12
--16-th fault N: res=0/12
-+	1-th fault Y: res=-1/23
-+	2-th fault Y: res=-1/23
-+	3-th fault Y: res=-1/12
-+	4-th fault Y: res=-1/12
-+	5-th fault Y: res=-1/23
-+	6-th fault Y: res=-1/23
-+	7-th fault Y: res=-1/23
-+	8-th fault Y: res=-1/12
-+	9-th fault Y: res=-1/12
-+	10-th fault Y: res=-1/12
-+	11-th fault Y: res=-1/12
-+	12-th fault Y: res=-1/12
-+	13-th fault Y: res=-1/12
-+	14-th fault Y: res=-1/12
-+	15-th fault Y: res=-1/12
-+	16-th fault N: res=0/12
-diff --git a/Documentation/fault-injection/index.rst b/Documentation/fault-injection/index.rst
+diff --git a/Documentation/target/index.rst b/Documentation/target/index.rst
 new file mode 100644
-index 000000000000..92b5639ed07a
+index 000000000000..b68f48982392
 --- /dev/null
-+++ b/Documentation/fault-injection/index.rst
-@@ -0,0 +1,20 @@
++++ b/Documentation/target/index.rst
+@@ -0,0 +1,19 @@
 +:orphan:
 +
-+===============
-+fault-injection
-+===============
++==================
++TCM Virtual Device
++==================
 +
 +.. toctree::
 +    :maxdepth: 1
 +
-+    fault-injection
-+    notifier-error-inject
-+    nvme-fault-injection
-+    provoke-crashes
++    tcmu-design
++    tcm_mod_builder
++    scripts
 +
 +.. only::  subproject and html
 +
@@ -604,516 +109,753 @@ index 000000000000..92b5639ed07a
 +   =======
 +
 +   * :ref:`genindex`
-diff --git a/Documentation/fault-injection/notifier-error-inject.txt b/Documentation/fault-injection/notifier-error-inject.rst
-similarity index 83%
-rename from Documentation/fault-injection/notifier-error-inject.txt
-rename to Documentation/fault-injection/notifier-error-inject.rst
-index e861d761de24..1668b6e48d3a 100644
---- a/Documentation/fault-injection/notifier-error-inject.txt
-+++ b/Documentation/fault-injection/notifier-error-inject.rst
-@@ -14,7 +14,8 @@ modules that can be used to test the following notifiers.
- PM notifier error injection module
- ----------------------------------
- This feature is controlled through debugfs interface
--/sys/kernel/debug/notifier-error-inject/pm/actions/<notifier event>/error
-+
-+  /sys/kernel/debug/notifier-error-inject/pm/actions/<notifier event>/error
- 
- Possible PM notifier events to be failed are:
- 
-@@ -22,7 +23,7 @@ Possible PM notifier events to be failed are:
-  * PM_SUSPEND_PREPARE
-  * PM_RESTORE_PREPARE
- 
--Example: Inject PM suspend error (-12 = -ENOMEM)
-+Example: Inject PM suspend error (-12 = -ENOMEM)::
- 
- 	# cd /sys/kernel/debug/notifier-error-inject/pm/
- 	# echo -12 > actions/PM_SUSPEND_PREPARE/error
-@@ -32,14 +33,15 @@ Example: Inject PM suspend error (-12 = -ENOMEM)
- Memory hotplug notifier error injection module
- ----------------------------------------------
- This feature is controlled through debugfs interface
--/sys/kernel/debug/notifier-error-inject/memory/actions/<notifier event>/error
-+
-+  /sys/kernel/debug/notifier-error-inject/memory/actions/<notifier event>/error
- 
- Possible memory notifier events to be failed are:
- 
-  * MEM_GOING_ONLINE
-  * MEM_GOING_OFFLINE
- 
--Example: Inject memory hotplug offline error (-12 == -ENOMEM)
-+Example: Inject memory hotplug offline error (-12 == -ENOMEM)::
- 
- 	# cd /sys/kernel/debug/notifier-error-inject/memory
- 	# echo -12 > actions/MEM_GOING_OFFLINE/error
-@@ -49,7 +51,8 @@ Example: Inject memory hotplug offline error (-12 == -ENOMEM)
- powerpc pSeries reconfig notifier error injection module
- --------------------------------------------------------
- This feature is controlled through debugfs interface
--/sys/kernel/debug/notifier-error-inject/pSeries-reconfig/actions/<notifier event>/error
-+
-+  /sys/kernel/debug/notifier-error-inject/pSeries-reconfig/actions/<notifier event>/error
- 
- Possible pSeries reconfig notifier events to be failed are:
- 
-@@ -61,7 +64,8 @@ Possible pSeries reconfig notifier events to be failed are:
- Netdevice notifier error injection module
- ----------------------------------------------
- This feature is controlled through debugfs interface
--/sys/kernel/debug/notifier-error-inject/netdev/actions/<notifier event>/error
-+
-+  /sys/kernel/debug/notifier-error-inject/netdev/actions/<notifier event>/error
- 
- Netdevice notifier events which can be failed are:
- 
-@@ -75,7 +79,7 @@ Netdevice notifier events which can be failed are:
-  * NETDEV_PRECHANGEUPPER
-  * NETDEV_CHANGEUPPER
- 
--Example: Inject netdevice mtu change error (-22 == -EINVAL)
-+Example: Inject netdevice mtu change error (-22 == -EINVAL)::
- 
- 	# cd /sys/kernel/debug/notifier-error-inject/netdev
- 	# echo -22 > actions/NETDEV_CHANGEMTU/error
-diff --git a/Documentation/fault-injection/nvme-fault-injection.rst b/Documentation/fault-injection/nvme-fault-injection.rst
+diff --git a/Documentation/target/scripts.rst b/Documentation/target/scripts.rst
 new file mode 100644
-index 000000000000..bbb1bf3e8650
+index 000000000000..172d42b522e4
 --- /dev/null
-+++ b/Documentation/fault-injection/nvme-fault-injection.rst
-@@ -0,0 +1,120 @@
-+NVMe Fault Injection
++++ b/Documentation/target/scripts.rst
+@@ -0,0 +1,11 @@
++TCM mod builder script
++----------------------
++
++.. literalinclude:: tcm_mod_builder.py
++    :language: perl
++
++Target export device script
++---------------------------
++
++.. literalinclude:: target-export-device
++    :language: shell
+diff --git a/Documentation/target/tcm_mod_builder.rst b/Documentation/target/tcm_mod_builder.rst
+new file mode 100644
+index 000000000000..9bfc9822e2bd
+--- /dev/null
++++ b/Documentation/target/tcm_mod_builder.rst
+@@ -0,0 +1,149 @@
++=========================================
++The TCM v4 fabric module script generator
++=========================================
++
++Greetings all,
++
++This document is intended to be a mini-HOWTO for using the tcm_mod_builder.py
++script to generate a brand new functional TCM v4 fabric .ko module of your very own,
++that once built can be immediately be loaded to start access the new TCM/ConfigFS
++fabric skeleton, by simply using::
++
++	modprobe $TCM_NEW_MOD
++	mkdir -p /sys/kernel/config/target/$TCM_NEW_MOD
++
++This script will create a new drivers/target/$TCM_NEW_MOD/, and will do the following
++
++	1) Generate new API callers for drivers/target/target_core_fabric_configs.c logic
++	   ->make_tpg(), ->drop_tpg(), ->make_wwn(), ->drop_wwn().  These are created
++	   into $TCM_NEW_MOD/$TCM_NEW_MOD_configfs.c
++	2) Generate basic infrastructure for loading/unloading LKMs and TCM/ConfigFS fabric module
++	   using a skeleton struct target_core_fabric_ops API template.
++	3) Based on user defined T10 Proto_Ident for the new fabric module being built,
++	   the TransportID / Initiator and Target WWPN related handlers for
++	   SPC-3 persistent reservation are automatically generated in $TCM_NEW_MOD/$TCM_NEW_MOD_fabric.c
++	   using drivers/target/target_core_fabric_lib.c logic.
++	4) NOP API calls for all other Data I/O path and fabric dependent attribute logic
++	   in $TCM_NEW_MOD/$TCM_NEW_MOD_fabric.c
++
++tcm_mod_builder.py depends upon the mandatory '-p $PROTO_IDENT' and '-m
++$FABRIC_MOD_name' parameters, and actually running the script looks like::
++
++  target:/mnt/sdb/lio-core-2.6.git/Documentation/target# python tcm_mod_builder.py -p iSCSI -m tcm_nab5000
++  tcm_dir: /mnt/sdb/lio-core-2.6.git/Documentation/target/../../
++  Set fabric_mod_name: tcm_nab5000
++  Set fabric_mod_dir:
++  /mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000
++  Using proto_ident: iSCSI
++  Creating fabric_mod_dir:
++  /mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000
++  Writing file:
++  /mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000/tcm_nab5000_base.h
++  Using tcm_mod_scan_fabric_ops:
++  /mnt/sdb/lio-core-2.6.git/Documentation/target/../../include/target/target_core_fabric_ops.h
++  Writing file:
++  /mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000/tcm_nab5000_fabric.c
++  Writing file:
++  /mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000/tcm_nab5000_fabric.h
++  Writing file:
++  /mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000/tcm_nab5000_configfs.c
++  Writing file:
++  /mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000/Kbuild
++  Writing file:
++  /mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000/Kconfig
++  Would you like to add tcm_nab5000to drivers/target/Kbuild..? [yes,no]: yes
++  Would you like to add tcm_nab5000to drivers/target/Kconfig..? [yes,no]: yes
++
++At the end of tcm_mod_builder.py. the script will ask to add the following
++line to drivers/target/Kbuild::
++
++	obj-$(CONFIG_TCM_NAB5000)       += tcm_nab5000/
++
++and the same for drivers/target/Kconfig::
++
++	source "drivers/target/tcm_nab5000/Kconfig"
++
++#) Run 'make menuconfig' and select the new CONFIG_TCM_NAB5000 item::
++
++	<M>   TCM_NAB5000 fabric module
++
++#) Build using 'make modules', once completed you will have::
++
++    target:/mnt/sdb/lio-core-2.6.git# ls -la drivers/target/tcm_nab5000/
++    total 1348
++    drwxr-xr-x 2 root root   4096 2010-10-05 03:23 .
++    drwxr-xr-x 9 root root   4096 2010-10-05 03:22 ..
++    -rw-r--r-- 1 root root    282 2010-10-05 03:22 Kbuild
++    -rw-r--r-- 1 root root    171 2010-10-05 03:22 Kconfig
++    -rw-r--r-- 1 root root     49 2010-10-05 03:23 modules.order
++    -rw-r--r-- 1 root root    738 2010-10-05 03:22 tcm_nab5000_base.h
++    -rw-r--r-- 1 root root   9096 2010-10-05 03:22 tcm_nab5000_configfs.c
++    -rw-r--r-- 1 root root 191200 2010-10-05 03:23 tcm_nab5000_configfs.o
++    -rw-r--r-- 1 root root  40504 2010-10-05 03:23 .tcm_nab5000_configfs.o.cmd
++    -rw-r--r-- 1 root root   5414 2010-10-05 03:22 tcm_nab5000_fabric.c
++    -rw-r--r-- 1 root root   2016 2010-10-05 03:22 tcm_nab5000_fabric.h
++    -rw-r--r-- 1 root root 190932 2010-10-05 03:23 tcm_nab5000_fabric.o
++    -rw-r--r-- 1 root root  40713 2010-10-05 03:23 .tcm_nab5000_fabric.o.cmd
++    -rw-r--r-- 1 root root 401861 2010-10-05 03:23 tcm_nab5000.ko
++    -rw-r--r-- 1 root root    265 2010-10-05 03:23 .tcm_nab5000.ko.cmd
++    -rw-r--r-- 1 root root    459 2010-10-05 03:23 tcm_nab5000.mod.c
++    -rw-r--r-- 1 root root  23896 2010-10-05 03:23 tcm_nab5000.mod.o
++    -rw-r--r-- 1 root root  22655 2010-10-05 03:23 .tcm_nab5000.mod.o.cmd
++    -rw-r--r-- 1 root root 379022 2010-10-05 03:23 tcm_nab5000.o
++    -rw-r--r-- 1 root root    211 2010-10-05 03:23 .tcm_nab5000.o.cmd
++
++#) Load the new module, create a lun_0 configfs group, and add new TCM Core
++   IBLOCK backstore symlink to port::
++
++    target:/mnt/sdb/lio-core-2.6.git# insmod drivers/target/tcm_nab5000.ko
++    target:/mnt/sdb/lio-core-2.6.git# mkdir -p /sys/kernel/config/target/nab5000/iqn.foo/tpgt_1/lun/lun_0
++    target:/mnt/sdb/lio-core-2.6.git# cd /sys/kernel/config/target/nab5000/iqn.foo/tpgt_1/lun/lun_0/
++    target:/sys/kernel/config/target/nab5000/iqn.foo/tpgt_1/lun/lun_0# ln -s /sys/kernel/config/target/core/iblock_0/lvm_test0 nab5000_port
++
++    target:/sys/kernel/config/target/nab5000/iqn.foo/tpgt_1/lun/lun_0# cd -
++    target:/mnt/sdb/lio-core-2.6.git# tree /sys/kernel/config/target/nab5000/
++    /sys/kernel/config/target/nab5000/
++    |-- discovery_auth
++    |-- iqn.foo
++    |   `-- tpgt_1
++    |       |-- acls
++    |       |-- attrib
++    |       |-- lun
++    |       |   `-- lun_0
++    |       |       |-- alua_tg_pt_gp
++    |       |       |-- alua_tg_pt_offline
++    |       |       |-- alua_tg_pt_status
++    |       |       |-- alua_tg_pt_write_md
++    |	|	`-- nab5000_port -> ../../../../../../target/core/iblock_0/lvm_test0
++    |       |-- np
++    |       `-- param
++    `-- version
++
++    target:/mnt/sdb/lio-core-2.6.git# lsmod
++    Module                  Size  Used by
++    tcm_nab5000             3935  4
++    iscsi_target_mod      193211  0
++    target_core_stgt        8090  0
++    target_core_pscsi      11122  1
++    target_core_file        9172  2
++    target_core_iblock      9280  1
++    target_core_mod       228575  31
++    tcm_nab5000,iscsi_target_mod,target_core_stgt,target_core_pscsi,target_core_file,target_core_iblock
++    libfc                  73681  0
++    scsi_debug             56265  0
++    scsi_tgt                8666  1 target_core_stgt
++    configfs               20644  2 target_core_mod
++
++----------------------------------------------------------------------
++
++Future TODO items
++=================
++
++	1) Add more T10 proto_idents
++	2) Make tcm_mod_dump_fabric_ops() smarter and generate function pointer
++	   defs directly from include/target/target_core_fabric_ops.h:struct target_core_fabric_ops
++	   structure members.
++
++October 5th, 2010
++
++Nicholas A. Bellinger <nab@linux-iscsi.org>
+diff --git a/Documentation/target/tcm_mod_builder.txt b/Documentation/target/tcm_mod_builder.txt
+deleted file mode 100644
+index ae22f7005540..000000000000
+--- a/Documentation/target/tcm_mod_builder.txt
++++ /dev/null
+@@ -1,145 +0,0 @@
+->>>>>>>>>> The TCM v4 fabric module script generator <<<<<<<<<<
+-
+-Greetings all,
+-
+-This document is intended to be a mini-HOWTO for using the tcm_mod_builder.py
+-script to generate a brand new functional TCM v4 fabric .ko module of your very own,
+-that once built can be immediately be loaded to start access the new TCM/ConfigFS
+-fabric skeleton, by simply using:
+-
+-	modprobe $TCM_NEW_MOD
+-	mkdir -p /sys/kernel/config/target/$TCM_NEW_MOD
+-
+-This script will create a new drivers/target/$TCM_NEW_MOD/, and will do the following
+-
+-	*) Generate new API callers for drivers/target/target_core_fabric_configs.c logic
+-	   ->make_tpg(), ->drop_tpg(), ->make_wwn(), ->drop_wwn().  These are created
+-	   into $TCM_NEW_MOD/$TCM_NEW_MOD_configfs.c
+-	*) Generate basic infrastructure for loading/unloading LKMs and TCM/ConfigFS fabric module
+-	   using a skeleton struct target_core_fabric_ops API template.
+-	*) Based on user defined T10 Proto_Ident for the new fabric module being built,
+-	   the TransportID / Initiator and Target WWPN related handlers for
+-	   SPC-3 persistent reservation are automatically generated in $TCM_NEW_MOD/$TCM_NEW_MOD_fabric.c
+-	   using drivers/target/target_core_fabric_lib.c logic.
+-	*) NOP API calls for all other Data I/O path and fabric dependent attribute logic
+-	   in $TCM_NEW_MOD/$TCM_NEW_MOD_fabric.c
+-
+-tcm_mod_builder.py depends upon the mandatory '-p $PROTO_IDENT' and '-m
+-$FABRIC_MOD_name' parameters, and actually running the script looks like:
+-
+-target:/mnt/sdb/lio-core-2.6.git/Documentation/target# python tcm_mod_builder.py -p iSCSI -m tcm_nab5000
+-tcm_dir: /mnt/sdb/lio-core-2.6.git/Documentation/target/../../
+-Set fabric_mod_name: tcm_nab5000
+-Set fabric_mod_dir:
+-/mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000
+-Using proto_ident: iSCSI
+-Creating fabric_mod_dir:
+-/mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000
+-Writing file:
+-/mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000/tcm_nab5000_base.h
+-Using tcm_mod_scan_fabric_ops:
+-/mnt/sdb/lio-core-2.6.git/Documentation/target/../../include/target/target_core_fabric_ops.h
+-Writing file:
+-/mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000/tcm_nab5000_fabric.c
+-Writing file:
+-/mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000/tcm_nab5000_fabric.h
+-Writing file:
+-/mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000/tcm_nab5000_configfs.c
+-Writing file:
+-/mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000/Kbuild
+-Writing file:
+-/mnt/sdb/lio-core-2.6.git/Documentation/target/../../drivers/target/tcm_nab5000/Kconfig
+-Would you like to add tcm_nab5000to drivers/target/Kbuild..? [yes,no]: yes
+-Would you like to add tcm_nab5000to drivers/target/Kconfig..? [yes,no]: yes
+-
+-At the end of tcm_mod_builder.py. the script will ask to add the following
+-line to drivers/target/Kbuild:
+-
+-	obj-$(CONFIG_TCM_NAB5000)       += tcm_nab5000/
+-
+-and the same for drivers/target/Kconfig:
+-
+-	source "drivers/target/tcm_nab5000/Kconfig"
+-
+-*) Run 'make menuconfig' and select the new CONFIG_TCM_NAB5000 item:
+-
+-	<M>   TCM_NAB5000 fabric module
+-
+-*) Build using 'make modules', once completed you will have:
+-
+-target:/mnt/sdb/lio-core-2.6.git# ls -la drivers/target/tcm_nab5000/
+-total 1348
+-drwxr-xr-x 2 root root   4096 2010-10-05 03:23 .
+-drwxr-xr-x 9 root root   4096 2010-10-05 03:22 ..
+--rw-r--r-- 1 root root    282 2010-10-05 03:22 Kbuild
+--rw-r--r-- 1 root root    171 2010-10-05 03:22 Kconfig
+--rw-r--r-- 1 root root     49 2010-10-05 03:23 modules.order
+--rw-r--r-- 1 root root    738 2010-10-05 03:22 tcm_nab5000_base.h
+--rw-r--r-- 1 root root   9096 2010-10-05 03:22 tcm_nab5000_configfs.c
+--rw-r--r-- 1 root root 191200 2010-10-05 03:23 tcm_nab5000_configfs.o
+--rw-r--r-- 1 root root  40504 2010-10-05 03:23 .tcm_nab5000_configfs.o.cmd
+--rw-r--r-- 1 root root   5414 2010-10-05 03:22 tcm_nab5000_fabric.c
+--rw-r--r-- 1 root root   2016 2010-10-05 03:22 tcm_nab5000_fabric.h
+--rw-r--r-- 1 root root 190932 2010-10-05 03:23 tcm_nab5000_fabric.o
+--rw-r--r-- 1 root root  40713 2010-10-05 03:23 .tcm_nab5000_fabric.o.cmd
+--rw-r--r-- 1 root root 401861 2010-10-05 03:23 tcm_nab5000.ko
+--rw-r--r-- 1 root root    265 2010-10-05 03:23 .tcm_nab5000.ko.cmd
+--rw-r--r-- 1 root root    459 2010-10-05 03:23 tcm_nab5000.mod.c
+--rw-r--r-- 1 root root  23896 2010-10-05 03:23 tcm_nab5000.mod.o
+--rw-r--r-- 1 root root  22655 2010-10-05 03:23 .tcm_nab5000.mod.o.cmd
+--rw-r--r-- 1 root root 379022 2010-10-05 03:23 tcm_nab5000.o
+--rw-r--r-- 1 root root    211 2010-10-05 03:23 .tcm_nab5000.o.cmd
+-
+-*) Load the new module, create a lun_0 configfs group, and add new TCM Core
+-   IBLOCK backstore symlink to port:
+-
+-target:/mnt/sdb/lio-core-2.6.git# insmod drivers/target/tcm_nab5000.ko
+-target:/mnt/sdb/lio-core-2.6.git# mkdir -p /sys/kernel/config/target/nab5000/iqn.foo/tpgt_1/lun/lun_0
+-target:/mnt/sdb/lio-core-2.6.git# cd /sys/kernel/config/target/nab5000/iqn.foo/tpgt_1/lun/lun_0/
+-target:/sys/kernel/config/target/nab5000/iqn.foo/tpgt_1/lun/lun_0# ln -s /sys/kernel/config/target/core/iblock_0/lvm_test0 nab5000_port
+-
+-target:/sys/kernel/config/target/nab5000/iqn.foo/tpgt_1/lun/lun_0# cd -
+-target:/mnt/sdb/lio-core-2.6.git# tree /sys/kernel/config/target/nab5000/
+-/sys/kernel/config/target/nab5000/
+-|-- discovery_auth
+-|-- iqn.foo
+-|   `-- tpgt_1
+-|       |-- acls
+-|       |-- attrib
+-|       |-- lun
+-|       |   `-- lun_0
+-|       |       |-- alua_tg_pt_gp
+-|       |       |-- alua_tg_pt_offline
+-|       |       |-- alua_tg_pt_status
+-|       |       |-- alua_tg_pt_write_md
+-|	|	`-- nab5000_port -> ../../../../../../target/core/iblock_0/lvm_test0
+-|       |-- np
+-|       `-- param
+-`-- version
+-
+-target:/mnt/sdb/lio-core-2.6.git# lsmod
+-Module                  Size  Used by
+-tcm_nab5000             3935  4
+-iscsi_target_mod      193211  0
+-target_core_stgt        8090  0
+-target_core_pscsi      11122  1
+-target_core_file        9172  2
+-target_core_iblock      9280  1
+-target_core_mod       228575  31
+-tcm_nab5000,iscsi_target_mod,target_core_stgt,target_core_pscsi,target_core_file,target_core_iblock
+-libfc                  73681  0
+-scsi_debug             56265  0
+-scsi_tgt                8666  1 target_core_stgt
+-configfs               20644  2 target_core_mod
+-
+-----------------------------------------------------------------------
+-
+-Future TODO items:
+-
+-	*) Add more T10 proto_idents
+-	*) Make tcm_mod_dump_fabric_ops() smarter and generate function pointer
+-	   defs directly from include/target/target_core_fabric_ops.h:struct target_core_fabric_ops
+-	   structure members.
+-
+-October 5th, 2010
+-Nicholas A. Bellinger <nab@linux-iscsi.org>
+diff --git a/Documentation/target/tcmu-design.txt b/Documentation/target/tcmu-design.rst
+similarity index 69%
+rename from Documentation/target/tcmu-design.txt
+rename to Documentation/target/tcmu-design.rst
+index 4cebc1ebf99a..a7b426707bf6 100644
+--- a/Documentation/target/tcmu-design.txt
++++ b/Documentation/target/tcmu-design.rst
+@@ -1,25 +1,30 @@
+-Contents:
 +====================
-+Linux's fault injection framework provides a systematic way to support
-+error injection via debugfs in the /sys/kernel/debug directory. When
-+enabled, the default NVME_SC_INVALID_OPCODE with no retry will be
-+injected into the nvme_end_request. Users can change the default status
-+code and no retry flag via the debugfs. The list of Generic Command
-+Status can be found in include/linux/nvme.h
-+
-+Following examples show how to inject an error into the nvme.
-+
-+First, enable CONFIG_FAULT_INJECTION_DEBUG_FS kernel config,
-+recompile the kernel. After booting up the kernel, do the
-+following.
-+
-+Example 1: Inject default status code with no retry
-+---------------------------------------------------
-+
-+::
-+
-+  mount /dev/nvme0n1 /mnt
-+  echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/times
-+  echo 100 > /sys/kernel/debug/nvme0n1/fault_inject/probability
-+  cp a.file /mnt
-+
-+Expected Result::
-+
-+  cp: cannot stat ‘/mnt/a.file’: Input/output error
-+
-+Message from dmesg::
-+
-+  FAULT_INJECTION: forcing a failure.
-+  name fault_inject, interval 1, probability 100, space 0, times 1
-+  CPU: 0 PID: 0 Comm: swapper/0 Not tainted 4.15.0-rc8+ #2
-+  Hardware name: innotek GmbH VirtualBox/VirtualBox,
-+  BIOS VirtualBox 12/01/2006
-+  Call Trace:
-+    <IRQ>
-+    dump_stack+0x5c/0x7d
-+    should_fail+0x148/0x170
-+    nvme_should_fail+0x2f/0x50 [nvme_core]
-+    nvme_process_cq+0xe7/0x1d0 [nvme]
-+    nvme_irq+0x1e/0x40 [nvme]
-+    __handle_irq_event_percpu+0x3a/0x190
-+    handle_irq_event_percpu+0x30/0x70
-+    handle_irq_event+0x36/0x60
-+    handle_fasteoi_irq+0x78/0x120
-+    handle_irq+0xa7/0x130
-+    ? tick_irq_enter+0xa8/0xc0
-+    do_IRQ+0x43/0xc0
-+    common_interrupt+0xa2/0xa2
-+    </IRQ>
-+  RIP: 0010:native_safe_halt+0x2/0x10
-+  RSP: 0018:ffffffff82003e90 EFLAGS: 00000246 ORIG_RAX: ffffffffffffffdd
-+  RAX: ffffffff817a10c0 RBX: ffffffff82012480 RCX: 0000000000000000
-+  RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-+  RBP: 0000000000000000 R08: 000000008e38ce64 R09: 0000000000000000
-+  R10: 0000000000000000 R11: 0000000000000000 R12: ffffffff82012480
-+  R13: ffffffff82012480 R14: 0000000000000000 R15: 0000000000000000
-+    ? __sched_text_end+0x4/0x4
-+    default_idle+0x18/0xf0
-+    do_idle+0x150/0x1d0
-+    cpu_startup_entry+0x6f/0x80
-+    start_kernel+0x4c4/0x4e4
-+    ? set_init_arg+0x55/0x55
-+    secondary_startup_64+0xa5/0xb0
-+    print_req_error: I/O error, dev nvme0n1, sector 9240
-+  EXT4-fs error (device nvme0n1): ext4_find_entry:1436:
-+  inode #2: comm cp: reading directory lblock 0
-+
-+Example 2: Inject default status code with retry
-+------------------------------------------------
-+
-+::
-+
-+  mount /dev/nvme0n1 /mnt
-+  echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/times
-+  echo 100 > /sys/kernel/debug/nvme0n1/fault_inject/probability
-+  echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/status
-+  echo 0 > /sys/kernel/debug/nvme0n1/fault_inject/dont_retry
-+
-+  cp a.file /mnt
-+
-+Expected Result::
-+
-+  command success without error
-+
-+Message from dmesg::
-+
-+  FAULT_INJECTION: forcing a failure.
-+  name fault_inject, interval 1, probability 100, space 0, times 1
-+  CPU: 1 PID: 0 Comm: swapper/1 Not tainted 4.15.0-rc8+ #4
-+  Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
-+  Call Trace:
-+    <IRQ>
-+    dump_stack+0x5c/0x7d
-+    should_fail+0x148/0x170
-+    nvme_should_fail+0x30/0x60 [nvme_core]
-+    nvme_loop_queue_response+0x84/0x110 [nvme_loop]
-+    nvmet_req_complete+0x11/0x40 [nvmet]
-+    nvmet_bio_done+0x28/0x40 [nvmet]
-+    blk_update_request+0xb0/0x310
-+    blk_mq_end_request+0x18/0x60
-+    flush_smp_call_function_queue+0x3d/0xf0
-+    smp_call_function_single_interrupt+0x2c/0xc0
-+    call_function_single_interrupt+0xa2/0xb0
-+    </IRQ>
-+  RIP: 0010:native_safe_halt+0x2/0x10
-+  RSP: 0018:ffffc9000068bec0 EFLAGS: 00000246 ORIG_RAX: ffffffffffffff04
-+  RAX: ffffffff817a10c0 RBX: ffff88011a3c9680 RCX: 0000000000000000
-+  RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-+  RBP: 0000000000000001 R08: 000000008e38c131 R09: 0000000000000000
-+  R10: 0000000000000000 R11: 0000000000000000 R12: ffff88011a3c9680
-+  R13: ffff88011a3c9680 R14: 0000000000000000 R15: 0000000000000000
-+    ? __sched_text_end+0x4/0x4
-+    default_idle+0x18/0xf0
-+    do_idle+0x150/0x1d0
-+    cpu_startup_entry+0x6f/0x80
-+    start_secondary+0x187/0x1e0
-+    secondary_startup_64+0xa5/0xb0
-diff --git a/Documentation/fault-injection/nvme-fault-injection.txt b/Documentation/fault-injection/nvme-fault-injection.txt
-deleted file mode 100644
-index 8fbf3bf60b62..000000000000
---- a/Documentation/fault-injection/nvme-fault-injection.txt
-+++ /dev/null
-@@ -1,116 +0,0 @@
--NVMe Fault Injection
--====================
--Linux's fault injection framework provides a systematic way to support
--error injection via debugfs in the /sys/kernel/debug directory. When
--enabled, the default NVME_SC_INVALID_OPCODE with no retry will be
--injected into the nvme_end_request. Users can change the default status
--code and no retry flag via the debugfs. The list of Generic Command
--Status can be found in include/linux/nvme.h
--
--Following examples show how to inject an error into the nvme.
--
--First, enable CONFIG_FAULT_INJECTION_DEBUG_FS kernel config,
--recompile the kernel. After booting up the kernel, do the
--following.
--
--Example 1: Inject default status code with no retry
-----------------------------------------------------
--
--mount /dev/nvme0n1 /mnt
--echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/times
--echo 100 > /sys/kernel/debug/nvme0n1/fault_inject/probability
--cp a.file /mnt
--
--Expected Result:
--
--cp: cannot stat ‘/mnt/a.file’: Input/output error
--
--Message from dmesg:
--
--FAULT_INJECTION: forcing a failure.
--name fault_inject, interval 1, probability 100, space 0, times 1
--CPU: 0 PID: 0 Comm: swapper/0 Not tainted 4.15.0-rc8+ #2
--Hardware name: innotek GmbH VirtualBox/VirtualBox,
--BIOS VirtualBox 12/01/2006
--Call Trace:
--  <IRQ>
--  dump_stack+0x5c/0x7d
--  should_fail+0x148/0x170
--  nvme_should_fail+0x2f/0x50 [nvme_core]
--  nvme_process_cq+0xe7/0x1d0 [nvme]
--  nvme_irq+0x1e/0x40 [nvme]
--  __handle_irq_event_percpu+0x3a/0x190
--  handle_irq_event_percpu+0x30/0x70
--  handle_irq_event+0x36/0x60
--  handle_fasteoi_irq+0x78/0x120
--  handle_irq+0xa7/0x130
--  ? tick_irq_enter+0xa8/0xc0
--  do_IRQ+0x43/0xc0
--  common_interrupt+0xa2/0xa2
--  </IRQ>
--RIP: 0010:native_safe_halt+0x2/0x10
--RSP: 0018:ffffffff82003e90 EFLAGS: 00000246 ORIG_RAX: ffffffffffffffdd
--RAX: ffffffff817a10c0 RBX: ffffffff82012480 RCX: 0000000000000000
--RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
--RBP: 0000000000000000 R08: 000000008e38ce64 R09: 0000000000000000
--R10: 0000000000000000 R11: 0000000000000000 R12: ffffffff82012480
--R13: ffffffff82012480 R14: 0000000000000000 R15: 0000000000000000
--  ? __sched_text_end+0x4/0x4
--  default_idle+0x18/0xf0
--  do_idle+0x150/0x1d0
--  cpu_startup_entry+0x6f/0x80
--  start_kernel+0x4c4/0x4e4
--  ? set_init_arg+0x55/0x55
--  secondary_startup_64+0xa5/0xb0
--  print_req_error: I/O error, dev nvme0n1, sector 9240
--EXT4-fs error (device nvme0n1): ext4_find_entry:1436:
--inode #2: comm cp: reading directory lblock 0
--
--Example 2: Inject default status code with retry
--------------------------------------------------
--
--mount /dev/nvme0n1 /mnt
--echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/times
--echo 100 > /sys/kernel/debug/nvme0n1/fault_inject/probability
--echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/status
--echo 0 > /sys/kernel/debug/nvme0n1/fault_inject/dont_retry
--
--cp a.file /mnt
--
--Expected Result:
--
--command success without error
--
--Message from dmesg:
--
--FAULT_INJECTION: forcing a failure.
--name fault_inject, interval 1, probability 100, space 0, times 1
--CPU: 1 PID: 0 Comm: swapper/1 Not tainted 4.15.0-rc8+ #4
--Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
--Call Trace:
--  <IRQ>
--  dump_stack+0x5c/0x7d
--  should_fail+0x148/0x170
--  nvme_should_fail+0x30/0x60 [nvme_core]
--  nvme_loop_queue_response+0x84/0x110 [nvme_loop]
--  nvmet_req_complete+0x11/0x40 [nvmet]
--  nvmet_bio_done+0x28/0x40 [nvmet]
--  blk_update_request+0xb0/0x310
--  blk_mq_end_request+0x18/0x60
--  flush_smp_call_function_queue+0x3d/0xf0
--  smp_call_function_single_interrupt+0x2c/0xc0
--  call_function_single_interrupt+0xa2/0xb0
--  </IRQ>
--RIP: 0010:native_safe_halt+0x2/0x10
--RSP: 0018:ffffc9000068bec0 EFLAGS: 00000246 ORIG_RAX: ffffffffffffff04
--RAX: ffffffff817a10c0 RBX: ffff88011a3c9680 RCX: 0000000000000000
--RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
--RBP: 0000000000000001 R08: 000000008e38c131 R09: 0000000000000000
--R10: 0000000000000000 R11: 0000000000000000 R12: ffff88011a3c9680
--R13: ffff88011a3c9680 R14: 0000000000000000 R15: 0000000000000000
--  ? __sched_text_end+0x4/0x4
--  default_idle+0x18/0xf0
--  do_idle+0x150/0x1d0
--  cpu_startup_entry+0x6f/0x80
--  start_secondary+0x187/0x1e0
--  secondary_startup_64+0xa5/0xb0
-diff --git a/Documentation/fault-injection/provoke-crashes.rst b/Documentation/fault-injection/provoke-crashes.rst
-new file mode 100644
-index 000000000000..9279a3e12278
---- /dev/null
-+++ b/Documentation/fault-injection/provoke-crashes.rst
-@@ -0,0 +1,48 @@
-+===============
-+Provoke crashes
-+===============
-+
-+The lkdtm module provides an interface to crash or injure the kernel at
-+predefined crashpoints to evaluate the reliability of crash dumps obtained
-+using different dumping solutions. The module uses KPROBEs to instrument
-+crashing points, but can also crash the kernel directly without KRPOBE
-+support.
++TCM Userspace Design
++====================
 +
 +
-+You can provide the way either through module arguments when inserting
-+the module, or through a debugfs interface.
-+
-+Usage::
-+
-+	insmod lkdtm.ko [recur_count={>0}] cpoint_name=<> cpoint_type=<>
-+			[cpoint_count={>0}]
-+
-+recur_count
-+	Recursion level for the stack overflow test. Default is 10.
-+
-+cpoint_name
-+	Crash point where the kernel is to be crashed. It can be
-+	one of INT_HARDWARE_ENTRY, INT_HW_IRQ_EN, INT_TASKLET_ENTRY,
-+	FS_DEVRW, MEM_SWAPOUT, TIMERADD, SCSI_DISPATCH_CMD,
-+	IDE_CORE_CP, DIRECT
-+
-+cpoint_type
-+	Indicates the action to be taken on hitting the crash point.
-+	It can be one of PANIC, BUG, EXCEPTION, LOOP, OVERFLOW,
-+	CORRUPT_STACK, UNALIGNED_LOAD_STORE_WRITE, OVERWRITE_ALLOCATION,
-+	WRITE_AFTER_FREE,
-+
-+cpoint_count
-+	Indicates the number of times the crash point is to be hit
-+	to trigger an action. The default is 10.
-+
-+You can also induce failures by mounting debugfs and writing the type to
-+<mountpoint>/provoke-crash/<crashpoint>. E.g.::
-+
-+  mount -t debugfs debugfs /mnt
-+  echo EXCEPTION > /mnt/provoke-crash/INT_HARDWARE_ENTRY
-+
-+
-+A special file is `DIRECT` which will induce the crash directly without
-+KPROBE instrumentation. This mode is the only one available when the module
-+is built on a kernel without KPROBEs support.
-diff --git a/Documentation/fault-injection/provoke-crashes.txt b/Documentation/fault-injection/provoke-crashes.txt
-deleted file mode 100644
-index 7a9d3d81525b..000000000000
---- a/Documentation/fault-injection/provoke-crashes.txt
-+++ /dev/null
-@@ -1,38 +0,0 @@
--The lkdtm module provides an interface to crash or injure the kernel at
--predefined crashpoints to evaluate the reliability of crash dumps obtained
--using different dumping solutions. The module uses KPROBEs to instrument
--crashing points, but can also crash the kernel directly without KRPOBE
--support.
--
--
--You can provide the way either through module arguments when inserting
--the module, or through a debugfs interface.
--
--Usage: insmod lkdtm.ko [recur_count={>0}] cpoint_name=<> cpoint_type=<>
--				[cpoint_count={>0}]
--
--  recur_count : Recursion level for the stack overflow test. Default is 10.
--
--  cpoint_name : Crash point where the kernel is to be crashed. It can be
--	 one of INT_HARDWARE_ENTRY, INT_HW_IRQ_EN, INT_TASKLET_ENTRY,
--	 FS_DEVRW, MEM_SWAPOUT, TIMERADD, SCSI_DISPATCH_CMD,
--	 IDE_CORE_CP, DIRECT
--
--  cpoint_type : Indicates the action to be taken on hitting the crash point.
--     It can be one of PANIC, BUG, EXCEPTION, LOOP, OVERFLOW,
--     CORRUPT_STACK, UNALIGNED_LOAD_STORE_WRITE, OVERWRITE_ALLOCATION,
--     WRITE_AFTER_FREE,
--
--  cpoint_count : Indicates the number of times the crash point is to be hit
--    to trigger an action. The default is 10.
--
--You can also induce failures by mounting debugfs and writing the type to
--<mountpoint>/provoke-crash/<crashpoint>. E.g.,
--
--  mount -t debugfs debugfs /mnt
--  echo EXCEPTION > /mnt/provoke-crash/INT_HARDWARE_ENTRY
--
--
--A special file is `DIRECT' which will induce the crash directly without
--KPROBE instrumentation. This mode is the only one available when the module
--is built on a kernel without KPROBEs support.
-diff --git a/Documentation/process/4.Coding.rst b/Documentation/process/4.Coding.rst
-index 4b7a5ab3cec1..13dd893c9f88 100644
---- a/Documentation/process/4.Coding.rst
-+++ b/Documentation/process/4.Coding.rst
-@@ -298,7 +298,7 @@ enabled, a configurable percentage of memory allocations will be made to
- fail; these failures can be restricted to a specific range of code.
- Running with fault injection enabled allows the programmer to see how the
- code responds when things go badly.  See
--Documentation/fault-injection/fault-injection.txt for more information on
-+Documentation/fault-injection/fault-injection.rst for more information on
- how to use this facility.
++.. Contents:
  
- Other kinds of errors can be found with the "sparse" static analysis tool.
-diff --git a/Documentation/translations/it_IT/process/4.Coding.rst b/Documentation/translations/it_IT/process/4.Coding.rst
-index c05b89e616dd..a5e36aa60448 100644
---- a/Documentation/translations/it_IT/process/4.Coding.rst
-+++ b/Documentation/translations/it_IT/process/4.Coding.rst
-@@ -314,7 +314,7 @@ di allocazione di memoria sarà destinata al fallimento; questi fallimenti
- possono essere ridotti ad uno specifico pezzo di codice.  Procedere con
- l'inserimento dei fallimenti attivo permette al programmatore di verificare
- come il codice risponde quando le cose vanno male.  Consultate:
--Documentation/fault-injection/fault-injection.txt per avere maggiori
-+Documentation/fault-injection/fault-injection.rst per avere maggiori
- informazioni su come utilizzare questo strumento.
+-1) TCM Userspace Design
+-  a) Background
+-  b) Benefits
+-  c) Design constraints
+-  d) Implementation overview
+-     i. Mailbox
+-     ii. Command ring
+-     iii. Data Area
+-  e) Device discovery
+-  f) Device events
+-  g) Other contingencies
+-2) Writing a user pass-through handler
+-  a) Discovering and configuring TCMU uio devices
+-  b) Waiting for events on the device(s)
+-  c) Managing the command ring
+-3) A final note
++   1) TCM Userspace Design
++     a) Background
++     b) Benefits
++     c) Design constraints
++     d) Implementation overview
++        i. Mailbox
++        ii. Command ring
++        iii. Data Area
++     e) Device discovery
++     f) Device events
++     g) Other contingencies
++   2) Writing a user pass-through handler
++     a) Discovering and configuring TCMU uio devices
++     b) Waiting for events on the device(s)
++     c) Managing the command ring
++   3) A final note
  
- Altre tipologie di errori possono essere riscontrati con lo strumento di
-diff --git a/Documentation/translations/zh_CN/process/4.Coding.rst b/Documentation/translations/zh_CN/process/4.Coding.rst
-index 8bb777941394..b82b1dde3122 100644
---- a/Documentation/translations/zh_CN/process/4.Coding.rst
-+++ b/Documentation/translations/zh_CN/process/4.Coding.rst
-@@ -205,7 +205,7 @@ Linus对这个问题给出了最佳答案:
- 启用故障注入后，内存分配的可配置百分比将失败；这些失败可以限制在特定的代码
- 范围内。在启用了故障注入的情况下运行，程序员可以看到当情况恶化时代码如何响
- 应。有关如何使用此工具的详细信息，请参阅
--Documentation/fault-injection/fault-injection.txt。
-+Documentation/fault-injection/fault-injection.rst。
  
- 使用“sparse”静态分析工具可以发现其他类型的错误。对于sparse，可以警告程序员
- 用户空间和内核空间地址之间的混淆、big endian和small endian数量的混合、在需
-diff --git a/drivers/misc/lkdtm/core.c b/drivers/misc/lkdtm/core.c
-index df9429e3fd3a..c7a507482051 100644
---- a/drivers/misc/lkdtm/core.c
-+++ b/drivers/misc/lkdtm/core.c
-@@ -15,7 +15,7 @@
-  *
-  * Debugfs support added by Simon Kagstrom <simon.kagstrom@netinsight.net>
-  *
-- * See Documentation/fault-injection/provoke-crashes.txt for instructions
-+ * See Documentation/fault-injection/provoke-crashes.rst for instructions
-  */
- #include "lkdtm.h"
- #include <linux/fs.h>
-diff --git a/include/linux/fault-inject.h b/include/linux/fault-inject.h
-index 7e6c77740413..e525f6957c49 100644
---- a/include/linux/fault-inject.h
-+++ b/include/linux/fault-inject.h
-@@ -11,7 +11,7 @@
+ TCM Userspace Design
+---------------------
++====================
  
- /*
-  * For explanation of the elements of this struct, see
-- * Documentation/fault-injection/fault-injection.txt
-+ * Documentation/fault-injection/fault-injection.rst
-  */
- struct fault_attr {
- 	unsigned long probability;
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index d08f5848958e..3a3554e8ca0f 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -1701,7 +1701,7 @@ config LKDTM
- 	called lkdtm.
+ TCM is another name for LIO, an in-kernel iSCSI target (server).
+ Existing TCM targets run in the kernel.  TCMU (TCM in Userspace)
+@@ -32,7 +37,8 @@ modules for file, block device, RAM or using another SCSI device as
+ storage.  These are called "backstores" or "storage engines".  These
+ built-in modules are implemented entirely as kernel code.
  
- 	Documentation on how to use the module can be found in
--	Documentation/fault-injection/provoke-crashes.txt
-+	Documentation/fault-injection/provoke-crashes.rst
+-Background:
++Background
++----------
  
- config TEST_LIST_SORT
- 	tristate "Linked list sorting test"
-diff --git a/tools/testing/fault-injection/failcmd.sh b/tools/testing/fault-injection/failcmd.sh
-index 29a6c63c5a15..78dac34264be 100644
---- a/tools/testing/fault-injection/failcmd.sh
-+++ b/tools/testing/fault-injection/failcmd.sh
-@@ -42,7 +42,7 @@ OPTIONS
- 	--interval=value, --space=value, --verbose=value, --task-filter=value,
- 	--stacktrace-depth=value, --require-start=value, --require-end=value,
- 	--reject-start=value, --reject-end=value, --ignore-gfp-wait=value
--		See Documentation/fault-injection/fault-injection.txt for more
-+		See Documentation/fault-injection/fault-injection.rst for more
- 		information
+ In addition to modularizing the transport protocol used for carrying
+ SCSI commands ("fabrics"), the Linux kernel target, LIO, also modularizes
+@@ -60,7 +66,8 @@ kernel, another approach is to create a userspace pass-through
+ backstore for LIO, "TCMU".
  
- 	failslab options:
+ 
+-Benefits:
++Benefits
++--------
+ 
+ In addition to allowing relatively easy support for RBD and GLFS, TCMU
+ will also allow easier development of new backstores. TCMU combines
+@@ -72,21 +79,25 @@ The disadvantage is there are more distinct components to configure, and
+ potentially to malfunction. This is unavoidable, but hopefully not
+ fatal if we're careful to keep things as simple as possible.
+ 
+-Design constraints:
++Design constraints
++------------------
+ 
+ - Good performance: high throughput, low latency
+ - Cleanly handle if userspace:
++
+    1) never attaches
+    2) hangs
+    3) dies
+    4) misbehaves
++
+ - Allow future flexibility in user & kernel implementations
+ - Be reasonably memory-efficient
+ - Simple to configure & run
+ - Simple to write a userspace backend
+ 
+ 
+-Implementation overview:
++Implementation overview
++-----------------------
+ 
+ The core of the TCMU interface is a memory region that is shared
+ between kernel and userspace. Within this region is: a control area
+@@ -108,7 +119,8 @@ the region mapped at a different virtual address.
+ 
+ See target_core_user.h for the struct definitions.
+ 
+-The Mailbox:
++The Mailbox
++-----------
+ 
+ The mailbox is always at the start of the shared memory region, and
+ contains a version, details about the starting offset and size of the
+@@ -117,19 +129,27 @@ userspace (respectively) to put commands on the ring, and indicate
+ when the commands are completed.
+ 
+ version - 1 (userspace should abort if otherwise)
++
+ flags:
+-- TCMU_MAILBOX_FLAG_CAP_OOOC: indicates out-of-order completion is
+-  supported.  See "The Command Ring" for details.
+-cmdr_off - The offset of the start of the command ring from the start
+-of the memory region, to account for the mailbox size.
+-cmdr_size - The size of the command ring. This does *not* need to be a
+-power of two.
+-cmd_head - Modified by the kernel to indicate when a command has been
+-placed on the ring.
+-cmd_tail - Modified by userspace to indicate when it has completed
+-processing of a command.
++    - TCMU_MAILBOX_FLAG_CAP_OOOC:
++	indicates out-of-order completion is supported.
++	See "The Command Ring" for details.
+ 
+-The Command Ring:
++cmdr_off
++	The offset of the start of the command ring from the start
++	of the memory region, to account for the mailbox size.
++cmdr_size
++	The size of the command ring. This does *not* need to be a
++	power of two.
++cmd_head
++	Modified by the kernel to indicate when a command has been
++	placed on the ring.
++cmd_tail
++	Modified by userspace to indicate when it has completed
++	processing of a command.
++
++The Command Ring
++----------------
+ 
+ Commands are placed on the ring by the kernel incrementing
+ mailbox.cmd_head by the size of the command, modulo cmdr_size, and
+@@ -180,29 +200,31 @@ opcode it does not handle, it must set UNKNOWN_OP bit (bit 0) in
+ hdr.uflags, update cmd_tail, and proceed with processing additional
+ commands, if any.
+ 
+-The Data Area:
++The Data Area
++-------------
+ 
+ This is shared-memory space after the command ring. The organization
+ of this area is not defined in the TCMU interface, and userspace
+ should access only the parts referenced by pending iovs.
+ 
+ 
+-Device Discovery:
++Device Discovery
++----------------
+ 
+ Other devices may be using UIO besides TCMU. Unrelated user processes
+ may also be handling different sets of TCMU devices. TCMU userspace
+ processes must find their devices by scanning sysfs
+ class/uio/uio*/name. For TCMU devices, these names will be of the
+-format:
++format::
+ 
+-tcm-user/<hba_num>/<device_name>/<subtype>/<path>
++	tcm-user/<hba_num>/<device_name>/<subtype>/<path>
+ 
+ where "tcm-user" is common for all TCMU-backed UIO devices. <hba_num>
+ and <device_name> allow userspace to find the device's path in the
+ kernel target's configfs tree. Assuming the usual mount point, it is
+-found at:
++found at::
+ 
+-/sys/kernel/config/target/core/user_<hba_num>/<device_name>
++	/sys/kernel/config/target/core/user_<hba_num>/<device_name>
+ 
+ This location contains attributes such as "hw_block_size", that
+ userspace needs to know for correct operation.
+@@ -214,15 +236,16 @@ configure the device, if needed. The name cannot contain ':', due to
+ LIO limitations.
+ 
+ For all devices so discovered, the user handler opens /dev/uioX and
+-calls mmap():
++calls mmap()::
+ 
+-mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0)
++	mmap(NULL, size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0)
+ 
+ where size must be equal to the value read from
+ /sys/class/uio/uioX/maps/map0/size.
+ 
+ 
+-Device Events:
++Device Events
++-------------
+ 
+ If a new device is added or removed, a notification will be broadcast
+ over netlink, using a generic netlink family name of "TCM-USER" and a
+@@ -233,7 +256,8 @@ the LIO device, so that after determining the device is supported
+ (based on subtype) it can take the appropriate action.
+ 
+ 
+-Other contingencies:
++Other contingencies
++-------------------
+ 
+ Userspace handler process never attaches:
+ 
+@@ -258,7 +282,7 @@ Userspace handler process is malicious:
+ 
+ 
+ Writing a user pass-through handler (with example code)
+--------------------------------------------------------
++=======================================================
+ 
+ A user process handing a TCMU device must support the following:
+ 
+@@ -277,103 +301,103 @@ TCMU is designed so that multiple unrelated processes can manage TCMU
+ devices separately. All handlers should make sure to only open their
+ devices, based opon a known subtype string.
+ 
+-a) Discovering and configuring TCMU UIO devices:
++a) Discovering and configuring TCMU UIO devices::
+ 
+-(error checking omitted for brevity)
++      /* error checking omitted for brevity */
+ 
+-int fd, dev_fd;
+-char buf[256];
+-unsigned long long map_len;
+-void *map;
++      int fd, dev_fd;
++      char buf[256];
++      unsigned long long map_len;
++      void *map;
+ 
+-fd = open("/sys/class/uio/uio0/name", O_RDONLY);
+-ret = read(fd, buf, sizeof(buf));
+-close(fd);
+-buf[ret-1] = '\0'; /* null-terminate and chop off the \n */
++      fd = open("/sys/class/uio/uio0/name", O_RDONLY);
++      ret = read(fd, buf, sizeof(buf));
++      close(fd);
++      buf[ret-1] = '\0'; /* null-terminate and chop off the \n */
+ 
+-/* we only want uio devices whose name is a format we expect */
+-if (strncmp(buf, "tcm-user", 8))
++      /* we only want uio devices whose name is a format we expect */
++      if (strncmp(buf, "tcm-user", 8))
+ 	exit(-1);
+ 
+-/* Further checking for subtype also needed here */
++      /* Further checking for subtype also needed here */
+ 
+-fd = open(/sys/class/uio/%s/maps/map0/size, O_RDONLY);
+-ret = read(fd, buf, sizeof(buf));
+-close(fd);
+-str_buf[ret-1] = '\0'; /* null-terminate and chop off the \n */
++      fd = open(/sys/class/uio/%s/maps/map0/size, O_RDONLY);
++      ret = read(fd, buf, sizeof(buf));
++      close(fd);
++      str_buf[ret-1] = '\0'; /* null-terminate and chop off the \n */
+ 
+-map_len = strtoull(buf, NULL, 0);
++      map_len = strtoull(buf, NULL, 0);
+ 
+-dev_fd = open("/dev/uio0", O_RDWR);
+-map = mmap(NULL, map_len, PROT_READ|PROT_WRITE, MAP_SHARED, dev_fd, 0);
++      dev_fd = open("/dev/uio0", O_RDWR);
++      map = mmap(NULL, map_len, PROT_READ|PROT_WRITE, MAP_SHARED, dev_fd, 0);
+ 
+ 
+-b) Waiting for events on the device(s)
++      b) Waiting for events on the device(s)
+ 
+-while (1) {
+-  char buf[4];
++      while (1) {
++        char buf[4];
+ 
+-  int ret = read(dev_fd, buf, 4); /* will block */
++        int ret = read(dev_fd, buf, 4); /* will block */
+ 
+-  handle_device_events(dev_fd, map);
+-}
+-
+-
+-c) Managing the command ring
+-
+-#include <linux/target_core_user.h>
+-
+-int handle_device_events(int fd, void *map)
+-{
+-  struct tcmu_mailbox *mb = map;
+-  struct tcmu_cmd_entry *ent = (void *) mb + mb->cmdr_off + mb->cmd_tail;
+-  int did_some_work = 0;
+-
+-  /* Process events from cmd ring until we catch up with cmd_head */
+-  while (ent != (void *)mb + mb->cmdr_off + mb->cmd_head) {
+-
+-    if (tcmu_hdr_get_op(ent->hdr.len_op) == TCMU_OP_CMD) {
+-      uint8_t *cdb = (void *)mb + ent->req.cdb_off;
+-      bool success = true;
++        handle_device_events(dev_fd, map);
++      }
+ 
+-      /* Handle command here. */
+-      printf("SCSI opcode: 0x%x\n", cdb[0]);
+ 
+-      /* Set response fields */
+-      if (success)
+-        ent->rsp.scsi_status = SCSI_NO_SENSE;
+-      else {
+-        /* Also fill in rsp->sense_buffer here */
+-        ent->rsp.scsi_status = SCSI_CHECK_CONDITION;
++c) Managing the command ring::
++
++      #include <linux/target_core_user.h>
++
++      int handle_device_events(int fd, void *map)
++      {
++        struct tcmu_mailbox *mb = map;
++        struct tcmu_cmd_entry *ent = (void *) mb + mb->cmdr_off + mb->cmd_tail;
++        int did_some_work = 0;
++
++        /* Process events from cmd ring until we catch up with cmd_head */
++        while (ent != (void *)mb + mb->cmdr_off + mb->cmd_head) {
++
++          if (tcmu_hdr_get_op(ent->hdr.len_op) == TCMU_OP_CMD) {
++            uint8_t *cdb = (void *)mb + ent->req.cdb_off;
++            bool success = true;
++
++            /* Handle command here. */
++            printf("SCSI opcode: 0x%x\n", cdb[0]);
++
++            /* Set response fields */
++            if (success)
++              ent->rsp.scsi_status = SCSI_NO_SENSE;
++            else {
++              /* Also fill in rsp->sense_buffer here */
++              ent->rsp.scsi_status = SCSI_CHECK_CONDITION;
++            }
++          }
++          else if (tcmu_hdr_get_op(ent->hdr.len_op) != TCMU_OP_PAD) {
++            /* Tell the kernel we didn't handle unknown opcodes */
++            ent->hdr.uflags |= TCMU_UFLAG_UNKNOWN_OP;
++          }
++          else {
++            /* Do nothing for PAD entries except update cmd_tail */
++          }
++
++          /* update cmd_tail */
++          mb->cmd_tail = (mb->cmd_tail + tcmu_hdr_get_len(&ent->hdr)) % mb->cmdr_size;
++          ent = (void *) mb + mb->cmdr_off + mb->cmd_tail;
++          did_some_work = 1;
++        }
++
++        /* Notify the kernel that work has been finished */
++        if (did_some_work) {
++          uint32_t buf = 0;
++
++          write(fd, &buf, 4);
++        }
++
++        return 0;
+       }
+-    }
+-    else if (tcmu_hdr_get_op(ent->hdr.len_op) != TCMU_OP_PAD) {
+-      /* Tell the kernel we didn't handle unknown opcodes */
+-      ent->hdr.uflags |= TCMU_UFLAG_UNKNOWN_OP;
+-    }
+-    else {
+-      /* Do nothing for PAD entries except update cmd_tail */
+-    }
+-
+-    /* update cmd_tail */
+-    mb->cmd_tail = (mb->cmd_tail + tcmu_hdr_get_len(&ent->hdr)) % mb->cmdr_size;
+-    ent = (void *) mb + mb->cmdr_off + mb->cmd_tail;
+-    did_some_work = 1;
+-  }
+-
+-  /* Notify the kernel that work has been finished */
+-  if (did_some_work) {
+-    uint32_t buf = 0;
+-
+-    write(fd, &buf, 4);
+-  }
+-
+-  return 0;
+-}
+ 
+ 
+ A final note
+-------------
++============
+ 
+ Please be careful to return codes as defined by the SCSI
+ specifications. These are different than some values defined in the
+diff --git a/scripts/documentation-file-ref-check b/scripts/documentation-file-ref-check
+index 440227bb55a9..a4139a576726 100755
+--- a/scripts/documentation-file-ref-check
++++ b/scripts/documentation-file-ref-check
+@@ -124,7 +124,7 @@ while (<IN>) {
+ 		# Remove sched-pelt false-positive
+ 		next if ($fulref =~ m,^Documentation/scheduler/sched-pelt$,);
+ 
+-		# Discard some build examples from Documentation/target/tcm_mod_builder.txt
++		# Discard some build examples from Documentation/target/tcm_mod_builder.rst
+ 		next if ($fulref =~ m,mnt/sdb/lio-core-2.6.git/Documentation/target,);
+ 
+ 		# Check if exists, evaluating wildcards
 -- 
 2.21.0
 
