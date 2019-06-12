@@ -5,114 +5,77 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 42B1A7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 06:27:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D2E697D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 07:54:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730989AbfFLG07 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Jun 2019 02:26:59 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:18137 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726010AbfFLG07 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 12 Jun 2019 02:26:59 -0400
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 81C41E146AD85FC4BB65;
-        Wed, 12 Jun 2019 14:26:54 +0800 (CST)
-Received: from [127.0.0.1] (10.133.215.186) by DGGEMS402-HUB.china.huawei.com
- (10.3.19.202) with Microsoft SMTP Server id 14.3.439.0; Wed, 12 Jun 2019
- 14:26:46 +0800
-Subject: Re: [PATCH v8 2/7] x86/dma: use IS_ENABLED() to simplify the code
-To:     Borislav Petkov <bp@alien8.de>
-CC:     Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
-        John Garry <john.garry@huawei.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Sebastian Ott <sebott@linux.ibm.com>,
-        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-        "Martin Schwidefsky" <schwidefsky@de.ibm.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        "Michael Ellerman" <mpe@ellerman.id.au>,
-        Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        iommu <iommu@lists.linux-foundation.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        x86 <x86@kernel.org>, linux-ia64 <linux-ia64@vger.kernel.org>,
-        Hanjun Guo <guohanjun@huawei.com>
-References: <20190530034831.4184-1-thunder.leizhen@huawei.com>
- <20190530034831.4184-3-thunder.leizhen@huawei.com>
- <20190612051624.GF32652@zn.tnic>
-From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <bd743433-73e9-3cf1-c159-4371abebd989@huawei.com>
-Date:   Wed, 12 Jun 2019 14:26:43 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1726001AbfFLHyP convert rfc822-to-8bit (ORCPT
+        <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Jun 2019 03:54:15 -0400
+Received: from mga17.intel.com ([192.55.52.151]:56056 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725810AbfFLHyP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 12 Jun 2019 03:54:15 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Jun 2019 00:54:14 -0700
+X-ExtLoop1: 1
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.150])
+  by fmsmga001.fm.intel.com with ESMTP; 12 Jun 2019 00:54:12 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     =?utf-8?Q?Andr=C3=A9?= Almeida <andrealmeid@collabora.com>,
+        linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net, kernel@collabora.com,
+        =?utf-8?Q?Andr=C3=A9?= Almeida <andrealmeid@collabora.com>
+Subject: Re: [PATCH] sphinx.rst: Add note about code snippets embedded in the text
+In-Reply-To: <20190611200316.30054-1-andrealmeid@collabora.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20190611200316.30054-1-andrealmeid@collabora.com>
+Date:   Wed, 12 Jun 2019 10:57:12 +0300
+Message-ID: <87ftofxmlj.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20190612051624.GF32652@zn.tnic>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.133.215.186]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, 11 Jun 2019, André Almeida <andrealmeid@collabora.com> wrote:
+> There's a paragraph that explains how to create fixed width text block,
+> but it doesn't explains how to create fixed width text inline, although
+> this feature is really used through the documentation. Fix that adding a
+> quick note about it.
+
+I don't mind this addition, it's simple enough, but in general I think
+we should reference the Sphinx and reStructuredText documentation,
+whichever is more applicable, instead of duplicating the
+documentation. The idea is that this document describes how to use them
+in kernel. Contrast with coding style and language reference.
+
+BR,
+Jani.
 
 
-On 2019/6/12 13:16, Borislav Petkov wrote:
-> On Thu, May 30, 2019 at 11:48:26AM +0800, Zhen Lei wrote:
->> This patch removes the ifdefs around CONFIG_IOMMU_DEFAULT_PASSTHROUGH to
->> improve readablity.
-> 
-> Avoid having "This patch" or "This commit" in the commit message. It is
-> tautologically useless.
+>
+> Signed-off-by: André Almeida <andrealmeid@collabora.com>
+> ---
+>  Documentation/doc-guide/sphinx.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
+> index c039224b404e..f48abc07f4c5 100644
+> --- a/Documentation/doc-guide/sphinx.rst
+> +++ b/Documentation/doc-guide/sphinx.rst
+> @@ -218,7 +218,7 @@ Here are some specific guidelines for the kernel documentation:
+>    examples, etc.), use ``::`` for anything that doesn't really benefit
+>    from syntax highlighting, especially short snippets. Use
+>    ``.. code-block:: <language>`` for longer code blocks that benefit
+> -  from highlighting.
+> +  from highlighting. For a short snippet of code embedded in the text, use \`\`.
+>  
+>  
+>  the C domain
 
-OK, thanks.
-
-> 
-> Also, do
-> 
-> $ git grep 'This patch' Documentation/process
-> 
-> for more details.
-> 
->> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
->> ---
->>  arch/x86/kernel/pci-dma.c | 7 ++-----
->>  1 file changed, 2 insertions(+), 5 deletions(-)
->>
->> diff --git a/arch/x86/kernel/pci-dma.c b/arch/x86/kernel/pci-dma.c
->> index dcd272dbd0a9330..9f2b19c35a060df 100644
->> --- a/arch/x86/kernel/pci-dma.c
->> +++ b/arch/x86/kernel/pci-dma.c
->> @@ -43,11 +43,8 @@
->>   * It is also possible to disable by default in kernel config, and enable with
->>   * iommu=nopt at boot time.
->>   */
->> -#ifdef CONFIG_IOMMU_DEFAULT_PASSTHROUGH
->> -int iommu_pass_through __read_mostly = 1;
->> -#else
->> -int iommu_pass_through __read_mostly;
->> -#endif
->> +int iommu_pass_through __read_mostly =
->> +			IS_ENABLED(CONFIG_IOMMU_DEFAULT_PASSTHROUGH);
-> 
-> Let that line stick out.
-
-OK, I will merge them on the same line.
-
-> 
-> Thx.
-> 
-
+-- 
+Jani Nikula, Intel Open Source Graphics Center
