@@ -3,2117 +3,2380 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CEDB77DE5B
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 18:41:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 815A67E29F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 18:41:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728011AbfFLSip (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Jun 2019 14:38:45 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:45864 "EHLO
+        id S1726599AbfFLSjw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Jun 2019 14:39:52 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:45746 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726475AbfFLSip (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jun 2019 14:38:45 -0400
+        with ESMTP id S1727769AbfFLSin (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jun 2019 14:38:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+        To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Ld2irvyKN4+i2DGOkqncDZT6B/HwDCi86fcXHC7vUdQ=; b=dCufwtOp/097q3y1i6cwypiZk8
-        xPx32/NJzQ3Y+dJiVF54msPJGF5c49+p9mfddOoZLfFj/+zBu/3gWqf8jHbsUR0TKdBLym90KdrMu
-        xI+55A4vXqdHBYprsxNjbTdd8/v0C7sR+feuu4BrzT23/GUBdHoXqHUmOTnD2XGHnrGA02+w0NjOZ
-        qCVPkpWq3JIS28PDSLV2dR5a10gXJkHNltH9+g7UdW0LonJ2M4jmirnb/ebzAgHQBdnZ8Qcreo6zy
-        EH7NRiM/HP1akHtxX/TB8nNglTBx6fF9Dm45MQwvtbgnHyVOk4ySEc0AbvAonKm/6HMIk1pllHNHn
-        y7wKtEFA==;
+        bh=n4K/r3wLktKdecgqQp7dhfuPteg3r+Qk90MmMsgCeiI=; b=kcnJFccZ+iDW6h6iZoSZiew16e
+        zjG9ogHdDpFZXyWPXgbV9VKdeDPic+MelUruqsVEEtHGsTmLjuD297UIRGtibD/dKCyAZp+OZA0YX
+        /Jom5vNPJ9ASk9Gxi/zdBeO/4FBtA+1hn8BY+hZ1VUAGKaR0O/igLN99YWPnpSKAoPga9UBj5a7ax
+        sUKcAJhvUIVUu4/xPYjape9ecuXMCGFHjq/9jyEyCeOm8WWzzAs3NxpTLLiEAmrtY7GkWvnKnmc6y
+        Cptm/mcKzo/wW8EeiVWzBf/54M5RmY3uf3CT6b2A1Co59bw3eklMs6QpmsHGL/2JzNGpDYyuK5Ily
+        4CEAcS9g==;
 Received: from 201.86.169.251.dynamic.adsl.gvt.net.br ([201.86.169.251] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hb88s-0006Yb-R5; Wed, 12 Jun 2019 18:38:39 +0000
+        id 1hb88s-0006YW-TL; Wed, 12 Jun 2019 18:38:40 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hb88q-0002Aq-0Q; Wed, 12 Jun 2019 15:38:36 -0300
+        id 1hb88q-0002Bk-DK; Wed, 12 Jun 2019 15:38:36 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
+        Mattia Dongili <malattia@linux.it>,
+        Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Julia Lawall <Julia.Lawall@lip6.fr>,
-        Gilles Muller <Gilles.Muller@lip6.fr>,
-        Nicolas Palix <nicolas.palix@imag.fr>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
-        cocci@systeme.lip6.fr
-Subject: [PATCH v1 09/31] docs: driver-model: convert docs to ReST and rename to *.rst
-Date:   Wed, 12 Jun 2019 15:38:12 -0300
-Message-Id: <c90bb60d65aaba4ce5957894cc6890ebe5048d95.1560364494.git.mchehab+samsung@kernel.org>
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH v1 23/31] docs: laptops: convert to ReST
+Date:   Wed, 12 Jun 2019 15:38:26 -0300
+Message-Id: <7dd6dfc3b0771e1035134fcb8151f4231c078615.1560364494.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1560364493.git.mchehab+samsung@kernel.org>
 References: <cover.1560364493.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Convert the various documents at the driver-model, preparing
-them to be part of the driver-api book.
-
-The conversion is actually:
-  - add blank lines and identation in order to identify paragraphs;
-  - fix tables markups;
-  - add some lists markups;
-  - mark literal blocks;
-  - adjust title markups.
+Rename the laptops documentation files to ReST, add an
+index for them and adjust in order to produce a nice html
+output via the Sphinx build system.
 
 At its new index.rst, let's add a :orphan: while this is not linked to
 the main index.rst file, in order to avoid build warnings.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/driver-api/gpio/driver.rst      |   2 +-
- .../driver-model/{binding.txt => binding.rst} |  20 +-
- .../driver-model/{bus.txt => bus.rst}         |  69 ++--
- .../driver-model/{class.txt => class.rst}     |  74 ++--
- ...esign-patterns.txt => design-patterns.rst} | 106 +++---
- .../driver-model/{device.txt => device.rst}   |  57 +--
- .../driver-model/{devres.txt => devres.rst}   |  50 +--
- .../driver-model/{driver.txt => driver.rst}   | 112 +++---
- Documentation/driver-model/index.rst          |  26 ++
- .../{overview.txt => overview.rst}            |  37 +-
- .../{platform.txt => platform.rst}            |  30 +-
- .../driver-model/{porting.txt => porting.rst} | 333 +++++++++---------
- Documentation/eisa.txt                        |   4 +-
- Documentation/hwmon/submitting-patches.rst    |   2 +-
- drivers/base/platform.c                       |   2 +-
- drivers/gpio/gpio-cs5535.c                    |   2 +-
- drivers/net/ethernet/intel/ice/ice_main.c     |   2 +-
- scripts/coccinelle/free/devm_free.cocci       |   2 +-
- 18 files changed, 489 insertions(+), 441 deletions(-)
- rename Documentation/driver-model/{binding.txt => binding.rst} (92%)
- rename Documentation/driver-model/{bus.txt => bus.rst} (76%)
- rename Documentation/driver-model/{class.txt => class.rst} (75%)
- rename Documentation/driver-model/{design-patterns.txt => design-patterns.rst} (59%)
- rename Documentation/driver-model/{device.txt => device.rst} (71%)
- rename Documentation/driver-model/{devres.txt => devres.rst} (93%)
- rename Documentation/driver-model/{driver.txt => driver.rst} (75%)
- create mode 100644 Documentation/driver-model/index.rst
- rename Documentation/driver-model/{overview.txt => overview.rst} (90%)
- rename Documentation/driver-model/{platform.txt => platform.rst} (95%)
- rename Documentation/driver-model/{porting.txt => porting.rst} (62%)
+ Documentation/ABI/testing/sysfs-block-device  |   2 +-
+ .../ABI/testing/sysfs-platform-asus-laptop    |   2 +-
+ .../admin-guide/kernel-parameters.txt         |   2 +-
+ .../{asus-laptop.txt => asus-laptop.rst}      |  92 ++--
+ ...otection.txt => disk-shock-protection.rst} |  32 +-
+ Documentation/laptops/index.rst               |  17 +
+ .../{laptop-mode.txt => laptop-mode.rst}      | 509 +++++++++---------
+ .../{sony-laptop.txt => sony-laptop.rst}      |  58 +-
+ .../laptops/{sonypi.txt => sonypi.rst}        |  28 +-
+ .../{thinkpad-acpi.txt => thinkpad-acpi.rst}  | 363 ++++++++-----
+ .../{toshiba_haps.txt => toshiba_haps.rst}    |  47 +-
+ Documentation/sysctl/vm.txt                   |   4 +-
+ MAINTAINERS                                   |   2 +-
+ drivers/char/Kconfig                          |   2 +-
+ drivers/platform/x86/Kconfig                  |   4 +-
+ 15 files changed, 660 insertions(+), 504 deletions(-)
+ rename Documentation/laptops/{asus-laptop.txt => asus-laptop.rst} (84%)
+ rename Documentation/laptops/{disk-shock-protection.txt => disk-shock-protection.rst} (91%)
+ create mode 100644 Documentation/laptops/index.rst
+ rename Documentation/laptops/{laptop-mode.txt => laptop-mode.rst} (62%)
+ rename Documentation/laptops/{sony-laptop.txt => sony-laptop.rst} (85%)
+ rename Documentation/laptops/{sonypi.txt => sonypi.rst} (87%)
+ rename Documentation/laptops/{thinkpad-acpi.txt => thinkpad-acpi.rst} (89%)
+ rename Documentation/laptops/{toshiba_haps.txt => toshiba_haps.rst} (60%)
 
-diff --git a/Documentation/driver-api/gpio/driver.rst b/Documentation/driver-api/gpio/driver.rst
-index 4af9aae724f0..349f2dc33029 100644
---- a/Documentation/driver-api/gpio/driver.rst
-+++ b/Documentation/driver-api/gpio/driver.rst
-@@ -399,7 +399,7 @@ symbol:
-   will pass the struct gpio_chip* for the chip to all IRQ callbacks, so the
-   callbacks need to embed the gpio_chip in its state container and obtain a
-   pointer to the container using container_of().
--  (See Documentation/driver-model/design-patterns.txt)
-+  (See Documentation/driver-model/design-patterns.rst)
+diff --git a/Documentation/ABI/testing/sysfs-block-device b/Documentation/ABI/testing/sysfs-block-device
+index 82ef6eab042d..0d57bbb4fddc 100644
+--- a/Documentation/ABI/testing/sysfs-block-device
++++ b/Documentation/ABI/testing/sysfs-block-device
+@@ -45,7 +45,7 @@ Description:
+ 		- Values below -2 are rejected with -EINVAL
  
- - gpiochip_irqchip_add_nested(): adds a nested cascaded irqchip to a gpiochip,
-   as discussed above regarding different types of cascaded irqchips. The
-diff --git a/Documentation/driver-model/binding.txt b/Documentation/driver-model/binding.rst
-similarity index 92%
-rename from Documentation/driver-model/binding.txt
-rename to Documentation/driver-model/binding.rst
-index abfc8e290d53..7ea1d7a41e1d 100644
---- a/Documentation/driver-model/binding.txt
-+++ b/Documentation/driver-model/binding.rst
-@@ -1,5 +1,6 @@
--
-+==============
- Driver Binding
-+==============
- 
- Driver binding is the process of associating a device with a device
- driver that can control it. Bus drivers have typically handled this
-@@ -25,7 +26,7 @@ device_register
- When a new device is added, the bus's list of drivers is iterated over
- to find one that supports it. In order to determine that, the device
- ID of the device must match one of the device IDs that the driver
--supports. The format and semantics for comparing IDs is bus-specific. 
-+supports. The format and semantics for comparing IDs is bus-specific.
- Instead of trying to derive a complex state machine and matching
- algorithm, it is up to the bus driver to provide a callback to compare
- a device against the IDs of a driver. The bus returns 1 if a match was
-@@ -36,14 +37,14 @@ int match(struct device * dev, struct device_driver * drv);
- If a match is found, the device's driver field is set to the driver
- and the driver's probe callback is called. This gives the driver a
- chance to verify that it really does support the hardware, and that
--it's in a working state. 
-+it's in a working state.
- 
- Device Class
- ~~~~~~~~~~~~
- 
- Upon the successful completion of probe, the device is registered with
- the class to which it belongs. Device drivers belong to one and only one
--class, and that is set in the driver's devclass field. 
-+class, and that is set in the driver's devclass field.
- devclass_add_device is called to enumerate the device within the class
- and actually register it with the class, which happens with the
- class's register_dev callback.
-@@ -53,7 +54,7 @@ Driver
- ~~~~~~
- 
- When a driver is attached to a device, the device is inserted into the
--driver's list of devices. 
-+driver's list of devices.
+ 		For more information, see
+-		Documentation/laptops/disk-shock-protection.txt
++		Documentation/laptops/disk-shock-protection.rst
  
  
- sysfs
-@@ -67,18 +68,18 @@ to the device's directory in the physical hierarchy.
+ What:		/sys/block/*/device/ncq_prio_enable
+diff --git a/Documentation/ABI/testing/sysfs-platform-asus-laptop b/Documentation/ABI/testing/sysfs-platform-asus-laptop
+index cd9d667c3da2..d67fa4bafa70 100644
+--- a/Documentation/ABI/testing/sysfs-platform-asus-laptop
++++ b/Documentation/ABI/testing/sysfs-platform-asus-laptop
+@@ -31,7 +31,7 @@ Description:
+ 		To control the LED display, use the following :
+ 		    echo 0x0T000DDD > /sys/devices/platform/asus_laptop/
+ 		where T control the 3 letters display, and DDD the 3 digits display.
+-		The DDD table can be found in Documentation/laptops/asus-laptop.txt
++		The DDD table can be found in Documentation/laptops/asus-laptop.rst
  
- A directory for the device is created in the class's directory. A
- symlink is created in that directory that points to the device's
--physical location in the sysfs tree. 
-+physical location in the sysfs tree.
+ What:		/sys/devices/platform/asus_laptop/bluetooth
+ Date:		January 2007
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 3faf37b8b001..7abe677f8c5e 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -4356,7 +4356,7 @@
+ 			Format: <integer>
  
- A symlink can be created (though this isn't done yet) in the device's
- physical directory to either its class directory, or the class's
- top-level directory. One can also be created to point to its driver's
--directory also. 
-+directory also.
+ 	sonypi.*=	[HW] Sony Programmable I/O Control Device driver
+-			See Documentation/laptops/sonypi.txt
++			See Documentation/laptops/sonypi.rst
  
+ 	spectre_v2=	[X86] Control mitigation of Spectre variant 2
+ 			(indirect branch speculation) vulnerability.
+diff --git a/Documentation/laptops/asus-laptop.txt b/Documentation/laptops/asus-laptop.rst
+similarity index 84%
+rename from Documentation/laptops/asus-laptop.txt
+rename to Documentation/laptops/asus-laptop.rst
+index 5f2858712aa0..95176321a25a 100644
+--- a/Documentation/laptops/asus-laptop.txt
++++ b/Documentation/laptops/asus-laptop.rst
+@@ -1,6 +1,9 @@
++==================
+ Asus Laptop Extras
++==================
  
- driver_register
- ~~~~~~~~~~~~~~~
- 
--The process is almost identical for when a new driver is added. 
-+The process is almost identical for when a new driver is added.
- The bus's list of devices is iterated over to find a match. Devices
- that already have a driver are skipped. All the devices are iterated
- over, to bind as many devices as possible to the driver.
-@@ -94,5 +95,4 @@ of the driver is decremented. All symlinks between the two are removed.
- 
- When a driver is removed, the list of devices that it supports is
- iterated over, and the driver's remove callback is called for each
--one. The device is removed from that list and the symlinks removed. 
--
-+one. The device is removed from that list and the symlinks removed.
-diff --git a/Documentation/driver-model/bus.txt b/Documentation/driver-model/bus.rst
-similarity index 76%
-rename from Documentation/driver-model/bus.txt
-rename to Documentation/driver-model/bus.rst
-index c247b488a567..016b15a6e8ea 100644
---- a/Documentation/driver-model/bus.txt
-+++ b/Documentation/driver-model/bus.rst
-@@ -1,5 +1,6 @@
--
--Bus Types 
-+=========
-+Bus Types
-+=========
- 
- Definition
- ~~~~~~~~~~
-@@ -13,12 +14,12 @@ Declaration
- 
- Each bus type in the kernel (PCI, USB, etc) should declare one static
- object of this type. They must initialize the name field, and may
--optionally initialize the match callback.
-+optionally initialize the match callback::
- 
--struct bus_type pci_bus_type = {
--       .name	= "pci",
--       .match	= pci_bus_match,
--};
-+   struct bus_type pci_bus_type = {
-+          .name	= "pci",
-+          .match	= pci_bus_match,
-+   };
- 
- The structure should be exported to drivers in a header file:
- 
-@@ -30,8 +31,8 @@ Registration
- 
- When a bus driver is initialized, it calls bus_register. This
- initializes the rest of the fields in the bus object and inserts it
--into a global list of bus types. Once the bus object is registered, 
--the fields in it are usable by the bus driver. 
-+into a global list of bus types. Once the bus object is registered,
-+the fields in it are usable by the bus driver.
- 
- 
- Callbacks
-@@ -43,17 +44,17 @@ match(): Attaching Drivers to Devices
- The format of device ID structures and the semantics for comparing
- them are inherently bus-specific. Drivers typically declare an array
- of device IDs of devices they support that reside in a bus-specific
--driver structure. 
-+driver structure.
- 
- The purpose of the match callback is to give the bus an opportunity to
- determine if a particular driver supports a particular device by
- comparing the device IDs the driver supports with the device ID of a
- particular device, without sacrificing bus-specific functionality or
--type-safety. 
-+type-safety.
- 
- When a driver is registered with the bus, the bus's list of devices is
- iterated over, and the match callback is called for each device that
--does not have a driver associated with it. 
-+does not have a driver associated with it.
- 
- 
- 
-@@ -64,22 +65,23 @@ The lists of devices and drivers are intended to replace the local
- lists that many buses keep. They are lists of struct devices and
- struct device_drivers, respectively. Bus drivers are free to use the
- lists as they please, but conversion to the bus-specific type may be
--necessary. 
-+necessary.
- 
--The LDM core provides helper functions for iterating over each list.
-+The LDM core provides helper functions for iterating over each list::
- 
--int bus_for_each_dev(struct bus_type * bus, struct device * start, void * data,
--		     int (*fn)(struct device *, void *));
-+  int bus_for_each_dev(struct bus_type * bus, struct device * start,
-+		       void * data,
-+		       int (*fn)(struct device *, void *));
- 
--int bus_for_each_drv(struct bus_type * bus, struct device_driver * start, 
--		     void * data, int (*fn)(struct device_driver *, void *));
-+  int bus_for_each_drv(struct bus_type * bus, struct device_driver * start,
-+		       void * data, int (*fn)(struct device_driver *, void *));
- 
- These helpers iterate over the respective list, and call the callback
- for each device or driver in the list. All list accesses are
- synchronized by taking the bus's lock (read currently). The reference
- count on each object in the list is incremented before the callback is
- called; it is decremented after the next object has been obtained. The
--lock is not held when calling the callback. 
-+lock is not held when calling the callback.
- 
- 
- sysfs
-@@ -87,14 +89,14 @@ sysfs
- There is a top-level directory named 'bus'.
- 
- Each bus gets a directory in the bus directory, along with two default
--directories:
-+directories::
- 
- 	/sys/bus/pci/
- 	|-- devices
- 	`-- drivers
- 
- Drivers registered with the bus get a directory in the bus's drivers
--directory:
-+directory::
- 
- 	/sys/bus/pci/
- 	|-- devices
-@@ -106,7 +108,7 @@ directory:
- 
- Each device that is discovered on a bus of that type gets a symlink in
- the bus's devices directory to the device's directory in the physical
--hierarchy:
-+hierarchy::
- 
- 	/sys/bus/pci/
- 	|-- devices
-@@ -118,26 +120,27 @@ hierarchy:
- 
- Exporting Attributes
- ~~~~~~~~~~~~~~~~~~~~
--struct bus_attribute {
+ Version 0.1
 +
-+::
+ August 6, 2009
+ 
+ Corentin Chary <corentincj@iksaif.net>
+@@ -10,11 +13,12 @@ http://acpi4asus.sf.net/
+  It may also support some MEDION, JVC or VICTOR laptops (such as MEDION 9675 or
+  VICTOR XP7210 for example). It makes all the extra buttons generate input
+  events (like keyboards).
 +
-+  struct bus_attribute {
- 	struct attribute	attr;
- 	ssize_t (*show)(struct bus_type *, char * buf);
- 	ssize_t (*store)(struct bus_type *, const char * buf, size_t count);
--};
-+  };
+  On some models adds support for changing the display brightness and output,
+  switching the LCD backlight on and off, and most importantly, allows you to
+  blink those fancy LEDs intended for reporting mail and wireless status.
  
- Bus drivers can export attributes using the BUS_ATTR_RW macro that works
- similarly to the DEVICE_ATTR_RW macro for devices. For example, a
--definition like this:
-+definition like this::
+-This driver supercedes the old asus_acpi driver.
++This driver supersedes the old asus_acpi driver.
  
--static BUS_ATTR_RW(debug);
-+	static BUS_ATTR_RW(debug);
+ Requirements
+ ------------
+@@ -49,7 +53,7 @@ Usage
+   see some lines like this :
  
--is equivalent to declaring:
-+is equivalent to declaring::
+       Asus Laptop Extras version 0.42
+-        L2D model detected.
++        - L2D model detected.
  
--static bus_attribute bus_attr_debug;
-+	static bus_attribute bus_attr_debug;
+   If it is not the output you have on your laptop, send it (and the laptop's
+   DSDT) to me.
+@@ -68,9 +72,12 @@ Usage
+ LEDs
+ ----
  
- This can then be used to add and remove the attribute from the bus's
--sysfs directory using:
--
--int bus_create_file(struct bus_type *, struct bus_attribute *);
--void bus_remove_file(struct bus_type *, struct bus_attribute *);
--
-+sysfs directory using::
- 
-+	int bus_create_file(struct bus_type *, struct bus_attribute *);
-+	void bus_remove_file(struct bus_type *, struct bus_attribute *);
-diff --git a/Documentation/driver-model/class.txt b/Documentation/driver-model/class.rst
-similarity index 75%
-rename from Documentation/driver-model/class.txt
-rename to Documentation/driver-model/class.rst
-index 1fefc480a80b..fff55b80e86a 100644
---- a/Documentation/driver-model/class.txt
-+++ b/Documentation/driver-model/class.rst
-@@ -1,6 +1,6 @@
--
-+==============
- Device Classes
--
-+==============
- 
- Introduction
- ~~~~~~~~~~~~
-@@ -13,37 +13,37 @@ device. The following device classes have been identified:
- Each device class defines a set of semantics and a programming interface
- that devices of that class adhere to. Device drivers are the
- implementation of that programming interface for a particular device on
--a particular bus. 
-+a particular bus.
- 
- Device classes are agnostic with respect to what bus a device resides
--on. 
-+on.
- 
- 
- Programming Interface
- ~~~~~~~~~~~~~~~~~~~~~
--The device class structure looks like: 
-+The device class structure looks like::
- 
- 
--typedef int (*devclass_add)(struct device *);
--typedef void (*devclass_remove)(struct device *);
-+  typedef int (*devclass_add)(struct device *);
-+  typedef void (*devclass_remove)(struct device *);
- 
- See the kerneldoc for the struct class.
- 
--A typical device class definition would look like: 
-+A typical device class definition would look like::
- 
--struct device_class input_devclass = {
-+  struct device_class input_devclass = {
-         .name		= "input",
-         .add_device	= input_add_device,
- 	.remove_device	= input_remove_device,
--};
-+  };
- 
- Each device class structure should be exported in a header file so it
- can be used by drivers, extensions and interfaces.
- 
--Device classes are registered and unregistered with the core using: 
-+Device classes are registered and unregistered with the core using::
- 
--int devclass_register(struct device_class * cls);
--void devclass_unregister(struct device_class * cls);
-+  int devclass_register(struct device_class * cls);
-+  void devclass_unregister(struct device_class * cls);
- 
- 
- Devices
-@@ -52,16 +52,16 @@ As devices are bound to drivers, they are added to the device class
- that the driver belongs to. Before the driver model core, this would
- typically happen during the driver's probe() callback, once the device
- has been initialized. It now happens after the probe() callback
--finishes from the core. 
-+finishes from the core.
- 
- The device is enumerated in the class. Each time a device is added to
- the class, the class's devnum field is incremented and assigned to the
- device. The field is never decremented, so if the device is removed
- from the class and re-added, it will receive a different enumerated
--value. 
-+value.
- 
- The class is allowed to create a class-specific structure for the
--device and store it in the device's class_data pointer. 
-+device and store it in the device's class_data pointer.
- 
- There is no list of devices in the device class. Each driver has a
- list of devices that it supports. The device class has a list of
-@@ -73,15 +73,15 @@ Device Drivers
- ~~~~~~~~~~~~~~
- Device drivers are added to device classes when they are registered
- with the core. A driver specifies the class it belongs to by setting
--the struct device_driver::devclass field. 
-+the struct device_driver::devclass field.
- 
- 
- sysfs directory structure
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--There is a top-level sysfs directory named 'class'. 
-+There is a top-level sysfs directory named 'class'.
- 
- Each class gets a directory in the class directory, along with two
--default subdirectories:
-+default subdirectories::
- 
-         class/
-         `-- input
-@@ -89,8 +89,8 @@ default subdirectories:
-             `-- drivers
- 
- 
--Drivers registered with the class get a symlink in the drivers/ directory 
--that points to the driver's directory (under its bus directory):
-+Drivers registered with the class get a symlink in the drivers/ directory
-+that points to the driver's directory (under its bus directory)::
- 
-    class/
-    `-- input
-@@ -99,8 +99,8 @@ that points to the driver's directory (under its bus directory):
-            `-- usb:usb_mouse -> ../../../bus/drivers/usb_mouse/
- 
- 
--Each device gets a symlink in the devices/ directory that points to the 
--device's directory in the physical hierarchy:
-+Each device gets a symlink in the devices/ directory that points to the
-+device's directory in the physical hierarchy::
- 
-    class/
-    `-- input
-@@ -111,37 +111,39 @@ device's directory in the physical hierarchy:
- 
- Exporting Attributes
- ~~~~~~~~~~~~~~~~~~~~
--struct devclass_attribute {
+-  You can modify LEDs be echoing values to /sys/class/leds/asus::*/brightness :
++  You can modify LEDs be echoing values to `/sys/class/leds/asus/*/brightness`::
 +
-+::
+     echo 1 >  /sys/class/leds/asus::mail/brightness
 +
-+  struct devclass_attribute {
-         struct attribute        attr;
-         ssize_t (*show)(struct device_class *, char * buf, size_t count, loff_t off);
-         ssize_t (*store)(struct device_class *, const char * buf, size_t count, loff_t off);
--};
-+  };
+   will switch the mail LED on.
++
+   You can also know if they are on/off by reading their content and use
+   kernel triggers like disk-activity or heartbeat.
  
- Class drivers can export attributes using the DEVCLASS_ATTR macro that works
--similarly to the DEVICE_ATTR macro for devices. For example, a definition 
--like this:
-+similarly to the DEVICE_ATTR macro for devices. For example, a definition
-+like this::
+@@ -81,7 +88,7 @@ Backlight
+   /sys/class/backlight/asus-laptop/. Brightness Values are between 0 and 15.
  
--static DEVCLASS_ATTR(debug,0644,show_debug,store_debug);
-+  static DEVCLASS_ATTR(debug,0644,show_debug,store_debug);
+ Wireless devices
+----------------
++----------------
  
--is equivalent to declaring:
-+is equivalent to declaring::
+   You can turn the internal Bluetooth adapter on/off with the bluetooth entry
+   (only on models with Bluetooth). This usually controls the associated LED.
+@@ -93,18 +100,20 @@ Display switching
+   Note: the display switching code is currently considered EXPERIMENTAL.
  
--static devclass_attribute devclass_attr_debug;
-+  static devclass_attribute devclass_attr_debug;
+   Switching works for the following models:
+-    L3800C
+-    A2500H
+-    L5800C
+-    M5200N
+-    W1000N (albeit with some glitches)
+-    M6700R
+-    A6JC
+-    F3J
++
++    - L3800C
++    - A2500H
++    - L5800C
++    - M5200N
++    - W1000N (albeit with some glitches)
++    - M6700R
++    - A6JC
++    - F3J
  
- The bus driver can add and remove the attribute from the class's
--sysfs directory using:
-+sysfs directory using::
+   Switching doesn't work for the following:
+-    M3700N
+-    L2X00D (locks the laptop under certain conditions)
++
++    - M3700N
++    - L2X00D (locks the laptop under certain conditions)
  
--int devclass_create_file(struct device_class *, struct devclass_attribute *);
--void devclass_remove_file(struct device_class *, struct devclass_attribute *);
-+  int devclass_create_file(struct device_class *, struct devclass_attribute *);
-+  void devclass_remove_file(struct device_class *, struct devclass_attribute *);
+   To switch the displays, echo values from 0 to 15 to
+   /sys/devices/platform/asus-laptop/display. The significance of those values
+@@ -113,48 +122,51 @@ Display switching
+   +-------+-----+-----+-----+-----+-----+
+   | Bin   | Val | DVI | TV  | CRT | LCD |
+   +-------+-----+-----+-----+-----+-----+
+-  + 0000  +   0 +     +     +     +     +
++  | 0000  |   0 |     |     |     |     |
+   +-------+-----+-----+-----+-----+-----+
+-  + 0001  +   1 +     +     +     +  X  +
++  | 0001  |   1 |     |     |     |  X  |
+   +-------+-----+-----+-----+-----+-----+
+-  + 0010  +   2 +     +     +  X  +     +
++  | 0010  |   2 |     |     |  X  |     |
+   +-------+-----+-----+-----+-----+-----+
+-  + 0011  +   3 +     +     +  X  +  X  +
++  | 0011  |   3 |     |     |  X  |  X  |
+   +-------+-----+-----+-----+-----+-----+
+-  + 0100  +   4 +     +  X  +     +     +
++  | 0100  |   4 |     |  X  |     |     |
+   +-------+-----+-----+-----+-----+-----+
+-  + 0101  +   5 +     +  X  +     + X   +
++  | 0101  |   5 |     |  X  |     | X   |
+   +-------+-----+-----+-----+-----+-----+
+-  + 0110  +   6 +     +  X  +  X  +     +
++  | 0110  |   6 |     |  X  |  X  |     |
+   +-------+-----+-----+-----+-----+-----+
+-  + 0111  +   7 +     +  X  +  X  +  X  +
++  | 0111  |   7 |     |  X  |  X  |  X  |
+   +-------+-----+-----+-----+-----+-----+
+-  + 1000  +   8 +  X  +     +     +     +
++  | 1000  |   8 |  X  |     |     |     |
+   +-------+-----+-----+-----+-----+-----+
+-  + 1001  +   9 +  X  +     +     +  X  +
++  | 1001  |   9 |  X  |     |     |  X  |
+   +-------+-----+-----+-----+-----+-----+
+-  + 1010  +  10 +  X  +     +  X  +     +
++  | 1010  |  10 |  X  |     |  X  |     |
+   +-------+-----+-----+-----+-----+-----+
+-  + 1011  +  11 +  X  +     +  X  +  X  +
++  | 1011  |  11 |  X  |     |  X  |  X  |
+   +-------+-----+-----+-----+-----+-----+
+-  + 1100  +  12 +  X  +  X  +     +     +
++  | 1100  |  12 |  X  |  X  |     |     |
+   +-------+-----+-----+-----+-----+-----+
+-  + 1101  +  13 +  X  +  X  +     +  X  +
++  | 1101  |  13 |  X  |  X  |     |  X  |
+   +-------+-----+-----+-----+-----+-----+
+-  + 1110  +  14 +  X  +  X  +  X  +     +
++  | 1110  |  14 |  X  |  X  |  X  |     |
+   +-------+-----+-----+-----+-----+-----+
+-  + 1111  +  15 +  X  +  X  +  X  +  X  +
++  | 1111  |  15 |  X  |  X  |  X  |  X  |
+   +-------+-----+-----+-----+-----+-----+
  
- In the example above, the file will be named 'debug' in placed in the
--class's directory in sysfs. 
-+class's directory in sysfs.
+   In most cases, the appropriate displays must be plugged in for the above
+   combinations to work. TV-Out may need to be initialized at boot time.
  
+   Debugging:
++
+   1) Check whether the Fn+F8 key:
++
+      a) does not lock the laptop (try a boot with noapic / nolapic if it does)
+      b) generates events (0x6n, where n is the value corresponding to the
+         configuration above)
+      c) actually works
++
+      Record the disp value at every configuration.
+   2) Echo values from 0 to 15 to /sys/devices/platform/asus-laptop/display.
+      Record its value, note any change. If nothing changes, try a broader range,
+@@ -164,7 +176,7 @@ Display switching
  
- Interfaces
- ~~~~~~~~~~
- There may exist multiple mechanisms for accessing the same device of a
--particular class type. Device interfaces describe these mechanisms. 
-+particular class type. Device interfaces describe these mechanisms.
+   Note: on some machines (e.g. L3C), after the module has been loaded, only 0x6n
+   events are generated and no actual switching occurs. In such a case, a line
+-  like:
++  like::
  
- When a device is added to a device class, the core attempts to add it
- to every interface that is registered with the device class.
+     echo $((10#$arg-60)) > /sys/devices/platform/asus-laptop/display
+ 
+@@ -180,15 +192,16 @@ LED display
+   several items of information.
+ 
+   LED display works for the following models:
+-    W1000N
+-    W1J
+ 
+-  To control the LED display, use the following :
++    - W1000N
++    - W1J
++
++  To control the LED display, use the following::
+ 
+     echo 0x0T000DDD > /sys/devices/platform/asus-laptop/
+ 
+   where T control the 3 letters display, and DDD the 3 digits display,
+-  according to the tables below.
++  according to the tables below::
+ 
+          DDD (digits)
+          000 to 999 = display digits
+@@ -208,8 +221,8 @@ LED display
+   For example "echo 0x01000001 >/sys/devices/platform/asus-laptop/ledd"
+   would display "DVD001".
+ 
+-Driver options:
+----------------
++Driver options
++--------------
+ 
+  Options can be passed to the asus-laptop driver using the standard
+  module argument syntax (<param>=<value> when passing the option to the
+@@ -219,6 +232,7 @@ Driver options:
+ 	     wapf: WAPF defines the behavior of the Fn+Fx wlan key
+ 		   The significance of values is yet to be found, but
+ 		   most of the time:
++
+ 		   - 0x0 should do nothing
+ 		   - 0x1 should allow to control the device with Fn+Fx key.
+ 		   - 0x4 should send an ACPI event (0x88) while pressing the Fn+Fx key
+@@ -237,7 +251,7 @@ Unsupported models
+  - ASUS L7300G
+  - ASUS L8400
+ 
+-Patches, Errors, Questions:
++Patches, Errors, Questions
+ --------------------------
+ 
+  I appreciate any success or failure
+@@ -253,5 +267,5 @@ Patches, Errors, Questions:
+  Any other comments or patches are also more than welcome.
+ 
+  acpi4asus-user@lists.sourceforge.net
++
+  http://sourceforge.net/projects/acpi4asus
 -
-diff --git a/Documentation/driver-model/design-patterns.txt b/Documentation/driver-model/design-patterns.rst
-similarity index 59%
-rename from Documentation/driver-model/design-patterns.txt
-rename to Documentation/driver-model/design-patterns.rst
-index ba7b2df64904..41eb8f41f7dd 100644
---- a/Documentation/driver-model/design-patterns.txt
-+++ b/Documentation/driver-model/design-patterns.rst
-@@ -1,6 +1,6 @@
--
-+=============================
- Device Driver Design Patterns
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+=============================
- 
- This document describes a few common design patterns found in device drivers.
- It is likely that subsystem maintainers will ask driver developers to
-@@ -19,23 +19,23 @@ that the device the driver binds to will appear in several instances. This
- means that the probe() function and all callbacks need to be reentrant.
- 
- The most common way to achieve this is to use the state container design
--pattern. It usually has this form:
-+pattern. It usually has this form::
- 
--struct foo {
--    spinlock_t lock; /* Example member */
--    (...)
--};
-+  struct foo {
-+      spinlock_t lock; /* Example member */
-+      (...)
-+  };
- 
--static int foo_probe(...)
--{
--    struct foo *foo;
-+  static int foo_probe(...)
-+  {
-+      struct foo *foo;
- 
--    foo = devm_kzalloc(dev, sizeof(*foo), GFP_KERNEL);
--    if (!foo)
--        return -ENOMEM;
--    spin_lock_init(&foo->lock);
--    (...)
--}
-+      foo = devm_kzalloc(dev, sizeof(*foo), GFP_KERNEL);
-+      if (!foo)
-+          return -ENOMEM;
-+      spin_lock_init(&foo->lock);
-+      (...)
-+  }
- 
- This will create an instance of struct foo in memory every time probe() is
- called. This is our state container for this instance of the device driver.
-@@ -43,21 +43,21 @@ Of course it is then necessary to always pass this instance of the
- state around to all functions that need access to the state and its members.
- 
- For example, if the driver is registering an interrupt handler, you would
--pass around a pointer to struct foo like this:
-+pass around a pointer to struct foo like this::
- 
--static irqreturn_t foo_handler(int irq, void *arg)
--{
--    struct foo *foo = arg;
--    (...)
--}
-+  static irqreturn_t foo_handler(int irq, void *arg)
-+  {
-+      struct foo *foo = arg;
-+      (...)
-+  }
- 
--static int foo_probe(...)
--{
--    struct foo *foo;
-+  static int foo_probe(...)
-+  {
-+      struct foo *foo;
- 
--    (...)
--    ret = request_irq(irq, foo_handler, 0, "foo", foo);
--}
-+      (...)
-+      ret = request_irq(irq, foo_handler, 0, "foo", foo);
-+  }
- 
- This way you always get a pointer back to the correct instance of foo in
- your interrupt handler.
-@@ -66,38 +66,38 @@ your interrupt handler.
- 2. container_of()
- ~~~~~~~~~~~~~~~~~
- 
--Continuing on the above example we add an offloaded work:
-+Continuing on the above example we add an offloaded work::
- 
--struct foo {
--    spinlock_t lock;
--    struct workqueue_struct *wq;
--    struct work_struct offload;
--    (...)
--};
-+  struct foo {
-+      spinlock_t lock;
-+      struct workqueue_struct *wq;
-+      struct work_struct offload;
-+      (...)
-+  };
- 
--static void foo_work(struct work_struct *work)
--{
--    struct foo *foo = container_of(work, struct foo, offload);
-+  static void foo_work(struct work_struct *work)
-+  {
-+      struct foo *foo = container_of(work, struct foo, offload);
- 
--    (...)
--}
-+      (...)
-+  }
- 
--static irqreturn_t foo_handler(int irq, void *arg)
--{
--    struct foo *foo = arg;
-+  static irqreturn_t foo_handler(int irq, void *arg)
-+  {
-+      struct foo *foo = arg;
- 
--    queue_work(foo->wq, &foo->offload);
--    (...)
--}
-+      queue_work(foo->wq, &foo->offload);
-+      (...)
-+  }
- 
--static int foo_probe(...)
--{
--    struct foo *foo;
-+  static int foo_probe(...)
-+  {
-+      struct foo *foo;
- 
--    foo->wq = create_singlethread_workqueue("foo-wq");
--    INIT_WORK(&foo->offload, foo_work);
--    (...)
--}
-+      foo->wq = create_singlethread_workqueue("foo-wq");
-+      INIT_WORK(&foo->offload, foo_work);
-+      (...)
-+  }
- 
- The design pattern is the same for an hrtimer or something similar that will
- return a single argument which is a pointer to a struct member in the
-diff --git a/Documentation/driver-model/device.txt b/Documentation/driver-model/device.rst
-similarity index 71%
-rename from Documentation/driver-model/device.txt
-rename to Documentation/driver-model/device.rst
-index 2403eb856187..2b868d49d349 100644
---- a/Documentation/driver-model/device.txt
-+++ b/Documentation/driver-model/device.rst
-@@ -1,6 +1,6 @@
--
+diff --git a/Documentation/laptops/disk-shock-protection.txt b/Documentation/laptops/disk-shock-protection.rst
+similarity index 91%
+rename from Documentation/laptops/disk-shock-protection.txt
+rename to Documentation/laptops/disk-shock-protection.rst
+index 0e6ba2663834..e97c5f78d8c3 100644
+--- a/Documentation/laptops/disk-shock-protection.txt
++++ b/Documentation/laptops/disk-shock-protection.rst
+@@ -1,17 +1,18 @@
 +==========================
- The Basic Device Structure
--~~~~~~~~~~~~~~~~~~~~~~~~~~
-+==========================
+ Hard disk shock protection
+ ==========================
  
- See the kerneldoc for the struct device.
- 
-@@ -8,9 +8,9 @@ See the kerneldoc for the struct device.
- Programming Interface
- ~~~~~~~~~~~~~~~~~~~~~
- The bus driver that discovers the device uses this to register the
--device with the core:
-+device with the core::
- 
--int device_register(struct device * dev);
-+  int device_register(struct device * dev);
- 
- The bus should initialize the following fields:
- 
-@@ -20,30 +20,33 @@ The bus should initialize the following fields:
-     - bus
- 
- A device is removed from the core when its reference count goes to
--0. The reference count can be adjusted using:
-+0. The reference count can be adjusted using::
- 
--struct device * get_device(struct device * dev);
--void put_device(struct device * dev);
-+  struct device * get_device(struct device * dev);
-+  void put_device(struct device * dev);
- 
- get_device() will return a pointer to the struct device passed to it
- if the reference is not already 0 (if it's in the process of being
- removed already).
- 
--A driver can access the lock in the device structure using: 
-+A driver can access the lock in the device structure using::
- 
--void lock_device(struct device * dev);
--void unlock_device(struct device * dev);
-+  void lock_device(struct device * dev);
-+  void unlock_device(struct device * dev);
- 
- 
- Attributes
- ~~~~~~~~~~
--struct device_attribute {
+ Author: Elias Oltmanns <eo@nebensachen.de>
 +
-+::
+ Last modified: 2008-10-03
+ 
+ 
+-0. Contents
+------------
++.. 0. Contents
+ 
+-1. Intro
+-2. The interface
+-3. References
+-4. CREDITS
++   1. Intro
++   2. The interface
++   3. References
++   4. CREDITS
+ 
+ 
+ 1. Intro
+@@ -36,8 +37,8 @@ that).
+ ----------------
+ 
+ For each ATA device, the kernel exports the file
+-block/*/device/unload_heads in sysfs (here assumed to be mounted under
+-/sys). Access to /sys/block/*/device/unload_heads is denied with
++`block/*/device/unload_heads` in sysfs (here assumed to be mounted under
++/sys). Access to `/sys/block/*/device/unload_heads` is denied with
+ -EOPNOTSUPP if the device does not support the unload feature.
+ Otherwise, writing an integer value to this file will take the heads
+ of the respective drive off the platter and block all I/O operations
+@@ -54,18 +55,18 @@ cancel a previously set timeout and resume normal operation
+ immediately by specifying a timeout of 0. Values below -2 are rejected
+ with -EINVAL (see below for the special meaning of -1 and -2). If the
+ timeout specified for a recent head park request has not yet expired,
+-reading from /sys/block/*/device/unload_heads will report the number
++reading from `/sys/block/*/device/unload_heads` will report the number
+ of milliseconds remaining until normal operation will be resumed;
+ otherwise, reading the unload_heads attribute will return 0.
+ 
+ For example, do the following in order to park the heads of drive
+-/dev/sda and stop all I/O operations for five seconds:
++/dev/sda and stop all I/O operations for five seconds::
+ 
+-# echo 5000 > /sys/block/sda/device/unload_heads
++	# echo 5000 > /sys/block/sda/device/unload_heads
+ 
+-A simple
++A simple::
+ 
+-# cat /sys/block/sda/device/unload_heads
++	# cat /sys/block/sda/device/unload_heads
+ 
+ will show you how many milliseconds are left before normal operation
+ will be resumed.
+@@ -112,9 +113,9 @@ unload_heads attribute. If you know that your device really does
+ support the unload feature (for instance, because the vendor of your
+ laptop or the hard drive itself told you so), then you can tell the
+ kernel to enable the usage of this feature for that drive by writing
+-the special value -1 to the unload_heads attribute:
++the special value -1 to the unload_heads attribute::
+ 
+-# echo -1 > /sys/block/sda/device/unload_heads
++	# echo -1 > /sys/block/sda/device/unload_heads
+ 
+ will enable the feature for /dev/sda, and giving -2 instead of -1 will
+ disable it again.
+@@ -135,6 +136,7 @@ for use. Please feel free to add projects that have been the victims
+ of my ignorance.
+ 
+ - http://www.thinkwiki.org/wiki/HDAPS
 +
-+  struct device_attribute {
- 	struct attribute	attr;
- 	ssize_t (*show)(struct device *dev, struct device_attribute *attr,
- 			char *buf);
- 	ssize_t (*store)(struct device *dev, struct device_attribute *attr,
- 			 const char *buf, size_t count);
--};
-+  };
+   See this page for information about Linux support of the hard disk
+   active protection system as implemented in IBM/Lenovo Thinkpads.
  
- Attributes of devices can be exported by a device driver through sysfs.
- 
-@@ -54,39 +57,39 @@ As explained in Documentation/kobject.txt, device attributes must be
- created before the KOBJ_ADD uevent is generated. The only way to realize
- that is by defining an attribute group.
- 
--Attributes are declared using a macro called DEVICE_ATTR:
-+Attributes are declared using a macro called DEVICE_ATTR::
- 
--#define DEVICE_ATTR(name,mode,show,store)
-+  #define DEVICE_ATTR(name,mode,show,store)
- 
--Example:
-+Example:::
- 
--static DEVICE_ATTR(type, 0444, show_type, NULL);
--static DEVICE_ATTR(power, 0644, show_power, store_power);
-+  static DEVICE_ATTR(type, 0444, show_type, NULL);
-+  static DEVICE_ATTR(power, 0644, show_power, store_power);
- 
- This declares two structures of type struct device_attribute with respective
- names 'dev_attr_type' and 'dev_attr_power'. These two attributes can be
--organized as follows into a group:
-+organized as follows into a group::
- 
--static struct attribute *dev_attrs[] = {
-+  static struct attribute *dev_attrs[] = {
- 	&dev_attr_type.attr,
- 	&dev_attr_power.attr,
- 	NULL,
--};
-+  };
- 
--static struct attribute_group dev_attr_group = {
-+  static struct attribute_group dev_attr_group = {
- 	.attrs = dev_attrs,
--};
-+  };
- 
--static const struct attribute_group *dev_attr_groups[] = {
-+  static const struct attribute_group *dev_attr_groups[] = {
- 	&dev_attr_group,
- 	NULL,
--};
-+  };
- 
- This array of groups can then be associated with a device by setting the
--group pointer in struct device before device_register() is invoked:
-+group pointer in struct device before device_register() is invoked::
- 
--      dev->groups = dev_attr_groups;
--      device_register(dev);
-+        dev->groups = dev_attr_groups;
-+        device_register(dev);
- 
- The device_register() function will use the 'groups' pointer to create the
- device attributes and the device_unregister() function will use this pointer
-diff --git a/Documentation/driver-model/devres.txt b/Documentation/driver-model/devres.rst
-similarity index 93%
-rename from Documentation/driver-model/devres.txt
-rename to Documentation/driver-model/devres.rst
-index 69c7fa7f616c..4ac99122b5f1 100644
---- a/Documentation/driver-model/devres.txt
-+++ b/Documentation/driver-model/devres.rst
-@@ -1,3 +1,4 @@
-+================================
- Devres - Managed Device Resource
- ================================
- 
-@@ -5,17 +6,18 @@ Tejun Heo	<teheo@suse.de>
- 
- First draft	10 January 2007
- 
-+.. contents
- 
--1. Intro			: Huh? Devres?
--2. Devres			: Devres in a nutshell
--3. Devres Group			: Group devres'es and release them together
--4. Details			: Life time rules, calling context, ...
--5. Overhead			: How much do we have to pay for this?
--6. List of managed interfaces	: Currently implemented managed interfaces
-+   1. Intro			: Huh? Devres?
-+   2. Devres			: Devres in a nutshell
-+   3. Devres Group		: Group devres'es and release them together
-+   4. Details			: Life time rules, calling context, ...
-+   5. Overhead			: How much do we have to pay for this?
-+   6. List of managed interfaces: Currently implemented managed interfaces
- 
- 
--  1. Intro
--  --------
-+1. Intro
-+--------
- 
- devres came up while trying to convert libata to use iomap.  Each
- iomapped address should be kept and unmapped on driver detach.  For
-@@ -42,8 +44,8 @@ would leak resources or even cause oops when failure occurs.  iomap
- adds more to this mix.  So do msi and msix.
- 
- 
--  2. Devres
--  ---------
-+2. Devres
-+---------
- 
- devres is basically linked list of arbitrarily sized memory areas
- associated with a struct device.  Each devres entry is associated with
-@@ -58,7 +60,7 @@ using dma_alloc_coherent().  The managed version is called
- dmam_alloc_coherent().  It is identical to dma_alloc_coherent() except
- for the DMA memory allocated using it is managed and will be
- automatically released on driver detach.  Implementation looks like
--the following.
-+the following::
- 
-   struct dma_devres {
- 	size_t		size;
-@@ -98,7 +100,7 @@ If a driver uses dmam_alloc_coherent(), the area is guaranteed to be
- freed whether initialization fails half-way or the device gets
- detached.  If most resources are acquired using managed interface, a
- driver can have much simpler init and exit code.  Init path basically
--looks like the following.
-+looks like the following::
- 
-   my_init_one()
-   {
-@@ -119,7 +121,7 @@ looks like the following.
- 	return register_to_upper_layer(d);
-   }
- 
--And exit path,
-+And exit path::
- 
-   my_remove_one()
-   {
-@@ -140,13 +142,13 @@ on you. In some cases this may mean introducing checks that were not
- necessary before moving to the managed devm_* calls.
- 
- 
--  3. Devres group
--  ---------------
-+3. Devres group
-+---------------
- 
- Devres entries can be grouped using devres group.  When a group is
- released, all contained normal devres entries and properly nested
- groups are released.  One usage is to rollback series of acquired
--resources on failure.  For example,
-+resources on failure.  For example::
- 
-   if (!devres_open_group(dev, NULL, GFP_KERNEL))
- 	return -ENOMEM;
-@@ -172,7 +174,7 @@ like above are usually useful in midlayer driver (e.g. libata core
- layer) where interface function shouldn't have side effect on failure.
- For LLDs, just returning error code suffices in most cases.
- 
--Each group is identified by void *id.  It can either be explicitly
-+Each group is identified by `void *id`.  It can either be explicitly
- specified by @id argument to devres_open_group() or automatically
- created by passing NULL as @id as in the above example.  In both
- cases, devres_open_group() returns the group's id.  The returned id
-@@ -180,7 +182,7 @@ can be passed to other devres functions to select the target group.
- If NULL is given to those functions, the latest open group is
- selected.
- 
--For example, you can do something like the following.
-+For example, you can do something like the following::
- 
-   int my_midlayer_create_something()
-   {
-@@ -199,8 +201,8 @@ For example, you can do something like the following.
-   }
- 
- 
--  4. Details
--  ----------
-+4. Details
-+----------
- 
- Lifetime of a devres entry begins on devres allocation and finishes
- when it is released or destroyed (removed and freed) - no reference
-@@ -220,8 +222,8 @@ All devres interface functions can be called without context if the
- right gfp mask is given.
- 
- 
--  5. Overhead
--  -----------
-+5. Overhead
-+-----------
- 
- Each devres bookkeeping info is allocated together with requested data
- area.  With debug option turned off, bookkeeping info occupies 16
-@@ -237,8 +239,8 @@ and 400 bytes on 32bit machine after naive conversion (we can
- certainly invest a bit more effort into libata core layer).
- 
- 
--  6. List of managed interfaces
--  -----------------------------
-+6. List of managed interfaces
-+-----------------------------
- 
- CLOCK
-   devm_clk_get()
-diff --git a/Documentation/driver-model/driver.txt b/Documentation/driver-model/driver.rst
-similarity index 75%
-rename from Documentation/driver-model/driver.txt
-rename to Documentation/driver-model/driver.rst
-index d661e6f7e6a0..11d281506a04 100644
---- a/Documentation/driver-model/driver.txt
-+++ b/Documentation/driver-model/driver.rst
-@@ -1,5 +1,6 @@
--
-+==============
- Device Drivers
-+==============
- 
- See the kerneldoc for the struct device_driver.
- 
-@@ -26,50 +27,50 @@ Declaration
- As stated above, struct device_driver objects are statically
- allocated. Below is an example declaration of the eepro100
- driver. This declaration is hypothetical only; it relies on the driver
--being converted completely to the new model. 
-+being converted completely to the new model::
- 
--static struct device_driver eepro100_driver = {
--       .name		= "eepro100",
--       .bus		= &pci_bus_type,
--       
--       .probe		= eepro100_probe,
--       .remove		= eepro100_remove,
--       .suspend		= eepro100_suspend,
--       .resume		= eepro100_resume,
--};
-+  static struct device_driver eepro100_driver = {
-+         .name		= "eepro100",
-+         .bus		= &pci_bus_type,
-+
-+         .probe		= eepro100_probe,
-+         .remove		= eepro100_remove,
-+         .suspend		= eepro100_suspend,
-+         .resume		= eepro100_resume,
-+  };
- 
- Most drivers will not be able to be converted completely to the new
- model because the bus they belong to has a bus-specific structure with
--bus-specific fields that cannot be generalized. 
-+bus-specific fields that cannot be generalized.
- 
- The most common example of this are device ID structures. A driver
- typically defines an array of device IDs that it supports. The format
- of these structures and the semantics for comparing device IDs are
- completely bus-specific. Defining them as bus-specific entities would
--sacrifice type-safety, so we keep bus-specific structures around. 
-+sacrifice type-safety, so we keep bus-specific structures around.
- 
- Bus-specific drivers should include a generic struct device_driver in
--the definition of the bus-specific driver. Like this:
-+the definition of the bus-specific driver. Like this::
- 
--struct pci_driver {
--       const struct pci_device_id *id_table;
--       struct device_driver	  driver;
--};
-+  struct pci_driver {
-+         const struct pci_device_id *id_table;
-+         struct device_driver	  driver;
-+  };
- 
- A definition that included bus-specific fields would look like
--(using the eepro100 driver again):
-+(using the eepro100 driver again)::
- 
--static struct pci_driver eepro100_driver = {
--       .id_table       = eepro100_pci_tbl,
--       .driver	       = {
-+  static struct pci_driver eepro100_driver = {
-+         .id_table       = eepro100_pci_tbl,
-+         .driver	       = {
- 		.name		= "eepro100",
- 		.bus		= &pci_bus_type,
- 		.probe		= eepro100_probe,
- 		.remove		= eepro100_remove,
- 		.suspend	= eepro100_suspend,
- 		.resume		= eepro100_resume,
--       },
--};
-+         },
-+  };
- 
- Some may find the syntax of embedded struct initialization awkward or
- even a bit ugly. So far, it's the best way we've found to do what we want...
-@@ -77,12 +78,14 @@ even a bit ugly. So far, it's the best way we've found to do what we want...
- Registration
- ~~~~~~~~~~~~
- 
--int driver_register(struct device_driver * drv);
-+::
-+
-+  int driver_register(struct device_driver *drv);
- 
- The driver registers the structure on startup. For drivers that have
- no bus-specific fields (i.e. don't have a bus-specific driver
- structure), they would use driver_register and pass a pointer to their
--struct device_driver object. 
-+struct device_driver object.
- 
- Most drivers, however, will have a bus-specific structure and will
- need to register with the bus using something like pci_driver_register.
-@@ -101,7 +104,7 @@ By defining wrapper functions, the transition to the new model can be
- made easier. Drivers can ignore the generic structure altogether and
- let the bus wrapper fill in the fields. For the callbacks, the bus can
- define generic callbacks that forward the call to the bus-specific
--callbacks of the drivers. 
-+callbacks of the drivers.
- 
- This solution is intended to be only temporary. In order to get class
- information in the driver, the drivers must be modified anyway. Since
-@@ -113,16 +116,16 @@ Access
- ~~~~~~
- 
- Once the object has been registered, it may access the common fields of
--the object, like the lock and the list of devices. 
-+the object, like the lock and the list of devices::
- 
--int driver_for_each_dev(struct device_driver * drv, void * data, 
--		        int (*callback)(struct device * dev, void * data));
-+  int driver_for_each_dev(struct device_driver *drv, void *data,
-+			  int (*callback)(struct device *dev, void *data));
- 
- The devices field is a list of all the devices that have been bound to
- the driver. The LDM core provides a helper function to operate on all
- the devices a driver controls. This helper locks the driver on each
- node access, and does proper reference counting on each device as it
--accesses it. 
-+accesses it.
- 
- 
- sysfs
-@@ -142,7 +145,9 @@ supports.
- Callbacks
- ~~~~~~~~~
- 
--	int	(*probe)	(struct device * dev);
-+::
-+
-+	int	(*probe)	(struct device *dev);
- 
- The probe() entry is called in task context, with the bus's rwsem locked
- and the driver partially bound to the device.  Drivers commonly use
-@@ -162,9 +167,9 @@ the driver to that device.
- 
- A driver's probe() may return a negative errno value to indicate that
- the driver did not bind to this device, in which case it should have
--released all resources it allocated.
-+released all resources it allocated::
- 
--	int 	(*remove)	(struct device * dev);
-+	int 	(*remove)	(struct device *dev);
- 
- remove is called to unbind a driver from a device. This may be
- called if a device is physically removed from the system, if the
-@@ -173,43 +178,46 @@ in other cases.
- 
- It is up to the driver to determine if the device is present or
- not. It should free any resources allocated specifically for the
--device; i.e. anything in the device's driver_data field. 
-+device; i.e. anything in the device's driver_data field.
- 
- If the device is still present, it should quiesce the device and place
--it into a supported low-power state.
-+it into a supported low-power state::
- 
--	int	(*suspend)	(struct device * dev, pm_message_t state);
-+	int	(*suspend)	(struct device *dev, pm_message_t state);
- 
--suspend is called to put the device in a low power state.
-+suspend is called to put the device in a low power state::
- 
--	int	(*resume)	(struct device * dev);
-+	int	(*resume)	(struct device *dev);
- 
- Resume is used to bring a device back from a low power state.
- 
- 
- Attributes
- ~~~~~~~~~~
--struct driver_attribute {
--        struct attribute        attr;
--        ssize_t (*show)(struct device_driver *driver, char *buf);
--        ssize_t (*store)(struct device_driver *, const char * buf, size_t count);
--};
- 
--Device drivers can export attributes via their sysfs directories. 
-+::
-+
-+  struct driver_attribute {
-+          struct attribute        attr;
-+          ssize_t (*show)(struct device_driver *driver, char *buf);
-+          ssize_t (*store)(struct device_driver *, const char *buf, size_t count);
-+  };
-+
-+Device drivers can export attributes via their sysfs directories.
- Drivers can declare attributes using a DRIVER_ATTR_RW and DRIVER_ATTR_RO
- macro that works identically to the DEVICE_ATTR_RW and DEVICE_ATTR_RO
- macros.
- 
--Example:
-+Example::
- 
--DRIVER_ATTR_RW(debug);
-+	DRIVER_ATTR_RW(debug);
- 
--This is equivalent to declaring:
-+This is equivalent to declaring::
- 
--struct driver_attribute driver_attr_debug;
-+	struct driver_attribute driver_attr_debug;
- 
- This can then be used to add and remove the attribute from the
--driver's directory using:
-+driver's directory using::
- 
--int driver_create_file(struct device_driver *, const struct driver_attribute *);
--void driver_remove_file(struct device_driver *, const struct driver_attribute *);
-+  int driver_create_file(struct device_driver *, const struct driver_attribute *);
-+  void driver_remove_file(struct device_driver *, const struct driver_attribute *);
-diff --git a/Documentation/driver-model/index.rst b/Documentation/driver-model/index.rst
+diff --git a/Documentation/laptops/index.rst b/Documentation/laptops/index.rst
 new file mode 100644
-index 000000000000..9f85d579ce56
+index 000000000000..001a30910d09
 --- /dev/null
-+++ b/Documentation/driver-model/index.rst
-@@ -0,0 +1,26 @@
++++ b/Documentation/laptops/index.rst
+@@ -0,0 +1,17 @@
 +:orphan:
 +
-+============
-+Driver Model
-+============
++==============
++Laptop Drivers
++==============
 +
 +.. toctree::
 +   :maxdepth: 1
 +
-+   binding
-+   bus
-+   class
-+   design-patterns
-+   device
-+   devres
-+   driver
-+   overview
-+   platform
-+   porting
-+
-+.. only::  subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
-diff --git a/Documentation/driver-model/overview.txt b/Documentation/driver-model/overview.rst
-similarity index 90%
-rename from Documentation/driver-model/overview.txt
-rename to Documentation/driver-model/overview.rst
-index 6a8f9a8075d8..d4d1e9b40e0c 100644
---- a/Documentation/driver-model/overview.txt
-+++ b/Documentation/driver-model/overview.rst
-@@ -1,4 +1,6 @@
-+=============================
- The Linux Kernel Device Model
-+=============================
- 
- Patrick Mochel	<mochel@digitalimplant.org>
- 
-@@ -41,14 +43,14 @@ data structure. These fields must still be accessed by the bus layers,
- and sometimes by the device-specific drivers.
- 
- Other bus layers are encouraged to do what has been done for the PCI layer.
--struct pci_dev now looks like this:
-+struct pci_dev now looks like this::
- 
--struct pci_dev {
-+  struct pci_dev {
- 	...
- 
- 	struct device dev;     /* Generic device interface */
- 	...
--};
-+  };
- 
- Note first that the struct device dev within the struct pci_dev is
- statically allocated. This means only one allocation on device discovery.
-@@ -80,26 +82,26 @@ easy. This has been accomplished by implementing a special purpose virtual
- file system named sysfs.
- 
- Almost all mainstream Linux distros mount this filesystem automatically; you
--can see some variation of the following in the output of the "mount" command:
-+can see some variation of the following in the output of the "mount" command::
- 
--$ mount
--...
--none on /sys type sysfs (rw,noexec,nosuid,nodev)
--...
--$
-+  $ mount
-+  ...
-+  none on /sys type sysfs (rw,noexec,nosuid,nodev)
-+  ...
-+  $
- 
- The auto-mounting of sysfs is typically accomplished by an entry similar to
--the following in the /etc/fstab file:
-+the following in the /etc/fstab file::
- 
--none     	/sys	sysfs    defaults	  	0 0
-+  none     	/sys	sysfs    defaults	  	0 0
- 
--or something similar in the /lib/init/fstab file on Debian-based systems:
-+or something similar in the /lib/init/fstab file on Debian-based systems::
- 
--none            /sys    sysfs    nodev,noexec,nosuid    0 0
-+  none            /sys    sysfs    nodev,noexec,nosuid    0 0
- 
--If sysfs is not automatically mounted, you can always do it manually with:
-+If sysfs is not automatically mounted, you can always do it manually with::
- 
--# mount -t sysfs sysfs /sys
-+	# mount -t sysfs sysfs /sys
- 
- Whenever a device is inserted into the tree, a directory is created for it.
- This directory may be populated at each layer of discovery - the global layer,
-@@ -108,7 +110,7 @@ the bus layer, or the device layer.
- The global layer currently creates two files - 'name' and 'power'. The
- former only reports the name of the device. The latter reports the
- current power state of the device. It will also be used to set the current
--power state. 
-+power state.
- 
- The bus layer may also create files for the devices it finds while probing the
- bus. For example, the PCI layer currently creates 'irq' and 'resource' files
-@@ -118,6 +120,5 @@ A device-specific driver may also export files in its directory to expose
- device-specific data or tunable interfaces.
- 
- More information about the sysfs directory layout can be found in
--the other documents in this directory and in the file 
-+the other documents in this directory and in the file
- Documentation/filesystems/sysfs.txt.
--
-diff --git a/Documentation/driver-model/platform.txt b/Documentation/driver-model/platform.rst
-similarity index 95%
-rename from Documentation/driver-model/platform.txt
-rename to Documentation/driver-model/platform.rst
-index 9d9e47dfc013..334dd4071ae4 100644
---- a/Documentation/driver-model/platform.txt
-+++ b/Documentation/driver-model/platform.rst
-@@ -1,5 +1,7 @@
-+============================
- Platform Devices and Drivers
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+============================
-+
- See <linux/platform_device.h> for the driver model interface to the
- platform bus:  platform_device, and platform_driver.  This pseudo-bus
- is used to connect devices on busses with minimal infrastructure,
-@@ -19,15 +21,15 @@ be connected through a segment of some other kind of bus; but its
- registers will still be directly addressable.
- 
- Platform devices are given a name, used in driver binding, and a
--list of resources such as addresses and IRQs.
-+list of resources such as addresses and IRQs::
- 
--struct platform_device {
-+  struct platform_device {
- 	const char	*name;
- 	u32		id;
- 	struct device	dev;
- 	u32		num_resources;
- 	struct resource	*resource;
--};
-+  };
- 
- 
- Platform drivers
-@@ -35,9 +37,9 @@ Platform drivers
- Platform drivers follow the standard driver model convention, where
- discovery/enumeration is handled outside the drivers, and drivers
- provide probe() and remove() methods.  They support power management
--and shutdown notifications using the standard conventions.
-+and shutdown notifications using the standard conventions::
- 
--struct platform_driver {
-+  struct platform_driver {
- 	int (*probe)(struct platform_device *);
- 	int (*remove)(struct platform_device *);
- 	void (*shutdown)(struct platform_device *);
-@@ -46,25 +48,25 @@ struct platform_driver {
- 	int (*resume_early)(struct platform_device *);
- 	int (*resume)(struct platform_device *);
- 	struct device_driver driver;
--};
-+  };
- 
- Note that probe() should in general verify that the specified device hardware
- actually exists; sometimes platform setup code can't be sure.  The probing
- can use device resources, including clocks, and device platform_data.
- 
--Platform drivers register themselves the normal way:
-+Platform drivers register themselves the normal way::
- 
- 	int platform_driver_register(struct platform_driver *drv);
- 
- Or, in common situations where the device is known not to be hot-pluggable,
- the probe() routine can live in an init section to reduce the driver's
--runtime memory footprint:
-+runtime memory footprint::
- 
- 	int platform_driver_probe(struct platform_driver *drv,
- 			  int (*probe)(struct platform_device *))
- 
- Kernel modules can be composed of several platform drivers. The platform core
--provides helpers to register and unregister an array of drivers:
-+provides helpers to register and unregister an array of drivers::
- 
- 	int __platform_register_drivers(struct platform_driver * const *drivers,
- 				      unsigned int count, struct module *owner);
-@@ -73,7 +75,7 @@ provides helpers to register and unregister an array of drivers:
- 
- If one of the drivers fails to register, all drivers registered up to that
- point will be unregistered in reverse order. Note that there is a convenience
--macro that passes THIS_MODULE as owner parameter:
-+macro that passes THIS_MODULE as owner parameter::
- 
- 	#define platform_register_drivers(drivers, count)
- 
-@@ -81,7 +83,7 @@ macro that passes THIS_MODULE as owner parameter:
- Device Enumeration
- ~~~~~~~~~~~~~~~~~~
- As a rule, platform specific (and often board-specific) setup code will
--register platform devices:
-+register platform devices::
- 
- 	int platform_device_register(struct platform_device *pdev);
- 
-@@ -133,14 +135,14 @@ tend to already have "normal" modes, such as ones using device nodes that
- were created by PNP or by platform device setup.
- 
- None the less, there are some APIs to support such legacy drivers.  Avoid
--using these calls except with such hotplug-deficient drivers.
-+using these calls except with such hotplug-deficient drivers::
- 
- 	struct platform_device *platform_device_alloc(
- 			const char *name, int id);
- 
- You can use platform_device_alloc() to dynamically allocate a device, which
- you will then initialize with resources and platform_device_register().
--A better solution is usually:
-+A better solution is usually::
- 
- 	struct platform_device *platform_device_register_simple(
- 			const char *name, int id,
-diff --git a/Documentation/driver-model/porting.txt b/Documentation/driver-model/porting.rst
++   asus-laptop
++   disk-shock-protection
++   laptop-mode
++   lg-laptop
++   sony-laptop
++   sonypi
++   thinkpad-acpi
++   toshiba_haps
+diff --git a/Documentation/laptops/laptop-mode.txt b/Documentation/laptops/laptop-mode.rst
 similarity index 62%
-rename from Documentation/driver-model/porting.txt
-rename to Documentation/driver-model/porting.rst
-index 453053f1661f..ae4bf843c1d6 100644
---- a/Documentation/driver-model/porting.txt
-+++ b/Documentation/driver-model/porting.rst
-@@ -1,5 +1,6 @@
--
-+=======================================
- Porting Drivers to the New Driver Model
-+=======================================
+rename from Documentation/laptops/laptop-mode.txt
+rename to Documentation/laptops/laptop-mode.rst
+index 1c707fc9b141..c984c4262f2e 100644
+--- a/Documentation/laptops/laptop-mode.txt
++++ b/Documentation/laptops/laptop-mode.rst
+@@ -1,8 +1,11 @@
++===============================================
+ How to conserve battery power using laptop-mode
+------------------------------------------------
++===============================================
  
- Patrick Mochel
- 
-@@ -8,8 +9,8 @@ Patrick Mochel
- 
- Overview
- 
--Please refer to Documentation/driver-model/*.txt for definitions of
--various driver types and concepts. 
-+Please refer to `Documentation/driver-model/*.rst` for definitions of
-+various driver types and concepts.
- 
- Most of the work of porting devices drivers to the new model happens
- at the bus driver layer. This was intentional, to minimize the
-@@ -18,11 +19,11 @@ of bus drivers.
- 
- In a nutshell, the driver model consists of a set of objects that can
- be embedded in larger, bus-specific objects. Fields in these generic
--objects can replace fields in the bus-specific objects. 
-+objects can replace fields in the bus-specific objects.
- 
- The generic objects must be registered with the driver model core. By
- doing so, they will exported via the sysfs filesystem. sysfs can be
--mounted by doing 
-+mounted by doing::
- 
- 	# mount -t sysfs sysfs /sys
- 
-@@ -30,108 +31,109 @@ mounted by doing
- 
- The Process
- 
--Step 0: Read include/linux/device.h for object and function definitions. 
-+Step 0: Read include/linux/device.h for object and function definitions.
- 
--Step 1: Registering the bus driver. 
-+Step 1: Registering the bus driver.
- 
- 
--- Define a struct bus_type for the bus driver.
-+- Define a struct bus_type for the bus driver::
- 
--struct bus_type pci_bus_type = {
--        .name           = "pci",
--};
-+    struct bus_type pci_bus_type = {
-+          .name           = "pci",
-+    };
- 
- 
- - Register the bus type.
+ Document Author: Bart Samwel (bart@samwel.tk)
 +
-   This should be done in the initialization function for the bus type,
--  which is usually the module_init(), or equivalent, function. 
-+  which is usually the module_init(), or equivalent, function::
+ Date created: January 2, 2004
++
+ Last modified: December 06, 2004
  
--static int __init pci_driver_init(void)
--{
--        return bus_register(&pci_bus_type);
+ Introduction
+@@ -12,17 +15,16 @@ Laptop mode is used to minimize the time that the hard disk needs to be spun up,
+ to conserve battery power on laptops. It has been reported to cause significant
+ power savings.
+ 
+-Contents
+---------
++.. Contents
+ 
+-* Introduction
+-* Installation
+-* Caveats
+-* The Details
+-* Tips & Tricks
+-* Control script
+-* ACPI integration
+-* Monitoring tool
++   * Introduction
++   * Installation
++   * Caveats
++   * The Details
++   * Tips & Tricks
++   * Control script
++   * ACPI integration
++   * Monitoring tool
+ 
+ 
+ Installation
+@@ -33,7 +35,7 @@ or anything. Simply install all the files included in this document, and
+ laptop mode will automatically be started when you're on battery. For
+ your convenience, a tarball containing an installer can be downloaded at:
+ 
+-http://www.samwel.tk/laptop_mode/laptop_mode/
++	http://www.samwel.tk/laptop_mode/laptop_mode/
+ 
+ To configure laptop mode, you need to edit the configuration file, which is
+ located in /etc/default/laptop-mode on Debian-based systems, or in
+@@ -209,7 +211,7 @@ Tips & Tricks
+   this on powerbooks too. I hope that this is a piece of information that
+   might be useful to the Laptop Mode patch or its users."
+ 
+-* In syslog.conf, you can prefix entries with a dash ``-'' to omit syncing the
++* In syslog.conf, you can prefix entries with a dash `-` to omit syncing the
+   file after every logging. When you're using laptop-mode and your disk doesn't
+   spin down, this is a likely culprit.
+ 
+@@ -233,83 +235,82 @@ configuration file
+ It should be installed as /etc/default/laptop-mode on Debian, and as
+ /etc/sysconfig/laptop-mode on Red Hat, SUSE, Mandrake, and other work-alikes.
+ 
+---------------------CONFIG FILE BEGIN-------------------------------------------
+-# Maximum time, in seconds, of hard drive spindown time that you are
+-# comfortable with. Worst case, it's possible that you could lose this
+-# amount of work if your battery fails you while in laptop mode.
+-#MAX_AGE=600
++Config file::
+ 
+-# Automatically disable laptop mode when the number of minutes of battery
+-# that you have left goes below this threshold.
+-MINIMUM_BATTERY_MINUTES=10
++  # Maximum time, in seconds, of hard drive spindown time that you are
++  # comfortable with. Worst case, it's possible that you could lose this
++  # amount of work if your battery fails you while in laptop mode.
++  #MAX_AGE=600
+ 
+-# Read-ahead, in 512-byte sectors. You can spin down the disk while playing MP3/OGG
+-# by setting the disk readahead to 8MB (READAHEAD=16384). Effectively, the disk
+-# will read a complete MP3 at once, and will then spin down while the MP3/OGG is
+-# playing.
+-#READAHEAD=4096
++  # Automatically disable laptop mode when the number of minutes of battery
++  # that you have left goes below this threshold.
++  MINIMUM_BATTERY_MINUTES=10
+ 
+-# Shall we remount journaled fs. with appropriate commit interval? (1=yes)
+-#DO_REMOUNTS=1
++  # Read-ahead, in 512-byte sectors. You can spin down the disk while playing MP3/OGG
++  # by setting the disk readahead to 8MB (READAHEAD=16384). Effectively, the disk
++  # will read a complete MP3 at once, and will then spin down while the MP3/OGG is
++  # playing.
++  #READAHEAD=4096
+ 
+-# And shall we add the "noatime" option to that as well? (1=yes)
+-#DO_REMOUNT_NOATIME=1
++  # Shall we remount journaled fs. with appropriate commit interval? (1=yes)
++  #DO_REMOUNTS=1
+ 
+-# Dirty synchronous ratio.  At this percentage of dirty pages the process
+-# which
+-# calls write() does its own writeback
+-#DIRTY_RATIO=40
++  # And shall we add the "noatime" option to that as well? (1=yes)
++  #DO_REMOUNT_NOATIME=1
+ 
+-#
+-# Allowed dirty background ratio, in percent.  Once DIRTY_RATIO has been
+-# exceeded, the kernel will wake flusher threads which will then reduce the
+-# amount of dirty memory to dirty_background_ratio.  Set this nice and low,
+-# so once some writeout has commenced, we do a lot of it.
+-#
+-#DIRTY_BACKGROUND_RATIO=5
++  # Dirty synchronous ratio.  At this percentage of dirty pages the process
++  # which
++  # calls write() does its own writeback
++  #DIRTY_RATIO=40
+ 
+-# kernel default dirty buffer age
+-#DEF_AGE=30
+-#DEF_UPDATE=5
+-#DEF_DIRTY_BACKGROUND_RATIO=10
+-#DEF_DIRTY_RATIO=40
+-#DEF_XFS_AGE_BUFFER=15
+-#DEF_XFS_SYNC_INTERVAL=30
+-#DEF_XFS_BUFD_INTERVAL=1
++  #
++  # Allowed dirty background ratio, in percent.  Once DIRTY_RATIO has been
++  # exceeded, the kernel will wake flusher threads which will then reduce the
++  # amount of dirty memory to dirty_background_ratio.  Set this nice and low,
++  # so once some writeout has commenced, we do a lot of it.
++  #
++  #DIRTY_BACKGROUND_RATIO=5
+ 
+-# This must be adjusted manually to the value of HZ in the running kernel
+-# on 2.4, until the XFS people change their 2.4 external interfaces to work in
+-# centisecs. This can be automated, but it's a work in progress that still
+-# needs# some fixes. On 2.6 kernels, XFS uses USER_HZ instead of HZ for
+-# external interfaces, and that is currently always set to 100. So you don't
+-# need to change this on 2.6.
+-#XFS_HZ=100
++  # kernel default dirty buffer age
++  #DEF_AGE=30
++  #DEF_UPDATE=5
++  #DEF_DIRTY_BACKGROUND_RATIO=10
++  #DEF_DIRTY_RATIO=40
++  #DEF_XFS_AGE_BUFFER=15
++  #DEF_XFS_SYNC_INTERVAL=30
++  #DEF_XFS_BUFD_INTERVAL=1
+ 
+-# Should the maximum CPU frequency be adjusted down while on battery?
+-# Requires CPUFreq to be setup.
+-# See Documentation/admin-guide/pm/cpufreq.rst for more info
+-#DO_CPU=0
++  # This must be adjusted manually to the value of HZ in the running kernel
++  # on 2.4, until the XFS people change their 2.4 external interfaces to work in
++  # centisecs. This can be automated, but it's a work in progress that still
++  # needs# some fixes. On 2.6 kernels, XFS uses USER_HZ instead of HZ for
++  # external interfaces, and that is currently always set to 100. So you don't
++  # need to change this on 2.6.
++  #XFS_HZ=100
+ 
+-# When on battery what is the maximum CPU speed that the system should
+-# use? Legal values are "slowest" for the slowest speed that your
+-# CPU is able to operate at, or a value listed in:
+-# /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies
+-# Only applicable if DO_CPU=1.
+-#CPU_MAXFREQ=slowest
++  # Should the maximum CPU frequency be adjusted down while on battery?
++  # Requires CPUFreq to be setup.
++  # See Documentation/admin-guide/pm/cpufreq.rst for more info
++  #DO_CPU=0
+ 
+-# Idle timeout for your hard drive (man hdparm for valid values, -S option)
+-# Default is 2 hours on AC (AC_HD=244) and 20 seconds for battery (BATT_HD=4).
+-#AC_HD=244
+-#BATT_HD=4
++  # When on battery what is the maximum CPU speed that the system should
++  # use? Legal values are "slowest" for the slowest speed that your
++  # CPU is able to operate at, or a value listed in:
++  # /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies
++  # Only applicable if DO_CPU=1.
++  #CPU_MAXFREQ=slowest
+ 
+-# The drives for which to adjust the idle timeout. Separate them by a space,
+-# e.g. HD="/dev/hda /dev/hdb".
+-#HD="/dev/hda"
++  # Idle timeout for your hard drive (man hdparm for valid values, -S option)
++  # Default is 2 hours on AC (AC_HD=244) and 20 seconds for battery (BATT_HD=4).
++  #AC_HD=244
++  #BATT_HD=4
+ 
+-# Set the spindown timeout on a hard drive?
+-#DO_HD=1
++  # The drives for which to adjust the idle timeout. Separate them by a space,
++  # e.g. HD="/dev/hda /dev/hdb".
++  #HD="/dev/hda"
+ 
+---------------------CONFIG FILE END---------------------------------------------
++  # Set the spindown timeout on a hard drive?
++  #DO_HD=1
+ 
+ 
+ Control script
+@@ -318,125 +319,126 @@ Control script
+ Please note that this control script works for the Linux 2.4 and 2.6 series (thanks
+ to Kiko Piris).
+ 
+---------------------CONTROL SCRIPT BEGIN----------------------------------------
+-#!/bin/bash
++Control script::
+ 
+-# start or stop laptop_mode, best run by a power management daemon when
+-# ac gets connected/disconnected from a laptop
+-#
+-# install as /sbin/laptop_mode
+-#
+-# Contributors to this script:   Kiko Piris
+-#				 Bart Samwel
+-#				 Micha Feigin
+-#				 Andrew Morton
+-#				 Herve Eychenne
+-#				 Dax Kelson
+-#
+-# Original Linux 2.4 version by: Jens Axboe
++  #!/bin/bash
+ 
+-#############################################################################
++  # start or stop laptop_mode, best run by a power management daemon when
++  # ac gets connected/disconnected from a laptop
++  #
++  # install as /sbin/laptop_mode
++  #
++  # Contributors to this script:   Kiko Piris
++  #				 Bart Samwel
++  #				 Micha Feigin
++  #				 Andrew Morton
++  #				 Herve Eychenne
++  #				 Dax Kelson
++  #
++  # Original Linux 2.4 version by: Jens Axboe
+ 
+-# Source config
+-if [ -f /etc/default/laptop-mode ] ; then
++  #############################################################################
++
++  # Source config
++  if [ -f /etc/default/laptop-mode ] ; then
+ 	# Debian
+ 	. /etc/default/laptop-mode
+-elif [ -f /etc/sysconfig/laptop-mode ] ; then
++  elif [ -f /etc/sysconfig/laptop-mode ] ; then
+ 	# Others
+-        . /etc/sysconfig/laptop-mode
+-fi
++          . /etc/sysconfig/laptop-mode
++  fi
+ 
+-# Don't raise an error if the config file is incomplete
+-# set defaults instead:
++  # Don't raise an error if the config file is incomplete
++  # set defaults instead:
+ 
+-# Maximum time, in seconds, of hard drive spindown time that you are
+-# comfortable with. Worst case, it's possible that you could lose this
+-# amount of work if your battery fails you while in laptop mode.
+-MAX_AGE=${MAX_AGE:-'600'}
++  # Maximum time, in seconds, of hard drive spindown time that you are
++  # comfortable with. Worst case, it's possible that you could lose this
++  # amount of work if your battery fails you while in laptop mode.
++  MAX_AGE=${MAX_AGE:-'600'}
+ 
+-# Read-ahead, in kilobytes
+-READAHEAD=${READAHEAD:-'4096'}
++  # Read-ahead, in kilobytes
++  READAHEAD=${READAHEAD:-'4096'}
+ 
+-# Shall we remount journaled fs. with appropriate commit interval? (1=yes)
+-DO_REMOUNTS=${DO_REMOUNTS:-'1'}
++  # Shall we remount journaled fs. with appropriate commit interval? (1=yes)
++  DO_REMOUNTS=${DO_REMOUNTS:-'1'}
+ 
+-# And shall we add the "noatime" option to that as well? (1=yes)
+-DO_REMOUNT_NOATIME=${DO_REMOUNT_NOATIME:-'1'}
++  # And shall we add the "noatime" option to that as well? (1=yes)
++  DO_REMOUNT_NOATIME=${DO_REMOUNT_NOATIME:-'1'}
+ 
+-# Shall we adjust the idle timeout on a hard drive?
+-DO_HD=${DO_HD:-'1'}
++  # Shall we adjust the idle timeout on a hard drive?
++  DO_HD=${DO_HD:-'1'}
+ 
+-# Adjust idle timeout on which hard drive?
+-HD="${HD:-'/dev/hda'}"
++  # Adjust idle timeout on which hard drive?
++  HD="${HD:-'/dev/hda'}"
+ 
+-# spindown time for HD (hdparm -S values)
+-AC_HD=${AC_HD:-'244'}
+-BATT_HD=${BATT_HD:-'4'}
++  # spindown time for HD (hdparm -S values)
++  AC_HD=${AC_HD:-'244'}
++  BATT_HD=${BATT_HD:-'4'}
+ 
+-# Dirty synchronous ratio.  At this percentage of dirty pages the process which
+-# calls write() does its own writeback
+-DIRTY_RATIO=${DIRTY_RATIO:-'40'}
++  # Dirty synchronous ratio.  At this percentage of dirty pages the process which
++  # calls write() does its own writeback
++  DIRTY_RATIO=${DIRTY_RATIO:-'40'}
+ 
+-# cpu frequency scaling
+-# See Documentation/admin-guide/pm/cpufreq.rst for more info
+-DO_CPU=${CPU_MANAGE:-'0'}
+-CPU_MAXFREQ=${CPU_MAXFREQ:-'slowest'}
++  # cpu frequency scaling
++  # See Documentation/admin-guide/pm/cpufreq.rst for more info
++  DO_CPU=${CPU_MANAGE:-'0'}
++  CPU_MAXFREQ=${CPU_MAXFREQ:-'slowest'}
+ 
+-#
+-# Allowed dirty background ratio, in percent.  Once DIRTY_RATIO has been
+-# exceeded, the kernel will wake flusher threads which will then reduce the
+-# amount of dirty memory to dirty_background_ratio.  Set this nice and low,
+-# so once some writeout has commenced, we do a lot of it.
+-#
+-DIRTY_BACKGROUND_RATIO=${DIRTY_BACKGROUND_RATIO:-'5'}
++  #
++  # Allowed dirty background ratio, in percent.  Once DIRTY_RATIO has been
++  # exceeded, the kernel will wake flusher threads which will then reduce the
++  # amount of dirty memory to dirty_background_ratio.  Set this nice and low,
++  # so once some writeout has commenced, we do a lot of it.
++  #
++  DIRTY_BACKGROUND_RATIO=${DIRTY_BACKGROUND_RATIO:-'5'}
+ 
+-# kernel default dirty buffer age
+-DEF_AGE=${DEF_AGE:-'30'}
+-DEF_UPDATE=${DEF_UPDATE:-'5'}
+-DEF_DIRTY_BACKGROUND_RATIO=${DEF_DIRTY_BACKGROUND_RATIO:-'10'}
+-DEF_DIRTY_RATIO=${DEF_DIRTY_RATIO:-'40'}
+-DEF_XFS_AGE_BUFFER=${DEF_XFS_AGE_BUFFER:-'15'}
+-DEF_XFS_SYNC_INTERVAL=${DEF_XFS_SYNC_INTERVAL:-'30'}
+-DEF_XFS_BUFD_INTERVAL=${DEF_XFS_BUFD_INTERVAL:-'1'}
++  # kernel default dirty buffer age
++  DEF_AGE=${DEF_AGE:-'30'}
++  DEF_UPDATE=${DEF_UPDATE:-'5'}
++  DEF_DIRTY_BACKGROUND_RATIO=${DEF_DIRTY_BACKGROUND_RATIO:-'10'}
++  DEF_DIRTY_RATIO=${DEF_DIRTY_RATIO:-'40'}
++  DEF_XFS_AGE_BUFFER=${DEF_XFS_AGE_BUFFER:-'15'}
++  DEF_XFS_SYNC_INTERVAL=${DEF_XFS_SYNC_INTERVAL:-'30'}
++  DEF_XFS_BUFD_INTERVAL=${DEF_XFS_BUFD_INTERVAL:-'1'}
+ 
+-# This must be adjusted manually to the value of HZ in the running kernel
+-# on 2.4, until the XFS people change their 2.4 external interfaces to work in
+-# centisecs. This can be automated, but it's a work in progress that still needs
+-# some fixes. On 2.6 kernels, XFS uses USER_HZ instead of HZ for external
+-# interfaces, and that is currently always set to 100. So you don't need to
+-# change this on 2.6.
+-XFS_HZ=${XFS_HZ:-'100'}
++  # This must be adjusted manually to the value of HZ in the running kernel
++  # on 2.4, until the XFS people change their 2.4 external interfaces to work in
++  # centisecs. This can be automated, but it's a work in progress that still needs
++  # some fixes. On 2.6 kernels, XFS uses USER_HZ instead of HZ for external
++  # interfaces, and that is currently always set to 100. So you don't need to
++  # change this on 2.6.
++  XFS_HZ=${XFS_HZ:-'100'}
+ 
+-#############################################################################
++  #############################################################################
+ 
+-KLEVEL="$(uname -r |
+-             {
++  KLEVEL="$(uname -r |
++               {
+ 	       IFS='.' read a b c
+ 	       echo $a.$b
+ 	     }
+-)"
+-case "$KLEVEL" in
++  )"
++  case "$KLEVEL" in
+ 	"2.4"|"2.6")
+ 		;;
+ 	*)
+ 		echo "Unhandled kernel version: $KLEVEL ('uname -r' = '$(uname -r)')" >&2
+ 		exit 1
+ 		;;
+-esac
++  esac
+ 
+-if [ ! -e /proc/sys/vm/laptop_mode ] ; then
++  if [ ! -e /proc/sys/vm/laptop_mode ] ; then
+ 	echo "Kernel is not patched with laptop_mode patch." >&2
+ 	exit 1
+-fi
++  fi
+ 
+-if [ ! -w /proc/sys/vm/laptop_mode ] ; then
++  if [ ! -w /proc/sys/vm/laptop_mode ] ; then
+ 	echo "You do not have enough privileges to enable laptop_mode." >&2
+ 	exit 1
+-fi
++  fi
+ 
+-# Remove an option (the first parameter) of the form option=<number> from
+-# a mount options string (the rest of the parameters).
+-parse_mount_opts () {
++  # Remove an option (the first parameter) of the form option=<number> from
++  # a mount options string (the rest of the parameters).
++  parse_mount_opts () {
+ 	OPT="$1"
+ 	shift
+ 	echo ",$*," | sed		\
+@@ -444,11 +446,11 @@ parse_mount_opts () {
+ 	 -e 's/,,*/,/g'			\
+ 	 -e 's/^,//'			\
+ 	 -e 's/,$//'
 -}
-+    static int __init pci_driver_init(void)
-+    {
-+            return bus_register(&pci_bus_type);
-+    }
- 
--subsys_initcall(pci_driver_init);
-+    subsys_initcall(pci_driver_init);
- 
- 
-   The bus type may be unregistered (if the bus driver may be compiled
--  as a module) by doing:
-+  as a module) by doing::
- 
-      bus_unregister(&pci_bus_type);
- 
- 
--- Export the bus type for others to use. 
-+- Export the bus type for others to use.
- 
--  Other code may wish to reference the bus type, so declare it in a 
-+  Other code may wish to reference the bus type, so declare it in a
-   shared header file and export the symbol.
- 
--From include/linux/pci.h:
-+From include/linux/pci.h::
- 
--extern struct bus_type pci_bus_type;
-+  extern struct bus_type pci_bus_type;
- 
- 
--From file the above code appears in:
-+From file the above code appears in::
- 
--EXPORT_SYMBOL(pci_bus_type);
-+  EXPORT_SYMBOL(pci_bus_type);
- 
- 
- 
- - This will cause the bus to show up in /sys/bus/pci/ with two
--  subdirectories: 'devices' and 'drivers'.
-+  subdirectories: 'devices' and 'drivers'::
- 
--# tree -d /sys/bus/pci/
--/sys/bus/pci/
--|-- devices
--`-- drivers
-+    # tree -d /sys/bus/pci/
-+    /sys/bus/pci/
-+    |-- devices
-+    `-- drivers
- 
- 
- 
--Step 2: Registering Devices. 
-+Step 2: Registering Devices.
- 
- struct device represents a single device. It mainly contains metadata
--describing the relationship the device has to other entities. 
-+describing the relationship the device has to other entities.
- 
- 
--- Embed a struct device in the bus-specific device type. 
-+- Embed a struct device in the bus-specific device type::
- 
- 
--struct pci_dev {
--       ...
--       struct  device  dev;            /* Generic device interface */
--       ...
--};
-+    struct pci_dev {
-+           ...
-+           struct  device  dev;            /* Generic device interface */
-+           ...
-+    };
- 
--  It is recommended that the generic device not be the first item in 
-+  It is recommended that the generic device not be the first item in
-   the struct to discourage programmers from doing mindless casts
-   between the object types. Instead macros, or inline functions,
--  should be created to convert from the generic object type.
-+  should be created to convert from the generic object type::
- 
- 
--#define to_pci_dev(n) container_of(n, struct pci_dev, dev)
-+    #define to_pci_dev(n) container_of(n, struct pci_dev, dev)
- 
--or 
-+    or
- 
--static inline struct pci_dev * to_pci_dev(struct kobject * kobj)
--{
-+    static inline struct pci_dev * to_pci_dev(struct kobject * kobj)
-+    {
- 	return container_of(n, struct pci_dev, dev);
--}
-+    }
- 
--  This allows the compiler to verify type-safety of the operations 
-+  This allows the compiler to verify type-safety of the operations
-   that are performed (which is Good).
- 
- 
- - Initialize the device on registration.
- 
--  When devices are discovered or registered with the bus type, the 
-+  When devices are discovered or registered with the bus type, the
-   bus driver should initialize the generic device. The most important
-   things to initialize are the bus_id, parent, and bus fields.
- 
-   The bus_id is an ASCII string that contains the device's address on
-   the bus. The format of this string is bus-specific. This is
--  necessary for representing devices in sysfs. 
-+  necessary for representing devices in sysfs.
- 
-   parent is the physical parent of the device. It is important that
--  the bus driver sets this field correctly. 
-+  the bus driver sets this field correctly.
- 
-   The driver model maintains an ordered list of devices that it uses
-   for power management. This list must be in order to guarantee that
-@@ -140,13 +142,13 @@ static inline struct pci_dev * to_pci_dev(struct kobject * kobj)
-   devices.
- 
-   Also, the location of the device's sysfs directory depends on a
--  device's parent. sysfs exports a directory structure that mirrors 
-+  device's parent. sysfs exports a directory structure that mirrors
-   the device hierarchy. Accurately setting the parent guarantees that
-   sysfs will accurately represent the hierarchy.
- 
-   The device's bus field is a pointer to the bus type the device
-   belongs to. This should be set to the bus_type that was declared
--  and initialized before. 
-+  and initialized before.
- 
-   Optionally, the bus driver may set the device's name and release
-   fields.
-@@ -155,107 +157,107 @@ static inline struct pci_dev * to_pci_dev(struct kobject * kobj)
- 
-      "ATI Technologies Inc Radeon QD"
- 
--  The release field is a callback that the driver model core calls 
--  when the device has been removed, and all references to it have 
-+  The release field is a callback that the driver model core calls
-+  when the device has been removed, and all references to it have
-   been released. More on this in a moment.
- 
- 
--- Register the device. 
-+- Register the device.
- 
-   Once the generic device has been initialized, it can be registered
--  with the driver model core by doing:
-+  with the driver model core by doing::
- 
-        device_register(&dev->dev);
- 
--  It can later be unregistered by doing: 
-+  It can later be unregistered by doing::
- 
-        device_unregister(&dev->dev);
- 
--  This should happen on buses that support hotpluggable devices. 
-+  This should happen on buses that support hotpluggable devices.
-   If a bus driver unregisters a device, it should not immediately free
--  it. It should instead wait for the driver model core to call the 
--  device's release method, then free the bus-specific object. 
-+  it. It should instead wait for the driver model core to call the
-+  device's release method, then free the bus-specific object.
-   (There may be other code that is currently referencing the device
--  structure, and it would be rude to free the device while that is 
-+  structure, and it would be rude to free the device while that is
-   happening).
- 
- 
--  When the device is registered, a directory in sysfs is created. 
--  The PCI tree in sysfs looks like: 
-+  When the device is registered, a directory in sysfs is created.
-+  The PCI tree in sysfs looks like::
- 
--/sys/devices/pci0/
--|-- 00:00.0
--|-- 00:01.0
--|   `-- 01:00.0
--|-- 00:02.0
--|   `-- 02:1f.0
--|       `-- 03:00.0
--|-- 00:1e.0
--|   `-- 04:04.0
--|-- 00:1f.0
--|-- 00:1f.1
--|   |-- ide0
--|   |   |-- 0.0
--|   |   `-- 0.1
--|   `-- ide1
--|       `-- 1.0
--|-- 00:1f.2
--|-- 00:1f.3
--`-- 00:1f.5
-+    /sys/devices/pci0/
-+    |-- 00:00.0
-+    |-- 00:01.0
-+    |   `-- 01:00.0
-+    |-- 00:02.0
-+    |   `-- 02:1f.0
-+    |       `-- 03:00.0
-+    |-- 00:1e.0
-+    |   `-- 04:04.0
-+    |-- 00:1f.0
-+    |-- 00:1f.1
-+    |   |-- ide0
-+    |   |   |-- 0.0
-+    |   |   `-- 0.1
-+    |   `-- ide1
-+    |       `-- 1.0
-+    |-- 00:1f.2
-+    |-- 00:1f.3
-+    `-- 00:1f.5
- 
-   Also, symlinks are created in the bus's 'devices' directory
--  that point to the device's directory in the physical hierarchy. 
-+  that point to the device's directory in the physical hierarchy::
- 
--/sys/bus/pci/devices/
--|-- 00:00.0 -> ../../../devices/pci0/00:00.0
--|-- 00:01.0 -> ../../../devices/pci0/00:01.0
--|-- 00:02.0 -> ../../../devices/pci0/00:02.0
--|-- 00:1e.0 -> ../../../devices/pci0/00:1e.0
--|-- 00:1f.0 -> ../../../devices/pci0/00:1f.0
--|-- 00:1f.1 -> ../../../devices/pci0/00:1f.1
--|-- 00:1f.2 -> ../../../devices/pci0/00:1f.2
--|-- 00:1f.3 -> ../../../devices/pci0/00:1f.3
--|-- 00:1f.5 -> ../../../devices/pci0/00:1f.5
--|-- 01:00.0 -> ../../../devices/pci0/00:01.0/01:00.0
--|-- 02:1f.0 -> ../../../devices/pci0/00:02.0/02:1f.0
--|-- 03:00.0 -> ../../../devices/pci0/00:02.0/02:1f.0/03:00.0
--`-- 04:04.0 -> ../../../devices/pci0/00:1e.0/04:04.0
-+    /sys/bus/pci/devices/
-+    |-- 00:00.0 -> ../../../devices/pci0/00:00.0
-+    |-- 00:01.0 -> ../../../devices/pci0/00:01.0
-+    |-- 00:02.0 -> ../../../devices/pci0/00:02.0
-+    |-- 00:1e.0 -> ../../../devices/pci0/00:1e.0
-+    |-- 00:1f.0 -> ../../../devices/pci0/00:1f.0
-+    |-- 00:1f.1 -> ../../../devices/pci0/00:1f.1
-+    |-- 00:1f.2 -> ../../../devices/pci0/00:1f.2
-+    |-- 00:1f.3 -> ../../../devices/pci0/00:1f.3
-+    |-- 00:1f.5 -> ../../../devices/pci0/00:1f.5
-+    |-- 01:00.0 -> ../../../devices/pci0/00:01.0/01:00.0
-+    |-- 02:1f.0 -> ../../../devices/pci0/00:02.0/02:1f.0
-+    |-- 03:00.0 -> ../../../devices/pci0/00:02.0/02:1f.0/03:00.0
-+    `-- 04:04.0 -> ../../../devices/pci0/00:1e.0/04:04.0
- 
- 
- 
- Step 3: Registering Drivers.
- 
- struct device_driver is a simple driver structure that contains a set
--of operations that the driver model core may call. 
-+of operations that the driver model core may call.
- 
- 
--- Embed a struct device_driver in the bus-specific driver. 
-+- Embed a struct device_driver in the bus-specific driver.
- 
--  Just like with devices, do something like:
-+  Just like with devices, do something like::
- 
--struct pci_driver {
--       ...
--       struct device_driver    driver;
--};
-+    struct pci_driver {
-+           ...
-+           struct device_driver    driver;
-+    };
- 
- 
--- Initialize the generic driver structure. 
-+- Initialize the generic driver structure.
- 
-   When the driver registers with the bus (e.g. doing pci_register_driver()),
-   initialize the necessary fields of the driver: the name and bus
--  fields. 
-+  fields.
- 
- 
- - Register the driver.
- 
--  After the generic driver has been initialized, call
-+  After the generic driver has been initialized, call::
- 
- 	driver_register(&drv->driver);
- 
-   to register the driver with the core.
- 
-   When the driver is unregistered from the bus, unregister it from the
--  core by doing:
-+  core by doing::
- 
-         driver_unregister(&drv->driver);
- 
-@@ -265,15 +267,15 @@ struct pci_driver {
- 
- - Sysfs representation.
- 
--  Drivers are exported via sysfs in their bus's 'driver's directory. 
--  For example:
-+  Drivers are exported via sysfs in their bus's 'driver's directory.
-+  For example::
- 
--/sys/bus/pci/drivers/
--|-- 3c59x
--|-- Ensoniq AudioPCI
--|-- agpgart-amdk7
--|-- e100
--`-- serial
-+    /sys/bus/pci/drivers/
-+    |-- 3c59x
-+    |-- Ensoniq AudioPCI
-+    |-- agpgart-amdk7
-+    |-- e100
-+    `-- serial
- 
- 
- Step 4: Define Generic Methods for Drivers.
-@@ -281,30 +283,30 @@ Step 4: Define Generic Methods for Drivers.
- struct device_driver defines a set of operations that the driver model
- core calls. Most of these operations are probably similar to
- operations the bus already defines for drivers, but taking different
--parameters. 
-+parameters.
- 
- It would be difficult and tedious to force every driver on a bus to
- simultaneously convert their drivers to generic format. Instead, the
- bus driver should define single instances of the generic methods that
--forward call to the bus-specific drivers. For instance: 
-+forward call to the bus-specific drivers. For instance::
- 
- 
--static int pci_device_remove(struct device * dev)
--{
--        struct pci_dev * pci_dev = to_pci_dev(dev);
--        struct pci_driver * drv = pci_dev->driver;
-+  static int pci_device_remove(struct device * dev)
-+  {
-+          struct pci_dev * pci_dev = to_pci_dev(dev);
-+          struct pci_driver * drv = pci_dev->driver;
- 
--        if (drv) {
--                if (drv->remove)
--                        drv->remove(pci_dev);
--                pci_dev->driver = NULL;
--        }
--        return 0;
--}
-+          if (drv) {
-+                  if (drv->remove)
-+                          drv->remove(pci_dev);
-+                  pci_dev->driver = NULL;
-+          }
-+          return 0;
 +  }
  
+-# Remove an option (the first parameter) without any arguments from
+-# a mount option string (the rest of the parameters).
+-parse_nonumber_mount_opts () {
++  # Remove an option (the first parameter) without any arguments from
++  # a mount option string (the rest of the parameters).
++  parse_nonumber_mount_opts () {
+ 	OPT="$1"
+ 	shift
+ 	echo ",$*," | sed		\
+@@ -456,20 +458,20 @@ parse_nonumber_mount_opts () {
+ 	 -e 's/,,*/,/g'			\
+ 	 -e 's/^,//'			\
+ 	 -e 's/,$//'
+-}
++  }
  
- The generic driver should be initialized with these methods before it
--is registered. 
-+is registered::
+-# Find out the state of a yes/no option (e.g. "atime"/"noatime") in
+-# fstab for a given filesystem, and use this state to replace the
+-# value of the option in another mount options string. The device
+-# is the first argument, the option name the second, and the default
+-# value the third. The remainder is the mount options string.
+-#
+-# Example:
+-# parse_yesno_opts_wfstab /dev/hda1 atime atime defaults,noatime
+-#
+-# If fstab contains, say, "rw" for this filesystem, then the result
+-# will be "defaults,atime".
+-parse_yesno_opts_wfstab () {
++  # Find out the state of a yes/no option (e.g. "atime"/"noatime") in
++  # fstab for a given filesystem, and use this state to replace the
++  # value of the option in another mount options string. The device
++  # is the first argument, the option name the second, and the default
++  # value the third. The remainder is the mount options string.
++  #
++  # Example:
++  # parse_yesno_opts_wfstab /dev/hda1 atime atime defaults,noatime
++  #
++  # If fstab contains, say, "rw" for this filesystem, then the result
++  # will be "defaults,atime".
++  parse_yesno_opts_wfstab () {
+ 	L_DEV="$1"
+ 	OPT="$2"
+ 	DEF_OPT="$3"
+@@ -491,21 +493,21 @@ parse_yesno_opts_wfstab () {
+ 		# option not specified in fstab -- choose the default.
+ 		echo "$PARSEDOPTS1,$DEF_OPT"
+ 	fi
+-}
++  }
  
-         /* initialize common driver fields */
-         drv->driver.name = drv->name;
-@@ -320,23 +322,23 @@ is registered.
+-# Find out the state of a numbered option (e.g. "commit=NNN") in
+-# fstab for a given filesystem, and use this state to replace the
+-# value of the option in another mount options string. The device
+-# is the first argument, and the option name the second. The
+-# remainder is the mount options string in which the replacement
+-# must be done.
+-#
+-# Example:
+-# parse_mount_opts_wfstab /dev/hda1 commit defaults,commit=7
+-#
+-# If fstab contains, say, "commit=3,rw" for this filesystem, then the
+-# result will be "rw,commit=3".
+-parse_mount_opts_wfstab () {
++  # Find out the state of a numbered option (e.g. "commit=NNN") in
++  # fstab for a given filesystem, and use this state to replace the
++  # value of the option in another mount options string. The device
++  # is the first argument, and the option name the second. The
++  # remainder is the mount options string in which the replacement
++  # must be done.
++  #
++  # Example:
++  # parse_mount_opts_wfstab /dev/hda1 commit defaults,commit=7
++  #
++  # If fstab contains, say, "commit=3,rw" for this filesystem, then the
++  # result will be "rw,commit=3".
++  parse_mount_opts_wfstab () {
+ 	L_DEV="$1"
+ 	OPT="$2"
+ 	shift 2
+@@ -523,9 +525,9 @@ parse_mount_opts_wfstab () {
+ 		# option not specified in fstab: set it to 0
+ 		echo "$PARSEDOPTS1,$OPT=0"
+ 	fi
+-}
++  }
  
- Ideally, the bus should only initialize the fields if they are not
- already set. This allows the drivers to implement their own generic
--methods. 
-+methods.
+-deduce_fstype () {
++  deduce_fstype () {
+ 	MP="$1"
+ 	# My root filesystem unfortunately has
+ 	# type "unknown" in /etc/mtab. If we encounter
+@@ -538,13 +540,13 @@ deduce_fstype () {
+ 			exit 0
+ 		fi
+ 	done
+-}
++  }
  
+-if [ $DO_REMOUNT_NOATIME -eq 1 ] ; then
++  if [ $DO_REMOUNT_NOATIME -eq 1 ] ; then
+ 	NOATIME_OPT=",noatime"
+-fi
++  fi
  
--Step 5: Support generic driver binding. 
-+Step 5: Support generic driver binding.
+-case "$1" in
++  case "$1" in
+ 	start)
+ 		AGE=$((100*$MAX_AGE))
+ 		XFS_AGE=$(($XFS_HZ*$MAX_AGE))
+@@ -687,10 +689,9 @@ case "$1" in
+ 		exit 1
+ 		;;
  
- The model assumes that a device or driver can be dynamically
- registered with the bus at any time. When registration happens,
- devices must be bound to a driver, or drivers must be bound to all
--devices that it supports. 
-+devices that it supports.
+-esac
++  esac
  
- A driver typically contains a list of device IDs that it supports. The
--bus driver compares these IDs to the IDs of devices registered with it. 
-+bus driver compares these IDs to the IDs of devices registered with it.
- The format of the device IDs, and the semantics for comparing them are
--bus-specific, so the generic model does attempt to generalize them. 
-+bus-specific, so the generic model does attempt to generalize them.
- 
- Instead, a bus may supply a method in struct bus_type that does the
--comparison: 
-+comparison::
- 
-   int (*match)(struct device * dev, struct device_driver * drv);
- 
-@@ -346,59 +348,59 @@ and zero otherwise. It may also return error code (for example
- not possible.
- 
- When a device is registered, the bus's list of drivers is iterated
--over. bus->match() is called for each one until a match is found. 
-+over. bus->match() is called for each one until a match is found.
- 
- When a driver is registered, the bus's list of devices is iterated
- over. bus->match() is called for each device that is not already
--claimed by a driver. 
-+claimed by a driver.
- 
- When a device is successfully bound to a driver, device->driver is
- set, the device is added to a per-driver list of devices, and a
- symlink is created in the driver's sysfs directory that points to the
--device's physical directory:
-+device's physical directory::
- 
--/sys/bus/pci/drivers/
--|-- 3c59x
--|   `-- 00:0b.0 -> ../../../../devices/pci0/00:0b.0
--|-- Ensoniq AudioPCI
--|-- agpgart-amdk7
--|   `-- 00:00.0 -> ../../../../devices/pci0/00:00.0
--|-- e100
--|   `-- 00:0c.0 -> ../../../../devices/pci0/00:0c.0
--`-- serial
-+  /sys/bus/pci/drivers/
-+  |-- 3c59x
-+  |   `-- 00:0b.0 -> ../../../../devices/pci0/00:0b.0
-+  |-- Ensoniq AudioPCI
-+  |-- agpgart-amdk7
-+  |   `-- 00:00.0 -> ../../../../devices/pci0/00:00.0
-+  |-- e100
-+  |   `-- 00:0c.0 -> ../../../../devices/pci0/00:0c.0
-+  `-- serial
- 
- 
- This driver binding should replace the existing driver binding
--mechanism the bus currently uses. 
-+mechanism the bus currently uses.
- 
- 
- Step 6: Supply a hotplug callback.
- 
- Whenever a device is registered with the driver model core, the
--userspace program /sbin/hotplug is called to notify userspace. 
-+userspace program /sbin/hotplug is called to notify userspace.
- Users can define actions to perform when a device is inserted or
--removed. 
-+removed.
- 
- The driver model core passes several arguments to userspace via
- environment variables, including
- 
- - ACTION: set to 'add' or 'remove'
--- DEVPATH: set to the device's physical path in sysfs. 
-+- DEVPATH: set to the device's physical path in sysfs.
- 
- A bus driver may also supply additional parameters for userspace to
- consume. To do this, a bus must implement the 'hotplug' method in
--struct bus_type:
-+struct bus_type::
- 
--     int (*hotplug) (struct device *dev, char **envp, 
-+     int (*hotplug) (struct device *dev, char **envp,
-                      int num_envp, char *buffer, int buffer_size);
- 
--This is called immediately before /sbin/hotplug is executed. 
-+This is called immediately before /sbin/hotplug is executed.
- 
- 
- Step 7: Cleaning up the bus driver.
- 
- The generic bus, device, and driver structures provide several fields
--that can replace those defined privately to the bus driver. 
-+that can replace those defined privately to the bus driver.
- 
- - Device list.
- 
-@@ -407,36 +409,36 @@ type. This includes all devices on all instances of that bus type.
- An internal list that the bus uses may be removed, in favor of using
- this one.
- 
--The core provides an iterator to access these devices. 
-+The core provides an iterator to access these devices::
- 
--int bus_for_each_dev(struct bus_type * bus, struct device * start, 
--                     void * data, int (*fn)(struct device *, void *));
-+  int bus_for_each_dev(struct bus_type * bus, struct device * start,
-+                       void * data, int (*fn)(struct device *, void *));
+-exit 0
+---------------------CONTROL SCRIPT END------------------------------------------
++  exit 0
  
  
- - Driver list.
+ ACPI integration
+@@ -701,78 +702,76 @@ kick off the laptop_mode script and run hdparm. The part that
+ automatically disables laptop mode when the battery is low was
+ written by Jan Topinski.
  
- struct bus_type also contains a list of all drivers registered with
--it. An internal list of drivers that the bus driver maintains may 
--be removed in favor of using the generic one. 
-+it. An internal list of drivers that the bus driver maintains may
-+be removed in favor of using the generic one.
+------------------/etc/acpi/events/ac_adapter BEGIN------------------------------
+-event=ac_adapter
+-action=/etc/acpi/actions/ac.sh %e
+-----------------/etc/acpi/events/ac_adapter END---------------------------------
++/etc/acpi/events/ac_adapter::
  
--The drivers may be iterated over, like devices: 
-+The drivers may be iterated over, like devices::
++	event=ac_adapter
++	action=/etc/acpi/actions/ac.sh %e
  
--int bus_for_each_drv(struct bus_type * bus, struct device_driver * start,
--                     void * data, int (*fn)(struct device_driver *, void *));
-+  int bus_for_each_drv(struct bus_type * bus, struct device_driver * start,
-+                       void * data, int (*fn)(struct device_driver *, void *));
+------------------/etc/acpi/events/battery BEGIN---------------------------------
+-event=battery.*
+-action=/etc/acpi/actions/battery.sh %e
+-----------------/etc/acpi/events/battery END------------------------------------
++/etc/acpi/events/battery::
+ 
++	event=battery.*
++	action=/etc/acpi/actions/battery.sh %e
+ 
+-----------------/etc/acpi/actions/ac.sh BEGIN-----------------------------------
+-#!/bin/bash
++/etc/acpi/actions/ac.sh::
+ 
+-# ac on/offline event handler
++  #!/bin/bash
+ 
+-status=`awk '/^state: / { print $2 }' /proc/acpi/ac_adapter/$2/state`
++  # ac on/offline event handler
+ 
+-case $status in
+-        "on-line")
+-                /sbin/laptop_mode stop
+-                exit 0
+-        ;;
+-        "off-line")
+-                /sbin/laptop_mode start
+-                exit 0
+-        ;;
+-esac
+----------------------------/etc/acpi/actions/ac.sh END--------------------------
++  status=`awk '/^state: / { print $2 }' /proc/acpi/ac_adapter/$2/state`
+ 
++  case $status in
++          "on-line")
++                  /sbin/laptop_mode stop
++                  exit 0
++          ;;
++          "off-line")
++                  /sbin/laptop_mode start
++                  exit 0
++          ;;
++  esac
+ 
+----------------------------/etc/acpi/actions/battery.sh BEGIN-------------------
+-#! /bin/bash
+ 
+-# Automatically disable laptop mode when the battery almost runs out.
++/etc/acpi/actions/battery.sh::
+ 
+-BATT_INFO=/proc/acpi/battery/$2/state
++  #! /bin/bash
+ 
+-if [[ -f /proc/sys/vm/laptop_mode ]]
+-then
+-   LM=`cat /proc/sys/vm/laptop_mode`
+-   if [[ $LM -gt 0 ]]
+-   then
+-     if [[ -f $BATT_INFO ]]
++  # Automatically disable laptop mode when the battery almost runs out.
++
++  BATT_INFO=/proc/acpi/battery/$2/state
++
++  if [[ -f /proc/sys/vm/laptop_mode ]]
++  then
++     LM=`cat /proc/sys/vm/laptop_mode`
++     if [[ $LM -gt 0 ]]
+      then
+-        # Source the config file only now that we know we need
+-        if [ -f /etc/default/laptop-mode ] ; then
+-                # Debian
+-                . /etc/default/laptop-mode
+-        elif [ -f /etc/sysconfig/laptop-mode ] ; then
+-                # Others
+-                . /etc/sysconfig/laptop-mode
+-        fi
+-        MINIMUM_BATTERY_MINUTES=${MINIMUM_BATTERY_MINUTES:-'10'}
++       if [[ -f $BATT_INFO ]]
++       then
++          # Source the config file only now that we know we need
++          if [ -f /etc/default/laptop-mode ] ; then
++                  # Debian
++                  . /etc/default/laptop-mode
++          elif [ -f /etc/sysconfig/laptop-mode ] ; then
++                  # Others
++                  . /etc/sysconfig/laptop-mode
++          fi
++          MINIMUM_BATTERY_MINUTES=${MINIMUM_BATTERY_MINUTES:-'10'}
+ 
+-        ACTION="`cat $BATT_INFO | grep charging | cut -c 26-`"
+-        if [[ ACTION -eq "discharging" ]]
+-        then
+-           PRESENT_RATE=`cat $BATT_INFO | grep "present rate:" | sed  "s/.* \([0-9][0-9]* \).*/\1/" `
+-           REMAINING=`cat $BATT_INFO | grep "remaining capacity:" | sed  "s/.* \([0-9][0-9]* \).*/\1/" `
+-        fi
+-        if (($REMAINING * 60 / $PRESENT_RATE < $MINIMUM_BATTERY_MINUTES))
+-        then
+-           /sbin/laptop_mode stop
+-        fi
+-     else
+-       logger -p daemon.warning "You are using laptop mode and your battery interface $BATT_INFO is missing. This may lead to loss of data when the battery runs out. Check kernel ACPI support and /proc/acpi/battery folder, and edit /etc/acpi/battery.sh to set BATT_INFO to the correct path."
++          ACTION="`cat $BATT_INFO | grep charging | cut -c 26-`"
++          if [[ ACTION -eq "discharging" ]]
++          then
++             PRESENT_RATE=`cat $BATT_INFO | grep "present rate:" | sed  "s/.* \([0-9][0-9]* \).*/\1/" `
++             REMAINING=`cat $BATT_INFO | grep "remaining capacity:" | sed  "s/.* \([0-9][0-9]* \).*/\1/" `
++          fi
++          if (($REMAINING * 60 / $PRESENT_RATE < $MINIMUM_BATTERY_MINUTES))
++          then
++             /sbin/laptop_mode stop
++          fi
++       else
++         logger -p daemon.warning "You are using laptop mode and your battery interface $BATT_INFO is missing. This may lead to loss of data when the battery runs out. Check kernel ACPI support and /proc/acpi/battery folder, and edit /etc/acpi/battery.sh to set BATT_INFO to the correct path."
++       fi
+      fi
+-   fi
+-fi
+----------------------------/etc/acpi/actions/battery.sh END--------------------
++  fi
  
  
- Please see drivers/base/bus.c for more information.
+ Monitoring tool
+diff --git a/Documentation/laptops/sony-laptop.txt b/Documentation/laptops/sony-laptop.rst
+similarity index 85%
+rename from Documentation/laptops/sony-laptop.txt
+rename to Documentation/laptops/sony-laptop.rst
+index 978b1e615155..9edcc7f6612f 100644
+--- a/Documentation/laptops/sony-laptop.txt
++++ b/Documentation/laptops/sony-laptop.rst
+@@ -1,7 +1,9 @@
++=========================================
+ Sony Notebook Control Driver (SNC) Readme
+------------------------------------------
+-	Copyright (C) 2004- 2005 Stelian Pop <stelian@popies.net>
+-	Copyright (C) 2007 Mattia Dongili <malattia@linux.it>
++=========================================
++
++	- Copyright (C) 2004- 2005 Stelian Pop <stelian@popies.net>
++	- Copyright (C) 2007 Mattia Dongili <malattia@linux.it>
+ 
+ This mini-driver drives the SNC and SPIC device present in the ACPI BIOS of the
+ Sony Vaio laptops. This driver mixes both devices functions under the same
+@@ -10,6 +12,7 @@ obsoleted by sony-laptop now.
+ 
+ Fn keys (hotkeys):
+ ------------------
++
+ Some models report hotkeys through the SNC or SPIC devices, such events are
+ reported both through the ACPI subsystem as acpi events and through the INPUT
+ subsystem. See the logs of /proc/bus/input/devices to find out what those
+@@ -28,11 +31,14 @@ If your laptop model supports it, you will find sysfs files in the
+ /sys/class/backlight/sony/
+ directory. You will be able to query and set the current screen
+ brightness:
++
++	======================	=========================================
+ 	brightness		get/set screen brightness (an integer
+ 				between 0 and 7)
+ 	actual_brightness	reading from this file will query the HW
+ 				to get real brightness value
+ 	max_brightness		the maximum brightness value
++	======================	=========================================
  
  
--- rwsem 
-+- rwsem
+ Platform specific:
+@@ -45,6 +51,8 @@ You then read/write integer values from/to those files by using
+ standard UNIX tools.
  
- struct bus_type contains an rwsem that protects all core accesses to
- the device and driver lists. This can be used by the bus driver
- internally, and should be used when accessing the device or driver
--lists the bus maintains. 
-+lists the bus maintains.
+ The files are:
++
++	======================	==========================================
+ 	brightness_default	screen brightness which will be set
+ 				when the laptop will be rebooted
+ 	cdpower			power on/off the internal CD drive
+@@ -53,21 +61,39 @@ The files are:
+ 				(only in debug mode)
+ 	bluetoothpower		power on/off the internal bluetooth device
+ 	fanspeed		get/set the fan speed
++	======================	==========================================
+ 
+ Note that some files may be missing if they are not supported
+ by your particular laptop model.
+ 
+-Example usage:
++Example usage::
++
+ 	# echo "1" > /sys/devices/platform/sony-laptop/brightness_default
+-sets the lowest screen brightness for the next and later reboots,
++
++sets the lowest screen brightness for the next and later reboots
++
++::
++
+ 	# echo "8" > /sys/devices/platform/sony-laptop/brightness_default
+-sets the highest screen brightness for the next and later reboots,
++
++sets the highest screen brightness for the next and later reboots
++
++::
++
+ 	# cat /sys/devices/platform/sony-laptop/brightness_default
+-retrieves the value.
++
++retrieves the value
++
++::
+ 
+ 	# echo "0" > /sys/devices/platform/sony-laptop/audiopower
+-powers off the sound card,
++
++powers off the sound card
++
++::
++
+ 	# echo "1" > /sys/devices/platform/sony-laptop/audiopower
++
+ powers on the sound card.
  
  
--- Device and driver fields. 
-+- Device and driver fields.
+@@ -76,7 +102,8 @@ RFkill control:
+ More recent Vaio models expose a consistent set of ACPI methods to
+ control radio frequency emitting devices. If you are a lucky owner of
+ such a laptop you will find the necessary rfkill devices under
+-/sys/class/rfkill. Check those starting with sony-* in
++/sys/class/rfkill. Check those starting with sony-* in::
++
+ 	# grep . /sys/class/rfkill/*/{state,name}
  
- Some of the fields in struct device and struct device_driver duplicate
- fields in the bus-specific representations of these objects. Feel free
-@@ -444,4 +446,3 @@ to remove the bus-specific ones and favor the generic ones. Note
- though, that this will likely mean fixing up all the drivers that
- reference the bus-specific fields (though those should all be 1-line
- changes).
+ 
+@@ -88,26 +115,29 @@ you are not afraid of any side effects doing strange things with
+ your ACPI BIOS could have on your laptop), load the driver and
+ pass the option 'debug=1'.
+ 
+-REPEAT: DON'T DO THIS IF YOU DON'T LIKE RISKY BUSINESS.
++REPEAT:
++	**DON'T DO THIS IF YOU DON'T LIKE RISKY BUSINESS.**
+ 
+ In your kernel logs you will find the list of all ACPI methods
+ the SNC device has on your laptop.
+ 
+ * For new models you will see a long list of meaningless method names,
+-reading the DSDT table source should reveal that:
++  reading the DSDT table source should reveal that:
++
+ (1) the SNC device uses an internal capability lookup table
+ (2) SN00 is used to find values in the lookup table
+ (3) SN06 and SN07 are used to call into the real methods based on
+     offsets you can obtain iterating the table using SN00
+ (4) SN02 used to enable events.
++
+ Some values in the capability lookup table are more or less known, see
+ the code for all sony_call_snc_handle calls, others are more obscure.
+ 
+ * For old models you can see the GCDP/GCDP methods used to pwer on/off
+-the CD drive, but there are others and they are usually different from
+-model to model.
++  the CD drive, but there are others and they are usually different from
++  model to model.
+ 
+-I HAVE NO IDEA WHAT THOSE METHODS DO.
++**I HAVE NO IDEA WHAT THOSE METHODS DO.**
+ 
+ The sony-laptop driver creates, for some of those methods (the most
+ current ones found on several Vaio models), an entry under
+diff --git a/Documentation/laptops/sonypi.txt b/Documentation/laptops/sonypi.rst
+similarity index 87%
+rename from Documentation/laptops/sonypi.txt
+rename to Documentation/laptops/sonypi.rst
+index 606bdb9ce036..2a1975ed7ee4 100644
+--- a/Documentation/laptops/sonypi.txt
++++ b/Documentation/laptops/sonypi.rst
+@@ -1,11 +1,13 @@
++==================================================
+ Sony Programmable I/O Control Device Driver Readme
+---------------------------------------------------
+-	Copyright (C) 2001-2004 Stelian Pop <stelian@popies.net>
+-	Copyright (C) 2001-2002 Alcôve <www.alcove.com>
+-	Copyright (C) 2001 Michael Ashley <m.ashley@unsw.edu.au>
+-	Copyright (C) 2001 Junichi Morita <jun1m@mars.dti.ne.jp>
+-	Copyright (C) 2000 Takaya Kinjo <t-kinjo@tc4.so-net.ne.jp>
+-	Copyright (C) 2000 Andrew Tridgell <tridge@samba.org>
++==================================================
++
++	- Copyright (C) 2001-2004 Stelian Pop <stelian@popies.net>
++	- Copyright (C) 2001-2002 Alcôve <www.alcove.com>
++	- Copyright (C) 2001 Michael Ashley <m.ashley@unsw.edu.au>
++	- Copyright (C) 2001 Junichi Morita <jun1m@mars.dti.ne.jp>
++	- Copyright (C) 2000 Takaya Kinjo <t-kinjo@tc4.so-net.ne.jp>
++	- Copyright (C) 2000 Andrew Tridgell <tridge@samba.org>
+ 
+ This driver enables access to the Sony Programmable I/O Control Device which
+ can be found in many Sony Vaio laptops. Some newer Sony laptops (seems to be
+@@ -14,6 +16,7 @@ sonypi device and are not supported at all by this driver.
+ 
+ It will give access (through a user space utility) to some events those laptops
+ generate, like:
++
+ 	- jogdial events (the small wheel on the side of Vaios)
+ 	- capture button events (only on Vaio Picturebook series)
+ 	- Fn keys
+@@ -49,6 +52,7 @@ module argument syntax (<param>=<value> when passing the option to the
+ module or sonypi.<param>=<value> on the kernel boot line when sonypi is
+ statically linked into the kernel). Those options are:
+ 
++	=============== =======================================================
+ 	minor: 		minor number of the misc device /dev/sonypi,
+ 			default is -1 (automatic allocation, see /proc/misc
+ 			or kernel logs)
+@@ -86,6 +90,8 @@ statically linked into the kernel). Those options are:
+ 			will be tried. You can use the following bits to
+ 			construct your own event mask (from
+ 			drivers/char/sonypi.h):
++
++				========================	======
+ 				SONYPI_JOGGER_MASK 		0x0001
+ 				SONYPI_CAPTURE_MASK 		0x0002
+ 				SONYPI_FNKEY_MASK 		0x0004
+@@ -100,22 +106,24 @@ statically linked into the kernel). Those options are:
+ 				SONYPI_MEMORYSTICK_MASK		0x0800
+ 				SONYPI_BATTERY_MASK		0x1000
+ 				SONYPI_WIRELESS_MASK		0x2000
++				========================	======
+ 
+ 	useinput:	if set (which is the default) two input devices are
+ 			created, one which interprets the jogdial events as
+ 			mouse events, the other one which acts like a
+ 			keyboard reporting the pressing of the special keys.
++	=============== =======================================================
+ 
+ Module use:
+ -----------
+ 
+ In order to automatically load the sonypi module on use, you can put those
+-lines a configuration file in /etc/modprobe.d/:
++lines a configuration file in /etc/modprobe.d/::
+ 
+ 	alias char-major-10-250 sonypi
+ 	options sonypi minor=250
+ 
+-This supposes the use of minor 250 for the sonypi device:
++This supposes the use of minor 250 for the sonypi device::
+ 
+ 	# mknod /dev/sonypi c 10 250
+ 
+@@ -148,5 +156,5 @@ Bugs:
+ 	  http://www.acc.umu.se/~erikw/program/smartdimmer-0.1.tar.bz2
+ 
+ 	- since all development was done by reverse engineering, there is
+-	  _absolutely no guarantee_ that this driver will not crash your
++	  *absolutely no guarantee* that this driver will not crash your
+ 	  laptop. Permanently.
+diff --git a/Documentation/laptops/thinkpad-acpi.txt b/Documentation/laptops/thinkpad-acpi.rst
+similarity index 89%
+rename from Documentation/laptops/thinkpad-acpi.txt
+rename to Documentation/laptops/thinkpad-acpi.rst
+index 75ef063622d2..19d52fc3c5e9 100644
+--- a/Documentation/laptops/thinkpad-acpi.txt
++++ b/Documentation/laptops/thinkpad-acpi.rst
+@@ -1,12 +1,15 @@
+-		     ThinkPad ACPI Extras Driver
++===========================
++ThinkPad ACPI Extras Driver
++===========================
+ 
+-                            Version 0.25
+-                        October 16th,  2013
++Version 0.25
+ 
+-               Borislav Deianov <borislav@users.sf.net>
+-             Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+-                      http://ibm-acpi.sf.net/
++October 16th,  2013
+ 
++- Borislav Deianov <borislav@users.sf.net>
++- Henrique de Moraes Holschuh <hmh@hmh.eng.br>
++
++http://ibm-acpi.sf.net/
+ 
+ This is a Linux driver for the IBM and Lenovo ThinkPad laptops. It
+ supports various features of these laptops which are accessible
+@@ -91,7 +94,8 @@ yet ready or stabilized, it is expected that this interface will change,
+ and any and all userspace programs must deal with it.
+ 
+ 
+-Notes about the sysfs interface:
++Notes about the sysfs interface
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+ Unlike what was done with the procfs interface, correctness when talking
+ to the sysfs interfaces will be enforced, as will correctness in the
+@@ -129,6 +133,7 @@ Driver version
+ --------------
+ 
+ procfs: /proc/acpi/ibm/driver
++
+ sysfs driver attribute: version
+ 
+ The driver name and version. No commands can be written to this file.
+@@ -141,9 +146,13 @@ sysfs driver attribute: interface_version
+ 
+ Version of the thinkpad-acpi sysfs interface, as an unsigned long
+ (output in hex format: 0xAAAABBCC), where:
+-	AAAA - major revision
+-	BB - minor revision
+-	CC - bugfix revision
++
++	AAAA
++	  - major revision
++	BB
++	  - minor revision
++	CC
++	  - bugfix revision
+ 
+ The sysfs interface version changelog for the driver can be found at the
+ end of this document.  Changes to the sysfs interface done by the kernel
+@@ -170,6 +179,7 @@ Hot keys
+ --------
+ 
+ procfs: /proc/acpi/ibm/hotkey
++
+ sysfs device attribute: hotkey_*
+ 
+ In a ThinkPad, the ACPI HKEY handler is responsible for communicating
+@@ -181,7 +191,7 @@ firmware will behave in many situations.
+ The driver enables the HKEY ("hot key") event reporting automatically
+ when loaded, and disables it when it is removed.
+ 
+-The driver will report HKEY events in the following format:
++The driver will report HKEY events in the following format::
+ 
+ 	ibm/hotkey HKEY 00000080 0000xxxx
+ 
+@@ -217,9 +227,10 @@ ThinkPads, it is still possible to support some extra hotkeys by
+ polling the "CMOS NVRAM" at least 10 times per second.  The driver
+ attempts to enables this functionality automatically when required.
+ 
+-procfs notes:
++procfs notes
++^^^^^^^^^^^^
+ 
+-The following commands can be written to the /proc/acpi/ibm/hotkey file:
++The following commands can be written to the /proc/acpi/ibm/hotkey file::
+ 
+ 	echo 0xffffffff > /proc/acpi/ibm/hotkey -- enable all hot keys
+ 	echo 0 > /proc/acpi/ibm/hotkey -- disable all possible hot keys
+@@ -227,7 +238,7 @@ The following commands can be written to the /proc/acpi/ibm/hotkey file:
+ 	echo reset > /proc/acpi/ibm/hotkey -- restore the recommended mask
+ 
+ The following commands have been deprecated and will cause the kernel
+-to log a warning:
++to log a warning::
+ 
+ 	echo enable > /proc/acpi/ibm/hotkey -- does nothing
+ 	echo disable > /proc/acpi/ibm/hotkey -- returns an error
+@@ -237,7 +248,8 @@ maintain maximum bug-to-bug compatibility, it does not report any masks,
+ nor does it allow one to manipulate the hot key mask when the firmware
+ does not support masks at all, even if NVRAM polling is in use.
+ 
+-sysfs notes:
++sysfs notes
++^^^^^^^^^^^
+ 
+ 	hotkey_bios_enabled:
+ 		DEPRECATED, WILL BE REMOVED SOON.
+@@ -349,7 +361,8 @@ sysfs notes:
+ 
+ 		This attribute has poll()/select() support.
+ 
+-input layer notes:
++input layer notes
++^^^^^^^^^^^^^^^^^
+ 
+ A Hot key is mapped to a single input layer EV_KEY event, possibly
+ followed by an EV_MSC MSC_SCAN event that shall contain that key's scan
+@@ -362,11 +375,13 @@ remapping KEY_UNKNOWN keys.
+ 
+ The events are available in an input device, with the following id:
+ 
+-	Bus:		BUS_HOST
+-	vendor:		0x1014 (PCI_VENDOR_ID_IBM)  or
++	==============  ==============================
++	Bus		BUS_HOST
++	vendor		0x1014 (PCI_VENDOR_ID_IBM)  or
+ 			0x17aa (PCI_VENDOR_ID_LENOVO)
+-	product:	0x5054 ("TP")
+-	version:	0x4101
++	product		0x5054 ("TP")
++	version		0x4101
++	==============  ==============================
+ 
+ The version will have its LSB incremented if the keymap changes in a
+ backwards-compatible way.  The MSB shall always be 0x41 for this input
+@@ -380,9 +395,10 @@ backwards-compatible change for this input device.
+ 
+ Thinkpad-acpi Hot Key event map (version 0x4101):
+ 
++=======	=======	==============	==============================================
+ ACPI	Scan
+ event	code	Key		Notes
 -
-diff --git a/Documentation/eisa.txt b/Documentation/eisa.txt
-index 2806e5544e43..f388545a85a7 100644
---- a/Documentation/eisa.txt
-+++ b/Documentation/eisa.txt
-@@ -103,7 +103,7 @@ id_table	an array of NULL terminated EISA id strings,
- 		(driver_data).
++=======	=======	==============	==============================================
+ 0x1001	0x00	FN+F1		-
  
- driver		a generic driver, such as described in
--		Documentation/driver-model/driver.txt. Only .name,
-+		Documentation/driver-model/driver.rst. Only .name,
- 		.probe and .remove members are mandatory.
- =============== ====================================================
+ 0x1002	0x01	FN+F2		IBM: battery (rare)
+@@ -426,7 +442,9 @@ event	code	Key		Notes
+ 				or toggle screen expand
  
-@@ -152,7 +152,7 @@ state    set of flags indicating the state of the device. Current
- 	 flags are EISA_CONFIG_ENABLED and EISA_CONFIG_FORCED.
- res	 set of four 256 bytes I/O regions allocated to this device
- dma_mask DMA mask set from the parent device.
--dev	 generic device (see Documentation/driver-model/device.txt)
-+dev	 generic device (see Documentation/driver-model/device.rst)
- ======== ============================================================
+ 0x1009	0x08	FN+F9		-
+-	..	..		..
++
++...	...	...		...
++
+ 0x100B	0x0A	FN+F11		-
  
- You can get the 'struct eisa_device' from 'struct device' using the
-diff --git a/Documentation/hwmon/submitting-patches.rst b/Documentation/hwmon/submitting-patches.rst
-index f9796b9d9db6..d5b05d3e54ba 100644
---- a/Documentation/hwmon/submitting-patches.rst
-+++ b/Documentation/hwmon/submitting-patches.rst
-@@ -89,7 +89,7 @@ increase the chances of your change being accepted.
-   console. Excessive logging can seriously affect system performance.
+ 0x100C	0x0B	FN+F12		Sleep to disk.  You are always
+@@ -480,8 +498,11 @@ event	code	Key		Notes
+ 0x1018	0x17	THINKPAD	ThinkPad/Access IBM/Lenovo key
  
- * Use devres functions whenever possible to allocate resources. For rationale
--  and supported functions, please see Documentation/driver-model/devres.txt.
-+  and supported functions, please see Documentation/driver-model/devres.rst.
-   If a function is not supported by devres, consider using devm_add_action().
+ 0x1019	0x18	unknown
+-..	..	..
++
++...	...	...
++
+ 0x1020	0x1F	unknown
++=======	=======	==============	==============================================
  
- * If the driver has a detect function, make sure it is silent. Debug messages
-diff --git a/drivers/base/platform.c b/drivers/base/platform.c
-index 4d1729853d1a..713903290385 100644
---- a/drivers/base/platform.c
-+++ b/drivers/base/platform.c
-@@ -5,7 +5,7 @@
-  * Copyright (c) 2002-3 Patrick Mochel
-  * Copyright (c) 2002-3 Open Source Development Labs
-  *
-- * Please see Documentation/driver-model/platform.txt for more
-+ * Please see Documentation/driver-model/platform.rst for more
-  * information.
-  */
+ The ThinkPad firmware does not allow one to differentiate when most hot
+ keys are pressed or released (either that, or we don't know how to, yet).
+@@ -499,14 +520,17 @@ generate input device EV_KEY events.
+ In addition to the EV_KEY events, thinkpad-acpi may also issue EV_SW
+ events for switches:
  
-diff --git a/drivers/gpio/gpio-cs5535.c b/drivers/gpio/gpio-cs5535.c
-index 6314225dbed0..3611a0571667 100644
---- a/drivers/gpio/gpio-cs5535.c
-+++ b/drivers/gpio/gpio-cs5535.c
-@@ -41,7 +41,7 @@ MODULE_PARM_DESC(mask, "GPIO channel mask.");
++==============	==============================================
+ SW_RFKILL_ALL	T60 and later hardware rfkill rocker switch
+ SW_TABLET_MODE	Tablet ThinkPads HKEY events 0x5009 and 0x500A
++==============	==============================================
  
- /*
-  * FIXME: convert this singleton driver to use the state container
-- * design pattern, see Documentation/driver-model/design-patterns.txt
-+ * design pattern, see Documentation/driver-model/design-patterns.rst
-  */
- static struct cs5535_gpio_chip {
- 	struct gpio_chip chip;
-diff --git a/drivers/net/ethernet/intel/ice/ice_main.c b/drivers/net/ethernet/intel/ice/ice_main.c
-index 28ec0d57941d..41c90f2ddb31 100644
---- a/drivers/net/ethernet/intel/ice/ice_main.c
-+++ b/drivers/net/ethernet/intel/ice/ice_main.c
-@@ -2286,7 +2286,7 @@ ice_probe(struct pci_dev *pdev, const struct pci_device_id __always_unused *ent)
- 	struct ice_hw *hw;
- 	int err;
+-Non hotkey ACPI HKEY event map:
+--------------------------------
++Non hotkey ACPI HKEY event map
++------------------------------
  
--	/* this driver uses devres, see Documentation/driver-model/devres.txt */
-+	/* this driver uses devres, see Documentation/driver-model/devres.rst */
- 	err = pcim_enable_device(pdev);
- 	if (err)
- 		return err;
-diff --git a/scripts/coccinelle/free/devm_free.cocci b/scripts/coccinelle/free/devm_free.cocci
-index b2a2cf8bf81f..e32236a979a8 100644
---- a/scripts/coccinelle/free/devm_free.cocci
-+++ b/scripts/coccinelle/free/devm_free.cocci
-@@ -2,7 +2,7 @@
- /// functions.  Values allocated using the devm_functions are freed when
- /// the device is detached, and thus the use of the standard freeing
- /// function would cause a double free.
--/// See Documentation/driver-model/devres.txt for more information.
-+/// See Documentation/driver-model/devres.rst for more information.
- ///
- /// A difficulty of detecting this problem is that the standard freeing
- /// function might be called from a different function than the one
+ Events that are never propagated by the driver:
+ 
++======		==================================================
+ 0x2304		System is waking up from suspend to undock
+ 0x2305		System is waking up from suspend to eject bay
+ 0x2404		System is waking up from hibernation to undock
+@@ -519,10 +543,12 @@ Events that are never propagated by the driver:
+ 0x6000		KEYBOARD: Numlock key pressed
+ 0x6005		KEYBOARD: Fn key pressed (TO BE VERIFIED)
+ 0x7000		Radio Switch may have changed state
++======		==================================================
+ 
+ 
+ Events that are propagated by the driver to userspace:
+ 
++======		=====================================================
+ 0x2313		ALARM: System is waking up from suspend because
+ 		the battery is nearly empty
+ 0x2413		ALARM: System is waking up from hibernation because
+@@ -544,6 +570,7 @@ Events that are propagated by the driver to userspace:
+ 0x6040		Nvidia Optimus/AC adapter related (TO BE VERIFIED)
+ 0x60C0		X1 Yoga 2016, Tablet mode status changed
+ 0x60F0		Thermal Transformation changed (GMTS, Windows)
++======		=====================================================
+ 
+ Battery nearly empty alarms are a last resort attempt to get the
+ operating system to hibernate or shutdown cleanly (0x2313), or shutdown
+@@ -562,7 +589,8 @@ cycle, or a system shutdown.  Obviously, something is very wrong if this
+ happens.
+ 
+ 
+-Brightness hotkey notes:
++Brightness hotkey notes
++^^^^^^^^^^^^^^^^^^^^^^^
+ 
+ Don't mess with the brightness hotkeys in a Thinkpad.  If you want
+ notifications for OSD, use the sysfs backlight class event support.
+@@ -579,7 +607,9 @@ Bluetooth
+ ---------
+ 
+ procfs: /proc/acpi/ibm/bluetooth
++
+ sysfs device attribute: bluetooth_enable (deprecated)
++
+ sysfs rfkill class: switch "tpacpi_bluetooth_sw"
+ 
+ This feature shows the presence and current state of a ThinkPad
+@@ -588,22 +618,25 @@ Bluetooth device in the internal ThinkPad CDC slot.
+ If the ThinkPad supports it, the Bluetooth state is stored in NVRAM,
+ so it is kept across reboots and power-off.
+ 
+-Procfs notes:
++Procfs notes
++^^^^^^^^^^^^
+ 
+-If Bluetooth is installed, the following commands can be used:
++If Bluetooth is installed, the following commands can be used::
+ 
+ 	echo enable > /proc/acpi/ibm/bluetooth
+ 	echo disable > /proc/acpi/ibm/bluetooth
+ 
+-Sysfs notes:
++Sysfs notes
++^^^^^^^^^^^
+ 
+ 	If the Bluetooth CDC card is installed, it can be enabled /
+ 	disabled through the "bluetooth_enable" thinkpad-acpi device
+ 	attribute, and its current status can also be queried.
+ 
+ 	enable:
+-		0: disables Bluetooth / Bluetooth is disabled
+-		1: enables Bluetooth / Bluetooth is enabled.
++
++		- 0: disables Bluetooth / Bluetooth is disabled
++		- 1: enables Bluetooth / Bluetooth is enabled.
+ 
+ 	Note: this interface has been superseded by the	generic rfkill
+ 	class.  It has been deprecated, and it will be removed in year
+@@ -617,7 +650,7 @@ Video output control -- /proc/acpi/ibm/video
+ --------------------------------------------
+ 
+ This feature allows control over the devices used for video output -
+-LCD, CRT or DVI (if available). The following commands are available:
++LCD, CRT or DVI (if available). The following commands are available::
+ 
+ 	echo lcd_enable > /proc/acpi/ibm/video
+ 	echo lcd_disable > /proc/acpi/ibm/video
+@@ -630,9 +663,10 @@ LCD, CRT or DVI (if available). The following commands are available:
+ 	echo expand_toggle > /proc/acpi/ibm/video
+ 	echo video_switch > /proc/acpi/ibm/video
+ 
+-NOTE: Access to this feature is restricted to processes owning the
+-CAP_SYS_ADMIN capability for safety reasons, as it can interact badly
+-enough with some versions of X.org to crash it.
++NOTE:
++  Access to this feature is restricted to processes owning the
++  CAP_SYS_ADMIN capability for safety reasons, as it can interact badly
++  enough with some versions of X.org to crash it.
+ 
+ Each video output device can be enabled or disabled individually.
+ Reading /proc/acpi/ibm/video shows the status of each device.
+@@ -665,18 +699,21 @@ ThinkLight control
+ ------------------
+ 
+ procfs: /proc/acpi/ibm/light
++
+ sysfs attributes: as per LED class, for the "tpacpi::thinklight" LED
+ 
+-procfs notes:
++procfs notes
++^^^^^^^^^^^^
+ 
+ The ThinkLight status can be read and set through the procfs interface.  A
+ few models which do not make the status available will show the ThinkLight
+-status as "unknown". The available commands are:
++status as "unknown". The available commands are::
+ 
+ 	echo on  > /proc/acpi/ibm/light
+ 	echo off > /proc/acpi/ibm/light
+ 
+-sysfs notes:
++sysfs notes
++^^^^^^^^^^^
+ 
+ The ThinkLight sysfs interface is documented by the LED class
+ documentation, in Documentation/leds/leds-class.rst.  The ThinkLight LED name
+@@ -691,6 +728,7 @@ CMOS/UCMS control
+ -----------------
+ 
+ procfs: /proc/acpi/ibm/cmos
++
+ sysfs device attribute: cmos_command
+ 
+ This feature is mostly used internally by the ACPI firmware to keep the legacy
+@@ -707,16 +745,16 @@ The range of valid cmos command numbers is 0 to 21, but not all have an
+ effect and the behavior varies from model to model.  Here is the behavior
+ on the X40 (tpb is the ThinkPad Buttons utility):
+ 
+-	0 - Related to "Volume down" key press
+-	1 - Related to "Volume up" key press
+-	2 - Related to "Mute on" key press
+-	3 - Related to "Access IBM" key press
+-	4 - Related to "LCD brightness up" key press
+-	5 - Related to "LCD brightness down" key press
+-	11 - Related to "toggle screen expansion" key press/function
+-	12 - Related to "ThinkLight on"
+-	13 - Related to "ThinkLight off"
+-	14 - Related to "ThinkLight" key press (toggle ThinkLight)
++	- 0 - Related to "Volume down" key press
++	- 1 - Related to "Volume up" key press
++	- 2 - Related to "Mute on" key press
++	- 3 - Related to "Access IBM" key press
++	- 4 - Related to "LCD brightness up" key press
++	- 5 - Related to "LCD brightness down" key press
++	- 11 - Related to "toggle screen expansion" key press/function
++	- 12 - Related to "ThinkLight on"
++	- 13 - Related to "ThinkLight off"
++	- 14 - Related to "ThinkLight" key press (toggle ThinkLight)
+ 
+ The cmos command interface is prone to firmware split-brain problems, as
+ in newer ThinkPads it is just a compatibility layer.  Do not use it, it is
+@@ -748,9 +786,10 @@ are aware of the consequences are welcome to enabling it.
+ Audio mute and microphone mute LEDs are supported, but currently not
+ visible to userspace. They are used by the snd-hda-intel audio driver.
+ 
+-procfs notes:
++procfs notes
++^^^^^^^^^^^^
+ 
+-The available commands are:
++The available commands are::
+ 
+ 	echo '<LED number> on' >/proc/acpi/ibm/led
+ 	echo '<LED number> off' >/proc/acpi/ibm/led
+@@ -760,23 +799,24 @@ The <LED number> range is 0 to 15. The set of LEDs that can be
+ controlled varies from model to model. Here is the common ThinkPad
+ mapping:
+ 
+-	0 - power
+-	1 - battery (orange)
+-	2 - battery (green)
+-	3 - UltraBase/dock
+-	4 - UltraBay
+-	5 - UltraBase battery slot
+-	6 - (unknown)
+-	7 - standby
+-	8 - dock status 1
+-	9 - dock status 2
+-	10, 11 - (unknown)
+-	12 - thinkvantage
+-	13, 14, 15 - (unknown)
++	- 0 - power
++	- 1 - battery (orange)
++	- 2 - battery (green)
++	- 3 - UltraBase/dock
++	- 4 - UltraBay
++	- 5 - UltraBase battery slot
++	- 6 - (unknown)
++	- 7 - standby
++	- 8 - dock status 1
++	- 9 - dock status 2
++	- 10, 11 - (unknown)
++	- 12 - thinkvantage
++	- 13, 14, 15 - (unknown)
+ 
+ All of the above can be turned on and off and can be made to blink.
+ 
+-sysfs notes:
++sysfs notes
++^^^^^^^^^^^
+ 
+ The ThinkPad LED sysfs interface is described in detail by the LED class
+ documentation, in Documentation/leds/leds-class.rst.
+@@ -815,7 +855,7 @@ The BEEP method is used internally by the ACPI firmware to provide
+ audible alerts in various situations. This feature allows the same
+ sounds to be triggered manually.
+ 
+-The commands are non-negative integer numbers:
++The commands are non-negative integer numbers::
+ 
+ 	echo <number> >/proc/acpi/ibm/beep
+ 
+@@ -823,25 +863,26 @@ The valid <number> range is 0 to 17. Not all numbers trigger sounds
+ and the sounds vary from model to model. Here is the behavior on the
+ X40:
+ 
+-	0 - stop a sound in progress (but use 17 to stop 16)
+-	2 - two beeps, pause, third beep ("low battery")
+-	3 - single beep
+-	4 - high, followed by low-pitched beep ("unable")
+-	5 - single beep
+-	6 - very high, followed by high-pitched beep ("AC/DC")
+-	7 - high-pitched beep
+-	9 - three short beeps
+-	10 - very long beep
+-	12 - low-pitched beep
+-	15 - three high-pitched beeps repeating constantly, stop with 0
+-	16 - one medium-pitched beep repeating constantly, stop with 17
+-	17 - stop 16
++	- 0 - stop a sound in progress (but use 17 to stop 16)
++	- 2 - two beeps, pause, third beep ("low battery")
++	- 3 - single beep
++	- 4 - high, followed by low-pitched beep ("unable")
++	- 5 - single beep
++	- 6 - very high, followed by high-pitched beep ("AC/DC")
++	- 7 - high-pitched beep
++	- 9 - three short beeps
++	- 10 - very long beep
++	- 12 - low-pitched beep
++	- 15 - three high-pitched beeps repeating constantly, stop with 0
++	- 16 - one medium-pitched beep repeating constantly, stop with 17
++	- 17 - stop 16
+ 
+ 
+ Temperature sensors
+ -------------------
+ 
+ procfs: /proc/acpi/ibm/thermal
++
+ sysfs device attributes: (hwmon "thinkpad") temp*_input
+ 
+ Most ThinkPads include six or more separate temperature sensors but only
+@@ -850,10 +891,14 @@ feature shows readings from up to eight different sensors on older
+ ThinkPads, and up to sixteen different sensors on newer ThinkPads.
+ 
+ For example, on the X40, a typical output may be:
+-temperatures:   42 42 45 41 36 -128 33 -128
++
++temperatures:
++	42 42 45 41 36 -128 33 -128
+ 
+ On the T43/p, a typical output may be:
+-temperatures:   48 48 36 52 38 -128 31 -128 48 52 48 -128 -128 -128 -128 -128
++
++temperatures:
++	48 48 36 52 38 -128 31 -128 48 52 48 -128 -128 -128 -128 -128
+ 
+ The mapping of thermal sensors to physical locations varies depending on
+ system-board model (and thus, on ThinkPad model).
+@@ -863,46 +908,53 @@ tries to track down these locations for various models.
+ 
+ Most (newer?) models seem to follow this pattern:
+ 
+-1:  CPU
+-2:  (depends on model)
+-3:  (depends on model)
+-4:  GPU
+-5:  Main battery: main sensor
+-6:  Bay battery: main sensor
+-7:  Main battery: secondary sensor
+-8:  Bay battery: secondary sensor
+-9-15: (depends on model)
++- 1:  CPU
++- 2:  (depends on model)
++- 3:  (depends on model)
++- 4:  GPU
++- 5:  Main battery: main sensor
++- 6:  Bay battery: main sensor
++- 7:  Main battery: secondary sensor
++- 8:  Bay battery: secondary sensor
++- 9-15: (depends on model)
+ 
+ For the R51 (source: Thomas Gruber):
+-2:  Mini-PCI
+-3:  Internal HDD
++
++- 2:  Mini-PCI
++- 3:  Internal HDD
+ 
+ For the T43, T43/p (source: Shmidoax/Thinkwiki.org)
+ http://thinkwiki.org/wiki/Thermal_Sensors#ThinkPad_T43.2C_T43p
+-2:  System board, left side (near PCMCIA slot), reported as HDAPS temp
+-3:  PCMCIA slot
+-9:  MCH (northbridge) to DRAM Bus
+-10: Clock-generator, mini-pci card and ICH (southbridge), under Mini-PCI
+-    card, under touchpad
+-11: Power regulator, underside of system board, below F2 key
++
++- 2:  System board, left side (near PCMCIA slot), reported as HDAPS temp
++- 3:  PCMCIA slot
++- 9:  MCH (northbridge) to DRAM Bus
++- 10: Clock-generator, mini-pci card and ICH (southbridge), under Mini-PCI
++      card, under touchpad
++- 11: Power regulator, underside of system board, below F2 key
+ 
+ The A31 has a very atypical layout for the thermal sensors
+ (source: Milos Popovic, http://thinkwiki.org/wiki/Thermal_Sensors#ThinkPad_A31)
+-1:  CPU
+-2:  Main Battery: main sensor
+-3:  Power Converter
+-4:  Bay Battery: main sensor
+-5:  MCH (northbridge)
+-6:  PCMCIA/ambient
+-7:  Main Battery: secondary sensor
+-8:  Bay Battery: secondary sensor
+ 
++- 1:  CPU
++- 2:  Main Battery: main sensor
++- 3:  Power Converter
++- 4:  Bay Battery: main sensor
++- 5:  MCH (northbridge)
++- 6:  PCMCIA/ambient
++- 7:  Main Battery: secondary sensor
++- 8:  Bay Battery: secondary sensor
++
++
++Procfs notes
++^^^^^^^^^^^^
+ 
+-Procfs notes:
+ 	Readings from sensors that are not available return -128.
+ 	No commands can be written to this file.
+ 
+-Sysfs notes:
++Sysfs notes
++^^^^^^^^^^^
++
+ 	Sensors that are not available return the ENXIO error.  This
+ 	status may change at runtime, as there are hotplug thermal
+ 	sensors, like those inside the batteries and docks.
+@@ -921,6 +973,7 @@ ftp://ftp.suse.com/pub/people/trenn/sources/ec
+ 
+ Use it to determine the register holding the fan
+ speed on some models. To do that, do the following:
++
+ 	- make sure the battery is fully charged
+ 	- make sure the fan is running
+ 	- use above mentioned tool to read out the EC
+@@ -941,6 +994,7 @@ LCD brightness control
+ ----------------------
+ 
+ procfs: /proc/acpi/ibm/brightness
++
+ sysfs backlight device "thinkpad_screen"
+ 
+ This feature allows software control of the LCD brightness on ThinkPad
+@@ -985,15 +1039,17 @@ brightness_enable=0 forces it to be disabled.  brightness_enable=1
+ forces it to be enabled when available, even if the standard ACPI
+ interface is also available.
+ 
+-Procfs notes:
++Procfs notes
++^^^^^^^^^^^^
+ 
+-	The available commands are:
++The available commands are::
+ 
+ 	echo up   >/proc/acpi/ibm/brightness
+ 	echo down >/proc/acpi/ibm/brightness
+ 	echo 'level <level>' >/proc/acpi/ibm/brightness
+ 
+-Sysfs notes:
++Sysfs notes
++^^^^^^^^^^^
+ 
+ The interface is implemented through the backlight sysfs class, which is
+ poorly documented at this time.
+@@ -1038,6 +1094,7 @@ Volume control (Console Audio control)
+ --------------------------------------
+ 
+ procfs: /proc/acpi/ibm/volume
++
+ ALSA: "ThinkPad Console Audio Control", default ID: "ThinkPadEC"
+ 
+ NOTE: by default, the volume control interface operates in read-only
+@@ -1053,7 +1110,8 @@ Software volume control should be done only in the main AC97/HDA
+ mixer.
+ 
+ 
+-About the ThinkPad Console Audio control:
++About the ThinkPad Console Audio control
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+ ThinkPads have a built-in amplifier and muting circuit that drives the
+ console headphone and speakers.  This circuit is after the main AC97
+@@ -1092,13 +1150,14 @@ normal key presses to the operating system (thinkpad-acpi is not
+ involved).
+ 
+ 
+-The ThinkPad-ACPI volume control:
++The ThinkPad-ACPI volume control
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+ The preferred way to interact with the Console Audio control is the
+ ALSA interface.
+ 
+ The legacy procfs interface allows one to read the current state,
+-and if volume control is enabled, accepts the following commands:
++and if volume control is enabled, accepts the following commands::
+ 
+ 	echo up   >/proc/acpi/ibm/volume
+ 	echo down >/proc/acpi/ibm/volume
+@@ -1137,13 +1196,15 @@ Fan control and monitoring: fan speed, fan enable/disable
+ ---------------------------------------------------------
+ 
+ procfs: /proc/acpi/ibm/fan
+-sysfs device attributes: (hwmon "thinkpad") fan1_input, pwm1,
+-			  pwm1_enable, fan2_input
++
++sysfs device attributes: (hwmon "thinkpad") fan1_input, pwm1, pwm1_enable, fan2_input
++
+ sysfs hwmon driver attributes: fan_watchdog
+ 
+-NOTE NOTE NOTE: fan control operations are disabled by default for
+-safety reasons.  To enable them, the module parameter "fan_control=1"
+-must be given to thinkpad-acpi.
++NOTE NOTE NOTE:
++   fan control operations are disabled by default for
++   safety reasons.  To enable them, the module parameter "fan_control=1"
++   must be given to thinkpad-acpi.
+ 
+ This feature attempts to show the current fan speed, control mode and
+ other fan data that might be available.  The speed is read directly
+@@ -1154,7 +1215,8 @@ value on other models.
+ Some Lenovo ThinkPads support a secondary fan.  This fan cannot be
+ controlled separately, it shares the main fan control.
+ 
+-Fan levels:
++Fan levels
++^^^^^^^^^^
+ 
+ Most ThinkPad fans work in "levels" at the firmware interface.  Level 0
+ stops the fan.  The higher the level, the higher the fan speed, although
+@@ -1209,9 +1271,10 @@ therefore, not suitable to protect against fan mode changes made through
+ means other than the "enable", "disable", and "level" procfs fan
+ commands, or the hwmon fan control sysfs interface.
+ 
+-Procfs notes:
++Procfs notes
++^^^^^^^^^^^^
+ 
+-The fan may be enabled or disabled with the following commands:
++The fan may be enabled or disabled with the following commands::
+ 
+ 	echo enable  >/proc/acpi/ibm/fan
+ 	echo disable >/proc/acpi/ibm/fan
+@@ -1219,7 +1282,7 @@ The fan may be enabled or disabled with the following commands:
+ Placing a fan on level 0 is the same as disabling it.  Enabling a fan
+ will try to place it in a safe level if it is too slow or disabled.
+ 
+-The fan level can be controlled with the command:
++The fan level can be controlled with the command::
+ 
+ 	echo 'level <level>' > /proc/acpi/ibm/fan
+ 
+@@ -1231,7 +1294,7 @@ compatibility.
+ 
+ On the X31 and X40 (and ONLY on those models), the fan speed can be
+ controlled to a certain degree.  Once the fan is running, it can be
+-forced to run faster or slower with the following command:
++forced to run faster or slower with the following command::
+ 
+ 	echo 'speed <speed>' > /proc/acpi/ibm/fan
+ 
+@@ -1241,13 +1304,14 @@ effect or the fan speed eventually settles somewhere in that range.  The
+ fan cannot be stopped or started with this command.  This functionality
+ is incomplete, and not available through the sysfs interface.
+ 
+-To program the safety watchdog, use the "watchdog" command.
++To program the safety watchdog, use the "watchdog" command::
+ 
+ 	echo 'watchdog <interval in seconds>' > /proc/acpi/ibm/fan
+ 
+ If you want to disable the watchdog, use 0 as the interval.
+ 
+-Sysfs notes:
++Sysfs notes
++^^^^^^^^^^^
+ 
+ The sysfs interface follows the hwmon subsystem guidelines for the most
+ part, and the exception is the fan safety watchdog.
+@@ -1261,10 +1325,10 @@ to the firmware).
+ Features not yet implemented by the driver return ENOSYS.
+ 
+ hwmon device attribute pwm1_enable:
+-	0: PWM offline (fan is set to full-speed mode)
+-	1: Manual PWM control (use pwm1 to set fan level)
+-	2: Hardware PWM control (EC "auto" mode)
+-	3: reserved (Software PWM control, not implemented yet)
++	- 0: PWM offline (fan is set to full-speed mode)
++	- 1: Manual PWM control (use pwm1 to set fan level)
++	- 2: Hardware PWM control (EC "auto" mode)
++	- 3: reserved (Software PWM control, not implemented yet)
+ 
+ 	Modes 0 and 2 are not supported by all ThinkPads, and the
+ 	driver is not always able to detect this.  If it does know a
+@@ -1304,7 +1368,9 @@ WAN
+ ---
+ 
+ procfs: /proc/acpi/ibm/wan
++
+ sysfs device attribute: wwan_enable (deprecated)
++
+ sysfs rfkill class: switch "tpacpi_wwan_sw"
+ 
+ This feature shows the presence and current state of the built-in
+@@ -1316,22 +1382,24 @@ so it is kept across reboots and power-off.
+ It was tested on a Lenovo ThinkPad X60. It should probably work on other
+ ThinkPad models which come with this module installed.
+ 
+-Procfs notes:
++Procfs notes
++^^^^^^^^^^^^
+ 
+-If the W-WAN card is installed, the following commands can be used:
++If the W-WAN card is installed, the following commands can be used::
+ 
+ 	echo enable > /proc/acpi/ibm/wan
+ 	echo disable > /proc/acpi/ibm/wan
+ 
+-Sysfs notes:
++Sysfs notes
++^^^^^^^^^^^
+ 
+ 	If the W-WAN card is installed, it can be enabled /
+ 	disabled through the "wwan_enable" thinkpad-acpi device
+ 	attribute, and its current status can also be queried.
+ 
+ 	enable:
+-		0: disables WWAN card / WWAN card is disabled
+-		1: enables WWAN card / WWAN card is enabled.
++		- 0: disables WWAN card / WWAN card is disabled
++		- 1: enables WWAN card / WWAN card is enabled.
+ 
+ 	Note: this interface has been superseded by the	generic rfkill
+ 	class.  It has been deprecated, and it will be removed in year
+@@ -1354,7 +1422,8 @@ sysfs rfkill class: switch "tpacpi_uwb_sw"
+ This feature exports an rfkill controller for the UWB device, if one is
+ present and enabled in the BIOS.
+ 
+-Sysfs notes:
++Sysfs notes
++^^^^^^^^^^^
+ 
+ 	rfkill controller switch "tpacpi_uwb_sw": refer to
+ 	Documentation/rfkill.txt for details.
+@@ -1368,11 +1437,11 @@ This sysfs attribute controls the keyboard "face" that will be shown on the
+ Lenovo X1 Carbon 2nd gen (2014)'s adaptive keyboard. The value can be read
+ and set.
+ 
+-1 = Home mode
+-2 = Web-browser mode
+-3 = Web-conference mode
+-4 = Function mode
+-5 = Layflat mode
++- 1 = Home mode
++- 2 = Web-browser mode
++- 3 = Web-conference mode
++- 4 = Function mode
++- 5 = Layflat mode
+ 
+ For more details about which buttons will appear depending on the mode, please
+ review the laptop's user guide:
+@@ -1382,13 +1451,13 @@ Multiple Commands, Module Parameters
+ ------------------------------------
+ 
+ Multiple commands can be written to the proc files in one shot by
+-separating them with commas, for example:
++separating them with commas, for example::
+ 
+ 	echo enable,0xffff > /proc/acpi/ibm/hotkey
+ 	echo lcd_disable,crt_enable > /proc/acpi/ibm/video
+ 
+ Commands can also be specified when loading the thinkpad-acpi module,
+-for example:
++for example::
+ 
+ 	modprobe thinkpad_acpi hotkey=enable,0xffff video=auto_disable
+ 
+@@ -1397,14 +1466,16 @@ Enabling debugging output
+ -------------------------
+ 
+ The module takes a debug parameter which can be used to selectively
+-enable various classes of debugging output, for example:
++enable various classes of debugging output, for example::
+ 
+ 	 modprobe thinkpad_acpi debug=0xffff
+ 
+ will enable all debugging output classes.  It takes a bitmask, so
+ to enable more than one output class, just add their values.
+ 
++	=============		======================================
+ 	Debug bitmask		Description
++	=============		======================================
+ 	0x8000			Disclose PID of userspace programs
+ 				accessing some functions of the driver
+ 	0x0001			Initialization and probing
+@@ -1415,6 +1486,7 @@ to enable more than one output class, just add their values.
+ 	0x0010			Fan control
+ 	0x0020			Backlight brightness
+ 	0x0040			Audio mixer/volume control
++	=============		======================================
+ 
+ There is also a kernel build option to enable more debugging
+ information, which may be necessary to debug driver problems.
+@@ -1432,8 +1504,10 @@ the module parameter force_load=1.  Regardless of whether this works or
+ not, please contact ibm-acpi-devel@lists.sourceforge.net with a report.
+ 
+ 
+-Sysfs interface changelog:
++Sysfs interface changelog
++^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
++=========	===============================================================
+ 0x000100:	Initial sysfs support, as a single platform driver and
+ 		device.
+ 0x000200:	Hot key support for 32 hot keys, and radio slider switch
+@@ -1485,3 +1559,4 @@ Sysfs interface changelog:
+ 0x030000:	Thermal and fan sysfs attributes were moved to the hwmon
+ 		device instead of being attached to the backing platform
+ 		device.
++=========	===============================================================
+diff --git a/Documentation/laptops/toshiba_haps.txt b/Documentation/laptops/toshiba_haps.rst
+similarity index 60%
+rename from Documentation/laptops/toshiba_haps.txt
+rename to Documentation/laptops/toshiba_haps.rst
+index 0c1d88dedbde..11dfc428c080 100644
+--- a/Documentation/laptops/toshiba_haps.txt
++++ b/Documentation/laptops/toshiba_haps.rst
+@@ -1,18 +1,19 @@
+-Kernel driver toshiba_haps
++====================================
+ Toshiba HDD Active Protection Sensor
+ ====================================
+ 
++Kernel driver: toshiba_haps
++
+ Author: Azael Avalos <coproscefalo@gmail.com>
+ 
+ 
+-0. Contents
+------------
++.. 0. Contents
+ 
+-1. Description
+-2. Interface
+-3. Accelerometer axes
+-4. Supported devices
+-5. Usage
++   1. Description
++   2. Interface
++   3. Accelerometer axes
++   4. Supported devices
++   5. Usage
+ 
+ 
+ 1. Description
+@@ -32,17 +33,20 @@ file to set the desired protection level or sensor sensibility.
+ ------------
+ 
+ This device comes with 3 methods:
+-_STA -  Checks existence of the device, returning Zero if the device does not
++
++====	=====================================================================
++_STA    Checks existence of the device, returning Zero if the device does not
+ 	exists or is not supported.
+-PTLV -  Sets the desired protection level.
+-RSSS -  Shuts down the HDD protection interface for a few seconds,
++PTLV    Sets the desired protection level.
++RSSS    Shuts down the HDD protection interface for a few seconds,
+ 	then restores normal operation.
++====	=====================================================================
+ 
+ Note:
+-The presence of Solid State Drives (SSD) can make this driver to fail loading,
+-given the fact that such drives have no movable parts, and thus, not requiring
+-any "protection" as well as failing during the evaluation of the _STA method
+-found under this device.
++  The presence of Solid State Drives (SSD) can make this driver to fail loading,
++  given the fact that such drives have no movable parts, and thus, not requiring
++  any "protection" as well as failing during the evaluation of the _STA method
++  found under this device.
+ 
+ 
+ 3. Accelerometer axes
+@@ -66,11 +70,18 @@ conventional HDD and not only SSD, or a combination of both HDD and SSD.
+ --------
+ 
+ The sysfs files under /sys/devices/LNXSYSTM:00/LNXSYBUS:00/TOS620A:00/ are:
+-protection_level - The protection_level is readable and writeable, and
++
++================   ============================================================
++protection_level   The protection_level is readable and writeable, and
+ 		   provides a way to let userspace query the current protection
+ 		   level, as well as set the desired protection level, the
+ 		   available protection levels are:
+-		   0 - Disabled | 1 - Low | 2 - Medium | 3 - High
+-reset_protection - The reset_protection entry is writeable only, being "1"
++
++		   ============   =======   ==========   ========
++		   0 - Disabled   1 - Low   2 - Medium   3 - High
++		   ============   =======   ==========   ========
++
++reset_protection   The reset_protection entry is writeable only, being "1"
+ 		   the only parameter it accepts, it is used to trigger
+ 		   a reset of the protection interface.
++================   ============================================================
+diff --git a/Documentation/sysctl/vm.txt b/Documentation/sysctl/vm.txt
+index 749322060f10..c5f0d44433a2 100644
+--- a/Documentation/sysctl/vm.txt
++++ b/Documentation/sysctl/vm.txt
+@@ -102,7 +102,7 @@ Changing this takes effect whenever an application requests memory.
+ block_dump
+ 
+ block_dump enables block I/O debugging when set to a nonzero value. More
+-information on block I/O debugging is in Documentation/laptops/laptop-mode.txt.
++information on block I/O debugging is in Documentation/laptops/laptop-mode.rst.
+ 
+ ==============================================================
+ 
+@@ -286,7 +286,7 @@ shared memory segment using hugetlb page.
+ laptop_mode
+ 
+ laptop_mode is a knob that controls "laptop mode". All the things that are
+-controlled by this knob are discussed in Documentation/laptops/laptop-mode.txt.
++controlled by this knob are discussed in Documentation/laptops/laptop-mode.rst.
+ 
+ ==============================================================
+ 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 73000e7d7f19..c63b1b9cbed4 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -14753,7 +14753,7 @@ M:	Mattia Dongili <malattia@linux.it>
+ L:	platform-driver-x86@vger.kernel.org
+ W:	http://www.linux.it/~malattia/wiki/index.php/Sony_drivers
+ S:	Maintained
+-F:	Documentation/laptops/sony-laptop.txt
++F:	Documentation/laptops/sony-laptop.rst
+ F:	drivers/char/sonypi.c
+ F:	drivers/platform/x86/sony-laptop.c
+ F:	include/linux/sony-laptop.h
+diff --git a/drivers/char/Kconfig b/drivers/char/Kconfig
+index 466ebd84ad17..bb734066075f 100644
+--- a/drivers/char/Kconfig
++++ b/drivers/char/Kconfig
+@@ -382,7 +382,7 @@ config SONYPI
+ 	  Device which can be found in many (all ?) Sony Vaio laptops.
+ 
+ 	  If you have one of those laptops, read
+-	  <file:Documentation/laptops/sonypi.txt>, and say Y or M here.
++	  <file:Documentation/laptops/sonypi.rst>, and say Y or M here.
+ 
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called sonypi.
+diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+index 5d5cc6111081..e53c915761e7 100644
+--- a/drivers/platform/x86/Kconfig
++++ b/drivers/platform/x86/Kconfig
+@@ -451,7 +451,7 @@ config SONY_LAPTOP
+ 	  screen brightness control, Fn keys and allows powering on/off some
+ 	  devices.
+ 
+-	  Read <file:Documentation/laptops/sony-laptop.txt> for more information.
++	  Read <file:Documentation/laptops/sony-laptop.rst> for more information.
+ 
+ config SONYPI_COMPAT
+ 	bool "Sonypi compatibility"
+@@ -503,7 +503,7 @@ config THINKPAD_ACPI
+ 	  support for Fn-Fx key combinations, Bluetooth control, video
+ 	  output switching, ThinkLight control, UltraBay eject and more.
+ 	  For more information about this driver see
+-	  <file:Documentation/laptops/thinkpad-acpi.txt> and
++	  <file:Documentation/laptops/thinkpad-acpi.rst> and
+ 	  <http://ibm-acpi.sf.net/> .
+ 
+ 	  This driver was formerly known as ibm-acpi.
 -- 
 2.21.0
 
