@@ -5,77 +5,181 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D2E697D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 07:54:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 8EE0F7D90F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 09:20:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726001AbfFLHyP convert rfc822-to-8bit (ORCPT
-        <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Jun 2019 03:54:15 -0400
-Received: from mga17.intel.com ([192.55.52.151]:56056 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725810AbfFLHyP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 12 Jun 2019 03:54:15 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Jun 2019 00:54:14 -0700
-X-ExtLoop1: 1
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.150])
-  by fmsmga001.fm.intel.com with ESMTP; 12 Jun 2019 00:54:12 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     =?utf-8?Q?Andr=C3=A9?= Almeida <andrealmeid@collabora.com>,
-        linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, corbet@lwn.net, kernel@collabora.com,
-        =?utf-8?Q?Andr=C3=A9?= Almeida <andrealmeid@collabora.com>
-Subject: Re: [PATCH] sphinx.rst: Add note about code snippets embedded in the text
-In-Reply-To: <20190611200316.30054-1-andrealmeid@collabora.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20190611200316.30054-1-andrealmeid@collabora.com>
-Date:   Wed, 12 Jun 2019 10:57:12 +0300
-Message-ID: <87ftofxmlj.fsf@intel.com>
+        id S2407442AbfFLJUO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Jun 2019 05:20:14 -0400
+Received: from smtp.nue.novell.com ([195.135.221.5]:49861 "EHLO
+        smtp.nue.novell.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2406714AbfFLJUO (ORCPT
+        <rfc822;groupwise-linux-doc@vger.kernel.org:0:0>);
+        Wed, 12 Jun 2019 05:20:14 -0400
+Received: from emea4-mta.ukb.novell.com ([10.120.13.87])
+        by smtp.nue.novell.com with ESMTP (TLS encrypted); Wed, 12 Jun 2019 11:20:11 +0200
+Received: from suselix (nwb-a10-snat.microfocus.com [10.120.13.202])
+        by emea4-mta.ukb.novell.com with ESMTP (TLS encrypted); Wed, 12 Jun 2019 07:17:35 +0100
+Date:   Wed, 12 Jun 2019 08:17:32 +0200
+From:   Andreas Herrmann <aherrmann@suse.com>
+To:     Tejun Heo <tj@kernel.org>
+Cc:     Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-block@vger.kernel.org
+Subject: [PATCH] blkio-controller.txt: Remove references to CFQ
+Message-ID: <20190612061732.GA3711@suselix>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 11 Jun 2019, André Almeida <andrealmeid@collabora.com> wrote:
-> There's a paragraph that explains how to create fixed width text block,
-> but it doesn't explains how to create fixed width text inline, although
-> this feature is really used through the documentation. Fix that adding a
-> quick note about it.
+CFQ is gone. No need anymore to document its "proportional weight time
+based division of disk policy".
 
-I don't mind this addition, it's simple enough, but in general I think
-we should reference the Sphinx and reStructuredText documentation,
-whichever is more applicable, instead of duplicating the
-documentation. The idea is that this document describes how to use them
-in kernel. Contrast with coding style and language reference.
+Signed-off-by: Andreas Herrmann <aherrmann@suse.com>
+---
+ Documentation/cgroup-v1/blkio-controller.txt | 96 ++--------------------------
+ 1 file changed, 7 insertions(+), 89 deletions(-)
 
-BR,
-Jani.
-
-
->
-> Signed-off-by: André Almeida <andrealmeid@collabora.com>
-> ---
->  Documentation/doc-guide/sphinx.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
-> index c039224b404e..f48abc07f4c5 100644
-> --- a/Documentation/doc-guide/sphinx.rst
-> +++ b/Documentation/doc-guide/sphinx.rst
-> @@ -218,7 +218,7 @@ Here are some specific guidelines for the kernel documentation:
->    examples, etc.), use ``::`` for anything that doesn't really benefit
->    from syntax highlighting, especially short snippets. Use
->    ``.. code-block:: <language>`` for longer code blocks that benefit
-> -  from highlighting.
-> +  from highlighting. For a short snippet of code embedded in the text, use \`\`.
->  
->  
->  the C domain
-
+diff --git a/Documentation/cgroup-v1/blkio-controller.txt b/Documentation/cgroup-v1/blkio-controller.txt
+index 673dc34d3f78..d1a1b7bdd03a 100644
+--- a/Documentation/cgroup-v1/blkio-controller.txt
++++ b/Documentation/cgroup-v1/blkio-controller.txt
+@@ -8,61 +8,13 @@ both at leaf nodes as well as at intermediate nodes in a storage hierarchy.
+ Plan is to use the same cgroup based management interface for blkio controller
+ and based on user options switch IO policies in the background.
+ 
+-Currently two IO control policies are implemented. First one is proportional
+-weight time based division of disk policy. It is implemented in CFQ. Hence
+-this policy takes effect only on leaf nodes when CFQ is being used. The second
+-one is throttling policy which can be used to specify upper IO rate limits
+-on devices. This policy is implemented in generic block layer and can be
+-used on leaf nodes as well as higher level logical devices like device mapper.
++One IO control policy is throttling policy which can be used to
++specify upper IO rate limits on devices. This policy is implemented in
++generic block layer and can be used on leaf nodes as well as higher
++level logical devices like device mapper.
+ 
+ HOWTO
+ =====
+-Proportional Weight division of bandwidth
+------------------------------------------
+-You can do a very simple testing of running two dd threads in two different
+-cgroups. Here is what you can do.
+-
+-- Enable Block IO controller
+-	CONFIG_BLK_CGROUP=y
+-
+-- Enable group scheduling in CFQ
+-	CONFIG_CFQ_GROUP_IOSCHED=y
+-
+-- Compile and boot into kernel and mount IO controller (blkio); see
+-  cgroups.txt, Why are cgroups needed?.
+-
+-	mount -t tmpfs cgroup_root /sys/fs/cgroup
+-	mkdir /sys/fs/cgroup/blkio
+-	mount -t cgroup -o blkio none /sys/fs/cgroup/blkio
+-
+-- Create two cgroups
+-	mkdir -p /sys/fs/cgroup/blkio/test1/ /sys/fs/cgroup/blkio/test2
+-
+-- Set weights of group test1 and test2
+-	echo 1000 > /sys/fs/cgroup/blkio/test1/blkio.weight
+-	echo 500 > /sys/fs/cgroup/blkio/test2/blkio.weight
+-
+-- Create two same size files (say 512MB each) on same disk (file1, file2) and
+-  launch two dd threads in different cgroup to read those files.
+-
+-	sync
+-	echo 3 > /proc/sys/vm/drop_caches
+-
+-	dd if=/mnt/sdb/zerofile1 of=/dev/null &
+-	echo $! > /sys/fs/cgroup/blkio/test1/tasks
+-	cat /sys/fs/cgroup/blkio/test1/tasks
+-
+-	dd if=/mnt/sdb/zerofile2 of=/dev/null &
+-	echo $! > /sys/fs/cgroup/blkio/test2/tasks
+-	cat /sys/fs/cgroup/blkio/test2/tasks
+-
+-- At macro level, first dd should finish first. To get more precise data, keep
+-  on looking at (with the help of script), at blkio.disk_time and
+-  blkio.disk_sectors files of both test1 and test2 groups. This will tell how
+-  much disk time (in milliseconds), each group got and how many sectors each
+-  group dispatched to the disk. We provide fairness in terms of disk time, so
+-  ideally io.disk_time of cgroups should be in proportion to the weight.
+-
+ Throttling/Upper Limit policy
+ -----------------------------
+ - Enable Block IO controller
+@@ -94,7 +46,7 @@ Throttling/Upper Limit policy
+ Hierarchical Cgroups
+ ====================
+ 
+-Both CFQ and throttling implement hierarchy support; however,
++Throttling implements hierarchy support; however,
+ throttling's hierarchy support is enabled iff "sane_behavior" is
+ enabled from cgroup side, which currently is a development option and
+ not publicly available.
+@@ -107,9 +59,8 @@ If somebody created a hierarchy like as follows.
+ 			|
+ 		     test3
+ 
+-CFQ by default and throttling with "sane_behavior" will handle the
+-hierarchy correctly.  For details on CFQ hierarchy support, refer to
+-Documentation/block/cfq-iosched.txt.  For throttling, all limits apply
++Throttling with "sane_behavior" will handle the
++hierarchy correctly. For throttling, all limits apply
+ to the whole subtree while all statistics are local to the IOs
+ directly generated by tasks in that cgroup.
+ 
+@@ -130,10 +81,6 @@ CONFIG_DEBUG_BLK_CGROUP
+ 	- Debug help. Right now some additional stats file show up in cgroup
+ 	  if this option is enabled.
+ 
+-CONFIG_CFQ_GROUP_IOSCHED
+-	- Enables group scheduling in CFQ. Currently only 1 level of group
+-	  creation is allowed.
+-
+ CONFIG_BLK_DEV_THROTTLING
+ 	- Enable block device throttling support in block layer.
+ 
+@@ -344,32 +291,3 @@ Common files among various policies
+ - blkio.reset_stats
+ 	- Writing an int to this file will result in resetting all the stats
+ 	  for that cgroup.
+-
+-CFQ sysfs tunable
+-=================
+-/sys/block/<disk>/queue/iosched/slice_idle
+-------------------------------------------
+-On a faster hardware CFQ can be slow, especially with sequential workload.
+-This happens because CFQ idles on a single queue and single queue might not
+-drive deeper request queue depths to keep the storage busy. In such scenarios
+-one can try setting slice_idle=0 and that would switch CFQ to IOPS
+-(IO operations per second) mode on NCQ supporting hardware.
+-
+-That means CFQ will not idle between cfq queues of a cfq group and hence be
+-able to driver higher queue depth and achieve better throughput. That also
+-means that cfq provides fairness among groups in terms of IOPS and not in
+-terms of disk time.
+-
+-/sys/block/<disk>/queue/iosched/group_idle
+-------------------------------------------
+-If one disables idling on individual cfq queues and cfq service trees by
+-setting slice_idle=0, group_idle kicks in. That means CFQ will still idle
+-on the group in an attempt to provide fairness among groups.
+-
+-By default group_idle is same as slice_idle and does not do anything if
+-slice_idle is enabled.
+-
+-One can experience an overall throughput drop if you have created multiple
+-groups and put applications in that group which are not driving enough
+-IO to keep disk busy. In that case set group_idle=0, and CFQ will not idle
+-on individual groups and throughput should improve.
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.13.7
