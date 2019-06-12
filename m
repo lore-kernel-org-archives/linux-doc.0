@@ -5,224 +5,284 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9BD627D922
+	by archive.lwn.net (Postfix) with ESMTP id B1DBE7D923
 	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 18:48:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726589AbfFLSij (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Jun 2019 14:38:39 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:45534 "EHLO
+        id S1727263AbfFLSlM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Jun 2019 14:41:12 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:45576 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726167AbfFLSii (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jun 2019 14:38:38 -0400
+        with ESMTP id S1726722AbfFLSij (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jun 2019 14:38:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
-        To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=LvMZCNqyjGCYorMHMnZsk1Wxffwcw4B9xSPUy6NpG7A=; b=c9JbDLf3c3uOxQ7Dq2GrjBPa2j
-        OHHAR6cixPlZFhc4jad5gctIARzujfBkPCL9CPCGnE0QtGlopg7uyWI4X8CUktAmstk4wU+KsGfZf
-        0YdwMUscmK5ZmuiCtd/89QmN0cHuKZgltWcoIVhAfecgmtvUAonlqGkY8hLVolACCBm+M1NmGZE48
-        dfu1p9FJJeVfUNXAJrtUsED7G8Z5bmijQU1FVruXzk9Ylwj12f3iCP5ORZpDpjzPS9Kzwg9Hl9X/n
-        D64Xzjfbh6YhOB82ZFJFDNsoOOLFGNaDLMO5Y8Gr9amyn9lxMnrR1Z/HObf3IcQGpzg1NygqaXPvF
-        uAMuSm2w==;
+        bh=eones6QuDT9PdWjV+tkuB9RT4tJAbIFaVBOMCYjookk=; b=Qgltymsi0tqlWbU+/ut40jz3t+
+        qIKY83OB8STwfad9Yp2s/GMZXMvBO4828c1+2Vz9LJyVWx3GLzaKDR/Q1tmypIeXfG11DEcSYgkxt
+        eIzc6AfMhBqEP+U4PnaY8UrwddBg6Ng8XTtWZb+aXwIOUJczoEEYF/K18tCM8s45e3DbzZpvYnCam
+        TTWQRkfHRZ94OUa1/cbTsZbhGlLssMpXCnOtzUSAqTgamqW4JkA3uy8UsHrFhDhsYlZhlou2vHw5L
+        DLPePst8qN+wIPIN1ahAtRLVRL8tazLhDIGdn/c7dk1MwY5isO45dy1ntBascNemnqSH5a3zSb0QL
+        A4zWNhyw==;
 Received: from 201.86.169.251.dynamic.adsl.gvt.net.br ([201.86.169.251] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hb88s-0006Y8-GS; Wed, 12 Jun 2019 18:38:38 +0000
+        id 1hb88s-0006YJ-IM; Wed, 12 Jun 2019 18:38:38 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hb88q-0002B1-3a; Wed, 12 Jun 2019 15:38:36 -0300
+        id 1hb88p-0002Ah-V1; Wed, 12 Jun 2019 15:38:35 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v1 12/31] docs: xen-tpmfront.txt: convert it to .rst
-Date:   Wed, 12 Jun 2019 15:38:15 -0300
-Message-Id: <5725f4a1e80540c820a031bc21ae769297d8b32b.1560364494.git.mchehab+samsung@kernel.org>
+Subject: [PATCH v1 07/31] docs: pti_intel_mid.txt: convert it to pti_intel_mid.rst
+Date:   Wed, 12 Jun 2019 15:38:10 -0300
+Message-Id: <bb3a4561c254124289eaf4b318a0825f72d0d8b2.1560364494.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1560364493.git.mchehab+samsung@kernel.org>
 References: <cover.1560364493.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In order to be able to add this file to the security book,
-we need first to convert it to reST.
+Convert this small file to ReST format and rename it.
+
+Most of the conversion were related to adjusting whitespaces
+in order for each section to be properly parsed.
 
 While this is not part of any book, mark it as :orphan:, in order
 to avoid build warnings.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- .../{xen-tpmfront.txt => xen-tpmfront.rst}    | 103 ++++++++++--------
- 1 file changed, 58 insertions(+), 45 deletions(-)
- rename Documentation/security/tpm/{xen-tpmfront.txt => xen-tpmfront.rst} (66%)
+ Documentation/pti/pti_intel_mid.rst | 106 ++++++++++++++++++++++++++++
+ Documentation/pti/pti_intel_mid.txt |  99 --------------------------
+ 2 files changed, 106 insertions(+), 99 deletions(-)
+ create mode 100644 Documentation/pti/pti_intel_mid.rst
+ delete mode 100644 Documentation/pti/pti_intel_mid.txt
 
-diff --git a/Documentation/security/tpm/xen-tpmfront.txt b/Documentation/security/tpm/xen-tpmfront.rst
-similarity index 66%
-rename from Documentation/security/tpm/xen-tpmfront.txt
-rename to Documentation/security/tpm/xen-tpmfront.rst
-index 69346de87ff3..98a16ab87360 100644
---- a/Documentation/security/tpm/xen-tpmfront.txt
-+++ b/Documentation/security/tpm/xen-tpmfront.rst
-@@ -1,4 +1,8 @@
+diff --git a/Documentation/pti/pti_intel_mid.rst b/Documentation/pti/pti_intel_mid.rst
+new file mode 100644
+index 000000000000..ea05725174cb
+--- /dev/null
++++ b/Documentation/pti/pti_intel_mid.rst
+@@ -0,0 +1,106 @@
 +:orphan:
 +
-+﻿=============================
- Virtual TPM interface for Xen
-+=============================
- 
- Authors: Matthew Fioravante (JHUAPL), Daniel De Graaf (NSA)
- 
-@@ -6,7 +10,8 @@ This document describes the virtual Trusted Platform Module (vTPM) subsystem for
- Xen. The reader is assumed to have familiarity with building and installing Xen,
- Linux, and a basic understanding of the TPM and vTPM concepts.
- 
--INTRODUCTION
-+Introduction
-+------------
- 
- The goal of this work is to provide a TPM functionality to a virtual guest
- operating system (in Xen terms, a DomU).  This allows programs to interact with
-@@ -24,81 +29,89 @@ This mini-os vTPM subsystem was built on top of the previous vTPM work done by
- IBM and Intel corporation.
- 
- 
--DESIGN OVERVIEW
-+Design Overview
- ---------------
- 
--The architecture of vTPM is described below:
-+The architecture of vTPM is described below::
- 
--+------------------+
--|    Linux DomU    | ...
--|       |  ^       |
--|       v  |       |
--|   xen-tpmfront   |
--+------------------+
--        |  ^
--        v  |
--+------------------+
--| mini-os/tpmback  |
--|       |  ^       |
--|       v  |       |
--|  vtpm-stubdom    | ...
--|       |  ^       |
--|       v  |       |
--| mini-os/tpmfront |
--+------------------+
--        |  ^
--        v  |
--+------------------+
--| mini-os/tpmback  |
--|       |  ^       |
--|       v  |       |
--| vtpmmgr-stubdom  |
--|       |  ^       |
--|       v  |       |
--| mini-os/tpm_tis  |
--+------------------+
--        |  ^
--        v  |
--+------------------+
--|   Hardware TPM   |
--+------------------+
-+  +------------------+
-+  |    Linux DomU    | ...
-+  |       |  ^       |
-+  |       v  |       |
-+  |   xen-tpmfront   |
-+  +------------------+
-+          |  ^
-+          v  |
-+  +------------------+
-+  | mini-os/tpmback  |
-+  |       |  ^       |
-+  |       v  |       |
-+  |  vtpm-stubdom    | ...
-+  |       |  ^       |
-+  |       v  |       |
-+  | mini-os/tpmfront |
-+  +------------------+
-+          |  ^
-+          v  |
-+  +------------------+
-+  | mini-os/tpmback  |
-+  |       |  ^       |
-+  |       v  |       |
-+  | vtpmmgr-stubdom  |
-+  |       |  ^       |
-+  |       v  |       |
-+  | mini-os/tpm_tis  |
-+  +------------------+
-+          |  ^
-+          v  |
-+  +------------------+
-+  |   Hardware TPM   |
-+  +------------------+
- 
-- * Linux DomU: The Linux based guest that wants to use a vTPM. There may be
-+* Linux DomU:
-+	       The Linux based guest that wants to use a vTPM. There may be
- 	       more than one of these.
- 
-- * xen-tpmfront.ko: Linux kernel virtual TPM frontend driver. This driver
-+* xen-tpmfront.ko:
-+		    Linux kernel virtual TPM frontend driver. This driver
-                     provides vTPM access to a Linux-based DomU.
- 
-- * mini-os/tpmback: Mini-os TPM backend driver. The Linux frontend driver
-+* mini-os/tpmback:
-+		    Mini-os TPM backend driver. The Linux frontend driver
- 		    connects to this backend driver to facilitate communications
- 		    between the Linux DomU and its vTPM. This driver is also
- 		    used by vtpmmgr-stubdom to communicate with vtpm-stubdom.
- 
-- * vtpm-stubdom: A mini-os stub domain that implements a vTPM. There is a
-+* vtpm-stubdom:
-+		 A mini-os stub domain that implements a vTPM. There is a
- 		 one to one mapping between running vtpm-stubdom instances and
-                  logical vtpms on the system. The vTPM Platform Configuration
-                  Registers (PCRs) are normally all initialized to zero.
- 
-- * mini-os/tpmfront: Mini-os TPM frontend driver. The vTPM mini-os domain
-+* mini-os/tpmfront:
-+		     Mini-os TPM frontend driver. The vTPM mini-os domain
- 		     vtpm-stubdom uses this driver to communicate with
- 		     vtpmmgr-stubdom. This driver is also used in mini-os
- 		     domains such as pv-grub that talk to the vTPM domain.
- 
-- * vtpmmgr-stubdom: A mini-os domain that implements the vTPM manager. There is
-+* vtpmmgr-stubdom:
-+		    A mini-os domain that implements the vTPM manager. There is
- 		    only one vTPM manager and it should be running during the
- 		    entire lifetime of the machine.  This domain regulates
- 		    access to the physical TPM on the system and secures the
- 		    persistent state of each vTPM.
- 
-- * mini-os/tpm_tis: Mini-os TPM version 1.2 TPM Interface Specification (TIS)
-+* mini-os/tpm_tis:
-+		    Mini-os TPM version 1.2 TPM Interface Specification (TIS)
-                     driver. This driver used by vtpmmgr-stubdom to talk directly to
-                     the hardware TPM. Communication is facilitated by mapping
-                     hardware memory pages into vtpmmgr-stubdom.
- 
-- * Hardware TPM: The physical TPM that is soldered onto the motherboard.
-+* Hardware TPM:
-+		The physical TPM that is soldered onto the motherboard.
- 
- 
--INTEGRATION WITH XEN
-+Integration With Xen
- --------------------
- 
- Support for the vTPM driver was added in Xen using the libxl toolstack in Xen
++=============
++Intel MID PTI
++=============
++
++The Intel MID PTI project is HW implemented in Intel Atom
++system-on-a-chip designs based on the Parallel Trace
++Interface for MIPI P1149.7 cJTAG standard.  The kernel solution
++for this platform involves the following files::
++
++	./include/linux/pti.h
++	./drivers/.../n_tracesink.h
++	./drivers/.../n_tracerouter.c
++	./drivers/.../n_tracesink.c
++	./drivers/.../pti.c
++
++pti.c is the driver that enables various debugging features
++popular on platforms from certain mobile manufacturers.
++n_tracerouter.c and n_tracesink.c allow extra system information to
++be collected and routed to the pti driver, such as trace
++debugging data from a modem.  Although n_tracerouter
++and n_tracesink are a part of the complete PTI solution,
++these two line disciplines can work separately from
++pti.c and route any data stream from one /dev/tty node
++to another /dev/tty node via kernel-space.  This provides
++a stable, reliable connection that will not break unless
++the user-space application shuts down (plus avoids
++kernel->user->kernel context switch overheads of routing
++data).
++
++An example debugging usage for this driver system:
++
++  * Hook /dev/ttyPTI0 to syslogd.  Opening this port will also start
++    a console device to further capture debugging messages to PTI.
++  * Hook /dev/ttyPTI1 to modem debugging data to write to PTI HW.
++    This is where n_tracerouter and n_tracesink are used.
++  * Hook /dev/pti to a user-level debugging application for writing
++    to PTI HW.
++  * `Use mipi_` Kernel Driver API in other device drivers for
++    debugging to PTI by first requesting a PTI write address via
++    mipi_request_masterchannel(1).
++
++Below is example pseudo-code on how a 'privileged' application
++can hook up n_tracerouter and n_tracesink to any tty on
++a system.  'Privileged' means the application has enough
++privileges to successfully manipulate the ldisc drivers
++but is not just blindly executing as 'root'. Keep in mind
++the use of ioctl(,TIOCSETD,) is not specific to the n_tracerouter
++and n_tracesink line discpline drivers but is a generic
++operation for a program to use a line discpline driver
++on a tty port other than the default n_tty::
++
++  /////////// To hook up n_tracerouter and n_tracesink /////////
++
++  // Note that n_tracerouter depends on n_tracesink.
++  #include <errno.h>
++  #define ONE_TTY "/dev/ttyOne"
++  #define TWO_TTY "/dev/ttyTwo"
++
++  // needed global to hand onto ldisc connection
++  static int g_fd_source = -1;
++  static int g_fd_sink  = -1;
++
++  // these two vars used to grab LDISC values from loaded ldisc drivers
++  // in OS.  Look at /proc/tty/ldiscs to get the right numbers from
++  // the ldiscs loaded in the system.
++  int source_ldisc_num, sink_ldisc_num = -1;
++  int retval;
++
++  g_fd_source = open(ONE_TTY, O_RDWR); // must be R/W
++  g_fd_sink   = open(TWO_TTY, O_RDWR); // must be R/W
++
++  if (g_fd_source <= 0) || (g_fd_sink <= 0) {
++     // doubt you'll want to use these exact error lines of code
++     printf("Error on open(). errno: %d\n",errno);
++     return errno;
++  }
++
++  retval = ioctl(g_fd_sink, TIOCSETD, &sink_ldisc_num);
++  if (retval < 0) {
++     printf("Error on ioctl().  errno: %d\n", errno);
++     return errno;
++  }
++
++  retval = ioctl(g_fd_source, TIOCSETD, &source_ldisc_num);
++  if (retval < 0) {
++     printf("Error on ioctl().  errno: %d\n", errno);
++     return errno;
++  }
++
++  /////////// To disconnect n_tracerouter and n_tracesink ////////
++
++  // First make sure data through the ldiscs has stopped.
++
++  // Second, disconnect ldiscs.  This provides a
++  // little cleaner shutdown on tty stack.
++  sink_ldisc_num = 0;
++  source_ldisc_num = 0;
++  ioctl(g_fd_uart, TIOCSETD, &sink_ldisc_num);
++  ioctl(g_fd_gadget, TIOCSETD, &source_ldisc_num);
++
++  // Three, program closes connection, and cleanup:
++  close(g_fd_uart);
++  close(g_fd_gadget);
++  g_fd_uart = g_fd_gadget = NULL;
+diff --git a/Documentation/pti/pti_intel_mid.txt b/Documentation/pti/pti_intel_mid.txt
+deleted file mode 100644
+index e7a5b6d1f7a9..000000000000
+--- a/Documentation/pti/pti_intel_mid.txt
++++ /dev/null
+@@ -1,99 +0,0 @@
+-The Intel MID PTI project is HW implemented in Intel Atom
+-system-on-a-chip designs based on the Parallel Trace
+-Interface for MIPI P1149.7 cJTAG standard.  The kernel solution
+-for this platform involves the following files:
+-
+-./include/linux/pti.h
+-./drivers/.../n_tracesink.h
+-./drivers/.../n_tracerouter.c
+-./drivers/.../n_tracesink.c
+-./drivers/.../pti.c
+-
+-pti.c is the driver that enables various debugging features
+-popular on platforms from certain mobile manufacturers.
+-n_tracerouter.c and n_tracesink.c allow extra system information to
+-be collected and routed to the pti driver, such as trace
+-debugging data from a modem.  Although n_tracerouter
+-and n_tracesink are a part of the complete PTI solution,
+-these two line disciplines can work separately from
+-pti.c and route any data stream from one /dev/tty node
+-to another /dev/tty node via kernel-space.  This provides
+-a stable, reliable connection that will not break unless
+-the user-space application shuts down (plus avoids
+-kernel->user->kernel context switch overheads of routing
+-data).
+-
+-An example debugging usage for this driver system:
+-   *Hook /dev/ttyPTI0 to syslogd.  Opening this port will also start
+-    a console device to further capture debugging messages to PTI.
+-   *Hook /dev/ttyPTI1 to modem debugging data to write to PTI HW.
+-    This is where n_tracerouter and n_tracesink are used.
+-   *Hook /dev/pti to a user-level debugging application for writing
+-    to PTI HW.
+-   *Use mipi_* Kernel Driver API in other device drivers for
+-    debugging to PTI by first requesting a PTI write address via
+-    mipi_request_masterchannel(1).
+-
+-Below is example pseudo-code on how a 'privileged' application
+-can hook up n_tracerouter and n_tracesink to any tty on
+-a system.  'Privileged' means the application has enough
+-privileges to successfully manipulate the ldisc drivers
+-but is not just blindly executing as 'root'. Keep in mind
+-the use of ioctl(,TIOCSETD,) is not specific to the n_tracerouter
+-and n_tracesink line discpline drivers but is a generic
+-operation for a program to use a line discpline driver
+-on a tty port other than the default n_tty.
+-
+-/////////// To hook up n_tracerouter and n_tracesink /////////
+-
+-// Note that n_tracerouter depends on n_tracesink.
+-#include <errno.h>
+-#define ONE_TTY "/dev/ttyOne"
+-#define TWO_TTY "/dev/ttyTwo"
+-
+-// needed global to hand onto ldisc connection
+-static int g_fd_source = -1;
+-static int g_fd_sink  = -1;
+-
+-// these two vars used to grab LDISC values from loaded ldisc drivers
+-// in OS.  Look at /proc/tty/ldiscs to get the right numbers from
+-// the ldiscs loaded in the system.
+-int source_ldisc_num, sink_ldisc_num = -1;
+-int retval;
+-
+-g_fd_source = open(ONE_TTY, O_RDWR); // must be R/W
+-g_fd_sink   = open(TWO_TTY, O_RDWR); // must be R/W
+-
+-if (g_fd_source <= 0) || (g_fd_sink <= 0) {
+-   // doubt you'll want to use these exact error lines of code
+-   printf("Error on open(). errno: %d\n",errno);
+-   return errno;
+-}
+-
+-retval = ioctl(g_fd_sink, TIOCSETD, &sink_ldisc_num);
+-if (retval < 0) {
+-   printf("Error on ioctl().  errno: %d\n", errno);
+-   return errno;
+-}
+-
+-retval = ioctl(g_fd_source, TIOCSETD, &source_ldisc_num);
+-if (retval < 0) {
+-   printf("Error on ioctl().  errno: %d\n", errno);
+-   return errno;
+-}
+-
+-/////////// To disconnect n_tracerouter and n_tracesink ////////
+-
+-// First make sure data through the ldiscs has stopped.
+-
+-// Second, disconnect ldiscs.  This provides a
+-// little cleaner shutdown on tty stack.
+-sink_ldisc_num = 0;
+-source_ldisc_num = 0;
+-ioctl(g_fd_uart, TIOCSETD, &sink_ldisc_num);
+-ioctl(g_fd_gadget, TIOCSETD, &source_ldisc_num);
+-
+-// Three, program closes connection, and cleanup:
+-close(g_fd_uart);
+-close(g_fd_gadget);
+-g_fd_uart = g_fd_gadget = NULL;
 -- 
 2.21.0
 
