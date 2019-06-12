@@ -5,227 +5,87 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2803A7E2CC
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 18:07:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 14A727D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 18:27:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388381AbfFLR46 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Jun 2019 13:56:58 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:40402 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388151AbfFLRxM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jun 2019 13:53:12 -0400
+        id S1727904AbfFLSZq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 12 Jun 2019 14:25:46 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:35516 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727843AbfFLSZp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jun 2019 14:25:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=/ZZUTqS7pPsucm3eiqOvCLTIQSRmjVrFHqOoPzJmW2M=; b=WSSzJJjY+6oXa8zy+IkvkvfSPP
-        DbiDPEiN/8YS0nBCfFaqJQePXlnkz5YsKnU1IuEBuTnFeQi9LpGECjHAWunErP3poi1azc2wXsQoE
-        4znYFmmbaXmbS1/LrRf4xz3lmFTgSJhWmshgdNcepJ0EqWKZxwfNcO54rbFRTNDhzswfSb2RtqdJv
-        mQbWCC7PjvS9zUgRRjV3Epz0ohDIoDPZFQ0lXtY+mvJtttV/IjxVTKamLes/aOcIpN7+MvocTeCxB
-        aAhQ3wQ1yA3xdoSAMrzoTXFKYIDYSmecujONCAzQ5jVrZZFfQAzL19nrtNTPwhR6iinLgHf6uyUlP
-        tPbyKJiA==;
-Received: from 201.86.169.251.dynamic.adsl.gvt.net.br ([201.86.169.251] helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hb7Qt-0002Dl-1U; Wed, 12 Jun 2019 17:53:11 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hb7Qq-0001hB-Ik; Wed, 12 Jun 2019 14:53:08 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=7/JejZXuw4c82OjHDF4+j/TFP9PqUXciwPyDMKWbltA=; b=diZSDCcMuyJrjruXy1ZwgBgM6
+        U5GLj33sBcQ4EZclDj66fANPwauHu7YcuPai2oGPt2BlizI8WSBbIRMDhgGdE2zavpqxCVIWykapM
+        byA1dRAOskAfbv/m648KeoOg5tyt8xc0FNJ8lQuw0ijdPLebMkIY31IxyCPww9X0RoOg4=;
+Received: from [2001:470:1f1d:6b5:7e7a:91ff:fede:4a45] (helo=finisterre.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <broonie@sirena.org.uk>)
+        id 1hb7w7-0003Ol-Hn; Wed, 12 Jun 2019 18:25:27 +0000
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+        id D22F9440046; Wed, 12 Jun 2019 19:25:26 +0100 (BST)
+Date:   Wed, 12 Jun 2019 19:25:26 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Rodolfo Giometti <giometti@enneenne.com>
-Subject: [PATCH v4 20/28] docs: pps.txt: convert to ReST and rename to pps.rst
-Date:   Wed, 12 Jun 2019 14:52:56 -0300
-Message-Id: <844bdcf3720d4b2e43ff6c16429583d1c0d61316.1560361364.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <cover.1560361364.git.mchehab+samsung@kernel.org>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Clemens Ladisch <clemens@ladisch.de>,
+        Antti Palosaari <crope@iki.fi>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Andy Whitcroft <apw@canonical.com>,
+        Joe Perches <joe@perches.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org
+Subject: Re: [PATCH v4 24/28] docs: timers: convert docs to ReST and rename
+ to *.rst
+Message-ID: <20190612182526.GG5316@sirena.org.uk>
 References: <cover.1560361364.git.mchehab+samsung@kernel.org>
+ <30e605cd5a295c42c39523d88b4c57298c5a6f1d.1560361364.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="j2AXaZ4YhVcLc+PQ"
+Content-Disposition: inline
+In-Reply-To: <30e605cd5a295c42c39523d88b4c57298c5a6f1d.1560361364.git.mchehab+samsung@kernel.org>
+X-Cookie: Editing is a rewording activity.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This file is already in a good shape: just its title and
-adding some literal block markups is needed for it to be
-part of the document.
 
-While it has a small chapter with sysfs stuff, most of
-the document is focused on driver development.
+--j2AXaZ4YhVcLc+PQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-As it describes a kernel API, move it to the driver-api
-directory.
+On Wed, Jun 12, 2019 at 02:53:00PM -0300, Mauro Carvalho Chehab wrote:
+> The conversion here is really trivial: just a bunch of title
+> markups and very few puntual changes is enough to make it to
+> be parsed by Sphinx and generate a nice html.
 
-In order to avoid conflicts, let's add an :orphan: tag
-to it, to be removed when added to the driver-api book.
+Acked-by: Mark Brown <broonie@kernel.org>
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Acked-by: Rodolfo Giometti <giometti@enneenne.com>
----
- .../{pps/pps.txt => driver-api/pps.rst}       | 67 ++++++++++---------
- MAINTAINERS                                   |  2 +-
- 2 files changed, 36 insertions(+), 33 deletions(-)
- rename Documentation/{pps/pps.txt => driver-api/pps.rst} (89%)
+--j2AXaZ4YhVcLc+PQ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/Documentation/pps/pps.txt b/Documentation/driver-api/pps.rst
-similarity index 89%
-rename from Documentation/pps/pps.txt
-rename to Documentation/driver-api/pps.rst
-index 99f5d8c4c652..1456d2c32ebd 100644
---- a/Documentation/pps/pps.txt
-+++ b/Documentation/driver-api/pps.rst
-@@ -1,8 +1,10 @@
-+:orphan:
- 
--			PPS - Pulse Per Second
--			----------------------
-+======================
-+PPS - Pulse Per Second
-+======================
- 
--(C) Copyright 2007 Rodolfo Giometti <giometti@enneenne.com>
-+Copyright (C) 2007 Rodolfo Giometti <giometti@enneenne.com>
- 
- This program is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
-@@ -88,7 +90,7 @@ Coding example
- --------------
- 
- To register a PPS source into the kernel you should define a struct
--pps_source_info as follows:
-+pps_source_info as follows::
- 
-     static struct pps_source_info pps_ktimer_info = {
- 	    .name         = "ktimer",
-@@ -101,12 +103,12 @@ pps_source_info as follows:
-     };
- 
- and then calling the function pps_register_source() in your
--initialization routine as follows:
-+initialization routine as follows::
- 
-     source = pps_register_source(&pps_ktimer_info,
- 			PPS_CAPTUREASSERT | PPS_OFFSETASSERT);
- 
--The pps_register_source() prototype is:
-+The pps_register_source() prototype is::
- 
-   int pps_register_source(struct pps_source_info *info, int default_params)
- 
-@@ -118,7 +120,7 @@ pps_source_info which describe the capabilities of the driver).
- 
- Once you have registered a new PPS source into the system you can
- signal an assert event (for example in the interrupt handler routine)
--just using:
-+just using::
- 
-     pps_event(source, &ts, PPS_CAPTUREASSERT, ptr)
- 
-@@ -134,13 +136,13 @@ Please see the file drivers/pps/clients/pps-ktimer.c for example code.
- SYSFS support
- -------------
- 
--If the SYSFS filesystem is enabled in the kernel it provides a new class:
-+If the SYSFS filesystem is enabled in the kernel it provides a new class::
- 
-    $ ls /sys/class/pps/
-    pps0/  pps1/  pps2/
- 
- Every directory is the ID of a PPS sources defined in the system and
--inside you find several files:
-+inside you find several files::
- 
-    $ ls -F /sys/class/pps/pps0/
-    assert     dev        mode       path       subsystem@
-@@ -148,7 +150,7 @@ inside you find several files:
- 
- 
- Inside each "assert" and "clear" file you can find the timestamp and a
--sequence number:
-+sequence number::
- 
-    $ cat /sys/class/pps/pps0/assert
-    1170026870.983207967#8
-@@ -175,11 +177,11 @@ and the userland tools available in your distribution's pps-tools package,
- http://linuxpps.org , or https://github.com/redlab-i/pps-tools.
- 
- Once you have enabled the compilation of pps-ktimer just modprobe it (if
--not statically compiled):
-+not statically compiled)::
- 
-    # modprobe pps-ktimer
- 
--and the run ppstest as follow:
-+and the run ppstest as follow::
- 
-    $ ./ppstest /dev/pps1
-    trying PPS source "/dev/pps1"
-@@ -204,26 +206,27 @@ nor affordable. The cheap way is to load a PPS generator on one of the
- computers (master) and PPS clients on others (slaves), and use very simple
- cables to deliver signals using parallel ports, for example.
- 
--Parallel port cable pinout:
--pin	name	master      slave
--1	STROBE	  *------     *
--2	D0	  *     |     *
--3	D1	  *     |     *
--4	D2	  *     |     *
--5	D3	  *     |     *
--6	D4	  *     |     *
--7	D5	  *     |     *
--8	D6	  *     |     *
--9	D7	  *     |     *
--10	ACK	  *     ------*
--11	BUSY	  *           *
--12	PE	  *           *
--13	SEL	  *           *
--14	AUTOFD	  *           *
--15	ERROR	  *           *
--16	INIT	  *           *
--17	SELIN	  *           *
--18-25	GND	  *-----------*
-+Parallel port cable pinout::
-+
-+	pin	name	master      slave
-+	1	STROBE	  *------     *
-+	2	D0	  *     |     *
-+	3	D1	  *     |     *
-+	4	D2	  *     |     *
-+	5	D3	  *     |     *
-+	6	D4	  *     |     *
-+	7	D5	  *     |     *
-+	8	D6	  *     |     *
-+	9	D7	  *     |     *
-+	10	ACK	  *     ------*
-+	11	BUSY	  *           *
-+	12	PE	  *           *
-+	13	SEL	  *           *
-+	14	AUTOFD	  *           *
-+	15	ERROR	  *           *
-+	16	INIT	  *           *
-+	17	SELIN	  *           *
-+	18-25	GND	  *-----------*
- 
- Please note that parallel port interrupt occurs only on high->low transition,
- so it is used for PPS assert edge. PPS clear edge can be determined only
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b3746e7b5652..5c5714eddde4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12709,7 +12709,7 @@ M:	Rodolfo Giometti <giometti@enneenne.com>
- W:	http://wiki.enneenne.com/index.php/LinuxPPS_support
- L:	linuxpps@ml.enneenne.com (subscribers-only)
- S:	Maintained
--F:	Documentation/pps/
-+F:	Documentation/driver-api/pps.rst
- F:	Documentation/devicetree/bindings/pps/pps-gpio.txt
- F:	Documentation/ABI/testing/sysfs-pps
- F:	drivers/pps/
--- 
-2.21.0
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl0BQ5UACgkQJNaLcl1U
+h9CfQwf/T+GuS4qxkPnnrGt5BupQpYiRUjRWLkbqyLs9yZLDqKhwJZcErxl4gHHx
+Z5Vb42b0CWQLguzl90HFaG5XtXjcUalh/JZX6OI+4o/wvkAKyEDLs83MFPvm/tCw
+Theem/1VwhHFUCD+yEPPIqCpBnAySRhPm75JjAJqN0BvIYxskUyXZ2T907Q6/I6C
+2sOs4xk62gUU50gKtb8O6++rTjpNux3HBPMX2//qoLOXgcapDinpcoChu4yA4w7g
+/C2tRwrHi/o+Wp+AvLZLAzHWgsGvzbtrgaKVD18h4qlNfxN7eZbpsFGiZ7uCI5Xf
+nYLJXuUu1+AcRHTr+oU1OnO8pq7ApA==
+=+02E
+-----END PGP SIGNATURE-----
+
+--j2AXaZ4YhVcLc+PQ--
