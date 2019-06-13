@@ -1,138 +1,85 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 373E47D982
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 16:59:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A84AA7D981
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 17:11:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729850AbfFMQ7L (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Jun 2019 12:59:11 -0400
-Received: from outgoing-stata.csail.mit.edu ([128.30.2.210]:53158 "EHLO
-        outgoing-stata.csail.mit.edu" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729848AbfFMAeY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jun 2019 20:34:24 -0400
-X-Greylist: delayed 493 seconds by postgrey-1.27 at vger.kernel.org; Wed, 12 Jun 2019 20:34:23 EDT
-Received: from [4.30.142.84] (helo=srivatsab-a01.vmware.com)
-        by outgoing-stata.csail.mit.edu with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
-        (Exim 4.82)
-        (envelope-from <srivatsa@csail.mit.edu>)
-        id 1hbDYq-000Xfo-J5; Wed, 12 Jun 2019 20:25:48 -0400
-Subject: Re: [PATCH v4 18/28] docs: convert docs to ReST and rename to *.rst
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Sebastian Reichel <sre@kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
-        Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        "David S. Miller" <davem@davemloft.net>, linux-pm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-pci@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org
-References: <cover.1560361364.git.mchehab+samsung@kernel.org>
- <fac44e1fbab5ea755a93601a4fdfa34fcc57ae9e.1560361364.git.mchehab+samsung@kernel.org>
-From:   "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>
-Message-ID: <7dc94cb4-ebf1-22ab-29c9-fcb2b875a9ac@csail.mit.edu>
-Date:   Wed, 12 Jun 2019 17:25:39 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
- Gecko/20100101 Thunderbird/60.7.0
+        id S2393251AbfFMRLn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Jun 2019 13:11:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54756 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2392711AbfFMRLm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 13 Jun 2019 13:11:42 -0400
+Received: from localhost (unknown [131.107.160.220])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0248C205ED;
+        Thu, 13 Jun 2019 17:11:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1560445902;
+        bh=no9PMWb5VDOx7ySl5Q7f0oB1g4k565KdjFHzM77TOLg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pwobQrn2aoQYIN1bzYPeE5Ko11Ur0FE4EXjws5h5FTkyrG4Rm77bvEnzXFBjvcjPp
+         /xjX3Xawq2DH3fe4mM55XcblmrXZTA/Op+UQVzyL1/o0OrLAknvnr0ybQvzBKWlEnS
+         t9RrtqaDbsvYLAiE/D8WMC2Zd3a7/dIb4ESmg2CY=
+Date:   Thu, 13 Jun 2019 13:11:41 -0400
+From:   Sasha Levin <sashal@kernel.org>
+To:     Sumit Garg <sumit.garg@linaro.org>
+Cc:     peterhuewe@gmx.de,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        jgg@ziepe.ca, corbet@lwn.net,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+        Microsoft Linux Kernel List <linux-kernel@microsoft.com>,
+        Thirupathaiah Annapureddy <thiruan@microsoft.com>,
+        "Bryan Kelly (CSI)" <bryankel@microsoft.com>,
+        tee-dev@lists.linaro.org
+Subject: Re: [PATCH v4 1/2] fTPM: firmware TPM running in TEE
+Message-ID: <20190613171141.GL1513@sasha-vm>
+References: <20190530152758.16628-1-sashal@kernel.org>
+ <20190530152758.16628-2-sashal@kernel.org>
+ <CAFA6WYM1NrghG9qxUhrm76kopvBx9nmCL9XnRs11ysb2Yr0+Qw@mail.gmail.com>
+ <20190604200951.GB29739@sasha-vm>
+ <CAFA6WYMOjgHRw9RVrjherNo0ZNbTtEonPwSFFC0dT4CZO=A1NQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <fac44e1fbab5ea755a93601a4fdfa34fcc57ae9e.1560361364.git.mchehab+samsung@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <CAFA6WYMOjgHRw9RVrjherNo0ZNbTtEonPwSFFC0dT4CZO=A1NQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/12/19 10:52 AM, Mauro Carvalho Chehab wrote:
-> Convert the PM documents to ReST, in order to allow them to
-> build with Sphinx.
-> 
-> The conversion is actually:
->   - add blank lines and identation in order to identify paragraphs;
->   - fix tables markups;
->   - add some lists markups;
->   - mark literal blocks;
->   - adjust title markups.
-> 
-> At its new index.rst, let's add a :orphan: while this is not linked to
-> the main index.rst file, in order to avoid build warnings.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-> Acked-by: Mark Brown <broonie@kernel.org>
-> ---
+On Wed, Jun 05, 2019 at 04:39:36PM +0530, Sumit Garg wrote:
+>On Wed, 5 Jun 2019 at 01:39, Sasha Levin <sashal@kernel.org> wrote:
+>>
+>> On Tue, Jun 04, 2019 at 11:45:52AM +0530, Sumit Garg wrote:
+>> >On Thu, 30 May 2019 at 20:58, Sasha Levin <sashal@kernel.org> wrote:
+>> >> +       /* Open context with TEE driver */
+>> >> +       pvt_data->ctx = tee_client_open_context(NULL, ftpm_tee_match, NULL,
+>> >> +                                               NULL);
+>> >> +       if (IS_ERR(pvt_data->ctx)) {
+>> >> +               dev_err(dev, "%s:tee_client_open_context failed\n", __func__);
+>> >
+>> >Is this well tested? I see this misleading error multiple times as
+>> >follows although TEE driver works pretty well.
+>>
+>> Yes, this was all functionally tested.
+>
+>Can you share your build instructions and testing approach?
 
-[...]
+Yes: it looks like you got all the kernel bits, but not the firmware.
+There are instructions for it here: https://github.com/microsoft/ms-tpm-20-ref
 
-> diff --git a/Documentation/power/suspend-and-cpuhotplug.txt b/Documentation/power/suspend-and-cpuhotplug.rst
-> similarity index 90%
-> rename from Documentation/power/suspend-and-cpuhotplug.txt
-> rename to Documentation/power/suspend-and-cpuhotplug.rst
-> index a8751b8df10e..9df664f5423a 100644
-> --- a/Documentation/power/suspend-and-cpuhotplug.txt
-> +++ b/Documentation/power/suspend-and-cpuhotplug.rst
-> @@ -1,10 +1,15 @@
-> +====================================================================
->  Interaction of Suspend code (S3) with the CPU hotplug infrastructure
-> +====================================================================
->  
-> -     (C) 2011 - 2014 Srivatsa S. Bhat <srivatsa.bhat@linux.vnet.ibm.com>
-> +(C) 2011 - 2014 Srivatsa S. Bhat <srivatsa.bhat@linux.vnet.ibm.com>
->  
->  
-> -I. How does the regular CPU hotplug code differ from how the Suspend-to-RAM
-> -   infrastructure uses it internally? And where do they share common code?
-> +I. Differences between CPU hotplug and Suspend-to-RAM
-> +======================================================
-> +
-> +How does the regular CPU hotplug code differ from how the Suspend-to-RAM
-> +infrastructure uses it internally? And where do they share common code?
->  
->  Well, a picture is worth a thousand words... So ASCII art follows :-)
->  
+Once it's running, you can test it by running your favorite TPM usecases
+through /dev/tpm0.
 
-[...]
-
-> @@ -101,7 +108,7 @@ execution during resume):
->  
->  It is to be noted here that the system_transition_mutex lock is acquired at the very
->  beginning, when we are just starting out to suspend, and then released only
-> -after the entire cycle is complete (i.e., suspend + resume).
-> +after the entire cycle is complete (i.e., suspend + resume)::
->  
-
-I think that should be a period, not a colon, because it is clarifying
-the text above it (as opposed to referring to the example below it).
-
-Other than that, for suspend-and-cpuhotplug.txt:
-
-Acked-by: Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
- 
-Regards,
-Srivatsa
-VMware Photon OS
+--
+Thanks,
+Sasha
