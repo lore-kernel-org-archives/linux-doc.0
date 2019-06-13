@@ -1,70 +1,117 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4F3347D90F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 15:18:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CA4DE7D923
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 15:19:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733227AbfFMPRx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Jun 2019 11:17:53 -0400
-Received: from mga09.intel.com ([134.134.136.24]:4680 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732175AbfFMPRv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 13 Jun 2019 11:17:51 -0400
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Jun 2019 08:17:50 -0700
-X-ExtLoop1: 1
-Received: from bbouchn-mobl.ger.corp.intel.com (HELO localhost) ([10.252.35.22])
-  by orsmga004.jf.intel.com with ESMTP; 13 Jun 2019 08:17:47 -0700
-Date:   Thu, 13 Jun 2019 18:17:46 +0300
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     Sumit Garg <sumit.garg@linaro.org>
-Cc:     keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org, jens.wiklander@linaro.org,
-        corbet@lwn.net, dhowells@redhat.com, jejb@linux.ibm.com,
-        zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
-        ard.biesheuvel@linaro.org, daniel.thompson@linaro.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tee-dev@lists.linaro.org
-Subject: Re: [RFC 1/7] tee: optee: allow kernel pages to register as shm
-Message-ID: <20190613151746.GD18488@linux.intel.com>
-References: <1560421833-27414-1-git-send-email-sumit.garg@linaro.org>
- <1560421833-27414-2-git-send-email-sumit.garg@linaro.org>
- <20190613151257.GA18488@linux.intel.com>
- <20190613151714.GC18488@linux.intel.com>
+        id S1733112AbfFMPTV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Jun 2019 11:19:21 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:38590 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732138AbfFMNAV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jun 2019 09:00:21 -0400
+Received: by mail-oi1-f193.google.com with SMTP id v186so14331669oie.5
+        for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2019 06:00:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=c4JaIYgXBMbRJcuOmI53AtHtAH/wFo1Lowg4JHM/fXs=;
+        b=b72rTZ+ByJZfRwZjRQ5UaaywEAtE+APZpo6ZQg4rsdQSOBLoV3A3yIkOU2jB2Szjia
+         tjqp1ER7aHfo3hLOqXgxS8Vu2Vx7YyTfA8ZdUVrsIsFwvJ1cI0qflb/aR5tidqMCsGDx
+         tC9r8SZ5PNmrzI9x4K2H+lP3aoptnx4ZLx88AnvZwW9kDyFLcqrIeB06ed6/zaWneNJR
+         1tGUmluE2353UZVoeMJqcvg+DlaTQhw+G5AAfuyXg+3Hb6e3uL0BtGjuKVpzrYea8LrG
+         eeTa/kxTlbZ9rxW0UOmvuVfo9DM74MV01U7Qh5CGbTLLSJDjyz6QQX2CyFhEjoc8/9eK
+         sJvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=c4JaIYgXBMbRJcuOmI53AtHtAH/wFo1Lowg4JHM/fXs=;
+        b=TemQHlfjq2VncHl00JAFBlcpsZ7eNzys5AmrhjhtPPJP7N81xBzT1XTnhYC2rLyAtQ
+         7aKOevU7/VKHctW4n+riQ1tK/0r6EZSQsYNrIDOFVgWLoESJVzGZ+pHaRLoUzDZyMclq
+         KYTbU1RiaKVnVoV+XY71YHuSPMNlFh2W2B2qYBI80w53iFm97XgiDMwYL1d35Mb9Hi2M
+         /P7emCs39wxy+vSr1SIBuZYyjUfH3TSe0oTbeJCS5IQBDnBrvVkHHKVVG+a9Wzi7Ppbh
+         n8KBNnvbkDlUKAL3jDiQUR8jjz9QhGh3aYsT2xjxqSij3kpcciNYrU8FwY/wDKHIJicT
+         Qysg==
+X-Gm-Message-State: APjAAAVZrkHTV/1+hdV8KZmNEA0PED/nF2CQSL9DdcWhCZhetpFNIskl
+        Ixb5Hh9hJnBGlM4k1gLwHYHcWcXVv5Xm2V7+XKRx8A==
+X-Google-Smtp-Source: APXvYqwZhR8/zzGl1uZ5/FahKw5EU/Ap2jbcJSkz70UsLe54o/wsW4Si1MtrTTeMtcEzAiC8fsz1xNpuPjBTRVJ9WYA=
+X-Received: by 2002:aca:e044:: with SMTP id x65mr2874683oig.70.1560430820644;
+ Thu, 13 Jun 2019 06:00:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190613151714.GC18488@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190613123028.179447-1-elver@google.com> <20190613123028.179447-2-elver@google.com>
+ <6cc5e12d-1492-d9b7-3ea7-6381407439d7@virtuozzo.com>
+In-Reply-To: <6cc5e12d-1492-d9b7-3ea7-6381407439d7@virtuozzo.com>
+From:   Marco Elver <elver@google.com>
+Date:   Thu, 13 Jun 2019 15:00:09 +0200
+Message-ID: <CANpmjNNMmSHvP+tzod=WeoDp6jsxGsDKV5cXiTr3F9fxEMasaw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] lib/test_kasan: Add bitops tests
+To:     Andrey Ryabinin <aryabinin@virtuozzo.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Alexander Potapenko <glider@google.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 13, 2019 at 06:17:14PM +0300, Jarkko Sakkinen wrote:
-> On Thu, Jun 13, 2019 at 06:12:57PM +0300, Jarkko Sakkinen wrote:
-> > On Thu, Jun 13, 2019 at 04:00:27PM +0530, Sumit Garg wrote:
-> > > Kernel pages are marked as normal type memory only so allow kernel pages
-> > > to be registered as shared memory with OP-TEE.
-> > > 
-> > > Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
-> > 
-> > Just out of pure interest why this was not allowed before?
-> 
-> Please spare me and ignore that one :-) Obviouslly because it
-> was not used.
-> 
-> Acked-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+On Thu, 13 Jun 2019 at 14:49, Andrey Ryabinin <aryabinin@virtuozzo.com> wrote:
+>
+>
+>
+> On 6/13/19 3:30 PM, Marco Elver wrote:
+> > This adds bitops tests to the test_kasan module. In a follow-up patch,
+> > support for bitops instrumentation will be added.
+> >
+> > Signed-off-by: Marco Elver <elver@google.com>
+> > Acked-by: Mark Rutland <mark.rutland@arm.com>
+> > ---
+>
+> Reviewed-by: Andrey Ryabinin <aryabinin@virtuozzo.com>
+>
+>
+>
+>
+> > +static noinline void __init kasan_bitops(void)
+> > +{
+> > +     /*
+> > +      * Allocate 1 more byte, which causes kzalloc to round up to 16-bytes;
+> > +      * this way we do not actually corrupt other memory, in case
+> > +      * instrumentation is not working as intended.
+>
+> This sound like working instrumentation somehow save us from corrupting memory. In fact it doesn't,
+> it only reports corruption.
 
-Actually,
+Thanks, I removed the confusing wording. Sent v5.
 
-Reviewed-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-
-/Jarkko
+> > +      */
+> > +     long *bits = kzalloc(sizeof(*bits) + 1, GFP_KERNEL);
+> > +     if (!bits)
+> > +             return;
+> > +
+>
+> --
+> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+> To post to this group, send email to kasan-dev@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/6cc5e12d-1492-d9b7-3ea7-6381407439d7%40virtuozzo.com.
+> For more options, visit https://groups.google.com/d/optout.
