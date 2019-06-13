@@ -3,71 +3,136 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F3CBC7D923
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 16:41:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 373E47D982
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 16:59:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730557AbfFMQlV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Jun 2019 12:41:21 -0400
-Received: from helcar.hmeau.com ([216.24.177.18]:49950 "EHLO deadmen.hmeau.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730551AbfFMGyc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 13 Jun 2019 02:54:32 -0400
-Received: from gondobar.mordor.me.apana.org.au ([192.168.128.4] helo=gondobar)
-        by deadmen.hmeau.com with esmtps (Exim 4.89 #2 (Debian))
-        id 1hbJd0-0006Ci-I5; Thu, 13 Jun 2019 14:54:30 +0800
-Received: from herbert by gondobar with local (Exim 4.89)
-        (envelope-from <herbert@gondor.apana.org.au>)
-        id 1hbJd0-00050z-EA; Thu, 13 Jun 2019 14:54:30 +0800
-Date:   Thu, 13 Jun 2019 14:54:30 +0800
-From:   Herbert Xu <herbert@gondor.apana.org.au>
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] crypto: doc - improve the skcipher API example code
-Message-ID: <20190613065430.wocmr33a4mi4gxfr@gondor.apana.org.au>
+        id S1729850AbfFMQ7L (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Jun 2019 12:59:11 -0400
+Received: from outgoing-stata.csail.mit.edu ([128.30.2.210]:53158 "EHLO
+        outgoing-stata.csail.mit.edu" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729848AbfFMAeY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jun 2019 20:34:24 -0400
+X-Greylist: delayed 493 seconds by postgrey-1.27 at vger.kernel.org; Wed, 12 Jun 2019 20:34:23 EDT
+Received: from [4.30.142.84] (helo=srivatsab-a01.vmware.com)
+        by outgoing-stata.csail.mit.edu with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
+        (Exim 4.82)
+        (envelope-from <srivatsa@csail.mit.edu>)
+        id 1hbDYq-000Xfo-J5; Wed, 12 Jun 2019 20:25:48 -0400
+Subject: Re: [PATCH v4 18/28] docs: convert docs to ReST and rename to *.rst
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Sebastian Reichel <sre@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+        Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        "David S. Miller" <davem@davemloft.net>, linux-pm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-pci@vger.kernel.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org
+References: <cover.1560361364.git.mchehab+samsung@kernel.org>
+ <fac44e1fbab5ea755a93601a4fdfa34fcc57ae9e.1560361364.git.mchehab+samsung@kernel.org>
+From:   "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>
+Message-ID: <7dc94cb4-ebf1-22ab-29c9-fcb2b875a9ac@csail.mit.edu>
+Date:   Wed, 12 Jun 2019 17:25:39 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+ Gecko/20100101 Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190603054408.5903-1-ebiggers@kernel.org>
-X-Newsgroups: apana.lists.os.linux.cryptoapi,apana.lists.os.linux.doc
-Organization: Core
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <fac44e1fbab5ea755a93601a4fdfa34fcc57ae9e.1560361364.git.mchehab+samsung@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Eric Biggers <ebiggers@kernel.org> wrote:
-> From: Eric Biggers <ebiggers@google.com>
+On 6/12/19 10:52 AM, Mauro Carvalho Chehab wrote:
+> Convert the PM documents to ReST, in order to allow them to
+> build with Sphinx.
 > 
-> Rewrite the skcipher API example, changing it to encrypt a buffer with
-> AES-256-XTS.  This addresses various problems with the previous example:
+> The conversion is actually:
+>   - add blank lines and identation in order to identify paragraphs;
+>   - fix tables markups;
+>   - add some lists markups;
+>   - mark literal blocks;
+>   - adjust title markups.
 > 
-> - It requests a specific driver "cbc-aes-aesni", which is unusual.
->  Normally users ask for "cbc(aes)", not a specific driver.
+> At its new index.rst, let's add a :orphan: while this is not linked to
+> the main index.rst file, in order to avoid build warnings.
 > 
-> - It encrypts only a single AES block.  For the reader, that doesn't
->  clearly distinguish the "skcipher" API from the "cipher" API.
-> 
-> - Showing how to encrypt something with bare CBC is arguably a poor
->  choice of example, as it doesn't follow modern crypto trends.  Now,
->  usually authenticated encryption is recommended, in which case the
->  user would use the AEAD API, not skcipher.  Disk encryption is still a
->  legitimate use for skcipher, but for that usually XTS is recommended.
-> 
-> - Many other bugs and poor coding practices, such as not setting
->  CRYPTO_TFM_REQ_MAY_SLEEP, unnecessarily allocating a heap buffer for
->  the IV, unnecessary NULL checks, using a pointless wrapper struct, and
->  forgetting to set an error code in one case.
-> 
-> Signed-off-by: Eric Biggers <ebiggers@google.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+> Acked-by: Mark Brown <broonie@kernel.org>
 > ---
-> Documentation/crypto/api-samples.rst | 176 ++++++++++++---------------
-> 1 file changed, 77 insertions(+), 99 deletions(-)
 
-Patch applied.  Thanks.
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+[...]
+
+> diff --git a/Documentation/power/suspend-and-cpuhotplug.txt b/Documentation/power/suspend-and-cpuhotplug.rst
+> similarity index 90%
+> rename from Documentation/power/suspend-and-cpuhotplug.txt
+> rename to Documentation/power/suspend-and-cpuhotplug.rst
+> index a8751b8df10e..9df664f5423a 100644
+> --- a/Documentation/power/suspend-and-cpuhotplug.txt
+> +++ b/Documentation/power/suspend-and-cpuhotplug.rst
+> @@ -1,10 +1,15 @@
+> +====================================================================
+>  Interaction of Suspend code (S3) with the CPU hotplug infrastructure
+> +====================================================================
+>  
+> -     (C) 2011 - 2014 Srivatsa S. Bhat <srivatsa.bhat@linux.vnet.ibm.com>
+> +(C) 2011 - 2014 Srivatsa S. Bhat <srivatsa.bhat@linux.vnet.ibm.com>
+>  
+>  
+> -I. How does the regular CPU hotplug code differ from how the Suspend-to-RAM
+> -   infrastructure uses it internally? And where do they share common code?
+> +I. Differences between CPU hotplug and Suspend-to-RAM
+> +======================================================
+> +
+> +How does the regular CPU hotplug code differ from how the Suspend-to-RAM
+> +infrastructure uses it internally? And where do they share common code?
+>  
+>  Well, a picture is worth a thousand words... So ASCII art follows :-)
+>  
+
+[...]
+
+> @@ -101,7 +108,7 @@ execution during resume):
+>  
+>  It is to be noted here that the system_transition_mutex lock is acquired at the very
+>  beginning, when we are just starting out to suspend, and then released only
+> -after the entire cycle is complete (i.e., suspend + resume).
+> +after the entire cycle is complete (i.e., suspend + resume)::
+>  
+
+I think that should be a period, not a colon, because it is clarifying
+the text above it (as opposed to referring to the example below it).
+
+Other than that, for suspend-and-cpuhotplug.txt:
+
+Acked-by: Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
+ 
+Regards,
+Srivatsa
+VMware Photon OS
