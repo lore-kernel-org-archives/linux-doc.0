@@ -5,150 +5,83 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3B2AF7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 20:33:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5EE377D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 23:04:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728298AbfFMUdQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Jun 2019 16:33:16 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:36268 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725789AbfFMUdQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jun 2019 16:33:16 -0400
-Received: by mail-qt1-f194.google.com with SMTP id p15so4792006qtl.3;
-        Thu, 13 Jun 2019 13:33:16 -0700 (PDT)
+        id S1727201AbfFMXEq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Jun 2019 19:04:46 -0400
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:38175 "EHLO
+        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726603AbfFMXEp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jun 2019 19:04:45 -0400
+Received: by mail-qk1-f194.google.com with SMTP id a27so512135qkk.5;
+        Thu, 13 Jun 2019 16:04:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=R2FstjYRqQg59DXy+7LjAPTotoewKiLMGMYZxUsswDg=;
-        b=slXjkj1j5Jm7zPn/DBlhDdXtqvGdl5k2k1Vc9O+nBLlxdfjSRYODAuHyOVgKkFYzxh
-         vp7TBDYBmQV/SF7e4gpa52WkRlEqvCtkxyzPBnLYNNHCQc5ISp7MrCHqhKlQySTkRS+D
-         cK+xlSOasWhT+qWKPcUHD3lDddzb0JLK7QIAlVwSrNyGxHbE8wdNHXL1zcfR/mPZ6hVe
-         SyV+fPQBNAiWSmIEocUb8DSLtvEu7n3wbVBIEpTIUjWym1LHsDXWjcz1+XKyLTdM2kUL
-         iVZxl70Ah7J1S1g8YonLd1bwB2t7p/O725vgTxX2DJ42kLwjAF30ualKT/NyVDqyQyOk
-         Z4qg==
-X-Gm-Message-State: APjAAAXdy2T2hFZC0+J4w2mc3Ls4aE1x7WIyvxeyj1oq1DsA05PQax3Y
-        vDaF/ADNTLo2Kwb2QwmlVw==
-X-Google-Smtp-Source: APXvYqz/AjvzkvNZlLu61SiHZDfFw95Oeihx85WNdMpZRhlJlbJo2We6Ewob7bP6MREJhRmhkvqgzQ==
-X-Received: by 2002:a0c:887c:: with SMTP id 57mr4994570qvm.192.1560457995500;
-        Thu, 13 Jun 2019 13:33:15 -0700 (PDT)
+        bh=WvdSBZS6GY1RJhEJtYBVxaPueBDOjU15Kwk1F3xhAKw=;
+        b=pc1BpYSZsbFrAU8pADmT1ZwAQdJku8uNWDATtMleW4Ko+dgfX7Bl9NeLyI+X84bSFs
+         zL7e2CTwDETICIuQSb/1ngwmrqCr8H1SgVCw/LXkLuBdSp/CdO5p6CK2+G2EqPjED3qc
+         VsUThxn3PEWqYkN5Edps8KUnj/yiOq0o6F2RgcIq6IaA7sMl4Sltzq+TJevnObw50G/Z
+         XHAkidNgDKFDUoVA+OlNxR8vvT3wSBR1KJmNA0xTiBiTJjuFdUoEIhbmHGX6j7QGTcHs
+         Mwyr2DJTI6ijmP8XQ4zCrQtHa1z/ylftARw2Qx7aFjFq9P4kHwOE/vZeZlZ+VgA7g0c/
+         mCqg==
+X-Gm-Message-State: APjAAAUHMWJnjxZ6fkW9X5IezRsPte1fE9p21VZRHFYquIG7y0JvzF/I
+        e8A9wzvA4AuLqmyPr1FyKw==
+X-Google-Smtp-Source: APXvYqzScKZ4qE7itNJAlKiopqo9SW2cEVK0YP4JF71kRJYGkwf5iKWWerwdZXEFYIG+JjdrDheMmw==
+X-Received: by 2002:a37:aa8e:: with SMTP id t136mr6599276qke.222.1560467084536;
+        Thu, 13 Jun 2019 16:04:44 -0700 (PDT)
 Received: from localhost ([64.188.179.243])
-        by smtp.gmail.com with ESMTPSA id l88sm423749qte.33.2019.06.13.13.33.14
+        by smtp.gmail.com with ESMTPSA id y20sm736495qka.14.2019.06.13.16.04.43
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 13 Jun 2019 13:33:14 -0700 (PDT)
-Date:   Thu, 13 Jun 2019 14:33:13 -0600
+        Thu, 13 Jun 2019 16:04:43 -0700 (PDT)
+Date:   Thu, 13 Jun 2019 17:04:42 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Serge Semin <fancer.lancer@gmail.com>
-Cc:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Serge Semin <Sergey.Semin@t-platforms.ru>,
-        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: hwmon: Add DT bindings for TI
- ads1000/ads1100 ADCs
-Message-ID: <20190613203313.GA23102@bogus>
-References: <20190514225810.12591-1-fancer.lancer@gmail.com>
- <20190514225810.12591-2-fancer.lancer@gmail.com>
+To:     Gerald BAEZA <gerald.baeza@st.com>
+Cc:     "will.deacon@arm.com" <will.deacon@arm.com>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
+        Alexandre TORGUE <alexandre.torgue@st.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+        "olof@lixom.net" <olof@lixom.net>,
+        "horms+renesas@verge.net.au" <horms+renesas@verge.net.au>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Gerald BAEZA <gerald.baeza@st.com>
+Subject: Re: [PATCH v2 2/5] dt-bindings: perf: stm32: ddrperfm support
+Message-ID: <20190613230442.GA7783@bogus>
+References: <1558366019-24214-1-git-send-email-gerald.baeza@st.com>
+ <1558366019-24214-3-git-send-email-gerald.baeza@st.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190514225810.12591-2-fancer.lancer@gmail.com>
+In-Reply-To: <1558366019-24214-3-git-send-email-gerald.baeza@st.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, May 15, 2019 at 01:58:08AM +0300, Serge Semin wrote:
-> Add dt-binding documentation for the Texas Instruments ads1000/ads1100 ADCs
-> driver.
+On Mon, 20 May 2019 15:27:16 +0000, Gerald BAEZA wrote:
+> The DDRPERFM is the DDR Performance Monitor embedded in STM32MP1 SOC.
 > 
-> Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
+> This documentation indicates how to enable stm32-ddr-pmu driver on
+> DDRPERFM peripheral, via the device tree.
+> 
+> Signed-off-by: Gerald Baeza <gerald.baeza@st.com>
 > ---
->  .../devicetree/bindings/hwmon/ads1000.txt     | 61 ++++++++++++++++
-
-Bindings should be separate patch.
-
->  Documentation/hwmon/ads1000.rst               | 72 +++++++++++++++++++
->  2 files changed, 133 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/ads1000.txt
->  create mode 100644 Documentation/hwmon/ads1000.rst
+>  .../devicetree/bindings/perf/stm32-ddr-pmu.txt       | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/perf/stm32-ddr-pmu.txt
 > 
-> diff --git a/Documentation/devicetree/bindings/hwmon/ads1000.txt b/Documentation/devicetree/bindings/hwmon/ads1000.txt
-> new file mode 100644
-> index 000000000000..3907b7da9b33
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/hwmon/ads1000.txt
-> @@ -0,0 +1,61 @@
-> +ADS1000/ADS1100 (I2C)
-> +
-> +This device is a 12-16 bit A-D converter with 1 input.
 
-ADC's should be in bindings/iio/adc/
-
-> +
-> +The inputs can be used either as a differential pair of Vin+ Vin- or as a single
-> +ended sensor for Vin+ GND. The inputs mode is platform-dependent and isn't
-> +configured by software in any case.
-> +
-> +Device A-D converter sensitivity can be configured using two parameters:
-> + - pga is the programmable gain amplifier
-> +    0: x1 (default) 
-> +    1: x2
-> +    2: x4
-> +    3: x8
-> + - data_rate in samples per second also affecting the output code accuracy
-> +    0: 128SPS - +/- Vdd*0.488mV (default, ads1000 accepts this rate only)
-> +    1: 32SPS  - +/- Vdd*0.122mV
-> +    2: 16SPS  - +/- Vdd*0.061mV
-> +    3: 8SPS   - +/- Vdd*0.030mV
-> +   Since this parameter also affects the output accuracy, be aware the greater
-> +   SPS the worse accuracy.
-> +
-> +As a result the output value is calculated by the next formulae:
-> +dVin = Cod * Vdd / (PGA * max(|Cod|)), where
-> +max(|Cod|) - maximum possible value of the output code, which depends on the SPS
-> +setting from the table above.
-> +
-> +The ADS1000/ADS1100 dts-node:
-> +
-> +  Required properties:
-> +   - compatible : must be "ti,ads1000" or "ti,ads1100"
-> +   - reg : I2C bus address of the device
-> +   - #address-cells : must be <1>
-> +   - #size-cells : must be <0>
-> +   - vdd-supply : regulator for reference supply voltage (usually fixed)
-> +
-> +  Optional properties:
-> +   - ti,gain : the programmable gain amplifier setting
-> +   - ti,datarate : the converter data rate
-
-IIRC, we have standard properties for these.
-
-> +   - ti,voltage-divider : <R1 R2> Ohms inbound voltage dividers,
-> +     so dVin = (R1 + R2)/R2 * dVin
-> +
-> +Example:
-> +
-> +vdd_5v0: fixedregulator@0 {
-> +	compatible = "regulator-fixed";
-> +	regulator-name = "vdd-ref";
-> +	regulator-min-microvolt = <5000000>;
-> +	regulator-max-microvolt = <5000000>;
-> +	regulator-always-on;
-> +};
-> +
-> +tiadc: ads1000@48 {
-
-adc@48
-
-> +	compatible = "ti,ads1000";
-> +	reg = <0x48>;
-> +
-> +	vdd-supply = <&vdd_5v0>;
-> +	ti,gain = <0>;
-> +	ti,voltage-divider = <31600 3600>;
-> +};
-> +
+Reviewed-by: Rob Herring <robh@kernel.org>
