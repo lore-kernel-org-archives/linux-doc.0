@@ -5,41 +5,46 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5742A7D923
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 15:35:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3CECD7DCEA
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 15:35:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728865AbfFMPfO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Jun 2019 11:35:14 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:36372 "EHLO
+        id S1727846AbfFMPf0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Jun 2019 11:35:26 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:34868 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727884AbfFMK3Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jun 2019 06:29:24 -0400
+        with ESMTP id S1727646AbfFMKXY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jun 2019 06:23:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
         Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
         Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=l6eX/LOpY2lKbloYe4ibvvvCroTQzEKMG7QHU9kz2r0=; b=Knqjy4+Nqo87caXZLzc3vAHdL
-        t3AV50Ce06k9sbtYT+1Hy7lHc7R9B8WlT71KU0CrbbPEdmAhPvyvNfgRpCVNgmXC1dWh63eaRWeuW
-        nz5MVAowbfTtwkqOvyq2Z+0QV0IWMmpChU/Pb+hlT1xLZ8BHVurZu/OZD2kw4dbDm8oM68SkQ29Om
-        yfrdbQwmM1c1Ll6e5X/J2rj3xkSe3GGRW86oqoZV6fbXUPtyOoKAgo8V+qIyJHP3714JHNRjsKgHS
-        jpFjLQz2iLy2j75wlPMKiYtWwz8HFklYqMk2lb8ytcTjqVhTgtbMw2N1pJ1Db/TZdoQ23N8JXre3q
-        1REHKG7mw==;
+         bh=CdLBRYvVCv2xx4Vg1tCPu4Ijl4wJSy52l8LQrHW+nC8=; b=GSsdZ1Y5MZw/OjXYzrBWk48S8
+        R7BngR9n5IYQ9US97kiU0fNOPMhtuX1EDvR/dZQQYus890Vb1LJa+GY/UGV0MZnKIG1s8xhjFoVwO
+        nepPgfFS1rpqCZ+pP7LT2Ca6spc/tENjWg2gPP7CSrjyLLBqZKVTWLI+Flqy73mz+P2WsEi6w/SHv
+        p008o3wO1/FshcgdBxInZS7VUJEJ2UtVED0XKqoqvg+QqW+GXB4CjYd4LGhYPzhZETwskmb/IYCWe
+        LqvcoCRGSvssbMEgwQGAuoS+usllbHwlHSGyZQTJM2JREUrd2iaHWgzlSEN0jaLuePc4fS0kjEA4E
+        UNrwtyj0g==;
 Received: from 201.86.169.251.dynamic.adsl.gvt.net.br ([201.86.169.251] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hbMyx-0007Z4-Hz; Thu, 13 Jun 2019 10:29:23 +0000
+        id 1hbMt9-0005fa-93; Thu, 13 Jun 2019 10:23:23 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hbMyv-0005vt-KN; Thu, 13 Jun 2019 07:29:21 -0300
+        id 1hbMt7-0005lq-9g; Thu, 13 Jun 2019 07:23:21 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] scripts/documentation-file-ref-check: ignore output dir
-Date:   Thu, 13 Jun 2019 07:29:17 -0300
-Message-Id: <093d01459be472a20894c5be6f9b937ff7fd7d47.1560421751.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org
+Subject: [PATCH] dt: leds-lm36274.txt: fix a broken reference to ti-lmu.txt
+Date:   Thu, 13 Jun 2019 07:23:15 -0300
+Message-Id: <79b9bf3388eb231da77c6a804862d21339262d0a.1560421387.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -48,39 +53,27 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When there's no Documentation/output directory, the script will
-complain about those missing references:
-
-	Documentation/doc-guide/sphinx.rst: Documentation/output
-	Documentation/doc-guide/sphinx.rst: Documentation/output
-	Documentation/process/howto.rst: Documentation/output
-	Documentation/translations/it_IT/doc-guide/sphinx.rst: Documentation/output
-	Documentation/translations/it_IT/doc-guide/sphinx.rst: Documentation/output
-	Documentation/translations/it_IT/process/howto.rst: Documentation/output
-	Documentation/translations/ja_JP/howto.rst: Documentation/output
-	Documentation/translations/ko_KR/howto.rst: Documentation/output
-
-Those are false positives, so add an ignore rule for them.
+There's a typo there:
+	ti_lmu.txt -> ti-lmu.txt
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- scripts/documentation-file-ref-check | 3 +++
- 1 file changed, 3 insertions(+)
+ Documentation/devicetree/bindings/leds/leds-lm36274.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/documentation-file-ref-check b/scripts/documentation-file-ref-check
-index a4139a576726..7784c54aa38b 100755
---- a/scripts/documentation-file-ref-check
-+++ b/scripts/documentation-file-ref-check
-@@ -90,6 +90,9 @@ while (<IN>) {
- 	# Skip this script
- 	next if ($f eq $scriptname);
+diff --git a/Documentation/devicetree/bindings/leds/leds-lm36274.txt b/Documentation/devicetree/bindings/leds/leds-lm36274.txt
+index 456a589c65f0..39c230d59a4d 100644
+--- a/Documentation/devicetree/bindings/leds/leds-lm36274.txt
++++ b/Documentation/devicetree/bindings/leds/leds-lm36274.txt
+@@ -6,7 +6,7 @@ up to 29V total output voltage. The 11-bit LED current is programmable via
+ the I2C bus and/or controlled via a logic level PWM input from 60 uA to 30 mA.
  
-+	# Ignore the dir where documentation will be built
-+	next if ($ln =~ m,\b(\S*)Documentation/output,);
-+
- 	if ($ln =~ m,\b(\S*)(Documentation/[A-Za-z0-9\_\.\,\~/\*\[\]\?+-]*)(.*),) {
- 		my $prefix = $1;
- 		my $ref = $2;
+ Parent device properties are documented in
+-Documentation/devicetree/bindings/mfd/ti_lmu.txt
++Documentation/devicetree/bindings/mfd/ti-lmu.txt
+ 
+ Regulator properties are documented in
+ Documentation/devicetree/bindings/regulator/lm363x-regulator.txt
 -- 
 2.21.0
 
