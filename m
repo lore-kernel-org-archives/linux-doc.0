@@ -3,23 +3,23 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id DD2F47D90F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 16:10:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 93B907D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 16:11:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388635AbfFMQKo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Jun 2019 12:10:44 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:18144 "EHLO huawei.com"
+        id S1727181AbfFMQK5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Jun 2019 12:10:57 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:18145 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1731247AbfFMInp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 13 Jun 2019 04:43:45 -0400
+        id S1731246AbfFMIno (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 13 Jun 2019 04:43:44 -0400
 Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 018BD55A1FCA4A250BE7;
-        Thu, 13 Jun 2019 16:43:41 +0800 (CST)
+        by Forcepoint Email with ESMTP id E9BFCB3E969C7057F6F3;
+        Thu, 13 Jun 2019 16:43:40 +0800 (CST)
 Received: from HGHY4L002753561.china.huawei.com (10.133.215.186) by
  DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
- 14.3.439.0; Thu, 13 Jun 2019 16:43:33 +0800
+ 14.3.439.0; Thu, 13 Jun 2019 16:43:32 +0800
 From:   Zhen Lei <thunder.leizhen@huawei.com>
 To:     Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
         John Garry <john.garry@huawei.com>,
@@ -47,9 +47,9 @@ To:     Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
         linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
         x86 <x86@kernel.org>, linux-ia64 <linux-ia64@vger.kernel.org>
 CC:     Zhen Lei <thunder.leizhen@huawei.com>
-Subject: [PATCH v9 7/7] ia64: hide build option IOMMU_DEFAULT_PASSTHROUGH
-Date:   Thu, 13 Jun 2019 16:42:40 +0800
-Message-ID: <20190613084240.16768-8-thunder.leizhen@huawei.com>
+Subject: [PATCH v9 6/7] iommu/amd: add support for IOMMU default DMA mode build options
+Date:   Thu, 13 Jun 2019 16:42:39 +0800
+Message-ID: <20190613084240.16768-7-thunder.leizhen@huawei.com>
 X-Mailer: git-send-email 2.21.0.windows.1
 In-Reply-To: <20190613084240.16768-1-thunder.leizhen@huawei.com>
 References: <20190613084240.16768-1-thunder.leizhen@huawei.com>
@@ -63,26 +63,43 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The DMA mode PASSTHROUGH is not used on ia64.
+The default DMA mode of AMD IOMMU is LAZY, this patch make it can be set
+to STRICT at build time. It can be overridden by boot option.
+
+There is no functional change.
 
 Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 ---
- drivers/iommu/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/iommu/Kconfig          | 2 +-
+ drivers/iommu/amd_iommu_init.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-index 70741fd73b07785..63506f1cad3d149 100644
+index fd297b0e0330d27..70741fd73b07785 100644
 --- a/drivers/iommu/Kconfig
 +++ b/drivers/iommu/Kconfig
-@@ -91,7 +91,7 @@ choice
- 
- config IOMMU_DEFAULT_PASSTHROUGH
- 	bool "passthrough"
--	depends on !S390_IOMMU
-+	depends on (!S390_IOMMU && !IA64)
+@@ -79,7 +79,7 @@ choice
+ 	prompt "IOMMU default DMA mode"
+ 	depends on IOMMU_API
+ 	default IOMMU_DEFAULT_PASSTHROUGH if (PPC_POWERNV && PCI)
+-	default IOMMU_DEFAULT_LAZY if (INTEL_IOMMU || S390_IOMMU)
++	default IOMMU_DEFAULT_LAZY if (AMD_IOMMU || INTEL_IOMMU || S390_IOMMU)
+ 	default IOMMU_DEFAULT_STRICT
  	help
- 	  In this mode, the DMA access through IOMMU without any addresses
- 	  translation. That means, the wrong or illegal DMA access can not
+ 	  This option allows an IOMMU DMA mode to be chosen at build time, to
+diff --git a/drivers/iommu/amd_iommu_init.c b/drivers/iommu/amd_iommu_init.c
+index 07d84dbab564e4d..b7d5c1757425946 100644
+--- a/drivers/iommu/amd_iommu_init.c
++++ b/drivers/iommu/amd_iommu_init.c
+@@ -154,7 +154,7 @@ struct ivmd_header {
+ 					   to handle */
+ LIST_HEAD(amd_iommu_unity_map);		/* a list of required unity mappings
+ 					   we find in ACPI */
+-bool amd_iommu_unmap_flush;		/* if true, flush on every unmap */
++bool amd_iommu_unmap_flush = IS_ENABLED(CONFIG_IOMMU_DEFAULT_STRICT);	/* if true, flush on every unmap */
+ 
+ LIST_HEAD(amd_iommu_list);		/* list of all AMD IOMMUs in the
+ 					   system */
 -- 
 1.8.3
 
