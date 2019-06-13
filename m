@@ -1,166 +1,159 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,URIBL_SBL,
-	URIBL_SBL_A autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6DBAE7D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 16:26:06 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 35B987D919
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 16:31:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731243AbfFMQ0A (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Jun 2019 12:26:00 -0400
-Received: from smtp5-g21.free.fr ([212.27.42.5]:34420 "EHLO smtp5-g21.free.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730967AbfFMQ0A (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 13 Jun 2019 12:26:00 -0400
-Received: from heffalump.sk2.org (unknown [88.186.243.14])
-        by smtp5-g21.free.fr (Postfix) with ESMTPS id E012F5FFD3;
-        Thu, 13 Jun 2019 18:25:57 +0200 (CEST)
-Received: from steve by heffalump.sk2.org with local (Exim 4.89)
-        (envelope-from <steve@sk2.org>)
-        id 1hbSY0-0005A0-Vs; Thu, 13 Jun 2019 18:25:57 +0200
-From:   Stephen Kitt <steve@sk2.org>
-To:     corbet@lwn.net, federico.vaga@vaga.pv.it, linux-doc@vger.kernel.org
-Cc:     keescook@chromium.org, linux-kernel@vger.kernel.org,
-        Stephen Kitt <steve@sk2.org>
-Subject: [PATCH] docs: stop suggesting strlcpy
-Date:   Thu, 13 Jun 2019 18:25:48 +0200
-Message-Id: <20190613162548.19792-1-steve@sk2.org>
-X-Mailer: git-send-email 2.11.0
+        id S2391849AbfFMQbD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Jun 2019 12:31:03 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:48284 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1730896AbfFMIaY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 13 Jun 2019 04:30:24 -0400
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 2AE1F7854A4A77E18E06;
+        Thu, 13 Jun 2019 16:30:18 +0800 (CST)
+Received: from [127.0.0.1] (10.133.215.186) by DGGEMS411-HUB.china.huawei.com
+ (10.3.19.211) with Microsoft SMTP Server id 14.3.439.0; Thu, 13 Jun 2019
+ 16:30:11 +0800
+Subject: Re: [PATCH v8 1/7] iommu: enhance IOMMU default DMA mode build
+ options
+To:     John Garry <john.garry@huawei.com>,
+        Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "Will Deacon" <will.deacon@arm.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        Sebastian Ott <sebott@linux.ibm.com>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        "Martin Schwidefsky" <schwidefsky@de.ibm.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        "Michael Ellerman" <mpe@ellerman.id.au>,
+        Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        iommu <iommu@lists.linux-foundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        x86 <x86@kernel.org>, linux-ia64 <linux-ia64@vger.kernel.org>
+CC:     Hanjun Guo <guohanjun@huawei.com>, Linuxarm <linuxarm@huawei.com>
+References: <20190530034831.4184-1-thunder.leizhen@huawei.com>
+ <20190530034831.4184-2-thunder.leizhen@huawei.com>
+ <645bd526-4eb0-4a36-2dda-023f009247ab@huawei.com>
+ <030bafab-58f5-8bb1-0533-2977d6e138b2@huawei.com>
+ <55d0e30c-5bca-41fc-5bf0-4366dc387afd@huawei.com>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <7d3727e3-a455-3a26-1104-5b85c196bbdf@huawei.com>
+Date:   Thu, 13 Jun 2019 16:30:08 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <55d0e30c-5bca-41fc-5bf0-4366dc387afd@huawei.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.133.215.186]
+X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since strlcpy is deprecated, the documentation shouldn't suggest using
-it. This patch fixes the examples to use strscpy instead. It also uses
-sizeof instead of underlying constants as far as possible, to simplify
-future changes to the corresponding data structures.
 
-Signed-off-by: Stephen Kitt <steve@sk2.org>
----
- Documentation/hid/hid-transport.txt                         | 6 +++---
- Documentation/i2c/instantiating-devices                     | 2 +-
- Documentation/i2c/upgrading-clients                         | 4 ++--
- Documentation/kernel-hacking/locking.rst                    | 6 +++---
- Documentation/translations/it_IT/kernel-hacking/locking.rst | 6 +++---
- 5 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/hid/hid-transport.txt b/Documentation/hid/hid-transport.txt
-index 3dcba9fd4a3a..4f41d67f1b4b 100644
---- a/Documentation/hid/hid-transport.txt
-+++ b/Documentation/hid/hid-transport.txt
-@@ -194,9 +194,9 @@ with HID core:
- 		goto err_<...>;
- 	}
- 
--	strlcpy(hid->name, <device-name-src>, 127);
--	strlcpy(hid->phys, <device-phys-src>, 63);
--	strlcpy(hid->uniq, <device-uniq-src>, 63);
-+	strscpy(hid->name, <device-name-src>, sizeof(hid->name));
-+	strscpy(hid->phys, <device-phys-src>, sizeof(hid->phys));
-+	strscpy(hid->uniq, <device-uniq-src>, sizeof(hid->uniq));
- 
- 	hid->ll_driver = &custom_ll_driver;
- 	hid->bus = <device-bus>;
-diff --git a/Documentation/i2c/instantiating-devices b/Documentation/i2c/instantiating-devices
-index 0d85ac1935b7..8bc7d99133e3 100644
---- a/Documentation/i2c/instantiating-devices
-+++ b/Documentation/i2c/instantiating-devices
-@@ -137,7 +137,7 @@ static int usb_hcd_nxp_probe(struct platform_device *pdev)
- 	(...)
- 	i2c_adap = i2c_get_adapter(2);
- 	memset(&i2c_info, 0, sizeof(struct i2c_board_info));
--	strlcpy(i2c_info.type, "isp1301_nxp", I2C_NAME_SIZE);
-+	strscpy(i2c_info.type, "isp1301_nxp", sizeof(i2c_info.type));
- 	isp1301_i2c_client = i2c_new_probed_device(i2c_adap, &i2c_info,
- 						   normal_i2c, NULL);
- 	i2c_put_adapter(i2c_adap);
-diff --git a/Documentation/i2c/upgrading-clients b/Documentation/i2c/upgrading-clients
-index ccba3ffd6e80..96392cc5b5c7 100644
---- a/Documentation/i2c/upgrading-clients
-+++ b/Documentation/i2c/upgrading-clients
-@@ -43,7 +43,7 @@ static int example_attach(struct i2c_adapter *adap, int addr, int kind)
- 	example->client.adapter = adap;
- 
- 	i2c_set_clientdata(&state->i2c_client, state);
--	strlcpy(client->i2c_client.name, "example", I2C_NAME_SIZE);
-+	strscpy(client->i2c_client.name, "example", sizeof(client->i2c_client.name));
- 
- 	ret = i2c_attach_client(&state->i2c_client);
- 	if (ret < 0) {
-@@ -138,7 +138,7 @@ can be removed:
- -	example->client.flags   = 0;
- -	example->client.adapter = adap;
- -
---	strlcpy(client->i2c_client.name, "example", I2C_NAME_SIZE);
-+-	strscpy(client->i2c_client.name, "example", sizeof(client->i2c_client.name));
- 
- The i2c_set_clientdata is now:
- 
-diff --git a/Documentation/kernel-hacking/locking.rst b/Documentation/kernel-hacking/locking.rst
-index 519673df0e82..dc698ea456e0 100644
---- a/Documentation/kernel-hacking/locking.rst
-+++ b/Documentation/kernel-hacking/locking.rst
-@@ -451,7 +451,7 @@ to protect the cache and all the objects within it. Here's the code::
-             if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
-                     return -ENOMEM;
- 
--            strlcpy(obj->name, name, sizeof(obj->name));
-+            strscpy(obj->name, name, sizeof(obj->name));
-             obj->id = id;
-             obj->popularity = 0;
- 
-@@ -660,7 +660,7 @@ Here is the code::
-      }
- 
-     @@ -63,6 +94,7 @@
--             strlcpy(obj->name, name, sizeof(obj->name));
-+             strscpy(obj->name, name, sizeof(obj->name));
-              obj->id = id;
-              obj->popularity = 0;
-     +        obj->refcnt = 1; /* The cache holds a reference */
-@@ -774,7 +774,7 @@ the lock is no longer used to protect the reference count itself.
-      }
- 
-     @@ -94,7 +76,7 @@
--             strlcpy(obj->name, name, sizeof(obj->name));
-+             strscpy(obj->name, name, sizeof(obj->name));
-              obj->id = id;
-              obj->popularity = 0;
-     -        obj->refcnt = 1; /* The cache holds a reference */
-diff --git a/Documentation/translations/it_IT/kernel-hacking/locking.rst b/Documentation/translations/it_IT/kernel-hacking/locking.rst
-index 0ef31666663b..5fd8a1abd2be 100644
---- a/Documentation/translations/it_IT/kernel-hacking/locking.rst
-+++ b/Documentation/translations/it_IT/kernel-hacking/locking.rst
-@@ -468,7 +468,7 @@ e tutti gli oggetti che contiene. Ecco il codice::
-             if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
-                     return -ENOMEM;
- 
--            strlcpy(obj->name, name, sizeof(obj->name));
-+            strscpy(obj->name, name, sizeof(obj->name));
-             obj->id = id;
-             obj->popularity = 0;
- 
-@@ -678,7 +678,7 @@ Ecco il codice::
-      }
- 
-     @@ -63,6 +94,7 @@
--             strlcpy(obj->name, name, sizeof(obj->name));
-+             strscpy(obj->name, name, sizeof(obj->name));
-              obj->id = id;
-              obj->popularity = 0;
-     +        obj->refcnt = 1; /* The cache holds a reference */
-@@ -792,7 +792,7 @@ contatore stesso.
-      }
- 
-     @@ -94,7 +76,7 @@
--             strlcpy(obj->name, name, sizeof(obj->name));
-+             strscpy(obj->name, name, sizeof(obj->name));
-              obj->id = id;
-              obj->popularity = 0;
-     -        obj->refcnt = 1; /* The cache holds a reference */
--- 
-2.11.0
+On 2019/5/31 18:42, John Garry wrote:
+> 
+>>>> -config IOMMU_DEFAULT_PASSTHROUGH
+>>>> -    bool "IOMMU passthrough by default"
+>>>> +choice
+>>>> +    prompt "IOMMU default DMA mode"
+>>>>      depends on IOMMU_API
+>>>> -        help
+>>>> -      Enable passthrough by default, removing the need to pass in
+>>>> -      iommu.passthrough=on or iommu=pt through command line. If this
+>>>> -      is enabled, you can still disable with iommu.passthrough=off
+>>>> -      or iommu=nopt depending on the architecture.
+>>>> +    default IOMMU_DEFAULT_STRICT
+>>>> +    help
+>>>> +      This option allows IOMMU DMA mode to be chose at build time, to
+>>>
+>>> As before:
+>>> /s/chose/chosen/, /s/allows IOMMU/allows an IOMMU/
+>> I'm sorry that the previous version was not modified.
+>>
+>>>
+>>>> +      override the default DMA mode of each ARCHs, removing the need to
+>>>
+>>> Again, as before:
+>>> ARCHs should be singular
+>> OK
+>>
+>>>
+>>>> +      pass in kernel parameters through command line. You can still use
+>>>> +      ARCHs specific boot options to override this option again.
+> 
+> *
+> 
+>>>> +
+>>>> +config IOMMU_DEFAULT_PASSTHROUGH
+>>>> +    bool "passthrough"
+>>>> +    help
+>>>> +      In this mode, the DMA access through IOMMU without any addresses
+>>>> +      translation. That means, the wrong or illegal DMA access can not
+>>>> +      be caught, no error information will be reported.
+>>>>
+>>>>        If unsure, say N here.
+>>>>
+>>>> +config IOMMU_DEFAULT_LAZY
+>>>> +    bool "lazy"
+>>>> +    help
+>>>> +      Support lazy mode, where for every IOMMU DMA unmap operation, the
+>>>> +      flush operation of IOTLB and the free operation of IOVA are deferred.
+>>>> +      They are only guaranteed to be done before the related IOVA will be
+>>>> +      reused.
+>>>
+>>> why no advisory on how to set if unsure?
+>> Because the LAZY and STRICT have their own advantages and disadvantages.
+>>
+>> Should I say: If unsure, keep the default。
+> 
+> Maybe. So you could put this in the help for the choice, * above, and remove the advisory on IOMMU_DEFAULT_PASSTHROUGH.
+
+OK, I'll revise it according to this idea in v9.
+
+> 
+> However the maintainer may have a different view.
+> 
+> Thanks,
+> John
+> 
+>>
+>>>
+>>>> +
+>>>> +config IOMMU_DEFAULT_STRICT
+>>>> +    bool "strict"
+>>>> +    help
+>>>> +      For every IOMMU DMA unmap operation, the flush operation of IOTLB and
+>>>> +      the free operation of IOVA are guaranteed to be done in the unmap
+>>>> +      function.
+>>>> +
+>>>> +      This mode is safer than the two above, but it maybe slower in some
+>>>> +      high performace scenarios.
+>>>
+>>> and here?
+> 
+> 
+> .
+> 
 
