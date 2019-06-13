@@ -1,117 +1,86 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EE2967D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 15:35:27 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5742A7D923
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 15:35:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728012AbfFMPfE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Jun 2019 11:35:04 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:38512 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727922AbfFMKbX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jun 2019 06:31:23 -0400
-Received: by mail-pl1-f196.google.com with SMTP id f97so7970854plb.5
-        for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2019 03:31:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=c4lD5Ja/W68zU30yx+ZIDKDyIrqaAIZ94VRiCyeCO0Y=;
-        b=YkW4wOsmtRXKF39IQeQs8ZdcwD+6X2M5iCF/r6jKCp49Ml1bgkwnn9qLqERse4MXnS
-         JvE/JUr1cR6fI4sYp9RHlrto71AB7k+bS6GVAtsKrhT2Wmz0R/Nn7NUSf9qGlSMRGqGX
-         VFRL05138Hd3JVcXhBoLNfRo+SP5MpLwlqKq3bPblTc9ut7nk6RpFrhz/AS0kQLMdp7W
-         NYPunno5BmFlawT6AG9mFdUyJvmrBka68PEWDGES8yBZtUknvd3nXlEXBJq+d80A2PuT
-         pOlbAZYM12CmFbPUcdVThV/+qdhyEwwMTvqzkqBEoGhYmCw5qx4Uu3CqrowG+fxR70zk
-         EXuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=c4lD5Ja/W68zU30yx+ZIDKDyIrqaAIZ94VRiCyeCO0Y=;
-        b=oOn3RpOVkskZwUFreuHICflW29gllmKOYJkv6p8PEJteSTG7WzSQnc1LgvTGFvdVaH
-         8GfsnCmhnmGqsfUUPQrmMJN2KWStQKofo+bIbtruLQ4T1hO2yzs5YNakkjX2MQI8GS4l
-         ZHCFhueb2uTYt5/tsfsO98VDjiqxqIn+zL880JsyovPZqJLkBhwkERBLQuyPC+4mG7tJ
-         lxMO1tbxEfVt+jNiI1cR9i6Fj6ZuFmwbWOZvHY9bMZuorWUD5E60PdDAntH664+5H34X
-         MvcUPQgDdkaZnDzfGsv3a6m7mANraCktG4t5H63l/PGl/LaM9hTP5yTEGpfS0/AFbOAc
-         lPmw==
-X-Gm-Message-State: APjAAAU/w3NGzCedgKGFjvNHLF4lTNE5/E8EOliqsW/DKLGM++O38ans
-        T74xrYl8CmrK3IRB0sTQiNXIhA==
-X-Google-Smtp-Source: APXvYqwf629GmUVbhLZnIAU/FAePATiykUd+OC7xErJfaA+0pIRy9XJpSrc4JheBzy9dpn/uP2D0ug==
-X-Received: by 2002:a17:902:106:: with SMTP id 6mr23919253plb.64.1560421882686;
-        Thu, 13 Jun 2019 03:31:22 -0700 (PDT)
-Received: from localhost.localdomain ([117.196.234.139])
-        by smtp.gmail.com with ESMTPSA id a12sm2265078pgq.0.2019.06.13.03.31.10
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Thu, 13 Jun 2019 03:31:21 -0700 (PDT)
-From:   Sumit Garg <sumit.garg@linaro.org>
-To:     keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-Cc:     jens.wiklander@linaro.org, corbet@lwn.net, dhowells@redhat.com,
-        jejb@linux.ibm.com, jarkko.sakkinen@linux.intel.com,
-        zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
-        ard.biesheuvel@linaro.org, daniel.thompson@linaro.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tee-dev@lists.linaro.org, Sumit Garg <sumit.garg@linaro.org>
-Subject: [RFC 0/7] Introduce TEE based Trusted Keys support
-Date:   Thu, 13 Jun 2019 16:00:26 +0530
-Message-Id: <1560421833-27414-1-git-send-email-sumit.garg@linaro.org>
-X-Mailer: git-send-email 2.7.4
+        id S1728865AbfFMPfO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Jun 2019 11:35:14 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:36372 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727884AbfFMK3Y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jun 2019 06:29:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=l6eX/LOpY2lKbloYe4ibvvvCroTQzEKMG7QHU9kz2r0=; b=Knqjy4+Nqo87caXZLzc3vAHdL
+        t3AV50Ce06k9sbtYT+1Hy7lHc7R9B8WlT71KU0CrbbPEdmAhPvyvNfgRpCVNgmXC1dWh63eaRWeuW
+        nz5MVAowbfTtwkqOvyq2Z+0QV0IWMmpChU/Pb+hlT1xLZ8BHVurZu/OZD2kw4dbDm8oM68SkQ29Om
+        yfrdbQwmM1c1Ll6e5X/J2rj3xkSe3GGRW86oqoZV6fbXUPtyOoKAgo8V+qIyJHP3714JHNRjsKgHS
+        jpFjLQz2iLy2j75wlPMKiYtWwz8HFklYqMk2lb8ytcTjqVhTgtbMw2N1pJ1Db/TZdoQ23N8JXre3q
+        1REHKG7mw==;
+Received: from 201.86.169.251.dynamic.adsl.gvt.net.br ([201.86.169.251] helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hbMyx-0007Z4-Hz; Thu, 13 Jun 2019 10:29:23 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hbMyv-0005vt-KN; Thu, 13 Jun 2019 07:29:21 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH] scripts/documentation-file-ref-check: ignore output dir
+Date:   Thu, 13 Jun 2019 07:29:17 -0300
+Message-Id: <093d01459be472a20894c5be6f9b937ff7fd7d47.1560421751.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add support for TEE based trusted keys where TEE provides the functionality
-to seal and unseal trusted keys using hardware unique key. Also, this is
-an alternative in case platform doesn't possess a TPM device.
+When there's no Documentation/output directory, the script will
+complain about those missing references:
 
-This series also adds some TEE features like:
+	Documentation/doc-guide/sphinx.rst: Documentation/output
+	Documentation/doc-guide/sphinx.rst: Documentation/output
+	Documentation/process/howto.rst: Documentation/output
+	Documentation/translations/it_IT/doc-guide/sphinx.rst: Documentation/output
+	Documentation/translations/it_IT/doc-guide/sphinx.rst: Documentation/output
+	Documentation/translations/it_IT/process/howto.rst: Documentation/output
+	Documentation/translations/ja_JP/howto.rst: Documentation/output
+	Documentation/translations/ko_KR/howto.rst: Documentation/output
 
-Patch #1, #2 enables support for registered kernel shared memory with TEE.
+Those are false positives, so add an ignore rule for them.
 
-Patch #3 enables support for private kernel login method required for
-cases like trusted keys where we don't wan't user-space to directly access
-TEE service to retrieve trusted key contents.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ scripts/documentation-file-ref-check | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Rest of the patches from #4 to #7 adds support for TEE based trusted keys.
-
-This patch-set has been tested with OP-TEE based pseudo TA which can be
-found here [1].
-
-Looking forward to your valuable feedback/suggestions.
-
-[1] https://github.com/OP-TEE/optee_os/pull/3082
-
-Sumit Garg (7):
-  tee: optee: allow kernel pages to register as shm
-  tee: enable support to register kernel memory
-  tee: add private login method for kernel clients
-  KEYS: trusted: Introduce TEE based Trusted Keys
-  KEYS: encrypted: Allow TEE based trusted master keys
-  doc: keys: Document usage of TEE based Trusted Keys
-  MAINTAINERS: Add entry for TEE based Trusted Keys
-
- Documentation/security/keys/tee-trusted.rst      |  93 +++++
- MAINTAINERS                                      |   9 +
- drivers/tee/optee/call.c                         |   7 +
- drivers/tee/tee_core.c                           |   6 +
- drivers/tee/tee_shm.c                            |  16 +-
- include/keys/tee_trusted.h                       |  84 ++++
- include/keys/trusted-type.h                      |   1 +
- include/linux/tee_drv.h                          |   1 +
- include/uapi/linux/tee.h                         |   2 +
- security/keys/Kconfig                            |   3 +
- security/keys/Makefile                           |   3 +
- security/keys/encrypted-keys/masterkey_trusted.c |  10 +-
- security/keys/tee_trusted.c                      | 506 +++++++++++++++++++++++
- 13 files changed, 737 insertions(+), 4 deletions(-)
- create mode 100644 Documentation/security/keys/tee-trusted.rst
- create mode 100644 include/keys/tee_trusted.h
- create mode 100644 security/keys/tee_trusted.c
-
+diff --git a/scripts/documentation-file-ref-check b/scripts/documentation-file-ref-check
+index a4139a576726..7784c54aa38b 100755
+--- a/scripts/documentation-file-ref-check
++++ b/scripts/documentation-file-ref-check
+@@ -90,6 +90,9 @@ while (<IN>) {
+ 	# Skip this script
+ 	next if ($f eq $scriptname);
+ 
++	# Ignore the dir where documentation will be built
++	next if ($ln =~ m,\b(\S*)Documentation/output,);
++
+ 	if ($ln =~ m,\b(\S*)(Documentation/[A-Za-z0-9\_\.\,\~/\*\[\]\?+-]*)(.*),) {
+ 		my $prefix = $1;
+ 		my $ref = $2;
 -- 
-2.7.4
+2.21.0
 
