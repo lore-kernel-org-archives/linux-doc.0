@@ -3,23 +3,23 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 235A87D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 16:11:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E298B7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 16:13:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731891AbfFMQLU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Jun 2019 12:11:20 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:48142 "EHLO huawei.com"
+        id S2390977AbfFMQMf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Jun 2019 12:12:35 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:47162 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1731240AbfFMIne (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 13 Jun 2019 04:43:34 -0400
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id E166594E45C93772A88C;
-        Thu, 13 Jun 2019 16:43:31 +0800 (CST)
+        id S1731218AbfFMInI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 13 Jun 2019 04:43:08 -0400
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 67F28FAF1D69440836FB;
+        Thu, 13 Jun 2019 16:43:05 +0800 (CST)
 Received: from HGHY4L002753561.china.huawei.com (10.133.215.186) by
  DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
- 14.3.439.0; Thu, 13 Jun 2019 16:43:24 +0800
+ 14.3.439.0; Thu, 13 Jun 2019 16:42:58 +0800
 From:   Zhen Lei <thunder.leizhen@huawei.com>
 To:     Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
         John Garry <john.garry@huawei.com>,
@@ -47,12 +47,10 @@ To:     Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
         linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
         x86 <x86@kernel.org>, linux-ia64 <linux-ia64@vger.kernel.org>
 CC:     Zhen Lei <thunder.leizhen@huawei.com>
-Subject: [PATCH v9 5/7] iommu/vt-d: add support for IOMMU default DMA mode build options
-Date:   Thu, 13 Jun 2019 16:42:38 +0800
-Message-ID: <20190613084240.16768-6-thunder.leizhen@huawei.com>
+Subject: [PATCH v9 0/7] iommu: enhance IOMMU default DMA mode build options
+Date:   Thu, 13 Jun 2019 16:42:33 +0800
+Message-ID: <20190613084240.16768-1-thunder.leizhen@huawei.com>
 X-Mailer: git-send-email 2.21.0.windows.1
-In-Reply-To: <20190613084240.16768-1-thunder.leizhen@huawei.com>
-References: <20190613084240.16768-1-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
@@ -63,43 +61,56 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The default DMA mode of INTEL IOMMU is LAZY, this patch make it can be
-set to STRICT at build time. It can be overridden by boot option.
+v8--> v9
+1. Fix some text editing errors
 
-There is no functional change.
+v7--> v8
+1. Split into multiple small patches base on ARCHs or IOMMU drivers.
+2. Hide the unsupported build options on the related ARCH or IOMMU.
 
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
----
- drivers/iommu/Kconfig       | 2 +-
- drivers/iommu/intel-iommu.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+v6 --> v7:
+1. Fix some text editing errors
 
-diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-index bfbcaa24e283aad..fd297b0e0330d27 100644
---- a/drivers/iommu/Kconfig
-+++ b/drivers/iommu/Kconfig
-@@ -79,7 +79,7 @@ choice
- 	prompt "IOMMU default DMA mode"
- 	depends on IOMMU_API
- 	default IOMMU_DEFAULT_PASSTHROUGH if (PPC_POWERNV && PCI)
--	default IOMMU_DEFAULT_LAZY if S390_IOMMU
-+	default IOMMU_DEFAULT_LAZY if (INTEL_IOMMU || S390_IOMMU)
- 	default IOMMU_DEFAULT_STRICT
- 	help
- 	  This option allows an IOMMU DMA mode to be chosen at build time, to
-diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
-index 162b3236e72c3c8..ec5515b7831b23f 100644
---- a/drivers/iommu/intel-iommu.c
-+++ b/drivers/iommu/intel-iommu.c
-@@ -354,7 +354,7 @@ static int domain_detach_iommu(struct dmar_domain *domain,
- 
- static int dmar_map_gfx = 1;
- static int dmar_forcedac;
--static int intel_iommu_strict;
-+static int intel_iommu_strict = IS_ENABLED(CONFIG_IOMMU_DEFAULT_STRICT);
- static int intel_iommu_superpage = 1;
- static int intel_iommu_sm;
- static int iommu_identity_mapping;
+v5 --> v6:
+1. give up adding boot option iommu.dma_mode
+
+v4 --> v5:
+As Hanjun and Thomas Gleixner's suggestion:
+1. Keep the old ARCH specific boot options no change.
+2. Keep build option CONFIG_IOMMU_DEFAULT_PASSTHROUGH no change.
+
+v4:
+As Robin Murphy's suggestion:
+"It's also not necessarily obvious to the user how this interacts with
+IOMMU_DEFAULT_PASSTHROUGH, so if we really do go down this route, maybe it
+would be better to refactor the whole lot into a single selection of something
+like IOMMU_DEFAULT_MODE anyway."
+
+In this version, I tried to normalize the IOMMU dma mode boot options for all
+ARCHs. When IOMMU is enabled, there are 3 dma modes: paasthrough(bypass),
+lazy(mapping but defer the IOTLB invalidation), strict. But currently each
+ARCHs defined their private boot options, different with each other. For
+example, to enable/disable "passthrough", ARM64 use iommu.passthrough=1/0,
+X86 use iommu=pt/nopt, PPC/POWERNV use iommu=nobypass.
+
+Zhen Lei (7):
+  iommu: enhance IOMMU default DMA mode build options
+  x86/dma: use IS_ENABLED() to simplify the code
+  s390/pci: add support for IOMMU default DMA mode build options
+  powernv/iommu: add support for IOMMU default DMA mode build options
+  iommu/vt-d: add support for IOMMU default DMA mode build options
+  iommu/amd: add support for IOMMU default DMA mode build options
+  ia64: hide build option IOMMU_DEFAULT_PASSTHROUGH
+
+ arch/powerpc/platforms/powernv/pci-ioda.c |  3 +-
+ arch/s390/pci/pci_dma.c                   |  2 +-
+ arch/x86/kernel/pci-dma.c                 |  6 +---
+ drivers/iommu/Kconfig                     | 48 +++++++++++++++++++++++++------
+ drivers/iommu/amd_iommu_init.c            |  2 +-
+ drivers/iommu/intel-iommu.c               |  2 +-
+ drivers/iommu/iommu.c                     |  3 +-
+ 7 files changed, 48 insertions(+), 18 deletions(-)
+
 -- 
 1.8.3
 
