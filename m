@@ -3,30 +3,30 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 039AC7DBD4
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 15:04:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 552287D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 15:04:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727012AbfFMPET (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Jun 2019 11:04:19 -0400
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:45408 "EHLO
+        id S1732520AbfFMPEr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Jun 2019 11:04:47 -0400
+Received: from hostingweb31-40.netsons.net ([89.40.174.40]:60065 "EHLO
         hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1732474AbfFMOSp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jun 2019 10:18:45 -0400
+        by vger.kernel.org with ESMTP id S1732468AbfFMOSo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jun 2019 10:18:44 -0400
 Received: from [109.168.11.45] (port=39754 helo=pc-ceresoli.dev.aim)
         by hostingweb31.netsons.net with esmtpa (Exim 4.92)
         (envelope-from <luca@lucaceresoli.net>)
-        id 1hbQYs-0005He-LX; Thu, 13 Jun 2019 16:18:42 +0200
+        id 1hbQYr-0005He-4g; Thu, 13 Jun 2019 16:18:41 +0200
 From:   Luca Ceresoli <luca@lucaceresoli.net>
 To:     linux-media@vger.kernel.org
 Cc:     Luca Ceresoli <luca@lucaceresoli.net>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil@xs4all.nl>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH 8/9] media: docs: v4l2-controls: document file to include
-Date:   Thu, 13 Jun 2019 16:18:25 +0200
-Message-Id: <20190613141826.26775-8-luca@lucaceresoli.net>
+Subject: [PATCH 2/9] media: docs: v4l2-controls: remove repeated ioctl names
+Date:   Thu, 13 Jun 2019 16:18:19 +0200
+Message-Id: <20190613141826.26775-2-luca@lucaceresoli.net>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190613141826.26775-1-luca@lucaceresoli.net>
 References: <20190613141826.26775-1-luca@lucaceresoli.net>
@@ -47,28 +47,30 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The tutorial in this section is almost complete, add the one missing bit.
+Mentioning :ref:`VIDIOC_QUERYCTRL` renders all the three related ioctls.
+Explicitly adding VIDIOC_QUERY_EXT_CTRL and VIDIOC_QUERYMENU will make
+them render twice, so remove them
 
 Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
 ---
- Documentation/media/kapi/v4l2-controls.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+ Documentation/media/uapi/v4l/extended-controls.rst | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/Documentation/media/kapi/v4l2-controls.rst b/Documentation/media/kapi/v4l2-controls.rst
-index 45541e05a0e7..407617b1d0ce 100644
---- a/Documentation/media/kapi/v4l2-controls.rst
-+++ b/Documentation/media/kapi/v4l2-controls.rst
-@@ -50,6 +50,10 @@ Basic usage for V4L2 and sub-device drivers
+diff --git a/Documentation/media/uapi/v4l/extended-controls.rst b/Documentation/media/uapi/v4l/extended-controls.rst
+index 0968aa9cd167..802a405aa535 100644
+--- a/Documentation/media/uapi/v4l/extended-controls.rst
++++ b/Documentation/media/uapi/v4l/extended-controls.rst
+@@ -96,9 +96,7 @@ if this control consists of more than one element.
+    #. It is important to realize that due to the flexibility of controls it is
+       necessary to check whether the control you want to set actually is
+       supported in the driver and what the valid range of values is. So use
+-      the :ref:`VIDIOC_QUERYCTRL` (or :ref:`VIDIOC_QUERY_EXT_CTRL
+-      <VIDIOC_QUERYCTRL>`) and :ref:`VIDIOC_QUERYMENU <VIDIOC_QUERYCTRL>`
+-      ioctls to check this.
++      :ref:`VIDIOC_QUERYCTRL` to check this.
  
- 1) Prepare the driver:
- 
-+.. code-block:: c
-+
-+	#include <media/v4l2-ctrls.h>
-+
- 1.1) Add the handler to your driver's top-level struct:
- 
- For V4L2 drivers:
+    #. It is possible that some of the menu indices in a control of
+       type ``V4L2_CTRL_TYPE_MENU`` may not be supported (``VIDIOC_QUERYMENU``
 -- 
 2.21.0
 
