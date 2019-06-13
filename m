@@ -1,79 +1,143 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3CECD7DCEA
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 15:35:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 858907D926
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 15:35:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727846AbfFMPf0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Jun 2019 11:35:26 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:34868 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727646AbfFMKXY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jun 2019 06:23:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=CdLBRYvVCv2xx4Vg1tCPu4Ijl4wJSy52l8LQrHW+nC8=; b=GSsdZ1Y5MZw/OjXYzrBWk48S8
-        R7BngR9n5IYQ9US97kiU0fNOPMhtuX1EDvR/dZQQYus890Vb1LJa+GY/UGV0MZnKIG1s8xhjFoVwO
-        nepPgfFS1rpqCZ+pP7LT2Ca6spc/tENjWg2gPP7CSrjyLLBqZKVTWLI+Flqy73mz+P2WsEi6w/SHv
-        p008o3wO1/FshcgdBxInZS7VUJEJ2UtVED0XKqoqvg+QqW+GXB4CjYd4LGhYPzhZETwskmb/IYCWe
-        LqvcoCRGSvssbMEgwQGAuoS+usllbHwlHSGyZQTJM2JREUrd2iaHWgzlSEN0jaLuePc4fS0kjEA4E
-        UNrwtyj0g==;
-Received: from 201.86.169.251.dynamic.adsl.gvt.net.br ([201.86.169.251] helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hbMt9-0005fa-93; Thu, 13 Jun 2019 10:23:23 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hbMt7-0005lq-9g; Thu, 13 Jun 2019 07:23:21 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-leds@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH] dt: leds-lm36274.txt: fix a broken reference to ti-lmu.txt
-Date:   Thu, 13 Jun 2019 07:23:15 -0300
-Message-Id: <79b9bf3388eb231da77c6a804862d21339262d0a.1560421387.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
+        id S1732438AbfFMPfk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Jun 2019 11:35:40 -0400
+Received: from foss.arm.com ([217.140.110.172]:42986 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727564AbfFMPfj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 13 Jun 2019 11:35:39 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 42C42A78;
+        Thu, 13 Jun 2019 08:35:38 -0700 (PDT)
+Received: from [10.1.196.72] (e119884-lin.cambridge.arm.com [10.1.196.72])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 458113F718;
+        Thu, 13 Jun 2019 08:35:36 -0700 (PDT)
+Subject: Re: [PATCH v4 1/2] arm64: Define
+ Documentation/arm64/tagged-address-abi.txt
+To:     Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+        Catalin Marinas <Catalin.Marinas@arm.com>
+Cc:     nd <nd@arm.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Will Deacon <Will.Deacon@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>
+References: <cover.1560339705.git.andreyknvl@google.com>
+ <20190612142111.28161-1-vincenzo.frascino@arm.com>
+ <20190612142111.28161-2-vincenzo.frascino@arm.com>
+ <a90da586-8ff6-4bed-d940-9306d517a18c@arm.com>
+ <20190613092054.GO28951@C02TF0J2HF1T.local>
+ <dee7f192-d0f0-558e-3007-eba805c6f2da@arm.com>
+ <6ebbda37-5dd9-d0d5-d9cb-286c7a5b7f8e@arm.com>
+ <8e3c9537-de10-0d0d-f5bb-c33bde92443f@arm.com>
+ <5963d144-be9b-78d8-9130-ef92bc66b1fd@arm.com>
+ <ba822b33-a822-02ef-9b85-725f4353596a@arm.com>
+From:   Vincenzo Frascino <vincenzo.frascino@arm.com>
+Message-ID: <a05a2dfb-3398-455d-8586-b79dfb7a772f@arm.com>
+Date:   Thu, 13 Jun 2019 16:35:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <ba822b33-a822-02ef-9b85-725f4353596a@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There's a typo there:
-	ti_lmu.txt -> ti-lmu.txt
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- Documentation/devicetree/bindings/leds/leds-lm36274.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 13/06/2019 16:32, Szabolcs Nagy wrote:
+> On 13/06/2019 15:03, Vincenzo Frascino wrote:
+>> On 13/06/2019 13:28, Szabolcs Nagy wrote:
+>>> On 13/06/2019 12:16, Vincenzo Frascino wrote:
+>>>> On 13/06/2019 11:14, Szabolcs Nagy wrote:
+>>>>> On 13/06/2019 10:20, Catalin Marinas wrote:
+>>>>>> On Wed, Jun 12, 2019 at 05:30:34PM +0100, Szabolcs Nagy wrote:
+>>>>>>> On 12/06/2019 15:21, Vincenzo Frascino wrote:
+>>>>>>>> +  - a mapping below sbrk(0) done by the process itself
+>>>>>>>
+>>>>>>> doesn't the mmap rule cover this?
+>>>>>>
+>>>>>> IIUC it doesn't cover it as that's memory mapped by the kernel
+>>>>>> automatically on access vs a pointer returned by mmap(). The statement
+>>>>>> above talks about how the address is obtained by the user.
+>>>>>
+>>>>> ok i read 'mapping below sbrk' as an mmap (possibly MAP_FIXED)
+>>>>> that happens to be below the heap area.
+>>>>>
+>>>>> i think "below sbrk(0)" is not the best term to use: there
+>>>>> may be address range below the heap area that can be mmapped
+>>>>> and thus below sbrk(0) and sbrk is a posix api not a linux
+>>>>> syscall, the libc can implement it with mmap or whatever.
+>>>>>
+>>>>> i'm not sure what the right term for 'heap area' is
+>>>>> (the address range between syscall(__NR_brk,0) at
+>>>>> program startup and its current value?)
+>>>>>
+>>>>
+>>>> I used sbrk(0) with the meaning of "end of the process's data segment" not
+>>>> implying that this is a syscall, but just as a useful way to identify the mapping.
+>>>> I agree that it is a posix function implemented by libc but when it is used with
+>>>> 0 finds the current location of the program break, which can be changed by brk()
+>>>> and depending on the new address passed to this syscall can have the effect of
+>>>> allocating or deallocating memory.
+>>>>
+>>>> Will changing sbrk(0) with "end of the process's data segment" make it more clear?
+>>>
+>>> i don't understand what's the relevance of the *end*
+>>> of the data segment.
+>>>
+>>> i'd expect the text to say something about the address
+>>> range of the data segment.
+>>>
+>>> i can do
+>>>
+>>> mmap((void*)65536, 65536, PROT_READ|PROT_WRITE, MAP_FIXED|MAP_SHARED|MAP_ANON, -1, 0);
+>>>
+>>> and it will be below the end of the data segment.
+>>>
+>>
+>> As far as I understand the data segment "lives" below the program break, hence
+>> it is a way of describing the range from which the user can obtain a valid
+>> tagged pointer.>
+>> Said that, I am not really sure on how do you want me to document this (my aim
+>> is for this to be clear to the userspace developers). Could you please propose
+>> something?
+> 
+> [...], it is in the memory ranges privately owned by a
+> userspace process and it is obtained in one of the
+> following ways:
+> 
+> - mmap done by the process itself, [...]
+> 
+> - brk syscall done by the process itself.
+>   (i.e. the heap area between the initial location
+>   of the program break at process creation and its
+>   current location.)
+> 
+> - any memory mapped by the kernel [...]
+> 
+> the data segment that's part of the process image is
+> already covered by the last point.
+> 
 
-diff --git a/Documentation/devicetree/bindings/leds/leds-lm36274.txt b/Documentation/devicetree/bindings/leds/leds-lm36274.txt
-index 456a589c65f0..39c230d59a4d 100644
---- a/Documentation/devicetree/bindings/leds/leds-lm36274.txt
-+++ b/Documentation/devicetree/bindings/leds/leds-lm36274.txt
-@@ -6,7 +6,7 @@ up to 29V total output voltage. The 11-bit LED current is programmable via
- the I2C bus and/or controlled via a logic level PWM input from 60 uA to 30 mA.
- 
- Parent device properties are documented in
--Documentation/devicetree/bindings/mfd/ti_lmu.txt
-+Documentation/devicetree/bindings/mfd/ti-lmu.txt
- 
- Regulator properties are documented in
- Documentation/devicetree/bindings/regulator/lm363x-regulator.txt
+Thanks Szabolcs, I will update the document accordingly.
+
 -- 
-2.21.0
-
+Regards,
+Vincenzo
