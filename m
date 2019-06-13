@@ -5,84 +5,61 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5C1D87D90F
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 15:16:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B0A8B7D926
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 15:17:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733184AbfFMPQ3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Jun 2019 11:16:29 -0400
-Received: from foss.arm.com ([217.140.110.172]:39810 "EHLO foss.arm.com"
+        id S1732688AbfFMPR0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Jun 2019 11:17:26 -0400
+Received: from mga05.intel.com ([192.55.52.43]:36291 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732205AbfFMNXs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 13 Jun 2019 09:23:48 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3E6A63EF;
-        Thu, 13 Jun 2019 06:23:47 -0700 (PDT)
-Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A51833F73C;
-        Thu, 13 Jun 2019 06:23:45 -0700 (PDT)
-Date:   Thu, 13 Jun 2019 14:23:43 +0100
-From:   Dave Martin <Dave.Martin@arm.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Will Deacon <will.deacon@arm.com>,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-kselftest@vger.kernel.org,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 1/2] arm64: Define
- Documentation/arm64/tagged-address-abi.txt
-Message-ID: <20190613132342.GZ28398@e103592.cambridge.arm.com>
-References: <cover.1560339705.git.andreyknvl@google.com>
- <20190612142111.28161-1-vincenzo.frascino@arm.com>
- <20190612142111.28161-2-vincenzo.frascino@arm.com>
- <20190612153538.GL28951@C02TF0J2HF1T.local>
- <141c740a-94c2-2243-b6d1-b44ffee43791@arm.com>
- <20190613113731.GY28398@e103592.cambridge.arm.com>
- <20190613122821.GS28951@C02TF0J2HF1T.local>
+        id S1733088AbfFMPRU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 13 Jun 2019 11:17:20 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Jun 2019 08:17:19 -0700
+X-ExtLoop1: 1
+Received: from bbouchn-mobl.ger.corp.intel.com (HELO localhost) ([10.252.35.22])
+  by orsmga004.jf.intel.com with ESMTP; 13 Jun 2019 08:17:15 -0700
+Date:   Thu, 13 Jun 2019 18:17:14 +0300
+From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+To:     Sumit Garg <sumit.garg@linaro.org>
+Cc:     keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, jens.wiklander@linaro.org,
+        corbet@lwn.net, dhowells@redhat.com, jejb@linux.ibm.com,
+        zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
+        ard.biesheuvel@linaro.org, daniel.thompson@linaro.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tee-dev@lists.linaro.org
+Subject: Re: [RFC 1/7] tee: optee: allow kernel pages to register as shm
+Message-ID: <20190613151714.GC18488@linux.intel.com>
+References: <1560421833-27414-1-git-send-email-sumit.garg@linaro.org>
+ <1560421833-27414-2-git-send-email-sumit.garg@linaro.org>
+ <20190613151257.GA18488@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190613122821.GS28951@C02TF0J2HF1T.local>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20190613151257.GA18488@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 13, 2019 at 01:28:21PM +0100, Catalin Marinas wrote:
-> On Thu, Jun 13, 2019 at 12:37:32PM +0100, Dave P Martin wrote:
-> > On Thu, Jun 13, 2019 at 11:15:34AM +0100, Vincenzo Frascino wrote:
-> > > On 12/06/2019 16:35, Catalin Marinas wrote:
-> > > > On Wed, Jun 12, 2019 at 03:21:10PM +0100, Vincenzo Frascino wrote:
-> > > >> +  - PR_GET_TAGGED_ADDR_CTRL: can be used to check the status of the Tagged
-> > > >> +                             Address ABI.
-> [...]
-> > Is there a canonical way to detect whether this whole API/ABI is
-> > available?  (i.e., try to call this prctl / check for an HWCAP bit,
-> > etc.)
+On Thu, Jun 13, 2019 at 06:12:57PM +0300, Jarkko Sakkinen wrote:
+> On Thu, Jun 13, 2019 at 04:00:27PM +0530, Sumit Garg wrote:
+> > Kernel pages are marked as normal type memory only so allow kernel pages
+> > to be registered as shared memory with OP-TEE.
+> > 
+> > Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
 > 
-> The canonical way is a prctl() call. HWCAP doesn't make sense since it's
-> not a hardware feature. If you really want a different way of detecting
-> this (which I don't think it's worth), we can reinstate the AT_FLAGS
-> bit.
+> Just out of pure interest why this was not allowed before?
 
-Sure, I think this probably makes sense -- I'm still getting my around
-which parts of the design are directly related to MTE and which aren't.
+Please spare me and ignore that one :-) Obviouslly because it
+was not used.
 
-I was a bit concerned about the interaction between
-PR_SET_TAGGED_ADDR_CTRL and the sysctl: the caller might conclude that
-this API is unavailable when actually tagged addresses are stuck on.
+Acked-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
 
-I'm not sure whether this matters, but it's a bit weird.
-
-One option would be to change the semantics, so that the sysctl just
-forbids turning tagging from off to on.  Alternatively, we could return
-a different error code to distinguish this case.
-
-Or we just leave it as proposed.
-
-Cheers
----Dave
+/Jarkko
