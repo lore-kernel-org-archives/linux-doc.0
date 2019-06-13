@@ -1,163 +1,92 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B5DBC7D923
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 15:39:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 35E217DCEA
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 15:39:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728853AbfFMPic (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Jun 2019 11:38:32 -0400
-Received: from casper.infradead.org ([85.118.1.10]:33510 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731947AbfFMJ7G (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jun 2019 05:59:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=X6go1h+qBvd8UqStxDka25oSP1lwn219vXM1njzftqM=; b=st/cCkCW17JvfhPcMMlIiWlWs7
-        IjzbMHLeCgNGoALijV6IG+3mBu2hWh+zDF/ixgeztGRJFvKYWEb/k1hwDtOuJEM+LaN5VPyeL2Nyt
-        pUW3p7YE7JRXzR5AqF9H3+IiwxYWckQCRps/QFoMco8bS1sS+v518UWrrJXO7ml5NcscdFDSXeQVX
-        ZKduv2MoYrDVAMjIkypzrzv1fDu9De18EdqyKnVmVA/jtlt3lbqFtvB/kKq3/UdhRk448WORt2zGk
-        vyVeBQhaltTvjNhKaj4bDz1fJNL7g5eIVBQzyzZatNVk3zR46pfOQJ6fi4X1Ul2gzhVbF7Xgp5Fcx
-        8jdm6Tow==;
-Received: from 201.86.169.251.dynamic.adsl.gvt.net.br ([201.86.169.251] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hbMVS-0000iN-9Z; Thu, 13 Jun 2019 09:58:54 +0000
-Date:   Thu, 13 Jun 2019 06:58:43 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Sebastian Reichel <sre@kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
-        Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        "David S. Miller" <davem@davemloft.net>, linux-pm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-pci@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [PATCH v4 18/28] docs: convert docs to ReST and rename to *.rst
-Message-ID: <20190613065843.100f72dd@coco.lan>
-In-Reply-To: <7dc94cb4-ebf1-22ab-29c9-fcb2b875a9ac@csail.mit.edu>
-References: <cover.1560361364.git.mchehab+samsung@kernel.org>
-        <fac44e1fbab5ea755a93601a4fdfa34fcc57ae9e.1560361364.git.mchehab+samsung@kernel.org>
-        <7dc94cb4-ebf1-22ab-29c9-fcb2b875a9ac@csail.mit.edu>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1732677AbfFMPjY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Jun 2019 11:39:24 -0400
+Received: from foss.arm.com ([217.140.110.172]:43218 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731932AbfFMPjX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 13 Jun 2019 11:39:23 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CBCF43EF;
+        Thu, 13 Jun 2019 08:39:22 -0700 (PDT)
+Received: from C02TF0J2HF1T.local (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EDD3E3F718;
+        Thu, 13 Jun 2019 08:39:16 -0700 (PDT)
+Date:   Thu, 13 Jun 2019 16:39:07 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Dave Martin <Dave.Martin@arm.com>
+Cc:     linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Will Deacon <will.deacon@arm.com>,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-kselftest@vger.kernel.org,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v4 1/2] arm64: Define
+ Documentation/arm64/tagged-address-abi.txt
+Message-ID: <20190613153906.GV28951@C02TF0J2HF1T.local>
+References: <cover.1560339705.git.andreyknvl@google.com>
+ <20190612142111.28161-1-vincenzo.frascino@arm.com>
+ <20190612142111.28161-2-vincenzo.frascino@arm.com>
+ <20190612153538.GL28951@C02TF0J2HF1T.local>
+ <141c740a-94c2-2243-b6d1-b44ffee43791@arm.com>
+ <20190613113731.GY28398@e103592.cambridge.arm.com>
+ <20190613122821.GS28951@C02TF0J2HF1T.local>
+ <20190613132342.GZ28398@e103592.cambridge.arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190613132342.GZ28398@e103592.cambridge.arm.com>
+User-Agent: Mutt/1.11.2 (2019-01-07)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 12 Jun 2019 17:25:39 -0700
-"Srivatsa S. Bhat" <srivatsa@csail.mit.edu> escreveu:
-
-> On 6/12/19 10:52 AM, Mauro Carvalho Chehab wrote:
-> > Convert the PM documents to ReST, in order to allow them to
-> > build with Sphinx.
+On Thu, Jun 13, 2019 at 02:23:43PM +0100, Dave P Martin wrote:
+> On Thu, Jun 13, 2019 at 01:28:21PM +0100, Catalin Marinas wrote:
+> > On Thu, Jun 13, 2019 at 12:37:32PM +0100, Dave P Martin wrote:
+> > > On Thu, Jun 13, 2019 at 11:15:34AM +0100, Vincenzo Frascino wrote:
+> > > > On 12/06/2019 16:35, Catalin Marinas wrote:
+> > > > > On Wed, Jun 12, 2019 at 03:21:10PM +0100, Vincenzo Frascino wrote:
+> > > > >> +  - PR_GET_TAGGED_ADDR_CTRL: can be used to check the status of the Tagged
+> > > > >> +                             Address ABI.
+> > [...]
+> > > Is there a canonical way to detect whether this whole API/ABI is
+> > > available?  (i.e., try to call this prctl / check for an HWCAP bit,
+> > > etc.)
 > > 
-> > The conversion is actually:
-> >   - add blank lines and identation in order to identify paragraphs;
-> >   - fix tables markups;
-> >   - add some lists markups;
-> >   - mark literal blocks;
-> >   - adjust title markups.
-> > 
-> > At its new index.rst, let's add a :orphan: while this is not linked to
-> > the main index.rst file, in order to avoid build warnings.
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> > Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-> > Acked-by: Mark Brown <broonie@kernel.org>
-> > ---  
+> > The canonical way is a prctl() call. HWCAP doesn't make sense since it's
+> > not a hardware feature. If you really want a different way of detecting
+> > this (which I don't think it's worth), we can reinstate the AT_FLAGS
+> > bit.
 > 
-> [...]
+> Sure, I think this probably makes sense -- I'm still getting my around
+> which parts of the design are directly related to MTE and which aren't.
 > 
-> > diff --git a/Documentation/power/suspend-and-cpuhotplug.txt b/Documentation/power/suspend-and-cpuhotplug.rst
-> > similarity index 90%
-> > rename from Documentation/power/suspend-and-cpuhotplug.txt
-> > rename to Documentation/power/suspend-and-cpuhotplug.rst
-> > index a8751b8df10e..9df664f5423a 100644
-> > --- a/Documentation/power/suspend-and-cpuhotplug.txt
-> > +++ b/Documentation/power/suspend-and-cpuhotplug.rst
-> > @@ -1,10 +1,15 @@
-> > +====================================================================
-> >  Interaction of Suspend code (S3) with the CPU hotplug infrastructure
-> > +====================================================================
-> >  
-> > -     (C) 2011 - 2014 Srivatsa S. Bhat <srivatsa.bhat@linux.vnet.ibm.com>
-> > +(C) 2011 - 2014 Srivatsa S. Bhat <srivatsa.bhat@linux.vnet.ibm.com>
-> >  
-> >  
-> > -I. How does the regular CPU hotplug code differ from how the Suspend-to-RAM
-> > -   infrastructure uses it internally? And where do they share common code?
-> > +I. Differences between CPU hotplug and Suspend-to-RAM
-> > +======================================================
-> > +
-> > +How does the regular CPU hotplug code differ from how the Suspend-to-RAM
-> > +infrastructure uses it internally? And where do they share common code?
-> >  
-> >  Well, a picture is worth a thousand words... So ASCII art follows :-)
-> >    
+> I was a bit concerned about the interaction between
+> PR_SET_TAGGED_ADDR_CTRL and the sysctl: the caller might conclude that
+> this API is unavailable when actually tagged addresses are stuck on.
 > 
-> [...]
+> I'm not sure whether this matters, but it's a bit weird.
 > 
-> > @@ -101,7 +108,7 @@ execution during resume):
-> >  
-> >  It is to be noted here that the system_transition_mutex lock is acquired at the very
-> >  beginning, when we are just starting out to suspend, and then released only
-> > -after the entire cycle is complete (i.e., suspend + resume).
-> > +after the entire cycle is complete (i.e., suspend + resume)::
-> >    
-> 
-> I think that should be a period, not a colon, because it is clarifying
-> the text above it (as opposed to referring to the example below it).
-> 
-> Other than that, for suspend-and-cpuhotplug.txt:
-> 
-> Acked-by: Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
+> One option would be to change the semantics, so that the sysctl just
+> forbids turning tagging from off to on.  Alternatively, we could return
+> a different error code to distinguish this case.
 
-Ah, ok. I'll change it to:
+This is the intention, just to forbid turning tagging on. We could
+return -EPERM instead, though my original intent was to simply pretend
+that the prctl does not exist like in an older kernel version.
 
-	after the entire cycle is complete (i.e., suspend + resume).
-
-	::
-
-and add your acked-by.
-
->  
-> Regards,
-> Srivatsa
-> VMware Photon OS
-
-
-
-Thanks,
-Mauro
+-- 
+Catalin
