@@ -6,47 +6,47 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 08F577D981
+	by archive.lwn.net (Postfix) with ESMTP id 727C37DCEA
 	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 15:35:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728025AbfFMPew (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Jun 2019 11:34:52 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:40995 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728028AbfFMKbs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jun 2019 06:31:48 -0400
-Received: by mail-pg1-f195.google.com with SMTP id 83so10711295pgg.8
-        for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2019 03:31:48 -0700 (PDT)
+        id S1726779AbfFMPfC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Jun 2019 11:35:02 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:34579 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727971AbfFMKbg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jun 2019 06:31:36 -0400
+Received: by mail-pl1-f195.google.com with SMTP id i2so7957572plt.1
+        for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2019 03:31:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=X1ybKF8wUkHdnaXcEVMx2e6e4CdYBWVAzo6oWbimFYQ=;
-        b=qQC72JqyNS5M5jXNAY8R3qU0KXWZM5lNzLTY1x45KapGIu5nY1kzXvtp8ytpYYAhNe
-         VgEDc2Xb0TO9QjIR1scrGcXdU1EZBuzhgCjzfe7X1+jpmGG6K1x+Pf/9uqbgffhKrmNG
-         wAPT1c1JfaM31idoL06nNamvN48hNPdql4a3HXfHAOdWsQOsfRkD3H3nKJpZB6TPX0ee
-         lVLcpBU+49fTw+3zzRIdis+1cNwUKR2A2T/WWhA/MY121JqRxbEReGNv2toR6GuMHHgy
-         yiSnAlAD6mp1f8mPJKrUvuiGbO6NmXN56mS8pPbZRAPe4I32m2XLpwja0iWkRglQCnZf
-         F3Uw==
+        bh=zNYSDlioe1/7qDzUymWdeZ+QFAflos+mlnY8eEGg+0o=;
+        b=yGqrc+PyiSy4n5qr9NdwCtvk10NU0RuIEZpKtR38SSnXyuNE9KtNc4LOsjqZwwRHrh
+         PQjFPkSB3hzxovhRjl67Bjzjq+MyaDq8caifL9XcLBUffnDo6fKiNVZJMaRJqYYrTpLD
+         236tIR/c1HHyhBzC+DbYQbzknd6nXkp2yR69CfUSomWNfHZq7zDwLo6CtP6Rcz9jQoyU
+         t+UUwCGOlMlfHHdRXEbat32VLMC64YiRRvC+ES6Lwz/POGU5yfdzTRVFTEJkScAUUYU3
+         CLOA6wc/os0XTJLHRiURlUUYawm0WGmE6fu8bzeXwSSiF2jgcH82LXA8DmqI9CW5kKWM
+         JwmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=X1ybKF8wUkHdnaXcEVMx2e6e4CdYBWVAzo6oWbimFYQ=;
-        b=E6khoA+bidA92FDPbGGU/oE50hJ/+9OH6N0Ed7lFgqL9sY5zLnhwm0mg8FwoPHzAF/
-         LZGedTTmEeGYEESgSIStZNdfA9GzjRItikYk/SF7G9vMvNLjEwpZKz5pwLa6AZ1fDvlK
-         fjDt9o6DeME9IcFgxgcq6sw9n9oBQZ16QXKmnhMYOPravEqr1zyGPwabfOH20K+qYT9P
-         ZGuucoSrulfwU3T8mx8x4/nt/5Kq7GzF7HdIrE/PUchEHfWyYzS3Y4KR+lM+Dh4SgaOe
-         9g+tCQTdLXHIxfL9+OgQo6ilKdU1DYrtcQ1T9PKn9piNlp1V9NISRlWnOv1Hn0ZtinnH
-         hiQA==
-X-Gm-Message-State: APjAAAV8UfH8LqU+neHdZgAralxjUyHROnXRUwCMsBB6SSQi01xknONj
-        R5Wr11qU34NCF+aMjsD+kb/LWA==
-X-Google-Smtp-Source: APXvYqw0m+SBvdVQmbAIqGHxz8wWKmEDiAXyPgV/c4Ovyt4Pnd4N4physSGHsq7lD1C9XamuJuH9gA==
-X-Received: by 2002:a63:e24:: with SMTP id d36mr29935015pgl.80.1560421908050;
-        Thu, 13 Jun 2019 03:31:48 -0700 (PDT)
+        bh=zNYSDlioe1/7qDzUymWdeZ+QFAflos+mlnY8eEGg+0o=;
+        b=rrmSua2ojlSusc8cxeDAs9SzrXnLKGG3cCsqwvYRkqarvZs6bVuO/7zgth+/Yt0DyU
+         1ihGdTGMYj6mKJPzedBH500PVXv1cvnckqTUunxRB0gZn8ZCWZrZ+WHv2JTKfHKE/Fth
+         36ZrOsqlWS2R76DWrXLw8QCkMy0GRXGxotqVZo96ih6YMG/1g2Y+D0rWqt9/0oKqckbF
+         02QR08gawj6B2Bhj04y35bTASgcUhJK/ul5RIzC8JpvH9tvTam61r1Tduvv9j/RmdpI0
+         kQEvysaviSbV0Ab77InXgBlQo0aqkGeA8Gze4dPyLDgBQVL47aDfKOkgQZnXxEKB7lqi
+         iwGQ==
+X-Gm-Message-State: APjAAAULZVOCWWzvqo9hPWQ5PJl3mQ3moSmXGXBRZO83BiIt2CpRuk6S
+        6h3476HfD3O1ekvTBT93I+rlKw==
+X-Google-Smtp-Source: APXvYqy4QNXOS9+usIQOYreRnBfssjCFTNyHTKoO86Zu6g/HvXHvK12eofupFfZNMLkwbIdNB6kb7A==
+X-Received: by 2002:a17:902:1e6:: with SMTP id b93mr43575179plb.295.1560421895353;
+        Thu, 13 Jun 2019 03:31:35 -0700 (PDT)
 Received: from localhost.localdomain ([117.196.234.139])
-        by smtp.gmail.com with ESMTPSA id a12sm2265078pgq.0.2019.06.13.03.31.35
+        by smtp.gmail.com with ESMTPSA id a12sm2265078pgq.0.2019.06.13.03.31.23
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Thu, 13 Jun 2019 03:31:47 -0700 (PDT)
+        Thu, 13 Jun 2019 03:31:34 -0700 (PDT)
 From:   Sumit Garg <sumit.garg@linaro.org>
 To:     keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
         linux-security-module@vger.kernel.org
@@ -56,9 +56,9 @@ Cc:     jens.wiklander@linaro.org, corbet@lwn.net, dhowells@redhat.com,
         ard.biesheuvel@linaro.org, daniel.thompson@linaro.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         tee-dev@lists.linaro.org, Sumit Garg <sumit.garg@linaro.org>
-Subject: [RFC 2/7] tee: enable support to register kernel memory
-Date:   Thu, 13 Jun 2019 16:00:28 +0530
-Message-Id: <1560421833-27414-3-git-send-email-sumit.garg@linaro.org>
+Subject: [RFC 1/7] tee: optee: allow kernel pages to register as shm
+Date:   Thu, 13 Jun 2019 16:00:27 +0530
+Message-Id: <1560421833-27414-2-git-send-email-sumit.garg@linaro.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1560421833-27414-1-git-send-email-sumit.garg@linaro.org>
 References: <1560421833-27414-1-git-send-email-sumit.garg@linaro.org>
@@ -67,74 +67,32 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Enable support to register kernel memory reference with TEE. This change
-will allow TEE bus drivers to register memory references.
+Kernel pages are marked as normal type memory only so allow kernel pages
+to be registered as shared memory with OP-TEE.
 
 Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
 ---
- drivers/tee/tee_shm.c   | 16 ++++++++++++++--
- include/linux/tee_drv.h |  1 +
- 2 files changed, 15 insertions(+), 2 deletions(-)
+ drivers/tee/optee/call.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
-index 2da026f..5c69b89 100644
---- a/drivers/tee/tee_shm.c
-+++ b/drivers/tee/tee_shm.c
-@@ -9,6 +9,7 @@
- #include <linux/sched.h>
- #include <linux/slab.h>
- #include <linux/tee_drv.h>
-+#include <linux/uio.h>
- #include "tee_private.h"
- 
- static void tee_shm_release(struct tee_shm *shm)
-@@ -224,13 +225,14 @@ struct tee_shm *tee_shm_register(struct tee_context *ctx, unsigned long addr,
- {
- 	struct tee_device *teedev = ctx->teedev;
- 	const u32 req_flags = TEE_SHM_DMA_BUF | TEE_SHM_USER_MAPPED;
-+	const u32 req_ker_flags = TEE_SHM_DMA_BUF | TEE_SHM_KERNEL_MAPPED;
- 	struct tee_shm *shm;
- 	void *ret;
+diff --git a/drivers/tee/optee/call.c b/drivers/tee/optee/call.c
+index aa94270..bce45b1 100644
+--- a/drivers/tee/optee/call.c
++++ b/drivers/tee/optee/call.c
+@@ -553,6 +553,13 @@ static int check_mem_type(unsigned long start, size_t num_pages)
+ 	struct mm_struct *mm = current->mm;
  	int rc;
- 	int num_pages;
- 	unsigned long start;
  
--	if (flags != req_flags)
-+	if (flags != req_flags && flags != req_ker_flags)
- 		return ERR_PTR(-ENOTSUPP);
- 
- 	if (!tee_device_get(teedev))
-@@ -264,7 +266,17 @@ struct tee_shm *tee_shm_register(struct tee_context *ctx, unsigned long addr,
- 		goto err;
- 	}
- 
--	rc = get_user_pages_fast(start, num_pages, FOLL_WRITE, shm->pages);
-+	if (flags & TEE_SHM_USER_MAPPED) {
-+		rc = get_user_pages_fast(start, num_pages, FOLL_WRITE,
-+					 shm->pages);
-+	} else {
-+		const struct kvec kiov = {
-+			.iov_base = (void *)start,
-+			.iov_len = PAGE_SIZE
-+		};
++	/*
++	 * Allow kernel address to register with OP-TEE as kernel
++	 * pages are configured as normal memory only.
++	 */
++	if (virt_addr_valid(start))
++		return 0;
 +
-+		rc = get_kernel_pages(&kiov, num_pages, 0, shm->pages);
-+	}
- 	if (rc > 0)
- 		shm->num_pages = rc;
- 	if (rc != num_pages) {
-diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
-index 7a03f68..dedf8fa 100644
---- a/include/linux/tee_drv.h
-+++ b/include/linux/tee_drv.h
-@@ -26,6 +26,7 @@
- #define TEE_SHM_REGISTER	BIT(3)  /* Memory registered in secure world */
- #define TEE_SHM_USER_MAPPED	BIT(4)  /* Memory mapped in user space */
- #define TEE_SHM_POOL		BIT(5)  /* Memory allocated from pool */
-+#define TEE_SHM_KERNEL_MAPPED	BIT(6)  /* Memory mapped in kernel space */
- 
- struct device;
- struct tee_device;
+ 	down_read(&mm->mmap_sem);
+ 	rc = __check_mem_type(find_vma(mm, start),
+ 			      start + num_pages * PAGE_SIZE);
 -- 
 2.7.4
 
