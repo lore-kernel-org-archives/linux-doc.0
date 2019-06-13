@@ -1,85 +1,64 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-4.2 required=5.0 tests=DATE_IN_PAST_03_06,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_REPLYTO_END_DIGIT,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A84AA7D981
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 17:11:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5C2B87D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 19:59:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393251AbfFMRLn (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Jun 2019 13:11:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54756 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2392711AbfFMRLm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 13 Jun 2019 13:11:42 -0400
-Received: from localhost (unknown [131.107.160.220])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0248C205ED;
-        Thu, 13 Jun 2019 17:11:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560445902;
-        bh=no9PMWb5VDOx7ySl5Q7f0oB1g4k565KdjFHzM77TOLg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pwobQrn2aoQYIN1bzYPeE5Ko11Ur0FE4EXjws5h5FTkyrG4Rm77bvEnzXFBjvcjPp
-         /xjX3Xawq2DH3fe4mM55XcblmrXZTA/Op+UQVzyL1/o0OrLAknvnr0ybQvzBKWlEnS
-         t9RrtqaDbsvYLAiE/D8WMC2Zd3a7/dIb4ESmg2CY=
-Date:   Thu, 13 Jun 2019 13:11:41 -0400
-From:   Sasha Levin <sashal@kernel.org>
-To:     Sumit Garg <sumit.garg@linaro.org>
-Cc:     peterhuewe@gmx.de,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        jgg@ziepe.ca, corbet@lwn.net,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
-        Microsoft Linux Kernel List <linux-kernel@microsoft.com>,
-        Thirupathaiah Annapureddy <thiruan@microsoft.com>,
-        "Bryan Kelly (CSI)" <bryankel@microsoft.com>,
-        tee-dev@lists.linaro.org
-Subject: Re: [PATCH v4 1/2] fTPM: firmware TPM running in TEE
-Message-ID: <20190613171141.GL1513@sasha-vm>
-References: <20190530152758.16628-1-sashal@kernel.org>
- <20190530152758.16628-2-sashal@kernel.org>
- <CAFA6WYM1NrghG9qxUhrm76kopvBx9nmCL9XnRs11ysb2Yr0+Qw@mail.gmail.com>
- <20190604200951.GB29739@sasha-vm>
- <CAFA6WYMOjgHRw9RVrjherNo0ZNbTtEonPwSFFC0dT4CZO=A1NQ@mail.gmail.com>
+        id S1727397AbfFMT7t (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Jun 2019 15:59:49 -0400
+Received: from qf-corp.com ([43.252.215.172]:52977 "EHLO server1.qf-corp.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727290AbfFMT7s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 13 Jun 2019 15:59:48 -0400
+X-Greylist: delayed 16174 seconds by postgrey-1.27 at vger.kernel.org; Thu, 13 Jun 2019 15:59:47 EDT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=qf-corp.com
+        ; s=default; h=Message-ID:Reply-To:Subject:To:From:Date:
+        Content-Transfer-Encoding:Content-Type:MIME-Version:Sender:Cc:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=x+wk2oDUMoo/hQHPqS9UCKstzOaLw+EthDvW07j7+BE=; b=D1Uox1LMK1rt1QMSaLI0QVUciF
+        geUu4q/MDt4AXiwtcDXi/cVcLr+hBDsPy/2Xl5r3lxruinMoHt1fYMhtupUaO2oXN5oTw77CQsUaO
+        9vVf/bMnZA5dLbusdse2bJpavGwdxlLdLvsFRVKvg8jBLNbYTqIrlroVrJegLmgrpGQkhHiQO/LHW
+        Yu2bVirrWeDun1wCS3L12m9UImciTyoyDYoAggX1lKD5ykmHrqTjzNdOmfuWx3iA8I6TJsrHscloc
+        93WkeHI3IOsgEGsQahqfu0GX0dbf+j6uCvZ95Is0+SturD8IejPVhi0EfUdCBzoa3ahIU+otTu6By
+        qdtcHRAw==;
+Received: from [::1] (port=38800 helo=server1.qf-corp.com)
+        by server1.qf-corp.com with esmtpa (Exim 4.92)
+        (envelope-from <admin@qf-corp.com>)
+        id 1hbRdY-0000DV-P2; Thu, 13 Jun 2019 23:27:36 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CAFA6WYMOjgHRw9RVrjherNo0ZNbTtEonPwSFFC0dT4CZO=A1NQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Date:   Thu, 13 Jun 2019 23:27:36 +0800
+From:   Herr David Williams <admin@qf-corp.com>
+To:     undisclosed-recipients:;
+Subject: dringender Kredit
+Reply-To: david.loanfirm18@gmail.com
+Mail-Reply-To: david.loanfirm18@gmail.com
+Message-ID: <c7e7fb6d973d3acf48fa821201bff6b2@qf-corp.com>
+X-Sender: admin@qf-corp.com
+User-Agent: Roundcube Webmail/1.3.8
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - server1.qf-corp.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - qf-corp.com
+X-Get-Message-Sender-Via: server1.qf-corp.com: authenticated_id: admin@qf-corp.com
+X-Authenticated-Sender: server1.qf-corp.com: admin@qf-corp.com
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 05, 2019 at 04:39:36PM +0530, Sumit Garg wrote:
->On Wed, 5 Jun 2019 at 01:39, Sasha Levin <sashal@kernel.org> wrote:
->>
->> On Tue, Jun 04, 2019 at 11:45:52AM +0530, Sumit Garg wrote:
->> >On Thu, 30 May 2019 at 20:58, Sasha Levin <sashal@kernel.org> wrote:
->> >> +       /* Open context with TEE driver */
->> >> +       pvt_data->ctx = tee_client_open_context(NULL, ftpm_tee_match, NULL,
->> >> +                                               NULL);
->> >> +       if (IS_ERR(pvt_data->ctx)) {
->> >> +               dev_err(dev, "%s:tee_client_open_context failed\n", __func__);
->> >
->> >Is this well tested? I see this misleading error multiple times as
->> >follows although TEE driver works pretty well.
->>
->> Yes, this was all functionally tested.
->
->Can you share your build instructions and testing approach?
 
-Yes: it looks like you got all the kernel bits, but not the firmware.
-There are instructions for it here: https://github.com/microsoft/ms-tpm-20-ref
 
-Once it's running, you can test it by running your favorite TPM usecases
-through /dev/tpm0.
-
---
-Thanks,
-Sasha
+-- 
+Benötigen Sie dringend einen Kredit? Wenn ja, antworten Sie für weitere 
+Details
