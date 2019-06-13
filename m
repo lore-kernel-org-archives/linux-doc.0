@@ -3,35 +3,34 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E4E467D92A
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 15:04:17 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 09C037D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 15:04:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732836AbfFMPEE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Jun 2019 11:04:04 -0400
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:45540 "EHLO
+        id S1732560AbfFMPES (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Jun 2019 11:04:18 -0400
+Received: from hostingweb31-40.netsons.net ([89.40.174.40]:52035 "EHLO
         hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1732475AbfFMOSq (ORCPT
+        by vger.kernel.org with ESMTP id S1732472AbfFMOSq (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jun 2019 10:18:46 -0400
 Received: from [109.168.11.45] (port=39754 helo=pc-ceresoli.dev.aim)
         by hostingweb31.netsons.net with esmtpa (Exim 4.92)
         (envelope-from <luca@lucaceresoli.net>)
-        id 1hbQYs-0005He-T4; Thu, 13 Jun 2019 16:18:42 +0200
+        id 1hbQYs-0005He-3L; Thu, 13 Jun 2019 16:18:42 +0200
 From:   Luca Ceresoli <luca@lucaceresoli.net>
 To:     linux-media@vger.kernel.org
 Cc:     Luca Ceresoli <luca@lucaceresoli.net>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil@xs4all.nl>,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH 9/9] media: docs: v4l2-controls: remove outdated paragraph
-Date:   Thu, 13 Jun 2019 16:18:26 +0200
-Message-Id: <20190613141826.26775-9-luca@lucaceresoli.net>
+Subject: [PATCH 6/9] media: docs: v4l2-controls: add links to functions
+Date:   Thu, 13 Jun 2019 16:18:23 +0200
+Message-Id: <20190613141826.26775-6-luca@lucaceresoli.net>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190613141826.26775-1-luca@lucaceresoli.net>
 References: <20190613141826.26775-1-luca@lucaceresoli.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
 X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
@@ -48,40 +47,126 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This paragraph was added by commit a42b57f5aacf ("V4L/DVB: Documentation:
-add v4l2-controls.txt documenting the new controls API") back in 2010, when
-the controls API has been improved. Nowadays it is a bit anachronistic, so
-remove it.
-
-The same information is stated in up-to-date wording a few paragraphs later
-anyway:
-
-> You’re done! And this is sufficient for most of the drivers we have. No
-> need to do any validation of control values, or implement QUERYCTRL,
-> QUERY_EXT_CTRL and QUERYMENU. And G/S_CTRL as well as G/TRY/S_EXT_CTRLS
-> are automatically supported.
+This section lacks links to functions. Add one to simplify reading.
 
 Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
 ---
- Documentation/media/kapi/v4l2-controls.rst | 5 -----
- 1 file changed, 5 deletions(-)
+ Documentation/media/kapi/v4l2-controls.rst | 67 +++++++++++-----------
+ 1 file changed, 35 insertions(+), 32 deletions(-)
 
 diff --git a/Documentation/media/kapi/v4l2-controls.rst b/Documentation/media/kapi/v4l2-controls.rst
-index 407617b1d0ce..ebe2a55908be 100644
+index 5281c9b1fd66..41c0fd4009e9 100644
 --- a/Documentation/media/kapi/v4l2-controls.rst
 +++ b/Documentation/media/kapi/v4l2-controls.rst
-@@ -98,11 +98,6 @@ For V4L2 drivers:
+@@ -114,7 +114,7 @@ For sub-device drivers:
  
- 	foo->v4l2_dev.ctrl_handler = &foo->ctrl_handler;
+ 2) Add controls:
  
--Finally, remove all control functions from your v4l2_ioctl_ops (if any):
--vidioc_queryctrl, vidioc_query_ext_ctrl, vidioc_querymenu, vidioc_g_ctrl,
--vidioc_s_ctrl, vidioc_g_ext_ctrls, vidioc_try_ext_ctrls and vidioc_s_ext_ctrls.
--Those are now no longer needed.
+-You add non-menu controls by calling v4l2_ctrl_new_std:
++You add non-menu controls by calling :c:func:`v4l2_ctrl_new_std`:
+ 
+ .. code-block:: none
+ 
+@@ -122,7 +122,8 @@ You add non-menu controls by calling v4l2_ctrl_new_std:
+ 			const struct v4l2_ctrl_ops *ops,
+ 			u32 id, s32 min, s32 max, u32 step, s32 def);
+ 
+-Menu and integer menu controls are added by calling v4l2_ctrl_new_std_menu:
++Menu and integer menu controls are added by calling
++:c:func:`v4l2_ctrl_new_std_menu`:
+ 
+ .. code-block:: none
+ 
+@@ -131,7 +132,7 @@ Menu and integer menu controls are added by calling v4l2_ctrl_new_std_menu:
+ 			u32 id, s32 max, s32 skip_mask, s32 def);
+ 
+ Menu controls with a driver specific menu are added by calling
+-v4l2_ctrl_new_std_menu_items:
++:c:func:`v4l2_ctrl_new_std_menu_items`:
+ 
+ .. code-block:: none
+ 
+@@ -141,7 +142,7 @@ v4l2_ctrl_new_std_menu_items:
+                        s32 skip_mask, s32 def, const char * const *qmenu);
+ 
+ Integer menu controls with a driver specific menu can be added by calling
+-v4l2_ctrl_new_int_menu:
++:c:func:`v4l2_ctrl_new_int_menu`:
+ 
+ .. code-block:: none
+ 
+@@ -149,7 +150,8 @@ v4l2_ctrl_new_int_menu:
+ 			const struct v4l2_ctrl_ops *ops,
+ 			u32 id, s32 max, s32 def, const s64 *qmenu_int);
+ 
+-These functions are typically called right after the v4l2_ctrl_handler_init:
++These functions are typically called right after the
++:c:func:`v4l2_ctrl_handler_init`:
+ 
+ .. code-block:: none
+ 
+@@ -188,33 +190,34 @@ These functions are typically called right after the v4l2_ctrl_handler_init:
+ 		return err;
+ 	}
+ 
+-The v4l2_ctrl_new_std function returns the v4l2_ctrl pointer to the new
+-control, but if you do not need to access the pointer outside the control ops,
+-then there is no need to store it.
 -
- For sub-device drivers:
+-The v4l2_ctrl_new_std function will fill in most fields based on the control
+-ID except for the min, max, step and default values. These are passed in the
+-last four arguments. These values are driver specific while control attributes
+-like type, name, flags are all global. The control's current value will be set
+-to the default value.
+-
+-The v4l2_ctrl_new_std_menu function is very similar but it is used for menu
+-controls. There is no min argument since that is always 0 for menu controls,
+-and instead of a step there is a skip_mask argument: if bit X is 1, then menu
+-item X is skipped.
+-
+-The v4l2_ctrl_new_int_menu function creates a new standard integer menu
+-control with driver-specific items in the menu. It differs from
+-v4l2_ctrl_new_std_menu in that it doesn't have the mask argument and takes
+-as the last argument an array of signed 64-bit integers that form an exact
+-menu item list.
+-
+-The v4l2_ctrl_new_std_menu_items function is very similar to
+-v4l2_ctrl_new_std_menu but takes an extra parameter qmenu, which is the driver
+-specific menu for an otherwise standard menu control. A good example for this
+-control is the test pattern control for capture/display/sensors devices that
+-have the capability to generate test patterns. These test patterns are hardware
+-specific, so the contents of the menu will vary from device to device.
++The :c:func:`v4l2_ctrl_new_std` function returns the v4l2_ctrl pointer to
++the new control, but if you do not need to access the pointer outside the
++control ops, then there is no need to store it.
++
++The :c:func:`v4l2_ctrl_new_std` function will fill in most fields based on
++the control ID except for the min, max, step and default values. These are
++passed in the last four arguments. These values are driver specific while
++control attributes like type, name, flags are all global. The control's
++current value will be set to the default value.
++
++The :c:func:`v4l2_ctrl_new_std_menu` function is very similar but it is
++used for menu controls. There is no min argument since that is always 0 for
++menu controls, and instead of a step there is a skip_mask argument: if bit
++X is 1, then menu item X is skipped.
++
++The :c:func:`v4l2_ctrl_new_int_menu` function creates a new standard
++integer menu control with driver-specific items in the menu. It differs
++from v4l2_ctrl_new_std_menu in that it doesn't have the mask argument and
++takes as the last argument an array of signed 64-bit integers that form an
++exact menu item list.
++
++The :c:func:`v4l2_ctrl_new_std_menu_items` function is very similar to
++v4l2_ctrl_new_std_menu but takes an extra parameter qmenu, which is the
++driver specific menu for an otherwise standard menu control. A good example
++for this control is the test pattern control for capture/display/sensors
++devices that have the capability to generate test patterns. These test
++patterns are hardware specific, so the contents of the menu will vary from
++device to device.
  
- .. code-block:: c
+ Note that if something fails, the function will return NULL or an error and
+ set ctrl_handler->error to the error code. If ctrl_handler->error was already
 -- 
 2.21.0
 
