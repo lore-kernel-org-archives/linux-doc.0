@@ -1,241 +1,163 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 958FA7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 15:37:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B5DBC7D923
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 15:39:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729026AbfFMPg4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Jun 2019 11:36:56 -0400
-Received: from foss.arm.com ([217.140.110.172]:37576 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727045AbfFMKPi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 13 Jun 2019 06:15:38 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4D58E367;
-        Thu, 13 Jun 2019 03:15:37 -0700 (PDT)
-Received: from [10.1.196.72] (e119884-lin.cambridge.arm.com [10.1.196.72])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F29693F694;
-        Thu, 13 Jun 2019 03:17:18 -0700 (PDT)
-Subject: Re: [PATCH v4 1/2] arm64: Define
- Documentation/arm64/tagged-address-abi.txt
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Will Deacon <will.deacon@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>
-References: <cover.1560339705.git.andreyknvl@google.com>
- <20190612142111.28161-1-vincenzo.frascino@arm.com>
- <20190612142111.28161-2-vincenzo.frascino@arm.com>
- <20190612153538.GL28951@C02TF0J2HF1T.local>
-From:   Vincenzo Frascino <vincenzo.frascino@arm.com>
-Message-ID: <141c740a-94c2-2243-b6d1-b44ffee43791@arm.com>
-Date:   Thu, 13 Jun 2019 11:15:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1728853AbfFMPic (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Jun 2019 11:38:32 -0400
+Received: from casper.infradead.org ([85.118.1.10]:33510 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731947AbfFMJ7G (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jun 2019 05:59:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=X6go1h+qBvd8UqStxDka25oSP1lwn219vXM1njzftqM=; b=st/cCkCW17JvfhPcMMlIiWlWs7
+        IjzbMHLeCgNGoALijV6IG+3mBu2hWh+zDF/ixgeztGRJFvKYWEb/k1hwDtOuJEM+LaN5VPyeL2Nyt
+        pUW3p7YE7JRXzR5AqF9H3+IiwxYWckQCRps/QFoMco8bS1sS+v518UWrrJXO7ml5NcscdFDSXeQVX
+        ZKduv2MoYrDVAMjIkypzrzv1fDu9De18EdqyKnVmVA/jtlt3lbqFtvB/kKq3/UdhRk448WORt2zGk
+        vyVeBQhaltTvjNhKaj4bDz1fJNL7g5eIVBQzyzZatNVk3zR46pfOQJ6fi4X1Ul2gzhVbF7Xgp5Fcx
+        8jdm6Tow==;
+Received: from 201.86.169.251.dynamic.adsl.gvt.net.br ([201.86.169.251] helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hbMVS-0000iN-9Z; Thu, 13 Jun 2019 09:58:54 +0000
+Date:   Thu, 13 Jun 2019 06:58:43 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     "Srivatsa S. Bhat" <srivatsa@csail.mit.edu>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Sebastian Reichel <sre@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+        Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        "David S. Miller" <davem@davemloft.net>, linux-pm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-pci@vger.kernel.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH v4 18/28] docs: convert docs to ReST and rename to *.rst
+Message-ID: <20190613065843.100f72dd@coco.lan>
+In-Reply-To: <7dc94cb4-ebf1-22ab-29c9-fcb2b875a9ac@csail.mit.edu>
+References: <cover.1560361364.git.mchehab+samsung@kernel.org>
+        <fac44e1fbab5ea755a93601a4fdfa34fcc57ae9e.1560361364.git.mchehab+samsung@kernel.org>
+        <7dc94cb4-ebf1-22ab-29c9-fcb2b875a9ac@csail.mit.edu>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20190612153538.GL28951@C02TF0J2HF1T.local>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Catalin,
+Em Wed, 12 Jun 2019 17:25:39 -0700
+"Srivatsa S. Bhat" <srivatsa@csail.mit.edu> escreveu:
 
-On 12/06/2019 16:35, Catalin Marinas wrote:
-> Hi Vincenzo,
+> On 6/12/19 10:52 AM, Mauro Carvalho Chehab wrote:
+> > Convert the PM documents to ReST, in order to allow them to
+> > build with Sphinx.
+> > 
+> > The conversion is actually:
+> >   - add blank lines and identation in order to identify paragraphs;
+> >   - fix tables markups;
+> >   - add some lists markups;
+> >   - mark literal blocks;
+> >   - adjust title markups.
+> > 
+> > At its new index.rst, let's add a :orphan: while this is not linked to
+> > the main index.rst file, in order to avoid build warnings.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> > Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+> > Acked-by: Mark Brown <broonie@kernel.org>
+> > ---  
 > 
-> Some minor comments below but it looks fine to me overall. Cc'ing
-> Szabolcs as well since I'd like a view from the libc people.
+> [...]
 > 
+> > diff --git a/Documentation/power/suspend-and-cpuhotplug.txt b/Documentation/power/suspend-and-cpuhotplug.rst
+> > similarity index 90%
+> > rename from Documentation/power/suspend-and-cpuhotplug.txt
+> > rename to Documentation/power/suspend-and-cpuhotplug.rst
+> > index a8751b8df10e..9df664f5423a 100644
+> > --- a/Documentation/power/suspend-and-cpuhotplug.txt
+> > +++ b/Documentation/power/suspend-and-cpuhotplug.rst
+> > @@ -1,10 +1,15 @@
+> > +====================================================================
+> >  Interaction of Suspend code (S3) with the CPU hotplug infrastructure
+> > +====================================================================
+> >  
+> > -     (C) 2011 - 2014 Srivatsa S. Bhat <srivatsa.bhat@linux.vnet.ibm.com>
+> > +(C) 2011 - 2014 Srivatsa S. Bhat <srivatsa.bhat@linux.vnet.ibm.com>
+> >  
+> >  
+> > -I. How does the regular CPU hotplug code differ from how the Suspend-to-RAM
+> > -   infrastructure uses it internally? And where do they share common code?
+> > +I. Differences between CPU hotplug and Suspend-to-RAM
+> > +======================================================
+> > +
+> > +How does the regular CPU hotplug code differ from how the Suspend-to-RAM
+> > +infrastructure uses it internally? And where do they share common code?
+> >  
+> >  Well, a picture is worth a thousand words... So ASCII art follows :-)
+> >    
+> 
+> [...]
+> 
+> > @@ -101,7 +108,7 @@ execution during resume):
+> >  
+> >  It is to be noted here that the system_transition_mutex lock is acquired at the very
+> >  beginning, when we are just starting out to suspend, and then released only
+> > -after the entire cycle is complete (i.e., suspend + resume).
+> > +after the entire cycle is complete (i.e., suspend + resume)::
+> >    
+> 
+> I think that should be a period, not a colon, because it is clarifying
+> the text above it (as opposed to referring to the example below it).
+> 
+> Other than that, for suspend-and-cpuhotplug.txt:
+> 
+> Acked-by: Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
 
-Thanks for this, I saw Szabolcs comments.
+Ah, ok. I'll change it to:
 
-> On Wed, Jun 12, 2019 at 03:21:10PM +0100, Vincenzo Frascino wrote:
->> diff --git a/Documentation/arm64/tagged-address-abi.txt b/Documentation/arm64/tagged-address-abi.txt
->> new file mode 100644
->> index 000000000000..96e149e2c55c
->> --- /dev/null
->> +++ b/Documentation/arm64/tagged-address-abi.txt
->> @@ -0,0 +1,111 @@
->> +ARM64 TAGGED ADDRESS ABI
->> +========================
->> +
->> +This document describes the usage and semantics of the Tagged Address
->> +ABI on arm64.
->> +
->> +1. Introduction
->> +---------------
->> +
->> +On arm64 the TCR_EL1.TBI0 bit has been always enabled on the arm64 kernel,
->> +hence the userspace (EL0) is allowed to set a non-zero value in the top
-> 
-> I'd be clearer here: "userspace (EL0) is allowed to perform a user
-> memory access through a 64-bit pointer with a non-zero top byte" (or
-> something along the lines). Otherwise setting a non-zero top byte is
-> allowed on any architecture, dereferencing it is a problem.
-> 
+	after the entire cycle is complete (i.e., suspend + resume).
 
-Ok.
+	::
 
->> +byte but the resulting pointers are not allowed at the user-kernel syscall
->> +ABI boundary.
->> +
->> +This document describes a relaxation of the ABI with which it is possible
-> 
-> "relaxation of the ABI that makes it possible to..."
-> 
->> +to pass tagged tagged pointers to the syscalls, when these pointers are in
->> +memory ranges obtained as described in paragraph 2.
-> 
-> "section 2" is better. There are a lot more paragraphs.
-> 
+and add your acked-by.
 
-Agree.
+>  
+> Regards,
+> Srivatsa
+> VMware Photon OS
 
->> +
->> +Since it is not desirable to relax the ABI to allow tagged user addresses
->> +into the kernel indiscriminately, arm64 provides a new sysctl interface
->> +(/proc/sys/abi/tagged_addr) that is used to prevent the applications from
->> +enabling the relaxed ABI and a new prctl() interface that can be used to
->> +enable or disable the relaxed ABI.
->> +
->> +The sysctl is meant also for testing purposes in order to provide a simple
->> +way for the userspace to verify the return error checking of the prctl()
->> +command without having to reconfigure the kernel.
->> +
->> +The ABI properties are inherited by threads of the same application and
->> +fork()'ed children but cleared when a new process is spawn (execve()).
-> 
-> "spawned".
-> 
-> I guess you could drop these three paragraphs here and mention the
-> inheritance properties when introducing the prctl() below. You can also
-> mention the global sysctl switch after the prctl() was introduced.
-> 
 
-I will move the last two (rewording them) to the _section_ 2, but I would still
-prefer the Introduction to give an overview of the solution as well.
 
->> +
->> +2. ARM64 Tagged Address ABI
->> +---------------------------
->> +
->> +From the kernel syscall interface prospective, we define, for the purposes
->> +of this document, a "valid tagged pointer" as a pointer that either it has
-> 
-> "either has" (no 'it') sounds slightly better but I'm not a native
-> English speaker either.
-> 
->> +a zero value set in the top byte or it has a non-zero value, it is in memory
->> +ranges privately owned by a userspace process and it is obtained in one of
->> +the following ways:
->> +  - mmap() done by the process itself, where either:
->> +    * flags = MAP_PRIVATE | MAP_ANONYMOUS
->> +    * flags = MAP_PRIVATE and the file descriptor refers to a regular
->> +      file or "/dev/zero"
->> +  - a mapping below sbrk(0) done by the process itself
->> +  - any memory mapped by the kernel in the process's address space during
->> +    creation and following the restrictions presented above (i.e. data, bss,
->> +    stack).
->> +
->> +The ARM64 Tagged Address ABI is an opt-in feature, and an application can
->> +control it using the following prctl()s:
->> +  - PR_SET_TAGGED_ADDR_CTRL: can be used to enable the Tagged Address ABI.
-> 
-> enable or disable (not sure we need the latter but it doesn't heart).
-> 
-> I'd add the arg2 description here as well.
-> 
-
-Good point I missed this.
-
->> +  - PR_GET_TAGGED_ADDR_CTRL: can be used to check the status of the Tagged
->> +                             Address ABI.
->> +
->> +As a consequence of invoking PR_SET_TAGGED_ADDR_CTRL prctl() by an applications,
->> +the ABI guarantees the following behaviours:
->> +
->> +  - Every current or newly introduced syscall can accept any valid tagged
->> +    pointers.
->> +
->> +  - If a non valid tagged pointer is passed to a syscall then the behaviour
->> +    is undefined.
->> +
->> +  - Every valid tagged pointer is expected to work as an untagged one.
->> +
->> +  - The kernel preserves any valid tagged pointers and returns them to the
->> +    userspace unchanged in all the cases except the ones documented in the
->> +    "Preserving tags" paragraph of tagged-pointers.txt.
-> 
-> I'd think we need to qualify the context here in which the kernel
-> preserves the tagged pointers. Did you mean on the syscall return?
-> 
-
-What this means is that on syscall return the tags are preserved, but if for
-example you have tagged pointers inside siginfo_t, they will not because
-according to tagged-pointers.txt non-zero tags are not preserved when delivering
-signals.
-
->> +
->> +A definition of the meaning of tagged pointers on arm64 can be found in:
->> +Documentation/arm64/tagged-pointers.txt.
->> +
->> +3. ARM64 Tagged Address ABI Exceptions
->> +--------------------------------------
->> +
->> +The behaviours described in paragraph 2, with particular reference to the
-> 
-> "section 2"
-> 
->> +acceptance by the syscalls of any valid tagged pointer are not applicable
->> +to the following cases:
->> +  - mmap() addr parameter.
->> +  - mremap() new_address parameter.
->> +  - prctl_set_mm() struct prctl_map fields.
->> +  - prctl_set_mm_map() struct prctl_map fields.
->> +
->> +4. Example of correct usage
->> +---------------------------
->> +
->> +void main(void)
->> +{
->> +	static int tbi_enabled = 0;
->> +	unsigned long tag = 0;
->> +
->> +	char *ptr = mmap(NULL, PAGE_SIZE, PROT_READ | PROT_WRITE,
->> +			 MAP_ANONYMOUS, -1, 0);
->> +
->> +	if (prctl(PR_SET_TAGGED_ADDR_CTRL, PR_TAGGED_ADDR_ENABLE,
->> +		  0, 0, 0) == 0)
->> +		tbi_enabled = 1;
->> +
->> +	if (!ptr)
->> +		return -1;
->> +
->> +	if (tbi_enabled)
->> +		tag = rand() & 0xff;
->> +
->> +	ptr = (char *)((unsigned long)ptr | (tag << TAG_SHIFT));
->> +
->> +	*ptr = 'a';
->> +
->> +	...
->> +}
->> +
->> -- 
->> 2.21.0
-> 
-
--- 
-Regards,
-Vincenzo
+Thanks,
+Mauro
