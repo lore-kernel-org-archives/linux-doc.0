@@ -1,108 +1,87 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 72DD37D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 12 Jun 2019 20:41:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E4E467D92A
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 13 Jun 2019 15:04:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388658AbfFLUl3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 12 Jun 2019 16:41:29 -0400
-Received: from casper.infradead.org ([85.118.1.10]:53322 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388336AbfFLUl3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 12 Jun 2019 16:41:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=sI6gwiLkCC9ffzJ87+8NB0VxnCIPAyu/GIglnrwK0WM=; b=FP23l7y8EJ6iZDJ5fph+HSAolj
-        trkiU2x7HtkKhSRGUZyZpIiKm15P0rgkbNNalIYFxFuCbDnfS1nokePZq2tTbs0fffUHrAyc3pS+c
-        6o69mFfbo/DUz7YUDpimkjmKqFyr8Cd2tsfMOpfUpoxfIs2MqRpLJfuqIZBBmbVG+qgXyMdl1pOCI
-        s52wsFUQmJgnSQx78VVQVkbTICGtkN6hXgve34sWqdCW9wf+50/KBu4GnF+R64MbP7IgjDdH6VwYb
-        G65VlIyRP2OqJGEUC3TzQ7egPskq0AdIUUTA+VAKbvKJQIMbBN7/rvv12Cwe+T9KDmOVLIxesunR1
-        cd20LcJQ==;
-Received: from 201.86.169.251.dynamic.adsl.gvt.net.br ([201.86.169.251] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hbA3f-00072C-TH; Wed, 12 Jun 2019 20:41:24 +0000
-Date:   Wed, 12 Jun 2019 17:41:19 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Dan Williams <dan.j.williams@intel.com>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Keith Busch <keith.busch@intel.com>,
-        Ira Weiny <ira.weiny@intel.com>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>
-Subject: Re: [PATCH v1 29/31] docs: nvdimm: convert to ReST
-Message-ID: <20190612174119.7c0d94bd@coco.lan>
-In-Reply-To: <CAPcyv4g08r6bK_SyTjzKFRM7=wpTQLdmHqRSGh7r-e9YD4tq5Q@mail.gmail.com>
-References: <cover.1560364493.git.mchehab+samsung@kernel.org>
-        <075d5879142ff1b7ad16f5eccf4759d35ca02fd4.1560364494.git.mchehab+samsung@kernel.org>
-        <CAPcyv4g08r6bK_SyTjzKFRM7=wpTQLdmHqRSGh7r-e9YD4tq5Q@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1732836AbfFMPEE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Jun 2019 11:04:04 -0400
+Received: from hostingweb31-40.netsons.net ([89.40.174.40]:45540 "EHLO
+        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1732475AbfFMOSq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jun 2019 10:18:46 -0400
+Received: from [109.168.11.45] (port=39754 helo=pc-ceresoli.dev.aim)
+        by hostingweb31.netsons.net with esmtpa (Exim 4.92)
+        (envelope-from <luca@lucaceresoli.net>)
+        id 1hbQYs-0005He-T4; Thu, 13 Jun 2019 16:18:42 +0200
+From:   Luca Ceresoli <luca@lucaceresoli.net>
+To:     linux-media@vger.kernel.org
+Cc:     Luca Ceresoli <luca@lucaceresoli.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH 9/9] media: docs: v4l2-controls: remove outdated paragraph
+Date:   Thu, 13 Jun 2019 16:18:26 +0200
+Message-Id: <20190613141826.26775-9-luca@lucaceresoli.net>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190613141826.26775-1-luca@lucaceresoli.net>
+References: <20190613141826.26775-1-luca@lucaceresoli.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lucaceresoli.net
+X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca+lucaceresoli.net/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 12 Jun 2019 12:04:12 -0700
-Dan Williams <dan.j.williams@intel.com> escreveu:
+This paragraph was added by commit a42b57f5aacf ("V4L/DVB: Documentation:
+add v4l2-controls.txt documenting the new controls API") back in 2010, when
+the controls API has been improved. Nowadays it is a bit anachronistic, so
+remove it.
 
-> Hi Mauro,
-> 
-> On Wed, Jun 12, 2019 at 11:38 AM Mauro Carvalho Chehab
-> <mchehab+samsung@kernel.org> wrote:
-> >
-> > Rename the mtd documentation files to ReST, add an  
-> 
-> s/mtd/nvdimm/
+The same information is stated in up-to-date wording a few paragraphs later
+anyway:
 
-Sorry, cut and paste issue :-)
+> You’re done! And this is sufficient for most of the drivers we have. No
+> need to do any validation of control values, or implement QUERYCTRL,
+> QUERY_EXT_CTRL and QUERYMENU. And G/S_CTRL as well as G/TRY/S_EXT_CTRLS
+> are automatically supported.
 
-> 
-> > index for them and adjust in order to produce a nice html
-> > output via the Sphinx build system.
-> >
-> > At its new index.rst, let's add a :orphan: while this is not linked to
-> > the main index.rst file, in order to avoid build warnings.  
-> 
-> Looks ok, but I was not able to apply this one in isolation to give it
-> a try. Am I missing some pre-reqs compared to v5.2-rc4?
+Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
+---
+ Documentation/media/kapi/v4l2-controls.rst | 5 -----
+ 1 file changed, 5 deletions(-)
 
-I wrote the patch before v5.2-rc1, but, as this series touches a lot
-of stuff, it was rebased against today's linux-next (next-20190612).
+diff --git a/Documentation/media/kapi/v4l2-controls.rst b/Documentation/media/kapi/v4l2-controls.rst
+index 407617b1d0ce..ebe2a55908be 100644
+--- a/Documentation/media/kapi/v4l2-controls.rst
++++ b/Documentation/media/kapi/v4l2-controls.rst
+@@ -98,11 +98,6 @@ For V4L2 drivers:
+ 
+ 	foo->v4l2_dev.ctrl_handler = &foo->ctrl_handler;
+ 
+-Finally, remove all control functions from your v4l2_ioctl_ops (if any):
+-vidioc_queryctrl, vidioc_query_ext_ctrl, vidioc_querymenu, vidioc_g_ctrl,
+-vidioc_s_ctrl, vidioc_g_ext_ctrls, vidioc_try_ext_ctrls and vidioc_s_ext_ctrls.
+-Those are now no longer needed.
+-
+ For sub-device drivers:
+ 
+ .. code-block:: c
+-- 
+2.21.0
 
-I didn't notice an conflict on this specific file during the rebases
-though. 
-
-There is a simple patch applied on linux-next after v5.2-rc4:
-
-commit 3d9cf48b2ca257f1a249b347236098c3cf9d54f1
-Author: Shiyang Ruan <ruansy.fnst@cn.fujitsu.com>
-Date:   Thu May 9 15:40:49 2019 +0800
-
-    Documentation: nvdimm: Fix typo
-    
-    Remove the extra 'we '.
-    
-    Signed-off-by: Shiyang Ruan <ruansy.fnst@cn.fujitsu.com>
-    Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-
-Could this be the cause of the issue you're noticing when
-trying to apply it?
-
-As this is signed-off by Jon, I suspect it went via docs-next.
-
-Thanks,
-Mauro
