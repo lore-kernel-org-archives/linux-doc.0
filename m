@@ -1,90 +1,167 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0EBA37D981
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 15:17:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2DF337D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 15:28:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726484AbfFNPQa (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Jun 2019 11:16:30 -0400
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:39028 "EHLO
-        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726297AbfFNPQZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jun 2019 11:16:25 -0400
-Received: from [109.168.11.45] (port=44258 helo=pc-ceresoli.dev.aim)
-        by hostingweb31.netsons.net with esmtpa (Exim 4.92)
-        (envelope-from <luca@lucaceresoli.net>)
-        id 1hbnwE-000D1q-Qn; Fri, 14 Jun 2019 17:16:22 +0200
-From:   Luca Ceresoli <luca@lucaceresoli.net>
-To:     linux-media@vger.kernel.org
-Cc:     Luca Ceresoli <luca@lucaceresoli.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH v2] media: docs: v4l2-controls: fix sentence rendered in a nonsense way
-Date:   Fri, 14 Jun 2019 17:14:29 +0200
-Message-Id: <20190614151429.15191-1-luca@lucaceresoli.net>
-X-Mailer: git-send-email 2.21.0
+        id S1725999AbfFNP2D (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Jun 2019 11:28:03 -0400
+Received: from casper.infradead.org ([85.118.1.10]:44860 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725951AbfFNP2D (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jun 2019 11:28:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=zkYfXJDrba3J/ihhf3pDgW4+XmjWJ9BtTd3Y+UzyafE=; b=BS4ZrbvjFPyHk5xTId0ecXBLat
+        Eni7lDtC5c80433fhcjoauEll6LtbS9S/fsvWv32ufxW/XTHAPEcfTjASF3wf4Gc1lv6TBtc1ZYsC
+        G/xseTJ8Z9UFEWcexun0lnArWMTwuyO3ZJlueKfxsLz0G1iTTU4KbBn3OVFbN+qCpR5hCPA/LGzvv
+        xblKmJx45lS/5NxhKoFJIHGB5Q/dov5mWXKaIopI66sCnlkHoR8M39ZKTlsorzUjs9i+7MUVyWrFb
+        Lj/Lb26SC48111GgRl0/zFEiTsCzUXyvLUerQHrwifk/U/+d7jEM0JFcQZp46DZop5KvdDI28SemZ
+        ib7N4LrQ==;
+Received: from 177.133.85.52.dynamic.adsl.gvt.net.br ([177.133.85.52] helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hbo7T-0007sx-Kb; Fri, 14 Jun 2019 15:28:00 +0000
+Date:   Fri, 14 Jun 2019 12:27:55 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@s-opensource.com>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH 12/14] doc-rst: add ABI documentation to the admin-guide
+ book
+Message-ID: <20190614122755.1c7b4898@coco.lan>
+In-Reply-To: <20190614140603.GB7234@kroah.com>
+References: <cover.1560477540.git.mchehab+samsung@kernel.org>
+        <9da2a7f6ff57d9d53dcbb964eb310f7956522870.1560477540.git.mchehab+samsung@kernel.org>
+        <87o930uvur.fsf@intel.com>
+        <20190614140603.GB7234@kroah.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lucaceresoli.net
-X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca+lucaceresoli.net/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This sentence renders as:
+Em Fri, 14 Jun 2019 16:06:03 +0200
+Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
 
-> Since such compound controls need to expose more information about
-> themselves than is possible with ioctls VIDIOC_QUERYCTRL,
-> VIDIOC_QUERY_EXT_CTRL and VIDIOC_QUERYMENU the VIDIOC_QUERY_EXT_CTRL
-  ^^^^^^^^^^^^^^^^^^^^^                          ^^^^^^^^^^^^^^^^^^^^^
-> ioctl was added.
+> On Fri, Jun 14, 2019 at 04:42:20PM +0300, Jani Nikula wrote:
+> > On Thu, 13 Jun 2019, Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:  
+> > > From: Mauro Carvalho Chehab <mchehab@s-opensource.com>
+> > >
+> > > As we don't want a generic Sphinx extension to execute commands,
+> > > change the one proposed to Markus to call the abi_book.pl
+> > > script.
+> > >
+> > > Use a script to parse the Documentation/ABI directory and output
+> > > it at the admin-guide.  
+> > 
+> > We had a legacy kernel-doc perl script so we used that instead of
+> > rewriting it in python. Just to keep it bug-for-bug compatible with the
+> > past. That was the only reason.
+> > 
+> > I see absolutely zero reason to add a new perl monstrosity with a python
+> > extension to call it. All of this could be better done in python,
+> > directly.
+> > 
+> > Please don't complicate the documentation build. I know you know we all
+> > worked hard to take apart the old DocBook Rube Goldberg machine to
+> > replace it with Sphinx. Please don't turn the Sphinx build to another
+> > complicated mess.
+> > 
+> > My strong preferences are, in this order:
+> > 
+> > 1) Convert the ABI documentation to reStructuredText  
+> 
+> What would that exactly look like?  What would it require for new
+> developers for when they write new entries?  Why not rely on a helper
+> script, that allows us to validate things better?
 
-This does not make sense. Fix by providing an explicit link text. This
-results in:
+Funny enough, this e-mail arrived here after Greg's reply, and my
+reply over his one :-)
 
-> Since such compound controls need to expose more information about
-> themselves than is possible with VIDIOC_QUERYCTRL the
-> VIDIOC_QUERY_EXT_CTRL ioctl was added.
+-
 
-Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
----
- Documentation/media/uapi/v4l/extended-controls.rst | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+With regards to the script, my idea is to have it run on a new
+"validate" mode, when the Kernel is built with COMPILE_TEST:
 
-diff --git a/Documentation/media/uapi/v4l/extended-controls.rst b/Documentation/media/uapi/v4l/extended-controls.rst
-index 0e9787072a41..655362483730 100644
---- a/Documentation/media/uapi/v4l/extended-controls.rst
-+++ b/Documentation/media/uapi/v4l/extended-controls.rst
-@@ -85,11 +85,10 @@ be able to see such compound controls. In other words, these controls
- with compound types should only be used programmatically.
- 
- Since such compound controls need to expose more information about
--themselves than is possible with
--:ref:`VIDIOC_QUERYCTRL` the
--:ref:`VIDIOC_QUERY_EXT_CTRL <VIDIOC_QUERYCTRL>` ioctl was added. In
--particular, this ioctl gives the dimensions of the N-dimensional array
--if this control consists of more than one element.
-+themselves than is possible with :ref:`VIDIOC_QUERYCTRL <VIDIOC_QUERYCTRL>`
-+the :ref:`VIDIOC_QUERY_EXT_CTRL <VIDIOC_QUERYCTRL>` ioctl was added. In
-+particular, this ioctl gives the dimensions of the N-dimensional array if
-+this control consists of more than one element.
- 
- .. note::
- 
--- 
-2.21.0
+	https://git.linuxtv.org/mchehab/experimental.git/log/?h=abi_patches_v4
 
+NB: the last patch is not yet... somehow, the building system is not
+passing CONFIG_WARN_ABI_ERRORS to Documentation/Makefile. I'm
+debugging it.
+
+Personally, I would prefer to keep it the way it is, with two
+additions:
+
+1) I would add a SPDX header at the fist line of each file there;
+
+2) It would make sense to have a new field - or indicator - to let
+add ReST markups at the description. 
+
+The advantage of using a parseable ABI file is that it is possible
+to parse it, for example, to search for a symbol:
+
+	$ ./scripts/get_abi.pl voltage_max
+
+	/sys/class/power_supply/<supply_name>/voltage_max
+	-------------------------------------------------
+
+	Date:			January 2008
+	Contact:		linux-pm@vger.kernel.org
+	Defined on file:	Documentation/ABI/testing/sysfs-class-power
+
+	Description:
+
+	Reports the maximum VBUS voltage the supply can support.
+
+	Access: Read
+	Valid values: Represented in microvolts
+
+	...
+
+> 
+> > 2) Have the python extension read the ABI files directly, without an
+> >    extra pipeline.  
+> 
+> He who writes the script, get's to dictate the language of the script :)
+
+No idea about how much time it would take if written in python,
+but this perl script is really fast:
+
+	$ time ./scripts/get_abi.pl search voltage_max >/dev/null
+	real	0m0,139s
+	user	0m0,132s
+	sys	0m0,006s
+
+That's the time it takes here (SSD disks) to read all files under
+Documentation/ABI, parse them and seek for a string.
+
+That's about half of the time a python script takes to just import the
+the sphinx modules and print its version, running at the same machine:
+
+	$ time sphinx-build --version >/dev/null
+
+	real	0m0,224s
+	user	0m0,199s
+	sys	0m0,024s
+
+> Personally, this looks sane to me, I'm going to apply the ABI fixups to
+> my tree at least, and then see how the script works out.  The script can
+> always be replaced with a different one in a different language at a
+> later point in time of people think it really mattes.
+
+Thanks,
+Mauro
