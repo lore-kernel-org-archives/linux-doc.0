@@ -1,80 +1,118 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C03D67D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 17:28:52 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id BD8587D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 17:43:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725859AbfFNR2w (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Jun 2019 13:28:52 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:42290 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725852AbfFNR2w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jun 2019 13:28:52 -0400
-Received: by mail-qt1-f194.google.com with SMTP id s15so3356134qtk.9;
-        Fri, 14 Jun 2019 10:28:51 -0700 (PDT)
+        id S1726209AbfFNRnC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Jun 2019 13:43:02 -0400
+Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]:49386 "EHLO
+        mx0b-0016f401.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726082AbfFNRnC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jun 2019 13:43:02 -0400
+Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
+        by mx0a-0016f401.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x5EHf4es007981;
+        Fri, 14 Jun 2019 10:42:51 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=from : to : cc :
+ subject : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=pfpt0818; bh=VqEDN5eTSpN1gvCS3Iem5BPA/AbwrrdonOaPDePuaZQ=;
+ b=B/Dzp+Hh3xAvBlqJg1em352zca7Ewn9lMnL9X+JV0Bt+q2SfSLs9Idp2MEPzOyeoH/px
+ Vd0A3amqtcovnh9tc9shfMvDs/fXmY5DYynplsUO/ITfrE9hVcKdy83joSDyLWJMbC+u
+ fpLS2QJ8Ogp7Ugj+xErsA6A18prv3AACLNc4amfYHQgP4G6s3h9xHT2HCAjJqPMQh9Rs
+ kSFoJ9Dd1oj/owDMefUStxKyObLSgs4I2tJj3NBiaOkDR0IRFKmdLx/OAUsWIMQPYxo4
+ 6vdaae6thbLZxcPSAcJHbxQ93Y+xfnxx/0zIYHdr3RNaVADLhZZCHYHW3ZY8lnYQzI1V vw== 
+Received: from sc-exch04.marvell.com ([199.233.58.184])
+        by mx0a-0016f401.pphosted.com with ESMTP id 2t41j63g2k-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Fri, 14 Jun 2019 10:42:51 -0700
+Received: from SC-EXCH01.marvell.com (10.93.176.81) by SC-EXCH04.marvell.com
+ (10.93.176.84) with Microsoft SMTP Server (TLS) id 15.0.1367.3; Fri, 14 Jun
+ 2019 10:42:50 -0700
+Received: from NAM03-CO1-obe.outbound.protection.outlook.com (104.47.40.51) by
+ SC-EXCH01.marvell.com (10.93.176.81) with Microsoft SMTP Server (TLS) id
+ 15.0.1367.3 via Frontend Transport; Fri, 14 Jun 2019 10:42:50 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=dg+yr2j8TD2tOeWN+mTqClvlcOIVqj1KKksx271TJrk=;
-        b=ssS6y8VmviRvlot/CRTLA7KZx5V0/s+D+0Hre7ySB8N+URNzknGbw4VlsYvDQltOKt
-         BahmS/KfDl8aupY+2UBCfbtStKZZv3IyoX8auZC5qcHSi/h5QAJoSVca2IU2S+P+rlfq
-         /RBhJ/oyAXWgsxnLFeXpQb8aCmzIxpRiEwC35j7vrJhacDhru/lTQGZEd0nQxK+Ggm0r
-         V844cjDWQtntAqSVghm6uxBwITfGUNMGEaFMpTl1UohUnlIlsTDGO2rUJBoUlxbqHgsY
-         lpErarwErjDgQE5K7GBrka9JBWSI945Dk+HceNbUXILc/FfQp16VOyBwqginzLPlybio
-         Ifew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=dg+yr2j8TD2tOeWN+mTqClvlcOIVqj1KKksx271TJrk=;
-        b=SKb2ix7BQdgvwgVov+NNtS/Sub5iHJ/vvP64sdi8fw18N4vGqu5isxcwfBwx6HhAYL
-         2VIqw3Zxgk19FHHoHidYRTu1WSplS6zIPHNm4Q2ZaBQ9KRGs6V2qSdvViE4OTPG6QHc0
-         vfGFX3c6bhV1mfEY6UnDWEqfrE3Oo9K5u2ZRlRrWp2pvJNmnTXaLY+tLaTp56wQgdGTk
-         SUq+Z7+B4rkddDlus0RSaAmzZRp7HlfyG9dKqcZ8TxLP2zBiScbEBw52YlE3jCcVGqoi
-         Lx0EXeKrTYKohRqFDIGKCWfB4a5o93kwW+sS6djMpLGTi4F1jCW/O8+3edmGqaeUfocC
-         Wy3w==
-X-Gm-Message-State: APjAAAWo4r+1rCyL3d7CBZyqOwv65+4qb5yhtavryIwmxBRtPfe7xOtH
-        5taQCDU1ryPVX62CKfOjqO9iWddv
-X-Google-Smtp-Source: APXvYqy1IPm/izuBobTUYE9Y+ecsxXBEygVaJJtyAYjNbHDQGYsZbcuQzr5UsBw25Zvwbyw/pJDRAA==
-X-Received: by 2002:aed:2fa7:: with SMTP id m36mr55097230qtd.344.1560533329984;
-        Fri, 14 Jun 2019 10:28:49 -0700 (PDT)
-Received: from localhost ([2620:10d:c091:480::6bab])
-        by smtp.gmail.com with ESMTPSA id t197sm1638944qke.2.2019.06.14.10.28.49
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 14 Jun 2019 10:28:49 -0700 (PDT)
-Date:   Fri, 14 Jun 2019 10:28:47 -0700
-From:   Tejun Heo <tj@kernel.org>
-To:     Andreas Herrmann <aherrmann@suse.com>
-Cc:     Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-block@vger.kernel.org
-Subject: Re: [PATCH] blkio-controller.txt: Remove references to CFQ
-Message-ID: <20190614172847.GH538958@devbig004.ftw2.facebook.com>
-References: <20190612061732.GA3711@suselix>
+ d=marvell.onmicrosoft.com; s=selector2-marvell-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VqEDN5eTSpN1gvCS3Iem5BPA/AbwrrdonOaPDePuaZQ=;
+ b=TdsPJ02ro8zVlkYIHJ2cXsLTwAZ1mhWwi4uCPUKipx6VoH9qu4OzhDaJ9BRzZ4ttdPmC4HAafifI426vOyU4PsqXzr5wyVNUPB/Dib5D7dPFid2hvaquSic8gzexmu6idGTlMIGE/zAUuHM5B4gGnMCRQyedgUzHxWGFfz6ZxUc=
+Received: from MWHPR1801MB2030.namprd18.prod.outlook.com (10.164.205.31) by
+ MWHPR1801MB1936.namprd18.prod.outlook.com (10.164.204.167) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1987.11; Fri, 14 Jun 2019 17:42:45 +0000
+Received: from MWHPR1801MB2030.namprd18.prod.outlook.com
+ ([fe80::7c5a:e2f5:64e0:5b70]) by MWHPR1801MB2030.namprd18.prod.outlook.com
+ ([fe80::7c5a:e2f5:64e0:5b70%7]) with mapi id 15.20.1987.013; Fri, 14 Jun 2019
+ 17:42:45 +0000
+From:   Ganapatrao Kulkarni <gkulkarni@marvell.com>
+To:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+CC:     "Will.Deacon@arm.com" <Will.Deacon@arm.com>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "jnair@caviumnetworks.com" <jnair@caviumnetworks.com>,
+        "Robert.Richter@cavium.com" <Robert.Richter@cavium.com>,
+        "Jan.Glauber@cavium.com" <Jan.Glauber@cavium.com>,
+        "gklkml16@gmail.com" <gklkml16@gmail.com>
+Subject: [PATCH 0/2] Add CCPI2 PMU support
+Thread-Topic: [PATCH 0/2] Add CCPI2 PMU support
+Thread-Index: AQHVItiSZuHNgKndYkGQyfWKOHcA/w==
+Date:   Fri, 14 Jun 2019 17:42:45 +0000
+Message-ID: <1560534144-13896-1-git-send-email-gkulkarni@marvell.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: BYAPR07CA0058.namprd07.prod.outlook.com
+ (2603:10b6:a03:60::35) To MWHPR1801MB2030.namprd18.prod.outlook.com
+ (2603:10b6:301:69::31)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-mailer: git-send-email 1.8.3.1
+x-originating-ip: [199.233.59.128]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 7d61100f-19cc-4c3b-ddbf-08d6f0efb533
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:MWHPR1801MB1936;
+x-ms-traffictypediagnostic: MWHPR1801MB1936:
+x-microsoft-antispam-prvs: <MWHPR1801MB1936BE12BE6C434F12172B91B2EE0@MWHPR1801MB1936.namprd18.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2958;
+x-forefront-prvs: 0068C7E410
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(136003)(346002)(39850400004)(396003)(376002)(366004)(199004)(189003)(66946007)(6116002)(71200400001)(2501003)(102836004)(3846002)(7416002)(4720700003)(52116002)(66066001)(99286004)(6512007)(14454004)(6506007)(71190400001)(4326008)(386003)(478600001)(6436002)(2906002)(54906003)(110136005)(68736007)(5660300002)(256004)(8936002)(2616005)(305945005)(2201001)(476003)(36756003)(7736002)(4744005)(53936002)(81166006)(66556008)(66476007)(26005)(50226002)(25786009)(186003)(64756008)(66446008)(73956011)(486006)(81156014)(316002)(86362001)(8676002)(6486002)(14444005);DIR:OUT;SFP:1101;SCL:1;SRVR:MWHPR1801MB1936;H:MWHPR1801MB2030.namprd18.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: marvell.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: IGtNPM3zBupv+PQyDvnjITg/V1M8bfDpi1ivtfe8tiqhwIPPTqSa6tlfAt4w0eG7K9rPCLbNJ2qd2VtXebHYwzQDJZhGwWbsrUYQg1hwgX78oAZOBKNNZib6kNIYD5pKZpoFouZwo5reHVwKgs3jXfk9jV2LAr2oOOF53QyHLh04uhfGU7gbhLGSKgrhWJnlWpFrmXU3Fi7gGzMGuc8udp6WG5+sYhv9hGryfJbVXHRgmAYdh1/kI2kLOzgufub7UA1ld5//PFAOySEpIIIPZZYa3RTo1fNa25eR7LbOMSE6Evbeymyh9BQq7dS9keqjgw6ViUzCJWd66ooHJrw7bNliE55axEPH5cj1xRGwV53peqeuaMGrYBam9zwM6BO8PjLmblLJ8bFffBrNZRPV2+y6oaB4kDtniz6kWCQY/rk=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190612061732.GA3711@suselix>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7d61100f-19cc-4c3b-ddbf-08d6f0efb533
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jun 2019 17:42:45.2416
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: gkulkarni@marvell.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1801MB1936
+X-OriginatorOrg: marvell.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-06-14_07:,,
+ signatures=0
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 12, 2019 at 08:17:32AM +0200, Andreas Herrmann wrote:
-> CFQ is gone. No need anymore to document its "proportional weight time
-> based division of disk policy".
-
-BFQ might provide a compat interface.  Let's wait a bit.
-
-Thanks.
-
--- 
-tejun
+QWRkIENhdml1bSBDb2hlcmVudCBQcm9jZXNzb3IgSW50ZXJjb25uZWN0IChDQ1BJMikgUE1VDQpz
+dXBwb3J0IGluIFRodW5kZXJYMiBVbmNvcmUgZHJpdmVyLg0KDQpHYW5hcGF0cmFvIEt1bGthcm5p
+ICgyKToNCiAgRG9jdW1lbnRhdGlvbjogcGVyZjogVXBkYXRlIGRvY3VtZW50YXRpb24gZm9yIFRo
+dW5kZXJYMiBQTVUgdW5jb3JlDQogICAgZHJpdmVyDQogIGRyaXZlcnMvcGVyZjogQWRkIENDUEky
+IFBNVSBzdXBwb3J0IGluIFRodW5kZXJYMiBVTkNPUkUgZHJpdmVyLg0KDQogRG9jdW1lbnRhdGlv
+bi9wZXJmL3RodW5kZXJ4Mi1wbXUudHh0IHwgIDIwICstLQ0KIGRyaXZlcnMvcGVyZi90aHVuZGVy
+eDJfcG11LmMgICAgICAgICB8IDE3OSArKysrKysrKysrKysrKysrKysrKysrKy0tLS0NCiAyIGZp
+bGVzIGNoYW5nZWQsIDE2OCBpbnNlcnRpb25zKCspLCAzMSBkZWxldGlvbnMoLSkNCg0KLS0gDQoy
+LjE3LjENCg0K
