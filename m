@@ -3,47 +3,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5AB7A7D8AB
+	by archive.lwn.net (Postfix) with ESMTP id 70CD77D919
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 17:53:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726980AbfFNRwf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Jun 2019 13:52:35 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:38646 "EHLO
+        id S1727045AbfFNRwg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Jun 2019 13:52:36 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:38622 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726757AbfFNRwf (ORCPT
+        with ESMTP id S1726649AbfFNRwf (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jun 2019 13:52:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=C0W3exYft1KrUqFyOJUCPkgo7W6ZH/A+goYD/OL6mwQ=; b=XbR2pPbkWupU9wSy235pIngyj
-        w8ihDUcQfCxiy9ZmKtW+eKdu1ujaV83+ZZG85GMTTQD0XeYMxQnF/yqH4OQNjta7byrOQrVoe45ry
-        yhtieTkPeAdw2wZnSs08p8/PfuWpZRw2FP4j7QtoRu2rXCMRMXTlWy5qQ/KqMierhkRA9G+qvCW5j
-        ahUctCEciLduTBycBl7MAn+mygZqTL+r7u+ytRP7oJlFPlEDPAXIBwpujXBKnrZRFNFdHPWX/Kl9C
-        XYjWsQXRHrb4x9ZvO13SsUgO8vNnp2osAU0LTFohVXQBeUztHRAa0Y46v9+6RTHwsL23vNGeySbFR
-        IFscEwugA==;
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=3v0sS61wq796LTjrCIGlnUicOjJQzGAsiyF19M1EX2c=; b=u/ESh3f65BSLRXkZ+AXmBNxjNC
+        gnrwrngtlWnKOr3vhuLTSXY9/fdw9r+AL/Rav1M8w9/KFYKl52HJA8vdrptJG26xi+f+9PYiWHGQu
+        YDj+hpvXJ9lIwYb4dqevFJxcU/dt+uyGZmLfQNHEaIFYlba6LLlmVsnqR99Y3n9PSvz94scfvfG4y
+        oigeSHE4XLskhNbhaRES1Yr55THnSNML14iy4zlbHY6MK2OUK2dbsXEoOSTOqYOM+l3aoa5sUtoPB
+        +iMhUs+h2lHmCIluqwEkAhQDVR+0mKFQDTxEqUJ/b2iMlupvWjfkuhi7OiC6uUj4aGAIMl0fPzUcl
+        h1JLhJAg==;
 Received: from 177.133.85.52.dynamic.adsl.gvt.net.br ([177.133.85.52] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hbqNO-0000PW-JU; Fri, 14 Jun 2019 17:52:34 +0000
+        id 1hbqNO-0000PZ-JI; Fri, 14 Jun 2019 17:52:34 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hbqNL-0002OT-MW; Fri, 14 Jun 2019 14:52:31 -0300
+        id 1hbqNL-0002Ou-TC; Fri, 14 Jun 2019 14:52:31 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Rajat Jain <rajatja@google.com>,
-        Bjorn Helgaas <bhelgaas@google.com>
-Subject: [PATCH v2 01/16] ABI: sysfs-bus-pci-devices-aer_stats uses an invalid tag
-Date:   Fri, 14 Jun 2019 14:52:15 -0300
-Message-Id: <3b8d7c64f887ddea01df3c4eeabc745c8ec45406.1560534648.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v2 08/16] scripts/get_abi.pl: represent what in tables
+Date:   Fri, 14 Jun 2019 14:52:22 -0300
+Message-Id: <8a1ae200b2ccdc04811a11cececeaad16c020556.1560534648.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <3b8d7c64f887ddea01df3c4eeabc745c8ec45406.1560534648.git.mchehab+samsung@kernel.org>
+References: <3b8d7c64f887ddea01df3c4eeabc745c8ec45406.1560534648.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -51,68 +51,88 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-According with Documentation/ABI/, the right tag to describe
-an ABI symbol is "What:", and not "Where:".
+Several entries at the ABI have multiple What: with the same
+description.
+
+Instead of showing those symbols as sections, let's show them
+as tables. That makes easier to read on the final output,
+and avoid too much recursion at Sphinx parsing.
+
+We need to put file references at the end, as we don't want
+non-file tables to be mangled with other entries.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- .../ABI/testing/sysfs-bus-pci-devices-aer_stats      | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ scripts/get_abi.pl | 41 ++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 36 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats b/Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats
-index 4b0318c99507..ff229d71961c 100644
---- a/Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats
-+++ b/Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats
-@@ -9,7 +9,7 @@ errors may be "seen" / reported by the link partner and not the
- problematic endpoint itself (which may report all counters as 0 as it never
- saw any problems).
+diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
+index ecf6b91df7c4..7d454e359d25 100755
+--- a/scripts/get_abi.pl
++++ b/scripts/get_abi.pl
+@@ -193,16 +193,19 @@ sub parse_abi {
+ #
+ # Outputs the book on ReST format
+ #
++
+ sub output_rest {
+-	foreach my $what (sort keys %data) {
++	foreach my $what (sort {
++				($data{$a}->{type} eq "File") cmp ($data{$b}->{type} eq "File") ||
++				$a cmp $b
++			       } keys %data) {
+ 		my $type = $data{$what}->{type};
+ 		my $file = $data{$what}->{file};
++		my $filepath = $data{$what}->{filepath};
  
--Where:		/sys/bus/pci/devices/<dev>/aer_dev_correctable
-+What:		/sys/bus/pci/devices/<dev>/aer_dev_correctable
- Date:		July 2018
- Kernel Version: 4.19.0
- Contact:	linux-pci@vger.kernel.org, rajatja@google.com
-@@ -31,7 +31,7 @@ Header Log Overflow 0
- TOTAL_ERR_COR 2
- -------------------------------------------------------------------------
+ 		my $w = $what;
+ 		$w =~ s/([\(\)\_\-\*\=\^\~\\])/\\$1/g;
  
--Where:		/sys/bus/pci/devices/<dev>/aer_dev_fatal
-+What:		/sys/bus/pci/devices/<dev>/aer_dev_fatal
- Date:		July 2018
- Kernel Version: 4.19.0
- Contact:	linux-pci@vger.kernel.org, rajatja@google.com
-@@ -62,7 +62,7 @@ TLP Prefix Blocked Error 0
- TOTAL_ERR_FATAL 0
- -------------------------------------------------------------------------
+-		my $bar = $w;
+-		$bar =~ s/./-/g;
  
--Where:		/sys/bus/pci/devices/<dev>/aer_dev_nonfatal
-+What:		/sys/bus/pci/devices/<dev>/aer_dev_nonfatal
- Date:		July 2018
- Kernel Version: 4.19.0
- Contact:	linux-pci@vger.kernel.org, rajatja@google.com
-@@ -103,19 +103,19 @@ collectors) that are AER capable. These indicate the number of error messages as
- device, so these counters include them and are thus cumulative of all the error
- messages on the PCI hierarchy originating at that root port.
+ 		foreach my $p (@{$data{$what}->{label}}) {
+ 			my ($content, $label) = @{$p};
+@@ -222,9 +225,37 @@ sub output_rest {
+ 			last;
+ 		}
  
--Where:		/sys/bus/pci/devices/<dev>/aer_stats/aer_rootport_total_err_cor
-+What:		/sys/bus/pci/devices/<dev>/aer_stats/aer_rootport_total_err_cor
- Date:		July 2018
- Kernel Version: 4.19.0
- Contact:	linux-pci@vger.kernel.org, rajatja@google.com
- Description:	Total number of ERR_COR messages reported to rootport.
+-		print "$w\n$bar\n\n";
  
--Where:	    /sys/bus/pci/devices/<dev>/aer_stats/aer_rootport_total_err_fatal
-+What:	    /sys/bus/pci/devices/<dev>/aer_stats/aer_rootport_total_err_fatal
- Date:		July 2018
- Kernel Version: 4.19.0
- Contact:	linux-pci@vger.kernel.org, rajatja@google.com
- Description:	Total number of ERR_FATAL messages reported to rootport.
+-		print "- defined on file $file (type: $type)\n\n" if ($type ne "File");
++		$filepath =~ s,.*/(.*/.*),\1,;;
++		$filepath =~ s,[/\-],_,g;;
++		my $fileref = "abi_file_".$filepath;
++
++		if ($type eq "File") {
++			my $bar = $w;
++			$bar =~ s/./-/g;
++
++			print ".. _$fileref:\n\n";
++			print "$w\n$bar\n\n";
++		} else {
++			my @names = split /\s*,\s*/,$w;
++
++			my $len = 0;
++
++			foreach my $name (@names) {
++				$len = length($name) if (length($name) > $len);
++			}
++
++			print "What:\n\n";
++
++			print "+-" . "-" x $len . "-+\n";
++			foreach my $name (@names) {
++				printf "| %s", $name . " " x ($len - length($name)) . " |\n";
++				print "+-" . "-" x $len . "-+\n";
++			}
++			print "\n";
++		}
++
++		print "Defined on file :ref:`$file <$fileref>`\n\n" if ($type ne "File");
  
--Where:	    /sys/bus/pci/devices/<dev>/aer_stats/aer_rootport_total_err_nonfatal
-+What:	    /sys/bus/pci/devices/<dev>/aer_stats/aer_rootport_total_err_nonfatal
- Date:		July 2018
- Kernel Version: 4.19.0
- Contact:	linux-pci@vger.kernel.org, rajatja@google.com
+ 		my $desc = $data{$what}->{description};
+ 		$desc =~ s/^\s+//;
 -- 
 2.21.0
 
