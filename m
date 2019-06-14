@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 299347D8AB
+	by archive.lwn.net (Postfix) with ESMTP id 549347D91B
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 02:05:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726821AbfFNCE2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Jun 2019 22:04:28 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:52866 "EHLO
+        id S1726879AbfFNCE3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Jun 2019 22:04:29 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:52852 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726424AbfFNCE2 (ORCPT
+        with ESMTP id S1726011AbfFNCE2 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jun 2019 22:04:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,18 +20,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Rc2kXaDHzHXlwYcsQh5PtjF0ruhHsEakMken3/RrNnY=; b=GGMDoJaE6OWl6bctDCXTS4LfSO
-        ZUy/C6ACQv5M0UZ7z/6qGVpnPPkScGexpxl6iPivStuauSVc0qLVzK074htWn+7KXpAMImcIpHc07
-        stWNDC6KzkkKON0j1vj4D8mq+GZHbnHJsEAaTyiuMUSo9xGHRDGg0l4S7rZLiFn60fwBrDkkcIG4J
-        woZk7qTugH7khupRIfhZAlTj3Evw+zqt0PsOno9UaDeAJRjpOO7g14EgGhwIba3Dp3h15YGHi2Ccg
-        DItTqXvP9QT0Lber9BzECrS0VfdjfPbjHAMWWk50SvaZRQiDmMQdARnGsSi2V9GyWYNPzZAFi53Jc
-        PXsCMP7w==;
+        bh=cxCNuO2nj6UOWSJ3ZVH67ZvrtAllPRKaWjv6GIZxBS0=; b=jAkNoOYRkwLpHFWntdrHnQm3gx
+        T1cfXXSVFOAWY0t3NxU+FLvhQQpvS93FMHND+dkPYcefbgcTjdsnbt92gD9TmybngwxURNIyhGf4h
+        QfdYKtFGiZhYp8/9yoaa67DlxL0a0JQsgkLjLNOKdIxcI0TZrvxRoQqx14+ZpVQWp/T361YT+7iVs
+        CxbvgsD0Z8q/Te/ZApyaPFms4XhMI4nuUEqjm1isXqhfxULOHFF5fr6zwzy9Pmar7jSW4/N+8pJ0Y
+        hFlhFGM6b0oJ5r4uElIr/IkbszdX8UrwDA/L1GJJSliUnsT92fBGSHGOKrNdiY9HYBcECugrfLGl1
+        WWdQQ8dQ==;
 Received: from 201.86.169.251.dynamic.adsl.gvt.net.br ([201.86.169.251] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hbbZr-0000EB-JQ; Fri, 14 Jun 2019 02:04:27 +0000
+        id 1hbbZr-0000E8-FW; Fri, 14 Jun 2019 02:04:27 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hbbZn-0002nc-No; Thu, 13 Jun 2019 23:04:23 -0300
+        id 1hbbZn-0002nw-Rz; Thu, 13 Jun 2019 23:04:23 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -39,9 +39,9 @@ Cc:     Mauro Carvalho Chehab <mchehab@s-opensource.com>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Subject: [PATCH 02/14] ABI: sysfs-driver-hid: the "What" field doesn't parse fine
-Date:   Thu, 13 Jun 2019 23:04:08 -0300
-Message-Id: <dfba2c1063fda7de3e646d021ff914c1418b8305.1560477540.git.mchehab+samsung@kernel.org>
+Subject: [PATCH 07/14] scripts/get_abi.pl: avoid use literal blocks when not needed
+Date:   Thu, 13 Jun 2019 23:04:13 -0300
+Message-Id: <b5242302c0ba49be016f076e727b3f4889cd32f0.1560477540.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1560477540.git.mchehab+samsung@kernel.org>
 References: <cover.1560477540.git.mchehab+samsung@kernel.org>
@@ -54,45 +54,207 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Mauro Carvalho Chehab <mchehab@s-opensource.com>
 
-The What: field on this ABI description use a different
-syntax than expected, causing it to not be properly parsed
-by script.
+The usage of literal blocks make the document very complex,
+causing the browser to take a long time to load.
 
-Fix it.
+On most ABI descriptions, they're a plain text, and don't
+require a literal block.
+
+So, add a logic there with identifies when a literal block
+is needed.
+
+As, on literal blocks, we need to respect the original
+document space, the most complex part of this patch is
+to preserve the original spacing where needed.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab@s-opensource.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/ABI/testing/sysfs-driver-hid | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ scripts/get_abi.pl | 104 +++++++++++++++++++++++++++++++++------------
+ 1 file changed, 78 insertions(+), 26 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-driver-hid b/Documentation/ABI/testing/sysfs-driver-hid
-index 48942cacb0bf..a59533410871 100644
---- a/Documentation/ABI/testing/sysfs-driver-hid
-+++ b/Documentation/ABI/testing/sysfs-driver-hid
-@@ -1,6 +1,6 @@
--What:		For USB devices	: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/report_descriptor
--		For BT devices	: /sys/class/bluetooth/hci<addr>/<hid-bus>:<vendor-id>:<product-id>.<num>/report_descriptor
--		Symlink		: /sys/class/hidraw/hidraw<num>/device/report_descriptor
-+What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/report_descriptor
-+What:		/sys/class/bluetooth/hci<addr>/<hid-bus>:<vendor-id>:<product-id>.<num>/report_descriptor
-+What:		/sys/class/hidraw/hidraw<num>/device/report_descriptor
- Date:		Jan 2011
- KernelVersion:	2.0.39
- Contact:	Alan Ott <alan@signal11.us>
-@@ -9,9 +9,9 @@ Description:	When read, this file returns the device's raw binary HID
- 		This file cannot be written.
- Users:		HIDAPI library (http://www.signal11.us/oss/hidapi)
+diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
+index ac0f057fa3ca..ba8a7466f896 100755
+--- a/scripts/get_abi.pl
++++ b/scripts/get_abi.pl
+@@ -59,29 +59,34 @@ sub parse_abi {
+ 	my $ln;
+ 	my $has_file;
+ 	my $xrefs;
++	my $space;
  
--What:		For USB devices	: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/country
--		For BT devices	: /sys/class/bluetooth/hci<addr>/<hid-bus>:<vendor-id>:<product-id>.<num>/country
--		Symlink		: /sys/class/hidraw/hidraw<num>/device/country
-+What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/country
-+What:		/sys/class/bluetooth/hci<addr>/<hid-bus>:<vendor-id>:<product-id>.<num>/country
-+What:		/sys/class/hidraw/hidraw<num>/device/country
- Date:		February 2015
- KernelVersion:	3.19
- Contact:	Olivier Gay <ogay@logitech.com>
+ 	print STDERR "Opening $file\n" if ($debug > 1);
+ 	open IN, $file;
+ 	while(<IN>) {
+ 		$ln++;
+-		if (m/^(\S+):\s*(.*)/i) {
++		if (m/^(\S+)(:\s*)(.*)/i) {
+ 			my $new_tag = lc($1);
+-			my $content = $2;
++			my $sep = $2;
++			my $content = $3;
+ 
+ 			if (!($new_tag =~ m/(what|date|kernelversion|contact|description|users)/)) {
+ 				if ($tag eq "description") {
+-					$data{$what}->{$tag} .= "\n$content";
+-					$data{$what}->{$tag} =~ s/\n+$//;
+-					next;
++					# New "tag" is actually part of
++					# description. Don't consider it a tag
++					$new_tag = "";
+ 				} else {
+ 					parse_error($file, $ln, "tag '$tag' is invalid", $_);
+ 				}
+ 			}
+ 
+ 			if ($new_tag =~ m/what/) {
++				$space = "";
+ 				if ($tag =~ m/what/) {
+ 					$what .= ", " . $content;
+ 				} else {
++					parse_error($file, $ln, "What '$what' doesn't have a description", "") if ($what && !$data{$what}->{description});
++
+ 					$what = $content;
+ 					$new_what = 1;
+ 				}
+@@ -108,25 +113,38 @@ sub parse_abi {
+ 				next;
+ 			}
+ 
+-			$tag = $new_tag;
++			if ($new_tag) {
++				$tag = $new_tag;
+ 
+-			if ($new_what) {
+-				$new_what = 0;
++				if ($new_what) {
++					$new_what = 0;
+ 
+-				$data{$what}->{type} = $type;
+-				$data{$what}->{file} = $name;
+-				print STDERR "\twhat: $what\n" if ($debug > 1);
+-			}
++					$data{$what}->{type} = $type;
++					$data{$what}->{file} = $name;
++					print STDERR "\twhat: $what\n" if ($debug > 1);
++				}
+ 
+-			if (!$what) {
+-				parse_error($file, $ln, "'What:' should come first:", $_);
++				if (!$what) {
++					parse_error($file, $ln, "'What:' should come first:", $_);
++					next;
++				}
++				if ($tag eq "description") {
++					next if ($content =~ m/^\s*$/);
++					if ($content =~ m/^(\s*)(.*)/) {
++						my $new_content = $2;
++						$space = $new_tag . $sep . $1;
++						while ($space =~ s/\t+/' ' x (length($&) * 8 - length($`) % 8)/e) {}
++						$space =~ s/./ /g;
++						$data{$what}->{$tag} .= "$new_content\n";
++					}
++				} else {
++					$data{$what}->{$tag} = $content;
++				}
+ 				next;
+ 			}
+-			$data{$what}->{$tag} = $content;
+-			next;
+ 		}
+ 
+-		# Store any contents before the database
++		# Store any contents before tags at the database
+ 		if (!$tag) {
+ 			next if (/^\n/);
+ 
+@@ -139,6 +157,32 @@ sub parse_abi {
+ 			next;
+ 		}
+ 
++		if ($tag eq "description") {
++			if (!$data{$what}->{description}) {
++				next if (m/^\s*\n/);
++				if (m/^(\s*)(.*)/) {
++					$space = $1;
++					while ($space =~ s/\t+/' ' x (length($&) * 8 - length($`) % 8)/e) {}
++					$data{$what}->{$tag} .= "$2\n";
++				}
++			} else {
++				my $content = $_;
++				if (m/^\s*\n/) {
++					$data{$what}->{$tag} .= $content;
++					next;
++				}
++
++				while ($content =~ s/\t+/' ' x (length($&) * 8 - length($`) % 8)/e) {}
++				$space = "" if (!($content =~ s/^($space)//));
++
++				# Compress spaces with tabs
++				$content =~ s<^ {8}> <\t>;
++				$content =~ s<^ {1,7}\t> <\t>;
++				$content =~ s< {1,7}\t> <\t>;
++				$data{$what}->{$tag} .= $content;
++			}
++			next;
++		}
+ 		if (m/^\s*(.*)/) {
+ 			$data{$what}->{$tag} .= "\n$1";
+ 			$data{$what}->{$tag} =~ s/\n+$//;
+@@ -165,6 +209,9 @@ sub output_rest {
+ 		my $w = $what;
+ 		$w =~ s/([\(\)\_\-\*\=\^\~\\])/\\$1/g;
+ 
++		my $bar = $w;
++		$bar =~ s/./-/g;
++
+ 		if ($data{$what}->{label}) {
+ 			my @labels = split(/\s/, $data{$what}->{label});
+ 			foreach my $label (@labels) {
+@@ -172,10 +219,9 @@ sub output_rest {
+ 			}
+ 		}
+ 
+-		print "$w\n\n";
++		print "$w\n$bar\n\n";
+ 
+ 		print "- defined on file $file (type: $type)\n\n" if ($type ne "File");
+-		print "::\n\n";
+ 
+ 		my $desc = $data{$what}->{description};
+ 		$desc =~ s/^\s+//;
+@@ -183,18 +229,24 @@ sub output_rest {
+ 		# Remove title markups from the description, as they won't work
+ 		$desc =~ s/\n[\-\*\=\^\~]+\n/\n/g;
+ 
+-		# put everything inside a code block
+-		$desc =~ s/\n/\n /g;
+-
+-
+ 		if (!($desc =~ /^\s*$/)) {
+-			print " $desc\n\n";
++	                if ($desc =~ m/\:\n/ || $desc =~ m/\n[\t ]+/  || $desc =~ m/[\x00-\x08\x0b-\x1f\x7b-\xff]/) {
++				# put everything inside a code block
++				$desc =~ s/\n/\n /g;
++
++				print "::\n\n";
++				print " $desc\n\n";
++			} else {
++				# Escape any special chars from description
++				$desc =~s/([\x00-\x08\x0b-\x1f\x21-\x2a\x2d\x2f\x3c-\x40\x5c\x5e-\x60\x7b-\xff])/\\$1/g;
++
++				print "$desc\n\n";
++			}
+ 		} else {
+-			print " DESCRIPTION MISSING for $what\n\n";
++			print "DESCRIPTION MISSING for $what\n\n";
+ 		}
+ 
+ 		printf "Has the following ABI:\n\n%s", $data{$what}->{xrefs} if ($data{$what}->{xrefs});
+-
+ 	}
+ }
+ 
 -- 
 2.21.0
 
