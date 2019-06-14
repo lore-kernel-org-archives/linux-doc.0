@@ -5,58 +5,50 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 177417D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 20:38:10 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6F9197D92A
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 20:39:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726894AbfFNUiB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Jun 2019 16:38:01 -0400
-Received: from ms.lwn.net ([45.79.88.28]:54198 "EHLO ms.lwn.net"
+        id S1727017AbfFNUjs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Jun 2019 16:39:48 -0400
+Received: from ms.lwn.net ([45.79.88.28]:54214 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726755AbfFNUiA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 14 Jun 2019 16:38:00 -0400
+        id S1725991AbfFNUjs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 14 Jun 2019 16:39:48 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id D29F1740;
-        Fri, 14 Jun 2019 20:37:59 +0000 (UTC)
-Date:   Fri, 14 Jun 2019 14:37:58 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 74F04128A;
+        Fri, 14 Jun 2019 20:39:47 +0000 (UTC)
+Date:   Fri, 14 Jun 2019 14:39:46 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] scripts/documentation-file-ref-check: ignore output dir
-Message-ID: <20190614143758.36b0ed65@lwn.net>
-In-Reply-To: <093d01459be472a20894c5be6f9b937ff7fd7d47.1560421751.git.mchehab+samsung@kernel.org>
-References: <093d01459be472a20894c5be6f9b937ff7fd7d47.1560421751.git.mchehab+samsung@kernel.org>
+To:     =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@collabora.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@collabora.com
+Subject: Re: [PATCH] sphinx.rst: Add note about code snippets embedded in
+ the text
+Message-ID: <20190614143946.7c6072ac@lwn.net>
+In-Reply-To: <20190611200316.30054-1-andrealmeid@collabora.com>
+References: <20190611200316.30054-1-andrealmeid@collabora.com>
 Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 13 Jun 2019 07:29:17 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+On Tue, 11 Jun 2019 17:03:16 -0300
+André Almeida <andrealmeid@collabora.com> wrote:
 
-> When there's no Documentation/output directory, the script will
-> complain about those missing references:
+> There's a paragraph that explains how to create fixed width text block,
+> but it doesn't explains how to create fixed width text inline, although
+> this feature is really used through the documentation. Fix that adding a
+> quick note about it.
 > 
-> 	Documentation/doc-guide/sphinx.rst: Documentation/output
-> 	Documentation/doc-guide/sphinx.rst: Documentation/output
-> 	Documentation/process/howto.rst: Documentation/output
-> 	Documentation/translations/it_IT/doc-guide/sphinx.rst: Documentation/output
-> 	Documentation/translations/it_IT/doc-guide/sphinx.rst: Documentation/output
-> 	Documentation/translations/it_IT/process/howto.rst: Documentation/output
-> 	Documentation/translations/ja_JP/howto.rst: Documentation/output
-> 	Documentation/translations/ko_KR/howto.rst: Documentation/output
-> 
-> Those are false positives, so add an ignore rule for them.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> Signed-off-by: André Almeida <andrealmeid@collabora.com>
 
-Applied, thanks.
+Applied, thanks.  But I do agree with Jani that we don't want to reproduce
+the RST guide here.
 
 jon
