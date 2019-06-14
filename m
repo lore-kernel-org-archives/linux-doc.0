@@ -1,82 +1,69 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 551EA7D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 20:14:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 21F677D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 20:21:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725991AbfFNUOE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Jun 2019 16:14:04 -0400
-Received: from ms.lwn.net ([45.79.88.28]:53924 "EHLO ms.lwn.net"
+        id S1726177AbfFNUVf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Jun 2019 16:21:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43228 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725825AbfFNUOD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 14 Jun 2019 16:14:03 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1725802AbfFNUVf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 14 Jun 2019 16:21:35 -0400
+Received: from sasha-vm.mshome.net (unknown [131.107.159.134])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 2474A128A;
-        Fri, 14 Jun 2019 20:14:02 +0000 (UTC)
-Date:   Fri, 14 Jun 2019 14:14:01 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        Jens Axboe <axboe@kernel.dk>, Tejun Heo <tj@kernel.org>,
-        Li Zefan <lizefan@huawei.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>, linux-block@vger.kernel.org,
-        cgroups@vger.kernel.org, netdev@vger.kernel.org,
-        bpf@vger.kernel.org, linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v4 05/28] docs: cgroup-v1: convert docs to ReST and
- rename to *.rst
-Message-ID: <20190614141401.48bfb266@lwn.net>
-In-Reply-To: <c1dd623359f44f05863456b8bceba0d8f3e42f38.1560361364.git.mchehab+samsung@kernel.org>
-References: <cover.1560361364.git.mchehab+samsung@kernel.org>
-        <c1dd623359f44f05863456b8bceba0d8f3e42f38.1560361364.git.mchehab+samsung@kernel.org>
-Organization: LWN.net
+        by mail.kernel.org (Postfix) with ESMTPSA id C9C402168B;
+        Fri, 14 Jun 2019 20:21:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1560543694;
+        bh=SUff+IuHYY1vqG1JvhChINONwtR73776hlNKIIAyNjU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=bj+0zlh6+G7niTDlS56IOmNXnwhNj7nxFjbOH3V5aGw1ydsvaR9GVxSftyGr16TFJ
+         F21V0scYHfySAJsB48nFd+7ZUq48qY/uCGsvR63f6wYPGoQQDqmVBAOcanRxv+EBja
+         l0xHcf/8xjGjKdzwh98N2XLnKqDMiAWyZ4FwPIwQ=
+From:   Sasha Levin <sashal@kernel.org>
+To:     peterhuewe@gmx.de, jarkko.sakkinen@linux.intel.com, jgg@ziepe.ca
+Cc:     corbet@lwn.net, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-kernel@microsoft.com, thiruan@microsoft.com,
+        bryankel@microsoft.com, tee-dev@lists.linaro.org,
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH v5 0/2] fTPM: firmware TPM running in TEE
+Date:   Fri, 14 Jun 2019 16:21:25 -0400
+Message-Id: <20190614202127.26812-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 12 Jun 2019 14:52:41 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+Changes from v4:
 
-> Convert the cgroup-v1 files to ReST format, in order to
-> allow a later addition to the admin-guide.
-> 
-> The conversion is actually:
->   - add blank lines and identation in order to identify paragraphs;
->   - fix tables markups;
->   - add some lists markups;
->   - mark literal blocks;
->   - adjust title markups.
-> 
-> At its new index.rst, let's add a :orphan: while this is not linked to
-> the main index.rst file, in order to avoid build warnings.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> Acked-by: Tejun Heo <tj@kernel.org>
+ - Don't show an error message while waiting for OP-TEE to come up.
 
-This one, too, has linux-next stuff that keeps it from applying to
-docs-next.  Tejun, would you like to carry it on top of your work?
+Sasha Levin (2):
+  fTPM: firmware TPM running in TEE
+  fTPM: add documentation for ftpm driver
 
-(This means I won't be able to apply #6 either, naturally).
+ Documentation/security/tpm/index.rst        |   1 +
+ Documentation/security/tpm/tpm_ftpm_tee.rst |  31 ++
+ drivers/char/tpm/Kconfig                    |   5 +
+ drivers/char/tpm/Makefile                   |   1 +
+ drivers/char/tpm/tpm_ftpm_tee.c             | 382 ++++++++++++++++++++
+ drivers/char/tpm/tpm_ftpm_tee.h             |  40 ++
+ 6 files changed, 460 insertions(+)
+ create mode 100644 Documentation/security/tpm/tpm_ftpm_tee.rst
+ create mode 100644 drivers/char/tpm/tpm_ftpm_tee.c
+ create mode 100644 drivers/char/tpm/tpm_ftpm_tee.h
 
-Thanks,
+-- 
+2.20.1
 
-jon
