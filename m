@@ -1,111 +1,290 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 85B197D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 12:38:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DDCDC7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 13:29:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727847AbfFNMiC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Jun 2019 08:38:02 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:36239 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727544AbfFNMiB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jun 2019 08:38:01 -0400
-Received: by mail-pf1-f195.google.com with SMTP id r7so1404818pfl.3;
-        Fri, 14 Jun 2019 05:38:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=811RVFyTr6F8u8h7/A4hNm78OD+rFY8gNrRGiFGCcyc=;
-        b=TiKrOZtyl9+vWpiT5YYolR6ngPiktA5IY0pwmwXKG0SFnY+UrnqWD913FONkLs4cOD
-         wtANWRUeFKygUVRAKReZkNJBdtRS+/U9cHjoAmVaEMXfRadFQxLW6BbLkPIeieU4NVfF
-         gy5jKPdvd0qQhLaS1j98zfnCTOc+Fr+L6PYveSJS+AlhM2tVtUldhM5Ffedc0xXl4cJi
-         qcgzr7qgit2RJLWx+13isHKFM39Ow33I2wz/GsDco8re4SljjGt+5tWuCHawC51MQebK
-         /oqdhRHanTzAFs7Iqw6nCWYONSWkyS/fBEE3dwquBcap40JJeYmh1tRwuEOmk6utG0VJ
-         i2FQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=811RVFyTr6F8u8h7/A4hNm78OD+rFY8gNrRGiFGCcyc=;
-        b=enQEFBEQdo4bJ3s6oF9ATgmCHhU6x0WCL5F/o2EpPsdw+h30RBxawqxUZJMh/ryYiC
-         YGVw/ZxuGb/vQNrZXXTOjvSK9qYvzh5eLSXMIK8K9HbCeXCoorINstGlwQeR40mQC5Ho
-         oR0nBAjcJH+ybEp0Zo7ZWDeCC/j98gZBzj/8mOofr5rkOWA/o/SHOKCQgTp4Af+wAmVJ
-         3ZK7pwaxHHejixBEZb79iJnLmbZG2YsnmfmMFI1ALEI1mWLAOS6WTTiV4lf+cu/7oOXG
-         t34Jy6CiDp0+NdLQu9Q3BNdlXo3wdXOik4ES8sgzE2fDxKVdLQvXSMfdvSGrOOIKjZk7
-         /etw==
-X-Gm-Message-State: APjAAAWZ8E6RDOT6FRD1VpjemKhc1f2zaNk2BJktuPNZL2Nlatv4aN+Q
-        dQbttXF0p6oonz5yWLtk7Bqnoz4Y
-X-Google-Smtp-Source: APXvYqzzSc73CYWprv76l28hLngz0aYVGIWZv6m9dj1x4KjW1GW04Z3NedfaC2mRPEFVMV8fvqnSKw==
-X-Received: by 2002:a17:90a:bb8a:: with SMTP id v10mr11109361pjr.78.1560515881083;
-        Fri, 14 Jun 2019 05:38:01 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id a21sm4272797pfi.27.2019.06.14.05.37.58
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 14 Jun 2019 05:37:59 -0700 (PDT)
-Subject: Re: [PATCH v10 3/3] watchdog: make the device time out at
- open_deadline when open_timeout is used
-To:     Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Cc:     "linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Esben Haabendal <esben@haabendal.dk>,
-        Jerry Hoemann <jerry.hoemann@hpe.com>,
-        Rasmus Villemoes <Rasmus.Villemoes@prevas.se>
-References: <20190605140628.618-1-rasmus.villemoes@prevas.dk>
- <20190605140628.618-4-rasmus.villemoes@prevas.dk>
- <20190607183827.GA32475@roeck-us.net>
- <56280052-9437-9813-a24e-125abb876762@prevas.dk>
-From:   Guenter Roeck <linux@roeck-us.net>
-Message-ID: <e63a0468-656f-0a8d-45a8-5236c42942b1@roeck-us.net>
-Date:   Fri, 14 Jun 2019 05:37:57 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1728053AbfFNN3B (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Jun 2019 09:29:01 -0400
+Received: from mga17.intel.com ([192.55.52.151]:23818 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727729AbfFNN3B (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 14 Jun 2019 09:29:01 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Jun 2019 06:29:00 -0700
+X-ExtLoop1: 1
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.150])
+  by fmsmga001.fm.intel.com with ESMTP; 14 Jun 2019 06:28:58 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Mauro Carvalho Chehab <mchehab@s-opensource.com>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Subject: Re: [PATCH 05/14] scripts: add an script to parse the ABI files
+In-Reply-To: <196fb3c497546f923bf5d156c3fddbe74a4913bc.1560477540.git.mchehab+samsung@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1560477540.git.mchehab+samsung@kernel.org> <196fb3c497546f923bf5d156c3fddbe74a4913bc.1560477540.git.mchehab+samsung@kernel.org>
+Date:   Fri, 14 Jun 2019 16:31:56 +0300
+Message-ID: <87r27wuwc3.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <56280052-9437-9813-a24e-125abb876762@prevas.dk>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/14/19 1:41 AM, Rasmus Villemoes wrote:
-> On 07/06/2019 20.38, Guenter Roeck wrote:
->> On Wed, Jun 05, 2019 at 02:06:44PM +0000, Rasmus Villemoes wrote:
->>> When the watchdog device is not open by userspace, the kernel takes
->>> care of pinging it. When the open_timeout feature is in use, we should
->>> ensure that the hardware fires close to open_timeout seconds after the
->>> kernel has assumed responsibility for the device.
->>>
->>> To do this, simply reuse the logic that is already in place for
->>> ensuring the same thing when userspace is responsible for regularly
->>> pinging the device:
->>>
->>> - When watchdog_active(wdd), this patch doesn't change anything.
->>>
->>> - When !watchdoc_active(wdd), the "virtual timeout" should be taken to
->>
->> s/watchdoc_active/watchdog_active/
->>
->> otherwise
->>
->> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-> 
-> Thanks! Wim, can you fix up if/when applying, or do you prefer I resend?
-> 
+On Thu, 13 Jun 2019, Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+> From: Mauro Carvalho Chehab <mchehab@s-opensource.com>
+>
+> Add a script to parse the Documentation/ABI files and produce
+> an output with all entries inside an ABI (sub)directory.
+>
+> Right now, it outputs its contents on ReST format. It shouldn't
+> be hard to make it produce other kind of outputs, since the ABI
+> file parser is implemented in separate than the output generator.
 
-I made the change when applying the patch to my watchdog-next branch,
-and Wim usually picks up patches from there, so we should be good.
+Hum, or just convert the ABI files to rst directly.
 
-Thanks,
-Guenter
+BR,
+Jani.
 
+
+
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@s-opensource.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+>  scripts/get_abi.pl | 212 +++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 212 insertions(+)
+>  create mode 100755 scripts/get_abi.pl
+>
+> diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
+> new file mode 100755
+> index 000000000000..f7c9944a833c
+> --- /dev/null
+> +++ b/scripts/get_abi.pl
+> @@ -0,0 +1,212 @@
+> +#!/usr/bin/perl
+> +
+> +use strict;
+> +use Pod::Usage;
+> +use Getopt::Long;
+> +use File::Find;
+> +use Fcntl ':mode';
+> +
+> +my $help;
+> +my $man;
+> +my $debug;
+> +
+> +GetOptions(
+> +	"debug|d+" => \$debug,
+> +	'help|?' => \$help,
+> +	man => \$man
+> +) or pod2usage(2);
+> +
+> +pod2usage(1) if $help;
+> +pod2usage(-exitstatus => 0, -verbose => 2) if $man;
+> +
+> +pod2usage(2) if (scalar @ARGV != 1);
+> +
+> +my ($prefix) = @ARGV;
+> +
+> +require Data::Dumper if ($debug);
+> +
+> +my %data;
+> +
+> +#
+> +# Displays an error message, printing file name and line
+> +#
+> +sub parse_error($$$$) {
+> +	my ($file, $ln, $msg, $data) = @_;
+> +
+> +	print STDERR "file $file#$ln: $msg at\n\t$data";
+> +}
+> +
+> +#
+> +# Parse an ABI file, storing its contents at %data
+> +#
+> +sub parse_abi {
+> +	my $file = $File::Find::name;
+> +
+> +	my $mode = (stat($file))[2];
+> +	return if ($mode & S_IFDIR);
+> +	return if ($file =~ m,/README,);
+> +
+> +	my $name = $file;
+> +	$name =~ s,.*/,,;
+> +
+> +	my $type = $file;
+> +	$type =~ s,.*/(.*)/.*,$1,;
+> +
+> +	my $what;
+> +	my $new_what;
+> +	my $tag;
+> +	my $ln;
+> +
+> +	print STDERR "Opening $file\n" if ($debug > 1);
+> +	open IN, $file;
+> +	while(<IN>) {
+> +		$ln++;
+> +		if (m/^(\S+):\s*(.*)/i) {
+> +			my $new_tag = lc($1);
+> +			my $content = $2;
+> +
+> +			if (!($new_tag =~ m/(what|date|kernelversion|contact|description|users)/)) {
+> +				if ($tag eq "description") {
+> +					$data{$what}->{$tag} .= "\n$content";;
+> +					$data{$what}->{$tag} =~ s/\n+$//;
+> +					next;
+> +				} else {
+> +					parse_error($file, $ln, "tag '$tag' is invalid", $_);
+> +				}
+> +			}
+> +
+> +			if ($new_tag =~ m/what/) {
+> +				if ($tag =~ m/what/) {
+> +					$what .= ", " . $content;
+> +				} else {
+> +					$what = $content;
+> +					$new_what = 1;
+> +				}
+> +				$tag = $new_tag;
+> +				next;
+> +			}
+> +
+> +			$tag = $new_tag;
+> +
+> +			if ($new_what) {
+> +				$new_what = 0;
+> +
+> +				$data{$what}->{type} = $type;
+> +				$data{$what}->{file} = $name;
+> +				print STDERR "\twhat: $what\n" if ($debug > 1);
+> +			}
+> +
+> +			if (!$what) {
+> +				parse_error($file, $ln, "'What:' should come first:", $_);
+> +				next;
+> +			}
+> +			$data{$what}->{$tag} = $content;
+> +			next;
+> +		}
+> +
+> +		# Silently ignore any headers before the database
+> +		next if (!$tag);
+> +
+> +		if (m/^\s*(.*)/) {
+> +			$data{$what}->{$tag} .= "\n$1";
+> +			$data{$what}->{$tag} =~ s/\n+$//;
+> +			next;
+> +		}
+> +
+> +		# Everything else is error
+> +		parse_error($file, $ln, "Unexpected line:", $_);
+> +	}
+> +	close IN;
+> +}
+> +
+> +# Outputs the output on ReST format
+> +sub output_rest {
+> +	foreach my $what (sort keys %data) {
+> +		my $type = $data{$what}->{type};
+> +		my $file = $data{$what}->{file};
+> +
+> +		my $w = $what;
+> +		$w =~ s/([\(\)\_\-\*\=\^\~\\])/\\$1/g;
+> +
+> +		print "$w\n\n";
+> +		print "- defined on file $file (type: $type)\n\n::\n\n";
+> +
+> +		my $desc = $data{$what}->{description};
+> +		$desc =~ s/^\s+//;
+> +
+> +		# Remove title markups from the description, as they won't work
+> +		$desc =~ s/\n[\-\*\=\^\~]+\n/\n/g;
+> +
+> +		# put everything inside a code block
+> +		$desc =~ s/\n/\n /g;
+> +
+> +
+> +		if (!($desc =~ /^\s*$/)) {
+> +			print " $desc\n\n";
+> +		} else {
+> +			print " DESCRIPTION MISSING\n\n";
+> +		}
+> +	}
+> +}
+> +
+> +#
+> +# Parses all ABI files located at $prefix dir
+> +#
+> +find({wanted =>\&parse_abi, no_chdir => 1}, $prefix);
+> +
+> +print STDERR Data::Dumper->Dump([\%data], [qw(*data)]) if ($debug);
+> +
+> +#
+> +# Outputs an ReST file with the ABI contents
+> +#
+> +output_rest
+> +
+> +
+> +__END__
+> +
+> +=head1 NAME
+> +
+> +abi_book.pl - parse the Linux ABI files and produce a ReST book.
+> +
+> +=head1 SYNOPSIS
+> +
+> +B<abi_book.pl> [--debug] <ABI_DIR>]
+> +
+> +=head1 OPTIONS
+> +
+> +=over 8
+> +
+> +=item B<--debug>
+> +
+> +Put the script in verbose mode, useful for debugging. Can be called multiple
+> +times, to increase verbosity.
+> +
+> +=item B<--help>
+> +
+> +Prints a brief help message and exits.
+> +
+> +=item B<--man>
+> +
+> +Prints the manual page and exits.
+> +
+> +=back
+> +
+> +=head1 DESCRIPTION
+> +
+> +Parse the Linux ABI files from ABI DIR (usually located at Documentation/ABI)
+> +and produce a ReST book containing the Linux ABI.
+> +
+> +=head1 BUGS
+> +
+> +Report bugs to Mauro Carvalho Chehab <mchehab@s-opensource.com>
+> +
+> +=head1 COPYRIGHT
+> +
+> +Copyright (c) 2016 by Mauro Carvalho Chehab <mchehab@s-opensource.com>.
+> +
+> +License GPLv2: GNU GPL version 2 <http://gnu.org/licenses/gpl.html>.
+> +
+> +This is free software: you are free to change and redistribute it.
+> +There is NO WARRANTY, to the extent permitted by law.
+> +
+> +=cut
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
