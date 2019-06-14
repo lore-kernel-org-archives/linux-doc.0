@@ -3,71 +3,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 37BFE7D913
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 14:26:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 92F537D912
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 15:16:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728391AbfFNOZo (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Jun 2019 10:25:44 -0400
-Received: from ms.lwn.net ([45.79.88.28]:52266 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728050AbfFNOZo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 14 Jun 2019 10:25:44 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 73B88128A;
-        Fri, 14 Jun 2019 14:25:43 +0000 (UTC)
-Date:   Fri, 14 Jun 2019 08:25:42 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Dmitry Vyukov <dvyukov@google.com>
-Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        David Rientjes <rientjes@google.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Michael Ellerman <mpe@ellerman.id.au>
-Subject: Re: [PATCH v3] Add a document on rebasing and merging
-Message-ID: <20190614082542.3f8674eb@lwn.net>
-In-Reply-To: <CACT4Y+avfTeZTmhti=7nEadthZZpTnOCTdEuG2S7PovmAMkhZQ@mail.gmail.com>
-References: <20190612094503.120f699a@lwn.net>
-        <CACT4Y+avfTeZTmhti=7nEadthZZpTnOCTdEuG2S7PovmAMkhZQ@mail.gmail.com>
-Organization: LWN.net
+        id S1725858AbfFNPQS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Jun 2019 11:16:18 -0400
+Received: from hostingweb31-40.netsons.net ([89.40.174.40]:50010 "EHLO
+        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725843AbfFNPQS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jun 2019 11:16:18 -0400
+Received: from [109.168.11.45] (port=40856 helo=[192.168.101.64])
+        by hostingweb31.netsons.net with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
+        (Exim 4.92)
+        (envelope-from <luca@lucaceresoli.net>)
+        id 1hbnw6-000D0p-KC; Fri, 14 Jun 2019 17:16:14 +0200
+Subject: Re: [PATCH 1/9] media: docs: v4l2-controls: fix sentence rendered in
+ a nonsense way
+To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20190613141826.26775-1-luca@lucaceresoli.net>
+ <069ac18c-7b9e-652a-1ff8-35fca09e6538@xs4all.nl>
+From:   Luca Ceresoli <luca@lucaceresoli.net>
+Message-ID: <f132a0a3-d762-d4a3-f76c-a3cdc1dc5c56@lucaceresoli.net>
+Date:   Fri, 14 Jun 2019 17:16:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <069ac18c-7b9e-652a-1ff8-35fca09e6538@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lucaceresoli.net
+X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca+lucaceresoli.net/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 14 Jun 2019 11:59:03 +0200
-Dmitry Vyukov <dvyukov@google.com> wrote:
+Hi Hans,
 
-> I will appreciate if you elaborate a bit on this "scale of the
-> project". I wondered about reasons for having the current hierarchy of
-> trees and complex merging for a while, but wasn't able to find any
-> rationale. What exactly scale do you mean? I know a number of projects
-> that are comparable to Linux kernel, with the largest being 2 orders
-> of magnitude larger than kernel both in terms of code size and rate of
-> change, that use single tree and linear history. 
+On 14/06/19 09:14, Hans Verkuil wrote:
+> On 6/13/19 4:18 PM, Luca Ceresoli wrote:
+>> This sentence renders as:
+>>
+>>> Since such compound controls need to expose more information about
+>>> themselves than is possible with ioctls VIDIOC_QUERYCTRL,
+>>> VIDIOC_QUERY_EXT_CTRL and VIDIOC_QUERYMENU the VIDIOC_QUERY_EXT_CTRL
+>>   ^^^^^^^^^^^^^^^^^^^^^                          ^^^^^^^^^^^^^^^^^^^^^
+>>> ioctl was added.
+>>
+>> This does not make sense. Fix by providing an explicit link text. This
+>> results in:
+>>
+>>> Since such compound controls need to expose more information about
+>>> themselves than is possible with VIDIOC_QUERYCTRL and VIDIOC_QUERYMENU
+>>> the VIDIOC_QUERY_EXT_CTRL ioctl was added.
+>>
+>> Signed-off-by: Luca Ceresoli <luca@lucaceresoli.net>
+>> ---
+>>  Documentation/media/uapi/v4l/extended-controls.rst | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/media/uapi/v4l/extended-controls.rst b/Documentation/media/uapi/v4l/extended-controls.rst
+>> index 24274b398e63..0968aa9cd167 100644
+>> --- a/Documentation/media/uapi/v4l/extended-controls.rst
+>> +++ b/Documentation/media/uapi/v4l/extended-controls.rst
+>> @@ -86,7 +86,7 @@ with compound types should only be used programmatically.
+>>  
+>>  Since such compound controls need to expose more information about
+>>  themselves than is possible with
+>> -:ref:`VIDIOC_QUERYCTRL` the
+>> +:ref:`VIDIOC_QUERYCTRL and VIDIOC_QUERYMENU <VIDIOC_QUERYCTRL>` the
+> 
+> This should just refer to VIDIOC_QUERYCTRL, not QUERYMENU. So this
+> becomes: :ref:`VIDIOC_QUERYCTRL <VIDIOC_QUERYCTRL>`
 
-I'm not sure what projects you're talking about, so it's hard to compare.
+Thanks for your prompt review. v2 on its way with this patch only, since
+you already added the other ones in your latest pull request.
 
-During the 5.2 merge window, Linus did 209 pulls, bringing in just over
-12,000 changesets, from on the order of 1600 developers.  Even if, at the
-beginning of the window, each of those pulls was set up to be a
-fast-forward, they would no longer be positioned that way once the first
-pull was done.
-
-Are you really saying that subsystem maintainers should be continuously
-rebasing their trees to avoid merges at the top level?  Do you see how
-much work that would take, how badly it would obscure the development
-history, and how many bugs it would introduce?  Or perhaps I misunderstood
-what you're arguing for?
-
-Thanks,
-
-jon
+-- 
+Luca
