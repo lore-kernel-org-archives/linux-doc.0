@@ -5,37 +5,38 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id AC6A97D913
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 14:14:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1B5C87D90F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 14:16:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728566AbfFNOOi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Jun 2019 10:14:38 -0400
-Received: from ms.lwn.net ([45.79.88.28]:52178 "EHLO ms.lwn.net"
+        id S1728995AbfFNOPs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Jun 2019 10:15:48 -0400
+Received: from ms.lwn.net ([45.79.88.28]:52208 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728239AbfFNOOi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 14 Jun 2019 10:14:38 -0400
+        id S1728268AbfFNOPs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 14 Jun 2019 10:15:48 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 2EACC2D6;
-        Fri, 14 Jun 2019 14:14:37 +0000 (UTC)
-Date:   Fri, 14 Jun 2019 08:14:36 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id D4A9AAAB;
+        Fri, 14 Jun 2019 14:15:47 +0000 (UTC)
+Date:   Fri, 14 Jun 2019 08:15:46 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+To:     Markus Heiser <markus.heiser@darmarit.de>
+Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab@s-opensource.com>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 05/14] scripts: add an script to parse the ABI files
-Message-ID: <20190614081436.3f41746b@lwn.net>
-In-Reply-To: <87lfy4uuzs.fsf@intel.com>
+Subject: Re: [PATCH 12/14] doc-rst: add ABI documentation to the admin-guide
+ book
+Message-ID: <20190614081546.64101411@lwn.net>
+In-Reply-To: <2955920a-3d6a-8e41-e8fe-b7db3cefed8b@darmarit.de>
 References: <cover.1560477540.git.mchehab+samsung@kernel.org>
-        <196fb3c497546f923bf5d156c3fddbe74a4913bc.1560477540.git.mchehab+samsung@kernel.org>
-        <87r27wuwc3.fsf@intel.com>
-        <20190614133933.GA1076@kroah.com>
-        <87lfy4uuzs.fsf@intel.com>
+        <9da2a7f6ff57d9d53dcbb964eb310f7956522870.1560477540.git.mchehab+samsung@kernel.org>
+        <87o930uvur.fsf@intel.com>
+        <2955920a-3d6a-8e41-e8fe-b7db3cefed8b@darmarit.de>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -45,36 +46,14 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 14 Jun 2019 17:00:55 +0300
-Jani Nikula <jani.nikula@linux.intel.com> wrote:
+On Fri, 14 Jun 2019 16:10:31 +0200
+Markus Heiser <markus.heiser@darmarit.de> wrote:
 
-> On Fri, 14 Jun 2019, Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-> > On Fri, Jun 14, 2019 at 04:31:56PM +0300, Jani Nikula wrote:  
-> >> On Thu, 13 Jun 2019, Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:  
-> >> > From: Mauro Carvalho Chehab <mchehab@s-opensource.com>
-> >> >
-> >> > Add a script to parse the Documentation/ABI files and produce
-> >> > an output with all entries inside an ABI (sub)directory.
-> >> >
-> >> > Right now, it outputs its contents on ReST format. It shouldn't
-> >> > be hard to make it produce other kind of outputs, since the ABI
-> >> > file parser is implemented in separate than the output generator.  
-> >> 
-> >> Hum, or just convert the ABI files to rst directly.  
-> >
-> > And what would that look like?  
-> 
-> That pretty much depends on the requirements we want to set on both the
-> ABI source files and the generated output. Obviously the requirements
-> can be conflicting; might be hard to produce fancy output if the input
-> is very limited.
+> I agree with Jani. No matter how the decision ends, since I can't help here, I'd 
+> rather not show up in the copyright.
 
-The real question, I guess, is: is there anything else that depends on the
-current format of those files?  That could make reformatting them harder.
+Is there something specific you are asking us to do here?
 
-Otherwise it seems like Jani's fieldlist idea might have some potential.
-We could consider a *really* simple preprocessing step if we really wanted
-("prepend a colon on relevant lines and join with the following line if
-need be") to keep the current format nearly unchanged.
+Thanks,
 
 jon
