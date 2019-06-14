@@ -1,167 +1,102 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2DF337D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 15:28:04 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 18B787D912
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 15:33:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725999AbfFNP2D (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Jun 2019 11:28:03 -0400
-Received: from casper.infradead.org ([85.118.1.10]:44860 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725951AbfFNP2D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jun 2019 11:28:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=zkYfXJDrba3J/ihhf3pDgW4+XmjWJ9BtTd3Y+UzyafE=; b=BS4ZrbvjFPyHk5xTId0ecXBLat
-        Eni7lDtC5c80433fhcjoauEll6LtbS9S/fsvWv32ufxW/XTHAPEcfTjASF3wf4Gc1lv6TBtc1ZYsC
-        G/xseTJ8Z9UFEWcexun0lnArWMTwuyO3ZJlueKfxsLz0G1iTTU4KbBn3OVFbN+qCpR5hCPA/LGzvv
-        xblKmJx45lS/5NxhKoFJIHGB5Q/dov5mWXKaIopI66sCnlkHoR8M39ZKTlsorzUjs9i+7MUVyWrFb
-        Lj/Lb26SC48111GgRl0/zFEiTsCzUXyvLUerQHrwifk/U/+d7jEM0JFcQZp46DZop5KvdDI28SemZ
-        ib7N4LrQ==;
-Received: from 177.133.85.52.dynamic.adsl.gvt.net.br ([177.133.85.52] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hbo7T-0007sx-Kb; Fri, 14 Jun 2019 15:28:00 +0000
-Date:   Fri, 14 Jun 2019 12:27:55 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@s-opensource.com>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 12/14] doc-rst: add ABI documentation to the admin-guide
- book
-Message-ID: <20190614122755.1c7b4898@coco.lan>
-In-Reply-To: <20190614140603.GB7234@kroah.com>
-References: <cover.1560477540.git.mchehab+samsung@kernel.org>
-        <9da2a7f6ff57d9d53dcbb964eb310f7956522870.1560477540.git.mchehab+samsung@kernel.org>
-        <87o930uvur.fsf@intel.com>
-        <20190614140603.GB7234@kroah.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+        id S1726230AbfFNPdV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Jun 2019 11:33:21 -0400
+Received: from mga18.intel.com ([134.134.136.126]:64871 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725780AbfFNPdV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 14 Jun 2019 11:33:21 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Jun 2019 08:33:20 -0700
+X-ExtLoop1: 1
+Received: from yyu32-desk1.sc.intel.com ([10.144.153.205])
+  by fmsmga001.fm.intel.com with ESMTP; 14 Jun 2019 08:33:20 -0700
+Message-ID: <cf0d1470e95e0a8b88742651d06601a53d6655c1.camel@intel.com>
+Subject: Re: [PATCH v7 03/14] x86/cet/ibt: Add IBT legacy code bitmap setup
+ function
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Dave Hansen <dave.hansen@intel.com>,
+        Andy Lutomirski <luto@amacapital.net>
+Cc:     Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>
+Date:   Fri, 14 Jun 2019 08:25:16 -0700
+In-Reply-To: <ea5e333f-8cd6-8396-635f-a9dc580d5364@intel.com>
+References: <20190606200926.4029-1-yu-cheng.yu@intel.com>
+         <20190606200926.4029-4-yu-cheng.yu@intel.com>
+         <20190607080832.GT3419@hirez.programming.kicks-ass.net>
+         <aa8a92ef231d512b5c9855ef416db050b5ab59a6.camel@intel.com>
+         <20190607174336.GM3436@hirez.programming.kicks-ass.net>
+         <b3de4110-5366-fdc7-a960-71dea543a42f@intel.com>
+         <34E0D316-552A-401C-ABAA-5584B5BC98C5@amacapital.net>
+         <7e0b97bf1fbe6ff20653a8e4e147c6285cc5552d.camel@intel.com>
+         <25281DB3-FCE4-40C2-BADB-B3B05C5F8DD3@amacapital.net>
+         <e26f7d09376740a5f7e8360fac4805488b2c0a4f.camel@intel.com>
+         <3f19582d-78b1-5849-ffd0-53e8ca747c0d@intel.com>
+         <5aa98999b1343f34828414b74261201886ec4591.camel@intel.com>
+         <0665416d-9999-b394-df17-f2a5e1408130@intel.com>
+         <5c8727dde9653402eea97bfdd030c479d1e8dd99.camel@intel.com>
+         <ac9a20a6-170a-694e-beeb-605a17195034@intel.com>
+         <328275c9b43c06809c9937c83d25126a6e3efcbd.camel@intel.com>
+         <92e56b28-0cd4-e3f4-867b-639d9b98b86c@intel.com>
+         <1b961c71d30e31ecb22da2c5401b1a81cb802d86.camel@intel.com>
+         <ea5e333f-8cd6-8396-635f-a9dc580d5364@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Fri, 14 Jun 2019 16:06:03 +0200
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
-
-> On Fri, Jun 14, 2019 at 04:42:20PM +0300, Jani Nikula wrote:
-> > On Thu, 13 Jun 2019, Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:  
-> > > From: Mauro Carvalho Chehab <mchehab@s-opensource.com>
-> > >
-> > > As we don't want a generic Sphinx extension to execute commands,
-> > > change the one proposed to Markus to call the abi_book.pl
-> > > script.
-> > >
-> > > Use a script to parse the Documentation/ABI directory and output
-> > > it at the admin-guide.  
-> > 
-> > We had a legacy kernel-doc perl script so we used that instead of
-> > rewriting it in python. Just to keep it bug-for-bug compatible with the
-> > past. That was the only reason.
-> > 
-> > I see absolutely zero reason to add a new perl monstrosity with a python
-> > extension to call it. All of this could be better done in python,
-> > directly.
-> > 
-> > Please don't complicate the documentation build. I know you know we all
-> > worked hard to take apart the old DocBook Rube Goldberg machine to
-> > replace it with Sphinx. Please don't turn the Sphinx build to another
-> > complicated mess.
-> > 
-> > My strong preferences are, in this order:
-> > 
-> > 1) Convert the ABI documentation to reStructuredText  
+On Mon, 2019-06-10 at 15:59 -0700, Dave Hansen wrote:
+> On 6/10/19 3:40 PM, Yu-cheng Yu wrote:
+> > Ok, we will go back to do_mmap() with MAP_PRIVATE, MAP_NORESERVE and
+> > VM_DONTDUMP.  The bitmap will cover only 48-bit address space.
 > 
-> What would that exactly look like?  What would it require for new
-> developers for when they write new entries?  Why not rely on a helper
-> script, that allows us to validate things better?
+> Could you make sure to discuss the downsides of only doing a 48-bit
+> address space?
 
-Funny enough, this e-mail arrived here after Greg's reply, and my
-reply over his one :-)
+The downside is that we cannot load legacy lib's above 48-bit address space, but
+currently ld-linux does not do that.  Should ld-linux do that in the future,
+dlopen() fails.  Considering CRIU migration, we probably need to do this anyway?
 
--
+> What are the reasons behind and implications of VM_DONTDUMP?
 
-With regards to the script, my idea is to have it run on a new
-"validate" mode, when the Kernel is built with COMPILE_TEST:
+The bitmap is very big.
 
-	https://git.linuxtv.org/mchehab/experimental.git/log/?h=abi_patches_v4
+In GDB, it should be easy to tell why a control-protection fault occurred
+without the bitmap.
 
-NB: the last patch is not yet... somehow, the building system is not
-passing CONFIG_WARN_ABI_ERRORS to Documentation/Makefile. I'm
-debugging it.
-
-Personally, I would prefer to keep it the way it is, with two
-additions:
-
-1) I would add a SPDX header at the fist line of each file there;
-
-2) It would make sense to have a new field - or indicator - to let
-add ReST markups at the description. 
-
-The advantage of using a parseable ABI file is that it is possible
-to parse it, for example, to search for a symbol:
-
-	$ ./scripts/get_abi.pl voltage_max
-
-	/sys/class/power_supply/<supply_name>/voltage_max
-	-------------------------------------------------
-
-	Date:			January 2008
-	Contact:		linux-pm@vger.kernel.org
-	Defined on file:	Documentation/ABI/testing/sysfs-class-power
-
-	Description:
-
-	Reports the maximum VBUS voltage the supply can support.
-
-	Access: Read
-	Valid values: Represented in microvolts
-
-	...
-
-> 
-> > 2) Have the python extension read the ABI files directly, without an
-> >    extra pipeline.  
-> 
-> He who writes the script, get's to dictate the language of the script :)
-
-No idea about how much time it would take if written in python,
-but this perl script is really fast:
-
-	$ time ./scripts/get_abi.pl search voltage_max >/dev/null
-	real	0m0,139s
-	user	0m0,132s
-	sys	0m0,006s
-
-That's the time it takes here (SSD disks) to read all files under
-Documentation/ABI, parse them and seek for a string.
-
-That's about half of the time a python script takes to just import the
-the sphinx modules and print its version, running at the same machine:
-
-	$ time sphinx-build --version >/dev/null
-
-	real	0m0,224s
-	user	0m0,199s
-	sys	0m0,024s
-
-> Personally, this looks sane to me, I'm going to apply the ABI fixups to
-> my tree at least, and then see how the script works out.  The script can
-> always be replaced with a different one in a different language at a
-> later point in time of people think it really mattes.
-
-Thanks,
-Mauro
+Yu-cheng
