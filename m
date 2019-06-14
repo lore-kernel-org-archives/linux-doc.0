@@ -1,142 +1,135 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4F0B67D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 09:59:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 06D367D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 10:34:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726861AbfFNJ7U (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Jun 2019 05:59:20 -0400
-Received: from mail-io1-f67.google.com ([209.85.166.67]:34521 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725812AbfFNJ7T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jun 2019 05:59:19 -0400
-Received: by mail-io1-f67.google.com with SMTP id k8so4557605iot.1
-        for <linux-doc@vger.kernel.org>; Fri, 14 Jun 2019 02:59:19 -0700 (PDT)
+        id S1726545AbfFNKeh (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Jun 2019 06:34:37 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:50952 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726083AbfFNKeh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jun 2019 06:34:37 -0400
+Received: by mail-wm1-f65.google.com with SMTP id c66so1816409wmf.0
+        for <linux-doc@vger.kernel.org>; Fri, 14 Jun 2019 03:34:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=v08nuKUfobTwd9D7NtlanDgmE4+9veHqDzK9gkjWjHE=;
-        b=MZkFaZwAToCoJEP3nJq0oa9mk36X9an2xiMkrPu8xw6Rz2dyJe45mmOVeT18XSJypO
-         dwiNzTPJByz5UDj/uc2jri8E6L+pqvBDRAOQHgI3x5upjWRJuJsA0CzezYmvIh/30XSz
-         JARV0ZhDnfIBuyy7INNRJZdvvy2UmiUQF2eXnrzirjFXs6kBoNX44vM2u04kdFUeStMZ
-         o+9fkcYpBhXMciQwMCDfRsZA6EyjPeeQdSru7sNhaiLjAHckp6osYMxd8c+BwCBwg0Ba
-         wzHPpGaKPv+h+qHNzfFJNxFFPn32tCQkHqxei+ewy4bTiTcqYMrSEeb5zoil3uPioSRh
-         su3g==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=VQlYOuWw/XgKJ5lYOlgzDNhtem0wEWO83AzsJk5siJw=;
+        b=CFkz0AWBLH3qM/wTX9/0rbnEGIdGMhwqDq25JmOGJSDvCx9ui0dw9bqgpr1ksw+LT6
+         VMXk2sllUNdudRlnQH2Z9jYfoaJjzBK0BdkpGhugaQ59wtMT7Fi1LQBmUAcNx7u/Q6pU
+         woUjMPVk5GtD8+dGjT/59hrYjznvzD+kfru+iCm4Tz+MtFEks/RA/Kl9F9z+YnEp4Rj6
+         sL4tqPfeAmH+cBDQDwBd7Dr9J45Vc23gasoIa+2gUZSSujFqmnL1Cd4a2nk5nisrD3o2
+         zIEygEfF25IlZJQyz3E3gS73g0A/n8nN0PtL72QnwI6a6tCnEqMvkchTeYiJ1eSFbbrZ
+         iG7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=v08nuKUfobTwd9D7NtlanDgmE4+9veHqDzK9gkjWjHE=;
-        b=guVSC+PqrRtfpaMOiqpWTngm3IZ4ViSdtICuiS81TlayXyao6tB18M+LzpdD1Y0wHt
-         kabDFdYFj6bvmOzQGeq7498Fs7jjGhE8KLGI4CUPm33AJVLfmTWGtw/o7fJN05062yTc
-         eF9ov0vu7LRwyRSMSdlFb5q6sKlfjw6Uilf0tq7YIsGq4Jcwm0J5BH3wNfcmyVEI6Oc5
-         fEio98ito0DCVQF+1g0OtgNbt1f/QcgM9XQvUfcSQcyFcFUKw9YuXb2r7jJib3XSlMk1
-         UesUBy+zv+PYgDLsmCvTnAScR/5oi/cR4aafnhtZuGA2ptczmQlcJkGE49BBgps6oFJv
-         Iofg==
-X-Gm-Message-State: APjAAAU+dJ5/SUyrFjMwjkkbnrSh7oOfd3TRelFpZyKsIytGmhJUIQzR
-        eRJaY9a+sOTAjk9dzYUEBQAWfYoQ2KD6cmDVvCt3kQ==
-X-Google-Smtp-Source: APXvYqw9qxqlAhjSCVYTqc0xE1/aiBP2Qv62atE/WzzptsuybOA1c8mBygpoIWXNnFCKzrTzRaLDoAjAyO8SBTfpvww=
-X-Received: by 2002:a5d:80d6:: with SMTP id h22mr11341347ior.231.1560506358552;
- Fri, 14 Jun 2019 02:59:18 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=VQlYOuWw/XgKJ5lYOlgzDNhtem0wEWO83AzsJk5siJw=;
+        b=SVfvjKJTmaClMOCl/p+1DiL1GZMxrU5YWKJm8wmzM9VuZwEO1h7/XCGN1ljt/RXQfI
+         D6BnVcAEsVhD1ibDdKGgC4SeYCEfQ4QNForMgmbis9aqiqNRkq/aI4+UW5ttklVR/+AX
+         gZpqgRJlW1tAGJq7eo1SkhmIQfxDv9EhnayRWMhGbFWMdm3Y1tTLL5M2Z8Y5JojOUVFQ
+         lUAkAtPKwqU7URk6NHLGMR9Z15P9vLJN1hMHVHQwgaZSljsF8jMhFXvsEXsv696srUsL
+         7TKYL7d6PJPXYzNMIBXYcjla4yjKsjZSBydJNmyuZSOZx0gNvkZ0LxkawswQu8x7W+5g
+         szog==
+X-Gm-Message-State: APjAAAWmL0ZZrNe3tWFSzqPlN8mpGG5dglUlRnMehHyZIMMbx7W2hQ86
+        B8AO1c8/Nbs2BmsVyQpImFWUqwkzSrQ=
+X-Google-Smtp-Source: APXvYqzMy7f04xPUuO0lEJs4Zkj7eAmy4TPUQhawhEeebqMCl/nBD1FiRvyH776EUxFte8zki3W9TQ==
+X-Received: by 2002:a7b:c933:: with SMTP id h19mr7726918wml.52.1560508474645;
+        Fri, 14 Jun 2019 03:34:34 -0700 (PDT)
+Received: from apalos (athedsl-4461147.home.otenet.gr. [94.71.2.75])
+        by smtp.gmail.com with ESMTPSA id s10sm3938737wrw.45.2019.06.14.03.34.33
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 14 Jun 2019 03:34:34 -0700 (PDT)
+Date:   Fri, 14 Jun 2019 13:34:30 +0300
+From:   Ilias Apalodimas <ilias.apalodimas@linaro.org>
+To:     Sasha Levin <sashal@kernel.org>
+Cc:     Sumit Garg <sumit.garg@linaro.org>, peterhuewe@gmx.de,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        jgg@ziepe.ca, corbet@lwn.net,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+        Microsoft Linux Kernel List <linux-kernel@microsoft.com>,
+        Thirupathaiah Annapureddy <thiruan@microsoft.com>,
+        "Bryan Kelly (CSI)" <bryankel@microsoft.com>,
+        tee-dev@lists.linaro.org
+Subject: Re: [PATCH v4 1/2] fTPM: firmware TPM running in TEE
+Message-ID: <20190614103430.GA6108@apalos>
+References: <20190530152758.16628-1-sashal@kernel.org>
+ <20190530152758.16628-2-sashal@kernel.org>
+ <CAFA6WYM1NrghG9qxUhrm76kopvBx9nmCL9XnRs11ysb2Yr0+Qw@mail.gmail.com>
+ <20190604200951.GB29739@sasha-vm>
+ <CAFA6WYMOjgHRw9RVrjherNo0ZNbTtEonPwSFFC0dT4CZO=A1NQ@mail.gmail.com>
+ <20190613171141.GL1513@sasha-vm>
 MIME-Version: 1.0
-References: <20190612094503.120f699a@lwn.net>
-In-Reply-To: <20190612094503.120f699a@lwn.net>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Fri, 14 Jun 2019 11:59:03 +0200
-Message-ID: <CACT4Y+avfTeZTmhti=7nEadthZZpTnOCTdEuG2S7PovmAMkhZQ@mail.gmail.com>
-Subject: Re: [PATCH v3] Add a document on rebasing and merging
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        David Rientjes <rientjes@google.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Michael Ellerman <mpe@ellerman.id.au>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190613171141.GL1513@sasha-vm>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 12, 2019 at 5:45 PM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> Every merge window seems to involve at least one episode where subsystem
-> maintainers don't manage their trees as Linus would like.  Document the
-> expectations so that at least he has something to point people to.
->
-> Acked-by: David Rientjes <rientjes@google.com>
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-> ---
-> I intend to apply this version unless somebody really screams.
->
-> Changes in v3
->   - Fill out discussion on back merges and topic branches as suggested by
->     Jani.
->
-> Changes in v2:
->   - Try to clear up "reparenting" v. "history modification"
->   - Make the "don't rebase public branches" rule into more of a guideline
->   - Fix typos noted by Geert
->   - Rename the document to better reflect its contents
->
->  Documentation/maintainer/index.rst            |   1 +
->  .../maintainer/rebasing-and-merging.rst       | 226 ++++++++++++++++++
->  2 files changed, 227 insertions(+)
->  create mode 100644 Documentation/maintainer/rebasing-and-merging.rst
->
-> diff --git a/Documentation/maintainer/index.rst b/Documentation/maintainer/index.rst
-> index 2a14916930cb..56e2c09dfa39 100644
-> --- a/Documentation/maintainer/index.rst
-> +++ b/Documentation/maintainer/index.rst
-> @@ -10,5 +10,6 @@ additions to this manual.
->     :maxdepth: 2
->
->     configure-git
-> +   rebasing-and-merging
->     pull-requests
->
-> diff --git a/Documentation/maintainer/rebasing-and-merging.rst b/Documentation/maintainer/rebasing-and-merging.rst
-> new file mode 100644
-> index 000000000000..5da9da7a2c51
-> --- /dev/null
-> +++ b/Documentation/maintainer/rebasing-and-merging.rst
-> @@ -0,0 +1,226 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +====================
-> +Rebasing and merging
-> +====================
-> +
-> +Maintaining a subsystem, as a general rule, requires a familiarity with the
-> +Git source-code management system.  Git is a powerful tool with a lot of
-> +features; as is often the case with such tools, there are right and wrong
-> +ways to use those features.  This document looks in particular at the use
-> +of rebasing and merging.  Maintainers often get in trouble when they use
-> +those tools incorrectly, but avoiding problems is not actually all that
-> +hard.
-> +
-> +One thing to be aware of in general is that, unlike many other projects,
-> +the kernel community is not scared by seeing merge commits in its
-> +development history.  Indeed, given the scale of the project, avoiding
-> +merges would be nearly impossible.
+Hi Sasha, 
+On Thu, Jun 13, 2019 at 01:11:41PM -0400, Sasha Levin wrote:
+> On Wed, Jun 05, 2019 at 04:39:36PM +0530, Sumit Garg wrote:
+> >On Wed, 5 Jun 2019 at 01:39, Sasha Levin <sashal@kernel.org> wrote:
+> >>
+> >>On Tue, Jun 04, 2019 at 11:45:52AM +0530, Sumit Garg wrote:
+> >>>On Thu, 30 May 2019 at 20:58, Sasha Levin <sashal@kernel.org> wrote:
+> >>>> +       /* Open context with TEE driver */
+> >>>> +       pvt_data->ctx = tee_client_open_context(NULL, ftpm_tee_match, NULL,
+> >>>> +                                               NULL);
+> >>>> +       if (IS_ERR(pvt_data->ctx)) {
+> >>>> +               dev_err(dev, "%s:tee_client_open_context failed\n", __func__);
+> >>>
+> >>>Is this well tested? I see this misleading error multiple times as
+> >>>follows although TEE driver works pretty well.
+> >>
+> >>Yes, this was all functionally tested.
+I did test as well with a DeveloperBox, i can confirm the driver is loading (but
+i have no fTPM support on the OP-TEE side for now)
 
-Hi Jonathan,
 
-I will appreciate if you elaborate a bit on this "scale of the
-project". I wondered about reasons for having the current hierarchy of
-trees and complex merging for a while, but wasn't able to find any
-rationale. What exactly scale do you mean? I know a number of projects
-that are comparable to Linux kernel, with the largest being 2 orders
-of magnitude larger than kernel both in terms of code size and rate of
-change, that use single tree and linear history. So these scales do
-not seem to inherently require multiple trees and non-linear history.
-Maybe this is already documented somewhere?
+apalos@mule:~>sudo dmesg | grep optee
+[sudo] password for apalos: 
+[    5.035801] optee: probing for conduit method from DT.
+[    5.041045] optee: revision 3.2 (53bf1c38)
+[    5.041772] optee: initialized driver
+apalos@mule:~>sudo dmesg | grep tpm
+[    5.000674] ftpm-tee tpm@0: ftpm_tee_probe:tee_client_open_context failed
+[    5.101655] ftpm-tee tpm@0: ftpm_tee_probe:tee_client_open_session failed,
+err=ffff000c
+[    5.109703] ftpm-tee: probe of tpm@0 failed with error -22
+
+
+The error -22 is nice since the probe eventually failed (no fTPM support in
+secure world). Can we slightly change the
+'ftpm_tee_probe:tee_client_open_context failed' and indicate this is not a real
+error since the probe gets deferred untill Secure world is alive?
+
+By the way there is *real* interest for this functionality. I expect to run it
+on a number of Arm boards once i get some free time.
+
+> >Can you share your build instructions and testing approach?
+> 
+> Yes: it looks like you got all the kernel bits, but not the firmware.
+> There are instructions for it here: https://github.com/microsoft/ms-tpm-20-ref
+> 
+> Once it's running, you can test it by running your favorite TPM usecases
+> through /dev/tpm0.
+> 
+> --
+> Thanks,
+> Sasha
 
 Thanks
+/Ilias
