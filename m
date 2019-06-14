@@ -5,42 +5,51 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8992C7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 20:34:44 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 810847D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 20:36:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726950AbfFNUeb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Jun 2019 16:34:31 -0400
-Received: from ms.lwn.net ([45.79.88.28]:54026 "EHLO ms.lwn.net"
+        id S1727107AbfFNUgi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Jun 2019 16:36:38 -0400
+Received: from ms.lwn.net ([45.79.88.28]:54134 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726193AbfFNUeb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 14 Jun 2019 16:34:31 -0400
+        id S1728435AbfFNUgi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 14 Jun 2019 16:36:38 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 20793128A;
-        Fri, 14 Jun 2019 20:34:30 +0000 (UTC)
-Date:   Fri, 14 Jun 2019 14:34:29 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 656C91429;
+        Fri, 14 Jun 2019 20:36:36 +0000 (UTC)
+Date:   Fri, 14 Jun 2019 14:36:35 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Radim =?UTF-8?B?S3LEjW3DocWZ?= <rkrcmar@redhat.com>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, kvm@vger.kernel.org,
-        linux-efi@vger.kernel.org
-Subject: Re: [PATCH v4 02/28] docs: arm64: convert docs to ReST and rename
- to .rst
-Message-ID: <20190614143429.640226ec@lwn.net>
-In-Reply-To: <20190614141041.335a76e5@lwn.net>
+        Linas Vepstas <linasvepstas@gmail.com>,
+        Russell Currey <ruscur@russell.cc>,
+        Sam Bobroff <sbobroff@linux.ibm.com>,
+        "Oliver O'Halloran" <oohall@gmail.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Frederic Barrat <fbarrat@linux.ibm.com>,
+        Andrew Donnellan <ajd@linux.ibm.com>,
+        "Manoj N. Kumar" <manoj@linux.ibm.com>,
+        "Matthew R. Ochs" <mrochs@linux.ibm.com>,
+        Uma Krishnan <ukrishn@linux.ibm.com>,
+        Qiang Zhao <qiang.zhao@nxp.com>, Li Yang <leoyang.li@nxp.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>, linux-pci@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-scsi@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Andrew Donnellan <andrew.donnellan@au1.ibm.com>
+Subject: Re: [PATCH v4 19/28] docs: powerpc: convert docs to ReST and rename
+ to *.rst
+Message-ID: <20190614143635.3aff154d@lwn.net>
+In-Reply-To: <63560c1ee7174952e148a353840a17969fe0be2d.1560361364.git.mchehab+samsung@kernel.org>
 References: <cover.1560361364.git.mchehab+samsung@kernel.org>
-        <8320e8e871660bf9fc426bc688f4808a1a7aa031.1560361364.git.mchehab+samsung@kernel.org>
-        <20190614141041.335a76e5@lwn.net>
+        <63560c1ee7174952e148a353840a17969fe0be2d.1560361364.git.mchehab+samsung@kernel.org>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -50,31 +59,71 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 14 Jun 2019 14:10:41 -0600
-Jonathan Corbet <corbet@lwn.net> wrote:
+On Wed, 12 Jun 2019 14:52:55 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-> On Wed, 12 Jun 2019 14:52:38 -0300
-> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+> Convert docs to ReST and add them to the arch-specific
+> book.
 > 
-> > The documentation is in a format that is very close to ReST format.
-> > 
-> > The conversion is actually:
-> >   - add blank lines in order to identify paragraphs;
-> >   - fixing tables markups;
-> >   - adding some lists markups;
-> >   - marking literal blocks;
-> >   - adjust some title markups.
-> > 
-> > At its new index.rst, let's add a :orphan: while this is not linked to
-> > the main index.rst file, in order to avoid build warnings.  
+> The conversion here was trivial, as almost every file there
+> was already using an elegant format close to ReST standard.
 > 
-> This one doesn't apply to docs-next, since there's a bunch of stuff in
-> linux-next that I don't have.  I'd suggest that it either go by way of an
-> ARM tree or send it my way again after the ARM changes go upstream.
+> The changes were mostly to mark literal blocks and add a few
+> missing section title identifiers.
+> 
+> One note with regards to "--": on Sphinx, this can't be used
+> to identify a list, as it will format it badly. This can be
+> used, however, to identify a long hyphen - and "---" is an
+> even longer one.
+> 
+> At its new index.rst, let's add a :orphan: while this is not linked to
+> the main index.rst file, in order to avoid build warnings.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> Acked-by: Andrew Donnellan <andrew.donnellan@au1.ibm.com> # cxl
 
-Actually, nevermind.  Pulling my tree forward to 5.2-rc4 resolved the
-issues here.
+This one fails to apply because ...
 
-Thanks,
+[...]
+
+> diff --git a/Documentation/PCI/pci-error-recovery.rst b/Documentation/PCI/pci-error-recovery.rst
+> index 83db42092935..acc21ecca322 100644
+> --- a/Documentation/PCI/pci-error-recovery.rst
+> +++ b/Documentation/PCI/pci-error-recovery.rst
+> @@ -403,7 +403,7 @@ That is, the recovery API only requires that:
+>  .. note::
+>  
+>     Implementation details for the powerpc platform are discussed in
+> -   the file Documentation/powerpc/eeh-pci-error-recovery.txt
+> +   the file Documentation/powerpc/eeh-pci-error-recovery.rst
+>  
+>     As of this writing, there is a growing list of device drivers with
+>     patches implementing error recovery. Not all of these patches are in
+> @@ -422,3 +422,24 @@ That is, the recovery API only requires that:
+>     - drivers/net/cxgb3
+>     - drivers/net/s2io.c
+>     - drivers/net/qlge
+> +
+> +>>> As of this writing, there is a growing list of device drivers with
+> +>>> patches implementing error recovery. Not all of these patches are in
+> +>>> mainline yet. These may be used as "examples":
+> +>>>
+> +>>> drivers/scsi/ipr
+> +>>> drivers/scsi/sym53c8xx_2
+> +>>> drivers/scsi/qla2xxx
+> +>>> drivers/scsi/lpfc
+> +>>> drivers/next/bnx2.c
+> +>>> drivers/next/e100.c
+> +>>> drivers/net/e1000
+> +>>> drivers/net/e1000e
+> +>>> drivers/net/ixgb
+> +>>> drivers/net/ixgbe
+> +>>> drivers/net/cxgb3
+> +>>> drivers/net/s2io.c
+> +>>> drivers/net/qlge  
+
+...of this, which has the look of a set of conflict markers that managed
+to get committed...?
 
 jon
+
