@@ -1,438 +1,208 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE,URIBL_SBL,URIBL_SBL_A autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 201B17D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 16:36:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B51807D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 16:49:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726325AbfFNQg5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Jun 2019 12:36:57 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:34806 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725981AbfFNQg5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jun 2019 12:36:57 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: eballetbo)
-        with ESMTPSA id E3443285C05
-From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     gwendal@chromium.org, Guenter Roeck <groeck@chromium.org>,
-        Benson Leung <bleung@chromium.org>,
-        Lee Jones <lee.jones@linaro.org>, kernel@collabora.com,
-        dtor@chromium.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Guido Kiener <guido@kiener-muenchen.de>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        linux-doc@vger.kernel.org, Enno Luebbers <enno.luebbers@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>, Wu Hao <hao.wu@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Tycho Andersen <tycho@tycho.ws>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v2 03/10] mfd / platform: cros_ec: Miscellaneous character device to talk with the EC
-Date:   Fri, 14 Jun 2019 18:36:28 +0200
-Message-Id: <20190614163635.22413-4-enric.balletbo@collabora.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190614163635.22413-1-enric.balletbo@collabora.com>
-References: <20190614163635.22413-1-enric.balletbo@collabora.com>
+        id S1725801AbfFNQtz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Jun 2019 12:49:55 -0400
+Received: from mx.kolabnow.com ([95.128.36.42]:16012 "EHLO mx.kolabnow.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725868AbfFNQtz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 14 Jun 2019 12:49:55 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id AC7E2299;
+        Fri, 14 Jun 2019 18:49:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-type:content-type:content-transfer-encoding:mime-version
+        :references:in-reply-to:message-id:date:date:subject:subject
+        :from:from:received:received:received; s=dkim20160331; t=
+        1560530992; x=1562345393; bh=LIwM9+9dIB18u+6tFJEox7KnVEIbAhaN9hk
+        yl/cMLRc=; b=Egwi3XNQAxx7dDzMNX1XL4gQLSuDNwfnmaviMbNzC+yP2/nJ6k4
+        xp0cQ3Pp8rMUajbUGIePrvotrcUiH9HFs5Da86wUOUg0uic/Wc4PzJcLN0FvBsLa
+        /H5qYywdEHgIDdBjbMQrYrH2MB/BEmmrJTZj/86lgBeQKoMmUmEnUBVXqaDKOurg
+        1K5FOnIL1+5dRBR0bMNC5e+rdSUpQ4wZgl/nI2dYymxzBiV7gtFbAQuy22aYf/K2
+        fFecvX+/Lt9OP2JQ1zxKjgavkjcI5TZnti6jouRmtKa0I0TjVUjc0SSZr+uaZ5Rg
+        xhVhdt5NgQswMDqHqqFOX9gygSIYWiu09UhD9aXd1MP5d+7sSutsCrGBtfQBnZHY
+        mQs+3jpMBy6olxrnkSsODYd+QYuR/kM4/uuSF9zJqHC4fySvu1wKZilQ1k08ON82
+        hmn76LKNLxRAuSlNiXA52VSO+6OyXL9YBgo39Vj5vR1Jatr2TgRRb2vW3LtAMNcZ
+        nvXj5qcjMOy+ig59AmHdiZgqxpiiT4D0ZsVqTMuF2rOefYZsalWS/SxmIVQkJC9j
+        KLTaAb0KiwdYSlk5N5a+RVyTIXnL1/rGoPWCXAHHU1OKVdMk/uDBdMfUmbVa84Kl
+        xR+6WwJfympI884LEaIJfXfPRfrCOPsbLoewXVOkl/j0Wgjt6YZ6qo58=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id QOVTgGi62AZn; Fri, 14 Jun 2019 18:49:52 +0200 (CEST)
+Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
+        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id F41D01E2;
+        Fri, 14 Jun 2019 18:49:51 +0200 (CEST)
+Received: from ext-subm001.mykolab.com (unknown [10.9.6.1])
+        by int-mx003.mykolab.com (Postfix) with ESMTPS id 9496E2AB8;
+        Fri, 14 Jun 2019 18:49:51 +0200 (CEST)
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Stephen Kitt <steve@sk2.org>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org, keescook@chromium.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: stop suggesting strlcpy
+Date:   Fri, 14 Jun 2019 18:49:50 +0200
+Message-ID: <2414416.tHVI2ZYGNv@harkonnen>
+In-Reply-To: <20190613162548.19792-1-steve@sk2.org>
+References: <20190613162548.19792-1-steve@sk2.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-That's a driver to talk with the ChromeOS Embedded Controller via a
-miscellaneous character device, it creates an entry in /dev for every
-instance and implements basic file operations for communicating with the
-Embedded Controller with an userspace application. The API is moved to
-the uapi folder, which is supposed to contain the user space API of the
-kernel.
+In data Thursday, June 13, 2019 6:25:48 PM CEST, Stephen Kitt ha scritto:
+> Since strlcpy is deprecated, the documentation shouldn't suggest using
+> it. This patch fixes the examples to use strscpy instead. It also uses
+> sizeof instead of underlying constants as far as possible, to simplify
+> future changes to the corresponding data structures.
+> 
+> Signed-off-by: Stephen Kitt <steve@sk2.org>
 
-Note that this will replace current character device interface
-implemented in the cros-ec-dev driver in the MFD subsystem. The idea is
-to move all the functionality that extends the bounds of what MFD was
-designed to platform/chrome subsystem.
+Acked-by: Federico Vaga <federico.vaga@vaga.pv.it>
 
-Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
 
-Changes in v2:
-- Remove the list, and the lock, as are not needed (Greg Kroah-Hartman)
-- Remove dev_info in probe, anyway we will see the chardev or not if the
-  probe fails (Greg Kroah-Hartman)
+> ---
+>  Documentation/hid/hid-transport.txt                         | 6 +++---
+>  Documentation/i2c/instantiating-devices                     | 2 +-
+>  Documentation/i2c/upgrading-clients                         | 4 ++--
+>  Documentation/kernel-hacking/locking.rst                    | 6 +++---
+>  Documentation/translations/it_IT/kernel-hacking/locking.rst | 6 +++---
+>  5 files changed, 12 insertions(+), 12 deletions(-)
+> 
+> diff --git a/Documentation/hid/hid-transport.txt
+> b/Documentation/hid/hid-transport.txt index 3dcba9fd4a3a..4f41d67f1b4b
+> 100644
+> --- a/Documentation/hid/hid-transport.txt
+> +++ b/Documentation/hid/hid-transport.txt
+> @@ -194,9 +194,9 @@ with HID core:
+>  		goto err_<...>;
+>  	}
+> 
+> -	strlcpy(hid->name, <device-name-src>, 127);
+> -	strlcpy(hid->phys, <device-phys-src>, 63);
+> -	strlcpy(hid->uniq, <device-uniq-src>, 63);
+> +	strscpy(hid->name, <device-name-src>, sizeof(hid->name));
+> +	strscpy(hid->phys, <device-phys-src>, sizeof(hid->phys));
+> +	strscpy(hid->uniq, <device-uniq-src>, sizeof(hid->uniq));
+> 
+>  	hid->ll_driver = &custom_ll_driver;
+>  	hid->bus = <device-bus>;
+> diff --git a/Documentation/i2c/instantiating-devices
+> b/Documentation/i2c/instantiating-devices index 0d85ac1935b7..8bc7d99133e3
+> 100644
+> --- a/Documentation/i2c/instantiating-devices
+> +++ b/Documentation/i2c/instantiating-devices
+> @@ -137,7 +137,7 @@ static int usb_hcd_nxp_probe(struct platform_device
+> *pdev) (...)
+>  	i2c_adap = i2c_get_adapter(2);
+>  	memset(&i2c_info, 0, sizeof(struct i2c_board_info));
+> -	strlcpy(i2c_info.type, "isp1301_nxp", I2C_NAME_SIZE);
+> +	strscpy(i2c_info.type, "isp1301_nxp", sizeof(i2c_info.type));
+>  	isp1301_i2c_client = i2c_new_probed_device(i2c_adap, &i2c_info,
+>  						   
+normal_i2c, NULL);
+>  	i2c_put_adapter(i2c_adap);
+> diff --git a/Documentation/i2c/upgrading-clients
+> b/Documentation/i2c/upgrading-clients index ccba3ffd6e80..96392cc5b5c7
+> 100644
+> --- a/Documentation/i2c/upgrading-clients
+> +++ b/Documentation/i2c/upgrading-clients
+> @@ -43,7 +43,7 @@ static int example_attach(struct i2c_adapter *adap, int
+> addr, int kind) example->client.adapter = adap;
+> 
+>  	i2c_set_clientdata(&state->i2c_client, state);
+> -	strlcpy(client->i2c_client.name, "example", I2C_NAME_SIZE);
+> +	strscpy(client->i2c_client.name, "example",
+> sizeof(client->i2c_client.name));
+> 
+>  	ret = i2c_attach_client(&state->i2c_client);
+>  	if (ret < 0) {
+> @@ -138,7 +138,7 @@ can be removed:
+>  -	example->client.flags   = 0;
+>  -	example->client.adapter = adap;
+>  -
+> --	strlcpy(client->i2c_client.name, "example", I2C_NAME_SIZE);
+> +-	strscpy(client->i2c_client.name, "example",
+> sizeof(client->i2c_client.name));
+> 
+>  The i2c_set_clientdata is now:
+> 
+> diff --git a/Documentation/kernel-hacking/locking.rst
+> b/Documentation/kernel-hacking/locking.rst index 519673df0e82..dc698ea456e0
+> 100644
+> --- a/Documentation/kernel-hacking/locking.rst
+> +++ b/Documentation/kernel-hacking/locking.rst
+> @@ -451,7 +451,7 @@ to protect the cache and all the objects within it.
+> Here's the code:: if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
+> return -ENOMEM;
+> 
+> -            strlcpy(obj->name, name, sizeof(obj->name));
+> +            strscpy(obj->name, name, sizeof(obj->name));
+>              obj->id = id;
+>              obj->popularity = 0;
+> 
+> @@ -660,7 +660,7 @@ Here is the code::
+>       }
+> 
+>      @@ -63,6 +94,7 @@
+> -             strlcpy(obj->name, name, sizeof(obj->name));
+> +             strscpy(obj->name, name, sizeof(obj->name));
+>               obj->id = id;
+>               obj->popularity = 0;
+>      +        obj->refcnt = 1; /* The cache holds a reference */
+> @@ -774,7 +774,7 @@ the lock is no longer used to protect the reference
+> count itself. }
+> 
+>      @@ -94,7 +76,7 @@
+> -             strlcpy(obj->name, name, sizeof(obj->name));
+> +             strscpy(obj->name, name, sizeof(obj->name));
+>               obj->id = id;
+>               obj->popularity = 0;
+>      -        obj->refcnt = 1; /* The cache holds a reference */
+> diff --git a/Documentation/translations/it_IT/kernel-hacking/locking.rst
+> b/Documentation/translations/it_IT/kernel-hacking/locking.rst index
+> 0ef31666663b..5fd8a1abd2be 100644
+> --- a/Documentation/translations/it_IT/kernel-hacking/locking.rst
+> +++ b/Documentation/translations/it_IT/kernel-hacking/locking.rst
+> @@ -468,7 +468,7 @@ e tutti gli oggetti che contiene. Ecco il codice::
+>              if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
+>                      return -ENOMEM;
+> 
+> -            strlcpy(obj->name, name, sizeof(obj->name));
+> +            strscpy(obj->name, name, sizeof(obj->name));
+>              obj->id = id;
+>              obj->popularity = 0;
+> 
+> @@ -678,7 +678,7 @@ Ecco il codice::
+>       }
+> 
+>      @@ -63,6 +94,7 @@
+> -             strlcpy(obj->name, name, sizeof(obj->name));
+> +             strscpy(obj->name, name, sizeof(obj->name));
+>               obj->id = id;
+>               obj->popularity = 0;
+>      +        obj->refcnt = 1; /* The cache holds a reference */
+> @@ -792,7 +792,7 @@ contatore stesso.
+>       }
+> 
+>      @@ -94,7 +76,7 @@
+> -             strlcpy(obj->name, name, sizeof(obj->name));
+> +             strscpy(obj->name, name, sizeof(obj->name));
+>               obj->id = id;
+>               obj->popularity = 0;
+>      -        obj->refcnt = 1; /* The cache holds a reference */
 
- Documentation/ioctl/ioctl-number.txt          |   2 +-
- drivers/mfd/cros_ec_dev.c                     |   2 +-
- drivers/platform/chrome/Kconfig               |  11 +
- drivers/platform/chrome/Makefile              |   1 +
- drivers/platform/chrome/cros_ec_chardev.c     | 253 ++++++++++++++++++
- .../uapi/linux/cros_ec_chardev.h              |  20 +-
- 6 files changed, 271 insertions(+), 18 deletions(-)
- create mode 100644 drivers/platform/chrome/cros_ec_chardev.c
- rename drivers/mfd/cros_ec_dev.h => include/uapi/linux/cros_ec_chardev.h (52%)
 
-diff --git a/Documentation/ioctl/ioctl-number.txt b/Documentation/ioctl/ioctl-number.txt
-index c9558146ac58..8bd7907ee36d 100644
---- a/Documentation/ioctl/ioctl-number.txt
-+++ b/Documentation/ioctl/ioctl-number.txt
-@@ -340,7 +340,7 @@ Code  Seq#(hex)	Include File		Comments
- 0xDD	00-3F	ZFCP device driver	see drivers/s390/scsi/
- 					<mailto:aherrman@de.ibm.com>
- 0xE5	00-3F	linux/fuse.h
--0xEC	00-01	drivers/platform/chrome/cros_ec_dev.h	ChromeOS EC driver
-+0xEC	00-01	include/uapi/linux/cros_ec_chardev.h	ChromeOS EC driver
- 0xF3	00-3F	drivers/usb/misc/sisusbvga/sisusb.h	sisfb (in development)
- 					<mailto:thomas@winischhofer.net>
- 0xF4	00-1F	video/mbxfb.h		mbxfb
-diff --git a/drivers/mfd/cros_ec_dev.c b/drivers/mfd/cros_ec_dev.c
-index d992365472b8..21d7f0ed2fd5 100644
---- a/drivers/mfd/cros_ec_dev.c
-+++ b/drivers/mfd/cros_ec_dev.c
-@@ -27,7 +27,7 @@
- #include <linux/slab.h>
- #include <linux/uaccess.h>
- 
--#include "cros_ec_dev.h"
-+#include <uapi/linux/cros_ec_chardev.h>
- 
- #define DRV_NAME "cros-ec-dev"
- 
-diff --git a/drivers/platform/chrome/Kconfig b/drivers/platform/chrome/Kconfig
-index 1e7a10500b3f..221e709358c0 100644
---- a/drivers/platform/chrome/Kconfig
-+++ b/drivers/platform/chrome/Kconfig
-@@ -133,6 +133,17 @@ config CROS_KBD_LED_BACKLIGHT
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called cros_kbd_led_backlight.
- 
-+config CROS_EC_CHARDEV
-+	tristate "ChromeOS EC miscdevice"
-+	depends on MFD_CROS_EC_CHARDEV
-+	default MFD_CROS_EC_CHARDEV
-+	help
-+	  This driver adds file operations support to talk with the
-+	  ChromeOS EC from userspace via a character device.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called cros_ec_chardev.
-+
- config CROS_EC_LIGHTBAR
- 	tristate "Chromebook Pixel's lightbar support"
- 	depends on MFD_CROS_EC_CHARDEV
-diff --git a/drivers/platform/chrome/Makefile b/drivers/platform/chrome/Makefile
-index f69e0be98bd6..e6758e967ac5 100644
---- a/drivers/platform/chrome/Makefile
-+++ b/drivers/platform/chrome/Makefile
-@@ -15,6 +15,7 @@ cros_ec_lpcs-$(CONFIG_CROS_EC_LPC_MEC)	+= cros_ec_lpc_mec.o
- obj-$(CONFIG_CROS_EC_LPC)		+= cros_ec_lpcs.o
- obj-$(CONFIG_CROS_EC_PROTO)		+= cros_ec_proto.o cros_ec_trace.o
- obj-$(CONFIG_CROS_KBD_LED_BACKLIGHT)	+= cros_kbd_led_backlight.o
-+obj-$(CONFIG_CROS_EC_CHARDEV)		+= cros_ec_chardev.o
- obj-$(CONFIG_CROS_EC_LIGHTBAR)		+= cros_ec_lightbar.o
- obj-$(CONFIG_CROS_EC_VBC)		+= cros_ec_vbc.o
- obj-$(CONFIG_CROS_EC_DEBUGFS)		+= cros_ec_debugfs.o
-diff --git a/drivers/platform/chrome/cros_ec_chardev.c b/drivers/platform/chrome/cros_ec_chardev.c
-new file mode 100644
-index 000000000000..e5f95d77dbed
---- /dev/null
-+++ b/drivers/platform/chrome/cros_ec_chardev.c
-@@ -0,0 +1,253 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Miscellaneous character driver for ChromeOS Embedded Controller
-+ *
-+ * Copyright 2014 Google, Inc.
-+ * Copyright 2019 Google LLC
-+ *
-+ * This file is a rework and part of the code is ported from
-+ * drivers/mfd/cros_ec_dev.c that was originally written by
-+ * Bill Richardson.
-+ */
-+
-+#include <linux/init.h>
-+#include <linux/device.h>
-+#include <linux/fs.h>
-+#include <linux/miscdevice.h>
-+#include <linux/module.h>
-+#include <linux/platform_data/cros_ec_commands.h>
-+#include <linux/platform_data/cros_ec_proto.h>
-+#include <linux/platform_device.h>
-+#include <linux/slab.h>
-+#include <linux/types.h>
-+#include <linux/uaccess.h>
-+
-+#include <uapi/linux/cros_ec_chardev.h>
-+
-+#define DRV_NAME		"cros-ec-chardev"
-+
-+struct chardev_data {
-+	struct cros_ec_dev *ec_dev;
-+	struct miscdevice misc;
-+};
-+
-+static int ec_get_version(struct cros_ec_dev *ec, char *str, int maxlen)
-+{
-+	static const char * const current_image_name[] = {
-+		"unknown", "read-only", "read-write", "invalid",
-+	};
-+	struct ec_response_get_version *resp;
-+	struct cros_ec_command *msg;
-+	int ret;
-+
-+	msg = kzalloc(sizeof(*msg) + sizeof(*resp), GFP_KERNEL);
-+	if (!msg)
-+		return -ENOMEM;
-+
-+	msg->command = EC_CMD_GET_VERSION + ec->cmd_offset;
-+	msg->insize = sizeof(*resp);
-+
-+	ret = cros_ec_cmd_xfer_status(ec->ec_dev, msg);
-+	if (ret < 0) {
-+		snprintf(str, maxlen,
-+			 "Unknown EC version, returned error: %d\n",
-+			 msg->result);
-+		goto exit;
-+	}
-+
-+	resp = (struct ec_response_get_version *)msg->data;
-+	if (resp->current_image >= ARRAY_SIZE(current_image_name))
-+		resp->current_image = 3; /* invalid */
-+
-+	snprintf(str, maxlen, "%s\n%s\n%s\n",
-+		 resp->version_string_ro,
-+		 resp->version_string_rw,
-+		 current_image_name[resp->current_image]);
-+
-+	ret = 0;
-+exit:
-+	kfree(msg);
-+	return ret;
-+}
-+
-+/*
-+ * Device file ops
-+ */
-+static int cros_ec_chardev_open(struct inode *inode, struct file *filp)
-+{
-+	struct miscdevice *mdev = filp->private_data;
-+	struct cros_ec_dev *ec_dev = dev_get_drvdata(mdev->parent);
-+
-+	filp->private_data = ec_dev;
-+	nonseekable_open(inode, filp);
-+
-+	return 0;
-+}
-+
-+static ssize_t cros_ec_chardev_read(struct file *filp, char __user *buffer,
-+				     size_t length, loff_t *offset)
-+{
-+	char msg[sizeof(struct ec_response_get_version) +
-+		 sizeof(CROS_EC_DEV_VERSION)];
-+	struct cros_ec_dev *ec = filp->private_data;
-+	size_t count;
-+	int ret;
-+
-+	if (*offset != 0)
-+		return 0;
-+
-+	ret = ec_get_version(ec, msg, sizeof(msg));
-+	if (ret)
-+		return ret;
-+
-+	count = min(length, strlen(msg));
-+
-+	if (copy_to_user(buffer, msg, count))
-+		return -EFAULT;
-+
-+	*offset = count;
-+	return count;
-+}
-+
-+/*
-+ * Ioctls
-+ */
-+static long cros_ec_chardev_ioctl_xcmd(struct cros_ec_dev *ec, void __user *arg)
-+{
-+	struct cros_ec_command *s_cmd;
-+	struct cros_ec_command u_cmd;
-+	long ret;
-+
-+	if (copy_from_user(&u_cmd, arg, sizeof(u_cmd)))
-+		return -EFAULT;
-+
-+	if (u_cmd.outsize > EC_MAX_MSG_BYTES ||
-+	    u_cmd.insize > EC_MAX_MSG_BYTES)
-+		return -EINVAL;
-+
-+	s_cmd = kmalloc(sizeof(*s_cmd) + max(u_cmd.outsize, u_cmd.insize),
-+			GFP_KERNEL);
-+	if (!s_cmd)
-+		return -ENOMEM;
-+
-+	if (copy_from_user(s_cmd, arg, sizeof(*s_cmd) + u_cmd.outsize)) {
-+		ret = -EFAULT;
-+		goto exit;
-+	}
-+
-+	if (u_cmd.outsize != s_cmd->outsize ||
-+	    u_cmd.insize != s_cmd->insize) {
-+		ret = -EINVAL;
-+		goto exit;
-+	}
-+
-+	s_cmd->command += ec->cmd_offset;
-+	ret = cros_ec_cmd_xfer(ec->ec_dev, s_cmd);
-+	/* Only copy data to userland if data was received. */
-+	if (ret < 0)
-+		goto exit;
-+
-+	if (copy_to_user(arg, s_cmd, sizeof(*s_cmd) + s_cmd->insize))
-+		ret = -EFAULT;
-+exit:
-+	kfree(s_cmd);
-+	return ret;
-+}
-+
-+static long cros_ec_chardev_ioctl_readmem(struct cros_ec_dev *ec,
-+					   void __user *arg)
-+{
-+	struct cros_ec_device *ec_dev = ec->ec_dev;
-+	struct cros_ec_readmem s_mem = { };
-+	long num;
-+
-+	/* Not every platform supports direct reads */
-+	if (!ec_dev->cmd_readmem)
-+		return -ENOTTY;
-+
-+	if (copy_from_user(&s_mem, arg, sizeof(s_mem)))
-+		return -EFAULT;
-+
-+	num = ec_dev->cmd_readmem(ec_dev, s_mem.offset, s_mem.bytes,
-+				  s_mem.buffer);
-+	if (num <= 0)
-+		return num;
-+
-+	if (copy_to_user((void __user *)arg, &s_mem, sizeof(s_mem)))
-+		return -EFAULT;
-+
-+	return num;
-+}
-+
-+static long cros_ec_chardev_ioctl(struct file *filp, unsigned int cmd,
-+				   unsigned long arg)
-+{
-+	struct cros_ec_dev *ec = filp->private_data;
-+
-+	if (_IOC_TYPE(cmd) != CROS_EC_DEV_IOC)
-+		return -ENOTTY;
-+
-+	switch (cmd) {
-+	case CROS_EC_DEV_IOCXCMD:
-+		return cros_ec_chardev_ioctl_xcmd(ec, (void __user *)arg);
-+	case CROS_EC_DEV_IOCRDMEM:
-+		return cros_ec_chardev_ioctl_readmem(ec, (void __user *)arg);
-+	}
-+
-+	return -ENOTTY;
-+}
-+
-+static const struct file_operations chardev_fops = {
-+	.open		= cros_ec_chardev_open,
-+	.read		= cros_ec_chardev_read,
-+	.unlocked_ioctl	= cros_ec_chardev_ioctl,
-+#ifdef CONFIG_COMPAT
-+	.compat_ioctl	= cros_ec_chardev_ioctl,
-+#endif
-+};
-+
-+static int cros_ec_chardev_probe(struct platform_device *pdev)
-+{
-+	struct cros_ec_dev *ec_dev = dev_get_drvdata(pdev->dev.parent);
-+	struct cros_ec_platform *ec_platform = dev_get_platdata(ec_dev->dev);
-+	struct chardev_data *data;
-+
-+	/* Create a char device: we want to create it anew */
-+	data = devm_kzalloc(&pdev->dev, sizeof(*data), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	data->ec_dev = ec_dev;
-+	data->misc.minor = MISC_DYNAMIC_MINOR;
-+	data->misc.fops = &chardev_fops;
-+	data->misc.name = ec_platform->ec_name;
-+	data->misc.parent = pdev->dev.parent;
-+
-+	dev_set_drvdata(&pdev->dev, data);
-+
-+	return misc_register(&data->misc);
-+}
-+
-+static int cros_ec_chardev_remove(struct platform_device *pdev)
-+{
-+	struct chardev_data *data = dev_get_drvdata(&pdev->dev);
-+
-+	misc_deregister(&data->misc);
-+
-+	return 0;
-+}
-+
-+static struct platform_driver cros_ec_chardev_driver = {
-+	.driver = {
-+		.name = DRV_NAME,
-+	},
-+	.probe = cros_ec_chardev_probe,
-+	.remove = cros_ec_chardev_remove,
-+};
-+
-+module_platform_driver(cros_ec_chardev_driver);
-+
-+MODULE_ALIAS("platform:" DRV_NAME);
-+MODULE_AUTHOR("Enric Balletbo i Serra <enric.balletbo@collabora.com>");
-+MODULE_DESCRIPTION("ChromeOS EC Miscellaneous Character Driver");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/mfd/cros_ec_dev.h b/include/uapi/linux/cros_ec_chardev.h
-similarity index 52%
-rename from drivers/mfd/cros_ec_dev.h
-rename to include/uapi/linux/cros_ec_chardev.h
-index ec750433455a..ea4d90083ff7 100644
---- a/drivers/mfd/cros_ec_dev.h
-+++ b/include/uapi/linux/cros_ec_chardev.h
-@@ -1,24 +1,12 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
- /*
-- * cros_ec_dev - expose the Chrome OS Embedded Controller to userspace
-+ * ChromeOS EC device interface.
-  *
-  * Copyright (C) 2014 Google, Inc.
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License as published by
-- * the Free Software Foundation; either version 2 of the License, or
-- * (at your option) any later version.
-- *
-- * This program is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-- * GNU General Public License for more details.
-- *
-- * You should have received a copy of the GNU General Public License
-- * along with this program. If not, see <http://www.gnu.org/licenses/>.
-  */
- 
--#ifndef _CROS_EC_DEV_H_
--#define _CROS_EC_DEV_H_
-+#ifndef _UAPI_LINUX_CROS_EC_DEV_H_
-+#define _UAPI_LINUX_CROS_EC_DEV_H_
- 
- #include <linux/ioctl.h>
- #include <linux/types.h>
--- 
-2.20.1
+
 
