@@ -1,66 +1,106 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
-X-Spam-Level: **
-X-Spam-Status: No, score=2.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_NONE,SUBJ_ALL_CAPS,
-	URIBL_CSS,URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no autolearn_force=no
-	version=3.4.2
+X-Spam-Level: 
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4F8847D90F
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 21:14:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 145487D90F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 21:14:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726300AbfFNVOc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Jun 2019 17:14:32 -0400
-Received: from [89.32.41.185] ([89.32.41.185]:39730 "EHLO slot0.normalihy.ga"
-        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
-        id S1726283AbfFNVOb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 14 Jun 2019 17:14:31 -0400
-X-Greylist: delayed 1882 seconds by postgrey-1.27 at vger.kernel.org; Fri, 14 Jun 2019 17:14:30 EDT
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=normalihy.ga;
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-Description:Subject:To:From:Date:Reply-To:Message-ID; i=slaoma@normalihy.ga;
- bh=LF69dDschg8kOsoWmykprZXCKM4=;
- b=HX1Uso0OKF5WE7i5Z7v0Mv6P2hYMBl7R6YCXjyn6Dc6TsSXJPa0gLOjI249V+eOznNWuIQfcwsJk
-   MgLr5+DE5/DHFEFH4jKRS3/tfhGPPJfqgr3sYwju9f8iegVUKkignUKmgbj0NxaNDAa8gWBW62YV
-   ZYGx69w7M87mAw45h4owb2Ip3hY6pT2jWDAhuaVRv2qvemVxgExzF+5kYtExjoaJrGQmZ0x5OAu2
-   OCrdpJqGNPI1Le8ylcMuazKtbplVeSxRurcAcolz90B9FI4WUSE3n+dtWQbHhZwoCUvPLT6rL3zQ
-   h9CkdzRo3lH73d7K82ORk8tdXekYBUSUd9vIlQ==
-DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=normalihy.ga;
- b=gsAhrOLxPa10fIHs1dnCiEHxUlBy4OHlGULHjCejAoZ/hhZwsFrsXtxjuhLhQN1Ed6qPM2VjrfG5
-   dUAJXDScEITWk+1b/HTsdA04a7lQ/7j8cQ/QY+BtkGuOtr4dF1SrESOPueAH0nEW1spmd5koZkAK
-   N20+igq04plbEqPn26pGurbpas0a13RfJ371WRRkFnXz1rusAEel+CQRwcei/LYwAzfJ3Gq58uQL
-   faiAcm3GM134cGBzyjNwJVsTUlmlCa9aeX/0Bf9/il19lx9UkPTYxI84jKjDZobcnyZCR5kLOrNA
-   wO6s703SxTZKxh/GVskCUcoZu+kEV5VUifEeKg==;
-Content-Type: text/plain; charset="utf-8"
+        id S1726344AbfFNVOt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Jun 2019 17:14:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58562 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726252AbfFNVOt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 14 Jun 2019 17:14:49 -0400
+Received: from localhost (unknown [69.71.4.100])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7D0D921473;
+        Fri, 14 Jun 2019 21:14:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1560546889;
+        bh=wQlzv9GXi+d6YxFDj5qp88AVZygc6aohbfVT4AQR70Y=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ks0AHcQ3CMMcp8lXmC5Q1q+mNRhg76nx20zz7WGQfrHmET+emzaWoOodcXQ82HPjk
+         /Q0wzICC14gHKtUH/c0hiVkAbFD6SklBQgeWeDifIfILXybbVlrUgOA2LE9404heew
+         9zZ4/WlS27thwm4E7UDC674PGe7hBqVr8gYg2J1U=
+Date:   Fri, 14 Jun 2019 16:14:47 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+        Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        "David S. Miller" <davem@davemloft.net>, linux-pm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-pci@vger.kernel.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org,
+        "Srivatsa S . Bhat" <srivatsa@csail.mit.edu>
+Subject: Re: [PATCH v5] docs: power: convert docs to ReST and rename to *.rst
+Message-ID: <20190614211447.GU13533@google.com>
+References: <7dc94cb4-ebf1-22ab-29c9-fcb2b875a9ac@csail.mit.edu>
+ <72d1f8f360d395958dd0b49165fc51b58801f57e.1560420621.git.mchehab+samsung@kernel.org>
+ <20190614143631.7c99719f@lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: INQUIRY -AGRA POLANDS
-To:     Recipients <slaoma@normalihy.ga>
-From:   "Mrkt dept" <slaoma@normalihy.ga>
-Date:   Fri, 14 Jun 2019 13:33:20 -0700
-Reply-To: agra.poland@aol.com
-Message-ID: <0.0.2.494.1D522F05C047E1E.0@slot0.normalihy.ga>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190614143631.7c99719f@lwn.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Sir,
+On Fri, Jun 14, 2019 at 02:36:31PM -0600, Jonathan Corbet wrote:
+> On Thu, 13 Jun 2019 07:10:36 -0300
+> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+> 
+> > Convert the PM documents to ReST, in order to allow them to
+> > build with Sphinx.
+> > 
+> > The conversion is actually:
+> >   - add blank lines and identation in order to identify paragraphs;
+> >   - fix tables markups;
+> >   - add some lists markups;
+> >   - mark literal blocks;
+> >   - adjust title markups.
+> > 
+> > At its new index.rst, let's add a :orphan: while this is not linked to
+> > the main index.rst file, in order to avoid build warnings.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> > Acked-by: Mark Brown <broonie@kernel.org>
+> > Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+> > Acked-by: Srivatsa S. Bhat (VMware) <srivatsa@csail.mit.edu>
+> 
+> So I can't apply this one due to conflicts in include/linux/pci.h.  Bjorn,
+> perhaps the easiest thing is for you to take this one through your tree?
 
-Greetings rom Agra Polands.
-we have been building our international business since 1997, dealing with a=
- wide range of luxury consumer goods in order to efficiently and effectivel=
-y satisfy all our customers=E2=80=99 demands.
+OK, I applied this to pci/docs for v5.3.  I applied this entire patch,
+but if you would prefer that I only apply the PCI-related parts, let
+me know and I'll split those out.
 
-Kindly confirm if you be able to supply us with our desired items.
-
-What is your Payment terms and Shipments?.
-
-Regards
-
-Riccardo Corbo
-International Buyer & Analyst
-Address:Via Trento, 7/F - Lomazzo (CO) - Italy VAT IT 12165160156 =
-
-agra.poland@aol.com
+Bjorn
