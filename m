@@ -1,67 +1,67 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8DF347D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 14:06:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9E1F67D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 14:10:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728201AbfFNOGH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Jun 2019 10:06:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52180 "EHLO mail.kernel.org"
+        id S1728285AbfFNOKg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Jun 2019 10:10:36 -0400
+Received: from smtp1.goneo.de ([85.220.129.30]:33886 "EHLO smtp1.goneo.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728034AbfFNOGH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 14 Jun 2019 10:06:07 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 959B920851;
-        Fri, 14 Jun 2019 14:06:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560521166;
-        bh=HvW4i1HSdGzIPSWAaduqcsQ2yNdYu3HmAf+Hbrmp8Ao=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Tn/+N3KZQ+DBDA6jQ46F5+/XfPDsFAsZnoYWimfUop5680wrZeSFNSj9knmV0QR6g
-         baEv3/NjYPJnk33eXXuD9vg5nXwXnKemQ+ZXTGMU8HS6ejp0M37qGcPylpliQBSGB2
-         uxATOx32ADuHGWm9Xj7Av+1NtfajxgCH95PVynYg=
-Date:   Fri, 14 Jun 2019 16:06:03 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@s-opensource.com>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+        id S1727382AbfFNOKg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 14 Jun 2019 10:10:36 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by smtp1.goneo.de (Postfix) with ESMTP id 3119023F928;
+        Fri, 14 Jun 2019 16:10:33 +0200 (CEST)
+X-Virus-Scanned: by goneo
+Received: from smtp1.goneo.de ([127.0.0.1])
+        by localhost (smtp1.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id FT1qlhxzsnIq; Fri, 14 Jun 2019 16:10:32 +0200 (CEST)
+Received: from [192.168.1.127] (dyndsl-031-150-103-038.ewe-ip-backbone.de [31.150.103.38])
+        by smtp1.goneo.de (Postfix) with ESMTPSA id 103FD23FD2E;
+        Fri, 14 Jun 2019 16:10:31 +0200 (CEST)
 Subject: Re: [PATCH 12/14] doc-rst: add ABI documentation to the admin-guide
  book
-Message-ID: <20190614140603.GB7234@kroah.com>
+To:     Jani Nikula <jani.nikula@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Mauro Carvalho Chehab <mchehab@s-opensource.com>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
 References: <cover.1560477540.git.mchehab+samsung@kernel.org>
  <9da2a7f6ff57d9d53dcbb964eb310f7956522870.1560477540.git.mchehab+samsung@kernel.org>
  <87o930uvur.fsf@intel.com>
+From:   Markus Heiser <markus.heiser@darmarit.de>
+Message-ID: <2955920a-3d6a-8e41-e8fe-b7db3cefed8b@darmarit.de>
+Date:   Fri, 14 Jun 2019 16:10:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 In-Reply-To: <87o930uvur.fsf@intel.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: de-DE
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 14, 2019 at 04:42:20PM +0300, Jani Nikula wrote:
-> On Thu, 13 Jun 2019, Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
-> > From: Mauro Carvalho Chehab <mchehab@s-opensource.com>
-> >
-> > As we don't want a generic Sphinx extension to execute commands,
-> > change the one proposed to Markus to call the abi_book.pl
-> > script.
-> >
-> > Use a script to parse the Documentation/ABI directory and output
-> > it at the admin-guide.
-> 
+
+Am 14.06.19 um 15:42 schrieb Jani Nikula:
+> On Thu, 13 Jun 2019, Mauro Carvalho Chehab<mchehab+samsung@kernel.org>  wrote:
+>> From: Mauro Carvalho Chehab<mchehab@s-opensource.com>
+>>
+>> As we don't want a generic Sphinx extension to execute commands,
+>> change the one proposed to Markus to call the abi_book.pl
+>> script.
+>>
+>> Use a script to parse the Documentation/ABI directory and output
+>> it at the admin-guide.
 > We had a legacy kernel-doc perl script so we used that instead of
 > rewriting it in python. Just to keep it bug-for-bug compatible with the
 > past. That was the only reason.
@@ -78,21 +78,12 @@ On Fri, Jun 14, 2019 at 04:42:20PM +0300, Jani Nikula wrote:
 > My strong preferences are, in this order:
 > 
 > 1) Convert the ABI documentation to reStructuredText
-
-What would that exactly look like?  What would it require for new
-developers for when they write new entries?  Why not rely on a helper
-script, that allows us to validate things better?
-
+> 
 > 2) Have the python extension read the ABI files directly, without an
->    extra pipeline.
+>     extra pipeline.
+> 
 
-He who writes the script, get's to dictate the language of the script :)
+I agree with Jani. No matter how the decision ends, since I can't help here, I'd 
+rather not show up in the copyright.
 
-Personally, this looks sane to me, I'm going to apply the ABI fixups to
-my tree at least, and then see how the script works out.  The script can
-always be replaced with a different one in a different language at a
-later point in time of people think it really mattes.
-
-thanks,
-
-greg k-h
+   -- Markus --
