@@ -1,395 +1,109 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9FC227D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 08:30:28 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2DE0A7D913
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 08:41:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726750AbfFNIaV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Jun 2019 04:30:21 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:40035 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726259AbfFNIaV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jun 2019 04:30:21 -0400
-Received: by mail-oi1-f193.google.com with SMTP id w196so1368425oie.7;
-        Fri, 14 Jun 2019 01:30:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=aBX5S6bgTctWckd9/P2tFIY6izVzBb7AzQ5sf+y29+s=;
-        b=Gyg1d0FpxDBC+CCyh543R9BGLPfy80rPIoRf/MsgcaS0uM1Im9H13jB4HsKCVDtBoB
-         St4bp4/+bsODBPB57uTmdZduDlYV5DVtAWzhhaAtQQ4dgaWeYorGO66Xiu9nxvfdF+cs
-         ojoUl7iQIcnVYpg2NN8Odte7eyBBM9/ip2j7Slt1k61d5k0FeshfQ1Sjx9s3Y3vUhZKF
-         kIkq9wS2Nj1d/JJ/pEMH2c4FGyeMiWgy33Do3osNZmrUpZ8Ridruk0oPYmd7oxzIRT5z
-         R2q68IDyV9aA9c30RtFl+mQpsStnAZVZ/rMZrjOQnyBdvcxnZKydJDkbzT6O1g4TbJVx
-         oY5w==
-X-Gm-Message-State: APjAAAUBEIsVToDoHGzZrr4AAprP+ra4iJYtNu3H1ZuJlya5U36abkOw
-        r1j1yYBIx2d1TTWn5dqpqvVffI4ErnT4/CvsVYk=
-X-Google-Smtp-Source: APXvYqx1omA4R75tw8TDas2oab9KcZIvx/qWC/wiBq28VqDt/zUvgcBSEWWYNiN8xHrBQ36Y0tGYodw0/oHg4FHPCEo=
-X-Received: by 2002:aca:3256:: with SMTP id y83mr1140955oiy.110.1560501020169;
- Fri, 14 Jun 2019 01:30:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1560477540.git.mchehab+samsung@kernel.org> <b908fc6555df8cae3e4c734b2d5f6284c46a5f14.1560477540.git.mchehab+samsung@kernel.org>
-In-Reply-To: <b908fc6555df8cae3e4c734b2d5f6284c46a5f14.1560477540.git.mchehab+samsung@kernel.org>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Fri, 14 Jun 2019 10:30:07 +0200
-Message-ID: <CAJZ5v0gYFCXfdPuuPMVU4ccyhPSdPJvEVJM309aQwAeTjSWeVQ@mail.gmail.com>
-Subject: Re: [PATCH 01/14] ABI: fix some syntax issues at the ABI database
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@s-opensource.com>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        id S1726596AbfFNIlZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Jun 2019 04:41:25 -0400
+Received: from mail-eopbgr150095.outbound.protection.outlook.com ([40.107.15.95]:25248
+        "EHLO EUR01-DB5-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726255AbfFNIlZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 14 Jun 2019 04:41:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.se;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=l/XnEsRw+q639kFXEt1+2HpcSnmLzlpQdK+wVyoquTg=;
+ b=n1dXLHicgzlYPgru4H6Z4N3wHuZaR3vEbU8oSVZ2H9QZG8d1G5q/ktesNy/ATEP6v07fNa/5a3iLx0HNJgdKX5fcQU1SuY1bgcaqo8aAISTeLpn50Q9EnZAd/3HMHWTlUu9t9WTWfqAO9cfEdtrzssUoK2tcIhGzXyxQyHMLZN8=
+Received: from VI1PR10MB2639.EURPRD10.PROD.OUTLOOK.COM (20.178.126.80) by
+ VI1PR10MB2063.EURPRD10.PROD.OUTLOOK.COM (52.134.28.157) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1987.12; Fri, 14 Jun 2019 08:41:21 +0000
+Received: from VI1PR10MB2639.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::8844:426d:816b:f5d5]) by VI1PR10MB2639.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::8844:426d:816b:f5d5%6]) with mapi id 15.20.1987.010; Fri, 14 Jun 2019
+ 08:41:20 +0000
+From:   Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+To:     Guenter Roeck <linux@roeck-us.net>
+CC:     "linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Andreas Klinger <ak@it-klinger.de>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Frederic Barrat <fbarrat@linux.ibm.com>,
-        Andrew Donnellan <ajd@linux.ibm.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>, linux-iio@vger.kernel.org,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        Linux PM <linux-pm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Esben Haabendal <esben@haabendal.dk>,
+        Jerry Hoemann <jerry.hoemann@hpe.com>,
+        Rasmus Villemoes <Rasmus.Villemoes@prevas.se>
+Subject: Re: [PATCH v10 3/3] watchdog: make the device time out at
+ open_deadline when open_timeout is used
+Thread-Topic: [PATCH v10 3/3] watchdog: make the device time out at
+ open_deadline when open_timeout is used
+Thread-Index: AQHVG6fowaQY4GjN3k2RR2MpldVesqaQiRSAgApZeYA=
+Date:   Fri, 14 Jun 2019 08:41:20 +0000
+Message-ID: <56280052-9437-9813-a24e-125abb876762@prevas.dk>
+References: <20190605140628.618-1-rasmus.villemoes@prevas.dk>
+ <20190605140628.618-4-rasmus.villemoes@prevas.dk>
+ <20190607183827.GA32475@roeck-us.net>
+In-Reply-To: <20190607183827.GA32475@roeck-us.net>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0502CA0022.eurprd05.prod.outlook.com
+ (2603:10a6:3:e3::32) To VI1PR10MB2639.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:803:e1::16)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Rasmus.Villemoes@prevas.se; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [81.216.59.226]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e629911a-ef23-460f-ca3c-08d6f0a412f7
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:VI1PR10MB2063;
+x-ms-traffictypediagnostic: VI1PR10MB2063:
+x-microsoft-antispam-prvs: <VI1PR10MB20634B11852C2D47958B8B318AEE0@VI1PR10MB2063.EURPRD10.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0068C7E410
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(376002)(396003)(346002)(136003)(366004)(39850400004)(189003)(199004)(68736007)(26005)(31686004)(2906002)(6486002)(5660300002)(54906003)(186003)(4744005)(478600001)(6436002)(8936002)(7736002)(72206003)(74482002)(8976002)(6512007)(25786009)(14454004)(229853002)(486006)(14444005)(44832011)(66556008)(64756008)(66446008)(66946007)(66476007)(6916009)(73956011)(256004)(53936002)(446003)(2616005)(476003)(11346002)(3846002)(6116002)(71190400001)(71200400001)(76176011)(316002)(296002)(6506007)(386003)(305945005)(4326008)(99286004)(81166006)(31696002)(8676002)(81156014)(102836004)(42882007)(66066001)(52116002)(36756003)(6246003)(107886003);DIR:OUT;SFP:1102;SCL:1;SRVR:VI1PR10MB2063;H:VI1PR10MB2639.EURPRD10.PROD.OUTLOOK.COM;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: prevas.se does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: ZKnVIpAUzFX8ZV1TUQWKlpc8OGSceaDpeFh1TSwHdJieuuapGVHdCVhEjS92yztNydi+P7HRqBtLRGoV4LGWBYiibm4Qg7rlkWW1qs74jf5nVJX3/LMn2LWIlsrWsNAYun8O+lMlHnuWtvrxy8uomAkv08R4OTYZpPaxPrRRrUI9EQeIzP3R9HPJRDhVj/Lhzm0Qb+5BRGxkZvpd4tOxRSIbdaeOzEOOcpaQkZQJjCbLRsXRvgw4Z/TDkQJi0TKIRIYCjx3QoZxPBw9TYgxlDFTAQDqt7jXP7b/k2OFk1P8UTmllYsxIC82dhEgEKsjc66imLfYjEVwIrt6B0UPnX2j59P+82ku9TugDbrjeg4aN26vi9Qqcnls6aNXB5NfxyyhVWWMxtzOerXKsvQLNvsThqZHMfRvu/zyoGjnU37s=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <C7FBBE264731A14A83C7DEA4737F5C7F@EURPRD10.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: prevas.dk
+X-MS-Exchange-CrossTenant-Network-Message-Id: e629911a-ef23-460f-ca3c-08d6f0a412f7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jun 2019 08:41:20.5374
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d350cf71-778d-4780-88f5-071a4cb1ed61
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Rasmus.Villemoes@prevas.dk
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB2063
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 14, 2019 at 4:04 AM Mauro Carvalho Chehab
-<mchehab+samsung@kernel.org> wrote:
->
-> From: Mauro Carvalho Chehab <mchehab@s-opensource.com>
->
-> On those three files, the ABI representation described at
-> README are violated.
->
-> - at sysfs-bus-iio-proximity-as3935:
->         a ':' character is missing after "What"
->
-> - at sysfs-class-devfreq:
->         there's a typo at Description
->
-> - at sysfs-class-cxl, it is using the ":" character at a
->         file preamble, causing it to be misinterpreted as a
->         tag.
->
-> - On the other files, instead of "What", they use "Where".
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@s-opensource.com>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-
-Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-
-> ---
->  Documentation/ABI/testing/pstore              |  2 +-
->  .../sysfs-bus-event_source-devices-format     |  2 +-
->  .../ABI/testing/sysfs-bus-i2c-devices-hm6352  |  6 ++---
->  .../ABI/testing/sysfs-bus-iio-distance-srf08  |  4 ++--
->  .../testing/sysfs-bus-iio-proximity-as3935    |  4 ++--
->  .../ABI/testing/sysfs-bus-pci-devices-cciss   | 22 +++++++++----------
->  .../testing/sysfs-bus-usb-devices-usbsevseg   | 12 +++++-----
->  Documentation/ABI/testing/sysfs-class-cxl     |  6 ++---
->  Documentation/ABI/testing/sysfs-class-devfreq |  2 +-
->  .../ABI/testing/sysfs-class-powercap          |  2 +-
->  Documentation/ABI/testing/sysfs-kernel-fscaps |  2 +-
->  .../ABI/testing/sysfs-kernel-vmcoreinfo       |  2 +-
->  12 files changed, 33 insertions(+), 33 deletions(-)
->
-> diff --git a/Documentation/ABI/testing/pstore b/Documentation/ABI/testing/pstore
-> index 5fca9f5e10a3..8d6e48f4e8ef 100644
-> --- a/Documentation/ABI/testing/pstore
-> +++ b/Documentation/ABI/testing/pstore
-> @@ -1,4 +1,4 @@
-> -Where:         /sys/fs/pstore/... (or /dev/pstore/...)
-> +What:          /sys/fs/pstore/... (or /dev/pstore/...)
->  Date:          March 2011
->  Kernel Version: 2.6.39
->  Contact:       tony.luck@intel.com
-> diff --git a/Documentation/ABI/testing/sysfs-bus-event_source-devices-format b/Documentation/ABI/testing/sysfs-bus-event_source-devices-format
-> index 77f47ff5ee02..b6f8748e0200 100644
-> --- a/Documentation/ABI/testing/sysfs-bus-event_source-devices-format
-> +++ b/Documentation/ABI/testing/sysfs-bus-event_source-devices-format
-> @@ -1,4 +1,4 @@
-> -Where:         /sys/bus/event_source/devices/<dev>/format
-> +What:          /sys/bus/event_source/devices/<dev>/format
->  Date:          January 2012
->  Kernel Version: 3.3
->  Contact:       Jiri Olsa <jolsa@redhat.com>
-> diff --git a/Documentation/ABI/testing/sysfs-bus-i2c-devices-hm6352 b/Documentation/ABI/testing/sysfs-bus-i2c-devices-hm6352
-> index feb2e4a87075..29bd447e50a0 100644
-> --- a/Documentation/ABI/testing/sysfs-bus-i2c-devices-hm6352
-> +++ b/Documentation/ABI/testing/sysfs-bus-i2c-devices-hm6352
-> @@ -1,18 +1,18 @@
-> -Where:         /sys/bus/i2c/devices/.../heading0_input
-> +What:          /sys/bus/i2c/devices/.../heading0_input
->  Date:          April 2010
->  Kernel Version: 2.6.36?
->  Contact:       alan.cox@intel.com
->  Description:   Reports the current heading from the compass as a floating
->                 point value in degrees.
->
-> -Where:         /sys/bus/i2c/devices/.../power_state
-> +What:          /sys/bus/i2c/devices/.../power_state
->  Date:          April 2010
->  Kernel Version: 2.6.36?
->  Contact:       alan.cox@intel.com
->  Description:   Sets the power state of the device. 0 sets the device into
->                 sleep mode, 1 wakes it up.
->
-> -Where:         /sys/bus/i2c/devices/.../calibration
-> +What:          /sys/bus/i2c/devices/.../calibration
->  Date:          April 2010
->  Kernel Version: 2.6.36?
->  Contact:       alan.cox@intel.com
-> diff --git a/Documentation/ABI/testing/sysfs-bus-iio-distance-srf08 b/Documentation/ABI/testing/sysfs-bus-iio-distance-srf08
-> index 0a1ca1487fa9..a133fd8d081a 100644
-> --- a/Documentation/ABI/testing/sysfs-bus-iio-distance-srf08
-> +++ b/Documentation/ABI/testing/sysfs-bus-iio-distance-srf08
-> @@ -1,4 +1,4 @@
-> -What           /sys/bus/iio/devices/iio:deviceX/sensor_sensitivity
-> +What:          /sys/bus/iio/devices/iio:deviceX/sensor_sensitivity
->  Date:          January 2017
->  KernelVersion: 4.11
->  Contact:       linux-iio@vger.kernel.org
-> @@ -6,7 +6,7 @@ Description:
->                 Show or set the gain boost of the amp, from 0-31 range.
->                 default 31
->
-> -What           /sys/bus/iio/devices/iio:deviceX/sensor_max_range
-> +What:          /sys/bus/iio/devices/iio:deviceX/sensor_max_range
->  Date:          January 2017
->  KernelVersion: 4.11
->  Contact:       linux-iio@vger.kernel.org
-> diff --git a/Documentation/ABI/testing/sysfs-bus-iio-proximity-as3935 b/Documentation/ABI/testing/sysfs-bus-iio-proximity-as3935
-> index 9a17ab5036a4..c59d95346341 100644
-> --- a/Documentation/ABI/testing/sysfs-bus-iio-proximity-as3935
-> +++ b/Documentation/ABI/testing/sysfs-bus-iio-proximity-as3935
-> @@ -1,4 +1,4 @@
-> -What           /sys/bus/iio/devices/iio:deviceX/in_proximity_input
-> +What:          /sys/bus/iio/devices/iio:deviceX/in_proximity_input
->  Date:          March 2014
->  KernelVersion: 3.15
->  Contact:       Matt Ranostay <matt.ranostay@konsulko.com>
-> @@ -6,7 +6,7 @@ Description:
->                 Get the current distance in meters of storm (1km steps)
->                 1000-40000 = distance in meters
->
-> -What           /sys/bus/iio/devices/iio:deviceX/sensor_sensitivity
-> +What:          /sys/bus/iio/devices/iio:deviceX/sensor_sensitivity
->  Date:          March 2014
->  KernelVersion: 3.15
->  Contact:       Matt Ranostay <matt.ranostay@konsulko.com>
-> diff --git a/Documentation/ABI/testing/sysfs-bus-pci-devices-cciss b/Documentation/ABI/testing/sysfs-bus-pci-devices-cciss
-> index 53d99edd1d75..eb449169c30b 100644
-> --- a/Documentation/ABI/testing/sysfs-bus-pci-devices-cciss
-> +++ b/Documentation/ABI/testing/sysfs-bus-pci-devices-cciss
-> @@ -1,66 +1,66 @@
-> -Where:         /sys/bus/pci/devices/<dev>/ccissX/cXdY/model
-> +What:          /sys/bus/pci/devices/<dev>/ccissX/cXdY/model
->  Date:          March 2009
->  Kernel Version: 2.6.30
->  Contact:       iss_storagedev@hp.com
->  Description:   Displays the SCSI INQUIRY page 0 model for logical drive
->                 Y of controller X.
->
-> -Where:         /sys/bus/pci/devices/<dev>/ccissX/cXdY/rev
-> +What:          /sys/bus/pci/devices/<dev>/ccissX/cXdY/rev
->  Date:          March 2009
->  Kernel Version: 2.6.30
->  Contact:       iss_storagedev@hp.com
->  Description:   Displays the SCSI INQUIRY page 0 revision for logical
->                 drive Y of controller X.
->
-> -Where:         /sys/bus/pci/devices/<dev>/ccissX/cXdY/unique_id
-> +What:          /sys/bus/pci/devices/<dev>/ccissX/cXdY/unique_id
->  Date:          March 2009
->  Kernel Version: 2.6.30
->  Contact:       iss_storagedev@hp.com
->  Description:   Displays the SCSI INQUIRY page 83 serial number for logical
->                 drive Y of controller X.
->
-> -Where:         /sys/bus/pci/devices/<dev>/ccissX/cXdY/vendor
-> +What:          /sys/bus/pci/devices/<dev>/ccissX/cXdY/vendor
->  Date:          March 2009
->  Kernel Version: 2.6.30
->  Contact:       iss_storagedev@hp.com
->  Description:   Displays the SCSI INQUIRY page 0 vendor for logical drive
->                 Y of controller X.
->
-> -Where:         /sys/bus/pci/devices/<dev>/ccissX/cXdY/block:cciss!cXdY
-> +What:          /sys/bus/pci/devices/<dev>/ccissX/cXdY/block:cciss!cXdY
->  Date:          March 2009
->  Kernel Version: 2.6.30
->  Contact:       iss_storagedev@hp.com
->  Description:   A symbolic link to /sys/block/cciss!cXdY
->
-> -Where:         /sys/bus/pci/devices/<dev>/ccissX/rescan
-> +What:          /sys/bus/pci/devices/<dev>/ccissX/rescan
->  Date:          August 2009
->  Kernel Version:        2.6.31
->  Contact:       iss_storagedev@hp.com
->  Description:   Kicks of a rescan of the controller to discover logical
->                 drive topology changes.
->
-> -Where:         /sys/bus/pci/devices/<dev>/ccissX/cXdY/lunid
-> +What:          /sys/bus/pci/devices/<dev>/ccissX/cXdY/lunid
->  Date:          August 2009
->  Kernel Version: 2.6.31
->  Contact:       iss_storagedev@hp.com
->  Description:   Displays the 8-byte LUN ID used to address logical
->                 drive Y of controller X.
->
-> -Where:         /sys/bus/pci/devices/<dev>/ccissX/cXdY/raid_level
-> +What:          /sys/bus/pci/devices/<dev>/ccissX/cXdY/raid_level
->  Date:          August 2009
->  Kernel Version: 2.6.31
->  Contact:       iss_storagedev@hp.com
->  Description:   Displays the RAID level of logical drive Y of
->                 controller X.
->
-> -Where:         /sys/bus/pci/devices/<dev>/ccissX/cXdY/usage_count
-> +What:          /sys/bus/pci/devices/<dev>/ccissX/cXdY/usage_count
->  Date:          August 2009
->  Kernel Version: 2.6.31
->  Contact:       iss_storagedev@hp.com
->  Description:   Displays the usage count (number of opens) of logical drive Y
->                 of controller X.
->
-> -Where:         /sys/bus/pci/devices/<dev>/ccissX/resettable
-> +What:          /sys/bus/pci/devices/<dev>/ccissX/resettable
->  Date:          February 2011
->  Kernel Version:        2.6.38
->  Contact:       iss_storagedev@hp.com
-> @@ -71,7 +71,7 @@ Description:  Value of 1 indicates the controller can honor the reset_devices
->                 a dump device, as kdump requires resetting the device in order
->                 to work reliably.
->
-> -Where:         /sys/bus/pci/devices/<dev>/ccissX/transport_mode
-> +What:          /sys/bus/pci/devices/<dev>/ccissX/transport_mode
->  Date:          July 2011
->  Kernel Version:        3.0
->  Contact:       iss_storagedev@hp.com
-> diff --git a/Documentation/ABI/testing/sysfs-bus-usb-devices-usbsevseg b/Documentation/ABI/testing/sysfs-bus-usb-devices-usbsevseg
-> index 70d00dfa443d..f6199b314196 100644
-> --- a/Documentation/ABI/testing/sysfs-bus-usb-devices-usbsevseg
-> +++ b/Documentation/ABI/testing/sysfs-bus-usb-devices-usbsevseg
-> @@ -1,12 +1,12 @@
-> -Where:         /sys/bus/usb/.../powered
-> +What:          /sys/bus/usb/.../powered
->  Date:          August 2008
->  Kernel Version:        2.6.26
->  Contact:       Harrison Metzger <harrisonmetz@gmail.com>
->  Description:   Controls whether the device's display will powered.
->                 A value of 0 is off and a non-zero value is on.
->
-> -Where:         /sys/bus/usb/.../mode_msb
-> -Where:         /sys/bus/usb/.../mode_lsb
-> +What:          /sys/bus/usb/.../mode_msb
-> +What:          /sys/bus/usb/.../mode_lsb
->  Date:          August 2008
->  Kernel Version:        2.6.26
->  Contact:       Harrison Metzger <harrisonmetz@gmail.com>
-> @@ -16,7 +16,7 @@ Description:  Controls the devices display mode.
->                 for an 8 character display the values are
->                         MSB 0x08; LSB 0xFF.
->
-> -Where:         /sys/bus/usb/.../textmode
-> +What:          /sys/bus/usb/.../textmode
->  Date:          August 2008
->  Kernel Version:        2.6.26
->  Contact:       Harrison Metzger <harrisonmetz@gmail.com>
-> @@ -25,13 +25,13 @@ Description:        Controls the way the device interprets its text buffer.
->                 hex:    each character is between 0-15
->                 ascii:  each character is between '0'-'9' and 'A'-'F'.
->
-> -Where:         /sys/bus/usb/.../text
-> +What:          /sys/bus/usb/.../text
->  Date:          August 2008
->  Kernel Version:        2.6.26
->  Contact:       Harrison Metzger <harrisonmetz@gmail.com>
->  Description:   The text (or data) for the device to display
->
-> -Where:         /sys/bus/usb/.../decimals
-> +What:          /sys/bus/usb/.../decimals
->  Date:          August 2008
->  Kernel Version:        2.6.26
->  Contact:       Harrison Metzger <harrisonmetz@gmail.com>
-> diff --git a/Documentation/ABI/testing/sysfs-class-cxl b/Documentation/ABI/testing/sysfs-class-cxl
-> index bbbabffc682a..fc7c6f7c21b3 100644
-> --- a/Documentation/ABI/testing/sysfs-class-cxl
-> +++ b/Documentation/ABI/testing/sysfs-class-cxl
-> @@ -1,6 +1,6 @@
-> -Note: Attributes that are shared between devices are stored in the directory
-> -pointed to by the symlink device/.
-> -Example: The real path of the attribute /sys/class/cxl/afu0.0s/irqs_max is
-> +Please notice that attributes that are shared between devices are stored in
-> +the directory pointed to by the symlink device/.
-> +For example, the real path of the attribute /sys/class/cxl/afu0.0s/irqs_max is
->  /sys/class/cxl/afu0.0s/device/irqs_max, i.e. /sys/class/cxl/afu0.0/irqs_max.
->
->
-> diff --git a/Documentation/ABI/testing/sysfs-class-devfreq b/Documentation/ABI/testing/sysfs-class-devfreq
-> index ee39acacf6f8..01196e19afca 100644
-> --- a/Documentation/ABI/testing/sysfs-class-devfreq
-> +++ b/Documentation/ABI/testing/sysfs-class-devfreq
-> @@ -47,7 +47,7 @@ Description:
->  What:          /sys/class/devfreq/.../trans_stat
->  Date:          October 2012
->  Contact:       MyungJoo Ham <myungjoo.ham@samsung.com>
-> -Descrtiption:
-> +Description:
->                 This ABI shows the statistics of devfreq behavior on a
->                 specific device. It shows the time spent in each state and
->                 the number of transitions between states.
-> diff --git a/Documentation/ABI/testing/sysfs-class-powercap b/Documentation/ABI/testing/sysfs-class-powercap
-> index db3b3ff70d84..f333a0ccc29b 100644
-> --- a/Documentation/ABI/testing/sysfs-class-powercap
-> +++ b/Documentation/ABI/testing/sysfs-class-powercap
-> @@ -147,6 +147,6 @@ What:               /sys/class/powercap/.../<power zone>/enabled
->  Date:          September 2013
->  KernelVersion: 3.13
->  Contact:       linux-pm@vger.kernel.org
-> -Description
-> +Description:
->                 This allows to enable/disable power capping at power zone level.
->                 This applies to current power zone and its children.
-> diff --git a/Documentation/ABI/testing/sysfs-kernel-fscaps b/Documentation/ABI/testing/sysfs-kernel-fscaps
-> index 50a3033b5e15..bcff34665192 100644
-> --- a/Documentation/ABI/testing/sysfs-kernel-fscaps
-> +++ b/Documentation/ABI/testing/sysfs-kernel-fscaps
-> @@ -2,7 +2,7 @@ What:           /sys/kernel/fscaps
->  Date:          February 2011
->  KernelVersion: 2.6.38
->  Contact:       Ludwig Nussel <ludwig.nussel@suse.de>
-> -Description
-> +Description:
->                 Shows whether file system capabilities are honored
->                 when executing a binary
->
-> diff --git a/Documentation/ABI/testing/sysfs-kernel-vmcoreinfo b/Documentation/ABI/testing/sysfs-kernel-vmcoreinfo
-> index 7bd81168e063..1f1087a5f075 100644
-> --- a/Documentation/ABI/testing/sysfs-kernel-vmcoreinfo
-> +++ b/Documentation/ABI/testing/sysfs-kernel-vmcoreinfo
-> @@ -4,7 +4,7 @@ KernelVersion:  2.6.24
->  Contact:       Ken'ichi Ohmichi <oomichi@mxs.nes.nec.co.jp>
->                 Kexec Mailing List <kexec@lists.infradead.org>
->                 Vivek Goyal <vgoyal@redhat.com>
-> -Description
-> +Description:
->                 Shows physical address and size of vmcoreinfo ELF note.
->                 First value contains physical address of note in hex and
->                 second value contains the size of note in hex. This ELF
-> --
-> 2.21.0
->
+T24gMDcvMDYvMjAxOSAyMC4zOCwgR3VlbnRlciBSb2VjayB3cm90ZToNCj4gT24gV2VkLCBKdW4g
+MDUsIDIwMTkgYXQgMDI6MDY6NDRQTSArMDAwMCwgUmFzbXVzIFZpbGxlbW9lcyB3cm90ZToNCj4+
+IFdoZW4gdGhlIHdhdGNoZG9nIGRldmljZSBpcyBub3Qgb3BlbiBieSB1c2Vyc3BhY2UsIHRoZSBr
+ZXJuZWwgdGFrZXMNCj4+IGNhcmUgb2YgcGluZ2luZyBpdC4gV2hlbiB0aGUgb3Blbl90aW1lb3V0
+IGZlYXR1cmUgaXMgaW4gdXNlLCB3ZSBzaG91bGQNCj4+IGVuc3VyZSB0aGF0IHRoZSBoYXJkd2Fy
+ZSBmaXJlcyBjbG9zZSB0byBvcGVuX3RpbWVvdXQgc2Vjb25kcyBhZnRlciB0aGUNCj4+IGtlcm5l
+bCBoYXMgYXNzdW1lZCByZXNwb25zaWJpbGl0eSBmb3IgdGhlIGRldmljZS4NCj4+DQo+PiBUbyBk
+byB0aGlzLCBzaW1wbHkgcmV1c2UgdGhlIGxvZ2ljIHRoYXQgaXMgYWxyZWFkeSBpbiBwbGFjZSBm
+b3INCj4+IGVuc3VyaW5nIHRoZSBzYW1lIHRoaW5nIHdoZW4gdXNlcnNwYWNlIGlzIHJlc3BvbnNp
+YmxlIGZvciByZWd1bGFybHkNCj4+IHBpbmdpbmcgdGhlIGRldmljZToNCj4+DQo+PiAtIFdoZW4g
+d2F0Y2hkb2dfYWN0aXZlKHdkZCksIHRoaXMgcGF0Y2ggZG9lc24ndCBjaGFuZ2UgYW55dGhpbmcu
+DQo+Pg0KPj4gLSBXaGVuICF3YXRjaGRvY19hY3RpdmUod2RkKSwgdGhlICJ2aXJ0dWFsIHRpbWVv
+dXQiIHNob3VsZCBiZSB0YWtlbiB0bw0KPiANCj4gcy93YXRjaGRvY19hY3RpdmUvd2F0Y2hkb2df
+YWN0aXZlLw0KPiANCj4gb3RoZXJ3aXNlDQo+IA0KPiBSZXZpZXdlZC1ieTogR3VlbnRlciBSb2Vj
+ayA8bGludXhAcm9lY2stdXMubmV0Pg0KDQpUaGFua3MhIFdpbSwgY2FuIHlvdSBmaXggdXAgaWYv
+d2hlbiBhcHBseWluZywgb3IgZG8geW91IHByZWZlciBJIHJlc2VuZD8NCg0KUmFzbXVzDQo=
