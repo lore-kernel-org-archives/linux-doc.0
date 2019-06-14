@@ -1,123 +1,87 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 071067D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 00:03:37 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4547B7D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 02:04:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727262AbfFNADg (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Jun 2019 20:03:36 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48964 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725868AbfFNADg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jun 2019 20:03:36 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x5E01lsk102784
-        for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2019 20:03:35 -0400
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2t3x2u50jc-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2019 20:03:34 -0400
-Received: from localhost
-        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <zohar@linux.ibm.com>;
-        Fri, 14 Jun 2019 01:03:32 +0100
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
-        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Fri, 14 Jun 2019 01:03:27 +0100
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x5E03QVC33095874
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 14 Jun 2019 00:03:26 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 79607A405F;
-        Fri, 14 Jun 2019 00:03:26 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 986BBA4062;
-        Fri, 14 Jun 2019 00:03:24 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.80.81.91])
-        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Fri, 14 Jun 2019 00:03:24 +0000 (GMT)
-Subject: Re: [RFC 0/7] Introduce TEE based Trusted Keys support
-From:   Mimi Zohar <zohar@linux.ibm.com>
-To:     Casey Schaufler <casey@schaufler-ca.com>,
-        Sumit Garg <sumit.garg@linaro.org>, keyrings@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-Cc:     jens.wiklander@linaro.org, corbet@lwn.net, dhowells@redhat.com,
-        jejb@linux.ibm.com, jarkko.sakkinen@linux.intel.com,
-        jmorris@namei.org, serge@hallyn.com, ard.biesheuvel@linaro.org,
-        daniel.thompson@linaro.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, tee-dev@lists.linaro.org
-Date:   Thu, 13 Jun 2019 20:03:13 -0400
-In-Reply-To: <d803283e-5e69-5deb-fe94-3f2e45fb95af@schaufler-ca.com>
-References: <1560421833-27414-1-git-send-email-sumit.garg@linaro.org>
-         <d803283e-5e69-5deb-fe94-3f2e45fb95af@schaufler-ca.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
-Mime-Version: 1.0
+        id S1726873AbfFNCE3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Jun 2019 22:04:29 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:52876 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726379AbfFNCE2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jun 2019 22:04:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=sRphWf8wFg3Yvz/q3q+E6FqyD8PeHYGCjmt44FlP/mI=; b=lkUwVoSRg0rRp+EjlDAkEqfudI
+        U7lz+B37PkVdI5wrJP2ajKMeG8cKVs0Qw9aEGlg0Vj9i06GKwCjtX2cQA9gqzVbhc7lbvy5ArcA8V
+        CnMfVDfHHJn6lkMNSYLY/hdVlssm0zwxRPcZgMiKzdKSTKxiUhUW2R8ohE2yNDxnTPggvprDK7MvO
+        g3MQC932BkdwMu82msYkdXEel5GmhnrbXnzxFH7GAlCOwAY5MIk+31jUUJbxZfpeZyeYLsnAc9tqH
+        u/dIsbRnLKJ/3fbG4iM3MxepxKMlEu6TQYqta2QrjHCKBs0wtuOibpEK8Epv4apRoiY1c/R2zAtKZ
+        0x3RSpyw==;
+Received: from 201.86.169.251.dynamic.adsl.gvt.net.br ([201.86.169.251] helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hbbZr-0000E7-Ej; Fri, 14 Jun 2019 02:04:27 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hbbZn-0002ng-Od; Thu, 13 Jun 2019 23:04:23 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Mauro Carvalho Chehab <mchehab@s-opensource.com>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Subject: [PATCH 03/14] ABI: sysfs-class-uwb_rc: remove a duplicated incomplete entry
+Date:   Thu, 13 Jun 2019 23:04:09 -0300
+Message-Id: <f3646db9fa30c68a53b9990abe1d49fc2c83262b.1560477540.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <cover.1560477540.git.mchehab+samsung@kernel.org>
+References: <cover.1560477540.git.mchehab+samsung@kernel.org>
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 19061400-0028-0000-0000-0000037A2047
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19061400-0029-0000-0000-0000243A1AE4
-Message-Id: <1560470593.4805.109.camel@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-06-13_14:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1906130179
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2019-06-13 at 09:40 -0700, Casey Schaufler wrote:
-> On 6/13/2019 3:30 AM, Sumit Garg wrote:
-> > Add support for TEE based trusted keys where TEE provides the functionality
-> > to seal and unseal trusted keys using hardware unique key. Also, this is
-> > an alternative in case platform doesn't possess a TPM device.
-> >
-> > This series also adds some TEE features like:
-> 
-> Please expand the acronym TEE on first use. That will
-> help people who don't work with it on a daily basis
-> understand what you're going on about.
+From: Mauro Carvalho Chehab <mchehab@s-opensource.com>
 
-Thanks, Casey.
+There are two entries for /sys/class/uwb_rc/uwbN/<EUI-48>/BPST.
+The second one has a missing description.
 
-"[6/7] doc: keys: Document usage of TEE based Trusted Keys" refers to
-the kernel tee documentation, but that documentation is limited to
-userspace interaction with the tee.
+Get rid of it.
 
-A trusted key is a random number generated and sealed(encrypted) by
-the TPM, so that only the TPM may unseal it.  The sealing key never
-leaves the TPM.  The sealed, trusted key may be exported to userspace.
- In the tee case, can the "sealing" key ever leave the tee?  Can the
-sealed, trusted key, exported to userspace, be unsealed by the tee?
- Are the tee security protections similar to those of the TPM?  How do
-they compare?
+Signed-off-by: Mauro Carvalho Chehab <mchehab@s-opensource.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ Documentation/ABI/testing/sysfs-class-uwb_rc | 6 ------
+ 1 file changed, 6 deletions(-)
 
-Mimi
-
-> 
-> >
-> > Patch #1, #2 enables support for registered kernel shared memory with TEE.
-> >
-> > Patch #3 enables support for private kernel login method required for
-> > cases like trusted keys where we don't wan't user-space to directly access
-> > TEE service to retrieve trusted key contents.
-> >
-> > Rest of the patches from #4 to #7 adds support for TEE based trusted keys.
-> >
-> > This patch-set has been tested with OP-TEE based pseudo TA which can be
-> > found here [1].
-> >
-> > Looking forward to your valuable feedback/suggestions.
+diff --git a/Documentation/ABI/testing/sysfs-class-uwb_rc b/Documentation/ABI/testing/sysfs-class-uwb_rc
+index 85f4875d16ac..a0578751c1e3 100644
+--- a/Documentation/ABI/testing/sysfs-class-uwb_rc
++++ b/Documentation/ABI/testing/sysfs-class-uwb_rc
+@@ -125,12 +125,6 @@ Description:
+                 The EUI-48 of this device in colon separated hex
+                 octets.
+ 
+-What:           /sys/class/uwb_rc/uwbN/<EUI-48>/BPST
+-Date:           July 2008
+-KernelVersion:  2.6.27
+-Contact:        linux-usb@vger.kernel.org
+-Description:
+-
+ What:           /sys/class/uwb_rc/uwbN/<EUI-48>/IEs
+ Date:           July 2008
+ KernelVersion:  2.6.27
+-- 
+2.21.0
 
