@@ -5,42 +5,43 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 075827D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 02:04:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0E2A57D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 02:05:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727200AbfFNCEb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Jun 2019 22:04:31 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:52934 "EHLO
+        id S1726841AbfFNCE2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Jun 2019 22:04:28 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:52882 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727181AbfFNCEb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jun 2019 22:04:31 -0400
+        with ESMTP id S1726514AbfFNCE2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jun 2019 22:04:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Adj83HLbKRJj7XLx7jpL+lI7fvcVNLKp9k5DjItzJhU=; b=Q3iqr37tz9MPM8xOPTJ7pljBhd
-        /VfeHOfBP7FkSWnbfDNcPLT5BfYY+q3J1os6noOwsLzLsl9QaR3P8WaaHoDJ06qnOv3IFSm3B2YgI
-        wa7gSxZPZTAgm/e0HaEBrInh5qSfd5ca0nV9FG0Z6QMl1hYp1QnJny0zJSuM2b7srZaqVNNoIXGAz
-        HCyCnls4mk361YHTjJoLJhDyOHPTn3Th/urmtfITyS++NV58LysO0DgGrQk7yvT3nqY8bL0oC8u+r
-        AxapBrhMU9jz4n9sgsWNk++QgGD8zB6Ht/n8UfQR3jPyopId4PTQFuVsOXdQm4/fbbgzmUwjpMZ2q
-        Wl1SJ1Vg==;
+        bh=fel+2k85pk3uIfzPn9NdzPj+rKgNtw5jyrOcDtA6cpw=; b=BVBXyAhWxLuh8FssyWJXKTdz8E
+        VbwRnL5ETDfANg1Q2xdkjdu7iEg6b6SAXsxRmnfKB1xSCWdQi1dQ0ScC/4dPaNCNxhkWxIw0n27Zd
+        WDQdBcYPmWsYQS2gYsd6pSnbjYZFayq+KE8xcizkhsr++1weY9V5a4RcXODPIX4F51wIHr+nAkD1b
+        DvlfE99lAPy/SmFaxxFdfvRNeqjgsIntqcxLo8lS5O+UBnpfCfNthzQgNQw3dJY0xcXBL2YL5Yl6h
+        07ftVDMQhmJv7Iw4UGqmxkLDh4ZVeXD5oXPkxKbHVzA3IWCaczl+k8jZjXhmB6Hr0pPNFBaFhipPQ
+        DuBmDBBg==;
 Received: from 201.86.169.251.dynamic.adsl.gvt.net.br ([201.86.169.251] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hbbZv-0000EH-0U; Fri, 14 Jun 2019 02:04:31 +0000
+        id 1hbbZr-0000ED-In; Fri, 14 Jun 2019 02:04:27 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hbbZo-0002oP-1r; Thu, 13 Jun 2019 23:04:24 -0300
+        id 1hbbZn-0002o0-Sq; Thu, 13 Jun 2019 23:04:23 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+Cc:     Mauro Carvalho Chehab <mchehab@s-opensource.com>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 14/14] docs: sphinx/kernel_abi.py: fix UTF-8 support
-Date:   Thu, 13 Jun 2019 23:04:20 -0300
-Message-Id: <62c8ffe86df40c90299e80619a1cb5d50971c2c6.1560477540.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Subject: [PATCH 08/14] scripts/get_abi.pl: split label naming from xref logic
+Date:   Thu, 13 Jun 2019 23:04:14 -0300
+Message-Id: <32c2aed345b10d488f630a339b9a6ea3e23ae727.1560477540.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1560477540.git.mchehab+samsung@kernel.org>
 References: <cover.1560477540.git.mchehab+samsung@kernel.org>
@@ -51,48 +52,185 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The parser breaks with UTF-8 characters with Sphinx 1.4.
+From: Mauro Carvalho Chehab <mchehab@s-opensource.com>
 
+Instead of using a ReST compilant label while parsing,
+move the label to ReST output. That makes the parsing logic
+more generic, allowing it to provide other types of output.
+
+As a side effect, now all files used to generate the output
+will be output. We can later add command line arguments to
+filter.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab@s-opensource.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/sphinx/kernel_abi.py | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ scripts/get_abi.pl | 94 ++++++++++++++++++++++++++--------------------
+ 1 file changed, 53 insertions(+), 41 deletions(-)
 
-diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
-index 7fa7806532dc..460cee48a245 100644
---- a/Documentation/sphinx/kernel_abi.py
-+++ b/Documentation/sphinx/kernel_abi.py
-@@ -1,4 +1,5 @@
--# -*- coding: utf-8; mode: python -*-
-+# coding=utf-8
-+#
- u"""
-     kernel-abi
-     ~~~~~~~~~~
-@@ -28,6 +29,7 @@ u"""
+diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
+index ba8a7466f896..d437e148b1c0 100755
+--- a/scripts/get_abi.pl
++++ b/scripts/get_abi.pl
+@@ -49,17 +49,23 @@ sub parse_abi {
+ 	my $name = $file;
+ 	$name =~ s,.*/,,;
  
- """
++	my $nametag = "File $name";
++	$data{$nametag}->{what} = "File $name";
++	$data{$nametag}->{type} = "File";
++	$data{$nametag}->{file} = $name;
++	$data{$nametag}->{is_file} = 1;
++
+ 	my $type = $file;
+ 	$type =~ s,.*/(.*)/.*,$1,;
  
-+import codecs
- import sys
- import os
- from os import path
-@@ -124,12 +126,12 @@ class KernelCmd(Directive):
-                 cmd
-                 , stdout = subprocess.PIPE
-                 , stderr = subprocess.PIPE
--                , universal_newlines = True
-                 , **kwargs
-             )
-             out, err = proc.communicate()
--            if err:
--                self.warn(err)
+ 	my $what;
+ 	my $new_what;
+ 	my $tag;
+-	my $label;
+ 	my $ln;
+-	my $has_file;
+ 	my $xrefs;
+ 	my $space;
++	my @labels;
++	my $label;
+ 
+ 	print STDERR "Opening $file\n" if ($debug > 1);
+ 	open IN, $file;
+@@ -88,28 +94,13 @@ sub parse_abi {
+ 					parse_error($file, $ln, "What '$what' doesn't have a description", "") if ($what && !$data{$what}->{description});
+ 
+ 					$what = $content;
++					$label = $content;
+ 					$new_what = 1;
+ 				}
++				push @labels, [($content, $label)];
+ 				$tag = $new_tag;
+ 
+-				if ($has_file) {
+-					$label = "abi_" . $content . " ";
+-					$label =~ tr/A-Z/a-z/;
+-
+-					# Convert special chars to "_"
+-					$label =~s/[\x00-\x2f]+/_/g;
+-					$label =~s/[\x3a-\x40]+/_/g;
+-					$label =~s/[\x7b-\xff]+/_/g;
+-					$label =~ s,_+,_,g;
+-					$label =~ s,_$,,;
+-
+-					$data{$what}->{label} .= $label;
+-
+-					# Escape special chars from content
+-					$content =~s/([\x00-\x1f\x21-\x2f\x3a-\x40\x7b-\xff])/\\$1/g;
+-
+-					$xrefs .= "- :ref:`$content <$label>`\n\n";
+-				}
++				push @{$data{$nametag}->{xrefs}}, [($content, $label)] if ($data{$nametag}->{what});
+ 				next;
+ 			}
+ 
+@@ -117,6 +108,9 @@ sub parse_abi {
+ 				$tag = $new_tag;
+ 
+ 				if ($new_what) {
++					@{$data{$what}->{label}} = @labels if ($data{$nametag}->{what});
++					@labels = ();
++					$label = "";
+ 					$new_what = 0;
+ 
+ 					$data{$what}->{type} = $type;
+@@ -145,15 +139,8 @@ sub parse_abi {
+ 		}
+ 
+ 		# Store any contents before tags at the database
+-		if (!$tag) {
+-			next if (/^\n/);
+-
+-			my $my_what = "File $name";
+-			$data{$my_what}->{what} = "File $name";
+-			$data{$my_what}->{type} = "File";
+-			$data{$my_what}->{file} = $name;
+-			$data{$my_what}->{description} .= $_;
+-			$has_file = 1;
++		if (!$tag && $data{$nametag}->{what}) {
++			$data{$nametag}->{description} .= $_;
+ 			next;
+ 		}
+ 
+@@ -192,12 +179,8 @@ sub parse_abi {
+ 		# Everything else is error
+ 		parse_error($file, $ln, "Unexpected line:", $_);
+ 	}
++	$data{$nametag}->{description} =~ s/^\n+//;
+ 	close IN;
+-
+-	if ($has_file) {
+-		my $my_what = "File $name";
+-                $data{$my_what}->{xrefs} = $xrefs;
+-	}
+ }
+ 
+ # Outputs the output on ReST format
+@@ -212,11 +195,22 @@ sub output_rest {
+ 		my $bar = $w;
+ 		$bar =~ s/./-/g;
+ 
+-		if ($data{$what}->{label}) {
+-			my @labels = split(/\s/, $data{$what}->{label});
+-			foreach my $label (@labels) {
+-				printf ".. _%s:\n\n", $label;
+-			}
++		foreach my $p (@{$data{$what}->{label}}) {
++			my ($content, $label) = @{$p};
++			$label = "abi_" . $label . " ";
++			$label =~ tr/A-Z/a-z/;
 +
-+            out, err = codecs.decode(out, 'utf-8'), codecs.decode(err, 'utf-8')
++			# Convert special chars to "_"
++			$label =~s/([\x00-\x2f\x3a-\x40\x5b-\x60\x7b-\xff])/_/g;
++			$label =~ s,_+,_,g;
++			$label =~ s,_$,,;
 +
-             if proc.returncode != 0:
-                 raise self.severe(
-                     u"command '%s' failed with return code %d"
++			$data{$what}->{label} .= $label;
++
++			printf ".. _%s:\n\n", $label;
++
++			# only one label is enough
++			last;
+ 		}
+ 
+ 		print "$w\n$bar\n\n";
+@@ -243,10 +237,28 @@ sub output_rest {
+ 				print "$desc\n\n";
+ 			}
+ 		} else {
+-			print "DESCRIPTION MISSING for $what\n\n";
++			print "DESCRIPTION MISSING for $what\n\n" if (!$data{$what}->{is_file});
+ 		}
+ 
+-		printf "Has the following ABI:\n\n%s", $data{$what}->{xrefs} if ($data{$what}->{xrefs});
++		if ($data{$what}->{xrefs}) {
++			printf "Has the following ABI:\n\n";
++
++			foreach my $p(@{$data{$what}->{xrefs}}) {
++				my ($content, $label) = @{$p};
++				$label = "abi_" . $label . " ";
++				$label =~ tr/A-Z/a-z/;
++
++				# Convert special chars to "_"
++				$label =~s/([\x00-\x2f\x3a-\x40\x5b-\x60\x7b-\xff])/_/g;
++				$label =~ s,_+,_,g;
++				$label =~ s,_$,,;
++
++				# Escape special chars from content
++				$content =~s/([\x00-\x1f\x21-\x2f\x3a-\x40\x7b-\xff])/\\$1/g;
++
++				print "- :ref:`$content <$label>`\n\n";
++			}
++		}
+ 	}
+ }
+ 
 -- 
 2.21.0
 
