@@ -4,70 +4,76 @@ X-Spam-Level:
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EE40F7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 16:18:40 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 877757D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 16:20:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726187AbfFNQSk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Jun 2019 12:18:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52794 "EHLO mail.kernel.org"
+        id S1726133AbfFNQUM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Jun 2019 12:20:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53458 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725801AbfFNQSk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 14 Jun 2019 12:18:40 -0400
+        id S1725837AbfFNQUM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 14 Jun 2019 12:20:12 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4178721841;
-        Fri, 14 Jun 2019 16:18:39 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9B8542183E;
+        Fri, 14 Jun 2019 16:20:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560529119;
-        bh=dE90nthqMENvAzRAL+ZRMLD+AqNO90WL38msCIgtbPA=;
+        s=default; t=1560529212;
+        bh=+miqeMfSWkr4moUYw1GPgzK89cG9rhNix4a208bvm+U=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NK2lJvEV1z5bNiYfVSO330B3jUXdaXrzTocVp67nWE5GzYVehzCymhsfoVkICdAwA
-         hc1/moHRv7T2JHXvRk/7fooH0TgvtqI08UDrKYk2CWw+HyYXfc8OxlnI80grAu963P
-         TK4fEOaqTsAES2HHc7SbYx/rKcjfAqaixxCXL9RM=
-Date:   Fri, 14 Jun 2019 18:18:37 +0200
+        b=L8qaLG22aoUH7W2zcf+EYqbggukwbugLjLyWZxukMUkndtgnt54icT8hgjuaOGrRJ
+         O4kIGE/19aFlytfdvWsRaBhik8fY3OvW0GjKuHkAygAWFcVyaM6ZtLp9PB561shqVy
+         I58hBLwe97fgUUV+D1oi9Q2q9NrujVPxy8kR7cYk=
+Date:   Fri, 14 Jun 2019 18:20:09 +0200
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 14/14] docs: sphinx/kernel_abi.py: fix UTF-8 support
-Message-ID: <20190614161837.GA25206@kroah.com>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linuxppc-dev@lists.ozlabs.org,
+        Andrew Donnellan <ajd@linux.ibm.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Anton Vorontsov <anton@enomsg.org>, linux-pm@vger.kernel.org,
+        Colin Cross <ccross@android.com>, linux-iio@vger.kernel.org,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Sebastian Reichel <sre@kernel.org>,
+        Frederic Barrat <fbarrat@linux.ibm.com>,
+        Andreas Klinger <ak@it-klinger.de>,
+        Tony Luck <tony.luck@intel.com>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Stefan Achatz <erazor_de@users.sourceforge.net>,
+        Kees Cook <keescook@chromium.org>
+Subject: Re: [PATCH 00/14] Add support to generate ABI documentation at
+ admin-guide
+Message-ID: <20190614162009.GA25572@kroah.com>
 References: <cover.1560477540.git.mchehab+samsung@kernel.org>
- <62c8ffe86df40c90299e80619a1cb5d50971c2c6.1560477540.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <62c8ffe86df40c90299e80619a1cb5d50971c2c6.1560477540.git.mchehab+samsung@kernel.org>
+In-Reply-To: <cover.1560477540.git.mchehab+samsung@kernel.org>
 User-Agent: Mutt/1.12.0 (2019-05-25)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 13, 2019 at 11:04:20PM -0300, Mauro Carvalho Chehab wrote:
-> The parser breaks with UTF-8 characters with Sphinx 1.4.
+On Thu, Jun 13, 2019 at 11:04:06PM -0300, Mauro Carvalho Chehab wrote:
+> Greg,
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
->  Documentation/sphinx/kernel_abi.py | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
+> As promised, I'm resending the patch series with adds the Kernel ABI to
+> Documentation/admin-guide.
 > 
-> diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
-> index 7fa7806532dc..460cee48a245 100644
-> --- a/Documentation/sphinx/kernel_abi.py
-> +++ b/Documentation/sphinx/kernel_abi.py
-> @@ -1,4 +1,5 @@
-> -# -*- coding: utf-8; mode: python -*-
-> +# coding=utf-8
-> +#
+> Those patches are basically the version 3 patchset I sent back in 2017,
+> rebased on the top of linux-next (next-20190613), and with some fixes
+> in order for it to work.
+> 
+> - The 4 initial patches to fix some ABI descriptions that are violating 
+>   the syntax described at Documentation/ABI/README;
 
-Is this an emacs vs. vim fight?
-
-Why change this?
-
-thanks,
+These 4 are now applied to my driver-core tree, thanks.
 
 greg k-h
