@@ -3,16 +3,16 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6E1B47D2EF
+	by archive.lwn.net (Postfix) with ESMTP id 83BC07D8AB
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 02:04:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727211AbfFNCEb (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 13 Jun 2019 22:04:31 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:52938 "EHLO
+        id S1727223AbfFNCEc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 13 Jun 2019 22:04:32 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:52964 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726999AbfFNCEb (ORCPT
+        with ESMTP id S1726011AbfFNCEb (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 13 Jun 2019 22:04:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,27 +20,29 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=2lZSJSMx6Y3MRGPxe0M3M6eDqWU4ZSMnhOq/IvfM44w=; b=r+3HHuXPGS3ZtKMbIKZ/3LhfYS
-        dN1J2cRHSXcLomjjfYB7rcZYIOlTtPXB9ZlJ+GXpTEngauoLdyiBgw9Q6w4bUsdBDfp4IFkBj1oag
-        fw+nAbYDRdmoWbPhUjVTf/hBlNir0nvXNLMKWzrgqdR9VUgTusVAzeCYvpQ8W3dktAW0TKeofKQIh
-        kK0gn+Wg9UQ2CIzoiim26Prh0kAM1seD34W63Cj77+iPzcqu4vl/kS7jjJzfO/Oe4/ihOQMjq6Sb4
-        wc1IXqTcO2SrBH+zR60kb6t6K0rwx7Y+ApcF2Ec/4+JSIuFTb/6btIgsmtUCZS5nCr7bPh4QFaKgx
-        lFWuTsoA==;
+        bh=1EDYIQPNmsiwyJ2mrEoIP/1S3ndA3wGsYXQv01sTZU4=; b=jDG95pA8CQ/CwTx2/TGGIX8I7+
+        Qj32M/UiRvWq36MBiHqz5daVAdCwvCQBuam7CK1UxyvkPfDDkU1PQ4APBbYJOeXGMl9DgrU3RHx0c
+        wr7xerJNWy4Sn05CBOeNeNPa2BS6Ozpw0TY1Xo+gCzC5HqoYLy4vKvige0Eb2Q5coEo8z89FfiIaC
+        XG/yg64VEQT+DdpNc9lvWAe6wyl9dRIB9eqVpaNuiaNsyhFkRObfjfOePCwGGuB3kX3cW5c7e2PaB
+        HR3Q+sIOI8Ptun9atgr5F4rDUnBUqbgxVOB0G9zPhLyRE63euwBiYxUNsNE1FmXxA1QaIDP5wqNRl
+        vuf0mrqg==;
 Received: from 201.86.169.251.dynamic.adsl.gvt.net.br ([201.86.169.251] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hbbZv-0000EG-1y; Fri, 14 Jun 2019 02:04:31 +0000
+        id 1hbbZv-0000EF-5v; Fri, 14 Jun 2019 02:04:31 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hbbZo-0002oK-16; Thu, 13 Jun 2019 23:04:24 -0300
+        id 1hbbZn-0002nk-Pa; Thu, 13 Jun 2019 23:04:23 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+Cc:     Mauro Carvalho Chehab <mchehab@s-opensource.com>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 13/14] sphinx/kernel_abi.py: make it compatible with Sphinx 1.7+
-Date:   Thu, 13 Jun 2019 23:04:19 -0300
-Message-Id: <b612c507d40fc4c175bc0884bfb64903b1c52e0f.1560477540.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Stefan Achatz <erazor_de@users.sourceforge.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Subject: [PATCH 04/14] ABI: better identificate tables
+Date:   Thu, 13 Jun 2019 23:04:10 -0300
+Message-Id: <6bc45c0d5d464d25d4d16eceac48a2f407166944.1560477540.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1560477540.git.mchehab+samsung@kernel.org>
 References: <cover.1560477540.git.mchehab+samsung@kernel.org>
@@ -51,61 +53,144 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The same way kerneldoc.py needed changes to work with newer
-Sphinx, this script needs the same changes.
+From: Mauro Carvalho Chehab <mchehab@s-opensource.com>
 
+When parsing via script, it is important to know if the script
+should consider a description as a literal block that should
+be displayed as-is, or if the description can be considered
+as a normal text.
+
+Change descriptions to ensure that the preceding line of a table
+ends with a colon. That makes easy to identify the need of a
+literal block.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab@s-opensource.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/sphinx/kernel_abi.py | 31 ++++++++++++++++++++++--------
- 1 file changed, 23 insertions(+), 8 deletions(-)
+ Documentation/ABI/obsolete/sysfs-driver-hid-roccat-pyra   | 2 +-
+ .../ABI/testing/sysfs-class-backlight-driver-lm3533       | 6 +++---
+ Documentation/ABI/testing/sysfs-class-led-driver-lm3533   | 8 ++++----
+ Documentation/ABI/testing/sysfs-class-leds-gt683r         | 4 ++--
+ Documentation/ABI/testing/sysfs-driver-hid-roccat-kone    | 2 +-
+ 5 files changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
-index 32ce90775d96..7fa7806532dc 100644
---- a/Documentation/sphinx/kernel_abi.py
-+++ b/Documentation/sphinx/kernel_abi.py
-@@ -33,7 +33,16 @@ import os
- from os import path
- import subprocess
+diff --git a/Documentation/ABI/obsolete/sysfs-driver-hid-roccat-pyra b/Documentation/ABI/obsolete/sysfs-driver-hid-roccat-pyra
+index 16020b31ae64..5d41ebadf15e 100644
+--- a/Documentation/ABI/obsolete/sysfs-driver-hid-roccat-pyra
++++ b/Documentation/ABI/obsolete/sysfs-driver-hid-roccat-pyra
+@@ -5,7 +5,7 @@ Description:	It is possible to switch the cpi setting of the mouse with the
+ 		press of a button.
+ 		When read, this file returns the raw number of the actual cpi
+ 		setting reported by the mouse. This number has to be further
+-		processed to receive the real dpi value.
++		processed to receive the real dpi value:
  
--from sphinx.ext.autodoc import AutodocReporter
-+#
-+# AutodocReporter is only good up to Sphinx 1.7
-+#
-+import sphinx
-+
-+Use_SSI = sphinx.__version__[:3] >= '1.7'
-+if Use_SSI:
-+    from sphinx.util.docutils import switch_source_input
-+else:
-+    from sphinx.ext.autodoc import AutodocReporter
+ 		VALUE DPI
+ 		1     400
+diff --git a/Documentation/ABI/testing/sysfs-class-backlight-driver-lm3533 b/Documentation/ABI/testing/sysfs-class-backlight-driver-lm3533
+index 77cf7ac949af..c0e0a9ae7b3d 100644
+--- a/Documentation/ABI/testing/sysfs-class-backlight-driver-lm3533
++++ b/Documentation/ABI/testing/sysfs-class-backlight-driver-lm3533
+@@ -4,7 +4,7 @@ KernelVersion:	3.5
+ Contact:	Johan Hovold <jhovold@gmail.com>
+ Description:
+ 		Get the ALS output channel used as input in
+-		ALS-current-control mode (0, 1), where
++		ALS-current-control mode (0, 1), where:
  
- from docutils import nodes
- from docutils.parsers.rst import Directive, directives
-@@ -145,11 +154,17 @@ class KernelCmd(Directive):
-             content.append(l, fname, c)
+ 		0 - out_current0 (backlight 0)
+ 		1 - out_current1 (backlight 1)
+@@ -28,7 +28,7 @@ Date:		April 2012
+ KernelVersion:	3.5
+ Contact:	Johan Hovold <jhovold@gmail.com>
+ Description:
+-		Set the brightness-mapping mode (0, 1), where
++		Set the brightness-mapping mode (0, 1), where:
  
-         buf  = self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter
--        self.state.memo.title_styles  = []
--        self.state.memo.section_level = 0
--        self.state.memo.reporter      = AutodocReporter(content, self.state.memo.reporter)
--        try:
--            self.state.nested_parse(content, 0, node, match_titles=1)
--        finally:
--            self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter = buf
-+
-+        if Use_SSI:
-+            with switch_source_input(self.state, content):
-+                self.state.nested_parse(content, 0, node, match_titles=1)
-+        else:
-+            self.state.memo.title_styles  = []
-+            self.state.memo.section_level = 0
-+            self.state.memo.reporter      = AutodocReporter(content, self.state.memo.reporter)
-+            try:
-+                self.state.nested_parse(content, 0, node, match_titles=1)
-+            finally:
-+                self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter = buf
-+
-         return node.children
+ 		0 - exponential mode
+ 		1 - linear mode
+@@ -38,7 +38,7 @@ Date:		April 2012
+ KernelVersion:	3.5
+ Contact:	Johan Hovold <jhovold@gmail.com>
+ Description:
+-		Set the PWM-input control mask (5 bits), where
++		Set the PWM-input control mask (5 bits), where:
+ 
+ 		bit 5 - PWM-input enabled in Zone 4
+ 		bit 4 - PWM-input enabled in Zone 3
+diff --git a/Documentation/ABI/testing/sysfs-class-led-driver-lm3533 b/Documentation/ABI/testing/sysfs-class-led-driver-lm3533
+index 620ebb3b9baa..e4c89b261546 100644
+--- a/Documentation/ABI/testing/sysfs-class-led-driver-lm3533
++++ b/Documentation/ABI/testing/sysfs-class-led-driver-lm3533
+@@ -4,7 +4,7 @@ KernelVersion:	3.5
+ Contact:	Johan Hovold <jhovold@gmail.com>
+ Description:
+ 		Set the ALS output channel to use as input in
+-		ALS-current-control mode (1, 2), where
++		ALS-current-control mode (1, 2), where:
+ 
+ 		1 - out_current1
+ 		2 - out_current2
+@@ -22,7 +22,7 @@ Date:		April 2012
+ KernelVersion:	3.5
+ Contact:	Johan Hovold <jhovold@gmail.com>
+ Description:
+-		Set the pattern generator fall and rise times (0..7), where
++		Set the pattern generator fall and rise times (0..7), where:
+ 
+ 		0 - 2048 us
+ 		1 - 262 ms
+@@ -45,7 +45,7 @@ Date:		April 2012
+ KernelVersion:	3.5
+ Contact:	Johan Hovold <jhovold@gmail.com>
+ Description:
+-		Set the brightness-mapping mode (0, 1), where
++		Set the brightness-mapping mode (0, 1), where:
+ 
+ 		0 - exponential mode
+ 		1 - linear mode
+@@ -55,7 +55,7 @@ Date:		April 2012
+ KernelVersion:	3.5
+ Contact:	Johan Hovold <jhovold@gmail.com>
+ Description:
+-		Set the PWM-input control mask (5 bits), where
++		Set the PWM-input control mask (5 bits), where:
+ 
+ 		bit 5 - PWM-input enabled in Zone 4
+ 		bit 4 - PWM-input enabled in Zone 3
+diff --git a/Documentation/ABI/testing/sysfs-class-leds-gt683r b/Documentation/ABI/testing/sysfs-class-leds-gt683r
+index e4fae6026e79..6adab27f646e 100644
+--- a/Documentation/ABI/testing/sysfs-class-leds-gt683r
++++ b/Documentation/ABI/testing/sysfs-class-leds-gt683r
+@@ -5,7 +5,7 @@ Contact:	Janne Kanniainen <janne.kanniainen@gmail.com>
+ Description:
+ 		Set the mode of LEDs. You should notice that changing the mode
+ 		of one LED will update the mode of its two sibling devices as
+-		well.
++		well. Possible values are:
+ 
+ 		0 - normal
+ 		1 - audio
+@@ -13,4 +13,4 @@ Description:
+ 
+ 		Normal: LEDs are fully on when enabled
+ 		Audio:  LEDs brightness depends on sound level
+-		Breathing: LEDs brightness varies at human breathing rate
+\ No newline at end of file
++		Breathing: LEDs brightness varies at human breathing rate
+diff --git a/Documentation/ABI/testing/sysfs-driver-hid-roccat-kone b/Documentation/ABI/testing/sysfs-driver-hid-roccat-kone
+index 3ca3971109bf..8f7982c70d72 100644
+--- a/Documentation/ABI/testing/sysfs-driver-hid-roccat-kone
++++ b/Documentation/ABI/testing/sysfs-driver-hid-roccat-kone
+@@ -5,7 +5,7 @@ Description:	It is possible to switch the dpi setting of the mouse with the
+ 		press of a button.
+ 		When read, this file returns the raw number of the actual dpi
+ 		setting reported by the mouse. This number has to be further
+-		processed to receive the real dpi value.
++		processed to receive the real dpi value:
+ 
+ 		VALUE DPI
+ 		1     800
 -- 
 2.21.0
 
