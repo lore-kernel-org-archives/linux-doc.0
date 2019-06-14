@@ -1,132 +1,181 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 895857D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 05:58:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 988107D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 06:04:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726126AbfFNF6p (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Jun 2019 01:58:45 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:46086 "EHLO
+        id S1726103AbfFNGEW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Jun 2019 02:04:22 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:43834 "EHLO
         mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725859AbfFNF6p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jun 2019 01:58:45 -0400
-Received: by mail-lj1-f195.google.com with SMTP id v24so1058040ljg.13
-        for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2019 22:58:43 -0700 (PDT)
+        with ESMTP id S1725801AbfFNGEW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jun 2019 02:04:22 -0400
+Received: by mail-lj1-f195.google.com with SMTP id 16so1082977ljv.10;
+        Thu, 13 Jun 2019 23:04:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QFXNxbR5qtxNXi2nY5hSY49xeuHs2429UMIo2iWWl0g=;
-        b=hD2rzW6+JswYVvwbKP+ETgzs+PloQRvs6H+EadUYpU/Oro1P+HHue6bgtuazPDg3gK
-         stuJfFJXi5+gnnWcvhtxSaUN3NgUEt6xiRprMP6iXljZvONiXwrdE3eIhXuN3F65jqvj
-         GDdqmqA4QbwtfVNGWRe5tEbx32S/rr8Z5fQh9bOdjhFyY0JSJuUKOSHoKQcwCLE6dXEF
-         8H1Ah0D76X6ToKxVMaSjQ6P3BfUoC5IDA1zBe7kuIrdrloFC94pCsg2+UXs3ll7h5odz
-         2CIf2h8rEBW6fQQpVQ6fPQTVx78raNLKckBefIUx83lDXGiAmD7qaIEG60q0jLmManM3
-         aAbw==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=BZ1+jjQyuM9ShLXx7wdchyxtgoPMca+BwMd1ODPeWJw=;
+        b=boJDsl74qhnzKQU7lodkIpfkmBeDLR9jlMI+EKnhWaa2u0DciQpBbAL2XU7A8UAIyZ
+         HWCUUhxSQNWObJbDN3bnJq+t50QJUAC9MSjvMev8EVUkyIS7HceBmJ+Xrwb+zKzKvdVA
+         ng1G+0os+fFygvoju5D5ddkecsi6pgN/Yn46Uu+4l15aVyJpTTu6dCzExpLjHlR50XkH
+         ZjC5PwaAsvlk7L+st3SSE0LkQ7cqxfMKmISUcdwfVY9gWO014G11k07Brnc9oahg+GJt
+         bTWsKNjb6N7QNNX4DgExvbYN854mOvlBv88N1hbb92ENSMGrM4hWHpcyXvP3jtoGDqYx
+         hKQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QFXNxbR5qtxNXi2nY5hSY49xeuHs2429UMIo2iWWl0g=;
-        b=X4LQ9bD377ZcMj9ByAxptkf/q+sA08bi05y1lOBVq7VqXnMB6Xb40vOmdMt8fphAWS
-         sfk4Bez8+Tw11sCkdXse9wdZp9YKmXqrBKSfaBF6d01rG0OR5ulTLB2Gn7GuqyNDvrsZ
-         UwwE4G8gn9CAgZNhUsB7bpTu0aFsC13H2oT+XCJCdt67DySl/AZsKkyfGzY30nIazB6+
-         WZzl3zXrzYhyzwYCp6tf1oE2X5+rgy+aXd3SLOKapp/T7yR+YHJR27wATT5hiJqYjU4x
-         XeO252CQVHZT0oCu0dPXDG8VUJExugpdEcm7WelGdU/U7xBQ7zs+1z/zUvPIeBebUfcn
-         Acuw==
-X-Gm-Message-State: APjAAAV8vWwHGYSXIicTz/RgmOPpu5gSFSkDAwiYC2g6LX494n0+j8yk
-        OhkbAF2eKg2MHqujYzYilnM4xTozDIXBbf3pEo5QSQ==
-X-Google-Smtp-Source: APXvYqzeksM7lw+9eRlJ79HkAyW5J8Xn00aCwvC2H55C68XUPO5raXUWhnglWIySJoN7qdrhKGK/PKFdGYxBJR4f23E=
-X-Received: by 2002:a2e:9b57:: with SMTP id o23mr1081203ljj.67.1560491923075;
- Thu, 13 Jun 2019 22:58:43 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=BZ1+jjQyuM9ShLXx7wdchyxtgoPMca+BwMd1ODPeWJw=;
+        b=YlSOpX/23binQWE+LWgdlEGejlnRC4Ofl2M42gO/fzOFDBj/i63PSNlR2p7GSiE9Vq
+         guJTc7GDtUZLpB15Ze2IeWpdKtjFR9IhibZXEIDMLIoro6unZTC8B85BrngbfgYzgN5Q
+         pQGVGfu9tHfxG6CUHclrBlBza/2jU04SXcB0CdyY3rRm04FxY4gTtHn4T5vodtA1Llaj
+         E2qTapZF7lhHH6goMzyYHXuToro8y0+4P2B8mK2Ne6Xs1dYXB33x14FMfXqJNvRt4Urt
+         fLDXS1R7nxVavhbvsIBIDeC3Gm3FiVb10RWCnToBIHXr14krS/l4yTeDR8caPZ6q8XGy
+         9Wcw==
+X-Gm-Message-State: APjAAAXEd72ytUadorzamKbZYUFwW9e/04MTC33m9znb7Lb1Qm97aDYC
+        j+Hx6oQledIMAfdSqEJh/ck=
+X-Google-Smtp-Source: APXvYqz5KYsvUg8CXHUwOmAeFy6BUQ03B1Jx+LzDIwBi8rinS2aLv/YVW8yp8npO9hpcUsxtoY7aIg==
+X-Received: by 2002:a2e:8892:: with SMTP id k18mr3065292lji.239.1560492258750;
+        Thu, 13 Jun 2019 23:04:18 -0700 (PDT)
+Received: from mobilestation ([5.164.217.122])
+        by smtp.gmail.com with ESMTPSA id k15sm385288lji.89.2019.06.13.23.04.17
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 13 Jun 2019 23:04:18 -0700 (PDT)
+Date:   Fri, 14 Jun 2019 09:04:16 +0300
+From:   Serge Semin <fancer.lancer@gmail.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Serge Semin <Sergey.Semin@t-platforms.ru>,
+        linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: hwmon: Add DT bindings for TI
+ ads1000/ads1100 ADCs
+Message-ID: <20190614060414.52t7ahfkw44a4eqp@mobilestation>
+References: <20190514225810.12591-1-fancer.lancer@gmail.com>
+ <20190514225810.12591-2-fancer.lancer@gmail.com>
+ <20190613203313.GA23102@bogus>
 MIME-Version: 1.0
-References: <1560421833-27414-1-git-send-email-sumit.garg@linaro.org> <d803283e-5e69-5deb-fe94-3f2e45fb95af@schaufler-ca.com>
-In-Reply-To: <d803283e-5e69-5deb-fe94-3f2e45fb95af@schaufler-ca.com>
-From:   Sumit Garg <sumit.garg@linaro.org>
-Date:   Fri, 14 Jun 2019 11:28:31 +0530
-Message-ID: <CAFA6WYN0u1nrxp1rok+GMi_wVH44FD9QKhoqOPvUNC0_f+kULw@mail.gmail.com>
-Subject: Re: [RFC 0/7] Introduce TEE based Trusted Keys support
-To:     Casey Schaufler <casey@schaufler-ca.com>
-Cc:     keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        Jens Wiklander <jens.wiklander@linaro.org>, corbet@lwn.net,
-        dhowells@redhat.com, jejb@linux.ibm.com,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        tee-dev@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190613203313.GA23102@bogus>
+User-Agent: NeoMutt/20180716
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 13 Jun 2019 at 22:10, Casey Schaufler <casey@schaufler-ca.com> wrote:
->
-> On 6/13/2019 3:30 AM, Sumit Garg wrote:
-> > Add support for TEE based trusted keys where TEE provides the functionality
-> > to seal and unseal trusted keys using hardware unique key. Also, this is
-> > an alternative in case platform doesn't possess a TPM device.
-> >
-> > This series also adds some TEE features like:
->
-> Please expand the acronym TEE on first use. That will
-> help people who don't work with it on a daily basis
-> understand what you're going on about.
->
+Hello Rob
 
-Sure will take care of this. BTW, its Trusted Execution Environment (TEE).
+On Thu, Jun 13, 2019 at 02:33:13PM -0600, Rob Herring wrote:
+> On Wed, May 15, 2019 at 01:58:08AM +0300, Serge Semin wrote:
+> > Add dt-binding documentation for the Texas Instruments ads1000/ads1100 ADCs
+> > driver.
+> > 
+> > Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
+> > ---
+> >  .../devicetree/bindings/hwmon/ads1000.txt     | 61 ++++++++++++++++
+> 
+> Bindings should be separate patch.
+> 
+> >  Documentation/hwmon/ads1000.rst               | 72 +++++++++++++++++++
+> >  2 files changed, 133 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/hwmon/ads1000.txt
+> >  create mode 100644 Documentation/hwmon/ads1000.rst
+> > 
+> > diff --git a/Documentation/devicetree/bindings/hwmon/ads1000.txt b/Documentation/devicetree/bindings/hwmon/ads1000.txt
+> > new file mode 100644
+> > index 000000000000..3907b7da9b33
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/hwmon/ads1000.txt
+> > @@ -0,0 +1,61 @@
+> > +ADS1000/ADS1100 (I2C)
+> > +
+> > +This device is a 12-16 bit A-D converter with 1 input.
+> 
+> ADC's should be in bindings/iio/adc/
+> 
+> > +
+> > +The inputs can be used either as a differential pair of Vin+ Vin- or as a single
+> > +ended sensor for Vin+ GND. The inputs mode is platform-dependent and isn't
+> > +configured by software in any case.
+> > +
+> > +Device A-D converter sensitivity can be configured using two parameters:
+> > + - pga is the programmable gain amplifier
+> > +    0: x1 (default) 
+> > +    1: x2
+> > +    2: x4
+> > +    3: x8
+> > + - data_rate in samples per second also affecting the output code accuracy
+> > +    0: 128SPS - +/- Vdd*0.488mV (default, ads1000 accepts this rate only)
+> > +    1: 32SPS  - +/- Vdd*0.122mV
+> > +    2: 16SPS  - +/- Vdd*0.061mV
+> > +    3: 8SPS   - +/- Vdd*0.030mV
+> > +   Since this parameter also affects the output accuracy, be aware the greater
+> > +   SPS the worse accuracy.
+> > +
+> > +As a result the output value is calculated by the next formulae:
+> > +dVin = Cod * Vdd / (PGA * max(|Cod|)), where
+> > +max(|Cod|) - maximum possible value of the output code, which depends on the SPS
+> > +setting from the table above.
+> > +
+> > +The ADS1000/ADS1100 dts-node:
+> > +
+> > +  Required properties:
+> > +   - compatible : must be "ti,ads1000" or "ti,ads1100"
+> > +   - reg : I2C bus address of the device
+> > +   - #address-cells : must be <1>
+> > +   - #size-cells : must be <0>
+> > +   - vdd-supply : regulator for reference supply voltage (usually fixed)
+> > +
+> > +  Optional properties:
+> > +   - ti,gain : the programmable gain amplifier setting
+> > +   - ti,datarate : the converter data rate
+> 
+> IIRC, we have standard properties for these.
+> 
+> > +   - ti,voltage-divider : <R1 R2> Ohms inbound voltage dividers,
+> > +     so dVin = (R1 + R2)/R2 * dVin
+> > +
+> > +Example:
+> > +
+> > +vdd_5v0: fixedregulator@0 {
+> > +	compatible = "regulator-fixed";
+> > +	regulator-name = "vdd-ref";
+> > +	regulator-min-microvolt = <5000000>;
+> > +	regulator-max-microvolt = <5000000>;
+> > +	regulator-always-on;
+> > +};
+> > +
+> > +tiadc: ads1000@48 {
+> 
+> adc@48
+> 
+> > +	compatible = "ti,ads1000";
+> > +	reg = <0x48>;
+> > +
+> > +	vdd-supply = <&vdd_5v0>;
+> > +	ti,gain = <0>;
+> > +	ti,voltage-divider = <31600 3600>;
+> > +};
+> > +
 
--Sumit
+Thanks for this patch review. We had a conversation with Guenter Roeck
+and Jonathan Cameron regarding the Linux subsystem to place this patchset
+to, and decided to port the driver into the iio subsystem. So if this code
+is ported as a separate driver I'll certainly take your comments into
+account, while if I manage to integrate it into the existing ads1015 driver,
+then this patch will be dropped since ads1015 already have the dedicated
+bindings. In the last case sorry for wasting your time in advance.
 
-> >
-> > Patch #1, #2 enables support for registered kernel shared memory with TEE.
-> >
-> > Patch #3 enables support for private kernel login method required for
-> > cases like trusted keys where we don't wan't user-space to directly access
-> > TEE service to retrieve trusted key contents.
-> >
-> > Rest of the patches from #4 to #7 adds support for TEE based trusted keys.
-> >
-> > This patch-set has been tested with OP-TEE based pseudo TA which can be
-> > found here [1].
-> >
-> > Looking forward to your valuable feedback/suggestions.
-> >
-> > [1] https://github.com/OP-TEE/optee_os/pull/3082
-> >
-> > Sumit Garg (7):
-> >   tee: optee: allow kernel pages to register as shm
-> >   tee: enable support to register kernel memory
-> >   tee: add private login method for kernel clients
-> >   KEYS: trusted: Introduce TEE based Trusted Keys
-> >   KEYS: encrypted: Allow TEE based trusted master keys
-> >   doc: keys: Document usage of TEE based Trusted Keys
-> >   MAINTAINERS: Add entry for TEE based Trusted Keys
-> >
-> >  Documentation/security/keys/tee-trusted.rst      |  93 +++++
-> >  MAINTAINERS                                      |   9 +
-> >  drivers/tee/optee/call.c                         |   7 +
-> >  drivers/tee/tee_core.c                           |   6 +
-> >  drivers/tee/tee_shm.c                            |  16 +-
-> >  include/keys/tee_trusted.h                       |  84 ++++
-> >  include/keys/trusted-type.h                      |   1 +
-> >  include/linux/tee_drv.h                          |   1 +
-> >  include/uapi/linux/tee.h                         |   2 +
-> >  security/keys/Kconfig                            |   3 +
-> >  security/keys/Makefile                           |   3 +
-> >  security/keys/encrypted-keys/masterkey_trusted.c |  10 +-
-> >  security/keys/tee_trusted.c                      | 506 +++++++++++++++++++++++
-> >  13 files changed, 737 insertions(+), 4 deletions(-)
-> >  create mode 100644 Documentation/security/keys/tee-trusted.rst
-> >  create mode 100644 include/keys/tee_trusted.h
-> >  create mode 100644 security/keys/tee_trusted.c
-> >
+Regards,
+-Sergey
