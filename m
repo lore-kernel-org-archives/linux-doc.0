@@ -6,79 +6,67 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 436D17D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 16:16:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EE40F7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 16:18:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725951AbfFNQQV (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Jun 2019 12:16:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51468 "EHLO mail.kernel.org"
+        id S1726187AbfFNQSk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Jun 2019 12:18:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52794 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725869AbfFNQQV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 14 Jun 2019 12:16:21 -0400
+        id S1725801AbfFNQSk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 14 Jun 2019 12:18:40 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5AFD12084E;
-        Fri, 14 Jun 2019 16:16:20 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4178721841;
+        Fri, 14 Jun 2019 16:18:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560528981;
-        bh=nc6Gu5WBuukhttllfbWpI15h3ZGPSrpGNeXbIbz0ozA=;
+        s=default; t=1560529119;
+        bh=dE90nthqMENvAzRAL+ZRMLD+AqNO90WL38msCIgtbPA=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=W3HqbykgRzdLv007Fa8DMJ6Kl9yBBdM5dM7hEe6w6/BmYne48hzMVGPojn41NRg+X
-         XFl3RtVlQ6wQmWCQ26AzbUtsa1a3EzKI/xREY4FW1fTjzKYCyGiqINBlk2M+nLJMQy
-         UD3crjifc+POF6aRF0+jbAnSYZenE2AX1jpaSB1w=
-Date:   Fri, 14 Jun 2019 18:16:18 +0200
+        b=NK2lJvEV1z5bNiYfVSO330B3jUXdaXrzTocVp67nWE5GzYVehzCymhsfoVkICdAwA
+         hc1/moHRv7T2JHXvRk/7fooH0TgvtqI08UDrKYk2CWw+HyYXfc8OxlnI80grAu963P
+         TK4fEOaqTsAES2HHc7SbYx/rKcjfAqaixxCXL9RM=
+Date:   Fri, 14 Jun 2019 18:18:37 +0200
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Andrew Donnellan <ajd@linux.ibm.com>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@s-opensource.com>,
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Andreas Klinger <ak@it-klinger.de>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Frederic Barrat <fbarrat@linux.ibm.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>, linux-iio@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH 01/14] ABI: fix some syntax issues at the ABI database
-Message-ID: <20190614161618.GA23190@kroah.com>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH 14/14] docs: sphinx/kernel_abi.py: fix UTF-8 support
+Message-ID: <20190614161837.GA25206@kroah.com>
 References: <cover.1560477540.git.mchehab+samsung@kernel.org>
- <b908fc6555df8cae3e4c734b2d5f6284c46a5f14.1560477540.git.mchehab+samsung@kernel.org>
- <1ef7b765-da34-c65b-a226-f17969935ce2@linux.ibm.com>
+ <62c8ffe86df40c90299e80619a1cb5d50971c2c6.1560477540.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1ef7b765-da34-c65b-a226-f17969935ce2@linux.ibm.com>
+In-Reply-To: <62c8ffe86df40c90299e80619a1cb5d50971c2c6.1560477540.git.mchehab+samsung@kernel.org>
 User-Agent: Mutt/1.12.0 (2019-05-25)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 14, 2019 at 05:20:29PM +1000, Andrew Donnellan wrote:
-> On 14/6/19 12:04 pm, Mauro Carvalho Chehab wrote:
-> > diff --git a/Documentation/ABI/testing/sysfs-class-cxl b/Documentation/ABI/testing/sysfs-class-cxl
-> > index bbbabffc682a..fc7c6f7c21b3 100644
-> > --- a/Documentation/ABI/testing/sysfs-class-cxl
-> > +++ b/Documentation/ABI/testing/sysfs-class-cxl
-> > @@ -1,6 +1,6 @@
-> > -Note: Attributes that are shared between devices are stored in the directory
-> > -pointed to by the symlink device/.
-> > -Example: The real path of the attribute /sys/class/cxl/afu0.0s/irqs_max is
-> > +Please notice that attributes that are shared between devices are stored in
+On Thu, Jun 13, 2019 at 11:04:20PM -0300, Mauro Carvalho Chehab wrote:
+> The parser breaks with UTF-8 characters with Sphinx 1.4.
 > 
-> Would prefer "Please note" over "Please notice".
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+>  Documentation/sphinx/kernel_abi.py | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
+> index 7fa7806532dc..460cee48a245 100644
+> --- a/Documentation/sphinx/kernel_abi.py
+> +++ b/Documentation/sphinx/kernel_abi.py
+> @@ -1,4 +1,5 @@
+> -# -*- coding: utf-8; mode: python -*-
+> +# coding=utf-8
+> +#
 
-Now changed, but that's a minor grammer thing, both are correct. :)
+Is this an emacs vs. vim fight?
 
-> Acked-by: Andrew Donnellan <ajd@linux.ibm.com>  # cxl
+Why change this?
 
 thanks,
 
