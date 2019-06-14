@@ -3,16 +3,16 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6D2427DC63
+	by archive.lwn.net (Postfix) with ESMTP id ACDAC7DE57
 	for <lwn-linux-doc@archive.lwn.net>; Fri, 14 Jun 2019 17:53:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727159AbfFNRwk (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 14 Jun 2019 13:52:40 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:38740 "EHLO
+        id S1726627AbfFNRxN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 14 Jun 2019 13:53:13 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:38754 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727148AbfFNRwk (ORCPT
+        with ESMTP id S1726989AbfFNRwk (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 14 Jun 2019 13:52:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,27 +20,32 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=+TcnVW4oc5Non+1YyDCeuAoLNOkHuIVoRYv61A8PqOA=; b=mALbH27cMUVp6ssHLz0uY8O+8A
-        vVLY/DnzdZU8mJsEPcW7JMA4IQQO/dlgf8gJid2lz6rH/umU9Sn+8Mgkrlsgrnib/hJqdlJKBu31i
-        s/TDkhy60+E3rMWKR7BWgvQ6am4spwt1a5cNcvokQBDxqnKj8fn2VckgarvPN2sdDXd927PNnlJ26
-        CVQTKIYwFVvcYL75Xf8K9WJMi+Nj/GsLa9phF8AcDIZrBK6S/i42nVlWMGODOlW+ijW89hQEAcH0v
-        zJ0fLVRrohj97GaqFTbdDl1xhPUNB16yKcBTRvvAo/ajtcobxF/KoCW9LcUQzbxaIeL2PXrbq8gEq
-        347HdX6g==;
+        bh=UJbmn9p2YHHghIsYRyn5I+GHeBu50kA/TdoqNC/g3aQ=; b=R4i+jWO16islyThlWgABfAfKFj
+        L8tKKHK/Lkqv+klnFO2MhVTrXHSyCWK0d0vGa/hdhzHqJvAh+JIHMi7Vq5VD6qwv3Ear97hXT3g12
+        VXWtmwVE9km2bf5pXiM2WdAlJzC+5tqOydiANJuEYtGsdRAZ8gDqRB/R/SlRUa6nXa7JwrN5iKSd6
+        LfAPas0Te4QYmDrMFRrOy9YXAQHLbwkcfxC0UvJeRMPBdKeuYYc84f+9U+rjfwBi8kb752UmDb6OD
+        14hC75HPOWdTL8UmFdHqHRk6pYyP6zFjZQb7IWWzfB8p/dNiSmh/GQgbdmq/Rhg2NUTYtXI2R03C8
+        EXt1Yspg==;
 Received: from 177.133.85.52.dynamic.adsl.gvt.net.br ([177.133.85.52] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hbqNT-0000Pg-Cw; Fri, 14 Jun 2019 17:52:39 +0000
+        id 1hbqNT-0000Pi-6C; Fri, 14 Jun 2019 17:52:39 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hbqNL-0002Oq-SQ; Fri, 14 Jun 2019 14:52:31 -0300
+        id 1hbqNM-0002PE-0s; Fri, 14 Jun 2019 14:52:32 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2 07/16] scripts/get_abi.pl: add support for searching for ABI symbols
-Date:   Fri, 14 Jun 2019 14:52:21 -0300
-Message-Id: <72051952d8eac5a5aff20998909aeb52aeb4d773.1560534648.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Alexey Budankov <alexey.budankov@linux.intel.com>,
+        Changbin Du <changbin.du@intel.com>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>
+Subject: [PATCH v2 13/16] doc-rst: add ABI documentation to the admin-guide book
+Date:   Fri, 14 Jun 2019 14:52:27 -0300
+Message-Id: <11c18b7588a21e66f3e29b94f6e739f0d0a36d94.1560534648.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <3b8d7c64f887ddea01df3c4eeabc745c8ec45406.1560534648.git.mchehab+samsung@kernel.org>
 References: <3b8d7c64f887ddea01df3c4eeabc745c8ec45406.1560534648.git.mchehab+samsung@kernel.org>
@@ -51,211 +56,304 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Change its syntax to allow switching between ReST output mode
-and a new search mode, with allows to seek for ABI symbols
-using regex.
+As we don't want a generic Sphinx extension to execute commands,
+change the one proposed to Markus to call the abi_book.pl
+script.
+
+Use a script to parse the Documentation/ABI directory and output
+it at the admin-guide.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- scripts/get_abi.pl | 112 +++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 103 insertions(+), 9 deletions(-)
+ Documentation/admin-guide/abi-obsolete.rst |  10 ++
+ Documentation/admin-guide/abi-removed.rst  |   4 +
+ Documentation/admin-guide/abi-stable.rst   |  13 ++
+ Documentation/admin-guide/abi-testing.rst  |  19 +++
+ Documentation/admin-guide/abi.rst          |  11 ++
+ Documentation/admin-guide/index.rst        |   1 +
+ Documentation/conf.py                      |   2 +-
+ Documentation/sphinx/kernel_abi.py         | 155 +++++++++++++++++++++
+ 8 files changed, 214 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/admin-guide/abi-obsolete.rst
+ create mode 100644 Documentation/admin-guide/abi-removed.rst
+ create mode 100644 Documentation/admin-guide/abi-stable.rst
+ create mode 100644 Documentation/admin-guide/abi-testing.rst
+ create mode 100644 Documentation/admin-guide/abi.rst
+ create mode 100644 Documentation/sphinx/kernel_abi.py
 
-diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-index f84d321a72bb..ecf6b91df7c4 100755
---- a/scripts/get_abi.pl
-+++ b/scripts/get_abi.pl
-@@ -9,9 +9,11 @@ use Fcntl ':mode';
- my $help;
- my $man;
- my $debug;
-+my $prefix="Documentation/ABI";
+diff --git a/Documentation/admin-guide/abi-obsolete.rst b/Documentation/admin-guide/abi-obsolete.rst
+new file mode 100644
+index 000000000000..cda9168445a5
+--- /dev/null
++++ b/Documentation/admin-guide/abi-obsolete.rst
+@@ -0,0 +1,10 @@
++ABI obsolete symbols
++====================
++
++Documents interfaces that are still remaining in the kernel, but are
++marked to be removed at some later point in time.
++
++The description of the interface will document the reason why it is
++obsolete and when it can be expected to be removed.
++
++.. kernel-abi:: $srctree/Documentation/ABI/obsolete
+diff --git a/Documentation/admin-guide/abi-removed.rst b/Documentation/admin-guide/abi-removed.rst
+new file mode 100644
+index 000000000000..497978fc9632
+--- /dev/null
++++ b/Documentation/admin-guide/abi-removed.rst
+@@ -0,0 +1,4 @@
++ABI removed symbols
++===================
++
++.. kernel-abi:: $srctree/Documentation/ABI/removed
+diff --git a/Documentation/admin-guide/abi-stable.rst b/Documentation/admin-guide/abi-stable.rst
+new file mode 100644
+index 000000000000..7495d7a35048
+--- /dev/null
++++ b/Documentation/admin-guide/abi-stable.rst
+@@ -0,0 +1,13 @@
++ABI stable symbols
++==================
++
++Documents the interfaces that the developer has defined to be stable.
++
++Userspace programs are free to use these interfaces with no
++restrictions, and backward compatibility for them will be guaranteed
++for at least 2 years.
++
++Most interfaces (like syscalls) are expected to never change and always
++be available.
++
++.. kernel-abi:: $srctree/Documentation/ABI/stable
+diff --git a/Documentation/admin-guide/abi-testing.rst b/Documentation/admin-guide/abi-testing.rst
+new file mode 100644
+index 000000000000..5c886fc50b9e
+--- /dev/null
++++ b/Documentation/admin-guide/abi-testing.rst
+@@ -0,0 +1,19 @@
++ABI testing symbols
++===================
++
++Documents interfaces that are felt to be stable,
++as the main development of this interface has been completed.
++
++The interface can be changed to add new features, but the
++current interface will not break by doing this, unless grave
++errors or security problems are found in them.
++
++Userspace programs can start to rely on these interfaces, but they must
++be aware of changes that can occur before these interfaces move to
++be marked stable.
++
++Programs that use these interfaces are strongly encouraged to add their
++name to the description of these interfaces, so that the kernel
++developers can easily notify them if any changes occur.
++
++.. kernel-abi:: $srctree/Documentation/ABI/testing
+diff --git a/Documentation/admin-guide/abi.rst b/Documentation/admin-guide/abi.rst
+new file mode 100644
+index 000000000000..3b9645c77469
+--- /dev/null
++++ b/Documentation/admin-guide/abi.rst
+@@ -0,0 +1,11 @@
++=====================
++Linux ABI description
++=====================
++
++.. toctree::
++   :maxdepth: 1
++
++   abi-stable
++   abi-testing
++   abi-obsolete
++   abi-removed
+diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
+index 8001917ee012..20c3020fd73c 100644
+--- a/Documentation/admin-guide/index.rst
++++ b/Documentation/admin-guide/index.rst
+@@ -16,6 +16,7 @@ etc.
+    README
+    kernel-parameters
+    devices
++   abi
  
- GetOptions(
- 	"debug|d+" => \$debug,
-+	"dir=s" => \$prefix,
- 	'help|?' => \$help,
- 	man => \$man
- ) or pod2usage(2);
-@@ -19,9 +21,12 @@ GetOptions(
- pod2usage(1) if $help;
- pod2usage(-exitstatus => 0, -verbose => 2) if $man;
+ This section describes CPU vulnerabilities and their mitigations.
  
--pod2usage(2) if (scalar @ARGV != 1);
-+pod2usage(2) if (scalar @ARGV < 1 || @ARGV > 2);
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 7ace3f8852bd..598256fb5c98 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -34,7 +34,7 @@ needs_sphinx = '1.3'
+ # Add any Sphinx extension module names here, as strings. They can be
+ # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
+ # ones.
+-extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include', 'cdomain', 'kfigure', 'sphinx.ext.ifconfig']
++extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include', 'cdomain', 'kfigure', 'sphinx.ext.ifconfig', 'kernel_abi']
  
--my ($prefix) = @ARGV;
-+my ($cmd, $arg) = @ARGV;
+ # The name of the math extension changed on Sphinx 1.4
+ if (major == 1 and minor > 3) or (major > 1):
+diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
+new file mode 100644
+index 000000000000..32ce90775d96
+--- /dev/null
++++ b/Documentation/sphinx/kernel_abi.py
+@@ -0,0 +1,155 @@
++# -*- coding: utf-8; mode: python -*-
++u"""
++    kernel-abi
++    ~~~~~~~~~~
 +
-+pod2usage(2) if ($cmd ne "search" && $cmd ne "rest");
-+pod2usage(2) if ($cmd eq "search" && !$arg);
- 
- require Data::Dumper if ($debug);
- 
-@@ -53,6 +58,7 @@ sub parse_abi {
- 	$data{$nametag}->{what} = "File $name";
- 	$data{$nametag}->{type} = "File";
- 	$data{$nametag}->{file} = $name;
-+	$data{$nametag}->{filepath} = $file;
- 	$data{$nametag}->{is_file} = 1;
- 
- 	my $type = $file;
-@@ -115,6 +121,7 @@ sub parse_abi {
- 
- 					$data{$what}->{type} = $type;
- 					$data{$what}->{file} = $name;
-+					$data{$what}->{filepath} = $file;
- 					print STDERR "\twhat: $what\n" if ($debug > 1);
- 				}
- 
-@@ -183,7 +190,9 @@ sub parse_abi {
- 	close IN;
- }
- 
--# Outputs the output on ReST format
-+#
-+# Outputs the book on ReST format
-+#
- sub output_rest {
- 	foreach my $what (sort keys %data) {
- 		my $type = $data{$what}->{type};
-@@ -262,6 +271,45 @@ sub output_rest {
- 	}
- }
- 
-+#
-+# Searches for ABI symbols
-+#
-+sub search_symbols {
-+	foreach my $what (sort keys %data) {
-+		next if (!($what =~ m/($arg)/));
++    Implementation of the ``kernel-abi`` reST-directive.
 +
-+		my $type = $data{$what}->{type};
-+		next if ($type eq "File");
++    :copyright:  Copyright (C) 2016  Markus Heiser
++    :copyright:  Copyright (C) 2016  Mauro Carvalho Chehab
++    :license:    GPL Version 2, June 1991 see Linux/COPYING for details.
 +
-+		my $file = $data{$what}->{filepath};
++    The ``kernel-abi`` (:py:class:`KernelCmd`) directive calls the
++    scripts/get_abi.pl script to parse the Kernel ABI files.
 +
-+		my $bar = $what;
-+		$bar =~ s/./-/g;
++    Overview of directive's argument and options.
 +
-+		print "\n$what\n$bar\n\n";
++    .. code-block:: rst
 +
-+		my $kernelversion = $data{$what}->{kernelversion};
-+		my $contact = $data{$what}->{contact};
-+		my $users = $data{$what}->{users};
-+		my $date = $data{$what}->{date};
-+		my $desc = $data{$what}->{description};
-+		$kernelversion =~ s/^\s+//;
-+		$contact =~ s/^\s+//;
-+		$users =~ s/^\s+//;
-+		$users =~ s/\n//g;
-+		$date =~ s/^\s+//;
-+		$desc =~ s/^\s+//;
++        .. kernel-abi:: <ABI directory location>
++            :debug:
 +
-+		printf "Kernel version:\t\t%s\n", $kernelversion if ($kernelversion);
-+		printf "Date:\t\t\t%s\n", $date if ($date);
-+		printf "Contact:\t\t%s\n", $contact if ($contact);
-+		printf "Users:\t\t\t%s\n", $users if ($users);
-+		print "Defined on file:\t$file\n\n";
-+		print "Description:\n\n$desc";
-+	}
-+}
++    The argument ``<ABI directory location>`` is required. It contains the
++    location of the ABI files to be parsed.
++
++    ``debug``
++      Inserts a code-block with the *raw* reST. Sometimes it is helpful to see
++      what reST is generated.
++
++"""
++
++import sys
++import os
++from os import path
++import subprocess
++
++from sphinx.ext.autodoc import AutodocReporter
++
++from docutils import nodes
++from docutils.parsers.rst import Directive, directives
++from docutils.statemachine import ViewList
++from docutils.utils.error_reporting import ErrorString
 +
 +
- #
- # Parses all ABI files located at $prefix dir
- #
-@@ -270,9 +318,13 @@ find({wanted =>\&parse_abi, no_chdir => 1}, $prefix);
- print STDERR Data::Dumper->Dump([\%data], [qw(*data)]) if ($debug);
- 
- #
--# Outputs an ReST file with the ABI contents
-+# Handles the command
- #
--output_rest
-+if ($cmd eq "rest") {
-+	output_rest;
-+} else {
-+	search_symbols;
-+}
- 
- 
- __END__
-@@ -283,12 +335,27 @@ abi_book.pl - parse the Linux ABI files and produce a ReST book.
- 
- =head1 SYNOPSIS
- 
--B<abi_book.pl> [--debug] <ABI_DIR>]
-+B<abi_book.pl> [--debug] <COMAND> [<ARGUMENT>]
++__version__  = '1.0'
 +
-+Where <COMMAND> can be:
++# We can't assume that six is installed
++PY3 = sys.version_info[0] == 3
++PY2 = sys.version_info[0] == 2
++if PY3:
++    # pylint: disable=C0103, W0622
++    unicode     = str
++    basestring  = str
 +
-+=over 8
++def setup(app):
 +
-+B<search> [SEARCH_REGEX] - search for [SEARCH_REGEX] inside ABI
++    app.add_directive("kernel-abi", KernelCmd)
++    return dict(
++        version = __version__
++        , parallel_read_safe = True
++        , parallel_write_safe = True
++    )
 +
-+B<rest>   - output the ABI in ReST markup language
++class KernelCmd(Directive):
 +
-+=back
- 
- =head1 OPTIONS
- 
- =over 8
- 
-+=item B<--dir>
++    u"""KernelABI (``kernel-abi``) directive"""
 +
-+Changes the location of the ABI search. By default, it uses
-+the Documentation/ABI directory.
++    required_arguments = 1
++    optional_arguments = 0
++    has_content = False
++    final_argument_whitespace = True
 +
- =item B<--debug>
- 
- Put the script in verbose mode, useful for debugging. Can be called multiple
-@@ -306,8 +373,35 @@ Prints the manual page and exits.
- 
- =head1 DESCRIPTION
- 
--Parse the Linux ABI files from ABI DIR (usually located at Documentation/ABI)
--and produce a ReST book containing the Linux ABI.
-+Parse the Linux ABI files from ABI DIR (usually located at Documentation/ABI),
-+allowing to search for ABI symbols or to produce a ReST book containing
-+the Linux ABI documentation.
++    option_spec = {
++        "debug"     : directives.flag
++    }
 +
-+=head1 EXAMPLES
++    def warn(self, message, **replace):
++        replace["fname"]   = self.state.document.current_source
++        replace["line_no"] = replace.get("line_no", self.lineno)
++        message = ("%(fname)s:%(line_no)s: [kernel-abi WARN] : " + message) % replace
++        self.state.document.settings.env.app.warn(message, prefix="")
 +
-+Search for all stable symbols with the word "usb":
++    def run(self):
 +
-+=over 8
++        doc = self.state.document
++        if not doc.settings.file_insertion_enabled:
++            raise self.warning("docutils: file insertion disabled")
 +
-+$ scripts/get_abi.pl search usb --dir Documentation/ABI/stable
++        env = doc.settings.env
++        cwd = path.dirname(doc.current_source)
++        cmd = "get_abi.pl rest --dir "
++        cmd += self.arguments[0]
 +
-+=back
++        srctree = path.abspath(os.environ["srctree"])
 +
-+Search for all symbols that match the regex expression "usb.*cap":
++        fname = cmd
 +
-+=over 8
++        # extend PATH with $(srctree)/scripts
++        path_env = os.pathsep.join([
++            srctree + os.sep + "scripts",
++            os.environ["PATH"]
++        ])
++        shell_env = os.environ.copy()
++        shell_env["PATH"]    = path_env
++        shell_env["srctree"] = srctree
 +
-+$ scripts/get_abi.pl search usb.*cap
++        lines = self.runCmd(cmd, shell=True, cwd=cwd, env=shell_env)
++        nodeList = self.nestedParse(lines, fname)
++        return nodeList
 +
-+=back
++    def runCmd(self, cmd, **kwargs):
++        u"""Run command ``cmd`` and return it's stdout as unicode."""
 +
-+Output all obsoleted symbols in ReST format
++        try:
++            proc = subprocess.Popen(
++                cmd
++                , stdout = subprocess.PIPE
++                , stderr = subprocess.PIPE
++                , universal_newlines = True
++                , **kwargs
++            )
++            out, err = proc.communicate()
++            if err:
++                self.warn(err)
++            if proc.returncode != 0:
++                raise self.severe(
++                    u"command '%s' failed with return code %d"
++                    % (cmd, proc.returncode)
++                )
++        except OSError as exc:
++            raise self.severe(u"problems with '%s' directive: %s."
++                              % (self.name, ErrorString(exc)))
++        return unicode(out)
 +
-+=over 8
++    def nestedParse(self, lines, fname):
++        content = ViewList()
++        node    = nodes.section()
 +
-+$ scripts/get_abi.pl rest --dir Documentation/ABI/obsolete
++        if "debug" in self.options:
++            code_block = "\n\n.. code-block:: rst\n    :linenos:\n"
++            for l in lines.split("\n"):
++                code_block += "\n    " + l
++            lines = code_block + "\n\n"
 +
-+=back
- 
- =head1 BUGS
- 
-@@ -315,7 +409,7 @@ Report bugs to Mauro Carvalho Chehab <mchehab@s-opensource.com>
- 
- =head1 COPYRIGHT
- 
--Copyright (c) 2016 by Mauro Carvalho Chehab <mchehab@s-opensource.com>.
-+Copyright (c) 2016-2017 by Mauro Carvalho Chehab <mchehab@s-opensource.com>.
- 
- License GPLv2: GNU GPL version 2 <http://gnu.org/licenses/gpl.html>.
- 
++        for c, l in enumerate(lines.split("\n")):
++            content.append(l, fname, c)
++
++        buf  = self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter
++        self.state.memo.title_styles  = []
++        self.state.memo.section_level = 0
++        self.state.memo.reporter      = AutodocReporter(content, self.state.memo.reporter)
++        try:
++            self.state.nested_parse(content, 0, node, match_titles=1)
++        finally:
++            self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter = buf
++        return node.children
 -- 
 2.21.0
 
