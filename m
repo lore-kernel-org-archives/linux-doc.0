@@ -1,81 +1,86 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F0ECB7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 15 Jun 2019 06:16:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id EC90A7D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 15 Jun 2019 10:48:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726115AbfFOGQH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 15 Jun 2019 02:16:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35580 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725786AbfFOGQH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 15 Jun 2019 02:16:07 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 628282184C;
-        Sat, 15 Jun 2019 06:16:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560579366;
-        bh=BjtkEmRJtAtHKEHwhGfkDFvic+g9qJNlH8cwQrXk1/M=;
+        id S1726551AbfFOKsX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 15 Jun 2019 06:48:23 -0400
+Received: from www.linux-watchdog.org ([185.87.125.42]:37256 "EHLO
+        www.linux-watchdog.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725999AbfFOKsX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Jun 2019 06:48:23 -0400
+X-Greylist: delayed 573 seconds by postgrey-1.27 at vger.kernel.org; Sat, 15 Jun 2019 06:48:22 EDT
+Received: by www.linux-watchdog.org (Postfix, from userid 500)
+        id E075540909; Sat, 15 Jun 2019 12:02:30 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 www.linux-watchdog.org E075540909
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-watchdog.org;
+        s=odk20180602; t=1560592950;
+        bh=x4moI263mVJ9xXic7CfPOGIPWBoqDc8/6cZrMgLHrrk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=vd9RF7LOMmXbG79sY4uZhNiG2CZedC82zVAmk/8XnMhtyblNBvzhxgpVw5i30L9Np
-         0m4nFT6POp7H5TTQQn6IL3ZU23ghGL0Lejze1Lh5vcmFln8nrZz10XTDOxksVYtn6C
-         pAle1+Pbjhp3sSeMa9qKEut95kqunfd7r4qrP5ok=
-Date:   Sat, 15 Jun 2019 08:16:04 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 14/14] docs: sphinx/kernel_abi.py: fix UTF-8 support
-Message-ID: <20190615061604.GA31006@kroah.com>
-References: <cover.1560477540.git.mchehab+samsung@kernel.org>
- <62c8ffe86df40c90299e80619a1cb5d50971c2c6.1560477540.git.mchehab+samsung@kernel.org>
- <20190614161837.GA25206@kroah.com>
- <20190614132530.7a013757@coco.lan>
+        b=a33jSYKHPmrGKL4bHC44S8kGiyIC/LW5QIg3kRKNEItop/qtctXJF40ON/1zXd/4j
+         BgH7YfgZUmz3jFwYewwboPMspfWmDzvzr3h++8zpXPrvz64egaHFHXVSWSbC+y5WIo
+         q17kUKzN8DhrwbU3GrwhWIEE2wagNL4K5wufWaEg=
+Date:   Sat, 15 Jun 2019 12:02:30 +0200
+From:   Wim Van Sebroeck <wim@linux-watchdog.org>
+To:     Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        "linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Esben Haabendal <esben@haabendal.dk>,
+        Jerry Hoemann <jerry.hoemann@hpe.com>,
+        Rasmus Villemoes <Rasmus.Villemoes@prevas.se>
+Subject: Re: [PATCH v10 3/3] watchdog: make the device time out at
+ open_deadline when open_timeout is used
+Message-ID: <20190615100230.GA10480@www.linux-watchdog.org>
+References: <20190605140628.618-1-rasmus.villemoes@prevas.dk>
+ <20190605140628.618-4-rasmus.villemoes@prevas.dk>
+ <20190607183827.GA32475@roeck-us.net>
+ <56280052-9437-9813-a24e-125abb876762@prevas.dk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190614132530.7a013757@coco.lan>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+In-Reply-To: <56280052-9437-9813-a24e-125abb876762@prevas.dk>
+User-Agent: Mutt/1.5.20 (2009-12-10)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 14, 2019 at 01:25:30PM -0300, Mauro Carvalho Chehab wrote:
-> Em Fri, 14 Jun 2019 18:18:37 +0200
-> Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
-> 
-> > On Thu, Jun 13, 2019 at 11:04:20PM -0300, Mauro Carvalho Chehab wrote:
-> > > The parser breaks with UTF-8 characters with Sphinx 1.4.
-> > > 
-> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> > > ---
-> > >  Documentation/sphinx/kernel_abi.py | 10 ++++++----
-> > >  1 file changed, 6 insertions(+), 4 deletions(-)
-> > > 
-> > > diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
-> > > index 7fa7806532dc..460cee48a245 100644
-> > > --- a/Documentation/sphinx/kernel_abi.py
-> > > +++ b/Documentation/sphinx/kernel_abi.py
-> > > @@ -1,4 +1,5 @@
-> > > -# -*- coding: utf-8; mode: python -*-
-> > > +# coding=utf-8
-> > > +#  
+Hi Rasmus,
+
+> > On Wed, Jun 05, 2019 at 02:06:44PM +0000, Rasmus Villemoes wrote:
+> >> When the watchdog device is not open by userspace, the kernel takes
+> >> care of pinging it. When the open_timeout feature is in use, we should
+> >> ensure that the hardware fires close to open_timeout seconds after the
+> >> kernel has assumed responsibility for the device.
+> >>
+> >> To do this, simply reuse the logic that is already in place for
+> >> ensuring the same thing when userspace is responsible for regularly
+> >> pinging the device:
+> >>
+> >> - When watchdog_active(wdd), this patch doesn't change anything.
+> >>
+> >> - When !watchdoc_active(wdd), the "virtual timeout" should be taken to
 > > 
-> > Is this an emacs vs. vim fight?
+> > s/watchdoc_active/watchdog_active/
+> > 
+> > otherwise
+> > 
+> > Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 > 
-> No. This is a python-specific thing:
-> 
-> 	https://www.python.org/dev/peps/pep-0263/
+> Thanks! Wim, can you fix up if/when applying, or do you prefer I resend?
 
-Ah, thanks, didn't know that.
+I'll fix up when applying. No need to resend a new patch for that.
 
-greg k-h
+Kind regards,
+Wim.
+
