@@ -1,200 +1,291 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 9ED6A7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 15 Jun 2019 15:30:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1174E7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 16 Jun 2019 13:47:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726953AbfFOPaM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 15 Jun 2019 11:30:12 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:37361 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726800AbfFOPaL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 15 Jun 2019 11:30:11 -0400
-Received: by mail-pl1-f194.google.com with SMTP id bh12so2268980plb.4
-        for <linux-doc@vger.kernel.org>; Sat, 15 Jun 2019 08:30:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=/jcKk2/19vs459JoYUsaRTHxKiAzDVN8TgUMdkzJK98=;
-        b=L1UiC6nRuC3WJJyU4c429mSMn+pt8bbs3SLZ3/ixeDlvWes+s1uY9J4EILqskN4rXb
-         fcFioaFdINs25jtQGQF5qZ2rz4p5MOv7Y/AYkenKBgA3ZKQ0mFZ+llpN/qByte1CrNMD
-         c5cTCshV0XRXLeLNGARAUHukmOrufQ04fPKFD0HjybCZiZw/SImj09huQbCbm8aCrUMr
-         TU5YUAeHmbjni7zoyDuZEyuUQoa3Qp3fG/qd+979UGnjN8hSVuXm/kcVhSlWZN4WAPU0
-         fjyhF3NeYYZyQjjTCZ6u0skIxl3jWLS+jEUDnprxySkwYzDUXrg5LZMv4R2K14mjW4Hv
-         MV+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=/jcKk2/19vs459JoYUsaRTHxKiAzDVN8TgUMdkzJK98=;
-        b=pJ5n58CD8PXJ4Shg+h2CXqhxwIzsZrpgQWZ43RTwQXGvjAqgT7VVSWpZqWdxXwj6Eg
-         1R2GlIwSecy7S9+nrOPFJcRaQ+xdF9pb+Er31AH0excBWbYODt+TNOAAQnKAvLizy+if
-         pXh2yoBr9qYaGtGA/k1wKP/IAi7HVSG+R+HMw4nfVt5BDGPzHsPDr7FQ5BVxZWVtCtyP
-         W8TWC/WiipVoIsaz2XvRtl4byJt3nBc6c9lBRtAloUU8W1rroWv/HajgzQgAvgymzjmL
-         Xpe1Yktn2kfJkpTibByepbQaW9kyVx1K9C2bPEo8iEPZbCK5EAmWAsvHf98gFv9+pEYw
-         6W0w==
-X-Gm-Message-State: APjAAAVqri0yRMocJqPFkKbkM6XWyn07xCNAg2+xMdE1TiL2qVYBcat4
-        7ekN7OgGBn8Q95CWqear5Ae0Vg==
-X-Google-Smtp-Source: APXvYqxMtmluM9P/M5dWN/Lor2GlhEt5GnTEIv5uBTV8Q2z4c6iDoqESId4Kmw0F8ERpcyEBPtKqlg==
-X-Received: by 2002:a17:902:ab83:: with SMTP id f3mr8554100plr.122.1560612610934;
-        Sat, 15 Jun 2019 08:30:10 -0700 (PDT)
-Received: from ?IPv6:2600:1010:b01c:6f69:f4c4:438f:f883:452a? ([2600:1010:b01c:6f69:f4c4:438f:f883:452a])
-        by smtp.gmail.com with ESMTPSA id g8sm7859239pgd.29.2019.06.15.08.30.09
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 15 Jun 2019 08:30:09 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v7 03/14] x86/cet/ibt: Add IBT legacy code bitmap setup function
-From:   Andy Lutomirski <luto@amacapital.net>
-X-Mailer: iPhone Mail (16F203)
-In-Reply-To: <5d7012f6-7ab9-fd3d-4a11-294258e48fb5@intel.com>
-Date:   Sat, 15 Jun 2019 08:30:08 -0700
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <E68459DD-53D3-42A6-B120-180203791E24@amacapital.net>
-References: <20190606200926.4029-1-yu-cheng.yu@intel.com> <7e0b97bf1fbe6ff20653a8e4e147c6285cc5552d.camel@intel.com>
- <25281DB3-FCE4-40C2-BADB-B3B05C5F8DD3@amacapital.net> <e26f7d09376740a5f7e8360fac4805488b2c0a4f.camel@intel.com>
- <3f19582d-78b1-5849-ffd0-53e8ca747c0d@intel.com> <5aa98999b1343f34828414b74261201886ec4591.camel@intel.com>
- <0665416d-9999-b394-df17-f2a5e1408130@intel.com> <5c8727dde9653402eea97bfdd030c479d1e8dd99.camel@intel.com>
- <ac9a20a6-170a-694e-beeb-605a17195034@intel.com> <328275c9b43c06809c9937c83d25126a6e3efcbd.camel@intel.com>
- <92e56b28-0cd4-e3f4-867b-639d9b98b86c@intel.com> <1b961c71d30e31ecb22da2c5401b1a81cb802d86.camel@intel.com>
- <ea5e333f-8cd6-8396-635f-a9dc580d5364@intel.com> <cf0d1470e95e0a8b88742651d06601a53d6655c1.camel@intel.com>
- <5ddf59e2-c701-3741-eaa1-f63ee741ea55@intel.com> <b5a915602020a6ce26ea1254f7f60e239c91bc9f.camel@intel.com>
- <598edca7-c36a-a236-3b72-08b2194eb609@intel.com> <359e6f64d646d5305c52f393db5296c469630d11.camel@intel.com>
- <5d7012f6-7ab9-fd3d-4a11-294258e48fb5@intel.com>
-To:     Dave Hansen <dave.hansen@intel.com>
+        id S1726087AbfFPNrs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 16 Jun 2019 09:47:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34096 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725874AbfFPNrs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 16 Jun 2019 09:47:48 -0400
+Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id BE4BF2133D;
+        Sun, 16 Jun 2019 13:47:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1560692867;
+        bh=p0iL82cdaEa1Vv36sQ0BnhAX2AFRjC9Qqy5te+FMyV4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=uXHXVAVj4eO6fSQ2kfhTGQ2xpE6Yu1dRTsqgbI2J1u5IuOSaZ4YA04ycR3zkB/Y5j
+         n/s90Kh/RzWT8qHMF/qlEt2STWUCj+8XN1/qU9OAD1xVWvgeDaWrOiYYbkQbBkIXhe
+         Dng7WdvB62qLiR2JTkTyZRtPW22LS2D39Meb/dyk=
+Date:   Sun, 16 Jun 2019 14:47:42 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        linux-iio@vger.kernel.org
+Subject: Re: [PATCH v1 24/31] docs: iio: convert to ReST
+Message-ID: <20190616144742.7e2dce98@archlinux>
+In-Reply-To: <6b9df01697dde8b9bb9be9accf28d63ed821956d.1560364494.git.mchehab+samsung@kernel.org>
+References: <cover.1560364493.git.mchehab+samsung@kernel.org>
+        <6b9df01697dde8b9bb9be9accf28d63ed821956d.1560364494.git.mchehab+samsung@kernel.org>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, 12 Jun 2019 15:38:27 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
+> Rename the iio documentation files to ReST, add an
+> index for them and adjust in order to produce a nice html
+> output via the Sphinx build system.
+> 
+> At its new index.rst, let's add a :orphan: while this is not linked to
+> the main index.rst file, in order to avoid build warnings.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Thanks, looks good to me.   At some point we need to look at how
+to tie together the various IIO docs as they are split between
+here and the driver-api/iio/ directory.  That split isn't currently
+along particularly logical lines.
 
-> On Jun 14, 2019, at 3:06 PM, Dave Hansen <dave.hansen@intel.com> wrote:
->=20
->> On 6/14/19 2:34 PM, Yu-cheng Yu wrote:
->> On Fri, 2019-06-14 at 13:57 -0700, Dave Hansen wrote:
->>>> I have a related question:
->>>>=20
->>>> Do we allow the application to read the bitmap, or any fault from the
->>>> application on bitmap pages?
->>>=20
->>> We have to allow apps to read it.  Otherwise they can't execute
->>> instructions.
->>=20
->> What I meant was, if an app executes some legacy code that results in bit=
-map
->> lookup, but the bitmap page is not yet populated, and if we then populate=
- that
->> page with all-zero, a #CP should follow.  So do we even populate that zer=
-o page
->> at all?
->>=20
->> I think we should; a #CP is more obvious to the user at least.
->=20
-> Please make an effort to un-Intel-ificate your messages as much as
-> possible.  I'd really prefer that folks say "missing end branch fault"
-> rather than #CP.  I had to Google "#CP".
->=20
-> I *think* you are saying that:  The *only* lookups to this bitmap are on
-> "missing end branch" conditions.  Normal, proper-functioning code
-> execution that has ENDBR instructions in it will never even look at the
-> bitmap.  The only case when we reference the bitmap locations is when
-> the processor is about do do a "missing end branch fault" so that it can
-> be suppressed.  Any population with the zero page would be done when
-> code had already encountered a "missing end branch" condition, and
-> populating with a zero-filled page will guarantee that a "missing end
-> branch fault" will result.  You're arguing that we should just figure
-> this out at fault time and not ever reach the "missing end branch fault"
-> at all.
->=20
-> Is that right?
->=20
-> If so, that's an architecture subtlety that I missed until now and which
-> went entirely unmentioned in the changelog and discussion up to this
-> point.  Let's make sure that nobody else has to walk that path by
-> improving our changelog, please.
->=20
-> In any case, I don't think this is worth special-casing our zero-fill
-> code, FWIW.  It's not performance critical and not worth the complexity.
-> If apps want to handle the signals and abuse this to fill space up with
-> boring page table contents, they're welcome to.  There are much easier
-> ways to consume a lot of memory.
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Isn=E2=80=99t it a special case either way?  Either we look at CR2 and popul=
-ate a page, or we look at CR2 and the =E2=80=9Ctracker=E2=80=9D state and se=
-nd a different signal.  Admittedly the former is very common in the kernel.
+Thanks for tidying this up!
 
->=20
->>> We don't have to allow them to (popuating) fault on it.  But, if we
->>> don't, we need some kind of kernel interface to avoid the faults.
->>=20
->> The plan is:
->>=20
->> * Move STACK_TOP (and vdso) down to give space to the bitmap.
->=20
-> Even for apps with 57-bit address spaces?
->=20
->> * Reserve the bitmap space from (mm->start_stack + PAGE_SIZE) to cover a c=
-ode
->> size of TASK_SIZE_LOW, which is (TASK_SIZE_LOW / PAGE_SIZE / 8).
->=20
-> The bitmap size is determined by CR4.LA57, not the app.  If you place
-> the bitmap here, won't references to it for high addresses go into the
-> high address space?
->=20
-> Specifically, on a CR4.LA57=3D0 system, we have 48 bits of address space,
-> so 128TB for apps.  You are proposing sticking the bitmap above the
-> stack which is near the top of that 128TB address space.  But on a
-> 5-level paging system with CR4.LA57=3D1, there could be valid data at
-> 129GB.  Is there something keeping that data from being mistaken for
-> being part of the bitmap?
->=20
+Jonathan
+> ---
+>  .../iio/{ep93xx_adc.txt => ep93xx_adc.rst}    | 15 +++++-
+>  .../{iio_configfs.txt => iio_configfs.rst}    | 52 +++++++++++--------
+>  Documentation/iio/index.rst                   | 12 +++++
+>  drivers/iio/Kconfig                           |  2 +-
+>  4 files changed, 56 insertions(+), 25 deletions(-)
+>  rename Documentation/iio/{ep93xx_adc.txt => ep93xx_adc.rst} (71%)
+>  rename Documentation/iio/{iio_configfs.txt => iio_configfs.rst} (73%)
+>  create mode 100644 Documentation/iio/index.rst
+> 
+> diff --git a/Documentation/iio/ep93xx_adc.txt b/Documentation/iio/ep93xx_adc.rst
+> similarity index 71%
+> rename from Documentation/iio/ep93xx_adc.txt
+> rename to Documentation/iio/ep93xx_adc.rst
+> index 23053e7817bd..4fd8dea3f6b8 100644
+> --- a/Documentation/iio/ep93xx_adc.txt
+> +++ b/Documentation/iio/ep93xx_adc.rst
+> @@ -1,12 +1,16 @@
+> -Cirrus Logic EP93xx ADC driver.
+> +==============================
+> +Cirrus Logic EP93xx ADC driver
+> +==============================
+>  
+>  1. Overview
+> +===========
+>  
+>  The driver is intended to work on both low-end (EP9301, EP9302) devices with
+>  5-channel ADC and high-end (EP9307, EP9312, EP9315) devices with 10-channel
+>  touchscreen/ADC module.
+>  
+>  2. Channel numbering
+> +====================
+>  
+>  Numbering scheme for channels 0..4 is defined in EP9301 and EP9302 datasheets.
+>  EP9307, EP9312 and EP9312 have 3 channels more (total 8), but the numbering is
+> @@ -17,13 +21,20 @@ Assuming ep93xx_adc is IIO device0, you'd find the following entries under
+>  
+>    +-----------------+---------------+
+>    | sysfs entry     | ball/pin name |
+> -  +-----------------+---------------+
+> +  +=================+===============+
+>    | in_voltage0_raw | YM            |
+> +  +-----------------+---------------+
+>    | in_voltage1_raw | SXP           |
+> +  +-----------------+---------------+
+>    | in_voltage2_raw | SXM           |
+> +  +-----------------+---------------+
+>    | in_voltage3_raw | SYP           |
+> +  +-----------------+---------------+
+>    | in_voltage4_raw | SYM           |
+> +  +-----------------+---------------+
+>    | in_voltage5_raw | XP            |
+> +  +-----------------+---------------+
+>    | in_voltage6_raw | XM            |
+> +  +-----------------+---------------+
+>    | in_voltage7_raw | YP            |
+>    +-----------------+---------------+
+> diff --git a/Documentation/iio/iio_configfs.txt b/Documentation/iio/iio_configfs.rst
+> similarity index 73%
+> rename from Documentation/iio/iio_configfs.txt
+> rename to Documentation/iio/iio_configfs.rst
+> index 4e5f101837a8..ecbfdb3afef7 100644
+> --- a/Documentation/iio/iio_configfs.txt
+> +++ b/Documentation/iio/iio_configfs.rst
+> @@ -1,6 +1,9 @@
+> +===============================
+>  Industrial IIO configfs support
+> +===============================
+>  
+>  1. Overview
+> +===========
+>  
+>  Configfs is a filesystem-based manager of kernel objects. IIO uses some
+>  objects that could be easily configured using configfs (e.g.: devices,
+> @@ -10,20 +13,22 @@ See Documentation/filesystems/configfs/configfs.txt for more information
+>  about how configfs works.
+>  
+>  2. Usage
+> +========
+>  
+>  In order to use configfs support in IIO we need to select it at compile
+>  time via CONFIG_IIO_CONFIGFS config option.
+>  
+> -Then, mount the configfs filesystem (usually under /config directory):
+> +Then, mount the configfs filesystem (usually under /config directory)::
+>  
+> -$ mkdir /config
+> -$ mount -t configfs none /config
+> +  $ mkdir /config
+> +  $ mount -t configfs none /config
+>  
+>  At this point, all default IIO groups will be created and can be accessed
+>  under /config/iio. Next chapters will describe available IIO configuration
+>  objects.
+>  
+>  3. Software triggers
+> +====================
+>  
+>  One of the IIO default configfs groups is the "triggers" group. It is
+>  automagically accessible when the configfs is mounted and can be found
+> @@ -31,40 +36,40 @@ under /config/iio/triggers.
+>  
+>  IIO software triggers implementation offers support for creating multiple
+>  trigger types. A new trigger type is usually implemented as a separate
+> -kernel module following the interface in include/linux/iio/sw_trigger.h:
+> +kernel module following the interface in include/linux/iio/sw_trigger.h::
+>  
+> -/*
+> - * drivers/iio/trigger/iio-trig-sample.c
+> - * sample kernel module implementing a new trigger type
+> - */
+> -#include <linux/iio/sw_trigger.h>
+> +  /*
+> +   * drivers/iio/trigger/iio-trig-sample.c
+> +   * sample kernel module implementing a new trigger type
+> +   */
+> +  #include <linux/iio/sw_trigger.h>
+>  
+>  
+> -static struct iio_sw_trigger *iio_trig_sample_probe(const char *name)
+> -{
+> +  static struct iio_sw_trigger *iio_trig_sample_probe(const char *name)
+> +  {
+>  	/*
+>  	 * This allocates and registers an IIO trigger plus other
+>  	 * trigger type specific initialization.
+>  	 */
+> -}
+> +  }
+>  
+> -static int iio_trig_hrtimer_remove(struct iio_sw_trigger *swt)
+> -{
+> +  static int iio_trig_hrtimer_remove(struct iio_sw_trigger *swt)
+> +  {
+>  	/*
+>  	 * This undoes the actions in iio_trig_sample_probe
+>  	 */
+> -}
+> +  }
+>  
+> -static const struct iio_sw_trigger_ops iio_trig_sample_ops = {
+> +  static const struct iio_sw_trigger_ops iio_trig_sample_ops = {
+>  	.probe		= iio_trig_sample_probe,
+>  	.remove		= iio_trig_sample_remove,
+> -};
+> +  };
+>  
+> -static struct iio_sw_trigger_type iio_trig_sample = {
+> +  static struct iio_sw_trigger_type iio_trig_sample = {
+>  	.name = "trig-sample",
+>  	.owner = THIS_MODULE,
+>  	.ops = &iio_trig_sample_ops,
+> -};
+> +  };
+>  
+>  module_iio_sw_trigger_driver(iio_trig_sample);
+>  
+> @@ -73,21 +78,24 @@ iio-trig-sample module will create 'trig-sample' trigger type directory
+>  /config/iio/triggers/trig-sample.
+>  
+>  We support the following interrupt sources (trigger types):
+> +
+>  	* hrtimer, uses high resolution timers as interrupt source
+>  
+>  3.1 Hrtimer triggers creation and destruction
+> +---------------------------------------------
+>  
+>  Loading iio-trig-hrtimer module will register hrtimer trigger types allowing
+>  users to create hrtimer triggers under /config/iio/triggers/hrtimer.
+>  
+> -e.g:
+> +e.g::
+>  
+> -$ mkdir /config/iio/triggers/hrtimer/instance1
+> -$ rmdir /config/iio/triggers/hrtimer/instance1
+> +  $ mkdir /config/iio/triggers/hrtimer/instance1
+> +  $ rmdir /config/iio/triggers/hrtimer/instance1
+>  
+>  Each trigger can have one or more attributes specific to the trigger type.
+>  
+>  3.2 "hrtimer" trigger types attributes
+> +--------------------------------------
+>  
+>  "hrtimer" trigger type doesn't have any configurable attribute from /config dir.
+>  It does introduce the sampling_frequency attribute to trigger directory.
+> diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
+> new file mode 100644
+> index 000000000000..0593dca89a94
+> --- /dev/null
+> +++ b/Documentation/iio/index.rst
+> @@ -0,0 +1,12 @@
+> +:orphan:
+> +
+> +==============
+> +Industrial I/O
+> +==============
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +   iio_configfs
+> +
+> +   ep93xx_adc
+> diff --git a/drivers/iio/Kconfig b/drivers/iio/Kconfig
+> index 1d736a4952ab..5bd51853b15e 100644
+> --- a/drivers/iio/Kconfig
+> +++ b/drivers/iio/Kconfig
+> @@ -28,7 +28,7 @@ config IIO_CONFIGFS
+>  	help
+>  	  This allows configuring various IIO bits through configfs
+>  	  (e.g. software triggers). For more info see
+> -	  Documentation/iio/iio_configfs.txt.
+> +	  Documentation/iio/iio_configfs.rst.
+>  
+>  config IIO_TRIGGER
+>  	bool "Enable triggered sampling support"
 
-I think we need to make the vma be full sized =E2=80=94 it should cover the e=
-ntire range that the CPU might access. If that means it spans the 48-bit bou=
-ndary, so be it.
-
-> Also, if you're limiting it to TASK_SIZE_LOW, please don't forget that
-> this is yet another thing that probably won't work with the vsyscall
-> page.  Please make sure you consider it and mention it in your next post.
-
-Why not?  The vsyscall page is at a negative address.
-
->=20
->> * Mmap the space only when the app issues the first mark-legacy prctl.  T=
-his
->> avoids the core-dump issue for most apps and the accounting problem that
->> MAP_NORESERVE probably won't solve
-
-What happens if there=E2=80=99s another VMA there by the time you map it?=
