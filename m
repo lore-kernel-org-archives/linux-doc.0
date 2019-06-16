@@ -1,291 +1,87 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1174E7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 16 Jun 2019 13:47:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C3EE87D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 16 Jun 2019 15:43:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726087AbfFPNrs (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 16 Jun 2019 09:47:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34096 "EHLO mail.kernel.org"
+        id S1726085AbfFPPn5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 16 Jun 2019 11:43:57 -0400
+Received: from smtp2-4.goneo.de ([85.220.129.36]:52690 "EHLO smtp2-4.goneo.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725874AbfFPNrs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 16 Jun 2019 09:47:48 -0400
-Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BE4BF2133D;
-        Sun, 16 Jun 2019 13:47:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560692867;
-        bh=p0iL82cdaEa1Vv36sQ0BnhAX2AFRjC9Qqy5te+FMyV4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=uXHXVAVj4eO6fSQ2kfhTGQ2xpE6Yu1dRTsqgbI2J1u5IuOSaZ4YA04ycR3zkB/Y5j
-         n/s90Kh/RzWT8qHMF/qlEt2STWUCj+8XN1/qU9OAD1xVWvgeDaWrOiYYbkQbBkIXhe
-         Dng7WdvB62qLiR2JTkTyZRtPW22LS2D39Meb/dyk=
-Date:   Sun, 16 Jun 2019 14:47:42 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+        id S1726038AbfFPPn5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 16 Jun 2019 11:43:57 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by smtp2.goneo.de (Postfix) with ESMTP id DFA0123F32D;
+        Sun, 16 Jun 2019 17:43:53 +0200 (CEST)
+X-Virus-Scanned: by goneo
+Received: from smtp2.goneo.de ([127.0.0.1])
+        by localhost (smtp2.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 6saBBGMF-nQY; Sun, 16 Jun 2019 17:43:52 +0200 (CEST)
+Received: from [192.168.1.127] (dyndsl-178-142-132-231.ewe-ip-backbone.de [178.142.132.231])
+        by smtp2.goneo.de (Postfix) with ESMTPSA id 9E01923F051;
+        Sun, 16 Jun 2019 17:43:50 +0200 (CEST)
+Subject: Re: [PATCH 14/14] docs: sphinx/kernel_abi.py: fix UTF-8 support
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        linux-iio@vger.kernel.org
-Subject: Re: [PATCH v1 24/31] docs: iio: convert to ReST
-Message-ID: <20190616144742.7e2dce98@archlinux>
-In-Reply-To: <6b9df01697dde8b9bb9be9accf28d63ed821956d.1560364494.git.mchehab+samsung@kernel.org>
-References: <cover.1560364493.git.mchehab+samsung@kernel.org>
-        <6b9df01697dde8b9bb9be9accf28d63ed821956d.1560364494.git.mchehab+samsung@kernel.org>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+References: <cover.1560477540.git.mchehab+samsung@kernel.org>
+ <62c8ffe86df40c90299e80619a1cb5d50971c2c6.1560477540.git.mchehab+samsung@kernel.org>
+ <20190614161837.GA25206@kroah.com> <20190614132530.7a013757@coco.lan>
+From:   Markus Heiser <markus.heiser@darmarit.de>
+Message-ID: <28aca947-4e88-7186-7f07-9a3ccb379649@darmarit.de>
+Date:   Sun, 16 Jun 2019 17:43:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20190614132530.7a013757@coco.lan>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: de-DE
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 12 Jun 2019 15:38:27 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-> Rename the iio documentation files to ReST, add an
-> index for them and adjust in order to produce a nice html
-> output via the Sphinx build system.
+Am 14.06.19 um 18:25 schrieb Mauro Carvalho Chehab:
+> Em Fri, 14 Jun 2019 18:18:37 +0200
+> Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
 > 
-> At its new index.rst, let's add a :orphan: while this is not linked to
-> the main index.rst file, in order to avoid build warnings.
+>> On Thu, Jun 13, 2019 at 11:04:20PM -0300, Mauro Carvalho Chehab wrote:
+>>> The parser breaks with UTF-8 characters with Sphinx 1.4.
+>>>
+>>> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+>>> ---
+>>>   Documentation/sphinx/kernel_abi.py | 10 ++++++----
+>>>   1 file changed, 6 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
+>>> index 7fa7806532dc..460cee48a245 100644
+>>> --- a/Documentation/sphinx/kernel_abi.py
+>>> +++ b/Documentation/sphinx/kernel_abi.py
+>>> @@ -1,4 +1,5 @@
+>>> -# -*- coding: utf-8; mode: python -*-
+>>> +# coding=utf-8
+>>> +#
+>>
+>> Is this an emacs vs. vim fight?
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Thanks, looks good to me.   At some point we need to look at how
-to tie together the various IIO docs as they are split between
-here and the driver-api/iio/ directory.  That split isn't currently
-along particularly logical lines.
-
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
-Thanks for tidying this up!
-
-Jonathan
-> ---
->  .../iio/{ep93xx_adc.txt => ep93xx_adc.rst}    | 15 +++++-
->  .../{iio_configfs.txt => iio_configfs.rst}    | 52 +++++++++++--------
->  Documentation/iio/index.rst                   | 12 +++++
->  drivers/iio/Kconfig                           |  2 +-
->  4 files changed, 56 insertions(+), 25 deletions(-)
->  rename Documentation/iio/{ep93xx_adc.txt => ep93xx_adc.rst} (71%)
->  rename Documentation/iio/{iio_configfs.txt => iio_configfs.rst} (73%)
->  create mode 100644 Documentation/iio/index.rst
+> No. This is a python-specific thing:
 > 
-> diff --git a/Documentation/iio/ep93xx_adc.txt b/Documentation/iio/ep93xx_adc.rst
-> similarity index 71%
-> rename from Documentation/iio/ep93xx_adc.txt
-> rename to Documentation/iio/ep93xx_adc.rst
-> index 23053e7817bd..4fd8dea3f6b8 100644
-> --- a/Documentation/iio/ep93xx_adc.txt
-> +++ b/Documentation/iio/ep93xx_adc.rst
-> @@ -1,12 +1,16 @@
-> -Cirrus Logic EP93xx ADC driver.
-> +==============================
-> +Cirrus Logic EP93xx ADC driver
-> +==============================
->  
->  1. Overview
-> +===========
->  
->  The driver is intended to work on both low-end (EP9301, EP9302) devices with
->  5-channel ADC and high-end (EP9307, EP9312, EP9315) devices with 10-channel
->  touchscreen/ADC module.
->  
->  2. Channel numbering
-> +====================
->  
->  Numbering scheme for channels 0..4 is defined in EP9301 and EP9302 datasheets.
->  EP9307, EP9312 and EP9312 have 3 channels more (total 8), but the numbering is
-> @@ -17,13 +21,20 @@ Assuming ep93xx_adc is IIO device0, you'd find the following entries under
->  
->    +-----------------+---------------+
->    | sysfs entry     | ball/pin name |
-> -  +-----------------+---------------+
-> +  +=================+===============+
->    | in_voltage0_raw | YM            |
-> +  +-----------------+---------------+
->    | in_voltage1_raw | SXP           |
-> +  +-----------------+---------------+
->    | in_voltage2_raw | SXM           |
-> +  +-----------------+---------------+
->    | in_voltage3_raw | SYP           |
-> +  +-----------------+---------------+
->    | in_voltage4_raw | SYM           |
-> +  +-----------------+---------------+
->    | in_voltage5_raw | XP            |
-> +  +-----------------+---------------+
->    | in_voltage6_raw | XM            |
-> +  +-----------------+---------------+
->    | in_voltage7_raw | YP            |
->    +-----------------+---------------+
-> diff --git a/Documentation/iio/iio_configfs.txt b/Documentation/iio/iio_configfs.rst
-> similarity index 73%
-> rename from Documentation/iio/iio_configfs.txt
-> rename to Documentation/iio/iio_configfs.rst
-> index 4e5f101837a8..ecbfdb3afef7 100644
-> --- a/Documentation/iio/iio_configfs.txt
-> +++ b/Documentation/iio/iio_configfs.rst
-> @@ -1,6 +1,9 @@
-> +===============================
->  Industrial IIO configfs support
-> +===============================
->  
->  1. Overview
-> +===========
->  
->  Configfs is a filesystem-based manager of kernel objects. IIO uses some
->  objects that could be easily configured using configfs (e.g.: devices,
-> @@ -10,20 +13,22 @@ See Documentation/filesystems/configfs/configfs.txt for more information
->  about how configfs works.
->  
->  2. Usage
-> +========
->  
->  In order to use configfs support in IIO we need to select it at compile
->  time via CONFIG_IIO_CONFIGFS config option.
->  
-> -Then, mount the configfs filesystem (usually under /config directory):
-> +Then, mount the configfs filesystem (usually under /config directory)::
->  
-> -$ mkdir /config
-> -$ mount -t configfs none /config
-> +  $ mkdir /config
-> +  $ mount -t configfs none /config
->  
->  At this point, all default IIO groups will be created and can be accessed
->  under /config/iio. Next chapters will describe available IIO configuration
->  objects.
->  
->  3. Software triggers
-> +====================
->  
->  One of the IIO default configfs groups is the "triggers" group. It is
->  automagically accessible when the configfs is mounted and can be found
-> @@ -31,40 +36,40 @@ under /config/iio/triggers.
->  
->  IIO software triggers implementation offers support for creating multiple
->  trigger types. A new trigger type is usually implemented as a separate
-> -kernel module following the interface in include/linux/iio/sw_trigger.h:
-> +kernel module following the interface in include/linux/iio/sw_trigger.h::
->  
-> -/*
-> - * drivers/iio/trigger/iio-trig-sample.c
-> - * sample kernel module implementing a new trigger type
-> - */
-> -#include <linux/iio/sw_trigger.h>
-> +  /*
-> +   * drivers/iio/trigger/iio-trig-sample.c
-> +   * sample kernel module implementing a new trigger type
-> +   */
-> +  #include <linux/iio/sw_trigger.h>
->  
->  
-> -static struct iio_sw_trigger *iio_trig_sample_probe(const char *name)
-> -{
-> +  static struct iio_sw_trigger *iio_trig_sample_probe(const char *name)
-> +  {
->  	/*
->  	 * This allocates and registers an IIO trigger plus other
->  	 * trigger type specific initialization.
->  	 */
-> -}
-> +  }
->  
-> -static int iio_trig_hrtimer_remove(struct iio_sw_trigger *swt)
-> -{
-> +  static int iio_trig_hrtimer_remove(struct iio_sw_trigger *swt)
-> +  {
->  	/*
->  	 * This undoes the actions in iio_trig_sample_probe
->  	 */
-> -}
-> +  }
->  
-> -static const struct iio_sw_trigger_ops iio_trig_sample_ops = {
-> +  static const struct iio_sw_trigger_ops iio_trig_sample_ops = {
->  	.probe		= iio_trig_sample_probe,
->  	.remove		= iio_trig_sample_remove,
-> -};
-> +  };
->  
-> -static struct iio_sw_trigger_type iio_trig_sample = {
-> +  static struct iio_sw_trigger_type iio_trig_sample = {
->  	.name = "trig-sample",
->  	.owner = THIS_MODULE,
->  	.ops = &iio_trig_sample_ops,
-> -};
-> +  };
->  
->  module_iio_sw_trigger_driver(iio_trig_sample);
->  
-> @@ -73,21 +78,24 @@ iio-trig-sample module will create 'trig-sample' trigger type directory
->  /config/iio/triggers/trig-sample.
->  
->  We support the following interrupt sources (trigger types):
-> +
->  	* hrtimer, uses high resolution timers as interrupt source
->  
->  3.1 Hrtimer triggers creation and destruction
-> +---------------------------------------------
->  
->  Loading iio-trig-hrtimer module will register hrtimer trigger types allowing
->  users to create hrtimer triggers under /config/iio/triggers/hrtimer.
->  
-> -e.g:
-> +e.g::
->  
-> -$ mkdir /config/iio/triggers/hrtimer/instance1
-> -$ rmdir /config/iio/triggers/hrtimer/instance1
-> +  $ mkdir /config/iio/triggers/hrtimer/instance1
-> +  $ rmdir /config/iio/triggers/hrtimer/instance1
->  
->  Each trigger can have one or more attributes specific to the trigger type.
->  
->  3.2 "hrtimer" trigger types attributes
-> +--------------------------------------
->  
->  "hrtimer" trigger type doesn't have any configurable attribute from /config dir.
->  It does introduce the sampling_frequency attribute to trigger directory.
-> diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
-> new file mode 100644
-> index 000000000000..0593dca89a94
-> --- /dev/null
-> +++ b/Documentation/iio/index.rst
-> @@ -0,0 +1,12 @@
-> +:orphan:
-> +
-> +==============
-> +Industrial I/O
-> +==============
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
-> +   iio_configfs
-> +
-> +   ep93xx_adc
-> diff --git a/drivers/iio/Kconfig b/drivers/iio/Kconfig
-> index 1d736a4952ab..5bd51853b15e 100644
-> --- a/drivers/iio/Kconfig
-> +++ b/drivers/iio/Kconfig
-> @@ -28,7 +28,7 @@ config IIO_CONFIGFS
->  	help
->  	  This allows configuring various IIO bits through configfs
->  	  (e.g. software triggers). For more info see
-> -	  Documentation/iio/iio_configfs.txt.
-> +	  Documentation/iio/iio_configfs.rst.
->  
->  config IIO_TRIGGER
->  	bool "Enable triggered sampling support"
+> 	https://www.python.org/dev/peps/pep-0263/
 
+No need to change, the emacs notation is also OK, see your link
+
+   """or (using formats recognized by popular editors):"""
+
+   https://www.python.org/dev/peps/pep-0263/#defining-the-encoding
+
+I prefer emacs notation, this is also evaluated by many other editors / tools.
+
+-- Markus --
