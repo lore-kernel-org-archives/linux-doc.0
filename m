@@ -1,95 +1,127 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8BA7B7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Jun 2019 15:55:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CDB207D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Jun 2019 16:31:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726292AbfFQPz0 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 17 Jun 2019 11:55:26 -0400
-Received: from casper.infradead.org ([85.118.1.10]:38560 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725863AbfFQPz0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jun 2019 11:55:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=+/5VA9ZuoXyLrG+BiiWydDZ/+oR7o3Vk3uSSQIEd16c=; b=gWNa6GaJ/p3/9QeUuIX0nsaxYa
-        2iVR/TxaDorIbG/lixhBnGTv/K/F8h/jNdQCRwn4NZpx55gNWejwIH9c7mghw2wHU3PEF6RMSVVTu
-        3jZSO6RQEurFZ/xoFL5QtSAzIA3CU1wYqyeBwatTPpNELSZOMYdeLcXNM2T7cLRcnqrxjIXVfjV9u
-        zO9KhUOkc32z7SPrBr7C9s/db4SLpfTyTOZkbgDp3R4iAi1JyugKBzaEwuLvL7ShOLTn0wooZ6FZ4
-        27otCZgKtA/D4/MwEjKdAlIaQS82//4REyeHJTueyzawe8KUFOmzeyshx08keOARG1UkgSvNNwtQU
-        qw6oNnvg==;
-Received: from 179.186.105.91.dynamic.adsl.gvt.net.br ([179.186.105.91] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hctyd-0000g2-26; Mon, 17 Jun 2019 15:55:23 +0000
-Date:   Mon, 17 Jun 2019 12:55:17 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Markus Heiser <markus.heiser@darmarit.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S1726336AbfFQQb1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 17 Jun 2019 12:31:27 -0400
+Received: from smtp3.goneo.de ([85.220.129.37]:36582 "EHLO smtp3.goneo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726292AbfFQQbZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 17 Jun 2019 12:31:25 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by smtp3.goneo.de (Postfix) with ESMTP id DD80323F252;
+        Mon, 17 Jun 2019 18:31:21 +0200 (CEST)
+X-Virus-Scanned: by goneo
+Received: from smtp3.goneo.de ([127.0.0.1])
+        by localhost (smtp3.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id s76l7b57MjrH; Mon, 17 Jun 2019 18:31:20 +0200 (CEST)
+Received: from [192.168.10.227] (ip-109-91-78-216.hsi12.unitymediagroup.de [109.91.78.216])
+        by smtp3.goneo.de (Postfix) with ESMTPSA id 18BDE23F021;
+        Mon, 17 Jun 2019 18:31:20 +0200 (CEST)
+Subject: Re: [PATCH 12/14] doc-rst: add ABI documentation to the admin-guide
+ book
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@s-opensource.com>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 14/14] docs: sphinx/kernel_abi.py: fix UTF-8 support
-Message-ID: <20190617125517.293fd50f@coco.lan>
-In-Reply-To: <20190617075608.696cf037@lwn.net>
 References: <cover.1560477540.git.mchehab+samsung@kernel.org>
-        <62c8ffe86df40c90299e80619a1cb5d50971c2c6.1560477540.git.mchehab+samsung@kernel.org>
-        <20190614161837.GA25206@kroah.com>
-        <20190614132530.7a013757@coco.lan>
-        <28aca947-4e88-7186-7f07-9a3ccb379649@darmarit.de>
-        <20190617061659.22596fc3@coco.lan>
-        <20190617075608.696cf037@lwn.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ <9da2a7f6ff57d9d53dcbb964eb310f7956522870.1560477540.git.mchehab+samsung@kernel.org>
+ <87o930uvur.fsf@intel.com> <2955920a-3d6a-8e41-e8fe-b7db3cefed8b@darmarit.de>
+ <20190614081546.64101411@lwn.net>
+ <327067f6-2609-41e6-c987-e37620e7154e@darmarit.de>
+ <20190617061146.06975213@coco.lan>
+From:   Markus Heiser <markus.heiser@darmarit.de>
+Message-ID: <c3caf35e-9790-661f-e9db-0a050d31ca7d@darmarit.de>
+Date:   Mon, 17 Jun 2019 18:31:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190617061146.06975213@coco.lan>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: de-DE
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Mon, 17 Jun 2019 07:56:08 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> On Mon, 17 Jun 2019 06:16:59 -0300
-> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
->=20
-> > > No need to change, the emacs notation is also OK, see your link
-> > >=20
-> > >    """or (using formats recognized by popular editors):"""
-> > >=20
-> > >    https://www.python.org/dev/peps/pep-0263/#defining-the-encoding
-> > >=20
-> > > I prefer emacs notation, this is also evaluated by many other editors=
- / tools.   =20
-> >=20
-> > The usage of emacs notation is something that we don't like at the
-> > Linux Kernel. With ~4K developers per release, if we add tags to
-> > every single editor people use, it would be really messy, as one
-> > developer would be adding a tag and the next one replacing it by its
-> > some other favorite editor's tag. =20
->=20
-> So "we" like a language-specific notation instead?  That seems a little
-> strange to me.  Lots of things understand the Emacs notation, it doesn't
-> seem like something that needs to be actively avoided here.
+Am 17.06.19 um 11:11 schrieb Mauro Carvalho Chehab:
+> Em Sun, 16 Jun 2019 18:04:01 +0200
+> Markus Heiser <markus.heiser@darmarit.de> escreveu:
+> 
+>> Am 14.06.19 um 16:15 schrieb Jonathan Corbet:
+>>> On Fri, 14 Jun 2019 16:10:31 +0200
+>>> Markus Heiser <markus.heiser@darmarit.de> wrote:
+>>>    
+>>>> I agree with Jani. No matter how the decision ends, since I can't help here, I'd
+>>>> rather not show up in the copyright.
+>>>
+>>> Is there something specific you are asking us to do here?
+>>>    
+>>
+>>
+>> I have lost the overview, but there was a patch Mauro added a
+>> kernel_abi.py.  There was my name (Markus Heiser) listed with a
+>> copyright notation.
+>>
+>> I guess Mauro picked up some old RFC or an other old patch of
+>> mine from 2016 and made some C&P .. whatever .. ATM I do not have
+>> time to give any support on parsing ABI and I'am not interested
+>> in holding copyrights on a C&P of a old source  ;)
+> 
+> Well, the code was basically written by you :-)
+> 
+> It was written to be a script capable of running a generic
+> script. On that time, my contribution to it was basically
+> to hardcode it to run "get_abi.pl".
 
-=46rom my side, I don't have any strong preference. Just saying that
-people usually complain when e-macs or vim specific tags appear at the
-Kernel. That's why I would prefer an editor-agnostic macro.
+Thanks for clarifying.
 
-It won't make any difference for me, anyway, as the editors I use
-don't recognize it.
+> 
+> This came from an old branch where the last change was back in 2017.
+> It was resurrected due to a discussion at KS ML.
+> 
+> There, the discussion was related to what's left to be converted
+> to ReST.
+> 
+> While I can't simply remove your copyright, would you be happy
+> with something like that?
 
-Whatever you want is OK to me, provided that we use the same notation on
-all Sphinx extensions... right now there's a mix of notations.
+Yes, but basically I share Jani's and Jon's doubts about this solution.
 
-Thanks,
-Mauro
+-- Markus --
+
+> 
+> 
+> Thanks,
+> Mauro
+> 
+> diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
+> index 2d5d582207f7..ef91b1e1ff4b 100644
+> --- a/Documentation/sphinx/kernel_abi.py
+> +++ b/Documentation/sphinx/kernel_abi.py
+> @@ -7,7 +7,8 @@ u"""
+>       Implementation of the ``kernel-abi`` reST-directive.
+>   
+>       :copyright:  Copyright (C) 2016  Markus Heiser
+> -    :copyright:  Copyright (C) 2016  Mauro Carvalho Chehab
+> +    :copyright:  Copyright (C) 2016-2019  Mauro Carvalho Chehab
+> +    :maintained-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+>       :license:    GPL Version 2, June 1991 see Linux/COPYING for details.
+>   
+>       The ``kernel-abi`` (:py:class:`KernelCmd`) directive calls the
+> 
+> 
+
+
