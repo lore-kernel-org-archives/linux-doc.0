@@ -1,83 +1,119 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BBE1F7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Jun 2019 13:48:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 885C67D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Jun 2019 13:52:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726121AbfFQNsf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 17 Jun 2019 09:48:35 -0400
-Received: from ms.lwn.net ([45.79.88.28]:42882 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725995AbfFQNsf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 Jun 2019 09:48:35 -0400
-Received: from localhost.localdomain (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 13F10300;
-        Mon, 17 Jun 2019 13:48:32 +0000 (UTC)
-Date:   Mon, 17 Jun 2019 07:48:29 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        id S1727467AbfFQNwD (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 17 Jun 2019 09:52:03 -0400
+Received: from casper.infradead.org ([85.118.1.10]:50732 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726005AbfFQNwD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jun 2019 09:52:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=rqoIj6ukwJM6l56EUxxnRITr+tibvaPKGHXeg6stNSw=; b=qfKX0T9vD3Jr2Jtfa1cJHW1EdS
+        jxjCFwsVgdI0mcoZG1NtKye1fbR6u76zbwjRB3lbVSwAaC5US5sdheGAvCCvYO7D/iOA2PeTGV1n9
+        dYtZtKcJAaQT1fAaLiNONQflP5GZ+6HlIGKvncFnGApIQc3M2l06bQZuLjvmu19Im60Un2pvMJmWD
+        HksolIGmjABbfAiPYma6XBr/Xy1hGa00Swn2hb/DDSVJ+ejmzfQRsU5HRCw+LnoNqs4c/O2iavTDk
+        cDulxLWgxwY7N9GoMzR1PMFp4K8qIX14bsMfEwTFfZCKu4jylrg6lNIVHtGzfs7HwMWWh6JvvAT0R
+        /qE3lOmw==;
+Received: from 179.186.105.91.dynamic.adsl.gvt.net.br ([179.186.105.91] helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hcs3E-0002ed-FW; Mon, 17 Jun 2019 13:52:01 +0000
+Date:   Mon, 17 Jun 2019 10:51:54 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Jani Nikula <jani.nikula@linux.intel.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@s-opensource.com>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
 Subject: Re: [PATCH 12/14] doc-rst: add ABI documentation to the admin-guide
  book
-Message-ID: <20190617074829.70cbaa48@lwn.net>
-In-Reply-To: <20190617125438.GA18554@kroah.com>
+Message-ID: <20190617105154.3874fd89@coco.lan>
+In-Reply-To: <874l4ov16m.fsf@intel.com>
 References: <cover.1560477540.git.mchehab+samsung@kernel.org>
         <9da2a7f6ff57d9d53dcbb964eb310f7956522870.1560477540.git.mchehab+samsung@kernel.org>
         <87o930uvur.fsf@intel.com>
         <20190614140603.GB7234@kroah.com>
         <20190614122755.1c7b4898@coco.lan>
         <874l4ov16m.fsf@intel.com>
-        <20190617125438.GA18554@kroah.com>
-Organization: LWN.net
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 17 Jun 2019 14:54:38 +0200
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+Em Mon, 17 Jun 2019 15:36:17 +0300
+Jani Nikula <jani.nikula@linux.intel.com> escreveu:
 
-> > I think it's just sad to see the documentation system slowly drift
-> > further away from the ideals we had, and towards the old ways we worked
-> > so hard to fix.  
+> On Fri, 14 Jun 2019, Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+> > Em Fri, 14 Jun 2019 16:06:03 +0200
+> > Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
+> >  
+> >> On Fri, Jun 14, 2019 at 04:42:20PM +0300, Jani Nikula wrote:  
+> >> > 2) Have the python extension read the ABI files directly, without an
+> >> >    extra pipeline.    
+> >> 
+> >> He who writes the script, get's to dictate the language of the script :)  
 > 
-> What are those ideals?
+> The point is, it's an extension to a python based tool, written in perl,
+> using pipes for communication, and losing any advantages of integrating
+> with the tool it's extending.
 > 
-> I thought the goal was to be able to write documentation in a as much
-> as a normal text file as possible and have automation turn those files
-> into "pretty" documentation that we can all use.
+> I doubt you'd want to see system() to be used to subsequently extend the
+> perl tool.
+> 
+> I think it's just sad to see the documentation system slowly drift
+> further away from the ideals we had, and towards the old ways we worked
+> so hard to fix.
 
-That was indeed one of the goals.  Another was to replace the incredible
-pile of fragile duct tape that the docs build system had become with
-something more robust, understandable, and maintainable.  We did that, to
-an extent at least, and life is better.
+Actually, it is a perl script that can be used standalone (just like
+get_maintainers.pl and kernel-doc) with have some features including
+producing a ReST output. We could easily get rid of the python extension,
+if we add this to the Makefile (adjusted to work with O= option):
 
-Jani worries that we have been regressing toward duct-tape mode, and I
-suspect he may be right.  I'm certainly as guilty as anybody of tossing
-stuff in because it's expedient right now.  It is right to ask whether we
-should continue in that direction.
+	./scripts/get_api.pl rest > Documentation/output/admin-guide/abi.rst
 
-Can we slow down just a bit on the ABI files?  It may be that Mauro's
-solution is the best one, but I would really like to think a bit about
-how all this stuff fits together, and life isn't really even giving me
-time to tie my shoes these days.  I don't think that this is screamingly
-urgent right now.
+> 
+> > No idea about how much time it would take if written in python,
+> > but this perl script is really fast:
+> >
+> > 	$ time ./scripts/get_abi.pl search voltage_max >/dev/null
+> > 	real	0m0,139s
+> > 	user	0m0,132s
+> > 	sys	0m0,006s
+> >
+> > That's the time it takes here (SSD disks) to read all files under
+> > Documentation/ABI, parse them and seek for a string.
+> >
+> > That's about half of the time a python script takes to just import the
+> > the sphinx modules and print its version, running at the same machine:
+> >
+> > 	$ time sphinx-build --version >/dev/null
+> >
+> > 	real	0m0,224s
+> > 	user	0m0,199s
+> > 	sys	0m0,024s  
+> 
+> Please at least use fair and sensible comparisons. If you want to make
+> the extension usable standalone on the command-line, bypassing Sphinx,
+> you can do that. No need to factor in Sphinx to your comparisons.
+
+Yeah, I guess it should be possible to do that. How a python script
+can identify if it was called by Sphinx, or if it was called directly?
 
 Thanks,
-
-jon
+Mauro
