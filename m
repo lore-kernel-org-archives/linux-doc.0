@@ -5,89 +5,91 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 520507DBEB
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Jun 2019 12:21:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7FBE57D910
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Jun 2019 12:34:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727831AbfFQMUx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 17 Jun 2019 08:20:53 -0400
-Received: from Galois.linutronix.de ([146.0.238.70]:43602 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725973AbfFQMUx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jun 2019 08:20:53 -0400
-Received: from [5.158.153.52] (helo=nanos.tec.linutronix.de)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tglx@linutronix.de>)
-        id 1hcqcr-0006q9-JE; Mon, 17 Jun 2019 14:20:41 +0200
-Date:   Mon, 17 Jun 2019 14:20:40 +0200 (CEST)
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     Florian Weimer <fweimer@redhat.com>
-cc:     Dave Martin <Dave.Martin@arm.com>,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Subject: Re: [PATCH v7 22/27] binfmt_elf: Extract .note.gnu.property from an
- ELF file
-In-Reply-To: <87imt4jwpt.fsf@oldenburg2.str.redhat.com>
-Message-ID: <alpine.DEB.2.21.1906171418220.1854@nanos.tec.linutronix.de>
-References: <20190606200646.3951-1-yu-cheng.yu@intel.com>        <20190606200646.3951-23-yu-cheng.yu@intel.com>        <20190607180115.GJ28398@e103592.cambridge.arm.com>        <94b9c55b3b874825fda485af40ab2a6bc3dad171.camel@intel.com>       
- <87lfy9cq04.fsf@oldenburg2.str.redhat.com>        <20190611114109.GN28398@e103592.cambridge.arm.com>        <031bc55d8dcdcf4f031e6ff27c33fd52c61d33a5.camel@intel.com>        <20190612093238.GQ28398@e103592.cambridge.arm.com>
- <87imt4jwpt.fsf@oldenburg2.str.redhat.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        id S1726614AbfFQMdZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 17 Jun 2019 08:33:25 -0400
+Received: from mga07.intel.com ([134.134.136.100]:28929 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726005AbfFQMdY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 17 Jun 2019 08:33:24 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Jun 2019 05:33:24 -0700
+X-ExtLoop1: 1
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.150])
+  by fmsmga001.fm.intel.com with ESMTP; 17 Jun 2019 05:33:21 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@s-opensource.com>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH 12/14] doc-rst: add ABI documentation to the admin-guide book
+In-Reply-To: <20190614122755.1c7b4898@coco.lan>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1560477540.git.mchehab+samsung@kernel.org> <9da2a7f6ff57d9d53dcbb964eb310f7956522870.1560477540.git.mchehab+samsung@kernel.org> <87o930uvur.fsf@intel.com> <20190614140603.GB7234@kroah.com> <20190614122755.1c7b4898@coco.lan>
+Date:   Mon, 17 Jun 2019 15:36:17 +0300
+Message-ID: <874l4ov16m.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 17 Jun 2019, Florian Weimer wrote:
-> * Dave Martin:
-> > On Tue, Jun 11, 2019 at 12:31:34PM -0700, Yu-cheng Yu wrote:
-> >> We can probably check PT_GNU_PROPERTY first, and fallback (based on ld-linux
-> >> version?) to PT_NOTE scanning?
-> >
-> > For arm64, we can check for PT_GNU_PROPERTY and then give up
-> > unconditionally.
-> >
-> > For x86, we would fall back to PT_NOTE scanning, but this will add a bit
-> > of cost to binaries that don't have NT_GNU_PROPERTY_TYPE_0.  The ld.so
-> > version doesn't tell you what ELF ABI a given executable conforms to.
-> >
-> > Since this sounds like it's largely a distro-specific issue, maybe there
-> > could be a Kconfig option to turn the fallback PT_NOTE scanning on?
-> 
-> I'm worried that this causes interop issues similarly to what we see
-> with VSYSCALL today.  If we need both and a way to disable it, it should
-> be something like a personality flag which can be configured for each
-> process tree separately.  Ideally, we'd settle on one correct approach
-> (i.e., either always process both, or only process PT_GNU_PROPERTY) and
-> enforce that.
+On Fri, 14 Jun 2019, Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+> Em Fri, 14 Jun 2019 16:06:03 +0200
+> Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
+>
+>> On Fri, Jun 14, 2019 at 04:42:20PM +0300, Jani Nikula wrote:
+>> > 2) Have the python extension read the ABI files directly, without an
+>> >    extra pipeline.  
+>> 
+>> He who writes the script, get's to dictate the language of the script :)
 
-Chose one and only the one which makes technically sense and is not some
-horrible vehicle.
+The point is, it's an extension to a python based tool, written in perl,
+using pipes for communication, and losing any advantages of integrating
+with the tool it's extending.
 
-Everytime we did those 'oh we need to make x fly workarounds' we regretted
-it sooner than later.
+I doubt you'd want to see system() to be used to subsequently extend the
+perl tool.
 
-Thanks,
+I think it's just sad to see the documentation system slowly drift
+further away from the ideals we had, and towards the old ways we worked
+so hard to fix.
 
-	tglx
+> No idea about how much time it would take if written in python,
+> but this perl script is really fast:
+>
+> 	$ time ./scripts/get_abi.pl search voltage_max >/dev/null
+> 	real	0m0,139s
+> 	user	0m0,132s
+> 	sys	0m0,006s
+>
+> That's the time it takes here (SSD disks) to read all files under
+> Documentation/ABI, parse them and seek for a string.
+>
+> That's about half of the time a python script takes to just import the
+> the sphinx modules and print its version, running at the same machine:
+>
+> 	$ time sphinx-build --version >/dev/null
+>
+> 	real	0m0,224s
+> 	user	0m0,199s
+> 	sys	0m0,024s
+
+Please at least use fair and sensible comparisons. If you want to make
+the extension usable standalone on the command-line, bypassing Sphinx,
+you can do that. No need to factor in Sphinx to your comparisons.
+
+
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
