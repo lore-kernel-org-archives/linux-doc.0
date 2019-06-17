@@ -1,104 +1,128 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6284D7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Jun 2019 09:17:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E1F4F7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Jun 2019 11:08:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727408AbfFQJRI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 17 Jun 2019 05:17:08 -0400
-Received: from casper.infradead.org ([85.118.1.10]:54562 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726753AbfFQJRH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jun 2019 05:17:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=4UvzZyS/aNQ/MsOVrJfipLFSDYLsgIWS72uO2fF+tF8=; b=HS/CCJGZiIDLX7SkLozd/7MuYA
-        2t7Ma2qN+j7tNX0giTN/vzpfBAEsXSVzV5SVXyj3keXbOfpphcBLRCCq5K+FykW+IGLQ04czlkpdD
-        mzVe5GSNsWCGnQQ8SCYN5XGIjq51GafrObm1Tra3imKne3LxFwJ1Ggh4LkM2kptBQSx2ltvbebm6c
-        DxwlMbXy5S+8IGas47ofH3Oc7cVTl65AarNjSWJTwl/GwFX0zIbrOUutxLse14oHDuKYiqcy1TrnN
-        fGEJL6oKcPj8QvheF0P+5bjS6+zn7fv/suvs1Xg2q3tUoSHu18Bi17Se+K7M0bOtpbqNFNHMZcmUA
-        TdgNGObw==;
-Received: from 179.186.105.91.dynamic.adsl.gvt.net.br ([179.186.105.91] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hcnlA-0007OR-OD; Mon, 17 Jun 2019 09:17:05 +0000
-Date:   Mon, 17 Jun 2019 06:16:59 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Markus Heiser <markus.heiser@darmarit.de>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 14/14] docs: sphinx/kernel_abi.py: fix UTF-8 support
-Message-ID: <20190617061659.22596fc3@coco.lan>
-In-Reply-To: <28aca947-4e88-7186-7f07-9a3ccb379649@darmarit.de>
-References: <cover.1560477540.git.mchehab+samsung@kernel.org>
-        <62c8ffe86df40c90299e80619a1cb5d50971c2c6.1560477540.git.mchehab+samsung@kernel.org>
-        <20190614161837.GA25206@kroah.com>
-        <20190614132530.7a013757@coco.lan>
-        <28aca947-4e88-7186-7f07-9a3ccb379649@darmarit.de>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727605AbfFQLI6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 17 Jun 2019 07:08:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58950 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726730AbfFQLI6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 17 Jun 2019 07:08:58 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 206F4356E7;
+        Mon, 17 Jun 2019 11:08:32 +0000 (UTC)
+Received: from oldenburg2.str.redhat.com (dhcp-192-180.str.redhat.com [10.33.192.180])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 5EAC57BE78;
+        Mon, 17 Jun 2019 11:08:16 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Dave Martin <Dave.Martin@arm.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Subject: Re: [PATCH v7 22/27] binfmt_elf: Extract .note.gnu.property from an ELF file
+References: <20190606200646.3951-1-yu-cheng.yu@intel.com>
+        <20190606200646.3951-23-yu-cheng.yu@intel.com>
+        <20190607180115.GJ28398@e103592.cambridge.arm.com>
+        <94b9c55b3b874825fda485af40ab2a6bc3dad171.camel@intel.com>
+        <87lfy9cq04.fsf@oldenburg2.str.redhat.com>
+        <20190611114109.GN28398@e103592.cambridge.arm.com>
+        <031bc55d8dcdcf4f031e6ff27c33fd52c61d33a5.camel@intel.com>
+        <20190612093238.GQ28398@e103592.cambridge.arm.com>
+Date:   Mon, 17 Jun 2019 13:08:14 +0200
+In-Reply-To: <20190612093238.GQ28398@e103592.cambridge.arm.com> (Dave Martin's
+        message of "Wed, 12 Jun 2019 10:32:38 +0100")
+Message-ID: <87imt4jwpt.fsf@oldenburg2.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.30]); Mon, 17 Jun 2019 11:08:57 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Sun, 16 Jun 2019 17:43:50 +0200
-Markus Heiser <markus.heiser@darmarit.de> escreveu:
+* Dave Martin:
 
-> Am 14.06.19 um 18:25 schrieb Mauro Carvalho Chehab:
-> > Em Fri, 14 Jun 2019 18:18:37 +0200
-> > Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
-> >   
-> >> On Thu, Jun 13, 2019 at 11:04:20PM -0300, Mauro Carvalho Chehab wrote:  
-> >>> The parser breaks with UTF-8 characters with Sphinx 1.4.
-> >>>
-> >>> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> >>> ---
-> >>>   Documentation/sphinx/kernel_abi.py | 10 ++++++----
-> >>>   1 file changed, 6 insertions(+), 4 deletions(-)
-> >>>
-> >>> diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
-> >>> index 7fa7806532dc..460cee48a245 100644
-> >>> --- a/Documentation/sphinx/kernel_abi.py
-> >>> +++ b/Documentation/sphinx/kernel_abi.py
-> >>> @@ -1,4 +1,5 @@
-> >>> -# -*- coding: utf-8; mode: python -*-
-> >>> +# coding=utf-8
-> >>> +#  
-> >>
-> >> Is this an emacs vs. vim fight?  
-> > 
-> > No. This is a python-specific thing:
-> > 
-> > 	https://www.python.org/dev/peps/pep-0263/  
-> 
-> No need to change, the emacs notation is also OK, see your link
-> 
->    """or (using formats recognized by popular editors):"""
-> 
->    https://www.python.org/dev/peps/pep-0263/#defining-the-encoding
-> 
-> I prefer emacs notation, this is also evaluated by many other editors / tools.
+> On Tue, Jun 11, 2019 at 12:31:34PM -0700, Yu-cheng Yu wrote:
+>> On Tue, 2019-06-11 at 12:41 +0100, Dave Martin wrote:
+>> > On Mon, Jun 10, 2019 at 07:24:43PM +0200, Florian Weimer wrote:
+>> > > * Yu-cheng Yu:
+>> > > 
+>> > > > To me, looking at PT_GNU_PROPERTY and not trying to support anything is a
+>> > > > logical choice.  And it breaks only a limited set of toolchains.
+>> > > > 
+>> > > > I will simplify the parser and leave this patch as-is for anyone who wants
+>> > > > to
+>> > > > back-port.  Are there any objections or concerns?
+>> > > 
+>> > > Red Hat Enterprise Linux 8 does not use PT_GNU_PROPERTY and is probably
+>> > > the largest collection of CET-enabled binaries that exists today.
+>> > 
+>> > For clarity, RHEL is actively parsing these properties today?
+>> > 
+>> > > My hope was that we would backport the upstream kernel patches for CET,
+>> > > port the glibc dynamic loader to the new kernel interface, and be ready
+>> > > to run with CET enabled in principle (except that porting userspace
+>> > > libraries such as OpenSSL has not really started upstream, so many
+>> > > processes where CET is particularly desirable will still run without
+>> > > it).
+>> > > 
+>> > > I'm not sure if it is a good idea to port the legacy support if it's not
+>> > > part of the mainline kernel because it comes awfully close to creating
+>> > > our own private ABI.
+>> > 
+>> > I guess we can aim to factor things so that PT_NOTE scanning is
+>> > available as a fallback on arches for which the absence of
+>> > PT_GNU_PROPERTY is not authoritative.
+>> 
+>> We can probably check PT_GNU_PROPERTY first, and fallback (based on ld-linux
+>> version?) to PT_NOTE scanning?
+>
+> For arm64, we can check for PT_GNU_PROPERTY and then give up
+> unconditionally.
+>
+> For x86, we would fall back to PT_NOTE scanning, but this will add a bit
+> of cost to binaries that don't have NT_GNU_PROPERTY_TYPE_0.  The ld.so
+> version doesn't tell you what ELF ABI a given executable conforms to.
+>
+> Since this sounds like it's largely a distro-specific issue, maybe there
+> could be a Kconfig option to turn the fallback PT_NOTE scanning on?
 
-The usage of emacs notation is something that we don't like at the
-Linux Kernel. With ~4K developers per release, if we add tags to
-every single editor people use, it would be really messy, as one
-developer would be adding a tag and the next one replacing it by its
-some other favorite editor's tag.
-
-There's even an item at Documentation/process/coding-style.rst
-due to that (item 9).
+I'm worried that this causes interop issues similarly to what we see
+with VSYSCALL today.  If we need both and a way to disable it, it should
+be something like a personality flag which can be configured for each
+process tree separately.  Ideally, we'd settle on one correct approach
+(i.e., either always process both, or only process PT_GNU_PROPERTY) and
+enforce that.
 
 Thanks,
-Mauro
+Florian
