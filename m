@@ -1,112 +1,562 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E6D917D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Jun 2019 17:03:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id DFDBA7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Jun 2019 18:05:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727296AbfFQRDc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 17 Jun 2019 13:03:32 -0400
-Received: from foss.arm.com ([217.140.110.172]:56634 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727121AbfFQRDc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 Jun 2019 13:03:32 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 77CAA28;
-        Mon, 17 Jun 2019 10:03:31 -0700 (PDT)
-Received: from fuggles.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3C2A03F738;
-        Mon, 17 Jun 2019 10:03:30 -0700 (PDT)
-Date:   Mon, 17 Jun 2019 18:03:28 +0100
-From:   Will Deacon <will.deacon@arm.com>
-To:     Takao Indoh <indou.takao@jp.fujitsu.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        QI Fuli <qi.fuli@fujitsu.com>,
-        Takao Indoh <indou.takao@fujitsu.com>, peterz@infradead.org
-Subject: Re: [PATCH 0/2] arm64: Introduce boot parameter to disable TLB flush
- instruction within the same inner shareable domain
-Message-ID: <20190617170328.GJ30800@fuggles.cambridge.arm.com>
-References: <20190617143255.10462-1-indou.takao@jp.fujitsu.com>
+        id S1726047AbfFQSFU (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 17 Jun 2019 14:05:20 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:41994 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725995AbfFQSFU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jun 2019 14:05:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=Ln6we7Dmuea1vIyB54+TQnGeQOE/28l/o4qnXomrq5w=; b=OzP3LCSvKLC5PLXPRSYB9+2E+O
+        /4PR/UI/xnNes9dbFw87jMotQqqujvXYNxu/9f3ibCTAnErgYjI5qaHU/hwzRM0/POO5OETuwfeN7
+        quEFGQ0pNUigTydnb00QnPbND9NN4HzPX/U1qEDg3FqtN1ZxlfCV3HRle2hLce4ICkxnMsCni0/D1
+        DqXRXQPoXiblxdUT8YBvDhnQJfJRauYNyrwjmV3TG/0WMZB6iYIt7ydTvCUQnd6KRNZD99WjP+ZvG
+        r/P0bnRQYepOuJ5QJetJ4IC1NtHOs19SxacYbNx1AfTjLzNKrnjx6xlI6icwEx+JBh4WIXLYJwYoc
+        E4ZCc8EA==;
+Received: from 179.186.105.91.dynamic.adsl.gvt.net.br ([179.186.105.91] helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hcw0N-00070z-84; Mon, 17 Jun 2019 18:05:19 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hcw0K-0006hZ-6c; Mon, 17 Jun 2019 15:05:16 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org,
+        ksummit-discuss@lists.linuxfoundation.org
+Subject: [PATCH RFC] scripts: add a script to handle Documentation/features
+Date:   Mon, 17 Jun 2019 15:05:07 -0300
+Message-Id: <98ce589a7c50e2693ab6be158e03afde19aed81e.1560794401.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190617142117.76478570@coco.lan>
+References: <20190617142117.76478570@coco.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190617143255.10462-1-indou.takao@jp.fujitsu.com>
-User-Agent: Mutt/1.11.1+86 (6f28e57d73f2) ()
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Takao,
+The Documentation/features contains a set of parseable files.
+It is not worth converting them to ReST format, as they're
+useful the way it is. It is, however, interesting to parse
+them and produce output on different formats:
 
-[+Peter Z]
+1) Output the contents of a feature in ReST format;
 
-On Mon, Jun 17, 2019 at 11:32:53PM +0900, Takao Indoh wrote:
-> From: Takao Indoh <indou.takao@fujitsu.com>
-> 
-> I found a performance issue related on the implementation of Linux's TLB
-> flush for arm64.
-> 
-> When I run a single-threaded test program on moderate environment, it
-> usually takes 39ms to finish its work. However, when I put a small
-> apprication, which just calls mprotest() continuously, on one of sibling
-> cores and run it simultaneously, the test program slows down significantly.
-> It becomes 49ms(125%) on ThunderX2. I also detected the same problem on
-> ThunderX1 and Fujitsu A64FX.
+2) Output what features a given architecture supports;
 
-This is a problem for any applications that share hardware resources with
-each other, so I don't think it's something we should be too concerned about
-addressing unless there is a practical DoS scenario, which there doesn't
-appear to be in this case. It may be that the real answer is "don't call
-mprotect() in a loop".
+3) Output a matrix with features x architectures.
 
-> I suppose the root cause of this issue is the implementation of Linux's TLB
-> flush for arm64, especially use of TLBI-is instruction which is a broadcast
-> to all processor core on the system. In case of the above situation,
-> TLBI-is is called by mprotect().
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
 
-On the flip side, Linux is providing the hardware with enough information
-not to broadcast to cores for which the remote TLBs don't have entries
-allocated for the ASID being invalidated. I would say that the root cause
-of the issue is that this filtering is not taking place.
+As commented at KS mailing list, converting the Documentation/features
+file to ReST may not be the best way to handle it. 
 
-> This is not a problem for small environment, but this causes a significant
-> performance noise for large-scale HPC environment, which has more than
-> thousand nodes with low latency interconnect.
+This script allows validating the features files and to  generate ReST files 
+on three different formats.
 
-If you have a system with over a thousand nodes, without snoop filtering
-for DVM messages and you expect performance to scale in the face of tight
-mprotect() loops then I think you have a problem irrespective of this patch.
-What happens if somebody runs I-cache invalidation in a loop?
+The goal is to support it via a sphinx extension, in order to be able to add
+the features inside the Kernel documentation.
 
-> To fix this problem, this patch adds new boot parameter
-> 'disable_tlbflush_is'.  In the case of flush_tlb_mm() *without* this
-> parameter, TLB entry is invalidated by __tlbi(aside1is, asid). By this
-> instruction, all CPUs within the same inner shareable domain check if there
-> are TLB entries which have this ASID, this causes performance noise. OTOH,
-> when this new parameter is specified, TLB entry is invalidated by
-> __tlbi(aside1, asid) only on the CPUs specified by mm_cpumask(mm).
-> Therefore TLB flush is done on minimal CPUs and performance problem does
-> not occur. Actually I confirm the performance problem is fixed by this
-> patch.
+ scripts/get_feat.pl | 470 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 470 insertions(+)
+ create mode 100755 scripts/get_feat.pl
 
-Other than my comments above, my overall concern with this patch is that
-it introduces divergent behaviour for our TLB invalidation flow, which is
-undesirable from both maintainability and usability perspectives. If you
-wish to change the code, please don't put it behind a command-line option,
-but instead improve the code that is already there. However, I suspect that
-blowing away the local TLB on every context-switch may have hidden costs
-which are only apparent with workloads different from the contrived case
-that you're seeking to improve. You also haven't taken into account the
-effects of virtualisation, where it's likely that the hypervisor will
-upgrade non-shareable operations to inner-shareable ones anyway.
+diff --git a/scripts/get_feat.pl b/scripts/get_feat.pl
+new file mode 100755
+index 000000000000..c5a267b12f49
+--- /dev/null
++++ b/scripts/get_feat.pl
+@@ -0,0 +1,470 @@
++#!/usr/bin/perl
++
++use strict;
++use Pod::Usage;
++use Getopt::Long;
++use File::Find;
++use Fcntl ':mode';
++
++my $help;
++my $man;
++my $debug;
++my $arch;
++my $feat;
++my $prefix="Documentation/features";
++
++GetOptions(
++	"debug|d+" => \$debug,
++	'help|?' => \$help,
++	'arch=s' => \$arch,
++	'feat=s' => \$feat,
++	man => \$man
++) or pod2usage(2);
++
++pod2usage(1) if $help;
++pod2usage(-exitstatus => 0, -verbose => 2) if $man;
++
++pod2usage(2) if (scalar @ARGV < 1 || @ARGV > 2);
++
++my ($cmd, $arg) = @ARGV;
++
++pod2usage(2) if ($cmd ne "current" && $cmd ne "rest" && $cmd ne "validate");
++
++require Data::Dumper if ($debug);
++
++my %data;
++my %archs;
++
++#
++# Displays an error message, printing file name and line
++#
++sub parse_error($$$$) {
++	my ($file, $ln, $msg, $data) = @_;
++
++	$data =~ s/\s+$/\n/;
++
++	print STDERR "Warning: file $file#$ln:\n\t$msg";
++
++	if ($data ne "") {
++		print STDERR ". Line\n\t\t$data";
++	} else {
++	    print STDERR "\n";
++	}
++}
++
++#
++# Parse a features file, storing its contents at %data
++#
++
++my $h_name = "Feature";
++my $h_kconfig = "Kconfig";
++my $h_description = "Description";
++my $h_subsys = "Subsystem";
++my $h_status = "Status";
++my $h_arch = "Architecture";
++
++my $max_size_name = length($h_name);
++my $max_size_kconfig = length($h_kconfig);
++my $max_size_description = length($h_description);
++my $max_size_subsys = length($h_subsys);
++my $max_size_status = length($h_status);
++my $max_size_arch = length($h_arch);
++
++sub parse_feat {
++	my $file = $File::Find::name;
++
++	my $mode = (stat($file))[2];
++	return if ($mode & S_IFDIR);
++	return if ($file =~ m,($prefix)/arch-support.txt,);
++	return if (!($file =~ m,arch-support.txt$,));
++
++	my $subsys = "";
++	$subsys = $2 if ( m,.*($prefix)/([^/]+).*,);
++
++	if (length($subsys) > $max_size_subsys) {
++		$max_size_subsys = length($subsys);
++	}
++
++	my $name;
++	my $kconfig;
++	my $description;
++	my $comments = "";
++	my $last_status;
++	my $ln;
++	my %arch_table;
++
++	print STDERR "Opening $file\n" if ($debug > 1);
++	open IN, $file;
++
++	while(<IN>) {
++		$ln++;
++
++		if (m/^\#\s+Feature\s+name:\s*(.*\S)/) {
++			$name = $1;
++			if (length($name) > $max_size_name) {
++				$max_size_name = length($name);
++			}
++			next;
++		}
++		if (m/^\#\s+Kconfig:\s*(.*\S)/) {
++			$kconfig = $1;
++			if (length($kconfig) > $max_size_kconfig) {
++				$max_size_kconfig = length($kconfig);
++			}
++			next;
++		}
++		if (m/^\#\s+description:\s*(.*\S)/) {
++			$description = $1;
++			if (length($description) > $max_size_description) {
++				$max_size_description = length($description);
++			}
++			next;
++		}
++		next if (m/^\\s*$/);
++		next if (m/^\s*\-+\s*$/);
++		next if (m/^\s*\|\s*arch\s*\|\s*status\s*\|\s*$/);
++
++		if (m/^\#\s*(.*)/) {
++			$comments .= "$1\n";
++			next;
++		}
++		if (m/^\s*\|\s*(\S+):\s*\|\s*(\S+)\s*\|\s*$/) {
++			my $a = $1;
++			my $status = $2;
++
++			if (length($status) > $max_size_status) {
++				$max_size_status = length($status);
++			}
++			if (length($a) > $max_size_arch) {
++				$max_size_arch = length($a);
++			}
++
++			$archs{$a} = 1;
++			$arch_table{$a} = $status;
++			next;
++		}
++
++		#Everything else is an error
++		parse_error($file, $ln, "line is invalid", $_);
++	}
++	close IN;
++
++	if (!$name) {
++		parse_error($file, $ln, "Feature name not found", "");
++		return;
++	}
++
++	parse_error($file, $ln, "Subsystem not found", "") if (!$subsys);
++	parse_error($file, $ln, "Kconfig not found", "") if (!$kconfig);
++	parse_error($file, $ln, "Description not found", "") if (!$description);
++
++	if (!%arch_table) {
++		parse_error($file, $ln, "Architecture table not found", "");
++		return;
++	}
++
++	$data{$name}->{where} = $file;
++	$data{$name}->{subsys} = $subsys;
++	$data{$name}->{kconfig} = $kconfig;
++	$data{$name}->{description} = $description;
++	$data{$name}->{comments} = $comments;
++	$data{$name}->{table} = \%arch_table;
++}
++
++#
++# Output feature(s) for a given architecture
++#
++sub output_arch_table {
++	my $title = "Feature status on $arch architecture";
++
++	print "=" x length($title) . "\n";
++	print "$title\n";
++	print "=" x length($title) . "\n\n";
++
++	print "=" x $max_size_subsys;
++	print "  ";
++	print "=" x $max_size_name;
++	print "  ";
++	print "=" x $max_size_kconfig;
++	print "  ";
++	print "=" x $max_size_status;
++	print "  ";
++	print "=" x $max_size_description;
++	print "\n";
++	printf "%-${max_size_subsys}s  ", $h_subsys;
++	printf "%-${max_size_name}s  ", $h_name;
++	printf "%-${max_size_kconfig}s  ", $h_kconfig;
++	printf "%-${max_size_status}s  ", $h_status;
++	printf "%-${max_size_description}s\n", $h_description;
++	print "=" x $max_size_subsys;
++	print "  ";
++	print "=" x $max_size_name;
++	print "  ";
++	print "=" x $max_size_kconfig;
++	print "  ";
++	print "=" x $max_size_status;
++	print "  ";
++	print "=" x $max_size_description;
++	print "\n";
++
++	foreach my $name (sort {
++				($data{$a}->{subsys} cmp $data{$b}->{subsys}) ||
++				($data{$a}->{name} cmp $data{$b}->{name})
++			       } keys %data) {
++		next if ($feat && $name ne $feat);
++
++		my %arch_table = %{$data{$name}->{table}};
++		printf "%-${max_size_subsys}s  ", $data{$name}->{subsys};
++		printf "%-${max_size_name}s  ", $name;
++		printf "%-${max_size_kconfig}s  ", $data{$name}->{kconfig};
++		printf "%-${max_size_status}s  ", $arch_table{$arch};
++		printf "%-${max_size_description}s\n", $data{$name}->{description};
++	}
++
++	print "=" x $max_size_subsys;
++	print "  ";
++	print "=" x $max_size_name;
++	print "  ";
++	print "=" x $max_size_kconfig;
++	print "  ";
++	print "=" x $max_size_status;
++	print "  ";
++	print "=" x $max_size_description;
++	print "\n";
++}
++
++#
++# Output a feature on all architectures
++#
++sub output_feature {
++	my $title = "Feature $feat";
++
++	print "=" x length($title) . "\n";
++	print "$title\n";
++	print "=" x length($title) . "\n\n";
++
++	print ":Subsystem: $data{$feat}->{subsys} \n" if ($data{$feat}->{subsys});
++	print ":Kconfig: $data{$feat}->{kconfig} \n" if ($data{$feat}->{kconfig});
++
++	my $desc = $data{$feat}->{description};
++	$desc =~ s/^([a-z])/\U$1/;
++	$desc =~ s/\.?\s*//;
++	print "\n$desc.\n\n";
++
++	my $com = $data{$feat}->{comments};
++	$com =~ s/^\s+//;
++	$com =~ s/\s+$//;
++	if ($com) {
++		print "Comments\n";
++		print "--------\n\n";
++		print "$com\n\n";
++	}
++
++	print "=" x $max_size_arch;
++	print "  ";
++	print "=" x $max_size_status;
++	print "\n";
++
++	printf "%-${max_size_arch}s  ", $h_arch;
++	printf "%-${max_size_status}s", $h_status . "\n";
++
++	print "=" x $max_size_arch;
++	print "  ";
++	print "=" x $max_size_status;
++	print "\n";
++
++	my %arch_table = %{$data{$feat}->{table}};
++	foreach my $arch (sort keys %arch_table) {
++		printf "%-${max_size_arch}s  ", $arch;
++		printf "%-${max_size_status}s\n", $arch_table{$arch};
++	}
++
++	print "=" x $max_size_arch;
++	print "  ";
++	print "=" x $max_size_status;
++	print "\n";
++}
++
++#
++# Output all features for all architectures
++#
++
++sub matrix_lines {
++	print "=" x $max_size_subsys;
++	print "  ";
++	print "=" x $max_size_name;
++	print "  ";
++
++	foreach my $arch (sort keys %archs) {
++		my $len = $max_size_status;
++
++		$len = length($arch) if ($len < length($arch));
++
++		print "=" x $len;
++		print "  ";
++	}
++	print "=" x $max_size_kconfig;
++	print "  ";
++	print "=" x $max_size_description;
++	print "\n";
++}
++
++sub output_matrix {
++
++	my $title = "Feature List (feature x architecture)";
++
++	print "=" x length($title) . "\n";
++	print "$title\n";
++	print "=" x length($title) . "\n\n";
++
++	matrix_lines;
++
++	printf "%-${max_size_subsys}s  ", $h_subsys;
++	printf "%-${max_size_name}s  ", $h_name;
++
++	foreach my $arch (sort keys %archs) {
++		printf "%-${max_size_status}s  ", $arch;
++	}
++	printf "%-${max_size_kconfig}s  ", $h_kconfig;
++	printf "%-${max_size_description}s\n", $h_description;
++
++	matrix_lines;
++
++	foreach my $name (sort {
++				($data{$a}->{subsys} cmp $data{$b}->{subsys}) ||
++				($data{$a}->{name} cmp $data{$b}->{name})
++			       } keys %data) {
++		printf "%-${max_size_subsys}s  ", $data{$name}->{subsys};
++		printf "%-${max_size_name}s  ", $name;
++
++		my %arch_table = %{$data{$name}->{table}};
++
++		foreach my $arch (sort keys %arch_table) {
++			my $len = $max_size_status;
++
++			$len = length($arch) if ($len < length($arch));
++
++			printf "%-${len}s  ", $arch_table{$arch};
++		}
++		printf "%-${max_size_kconfig}s  ", $data{$name}->{kconfig};
++		printf "%-${max_size_description}s\n", $data{$name}->{description};
++	}
++
++	matrix_lines;
++}
++
++
++#
++# Parses all feature files located at $prefix dir
++#
++find({wanted =>\&parse_feat, no_chdir => 1}, $prefix);
++
++print STDERR Data::Dumper->Dump([\%data], [qw(*data)]) if ($debug);
++
++#
++# Handles the command
++#
++if ($cmd eq "current") {
++	$arch = qx(uname -m | sed 's/x86_64/x86/' | sed 's/i386/x86/');
++	$arch =~s/\s+$//;
++}
++
++if ($cmd ne "validate") {
++	if ($arch) {
++		output_arch_table;
++	} elsif ($feat) {
++		output_feature;
++	} else {
++		output_matrix;
++	}
++}
++
++__END__
++
++=head1 NAME
++
++get_feat.pl - parse the Linux Feature files and produce a ReST book.
++
++=head1 SYNOPSIS
++
++B<get_feat.pl> [--debug] [--man] [--help] [--dir=<dir>]
++	       [--arch=<arch>] [--feat=<feature>] <COMAND> [<ARGUMENT>]
++
++Where <COMMAND> can be:
++
++=over 8
++
++B<current>               - output features for this machine's architecture
++
++B<rest>                  - output features in ReST markup language
++
++B<validate>              - validate the feature contents
++
++=back
++
++=head1 OPTIONS
++
++=over 8
++
++=item B<--arch>
++
++Output features for an specific architecture, optionally filtering for
++a single specific feature.
++
++=item B<--feat>
++
++Output features for a single specific architecture.
++
++=item B<--dir>
++
++Changes the location of the Feature files. By default, it uses
++the Documentation/features directory.
++
++=item B<--debug>
++
++Put the script in verbose mode, useful for debugging. Can be called multiple
++times, to increase verbosity.
++
++=item B<--help>
++
++Prints a brief help message and exits.
++
++=item B<--man>
++
++Prints the manual page and exits.
++
++=back
++
++=head1 DESCRIPTION
++
++Parse the Linux feature files from Documentation/features (by default),
++optionally producing results at ReST format.
++
++It supports output data per architecture, per feature or a
++feature x arch matrix.
++
++When used with B<rest> command, it will use either one of the tree formats:
++
++If neither B<--arch> or B<--feature> arguments are used, it will output a
++matrix with features per architecture.
++
++If B<--arch> argument is used, it will output the features availability for
++a given architecture.
++
++If B<--feat> argument is used, it will output the content of the feature
++file using ReStructured Text markup.
++
++=head1 BUGS
++
++Report bugs to Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
++
++=head1 COPYRIGHT
++
++Copyright (c) 2019 by Mauro Carvalho Chehab <mchehab+samsung@kernel.org>.
++
++License GPLv2: GNU GPL version 2 <http://gnu.org/licenses/gpl.html>.
++
++This is free software: you are free to change and redistribute it.
++There is NO WARRANTY, to the extent permitted by law.
++
++=cut
+-- 
+2.21.0
 
-Thanks,
 
-Will
