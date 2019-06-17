@@ -1,79 +1,88 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id D72377D910
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Jun 2019 12:57:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4EC427D910
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Jun 2019 13:12:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726405AbfFQM5F (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 17 Jun 2019 08:57:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60212 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726286AbfFQM5F (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 Jun 2019 08:57:05 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 57C212089E;
-        Mon, 17 Jun 2019 12:57:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560776224;
-        bh=xdETj5mf6aeUoLj5hEhq8+dwhZFws6OLsC2VvsYVJ5o=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nsEF4PxvDA0r6DHB4M8Djp8eU2sl7B8TBIQry4L9GCDem3Dfb8yTpDqmotIUb0OZy
-         hZpHMWVKkPrWYMhyuTH5/sQkNhYAP9BD8EXtxx9xuT7EXQPVLEeRcIM8v4VM5TfdW6
-         Q6QpII6vbYQCzD3w6o6EMQjuqfgzdxkH8KHx218o=
-Date:   Mon, 17 Jun 2019 14:57:02 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        id S1726243AbfFQNMX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 17 Jun 2019 09:12:23 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:46150 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725973AbfFQNMX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jun 2019 09:12:23 -0400
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id DEE2880264; Mon, 17 Jun 2019 15:12:10 +0200 (CEST)
+Date:   Mon, 17 Jun 2019 15:12:21 +0200
+From:   Pavel Machek <pavel@ucw.cz>
 To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v2 03/16] scripts: add an script to parse the ABI files
-Message-ID: <20190617125702.GA20042@kroah.com>
-References: <3b8d7c64f887ddea01df3c4eeabc745c8ec45406.1560534648.git.mchehab+samsung@kernel.org>
- <680fb978ef9322c705eca9927c79b220cd3ccc4a.1560534648.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-leds@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH] dt: leds-lm36274.txt: fix a broken reference to
+ ti-lmu.txt
+Message-ID: <20190617131220.GD21113@amd>
+References: <79b9bf3388eb231da77c6a804862d21339262d0a.1560421387.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="5gxpn/Q6ypwruk0T"
 Content-Disposition: inline
-In-Reply-To: <680fb978ef9322c705eca9927c79b220cd3ccc4a.1560534648.git.mchehab+samsung@kernel.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <79b9bf3388eb231da77c6a804862d21339262d0a.1560421387.git.mchehab+samsung@kernel.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 14, 2019 at 02:52:17PM -0300, Mauro Carvalho Chehab wrote:
-> Add a script to parse the Documentation/ABI files and produce
-> an output with all entries inside an ABI (sub)directory.
-> 
-> Right now, it outputs its contents on ReST format. It shouldn't
-> be hard to make it produce other kind of outputs, since the ABI
-> file parser is implemented in separate than the output generator.
-> 
+
+--5gxpn/Q6ypwruk0T
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu 2019-06-13 07:23:15, Mauro Carvalho Chehab wrote:
+> There's a typo there:
+> 	ti_lmu.txt -> ti-lmu.txt
+>=20
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
->  scripts/get_abi.pl | 212 +++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 212 insertions(+)
->  create mode 100755 scripts/get_abi.pl
-> 
-> diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-> new file mode 100755
-> index 000000000000..f7c9944a833c
-> --- /dev/null
-> +++ b/scripts/get_abi.pl
-> @@ -0,0 +1,212 @@
-> +#!/usr/bin/perl
-> +
 
-Ok, I was going to apply this, but there is no SPDX line on the script.
-Can you resend this series with that on it, so that I can apply the
-patches of the series that adds the script to the kernel tree?
+Acked-by: Pavel Machek <pavel@ucw.cz>
 
-thanks,
 
-greg k-h
+> @@ -6,7 +6,7 @@ up to 29V total output voltage. The 11-bit LED current is=
+ programmable via
+>  the I2C bus and/or controlled via a logic level PWM input from 60 uA to =
+30 mA.
+> =20
+>  Parent device properties are documented in
+> -Documentation/devicetree/bindings/mfd/ti_lmu.txt
+> +Documentation/devicetree/bindings/mfd/ti-lmu.txt
+> =20
+>  Regulator properties are documented in
+>  Documentation/devicetree/bindings/regulator/lm363x-regulator.txt
+
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--5gxpn/Q6ypwruk0T
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl0HkbQACgkQMOfwapXb+vIH5QCeKqYE0VNO+USbEO+mn6G8rRvD
+4oYAoKoX8mQcIqKy3vs9fYFn8oXLd3Kh
+=pLB1
+-----END PGP SIGNATURE-----
+
+--5gxpn/Q6ypwruk0T--
