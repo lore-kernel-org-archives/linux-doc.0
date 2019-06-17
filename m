@@ -1,78 +1,229 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE,SUBJ_ALL_CAPS autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CFDD47D923
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Jun 2019 07:29:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 97FF67D910
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Jun 2019 08:26:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726797AbfFQH2z (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 17 Jun 2019 03:28:55 -0400
-Received: from slot0.nejknio.cf ([89.32.41.233]:34334 "EHLO slot0.nejknio.cf"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726793AbfFQH2y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 Jun 2019 03:28:54 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=nejknio.cf;
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-Description:Subject:To:From:Date:Reply-To:Message-ID; i=trade1@nejknio.cf;
- bh=73Xs4LxjK+lP+h5mKCyFyWTpkoQ=;
- b=NCZRfRBEm/N2oUkBcnjK18nPDGb0r2AXKE+ADqyXyHaDGXz7ooWIF4o6aJDAmNx7zLqslIBu97Gu
-   o46RSqVGpRlqZU6HP1XlqDXwx7ydWttyjbXqbmbmzkKYc5juK5378rmnRGFACW3C/tleFsAfRvEl
-   G9Y7eB9GBMuOgKDKX5P+v4HYEVnqCW4k8o8CgZBpiIN6FmeZHDNCGwlJbLwrJviIdMRA6e5XfHe3
-   bDcVk7f7+9zNU4JO4lH4GzpAhSYp2ErXrF9DVM/sMSqr7HYRIEHBJznOeVqFIDalXI6bfdNTmjHI
-   2lWKacsmLUQPmOjZ9HtcM9XBVdtBII26cRYZew==
-DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=nejknio.cf;
- b=GSF8/+L3AQW+a788jP3VgOahHZOwOslgemlzvGgCczhqtK3gJrIv71oXnxlSy5IjjL65blrqXIQd
-   koK8xhk/o0mmoUnqa45QycIyq/drHWQLTYNm98Ym86kG0Y/53HRWt9UhqWhSwONlp38FwJQadPob
-   emhO8AB1x/erCwY8hhdBjK33VqdkoLyjVHP/MNoYZ3iyH2U5DGLX6ltO3f1Qjay2GpJsBG2wZpPl
-   G2VzYeacrfNyYm3WsUVm+I4EbxH7dx8tHgBs1NbfqrDGwBA8mV+d777JRJmGu7ozXtUDf0aUaPGr
-   mICc46N/NQSe4O3CZH5QPXQlO4lekfST5d008w==;
-Content-Type: text/plain; charset="iso-8859-1"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: PRODUCT INQUIRY FOR EXPORT SHIPMENT
-To:     Recipients <trade1@nejknio.cf>
-From:   "Mark Maths" <trade1@nejknio.cf>
-Date:   Mon, 17 Jun 2019 10:08:49 +0300
-Reply-To: purchase_m.maths@aol.com
-Message-ID: <0.0.1.D88.1D524DB77FC7DC8.0@slot0.nejknio.cf>
+        id S1727483AbfFQI03 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 17 Jun 2019 04:26:29 -0400
+Received: from mail-vk1-f202.google.com ([209.85.221.202]:56542 "EHLO
+        mail-vk1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727536AbfFQI02 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jun 2019 04:26:28 -0400
+Received: by mail-vk1-f202.google.com with SMTP id a4so4443013vki.23
+        for <linux-doc@vger.kernel.org>; Mon, 17 Jun 2019 01:26:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=zNrbPgNoeDBUYkvT6WCexqCkglYQYBNMsP2F15bRgzw=;
+        b=F28MpQerLXJBLIWRmLuUF47CK1rSBKHh7j1mspgJvxgCYybn8PwQ2icrUPzaqHKgGS
+         mIu6S0C5yyN6Zp7XldkF4xD6ADXRhtF07Z6XHvYu+FHZ9BpcPtjJxLCah/daYKhStBrL
+         e/azebcPGRR+yjxTyj/+CmfyBaWB+WOK/5hBX1ABlx6ES4eRURKdAl7TuCUbbrUa+sjf
+         9OQaMEJ7JNvJccGJ6qWVmFF6O+lhb+vAocDwkUu3q6gqVcuoz5bWd98JWAnSkbeD9kFd
+         w/O94T1vg1eotXi2ejHuC1Kdzez1DiJfvULK/QbuJ+i3Z9G8uOEi+IwB+QVFDgZbeEoQ
+         +qdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=zNrbPgNoeDBUYkvT6WCexqCkglYQYBNMsP2F15bRgzw=;
+        b=tBP/DKacvmsb8pb+7Rc9McBbNnVR3ZJV3nHFUq8OksnYrLco48UrVVnwgjsaKyAW7G
+         nBslnG//mdy2iLU2ZkcaMArdsjYoPLhQOrbmwIFwBQJEhI3n9rEumH7JZDlWL1J8/8Gc
+         IxMnmwX9ltzxPjCWn1kKeV6zBHAqVxcePkCfWa+plYlZXL4FkMNL2kxNqvqRAYQscqqs
+         /ZKI/oLsbmvdwxoGKfrXRJRRjigw3UgSVL85J4mHItiAzhADz8dGnoXllwdFH6F0RKnH
+         h0Do3U0C2nP6PQEN0sueVqPXfGz3SkIU4TiYP2lD7FfXiH/PCyAvkh12fUIguOBUTukk
+         YFXw==
+X-Gm-Message-State: APjAAAVl/R6kdMVlkAfaOA8UtwHPUE+E057vnpPkMF63r8ytbbPTvW2M
+        Z0YLpm+9liiem/ot5XaBGRLurXtivKjkmpZcI3Xw2g==
+X-Google-Smtp-Source: APXvYqyXlDV32pvvOQl7kYiQYbcmB9/A0bZjtVL0WweMM4MzW8RHZHRv/iYANe9ZkFTYpBh8wMtYLyjkF5jTpySuFxTL7Q==
+X-Received: by 2002:a67:c419:: with SMTP id c25mr46425824vsk.136.1560759986427;
+ Mon, 17 Jun 2019 01:26:26 -0700 (PDT)
+Date:   Mon, 17 Jun 2019 01:25:55 -0700
+Message-Id: <20190617082613.109131-1-brendanhiggins@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
+Subject: [PATCH v5 00/18] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+From:   Brendan Higgins <brendanhiggins@google.com>
+To:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
+        jpoimboe@redhat.com, keescook@google.com,
+        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
+        peterz@infradead.org, robh@kernel.org, sboyd@kernel.org,
+        shuah@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com
+Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
+        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
+        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
+        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
+        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
+        wfg@linux.intel.com, Brendan Higgins <brendanhiggins@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Dear Sales team,
- =
+## TL;DR
 
-In furtherance to our market research, we have reviewed all your products t=
-ypes and we have finally interested in your product for our market here in =
+A not so quick follow-up to Stephen's suggestions on PATCH v4. Nothing
+that really changes any functionality or usage with the minor exception
+of a couple public functions that Stephen asked me to rename.
+Nevertheless, a good deal of clean up and fixes. See changes below.
 
+As for our current status, right now we got Reviewed-bys on all patches
+except:
 
-United State for your production. We introduce ourselves as Emilxa Tram SRL=
-, A general group of company located in the United State. =
+- [PATCH v5 08/18] objtool: add kunit_try_catch_throw to the noreturn
+  list
 
+However, it would probably be good to get reviews/acks from the
+subsystem maintainers on:
 
-We are sourcing for new suppliers from your location =
+- [PATCH v5 06/18] kbuild: enable building KUnit
+- [PATCH v5 08/18] objtool: add kunit_try_catch_throw to the noreturn
+  list
+- [PATCH v5 15/18] Documentation: kunit: add documentation for KUnit
+- [PATCH v5 17/18] kernel/sysctl-test: Add null pointer test for
+  sysctl.c:proc_dointvec()
+- [PATCH v5 18/18] MAINTAINERS: add proc sysctl KUnit test to PROC
+  SYSCTL section
 
+Other than that, I think we should be good to go.
 
-Kindly advice us if you accept new purchase orders, I will forward our PO f=
-or urgent order.
+One last thing, I updated the background to include my thoughts on KUnit
+vs. in kernel testing with kselftest in the background sections as
+suggested by Frank in the discussion on PATCH v2.
 
-Waiting for your response to send order. Reply to ( purchase_m.maths@aol.co=
-m)
+## Background
 
-Best regards.
-Mark Maths
-Company Address:
-Emilxa Tram SRL Company Limited
-P.O. Box 978
-Road Town
-Tortola
-British Virgin Islands
-Contact information:
-Tel: +1 (284) 493 7235
-Email: purchase_m.maths@aol.com
-https://meridianbvi.com/contact-us/
+This patch set proposes KUnit, a lightweight unit testing and mocking
+framework for the Linux kernel.
+
+Unlike Autotest and kselftest, KUnit is a true unit testing framework;
+it does not require installing the kernel on a test machine or in a VM
+(however, KUnit still allows you to run tests on test machines or in VMs
+if you want[1]) and does not require tests to be written in userspace
+running on a host kernel. Additionally, KUnit is fast: From invocation
+to completion KUnit can run several dozen tests in under a second.
+Currently, the entire KUnit test suite for KUnit runs in under a second
+from the initial invocation (build time excluded).
+
+KUnit is heavily inspired by JUnit, Python's unittest.mock, and
+Googletest/Googlemock for C++. KUnit provides facilities for defining
+unit test cases, grouping related test cases into test suites, providing
+common infrastructure for running tests, mocking, spying, and much more.
+
+### But wait! Doesn't kselftest support in kernel testing?!
+
+In a previous version of this patchset Frank pointed out that kselftest
+already supports writing a test that resides in the kernel using the
+test module feature[2]. LWN did a really great summary on this
+discussion here[3].
+
+Kselftest has a feature that allows a test module to be loaded into a
+kernel using the kselftest framework; this does allow someone to write
+tests against kernel code not directly exposed to userland; however, it
+does not provide much of a framework around how to structure the tests.
+The kselftest test module feature just provides a header which has a
+standardized way of reporting test failures, and then provides
+infrastructure to load and run the tests using the kselftest test
+harness.
+
+The kselftest test module does not seem to be opinionated at all in
+regards to how tests are structured, how they check for failures, how
+tests are organized. Even in the method it provides for reporting
+failures is pretty simple; it doesn't have any more advanced failure
+reporting or logging features. Given what's there, I think it is fair to
+say that it is not actually a framework, but a feature that makes it
+possible for someone to do some checks in kernel space.
+
+Furthermore, kselftest test module has very few users. I checked for all
+the tests that use it using the following grep command:
+
+grep -Hrn -e 'kselftest_module\.h'
+
+and only got three results: lib/test_strscpy.c, lib/test_printf.c, and
+lib/test_bitmap.c.
+
+So despite kselftest test module's existence, there really is no feature
+overlap between kselftest and KUnit, save one: that you can use either
+to write an in-kernel test, but this is a very small feature in
+comparison to everything that KUnit allows you to do. KUnit is a full
+x-unit style unit testing framework, whereas kselftest looks a lot more
+like an end-to-end/functional testing framework, with a feature that
+makes it possible to write in-kernel tests.
+
+### What's so special about unit testing?
+
+A unit test is supposed to test a single unit of code in isolation,
+hence the name. There should be no dependencies outside the control of
+the test; this means no external dependencies, which makes tests orders
+of magnitudes faster. Likewise, since there are no external dependencies,
+there are no hoops to jump through to run the tests. Additionally, this
+makes unit tests deterministic: a failing unit test always indicates a
+problem. Finally, because unit tests necessarily have finer granularity,
+they are able to test all code paths easily solving the classic problem
+of difficulty in exercising error handling code.
+
+### Is KUnit trying to replace other testing frameworks for the kernel?
+
+No. Most existing tests for the Linux kernel are end-to-end tests, which
+have their place. A well tested system has lots of unit tests, a
+reasonable number of integration tests, and some end-to-end tests. KUnit
+is just trying to address the unit test space which is currently not
+being addressed.
+
+### More information on KUnit
+
+There is a bunch of documentation near the end of this patch set that
+describes how to use KUnit and best practices for writing unit tests.
+For convenience I am hosting the compiled docs here[4].
+
+Additionally for convenience, I have applied these patches to a
+branch[5]. The repo may be cloned with:
+git clone https://kunit.googlesource.com/linux
+This patchset is on the kunit/rfc/v5.2-rc4/v5 branch.
+
+## Changes Since Last Version
+
+Aside from a couple public function renames, there isn't really anything
+in here that changes any functionality.
+
+- Went through and fixed a couple of anti-patterns suggested by Stephen
+  Boyd. Things like:
+  - Dropping an else clause at the end of a function.
+  - Dropping the comma on the closing sentinel, `{}`, of a list.
+- Inlines a bunch of functions in the test case running logic in patch
+  01/18 to make it more readable as suggested by Stephen Boyd
+- Found and fixed bug in resource deallocation logic in patch 02/18. Bug
+  was discovered as a result of making a change suggested by Stephen
+  Boyd. This does not substantially change how any of the code works
+  conceptually.
+- Renamed new_string_stream() to alloc_string_stream() as suggested by
+  Stephen Boyd.
+- Made string-stream a KUnit managed object - based on a suggestion made
+  by Stephen Boyd.
+- Renamed kunit_new_stream() to alloc_kunit_stream() as suggested by
+  Stephen Boyd.
+- Removed the ability to set log level after allocating a kunit_stream,
+  as suggested by Stephen Boyd.
+
+[1] https://google.github.io/kunit-docs/third_party/kernel/docs/usage.html#kunit-on-non-uml-architectures
+[2] https://www.kernel.org/doc/html/latest/dev-tools/kselftest.html#test-module
+[3] https://lwn.net/Articles/790235/
+[4] https://google.github.io/kunit-docs/third_party/kernel/docs/
+[5] https://kunit.googlesource.com/linux/+/kunit/rfc/v5.2-rc4/v5
+
+-- 
+2.22.0.410.gd8fdbe21b5-goog
+
