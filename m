@@ -1,95 +1,127 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7FBE57D910
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Jun 2019 12:34:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 607C07D910
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Jun 2019 12:54:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726614AbfFQMdZ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 17 Jun 2019 08:33:25 -0400
-Received: from mga07.intel.com ([134.134.136.100]:28929 "EHLO mga07.intel.com"
+        id S1726065AbfFQMym (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 17 Jun 2019 08:54:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58874 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726005AbfFQMdY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 Jun 2019 08:33:24 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Jun 2019 05:33:24 -0700
-X-ExtLoop1: 1
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.150])
-  by fmsmga001.fm.intel.com with ESMTP; 17 Jun 2019 05:33:21 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S1726028AbfFQMyl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 17 Jun 2019 08:54:41 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 79B73204EC;
+        Mon, 17 Jun 2019 12:54:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1560776081;
+        bh=vjYiSvVQdR3JA3dPjhZJabq2wvGGMHTWiZ5C19FCbeM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Y+V2FTnaE9McfD6PC9Ha2Yrarg+z2tNKy8h0c+cp6hWDrLLNkYYjL7AyUofCHeeH+
+         TMYJCAnup3M0xU7xcW++aQQw1qGKJTpNvCQ6KUgOFat/c2aT7l+JWbBW/i/H/QWvqV
+         zqDLdzUd73msDhX6AOKD5WL+RnnKBeOrZzfUfNEo=
+Date:   Mon, 17 Jun 2019 14:54:38 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Jani Nikula <jani.nikula@linux.intel.com>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@s-opensource.com>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 12/14] doc-rst: add ABI documentation to the admin-guide book
-In-Reply-To: <20190614122755.1c7b4898@coco.lan>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1560477540.git.mchehab+samsung@kernel.org> <9da2a7f6ff57d9d53dcbb964eb310f7956522870.1560477540.git.mchehab+samsung@kernel.org> <87o930uvur.fsf@intel.com> <20190614140603.GB7234@kroah.com> <20190614122755.1c7b4898@coco.lan>
-Date:   Mon, 17 Jun 2019 15:36:17 +0300
-Message-ID: <874l4ov16m.fsf@intel.com>
+Subject: Re: [PATCH 12/14] doc-rst: add ABI documentation to the admin-guide
+ book
+Message-ID: <20190617125438.GA18554@kroah.com>
+References: <cover.1560477540.git.mchehab+samsung@kernel.org>
+ <9da2a7f6ff57d9d53dcbb964eb310f7956522870.1560477540.git.mchehab+samsung@kernel.org>
+ <87o930uvur.fsf@intel.com>
+ <20190614140603.GB7234@kroah.com>
+ <20190614122755.1c7b4898@coco.lan>
+ <874l4ov16m.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <874l4ov16m.fsf@intel.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 14 Jun 2019, Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
-> Em Fri, 14 Jun 2019 16:06:03 +0200
-> Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
->
->> On Fri, Jun 14, 2019 at 04:42:20PM +0300, Jani Nikula wrote:
->> > 2) Have the python extension read the ABI files directly, without an
->> >    extra pipeline.  
->> 
->> He who writes the script, get's to dictate the language of the script :)
+On Mon, Jun 17, 2019 at 03:36:17PM +0300, Jani Nikula wrote:
+> On Fri, 14 Jun 2019, Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+> > Em Fri, 14 Jun 2019 16:06:03 +0200
+> > Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
+> >
+> >> On Fri, Jun 14, 2019 at 04:42:20PM +0300, Jani Nikula wrote:
+> >> > 2) Have the python extension read the ABI files directly, without an
+> >> >    extra pipeline.  
+> >> 
+> >> He who writes the script, get's to dictate the language of the script :)
+> 
+> The point is, it's an extension to a python based tool, written in perl,
+> using pipes for communication, and losing any advantages of integrating
+> with the tool it's extending.
+> 
+> I doubt you'd want to see system() to be used to subsequently extend the
+> perl tool.
+> 
+> I think it's just sad to see the documentation system slowly drift
+> further away from the ideals we had, and towards the old ways we worked
+> so hard to fix.
 
-The point is, it's an extension to a python based tool, written in perl,
-using pipes for communication, and losing any advantages of integrating
-with the tool it's extending.
+What are those ideals?
 
-I doubt you'd want to see system() to be used to subsequently extend the
-perl tool.
+I thought the goal was to be able to write documentation in a as much
+as a normal text file as possible and have automation turn those files
+into "pretty" documentation that we can all use.
 
-I think it's just sad to see the documentation system slowly drift
-further away from the ideals we had, and towards the old ways we worked
-so hard to fix.
+And I think that fits with the way this patch set goes, right?  We are
+not on a quest for purity of scripts to generate the documentation at
+the expense of having to force hundreds, or thousands, of developers to
+change their ways, or to force a "flag day" conversion of existing
+documentation resulting in a huge merge mess.
 
-> No idea about how much time it would take if written in python,
-> but this perl script is really fast:
->
-> 	$ time ./scripts/get_abi.pl search voltage_max >/dev/null
-> 	real	0m0,139s
-> 	user	0m0,132s
-> 	sys	0m0,006s
->
-> That's the time it takes here (SSD disks) to read all files under
-> Documentation/ABI, parse them and seek for a string.
->
-> That's about half of the time a python script takes to just import the
-> the sphinx modules and print its version, running at the same machine:
->
-> 	$ time sphinx-build --version >/dev/null
->
-> 	real	0m0,224s
-> 	user	0m0,199s
-> 	sys	0m0,024s
+So, we are stuck with the current structure that I totally made up for
+Documentation/ABI/.  Turns out it is almost parsable, as Mauro's tool
+shows.  His tool also validates the existing text, which is great, and
+has caused fixes for it.
 
-Please at least use fair and sensible comparisons. If you want to make
-the extension usable standalone on the command-line, bypassing Sphinx,
-you can do that. No need to factor in Sphinx to your comparisons.
+If someone wants to write that tool in some other language, like python,
+wonderful, I have no objection, but as it is, this is a useful tool
+already, allowing us to validate, and search, existing documentation
+entries that we have never been able to do before.  It also provides an
+output that can be turned into pretty html/pdf/whatever files by other
+tools in the pipeline, a totally bonus benefit.
 
+So what is going backwards here?
 
-BR,
-Jani.
+Maybe the processing pipeline isn't as nice as you would like, but
+remember to view this from a normal developer's point of view, not a
+documentation pipeline developer's point of view please.
 
+So, in short, my requirements are:
+	- keep Documentation/ABI/ file formats as close as possible to
+	  what we have today, preventing any flag-day issues or merge
+	  problems
+	- be able to query and validate Documentation/ABI/
+	- be able to turn Documentation/ABI into pretty documentation.
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+If you object to the mechanics of the last requirement here, I don't
+object either, provide something else that works better.  But don't
+throw away the whole thing just because you don't like how things are
+hooked up here.
+
+I'm going to go apply most of the rest of these patches to my
+driver-core tree, stopping at the "hook it up to the kernel
+documentation" point.  Is that ok?
+
+thanks,
+
+greg k-h
