@@ -7,51 +7,51 @@ X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7174D7D91B
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Jun 2019 08:27:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 989667D926
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 17 Jun 2019 08:27:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727832AbfFQI1T (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 17 Jun 2019 04:27:19 -0400
-Received: from mail-ua1-f73.google.com ([209.85.222.73]:48108 "EHLO
-        mail-ua1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727861AbfFQI1T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jun 2019 04:27:19 -0400
-Received: by mail-ua1-f73.google.com with SMTP id 3so904873uag.14
-        for <linux-doc@vger.kernel.org>; Mon, 17 Jun 2019 01:27:18 -0700 (PDT)
+        id S1727931AbfFQI1e (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 17 Jun 2019 04:27:34 -0400
+Received: from mail-ot1-f74.google.com ([209.85.210.74]:37003 "EHLO
+        mail-ot1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727920AbfFQI1e (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 17 Jun 2019 04:27:34 -0400
+Received: by mail-ot1-f74.google.com with SMTP id d62so4604383otb.4
+        for <linux-doc@vger.kernel.org>; Mon, 17 Jun 2019 01:27:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=UGH/ZD8XZqg1Lpk8YuejdU6YYNS5JjsOCwDCLK06nvg=;
-        b=HIdrbAOR7Ai/LT5HpVPA+L1IOqjcHwboymymGvsio8gFfBn2C56DUt29hM1bmIQQwf
-         vx6PBweqZrvP9vfTIQLrC5N3eTal19Yn3037gWAQQn77e0nDPItuI8OfRf88xaBFVeLm
-         CcPtiYoyIHN1muhpvzfRVLBkE34UQ/MjLuNzUpxTjFYC8khUiCrrn+H4G4vqbR9SONhq
-         rRlCH8w2EI7zLsDDToSUJlwUhwHCySWFCc6CbEsMy0NmSuw1iD2mHvdhY0Ij6PypYsxE
-         0OyNE6X/8hyio8mWkbSQenznEXu0w2ax2qVNHVAlG3FolSoXJ+tPmqyrMrflBPVshQBm
-         w8qw==
+        bh=q4u3K2o+PGWHKQMYW6GJulzbQhMLZBbExmthsuEmVYA=;
+        b=KONCrR9XKO6a/42sXEG+qp4qQkmC/vZY5/QUb1W8vaG/3JrKerLSMXIUtx9hhIgBA+
+         6Ydueb1aDkkRClPaW4rcMGl4guf7yUgqbFKApT2oc0aPrWdvu4+hk/qZMvEjbrAXxHZA
+         +BOlwn2CmUv0A0UJDIBcJ7UN2vpUjW9oUtdN0gAZTRJcqwmrT4Rzj/VIj1fEr/vFRdTC
+         O4jWhtj4KF6wiqA7V3WjMbDqhn58sL3SAXtUpzZRJZ/u16slCYhi65NL34uOgKTFdtbv
+         83j5QptrG4ALHgxwsqoie4UlVJRO5mcGODYjTisAn8cJbajr27RyN4JZoEuCObcr7fX/
+         AJPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=UGH/ZD8XZqg1Lpk8YuejdU6YYNS5JjsOCwDCLK06nvg=;
-        b=P5BeQ+zCbFgb6YCSeh3QVmVUamvMsgF2SlOGVB63cvATNjmaZpsPqpCXgcD7wNGkxW
-         crtJUns7EJwRB5ZORqdurApTaH9KJ8YhyVYk+47ppUPW+yQ7vnInhKAa2mmszvdpr3ts
-         5BgtcCFbNWflhtcOHFqVbzkdC+Yaeynwb3kSLo2oqZhF5xuSndzE6qaNsu749UmYgrbj
-         IO8riFIG0ZLAsEVTNvxrpkTdpEBUkIQjCWKweZwmrNumH+W4VuGVzPBAARYW+Z9UuSxs
-         DV41eEqImG8UPliDeIXm6nrAtBeG0rmbrVWmdUDWyF2agNKaiS6AQQpibEx/QYA2LQMH
-         227w==
-X-Gm-Message-State: APjAAAW3K2s5RrCpqETBzeKSmsETi4dS3bAT2JX5XZFJcvKEKSj2l9mt
-        iTLCQOnARuslXNKhQUKYBg1zQQj0KqDTQHjrdmvJpQ==
-X-Google-Smtp-Source: APXvYqx1JT12PYIme+N17c67y3e0mvq5DW4zq24/FXVLKrrU/jrGO2QPy3mp2TRjmKPWasp6RRtJWhCpQU3hEuQCWZwlag==
-X-Received: by 2002:a67:d41d:: with SMTP id c29mr24889873vsj.101.1560760037365;
- Mon, 17 Jun 2019 01:27:17 -0700 (PDT)
-Date:   Mon, 17 Jun 2019 01:26:04 -0700
+        bh=q4u3K2o+PGWHKQMYW6GJulzbQhMLZBbExmthsuEmVYA=;
+        b=GLL34C74p4BWk9KtO4BLUOwckjhYCNqe5owpPwh2VokMFVTZweyUfkiNmMD9vkM0HV
+         UysjzPz8ax6aUGuKrxjtW7OuMK+E9SuBJwW+h9QQqon2OtaVmU3hzPzwHSxgFZvnL5lU
+         YJopoLb1EN1XwjHIIHXmmExEGO5KjPqpvBCsh+G5LAEsajAVM1Yf4e8jxgi5PIZI9+Oj
+         +XLQjr/scmZPdcR8eB107pv3ALWYxsWBHztCyZIxhNbl2po4kKr2HKqSwJUU3V3tLB0e
+         Flm1r9/oaDCGmB2CEzL8KjacY+U+VkvDxuZj9jI1lxt2FOSbfD1C8zLbhSJ08s9gN42c
+         F66A==
+X-Gm-Message-State: APjAAAU+Uc4Znl/qCy5OqXvBfhyk4lS1M7IJzrHMare7CcLfAiFXggof
+        vpT8lObzGN4QngWwLPH9owzqYYd+zSOkveVOl0Henw==
+X-Google-Smtp-Source: APXvYqz+DOWjxlXAvruqeD7kNnwJTh/Zr1HitKyDzH8sLW7X7CA1DYSA5515BUCFVEEXHh3A1eLBsqV6+KaRbOGVLveMew==
+X-Received: by 2002:a05:6830:15d7:: with SMTP id j23mr7972436otr.176.1560760052933;
+ Mon, 17 Jun 2019 01:27:32 -0700 (PDT)
+Date:   Mon, 17 Jun 2019 01:26:07 -0700
 In-Reply-To: <20190617082613.109131-1-brendanhiggins@google.com>
-Message-Id: <20190617082613.109131-10-brendanhiggins@google.com>
+Message-Id: <20190617082613.109131-13-brendanhiggins@google.com>
 Mime-Version: 1.0
 References: <20190617082613.109131-1-brendanhiggins@google.com>
 X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
-Subject: [PATCH v5 09/18] kunit: test: add support for test abort
+Subject: [PATCH v5 12/18] kunit: test: add tests for KUnit managed resources
 From:   Brendan Higgins <brendanhiggins@google.com>
 To:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
         jpoimboe@redhat.com, keescook@google.com,
@@ -69,497 +69,256 @@ Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
         khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
         mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
         richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
-        wfg@linux.intel.com, Brendan Higgins <brendanhiggins@google.com>
+        wfg@linux.intel.com, Avinash Kondareddy <akndr41@gmail.com>,
+        Brendan Higgins <brendanhiggins@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add support for aborting/bailing out of test cases, which is needed for
-implementing assertions.
+From: Avinash Kondareddy <akndr41@gmail.com>
 
-An assertion is like an expectation, but bails out of the test case
-early if the assertion is not met. The idea with assertions is that you
-use them to state all the preconditions for your test. Logically
-speaking, these are the premises of the test case, so if a premise isn't
-true, there is no point in continuing the test case because there are no
-conclusions that can be drawn without the premises. Whereas, the
-expectation is the thing you are trying to prove.
+Add unit tests for KUnit managed resources. KUnit managed resources
+(struct kunit_resource) are resources that are automatically cleaned up
+at the end of a KUnit test, similar to the concept of devm_* managed
+resources.
 
+Signed-off-by: Avinash Kondareddy <akndr41@gmail.com>
 Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
 Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- include/kunit/test.h      |  14 +++
- include/kunit/try-catch.h |  69 +++++++++++++++
- kunit/Makefile            |   3 +-
- kunit/test.c              | 177 ++++++++++++++++++++++++++++++++++----
- kunit/try-catch.c         |  95 ++++++++++++++++++++
- 5 files changed, 342 insertions(+), 16 deletions(-)
- create mode 100644 include/kunit/try-catch.h
- create mode 100644 kunit/try-catch.c
+ kunit/test-test.c | 219 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 219 insertions(+)
 
-diff --git a/include/kunit/test.h b/include/kunit/test.h
-index e4c760ccc8717..194c85afc69a8 100644
---- a/include/kunit/test.h
-+++ b/include/kunit/test.h
-@@ -13,6 +13,7 @@
- #include <linux/types.h>
- #include <linux/slab.h>
- #include <kunit/kunit-stream.h>
-+#include <kunit/try-catch.h>
- 
- struct kunit_resource;
- 
-@@ -167,15 +168,28 @@ struct kunit {
- 
- 	/* private: internal use only. */
- 	const char *name; /* Read only after initialization! */
-+	struct kunit_try_catch try_catch;
- 	spinlock_t lock; /* Gaurds all mutable test state. */
- 	bool success; /* Protected by lock. */
-+	bool death_test; /* Protected by lock. */
- 	struct list_head resources; /* Protected by lock. */
+diff --git a/kunit/test-test.c b/kunit/test-test.c
+index 43d1bedcf4592..60ef508cda1c6 100644
+--- a/kunit/test-test.c
++++ b/kunit/test-test.c
+@@ -101,3 +101,222 @@ static struct kunit_module kunit_try_catch_test_module = {
+ 	.test_cases = kunit_try_catch_test_cases,
  };
- 
-+static inline void kunit_set_death_test(struct kunit *test, bool death_test)
-+{
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&test->lock, flags);
-+	test->death_test = death_test;
-+	spin_unlock_irqrestore(&test->lock, flags);
-+}
-+
- void kunit_init_test(struct kunit *test, const char *name);
- 
- void kunit_fail(struct kunit *test, struct kunit_stream *stream);
- 
-+void kunit_abort(struct kunit *test);
-+
- int kunit_run_tests(struct kunit_module *module);
- 
- /**
-diff --git a/include/kunit/try-catch.h b/include/kunit/try-catch.h
-new file mode 100644
-index 0000000000000..8a414a9af0b64
---- /dev/null
-+++ b/include/kunit/try-catch.h
-@@ -0,0 +1,69 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * An API to allow a function, that may fail, to be executed, and recover in a
-+ * controlled manner.
-+ *
-+ * Copyright (C) 2019, Google LLC.
-+ * Author: Brendan Higgins <brendanhiggins@google.com>
-+ */
-+
-+#ifndef _KUNIT_TRY_CATCH_H
-+#define _KUNIT_TRY_CATCH_H
-+
-+#include <linux/types.h>
-+
-+typedef void (*kunit_try_catch_func_t)(void *);
-+
-+struct kunit;
+ module_test(kunit_try_catch_test_module);
 +
 +/*
-+ * struct kunit_try_catch - provides a generic way to run code which might fail.
-+ * @context: used to pass user data to the try and catch functions.
-+ *
-+ * kunit_try_catch provides a generic, architecture independent way to execute
-+ * an arbitrary function of type kunit_try_catch_func_t which may bail out by
-+ * calling kunit_try_catch_throw(). If kunit_try_catch_throw() is called, @try
-+ * is stopped at the site of invocation and @catch is catch is called.
-+ *
-+ * struct kunit_try_catch provides a generic interface for the functionality
-+ * needed to implement kunit->abort() which in turn is needed for implementing
-+ * assertions. Assertions allow stating a precondition for a test simplifying
-+ * how test cases are written and presented.
-+ *
-+ * Assertions are like expectations, except they abort (call
-+ * kunit_try_catch_throw()) when the specified condition is not met. This is
-+ * useful when you look at a test case as a logical statement about some piece
-+ * of code, where assertions are the premises for the test case, and the
-+ * conclusion is a set of predicates, rather expectations, that must all be
-+ * true. If your premises are violated, it does not makes sense to continue.
++ * Context for testing test managed resources
++ * is_resource_initialized is used to test arbitrary resources
 + */
-+struct kunit_try_catch {
-+	/* private: internal use only. */
-+	struct kunit *test;
-+	struct completion *try_completion;
-+	int try_result;
-+	kunit_try_catch_func_t try;
-+	kunit_try_catch_func_t catch;
-+	void *context;
-+};
-+
-+void kunit_try_catch_init(struct kunit_try_catch *try_catch,
-+			  struct kunit *test,
-+			  kunit_try_catch_func_t try,
-+			  kunit_try_catch_func_t catch);
-+
-+void kunit_try_catch_run(struct kunit_try_catch *try_catch, void *context);
-+
-+void __noreturn kunit_try_catch_throw(struct kunit_try_catch *try_catch);
-+
-+static inline int kunit_try_catch_get_result(struct kunit_try_catch *try_catch)
-+{
-+	return try_catch->try_result;
-+}
-+
-+/*
-+ * Exposed for testing only.
-+ */
-+void kunit_generic_try_catch_init(struct kunit_try_catch *try_catch);
-+
-+#endif /* _KUNIT_TRY_CATCH_H */
-diff --git a/kunit/Makefile b/kunit/Makefile
-index 60a9ea6cb4697..1f7680cfa11ad 100644
---- a/kunit/Makefile
-+++ b/kunit/Makefile
-@@ -1,6 +1,7 @@
- obj-$(CONFIG_KUNIT) +=			test.o \
- 					string-stream.o \
--					kunit-stream.o
-+					kunit-stream.o \
-+					try-catch.o
- 
- obj-$(CONFIG_KUNIT_TEST) +=		string-stream-test.o
- 
-diff --git a/kunit/test.c b/kunit/test.c
-index 0ba05467d525f..cb07e0916e901 100644
---- a/kunit/test.c
-+++ b/kunit/test.c
-@@ -8,6 +8,7 @@
- 
- #include <linux/sched/debug.h>
- #include <kunit/test.h>
-+#include <kunit/try-catch.h>
- 
- static bool kunit_get_success(struct kunit *test)
- {
-@@ -30,6 +31,18 @@ static void kunit_set_success(struct kunit *test, bool success)
- 	spin_unlock_irqrestore(&test->lock, flags);
- }
- 
-+static bool kunit_get_death_test(struct kunit *test)
-+{
-+	unsigned long flags;
-+	bool death_test;
-+
-+	spin_lock_irqsave(&test->lock, flags);
-+	death_test = test->death_test;
-+	spin_unlock_irqrestore(&test->lock, flags);
-+
-+	return death_test;
-+}
-+
- static int kunit_vprintk_emit(int level, const char *fmt, va_list args)
- {
- 	return vprintk_emit(0, level, NULL, 0, fmt, args);
-@@ -145,41 +158,175 @@ void kunit_fail(struct kunit *test, struct kunit_stream *stream)
- 	kunit_stream_commit(stream);
- }
- 
-+void __noreturn kunit_abort(struct kunit *test)
-+{
-+	kunit_set_death_test(test, true);
-+
-+	kunit_try_catch_throw(&test->try_catch);
-+
-+	/*
-+	 * Throw could not abort from test.
-+	 *
-+	 * XXX: we should never reach this line! As kunit_try_catch_throw is
-+	 * marked __noreturn.
-+	 */
-+	WARN_ONCE(true, "Throw could not abort from test!\n");
-+}
-+
- void kunit_init_test(struct kunit *test, const char *name)
- {
- 	spin_lock_init(&test->lock);
- 	INIT_LIST_HEAD(&test->resources);
- 	test->name = name;
- 	test->success = true;
-+	test->death_test = false;
- }
- 
- /*
-- * Performs all logic to run a test case.
-+ * Initializes and runs test case. Does not clean up or do post validations.
-  */
--static void kunit_run_case(struct kunit_module *module,
--			   struct kunit_case *test_case)
-+static void kunit_run_case_internal(struct kunit *test,
-+				    struct kunit_module *module,
-+				    struct kunit_case *test_case)
- {
--	struct kunit test;
--	int ret = 0;
--
--	kunit_init_test(&test, test_case->name);
-+	int ret;
- 
- 	if (module->init) {
--		ret = module->init(&test);
-+		ret = module->init(test);
- 		if (ret) {
--			kunit_err(&test, "failed to initialize: %d\n", ret);
--			kunit_set_success(&test, false);
-+			kunit_err(test, "failed to initialize: %d\n", ret);
-+			kunit_set_success(test, false);
- 			return;
- 		}
- 	}
- 
--	if (!ret)
--		test_case->run_case(&test);
-+	test_case->run_case(test);
-+}
-+
-+static void kunit_case_internal_cleanup(struct kunit *test)
-+{
-+	kunit_cleanup(test);
-+}
- 
-+/*
-+ * Performs post validations and cleanup after a test case was run.
-+ * XXX: Should ONLY BE CALLED AFTER kunit_run_case_internal!
-+ */
-+static void kunit_run_case_cleanup(struct kunit *test,
-+				   struct kunit_module *module)
-+{
- 	if (module->exit)
--		module->exit(&test);
-+		module->exit(test);
-+
-+	kunit_case_internal_cleanup(test);
-+}
-+
-+/*
-+ * Handles an unexpected crash in a test case.
-+ */
-+static void kunit_handle_test_crash(struct kunit *test,
-+				   struct kunit_module *module,
-+				   struct kunit_case *test_case)
-+{
-+	kunit_err(test, "kunit test case crashed!");
-+	/*
-+	 * TODO(brendanhiggins@google.com): This prints the stack trace up
-+	 * through this frame, not up to the frame that caused the crash.
-+	 */
-+	show_stack(NULL, NULL);
-+
-+	kunit_case_internal_cleanup(test);
-+}
-+
-+struct kunit_try_catch_context {
-+	struct kunit *test;
-+	struct kunit_module *module;
-+	struct kunit_case *test_case;
-+};
-+
-+static void kunit_try_run_case(void *data)
-+{
-+	struct kunit_try_catch_context *ctx = data;
-+	struct kunit *test = ctx->test;
-+	struct kunit_module *module = ctx->module;
-+	struct kunit_case *test_case = ctx->test_case;
-+
-+	/*
-+	 * kunit_run_case_internal may encounter a fatal error; if it does,
-+	 * abort will be called, this thread will exit, and finally the parent
-+	 * thread will resume control and handle any necessary clean up.
-+	 */
-+	kunit_run_case_internal(test, module, test_case);
-+	/* This line may never be reached. */
-+	kunit_run_case_cleanup(test, module);
-+}
-+
-+static void kunit_catch_run_case(void *data)
-+{
-+	struct kunit_try_catch_context *ctx = data;
-+	struct kunit *test = ctx->test;
-+	struct kunit_module *module = ctx->module;
-+	struct kunit_case *test_case = ctx->test_case;
-+	int try_exit_code = kunit_try_catch_get_result(&test->try_catch);
-+
-+	if (try_exit_code) {
-+		kunit_set_success(test, false);
-+		/*
-+		 * Test case could not finish, we have no idea what state it is
-+		 * in, so don't do clean up.
-+		 */
-+		if (try_exit_code == -ETIMEDOUT)
-+			kunit_err(test, "test case timed out\n");
-+		/*
-+		 * Unknown internal error occurred preventing test case from
-+		 * running, so there is nothing to clean up.
-+		 */
-+		else
-+			kunit_err(test, "internal error occurred preventing test case from running: %d\n",
-+				  try_exit_code);
-+		return;
-+	}
-+
-+	if (kunit_get_death_test(test)) {
-+		/*
-+		 * EXPECTED DEATH: kunit_run_case_internal encountered
-+		 * anticipated fatal error. Everything should be in a safe
-+		 * state.
-+		 */
-+		kunit_run_case_cleanup(test, module);
-+	} else {
-+		/*
-+		 * UNEXPECTED DEATH: kunit_run_case_internal encountered an
-+		 * unanticipated fatal error. We have no idea what the state of
-+		 * the test case is in.
-+		 */
-+		kunit_handle_test_crash(test, module, test_case);
-+		kunit_set_success(test, false);
-+	}
-+}
-+
-+/*
-+ * Performs all logic to run a test case. It also catches most errors that
-+ * occurs in a test case and reports them as failures.
-+ */
-+static void kunit_run_case_catch_errors(struct kunit_module *module,
-+					struct kunit_case *test_case)
-+{
-+	struct kunit_try_catch_context context;
-+	struct kunit_try_catch *try_catch;
++struct kunit_test_resource_context {
 +	struct kunit test;
++	bool is_resource_initialized;
++	int allocate_order[2];
++	int free_order[2];
++};
 +
-+	kunit_init_test(&test, test_case->name);
-+	try_catch = &test.try_catch;
- 
--	kunit_cleanup(&test);
-+	kunit_try_catch_init(try_catch,
-+			     &test,
-+			     kunit_try_run_case,
-+			     kunit_catch_run_case);
-+	context.test = &test;
-+	context.module = module;
-+	context.test_case = test_case;
-+	kunit_try_catch_run(try_catch, &context);
- 
- 	test_case->success = kunit_get_success(&test);
- }
-@@ -192,7 +339,7 @@ int kunit_run_tests(struct kunit_module *module)
- 	kunit_print_subtest_start(module);
- 
- 	for (test_case = module->test_cases; test_case->run_case; test_case++) {
--		kunit_run_case(module, test_case);
-+		kunit_run_case_catch_errors(module, test_case);
- 		kunit_print_test_case_ok_not_ok(test_case, test_case_count++);
- 	}
- 
-diff --git a/kunit/try-catch.c b/kunit/try-catch.c
-new file mode 100644
-index 0000000000000..de580f074387b
---- /dev/null
-+++ b/kunit/try-catch.c
-@@ -0,0 +1,95 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * An API to allow a function, that may fail, to be executed, and recover in a
-+ * controlled manner.
-+ *
-+ * Copyright (C) 2019, Google LLC.
-+ * Author: Brendan Higgins <brendanhiggins@google.com>
-+ */
-+
-+#include <kunit/try-catch.h>
-+#include <kunit/test.h>
-+#include <linux/completion.h>
-+#include <linux/kthread.h>
-+
-+void __noreturn kunit_try_catch_throw(struct kunit_try_catch *try_catch)
++static int fake_resource_init(struct kunit_resource *res, void *context)
 +{
-+	try_catch->try_result = -EFAULT;
-+	complete_and_exit(try_catch->try_completion, -EFAULT);
++	struct kunit_test_resource_context *ctx = context;
++
++	res->allocation = &ctx->is_resource_initialized;
++	ctx->is_resource_initialized = true;
++	return 0;
 +}
 +
-+static int kunit_generic_run_threadfn_adapter(void *data)
++static void fake_resource_free(struct kunit_resource *res)
 +{
-+	struct kunit_try_catch *try_catch = data;
++	bool *is_resource_initialized = res->allocation;
 +
-+	try_catch->try(try_catch->context);
-+
-+	complete_and_exit(try_catch->try_completion, 0);
++	*is_resource_initialized = false;
 +}
 +
-+void kunit_try_catch_run(struct kunit_try_catch *try_catch, void *context)
++static void kunit_resource_test_init_resources(struct kunit *test)
 +{
-+	DECLARE_COMPLETION_ONSTACK(try_completion);
-+	struct kunit *test = try_catch->test;
-+	struct task_struct *task_struct;
-+	int exit_code, status;
++	struct kunit_test_resource_context *ctx = test->priv;
 +
-+	try_catch->context = context;
-+	try_catch->try_completion = &try_completion;
-+	try_catch->try_result = 0;
-+	task_struct = kthread_run(kunit_generic_run_threadfn_adapter,
-+				  try_catch,
-+				  "kunit_try_catch_thread");
-+	if (IS_ERR(task_struct)) {
-+		try_catch->catch(try_catch->context);
-+		return;
++	kunit_init_test(&ctx->test, "testing_test_init_test");
++
++	KUNIT_EXPECT_TRUE(test, list_empty(&ctx->test.resources));
++}
++
++static void kunit_resource_test_alloc_resource(struct kunit *test)
++{
++	struct kunit_test_resource_context *ctx = test->priv;
++	struct kunit_resource *res;
++	kunit_resource_free_t free = fake_resource_free;
++
++	res = kunit_alloc_resource(&ctx->test,
++				   fake_resource_init,
++				   fake_resource_free,
++				   ctx);
++
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, res);
++	KUNIT_EXPECT_PTR_EQ(test,
++			    &ctx->is_resource_initialized,
++			    (bool *) res->allocation);
++	KUNIT_EXPECT_TRUE(test, list_is_last(&res->node, &ctx->test.resources));
++	KUNIT_EXPECT_PTR_EQ(test, free, res->free);
++}
++
++static void kunit_resource_test_free_resource(struct kunit *test)
++{
++	struct kunit_test_resource_context *ctx = test->priv;
++	struct kunit_resource *res = kunit_alloc_resource(&ctx->test,
++							  fake_resource_init,
++							  fake_resource_free,
++							  ctx);
++
++	kunit_free_resource(&ctx->test, res);
++
++	KUNIT_EXPECT_FALSE(test, ctx->is_resource_initialized);
++	KUNIT_EXPECT_TRUE(test, list_empty(&ctx->test.resources));
++}
++
++static void kunit_resource_test_cleanup_resources(struct kunit *test)
++{
++	int i;
++	struct kunit_test_resource_context *ctx = test->priv;
++	struct kunit_resource *resources[5];
++
++	for (i = 0; i < ARRAY_SIZE(resources); i++) {
++		resources[i] = kunit_alloc_resource(&ctx->test,
++						    fake_resource_init,
++						    fake_resource_free,
++						    ctx);
 +	}
++
++	kunit_cleanup(&ctx->test);
++
++	KUNIT_EXPECT_TRUE(test, list_empty(&ctx->test.resources));
++}
++
++static void kunit_resource_test_mark_order(int order_array[],
++					   size_t order_size,
++					   int key)
++{
++	int i;
++
++	for (i = 0; i < order_size && order_array[i]; i++)
++		;
++
++	order_array[i] = key;
++}
++
++#define KUNIT_RESOURCE_TEST_MARK_ORDER(ctx, order_field, key)		       \
++		kunit_resource_test_mark_order(ctx->order_field,	       \
++					       ARRAY_SIZE(ctx->order_field),   \
++					       key)
++
++static int fake_resource_2_init(struct kunit_resource *res, void *context)
++{
++	struct kunit_test_resource_context *ctx = context;
++
++	KUNIT_RESOURCE_TEST_MARK_ORDER(ctx, allocate_order, 2);
++
++	res->allocation = ctx;
++
++	return 0;
++}
++
++static void fake_resource_2_free(struct kunit_resource *res)
++{
++	struct kunit_test_resource_context *ctx = res->allocation;
++
++	KUNIT_RESOURCE_TEST_MARK_ORDER(ctx, free_order, 2);
++}
++
++static int fake_resource_1_init(struct kunit_resource *res, void *context)
++{
++	struct kunit_test_resource_context *ctx = context;
++
++	kunit_alloc_resource(&ctx->test,
++			     fake_resource_2_init,
++			     fake_resource_2_free,
++			     ctx);
++
++	KUNIT_RESOURCE_TEST_MARK_ORDER(ctx, allocate_order, 1);
++
++	res->allocation = ctx;
++
++	return 0;
++}
++
++static void fake_resource_1_free(struct kunit_resource *res)
++{
++	struct kunit_test_resource_context *ctx = res->allocation;
++
++	KUNIT_RESOURCE_TEST_MARK_ORDER(ctx, free_order, 1);
++}
++
++/*
++ * TODO(brendanhiggins@google.com): replace the arrays that keep track of the
++ * order of allocation and freeing with strict mocks using the IN_SEQUENCE macro
++ * to assert allocation and freeing order when the feature becomes available.
++ */
++static void kunit_resource_test_proper_free_ordering(struct kunit *test)
++{
++	struct kunit_test_resource_context *ctx = test->priv;
++
++	/* fake_resource_1 allocates a fake_resource_2 in its init. */
++	kunit_alloc_resource(&ctx->test,
++			     fake_resource_1_init,
++			     fake_resource_1_free,
++			     ctx);
 +
 +	/*
-+	 * TODO(brendanhiggins@google.com): We should probably have some type of
-+	 * variable timeout here. The only question is what that timeout value
-+	 * should be.
-+	 *
-+	 * The intention has always been, at some point, to be able to label
-+	 * tests with some type of size bucket (unit/small, integration/medium,
-+	 * large/system/end-to-end, etc), where each size bucket would get a
-+	 * default timeout value kind of like what Bazel does:
-+	 * https://docs.bazel.build/versions/master/be/common-definitions.html#test.size
-+	 * There is still some debate to be had on exactly how we do this. (For
-+	 * one, we probably want to have some sort of test runner level
-+	 * timeout.)
-+	 *
-+	 * For more background on this topic, see:
-+	 * https://mike-bland.com/2011/11/01/small-medium-large.html
++	 * Since fake_resource_2_init calls KUNIT_RESOURCE_TEST_MARK_ORDER
++	 * before returning to fake_resource_1_init, it should be the first to
++	 * put its key in the allocate_order array.
 +	 */
-+	status = wait_for_completion_timeout(&try_completion,
-+					     300 * MSEC_PER_SEC); /* 5 min */
-+	if (status < 0) {
-+		kunit_err(test, "try timed out\n");
-+		try_catch->try_result = -ETIMEDOUT;
-+	}
++	KUNIT_EXPECT_EQ(test, ctx->allocate_order[0], 2);
++	KUNIT_EXPECT_EQ(test, ctx->allocate_order[1], 1);
 +
-+	exit_code = try_catch->try_result;
++	kunit_cleanup(&ctx->test);
 +
-+	if (!exit_code)
-+		return;
-+
-+	if (exit_code == -EFAULT)
-+		try_catch->try_result = 0;
-+	else if (exit_code == -EINTR)
-+		kunit_err(test, "wake_up_process() was never called\n");
-+	else if (exit_code)
-+		kunit_err(test, "Unknown error: %d\n", exit_code);
-+
-+	try_catch->catch(try_catch->context);
++	/*
++	 * Because fake_resource_2 finishes allocation before fake_resource_1,
++	 * fake_resource_1 should be freed first since it could depend on
++	 * fake_resource_2.
++	 */
++	KUNIT_EXPECT_EQ(test, ctx->free_order[0], 1);
++	KUNIT_EXPECT_EQ(test, ctx->free_order[1], 2);
 +}
 +
-+void kunit_try_catch_init(struct kunit_try_catch *try_catch,
-+			  struct kunit *test,
-+			  kunit_try_catch_func_t try,
-+			  kunit_try_catch_func_t catch)
++static int kunit_resource_test_init(struct kunit *test)
 +{
-+	try_catch->test = test;
-+	try_catch->try = try;
-+	try_catch->catch = catch;
++	struct kunit_test_resource_context *ctx =
++			kzalloc(sizeof(*ctx), GFP_KERNEL);
++
++	if (!ctx)
++		return -ENOMEM;
++
++	test->priv = ctx;
++
++	kunit_init_test(&ctx->test, "test_test_context");
++
++	return 0;
 +}
++
++static void kunit_resource_test_exit(struct kunit *test)
++{
++	struct kunit_test_resource_context *ctx = test->priv;
++
++	kunit_cleanup(&ctx->test);
++	kfree(ctx);
++}
++
++static struct kunit_case kunit_resource_test_cases[] = {
++	KUNIT_CASE(kunit_resource_test_init_resources),
++	KUNIT_CASE(kunit_resource_test_alloc_resource),
++	KUNIT_CASE(kunit_resource_test_free_resource),
++	KUNIT_CASE(kunit_resource_test_cleanup_resources),
++	KUNIT_CASE(kunit_resource_test_proper_free_ordering),
++	{}
++};
++
++static struct kunit_module kunit_resource_test_module = {
++	.name = "kunit-resource-test",
++	.init = kunit_resource_test_init,
++	.exit = kunit_resource_test_exit,
++	.test_cases = kunit_resource_test_cases,
++};
++module_test(kunit_resource_test_module);
 -- 
 2.22.0.410.gd8fdbe21b5-goog
 
