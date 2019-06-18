@@ -5,30 +5,25 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 23BFA7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 16:08:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 380107D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 16:20:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729706AbfFRQIp (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Jun 2019 12:08:45 -0400
-Received: from mga03.intel.com ([134.134.136.65]:12038 "EHLO mga03.intel.com"
+        id S1729835AbfFRQUN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Jun 2019 12:20:13 -0400
+Received: from foss.arm.com ([217.140.110.172]:48748 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729247AbfFRQIp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 18 Jun 2019 12:08:45 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Jun 2019 09:08:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,389,1557212400"; 
-   d="scan'208";a="358310992"
-Received: from yyu32-desk1.sc.intel.com ([10.144.153.205])
-  by fmsmga006.fm.intel.com with ESMTP; 18 Jun 2019 09:08:44 -0700
-Message-ID: <b0491cb517ba377da6496fe91a98fdbfca4609a9.camel@intel.com>
-Subject: Re: [PATCH v7 22/27] binfmt_elf: Extract .note.gnu.property from an
- ELF file
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     Dave Martin <Dave.Martin@arm.com>,
+        id S1729272AbfFRQUN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 18 Jun 2019 12:20:13 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B4DBB344;
+        Tue, 18 Jun 2019 09:20:12 -0700 (PDT)
+Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 284273F246;
+        Tue, 18 Jun 2019 09:20:09 -0700 (PDT)
+Date:   Tue, 18 Jun 2019 17:20:07 +0100
+From:   Dave Martin <Dave.Martin@arm.com>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     Florian Weimer <fweimer@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
         Thomas Gleixner <tglx@linutronix.de>, x86@kernel.org,
         "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
@@ -50,51 +45,68 @@ Cc:     Dave Martin <Dave.Martin@arm.com>,
         Randy Dunlap <rdunlap@infradead.org>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Date:   Tue, 18 Jun 2019 09:00:35 -0700
-In-Reply-To: <87blyu7ubf.fsf@oldenburg2.str.redhat.com>
-References: <87lfy9cq04.fsf@oldenburg2.str.redhat.com>
-         <20190611114109.GN28398@e103592.cambridge.arm.com>
-         <031bc55d8dcdcf4f031e6ff27c33fd52c61d33a5.camel@intel.com>
-         <20190612093238.GQ28398@e103592.cambridge.arm.com>
-         <87imt4jwpt.fsf@oldenburg2.str.redhat.com>
-         <alpine.DEB.2.21.1906171418220.1854@nanos.tec.linutronix.de>
-         <20190618091248.GB2790@e103592.cambridge.arm.com>
-         <20190618124122.GH3419@hirez.programming.kicks-ass.net>
-         <87ef3r9i2j.fsf@oldenburg2.str.redhat.com>
-         <20190618125512.GJ3419@hirez.programming.kicks-ass.net>
-         <20190618133223.GD2790@e103592.cambridge.arm.com>
-         <d54fe81be77b9edd8578a6d208c72cd7c0b8c1dd.camel@intel.com>
-         <87pnna7v1d.fsf@oldenburg2.str.redhat.com>
-         <1ca57aaae8a2121731f2dcb1a137b92eed39a0d2.camel@intel.com>
-         <87blyu7ubf.fsf@oldenburg2.str.redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.1-2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v7 22/27] binfmt_elf: Extract .note.gnu.property from an
+ ELF file
+Message-ID: <20190618162005.GF2790@e103592.cambridge.arm.com>
+References: <20190618091248.GB2790@e103592.cambridge.arm.com>
+ <20190618124122.GH3419@hirez.programming.kicks-ass.net>
+ <87ef3r9i2j.fsf@oldenburg2.str.redhat.com>
+ <20190618125512.GJ3419@hirez.programming.kicks-ass.net>
+ <20190618133223.GD2790@e103592.cambridge.arm.com>
+ <d54fe81be77b9edd8578a6d208c72cd7c0b8c1dd.camel@intel.com>
+ <87pnna7v1d.fsf@oldenburg2.str.redhat.com>
+ <1ca57aaae8a2121731f2dcb1a137b92eed39a0d2.camel@intel.com>
+ <87blyu7ubf.fsf@oldenburg2.str.redhat.com>
+ <b0491cb517ba377da6496fe91a98fdbfca4609a9.camel@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b0491cb517ba377da6496fe91a98fdbfca4609a9.camel@intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2019-06-18 at 18:05 +0200, Florian Weimer wrote:
-> * Yu-cheng Yu:
-> 
-> > > I assumed that it would also parse the main executable and make
-> > > adjustments based on that.
+On Tue, Jun 18, 2019 at 09:00:35AM -0700, Yu-cheng Yu wrote:
+> On Tue, 2019-06-18 at 18:05 +0200, Florian Weimer wrote:
+> > * Yu-cheng Yu:
 > > 
-> > Yes, Linux also looks at the main executable's header, but not its
-> > NT_GNU_PROPERTY_TYPE_0 if there is a loader.
-> > 
+> > > > I assumed that it would also parse the main executable and make
+> > > > adjustments based on that.
 > > > 
-> > > ld.so can certainly provide whatever the kernel needs.  We need to tweak
-> > > the existing loader anyway.
+> > > Yes, Linux also looks at the main executable's header, but not its
+> > > NT_GNU_PROPERTY_TYPE_0 if there is a loader.
 > > > 
-> > > No valid statically-linked binaries exist today, so this is not a
-> > > consideration at this point.
+> > > > 
+> > > > ld.so can certainly provide whatever the kernel needs.  We need to tweak
+> > > > the existing loader anyway.
+> > > > 
+> > > > No valid statically-linked binaries exist today, so this is not a
+> > > > consideration at this point.
+> > > 
+> > > So from kernel, we look at only PT_GNU_PROPERTY?
 > > 
-> > So from kernel, we look at only PT_GNU_PROPERTY?
+> > If you don't parse notes/segments in the executable for CET, then yes.
+> > We can put PT_GNU_PROPERTY into the loader.
 > 
-> If you don't parse notes/segments in the executable for CET, then yes.
-> We can put PT_GNU_PROPERTY into the loader.
+> Thanks!
 
-Thanks!
+Would this require the kernel and ld.so to be updated in a particular
+order to avoid breakage?  I don't know enough about RHEL to know how
+controversial that might be.
+
+Also:
+
+What about static binaries distrubited as part of RHEL?
+
+A user would also reasonably expect static binaries built using the
+distro toolchain to work on top of the distro kernel...  which might
+be broken by this.
+
+
+(When I say "broken" I mean that the binary would run, but CET
+protections would be silently turned off.)
+
+Cheers
+---Dave
