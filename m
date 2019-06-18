@@ -5,43 +5,46 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 1C1B37D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 18:51:29 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 05CE47D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 18:51:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730162AbfFRSv2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Jun 2019 14:51:28 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:51846 "EHLO
+        id S1730350AbfFRSva (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Jun 2019 14:51:30 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:51874 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729642AbfFRSv2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jun 2019 14:51:28 -0400
+        with ESMTP id S1729642AbfFRSv3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jun 2019 14:51:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=sS7XzFTywdPX1bp97jfirEs5HqvLLi6VQUFoiGF+v9Y=; b=XNNAmsfVfNviGN6Q0U7U4Ct+e5
-        Hq1EgLsUPtjCiM6nNVOvWZkpqFijMrvfqqPu/yCCRSKMGMF0vc9RzaAVcHMnqlIAAPoJ94na3Kikk
-        VfO8rcRLs70Ef4Xi4s3Yndd0k0766CR40gtQe0jpazAEliFhJaT3w3/TtNjkToc3BrKSx1aVNLtEf
-        fm7ylWZOOU3wiwudS+6mqYLv+pGYJ9hrHWtx0E14j7mFsZ1EEW4z6c10xHmqvup/eQ4ZBYxFFqrJO
-        nVPcPa1Y67iV0QHn3g4N1YKAKuTA9/L4f1UUh3Liksig8kyTgGnBu0wxpXpC0XNmF2QBFLgeWbUES
-        LiYYIzKg==;
+        bh=wbE5UrmSnIxQ7ynjsp5tlChHxu7Tyq/gXbjLpmbx1Vc=; b=D7M7GC9AiZdbQ24Tz/iMR/Lu/b
+        FXq+8kuNJVqFauTBdsQDiNFi7kIVMvhMrywkLlVK8a0iv93ACgjlxGMVfLmNmBnIdDBeqZBYaZKkS
+        3DEcofDMlKZojkHKgVzGnqmiZE+mpviBHGyIdIhIt3qkuS8Txvj9wbCXgKo5sCluWGwsB6EbdDgQ1
+        sm8tE2QBSgz8aOHxwTLwFd0uFtjr+9V75EudZZoVTSW117F1TSgOwXHssV3FWttlQrWJHIHMXZ/q7
+        xQICX4b9FBWOTIRWCi6CVv9VCKsWIZs3q4tCoUJq3ph7zlck6uiyl6UZ15ShpDkQO3kVvFxy61nmr
+        YVZsRn4g==;
 Received: from 177.133.86.196.dynamic.adsl.gvt.net.br ([177.133.86.196] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hdJCa-0006RJ-1U; Tue, 18 Jun 2019 18:51:28 +0000
+        id 1hdJCa-0006RL-75; Tue, 18 Jun 2019 18:51:28 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hdJCW-0006UR-EM; Tue, 18 Jun 2019 15:51:24 -0300
+        id 1hdJCW-0006UF-Bd; Tue, 18 Jun 2019 15:51:24 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>
-Subject: [PATCH 6/6] drivers: base/node.c: fixes a kernel-doc markups
-Date:   Tue, 18 Jun 2019 15:51:22 -0300
-Message-Id: <2ff9c819831995ec34a826d44f9fae87ea3bf8c9.1560883872.git.mchehab+samsung@kernel.org>
+        Andrew Morton <akpm@linux-foundation.org>,
+        George Spelvin <lkml@sdf.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Andrey Abramov <st5pub@yandex.ru>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Subject: [PATCH 3/6] lib: list_sort.c: add a blank line to avoid kernel-doc warnings
+Date:   Tue, 18 Jun 2019 15:51:19 -0300
+Message-Id: <019c38a60bdc87124e58f8acd541b484fc9893bb.1560883872.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <a83ea390bc28784518fce772b4c961ea1c976f14.1560883872.git.mchehab+samsung@kernel.org>
 References: <a83ea390bc28784518fce772b4c961ea1c976f14.1560883872.git.mchehab+samsung@kernel.org>
@@ -52,39 +55,35 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There was a typo at the name of the vars inside the kernel-doc
-comment, causing those warnings:
+In order for a list to be recognized as such, blank lines
+are required.
 
-	./drivers/base/node.c:690: warning: Function parameter or member 'mem_nid' not described in 'register_memory_node_under_compute_node'
-	./drivers/base/node.c:690: warning: Function parameter or member 'cpu_nid' not described in 'register_memory_node_under_compute_node'
-	./drivers/base/node.c:690: warning: Excess function parameter 'mem_node' description in 'register_memory_node_under_compute_node'
-	./drivers/base/node.c:690: warning: Excess function parameter 'cpu_node' description in 'register_memory_node_under_compute_node'
+Solve those Sphinx warnings:
 
-There's also a description missing here:
-	./drivers/base/node.c:78: warning: Function parameter or member 'hmem_attrs' not described in 'node_access_nodes'
-
-Copy an existing description from another function call.
+./lib/list_sort.c:162: WARNING: Unexpected indentation.
+./lib/list_sort.c:163: WARNING: Block quote ends without a blank line; unexpected unindent.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- drivers/base/node.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ lib/list_sort.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/base/node.c b/drivers/base/node.c
-index 9be88fd05147..4ee32db9d61d 100644
---- a/drivers/base/node.c
-+++ b/drivers/base/node.c
-@@ -673,8 +673,8 @@ int register_cpu_under_node(unsigned int cpu, unsigned int nid)
- /**
-  * register_memory_node_under_compute_node - link memory node to its compute
-  *					     node for a given access class.
-- * @mem_node:	Memory node number
-- * @cpu_node:	Cpu  node number
-+ * @mem_nid:	Memory node number
-+ * @cpu_nid:	Cpu  node number
-  * @access:	Access class to register
+diff --git a/lib/list_sort.c b/lib/list_sort.c
+index 712ed1f4eb64..52f0c258c895 100644
+--- a/lib/list_sort.c
++++ b/lib/list_sort.c
+@@ -157,9 +157,11 @@ static void merge_final(void *priv, cmp_func cmp, struct list_head *head,
   *
-  * Description:
+  * The number of pending lists of size 2^k is determined by the
+  * state of bit k of "count" plus two extra pieces of information:
++ *
+  * - The state of bit k-1 (when k == 0, consider bit -1 always set), and
+  * - Whether the higher-order bits are zero or non-zero (i.e.
+  *   is count >= 2^(k+1)).
++ *
+  * There are six states we distinguish.  "x" represents some arbitrary
+  * bits, and "y" represents some arbitrary non-zero bits:
+  * 0:  00x: 0 pending of size 2^k;           x pending of sizes < 2^k
 -- 
 2.21.0
 
