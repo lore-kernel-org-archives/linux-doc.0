@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CC3877DE78
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 20:55:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 15D597DE7B
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 20:55:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730999AbfFRUzH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Jun 2019 16:55:07 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:50828 "EHLO
+        id S1730546AbfFRUzQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Jun 2019 16:55:16 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:50836 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730747AbfFRUx6 (ORCPT
+        with ESMTP id S1730749AbfFRUx6 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jun 2019 16:53:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,26 +20,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=wrhHYkVqalJudClQ5Slfu9mOYqnzTc7imFqa6mcZE60=; b=Q6+ai+iRuLGB2hroOoxPV3+Rtt
-        nlHmS8h0o7DnUzaHjCgRUso6F3RpVD0fViiWJ0Y9AVwy0vjxuNZzFqFr7oaCp4jDWHYLGlSX0XRGT
-        RImr/cS9EgWMBSp8GXgQwnv6z7QVFKrQw5V7OXgQOPS9ahWsx8Ul0GH9EO+yXaQdxPZ1VK/6N4wDe
-        Wld+307vO8kEEUdKgO5cXCF3aqp5FjXp9QzU+up+0ecspNOixpxrNpHHKFrDWbdx71IBzwAG2oSAC
-        jsJKn1DGwjqOmGkQQW/WyxYRCHmVRLsBGl/X6eQ6W66Ogesd+6U0bpnN/6ILCl2bPbPJSDbzTVroC
-        N7on8EEg==;
+        bh=lS4UliZzmoTMkcnLKM4dNvFw1mukTFSV4no+MKbahvQ=; b=Cv7B9ClMNS+1bWV9iwTIUUNykY
+        i5mQmHtJbkf4x5eEEkCChnCoiZx2AR0XvwejGX+wKFBbUH/eYjVqWbRO/YztYzrUhH4g2vrbtQd5Q
+        mPCatGIcsbwydENRbPbJ5A/0hbaF/fDBiXdtnPBo2aRzpoguqmuV8GpZnFcePdkgflcOy5Ri8k0Id
+        ZF1JTSoTMVpLiBjw0MJOXmk3lPsvdzTN64QuGP/OHSSfFbcoMBnGkZQoCjPLhJVnqLiHhWMVq/2zb
+        iX/OXDeSJEXpr2JJBMpdk3JvEiDnpP25Bbis0XfMDrNtjHc/RlGE4vPOQ9EnyxyXGciQbqZG+jMed
+        Ihyw420Q==;
 Received: from 177.133.86.196.dynamic.adsl.gvt.net.br ([177.133.86.196] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hdL77-0008RS-2H; Tue, 18 Jun 2019 20:53:57 +0000
+        id 1hdL77-0008RV-2i; Tue, 18 Jun 2019 20:53:57 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hdL70-0001zh-0A; Tue, 18 Jun 2019 17:53:50 -0300
+        id 1hdL70-0001zx-3e; Tue, 18 Jun 2019 17:53:50 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2 13/29] docs: bus-devices: ti-gpmc.rst: convert it to ReST
-Date:   Tue, 18 Jun 2019 17:53:31 -0300
-Message-Id: <462f800be1a6f9a4cb223127c8900048414fe0ca.1560890800.git.mchehab+samsung@kernel.org>
+Subject: [PATCH v2 17/29] docs: DMA-API-HOWTO.txt: fix an unmarked code block
+Date:   Tue, 18 Jun 2019 17:53:35 -0300
+Message-Id: <9b83a9b1e815daf0266d49fcacfe713540276ff3.1560890800.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1560890800.git.mchehab+samsung@kernel.org>
 References: <cover.1560890800.git.mchehab+samsung@kernel.org>
@@ -50,218 +50,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In order to be able to add this file to a book, it needs
-first to be converted to ReST and renamed.
+When building with Sphinx, it would produce this warning:
 
-While this is not part of any book, mark it as :orphan:, in order
-to avoid build warnings.
+    docs/Documentation/DMA-API-HOWTO.rst:222: WARNING: Definition list ends without a blank line; unexpected unindent.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- .../bus-devices/{ti-gpmc.txt => ti-gpmc.rst}  | 159 ++++++++++++------
- 1 file changed, 108 insertions(+), 51 deletions(-)
- rename Documentation/bus-devices/{ti-gpmc.txt => ti-gpmc.rst} (58%)
+ Documentation/DMA-API-HOWTO.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/bus-devices/ti-gpmc.txt b/Documentation/bus-devices/ti-gpmc.rst
-similarity index 58%
-rename from Documentation/bus-devices/ti-gpmc.txt
-rename to Documentation/bus-devices/ti-gpmc.rst
-index cc9ce57e0a26..87c366e418be 100644
---- a/Documentation/bus-devices/ti-gpmc.txt
-+++ b/Documentation/bus-devices/ti-gpmc.rst
-@@ -1,8 +1,12 @@
--GPMC (General Purpose Memory Controller):
--=========================================
-+:orphan:
-+
-+========================================
-+GPMC (General Purpose Memory Controller)
-+========================================
+diff --git a/Documentation/DMA-API-HOWTO.txt b/Documentation/DMA-API-HOWTO.txt
+index cb712a02f59f..358d495456d1 100644
+--- a/Documentation/DMA-API-HOWTO.txt
++++ b/Documentation/DMA-API-HOWTO.txt
+@@ -212,7 +212,7 @@ The standard 64-bit addressing device would do something like this::
  
- GPMC is an unified memory controller dedicated to interfacing external
- memory devices like
-+
-  * Asynchronous SRAM like memories and application specific integrated
-    circuit devices.
-  * Asynchronous, synchronous, and page mode burst NOR flash devices
-@@ -48,75 +52,128 @@ most of the datasheets & hardware (to be exact none of those supported
- in mainline having custom timing routine) and by simulation.
+ If the device only supports 32-bit addressing for descriptors in the
+ coherent allocations, but supports full 64-bits for streaming mappings
+-it would look like this:
++it would look like this::
  
- gpmc timing dependency on peripheral timings:
-+
- [<gpmc_timing>: <peripheral timing1>, <peripheral timing2> ...]
- 
- 1. common
--cs_on: t_ceasu
--adv_on: t_avdasu, t_ceavd
-+
-+cs_on:
-+	t_ceasu
-+adv_on:
-+	t_avdasu, t_ceavd
- 
- 2. sync common
--sync_clk: clk
--page_burst_access: t_bacc
--clk_activation: t_ces, t_avds
-+
-+sync_clk:
-+	clk
-+page_burst_access:
-+	t_bacc
-+clk_activation:
-+	t_ces, t_avds
- 
- 3. read async muxed
--adv_rd_off: t_avdp_r
--oe_on: t_oeasu, t_aavdh
--access: t_iaa, t_oe, t_ce, t_aa
--rd_cycle: t_rd_cycle, t_cez_r, t_oez
-+
-+adv_rd_off:
-+	t_avdp_r
-+oe_on:
-+	t_oeasu, t_aavdh
-+access:
-+	t_iaa, t_oe, t_ce, t_aa
-+rd_cycle:
-+	t_rd_cycle, t_cez_r, t_oez
- 
- 4. read async non-muxed
--adv_rd_off: t_avdp_r
--oe_on: t_oeasu
--access: t_iaa, t_oe, t_ce, t_aa
--rd_cycle: t_rd_cycle, t_cez_r, t_oez
-+
-+adv_rd_off:
-+	t_avdp_r
-+oe_on:
-+	t_oeasu
-+access:
-+	t_iaa, t_oe, t_ce, t_aa
-+rd_cycle:
-+	t_rd_cycle, t_cez_r, t_oez
- 
- 5. read sync muxed
--adv_rd_off: t_avdp_r, t_avdh
--oe_on: t_oeasu, t_ach, cyc_aavdh_oe
--access: t_iaa, cyc_iaa, cyc_oe
--rd_cycle: t_cez_r, t_oez, t_ce_rdyz
-+
-+adv_rd_off:
-+	t_avdp_r, t_avdh
-+oe_on:
-+	t_oeasu, t_ach, cyc_aavdh_oe
-+access:
-+	t_iaa, cyc_iaa, cyc_oe
-+rd_cycle:
-+	t_cez_r, t_oez, t_ce_rdyz
- 
- 6. read sync non-muxed
--adv_rd_off: t_avdp_r
--oe_on: t_oeasu
--access: t_iaa, cyc_iaa, cyc_oe
--rd_cycle: t_cez_r, t_oez, t_ce_rdyz
-+
-+adv_rd_off:
-+	t_avdp_r
-+oe_on:
-+	t_oeasu
-+access:
-+	t_iaa, cyc_iaa, cyc_oe
-+rd_cycle:
-+	t_cez_r, t_oez, t_ce_rdyz
- 
- 7. write async muxed
--adv_wr_off: t_avdp_w
--we_on, wr_data_mux_bus: t_weasu, t_aavdh, cyc_aavhd_we
--we_off: t_wpl
--cs_wr_off: t_wph
--wr_cycle: t_cez_w, t_wr_cycle
-+
-+adv_wr_off:
-+	t_avdp_w
-+we_on, wr_data_mux_bus:
-+	t_weasu, t_aavdh, cyc_aavhd_we
-+we_off:
-+	t_wpl
-+cs_wr_off:
-+	t_wph
-+wr_cycle:
-+	t_cez_w, t_wr_cycle
- 
- 8. write async non-muxed
--adv_wr_off: t_avdp_w
--we_on, wr_data_mux_bus: t_weasu
--we_off: t_wpl
--cs_wr_off: t_wph
--wr_cycle: t_cez_w, t_wr_cycle
-+
-+adv_wr_off:
-+	t_avdp_w
-+we_on, wr_data_mux_bus:
-+	t_weasu
-+we_off:
-+	t_wpl
-+cs_wr_off:
-+	t_wph
-+wr_cycle:
-+	t_cez_w, t_wr_cycle
- 
- 9. write sync muxed
--adv_wr_off: t_avdp_w, t_avdh
--we_on, wr_data_mux_bus: t_weasu, t_rdyo, t_aavdh, cyc_aavhd_we
--we_off: t_wpl, cyc_wpl
--cs_wr_off: t_wph
--wr_cycle: t_cez_w, t_ce_rdyz
-+
-+adv_wr_off:
-+	t_avdp_w, t_avdh
-+we_on, wr_data_mux_bus:
-+	t_weasu, t_rdyo, t_aavdh, cyc_aavhd_we
-+we_off:
-+	t_wpl, cyc_wpl
-+cs_wr_off:
-+	t_wph
-+wr_cycle:
-+	t_cez_w, t_ce_rdyz
- 
- 10. write sync non-muxed
--adv_wr_off: t_avdp_w
--we_on, wr_data_mux_bus: t_weasu, t_rdyo
--we_off: t_wpl, cyc_wpl
--cs_wr_off: t_wph
--wr_cycle: t_cez_w, t_ce_rdyz
- 
-+adv_wr_off:
-+	t_avdp_w
-+we_on, wr_data_mux_bus:
-+	t_weasu, t_rdyo
-+we_off:
-+	t_wpl, cyc_wpl
-+cs_wr_off:
-+	t_wph
-+wr_cycle:
-+	t_cez_w, t_ce_rdyz
- 
--Note: Many of gpmc timings are dependent on other gpmc timings (a few
--gpmc timings purely dependent on other gpmc timings, a reason that
--some of the gpmc timings are missing above), and it will result in
--indirect dependency of peripheral timings to gpmc timings other than
--mentioned above, refer timing routine for more details. To know what
--these peripheral timings correspond to, please see explanations in
--struct gpmc_device_timings definition. And for gpmc timings refer
--IP details (link above).
-+
-+Note:
-+  Many of gpmc timings are dependent on other gpmc timings (a few
-+  gpmc timings purely dependent on other gpmc timings, a reason that
-+  some of the gpmc timings are missing above), and it will result in
-+  indirect dependency of peripheral timings to gpmc timings other than
-+  mentioned above, refer timing routine for more details. To know what
-+  these peripheral timings correspond to, please see explanations in
-+  struct gpmc_device_timings definition. And for gpmc timings refer
-+  IP details (link above).
+ 	if (dma_set_mask(dev, DMA_BIT_MASK(64))) {
+ 		dev_warn(dev, "mydev: No suitable DMA available\n");
 -- 
 2.21.0
 
