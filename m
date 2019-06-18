@@ -3,35 +3,35 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 95E917D981
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 18:51:51 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 9194B7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 18:52:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730359AbfFRSvl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Jun 2019 14:51:41 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:51882 "EHLO
+        id S1730450AbfFRSvr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Jun 2019 14:51:47 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:51878 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730268AbfFRSva (ORCPT
+        with ESMTP id S1730266AbfFRSva (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jun 2019 14:51:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=WEeSkfNlVjEZ8zE/kIdUT5en1C0xrZgmdnZZh07bcGQ=; b=OHOX/43xK2MGJ1Tb1T2SKNnKU/
-        nkynHEPxsjayML718hjXEUx+JgT6ClMA5K7yKIqVz+Mu9McbWVlET2hHEQ7oCEYGcRRef16CCxYW0
-        OqusDHA7Gl92P/R/QdKQEbrymJv/Z8hheXd1UUNFT4eIKkQ4Sa32Z6TU5mz3KiYZXCEzsidFtAo6r
-        Qk3Ulwcq9Y+fllhsWIcjHRBA7qWnO7I+gtlelZlCqXGSoY/kVRNwvPKQS79eCWINEaX9vuhFP1TNI
-        8JnFCFMxJ2Pi5kjSNLrHGCVZQrsV/SnvR3oopcpueM6HhLsBomhoVDEPPiBqFB9/93rZXsFg1hdZZ
-        7B342NXw==;
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=SKRSL9jnylaTQ6qXeJHCBAsp9dKQfYRmnXanorGc5eo=; b=LXa3IxlXYF9BK4XDFYoBkFK/C
+        ayj7wVmS/70JjZnx+pA/SY/2Q7iEuexASOgoE1EhAN8aCIeaCsyHgduBAkwayw9iy21eApOGYiUVx
+        Ne7xoTALEaJ7EydCcLjRisMFAWa3umScRvwd0i+xgZDzHlMRbILUOiCzmxWPLuIaq0Q4cF2IuyeER
+        aNj0mI1gnd4iiqruK3JFsutCUD5NwBvMO1h7jIemayxgDHqgNGBIEvIZOYI/fDhpVYYBeRc2565tt
+        SfICYZwjO5Dl0HXEGCy8bbfm8Kddvp9t6FkHu+VVIOBSOn0pSbZAt1MoMYoNb+DjnNsCzBOelmZzy
+        tU97Zkv5g==;
 Received: from 177.133.86.196.dynamic.adsl.gvt.net.br ([177.133.86.196] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hdJCa-0006RI-0g; Tue, 18 Jun 2019 18:51:28 +0000
+        id 1hdJCa-0006RK-0j; Tue, 18 Jun 2019 18:51:28 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hdJCW-0006UB-An; Tue, 18 Jun 2019 15:51:24 -0300
+        id 1hdJCW-0006U8-9m; Tue, 18 Jun 2019 15:51:24 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
@@ -39,15 +39,12 @@ Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Masami Hiramatsu <mhiramat@kernel.org>,
         "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@kernel.org>,
         Andreas Ziegler <andreas.ziegler@fau.de>,
         Lecopzer Chen <lecopzer.chen@mediatek.com>
-Subject: [PATCH 2/6] docs: trace: add a missing blank line
-Date:   Tue, 18 Jun 2019 15:51:18 -0300
-Message-Id: <91f90c10c12c6a2f6fb90fc0f9115fbd8dd73848.1560883872.git.mchehab+samsung@kernel.org>
+Subject: [PATCH 1/6] docs: trace: fix a broken label
+Date:   Tue, 18 Jun 2019 15:51:17 -0300
+Message-Id: <a83ea390bc28784518fce772b4c961ea1c976f14.1560883872.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
-In-Reply-To: <a83ea390bc28784518fce772b4c961ea1c976f14.1560883872.git.mchehab+samsung@kernel.org>
-References: <a83ea390bc28784518fce772b4c961ea1c976f14.1560883872.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
@@ -55,7 +52,12 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sphinx expects a blank line after a literal block markup.
+Sphinx warnings about his:
+
+	Documentation/trace/kprobetrace.rst:68: WARNING: undefined label: user_mem_access (if the link has no caption the label must precede a section header)
+
+The problem is quite simple: Sphinx wants a blank line after
+references.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
@@ -63,17 +65,17 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/Documentation/trace/kprobetrace.rst b/Documentation/trace/kprobetrace.rst
-index 3d162d432a3c..caa0a8ba081e 100644
+index b729b40a5ba5..3d162d432a3c 100644
 --- a/Documentation/trace/kprobetrace.rst
 +++ b/Documentation/trace/kprobetrace.rst
-@@ -228,6 +228,7 @@ events, you need to enable it.
+@@ -96,6 +96,7 @@ which shows given pointer in "symbol+offset" style.
+ For $comm, the default type is "string"; any other type is invalid.
  
- Use the following command to start tracing in an interval.
- ::
+ .. _user_mem_access:
 +
-     # echo 1 > tracing_on
-     Open something...
-     # echo 0 > tracing_on
+ User Memory Access
+ ------------------
+ Kprobe events supports user-space memory access. For that purpose, you can use
 -- 
 2.21.0
 
