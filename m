@@ -1,120 +1,68 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4E5687D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 15:26:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CE2A57D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 15:32:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729377AbfFRP0H (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Jun 2019 11:26:07 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:48970 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728982AbfFRP0H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jun 2019 11:26:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=zDQuLvyPeQhgh7/ZzmUlpMUVHgADFhKIg7Jx10j8T5Y=; b=PHPN2gJTKxWUHzfd0/kg7rMWvA
-        Yj3i5FFGVoxgSjQttV4VLQROldiE+URTLhWKZONApFUFQZPSia/6BqSPcPFo1hHkvmDU+1zb/7KH8
-        iAfuTs7fL8c+u3T4C7a5k8A+vCStaGR7Rq866QEQuJgAAfPc/5Z6TwmPANQLLk+JTxtXZdeHvEbhi
-        x5ZWr4fkXLWhGIsf/tgQyShCfFSeWbXWjzoJvmqEgvksGpX0524r9XpMHLI03T/R3ZdqG1duoVouV
-        4/V9aXlXKwpWtE7Qty9AtdI5jjEhd3yIreXwmZgu7AvtuvokiWBkx+2gDLHn44ABf3u+mvkf4vZV7
-        MTxOG69Q==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by merlin.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hdFzm-0000Kn-4u; Tue, 18 Jun 2019 15:26:02 +0000
-Subject: Re: [PATCH v4 2/2] fTPM: add documentation for ftpm driver
-To:     Sasha Levin <sashal@kernel.org>, peterhuewe@gmx.de,
-        jarkko.sakkinen@linux.intel.com, jgg@ziepe.ca
-Cc:     corbet@lwn.net, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-kernel@microsoft.com, thiruan@microsoft.com,
-        bryankel@microsoft.com, tee-dev@lists.linaro.org
-References: <20190530152758.16628-1-sashal@kernel.org>
- <20190530152758.16628-3-sashal@kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <c1cf6154-7140-66c9-dff9-dc7a788df518@infradead.org>
-Date:   Tue, 18 Jun 2019 08:25:58 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1729423AbfFRPcB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Jun 2019 11:32:01 -0400
+Received: from ms.lwn.net ([45.79.88.28]:50818 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729189AbfFRPcB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 18 Jun 2019 11:32:01 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id EFDC94FA;
+        Tue, 18 Jun 2019 15:32:00 +0000 (UTC)
+Date:   Tue, 18 Jun 2019 09:31:59 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Valentin Schneider <valentin.schneider@arm.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs/vm: hwpoison.rst: Fix quote formatting
+Message-ID: <20190618093159.26352aed@lwn.net>
+In-Reply-To: <20190618145605.21208-1-valentin.schneider@arm.com>
+References: <20190618145605.21208-1-valentin.schneider@arm.com>
+Organization: LWN.net
 MIME-Version: 1.0
-In-Reply-To: <20190530152758.16628-3-sashal@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 5/30/19 8:27 AM, Sasha Levin wrote:
-> This patch adds basic documentation to describe the new fTPM driver.
+On Tue, 18 Jun 2019 15:56:05 +0100
+Valentin Schneider <valentin.schneider@arm.com> wrote:
+
+> The asterisks prepended to the quoted text currently get translated to
+> bullet points, which gets increasingly confusing the smaller your
+> screen is (when viewing the sphinx output, that is).
 > 
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> Signed-off-by: Sasha Levin (Microsoft) <sashal@kernel.org>
-> ---
->  Documentation/security/tpm/index.rst        |  1 +
->  Documentation/security/tpm/tpm_ftpm_tee.rst | 31 +++++++++++++++++++++
->  2 files changed, 32 insertions(+)
->  create mode 100644 Documentation/security/tpm/tpm_ftpm_tee.rst
-
-Hi,
-Just some minor editing...
-
-> diff --git a/Documentation/security/tpm/tpm_ftpm_tee.rst b/Documentation/security/tpm/tpm_ftpm_tee.rst
-> new file mode 100644
-> index 0000000000000..29c2f8b5ed100
-> --- /dev/null
-> +++ b/Documentation/security/tpm/tpm_ftpm_tee.rst
-> @@ -0,0 +1,31 @@
-> +=============================================
-> +Firmware TPM Driver
-> +=============================================
-> +
-> +| Authors:
-> +| Thirupathaiah Annapureddy <thiruan@microsoft.com>
-> +| Sasha Levin <sashal@kernel.org>
-> +
-> +This document describes the firmware Trusted Platform Module (fTPM)
-> +device driver.
-> +
-> +Introduction
-> +============
-> +
-> +This driver is a shim for a firmware implemented in ARM's TrustZone
-
-                         for firmware
-
-> +environment. The driver allows programs to interact with the TPM in the same
-> +way the would interact with a hardware TPM.
-
-       they
-
-> +
-> +Design
-> +======
-> +
-> +The driver acts as a thin layer that passes commands to and from a TPM
-> +implemented in firmware. The driver itself doesn't contain much logic and is
-> +used more like a dumb pipe between firmware and kernel/userspace.
-> +
-> +The firmware itself is based on the following paper:
-> +https://www.microsoft.com/en-us/research/wp-content/uploads/2017/06/ftpm1.pdf
-> +
-> +When the driver is loaded it will expose ``/dev/tpmX`` character devices to
-> +userspace which will enable userspace to communicate with the firmware tpm
-
-                                                                          TPM
-
-> +through this device.
+> Convert the whole quote to a literal block.
 > 
+> Signed-off-by: Valentin Schneider <valentin.schneider@arm.com>
 
+That definitely seems worth fixing, and I can apply this.  But a few
+things to ponder first...
 
--- 
-~Randy
+ - If you convert it to a literal block, the asterisks can remain, making
+   for a less intrusive patch.
+
+ - I was wondering if we should just use a kernel-doc directive to pull
+   the comment directly from the source, but investigation quickly showed
+   that the "overview comment" doesn't actually exist in anything close to
+   the quoted form.  See mm/memory-failure.c.
+
+Given that, and things like references to support in "upcoming Intel
+CPUs", I suspect that this document is pretty seriously out of date and
+needs some more in-depth attention.  If you're playing in this area and
+feel like it, updating the document for real would be much appreciated...:)
+
+Thanks,
+
+jon
