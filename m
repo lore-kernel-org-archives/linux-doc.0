@@ -1,40 +1,56 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-4.7 required=5.0 tests=DATE_IN_PAST_06_12,
+	DKIM_INVALID,DKIM_SIGNED,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 09C007D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 18:59:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 93AC47D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 20:28:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730233AbfFRS75 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Jun 2019 14:59:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38852 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730231AbfFRS75 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 18 Jun 2019 14:59:57 -0400
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 38CDA206BA;
-        Tue, 18 Jun 2019 18:59:56 +0000 (UTC)
-Date:   Tue, 18 Jun 2019 14:59:54 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+        id S1730607AbfFRU2J (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Jun 2019 16:28:09 -0400
+Received: from casper.infradead.org ([85.118.1.10]:52652 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730176AbfFRU2J (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jun 2019 16:28:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=/yuq+528Ge2GyeWg6aQYCOiRFdbu/e3xfN3FdxpcEzY=; b=aB7KTV5ZzmCoj1Qxm3dVaqBytG
+        6+FKmt7R881qAHMbcleBouaKC3kmFz2LA9Gvif95NyyHzZYpT55h4RDehfIKQQY69CVa8wVC9pTSV
+        lM5saykAhFfav4/jsmfkmbjCMOcfAFWTC4XcOhZRfq2M8BexwvZFvq+n1RO+Q6bUZMKIXOAKqgS/z
+        Z0xhg86h0mjM6gWv9dljQS4maac4BmrXdCgsk5P5Rrbmx/H/nT9JqF0GEKhiNMUUO+RcYwIj4hQKr
+        S+oRAMGCViKI189iZwgPRWHso0mZugDsGCk+ehRnbRbif4s1O9+a3pZMmiNVfSY4BbgNtTHNIW9P3
+        VhKuGzng==;
+Received: from 177.133.86.196.dynamic.adsl.gvt.net.br ([177.133.86.196] helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hdKi3-0001wm-Jm; Tue, 18 Jun 2019 20:28:04 +0000
+Date:   Tue, 18 Jun 2019 11:14:47 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Andreas Ziegler <andreas.ziegler@fau.de>,
-        Lecopzer Chen <lecopzer.chen@mediatek.com>
-Subject: Re: [PATCH 2/6] docs: trace: add a missing blank line
-Message-ID: <20190618145954.308e8ec3@gandalf.local.home>
-In-Reply-To: <91f90c10c12c6a2f6fb90fc0f9115fbd8dd73848.1560883872.git.mchehab+samsung@kernel.org>
-References: <a83ea390bc28784518fce772b4c961ea1c976f14.1560883872.git.mchehab+samsung@kernel.org>
-        <91f90c10c12c6a2f6fb90fc0f9115fbd8dd73848.1560883872.git.mchehab+samsung@kernel.org>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@sifive.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        Greentime Hu <green.hu@gmail.com>,
+        Vincent Chen <deanbo422@gmail.com>,
+        linux-riscv@lists.infradead.org, netdev@vger.kernel.org,
+        bpf@vger.kernel.org
+Subject: Re: [PATCH v4 00/28] Convert files to ReST - part 1
+Message-ID: <20190618111122.64cdeb59@coco.lan>
+In-Reply-To: <20190614143640.40ee353a@lwn.net>
+References: <cover.1560361364.git.mchehab+samsung@kernel.org>
+        <20190614143640.40ee353a@lwn.net>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -43,33 +59,43 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 18 Jun 2019 15:51:18 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+Em Fri, 14 Jun 2019 14:36:40 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> Sphinx expects a blank line after a literal block markup.
+> On Wed, 12 Jun 2019 14:52:36 -0300
+> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-
-For the two tracing patches (1 and 2).
-
-Acked-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
-
--- Steve
-
-> ---
->  Documentation/trace/kprobetrace.rst | 1 +
->  1 file changed, 1 insertion(+)
+> > This is mostly a rebase of the /33 series v3 I sent, on the top of the latest
+> > linux-next  (next-20190612).
+> > 
+> > Changes from v3:
+> > 
+> > - dropped cpufreq conversion - documents are too outdated;
+> > - infiniband patch is not here anymore - as it should be merged via RDMA;
+> > - s390 patches were already merged;
+> > - Dropped Geert as Maintainer from fb/framebuffer.rst, as per his request;
+> > - Did a minor editorial change at popwerpc/cxl.rst per Andrew Donellan
+> >   request;
+> > - Added acks/reviews;
+> > - trivial rebase fixups.  
 > 
-> diff --git a/Documentation/trace/kprobetrace.rst b/Documentation/trace/kprobetrace.rst
-> index 3d162d432a3c..caa0a8ba081e 100644
-> --- a/Documentation/trace/kprobetrace.rst
-> +++ b/Documentation/trace/kprobetrace.rst
-> @@ -228,6 +228,7 @@ events, you need to enable it.
->  
->  Use the following command to start tracing in an interval.
->  ::
-> +
->      # echo 1 > tracing_on
->      Open something...
->      # echo 0 > tracing_on
+> So I had to pull docs-next forward to -rc4, but then I was able to apply
+> this set except for parts 5, 6, 14, 18, and 19.  
 
+Patch 5 went via Cgroups tree;
+Patch 18 went via power tree;
+Patch 6 is obsolete, as the cgroups-v1 CBQ chapter was removed;
+
+So, what's left from this series are patches 14 and 19.
+
+I have a rebased version of them on the top of linux-next
+on my working tree. Perhaps we should try to push those two late
+during the merge window.
+
+> Some progress made, but
+> this is somewhat painful work...
+
+Yeah, a change like that is not easy.
+
+Thanks,
+Mauro
