@@ -1,79 +1,67 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 367BC7D982
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 02:17:26 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7A4287D919
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 06:57:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728524AbfFRCRH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 17 Jun 2019 22:17:07 -0400
-Received: from inva020.nxp.com ([92.121.34.13]:38048 "EHLO inva020.nxp.com"
+        id S1728565AbfFRG5Y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Jun 2019 02:57:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58934 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726047AbfFRCRF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 Jun 2019 22:17:05 -0400
-Received: from inva020.nxp.com (localhost [127.0.0.1])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 0E83D1A02E0;
-        Tue, 18 Jun 2019 04:17:04 +0200 (CEST)
-Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com [165.114.16.14])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 6BCBD1A02EC;
-        Tue, 18 Jun 2019 04:16:48 +0200 (CEST)
-Received: from localhost.localdomain (mega.ap.freescale.net [10.192.208.232])
-        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id A41E5402F1;
-        Tue, 18 Jun 2019 10:16:34 +0800 (SGT)
-From:   Anson.Huang@nxp.com
-To:     robh+dt@kernel.org, mark.rutland@arm.com, corbet@lwn.net,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-        festevam@gmail.com, catalin.marinas@arm.com, will.deacon@arm.com,
-        rui.zhang@intel.com, edubezval@gmail.com,
-        daniel.lezcano@linaro.org, aisheng.dong@nxp.com,
-        ulf.hansson@linaro.org, peng.fan@nxp.com,
-        mchehab+samsung@kernel.org, linux@roeck-us.net,
-        daniel.baluta@nxp.com, maxime.ripard@bootlin.com,
-        horms+renesas@verge.net.au, olof@lixom.net,
-        jagan@amarulasolutions.com, bjorn.andersson@linaro.org,
-        leonard.crestez@nxp.com, dinguyen@kernel.org,
-        enric.balletbo@collabora.com, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org
-Cc:     Linux-imx@nxp.com
-Subject: [PATCH V15 4/5] defconfig: arm64: add i.MX system controller thermal support
-Date:   Tue, 18 Jun 2019 10:18:19 +0800
-Message-Id: <20190618021820.14885-4-Anson.Huang@nxp.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190618021820.14885-1-Anson.Huang@nxp.com>
-References: <20190618021820.14885-1-Anson.Huang@nxp.com>
-X-Virus-Scanned: ClamAV using ClamSMTP
+        id S1726037AbfFRG5Y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 18 Jun 2019 02:57:24 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E069C20863;
+        Tue, 18 Jun 2019 05:42:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1560836521;
+        bh=+QRebg6toQEXk2xt0KfLP2gEAhm9ZZ14Nl8WNSxXxVs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=S03fz8RyICJEbA23G+syKb/UQ6INJlvQIhsYIdMJbm/ohR8isujjpXGMw+ffSPkpc
+         3jrEooBnvIdpTh4wF2XMUIaaXB72foaiczdVOCGkdL11jpaWK+LqcsUHYAQmtEFX7+
+         XPvWrK5y8IRFC39MMv4XBbASVs1bbjt+T2L91GNQ=
+Date:   Tue, 18 Jun 2019 07:41:58 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Puranjay Mohan <puranjay12@gmail.com>
+Cc:     Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [Linux-kernel-mentees] [PATCH] Documentation: platform: convert
+ x86-laptop-drivers.txt to reST
+Message-ID: <20190618054158.GA3713@kroah.com>
+References: <20190618053227.31678-1-puranjay12@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190618053227.31678-1-puranjay12@gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Anson Huang <Anson.Huang@nxp.com>
+On Tue, Jun 18, 2019 at 11:02:27AM +0530, Puranjay Mohan wrote:
+> This converts the plain text documentation to reStructuredText format.
+> No essential content change.
+> 
+> Signed-off-by: Puranjay Mohan <puranjay12@gmail.com>
+> ---
+>  Documentation/platform/x86-laptop-drivers.rst | 23 +++++++++++++++++++
+>  Documentation/platform/x86-laptop-drivers.txt | 18 ---------------
+>  2 files changed, 23 insertions(+), 18 deletions(-)
+>  create mode 100644 Documentation/platform/x86-laptop-drivers.rst
+>  delete mode 100644 Documentation/platform/x86-laptop-drivers.txt
 
-This patch enables CONFIG_IMX_SC_THERMAL as module.
+Don't you also need to hook it up to the documentation build process
+when doing this?
 
-Signed-off-by: Anson Huang <Anson.Huang@nxp.com>
----
-No change.
----
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+thanks,
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index c40ec41..29f7768 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -415,6 +415,7 @@ CONFIG_THERMAL_GOV_POWER_ALLOCATOR=y
- CONFIG_CPU_THERMAL=y
- CONFIG_THERMAL_EMULATION=y
- CONFIG_QORIQ_THERMAL=m
-+CONFIG_IMX_SC_THERMAL=m
- CONFIG_ROCKCHIP_THERMAL=m
- CONFIG_RCAR_THERMAL=y
- CONFIG_RCAR_GEN3_THERMAL=y
--- 
-2.7.4
-
+greg k-h
