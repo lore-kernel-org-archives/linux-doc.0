@@ -1,116 +1,90 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BE2B07D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 16:50:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1C1B37D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 18:51:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729507AbfFRQuf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Jun 2019 12:50:35 -0400
-Received: from foss.arm.com ([217.140.110.172]:50042 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729327AbfFRQuf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 18 Jun 2019 12:50:35 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E2F57344;
-        Tue, 18 Jun 2019 09:50:33 -0700 (PDT)
-Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 56B6C3F246;
-        Tue, 18 Jun 2019 09:50:30 -0700 (PDT)
-Date:   Tue, 18 Jun 2019 17:50:28 +0100
-From:   Dave Martin <Dave.Martin@arm.com>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
-Subject: Re: [PATCH v7 22/27] binfmt_elf: Extract .note.gnu.property from an
- ELF file
-Message-ID: <20190618165027.GG2790@e103592.cambridge.arm.com>
-References: <87ef3r9i2j.fsf@oldenburg2.str.redhat.com>
- <20190618125512.GJ3419@hirez.programming.kicks-ass.net>
- <20190618133223.GD2790@e103592.cambridge.arm.com>
- <d54fe81be77b9edd8578a6d208c72cd7c0b8c1dd.camel@intel.com>
- <87pnna7v1d.fsf@oldenburg2.str.redhat.com>
- <1ca57aaae8a2121731f2dcb1a137b92eed39a0d2.camel@intel.com>
- <87blyu7ubf.fsf@oldenburg2.str.redhat.com>
- <b0491cb517ba377da6496fe91a98fdbfca4609a9.camel@intel.com>
- <20190618162005.GF2790@e103592.cambridge.arm.com>
- <8736k67tdc.fsf@oldenburg2.str.redhat.com>
+        id S1730162AbfFRSv2 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Jun 2019 14:51:28 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:51846 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729642AbfFRSv2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jun 2019 14:51:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=sS7XzFTywdPX1bp97jfirEs5HqvLLi6VQUFoiGF+v9Y=; b=XNNAmsfVfNviGN6Q0U7U4Ct+e5
+        Hq1EgLsUPtjCiM6nNVOvWZkpqFijMrvfqqPu/yCCRSKMGMF0vc9RzaAVcHMnqlIAAPoJ94na3Kikk
+        VfO8rcRLs70Ef4Xi4s3Yndd0k0766CR40gtQe0jpazAEliFhJaT3w3/TtNjkToc3BrKSx1aVNLtEf
+        fm7ylWZOOU3wiwudS+6mqYLv+pGYJ9hrHWtx0E14j7mFsZ1EEW4z6c10xHmqvup/eQ4ZBYxFFqrJO
+        nVPcPa1Y67iV0QHn3g4N1YKAKuTA9/L4f1UUh3Liksig8kyTgGnBu0wxpXpC0XNmF2QBFLgeWbUES
+        LiYYIzKg==;
+Received: from 177.133.86.196.dynamic.adsl.gvt.net.br ([177.133.86.196] helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hdJCa-0006RJ-1U; Tue, 18 Jun 2019 18:51:28 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hdJCW-0006UR-EM; Tue, 18 Jun 2019 15:51:24 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>
+Subject: [PATCH 6/6] drivers: base/node.c: fixes a kernel-doc markups
+Date:   Tue, 18 Jun 2019 15:51:22 -0300
+Message-Id: <2ff9c819831995ec34a826d44f9fae87ea3bf8c9.1560883872.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <a83ea390bc28784518fce772b4c961ea1c976f14.1560883872.git.mchehab+samsung@kernel.org>
+References: <a83ea390bc28784518fce772b4c961ea1c976f14.1560883872.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8736k67tdc.fsf@oldenburg2.str.redhat.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 18, 2019 at 06:25:51PM +0200, Florian Weimer wrote:
-> * Dave Martin:
-> 
-> > On Tue, Jun 18, 2019 at 09:00:35AM -0700, Yu-cheng Yu wrote:
-> >> On Tue, 2019-06-18 at 18:05 +0200, Florian Weimer wrote:
-> >> > * Yu-cheng Yu:
-> >> > 
-> >> > > > I assumed that it would also parse the main executable and make
-> >> > > > adjustments based on that.
-> >> > > 
-> >> > > Yes, Linux also looks at the main executable's header, but not its
-> >> > > NT_GNU_PROPERTY_TYPE_0 if there is a loader.
-> >> > > 
-> >> > > > 
-> >> > > > ld.so can certainly provide whatever the kernel needs.  We need to tweak
-> >> > > > the existing loader anyway.
-> >> > > > 
-> >> > > > No valid statically-linked binaries exist today, so this is not a
-> >> > > > consideration at this point.
-> >> > > 
-> >> > > So from kernel, we look at only PT_GNU_PROPERTY?
-> >> > 
-> >> > If you don't parse notes/segments in the executable for CET, then yes.
-> >> > We can put PT_GNU_PROPERTY into the loader.
-> >> 
-> >> Thanks!
-> >
-> > Would this require the kernel and ld.so to be updated in a particular
-> > order to avoid breakage?  I don't know enough about RHEL to know how
-> > controversial that might be.
-> 
-> There is no official ld.so that will work with the current userspace
-> interface (in this patch submission).  Upstream glibc needs to be
-> updated anyway, so yet another change isn't much of an issue.  This is
-> not a problem; we knew that something like this might happen.
-> 
-> Sure, people need a new binutils with backports for PT_GNU_PROPERTY, but
-> given that only very few people will build CET binaries with older
-> binutils, I think that's not a real issue either.
+There was a typo at the name of the vars inside the kernel-doc
+comment, causing those warnings:
 
-OK, just wanted to check we weren't missing any requirement for x86.
+	./drivers/base/node.c:690: warning: Function parameter or member 'mem_nid' not described in 'register_memory_node_under_compute_node'
+	./drivers/base/node.c:690: warning: Function parameter or member 'cpu_nid' not described in 'register_memory_node_under_compute_node'
+	./drivers/base/node.c:690: warning: Excess function parameter 'mem_node' description in 'register_memory_node_under_compute_node'
+	./drivers/base/node.c:690: warning: Excess function parameter 'cpu_node' description in 'register_memory_node_under_compute_node'
 
-This approach should satisfy the requirement for arm64 nicely.
+There's also a description missing here:
+	./drivers/base/node.c:78: warning: Function parameter or member 'hmem_attrs' not described in 'node_access_nodes'
 
-Cheers
----Dave
+Copy an existing description from another function call.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ drivers/base/node.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/base/node.c b/drivers/base/node.c
+index 9be88fd05147..4ee32db9d61d 100644
+--- a/drivers/base/node.c
++++ b/drivers/base/node.c
+@@ -673,8 +673,8 @@ int register_cpu_under_node(unsigned int cpu, unsigned int nid)
+ /**
+  * register_memory_node_under_compute_node - link memory node to its compute
+  *					     node for a given access class.
+- * @mem_node:	Memory node number
+- * @cpu_node:	Cpu  node number
++ * @mem_nid:	Memory node number
++ * @cpu_nid:	Cpu  node number
+  * @access:	Access class to register
+  *
+  * Description:
+-- 
+2.21.0
+
