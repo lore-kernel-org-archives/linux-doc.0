@@ -1,67 +1,135 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-4.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7A4287D919
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 06:57:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7AF237D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 07:21:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728565AbfFRG5Y (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Jun 2019 02:57:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58934 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726037AbfFRG5Y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 18 Jun 2019 02:57:24 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E069C20863;
-        Tue, 18 Jun 2019 05:42:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560836521;
-        bh=+QRebg6toQEXk2xt0KfLP2gEAhm9ZZ14Nl8WNSxXxVs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=S03fz8RyICJEbA23G+syKb/UQ6INJlvQIhsYIdMJbm/ohR8isujjpXGMw+ffSPkpc
-         3jrEooBnvIdpTh4wF2XMUIaaXB72foaiczdVOCGkdL11jpaWK+LqcsUHYAQmtEFX7+
-         XPvWrK5y8IRFC39MMv4XBbASVs1bbjt+T2L91GNQ=
-Date:   Tue, 18 Jun 2019 07:41:58 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Puranjay Mohan <puranjay12@gmail.com>
-Cc:     Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+        id S1726088AbfFRHVN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Jun 2019 03:21:13 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:38394 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725913AbfFRHVN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jun 2019 03:21:13 -0400
+Received: by mail-oi1-f194.google.com with SMTP id v186so8303896oie.5;
+        Tue, 18 Jun 2019 00:21:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zk9bWRMIeF1BfW35qp0hNrZwOQClEBtp/7mR1b//Sds=;
+        b=pksCcVRvsSoRLVbGmlM9vkhddYn81FdHuqb2RoiaVM1hdZf4Fz7tdW5XfA8dUqZEcr
+         q98RHckxVceJloQxaroM5i1vjzSrgNKlMIgYxX0Ok8+lkW5UzpKXqrw+FPkVW5IYdhah
+         Miw559GZlOna63lFVsvKKspAxTRhhiCatrjp3rTZN+lt/Q8xN9kAUVWVcZ6tk4+LpCbN
+         4bT8jVzwJsIz3xqJYuZh2I0fQ/pvWk5Sl5leMLjF/FdegLAnZFx55cL/Fup2iZXFTGY3
+         jBYDdgExFKP8PEW1TGY8zs+IS+I5NAsINO75YoqhKdRlb//iwTC6Bjm9I7bsgN2ymyr1
+         d6Hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zk9bWRMIeF1BfW35qp0hNrZwOQClEBtp/7mR1b//Sds=;
+        b=U8SIFJAu6/xmgcwI34VPCGyNRcQ9Db3vV6IVie2IGKycYA1bdxkvidH2yLdzSJkdp6
+         63C8fjFMFac0AbBDkvXSABKr9y1gf1bAbVUdjRKLuzPH35W1tuEg++1IvIm6800suXx1
+         dtOPh9syVLCd7uAyqeeWzYynEVjtalJRshigt2bGdnLfPQVCGtYnDMat0SLEEGptHTwT
+         V2NQaHcczPbUvkWiSWWQ8LDf1dtFO7g7RDVQ+mpbXVzzCragtdzWQYpeWTYkjuSj2Tyh
+         FWxviq5NCe4m8RsPACUHIeDYgpCZ/azTBHjXdjVSL8spL+WnAbweU6sweAIY0LYgdQfj
+         4sUQ==
+X-Gm-Message-State: APjAAAWBo6a8Bsh0YWfaei+9lqBITfshUCR0PeNV1GnDOo2HaQ1yxXti
+        mF/Mi/I6V6aVl+PzsJhfW0iHV0yJqwiReQ==
+X-Google-Smtp-Source: APXvYqxbFtgEVXknN5nBCSEMIVAKQSNKW3q/Nu7Jv5512Pbro5zbJTVbUyDzdCQyb8/dsWHODIhTFQ==
+X-Received: by 2002:a63:5d45:: with SMTP id o5mr995156pgm.40.1560835984975;
+        Mon, 17 Jun 2019 22:33:04 -0700 (PDT)
+Received: from localhost.localdomain ([112.196.181.128])
+        by smtp.googlemail.com with ESMTPSA id v23sm1242659pju.3.2019.06.17.22.33.02
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 17 Jun 2019 22:33:04 -0700 (PDT)
+From:   Puranjay Mohan <puranjay12@gmail.com>
+To:     Shuah Khan <skhan@linuxfoundation.org>
+Cc:     Puranjay Mohan <puranjay12@gmail.com>,
         linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [Linux-kernel-mentees] [PATCH] Documentation: platform: convert
- x86-laptop-drivers.txt to reST
-Message-ID: <20190618054158.GA3713@kroah.com>
-References: <20190618053227.31678-1-puranjay12@gmail.com>
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: platform: convert x86-laptop-drivers.txt to reST
+Date:   Tue, 18 Jun 2019 11:02:27 +0530
+Message-Id: <20190618053227.31678-1-puranjay12@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190618053227.31678-1-puranjay12@gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 18, 2019 at 11:02:27AM +0530, Puranjay Mohan wrote:
-> This converts the plain text documentation to reStructuredText format.
-> No essential content change.
-> 
-> Signed-off-by: Puranjay Mohan <puranjay12@gmail.com>
-> ---
->  Documentation/platform/x86-laptop-drivers.rst | 23 +++++++++++++++++++
->  Documentation/platform/x86-laptop-drivers.txt | 18 ---------------
->  2 files changed, 23 insertions(+), 18 deletions(-)
->  create mode 100644 Documentation/platform/x86-laptop-drivers.rst
->  delete mode 100644 Documentation/platform/x86-laptop-drivers.txt
+This converts the plain text documentation to reStructuredText format.
+No essential content change.
 
-Don't you also need to hook it up to the documentation build process
-when doing this?
+Signed-off-by: Puranjay Mohan <puranjay12@gmail.com>
+---
+ Documentation/platform/x86-laptop-drivers.rst | 23 +++++++++++++++++++
+ Documentation/platform/x86-laptop-drivers.txt | 18 ---------------
+ 2 files changed, 23 insertions(+), 18 deletions(-)
+ create mode 100644 Documentation/platform/x86-laptop-drivers.rst
+ delete mode 100644 Documentation/platform/x86-laptop-drivers.txt
 
-thanks,
+diff --git a/Documentation/platform/x86-laptop-drivers.rst b/Documentation/platform/x86-laptop-drivers.rst
+new file mode 100644
+index 000000000000..0494c3fdd41c
+--- /dev/null
++++ b/Documentation/platform/x86-laptop-drivers.rst
+@@ -0,0 +1,23 @@
++=============
++compal-laptop
++=============
++
++List of supported hardware:
++===========================
++
++by Compal:
++----------
++- Compal FL90/IFL90
++- Compal FL91/IFL91
++- Compal FL92/JFL92
++- Compal FT00/IFT00
++
++by Dell:
++--------
++- Dell Vostro 1200
++- Dell Mini 9 (Inspiron 910)
++- Dell Mini 10 (Inspiron 1010)
++- Dell Mini 10v (Inspiron 1011)
++- Dell Mini 1012 (Inspiron 1012)
++- Dell Inspiron 11z (Inspiron 1110)
++- Dell Mini 12 (Inspiron 1210)
+diff --git a/Documentation/platform/x86-laptop-drivers.txt b/Documentation/platform/x86-laptop-drivers.txt
+deleted file mode 100644
+index 01facd2590bb..000000000000
+--- a/Documentation/platform/x86-laptop-drivers.txt
++++ /dev/null
+@@ -1,18 +0,0 @@
+-compal-laptop
+-=============
+-List of supported hardware:
+-
+-by Compal:
+-	Compal FL90/IFL90
+-	Compal FL91/IFL91
+-	Compal FL92/JFL92
+-	Compal FT00/IFT00
+-
+-by Dell:
+-	Dell Vostro 1200
+-	Dell Mini 9 (Inspiron 910)
+-	Dell Mini 10 (Inspiron 1010)
+-	Dell Mini 10v (Inspiron 1011)
+-	Dell Mini 1012 (Inspiron 1012)
+-	Dell Inspiron 11z (Inspiron 1110)
+-	Dell Mini 12 (Inspiron 1210)
+-- 
+2.21.0
 
-greg k-h
