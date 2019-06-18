@@ -1,85 +1,93 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4DF7E7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 13:39:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 63AE87D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 13:41:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728575AbfFRNjw (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Jun 2019 09:39:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55960 "EHLO mail.kernel.org"
+        id S1729188AbfFRNle (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Jun 2019 09:41:34 -0400
+Received: from sauhun.de ([88.99.104.3]:40424 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726248AbfFRNjw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 18 Jun 2019 09:39:52 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EB40520823;
-        Tue, 18 Jun 2019 13:39:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560865191;
-        bh=70c0tfx2NKpPi9Gpr2q7gCR4QPX5rIxB+dP6jDanaxw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Jz1v+Fs9V1Xn8xJhqc+0MBMnEX0Tauy2tNQtP4QpgHbatyu2r3lUTxIXU3VlBa9Ay
-         PW4bMxlasbWVFCOeYJYmJfb3FG2Q67RhuuiSHeVrDv+TdKjwV4kK13Rc65ZCI+orMh
-         VQLAVkCAQGU0LwjFV56bsvPkuIJq8Rw6LCNc8H1M=
-Date:   Tue, 18 Jun 2019 15:39:48 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Puranjay Mohan <puranjay12@gmail.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        linux-doc@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] Documentation: platform: convert
- x86-laptop-drivers.txt to reST
-Message-ID: <20190618133948.GB5416@kroah.com>
-References: <20190618053227.31678-1-puranjay12@gmail.com>
- <20190618054158.GA3713@kroah.com>
- <20190618071717.2132a1b7@lwn.net>
+        id S1728905AbfFRNle (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 18 Jun 2019 09:41:34 -0400
+Received: from localhost (p5486CE06.dip0.t-ipconnect.de [84.134.206.6])
+        by pokefinder.org (Postfix) with ESMTPSA id 95E122C047A;
+        Tue, 18 Jun 2019 15:41:30 +0200 (CEST)
+Date:   Tue, 18 Jun 2019 15:41:30 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>, Ajay Gupta <ajayg@nvidia.com>,
+        Amit Kucheria <amit.kucheria@linaro.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Otto Sabart <ottosabart@seberm.com>,
+        Li Yang <leoyang.li@nxp.com>,
+        Will Deacon <will.deacon@arm.com>, devicetree@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-i2c@vger.kernel.org
+Subject: Re: [PATCH] docs: fix some broken references due to txt->rst renames
+Message-ID: <20190618134130.GA4516@kunai>
+References: <6f09587b7678f2fb378d736f45a02ffa9412cc99.1560864716.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="d6Gm4EdcadzBjdND"
 Content-Disposition: inline
-In-Reply-To: <20190618071717.2132a1b7@lwn.net>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <6f09587b7678f2fb378d736f45a02ffa9412cc99.1560864716.git.mchehab+samsung@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 18, 2019 at 07:17:17AM -0600, Jonathan Corbet wrote:
-> On Tue, 18 Jun 2019 07:41:58 +0200
-> Greg KH <gregkh@linuxfoundation.org> wrote:
-> 
-> > On Tue, Jun 18, 2019 at 11:02:27AM +0530, Puranjay Mohan wrote:
-> > > This converts the plain text documentation to reStructuredText format.
-> > > No essential content change.
-> > > 
-> > > Signed-off-by: Puranjay Mohan <puranjay12@gmail.com>
-> > > ---
-> > >  Documentation/platform/x86-laptop-drivers.rst | 23 +++++++++++++++++++
-> > >  Documentation/platform/x86-laptop-drivers.txt | 18 ---------------
-> > >  2 files changed, 23 insertions(+), 18 deletions(-)
-> > >  create mode 100644 Documentation/platform/x86-laptop-drivers.rst
-> > >  delete mode 100644 Documentation/platform/x86-laptop-drivers.txt  
-> > 
-> > Don't you also need to hook it up to the documentation build process
-> > when doing this?
-> 
-> Hooking it into the TOC tree is a good thing, but I think it's also good
-> to think about the exercise in general.  This is a document dropped into
-> place five years ago and never touched again.  It's a short list of
-> seemingly ancient laptops with no explanation of what it means.  So the
-> real question, IMO, is whether this document is useful to anybody and, if
-> not, whether it should just be deleted instead.
 
-I bet it should be deleted, but we should ask the platform driver
-maintainers first before we do that :)
+--d6Gm4EdcadzBjdND
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-thanks,
+On Tue, Jun 18, 2019 at 10:33:58AM -0300, Mauro Carvalho Chehab wrote:
+> There are three left-overs from the recent file renames,
+> probably due to some other conflicting patch.
+>=20
+> Fix them.
+>=20
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-greg k-h
+Thanks!
+
+Acked-by: Wolfram Sang <wsa@the-dreams.de>
+
+
+--d6Gm4EdcadzBjdND
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl0I6gIACgkQFA3kzBSg
+KbYPmw//S9ererLqN6V1mN1Ixbn0CfKZGd1MAB4a/0PZiXPpCngdRfAog04KBXjI
+xYSX76wEzxv0+SiwU8kElhD15w/9Vjm9vZ8SCYRv2xBSE7W3xd+fv2gDAQf+pb2p
+bHJ5pTs8PRCqJcVLmZirsJ2vvOA1C6NYmb9Sjb4hH4u4+i9fqc0RKjOrO2OZCHx2
+3T6xcu0INuJm1RNX0gHHk06mGjfMUm6unYYHJkOMeup4HTUqDmYvX4U1g/3sIAIy
+kOPwW1ggkEJDebdxyc1uNft0yZKznjx7iOkP/p6wacCUI56jmCMniAt36f76OV8L
+C9Bks/dr9tp4M3z0Jbxa9oJWhc+e8KA/WNgXXnyCCDVg1idhaGgWkW59S05Spu0H
+PgprhEo5QYdT1GvEO28eP+kuFKi7HN5VvOJy794jFkjOPH0A9HK/f1CXmjp9cv3V
+nZhMOzohbh18AXwOG3T4eF9gL3u0WsPK2EH35oFjxH7ty6tmV5CkpVBgzWH1EBxq
+K44uWCs6H6SX3e0Cq5FRgGdvjlpFwQZT4Hbf3IfmukTzurdCi9YSPI228IdLmCPa
+uncvdbThBK4o/O6ndCqx04bEmPEUJdzcYuBlqi38lTonwzN4jvOyabM65Mt/HhW7
+4sy6hg/cLkPuX8tBpKWJoT13jqVTjRvjnxemkSq06yAmOznSxs4=
+=lZcZ
+-----END PGP SIGNATURE-----
+
+--d6Gm4EdcadzBjdND--
