@@ -1,102 +1,75 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 278A97D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 18:55:33 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 09C007D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 18:59:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730477AbfFRSzR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Jun 2019 14:55:17 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:52334 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730475AbfFRSzQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jun 2019 14:55:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=TIxkstX3Yz1i1rLmk+0dEqZy9f5lz47x/sbdggQWrYY=; b=VF2H2XFBGFqvqGcaw4YJPUJsvB
-        TsNjnM7B1VvavSSPUyv4h1MNCLzPFyA7TcbKU57736JdsUyRSTcjPDEQu0uuEf3NtL1gIFC9RF899
-        xj2SP7e+X64E/Vfx6UusRIDziXF9DPmXXcXi08poLDjn7ZaodQ2i0rFKVv8UuKLEHbegSdpSCbBeX
-        oO0q5/qvb8Yui1afLAVL3+03KCKLMp/+es1g6ZAFwWO+fmGpspZntnS+jc6dZpfVm2mOOHenriv36
-        Za8J4qgdwiFqIak+x9WQvwNkQf3LNzcyArjusoifyv7JgcxfuWge3BHwbTVLPGDW4EkbM9J+uASNk
-        Db7REoOA==;
-Received: from 177.133.86.196.dynamic.adsl.gvt.net.br ([177.133.86.196] helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hdJGG-00083K-3Y; Tue, 18 Jun 2019 18:55:16 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hdJGE-0006Z0-1l; Tue, 18 Jun 2019 15:55:14 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        id S1730233AbfFRS75 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Jun 2019 14:59:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38852 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730231AbfFRS75 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 18 Jun 2019 14:59:57 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 38CDA206BA;
+        Tue, 18 Jun 2019 18:59:56 +0000 (UTC)
+Date:   Tue, 18 Jun 2019 14:59:54 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>
-Subject: [PATCH v2 6/6] drivers: base/node.c: fixes a kernel-doc markups
-Date:   Tue, 18 Jun 2019 15:55:12 -0300
-Message-Id: <bfda4a23dfd4b14d71d9622acd4e81d178f5bca3.1560884037.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <2ff9c819831995ec34a826d44f9fae87ea3bf8c9.1560883872.git.mchehab+samsung@kernel.org>
-References: <2ff9c819831995ec34a826d44f9fae87ea3bf8c9.1560883872.git.mchehab+samsung@kernel.org>
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Andreas Ziegler <andreas.ziegler@fau.de>,
+        Lecopzer Chen <lecopzer.chen@mediatek.com>
+Subject: Re: [PATCH 2/6] docs: trace: add a missing blank line
+Message-ID: <20190618145954.308e8ec3@gandalf.local.home>
+In-Reply-To: <91f90c10c12c6a2f6fb90fc0f9115fbd8dd73848.1560883872.git.mchehab+samsung@kernel.org>
+References: <a83ea390bc28784518fce772b4c961ea1c976f14.1560883872.git.mchehab+samsung@kernel.org>
+        <91f90c10c12c6a2f6fb90fc0f9115fbd8dd73848.1560883872.git.mchehab+samsung@kernel.org>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There was a typo at the name of the vars inside the kernel-doc
-comment, causing those warnings:
+On Tue, 18 Jun 2019 15:51:18 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-	./drivers/base/node.c:690: warning: Function parameter or member 'mem_nid' not described in 'register_memory_node_under_compute_node'
-	./drivers/base/node.c:690: warning: Function parameter or member 'cpu_nid' not described in 'register_memory_node_under_compute_node'
-	./drivers/base/node.c:690: warning: Excess function parameter 'mem_node' description in 'register_memory_node_under_compute_node'
-	./drivers/base/node.c:690: warning: Excess function parameter 'cpu_node' description in 'register_memory_node_under_compute_node'
+> Sphinx expects a blank line after a literal block markup.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-There's also a description missing here:
-	./drivers/base/node.c:78: warning: Function parameter or member 'hmem_attrs' not described in 'node_access_nodes'
+For the two tracing patches (1 and 2).
 
-Copy an existing description from another function call.
+Acked-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
+-- Steve
 
-v2: Add a missing hunk solving the warning reported as line #78.
-
- drivers/base/node.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/base/node.c b/drivers/base/node.c
-index 9be88fd05147..beec80649b33 100644
---- a/drivers/base/node.c
-+++ b/drivers/base/node.c
-@@ -66,6 +66,7 @@ static DEVICE_ATTR(cpulist, S_IRUGO, node_read_cpulist, NULL);
-  * @dev:	Device for this memory access class
-  * @list_node:	List element in the node's access list
-  * @access:	The access class rank
-+ * @hmem_attrs: Heterogeneous memory performance attributes
-  */
- struct node_access_nodes {
- 	struct device		dev;
-@@ -673,8 +674,8 @@ int register_cpu_under_node(unsigned int cpu, unsigned int nid)
- /**
-  * register_memory_node_under_compute_node - link memory node to its compute
-  *					     node for a given access class.
-- * @mem_node:	Memory node number
-- * @cpu_node:	Cpu  node number
-+ * @mem_nid:	Memory node number
-+ * @cpu_nid:	Cpu  node number
-  * @access:	Access class to register
-  *
-  * Description:
--- 
-2.21.0
-
+> ---
+>  Documentation/trace/kprobetrace.rst | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/trace/kprobetrace.rst b/Documentation/trace/kprobetrace.rst
+> index 3d162d432a3c..caa0a8ba081e 100644
+> --- a/Documentation/trace/kprobetrace.rst
+> +++ b/Documentation/trace/kprobetrace.rst
+> @@ -228,6 +228,7 @@ events, you need to enable it.
+>  
+>  Use the following command to start tracing in an interval.
+>  ::
+> +
+>      # echo 1 > tracing_on
+>      Open something...
+>      # echo 0 > tracing_on
 
