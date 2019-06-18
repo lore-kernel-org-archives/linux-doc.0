@@ -5,749 +5,607 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0333C7E2CF
+	by archive.lwn.net (Postfix) with ESMTP id 2FED57E2D1
 	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 21:08:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730940AbfFRVHt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1730937AbfFRVHt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Tue, 18 Jun 2019 17:07:49 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:34508 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:34530 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730789AbfFRVFx (ORCPT
+        with ESMTP id S1730792AbfFRVFx (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jun 2019 17:05:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=6Olw/Jt6p3FQJK+KHgcRjPZvPg9dYcTB/APDCUh9Tjg=; b=k9plp4z7v/mRcIWOI7tr7k2Ue
-        wQZODatAsooJm1Pt5c4Dru04DcvZYFDNuzKkB7eCRptExvmhWppt7RcBgo+4GR9wC3mAbSsjxX6xP
-        Q9tv36G51X1Qxy449Ok2Pk2ZruuKjQfxA9jieTWC8NKgb90TSsp8U9oFHO6UrwBAy8uqY2m5FuhRP
-        aFMBsWi1VKD2HEI6qoOwx2pfe6ACqwiNGjRIofDv9bUw8mGOAKMK9jrWOxDTZXp916sC5wTQfbZx6
-        VsAH6DrIB5MHDQZMTwG+NzxDscBLO7JAyrD6qzHfM6WK6gI8cw+SzuPV+ZNM1erraXbJmNpXtw43v
-        3HwwC66ag==;
+        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+        To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=LlVQ5AgDnGeVreoNQv5wQOL6WOl9jGIbq69M3UI1xTA=; b=ZaZuy9l6/Ggb2QQVZs1T38/Jiv
+        CtntnfPNCLjMC3OvceIzJ9DrBsVXwc1XE3p+C/np1rrU265Okcg/ne/X4p46hD/Jw/rYeNgBZ73Pa
+        ZIm/HbtFDoz1x6v3K2O4lo9zWrgczxl+dfRqTlvVf1VQIAz9l0y13RhVE/itGt+mB0z6hwntGy0FK
+        4NaIs1AlYQBCaWq9AtnGuFQc13k05oXiA9XddnRY42yEI8HuzANN6Pr8nCZIyTYhskzt5T4BWiDjR
+        CJCl2jQqimjNcJw1sbb35YKu4vF9XR32EMe5h3gsCQFLhZae58cWzJJoHMhP/ayEmHRKAKSAc9+0E
+        cyJQTmEQ==;
 Received: from 177.133.86.196.dynamic.adsl.gvt.net.br ([177.133.86.196] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hdLIb-0006yL-O2; Tue, 18 Jun 2019 21:05:50 +0000
+        id 1hdLIc-0006zA-J3; Tue, 18 Jun 2019 21:05:51 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hdLIZ-0002Bg-Jb; Tue, 18 Jun 2019 18:05:47 -0300
+        id 1hdLIa-0002Cp-1p; Tue, 18 Jun 2019 18:05:48 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Palmer Dabbelt <palmer@sifive.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        linux-riscv@lists.infradead.org, netdev@vger.kernel.org,
-        bpf@vger.kernel.org
-Subject: [PATCH v1 00/22] Convert files to ReST - part 3
-Date:   Tue, 18 Jun 2019 18:05:24 -0300
-Message-Id: <cover.1560891322.git.mchehab+samsung@kernel.org>
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andrea Parri <andrea.parri@amarulasolutions.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@linux.ibm.com>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        Christoph Hellwig <hch@lst.de>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>, linux-pci@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-parisc@vger.kernel.org, iommu@lists.linux-foundation.org
+Subject: [PATCH v1 15/22] docs: driver-api: add a chapter for memory-related API
+Date:   Tue, 18 Jun 2019 18:05:39 -0300
+Message-Id: <5a67bbb44d92b4fb07e3eef5b291608524f72ff3.1560891322.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <cover.1560891322.git.mchehab+samsung@kernel.org>
+References: <cover.1560891322.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is the third part of a series I wrote sometime ago where I manually
-convert lots of files to be properly parsed by Sphinx as ReST files.
+There are some DMA files under the main dir. Move them to the
+new chapter and add an index file for them.
 
-As it touches on lot of stuff, this series is based on today's linux-next, 
-at tag next-20190617.
-
-The first version of this series had 57 patches. The first part with 28 patches
-were already merged.  The second part has 29 patches. This series with 22 
-patches finishes the conversion part of my series. That's because I opted to
-do ~1 patch per converted directory.
-
-That sounds too much to be send on a single round. So, I'm opting to split
-it on 3 parts for the conversion.
-
-After having those three patch series merged, I should submit a final patch 
-series adding orphaned books to existing ones (with ~50 patches), to be
-applied on a convenient moment (probably late on a merge window).
-
-Those patches should probably be good to be merged either by subsystem
-maintainers or via the docs tree.
-
-I opted to mark new files not included yet to the main index.rst (directly or
-indirectly) with the :orphan: tag, in order to avoid adding warnings to the
-build system. This should be removed after we find a "home" for all
-the converted files within the new document tree arrangement, after I
-submit the third part.
-
-Both this series and  the other parts of this work are on my devel git tree,
-at:
-
-	https://git.linuxtv.org/mchehab/experimental.git/log/?h=convert_rst_renames_v5.1
-
-The final output in html (after all patches I currently have, including 
-the upcoming series) can be seen at:
-
-	https://www.infradead.org/~mchehab/rst_conversion/
-
-It contains all pending work from my side related to the conversion, plus
-the patches I finished a first version today with contains the renaming 
-patches and de-orphan changes.
-
-Mauro Carvalho Chehab (22):
-  docs: Documentation/*.txt: rename all ReST files to *.rst
-  docs: ioctl-number.txt: convert it to ReST format
-  docs: ioctl: convert to ReST
-  docs: thermal: convert to ReST
-  docs: rapidio: convert to ReST
-  docs: blockdev: convert to ReST
-  docs: perf: convert to ReST
-  docs: sysctl: convert to ReST
-  docs: block: convert to ReST
-  docs: security: move some books to it and update
-  docs: admin-guide: add .rst files from the main dir
-  docs: driver-api: add .rst files from the main dir
-  docs: x86: move two x86-specific files to x86 arch dir
-  docs: usb: rename files to .rst and add them to drivers-api
-  docs: driver-api: add a chapter for memory-related API
-  docs: driver-api: add xilinx driver API documentation
-  docs: add arch doc directories to the index
-  docs: admin-guide: move sysctl directory to it
-  docs: driver-api: add remaining converted dirs to it
-  docs: extcon: move it to acpi dir and convert it to ReST
-  docs: admin-guide: add laptops documentation
-  admin-guide: add kdump documentation into it
-
- CREDITS                                       |   2 +-
- Documentation/ABI/removed/sysfs-class-rfkill  |   2 +-
- Documentation/ABI/stable/sysfs-class-rfkill   |   2 +-
- Documentation/ABI/stable/sysfs-devices-node   |   2 +-
- Documentation/ABI/testing/procfs-diskstats    |   2 +-
- Documentation/ABI/testing/sysfs-block         |   2 +-
- Documentation/ABI/testing/sysfs-block-device  |   2 +-
- .../ABI/testing/sysfs-class-switchtec         |   2 +-
- .../ABI/testing/sysfs-devices-system-cpu      |   4 +-
- .../ABI/testing/sysfs-platform-asus-laptop    |   2 +-
- Documentation/PCI/pci.rst                     |   8 +-
- Documentation/{ => admin-guide}/aoe/aoe.rst   |   4 +-
- .../{ => admin-guide}/aoe/autoload.sh         |   1 -
- .../{ => admin-guide}/aoe/examples.rst        |   0
- Documentation/{ => admin-guide}/aoe/index.rst |   2 -
- Documentation/{ => admin-guide}/aoe/status.sh |   0
- Documentation/{ => admin-guide}/aoe/todo.rst  |   0
- .../{ => admin-guide}/aoe/udev-install.sh     |   4 +-
- Documentation/{ => admin-guide}/aoe/udev.txt  |   8 +-
- .../{btmrvl.txt => admin-guide/btmrvl.rst}    |   0
- Documentation/admin-guide/bug-hunting.rst     |   4 +-
- .../cgroup-v1/blkio-controller.rst            |   0
- .../{ => admin-guide}/cgroup-v1/cgroups.rst   |   4 +-
- .../{ => admin-guide}/cgroup-v1/cpuacct.rst   |   0
- .../{ => admin-guide}/cgroup-v1/cpusets.rst   |   2 +-
- .../{ => admin-guide}/cgroup-v1/devices.rst   |   0
- .../cgroup-v1/freezer-subsystem.rst           |   0
- .../{ => admin-guide}/cgroup-v1/hugetlb.rst   |   0
- .../{ => admin-guide}/cgroup-v1/index.rst     |   2 -
- .../cgroup-v1/memcg_test.rst                  |   4 +-
- .../{ => admin-guide}/cgroup-v1/memory.rst    |   0
- .../{ => admin-guide}/cgroup-v1/net_cls.rst   |   0
- .../{ => admin-guide}/cgroup-v1/net_prio.rst  |   0
- .../{ => admin-guide}/cgroup-v1/pids.rst      |   0
- .../{ => admin-guide}/cgroup-v1/rdma.rst      |   0
- Documentation/admin-guide/cgroup-v2.rst       |   2 +-
- .../clearing-warn-once.rst}                   |   0
- .../cpu-load.rst}                             |   0
- .../cputopology.rst}                          |   0
- .../efi-stub.rst}                             |   0
- .../{highuid.txt => admin-guide/highuid.rst}  |   2 +-
- Documentation/admin-guide/hw-vuln/l1tf.rst    |   4 +-
- .../hw_random.rst}                            |   0
- Documentation/admin-guide/index.rst           |  26 +
- .../{iostats.txt => admin-guide/iostats.rst}  |   0
- .../{ => admin-guide}/kdump/gdbmacros.txt     |   0
- .../{ => admin-guide}/kdump/index.rst         |   1 -
- .../{ => admin-guide}/kdump/kdump.rst         |   0
- .../{ => admin-guide}/kdump/vmcoreinfo.rst    |   0
- .../admin-guide/kernel-parameters.txt         |  46 +-
- .../kernel-per-cpu-kthreads.rst}              |   4 +-
- .../{ => admin-guide}/laptops/asus-laptop.rst |   0
- .../laptops/disk-shock-protection.rst         |   0
- .../{ => admin-guide}/laptops/index.rst       |   1 -
- .../{ => admin-guide}/laptops/laptop-mode.rst |   0
- .../{ => admin-guide}/laptops/lg-laptop.rst   |   1 -
- .../{ => admin-guide}/laptops/sony-laptop.rst |   0
- .../{ => admin-guide}/laptops/sonypi.rst      |   0
- .../laptops/thinkpad-acpi.rst                 |   6 +-
- .../laptops/toshiba_haps.rst                  |   0
- .../lcd-panel-cgram.rst                       |   2 -
- .../{ldm.txt => admin-guide/ldm.rst}          |   3 +-
- .../lockup-watchdogs.rst}                     |   0
- .../mm/cma_debugfs.rst}                       |   2 -
- Documentation/admin-guide/mm/index.rst        |   2 +-
- Documentation/admin-guide/mm/ksm.rst          |   2 +-
- .../admin-guide/mm/numa_memory_policy.rst     |   2 +-
- .../numastat.rst}                             |   3 +-
- .../{pnp.txt => admin-guide/pnp.rst}          |  11 +-
- .../{rtc.txt => admin-guide/rtc.rst}          |   6 +-
- .../{svga.txt => admin-guide/svga.rst}        |   0
- .../abi.txt => admin-guide/sysctl/abi.rst}    |  71 +-
- .../fs.txt => admin-guide/sysctl/fs.rst}      | 142 +--
- .../README => admin-guide/sysctl/index.rst}   |  34 +-
- .../sysctl/kernel.rst}                        | 378 ++++----
- .../net.txt => admin-guide/sysctl/net.rst}    | 141 ++-
- .../sysctl/sunrpc.rst}                        |  13 +-
- .../user.txt => admin-guide/sysctl/user.rst}  |  32 +-
- .../vm.txt => admin-guide/sysctl/vm.rst}      | 264 ++---
- .../video-output.rst}                         |   1 -
- Documentation/arm/index.rst                   |   2 -
- Documentation/arm64/index.rst                 |   2 -
- .../{bfq-iosched.txt => bfq-iosched.rst}      |  68 +-
- .../block/{biodoc.txt => biodoc.rst}          | 366 ++++---
- .../block/{biovecs.txt => biovecs.rst}        |  20 +-
- .../block/{capability.txt => capability.rst}  |  17 +-
- ...ne-partition.txt => cmdline-partition.rst} |  13 +-
- ...{data-integrity.txt => data-integrity.rst} |  60 +-
- ...dline-iosched.txt => deadline-iosched.rst} |  21 +-
- Documentation/block/index.rst                 |  25 +
- .../block/{ioprio.txt => ioprio.rst}          |  95 +-
- .../{kyber-iosched.txt => kyber-iosched.rst}  |   3 +-
- .../block/{null_blk.txt => null_blk.rst}      |  65 +-
- Documentation/block/{pr.txt => pr.rst}        |  18 +-
- .../{queue-sysfs.txt => queue-sysfs.rst}      |   7 +-
- .../block/{request.txt => request.rst}        |  47 +-
- Documentation/block/{stat.txt => stat.rst}    |  13 +-
- ...witching-sched.txt => switching-sched.rst} |  28 +-
- ...ontrol.txt => writeback_cache_control.rst} |  12 +-
- ...structure-v9.txt => data-structure-v9.rst} |   6 +-
- Documentation/blockdev/drbd/figures.rst       |  28 +
- .../blockdev/drbd/{README.txt => index.rst}   |  15 +-
- .../blockdev/{floppy.txt => floppy.rst}       |  88 +-
- Documentation/blockdev/index.rst              |  16 +
- Documentation/blockdev/{nbd.txt => nbd.rst}   |   2 +-
- .../blockdev/{paride.txt => paride.rst}       | 194 ++--
- .../blockdev/{ramdisk.txt => ramdisk.rst}     |  55 +-
- Documentation/blockdev/{zram.txt => zram.rst} | 197 ++--
- Documentation/core-api/printk-formats.rst     |   2 +-
- Documentation/device-mapper/statistics.rst    |   4 +-
- .../devicetree/bindings/phy/phy-bindings.txt  |   2 +-
- .../atomic_bitops.rst}                        |   1 -
- .../bt8xxgpio.rst}                            |   1 -
- .../bus-virt-phys-mapping.rst}                |  52 +-
- .../{connector => driver-api}/connector.rst   |   2 -
- .../{console => driver-api}/console.rst       |   2 -
- .../{crc32.txt => driver-api/crc32.rst}       |   0
- .../{dcdbas.txt => driver-api/dcdbas.rst}     |   0
- .../debugging-modules.rst}                    |   0
- .../debugging-via-ohci1394.rst}               |   0
- .../{dell_rbu.txt => driver-api/dell_rbu.rst} |   1 -
- .../{digsig.txt => driver-api/digsig.rst}     |   0
- .../{EDID/howto.rst => driver-api/edid.rst}   |   2 -
- .../{eisa.txt => driver-api/eisa.rst}         |   0
- .../futex-requeue-pi.rst}                     |   0
- .../gcc-plugins.rst}                          |   0
- .../hwspinlock.rst}                           |   0
- Documentation/driver-api/index.rst            |  71 +-
- .../io-mapping.rst}                           |   0
- .../io_ordering.rst}                          |   0
- .../{IPMI.txt => driver-api/ipmi.rst}         |   0
- .../irq-affinity.rst}                         |   0
- .../irq-domain.rst}                           |   0
- Documentation/{IRQ.txt => driver-api/irq.rst} |   0
- .../irqflags-tracing.rst}                     |   1 -
- Documentation/{isa.txt => driver-api/isa.rst} |   0
- .../{isapnp.txt => driver-api/isapnp.rst}     |   0
- .../{kobject.txt => driver-api/kobject.rst}   |   4 +-
- .../{kprobes.txt => driver-api/kprobes.rst}   |   1 -
- .../{kref.txt => driver-api/kref.rst}         |   0
- .../pblk.txt => driver-api/lightnvm-pblk.rst} |   0
- Documentation/{lzo.txt => driver-api/lzo.rst} |   0
- .../{mailbox.txt => driver-api/mailbox.rst}   |   0
- .../men-chameleon-bus.rst}                    |   0
- .../mm/dma-api-howto.rst}                     |   0
- .../mm/dma-api.rst}                           |   6 +-
- .../mm/dma-attributes.rst}                    |   0
- .../mm/dma-isa-lpc.rst}                       |   2 +-
- Documentation/driver-api/mm/index.rst         |  11 +
- .../nommu-mmap.rst}                           |   0
- Documentation/{ntb.txt => driver-api/ntb.rst} |   0
- Documentation/{nvmem => driver-api}/nvmem.rst |   2 -
- .../{padata.txt => driver-api/padata.rst}     |   0
- .../parport-lowlevel.rst}                     |   0
- .../percpu-rw-semaphore.rst}                  |   0
- .../{pi-futex.txt => driver-api/pi-futex.rst} |   0
- Documentation/driver-api/pps.rst              |   2 -
- .../preempt-locking.rst}                      |   2 +-
- .../{pti => driver-api}/pti_intel_mid.rst     |   2 -
- Documentation/driver-api/ptp.rst              |   2 -
- Documentation/{pwm.txt => driver-api/pwm.rst} |   0
- .../{rbtree.txt => driver-api/rbtree.rst}     |  52 +-
- .../remoteproc.rst}                           |   2 +-
- .../{rfkill.txt => driver-api/rfkill.rst}     |   0
- .../robust-futex-ABI.rst}                     |   0
- .../robust-futexes.rst}                       |   0
- .../{rpmsg.txt => driver-api/rpmsg.rst}       |   0
- .../{sgi-ioc4.txt => driver-api/sgi-ioc4.rst} |   0
- .../{SM501.txt => driver-api/sm501.rst}       |   0
- .../smsc_ece1099.rst}                         |   0
- .../speculation.rst}                          |   8 +-
- .../static-keys.rst}                          |   0
- .../switchtec.rst}                            |   2 +-
- .../sync_file.rst}                            |   0
- Documentation/{tee.txt => driver-api/tee.rst} |   0
- .../this_cpu_ops.rst}                         |   0
- .../unaligned-memory-access.rst}              |   0
- Documentation/driver-api/usb/dma.rst          |   6 +-
- .../vfio-mediated-device.rst}                 |   2 +-
- .../{vfio.txt => driver-api/vfio.rst}         |   0
- .../{ => driver-api}/xilinx/eemi.rst          |   0
- .../{ => driver-api}/xilinx/index.rst         |   1 -
- .../{xillybus.txt => driver-api/xillybus.rst} |   0
- Documentation/{xz.txt => driver-api/xz.rst}   |   0
- .../{zorro.txt => driver-api/zorro.rst}       |   5 +-
- Documentation/driver-model/device.rst         |   2 +-
- Documentation/fb/fbcon.rst                    |   4 +-
- Documentation/fb/vesafb.rst                   |   2 +-
- Documentation/filesystems/proc.txt            |   2 +-
- Documentation/filesystems/sysfs.txt           |   2 +-
- Documentation/filesystems/tmpfs.txt           |   2 +-
- .../acpi/extcon-intel-int3496.rst}            |  14 +-
- Documentation/firmware-guide/acpi/index.rst   |   1 +
- Documentation/gpu/drm-mm.rst                  |   2 +-
- Documentation/ia64/index.rst                  |   2 -
- Documentation/ia64/irq-redir.rst              |   2 +-
- Documentation/index.rst                       |  14 +
- ...g-up-ioctls.txt => botching-up-ioctls.rst} |   1 +
- Documentation/ioctl/{cdrom.txt => cdrom.rst}  | 908 +++++++++++-------
- Documentation/ioctl/{hdio.txt => hdio.rst}    | 835 ++++++++++------
- Documentation/ioctl/index.rst                 |  16 +
- ...{ioctl-decoding.txt => ioctl-decoding.rst} |  13 +-
- .../{ioctl-number.txt => ioctl-number.rst}    | 588 ++++++------
- Documentation/locking/rt-mutex.rst            |   2 +-
- Documentation/m68k/index.rst                  |   2 -
- Documentation/memory-barriers.txt             |   6 +-
- Documentation/mic/index.rst                   |   2 -
- Documentation/networking/ip-sysctl.txt        |   2 +-
- Documentation/networking/scaling.rst          |   4 +-
- .../perf/{arm-ccn.txt => arm-ccn.rst}         |  18 +-
- .../perf/{arm_dsu_pmu.txt => arm_dsu_pmu.rst} |   5 +-
- .../perf/{hisi-pmu.txt => hisi-pmu.rst}       |  35 +-
- Documentation/perf/index.rst                  |  16 +
- .../perf/{qcom_l2_pmu.txt => qcom_l2_pmu.rst} |   3 +-
- .../perf/{qcom_l3_pmu.txt => qcom_l3_pmu.rst} |   3 +-
- .../{thunderx2-pmu.txt => thunderx2-pmu.rst}  |  25 +-
- .../perf/{xgene-pmu.txt => xgene-pmu.rst}     |   3 +-
- Documentation/{phy.txt => phy.rst}            |   2 +
- Documentation/phy/samsung-usb2.rst            |   2 -
- .../powerpc/firmware-assisted-dump.rst        |   2 +-
- Documentation/process/submit-checklist.rst    |   2 +-
- Documentation/rapidio/index.rst               |  15 +
- .../{mport_cdev.txt => mport_cdev.rst}        |  47 +-
- .../rapidio/{rapidio.txt => rapidio.rst}      |  39 +-
- .../rapidio/{rio_cm.txt => rio_cm.rst}        |  66 +-
- .../rapidio/{sysfs.txt => sysfs.rst}          |   4 +
- .../rapidio/{tsi721.txt => tsi721.rst}        |  45 +-
- Documentation/riscv/index.rst                 |   2 -
- Documentation/s390/index.rst                  |   2 -
- Documentation/s390/vfio-ccw.rst               |   6 +-
- Documentation/scheduler/index.rst             |   2 -
- Documentation/scheduler/sched-deadline.rst    |   2 +-
- Documentation/scheduler/sched-design-CFS.rst  |   2 +-
- Documentation/scheduler/sched-rt-group.rst    |   2 +-
- Documentation/security/index.rst              |   5 +-
- .../security/{LSM.rst => lsm-development.rst} |   0
- Documentation/{lsm.txt => security/lsm.rst}   |   0
- Documentation/{SAK.txt => security/sak.rst}   |   1 -
- .../{siphash.txt => security/siphash.rst}     |   0
- Documentation/security/tpm/index.rst          |   1 +
- Documentation/security/tpm/xen-tpmfront.rst   |   2 -
- Documentation/sparc/index.rst                 |   2 -
- ...pu-cooling-api.txt => cpu-cooling-api.rst} |  39 +-
- .../{exynos_thermal => exynos_thermal.rst}    |  47 +-
- ...emulation => exynos_thermal_emulation.rst} |  66 +-
- Documentation/thermal/index.rst               |  18 +
- ...el_powerclamp.txt => intel_powerclamp.rst} | 177 ++--
- .../{nouveau_thermal => nouveau_thermal.rst}  |  54 +-
- ...ower_allocator.txt => power_allocator.rst} | 140 +--
- .../thermal/{sysfs-api.txt => sysfs-api.rst}  | 490 ++++++----
- ...hermal => x86_pkg_temperature_thermal.rst} |  28 +-
- Documentation/trace/kprobetrace.rst           |   2 +-
- .../it_IT/process/submit-checklist.rst        |   2 +-
- .../translations/ko_KR/memory-barriers.txt    |   6 +-
- Documentation/translations/zh_CN/IRQ.txt      |   4 +-
- .../translations/zh_CN/filesystems/sysfs.txt  |   2 +-
- .../translations/zh_CN/io_ordering.txt        |   4 +-
- .../translations/zh_CN/oops-tracing.txt       |   4 +-
- .../zh_CN/process/submit-checklist.rst        |   2 +-
- Documentation/usb/{acm.txt => acm.rst}        |   0
- .../{authorization.txt => authorization.rst}  |   0
- .../usb/{chipidea.txt => chipidea.rst}        |   0
- Documentation/usb/{dwc3.txt => dwc3.rst}      |   0
- Documentation/usb/{ehci.txt => ehci.rst}      |   0
- .../usb/{functionfs.txt => functionfs.rst}    |   0
- ...{gadget-testing.txt => gadget-testing.rst} |   4 +-
- ...adget_configfs.txt => gadget_configfs.rst} |   0
- .../usb/{gadget_hid.txt => gadget_hid.rst}    |   0
- .../{gadget_multi.txt => gadget_multi.rst}    |   0
- ...{gadget_printer.txt => gadget_printer.rst} |   0
- .../{gadget_serial.txt => gadget_serial.rst}  |   0
- Documentation/usb/index.rst                   |  39 +
- .../usb/{iuu_phoenix.txt => iuu_phoenix.rst}  |   0
- .../{mass-storage.txt => mass-storage.rst}    |   0
- ...{misc_usbsevseg.txt => misc_usbsevseg.rst} |   0
- .../usb/{mtouchusb.txt => mtouchusb.rst}      |   0
- Documentation/usb/{ohci.txt => ohci.rst}      |   0
- Documentation/usb/{rio.txt => rio.rst}        |   0
- Documentation/usb/text_files.rst              |  29 +
- .../usb/{usb-help.txt => usb-help.rst}        |   0
- .../usb/{usb-serial.txt => usb-serial.rst}    |   0
- ...{usbip_protocol.txt => usbip_protocol.rst} |   0
- Documentation/usb/{usbmon.txt => usbmon.rst}  |   0
- ...-overview.txt => wusb-design-overview.rst} |   0
- Documentation/vm/numa.rst                     |   4 +-
- Documentation/vm/page_migration.rst           |   2 +-
- Documentation/vm/unevictable-lru.rst          |   4 +-
- Documentation/w1/w1.netlink                   |   2 +-
- Documentation/watchdog/hpwdt.rst              |   4 +-
- Documentation/x86/index.rst                   |   2 +
- .../{Intel-IOMMU.txt => x86/intel-iommu.rst}  |   1 +
- .../{intel_txt.txt => x86/intel_txt.rst}      |   1 +
- Documentation/x86/topology.rst                |   2 +-
- .../x86/x86_64/fake-numa-for-cpusets.rst      |   4 +-
- Documentation/xtensa/index.rst                |   2 -
- MAINTAINERS                                   | 106 +-
- arch/Kconfig                                  |   4 +-
- arch/arm/Kconfig                              |   4 +-
- arch/arm64/Kconfig                            |   2 +-
- arch/ia64/hp/common/sba_iommu.c               |  12 +-
- arch/ia64/sn/pci/pci_dma.c                    |   4 +-
- arch/parisc/Kconfig                           |   2 +-
- arch/parisc/kernel/pci-dma.c                  |   2 +-
- arch/sh/Kconfig                               |   4 +-
- arch/sparc/Kconfig                            |   2 +-
- arch/unicore32/include/asm/io.h               |   2 +-
- arch/x86/Kconfig                              |   8 +-
- arch/x86/include/asm/dma-mapping.h            |   4 +-
- arch/x86/kernel/amd_gart_64.c                 |   2 +-
- block/Kconfig                                 |   4 +-
- block/Kconfig.iosched                         |   2 +-
- block/bfq-iosched.c                           |   2 +-
- block/blk-integrity.c                         |   2 +-
- block/ioprio.c                                |   2 +-
- block/mq-deadline.c                           |   2 +-
- block/partitions/Kconfig                      |   2 +-
- block/partitions/cmdline.c                    |   2 +-
- drivers/base/core.c                           |   2 +-
- drivers/block/Kconfig                         |   8 +-
- drivers/block/floppy.c                        |   2 +-
- drivers/block/zram/Kconfig                    |   6 +-
- drivers/char/Kconfig                          |   6 +-
- drivers/char/hw_random/core.c                 |   2 +-
- drivers/char/ipmi/Kconfig                     |   2 +-
- drivers/char/ipmi/ipmi_si_hotmod.c            |   2 +-
- drivers/char/ipmi/ipmi_si_intf.c              |   2 +-
- drivers/dma-buf/Kconfig                       |   2 +-
- drivers/gpio/Kconfig                          |   2 +-
- drivers/gpu/drm/Kconfig                       |   2 +-
- drivers/gpu/drm/drm_ioctl.c                   |   2 +-
- drivers/parisc/sba_iommu.c                    |  16 +-
- drivers/pci/switch/Kconfig                    |   2 +-
- drivers/perf/qcom_l3_pmu.c                    |   2 +-
- drivers/platform/x86/Kconfig                  |   8 +-
- drivers/platform/x86/dcdbas.c                 |   2 +-
- drivers/platform/x86/dell_rbu.c               |   2 +-
- drivers/pnp/isapnp/Kconfig                    |   2 +-
- drivers/rapidio/Kconfig                       |   2 +-
- drivers/tty/Kconfig                           |   2 +-
- drivers/usb/Kconfig                           |   2 +-
- drivers/usb/class/Kconfig                     |   2 +-
- drivers/usb/gadget/Kconfig                    |   6 +-
- drivers/usb/gadget/function/f_mass_storage.c  |   2 +-
- drivers/usb/gadget/legacy/Kconfig             |   6 +-
- drivers/usb/host/Kconfig                      |   2 +-
- drivers/usb/misc/Kconfig                      |   2 +-
- drivers/usb/mon/Kconfig                       |   2 +-
- drivers/usb/serial/Kconfig                    |  10 +-
- drivers/usb/serial/belkin_sa.c                |   2 +-
- drivers/usb/serial/belkin_sa.h                |   2 +-
- drivers/usb/serial/cypress_m8.c               |   2 +-
- drivers/usb/serial/empeg.c                    |   2 +-
- drivers/usb/serial/ftdi_sio.c                 |   2 +-
- drivers/usb/serial/ir-usb.c                   |   2 +-
- drivers/usb/serial/keyspan_pda.c              |   2 +-
- drivers/usb/serial/omninet.c                  |   2 +-
- drivers/usb/serial/oti6858.c                  |   2 +-
- drivers/usb/serial/pl2303.c                   |   2 +-
- drivers/usb/serial/usb-serial.c               |   2 +-
- drivers/usb/serial/visor.c                    |   2 +-
- drivers/usb/serial/visor.h                    |   2 +-
- drivers/usb/serial/whiteheat.c                |   2 +-
- drivers/usb/serial/whiteheat.h                |   2 +-
- drivers/vfio/Kconfig                          |   2 +-
- drivers/vfio/mdev/Kconfig                     |   2 +-
- drivers/w1/Kconfig                            |   2 +-
- fs/proc/Kconfig                               |   2 +-
- include/asm-generic/bitops/atomic.h           |   2 +-
- include/linux/cgroup-defs.h                   |   2 +-
- include/linux/dma-mapping.h                   |   2 +-
- include/linux/hw_random.h                     |   2 +-
- include/linux/io-mapping.h                    |   2 +-
- include/linux/jump_label.h                    |   2 +-
- include/linux/kobject.h                       |   2 +-
- include/linux/kobject_ns.h                    |   2 +-
- include/linux/rbtree.h                        |   2 +-
- include/linux/rbtree_augmented.h              |   2 +-
- include/linux/thermal.h                       |   4 +-
- include/media/videobuf-dma-sg.h               |   2 +-
- include/uapi/linux/bpf.h                      |   2 +-
- include/uapi/rdma/rdma_user_ioctl_cmds.h      |   2 +-
- init/Kconfig                                  |   6 +-
- kernel/cgroup/cpuset.c                        |   2 +-
- kernel/dma/debug.c                            |   2 +-
- kernel/padata.c                               |   2 +-
- kernel/panic.c                                |   2 +-
- lib/Kconfig                                   |   2 +-
- lib/Kconfig.debug                             |   2 +-
- lib/crc32.c                                   |   2 +-
- lib/kobject.c                                 |   4 +-
- lib/lzo/lzo1x_decompress_safe.c               |   2 +-
- lib/xz/Kconfig                                |   2 +-
- mm/Kconfig                                    |   2 +-
- mm/nommu.c                                    |   2 +-
- mm/swap.c                                     |   2 +-
- samples/Kconfig                               |   2 +-
- samples/kprobes/kprobe_example.c              |   2 +-
- samples/kprobes/kretprobe_example.c           |   2 +-
- scripts/gcc-plugins/Kconfig                   |   2 +-
- security/Kconfig                              |   2 +-
- security/device_cgroup.c                      |   2 +-
- tools/include/linux/rbtree.h                  |   2 +-
- tools/include/linux/rbtree_augmented.h        |   2 +-
- tools/include/uapi/linux/bpf.h                |   2 +-
- tools/testing/selftests/zram/README           |   2 +-
- 405 files changed, 4491 insertions(+), 2896 deletions(-)
- rename Documentation/{ => admin-guide}/aoe/aoe.rst (97%)
- rename Documentation/{ => admin-guide}/aoe/autoload.sh (99%)
- rename Documentation/{ => admin-guide}/aoe/examples.rst (100%)
- rename Documentation/{ => admin-guide}/aoe/index.rst (95%)
- rename Documentation/{ => admin-guide}/aoe/status.sh (100%)
- rename Documentation/{ => admin-guide}/aoe/todo.rst (100%)
- rename Documentation/{ => admin-guide}/aoe/udev-install.sh (92%)
- rename Documentation/{ => admin-guide}/aoe/udev.txt (91%)
- rename Documentation/{btmrvl.txt => admin-guide/btmrvl.rst} (100%)
- rename Documentation/{ => admin-guide}/cgroup-v1/blkio-controller.rst (100%)
- rename Documentation/{ => admin-guide}/cgroup-v1/cgroups.rst (99%)
- rename Documentation/{ => admin-guide}/cgroup-v1/cpuacct.rst (100%)
- rename Documentation/{ => admin-guide}/cgroup-v1/cpusets.rst (99%)
- rename Documentation/{ => admin-guide}/cgroup-v1/devices.rst (100%)
- rename Documentation/{ => admin-guide}/cgroup-v1/freezer-subsystem.rst (100%)
- rename Documentation/{ => admin-guide}/cgroup-v1/hugetlb.rst (100%)
- rename Documentation/{ => admin-guide}/cgroup-v1/index.rst (97%)
- rename Documentation/{ => admin-guide}/cgroup-v1/memcg_test.rst (98%)
- rename Documentation/{ => admin-guide}/cgroup-v1/memory.rst (100%)
- rename Documentation/{ => admin-guide}/cgroup-v1/net_cls.rst (100%)
- rename Documentation/{ => admin-guide}/cgroup-v1/net_prio.rst (100%)
- rename Documentation/{ => admin-guide}/cgroup-v1/pids.rst (100%)
- rename Documentation/{ => admin-guide}/cgroup-v1/rdma.rst (100%)
- rename Documentation/{clearing-warn-once.txt => admin-guide/clearing-warn-once.rst} (100%)
- rename Documentation/{cpu-load.txt => admin-guide/cpu-load.rst} (100%)
- rename Documentation/{cputopology.txt => admin-guide/cputopology.rst} (100%)
- rename Documentation/{efi-stub.txt => admin-guide/efi-stub.rst} (100%)
- rename Documentation/{highuid.txt => admin-guide/highuid.rst} (99%)
- rename Documentation/{hw_random.txt => admin-guide/hw_random.rst} (100%)
- rename Documentation/{iostats.txt => admin-guide/iostats.rst} (100%)
- rename Documentation/{ => admin-guide}/kdump/gdbmacros.txt (100%)
- rename Documentation/{ => admin-guide}/kdump/index.rst (97%)
- rename Documentation/{ => admin-guide}/kdump/kdump.rst (100%)
- rename Documentation/{ => admin-guide}/kdump/vmcoreinfo.rst (100%)
- rename Documentation/{kernel-per-CPU-kthreads.txt => admin-guide/kernel-per-cpu-kthreads.rst} (98%)
- rename Documentation/{ => admin-guide}/laptops/asus-laptop.rst (100%)
- rename Documentation/{ => admin-guide}/laptops/disk-shock-protection.rst (100%)
- rename Documentation/{ => admin-guide}/laptops/index.rst (95%)
- rename Documentation/{ => admin-guide}/laptops/laptop-mode.rst (100%)
- rename Documentation/{ => admin-guide}/laptops/lg-laptop.rst (99%)
- rename Documentation/{ => admin-guide}/laptops/sony-laptop.rst (100%)
- rename Documentation/{ => admin-guide}/laptops/sonypi.rst (100%)
- rename Documentation/{ => admin-guide}/laptops/thinkpad-acpi.rst (99%)
- rename Documentation/{ => admin-guide}/laptops/toshiba_haps.rst (100%)
- rename Documentation/{auxdisplay => admin-guide}/lcd-panel-cgram.rst (99%)
- rename Documentation/{ldm.txt => admin-guide/ldm.rst} (98%)
- rename Documentation/{lockup-watchdogs.txt => admin-guide/lockup-watchdogs.rst} (100%)
- rename Documentation/{cma/debugfs.rst => admin-guide/mm/cma_debugfs.rst} (98%)
- rename Documentation/{numastat.txt => admin-guide/numastat.rst} (93%)
- rename Documentation/{pnp.txt => admin-guide/pnp.rst} (98%)
- rename Documentation/{rtc.txt => admin-guide/rtc.rst} (99%)
- rename Documentation/{svga.txt => admin-guide/svga.rst} (100%)
- rename Documentation/{sysctl/abi.txt => admin-guide/sysctl/abi.rst} (30%)
- rename Documentation/{sysctl/fs.txt => admin-guide/sysctl/fs.rst} (77%)
- rename Documentation/{sysctl/README => admin-guide/sysctl/index.rst} (78%)
- rename Documentation/{sysctl/kernel.txt => admin-guide/sysctl/kernel.rst} (79%)
- rename Documentation/{sysctl/net.txt => admin-guide/sysctl/net.rst} (85%)
- rename Documentation/{sysctl/sunrpc.txt => admin-guide/sysctl/sunrpc.rst} (62%)
- rename Documentation/{sysctl/user.txt => admin-guide/sysctl/user.rst} (77%)
- rename Documentation/{sysctl/vm.txt => admin-guide/sysctl/vm.rst} (84%)
- rename Documentation/{video-output.txt => admin-guide/video-output.rst} (99%)
- rename Documentation/block/{bfq-iosched.txt => bfq-iosched.rst} (95%)
- rename Documentation/block/{biodoc.txt => biodoc.rst} (83%)
- rename Documentation/block/{biovecs.txt => biovecs.rst} (92%)
- rename Documentation/block/{capability.txt => capability.rst} (40%)
- rename Documentation/block/{cmdline-partition.txt => cmdline-partition.rst} (92%)
- rename Documentation/block/{data-integrity.txt => data-integrity.rst} (91%)
- rename Documentation/block/{deadline-iosched.txt => deadline-iosched.rst} (89%)
- create mode 100644 Documentation/block/index.rst
- rename Documentation/block/{ioprio.txt => ioprio.rst} (75%)
- rename Documentation/block/{kyber-iosched.txt => kyber-iosched.rst} (86%)
- rename Documentation/block/{null_blk.txt => null_blk.rst} (60%)
- rename Documentation/block/{pr.txt => pr.rst} (93%)
- rename Documentation/block/{queue-sysfs.txt => queue-sysfs.rst} (99%)
- rename Documentation/block/{request.txt => request.rst} (59%)
- rename Documentation/block/{stat.txt => stat.rst} (89%)
- rename Documentation/block/{switching-sched.txt => switching-sched.rst} (67%)
- rename Documentation/block/{writeback_cache_control.txt => writeback_cache_control.rst} (94%)
- rename Documentation/blockdev/drbd/{data-structure-v9.txt => data-structure-v9.rst} (94%)
- create mode 100644 Documentation/blockdev/drbd/figures.rst
- rename Documentation/blockdev/drbd/{README.txt => index.rst} (55%)
- rename Documentation/blockdev/{floppy.txt => floppy.rst} (81%)
- create mode 100644 Documentation/blockdev/index.rst
- rename Documentation/blockdev/{nbd.txt => nbd.rst} (96%)
- rename Documentation/blockdev/{paride.txt => paride.rst} (81%)
- rename Documentation/blockdev/{ramdisk.txt => ramdisk.rst} (84%)
- rename Documentation/blockdev/{zram.txt => zram.rst} (76%)
- rename Documentation/{atomic_bitops.txt => driver-api/atomic_bitops.rst} (99%)
- rename Documentation/{bt8xxgpio.txt => driver-api/bt8xxgpio.rst} (99%)
- rename Documentation/{bus-virt-phys-mapping.txt => driver-api/bus-virt-phys-mapping.rst} (93%)
- rename Documentation/{connector => driver-api}/connector.rst (99%)
- rename Documentation/{console => driver-api}/console.rst (99%)
- rename Documentation/{crc32.txt => driver-api/crc32.rst} (100%)
- rename Documentation/{dcdbas.txt => driver-api/dcdbas.rst} (100%)
- rename Documentation/{debugging-modules.txt => driver-api/debugging-modules.rst} (100%)
- rename Documentation/{debugging-via-ohci1394.txt => driver-api/debugging-via-ohci1394.rst} (100%)
- rename Documentation/{dell_rbu.txt => driver-api/dell_rbu.rst} (99%)
- rename Documentation/{digsig.txt => driver-api/digsig.rst} (100%)
- rename Documentation/{EDID/howto.rst => driver-api/edid.rst} (99%)
- rename Documentation/{eisa.txt => driver-api/eisa.rst} (100%)
- rename Documentation/{futex-requeue-pi.txt => driver-api/futex-requeue-pi.rst} (100%)
- rename Documentation/{gcc-plugins.txt => driver-api/gcc-plugins.rst} (100%)
- rename Documentation/{hwspinlock.txt => driver-api/hwspinlock.rst} (100%)
- rename Documentation/{io-mapping.txt => driver-api/io-mapping.rst} (100%)
- rename Documentation/{io_ordering.txt => driver-api/io_ordering.rst} (100%)
- rename Documentation/{IPMI.txt => driver-api/ipmi.rst} (100%)
- rename Documentation/{IRQ-affinity.txt => driver-api/irq-affinity.rst} (100%)
- rename Documentation/{IRQ-domain.txt => driver-api/irq-domain.rst} (100%)
- rename Documentation/{IRQ.txt => driver-api/irq.rst} (100%)
- rename Documentation/{irqflags-tracing.txt => driver-api/irqflags-tracing.rst} (99%)
- rename Documentation/{isa.txt => driver-api/isa.rst} (100%)
- rename Documentation/{isapnp.txt => driver-api/isapnp.rst} (100%)
- rename Documentation/{kobject.txt => driver-api/kobject.rst} (99%)
- rename Documentation/{kprobes.txt => driver-api/kprobes.rst} (99%)
- rename Documentation/{kref.txt => driver-api/kref.rst} (100%)
- rename Documentation/{lightnvm/pblk.txt => driver-api/lightnvm-pblk.rst} (100%)
- rename Documentation/{lzo.txt => driver-api/lzo.rst} (100%)
- rename Documentation/{mailbox.txt => driver-api/mailbox.rst} (100%)
- rename Documentation/{men-chameleon-bus.txt => driver-api/men-chameleon-bus.rst} (100%)
- rename Documentation/{DMA-API-HOWTO.txt => driver-api/mm/dma-api-howto.rst} (100%)
- rename Documentation/{DMA-API.txt => driver-api/mm/dma-api.rst} (99%)
- rename Documentation/{DMA-attributes.txt => driver-api/mm/dma-attributes.rst} (100%)
- rename Documentation/{DMA-ISA-LPC.txt => driver-api/mm/dma-isa-lpc.rst} (98%)
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ Documentation/PCI/pci.rst                        |  6 +++---
+ Documentation/block/biodoc.rst                   |  2 +-
+ .../driver-api/bus-virt-phys-mapping.rst         |  2 +-
+ Documentation/driver-api/index.rst               |  2 ++
+ .../mm/dma-api-howto.rst}                        |  2 --
+ .../{DMA-API.rst => driver-api/mm/dma-api.rst}   |  8 +++-----
+ .../mm/dma-attributes.rst}                       |  2 --
+ .../mm/dma-isa-lpc.rst}                          |  4 +---
+ Documentation/driver-api/mm/index.rst            | 11 +++++++++++
+ Documentation/driver-api/usb/dma.rst             |  6 +++---
+ Documentation/memory-barriers.txt                |  6 +++---
+ .../translations/ko_KR/memory-barriers.txt       |  6 +++---
+ arch/ia64/hp/common/sba_iommu.c                  | 12 ++++++------
+ arch/ia64/sn/pci/pci_dma.c                       |  4 ++--
+ arch/parisc/kernel/pci-dma.c                     |  2 +-
+ arch/x86/include/asm/dma-mapping.h               |  4 ++--
+ arch/x86/kernel/amd_gart_64.c                    |  2 +-
+ drivers/parisc/sba_iommu.c                       | 16 ++++++++--------
+ include/linux/dma-mapping.h                      |  2 +-
+ include/media/videobuf-dma-sg.h                  |  2 +-
+ kernel/dma/debug.c                               |  2 +-
+ 21 files changed, 54 insertions(+), 49 deletions(-)
+ rename Documentation/{DMA-API-HOWTO.rst => driver-api/mm/dma-api-howto.rst} (99%)
+ rename Documentation/{DMA-API.rst => driver-api/mm/dma-api.rst} (99%)
+ rename Documentation/{DMA-attributes.rst => driver-api/mm/dma-attributes.rst} (99%)
+ rename Documentation/{DMA-ISA-LPC.rst => driver-api/mm/dma-isa-lpc.rst} (98%)
  create mode 100644 Documentation/driver-api/mm/index.rst
- rename Documentation/{nommu-mmap.txt => driver-api/nommu-mmap.rst} (100%)
- rename Documentation/{ntb.txt => driver-api/ntb.rst} (100%)
- rename Documentation/{nvmem => driver-api}/nvmem.rst (99%)
- rename Documentation/{padata.txt => driver-api/padata.rst} (100%)
- rename Documentation/{parport-lowlevel.txt => driver-api/parport-lowlevel.rst} (100%)
- rename Documentation/{percpu-rw-semaphore.txt => driver-api/percpu-rw-semaphore.rst} (100%)
- rename Documentation/{pi-futex.txt => driver-api/pi-futex.rst} (100%)
- rename Documentation/{preempt-locking.txt => driver-api/preempt-locking.rst} (99%)
- rename Documentation/{pti => driver-api}/pti_intel_mid.rst (99%)
- rename Documentation/{pwm.txt => driver-api/pwm.rst} (100%)
- rename Documentation/{rbtree.txt => driver-api/rbtree.rst} (94%)
- rename Documentation/{remoteproc.txt => driver-api/remoteproc.rst} (99%)
- rename Documentation/{rfkill.txt => driver-api/rfkill.rst} (100%)
- rename Documentation/{robust-futex-ABI.txt => driver-api/robust-futex-ABI.rst} (100%)
- rename Documentation/{robust-futexes.txt => driver-api/robust-futexes.rst} (100%)
- rename Documentation/{rpmsg.txt => driver-api/rpmsg.rst} (100%)
- rename Documentation/{sgi-ioc4.txt => driver-api/sgi-ioc4.rst} (100%)
- rename Documentation/{SM501.txt => driver-api/sm501.rst} (100%)
- rename Documentation/{smsc_ece1099.txt => driver-api/smsc_ece1099.rst} (100%)
- rename Documentation/{speculation.txt => driver-api/speculation.rst} (100%)
- rename Documentation/{static-keys.txt => driver-api/static-keys.rst} (100%)
- rename Documentation/{switchtec.txt => driver-api/switchtec.rst} (97%)
- rename Documentation/{sync_file.txt => driver-api/sync_file.rst} (100%)
- rename Documentation/{tee.txt => driver-api/tee.rst} (100%)
- rename Documentation/{this_cpu_ops.txt => driver-api/this_cpu_ops.rst} (100%)
- rename Documentation/{unaligned-memory-access.txt => driver-api/unaligned-memory-access.rst} (100%)
- rename Documentation/{vfio-mediated-device.txt => driver-api/vfio-mediated-device.rst} (99%)
- rename Documentation/{vfio.txt => driver-api/vfio.rst} (100%)
- rename Documentation/{ => driver-api}/xilinx/eemi.rst (100%)
- rename Documentation/{ => driver-api}/xilinx/index.rst (94%)
- rename Documentation/{xillybus.txt => driver-api/xillybus.rst} (100%)
- rename Documentation/{xz.txt => driver-api/xz.rst} (100%)
- rename Documentation/{zorro.txt => driver-api/zorro.rst} (99%)
- rename Documentation/{extcon/intel-int3496.txt => firmware-guide/acpi/extcon-intel-int3496.rst} (66%)
- rename Documentation/ioctl/{botching-up-ioctls.txt => botching-up-ioctls.rst} (99%)
- rename Documentation/ioctl/{cdrom.txt => cdrom.rst} (39%)
- rename Documentation/ioctl/{hdio.txt => hdio.rst} (54%)
- create mode 100644 Documentation/ioctl/index.rst
- rename Documentation/ioctl/{ioctl-decoding.txt => ioctl-decoding.rst} (54%)
- rename Documentation/ioctl/{ioctl-number.txt => ioctl-number.rst} (11%)
- rename Documentation/perf/{arm-ccn.txt => arm-ccn.rst} (86%)
- rename Documentation/perf/{arm_dsu_pmu.txt => arm_dsu_pmu.rst} (92%)
- rename Documentation/perf/{hisi-pmu.txt => hisi-pmu.rst} (73%)
- create mode 100644 Documentation/perf/index.rst
- rename Documentation/perf/{qcom_l2_pmu.txt => qcom_l2_pmu.rst} (94%)
- rename Documentation/perf/{qcom_l3_pmu.txt => qcom_l3_pmu.rst} (93%)
- rename Documentation/perf/{thunderx2-pmu.txt => thunderx2-pmu.rst} (73%)
- rename Documentation/perf/{xgene-pmu.txt => xgene-pmu.rst} (96%)
- rename Documentation/{phy.txt => phy.rst} (99%)
- create mode 100644 Documentation/rapidio/index.rst
- rename Documentation/rapidio/{mport_cdev.txt => mport_cdev.rst} (84%)
- rename Documentation/rapidio/{rapidio.txt => rapidio.rst} (97%)
- rename Documentation/rapidio/{rio_cm.txt => rio_cm.rst} (76%)
- rename Documentation/rapidio/{sysfs.txt => sysfs.rst} (75%)
- rename Documentation/rapidio/{tsi721.txt => tsi721.rst} (79%)
- rename Documentation/security/{LSM.rst => lsm-development.rst} (100%)
- rename Documentation/{lsm.txt => security/lsm.rst} (100%)
- rename Documentation/{SAK.txt => security/sak.rst} (99%)
- rename Documentation/{siphash.txt => security/siphash.rst} (100%)
- rename Documentation/thermal/{cpu-cooling-api.txt => cpu-cooling-api.rst} (82%)
- rename Documentation/thermal/{exynos_thermal => exynos_thermal.rst} (67%)
- rename Documentation/thermal/{exynos_thermal_emulation => exynos_thermal_emulation.rst} (36%)
- create mode 100644 Documentation/thermal/index.rst
- rename Documentation/thermal/{intel_powerclamp.txt => intel_powerclamp.rst} (76%)
- rename Documentation/thermal/{nouveau_thermal => nouveau_thermal.rst} (64%)
- rename Documentation/thermal/{power_allocator.txt => power_allocator.rst} (74%)
- rename Documentation/thermal/{sysfs-api.txt => sysfs-api.rst} (66%)
- rename Documentation/thermal/{x86_pkg_temperature_thermal => x86_pkg_temperature_thermal.rst} (80%)
- rename Documentation/usb/{acm.txt => acm.rst} (100%)
- rename Documentation/usb/{authorization.txt => authorization.rst} (100%)
- rename Documentation/usb/{chipidea.txt => chipidea.rst} (100%)
- rename Documentation/usb/{dwc3.txt => dwc3.rst} (100%)
- rename Documentation/usb/{ehci.txt => ehci.rst} (100%)
- rename Documentation/usb/{functionfs.txt => functionfs.rst} (100%)
- rename Documentation/usb/{gadget-testing.txt => gadget-testing.rst} (99%)
- rename Documentation/usb/{gadget_configfs.txt => gadget_configfs.rst} (100%)
- rename Documentation/usb/{gadget_hid.txt => gadget_hid.rst} (100%)
- rename Documentation/usb/{gadget_multi.txt => gadget_multi.rst} (100%)
- rename Documentation/usb/{gadget_printer.txt => gadget_printer.rst} (100%)
- rename Documentation/usb/{gadget_serial.txt => gadget_serial.rst} (100%)
- create mode 100644 Documentation/usb/index.rst
- rename Documentation/usb/{iuu_phoenix.txt => iuu_phoenix.rst} (100%)
- rename Documentation/usb/{mass-storage.txt => mass-storage.rst} (100%)
- rename Documentation/usb/{misc_usbsevseg.txt => misc_usbsevseg.rst} (100%)
- rename Documentation/usb/{mtouchusb.txt => mtouchusb.rst} (100%)
- rename Documentation/usb/{ohci.txt => ohci.rst} (100%)
- rename Documentation/usb/{rio.txt => rio.rst} (100%)
- create mode 100644 Documentation/usb/text_files.rst
- rename Documentation/usb/{usb-help.txt => usb-help.rst} (100%)
- rename Documentation/usb/{usb-serial.txt => usb-serial.rst} (100%)
- rename Documentation/usb/{usbip_protocol.txt => usbip_protocol.rst} (100%)
- rename Documentation/usb/{usbmon.txt => usbmon.rst} (100%)
- rename Documentation/usb/{WUSB-Design-overview.txt => wusb-design-overview.rst} (100%)
- rename Documentation/{Intel-IOMMU.txt => x86/intel-iommu.rst} (99%)
- rename Documentation/{intel_txt.txt => x86/intel_txt.rst} (99%)
 
+diff --git a/Documentation/PCI/pci.rst b/Documentation/PCI/pci.rst
+index 0f52d172c9ac..8665209eda40 100644
+--- a/Documentation/PCI/pci.rst
++++ b/Documentation/PCI/pci.rst
+@@ -265,7 +265,7 @@ Set the DMA mask size
+ ---------------------
+ .. note::
+    If anything below doesn't make sense, please refer to
+-   Documentation/DMA-API.rst. This section is just a reminder that
++   Documentation/driver-api/mm/dma-api.rst. This section is just a reminder that
+    drivers need to indicate DMA capabilities of the device and is not
+    an authoritative source for DMA interfaces.
+ 
+@@ -291,7 +291,7 @@ Many 64-bit "PCI" devices (before PCI-X) and some PCI-X devices are
+ Setup shared control data
+ -------------------------
+ Once the DMA masks are set, the driver can allocate "consistent" (a.k.a. shared)
+-memory.  See Documentation/DMA-API.rst for a full description of
++memory.  See Documentation/driver-api/mm/dma-api.rst for a full description of
+ the DMA APIs. This section is just a reminder that it needs to be done
+ before enabling DMA on the device.
+ 
+@@ -421,7 +421,7 @@ owners if there is one.
+ 
+ Then clean up "consistent" buffers which contain the control data.
+ 
+-See Documentation/DMA-API.rst for details on unmapping interfaces.
++See Documentation/driver-api/mm/dma-api.rst for details on unmapping interfaces.
+ 
+ 
+ Unregister from other subsystems
+diff --git a/Documentation/block/biodoc.rst b/Documentation/block/biodoc.rst
+index 59bd93bec8fc..2206c88e7dee 100644
+--- a/Documentation/block/biodoc.rst
++++ b/Documentation/block/biodoc.rst
+@@ -195,7 +195,7 @@ a virtual address mapping (unlike the earlier scheme of virtual address
+ do not have a corresponding kernel virtual address space mapping) and
+ low-memory pages.
+ 
+-Note: Please refer to Documentation/DMA-API-HOWTO.rst for a discussion
++Note: Please refer to Documentation/driver-api/mm/dma-api-howto.rst for a discussion
+ on PCI high mem DMA aspects and mapping of scatter gather lists, and support
+ for 64 bit PCI.
+ 
+diff --git a/Documentation/driver-api/bus-virt-phys-mapping.rst b/Documentation/driver-api/bus-virt-phys-mapping.rst
+index 80972916e88c..18b6fdf618d2 100644
+--- a/Documentation/driver-api/bus-virt-phys-mapping.rst
++++ b/Documentation/driver-api/bus-virt-phys-mapping.rst
+@@ -8,7 +8,7 @@ How to access I/O mapped memory from within device drivers
+ 
+ 	The virt_to_bus() and bus_to_virt() functions have been
+ 	superseded by the functionality provided by the PCI DMA interface
+-	(see Documentation/DMA-API-HOWTO.rst).  They continue
++	(see Documentation/driver-api/mm/dma-api-howto.rst).  They continue
+ 	to be documented below for historical purposes, but new code
+ 	must not use them. --davidm 00/12/12
+ 
+diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
+index bb2621b17212..492b96003af2 100644
+--- a/Documentation/driver-api/index.rst
++++ b/Documentation/driver-api/index.rst
+@@ -16,6 +16,7 @@ available subsections can be seen below.
+ 
+    basics
+    infrastructure
++   mm/index
+    pm/index
+    clk
+    device-io
+@@ -59,6 +60,7 @@ available subsections can be seen below.
+    fpga/index
+    acpi/index
+    generic-counter
++   mm/index
+ 
+    atomic_bitops
+    bt8xxgpio
+diff --git a/Documentation/DMA-API-HOWTO.rst b/Documentation/driver-api/mm/dma-api-howto.rst
+similarity index 99%
+rename from Documentation/DMA-API-HOWTO.rst
+rename to Documentation/driver-api/mm/dma-api-howto.rst
+index db9f8fcebe1f..358d495456d1 100644
+--- a/Documentation/DMA-API-HOWTO.rst
++++ b/Documentation/driver-api/mm/dma-api-howto.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ =========================
+ Dynamic DMA mapping Guide
+ =========================
+diff --git a/Documentation/DMA-API.rst b/Documentation/driver-api/mm/dma-api.rst
+similarity index 99%
+rename from Documentation/DMA-API.rst
+rename to Documentation/driver-api/mm/dma-api.rst
+index 2f26857f97ff..c2c4d0b456b1 100644
+--- a/Documentation/DMA-API.rst
++++ b/Documentation/driver-api/mm/dma-api.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ============================================
+ Dynamic DMA mapping using the generic device
+ ============================================
+@@ -7,7 +5,7 @@ Dynamic DMA mapping using the generic device
+ :Author: James E.J. Bottomley <James.Bottomley@HansenPartnership.com>
+ 
+ This document describes the DMA API.  For a more gentle introduction
+-of the API (and actual examples), see Documentation/DMA-API-HOWTO.rst.
++of the API (and actual examples), see Documentation/driver-api/mm/dma-api-howto.rst.
+ 
+ This API is split into two pieces.  Part I describes the basic API.
+ Part II describes extensions for supporting non-consistent memory
+@@ -465,7 +463,7 @@ without the _attrs suffixes, except that they pass an optional
+ dma_attrs.
+ 
+ The interpretation of DMA attributes is architecture-specific, and
+-each attribute should be documented in Documentation/DMA-attributes.rst.
++each attribute should be documented in Documentation/driver-api/mm/dma-attributes.rst.
+ 
+ If dma_attrs are 0, the semantics of each of these functions
+ is identical to those of the corresponding function
+@@ -478,7 +476,7 @@ for DMA::
+ 
+ 	#include <linux/dma-mapping.h>
+ 	/* DMA_ATTR_FOO should be defined in linux/dma-mapping.h and
+-	* documented in Documentation/DMA-attributes.rst */
++	* documented in Documentation/driver-api/mm/dma-attributes.rst */
+ 	...
+ 
+ 		unsigned long attr;
+diff --git a/Documentation/DMA-attributes.rst b/Documentation/driver-api/mm/dma-attributes.rst
+similarity index 99%
+rename from Documentation/DMA-attributes.rst
+rename to Documentation/driver-api/mm/dma-attributes.rst
+index 471c5c38f9d9..8f8d97f65d73 100644
+--- a/Documentation/DMA-attributes.rst
++++ b/Documentation/driver-api/mm/dma-attributes.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ==============
+ DMA attributes
+ ==============
+diff --git a/Documentation/DMA-ISA-LPC.rst b/Documentation/driver-api/mm/dma-isa-lpc.rst
+similarity index 98%
+rename from Documentation/DMA-ISA-LPC.rst
+rename to Documentation/driver-api/mm/dma-isa-lpc.rst
+index 205a379c2d62..6ae393d391cf 100644
+--- a/Documentation/DMA-ISA-LPC.rst
++++ b/Documentation/driver-api/mm/dma-isa-lpc.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ============================
+ DMA with ISA and LPC devices
+ ============================
+@@ -19,7 +17,7 @@ To do ISA style DMA you need to include two headers::
+ 	#include <asm/dma.h>
+ 
+ The first is the generic DMA API used to convert virtual addresses to
+-bus addresses (see Documentation/DMA-API.rst for details).
++bus addresses (see Documentation/driver-api/mm/dma-api.rst for details).
+ 
+ The second contains the routines specific to ISA DMA transfers. Since
+ this is not present on all platforms make sure you construct your
+diff --git a/Documentation/driver-api/mm/index.rst b/Documentation/driver-api/mm/index.rst
+new file mode 100644
+index 000000000000..e34c7ee4a4b9
+--- /dev/null
++++ b/Documentation/driver-api/mm/index.rst
+@@ -0,0 +1,11 @@
++==========================
++Memory Related Kernel APIs
++==========================
++
++.. toctree::
++   :maxdepth: 1
++
++   dma-api
++   dma-api-howto
++   dma-attributes
++   dma-isa-lpc
+diff --git a/Documentation/driver-api/usb/dma.rst b/Documentation/driver-api/usb/dma.rst
+index 12955a77c7fe..8ef36aa2278d 100644
+--- a/Documentation/driver-api/usb/dma.rst
++++ b/Documentation/driver-api/usb/dma.rst
+@@ -10,7 +10,7 @@ API overview
+ 
+ The big picture is that USB drivers can continue to ignore most DMA issues,
+ though they still must provide DMA-ready buffers (see
+-``Documentation/DMA-API-HOWTO.rst``).  That's how they've worked through
++``Documentation/driver-api/mm/dma-api-howto.rst``).  That's how they've worked through
+ the 2.4 (and earlier) kernels, or they can now be DMA-aware.
+ 
+ DMA-aware usb drivers:
+@@ -60,7 +60,7 @@ and effects like cache-trashing can impose subtle penalties.
+   force a consistent memory access ordering by using memory barriers.  It's
+   not using a streaming DMA mapping, so it's good for small transfers on
+   systems where the I/O would otherwise thrash an IOMMU mapping.  (See
+-  ``Documentation/DMA-API-HOWTO.rst`` for definitions of "coherent" and
++  ``Documentation/driver-api/mm/dma-api-howto.rst`` for definitions of "coherent" and
+   "streaming" DMA mappings.)
+ 
+   Asking for 1/Nth of a page (as well as asking for N pages) is reasonably
+@@ -91,7 +91,7 @@ Working with existing buffers
+ Existing buffers aren't usable for DMA without first being mapped into the
+ DMA address space of the device.  However, most buffers passed to your
+ driver can safely be used with such DMA mapping.  (See the first section
+-of Documentation/DMA-API-HOWTO.rst, titled "What memory is DMA-able?")
++of Documentation/driver-api/mm/dma-api-howto.rst, titled "What memory is DMA-able?")
+ 
+ - When you're using scatterlists, you can map everything at once.  On some
+   systems, this kicks in an IOMMU and turns the scatterlists into single
+diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
+index 4a44f00478db..087b0d864a94 100644
+--- a/Documentation/memory-barriers.txt
++++ b/Documentation/memory-barriers.txt
+@@ -549,8 +549,8 @@ There are certain things that the Linux kernel memory barriers do not guarantee:
+ 	[*] For information on bus mastering DMA and coherency please read:
+ 
+ 	    Documentation/PCI/pci.rst
+-	    Documentation/DMA-API-HOWTO.rst
+-	    Documentation/DMA-API.rst
++	    Documentation/driver-api/mm/dma-api-howto.rst
++	    Documentation/driver-api/mm/dma-api.rst
+ 
+ 
+ DATA DEPENDENCY BARRIERS (HISTORICAL)
+@@ -1933,7 +1933,7 @@ There are some more advanced barrier functions:
+      here.
+ 
+      See the subsection "Kernel I/O barrier effects" for more information on
+-     relaxed I/O accessors and the Documentation/DMA-API.rst file for more
++     relaxed I/O accessors and the Documentation/driver-api/mm/dma-api.rst file for more
+      information on consistent memory.
+ 
+ 
+diff --git a/Documentation/translations/ko_KR/memory-barriers.txt b/Documentation/translations/ko_KR/memory-barriers.txt
+index 03c06a7800c3..7b86ac9f15d2 100644
+--- a/Documentation/translations/ko_KR/memory-barriers.txt
++++ b/Documentation/translations/ko_KR/memory-barriers.txt
+@@ -570,8 +570,8 @@ ACQUIRE 는 해당 오퍼레이션의 로드 부분에만 적용되고 RELEASE 
+ 	[*] 버스 마스터링 DMA 와 일관성에 대해서는 다음을 참고하시기 바랍니다:
+ 
+ 	    Documentation/PCI/pci.rst
+-	    Documentation/DMA-API-HOWTO.rst
+-	    Documentation/DMA-API.rst
++	    Documentation/driver-api/mm/dma-api-howto.rst
++	    Documentation/driver-api/mm/dma-api.rst
+ 
+ 
+ 데이터 의존성 배리어 (역사적)
+@@ -1904,7 +1904,7 @@ Mandatory 배리어들은 SMP 시스템에서도 UP 시스템에서도 SMP 효
+ 
+      writel_relaxed() 와 같은 완화된 I/O 접근자들에 대한 자세한 내용을 위해서는
+      "커널 I/O 배리어의 효과" 섹션을, consistent memory 에 대한 자세한 내용을
+-     위해선 Documentation/DMA-API.rst 문서를 참고하세요.
++     위해선 Documentation/driver-api/mm/dma-api.rst 문서를 참고하세요.
+ 
+ 
+ MMIO 쓰기 배리어
+diff --git a/arch/ia64/hp/common/sba_iommu.c b/arch/ia64/hp/common/sba_iommu.c
+index 8f97d42316e8..0b0b5084e6c8 100644
+--- a/arch/ia64/hp/common/sba_iommu.c
++++ b/arch/ia64/hp/common/sba_iommu.c
+@@ -912,7 +912,7 @@ sba_mark_invalid(struct ioc *ioc, dma_addr_t iova, size_t byte_cnt)
+  * @dir: dma direction
+  * @attrs: optional dma attributes
+  *
+- * See Documentation/DMA-API-HOWTO.rst
++ * See Documentation/driver-api/mm/dma-api-howto.rst
+  */
+ static dma_addr_t sba_map_page(struct device *dev, struct page *page,
+ 			       unsigned long poff, size_t size,
+@@ -1033,7 +1033,7 @@ sba_mark_clean(struct ioc *ioc, dma_addr_t iova, size_t size)
+  * @dir:  R/W or both.
+  * @attrs: optional dma attributes
+  *
+- * See Documentation/DMA-API-HOWTO.rst
++ * See Documentation/driver-api/mm/dma-api-howto.rst
+  */
+ static void sba_unmap_page(struct device *dev, dma_addr_t iova, size_t size,
+ 			   enum dma_data_direction dir, unsigned long attrs)
+@@ -1110,7 +1110,7 @@ static void sba_unmap_page(struct device *dev, dma_addr_t iova, size_t size,
+  * @size:  number of bytes mapped in driver buffer.
+  * @dma_handle:  IOVA of new buffer.
+  *
+- * See Documentation/DMA-API-HOWTO.rst
++ * See Documentation/driver-api/mm/dma-api-howto.rst
+  */
+ static void *
+ sba_alloc_coherent(struct device *dev, size_t size, dma_addr_t *dma_handle,
+@@ -1167,7 +1167,7 @@ sba_alloc_coherent(struct device *dev, size_t size, dma_addr_t *dma_handle,
+  * @vaddr:  virtual address IOVA of "consistent" buffer.
+  * @dma_handler:  IO virtual address of "consistent" buffer.
+  *
+- * See Documentation/DMA-API-HOWTO.rst
++ * See Documentation/driver-api/mm/dma-api-howto.rst
+  */
+ static void sba_free_coherent(struct device *dev, size_t size, void *vaddr,
+ 			      dma_addr_t dma_handle, unsigned long attrs)
+@@ -1430,7 +1430,7 @@ static void sba_unmap_sg_attrs(struct device *dev, struct scatterlist *sglist,
+  * @dir:  R/W or both.
+  * @attrs: optional dma attributes
+  *
+- * See Documentation/DMA-API-HOWTO.rst
++ * See Documentation/driver-api/mm/dma-api-howto.rst
+  */
+ static int sba_map_sg_attrs(struct device *dev, struct scatterlist *sglist,
+ 			    int nents, enum dma_data_direction dir,
+@@ -1529,7 +1529,7 @@ static int sba_map_sg_attrs(struct device *dev, struct scatterlist *sglist,
+  * @dir:  R/W or both.
+  * @attrs: optional dma attributes
+  *
+- * See Documentation/DMA-API-HOWTO.rst
++ * See Documentation/driver-api/mm/dma-api-howto.rst
+  */
+ static void sba_unmap_sg_attrs(struct device *dev, struct scatterlist *sglist,
+ 			       int nents, enum dma_data_direction dir,
+diff --git a/arch/ia64/sn/pci/pci_dma.c b/arch/ia64/sn/pci/pci_dma.c
+index f475fccea152..a06ae52117f0 100644
+--- a/arch/ia64/sn/pci/pci_dma.c
++++ b/arch/ia64/sn/pci/pci_dma.c
+@@ -5,7 +5,7 @@
+  *
+  * Copyright (C) 2000,2002-2005 Silicon Graphics, Inc. All rights reserved.
+  *
+- * Routines for PCI DMA mapping.  See Documentation/DMA-API.rst for
++ * Routines for PCI DMA mapping.  See Documentation/driver-api/mm/dma-api.rst for
+  * a description of how these routines should be used.
+  */
+ 
+@@ -72,7 +72,7 @@ EXPORT_SYMBOL(sn_dma_set_mask);
+  * that @dma_handle will have the %PCIIO_DMA_CMD flag set.
+  *
+  * This interface is usually used for "command" streams (e.g. the command
+- * queue for a SCSI controller).  See Documentation/DMA-API.rst for
++ * queue for a SCSI controller).  See Documentation/driver-api/mm/dma-api.rst for
+  * more information.
+  */
+ static void *sn_dma_alloc_coherent(struct device *dev, size_t size,
+diff --git a/arch/parisc/kernel/pci-dma.c b/arch/parisc/kernel/pci-dma.c
+index 2bb63062f6c3..08e7ff08fa94 100644
+--- a/arch/parisc/kernel/pci-dma.c
++++ b/arch/parisc/kernel/pci-dma.c
+@@ -3,7 +3,7 @@
+ ** PARISC 1.1 Dynamic DMA mapping support.
+ ** This implementation is for PA-RISC platforms that do not support
+ ** I/O TLBs (aka DMA address translation hardware).
+-** See Documentation/DMA-API-HOWTO.rst for interface definitions.
++** See Documentation/driver-api/mm/dma-api-howto.rst for interface definitions.
+ **
+ **      (c) Copyright 1999,2000 Hewlett-Packard Company
+ **      (c) Copyright 2000 Grant Grundler
+diff --git a/arch/x86/include/asm/dma-mapping.h b/arch/x86/include/asm/dma-mapping.h
+index dfa443fe17c2..ff9ff85529fc 100644
+--- a/arch/x86/include/asm/dma-mapping.h
++++ b/arch/x86/include/asm/dma-mapping.h
+@@ -3,8 +3,8 @@
+ #define _ASM_X86_DMA_MAPPING_H
+ 
+ /*
+- * IOMMU interface. See Documentation/DMA-API-HOWTO.rst and
+- * Documentation/DMA-API.rst for documentation.
++ * IOMMU interface. See Documentation/driver-api/mm/dma-api-howto.rst and
++ * Documentation/driver-api/mm/dma-api.rst for documentation.
+  */
+ 
+ #include <linux/scatterlist.h>
+diff --git a/arch/x86/kernel/amd_gart_64.c b/arch/x86/kernel/amd_gart_64.c
+index 03108de30105..397c2cdd19d8 100644
+--- a/arch/x86/kernel/amd_gart_64.c
++++ b/arch/x86/kernel/amd_gart_64.c
+@@ -6,7 +6,7 @@
+  * This allows to use PCI devices that only support 32bit addresses on systems
+  * with more than 4GB.
+  *
+- * See Documentation/DMA-API-HOWTO.rst for the interface specification.
++ * See Documentation/driver-api/mm/dma-api-howto.rst for the interface specification.
+  *
+  * Copyright 2002 Andi Kleen, SuSE Labs.
+  */
+diff --git a/drivers/parisc/sba_iommu.c b/drivers/parisc/sba_iommu.c
+index 267ceb5f7838..349b4a2f21a1 100644
+--- a/drivers/parisc/sba_iommu.c
++++ b/drivers/parisc/sba_iommu.c
+@@ -666,7 +666,7 @@ sba_mark_invalid(struct ioc *ioc, dma_addr_t iova, size_t byte_cnt)
+  * @dev: instance of PCI owned by the driver that's asking
+  * @mask:  number of address bits this PCI device can handle
+  *
+- * See Documentation/DMA-API-HOWTO.rst
++ * See Documentation/driver-api/mm/dma-api-howto.rst
+  */
+ static int sba_dma_supported( struct device *dev, u64 mask)
+ {
+@@ -678,7 +678,7 @@ static int sba_dma_supported( struct device *dev, u64 mask)
+ 		return(0);
+ 	}
+ 
+-	/* Documentation/DMA-API-HOWTO.rst tells drivers to try 64-bit
++	/* Documentation/driver-api/mm/dma-api-howto.rst tells drivers to try 64-bit
+ 	 * first, then fall back to 32-bit if that fails.
+ 	 * We are just "encouraging" 32-bit DMA masks here since we can
+ 	 * never allow IOMMU bypass unless we add special support for ZX1.
+@@ -706,7 +706,7 @@ static int sba_dma_supported( struct device *dev, u64 mask)
+  * @size:  number of bytes to map in driver buffer.
+  * @direction:  R/W or both.
+  *
+- * See Documentation/DMA-API-HOWTO.rst
++ * See Documentation/driver-api/mm/dma-api-howto.rst
+  */
+ static dma_addr_t
+ sba_map_single(struct device *dev, void *addr, size_t size,
+@@ -796,7 +796,7 @@ sba_map_page(struct device *dev, struct page *page, unsigned long offset,
+  * @size:  number of bytes mapped in driver buffer.
+  * @direction:  R/W or both.
+  *
+- * See Documentation/DMA-API-HOWTO.rst
++ * See Documentation/driver-api/mm/dma-api-howto.rst
+  */
+ static void
+ sba_unmap_page(struct device *dev, dma_addr_t iova, size_t size,
+@@ -875,7 +875,7 @@ sba_unmap_page(struct device *dev, dma_addr_t iova, size_t size,
+  * @size:  number of bytes mapped in driver buffer.
+  * @dma_handle:  IOVA of new buffer.
+  *
+- * See Documentation/DMA-API-HOWTO.rst
++ * See Documentation/driver-api/mm/dma-api-howto.rst
+  */
+ static void *sba_alloc(struct device *hwdev, size_t size, dma_addr_t *dma_handle,
+ 		gfp_t gfp, unsigned long attrs)
+@@ -906,7 +906,7 @@ static void *sba_alloc(struct device *hwdev, size_t size, dma_addr_t *dma_handle
+  * @vaddr:  virtual address IOVA of "consistent" buffer.
+  * @dma_handler:  IO virtual address of "consistent" buffer.
+  *
+- * See Documentation/DMA-API-HOWTO.rst
++ * See Documentation/driver-api/mm/dma-api-howto.rst
+  */
+ static void
+ sba_free(struct device *hwdev, size_t size, void *vaddr,
+@@ -941,7 +941,7 @@ int dump_run_sg = 0;
+  * @nents:  number of entries in list
+  * @direction:  R/W or both.
+  *
+- * See Documentation/DMA-API-HOWTO.rst
++ * See Documentation/driver-api/mm/dma-api-howto.rst
+  */
+ static int
+ sba_map_sg(struct device *dev, struct scatterlist *sglist, int nents,
+@@ -1025,7 +1025,7 @@ sba_map_sg(struct device *dev, struct scatterlist *sglist, int nents,
+  * @nents:  number of entries in list
+  * @direction:  R/W or both.
+  *
+- * See Documentation/DMA-API-HOWTO.rst
++ * See Documentation/driver-api/mm/dma-api-howto.rst
+  */
+ static void 
+ sba_unmap_sg(struct device *dev, struct scatterlist *sglist, int nents,
+diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+index 7ff3fcd73cec..eb234c3f466b 100644
+--- a/include/linux/dma-mapping.h
++++ b/include/linux/dma-mapping.h
+@@ -14,7 +14,7 @@
+ 
+ /**
+  * List of possible attributes associated with a DMA mapping. The semantics
+- * of each attribute should be defined in Documentation/DMA-attributes.rst.
++ * of each attribute should be defined in Documentation/driver-api/mm/dma-attributes.rst.
+  *
+  * DMA_ATTR_WRITE_BARRIER: DMA to a memory region with this attribute
+  * forces all pending DMA writes to complete.
+diff --git a/include/media/videobuf-dma-sg.h b/include/media/videobuf-dma-sg.h
+index 50a549e5b477..60f2df32bf39 100644
+--- a/include/media/videobuf-dma-sg.h
++++ b/include/media/videobuf-dma-sg.h
+@@ -34,7 +34,7 @@
+  *	does memory allocation too using vmalloc_32().
+  *
+  * videobuf_dma_*()
+- *	see Documentation/DMA-API-HOWTO.rst, these functions to
++ *	see Documentation/driver-api/mm/dma-api-howto.rst, these functions to
+  *	basically the same.  The map function does also build a
+  *	scatterlist for the buffer (and unmap frees it ...)
+  *
+diff --git a/kernel/dma/debug.c b/kernel/dma/debug.c
+index 616919c774a5..1d3f9b8de6df 100644
+--- a/kernel/dma/debug.c
++++ b/kernel/dma/debug.c
+@@ -1069,7 +1069,7 @@ static void check_unmap(struct dma_debug_entry *ref)
+ 	/*
+ 	 * Drivers should use dma_mapping_error() to check the returned
+ 	 * addresses of dma_map_single() and dma_map_page().
+-	 * If not, print this warning message. See Documentation/DMA-API.rst.
++	 * If not, print this warning message. See Documentation/driver-api/mm/dma-api.rst.
+ 	 */
+ 	if (entry->map_err_type == MAP_ERR_NOT_CHECKED) {
+ 		err_printk(ref->dev, entry,
 -- 
 2.21.0
-
 
