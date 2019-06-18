@@ -3,82 +3,99 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BD7AE7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 15:51:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 052D77D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 16:01:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729209AbfFRPvJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Jun 2019 11:51:09 -0400
-Received: from foss.arm.com ([217.140.110.172]:47596 "EHLO foss.arm.com"
+        id S1729706AbfFRQBj (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Jun 2019 12:01:39 -0400
+Received: from mga05.intel.com ([192.55.52.43]:30374 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729246AbfFRPvJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 18 Jun 2019 11:51:09 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8A0EC2B;
-        Tue, 18 Jun 2019 08:51:08 -0700 (PDT)
-Received: from [10.1.194.37] (e113632-lin.cambridge.arm.com [10.1.194.37])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EE4273F718;
-        Tue, 18 Jun 2019 08:51:07 -0700 (PDT)
-Subject: Re: [PATCH] docs/vm: hwpoison.rst: Fix quote formatting
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20190618145605.21208-1-valentin.schneider@arm.com>
- <20190618093159.26352aed@lwn.net>
-From:   Valentin Schneider <valentin.schneider@arm.com>
-Message-ID: <1b60185d-1fb4-b8f0-c7c2-9fb50f550566@arm.com>
-Date:   Tue, 18 Jun 2019 16:51:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <20190618093159.26352aed@lwn.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+        id S1729247AbfFRQBi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 18 Jun 2019 12:01:38 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Jun 2019 09:01:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,389,1557212400"; 
+   d="scan'208";a="357901271"
+Received: from yyu32-desk1.sc.intel.com ([10.144.153.205])
+  by fmsmga005.fm.intel.com with ESMTP; 18 Jun 2019 09:01:38 -0700
+Message-ID: <1ca57aaae8a2121731f2dcb1a137b92eed39a0d2.camel@intel.com>
+Subject: Re: [PATCH v7 22/27] binfmt_elf: Extract .note.gnu.property from an
+ ELF file
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     Florian Weimer <fweimer@redhat.com>
+Cc:     Dave Martin <Dave.Martin@arm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Date:   Tue, 18 Jun 2019 08:53:29 -0700
+In-Reply-To: <87pnna7v1d.fsf@oldenburg2.str.redhat.com>
+References: <87lfy9cq04.fsf@oldenburg2.str.redhat.com>
+         <20190611114109.GN28398@e103592.cambridge.arm.com>
+         <031bc55d8dcdcf4f031e6ff27c33fd52c61d33a5.camel@intel.com>
+         <20190612093238.GQ28398@e103592.cambridge.arm.com>
+         <87imt4jwpt.fsf@oldenburg2.str.redhat.com>
+         <alpine.DEB.2.21.1906171418220.1854@nanos.tec.linutronix.de>
+         <20190618091248.GB2790@e103592.cambridge.arm.com>
+         <20190618124122.GH3419@hirez.programming.kicks-ass.net>
+         <87ef3r9i2j.fsf@oldenburg2.str.redhat.com>
+         <20190618125512.GJ3419@hirez.programming.kicks-ass.net>
+         <20190618133223.GD2790@e103592.cambridge.arm.com>
+         <d54fe81be77b9edd8578a6d208c72cd7c0b8c1dd.camel@intel.com>
+         <87pnna7v1d.fsf@oldenburg2.str.redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.1-2 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 18/06/2019 16:31, Jonathan Corbet wrote:
-> On Tue, 18 Jun 2019 15:56:05 +0100
-> Valentin Schneider <valentin.schneider@arm.com> wrote:
+On Tue, 2019-06-18 at 17:49 +0200, Florian Weimer wrote:
+> * Yu-cheng Yu:
 > 
->> The asterisks prepended to the quoted text currently get translated to
->> bullet points, which gets increasingly confusing the smaller your
->> screen is (when viewing the sphinx output, that is).
->>
->> Convert the whole quote to a literal block.
->>
->> Signed-off-by: Valentin Schneider <valentin.schneider@arm.com>
+> > The kernel looks at only ld-linux.  Other applications are loaded by ld-
+> > linux. 
+> > So the issues are limited to three versions of ld-linux's.  Can we somehow
+> > update those??
 > 
-> That definitely seems worth fixing, and I can apply this.  But a few
-> things to ponder first...
-> 
->  - If you convert it to a literal block, the asterisks can remain, making
->    for a less intrusive patch.
-> 
->  - I was wondering if we should just use a kernel-doc directive to pull
->    the comment directly from the source, but investigation quickly showed
->    that the "overview comment" doesn't actually exist in anything close to
->    the quoted form.  See mm/memory-failure.c.
-> 
-> Given that, and things like references to support in "upcoming Intel
-> CPUs", I suspect that this document is pretty seriously out of date and
-> needs some more in-depth attention.  If you're playing in this area and
-> feel like it, updating the document for real would be much appreciated...:)
-> 
+> I assumed that it would also parse the main executable and make
+> adjustments based on that.
 
-I'm afraid this was only a "drive-by" patch, as I just happened to skim
-through this page on my phone while waiting for a meeting - I'm quite
-clueless about page poisoning.
+Yes, Linux also looks at the main executable's header, but not its
+NT_GNU_PROPERTY_TYPE_0 if there is a loader.
 
-However, I could try to replace the quote with a kernel-doc directive to
-get a more up-to-date description (and maybe add a small note to say the
-rest of the doc is somewhat outdated). That, or just keep the quote as is
-but keep the asterisks - whichever you're happier with.
+> 
+> ld.so can certainly provide whatever the kernel needs.  We need to tweak
+> the existing loader anyway.
+> 
+> No valid statically-linked binaries exist today, so this is not a
+> consideration at this point.
 
-> Thanks,
-> 
-> jon
-> 
+So from kernel, we look at only PT_GNU_PROPERTY?
+
+Yu-cheng
+
