@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B79C17DE71
+	by archive.lwn.net (Postfix) with ESMTP id CC3877DE78
 	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 20:55:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730994AbfFRUzG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Jun 2019 16:55:06 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:50868 "EHLO
+        id S1730999AbfFRUzH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Jun 2019 16:55:07 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:50828 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730759AbfFRUx6 (ORCPT
+        with ESMTP id S1730747AbfFRUx6 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jun 2019 16:53:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,30 +20,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=GntXfWvv3Kib071YwaPKih5y5ex+thT7vmhRle4jSaM=; b=I60fMXQcbk7KT2JMxo9qkVck7p
-        Eroc/rYV+xoO3wobndpXGPpi3ohG0TqtCXuiILuykV1VgeDxBbIzL2JGOk6NPxh8auJDxTRvp6Nyc
-        dWA0q8zesE7AqUzQ0CD9dbi+Xb2At8eY5XDRJRGGFiIDAc90kZ4Yx/20o1xS0v/R+nhxE72R8mbU/
-        lc7cOJ+3hpXM8GXOGcRuifjV5MLUZZmgJPqpXy0nScNqIRTykgfqHRzy06SHRTXlHyTshYz2JYYSK
-        hxf3xWZDHE5bkDSFT4sSfTiNYW6XJauUn3kAjMsiVlUcQbej5PGczdYgrL6QiHW2zdOhpNbGY5HQn
-        OY7X0n7Q==;
+        bh=wrhHYkVqalJudClQ5Slfu9mOYqnzTc7imFqa6mcZE60=; b=Q6+ai+iRuLGB2hroOoxPV3+Rtt
+        nlHmS8h0o7DnUzaHjCgRUso6F3RpVD0fViiWJ0Y9AVwy0vjxuNZzFqFr7oaCp4jDWHYLGlSX0XRGT
+        RImr/cS9EgWMBSp8GXgQwnv6z7QVFKrQw5V7OXgQOPS9ahWsx8Ul0GH9EO+yXaQdxPZ1VK/6N4wDe
+        Wld+307vO8kEEUdKgO5cXCF3aqp5FjXp9QzU+up+0ecspNOixpxrNpHHKFrDWbdx71IBzwAG2oSAC
+        jsJKn1DGwjqOmGkQQW/WyxYRCHmVRLsBGl/X6eQ6W66Ogesd+6U0bpnN/6ILCl2bPbPJSDbzTVroC
+        N7on8EEg==;
 Received: from 177.133.86.196.dynamic.adsl.gvt.net.br ([177.133.86.196] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hdL77-0008R6-00; Tue, 18 Jun 2019 20:53:57 +0000
+        id 1hdL77-0008RS-2H; Tue, 18 Jun 2019 20:53:57 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hdL6z-0001zE-P2; Tue, 18 Jun 2019 17:53:49 -0300
+        id 1hdL70-0001zh-0A; Tue, 18 Jun 2019 17:53:50 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>, dri-devel@lists.freedesktop.org,
-        linux-fbdev@vger.kernel.org
-Subject: [PATCH v2 06/29] docs: console.txt: convert docs to ReST and rename to *.rst
-Date:   Tue, 18 Jun 2019 17:53:24 -0300
-Message-Id: <00ddb1bc19e07b7ce4d1e7cda457733a37cf1693.1560890800.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v2 13/29] docs: bus-devices: ti-gpmc.rst: convert it to ReST
+Date:   Tue, 18 Jun 2019 17:53:31 -0300
+Message-Id: <462f800be1a6f9a4cb223127c8900048414fe0ca.1560890800.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1560890800.git.mchehab+samsung@kernel.org>
 References: <cover.1560890800.git.mchehab+samsung@kernel.org>
@@ -54,196 +50,218 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Convert this small file to ReST in preparation for adding it to
-the driver-api book.
+In order to be able to add this file to a book, it needs
+first to be converted to ReST and renamed.
 
-While this is not part of the driver-api book, mark it as
-:orphan:, in order to avoid build warnings.
+While this is not part of any book, mark it as :orphan:, in order
+to avoid build warnings.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- .../console/{console.txt => console.rst}      | 63 ++++++++++---------
- Documentation/fb/fbcon.rst                    |  4 +-
- drivers/tty/Kconfig                           |  2 +-
- 3 files changed, 38 insertions(+), 31 deletions(-)
- rename Documentation/console/{console.txt => console.rst} (80%)
+ .../bus-devices/{ti-gpmc.txt => ti-gpmc.rst}  | 159 ++++++++++++------
+ 1 file changed, 108 insertions(+), 51 deletions(-)
+ rename Documentation/bus-devices/{ti-gpmc.txt => ti-gpmc.rst} (58%)
 
-diff --git a/Documentation/console/console.txt b/Documentation/console/console.rst
-similarity index 80%
-rename from Documentation/console/console.txt
-rename to Documentation/console/console.rst
-index d73c2ab4beda..b374141b027e 100644
---- a/Documentation/console/console.txt
-+++ b/Documentation/console/console.rst
-@@ -1,3 +1,6 @@
+diff --git a/Documentation/bus-devices/ti-gpmc.txt b/Documentation/bus-devices/ti-gpmc.rst
+similarity index 58%
+rename from Documentation/bus-devices/ti-gpmc.txt
+rename to Documentation/bus-devices/ti-gpmc.rst
+index cc9ce57e0a26..87c366e418be 100644
+--- a/Documentation/bus-devices/ti-gpmc.txt
++++ b/Documentation/bus-devices/ti-gpmc.rst
+@@ -1,8 +1,12 @@
+-GPMC (General Purpose Memory Controller):
+-=========================================
 +:orphan:
 +
-+===============
- Console Drivers
- ===============
++========================================
++GPMC (General Purpose Memory Controller)
++========================================
  
-@@ -17,25 +20,26 @@ of driver occupying the consoles.) They can only take over the console that is
- occupied by the system driver. In the same token, if the modular driver is
- released by the console, the system driver will take over.
+ GPMC is an unified memory controller dedicated to interfacing external
+ memory devices like
++
+  * Asynchronous SRAM like memories and application specific integrated
+    circuit devices.
+  * Asynchronous, synchronous, and page mode burst NOR flash devices
+@@ -48,75 +52,128 @@ most of the datasheets & hardware (to be exact none of those supported
+ in mainline having custom timing routine) and by simulation.
  
--Modular drivers, from the programmer's point of view, have to call:
-+Modular drivers, from the programmer's point of view, have to call::
+ gpmc timing dependency on peripheral timings:
++
+ [<gpmc_timing>: <peripheral timing1>, <peripheral timing2> ...]
  
- 	 do_take_over_console() - load and bind driver to console layer
- 	 give_up_console() - unload driver; it will only work if driver
- 			     is fully unbound
+ 1. common
+-cs_on: t_ceasu
+-adv_on: t_avdasu, t_ceavd
++
++cs_on:
++	t_ceasu
++adv_on:
++	t_avdasu, t_ceavd
  
--In newer kernels, the following are also available:
-+In newer kernels, the following are also available::
+ 2. sync common
+-sync_clk: clk
+-page_burst_access: t_bacc
+-clk_activation: t_ces, t_avds
++
++sync_clk:
++	clk
++page_burst_access:
++	t_bacc
++clk_activation:
++	t_ces, t_avds
  
- 	 do_register_con_driver()
- 	 do_unregister_con_driver()
+ 3. read async muxed
+-adv_rd_off: t_avdp_r
+-oe_on: t_oeasu, t_aavdh
+-access: t_iaa, t_oe, t_ce, t_aa
+-rd_cycle: t_rd_cycle, t_cez_r, t_oez
++
++adv_rd_off:
++	t_avdp_r
++oe_on:
++	t_oeasu, t_aavdh
++access:
++	t_iaa, t_oe, t_ce, t_aa
++rd_cycle:
++	t_rd_cycle, t_cez_r, t_oez
  
- If sysfs is enabled, the contents of /sys/class/vtconsole can be
- examined. This shows the console backends currently registered by the
--system which are named vtcon<n> where <n> is an integer from 0 to 15. Thus:
-+system which are named vtcon<n> where <n> is an integer from 0 to 15.
-+Thus::
+ 4. read async non-muxed
+-adv_rd_off: t_avdp_r
+-oe_on: t_oeasu
+-access: t_iaa, t_oe, t_ce, t_aa
+-rd_cycle: t_rd_cycle, t_cez_r, t_oez
++
++adv_rd_off:
++	t_avdp_r
++oe_on:
++	t_oeasu
++access:
++	t_iaa, t_oe, t_ce, t_aa
++rd_cycle:
++	t_rd_cycle, t_cez_r, t_oez
  
-        ls /sys/class/vtconsole
-        .  ..  vtcon0  vtcon1
+ 5. read sync muxed
+-adv_rd_off: t_avdp_r, t_avdh
+-oe_on: t_oeasu, t_ach, cyc_aavdh_oe
+-access: t_iaa, cyc_iaa, cyc_oe
+-rd_cycle: t_cez_r, t_oez, t_ce_rdyz
++
++adv_rd_off:
++	t_avdp_r, t_avdh
++oe_on:
++	t_oeasu, t_ach, cyc_aavdh_oe
++access:
++	t_iaa, cyc_iaa, cyc_oe
++rd_cycle:
++	t_cez_r, t_oez, t_ce_rdyz
  
--Each directory in /sys/class/vtconsole has 3 files:
-+Each directory in /sys/class/vtconsole has 3 files::
+ 6. read sync non-muxed
+-adv_rd_off: t_avdp_r
+-oe_on: t_oeasu
+-access: t_iaa, cyc_iaa, cyc_oe
+-rd_cycle: t_cez_r, t_oez, t_ce_rdyz
++
++adv_rd_off:
++	t_avdp_r
++oe_on:
++	t_oeasu
++access:
++	t_iaa, cyc_iaa, cyc_oe
++rd_cycle:
++	t_cez_r, t_oez, t_ce_rdyz
  
-      ls /sys/class/vtconsole/vtcon0
-      .  ..  bind  name  uevent
-@@ -46,27 +50,29 @@ What do these files signify?
-         read, or acts to bind or unbind the driver to the virtual consoles
-         when written to. The possible values are:
+ 7. write async muxed
+-adv_wr_off: t_avdp_w
+-we_on, wr_data_mux_bus: t_weasu, t_aavdh, cyc_aavhd_we
+-we_off: t_wpl
+-cs_wr_off: t_wph
+-wr_cycle: t_cez_w, t_wr_cycle
++
++adv_wr_off:
++	t_avdp_w
++we_on, wr_data_mux_bus:
++	t_weasu, t_aavdh, cyc_aavhd_we
++we_off:
++	t_wpl
++cs_wr_off:
++	t_wph
++wr_cycle:
++	t_cez_w, t_wr_cycle
  
--	0 - means the driver is not bound and if echo'ed, commands the driver
-+	0
-+	  - means the driver is not bound and if echo'ed, commands the driver
- 	    to unbind
+ 8. write async non-muxed
+-adv_wr_off: t_avdp_w
+-we_on, wr_data_mux_bus: t_weasu
+-we_off: t_wpl
+-cs_wr_off: t_wph
+-wr_cycle: t_cez_w, t_wr_cycle
++
++adv_wr_off:
++	t_avdp_w
++we_on, wr_data_mux_bus:
++	t_weasu
++we_off:
++	t_wpl
++cs_wr_off:
++	t_wph
++wr_cycle:
++	t_cez_w, t_wr_cycle
  
--        1 - means the driver is bound and if echo'ed, commands the driver to
-+        1
-+	  - means the driver is bound and if echo'ed, commands the driver to
- 	    bind
+ 9. write sync muxed
+-adv_wr_off: t_avdp_w, t_avdh
+-we_on, wr_data_mux_bus: t_weasu, t_rdyo, t_aavdh, cyc_aavhd_we
+-we_off: t_wpl, cyc_wpl
+-cs_wr_off: t_wph
+-wr_cycle: t_cez_w, t_ce_rdyz
++
++adv_wr_off:
++	t_avdp_w, t_avdh
++we_on, wr_data_mux_bus:
++	t_weasu, t_rdyo, t_aavdh, cyc_aavhd_we
++we_off:
++	t_wpl, cyc_wpl
++cs_wr_off:
++	t_wph
++wr_cycle:
++	t_cez_w, t_ce_rdyz
  
--     2. name - read-only file. Shows the name of the driver in this format:
-+     2. name - read-only file. Shows the name of the driver in this format::
+ 10. write sync non-muxed
+-adv_wr_off: t_avdp_w
+-we_on, wr_data_mux_bus: t_weasu, t_rdyo
+-we_off: t_wpl, cyc_wpl
+-cs_wr_off: t_wph
+-wr_cycle: t_cez_w, t_ce_rdyz
  
--	cat /sys/class/vtconsole/vtcon0/name
--	(S) VGA+
-+	  cat /sys/class/vtconsole/vtcon0/name
-+	  (S) VGA+
++adv_wr_off:
++	t_avdp_w
++we_on, wr_data_mux_bus:
++	t_weasu, t_rdyo
++we_off:
++	t_wpl, cyc_wpl
++cs_wr_off:
++	t_wph
++wr_cycle:
++	t_cez_w, t_ce_rdyz
  
--	    '(S)' stands for a (S)ystem driver, i.e., it cannot be directly
--	    commanded to bind or unbind
-+	      '(S)' stands for a (S)ystem driver, i.e., it cannot be directly
-+	      commanded to bind or unbind
- 
--	    'VGA+' is the name of the driver
-+	      'VGA+' is the name of the driver
- 
--	cat /sys/class/vtconsole/vtcon1/name
--	(M) frame buffer device
-+	  cat /sys/class/vtconsole/vtcon1/name
-+	  (M) frame buffer device
- 
--	    In this case, '(M)' stands for a (M)odular driver, one that can be
--	    directly commanded to bind or unbind.
-+	      In this case, '(M)' stands for a (M)odular driver, one that can be
-+	      directly commanded to bind or unbind.
- 
-      3. uevent - ignore this file
- 
-@@ -75,14 +81,17 @@ driver takes over the consoles vacated by the driver. Binding, on the other
- hand, will bind the driver to the consoles that are currently occupied by a
- system driver.
- 
--NOTE1: Binding and unbinding must be selected in Kconfig. It's under:
-+NOTE1:
-+  Binding and unbinding must be selected in Kconfig. It's under::
- 
--Device Drivers -> Character devices -> Support for binding and unbinding
--console drivers
-+    Device Drivers ->
-+	Character devices ->
-+		Support for binding and unbinding console drivers
- 
--NOTE2: If any of the virtual consoles are in KD_GRAPHICS mode, then binding or
--unbinding will not succeed. An example of an application that sets the console
--to KD_GRAPHICS is X.
-+NOTE2:
-+  If any of the virtual consoles are in KD_GRAPHICS mode, then binding or
-+  unbinding will not succeed. An example of an application that sets the
-+  console to KD_GRAPHICS is X.
- 
- How useful is this feature? This is very useful for console driver
- developers. By unbinding the driver from the console layer, one can unload the
-@@ -92,10 +101,10 @@ framebuffer console to VGA console and vice versa, this feature also makes
- this possible. (NOTE NOTE NOTE: Please read fbcon.txt under Documentation/fb
- for more details.)
- 
--Notes for developers:
--=====================
-+Notes for developers
-+====================
- 
--do_take_over_console() is now broken up into:
-+do_take_over_console() is now broken up into::
- 
-      do_register_con_driver()
-      do_bind_con_driver() - private function
-@@ -104,7 +113,7 @@ give_up_console() is a wrapper to do_unregister_con_driver(), and a driver must
- be fully unbound for this call to succeed. con_is_bound() will check if the
- driver is bound or not.
- 
--Guidelines for console driver writers:
-+Guidelines for console driver writers
- =====================================
- 
- In order for binding to and unbinding from the console to properly work,
-@@ -140,6 +149,4 @@ The current crop of console drivers should still work correctly, but binding
- and unbinding them may cause problems. With minimal fixes, these drivers can
- be made to work correctly.
- 
--==========================
- Antonino Daplas <adaplas@pol.net>
--
-diff --git a/Documentation/fb/fbcon.rst b/Documentation/fb/fbcon.rst
-index cfb9f7c38f18..22112718dd5d 100644
---- a/Documentation/fb/fbcon.rst
-+++ b/Documentation/fb/fbcon.rst
-@@ -187,7 +187,7 @@ the hardware. Thus, in a VGA console::
- Assuming the VGA driver can be unloaded, one must first unbind the VGA driver
- from the console layer before unloading the driver.  The VGA driver cannot be
- unloaded if it is still bound to the console layer. (See
--Documentation/console/console.txt for more information).
-+Documentation/console/console.rst for more information).
- 
- This is more complicated in the case of the framebuffer console (fbcon),
- because fbcon is an intermediate layer between the console and the drivers::
-@@ -204,7 +204,7 @@ fbcon. Thus, there is no need to explicitly unbind the fbdev drivers from
- fbcon.
- 
- So, how do we unbind fbcon from the console? Part of the answer is in
--Documentation/console/console.txt. To summarize:
-+Documentation/console/console.rst. To summarize:
- 
- Echo a value to the bind file that represents the framebuffer console
- driver. So assuming vtcon1 represents fbcon, then::
-diff --git a/drivers/tty/Kconfig b/drivers/tty/Kconfig
-index 0e3e4dacbc12..1cb50f19d58c 100644
---- a/drivers/tty/Kconfig
-+++ b/drivers/tty/Kconfig
-@@ -93,7 +93,7 @@ config VT_HW_CONSOLE_BINDING
-          select the console driver that will serve as the backend for the
-          virtual terminals.
- 
--	 See <file:Documentation/console/console.txt> for more
-+	 See <file:Documentation/console/console.rst> for more
- 	 information. For framebuffer console users, please refer to
- 	 <file:Documentation/fb/fbcon.rst>.
- 
+-Note: Many of gpmc timings are dependent on other gpmc timings (a few
+-gpmc timings purely dependent on other gpmc timings, a reason that
+-some of the gpmc timings are missing above), and it will result in
+-indirect dependency of peripheral timings to gpmc timings other than
+-mentioned above, refer timing routine for more details. To know what
+-these peripheral timings correspond to, please see explanations in
+-struct gpmc_device_timings definition. And for gpmc timings refer
+-IP details (link above).
++
++Note:
++  Many of gpmc timings are dependent on other gpmc timings (a few
++  gpmc timings purely dependent on other gpmc timings, a reason that
++  some of the gpmc timings are missing above), and it will result in
++  indirect dependency of peripheral timings to gpmc timings other than
++  mentioned above, refer timing routine for more details. To know what
++  these peripheral timings correspond to, please see explanations in
++  struct gpmc_device_timings definition. And for gpmc timings refer
++  IP details (link above).
 -- 
 2.21.0
 
