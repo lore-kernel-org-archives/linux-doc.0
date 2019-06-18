@@ -3,26 +3,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E07117D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 02:17:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 72FF97D92A
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 02:17:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728018AbfFRCRB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 17 Jun 2019 22:17:01 -0400
-Received: from inva021.nxp.com ([92.121.34.21]:46996 "EHLO inva021.nxp.com"
+        id S1728637AbfFRCRL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 17 Jun 2019 22:17:11 -0400
+Received: from inva020.nxp.com ([92.121.34.13]:38112 "EHLO inva020.nxp.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726047AbfFRCRB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 17 Jun 2019 22:17:01 -0400
-Received: from inva021.nxp.com (localhost [127.0.0.1])
-        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 654DF2002F1;
-        Tue, 18 Jun 2019 04:16:58 +0200 (CEST)
+        id S1728101AbfFRCRJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 17 Jun 2019 22:17:09 -0400
+Received: from inva020.nxp.com (localhost [127.0.0.1])
+        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id EF2E01A02EC;
+        Tue, 18 Jun 2019 04:17:06 +0200 (CEST)
 Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com [165.114.16.14])
-        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 3365120020A;
-        Tue, 18 Jun 2019 04:16:42 +0200 (CEST)
+        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 2A58C1A0DC1;
+        Tue, 18 Jun 2019 04:16:51 +0200 (CEST)
 Received: from localhost.localdomain (mega.ap.freescale.net [10.192.208.232])
-        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id 2DA2F402F0;
-        Tue, 18 Jun 2019 10:16:29 +0800 (SGT)
+        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id 63B36402F2;
+        Tue, 18 Jun 2019 10:16:37 +0800 (SGT)
 From:   Anson.Huang@nxp.com
 To:     robh+dt@kernel.org, mark.rutland@arm.com, corbet@lwn.net,
         shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
@@ -39,9 +39,9 @@ To:     robh+dt@kernel.org, mark.rutland@arm.com, corbet@lwn.net,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org
 Cc:     Linux-imx@nxp.com
-Subject: [PATCH V15 2/5] thermal: of-thermal: add API for getting sensor ID from DT
-Date:   Tue, 18 Jun 2019 10:18:17 +0800
-Message-Id: <20190618021820.14885-2-Anson.Huang@nxp.com>
+Subject: [PATCH V15 5/5] arm64: dts: imx: add i.MX8QXP thermal support
+Date:   Tue, 18 Jun 2019 10:18:20 +0800
+Message-Id: <20190618021820.14885-5-Anson.Huang@nxp.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190618021820.14885-1-Anson.Huang@nxp.com>
 References: <20190618021820.14885-1-Anson.Huang@nxp.com>
@@ -53,166 +53,75 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Anson Huang <Anson.Huang@nxp.com>
 
-This patch adds new API thermal_zone_of_get_sensor_id() to
-provide the feature of getting sensor ID from DT thermal
-zone's node. It's useful for thermal driver to register the
-specific thermal zone devices from DT in a common way.
+Add i.MX8QXP CPU thermal zone support.
 
 Signed-off-by: Anson Huang <Anson.Huang@nxp.com>
-Reviewed-by: Dong Aisheng <aisheng.dong@nxp.com>
 ---
-Changes since V14:
-	- improve the commit message, document and comment, no code change.
+No change.
 ---
- Documentation/thermal/sysfs-api.txt |  8 +++++
- drivers/thermal/of-thermal.c        | 65 ++++++++++++++++++++++++++++---------
- include/linux/thermal.h             | 10 ++++++
- 3 files changed, 67 insertions(+), 16 deletions(-)
+ arch/arm64/boot/dts/freescale/imx8qxp.dtsi | 37 ++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
-diff --git a/Documentation/thermal/sysfs-api.txt b/Documentation/thermal/sysfs-api.txt
-index c3fa500..5d3f84e 100644
---- a/Documentation/thermal/sysfs-api.txt
-+++ b/Documentation/thermal/sysfs-api.txt
-@@ -159,6 +159,14 @@ temperature) and throttle appropriate devices.
- 	for the thermal zone device, which might be useful for platform
- 	drivers for temperature calculations.
+diff --git a/arch/arm64/boot/dts/freescale/imx8qxp.dtsi b/arch/arm64/boot/dts/freescale/imx8qxp.dtsi
+index b2cb818..12044be 100644
+--- a/arch/arm64/boot/dts/freescale/imx8qxp.dtsi
++++ b/arch/arm64/boot/dts/freescale/imx8qxp.dtsi
+@@ -10,6 +10,7 @@
+ #include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/interrupt-controller/arm-gic.h>
+ #include <dt-bindings/pinctrl/pads-imx8qxp.h>
++#include <dt-bindings/thermal/thermal.h>
  
-+1.1.9 int thermal_zone_of_get_sensor_id(struct device_node *tz_np,
-+		struct device_node *sensor_np,
-+		u32 *id)
+ / {
+ 	interrupt-parent = <&gic>;
+@@ -168,6 +169,11 @@
+ 			compatible = "fsl,imx8qxp-sc-wdt", "fsl,imx-sc-wdt";
+ 			timeout-sec = <60>;
+ 		};
 +
-+	This interface is used to get the sensor id from the given thermal
-+	zone in DT, which might be useful for thermal drivers to register
-+	specific thermal zone device in a common way.
-+
- 1.2 thermal cooling device interface
- 1.2.1 struct thermal_cooling_device *thermal_cooling_device_register(char *name,
- 		void *devdata, struct thermal_cooling_device_ops *)
-diff --git a/drivers/thermal/of-thermal.c b/drivers/thermal/of-thermal.c
-index dc5093b..2422cc4 100644
---- a/drivers/thermal/of-thermal.c
-+++ b/drivers/thermal/of-thermal.c
-@@ -449,6 +449,53 @@ thermal_zone_of_add_sensor(struct device_node *zone,
- }
++		tsens: thermal-sensor {
++			compatible = "fsl,imx8qxp-sc-thermal", "fsl,imx-sc-thermal";
++			#thermal-sensor-cells = <1>;
++		};
+ 	};
  
- /**
-+ * thermal_zone_of_get_sensor_id - get sensor ID from a DT thermal zone
-+ * @tz_np: a valid thermal zone device node.
-+ * @sensor_np: a sensor node of a valid sensor device.
-+ * @id: the sensor ID returned if success.
-+ *
-+ * This function will get sensor ID from a given thermal zone node and
-+ * the sensor node must match the temperature provider @sensor_np.
-+ *
-+ * Return: 0 on success, proper error code otherwise.
-+ */
+ 	timer {
+@@ -536,4 +542,35 @@
+ 			power-domains = <&pd IMX_SC_R_GPIO_7>;
+ 		};
+ 	};
 +
-+int thermal_zone_of_get_sensor_id(struct device_node *tz_np,
-+				  struct device_node *sensor_np,
-+				  u32 *id)
-+{
-+	struct of_phandle_args sensor_specs;
-+	int ret;
++	thermal_zones: thermal-zones {
++		cpu-thermal0 {
++			polling-delay-passive = <250>;
++			polling-delay = <2000>;
++			thermal-sensors = <&tsens IMX_SC_R_SYSTEM>;
++			trips {
++				cpu_alert0: trip0 {
++					temperature = <107000>;
++					hysteresis = <2000>;
++					type = "passive";
++				};
++				cpu_crit0: trip1 {
++					temperature = <127000>;
++					hysteresis = <2000>;
++					type = "critical";
++				};
++			};
++			cooling-maps {
++				map0 {
++					trip = <&cpu_alert0>;
++					cooling-device =
++						<&A35_0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
++						<&A35_1 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
++						<&A35_2 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
++						<&A35_3 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
 +
-+	ret = of_parse_phandle_with_args(tz_np,
-+					 "thermal-sensors",
-+					 "#thermal-sensor-cells",
-+					 0,
-+					 &sensor_specs);
-+	if (ret)
-+		return ret;
-+
-+	if (sensor_specs.np != sensor_np) {
-+		of_node_put(sensor_specs.np);
-+		return -ENODEV;
-+	}
-+
-+	if (sensor_specs.args_count >= 1) {
-+		*id = sensor_specs.args[0];
-+		WARN(sensor_specs.args_count > 1,
-+		     "%pOFn: too many cells in sensor specifier %d\n",
-+		     sensor_specs.np, sensor_specs.args_count);
-+	} else {
-+		*id = 0;
-+	}
-+
-+	of_node_put(sensor_specs.np);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(thermal_zone_of_get_sensor_id);
-+
-+/**
-  * thermal_zone_of_sensor_register - registers a sensor to a DT thermal zone
-  * @dev: a valid struct device pointer of a sensor device. Must contain
-  *       a valid .of_node, for the sensor node.
-@@ -499,36 +546,22 @@ thermal_zone_of_sensor_register(struct device *dev, int sensor_id, void *data,
- 	sensor_np = of_node_get(dev->of_node);
- 
- 	for_each_available_child_of_node(np, child) {
--		struct of_phandle_args sensor_specs;
- 		int ret, id;
- 
- 		/* For now, thermal framework supports only 1 sensor per zone */
--		ret = of_parse_phandle_with_args(child, "thermal-sensors",
--						 "#thermal-sensor-cells",
--						 0, &sensor_specs);
-+		ret = thermal_zone_of_get_sensor_id(child, sensor_np, &id);
- 		if (ret)
- 			continue;
- 
--		if (sensor_specs.args_count >= 1) {
--			id = sensor_specs.args[0];
--			WARN(sensor_specs.args_count > 1,
--			     "%pOFn: too many cells in sensor specifier %d\n",
--			     sensor_specs.np, sensor_specs.args_count);
--		} else {
--			id = 0;
--		}
--
--		if (sensor_specs.np == sensor_np && id == sensor_id) {
-+		if (id == sensor_id) {
- 			tzd = thermal_zone_of_add_sensor(child, sensor_np,
- 							 data, ops);
- 			if (!IS_ERR(tzd))
- 				tzd->ops->set_mode(tzd, THERMAL_DEVICE_ENABLED);
- 
--			of_node_put(sensor_specs.np);
- 			of_node_put(child);
- 			goto exit;
- 		}
--		of_node_put(sensor_specs.np);
- 	}
- exit:
- 	of_node_put(sensor_np);
-diff --git a/include/linux/thermal.h b/include/linux/thermal.h
-index 15a4ca5..5edffe6 100644
---- a/include/linux/thermal.h
-+++ b/include/linux/thermal.h
-@@ -375,6 +375,9 @@ struct thermal_trip {
- 
- /* Function declarations */
- #ifdef CONFIG_THERMAL_OF
-+int thermal_zone_of_get_sensor_id(struct device_node *tz_np,
-+				  struct device_node *sensor_np,
-+				  u32 *id);
- struct thermal_zone_device *
- thermal_zone_of_sensor_register(struct device *dev, int id, void *data,
- 				const struct thermal_zone_of_device_ops *ops);
-@@ -386,6 +389,13 @@ struct thermal_zone_device *devm_thermal_zone_of_sensor_register(
- void devm_thermal_zone_of_sensor_unregister(struct device *dev,
- 					    struct thermal_zone_device *tz);
- #else
-+
-+static int thermal_zone_of_get_sensor_id(struct device_node *tz_np,
-+					 struct device_node *sensor_np,
-+					 u32 *id)
-+{
-+	return -ENOENT;
-+}
- static inline struct thermal_zone_device *
- thermal_zone_of_sensor_register(struct device *dev, int id, void *data,
- 				const struct thermal_zone_of_device_ops *ops)
++				};
++			};
++		};
++	};
+ };
 -- 
 2.7.4
 
