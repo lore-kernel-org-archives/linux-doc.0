@@ -1,80 +1,88 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 98FF27D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 21:14:15 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C33767D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 23:15:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730181AbfFRVOP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Jun 2019 17:14:15 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:46953 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729982AbfFRVOP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jun 2019 17:14:15 -0400
-Received: by mail-lj1-f196.google.com with SMTP id v24so963905ljg.13;
-        Tue, 18 Jun 2019 14:14:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZaAxeVjH+EUZnsd2BO4q1H+XTPNcQpQ8tPv3CdubesQ=;
-        b=Aho2/MXGHZi2HIa60PJ/lJldDI55R7GhpXD621AhFR2Oqtvt82VMcJ8i5A6kUtswjb
-         LXpza6A5txTjRHD8GFim4obhDAlZZIp3zPoVhRp1FpJSgTmEAsNqZP22zyR+iJT+bsMs
-         wz337eRgTAhKy4CSrw+F5eUOmPzM49yF6kEuhZFAXN8O0QhA886vMuB8FyoImGFHbS5P
-         g82ooHdGVKOj09ZVC8cL17g35temnF7YkW6v0I8mnDmE3viYeeqZYpGPuysKdxBJXm5Y
-         IqSw3QPr+/4a+xjDDBUbsxmpJCHHjd8LCW/hTFFYK2IUOhk48LkYpq2PtoZabVxJQbaT
-         jXUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZaAxeVjH+EUZnsd2BO4q1H+XTPNcQpQ8tPv3CdubesQ=;
-        b=ZZNSwHVKkeEGMt75FOQ40xNNSm51A/wqr1G5xzoWk6ztAnr4nwT9BCO5FNKwwIQb97
-         moPbIy6vGTCXH7jNK7eG8nnV83UjMYSv6eHqHA5Ps448fOZJngO58YY9sKFZAWDfPvJn
-         qA3BuLP0rpU4juRt93X2tecaSwzSWxkaCcEDErTHJ2O4F0DDETNhSgNkF0QHhDVIPua6
-         unjZDZjGjxwBxnzK7QyxvoGF5RYUTSSp/4PdQlUhm5IjJIirKFuMABEqfllaaFKjryAZ
-         UtYFMApT5G2FNOD4WkB/EjJZQPnsIaFYh6erPLvtaTNa2oWzeo22SwSYuAgeNeVDZec9
-         ynsg==
-X-Gm-Message-State: APjAAAVQ2iqL3ijRF4WIeylaJvUvqbQj465B9c07ST2H8S/wpA0Qwu2V
-        HsdG0dGGW8oyCtQV9J4iWklvReschfXiC5nm1iAijRns
-X-Google-Smtp-Source: APXvYqwdPHgliYTpMmX+C/KPOU+7/2aAyX6twM47MIh5MRq8ZQKYHgdjCL4q8I6YUXRWxPrzRcCvHgPuQTwVPkWS+Yo=
-X-Received: by 2002:a2e:968e:: with SMTP id q14mr21980601lji.195.1560892452920;
- Tue, 18 Jun 2019 14:14:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1560890800.git.mchehab+samsung@kernel.org> <3da3e0379da562d703e6896ded6a7839d1272494.1560890800.git.mchehab+samsung@kernel.org>
-In-Reply-To: <3da3e0379da562d703e6896ded6a7839d1272494.1560890800.git.mchehab+samsung@kernel.org>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 18 Jun 2019 23:14:01 +0200
-Message-ID: <CANiq72kibf49R+QtUjqcttGiNr4kxBqc0TxSe+HdrQUahTxgng@mail.gmail.com>
-Subject: Re: [PATCH v2 02/29] docs: lcd-panel-cgram.txt: convert docs to ReST
- and rename to *.rst
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+        id S1728195AbfFRXPC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Jun 2019 19:15:02 -0400
+Received: from casper.infradead.org ([85.118.1.10]:37184 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726047AbfFRXPC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jun 2019 19:15:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=YD3CDBnSmeqzGKbOwCAY3CZKaDLh95sd33iLbp3T1uU=; b=tIsxsufTq7E9IsMbw+MWb0tbC5
+        tpANoUwiF+PMZC10fp09AV1FLkM2apZ4V7pwSGklRs1GwLJj3O1MwZ8J90LBorH9Dmez8duksbLtm
+        cShMcigdOrSA7sCFxyQcWaT7N8axFoBTwkpa8QuBndEVHaZiObfGTwIcuUNgn85DBs2JypNungCXD
+        EvOJNPYlhVQqp73SEcvODHxDzpQ7BeYseALL/9SMAgD9R2qcq22I7QFNyYkpzlY/9awUykhfFbAkD
+        CSew9zhOgBJyNLcg0y47R8Ak4J+B0pc1ozqDJLk5GzaI4rxOQJajkdOfgziAztoEbkpUhwoPS+/+Q
+        tTEAsiBg==;
+Received: from 177.133.86.196.dynamic.adsl.gvt.net.br ([177.133.86.196] helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hdNJd-0007Mp-B3; Tue, 18 Jun 2019 23:15:01 +0000
+Date:   Tue, 18 Jun 2019 20:14:55 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v2 02/29] docs: lcd-panel-cgram.txt: convert docs to
+ ReST and rename to *.rst
+Message-ID: <20190618201455.04e8743d@coco.lan>
+In-Reply-To: <CANiq72kibf49R+QtUjqcttGiNr4kxBqc0TxSe+HdrQUahTxgng@mail.gmail.com>
+References: <cover.1560890800.git.mchehab+samsung@kernel.org>
+        <3da3e0379da562d703e6896ded6a7839d1272494.1560890800.git.mchehab+samsung@kernel.org>
+        <CANiq72kibf49R+QtUjqcttGiNr4kxBqc0TxSe+HdrQUahTxgng@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 18, 2019 at 10:56 PM Mauro Carvalho Chehab
-<mchehab+samsung@kernel.org> wrote:
->
-> This small text file describes the usage of parallel port LCD
-> displays from userspace PoV. So, a good candidate for the
-> admin guide.
->
-> While this is not part of the admin-guide book, mark it as
-> :orphan:, in order to avoid build warnings.
+Em Tue, 18 Jun 2019 23:14:01 +0200
+Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> escreveu:
 
-If we are going to move everything else to `.rst` too, even things
-outside the guide, then ack.
+> On Tue, Jun 18, 2019 at 10:56 PM Mauro Carvalho Chehab
+> <mchehab+samsung@kernel.org> wrote:
+> >
+> > This small text file describes the usage of parallel port LCD
+> > displays from userspace PoV. So, a good candidate for the
+> > admin guide.
+> >
+> > While this is not part of the admin-guide book, mark it as
+> > :orphan:, in order to avoid build warnings.  
+> 
+> If we are going to move everything else to `.rst` too, even things
+> outside the guide, then ack.
 
-Cheers,
-Miguel
+Yeah, the plan is to move all text files inside Documentation/ to .rst[1].
+
+[1] There are some exceptions: for ABI and features, the current plan
+is to have a script that parses their strict formats and produce
+a ReST output.
+
+
+Btw, Still pending to be sent, I have already a patch removing the
+:orphan: from this file and adding it to the admin guide:
+
+	https://git.linuxtv.org/mchehab/experimental.git/commit/?h=convert_rst_renames_v5.1&id=eae5b48cab115c83be8dd59ee99b9e45f8142134
+
+And the corresponding output, after the patches I currently have:
+
+	https://www.infradead.org/~mchehab/rst_conversion/admin-guide/lcd-panel-cgram.html
+
+Thanks,
+Mauro
