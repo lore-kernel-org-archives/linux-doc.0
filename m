@@ -5,137 +5,152 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 109507D90F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 20:56:36 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C896A7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 21:05:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731079AbfFRUz4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Jun 2019 16:55:56 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:50376 "EHLO
+        id S1730655AbfFRVFu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Jun 2019 17:05:50 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:34284 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730670AbfFRUxy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jun 2019 16:53:54 -0400
+        with ESMTP id S1730555AbfFRVFu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jun 2019 17:05:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+        To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=4cWjMp5PaXweLfT1aRxtKRWZepkzB8FeW0x9RJN+xzA=; b=jXf3ilEtuZOXAfWKdgNAuUijb5
-        tp8Wujfqk9HxA+5LuFVSfGD9DyCoyk9prc/EWQ1YIiwlZJEcHiaITjFk76rzEw843V6OJhm6QVHiH
-        eb+R0cmI8GFFbAkCa/31PH0k/l2qkFIS/2526WpukU1DFkQ5BgNAn1MTOzf8Be8BqWlI5PAS7k8J9
-        fT7nz+x7zN5HyRd7nNgVxKn/v1Nf8UZarz+I4SC1zNR5b2gLuWKci2Mdrr0/JLmupMxLu7W93Svli
-        VpVT3jjqh/8odFMj4mxHsmjT7JNE6QHdMcygteX5FgT0j6Ils5xWlG9z6EToBQ6Sf75fIFcFo9fMU
-        ZRWfjoBg==;
+        bh=6P57YxsmAx04truEVWlO1Rbm6PSISlvjP7Y4/ecme5A=; b=SPeh8yfMn1LqeFjeff3XUKVkdE
+        7p76Cf1NT3yYrobDDeDK3K+E/Eka+Mh5SRM3ja9YlrEfGGGD5rw9iXmRMEBfJ+wUxCw2TEGK2+Tjc
+        ArHXAHIgLCKfsjKEcWBOr7C0jyx2e05Fzq43bzPgoaQHFMtOxTZI+9eBMfXeBBnNcs7pSM9vG4j7h
+        1AIcV8rY7LXRTN3mvZT2lTINYqh69yuBPiKA8dqprTTN9bhJyC9DY5ymFT68sEk4/dkQ3QsIfiwpt
+        dVHmLsUXmN9gjXFEcVGPuqF5f5q5lfWM2fcr/3OfXrGAfR5IjhPyQQpf+Wp25wbzb7PLUYTXnXvGT
+        dT98K3ww==;
 Received: from 177.133.86.196.dynamic.adsl.gvt.net.br ([177.133.86.196] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hdL73-0008Mk-HU; Tue, 18 Jun 2019 20:53:53 +0000
+        id 1hdLIb-0006ya-Ue; Tue, 18 Jun 2019 21:05:49 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hdL6z-0001zZ-UB; Tue, 18 Jun 2019 17:53:49 -0300
+        id 1hdLIZ-0002CN-TK; Tue, 18 Jun 2019 18:05:47 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2 11/29] docs: memory-devices: convert ti-emif.txt to ReST
-Date:   Tue, 18 Jun 2019 17:53:29 -0300
-Message-Id: <625735651da142ff1ded1711fdb0f01758b6a54b.1560890800.git.mchehab+samsung@kernel.org>
+Subject: [PATCH v1 10/22] docs: security: move some books to it and update
+Date:   Tue, 18 Jun 2019 18:05:34 -0300
+Message-Id: <79ece6b35e72852660e23631946dd6a145a1b744.1560891322.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
-In-Reply-To: <cover.1560890800.git.mchehab+samsung@kernel.org>
-References: <cover.1560890800.git.mchehab+samsung@kernel.org>
+In-Reply-To: <cover.1560891322.git.mchehab+samsung@kernel.org>
+References: <cover.1560891322.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Prepare this file to be moved to a kernel book by converting
-it to ReST format and renaming it to ti-emif.rst.
+The following files belong to security:
 
-While this is not part of any book, mark it as :orphan:, in order
-to avoid build warnings.
+  Documentation/security/LSM.rst -> Documentation/security/lsm-development.rst
+  Documentation/lsm.txt -> Documentation/security/lsm.rst
+  Documentation/SAK.txt -> Documentation/security/sak.rst
+  Documentation/siphash.txt -> Documentation/security/siphash.rst
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- .../{ti-emif.txt => ti-emif.rst}              | 27 ++++++++++++-------
- 1 file changed, 17 insertions(+), 10 deletions(-)
- rename Documentation/memory-devices/{ti-emif.txt => ti-emif.rst} (81%)
+ Documentation/security/index.rst                        | 5 ++++-
+ Documentation/security/{LSM.rst => lsm-development.rst} | 0
+ Documentation/{ => security}/lsm.rst                    | 2 --
+ Documentation/{SAK.rst => security/sak.rst}             | 2 --
+ Documentation/{ => security}/siphash.rst                | 2 --
+ Documentation/security/tpm/index.rst                    | 1 +
+ Documentation/security/tpm/xen-tpmfront.rst             | 2 --
+ 7 files changed, 5 insertions(+), 9 deletions(-)
+ rename Documentation/security/{LSM.rst => lsm-development.rst} (100%)
+ rename Documentation/{ => security}/lsm.rst (99%)
+ rename Documentation/{SAK.rst => security/sak.rst} (99%)
+ rename Documentation/{ => security}/siphash.rst (99%)
 
-diff --git a/Documentation/memory-devices/ti-emif.txt b/Documentation/memory-devices/ti-emif.rst
-similarity index 81%
-rename from Documentation/memory-devices/ti-emif.txt
-rename to Documentation/memory-devices/ti-emif.rst
-index f4ad9a7d0f4b..c9242294e63c 100644
---- a/Documentation/memory-devices/ti-emif.txt
-+++ b/Documentation/memory-devices/ti-emif.rst
-@@ -1,20 +1,24 @@
--TI EMIF SDRAM Controller Driver:
-+:orphan:
-+
-+===============================
-+TI EMIF SDRAM Controller Driver
-+===============================
+diff --git a/Documentation/security/index.rst b/Documentation/security/index.rst
+index aad6d92ffe31..fc503dd689a7 100644
+--- a/Documentation/security/index.rst
++++ b/Documentation/security/index.rst
+@@ -8,7 +8,10 @@ Security Documentation
+    credentials
+    IMA-templates
+    keys/index
+-   LSM
++   lsm
++   lsm-development
++   sak
+    SCTP
+    self-protection
++   siphash
+    tpm/index
+diff --git a/Documentation/security/LSM.rst b/Documentation/security/lsm-development.rst
+similarity index 100%
+rename from Documentation/security/LSM.rst
+rename to Documentation/security/lsm-development.rst
+diff --git a/Documentation/lsm.rst b/Documentation/security/lsm.rst
+similarity index 99%
+rename from Documentation/lsm.rst
+rename to Documentation/security/lsm.rst
+index 4f0b1a6ea76c..ad4dfd020e0d 100644
+--- a/Documentation/lsm.rst
++++ b/Documentation/security/lsm.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ========================================================
+ Linux Security Modules: General Security Hooks for Linux
+ ========================================================
+diff --git a/Documentation/SAK.rst b/Documentation/security/sak.rst
+similarity index 99%
+rename from Documentation/SAK.rst
+rename to Documentation/security/sak.rst
+index 73dd10fa4337..64e667da93e0 100644
+--- a/Documentation/SAK.rst
++++ b/Documentation/security/sak.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ =========================================
+ Linux Secure Attention Key (SAK) handling
+ =========================================
+diff --git a/Documentation/siphash.rst b/Documentation/security/siphash.rst
+similarity index 99%
+rename from Documentation/siphash.rst
+rename to Documentation/security/siphash.rst
+index 833eef3a7956..9965821ab333 100644
+--- a/Documentation/siphash.rst
++++ b/Documentation/security/siphash.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ===========================
+ SipHash - a short input PRF
+ ===========================
+diff --git a/Documentation/security/tpm/index.rst b/Documentation/security/tpm/index.rst
+index af77a7bbb070..3296533e54cf 100644
+--- a/Documentation/security/tpm/index.rst
++++ b/Documentation/security/tpm/index.rst
+@@ -5,3 +5,4 @@ Trusted Platform Module documentation
+ .. toctree::
  
- Author
--========
-+======
- Aneesh V <aneesh@ti.com>
- 
- Location
--============
-+========
- driver/memory/emif.c
- 
- Supported SoCs:
--===================
-+===============
- TI OMAP44xx
- TI OMAP54xx
- 
- Menuconfig option:
--==========================
-+==================
- Device Drivers
- 	Memory devices
- 		Texas Instruments EMIF driver
-@@ -29,10 +33,11 @@ functions of the driver includes re-configuring AC timing
- parameters and other settings during frequency, voltage and
- temperature changes
- 
--Platform Data (see include/linux/platform_data/emif_plat.h):
--=====================================================================
-+Platform Data (see include/linux/platform_data/emif_plat.h)
-+===========================================================
- DDR device details and other board dependent and SoC dependent
- information can be passed through platform data (struct emif_platform_data)
-+
- - DDR device details: 'struct ddr_device_info'
- - Device AC timings: 'struct lpddr2_timings' and 'struct lpddr2_min_tck'
- - Custom configurations: customizable policy options through
-@@ -40,17 +45,19 @@ information can be passed through platform data (struct emif_platform_data)
- - IP revision
- - PHY type
- 
--Interface to the external world:
--================================
-+Interface to the external world
-+===============================
- EMIF driver registers notifiers for voltage and frequency changes
- affecting EMIF and takes appropriate actions when these are invoked.
-+
- - freq_pre_notify_handling()
- - freq_post_notify_handling()
- - volt_notify_handling()
- 
- Debugfs
--========
-+=======
- The driver creates two debugfs entries per device.
-+
- - regcache_dump : dump of register values calculated and saved for all
-   frequencies used so far.
- - mr4 : last polled value of MR4 register in the LPDDR2 device. MR4
+    tpm_vtpm_proxy
++   xen-tpmfront
+diff --git a/Documentation/security/tpm/xen-tpmfront.rst b/Documentation/security/tpm/xen-tpmfront.rst
+index 98a16ab87360..00d5b1db227d 100644
+--- a/Documentation/security/tpm/xen-tpmfront.rst
++++ b/Documentation/security/tpm/xen-tpmfront.rst
+@@ -1,5 +1,3 @@
+-:orphan:
+-
+ ﻿=============================
+ Virtual TPM interface for Xen
+ =============================
 -- 
 2.21.0
 
