@@ -1,101 +1,51 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=5.0 tests=DATE_IN_PAST_06_12,
-	DKIM_INVALID,DKIM_SIGNED,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 93AC47D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 20:28:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 765377D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 20:45:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730607AbfFRU2J (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Jun 2019 16:28:09 -0400
-Received: from casper.infradead.org ([85.118.1.10]:52652 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730176AbfFRU2J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jun 2019 16:28:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=/yuq+528Ge2GyeWg6aQYCOiRFdbu/e3xfN3FdxpcEzY=; b=aB7KTV5ZzmCoj1Qxm3dVaqBytG
-        6+FKmt7R881qAHMbcleBouaKC3kmFz2LA9Gvif95NyyHzZYpT55h4RDehfIKQQY69CVa8wVC9pTSV
-        lM5saykAhFfav4/jsmfkmbjCMOcfAFWTC4XcOhZRfq2M8BexwvZFvq+n1RO+Q6bUZMKIXOAKqgS/z
-        Z0xhg86h0mjM6gWv9dljQS4maac4BmrXdCgsk5P5Rrbmx/H/nT9JqF0GEKhiNMUUO+RcYwIj4hQKr
-        S+oRAMGCViKI189iZwgPRWHso0mZugDsGCk+ehRnbRbif4s1O9+a3pZMmiNVfSY4BbgNtTHNIW9P3
-        VhKuGzng==;
-Received: from 177.133.86.196.dynamic.adsl.gvt.net.br ([177.133.86.196] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hdKi3-0001wm-Jm; Tue, 18 Jun 2019 20:28:04 +0000
-Date:   Tue, 18 Jun 2019 11:14:47 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@sifive.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        Greentime Hu <green.hu@gmail.com>,
-        Vincent Chen <deanbo422@gmail.com>,
-        linux-riscv@lists.infradead.org, netdev@vger.kernel.org,
-        bpf@vger.kernel.org
-Subject: Re: [PATCH v4 00/28] Convert files to ReST - part 1
-Message-ID: <20190618111122.64cdeb59@coco.lan>
-In-Reply-To: <20190614143640.40ee353a@lwn.net>
-References: <cover.1560361364.git.mchehab+samsung@kernel.org>
-        <20190614143640.40ee353a@lwn.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1730429AbfFRUpM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Jun 2019 16:45:12 -0400
+Received: from ms.lwn.net ([45.79.88.28]:52308 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730341AbfFRUpM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 18 Jun 2019 16:45:12 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 8B4672E5;
+        Tue, 18 Jun 2019 20:45:11 +0000 (UTC)
+Date:   Tue, 18 Jun 2019 14:45:10 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Valentin Schneider <valentin.schneider@arm.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs/vm: hwpoison.rst: Fix quote formatting
+Message-ID: <20190618144510.7493ab7d@lwn.net>
+In-Reply-To: <1b60185d-1fb4-b8f0-c7c2-9fb50f550566@arm.com>
+References: <20190618145605.21208-1-valentin.schneider@arm.com>
+        <20190618093159.26352aed@lwn.net>
+        <1b60185d-1fb4-b8f0-c7c2-9fb50f550566@arm.com>
+Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Fri, 14 Jun 2019 14:36:40 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+On Tue, 18 Jun 2019 16:51:06 +0100
+Valentin Schneider <valentin.schneider@arm.com> wrote:
 
-> On Wed, 12 Jun 2019 14:52:36 -0300
-> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
-> 
-> > This is mostly a rebase of the /33 series v3 I sent, on the top of the latest
-> > linux-next  (next-20190612).
-> > 
-> > Changes from v3:
-> > 
-> > - dropped cpufreq conversion - documents are too outdated;
-> > - infiniband patch is not here anymore - as it should be merged via RDMA;
-> > - s390 patches were already merged;
-> > - Dropped Geert as Maintainer from fb/framebuffer.rst, as per his request;
-> > - Did a minor editorial change at popwerpc/cxl.rst per Andrew Donellan
-> >   request;
-> > - Added acks/reviews;
-> > - trivial rebase fixups.  
-> 
-> So I had to pull docs-next forward to -rc4, but then I was able to apply
-> this set except for parts 5, 6, 14, 18, and 19.  
+> I'm afraid this was only a "drive-by" patch, as I just happened to skim
+> through this page on my phone while waiting for a meeting - I'm quite
+> clueless about page poisoning.
 
-Patch 5 went via Cgroups tree;
-Patch 18 went via power tree;
-Patch 6 is obsolete, as the cgroups-v1 CBQ chapter was removed;
+No worries.  Thanks for the patch; it makes things better than they were
+before, and I can't complain about that!
 
-So, what's left from this series are patches 14 and 19.
-
-I have a rebased version of them on the top of linux-next
-on my working tree. Perhaps we should try to push those two late
-during the merge window.
-
-> Some progress made, but
-> this is somewhat painful work...
-
-Yeah, a change like that is not easy.
-
-Thanks,
-Mauro
+jon
