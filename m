@@ -3,16 +3,16 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 27D6B7DBEB
+	by archive.lwn.net (Postfix) with ESMTP id 7A6EC7DE57
 	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 20:55:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730946AbfFRUys (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Jun 2019 16:54:48 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:50994 "EHLO
+        id S1730781AbfFRUy4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Jun 2019 16:54:56 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:51010 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730782AbfFRUx7 (ORCPT
+        with ESMTP id S1730783AbfFRUx7 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jun 2019 16:53:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,27 +20,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=v3+cKJjC8UE1x5KiXPrKT3zWPQnNrEMtVSn8hS0HGug=; b=VPlSdcK2nW2Ou4EgD1KyxqPDAc
-        lRC30ouZywe+1NMqfTHX8skHL+0Pe2VHiKE6zKqQVjNlTNXEis+AjqUEujp61v8dMZDPNWPNUb53u
-        rRUbD9plEppCtAg1YFc0QMuW1h2d5PODpc8q96cEm+AQbN6njwGJ96WrwGUgH8Exj9bLKHfFpdb9s
-        PdgSHIJqbLhM5/iU5nRM7/zSfw2bfh/Hv2NJRqwSo2Lc1XOgkEJD0U3OU13o+spCglZtj+9F19T8/
-        VKJeoQT+OglQnbWWYrATi1ecKgEPHnXKc5qroVZYxWzLG3TqbzTwZa5hzNhWnklPdkRJN0YMg3j9t
-        meiz0vsg==;
+        bh=8Y1nlnSVVHDrFk8myKIM30kznMDor9jOwj/L8T5CzXg=; b=QIjEpoeSOGdiCCPfo4Kl553GJA
+        s065+YLwVkDvnVkhUg28XcTtdwrjhb1WfwvsZ5AOHIpgZTx0XRVbnFnz77vtP9uwzF2rSsXkwRkNG
+        fQnwb2qEmrroho5gqklVKhOCjNfjvtEtEJ3YJNNGd2J93nz55WsjVvA0sjFtO/CbCE+H2t35ZVNqe
+        BtTEX+eqboJlHFJ2cdybspQ+1Gfaeo6ZEgq+zDo5XZ6xlF6cUb5lwYxyV3kdjy5hOEIzJiWwlUyoM
+        clNGIOuR+M8efrg5++kUGJY/7qb3f5rEpJ7ZRXtcuphyVXrdxu61pDXqMBJVQdMfEdZTX8gGmcw6w
+        nO/2U76w==;
 Received: from 177.133.86.196.dynamic.adsl.gvt.net.br ([177.133.86.196] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hdL77-0008Rl-6c; Tue, 18 Jun 2019 20:53:57 +0000
+        id 1hdL78-0008TI-1B; Tue, 18 Jun 2019 20:53:58 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hdL6z-0001yt-KR; Tue, 18 Jun 2019 17:53:49 -0300
+        id 1hdL70-0001zt-2o; Tue, 18 Jun 2019 17:53:50 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Evgeniy Polyakov <zbr@ioremap.net>
-Subject: [PATCH v2 01/29] docs: connector: convert to ReST and rename to connector.rst
-Date:   Tue, 18 Jun 2019 17:53:19 -0300
-Message-Id: <0af69552eda7fc631e8853bb11d3c55c1178eda1.1560890800.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v2 16/29] docs: rbtree.txt: fix Sphinx build warnings
+Date:   Tue, 18 Jun 2019 17:53:34 -0300
+Message-Id: <f5c25942548585e9765ab6681b40832243ed7d46.1560890800.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1560890800.git.mchehab+samsung@kernel.org>
 References: <cover.1560890800.git.mchehab+samsung@kernel.org>
@@ -51,344 +50,48 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As it has some function definitions, move them to connector.h.
+Ths file is already at ReST format. Yet, some recent changes
+made it to produce a few warnings when building it with
+Sphinx.
 
-The remaining conversion is actually:
-  - add blank lines and identation in order to identify paragraphs;
-  - fix tables markups;
-  - add some lists markups;
-  - mark literal blocks;
-  - adjust title markups.
+Those are trivially fixed by marking some literal blocks.
 
-At its new index.rst, let's add a :orphan: while this is not linked to
-the main index.rst file, in order to avoid build warnings.
+Fix them before adding it to the docs building system.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- .../{connector.txt => connector.rst}          | 130 ++++++------------
- drivers/w1/Kconfig                            |   2 +-
- include/linux/connector.h                     |  63 ++++++++-
- samples/Kconfig                               |   2 +-
- 4 files changed, 109 insertions(+), 88 deletions(-)
- rename Documentation/connector/{connector.txt => connector.rst} (57%)
+ Documentation/rbtree.txt | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/connector/connector.txt b/Documentation/connector/connector.rst
-similarity index 57%
-rename from Documentation/connector/connector.txt
-rename to Documentation/connector/connector.rst
-index ab7ca897fab7..24e26dc22dbf 100644
---- a/Documentation/connector/connector.txt
-+++ b/Documentation/connector/connector.rst
-@@ -1,6 +1,8 @@
--/*****************************************/
--Kernel Connector.
--/*****************************************/
-+:orphan:
-+
-+================
-+Kernel Connector
-+================
+diff --git a/Documentation/rbtree.txt b/Documentation/rbtree.txt
+index c42a21b99046..523d54b60087 100644
+--- a/Documentation/rbtree.txt
++++ b/Documentation/rbtree.txt
+@@ -204,21 +204,21 @@ potentially expensive tree iterations. This is done at negligible runtime
+ overhead for maintanence; albeit larger memory footprint.
  
- Kernel connector - new netlink based userspace <-> kernel space easy
- to use communication module.
-@@ -12,94 +14,55 @@ identifier, the appropriate callback will be called.
+ Similar to the rb_root structure, cached rbtrees are initialized to be
+-empty via:
++empty via::
  
- From the userspace point of view it's quite straightforward:
+   struct rb_root_cached mytree = RB_ROOT_CACHED;
  
--	socket();
--	bind();
--	send();
--	recv();
-+	- socket();
-+	- bind();
-+	- send();
-+	- recv();
+ Cached rbtree is simply a regular rb_root with an extra pointer to cache the
+ leftmost node. This allows rb_root_cached to exist wherever rb_root does,
+ which permits augmented trees to be supported as well as only a few extra
+-interfaces:
++interfaces::
  
- But if kernelspace wants to use the full power of such connections, the
- driver writer must create special sockets, must know about struct sk_buff
- handling, etc...  The Connector driver allows any kernelspace agents to use
- netlink based networking for inter-process communication in a significantly
--easier way:
-+easier way::
+   struct rb_node *rb_first_cached(struct rb_root_cached *tree);
+   void rb_insert_color_cached(struct rb_node *, struct rb_root_cached *, bool);
+   void rb_erase_cached(struct rb_node *node, struct rb_root_cached *);
  
--int cn_add_callback(struct cb_id *id, char *name, void (*callback) (struct cn_msg *, struct netlink_skb_parms *));
--void cn_netlink_send_multi(struct cn_msg *msg, u16 len, u32 portid, u32 __group, int gfp_mask);
--void cn_netlink_send(struct cn_msg *msg, u32 portid, u32 __group, int gfp_mask);
-+  int cn_add_callback(struct cb_id *id, char *name, void (*callback) (struct cn_msg *, struct netlink_skb_parms *));
-+  void cn_netlink_send_multi(struct cn_msg *msg, u16 len, u32 portid, u32 __group, int gfp_mask);
-+  void cn_netlink_send(struct cn_msg *msg, u32 portid, u32 __group, int gfp_mask);
+ Both insert and erase calls have their respective counterpart of augmented
+-trees:
++trees::
  
--struct cb_id
--{
-+  struct cb_id
-+  {
- 	__u32			idx;
- 	__u32			val;
--};
-+  };
- 
- idx and val are unique identifiers which must be registered in the
--connector.h header for in-kernel usage.  void (*callback) (void *) is a
-+connector.h header for in-kernel usage.  `void (*callback) (void *)` is a
- callback function which will be called when a message with above idx.val
- is received by the connector core.  The argument for that function must
--be dereferenced to struct cn_msg *.
-+be dereferenced to `struct cn_msg *`::
- 
--struct cn_msg
--{
-+  struct cn_msg
-+  {
- 	struct cb_id		id;
- 
- 	__u32			seq;
- 	__u32			ack;
- 
--	__u32			len;		/* Length of the following data */
-+	__u32			len;	/* Length of the following data */
- 	__u8			data[0];
--};
-+  };
- 
--/*****************************************/
--Connector interfaces.
--/*****************************************/
-+Connector interfaces
-+====================
- 
--int cn_add_callback(struct cb_id *id, char *name, void (*callback) (struct cn_msg *, struct netlink_skb_parms *));
-+ .. kernel-doc:: include/linux/connector.h
- 
-- Registers new callback with connector core.
-+ Note:
-+   When registering new callback user, connector core assigns
-+   netlink group to the user which is equal to its id.idx.
- 
-- struct cb_id *id		- unique connector's user identifier.
--				  It must be registered in connector.h for legal in-kernel users.
-- char *name			- connector's callback symbolic name.
-- void (*callback) (struct cn..)	- connector's callback.
--				  cn_msg and the sender's credentials
--
--
--void cn_del_callback(struct cb_id *id);
--
-- Unregisters new callback with connector core.
--
-- struct cb_id *id		- unique connector's user identifier.
--
--
--int cn_netlink_send_multi(struct cn_msg *msg, u16 len, u32 portid, u32 __groups, int gfp_mask);
--int cn_netlink_send(struct cn_msg *msg, u32 portid, u32 __groups, int gfp_mask);
--
-- Sends message to the specified groups.  It can be safely called from
-- softirq context, but may silently fail under strong memory pressure.
-- If there are no listeners for given group -ESRCH can be returned.
--
-- struct cn_msg *		- message header(with attached data).
-- u16 len			- for *_multi multiple cn_msg messages can be sent
-- u32 port			- destination port.
-- 				  If non-zero the message will be sent to the
--				  given port, which should be set to the
--				  original sender.
-- u32 __group			- destination group.
--				  If port and __group is zero, then appropriate group will
--				  be searched through all registered connector users,
--				  and message will be delivered to the group which was
--				  created for user with the same ID as in msg.
--				  If __group is not zero, then message will be delivered
--				  to the specified group.
-- int gfp_mask			- GFP mask.
--
-- Note: When registering new callback user, connector core assigns
-- netlink group to the user which is equal to its id.idx.
--
--/*****************************************/
--Protocol description.
--/*****************************************/
-+Protocol description
-+====================
- 
- The current framework offers a transport layer with fixed headers.  The
- recommended protocol which uses such a header is as following:
-@@ -132,9 +95,8 @@ driver (it also registers itself with id={-1, -1}).
- As example of this usage can be found in the cn_test.c module which
- uses the connector to request notification and to send messages.
- 
--/*****************************************/
--Reliability.
--/*****************************************/
-+Reliability
-+===========
- 
- Netlink itself is not a reliable protocol.  That means that messages can
- be lost due to memory pressure or process' receiving queue overflowed,
-@@ -142,32 +104,31 @@ so caller is warned that it must be prepared.  That is why the struct
- cn_msg [main connector's message header] contains u32 seq and u32 ack
- fields.
- 
--/*****************************************/
--Userspace usage.
--/*****************************************/
-+Userspace usage
-+===============
- 
- 2.6.14 has a new netlink socket implementation, which by default does not
- allow people to send data to netlink groups other than 1.
- So, if you wish to use a netlink socket (for example using connector)
- with a different group number, the userspace application must subscribe to
--that group first.  It can be achieved by the following pseudocode:
-+that group first.  It can be achieved by the following pseudocode::
- 
--s = socket(PF_NETLINK, SOCK_DGRAM, NETLINK_CONNECTOR);
-+  s = socket(PF_NETLINK, SOCK_DGRAM, NETLINK_CONNECTOR);
- 
--l_local.nl_family = AF_NETLINK;
--l_local.nl_groups = 12345;
--l_local.nl_pid = 0;
-+  l_local.nl_family = AF_NETLINK;
-+  l_local.nl_groups = 12345;
-+  l_local.nl_pid = 0;
- 
--if (bind(s, (struct sockaddr *)&l_local, sizeof(struct sockaddr_nl)) == -1) {
-+  if (bind(s, (struct sockaddr *)&l_local, sizeof(struct sockaddr_nl)) == -1) {
- 	perror("bind");
- 	close(s);
- 	return -1;
--}
-+  }
- 
--{
-+  {
- 	int on = l_local.nl_groups;
- 	setsockopt(s, 270, 1, &on, sizeof(on));
--}
-+  }
- 
- Where 270 above is SOL_NETLINK, and 1 is a NETLINK_ADD_MEMBERSHIP socket
- option.  To drop a multicast subscription, one should call the above socket
-@@ -180,16 +141,15 @@ group number 12345, you must increment CN_NETLINK_USERS to that number.
- Additional 0xf numbers are allocated to be used by non-in-kernel users.
- 
- Due to this limitation, group 0xffffffff does not work now, so one can
--not use add/remove connector's group notifications, but as far as I know, 
-+not use add/remove connector's group notifications, but as far as I know,
- only cn_test.c test module used it.
- 
- Some work in netlink area is still being done, so things can be changed in
- 2.6.15 timeframe, if it will happen, documentation will be updated for that
- kernel.
- 
--/*****************************************/
- Code samples
--/*****************************************/
-+============
- 
- Sample code for a connector test module and user space can be found
- in samples/connector/. To build this code, enable CONFIG_CONNECTOR
-diff --git a/drivers/w1/Kconfig b/drivers/w1/Kconfig
-index 03dd57581df7..160053c0baea 100644
---- a/drivers/w1/Kconfig
-+++ b/drivers/w1/Kconfig
-@@ -19,7 +19,7 @@ config W1_CON
- 	default y
- 	---help---
- 	  This allows to communicate with userspace using connector. For more
--	  information see <file:Documentation/connector/connector.txt>.
-+	  information see <file:Documentation/connector/connector.rst>.
- 	  There are three types of messages between w1 core and userspace:
- 	  1. Events. They are generated each time new master or slave device found
- 		either due to automatic or requested search.
-diff --git a/include/linux/connector.h b/include/linux/connector.h
-index 1d72ef76f24f..6b6c7396a584 100644
---- a/include/linux/connector.h
-+++ b/include/linux/connector.h
-@@ -55,10 +55,71 @@ struct cn_dev {
- 	struct cn_queue_dev *cbdev;
- };
- 
-+/**
-+ * cn_add_callback() - Registers new callback with connector core.
-+ *
-+ * @id:		unique connector's user identifier.
-+ *		It must be registered in connector.h for legal
-+ *		in-kernel users.
-+ * @name:	connector's callback symbolic name.
-+ * @callback:	connector's callback.
-+ * 		parameters are %cn_msg and the sender's credentials
-+ */
- int cn_add_callback(struct cb_id *id, const char *name,
- 		    void (*callback)(struct cn_msg *, struct netlink_skb_parms *));
--void cn_del_callback(struct cb_id *);
-+/**
-+ * cn_del_callback() - Unregisters new callback with connector core.
-+ *
-+ * @id:		unique connector's user identifier.
-+ */
-+void cn_del_callback(struct cb_id *id);
-+
-+
-+/**
-+ * cn_netlink_send_mult - Sends message to the specified groups.
-+ *
-+ * @msg: 	message header(with attached data).
-+ * @len:	Number of @msg to be sent.
-+ * @portid:	destination port.
-+ *		If non-zero the message will be sent to the given port,
-+ *		which should be set to the original sender.
-+ * @group:	destination group.
-+ * 		If @portid and @group is zero, then appropriate group will
-+ *		be searched through all registered connector users, and
-+ *		message will be delivered to the group which was created
-+ *		for user with the same ID as in @msg.
-+ *		If @group is not zero, then message will be delivered
-+ *		to the specified group.
-+ * @gfp_mask:	GFP mask.
-+ *
-+ * It can be safely called from softirq context, but may silently
-+ * fail under strong memory pressure.
-+ *
-+ * If there are no listeners for given group %-ESRCH can be returned.
-+ */
- int cn_netlink_send_mult(struct cn_msg *msg, u16 len, u32 portid, u32 group, gfp_t gfp_mask);
-+
-+/**
-+ * cn_netlink_send_mult - Sends message to the specified groups.
-+ *
-+ * @msg:	message header(with attached data).
-+ * @portid:	destination port.
-+ *		If non-zero the message will be sent to the given port,
-+ *		which should be set to the original sender.
-+ * @group:	destination group.
-+ * 		If @portid and @group is zero, then appropriate group will
-+ *		be searched through all registered connector users, and
-+ *		message will be delivered to the group which was created
-+ *		for user with the same ID as in @msg.
-+ *		If @group is not zero, then message will be delivered
-+ *		to the specified group.
-+ * @gfp_mask:	GFP mask.
-+ *
-+ * It can be safely called from softirq context, but may silently
-+ * fail under strong memory pressure.
-+ *
-+ * If there are no listeners for given group %-ESRCH can be returned.
-+ */
- int cn_netlink_send(struct cn_msg *msg, u32 portid, u32 group, gfp_t gfp_mask);
- 
- int cn_queue_add_callback(struct cn_queue_dev *dev, const char *name,
-diff --git a/samples/Kconfig b/samples/Kconfig
-index d63cc8a3e0df..9ec524b2e003 100644
---- a/samples/Kconfig
-+++ b/samples/Kconfig
-@@ -100,7 +100,7 @@ config SAMPLE_CONNECTOR
- 	  When enabled, this builds both a sample kernel module for
- 	  the connector interface and a user space tool to communicate
- 	  with it.
--	  See also Documentation/connector/connector.txt
-+	  See also Documentation/connector/connector.rst
- 
- config SAMPLE_SECCOMP
- 	bool "Build seccomp sample code"
+   void rb_insert_augmented_cached(struct rb_node *node, struct rb_root_cached *,
+ 				  bool, struct rb_augment_callbacks *);
 -- 
 2.21.0
 
