@@ -1,68 +1,93 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CE2A57D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 15:32:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D87B67D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 15:46:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729423AbfFRPcB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Jun 2019 11:32:01 -0400
-Received: from ms.lwn.net ([45.79.88.28]:50818 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729189AbfFRPcB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 18 Jun 2019 11:32:01 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id EFDC94FA;
-        Tue, 18 Jun 2019 15:32:00 +0000 (UTC)
-Date:   Tue, 18 Jun 2019 09:31:59 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Valentin Schneider <valentin.schneider@arm.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs/vm: hwpoison.rst: Fix quote formatting
-Message-ID: <20190618093159.26352aed@lwn.net>
-In-Reply-To: <20190618145605.21208-1-valentin.schneider@arm.com>
-References: <20190618145605.21208-1-valentin.schneider@arm.com>
-Organization: LWN.net
+        id S1729308AbfFRPqR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Jun 2019 11:46:17 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:16687 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729209AbfFRPqR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jun 2019 11:46:17 -0400
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id x5IFjwqD023285;
+        Wed, 19 Jun 2019 00:45:59 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x5IFjwqD023285
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1560872759;
+        bh=V7giHAbZPfYoFBM3Xyv/F80mdpvKFs40bUrQhe8IQiw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=sP36Vf18fQIZb+CVM+0DxsStrkaqNzND7HtInHkU+Q2BA5OYh46dvuxHr63rCKMOH
+         lVl8Kfss9AiCeqFavDOa2M051ApZu6T+NJl1+lHMr5inbBBrctzYW2mJOQSctC48fV
+         51Iy54M9ID5y4/s7L1b79XqWkHRTvUTIKc61ama0rW0fDyVX/E6jWMU2h0UW/vFO+J
+         +f2UqVa7loeI4LMpfftTkoJkA5xuUd91+JyMggTxJdG1dj8mTsVJ77tNWVK6PMkBbO
+         hBcCJft3ICjy3UZzg3PISc+KqnkfWqesi5Sd8Pfh6K2e1qOGbelUFRNlursEEaOrtu
+         8QFXqYUyMYVyA==
+X-Nifty-SrcIP: [209.85.222.43]
+Received: by mail-ua1-f43.google.com with SMTP id z13so6471184uaa.4;
+        Tue, 18 Jun 2019 08:45:59 -0700 (PDT)
+X-Gm-Message-State: APjAAAWIOR2Nbw/NkMB+7Ajny2ENOBey28XY1sjt0gLQxqK3HWSEXRI1
+        k8uqG6y1m2Ua1KWgnHyjSW4AgHPfHP/a3kDZADs=
+X-Google-Smtp-Source: APXvYqw4h9EJR1bQClc9HUF3me4qk8yVmsh87N3K55z5XrgXNEmDqKStsUDcH08GwctN1lomxK3OyhN8wzXgoeuROS4=
+X-Received: by 2002:a67:7fcc:: with SMTP id a195mr44481110vsd.181.1560872758279;
+ Tue, 18 Jun 2019 08:45:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+References: <20190604101409.2078-14-yamada.masahiro@socionext.com>
+ <20190604124248.5564-1-jani.nikula@intel.com> <20190604172553.GA2383@ravnborg.org>
+In-Reply-To: <20190604172553.GA2383@ravnborg.org>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Wed, 19 Jun 2019 00:45:22 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ_FxSK=TBvcmKsGEK2jB+rGE7uLqjaNYmKBsCPp8X0Gg@mail.gmail.com>
+Message-ID: <CAK7LNAQ_FxSK=TBvcmKsGEK2jB+rGE7uLqjaNYmKBsCPp8X0Gg@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: add support for ensuring headers are self-contained
+To:     Sam Ravnborg <sam@ravnborg.org>,
+        Jani Nikula <jani.nikula@intel.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Howells <dhowells@redhat.com>,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        Michal Marek <michal.lkml@markovi.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 18 Jun 2019 15:56:05 +0100
-Valentin Schneider <valentin.schneider@arm.com> wrote:
+On Wed, Jun 5, 2019 at 2:26 AM Sam Ravnborg <sam@ravnborg.org> wrote:
+>
+> On Tue, Jun 04, 2019 at 03:42:48PM +0300, Jani Nikula wrote:
+> > Sometimes it's useful to be able to explicitly ensure certain headers
+> > remain self-contained, i.e. that they are compilable as standalone
+> > units, by including and/or forward declaring everything they depend on.
+> >
+> > Add special target header-test-y where individual Makefiles can add
+> > headers to be tested if CONFIG_HEADER_TEST is enabled. This will
+> > generate a dummy C file per header that gets built as part of extra-y.
+> >
+> > Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> > Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+> > Cc: Michal Marek <michal.lkml@markovi.net>
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>
+> Looks good, thanks.
+>
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+>
 
-> The asterisks prepended to the quoted text currently get translated to
-> bullet points, which gets increasingly confusing the smaller your
-> screen is (when viewing the sphinx output, that is).
-> 
-> Convert the whole quote to a literal block.
-> 
-> Signed-off-by: Valentin Schneider <valentin.schneider@arm.com>
+Applied to linux-kbuild.
+Thanks.
 
-That definitely seems worth fixing, and I can apply this.  But a few
-things to ponder first...
 
- - If you convert it to a literal block, the asterisks can remain, making
-   for a less intrusive patch.
-
- - I was wondering if we should just use a kernel-doc directive to pull
-   the comment directly from the source, but investigation quickly showed
-   that the "overview comment" doesn't actually exist in anything close to
-   the quoted form.  See mm/memory-failure.c.
-
-Given that, and things like references to support in "upcoming Intel
-CPUs", I suspect that this document is pretty seriously out of date and
-needs some more in-depth attention.  If you're playing in this area and
-feel like it, updating the document for real would be much appreciated...:)
-
-Thanks,
-
-jon
+-- 
+Best Regards
+Masahiro Yamada
