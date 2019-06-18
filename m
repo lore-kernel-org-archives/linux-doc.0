@@ -5,287 +5,296 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F394E7D90F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 21:05:56 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 829897D91B
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 21:06:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730802AbfFRVFx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Jun 2019 17:05:53 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:34390 "EHLO
+        id S1730915AbfFRVGB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Jun 2019 17:06:01 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:35048 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730758AbfFRVFv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jun 2019 17:05:51 -0400
+        with ESMTP id S1730785AbfFRVGA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jun 2019 17:06:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+        To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=aprkksWlCQjw+LRm085Sr+gIThqT/ag3Byudfcwoq40=; b=TG0iwTuDsigcaJDVCQBH38mzDp
-        C1UndghTTNQqJZwZjVPGImd1M8eoShWgOH3bxfQDLJCB2LkdQ1KwSCqaH/RJytdNYR96Ne3+FHYBx
-        jaZHbXo057vb7K5dt8oZ01HV1nWsoE3Ia4U09CtAfMTHWXTGnKq4CsNVtsGmdph+1p5iEdbcyqoi7
-        bCc/8XJ8/er0U2HBbKscemUcpWo6GZEzu6bGYVmkKxUipP7vWU1jNQSZPRknEDu/79mazXSG5i0ls
-        o4PSMIHEG21dJTN/+j9l8qYGWUt+K9iKg5Q1uPDA3DODZUN8O5zN8/5k4ncZcW+HYqfoOBSliG/tm
-        8yyoK2ng==;
+        bh=ECIQo8wjoJ4L3SNzTPduVDIOPVbFLBmTWJrd5JeuGbI=; b=uN25SBw4Qda4bD/guxXXptJsE9
+        r7PlgDNIP3HjKrbIXXNJNKv0ft4+UxzRcRzr8ynhelVrVadVEEMty5KGn0/tHZa/OtSeGMzkdo7aH
+        ud2kbZEVm5bnRJvA9k/AWf4Gj3lScOUrgiD3I2x2Yphrz9PJ2HD2IdUUJ9sKZca8/FnJ80L/xKPHw
+        DuC2RymFuwdCyNTIMg7AFZgPZmyUQaxXufKDm4nJxM/92Mk3GSUuvgi0eMPqpDIJxD74otO/wern2
+        VgpE8anPgIpMFNO2r2o0Eyu36fejzJVIl69APWrFet0an4rsUxFkW8N86PZH0ome46bT38xNCDjQh
+        UwlTT3jw==;
 Received: from 177.133.86.196.dynamic.adsl.gvt.net.br ([177.133.86.196] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hdLIc-0006yr-6k; Tue, 18 Jun 2019 21:05:50 +0000
+        id 1hdLIc-0006zH-KZ; Tue, 18 Jun 2019 21:05:51 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hdLIa-0002D0-4W; Tue, 18 Jun 2019 18:05:48 -0300
+        id 1hdLIa-0002DI-7r; Tue, 18 Jun 2019 18:05:48 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        linux-fsdevel@vger.kernel.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: [PATCH v1 18/22] docs: admin-guide: move sysctl directory to it
-Date:   Tue, 18 Jun 2019 18:05:42 -0300
-Message-Id: <bf5a59cdaecd5e4bb1828201994c6c940c853606.1560891322.git.mchehab+samsung@kernel.org>
+        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Jerry Hoemann <jerry.hoemann@hpe.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Russell King <linux@armlinux.org.uk>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        kexec@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+        linux-watchdog@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sh@vger.kernel.org
+Subject: [PATCH v1 22/22] admin-guide: add kdump documentation into it
+Date:   Tue, 18 Jun 2019 18:05:46 -0300
+Message-Id: <e6a805d5b36d4dda2a474db4f9e7e86da710a9be.1560891322.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1560891322.git.mchehab+samsung@kernel.org>
 References: <cover.1560891322.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The stuff under sysctl describes /sys interface from userspace
-point of view. So, add it to the admin-guide and remove the
-:orphan: from its index file.
+The Kdump documentation describes procedures with admins use
+in order to solve issues on their systems.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- CREDITS                                           | 2 +-
- Documentation/admin-guide/index.rst               | 1 +
- Documentation/admin-guide/kernel-parameters.txt   | 2 +-
- Documentation/admin-guide/mm/index.rst            | 2 +-
- Documentation/admin-guide/mm/ksm.rst              | 2 +-
- Documentation/{ => admin-guide}/sysctl/abi.rst    | 0
- Documentation/{ => admin-guide}/sysctl/fs.rst     | 0
- Documentation/{ => admin-guide}/sysctl/index.rst  | 2 --
- Documentation/{ => admin-guide}/sysctl/kernel.rst | 0
- Documentation/{ => admin-guide}/sysctl/net.rst    | 0
- Documentation/{ => admin-guide}/sysctl/sunrpc.rst | 0
- Documentation/{ => admin-guide}/sysctl/user.rst   | 0
- Documentation/{ => admin-guide}/sysctl/vm.rst     | 0
- Documentation/core-api/printk-formats.rst         | 2 +-
- Documentation/filesystems/proc.txt                | 2 +-
- Documentation/networking/ip-sysctl.txt            | 2 +-
- Documentation/vm/unevictable-lru.rst              | 2 +-
- fs/proc/Kconfig                                   | 2 +-
- kernel/panic.c                                    | 2 +-
- mm/swap.c                                         | 2 +-
- 20 files changed, 12 insertions(+), 13 deletions(-)
- rename Documentation/{ => admin-guide}/sysctl/abi.rst (100%)
- rename Documentation/{ => admin-guide}/sysctl/fs.rst (100%)
- rename Documentation/{ => admin-guide}/sysctl/index.rst (99%)
- rename Documentation/{ => admin-guide}/sysctl/kernel.rst (100%)
- rename Documentation/{ => admin-guide}/sysctl/net.rst (100%)
- rename Documentation/{ => admin-guide}/sysctl/sunrpc.rst (100%)
- rename Documentation/{ => admin-guide}/sysctl/user.rst (100%)
- rename Documentation/{ => admin-guide}/sysctl/vm.rst (100%)
+ Documentation/admin-guide/bug-hunting.rst            | 4 ++--
+ Documentation/admin-guide/index.rst                  | 1 +
+ Documentation/{ => admin-guide}/kdump/gdbmacros.txt  | 0
+ Documentation/{ => admin-guide}/kdump/index.rst      | 1 -
+ Documentation/{ => admin-guide}/kdump/kdump.rst      | 0
+ Documentation/{ => admin-guide}/kdump/vmcoreinfo.rst | 0
+ Documentation/admin-guide/kernel-parameters.txt      | 6 +++---
+ Documentation/powerpc/firmware-assisted-dump.rst     | 2 +-
+ Documentation/translations/zh_CN/oops-tracing.txt    | 4 ++--
+ Documentation/watchdog/hpwdt.rst                     | 2 +-
+ MAINTAINERS                                          | 2 +-
+ arch/arm/Kconfig                                     | 2 +-
+ arch/arm64/Kconfig                                   | 2 +-
+ arch/sh/Kconfig                                      | 2 +-
+ arch/x86/Kconfig                                     | 4 ++--
+ 15 files changed, 16 insertions(+), 16 deletions(-)
+ rename Documentation/{ => admin-guide}/kdump/gdbmacros.txt (100%)
+ rename Documentation/{ => admin-guide}/kdump/index.rst (97%)
+ rename Documentation/{ => admin-guide}/kdump/kdump.rst (100%)
+ rename Documentation/{ => admin-guide}/kdump/vmcoreinfo.rst (100%)
 
-diff --git a/CREDITS b/CREDITS
-index 681335f42491..652480755300 100644
---- a/CREDITS
-+++ b/CREDITS
-@@ -3120,7 +3120,7 @@ S: France
- N: Rik van Riel
- E: riel@redhat.com
- W: http://www.surriel.com/
--D: Linux-MM site, Documentation/sysctl/*, swap/mm readaround
-+D: Linux-MM site, Documentation/admin-guide/sysctl/*, swap/mm readaround
- D: kswapd fixes, random kernel hacker, rmap VM,
- D: nl.linux.org administrator, minor scheduler additions
- S: Red Hat Boston
+diff --git a/Documentation/admin-guide/bug-hunting.rst b/Documentation/admin-guide/bug-hunting.rst
+index b761aa2a51d2..44b8a4edd348 100644
+--- a/Documentation/admin-guide/bug-hunting.rst
++++ b/Documentation/admin-guide/bug-hunting.rst
+@@ -90,9 +90,9 @@ the disk is not available then you have three options:
+     run a null modem to a second machine and capture the output there
+     using your favourite communication program.  Minicom works well.
+ 
+-(3) Use Kdump (see Documentation/kdump/kdump.rst),
++(3) Use Kdump (see Documentation/admin-guide/kdump/kdump.rst),
+     extract the kernel ring buffer from old memory with using dmesg
+-    gdbmacro in Documentation/kdump/gdbmacros.txt.
++    gdbmacro in Documentation/admin-guide/kdump/gdbmacros.txt.
+ 
+ Finding the bug's location
+ --------------------------
 diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index ba9ff8e3b45a..5940ce8d16af 100644
+index e4f0cb2a02bd..9f6820a7e8f8 100644
 --- a/Documentation/admin-guide/index.rst
 +++ b/Documentation/admin-guide/index.rst
-@@ -16,6 +16,7 @@ etc.
-    README
-    kernel-parameters
-    devices
-+   sysctl/index
+@@ -39,6 +39,7 @@ problems and bugs in particular.
+    ramoops
+    dynamic-debug-howto
+    init
++   kdump/index
  
- This section describes CPU vulnerabilities and their mitigations.
+ This is the beginning of a section with information of interest to
+ application developers.  Documents covering various aspects of the kernel
+diff --git a/Documentation/kdump/gdbmacros.txt b/Documentation/admin-guide/kdump/gdbmacros.txt
+similarity index 100%
+rename from Documentation/kdump/gdbmacros.txt
+rename to Documentation/admin-guide/kdump/gdbmacros.txt
+diff --git a/Documentation/kdump/index.rst b/Documentation/admin-guide/kdump/index.rst
+similarity index 97%
+rename from Documentation/kdump/index.rst
+rename to Documentation/admin-guide/kdump/index.rst
+index 2b17fcf6867a..8e2ebd0383cd 100644
+--- a/Documentation/kdump/index.rst
++++ b/Documentation/admin-guide/kdump/index.rst
+@@ -1,4 +1,3 @@
+-:orphan:
  
+ ================================================================
+ Documentation for Kdump - The kexec-based Crash Dumping Solution
+diff --git a/Documentation/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
+similarity index 100%
+rename from Documentation/kdump/kdump.rst
+rename to Documentation/admin-guide/kdump/kdump.rst
+diff --git a/Documentation/kdump/vmcoreinfo.rst b/Documentation/admin-guide/kdump/vmcoreinfo.rst
+similarity index 100%
+rename from Documentation/kdump/vmcoreinfo.rst
+rename to Documentation/admin-guide/kdump/vmcoreinfo.rst
 diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 2f8751323f6d..0b17312b9198 100644
+index 69a9e2e66dfb..1f3fc445c78d 100644
 --- a/Documentation/admin-guide/kernel-parameters.txt
 +++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3159,7 +3159,7 @@
- 	numa_zonelist_order= [KNL, BOOT] Select zonelist order for NUMA.
- 			'node', 'default' can be specified
- 			This can be set from sysctl after boot.
--			See Documentation/sysctl/vm.rst for details.
-+			See Documentation/admin-guide/sysctl/vm.rst for details.
+@@ -708,14 +708,14 @@
+ 			[KNL, x86_64] select a region under 4G first, and
+ 			fall back to reserve region above 4G when '@offset'
+ 			hasn't been specified.
+-			See Documentation/kdump/kdump.rst for further details.
++			See Documentation/admin-guide/kdump/kdump.rst for further details.
  
- 	ohci1394_dma=early	[HW] enable debugging via the ohci1394 driver.
- 			See Documentation/driver-api/debugging-via-ohci1394.rst for more
-diff --git a/Documentation/admin-guide/mm/index.rst b/Documentation/admin-guide/mm/index.rst
-index f5e92f33f96e..5f61a6c429e0 100644
---- a/Documentation/admin-guide/mm/index.rst
-+++ b/Documentation/admin-guide/mm/index.rst
-@@ -11,7 +11,7 @@ processes address space and many other cool things.
- Linux memory management is a complex system with many configurable
- settings. Most of these settings are available via ``/proc``
- filesystem and can be quired and adjusted using ``sysctl``. These APIs
--are described in Documentation/sysctl/vm.rst and in `man 5 proc`_.
-+are described in Documentation/admin-guide/sysctl/vm.rst and in `man 5 proc`_.
+ 	crashkernel=range1:size1[,range2:size2,...][@offset]
+ 			[KNL] Same as above, but depends on the memory
+ 			in the running system. The syntax of range is
+ 			start-[end] where start and end are both
+ 			a memory unit (amount[KMG]). See also
+-			Documentation/kdump/kdump.rst for an example.
++			Documentation/admin-guide/kdump/kdump.rst for an example.
  
- .. _man 5 proc: http://man7.org/linux/man-pages/man5/proc.5.html
+ 	crashkernel=size[KMG],high
+ 			[KNL, x86_64] range could be above 4G. Allow kernel
+@@ -1207,7 +1207,7 @@
+ 			Specifies physical address of start of kernel core
+ 			image elf header and optionally the size. Generally
+ 			kexec loader will pass this option to capture kernel.
+-			See Documentation/kdump/kdump.rst for details.
++			See Documentation/admin-guide/kdump/kdump.rst for details.
  
-diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin-guide/mm/ksm.rst
-index 7b2b8767c0b4..874eb0c77d34 100644
---- a/Documentation/admin-guide/mm/ksm.rst
-+++ b/Documentation/admin-guide/mm/ksm.rst
-@@ -59,7 +59,7 @@ MADV_UNMERGEABLE is applied to a range which was never MADV_MERGEABLE.
+ 	enable_mtrr_cleanup [X86]
+ 			The kernel tries to adjust MTRR layout from continuous
+diff --git a/Documentation/powerpc/firmware-assisted-dump.rst b/Documentation/powerpc/firmware-assisted-dump.rst
+index d7fa7c35dd12..9ca12830a48e 100644
+--- a/Documentation/powerpc/firmware-assisted-dump.rst
++++ b/Documentation/powerpc/firmware-assisted-dump.rst
+@@ -61,7 +61,7 @@ as follows:
+          the default calculated size. Use this option if default
+          boot memory size is not sufficient for second kernel to
+          boot successfully. For syntax of crashkernel= parameter,
+-         refer to Documentation/kdump/kdump.rst. If any offset is
++         refer to Documentation/admin-guide/kdump/kdump.rst. If any offset is
+          provided in crashkernel= parameter, it will be ignored
+          as fadump uses a predefined offset to reserve memory
+          for boot memory dump preservation in case of a crash.
+diff --git a/Documentation/translations/zh_CN/oops-tracing.txt b/Documentation/translations/zh_CN/oops-tracing.txt
+index 368ddd05b304..c5f3bda7abcb 100644
+--- a/Documentation/translations/zh_CN/oops-tracing.txt
++++ b/Documentation/translations/zh_CN/oops-tracing.txt
+@@ -53,8 +53,8 @@ cat /proc/kmsg > file， 然而你必须介入中止传输， kmsg是一个“
+ （2）用串口终端启动（请参看Documentation/admin-guide/serial-console.rst），运行一个null
+ modem到另一台机器并用你喜欢的通讯工具获取输出。Minicom工作地很好。
  
- If a region of memory must be split into at least one new MADV_MERGEABLE
- or MADV_UNMERGEABLE region, the madvise may return ENOMEM if the process
--will exceed ``vm.max_map_count`` (see Documentation/sysctl/vm.rst).
-+will exceed ``vm.max_map_count`` (see Documentation/admin-guide/sysctl/vm.rst).
+-（3）使用Kdump（请参看Documentation/kdump/kdump.rst），
+-使用在Documentation/kdump/gdbmacros.txt中定义的dmesg gdb宏，从旧的内存中提取内核
++（3）使用Kdump（请参看Documentation/admin-guide/kdump/kdump.rst），
++使用在Documentation/admin-guide/kdump/gdbmacros.txt中定义的dmesg gdb宏，从旧的内存中提取内核
+ 环形缓冲区。
  
- Like other madvise calls, they are intended for use on mapped areas of
- the user address space: they will report ENOMEM if the specified range
-diff --git a/Documentation/sysctl/abi.rst b/Documentation/admin-guide/sysctl/abi.rst
-similarity index 100%
-rename from Documentation/sysctl/abi.rst
-rename to Documentation/admin-guide/sysctl/abi.rst
-diff --git a/Documentation/sysctl/fs.rst b/Documentation/admin-guide/sysctl/fs.rst
-similarity index 100%
-rename from Documentation/sysctl/fs.rst
-rename to Documentation/admin-guide/sysctl/fs.rst
-diff --git a/Documentation/sysctl/index.rst b/Documentation/admin-guide/sysctl/index.rst
-similarity index 99%
-rename from Documentation/sysctl/index.rst
-rename to Documentation/admin-guide/sysctl/index.rst
-index efbcde8c1c9c..03346f98c7b9 100644
---- a/Documentation/sysctl/index.rst
-+++ b/Documentation/admin-guide/sysctl/index.rst
-@@ -1,5 +1,3 @@
--:orphan:
--
- ===========================
- Documentation for /proc/sys
- ===========================
-diff --git a/Documentation/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-similarity index 100%
-rename from Documentation/sysctl/kernel.rst
-rename to Documentation/admin-guide/sysctl/kernel.rst
-diff --git a/Documentation/sysctl/net.rst b/Documentation/admin-guide/sysctl/net.rst
-similarity index 100%
-rename from Documentation/sysctl/net.rst
-rename to Documentation/admin-guide/sysctl/net.rst
-diff --git a/Documentation/sysctl/sunrpc.rst b/Documentation/admin-guide/sysctl/sunrpc.rst
-similarity index 100%
-rename from Documentation/sysctl/sunrpc.rst
-rename to Documentation/admin-guide/sysctl/sunrpc.rst
-diff --git a/Documentation/sysctl/user.rst b/Documentation/admin-guide/sysctl/user.rst
-similarity index 100%
-rename from Documentation/sysctl/user.rst
-rename to Documentation/admin-guide/sysctl/user.rst
-diff --git a/Documentation/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-similarity index 100%
-rename from Documentation/sysctl/vm.rst
-rename to Documentation/admin-guide/sysctl/vm.rst
-diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-index 1d8e748f909f..c6224d039bcb 100644
---- a/Documentation/core-api/printk-formats.rst
-+++ b/Documentation/core-api/printk-formats.rst
-@@ -119,7 +119,7 @@ Kernel Pointers
+ 完整信息
+diff --git a/Documentation/watchdog/hpwdt.rst b/Documentation/watchdog/hpwdt.rst
+index 437456bd91a4..9a75720dd51a 100644
+--- a/Documentation/watchdog/hpwdt.rst
++++ b/Documentation/watchdog/hpwdt.rst
+@@ -59,7 +59,7 @@ Last reviewed: 08/20/2018
+  and loop forever.  This is generally not what a watchdog user wants.
  
- For printing kernel pointers which should be hidden from unprivileged
- users. The behaviour of %pK depends on the kptr_restrict sysctl - see
--Documentation/sysctl/kernel.rst for more details.
-+Documentation/admin-guide/sysctl/kernel.rst for more details.
+  For those wishing to learn more please see:
+-	Documentation/kdump/kdump.rst
++	Documentation/admin-guide/kdump/kdump.rst
+ 	Documentation/admin-guide/kernel-parameters.txt (panic=)
+ 	Your Linux Distribution specific documentation.
  
- Unmodified Addresses
- --------------------
-diff --git a/Documentation/filesystems/proc.txt b/Documentation/filesystems/proc.txt
-index a226061fa109..d551e091df47 100644
---- a/Documentation/filesystems/proc.txt
-+++ b/Documentation/filesystems/proc.txt
-@@ -1479,7 +1479,7 @@ review the kernel documentation in the directory /usr/src/linux/Documentation.
- This chapter  is  heavily  based  on the documentation included in the pre 2.2
- kernels, and became part of it in version 2.2.1 of the Linux kernel.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ab170522ec55..071b9e5a1664 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8571,7 +8571,7 @@ R:	Vivek Goyal <vgoyal@redhat.com>
+ L:	kexec@lists.infradead.org
+ W:	http://lse.sourceforge.net/kdump/
+ S:	Maintained
+-F:	Documentation/kdump/
++F:	Documentation/admin-guide/kdump/
  
--Please see: Documentation/sysctl/ directory for descriptions of these
-+Please see: Documentation/admin-guide/sysctl/ directory for descriptions of these
- entries.
+ KEENE FM RADIO TRANSMITTER DRIVER
+ M:	Hans Verkuil <hverkuil@xs4all.nl>
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index ff0e247573d8..fc495004f148 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -2009,7 +2009,7 @@ config CRASH_DUMP
+ 	  kdump/kexec. The crash dump kernel must be compiled to a
+ 	  memory address not used by the main kernel
  
- ------------------------------------------------------------------------------
-diff --git a/Documentation/networking/ip-sysctl.txt b/Documentation/networking/ip-sysctl.txt
-index 8626b175b192..8adaf27820de 100644
---- a/Documentation/networking/ip-sysctl.txt
-+++ b/Documentation/networking/ip-sysctl.txt
-@@ -2276,7 +2276,7 @@ addr_scope_policy - INTEGER
+-	  For more details see Documentation/kdump/kdump.rst
++	  For more details see Documentation/admin-guide/kdump/kdump.rst
  
+ config AUTO_ZRELADDR
+ 	bool "Auto calculation of the decompressed kernel image address"
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index a8a5fe91c579..9c2275b22904 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -995,7 +995,7 @@ config CRASH_DUMP
+ 	  reserved region and then later executed after a crash by
+ 	  kdump/kexec.
  
- /proc/sys/net/core/*
--	Please see: Documentation/sysctl/net.rst for descriptions of these entries.
-+	Please see: Documentation/admin-guide/sysctl/net.rst for descriptions of these entries.
+-	  For more details see Documentation/kdump/kdump.rst
++	  For more details see Documentation/admin-guide/kdump/kdump.rst
  
+ config XEN_DOM0
+ 	def_bool y
+diff --git a/arch/sh/Kconfig b/arch/sh/Kconfig
+index 7440639510a0..b731d22c5b9d 100644
+--- a/arch/sh/Kconfig
++++ b/arch/sh/Kconfig
+@@ -624,7 +624,7 @@ config CRASH_DUMP
+ 	  to a memory address not used by the main kernel using
+ 	  PHYSICAL_START.
  
- /proc/sys/net/unix/*
-diff --git a/Documentation/vm/unevictable-lru.rst b/Documentation/vm/unevictable-lru.rst
-index 997dfbf13b99..17d0861b0f1d 100644
---- a/Documentation/vm/unevictable-lru.rst
-+++ b/Documentation/vm/unevictable-lru.rst
-@@ -439,7 +439,7 @@ Compacting MLOCKED Pages
+-	  For more details see Documentation/kdump/kdump.rst
++	  For more details see Documentation/admin-guide/kdump/kdump.rst
  
- The unevictable LRU can be scanned for compactable regions and the default
- behavior is to do so.  /proc/sys/vm/compact_unevictable_allowed controls
--this behavior (see Documentation/sysctl/vm.rst).  Once scanning of the
-+this behavior (see Documentation/admin-guide/sysctl/vm.rst).  Once scanning of the
- unevictable LRU is enabled, the work of compaction is mostly handled by
- the page migration code and the same work flow as described in MIGRATING
- MLOCKED PAGES will apply.
-diff --git a/fs/proc/Kconfig b/fs/proc/Kconfig
-index cba429db95d9..cb5629bd5fff 100644
---- a/fs/proc/Kconfig
-+++ b/fs/proc/Kconfig
-@@ -73,7 +73,7 @@ config PROC_SYSCTL
- 	  interface is through /proc/sys.  If you say Y here a tree of
- 	  modifiable sysctl entries will be generated beneath the
-           /proc/sys directory. They are explained in the files
--	  in <file:Documentation/sysctl/>.  Note that enabling this
-+	  in <file:Documentation/admin-guide/sysctl/>.  Note that enabling this
- 	  option will enlarge the kernel by at least 8 KB.
+ config KEXEC_JUMP
+ 	bool "kexec jump (EXPERIMENTAL)"
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 586dd3529d14..8ed2e47ef4ba 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -2052,7 +2052,7 @@ config CRASH_DUMP
+ 	  to a memory address not used by the main kernel or BIOS using
+ 	  PHYSICAL_START, or it must be built as a relocatable image
+ 	  (CONFIG_RELOCATABLE=y).
+-	  For more details see Documentation/kdump/kdump.rst
++	  For more details see Documentation/admin-guide/kdump/kdump.rst
  
- 	  As it is generally a good thing, you should say Y here unless
-diff --git a/kernel/panic.c b/kernel/panic.c
-index e0ea74bbb41d..057540b6eee9 100644
---- a/kernel/panic.c
-+++ b/kernel/panic.c
-@@ -372,7 +372,7 @@ const struct taint_flag taint_flags[TAINT_FLAGS_COUNT] = {
- /**
-  * print_tainted - return a string to represent the kernel taint state.
-  *
-- * For individual taint flag meanings, see Documentation/sysctl/kernel.rst
-+ * For individual taint flag meanings, see Documentation/admin-guide/sysctl/kernel.rst
-  *
-  * The string is overwritten by the next call to print_tainted(),
-  * but is always NULL terminated.
-diff --git a/mm/swap.c b/mm/swap.c
-index 83a2a15f4836..ae300397dfda 100644
---- a/mm/swap.c
-+++ b/mm/swap.c
-@@ -8,7 +8,7 @@
- /*
-  * This file contains the default values for the operation of the
-  * Linux VM subsystem. Fine-tuning documentation can be found in
-- * Documentation/sysctl/vm.rst.
-+ * Documentation/admin-guide/sysctl/vm.rst.
-  * Started 18.12.91
-  * Swap aging added 23.2.95, Stephen Tweedie.
-  * Buffermem limits added 12.3.98, Rik van Riel.
+ config KEXEC_JUMP
+ 	bool "kexec jump"
+@@ -2089,7 +2089,7 @@ config PHYSICAL_START
+ 	  the reserved region.  In other words, it can be set based on
+ 	  the "X" value as specified in the "crashkernel=YM@XM"
+ 	  command line boot parameter passed to the panic-ed
+-	  kernel. Please take a look at Documentation/kdump/kdump.rst
++	  kernel. Please take a look at Documentation/admin-guide/kdump/kdump.rst
+ 	  for more details about crash dumps.
+ 
+ 	  Usage of bzImage for capturing the crash dump is recommended as
 -- 
 2.21.0
 
