@@ -1,162 +1,113 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2BD027D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 13:58:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 90FF57D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 14:57:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728575AbfFRN6K (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Jun 2019 09:58:10 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:44107 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728699AbfFRN6K (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jun 2019 09:58:10 -0400
-Received: by mail-ed1-f67.google.com with SMTP id k8so21865665edr.11
-        for <linux-doc@vger.kernel.org>; Tue, 18 Jun 2019 06:58:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=sender:date:from:to:cc:subject:message-id:mail-followup-to
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=5R+NHLt8PsIXt8anR6pHPXfCo/6c3mgcVEHW0Oc9gbQ=;
-        b=IomabLXyUSPmgwDNcXRKvVrUMuM5eZ/qFxhM5kHvyjpENaInZNJNgpWS2VXKwHAf8l
-         NEYfD3/Cknpfi5MEzA9EZaX9F2yCLM3CKUM7IF4wGm/S5BpJNzl8Jsl5PsP0DTT3/X1D
-         dmpJqayomyio9iJpF1/FYtElgLw9pM2lZeCXI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=5R+NHLt8PsIXt8anR6pHPXfCo/6c3mgcVEHW0Oc9gbQ=;
-        b=jDaBBiHAH5xqePI2mTiCwmp0eDdkpy6dUOEi3zQZIJAzsxH9NF/dlmbZu82xbBEw+z
-         /6af5VR2yC4xJv3g8GT0orf2A2YlF5KwrGSR6+V9wCwvh/xOSqe1hx74QM8jdQwKMR7h
-         fLJr5rMteq5TYpSJOCbgjoTyee/C8pWrhYdWYRUr4nNRjiQKAMBccOyh4KNyVd/sfgCk
-         aam30WHww3b02QXIrtV01nnHpE+Jq7eeNV+gH9Jwt2wDc/kddW3qw8+wekI90soTcIPB
-         78p4MT1BHX8GuFebYZcOWORni4mePX/IL5DfSxAB4Rmt4pVMVrRkBC8mntJcJe89w0Oe
-         l6Ew==
-X-Gm-Message-State: APjAAAVCQOLkjmJLR2DalWBNDVzARBD4MS7MWSdSt2EKjBHsLAd1oXT0
-        2lxZ0xg8nBas8Nniq9Tn6tuUDQ==
-X-Google-Smtp-Source: APXvYqyBb0v30F83VtHb2y9yPf5YE3kiCupaF4YgpnDXka6VJj+7GT+WSSudOjww3CuybbgcAiEZ8g==
-X-Received: by 2002:a17:906:2415:: with SMTP id z21mr82019805eja.211.1560866288249;
-        Tue, 18 Jun 2019 06:58:08 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
-        by smtp.gmail.com with ESMTPSA id o22sm4776392edc.37.2019.06.18.06.58.06
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 18 Jun 2019 06:58:07 -0700 (PDT)
-Date:   Tue, 18 Jun 2019 15:58:05 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>, Ajay Gupta <ajayg@nvidia.com>,
-        Amit Kucheria <amit.kucheria@linaro.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Otto Sabart <ottosabart@seberm.com>,
-        Li Yang <leoyang.li@nxp.com>,
-        Will Deacon <will.deacon@arm.com>, devicetree@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-i2c@vger.kernel.org
-Subject: Re: [PATCH] docs: fix some broken references due to txt->rst renames
-Message-ID: <20190618135804.GZ12905@phenom.ffwll.local>
-Mail-Followup-To: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        David Airlie <airlied@linux.ie>, Ajay Gupta <ajayg@nvidia.com>,
-        Amit Kucheria <amit.kucheria@linaro.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Otto Sabart <ottosabart@seberm.com>, Li Yang <leoyang.li@nxp.com>,
-        Will Deacon <will.deacon@arm.com>, devicetree@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-i2c@vger.kernel.org
-References: <6f09587b7678f2fb378d736f45a02ffa9412cc99.1560864716.git.mchehab+samsung@kernel.org>
+        id S1729496AbfFRO5d (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Jun 2019 10:57:33 -0400
+Received: from foss.arm.com ([217.140.110.172]:45260 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728572AbfFRO5d (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 18 Jun 2019 10:57:33 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 673512B;
+        Tue, 18 Jun 2019 07:57:32 -0700 (PDT)
+Received: from e113632-lin.cambridge.arm.com (e113632-lin.cambridge.arm.com [10.1.194.37])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B40143F718;
+        Tue, 18 Jun 2019 07:57:31 -0700 (PDT)
+From:   Valentin Schneider <valentin.schneider@arm.com>
+To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     corbet@lwn.net
+Subject: [PATCH] docs/vm: hwpoison.rst: Fix quote formatting
+Date:   Tue, 18 Jun 2019 15:56:05 +0100
+Message-Id: <20190618145605.21208-1-valentin.schneider@arm.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6f09587b7678f2fb378d736f45a02ffa9412cc99.1560864716.git.mchehab+samsung@kernel.org>
-X-Operating-System: Linux phenom 4.19.0-5-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 18, 2019 at 10:33:58AM -0300, Mauro Carvalho Chehab wrote:
-> There are three left-overs from the recent file renames,
-> probably due to some other conflicting patch.
-> 
-> Fix them.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
-> 
-> This patch is against today's next-20190617 branch. Not sure if it
-> will apply cleanly at -docs tree. If not,  Please let me know for me to
-> split.
+The asterisks prepended to the quoted text currently get translated to
+bullet points, which gets increasingly confusing the smaller your
+screen is (when viewing the sphinx output, that is).
 
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> 
->  Documentation/devicetree/bindings/arm/idle-states.txt | 2 +-
->  drivers/gpu/drm/i915/intel_runtime_pm.h               | 2 +-
->  drivers/i2c/busses/i2c-nvidia-gpu.c                   | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/arm/idle-states.txt b/Documentation/devicetree/bindings/arm/idle-states.txt
-> index 3bdbe675b9e6..d8d9aa7167e8 100644
-> --- a/Documentation/devicetree/bindings/arm/idle-states.txt
-> +++ b/Documentation/devicetree/bindings/arm/idle-states.txt
-> @@ -703,4 +703,4 @@ cpus {
->      https://www.devicetree.org/specifications/
->  
->  [6] ARM Linux Kernel documentation - Booting AArch64 Linux
-> -    Documentation/arm64/booting.txt
-> +    Documentation/arm64/booting.rst
-> diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.h b/drivers/gpu/drm/i915/intel_runtime_pm.h
-> index f2d6299a8161..3cb391cd81c1 100644
-> --- a/drivers/gpu/drm/i915/intel_runtime_pm.h
-> +++ b/drivers/gpu/drm/i915/intel_runtime_pm.h
-> @@ -44,7 +44,7 @@ enum i915_drm_suspend_mode {
->   * to be disabled. This shouldn't happen and we'll print some error messages in
->   * case it happens.
->   *
-> - * For more, read the Documentation/power/runtime_pm.txt.
-> + * For more, read the Documentation/power/runtime_pm.rst.
->   */
->  struct intel_runtime_pm {
->  	atomic_t wakeref_count;
-> diff --git a/drivers/i2c/busses/i2c-nvidia-gpu.c b/drivers/i2c/busses/i2c-nvidia-gpu.c
-> index cfc76b5de726..5a1235fd86bb 100644
-> --- a/drivers/i2c/busses/i2c-nvidia-gpu.c
-> +++ b/drivers/i2c/busses/i2c-nvidia-gpu.c
-> @@ -364,7 +364,7 @@ static void gpu_i2c_remove(struct pci_dev *pdev)
->  /*
->   * We need gpu_i2c_suspend() even if it is stub, for runtime pm to work
->   * correctly. Without it, lspci shows runtime pm status as "D0" for the card.
-> - * Documentation/power/pci.txt also insists for driver to provide this.
-> + * Documentation/power/pci.rst also insists for driver to provide this.
->   */
->  static __maybe_unused int gpu_i2c_suspend(struct device *dev)
->  {
-> -- 
-> 2.21.0
-> 
-> 
+Convert the whole quote to a literal block.
 
+Signed-off-by: Valentin Schneider <valentin.schneider@arm.com>
+---
+ Documentation/vm/hwpoison.rst | 52 +++++++++++++++++------------------
+ 1 file changed, 26 insertions(+), 26 deletions(-)
+
+diff --git a/Documentation/vm/hwpoison.rst b/Documentation/vm/hwpoison.rst
+index 09bd24a92784..a5c884293dac 100644
+--- a/Documentation/vm/hwpoison.rst
++++ b/Documentation/vm/hwpoison.rst
+@@ -13,32 +13,32 @@ kill the processes associated with it and avoid using it in the future.
+ 
+ This patchkit implements the necessary infrastructure in the VM.
+ 
+-To quote the overview comment:
+-
+- * High level machine check handler. Handles pages reported by the
+- * hardware as being corrupted usually due to a 2bit ECC memory or cache
+- * failure.
+- *
+- * This focusses on pages detected as corrupted in the background.
+- * When the current CPU tries to consume corruption the currently
+- * running process can just be killed directly instead. This implies
+- * that if the error cannot be handled for some reason it's safe to
+- * just ignore it because no corruption has been consumed yet. Instead
+- * when that happens another machine check will happen.
+- *
+- * Handles page cache pages in various states. The tricky part
+- * here is that we can access any page asynchronous to other VM
+- * users, because memory failures could happen anytime and anywhere,
+- * possibly violating some of their assumptions. This is why this code
+- * has to be extremely careful. Generally it tries to use normal locking
+- * rules, as in get the standard locks, even if that means the
+- * error handling takes potentially a long time.
+- *
+- * Some of the operations here are somewhat inefficient and have non
+- * linear algorithmic complexity, because the data structures have not
+- * been optimized for this case. This is in particular the case
+- * for the mapping from a vma to a process. Since this case is expected
+- * to be rare we hope we can get away with this.
++To quote the overview comment::
++
++	High level machine check handler. Handles pages reported by the
++	hardware as being corrupted usually due to a 2bit ECC memory or cache
++	failure.
++
++	This focusses on pages detected as corrupted in the background.
++	When the current CPU tries to consume corruption the currently
++	running process can just be killed directly instead. This implies
++	that if the error cannot be handled for some reason it's safe to
++	just ignore it because no corruption has been consumed yet. Instead
++	when that happens another machine check will happen.
++
++	Handles page cache pages in various states. The tricky part
++	here is that we can access any page asynchronous to other VM
++	users, because memory failures could happen anytime and anywhere,
++	possibly violating some of their assumptions. This is why this code
++	has to be extremely careful. Generally it tries to use normal locking
++	rules, as in get the standard locks, even if that means the
++	error handling takes potentially a long time.
++
++	Some of the operations here are somewhat inefficient and have non
++	linear algorithmic complexity, because the data structures have not
++	been optimized for this case. This is in particular the case
++	for the mapping from a vma to a process. Since this case is expected
++	to be rare we hope we can get away with this.
+ 
+ The code consists of a the high level handler in mm/memory-failure.c,
+ a new page poison bit and various checks in the VM to handle poisoned
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.20.1
+
