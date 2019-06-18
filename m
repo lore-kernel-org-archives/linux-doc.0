@@ -3,75 +3,122 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 059337D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 13:17:20 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E52377D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 13:32:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726181AbfFRNRT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Jun 2019 09:17:19 -0400
-Received: from ms.lwn.net ([45.79.88.28]:50292 "EHLO ms.lwn.net"
+        id S1729249AbfFRNcc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Jun 2019 09:32:32 -0400
+Received: from foss.arm.com ([217.140.110.172]:41266 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725988AbfFRNRT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 18 Jun 2019 09:17:19 -0400
-Received: from localhost.localdomain (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id D6F1E380;
-        Tue, 18 Jun 2019 13:17:18 +0000 (UTC)
-Date:   Tue, 18 Jun 2019 07:17:17 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Puranjay Mohan <puranjay12@gmail.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        linux-doc@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] Documentation: platform: convert
- x86-laptop-drivers.txt to reST
-Message-ID: <20190618071717.2132a1b7@lwn.net>
-In-Reply-To: <20190618054158.GA3713@kroah.com>
-References: <20190618053227.31678-1-puranjay12@gmail.com>
-        <20190618054158.GA3713@kroah.com>
-Organization: LWN.net
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726088AbfFRNcc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 18 Jun 2019 09:32:32 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2CBDA2B;
+        Tue, 18 Jun 2019 06:32:31 -0700 (PDT)
+Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 956973F718;
+        Tue, 18 Jun 2019 06:32:27 -0700 (PDT)
+Date:   Tue, 18 Jun 2019 14:32:25 +0100
+From:   Dave Martin <Dave.Martin@arm.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Florian Weimer <fweimer@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-arch@vger.kernel.org,
+        linux-api@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>
+Subject: Re: [PATCH v7 22/27] binfmt_elf: Extract .note.gnu.property from an
+ ELF file
+Message-ID: <20190618133223.GD2790@e103592.cambridge.arm.com>
+References: <87lfy9cq04.fsf@oldenburg2.str.redhat.com>
+ <20190611114109.GN28398@e103592.cambridge.arm.com>
+ <031bc55d8dcdcf4f031e6ff27c33fd52c61d33a5.camel@intel.com>
+ <20190612093238.GQ28398@e103592.cambridge.arm.com>
+ <87imt4jwpt.fsf@oldenburg2.str.redhat.com>
+ <alpine.DEB.2.21.1906171418220.1854@nanos.tec.linutronix.de>
+ <20190618091248.GB2790@e103592.cambridge.arm.com>
+ <20190618124122.GH3419@hirez.programming.kicks-ass.net>
+ <87ef3r9i2j.fsf@oldenburg2.str.redhat.com>
+ <20190618125512.GJ3419@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190618125512.GJ3419@hirez.programming.kicks-ass.net>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 18 Jun 2019 07:41:58 +0200
-Greg KH <gregkh@linuxfoundation.org> wrote:
-
-> On Tue, Jun 18, 2019 at 11:02:27AM +0530, Puranjay Mohan wrote:
-> > This converts the plain text documentation to reStructuredText format.
-> > No essential content change.
+On Tue, Jun 18, 2019 at 02:55:12PM +0200, Peter Zijlstra wrote:
+> On Tue, Jun 18, 2019 at 02:47:00PM +0200, Florian Weimer wrote:
+> > * Peter Zijlstra:
 > > 
-> > Signed-off-by: Puranjay Mohan <puranjay12@gmail.com>
-> > ---
-> >  Documentation/platform/x86-laptop-drivers.rst | 23 +++++++++++++++++++
-> >  Documentation/platform/x86-laptop-drivers.txt | 18 ---------------
-> >  2 files changed, 23 insertions(+), 18 deletions(-)
-> >  create mode 100644 Documentation/platform/x86-laptop-drivers.rst
-> >  delete mode 100644 Documentation/platform/x86-laptop-drivers.txt  
+> > > I'm not sure I read Thomas' comment like that. In my reading keeping the
+> > > PT_NOTE fallback is exactly one of those 'fly workarounds'. By not
+> > > supporting PT_NOTE only the 'fine' people already shit^Hpping this out
+> > > of tree are affected, and we don't have to care about them at all.
+> > 
+> > Just to be clear here: There was an ABI document that required PT_NOTE
+> > parsing.
 > 
-> Don't you also need to hook it up to the documentation build process
-> when doing this?
+> URGH.
+> 
+> > The Linux kernel does *not* define the x86-64 ABI, it only
+> > implements it.  The authoritative source should be the ABI document.
+> >
+> > In this particularly case, so far anyone implementing this ABI extension
+> > tried to provide value by changing it, sometimes successfully.  Which
+> > makes me wonder why we even bother to mainatain ABI documentation.  The
+> > kernel is just very late to the party.
+> 
+> How can the kernel be late to the party if all of this is spinning
+> wheels without kernel support?
 
-Hooking it into the TOC tree is a good thing, but I think it's also good
-to think about the exercise in general.  This is a document dropped into
-place five years ago and never touched again.  It's a short list of
-seemingly ancient laptops with no explanation of what it means.  So the
-real question, IMO, is whether this document is useful to anybody and, if
-not, whether it should just be deleted instead.
+PT_GNU_PROPERTY is mentioned and allocated a p_type value in hjl's
+spec [1], but otherwise seems underspecified.
 
-Puranjay, thanks for working to improve the kernel docs!  Please don't be
-discouraged by this response - it's just a sign that kernel documentation
-has problems far beyond just formatting...
+In particular, it's not clear whether a PT_GNU_PROPERTY phdr _must_ be
+emitted for NT_GNU_PROPERTY_TYPE_0.  While it seems a no-brainer to emit
+it, RHEL's linker already doesn't IIUC, and there are binaries in the
+wild.
 
-Thanks,
+Maybe this phdr type is a late addition -- I haven't attempted to dig
+through the history.
 
-jon
+
+For arm64 we don't have this out-of-tree legacy to support, so we can
+avoid exhausitvely searching for the note: no PT_GNU_PROPERTY ->
+no note.
+
+So, can we do the same for x86, forcing RHEL to carry some code out of
+tree to support their legacy binaries?  Or do we accept that there is
+already a de facto ABI and try to be compatible with it?
+
+
+From my side, I want to avoid duplication between x86 and arm64, and
+keep unneeded complexity out of the ELF loader where possible.
+
+Cheers
+---Dave
+
+
+[1] https://github.com/hjl-tools/linux-abi/wiki/Linux-Extensions-to-gABI
