@@ -1,51 +1,228 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 765377D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 20:45:12 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 31ED17D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 20:53:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730429AbfFRUpM (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Jun 2019 16:45:12 -0400
-Received: from ms.lwn.net ([45.79.88.28]:52308 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730341AbfFRUpM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 18 Jun 2019 16:45:12 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 8B4672E5;
-        Tue, 18 Jun 2019 20:45:11 +0000 (UTC)
-Date:   Tue, 18 Jun 2019 14:45:10 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Valentin Schneider <valentin.schneider@arm.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs/vm: hwpoison.rst: Fix quote formatting
-Message-ID: <20190618144510.7493ab7d@lwn.net>
-In-Reply-To: <1b60185d-1fb4-b8f0-c7c2-9fb50f550566@arm.com>
-References: <20190618145605.21208-1-valentin.schneider@arm.com>
-        <20190618093159.26352aed@lwn.net>
-        <1b60185d-1fb4-b8f0-c7c2-9fb50f550566@arm.com>
-Organization: LWN.net
+        id S1730625AbfFRUxy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Jun 2019 16:53:54 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:50308 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730181AbfFRUxy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jun 2019 16:53:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+        To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=LvMZCNqyjGCYorMHMnZsk1Wxffwcw4B9xSPUy6NpG7A=; b=XVxjWv7HGrfjCzeXzENuLOb9Be
+        g/j6stqYjNL9awd3mSzUb3SVGaavvAwhp6vraHQt0n5pnB3I0iSOoG0wB6kzt7Q2/8ZOHSNE8GMSu
+        dWHdIE4U73bXmCMKEpuhmxu07Q8ou+zWdPmqs3YPVHL5/9tciqLIdJ2Di9FLQg+FGDW2XJVQyv+jW
+        HpI+zI30YxS1o3ABjcd4gs4BXo48//+rOAibs8C91NHoIvurrnc8IMZIez/ET+kftLlNRfS42lALq
+        vZ8nntXoqiKfpap1+Oy8KrRWrXHqXLJo5hdXcCGk4nFGaxaxakkjHrMp4SxdNxqqjHc3mfrL53sVA
+        +51b6aOQ==;
+Received: from 177.133.86.196.dynamic.adsl.gvt.net.br ([177.133.86.196] helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hdL73-0008Ml-Eo; Tue, 18 Jun 2019 20:53:53 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hdL6z-0001zd-Ux; Tue, 18 Jun 2019 17:53:49 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v2 12/29] docs: xen-tpmfront.txt: convert it to .rst
+Date:   Tue, 18 Jun 2019 17:53:30 -0300
+Message-Id: <1c600880caa3344d65ab53b808b7fbb62a8e6fc4.1560890800.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <cover.1560890800.git.mchehab+samsung@kernel.org>
+References: <cover.1560890800.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 18 Jun 2019 16:51:06 +0100
-Valentin Schneider <valentin.schneider@arm.com> wrote:
+In order to be able to add this file to the security book,
+we need first to convert it to reST.
 
-> I'm afraid this was only a "drive-by" patch, as I just happened to skim
-> through this page on my phone while waiting for a meeting - I'm quite
-> clueless about page poisoning.
+While this is not part of any book, mark it as :orphan:, in order
+to avoid build warnings.
 
-No worries.  Thanks for the patch; it makes things better than they were
-before, and I can't complain about that!
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ .../{xen-tpmfront.txt => xen-tpmfront.rst}    | 103 ++++++++++--------
+ 1 file changed, 58 insertions(+), 45 deletions(-)
+ rename Documentation/security/tpm/{xen-tpmfront.txt => xen-tpmfront.rst} (66%)
 
-jon
+diff --git a/Documentation/security/tpm/xen-tpmfront.txt b/Documentation/security/tpm/xen-tpmfront.rst
+similarity index 66%
+rename from Documentation/security/tpm/xen-tpmfront.txt
+rename to Documentation/security/tpm/xen-tpmfront.rst
+index 69346de87ff3..98a16ab87360 100644
+--- a/Documentation/security/tpm/xen-tpmfront.txt
++++ b/Documentation/security/tpm/xen-tpmfront.rst
+@@ -1,4 +1,8 @@
++:orphan:
++
++﻿=============================
+ Virtual TPM interface for Xen
++=============================
+ 
+ Authors: Matthew Fioravante (JHUAPL), Daniel De Graaf (NSA)
+ 
+@@ -6,7 +10,8 @@ This document describes the virtual Trusted Platform Module (vTPM) subsystem for
+ Xen. The reader is assumed to have familiarity with building and installing Xen,
+ Linux, and a basic understanding of the TPM and vTPM concepts.
+ 
+-INTRODUCTION
++Introduction
++------------
+ 
+ The goal of this work is to provide a TPM functionality to a virtual guest
+ operating system (in Xen terms, a DomU).  This allows programs to interact with
+@@ -24,81 +29,89 @@ This mini-os vTPM subsystem was built on top of the previous vTPM work done by
+ IBM and Intel corporation.
+ 
+ 
+-DESIGN OVERVIEW
++Design Overview
+ ---------------
+ 
+-The architecture of vTPM is described below:
++The architecture of vTPM is described below::
+ 
+-+------------------+
+-|    Linux DomU    | ...
+-|       |  ^       |
+-|       v  |       |
+-|   xen-tpmfront   |
+-+------------------+
+-        |  ^
+-        v  |
+-+------------------+
+-| mini-os/tpmback  |
+-|       |  ^       |
+-|       v  |       |
+-|  vtpm-stubdom    | ...
+-|       |  ^       |
+-|       v  |       |
+-| mini-os/tpmfront |
+-+------------------+
+-        |  ^
+-        v  |
+-+------------------+
+-| mini-os/tpmback  |
+-|       |  ^       |
+-|       v  |       |
+-| vtpmmgr-stubdom  |
+-|       |  ^       |
+-|       v  |       |
+-| mini-os/tpm_tis  |
+-+------------------+
+-        |  ^
+-        v  |
+-+------------------+
+-|   Hardware TPM   |
+-+------------------+
++  +------------------+
++  |    Linux DomU    | ...
++  |       |  ^       |
++  |       v  |       |
++  |   xen-tpmfront   |
++  +------------------+
++          |  ^
++          v  |
++  +------------------+
++  | mini-os/tpmback  |
++  |       |  ^       |
++  |       v  |       |
++  |  vtpm-stubdom    | ...
++  |       |  ^       |
++  |       v  |       |
++  | mini-os/tpmfront |
++  +------------------+
++          |  ^
++          v  |
++  +------------------+
++  | mini-os/tpmback  |
++  |       |  ^       |
++  |       v  |       |
++  | vtpmmgr-stubdom  |
++  |       |  ^       |
++  |       v  |       |
++  | mini-os/tpm_tis  |
++  +------------------+
++          |  ^
++          v  |
++  +------------------+
++  |   Hardware TPM   |
++  +------------------+
+ 
+- * Linux DomU: The Linux based guest that wants to use a vTPM. There may be
++* Linux DomU:
++	       The Linux based guest that wants to use a vTPM. There may be
+ 	       more than one of these.
+ 
+- * xen-tpmfront.ko: Linux kernel virtual TPM frontend driver. This driver
++* xen-tpmfront.ko:
++		    Linux kernel virtual TPM frontend driver. This driver
+                     provides vTPM access to a Linux-based DomU.
+ 
+- * mini-os/tpmback: Mini-os TPM backend driver. The Linux frontend driver
++* mini-os/tpmback:
++		    Mini-os TPM backend driver. The Linux frontend driver
+ 		    connects to this backend driver to facilitate communications
+ 		    between the Linux DomU and its vTPM. This driver is also
+ 		    used by vtpmmgr-stubdom to communicate with vtpm-stubdom.
+ 
+- * vtpm-stubdom: A mini-os stub domain that implements a vTPM. There is a
++* vtpm-stubdom:
++		 A mini-os stub domain that implements a vTPM. There is a
+ 		 one to one mapping between running vtpm-stubdom instances and
+                  logical vtpms on the system. The vTPM Platform Configuration
+                  Registers (PCRs) are normally all initialized to zero.
+ 
+- * mini-os/tpmfront: Mini-os TPM frontend driver. The vTPM mini-os domain
++* mini-os/tpmfront:
++		     Mini-os TPM frontend driver. The vTPM mini-os domain
+ 		     vtpm-stubdom uses this driver to communicate with
+ 		     vtpmmgr-stubdom. This driver is also used in mini-os
+ 		     domains such as pv-grub that talk to the vTPM domain.
+ 
+- * vtpmmgr-stubdom: A mini-os domain that implements the vTPM manager. There is
++* vtpmmgr-stubdom:
++		    A mini-os domain that implements the vTPM manager. There is
+ 		    only one vTPM manager and it should be running during the
+ 		    entire lifetime of the machine.  This domain regulates
+ 		    access to the physical TPM on the system and secures the
+ 		    persistent state of each vTPM.
+ 
+- * mini-os/tpm_tis: Mini-os TPM version 1.2 TPM Interface Specification (TIS)
++* mini-os/tpm_tis:
++		    Mini-os TPM version 1.2 TPM Interface Specification (TIS)
+                     driver. This driver used by vtpmmgr-stubdom to talk directly to
+                     the hardware TPM. Communication is facilitated by mapping
+                     hardware memory pages into vtpmmgr-stubdom.
+ 
+- * Hardware TPM: The physical TPM that is soldered onto the motherboard.
++* Hardware TPM:
++		The physical TPM that is soldered onto the motherboard.
+ 
+ 
+-INTEGRATION WITH XEN
++Integration With Xen
+ --------------------
+ 
+ Support for the vTPM driver was added in Xen using the libxl toolstack in Xen
+-- 
+2.21.0
+
