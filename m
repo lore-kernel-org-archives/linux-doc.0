@@ -6,28 +6,28 @@ X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B61D07D910
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Jun 2019 15:09:03 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 678927D912
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Jun 2019 15:10:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730479AbfFSPIx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 19 Jun 2019 11:08:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37724 "EHLO mail.kernel.org"
+        id S1729701AbfFSPJv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 19 Jun 2019 11:09:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38968 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727002AbfFSPIw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 19 Jun 2019 11:08:52 -0400
+        id S1729468AbfFSPJu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 19 Jun 2019 11:09:50 -0400
 Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D785B2189D;
-        Wed, 19 Jun 2019 15:08:49 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 511B721880;
+        Wed, 19 Jun 2019 15:09:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560956932;
-        bh=vZ0+xJAI7CBwpzuDTbuaMD+ACmVfW2tvCs/9eX1n/PI=;
+        s=default; t=1560956989;
+        bh=jMdfSXjMcnISGa2XjSMS+icXug42jIdkhV/ALhF0+ZI=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=HuTH2bvLP9U2DK0N0nT/1h5Sx9UpyIT4SVdyDT+Z4r72jZzbZn9ZLE4POlrknhW9o
-         aU9INYYc3Yjv0RmhBbU9DAdNtUkjDQTKhsts4pwIJPDdYx1tb5yd2ZLqkKJM657q9x
-         SDxDztL0wmxoMfGkPKFMLYdTFFrWWUQdWHLLR3S4=
-Date:   Thu, 20 Jun 2019 00:08:47 +0900
+        b=NlfejeIJ5B++lX1xsL/y/L0rjrt7epuIQeeNRhoK1TANLapEztLrKrQKq7lvkFew5
+         ehnlANllw6zBU7gdN+4N4OHXbwdnOc76vmkraQUUo0OhJSAC+O6I6cqjSffNbr540C
+         J1sMi1elz1bqQC5sKNqnbG+Fey+/UhzTft1c04BM=
+Date:   Thu, 20 Jun 2019 00:09:45 +0900
 From:   Masami Hiramatsu <mhiramat@kernel.org>
 To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -35,14 +35,12 @@ Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
         Masami Hiramatsu <mhiramat@kernel.org>,
         "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@kernel.org>,
         Andreas Ziegler <andreas.ziegler@fau.de>,
         Lecopzer Chen <lecopzer.chen@mediatek.com>
-Subject: Re: [PATCH 2/6] docs: trace: add a missing blank line
-Message-Id: <20190620000847.02211a70d161fbf5af1af5f7@kernel.org>
-In-Reply-To: <91f90c10c12c6a2f6fb90fc0f9115fbd8dd73848.1560883872.git.mchehab+samsung@kernel.org>
+Subject: Re: [PATCH 1/6] docs: trace: fix a broken label
+Message-Id: <20190620000945.d77311b928d647053e1a111d@kernel.org>
+In-Reply-To: <a83ea390bc28784518fce772b4c961ea1c976f14.1560883872.git.mchehab+samsung@kernel.org>
 References: <a83ea390bc28784518fce772b4c961ea1c976f14.1560883872.git.mchehab+samsung@kernel.org>
-        <91f90c10c12c6a2f6fb90fc0f9115fbd8dd73848.1560883872.git.mchehab+samsung@kernel.org>
 X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -52,33 +50,40 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 18 Jun 2019 15:51:18 -0300
+On Tue, 18 Jun 2019 15:51:17 -0300
 Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-> Sphinx expects a blank line after a literal block markup.
+> Sphinx warnings about his:
+> 
+> 	Documentation/trace/kprobetrace.rst:68: WARNING: undefined label: user_mem_access (if the link has no caption the label must precede a section header)
+> 
+> The problem is quite simple: Sphinx wants a blank line after
+> references.
 > 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-Looks good to me, thanks!
+This also looks good to me.
 
 Acked-by: Masami Hiramatsu <mhiramat@kernel.org>
+
+Thank you,
 
 > ---
 >  Documentation/trace/kprobetrace.rst | 1 +
 >  1 file changed, 1 insertion(+)
 > 
 > diff --git a/Documentation/trace/kprobetrace.rst b/Documentation/trace/kprobetrace.rst
-> index 3d162d432a3c..caa0a8ba081e 100644
+> index b729b40a5ba5..3d162d432a3c 100644
 > --- a/Documentation/trace/kprobetrace.rst
 > +++ b/Documentation/trace/kprobetrace.rst
-> @@ -228,6 +228,7 @@ events, you need to enable it.
+> @@ -96,6 +96,7 @@ which shows given pointer in "symbol+offset" style.
+>  For $comm, the default type is "string"; any other type is invalid.
 >  
->  Use the following command to start tracing in an interval.
->  ::
+>  .. _user_mem_access:
 > +
->      # echo 1 > tracing_on
->      Open something...
->      # echo 0 > tracing_on
+>  User Memory Access
+>  ------------------
+>  Kprobe events supports user-space memory access. For that purpose, you can use
 > -- 
 > 2.21.0
 > 
