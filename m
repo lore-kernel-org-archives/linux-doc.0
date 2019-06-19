@@ -1,105 +1,62 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 5899D7D912
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Jun 2019 13:20:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E9AC27D90F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Jun 2019 13:39:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731739AbfFSNT1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 19 Jun 2019 09:19:27 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:41652 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726518AbfFSNT0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jun 2019 09:19:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:To:From:
-        Date:Sender:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=enh7bl+ZxtCNZahENTVUATMuvV2PoiZCx+Kx0tLEQaw=; b=Kr8dO+mJQItzeFRoa+XrWjaxK
-        gxUaCZCEGKifi3deIdGTCCX0ciZdqBxSxhcwil6aLbl7xkMiFQ/mA8DY931XJUKnnP4ufE0ZdnnIm
-        gg5BKrLLYparVAKkpWVZFdzC8vdTbN0t3yJgrlqMDasJrKWQFTCMrXQLBphgEL56XDSZHWWJ6JnQ9
-        W5ZsfB3LX39EGRzdBXgDmxT63thYXtKBOw2SbTTn8RD5b1q1QZhEgpqaVW/JNwFjNZVzHDmpS2Sdz
-        fWjlhdZ9g7eZstLTeyVv3ZU4LkMqzHCBPcbROdJE9Xz/TM5CyW529G/BPvtJyktoAuFWOT5TXvFKr
-        FsmbQB85w==;
-Received: from 177.133.86.196.dynamic.adsl.gvt.net.br ([177.133.86.196] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hdaUo-0000KD-7U; Wed, 19 Jun 2019 13:19:26 +0000
-Date:   Wed, 19 Jun 2019 10:19:22 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Peter Zijlstra <peterz@infradead.org>,
+        id S1730340AbfFSNjR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 19 Jun 2019 09:39:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35794 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730761AbfFSNjQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 19 Jun 2019 09:39:16 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id CD90A30860AC;
+        Wed, 19 Jun 2019 13:39:16 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-57.rdu2.redhat.com [10.10.120.57])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3330618B42;
+        Wed, 19 Jun 2019 13:39:12 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <20190619072218.4437f891@coco.lan>
+References: <20190619072218.4437f891@coco.lan> <cover.1560890771.git.mchehab+samsung@kernel.org> <b0d24e805d5368719cc64e8104d64ee9b5b89dd0.1560890772.git.mchehab+samsung@kernel.org> <CAKMK7uGM1aZz9yg1kYM8w2gw_cS6Eaynmar-uVurXjK5t6WouQ@mail.gmail.com>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     dhowells@redhat.com,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 12/22] docs: driver-api: add .rst files from the main
- dir
-Message-ID: <20190619101922.04340605@coco.lan>
-In-Reply-To: <20190619114356.GP3419@hirez.programming.kicks-ass.net>
-References: <cover.1560890771.git.mchehab+samsung@kernel.org>
-        <b0d24e805d5368719cc64e8104d64ee9b5b89dd0.1560890772.git.mchehab+samsung@kernel.org>
-        <20190619114356.GP3419@hirez.programming.kicks-ass.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Linux MM <linux-mm@kvack.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v1 12/22] docs: driver-api: add .rst files from the main dir
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <11421.1560951550.1@warthog.procyon.org.uk>
+Date:   Wed, 19 Jun 2019 14:39:10 +0100
+Message-ID: <11422.1560951550@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.44]); Wed, 19 Jun 2019 13:39:16 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-(c/c list cleaned)
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-Em Wed, 19 Jun 2019 13:43:56 +0200
-Peter Zijlstra <peterz@infradead.org> escreveu:
+> > > -Documentation/nommu-mmap.rst
+> > > +Documentation/driver-api/nommu-mmap.rst  
 
-> On Tue, Jun 18, 2019 at 05:53:17PM -0300, Mauro Carvalho Chehab wrote:
-> 
-> >  .../{ => driver-api}/atomic_bitops.rst        |  2 -  
-> 
-> That's a .txt file, big fat NAK for making it an rst.
+Why is this moving to Documentation/driver-api?  It's less to do with drivers
+than with the userspace mapping interface.  Documentation/vm/ would seem a
+better home.
 
-Rst is a text file. This one is parsed properly by Sphinx without
-any changes.
+Or should we institute a Documentation/uapi/?  Though that might be seen to
+overlap with man2.  Actually, should this be in man7?
 
-> 
-> >  .../{ => driver-api}/futex-requeue-pi.rst     |  2 -  
-> 
-> >  .../{ => driver-api}/gcc-plugins.rst          |  2 -  
-> 
-> >  Documentation/{ => driver-api}/kprobes.rst    |  2 -
-> >  .../{ => driver-api}/percpu-rw-semaphore.rst  |  2 -  
-> 
-> More NAK for rst conversion
-
-Again, those don't need any conversion. Those files already parse 
-as-is by Sphinx, with no need for any change.
-
-The only change here is that, on patch 1/22, the files that
-aren't listed on an index file got a :orphan: added in order
-to make this explicit. This patch removes it.
-
-> 
-> >  Documentation/{ => driver-api}/pi-futex.rst   |  2 -
-> >  .../{ => driver-api}/preempt-locking.rst      |  2 -  
-> 
-> >  Documentation/{ => driver-api}/rbtree.rst     |  2 -  
-> 
-> >  .../{ => driver-api}/robust-futex-ABI.rst     |  2 -
-> >  .../{ => driver-api}/robust-futexes.rst       |  2 -  
-> 
-> >  .../{ => driver-api}/speculation.rst          |  8 +--
-> >  .../{ => driver-api}/static-keys.rst          |  2 -  
-> 
-> >  .../{ => driver-api}/this_cpu_ops.rst         |  2 -  
-> 
-> >  Documentation/locking/rt-mutex.rst            |  2 +-  
-> 
-> NAK. None of the above have anything to do with driver-api.
-
-Ok. Where do you think they should sit instead? core-api?
-
-Thanks,
-Mauro
+David
