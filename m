@@ -1,93 +1,84 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 678927D912
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Jun 2019 15:10:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6F93C7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Jun 2019 15:26:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729701AbfFSPJv (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 19 Jun 2019 11:09:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38968 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729468AbfFSPJu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 19 Jun 2019 11:09:50 -0400
-Received: from devnote2 (NE2965lan1.rev.em-net.ne.jp [210.141.244.193])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 511B721880;
-        Wed, 19 Jun 2019 15:09:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560956989;
-        bh=jMdfSXjMcnISGa2XjSMS+icXug42jIdkhV/ALhF0+ZI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=NlfejeIJ5B++lX1xsL/y/L0rjrt7epuIQeeNRhoK1TANLapEztLrKrQKq7lvkFew5
-         ehnlANllw6zBU7gdN+4N4OHXbwdnOc76vmkraQUUo0OhJSAC+O6I6cqjSffNbr540C
-         J1sMi1elz1bqQC5sKNqnbG+Fey+/UhzTft1c04BM=
-Date:   Thu, 20 Jun 2019 00:09:45 +0900
-From:   Masami Hiramatsu <mhiramat@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-        Andreas Ziegler <andreas.ziegler@fau.de>,
-        Lecopzer Chen <lecopzer.chen@mediatek.com>
-Subject: Re: [PATCH 1/6] docs: trace: fix a broken label
-Message-Id: <20190620000945.d77311b928d647053e1a111d@kernel.org>
-In-Reply-To: <a83ea390bc28784518fce772b4c961ea1c976f14.1560883872.git.mchehab+samsung@kernel.org>
-References: <a83ea390bc28784518fce772b4c961ea1c976f14.1560883872.git.mchehab+samsung@kernel.org>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+        id S1726238AbfFSP0A (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 19 Jun 2019 11:26:00 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:32936 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725899AbfFSPZ7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jun 2019 11:25:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=d8aXCguNgTqbV5pDoBNS5CU4aqTfyHwDbRs3q64aIs8=; b=Wbeo0/Gj1oFmKjRwH3XeTL0k2w
+        0conPB9aFVcwreHV2qEcFQ9WQ0hhkdN2T9ckKLHZ4TIjUIlaC3pJ2H/egy59vfQEr3S+oZne7xQ9I
+        i3vVp1GBO6ZZ6PyWV0EeEvwlNUL8iHqaKZlfZEcFQ5+Aguu8uxMZcGtT4VMcrsOEEXC6tBmHJ7tO6
+        yzlvt8pM8mfzFpifsfLhG0gVfh/m1J8Jnd4/uI/twTHUZQH3Qj163g88YxUHlVsXmXsPzr06/O1s/
+        6nXt0VFsVr1t+obJ5E0lqDRD0Scg28WYkem8GOodJVOOHx7KNUFr07q3Wlk6xoJjHG3ZTVTM4lyAP
+        dsGgqWgg==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hdcTA-0001sj-S6; Wed, 19 Jun 2019 15:25:54 +0000
+Subject: Re: [PATCH] docs: fb: Add TER16x32 to the available font names
+To:     Takashi Iwai <tiwai@suse.de>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190619053943.6320-1-tiwai@suse.de>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <0bfb2789-158c-5e78-1621-2aaefea08d80@infradead.org>
+Date:   Wed, 19 Jun 2019 08:25:48 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <20190619053943.6320-1-tiwai@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 18 Jun 2019 15:51:17 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
-
-> Sphinx warnings about his:
+On 6/18/19 10:39 PM, Takashi Iwai wrote:
+> The new font is available since recently.
 > 
-> 	Documentation/trace/kprobetrace.rst:68: WARNING: undefined label: user_mem_access (if the link has no caption the label must precede a section header)
-> 
-> The problem is quite simple: Sphinx wants a blank line after
-> references.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
 
-This also looks good to me.
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-Acked-by: Masami Hiramatsu <mhiramat@kernel.org>
-
-Thank you,
+Thanks.
 
 > ---
->  Documentation/trace/kprobetrace.rst | 1 +
->  1 file changed, 1 insertion(+)
+>  Documentation/fb/fbcon.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/trace/kprobetrace.rst b/Documentation/trace/kprobetrace.rst
-> index b729b40a5ba5..3d162d432a3c 100644
-> --- a/Documentation/trace/kprobetrace.rst
-> +++ b/Documentation/trace/kprobetrace.rst
-> @@ -96,6 +96,7 @@ which shows given pointer in "symbol+offset" style.
->  For $comm, the default type is "string"; any other type is invalid.
+> diff --git a/Documentation/fb/fbcon.rst b/Documentation/fb/fbcon.rst
+> index cfb9f7c38f18..1da65b9000de 100644
+> --- a/Documentation/fb/fbcon.rst
+> +++ b/Documentation/fb/fbcon.rst
+> @@ -82,7 +82,7 @@ C. Boot options
 >  
->  .. _user_mem_access:
-> +
->  User Memory Access
->  ------------------
->  Kprobe events supports user-space memory access. For that purpose, you can use
-> -- 
-> 2.21.0
+>  	Select the initial font to use. The value 'name' can be any of the
+>  	compiled-in fonts: 10x18, 6x10, 7x14, Acorn8x8, MINI4x6,
+> -	PEARL8x8, ProFont6x11, SUN12x22, SUN8x16, VGA8x16, VGA8x8.
+> +	PEARL8x8, ProFont6x11, SUN12x22, SUN8x16, TER16x32, VGA8x16, VGA8x8.
+>  
+>  	Note, not all drivers can handle font with widths not divisible by 8,
+>  	such as vga16fb.
 > 
 
 
 -- 
-Masami Hiramatsu <mhiramat@kernel.org>
+~Randy
