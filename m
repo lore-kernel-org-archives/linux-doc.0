@@ -1,84 +1,70 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 6F93C7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Jun 2019 15:26:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 4315D7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Jun 2019 15:51:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726238AbfFSP0A (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 19 Jun 2019 11:26:00 -0400
-Received: from merlin.infradead.org ([205.233.59.134]:32936 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725899AbfFSPZ7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jun 2019 11:25:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=d8aXCguNgTqbV5pDoBNS5CU4aqTfyHwDbRs3q64aIs8=; b=Wbeo0/Gj1oFmKjRwH3XeTL0k2w
-        0conPB9aFVcwreHV2qEcFQ9WQ0hhkdN2T9ckKLHZ4TIjUIlaC3pJ2H/egy59vfQEr3S+oZne7xQ9I
-        i3vVp1GBO6ZZ6PyWV0EeEvwlNUL8iHqaKZlfZEcFQ5+Aguu8uxMZcGtT4VMcrsOEEXC6tBmHJ7tO6
-        yzlvt8pM8mfzFpifsfLhG0gVfh/m1J8Jnd4/uI/twTHUZQH3Qj163g88YxUHlVsXmXsPzr06/O1s/
-        6nXt0VFsVr1t+obJ5E0lqDRD0Scg28WYkem8GOodJVOOHx7KNUFr07q3Wlk6xoJjHG3ZTVTM4lyAP
-        dsGgqWgg==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
-        by merlin.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hdcTA-0001sj-S6; Wed, 19 Jun 2019 15:25:54 +0000
-Subject: Re: [PATCH] docs: fb: Add TER16x32 to the available font names
-To:     Takashi Iwai <tiwai@suse.de>, Jonathan Corbet <corbet@lwn.net>
-Cc:     Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190619053943.6320-1-tiwai@suse.de>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <0bfb2789-158c-5e78-1621-2aaefea08d80@infradead.org>
-Date:   Wed, 19 Jun 2019 08:25:48 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1727584AbfFSPvF (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 19 Jun 2019 11:51:05 -0400
+Received: from mga05.intel.com ([192.55.52.43]:30650 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726091AbfFSPvF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 19 Jun 2019 11:51:05 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Jun 2019 08:51:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,392,1557212400"; 
+   d="scan'208";a="181661305"
+Received: from mcostacx-wtg.ger.corp.intel.com (HELO localhost) ([10.249.47.136])
+  by fmsmga001.fm.intel.com with ESMTP; 19 Jun 2019 08:51:02 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     David Howells <dhowells@redhat.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v1 12/22] docs: driver-api: add .rst files from the main dir
+In-Reply-To: <20190619085458.08872dbb@lwn.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20190619072218.4437f891@coco.lan> <cover.1560890771.git.mchehab+samsung@kernel.org> <b0d24e805d5368719cc64e8104d64ee9b5b89dd0.1560890772.git.mchehab+samsung@kernel.org> <CAKMK7uGM1aZz9yg1kYM8w2gw_cS6Eaynmar-uVurXjK5t6WouQ@mail.gmail.com> <11422.1560951550@warthog.procyon.org.uk> <20190619111528.3e2665e3@coco.lan> <20190619085458.08872dbb@lwn.net>
+Date:   Wed, 19 Jun 2019 18:52:32 +0300
+Message-ID: <874l4llghr.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20190619053943.6320-1-tiwai@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/18/19 10:39 PM, Takashi Iwai wrote:
-> The new font is available since recently.
-> 
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+On Wed, 19 Jun 2019, Jonathan Corbet <corbet@lwn.net> wrote:
+> Organization of the documentation tree is important; it has never really
+> gotten any attention so far, and we're trying to make it better.  But
+> moving documents will, by its nature, annoy people.  We can generally get
+> past that, but I'd really like to avoid moving things twice.  In general,
+> I would rather see a single document converted, read critically and
+> updated, and carefully integrated with the rest than a hundred of them
+> swept into different piles...
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+FWIW, as a first step, my preference would actually be cleaning up the
+top level Documentation/ directory. Move every file to an existing or a
+new subdirectory, even if just as .txt, or just delete. I understand
+this would lead to an extra rst conversion and extension change later,
+which you'd like to avoid, but IMO would be helpful.
 
-Thanks.
+We could even add an attic directory, which would be a suitable place
+for things like zorro.txt. Attic is where I'd look for my old Amiga
+hardware, so feels natural.
 
-> ---
->  Documentation/fb/fbcon.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/fb/fbcon.rst b/Documentation/fb/fbcon.rst
-> index cfb9f7c38f18..1da65b9000de 100644
-> --- a/Documentation/fb/fbcon.rst
-> +++ b/Documentation/fb/fbcon.rst
-> @@ -82,7 +82,7 @@ C. Boot options
->  
->  	Select the initial font to use. The value 'name' can be any of the
->  	compiled-in fonts: 10x18, 6x10, 7x14, Acorn8x8, MINI4x6,
-> -	PEARL8x8, ProFont6x11, SUN12x22, SUN8x16, VGA8x16, VGA8x8.
-> +	PEARL8x8, ProFont6x11, SUN12x22, SUN8x16, TER16x32, VGA8x16, VGA8x8.
->  
->  	Note, not all drivers can handle font with widths not divisible by 8,
->  	such as vga16fb.
-> 
+BR,
+Jani.
 
 
 -- 
-~Randy
+Jani Nikula, Intel Open Source Graphics Center
