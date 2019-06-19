@@ -5,77 +5,106 @@ X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
 	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id F26497D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Jun 2019 12:39:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 89B0D7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Jun 2019 12:51:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731591AbfFSMjL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 19 Jun 2019 08:39:11 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:46981 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727314AbfFSMjL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jun 2019 08:39:11 -0400
-Received: by mail-lf1-f68.google.com with SMTP id z15so11963238lfh.13;
-        Wed, 19 Jun 2019 05:39:09 -0700 (PDT)
+        id S1731483AbfFSMvl (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 19 Jun 2019 08:51:41 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:33591 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727002AbfFSMvl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jun 2019 08:51:41 -0400
+Received: by mail-lf1-f66.google.com with SMTP id y17so12057038lfe.0;
+        Wed, 19 Jun 2019 05:51:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=k1hQu5XF69cIYxxFB0cBywmRgl9yaZZCT4nTwvJSezk=;
-        b=ZkK+ICs+K3cGqcGKhT0r8c3lt2CQNDHzvWvy6vyp9E0QOZR7NXRT8q3bo9/EzOHJRN
-         v4qIjmEtrlctiHdMQDwjrVSu1lohreVTRzunpzYiIu6+nZ2xnyFi8N0nO3LLB9c40vSM
-         wpp0vvgRmBX9xsnxLr3gA5qCX7PAHtY3l5oLWEHmdcFgG4uCuaTYS3ah5DJih1TLOPLt
-         AustNqgDGuBicQluyi2Qxoyo+NCNgs0cbhPe64UV/WWMk4FbJBTt78HQlRIta38xq+uJ
-         KPl5TRDn81RYu0k8O6tsmdhouxrqUhTGnnH9myRPYNZugb6q9yR0dC22zGYS6FCaQrao
-         VDcw==
-X-Gm-Message-State: APjAAAV8ZTAhPfbs1/kGjbDFUHLVHHq+aLoBbhPpVAv5WphS+rOnrtfN
-        Zo9+HXQNEyRQhMrE7NSoNNY=
-X-Google-Smtp-Source: APXvYqy8ehN7nubUh2RfrodRbelb0zkjhgIBNB4apnSPdFi9hffzisYfFg8LfwrrGQrJ+IuOQhW90g==
-X-Received: by 2002:a19:ed07:: with SMTP id y7mr65146320lfy.56.1560947949245;
-        Wed, 19 Jun 2019 05:39:09 -0700 (PDT)
+        bh=P+ogsiHO7op0ZafI5F7vAc1Eympl/BmvaLFZ45AJXY4=;
+        b=Ve6SyddFcyqtu41Dc49kgfK586JZch+mqXZ0QKLCn87jEvwL4bnchbBmX5HTDTFKgk
+         gOZcIHBZU2s2+lE0TaMrGHwOqByTGDUDK+8WKAfmAx+AYk8ZMV/igTstMdjon6oo8JPq
+         2Gk4FgXHCvnp8aBKTN4UReaFFPVnAytQ+W/HEs5lUXoDblBncAZ1m9LD6/FF5FkbeY+C
+         4wW/hmzc+aFok5lTx+HgajaYfqbAEdPjTqpAYonpi7V5hDy7TWO2SVu7AY7/pz4scRGI
+         Bt/hnd5NaaD97PvfCieX3G4l8xF225/2XwcKBxgmHe4htpoMDxZpUb2KYDUb02KUImzP
+         9zWA==
+X-Gm-Message-State: APjAAAXM+pGm139d7/XWR+5WfeboVV4Qt+CjQe6snsx7Ok4n2f5UVtmm
+        cuTuofRlPppghk7kPiVvqQI=
+X-Google-Smtp-Source: APXvYqzjtf6iQdyoCpJJDR23C1LNfZI0dR42n65ZtrIY3OGWiu0kca4Qd4CUMhO75m7rKCYyNqiX/Q==
+X-Received: by 2002:ac2:59c9:: with SMTP id x9mr4567081lfn.52.1560948698566;
+        Wed, 19 Jun 2019 05:51:38 -0700 (PDT)
 Received: from xi.terra (c-74bee655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.190.116])
-        by smtp.gmail.com with ESMTPSA id b62sm3036301ljb.71.2019.06.19.05.39.08
+        by smtp.gmail.com with ESMTPSA id p15sm3111330lji.80.2019.06.19.05.51.37
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 19 Jun 2019 05:39:08 -0700 (PDT)
+        Wed, 19 Jun 2019 05:51:37 -0700 (PDT)
 Received: from johan by xi.terra with local (Exim 4.92)
         (envelope-from <johan@kernel.org>)
-        id 1hdZrl-0001Yw-No; Wed, 19 Jun 2019 14:39:05 +0200
-Date:   Wed, 19 Jun 2019 14:39:05 +0200
+        id 1hda3r-0001f7-7Y; Wed, 19 Jun 2019 14:51:35 +0200
+Date:   Wed, 19 Jun 2019 14:51:35 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@s-opensource.com>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Oliver Neukum <oneukum@suse.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Johan Hovold <johan@kernel.org>,
-        Valentina Manea <valentina.manea.m@gmail.com>,
-        Shuah Khan <shuah@kernel.org>, Felipe Balbi <balbi@kernel.org>,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH v1 14/22] docs: usb: rename files to .rst and add them to
- drivers-api
-Message-ID: <20190619123905.GF25248@localhost>
-References: <cover.1560891322.git.mchehab+samsung@kernel.org>
- <c05aecb424e4f835e3f7872ecb5818e1d2f3267c.1560891322.git.mchehab+samsung@kernel.org>
+        Stefan Achatz <erazor_de@users.sourceforge.net>
+Subject: Re: [PATCH 04/14] ABI: better identificate tables
+Message-ID: <20190619125135.GG25248@localhost>
+References: <cover.1560477540.git.mchehab+samsung@kernel.org>
+ <6bc45c0d5d464d25d4d16eceac48a2f407166944.1560477540.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c05aecb424e4f835e3f7872ecb5818e1d2f3267c.1560891322.git.mchehab+samsung@kernel.org>
+In-Reply-To: <6bc45c0d5d464d25d4d16eceac48a2f407166944.1560477540.git.mchehab+samsung@kernel.org>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 18, 2019 at 06:05:38PM -0300, Mauro Carvalho Chehab wrote:
-> While there are a mix of things here, most of the stuff
-> were written from Kernel developer's PoV. So, add them to
-> the driver-api book.
+On Thu, Jun 13, 2019 at 11:04:10PM -0300, Mauro Carvalho Chehab wrote:
+> From: Mauro Carvalho Chehab <mchehab@s-opensource.com>
 > 
-> A follow up for this patch would be to move documents from
-> there that are specific to sysadmins, adding them to the
-> admin-guide.
+> When parsing via script, it is important to know if the script
+> should consider a description as a literal block that should
+> be displayed as-is, or if the description can be considered
+> as a normal text.
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> Change descriptions to ensure that the preceding line of a table
+> ends with a colon. That makes easy to identify the need of a
+> literal block.
 
-Acked-by: Johan Hovold <johan@kernel.org>
+In the cover letter you say that the first four patches of this series,
+including this one, "fix some ABI descriptions that are violating the
+syntax described at Documentation/ABI/README". This seems a bit harsh,
+given that it's you that is now *introducing* a new syntax requirement
+to assist your script.
+
+Specifically, this new requirement isn't documented anywhere AFAICT, so
+how will anyone adding new ABI descriptions learn about it?
+
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@s-opensource.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+>  Documentation/ABI/obsolete/sysfs-driver-hid-roccat-pyra   | 2 +-
+>  .../ABI/testing/sysfs-class-backlight-driver-lm3533       | 6 +++---
+>  Documentation/ABI/testing/sysfs-class-led-driver-lm3533   | 8 ++++----
+>  Documentation/ABI/testing/sysfs-class-leds-gt683r         | 4 ++--
+>  Documentation/ABI/testing/sysfs-driver-hid-roccat-kone    | 2 +-
+>  5 files changed, 11 insertions(+), 11 deletions(-)
+> 
+> diff --git a/Documentation/ABI/obsolete/sysfs-driver-hid-roccat-pyra b/Documentation/ABI/obsolete/sysfs-driver-hid-roccat-pyra
+> index 16020b31ae64..5d41ebadf15e 100644
+> --- a/Documentation/ABI/obsolete/sysfs-driver-hid-roccat-pyra
+> +++ b/Documentation/ABI/obsolete/sysfs-driver-hid-roccat-pyra
+> @@ -5,7 +5,7 @@ Description:	It is possible to switch the cpi setting of the mouse with the
+>  		press of a button.
+>  		When read, this file returns the raw number of the actual cpi
+>  		setting reported by the mouse. This number has to be further
+> -		processed to receive the real dpi value.
+> +		processed to receive the real dpi value:
+>  
+>  		VALUE DPI
+>  		1     400
+
+Johan
