@@ -3,52 +3,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C50B37D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Jun 2019 15:54:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 16CC27D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Jun 2019 16:14:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729955AbfFSPyQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 19 Jun 2019 11:54:16 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:34426 "EHLO
+        id S1728671AbfFSQOQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 19 Jun 2019 12:14:16 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:44360 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729659AbfFSPyO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jun 2019 11:54:14 -0400
+        with ESMTP id S1725838AbfFSQOQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jun 2019 12:14:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
         Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
         From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=AdWAClAsfgdFDOJ8SthOKZD1SKi8T6yPStutUze/gU0=; b=Wvx1FUNrzE5YYXD5o9Dr+bO15
-        j1jeHYKfNRQGrDYwaCKhV/IdcRcjftWo+6hZ9RsS1kDngLy+TbYtXv1fko94u+vEKt1BBzU2sdhjg
-        CydrwMLlm7xIXkbJOGt2uQuYKBIGFuzPeNeEXPom6V32KWbdN0OU18OrYqnsexrt6KiKsqsBok1yy
-        TuOWNGqGLnekOhD/iibLN0pQ/Ugf5N9OnwV+gMWzGT++sgnCVsLyTxO35KjFZlGSh8oakU3SXUij6
-        oiSlX5OoOWCm0zB60t1LkC7V8sI6jj3RleF1e66cuyOgNtwJ0de7ZMt9PT/xeTXTPsL+IVmbgU1nE
-        98zoAB5yw==;
+         bh=3eraVqWtpZLyTcjgmBauqkwW5bVB+oBWLY1vHSUU8qU=; b=i/u/aMC7jxEnmQ85IyRjmuNTz
+        QATUL4AHXrTW+voHWJhGiunPTBIobFdS9HDjNKMVIzGlpquXhqAOxnkwIvpL8YIuBj/Y0Jpk8BSTH
+        imKGoyf0rMx7JGdxtB+aJISoWrG3PQR41Ir+Ej1h9iXusUBE6dn/cJeNGfz6jxPMA2HbU1W0VtLtc
+        L3OWlQp8BxiOxThA3jmQ2TOAJ2/FpSmTqf5AUpcvnF4A+vHgJxUiyCpOCj8rXWkUO6N6fSTEveFDu
+        VOLcLP88V+6ot4I3JftT8LBHMlRQAkVMoTpic6/WfmkMJu43aQx9WVSPfxNzFFHttrpPGi1EeCe8r
+        VYMLmQ1Cg==;
 Received: from 177.133.86.196.dynamic.adsl.gvt.net.br ([177.133.86.196] helo=coco.lan)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hdcub-000669-Sg; Wed, 19 Jun 2019 15:54:14 +0000
-Date:   Wed, 19 Jun 2019 12:54:10 -0300
+        id 1hddDy-0006T1-4b; Wed, 19 Jun 2019 16:14:14 +0000
+Date:   Wed, 19 Jun 2019 13:14:08 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     David Howells <dhowells@redhat.com>,
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Johan Hovold <johan@kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Asmaa Mnebhi <Asmaa@mellanox.com>,
-        Vladimir Oltean <olteanv@gmail.com>
-Subject: Re: [PATCH v1 12/22] docs: driver-api: add .rst files from the main
- dir
-Message-ID: <20190619125410.6da59ea6@coco.lan>
-In-Reply-To: <20190619085458.08872dbb@lwn.net>
-References: <20190619072218.4437f891@coco.lan>
-        <cover.1560890771.git.mchehab+samsung@kernel.org>
-        <b0d24e805d5368719cc64e8104d64ee9b5b89dd0.1560890772.git.mchehab+samsung@kernel.org>
-        <CAKMK7uGM1aZz9yg1kYM8w2gw_cS6Eaynmar-uVurXjK5t6WouQ@mail.gmail.com>
-        <11422.1560951550@warthog.procyon.org.uk>
-        <20190619111528.3e2665e3@coco.lan>
-        <20190619085458.08872dbb@lwn.net>
+        Mauro Carvalho Chehab <mchehab@s-opensource.com>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Stefan Achatz <erazor_de@users.sourceforge.net>
+Subject: Re: [PATCH 04/14] ABI: better identificate tables
+Message-ID: <20190619131408.26b45c3b@coco.lan>
+In-Reply-To: <20190619150207.GA19346@kroah.com>
+References: <cover.1560477540.git.mchehab+samsung@kernel.org>
+        <6bc45c0d5d464d25d4d16eceac48a2f407166944.1560477540.git.mchehab+samsung@kernel.org>
+        <20190619125135.GG25248@localhost>
+        <20190619105633.7f7315a5@coco.lan>
+        <20190619150207.GA19346@kroah.com>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -58,127 +55,189 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 19 Jun 2019 08:54:58 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+Em Wed, 19 Jun 2019 17:02:07 +0200
+Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
 
-> [Trimming the CC list from hell made sense, but it might have been better
-> to leave me on it...]
-> 
-> On Wed, 19 Jun 2019 11:15:28 -0300
-> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
-> 
-> > Em Wed, 19 Jun 2019 14:39:10 +0100
-> > David Howells <dhowells@redhat.com> escreveu:
-> >   
-> > > Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
-> > >     
-> > > > > > -Documentation/nommu-mmap.rst
-> > > > > > +Documentation/driver-api/nommu-mmap.rst        
-> > > 
-> > > Why is this moving to Documentation/driver-api?      
+> On Wed, Jun 19, 2019 at 10:56:33AM -0300, Mauro Carvalho Chehab wrote:
+> > Hi Johan,
 > > 
-> > Good point. I tried to do my best with those document renames, but
-> > I'm pretty sure some of them ended by going to the wrong place - or
-> > at least there are arguments in favor of moving it to different
-> > places :-)  
+> > Em Wed, 19 Jun 2019 14:51:35 +0200
+> > Johan Hovold <johan@kernel.org> escreveu:
+> >   
+> > > On Thu, Jun 13, 2019 at 11:04:10PM -0300, Mauro Carvalho Chehab wrote:  
+> > > > From: Mauro Carvalho Chehab <mchehab@s-opensource.com>
+> > > > 
+> > > > When parsing via script, it is important to know if the script
+> > > > should consider a description as a literal block that should
+> > > > be displayed as-is, or if the description can be considered
+> > > > as a normal text.
+> > > > 
+> > > > Change descriptions to ensure that the preceding line of a table
+> > > > ends with a colon. That makes easy to identify the need of a
+> > > > literal block.    
+> > > 
+> > > In the cover letter you say that the first four patches of this series,
+> > > including this one, "fix some ABI descriptions that are violating the
+> > > syntax described at Documentation/ABI/README". This seems a bit harsh,
+> > > given that it's you that is now *introducing* a new syntax requirement
+> > > to assist your script.  
+> > 
+> > Yeah, what's there at the cover letter doesn't apply to this specific
+> > patch. The thing is that I wrote this series a lot of time ago (2016/17).
+> > 
+> > I revived those per a request at KS ML, as we still need to expose the
+> > ABI content on some book that will be used by userspace people.
+> > 
+> > So, I just rebased it on the top of curent Kernel, add a cover letter
+> > with the things I remembered and re-sent.
+> > 
+> > In the specific case of this patch, the ":" there actually makes sense
+> > for someone that it is reading it as a text file, and it is an easy
+> > hack to make it parse better.
+> >   
+> > > Specifically, this new requirement isn't documented anywhere AFAICT, so
+> > > how will anyone adding new ABI descriptions learn about it?  
+> > 
+> > Yeah, either that or provide an alternative to "Description" tag, to be
+> > used with more complex ABI descriptions.
+> > 
+> > One of the things that occurred to me, back on 2017, is that we should
+> > have a way to to specify that an specific ABI description would have
+> > a rich format. Something like:
+> > 
+> > What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/pyra/roccatpyra<minor>/actual_cpi
+> > Date:		August 2010
+> > Contact:	Stefan Achatz <erazor_de@users.sourceforge.net>
+> > RST-Description:
+> > 		It is possible to switch the cpi setting of the mouse with the
+> > 		press of a button.
+> > 		When read, this file returns the raw number of the actual cpi
+> > 		setting reported by the mouse. This number has to be further
+> > 		processed to receive the real dpi value:
+> > 
+> > 		===== =====
+> > 		VALUE DPI
+> > 		===== =====
+> > 		1     400
+> > 		2     800
+> > 		4     1600
+> > 		===== =====
+> > 
+> > With that, the script will know that the description contents will be using
+> > the ReST markup, and parse it accordingly. Right now, what it does, instead,
+> > is to place the description on a code-block, e. g. it will produce this
+> > output for the description:
+> > 
+> > ::
+> > 
+> > 		It is possible to switch the cpi setting of the mouse with the
+> > 		press of a button.
+> > 		When read, this file returns the raw number of the actual cpi
+> > 		setting reported by the mouse. This number has to be further
+> > 		processed to receive the real dpi value:
+> > 
+> > 		VALUE DPI
+> > 		1     400
+> > 		2     800
+> > 		4     1600
+> > 
+> > 
+> > Greg, 
+> > 
+> > what do you think?  
 > 
-> I think that a lot of this might also be an argument for slowing down just
-> a little bit.  I really don't think that blasting through and reformatting
-> all of our text documents is the most urgent problem right now and, in
-> cases like this, it might create others.
+> I don't know when "Description" and "RST-Description" would be used.
+> Why not just parse "Description" like rst text and if things are "messy"
+> we fix them up as found, like you did with the ":" here?  It doesn't
+> have to be complex, we can always fix them up after-the-fact if new
+> stuff gets added that doesn't quite parse properly.
 > 
-> Organization of the documentation tree is important; it has never really
-> gotten any attention so far, and we're trying to make it better.  But
-> moving documents will, by its nature, annoy people.  We can generally get
-> past that, but I'd really like to avoid moving things twice.  In general,
-> I would rather see a single document converted, read critically and
-> updated, and carefully integrated with the rest than a hundred of them
-> swept into different piles...
-> 
-> See what I'm getting at?
+> Just like we do for most kernel-doc formatting :)
 
-I see what you mean, and I agree with this principle. That's basically 
-why I split the patches into two groups. 
+Works for me. Yet, I guess I tried that, back on 2017. 
 
-The first group (with comes first) does just the conversion
-and renames from txt to rst, adding a :orphan: to the stuff that was
-just converted.
+If I'm not mistaken, the initial patchset to solve the broken things 
+won't be small, and will be require a lot of attention in order to
+identify what's broken and where.
 
-On this series, those are patches 1 to 11. I was already expecting
-some heat on patch 1.
+Btw, one thing is to pass at ReST validation. Another thing is to
+produce something that people can read. 
 
-The next group of patches do the renaming part. Those are the ones that
-actually took me a lot more time, as I needed to quickly read several docs
-in order to understand what's happening, before proposing a change.
+Right now, the pertinent logic at the script I wrote (scripts/get_abi.pl)
+is here:
 
-That's also the group of patches were I expect more active comments,
-as there are several cases where this is not obvious.
+                if (!($desc =~ /^\s*$/)) {
+                        if ($desc =~ m/\:\n/ || $desc =~ m/\n[\t ]+/  || $desc =~ m/[\x00-\x08\x0b-\x1f\x7b-\xff]/) {
+                                # put everything inside a code block
+                                $desc =~ s/\n/\n /g;
 
-Yet, from what I saw, there are some documents that sounds easy to
-move, like Documentation/laptops, with (except if I missed something)
-clearly belongs to admin-guide.
+                                print "::\n\n";
+                                print " $desc\n\n";
+                        } else {
+                                # Escape any special chars from description
+                                $desc =~s/([\x00-\x08\x0b-\x1f\x21-\x2a\x2d\x2f\x3c-\x40\x5c\x5e-\x60\x7b-\xff])/\\$1/g;
 
-Applying the second patch series and patches 2 to 11 from this third
-series is, IMHO, a good thing to do.
+                                print "$desc\n\n";
+                        }
+                }
 
--
+If it discovers something weird enough, it just places everything
+into a comment block. Otherwise, it assumes that it is a plain
+text and that any special characters should be escaped.
 
-IMO, patches 1 and 12 are important, as, after those patches, the
-/Documentation dir becomes a lot cleaner:
+If the above block is replaced by a simple:
 
-	$ ls -F Documentation/
-	ABI/              fb/              locking/        s390/
-	accounting/       features/        logo.gif        scheduler/
-	acpi/             filesystems/     logo.txt        scsi/
-	admin-guide/      firmware_class/  m68k/           security/
-	arm/              firmware-guide/  maintainer/     sh/
-	arm64/            fpga/            Makefile        sound/
-	auxdisplay/       gpio/            media/          sparc/
-	block/            gpu/             mic/            sphinx/
-	bpf/              hid/             mips/           sphinx-static/
-	cdrom/            hwmon/           misc-devices/   spi/
-	Changes@          i2c/             Module.symvers  SubmittingPatches
-	CodingStyle       ia64/            netlabel/       target/
-	conf.py           ide/             networking/     timers/
-	core-api/         iio/             nios2/          trace/
-	cpu-freq/         index.rst        openrisc/       translations/
-	crypto/           infiniband/      output/         usb/
-	devicetree/       input/           packing.txt     userspace-api/
-	dev-tools/        ioctl/           parisc/         virtual/
-	DocBook/          IPMB.txt         PCI/            vm/
-	doc-guide/        isdn/            pcmcia/         w1/
-	docutils.conf     kbuild/          power/          watchdog/
-	dontdiff          Kconfig          powerpc/        wimax/
-	driver-api/       kernel-hacking/  process/        x86/
-	EDID/             leds/            RCU/            xtensa/
-	fault-injection/  livepatch/       riscv/
+		print "$desc\n\n";
 
-Being easy to identify when someone tries to add a new text file there
-without thinking on where it would fit[1], and to reorganize the
-directory tree in a way that it will fit our needs.
+The description content will be handled as a ReST file.
 
-[1] Btw, there are some two files at linux-next, incrementally
-    increasing the Documentation/ mess:
+I don't have any time right now to do this change and to handle the
+warnings that will start to popup.
 
-	   IPMB.txt and packing.txt.
+Btw, a single replace there is enough to show the amount of problems that
+it will rise, as it will basically break Sphinx build with:
 
-   Added on those commits:
-
-	commit 51bd6f291583684f495ea498984dfc22049d7fd2
-	Author: Asmaa Mnebhi <Asmaa@mellanox.com>
-	Date:   Mon Jun 10 14:57:02 2019 -0400
-
-	    Add support for IPMB driver
-
-	commit 554aae35007e49f533d3d10e788295f7141725bc
-	Author: Vladimir Oltean <olteanv@gmail.com>
-	Date:   Thu May 2 23:23:29 2019 +0300
-
-	    lib: Add support for generic packing operations
-
-   We'll never finish organizing documents while people don't stop
-   adding new files to Documentation/ directory.
-
+	reading sources... [  1%] admin-guide/abi-testing
+	reST markup error:
+	get_abi.pl rest --dir $srctree/Documentation/ABI/testing:45261: (SEVERE/4) Missing matching underline for section title overline.
+	
+	==========================
+	PCIe Device AER statistics
+	These attributes show up under all the devices that are AER capable. These
 
 Thanks,
 Mauro
+
+diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
+index 7bc619b6890c..e75f441afdcd 100755
+--- a/scripts/get_abi.pl
++++ b/scripts/get_abi.pl
+@@ -288,18 +288,18 @@ sub output_rest {
+ 		$desc =~ s/\n[\-\*\=\^\~]+\n/\n/g;
+ 
+ 		if (!($desc =~ /^\s*$/)) {
+-			if ($desc =~ m/\:\n/ || $desc =~ m/\n[\t ]+/  || $desc =~ m/[\x00-\x08\x0b-\x1f\x7b-\xff]/) {
+-				# put everything inside a code block
+-				$desc =~ s/\n/\n /g;
++#			if ($desc =~ m/\:\n/ || $desc =~ m/\n[\t ]+/  || $desc =~ m/[\x00-\x08\x0b-\x1f\x7b-\xff]/) {
++#				# put everything inside a code block
++#				$desc =~ s/\n/\n /g;
+ 
+-				print "::\n\n";
+-				print " $desc\n\n";
+-			} else {
+-				# Escape any special chars from description
+-				$desc =~s/([\x00-\x08\x0b-\x1f\x21-\x2a\x2d\x2f\x3c-\x40\x5c\x5e-\x60\x7b-\xff])/\\$1/g;
++#				print "::\n\n";
++#				print " $desc\n\n";
++#			} else {
++#				# Escape any special chars from description
++#				$desc =~s/([\x00-\x08\x0b-\x1f\x21-\x2a\x2d\x2f\x3c-\x40\x5c\x5e-\x60\x7b-\xff])/\\$1/g;
+ 
+ 				print "$desc\n\n";
+-			}
++#			}
+ 		} else {
+ 			print "DESCRIPTION MISSING for $what\n\n" if (!$data{$what}->{is_file});
+ 		}
+
