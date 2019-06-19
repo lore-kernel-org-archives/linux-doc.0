@@ -5,46 +5,42 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CBCA47D912
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Jun 2019 13:04:58 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5899D7D912
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Jun 2019 13:20:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731895AbfFSNE6 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 19 Jun 2019 09:04:58 -0400
-Received: from casper.infradead.org ([85.118.1.10]:58188 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731422AbfFSNE5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jun 2019 09:04:57 -0400
+        id S1731739AbfFSNT1 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 19 Jun 2019 09:19:27 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:41652 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726518AbfFSNT0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jun 2019 09:19:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=q/WTcjyOBpwvuJ+QVqRXy4uVu6c2/vfcA6WupQADJMI=; b=YTJGhL/roGk88lmexW/uHWOlaQ
-        EgYa65sYpAqt0Ty0JEH4izzuNiP8UlBPniX9w/09Bqsj2KUJQHW4ztl63QKu76k0ZvNdASWQFW+dO
-        EjKefNvevynwr1e32AJywF2TY4nSKlGjfRKrux47BVetV4ZtRdeKlPhgbfye+Xk0/gRKIdXWSPpFW
-        /HAavLrrm1omA+AZ8SBiG2YiW3TCjVyIM7aQx3exufHXxNUfexymhQssSFRRyXgVNeGCSOFIGP0V9
-        jvRooAWWvXgmz5j4/1Op3L5VSdVIBa2yjcirDpeemqYN12m7ov/r/Oty89RWEM2XZLFtps2XGTJg/
-        S6rJGcdA==;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:To:From:
+        Date:Sender:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=enh7bl+ZxtCNZahENTVUATMuvV2PoiZCx+Kx0tLEQaw=; b=Kr8dO+mJQItzeFRoa+XrWjaxK
+        gxUaCZCEGKifi3deIdGTCCX0ciZdqBxSxhcwil6aLbl7xkMiFQ/mA8DY931XJUKnnP4ufE0ZdnnIm
+        gg5BKrLLYparVAKkpWVZFdzC8vdTbN0t3yJgrlqMDasJrKWQFTCMrXQLBphgEL56XDSZHWWJ6JnQ9
+        W5ZsfB3LX39EGRzdBXgDmxT63thYXtKBOw2SbTTn8RD5b1q1QZhEgpqaVW/JNwFjNZVzHDmpS2Sdz
+        fWjlhdZ9g7eZstLTeyVv3ZU4LkMqzHCBPcbROdJE9Xz/TM5CyW529G/BPvtJyktoAuFWOT5TXvFKr
+        FsmbQB85w==;
 Received: from 177.133.86.196.dynamic.adsl.gvt.net.br ([177.133.86.196] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hdaGm-0001Hv-9H; Wed, 19 Jun 2019 13:04:56 +0000
-Date:   Wed, 19 Jun 2019 10:04:50 -0300
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hdaUo-0000KD-7U; Wed, 19 Jun 2019 13:19:26 +0000
+Date:   Wed, 19 Jun 2019 10:19:22 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>
+To:     Peter Zijlstra <peterz@infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v1 12/22] docs: driver-api: add .rst files from the main
  dir
-Message-ID: <20190619100450.26d4d6f7@coco.lan>
-In-Reply-To: <20190619104239.GM3419@hirez.programming.kicks-ass.net>
+Message-ID: <20190619101922.04340605@coco.lan>
+In-Reply-To: <20190619114356.GP3419@hirez.programming.kicks-ass.net>
 References: <cover.1560890771.git.mchehab+samsung@kernel.org>
         <b0d24e805d5368719cc64e8104d64ee9b5b89dd0.1560890772.git.mchehab+samsung@kernel.org>
-        <CAKMK7uGM1aZz9yg1kYM8w2gw_cS6Eaynmar-uVurXjK5t6WouQ@mail.gmail.com>
-        <20190619072218.4437f891@coco.lan>
-        <20190619104239.GM3419@hirez.programming.kicks-ass.net>
+        <20190619114356.GP3419@hirez.programming.kicks-ass.net>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -54,139 +50,56 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 19 Jun 2019 12:42:39 +0200
+(c/c list cleaned)
+
+Em Wed, 19 Jun 2019 13:43:56 +0200
 Peter Zijlstra <peterz@infradead.org> escreveu:
 
-(reduced the C/C to just the relevant ML/people)
-
-> On Wed, Jun 19, 2019 at 07:22:18AM -0300, Mauro Carvalho Chehab wrote:
-> > Hi Daniel,
-> > 
-> > Em Wed, 19 Jun 2019 11:05:57 +0200
-> > Daniel Vetter <daniel@ffwll.ch> escreveu:
-> >   
-> > > On Tue, Jun 18, 2019 at 10:55 PM Mauro Carvalho Chehab
-> > > <mchehab+samsung@kernel.org> wrote:  
-> > > > diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-> > > > index fa30dfcfc3c8..b0f948d8733b 100644
-> > > > --- a/Documentation/gpu/drm-mm.rst
-> > > > +++ b/Documentation/gpu/drm-mm.rst
-> > > > @@ -320,7 +320,7 @@ struct :c:type:`struct file_operations <file_operations>` get_unmapped_area
-> > > >  field with a pointer on :c:func:`drm_gem_cma_get_unmapped_area`.
-> > > >
-> > > >  More detailed information about get_unmapped_area can be found in
-> > > > -Documentation/nommu-mmap.rst
-> > > > +Documentation/driver-api/nommu-mmap.rst    
-> > > 
-> > > Random drive-by comment: Could we convert these into hyperlinks within
-> > > sphinx somehow, without making them less useful as raw file references
-> > > (with vim I can just type 'gf' and it works, emacs probably the same).
-> > > -Daniel  
-> > 
-> > Short answer: I don't know how vim/emacs would recognize Sphinx tags.  
+> On Tue, Jun 18, 2019 at 05:53:17PM -0300, Mauro Carvalho Chehab wrote:
 > 
-> No, the other way around, Sphinx can recognize local files and treat
-> them special. That way we keep the text readable.
+> >  .../{ => driver-api}/atomic_bitops.rst        |  2 -  
 > 
-> Same with that :c:func:'foo' crap, that needs to die, and Sphinx needs
-> to be taught about foo().
+> That's a .txt file, big fat NAK for making it an rst.
 
-Just did a test today with Jon's extension with is meant to replace
-:c:func:'foo' (with is currently on a separate 'automarkup' branch).
-At least the version therestill needs some work, as it currently 
-mangles with titles and tables. like on those warnings/errors:
+Rst is a text file. This one is parsed properly by Sphinx without
+any changes.
 
-	6.4 :c:func:`resync_start()`, :c:func:`resync_finish()`
-	-----------------------------------
-	/devel/v4l/docs/Documentation/driver-api/md/md-cluster.rst:323: WARNING: Title underline too short.
+> 
+> >  .../{ => driver-api}/futex-requeue-pi.rst     |  2 -  
+> 
+> >  .../{ => driver-api}/gcc-plugins.rst          |  2 -  
+> 
+> >  Documentation/{ => driver-api}/kprobes.rst    |  2 -
+> >  .../{ => driver-api}/percpu-rw-semaphore.rst  |  2 -  
+> 
+> More NAK for rst conversion
 
+Again, those don't need any conversion. Those files already parse 
+as-is by Sphinx, with no need for any change.
 
-	/devel/v4l/docs/Documentation/driver-api/serial/tty.rst:74: WARNING: Malformed table.
-	Text in column margin in table line 34.
+The only change here is that, on patch 1/22, the files that
+aren't listed on an index file got a :orphan: added in order
+to make this explicit. This patch removes it.
 
-	======================= =======================================================
-	:c:func:`open()`                        Called when the line discipline is attached to
+> 
+> >  Documentation/{ => driver-api}/pi-futex.rst   |  2 -
+> >  .../{ => driver-api}/preempt-locking.rst      |  2 -  
+> 
+> >  Documentation/{ => driver-api}/rbtree.rst     |  2 -  
+> 
+> >  .../{ => driver-api}/robust-futex-ABI.rst     |  2 -
+> >  .../{ => driver-api}/robust-futexes.rst       |  2 -  
+> 
+> >  .../{ => driver-api}/speculation.rst          |  8 +--
+> >  .../{ => driver-api}/static-keys.rst          |  2 -  
+> 
+> >  .../{ => driver-api}/this_cpu_ops.rst         |  2 -  
+> 
+> >  Documentation/locking/rt-mutex.rst            |  2 +-  
+> 
+> NAK. None of the above have anything to do with driver-api.
 
--
-
-That's said, once it gets fixed to address those complex cases, a
-regex like:
-
-	\bDocumentation/([\w\d\-\_\/]+)\.rst\b
-
-could be used to convert to :doc: tag. It should be smart enough to convert
-the relative paths, as we refer to the files from the git root directory
-(with makes a lot sense to me), while Sphinx :doc: use relative patches
-from the location where the parsed file is.
-
-Something like the enclosed patch. 
+Ok. Where do you think they should sit instead? core-api?
 
 Thanks,
 Mauro
-
-[PATCH] automarkup.py: convert Documentation/* to hyperlinks
-
-Auto-create hyperlinks when it finds a Documentation/.. occurrence.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-
-diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/automarkup.py
-index 39c8f4d5af82..9d6926b61241 100644
---- a/Documentation/sphinx/automarkup.py
-+++ b/Documentation/sphinx/automarkup.py
-@@ -9,6 +9,7 @@
- from __future__ import print_function
- import re
- import sphinx
-+#import sys		# Just for debug
- 
- #
- # Regex nastiness.  Of course.
-@@ -31,10 +32,26 @@ RE_literal = re.compile(r'^(\s*)(.*::\s*|\.\.\s+code-block::.*)$')
- #
- RE_whitesp = re.compile(r'^(\s*)')
- 
-+#
-+# Get a documentation reference
-+#
-+RE_doc_links = re.compile(r'\bDocumentation/([\w\d\-\_\/]+)\.rst\b')
-+
-+#
-+# Doc link false-positives
-+#
-+RE_false_doc_links = re.compile(r':ref:`\s*Documentation/[\w\d\-\_\/]+\.rst')
-+
- def MangleFile(app, docname, text):
-     ret = [ ]
-     previous = ''
-     literal = False
-+
-+    rel_dir = ''
-+
-+    for depth in range(0, docname.count('/')):
-+        rel_dir += "../"
-+
-     for line in text[0].split('\n'):
-         #
-         # See if we might be ending a literal block, as denoted by
-@@ -63,7 +80,17 @@ def MangleFile(app, docname, text):
-         # Normal line - perform substitutions.
-         #
-         else:
--            ret.append(RE_function.sub(r'\1:c:func:`\2`\3', line))
-+            new_line = RE_function.sub(r'\1:c:func:`\2`\3', line)
-+
-+            if not RE_false_doc_links.search(new_line):
-+                new_line = RE_doc_links.sub(r':doc:`' + rel_dir + r'\1`', new_line)
-+
-+ #           # Just for debug - should be removed on production
-+ #           if new_line != line:
-+ #               print ("===>" + new_line, file=sys.stderr)
-+
-+            ret.append(new_line)
-+
-         #
-         # Might we be starting a literal block?  If so make note of
-         # the fact.
-
-
