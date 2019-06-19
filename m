@@ -1,62 +1,144 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E9AC27D90F
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Jun 2019 13:39:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0A5C97D90F
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Jun 2019 13:56:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730340AbfFSNjR (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 19 Jun 2019 09:39:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35794 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730761AbfFSNjQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 19 Jun 2019 09:39:16 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id CD90A30860AC;
-        Wed, 19 Jun 2019 13:39:16 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-57.rdu2.redhat.com [10.10.120.57])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3330618B42;
-        Wed, 19 Jun 2019 13:39:12 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <20190619072218.4437f891@coco.lan>
-References: <20190619072218.4437f891@coco.lan> <cover.1560890771.git.mchehab+samsung@kernel.org> <b0d24e805d5368719cc64e8104d64ee9b5b89dd0.1560890772.git.mchehab+samsung@kernel.org> <CAKMK7uGM1aZz9yg1kYM8w2gw_cS6Eaynmar-uVurXjK5t6WouQ@mail.gmail.com>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     dhowells@redhat.com,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v1 12/22] docs: driver-api: add .rst files from the main dir
+        id S1726332AbfFSN4i (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 19 Jun 2019 09:56:38 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:47314 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726047AbfFSN4i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jun 2019 09:56:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=vs3lq9W8ecN8AOibEdB+lMHYvJb+tdRA2lymEIS3aZY=; b=qv5azAkUbWT/qFwdLJJ7OVUiR
+        KTot7UkL3UrUVK8a4Wwr7UwiPLCW4rAIf6l2RTgs8ru578UpYp9BaRkDsPGLeyshBJaie55vvKQ6B
+        7Ap7+MglsrD9N1sDuT7n/9Al1nxDo76qDeiLvdJKdPxcpO3MBE3jOEr66ljzYJwzZ+QxFVLOiUWIZ
+        qNwFwTPvw+Q2ophHAY8SH4TOj90jMyddUJBgEJDoBvIlPisCEYToZ47OO4JxM8k6YgmxKJttk3aho
+        e/K1ChlXz+8hMq2HpwWf+1a01w0tXcjo59q5t9uXXMqsoh3hlHa5RS4HUxZkrf+UIG6uxe1kr+h0B
+        +BNm5kRKg==;
+Received: from 177.133.86.196.dynamic.adsl.gvt.net.br ([177.133.86.196] helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hdb4n-00028r-8f; Wed, 19 Jun 2019 13:56:37 +0000
+Date:   Wed, 19 Jun 2019 10:56:33 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Johan Hovold <johan@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@s-opensource.com>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Stefan Achatz <erazor_de@users.sourceforge.net>
+Subject: Re: [PATCH 04/14] ABI: better identificate tables
+Message-ID: <20190619105633.7f7315a5@coco.lan>
+In-Reply-To: <20190619125135.GG25248@localhost>
+References: <cover.1560477540.git.mchehab+samsung@kernel.org>
+        <6bc45c0d5d464d25d4d16eceac48a2f407166944.1560477540.git.mchehab+samsung@kernel.org>
+        <20190619125135.GG25248@localhost>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <11421.1560951550.1@warthog.procyon.org.uk>
-Date:   Wed, 19 Jun 2019 14:39:10 +0100
-Message-ID: <11422.1560951550@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.44]); Wed, 19 Jun 2019 13:39:16 +0000 (UTC)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+Hi Johan,
 
-> > > -Documentation/nommu-mmap.rst
-> > > +Documentation/driver-api/nommu-mmap.rst  
+Em Wed, 19 Jun 2019 14:51:35 +0200
+Johan Hovold <johan@kernel.org> escreveu:
 
-Why is this moving to Documentation/driver-api?  It's less to do with drivers
-than with the userspace mapping interface.  Documentation/vm/ would seem a
-better home.
+> On Thu, Jun 13, 2019 at 11:04:10PM -0300, Mauro Carvalho Chehab wrote:
+> > From: Mauro Carvalho Chehab <mchehab@s-opensource.com>
+> > 
+> > When parsing via script, it is important to know if the script
+> > should consider a description as a literal block that should
+> > be displayed as-is, or if the description can be considered
+> > as a normal text.
+> > 
+> > Change descriptions to ensure that the preceding line of a table
+> > ends with a colon. That makes easy to identify the need of a
+> > literal block.  
+> 
+> In the cover letter you say that the first four patches of this series,
+> including this one, "fix some ABI descriptions that are violating the
+> syntax described at Documentation/ABI/README". This seems a bit harsh,
+> given that it's you that is now *introducing* a new syntax requirement
+> to assist your script.
 
-Or should we institute a Documentation/uapi/?  Though that might be seen to
-overlap with man2.  Actually, should this be in man7?
+Yeah, what's there at the cover letter doesn't apply to this specific
+patch. The thing is that I wrote this series a lot of time ago (2016/17).
 
-David
+I revived those per a request at KS ML, as we still need to expose the
+ABI content on some book that will be used by userspace people.
+
+So, I just rebased it on the top of curent Kernel, add a cover letter
+with the things I remembered and re-sent.
+
+In the specific case of this patch, the ":" there actually makes sense
+for someone that it is reading it as a text file, and it is an easy
+hack to make it parse better.
+
+> Specifically, this new requirement isn't documented anywhere AFAICT, so
+> how will anyone adding new ABI descriptions learn about it?
+
+Yeah, either that or provide an alternative to "Description" tag, to be
+used with more complex ABI descriptions.
+
+One of the things that occurred to me, back on 2017, is that we should
+have a way to to specify that an specific ABI description would have
+a rich format. Something like:
+
+What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/pyra/roccatpyra<minor>/actual_cpi
+Date:		August 2010
+Contact:	Stefan Achatz <erazor_de@users.sourceforge.net>
+RST-Description:
+		It is possible to switch the cpi setting of the mouse with the
+		press of a button.
+		When read, this file returns the raw number of the actual cpi
+		setting reported by the mouse. This number has to be further
+		processed to receive the real dpi value:
+
+		===== =====
+		VALUE DPI
+		===== =====
+		1     400
+		2     800
+		4     1600
+		===== =====
+
+With that, the script will know that the description contents will be using
+the ReST markup, and parse it accordingly. Right now, what it does, instead,
+is to place the description on a code-block, e. g. it will produce this
+output for the description:
+
+::
+
+		It is possible to switch the cpi setting of the mouse with the
+		press of a button.
+		When read, this file returns the raw number of the actual cpi
+		setting reported by the mouse. This number has to be further
+		processed to receive the real dpi value:
+
+		VALUE DPI
+		1     400
+		2     800
+		4     1600
+
+
+Greg, 
+
+what do you think?
+
+Thanks,
+Mauro
