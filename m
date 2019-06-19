@@ -1,86 +1,153 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A25207D910
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Jun 2019 14:55:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1B3AB7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Jun 2019 15:02:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729693AbfFSOzB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 19 Jun 2019 10:55:01 -0400
-Received: from ms.lwn.net ([45.79.88.28]:58304 "EHLO ms.lwn.net"
+        id S1726332AbfFSPCL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 19 Jun 2019 11:02:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55892 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726238AbfFSOzA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 19 Jun 2019 10:55:00 -0400
-Received: from lwn.net (localhost [127.0.0.1])
+        id S1725899AbfFSPCL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 19 Jun 2019 11:02:11 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id EA3012BA;
-        Wed, 19 Jun 2019 14:54:59 +0000 (UTC)
-Date:   Wed, 19 Jun 2019 08:54:58 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
+        by mail.kernel.org (Postfix) with ESMTPSA id A3F412183F;
+        Wed, 19 Jun 2019 15:02:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1560956530;
+        bh=yfxdDVL/L5lNeV3SeQ7WR171eTNKD9P+ikTOSH+xc1s=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MliQoUrKGz0uikxExyDjZMWCoS7+rjh9EwaO98Jwv+ImdfIwscw8hUsGkEDL4Gx4P
+         tYIASjvTrcgRzT9GASiutDMJwIaViXugwlbugykfuW/FNAvla3cgErYjQXEWbZBlui
+         Xp3gbNjrxIJtraqotk+fvCHVExeUK/bZvZLfPUxY=
+Date:   Wed, 19 Jun 2019 17:02:07 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     David Howells <dhowells@redhat.com>,
+Cc:     Johan Hovold <johan@kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v1 12/22] docs: driver-api: add .rst files from the main
- dir
-Message-ID: <20190619085458.08872dbb@lwn.net>
-In-Reply-To: <20190619111528.3e2665e3@coco.lan>
-References: <20190619072218.4437f891@coco.lan>
-        <cover.1560890771.git.mchehab+samsung@kernel.org>
-        <b0d24e805d5368719cc64e8104d64ee9b5b89dd0.1560890772.git.mchehab+samsung@kernel.org>
-        <CAKMK7uGM1aZz9yg1kYM8w2gw_cS6Eaynmar-uVurXjK5t6WouQ@mail.gmail.com>
-        <11422.1560951550@warthog.procyon.org.uk>
-        <20190619111528.3e2665e3@coco.lan>
-Organization: LWN.net
+        Mauro Carvalho Chehab <mchehab@s-opensource.com>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Stefan Achatz <erazor_de@users.sourceforge.net>
+Subject: Re: [PATCH 04/14] ABI: better identificate tables
+Message-ID: <20190619150207.GA19346@kroah.com>
+References: <cover.1560477540.git.mchehab+samsung@kernel.org>
+ <6bc45c0d5d464d25d4d16eceac48a2f407166944.1560477540.git.mchehab+samsung@kernel.org>
+ <20190619125135.GG25248@localhost>
+ <20190619105633.7f7315a5@coco.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190619105633.7f7315a5@coco.lan>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[Trimming the CC list from hell made sense, but it might have been better
-to leave me on it...]
-
-On Wed, 19 Jun 2019 11:15:28 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
-
-> Em Wed, 19 Jun 2019 14:39:10 +0100
-> David Howells <dhowells@redhat.com> escreveu:
+On Wed, Jun 19, 2019 at 10:56:33AM -0300, Mauro Carvalho Chehab wrote:
+> Hi Johan,
 > 
-> > Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
-> >   
-> > > > > -Documentation/nommu-mmap.rst
-> > > > > +Documentation/driver-api/nommu-mmap.rst      
+> Em Wed, 19 Jun 2019 14:51:35 +0200
+> Johan Hovold <johan@kernel.org> escreveu:
+> 
+> > On Thu, Jun 13, 2019 at 11:04:10PM -0300, Mauro Carvalho Chehab wrote:
+> > > From: Mauro Carvalho Chehab <mchehab@s-opensource.com>
+> > > 
+> > > When parsing via script, it is important to know if the script
+> > > should consider a description as a literal block that should
+> > > be displayed as-is, or if the description can be considered
+> > > as a normal text.
+> > > 
+> > > Change descriptions to ensure that the preceding line of a table
+> > > ends with a colon. That makes easy to identify the need of a
+> > > literal block.  
 > > 
-> > Why is this moving to Documentation/driver-api?    
+> > In the cover letter you say that the first four patches of this series,
+> > including this one, "fix some ABI descriptions that are violating the
+> > syntax described at Documentation/ABI/README". This seems a bit harsh,
+> > given that it's you that is now *introducing* a new syntax requirement
+> > to assist your script.
 > 
-> Good point. I tried to do my best with those document renames, but
-> I'm pretty sure some of them ended by going to the wrong place - or
-> at least there are arguments in favor of moving it to different
-> places :-)
+> Yeah, what's there at the cover letter doesn't apply to this specific
+> patch. The thing is that I wrote this series a lot of time ago (2016/17).
+> 
+> I revived those per a request at KS ML, as we still need to expose the
+> ABI content on some book that will be used by userspace people.
+> 
+> So, I just rebased it on the top of curent Kernel, add a cover letter
+> with the things I remembered and re-sent.
+> 
+> In the specific case of this patch, the ":" there actually makes sense
+> for someone that it is reading it as a text file, and it is an easy
+> hack to make it parse better.
+> 
+> > Specifically, this new requirement isn't documented anywhere AFAICT, so
+> > how will anyone adding new ABI descriptions learn about it?
+> 
+> Yeah, either that or provide an alternative to "Description" tag, to be
+> used with more complex ABI descriptions.
+> 
+> One of the things that occurred to me, back on 2017, is that we should
+> have a way to to specify that an specific ABI description would have
+> a rich format. Something like:
+> 
+> What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/pyra/roccatpyra<minor>/actual_cpi
+> Date:		August 2010
+> Contact:	Stefan Achatz <erazor_de@users.sourceforge.net>
+> RST-Description:
+> 		It is possible to switch the cpi setting of the mouse with the
+> 		press of a button.
+> 		When read, this file returns the raw number of the actual cpi
+> 		setting reported by the mouse. This number has to be further
+> 		processed to receive the real dpi value:
+> 
+> 		===== =====
+> 		VALUE DPI
+> 		===== =====
+> 		1     400
+> 		2     800
+> 		4     1600
+> 		===== =====
+> 
+> With that, the script will know that the description contents will be using
+> the ReST markup, and parse it accordingly. Right now, what it does, instead,
+> is to place the description on a code-block, e. g. it will produce this
+> output for the description:
+> 
+> ::
+> 
+> 		It is possible to switch the cpi setting of the mouse with the
+> 		press of a button.
+> 		When read, this file returns the raw number of the actual cpi
+> 		setting reported by the mouse. This number has to be further
+> 		processed to receive the real dpi value:
+> 
+> 		VALUE DPI
+> 		1     400
+> 		2     800
+> 		4     1600
+> 
+> 
+> Greg, 
+> 
+> what do you think?
 
-I think that a lot of this might also be an argument for slowing down just
-a little bit.  I really don't think that blasting through and reformatting
-all of our text documents is the most urgent problem right now and, in
-cases like this, it might create others.
+I don't know when "Description" and "RST-Description" would be used.
+Why not just parse "Description" like rst text and if things are "messy"
+we fix them up as found, like you did with the ":" here?  It doesn't
+have to be complex, we can always fix them up after-the-fact if new
+stuff gets added that doesn't quite parse properly.
 
-Organization of the documentation tree is important; it has never really
-gotten any attention so far, and we're trying to make it better.  But
-moving documents will, by its nature, annoy people.  We can generally get
-past that, but I'd really like to avoid moving things twice.  In general,
-I would rather see a single document converted, read critically and
-updated, and carefully integrated with the rest than a hundred of them
-swept into different piles...
+Just like we do for most kernel-doc formatting :)
 
-See what I'm getting at?
+thanks,
 
-Thanks,
-
-jon
+greg k-h
