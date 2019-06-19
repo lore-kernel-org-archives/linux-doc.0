@@ -1,88 +1,92 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C33767D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 18 Jun 2019 23:15:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CB9A97D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Jun 2019 03:39:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728195AbfFRXPC (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 18 Jun 2019 19:15:02 -0400
-Received: from casper.infradead.org ([85.118.1.10]:37184 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726047AbfFRXPC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jun 2019 19:15:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=YD3CDBnSmeqzGKbOwCAY3CZKaDLh95sd33iLbp3T1uU=; b=tIsxsufTq7E9IsMbw+MWb0tbC5
-        tpANoUwiF+PMZC10fp09AV1FLkM2apZ4V7pwSGklRs1GwLJj3O1MwZ8J90LBorH9Dmez8duksbLtm
-        cShMcigdOrSA7sCFxyQcWaT7N8axFoBTwkpa8QuBndEVHaZiObfGTwIcuUNgn85DBs2JypNungCXD
-        EvOJNPYlhVQqp73SEcvODHxDzpQ7BeYseALL/9SMAgD9R2qcq22I7QFNyYkpzlY/9awUykhfFbAkD
-        CSew9zhOgBJyNLcg0y47R8Ak4J+B0pc1ozqDJLk5GzaI4rxOQJajkdOfgziAztoEbkpUhwoPS+/+Q
-        tTEAsiBg==;
-Received: from 177.133.86.196.dynamic.adsl.gvt.net.br ([177.133.86.196] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hdNJd-0007Mp-B3; Tue, 18 Jun 2019 23:15:01 +0000
-Date:   Tue, 18 Jun 2019 20:14:55 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+        id S1728195AbfFSDjI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 18 Jun 2019 23:39:08 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:40222 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726037AbfFSDjI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 18 Jun 2019 23:39:08 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5J3cgJj008198;
+        Wed, 19 Jun 2019 03:38:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
+ from : references : date : in-reply-to : message-id : mime-version :
+ content-type; s=corp-2018-07-02;
+ bh=b5qN28LGBy9a7xOcap+Wk6iZCiRNojShvf2zriROB8Q=;
+ b=dfsDAJn00iF/8pZ/i8qowCY4c9XARIhuNj7lp+jFphCgBHrCUqRE81UOsE5jWX57mJ+s
+ YEJgOigIbXJLegb35IRZYYPcGeKgtz4fdo6v36W8NzUrwKLgamWgUs2WBwZgxWZ2RYdS
+ P+zMURl8Qcoew4upstNreEAY3f9L4qBhT9QfMw/cuJ7je3qVn7ZYALsxlqSWMYdjJ8Yt
+ WnSwZJGgqBy1XzSIzh4fv4qpyUTStQOYIgW2Lpi9P/tXB9APfxKVFQkWNu8k5CCjcoJZ
+ E72ZvyaINjuc8UUsjH+J64EKlubW+xsdKkTeXdoCf5pbhNZ2AO46bL0dM79ugipNUq+j 5g== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by aserp2120.oracle.com with ESMTP id 2t78098tmr-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 19 Jun 2019 03:38:45 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5J3bdfZ049730;
+        Wed, 19 Jun 2019 03:38:44 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by userp3020.oracle.com with ESMTP id 2t77ymu9fb-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 19 Jun 2019 03:38:44 +0000
+Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5J3cfb8019954;
+        Wed, 19 Jun 2019 03:38:41 GMT
+Received: from ca-mkp.ca.oracle.com (/10.159.214.123)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Tue, 18 Jun 2019 20:38:40 -0700
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v2 02/29] docs: lcd-panel-cgram.txt: convert docs to
- ReST and rename to *.rst
-Message-ID: <20190618201455.04e8743d@coco.lan>
-In-Reply-To: <CANiq72kibf49R+QtUjqcttGiNr4kxBqc0TxSe+HdrQUahTxgng@mail.gmail.com>
-References: <cover.1560890800.git.mchehab+samsung@kernel.org>
-        <3da3e0379da562d703e6896ded6a7839d1272494.1560890800.git.mchehab+samsung@kernel.org>
-        <CANiq72kibf49R+QtUjqcttGiNr4kxBqc0TxSe+HdrQUahTxgng@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        linux-scsi@vger.kernel.org, target-devel@vger.kernel.org
+Subject: Re: [PATCH v4 23/28] docs: target: convert docs to ReST and rename to *.rst
+From:   "Martin K. Petersen" <martin.petersen@oracle.com>
+Organization: Oracle Corporation
+References: <cover.1560361364.git.mchehab+samsung@kernel.org>
+        <9c58d2f3478126736e69b688a7dbf0da26ba2285.1560361364.git.mchehab+samsung@kernel.org>
+Date:   Tue, 18 Jun 2019 23:38:37 -0400
+In-Reply-To: <9c58d2f3478126736e69b688a7dbf0da26ba2285.1560361364.git.mchehab+samsung@kernel.org>
+        (Mauro Carvalho Chehab's message of "Wed, 12 Jun 2019 14:52:59 -0300")
+Message-ID: <yq1imt2utvm.fsf@oracle.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1.92 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9292 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1906190027
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9292 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906190028
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 18 Jun 2019 23:14:01 +0200
-Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> escreveu:
 
-> On Tue, Jun 18, 2019 at 10:56 PM Mauro Carvalho Chehab
-> <mchehab+samsung@kernel.org> wrote:
-> >
-> > This small text file describes the usage of parallel port LCD
-> > displays from userspace PoV. So, a good candidate for the
-> > admin guide.
-> >
-> > While this is not part of the admin-guide book, mark it as
-> > :orphan:, in order to avoid build warnings.  
-> 
-> If we are going to move everything else to `.rst` too, even things
-> outside the guide, then ack.
+Mauro,
 
-Yeah, the plan is to move all text files inside Documentation/ to .rst[1].
+> Convert the TCM docs to ReST format and add them to the
+> bookset.
 
-[1] There are some exceptions: for ABI and features, the current plan
-is to have a script that parses their strict formats and produce
-a ReST output.
+Looks good to me.
 
+Acked-by: Martin K. Petersen <martin.petersen@oracle.com>
 
-Btw, Still pending to be sent, I have already a patch removing the
-:orphan: from this file and adding it to the admin guide:
-
-	https://git.linuxtv.org/mchehab/experimental.git/commit/?h=convert_rst_renames_v5.1&id=eae5b48cab115c83be8dd59ee99b9e45f8142134
-
-And the corresponding output, after the patches I currently have:
-
-	https://www.infradead.org/~mchehab/rst_conversion/admin-guide/lcd-panel-cgram.html
-
-Thanks,
-Mauro
+-- 
+Martin K. Petersen	Oracle Linux Engineering
