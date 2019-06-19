@@ -1,75 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 2EF977D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Jun 2019 16:37:45 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 73EE17D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Jun 2019 17:58:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726197AbfFSQho (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 19 Jun 2019 12:37:44 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:33744 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726109AbfFSQho (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jun 2019 12:37:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=jhhYcGCAiJkqdIpiThp2i57JDwcfO4J0ArQ48m/bbuk=; b=GQwj/pDLDH/eyuOIVaOTZxLHX
-        +5Ca5ERpr7E3VL4I2tt1+G+omsxnJC8ddi46Rtbx1XK5AcETrImA2BLWvJ6tOMlRewYMmtL36w/1W
-        MD7RSWgCypMZUQv1LGFlGg1lXJrdXerKiEx1UlWXaq5c/snsVYNU0i9lUhK0tnZ7JUEW0Mkb9K4rv
-        CI5dduxBfUfiQ14hNcNVqrPGppE+phayF0jL9lm8g6NuA0nN9Jhg5luJqLb2ad09fm7u1xw2PUs/W
-        ZNhhzMJgqE0iOr/THT54MJqd5zAGFXAjE17GgU0qrpHKTEKw9buhoZn/GGNO91kviLkOi/5ulaC1O
-        RyCiTw4Mg==;
-Received: from 177.133.86.196.dynamic.adsl.gvt.net.br ([177.133.86.196] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hddah-0002Ki-0U; Wed, 19 Jun 2019 16:37:43 +0000
-Date:   Wed, 19 Jun 2019 13:37:39 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@s-opensource.com>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 12/14] doc-rst: add ABI documentation to the admin-guide
- book
-Message-ID: <20190619133739.44f92409@coco.lan>
-In-Reply-To: <87h88nth3v.fsf@intel.com>
-References: <cover.1560477540.git.mchehab+samsung@kernel.org>
-        <9da2a7f6ff57d9d53dcbb964eb310f7956522870.1560477540.git.mchehab+samsung@kernel.org>
-        <87o930uvur.fsf@intel.com>
-        <20190614140603.GB7234@kroah.com>
-        <20190614122755.1c7b4898@coco.lan>
-        <874l4ov16m.fsf@intel.com>
-        <20190617105154.3874fd89@coco.lan>
-        <87h88nth3v.fsf@intel.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726197AbfFSR6C (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 19 Jun 2019 13:58:02 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:35064 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726047AbfFSR6B (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jun 2019 13:58:01 -0400
+Received: by mail-wr1-f66.google.com with SMTP id m3so222527wrv.2
+        for <linux-doc@vger.kernel.org>; Wed, 19 Jun 2019 10:58:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jTDCnSY6+tX1W8GY+iCc/seDTnueAJXkoU8m0/DmVPI=;
+        b=IqqqvpJlEpaKbH9taXpgCkUS30ptJInByHsXITBe9ngGfkLHuWlsEq8oYdIOGwS03v
+         O6gaKPP9W4zAEu76coQXaHjrT9uNgx4QDPPSlOi6ipyUsftauRTPKNQ+XamLGx9cmi0Y
+         gPt/mlzn2AfI/ZyhvvywT9KNNcrAJrWFs8vsv4B21AFLiWHAfjV8KR0JL0PLstZNx5EM
+         WD75T3O2hAjULAQz8ItA7g2+G292cgD9w/9wuZqhYPrhftrm/+x9/H3dVMOJ2rXRqQ7+
+         TSdr57sDL4jcyJrvC2Y8cwSgR7ygixT1HZwvgD+qkm1rWH/8UUnddjHKhHJaG7yhTzQ4
+         t1XQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jTDCnSY6+tX1W8GY+iCc/seDTnueAJXkoU8m0/DmVPI=;
+        b=bYliGZsoTvSkLczaxn4Z0BT9+2JgyfcbN19TMdD6zITq1/6DMUi0sZYGBNH/oVLRd+
+         23OCfImIQk73UWHBtLEts2qzA4pRNb2i9sfzJCpuGlYesA/l9tOcTzzCRHWa/430iMVT
+         SzQSRpIGKRIoMjRe5OitNJqH94CvPlGeoJS73W7ewh2gjTIiaDVdARc3RZzcNphy93UK
+         2ew92HSCPBrJkDwzmQf/GANC3Ug0fFSwgqvAhshI1od5kkjoIIyLuViuGbPC+cjAkt+u
+         4/5LJ2h/R5CO4iz1GWuaSf8we0bhmqIhWkEsaBvP9KtPR+jwV1YJKTZTxC17PsL+ofz7
+         6ojA==
+X-Gm-Message-State: APjAAAUTcrLfjMYKSrDu4w+QLjGl8vs9F2jzaJdA9kIenf8x6h9NCCJQ
+        m8MUUnJh9qVpODpZHIyfdMEvXSdKlYI39EjxjaOD
+X-Google-Smtp-Source: APXvYqzB2Nyr48TAgim3afZxIQJRC2z0d9tNKytbqalUqVA03NxQM71fFc5fqd/Y3gB/zKymoqQMdJuv6NXLLgkAUvQ=
+X-Received: by 2002:adf:9d81:: with SMTP id p1mr10263597wre.294.1560967079151;
+ Wed, 19 Jun 2019 10:57:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20190320161320.59291-1-andriy.shevchenko@linux.intel.com>
+ <CAErSpo4v5qxza6Uyo8ZJ1kWWY2eBMxn5JQNQk2kAeZ2PZ2a+Yw@mail.gmail.com> <20190619141307.GP9224@smile.fi.intel.com>
+In-Reply-To: <20190619141307.GP9224@smile.fi.intel.com>
+From:   Bjorn Helgaas <bhelgaas@google.com>
+Date:   Wed, 19 Jun 2019 12:57:45 -0500
+Message-ID: <CAErSpo4A9EHk5kd1uzrDp0=-0Bp83xjMB8j+pkfkZaRVu_Mg6w@mail.gmail.com>
+Subject: Re: [PATCH v1] dma-mapping: Fix filename references
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 18 Jun 2019 11:47:32 +0300
-Jani Nikula <jani.nikula@linux.intel.com> escreveu:
+On Wed, Jun 19, 2019 at 9:13 AM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Wed, Mar 20, 2019 at 04:31:17PM -0500, Bjorn Helgaas wrote:
+> > On Wed, Mar 20, 2019 at 11:13 AM Andy Shevchenko
+> > <andriy.shevchenko@linux.intel.com> wrote:
+> > >
+> > > After the commit cf65a0f6f6ff
+> > >
+> > >   ("dma-mapping: move all DMA mapping code to kernel/dma")
+> > >
+> > > some of the files are referring to outdated information, i.e. old file names
+> > > of DMA mapping sources.
+> > >
+> > > Fix it here.
+>
+> Bjorn, thanks for review, my answers below.
+>
+> > >   * This function checks if the reserved crashkernel is allowed on the specific
+> > >   * IA64 machine flavour. Machines without an IO TLB use swiotlb and require
+> > >   * some memory below 4 GB (i.e. in 32 bit area), see the implementation of
+> > > - * lib/swiotlb.c. The hpzx1 architecture has an IO TLB but cannot use that
+> > > + * kernel/dma/swiotlb.c. The hpzx1 architecture has an IO TLB but cannot use that
+> > >   * in kdump case. See the comment in sba_init() in sba_iommu.c.
+> >
+> > Is the point here that just that if you lack an IOTLB and want devices
+> > to be able to reach system memory above 4GB, you need a bounce buffer
+> > below 4GB?  If so, maybe we could just say *that* instead of a
+> > nebulous reference to "the implementation of */swiotlb.c", which
+> > doesn't tell you what part of the implementation is relevant.
+>
+> This patch is about broken links.
 
-> On Mon, 17 Jun 2019, Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
-> > Yeah, I guess it should be possible to do that. How a python script
-> > can identify if it was called by Sphinx, or if it was called directly?  
-> 
-> if __name__ == '__main__':
-> 	# run on the command-line, not imported
+Oh, of course!  Sorry, I don't know what I was thinking.  I was
+wasting my time (and yours) with comments about things you're not
+changing, sorry about that.
 
-Ok, when I have some spare time, I may try to convert one script
-to python and see how it behaves. 
-
-Thanks,
-Mauro
+Bjorn
