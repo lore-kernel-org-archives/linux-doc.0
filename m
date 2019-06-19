@@ -1,130 +1,106 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 830E17D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Jun 2019 14:13:13 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E266F7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Wed, 19 Jun 2019 14:15:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726047AbfFSONN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 19 Jun 2019 10:13:13 -0400
-Received: from mga17.intel.com ([192.55.52.151]:58263 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725893AbfFSONN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 19 Jun 2019 10:13:13 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Jun 2019 07:13:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,392,1557212400"; 
-   d="scan'208";a="335202444"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.145])
-  by orsmga005.jf.intel.com with ESMTP; 19 Jun 2019 07:13:09 -0700
-Received: from andy by smile with local (Exim 4.92)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1hdbKl-0005zd-TB; Wed, 19 Jun 2019 17:13:07 +0300
-Date:   Wed, 19 Jun 2019 17:13:07 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Bjorn Helgaas <bhelgaas@google.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        linux-doc@vger.kernel.org, Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v1] dma-mapping: Fix filename references
-Message-ID: <20190619141307.GP9224@smile.fi.intel.com>
-References: <20190320161320.59291-1-andriy.shevchenko@linux.intel.com>
- <CAErSpo4v5qxza6Uyo8ZJ1kWWY2eBMxn5JQNQk2kAeZ2PZ2a+Yw@mail.gmail.com>
+        id S1726047AbfFSOPc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 19 Jun 2019 10:15:32 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:34808 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725899AbfFSOPc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jun 2019 10:15:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=NBYZM4x4vonQf9U9PegTdJ8Gr3lWbvulPmcaW6blw1o=; b=dPqOh1g1u6+Gx0sBalb5rkX2u
+        wIbBMtAEdIsAee3Ub7W9KYWOgt2mtCWo8S4Q3A8BuyYcZpFXJIBFKLK93DcM0OgM4m/inlhuMxd4i
+        xv4bXL13yE2S6AOwvmz7dbVWGoNRlTOpVocD4rVyrbv1GF1YVK56MDdeJUJ2TJdyUU/i7LDzPPxwk
+        q5bBzKUGnZGKBhiO1stiWprfqZmaUIaVdpkulYzUlK2rGWSYmI7ne0f+vptRKQfKdDsKioHcQ3HVY
+        ZLJmnIxZLL9Wg8XwEkfcleJ+3FQYhKRtXa8W53asUfOJcitK/KfLJc7dkOM7cGkK88AajNUpeKd7M
+        OSliQfZFw==;
+Received: from 177.133.86.196.dynamic.adsl.gvt.net.br ([177.133.86.196] helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hdbN5-0002AD-M9; Wed, 19 Jun 2019 14:15:32 +0000
+Date:   Wed, 19 Jun 2019 11:15:28 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     David Howells <dhowells@redhat.com>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v1 12/22] docs: driver-api: add .rst files from the main
+ dir
+Message-ID: <20190619111528.3e2665e3@coco.lan>
+In-Reply-To: <11422.1560951550@warthog.procyon.org.uk>
+References: <20190619072218.4437f891@coco.lan>
+        <cover.1560890771.git.mchehab+samsung@kernel.org>
+        <b0d24e805d5368719cc64e8104d64ee9b5b89dd0.1560890772.git.mchehab+samsung@kernel.org>
+        <CAKMK7uGM1aZz9yg1kYM8w2gw_cS6Eaynmar-uVurXjK5t6WouQ@mail.gmail.com>
+        <11422.1560951550@warthog.procyon.org.uk>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAErSpo4v5qxza6Uyo8ZJ1kWWY2eBMxn5JQNQk2kAeZ2PZ2a+Yw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 20, 2019 at 04:31:17PM -0500, Bjorn Helgaas wrote:
-> On Wed, Mar 20, 2019 at 11:13 AM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> >
-> > After the commit cf65a0f6f6ff
-> >
-> >   ("dma-mapping: move all DMA mapping code to kernel/dma")
-> >
-> > some of the files are referring to outdated information, i.e. old file names
-> > of DMA mapping sources.
-> >
-> > Fix it here.
+Hi David,
 
-Bjorn, thanks for review, my answers below.
+Em Wed, 19 Jun 2019 14:39:10 +0100
+David Howells <dhowells@redhat.com> escreveu:
 
-> >   * This function checks if the reserved crashkernel is allowed on the specific
-> >   * IA64 machine flavour. Machines without an IO TLB use swiotlb and require
-> >   * some memory below 4 GB (i.e. in 32 bit area), see the implementation of
-> > - * lib/swiotlb.c. The hpzx1 architecture has an IO TLB but cannot use that
-> > + * kernel/dma/swiotlb.c. The hpzx1 architecture has an IO TLB but cannot use that
-> >   * in kdump case. See the comment in sba_init() in sba_iommu.c.
+> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 > 
-> Is the point here that just that if you lack an IOTLB and want devices
-> to be able to reach system memory above 4GB, you need a bounce buffer
-> below 4GB?  If so, maybe we could just say *that* instead of a
-> nebulous reference to "the implementation of */swiotlb.c", which
-> doesn't tell you what part of the implementation is relevant.
-
-This patch is about broken links.
-
-> > --- a/arch/x86/kernel/pci-swiotlb.c
-> > +++ b/arch/x86/kernel/pci-swiotlb.c
-> > @@ -1,5 +1,5 @@
-> >  // SPDX-License-Identifier: GPL-2.0
-> > -/* Glue code to lib/swiotlb.c */
-> > +/* Glue code to kernel/dma/swiotlb.c */
+> > > > -Documentation/nommu-mmap.rst
+> > > > +Documentation/driver-api/nommu-mmap.rst    
 > 
-> I personally don't think there's much value in this line and I'd
-> remove it entirely.
+> Why is this moving to Documentation/driver-api?  
 
-Will do.
+Good point. I tried to do my best with those document renames, but
+I'm pretty sure some of them ended by going to the wrong place - or
+at least there are arguments in favor of moving it to different
+places :-)
 
-> >                 /*
-> > -                * two parts from lib/swiotlb.c:
-> > +                * two parts from kernel/dma/swiotlb.c:
-> >                  * -swiotlb size: user-specified with swiotlb= or default.
-> >                  *
-> >                  * -swiotlb overflow buffer: now hardcoded to 32k. We round it
+The driver-api ended to be where most of the stuff has been moved,
+as this is the main kAPI dir (there is also a core-api dir for kAPI too).
+
+I tend to place there stuff that has a mix of kAPI and uAPI at
+driver-api, as usually such documents are written assuming that
+the one that would be reading it is a Kernel developer.
+
+> It's less to do with drivers
+> than with the userspace mapping interface.  Documentation/vm/ would seem a
+> better home.
 > 
-> Is there any chance this could be updated to refer to some variable or
-> function names that grep/ctags/cscope/etc could find?  If we had that,
-> I think the filename reference would be superfluous.
+> Or should we institute a Documentation/uapi/?  Though that might be seen to
+> overlap with man2.  Actually, should this be in man7?
 
-I'm not sure. Mauro probably the best person to ask what Sphinx can do here.
+Actually, there is an userspace-api dir too. While the logs show that
+this was created back on 2017, I only noticed it very recently.
 
-> >  /*
-> >   * arch/x86/pci/sta2x11-fixup.c
-> > - * glue code for lib/swiotlb.c and DMA translation between STA2x11
-> > + * glue code for kernel/dma/swiotlb.c and DMA translation between STA2x11
-> 
-> I think both of these lines (the "arch/x86/pci/sta2x11-fixup.c" one
-> and the "glue code" one) are superfluous.
+Re-checking the file, I see your point: there are lots of
+userspace-relevant contents there. Yet, it also mentions kAPI internals,
+like a reference for file and vm ops (at "Providing shareable character
+device support" session):
 
-Will remove.
+	file->f_op->get_unmapped_area()
+	file->f_op->mmap()
+	vm_ops->close()
 
-> There's also a superfluous empty line at the end of the GPL license
-> text, but I guess that should be removed by replacing the whole thing
-> with an SPDX line.
+It is up to MM people and Jon to decide where to place it.
 
-Correct.
+In any case, the best (long term) seems to split it on separate files, 
+one with kAPI and another one with uAPI (just like may other subsystem
+specific docs).
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Thanks,
+Mauro
