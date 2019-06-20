@@ -1,118 +1,66 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BB4657D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Jun 2019 19:50:30 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0CD9C7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Jun 2019 19:55:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726729AbfFTTua (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 20 Jun 2019 15:50:30 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:43785 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726420AbfFTTua (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jun 2019 15:50:30 -0400
-Received: by mail-pl1-f195.google.com with SMTP id cl9so1788228plb.10;
-        Thu, 20 Jun 2019 12:50:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Chemluuget4oibVqPmtz//KQ0k8owAqeEz6djJYfRuQ=;
-        b=jXStx7eHZX5+8yBlumX6fFxL+fL0cx8ELj6ffwxl74+YWKK4ELVJTopjbUUZqVCW+a
-         jVJGNZxRMYw1t/LgudlbQmXOU1clNGJjqCgVMT8VtdjhYRkjl5JShKuaEaSXgrDDaqDW
-         HChD7vxuezmDcPVOjYvG4oJsvamDI44yAGCHJuF7auw6QbT+JvbTuEc78+ZlwI/9qUbN
-         7jRcKW7o0Wfna61IwKU/ZK90qywqqLPZE+c5jsGam3EvxUDTkkJZHLr1R6Fm79UbiCzI
-         9xF/TIQ963PP4oYRNq4KovS8oBQPlDdkuSRAgp3bB3081tlqwJ+K3b6SQQGbqM6Pn2aP
-         WCkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Chemluuget4oibVqPmtz//KQ0k8owAqeEz6djJYfRuQ=;
-        b=cg/0MjbH0tJq4dQKdV5hFecggs+jGnDq7l2S45TYP4QUteI2nIOiF3lDBsSK84alg0
-         9yEeXHS/KYG9i2UfBAK18NvjBPP2dGUbogp59ZsBpktZmuHyM9AHtPO/Xm+Zdlmi9GTr
-         3H0+cqKRjDK2xaB7sK++lX/5px6G7F0eTwRhen3Nao5Wnql3RvXp9DB8SiAiVVAEJLc1
-         4nDlvQY02mf6N5OoTRevK8t8I6p8knxHI5/swf6IB4dXxWNL7yWxuloZgii510K5Z6oD
-         CognD83lAM3T+0isUaMYa8kAP5qY7z+lD0Xwiy8z0ZvtrPIyHB+e6HQ9lchv+j8hufnv
-         VB9w==
-X-Gm-Message-State: APjAAAXX0Zg4ObYVaXX+3mltoDt6Nqz3/jzfHrS4T5x9on8HQBQOpJC/
-        uVxynBE4h6WJziJRay308mj3uh5FKbVtANiLMoI=
-X-Google-Smtp-Source: APXvYqwyCNCi2l4ymEaHhEjUAMB28S5oOhnsG6URoz/ZlEO4SCoS9p1V6qoYeps+5fL1WyJ9C5vWGwPWBhMnDHr+REI=
-X-Received: by 2002:a17:902:ab90:: with SMTP id f16mr124039108plr.262.1561060229336;
- Thu, 20 Jun 2019 12:50:29 -0700 (PDT)
+        id S1726420AbfFTTzq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 20 Jun 2019 15:55:46 -0400
+Received: from ms.lwn.net ([45.79.88.28]:47476 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726002AbfFTTzq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 20 Jun 2019 15:55:46 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id AA6829B0;
+        Thu, 20 Jun 2019 19:55:45 +0000 (UTC)
+Date:   Thu, 20 Jun 2019 13:55:44 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Takashi Iwai <tiwai@suse.de>
+Cc:     Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: fb: Add TER16x32 to the available font names
+Message-ID: <20190620135544.4a56b62a@lwn.net>
+In-Reply-To: <20190619053943.6320-1-tiwai@suse.de>
+References: <20190619053943.6320-1-tiwai@suse.de>
+Organization: LWN.net
 MIME-Version: 1.0
-References: <20190620183827.23704-1-puranjay12@gmail.com>
-In-Reply-To: <20190620183827.23704-1-puranjay12@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 20 Jun 2019 22:50:17 +0300
-Message-ID: <CAHp75Ve+v7o=Ar=5Vc7yZndCxUNf3sn8YwpCHXMwdeJxuLKMoA@mail.gmail.com>
-Subject: Re: [PATCH v2] Documentation: platform: Delete x86-laptop-drivers.txt
-To:     Puranjay Mohan <puranjay12@gmail.com>
-Cc:     Shuah Khan <skhan@linuxfoundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Cezary Jackiewicz <cezary.jackiewicz@gmail.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 20, 2019 at 9:38 PM Puranjay Mohan <puranjay12@gmail.com> wrote:
->
-> The list of laptops supported by drivers in PDx86 subsystem is quite
-> big and growing. x86-laptop-drivers.txt contains details of very few
-> laptop models. Remove it because it does not  serve any purpose.
->
+On Wed, 19 Jun 2019 07:39:43 +0200
+Takashi Iwai <tiwai@suse.de> wrote:
 
-Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-
-> Signed-off-by: Puranjay Mohan <puranjay12@gmail.com>
+> The new font is available since recently.
+> 
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
 > ---
->  Documentation/platform/x86-laptop-drivers.txt | 18 ------------------
->  1 file changed, 18 deletions(-)
->  delete mode 100644 Documentation/platform/x86-laptop-drivers.txt
->
-> diff --git a/Documentation/platform/x86-laptop-drivers.txt b/Documentation/platform/x86-laptop-drivers.txt
-> deleted file mode 100644
-> index 01facd2590bb..000000000000
-> --- a/Documentation/platform/x86-laptop-drivers.txt
-> +++ /dev/null
-> @@ -1,18 +0,0 @@
-> -compal-laptop
-> -=============
-> -List of supported hardware:
-> -
-> -by Compal:
-> -       Compal FL90/IFL90
-> -       Compal FL91/IFL91
-> -       Compal FL92/JFL92
-> -       Compal FT00/IFT00
-> -
-> -by Dell:
-> -       Dell Vostro 1200
-> -       Dell Mini 9 (Inspiron 910)
-> -       Dell Mini 10 (Inspiron 1010)
-> -       Dell Mini 10v (Inspiron 1011)
-> -       Dell Mini 1012 (Inspiron 1012)
-> -       Dell Inspiron 11z (Inspiron 1110)
-> -       Dell Mini 12 (Inspiron 1210)
-> --
-> 2.21.0
->
+>  Documentation/fb/fbcon.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/fb/fbcon.rst b/Documentation/fb/fbcon.rst
+> index cfb9f7c38f18..1da65b9000de 100644
+> --- a/Documentation/fb/fbcon.rst
+> +++ b/Documentation/fb/fbcon.rst
+> @@ -82,7 +82,7 @@ C. Boot options
+>  
+>  	Select the initial font to use. The value 'name' can be any of the
+>  	compiled-in fonts: 10x18, 6x10, 7x14, Acorn8x8, MINI4x6,
+> -	PEARL8x8, ProFont6x11, SUN12x22, SUN8x16, VGA8x16, VGA8x8.
+> +	PEARL8x8, ProFont6x11, SUN12x22, SUN8x16, TER16x32, VGA8x16, VGA8x8.
 
+Applied, thanks.
 
--- 
-With Best Regards,
-Andy Shevchenko
+jon
