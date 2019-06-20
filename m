@@ -1,107 +1,140 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4738F7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Jun 2019 17:55:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 13DBB7D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Jun 2019 18:22:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726526AbfFTRzP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 20 Jun 2019 13:55:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43992 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726523AbfFTRzP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 20 Jun 2019 13:55:15 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 777222053B;
-        Thu, 20 Jun 2019 17:55:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561053314;
-        bh=Q0HE6hDJzQ2OikJgpyS6TE3/enHYzxs952B1kdtn/ho=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Wy2ZF58GPPc+bi2mWXQOYlZdF0/LNldMRGpOxlArsrqWnFtpyMUg0tCi+ai7yScUz
-         P7ouUzRAj8NZD+Znjge3Ov8WpqSl/+uIdIA5otte6kFiK3GqpbI+zqYFPFjzkHQeMw
-         sL1hk0+mjyLBQTtYpHQJuXLQbzBMnq34RKQpbwX0=
-Date:   Thu, 20 Jun 2019 19:55:11 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Johan Hovold <johan@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@s-opensource.com>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Stefan Achatz <erazor_de@users.sourceforge.net>
-Subject: Re: [PATCH 04/14] ABI: better identificate tables
-Message-ID: <20190620175511.GA13038@kroah.com>
-References: <cover.1560477540.git.mchehab+samsung@kernel.org>
- <6bc45c0d5d464d25d4d16eceac48a2f407166944.1560477540.git.mchehab+samsung@kernel.org>
- <20190619125135.GG25248@localhost>
- <20190619105633.7f7315a5@coco.lan>
- <20190619150207.GA19346@kroah.com>
- <20190620120150.GH6241@localhost>
- <20190620125413.GA5170@kroah.com>
- <20190620112034.0d2be447@coco.lan>
- <20190620162945.GC23052@kroah.com>
- <20190620141628.71157dda@coco.lan>
+        id S1726494AbfFTSWt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 20 Jun 2019 14:22:49 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:51908 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727634AbfFTSWq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jun 2019 14:22:46 -0400
+Received: by mail-wm1-f68.google.com with SMTP id 207so4012968wma.1
+        for <linux-doc@vger.kernel.org>; Thu, 20 Jun 2019 11:22:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6W69Du1bctBdAeWrQSZ50pOOXCwaxniMxHy/YbHqEqI=;
+        b=JICpQbU5muSaMtq1JB5VHNGLUk8jq3GGBHMiNUcw23ZBGD91CH2nTZBoRUjsuDGAVT
+         HJIZBXEoJE+TVP+YgbXTHwtMgd2rAmWJxaNZ8RcAgDR9Z1sMjuss+1HsQtsInCd0+03t
+         In0ETrRALkN8OAWS22SMSF+hsKL4ynnzIiMIzZlzKtlmThca1O3VmBMcNird/HI8Yt+u
+         Jf1KYASutl7mZG4sEy8uTBX4FTwS27OgA/SP95K3IQhbIiopmXI2bm+0x0oYHaxSUyiF
+         mT/G68xQfAwPH+DK4LFFzXcsR9mbHRIm+o5AMVNheK8HwJgeIPlOerpn9B8GTjWuqA1P
+         FuYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6W69Du1bctBdAeWrQSZ50pOOXCwaxniMxHy/YbHqEqI=;
+        b=mpKInISnTjZsLQCt6P+x7P76OrRPfHOIXuu9wJkya3OTyBRG1czrRtr9mRf4VNAgTI
+         0EP3rMvEEgJIh/ZZflel20DBiw8j1CVPC5VIxySvtXWKyyEH8OSHtaOgmpVmyWW+KBG5
+         X//9mpHotcMFWOK/mqhotz7cXvA52GGt0PbUTVP6P2p9XYPhOFJ/4LEGPN+JtD0bwePT
+         pEdW6CjP2lmMnbeMhd/RThJ8WBxOmyt56AeqzRylSWowHiW9AMKW8ou4+ihr8Hj+PBc7
+         woiscIavSeYbOT8/VzcjejtZ+GrbzFy1KIxvs7uKOz4f6XtRzG4NUWPXbCUcyZ1mTe9d
+         o/Rw==
+X-Gm-Message-State: APjAAAV5EYgyxeqLsKjig31QpsoqP5TqDaRPppg9LG8/JCeMhBNewuyq
+        dHS7KwLjhHO5CNr4jHCbtyg6L4asaDbfWA5Ng3D4
+X-Google-Smtp-Source: APXvYqztEC3ToiRcw+BN0gYrgLc79Cen4f6cFKKe1+9L7Veg67QIX9zR7+/BxyQbhLEPicpGGpytgYQSxRHRZ1v9Nk0=
+X-Received: by 2002:a1c:1a88:: with SMTP id a130mr556373wma.149.1561054963668;
+ Thu, 20 Jun 2019 11:22:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190620141628.71157dda@coco.lan>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+References: <cover.1561050806.git.mchehab+samsung@kernel.org> <3b8d7c64f887ddea01df3c4eeabc745c8ec45406.1561050806.git.mchehab+samsung@kernel.org>
+In-Reply-To: <3b8d7c64f887ddea01df3c4eeabc745c8ec45406.1561050806.git.mchehab+samsung@kernel.org>
+From:   Bjorn Helgaas <bhelgaas@google.com>
+Date:   Thu, 20 Jun 2019 13:22:31 -0500
+Message-ID: <CAErSpo5+MH4t0OVZkuLykZhiQg-3itaozeXO6v=nnc6e1UvCSw@mail.gmail.com>
+Subject: Re: [PATCH v2 01/22] ABI: sysfs-bus-pci-devices-aer_stats uses an
+ invalid tag
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rajat Jain <rajatja@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 20, 2019 at 02:16:28PM -0300, Mauro Carvalho Chehab wrote:
-> Em Thu, 20 Jun 2019 18:29:45 +0200
-> Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
-> 
-> > On Thu, Jun 20, 2019 at 11:20:34AM -0300, Mauro Carvalho Chehab wrote:
-> > > Em Thu, 20 Jun 2019 14:54:13 +0200
-> > > Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
-> > >   
-> > > > On Thu, Jun 20, 2019 at 02:01:50PM +0200, Johan Hovold wrote:  
-> > > > > > I don't know when "Description" and "RST-Description" would be used.
-> > > > > > Why not just parse "Description" like rst text and if things are "messy"
-> > > > > > we fix them up as found, like you did with the ":" here?  It doesn't
-> > > > > > have to be complex, we can always fix them up after-the-fact if new
-> > > > > > stuff gets added that doesn't quite parse properly.
-> > > > > > 
-> > > > > > Just like we do for most kernel-doc formatting :)    
-> > > > > 
-> > > > > But kernel-doc has a documented format, which was sort of the point I
-> > > > > was trying to make. If the new get_abi.pl scripts expects a colon I
-> > > > > think it should be mentioned somewhere (e.g. Documentation/ABI/README).
-> > > > > 
-> > > > > Grepping for attribute entries in linux-next still reveals a number
-> > > > > descriptions that still lack that colon and use varying formatting. More
-> > > > > are bound to be added later, but perhaps that's ok depending on what
-> > > > > you're aiming at here.    
-> > > > 
-> > > > I'm aiming for "good enough" to start with, and then we can work through
-> > > > the exceptions.
-> > > > 
-> > > > But given that Mauro hasn't resent the script that does the conversion
-> > > > of the files, I don't know if that will even matter... {hint}  
-> > > 
-> > > It sounds I missed something... are you expecting a new version?   
-> > 
-> > Yes, the last round of patches didn't have a SPDX header on the script,
-> > so I couldn't add it to the tree :(
-> 
-> I could swear I sent you a version with SPDX on it... anyway, I'm
-> re-sending the hole thing. The SPDX header addition is on a separate
-> patch.
+On Thu, Jun 20, 2019 at 12:23 PM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
+>
+> According with Documentation/ABI/, the right tag to describe
+> an ABI symbol is "What:", and not "Where:".
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-Ah, you didn't cc: me on the whole thread this time, that's why I missed
-it last time.  I sucked it off lkml now, will look at it in the morning.
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 
-thanks,
+I assume somebody else will merge this series as a whole.
 
-greg k-h
+> ---
+>  .../ABI/testing/sysfs-bus-pci-devices-aer_stats      | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats b/Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats
+> index 4b0318c99507..ff229d71961c 100644
+> --- a/Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats
+> +++ b/Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats
+> @@ -9,7 +9,7 @@ errors may be "seen" / reported by the link partner and not the
+>  problematic endpoint itself (which may report all counters as 0 as it never
+>  saw any problems).
+>
+> -Where:         /sys/bus/pci/devices/<dev>/aer_dev_correctable
+> +What:          /sys/bus/pci/devices/<dev>/aer_dev_correctable
+>  Date:          July 2018
+>  Kernel Version: 4.19.0
+>  Contact:       linux-pci@vger.kernel.org, rajatja@google.com
+> @@ -31,7 +31,7 @@ Header Log Overflow 0
+>  TOTAL_ERR_COR 2
+>  -------------------------------------------------------------------------
+>
+> -Where:         /sys/bus/pci/devices/<dev>/aer_dev_fatal
+> +What:          /sys/bus/pci/devices/<dev>/aer_dev_fatal
+>  Date:          July 2018
+>  Kernel Version: 4.19.0
+>  Contact:       linux-pci@vger.kernel.org, rajatja@google.com
+> @@ -62,7 +62,7 @@ TLP Prefix Blocked Error 0
+>  TOTAL_ERR_FATAL 0
+>  -------------------------------------------------------------------------
+>
+> -Where:         /sys/bus/pci/devices/<dev>/aer_dev_nonfatal
+> +What:          /sys/bus/pci/devices/<dev>/aer_dev_nonfatal
+>  Date:          July 2018
+>  Kernel Version: 4.19.0
+>  Contact:       linux-pci@vger.kernel.org, rajatja@google.com
+> @@ -103,19 +103,19 @@ collectors) that are AER capable. These indicate the number of error messages as
+>  device, so these counters include them and are thus cumulative of all the error
+>  messages on the PCI hierarchy originating at that root port.
+>
+> -Where:         /sys/bus/pci/devices/<dev>/aer_stats/aer_rootport_total_err_cor
+> +What:          /sys/bus/pci/devices/<dev>/aer_stats/aer_rootport_total_err_cor
+>  Date:          July 2018
+>  Kernel Version: 4.19.0
+>  Contact:       linux-pci@vger.kernel.org, rajatja@google.com
+>  Description:   Total number of ERR_COR messages reported to rootport.
+>
+> -Where:     /sys/bus/pci/devices/<dev>/aer_stats/aer_rootport_total_err_fatal
+> +What:      /sys/bus/pci/devices/<dev>/aer_stats/aer_rootport_total_err_fatal
+>  Date:          July 2018
+>  Kernel Version: 4.19.0
+>  Contact:       linux-pci@vger.kernel.org, rajatja@google.com
+>  Description:   Total number of ERR_FATAL messages reported to rootport.
+>
+> -Where:     /sys/bus/pci/devices/<dev>/aer_stats/aer_rootport_total_err_nonfatal
+> +What:      /sys/bus/pci/devices/<dev>/aer_stats/aer_rootport_total_err_nonfatal
+>  Date:          July 2018
+>  Kernel Version: 4.19.0
+>  Contact:       linux-pci@vger.kernel.org, rajatja@google.com
+> --
+> 2.21.0
+>
