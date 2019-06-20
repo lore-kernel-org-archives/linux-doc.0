@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 49B127D2EF
+	by archive.lwn.net (Postfix) with ESMTP id 60F947D8AB
 	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Jun 2019 17:26:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732112AbfFTRXS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1732049AbfFTRXS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Thu, 20 Jun 2019 13:23:18 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:52524 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:52518 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726686AbfFTRXS (ORCPT
+        with ESMTP id S1726637AbfFTRXS (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jun 2019 13:23:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,28 +20,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=C0W3exYft1KrUqFyOJUCPkgo7W6ZH/A+goYD/OL6mwQ=; b=MHaJ1AAp1KTaghNr6IhcV1l7jW
-        XJzUHpIStnpHouqWDla9WQd7GjexetPRqCWlOxLQYce5t2OlojC8B/4TTARwb7E9CHfrFQ2i1Wc5F
-        ZahE+rgwD7d2VwangNt/YzEVoDLay/EgFC+AIObP6e/IXtwSpFStTzYjYYdiVtfXuFeQtATxsQt6t
-        JSkKDmmI59J89xM1b+bkzWTt9QygIOVMARoa6X2lNqCd5PZcSIDe3PRNtgzCRukhPbv+U13SlrOdf
-        k9ws3MxA5EeLIeGojhD0GI27YbJL+aB5dJ6PUJgI10zbb3Aj8T42w0FP6M9tjJSIg9FCeC4a7e/Ur
-        RuHDtZsw==;
+        bh=kU4lZoZk1BRhrx8HkLHCBdk7MNLvQ8R2y7TKkaZGQ4g=; b=ujY5TkevS1etk0JCSCpeRyDZKP
+        N3DknK1I4iP59orW1Cw2sgpGF2IovGn+GOHkjQSpGbsCRgWpU8WHmWtdIn9YIJC42JnXfVEQnbnd2
+        Sk+2WIrn3Bz+RotazySfMNUuD8KKMpBtUfov7g5a0XKoDkhq+wo49Qwkwgxzk65L1UjkLXosfm/IQ
+        HfITDegy0YI1TkkOfHlcTtLR1oaMxnrdbIRwwA+DrkkH0iO/OYxS69R7lbIqjxZKtVwEX+eX0tIWZ
+        K14bBWHJmBIcewjmFiGLqi3j8Gtw5Tf7RWtUp44iAyvKO0Hjt68oE5t6FGBDMtmYnT6O/0DEjPh3B
+        MSSM1MUQ==;
 Received: from [177.97.20.138] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1he0mL-0008Rm-QN; Thu, 20 Jun 2019 17:23:17 +0000
+        id 1he0mL-0008Rn-T0; Thu, 20 Jun 2019 17:23:17 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1he0mJ-0000Cf-HE; Thu, 20 Jun 2019 14:23:15 -0300
+        id 1he0mJ-0000Dl-V9; Thu, 20 Jun 2019 14:23:15 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Rajat Jain <rajatja@google.com>
-Subject: [PATCH v2 01/22] ABI: sysfs-bus-pci-devices-aer_stats uses an invalid tag
-Date:   Thu, 20 Jun 2019 14:22:53 -0300
-Message-Id: <3b8d7c64f887ddea01df3c4eeabc745c8ec45406.1561050806.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v2 17/22] docs: kernel_abi.py: Update copyrights
+Date:   Thu, 20 Jun 2019 14:23:09 -0300
+Message-Id: <6315c1089fc88a123a786e633b574aa0887ef20e.1561050806.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1561050806.git.mchehab+samsung@kernel.org>
 References: <cover.1561050806.git.mchehab+samsung@kernel.org>
@@ -52,68 +50,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-According with Documentation/ABI/, the right tag to describe
-an ABI symbol is "What:", and not "Where:".
+As Markus doesn't want to maintain ths file, update it to
+put me as its maintainer.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- .../ABI/testing/sysfs-bus-pci-devices-aer_stats      | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ Documentation/sphinx/kernel_abi.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats b/Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats
-index 4b0318c99507..ff229d71961c 100644
---- a/Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats
-+++ b/Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats
-@@ -9,7 +9,7 @@ errors may be "seen" / reported by the link partner and not the
- problematic endpoint itself (which may report all counters as 0 as it never
- saw any problems).
+diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
+index 2d5d582207f7..ef91b1e1ff4b 100644
+--- a/Documentation/sphinx/kernel_abi.py
++++ b/Documentation/sphinx/kernel_abi.py
+@@ -7,7 +7,8 @@ u"""
+     Implementation of the ``kernel-abi`` reST-directive.
  
--Where:		/sys/bus/pci/devices/<dev>/aer_dev_correctable
-+What:		/sys/bus/pci/devices/<dev>/aer_dev_correctable
- Date:		July 2018
- Kernel Version: 4.19.0
- Contact:	linux-pci@vger.kernel.org, rajatja@google.com
-@@ -31,7 +31,7 @@ Header Log Overflow 0
- TOTAL_ERR_COR 2
- -------------------------------------------------------------------------
+     :copyright:  Copyright (C) 2016  Markus Heiser
+-    :copyright:  Copyright (C) 2016  Mauro Carvalho Chehab
++    :copyright:  Copyright (C) 2016-2019  Mauro Carvalho Chehab
++    :maintained-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+     :license:    GPL Version 2, June 1991 see Linux/COPYING for details.
  
--Where:		/sys/bus/pci/devices/<dev>/aer_dev_fatal
-+What:		/sys/bus/pci/devices/<dev>/aer_dev_fatal
- Date:		July 2018
- Kernel Version: 4.19.0
- Contact:	linux-pci@vger.kernel.org, rajatja@google.com
-@@ -62,7 +62,7 @@ TLP Prefix Blocked Error 0
- TOTAL_ERR_FATAL 0
- -------------------------------------------------------------------------
- 
--Where:		/sys/bus/pci/devices/<dev>/aer_dev_nonfatal
-+What:		/sys/bus/pci/devices/<dev>/aer_dev_nonfatal
- Date:		July 2018
- Kernel Version: 4.19.0
- Contact:	linux-pci@vger.kernel.org, rajatja@google.com
-@@ -103,19 +103,19 @@ collectors) that are AER capable. These indicate the number of error messages as
- device, so these counters include them and are thus cumulative of all the error
- messages on the PCI hierarchy originating at that root port.
- 
--Where:		/sys/bus/pci/devices/<dev>/aer_stats/aer_rootport_total_err_cor
-+What:		/sys/bus/pci/devices/<dev>/aer_stats/aer_rootport_total_err_cor
- Date:		July 2018
- Kernel Version: 4.19.0
- Contact:	linux-pci@vger.kernel.org, rajatja@google.com
- Description:	Total number of ERR_COR messages reported to rootport.
- 
--Where:	    /sys/bus/pci/devices/<dev>/aer_stats/aer_rootport_total_err_fatal
-+What:	    /sys/bus/pci/devices/<dev>/aer_stats/aer_rootport_total_err_fatal
- Date:		July 2018
- Kernel Version: 4.19.0
- Contact:	linux-pci@vger.kernel.org, rajatja@google.com
- Description:	Total number of ERR_FATAL messages reported to rootport.
- 
--Where:	    /sys/bus/pci/devices/<dev>/aer_stats/aer_rootport_total_err_nonfatal
-+What:	    /sys/bus/pci/devices/<dev>/aer_stats/aer_rootport_total_err_nonfatal
- Date:		July 2018
- Kernel Version: 4.19.0
- Contact:	linux-pci@vger.kernel.org, rajatja@google.com
+     The ``kernel-abi`` (:py:class:`KernelCmd`) directive calls the
 -- 
 2.21.0
 
