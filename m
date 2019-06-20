@@ -1,138 +1,110 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=5.0 tests=MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B2C1E7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Jun 2019 12:02:05 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C523C7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Jun 2019 12:44:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731756AbfFTMBz (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 20 Jun 2019 08:01:55 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:33481 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726404AbfFTMBy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jun 2019 08:01:54 -0400
-Received: by mail-lf1-f65.google.com with SMTP id y17so2270597lfe.0;
-        Thu, 20 Jun 2019 05:01:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=BRGVqdDAlLrmPYJXfuZfdTmGIOTEEoz2JXOrA0UxT1o=;
-        b=TN/XdLoMmmNXu7GZAcYJr72SuWjGfEd7YhU1EMjupV8W5W8/O21C7i6xNGzI7uBidZ
-         VPBYUiGmazOrVJzVjpcAI1xreME0vBk++nULhTuwNEIYY0B7IQfbSiCaJkycm4Hwsvxk
-         v5aFZiKoo9FNR2qij4QEm60AaSqfJhYOGdcIujhebWa5/x+y+usC50jtRIq758YPplzn
-         mJDfrYNW97X5FqvDHouKZ8Nx5Pbw3mGtetUUpaka8ybQxd75c0d5eMwXuhZuMuXHPJUd
-         a0yEt9MdsYy3csFgHCTn1FBIdZoAzVMJDMpANe5hOOkHxLeeCytC3kQwgLgT5gjp2cn2
-         eatQ==
-X-Gm-Message-State: APjAAAVeMgLvaxD9vVoSa45lRvILc0bmfr3i6Sb/wb2FNLdIEZ36Q9IE
-        CM5iZPuq9qAOowpn0TZ7VrY=
-X-Google-Smtp-Source: APXvYqxvmNsFmHQ21fVx417L58yVeoMhaT9HFKYJPlm4j+E7olowKhByqoupjYvxAXFzxm+1nsjSMw==
-X-Received: by 2002:a19:f20d:: with SMTP id q13mr60842699lfh.65.1561032112276;
-        Thu, 20 Jun 2019 05:01:52 -0700 (PDT)
-Received: from xi.terra (c-74bee655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.190.116])
-        by smtp.gmail.com with ESMTPSA id k82sm3481071lje.30.2019.06.20.05.01.51
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 20 Jun 2019 05:01:51 -0700 (PDT)
-Received: from johan by xi.terra with local (Exim 4.92)
-        (envelope-from <johan@kernel.org>)
-        id 1hdvlG-0008CM-9l; Thu, 20 Jun 2019 14:01:50 +0200
-Date:   Thu, 20 Jun 2019 14:01:50 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        id S1726958AbfFTMoG (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 20 Jun 2019 08:44:06 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:39516 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726874AbfFTMoG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jun 2019 08:44:06 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x5KCbcC7024568
+        for <linux-doc@vger.kernel.org>; Thu, 20 Jun 2019 08:44:04 -0400
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 2t89ry9sjj-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Thu, 20 Jun 2019 08:44:04 -0400
+Received: from localhost
+        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
+        Thu, 20 Jun 2019 13:44:02 +0100
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Thu, 20 Jun 2019 13:44:01 +0100
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x5KCi0oO56623122
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 20 Jun 2019 12:44:00 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 13EACA405C;
+        Thu, 20 Jun 2019 12:44:00 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id AFED8A405F;
+        Thu, 20 Jun 2019 12:43:58 +0000 (GMT)
+Received: from rapoport-lnx (unknown [9.148.8.168])
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Thu, 20 Jun 2019 12:43:58 +0000 (GMT)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Thu, 20 Jun 2019 15:43:58 +0300
+From:   Mike Rapoport <rppt@linux.ibm.com>
+To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Johan Hovold <johan@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@s-opensource.com>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Stefan Achatz <erazor_de@users.sourceforge.net>
-Subject: Re: [PATCH 04/14] ABI: better identificate tables
-Message-ID: <20190620120150.GH6241@localhost>
-References: <cover.1560477540.git.mchehab+samsung@kernel.org>
- <6bc45c0d5d464d25d4d16eceac48a2f407166944.1560477540.git.mchehab+samsung@kernel.org>
- <20190619125135.GG25248@localhost>
- <20190619105633.7f7315a5@coco.lan>
- <20190619150207.GA19346@kroah.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190619150207.GA19346@kroah.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+        linux-doc@vger.kernel.org, Mike Rapoport <rppt@linux.ibm.com>
+Subject: [PATCH] scripts/sphinx-pre-install: fix out-of-tree build
+Date:   Thu, 20 Jun 2019 15:43:57 +0300
+X-Mailer: git-send-email 2.7.4
+X-TM-AS-GCONF: 00
+x-cbid: 19062012-0028-0000-0000-0000037C0A37
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19062012-0029-0000-0000-0000243C1C89
+Message-Id: <1561034637-12902-1-git-send-email-rppt@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-06-20_08:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1906200093
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 19, 2019 at 05:02:07PM +0200, Greg Kroah-Hartman wrote:
-> On Wed, Jun 19, 2019 at 10:56:33AM -0300, Mauro Carvalho Chehab wrote:
-> > Hi Johan,
-> > 
-> > Em Wed, 19 Jun 2019 14:51:35 +0200
-> > Johan Hovold <johan@kernel.org> escreveu:
-> > 
-> > > On Thu, Jun 13, 2019 at 11:04:10PM -0300, Mauro Carvalho Chehab wrote:
-> > > > From: Mauro Carvalho Chehab <mchehab@s-opensource.com>
-> > > > 
-> > > > When parsing via script, it is important to know if the script
-> > > > should consider a description as a literal block that should
-> > > > be displayed as-is, or if the description can be considered
-> > > > as a normal text.
-> > > > 
-> > > > Change descriptions to ensure that the preceding line of a table
-> > > > ends with a colon. That makes easy to identify the need of a
-> > > > literal block.  
-> > > 
-> > > In the cover letter you say that the first four patches of this series,
-> > > including this one, "fix some ABI descriptions that are violating the
-> > > syntax described at Documentation/ABI/README". This seems a bit harsh,
-> > > given that it's you that is now *introducing* a new syntax requirement
-> > > to assist your script.
-> > 
-> > Yeah, what's there at the cover letter doesn't apply to this specific
-> > patch. The thing is that I wrote this series a lot of time ago (2016/17).
+Build of htmldocs fails for out-of-tree builds:
 
-Got it, thanks.
+$ make V=1 O=~/build/kernel/ htmldocs
+make -C /home/rppt/build/kernel -f /home/rppt/git/linux-docs/Makefile htmldocs
+make[1]: Entering directory '/home/rppt/build/kernel'
+make -f /home/rppt/git/linux-docs/scripts/Makefile.build obj=scripts/basic
+rm -f .tmp_quiet_recordmcount
+make -f /home/rppt/git/linux-docs/scripts/Makefile.build obj=Documentation htmldocs
+Can't open Documentation/conf.py at /home/rppt/git/linux-docs/scripts/sphinx-pre-install line 230.
+/home/rppt/git/linux-docs/Documentation/Makefile:80: recipe for target 'htmldocs' failed
+make[2]: *** [htmldocs] Error 2
 
-[...]
+The scripts/sphinx-pre-install is trying to open files in the current
+directory which is $KBUILD_OUTPUT rather than in $srctree.
 
-> > In the specific case of this patch, the ":" there actually makes sense
-> > for someone that it is reading it as a text file, and it is an easy
-> > hack to make it parse better.
+Fix it.
 
-Human readers probably depend on more on tabulation and white space.
-When the preceding description wasn't using a colon to begin with (and
-you just replace s/\./:/) it can even look weird, but no big deal.
+Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+---
+ scripts/sphinx-pre-install | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-> > > Specifically, this new requirement isn't documented anywhere AFAICT, so
-> > > how will anyone adding new ABI descriptions learn about it?
-> > 
-> > Yeah, either that or provide an alternative to "Description" tag, to be
-> > used with more complex ABI descriptions.
-> > 
-> > One of the things that occurred to me, back on 2017, is that we should
-> > have a way to to specify that an specific ABI description would have
-> > a rich format. Something like:
+diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+index 0b44d51..f710bbd 100755
+--- a/scripts/sphinx-pre-install
++++ b/scripts/sphinx-pre-install
+@@ -5,8 +5,9 @@ use strict;
+ # Copyright (c) 2017-2019 Mauro Carvalho Chehab <mchehab@kernel.org>
+ #
+ 
+-my $conf = "Documentation/conf.py";
+-my $requirement_file = "Documentation/sphinx/requirements.txt";
++my $prefix = "$ENV{'srctree'}/";
++my $conf = $prefix . "Documentation/conf.py";
++my $requirement_file = $prefix . "Documentation/sphinx/requirements.txt";
+ my $virtenv_prefix = "sphinx_";
+ 
+ #
+-- 
+2.7.4
 
-[...]
-
-> I don't know when "Description" and "RST-Description" would be used.
-> Why not just parse "Description" like rst text and if things are "messy"
-> we fix them up as found, like you did with the ":" here?  It doesn't
-> have to be complex, we can always fix them up after-the-fact if new
-> stuff gets added that doesn't quite parse properly.
-> 
-> Just like we do for most kernel-doc formatting :)
-
-But kernel-doc has a documented format, which was sort of the point I
-was trying to make. If the new get_abi.pl scripts expects a colon I
-think it should be mentioned somewhere (e.g. Documentation/ABI/README).
-
-Grepping for attribute entries in linux-next still reveals a number
-descriptions that still lack that colon and use varying formatting. More
-are bound to be added later, but perhaps that's ok depending on what
-you're aiming at here.
-
-Johan
