@@ -3,16 +3,16 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E5A9E7D910
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Jun 2019 17:25:32 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 1CF717D926
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Jun 2019 17:25:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732366AbfFTRYO (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 20 Jun 2019 13:24:14 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:52578 "EHLO
+        id S1726867AbfFTRZT (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 20 Jun 2019 13:25:19 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:52574 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732166AbfFTRXT (ORCPT
+        with ESMTP id S1732155AbfFTRXT (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jun 2019 13:23:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,26 +20,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=586q93trGkcGISVFlxTu0MYtP/Zjkyx9dVxOsh9CY3I=; b=HvXDP2bzaC9H2iftsZKuOSiOO0
-        dCcmrjehgibvlvWR2SQVybSQa1RkxRfNxp4LnpIMG2PApfnSFZbqxxslFU6gN/EbyEfum7Y6UZuZU
-        Q1NJ7A6KUo7L8ffz+/bmAEvgQqWKqZTLf2qBNIWWM5SF7y68bft8jENFGsx7zxXMh8TJe5yMACVZE
-        BgysKCDiK0oT/CE5/misbHNdIlb2mOGtQMwOCHaE1DrXpFpYywaG+fHVsi6O4DsEEvLynvApuBAyt
-        YjmN5pKnXpejO7zVbkAInAZ1tvjvuMceMfg3zhPVaQPCwjonis0OYl2Acm9MGlrTt6YGByAG/Y/ok
-        JF7fnqCw==;
+        bh=FociWLakoZ+8To2zv3/tt7eXrQHxKyGo8THcaHAtO7Q=; b=S8ZNtNr52BE4rZAEFXY58sn9rw
+        TNCKgArSvKnw1rvmONqPycw3LSgNbDU+YWO2mcvDBrD7Jp01rnFzx9IIrP0J5dzX9gw6TwqzMJxeu
+        Q35+1iiZ6PB5zG0gIgn0HMHcRYrXlvy345A7o6rpZHfsfu0BeVRLTa3/Is/rPQmZ4TrIFLXBviMGn
+        iyTLq+c/kWrRcdCQh8v0VIH235kdU93tUkcrjmWoEeCLIwcMerV3NSmWG1bDokT3CyHpAxGJYfPPp
+        JAtTvaaM3hM74HyoJMqnTFLgtteU0/JdskA6g0h+Jqw1BlSPwfSI+oXMnagEmzQY1PigqVzdcxSGS
+        1gbWNtTg==;
 Received: from [177.97.20.138] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1he0mM-0008Rt-Dj; Thu, 20 Jun 2019 17:23:18 +0000
+        id 1he0mM-0008Ru-AK; Thu, 20 Jun 2019 17:23:18 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1he0mJ-0000DO-R5; Thu, 20 Jun 2019 14:23:15 -0300
+        id 1he0mJ-0000D0-MH; Thu, 20 Jun 2019 14:23:15 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2 12/22] scripts/get_abi.pl: add a validate command
-Date:   Thu, 20 Jun 2019 14:23:04 -0300
-Message-Id: <d4c24e9ceb8f2f9bbabf663a7fa1caf365f286e2.1561050806.git.mchehab+samsung@kernel.org>
+Subject: [PATCH v2 06/22] scripts/get_abi.pl: split label naming from xref logic
+Date:   Thu, 20 Jun 2019 14:22:58 -0300
+Message-Id: <a94701a22320efb500c016620996380cc2d4ae48.1561050806.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1561050806.git.mchehab+samsung@kernel.org>
 References: <cover.1561050806.git.mchehab+samsung@kernel.org>
@@ -50,81 +50,181 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sometimes, we just want the parser to retrieve all symbols from
-ABI, in order to check for parsing errors. So, add a new
-"validate" command.
+Instead of using a ReST compilant label while parsing,
+move the label to ReST output. That makes the parsing logic
+more generic, allowing it to provide other types of output.
 
-While here, update the man/help pages.
+As a side effect, now all files used to generate the output
+will be output. We can later add command line arguments to
+filter.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- scripts/get_abi.pl | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ scripts/get_abi.pl | 94 ++++++++++++++++++++++++++--------------------
+ 1 file changed, 53 insertions(+), 41 deletions(-)
 
 diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-index c5038a0a7313..774e9b809ead 100755
+index 0ede9593c639..f84d321a72bb 100755
 --- a/scripts/get_abi.pl
 +++ b/scripts/get_abi.pl
-@@ -25,7 +25,7 @@ pod2usage(2) if (scalar @ARGV < 1 || @ARGV > 2);
+@@ -49,17 +49,23 @@ sub parse_abi {
+ 	my $name = $file;
+ 	$name =~ s,.*/,,;
  
- my ($cmd, $arg) = @ARGV;
++	my $nametag = "File $name";
++	$data{$nametag}->{what} = "File $name";
++	$data{$nametag}->{type} = "File";
++	$data{$nametag}->{file} = $name;
++	$data{$nametag}->{is_file} = 1;
++
+ 	my $type = $file;
+ 	$type =~ s,.*/(.*)/.*,$1,;
  
--pod2usage(2) if ($cmd ne "search" && $cmd ne "rest");
-+pod2usage(2) if ($cmd ne "search" && $cmd ne "rest" && $cmd ne "validate");
- pod2usage(2) if ($cmd eq "search" && !$arg);
+ 	my $what;
+ 	my $new_what;
+ 	my $tag;
+-	my $label;
+ 	my $ln;
+-	my $has_file;
+ 	my $xrefs;
+ 	my $space;
++	my @labels;
++	my $label;
  
- require Data::Dumper if ($debug);
-@@ -82,7 +82,7 @@ sub parse_abi {
- 			my $sep = $2;
- 			my $content = $3;
+ 	print STDERR "Opening $file\n" if ($debug > 1);
+ 	open IN, $file;
+@@ -88,28 +94,13 @@ sub parse_abi {
+ 					parse_error($file, $ln, "What '$what' doesn't have a description", "") if ($what && !$data{$what}->{description});
  
--			if (!($new_tag =~ m/(what|date|kernelversion|contact|description|users)/)) {
-+			if (!($new_tag =~ m/(what|where|date|kernelversion|contact|description|users)/)) {
- 				if ($tag eq "description") {
- 					# New "tag" is actually part of
- 					# description. Don't consider it a tag
-@@ -368,7 +368,7 @@ print STDERR Data::Dumper->Dump([\%data], [qw(*data)]) if ($debug);
- #
- if ($cmd eq "rest") {
- 	output_rest;
--} else {
-+} elsif ($cmd eq "search") {
- 	search_symbols;
+ 					$what = $content;
++					$label = $content;
+ 					$new_what = 1;
+ 				}
++				push @labels, [($content, $label)];
+ 				$tag = $new_tag;
+ 
+-				if ($has_file) {
+-					$label = "abi_" . $content . " ";
+-					$label =~ tr/A-Z/a-z/;
+-
+-					# Convert special chars to "_"
+-					$label =~s/[\x00-\x2f]+/_/g;
+-					$label =~s/[\x3a-\x40]+/_/g;
+-					$label =~s/[\x7b-\xff]+/_/g;
+-					$label =~ s,_+,_,g;
+-					$label =~ s,_$,,;
+-
+-					$data{$what}->{label} .= $label;
+-
+-					# Escape special chars from content
+-					$content =~s/([\x00-\x1f\x21-\x2f\x3a-\x40\x7b-\xff])/\\$1/g;
+-
+-					$xrefs .= "- :ref:`$content <$label>`\n\n";
+-				}
++				push @{$data{$nametag}->{xrefs}}, [($content, $label)] if ($data{$nametag}->{what});
+ 				next;
+ 			}
+ 
+@@ -117,6 +108,9 @@ sub parse_abi {
+ 				$tag = $new_tag;
+ 
+ 				if ($new_what) {
++					@{$data{$what}->{label}} = @labels if ($data{$nametag}->{what});
++					@labels = ();
++					$label = "";
+ 					$new_what = 0;
+ 
+ 					$data{$what}->{type} = $type;
+@@ -145,15 +139,8 @@ sub parse_abi {
+ 		}
+ 
+ 		# Store any contents before tags at the database
+-		if (!$tag) {
+-			next if (/^\n/);
+-
+-			my $my_what = "File $name";
+-			$data{$my_what}->{what} = "File $name";
+-			$data{$my_what}->{type} = "File";
+-			$data{$my_what}->{file} = $name;
+-			$data{$my_what}->{description} .= $_;
+-			$has_file = 1;
++		if (!$tag && $data{$nametag}->{what}) {
++			$data{$nametag}->{description} .= $_;
+ 			next;
+ 		}
+ 
+@@ -192,12 +179,8 @@ sub parse_abi {
+ 		# Everything else is error
+ 		parse_error($file, $ln, "Unexpected line:", $_);
+ 	}
++	$data{$nametag}->{description} =~ s/^\n+//;
+ 	close IN;
+-
+-	if ($has_file) {
+-		my $my_what = "File $name";
+-		$data{$my_what}->{xrefs} = $xrefs;
+-	}
  }
  
-@@ -381,7 +381,7 @@ abi_book.pl - parse the Linux ABI files and produce a ReST book.
+ # Outputs the output on ReST format
+@@ -212,11 +195,22 @@ sub output_rest {
+ 		my $bar = $w;
+ 		$bar =~ s/./-/g;
  
- =head1 SYNOPSIS
- 
--B<abi_book.pl> [--debug] <COMAND> [<ARGUMENT>]
-+B<abi_book.pl> [--debug] [--man] [--help] [--dir=<dir>] <COMAND> [<ARGUMENT>]
- 
- Where <COMMAND> can be:
- 
-@@ -389,7 +389,9 @@ Where <COMMAND> can be:
- 
- B<search> [SEARCH_REGEX] - search for [SEARCH_REGEX] inside ABI
- 
--B<rest>   - output the ABI in ReST markup language
-+B<rest>                  - output the ABI in ReST markup language
+-		if ($data{$what}->{label}) {
+-			my @labels = split(/\s/, $data{$what}->{label});
+-			foreach my $label (@labels) {
+-				printf ".. _%s:\n\n", $label;
+-			}
++		foreach my $p (@{$data{$what}->{label}}) {
++			my ($content, $label) = @{$p};
++			$label = "abi_" . $label . " ";
++			$label =~ tr/A-Z/a-z/;
 +
-+B<validate>              - validate the ABI contents
++			# Convert special chars to "_"
++			$label =~s/([\x00-\x2f\x3a-\x40\x5b-\x60\x7b-\xff])/_/g;
++			$label =~ s,_+,_,g;
++			$label =~ s,_$,,;
++
++			$data{$what}->{label} .= $label;
++
++			printf ".. _%s:\n\n", $label;
++
++			# only one label is enough
++			last;
+ 		}
  
- =back
+ 		print "$w\n$bar\n\n";
+@@ -243,10 +237,28 @@ sub output_rest {
+ 				print "$desc\n\n";
+ 			}
+ 		} else {
+-			print "DESCRIPTION MISSING for $what\n\n";
++			print "DESCRIPTION MISSING for $what\n\n" if (!$data{$what}->{is_file});
+ 		}
  
-@@ -451,11 +453,11 @@ $ scripts/get_abi.pl rest --dir Documentation/ABI/obsolete
- 
- =head1 BUGS
- 
--Report bugs to Mauro Carvalho Chehab <mchehab@s-opensource.com>
-+Report bugs to Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
- 
- =head1 COPYRIGHT
- 
--Copyright (c) 2016-2017 by Mauro Carvalho Chehab <mchehab@s-opensource.com>.
-+Copyright (c) 2016-2019 by Mauro Carvalho Chehab <mchehab+samsung@kernel.org>.
- 
- License GPLv2: GNU GPL version 2 <http://gnu.org/licenses/gpl.html>.
+-		printf "Has the following ABI:\n\n%s", $data{$what}->{xrefs} if ($data{$what}->{xrefs});
++		if ($data{$what}->{xrefs}) {
++			printf "Has the following ABI:\n\n";
++
++			foreach my $p(@{$data{$what}->{xrefs}}) {
++				my ($content, $label) = @{$p};
++				$label = "abi_" . $label . " ";
++				$label =~ tr/A-Z/a-z/;
++
++				# Convert special chars to "_"
++				$label =~s/([\x00-\x2f\x3a-\x40\x5b-\x60\x7b-\xff])/_/g;
++				$label =~ s,_+,_,g;
++				$label =~ s,_$,,;
++
++				# Escape special chars from content
++				$content =~s/([\x00-\x1f\x21-\x2f\x3a-\x40\x7b-\xff])/\\$1/g;
++
++				print "- :ref:`$content <$label>`\n\n";
++			}
++		}
+ 	}
+ }
  
 -- 
 2.21.0
