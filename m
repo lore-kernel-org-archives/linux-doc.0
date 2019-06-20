@@ -6,87 +6,97 @@ X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
 	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CD19C7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Jun 2019 08:37:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id B434B7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Jun 2019 08:44:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726082AbfFTIhq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 20 Jun 2019 04:37:46 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:43930 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726081AbfFTIhq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jun 2019 04:37:46 -0400
-Received: by mail-lf1-f66.google.com with SMTP id j29so1786270lfk.10;
-        Thu, 20 Jun 2019 01:37:44 -0700 (PDT)
+        id S1725925AbfFTIoB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 20 Jun 2019 04:44:01 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:41958 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725875AbfFTIoB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jun 2019 04:44:01 -0400
+Received: by mail-io1-f66.google.com with SMTP id w25so443092ioc.8;
+        Thu, 20 Jun 2019 01:44:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wd7GiCQM8lenqTJUOIcXTj7Cl91pjK/khn5nN598vIg=;
-        b=uROPwNcNTJqAQG0/+kFLBBKVf+WoVVIwEVSI5tLTUrF7LMwmhylDtvhbKkbD2M6n4A
-         TnyB3prmmqSGH5yg9xQLybKYZxb6+CzMMKFkwYkzdfNFLrIivGQLaaMYFmuLyLxsl1ua
-         bIoTwZ9z8+UZ+KahQwv4r0lY4WZHTXA5HFbHNxCk39h7eoPjHUTw9TFZ7swNyxwboJyD
-         jY1oTdznM72mGWYF26b5GSpW3tor1LqcW3FkN1tvdl7HIHoRE9yMDeirigsAqOXV5dm3
-         znkyc9zJpwDn+ACidqqspXSExcbMuWqbYFZYEpi9m333xDvAjYt0JdYn9mbOsQKJ2zUG
-         IJ9Q==
+         :cc:content-transfer-encoding;
+        bh=gCb8MwruH8dKbWAubDWJguVrt49ZLagCriEvdjUA1WU=;
+        b=Vktv+Nnvh9ds+F3HFYArj+H76hfSKDTtGli8022H77ngVSBouxPFNwqTouEdE3vKpE
+         /+9BVmq4pmjw+6uQqfPuh2gK675a58Hk72VvzXz3vUmXeTDogZRT6zptL0A+hsQjWNfh
+         rVp6xLhXFdxuWHvOqMTVtvqPcOLM/EBIKQ6nzvlnTtuhFT7O66Ik0IpKaxn87mGtVT/A
+         3/z4ci2C9enNG1cSrI0Fkibr2IilAxPHzDhrFw+FKMWLiEG2dwcQ7oi622JRTFcpEkYU
+         +jS/zfSFrBAIEOQS3cvrmqD6opLlHc7GYB5VFS+fafHQsCvqlRCbahT+R7wNs7zdz2DO
+         zfpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wd7GiCQM8lenqTJUOIcXTj7Cl91pjK/khn5nN598vIg=;
-        b=G9G2JFHwOyq8IDpP0JgxAVXRn+gMndiYnr0tH8qlq/gVYD5rpGD/pyeZSHKffaikB3
-         jLwjjJNCQqBZKyfh9RE8Tb/s+Uc8/m8dM0qXQV2wH8KbsLxqaso9KskIfURUKNQauYrd
-         rTuigTYkv33fvOxwurjioGKVd3S+LYZq0fDyuNQwWavtBabFV1zA04a0ur9IcJudiq3B
-         NTMpiDT5zTP+68TE7F1vtv13b/6iyJAq28Hn+k2UdobG5QO6TrAekR2xyJginUPGZ041
-         m7JmBP6BCPYg+PfGuNaKS/3M3z0UmnS+M5pWh4ZKm8r/LljaUD+r0EGfOsI4WDEu6rJp
-         JAnA==
-X-Gm-Message-State: APjAAAVDl5KVDYIIeiVya/d+9ZxXlOHbXLZN4CX6pEAFOKAZzfCxRc+C
-        6zhVfuWqPI5xEbwcxZFMknJfHXJx8hZonDzxaGBplb8i
-X-Google-Smtp-Source: APXvYqwUeG/IbxPt0AU798ZtGxOv7ueKTuOTf1lRMOiUH38RoZgvNZkd38TqiqzpU8ogg8c9rQAvqztPwICLvXH9AxM=
-X-Received: by 2002:ac2:4466:: with SMTP id y6mr2477936lfl.0.1561019864061;
- Thu, 20 Jun 2019 01:37:44 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=gCb8MwruH8dKbWAubDWJguVrt49ZLagCriEvdjUA1WU=;
+        b=B0ArAyGQ9xEkMqnD3XbXWtWZeyHGlKr9o181yFnYRhsUpd4UsRDTjAVTDZZbt69a/Z
+         A/pO/sa9ENLHvhV7PV4AQEgG4/6JDYXYxVsnYxaV8Di4B5qgGlnfMaABvnl+0PtDIOAl
+         ev2V31qmlao5vyCWDqiJWlTj2Bu0GGyWto5Vbf0tS1E8BbyUonjmS1VkjM82rV9m17+E
+         0HkEopl4pMkFtiB9VAOZTXH6ot1TD5r1wTbtlkAaNuMHzomBQnxnKXxdov9D7tmnS9yc
+         7i5dXlWEiPk16qasOokZIoJt5btdfRuKx49aqqQMNAT7qeYnmfJyMskgYmY7Mov9gsQL
+         yIvg==
+X-Gm-Message-State: APjAAAV4WugdBTA0fEqp5RFdEeS5+6EZ7+gf438Pi3VWPEkKauVB8REN
+        H3uN7t3xHzk5tXSOBlzRPFXLT9HpU2YKi+664ag=
+X-Google-Smtp-Source: APXvYqw2fVXqZFI1UAjff2P6BLRNnHwF8/qus3xVE14eeP/DMtKrOAjmBQZ8KIC+qO1xuPhi+v/Txq3ckXpJwmsrqrM=
+X-Received: by 2002:a6b:7b01:: with SMTP id l1mr18358947iop.60.1561020240102;
+ Thu, 20 Jun 2019 01:44:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1560890800.git.mchehab+samsung@kernel.org>
- <3da3e0379da562d703e6896ded6a7839d1272494.1560890800.git.mchehab+samsung@kernel.org>
- <CANiq72kibf49R+QtUjqcttGiNr4kxBqc0TxSe+HdrQUahTxgng@mail.gmail.com> <20190618201455.04e8743d@coco.lan>
-In-Reply-To: <20190618201455.04e8743d@coco.lan>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Thu, 20 Jun 2019 10:37:33 +0200
-Message-ID: <CANiq72k+y9a6Ct8AOxkc663ULJ7Q=0uqQzKCBx+PkiYnEuu6AA@mail.gmail.com>
-Subject: Re: [PATCH v2 02/29] docs: lcd-panel-cgram.txt: convert docs to ReST
- and rename to *.rst
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
+References: <8a9ffb4b-791d-35d1-bb2a-7b6ad812bff1@ideasonboard.com>
+ <20190620081142.31302-1-e5ten.arch@gmail.com> <20190620082557.GB28346@zn.tnic>
+In-Reply-To: <20190620082557.GB28346@zn.tnic>
+From:   Ethan Sommer <e5ten.arch@gmail.com>
+Date:   Thu, 20 Jun 2019 04:43:49 -0400
+Message-ID: <CAMEGPiqgoscn-20gDyrQOBYdbfzdimu91Dw0WLEjLKs+u5KSEA@mail.gmail.com>
+Subject: Re: [PATCH v2] replace timeconst bc script with an sh script
+To:     Borislav Petkov <bp@suse.de>
+Cc:     hpa@zytor.com, Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Joe Perches <joe@perches.com>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Ingo Molnar <mingo@kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Corey Minyard <cminyard@mvista.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 19, 2019 at 1:15 AM Mauro Carvalho Chehab
-<mchehab+samsung@kernel.org> wrote:
->
-> Yeah, the plan is to move all text files inside Documentation/ to .rst[1].
->
-> [1] There are some exceptions: for ABI and features, the current plan
-> is to have a script that parses their strict formats and produce
-> a ReST output.
->
->
-> Btw, Still pending to be sent, I have already a patch removing the
-> :orphan: from this file and adding it to the admin guide:
->
->         https://git.linuxtv.org/mchehab/experimental.git/commit/?h=convert_rst_renames_v5.1&id=eae5b48cab115c83be8dd59ee99b9e45f8142134
->
-> And the corresponding output, after the patches I currently have:
->
->         https://www.infradead.org/~mchehab/rst_conversion/admin-guide/lcd-panel-cgram.html
+(resend because I didn't know gmail would make it html)
+Ah sorry about that, I accidentally replied to Kieran only instead of
+to all, my response was "I will upload a patch with those issues fixed
+shortly, in terms of the dependency as far as I know commands only required
+for running tests don't count as kernel compilation dependencies, and I
+don't see any other uses of bc except for Documentation/EDID/Makefile, so
+I believe that bc can be removed from the kernel compilation section of the
+process document and will include that change with the updated patch that
+fixes the 2 issues you pointed out."
 
-Thanks for the pointers! I guess you will take all these
-patches/series on your tree(s), but if you want maintainers to do it,
-please let me know!
-
-Cheers,
-Miguel
+On Thu, Jun 20, 2019 at 4:26 AM Borislav Petkov <bp@suse.de> wrote:
+>
+> On Thu, Jun 20, 2019 at 04:11:32AM -0400, Ethan Sommer wrote:
+> > removes the bc build dependency introduced when timeconst.pl was
+> > replaced by timeconst.bc:
+> > 70730bca1331 ("kernel: Replace timeconst.pl with a bc script")
+>
+> I don't see you answering Kieran's questions anywhere...
+>
+> --
+> Regards/Gruss,
+>     Boris.
+>
+> SUSE Linux GmbH, GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah, HR=
+B 21284 (AG N=C3=BCrnberg)
