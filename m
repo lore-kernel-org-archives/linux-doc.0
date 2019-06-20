@@ -1,288 +1,239 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 960B47D910
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Jun 2019 01:18:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E9B0E7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Jun 2019 02:24:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731079AbfFTBR4 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 19 Jun 2019 21:17:56 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:37262 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726211AbfFTBR4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jun 2019 21:17:56 -0400
-Received: by mail-pg1-f196.google.com with SMTP id 145so632654pgh.4;
-        Wed, 19 Jun 2019 18:17:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=sQXeyT1HOJUOTqXAfF30wa5tl07vfC8Ho8QPiu+AUmU=;
-        b=dz6cdwV/r75OnNKrL4gx8ZRnk9eJQrLc/XBVO5bKEiireDO4wNHpYHyldvXT0EiuWu
-         ppu0kJyuD01pJK/yY9Sc0cQhFYNiWllaL1gpz4dsQcDPbgsuvQg1xo52piKPAn76gKBC
-         08KBlwLQD/7WXZP9lcR2CJZtKaIFgJp0o4DAqo0v7DD0wD/oC8Z+0svZ/DpC5eB0IaQR
-         532N8xHNVBADse1U1xTBdS0Hj/MtV1ZUgC2nk9tHgitGiz/gXQTMK9tavkBvV+CTU0q2
-         k2Jn4dRSzsT8pQkXYEQbifzzrrxW+LHoOuvERF7zWX2TOhYnTCG3Sx2neEgKQvOSr3rn
-         D3RA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=sQXeyT1HOJUOTqXAfF30wa5tl07vfC8Ho8QPiu+AUmU=;
-        b=kTITNNveMmy2IVphqXImq2/VN9y2LMycOe7FoJum4y631pXEoUYA6a1/oXolGduszb
-         GkBquoscQATNfDcGX96NCoLMkdFRjoiRfY89zRE/M9fwYoizYDwbVzJVKoRt3cFhpp7t
-         cR9KAMXTZaS4pL2JCAVGVKJRcMxOTDmpJwBwAoV6m9DiDtdH2Q5D1qWVUHdNMbjtK0iJ
-         uYftcst826TUSm3iu70EsTvemZOddkPBbVr8vHI+j7Dp4v+o0fNzIfUVpwhwmkqfRCOO
-         MKFAaPz6dH2MLGGsGe1UCtv3buSJhe2tOCXn+wXKPH10jz0F2mAqO1jGlpHWgm+kFE8K
-         kHXA==
-X-Gm-Message-State: APjAAAXCDOc8lPXmF1eDe/fahHamtkQ8IPCN/vSw1PURrKbH1ZLafrCd
-        M1fzB4nGQuUOCzGRHy+k64E=
-X-Google-Smtp-Source: APXvYqzdMj4/FazAQbDL48xqo25QTSXAVT2QkZe8UL8Q+0fAHJYZrYbIiEtG6+Jk3rLvO3Ba2D4w/A==
-X-Received: by 2002:a63:5a1f:: with SMTP id o31mr10331504pgb.254.1560993475116;
-        Wed, 19 Jun 2019 18:17:55 -0700 (PDT)
-Received: from [192.168.1.70] (c-24-6-192-50.hsd1.ca.comcast.net. [24.6.192.50])
-        by smtp.gmail.com with ESMTPSA id l68sm3115863pjb.8.2019.06.19.18.17.52
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 19 Jun 2019 18:17:54 -0700 (PDT)
-Subject: Re: [PATCH v5 00/18] kunit: introduce KUnit, the Linux kernel unit
- testing framework
-To:     Brendan Higgins <brendanhiggins@google.com>,
-        gregkh@linuxfoundation.org, jpoimboe@redhat.com,
-        keescook@google.com, kieran.bingham@ideasonboard.com,
-        mcgrof@kernel.org, peterz@infradead.org, robh@kernel.org,
-        sboyd@kernel.org, shuah@kernel.org, tytso@mit.edu,
-        yamada.masahiro@socionext.com
-Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
-        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
-        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
-        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
-        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
-        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
-        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
-        wfg@linux.intel.com
-References: <20190617082613.109131-1-brendanhiggins@google.com>
-From:   Frank Rowand <frowand.list@gmail.com>
-Message-ID: <10feac3e-7621-65e5-fbf0-9c63fcbe09c9@gmail.com>
-Date:   Wed, 19 Jun 2019 18:17:51 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1731264AbfFTCYH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Wed, 19 Jun 2019 22:24:07 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:59062 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726370AbfFTCYH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jun 2019 22:24:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=db6JPvpCz3hoflV8W037Dtn2xhi+L6YV1HcCa4+XjBQ=; b=qtscGbxxnS1WBhq+OUuuJ2LOZ
+        4Qam1Qp8bSyIqMh7MF2RTJ9QcJfagUtjCQHlXYpaRIrkH/UjW2ENTOHgio8ydFetcRNpKSnPL9lB5
+        Zu3VGbIe0tlkbgj7NkF5NMGmxSqYtzFwr0Toej8TG2DfN6ooBNNxNwOiBnMHyL6aQra4UbVx9KAkR
+        QZrkmpZedHBzDjrBSEc3gDdiw2rbWQWHLCXk+xKsOoBZJBPTDbVCLyb7/V7ti1Tt9Xb51aUhtiWuX
+        5tSD944M17TrUs1dxdV4Rlx8+8aNnPOoU+ebzu8L8t8ic1EYm2PAKx5epCNkHrsy+COEhrsWSS34p
+        9QkwSKZdQ==;
+Received: from 177.133.86.196.dynamic.adsl.gvt.net.br ([177.133.86.196] helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hdmkA-0001Ik-0I; Thu, 20 Jun 2019 02:24:06 +0000
+Date:   Wed, 19 Jun 2019 23:24:02 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 12/22] docs: driver-api: add .rst files from the main
+ dir
+Message-ID: <20190619232402.20970470@coco.lan>
+In-Reply-To: <20190619212753.GQ3419@hirez.programming.kicks-ass.net>
+References: <cover.1560890771.git.mchehab+samsung@kernel.org>
+        <b0d24e805d5368719cc64e8104d64ee9b5b89dd0.1560890772.git.mchehab+samsung@kernel.org>
+        <20190619114356.GP3419@hirez.programming.kicks-ass.net>
+        <20190619101922.04340605@coco.lan>
+        <20190619212753.GQ3419@hirez.programming.kicks-ass.net>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20190617082613.109131-1-brendanhiggins@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Brendan,
+Em Wed, 19 Jun 2019 23:27:53 +0200
+Peter Zijlstra <peterz@infradead.org> escreveu:
 
-I am only responding to this because you asked me to in the v4 thread.
+> On Wed, Jun 19, 2019 at 10:19:22AM -0300, Mauro Carvalho Chehab wrote:
+> > (c/c list cleaned)
+> > 
+> > Em Wed, 19 Jun 2019 13:43:56 +0200
+> > Peter Zijlstra <peterz@infradead.org> escreveu:
+> >   
+> > > On Tue, Jun 18, 2019 at 05:53:17PM -0300, Mauro Carvalho Chehab wrote:
+> > >   
+> > > >  .../{ => driver-api}/atomic_bitops.rst        |  2 -    
+> > > 
+> > > That's a .txt file, big fat NAK for making it an rst.  
+> > 
+> > Rst is a text file. This one is parsed properly by Sphinx without
+> > any changes.  
+> 
+> In my tree it is a .txt file, I've not seen patches changing it. And I
+> disagree, rst is just as much 'a text file' as .c is.
 
-Thank you for evaluating my comments in the v4 thread and asking me to
-comment on v5
+ReStructured text is just text with a stricter style + some commands,
+if the text author wants to enhance it.
 
-On 6/17/19 1:25 AM, Brendan Higgins wrote:
-> ## TL;DR
-> 
-> A not so quick follow-up to Stephen's suggestions on PATCH v4. Nothing
-> that really changes any functionality or usage with the minor exception
-> of a couple public functions that Stephen asked me to rename.
-> Nevertheless, a good deal of clean up and fixes. See changes below.
-> 
-> As for our current status, right now we got Reviewed-bys on all patches
-> except:
-> 
-> - [PATCH v5 08/18] objtool: add kunit_try_catch_throw to the noreturn
->   list
-> 
-> However, it would probably be good to get reviews/acks from the
-> subsystem maintainers on:
-> 
-> - [PATCH v5 06/18] kbuild: enable building KUnit
-> - [PATCH v5 08/18] objtool: add kunit_try_catch_throw to the noreturn
->   list
-> - [PATCH v5 15/18] Documentation: kunit: add documentation for KUnit
-> - [PATCH v5 17/18] kernel/sysctl-test: Add null pointer test for
->   sysctl.c:proc_dointvec()
-> - [PATCH v5 18/18] MAINTAINERS: add proc sysctl KUnit test to PROC
->   SYSCTL section
-> 
-> Other than that, I think we should be good to go.
-> 
-> One last thing, I updated the background to include my thoughts on KUnit
-> vs. in kernel testing with kselftest in the background sections as
-> suggested by Frank in the discussion on PATCH v2.
-> 
-> ## Background
-> 
-> This patch set proposes KUnit, a lightweight unit testing and mocking
-> framework for the Linux kernel.
-> 
-> Unlike Autotest and kselftest, KUnit is a true unit testing framework;
-> it does not require installing the kernel on a test machine or in a VM
-> (however, KUnit still allows you to run tests on test machines or in VMs
-> if you want[1]) and does not require tests to be written in userspace
-> running on a host kernel. Additionally, KUnit is fast: From invocation
-> to completion KUnit can run several dozen tests in under a second.
-> Currently, the entire KUnit test suite for KUnit runs in under a second
-> from the initial invocation (build time excluded).
-> 
-> KUnit is heavily inspired by JUnit, Python's unittest.mock, and
-> Googletest/Googlemock for C++. KUnit provides facilities for defining
-> unit test cases, grouping related test cases into test suites, providing
-> common infrastructure for running tests, mocking, spying, and much more.
-> 
+Btw, I'm glad you mentioned c. 
 
-I looked only at this section, as was specifically requested:
+This is c:
 
-> ### But wait! Doesn't kselftest support in kernel testing?!
-> 
-> In a previous version of this patchset Frank pointed out that kselftest
-> already supports writing a test that resides in the kernel using the
-> test module feature[2]. LWN did a really great summary on this
-> discussion here[3].
-> 
-> Kselftest has a feature that allows a test module to be loaded into a
-> kernel using the kselftest framework; this does allow someone to write
-> tests against kernel code not directly exposed to userland; however, it
-> does not provide much of a framework around how to structure the tests.
-> The kselftest test module feature just provides a header which has a
-> standardized way of reporting test failures, 
+	int
+	func( int a, int
+			 b ) {
+	 return a + b;
+	}
 
+This is also c:
 
-> and then provides
-> infrastructure to load and run the tests using the kselftest test
-> harness.
+	func(int a,int b) { goto foo;
+	foo:
+	   return(a+b) }
 
-The in-kernel tests can also be invoked at boot time if they are
-configured (Kconfig) as in-kernel instead of as modules.  I did not
-check how many of the tests have tri-state configuration to allow
-this, but the few that I looked at did.
+K&R style is also c, and this is also c:
+
+	#define f(a,b) (a+b)
+
+Despite none of the above matches my taste - and some have issues - they
+all build with gcc.
+
+Yet, none of the above follows the Kernel coding style.
+
+The way we use ReST (with absolute minimal changes), it becomes just
+a text style.
+
+Btw, I agree with you: there are some odd things at its style - and we 
+should work to try to reduce this to its minimal extent.
 
 > 
-> The kselftest test module does not seem to be opinionated at all in
-> regards to how tests are structured, how they check for failures, how
-> tests are organized. Even in the method it provides for reporting
-> failures is pretty simple; it doesn't have any more advanced failure
-> reporting or logging features. Given what's there, I think it is fair to
-> say that it is not actually a framework, but a feature that makes it
-> possible for someone to do some checks in kernel space.
-
-I would call that description a little dismissive.  The set of in-kernel
-tests that I looked like followed a common pattern and reported results
-in a uniform manner.
-
+> > > >  .../{ => driver-api}/futex-requeue-pi.rst     |  2 -    
+> > >   
+> > > >  .../{ => driver-api}/gcc-plugins.rst          |  2 -    
+> > >   
+> > > >  Documentation/{ => driver-api}/kprobes.rst    |  2 -
+> > > >  .../{ => driver-api}/percpu-rw-semaphore.rst  |  2 -    
+> > > 
+> > > More NAK for rst conversion  
+> > 
+> > Again, those don't need any conversion. Those files already parse 
+> > as-is by Sphinx, with no need for any change.  
 > 
-> Furthermore, kselftest test module has very few users. I checked for all
-> the tests that use it using the following grep command:
-> 
-> grep -Hrn -e 'kselftest_module\.h'
-> 
-> and only got three results: lib/test_strscpy.c, lib/test_printf.c, and
-> lib/test_bitmap.c.
+> And yet, they're a .txt file in my tree. And I've not seen a rename,
+> just this move.
 
-You missed many tests.  I listed much more than that in the v4 thread, and
-someone else also listed more in the v4 thread.
+Rename is on patch 1/22.
 
+No matter the extension, all the above files pass at the Sphinx style
+validation without warnings or errors. Patch 1/22 doesn't make any
+conversion.
 
-> 
-> So despite kselftest test module's existence, there really is no feature
-> overlap between kselftest and KUnit, save one: that you can use either
-> to write an in-kernel test, but this is a very small feature in
-> comparison to everything that KUnit allows you to do. KUnit is a full
-> x-unit style unit testing framework, whereas kselftest looks a lot more
-> like an end-to-end/functional testing framework, with a feature that
-> makes it possible to write in-kernel tests.
-
-The description does not give enough credit to what is in kselftest.
-
-It does not matter whether KUnit provides additional things, relative
-to kselftest.  The point I was making is that there appears to be
-_some_ overlap between kselftest and KUnit, and if there is overlap
-then it is worth considering whether the overlap can be unified instead
-of duplicated.
-
-I don't have a dog in this fight and the discussion in the v4 thread
-went way off track.  Thus I am not going to get sucked back into a
-pointless debate in this thread.
-
-Thanks for adding this section to address the issue.
-
--Frank
-
+Btw, the .rst extension is just a convenient way to help identifying what
+was not validated. If I'm not mistaken, when the discussions about a
+replacement for DocBook started at at linux-doc, someone proposed to
+keep the .txt extension (changing it to accept .rst, .txt or both is
+a single line change at conf.py).
 
 > 
-> ### What's so special about unit testing?
+> > The only change here is that, on patch 1/22, the files that
+> > aren't listed on an index file got a :orphan: added in order
+> > to make this explicit. This patch removes it.  
 > 
-> A unit test is supposed to test a single unit of code in isolation,
-> hence the name. There should be no dependencies outside the control of
-> the test; this means no external dependencies, which makes tests orders
-> of magnitudes faster. Likewise, since there are no external dependencies,
-> there are no hoops to jump through to run the tests. Additionally, this
-> makes unit tests deterministic: a failing unit test always indicates a
-> problem. Finally, because unit tests necessarily have finer granularity,
-> they are able to test all code paths easily solving the classic problem
-> of difficulty in exercising error handling code.
+> I've no idea what :orphan: is. Text file don't have markup.
 > 
-> ### Is KUnit trying to replace other testing frameworks for the kernel?
+> > > >  Documentation/{ => driver-api}/pi-futex.rst   |  2 -
+> > > >  .../{ => driver-api}/preempt-locking.rst      |  2 -    
+> > >   
+> > > >  Documentation/{ => driver-api}/rbtree.rst     |  2 -    
+> > >   
+> > > >  .../{ => driver-api}/robust-futex-ABI.rst     |  2 -
+> > > >  .../{ => driver-api}/robust-futexes.rst       |  2 -    
+> > >   
+> > > >  .../{ => driver-api}/speculation.rst          |  8 +--
+> > > >  .../{ => driver-api}/static-keys.rst          |  2 -    
+> > >   
+> > > >  .../{ => driver-api}/this_cpu_ops.rst         |  2 -    
+> > >   
+> > > >  Documentation/locking/rt-mutex.rst            |  2 +-    
+> > > 
+> > > NAK. None of the above have anything to do with driver-api.  
+> > 
+> > Ok. Where do you think they should sit instead? core-api?  
 > 
-> No. Most existing tests for the Linux kernel are end-to-end tests, which
-> have their place. A well tested system has lots of unit tests, a
-> reasonable number of integration tests, and some end-to-end tests. KUnit
-> is just trying to address the unit test space which is currently not
-> being addressed.
-> 
-> ### More information on KUnit
-> 
-> There is a bunch of documentation near the end of this patch set that
-> describes how to use KUnit and best practices for writing unit tests.
-> For convenience I am hosting the compiled docs here[4].
-> 
-> Additionally for convenience, I have applied these patches to a
-> branch[5]. The repo may be cloned with:
-> git clone https://kunit.googlesource.com/linux
-> This patchset is on the kunit/rfc/v5.2-rc4/v5 branch.
-> 
-> ## Changes Since Last Version
-> 
-> Aside from a couple public function renames, there isn't really anything
-> in here that changes any functionality.
-> 
-> - Went through and fixed a couple of anti-patterns suggested by Stephen
->   Boyd. Things like:
->   - Dropping an else clause at the end of a function.
->   - Dropping the comma on the closing sentinel, `{}`, of a list.
-> - Inlines a bunch of functions in the test case running logic in patch
->   01/18 to make it more readable as suggested by Stephen Boyd
-> - Found and fixed bug in resource deallocation logic in patch 02/18. Bug
->   was discovered as a result of making a change suggested by Stephen
->   Boyd. This does not substantially change how any of the code works
->   conceptually.
-> - Renamed new_string_stream() to alloc_string_stream() as suggested by
->   Stephen Boyd.
-> - Made string-stream a KUnit managed object - based on a suggestion made
->   by Stephen Boyd.
-> - Renamed kunit_new_stream() to alloc_kunit_stream() as suggested by
->   Stephen Boyd.
-> - Removed the ability to set log level after allocating a kunit_stream,
->   as suggested by Stephen Boyd.
-> 
-> [1] https://google.github.io/kunit-docs/third_party/kernel/docs/usage.html#kunit-on-non-uml-architectures
-> [2] https://www.kernel.org/doc/html/latest/dev-tools/kselftest.html#test-module
-> [3] https://lwn.net/Articles/790235/
-> [4] https://google.github.io/kunit-docs/third_party/kernel/docs/
-> [5] https://kunit.googlesource.com/linux/+/kunit/rfc/v5.2-rc4/v5
-> 
+> Pretty much all of then are core-api I tihnk, with exception of the one
+> that are ABI, which have nothing to do with API. 
 
+OK.
+
+> And i've no idea where
+> GCC plugins go, but it's definitely nothing to do with drivers.
+
+I suspect that Documentation/security would be a better place
+for GCC plugins (as it has been discussed at kernel-hardening ML),
+but I'm waiting a feedback from Kees.
+
+> 
+> Many of the futex ones are about the sys_futex user API, which
+> apparently we have Documentation/userspace-api/ for.
+
+Yeah, it makes sense to place sys_futex there.
+
+Despite being an old dir, it is not too popular: there are
+very few document there. I only discovered this one a few
+days ago.
+
+> 
+> Why are you doing this if you've no clue what they're on about?
+
+I don't pretend to know precisely where each document will fit.
+If you read carefully the content of each orphaned document, you'll see
+that many of them have uAPI, kAPI and admin-guide info inside.
+
+To be frank, I actually tried to get rid of this document shift
+part, but a Jon's feedback when I submitted a much simpler RFC
+patchset challenged me to try to place each document on some place. The 
+renaming part is by far a lot more complex than the conversion, 
+because depending on how you interpret the file contents -
+and the description of each documentation chapter - it may fit on a
+different subdir.
+
+-
+
+My main goal is to have an organized body with the documentation. 
+
+Try to read our docs as if it is a book, and you'll see what I'm talking
+about: there are important missing parts, the document order isn't in
+an order that would make easier for the headers, several documents are
+placed on random places, etc.
+
+Just like we have Makefiles, the index.rst files, plus the subdirectories
+help to classify and organize the documentation on a coherent way.
+
+- 
+
+The main problem I want to address with this particular patch is that 
+there are so many random documents from all sorts of subject at
+Documentation/*.txt that it makes really hard to see the document
+structure or to organize them.
+
+Also, keeping txt files there at the root doc dir is a bad idea, as 
+people keep flooding Documentation/ root with new unclassified documents
+on almost every Kernel version.
+
+After 5.1, there are two new documents added inside Documentation/*.txt
+(I guess both added at linux-next for 5.3).
+
+I proposed a few months ago to create a Documentation/staging, and do:
+
+	mv Documentation/*.txt Documentation/*.rst Documentation/staging 
+
+Jani proposed today something similar to it (Documentation/attic)
+
+The name is not important. Having a place were we can temporarily
+place documents while we organize the directory structure and the
+documentation indexes seem to be the best way to reorganize the
+docs on a coherent way.
+
+Thanks,
+Mauro
