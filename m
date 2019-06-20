@@ -5,36 +5,37 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3A7BE7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Jun 2019 20:07:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 126087D90F
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Jun 2019 20:07:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727026AbfFTUHK (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 20 Jun 2019 16:07:10 -0400
-Received: from ms.lwn.net ([45.79.88.28]:47566 "EHLO ms.lwn.net"
+        id S1726338AbfFTUHt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 20 Jun 2019 16:07:49 -0400
+Received: from ms.lwn.net ([45.79.88.28]:47574 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726043AbfFTUHK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 20 Jun 2019 16:07:10 -0400
+        id S1727108AbfFTUHt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 20 Jun 2019 16:07:49 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id B8D8A9B0;
-        Thu, 20 Jun 2019 20:07:09 +0000 (UTC)
-Date:   Thu, 20 Jun 2019 14:07:08 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id 945E5536;
+        Thu, 20 Jun 2019 20:07:48 +0000 (UTC)
+Date:   Thu, 20 Jun 2019 14:07:47 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Andreas Ziegler <andreas.ziegler@fau.de>,
-        Lecopzer Chen <lecopzer.chen@mediatek.com>
-Subject: Re: [PATCH 2/6] docs: trace: add a missing blank line
-Message-ID: <20190620140708.30bf0434@lwn.net>
-In-Reply-To: <91f90c10c12c6a2f6fb90fc0f9115fbd8dd73848.1560883872.git.mchehab+samsung@kernel.org>
+        Andrew Morton <akpm@linux-foundation.org>,
+        George Spelvin <lkml@sdf.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Andrey Abramov <st5pub@yandex.ru>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Subject: Re: [PATCH 3/6] lib: list_sort.c: add a blank line to avoid
+ kernel-doc warnings
+Message-ID: <20190620140747.67e600c1@lwn.net>
+In-Reply-To: <019c38a60bdc87124e58f8acd541b484fc9893bb.1560883872.git.mchehab+samsung@kernel.org>
 References: <a83ea390bc28784518fce772b4c961ea1c976f14.1560883872.git.mchehab+samsung@kernel.org>
-        <91f90c10c12c6a2f6fb90fc0f9115fbd8dd73848.1560883872.git.mchehab+samsung@kernel.org>
+        <019c38a60bdc87124e58f8acd541b484fc9893bb.1560883872.git.mchehab+samsung@kernel.org>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -44,25 +45,18 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 18 Jun 2019 15:51:18 -0300
+On Tue, 18 Jun 2019 15:51:19 -0300
 Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-> Sphinx expects a blank line after a literal block markup.
+> In order for a list to be recognized as such, blank lines
+> are required.
+> 
+> Solve those Sphinx warnings:
+> 
+> ./lib/list_sort.c:162: WARNING: Unexpected indentation.
+> ./lib/list_sort.c:163: WARNING: Block quote ends without a blank line; unexpected unindent.
 > 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
->  Documentation/trace/kprobetrace.rst | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/trace/kprobetrace.rst b/Documentation/trace/kprobetrace.rst
-> index 3d162d432a3c..caa0a8ba081e 100644
-> --- a/Documentation/trace/kprobetrace.rst
-> +++ b/Documentation/trace/kprobetrace.rst
-> @@ -228,6 +228,7 @@ events, you need to enable it.
->  
->  Use the following command to start tracing in an interval.
->  ::
-> +
 
 Applied, thanks.
 
