@@ -1,58 +1,26 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id B434B7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Jun 2019 08:44:01 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 992467D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Jun 2019 08:46:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725925AbfFTIoB (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 20 Jun 2019 04:44:01 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:41958 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725875AbfFTIoB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jun 2019 04:44:01 -0400
-Received: by mail-io1-f66.google.com with SMTP id w25so443092ioc.8;
-        Thu, 20 Jun 2019 01:44:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=gCb8MwruH8dKbWAubDWJguVrt49ZLagCriEvdjUA1WU=;
-        b=Vktv+Nnvh9ds+F3HFYArj+H76hfSKDTtGli8022H77ngVSBouxPFNwqTouEdE3vKpE
-         /+9BVmq4pmjw+6uQqfPuh2gK675a58Hk72VvzXz3vUmXeTDogZRT6zptL0A+hsQjWNfh
-         rVp6xLhXFdxuWHvOqMTVtvqPcOLM/EBIKQ6nzvlnTtuhFT7O66Ik0IpKaxn87mGtVT/A
-         3/z4ci2C9enNG1cSrI0Fkibr2IilAxPHzDhrFw+FKMWLiEG2dwcQ7oi622JRTFcpEkYU
-         +jS/zfSFrBAIEOQS3cvrmqD6opLlHc7GYB5VFS+fafHQsCvqlRCbahT+R7wNs7zdz2DO
-         zfpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=gCb8MwruH8dKbWAubDWJguVrt49ZLagCriEvdjUA1WU=;
-        b=B0ArAyGQ9xEkMqnD3XbXWtWZeyHGlKr9o181yFnYRhsUpd4UsRDTjAVTDZZbt69a/Z
-         A/pO/sa9ENLHvhV7PV4AQEgG4/6JDYXYxVsnYxaV8Di4B5qgGlnfMaABvnl+0PtDIOAl
-         ev2V31qmlao5vyCWDqiJWlTj2Bu0GGyWto5Vbf0tS1E8BbyUonjmS1VkjM82rV9m17+E
-         0HkEopl4pMkFtiB9VAOZTXH6ot1TD5r1wTbtlkAaNuMHzomBQnxnKXxdov9D7tmnS9yc
-         7i5dXlWEiPk16qasOokZIoJt5btdfRuKx49aqqQMNAT7qeYnmfJyMskgYmY7Mov9gsQL
-         yIvg==
-X-Gm-Message-State: APjAAAV4WugdBTA0fEqp5RFdEeS5+6EZ7+gf438Pi3VWPEkKauVB8REN
-        H3uN7t3xHzk5tXSOBlzRPFXLT9HpU2YKi+664ag=
-X-Google-Smtp-Source: APXvYqw2fVXqZFI1UAjff2P6BLRNnHwF8/qus3xVE14eeP/DMtKrOAjmBQZ8KIC+qO1xuPhi+v/Txq3ckXpJwmsrqrM=
-X-Received: by 2002:a6b:7b01:: with SMTP id l1mr18358947iop.60.1561020240102;
- Thu, 20 Jun 2019 01:44:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <8a9ffb4b-791d-35d1-bb2a-7b6ad812bff1@ideasonboard.com>
- <20190620081142.31302-1-e5ten.arch@gmail.com> <20190620082557.GB28346@zn.tnic>
-In-Reply-To: <20190620082557.GB28346@zn.tnic>
-From:   Ethan Sommer <e5ten.arch@gmail.com>
-Date:   Thu, 20 Jun 2019 04:43:49 -0400
-Message-ID: <CAMEGPiqgoscn-20gDyrQOBYdbfzdimu91Dw0WLEjLKs+u5KSEA@mail.gmail.com>
-Subject: Re: [PATCH v2] replace timeconst bc script with an sh script
-To:     Borislav Petkov <bp@suse.de>
+        id S1725966AbfFTIqE (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 20 Jun 2019 04:46:04 -0400
+Received: from mx2.suse.de ([195.135.220.15]:38164 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725875AbfFTIqE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 20 Jun 2019 04:46:04 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id A1EA9ADC4;
+        Thu, 20 Jun 2019 08:46:02 +0000 (UTC)
+Date:   Thu, 20 Jun 2019 10:45:51 +0200
+From:   Borislav Petkov <bp@suse.de>
+To:     Ethan Sommer <e5ten.arch@gmail.com>
 Cc:     hpa@zytor.com, Jonathan Corbet <corbet@lwn.net>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
         Randy Dunlap <rdunlap@infradead.org>,
@@ -68,35 +36,43 @@ Cc:     hpa@zytor.com, Jonathan Corbet <corbet@lwn.net>,
         Corey Minyard <cminyard@mvista.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2] replace timeconst bc script with an sh script
+Message-ID: <20190620084550.GC28346@zn.tnic>
+References: <8a9ffb4b-791d-35d1-bb2a-7b6ad812bff1@ideasonboard.com>
+ <20190620081142.31302-1-e5ten.arch@gmail.com>
+ <20190620082557.GB28346@zn.tnic>
+ <CAMEGPiqk5TU=z2_wvMfPuihVc5zOLRrTSVCpLA23k0r-hmAzmg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMEGPiqk5TU=z2_wvMfPuihVc5zOLRrTSVCpLA23k0r-hmAzmg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-(resend because I didn't know gmail would make it html)
-Ah sorry about that, I accidentally replied to Kieran only instead of
-to all, my response was "I will upload a patch with those issues fixed
-shortly, in terms of the dependency as far as I know commands only required
-for running tests don't count as kernel compilation dependencies, and I
-don't see any other uses of bc except for Documentation/EDID/Makefile, so
-I believe that bc can be removed from the kernel compilation section of the
-process document and will include that change with the updated patch that
-fixes the 2 issues you pointed out."
+On Thu, Jun 20, 2019 at 04:29:19AM -0400, Ethan Sommer wrote:
+> Ah sorry about that, I accidentally replied to Kieran only instead of to
+> all, my response was "I will upload a patch with those issues fixed
+> shortly, in terms of the dependency as far as I know commands only required
+> for running tests don't count as kernel compilation dependencies, and I
+> don't see any other uses of bc except for Documentation/EDID/Makefile, so I
+> believe that bc can be removed from the kernel compilation section of the
+> process document and will include that change with the updated patch that
+> fixes the 2 issues you pointed out."
 
-On Thu, Jun 20, 2019 at 4:26 AM Borislav Petkov <bp@suse.de> wrote:
->
-> On Thu, Jun 20, 2019 at 04:11:32AM -0400, Ethan Sommer wrote:
-> > removes the bc build dependency introduced when timeconst.pl was
-> > replaced by timeconst.bc:
-> > 70730bca1331 ("kernel: Replace timeconst.pl with a bc script")
->
-> I don't see you answering Kieran's questions anywhere...
->
-> --
-> Regards/Gruss,
->     Boris.
->
-> SUSE Linux GmbH, GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah, HR=
-B 21284 (AG N=C3=BCrnberg)
+Sounds like parts of it should be in your commit message as a
+justification *why* you're doing it. You can do that for your next
+revision once you've waited a couple of days to gather feedback.
+
+Also, please do not top-post.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+SUSE Linux GmbH, GF: Felix Imendörffer, Mary Higgins, Sri Rasiah, HRB 21284 (AG Nürnberg)
