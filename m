@@ -1,73 +1,116 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 59C947D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Jun 2019 20:14:43 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id ED29D7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Jun 2019 20:16:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726519AbfFTUOm (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 20 Jun 2019 16:14:42 -0400
-Received: from ms.lwn.net ([45.79.88.28]:47642 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725907AbfFTUOm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 20 Jun 2019 16:14:42 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 514252BA;
-        Thu, 20 Jun 2019 20:14:41 +0000 (UTC)
-Date:   Thu, 20 Jun 2019 14:14:40 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+        id S1726533AbfFTUQW (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 20 Jun 2019 16:16:22 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:43510 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725907AbfFTUQW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jun 2019 16:16:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=xLzSHA4/gkaFqrZh4lXTfktvq/utTEgs9SNl0/TIIiA=; b=dZq86h2FV+z4V1VI/QUx53zQF
+        dxVMbFlrsah5ck1D4PgYAVcG3iB9XjoIzyVuHBPABMWz/HQLuttjJiL79wRPjexu9kgLZurRiiIDX
+        KDzJ2y/KFgJ6Exk3RoKZ8YGgz1rulVez2qcknoCc8yesftHiTI72QWVj56p+PZeLQLrtpFPKSkEcg
+        sDr6f881KAZy9b0xMoBJVeedV2q0sYywr0kK17Vg6kItjOhPxzGXT4+1VhZpbO0pq7fl0ZPRbcwZI
+        lRwUgmf0ZLgYmCPxbB5aFJNPz8RWfZrp2bByCLTvPJQZg5vxfDPcz9kFvRqbwR4F8Nywuq9n9lnOW
+        Sr4HlaVog==;
+Received: from [177.97.20.138] (helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1he3Tp-00074O-O7; Thu, 20 Jun 2019 20:16:21 +0000
+Date:   Thu, 20 Jun 2019 17:16:17 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>, Ajay Gupta <ajayg@nvidia.com>,
-        Amit Kucheria <amit.kucheria@linaro.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Otto Sabart <ottosabart@seberm.com>,
-        Li Yang <leoyang.li@nxp.com>,
-        Will Deacon <will.deacon@arm.com>, devicetree@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-i2c@vger.kernel.org
-Subject: Re: [PATCH] docs: fix some broken references due to txt->rst
- renames
-Message-ID: <20190620141440.5e352241@lwn.net>
-In-Reply-To: <6f09587b7678f2fb378d736f45a02ffa9412cc99.1560864716.git.mchehab+samsung@kernel.org>
-References: <6f09587b7678f2fb378d736f45a02ffa9412cc99.1560864716.git.mchehab+samsung@kernel.org>
-Organization: LWN.net
+        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH 4/6] time: hrtimer: use a bullet for the returns bullet
+ list
+Message-ID: <20190620171617.3368f30b@coco.lan>
+In-Reply-To: <20190620140233.3d7202ee@lwn.net>
+References: <a83ea390bc28784518fce772b4c961ea1c976f14.1560883872.git.mchehab+samsung@kernel.org>
+        <a4cab6020e0475e7a4afc65dc5854756dd1bfbe9.1560883872.git.mchehab+samsung@kernel.org>
+        <20190620140233.3d7202ee@lwn.net>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 18 Jun 2019 10:33:58 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+Em Thu, 20 Jun 2019 14:02:33 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> here are three left-overs from the recent file renames,
-> probably due to some other conflicting patch.
-> 
-> Fix them.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
-> 
-> This patch is against today's next-20190617 branch. Not sure if it
-> will apply cleanly at -docs tree. If not,  Please let me know for me to
-> split.
+> On Tue, 18 Jun 2019 15:51:20 -0300
+> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+>=20
+> > That gets rid of this warning:
+> >=20
+> > 	./kernel/time/hrtimer.c:1119: WARNING: Block quote ends without a blan=
+k line; unexpected unindent.
+> >=20
+> > and displays nicely both at the source code and at the produced
+> > documentation.
+> >=20
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> > ---
+> >  kernel/time/hrtimer.c | 7 ++++---
+> >  1 file changed, 4 insertions(+), 3 deletions(-)
+> >=20
+> > diff --git a/kernel/time/hrtimer.c b/kernel/time/hrtimer.c
+> > index edb230aba3d1..49f78453892f 100644
+> > --- a/kernel/time/hrtimer.c
+> > +++ b/kernel/time/hrtimer.c
+> > @@ -1114,9 +1114,10 @@ EXPORT_SYMBOL_GPL(hrtimer_start_range_ns);
+> >   * @timer:	hrtimer to stop
+> >   *
+> >   * Returns:
+> > - *  0 when the timer was not active
+> > - *  1 when the timer was active
+> > - * -1 when the timer is currently executing the callback function and
+> > + *
+> > + *  =E2=80=A2  0 when the timer was not active
+> > + *  =E2=80=A2  1 when the timer was active
+> > + *  =E2=80=A2 -1 when the timer is currently executing the callback fu=
+nction and
+> >   *    cannot be stopped =20
+>=20
+> So I have taken some grief for letting non-ASCII stuff into the docs
+> before; I can only imagine that those who object would be even more
+> unhappy to see it in a C source file.  I'm all for fixing the warning, but
+> I think we shouldn't start introducing exotic characters at this point...
 
-Indeed it does not; one of the files being patched doesn't even exist in
-my world...
+According to:
+	http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#bullet-=
+lists
 
-jon
+The ASCII options are: "-", "+" or "*".
+
+Both signs ('-' and '+') aren't too nice here, due to "-1".
+
+So, what's left is '*'.
+
+I remember someone once complained about having something like:
+
+	* * -1 when the ...
+
+But if you think we shouldn't use UTF-8 chars, be it.
+
+Feel free to replace it at the patch, or if you prefer, I'll send a new
+version tomorrow.
+
+Thanks,
+Mauro
