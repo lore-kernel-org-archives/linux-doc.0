@@ -5,82 +5,70 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id BAD777D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Jun 2019 20:02:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 2DC627D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Jun 2019 20:06:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726841AbfFTUCf (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 20 Jun 2019 16:02:35 -0400
-Received: from ms.lwn.net ([45.79.88.28]:47508 "EHLO ms.lwn.net"
+        id S1726338AbfFTUGx (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 20 Jun 2019 16:06:53 -0400
+Received: from ms.lwn.net ([45.79.88.28]:47546 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725914AbfFTUCf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 20 Jun 2019 16:02:35 -0400
+        id S1726043AbfFTUGx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 20 Jun 2019 16:06:53 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 8ED33536;
-        Thu, 20 Jun 2019 20:02:34 +0000 (UTC)
-Date:   Thu, 20 Jun 2019 14:02:33 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id D22A82BA;
+        Thu, 20 Jun 2019 20:06:52 +0000 (UTC)
+Date:   Thu, 20 Jun 2019 14:06:51 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH 4/6] time: hrtimer: use a bullet for the returns bullet
- list
-Message-ID: <20190620140233.3d7202ee@lwn.net>
-In-Reply-To: <a4cab6020e0475e7a4afc65dc5854756dd1bfbe9.1560883872.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
+        Andreas Ziegler <andreas.ziegler@fau.de>,
+        Lecopzer Chen <lecopzer.chen@mediatek.com>
+Subject: Re: [PATCH 1/6] docs: trace: fix a broken label
+Message-ID: <20190620140651.393e4680@lwn.net>
+In-Reply-To: <a83ea390bc28784518fce772b4c961ea1c976f14.1560883872.git.mchehab+samsung@kernel.org>
 References: <a83ea390bc28784518fce772b4c961ea1c976f14.1560883872.git.mchehab+samsung@kernel.org>
-        <a4cab6020e0475e7a4afc65dc5854756dd1bfbe9.1560883872.git.mchehab+samsung@kernel.org>
 Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 18 Jun 2019 15:51:20 -0300
+On Tue, 18 Jun 2019 15:51:17 -0300
 Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-> That gets rid of this warning:
+> Sphinx warnings about his:
 > 
-> 	./kernel/time/hrtimer.c:1119: WARNING: Block quote ends without a blank line; unexpected unindent.
+> 	Documentation/trace/kprobetrace.rst:68: WARNING: undefined label: user_mem_access (if the link has no caption the label must precede a section header)
 > 
-> and displays nicely both at the source code and at the produced
-> documentation.
+> The problem is quite simple: Sphinx wants a blank line after
+> references.
 > 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 > ---
->  kernel/time/hrtimer.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
+>  Documentation/trace/kprobetrace.rst | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/kernel/time/hrtimer.c b/kernel/time/hrtimer.c
-> index edb230aba3d1..49f78453892f 100644
-> --- a/kernel/time/hrtimer.c
-> +++ b/kernel/time/hrtimer.c
-> @@ -1114,9 +1114,10 @@ EXPORT_SYMBOL_GPL(hrtimer_start_range_ns);
->   * @timer:	hrtimer to stop
->   *
->   * Returns:
-> - *  0 when the timer was not active
-> - *  1 when the timer was active
-> - * -1 when the timer is currently executing the callback function and
-> + *
-> + *  •  0 when the timer was not active
-> + *  •  1 when the timer was active
-> + *  • -1 when the timer is currently executing the callback function and
->   *    cannot be stopped
+> diff --git a/Documentation/trace/kprobetrace.rst b/Documentation/trace/kprobetrace.rst
+> index b729b40a5ba5..3d162d432a3c 100644
+> --- a/Documentation/trace/kprobetrace.rst
+> +++ b/Documentation/trace/kprobetrace.rst
+> @@ -96,6 +96,7 @@ which shows given pointer in "symbol+offset" style.
+>  For $comm, the default type is "string"; any other type is invalid.
+>  
+>  .. _user_mem_access:
 
-So I have taken some grief for letting non-ASCII stuff into the docs
-before; I can only imagine that those who object would be even more
-unhappy to see it in a C source file.  I'm all for fixing the warning, but
-I think we shouldn't start introducing exotic characters at this point...
+This one doesn't apply to docs-next; it should probably go through
+whichever tree introduced the issue into linux-next.
 
 Thanks,
 
 jon
-
-
->   */
->  int hrtimer_try_to_cancel(struct hrtimer *timer)
