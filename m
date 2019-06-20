@@ -1,101 +1,94 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 886FD7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Jun 2019 15:21:09 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id D7D4A7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Jun 2019 16:29:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726697AbfFTPVJ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 20 Jun 2019 11:21:09 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:54990 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726661AbfFTPVJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jun 2019 11:21:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=jLiwowGPx2AxLrT5BEMIvyKo94LZKXWSx+kjNgEU7FQ=; b=Iqp9ukQmjIkoj0PfBW5kcLvQk
-        CL8chLM3cSJoUamANe0BSsYlUlLoC4vmtXmaXVLxSdWJCIw5wBbfR0MMBL/aGRo69WhFkAKDQ3RhY
-        5XAgg3zwKHD/WLBpWr26Z2h7ZyFRQKwX+Vw+OPW936Nd+DFPwegV/5/y+Sl94LVD8/NMKLisJsQR3
-        FbymWHt0rQiIhVLhysVxyCEEOOOFEKDui4EOcR6kNDz0ZIdWLjH3yZNiMHRoJNWBhmH25aZ5DgOCv
-        QOwb0Ho3fscEExIWYjJoJmQWOkREKjz1CA+4tybuLguUfp2qx24MkzeoE/Qk7khAkWNOLfQ0WO8Sn
-        42UvW3y9g==;
-Received: from [177.97.20.138] (helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hdys2-0000E5-HC; Thu, 20 Jun 2019 15:21:02 +0000
-Date:   Thu, 20 Jun 2019 12:20:58 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Mike Rapoport <rppt@linux.ibm.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] scripts/sphinx-pre-install: fix out-of-tree build
-Message-ID: <20190620122058.195ece1a@coco.lan>
-In-Reply-To: <1561034637-12902-1-git-send-email-rppt@linux.ibm.com>
-References: <1561034637-12902-1-git-send-email-rppt@linux.ibm.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1732232AbfFTQ3t (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 20 Jun 2019 12:29:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45734 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726620AbfFTQ3t (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 20 Jun 2019 12:29:49 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id DA0172064A;
+        Thu, 20 Jun 2019 16:29:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1561048188;
+        bh=aTPE4/MlVDXLh/bVBjr+tH+7DtK2ze10qXN75K5G0Og=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ktHE00JdENjw6it5sMr7BPX8b2uSgQ+Fu5iXr2GDSsuZIjjo04Qi7T8dkjxtg2wjh
+         DBOLyCUD7f1iCk/44OXUqwzI86k4oKQ7Ltqa4527WOz0jQQv72CLkPHITlYsgksrbj
+         uBylIw/v2VqxFSNILCjPZtpaD5DbXbnVHnj7BTyE=
+Date:   Thu, 20 Jun 2019 18:29:45 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Johan Hovold <johan@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@s-opensource.com>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Stefan Achatz <erazor_de@users.sourceforge.net>
+Subject: Re: [PATCH 04/14] ABI: better identificate tables
+Message-ID: <20190620162945.GC23052@kroah.com>
+References: <cover.1560477540.git.mchehab+samsung@kernel.org>
+ <6bc45c0d5d464d25d4d16eceac48a2f407166944.1560477540.git.mchehab+samsung@kernel.org>
+ <20190619125135.GG25248@localhost>
+ <20190619105633.7f7315a5@coco.lan>
+ <20190619150207.GA19346@kroah.com>
+ <20190620120150.GH6241@localhost>
+ <20190620125413.GA5170@kroah.com>
+ <20190620112034.0d2be447@coco.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190620112034.0d2be447@coco.lan>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 20 Jun 2019 15:43:57 +0300
-Mike Rapoport <rppt@linux.ibm.com> escreveu:
-
-> Build of htmldocs fails for out-of-tree builds:
+On Thu, Jun 20, 2019 at 11:20:34AM -0300, Mauro Carvalho Chehab wrote:
+> Em Thu, 20 Jun 2019 14:54:13 +0200
+> Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
 > 
-> $ make V=1 O=~/build/kernel/ htmldocs
-> make -C /home/rppt/build/kernel -f /home/rppt/git/linux-docs/Makefile htmldocs
-> make[1]: Entering directory '/home/rppt/build/kernel'
-> make -f /home/rppt/git/linux-docs/scripts/Makefile.build obj=scripts/basic
-> rm -f .tmp_quiet_recordmcount
-> make -f /home/rppt/git/linux-docs/scripts/Makefile.build obj=Documentation htmldocs
-> Can't open Documentation/conf.py at /home/rppt/git/linux-docs/scripts/sphinx-pre-install line 230.
-> /home/rppt/git/linux-docs/Documentation/Makefile:80: recipe for target 'htmldocs' failed
-> make[2]: *** [htmldocs] Error 2
+> > On Thu, Jun 20, 2019 at 02:01:50PM +0200, Johan Hovold wrote:
+> > > > I don't know when "Description" and "RST-Description" would be used.
+> > > > Why not just parse "Description" like rst text and if things are "messy"
+> > > > we fix them up as found, like you did with the ":" here?  It doesn't
+> > > > have to be complex, we can always fix them up after-the-fact if new
+> > > > stuff gets added that doesn't quite parse properly.
+> > > > 
+> > > > Just like we do for most kernel-doc formatting :)  
+> > > 
+> > > But kernel-doc has a documented format, which was sort of the point I
+> > > was trying to make. If the new get_abi.pl scripts expects a colon I
+> > > think it should be mentioned somewhere (e.g. Documentation/ABI/README).
+> > > 
+> > > Grepping for attribute entries in linux-next still reveals a number
+> > > descriptions that still lack that colon and use varying formatting. More
+> > > are bound to be added later, but perhaps that's ok depending on what
+> > > you're aiming at here.  
+> > 
+> > I'm aiming for "good enough" to start with, and then we can work through
+> > the exceptions.
+> > 
+> > But given that Mauro hasn't resent the script that does the conversion
+> > of the files, I don't know if that will even matter... {hint}
 > 
-> The scripts/sphinx-pre-install is trying to open files in the current
-> directory which is $KBUILD_OUTPUT rather than in $srctree.
-> 
-> Fix it.
-> 
-> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-> ---
->  scripts/sphinx-pre-install | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-> index 0b44d51..f710bbd 100755
-> --- a/scripts/sphinx-pre-install
-> +++ b/scripts/sphinx-pre-install
-> @@ -5,8 +5,9 @@ use strict;
->  # Copyright (c) 2017-2019 Mauro Carvalho Chehab <mchehab@kernel.org>
->  #
->  
-> -my $conf = "Documentation/conf.py";
-> -my $requirement_file = "Documentation/sphinx/requirements.txt";
-> +my $prefix = "$ENV{'srctree'}/";
+> It sounds I missed something... are you expecting a new version? 
 
-looks OK when called from Makefile, but if someone runs the script
-directly, it will fail. Better to code it as:
+Yes, the last round of patches didn't have a SPDX header on the script,
+so I couldn't add it to the tree :(
 
-my $prefix = ".";
-$prefix = "$ENV{'srctree'}/" if ($ENV{'srctree'});
+thanks,
 
-> +my $conf = $prefix . "Documentation/conf.py";
-> +my $requirement_file = $prefix . "Documentation/sphinx/requirements.txt";
->  my $virtenv_prefix = "sphinx_";
->  
->  #
-
-
-
-Thanks,
-Mauro
+greg k-h
