@@ -1,239 +1,306 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E9B0E7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Jun 2019 02:24:07 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7865A7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Jun 2019 06:14:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731264AbfFTCYH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Wed, 19 Jun 2019 22:24:07 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:59062 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726370AbfFTCYH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 19 Jun 2019 22:24:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=db6JPvpCz3hoflV8W037Dtn2xhi+L6YV1HcCa4+XjBQ=; b=qtscGbxxnS1WBhq+OUuuJ2LOZ
-        4Qam1Qp8bSyIqMh7MF2RTJ9QcJfagUtjCQHlXYpaRIrkH/UjW2ENTOHgio8ydFetcRNpKSnPL9lB5
-        Zu3VGbIe0tlkbgj7NkF5NMGmxSqYtzFwr0Toej8TG2DfN6ooBNNxNwOiBnMHyL6aQra4UbVx9KAkR
-        QZrkmpZedHBzDjrBSEc3gDdiw2rbWQWHLCXk+xKsOoBZJBPTDbVCLyb7/V7ti1Tt9Xb51aUhtiWuX
-        5tSD944M17TrUs1dxdV4Rlx8+8aNnPOoU+ebzu8L8t8ic1EYm2PAKx5epCNkHrsy+COEhrsWSS34p
-        9QkwSKZdQ==;
-Received: from 177.133.86.196.dynamic.adsl.gvt.net.br ([177.133.86.196] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hdmkA-0001Ik-0I; Thu, 20 Jun 2019 02:24:06 +0000
-Date:   Wed, 19 Jun 2019 23:24:02 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 12/22] docs: driver-api: add .rst files from the main
- dir
-Message-ID: <20190619232402.20970470@coco.lan>
-In-Reply-To: <20190619212753.GQ3419@hirez.programming.kicks-ass.net>
-References: <cover.1560890771.git.mchehab+samsung@kernel.org>
-        <b0d24e805d5368719cc64e8104d64ee9b5b89dd0.1560890772.git.mchehab+samsung@kernel.org>
-        <20190619114356.GP3419@hirez.programming.kicks-ass.net>
-        <20190619101922.04340605@coco.lan>
-        <20190619212753.GQ3419@hirez.programming.kicks-ass.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726082AbfFTGOi (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 20 Jun 2019 02:14:38 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:43633 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725889AbfFTGOh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jun 2019 02:14:37 -0400
+Received: by mail-pg1-f195.google.com with SMTP id f25so990160pgv.10;
+        Wed, 19 Jun 2019 23:14:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=y4cIeTi4GQNLRlznEj81pK4DefY3R9Wq48lqryAGlQM=;
+        b=s6FqUsmtVE/aRyBb1l0nowEvvjpeAbwuVV8WnlOIAGWNnbRZXkotXsfrDXdIf05HWH
+         UmNu3nRFl78pVjYK7Gv5a1a5P2841nLoYV3utETFRRbI8eNzfgbIey69YAI9bow34eRc
+         5941jzNbcojTM8j5J7hqwg62HBUhHBb62HTUBt8jsVX06WDyzgWfJPvtB0R83/sxqyPw
+         FARQhXwYUonhV3a7DuZAckp+m4d37bxthPY3bF3iSzErHMO+QCqBLX/C+YDkwR8lGHDS
+         Ke7QZoRjQ/GEkRGsi9tuyIK2yqvBK1mhcgEQhvqAEMt/Dqn+xbafSijow9JhFo8iz8zJ
+         5rNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=y4cIeTi4GQNLRlznEj81pK4DefY3R9Wq48lqryAGlQM=;
+        b=UXzu+yplNr1y/b4oen8/sMx/Zk619NVwrxM/mQTakHbFjgxbFt7urCj5FFaOGDPH63
+         /qhDJYM8YalIwBsgjMNKzenOePyL9l8xZemmvXzKtTRsoXIl5VYEL16DnnDmEHSKQM/8
+         0TmuVoj7zLcYD+jUz9WGyfe32yhnhbVgKDY0JIzbczRjSlQM3ngrICobg6TPuHQiTrwt
+         1HUjx//kBC1gi8fVeFGYFEkc9duDaUC6Hod96+UG5fyfEXXlxVQt9yOSGIgKaPjgtSrn
+         ozYfMkKiuz3MZgW4rqIi4wurgD9EGif+oN4DL6O0YZ+qAxKsmOpEmxV85Q6Xd6M+gSsQ
+         z6OA==
+X-Gm-Message-State: APjAAAV/01AT1yN9Ad89sEwKnu1M8imJtRl3n8CUqp8WasNl7v1yFWM4
+        0iV2J2eJyaCWJCfeNhGQ2u3sjSDkRHeS0rx1XEsONslQ2Hvjbg==
+X-Google-Smtp-Source: APXvYqxpNxYmoR30y+1MSB2QCWiblWr586ldBb+RZPqhWlLIMknG1+b78xG0Yl6g/Dm4gW32hvXoiMZVM7AHyDpAziU=
+X-Received: by 2002:a65:448b:: with SMTP id l11mr11172601pgq.74.1561011276684;
+ Wed, 19 Jun 2019 23:14:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <cover.1560891322.git.mchehab+samsung@kernel.org> <48cf367612aeec99f9eef54bb57685eb3b6c4ebf.1560891322.git.mchehab+samsung@kernel.org>
+In-Reply-To: <48cf367612aeec99f9eef54bb57685eb3b6c4ebf.1560891322.git.mchehab+samsung@kernel.org>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 20 Jun 2019 09:14:25 +0300
+Message-ID: <CAHp75VfqvJvTszpfhFD9Q-Ab+AGkytvLwMh3rngscre7AUefEg@mail.gmail.com>
+Subject: Re: [PATCH v1 21/22] docs: admin-guide: add laptops documentation
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matan Ziv-Av <matan@svgalib.org>,
+        Mattia Dongili <malattia@linux.it>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 19 Jun 2019 23:27:53 +0200
-Peter Zijlstra <peterz@infradead.org> escreveu:
+On Wed, Jun 19, 2019 at 12:05 AM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
+>
+> The docs under Documentation/laptops contain users specific
+> information.
+>
 
-> On Wed, Jun 19, 2019 at 10:19:22AM -0300, Mauro Carvalho Chehab wrote:
-> > (c/c list cleaned)
-> > 
-> > Em Wed, 19 Jun 2019 13:43:56 +0200
-> > Peter Zijlstra <peterz@infradead.org> escreveu:
-> >   
-> > > On Tue, Jun 18, 2019 at 05:53:17PM -0300, Mauro Carvalho Chehab wrote:
-> > >   
-> > > >  .../{ => driver-api}/atomic_bitops.rst        |  2 -    
-> > > 
-> > > That's a .txt file, big fat NAK for making it an rst.  
-> > 
-> > Rst is a text file. This one is parsed properly by Sphinx without
-> > any changes.  
-> 
-> In my tree it is a .txt file, I've not seen patches changing it. And I
-> disagree, rst is just as much 'a text file' as .c is.
+Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-ReStructured text is just text with a stricter style + some commands,
-if the text author wants to enhance it.
+with a caveat about Documentation/admin-guide/sysctl/vm.rst.
+How block bump is related to laptops? It sounds rather common
+debugging feature, no?
 
-Btw, I'm glad you mentioned c. 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+>  Documentation/ABI/testing/sysfs-block-device                  | 2 +-
+>  Documentation/ABI/testing/sysfs-platform-asus-laptop          | 2 +-
+>  Documentation/admin-guide/index.rst                           | 1 +
+>  Documentation/admin-guide/kernel-parameters.txt               | 2 +-
+>  Documentation/{ => admin-guide}/laptops/asus-laptop.rst       | 0
+>  .../{ => admin-guide}/laptops/disk-shock-protection.rst       | 0
+>  Documentation/{ => admin-guide}/laptops/index.rst             | 1 -
+>  Documentation/{ => admin-guide}/laptops/laptop-mode.rst       | 0
+>  Documentation/{ => admin-guide}/laptops/lg-laptop.rst         | 1 -
+>  Documentation/{ => admin-guide}/laptops/sony-laptop.rst       | 0
+>  Documentation/{ => admin-guide}/laptops/sonypi.rst            | 0
+>  Documentation/{ => admin-guide}/laptops/thinkpad-acpi.rst     | 0
+>  Documentation/{ => admin-guide}/laptops/toshiba_haps.rst      | 0
+>  Documentation/admin-guide/sysctl/vm.rst                       | 4 ++--
+>  MAINTAINERS                                                   | 4 ++--
+>  drivers/char/Kconfig                                          | 2 +-
+>  drivers/platform/x86/Kconfig                                  | 4 ++--
+>  17 files changed, 11 insertions(+), 12 deletions(-)
+>  rename Documentation/{ => admin-guide}/laptops/asus-laptop.rst (100%)
+>  rename Documentation/{ => admin-guide}/laptops/disk-shock-protection.rst (100%)
+>  rename Documentation/{ => admin-guide}/laptops/index.rst (95%)
+>  rename Documentation/{ => admin-guide}/laptops/laptop-mode.rst (100%)
+>  rename Documentation/{ => admin-guide}/laptops/lg-laptop.rst (99%)
+>  rename Documentation/{ => admin-guide}/laptops/sony-laptop.rst (100%)
+>  rename Documentation/{ => admin-guide}/laptops/sonypi.rst (100%)
+>  rename Documentation/{ => admin-guide}/laptops/thinkpad-acpi.rst (100%)
+>  rename Documentation/{ => admin-guide}/laptops/toshiba_haps.rst (100%)
+>
+> diff --git a/Documentation/ABI/testing/sysfs-block-device b/Documentation/ABI/testing/sysfs-block-device
+> index 0d57bbb4fddc..17f2bc7dd261 100644
+> --- a/Documentation/ABI/testing/sysfs-block-device
+> +++ b/Documentation/ABI/testing/sysfs-block-device
+> @@ -45,7 +45,7 @@ Description:
+>                 - Values below -2 are rejected with -EINVAL
+>
+>                 For more information, see
+> -               Documentation/laptops/disk-shock-protection.rst
+> +               Documentation/admin-guide/laptops/disk-shock-protection.rst
+>
+>
+>  What:          /sys/block/*/device/ncq_prio_enable
+> diff --git a/Documentation/ABI/testing/sysfs-platform-asus-laptop b/Documentation/ABI/testing/sysfs-platform-asus-laptop
+> index d67fa4bafa70..8b0e8205a6a2 100644
+> --- a/Documentation/ABI/testing/sysfs-platform-asus-laptop
+> +++ b/Documentation/ABI/testing/sysfs-platform-asus-laptop
+> @@ -31,7 +31,7 @@ Description:
+>                 To control the LED display, use the following :
+>                     echo 0x0T000DDD > /sys/devices/platform/asus_laptop/
+>                 where T control the 3 letters display, and DDD the 3 digits display.
+> -               The DDD table can be found in Documentation/laptops/asus-laptop.rst
+> +               The DDD table can be found in Documentation/admin-guide/laptops/asus-laptop.rst
+>
+>  What:          /sys/devices/platform/asus_laptop/bluetooth
+>  Date:          January 2007
+> diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
+> index 5940ce8d16af..e4f0cb2a02bd 100644
+> --- a/Documentation/admin-guide/index.rst
+> +++ b/Documentation/admin-guide/index.rst
+> @@ -79,6 +79,7 @@ configure specific aspects of kernel behavior to your liking.
+>     aoe/index
+>     perf-security
+>     acpi/index
+> +   laptops/index
+>
+>     btmrvl
+>     clearing-warn-once
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 0b17312b9198..69a9e2e66dfb 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -4356,7 +4356,7 @@
+>                         Format: <integer>
+>
+>         sonypi.*=       [HW] Sony Programmable I/O Control Device driver
+> -                       See Documentation/laptops/sonypi.rst
+> +                       See Documentation/admin-guide/laptops/sonypi.rst
+>
+>         spectre_v2=     [X86] Control mitigation of Spectre variant 2
+>                         (indirect branch speculation) vulnerability.
+> diff --git a/Documentation/laptops/asus-laptop.rst b/Documentation/admin-guide/laptops/asus-laptop.rst
+> similarity index 100%
+> rename from Documentation/laptops/asus-laptop.rst
+> rename to Documentation/admin-guide/laptops/asus-laptop.rst
+> diff --git a/Documentation/laptops/disk-shock-protection.rst b/Documentation/admin-guide/laptops/disk-shock-protection.rst
+> similarity index 100%
+> rename from Documentation/laptops/disk-shock-protection.rst
+> rename to Documentation/admin-guide/laptops/disk-shock-protection.rst
+> diff --git a/Documentation/laptops/index.rst b/Documentation/admin-guide/laptops/index.rst
+> similarity index 95%
+> rename from Documentation/laptops/index.rst
+> rename to Documentation/admin-guide/laptops/index.rst
+> index 001a30910d09..6b554e39863b 100644
+> --- a/Documentation/laptops/index.rst
+> +++ b/Documentation/admin-guide/laptops/index.rst
+> @@ -1,4 +1,3 @@
+> -:orphan:
+>
+>  ==============
+>  Laptop Drivers
+> diff --git a/Documentation/laptops/laptop-mode.rst b/Documentation/admin-guide/laptops/laptop-mode.rst
+> similarity index 100%
+> rename from Documentation/laptops/laptop-mode.rst
+> rename to Documentation/admin-guide/laptops/laptop-mode.rst
+> diff --git a/Documentation/laptops/lg-laptop.rst b/Documentation/admin-guide/laptops/lg-laptop.rst
+> similarity index 99%
+> rename from Documentation/laptops/lg-laptop.rst
+> rename to Documentation/admin-guide/laptops/lg-laptop.rst
+> index f2c2ffe31101..ce9b14671cb9 100644
+> --- a/Documentation/laptops/lg-laptop.rst
+> +++ b/Documentation/admin-guide/laptops/lg-laptop.rst
+> @@ -1,6 +1,5 @@
+>  .. SPDX-License-Identifier: GPL-2.0+
+>
+> -:orphan:
+>
+>  LG Gram laptop extra features
+>  =============================
+> diff --git a/Documentation/laptops/sony-laptop.rst b/Documentation/admin-guide/laptops/sony-laptop.rst
+> similarity index 100%
+> rename from Documentation/laptops/sony-laptop.rst
+> rename to Documentation/admin-guide/laptops/sony-laptop.rst
+> diff --git a/Documentation/laptops/sonypi.rst b/Documentation/admin-guide/laptops/sonypi.rst
+> similarity index 100%
+> rename from Documentation/laptops/sonypi.rst
+> rename to Documentation/admin-guide/laptops/sonypi.rst
+> diff --git a/Documentation/laptops/thinkpad-acpi.rst b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
+> similarity index 100%
+> rename from Documentation/laptops/thinkpad-acpi.rst
+> rename to Documentation/admin-guide/laptops/thinkpad-acpi.rst
+> diff --git a/Documentation/laptops/toshiba_haps.rst b/Documentation/admin-guide/laptops/toshiba_haps.rst
+> similarity index 100%
+> rename from Documentation/laptops/toshiba_haps.rst
+> rename to Documentation/admin-guide/laptops/toshiba_haps.rst
+> diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+> index 4940ab610eb7..d918b11326f3 100644
+> --- a/Documentation/admin-guide/sysctl/vm.rst
+> +++ b/Documentation/admin-guide/sysctl/vm.rst
+> @@ -108,7 +108,7 @@ block_dump
+>  ==========
+>
+>  block_dump enables block I/O debugging when set to a nonzero value. More
+> -information on block I/O debugging is in Documentation/laptops/laptop-mode.rst.
+> +information on block I/O debugging is in Documentation/admin-guide/laptops/laptop-mode.rst.
+>
+>
+>  compact_memory
+> @@ -298,7 +298,7 @@ laptop_mode
+>  ===========
+>
+>  laptop_mode is a knob that controls "laptop mode". All the things that are
+> -controlled by this knob are discussed in Documentation/laptops/laptop-mode.rst.
+> +controlled by this knob are discussed in Documentation/admin-guide/laptops/laptop-mode.rst.
+>
+>
+>  legacy_va_layout
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index b7c81bd0f8e8..ab170522ec55 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -8927,7 +8927,7 @@ M:        Matan Ziv-Av <matan@svgalib.org>
+>  L:     platform-driver-x86@vger.kernel.org
+>  S:     Maintained
+>  F:     Documentation/ABI/testing/sysfs-platform-lg-laptop
+> -F:     Documentation/laptops/lg-laptop.rst
+> +F:     Documentation/admin-guide/laptops/lg-laptop.rst
+>  F:     drivers/platform/x86/lg-laptop.c
+>
+>  LG2160 MEDIA DRIVER
+> @@ -14756,7 +14756,7 @@ M:      Mattia Dongili <malattia@linux.it>
+>  L:     platform-driver-x86@vger.kernel.org
+>  W:     http://www.linux.it/~malattia/wiki/index.php/Sony_drivers
+>  S:     Maintained
+> -F:     Documentation/laptops/sony-laptop.rst
+> +F:     Documentation/admin-guide/laptops/sony-laptop.rst
+>  F:     drivers/char/sonypi.c
+>  F:     drivers/platform/x86/sony-laptop.c
+>  F:     include/linux/sony-laptop.h
+> diff --git a/drivers/char/Kconfig b/drivers/char/Kconfig
+> index 3a0f94929814..3e866885a405 100644
+> --- a/drivers/char/Kconfig
+> +++ b/drivers/char/Kconfig
+> @@ -382,7 +382,7 @@ config SONYPI
+>           Device which can be found in many (all ?) Sony Vaio laptops.
+>
+>           If you have one of those laptops, read
+> -         <file:Documentation/laptops/sonypi.rst>, and say Y or M here.
+> +         <file:Documentation/admin-guide/laptops/sonypi.rst>, and say Y or M here.
+>
+>           To compile this driver as a module, choose M here: the
+>           module will be called sonypi.
+> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+> index 9d866b6753fe..430f7f619553 100644
+> --- a/drivers/platform/x86/Kconfig
+> +++ b/drivers/platform/x86/Kconfig
+> @@ -451,7 +451,7 @@ config SONY_LAPTOP
+>           screen brightness control, Fn keys and allows powering on/off some
+>           devices.
+>
+> -         Read <file:Documentation/laptops/sony-laptop.rst> for more information.
+> +         Read <file:Documentation/admin-guide/laptops/sony-laptop.rst> for more information.
+>
+>  config SONYPI_COMPAT
+>         bool "Sonypi compatibility"
+> @@ -503,7 +503,7 @@ config THINKPAD_ACPI
+>           support for Fn-Fx key combinations, Bluetooth control, video
+>           output switching, ThinkLight control, UltraBay eject and more.
+>           For more information about this driver see
+> -         <file:Documentation/laptops/thinkpad-acpi.rst> and
+> +         <file:Documentation/admin-guide/laptops/thinkpad-acpi.rst> and
+>           <http://ibm-acpi.sf.net/> .
+>
+>           This driver was formerly known as ibm-acpi.
+> --
+> 2.21.0
+>
 
-This is c:
 
-	int
-	func( int a, int
-			 b ) {
-	 return a + b;
-	}
-
-This is also c:
-
-	func(int a,int b) { goto foo;
-	foo:
-	   return(a+b) }
-
-K&R style is also c, and this is also c:
-
-	#define f(a,b) (a+b)
-
-Despite none of the above matches my taste - and some have issues - they
-all build with gcc.
-
-Yet, none of the above follows the Kernel coding style.
-
-The way we use ReST (with absolute minimal changes), it becomes just
-a text style.
-
-Btw, I agree with you: there are some odd things at its style - and we 
-should work to try to reduce this to its minimal extent.
-
-> 
-> > > >  .../{ => driver-api}/futex-requeue-pi.rst     |  2 -    
-> > >   
-> > > >  .../{ => driver-api}/gcc-plugins.rst          |  2 -    
-> > >   
-> > > >  Documentation/{ => driver-api}/kprobes.rst    |  2 -
-> > > >  .../{ => driver-api}/percpu-rw-semaphore.rst  |  2 -    
-> > > 
-> > > More NAK for rst conversion  
-> > 
-> > Again, those don't need any conversion. Those files already parse 
-> > as-is by Sphinx, with no need for any change.  
-> 
-> And yet, they're a .txt file in my tree. And I've not seen a rename,
-> just this move.
-
-Rename is on patch 1/22.
-
-No matter the extension, all the above files pass at the Sphinx style
-validation without warnings or errors. Patch 1/22 doesn't make any
-conversion.
-
-Btw, the .rst extension is just a convenient way to help identifying what
-was not validated. If I'm not mistaken, when the discussions about a
-replacement for DocBook started at at linux-doc, someone proposed to
-keep the .txt extension (changing it to accept .rst, .txt or both is
-a single line change at conf.py).
-
-> 
-> > The only change here is that, on patch 1/22, the files that
-> > aren't listed on an index file got a :orphan: added in order
-> > to make this explicit. This patch removes it.  
-> 
-> I've no idea what :orphan: is. Text file don't have markup.
-> 
-> > > >  Documentation/{ => driver-api}/pi-futex.rst   |  2 -
-> > > >  .../{ => driver-api}/preempt-locking.rst      |  2 -    
-> > >   
-> > > >  Documentation/{ => driver-api}/rbtree.rst     |  2 -    
-> > >   
-> > > >  .../{ => driver-api}/robust-futex-ABI.rst     |  2 -
-> > > >  .../{ => driver-api}/robust-futexes.rst       |  2 -    
-> > >   
-> > > >  .../{ => driver-api}/speculation.rst          |  8 +--
-> > > >  .../{ => driver-api}/static-keys.rst          |  2 -    
-> > >   
-> > > >  .../{ => driver-api}/this_cpu_ops.rst         |  2 -    
-> > >   
-> > > >  Documentation/locking/rt-mutex.rst            |  2 +-    
-> > > 
-> > > NAK. None of the above have anything to do with driver-api.  
-> > 
-> > Ok. Where do you think they should sit instead? core-api?  
-> 
-> Pretty much all of then are core-api I tihnk, with exception of the one
-> that are ABI, which have nothing to do with API. 
-
-OK.
-
-> And i've no idea where
-> GCC plugins go, but it's definitely nothing to do with drivers.
-
-I suspect that Documentation/security would be a better place
-for GCC plugins (as it has been discussed at kernel-hardening ML),
-but I'm waiting a feedback from Kees.
-
-> 
-> Many of the futex ones are about the sys_futex user API, which
-> apparently we have Documentation/userspace-api/ for.
-
-Yeah, it makes sense to place sys_futex there.
-
-Despite being an old dir, it is not too popular: there are
-very few document there. I only discovered this one a few
-days ago.
-
-> 
-> Why are you doing this if you've no clue what they're on about?
-
-I don't pretend to know precisely where each document will fit.
-If you read carefully the content of each orphaned document, you'll see
-that many of them have uAPI, kAPI and admin-guide info inside.
-
-To be frank, I actually tried to get rid of this document shift
-part, but a Jon's feedback when I submitted a much simpler RFC
-patchset challenged me to try to place each document on some place. The 
-renaming part is by far a lot more complex than the conversion, 
-because depending on how you interpret the file contents -
-and the description of each documentation chapter - it may fit on a
-different subdir.
-
--
-
-My main goal is to have an organized body with the documentation. 
-
-Try to read our docs as if it is a book, and you'll see what I'm talking
-about: there are important missing parts, the document order isn't in
-an order that would make easier for the headers, several documents are
-placed on random places, etc.
-
-Just like we have Makefiles, the index.rst files, plus the subdirectories
-help to classify and organize the documentation on a coherent way.
-
-- 
-
-The main problem I want to address with this particular patch is that 
-there are so many random documents from all sorts of subject at
-Documentation/*.txt that it makes really hard to see the document
-structure or to organize them.
-
-Also, keeping txt files there at the root doc dir is a bad idea, as 
-people keep flooding Documentation/ root with new unclassified documents
-on almost every Kernel version.
-
-After 5.1, there are two new documents added inside Documentation/*.txt
-(I guess both added at linux-next for 5.3).
-
-I proposed a few months ago to create a Documentation/staging, and do:
-
-	mv Documentation/*.txt Documentation/*.rst Documentation/staging 
-
-Jani proposed today something similar to it (Documentation/attic)
-
-The name is not important. Having a place were we can temporarily
-place documents while we organize the directory structure and the
-documentation indexes seem to be the best way to reorganize the
-docs on a coherent way.
-
-Thanks,
-Mauro
+-- 
+With Best Regards,
+Andy Shevchenko
