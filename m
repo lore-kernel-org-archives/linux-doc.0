@@ -3,43 +3,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 8657F7D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Jun 2019 17:25:46 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 49B127D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Thu, 20 Jun 2019 17:26:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732211AbfFTRZc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Thu, 20 Jun 2019 13:25:32 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:52562 "EHLO
+        id S1732112AbfFTRXS (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Thu, 20 Jun 2019 13:23:18 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:52524 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726530AbfFTRXT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jun 2019 13:23:19 -0400
+        with ESMTP id S1726686AbfFTRXS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 20 Jun 2019 13:23:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=+TcnVW4oc5Non+1YyDCeuAoLNOkHuIVoRYv61A8PqOA=; b=fys93Vkq4CBY5OFP8T6LD4eE21
-        k3+beOPwAxKRwDu+cn/+/TQ+BwKhhkQpBIV9p9rPgN+TV0uyyHn+YOdnp8FPtdlZnfCHJYYZkEBsZ
-        y7iKSiGllpq1Dgw8t7LdW13j5BTw4lJ3iwA02A/pfKHpTUSpG+FUtUkrrRcmAdb8PddqwaXT4pNPv
-        n3bDrT2Nh8f/MHXkxcGxPY9ob2HPD7y8XODfpnSnJsGMiwknAkKqD0YvSv52qu4Shsu3phqfiGBiD
-        +2LnMsf79NWcbZ5dCorAsMCbbBOJ/B7IVVmY79lz8BXvvHBitcMpuvq/l9VURaOIHzwIFPC0OQmrL
-        4cXQIWJA==;
+        bh=C0W3exYft1KrUqFyOJUCPkgo7W6ZH/A+goYD/OL6mwQ=; b=MHaJ1AAp1KTaghNr6IhcV1l7jW
+        XJzUHpIStnpHouqWDla9WQd7GjexetPRqCWlOxLQYce5t2OlojC8B/4TTARwb7E9CHfrFQ2i1Wc5F
+        ZahE+rgwD7d2VwangNt/YzEVoDLay/EgFC+AIObP6e/IXtwSpFStTzYjYYdiVtfXuFeQtATxsQt6t
+        JSkKDmmI59J89xM1b+bkzWTt9QygIOVMARoa6X2lNqCd5PZcSIDe3PRNtgzCRukhPbv+U13SlrOdf
+        k9ws3MxA5EeLIeGojhD0GI27YbJL+aB5dJ6PUJgI10zbb3Aj8T42w0FP6M9tjJSIg9FCeC4a7e/Ur
+        RuHDtZsw==;
 Received: from [177.97.20.138] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1he0mM-0008S0-A8; Thu, 20 Jun 2019 17:23:18 +0000
+        id 1he0mL-0008Rm-QN; Thu, 20 Jun 2019 17:23:17 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1he0mJ-0000D4-N4; Thu, 20 Jun 2019 14:23:15 -0300
+        id 1he0mJ-0000Cf-HE; Thu, 20 Jun 2019 14:23:15 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2 07/22] scripts/get_abi.pl: add support for searching for ABI symbols
-Date:   Thu, 20 Jun 2019 14:22:59 -0300
-Message-Id: <72051952d8eac5a5aff20998909aeb52aeb4d773.1561050806.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rajat Jain <rajatja@google.com>
+Subject: [PATCH v2 01/22] ABI: sysfs-bus-pci-devices-aer_stats uses an invalid tag
+Date:   Thu, 20 Jun 2019 14:22:53 -0300
+Message-Id: <3b8d7c64f887ddea01df3c4eeabc745c8ec45406.1561050806.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1561050806.git.mchehab+samsung@kernel.org>
 References: <cover.1561050806.git.mchehab+samsung@kernel.org>
@@ -50,211 +52,68 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Change its syntax to allow switching between ReST output mode
-and a new search mode, with allows to seek for ABI symbols
-using regex.
+According with Documentation/ABI/, the right tag to describe
+an ABI symbol is "What:", and not "Where:".
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- scripts/get_abi.pl | 112 +++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 103 insertions(+), 9 deletions(-)
+ .../ABI/testing/sysfs-bus-pci-devices-aer_stats      | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-index f84d321a72bb..ecf6b91df7c4 100755
---- a/scripts/get_abi.pl
-+++ b/scripts/get_abi.pl
-@@ -9,9 +9,11 @@ use Fcntl ':mode';
- my $help;
- my $man;
- my $debug;
-+my $prefix="Documentation/ABI";
+diff --git a/Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats b/Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats
+index 4b0318c99507..ff229d71961c 100644
+--- a/Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats
++++ b/Documentation/ABI/testing/sysfs-bus-pci-devices-aer_stats
+@@ -9,7 +9,7 @@ errors may be "seen" / reported by the link partner and not the
+ problematic endpoint itself (which may report all counters as 0 as it never
+ saw any problems).
  
- GetOptions(
- 	"debug|d+" => \$debug,
-+	"dir=s" => \$prefix,
- 	'help|?' => \$help,
- 	man => \$man
- ) or pod2usage(2);
-@@ -19,9 +21,12 @@ GetOptions(
- pod2usage(1) if $help;
- pod2usage(-exitstatus => 0, -verbose => 2) if $man;
+-Where:		/sys/bus/pci/devices/<dev>/aer_dev_correctable
++What:		/sys/bus/pci/devices/<dev>/aer_dev_correctable
+ Date:		July 2018
+ Kernel Version: 4.19.0
+ Contact:	linux-pci@vger.kernel.org, rajatja@google.com
+@@ -31,7 +31,7 @@ Header Log Overflow 0
+ TOTAL_ERR_COR 2
+ -------------------------------------------------------------------------
  
--pod2usage(2) if (scalar @ARGV != 1);
-+pod2usage(2) if (scalar @ARGV < 1 || @ARGV > 2);
+-Where:		/sys/bus/pci/devices/<dev>/aer_dev_fatal
++What:		/sys/bus/pci/devices/<dev>/aer_dev_fatal
+ Date:		July 2018
+ Kernel Version: 4.19.0
+ Contact:	linux-pci@vger.kernel.org, rajatja@google.com
+@@ -62,7 +62,7 @@ TLP Prefix Blocked Error 0
+ TOTAL_ERR_FATAL 0
+ -------------------------------------------------------------------------
  
--my ($prefix) = @ARGV;
-+my ($cmd, $arg) = @ARGV;
-+
-+pod2usage(2) if ($cmd ne "search" && $cmd ne "rest");
-+pod2usage(2) if ($cmd eq "search" && !$arg);
+-Where:		/sys/bus/pci/devices/<dev>/aer_dev_nonfatal
++What:		/sys/bus/pci/devices/<dev>/aer_dev_nonfatal
+ Date:		July 2018
+ Kernel Version: 4.19.0
+ Contact:	linux-pci@vger.kernel.org, rajatja@google.com
+@@ -103,19 +103,19 @@ collectors) that are AER capable. These indicate the number of error messages as
+ device, so these counters include them and are thus cumulative of all the error
+ messages on the PCI hierarchy originating at that root port.
  
- require Data::Dumper if ($debug);
+-Where:		/sys/bus/pci/devices/<dev>/aer_stats/aer_rootport_total_err_cor
++What:		/sys/bus/pci/devices/<dev>/aer_stats/aer_rootport_total_err_cor
+ Date:		July 2018
+ Kernel Version: 4.19.0
+ Contact:	linux-pci@vger.kernel.org, rajatja@google.com
+ Description:	Total number of ERR_COR messages reported to rootport.
  
-@@ -53,6 +58,7 @@ sub parse_abi {
- 	$data{$nametag}->{what} = "File $name";
- 	$data{$nametag}->{type} = "File";
- 	$data{$nametag}->{file} = $name;
-+	$data{$nametag}->{filepath} = $file;
- 	$data{$nametag}->{is_file} = 1;
+-Where:	    /sys/bus/pci/devices/<dev>/aer_stats/aer_rootport_total_err_fatal
++What:	    /sys/bus/pci/devices/<dev>/aer_stats/aer_rootport_total_err_fatal
+ Date:		July 2018
+ Kernel Version: 4.19.0
+ Contact:	linux-pci@vger.kernel.org, rajatja@google.com
+ Description:	Total number of ERR_FATAL messages reported to rootport.
  
- 	my $type = $file;
-@@ -115,6 +121,7 @@ sub parse_abi {
- 
- 					$data{$what}->{type} = $type;
- 					$data{$what}->{file} = $name;
-+					$data{$what}->{filepath} = $file;
- 					print STDERR "\twhat: $what\n" if ($debug > 1);
- 				}
- 
-@@ -183,7 +190,9 @@ sub parse_abi {
- 	close IN;
- }
- 
--# Outputs the output on ReST format
-+#
-+# Outputs the book on ReST format
-+#
- sub output_rest {
- 	foreach my $what (sort keys %data) {
- 		my $type = $data{$what}->{type};
-@@ -262,6 +271,45 @@ sub output_rest {
- 	}
- }
- 
-+#
-+# Searches for ABI symbols
-+#
-+sub search_symbols {
-+	foreach my $what (sort keys %data) {
-+		next if (!($what =~ m/($arg)/));
-+
-+		my $type = $data{$what}->{type};
-+		next if ($type eq "File");
-+
-+		my $file = $data{$what}->{filepath};
-+
-+		my $bar = $what;
-+		$bar =~ s/./-/g;
-+
-+		print "\n$what\n$bar\n\n";
-+
-+		my $kernelversion = $data{$what}->{kernelversion};
-+		my $contact = $data{$what}->{contact};
-+		my $users = $data{$what}->{users};
-+		my $date = $data{$what}->{date};
-+		my $desc = $data{$what}->{description};
-+		$kernelversion =~ s/^\s+//;
-+		$contact =~ s/^\s+//;
-+		$users =~ s/^\s+//;
-+		$users =~ s/\n//g;
-+		$date =~ s/^\s+//;
-+		$desc =~ s/^\s+//;
-+
-+		printf "Kernel version:\t\t%s\n", $kernelversion if ($kernelversion);
-+		printf "Date:\t\t\t%s\n", $date if ($date);
-+		printf "Contact:\t\t%s\n", $contact if ($contact);
-+		printf "Users:\t\t\t%s\n", $users if ($users);
-+		print "Defined on file:\t$file\n\n";
-+		print "Description:\n\n$desc";
-+	}
-+}
-+
-+
- #
- # Parses all ABI files located at $prefix dir
- #
-@@ -270,9 +318,13 @@ find({wanted =>\&parse_abi, no_chdir => 1}, $prefix);
- print STDERR Data::Dumper->Dump([\%data], [qw(*data)]) if ($debug);
- 
- #
--# Outputs an ReST file with the ABI contents
-+# Handles the command
- #
--output_rest
-+if ($cmd eq "rest") {
-+	output_rest;
-+} else {
-+	search_symbols;
-+}
- 
- 
- __END__
-@@ -283,12 +335,27 @@ abi_book.pl - parse the Linux ABI files and produce a ReST book.
- 
- =head1 SYNOPSIS
- 
--B<abi_book.pl> [--debug] <ABI_DIR>]
-+B<abi_book.pl> [--debug] <COMAND> [<ARGUMENT>]
-+
-+Where <COMMAND> can be:
-+
-+=over 8
-+
-+B<search> [SEARCH_REGEX] - search for [SEARCH_REGEX] inside ABI
-+
-+B<rest>   - output the ABI in ReST markup language
-+
-+=back
- 
- =head1 OPTIONS
- 
- =over 8
- 
-+=item B<--dir>
-+
-+Changes the location of the ABI search. By default, it uses
-+the Documentation/ABI directory.
-+
- =item B<--debug>
- 
- Put the script in verbose mode, useful for debugging. Can be called multiple
-@@ -306,8 +373,35 @@ Prints the manual page and exits.
- 
- =head1 DESCRIPTION
- 
--Parse the Linux ABI files from ABI DIR (usually located at Documentation/ABI)
--and produce a ReST book containing the Linux ABI.
-+Parse the Linux ABI files from ABI DIR (usually located at Documentation/ABI),
-+allowing to search for ABI symbols or to produce a ReST book containing
-+the Linux ABI documentation.
-+
-+=head1 EXAMPLES
-+
-+Search for all stable symbols with the word "usb":
-+
-+=over 8
-+
-+$ scripts/get_abi.pl search usb --dir Documentation/ABI/stable
-+
-+=back
-+
-+Search for all symbols that match the regex expression "usb.*cap":
-+
-+=over 8
-+
-+$ scripts/get_abi.pl search usb.*cap
-+
-+=back
-+
-+Output all obsoleted symbols in ReST format
-+
-+=over 8
-+
-+$ scripts/get_abi.pl rest --dir Documentation/ABI/obsolete
-+
-+=back
- 
- =head1 BUGS
- 
-@@ -315,7 +409,7 @@ Report bugs to Mauro Carvalho Chehab <mchehab@s-opensource.com>
- 
- =head1 COPYRIGHT
- 
--Copyright (c) 2016 by Mauro Carvalho Chehab <mchehab@s-opensource.com>.
-+Copyright (c) 2016-2017 by Mauro Carvalho Chehab <mchehab@s-opensource.com>.
- 
- License GPLv2: GNU GPL version 2 <http://gnu.org/licenses/gpl.html>.
- 
+-Where:	    /sys/bus/pci/devices/<dev>/aer_stats/aer_rootport_total_err_nonfatal
++What:	    /sys/bus/pci/devices/<dev>/aer_stats/aer_rootport_total_err_nonfatal
+ Date:		July 2018
+ Kernel Version: 4.19.0
+ Contact:	linux-pci@vger.kernel.org, rajatja@google.com
 -- 
 2.21.0
 
