@@ -1,119 +1,143 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0F0997D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Jun 2019 15:17:02 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 975ED7D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Jun 2019 15:28:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726314AbfFUPQq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Jun 2019 11:16:46 -0400
-Received: from foss.arm.com ([217.140.110.172]:34340 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726002AbfFUPQp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 21 Jun 2019 11:16:45 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C4CF5344;
-        Fri, 21 Jun 2019 08:16:44 -0700 (PDT)
-Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.78])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 558C63F575;
-        Fri, 21 Jun 2019 08:16:43 -0700 (PDT)
-Date:   Fri, 21 Jun 2019 16:16:41 +0100
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     Kevin Brodsky <kevin.brodsky@arm.com>
-Cc:     Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Will Deacon <will.deacon@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>
-Subject: Re: [PATCH v5 1/2] arm64: Define
- Documentation/arm64/tagged-address-abi.txt
-Message-ID: <20190621151640.GI18954@arrakis.emea.arm.com>
-References: <cover.1560339705.git.andreyknvl@google.com>
- <20190613155137.47675-1-vincenzo.frascino@arm.com>
- <20190613155137.47675-2-vincenzo.frascino@arm.com>
- <1c55a610-9aa5-4675-f7de-79a1661a660d@arm.com>
+        id S1726106AbfFUP2I (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Jun 2019 11:28:08 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:53292 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726002AbfFUP2I (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Jun 2019 11:28:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=dfnoVNT3V7SYvYtsn9Bs6s7MUJu5ylj7M4ocTJKuFPw=; b=iEvd+xSq7niAE59MOOzJX8jdAx
+        oRxFd1hYSYtb06ntz0iKVE1A0ykBGRQBUpUnNxZryPDjhyB53aNTctGI2cNY9p0g6fz/R0M9VmaRq
+        pl/4tBj6TmIdD+iWo+XeIn6Xs65FQpur9Yb72zhFk1eZ1UA+7+eTiA3TcTrQ0TFmPyOtJoicpnQi6
+        wksPo0+/IhOc1si1TPcmLyQOhhYEuBTGiuwOzu/tJD+2eDK2uOFDwVpJkZv0rKvTV4eIttz+AgU6+
+        +qtVBFGV+rvI2xrM70nbIgC07AMWFk6y+gabmXebpr02PvX0xq3EerBYoHRj5duSIABK36hqN4LXG
+        YhN6smHA==;
+Received: from [177.97.20.138] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1heLSR-0006Au-LP; Fri, 21 Jun 2019 15:28:07 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1heLSO-0005iB-Ik; Fri, 21 Jun 2019 12:28:04 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        gregkh@linuxfoundation.org
+Subject: [PATCH 1/2] get_abi.pl: Allow optionally record from where a line came from
+Date:   Fri, 21 Jun 2019 12:28:01 -0300
+Message-Id: <00646c61f64f84f49c37d270b4c10511b0605c67.1561130657.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <cover.1561130657.git.mchehab+samsung@kernel.org>
+References: <cover.1561130657.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1c55a610-9aa5-4675-f7de-79a1661a660d@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 18, 2019 at 02:13:01PM +0100, Kevin Brodsky wrote:
-> On 13/06/2019 16:51, Vincenzo Frascino wrote:
-> > +The ARM64 Tagged Address ABI is an opt-in feature, and an application can
-> > +control it using the following:
-> > + - /proc/sys/abi/tagged_addr: a new sysctl interface that can be used to
-> > +        prevent the applications from enabling the relaxed ABI.
-> > +        The sysctl is meant also for testing purposes in order to provide a
-> > +        simple way for the userspace to verify the return error checking of
-> > +        the prctl() commands without having to reconfigure the kernel.
-> > +        The sysctl supports the following configuration options:
-> > +         - 0: Disable ARM64 Tagged Address ABI for all the applications.
-> > +         - 1 (Default): Enable ARM64 Tagged Address ABI for all the
-> > +                        applications.
-> 
-> I find this very confusing, because it suggests that the default value of
-> PR_GET_TAGGED_ADDR_CTRL for new processes will be set to the value of this
-> sysctl, when in fact this sysctl is about restricting the *availability* of
-> the new ABI. Instead of disabling the ABI, I would talk about disabling
-> access to the new ABI here.
+The get_abi.pl reads a lot of files and can join them on a
+single output file. Store where each "What:" output came from,
+in order to be able to optionally display it.
 
-This bullet point needs to be re-written. The sysctl is meant to disable
-opting in to the ABI. I'd also drop the "meant for testing" part. I put
-it in my commit log as justification but I don't think it should be part
-of the ABI document.
+This is useful for the Sphinx extension, with can now be
+able to blame what ABI file has issues, and on what line
+the What: description with problems begin.
 
-> > + - prctl()s:
-> > +  - PR_SET_TAGGED_ADDR_CTRL: can be used to enable or disable the Tagged
-> > +        Address ABI.
-> > +        The (unsigned int) arg2 argument is a bit mask describing the
-> > +        control mode used:
-> > +          - PR_TAGGED_ADDR_ENABLE: Enable ARM64 Tagged Address ABI.
-> > +        The arguments arg3, arg4, and arg5 are ignored.
-> 
-> Have we definitely decided that arg{3,4,5} are ignored? Catalin?
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ scripts/get_abi.pl | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
 
-I don't have a strong preference either way. If it's simpler for the
-user to ignore them, fine by me. I can see in the current prctl commands
-a mix if ignore vs forced zero.
-
-> > +the ABI guarantees the following behaviours:
-> > +
-> > +  - Every current or newly introduced syscall can accept any valid tagged
-> > +    pointers.
-> "pointer". Also, is it really useful to talk about newly introduced syscall?
-> New from which point of view?
-
-I think we should drop this guarantee. It would have made sense if we
-allowed tagged pointers everywhere but we already have some exceptions.
-
-> > +3. ARM64 Tagged Address ABI Exceptions
-> > +--------------------------------------
-> > +
-> > +The behaviours described in section 2, with particular reference to the
-> > +acceptance by the syscalls of any valid tagged pointer are not applicable
-> > +to the following cases:
-> > +  - mmap() addr parameter.
-> > +  - mremap() new_address parameter.
-> > +  - prctl_set_mm() struct prctl_map fields.
-> > +  - prctl_set_mm_map() struct prctl_map fields.
-> 
-> prctl_set_mm() and prctl_set_mm_map() are internal kernel functions, not
-> syscall names. IIUC, we don't want to allow any address field settable via
-> the PR_SET_MM prctl() to be tagged. Catalin, is that correct? I think this
-> needs rephrasing.
-
-I fully agree. It should talk about PR_SET_MM, PR_SET_MM_MAP,
-PR_SET_MM_MAP_SIZE.
-
+diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
+index 03f3c57af7ab..45453b7586bc 100755
+--- a/scripts/get_abi.pl
++++ b/scripts/get_abi.pl
+@@ -10,6 +10,7 @@ use Fcntl ':mode';
+ my $help;
+ my $man;
+ my $debug;
++my $enable_lineno;
+ my $prefix="Documentation/ABI";
+ 
+ #
+@@ -19,6 +20,7 @@ my $description_is_rst = 0;
+ 
+ GetOptions(
+ 	"debug|d+" => \$debug,
++	"enable-lineno" => \$enable_lineno,
+ 	"rst-source!" => \$description_is_rst,
+ 	"dir=s" => \$prefix,
+ 	'help|?' => \$help,
+@@ -134,6 +136,8 @@ sub parse_abi {
+ 			if ($tag ne "" && $new_tag) {
+ 				$tag = $new_tag;
+ 
++				$data{$what}->{line_no} = $ln;
++
+ 				if ($new_what) {
+ 					@{$data{$what}->{label}} = @labels if ($data{$nametag}->{what});
+ 					@labels = ();
+@@ -229,6 +233,12 @@ sub output_rest {
+ 		my $file = $data{$what}->{file};
+ 		my $filepath = $data{$what}->{filepath};
+ 
++		if ($enable_lineno) {
++			printf "#define LINENO %s%s#%s\n\n",
++			       $prefix, $data{$what}->{file},
++			       $data{$what}->{line_no};
++		}
++
+ 		my $w = $what;
+ 		$w =~ s/([\(\)\_\-\*\=\^\~\\])/\\$1/g;
+ 
+@@ -377,6 +387,10 @@ sub search_symbols {
+ 	}
+ }
+ 
++# Ensure that the prefix will always end with a slash
++# While this is not needed for find, it makes the patch nicer
++# with --enable-lineno
++$prefix =~ s,/?$,/,;
+ 
+ #
+ # Parses all ABI files located at $prefix dir
+@@ -403,7 +417,8 @@ abi_book.pl - parse the Linux ABI files and produce a ReST book.
+ 
+ =head1 SYNOPSIS
+ 
+-B<abi_book.pl> [--debug] [--man] [--help] --[(no-)rst-source] [--dir=<dir>] <COMAND> [<ARGUMENT>]
++B<abi_book.pl> [--debug] [--enable-lineno] [--man] [--help]
++	       [--(no-)rst-source] [--dir=<dir>] <COMAND> [<ARGUMENT>]
+ 
+ Where <COMMAND> can be:
+ 
+@@ -433,6 +448,10 @@ selecting between a rst-compliant source ABI (--rst-source), or a
+ plain text that may be violating ReST spec, so it requres some escaping
+ logic (--no-rst-source).
+ 
++=item B<--enable-lineno>
++
++Enable output of #define LINENO lines.
++
+ =item B<--debug>
+ 
+ Put the script in verbose mode, useful for debugging. Can be called multiple
 -- 
-Catalin
+2.21.0
+
