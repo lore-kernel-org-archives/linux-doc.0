@@ -1,147 +1,209 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 91B7C7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Jun 2019 14:59:18 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id C4DE97D919
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Jun 2019 14:59:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726031AbfFUO7S (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Jun 2019 10:59:18 -0400
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:43438 "EHLO
-        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725985AbfFUO7S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Jun 2019 10:59:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
-        Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:Reply-To:Content-ID
-        :Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
-        Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=XzAaUhJ0bSs/mdF9ef3MgCxg3px0Mc5fJslS2oHAA2s=; b=aOkqU6TzkSj3Hs8gQZh+Gg2TPS
-        PE+RW9xlYBZgqPpwDfY+BPJLx73nC/uAh9OryKfWEUs5pIAu/WbxS4KxMlZgDthtNW2WXnqsCXBuY
-        exqWkIYjqUm7CFb6VeReLElSNu4PiZNqFrJyLFWqhuzuw94ojts0aVQF1EpuKRdbWx46gDaOcDw/7
-        BUNN0lFyixCcItxFxDPebsbfUYxAGH7I3NDCRkLIdg369WR1JnllQkCXAcxFQMMekBoSmqSdzBcng
-        2IWrSBOZBylUPXwgytg5AhyxFdA2ZyDVACKMKwMV2ZSO4rFqw8lP06sNc+MbZ6Tx/+ONsHkdbCZ10
-        E+Rw4Dpw==;
-Received: from e0022681537dd.dyn.armlinux.org.uk ([2001:4d48:ad52:3201:222:68ff:fe15:37dd]:48270 helo=rmk-PC.armlinux.org.uk)
-        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-        (Exim 4.90_1)
-        (envelope-from <rmk@armlinux.org.uk>)
-        id 1heL0P-00065F-Sz; Fri, 21 Jun 2019 15:59:09 +0100
-Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.82_1-5b7a7c0-XX)
-        (envelope-from <rmk@armlinux.org.uk>)
-        id 1heL0P-00075z-An; Fri, 21 Jun 2019 15:59:09 +0100
-From:   Russell King <rmk+kernel@armlinux.org.uk>
-To:     Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH net-next] doc: phy: document some PHY_INTERFACE_MODE_xxx settings
+        id S1726031AbfFUO7x (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Jun 2019 10:59:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44056 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725985AbfFUO7x (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 21 Jun 2019 10:59:53 -0400
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2FA3F2070B;
+        Fri, 21 Jun 2019 14:59:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1561129191;
+        bh=jQOqVXNcfZkUcGV1wjafezc/ZNY8PMgE5h6rHbcBqkg=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=fVF0cWJ0mpMA6KTd3g5GTFKTqGb07hlbAKRaXsHiU5gZicbhsP8nzhP5lBm7wdR3Q
+         86P67oj3InItTJvZZf4vHPGbEwHeuhFRn7muUTOHYoK/hhOwBhjYJrlR4tOL/ZkWh0
+         lyQWIOYhLwZoPcg3Yd91RlXYf2pF/02sm7Qm2pBI=
+Subject: Re: [PATCH v5 00/18] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+To:     Frank Rowand <frowand.list@gmail.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        gregkh@linuxfoundation.org, jpoimboe@redhat.com,
+        keescook@google.com, kieran.bingham@ideasonboard.com,
+        mcgrof@kernel.org, peterz@infradead.org, robh@kernel.org,
+        sboyd@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com
+Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
+        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
+        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
+        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
+        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
+        wfg@linux.intel.com, shuah <shuah@kernel.org>
+References: <20190617082613.109131-1-brendanhiggins@google.com>
+ <10feac3e-7621-65e5-fbf0-9c63fcbe09c9@gmail.com>
+From:   shuah <shuah@kernel.org>
+Message-ID: <69809117-dcda-160a-ee0a-d1d3b4c5cd8a@kernel.org>
+Date:   Fri, 21 Jun 2019 08:59:48 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <E1heL0P-00075z-An@rmk-PC.armlinux.org.uk>
-Date:   Fri, 21 Jun 2019 15:59:09 +0100
+In-Reply-To: <10feac3e-7621-65e5-fbf0-9c63fcbe09c9@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There seems to be some confusion surrounding three PHY interface modes,
-specifically 1000BASE-X, 2500BASE-X and SGMII.  Add some documentation
-to phylib detailing precisely what these interface modes refer to.
+Hi Brendan,
 
-Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
----
+On 6/19/19 7:17 PM, Frank Rowand wrote:
+> Hi Brendan,
+> 
+> I am only responding to this because you asked me to in the v4 thread.
+> 
+> Thank you for evaluating my comments in the v4 thread and asking me to
+> comment on v5
+> 
+> On 6/17/19 1:25 AM, Brendan Higgins wrote:
+>> ## TL;DR
+>>
+>> A not so quick follow-up to Stephen's suggestions on PATCH v4. Nothing
+>> that really changes any functionality or usage with the minor exception
+>> of a couple public functions that Stephen asked me to rename.
+>> Nevertheless, a good deal of clean up and fixes. See changes below.
+>>
+>> As for our current status, right now we got Reviewed-bys on all patches
+>> except:
+>>
+>> - [PATCH v5 08/18] objtool: add kunit_try_catch_throw to the noreturn
+>>    list
+>>
+>> However, it would probably be good to get reviews/acks from the
+>> subsystem maintainers on:
+>>
+>> - [PATCH v5 06/18] kbuild: enable building KUnit
+>> - [PATCH v5 08/18] objtool: add kunit_try_catch_throw to the noreturn
+>>    list
+>> - [PATCH v5 15/18] Documentation: kunit: add documentation for KUnit
+>> - [PATCH v5 17/18] kernel/sysctl-test: Add null pointer test for
+>>    sysctl.c:proc_dointvec()
+>> - [PATCH v5 18/18] MAINTAINERS: add proc sysctl KUnit test to PROC
+>>    SYSCTL section
+>>
+>> Other than that, I think we should be good to go.
+>>
+>> One last thing, I updated the background to include my thoughts on KUnit
+>> vs. in kernel testing with kselftest in the background sections as
+>> suggested by Frank in the discussion on PATCH v2.
+>>
+>> ## Background
+>>
+>> This patch set proposes KUnit, a lightweight unit testing and mocking
+>> framework for the Linux kernel.
+>>
+>> Unlike Autotest and kselftest, KUnit is a true unit testing framework;
+>> it does not require installing the kernel on a test machine or in a VM
+>> (however, KUnit still allows you to run tests on test machines or in VMs
+>> if you want[1]) and does not require tests to be written in userspace
+>> running on a host kernel. Additionally, KUnit is fast: From invocation
+>> to completion KUnit can run several dozen tests in under a second.
+>> Currently, the entire KUnit test suite for KUnit runs in under a second
+>> from the initial invocation (build time excluded).
+>>
+>> KUnit is heavily inspired by JUnit, Python's unittest.mock, and
+>> Googletest/Googlemock for C++. KUnit provides facilities for defining
+>> unit test cases, grouping related test cases into test suites, providing
+>> common infrastructure for running tests, mocking, spying, and much more.
+>>
+> 
+> I looked only at this section, as was specifically requested:
+> 
+>> ### But wait! Doesn't kselftest support in kernel testing?!
+>>
+>> In a previous version of this patchset Frank pointed out that kselftest
+>> already supports writing a test that resides in the kernel using the
+>> test module feature[2]. LWN did a really great summary on this
+>> discussion here[3].
+>>
+>> Kselftest has a feature that allows a test module to be loaded into a
+>> kernel using the kselftest framework; this does allow someone to write
+>> tests against kernel code not directly exposed to userland; however, it
+>> does not provide much of a framework around how to structure the tests.
+>> The kselftest test module feature just provides a header which has a
+>> standardized way of reporting test failures,
+> 
+> 
+>> and then provides
+>> infrastructure to load and run the tests using the kselftest test
+>> harness.
+> 
+> The in-kernel tests can also be invoked at boot time if they are
+> configured (Kconfig) as in-kernel instead of as modules.  I did not
+> check how many of the tests have tri-state configuration to allow
+> this, but the few that I looked at did.
+> 
+>>
+>> The kselftest test module does not seem to be opinionated at all in
+>> regards to how tests are structured, how they check for failures, how
+>> tests are organized. Even in the method it provides for reporting
+>> failures is pretty simple; it doesn't have any more advanced failure
+>> reporting or logging features. Given what's there, I think it is fair to
+>> say that it is not actually a framework, but a feature that makes it
+>> possible for someone to do some checks in kernel space.
+> 
+> I would call that description a little dismissive.  The set of in-kernel
+> tests that I looked like followed a common pattern and reported results
+> in a uniform manner.
+> 
+>>
 
-This is in response to recent discussion, both public and private of
-recent attempts to convert some drivers to use phylink.  This is to
-aid understanding the differences between these three phy link modes,
-specifically with respect to the "up-clocked" 2.5G variants.
+I think I commented on this before. I agree with the statement that
+there is no overlap between Kselftest and KUnit. I would like see this
+removed. Kselftest module support supports use-cases KUnit won't be able
+to. I can build an kernel with Kselftest test modules and use it in the
+filed to load and run tests if I need to debug a problem and get data
+from a system. I can't do that with KUnit.
 
-The 2.5G variants are the basic 1G variants but with the serdes link
-clocked 2.5 times faster; there are no bits in the control word that
-identify this over the standard rates.  A serdes clocked 2.5x faster
-does not support the 1G/100M/10M speeds, but can only support 2.5G
-and (theoretically for SGMII) 250M/25M.  In practice, the PHY data
-sheets I've read state that these slower speeds at the up-clocked link
-speed are not supported.
+In my mind, I am not viewing this as which is better. Kselftest and
+KUnit both have their place in the kernel development process. It isn't
+productive and/or necessary to comparing Kselftest and KUnit without a
+good understanding of the problem spaces for each of these.
 
-It should be noted that we do not currently support 2.5G SGMII, but
-we do support 2.5G BASE-X PHY interface mode.
+I would strongly recommend not making reference to Kselftest and talk
+about what KUnit offers.
 
- Documentation/networking/phy.rst | 45 +++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 44 insertions(+), 1 deletion(-)
+>> Furthermore, kselftest test module has very few users. I checked for all
+>> the tests that use it using the following grep command:
+>>
+>> grep -Hrn -e 'kselftest_module\.h'
+>>
+>> and only got three results: lib/test_strscpy.c, lib/test_printf.c, and
+>> lib/test_bitmap.c.
+> 
 
-diff --git a/Documentation/networking/phy.rst b/Documentation/networking/phy.rst
-index 0dd90d7df5ec..a689966bc4be 100644
---- a/Documentation/networking/phy.rst
-+++ b/Documentation/networking/phy.rst
-@@ -202,7 +202,8 @@ the PHY/controller, of which the PHY needs to be aware.
- 
- *interface* is a u32 which specifies the connection type used
- between the controller and the PHY.  Examples are GMII, MII,
--RGMII, and SGMII.  For a full list, see include/linux/phy.h
-+RGMII, and SGMII.  See "PHY interface mode" below.  For a full
-+list, see include/linux/phy.h
- 
- Now just make sure that phydev->supported and phydev->advertising have any
- values pruned from them which don't make sense for your controller (a 10/100
-@@ -225,6 +226,48 @@ When you want to disconnect from the network (even if just briefly), you call
- phy_stop(phydev). This function also stops the phylib state machine and
- disables PHY interrupts.
- 
-+PHY interface modes
-+===================
-+
-+The PHY interface mode supplied in the phy_connect() family of functions
-+defines the initial operating mode of the PHY interface.  This is not
-+guaranteed to remain constant; there are PHYs which dynamically change
-+their interface mode without software interaction depending on the
-+negotiation results.
-+
-+Some of the interface modes are described below:
-+
-+``PHY_INTERFACE_MODE_1000BASEX``
-+    This defines the 1000BASE-X single-lane serdes link as defined by the
-+    802.3 standard section 36.  The link operates at a fixed bit rate of
-+    1.25Gbaud using a 10B/8B encoding scheme, resulting in an underlying
-+    data rate of 1Gbps.  Embedded in the data stream is a 16-bit control
-+    word which is used to negotiate the duplex and pause modes with the
-+    remote end.  This does not include "up-clocked" variants such as 2.5Gbps
-+    speeds (see below.)
-+
-+``PHY_INTERFACE_MODE_2500BASEX``
-+    This defines a variant of 1000BASE-X which is clocked 2.5 times faster,
-+    than the 802.3 standard giving a fixed bit rate of 3.125Gbaud.
-+
-+``PHY_INTERFACE_MODE_SGMII``
-+    This is used for Cisco SGMII, which is a modification of 1000BASE-X
-+    as defined by the 802.3 standard.  The SGMII link consists of a single
-+    serdes lane running at a fixed bit rate of 1.25Gbaud with 10B/8B
-+    encoding.  The underlying data rate is 1Gbps, with the slower speeds of
-+    100Mbps and 10Mbps being achieved through replication of each data symbol.
-+    The 802.3 control word is re-purposed to send the negotiated speed and
-+    duplex information from to the MAC, and for the MAC to acknowledge
-+    receipt.  This does not include "up-clocked" variants such as 2.5Gbps
-+    speeds.
-+
-+    Note: mismatched SGMII vs 1000BASE-X configuration on a link can
-+    successfully pass data in some circumstances, but the 16-bit control
-+    word will not be correctly interpreted, which may cause mismatches in
-+    duplex, pause or other settings.  This is dependent on the MAC and/or
-+    PHY behaviour.
-+
-+
- Pause frames / flow control
- ===========================
- 
--- 
-2.7.4
+Again, unnecessary. KUnit can't replace Kselftest module in the way
+Kselftest module support can be used for debugging and gathering
+information on system that might be in active use and not dedicated
+to test and development alone. I wouldn't hesitate loading a Kselftest
+test module on my laptop and running tests, but I wouldn't use KUnit
+the same way.
+
+Again, this is not a competition between which is better. Kselftest
+and KUnit serve different needs and problem spaces.
+
+Please redo this documentation to reflect that.
+
+thanks,
+-- Shuah
+
 
