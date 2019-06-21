@@ -1,84 +1,93 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C4C607D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Jun 2019 11:00:34 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 537EE7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Jun 2019 12:32:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726285AbfFULAe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Jun 2019 07:00:34 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:51975 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726218AbfFULAe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Jun 2019 07:00:34 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 11FC68057B; Fri, 21 Jun 2019 13:00:19 +0200 (CEST)
-Date:   Fri, 21 Jun 2019 12:59:42 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S1726663AbfFUMcL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Jun 2019 08:32:11 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:34922 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726368AbfFUMcK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Jun 2019 08:32:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=GwuJAUByrQHMk1PQs8rz13IEKJH89ptQrCnqtIM5oaA=; b=u4VAe4Nf+MiE1NBAc6SEbTy/07
+        GqtBqa5KWo6qlVxnKbuZiCXhv7HQIAdIIy9chEJHKFadB9v0bbOApiCFvjzzNiLTWOlOwcc4ehIjp
+        hGAgk+f21xX4y36oDXBwIpQ18VoFlY3rNWh2MSnBAFsXXqQyJgBVe3e4Ju8H2fSNSnAPo/Egt2W/J
+        CLhKcKpRKgoWYYjcAdqJHcSwlaIz3Ct/eNAF0yT6f6uUHIkfFPZqPE6QMiOH9gb6TaQUp1rjsIOOt
+        KdIoSsISulO14KbAB9dQt0A8r0CYmEXdRc0gm7/RH1+EdznLlI3JGMMQIT8M6/r7RCTXTCdLvPRAa
+        V3f0k2HQ==;
+Received: from [177.97.20.138] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1heIiA-0003xL-Di; Fri, 21 Jun 2019 12:32:10 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1heIi7-0001F3-SK; Fri, 21 Jun 2019 09:32:07 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Vadim Pasternak <vadimp@mellanox.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        Jozsef Kadlecsik <kadlec@blackhole.kfki.hu>,
-        Florian Westphal <fw@strlen.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        linux-leds@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        coreteam@netfilter.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v2 20/29] docs: leds: convert to ReST
-Message-ID: <20190621105942.GA24145@amd>
-References: <cover.1560890800.git.mchehab+samsung@kernel.org>
- <b8185b2d816810281a2b712c70518159516785b6.1560890801.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH RFC 3/6] ABI: README: specify that files should be ReST compatible
+Date:   Fri, 21 Jun 2019 09:32:03 -0300
+Message-Id: <9b471e98b065280f13ad7fa8d9ec128787f21cd9.1561118631.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <cover.1561118631.git.mchehab+samsung@kernel.org>
+References: <cover.1561118631.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="KsGdsel6WgEHnImy"
-Content-Disposition: inline
-In-Reply-To: <b8185b2d816810281a2b712c70518159516785b6.1560890801.git.mchehab+samsung@kernel.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+As we plan to remove the escaping code from the scripts/get_abi.pl,
+specify at the ABI README file that the content of the file should
+be ReST compatible.
 
---KsGdsel6WgEHnImy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ Documentation/ABI/README | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-On Tue 2019-06-18 17:53:38, Mauro Carvalho Chehab wrote:
-> Rename the leds documentation files to ReST, add an
-> index for them and adjust in order to produce a nice html
-> output via the Sphinx build system.
->=20
-> At its new index.rst, let's add a :orphan: while this is not linked to
-> the main index.rst file, in order to avoid build warnings.
->=20
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+diff --git a/Documentation/ABI/README b/Documentation/ABI/README
+index 3121029dce21..8bac9cb09a6d 100644
+--- a/Documentation/ABI/README
++++ b/Documentation/ABI/README
+@@ -32,7 +32,7 @@ The different levels of stability are:
+ 	layout of the files below for details on how to do this.)
+ 
+   obsolete/
+-  	This directory documents interfaces that are still remaining in
++	This directory documents interfaces that are still remaining in
+ 	the kernel, but are marked to be removed at some later point in
+ 	time.  The description of the interface will document the reason
+ 	why it is obsolete and when it can be expected to be removed.
+@@ -58,6 +58,14 @@ Users:		All users of this interface who wish to be notified when
+ 		be changed further.
+ 
+ 
++Note:
++   The fields should be use a simple notation, compatible with ReST markup.
++   Also, the file **should not** have a top-level index, like::
++
++	===
++	foo
++	===
++
+ How things move between levels:
+ 
+ Interfaces in stable may move to obsolete, as long as the proper
+-- 
+2.21.0
 
-Acked-by: Pavel Machek <pavel@ucw.cz>
-
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---KsGdsel6WgEHnImy
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl0MuJ4ACgkQMOfwapXb+vLr4wCgr/sTE2xCAfouKtIL4+mRDlDH
-r3gAniPvzpOgYRlsEHIkVK0sPOYobZVO
-=AOCV
------END PGP SIGNATURE-----
-
---KsGdsel6WgEHnImy--
