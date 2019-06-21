@@ -1,209 +1,107 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
 	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C4DE97D919
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Jun 2019 14:59:53 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id E7D1C7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Jun 2019 15:04:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726031AbfFUO7x (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Jun 2019 10:59:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44056 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725985AbfFUO7x (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 21 Jun 2019 10:59:53 -0400
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2FA3F2070B;
-        Fri, 21 Jun 2019 14:59:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561129191;
-        bh=jQOqVXNcfZkUcGV1wjafezc/ZNY8PMgE5h6rHbcBqkg=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=fVF0cWJ0mpMA6KTd3g5GTFKTqGb07hlbAKRaXsHiU5gZicbhsP8nzhP5lBm7wdR3Q
-         86P67oj3InItTJvZZf4vHPGbEwHeuhFRn7muUTOHYoK/hhOwBhjYJrlR4tOL/ZkWh0
-         lyQWIOYhLwZoPcg3Yd91RlXYf2pF/02sm7Qm2pBI=
-Subject: Re: [PATCH v5 00/18] kunit: introduce KUnit, the Linux kernel unit
- testing framework
-To:     Frank Rowand <frowand.list@gmail.com>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        gregkh@linuxfoundation.org, jpoimboe@redhat.com,
-        keescook@google.com, kieran.bingham@ideasonboard.com,
-        mcgrof@kernel.org, peterz@infradead.org, robh@kernel.org,
-        sboyd@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com
-Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
-        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
-        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
-        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
-        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
-        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
-        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
-        wfg@linux.intel.com, shuah <shuah@kernel.org>
-References: <20190617082613.109131-1-brendanhiggins@google.com>
- <10feac3e-7621-65e5-fbf0-9c63fcbe09c9@gmail.com>
-From:   shuah <shuah@kernel.org>
-Message-ID: <69809117-dcda-160a-ee0a-d1d3b4c5cd8a@kernel.org>
-Date:   Fri, 21 Jun 2019 08:59:48 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1726151AbfFUPEu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Jun 2019 11:04:50 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:33953 "EHLO
+        out3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726018AbfFUPEu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Jun 2019 11:04:50 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailout.nyi.internal (Postfix) with ESMTP id 554112211E;
+        Fri, 21 Jun 2019 11:04:49 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Fri, 21 Jun 2019 11:04:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm1; bh=zG55VncHkz6LJ59AozPYl8biJeb
+        XBi2KCs6/rgVfSUI=; b=pB7XJPRxOuCrgkrA4gKktitowy4ilexVihUO8gYZKjZ
+        0FMVgDfF44jO5GGI67EIFJSvOFViE6HU7p0zzq/X3E58c1ycQ74yEwpx3t6yu0i3
+        JasXbBEt1KuHU7L1SMpHHENWw49FaVmZweCSZ5Q2me/PC7x/WAS4FWoo62+BDZDS
+        ZibN35CqIvrVaV9w/yyL+Q0U9QZIhf/jCZqLs24LRoagtR4Qk3BIFwU145LKXY1t
+        p+kWYpX5Kv/EKjvKZymn90NriXIEn7vplDlsNFsU3oKPwViNbprQ26IKQQzRfmcg
+        jxfE/FrZWkOJJhRn7OXJOPBVfd+mCuM8OKzEeWAxNfA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=zG55Vn
+        cHkz6LJ59AozPYl8biJebXBi2KCs6/rgVfSUI=; b=cFKxi/SsePJ2Zk5WaOBwLi
+        PFxr+F1UR8S1woEvVHDH4mUuoIjGSRu+l2UGvPJMV38S20S9nlJ5t2ZD5V4C8dp9
+        3xqseobd4GqHVhlIJGAmfCr/+CfPkB12EoIou0Ux+WfRBVhmaKyBtDKjZUbIBcEl
+        2De/o8o47dNQP3ZJ6hWlOd1il1nFr6HZMFjqvTGKHNfnz/tPu0KLdtOoicQnne0A
+        fnBs8u+DPjomTq8UFAoLC8MHwkQg8t7LMN5WugSDdm5pX6fBY/mYIashruwB/Yj3
+        fTZkMZ1HNTpVeSpf99duETsr/jvCdYC8/3Vp55lEi0GG5/6sjjAGsuKDgF8Jr+OQ
+        ==
+X-ME-Sender: <xms:D_IMXWLtzizZ4kAMdsroUXg1NmlavFC3OY2qfqTfO3MnW9oYuLbCUg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrtdeigdekjecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujggfsehttdertddtredvnecuhfhrohhmpefirhgvghcu
+    mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucfkphepkeefrdekiedrkeelrddutd
+    ejnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomhenucev
+    lhhushhtvghrufhiiigvpedt
+X-ME-Proxy: <xmx:D_IMXbv6_LqrDv8f1EyQvwPzBAPsi9xVwwwjTibGTsbjwE5gjjMmMQ>
+    <xmx:D_IMXdIxDsQcsZa3HEAPObVcIgsA0sVOfMw8mAyAkodxK6B4QvOrNQ>
+    <xmx:D_IMXc-2GozhEI2wpFb8kiwARuVPPwwxrT422ZG8b4l5hVVfq1Zegw>
+    <xmx:EfIMXXlB-6azIiAyDHE555Xzc8YU51uP8p4z1f94K7yRGoO6GGkt9Q>
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 1A1EE380085;
+        Fri, 21 Jun 2019 11:04:46 -0400 (EDT)
+Date:   Fri, 21 Jun 2019 17:04:45 +0200
+From:   Greg KH <greg@kroah.com>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Tony Luck <tony.luck@intel.com>
+Subject: Re: [PATCH v2 00/22] Add ABI and features docs to the Kernel
+ documentation
+Message-ID: <20190621150445.GA11015@kroah.com>
+References: <cover.1561050806.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <10feac3e-7621-65e5-fbf0-9c63fcbe09c9@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1561050806.git.mchehab+samsung@kernel.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Brendan,
+On Thu, Jun 20, 2019 at 02:22:52PM -0300, Mauro Carvalho Chehab wrote:
+> This is a rebased version of the scripts with parse
+> Documentation/ABI and Documentation/feature files
+> and produce a ReST output. Those scripts are added to the
+> Kernel building system, in order to output their contents
+> inside the Kernel documentation.
+> 
+> Please notice that, as discussed, I added support at get_abi.pl
+> to handle ABI files as if they're compatible with ReST. Right
+> now, this feature can't be enabled for normal builds, as it will
+> cause Sphinx crashes. After getting the offending ABI files fixed,
+> a single line change will be enough to make it default.
+> 
+> a version "0" was sent back on 2017.
 
-On 6/19/19 7:17 PM, Frank Rowand wrote:
-> Hi Brendan,
-> 
-> I am only responding to this because you asked me to in the v4 thread.
-> 
-> Thank you for evaluating my comments in the v4 thread and asking me to
-> comment on v5
-> 
-> On 6/17/19 1:25 AM, Brendan Higgins wrote:
->> ## TL;DR
->>
->> A not so quick follow-up to Stephen's suggestions on PATCH v4. Nothing
->> that really changes any functionality or usage with the minor exception
->> of a couple public functions that Stephen asked me to rename.
->> Nevertheless, a good deal of clean up and fixes. See changes below.
->>
->> As for our current status, right now we got Reviewed-bys on all patches
->> except:
->>
->> - [PATCH v5 08/18] objtool: add kunit_try_catch_throw to the noreturn
->>    list
->>
->> However, it would probably be good to get reviews/acks from the
->> subsystem maintainers on:
->>
->> - [PATCH v5 06/18] kbuild: enable building KUnit
->> - [PATCH v5 08/18] objtool: add kunit_try_catch_throw to the noreturn
->>    list
->> - [PATCH v5 15/18] Documentation: kunit: add documentation for KUnit
->> - [PATCH v5 17/18] kernel/sysctl-test: Add null pointer test for
->>    sysctl.c:proc_dointvec()
->> - [PATCH v5 18/18] MAINTAINERS: add proc sysctl KUnit test to PROC
->>    SYSCTL section
->>
->> Other than that, I think we should be good to go.
->>
->> One last thing, I updated the background to include my thoughts on KUnit
->> vs. in kernel testing with kselftest in the background sections as
->> suggested by Frank in the discussion on PATCH v2.
->>
->> ## Background
->>
->> This patch set proposes KUnit, a lightweight unit testing and mocking
->> framework for the Linux kernel.
->>
->> Unlike Autotest and kselftest, KUnit is a true unit testing framework;
->> it does not require installing the kernel on a test machine or in a VM
->> (however, KUnit still allows you to run tests on test machines or in VMs
->> if you want[1]) and does not require tests to be written in userspace
->> running on a host kernel. Additionally, KUnit is fast: From invocation
->> to completion KUnit can run several dozen tests in under a second.
->> Currently, the entire KUnit test suite for KUnit runs in under a second
->> from the initial invocation (build time excluded).
->>
->> KUnit is heavily inspired by JUnit, Python's unittest.mock, and
->> Googletest/Googlemock for C++. KUnit provides facilities for defining
->> unit test cases, grouping related test cases into test suites, providing
->> common infrastructure for running tests, mocking, spying, and much more.
->>
-> 
-> I looked only at this section, as was specifically requested:
-> 
->> ### But wait! Doesn't kselftest support in kernel testing?!
->>
->> In a previous version of this patchset Frank pointed out that kselftest
->> already supports writing a test that resides in the kernel using the
->> test module feature[2]. LWN did a really great summary on this
->> discussion here[3].
->>
->> Kselftest has a feature that allows a test module to be loaded into a
->> kernel using the kselftest framework; this does allow someone to write
->> tests against kernel code not directly exposed to userland; however, it
->> does not provide much of a framework around how to structure the tests.
->> The kselftest test module feature just provides a header which has a
->> standardized way of reporting test failures,
-> 
-> 
->> and then provides
->> infrastructure to load and run the tests using the kselftest test
->> harness.
-> 
-> The in-kernel tests can also be invoked at boot time if they are
-> configured (Kconfig) as in-kernel instead of as modules.  I did not
-> check how many of the tests have tri-state configuration to allow
-> this, but the few that I looked at did.
-> 
->>
->> The kselftest test module does not seem to be opinionated at all in
->> regards to how tests are structured, how they check for failures, how
->> tests are organized. Even in the method it provides for reporting
->> failures is pretty simple; it doesn't have any more advanced failure
->> reporting or logging features. Given what's there, I think it is fair to
->> say that it is not actually a framework, but a feature that makes it
->> possible for someone to do some checks in kernel space.
-> 
-> I would call that description a little dismissive.  The set of in-kernel
-> tests that I looked like followed a common pattern and reported results
-> in a uniform manner.
-> 
->>
+Ok, I added the first chunk of these patches to my tree, that add the
+get_abi.pl file to the tree.  I didn't touch the others that touched the
+documentation build or other scripts just yet, as I wanted to get others
+to agree with them before accepting them.
 
-I think I commented on this before. I agree with the statement that
-there is no overlap between Kselftest and KUnit. I would like see this
-removed. Kselftest module support supports use-cases KUnit won't be able
-to. I can build an kernel with Kselftest test modules and use it in the
-filed to load and run tests if I need to debug a problem and get data
-from a system. I can't do that with KUnit.
-
-In my mind, I am not viewing this as which is better. Kselftest and
-KUnit both have their place in the kernel development process. It isn't
-productive and/or necessary to comparing Kselftest and KUnit without a
-good understanding of the problem spaces for each of these.
-
-I would strongly recommend not making reference to Kselftest and talk
-about what KUnit offers.
-
->> Furthermore, kselftest test module has very few users. I checked for all
->> the tests that use it using the following grep command:
->>
->> grep -Hrn -e 'kselftest_module\.h'
->>
->> and only got three results: lib/test_strscpy.c, lib/test_printf.c, and
->> lib/test_bitmap.c.
-> 
-
-Again, unnecessary. KUnit can't replace Kselftest module in the way
-Kselftest module support can be used for debugging and gathering
-information on system that might be in active use and not dedicated
-to test and development alone. I wouldn't hesitate loading a Kselftest
-test module on my laptop and running tests, but I wouldn't use KUnit
-the same way.
-
-Again, this is not a competition between which is better. Kselftest
-and KUnit serve different needs and problem spaces.
-
-Please redo this documentation to reflect that.
+Or we can just wait until after 5.3-rc1 is out and then the rest can go
+through the documentation tree.
 
 thanks,
--- Shuah
 
-
+greg k-h
