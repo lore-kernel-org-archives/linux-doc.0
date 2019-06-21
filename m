@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 537EE7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Jun 2019 12:32:11 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5FCE77D90F
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Jun 2019 12:32:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726663AbfFUMcL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1726368AbfFUMcL (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Fri, 21 Jun 2019 08:32:11 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:34922 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:34938 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726368AbfFUMcK (ORCPT
+        with ESMTP id S1726594AbfFUMcK (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Jun 2019 08:32:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,27 +20,27 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=GwuJAUByrQHMk1PQs8rz13IEKJH89ptQrCnqtIM5oaA=; b=u4VAe4Nf+MiE1NBAc6SEbTy/07
-        GqtBqa5KWo6qlVxnKbuZiCXhv7HQIAdIIy9chEJHKFadB9v0bbOApiCFvjzzNiLTWOlOwcc4ehIjp
-        hGAgk+f21xX4y36oDXBwIpQ18VoFlY3rNWh2MSnBAFsXXqQyJgBVe3e4Ju8H2fSNSnAPo/Egt2W/J
-        CLhKcKpRKgoWYYjcAdqJHcSwlaIz3Ct/eNAF0yT6f6uUHIkfFPZqPE6QMiOH9gb6TaQUp1rjsIOOt
-        KdIoSsISulO14KbAB9dQt0A8r0CYmEXdRc0gm7/RH1+EdznLlI3JGMMQIT8M6/r7RCTXTCdLvPRAa
-        V3f0k2HQ==;
+        bh=wI0EAuMFs+aVQKSucBM2sTBK5ECXZZNvaUXFQdbT4O4=; b=Z/Hrjvb2vOrimlMt5mDPWKMSvI
+        wQb8866/aqQwkc32XHik2Yc0WpWyMwMUlCLRyg7L0KB4uyFlM4jwWvK9vEHuG4dX/wsLsL0NPUrPg
+        gjuNzpzbYj92/aoTKtILTblRlXMbJSgqFedfHrNFwkr342JgmEoFY4ghU2yhNELLp8325kEqbepp3
+        LtzrDRdylLk3oJSHFTK8m5f1BuBooT5nfheZJkASVjqe7jzZXTuwkWeeb82FCxHEDYvanKYpd32q6
+        31lGYOOH8vN27ZO0Rl9x8k1r5KXpNoeFwm1nm5PkUuu7gQ/uGA5lqQQ/TKDoBa8Uo0Pbh/WXOoUT/
+        jbipsuHA==;
 Received: from [177.97.20.138] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1heIiA-0003xL-Di; Fri, 21 Jun 2019 12:32:10 +0000
+        id 1heIiA-0003xP-G7; Fri, 21 Jun 2019 12:32:10 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1heIi7-0001F3-SK; Fri, 21 Jun 2019 09:32:07 -0300
+        id 1heIi7-0001Ez-RV; Fri, 21 Jun 2019 09:32:07 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH RFC 3/6] ABI: README: specify that files should be ReST compatible
-Date:   Fri, 21 Jun 2019 09:32:03 -0300
-Message-Id: <9b471e98b065280f13ad7fa8d9ec128787f21cd9.1561118631.git.mchehab+samsung@kernel.org>
+Subject: [PATCH RFC 2/6] ABI: sysfs-driver-mlxreg-io: fix the what fields
+Date:   Fri, 21 Jun 2019 09:32:02 -0300
+Message-Id: <9893c06e102ebeba1d5110fec3fd4807f21c6181.1561118631.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1561118631.git.mchehab+samsung@kernel.org>
 References: <cover.1561118631.git.mchehab+samsung@kernel.org>
@@ -51,43 +51,118 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As we plan to remove the escaping code from the scripts/get_abi.pl,
-specify at the ABI README file that the content of the file should
-be ReST compatible.
+The author of this file should be given an award for creativity:
+the What: fields on this file technically fulfills the description
+at README. Yet, the way it is, it can't be parsed on a script,
+and if someone would try to do something like:
+
+	grep hwmon*/jtag_enable
+
+It wouldn't find anything.
+
+Fix the What fields in a way that it can be parseable by a
+script and other search tools.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/ABI/README | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ .../ABI/stable/sysfs-driver-mlxreg-io         | 45 ++++++++-----------
+ 1 file changed, 19 insertions(+), 26 deletions(-)
 
-diff --git a/Documentation/ABI/README b/Documentation/ABI/README
-index 3121029dce21..8bac9cb09a6d 100644
---- a/Documentation/ABI/README
-+++ b/Documentation/ABI/README
-@@ -32,7 +32,7 @@ The different levels of stability are:
- 	layout of the files below for details on how to do this.)
+diff --git a/Documentation/ABI/stable/sysfs-driver-mlxreg-io b/Documentation/ABI/stable/sysfs-driver-mlxreg-io
+index 156319fc5b80..3544968f43cc 100644
+--- a/Documentation/ABI/stable/sysfs-driver-mlxreg-io
++++ b/Documentation/ABI/stable/sysfs-driver-mlxreg-io
+@@ -1,5 +1,4 @@
+-What:		/sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/
+-							asic_health
++What:		/sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/asic_health
  
-   obsolete/
--  	This directory documents interfaces that are still remaining in
-+	This directory documents interfaces that are still remaining in
- 	the kernel, but are marked to be removed at some later point in
- 	time.  The description of the interface will document the reason
- 	why it is obsolete and when it can be expected to be removed.
-@@ -58,6 +58,14 @@ Users:		All users of this interface who wish to be notified when
- 		be changed further.
+ Date:		June 2018
+ KernelVersion:	4.19
+@@ -9,9 +8,8 @@ Description:	This file shows ASIC health status. The possible values are:
  
+ 		The files are read only.
  
-+Note:
-+   The fields should be use a simple notation, compatible with ReST markup.
-+   Also, the file **should not** have a top-level index, like::
-+
-+	===
-+	foo
-+	===
-+
- How things move between levels:
+-What:		/sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/
+-							cpld1_version
+-							cpld2_version
++What:		/sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/cpld1_version
++What:		/sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/cpld2_version
+ Date:		June 2018
+ KernelVersion:	4.19
+ Contact:	Vadim Pasternak <vadimpmellanox.com>
+@@ -20,8 +18,7 @@ Description:	These files show with which CPLD versions have been burned
  
- Interfaces in stable may move to obsolete, as long as the proper
+ 		The files are read only.
+ 
+-What:		/sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/
+-							fan_dir
++What:		/sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/fan_dir
+ 
+ Date:		December 2018
+ KernelVersion:	5.0
+@@ -32,8 +29,7 @@ Description:	This file shows the system fans direction:
+ 
+ 		The files are read only.
+ 
+-What:		/sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/
+-							jtag_enable
++What:		/sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/jtag_enable
+ 
+ Date:		November 2018
+ KernelVersion:	5.0
+@@ -43,8 +39,7 @@ Description:	These files show with which CPLD versions have been burned
+ 
+ 		The files are read only.
+ 
+-What:		/sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/
+-							jtag_enable
++What:		/sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/jtag_enable
+ 
+ Date:		November 2018
+ KernelVersion:	5.0
+@@ -87,16 +82,15 @@ Description:	These files allow asserting system power cycling, switching
+ 
+ 		The files are write only.
+ 
+-What:		/sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/
+-							reset_aux_pwr_or_ref
+-							reset_asic_thermal
+-							reset_hotswap_or_halt
+-							reset_hotswap_or_wd
+-							reset_fw_reset
+-							reset_long_pb
+-							reset_main_pwr_fail
+-							reset_short_pb
+-							reset_sw_reset
++What:		/sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/reset_aux_pwr_or_ref
++What:		/sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/reset_asic_thermal
++What:		/sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/reset_hotswap_or_halt
++What:		/sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/reset_hotswap_or_wd
++What:		/sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/reset_fw_reset
++What:		/sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/reset_long_pb
++What:		/sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/reset_main_pwr_fail
++What:		/sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/reset_short_pb
++What:		/sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/reset_sw_reset
+ Date:		June 2018
+ KernelVersion:	4.19
+ Contact:	Vadim Pasternak <vadimpmellanox.com>
+@@ -110,11 +104,10 @@ Description:	These files show the system reset cause, as following: power
+ 
+ 		The files are read only.
+ 
+-What:		/sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/
+-						reset_comex_pwr_fail
+-						reset_from_comex
+-						reset_system
+-						reset_voltmon_upgrade_fail
++What:		/sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/reset_comex_pwr_fail
++What:		/sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/reset_from_comex
++What:		/sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/reset_system
++What:		/sys/devices/platform/mlxplat/mlxreg-io/hwmon/hwmon*/reset_voltmon_upgrade_fail
+ 
+ Date:		November 2018
+ KernelVersion:	5.0
 -- 
 2.21.0
 
