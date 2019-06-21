@@ -1,284 +1,147 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 927947D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Jun 2019 14:27:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 91B7C7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Jun 2019 14:59:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726043AbfFUO1W (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Jun 2019 10:27:22 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:44308 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725975AbfFUO1V (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Jun 2019 10:27:21 -0400
+        id S1726031AbfFUO7S (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Jun 2019 10:59:18 -0400
+Received: from pandora.armlinux.org.uk ([78.32.30.218]:43438 "EHLO
+        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725985AbfFUO7S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Jun 2019 10:59:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=s2ve/bhc+6sC3wPB1Be4ZkJJdWjcnNZ6Bftms22+fZY=; b=ktq6g/rj1d89F338oTtsGH4uX
-        kNPzALZxiOICTUE5sZOZniRhk4I2gyP8KFhS1EUk2pRfgCSiNs3fkgmlcoPgP1nLIssbGfjFhCd/8
-        GVjflqKsRjCCzH9Dwf1Jy05FMDqL6l4/zyBhwjCEaWLiIKN///6ttzWGuOlw8yfzmdBSax/jNVx75
-        KRyBJu7fbwU3DkD6Gmtcp4KhgwPegRpbRkpmXSX9lcARXp8bWRbLJtwfJTFWyl1G6otLtjY3PCnih
-        Hyj10wPyRvJfvjYTfwF9fMzVbO4rMp8LLXp8YQsHwzDxD2vfAvqtBrGheYz8D2l1hBWau+3kbXs5/
-        XiCou31Ew==;
-Received: from [177.97.20.138] (helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1heKVc-0006be-8M; Fri, 21 Jun 2019 14:27:20 +0000
-Date:   Fri, 21 Jun 2019 11:27:16 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 12/14] doc-rst: add ABI documentation to the admin-guide
- book
-Message-ID: <20190621112700.6922d80d@coco.lan>
-In-Reply-To: <20190619133739.44f92409@coco.lan>
-References: <cover.1560477540.git.mchehab+samsung@kernel.org>
-        <9da2a7f6ff57d9d53dcbb964eb310f7956522870.1560477540.git.mchehab+samsung@kernel.org>
-        <87o930uvur.fsf@intel.com>
-        <20190614140603.GB7234@kroah.com>
-        <20190614122755.1c7b4898@coco.lan>
-        <874l4ov16m.fsf@intel.com>
-        <20190617105154.3874fd89@coco.lan>
-        <87h88nth3v.fsf@intel.com>
-        <20190619133739.44f92409@coco.lan>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
+        Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:Reply-To:Content-ID
+        :Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
+        Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=XzAaUhJ0bSs/mdF9ef3MgCxg3px0Mc5fJslS2oHAA2s=; b=aOkqU6TzkSj3Hs8gQZh+Gg2TPS
+        PE+RW9xlYBZgqPpwDfY+BPJLx73nC/uAh9OryKfWEUs5pIAu/WbxS4KxMlZgDthtNW2WXnqsCXBuY
+        exqWkIYjqUm7CFb6VeReLElSNu4PiZNqFrJyLFWqhuzuw94ojts0aVQF1EpuKRdbWx46gDaOcDw/7
+        BUNN0lFyixCcItxFxDPebsbfUYxAGH7I3NDCRkLIdg369WR1JnllQkCXAcxFQMMekBoSmqSdzBcng
+        2IWrSBOZBylUPXwgytg5AhyxFdA2ZyDVACKMKwMV2ZSO4rFqw8lP06sNc+MbZ6Tx/+ONsHkdbCZ10
+        E+Rw4Dpw==;
+Received: from e0022681537dd.dyn.armlinux.org.uk ([2001:4d48:ad52:3201:222:68ff:fe15:37dd]:48270 helo=rmk-PC.armlinux.org.uk)
+        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
+        (Exim 4.90_1)
+        (envelope-from <rmk@armlinux.org.uk>)
+        id 1heL0P-00065F-Sz; Fri, 21 Jun 2019 15:59:09 +0100
+Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.82_1-5b7a7c0-XX)
+        (envelope-from <rmk@armlinux.org.uk>)
+        id 1heL0P-00075z-An; Fri, 21 Jun 2019 15:59:09 +0100
+From:   Russell King <rmk+kernel@armlinux.org.uk>
+To:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH net-next] doc: phy: document some PHY_INTERFACE_MODE_xxx settings
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <E1heL0P-00075z-An@rmk-PC.armlinux.org.uk>
+Date:   Fri, 21 Jun 2019 15:59:09 +0100
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Wed, 19 Jun 2019 13:37:39 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> escreveu:
+There seems to be some confusion surrounding three PHY interface modes,
+specifically 1000BASE-X, 2500BASE-X and SGMII.  Add some documentation
+to phylib detailing precisely what these interface modes refer to.
 
-> Em Tue, 18 Jun 2019 11:47:32 +0300
-> Jani Nikula <jani.nikula@linux.intel.com> escreveu:
-> 
-> > On Mon, 17 Jun 2019, Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:  
-> > > Yeah, I guess it should be possible to do that. How a python script
-> > > can identify if it was called by Sphinx, or if it was called directly?    
-> > 
-> > if __name__ == '__main__':
-> > 	# run on the command-line, not imported  
-> 
-> Ok, when I have some spare time, I may try to convert one script
-> to python and see how it behaves. 
+Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
+---
 
-Did a quick test here... 
+This is in response to recent discussion, both public and private of
+recent attempts to convert some drivers to use phylink.  This is to
+aid understanding the differences between these three phy link modes,
+specifically with respect to the "up-clocked" 2.5G variants.
 
-Probably I'm doing something wrong (as I'm a rookie with Python), but,
-in order to be able to use the same script as command line and as an Sphinx
-extension, everything that it is currently there should be "escaped"
-by an:
+The 2.5G variants are the basic 1G variants but with the serdes link
+clocked 2.5 times faster; there are no bits in the control word that
+identify this over the standard rates.  A serdes clocked 2.5x faster
+does not support the 1G/100M/10M speeds, but can only support 2.5G
+and (theoretically for SGMII) 250M/25M.  In practice, the PHY data
+sheets I've read state that these slower speeds at the up-clocked link
+speed are not supported.
 
-	if __name__ != '__main__':
+It should be noted that we do not currently support 2.5G SGMII, but
+we do support 2.5G BASE-X PHY interface mode.
 
-As event the class definition:
+ Documentation/networking/phy.rst | 45 +++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 44 insertions(+), 1 deletion(-)
 
-    class KernelCmd(Directive):
+diff --git a/Documentation/networking/phy.rst b/Documentation/networking/phy.rst
+index 0dd90d7df5ec..a689966bc4be 100644
+--- a/Documentation/networking/phy.rst
++++ b/Documentation/networking/phy.rst
+@@ -202,7 +202,8 @@ the PHY/controller, of which the PHY needs to be aware.
+ 
+ *interface* is a u32 which specifies the connection type used
+ between the controller and the PHY.  Examples are GMII, MII,
+-RGMII, and SGMII.  For a full list, see include/linux/phy.h
++RGMII, and SGMII.  See "PHY interface mode" below.  For a full
++list, see include/linux/phy.h
+ 
+ Now just make sure that phydev->supported and phydev->advertising have any
+ values pruned from them which don't make sense for your controller (a 10/100
+@@ -225,6 +226,48 @@ When you want to disconnect from the network (even if just briefly), you call
+ phy_stop(phydev). This function also stops the phylib state machine and
+ disables PHY interrupts.
+ 
++PHY interface modes
++===================
++
++The PHY interface mode supplied in the phy_connect() family of functions
++defines the initial operating mode of the PHY interface.  This is not
++guaranteed to remain constant; there are PHYs which dynamically change
++their interface mode without software interaction depending on the
++negotiation results.
++
++Some of the interface modes are described below:
++
++``PHY_INTERFACE_MODE_1000BASEX``
++    This defines the 1000BASE-X single-lane serdes link as defined by the
++    802.3 standard section 36.  The link operates at a fixed bit rate of
++    1.25Gbaud using a 10B/8B encoding scheme, resulting in an underlying
++    data rate of 1Gbps.  Embedded in the data stream is a 16-bit control
++    word which is used to negotiate the duplex and pause modes with the
++    remote end.  This does not include "up-clocked" variants such as 2.5Gbps
++    speeds (see below.)
++
++``PHY_INTERFACE_MODE_2500BASEX``
++    This defines a variant of 1000BASE-X which is clocked 2.5 times faster,
++    than the 802.3 standard giving a fixed bit rate of 3.125Gbaud.
++
++``PHY_INTERFACE_MODE_SGMII``
++    This is used for Cisco SGMII, which is a modification of 1000BASE-X
++    as defined by the 802.3 standard.  The SGMII link consists of a single
++    serdes lane running at a fixed bit rate of 1.25Gbaud with 10B/8B
++    encoding.  The underlying data rate is 1Gbps, with the slower speeds of
++    100Mbps and 10Mbps being achieved through replication of each data symbol.
++    The 802.3 control word is re-purposed to send the negotiated speed and
++    duplex information from to the MAC, and for the MAC to acknowledge
++    receipt.  This does not include "up-clocked" variants such as 2.5Gbps
++    speeds.
++
++    Note: mismatched SGMII vs 1000BASE-X configuration on a link can
++    successfully pass data in some circumstances, but the 16-bit control
++    word will not be correctly interpreted, which may cause mismatches in
++    duplex, pause or other settings.  This is dependent on the MAC and/or
++    PHY behaviour.
++
++
+ Pause frames / flow control
+ ===========================
+ 
+-- 
+2.7.4
 
-depends on:
-
-	from docutils.parsers.rst import directives, Directive
-
-With is only required when one needs to parse ReST - e. g. only
-when the script runs as a Sphinx extension.
-
-If this is right, as we want a script that can run by command line
-to parse and search inside ABI files, at the end of the day, it will
-be a lot easier to maintain if the parser script is different from the
-Sphinx extension. 
-
-If so, as the Sphinx extension script will need to call a parsing script
-anyway, it doesn't matter the language of the script with will be
-doing the ABI file parsing.
-
-See the enclosing file. I didn't add anything from the ABI parsing
-script yet. It was just changed in order to not generate an error
-when trying to run it from command line.
-
-
-Thanks,
-Mauro
-#!/usr/bin/env python3
-# coding=utf-8
-# SPDX-License-Identifier: GPL-2.0
-#
-u"""
-    kernel-abi
-    ~~~~~~~~~~
-
-    Implementation of the ``kernel-abi`` reST-directive.
-
-    :copyright:  Copyright (C) 2016  Markus Heiser
-    :copyright:  Copyright (C) 2016-2019  Mauro Carvalho Chehab
-    :maintained-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-    :license:    GPL Version 2, June 1991 see Linux/COPYING for details.
-
-    The ``kernel-abi`` (:py:class:`KernelCmd`) directive calls the
-    scripts/get_abi.pl script to parse the Kernel ABI files.
-
-    Overview of directive's argument and options.
-
-    .. code-block:: rst
-
-        .. kernel-abi:: <ABI directory location>
-            :debug:
-
-    The argument ``<ABI directory location>`` is required. It contains the
-    location of the ABI files to be parsed.
-
-    ``debug``
-      Inserts a code-block with the *raw* reST. Sometimes it is helpful to see
-      what reST is generated.
-
-"""
-
-import codecs
-import os
-import subprocess
-import sys
-
-from os import path
-
-if __name__ != '__main__':
-    from docutils import nodes, statemachine
-    from docutils.statemachine import ViewList
-    from docutils.parsers.rst import directives, Directive
-    from docutils.utils.error_reporting import ErrorString
-
-    #
-    # AutodocReporter is only good up to Sphinx 1.7
-    #
-    import sphinx
-
-    Use_SSI = sphinx.__version__[:3] >= '1.7'
-    if Use_SSI:
-        from sphinx.util.docutils import switch_source_input
-    else:
-        from sphinx.ext.autodoc import AutodocReporter
-
-__version__  = '1.0'
-
-if __name__ != '__main__':
-    def setup(app):
-
-        app.add_directive("kernel-abi", KernelCmd)
-        return dict(
-            version = __version__
-            , parallel_read_safe = True
-            , parallel_write_safe = True
-        )
-
-    class KernelCmd(Directive):
-
-        u"""KernelABI (``kernel-abi``) directive"""
-
-        required_arguments = 1
-        optional_arguments = 2
-        has_content = False
-        final_argument_whitespace = True
-
-        option_spec = {
-            "debug"     : directives.flag,
-            "rst"       : directives.unchanged
-        }
-
-        def warn(self, message, **replace):
-            replace["fname"]   = self.state.document.current_source
-            replace["line_no"] = replace.get("line_no", self.lineno)
-            message = ("%(fname)s:%(line_no)s: [kernel-abi WARN] : " + message) % replace
-            self.state.document.settings.env.app.warn(message, prefix="")
-
-        def run(self):
-
-            doc = self.state.document
-            if not doc.settings.file_insertion_enabled:
-                raise self.warning("docutils: file insertion disabled")
-
-            env = doc.settings.env
-            cwd = path.dirname(doc.current_source)
-            fname = self.arguments[0]
-
-            cmd = "get_abi.pl rest --dir "
-            cmd += fname
-
-            if 'rst' in self.options:
-                cmd += " --rst-source"
-
-            srctree = path.abspath(os.environ["srctree"])
-
-            # extend PATH with $(srctree)/scripts
-            path_env = os.pathsep.join([
-                srctree + os.sep + "scripts",
-                os.environ["PATH"]
-            ])
-            shell_env = os.environ.copy()
-            shell_env["PATH"]    = path_env
-            shell_env["srctree"] = srctree
-
-            lines = self.runCmd(cmd, shell=True, cwd=cwd, env=shell_env)
-            nodeList = self.nestedParse(lines, self.arguments[0])
-            return nodeList
-
-        def runCmd(self, cmd, **kwargs):
-            u"""Run command ``cmd`` and return it's stdout as unicode."""
-
-            try:
-                proc = subprocess.Popen(
-                    cmd
-                    , stdout = subprocess.PIPE
-                    , stderr = subprocess.PIPE
-                    , **kwargs
-                )
-                out, err = proc.communicate()
-
-                out, err = codecs.decode(out, 'utf-8'), codecs.decode(err, 'utf-8')
-
-                if proc.returncode != 0:
-                    raise self.severe(
-                        u"command '%s' failed with return code %d"
-                        % (cmd, proc.returncode)
-                    )
-            except OSError as exc:
-                raise self.severe(u"problems with '%s' directive: %s."
-                                % (self.name, ErrorString(exc)))
-            return out
-
-        def nestedParse(self, lines, fname):
-            content = ViewList()
-            node    = nodes.section()
-
-            if "debug" in self.options:
-                code_block = "\n\n.. code-block:: rst\n    :linenos:\n"
-                for l in lines.split("\n"):
-                    code_block += "\n    " + l
-                lines = code_block + "\n\n"
-
-            for c, l in enumerate(lines.split("\n")):
-                content.append(l, fname, c)
-
-            buf  = self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter
-
-            if Use_SSI:
-                with switch_source_input(self.state, content):
-                    self.state.nested_parse(content, 0, node, match_titles=1)
-            else:
-                self.state.memo.title_styles  = []
-                self.state.memo.section_level = 0
-                self.state.memo.reporter      = AutodocReporter(content, self.state.memo.reporter)
-                try:
-                    self.state.nested_parse(content, 0, node, match_titles=1)
-                finally:
-                    self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter = buf
-
-            return node.children
