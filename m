@@ -1,107 +1,119 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E7D1C7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Jun 2019 15:04:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0F0997D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Fri, 21 Jun 2019 15:17:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726151AbfFUPEu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Jun 2019 11:04:50 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:33953 "EHLO
-        out3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726018AbfFUPEu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Jun 2019 11:04:50 -0400
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailout.nyi.internal (Postfix) with ESMTP id 554112211E;
-        Fri, 21 Jun 2019 11:04:49 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Fri, 21 Jun 2019 11:04:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm1; bh=zG55VncHkz6LJ59AozPYl8biJeb
-        XBi2KCs6/rgVfSUI=; b=pB7XJPRxOuCrgkrA4gKktitowy4ilexVihUO8gYZKjZ
-        0FMVgDfF44jO5GGI67EIFJSvOFViE6HU7p0zzq/X3E58c1ycQ74yEwpx3t6yu0i3
-        JasXbBEt1KuHU7L1SMpHHENWw49FaVmZweCSZ5Q2me/PC7x/WAS4FWoo62+BDZDS
-        ZibN35CqIvrVaV9w/yyL+Q0U9QZIhf/jCZqLs24LRoagtR4Qk3BIFwU145LKXY1t
-        p+kWYpX5Kv/EKjvKZymn90NriXIEn7vplDlsNFsU3oKPwViNbprQ26IKQQzRfmcg
-        jxfE/FrZWkOJJhRn7OXJOPBVfd+mCuM8OKzEeWAxNfA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=zG55Vn
-        cHkz6LJ59AozPYl8biJebXBi2KCs6/rgVfSUI=; b=cFKxi/SsePJ2Zk5WaOBwLi
-        PFxr+F1UR8S1woEvVHDH4mUuoIjGSRu+l2UGvPJMV38S20S9nlJ5t2ZD5V4C8dp9
-        3xqseobd4GqHVhlIJGAmfCr/+CfPkB12EoIou0Ux+WfRBVhmaKyBtDKjZUbIBcEl
-        2De/o8o47dNQP3ZJ6hWlOd1il1nFr6HZMFjqvTGKHNfnz/tPu0KLdtOoicQnne0A
-        fnBs8u+DPjomTq8UFAoLC8MHwkQg8t7LMN5WugSDdm5pX6fBY/mYIashruwB/Yj3
-        fTZkMZ1HNTpVeSpf99duETsr/jvCdYC8/3Vp55lEi0GG5/6sjjAGsuKDgF8Jr+OQ
-        ==
-X-ME-Sender: <xms:D_IMXWLtzizZ4kAMdsroUXg1NmlavFC3OY2qfqTfO3MnW9oYuLbCUg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrtdeigdekjecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujggfsehttdertddtredvnecuhfhrohhmpefirhgvghcu
-    mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucfkphepkeefrdekiedrkeelrddutd
-    ejnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomhenucev
-    lhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:D_IMXbv6_LqrDv8f1EyQvwPzBAPsi9xVwwwjTibGTsbjwE5gjjMmMQ>
-    <xmx:D_IMXdIxDsQcsZa3HEAPObVcIgsA0sVOfMw8mAyAkodxK6B4QvOrNQ>
-    <xmx:D_IMXc-2GozhEI2wpFb8kiwARuVPPwwxrT422ZG8b4l5hVVfq1Zegw>
-    <xmx:EfIMXXlB-6azIiAyDHE555Xzc8YU51uP8p4z1f94K7yRGoO6GGkt9Q>
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 1A1EE380085;
-        Fri, 21 Jun 2019 11:04:46 -0400 (EDT)
-Date:   Fri, 21 Jun 2019 17:04:45 +0200
-From:   Greg KH <greg@kroah.com>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Tony Luck <tony.luck@intel.com>
-Subject: Re: [PATCH v2 00/22] Add ABI and features docs to the Kernel
- documentation
-Message-ID: <20190621150445.GA11015@kroah.com>
-References: <cover.1561050806.git.mchehab+samsung@kernel.org>
+        id S1726314AbfFUPQq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Fri, 21 Jun 2019 11:16:46 -0400
+Received: from foss.arm.com ([217.140.110.172]:34340 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726002AbfFUPQp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 21 Jun 2019 11:16:45 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C4CF5344;
+        Fri, 21 Jun 2019 08:16:44 -0700 (PDT)
+Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.78])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 558C63F575;
+        Fri, 21 Jun 2019 08:16:43 -0700 (PDT)
+Date:   Fri, 21 Jun 2019 16:16:41 +0100
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Kevin Brodsky <kevin.brodsky@arm.com>
+Cc:     Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-mm@kvack.org, linux-arch@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Will Deacon <will.deacon@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>
+Subject: Re: [PATCH v5 1/2] arm64: Define
+ Documentation/arm64/tagged-address-abi.txt
+Message-ID: <20190621151640.GI18954@arrakis.emea.arm.com>
+References: <cover.1560339705.git.andreyknvl@google.com>
+ <20190613155137.47675-1-vincenzo.frascino@arm.com>
+ <20190613155137.47675-2-vincenzo.frascino@arm.com>
+ <1c55a610-9aa5-4675-f7de-79a1661a660d@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1561050806.git.mchehab+samsung@kernel.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <1c55a610-9aa5-4675-f7de-79a1661a660d@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 20, 2019 at 02:22:52PM -0300, Mauro Carvalho Chehab wrote:
-> This is a rebased version of the scripts with parse
-> Documentation/ABI and Documentation/feature files
-> and produce a ReST output. Those scripts are added to the
-> Kernel building system, in order to output their contents
-> inside the Kernel documentation.
+On Tue, Jun 18, 2019 at 02:13:01PM +0100, Kevin Brodsky wrote:
+> On 13/06/2019 16:51, Vincenzo Frascino wrote:
+> > +The ARM64 Tagged Address ABI is an opt-in feature, and an application can
+> > +control it using the following:
+> > + - /proc/sys/abi/tagged_addr: a new sysctl interface that can be used to
+> > +        prevent the applications from enabling the relaxed ABI.
+> > +        The sysctl is meant also for testing purposes in order to provide a
+> > +        simple way for the userspace to verify the return error checking of
+> > +        the prctl() commands without having to reconfigure the kernel.
+> > +        The sysctl supports the following configuration options:
+> > +         - 0: Disable ARM64 Tagged Address ABI for all the applications.
+> > +         - 1 (Default): Enable ARM64 Tagged Address ABI for all the
+> > +                        applications.
 > 
-> Please notice that, as discussed, I added support at get_abi.pl
-> to handle ABI files as if they're compatible with ReST. Right
-> now, this feature can't be enabled for normal builds, as it will
-> cause Sphinx crashes. After getting the offending ABI files fixed,
-> a single line change will be enough to make it default.
+> I find this very confusing, because it suggests that the default value of
+> PR_GET_TAGGED_ADDR_CTRL for new processes will be set to the value of this
+> sysctl, when in fact this sysctl is about restricting the *availability* of
+> the new ABI. Instead of disabling the ABI, I would talk about disabling
+> access to the new ABI here.
+
+This bullet point needs to be re-written. The sysctl is meant to disable
+opting in to the ABI. I'd also drop the "meant for testing" part. I put
+it in my commit log as justification but I don't think it should be part
+of the ABI document.
+
+> > + - prctl()s:
+> > +  - PR_SET_TAGGED_ADDR_CTRL: can be used to enable or disable the Tagged
+> > +        Address ABI.
+> > +        The (unsigned int) arg2 argument is a bit mask describing the
+> > +        control mode used:
+> > +          - PR_TAGGED_ADDR_ENABLE: Enable ARM64 Tagged Address ABI.
+> > +        The arguments arg3, arg4, and arg5 are ignored.
 > 
-> a version "0" was sent back on 2017.
+> Have we definitely decided that arg{3,4,5} are ignored? Catalin?
 
-Ok, I added the first chunk of these patches to my tree, that add the
-get_abi.pl file to the tree.  I didn't touch the others that touched the
-documentation build or other scripts just yet, as I wanted to get others
-to agree with them before accepting them.
+I don't have a strong preference either way. If it's simpler for the
+user to ignore them, fine by me. I can see in the current prctl commands
+a mix if ignore vs forced zero.
 
-Or we can just wait until after 5.3-rc1 is out and then the rest can go
-through the documentation tree.
+> > +the ABI guarantees the following behaviours:
+> > +
+> > +  - Every current or newly introduced syscall can accept any valid tagged
+> > +    pointers.
+> "pointer". Also, is it really useful to talk about newly introduced syscall?
+> New from which point of view?
 
-thanks,
+I think we should drop this guarantee. It would have made sense if we
+allowed tagged pointers everywhere but we already have some exceptions.
 
-greg k-h
+> > +3. ARM64 Tagged Address ABI Exceptions
+> > +--------------------------------------
+> > +
+> > +The behaviours described in section 2, with particular reference to the
+> > +acceptance by the syscalls of any valid tagged pointer are not applicable
+> > +to the following cases:
+> > +  - mmap() addr parameter.
+> > +  - mremap() new_address parameter.
+> > +  - prctl_set_mm() struct prctl_map fields.
+> > +  - prctl_set_mm_map() struct prctl_map fields.
+> 
+> prctl_set_mm() and prctl_set_mm_map() are internal kernel functions, not
+> syscall names. IIUC, we don't want to allow any address field settable via
+> the PR_SET_MM prctl() to be tagged. Catalin, is that correct? I think this
+> needs rephrasing.
+
+I fully agree. It should talk about PR_SET_MM, PR_SET_MM_MAP,
+PR_SET_MM_MAP_SIZE.
+
+-- 
+Catalin
