@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E6D0D7D982
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 22 Jun 2019 16:59:48 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 08D977D9ED
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 22 Jun 2019 16:59:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726353AbfFVQ67 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 22 Jun 2019 12:58:59 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:42798 "EHLO
+        id S1726450AbfFVQ7A (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 22 Jun 2019 12:59:00 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:42804 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726339AbfFVQ67 (ORCPT
+        with ESMTP id S1726310AbfFVQ67 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Jun 2019 12:58:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,27 +20,27 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=PIAs7lJjyaQE53dcQ6QY9JIHl8hWEaQxmoiFris3yfc=; b=RNZueuofP4rWNEkgKeRA6Qp5b6
-        yHz/3qXs+pJBMtsYXbeK7lv17sFFpExKcm9GKo48Is6R1fdqVOECyBkQ9VMyVFUPZtmjwAVSciyso
-        6x/CX9LaYfRwzDY/d1IeGe8CPWkuM2ASuQoQ1n/qojxT83QeYWwd9u+y1axrZYVLJnCk0wPMg1Z7R
-        nUtjXCEY3D16NCpnGZtQS9RNoD7MpB4CLOzfIFxytTbGdwr2hO0Ci40bq9O7PpokUJuWeMjrYDu7d
-        vlZ3U8BmzMT/HdD/CKCDNFoJ7BkJmhXRUfisZOjbCQ84TFfjJURuYoK72tfUGdcoBHTI4GHUMR1N+
-        zOR7TcHA==;
+        bh=4yo27ijYQu1yYo30q/R/RGMGUqSkkm83kufrAmJA9ng=; b=aG0oHNyitqdv4BKL74sEhz3za+
+        wy0ANv0OsdGgH5c3Dmg9WThh3df+r39AeC+isJD0GLw1eknwlznaEqfDFFCWKmjNDx+NEO4pnQbCc
+        ZYD/Xxm955zlUxAEg2K9tKCbRQKiFxvG9LvUolOQm39uyQg+2IYOfU65K8NetdoZaZHqDqyQtYz0D
+        eOVSvSlxoTyAzPsyYWfexJsDFHu/cOIG2khPAslNre9bB4x9AWARih+th/OtGuTrMXkzRZ3Ab36n3
+        t5W1tesi235ox9iRV2IWohcC7Ptd35JfjZFPZiWC28c/qz3qTVWsBoR+B0MZSQQCsxNSXBoXamZWV
+        N6RBxJ3w==;
 Received: from [179.95.45.115] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hejLu-00054o-GY; Sat, 22 Jun 2019 16:58:58 +0000
+        id 1hejLu-00054n-HS; Sat, 22 Jun 2019 16:58:58 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hejLr-0000vP-U0; Sat, 22 Jun 2019 13:58:55 -0300
+        id 1hejLr-0000vY-Vd; Sat, 22 Jun 2019 13:58:55 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         gregkh@linuxfoundation.org, Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 05/12] docs: kernel_abi.py: add a script to parse ABI documentation
-Date:   Sat, 22 Jun 2019 13:58:46 -0300
-Message-Id: <cfff325dcb2c55e6c1052fc7f60a83d561296cc4.1561221403.git.mchehab+samsung@kernel.org>
+Subject: [PATCH 07/12] docs: kernel_abi.py: make it compatible with Sphinx 1.7+
+Date:   Sat, 22 Jun 2019 13:58:48 -0300
+Message-Id: <c0e5c974d3abb398e6fbeb55cd86602104e4afbb.1561221403.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1561221403.git.mchehab+samsung@kernel.org>
 References: <cover.1561221403.git.mchehab+samsung@kernel.org>
@@ -51,179 +51,78 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The ABI documentation is special: it is not plain text files,
-but, instead, files with an strict format, as specified by
-Documentation/ABI/README.
+The same way kerneldoc.py needed changes to work with newer
+Sphinx, this script needs the same changes.
 
-Add a parser for it.
+While here, reorganize the include order to match kerneldoc.py.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/sphinx/kernel_abi.py | 155 +++++++++++++++++++++++++++++
- 1 file changed, 155 insertions(+)
- create mode 100644 Documentation/sphinx/kernel_abi.py
+ Documentation/sphinx/kernel_abi.py | 39 +++++++++++++++++++++---------
+ 1 file changed, 27 insertions(+), 12 deletions(-)
 
 diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
-new file mode 100644
-index 000000000000..32ce90775d96
---- /dev/null
+index 0f3e51e67e8d..2d5d582207f7 100644
+--- a/Documentation/sphinx/kernel_abi.py
 +++ b/Documentation/sphinx/kernel_abi.py
-@@ -0,0 +1,155 @@
-+# -*- coding: utf-8; mode: python -*-
-+u"""
-+    kernel-abi
-+    ~~~~~~~~~~
-+
-+    Implementation of the ``kernel-abi`` reST-directive.
-+
-+    :copyright:  Copyright (C) 2016  Markus Heiser
-+    :copyright:  Copyright (C) 2016  Mauro Carvalho Chehab
-+    :license:    GPL Version 2, June 1991 see Linux/COPYING for details.
-+
-+    The ``kernel-abi`` (:py:class:`KernelCmd`) directive calls the
-+    scripts/get_abi.pl script to parse the Kernel ABI files.
-+
-+    Overview of directive's argument and options.
-+
-+    .. code-block:: rst
-+
-+        .. kernel-abi:: <ABI directory location>
-+            :debug:
-+
-+    The argument ``<ABI directory location>`` is required. It contains the
-+    location of the ABI files to be parsed.
-+
-+    ``debug``
-+      Inserts a code-block with the *raw* reST. Sometimes it is helpful to see
-+      what reST is generated.
-+
-+"""
-+
+@@ -30,18 +30,27 @@ u"""
+ """
+ 
+ import codecs
+-import sys
+ import os
+-from os import path
+ import subprocess
 +import sys
-+import os
+ 
+-from sphinx.ext.autodoc import AutodocReporter
 +from os import path
-+import subprocess
+ 
+-from docutils import nodes
+-from docutils.parsers.rst import Directive, directives
++from docutils import nodes, statemachine
+ from docutils.statemachine import ViewList
++from docutils.parsers.rst import directives, Directive
+ from docutils.utils.error_reporting import ErrorString
+ 
++#
++# AutodocReporter is only good up to Sphinx 1.7
++#
++import sphinx
 +
-+from sphinx.ext.autodoc import AutodocReporter
++Use_SSI = sphinx.__version__[:3] >= '1.7'
++if Use_SSI:
++    from sphinx.util.docutils import switch_source_input
++else:
++    from sphinx.ext.autodoc import AutodocReporter
+ 
+ __version__  = '1.0'
+ 
+@@ -139,11 +148,17 @@ class KernelCmd(Directive):
+             content.append(l, fname, c)
+ 
+         buf  = self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter
+-        self.state.memo.title_styles  = []
+-        self.state.memo.section_level = 0
+-        self.state.memo.reporter      = AutodocReporter(content, self.state.memo.reporter)
+-        try:
+-            self.state.nested_parse(content, 0, node, match_titles=1)
+-        finally:
+-            self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter = buf
 +
-+from docutils import nodes
-+from docutils.parsers.rst import Directive, directives
-+from docutils.statemachine import ViewList
-+from docutils.utils.error_reporting import ErrorString
++        if Use_SSI:
++            with switch_source_input(self.state, content):
++                self.state.nested_parse(content, 0, node, match_titles=1)
++        else:
++            self.state.memo.title_styles  = []
++            self.state.memo.section_level = 0
++            self.state.memo.reporter      = AutodocReporter(content, self.state.memo.reporter)
++            try:
++                self.state.nested_parse(content, 0, node, match_titles=1)
++            finally:
++                self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter = buf
 +
-+
-+__version__  = '1.0'
-+
-+# We can't assume that six is installed
-+PY3 = sys.version_info[0] == 3
-+PY2 = sys.version_info[0] == 2
-+if PY3:
-+    # pylint: disable=C0103, W0622
-+    unicode     = str
-+    basestring  = str
-+
-+def setup(app):
-+
-+    app.add_directive("kernel-abi", KernelCmd)
-+    return dict(
-+        version = __version__
-+        , parallel_read_safe = True
-+        , parallel_write_safe = True
-+    )
-+
-+class KernelCmd(Directive):
-+
-+    u"""KernelABI (``kernel-abi``) directive"""
-+
-+    required_arguments = 1
-+    optional_arguments = 0
-+    has_content = False
-+    final_argument_whitespace = True
-+
-+    option_spec = {
-+        "debug"     : directives.flag
-+    }
-+
-+    def warn(self, message, **replace):
-+        replace["fname"]   = self.state.document.current_source
-+        replace["line_no"] = replace.get("line_no", self.lineno)
-+        message = ("%(fname)s:%(line_no)s: [kernel-abi WARN] : " + message) % replace
-+        self.state.document.settings.env.app.warn(message, prefix="")
-+
-+    def run(self):
-+
-+        doc = self.state.document
-+        if not doc.settings.file_insertion_enabled:
-+            raise self.warning("docutils: file insertion disabled")
-+
-+        env = doc.settings.env
-+        cwd = path.dirname(doc.current_source)
-+        cmd = "get_abi.pl rest --dir "
-+        cmd += self.arguments[0]
-+
-+        srctree = path.abspath(os.environ["srctree"])
-+
-+        fname = cmd
-+
-+        # extend PATH with $(srctree)/scripts
-+        path_env = os.pathsep.join([
-+            srctree + os.sep + "scripts",
-+            os.environ["PATH"]
-+        ])
-+        shell_env = os.environ.copy()
-+        shell_env["PATH"]    = path_env
-+        shell_env["srctree"] = srctree
-+
-+        lines = self.runCmd(cmd, shell=True, cwd=cwd, env=shell_env)
-+        nodeList = self.nestedParse(lines, fname)
-+        return nodeList
-+
-+    def runCmd(self, cmd, **kwargs):
-+        u"""Run command ``cmd`` and return it's stdout as unicode."""
-+
-+        try:
-+            proc = subprocess.Popen(
-+                cmd
-+                , stdout = subprocess.PIPE
-+                , stderr = subprocess.PIPE
-+                , universal_newlines = True
-+                , **kwargs
-+            )
-+            out, err = proc.communicate()
-+            if err:
-+                self.warn(err)
-+            if proc.returncode != 0:
-+                raise self.severe(
-+                    u"command '%s' failed with return code %d"
-+                    % (cmd, proc.returncode)
-+                )
-+        except OSError as exc:
-+            raise self.severe(u"problems with '%s' directive: %s."
-+                              % (self.name, ErrorString(exc)))
-+        return unicode(out)
-+
-+    def nestedParse(self, lines, fname):
-+        content = ViewList()
-+        node    = nodes.section()
-+
-+        if "debug" in self.options:
-+            code_block = "\n\n.. code-block:: rst\n    :linenos:\n"
-+            for l in lines.split("\n"):
-+                code_block += "\n    " + l
-+            lines = code_block + "\n\n"
-+
-+        for c, l in enumerate(lines.split("\n")):
-+            content.append(l, fname, c)
-+
-+        buf  = self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter
-+        self.state.memo.title_styles  = []
-+        self.state.memo.section_level = 0
-+        self.state.memo.reporter      = AutodocReporter(content, self.state.memo.reporter)
-+        try:
-+            self.state.nested_parse(content, 0, node, match_titles=1)
-+        finally:
-+            self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter = buf
-+        return node.children
+         return node.children
 -- 
 2.21.0
 
