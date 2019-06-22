@@ -1,237 +1,293 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
+	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
+	autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 71B327D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 22 Jun 2019 01:01:16 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3020D7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 22 Jun 2019 09:43:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726401AbfFVBBP (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Fri, 21 Jun 2019 21:01:15 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:33506 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726052AbfFVBBP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 21 Jun 2019 21:01:15 -0400
-Received: by mail-pf1-f196.google.com with SMTP id x15so4427092pfq.0
-        for <linux-doc@vger.kernel.org>; Fri, 21 Jun 2019 18:01:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pn4/IgcE/a3A9HRsf8YysVQmDOFkLMRirlv4eJOCAEY=;
-        b=r0d0D49hNJck2jmBOZ7hKq1EyIQm5VIsrCLXNfWA/zqw7JUB/PFT9/TEg3f9m8Exka
-         4OB4CLnAA+t7ZyRfMqNWActJqwB4eElCzw9OwOGul12RrF6Xah0/adQB3rDPYCiKwGSb
-         1cQfwLiJupuJHVE6kDeqU7eCLKZrrozRyUdaq1BAJ5w/IyIufGa6roBqLtZxSQ3wQLl8
-         cBD+npmSvsH7CB96WJOcXSzHxVdpszLog3BtkM+9yhp75ZfrhE2bcktgSWTAXvuCSrTY
-         kUvb5BfS0a52N4OmjgywAeDaICRhfTcMxYZ0cxZGqUP9umwcIynczzP5GVJDJnjw5aRm
-         2oGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pn4/IgcE/a3A9HRsf8YysVQmDOFkLMRirlv4eJOCAEY=;
-        b=Mt7wnjFkXnlT5Xn3Y0L2aU0ZrNwLToe5UhprSZbvELD8q83uGSS/fnuMqGv0VtMSLW
-         9uZlCvuOkLEcAfXLMbh+GHzY4xB5hfa+geySe9pur6OtrW+E3RE92A/MAygUZjVDLd22
-         tXRoNP4H0NsKE3a9vN8ALwJWyMixVvZJzJ6Q0XxQUSkfS33CI8tnQ91ZWcrygkvErNpF
-         M7TwQaPgsOsRPkT8/F5nst5qdkvx6XRFmBd9o/tSCvJHAuoMJxmxJSp9rH7pTB4LyTJg
-         YF/T669uAHaFL1CALFZJxWXQez7A++YqnhPPqqXAzzztvLcjaEyex/sQdwWJEDmKZdEa
-         2opg==
-X-Gm-Message-State: APjAAAVWG9h2ScQRP8054Fs1I2IgzOXMfSZuSK17NXM6AWl5JyfC7M6g
-        4B1/4PrGBkgSv0z/6ZIhTFDPhtxzE2bvnTcaclZiRw==
-X-Google-Smtp-Source: APXvYqwOxize9xmrZ2ApT7No74w3onQmjRsjgozaiDJFMKpG33Vqht+PxeXD1e0v4vbFE+q+E/bORwyHwGlVO6g99RY=
-X-Received: by 2002:a17:90a:9382:: with SMTP id q2mr10190000pjo.131.1561164883594;
- Fri, 21 Jun 2019 17:54:43 -0700 (PDT)
+        id S1726121AbfFVJnH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 22 Jun 2019 05:43:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58068 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726112AbfFVJnH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 22 Jun 2019 05:43:07 -0400
+Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E9FCC2084E;
+        Sat, 22 Jun 2019 09:43:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1561196585;
+        bh=t+jdhrtqnAeVSdTIuwqh5S0S8lqQudNzmmkSgt8+mNY=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=QkqDoDMQ8Tfy9zCFMuN2FS6chXTfNjoDIFZ8bO5yQW0Eamu0RIeew/hoHwQuMgbPH
+         uo4iewCHBEkJmzYmErZgwDR6Kw1lfwogjQXJQjOLMRGtqkSANbxXyPYQz+PRDvKLll
+         i5ZADS5Pu/wJgu+cuFQ5LVpfonRPSSWg1wqQRkVE=
+Date:   Sat, 22 Jun 2019 10:43:00 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        linux-iio@vger.kernel.org,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v2 22/29] docs: iio: convert to ReST
+Message-ID: <20190622104300.6ff9e871@archlinux>
+In-Reply-To: <f54094f023f1ab7130af64ffdbe4bc4cf66452b9.1560890801.git.mchehab+samsung@kernel.org>
+References: <cover.1560890800.git.mchehab+samsung@kernel.org>
+        <f54094f023f1ab7130af64ffdbe4bc4cf66452b9.1560890801.git.mchehab+samsung@kernel.org>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20190617082613.109131-1-brendanhiggins@google.com>
- <10feac3e-7621-65e5-fbf0-9c63fcbe09c9@gmail.com> <69809117-dcda-160a-ee0a-d1d3b4c5cd8a@kernel.org>
- <20190621181342.GA17166@mit.edu> <6f3f5184-d14e-1b46-17f1-391ee67e699c@kernel.org>
-In-Reply-To: <6f3f5184-d14e-1b46-17f1-391ee67e699c@kernel.org>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Fri, 21 Jun 2019 17:54:31 -0700
-Message-ID: <CAFd5g46W1u+6JKLW0WX9uicK5utvJe9tvq4YBsCkghuo0rCmng@mail.gmail.com>
-Subject: Re: [PATCH v5 00/18] kunit: introduce KUnit, the Linux kernel unit
- testing framework
-To:     shuah <shuah@kernel.org>
-Cc:     "Theodore Ts'o" <tytso@mit.edu>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 21, 2019 at 12:21 PM shuah <shuah@kernel.org> wrote:
->
-> On 6/21/19 12:13 PM, Theodore Ts'o wrote:
-> > On Fri, Jun 21, 2019 at 08:59:48AM -0600, shuah wrote:
-> >>>> ### But wait! Doesn't kselftest support in kernel testing?!
-> >>>>
-> >>>> ....
-> >>
-> >> I think I commented on this before. I agree with the statement that
-> >> there is no overlap between Kselftest and KUnit. I would like see this
-> >> removed. Kselftest module support supports use-cases KUnit won't be able
-> >> to. I can build an kernel with Kselftest test modules and use it in the
-> >> filed to load and run tests if I need to debug a problem and get data
-> >> from a system. I can't do that with KUnit.
+On Tue, 18 Jun 2019 17:53:40 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-Sure, I think this point has been brought up a number of times before.
-Maybe I didn't write this section well because, like Frank said, it
-comes across as being critical of the Kselftest module support; that
-wasn't my intention. I was speaking from the perspective that
-Kselftest module support is just a feature of Kselftest, and not a
-full framework like KUnit is (obviously Kselftest itself *is* a
-framework, but a very small part of it is not).
+> Rename the iio documentation files to ReST, add an
+> index for them and adjust in order to produce a nice html
+> output via the Sphinx build system.
+> 
+> At its new index.rst, let's add a :orphan: while this is not linked to
+> the main index.rst file, in order to avoid build warnings.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+I'll take this via IIO.
 
-It was obvious to me what Kselftest module support was intended for,
-and it is not intended to cover the use case that KUnit is targeting.
+Applied to the togreg branch of iio.git and pushed out as testing.
+I'll probably do a pull request to Greg tomorrow and these will hopefully
+turn up in linux-next not long after that.
 
-> >> In my mind, I am not viewing this as which is better. Kselftest and
-> >> KUnit both have their place in the kernel development process. It isn't
-> >> productive and/or necessary to comparing Kselftest and KUnit without a
-> >> good understanding of the problem spaces for each of these.
+Thanks Mauro!
 
-Again, I didn't mean to draw a comparison of which is better than the
-other. I was just trying to point out that Kselftest module support
-doesn't make sense as a stand alone unit testing framework, or really
-a framework of any kind, despite how it might actually be used.
+Jonathan
 
-> >> I would strongly recommend not making reference to Kselftest and talk
-> >> about what KUnit offers.
+> ---
+>  .../iio/{ep93xx_adc.txt => ep93xx_adc.rst}    | 15 +++++-
+>  .../{iio_configfs.txt => iio_configfs.rst}    | 52 +++++++++++--------
+>  Documentation/iio/index.rst                   | 12 +++++
+>  drivers/iio/Kconfig                           |  2 +-
+>  4 files changed, 56 insertions(+), 25 deletions(-)
+>  rename Documentation/iio/{ep93xx_adc.txt => ep93xx_adc.rst} (71%)
+>  rename Documentation/iio/{iio_configfs.txt => iio_configfs.rst} (73%)
+>  create mode 100644 Documentation/iio/index.rst
+> 
+> diff --git a/Documentation/iio/ep93xx_adc.txt b/Documentation/iio/ep93xx_adc.rst
+> similarity index 71%
+> rename from Documentation/iio/ep93xx_adc.txt
+> rename to Documentation/iio/ep93xx_adc.rst
+> index 23053e7817bd..4fd8dea3f6b8 100644
+> --- a/Documentation/iio/ep93xx_adc.txt
+> +++ b/Documentation/iio/ep93xx_adc.rst
+> @@ -1,12 +1,16 @@
+> -Cirrus Logic EP93xx ADC driver.
+> +==============================
+> +Cirrus Logic EP93xx ADC driver
+> +==============================
+>  
+>  1. Overview
+> +===========
+>  
+>  The driver is intended to work on both low-end (EP9301, EP9302) devices with
+>  5-channel ADC and high-end (EP9307, EP9312, EP9315) devices with 10-channel
+>  touchscreen/ADC module.
+>  
+>  2. Channel numbering
+> +====================
+>  
+>  Numbering scheme for channels 0..4 is defined in EP9301 and EP9302 datasheets.
+>  EP9307, EP9312 and EP9312 have 3 channels more (total 8), but the numbering is
+> @@ -17,13 +21,20 @@ Assuming ep93xx_adc is IIO device0, you'd find the following entries under
+>  
+>    +-----------------+---------------+
+>    | sysfs entry     | ball/pin name |
+> -  +-----------------+---------------+
+> +  +=================+===============+
+>    | in_voltage0_raw | YM            |
+> +  +-----------------+---------------+
+>    | in_voltage1_raw | SXP           |
+> +  +-----------------+---------------+
+>    | in_voltage2_raw | SXM           |
+> +  +-----------------+---------------+
+>    | in_voltage3_raw | SYP           |
+> +  +-----------------+---------------+
+>    | in_voltage4_raw | SYM           |
+> +  +-----------------+---------------+
+>    | in_voltage5_raw | XP            |
+> +  +-----------------+---------------+
+>    | in_voltage6_raw | XM            |
+> +  +-----------------+---------------+
+>    | in_voltage7_raw | YP            |
+>    +-----------------+---------------+
+> diff --git a/Documentation/iio/iio_configfs.txt b/Documentation/iio/iio_configfs.rst
+> similarity index 73%
+> rename from Documentation/iio/iio_configfs.txt
+> rename to Documentation/iio/iio_configfs.rst
+> index 4e5f101837a8..ecbfdb3afef7 100644
+> --- a/Documentation/iio/iio_configfs.txt
+> +++ b/Documentation/iio/iio_configfs.rst
+> @@ -1,6 +1,9 @@
+> +===============================
+>  Industrial IIO configfs support
+> +===============================
+>  
+>  1. Overview
+> +===========
+>  
+>  Configfs is a filesystem-based manager of kernel objects. IIO uses some
+>  objects that could be easily configured using configfs (e.g.: devices,
+> @@ -10,20 +13,22 @@ See Documentation/filesystems/configfs/configfs.txt for more information
+>  about how configfs works.
+>  
+>  2. Usage
+> +========
+>  
+>  In order to use configfs support in IIO we need to select it at compile
+>  time via CONFIG_IIO_CONFIGFS config option.
+>  
+> -Then, mount the configfs filesystem (usually under /config directory):
+> +Then, mount the configfs filesystem (usually under /config directory)::
+>  
+> -$ mkdir /config
+> -$ mount -t configfs none /config
+> +  $ mkdir /config
+> +  $ mount -t configfs none /config
+>  
+>  At this point, all default IIO groups will be created and can be accessed
+>  under /config/iio. Next chapters will describe available IIO configuration
+>  objects.
+>  
+>  3. Software triggers
+> +====================
+>  
+>  One of the IIO default configfs groups is the "triggers" group. It is
+>  automagically accessible when the configfs is mounted and can be found
+> @@ -31,40 +36,40 @@ under /config/iio/triggers.
+>  
+>  IIO software triggers implementation offers support for creating multiple
+>  trigger types. A new trigger type is usually implemented as a separate
+> -kernel module following the interface in include/linux/iio/sw_trigger.h:
+> +kernel module following the interface in include/linux/iio/sw_trigger.h::
+>  
+> -/*
+> - * drivers/iio/trigger/iio-trig-sample.c
+> - * sample kernel module implementing a new trigger type
+> - */
+> -#include <linux/iio/sw_trigger.h>
+> +  /*
+> +   * drivers/iio/trigger/iio-trig-sample.c
+> +   * sample kernel module implementing a new trigger type
+> +   */
+> +  #include <linux/iio/sw_trigger.h>
+>  
+>  
+> -static struct iio_sw_trigger *iio_trig_sample_probe(const char *name)
+> -{
+> +  static struct iio_sw_trigger *iio_trig_sample_probe(const char *name)
+> +  {
+>  	/*
+>  	 * This allocates and registers an IIO trigger plus other
+>  	 * trigger type specific initialization.
+>  	 */
+> -}
+> +  }
+>  
+> -static int iio_trig_hrtimer_remove(struct iio_sw_trigger *swt)
+> -{
+> +  static int iio_trig_hrtimer_remove(struct iio_sw_trigger *swt)
+> +  {
+>  	/*
+>  	 * This undoes the actions in iio_trig_sample_probe
+>  	 */
+> -}
+> +  }
+>  
+> -static const struct iio_sw_trigger_ops iio_trig_sample_ops = {
+> +  static const struct iio_sw_trigger_ops iio_trig_sample_ops = {
+>  	.probe		= iio_trig_sample_probe,
+>  	.remove		= iio_trig_sample_remove,
+> -};
+> +  };
+>  
+> -static struct iio_sw_trigger_type iio_trig_sample = {
+> +  static struct iio_sw_trigger_type iio_trig_sample = {
+>  	.name = "trig-sample",
+>  	.owner = THIS_MODULE,
+>  	.ops = &iio_trig_sample_ops,
+> -};
+> +  };
+>  
+>  module_iio_sw_trigger_driver(iio_trig_sample);
+>  
+> @@ -73,21 +78,24 @@ iio-trig-sample module will create 'trig-sample' trigger type directory
+>  /config/iio/triggers/trig-sample.
+>  
+>  We support the following interrupt sources (trigger types):
+> +
+>  	* hrtimer, uses high resolution timers as interrupt source
+>  
+>  3.1 Hrtimer triggers creation and destruction
+> +---------------------------------------------
+>  
+>  Loading iio-trig-hrtimer module will register hrtimer trigger types allowing
+>  users to create hrtimer triggers under /config/iio/triggers/hrtimer.
+>  
+> -e.g:
+> +e.g::
+>  
+> -$ mkdir /config/iio/triggers/hrtimer/instance1
+> -$ rmdir /config/iio/triggers/hrtimer/instance1
+> +  $ mkdir /config/iio/triggers/hrtimer/instance1
+> +  $ rmdir /config/iio/triggers/hrtimer/instance1
+>  
+>  Each trigger can have one or more attributes specific to the trigger type.
+>  
+>  3.2 "hrtimer" trigger types attributes
+> +--------------------------------------
+>  
+>  "hrtimer" trigger type doesn't have any configurable attribute from /config dir.
+>  It does introduce the sampling_frequency attribute to trigger directory.
+> diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
+> new file mode 100644
+> index 000000000000..0593dca89a94
+> --- /dev/null
+> +++ b/Documentation/iio/index.rst
+> @@ -0,0 +1,12 @@
+> +:orphan:
+> +
+> +==============
+> +Industrial I/O
+> +==============
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +   iio_configfs
+> +
+> +   ep93xx_adc
+> diff --git a/drivers/iio/Kconfig b/drivers/iio/Kconfig
+> index 1d736a4952ab..5bd51853b15e 100644
+> --- a/drivers/iio/Kconfig
+> +++ b/drivers/iio/Kconfig
+> @@ -28,7 +28,7 @@ config IIO_CONFIGFS
+>  	help
+>  	  This allows configuring various IIO bits through configfs
+>  	  (e.g. software triggers). For more info see
+> -	  Documentation/iio/iio_configfs.txt.
+> +	  Documentation/iio/iio_configfs.rst.
+>  
+>  config IIO_TRIGGER
+>  	bool "Enable triggered sampling support"
 
-I can see your point. It seems that both you and Frank seem to think
-that I drew a comparison between Kselftest and KUnit, which was
-unintended. I probably should have spent more time editing this
-section, but I can see the point of drawing the comparison itself
-might invite this confusion.
-
-> > Shuah,
-> >
-> > Just to recall the history, this section of the FAQ was added to rebut
-> > the ***very*** strong statements that Frank made that there was
-> > overlap between Kselftest and Kunit, and that having too many ways for
-> > kernel developers to do the identical thing was harmful (he said it
-> > was too much of a burden on a kernel developer) --- and this was an
-> > argument for not including Kunit in the upstream kernel.
-
-I don't think he was actually advocating that we don't include KUnit,
-maybe playing devil's advocate; nevertheless, at the end, Frank seemed
-to agree that there were valuable things that KUnit offered. I thought
-he just wanted to make the point that I hadn't made the distinction
-sufficiently clear in the cover letter, and other reviewers might get
-confused in the future as well.
-
-Additionally, it does look like people were trying to use Kselftest
-module support to cover some things which really were trying to be
-unit tests. I know this isn't really intended - everything looks like
-a nail when you only have a hammer, which I think Frank was pointing
-out furthers the above confusion.
-
-In anycase, it sounds like I have, if anything, only made the
-discussion even more confusing by adding this section; sorry about
-that.
-
-> > If we're past that objection, then perhaps this section can be
-> > dropped, but there's a very good reason why it was there.  I wouldn't
-> > Brendan to be accused of ignoring feedback from those who reviewed his
-> > patches.   :-)
-> >
->
-> Agreed. I understand that this FAQ probably was needed at one time and
-> Brendan added it to address the concerns.
-
-I don't want to speak for Frank, but I don't think it was an objection
-to KUnit itself, but rather an objection to not sufficiently
-addressing the point about how they differ.
-
-> I think at some point we do need to have a document that outlines when
-> to KUnit and when to use Kselftest modules. I think one concern people
-> have is that if KUnit is perceived as a  replacement for Ksefltest
-> module, Kselftest module will be ignored leaving users without the
-> ability to build and run with Kselftest modules and load them on a need
-> basis to gather data on a systems that aren't dedicated strictly for
-> testing.
-
-I absolutely agree! I posed a suggestion here[1], which after I just
-now searched for a link, I realize for some reason it didn't seem like
-it reached a number of the mailing lists that I sent it to, so I
-should probably resend it.
-
-Anyway, a summary of what I suggested: We should start off by better
-organizing Documentation/dev-tools/ and create a landing page that
-groups the dev-tools by function according to what person is likely to
-use them and for what. Eventually and specifically for Kselftest and
-KUnit, I would like to have a testing guide for the kernel that
-explains what testing procedure should look like and what to use and
-when.
-
-> I am trying to move the conversation forward from KUnit vs. Kselftest
-> modules discussion to which problem areas each one addresses keeping
-> in mind that it is not about which is better. Kselftest and KUnit both
-> have their place in the kernel development process. We just have to be
-> clear on usage as we write tests for each.
-
-I think that is the right long term approach. I think a good place to
-start, like I suggested above, is cleaning up
-Documentation/dev-tools/, but I think that belongs in a (probably
-several) follow-up patchset.
-
-Frank, I believe your objection was mostly related to how KUnit is
-presented specifically in the cover letter, and doesn't necessarily
-deal with the intended use case. So I don't think that doing this,
-especially doing this later, really addresses your concern. I don't
-want to belabor the issue, but I would also rather not put words in
-your mouth, what are your thoughts on the above?
-
-I think my main concern moving forward on this point is that I am not
-sure that I can address the debate that this section covers in a way
-that is both sufficiently concise for a cover letter, but also doesn't
-invite more potential confusion. My inclination at this point is to
-drop it since I think the set of reviewers for this patchset has at
-this point become fixed, and it seems that it will likely cause more
-confusion rather than reduce it; also, I don't really think this will
-be an issue for end users, especially once we have proper
-documentation in place. Alternatively, I guess I could maybe address
-the point elsewhere and refer to it in the cover letter? Or maybe just
-put it at the end of the cover letter?
-
-[1] https://www.mail-archive.com/kgdb-bugreport@lists.sourceforge.net/msg05059.html
