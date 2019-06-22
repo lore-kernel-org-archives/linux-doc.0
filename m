@@ -1,71 +1,123 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.7 required=5.0 tests=ADVANCE_FEE_5_NEW_MONEY,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	FREEMAIL_REPLYTO_END_DIGIT,HEADER_FROM_DIFFERENT_DOMAINS,
-	HK_NAME_FM_MR_MRS,LOTS_OF_MONEY,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
-	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-	version=3.4.2
+X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 4F9517D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 22 Jun 2019 16:29:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 0F8787D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 22 Jun 2019 16:59:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726425AbfFVQ27 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 22 Jun 2019 12:28:59 -0400
-Received: from sonic301-3.consmr.mail.bf2.yahoo.com ([74.6.129.42]:44709 "EHLO
-        sonic301-3.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726374AbfFVQ2u (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Jun 2019 12:28:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1561220929; bh=3fXYToOZXvh5MOJ1JSawYDThjnynC/Ekt2gucIg6zZg=; h=Date:From:Reply-To:Subject:From:Subject; b=FwrBLUl7u665XwQeVPTq5hUQ4Ptv5qPcwgE0MfCyAxPjQW66W+sBKlTITy95Xiak8M/9mL3k87XvuhuNYmdzjOXFqAsXXJ7ZeR0tr0xQhaR4qpp9+I79zHB4JVXDeOtUnrv/ni1DEn3m49tSMIml9+1SbDvUcui/xLYzcB7mOtvlwJJC6bBkcbOwJW8drH7WnSKYQVlUvO9PRg8+IWYABo4m/HoTrmg3JSd7+tfq1bmdsTjreC9G6uwJClVG1p8XyGEOijmNqXv9Ivunj8UzUvxVldTIg/taTAKdSlSG3i+xbnz28LKLpxSK2+M63p52Vf+hNJ0OycyVj1TkO+H8OQ==
-X-YMail-OSG: BClZlNgVM1mJa1pSUAMlnjmDwJQUKDn0osVKNVIeZ6AC0JZQ8NzrV_.P2vPToBw
- lk4l1yMYy0P1wu9iKWHPF1vwWtED.NCcY6jE.jXdELnZdUngnDzcX.f1Ik7TcPjN._6dUftCNvSG
- 0ilPDIIh6JKut3rld3EDzfXqVTEprJFL10dLfXEmdNXy8_9HzWnLN9Uxxh6FWr8nj4DbExyF48M8
- b8CzHn8AtWzh0fDjJqMRXb5UR1L1fHF.mq4wk_41bl8VHLLREhO8D9AiMB_Iou.TvP.xektI4Uzf
- lBotEg54S8nbe5a5a2eamKaLSiD6XaCIzSQkrGwkgk9qzk7J4361PG1C2lAWhSULJjGYH.uKi9SH
- 8omXh8MvwuZmVU7umqXbA4eIFWV8ruRR3qRFWtA.2B0Eer.D49EbNovsAu.wRPm8yYyL6YMdaoys
- 3vYAkjype1yPgR0gHAH3zObnNPMrtMzQfsTzcaha59dNYsVWPRo5EvcFgAIKXVIUqnKnooWuODru
- O4SgrdrM8PGEZGs5dJS.h.dJB3gwQ.0I1wf1Q_CLgJhbPMrumaMiWl3ifhN9G_CCxrGhRPRltqdB
- RyAvAXGENXKEJswzM.sYWHkLQyblOWaGX5TLKzeDGaJCZVu7CtZvQ0aNcyWtqrf4SAtE7MK9SqUH
- 7phABBxeBrGdyDkvdUQOX_EPh25.Hb3SncDKllMEIHjvEdwbQcMGmqMEDVCI8Jh0nfgpjh259ODl
- q.bGW_sz63_QvjPWXygjUQ4RzfXiei1bHIkvbkPAHc04dS.Qr8LP1Jyxp2QD0wtNtJgo5RScK99X
- P5NPqcNAR8eez8YgXpk3cKLQCR9JSylhL6QyUVACODhQSLMO_l73eEDpWzNQUeEQLrEwA53TFUO9
- BXx4lR26gADp4OeWMANR3pTNDn8J7Oc5G1l.tF8AqVFtdsoB5vgCdw0tzoX9_22cJzNNteihaN9H
- ktOSXaCeUY26x9DWNkYi7HTOCc9F4vHnioRwelB9Lv.KGDeGPUJBBPmfcn0xXC8MB2YTlUFeVHzN
- FJsHhvFz9eJx.VwEAdhJs3DHW6xmbj9a_RSOf.BoLPiAvMAdoBe_1sVY8nFOqhuBwpkbj17TOzIW
- ts0JEWafkyantIFw8kEnIr0AHDEAK4aB1fgOVS8TQpbEaj2tB4pKHPa4OOjXszQAPBozr7PYVj2f
- 6AcwHFYhcmsrFfliX20p43dgFMRY8GMXgvUWeegBAeAuOTxCoUC9WvAdL
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic301.consmr.mail.bf2.yahoo.com with HTTP; Sat, 22 Jun 2019 16:28:49 +0000
-Date:   Sat, 22 Jun 2019 16:28:46 +0000 (UTC)
-From:   "Miss.Fatima Yusuf" <fatimayusuf5@outlook.fr>
-Reply-To: miss.fmayusuf11@gmail.com
-Message-ID: <270302503.296556.1561220926635@mail.yahoo.com>
-Subject: From:Miss: Fatima Yusuf.
+        id S1726454AbfFVQ7A (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 22 Jun 2019 12:59:00 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:42790 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726333AbfFVQ67 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Jun 2019 12:58:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=nwm0MuWiU+CZGPXfeq9z6A2WqAr7Jlbvc3SpX02xbaE=; b=mt+wLPE/Lm93/twaJPuBpSoBpg
+        QEkWtEzGEy+SkmD28j/POVyfDygA78mdyWAp+XlU1YvKrF3EyWcxm/zKoQOkWsADS/Ncb06o2yDBI
+        /qH+/M8Tq++j6IQ8SWhhqz/tXAv9yjpzE6W/GcsGKIAucqJYage4Zu/pTku0VC+4nRdnlf7kp6xaa
+        4BLMi0srfPoRv4YBi+dbK1ASCdfns9kUE4qVqi1jNt4aKkoJj7EKGMd6HiZCV0uUr3LrqdfLfo7tG
+        TPKN+KynCQ9HdYMCX1JT/MfisHvYTnldYiJhOTb6MqvANdJ+eSwmT+tkYlJLpqWN2LG00Q3m3zG3K
+        EwvGy2oQ==;
+Received: from [179.95.45.115] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hejLu-00054t-FV; Sat, 22 Jun 2019 16:58:58 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hejLs-0000vk-1m; Sat, 22 Jun 2019 13:58:56 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        gregkh@linuxfoundation.org, Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 10/12] docs: kernel_abi.py: use --enable-lineno for get_abi.pl
+Date:   Sat, 22 Jun 2019 13:58:51 -0300
+Message-Id: <959b98c5ff9f2f0889e57e330246d5ac7a61b45d.1561221403.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <cover.1561221403.git.mchehab+samsung@kernel.org>
+References: <cover.1561221403.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Just like kernel-doc extension, we need to be able to identify
+what part of an imported document has issues, as reporting them
+as:
 
+	get_abi.pl rest --dir $srctree/Documentation/ABI/obsolete --rst-source:1689: ERROR: Unexpected indentation.
 
-From:Miss: Fatima Yusuf.
+Makes a lot harder for someone to fix.
 
-For sure this mail would definitely come to you as a surprise, but do take your good time to go through it, My name is Ms. Fatima Yusuf,i am from Ivory Coast.
+It should be noticed that it the line which will be reported is
+the line where the "What:" definition is, and not the line
+with actually has an error.
 
-I lost my parents a year and couple of months ago. My father was a serving director of the Agro-exporting board until his death. He was assassinated by his business partners.Before his death, he made a deposit of US$9.7 Million Dollars here in Cote d'ivoire which was for the purchase of cocoa processing machine and development of another factory before his untimely death.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ Documentation/sphinx/kernel_abi.py | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
-Being that this part of the world experiences political and crises time without number, there is no guarantee of lives and properties. I cannot invest this money here any long, despite the fact it had been my late father's industrial plans.
+diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
+index 5d43cac73d0a..efa338e18764 100644
+--- a/Documentation/sphinx/kernel_abi.py
++++ b/Documentation/sphinx/kernel_abi.py
+@@ -35,6 +35,7 @@ import codecs
+ import os
+ import subprocess
+ import sys
++import re
+ 
+ from os import path
+ 
+@@ -92,7 +93,7 @@ class KernelCmd(Directive):
+ 
+         env = doc.settings.env
+         cwd = path.dirname(doc.current_source)
+-        cmd = "get_abi.pl rest --dir "
++        cmd = "get_abi.pl rest --enable-lineno --dir "
+         cmd += self.arguments[0]
+ 
+         srctree = path.abspath(os.environ["srctree"])
+@@ -136,7 +137,7 @@ class KernelCmd(Directive):
+                               % (self.name, ErrorString(exc)))
+         return out
+ 
+-    def nestedParse(self, lines, fname):
++    def nestedParse(self, lines, f):
+         content = ViewList()
+         node    = nodes.section()
+ 
+@@ -146,8 +147,17 @@ class KernelCmd(Directive):
+                 code_block += "\n    " + l
+             lines = code_block + "\n\n"
+ 
+-        for c, l in enumerate(lines.split("\n")):
+-            content.append(l, fname, c)
++        line_regex = re.compile("^#define LINENO (\S+)\#([0-9]+)$")
++        ln = 0
++
++        for line in lines.split("\n"):
++            match = line_regex.search(line)
++            if match:
++                f = match.group(1)
++                # sphinx counts lines from 0
++                ln = int(match.group(2)) - 1
++            else:
++                content.append(line, f, ln)
+ 
+         buf  = self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter
+ 
+-- 
+2.21.0
 
-I want you to do me a favor to receive this funds into your country or any safer place as the beneficiary, I have plans to invest this money in continuation with the investment vision of my late father, but not in this place again rather in your country. I have the vision of going into real estate and industrial production or any profitable business venture.
-
-I will be ready to compensate you with 20% of the total Amount, now all my hope is banked on you and i really wants to invest this money in your country, where there is stability of Government, political and economic welfare.
-
-My greatest worry now is how to move out of this country because my uncle is threatening to kill me as he killed my father,Please do not let anybody hear about this, it is between me and you alone because of my security reason.
-
-I am waiting to hear from you.
-Yours Sincerely,
-Miss.Fatima Yusuf.
