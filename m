@@ -1,293 +1,279 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MAILING_LIST_MULTI,
-	RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE autolearn=ham
-	autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3020D7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 22 Jun 2019 09:43:08 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 85CA17D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 22 Jun 2019 12:21:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726121AbfFVJnH (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 22 Jun 2019 05:43:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58068 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726112AbfFVJnH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 22 Jun 2019 05:43:07 -0400
-Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E9FCC2084E;
-        Sat, 22 Jun 2019 09:43:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561196585;
-        bh=t+jdhrtqnAeVSdTIuwqh5S0S8lqQudNzmmkSgt8+mNY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=QkqDoDMQ8Tfy9zCFMuN2FS6chXTfNjoDIFZ8bO5yQW0Eamu0RIeew/hoHwQuMgbPH
-         uo4iewCHBEkJmzYmErZgwDR6Kw1lfwogjQXJQjOLMRGtqkSANbxXyPYQz+PRDvKLll
-         i5ZADS5Pu/wJgu+cuFQ5LVpfonRPSSWg1wqQRkVE=
-Date:   Sat, 22 Jun 2019 10:43:00 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        linux-iio@vger.kernel.org,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v2 22/29] docs: iio: convert to ReST
-Message-ID: <20190622104300.6ff9e871@archlinux>
-In-Reply-To: <f54094f023f1ab7130af64ffdbe4bc4cf66452b9.1560890801.git.mchehab+samsung@kernel.org>
-References: <cover.1560890800.git.mchehab+samsung@kernel.org>
-        <f54094f023f1ab7130af64ffdbe4bc4cf66452b9.1560890801.git.mchehab+samsung@kernel.org>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1726310AbfFVMVy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 22 Jun 2019 08:21:54 -0400
+Received: from outils.crapouillou.net ([89.234.176.41]:42082 "EHLO
+        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726112AbfFVMVy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Jun 2019 08:21:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+        s=mail; t=1561206110; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=AcJP+F7zzArO1aHbhKRqb5EiXnIEhX3CopkWcQGeA34=;
+        b=TPezhZpcdABh8N8LO4bNhWS4FIx9TmAYvj4yeuCLdDs4ojk8C6DROwldqNUr6UMdyEp6DU
+        jnWIJpi2MEG6s+1gbFGf+EJBKyfre3Dd2oCgG1tsgpwx2XPT+3qKyXU5earohHgPNcQhrW
+        HF1bdoxRNHp9UwrpXry4jky/iuSPLiY=
+Date:   Sat, 22 Jun 2019 14:21:42 +0200
+From:   Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v12 04/13] mfd: Add Ingenic TCU driver
+To:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Lee Jones <lee.jones@linaro.org>
+Cc:     Mathieu Malaterre <malat@debian.org>, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-clk@vger.kernel.org, od@zcrc.me
+Message-Id: <1561206102.1777.2@crapouillou.net>
+In-Reply-To: <20190521145141.9813-5-paul@crapouillou.net>
+References: <20190521145141.9813-1-paul@crapouillou.net>
+        <20190521145141.9813-5-paul@crapouillou.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 18 Jun 2019 17:53:40 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+Hi,
 
-> Rename the iio documentation files to ReST, add an
-> index for them and adjust in order to produce a nice html
-> output via the Sphinx build system.
-> 
-> At its new index.rst, let's add a :orphan: while this is not linked to
-> the main index.rst file, in order to avoid build warnings.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-I'll take this via IIO.
+I'll make a V13 of this patchset on top of -rc6, any feedback
+for this MFD driver? It's been already one month.
 
-Applied to the togreg branch of iio.git and pushed out as testing.
-I'll probably do a pull request to Greg tomorrow and these will hopefully
-turn up in linux-next not long after that.
+Thanks,
+-Paul
 
-Thanks Mauro!
 
-Jonathan
 
+Le mar. 21 mai 2019 =E0 16:51, Paul Cercueil <paul@crapouillou.net> a=20
+=E9crit :
+> This driver will provide a regmap that can be retrieved very early in
+> the boot process through the API function ingenic_tcu_get_regmap().
+>=20
+> Additionally, it will call devm_of_platform_populate() so that all the
+> children devices will be probed.
+>=20
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 > ---
->  .../iio/{ep93xx_adc.txt => ep93xx_adc.rst}    | 15 +++++-
->  .../{iio_configfs.txt => iio_configfs.rst}    | 52 +++++++++++--------
->  Documentation/iio/index.rst                   | 12 +++++
->  drivers/iio/Kconfig                           |  2 +-
->  4 files changed, 56 insertions(+), 25 deletions(-)
->  rename Documentation/iio/{ep93xx_adc.txt => ep93xx_adc.rst} (71%)
->  rename Documentation/iio/{iio_configfs.txt => iio_configfs.rst} (73%)
->  create mode 100644 Documentation/iio/index.rst
-> 
-> diff --git a/Documentation/iio/ep93xx_adc.txt b/Documentation/iio/ep93xx_adc.rst
-> similarity index 71%
-> rename from Documentation/iio/ep93xx_adc.txt
-> rename to Documentation/iio/ep93xx_adc.rst
-> index 23053e7817bd..4fd8dea3f6b8 100644
-> --- a/Documentation/iio/ep93xx_adc.txt
-> +++ b/Documentation/iio/ep93xx_adc.rst
-> @@ -1,12 +1,16 @@
-> -Cirrus Logic EP93xx ADC driver.
-> +==============================
-> +Cirrus Logic EP93xx ADC driver
-> +==============================
->  
->  1. Overview
-> +===========
->  
->  The driver is intended to work on both low-end (EP9301, EP9302) devices with
->  5-channel ADC and high-end (EP9307, EP9312, EP9315) devices with 10-channel
->  touchscreen/ADC module.
->  
->  2. Channel numbering
-> +====================
->  
->  Numbering scheme for channels 0..4 is defined in EP9301 and EP9302 datasheets.
->  EP9307, EP9312 and EP9312 have 3 channels more (total 8), but the numbering is
-> @@ -17,13 +21,20 @@ Assuming ep93xx_adc is IIO device0, you'd find the following entries under
->  
->    +-----------------+---------------+
->    | sysfs entry     | ball/pin name |
-> -  +-----------------+---------------+
-> +  +=================+===============+
->    | in_voltage0_raw | YM            |
-> +  +-----------------+---------------+
->    | in_voltage1_raw | SXP           |
-> +  +-----------------+---------------+
->    | in_voltage2_raw | SXM           |
-> +  +-----------------+---------------+
->    | in_voltage3_raw | SYP           |
-> +  +-----------------+---------------+
->    | in_voltage4_raw | SYM           |
-> +  +-----------------+---------------+
->    | in_voltage5_raw | XP            |
-> +  +-----------------+---------------+
->    | in_voltage6_raw | XM            |
-> +  +-----------------+---------------+
->    | in_voltage7_raw | YP            |
->    +-----------------+---------------+
-> diff --git a/Documentation/iio/iio_configfs.txt b/Documentation/iio/iio_configfs.rst
-> similarity index 73%
-> rename from Documentation/iio/iio_configfs.txt
-> rename to Documentation/iio/iio_configfs.rst
-> index 4e5f101837a8..ecbfdb3afef7 100644
-> --- a/Documentation/iio/iio_configfs.txt
-> +++ b/Documentation/iio/iio_configfs.rst
-> @@ -1,6 +1,9 @@
-> +===============================
->  Industrial IIO configfs support
-> +===============================
->  
->  1. Overview
-> +===========
->  
->  Configfs is a filesystem-based manager of kernel objects. IIO uses some
->  objects that could be easily configured using configfs (e.g.: devices,
-> @@ -10,20 +13,22 @@ See Documentation/filesystems/configfs/configfs.txt for more information
->  about how configfs works.
->  
->  2. Usage
-> +========
->  
->  In order to use configfs support in IIO we need to select it at compile
->  time via CONFIG_IIO_CONFIGFS config option.
->  
-> -Then, mount the configfs filesystem (usually under /config directory):
-> +Then, mount the configfs filesystem (usually under /config directory)::
->  
-> -$ mkdir /config
-> -$ mount -t configfs none /config
-> +  $ mkdir /config
-> +  $ mount -t configfs none /config
->  
->  At this point, all default IIO groups will be created and can be accessed
->  under /config/iio. Next chapters will describe available IIO configuration
->  objects.
->  
->  3. Software triggers
-> +====================
->  
->  One of the IIO default configfs groups is the "triggers" group. It is
->  automagically accessible when the configfs is mounted and can be found
-> @@ -31,40 +36,40 @@ under /config/iio/triggers.
->  
->  IIO software triggers implementation offers support for creating multiple
->  trigger types. A new trigger type is usually implemented as a separate
-> -kernel module following the interface in include/linux/iio/sw_trigger.h:
-> +kernel module following the interface in include/linux/iio/sw_trigger.h::
->  
-> -/*
-> - * drivers/iio/trigger/iio-trig-sample.c
-> - * sample kernel module implementing a new trigger type
-> - */
-> -#include <linux/iio/sw_trigger.h>
-> +  /*
-> +   * drivers/iio/trigger/iio-trig-sample.c
-> +   * sample kernel module implementing a new trigger type
-> +   */
-> +  #include <linux/iio/sw_trigger.h>
->  
->  
-> -static struct iio_sw_trigger *iio_trig_sample_probe(const char *name)
-> -{
-> +  static struct iio_sw_trigger *iio_trig_sample_probe(const char *name)
-> +  {
->  	/*
->  	 * This allocates and registers an IIO trigger plus other
->  	 * trigger type specific initialization.
->  	 */
-> -}
-> +  }
->  
-> -static int iio_trig_hrtimer_remove(struct iio_sw_trigger *swt)
-> -{
-> +  static int iio_trig_hrtimer_remove(struct iio_sw_trigger *swt)
-> +  {
->  	/*
->  	 * This undoes the actions in iio_trig_sample_probe
->  	 */
-> -}
-> +  }
->  
-> -static const struct iio_sw_trigger_ops iio_trig_sample_ops = {
-> +  static const struct iio_sw_trigger_ops iio_trig_sample_ops = {
->  	.probe		= iio_trig_sample_probe,
->  	.remove		= iio_trig_sample_remove,
-> -};
-> +  };
->  
-> -static struct iio_sw_trigger_type iio_trig_sample = {
-> +  static struct iio_sw_trigger_type iio_trig_sample = {
->  	.name = "trig-sample",
->  	.owner = THIS_MODULE,
->  	.ops = &iio_trig_sample_ops,
-> -};
-> +  };
->  
->  module_iio_sw_trigger_driver(iio_trig_sample);
->  
-> @@ -73,21 +78,24 @@ iio-trig-sample module will create 'trig-sample' trigger type directory
->  /config/iio/triggers/trig-sample.
->  
->  We support the following interrupt sources (trigger types):
+>=20
+> Notes:
+>     v12: New patch
+>=20
+>  drivers/mfd/Kconfig             |   8 +++
+>  drivers/mfd/Makefile            |   1 +
+>  drivers/mfd/ingenic-tcu.c       | 113=20
+> ++++++++++++++++++++++++++++++++
+>  include/linux/mfd/ingenic-tcu.h |   8 +++
+>  4 files changed, 130 insertions(+)
+>  create mode 100644 drivers/mfd/ingenic-tcu.c
+>=20
+> diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
+> index 294d9567cc71..a13544474e05 100644
+> --- a/drivers/mfd/Kconfig
+> +++ b/drivers/mfd/Kconfig
+> @@ -494,6 +494,14 @@ config HTC_I2CPLD
+>  	  This device provides input and output GPIOs through an I2C
+>  	  interface to one or more sub-chips.
+>=20
+> +config INGENIC_TCU
+> +	bool "Ingenic Timer/Counter Unit (TCU) support"
+> +	depends on MIPS || COMPILE_TEST
+> +	select REGMAP_MMIO
+> +	help
+> +	  Say yes here to support the Timer/Counter Unit (TCU) IP present
+> +	  in the JZ47xx SoCs from Ingenic.
 > +
->  	* hrtimer, uses high resolution timers as interrupt source
->  
->  3.1 Hrtimer triggers creation and destruction
-> +---------------------------------------------
->  
->  Loading iio-trig-hrtimer module will register hrtimer trigger types allowing
->  users to create hrtimer triggers under /config/iio/triggers/hrtimer.
->  
-> -e.g:
-> +e.g::
->  
-> -$ mkdir /config/iio/triggers/hrtimer/instance1
-> -$ rmdir /config/iio/triggers/hrtimer/instance1
-> +  $ mkdir /config/iio/triggers/hrtimer/instance1
-> +  $ rmdir /config/iio/triggers/hrtimer/instance1
->  
->  Each trigger can have one or more attributes specific to the trigger type.
->  
->  3.2 "hrtimer" trigger types attributes
-> +--------------------------------------
->  
->  "hrtimer" trigger type doesn't have any configurable attribute from /config dir.
->  It does introduce the sampling_frequency attribute to trigger directory.
-> diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
+>  config MFD_INTEL_QUARK_I2C_GPIO
+>  	tristate "Intel Quark MFD I2C GPIO"
+>  	depends on PCI
+> diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
+> index 52b1a90ff515..fb89e131ae98 100644
+> --- a/drivers/mfd/Makefile
+> +++ b/drivers/mfd/Makefile
+> @@ -180,6 +180,7 @@ obj-$(CONFIG_AB8500_CORE)	+=3D ab8500-core.o=20
+> ab8500-sysctrl.o
+>  obj-$(CONFIG_MFD_TIMBERDALE)    +=3D timberdale.o
+>  obj-$(CONFIG_PMIC_ADP5520)	+=3D adp5520.o
+>  obj-$(CONFIG_MFD_KEMPLD)	+=3D kempld-core.o
+> +obj-$(CONFIG_INGENIC_TCU)	+=3D ingenic-tcu.o
+>  obj-$(CONFIG_MFD_INTEL_QUARK_I2C_GPIO)	+=3D intel_quark_i2c_gpio.o
+>  obj-$(CONFIG_LPC_SCH)		+=3D lpc_sch.o
+>  obj-$(CONFIG_LPC_ICH)		+=3D lpc_ich.o
+> diff --git a/drivers/mfd/ingenic-tcu.c b/drivers/mfd/ingenic-tcu.c
 > new file mode 100644
-> index 000000000000..0593dca89a94
+> index 000000000000..6c1d5e4310c1
 > --- /dev/null
-> +++ b/Documentation/iio/index.rst
-> @@ -0,0 +1,12 @@
-> +:orphan:
+> +++ b/drivers/mfd/ingenic-tcu.c
+> @@ -0,0 +1,113 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * JZ47xx SoCs TCU MFD driver
+> + * Copyright (C) 2019 Paul Cercueil <paul@crapouillou.net>
+> + */
 > +
-> +==============
-> +Industrial I/O
-> +==============
+> +#include <linux/mfd/ingenic-tcu.h>
+> +#include <linux/of_address.h>
+> +#include <linux/of_platform.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/regmap.h>
 > +
-> +.. toctree::
-> +   :maxdepth: 1
+> +struct ingenic_soc_info {
+> +	unsigned int num_channels;
+> +};
 > +
-> +   iio_configfs
+> +static struct regmap *tcu_regmap __initdata;
 > +
-> +   ep93xx_adc
-> diff --git a/drivers/iio/Kconfig b/drivers/iio/Kconfig
-> index 1d736a4952ab..5bd51853b15e 100644
-> --- a/drivers/iio/Kconfig
-> +++ b/drivers/iio/Kconfig
-> @@ -28,7 +28,7 @@ config IIO_CONFIGFS
->  	help
->  	  This allows configuring various IIO bits through configfs
->  	  (e.g. software triggers). For more info see
-> -	  Documentation/iio/iio_configfs.txt.
-> +	  Documentation/iio/iio_configfs.rst.
->  
->  config IIO_TRIGGER
->  	bool "Enable triggered sampling support"
+> +static const struct regmap_config ingenic_tcu_regmap_config =3D {
+> +	.reg_bits =3D 32,
+> +	.val_bits =3D 32,
+> +	.reg_stride =3D 4,
+> +	.max_register =3D TCU_REG_OST_CNTHBUF,
+> +};
+> +
+> +static const struct ingenic_soc_info jz4740_soc_info =3D {
+> +	.num_channels =3D 8,
+> +};
+> +
+> +static const struct ingenic_soc_info jz4725b_soc_info =3D {
+> +	.num_channels =3D 6,
+> +};
+> +
+> +static const struct of_device_id ingenic_tcu_of_match[] =3D {
+> +	{ .compatible =3D "ingenic,jz4740-tcu", .data =3D &jz4740_soc_info, },
+> +	{ .compatible =3D "ingenic,jz4725b-tcu", .data =3D &jz4725b_soc_info, }=
+,
+> +	{ .compatible =3D "ingenic,jz4770-tcu", .data =3D &jz4740_soc_info, },
+> +	{ }
+> +};
+> +
+> +static struct regmap * __init ingenic_tcu_create_regmap(struct=20
+> device_node *np)
+> +{
+> +	struct resource res;
+> +	void __iomem *base;
+> +	struct regmap *map;
+> +
+> +	if (!of_match_node(ingenic_tcu_of_match, np))
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	base =3D of_io_request_and_map(np, 0, "TCU");
+> +	if (IS_ERR(base))
+> +		return ERR_PTR(PTR_ERR(base));
+> +
+> +	map =3D regmap_init_mmio(NULL, base, &ingenic_tcu_regmap_config);
+> +	if (IS_ERR(map))
+> +		goto err_iounmap;
+> +
+> +	return map;
+> +
+> +err_iounmap:
+> +	iounmap(base);
+> +	of_address_to_resource(np, 0, &res);
+> +	release_mem_region(res.start, resource_size(&res));
+> +
+> +	return map;
+> +}
+> +
+> +static int __init ingenic_tcu_probe(struct platform_device *pdev)
+> +{
+> +	struct regmap *map =3D ingenic_tcu_get_regmap(pdev->dev.of_node);
+> +
+> +	platform_set_drvdata(pdev, map);
+> +
+> +	regmap_attach_dev(&pdev->dev, map, &ingenic_tcu_regmap_config);
+> +
+> +	return devm_of_platform_populate(&pdev->dev);
+> +}
+> +
+> +static struct platform_driver ingenic_tcu_driver =3D {
+> +	.driver =3D {
+> +		.name =3D "ingenic-tcu",
+> +		.of_match_table =3D ingenic_tcu_of_match,
+> +	},
+> +};
+> +
+> +static int __init ingenic_tcu_platform_init(void)
+> +{
+> +	return platform_driver_probe(&ingenic_tcu_driver,
+> +				     ingenic_tcu_probe);
+> +}
+> +subsys_initcall(ingenic_tcu_platform_init);
+> +
+> +struct regmap * __init ingenic_tcu_get_regmap(struct device_node *np)
+> +{
+> +	if (!tcu_regmap)
+> +		tcu_regmap =3D ingenic_tcu_create_regmap(np);
+> +
+> +	return tcu_regmap;
+> +}
+> +
+> +bool ingenic_tcu_pwm_can_use_chn(struct device *dev, unsigned int=20
+> channel)
+> +{
+> +	const struct ingenic_soc_info *soc =3D=20
+> device_get_match_data(dev->parent);
+> +
+> +	/* Enable all TCU channels for PWM use by default except channels=20
+> 0/1 */
+> +	u32 pwm_channels_mask =3D GENMASK(soc->num_channels - 1, 2);
+> +
+> +	device_property_read_u32(dev->parent, "ingenic,pwm-channels-mask",
+> +				 &pwm_channels_mask);
+> +
+> +	return !!(pwm_channels_mask & BIT(channel));
+> +}
+> +EXPORT_SYMBOL_GPL(ingenic_tcu_pwm_can_use_chn);
+> diff --git a/include/linux/mfd/ingenic-tcu.h=20
+> b/include/linux/mfd/ingenic-tcu.h
+> index 2083fa20821d..21df23916cd2 100644
+> --- a/include/linux/mfd/ingenic-tcu.h
+> +++ b/include/linux/mfd/ingenic-tcu.h
+> @@ -6,6 +6,11 @@
+>  #define __LINUX_MFD_INGENIC_TCU_H_
+>=20
+>  #include <linux/bitops.h>
+> +#include <linux/init.h>
+> +
+> +struct device;
+> +struct device_node;
+> +struct regmap;
+>=20
+>  #define TCU_REG_WDT_TDR		0x00
+>  #define TCU_REG_WDT_TCER	0x04
+> @@ -53,4 +58,7 @@
+>  #define TCU_REG_TCNTc(c)	(TCU_REG_TCNT0 + ((c) * TCU_CHANNEL_STRIDE))
+>  #define TCU_REG_TCSRc(c)	(TCU_REG_TCSR0 + ((c) * TCU_CHANNEL_STRIDE))
+>=20
+> +struct regmap * __init ingenic_tcu_get_regmap(struct device_node=20
+> *np);
+> +bool ingenic_tcu_pwm_can_use_chn(struct device *dev, unsigned int=20
+> channel);
+> +
+>  #endif /* __LINUX_MFD_INGENIC_TCU_H_ */
+> --
+> 2.21.0.593.g511ec345e18
+>=20
+
+=
 
