@@ -5,14 +5,14 @@ X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id EA55A7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 22 Jun 2019 17:17:21 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7391F7D912
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 22 Jun 2019 17:17:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726388AbfFVRRN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        id S1726310AbfFVRRN (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
         Sat, 22 Jun 2019 13:17:13 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:43804 "EHLO
+Received: from bombadil.infradead.org ([198.137.202.133]:43798 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726338AbfFVRRM (ORCPT
+        with ESMTP id S1726299AbfFVRRM (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Jun 2019 13:17:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -20,29 +20,27 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=/fqpHAt8CSw6pch/Pj9aN8ynFTK0mhOoYKSJDMULvgk=; b=nv6Rgic/hNzrSqAfC5jG/edRyV
-        4P/pbbAa1vt7C0pHqlJX8W1Ah8H3uc/h9DBk+p1xxfVfN6W4KmUTd6OozGjHHustnZ7QBZSmoEOC3
-        YWwJYVK70iimup4E5UV4GNWCx37q2oLeKwqcIeEc8KekTGpeeH4ilob3RMuuMI59E5zzuPbWbAkAT
-        u5Q0NIQCgeu68pM2J8JWhcFJZ8xdB0RlEuDCJ1wwjrigvJ4LDGSxMG+BPSZUB+tY7ZcN7cwekT15I
-        bSfP6x1LbXeWDL64mCMmhQLg61fTGxZrVDW6kiNhTGyYmspTEy7zRsaCXskq+uaRskp3XI1ycNuwG
-        Fj2qRlrA==;
+        bh=uoOl7Fx5ESHlZl3o3qLs6Qcg2WKTmmcBU+jl8KVsA8E=; b=Zi249TyucjVJAwh0htTSE6Huop
+        k51tv/uOC+8leY9m91jFEaNG24fcOyLxX/n3nvN19Qcq0H/ePlyR+jPaVd0PWtP4TYZhUcEH2ODn0
+        61s6lJq4L7dyhCnwQhhoTReJ1l8jxaRUHJsX/hiRUMRYfkWuy5rT0LPNT5B91fMHZuDeJHp22nVBL
+        6YWm0SmKLUYRjAhN5dCmzV5jwueqVxjEnlb8Nb0aVxyWSgTj8KjivMsMY5GRK2ySue91Twf7r0j+8
+        qGx/5uyBwMTfprKpFeE/LD+kwo3AVXp1yrz6PfitYQtrrbzUHQD9plyVUzMjHtm4agoDkN+lrEEhC
+        s+pSJzDQ==;
 Received: from [179.95.45.115] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hejdX-0002tf-Sn; Sat, 22 Jun 2019 17:17:11 +0000
+        id 1hejdX-0002ti-Qx; Sat, 22 Jun 2019 17:17:11 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hejdV-00014X-7Z; Sat, 22 Jun 2019 14:17:09 -0300
+        id 1hejdV-00014T-6i; Sat, 22 Jun 2019 14:17:09 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         gregkh@linuxfoundation.org, Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org
-Subject: [PATCH 4/4] docs: admin-guide, x86: add a features list
-Date:   Sat, 22 Jun 2019 14:17:07 -0300
-Message-Id: <bb4a41b13f37d20836ca7eb0e392f1fbfc641534.1561222784.git.mchehab+samsung@kernel.org>
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 3/4] sphinx/kernel_feat.py: add a script to parse feature files
+Date:   Sat, 22 Jun 2019 14:17:06 -0300
+Message-Id: <98079ee5c60fd03477c7fab7c7c3dcf338082900.1561222784.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1561222784.git.mchehab+samsung@kernel.org>
 References: <cover.1561222784.git.mchehab+samsung@kernel.org>
@@ -53,72 +51,192 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a feature list matrix at the admin-guide and a x86-specific
-feature list to the respective Kernel books.
+The feature files have a special well-defined format. Add
+a script that parses them, allowing to search for a feature
+and/or by an architecture and to produce ReST-compatible
+outputs.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/admin-guide/features.rst | 3 +++
- Documentation/admin-guide/index.rst    | 1 +
- Documentation/conf.py                  | 2 +-
- Documentation/x86/features.rst         | 3 +++
- Documentation/x86/index.rst            | 1 +
- 5 files changed, 9 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/admin-guide/features.rst
- create mode 100644 Documentation/x86/features.rst
+ Documentation/sphinx/kernel_feat.py | 169 ++++++++++++++++++++++++++++
+ 1 file changed, 169 insertions(+)
+ create mode 100644 Documentation/sphinx/kernel_feat.py
 
-diff --git a/Documentation/admin-guide/features.rst b/Documentation/admin-guide/features.rst
+diff --git a/Documentation/sphinx/kernel_feat.py b/Documentation/sphinx/kernel_feat.py
 new file mode 100644
-index 000000000000..8c167082a84f
+index 000000000000..2fee04f1dedd
 --- /dev/null
-+++ b/Documentation/admin-guide/features.rst
-@@ -0,0 +1,3 @@
-+.. SPDX-License-Identifier: GPL-2.0
++++ b/Documentation/sphinx/kernel_feat.py
+@@ -0,0 +1,169 @@
++# coding=utf-8
++# SPDX-License-Identifier: GPL-2.0
++#
++u"""
++    kernel-feat
++    ~~~~~~~~~~~
 +
-+.. kernel-feat:: $srctree/Documentation/features
-diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index 20c3020fd73c..14c8464f6ca9 100644
---- a/Documentation/admin-guide/index.rst
-+++ b/Documentation/admin-guide/index.rst
-@@ -17,6 +17,7 @@ etc.
-    kernel-parameters
-    devices
-    abi
-+   features
- 
- This section describes CPU vulnerabilities and their mitigations.
- 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 598256fb5c98..a0ef76ce5615 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -34,7 +34,7 @@ needs_sphinx = '1.3'
- # Add any Sphinx extension module names here, as strings. They can be
- # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
- # ones.
--extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include', 'cdomain', 'kfigure', 'sphinx.ext.ifconfig', 'kernel_abi']
-+extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include', 'cdomain', 'kfigure', 'sphinx.ext.ifconfig', 'kernel_abi', 'kernel_feat']
- 
- # The name of the math extension changed on Sphinx 1.4
- if (major == 1 and minor > 3) or (major > 1):
-diff --git a/Documentation/x86/features.rst b/Documentation/x86/features.rst
-new file mode 100644
-index 000000000000..b663f15053ce
---- /dev/null
-+++ b/Documentation/x86/features.rst
-@@ -0,0 +1,3 @@
-+.. SPDX-License-Identifier: GPL-2.0
++    Implementation of the ``kernel-feat`` reST-directive.
 +
-+.. kernel-feat:: $srctree/Documentation/features x86
-diff --git a/Documentation/x86/index.rst b/Documentation/x86/index.rst
-index ae36fc5fc649..ed42c8c9154d 100644
---- a/Documentation/x86/index.rst
-+++ b/Documentation/x86/index.rst
-@@ -29,3 +29,4 @@ x86-specific Documentation
-    usb-legacy-support
-    i386/index
-    x86_64/index
-+   features
++    :copyright:  Copyright (C) 2016  Markus Heiser
++    :copyright:  Copyright (C) 2016-2019  Mauro Carvalho Chehab
++    :maintained-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
++    :license:    GPL Version 2, June 1991 see Linux/COPYING for details.
++
++    The ``kernel-feat`` (:py:class:`KernelFeat`) directive calls the
++    scripts/get_feat.pl script to parse the Kernel ABI files.
++
++    Overview of directive's argument and options.
++
++    .. code-block:: rst
++
++        .. kernel-feat:: <ABI directory location>
++            :debug:
++
++    The argument ``<ABI directory location>`` is required. It contains the
++    location of the ABI files to be parsed.
++
++    ``debug``
++      Inserts a code-block with the *raw* reST. Sometimes it is helpful to see
++      what reST is generated.
++
++"""
++
++import codecs
++import os
++import subprocess
++import sys
++
++from os import path
++
++from docutils import nodes, statemachine
++from docutils.statemachine import ViewList
++from docutils.parsers.rst import directives, Directive
++from docutils.utils.error_reporting import ErrorString
++
++#
++# AutodocReporter is only good up to Sphinx 1.7
++#
++import sphinx
++
++Use_SSI = sphinx.__version__[:3] >= '1.7'
++if Use_SSI:
++    from sphinx.util.docutils import switch_source_input
++else:
++    from sphinx.ext.autodoc import AutodocReporter
++
++__version__  = '1.0'
++
++def setup(app):
++
++    app.add_directive("kernel-feat", KernelFeat)
++    return dict(
++        version = __version__
++        , parallel_read_safe = True
++        , parallel_write_safe = True
++    )
++
++class KernelFeat(Directive):
++
++    u"""KernelFeat (``kernel-feat``) directive"""
++
++    required_arguments = 1
++    optional_arguments = 2
++    has_content = False
++    final_argument_whitespace = True
++
++    option_spec = {
++        "debug"     : directives.flag
++    }
++
++    def warn(self, message, **replace):
++        replace["fname"]   = self.state.document.current_source
++        replace["line_no"] = replace.get("line_no", self.lineno)
++        message = ("%(fname)s:%(line_no)s: [kernel-feat WARN] : " + message) % replace
++        self.state.document.settings.env.app.warn(message, prefix="")
++
++    def run(self):
++
++        doc = self.state.document
++        if not doc.settings.file_insertion_enabled:
++            raise self.warning("docutils: file insertion disabled")
++
++        env = doc.settings.env
++        cwd = path.dirname(doc.current_source)
++        cmd = "get_feat.pl rest --dir "
++        cmd += self.arguments[0]
++
++        if len(self.arguments) > 1:
++            cmd += " --arch " + self.arguments[1]
++
++        srctree = path.abspath(os.environ["srctree"])
++
++        fname = cmd
++
++        # extend PATH with $(srctree)/scripts
++        path_env = os.pathsep.join([
++            srctree + os.sep + "scripts",
++            os.environ["PATH"]
++        ])
++        shell_env = os.environ.copy()
++        shell_env["PATH"]    = path_env
++        shell_env["srctree"] = srctree
++
++        lines = self.runCmd(cmd, shell=True, cwd=cwd, env=shell_env)
++        nodeList = self.nestedParse(lines, fname)
++        return nodeList
++
++    def runCmd(self, cmd, **kwargs):
++        u"""Run command ``cmd`` and return it's stdout as unicode."""
++
++        try:
++            proc = subprocess.Popen(
++                cmd
++                , stdout = subprocess.PIPE
++                , stderr = subprocess.PIPE
++                , **kwargs
++            )
++            out, err = proc.communicate()
++
++            out, err = codecs.decode(out, 'utf-8'), codecs.decode(err, 'utf-8')
++
++            if proc.returncode != 0:
++                raise self.severe(
++                    u"command '%s' failed with return code %d"
++                    % (cmd, proc.returncode)
++                )
++        except OSError as exc:
++            raise self.severe(u"problems with '%s' directive: %s."
++                              % (self.name, ErrorString(exc)))
++        return out
++
++    def nestedParse(self, lines, fname):
++        content = ViewList()
++        node    = nodes.section()
++
++        if "debug" in self.options:
++            code_block = "\n\n.. code-block:: rst\n    :linenos:\n"
++            for l in lines.split("\n"):
++                code_block += "\n    " + l
++            lines = code_block + "\n\n"
++
++        for c, l in enumerate(lines.split("\n")):
++            content.append(l, fname, c)
++
++        buf  = self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter
++
++        if Use_SSI:
++            with switch_source_input(self.state, content):
++                self.state.nested_parse(content, 0, node, match_titles=1)
++        else:
++            self.state.memo.title_styles  = []
++            self.state.memo.section_level = 0
++            self.state.memo.reporter      = AutodocReporter(content, self.state.memo.reporter)
++            try:
++                self.state.nested_parse(content, 0, node, match_titles=1)
++            finally:
++                self.state.memo.title_styles, self.state.memo.section_level, self.state.memo.reporter = buf
++
++        return node.children
 -- 
 2.21.0
 
