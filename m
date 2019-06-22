@@ -3,44 +3,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id E9D5A7D912
-	for <lwn-linux-doc@archive.lwn.net>; Sat, 22 Jun 2019 16:59:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5E5437D90F
+	for <lwn-linux-doc@archive.lwn.net>; Sat, 22 Jun 2019 16:59:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726603AbfFVQ7V (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 22 Jun 2019 12:59:21 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:42860 "EHLO
+        id S1726442AbfFVQ67 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sat, 22 Jun 2019 12:58:59 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:42782 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726508AbfFVQ7D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Jun 2019 12:59:03 -0400
+        with ESMTP id S1726304AbfFVQ67 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Jun 2019 12:58:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=knNMeRNVEMFb1CogSvERAJQe8ypQaoHP2ZiJ709imXE=; b=GYwV79Cogl1NkCn5jTg3hgxd/K
-        AdcNtSIm+u5uMcKJano3cJJQ0OPq0Srq/7dZok8aliAeynZZQX8TYFNwObuFadgtJVp+0y/2n9EfB
-        ytIUdxDSB7gAWRoO8kfJrdy3kbVAqDvnyTlvN3F2vY7il7dWiGgmTgsPDJ52S70IwnWGwkQDhzLT3
-        Ykmw5oYhcvxMWcLVVCEBpI93YeP5frcTk70gfHiFHjax2y2oQt6CL8+mZQDKsU+UNGriaoI3Sl6+r
-        We7O8pQt/DH5vYHHRkfegILi1GhTQiiObZH/dUA5yH5bEGhL5/2K0flbR2m+RV+Ii+mbMgo2roz3L
-        PRzGQIzA==;
+        bh=wUOTS3HryG6x00ef7iH2jAuPJMzHPQ4G3RtuWtIiYCg=; b=K/xujI0hmZp0FjlKtLwZmemMjS
+        1yNsp3HVxn0T5YhiyzjMZnyXmmRz7pm8EppALXyRjC0yWg7ZOh8DozbQjoakoK4kNEGipP1+3u/b/
+        dQNHr8M0J1wBzz3f7ECrW1EYD8r57ub+kAsxggl7jlBuxck/r7TaQYi2xx8aZmiIP474TzNGcWLCu
+        f+Ns0Vt+8RohGjUOj66Z/Ws/CoXgNeklqSycdItTN5lsrmnWAXZAV4m/BSOZPGIxRctnE2jUi5IaU
+        ZWU0Lb6/QqOog1BtIXz2gUniZVk0uwqbBkQdlJ83lt7W2L6D522Zt7JmCth6p9XwK/nRYCmJ+4g4Z
+        xAdaqJvw==;
 Received: from [179.95.45.115] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hejLz-00054w-0f; Sat, 22 Jun 2019 16:59:03 +0000
+        id 1hejLu-00054r-HC; Sat, 22 Jun 2019 16:58:58 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1hejLs-0000w0-3U; Sat, 22 Jun 2019 13:58:56 -0300
+        id 1hejLr-0000vH-SE; Sat, 22 Jun 2019 13:58:55 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         gregkh@linuxfoundation.org, Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 12/12] docs: add ABI documentation to the admin-guide book
-Date:   Sat, 22 Jun 2019 13:58:53 -0300
-Message-Id: <fda3166fa247ee39906ec4549b3dc5ede7ca1adc.1561221403.git.mchehab+samsung@kernel.org>
+Subject: [PATCH 03/12] scripts/get_abi.pl: Allow optionally record from where a line came from
+Date:   Sat, 22 Jun 2019 13:58:44 -0300
+Message-Id: <911c5307e1aea9a2a65f313497671b600efa834c.1561221403.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1561221403.git.mchehab+samsung@kernel.org>
 References: <cover.1561221403.git.mchehab+samsung@kernel.org>
@@ -51,141 +51,101 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As we don't want a generic Sphinx extension to execute commands,
-change the one proposed to Markus to call the abi_book.pl
-script.
+The get_abi.pl reads a lot of files and can join them on a
+single output file. Store where each "What:" output came from,
+in order to be able to optionally display it.
 
-Use a script to parse the Documentation/ABI directory and output
-it at the admin-guide.
+This is useful for the Sphinx extension, with can now be
+able to blame what ABI file has issues, and on what line
+the What: description with problems begin.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/admin-guide/abi-obsolete.rst | 10 ++++++++++
- Documentation/admin-guide/abi-removed.rst  |  4 ++++
- Documentation/admin-guide/abi-stable.rst   | 13 +++++++++++++
- Documentation/admin-guide/abi-testing.rst  | 19 +++++++++++++++++++
- Documentation/admin-guide/abi.rst          | 11 +++++++++++
- Documentation/admin-guide/index.rst        |  1 +
- Documentation/conf.py                      |  2 +-
- 7 files changed, 59 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/admin-guide/abi-obsolete.rst
- create mode 100644 Documentation/admin-guide/abi-removed.rst
- create mode 100644 Documentation/admin-guide/abi-stable.rst
- create mode 100644 Documentation/admin-guide/abi-testing.rst
- create mode 100644 Documentation/admin-guide/abi.rst
+ scripts/get_abi.pl | 22 +++++++++++++++++++++-
+ 1 file changed, 21 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/abi-obsolete.rst b/Documentation/admin-guide/abi-obsolete.rst
-new file mode 100644
-index 000000000000..cda9168445a5
---- /dev/null
-+++ b/Documentation/admin-guide/abi-obsolete.rst
-@@ -0,0 +1,10 @@
-+ABI obsolete symbols
-+====================
-+
-+Documents interfaces that are still remaining in the kernel, but are
-+marked to be removed at some later point in time.
-+
-+The description of the interface will document the reason why it is
-+obsolete and when it can be expected to be removed.
-+
-+.. kernel-abi:: $srctree/Documentation/ABI/obsolete
-diff --git a/Documentation/admin-guide/abi-removed.rst b/Documentation/admin-guide/abi-removed.rst
-new file mode 100644
-index 000000000000..497978fc9632
---- /dev/null
-+++ b/Documentation/admin-guide/abi-removed.rst
-@@ -0,0 +1,4 @@
-+ABI removed symbols
-+===================
-+
-+.. kernel-abi:: $srctree/Documentation/ABI/removed
-diff --git a/Documentation/admin-guide/abi-stable.rst b/Documentation/admin-guide/abi-stable.rst
-new file mode 100644
-index 000000000000..7495d7a35048
---- /dev/null
-+++ b/Documentation/admin-guide/abi-stable.rst
-@@ -0,0 +1,13 @@
-+ABI stable symbols
-+==================
-+
-+Documents the interfaces that the developer has defined to be stable.
-+
-+Userspace programs are free to use these interfaces with no
-+restrictions, and backward compatibility for them will be guaranteed
-+for at least 2 years.
-+
-+Most interfaces (like syscalls) are expected to never change and always
-+be available.
-+
-+.. kernel-abi:: $srctree/Documentation/ABI/stable
-diff --git a/Documentation/admin-guide/abi-testing.rst b/Documentation/admin-guide/abi-testing.rst
-new file mode 100644
-index 000000000000..5c886fc50b9e
---- /dev/null
-+++ b/Documentation/admin-guide/abi-testing.rst
-@@ -0,0 +1,19 @@
-+ABI testing symbols
-+===================
-+
-+Documents interfaces that are felt to be stable,
-+as the main development of this interface has been completed.
-+
-+The interface can be changed to add new features, but the
-+current interface will not break by doing this, unless grave
-+errors or security problems are found in them.
-+
-+Userspace programs can start to rely on these interfaces, but they must
-+be aware of changes that can occur before these interfaces move to
-+be marked stable.
-+
-+Programs that use these interfaces are strongly encouraged to add their
-+name to the description of these interfaces, so that the kernel
-+developers can easily notify them if any changes occur.
-+
-+.. kernel-abi:: $srctree/Documentation/ABI/testing
-diff --git a/Documentation/admin-guide/abi.rst b/Documentation/admin-guide/abi.rst
-new file mode 100644
-index 000000000000..3b9645c77469
---- /dev/null
-+++ b/Documentation/admin-guide/abi.rst
-@@ -0,0 +1,11 @@
-+=====================
-+Linux ABI description
-+=====================
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   abi-stable
-+   abi-testing
-+   abi-obsolete
-+   abi-removed
-diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index 8001917ee012..20c3020fd73c 100644
---- a/Documentation/admin-guide/index.rst
-+++ b/Documentation/admin-guide/index.rst
-@@ -16,6 +16,7 @@ etc.
-    README
-    kernel-parameters
-    devices
-+   abi
+diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
+index 0c403af86fd5..6a4d387ebf3b 100755
+--- a/scripts/get_abi.pl
++++ b/scripts/get_abi.pl
+@@ -10,6 +10,7 @@ use Fcntl ':mode';
+ my $help;
+ my $man;
+ my $debug;
++my $enable_lineno;
+ my $prefix="Documentation/ABI";
  
- This section describes CPU vulnerabilities and their mitigations.
+ #
+@@ -19,6 +20,7 @@ my $description_is_rst = 0;
  
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 7ace3f8852bd..598256fb5c98 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -34,7 +34,7 @@ needs_sphinx = '1.3'
- # Add any Sphinx extension module names here, as strings. They can be
- # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
- # ones.
--extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include', 'cdomain', 'kfigure', 'sphinx.ext.ifconfig']
-+extensions = ['kerneldoc', 'rstFlatTable', 'kernel_include', 'cdomain', 'kfigure', 'sphinx.ext.ifconfig', 'kernel_abi']
+ GetOptions(
+ 	"debug|d+" => \$debug,
++	"enable-lineno" => \$enable_lineno,
+ 	"rst-source!" => \$description_is_rst,
+ 	"dir=s" => \$prefix,
+ 	'help|?' => \$help,
+@@ -67,6 +69,7 @@ sub parse_abi {
+ 	$data{$nametag}->{file} = $name;
+ 	$data{$nametag}->{filepath} = $file;
+ 	$data{$nametag}->{is_file} = 1;
++	$data{$nametag}->{line_no} = 1;
  
- # The name of the math extension changed on Sphinx 1.4
- if (major == 1 and minor > 3) or (major > 1):
+ 	my $type = $file;
+ 	$type =~ s,.*/(.*)/.*,$1,;
+@@ -126,6 +129,8 @@ sub parse_abi {
+ 			if ($tag ne "" && $new_tag) {
+ 				$tag = $new_tag;
+ 
++				$data{$what}->{line_no} = $ln;
++
+ 				if ($new_what) {
+ 					@{$data{$what}->{label}} = @labels if ($data{$nametag}->{what});
+ 					@labels = ();
+@@ -221,6 +226,12 @@ sub output_rest {
+ 		my $file = $data{$what}->{file};
+ 		my $filepath = $data{$what}->{filepath};
+ 
++		if ($enable_lineno) {
++			printf "#define LINENO %s%s#%s\n\n",
++			       $prefix, $data{$what}->{file},
++			       $data{$what}->{line_no};
++		}
++
+ 		my $w = $what;
+ 		$w =~ s/([\(\)\_\-\*\=\^\~\\])/\\$1/g;
+ 
+@@ -369,6 +380,10 @@ sub search_symbols {
+ 	}
+ }
+ 
++# Ensure that the prefix will always end with a slash
++# While this is not needed for find, it makes the patch nicer
++# with --enable-lineno
++$prefix =~ s,/?$,/,;
+ 
+ #
+ # Parses all ABI files located at $prefix dir
+@@ -395,7 +410,8 @@ abi_book.pl - parse the Linux ABI files and produce a ReST book.
+ 
+ =head1 SYNOPSIS
+ 
+-B<abi_book.pl> [--debug] [--man] [--help] --[(no-)rst-source] [--dir=<dir>] <COMAND> [<ARGUMENT>]
++B<abi_book.pl> [--debug] [--enable-lineno] [--man] [--help]
++	       [--(no-)rst-source] [--dir=<dir>] <COMAND> [<ARGUMENT>]
+ 
+ Where <COMMAND> can be:
+ 
+@@ -425,6 +441,10 @@ selecting between a rst-compliant source ABI (--rst-source), or a
+ plain text that may be violating ReST spec, so it requres some escaping
+ logic (--no-rst-source).
+ 
++=item B<--enable-lineno>
++
++Enable output of #define LINENO lines.
++
+ =item B<--debug>
+ 
+ Put the script in verbose mode, useful for debugging. Can be called multiple
 -- 
 2.21.0
 
