@@ -1,93 +1,106 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,
-	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 380F77D910
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 23 Jun 2019 00:41:31 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 3A9837D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 23 Jun 2019 11:01:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726373AbfFWAla (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sat, 22 Jun 2019 20:41:30 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:57856 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725844AbfFWAla (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 22 Jun 2019 20:41:30 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5N0fN4F137368;
-        Sun, 23 Jun 2019 00:41:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
- from : references : date : in-reply-to : message-id : mime-version :
- content-type; s=corp-2018-07-02;
- bh=J+z+M4DxF8VeiH/SFm0jJi7hUA1gtP2EOoXI6xVLPGQ=;
- b=qGH0WBAr0WvtrXmJgAbrSjGmz2SbYYAoVdsDmn4NlazAoKO0qSGVZB5MzTRwo6eCmNHu
- F8fstYecG/qKVpPM1g0oaBrS1YdpbSBcoc18gwKT80jZcvTS0muKtHBlOfmbsegc9gfk
- /LR4elJD/B4hBs95z1er/5zjJnmICj8lhGXejqTWWS6TmfVoYI2pIU+2LJzIbDoG2Lme
- Kek4rSx/mH29CZZl5zQ9DcQCPDoMxSZAmGYZK6iKNvYzsvAjnXHXt/qZjZ4UV2wo1tFa
- zsyRfX85ohrquFlpUlKzTjx/I6v8F5xTsY8E28Tfo7KqSYvmRG/EyLjDY2TRKeqXW4tG HA== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by userp2130.oracle.com with ESMTP id 2t9brssrq2-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sun, 23 Jun 2019 00:41:23 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5N0fMKI155776;
-        Sun, 23 Jun 2019 00:41:22 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by aserp3030.oracle.com with ESMTP id 2t9acb0fwb-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sun, 23 Jun 2019 00:41:22 +0000
-Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5N0fEuc021875;
-        Sun, 23 Jun 2019 00:41:14 GMT
-Received: from ca-mkp.ca.oracle.com (/10.159.214.123)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Sat, 22 Jun 2019 17:41:14 -0700
-To:     Eric Wheeler <bcache@lists.ewheeler.net>
-Cc:     Coly Li <colyli@suse.de>, linux-block@vger.kernel.org,
-        Eric Wheeler <git@linux.ewheeler.net>,
-        Eric Wheeler <bcache@linux.ewheeler.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kent Overstreet <kent.overstreet@gmail.com>,
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-        linux-kernel@vger.kernel.org (open list),
-        linux-bcache@vger.kernel.org (open list:BCACHE (BLOCK LAYER CACHE))
-Subject: Re: [PATCH] bcache: make stripe_size configurable and persistent for hardware raid5/6
-From:   "Martin K. Petersen" <martin.petersen@oracle.com>
-Organization: Oracle Corporation
-References: <d3f7fd44-9287-c7fa-ee95-c3b8a4d56c93@suse.de>
-        <1561245371-10235-1-git-send-email-bcache@lists.ewheeler.net>
-Date:   Sat, 22 Jun 2019 20:41:11 -0400
-In-Reply-To: <1561245371-10235-1-git-send-email-bcache@lists.ewheeler.net>
-        (Eric Wheeler's message of "Sat, 22 Jun 2019 16:16:09 -0700")
-Message-ID: <yq1v9wxnnfc.fsf@oracle.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1.92 (gnu/linux)
+        id S1726429AbfFWLBe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 23 Jun 2019 07:01:34 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:33197 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726350AbfFWLBe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Jun 2019 07:01:34 -0400
+X-Greylist: delayed 1755 seconds by postgrey-1.27 at vger.kernel.org; Sun, 23 Jun 2019 07:01:33 EDT
+Received: from p5b06daab.dip0.t-ipconnect.de ([91.6.218.171] helo=nanos)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1heznB-0007bM-ND; Sun, 23 Jun 2019 12:32:13 +0200
+Date:   Sun, 23 Jun 2019 12:32:13 +0200 (CEST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/6] time: hrtimer: use a bullet for the returns bullet
+ list
+In-Reply-To: <20190620171617.3368f30b@coco.lan>
+Message-ID: <alpine.DEB.2.21.1906231228080.32342@nanos.tec.linutronix.de>
+References: <a83ea390bc28784518fce772b4c961ea1c976f14.1560883872.git.mchehab+samsung@kernel.org> <a4cab6020e0475e7a4afc65dc5854756dd1bfbe9.1560883872.git.mchehab+samsung@kernel.org> <20190620140233.3d7202ee@lwn.net> <20190620171617.3368f30b@coco.lan>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9296 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=586
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1906230004
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9296 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=641 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1906230004
+Content-Type: multipart/mixed; BOUNDARY="8323329-1631302952-1561285808=:32342"
+Content-ID: <alpine.DEB.2.21.1906231230220.32342@nanos.tec.linutronix.de>
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Eric,
+--8323329-1631302952-1561285808=:32342
+Content-Type: text/plain; CHARSET=UTF-8
+Content-Transfer-Encoding: 8BIT
+Content-ID: <alpine.DEB.2.21.1906231230221.32342@nanos.tec.linutronix.de>
 
-> While some drivers set queue_limits.io_opt (e.g., md raid5), there are
-> currently no SCSI/RAID controller drivers that do.
+On Thu, 20 Jun 2019, Mauro Carvalho Chehab wrote:
+> Em Thu, 20 Jun 2019 14:02:33 -0600
+> Jonathan Corbet <corbet@lwn.net> escreveu:
+> > On Tue, 18 Jun 2019 15:51:20 -0300
+> > Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+> > >   * Returns:
+> > > - *  0 when the timer was not active
+> > > - *  1 when the timer was active
+> > > - * -1 when the timer is currently executing the callback function and
+> > > + *
+> > > + *  •  0 when the timer was not active
+> > > + *  •  1 when the timer was active
+> > > + *  • -1 when the timer is currently executing the callback function and
+> > >   *    cannot be stopped  
+> > 
+> > So I have taken some grief for letting non-ASCII stuff into the docs
+> > before; I can only imagine that those who object would be even more
+> > unhappy to see it in a C source file.  I'm all for fixing the warning, but
+> > I think we shouldn't start introducing exotic characters at this point...
+> 
+> According to:
+> 	http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#bullet-lists
+> 
+> The ASCII options are: "-", "+" or "*".
+> 
+> Both signs ('-' and '+') aren't too nice here, due to "-1".
+> 
+> So, what's left is '*'.
+> 
+> I remember someone once complained about having something like:
+> 
+> 	* * -1 when the ...
 
-That's not true. Lots of SCSI RAID devices report a stripe width.
+I'm fine with that.
+ 
+> But if you think we shouldn't use UTF-8 chars, be it.
 
--- 
-Martin K. Petersen	Oracle Linux Engineering
+I don't even know how to write them in the first place.
+ 
+> Feel free to replace it at the patch, or if you prefer, I'll send a new
+> version tomorrow.
+
+Yes, please.
+
+And while at it please fix the subject line. The usual prefix for hrtimer
+is surprisingly 'hrtimer:' and not 'time: hrtimer:'. Also please start the
+short sentence after the prefix with an uppercase character.
+
+Thanks,
+
+	tglx
+--8323329-1631302952-1561285808=:32342--
