@@ -3,39 +3,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 3A9837D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Sun, 23 Jun 2019 11:01:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 91EC77D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Sun, 23 Jun 2019 16:39:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726429AbfFWLBe (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Sun, 23 Jun 2019 07:01:34 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:33197 "EHLO
+        id S1726731AbfFWQjA (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Sun, 23 Jun 2019 12:39:00 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:33801 "EHLO
         Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726350AbfFWLBe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Jun 2019 07:01:34 -0400
-X-Greylist: delayed 1755 seconds by postgrey-1.27 at vger.kernel.org; Sun, 23 Jun 2019 07:01:33 EDT
+        with ESMTP id S1726399AbfFWQjA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 23 Jun 2019 12:39:00 -0400
 Received: from p5b06daab.dip0.t-ipconnect.de ([91.6.218.171] helo=nanos)
         by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
         (Exim 4.80)
         (envelope-from <tglx@linutronix.de>)
-        id 1heznB-0007bM-ND; Sun, 23 Jun 2019 12:32:13 +0200
-Date:   Sun, 23 Jun 2019 12:32:13 +0200 (CEST)
+        id 1hf5Vk-0003To-B7; Sun, 23 Jun 2019 18:38:36 +0200
+Date:   Sun, 23 Jun 2019 18:38:34 +0200 (CEST)
 From:   Thomas Gleixner <tglx@linutronix.de>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/6] time: hrtimer: use a bullet for the returns bullet
- list
-In-Reply-To: <20190620171617.3368f30b@coco.lan>
-Message-ID: <alpine.DEB.2.21.1906231228080.32342@nanos.tec.linutronix.de>
-References: <a83ea390bc28784518fce772b4c961ea1c976f14.1560883872.git.mchehab+samsung@kernel.org> <a4cab6020e0475e7a4afc65dc5854756dd1bfbe9.1560883872.git.mchehab+samsung@kernel.org> <20190620140233.3d7202ee@lwn.net> <20190620171617.3368f30b@coco.lan>
+To:     Zhiqiang Liu <liuzhiqiang26@huawei.com>
+cc:     corbet@lwn.net, mcgrof@kernel.org,
+        Kees Cook <keescook@chromium.org>, akpm@linux-foundation.org,
+        manfred@colorfullife.com, jwilk@jwilk.net, dvyukov@google.com,
+        feng.tang@intel.com, sunilmut@microsoft.com,
+        quentin.perret@arm.com, linux@leemhuis.info, alex.popov@linux.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org,
+        "wangxiaogang (F)" <wangxiaogang3@huawei.com>,
+        "Zhoukang (A)" <zhoukang7@huawei.com>,
+        Mingfangsen <mingfangsen@huawei.com>, tedheadster@gmail.com,
+        Eric Dumazet <edumazet@google.com>
+Subject: Re: [PATCH next] softirq: enable MAX_SOFTIRQ_TIME tuning with sysctl
+ max_softirq_time_usecs
+In-Reply-To: <f274f85a-bbb6-3e32-b293-1d5d7f27a98f@huawei.com>
+Message-ID: <alpine.DEB.2.21.1906231820470.32342@nanos.tec.linutronix.de>
+References: <f274f85a-bbb6-3e32-b293-1d5d7f27a98f@huawei.com>
 User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="8323329-1631302952-1561285808=:32342"
-Content-ID: <alpine.DEB.2.21.1906231230220.32342@nanos.tec.linutronix.de>
+Content-Type: text/plain; charset=US-ASCII
 X-Linutronix-Spam-Score: -1.0
 X-Linutronix-Spam-Level: -
 X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
@@ -44,63 +49,76 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Zhiqiang,
 
---8323329-1631302952-1561285808=:32342
-Content-Type: text/plain; CHARSET=UTF-8
-Content-Transfer-Encoding: 8BIT
-Content-ID: <alpine.DEB.2.21.1906231230221.32342@nanos.tec.linutronix.de>
+On Thu, 20 Jun 2019, Zhiqiang Liu wrote:
 
-On Thu, 20 Jun 2019, Mauro Carvalho Chehab wrote:
-> Em Thu, 20 Jun 2019 14:02:33 -0600
-> Jonathan Corbet <corbet@lwn.net> escreveu:
-> > On Tue, 18 Jun 2019 15:51:20 -0300
-> > Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
-> > >   * Returns:
-> > > - *  0 when the timer was not active
-> > > - *  1 when the timer was active
-> > > - * -1 when the timer is currently executing the callback function and
-> > > + *
-> > > + *  •  0 when the timer was not active
-> > > + *  •  1 when the timer was active
-> > > + *  • -1 when the timer is currently executing the callback function and
-> > >   *    cannot be stopped  
-> > 
-> > So I have taken some grief for letting non-ASCII stuff into the docs
-> > before; I can only imagine that those who object would be even more
-> > unhappy to see it in a C source file.  I'm all for fixing the warning, but
-> > I think we shouldn't start introducing exotic characters at this point...
+> From: Zhiqiang liu <liuzhiqiang26@huawei.com>
 > 
-> According to:
-> 	http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#bullet-lists
+> In __do_softirq func, MAX_SOFTIRQ_TIME was set to 2ms via experimentation by
+> commit c10d73671 ("softirq: reduce latencies") in 2013, which was designed
+> to reduce latencies for various network workloads. The key reason is that the
+> maximum number of microseconds in one NAPI polling cycle in net_rx_action func
+> was set to 2 jiffies, so different HZ settting will lead to different latencies.
 > 
-> The ASCII options are: "-", "+" or "*".
-> 
-> Both signs ('-' and '+') aren't too nice here, due to "-1".
-> 
-> So, what's left is '*'.
-> 
-> I remember someone once complained about having something like:
-> 
-> 	* * -1 when the ...
+> However, commit 7acf8a1e8 ("Replace 2 jiffies with sysctl netdev_budget_usecs
+> to enable softirq tuning") adopts netdev_budget_usecs to tun maximum number of
+> microseconds in one NAPI polling cycle. So the latencies of net_rx_action can be
+> controlled by sysadmins to copy with hardware changes over time.
 
-I'm fine with that.
- 
-> But if you think we shouldn't use UTF-8 chars, be it.
+So much for the theory. See below.
 
-I don't even know how to write them in the first place.
- 
-> Feel free to replace it at the patch, or if you prefer, I'll send a new
-> version tomorrow.
+> Correspondingly, the MAX_SOFTIRQ_TIME should be able to be tunned by sysadmins,
+> who knows best about hardware performance, for excepted tradeoff between latence
+> and fairness.
+> 
+> Here, we add sysctl variable max_softirq_time_usecs to replace MAX_SOFTIRQ_TIME
+> with 2ms default value.
 
-Yes, please.
+...
 
-And while at it please fix the subject line. The usual prefix for hrtimer
-is surprisingly 'hrtimer:' and not 'time: hrtimer:'. Also please start the
-short sentence after the prefix with an uppercase character.
+>   */
+> -#define MAX_SOFTIRQ_TIME  msecs_to_jiffies(2)
+> +unsigned int __read_mostly max_softirq_time_usecs = 2000;
+>  #define MAX_SOFTIRQ_RESTART 10
+> 
+>  #ifdef CONFIG_TRACE_IRQFLAGS
+> @@ -248,7 +249,8 @@ static inline void lockdep_softirq_end(bool in_hardirq) { }
+> 
+>  asmlinkage __visible void __softirq_entry __do_softirq(void)
+>  {
+> -	unsigned long end = jiffies + MAX_SOFTIRQ_TIME;
+> +	unsigned long end = jiffies +
+> +		usecs_to_jiffies(max_softirq_time_usecs);
+
+That's still jiffies based and therefore depends on CONFIG_HZ. Any budget
+value will be rounded up to the next jiffie. So in case of HZ=100 and
+time=1000us this will still result in 10ms of allowed loop time.
+
+I'm not saying that we must use a more fine grained time source, but both
+the changelog and the sysctl documentation are misleading.
+
+If we keep it jiffies based, then microseconds do not make any sense. They
+just give a false sense of controlability.
+
+Keep also in mind that with jiffies the accuracy depends also on the
+distance to the next tick when 'end' is evaluated. The next tick might be
+imminent.
+
+That's all information which needs to be in the documentation.
+
+> +	{
+> +		.procname	= "max_softirq_time_usecs",
+> +		.data		= &max_softirq_time_usecs,
+> +		.maxlen		= sizeof(unsigned int),
+> +		.mode		= 0644,
+> +		.proc_handler   = proc_dointvec_minmax,
+> +		.extra1		= &zero,
+> +	},
+
+Zero as the lower limit? That means it allows a single loop. Fine, but
+needs to be documented as well.
 
 Thanks,
 
 	tglx
---8323329-1631302952-1561285808=:32342--
