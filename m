@@ -1,75 +1,78 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-3.0 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FSL_HELO_FAKE,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C93D07D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 24 Jun 2019 20:37:50 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 7BA6D7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 24 Jun 2019 22:03:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728872AbfFXUhu (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 24 Jun 2019 16:37:50 -0400
-Received: from ms.lwn.net ([45.79.88.28]:45466 "EHLO ms.lwn.net"
+        id S1727419AbfFXWDQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 24 Jun 2019 18:03:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54968 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726920AbfFXUhu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 24 Jun 2019 16:37:50 -0400
-Received: from localhost.localdomain (localhost [127.0.0.1])
+        id S1726263AbfFXWDQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 24 Jun 2019 18:03:16 -0400
+Received: from gmail.com (unknown [104.132.1.77])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 808AD35A;
-        Mon, 24 Jun 2019 20:37:49 +0000 (UTC)
-Date:   Mon, 24 Jun 2019 14:37:48 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Joe Perches <joe@perches.com>
-Cc:     Gary R Hook <ghook@amd.com>, "Hook, Gary" <Gary.Hook@amd.com>,
-        "herbert@gondor.apana.org.au" <herbert@gondor.apana.org.au>,
+        by mail.kernel.org (Postfix) with ESMTPSA id 7D92320665;
+        Mon, 24 Jun 2019 22:03:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1561413795;
+        bh=2Y2nsE+RWUoElhVrsjv17oGBg4y6eaMBuyDPXCXhQ38=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=u7U1H4LdnEu6Jq1bg1calSv5Z7rLBDeR5uL7S+cZap8Phhg+y/e9w3x0r11JKYJ+E
+         ZI7O4QG8lbeSsXM/ACNzbWX/emdViI/+FIX8e6r9ZsWD+t++7ocE1CTAKrBFqHBBq3
+         nG0bAhj4cAWPxtvLJC6FvLa0XiONxOz9+A0JESO0=
+Date:   Mon, 24 Jun 2019 15:03:14 -0700
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     "Hook, Gary" <Gary.Hook@amd.com>
+Cc:     "herbert@gondor.apana.org.au" <herbert@gondor.apana.org.au>,
+        "corbet@lwn.net" <corbet@lwn.net>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
         "davem@davemloft.net" <davem@davemloft.net>
-Subject: Re: [PATCH 0/3] Clean up crypto documentation
-Message-ID: <20190624143748.7fcfe623@lwn.net>
-In-Reply-To: <977bc7c484ef55ff78de51d7555afcc3c3350b1e.camel@perches.com>
+Subject: Re: [PATCH 2/3] crypto: doc - Describe the crypto engine
+Message-ID: <20190624220313.GB237341@gmail.com>
 References: <156140322426.29777.8610751479936722967.stgit@taos>
-        <23a5979082c89d7028409ad9ae082840411e1ca6.camel@perches.com>
-        <d8b359ff-5891-7bb8-d292-9f10cca04f17@amd.com>
-        <977bc7c484ef55ff78de51d7555afcc3c3350b1e.camel@perches.com>
-Organization: LWN.net
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ <156140326736.29777.7751606850237303573.stgit@taos>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <156140326736.29777.7751606850237303573.stgit@taos>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 24 Jun 2019 13:29:42 -0700
-Joe Perches <joe@perches.com> wrote:
-
-> > Finally, would you prefer a v2 of the patch set? Happy to do
-> > whatever is preferred, of course.  
+On Mon, Jun 24, 2019 at 07:07:49PM +0000, Hook, Gary wrote:
+> Add a reference to the crypto engine documentation to
+> the index.
 > 
-> Whatever Jonathan decides is fine with me.
-> Mine was just a plea to avoid unnecessarily
-> making the source text harder to read as
-> that's what I mostly use.
+> Signed-off-by: Gary R Hook <gary.hook@amd.com>
+> ---
+>  Documentation/crypto/index.rst |    1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/crypto/index.rst b/Documentation/crypto/index.rst
+> index c4ff5d791233..37cd7fb0ea82 100644
+> --- a/Documentation/crypto/index.rst
+> +++ b/Documentation/crypto/index.rst
+> @@ -19,6 +19,7 @@ for cryptographic use cases, as well as programming examples.
+>     intro
+>     architecture
+>     devel-algos
+> +   crypto_engine
+>     userspace-if
+>     crypto_engine
+>     api
+> 
 
-Usually Herbert seems to take crypto docs, so it's not necessarily up to
-me :)
+It's already in the list.
 
-I don't see much that's objectionable here.  But...
-
-> I don't know if this extension is valid yet, but
-> I believe just using <function_name>() is more
-> readable as text than ``<function_name>`` or
-> :c:func:`<function_name>`
-
-It's been "valid" since I wrote it...it's just not upstream yet :)  I
-expect it to be in 5.3, though.  So the best way to refer to a kernel
-function, going forward, is just function() with no markup needed.
-
-Thanks,
-
-jon
+- Eric
