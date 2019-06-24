@@ -1,121 +1,77 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id C63367D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 24 Jun 2019 16:38:57 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 805E27D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 24 Jun 2019 17:43:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727165AbfFXQi5 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 24 Jun 2019 12:38:57 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:58138 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726365AbfFXQi5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jun 2019 12:38:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=fY1uicw44jx44qL4fNl32lhk7YJ+D/1JLgTlaHjUDKg=; b=X/gGuMjIdfzOOqUQIRE98lBM8
-        hQJ/bXQjAv+k3udNbi95nJ1/gufdyY5py1gC7U+WAQHzoM0Ln6sIYtbupQ39CQlULhoQ/UyYEb7IG
-        YeXmW2/8XhLDS4FP6sFxS2sB22txPlNU3jpuu/FN1ZppX+4ExMwDh9PBvRxcYBu4c1mt0j0tVV7Vx
-        Xivr/9G0/IY9FiZVWLWYjAMsJGXuMR7FvmzTGXKxbIccY9AIdfr7XJHKnro49rCD2VjXwl1/Xav2O
-        mBIHOWiOZqawA+qOwgPJH3uOZb0nZ1UxM7oafp8dKlXGhqtDAhIOk/AHiwNrlh+JMta0ZdvO7nKD4
-        VYBICpYzQ==;
-Received: from 177.205.71.220.dynamic.adsl.gvt.net.br ([177.205.71.220] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hfRzc-0001LO-7X; Mon, 24 Jun 2019 16:38:56 +0000
-Date:   Mon, 24 Jun 2019 13:38:52 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] Docs: An initial automarkup extension for sphinx
-Message-ID: <20190624133852.4a31c597@coco.lan>
-In-Reply-To: <20190624082950.5e338d37@lwn.net>
-References: <20190621235159.6992-1-corbet@lwn.net>
-        <20190621235159.6992-2-corbet@lwn.net>
-        <20190621220046.3de30d9d@coco.lan>
-        <20190622084346.28c7c748@lwn.net>
-        <20190622144610.26b7d99c@coco.lan>
-        <20190624082950.5e338d37@lwn.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1727945AbfFXRnY (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 24 Jun 2019 13:43:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48708 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726730AbfFXRnY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 24 Jun 2019 13:43:24 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id EB82A13AA9;
+        Mon, 24 Jun 2019 17:43:13 +0000 (UTC)
+Received: from llong.com (dhcp-17-85.bos.redhat.com [10.18.17.85])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6F92A5D9C5;
+        Mon, 24 Jun 2019 17:42:59 +0000 (UTC)
+From:   Waiman Long <longman@redhat.com>
+To:     Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>
+Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Roman Gushchin <guro@fb.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Waiman Long <longman@redhat.com>
+Subject: [PATCH 0/2] mm, slab: Extend vm/drop_caches to shrink kmem slabs
+Date:   Mon, 24 Jun 2019 13:42:17 -0400
+Message-Id: <20190624174219.25513-1-longman@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.29]); Mon, 24 Jun 2019 17:43:24 +0000 (UTC)
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Mon, 24 Jun 2019 08:29:50 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+The purpose of this patchset is to allow system administrators to have
+the ability to shrink all the kmem slabs in order to free up memory
+and get a more accurate picture of how many slab objects are actually
+being used.
 
-> On Sat, 22 Jun 2019 14:46:10 -0300
-> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
-> 
-> > > > .. c:function:: int ioctl( int fd, int request, void *argp )
-> > > >     :name: v4l2-ioctl      
-> > > 
-> > > Some digging around didn't turn up any documentation for :name:, but it
-> > > seems to prevent ioctl() from going into the list of functions that can be
-> > > cross-referenced.     
-> > 
-> > It took me a while to discover this way to be able to re-define the
-> > name of a symbol at the C domain, but I'm pretty sure I read this
-> > somewhere at the Sphinx docs (or perhaps on some bug track or Stack
-> > Overflow).
-> > 
-> > I don't remember exactly where I get it, but I guess it is related to
-> > this:
-> > 
-> > 	http://docutils.sourceforge.net/docs/howto/rst-roles.html
-> >   
-> > > I wonder if the same should be done for the others?    
-> > 
-> > Sure.  
-> 
-> It actually occurs to me that it might be better to keep the skip list and
-> maybe expand it.  There are vast numbers of places where people write
-> open() or whatever(), and there is no point in even trying to
-> cross-reference them. 
+Patch 1 adds a new memcg_iterate_all() that is used by the patch 2 to
+iterate on all the memory cgroups.
 
-Yeah, subsystems will likely have their own "man pages" for for sysctls.
+Waiman Long (2):
+  mm, memcontrol: Add memcg_iterate_all()
+  mm, slab: Extend vm/drop_caches to shrink kmem slabs
 
-Both the dvb and the v4l2 ones are part of what used to be the DocBook
-manpages for those syscalls. If I'm not mistaken, we ended by expanded 
-the same approach for the media controller, for CEC and for RC.
+ Documentation/sysctl/vm.txt | 11 ++++++++--
+ fs/drop_caches.c            |  4 ++++
+ include/linux/memcontrol.h  |  3 +++
+ include/linux/slab.h        |  1 +
+ kernel/sysctl.c             |  4 ++--
+ mm/memcontrol.c             | 13 +++++++++++
+ mm/slab_common.c            | 44 +++++++++++++++++++++++++++++++++++++
+ 7 files changed, 76 insertions(+), 4 deletions(-)
 
-> I should do some tests, it might even make a
-> measurable difference in the build time to skip them :)  And in any case,
-> somebody is bound to put one of those common names into the namespace in
-> the future, recreating the current problem.
+-- 
+2.18.1
 
-There is one way of keeping it while avoiding troubles: you could
-create internal names, for example using the current dir, auto-adding
-the ":name:" tag when a declaration conflict rises. Not sure how
-easy/hard would be to implement it.
-
-Btw, at get_abi.pl, I had to do a trick like that, as some symbols
-have a "local context". The good thing at ABI files is that the context
-is clear: it is valid only between "What:" and "Description:" fields.
-
-Also, as it is a single script that parses the entire ABI (it takes
-on ~0.1 seconds to parse everything and store internally on my machine),
-the logic there detects when an existing symbol is re-used on a different
-context. When this happens, it adds a random char at the end of the
-internal reference, while keeping the original name[1].
-
-[1] on the the highly unlikely event that the new name still repeats,
-it adds a new random char - until the name gets different.
-
-Probably doing it at automarkup won't be that simple, but it could
-work.
-
-Thanks,
-Mauro
