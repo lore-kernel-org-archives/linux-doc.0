@@ -1,78 +1,91 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.0 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FSL_HELO_FAKE,
+X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 7BA6D7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 24 Jun 2019 22:03:22 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id A590E7D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 24 Jun 2019 22:37:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727419AbfFXWDQ (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 24 Jun 2019 18:03:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54968 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726263AbfFXWDQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 24 Jun 2019 18:03:16 -0400
-Received: from gmail.com (unknown [104.132.1.77])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7D92320665;
-        Mon, 24 Jun 2019 22:03:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561413795;
-        bh=2Y2nsE+RWUoElhVrsjv17oGBg4y6eaMBuyDPXCXhQ38=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=u7U1H4LdnEu6Jq1bg1calSv5Z7rLBDeR5uL7S+cZap8Phhg+y/e9w3x0r11JKYJ+E
-         ZI7O4QG8lbeSsXM/ACNzbWX/emdViI/+FIX8e6r9ZsWD+t++7ocE1CTAKrBFqHBBq3
-         nG0bAhj4cAWPxtvLJC6FvLa0XiONxOz9+A0JESO0=
-Date:   Mon, 24 Jun 2019 15:03:14 -0700
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     "Hook, Gary" <Gary.Hook@amd.com>
-Cc:     "herbert@gondor.apana.org.au" <herbert@gondor.apana.org.au>,
-        "corbet@lwn.net" <corbet@lwn.net>,
+        id S1726992AbfFXWhr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 24 Jun 2019 18:37:47 -0400
+Received: from smtprelay0249.hostedemail.com ([216.40.44.249]:55905 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726413AbfFXWhr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jun 2019 18:37:47 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay07.hostedemail.com (Postfix) with ESMTP id 72975181D3402;
+        Mon, 24 Jun 2019 22:37:45 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: rod05_7db6cd2afbd24
+X-Filterd-Recvd-Size: 2664
+Received: from XPS-9350.home (cpe-23-242-196-136.socal.res.rr.com [23.242.196.136])
+        (Authenticated sender: joe@perches.com)
+        by omf14.hostedemail.com (Postfix) with ESMTPA;
+        Mon, 24 Jun 2019 22:37:43 +0000 (UTC)
+Message-ID: <74833f93f6082c7b44f4fa8a3093ea1a751d5539.camel@perches.com>
+Subject: Re: [PATCH 0/3] Clean up crypto documentation
+From:   Joe Perches <joe@perches.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Gary R Hook <ghook@amd.com>, "Hook, Gary" <Gary.Hook@amd.com>,
+        "herbert@gondor.apana.org.au" <herbert@gondor.apana.org.au>,
         "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
         "davem@davemloft.net" <davem@davemloft.net>
-Subject: Re: [PATCH 2/3] crypto: doc - Describe the crypto engine
-Message-ID: <20190624220313.GB237341@gmail.com>
+Date:   Mon, 24 Jun 2019 15:37:42 -0700
+In-Reply-To: <20190624143748.7fcfe623@lwn.net>
 References: <156140322426.29777.8610751479936722967.stgit@taos>
- <156140326736.29777.7751606850237303573.stgit@taos>
+         <23a5979082c89d7028409ad9ae082840411e1ca6.camel@perches.com>
+         <d8b359ff-5891-7bb8-d292-9f10cca04f17@amd.com>
+         <977bc7c484ef55ff78de51d7555afcc3c3350b1e.camel@perches.com>
+         <20190624143748.7fcfe623@lwn.net>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.30.5-0ubuntu0.18.10.1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <156140326736.29777.7751606850237303573.stgit@taos>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 24, 2019 at 07:07:49PM +0000, Hook, Gary wrote:
-> Add a reference to the crypto engine documentation to
-> the index.
+On Mon, 2019-06-24 at 14:37 -0600, Jonathan Corbet wrote:
+> On Mon, 24 Jun 2019 13:29:42 -0700
+> Joe Perches <joe@perches.com> wrote:
 > 
-> Signed-off-by: Gary R Hook <gary.hook@amd.com>
-> ---
->  Documentation/crypto/index.rst |    1 +
->  1 file changed, 1 insertion(+)
+> > > Finally, would you prefer a v2 of the patch set? Happy to do
+> > > whatever is preferred, of course.  
+> > 
+> > Whatever Jonathan decides is fine with me.
+> > Mine was just a plea to avoid unnecessarily
+> > making the source text harder to read as
+> > that's what I mostly use.
 > 
-> diff --git a/Documentation/crypto/index.rst b/Documentation/crypto/index.rst
-> index c4ff5d791233..37cd7fb0ea82 100644
-> --- a/Documentation/crypto/index.rst
-> +++ b/Documentation/crypto/index.rst
-> @@ -19,6 +19,7 @@ for cryptographic use cases, as well as programming examples.
->     intro
->     architecture
->     devel-algos
-> +   crypto_engine
->     userspace-if
->     crypto_engine
->     api
+> Usually Herbert seems to take crypto docs, so it's not necessarily up to
+> me :)
 > 
+> I don't see much that's objectionable here.  But...
+> 
+> > I don't know if this extension is valid yet, but
+> > I believe just using <function_name>() is more
+> > readable as text than ``<function_name>`` or
+> > :c:func:`<function_name>`
+> 
+> It's been "valid" since I wrote it...it's just not upstream yet :)  I
+> expect it to be in 5.3, though.  So the best way to refer to a kernel
+> function, going forward, is just function() with no markup needed.
 
-It's already in the list.
+When that's actually "valid" I suggest doing:
 
-- Eric
+$ git ls-files -- 'Documentation/*.rst' | \
+ xargs perl -pi -e 's/:c:func:`(\w+)(?:\(\))?`/\1()/g; s/``(\w+)\(\)``/\1()/g'
+
+so function designations in Documentation are simpler to read.
+
+Right now that's:
+
+$ git diff --shortstat Documentation/
+ 125 files changed, 1680 insertions(+), 1680 deletions(-)
+
+
