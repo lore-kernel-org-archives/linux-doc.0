@@ -1,91 +1,77 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id A590E7D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 24 Jun 2019 22:37:47 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 571E37D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 24 Jun 2019 22:58:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726992AbfFXWhr (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 24 Jun 2019 18:37:47 -0400
-Received: from smtprelay0249.hostedemail.com ([216.40.44.249]:55905 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726413AbfFXWhr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jun 2019 18:37:47 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay07.hostedemail.com (Postfix) with ESMTP id 72975181D3402;
-        Mon, 24 Jun 2019 22:37:45 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: rod05_7db6cd2afbd24
-X-Filterd-Recvd-Size: 2664
-Received: from XPS-9350.home (cpe-23-242-196-136.socal.res.rr.com [23.242.196.136])
-        (Authenticated sender: joe@perches.com)
-        by omf14.hostedemail.com (Postfix) with ESMTPA;
-        Mon, 24 Jun 2019 22:37:43 +0000 (UTC)
-Message-ID: <74833f93f6082c7b44f4fa8a3093ea1a751d5539.camel@perches.com>
-Subject: Re: [PATCH 0/3] Clean up crypto documentation
-From:   Joe Perches <joe@perches.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Gary R Hook <ghook@amd.com>, "Hook, Gary" <Gary.Hook@amd.com>,
-        "herbert@gondor.apana.org.au" <herbert@gondor.apana.org.au>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "davem@davemloft.net" <davem@davemloft.net>
-Date:   Mon, 24 Jun 2019 15:37:42 -0700
-In-Reply-To: <20190624143748.7fcfe623@lwn.net>
-References: <156140322426.29777.8610751479936722967.stgit@taos>
-         <23a5979082c89d7028409ad9ae082840411e1ca6.camel@perches.com>
-         <d8b359ff-5891-7bb8-d292-9f10cca04f17@amd.com>
-         <977bc7c484ef55ff78de51d7555afcc3c3350b1e.camel@perches.com>
-         <20190624143748.7fcfe623@lwn.net>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.30.5-0ubuntu0.18.10.1 
+        id S1726589AbfFXW6M (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 24 Jun 2019 18:58:12 -0400
+Received: from outils.crapouillou.net ([89.234.176.41]:32884 "EHLO
+        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725562AbfFXW6L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jun 2019 18:58:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+        s=mail; t=1561417089; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:references; bh=c2egTmXau6Vy6CT+7W8QNurfNWl4bPuu/kCpiH6J2sg=;
+        b=i52y9r9VxZ68Ib8uF+AQrKLF6LKrkQ+QRLxcigEevTEYr+ofDFPcBaEcoNFFGVFNQwKUTs
+        KnM5dMxvhRPksEYnOivorOiOGEKAEm8mOKSlNOMPtpNYnJ/ja4F+mamHDoi4OjwSaYNKOl
+        OADXfkHoOeUOvm6mbcH3krPsEZWmPOs=
+From:   Paul Cercueil <paul@crapouillou.net>
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Paul Burton <paul.burton@mips.com>,
+        James Hogan <jhogan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Lee Jones <lee.jones@linaro.org>
+Cc:     Mathieu Malaterre <malat@debian.org>, od@zcrc.me,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: [PATCH v13 00/13] Ingenic Timer/Counter Unit patchset v13
+Date:   Tue, 25 Jun 2019 00:57:46 +0200
+Message-Id: <20190624225759.18299-1-paul@crapouillou.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2019-06-24 at 14:37 -0600, Jonathan Corbet wrote:
-> On Mon, 24 Jun 2019 13:29:42 -0700
-> Joe Perches <joe@perches.com> wrote:
-> 
-> > > Finally, would you prefer a v2 of the patch set? Happy to do
-> > > whatever is preferred, of course.  
-> > 
-> > Whatever Jonathan decides is fine with me.
-> > Mine was just a plea to avoid unnecessarily
-> > making the source text harder to read as
-> > that's what I mostly use.
-> 
-> Usually Herbert seems to take crypto docs, so it's not necessarily up to
-> me :)
-> 
-> I don't see much that's objectionable here.  But...
-> 
-> > I don't know if this extension is valid yet, but
-> > I believe just using <function_name>() is more
-> > readable as text than ``<function_name>`` or
-> > :c:func:`<function_name>`
-> 
-> It's been "valid" since I wrote it...it's just not upstream yet :)  I
-> expect it to be in 5.3, though.  So the best way to refer to a kernel
-> function, going forward, is just function() with no markup needed.
+Hi,
 
-When that's actually "valid" I suggest doing:
+This is the version 13 of my patchset to support the Timer/Counter Unit
+(TCU) present in JZ47xx SoCs from Ingenic.
 
-$ git ls-files -- 'Documentation/*.rst' | \
- xargs perl -pi -e 's/:c:func:`(\w+)(?:\(\))?`/\1()/g; s/``(\w+)\(\)``/\1()/g'
+Changelog:
 
-so function designations in Documentation are simpler to read.
+Patch [03/13]:
+ - Revert back to v11. Turns out it was okay.
+ - Remove 'interrupt-parent' of the list of required properties.
 
-Right now that's:
+Patch [05/13]:
+ - Don't enable/disable the TCU clock on demand. Enable it in the probe
+   and call it a day.
+ - Register suspend callbacks to gate/ungate the TCU clock on
+   suspend/resume.
+ - Use pr_fmt and pr_crit instead of custom TCU_ERR() macro
+ - Remove useless dependency on COMMON_CLK in Kconfig
+ - Remove registration of clkdev
 
-$ git diff --shortstat Documentation/
- 125 files changed, 1680 insertions(+), 1680 deletions(-)
+All the other patches have not been modified.
+The patchset was rebased on 5.2-rc6.
+
+Cheers,
+-Paul
 
 
