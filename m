@@ -5,79 +5,68 @@ X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
 	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 985DB7D2F0
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 24 Jun 2019 13:33:49 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id CAD5B7D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 24 Jun 2019 14:26:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731182AbfFXNdt (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 24 Jun 2019 09:33:49 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:19066 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728884AbfFXNdt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 24 Jun 2019 09:33:49 -0400
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id D7DD23998DC962976001;
-        Mon, 24 Jun 2019 21:33:43 +0800 (CST)
-Received: from [127.0.0.1] (10.184.225.177) by DGGEMS402-HUB.china.huawei.com
- (10.3.19.202) with Microsoft SMTP Server id 14.3.439.0; Mon, 24 Jun 2019
- 21:33:37 +0800
-Subject: Re: [PATCH next] softirq: enable MAX_SOFTIRQ_TIME tuning with sysctl
- max_softirq_time_usecs
-To:     Thomas Gleixner <tglx@linutronix.de>
-CC:     <corbet@lwn.net>, <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>, <akpm@linux-foundation.org>,
-        <manfred@colorfullife.com>, <jwilk@jwilk.net>,
-        <dvyukov@google.com>, <feng.tang@intel.com>,
-        <sunilmut@microsoft.com>, <quentin.perret@arm.com>,
-        <linux@leemhuis.info>, <alex.popov@linux.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>,
-        "wangxiaogang (F)" <wangxiaogang3@huawei.com>,
-        "Zhoukang (A)" <zhoukang7@huawei.com>,
-        Mingfangsen <mingfangsen@huawei.com>, <tedheadster@gmail.com>,
-        Eric Dumazet <edumazet@google.com>
-References: <f274f85a-bbb6-3e32-b293-1d5d7f27a98f@huawei.com>
- <alpine.DEB.2.21.1906231820470.32342@nanos.tec.linutronix.de>
- <0099726a-ead3-bdbe-4c66-c8adc9a4f11b@huawei.com>
- <alpine.DEB.2.21.1906241141370.32342@nanos.tec.linutronix.de>
-From:   Zhiqiang Liu <liuzhiqiang26@huawei.com>
-Message-ID: <e870e089-efb6-53a7-4299-8468f2ba8852@huawei.com>
-Date:   Mon, 24 Jun 2019 21:32:48 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.0
+        id S1726690AbfFXO0A (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 24 Jun 2019 10:26:00 -0400
+Received: from ms.lwn.net ([45.79.88.28]:43870 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726263AbfFXO0A (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 24 Jun 2019 10:26:00 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id A686D35A;
+        Mon, 24 Jun 2019 14:25:59 +0000 (UTC)
+Date:   Mon, 24 Jun 2019 08:25:58 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Jani Nikula <jani.nikula@linux.intel.com>
+Cc:     linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] Docs: An initial automarkup extension for sphinx
+Message-ID: <20190624082558.62e6c0d2@lwn.net>
+In-Reply-To: <87k1dbrziw.fsf@intel.com>
+References: <20190621235159.6992-1-corbet@lwn.net>
+        <20190621235159.6992-2-corbet@lwn.net>
+        <87k1dbrziw.fsf@intel.com>
+Organization: LWN.net
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.21.1906241141370.32342@nanos.tec.linutronix.de>
-Content-Type: text/plain; charset="gbk"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.184.225.177]
-X-CFilter-Loop: Reflected
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2019/6/24 17:45, Thomas Gleixner wrote:
-> Zhiqiang,
-> 
-> On Mon, 24 Jun 2019, Zhiqiang Liu wrote:
->> ÔÚ 2019/6/24 0:38, Thomas Gleixner Ð´µÀ:
->>
->> Thanks again for your detailed advice.
->> As your said, the max_softirq_time_usecs setting without explaining the
->> relationship with CONFIG_HZ will give a false sense of controlability. And
->> the time accuracy of jiffies will result in a certain difference between the
->> max_softirq_time_usecs set value and the actual value, which is in one jiffies
->> range.
->>
->> I will add these infomation in the sysctl documentation and changelog in v2 patch.
-> 
-> Please make the sysctl milliseconds based. That's the closest approximation
-> of useful units for this. This still has the same issues as explained
-> before but it's not off by 3 orders of magitude anymore.
-> 
-> Thanks,
-> 
-> 	tglx
-> 
-Thanks for your suggestion.
-I will adopt max_softirq_time_ms to replace MAX_SOFTIRQ_TIME in v2.
+On Mon, 24 Jun 2019 14:30:47 +0300
+Jani Nikula <jani.nikula@linux.intel.com> wrote:
 
+> > +def auto_markup(app, doctree, name):
+> > +    for para in doctree.traverse(nodes.paragraph):
+> > +        for node in para.traverse(nodes.Text):
+> > +            if not isinstance(node.parent, nodes.literal):
+> > +                node.parent.replace(node, markup_funcs(name, app, node))  
+> 
+> I think overall this is a better approach than preprocessing. Thanks for
+> doing this!
+> 
+> I toyed with something like this before, and the key difference here
+> seems to be ignoring literal blocks. The problem seemed to be that
+> replacing blocks with syntax highlighting also removed the syntax
+> highlighting, with no way that I could find to bring it back.
+
+That test could use a comment, really.  What it is actually doing is
+skipping text chunks in ``inline literal`` sections, and what that is
+*actually* doing is avoiding marking up functions that have an
+explicit :c:func: markup on them already.
+
+Someday I don't doubt that this loop will be replaced by a proper tree
+walk that knows where to prune things and how to replace various other
+types of nodes, but this is easy and does the right thing pretty much
+everywhere as far as I can tell.
+
+Thanks,
+
+jon
