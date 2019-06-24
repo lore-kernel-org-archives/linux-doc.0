@@ -3,34 +3,36 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id CAD5B7D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 24 Jun 2019 14:26:00 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 6A3897D8AB
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 24 Jun 2019 14:29:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726690AbfFXO0A (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 24 Jun 2019 10:26:00 -0400
-Received: from ms.lwn.net ([45.79.88.28]:43870 "EHLO ms.lwn.net"
+        id S1728206AbfFXO3x (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 24 Jun 2019 10:29:53 -0400
+Received: from ms.lwn.net ([45.79.88.28]:43898 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726263AbfFXO0A (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 24 Jun 2019 10:26:00 -0400
+        id S1726385AbfFXO3w (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 24 Jun 2019 10:29:52 -0400
 Received: from lwn.net (localhost [127.0.0.1])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A686D35A;
-        Mon, 24 Jun 2019 14:25:59 +0000 (UTC)
-Date:   Mon, 24 Jun 2019 08:25:58 -0600
+        by ms.lwn.net (Postfix) with ESMTPSA id C180D537;
+        Mon, 24 Jun 2019 14:29:51 +0000 (UTC)
+Date:   Mon, 24 Jun 2019 08:29:50 -0600
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jani Nikula <jani.nikula@linux.intel.com>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Cc:     linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 1/3] Docs: An initial automarkup extension for sphinx
-Message-ID: <20190624082558.62e6c0d2@lwn.net>
-In-Reply-To: <87k1dbrziw.fsf@intel.com>
+Message-ID: <20190624082950.5e338d37@lwn.net>
+In-Reply-To: <20190622144610.26b7d99c@coco.lan>
 References: <20190621235159.6992-1-corbet@lwn.net>
         <20190621235159.6992-2-corbet@lwn.net>
-        <87k1dbrziw.fsf@intel.com>
+        <20190621220046.3de30d9d@coco.lan>
+        <20190622084346.28c7c748@lwn.net>
+        <20190622144610.26b7d99c@coco.lan>
 Organization: LWN.net
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -40,33 +42,36 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 24 Jun 2019 14:30:47 +0300
-Jani Nikula <jani.nikula@linux.intel.com> wrote:
+On Sat, 22 Jun 2019 14:46:10 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-> > +def auto_markup(app, doctree, name):
-> > +    for para in doctree.traverse(nodes.paragraph):
-> > +        for node in para.traverse(nodes.Text):
-> > +            if not isinstance(node.parent, nodes.literal):
-> > +                node.parent.replace(node, markup_funcs(name, app, node))  
+> > > .. c:function:: int ioctl( int fd, int request, void *argp )
+> > >     :name: v4l2-ioctl    
+> > 
+> > Some digging around didn't turn up any documentation for :name:, but it
+> > seems to prevent ioctl() from going into the list of functions that can be
+> > cross-referenced.   
 > 
-> I think overall this is a better approach than preprocessing. Thanks for
-> doing this!
+> It took me a while to discover this way to be able to re-define the
+> name of a symbol at the C domain, but I'm pretty sure I read this
+> somewhere at the Sphinx docs (or perhaps on some bug track or Stack
+> Overflow).
 > 
-> I toyed with something like this before, and the key difference here
-> seems to be ignoring literal blocks. The problem seemed to be that
-> replacing blocks with syntax highlighting also removed the syntax
-> highlighting, with no way that I could find to bring it back.
+> I don't remember exactly where I get it, but I guess it is related to
+> this:
+> 
+> 	http://docutils.sourceforge.net/docs/howto/rst-roles.html
+> 
+> > I wonder if the same should be done for the others?  
+> 
+> Sure.
 
-That test could use a comment, really.  What it is actually doing is
-skipping text chunks in ``inline literal`` sections, and what that is
-*actually* doing is avoiding marking up functions that have an
-explicit :c:func: markup on them already.
-
-Someday I don't doubt that this loop will be replaced by a proper tree
-walk that knows where to prune things and how to replace various other
-types of nodes, but this is easy and does the right thing pretty much
-everywhere as far as I can tell.
-
-Thanks,
+It actually occurs to me that it might be better to keep the skip list and
+maybe expand it.  There are vast numbers of places where people write
+open() or whatever(), and there is no point in even trying to
+cross-reference them.  I should do some tests, it might even make a
+measurable difference in the build time to skip them :)  And in any case,
+somebody is bound to put one of those common names into the namespace in
+the future, recreating the current problem.
 
 jon
