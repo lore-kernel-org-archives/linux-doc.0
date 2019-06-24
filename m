@@ -3,130 +3,110 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.2
+	autolearn=ham autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 0CE2A7D8AB
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 24 Jun 2019 04:01:35 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 5E8F57D2EF
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 24 Jun 2019 05:22:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727113AbfFXEB3 (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 24 Jun 2019 00:01:29 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:19099 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725769AbfFXEB2 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 24 Jun 2019 00:01:28 -0400
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id A030B2BC4CFD26FB6995;
-        Mon, 24 Jun 2019 12:01:24 +0800 (CST)
-Received: from [127.0.0.1] (10.184.225.177) by DGGEMS409-HUB.china.huawei.com
- (10.3.19.209) with Microsoft SMTP Server id 14.3.439.0; Mon, 24 Jun 2019
- 12:01:13 +0800
-Subject: Re: [PATCH next] softirq: enable MAX_SOFTIRQ_TIME tuning with sysctl
- max_softirq_time_usecs
-To:     Thomas Gleixner <tglx@linutronix.de>
-CC:     <corbet@lwn.net>, <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>, <akpm@linux-foundation.org>,
-        <manfred@colorfullife.com>, <jwilk@jwilk.net>,
-        <dvyukov@google.com>, <feng.tang@intel.com>,
-        <sunilmut@microsoft.com>, <quentin.perret@arm.com>,
-        <linux@leemhuis.info>, <alex.popov@linux.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>,
-        "wangxiaogang (F)" <wangxiaogang3@huawei.com>,
-        "Zhoukang (A)" <zhoukang7@huawei.com>,
-        Mingfangsen <mingfangsen@huawei.com>, <tedheadster@gmail.com>,
-        Eric Dumazet <edumazet@google.com>
-References: <f274f85a-bbb6-3e32-b293-1d5d7f27a98f@huawei.com>
- <alpine.DEB.2.21.1906231820470.32342@nanos.tec.linutronix.de>
-From:   Zhiqiang Liu <liuzhiqiang26@huawei.com>
-Message-ID: <0099726a-ead3-bdbe-4c66-c8adc9a4f11b@huawei.com>
-Date:   Mon, 24 Jun 2019 12:01:01 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.0
-MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.21.1906231820470.32342@nanos.tec.linutronix.de>
-Content-Type: text/plain; charset="gbk"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.184.225.177]
-X-CFilter-Loop: Reflected
+        id S1726312AbfFXFWc (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 24 Jun 2019 01:22:32 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:64446 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726304AbfFXFWc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jun 2019 01:22:32 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x5O5LdAj129802
+        for <linux-doc@vger.kernel.org>; Mon, 24 Jun 2019 01:22:31 -0400
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2tap024b08-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-doc@vger.kernel.org>; Mon, 24 Jun 2019 01:22:31 -0400
+Received: from localhost
+        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
+        Mon, 24 Jun 2019 06:22:28 +0100
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Mon, 24 Jun 2019 06:22:26 +0100
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x5O5MP3c58065004
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 24 Jun 2019 05:22:25 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 15184A4067;
+        Mon, 24 Jun 2019 05:22:25 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id BB1A0A4060;
+        Mon, 24 Jun 2019 05:22:23 +0000 (GMT)
+Received: from rapoport-lnx (unknown [9.148.8.168])
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Mon, 24 Jun 2019 05:22:23 +0000 (GMT)
+Received: by rapoport-lnx (sSMTP sendmail emulation); Mon, 24 Jun 2019 08:22:23 +0300
+From:   Mike Rapoport <rppt@linux.ibm.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        linux-doc@vger.kernel.org, Mike Rapoport <rppt@linux.ibm.com>
+Subject: [PATCH v2] scripts/sphinx-pre-install: fix out-of-tree build
+Date:   Mon, 24 Jun 2019 08:22:22 +0300
+X-Mailer: git-send-email 2.7.4
+X-TM-AS-GCONF: 00
+x-cbid: 19062405-0028-0000-0000-0000037CF3C4
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19062405-0029-0000-0000-0000243D0F26
+Message-Id: <1561353742-19608-1-git-send-email-rppt@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-06-24_05:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1906240045
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Build of htmldocs fails for out-of-tree builds:
 
-ÔÚ 2019/6/24 0:38, Thomas Gleixner Ð´µÀ:
-> Zhiqiang,
->> controlled by sysadmins to copy with hardware changes over time.
-> 
-> So much for the theory. See below.
+$ make V=1 O=~/build/kernel/ htmldocs
+make -C /home/rppt/build/kernel -f /home/rppt/git/linux-docs/Makefile htmldocs
+make[1]: Entering directory '/home/rppt/build/kernel'
+make -f /home/rppt/git/linux-docs/scripts/Makefile.build obj=scripts/basic
+rm -f .tmp_quiet_recordmcount
+make -f /home/rppt/git/linux-docs/scripts/Makefile.build obj=Documentation htmldocs
+Can't open Documentation/conf.py at /home/rppt/git/linux-docs/scripts/sphinx-pre-install line 230.
+/home/rppt/git/linux-docs/Documentation/Makefile:80: recipe for target 'htmldocs' failed
+make[2]: *** [htmldocs] Error 2
 
-Thanks for your reply.
-> 
->> Correspondingly, the MAX_SOFTIRQ_TIME should be able to be tunned by sysadmins,
->> who knows best about hardware performance, for excepted tradeoff between latence
->> and fairness.
->>
->> Here, we add sysctl variable max_softirq_time_usecs to replace MAX_SOFTIRQ_TIME
->> with 2ms default value.
-> 
-> ...
-> 
->>   */
->> -#define MAX_SOFTIRQ_TIME  msecs_to_jiffies(2)
->> +unsigned int __read_mostly max_softirq_time_usecs = 2000;
->>  #define MAX_SOFTIRQ_RESTART 10
->>
->>  #ifdef CONFIG_TRACE_IRQFLAGS
->> @@ -248,7 +249,8 @@ static inline void lockdep_softirq_end(bool in_hardirq) { }
->>
->>  asmlinkage __visible void __softirq_entry __do_softirq(void)
->>  {
->> -	unsigned long end = jiffies + MAX_SOFTIRQ_TIME;
->> +	unsigned long end = jiffies +
->> +		usecs_to_jiffies(max_softirq_time_usecs);
-> 
-> That's still jiffies based and therefore depends on CONFIG_HZ. Any budget
-> value will be rounded up to the next jiffie. So in case of HZ=100 and
-> time=1000us this will still result in 10ms of allowed loop time.
-> 
-> I'm not saying that we must use a more fine grained time source, but both
-> the changelog and the sysctl documentation are misleading.
-> 
-> If we keep it jiffies based, then microseconds do not make any sense. They
-> just give a false sense of controlability.
-> 
-> Keep also in mind that with jiffies the accuracy depends also on the
-> distance to the next tick when 'end' is evaluated. The next tick might be
-> imminent.
-> 
-> That's all information which needs to be in the documentation.
-> 
+The scripts/sphinx-pre-install is trying to open files in the current
+directory which is $KBUILD_OUTPUT rather than in $srctree.
 
-Thanks again for your detailed advice.
-As your said, the max_softirq_time_usecs setting without explaining the
-relationship with CONFIG_HZ will give a false sense of controlability. And
-the time accuracy of jiffies will result in a certain difference between the
-max_softirq_time_usecs set value and the actual value, which is in one jiffies
-range.
+Fix it.
 
-I will add these infomation in the sysctl documentation and changelog in v2 patch.
+Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+---
+v2: use "./" as default prefix as Mauro suggested
 
->> +	{
->> +		.procname	= "max_softirq_time_usecs",
->> +		.data		= &max_softirq_time_usecs,
->> +		.maxlen		= sizeof(unsigned int),
->> +		.mode		= 0644,
->> +		.proc_handler   = proc_dointvec_minmax,
->> +		.extra1		= &zero,
->> +	},
-> 
-> Zero as the lower limit? That means it allows a single loop. Fine, but
-> needs to be documented as well.
-> 
-> Thanks,
-> 
-> 	tglx
-> 
-> .
-> 
+ scripts/sphinx-pre-install | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+index 0b44d51..f710bbd 100755
+--- a/scripts/sphinx-pre-install
++++ b/scripts/sphinx-pre-install
+@@ -5,8 +5,9 @@ use strict;
+ # Copyright (c) 2017-2019 Mauro Carvalho Chehab <mchehab@kernel.org>
+ #
+ 
+-my $conf = "Documentation/conf.py";
+-my $requirement_file = "Documentation/sphinx/requirements.txt";
++my $prefix = "$ENV{'srctree'}/";
++my $conf = $prefix . "Documentation/conf.py";
++my $requirement_file = $prefix . "Documentation/sphinx/requirements.txt";
+ my $virtenv_prefix = "sphinx_";
+ 
+ #
+-- 
+2.7.4
 
