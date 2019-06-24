@@ -3,112 +3,253 @@ X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+	autolearn=unavailable autolearn_force=no version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id ED9E17D2EF
-	for <lwn-linux-doc@archive.lwn.net>; Mon, 24 Jun 2019 05:25:23 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 573AC7D2F0
+	for <lwn-linux-doc@archive.lwn.net>; Mon, 24 Jun 2019 07:00:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726323AbfFXFZX (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Mon, 24 Jun 2019 01:25:23 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:55300 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726304AbfFXFZX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 24 Jun 2019 01:25:23 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x5O5Lcbg010245
-        for <linux-doc@vger.kernel.org>; Mon, 24 Jun 2019 01:25:22 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2taqva10m5-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 24 Jun 2019 01:25:22 -0400
-Received: from localhost
-        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Mon, 24 Jun 2019 06:25:20 +0100
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
-        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Mon, 24 Jun 2019 06:25:16 +0100
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com [9.149.105.61])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x5O5PFQX52363512
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 24 Jun 2019 05:25:15 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id B69C811C054;
-        Mon, 24 Jun 2019 05:25:15 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 6769211C05C;
-        Mon, 24 Jun 2019 05:25:14 +0000 (GMT)
-Received: from rapoport-lnx (unknown [9.148.8.168])
-        by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Mon, 24 Jun 2019 05:25:14 +0000 (GMT)
-Received: by rapoport-lnx (sSMTP sendmail emulation); Mon, 24 Jun 2019 08:25:13 +0300
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-doc@vger.kernel.org, Mike Rapoport <rppt@linux.ibm.com>
-Subject: [PATCH v2] scripts/sphinx-pre-install: fix out-of-tree build
-Date:   Mon, 24 Jun 2019 08:25:07 +0300
-X-Mailer: git-send-email 2.7.4
-X-TM-AS-GCONF: 00
-x-cbid: 19062405-4275-0000-0000-0000034500BC
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19062405-4276-0000-0000-00003855374C
-Message-Id: <1561353907-19911-1-git-send-email-rppt@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-06-24_05:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1906240045
+        id S1726399AbfFXHAI (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Mon, 24 Jun 2019 03:00:08 -0400
+Received: from mx2.suse.de ([195.135.220.15]:53966 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726077AbfFXHAI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 24 Jun 2019 03:00:08 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 231F7AF99;
+        Mon, 24 Jun 2019 07:00:06 +0000 (UTC)
+Subject: Re: [PATCH] bcache: make stripe_size configurable and persistent for
+ hardware raid5/6
+To:     Eric Wheeler <bcache@lists.ewheeler.net>
+Cc:     linux-block@vger.kernel.org, Eric Wheeler <git@linux.ewheeler.net>,
+        Eric Wheeler <bcache@linux.ewheeler.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kent Overstreet <kent.overstreet@gmail.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:BCACHE (BLOCK LAYER CACHE)" <linux-bcache@vger.kernel.org>
+References: <d3f7fd44-9287-c7fa-ee95-c3b8a4d56c93@suse.de>
+ <1561245371-10235-1-git-send-email-bcache@lists.ewheeler.net>
+From:   Coly Li <colyli@suse.de>
+Openpgp: preference=signencrypt
+Organization: SUSE Labs
+Message-ID: <1185f3ad-ac4c-7f48-206f-22fdbbfe289e@suse.de>
+Date:   Mon, 24 Jun 2019 14:57:42 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+ Gecko/20100101 Thunderbird/60.7.2
+MIME-Version: 1.0
+In-Reply-To: <1561245371-10235-1-git-send-email-bcache@lists.ewheeler.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Build of htmldocs fails for out-of-tree builds:
+On 2019/6/23 7:16 上午, Eric Wheeler wrote:
+> From: Eric Wheeler <git@linux.ewheeler.net>
+> 
+> While some drivers set queue_limits.io_opt (e.g., md raid5), there are
+> currently no SCSI/RAID controller drivers that do.  Previously stripe_size
+> and partial_stripes_expensive were read-only values and could not be
+> tuned by users (eg, for hardware RAID5/6).
+> 
+> This patch enables users to save the optimal IO size via sysfs through
+> the backing device attributes stripe_size and partial_stripes_expensive
+> into the bcache superblock.
+> 
+> Superblock changes are backwards-compatable:
+> 
+> *  partial_stripes_expensive: One bit was used in the superblock flags field
+> 
+> *  stripe_size: There are eight 64-bit "pad" fields for future use in
+>    the superblock which default to 0; from those, 32-bits are now used
+>    to save the stripe_size and load at device registration time.
+> 
+> Signed-off-by: Eric Wheeler <bcache@linux.ewheeler.net>
 
-$ make V=1 O=~/build/kernel/ htmldocs
-make -C /home/rppt/build/kernel -f /home/rppt/git/linux-docs/Makefile htmldocs
-make[1]: Entering directory '/home/rppt/build/kernel'
-make -f /home/rppt/git/linux-docs/scripts/Makefile.build obj=scripts/basic
-rm -f .tmp_quiet_recordmcount
-make -f /home/rppt/git/linux-docs/scripts/Makefile.build obj=Documentation htmldocs
-Can't open Documentation/conf.py at /home/rppt/git/linux-docs/scripts/sphinx-pre-install line 230.
-/home/rppt/git/linux-docs/Documentation/Makefile:80: recipe for target 'htmldocs' failed
-make[2]: *** [htmldocs] Error 2
+Hi Eric,
 
-The scripts/sphinx-pre-install is trying to open files in the current
-directory which is $KBUILD_OUTPUT rather than in $srctree.
+In general I am OK with this patch. Since Peter comments lots of SCSI
+RAID devices reports a stripe width, could you please list the hardware
+raid devices which don't list stripe size ? Then we can make decision
+whether it is necessary to have such option enabled.
 
-Fix it.
+Another point is, this patch changes struct cache_sb, it is no problem
+to change on-disk format. I plan to update the super block version soon,
+to store more configuration persistently into super block. stripe_size
+can be added to cache_sb with other on-disk changes.
 
-Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
----
-v2: use "./" as default prefix as Mauro suggested
+Thanks.
 
- scripts/sphinx-pre-install | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Coly Li
 
-diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index 0b44d51..f230e65 100755
---- a/scripts/sphinx-pre-install
-+++ b/scripts/sphinx-pre-install
-@@ -5,8 +5,11 @@ use strict;
- # Copyright (c) 2017-2019 Mauro Carvalho Chehab <mchehab@kernel.org>
- #
- 
--my $conf = "Documentation/conf.py";
--my $requirement_file = "Documentation/sphinx/requirements.txt";
-+my $prefix = "./";
-+$prefix = "$ENV{'srctree'}/" if ($ENV{'srctree'});
-+
-+my $conf = $prefix . "Documentation/conf.py";
-+my $requirement_file = $prefix . "Documentation/sphinx/requirements.txt";
- my $virtenv_prefix = "sphinx_";
- 
- #
+
+> ---
+>  Documentation/admin-guide/bcache.rst | 21 +++++++++++++++++++++
+>  drivers/md/bcache/super.c            | 15 ++++++++++++++-
+>  drivers/md/bcache/sysfs.c            | 33 +++++++++++++++++++++++++++++++--
+>  include/uapi/linux/bcache.h          |  6 ++++--
+>  4 files changed, 70 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/bcache.rst b/Documentation/admin-guide/bcache.rst
+> index c0ce64d..ef82022 100644
+> --- a/Documentation/admin-guide/bcache.rst
+> +++ b/Documentation/admin-guide/bcache.rst
+> @@ -420,6 +420,12 @@ dirty_data
+>  label
+>    Name of underlying device.
+>  
+> +partial_stripes_expensive
+> +  Flag to bcache that partial or unaligned stripe_size'd
+> +  writes to the backing device are expensive (e.g., RAID5/6 incur
+> +  read-copy-write). Writing this sysfs attribute updates the superblock
+> +  and also takes effect immediately.  See also stripe_size, below.
+> +
+>  readahead
+>    Size of readahead that should be performed.  Defaults to 0.  If set to e.g.
+>    1M, it will round cache miss reads up to that size, but without overlapping
+> @@ -458,6 +464,21 @@ stop
+>    Write to this file to shut down the bcache device and close the backing
+>    device.
+>  
+> +stripe_size
+> +  The stripe size in bytes of the backing device for optimial
+> +  write performance (also known as the "stride width"). This is set
+> +  automatically when using a device driver sets blk_limits_io_opt
+> +  (e.g., md, rbd, skd, zram, virtio_blk).  No hardware RAID controller
+> +  sets blk_limits_io_opt as of 2019-06-15, so configure this to suit
+> +  your needs.  Note that you must unregister and re-register the backing
+> +  device after making a change to stripe_size.
+> +
+> +  Where N is the number of data disks,
+> +    RAID5: stripe_size = (N-1)*RAID_CHUNK_SIZE.
+> +    RAID6: stripe_size = (N-2)*RAID_CHUNK_SIZE.
+> +
+> +  See also partial_stripes_expensive, above.
+> +
+>  writeback_delay
+>    When dirty data is written to the cache and it previously did not contain
+>    any, waits some number of seconds before initiating writeback. Defaults to
+> diff --git a/drivers/md/bcache/super.c b/drivers/md/bcache/super.c
+> index 1b63ac8..d0b9501 100644
+> --- a/drivers/md/bcache/super.c
+> +++ b/drivers/md/bcache/super.c
+> @@ -80,6 +80,7 @@ static const char *read_super(struct cache_sb *sb, struct block_device *bdev,
+>  
+>  	sb->flags		= le64_to_cpu(s->flags);
+>  	sb->seq			= le64_to_cpu(s->seq);
+> +	sb->stripe_size		= le32_to_cpu(s->stripe_size);
+>  	sb->last_mount		= le32_to_cpu(s->last_mount);
+>  	sb->first_bucket	= le16_to_cpu(s->first_bucket);
+>  	sb->keys		= le16_to_cpu(s->keys);
+> @@ -221,6 +222,7 @@ static void __write_super(struct cache_sb *sb, struct bio *bio)
+>  
+>  	out->flags		= cpu_to_le64(sb->flags);
+>  	out->seq		= cpu_to_le64(sb->seq);
+> +	out->stripe_size	= cpu_to_le32(sb->stripe_size);
+>  
+>  	out->last_mount		= cpu_to_le32(sb->last_mount);
+>  	out->first_bucket	= cpu_to_le16(sb->first_bucket);
+> @@ -1258,7 +1260,18 @@ static int cached_dev_init(struct cached_dev *dc, unsigned int block_size)
+>  
+>  	dc->disk.stripe_size = q->limits.io_opt >> 9;
+>  
+> -	if (dc->disk.stripe_size)
+> +	if (dc->sb.stripe_size) {
+> +		if (dc->disk.stripe_size &&
+> +		    dc->disk.stripe_size != dc->sb.stripe_size) {
+> +			pr_warn("superblock stripe_size (%d) overrides bdev stripe_size (%d)\n",
+> +				(int)dc->sb.stripe_size,
+> +				(int)dc->disk.stripe_size);
+> +		}
+> +
+> +		dc->disk.stripe_size = dc->sb.stripe_size;
+> +		dc->partial_stripes_expensive =
+> +			(unsigned int)BDEV_PARTIAL_STRIPES_EXPENSIVE(&dc->sb);
+> +	} else if (dc->disk.stripe_size)
+>  		dc->partial_stripes_expensive =
+>  			q->limits.raid_partial_stripes_expensive;
+>  
+> diff --git a/drivers/md/bcache/sysfs.c b/drivers/md/bcache/sysfs.c
+> index bfb437f..4ebca52 100644
+> --- a/drivers/md/bcache/sysfs.c
+> +++ b/drivers/md/bcache/sysfs.c
+> @@ -111,8 +111,8 @@
+>  rw_attribute(writeback_rate_minimum);
+>  read_attribute(writeback_rate_debug);
+>  
+> -read_attribute(stripe_size);
+> -read_attribute(partial_stripes_expensive);
+> +rw_attribute(stripe_size);
+> +rw_attribute(partial_stripes_expensive);
+>  
+>  rw_attribute(synchronous);
+>  rw_attribute(journal_delay_ms);
+> @@ -343,6 +343,35 @@ static ssize_t bch_snprint_string_list(char *buf,
+>  		}
+>  	}
+>  
+> +	if (attr == &sysfs_stripe_size) {
+> +		int v = strtoul_or_return(buf);
+> +
+> +		if (v & 0x1FF) {
+> +			pr_err("stripe_size must be a muliple of 512-byte sectors");
+> +			return -EINVAL;
+> +		}
+> +
+> +		v >>= 9;
+> +
+> +		if (v != dc->sb.stripe_size) {
+> +			dc->sb.stripe_size = v;
+> +			pr_info("stripe_size=%d, re-register to take effect.",
+> +				v<<9);
+> +			bch_write_bdev_super(dc, NULL);
+> +		} else
+> +			pr_info("stripe_size is already set to %d.", v<<9);
+> +	}
+> +
+> +	if (attr == &sysfs_partial_stripes_expensive) {
+> +		int v = strtoul_or_return(buf);
+> +
+> +		if (v != BDEV_PARTIAL_STRIPES_EXPENSIVE(&dc->sb)) {
+> +			SET_BDEV_PARTIAL_STRIPES_EXPENSIVE(&dc->sb, v);
+> +			dc->partial_stripes_expensive = v;
+> +			bch_write_bdev_super(dc, NULL);
+> +		}
+> +	}
+> +
+>  	if (attr == &sysfs_stop_when_cache_set_failed) {
+>  		v = __sysfs_match_string(bch_stop_on_failure_modes, -1, buf);
+>  		if (v < 0)
+> diff --git a/include/uapi/linux/bcache.h b/include/uapi/linux/bcache.h
+> index 5d4f58e..ee60914 100644
+> --- a/include/uapi/linux/bcache.h
+> +++ b/include/uapi/linux/bcache.h
+> @@ -172,7 +172,9 @@ struct cache_sb {
+>  
+>  	__u64			flags;
+>  	__u64			seq;
+> -	__u64			pad[8];
+> +	__u32			stripe_size;
+> +	__u32			pad_u32;
+> +	__u64			pad_u64[7];
+>  
+>  	union {
+>  	struct {
+> @@ -230,7 +232,7 @@ static inline _Bool SB_IS_BDEV(const struct cache_sb *sb)
+>  #define BDEV_STATE_CLEAN		1U
+>  #define BDEV_STATE_DIRTY		2U
+>  #define BDEV_STATE_STALE		3U
+> -
+> +BITMASK(BDEV_PARTIAL_STRIPES_EXPENSIVE,	struct cache_sb, flags, 60, 1);
+>  /*
+>   * Magic numbers
+>   *
+> 
+
+
 -- 
-2.7.4
 
+Coly Li
