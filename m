@@ -1,92 +1,110 @@
 Return-Path: <linux-doc-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on archive.lwn.net
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE
-	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,RCVD_IN_DNSWL_HI,
+	SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+	version=3.4.2
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by archive.lwn.net (Postfix) with ESMTP id 88EA87D90F
-	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Jun 2019 17:35:54 +0000 (UTC)
+	by archive.lwn.net (Postfix) with ESMTP id 702E97D90F
+	for <lwn-linux-doc@archive.lwn.net>; Tue, 25 Jun 2019 17:47:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732070AbfFYRfy (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
-        Tue, 25 Jun 2019 13:35:54 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:41852 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728873AbfFYRfx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jun 2019 13:35:53 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x5PHWE3C118503
-        for <linux-doc@vger.kernel.org>; Tue, 25 Jun 2019 13:35:53 -0400
-Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2tbp6c5awp-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Tue, 25 Jun 2019 13:35:53 -0400
-Received: from localhost
-        by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-doc@vger.kernel.org> from <zohar@linux.ibm.com>;
-        Tue, 25 Jun 2019 18:35:50 +0100
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
-        by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Tue, 25 Jun 2019 18:35:45 +0100
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x5PHZjvB52625554
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 25 Jun 2019 17:35:45 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E2AF35204E;
-        Tue, 25 Jun 2019 17:35:44 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.80.110.8])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id BCB9952059;
-        Tue, 25 Jun 2019 17:35:43 +0000 (GMT)
-Subject: Re: [PATCH v4 00/14] ima: introduce IMA Digest Lists extension
-From:   Mimi Zohar <zohar@linux.ibm.com>
-To:     Roberto Sassu <roberto.sassu@huawei.com>,
-        dmitry.kasatkin@huawei.com, mjg59@google.com,
-        Rob Landley <rob@landley.net>
-Cc:     linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, silviu.vlasceanu@huawei.com
-Date:   Tue, 25 Jun 2019 13:35:33 -0400
-In-Reply-To: <88d368e6-5b3c-0206-23a0-dc3e0aa385f0@huawei.com>
-References: <20190614175513.27097-1-roberto.sassu@huawei.com>
-         <9029dd14-1077-ec89-ddc2-e677e16ad314@huawei.com>
-         <88d368e6-5b3c-0206-23a0-dc3e0aa385f0@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 19062517-0012-0000-0000-0000032C52A3
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19062517-0013-0000-0000-000021658924
-Message-Id: <1561484133.4066.16.camel@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-06-25_12:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1906250132
+        id S1730722AbfFYRrq (ORCPT <rfc822;lwn-linux-doc@archive.lwn.net>);
+        Tue, 25 Jun 2019 13:47:46 -0400
+Received: from outils.crapouillou.net ([89.234.176.41]:40816 "EHLO
+        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729493AbfFYRrp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 25 Jun 2019 13:47:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+        s=mail; t=1561484862; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=EVTVbMsCSjQzsSGM7XCSUEIELSlkRRQLrdI9FXq1fYg=;
+        b=I5VaVXau0WYEvLY0+ThTCn8lOoVV25LOpS4WXggxtDRrOTlkMd1je79pyQQADeqrXUuEDs
+        4KVxkYs0sLV0LEQgVmb0LvE0ep2awhNb5yLGjDccUym35LLBRhSoRhcZyUcP3CQ9v1i+B9
+        fero1NZR8XqCyr37PzfLE+FpxGb8NKE=
+Date:   Tue, 25 Jun 2019 19:47:32 +0200
+From:   Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v13 04/13] mfd: Add Ingenic TCU driver
+To:     Paul Burton <paul.burton@mips.com>
+Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        James Hogan <jhogan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mathieu Malaterre <malat@debian.org>, od@zcrc.me,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-clk@vger.kernel.org, Artur Rojek <contact@artur-rojek.eu>
+Message-Id: <1561484852.10069.0@crapouillou.net>
+In-Reply-To: <20190625173026.dbvx44iwywnijjql@pburton-laptop>
+References: <20190624225759.18299-1-paul@crapouillou.net>
+        <20190624225759.18299-5-paul@crapouillou.net>
+        <20190625173026.dbvx44iwywnijjql@pburton-laptop>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-doc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[Cc'ing Rob Landley]
 
-On Tue, 2019-06-25 at 14:57 +0200, Roberto Sassu wrote:
-> Mimi, do you have any thoughts on this version?
 
-I need to look closer, but when I first looked these changes seemed to
-be really invasive.  Let's first work on getting the CPIO xattr
-support upstreamed.  Rob Landley said he was going to review and test
-them.  Do you have any documentation on how to set up a test
-environment?  I'd really appreciate if others would also help with
-reviewing the CPIO patches.
+Le mar. 25 juin 2019 =E0 19:30, Paul Burton <paul.burton@mips.com> a=20
+=E9crit :
+> Hi Paul,
+>=20
+> On Tue, Jun 25, 2019 at 12:57:50AM +0200, Paul Cercueil wrote:
+>>  +static const struct of_device_id ingenic_tcu_of_match[] =3D {
+>>  +	{ .compatible =3D "ingenic,jz4740-tcu", .data =3D &jz4740_soc_info, }=
+,
+>>  +	{ .compatible =3D "ingenic,jz4725b-tcu", .data =3D &jz4725b_soc_info,=
+=20
+>> },
+>>  +	{ .compatible =3D "ingenic,jz4770-tcu", .data =3D &jz4740_soc_info, }=
+,
+>>  +	{ }
+>>  +};
+>=20
+> Nit: why not order these numerically? ie. 25b, 40, 70.
 
-thanks!
+They are in chronological order - the jz4725b is newer than the jz4740.
 
-Mimi
+>>  +static struct regmap * __init ingenic_tcu_create_regmap(struct=20
+>> device_node *np)
+>>  +{
+>>  +	struct resource res;
+>>  +	void __iomem *base;
+>>  +	struct regmap *map;
+>>  +
+>>  +	if (!of_match_node(ingenic_tcu_of_match, np))
+>>  +		return ERR_PTR(-EINVAL);
+>>  +
+>>  +	base =3D of_io_request_and_map(np, 0, "TCU");
+>>  +	if (IS_ERR(base))
+>>  +		return ERR_PTR(PTR_ERR(base));
+>=20
+> This is equivalent to:
+>=20
+>     return ERR_CAST(base);
+
+Alright - I'll fix it in a following patch if this V13 gets merged,
+or in the V14 patchset.
+
+> Apart from those:
+>=20
+>     Reviewed-by: Paul Burton <paul.burton@mips.com>
+>=20
+> Thanks,
+>     Paul
+
+=
 
